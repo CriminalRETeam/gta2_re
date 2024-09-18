@@ -187,10 +187,10 @@ public:
 int __stdcall GBH_GraphicsLoad_5EB680(const char* lpLibFileName, SVideo* pVidSys)
 {
     Bob b;
-    int Dll_5EA680 = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
-    if (Dll_5EA680)
+    int error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
+    if (error)
     {
-        return Dll_5EA680;
+        return error;
     }
 
     gbh_InitDLL(pVidSys);
