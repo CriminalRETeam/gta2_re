@@ -396,14 +396,14 @@ DWORD dword_70679C;
 extern int window_width_706630;
 extern int window_height_706B50;
 
-struct struc_61F0C8
+struct TgaInfo
 {
     char field_0_tga_name[128];
     int field_80_len;
     int field_84_img;
 };
 
-struc_61F0C8 tgaArray_61F0C8[25] =
+TgaInfo tgaArray_61F0C8[25] =
 {
   { "data\\frontend\\1.tga", 347564, 0 },
   { "data\\frontend\\1_Options.tga", 266924, 0 },
@@ -498,7 +498,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
     unsigned __int8 v11; // al
     char v12; // al
     loving_borg_0xBCA *v13; // ecx
-    __int16 Player_Setting_587810; // ax
+    __int16 playerSlotSetting; // ax
     int v15; // edi
     int v16; // edx
     int i; // eax
@@ -688,10 +688,10 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
     switch (arg0)
     {
     case 1u:
-        Player_Setting_587810 = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-        this->field_136[1].field_4[0].field_6E_count = Player_Setting_587810;
-        this->field_136[1].field_4[0].field_70 = Player_Setting_587810;
-        gLucid_hamilton_67E8E0.sub_4C5920(Player_Setting_587810);
+        playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
+        this->field_136[1].field_4[0].field_6E_count = playerSlotSetting;
+        this->field_136[1].field_4[0].field_70 = playerSlotSetting;
+        gLucid_hamilton_67E8E0.sub_4C5920(playerSlotSetting);
         sub_4B42E0();
         break;
 

@@ -40,7 +40,7 @@ int full_height_706798;
 int gWindowX_706B60;
 int gWindowY_706B64;
 
-int bNetworkGame_7081F0;
+int bStartNetworkGame_7081F0 = 0;
 
 BYTE byte_70827C;
 BYTE byte_706C5D;
@@ -74,7 +74,7 @@ void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
     // todo
     /*
-    if (bNetworkGame_7081F0)
+    if (bStartNetworkGame_7081F0)
     {
         max_frame_rate_626A08 = 1;
         min_frame_rate_706C50 = 1;
@@ -817,8 +817,6 @@ void __stdcall CleanUpInputAndOthers_4DA700()
     // todo
 }
 
-int bStartNetworkGame_7081F0 = 0;
-
 // todo move to another file for ordering
 // stub
 int __stdcall SkipWhiteSpace_4DA390(char *pStr)
@@ -1076,7 +1074,7 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 
     case WM_DESTROY: // order ok
-        if (bNetworkGame_7081F0)
+        if (bStartNetworkGame_7081F0)
         {
             gGoofy_thompson_7071E8.sub_520D10();
         }
@@ -1295,7 +1293,7 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         state = 14; // mov     esi, 0Eh
     }
 
-    if (bNetworkGame_7081F0)
+    if (bStartNetworkGame_7081F0)
     {
         bDoFrontEnd_626B68 = 0;
         gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
@@ -1384,7 +1382,7 @@ LABEL_23:
             DestroyWindow(gHwnd_707F04);
         } // loop end
 
-        if (bNetworkGame_7081F0)
+        if (bStartNetworkGame_7081F0)
         {
             if (gGame_0x40_67E008->field_2C_main_state == 1)
             {
@@ -1457,7 +1455,7 @@ LABEL_23:
     
     sub_4DA4D0();
 
-    if (!bNetworkGame_7081F0 || gGoofy_thompson_7071E8.sub_5213E0())
+    if (!bStartNetworkGame_7081F0 || gGoofy_thompson_7071E8.sub_5213E0())
     {
         goto LABEL_27;
     }

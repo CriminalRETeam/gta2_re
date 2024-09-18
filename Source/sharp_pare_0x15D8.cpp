@@ -334,12 +334,12 @@ void festive_hopper::sub_5B8F70()
             for (unsigned int texture_idx = 0; texture_idx < field_6_count; texture_idx++)
             {
                 const __int16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
-                const unsigned __int16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
+                const unsigned __int16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
                 field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] = gbh_RegisterTexture(
                     pSpriteIndex->field_4_width,
                     pSpriteIndex->field_5_height,
                     pSpriteIndex->field_0_pData,
-                    phys_pal_5AA6F0,
+                    physPal,
                     1);
 
                 dword_704F28++;
