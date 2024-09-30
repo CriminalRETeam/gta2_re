@@ -1,0 +1,3 @@
+[submodule "3rdParty/gta2_re_compile_tools"]
+	path = 3rdParty/gta2_re_compile_tools
+	url = https://github.com/CriminalRETeam/gta2_re_compile_tools.git
