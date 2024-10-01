@@ -1,0 +1,24 @@
+version: 1.0.{build}
+
+image: Visual Studio 2022
+
+platform:
+ - x86
+
+clone_folder: c:\gta2_re
+
+build_script:
+ - python setup.py
+ - set VC6_ROOT=c:\gta2_re\3rdParty\gta2_re_compile_tools
+ - set LIB=%VC6_ROOT%\VC98\Lib
+ - set INCLUDE=%VC6_ROOT%\VC98\ATL\INCLUDE;%VC6_ROOT%\VC98\INCLUDE;%VC6_ROOT%\VC98\MFC\INCLUDE
+ - set PATH=%VC6_ROOT%\cmake-3.5.0-win32-x86\bin;%VC6_ROOT%\VC98\Bin;%PATH%;%VC6_ROOT%\Common\MSDev98\Bin;%PATH%
+ - mkdir build
+ - cd build
+ - cmake .. -G"Visual Studio 6"
+ - msdev decomp.dsw /MAKE "decomp_main - Win32 Release"
+
+install:
+ - git submodule update --init --recursive
+
+test: off
