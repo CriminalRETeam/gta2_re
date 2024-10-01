@@ -13,13 +13,12 @@ def main():
 
     print(f"set vs common dir to: {vs_common_dir}")
 
-    # set up VC6_ROOT env variable which will be used by set_vc6.bat 
-    vc6_root_dir = os.getenv("VC6_ROOT")
-    if vc6_root_dir is None or vc6_root_dir != CURRENT_DIRECTORY:
-        subprocess.run(f'setx VC6_ROOT "{CURRENT_DIRECTORY}"', shell=True)
-        print(f"set VC6_ROOT env variable to: {CURRENT_DIRECTORY}")
-    
-    subprocess.run("set_vc6.bat", shell=True)
+    if os.getenv("APPVEYOR") is None and os.getenv("CI") is None:
+        # set up VC6_ROOT env variable which will be used by set_vc6.bat 
+        vc6_root_dir = CURRENT_DIRECTORY + "\\3rdParty" + "\\gta2_re_compile_tools"
+        if os.getenv("VC6_ROOT") is None or os.getenv("VC6_ROOT") != vc6_root_dir:
+            subprocess.run(f'setx VC6_ROOT "{vc6_root_dir}"', shell=True)
+            print(f"set VC6_ROOT env variable to: {vc6_root_dir}")
 
 if __name__ == "__main__":
     main()
