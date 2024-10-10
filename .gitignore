@@ -7,3 +7,5 @@ Release
 *.plg
 *.obj
 *.opt
+Scripts/satsuki*
+Scripts/10.5.exe
