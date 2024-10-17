@@ -43,7 +43,7 @@ for:
     - job_name: Linux
   
   install:
-   - sudo apt-get install wine-stable
+   - sudo apt-get install -y wine-stable
 
   build_script:
    - wine build.bat
