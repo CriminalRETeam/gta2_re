@@ -47,4 +47,5 @@ for:
 
   build_script:
    - export WINEARCH=win32
+   - WINEPREFIX=~/.wine winecfg
    - wine build.bat
