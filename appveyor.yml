@@ -41,6 +41,9 @@ for:
   matrix:
     only:
     - job_name: Linux
+  
+  install:
+   - sudo apt-get install wine
 
   build_script:
    - wine build.bat
