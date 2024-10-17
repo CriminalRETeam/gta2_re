@@ -49,4 +49,4 @@ for:
   build_script:
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 wine build.bat
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd build.bat
