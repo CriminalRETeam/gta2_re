@@ -41,6 +41,7 @@ for:
   install:
    - sudo dpkg --add-architecture i386
    - sudo apt-get install -y wine32
+   - git submodule update --init --recursive
 
   build_script:
    - python setup.py
@@ -48,6 +49,3 @@ for:
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
    - ls
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd /c build.bat
-
-  install:
-   - git submodule update --init --recursive
