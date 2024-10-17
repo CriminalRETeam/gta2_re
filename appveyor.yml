@@ -44,7 +44,7 @@ for:
   
   install:
    - sudo dpkg --add-architecture i386
-   - sudo apt-get install -y wine-stable-i386
+   - sudo apt-get install -y wine32
 
   build_script:
    - wine build.bat
