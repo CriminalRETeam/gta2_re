@@ -47,5 +47,6 @@ for:
    - sudo apt-get install -y wine32
 
   build_script:
-   - export WINEARCH=win32
-   - wine build.bat
+   - rm -Rf ./wine
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 build.bat
