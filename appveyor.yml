@@ -47,4 +47,4 @@ for:
    - sudo apt-get install -y wine32
 
   build_script:
-   - wine build.bat
+   - wine32 build.bat
