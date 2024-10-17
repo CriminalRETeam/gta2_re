@@ -1,8 +1,12 @@
 version: 1.0.{build}
 
-image: 
-  - Visual Studio 2017
-  - Ubuntu
+environment:
+  matrix:
+    - job_name: Windows
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+
+    - job_name: Linux
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 
 platform:
  - x86
