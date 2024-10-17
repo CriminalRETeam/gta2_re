@@ -43,9 +43,8 @@ for:
     - job_name: Linux
   
   install:
-   - sudo apt-get install -y wine-stable
+   - sudo dpkg --add-architecture i386
+   - sudo apt-get install -y wine-stable-i386
 
   build_script:
-   - export WINEARCH=win32
-   - WINEPREFIX=~/.wine winecfg
    - wine build.bat
