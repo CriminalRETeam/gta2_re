@@ -1,6 +1,8 @@
 version: 1.0.{build}
 
-image: Visual Studio 2022
+image: 
+  - Visual Studio 2017
+  - Ubuntu
 
 platform:
  - x86
@@ -8,6 +10,7 @@ platform:
 clone_folder: c:\gta2_re
 
 build_script:
+ - python setup.py
  - build.bat
 
 install:

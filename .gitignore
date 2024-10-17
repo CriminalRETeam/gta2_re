@@ -9,3 +9,4 @@ Release
 *.opt
 Scripts/satsuki*
 Scripts/10.5.exe
+vscommondir.reg

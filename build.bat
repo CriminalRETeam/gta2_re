@@ -1,4 +1,4 @@
-python setup.py
+reg import vscommondir.reg
 call set_vc6
 mkdir build_vc6
 cd build_vc6

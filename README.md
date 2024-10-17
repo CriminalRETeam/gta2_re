@@ -9,8 +9,19 @@ Clone the repository with the `--recursive` flag:
 git clone --recursive https://github.com/CriminalRETeam/gta2_re.git
 ```
 
-After you've cloned the repository, you can start the build by executing the `build.bat` script:
+
+Build instructions.
+
+Windows 
 
 ```
+python setup.py
 build.bat
+```
+
+Linux
+
+```
+python setup.py
+wine build.bat
 ```
