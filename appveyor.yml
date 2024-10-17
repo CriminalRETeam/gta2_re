@@ -11,9 +11,6 @@ environment:
 platform:
  - x86
 
-install:
- - git submodule update --init --recursive
-
 test: off
 
 for:
@@ -28,6 +25,9 @@ for:
   build_script:
    - python setup.py
    - build.bat
+
+  install:
+   - git submodule update --init --recursive
 
 
  # ======================================
@@ -48,3 +48,6 @@ for:
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
    - ls
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd /c build.bat
+
+  install:
+   - git submodule update --init --recursive
