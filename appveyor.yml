@@ -11,9 +11,31 @@ platform:
 
 build_script:
  - python setup.py
- - build.bat
 
 install:
  - git submodule update --init --recursive
 
 test: off
+
+# ======================================
+#      Windows
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Windows
+
+build_script:
+ - build.bat
+
+
+ # ======================================
+#      Linux
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Linux
+
+build_script:
+ - wine build.bat
