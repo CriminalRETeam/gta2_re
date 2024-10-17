@@ -11,11 +11,6 @@ environment:
 platform:
  - x86
 
-#clone_folder: c:\gta2_re
-
-build_script:
- - python setup.py
-
 install:
  - git submodule update --init --recursive
 
@@ -31,6 +26,7 @@ for:
     - job_name: Windows
 
   build_script:
+   - python setup.py
    - build.bat
 
 
@@ -47,6 +43,8 @@ for:
    - sudo apt-get install -y wine32
 
   build_script:
+   - python setup.py
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
+   - ls
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd /c build.bat
