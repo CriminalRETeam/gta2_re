@@ -25,8 +25,8 @@ test: off
     only:
     - job_name: Windows
 
-build_script:
- - build.bat
+  build_script:
+   - build.bat
 
 
  # ======================================
@@ -37,5 +37,5 @@ build_script:
     only:
     - job_name: Linux
 
-build_script:
- - wine build.bat
+  build_script:
+   - wine build.bat
