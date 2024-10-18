@@ -28,7 +28,7 @@ for:
   build_script:
    - mkdir build_vc2019
    - cd build_vc2019
-   - cmake.exe ..
+   - cmake.exe .. -G"Visual Studio 2019" -A Win32
    - cmake --build . --target decomp_main --config Release
    - cd ..
 
