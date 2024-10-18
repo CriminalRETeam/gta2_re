@@ -45,7 +45,7 @@ for:
    - git submodule update --init --recursive
 
   build_script:
-   - python setup.py
+   - python3 setup.py
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
    - ls
