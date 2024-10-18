@@ -39,16 +39,19 @@ for:
     - job_name: Linux
   
   install:
-   - sudo dpkg --add-architecture i386
-   - sudo apt-get update
-   - sudo apt-get install -y wine xvfb
+#   - sudo dpkg --add-architecture i386
+#   - sudo apt-get update
+   - sudo apt-get install -y xvfb
    - git submodule update --init --recursive
+   - sudo flatpak install flathub org.winehq.Wine
 
   build_script:
    - python3 setup.py
    - rm -Rf ./wine
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
+#   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
+#   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run flatpak run org.winehq.Wine wineboot
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run flatpak run org.winehq.Wine cmd /c build.bat
 
 #  after_build:
 #   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
