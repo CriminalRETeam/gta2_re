@@ -6,7 +6,7 @@ environment:
 #      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
     - job_name: Linux
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
 
 platform:
  - x86
