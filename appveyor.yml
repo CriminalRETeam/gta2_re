@@ -41,7 +41,7 @@ for:
   install:
    - sudo dpkg --add-architecture i386
    - sudo apt-get update
-   - sudo apt-get install -y wine
+   - sudo apt-get install -y wine xvfb
    - git submodule update --init --recursive
 
   build_script:
@@ -49,7 +49,7 @@ for:
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
    - ls
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd /c build.bat
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run cmd /c build.bat
 
   after_build:
    - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
