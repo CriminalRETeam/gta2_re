@@ -47,9 +47,9 @@ for:
   build_script:
    - python3 setup.py
    - rm -Rf ./wine
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 wineboot
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
    - ls
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run cmd /c build.bat
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
 
   after_build:
    - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
