@@ -1,16 +1,78 @@
 version: 1.0.{build}
 
-image: Visual Studio 2022
+environment:
+  matrix:
+    - job_name: Windows_VC2019
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+
+    - job_name: Windows_VC6
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+
+    - job_name: Linux_wine_VC6
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 
 platform:
  - x86
 
-clone_folder: c:\gta2_re
-
-build_script:
- - build.bat
-
-install:
- - git submodule update --init --recursive
-
 test: off
+
+for:
+# ======================================
+#      Windows vc2019
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Windows_VC2019
+
+  build_script:
+   - mkdir build_vc2019
+   - cd build_vc2019
+   - cmake.exe .. -G"Visual Studio 16 2019" -A Win32
+   - cmake --build . --target decomp_main --config Release
+   - cd ..
+
+  artifacts:
+    - path: build_vc2019/Release/decomp_main.exe
+      name: windows_vc2019_main_exe
+
+# ======================================
+#      Windows vc6
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Windows_VC6
+
+  install:
+   - git submodule update --init --recursive
+
+  build_script:
+   - python setup.py
+   - build.bat
+
+  artifacts:
+    - path: build_vc6/Release/decomp_main.exe
+      name: windows_vc6_main_exe
+
+# ======================================
+#      Linux vc6
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Linux_wine_VC6
+  
+  install:
+   - sudo apt-get install -y xvfb wine32
+   - git submodule update --init --recursive
+
+  build_script:
+   - python3 setup.py
+   - rm -Rf ./wine
+   - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wineboot
+   - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wine cmd /c build.bat
+
+  artifacts:
+    - path: build_vc6/Release/decomp_main.exe
+      name: linux_vc6_main_exe
