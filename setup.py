@@ -4,7 +4,7 @@ import platform
 def is_64_bit():
     # On linux wine is 32bit
     #return platform.system() == "Windows" and platform.machine() == "AMD64" or platform.machine() == "x86_64"
-    return False
+    return True
 
 def main():
     #print(f"architecture: {platform.machine()}")
