@@ -5,7 +5,7 @@ environment:
 #    - job_name: Windows
 #      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
-    - job_name: Linux
+    - job_name: Linux_wine_VC6
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 
 platform:
@@ -36,11 +36,9 @@ for:
 -
   matrix:
     only:
-    - job_name: Linux
+    - job_name: Linux_wine_VC6
   
   install:
-#   - sudo dpkg --add-architecture i386
-#   - sudo apt-get update
    - sudo apt-get install -y xvfb wine32
    - git submodule update --init --recursive
 
@@ -50,6 +48,6 @@ for:
    - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
    - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
 
-#  after_build:
-#   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
-#   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeError.log"
+  artifacts:
+    - path: build_vc6/Release/decomp_main.exe
+      name: main_exe
