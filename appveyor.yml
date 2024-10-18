@@ -6,7 +6,7 @@ environment:
 #      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
     - job_name: Linux
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
 
 platform:
  - x86
@@ -39,19 +39,16 @@ for:
     - job_name: Linux
   
   install:
-#   - sudo dpkg --add-architecture i386
+   - sudo dpkg --add-architecture i386
 #   - sudo apt-get update
-   - sudo apt-get install -y xvfb flatpak
+   - sudo apt-get install -y xvfb wine32
    - git submodule update --init --recursive
-   - sudo flatpak install flathub org.winehq.Wine
 
   build_script:
    - python3 setup.py
    - rm -Rf ./wine
-#   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
-#   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run flatpak run org.winehq.Wine wineboot
-   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run flatpak run org.winehq.Wine cmd /c build.bat
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wineboot
+   - WINEPREFIX=~/.wine32 WINEARCH=win32 xvfb-run wine cmd /c build.bat
 
 #  after_build:
 #   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
