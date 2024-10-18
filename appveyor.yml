@@ -2,8 +2,8 @@ version: 1.0.{build}
 
 environment:
   matrix:
-    - job_name: Windows
-      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+#    - job_name: Windows
+#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
 
     - job_name: Linux
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -17,20 +17,20 @@ for:
 # ======================================
 #      Windows
 # ======================================
--
-  matrix:
-    only:
-    - job_name: Windows
+#-
+#  matrix:
+#    only:
+#    - job_name: Windows
 
-  build_script:
-   - python setup.py
-   - build.bat
+#  build_script:
+#   - python setup.py
+#   - build.bat
 
-  install:
-   - git submodule update --init --recursive
+#  install:
+#   - git submodule update --init --recursive
 
 
- # ======================================
+# ======================================
 #      Linux
 # ======================================
 -
