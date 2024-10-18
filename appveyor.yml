@@ -41,7 +41,7 @@ for:
   install:
 #   - sudo dpkg --add-architecture i386
 #   - sudo apt-get update
-   - sudo apt-get install -y xvfb
+   - sudo apt-get install -y xvfb flatpak
    - git submodule update --init --recursive
    - sudo flatpak install flathub org.winehq.Wine
 
