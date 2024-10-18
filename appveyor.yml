@@ -51,5 +51,5 @@ for:
    - WINEPREFIX=~/.wine32 WINEARCH=win32 wine cmd /c build.bat
 
   after_build:
-   - cat "home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
-   - cat "home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeError.log"
+   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeOutput.log"
+   - cat "/home/appveyor/projects/gta2-re/build_vc6/CMakeFiles/CMakeError.log"
