@@ -39,7 +39,7 @@ for:
     - job_name: Linux
   
   install:
-   - sudo dpkg --add-architecture i386
+#   - sudo dpkg --add-architecture i386
 #   - sudo apt-get update
    - sudo apt-get install -y xvfb wine32
    - git submodule update --init --recursive
