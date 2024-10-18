@@ -2,8 +2,8 @@ version: 1.0.{build}
 
 environment:
   matrix:
-#    - job_name: Windows
-#      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2017
+    - job_name: Windows_VC6
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
     - job_name: Linux_wine_VC6
       APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
@@ -17,18 +17,21 @@ for:
 # ======================================
 #      Windows
 # ======================================
-#-
-#  matrix:
-#    only:
-#    - job_name: Windows
+-
+  matrix:
+    only:
+    - job_name: Windows_VC6
 
-#  build_script:
-#   - python setup.py
-#   - build.bat
+  install:
+   - git submodule update --init --recursive
 
-#  install:
-#   - git submodule update --init --recursive
+  build_script:
+   - python setup.py
+   - build.bat
 
+  artifacts:
+    - path: build_vc6/Release/decomp_main.exe
+      name: windows_vc6_main_exe
 
 # ======================================
 #      Linux
@@ -50,4 +53,4 @@ for:
 
   artifacts:
     - path: build_vc6/Release/decomp_main.exe
-      name: main_exe
+      name: linux_vc6_main_exe
