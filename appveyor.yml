@@ -29,7 +29,7 @@ for:
    - mkdir build_vc2019
    - cd build_vc2019
    - cmake.exe ..
-   - msbuild decomp.sln /p:Configuration=Release;Platform=Win32 /m
+   - msbuild decomp.sln /p:Configuration=Release /m
    - cd ..
 
   artifacts:
