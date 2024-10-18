@@ -2,6 +2,9 @@ version: 1.0.{build}
 
 environment:
   matrix:
+    - job_name: Windows_VC2019
+      APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
+
     - job_name: Windows_VC6
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2019
 
@@ -15,7 +18,26 @@ test: off
 
 for:
 # ======================================
-#      Windows
+#      Windows vc2019
+# ======================================
+-
+  matrix:
+    only:
+    - job_name: Windows_VC2019
+
+  build_script:
+   - mkdir build_vc2019
+   - cd build_vc2019
+   - cmake.exe ..
+   - msbuild decomp.sln /p:Configuration=Release;Platform=Win32 /m
+   - cd ..
+
+  artifacts:
+    - path: build_vc2019/Release/decomp_main.exe
+      name: windows_vc2019_main_exe
+
+# ======================================
+#      Windows vc6
 # ======================================
 -
   matrix:
@@ -34,7 +56,7 @@ for:
       name: windows_vc6_main_exe
 
 # ======================================
-#      Linux
+#      Linux vc6
 # ======================================
 -
   matrix:
