@@ -31,6 +31,7 @@ def main():
         f.write("Windows Registry Editor Version 5.00\n\n")
         f.write(strKey + "\n")
         f.write("\"VsCommonDir\"=\"" + vs_common_dir + "\"")
+        f.write("\n\n")
 
 if __name__ == "__main__":
     main()
