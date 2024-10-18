@@ -1,0 +1,57 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+    - name: Checkout repository recursively
+      uses: actions/checkout@v2
+      with:
+        submodules: recursive
+
+    - name: Install dependencies on Linux
+      if: runner.os == 'Linux'
+      run: |
+        sudo dpkg --add-architecture i386
+        sudo apt-get update
+        sudo apt-get install -y xvfb wine32
+
+    - name: Build on Linux
+      if: runner.os == 'Linux'
+      run: |
+        python3 setup.py
+        rm -Rf ./wine
+        WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wineboot
+        WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wine cmd /c build.bat
+
+    - name: Build on Windows
+      if: runner.os == 'Windows'
+      run: |
+        python setup.py
+        .\build.bat
+
+    - name: Upload artifacts on Linux
+      if: runner.os == 'Linux'
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux_vc6_main_exe
+        path: build_vc6/Release/decomp_main.exe
+
+    - name: Upload artifacts on Windows
+      if: runner.os == 'Windows'
+      uses: actions/upload-artifact@v4
+      with:
+        name: windows_vc6_main_exe
+        path: build_vc6/Release/decomp_main.exe
+
