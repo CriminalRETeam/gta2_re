@@ -62,6 +62,6 @@ def parse_map(filename, csv_file):
         else:
             pass
 
-mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "og_function_data.csv")
+mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "new_function_data.csv")
 with open(mapping_csv_path, "w") as file:
     parse_map("../../build_vc6/output.map", file)
