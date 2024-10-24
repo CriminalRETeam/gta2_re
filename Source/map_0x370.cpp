@@ -20,7 +20,7 @@ gmp_block_info gBlockInfo2_6F6028;
 
 #define MATCH_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 1) } 
 
-// match
+MATCH_FUNC(0x452980)
 gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __int8 y_coord, unsigned __int8 z_coord)
 {
     gmp_col_info* pColData = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]]);
@@ -34,7 +34,7 @@ gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __
     }
 }
 
-// match
+MATCH_FUNC(0x4DEFD0)
 gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char *pZoneName)
 {
     unsigned int name_len = strlen(pZoneName);
@@ -53,7 +53,7 @@ gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char *pZoneName)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x4DF050)
 int Map_0x370::zone_idx_by_name_4DF050(const char *pZoneName, BYTE zone_name_len)
 {
     if (!field_328_pZoneData)
@@ -74,7 +74,7 @@ int Map_0x370::zone_idx_by_name_4DF050(const char *pZoneName, BYTE zone_name_len
     return -1;
 }
 
-// match
+MATCH_FUNC(0x4DF0F0)
 gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(unsigned char zone_type)
 {
     static short sLastIdx_6F626C;
@@ -189,7 +189,7 @@ gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(int zone_x, int zone_y)
     }
 }
 
-// match
+MATCH_FUNC(0x4DF8C0)
 void Map_0x370::set_nav_unknown_data_4DF8C0(int zone_idx, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7, __int16 a8, __int16 a9, __int16 a10, __int16 a11, __int16 a12, __int16 a13)
 {
     get_zone_4DFB30(zone_idx);
@@ -250,67 +250,67 @@ void Map_0x370::set_nav_unknown_data_4DF8C0(int zone_idx, __int16 a3, __int16 a4
     }
 }
 
-// match
+MATCH_FUNC(0x4DF9A0)
 gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(unsigned __int16 zone_idx)
 {
     return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
 }
 
-// match
+MATCH_FUNC(0x4DF9D0)
 void Map_0x370::set_nav_unknown_f0_4DF9D0(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_0 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DF9F0)
 void Map_0x370::set_nav_unknown_f2_4DF9F0(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_2 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFA10)
 void Map_0x370::set_nav_unknown_f4_4DFA10(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_4 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFA30)
 void Map_0x370::set_nav_unknown_f6_4DFA30(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_6 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFA50)
 void Map_0x370::set_nav_unknown_f8_4DFA50(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_8 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFA70)
 void Map_0x370::set_nav_unknown_fA_4DFA70(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_A = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFA90)
 void Map_0x370::set_nav_unknown_fC_4DFA90(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_C = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFAB0)
 void Map_0x370::set_nav_unknown_fE_4DFAB0(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_E = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFAD0)
 void Map_0x370::set_nav_unknown_f10_4DFAD0(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_10 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFAF0)
 void Map_0x370::set_nav_unknown_f12_4DFAF0(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_12 = a3;
