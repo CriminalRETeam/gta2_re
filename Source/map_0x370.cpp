@@ -9,6 +9,17 @@ Map_0x370* gMap_0x370_6F6268;
 gmp_block_info gBlockInfo1_6F5F40;
 gmp_block_info gBlockInfo2_6F6028;
 
+// Pattern: 0x90, 0x90 0xB8 [addr bytes x4] 0xB8 [status bytes x4] 0x90 0x90
+#define FUNC_MARKER_ASM(addr, status)\
+        __asm nop\
+        __asm nop\
+        __asm mov eax, addr\
+        __asm mov eax, status\
+        __asm nop\
+        __asm nop\
+
+#define MATCH_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 1) } 
+
 // match
 gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __int8 y_coord, unsigned __int8 z_coord)
 {
@@ -103,7 +114,7 @@ gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(unsigned char zone_type)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x4DF1D0)
 gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(unsigned char zone_type)
 {
     if (field_328_pZoneData)
@@ -150,7 +161,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(char zone_x, char zone_y, u
     return 0;
 }
 
-// match
+MATCH_FUNC(0x4DF840)
 gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
 {
     if (field_328_pZoneData)
@@ -165,7 +176,7 @@ gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
 
 }
 
-// match
+MATCH_FUNC(0x4DF890)
 gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(int zone_x, int zone_y)
 {
     if (nav_zone_by_pos_4DF5C0(zone_x, zone_y))
@@ -305,19 +316,19 @@ void Map_0x370::set_nav_unknown_f12_4DFAF0(unsigned __int16 a2, __int16 a3)
     get_zone_unknown_4DF9A0(a2)->field_12 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFB10)
 void Map_0x370::set_nav_unknown_f14_4DFB10(unsigned __int16 a2, __int16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_14 = a3;
 }
 
-// match
+MATCH_FUNC(0x4DFB30)
 gmp_map_zone* Map_0x370::get_zone_4DFB30(unsigned __int16 zone_idx)
 {
     return field_32C_pZones[zone_idx + 1];
 }
 
-// match
+MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::get_block_4DFE10(int x_coord, int y_coord, int z_coord)
 {
     gmp_col_info* pCol =  reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]]);
@@ -334,7 +345,7 @@ gmp_block_info* Map_0x370::get_block_4DFE10(int x_coord, int y_coord, int z_coor
 
 Fix16 dword_6F6110; // = 0x4000; // todo
 
-// match
+MATCH_FUNC(0x4DFF60)
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 {
     gmp_block_info *pBlock1 = get_block_4DFE10((x_coord - dword_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
@@ -442,7 +453,7 @@ void Map_0x370::process_loaded_zone_data_4E95A0()
     //do_process_loaded_zone_data_4E8E30();
 }
 
-// match
+MATCH_FUNC(0x4E95B0)
 void Map_0x370::LoadMap_4E95B0(const char *pGmpFileName)
 {
     gmp_header header;
@@ -471,7 +482,7 @@ void Map_0x370::LoadMap_4E95B0(const char *pGmpFileName)
     }
 }
 
-// match 0x4E9660
+MATCH_FUNC(0x4E9660)
 Map_0x370::Map_0x370()
 {
     field_4_obj.field_320_max_idx = 0;
@@ -519,7 +530,7 @@ Map_0x370::Map_0x370()
     gBlockInfo2_6F6028.field_B_slope_type = 3;
 }
 
-// match 0x4E9770
+MATCH_FUNC(0x4E9770)
 Map_0x370::~Map_0x370()
 {
     if (field_33C_pLightData)

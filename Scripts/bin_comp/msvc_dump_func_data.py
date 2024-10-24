@@ -8,8 +8,44 @@ def load_file(filename):
         return lines
     return []
 
-def parse_map(filename, csv_file):
-    lines = load_file(filename)
+# Looking backwards for the pattern:
+# 90
+# 90
+# B8 XX XX XX XX
+# B8 XX XX XX XX
+# 90
+# 90
+def get_func_meta(bytes, offset):
+    # find double nop
+    if bytes[offset] == 0x90 and bytes[offset-1] == 0x90:
+        # find double mov eax, xyz, mov eax xyz
+        if bytes[offset-6] == 0xB8 and bytes[offset-11] == 0xB8:
+            # find final double nop
+            if bytes[offset-12] == 0x90 and bytes[offset-13] == 0x90:
+                ogFuncAddr = int.from_bytes([bytes[offset - 10],bytes[offset - 9],bytes[offset - 8],bytes[offset - 7]], "little")
+                funcStatus = int.from_bytes([bytes[offset - 5],bytes[offset - 4],bytes[offset - 3],bytes[offset - 2]], "little")
+                #print(hex(ogFuncAddr))
+                return [ogFuncAddr, funcStatus]
+    return []
+
+def find_func_meta_data(exeBytes, funcFileOffset):
+    pos = funcFileOffset
+
+    # look backwards up to 10 bytes for a double nop and mov eax, XXXXXXXX
+    lookBackPos = 1
+    while True:
+        meta = get_func_meta(exeBytes, pos - lookBackPos)
+        if len(meta) > 0:
+            return meta
+
+        lookBackPos = lookBackPos + 1
+        if lookBackPos > 10:
+            break
+
+    return []
+
+def parse_map(mapFilename, exeBytes, csv_file):
+    lines = load_file(mapFilename)
     load_address = 0x0 # executable base load address
 
     processing_sections = False
@@ -35,8 +71,14 @@ def parse_map(filename, csv_file):
                     func_fo = func_section_offset + base_file_offset
                     func_size = 0
                     func_va = int("0x" + parts[2], 16)
-                    file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(func_section_offset - last_func_offset)}\n")
-                    print(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(func_section_offset - last_func_offset)}")
+                    # mangled_name, virtual address, file offset
+                    meta = find_func_meta_data(exeBytes, func_fo)
+                    if len(meta) > 0:
+                        ogAddr = meta[0]
+                        funcStatus = meta[1]
+                        csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(ogAddr)},{hex(funcStatus)}\n")
+                    else:
+                        csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},?,?\n")
                 else:
                     processing_text_section_entries = False
 
@@ -63,5 +105,7 @@ def parse_map(filename, csv_file):
             pass
 
 mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "new_function_data.csv")
+exeBytes = open("../../build_vc6/Release/decomp_main.exe", "rb").read()
+
 with open(mapping_csv_path, "w") as file:
-    parse_map("../../build_vc6/output.map", file)
+    parse_map("../../build_vc6/output.map", exeBytes, file)
