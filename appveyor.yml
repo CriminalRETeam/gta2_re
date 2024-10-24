@@ -50,6 +50,9 @@ for:
   build_script:
    - python setup.py
    - build.bat
+   - cd Scripts/bin_comp
+   - python msvc_dump_func_data.py
+   - cd ../..
 
   artifacts:
     - path: build_vc6/Release/decomp_main.exe
