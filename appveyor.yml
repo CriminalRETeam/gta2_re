@@ -52,7 +52,7 @@ for:
    - build.bat
    - cd ../Scripts/bin_comp
    - python msvc_dump_func_data.py
-   - curl.exe --location --request GET 'https://mouzedrift.s-ul.eu/KTb8N0bc' --output 10.5.exe
+   - curl.exe -o 10.5.exe "https://mouzedrift.s-ul.eu/KTb8N0bc"
    - pip install iced-x86
    - python compare_all_functions.py
    - cd ../../build_vc6
