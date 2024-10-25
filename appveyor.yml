@@ -52,6 +52,7 @@ for:
    - build.bat
    - cd ../Scripts/bin_comp
    - python msvc_dump_func_data.py
+   - wget https://mouzedrift.s-ul.eu/KTb8N0bc 10.5.exe
    - pip install iced-x86
    - python compare_all_functions.py
    - cd ../../build_vc6
