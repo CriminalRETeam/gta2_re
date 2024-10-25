@@ -1,3 +1,4 @@
+import unittest
 
 def load_file(filename):
     with open(filename) as file:
@@ -18,104 +19,76 @@ def is_hex_str_in_exe_range(line):
     except:
         return False
 
-def constant_from_mov(line):
-    if line.startswith("mov"):
-        parts = line.split(" ")
-        parts = parts[1].split(",")
-        if parts[0][0] == "%" or parts[0][0] == "$":
-            if (is_hex_str_in_exe_range(parts[1])):
-                return parts[1]
-        else:
-            if parts[1][0] == "%" or parts[1][0] == "$":
-                if (is_hex_str_in_exe_range(parts[0])):
-                    return parts[0]
+def get_operands(s):
+    return s.split(" ")[1].split(",")
+
+def get_constant_from_single_operand(s, in_exe_range):
+    tmp = s
+    if tmp[0] == "$" or tmp[0] == "*":
+        tmp = tmp[1:]
+    if in_exe_range:
+        if is_hex_str_in_exe_range(tmp):
+            return s
+    else:
+        if is_hex_str(tmp):
+            return s
     return None
 
-def constant_from_push(line):
-    if line.startswith("push $"):
-        c = line[6:]
-        if (is_hex_str_in_exe_range(c)):
-            return c
+def get_constant_from_inst_generic(s, in_exe_range):
+    for op in get_operands(s):
+        ret = get_constant_from_single_operand(op, in_exe_range)
+        if ret is not None:
+            return ret   
     return None
 
-def constant_from_call(line):
-    if line.startswith("call "):
-        parts = line.split(" ")
-        if (is_hex_str(parts[1])):
-            return parts[1]
-    return None  
-
-def constant_from_calll(line):
-    if line.startswith("calll "):
-        parts = line.split(" ")
-        return parts[1]
-    return None 
-
-def do_tests():
-    if constant_from_mov("mov %cx,0x434A10") != "0x434A10":
-        return False
-    if constant_from_mov("mov %cx,meh") != None:
-        return False
-    
-    # todo: a lot more test cases for these
-
-    # movw $1,0x434A18
-    # mov 0x442F18,%edx
-    # mov %cx,0x434A10
-    # mov $0x42AF10,%edi
-
-    # calll *0x426208
-    # call 0x00013BED
-
-    # push $0x42A3A4 constant_from_push
-
-    # jmp 0xFFFFFC60
-    # jmpl *0x40FC68(,%eax,4)
-
-    # lea 0x4262B8(,%ecx,2),%edi
-
-    if constant_from_call("call 0x00013BED") != "0x00013BED":
-        return False
-
-    if constant_from_calll("calll *0x426208") != "*0x426208":
-        return False
-
-    if constant_from_call("call rozza") != None:
-        return False
-
-    return True
-
-def constant_from_statement(line):
-    v = constant_from_mov(line)
-    if v is not None:
-        return v
-
-    v = constant_from_call(line)
-    if v is not None:
-        return v
-
-    v = constant_from_calll(line)
-    if v is not None:
-        return v
-
-    v = constant_from_push(line)
-    if v is not None:
-        return v
-
+def get_constant_from_deref(s, in_exe_range):
+    pos = s.find("(")
+    if pos != -1:
+        tmp = s[:pos]
+        if len(tmp) > 0:
+            return get_constant_from_single_operand(tmp, in_exe_range)
     return None
+
+def get_constant_from_deref_inst_generic(s, in_exe_range):
+    for op in get_operands(s):
+        ret = get_constant_from_deref(op, in_exe_range)
+        if ret is not None:
+            return ret   
+    return None
+
+def extract_constant(s):
+    ret = None
+    if s.startswith("movw") or s.startswith("mov"):
+        ret = get_constant_from_inst_generic(s, True)
+    elif s.startswith("call") or s.startswith("calll"):
+        ret = get_constant_from_inst_generic(s, False)
+    elif s.startswith("jmpl"):
+        ret = get_constant_from_deref(s.split(" ")[1], True)
+    elif s.startswith("push") or s.startswith("jmp"):
+        ret = get_constant_from_single_operand(s.split(" ")[1], False)
+    elif s.startswith("lea"):
+        ret = get_constant_from_deref_inst_generic(s, True)
+
+    return ret
+
 
 def replace_constants(line, constants):
+    found_constant = None
     for c in constants:
+        # bad time complexity here... but the asm dumps per func are usually small so its fine... for now
         if c in line:
-            line = line.replace(c, constants[c])
-            return line
+            # find the biggest match and only use that one
+            if found_constant is None or len(c) > len(found_constant):
+                found_constant = c
+    if not found_constant is None:
+        line = line.replace(found_constant, constants[found_constant])
     return line
 
 def post_process_asm(asmstr):
     lines = asmstr.split("\n")
     constants = {}
     for line in lines:
-       v = constant_from_statement(line)
+       v = extract_constant(line)
        if v is not None:
         if not v in constants:
             constants[v] = "stable_name"
@@ -132,12 +105,40 @@ def post_process_asm(asmstr):
     #    print(c + " : " + constants[c])
     return "\n".join(lines)
 
-def run_tests():
-    if do_tests():
-        print("OK!")
-    else:
-        print("IN THE BIN!!")
+class TestStringMethods(unittest.TestCase):
 
-#run_tests()
-#post_process_asm("Map_0x370::ctor_4E9660_new_asm.txt")
-#post_process_asm("Map_0x370::dtor_4E9770_new_asm.txt")
+    def test_movw_hex_str2(self):
+        self.assertEqual(extract_constant("movw $1,0x434A18"), "0x434A18")
+
+    def test_mov_hex_str1(self):
+        self.assertEqual(extract_constant("mov 0x442F18,%edx"), "0x442F18")
+
+    def test_mov_hex_str2(self):
+        self.assertEqual(extract_constant("mov %cx,0x434A10"), "0x434A10")
+
+    def test_mov_hex_str3(self):
+        self.assertEqual(extract_constant("mov $0x42AF10,%edi"), "$0x42AF10")
+
+    def test_call_hex(self):
+        self.assertEqual(extract_constant("call 0x00013BED"), "0x00013BED")
+
+    def test_calll_hex(self):
+        self.assertEqual(extract_constant("calll *0x426208"), "*0x426208")
+
+    def test_push_hex(self):
+        self.assertEqual(extract_constant("push $0x42A3A4"), "$0x42A3A4")
+
+    def test_jmpl_hex(self):
+        self.assertEqual(extract_constant("jmpl *0x40FC68(,%eax,4)"), "*0x40FC68")
+
+    def test_jmp_hex(self):
+        self.assertEqual(extract_constant("jmp 0xFFFFFC60"), "0xFFFFFC60")
+
+    def test_lea_hex1(self):
+        self.assertEqual(extract_constant("lea 0x4262B8(,%ecx,2),%edi"), "0x4262B8")
+
+    def test_lea_hex2(self):
+        self.assertEqual(extract_constant("lea (%ecx,%eax,8),%eax"), None)
+
+
+#unittest.main()

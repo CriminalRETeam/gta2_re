@@ -50,11 +50,9 @@ def check_funcs_match():
         print(fail_func)
 
     print(str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + " funcs OK")
-    return len(fail_func) == 0
+    return len(fail_funcs) == 0
 
 if check_funcs_match():
     sys.exit(0)
 else:
     sys.exit(1)
-
-

@@ -58,7 +58,7 @@ int* gpGBH_Globals_7085E4;
         return -1;\
     }
 
-MATCH_FUNC(0x5EA4D0)
+//MATCH_FUNC(0x5EA4D0) // TODO: Doesn't actually match
 void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
     MessageBoxA(
