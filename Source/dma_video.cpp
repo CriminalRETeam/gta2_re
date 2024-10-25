@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "dma_video.hpp"
 #include <stdio.h>
 
@@ -29,13 +30,13 @@ T_Vid_SetGamma Vid_SetGamma;
 HMODULE hDmaVideoDll_7085E8;
 SVideoFunctions gVidFuncs_708600;
 
-// match
+MATCH_FUNC(0x5EB810)
 void __stdcall DMA_Video_Stub_5EB810()
 {
     MessageBoxA(0, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
 }
 
-// match
+MATCH_FUNC(0x5EB8C0)
 void __stdcall DMA_Video_Unload_5EB8C0(SVideo *pVidSys)
 {
     if (Vid_ShutDown_SYS != (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810)

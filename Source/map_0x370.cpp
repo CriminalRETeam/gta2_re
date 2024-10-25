@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "map_0x370.hpp"
 #include "gtx_0x106C.hpp"
 #include "file.hpp"
@@ -8,17 +9,6 @@ Map_0x370* gMap_0x370_6F6268;
 
 gmp_block_info gBlockInfo1_6F5F40;
 gmp_block_info gBlockInfo2_6F6028;
-
-// Pattern: 0x90, 0x90 0xB8 [addr bytes x4] 0xB8 [status bytes x4] 0x90 0x90
-#define FUNC_MARKER_ASM(addr, status)\
-        __asm nop\
-        __asm nop\
-        __asm mov eax, addr\
-        __asm mov eax, status\
-        __asm nop\
-        __asm nop\
-
-#define MATCH_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 1) } 
 
 MATCH_FUNC(0x452980)
 gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __int8 y_coord, unsigned __int8 z_coord)
