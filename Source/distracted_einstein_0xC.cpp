@@ -2,7 +2,7 @@
 #include "distracted_einstein_0xC.hpp"
 #include <windows.h>
 
-// match
+MATCH_FUNC(0x5BEBF0)
 void distracted_einstein_0xC::sub_5BEBF0()
 {
     field_8 += timeGetTime() - field_4;

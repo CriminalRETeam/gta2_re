@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "text_0x14.hpp"
 #include "registry.hpp"
 #include "file.hpp"
@@ -431,7 +432,7 @@ unsigned __int16 text_0x14::sub_5B58D0(unsigned __int16 a2)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x5B5910)
 void text_0x14::sub_5B5910(WORD *a2)
 {
     if (field_10_lang_code != 'j')
@@ -440,7 +441,7 @@ void text_0x14::sub_5B5910(WORD *a2)
     }
 }
 
-// match
+MATCH_FUNC(0x5B5930)
 void text_0x14::sub_5B5930(WORD *pStr)
 {
     for (WORD* pStrIter = pStr; *pStrIter; ++pStrIter)
@@ -449,7 +450,7 @@ void text_0x14::sub_5B5930(WORD *pStr)
     }
 }
 
-// match
+MATCH_FUNC(0x5B5960)
 void text_0x14::TKEY_Load_5B5960(unsigned int chunkSize)
 {
     field_4_tKey_count = chunkSize / sizeof(text_0xC);
@@ -462,7 +463,7 @@ void text_0x14::TKEY_Load_5B5960(unsigned int chunkSize)
     File::Global_Read_4A71C0(field_0_tKey, &chunkSize);
 }
 
-// match
+MATCH_FUNC(0x5B59B0)
 void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE *pDat)
 {
     text_0xC* ptKeyIter = field_0_tKey;
@@ -476,7 +477,7 @@ void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE *pDat)
     }
 }
 
-// match
+MATCH_FUNC(0x5B59E0)
 bool text_0x14::TKeyFind_5B59E0(const char *pIdStr)
 {
     return bsearch(
@@ -487,7 +488,7 @@ bool text_0x14::TKeyFind_5B59E0(const char *pIdStr)
         TKeySearch_5B5A10) ? true : false;
 }
 
-// match
+MATCH_FUNC(0x5B5A10)
 int __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void *b)
 {
     const char *pIdStr = (const char*)a;
@@ -495,7 +496,7 @@ int __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void *b)
     return strcmp(pIdStr, (const char *)&a2->field_4_pKey); // TODO: ???
 }
 
-// match
+MATCH_FUNC(0x5B5A50)
 wchar_t * text_0x14::TKeyFind_5B5A50(const char *pIdStr)
 {
      text_0xC* pFound = (text_0xC *)bsearch(
@@ -514,7 +515,7 @@ wchar_t * text_0x14::TKeyFind_5B5A50(const char *pIdStr)
     }
 }
 
-// match
+MATCH_FUNC(0x5B5A80)
 void text_tdat::TDAT_Load_5B5A80(unsigned int size)
 {
     field_4_len = size / sizeof(wchar_t);
@@ -582,7 +583,7 @@ unsigned __int16 text_0x14::sub_5B5AD0(wchar_t a2)
     return result;
 }
 
-// match
+MATCH_FUNC(0x5B5B80)
 wchar_t * text_0x14::sub_5B5B80(wchar_t *pWideStr)
 {
     for (wchar_t *pStrIter = pWideStr; *pStrIter; ++pStrIter)
@@ -599,7 +600,7 @@ int __stdcall text_0x14::sub_5B5BC0(WORD *a1, int a2, int a3, int a4)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x5B5D10)
 char* text_0x14::Wide2PesudoAscii_5B5D10(WORD *a1)
 {
     WORD * pSrc = a1;
@@ -632,7 +633,7 @@ char* text_0x14::Wide2PesudoAscii_5B5D10(WORD *a1)
     return tmpWide2AsciiStr_70462C;
 }
 
-// match
+MATCH_FUNC(0x5B5DF0)
 wchar_t * text_0x14::Ascii2Wide_5B5DF0(char *pStr)
 {
     // movsx vs movzx caused by unsigned vs signed char
@@ -649,7 +650,7 @@ wchar_t * text_0x14::Ascii2Wide_5B5DF0(char *pStr)
     return tmpAscii2WideStr_70488C;
 }
 
-// match
+MATCH_FUNC(0x5B5E20)
 void text_0x14::load_chunk_5B5E20(const char *chunk_type, unsigned int chunk_len)
 {
     if (!strncmp(chunk_type, "TKEY", 4u))
@@ -704,13 +705,13 @@ void text_0x14::Load_5B5E90()
     TDAT_Offsets2Strings_5B59B0(field_8_tDat.field_0_data);
 }
 
-// match
+MATCH_FUNC(0x5B5F90)
 wchar_t * text_0x14::Find_5B5F90(const char *pIdStr)
 {
     return TKeyFind_5B5A50(pIdStr);
 }
 
-// match
+MATCH_FUNC(0x5B5FA0)
 bool text_0x14::sub_5B5FA0(const char *pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);

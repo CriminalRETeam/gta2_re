@@ -1,8 +1,9 @@
+#include "Function.hpp"
 #include "memory.hpp"
 #include "error.hpp"
 #include <stdlib.h>
 
-// match
+MATCH_FUNC(0x4FE4D0)
 void* __stdcall Memory::malloc_4FE4D0(size_t Size)
 {
     void* result = malloc(Size);
@@ -14,7 +15,7 @@ void* __stdcall Memory::malloc_4FE4D0(size_t Size)
     return result;
 }
 
-// match
+MATCH_FUNC(0x4FE510)
 void* __stdcall Memory::Aligned_malloc_4FE510(int requestedSize, void** pUnAlignedPtr)
 {
     // Allocate with extra space for alignment

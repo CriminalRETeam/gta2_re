@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "lucid_hamilton.hpp"
 
 lucid_hamilton gLucid_hamilton_67E8E0;
@@ -50,7 +51,7 @@ void lucid_hamilton::sub_4C5910(char a2)
     field_402 = a2;
 }
 
-// match
+MATCH_FUNC(0x4C5920)
 void lucid_hamilton::sub_4C5920(char a2)
 {
     field_403 = a2;
@@ -285,7 +286,7 @@ char lucid_hamilton::sub_4C5C20()
     return this->field_442;
 }
 
-// match
+MATCH_FUNC(0x4C5C30)
 void lucid_hamilton::sub_4C5C30(int a2, wchar_t *Source)
 {
     wcsncpy(field_4B4[static_cast<unsigned __int16>(a2)].field_0_str, Source, 16u);

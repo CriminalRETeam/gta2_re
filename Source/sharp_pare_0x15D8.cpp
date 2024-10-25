@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
@@ -180,7 +181,7 @@ void sharp_pare_0x15D8::sub_5B9350()
     field_1544_pTexture = (STexture*)gbh_RegisterTexture(128, 128, 0, 0, 0);
 }
 
-// match
+MATCH_FUNC(0x5B9140)
 void sharp_pare_0x15D8::FreePals_5B9140()
 {
     for (unsigned __int16 i = 0; i < field_15D6_pal_count; ++i)
@@ -190,7 +191,7 @@ void sharp_pare_0x15D8::FreePals_5B9140()
     field_15D6_pal_count = 0;
 }
 
-// match
+MATCH_FUNC(0x5B90F0)
 void sharp_pare_0x15D8::LoadPals_5B90F0()
 {
     field_15D6_pal_count = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
@@ -245,7 +246,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     }
 }
 
-// match
+MATCH_FUNC(0x5B94F0)
 STexture* sharp_pare_0x15D8::sub_5B94F0(int type, int pal, int kind, int a5)
 {
     STexture *result;
@@ -280,7 +281,7 @@ STexture* sharp_pare_0x15D8::sub_5B94F0(int type, int pal, int kind, int a5)
     return result;
 }
 
-// match
+MATCH_FUNC(0x5B9050)
 void festive_hopper::Free_5B9050()
 {
     if (field_10_bDoFree && field_0_pAlloc)
@@ -318,7 +319,7 @@ void festive_hopper::Alloc_5B8E90(__int16 a2, __int16 a3, int a4, int a5)
     }
 }
 
-// match
+MATCH_FUNC(0x5B8F70)
 void festive_hopper::sub_5B8F70()
 {
     if (field_10_bDoFree)
@@ -373,13 +374,13 @@ void festive_hopper::LoadTextures_5B8F00()
     }
 }
 
-// match
+MATCH_FUNC(0x5B90A0)
 STexture* festive_hopper::get_texture_5B90A0(int type, __int16 sprite_pal)
 {
     return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, sprite_pal)];
 }
 
-// match
+MATCH_FUNC(0x5B90D0)
 STexture* festive_hopper::sub_5B90D0(__int16 a2, __int16 a3)
 {
     return field_0_pAlloc[(unsigned __int16)(a3 + (a2 * field_6_count))];

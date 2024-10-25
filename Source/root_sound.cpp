@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "root_sound.hpp"
 #include "sound_obj.hpp"
 #include "cSampleManager.hpp"
@@ -5,7 +6,7 @@
 
 root_sound gRoot_sound_66B038;
 
-// match
+MATCH_FUNC(0x40EF20)
 void infallible_turing::release_40EF20()
 {
     if (field_8)
@@ -117,19 +118,19 @@ void root_sound::SetCDVol_40F0F0(unsigned int cdVol)
     }
 }
 
-// match
+MATCH_FUNC(0x40F120)
 unsigned __int8 root_sound::GetCDVol_40F120()
 {
     return gSound_obj_66F680.GetCDVol_41A280();
 }
 
-// match
+MATCH_FUNC(0x40F130)
 void root_sound::Release_40F130()
 {
     gSound_obj_66F680.Release_41A290();
 }
 
-// match
+MATCH_FUNC(0x40F140)
 void root_sound::sub_40F140()
 {
     gSound_obj_66F680.sub_41A2A0();
@@ -142,7 +143,7 @@ char root_sound::GetAudioDriveLetter_40F150()
     return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
 }
 
-// match
+MATCH_FUNC(0x40EF40)
 infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObject, int objectType)
 {
     infallible_turing* pCurrent = field_0;
@@ -160,19 +161,19 @@ infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObje
     return pCurrent;
 }
 
-// match
+MATCH_FUNC(0x40F160)
 char root_sound::Set3DSound_40F160(char b3dSound)
 {
     return gSound_obj_66F680.Set3DSound_41A2F0(b3dSound);
 }
 
-// match
+MATCH_FUNC(0x40F180)
 char root_sound::Get3DSound_40F180()
 {
     return gSound_obj_66F680.Get3dSound_41A390();
 }
 
-// match 0x411E30
+MATCH_FUNC(0x411E30)
 root_sound::root_sound()
 {
     infallible_turing* pIter = field_4;
