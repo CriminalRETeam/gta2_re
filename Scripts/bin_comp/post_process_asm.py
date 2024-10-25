@@ -117,9 +117,9 @@ def post_process_asm(asmstr):
 
     #for line in lines:
     #    print(line)
-    for c in constants:
-        print(c + " : " + constants[c])
-
+    
+    #for c in constants:
+    #    print(c + " : " + constants[c])
 
     return "\n".join(lines)
 
