@@ -52,7 +52,7 @@ for:
    - build.bat
    - cd ../Scripts/bin_comp
    - python msvc_dump_func_data.py
-   - ps: [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; Invoke-WebRequest 'https://mouzedrift.s-ul.eu/KTb8N0bc' -OutFile 10.5.exe
+   - ps: ./download_exe.ps1
    - pip install iced-x86
    - python compare_all_functions.py
    - cd ../../build_vc6
