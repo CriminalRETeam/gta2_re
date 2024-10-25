@@ -17,6 +17,12 @@ def dism_func(func_bytes):
     asm_str = "\n".join(asm)
     return asm_str
 
+# so windows doesn't like :: being in a file name, and probably other stuff
+# put em in the bin and something its more happy with
+def func_name_as_safe_file_name(func_name):
+    func_name = func_name.replace("::", "_")
+    return func_name
+
 def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_offset, og_func_size):
     #strStatus = "Checking " + func_name + " " + hex(new_func_offset) + " " + hex(og_func_offset) + " " + hex(og_func_size)
     strStatus = "Checking " + func_name
@@ -32,9 +38,9 @@ def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_
     if new_asm_str == og_asm_str:
         strStatus = strStatus + " OK!"
     else:
-        with open(func_name + "_og_asm.txt", "w") as og_asm_file:
+        with open(func_name_as_safe_file_name(func_name) + "_og_asm.txt", "w") as og_asm_file:
             og_asm_file.write(og_asm_str)
-        with open(func_name + "_new_asm.txt", "w") as new_asm_file:
+        with open(func_name_as_safe_file_name(func_name) + "_new_asm.txt", "w") as new_asm_file:
             new_asm_file.write(new_asm_str)
 
         strStatus = strStatus + " FAIL!"
