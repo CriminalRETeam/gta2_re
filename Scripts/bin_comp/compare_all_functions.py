@@ -49,7 +49,7 @@ def check_funcs_match():
     for fail_func in fail_funcs:
         print(fail_func)
 
-    print(str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + " funcs OK")
+    print("[" + str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + "] funcs OK")
     return len(fail_funcs) == 0
 
 if check_funcs_match():
