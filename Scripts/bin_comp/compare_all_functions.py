@@ -33,7 +33,25 @@ def check_funcs_match():
     new_data = load_csv_file("new_function_data.csv")
     old_data = load_csv_file("og_function_data.csv")
     funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
+    ok_funcs = []
+    fail_funcs = []
     for func in funcs_to_check:
-        compare_function.compare_function("../../build_vc6/Release/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16))
+        if compare_function.compare_function("../../build_vc6/Release/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16)):
+            ok_funcs.append(func[0] + " OK!")
+        else:
+            fail_funcs.append(func[0] + " FAIL!")
+    
+    for ok_func in ok_funcs:
+        print(ok_func)
+    
+    for fail_func in fail_funcs:
+        print(fail_func)
 
-check_funcs_match()
+    return len(fail_func) == 0
+
+if check_funcs_match():
+    sys.exit(0)
+else:
+    sys.exit(1)
+
+

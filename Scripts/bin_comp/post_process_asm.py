@@ -45,6 +45,12 @@ def constant_from_call(line):
             return parts[1]
     return None  
 
+def constant_from_calll(line):
+    if line.startswith("calll "):
+        parts = line.split(" ")
+        return parts[1]
+    return None 
+
 def do_tests():
     if constant_from_mov("mov %cx,0x434A10") != "0x434A10":
         return False
@@ -52,11 +58,26 @@ def do_tests():
         return False
     
     # todo: a lot more test cases for these
+
     # movw $1,0x434A18
-    # push $0x42A3A4 constant_from_push
     # mov 0x442F18,%edx
+    # mov %cx,0x434A10
+    # mov $0x42AF10,%edi
+
+    # calll *0x426208
+    # call 0x00013BED
+
+    # push $0x42A3A4 constant_from_push
+
+    # jmp 0xFFFFFC60
+    # jmpl *0x40FC68(,%eax,4)
+
+    # lea 0x4262B8(,%ecx,2),%edi
 
     if constant_from_call("call 0x00013BED") != "0x00013BED":
+        return False
+
+    if constant_from_calll("calll *0x426208") != "*0x426208":
         return False
 
     if constant_from_call("call rozza") != None:
@@ -70,6 +91,10 @@ def constant_from_statement(line):
         return v
 
     v = constant_from_call(line)
+    if v is not None:
+        return v
+
+    v = constant_from_calll(line)
     if v is not None:
         return v
 

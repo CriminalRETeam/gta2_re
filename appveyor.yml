@@ -60,8 +60,6 @@ for:
   artifacts:
     - path: build_vc6/Release/decomp_main.exe
       name: windows_vc6_main_exe
-    - path: Scripts/bin_comp/*.txt
-      name: none_matches
 
 # ======================================
 #      Linux vc6
