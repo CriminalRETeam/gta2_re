@@ -7,7 +7,7 @@
 class serene_brattain 
 {
 public:
-    EXPORT void sub_419DF0();
+    EXPORT serene_brattain* sub_419DF0();
     int field_0;
     int field_4;
     int field_8;

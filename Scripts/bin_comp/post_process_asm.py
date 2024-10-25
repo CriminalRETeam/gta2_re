@@ -35,11 +35,12 @@ def is_hex_constant(s, in_exe_range):
     return None
 
 def get_constant_from_inst_generic(s, in_exe_range):
+    r = []
     for op in get_operands(s):
         ret = is_hex_constant(op, in_exe_range)
         if ret is not None:
-            return ret   
-    return None
+            r.append(ret) 
+    return r
 
 def get_constant_from_deref(s, in_exe_range):
     pos = s.find("(")
@@ -50,57 +51,65 @@ def get_constant_from_deref(s, in_exe_range):
     return None
 
 def get_constant_from_deref_inst_generic(s, in_exe_range):
+    r = []
     for op in get_operands(s):
         ret = get_constant_from_deref(op, in_exe_range)
         if ret is not None:
-            return ret   
-    return None
+            r.append(ret) 
+    return r
 
 def extract_constant(s):
-    ret = None
+    ret = []
     if s.startswith("movw") or s.startswith("movl") or s.startswith("mov") or s.startswith("cmp"):
         ops = s.split(" ")[1].split(",")
         for op in ops:
-            ret = get_constant_from_deref(op, True)
-            if ret is not None:
+            tmp = get_constant_from_deref(op, True)
+            if tmp is not None:
+                ret.append(tmp)
                 break
-        if ret is None:
+        if len(ret) == 0:
             ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("call") or s.startswith("calll"):
         ret = get_constant_from_inst_generic(s, False)
     elif s.startswith("jmpl"):
-        ret = get_constant_from_deref(s.split(" ")[1], True)
-        if ret is None:
+        tmp = get_constant_from_deref(s.split(" ")[1], True)
+        if tmp is None:
              ret = get_constant_from_inst_generic(s, True)
+        else:
+            ret.append(tmp)
     elif s.startswith("push") or s.startswith("jmp") or s.startswith("fmull") or s.startswith("fmuls"):
-        ret = is_hex_constant(s.split(" ")[1], False)
+        tmp = is_hex_constant(s.split(" ")[1], False)
+        if tmp is not None:
+            ret.append(tmp)
     elif s.startswith("lea"):
         ret = get_constant_from_deref_inst_generic(s, True)
 
-    return [ret]
+    return ret
 
 
 def replace_constants(line, constants):
-    found_constant = None
-    for c in constants:
-        # bad time complexity here... but the asm dumps per func are usually small so its fine... for now
-        if c in line:
-            # find the biggest match and only use that one
-            if found_constant is None or len(c) > len(found_constant):
-                found_constant = c
-    if not found_constant is None:
-        line = line.replace(found_constant, constants[found_constant])
-    return line
+    # Loop because there can many constants on 1 asm line
+    while True:
+        found_constant = None
+        for c in constants:
+            # bad time complexity here... but the asm dumps per func are usually small so its fine... for now
+            if c in line:
+                # find the biggest match and only use that one
+                if found_constant is None or len(c) > len(found_constant):
+                    found_constant = c
+        if not found_constant is None:
+            line = line.replace(found_constant, constants[found_constant])
+        else:
+            return line
 
 def post_process_asm(asmstr):
     lines = asmstr.split("\n")
     constants = {}
     for line in lines:
-       v = extract_constant(line)
-       if v is not None:
-        if not v in constants:
-            constants[v] = "stable_name"
-
+       extracted_constants = extract_constant(line)
+       for v in extracted_constants:
+            if not v in constants:
+                constants[v] = "stable_name"
     i = 0
     while i < len(lines):
         lines[i] = replace_constants(lines[i], constants)
@@ -108,9 +117,10 @@ def post_process_asm(asmstr):
 
     #for line in lines:
     #    print(line)
+    for c in constants:
+        print(c + " : " + constants[c])
 
-    #for c in constants:
-    #    print(c + " : " + constants[c])
+
     return "\n".join(lines)
 
 class TestStringMethods(unittest.TestCase):
@@ -133,8 +143,8 @@ class TestStringMethods(unittest.TestCase):
     def test_mov_hex_str5(self):
         self.assertEqual(extract_constant("mov 0x416000(%eax),%cl"), ["0x416000"])
 
-    #def test_mov_hex_str5(self):
-    #    self.assertEqual(extract_constant("movl $0x67D818,0x67D704"), ["$0x67D818", "0x67D704"])
+    def test_mov_hex_str5(self):
+        self.assertEqual(extract_constant("movl $0x67D818,0x67D704"), ["$0x67D818", "0x67D704"])
 
     def test_call_hex(self):
         self.assertEqual(extract_constant("call 0x00013BED"), ["0x00013BED"])
@@ -169,5 +179,4 @@ class TestStringMethods(unittest.TestCase):
     def test_fmuls_hex(self):
         self.assertEqual(extract_constant("fmuls 0x5FE3C8"), ["0x5FE3C8"])
 
-
-unittest.main()
+#unittest.main()

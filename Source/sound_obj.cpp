@@ -11,9 +11,9 @@ int dword_674CD8;
 int dword_66F3F0;
 
 MATCH_FUNC(0x419DF0)
-void serene_brattain::sub_419DF0()
+serene_brattain* serene_brattain::sub_419DF0()
 {
-
+    return this;
 }
 
 MATCH_FUNC(0x419CD0)
