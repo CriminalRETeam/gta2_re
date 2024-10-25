@@ -1,3 +1,5 @@
+import sys
+
 # ?first_zone_by_type_4DF1D0@Map_0x370@@QAEPAUgmp_map_zone@@E@Z,0x4030d0,0x30d0,0x4df1d0,0x1
 # mangled_name, v addr, file offset, og addr, match status
 # new_function_data.csv
@@ -47,6 +49,7 @@ def check_funcs_match():
     for fail_func in fail_funcs:
         print(fail_func)
 
+    print(str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + " funcs OK")
     return len(fail_func) == 0
 
 if check_funcs_match():
