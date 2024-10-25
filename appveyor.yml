@@ -78,6 +78,7 @@ for:
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wineboot
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wine cmd /c build.bat
+   - Scripts/bin_comp/compare_matches.sh
 
   artifacts:
     - path: build_vc6/Release/decomp_main.exe
