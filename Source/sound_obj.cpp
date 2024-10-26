@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "sound_obj.hpp"
 #include "cSampleManager.hpp"
 #include "Game_0x40.hpp"
@@ -9,13 +10,13 @@ sound_obj gSound_obj_66F680;
 int dword_674CD8;
 int dword_66F3F0;
 
-// match
-void serene_brattain::sub_419DF0()
+MATCH_FUNC(0x419DF0)
+serene_brattain* serene_brattain::sub_419DF0()
 {
-
+    return this;
 }
 
-// match 0x419CD0
+MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
     sound_0x68 * pIter = &field_9C_asSamples[0][0];
@@ -82,7 +83,7 @@ sound_obj::sound_obj()
     field_3 = 1;
 }
 
-// match
+MATCH_FUNC(0x41B700)
 void sound_obj::ClearRequestedQueue_41B700()
 {
     for (unsigned int i = 0; i < field_10_nActiveSamples; i++)
@@ -93,7 +94,7 @@ void sound_obj::ClearRequestedQueue_41B700()
     field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue] = 0;
 }
 
-// match
+MATCH_FUNC(0x41B7A0)
 void sound_obj::ClearActivateSamples_41B7A0()
 {
     for (unsigned __int8 i = 0; i < field_10_nActiveSamples; i++ )
@@ -129,7 +130,7 @@ void sound_obj::ClearActivateSamples_41B7A0()
     }
 }
 
-// match
+MATCH_FUNC(0x41A2A0)
 void sound_obj::sub_41A2A0()
 {
     field_98_nActiveSampleQueue = 1;
@@ -144,19 +145,19 @@ void sound_obj::sub_41A2A0()
     gSampManager_6FFF00.sub_58E2A0();
 }
 
-// match
+MATCH_FUNC(0x41A250)
 void sound_obj::SetSfxVol_41A250(char sfxVol)
 {
     field_24_sfx_vol = sfxVol;
 }
 
-// match
+MATCH_FUNC(0x41A270)
 void sound_obj::SetCDVol_41A270(unsigned char cdVol)
 {
     field_25_cdVol = cdVol;
 }
 
-// match
+MATCH_FUNC(0x41A2F0)
 char sound_obj::Set3DSound_41A2F0(char b3dSound)
 {
     if (field_0 != 0)
@@ -197,7 +198,7 @@ char sound_obj::Set3DSound_41A2F0(char b3dSound)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x41A390)
 char sound_obj::Get3dSound_41A390()
 {
     if (field_0)
@@ -210,7 +211,7 @@ char sound_obj::Get3dSound_41A390()
     }
 }
 
-// match
+MATCH_FUNC(0x427180)
 void sound_obj::Init_15_Array_427180()
 {
     for (int i = 0; i < 15; i++)
@@ -273,7 +274,7 @@ void sound_obj::sub_427220()
     }
 }
 
-// match
+MATCH_FUNC(0x41BA90)
 void sound_obj::GenerateIntegerRandomNumberTable_41BA90()
 {
     for (int i = 0; i < 5; i++)
@@ -282,7 +283,7 @@ void sound_obj::GenerateIntegerRandomNumberTable_41BA90()
     }
 }
 
-// match
+MATCH_FUNC(0x41B540)
 void sound_obj::sub_41B540()
 {
     if (field_1D_b3d_sound)
@@ -300,7 +301,7 @@ void sound_obj::sub_41B540()
     }
 }
 
-// match
+MATCH_FUNC(0x41B520)
 void sound_obj::sub_41B520(int a1, float *a2) // todo: prob a ref ?
 {
     *a2 = a1 / 16384.0f;
@@ -325,7 +326,7 @@ char sound_obj::sub_41B660(unsigned __int8 a1, unsigned int a2, unsigned int a3)
     return v4;
 }
 
-// match
+MATCH_FUNC(0x41A910)
 void sound_obj::AddDetailsToRequestedOrderList_41A910(unsigned __int8 sample)
 {
     unsigned __int8 i = 0;
@@ -346,7 +347,7 @@ void sound_obj::AddDetailsToRequestedOrderList_41A910(unsigned __int8 sample)
     field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][i] = sample;
 }
 
-// match
+MATCH_FUNC(0x41A850)
 void sound_obj::AddSampleToRequestedQueue_41A850()
 {
     unsigned int newVol = field_30_sQueueSample.field_1C_ReleasingVolumeModificator * (127 - field_30_sQueueSample.field_24_nVolume);
@@ -378,7 +379,7 @@ void sound_obj::AddSampleToRequestedQueue_41A850()
     AddDetailsToRequestedOrderList_41A910(new_requested_count);
 }
 
-// match
+MATCH_FUNC(0x41A650)
 int sound_obj::RandomDisplacement_41A650(unsigned int seed)
 {
     static bool bPos_61A6C8 = true;
@@ -404,7 +405,7 @@ int sound_obj::RandomDisplacement_41A650(unsigned int seed)
     return value;
 }
 
-// match
+MATCH_FUNC(0x41A3A0)
 void sound_obj::ServiceSoundEffects_41A3A0()
 {
     if (field_2)
@@ -436,7 +437,7 @@ void sound_obj::ProcessActiveQueues_41AB80()
 
 }
 
-// match
+MATCH_FUNC(0x41A6F0)
 void sound_obj::sub_41A6F0()
 {
     for (unsigned int idx = 0; idx < field_543C_444C_max_idx; idx++)
@@ -454,7 +455,7 @@ char sound_obj::CalcVolume_41A3F0(unsigned __int8 a1, int a2, int a3)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x419070)
 bool sound_obj::VolCalc_419070(int a2, int a3, char a4)
 {
     unsigned __int8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28);
@@ -466,7 +467,7 @@ bool sound_obj::VolCalc_419070(int a2, int a3, char a4)
     return this->field_30_sQueueSample.field_24_nVolume != 0 ? true : false;
 }
 
-// match
+MATCH_FUNC(0x419020)
 char sound_obj::sub_419020(int a2)
 {
     if (field_28 < a2)
@@ -481,7 +482,7 @@ char sound_obj::sub_419020(int a2)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x4186D0)
 char sound_obj::sub_4186D0(sound_0x68 *pObj)
 {
     pObj->field_3C = 600;
@@ -492,7 +493,7 @@ char sound_obj::sub_4186D0(sound_0x68 *pObj)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x4182A0)
 char sound_obj::sub_4182A0(sound_0x68 *pObj)
 {
     pObj->field_14_samp_idx = 0;
@@ -505,7 +506,7 @@ char sound_obj::sub_4182A0(sound_0x68 *pObj)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x418130)
 char sound_obj::sub_418130(sound_0x68 *pObj)
 {
     pObj->field_14_samp_idx = 24;
@@ -518,7 +519,7 @@ char sound_obj::sub_418130(sound_0x68 *pObj)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x417F40)
 char sound_obj::sub_417F40(int a1)
 {
     switch (a1)
@@ -538,7 +539,7 @@ char sound_obj::sub_417F40(int a1)
     }
 }
 
-// match
+MATCH_FUNC(0x417EF0)
 int sound_obj::sub_417EF0(sound_0x68 *pObj)
 {
     pObj->field_14_samp_idx = 29;
@@ -550,7 +551,7 @@ int sound_obj::sub_417EF0(sound_0x68 *pObj)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x417C60)
 int sound_obj::ConvertToPlayBackRate_417C60(int a1)
 {
     switch (a1)
@@ -622,7 +623,7 @@ int sound_obj::ConvertToPlayBackRate_417C60(int a1)
     }
 }
 
-// match
+MATCH_FUNC(0x4153F0)
 char sound_obj::sub_4153F0(sound_0x68 *pObj)
 {
     pObj->field_14_samp_idx = 36;
@@ -635,7 +636,7 @@ char sound_obj::sub_4153F0(sound_0x68 *pObj)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x41A6C0)
 void sound_obj::ResetEntry_41A6C0(int idx)
 {
     field_147C[idx].field_0_bUsed = 0;
@@ -644,7 +645,7 @@ void sound_obj::ResetEntry_41A6C0(int idx)
     field_147C[idx].field_8_pAlloc = 0;
 }
 
-// match
+MATCH_FUNC(0x412240)
 void sound_obj::null_412240()
 {
 
@@ -656,7 +657,7 @@ void sound_obj::sub_418C20()
 
 }
 
-// match
+MATCH_FUNC(0x419E10)
 void sound_obj::sub_419E10()
 {
     if (!field_0)
@@ -672,7 +673,7 @@ void sound_obj::sub_419E10()
     }
 }
 
-// match
+MATCH_FUNC(0x41A1B0)
 char sound_obj::LoadStyle_41A1B0(const char *pStyleName)
 {
     if (field_0)
@@ -757,7 +758,7 @@ struct brave_archimedes_0x3C
     char field_3B;
 };
 
-// match
+MATCH_FUNC(0x419FA0)
 int sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
 {
     unsigned int idx = 1;
@@ -828,7 +829,7 @@ int sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x41A090)
 void sound_obj::FreeSoundEntry_41A090(unsigned int idx)
 {
     if (!field_0 || idx >= 1020)
@@ -897,13 +898,13 @@ void sound_obj::FreeSoundEntry_41A090(unsigned int idx)
     }
 }
 
-// match
+MATCH_FUNC(0x41A290)
 void sound_obj::Release_41A290()
 {
     gSampManager_6FFF00.Release_58E290();
 }
 
-// match
+MATCH_FUNC(0x41A280)
 unsigned __int8 sound_obj::GetCDVol_41A280()
 {
     return field_25_cdVol;
@@ -915,7 +916,7 @@ void sound_obj::sub_57EA10()
 
 }
 
-// match
+MATCH_FUNC(0x419EF0)
 void sound_obj::Service_419EF0()
 {
     static char byte_674E24;
@@ -955,7 +956,7 @@ void sound_obj::Service_419EF0()
     }
 }
 
-// match
+MATCH_FUNC(0x4123A0)
 void sound_obj::ProcessEntity_4123A0(int id)
 {
     if (!field_147C[id].field_4_pObj->field_4)
@@ -1041,7 +1042,7 @@ void sound_obj::ProcessType9_412A60(int a2)
 
 }
 
-// match
+MATCH_FUNC(0x418CA0)
 void sound_obj::ProcessType10_418CA0()
 {
     int voc_idx;
@@ -1235,7 +1236,7 @@ void sound_obj::ProcessType10_418CA0()
     }
 }
 
-// match
+MATCH_FUNC(0x418B60)
 void sound_obj::ProcessType11_418B60(int a2)
 {
     infallible_turing* field_C_pObject = (infallible_turing*)field_147C[a2].field_4_pObj->field_C_pObject;
@@ -1284,7 +1285,7 @@ void sound_obj::ProcessType11_418B60(int a2)
     }
 }
 
-// match
+MATCH_FUNC(0x412490)
 void sound_obj::ProcessType2_412490(int idx)
 {
     static BYTE byte_66F2D4;
@@ -1415,7 +1416,7 @@ void sound_obj::ProcessType2_412490(int idx)
     AddSampleToRequestedQueue_41A850();
 }
 
-// match
+MATCH_FUNC(0x412260)
 char sound_obj::sub_412260(sound_0x68 *pObj)
 {
     if (gGame_0x40_67E008 && field_1478_type5Idx && !field_1)
@@ -1531,7 +1532,7 @@ char sound_obj::sub_4149D0(sound_0x68 *a2)
     return 0;
 }
 
-// match
+MATCH_FUNC(0x41B4E0)
 void sound_obj::VecDiff_41B4E0(serene_brattain *pVec, serene_brattain *pRet)
 {
     pRet->field_0 = pVec->field_0 - field_1468_v1;
@@ -1539,7 +1540,7 @@ void sound_obj::VecDiff_41B4E0(serene_brattain *pVec, serene_brattain *pRet)
     pRet->field_8 = pVec->field_8 - field_1470_v3;
 }
 
-// match
+MATCH_FUNC(0x41B490)
 void sound_obj::sub_41B490(sound_0x68 *pObj)
 {
     if (pObj->field_41)
@@ -1555,7 +1556,7 @@ void sound_obj::sub_41B490(sound_0x68 *pObj)
     }
 }
 
-// match
+MATCH_FUNC(0x4190B0)
 DWORD* sound_obj::sub_4190B0(DWORD *a2)
 {
     int v2 = this->field_30_sQueueSample.field_8_obj.field_0 - this->field_1468_v1;
@@ -1564,7 +1565,7 @@ DWORD* sound_obj::sub_4190B0(DWORD *a2)
     return a2;
 }
 
-// match
+MATCH_FUNC(0x427310)
 BYTE sound_obj::sub_427310()
 {
     // note: return value and'ed with 0xFF if return type is wider
@@ -1578,7 +1579,7 @@ BYTE sound_obj::sub_427310()
     }
 }
 
-// match
+MATCH_FUNC(0x427340)
 void sound_obj::sub_427340(int a4, int a5, int a6)
 {
     if (sub_427310() >= 8u)

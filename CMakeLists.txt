@@ -80,7 +80,9 @@ add_library (Source
     Source/distracted_einstein_0xC.hpp
     Source/distracted_einstein_0xC.cpp
     Source/gtx_0x106C.hpp
-    Source/gtx_0x106C.cpp)
+    Source/gtx_0x106C.cpp
+    Source/Function.hpp)
+
 target_compile_definitions(Source PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
 
 include_directories(Source)

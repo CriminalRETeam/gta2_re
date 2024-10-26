@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "file.hpp"
 #include "error.hpp"
@@ -75,7 +76,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(unsigned __int16 tableSize)
     }
 }
 
-// match
+MATCH_FUNC(0x5122D0)
 void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 {
     const char * pSlashPos = strrchr(field_35C_full_scr_file_name, '\\');
@@ -104,7 +105,7 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 
 }
 
-// match
+MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(__int16 stringId)
 {
     unsigned short int idx = 0;

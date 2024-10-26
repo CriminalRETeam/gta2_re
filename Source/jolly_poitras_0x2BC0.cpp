@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "error.hpp"
 #include "file.hpp"
@@ -62,7 +63,7 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 
 }
 
-// match
+MATCH_FUNC(0x56C2C0)
 void jolly_poitras_0x2BC0::create_56C2C0()
 {
     if (!gJolly_poitras_0x2BC0_6FEAC0)
@@ -75,7 +76,7 @@ void jolly_poitras_0x2BC0::create_56C2C0()
     }
 }
 
-// match
+MATCH_FUNC(0x56C340)
 void jolly_poitras_0x2BC0::destroy_56C340()
 {
     if (gJolly_poitras_0x2BC0_6FEAC0)
@@ -97,7 +98,7 @@ void jolly_poitras_0x2BC0::sub_56C010()
     // todo
 }
 
-// match
+MATCH_FUNC(0x56B8A0)
 void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(unsigned __int16 a1, char *a2)
 {
     char Buffer[8];
@@ -107,7 +108,7 @@ void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(unsigned __int16 a1, char *a
     strcat(a2, ".dat");
 }
 
-// match
+MATCH_FUNC(0x56B940)
 char jolly_poitras_0x2BC0::PlySlotDatExists_56B940(int a1)
 {
     char FileName[356];
@@ -123,13 +124,13 @@ char jolly_poitras_0x2BC0::PlySlotDatExists_56B940(int a1)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x56BCF0)
 void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char *pName)
 {
     strcpy(pName, "player\\hiscores.hsc");
 }
 
-// match
+MATCH_FUNC(0x56BCA0)
 char jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 {
     char FileName[356];
@@ -309,7 +310,7 @@ void jolly_poitras_0x2BC0::sub_56BF20()
     // todo
 }
 
-// match
+MATCH_FUNC(0x56BD20)
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
     wcsncpy(this->field_24C0.field_0[0].field_0_str, L"ALAN", 9u);
@@ -352,7 +353,7 @@ agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 
 }
 
-// match
+MATCH_FUNC(0x56B520)
 void agitated_keldysh_0xF0::Init_56B520()
 {
     for (int i=0; i<10; i++)

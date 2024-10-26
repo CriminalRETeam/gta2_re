@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include <stdio.h>
 
@@ -57,7 +58,7 @@ int* gpGBH_Globals_7085E4;
         return -1;\
     }
 
-// match
+//MATCH_FUNC(0x5EA4D0) // TODO: Doesn't actually match
 void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
     MessageBoxA(

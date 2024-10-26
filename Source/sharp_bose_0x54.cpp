@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "sharp_bose_0x54.hpp"
 #include <windows.h>
 
@@ -13,7 +14,7 @@ sharp_bose_0x54::~sharp_bose_0x54()
     // todo
 }
 
-// match
+MATCH_FUNC(0x5BECF0)
 void sharp_bose_0x54::sub_5BECF0(char a2, char a3)
 {
     if (a3)

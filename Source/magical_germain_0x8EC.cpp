@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "error.hpp"
 #include "file.hpp"
@@ -6,7 +7,7 @@
 
 magical_germain_0x8EC *gMagical_germain_0x8EC_6F5168;
 
-// match
+MATCH_FUNC(0x4D1FC0)
 void magical_germain_0x8EC::LoadChunks_4D1FC0(const char *pChunkId, unsigned int chunk_len)
 {
     if (!strncmp(pChunkId, "KIDX", 4u))
@@ -34,7 +35,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char *pChunkId, unsigned int
     }
 }
 
-// match
+MATCH_FUNC(0x4D2090)
 void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 {
     File::Global_Open_4A7060("data\\kanji.dat");
@@ -75,7 +76,7 @@ magical_germain_0x8EC::magical_germain_0x8EC()
     Load_kanji_dat_4D2090();
 }
 
-// match 0x4D2CC0
+MATCH_FUNC(0x4D2CC0)
 magical_germain_0x8EC::~magical_germain_0x8EC()
 {
     if (field_8C8_pKBIT)

@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "registry.hpp"
 #include "error.hpp"
@@ -442,7 +443,7 @@ int __stdcall SetGamma_5D9910(int gamma)
 infallible_turing snd1_67D818;
 infallible_turing snd2_67D6F8;
 
-// match
+MATCH_FUNC(0x4ACFA0)
 void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
 {
     if (!gLaughing_blackwell_0x1EB54_67DC84)
@@ -465,7 +466,7 @@ void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
     Bink::Reset_513210();
 }
 
-// match
+MATCH_FUNC(0x4AD070)
 void __stdcall laughing_blackwell_0x1EB54::destroy_4AD070()
 {
     if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
@@ -1806,7 +1807,7 @@ const char* laughing_blackwell_0x1EB54::intro_bik_4B5E50()
     return "meh.dat";
 }
 
-// match
+MATCH_FUNC(0x4B5FF0)
 bool laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0()
 {
     // note: ecx wasn't first due to global being an object instead of a pointer
@@ -1841,7 +1842,7 @@ void sub_SetGamma()
     }
 }
 
-// match
+MATCH_FUNC(0x4AEC00)
 void laughing_blackwell_0x1EB54::sub_4AEC00()
 {
     sub_4AFEB0();
@@ -2437,7 +2438,7 @@ void laughing_blackwell_0x1EB54::sub_4B8280()
     // todo
 }
 
-// match
+MATCH_FUNC(0x4B4410)
 void laughing_blackwell_0x1EB54::sub_4B4410()
 {
     sub_4B43E0()->sub_56B630();
@@ -2445,7 +2446,7 @@ void laughing_blackwell_0x1EB54::sub_4B4410()
     sub_4B42E0();
 }
 
-// match
+MATCH_FUNC(0x4B43E0)
 dreamy_clarke_0xA4* laughing_blackwell_0x1EB54::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
@@ -2459,7 +2460,7 @@ void laughing_blackwell_0x1EB54::sub_4B42E0()
     // todo
 }
 
-// match
+MATCH_FUNC(0x4B4230)
 void laughing_blackwell_0x1EB54::sub_4B4230()
 {
     unsigned __int16 count = field_136[1].field_4[0].field_6E_count;
@@ -2475,7 +2476,7 @@ void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t *String)
     // todo
 }
 
-// match
+MATCH_FUNC(0x4B4280)
 void laughing_blackwell_0x1EB54::sub_4B4280()
 {
     wcsncpy(
@@ -2503,7 +2504,7 @@ void laughing_blackwell_0x1EB54::sub_4B8530()
     }
 }
 
-// match
+MATCH_FUNC(0x4B8560)
 void laughing_blackwell_0x1EB54::sub_4B8560()
 {
     if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
@@ -2864,7 +2865,7 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
     
 }
 
-// match
+MATCH_FUNC(0x4B6B00)
 void laughing_blackwell_0x1EB54::sub_4B6B00(unsigned __int8 a1, BYTE *pTgaIdx, BYTE *a3)
 {
     switch (a1)
@@ -2964,7 +2965,7 @@ void laughing_blackwell_0x1EB54::sub_4B6B00(unsigned __int8 a1, BYTE *pTgaIdx, B
     }
 }
 
-// match
+MATCH_FUNC(0x4B6520)
 void laughing_blackwell_0x1EB54::Load_tga_4B6520(unsigned __int16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
@@ -3185,7 +3186,7 @@ void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
     }
 }
 
-// match
+MATCH_FUNC(0x4AFD00)
 void laughing_blackwell_0x1EB54::FreeKeyBoardDevice_4AFD00()
 {
     if (field_4_pKeyboardDevice)
@@ -3196,13 +3197,13 @@ void laughing_blackwell_0x1EB54::FreeKeyBoardDevice_4AFD00()
     }
 }
 
-// match
+MATCH_FUNC(0x4B6750)
 void laughing_blackwell_0x1EB54::FreeImageTable_4B6750()
 {
     gbh_FreeImageTable();
 }
 
-// match
+MATCH_FUNC(0x4AFDD0)
 char laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = this->field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
@@ -3223,7 +3224,7 @@ char laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
     return 1;
 }
 
-// match
+MATCH_FUNC(0x4AFBE0)
 void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
@@ -3787,7 +3788,7 @@ void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
     }
 }
 
-// match
+MATCH_FUNC(0x4B66B0)
 void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
 {
     if (gbh_InitImageTable(gTableSize_61FF20) != -1)
@@ -3799,7 +3800,7 @@ void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
     }
 }
 
-// match
+MATCH_FUNC(0x4B51D0)
 void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(unsigned __int8 idx, char *pStr)
 {
     char Buffer[8];
@@ -3809,7 +3810,7 @@ void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(unsigned __int8 idx, c
     strcat(pStr, ".svg");
 }
 
-// match
+MATCH_FUNC(0x4B5370)
 char laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(int idx)
 {
     char FileName[256];
@@ -4424,7 +4425,7 @@ admiring_euler_4::~admiring_euler_4()
     field_2 = 0;
 }
 
-// match
+MATCH_FUNC(0x4B6480)
 void admiring_euler_4::LoadPlySlotSvg_4B6480(const char *FileName)
 {
     File::Global_Open_4A7060(FileName);
@@ -4684,7 +4685,7 @@ void __stdcall DrawText_5D8A10(
    // return (const wchar_t*)pTextIter;
 }
 
-// match
+MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, __int16 spaceWidth, Fix16 fp4)
 {
     int local; // [esp+0h] [ebp-4h] BYREF

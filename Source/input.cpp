@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "input.hpp"
 
 #define DIRECTINPUT_VERSION 0x0700
@@ -46,7 +47,7 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 #endif
 }
 
-// match
+MATCH_FUNC(0x498710)
 void __stdcall Input::DInputRelease_498710()
 {
     if (gpDInput_67B804)

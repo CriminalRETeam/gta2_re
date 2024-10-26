@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "keybrd_0x204.hpp"
 #include "error.hpp"
 #include <stdlib.h>
@@ -20,7 +21,7 @@ void __stdcall keybrd_0x204::create_4D5F50()
     gKeybrd_0x204_6F52F4->LoadKbCfg_4D5E00();
 }
 
-// match
+MATCH_FUNC(0x4D5FA0)
 void keybrd_0x204::destroy_4D5FA0()
 {
     if (gKeybrd_0x204_6F52F4)
@@ -43,7 +44,7 @@ keybrd_0x204::~keybrd_0x204()
 
 }
 
-// match
+MATCH_FUNC(0x4D5E00)
 void keybrd_0x204::LoadKbCfg_4D5E00()
 {
     field_200_keyBoardLayout = 0;
@@ -173,7 +174,7 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE *Stream, wchar_t *pOut)
     pOut[i] = 0;
 }
 
-// match
+MATCH_FUNC(0x4D5FD0)
 void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
 {
     if (gKeybrd_0x204_6F52F4)

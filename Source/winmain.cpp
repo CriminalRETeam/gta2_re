@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "winmain.hpp"
 #include <windows.h>
 #include "error.hpp"
@@ -198,7 +199,7 @@ char sub_5D92C0()
     return byte_706C5C;
 }
 
-// match
+MATCH_FUNC(0x5D9660)
 void __stdcall ShowCursor_5D9660()
 {
     int refCount;
@@ -263,7 +264,7 @@ char sub_5D9510()
 
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D8F70)
 int ReadScreenSettings_5D8F70()
 {
     const DWORD full_width_old = full_width_706B5C;
@@ -371,13 +372,13 @@ void __stdcall sub_5D92D0()
     SetSavedGamma_5D98E0();
 }
 
-// match
+MATCH_FUNC(0x5D9860)
 int jGBH_Graphics_Free_5D9860()
 {
     return GBH_Graphics_Free_5EA640();
 }
 
-// match
+MATCH_FUNC(0x5D9830)
 void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 {
     jGBH_Graphics_Free_5D9860();
@@ -391,7 +392,7 @@ void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 
 
 // todo: move
-// match
+MATCH_FUNC(0x5D9290)
 bool Vid_FindDevice_5D9290()
 {
     SDevice* pDevice = Vid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
@@ -399,7 +400,7 @@ bool Vid_FindDevice_5D9290()
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D9800)
 int GetHwndDCDeviceCaps_5D9800()
 {
     HDC hdc = GetDC(gHwnd_707F04);
@@ -409,7 +410,7 @@ int GetHwndDCDeviceCaps_5D9800()
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D97C0)
 void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
@@ -419,7 +420,7 @@ void __stdcall GBH_GraphicsInit_5D97C0()
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D96C0)
 void sub_5D96C0()
 {
     int v1 = 0;
@@ -489,7 +490,7 @@ void sub_5D96C0()
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x4DA440)
 void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
@@ -533,7 +534,7 @@ GUID IDD_IDirectMusic = { 1698042202u, 31533u, 4562u, { 186u, 24u, 0u, 0u, 248u,
 
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x4A0650)
 void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
@@ -755,7 +756,7 @@ void __stdcall GetDirectXVersion_4C4EC0(DWORD *pDXVer, DWORD *osKind)
 const char *off_626A00[2] = { "d3ddll.dll", "dmavideo.dll" };
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D90E0)
 void __stdcall Video_Render_Inits_5D90E0()
 {
     gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
@@ -784,14 +785,14 @@ void __stdcall Video_Render_Inits_5D90E0()
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D9280)
 bool IsFullScreen_5D9280()
 {
     return gStartMode_626A0C == 1;
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x5D8E70)
 void __stdcall UpdateWinXY_5D8E70()
 {
     if (!IsFullScreen_5D9280())
@@ -834,7 +835,7 @@ char *__stdcall sub_4DA3F0(char *pStr)
 }
 
 // todo move to another file for ordering
-// match
+MATCH_FUNC(0x4DA320)
 void __stdcall ParseCommandLine_4DA320(char *pCommandLine)
 {
     char* pIter = pCommandLine;
@@ -870,7 +871,7 @@ void __stdcall ParseCommandLine_4DA320(char *pCommandLine)
 }
 
 
-// match
+MATCH_FUNC(0x5E4DE0)
 void Start_GTA2Manager_5E4DE0()
 {
     HANDLE v1; // eax
@@ -908,7 +909,7 @@ void Start_GTA2Manager_5E4DE0()
     }
 }
 
-// match
+MATCH_FUNC(0x5E4EC0)
 void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
     MessageBoxA(gHwnd_707F04, lpText, "Error!", 0);
@@ -1472,7 +1473,7 @@ char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
 #pragma comment(lib ,"Version.lib")
 
-// match
+MATCH_FUNC(0x5E5D60)
 void __stdcall GetGTA2Version_5E5D60(int *pVerMinor, int *pVerMajor)
 {
     DWORD dwHandle;

@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "stdafx.h"
 #include "registry.hpp"
 #include "error.hpp"
@@ -8,7 +9,7 @@ HKEY dword_625018 = HKEY_LOCAL_MACHINE;
 
 Registry gRegistry_6FF968;
 
-// match
+MATCH_FUNC(0x586A00)
 bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
 {
     if (::RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Sound", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -33,7 +34,7 @@ bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
     return true;
 }
 
-// match
+MATCH_FUNC(0x586A70)
 bool Registry::Get_Sound_Settting_586A70(const char *lpValueName)
 {
     HKEY hKey;
@@ -57,7 +58,7 @@ bool Registry::Get_Sound_Settting_586A70(const char *lpValueName)
     return settingReadOK;
 }
 
-// match
+MATCH_FUNC(0x586AE0)
 int Registry::Set_Sound_Setting_586AE0(const char *lpValueName, int value)
 {
     HKEY hKey;
@@ -83,7 +84,7 @@ int Registry::Set_Sound_Setting_586AE0(const char *lpValueName, int value)
     return data;
 }
 
-// match
+MATCH_FUNC(0x586B80)
 void Registry::Set_Sound_Setting_586B80(const char* lpValueName, int Data)
 {
     HKEY hKey;
@@ -102,7 +103,7 @@ void Registry::Set_Sound_Setting_586B80(const char* lpValueName, int Data)
 
 }
 
-// match
+MATCH_FUNC(0x586BF0)
 void Registry::Clear_Or_Delete_Sound_Setting_586BF0(const char* lpValueName, char bClear)
 {
     HKEY hKey;
@@ -122,7 +123,7 @@ void Registry::Clear_Or_Delete_Sound_Setting_586BF0(const char* lpValueName, cha
     RegCloseKey(hKey); // bug: closes even if open fails
 }
 
-// match
+MATCH_FUNC(0x586C60)
 char Registry::Open_Debug_Root_586C60(PHKEY phkResult)
 {
     DWORD dwDisposition;
@@ -146,7 +147,7 @@ char Registry::Open_Debug_Root_586C60(PHKEY phkResult)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x586CD0)
 char Registry::Open_Options_Root_586CD0(PHKEY phkResult)
 {
     DWORD dwDisposition;
@@ -170,7 +171,7 @@ char Registry::Open_Options_Root_586CD0(PHKEY phkResult)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x586D40)
 char Registry::Open_Control_Root_586D40(PHKEY phkResult)
 {
     DWORD dwDisposition;
@@ -194,7 +195,7 @@ char Registry::Open_Control_Root_586D40(PHKEY phkResult)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x586DB0)
 char Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 {
     DWORD dwDisposition;
@@ -218,7 +219,7 @@ char Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x586E20)
 bool Registry::Get_Debug_Setting_586E20(const char *lpValueName)
 {
     bool bRead = false;
@@ -241,7 +242,7 @@ bool Registry::Get_Debug_Setting_586E20(const char *lpValueName)
     return bRead;
 }
 
-// match
+MATCH_FUNC(0x586E90)
 void Registry::Get_Debug_Setting_586E90(const char* lpValueName, LPBYTE lpData, int a3)
 {
     HKEY hKey;
@@ -259,7 +260,7 @@ void Registry::Get_Debug_Setting_586E90(const char* lpValueName, LPBYTE lpData, 
 
 }
 
-// match
+MATCH_FUNC(0x586F00)
 void Registry::Get_Option_586F00(const char* lpValueName, BYTE *pBuffer, int bufferSize)
 {
     DWORD cbData;
@@ -279,7 +280,7 @@ void Registry::Get_Option_586F00(const char* lpValueName, BYTE *pBuffer, int buf
     }
 }
 
-// match
+MATCH_FUNC(0x586F70)
 int Registry::Set_Option_586F70(const char *lpValueName, int a3)
 {
     HKEY hKey;
@@ -306,7 +307,7 @@ int Registry::Set_Option_586F70(const char *lpValueName, int a3)
     return Data;
 }
 
-// match
+MATCH_FUNC(0x587010)
 int Registry::Set_Control_Setting_587010(int a1, int a2)
 {
     HKEY hKey;
@@ -334,7 +335,7 @@ int Registry::Set_Control_Setting_587010(int a1, int a2)
     return Data;
 }
 
-// match
+MATCH_FUNC(0x5870D0)
 int Registry::Get_Screen_Setting_5870D0(const char *lpValueName, int a2)
 {
     HKEY hKey;
@@ -365,7 +366,7 @@ Registry::Registry()
 
 }
 
-// match
+MATCH_FUNC(0x5872A0)
 char Registry::sub_5872A0(HKEY hKey, const char *a2, BYTE *lpData, DWORD Data)
 {
     char Buffer[260];
@@ -383,7 +384,7 @@ char Registry::sub_5872A0(HKEY hKey, const char *a2, BYTE *lpData, DWORD Data)
     return ret;
 }
 
-// match
+MATCH_FUNC(0x587340)
 bool Registry::sub_587340(HKEY hKey, const char *keyPath, int value, LPBYTE lpData)
 {
     char ValueName[260]; // [esp+14h] [ebp-104h] BYREF
@@ -399,7 +400,7 @@ bool Registry::sub_587340(HKEY hKey, const char *keyPath, int value, LPBYTE lpDa
     return ret;
 }
 
-// match
+MATCH_FUNC(0x5873E0)
 int Registry::Get_Int_5873E0(HKEY hKey, const char *subKey)
 {
     char keyPath[260];
@@ -407,7 +408,7 @@ int Registry::Get_Int_5873E0(HKEY hKey, const char *subKey)
     return Get_Int_Setting_5874E0(hKey, keyPath);
 }
 
-// match
+MATCH_FUNC(0x587420)
 char Registry::CreateNetworkRoot_587420(PHKEY phkResult)
 {
     DWORD dwDisposition;
@@ -449,7 +450,7 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char* lpValueName)
     }
 }
 
-// match
+MATCH_FUNC(0x587690)
 int Registry::Set_Network_Setting_587690(const char *lpValueName, int a2)
 {
     HKEY hKey;
@@ -474,7 +475,7 @@ int Registry::Set_Network_Setting_587690(const char *lpValueName, int a2)
     return Data;
 }
 
-// match
+MATCH_FUNC(0x587730)
 void Registry::Set_Network_Setting_587730(const char* lpValueName, BYTE Data)
 {
     HKEY hKey;
@@ -492,7 +493,7 @@ void Registry::Set_Network_Setting_587730(const char* lpValueName, BYTE Data)
     }
 }
 
-// match
+MATCH_FUNC(0x5877A0)
 char Registry::Open_Player_Root_5877A0(PHKEY phkResult)
 {
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Player", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -516,7 +517,7 @@ char Registry::Open_Player_Root_5877A0(PHKEY phkResult)
     return 1;
 }
 
-// match
+MATCH_FUNC(0x587810)
 int Registry::Create_Player_Setting_587810(const char* lpValueName)
 {
     HKEY hKey;
@@ -546,7 +547,7 @@ int Registry::Create_Player_Setting_587810(const char* lpValueName)
     return Data;
 }
 
-// match
+MATCH_FUNC(0x5878C0)
 void Registry::Set_Player_Setting_5878C0(const char* lpValueName, BYTE Data)
 {
     HKEY hKey;
@@ -564,7 +565,7 @@ void Registry::Set_Player_Setting_5878C0(const char* lpValueName, BYTE Data)
     }
 }
 
-// match
+MATCH_FUNC(0x587170)
 void Registry::Set_Screen_Setting_587170(const char* lpValueName, int Data)
 {
     HKEY hKey;

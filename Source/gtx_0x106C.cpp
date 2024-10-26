@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "gtx_0x106C.hpp"
 #include "error.hpp"
 #include "file.hpp"
@@ -15,13 +16,13 @@ struct sty_header
     short field_4_version;
 };
 
-// match
+MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(unsigned __int8 idx)
 {
     return field_5C_cari->field_0[idx];
 }
 
-// match
+MATCH_FUNC(0x5AA3D0)
 BYTE* gtx_0x106C::get_car_remap_5AA3D0(unsigned __int8 idx)
 {
     car_info* pCarInfo = field_5C_cari->field_0[idx];
@@ -132,7 +133,7 @@ __int16 gtx_0x106C::sub_5AA560(int a2)
     return result;
 }
 
-// match
+MATCH_FUNC(0x5AA5F0)
 __int16 gtx_0x106C::convert_pal_type_5AA5F0(int type, __int16 pal)
 {
     __int16 result; // ax
@@ -176,7 +177,7 @@ BYTE* gtx_0x106C::GetPalData_5AA6A0(__int16 a2)
     return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFC0) << 8));
 }
 
-// match
+MATCH_FUNC(0x5AA6F0)
 unsigned __int16 gtx_0x106C::get_phys_pal_5AA6F0(unsigned __int16 palId)
 {
     return this->field_28_palette_index->field_0_phys_palette[palId];
@@ -225,7 +226,7 @@ unsigned __int16 gtx_0x106C::sub_5AA760(WORD *a2, wchar_t *a3)
 
 
 
-// match
+MATCH_FUNC(0x5AA7B0)
 unsigned __int16 gtx_0x106C::space_width_5AA7B0(WORD *a2)
 {
     if (*a2 >= 101)
@@ -495,7 +496,7 @@ void gtx_0x106C::sub_5AAB30(unsigned int delx_chunk_size)
 }
 
 // note: param type matters
-// match
+MATCH_FUNC(0x5AA440)
 sprite_index* gtx_0x106C::get_sprite_index_5AA440(unsigned __int16 idx)
 {
     return &this->field_20_sprite_index[idx];
@@ -559,14 +560,14 @@ void gtx_0x106C::load_delta_index_5AAD80(unsigned int delx_chunk_size)
     UNIQUE_FUNC;
 }
 
-// match
+MATCH_FUNC(0x5AADD0)
 void gtx_0x106C::load_delta_store_5AADD0(unsigned int dels_chunk_size)
 {
     field_48_delta_store = (delta_store_entry *)Memory::malloc_4FE4D0(dels_chunk_size); // todo: or new?
     File::Global_Read_4A71C0(field_48_delta_store, &dels_chunk_size);
 }
 
-// match
+MATCH_FUNC(0x5AADF0)
 void gtx_0x106C::load_tiles_5AADF0(unsigned int tile_chunk_len)
 {
     field_3C_tiles = Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_aligned_tiles_size);
@@ -586,14 +587,14 @@ void gtx_0x106C::skip_psxt_5AAE30(unsigned int a1)
     File::Global_Seek_4A7140(&a1);
 }
 
-// match
+MATCH_FUNC(0x5AAE40)
 void gtx_0x106C::load_sprite_graphics_5AAE40(unsigned int sprg_chunk_len)
 {
     field_34_sprite_graphics = reinterpret_cast<BYTE*>(Memory::Aligned_malloc_4FE510(sprg_chunk_len, &field_38));
     File::Global_Read_4A71C0(field_34_sprite_graphics, &sprg_chunk_len);
 }
 
-// match
+MATCH_FUNC(0x5AAE70)
 void gtx_0x106C::load_physical_palettes_5AAE70(unsigned int ppal_chunk_size)
 {
     field_2C_physical_palettes = Memory::Aligned_malloc_4FE510(ppal_chunk_size, &field_30_physical_palettes_size);
@@ -601,7 +602,7 @@ void gtx_0x106C::load_physical_palettes_5AAE70(unsigned int ppal_chunk_size)
     field_8_physical_palettes_len = ppal_chunk_size >> 10;
 }
 
-// match
+MATCH_FUNC(0x5AAEA0)
 void gtx_0x106C::load_palette_index_5AAEA0(unsigned int palx_chunk_len)
 {
     if (palx_chunk_len != sizeof(palette_index))
@@ -625,7 +626,7 @@ void gtx_0x106C::load_map_object_info_5AAF00(unsigned int obji_chunk_len)
     UNIQUE_FUNC;
 }
 
-// match
+MATCH_FUNC(0x5AAF80)
 void gtx_0x106C::load_sprite_index_5AAF80(unsigned int sprx_chunk_size)
 {
     this->field_20_sprite_index = (sprite_index *)Memory::malloc_4FE4D0(sprx_chunk_size + 8);
@@ -672,7 +673,7 @@ void gtx_0x106C::load_font_base_5AB0F0(unsigned int fonb_chunk_size)
     sub_5AAFE0(this->field_1C_font_base->field_0_font_count);
 }
 
-// match
+MATCH_FUNC(0x5AB1A0)
 WORD __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(WORD *pOffsets, unsigned int offsetsCount)
 {
     WORD total = 0;
@@ -721,7 +722,7 @@ void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(WORD *pBuffer, unsigne
     }
 }
 
-// match
+MATCH_FUNC(0x5AB210)
 void gtx_0x106C::load_sprite_base_5AB210(unsigned int sprite_base_chunk_size)
 {
     if (sprite_base_chunk_size != sizeof(sprite_base))
@@ -784,7 +785,7 @@ bool gtx_0x106C::sub_5AB380(unsigned __int8 car_id)
     return false;
 }
 
-// match
+MATCH_FUNC(0x5AB3C0)
 void gtx_0x106C::load_car_recycling_info_5AB3C0(unsigned int recy_chunk_size)
 {
     field_64_car_recycling_info = (unsigned __int8 *)Memory::malloc_4FE4D0(recy_chunk_size);;
@@ -834,7 +835,7 @@ void gtx_0x106C::read_spec_5AB3F0(unsigned int type)
 
 }
 
-// match
+MATCH_FUNC(0x5AB450)
 void gtx_0x106C::load_spec_5AB450()
 {
     read_spec_5AB3F0(2);
@@ -848,7 +849,7 @@ void gtx_0x106C::load_spec_5AB450()
     read_spec_5AB3F0(10);
 }
 
-// match
+MATCH_FUNC(0x5AB4B0)
 void gtx_0x106C::LoadChunk_5AB4B0(const char *Str1, unsigned int chunk_len)
 {
     if (!strncmp(Str1, "PALB", 4u))
@@ -921,7 +922,7 @@ void gtx_0x106C::LoadChunk_5AB4B0(const char *Str1, unsigned int chunk_len)
     }
 }
 
-// match
+MATCH_FUNC(0x5AB720)
 void gtx_0x106C::sub_5AB720()
 {
     if (field_50_delta_buffer && field_48_delta_store)
@@ -935,7 +936,7 @@ void gtx_0x106C::sub_5AB720()
     }
 }
 
-// match
+MATCH_FUNC(0x5AB750)
 void gtx_0x106C::LoadSty_5AB750(const char *pStyFileName)
 {
     File::Global_Open_4A7060(pStyFileName);

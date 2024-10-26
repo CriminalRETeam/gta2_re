@@ -1,3 +1,4 @@
+#include "Function.hpp"
 #include "error.hpp"
 #include "winmain.hpp"
 #include "fix16.hpp"
@@ -66,13 +67,13 @@ void sub_4DA740()
 
 }
 
-// match
+MATCH_FUNC(0x4A0770)
 void __stdcall Error_SetName_4A0770(const char *pFileName)
 {
     strcpy(gGlobalFileName_67C6AC, pFileName);
 }
 
-// match
+MATCH_FUNC(0x4A07A0)
 const char* __stdcall SourceFileNameFromPath_4A07A0(const char *pPath)
 {
     // ecx was swapped with edx without using the local pIter
@@ -2292,7 +2293,7 @@ void FatalError_4A07C0(int code, const char *pFileName, int lineNo, ...)
     gErrorLog_67CF58.Write_4D9620(gTmpBuffer_67C598);
 }
 
-// Match
+MATCH_FUNC(0x4A38C0)
 void FatalError_4A38C0(int Code, const char *pSourceFile, int lineNo, ...)
 {
     if (Code == 16)
