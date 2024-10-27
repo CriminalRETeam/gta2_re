@@ -8,6 +8,8 @@ Release
 *.obj
 *.opt
 Scripts/satsuki*
-Scripts/10.5.exe
+10.5.exe
 vscommondir.reg
 .vs
+__pycache__
+Scripts/bin_comp/new_function_data.csv
