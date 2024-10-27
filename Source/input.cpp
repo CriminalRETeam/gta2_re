@@ -14,7 +14,7 @@
 LPDIRECTINPUTA gpDInput_67B804;
 
 #if _MSC_VER > 1200
-HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, DWORD dwVersion, LPDIRECTINPUTA *ppDI, LPUNKNOWN punkOuter);
+HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA *ppDI, LPUNKNOWN punkOuter);
 #endif
 
 // nomatch

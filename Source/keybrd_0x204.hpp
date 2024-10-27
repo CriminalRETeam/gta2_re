@@ -6,8 +6,8 @@
 class keybrd_0x204
 {
 public:
-    __int16 field_0_keys[256];
-    int field_200_keyBoardLayout;
+    s16 field_0_keys[256];
+    s32 field_200_keyBoardLayout;
 
     // todo: func order
 
@@ -21,7 +21,7 @@ public:
 
     EXPORT void LoadKbCfg_4D5E00();
 
-    EXPORT static int GetLayout_4D6000();
+    EXPORT static s32 GetLayout_4D6000();
 
     EXPORT void ReadCfg_4D5DA0(FILE *Stream, wchar_t *pOut);
 

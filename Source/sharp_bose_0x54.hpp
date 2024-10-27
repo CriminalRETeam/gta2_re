@@ -10,15 +10,15 @@ public:
     EXPORT sharp_bose_0x54();
     EXPORT ~sharp_bose_0x54();
 
-    EXPORT void sub_5BECF0(char a2, char a3);
+    EXPORT void sub_5BECF0(char_type a2, char_type a3);
 
 
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
     distracted_einstein_0xC field_18;
     distracted_einstein_0xC field_24;
     distracted_einstein_0xC field_30;

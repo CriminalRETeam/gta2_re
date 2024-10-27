@@ -8,25 +8,25 @@ struct sprite_index;
 
 struct kanji_header
 {
-    char field_0_id[4];
-    __int16 field_4_version;
+    char_type field_0_id[4];
+    s16 field_4_version;
 };
 
 struct kanji_0x10
 {
-    char field_0_v1;
-    char field_1_v2;
-    __int16 field_2_text_char;
+    char_type field_0_v1;
+    char_type field_1_v2;
+    s16 field_2_text_char;
     STexture *field_4_pTexture;
     sprite_index *field_8_sprt_index;
-    unsigned int field_C_id;
+    u32 field_C_id;
 };
 
 /*
 struct kanji_0x2
 {
-    char field_0;
-    char field_1;
+    char_type field_0;
+    char_type field_1;
 };
 
 struct kanji_0x20
@@ -40,21 +40,21 @@ class magical_germain_0x8EC
 public:
     kanji_0x10 field_0[120];
     kanji_0x10 field_780[20];
-    int field_8C0_count;
-    WORD *field_8C4_pKidX;
+    s32 field_8C0_count;
+    u16 *field_8C4_pKidX;
     BYTE *field_8C8_pKBIT;
-    int field_8CC_kidx_size_words;
+    s32 field_8CC_kidx_size_words;
     BYTE *field_8D0_pSprtData;
     sprite_index *field_8D4_sprite_index;
     STexture *field_8D8_pTexture;
     BYTE *field_8DC_pSprtData;
     sprite_index *field_8E0_sprite_index;
     STexture *field_8E4_pTexture;
-    unsigned __int8 field_8E8_v1;
-    char field_8E9_v2;
-    __int16 field_8EA_pad;
+    u8 field_8E8_v1;
+    char_type field_8E9_v2;
+    s16 field_8EA_pad;
 
-    EXPORT void LoadChunks_4D1FC0(const char *pChunkId, unsigned int chunk_len);
+    EXPORT void LoadChunks_4D1FC0(const char_type *pChunkId, u32 chunk_len);
 
     EXPORT void Load_kanji_dat_4D2090();
 
@@ -64,11 +64,11 @@ public:
 
     EXPORT void sub_4D2B40();
 
-    EXPORT int sub_4D29D0(unsigned __int16 a2);
+    EXPORT s32 sub_4D29D0(u16 a2);
 
-    EXPORT int sub_4D28A0(unsigned __int16 a2);
+    EXPORT s32 sub_4D28A0(u16 a2);
 
-    EXPORT STexture * sub_4D27D0(unsigned int *a2);
+    EXPORT STexture * sub_4D27D0(u32 *a2);
 
     EXPORT STexture * sub_4D2710(wchar_t text_char);
 

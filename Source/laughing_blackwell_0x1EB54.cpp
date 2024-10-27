@@ -22,7 +22,7 @@
 
 #pragma comment(lib, "dxguid.lib")
 
-void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, __int16 spaceWidth, Fix16 fp4);
+void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
 void Start_GTA2Manager_5E4DE0();
 
@@ -30,9 +30,9 @@ youthful_einstein gYouthful_einstein_6F8450;
 
 laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
 
-unsigned int counter_706C4C;
-int dword_67D930;
-unsigned short gTableSize_61FF20 = 25;
+u32 counter_706C4C;
+s32 dword_67D930;
+u16 gTableSize_61FF20 = 25;
 
 extern wchar_t word_67DC8C[50];
 
@@ -40,13 +40,13 @@ DWORD dword_67D9FC;
 
 // todo: likely an array
 short word_703C14 = 7;
-__int16 word_703C3C = 8;
+s16 word_703C3C = 8;
 
 wchar_t tmpBuff_67BD9C[640];
 
 BYTE byte_67DA80;
 
-char byte_67DC88[4]; // todo: prob bigger
+char_type byte_67DC88[4]; // todo: prob bigger
 
 wchar_t word_67C7D8[640];
 
@@ -55,11 +55,11 @@ wchar_t *dword_67EE54;
 class FreeLoader
 {
 public:
-    static char sub_4AE1F0(unsigned __int8 a1);
+    static char_type sub_4AE1F0(u8 a1);
 };
 
 // stub
-char FreeLoader::sub_4AE1F0(unsigned __int8 a1)
+char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
     // todo
     return 0;
@@ -394,14 +394,14 @@ extern HWND gHwnd_707F04;
 DWORD dword_70675C;
 DWORD dword_70679C;
 
-extern int window_width_706630;
-extern int window_height_706B50;
+extern s32 window_width_706630;
+extern s32 window_height_706B50;
 
 struct TgaInfo
 {
-    char field_0_tga_name[128];
-    int field_80_len;
-    int field_84_img;
+    char_type field_0_tga_name[128];
+    s32 field_80_len;
+    s32 field_84_img;
 };
 
 TgaInfo tgaArray_61F0C8[25] =
@@ -434,7 +434,7 @@ TgaInfo tgaArray_61F0C8[25] =
 };
 
 // stub
-int __stdcall SetGamma_5D9910(int gamma)
+s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     // todo
     return 0;
@@ -486,75 +486,75 @@ void __stdcall laughing_blackwell_0x1EB54::destroy_4AD070()
 }
 
 // nomatch
-void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
+void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
 {
-    unsigned __int16 v3; // bp
-    unsigned __int8 v4; // bl
-    unsigned __int8 v5; // al
+    u16 v3; // bp
+    u8 v4; // bl
+    u8 v5; // al
     gifted_joliot *v6; // ecx
-    unsigned __int8 v7; // al
-    int v8; // edi
+    u8 v7; // al
+    s32 v8; // edi
     LPDIRECTINPUTA *v9; // eax
-    char v10; // bl
-    unsigned __int8 v11; // al
-    char v12; // al
+    char_type v10; // bl
+    u8 v11; // al
+    char_type v12; // al
     loving_borg_0xBCA *v13; // ecx
-    __int16 playerSlotSetting; // ax
-    int v15; // edi
-    int v16; // edx
-    int i; // eax
+    s16 playerSlotSetting; // ax
+    s32 v15; // edi
+    s32 v16; // edx
+    s32 i; // eax
     wchar_t *v18; // eax
-    __int16 v19; // ax
+    s16 v19; // ax
     wchar_t *v20; // eax
     wchar_t *_5B5F90; // eax
-    unsigned __int8 v22; // bl
-    char *v23; // edi
-    unsigned __int8 v24; // al
-    unsigned __int8 v25; // bl
-    int v26; // edi
+    u8 v22; // bl
+    char_type *v23; // edi
+    u8 v24; // al
+    u8 v25; // bl
+    s32 v26; // edi
     wchar_t *field_6_wstr_buf; // ebp
     blissful_ganguly_0x20 *v28; // eax
     blissful_ganguly_0x20 *v29; // eax
-    int v30; // edi
-    int v31; // ebp
+    s32 v30; // edi
+    s32 v31; // ebp
     bool v32; // cf
-    int v33; // eax
-    int v34; // ebp
-    int v35; // ebx
-    int *v36; // ebp
-    int *v37; // edx
-    int v38; // eax
-    int v39; // ecx
-    int v40; // eax
+    s32 v33; // eax
+    s32 v34; // ebp
+    s32 v35; // ebx
+    s32 *v36; // ebp
+    s32 *v37; // edx
+    s32 v38; // eax
+    s32 v39; // ecx
+    s32 v40; // eax
     wchar_t *v41; // eax
     wchar_t *v42; // eax
     wchar_t *v43; // eax
-    char *v44; // eax
-    const char *v45; // eax
-    unsigned __int16 field_132_f136_idx; // cx
+    char_type *v44; // eax
+    const char_type *v45; // eax
+    u16 field_132_f136_idx; // cx
     loving_borg_0xBCA *v47; // edi
     wchar_t *v48; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER  field_0_hDriver; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER  v50; // [esp-4h] [ebp-11Ch]
-    unsigned __int8 v51; // [esp+13h] [ebp-105h]
-    unsigned __int8 v52; // [esp+13h] [ebp-105h]
-    char v53; // [esp+13h] [ebp-105h]
-    unsigned __int8 a2; // [esp+14h] [ebp-104h]
-    unsigned __int8 a2a; // [esp+14h] [ebp-104h]
-    unsigned __int8 a2b; // [esp+14h] [ebp-104h]
+    u8 v51; // [esp+13h] [ebp-105h]
+    u8 v52; // [esp+13h] [ebp-105h]
+    char_type v53; // [esp+13h] [ebp-105h]
+    u8 a2; // [esp+14h] [ebp-104h]
+    u8 a2a; // [esp+14h] [ebp-104h]
+    u8 a2b; // [esp+14h] [ebp-104h]
     dreamy_clarke_0xA4 *v57; // [esp+18h] [ebp-100h]
-    int *v58; // [esp+18h] [ebp-100h]
-    int *v59; // [esp+18h] [ebp-100h]
-    int *v60; // [esp+18h] [ebp-100h]
-    char v61; // [esp+1Fh] [ebp-F9h]
-    unsigned __int8 a3; // [esp+20h] [ebp-F8h]
-    unsigned __int8 a3a; // [esp+20h] [ebp-F8h]
-    unsigned __int8 a3b; // [esp+20h] [ebp-F8h]
-    int v65; // [esp+24h] [ebp-F4h]
-    char v66; // [esp+2Ah] [ebp-EEh]
-    char v67; // [esp+2Bh] [ebp-EDh]
-    char v68; // [esp+2Ch] [ebp-ECh]
-    unsigned __int8 v69; // [esp+30h] [ebp-E8h]
+    s32 *v58; // [esp+18h] [ebp-100h]
+    s32 *v59; // [esp+18h] [ebp-100h]
+    s32 *v60; // [esp+18h] [ebp-100h]
+    char_type v61; // [esp+1Fh] [ebp-F9h]
+    u8 a3; // [esp+20h] [ebp-F8h]
+    u8 a3a; // [esp+20h] [ebp-F8h]
+    u8 a3b; // [esp+20h] [ebp-F8h]
+    s32 v65; // [esp+24h] [ebp-F4h]
+    char_type v66; // [esp+2Ah] [ebp-EEh]
+    char_type v67; // [esp+2Bh] [ebp-EDh]
+    char_type v68; // [esp+2Ch] [ebp-ECh]
+    u8 v69; // [esp+30h] [ebp-E8h]
     wchar_t Destination[50]; // [esp+34h] [ebp-E4h] BYREF
     wchar_t Buffer[64]; // [esp+98h] [ebp-80h] BYREF
 
@@ -704,10 +704,10 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
             v16 = 0;
             for (i = 4; i < 28; i += 4)
             {
-                if (*(int *)((char *)&gYouthful_einstein_6F8450.field_0 + i) > v15
+                if (*(s32 *)((char_type *)&gYouthful_einstein_6F8450.field_0 + i) > v15
                     && !*((BYTE *)&gYouthful_einstein_6F8450.field_20 + v16))
                 {
-                    v15 = *(int *)((char *)&gYouthful_einstein_6F8450.field_0 + i);
+                    v15 = *(s32 *)((char_type *)&gYouthful_einstein_6F8450.field_0 + i);
                 }
                 ++v16;
             }
@@ -801,7 +801,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
                 }
                 ++v25;
                 ++v26;
-                v58 = (int *)((char *)v58 + 1);
+                v58 = (s32 *)((char_type *)v58 + 1);
                 v24 = a2b;
                 field_6_wstr_buf += 55;
             } while (v25 < a2b);
@@ -827,16 +827,16 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
                 {
                     if (v31 != v65
                         && !*(BYTE *)v59
-                        && (__int16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a) > v30)
+                        && (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a) > v30)
                     {
-                        v30 = (__int16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a);
+                        v30 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a);
                     }
                     ++v31;
                     v32 = ++a3a < a2b;
-                    v59 = (int *)((char *)v59 + 1);
+                    v59 = (s32 *)((char_type *)v59 + 1);
                 } while (v32);
             }
-            v33 = (__int16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
+            v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
             break;
         case 2:
             a3b = 0;
@@ -852,7 +852,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
                     }
                     ++v34;
                     v32 = ++a3b < a2b;
-                    v60 = (int *)((char *)v60 + 1);
+                    v60 = (s32 *)((char_type *)v60 + 1);
                 } while (v32);
             }
             v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
@@ -875,7 +875,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(unsigned __int16 arg0)
                     }
                     ++v35;
                     ++v37;
-                    v36 = (int *)((char *)v36 + 1);
+                    v36 = (s32 *)((char_type *)v36 + 1);
                     --v38;
                 } while (v38);
             }
@@ -961,17 +961,17 @@ void laughing_blackwell_0x1EB54::sub_4B8680()
 }
 
 // nomatch
-int laughing_blackwell_0x1EB54::sub_4AEDB0()
+s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
-    unsigned int Time; // eax
-    unsigned __int16 field_132_f136_idx; // cx
-    const char *v5; // eax
-    char *field_8_keys; // edi
-    int v7; // ebx
-    int result; // eax
-    char *v9; // ecx
-    int v10; // edx
-    char v12; // al
+    u32 Time; // eax
+    u16 field_132_f136_idx; // cx
+    const char_type *v5; // eax
+    char_type *field_8_keys; // edi
+    s32 v7; // ebx
+    s32 result; // eax
+    char_type *v9; // ecx
+    s32 v10; // edx
+    char_type v12; // al
     HDIGDRIVER  field_0_hDriver; // [esp-4h] [ebp-10h]
 
     Time = timeGetTime();
@@ -1069,109 +1069,109 @@ int laughing_blackwell_0x1EB54::sub_4AEDB0()
 }
 
 // todo: add to header
-extern int gGTA2VersionMajor_708280;
-extern int gGTA2VersionMajor_708284;
+extern s32 gGTA2VersionMajor_708280;
+extern s32 gGTA2VersionMajor_708284;
 
 // stub
 void laughing_blackwell_0x1EB54::sub_4AD140()
 {
-    int v1; // edx
-    int v2; // ebx
-    unsigned __int16 field_132_f136_idx; // dx
-    int v5; // ecx
-    int v6; // eax
+    s32 v1; // edx
+    s32 v2; // ebx
+    u16 field_132_f136_idx; // dx
+    s32 v5; // ecx
+    s32 v6; // eax
     loving_borg_0xBCA *v7; // edi
-    __int16 v8; // esp^2
-    int v9; // eax
-    int v10; // ecx
-    int *v11; // ecx
-    __int16 v12; // ax
+    s16 v8; // esp^2
+    s32 v9; // eax
+    s32 v10; // ecx
+    s32 *v11; // ecx
+    s16 v12; // ax
     void *v13; // edx
     void *v14; // eax
-    __int16 v15; // ax
+    s16 v15; // ax
     void *v16; // ecx
-    __int16 v17; // dx
-    __int16 v18; // ax
-    unsigned __int8 v19; // al
+    s16 v17; // dx
+    s16 v18; // ax
+    u8 v19; // al
     wchar_t *v20; // ecx
-    unsigned __int16 v21; // ax
-    int v22; // ecx
-    unsigned __int8 v23; // al
-    unsigned __int8 v24; // bl
-    unsigned __int8 v25; // bp
+    u16 v21; // ax
+    s32 v22; // ecx
+    u8 v23; // al
+    u8 v24; // bl
+    u8 v25; // bp
     wchar_t *_5B5F90; // eax
-    unsigned __int16 v27; // ax
+    u16 v27; // ax
     bool v28; // zf
-    int *v29; // ecx
-    int v30; // eax
-    int v31; // ebp
+    s32 *v29; // ecx
+    s32 v30; // eax
+    s32 v31; // ebp
     wchar_t *v32; // edx
-    int *v33; // ecx
-    unsigned __int16 v34; // ax
+    s32 *v33; // ecx
+    u16 v34; // ax
     void *v35; // eax
-    char v36; // cl
-    __int16 v37; // ax
+    char_type v36; // cl
+    s16 v37; // ax
     void *v38; // ecx
     void *v39; // edx
-    __int16 v40; // ax
+    s16 v40; // ax
     void *v41; // ecx
-    int *v42; // ecx
-    int *v43; // ecx
-    unsigned __int16 v44; // ax
-    char v45; // dl
-    DWORD *v46; // eax
+    s32 *v42; // ecx
+    s32 *v43; // ecx
+    u16 v44; // ax
+    char_type v45; // dl
+    u32 *v46; // eax
     wchar_t *v47; // ecx
-    int v48; // ecx
-    int v49; // edx
+    s32 v48; // ecx
+    s32 v49; // edx
     wchar_t *v50; // ecx
-    int v51; // ecx
+    s32 v51; // ecx
     bool v52; // cf
-    int v53; // eax
-    unsigned __int16 v54; // ax
-    int v55; // eax
-    int v56; // ebp
-    unsigned __int16 v57; // bx
-    unsigned __int16 v58; // dx
-    int *v59; // eax
+    s32 v53; // eax
+    u16 v54; // ax
+    s32 v55; // eax
+    s32 v56; // ebp
+    u16 v57; // bx
+    u16 v58; // dx
+    s32 *v59; // eax
     wchar_t *v60; // ecx
-    __int16 v61; // ax
-    int v62; // edx
-    unsigned __int16 v63; // ax
-    int v64; // ecx
-    int *v65; // ecx
+    s16 v61; // ax
+    s32 v62; // edx
+    u16 v63; // ax
+    s32 v64; // ecx
+    s32 *v65; // ecx
     wchar_t *v66; // ecx
-    int v67; // ecx
-    __int16 v68; // ax
-    unsigned __int16 v69; // bp
-    unsigned __int16 v70; // bx
-    int *v71; // ecx
-    int *v72; // ecx
+    s32 v67; // ecx
+    s16 v68; // ax
+    u16 v69; // bp
+    u16 v70; // bx
+    s32 *v71; // ecx
+    s32 *v72; // ecx
     wchar_t *v73; // eax
-    int v74; // eax
-    __int16 v75; // esp^2
-    int *v76; // ecx
-    int *v77; // ecx
-    __int16 v78; // ax
-    unsigned __int16 v79; // bx
-    unsigned __int16 v80; // di
-    int *v81; // ecx
-    int *v82; // ecx
+    s32 v74; // eax
+    s16 v75; // esp^2
+    s32 *v76; // ecx
+    s32 *v77; // ecx
+    s16 v78; // ax
+    u16 v79; // bx
+    u16 v80; // di
+    s32 *v81; // ecx
+    s32 *v82; // ecx
     wchar_t *v83; // [esp-24h] [ebp-50h] BYREF
-    int v84; // [esp-20h] [ebp-4Ch] BYREF
+    s32 v84; // [esp-20h] [ebp-4Ch] BYREF
     agitated_keldysh_0xF0 *v85; // [esp-1Ch] [ebp-48h] BYREF
-    int v86; // [esp-18h] [ebp-44h]
-    int v87; // [esp-14h] [ebp-40h] BYREF
-    int fp_300; // [esp-10h] [ebp-3Ch] BYREF
-    int *fp_460; // [esp-Ch] [ebp-38h] BYREF
-    int v90; // [esp-8h] [ebp-34h]
-    int v91; // [esp-4h] [ebp-30h]
+    s32 v86; // [esp-18h] [ebp-44h]
+    s32 v87; // [esp-14h] [ebp-40h] BYREF
+    s32 fp_300; // [esp-10h] [ebp-3Ch] BYREF
+    s32 *fp_460; // [esp-Ch] [ebp-38h] BYREF
+    s32 v90; // [esp-8h] [ebp-34h]
+    s32 v91; // [esp-4h] [ebp-30h]
     wchar_t *field_6_wstr_buf; // [esp+10h] [ebp-1Ch] BYREF
-    int v93; // [esp+14h] [ebp-18h]
-    int *v94; // [esp+18h] [ebp-14h]
-    int v95; // [esp+1Ch] [ebp-10h] BYREF
-    int v96; // [esp+20h] [ebp-Ch]
-    int v97; // [esp+24h] [ebp-8h] BYREF
-    int v98; // [esp+28h] [ebp-4h] BYREF
+    s32 v93; // [esp+14h] [ebp-18h]
+    s32 *v94; // [esp+18h] [ebp-14h]
+    s32 v95; // [esp+1Ch] [ebp-10h] BYREF
+    s32 v96; // [esp+20h] [ebp-Ch]
+    s32 v97; // [esp+24h] [ebp-8h] BYREF
+    s32 v98; // [esp+28h] [ebp-4h] BYREF
 
     field_132_f136_idx = this->field_132_f136_idx;
     v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
@@ -1184,7 +1184,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         //HIWORD(v9) = v8;
         //LOWORD(v9) = word_703C14;
         //v90 = v9;
-        //fp_460 = (int *)v10;
+        //fp_460 = (s32 *)v10;
         Fix16 fp_460;
         fp_460.FromInt_4369F0(460);
         //fp_300 = (int)v11;
@@ -1227,11 +1227,11 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             v17 = this->field_11C;
             v97 = v6;
             v18 = laughing_blackwell_0x1EB54::sub_5D8990(
-                (__int16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(unsigned __int16)v6].field_90_str,
+                (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_str,
                 v17)
                 + 10;
             if (v18 == 10)
-                v18 = laughing_blackwell_0x1EB54::sub_5D8990((__int16 *)v7->field_4[0].field_6_wstr_buf, this->field_11C) + 40;
+                v18 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, this->field_11C) + 40;
             v7->field_518[9].field_2 = v18 + v7->field_4[0].field_2;
             */
         }
@@ -1245,7 +1245,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             LOWORD(v1) = this->field_12A;
             v91 = 2;
             v90 = 0xFFFF;
-            fp_460 = (int *)v1;
+            fp_460 = (s32 *)v1;
             fp_300 = 5;
             v87 = 250;
             v86 = 300;
@@ -1260,7 +1260,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             if (v19 < 9u)
             {
                 LOWORD(v1) = this->field_12A;
-                fp_460 = (int *)v1;
+                fp_460 = (s32 *)v1;
                 fp_300 = 5;
                 v87 = 250;
                 v86 = 300;
@@ -1268,7 +1268,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 goto LABEL_18;
             }
             LOWORD(v5) = this->field_12A;
-            fp_460 = (int *)v5;
+            fp_460 = (s32 *)v5;
             fp_300 = 5;
             v87 = 250;
             v86 = 300;
@@ -1279,7 +1279,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             LOWORD(v5) = this->field_12A;
             v91 = 2;
             v90 = 0xFFFF;
-            fp_460 = (int *)v5;
+            fp_460 = (s32 *)v5;
             fp_300 = 5;
             v87 = 250;
             v86 = 300;
@@ -1349,9 +1349,9 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
     do
     {
         v29 = v94;
-        v30 = (unsigned __int16)v94;
-        v31 = (int)&v7->field_4[(unsigned __int16)v94];
-        if (!v7->field_4[(unsigned __int16)v94].field_1)
+        v30 = (u16)v94;
+        v31 = (int)&v7->field_4[(u16)v94];
+        if (!v7->field_4[(u16)v94].field_1)
         {
             v44 = this->field_132_f136_idx;
             v45 = 0;
@@ -1364,9 +1364,9 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v29 = v94;
             }
             if (*(_BYTE *)v31 == 2)
-                sub_4B3AF0((int)this, v44, (unsigned __int16)v29, &field_6_wstr_buf);
+                sub_4B3AF0((int)this, v44, (u16)v29, &field_6_wstr_buf);
             else
-                field_6_wstr_buf = v7->field_4[(unsigned __int16)v94].field_6_wstr_buf;
+                field_6_wstr_buf = v7->field_4[(u16)v94].field_6_wstr_buf;
             LOWORD(v29) = *(_WORD *)(v31 + 4);
             v28 = *(_WORD *)(v31 + 106) == 0xFFFF;
             LOWORD(v2) = *(_WORD *)(v31 + 2);
@@ -1376,7 +1376,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v91 = 0;
                 v90 = 0;
                 v95 = 8;
-                fp_460 = (int *)8;
+                fp_460 = (s32 *)8;
             LABEL_83:
                 fp_300 = (int)&v95;
                 v87 = (int)v29;
@@ -1389,13 +1389,13 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 FP::sub_4AE970(&v84, v2);
                 v83 = field_6_wstr_buf;
             LABEL_86:
-                DrawText_5D8A10(v83, v84, (int)v85, (void *)v86, v87, (int *)fp_300, (int)fp_460, v90, v91);
+                DrawText_5D8A10(v83, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
                 goto LABEL_87;
             }
             v91 = 0;
             v90 = 0;
             v95 = 8;
-            fp_460 = (int *)8;
+            fp_460 = (s32 *)8;
         LABEL_85:
             fp_300 = (int)&v95;
             v87 = (int)&v95;
@@ -1411,11 +1411,11 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         }
         if (*(_BYTE *)v31 == 2)
         {
-            v30 = (int)sub_4B3AF0((int)this, this->field_132_f136_idx, (unsigned __int16)v94, &field_6_wstr_buf);
+            v30 = (int)sub_4B3AF0((int)this, this->field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
         }
         else
         {
-            v32 = v7->field_4[(unsigned __int16)v94].field_6_wstr_buf;
+            v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
             field_6_wstr_buf = v32;
         }
         LOWORD(v29) = (_WORD)v94;
@@ -1442,7 +1442,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v91 = 0;
                 v90 = 0;
                 v95 = 8;
-                fp_460 = (int *)v30;
+                fp_460 = (s32 *)v30;
                 goto LABEL_83;
             }
             LOWORD(v31) = *(_WORD *)(v31 + 108);
@@ -1461,7 +1461,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             v91 = 0;
             v90 = 0;
             v95 = 8;
-            fp_460 = (int *)v31;
+            fp_460 = (s32 *)v31;
             goto LABEL_85;
         }
         v91 = 0x4000;
@@ -1551,8 +1551,8 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             }
         }
     LABEL_87:
-        v52 = (unsigned __int16)((_WORD)v94 + 1) < v7->field_0;
-        v94 = (int *)((char *)v94 + 1);
+        v52 = (u16)((_WORD)v94 + 1) < v7->field_0;
+        v94 = (s32 *)((char_type *)v94 + 1);
     } while (v52);
     if (v96 == 3)
     {
@@ -1599,7 +1599,7 @@ LABEL_92:
                     LOWORD(v93) = v61;
                     if ((_WORD)v2 == 0xFFFF)
                         LOWORD(v2) = this->field_11C;
-                    sub_4B3CC0((int)this, this->field_132_f136_idx, (unsigned __int16)v94, (wchar_t *)&field_6_wstr_buf);
+                    sub_4B3CC0((int)this, this->field_132_f136_idx, (u16)v94, (wchar_t *)&field_6_wstr_buf);
                     v63 = this->field_132_f136_idx;
                     HIWORD(v64) = HIWORD(v94);
                     if (v63 == 1 && ((_WORD)v94 == 2 || (_WORD)v94 == 3))
@@ -1629,7 +1629,7 @@ LABEL_92:
                         {
                             v91 = 0;
                             v90 = 0;
-                            fp_460 = (int *)v56;
+                            fp_460 = (s32 *)v56;
                             fp_300 = (int)&v97;
                             v87 = (int)&v97;
                             v97 = 8;
@@ -1639,7 +1639,7 @@ LABEL_92:
                             FP::sub_4AE970(&v85, v93);
                             v84 = v67;
                             FP::sub_4AE970(&v84, v96);
-                            DrawText_5D8A10(field_6_wstr_buf, v84, (int)v85, (void *)v86, v87, (int *)fp_300, (int)fp_460, v90, v91);
+                            DrawText_5D8A10(field_6_wstr_buf, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
                         }
                     }
                 }
@@ -1681,12 +1681,12 @@ LABEL_92:
                     FP::sub_4AE970(&v84, v58);
                     v83 = v60;
                     FP::sub_4AE970(&v83, v57);
-                    sub_5D7EC0(6, v95, (int)v83, v84, (int)v85, v86, (int *)v87, fp_300, (int)fp_460, v90, v91);
+                    sub_5D7EC0(6, v95, (int)v83, v84, (int)v85, v86, (s32 *)v87, fp_300, (int)fp_460, v90, v91);
                 }
             }
             v54 = (_WORD)v94 + 1;
-            v52 = (unsigned __int16)((_WORD)v94 + 1) < (unsigned int)v7->field_2;
-            v94 = (int *)((char *)v94 + 1);
+            v52 = (u16)((_WORD)v94 + 1) < (u32)v7->field_2;
+            v94 = (s32 *)((char_type *)v94 + 1);
         } while (v52);
     }
     */
@@ -1696,7 +1696,7 @@ LABEL_92:
         if (this->field_114)
         {
             /*
-            v68 = laughing_blackwell_0x1EB54::sub_5D8990((__int16 *)this->field_C9A0, this->field_11C);
+            v68 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)this->field_C9A0, this->field_11C);
             v69 = v7->field_4[0].field_4;
             v70 = v7->field_4[0].field_2 + v68;
             swprintf(tmpBuff_67BD9C, asc_62017C);
@@ -1733,7 +1733,7 @@ LABEL_92:
         if (this->field_114)
         {
             /*
-            v78 = laughing_blackwell_0x1EB54::sub_5D8990((__int16 *)this->field_C9B8, this->field_11C);
+            v78 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)this->field_C9B8, this->field_11C);
             v91 = (int)asc_62017C;
             v79 = v7->field_518[4].field_2 + v78;
             v80 = v7->field_518[4].field_4;
@@ -1779,9 +1779,9 @@ void laughing_blackwell_0x1EB54::sub_4B8650()
 }
 
 // nomatch
-char laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
+char_type laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
 {
-    char *v0; // eax
+    char_type *v0; // eax
     long v1; // eax
     _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
 
@@ -1794,14 +1794,14 @@ char laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
 }
 
 // stub
-char * laughing_blackwell_0x1EB54::pre_intro_bik_4B5F20()
+char_type * laughing_blackwell_0x1EB54::pre_intro_bik_4B5F20()
 {
     // todo
     return "";
 }
 
 // stub
-const char* laughing_blackwell_0x1EB54::intro_bik_4B5E50()
+const char_type* laughing_blackwell_0x1EB54::intro_bik_4B5E50()
 {
     // todo
     return "meh.dat";
@@ -1828,7 +1828,7 @@ bool laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0()
 
 void sub_SetGamma()
 {
-    const int gammaVal = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
+    const s32 gammaVal = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
     if (counter_706C4C)
     {
         if (SetGamma_5D9910(gammaVal))
@@ -1982,11 +1982,11 @@ void laughing_blackwell_0x1EB54::sub_4B6780()
 // stub
 void laughing_blackwell_0x1EB54::sub_4B7A10()
 {
-    char v2; // cl
-    char *field_8_keys; // eax
-    int v4; // edx
-    int v5; // eax
-    int v6; // eax
+    char_type v2; // cl
+    char_type *field_8_keys; // eax
+    s32 v4; // edx
+    s32 v5; // eax
+    s32 v6; // eax
 
     timeGetTime();
     sub_4AFEB0();
@@ -2021,7 +2021,7 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
         {
             while (++this->field_1EB38 != 600)
             {
-                v6 = ((unsigned __int16)this->field_EE0E_unk.field_2[(unsigned __int16)this->field_1EB38].field_4 << 14)
+                v6 = ((u16)this->field_EE0E_unk.field_2[(u16)this->field_1EB38].field_4 << 14)
                     + this->field_1EB34;
                 this->field_1EB34 = v6;
                 if (v6 > -327680)
@@ -2039,24 +2039,24 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
 {
     loving_borg_0xBCA *pBorg; // ebx
     dreamy_clarke_0xA4 *v3; // ebp
-    unsigned __int16 v4; // ax
-    unsigned __int8 v5; // bl
-    char v6; // al
-    unsigned __int8 v7; // bl
-    unsigned __int8 v8; // di
-    unsigned __int8 v9; // bl
-    unsigned __int16 field_BC6_nifty_idx; // cx
+    u16 v4; // ax
+    u8 v5; // bl
+    char_type v6; // al
+    u8 v7; // bl
+    u8 v8; // di
+    u8 v9; // bl
+    u16 field_BC6_nifty_idx; // cx
     nifty_maxwell_0x82 *v11; // edi
     bool v12; // bl
-    int v13; // eax
-    unsigned __int16 v14; // cx
+    s32 v13; // eax
+    u16 v14; // cx
     nifty_maxwell_0x82 *v15; // edi
     bool v16; // bl
     bool v17; // al
     loving_borg_0xBCA *v18; // [esp+10h] [ebp-Ch]
-    unsigned __int8 v19; // [esp+14h] [ebp-8h]
-    int v20; // [esp+18h] [ebp-4h]
-    unsigned __int8 i; // [esp+18h] [ebp-4h]
+    u8 v19; // [esp+14h] [ebp-8h]
+    s32 v20; // [esp+18h] [ebp-4h]
+    u8 i; // [esp+18h] [ebp-4h]
 
     pBorg = &this->field_136[this->field_132_f136_idx];
     v18 = pBorg;
@@ -2107,7 +2107,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     goto LABEL_10;
                 }
 
-                if (v7 >= (unsigned int)this->field_1EB50_idx)
+                if (v7 >= (u32)this->field_1EB50_idx)
                 {
                     FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
                 }
@@ -2353,8 +2353,8 @@ void laughing_blackwell_0x1EB54::sub_4B2F60()
 // nomatch
 void laughing_blackwell_0x1EB54::sub_4AE9A0()
 {
-    __int16 v2; // ax
-    int v3; // eax
+    s16 v2; // ax
+    s32 v3; // eax
 
     if (this->field_C9D0)
     {
@@ -2450,7 +2450,7 @@ MATCH_FUNC(0x4B43E0)
 dreamy_clarke_0xA4* laughing_blackwell_0x1EB54::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
-    unsigned short idx = gLucid_hamilton_67E8E0.sub_4C59B0();
+    u16 idx = gLucid_hamilton_67E8E0.sub_4C59B0();
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx];
 }
 
@@ -2463,7 +2463,7 @@ void laughing_blackwell_0x1EB54::sub_4B42E0()
 MATCH_FUNC(0x4B4230)
 void laughing_blackwell_0x1EB54::sub_4B4230()
 {
-    unsigned __int16 count = field_136[1].field_4[0].field_6E_count;
+    u16 count = field_136[1].field_4[0].field_6E_count;
     wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_str;
     wcsncpy(pStr, field_C9A0, 9u);
     HandleCheatCode_4B3DD0(pStr);
@@ -2491,7 +2491,7 @@ void laughing_blackwell_0x1EB54::sub_4B8530()
     short total = field_C9CA;
     if (total < 9)
     {
-        int remainder = 9 - total;
+        s32 remainder = 9 - total;
         //remainder &= 0xFFFF;
         wchar_t* pStart = &field_C9B8[total];
         while (remainder)
@@ -2542,7 +2542,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
 void laughing_blackwell_0x1EB54::sub_4B8020()
 {
     dreamy_clarke_0xA4* pClarke = sub_4B43E0();
-    unsigned __int8 idx = gLucid_hamilton_67E8E0.sub_4C5980();
+    u8 idx = gLucid_hamilton_67E8E0.sub_4C5980();
 
     if (sub_4B7FB0())
     {
@@ -2555,7 +2555,7 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
     else
     {
         // note: reg swap + push swap due to redundant local
-        unsigned __int8 i = 3;
+        u8 i = 3;
         while (
             !pClarke->field_0[idx][i].field_0 || 
             i >= field_1EB51_blocks[idx])
@@ -2571,11 +2571,11 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
 }
 
 // nomatch
-char laughing_blackwell_0x1EB54::sub_4B7FB0()
+char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
 {
     dreamy_clarke_0xA4 *v2; // eax
-    unsigned __int16 v3; // bx
-    unsigned __int16 v4; // dx
+    u16 v3; // bx
+    u16 v4; // dx
 
     v2 = sub_4B43E0();
     v3 = 0;
@@ -2599,50 +2599,50 @@ char laughing_blackwell_0x1EB54::sub_4B7FB0()
 }
 
 // stub
-void laughing_blackwell_0x1EB54::sub_4B4D00(unsigned __int8 mainBlockIdx, unsigned __int8 bonusBlockIdx)
+void laughing_blackwell_0x1EB54::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     // todo
 }
 
 // stub
-void laughing_blackwell_0x1EB54::sub_4ADF50() // int bQuit ??
+void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
 {
     // todo
 
     /*
     wchar_t *pLoading; // eax
-    unsigned __int16 v4; // di
-    __int16 v5; // esp^2
+    u16 v4; // di
+    s16 v5; // esp^2
     laughing_blackwell_0x1EB54 *v6; // eax
-    int v7; // ecx
-    int v8; // ecx
+    s32 v7; // ecx
+    s32 v8; // ecx
     wchar_t *pLoading2; // eax
-    __int16 v11; // esp^2
+    s16 v11; // esp^2
     laughing_blackwell_0x1EB54 *v12; // ecx
-    char v13; // al
-    int v14; // eax
-    int v15; // ecx
+    char_type v13; // al
+    s32 v14; // eax
+    s32 v15; // ecx
     wchar_t *v16; // eax
     bool v17; // zf
-    int *v18; // eax
-    int v19; // ecx
+    s32 *v18; // eax
+    s32 v19; // ecx
     wchar_t *v20; // eax
-    int v21; // edx
+    s32 v21; // edx
     laughing_blackwell_0x1EB54 *v22; // ecx
-    int v23; // ecx
+    s32 v23; // ecx
     wchar_t *v24; // eax
     laughing_blackwell_0x1EB54 *v25; // ecx
-    int *v26; // eax
-    int v27; // ecx
+    s32 *v26; // eax
+    s32 v27; // ecx
     wchar_t *pNo; // eax
-    int v29; // esi
-    int field_110_state; // edx
-    int fp_v4; // [esp-18h] [ebp-18h] BYREF
-    int fp_300; // [esp-14h] [ebp-14h] BYREF
+    s32 v29; // esi
+    s32 field_110_state; // edx
+    s32 fp_v4; // [esp-18h] [ebp-18h] BYREF
+    s32 fp_300; // [esp-14h] [ebp-14h] BYREF
     laughing_blackwell_0x1EB54 *fp_320; // [esp-10h] [ebp-10h] BYREF
-    int flags; // [esp-Ch] [ebp-Ch]
-    int v35; // [esp-8h] [ebp-8h] BYREF
-    int v36; // [esp-4h] [ebp-4h]
+    s32 flags; // [esp-Ch] [ebp-Ch]
+    s32 v35; // [esp-8h] [ebp-8h] BYREF
+    s32 v36; // [esp-4h] [ebp-4h]
     */
 
     field_110_state = this->field_110_state;
@@ -2830,7 +2830,7 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
         || field_EE08 == Credits_17)
     {
         sub_4B6B00(field_EE08, &tga_idx, &not_used);
-        int blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
+        s32 blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
         if (blitRet == -10)
         {
             // need to reload image
@@ -2844,7 +2844,7 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
         sub_4B6B00(field_EE08, &tga_idx, &not_used);
 
         // Left side
-        int blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
+        s32 blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
         if (blitRet == -10)
         {
             Load_tga_4B6520(tga_idx);
@@ -2866,7 +2866,7 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
 }
 
 MATCH_FUNC(0x4B6B00)
-void laughing_blackwell_0x1EB54::sub_4B6B00(unsigned __int8 a1, BYTE *pTgaIdx, BYTE *a3)
+void laughing_blackwell_0x1EB54::sub_4B6B00(u8 a1, BYTE *pTgaIdx, BYTE *a3)
 {
     switch (a1)
     {
@@ -2966,7 +2966,7 @@ void laughing_blackwell_0x1EB54::sub_4B6B00(unsigned __int8 a1, BYTE *pTgaIdx, B
 }
 
 MATCH_FUNC(0x4B6520)
-void laughing_blackwell_0x1EB54::Load_tga_4B6520(unsigned __int16 idx)
+void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
 
@@ -3125,7 +3125,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
 
     // todo: fix me
     /*
-    for (int i = 0; i < 8; i++)
+    for (s32 i = 0; i < 8; i++)
     {
 
     }
@@ -3136,7 +3136,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     {
         *((_BYTE *)v11 - 8) = -1;
         *(_BYTE *)v11 = -1;
-        v11 = (__int16 *)((char *)v11 + 1);
+        v11 = (s16 *)((char_type *)v11 + 1);
         --v12;
     } while (v12);
     */
@@ -3204,7 +3204,7 @@ void laughing_blackwell_0x1EB54::FreeImageTable_4B6750()
 }
 
 MATCH_FUNC(0x4AFDD0)
-char laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
+char_type laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = this->field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
     if (FAILED(hr))
@@ -3257,11 +3257,11 @@ void laughing_blackwell_0x1EB54::sub_4AF0E0()
 // nomatch
 void laughing_blackwell_0x1EB54::sub_4B0220()
 {
-    __int16 v30; // ax
+    s16 v30; // ax
 
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
 
-    int v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+    s32 v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
     this->field_134 = 16;
  
     this->field_136[0].field_0 = 3; 
@@ -3297,7 +3297,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[1].field_4[0].field_70 = 0;
     this->field_136[1].field_4[0].field_7E = 7;
     
-    unsigned short v77 = 0;
+    u16 v77 = 0;
     do
     {
         this->field_136[1].field_4[0].field_72[v77++] = 1;
@@ -3547,7 +3547,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[5].field_4[0].field_70 = 0;
     this->field_136[5].field_4[0].field_7E = 11;
 
-    unsigned short v323 = 0;
+    u16 v323 = 0;
     do
     {
         this->field_136[5].field_4[0].field_72[v323++] = 1;
@@ -3594,7 +3594,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[6].field_518[2].field_0 = 1;
     this->field_136[6].field_518[2].field_2 = 400;
     this->field_136[6].field_518[2].field_4 = 250;
-    __int16 v38 = this->field_120;
+    s16 v38 = this->field_120;
     this->field_136[6].field_4[0].field_0 = 1;
     this->field_136[6].field_518[2].field_6A = v38;
     this->field_136[6].field_4[0].field_4 = 340;
@@ -3770,8 +3770,8 @@ void laughing_blackwell_0x1EB54::sub_4B4440()
 // nomatch
 void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
 {
-    char FileName[256];
-    for (unsigned int i = 0; i < 8; i++)
+    char_type FileName[256];
+    for (u32 i = 0; i < 8; i++)
     {
         if (PlySlotSvgExists_4B5370(i))
         {
@@ -3793,7 +3793,7 @@ void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
 {
     if (gbh_InitImageTable(gTableSize_61FF20) != -1)
     {
-        for (unsigned short i = 0; i < gTableSize_61FF20; ++i)
+        for (u16 i = 0; i < gTableSize_61FF20; ++i)
         {
             Load_tga_4B6520(i);
         }
@@ -3801,9 +3801,9 @@ void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
 }
 
 MATCH_FUNC(0x4B51D0)
-void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(unsigned __int8 idx, char *pStr)
+void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type *pStr)
 {
-    char Buffer[8];
+    char_type Buffer[8];
     _itoa(idx, Buffer, 10);
     strcpy(pStr, "player\\plyslot");
     strcat(pStr, Buffer);
@@ -3811,9 +3811,9 @@ void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(unsigned __int8 idx, c
 }
 
 MATCH_FUNC(0x4B5370)
-char laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(int idx)
+char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 {
-    char FileName[256];
+    char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
     
     _finddata_t findData;
@@ -3847,22 +3847,22 @@ void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE *a1)
 }
 
 // nomatch
-int laughing_blackwell_0x1EB54::sub_5D8990(wchar_t *pStr, WORD a2)
+s32 laughing_blackwell_0x1EB54::sub_5D8990(wchar_t *pStr, u16 a2)
 {
     wchar_t *pStrIter = pStr;
-    int current = 0;
-    int spaceSize = gGtx_0x106C_703DD4->space_width_5AA7B0(&a2);
-    int biggestLine = 0;
+    s32 current = 0;
+    s32 spaceSize = gGtx_0x106C_703DD4->space_width_5AA7B0(&a2);
+    s32 biggestLine = 0;
     if (*pStr)
     {
         do
         {
-            __int16 str_char = *pStrIter;
+            s16 str_char_type = *pStrIter;
             if (*pStrIter == ' ')
             {
                 current += spaceSize;
             }
-            else if (str_char == '\n')
+            else if (str_char_type == '\n')
             {
                 if (current > biggestLine)
                 {
@@ -3870,7 +3870,7 @@ int laughing_blackwell_0x1EB54::sub_5D8990(wchar_t *pStr, WORD a2)
                 }
                 current = 0;
             }
-            else if (str_char != '#')
+            else if (str_char_type != '#')
             {
                 current += gGtx_0x106C_703DD4->sub_5AA760(&a2, pStrIter);
             }
@@ -3886,29 +3886,29 @@ int laughing_blackwell_0x1EB54::sub_5D8990(wchar_t *pStr, WORD a2)
 }
 
 // stub
-int laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, __int16 a3, int a4)
+s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, s16 a3, s32 a4)
 {
     // todo
     /*
-    int v4; // eax
-    int v5; // ecx
+    s32 v4; // eax
+    s32 v5; // ecx
 
     if (a3 == -1)
-        v4 = sub_5D8990((__int16 *)a2, this->field_11C);
+        v4 = sub_5D8990((s16 *)a2, this->field_11C);
     else
-        v4 = sub_5D8990((__int16 *)a2, a3);
+        v4 = sub_5D8990((s16 *)a2, a3);
     HIWORD(v5) = HIWORD(v4);
-    LOWORD(v5) = (unsigned __int16)v4 >> 1;
+    LOWORD(v5) = (u16)v4 >> 1;
     return a4 - v5;
     */
     return 0;
 }
 
 // nomatch
-unsigned __int8 laughing_blackwell_0x1EB54::sub_4B7060(unsigned __int8 a2)
+u8 laughing_blackwell_0x1EB54::sub_4B7060(u8 a2)
 {
     dreamy_clarke_0xA4 *v2; // edx
-    unsigned __int8 result; // al
+    u8 result; // al
 
     v2 = sub_4B43E0();
     result = a2;
@@ -3932,10 +3932,10 @@ unsigned __int8 laughing_blackwell_0x1EB54::sub_4B7060(unsigned __int8 a2)
 }
 
 // nomatch
-unsigned __int8 laughing_blackwell_0x1EB54::sub_4B7270(char a2)
+u8 laughing_blackwell_0x1EB54::sub_4B7270(char_type a2)
 {
     dreamy_clarke_0xA4 *v2; // esi
-    unsigned __int8 result; // al
+    u8 result; // al
 
     v2 = sub_4B43E0();
     if (a2 == 2)
@@ -3970,14 +3970,14 @@ unsigned __int8 laughing_blackwell_0x1EB54::sub_4B7270(char a2)
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B7490()
 {
-    unsigned __int8  v2 = gLucid_hamilton_67E8E0.sub_4C5980();
+    u8  v2 = gLucid_hamilton_67E8E0.sub_4C5980();
     return sub_4B7060(v2) != v2;
 }
 
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B74C0()
 {
-    char v2 = gLucid_hamilton_67E8E0.sub_4C5980();
+    char_type v2 = gLucid_hamilton_67E8E0.sub_4C5980();
     return sub_4B7270(v2) != v2;
 }
 
@@ -3985,7 +3985,7 @@ bool laughing_blackwell_0x1EB54::sub_4B74C0()
 void laughing_blackwell_0x1EB54::sub_4B7550()
 {
     loving_borg_0xBCA *pBorg; // edi
-    unsigned __int8 v3; // [esp+Ch] [ebp-4h]
+    u8 v3; // [esp+Ch] [ebp-4h]
 
     pBorg = &this->field_136[this->field_132_f136_idx];
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4018,8 +4018,8 @@ void laughing_blackwell_0x1EB54::sub_4B7550()
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B6FF0()
 {
-    unsigned __int8  v3 = gLucid_hamilton_67E8E0.sub_4C5980();
-    unsigned __int8  a2 = sub_4B7060(v3);
+    u8  v3 = gLucid_hamilton_67E8E0.sub_4C5980();
+    u8  a2 = sub_4B7060(v3);
     gLucid_hamilton_67E8E0.sub_4C58F0(a2);
     field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
     sub_4B7550();
@@ -4029,17 +4029,17 @@ bool laughing_blackwell_0x1EB54::sub_4B6FF0()
 // nomatch
 void laughing_blackwell_0x1EB54::sub_4B42B0()
 {
-    int v1; // eax
+    s32 v1; // eax
     wchar_t *v2; // edi
-    unsigned int v3; // ecx
+    u32 v3; // ecx
     wchar_t *v4; // edi
-    int i; // ecx
+    s32 i; // ecx
 
     if ((unsigned __int8)this->field_C9B2 < 9u)
     {
         v1 = (unsigned __int8)this->field_C9B2;
         v2 = &this->field_C9A0[v1];
-        v3 = (unsigned int)(9 - v1) >> 1;
+        v3 = (u32)(9 - v1) >> 1;
         memset(v2, 0, 4 * v3);
         v4 = &v2[2 * v3];
         for (i = (9 - (BYTE)v1) & 1; i; --i)
@@ -4050,7 +4050,7 @@ void laughing_blackwell_0x1EB54::sub_4B42B0()
 }
 
 // stub
-char laughing_blackwell_0x1EB54::sub_4B7120(char a2)
+char_type laughing_blackwell_0x1EB54::sub_4B7120(char_type a2)
 {
     // todo
     return 0;
@@ -4060,9 +4060,9 @@ char laughing_blackwell_0x1EB54::sub_4B7120(char a2)
 void laughing_blackwell_0x1EB54::sub_4B7610()
 {
     loving_borg_0xBCA *pItem; // esi
-    unsigned __int8 v3; // al
-    unsigned __int8 v4; // [esp+8h] [ebp-8h]
-    unsigned __int8 v5; // [esp+Ch] [ebp-4h]
+    u8 v3; // al
+    u8 v4; // [esp+8h] [ebp-8h]
+    u8 v5; // [esp+Ch] [ebp-4h]
 
     pItem = &this->field_136[this->field_132_f136_idx];
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4115,8 +4115,8 @@ void laughing_blackwell_0x1EB54::sub_4B7610()
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B70B0()
 {
-    char v3; // [esp+Bh] [ebp-5h]
-    char a2; // [esp+Ch] [ebp-4h]
+    char_type v3; // [esp+Bh] [ebp-5h]
+    char_type a2; // [esp+Ch] [ebp-4h]
 
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7120(v3);
@@ -4129,14 +4129,14 @@ bool laughing_blackwell_0x1EB54::sub_4B70B0()
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B74F0()
 {
-    char v2; // bl
+    char_type v2; // bl
 
     v2 = gLucid_hamilton_67E8E0.sub_4C5990();
     return sub_4B7120(v2) != v2;
 }
 
 // stub
-char laughing_blackwell_0x1EB54::sub_4B7360(char a2)
+char_type laughing_blackwell_0x1EB54::sub_4B7360(char_type a2)
 {
     // todo
     return 0;
@@ -4145,7 +4145,7 @@ char laughing_blackwell_0x1EB54::sub_4B7360(char a2)
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B7520()
 {
-    char v2; // bl
+    char_type v2; // bl
 
     v2 = gLucid_hamilton_67E8E0.sub_4C5990();
     return sub_4B7360(v2) != v2;
@@ -4154,8 +4154,8 @@ bool laughing_blackwell_0x1EB54::sub_4B7520()
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B72F0()
 {
-    char v3; // [esp+Bh] [ebp-5h]
-    char a2; // [esp+Ch] [ebp-4h]
+    char_type v3; // [esp+Bh] [ebp-5h]
+    char_type a2; // [esp+Ch] [ebp-4h]
 
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7360(v3);
@@ -4168,8 +4168,8 @@ bool laughing_blackwell_0x1EB54::sub_4B72F0()
 // nomatch
 bool laughing_blackwell_0x1EB54::sub_4B7200()
 {
-    char v3; // [esp+Bh] [ebp-5h]
-    unsigned __int8 a2; // [esp+Ch] [ebp-4h]
+    char_type v3; // [esp+Bh] [ebp-5h]
+    u8 a2; // [esp+Ch] [ebp-4h]
 
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     a2 = sub_4B7270(v3);
@@ -4206,7 +4206,7 @@ loving_borg_0xBCA::~loving_borg_0xBCA()
 // nomatch
 bool loving_borg_0xBCA::sub_4B61B0()
 {
-    unsigned __int16 oldIdx = field_BC6_nifty_idx;
+    u16 oldIdx = field_BC6_nifty_idx;
     do
     {
         if (!field_BC6_nifty_idx)
@@ -4224,7 +4224,7 @@ bool loving_borg_0xBCA::sub_4B61B0()
 // nomatch
 bool loving_borg_0xBCA::sub_4B6200()
 {
-    unsigned __int16 oldIdx = field_BC6_nifty_idx;
+    u16 oldIdx = field_BC6_nifty_idx;
     do
     {
         if (field_BC6_nifty_idx == field_0 - 1)
@@ -4300,9 +4300,9 @@ nifty_maxwell_0x82::~nifty_maxwell_0x82()
 bool nifty_maxwell_0x82::sub_4B6330()
 {
     BYTE tmp = byte_67DA80;
-    unsigned __int16 old_count = field_6E_count;
-    unsigned __int16 new_count = old_count;
-    char bFound = 0;
+    u16 old_count = field_6E_count;
+    u16 new_count = old_count;
+    char_type bFound = 0;
     do
     {
         new_count++;
@@ -4333,9 +4333,9 @@ bool nifty_maxwell_0x82::sub_4B6330()
 // nomatch
 bool nifty_maxwell_0x82::sub_4B6390()
 {
-    unsigned __int16 oldCount = this->field_6E_count;
-    unsigned __int16 new_count = oldCount;
-    char bFound = 0;
+    u16 oldCount = this->field_6E_count;
+    u16 new_count = oldCount;
+    char_type bFound = 0;
     do
     {
        
@@ -4426,12 +4426,12 @@ admiring_euler_4::~admiring_euler_4()
 }
 
 MATCH_FUNC(0x4B6480)
-void admiring_euler_4::LoadPlySlotSvg_4B6480(const char *FileName)
+void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type *FileName)
 {
     File::Global_Open_4A7060(FileName);
 
     svg_stru svg;
-    unsigned int len = sizeof(svg_stru);
+    u32 len = sizeof(svg_stru);
     File::Global_Read_4A71C0(&svg, &len);
 
     File::Global_Close_4A70C0();
@@ -4444,14 +4444,14 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char *FileName)
 
 struct Vert
 {
-    float field_0_x;
-    float field_4_y;
-    float field_8_z;
-    float field_C_w;
-    int field_10_diff;
-    int field_14_spec;
-    float field_18_u;
-    float field_1C_v;
+    f32 field_0_x;
+    f32 field_4_y;
+    f32 field_8_z;
+    f32 field_C_w;
+    s32 field_10_diff;
+    s32 field_14_spec;
+    f32 field_18_u;
+    f32 field_1C_v;
 };
 
 struct QuadVerts
@@ -4460,11 +4460,11 @@ struct QuadVerts
 };
 QuadVerts gQuadVerts_706B88;
 
-extern DWORD gLightingDrawFlag_7068F4;
+extern u32 gLightingDrawFlag_7068F4;
 
-int __stdcall CalcQuadFlags_5D83E0(int mode, unsigned __int8 a2)
+s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
-    int result; // eax
+    s32 result; // eax
 
     if (mode)
     {
@@ -4504,37 +4504,37 @@ void __stdcall DrawText_5D8A10(
     const wchar_t *pText,
     Fix16 xpos_fp,
     Fix16 ypos_fp,
-    WORD spaceWidth,
+    u16 spaceWidth,
     Fix16 fp4,
-    int *pUnknown,
-    int a7,
-    int mode,
-    int a9)
+    s32 *pUnknown,
+    s32 a7,
+    s32 mode,
+    s32 a9)
 {
-    int new_Flags = CalcQuadFlags_5D83E0(mode, a9) | 0x20000;
-    int drawFlags = new_Flags;
+    s32 new_Flags = CalcQuadFlags_5D83E0(mode, a9) | 0x20000;
+    s32 drawFlags = new_Flags;
     const wchar_t *pTextIter = pText;
 
     Fix16 cur_xpos = xpos_fp; // note: new var
-    unsigned __int16 calcSpaceWidth = gGtx_0x106C_703DD4->space_width_5AA7B0(&spaceWidth);
+    u16 calcSpaceWidth = gGtx_0x106C_703DD4->space_width_5AA7B0(&spaceWidth);
     Fix16 v11 = fp4;
 
     Fix16 space_amount;
     space_amount.mValue = fp4.mValue * calcSpaceWidth;
 
     Fix16 lineHeight;
-    lineHeight.mValue = v11.mValue * (unsigned __int16)gGtx_0x106C_703DD4->sub_5AA800(&spaceWidth);
+    lineHeight.mValue = v11.mValue * (u16)gGtx_0x106C_703DD4->sub_5AA800(&spaceWidth);
   //  pTmpIter = (WORD *)*pUnknown;
     mode = a7;
 
-    int kind = *pUnknown;
+    s32 kind = *pUnknown;
     if (v11.mValue == dword_706A6C.mValue)
     {
         drawFlags = new_Flags | 0x10000;
     }
 
-    int v15 = spaceWidth;
-    if ((unsigned __int16)spaceWidth >= 101u)
+    s32 v15 = spaceWidth;
+    if ((u16)spaceWidth >= 101u)
     {
         if (kind == 8)
         {
@@ -4567,12 +4567,12 @@ void __stdcall DrawText_5D8A10(
         }
         else if ((WORD)text_char == '#')
         {
-            int v18;
+            s32 v18;
             if (kind == *pUnknown && (WORD)mode == (WORD)a7)
             {
                 kind = 8;
                 /*
-                v17 = -((unsigned __int16)v15 < 0x65u);
+                v17 = -((u16)v15 < 0x65u);
                 // LOBYTE(v17) =
                 v17 = v17 & 0xFB;
                 v18 = v17 + 5;
@@ -4586,7 +4586,7 @@ void __stdcall DrawText_5D8A10(
             }
             mode = v18;
 
-            if ((unsigned __int16)v15 >= 101u)
+            if ((u16)v15 >= 101u)
             {
                 if (kind == 8)
                 {
@@ -4603,20 +4603,20 @@ void __stdcall DrawText_5D8A10(
         {
             sprite_index* pSprIdx;
             STexture* pTextureToUse;
-            if ((unsigned __int16)v15 < 0x65u || (unsigned __int16)v15 > 107u)
+            if ((u16)v15 < 0x65u || (u16)v15 > 107u)
             {
-                if ((unsigned __int16)v15 < 0xC9u || (unsigned __int16)v15 > 203u)
+                if ((u16)v15 < 0xC9u || (u16)v15 > 203u)
                 {
                     // LOWORD(sprite_pal) =
-                    unsigned __int16 sprite_pal = gGtx_0x106C_703DD4->sub_5AA710(v15, (WORD)text_char - 33);
-                    unsigned __int16 sprt_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, sprite_pal);
+                    u16 sprite_pal = gGtx_0x106C_703DD4->sub_5AA710(v15, (WORD)text_char - 33);
+                    u16 sprt_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, sprite_pal);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
                     pTextureToUse = gSharp_pare_0x15D8_705064->sub_5B94F0(7, sprite_pal, kind, mode);
                 }
                 else
                 {
                     pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0((unsigned int *)text_char);
+                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0((u32 *)text_char);
                 }
             }
             else
@@ -4642,19 +4642,19 @@ void __stdcall DrawText_5D8A10(
 
             gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.000099999997;
             gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.000099999997;
-            int v28 = sprite_xoff.mValue + cur_xpos.mValue;
+            s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
             gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.000099999997;
             gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
 
-            gQuadVerts_706B88.field_0_verts[0].field_0_x = (double)cur_xpos.mValue * 0.000061035156;
-            gQuadVerts_706B88.field_0_verts[0].field_4_y = (double)ypos_fp.mValue * 0.000061035156;
+            gQuadVerts_706B88.field_0_verts[0].field_0_x = (f64)cur_xpos.mValue * 0.000061035156;
+            gQuadVerts_706B88.field_0_verts[0].field_4_y = (f64)ypos_fp.mValue * 0.000061035156;
 
-            float v_1_2_x = (double)(sprite_xoff.mValue + cur_xpos.mValue) * 0.000061035156;
+            f32 v_1_2_x = (f64)(sprite_xoff.mValue + cur_xpos.mValue) * 0.000061035156;
             gQuadVerts_706B88.field_0_verts[1].field_0_x = v_1_2_x;
             gQuadVerts_706B88.field_0_verts[1].field_4_y = gQuadVerts_706B88.field_0_verts[0].field_4_y;
             gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
 
-            float v2_3_y = (double)(ypos_fp.mValue + sprite_yoff.mValue) * 0.000061035156;
+            f32 v2_3_y = (f64)(ypos_fp.mValue + sprite_yoff.mValue) * 0.000061035156;
             gQuadVerts_706B88.field_0_verts[2].field_4_y = v2_3_y;
             gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
             gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
@@ -4664,17 +4664,17 @@ void __stdcall DrawText_5D8A10(
             gQuadVerts_706B88.field_0_verts[1].field_1C_v = 0.0;
             gQuadVerts_706B88.field_0_verts[3].field_18_u = 0.0;
 
-            float v1_u = (((double)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
-            gQuadVerts_706B88.field_0_verts[1].field_18_u = (double)v1_u * 0.000061035156;
+            f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
+            gQuadVerts_706B88.field_0_verts[1].field_18_u = (f64)v1_u * 0.000061035156;
             gQuadVerts_706B88.field_0_verts[2].field_18_u = gQuadVerts_706B88.field_0_verts[1].field_18_u;
 
-            float v2_v = (((double)pSprIdx->field_5_height - 0.000099999997) * 16384.0);
-            gQuadVerts_706B88.field_0_verts[2].field_1C_v = (double)v2_v * 0.000061035156;
+            f32 v2_v = (((f64)pSprIdx->field_5_height - 0.000099999997) * 16384.0);
+            gQuadVerts_706B88.field_0_verts[2].field_1C_v = (f64)v2_v * 0.000061035156;
             gQuadVerts_706B88.field_0_verts[3].field_1C_v = gQuadVerts_706B88.field_0_verts[2].field_1C_v;
 
             gbh_DrawQuad(drawFlags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 
-            //v15 = (__int16)retaddr;
+            //v15 = (s16)retaddr;
             space_amount = kind;
             v11 = v2_v;
             fp4 = v28;
@@ -4686,9 +4686,9 @@ void __stdcall DrawText_5D8A10(
 }
 
 MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, __int16 spaceWidth, Fix16 fp4)
+void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
 {
-    int local; // [esp+0h] [ebp-4h] BYREF
+    s32 local; // [esp+0h] [ebp-4h] BYREF
 
     local = 2;
     DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, spaceWidth, fp4, &local, 0, 0, 0);

@@ -5,13 +5,13 @@
 
 sharp_pare_0x15D8 *gSharp_pare_0x15D8_705064;
 
-DWORD dword_704ED0;
-DWORD dword_704F28;
+u32 dword_704ED0;
+u32 dword_704F28;
 
 // nomatch 0x5B9790
 sharp_pare_0x15D8::sharp_pare_0x15D8()
 {
-    int v2; // ecx
+    s32 v2; // ecx
     optimistic_moser *v3; // eax
 
     v2 = 96;
@@ -81,11 +81,11 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {
     STexture * *pIter1; // esi
-    int k1024Counter; // ebp
+    s32 k1024Counter; // ebp
     STexture **pIter2; // esi
-    int k48Counter; // ebp
+    s32 k48Counter; // ebp
     STexture **pIter3; // esi
-    int k96Counter; // ebp
+    s32 k96Counter; // ebp
 
     if (this->field_1001_bFreeTextures1)
     {
@@ -184,7 +184,7 @@ void sharp_pare_0x15D8::sub_5B9350()
 MATCH_FUNC(0x5B9140)
 void sharp_pare_0x15D8::FreePals_5B9140()
 {
-    for (unsigned __int16 i = 0; i < field_15D6_pal_count; ++i)
+    for (u16 i = 0; i < field_15D6_pal_count; ++i)
     {
         gbh_FreePalette(i);
     }
@@ -196,7 +196,7 @@ void sharp_pare_0x15D8::LoadPals_5B90F0()
 {
     field_15D6_pal_count = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
 
-    for (unsigned __int16 palId = 0; palId < field_15D6_pal_count; palId++)
+    for (u16 palId = 0; palId < field_15D6_pal_count; palId++)
     {
         gbh_RegisterPalette(palId, gGtx_0x106C_703DD4->GetPalData_5AA6A0(palId));
     }
@@ -212,11 +212,11 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     // todo
-    unsigned __int16 width_height; // bp
-    __int16 v3; // ax
-    __int16 v4; // ax
-    unsigned int idx; // esi
-    int pal_idx; // edi
+    u16 width_height; // bp
+    s16 v3; // ax
+    s16 v4; // ax
+    u32 idx; // esi
+    s32 pal_idx; // edi
 
     width_height = 64;
     if (gGtx_0x106C_703DD4->sub_5AA4F0(2))
@@ -226,7 +226,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
         v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
         v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
         idx = 0;
-        pal_idx = (unsigned __int16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
+        pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
         do
         {
             if (idx == 32)
@@ -237,7 +237,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
             this->field_1004_textures2[idx] = gbh_RegisterTexture(
                 width_height,
                 width_height,
-                gKind_khorana_0x3CC_67AF1C->field_0[(unsigned __int16)idx].field_0_pTexturePixelData,
+                gKind_khorana_0x3CC_67AF1C->field_0[(u16)idx].field_0_pTexturePixelData,
                 pal_idx,
                 0);
             ++idx;
@@ -247,7 +247,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::sub_5B94F0(int type, int pal, int kind, int a5)
+STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
 {
     STexture *result;
 
@@ -286,7 +286,7 @@ void festive_hopper::Free_5B9050()
 {
     if (field_10_bDoFree && field_0_pAlloc)
     {
-        for (unsigned short i = 0; i < field_4_item_alloc_count; ++i)
+        for (u16 i = 0; i < field_4_item_alloc_count; ++i)
         {
             gbh_FreeTexture(field_0_pAlloc[i]);
         }
@@ -297,7 +297,7 @@ void festive_hopper::Free_5B9050()
 }
 
 // nomatch
-void festive_hopper::Alloc_5B8E90(__int16 a2, __int16 a3, int a4, int a5)
+void festive_hopper::Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5)
 {
     if (!this->field_0_pAlloc)
     {
@@ -308,9 +308,9 @@ void festive_hopper::Alloc_5B8E90(__int16 a2, __int16 a3, int a4, int a5)
             this->field_10_bDoFree = 1;
             this->field_8_pal_type = a4;
             this->field_C_pal_type = a5;
-            this->field_0_pAlloc = (STexture**)malloc(sizeof(STexture*) * (unsigned __int16)(a3 * a2));
+            this->field_0_pAlloc = (STexture**)malloc(sizeof(STexture*) * (u16)(a3 * a2));
             
-            unsigned int i = 0;
+            u32 i = 0;
             while  (i < this->field_4_item_alloc_count)
             {
                 this->field_0_pAlloc[i++] = 0;
@@ -324,18 +324,18 @@ void festive_hopper::sub_5B8F70()
 {
     if (field_10_bDoFree)
     {
-        const unsigned int palTotal = field_4_item_alloc_count / field_6_count;
-        for (unsigned int pal_idx = 0; pal_idx < palTotal; pal_idx++)
+        const u32 palTotal = field_4_item_alloc_count / field_6_count;
+        for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
         {
-            const unsigned __int16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_8_pal_type, pal_idx);
+            const u16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_8_pal_type, pal_idx);
             sprite_index * pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal_sprite_pal);
 
             dword_704ED0++;
 
-            for (unsigned int texture_idx = 0; texture_idx < field_6_count; texture_idx++)
+            for (u32 texture_idx = 0; texture_idx < field_6_count; texture_idx++)
             {
-                const __int16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
-                const unsigned __int16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
+                const s16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
+                const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
                 field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] = gbh_RegisterTexture(
                     pSpriteIndex->field_4_width,
                     pSpriteIndex->field_5_height,
@@ -354,10 +354,10 @@ void festive_hopper::LoadTextures_5B8F00()
 {
     if (this->field_10_bDoFree)
     {
-        unsigned int i = 0;
+        u32 i = 0;
         sprite_index *pSpriteIndex;
-        unsigned short tmp;
-        unsigned short t2;
+        u16 tmp;
+        u16 t2;
         while (i < this->field_4_item_alloc_count)
         {
             pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
@@ -365,7 +365,7 @@ void festive_hopper::LoadTextures_5B8F00()
             t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
 
             this->field_0_pAlloc[i++] = gbh_RegisterTexture(
-                pSpriteIndex->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> int param, xor clears up 24 bits
+                pSpriteIndex->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,
                 pSpriteIndex->field_0_pData,
                 t2, // pal idx
@@ -375,13 +375,13 @@ void festive_hopper::LoadTextures_5B8F00()
 }
 
 MATCH_FUNC(0x5B90A0)
-STexture* festive_hopper::get_texture_5B90A0(int type, __int16 sprite_pal)
+STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
 {
     return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, sprite_pal)];
 }
 
 MATCH_FUNC(0x5B90D0)
-STexture* festive_hopper::sub_5B90D0(__int16 a2, __int16 a3)
+STexture* festive_hopper::sub_5B90D0(s16 a2, s16 a3)
 {
-    return field_0_pAlloc[(unsigned __int16)(a3 + (a2 * field_6_count))];
+    return field_0_pAlloc[(u16)(a3 + (a2 * field_6_count))];
 }

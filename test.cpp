@@ -149,10 +149,10 @@ void test_frosty_pasteur_0xC1EA8()
     t.Load_512330("lol.scr");
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance,
+s32 APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR     lpCmdLine,
-                     int       nCmdShow)
+                     s32       nCmdShow)
  {
     if (lpCmdLine && strstr(lpCmdLine, "billybobbins"))
     {

@@ -24,24 +24,24 @@
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
 
-int gGTA2VersionMajor_708280;
-int gGTA2VersionMajor_708284;
+s32 gGTA2VersionMajor_708280;
+s32 gGTA2VersionMajor_708284;
 
 extern HWND gHwnd_707F04;
 
-char gWorkingDir_707F64[652];
+char_type gWorkingDir_707F64[652];
 
 bool bDoFrontEnd_626B68 = true;
 
-int window_width_706630;
-int window_height_706B50;
-int full_width_706B5C;
-int full_height_706798;
+s32 window_width_706630;
+s32 window_height_706B50;
+s32 full_width_706B5C;
+s32 full_height_706798;
 
-int gWindowX_706B60;
-int gWindowY_706B64;
+s32 gWindowX_706B60;
+s32 gWindowY_706B64;
 
-int bStartNetworkGame_7081F0 = 0;
+s32 bStartNetworkGame_7081F0 = 0;
 
 BYTE byte_70827C;
 BYTE byte_706C5D;
@@ -49,25 +49,25 @@ BYTE byte_6F5B71;
 
 BYTE byte_6F4BF4;
 
-int gStartMode_626A0C = 2;
-int bTrippleBuffer_706C54;
+s32 gStartMode_626A0C = 2;
+s32 bTrippleBuffer_706C54;
 
-char byte_706C5C;
+char_type byte_706C5C;
 
-extern char gTmpBuffer_67C598[256];
+extern char_type gTmpBuffer_67C598[256];
 
-extern char bDestroyed_6F5B70;
+extern char_type bDestroyed_6F5B70;
 
-DWORD gBufferMode_706B34;
-char gRenderDllName_7067F0[256];
-char gVideoDllName_706654[256];
-int gVideodevice_70694C;
-int gRenderdevice_706998;
+u32 gBufferMode_706B34;
+char_type gRenderDllName_7067F0[256];
+char_type gVideoDllName_706654[256];
+s32 gVideodevice_70694C;
+s32 gRenderdevice_706998;
 
-WORD gDMusicVer_67BD32;
+u16 gDMusicVer_67BD32;
 
-char gLighting_626A09 = 1;
-DWORD gLightingDrawFlag_7068F4;
+char_type gLighting_626A09 = 1;
+u32 gLightingDrawFlag_7068F4;
 
 // todo move to another file for ordering
 // stub
@@ -132,7 +132,7 @@ void __stdcall HideCursor_5D94F0()
 
 // todo: move
 // stub
-char Input_InitMouse_5D7BF0()
+char_type Input_InitMouse_5D7BF0()
 {
     // todo
     return 0;
@@ -142,8 +142,8 @@ char Input_InitMouse_5D7BF0()
 // nomatch
 void __stdcall sub_5D93A0()
 {
-    char v0; // bl
-    int bcheckModeRet; // esi
+    char_type v0; // bl
+    s32 bcheckModeRet; // esi
    // SVideo *v2; // eax
     BYTE field_4_flags; // ecx
 
@@ -194,7 +194,7 @@ void __stdcall sub_5D93A0()
 
 // todo: move
 // nomatch
-char sub_5D92C0()
+char_type sub_5D92C0()
 {
     return byte_706C5C;
 }
@@ -202,7 +202,7 @@ char sub_5D92C0()
 MATCH_FUNC(0x5D9660)
 void __stdcall ShowCursor_5D9660()
 {
-    int refCount;
+    s32 refCount;
     do {
         refCount = ShowCursor(1);
     } while (refCount < 0);
@@ -210,7 +210,7 @@ void __stdcall ShowCursor_5D9660()
 
 // todo: move
 // nomatch
-char sub_5D9510()
+char_type sub_5D9510()
 {
 
     if (!sub_5D92C0())
@@ -265,14 +265,14 @@ char sub_5D9510()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8F70)
-int ReadScreenSettings_5D8F70()
+s32 ReadScreenSettings_5D8F70()
 {
-    const DWORD full_width_old = full_width_706B5C;
-    const DWORD window_width_old = window_width_706630;
-    const DWORD full_height_old = full_height_706798;
-    const int startMode_old = gStartMode_626A0C;
-    const int trippleBuffer_old = bTrippleBuffer_706C54;
-    const DWORD window_height_old = window_height_706B50;
+    const u32 full_width_old = full_width_706B5C;
+    const u32 window_width_old = window_width_706630;
+    const u32 full_height_old = full_height_706798;
+    const s32 startMode_old = gStartMode_626A0C;
+    const s32 trippleBuffer_old = bTrippleBuffer_706C54;
+    const u32 window_height_old = window_height_706B50;
 
     if (bDoFrontEnd_626B68)
     {
@@ -329,8 +329,8 @@ void __stdcall SetSavedGamma_5D98E0()
 // nomatch
 void __stdcall sub_5D92D0()
 {
-    DWORD field_4_flags; // ecx
-    DWORD v1; // ecx
+    u32 field_4_flags; // ecx
+    u32 v1; // ecx
 
     Init_FrameRateLightAndUnknown_5D8EB0();
     ReadScreenSettings_5D8F70();
@@ -373,7 +373,7 @@ void __stdcall sub_5D92D0()
 }
 
 MATCH_FUNC(0x5D9860)
-int jGBH_Graphics_Free_5D9860()
+s32 jGBH_Graphics_Free_5D9860()
 {
     return GBH_Graphics_Free_5EA640();
 }
@@ -401,10 +401,10 @@ bool Vid_FindDevice_5D9290()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D9800)
-int GetHwndDCDeviceCaps_5D9800()
+s32 GetHwndDCDeviceCaps_5D9800()
 {
     HDC hdc = GetDC(gHwnd_707F04);
-    int deviceCaps = GetDeviceCaps(hdc, BITSPIXEL);
+    s32 deviceCaps = GetDeviceCaps(hdc, BITSPIXEL);
     ReleaseDC(gHwnd_707F04, hdc);
     return deviceCaps;
 }
@@ -423,7 +423,7 @@ void __stdcall GBH_GraphicsInit_5D97C0()
 MATCH_FUNC(0x5D96C0)
 void sub_5D96C0()
 {
-    int v1 = 0;
+    s32 v1 = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))
     {
         FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
@@ -522,7 +522,7 @@ void __stdcall sub_5D9690()
 
 // todo move to another file for ordering
 // stub
-char sub_4DA850()
+char_type sub_4DA850()
 {
     // todo
     return 0;
@@ -559,9 +559,9 @@ GUID IID_IDirectDrawSurface4_ = { 0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 
 
 // todo move to another file for ordering
 // nomatch
-void __stdcall GetDirectXVersion_4C4EC0(DWORD *pDXVer, DWORD *osKind)
+void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
 {
-    DWORD dwMajorVersion; // eax
+    u32 dwMajorVersion; // eax
     HMODULE hDInput; // eax
     HMODULE hDInput_; // esi
     FARPROC pDirectInputCreateA; // ebx
@@ -577,7 +577,7 @@ void __stdcall GetDirectXVersion_4C4EC0(DWORD *pDXVer, DWORD *osKind)
     LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
     LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
     LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    int v18; // [esp+60h] [ebp-108h] BYREF
+    s32 v18; // [esp+60h] [ebp-108h] BYREF
     LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
     DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
     struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
@@ -753,7 +753,7 @@ void __stdcall GetDirectXVersion_4C4EC0(DWORD *pDXVer, DWORD *osKind)
 }
 
 
-const char *off_626A00[2] = { "d3ddll.dll", "dmavideo.dll" };
+const char_type *off_626A00[2] = { "d3ddll.dll", "dmavideo.dll" };
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D90E0)
@@ -820,7 +820,7 @@ void __stdcall CleanUpInputAndOthers_4DA700()
 
 // todo move to another file for ordering
 // stub
-int __stdcall SkipWhiteSpace_4DA390(char *pStr)
+s32 __stdcall SkipWhiteSpace_4DA390(char_type *pStr)
 {
     // todo
     return 0;
@@ -828,7 +828,7 @@ int __stdcall SkipWhiteSpace_4DA390(char *pStr)
 
 // todo move to another file for ordering
 // stub
-char *__stdcall sub_4DA3F0(char *pStr)
+char_type *__stdcall sub_4DA3F0(char_type *pStr)
 {
     // todo
     return 0;
@@ -836,16 +836,16 @@ char *__stdcall sub_4DA3F0(char *pStr)
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA320)
-void __stdcall ParseCommandLine_4DA320(char *pCommandLine)
+void __stdcall ParseCommandLine_4DA320(char_type *pCommandLine)
 {
     char* pIter = pCommandLine;
-    int len = SkipWhiteSpace_4DA390(pCommandLine);
+    s32 len = SkipWhiteSpace_4DA390(pCommandLine);
     _strupr(pCommandLine);
     while (len > 0)
     {
         if (*pIter == '-' || *pIter == '/')
         {
-            const char cmd_char = *(++pIter);
+            const char_type cmd_char = *(++pIter);
             switch (cmd_char)
             {
             case 'R':
@@ -902,7 +902,7 @@ void Start_GTA2Manager_5E4DE0()
     else
     {
         PostMessageA(gHwnd_707F04, 6u, 0, lParam);
-        if ((unsigned int)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
+        if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
         {
             FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
@@ -917,7 +917,7 @@ void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 
 // todo: move
 // nomatch
-void __stdcall sub_5D9230(int startMode)
+void __stdcall sub_5D9230(s32 startMode)
 {
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
@@ -1094,8 +1094,8 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
         WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
         if (gLaughing_blackwell_0x1EB54_67DC84 && (pPos->flags & 2) == 0)
         {
-            int newX = pPos->x;
-            int newY = pPos->y;
+            s32 newX = pPos->x;
+            s32 newY = pPos->y;
             Bink::sub_5136D0(&newX, &newY);
             pPos->x = newX;
             pPos->y = newY;
@@ -1181,7 +1181,7 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 }
 
 // nomatch
-int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd)
+s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
@@ -1198,11 +1198,11 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     gMutex_707078 = CreateMutexA(0, 0, "GBH_COOP_MUTEX");
     GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMajor_708284);
     
-   // DWORD v16;
-    DWORD dxVer;
+   // u32 v16;
+    u32 dxVer;
     GetDirectXVersion_4C4EC0(&dxVer, &dxVer); // stack hack
 
-    if ((unsigned int)dxVer < 0x601)
+    if ((u32)dxVer < 0x601)
     {
         ErrorMsgBox_5E4EC0("ERROR: Incorrect version of DirectX");
         ReleaseMutex(gMutex_707078);
@@ -1252,8 +1252,8 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     RECT windowRec;
     GetWindowRect(gHwnd_707F04, &windowRec);
 
-    int v8 = window_width_706630 + windowRec.right + clientRec.left - clientRec.right - windowRec.left;
-    int v9 = window_height_706B50 + windowRec.bottom + clientRec.top - clientRec.bottom - windowRec.top;
+    s32 v8 = window_width_706630 + windowRec.right + clientRec.left - clientRec.right - windowRec.left;
+    s32 v9 = window_height_706B50 + windowRec.bottom + clientRec.top - clientRec.bottom - windowRec.top;
 
     if (bDo_corner_window_67D4EE)
     {
@@ -1279,7 +1279,7 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     j_gbh_init_5D7CA0();
     Init_keybrd_jolly_and_sound_4DA440();
 
-    int state ;
+    s32 state ;
     if (laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0())
     {
         state = gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) != 1 ? 0 : 8;
@@ -1301,7 +1301,7 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
 
-    int bQuit = 0;
+    s32 bQuit = 0;
 
 LABEL_23:
     while (1)
@@ -1351,7 +1351,7 @@ LABEL_23:
                     }
 
                     // or switch ?
-                    int t = gLaughing_blackwell_0x1EB54_67DC84->sub_4AEDB0();
+                    s32 t = gLaughing_blackwell_0x1EB54_67DC84->sub_4AEDB0();
                     if (t == 1)
                     {
                         bQuit = 1;
@@ -1466,7 +1466,7 @@ LABEL_23:
 }
 
 // stub
-char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
+char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     return 1;
 }
@@ -1474,14 +1474,14 @@ char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 #pragma comment(lib ,"Version.lib")
 
 MATCH_FUNC(0x5E5D60)
-void __stdcall GetGTA2Version_5E5D60(int *pVerMinor, int *pVerMajor)
+void __stdcall GetGTA2Version_5E5D60(s32 *pVerMinor, s32 *pVerMajor)
 {
     DWORD dwHandle;
     DWORD dwSize = GetFileVersionInfoSizeA("GTA2.EXE", &dwHandle);
     BYTE* pAlloc = new BYTE[dwSize];
 
     VS_FIXEDFILEINFO* pFileInfo;
-    unsigned int puLen;
+    u32 puLen;
     if (pAlloc
         && GetFileVersionInfoA("GTA2.EXE", 0, dwSize, pAlloc)
         && VerQueryValueA(pAlloc, "\\", reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))

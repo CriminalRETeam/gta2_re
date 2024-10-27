@@ -32,7 +32,7 @@ nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 // nomatch
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
-    int idx; // eax
+    s32 idx; // eax
     nostalgic_ellis_0x28 *pOld; // edx
 
     idx = (this->field_4_light_x >> 16) + (this->field_8_light_y >> 16 << 6);
@@ -78,7 +78,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 // nomatch
 void __stdcall Light::sub_4D6E00()
 {
-    int i; // eax
+    s32 i; // eax
 
     g4096_alloc_6F5400 = (nostalgic_ellis_0x28 **)malloc(0x4000u);
     for (i = 0; i < 4096; g4096_alloc_6F5400[i - 1] = 0)
@@ -98,7 +98,7 @@ void Light::sub_4D6E30()
 }
 
 // stub
-int __stdcall Light::sub_4D6E50(int a1, int a2, int a3, int a4)
+s32 __stdcall Light::sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4)
 {
     return 0;
 }

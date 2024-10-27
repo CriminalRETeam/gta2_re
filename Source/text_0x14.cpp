@@ -7,11 +7,11 @@
 
 text_0x14* gText_0x14_704DFC;
 
-extern char gTmpBuffer_67C598[256];
+extern char_type gTmpBuffer_67C598[256];
 
 wchar_t tmpAscii2WideStr_70488C[640];
 
-char tmpWide2AsciiStr_70462C[80];
+char_type tmpWide2AsciiStr_70462C[80];
 
 wchar_t word_626590[256] =
 {
@@ -273,7 +273,7 @@ wchar_t word_626590[256] =
   255u
 };
 
-__int16 word_626490[128] =
+s16 word_626490[128] =
 {
   0,
   0,
@@ -407,11 +407,11 @@ __int16 word_626490[128] =
 
 
 // nomatch
-unsigned __int16 text_0x14::sub_5B58D0(unsigned __int16 a2)
+u16 text_0x14::sub_5B58D0(u16 a2)
 {
     // todo
     /*
-    unsigned __int16 result; // ax
+    u16 result; // ax
 
     result = a2;
     if (a2 >= 128u)
@@ -421,7 +421,7 @@ unsigned __int16 text_0x14::sub_5B58D0(unsigned __int16 a2)
             return 63;
         }
 
-        result = this->field_10_lang_code == 'r' ? word_626390[a2] : *(WORD *)&aCSplittingGta2_27[2 * a2 + 24];
+        result = this->field_10_lang_code == 'r' ? word_626390[a2] : *(u16 *)&aCSplittingGta2_27[2 * a2 + 24];
         if (!result)
         {
             return 63;
@@ -433,7 +433,7 @@ unsigned __int16 text_0x14::sub_5B58D0(unsigned __int16 a2)
 }
 
 MATCH_FUNC(0x5B5910)
-void text_0x14::sub_5B5910(WORD *a2)
+void text_0x14::sub_5B5910(u16*a2)
 {
     if (field_10_lang_code != 'j')
     {
@@ -442,16 +442,16 @@ void text_0x14::sub_5B5910(WORD *a2)
 }
 
 MATCH_FUNC(0x5B5930)
-void text_0x14::sub_5B5930(WORD *pStr)
+void text_0x14::sub_5B5930(u16*pStr)
 {
-    for (WORD* pStrIter = pStr; *pStrIter; ++pStrIter)
+    for (u16* pStrIter = pStr; *pStrIter; ++pStrIter)
     {
         *pStrIter = sub_5B58D0(*pStrIter);
     }
 }
 
 MATCH_FUNC(0x5B5960)
-void text_0x14::TKEY_Load_5B5960(unsigned int chunkSize)
+void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
 {
     field_4_tKey_count = chunkSize / sizeof(text_0xC);
     field_0_tKey = new text_0xC[field_4_tKey_count];
@@ -468,17 +468,17 @@ void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE *pDat)
 {
     text_0xC* ptKeyIter = field_0_tKey;
     
-    for (unsigned int idx = 0; idx < field_4_tKey_count; idx++)
+    for (u32 idx = 0; idx < field_4_tKey_count; idx++)
     {
-        // The raw file record is an offset, convert it to point to the string data in the TDAT
-        const int offsetInBytes = reinterpret_cast<int>(ptKeyIter->field_0_pwstr);
+        // The raw file record is an offset, convert it to pos32 to the string data in the TDAT
+        const s32 offsetInBytes = reinterpret_cast<int>(ptKeyIter->field_0_pwstr);
         ptKeyIter->field_0_pwstr = reinterpret_cast<wchar_t*>(&pDat[offsetInBytes]);
         ptKeyIter++;
     }
 }
 
 MATCH_FUNC(0x5B59E0)
-bool text_0x14::TKeyFind_5B59E0(const char *pIdStr)
+bool text_0x14::TKeyFind_5B59E0(const char_type *pIdStr)
 {
     return bsearch(
         pIdStr, // search key
@@ -489,15 +489,15 @@ bool text_0x14::TKeyFind_5B59E0(const char *pIdStr)
 }
 
 MATCH_FUNC(0x5B5A10)
-int __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void *b)
+s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void *b)
 {
-    const char *pIdStr = (const char*)a;
+    const char_type *pIdStr = (const char_type*)a;
     const text_0xC *a2 = (const text_0xC *)b;
-    return strcmp(pIdStr, (const char *)&a2->field_4_pKey); // TODO: ???
+    return strcmp(pIdStr, (const char_type *)&a2->field_4_pKey); // TODO: ???
 }
 
 MATCH_FUNC(0x5B5A50)
-wchar_t * text_0x14::TKeyFind_5B5A50(const char *pIdStr)
+wchar_t * text_0x14::TKeyFind_5B5A50(const char_type *pIdStr)
 {
      text_0xC* pFound = (text_0xC *)bsearch(
         pIdStr, // key
@@ -516,7 +516,7 @@ wchar_t * text_0x14::TKeyFind_5B5A50(const char *pIdStr)
 }
 
 MATCH_FUNC(0x5B5A80)
-void text_tdat::TDAT_Load_5B5A80(unsigned int size)
+void text_tdat::TDAT_Load_5B5A80(u32 size)
 {
     field_4_len = size / sizeof(wchar_t);
     field_0_data = new BYTE[field_4_len * sizeof(wchar_t)];
@@ -530,15 +530,15 @@ void text_tdat::TDAT_Load_5B5A80(unsigned int size)
 }
 
 // nomatch
-unsigned __int16 text_0x14::sub_5B5AD0(wchar_t a2)
+u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
-    unsigned __int16 result; // ax
+    u16 result; // ax
 
     result = a2;
     switch (this->field_10_lang_code)
     {
     case 'e':
-        if ((unsigned int)a2 >= 'a' && (unsigned int)a2 <= 'z')
+        if ((u32)a2 >= 'a' && (u32)a2 <= 'z')
         {
             result = a2 - ' ';
         }
@@ -594,22 +594,22 @@ wchar_t * text_0x14::sub_5B5B80(wchar_t *pWideStr)
 }
 
 // nomatch
-int __stdcall text_0x14::sub_5B5BC0(WORD *a1, int a2, int a3, int a4)
+s32 __stdcall text_0x14::sub_5B5BC0(u16 *a1, s32 a2, s32 a3, s32 a4)
 {
     // todo
     return 0;
 }
 
 MATCH_FUNC(0x5B5D10)
-char* text_0x14::Wide2PesudoAscii_5B5D10(WORD *a1)
+char* text_0x14::Wide2PesudoAscii_5B5D10(u16 *a1)
 {
-    WORD * pSrc = a1;
-    // jnb forced to jge by changing unsigned int loop index to int
-    int dstIdx = 0;
+    u16 * pSrc = a1;
+    // jnb forced to jge by changing u32 loop index to int
+    s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc
     {
         // jnb also used if comparing to sizeof() value instead of
-        // numerical literal! cast to int fixes (sizeof returns unsigned?)
+        // numerical literal! cast to s32 fixes (sizeof returns unsigned?)
         if (dstIdx >= static_cast<int>(sizeof(tmpWide2AsciiStr_70462C)-1))
         {
             break;
@@ -634,9 +634,9 @@ char* text_0x14::Wide2PesudoAscii_5B5D10(WORD *a1)
 }
 
 MATCH_FUNC(0x5B5DF0)
-wchar_t * text_0x14::Ascii2Wide_5B5DF0(char *pStr)
+wchar_t * text_0x14::Ascii2Wide_5B5DF0(char_type *pStr)
 {
-    // movsx vs movzx caused by unsigned vs signed char
+    // movsx vs movzx caused by unsigned vs s8
     wchar_t *pDst = tmpAscii2WideStr_70488C;
     while(*pStr)
     {
@@ -651,7 +651,7 @@ wchar_t * text_0x14::Ascii2Wide_5B5DF0(char *pStr)
 }
 
 MATCH_FUNC(0x5B5E20)
-void text_0x14::load_chunk_5B5E20(const char *chunk_type, unsigned int chunk_len)
+void text_0x14::load_chunk_5B5E20(const char_type *chunk_type, u32 chunk_len)
 {
     if (!strncmp(chunk_type, "TKEY", 4u))
     {
@@ -670,17 +670,17 @@ void text_0x14::load_chunk_5B5E20(const char *chunk_type, unsigned int chunk_len
 // nomatch stack order wrong
 void text_0x14::Load_5B5E90()
 {
-    char expected_code[8]; // [esp+8h] [ebp-2Ch] BYREF
+    char_type expected_code[8]; // [esp+8h] [ebp-2Ch] BYREF
 
     chunk_header chunkHeader; // [esp+18h] [ebp-1Ch] BYREF
-    char gxtFileName[20]; // [esp+20h] [ebp-14h] BYREF
+    char_type gxtFileName[20]; // [esp+20h] [ebp-14h] BYREF
     sprintf(gxtFileName, "data\\%c.gxt", this->field_10_lang_code);
     
     sprintf(expected_code, "GBL%c", this->field_10_lang_code - ' ');
     
     File::Global_Open_4A7060(gxtFileName);
 
-    unsigned int len = sizeof(gtx_header);
+    u32 len = sizeof(gtx_header);
     gtx_header gtxHeader; // [esp+10h] [ebp-24h] BYREF
     File::Global_Read_4A71C0(&gtxHeader, &len);
 
@@ -706,13 +706,13 @@ void text_0x14::Load_5B5E90()
 }
 
 MATCH_FUNC(0x5B5F90)
-wchar_t * text_0x14::Find_5B5F90(const char *pIdStr)
+wchar_t * text_0x14::Find_5B5F90(const char_type *pIdStr)
 {
     return TKeyFind_5B5A50(pIdStr);
 }
 
 MATCH_FUNC(0x5B5FA0)
-bool text_0x14::sub_5B5FA0(const char *pIdStr)
+bool text_0x14::sub_5B5FA0(const char_type *pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);
 }

@@ -4,15 +4,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 
-int gbGlobalFileOpen_67D160;
+s32 gbGlobalFileOpen_67D160;
 FILE* ghFile_67CFEC;
-extern char gTmpBuffer_67C598[256];
+extern char_type gTmpBuffer_67C598[256];
 
 MATCH_FUNC(0x4A6B10)
-int __stdcall File::GetFileSize_4A6B10(FILE *Stream)
+s32 __stdcall File::GetFileSize_4A6B10(FILE *Stream)
 {
-    int oldPos; // ebx
-    int endPos; // edi
+    s32 oldPos; // ebx
+    s32 endPos; // edi
 
     oldPos = ftell(Stream);
     if (oldPos == -1)
@@ -40,7 +40,7 @@ int __stdcall File::GetFileSize_4A6B10(FILE *Stream)
 }
 
 MATCH_FUNC(0x4A6BB0)
-bool __stdcall File::IsCdRomDrive_4A6BB0(char driveLetter)
+bool __stdcall File::IsCdRomDrive_4A6BB0(char_type driveLetter)
 {
     sprintf(gTmpBuffer_67C598, "%c:", driveLetter);
     // Silly return structure but needed to match (and somehow produces less code)
@@ -52,7 +52,7 @@ bool __stdcall File::IsCdRomDrive_4A6BB0(char driveLetter)
 }
 
 // nomatch
-void *__stdcall File::ReadFileToBuffer_4A6C80(const char *FileName, size_t *pAllocatedBufferSize)
+void *__stdcall File::ReadFileToBuffer_4A6C80(const char_type *FileName, size_t *pAllocatedBufferSize)
 {
     FILE *hFileRead1; // eax
     FILE *v3; // esi
@@ -102,7 +102,7 @@ size_t __stdcall File::Read_4A6D90(void *Buffer, size_t ElementSize, size_t Elem
 }
 
 MATCH_FUNC(0x4A6E80)
-void __stdcall File::WriteBufferToFile_4A6E80(const char *FileName, void *Buffer, size_t *pBufferSize)
+void __stdcall File::WriteBufferToFile_4A6E80(const char_type *FileName, void *Buffer, size_t *pBufferSize)
 {
     Error_SetName_4A0770(FileName);
     if (!*pBufferSize)
@@ -135,7 +135,7 @@ size_t __stdcall File::Write_4A6F30(void *Buffer, size_t ElementSize, size_t Ele
 }
 
 MATCH_FUNC(0x4A6F50)
-void __stdcall File::AppendBufferToFile_4A6F50(const char *FileName, void *pBuffer, size_t *pBufferSize)
+void __stdcall File::AppendBufferToFile_4A6F50(const char_type *FileName, void *pBuffer, size_t *pBufferSize)
 {
     Error_SetName_4A0770(FileName);
     if (!*pBufferSize)
@@ -162,7 +162,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char *FileName, void *pBuff
 }
 
 MATCH_FUNC(0x4A7000)
-void __stdcall File::CreateFile_4A7000(const char *FileName)
+void __stdcall File::CreateFile_4A7000(const char_type *FileName)
 {
     Error_SetName_4A0770(FileName);
 
@@ -180,7 +180,7 @@ void __stdcall File::CreateFile_4A7000(const char *FileName)
 }
 
 MATCH_FUNC(0x4A7060)
-void __stdcall File::Global_Open_4A7060(const char *FileName)
+void __stdcall File::Global_Open_4A7060(const char_type *FileName)
 {
     if (gbGlobalFileOpen_67D160)
     {
@@ -203,7 +203,7 @@ void __stdcall File::Global_Close_4A70C0()
 {
     if (gbGlobalFileOpen_67D160)
     {
-        int v0 = fclose(ghFile_67CFEC);
+        s32 v0 = fclose(ghFile_67CFEC);
         gbGlobalFileOpen_67D160 = 0;
         if (v0)
         {
@@ -223,7 +223,7 @@ void __stdcall File::Global_Close_UnChecked_4A7110()
 }
 
 MATCH_FUNC(0x4A7140)
-void __stdcall File::Global_Seek_4A7140(unsigned int *pOffset)
+void __stdcall File::Global_Seek_4A7140(u32 *pOffset)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -237,14 +237,14 @@ void __stdcall File::Global_Seek_4A7140(unsigned int *pOffset)
 }
 
 MATCH_FUNC(0x4A7190)
-void __stdcall File::File_Error_4A7190(int Code, int a2, int a3)
+void __stdcall File::File_Error_4A7190(s32 Code, s32 a2, s32 a3)
 {
     Global_Close_UnChecked_4A7110();
     FatalError_4A38C0(Code, "C:\\Splitting\\Gta2\\Source\\File.cpp", 398, a2, a3);
 }
 
 MATCH_FUNC(0x4A71C0)
-void __stdcall File::Global_Read_4A71C0(void *pBuffer, unsigned int *pBufferSize)
+void __stdcall File::Global_Read_4A71C0(void *pBuffer, u32 *pBufferSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -258,7 +258,7 @@ void __stdcall File::Global_Read_4A71C0(void *pBuffer, unsigned int *pBufferSize
 }
 
 MATCH_FUNC(0x4A7210)
-bool __stdcall File::Global_Read_4A7210(void *Buffer, unsigned int *pSize)
+bool __stdcall File::Global_Read_4A7210(void *Buffer, u32 *pSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -269,14 +269,14 @@ bool __stdcall File::Global_Read_4A7210(void *Buffer, unsigned int *pSize)
 }
 
 MATCH_FUNC(0x4A7250)
-size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, unsigned int *pMaxFileSize)
+size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, u32 *pMaxFileSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
         FatalError_4A38C0(21, "C:\\Splitting\\Gta2\\Source\\File.cpp", 487);
     }
 
-    int curPos = ftell(ghFile_67CFEC);
+    s32 curPos = ftell(ghFile_67CFEC);
     if (curPos == -1)
     {
         File_Error_4A7190(13, 0, 0);
@@ -287,7 +287,7 @@ size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, unsigned int *pMaxF
         File_Error_4A7190(14, 0, 0);
     }
 
-    int endPos = ftell(ghFile_67CFEC);
+    s32 endPos = ftell(ghFile_67CFEC);
     if (endPos == -1)
     {
         File_Error_4A7190(13, 0, 0);
@@ -313,9 +313,9 @@ size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, unsigned int *pMaxF
 }
 
 MATCH_FUNC(0x4A7340)
-char __stdcall File::SkipWhitespace_4A7340(FILE *Stream)
+char_type __stdcall File::SkipWhitespace_4A7340(FILE *Stream)
 {
-    char next_char = 0;
+    char_type next_char = 0;
 
     while (1)
     {

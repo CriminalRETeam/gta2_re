@@ -6,356 +6,356 @@
 
 struct gmp_col_info
 {
-    unsigned __int8 field_0_height;
-    unsigned __int8 field_1_offset;
-    __int16 field_2_pad;
-    int field_4_blockd[2];
+    u8 field_0_height;
+    u8 field_1_offset;
+    s16 field_2_pad;
+    s32 field_4_blockd[2];
 };
 
 struct gmp_block_info
 {
-    __int16 field_0_left;
-    __int16 field_2_right;
-    __int16 field_4_top;
-    __int16 field_6_bottom;
-    __int16 field_8_lid;
-    char field_A_arrows;
-    unsigned __int8 field_B_slope_type;
+    s16 field_0_left;
+    s16 field_2_right;
+    s16 field_4_top;
+    s16 field_6_bottom;
+    s16 field_8_lid;
+    char_type field_A_arrows;
+    u8 field_B_slope_type;
 };
 
 struct gmp_header
 {
-    char field_0_file_type[4];
-    __int16 field_4_version;
+    char_type field_0_file_type[4];
+    s16 field_4_version;
 };
 
 struct gmp_compressed_map_32
 {
-    unsigned int field_0_base[256][256];
-    int field_40000_column_words;
-    int field_40004_num_blocks;
-    unsigned short **field_40008_pColumn;
+    u32 field_0_base[256][256];
+    s32 field_40000_column_words;
+    s32 field_40004_num_blocks;
+    u16 **field_40008_pColumn;
     gmp_block_info *field_4000C_block;
 };
 
 struct Map_sub
 {
-    int field_0;
-    int field_4;
-    int field_8;
-    int field_C;
-    int field_10;
-    int field_14;
-    int field_18;
-    int field_1C;
-    int field_20;
-    int field_24;
-    int field_28;
-    int field_2C;
-    int field_30;
-    int field_34;
-    int field_38;
-    int field_3C;
-    int field_40;
-    int field_44;
-    int field_48;
-    int field_4C;
-    int field_50;
-    int field_54;
-    int field_58;
-    int field_5C;
-    int field_60;
-    int field_64;
-    int field_68;
-    int field_6C;
-    int field_70;
-    int field_74;
-    int field_78;
-    int field_7C;
-    int field_80;
-    int field_84;
-    int field_88;
-    int field_8C;
-    int field_90;
-    int field_94;
-    int field_98;
-    int field_9C;
-    int field_A0;
-    int field_A4;
-    int field_A8;
-    int field_AC;
-    int field_B0;
-    int field_B4;
-    int field_B8;
-    int field_BC;
-    int field_C0;
-    int field_C4;
-    int field_C8;
-    int field_CC;
-    int field_D0;
-    int field_D4;
-    int field_D8;
-    int field_DC;
-    int field_E0;
-    int field_E4;
-    int field_E8;
-    int field_EC;
-    int field_F0;
-    int field_F4;
-    int field_F8;
-    int field_FC;
-    int field_100;
-    int field_104;
-    int field_108;
-    int field_10C;
-    int field_110;
-    int field_114;
-    int field_118;
-    int field_11C;
-    int field_120;
-    int field_124;
-    int field_128;
-    int field_12C;
-    int field_130;
-    int field_134;
-    int field_138;
-    int field_13C;
-    int field_140;
-    int field_144;
-    int field_148;
-    int field_14C;
-    int field_150;
-    int field_154;
-    int field_158;
-    int field_15C;
-    int field_160;
-    int field_164;
-    int field_168;
-    int field_16C;
-    int field_170;
-    int field_174;
-    int field_178;
-    int field_17C;
-    int field_180;
-    int field_184;
-    int field_188;
-    int field_18C;
-    int field_190;
-    int field_194;
-    int field_198;
-    int field_19C;
-    int field_1A0;
-    int field_1A4;
-    int field_1A8;
-    int field_1AC;
-    int field_1B0;
-    int field_1B4;
-    int field_1B8;
-    int field_1BC;
-    int field_1C0;
-    int field_1C4;
-    int field_1C8;
-    int field_1CC;
-    int field_1D0;
-    int field_1D4;
-    int field_1D8;
-    int field_1DC;
-    int field_1E0;
-    int field_1E4;
-    int field_1E8;
-    int field_1EC;
-    int field_1F0;
-    int field_1F4;
-    int field_1F8;
-    int field_1FC;
-    int field_200;
-    int field_204;
-    int field_208;
-    int field_20C;
-    int field_210;
-    int field_214;
-    int field_218;
-    int field_21C;
-    int field_220;
-    int field_224;
-    int field_228;
-    int field_22C;
-    int field_230;
-    int field_234;
-    int field_238;
-    int field_23C;
-    int field_240;
-    int field_244;
-    int field_248;
-    int field_24C;
-    int field_250;
-    int field_254;
-    int field_258;
-    int field_25C;
-    int field_260;
-    int field_264;
-    int field_268;
-    int field_26C;
-    int field_270;
-    int field_274;
-    int field_278;
-    int field_27C;
-    int field_280;
-    int field_284;
-    int field_288;
-    int field_28C;
-    int field_290;
-    int field_294;
-    int field_298;
-    int field_29C;
-    int field_2A0;
-    int field_2A4;
-    int field_2A8;
-    int field_2AC;
-    int field_2B0;
-    int field_2B4;
-    int field_2B8;
-    int field_2BC;
-    int field_2C0;
-    int field_2C4;
-    int field_2C8;
-    int field_2CC;
-    int field_2D0;
-    int field_2D4;
-    int field_2D8;
-    int field_2DC;
-    int field_2E0;
-    int field_2E4;
-    int field_2E8;
-    int field_2EC;
-    int field_2F0;
-    int field_2F4;
-    int field_2F8;
-    int field_2FC;
-    int field_300;
-    int field_304;
-    int field_308;
-    int field_30C;
-    int field_310;
-    int field_314;
-    int field_318;
-    int field_31C;
-    int field_320_max_idx;
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50;
+    s32 field_54;
+    s32 field_58;
+    s32 field_5C;
+    s32 field_60;
+    s32 field_64;
+    s32 field_68;
+    s32 field_6C;
+    s32 field_70;
+    s32 field_74;
+    s32 field_78;
+    s32 field_7C;
+    s32 field_80;
+    s32 field_84;
+    s32 field_88;
+    s32 field_8C;
+    s32 field_90;
+    s32 field_94;
+    s32 field_98;
+    s32 field_9C;
+    s32 field_A0;
+    s32 field_A4;
+    s32 field_A8;
+    s32 field_AC;
+    s32 field_B0;
+    s32 field_B4;
+    s32 field_B8;
+    s32 field_BC;
+    s32 field_C0;
+    s32 field_C4;
+    s32 field_C8;
+    s32 field_CC;
+    s32 field_D0;
+    s32 field_D4;
+    s32 field_D8;
+    s32 field_DC;
+    s32 field_E0;
+    s32 field_E4;
+    s32 field_E8;
+    s32 field_EC;
+    s32 field_F0;
+    s32 field_F4;
+    s32 field_F8;
+    s32 field_FC;
+    s32 field_100;
+    s32 field_104;
+    s32 field_108;
+    s32 field_10C;
+    s32 field_110;
+    s32 field_114;
+    s32 field_118;
+    s32 field_11C;
+    s32 field_120;
+    s32 field_124;
+    s32 field_128;
+    s32 field_12C;
+    s32 field_130;
+    s32 field_134;
+    s32 field_138;
+    s32 field_13C;
+    s32 field_140;
+    s32 field_144;
+    s32 field_148;
+    s32 field_14C;
+    s32 field_150;
+    s32 field_154;
+    s32 field_158;
+    s32 field_15C;
+    s32 field_160;
+    s32 field_164;
+    s32 field_168;
+    s32 field_16C;
+    s32 field_170;
+    s32 field_174;
+    s32 field_178;
+    s32 field_17C;
+    s32 field_180;
+    s32 field_184;
+    s32 field_188;
+    s32 field_18C;
+    s32 field_190;
+    s32 field_194;
+    s32 field_198;
+    s32 field_19C;
+    s32 field_1A0;
+    s32 field_1A4;
+    s32 field_1A8;
+    s32 field_1AC;
+    s32 field_1B0;
+    s32 field_1B4;
+    s32 field_1B8;
+    s32 field_1BC;
+    s32 field_1C0;
+    s32 field_1C4;
+    s32 field_1C8;
+    s32 field_1CC;
+    s32 field_1D0;
+    s32 field_1D4;
+    s32 field_1D8;
+    s32 field_1DC;
+    s32 field_1E0;
+    s32 field_1E4;
+    s32 field_1E8;
+    s32 field_1EC;
+    s32 field_1F0;
+    s32 field_1F4;
+    s32 field_1F8;
+    s32 field_1FC;
+    s32 field_200;
+    s32 field_204;
+    s32 field_208;
+    s32 field_20C;
+    s32 field_210;
+    s32 field_214;
+    s32 field_218;
+    s32 field_21C;
+    s32 field_220;
+    s32 field_224;
+    s32 field_228;
+    s32 field_22C;
+    s32 field_230;
+    s32 field_234;
+    s32 field_238;
+    s32 field_23C;
+    s32 field_240;
+    s32 field_244;
+    s32 field_248;
+    s32 field_24C;
+    s32 field_250;
+    s32 field_254;
+    s32 field_258;
+    s32 field_25C;
+    s32 field_260;
+    s32 field_264;
+    s32 field_268;
+    s32 field_26C;
+    s32 field_270;
+    s32 field_274;
+    s32 field_278;
+    s32 field_27C;
+    s32 field_280;
+    s32 field_284;
+    s32 field_288;
+    s32 field_28C;
+    s32 field_290;
+    s32 field_294;
+    s32 field_298;
+    s32 field_29C;
+    s32 field_2A0;
+    s32 field_2A4;
+    s32 field_2A8;
+    s32 field_2AC;
+    s32 field_2B0;
+    s32 field_2B4;
+    s32 field_2B8;
+    s32 field_2BC;
+    s32 field_2C0;
+    s32 field_2C4;
+    s32 field_2C8;
+    s32 field_2CC;
+    s32 field_2D0;
+    s32 field_2D4;
+    s32 field_2D8;
+    s32 field_2DC;
+    s32 field_2E0;
+    s32 field_2E4;
+    s32 field_2E8;
+    s32 field_2EC;
+    s32 field_2F0;
+    s32 field_2F4;
+    s32 field_2F8;
+    s32 field_2FC;
+    s32 field_300;
+    s32 field_304;
+    s32 field_308;
+    s32 field_30C;
+    s32 field_310;
+    s32 field_314;
+    s32 field_318;
+    s32 field_31C;
+    s32 field_320_max_idx;
 };
 
 struct gmp_map_zone
 {
-    unsigned char field_0_zone_type;
-    unsigned __int8 field_1_x;
-    unsigned __int8 field_2_y;
-    unsigned __int8 field_3_w;
-    unsigned __int8 field_4_h;
-    unsigned __int8 field_5_name_length;
-    char field_6_name[2];
+    u8 field_0_zone_type;
+    u8 field_1_x;
+    u8 field_2_y;
+    u8 field_3_w;
+    u8 field_4_h;
+    u8 field_5_name_length;
+    char_type field_6_name[2];
 };
 
 struct gmp_zone_unknown
 {
-    __int16 field_0;
-    __int16 field_2;
-    __int16 field_4;
-    __int16 field_6;
-    __int16 field_8;
-    __int16 field_A;
-    __int16 field_C;
-    __int16 field_E;
-    __int16 field_10;
-    __int16 field_12;
-    __int16 field_14;
+    s16 field_0;
+    s16 field_2;
+    s16 field_4;
+    s16 field_6;
+    s16 field_8;
+    s16 field_A;
+    s16 field_C;
+    s16 field_E;
+    s16 field_10;
+    s16 field_12;
+    s16 field_14;
 };
 
 struct gmp_map_object
 {
-    __int16 field_0_x;
-    __int16 field_2_y;
-    char field_4_rotation;
-    char field_5_object_type;
+    s16 field_0_x;
+    s16 field_2_y;
+    char_type field_4_rotation;
+    char_type field_5_object_type;
 };
 
 struct gmp_map_light
 {
-    int field_0_argb;
-    __int16 field_4_x;
-    __int16 field_6_y;
-    __int16 field_8_z;
-    __int16 field_A_radius;
-    char field_C_intensity;
-    char field_D_shape;
-    char field_E_on_time;
-    char field_F_off_time;
+    s32 field_0_argb;
+    s16 field_4_x;
+    s16 field_6_y;
+    s16 field_8_z;
+    s16 field_A_radius;
+    char_type field_C_intensity;
+    char_type field_D_shape;
+    char_type field_E_on_time;
+    char_type field_F_off_time;
 };
 
 class Map_0x370
 {
 public:
-    EXPORT gmp_block_info* get_block_452980(unsigned __int8 x_coord, unsigned __int8 y_coord, unsigned __int8 z_coord);
+    EXPORT gmp_block_info* get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord);
 
-    EXPORT gmp_map_zone* zone_by_name_4DEFD0(const char *pZoneName);
+    EXPORT gmp_map_zone* zone_by_name_4DEFD0(const char_type *pZoneName);
 
-    EXPORT int zone_idx_by_name_4DF050(const char *pZoneName, BYTE zone_name_len);
+    EXPORT s32 zone_idx_by_name_4DF050(const char_type *pZoneName, BYTE zone_name_len);
 
-    EXPORT gmp_map_zone* zone_by_type_bounded_4DF0F0(unsigned char zone_type);
+    EXPORT gmp_map_zone* zone_by_type_bounded_4DF0F0(u8 zone_type);
 
-    EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(unsigned char zone_type);
+    EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
     // todo: missing func
 
-    EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(char zone_x, char zone_y, unsigned char zone_type);
+    EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type zone_y, u8 zone_type);
 
     // todo: other funcs
 
     EXPORT gmp_zone_unknown* cur_zone_4DF840();
 
-    EXPORT gmp_zone_unknown* get_nav_zone_unknown_4DF890(int zone_x, int zone_y);
+    EXPORT gmp_zone_unknown* get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y);
 
     EXPORT void set_nav_unknown_data_4DF8C0(
-        int zone_idx,
-        __int16 a3,
-        __int16 a4,
-        __int16 a5,
-        __int16 a6,
-        __int16 a7,
-        __int16 a8,
-        __int16 a9,
-        __int16 a10,
-        __int16 a11,
-        __int16 a12,
-        __int16 a13);
+        s32 zone_idx,
+        s16 a3,
+        s16 a4,
+        s16 a5,
+        s16 a6,
+        s16 a7,
+        s16 a8,
+        s16 a9,
+        s16 a10,
+        s16 a11,
+        s16 a12,
+        s16 a13);
 
-    EXPORT gmp_zone_unknown* get_zone_unknown_4DF9A0(unsigned __int16 zone_idx);
+    EXPORT gmp_zone_unknown* get_zone_unknown_4DF9A0(u16 zone_idx);
 
-    EXPORT void set_nav_unknown_f0_4DF9D0(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f2_4DF9F0(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f4_4DFA10(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f4_4DFA10(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f6_4DFA30(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f6_4DFA30(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f8_4DFA50(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f8_4DFA50(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_fA_4DFA70(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_fA_4DFA70(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_fC_4DFA90(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_fC_4DFA90(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_fE_4DFAB0(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f10_4DFAD0(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f12_4DFAF0(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3);
 
-    EXPORT void set_nav_unknown_f14_4DFB10(unsigned __int16 a2, __int16 a3);
+    EXPORT void set_nav_unknown_f14_4DFB10(u16 a2, s16 a3);
 
-    EXPORT gmp_map_zone* get_zone_4DFB30(unsigned __int16 zone_idx);
+    EXPORT gmp_map_zone* get_zone_4DFB30(u16 zone_idx);
 
     // todo: other funcs between
 
-    EXPORT gmp_block_info* get_block_4DFE10(int x_coord, int y_coord, int z_coord);
+    EXPORT gmp_block_info* get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
 
     // todo
 
@@ -363,13 +363,13 @@ public:
 
     // todo
 
-    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(char zone_x, char zone_y);
+    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y);
 
-    EXPORT void load_chunk_4E94B0(const char *pChunkType, int chunkLen);
+    EXPORT void load_chunk_4E94B0(const char_type *pChunkType, s32 chunkLen);
 
     EXPORT void process_loaded_zone_data_4E95A0();
 
-    EXPORT void LoadMap_4E95B0(const char *pGmpFileName);
+    EXPORT void LoadMap_4E95B0(const char_type *pGmpFileName);
 
     EXPORT Map_0x370();
 
@@ -384,24 +384,24 @@ public:
     gmp_map_object *field_338_pMapObjects;
     gmp_map_light *field_33C_pLightData;
     void* field_340_pTileAnimData;
-    int field_344_map_object_count;
-    int field_348_num_lights;
-    int field_34C_num_blocks;
-    int field_350_num_blocks_extra;
-    int field_354_num_blocks;
-    int field_358_column_words;
-    int field_35C_column_word_extra;
-    int field_360_column_words;
-    unsigned __int16 field_364_cur_zone_idx;
-    __int16 field_366;
-    unsigned char field_368_zone_type;
-    unsigned char field_369;
-    unsigned __int8 field_36A_zone_x;
-    unsigned __int8 field_36B_zone_y;
-    char field_36C_bUnknown;
-    char field_36D;
-    char field_36E;
-    char field_36F;
+    s32 field_344_map_object_count;
+    s32 field_348_num_lights;
+    s32 field_34C_num_blocks;
+    s32 field_350_num_blocks_extra;
+    s32 field_354_num_blocks;
+    s32 field_358_column_words;
+    s32 field_35C_column_word_extra;
+    s32 field_360_column_words;
+    u16 field_364_cur_zone_idx;
+    s16 field_366;
+    u8 field_368_zone_type;
+    u8 field_369;
+    u8 field_36A_zone_x;
+    u8 field_36B_zone_y;
+    char_type field_36C_bUnknown;
+    char_type field_36D;
+    char_type field_36E;
+    char_type field_36F;
 };
 
 extern Map_0x370* gMap_0x370_6F6268;

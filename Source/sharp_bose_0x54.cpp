@@ -15,7 +15,7 @@ sharp_bose_0x54::~sharp_bose_0x54()
 }
 
 MATCH_FUNC(0x5BECF0)
-void sharp_bose_0x54::sub_5BECF0(char a2, char a3)
+void sharp_bose_0x54::sub_5BECF0(char_type a2, char_type a3)
 {
     if (a3)
     {
@@ -23,7 +23,7 @@ void sharp_bose_0x54::sub_5BECF0(char a2, char a3)
 
         if (field_0 == 100)
         {
-            DWORD v5 = timeGetTime() - field_4;
+            u32 v5 = timeGetTime() - field_4;
             field_8 = 100000 / v5;
             field_18.field_0 = 100 * field_18.field_8 / v5;
             field_24.field_0 = 100 * field_24.field_8 / v5;

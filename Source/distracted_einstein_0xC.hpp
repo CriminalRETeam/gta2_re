@@ -10,7 +10,7 @@ public:
     EXPORT distracted_einstein_0xC();
     EXPORT ~distracted_einstein_0xC();
 
-    int field_0;
-    int field_4;
-    int field_8;
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
 };
