@@ -71,10 +71,10 @@ void __stdcall DMA_Video_Unload_5EB8C0(SVideo *pVidSys)
 }
 
 // nomatch
-int __stdcall DMA_Video_LoadDll_5EB970(const char* lpLibFileName)
+s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
-    CHAR Text[120];
-    CHAR Buffer[128];
+    char_type Text[120];
+    char_type Buffer[128];
 
     gVidFuncs_708600.pVid_GetVersion = &Vid_GetVersion;
     gVidFuncs_708600.pVid_Init_SYS = &Vid_Init_SYS;

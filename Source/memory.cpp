@@ -16,7 +16,7 @@ void* __stdcall Memory::malloc_4FE4D0(size_t Size)
 }
 
 MATCH_FUNC(0x4FE510)
-void* __stdcall Memory::Aligned_malloc_4FE510(int requestedSize, void** pUnAlignedPtr)
+void* __stdcall Memory::Aligned_malloc_4FE510(s32 requestedSize, void** pUnAlignedPtr)
 {
     // Allocate with extra space for alignment
     void* pAlloc = malloc(requestedSize + 0x10000);
@@ -31,5 +31,5 @@ void* __stdcall Memory::Aligned_malloc_4FE510(int requestedSize, void** pUnAlign
     }
 
     // Return aligned pointer
-    return (void *)(((unsigned int)*pUnAlignedPtr + 0xFFFF) & 0xFFFF0000);
+    return (void *)(((u32)*pUnAlignedPtr + 0xFFFF) & 0xFFFF0000);
 }

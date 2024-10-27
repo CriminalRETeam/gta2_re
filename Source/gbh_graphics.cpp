@@ -44,7 +44,7 @@ T_gbh_BlitBuffer gbh_BlitBuffer;
 
 HMODULE gGbhDllHandle_7085D8;
 FARPROC DrawLine;
-int gGBH_GraphicsLoaded_7085E0;
+s32 gGBH_GraphicsLoaded_7085E0;
 int* gpGBH_Globals_7085E4;
 
 
@@ -104,7 +104,7 @@ void __stdcall GBH_Graphics_Unload_5EA500()
 }
 
 // nomatch
-int GBH_Graphics_Free_5EA640()
+s32 GBH_Graphics_Free_5EA640()
 {
     if (gGBH_GraphicsLoaded_7085E0)
     {
@@ -116,9 +116,9 @@ int GBH_Graphics_Free_5EA640()
 }
 
 // nomatch
-int __stdcall GBH_GraphicsLoadDll_5EA680(const char* lpLibFileName)
+s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
-    CHAR Text[120];
+    char_type Text[120];
 
     if (!lpLibFileName)
     {
@@ -181,14 +181,14 @@ class Bob
 {
 public:
     Bob() {}
-    int a, b, c, d, e;
+    s32 a, b, c, d, e;
 };
 
 // nomatch
-int __stdcall GBH_GraphicsLoad_5EB680(const char* lpLibFileName, SVideo* pVidSys)
+s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
 {
     Bob b;
-    int error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
+    s32 error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
     if (error)
     {
         return error;

@@ -50,8 +50,8 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     field_200_keyBoardLayout = 0;
     field_200_keyBoardLayout = GetLayout_4D6000();
 
-    char FileName[128];
-    const char *pKeyboardCfgFile;
+    char_type FileName[128];
+    const char_type *pKeyboardCfgFile;
     switch (field_200_keyBoardLayout)
     {
     case 0:
@@ -95,7 +95,7 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
         FatalError_4A38C0(151, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
     }
 
-    for (int i = 0; i < 256; i++)
+    for (s32 i = 0; i < 256; i++)
     {
         wchar_t tmpBuffer[16];
         ReadCfg_4D5DA0(hConfigFile, tmpBuffer);
@@ -119,14 +119,14 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
 DWORD dword_620D2C = 0x2020;
 
 // nomatch
-int keybrd_0x204::GetLayout_4D6000()
+s32 keybrd_0x204::GetLayout_4D6000()
 {
-    int result; // eax
-    char Buffer[4]; // [esp+0h] [ebp-14h] BYREF
-    int v2; // [esp+4h] [ebp-10h] BYREF
-    CHAR pwszKLID[12]; // [esp+8h] [ebp-Ch] BYREF
+    s32 result; // eax
+    char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
+    s32 v2; // [esp+4h] [ebp-10h] BYREF
+    char_type pwszKLID[12]; // [esp+8h] [ebp-Ch] BYREF
 
-    *(WORD *)&Buffer[2] = HIWORD(dword_620D2C);
+    *(u16*)&Buffer[2] = HIWORD(dword_620D2C);
     GetKeyboardLayoutNameA(pwszKLID);
     Buffer[0] = pwszKLID[6];
     Buffer[1] = pwszKLID[7];
@@ -161,8 +161,8 @@ int keybrd_0x204::GetLayout_4D6000()
 // nomatch
 void keybrd_0x204::ReadCfg_4D5DA0(FILE *Stream, wchar_t *pOut)
 {
-    __int16 read_char; // ax
-    unsigned __int8 i; // [esp+8h] [ebp-4h]
+    s16 read_char; // ax
+    u8 i; // [esp+8h] [ebp-4h]
 
     for (i = 0; ; ++i)
     {
@@ -179,7 +179,7 @@ void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
 {
     if (gKeybrd_0x204_6F52F4)
     {
-        int curLayout = gKeybrd_0x204_6F52F4->field_200_keyBoardLayout;
+        s32 curLayout = gKeybrd_0x204_6F52F4->field_200_keyBoardLayout;
         if (curLayout == keybrd_0x204::GetLayout_4D6000())
         {
             return;

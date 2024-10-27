@@ -6,29 +6,29 @@ struct angry_lewin_0x85C;
 
 struct Game_0x40
 {
-    int field_0;
+    s32 field_0;
     angry_lewin_0x85C *field_4[6];
     angry_lewin_0x85C *field_1C_unk;
-    unsigned __int8 field_20;
-    unsigned __int8 field_21;
-    char field_22;
-    unsigned __int8 field_23_max_idx;
-    unsigned __int8 field_24_cur_idx;
-    char field_25;
-    char field_26;
-    char field_27;
-    int field_28;
-    int field_2C_main_state;
-    char field_30;
-    char field_31;
-    char field_32;
-    char field_33;
-    int field_34;
+    u8 field_20;
+    u8 field_21;
+    char_type field_22;
+    u8 field_23_max_idx;
+    u8 field_24_cur_idx;
+    char_type field_25;
+    char_type field_26;
+    char_type field_27;
+    s32 field_28;
+    s32 field_2C_main_state;
+    char_type field_30;
+    char_type field_31;
+    char_type field_32;
+    char_type field_33;
+    s32 field_34;
     angry_lewin_0x85C *field_38_orf1;
-    char field_3C_bSkipPolice;
-    char field_3D;
-    char field_3E;
-    char field_3F;
+    char_type field_3C_bSkipPolice;
+    char_type field_3D;
+    char_type field_3E;
+    char_type field_3F;
 
     // todo: ordering
 

@@ -8,7 +8,7 @@
 magical_germain_0x8EC *gMagical_germain_0x8EC_6F5168;
 
 MATCH_FUNC(0x4D1FC0)
-void magical_germain_0x8EC::LoadChunks_4D1FC0(const char *pChunkId, unsigned int chunk_len)
+void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type *pChunkId, u32 chunk_len)
 {
     if (!strncmp(pChunkId, "KIDX", 4u))
     {
@@ -41,7 +41,7 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
     File::Global_Open_4A7060("data\\kanji.dat");
 
     kanji_header header;
-    unsigned int readSize = sizeof(kanji_header);
+    u32 readSize = sizeof(kanji_header);
     File::Global_Read_4A71C0(&header, &readSize);
     if (strncmp("KANJ", header.field_0_id, sizeof(header.field_0_id)))
     {
@@ -99,19 +99,19 @@ void magical_germain_0x8EC::sub_4D2B40()
 }
 
 // stub
-int magical_germain_0x8EC::sub_4D29D0(unsigned __int16 a2)
+s32 magical_germain_0x8EC::sub_4D29D0(u16 a2)
 {
     return 0;
 }
 
 // stub
-int magical_germain_0x8EC::sub_4D28A0(unsigned __int16 a2)
+s32 magical_germain_0x8EC::sub_4D28A0(u16 a2)
 {
     return 0;
 }
 
 // stub
-STexture * magical_germain_0x8EC::sub_4D27D0(unsigned int *a2)
+STexture * magical_germain_0x8EC::sub_4D27D0(u32 *a2)
 {
     return 0;
 }
@@ -120,9 +120,9 @@ STexture * magical_germain_0x8EC::sub_4D27D0(unsigned int *a2)
 STexture * magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 {
     kanji_0x10 * pFound;
-    unsigned int nearestId = -1;
+    u32 nearestId = -1;
 
-    int i = 0;
+    s32 i = 0;
     while (i < 120)
     {
         if (field_0[i].field_2_text_char == text_char &&

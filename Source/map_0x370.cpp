@@ -11,7 +11,7 @@ gmp_block_info gBlockInfo1_6F5F40;
 gmp_block_info gBlockInfo2_6F6028;
 
 MATCH_FUNC(0x452980)
-gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __int8 y_coord, unsigned __int8 z_coord)
+gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 {
     gmp_col_info* pColData = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]]);
     if (z_coord >= pColData->field_0_height || z_coord < pColData->field_1_offset)
@@ -25,12 +25,12 @@ gmp_block_info* Map_0x370::get_block_452980(unsigned __int8 x_coord, unsigned __
 }
 
 MATCH_FUNC(0x4DEFD0)
-gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char *pZoneName)
+gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char_type *pZoneName)
 {
-    unsigned int name_len = strlen(pZoneName);
+    u32 name_len = strlen(pZoneName);
     if (field_328_pZoneData)
     {
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(WORD *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
             gmp_map_zone *pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_5_name_length == name_len  &&
@@ -44,17 +44,17 @@ gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char *pZoneName)
 }
 
 MATCH_FUNC(0x4DF050)
-int Map_0x370::zone_idx_by_name_4DF050(const char *pZoneName, BYTE zone_name_len)
+s32 Map_0x370::zone_idx_by_name_4DF050(const char_type *pZoneName, BYTE zone_name_len)
 {
     if (!field_328_pZoneData)
     {
         return 0;
     }
 
-    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(WORD *)field_32C_pZones; field_364_cur_zone_idx++)
+    for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
     {
         gmp_map_zone * pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-        // note: esp/stack reorder due to int -> byte cast on zone_name_len wrong type
+        // note: esp/stack reorder due to s32 -> byte cast on zone_name_len wrong type
         if (pZone->field_5_name_length == zone_name_len &&
             _strnicmp(pZone->field_6_name, pZoneName, zone_name_len) == 0)
         {
@@ -65,20 +65,20 @@ int Map_0x370::zone_idx_by_name_4DF050(const char *pZoneName, BYTE zone_name_len
 }
 
 MATCH_FUNC(0x4DF0F0)
-gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(unsigned char zone_type)
+gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
 {
     static short sLastIdx_6F626C;
 
-    __int16 local_array[40];
+    s16 local_array[40];
 
     if (field_328_pZoneData)
     {
-        unsigned __int16 idx = 0;
+        u16 idx = 0;
         field_36C_bUnknown = 0;
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(WORD *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
             if (get_zone_4DFB30(field_364_cur_zone_idx)->field_0_zone_type == field_368_zone_type)
             {
@@ -105,7 +105,7 @@ gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(unsigned char zone_type)
 }
 
 MATCH_FUNC(0x4DF1D0)
-gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(unsigned char zone_type)
+gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 {
     if (field_328_pZoneData)
     {
@@ -113,7 +113,7 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(unsigned char zone_type)
         field_368_zone_type = zone_type;
         field_364_cur_zone_idx = 0;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(WORD *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
             gmp_map_zone *pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (pZone->field_0_zone_type == field_368_zone_type)
@@ -126,7 +126,7 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(unsigned char zone_type)
 }
 
 // nomatch
-gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(char zone_x, char zone_y, unsigned char zone_type)
+gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type zone_y, u8 zone_type)
 {
     if (field_328_pZoneData)
     {
@@ -135,7 +135,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(char zone_x, char zone_y, u
         field_36B_zone_y = zone_y;
         field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(WORD *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
             gmp_map_zone *pZone = get_zone_4DFB30(field_364_cur_zone_idx);
             if (field_368_zone_type == pZone->field_0_zone_type &&
@@ -167,7 +167,7 @@ gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
 }
 
 MATCH_FUNC(0x4DF890)
-gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(int zone_x, int zone_y)
+gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 {
     if (nav_zone_by_pos_4DF5C0(zone_x, zone_y))
     {
@@ -180,7 +180,7 @@ gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(int zone_x, int zone_y)
 }
 
 MATCH_FUNC(0x4DF8C0)
-void Map_0x370::set_nav_unknown_data_4DF8C0(int zone_idx, __int16 a3, __int16 a4, __int16 a5, __int16 a6, __int16 a7, __int16 a8, __int16 a9, __int16 a10, __int16 a11, __int16 a12, __int16 a13)
+void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx, s16 a3, s16 a4, s16 a5, s16 a6, s16 a7, s16 a8, s16 a9, s16 a10, s16 a11, s16 a12, s16 a13)
 {
     get_zone_4DFB30(zone_idx);
     gmp_zone_unknown *pZoneUnknown = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
@@ -241,90 +241,90 @@ void Map_0x370::set_nav_unknown_data_4DF8C0(int zone_idx, __int16 a3, __int16 a4
 }
 
 MATCH_FUNC(0x4DF9A0)
-gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(unsigned __int16 zone_idx)
+gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 {
     return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
 }
 
 MATCH_FUNC(0x4DF9D0)
-void Map_0x370::set_nav_unknown_f0_4DF9D0(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_0 = a3;
 }
 
 MATCH_FUNC(0x4DF9F0)
-void Map_0x370::set_nav_unknown_f2_4DF9F0(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_2 = a3;
 }
 
 MATCH_FUNC(0x4DFA10)
-void Map_0x370::set_nav_unknown_f4_4DFA10(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f4_4DFA10(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_4 = a3;
 }
 
 MATCH_FUNC(0x4DFA30)
-void Map_0x370::set_nav_unknown_f6_4DFA30(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f6_4DFA30(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_6 = a3;
 }
 
 MATCH_FUNC(0x4DFA50)
-void Map_0x370::set_nav_unknown_f8_4DFA50(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f8_4DFA50(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_8 = a3;
 }
 
 MATCH_FUNC(0x4DFA70)
-void Map_0x370::set_nav_unknown_fA_4DFA70(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_fA_4DFA70(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_A = a3;
 }
 
 MATCH_FUNC(0x4DFA90)
-void Map_0x370::set_nav_unknown_fC_4DFA90(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_fC_4DFA90(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_C = a3;
 }
 
 MATCH_FUNC(0x4DFAB0)
-void Map_0x370::set_nav_unknown_fE_4DFAB0(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_E = a3;
 }
 
 MATCH_FUNC(0x4DFAD0)
-void Map_0x370::set_nav_unknown_f10_4DFAD0(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_10 = a3;
 }
 
 MATCH_FUNC(0x4DFAF0)
-void Map_0x370::set_nav_unknown_f12_4DFAF0(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_12 = a3;
 }
 
 MATCH_FUNC(0x4DFB10)
-void Map_0x370::set_nav_unknown_f14_4DFB10(unsigned __int16 a2, __int16 a3)
+void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_14 = a3;
 }
 
 MATCH_FUNC(0x4DFB30)
-gmp_map_zone* Map_0x370::get_zone_4DFB30(unsigned __int16 zone_idx)
+gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 {
     return field_32C_pZones[zone_idx + 1];
 }
 
 MATCH_FUNC(0x4DFE10)
-gmp_block_info* Map_0x370::get_block_4DFE10(int x_coord, int y_coord, int z_coord)
+gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
 {
     gmp_col_info* pCol =  reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]]);
     if (z_coord < pCol->field_0_height)
     {
-        int offset = pCol->field_1_offset;
+        s32 offset = pCol->field_1_offset;
         if (z_coord >= offset)
         {
             return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z_coord - offset]];
@@ -341,7 +341,7 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info *pBlock1 = get_block_4DFE10((x_coord - dword_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->field_2_right != 0)
     {
-        DWORD spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock1->field_2_right & 0x3FF];
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock1->field_2_right & 0x3FF];
         if (spec == 3)
         {
             return 1;
@@ -352,7 +352,7 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info *pBlock2 = get_block_4DFE10(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->field_0_left != 0)
     {
-        DWORD spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock2->field_0_left & 0x3FF];
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock2->field_0_left & 0x3FF];
         if (spec == 3)
         {
             return 1;
@@ -364,11 +364,11 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 }
 
 // nomatch
-gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(char zone_x, char zone_y)
+gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y)
 {
     gmp_map_zone **field_32C_pZones; // edx
     gmp_map_zone *pZone; // eax
-    char field_0_zone_type; // cl
+    char_type field_0_zone_type; // cl
 
     if (!this->field_328_pZoneData)
     {
@@ -379,7 +379,7 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(char zone_x, char zone_y)
     this->field_36A_zone_x = zone_x;
     this->field_36B_zone_y = zone_y;
     this->field_364_cur_zone_idx = 0;
-    if (!*(WORD *)field_32C_pZones)
+    if (!*(u16*)field_32C_pZones)
     {
         return 0;
     }
@@ -395,7 +395,7 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(char zone_x, char zone_y)
         {
             break;
         }
-        if (++this->field_364_cur_zone_idx >= *(WORD *)this->field_32C_pZones)
+        if (++this->field_364_cur_zone_idx >= *(u16*)this->field_32C_pZones)
         {
             return 0;
         }
@@ -404,7 +404,7 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(char zone_x, char zone_y)
 }
 
 // stub
-void Map_0x370::load_chunk_4E94B0(const char *pChunkType, int chunkLen)
+void Map_0x370::load_chunk_4E94B0(const char_type *pChunkType, s32 chunkLen)
 {
     /*
     if (!strncmp(pChunkType, "DMAP", 4u))
@@ -444,12 +444,12 @@ void Map_0x370::process_loaded_zone_data_4E95A0()
 }
 
 MATCH_FUNC(0x4E95B0)
-void Map_0x370::LoadMap_4E95B0(const char *pGmpFileName)
+void Map_0x370::LoadMap_4E95B0(const char_type *pGmpFileName)
 {
     gmp_header header;
     File::Global_Open_4A7060(pGmpFileName);
 
-    unsigned int len = sizeof(gmp_header);
+    u32 len = sizeof(gmp_header);
     chunk_header chunkHeader;
     File::Global_Read_4A71C0(&header, &len);
 

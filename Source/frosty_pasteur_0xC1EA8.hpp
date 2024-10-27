@@ -8,18 +8,18 @@
 #pragma pack(1)
 struct str_table_entry
 {
-    __int16 field_0_str_id;
-    __int16 field_2_zone_idx;
-    __int16 field_4_type;
-    __int16 field_6;
-    unsigned __int8 field_8_length;
+    s16 field_0_str_id;
+    s16 field_2_zone_idx;
+    s16 field_4_type;
+    s16 field_6;
+    u8 field_8_length;
 };
 #pragma pack(pop)
 
 struct str_table_normalized
 {
-    __int16 field_0_string_count;
-    __int16 field_2; // pad ?
+    s16 field_0_string_count;
+    s16 field_2; // pad ?
     str_table_entry* field_4[999];
 };
 
@@ -43,8 +43,8 @@ enum SCRCMD
     SCRCMD_OBJ_DEC = 14,  // 0E00
     SCRCMD_OBJ_DECSET_2D = 15,  // 0F00
     SCRCMD_OBJ_DECSET_3D = 16,  // 1000
-    SCRCMD_OBJ_DECSET_2D_INT = 17,  // 1100
-    SCRCMD_OBJ_DECSET_3D_INT = 18,  // 1200
+    SCRCMD_OBJ_DECSET_2D_s32 = 17,  // 1100
+    SCRCMD_OBJ_DECSET_3D_s32 = 18,  // 1200
     SCRCMD_OBJ_DECSET_2D_STR = 19,  // 1300
     SCRCMD_OBJ_DECSET_3D_STR = 20,  // 1400
     SCRCMD_COUNTER = 21,  // 1500
@@ -75,8 +75,8 @@ enum SCRCMD
     SCRCMD_CREATE_CAR_3D_STR = 46,  // 2E00
     SCRCMD_CREATE_OBJ_2D = 47,  // 2F00
     SCRCMD_CREATE_OBJ_3D = 48,  // 3000
-    SCRCMD_CREATE_OBJ_3D_INT = 49,  // 3100
-    SCRCMD_CREATE_OBJ_2D_INT = 50,  // 3200
+    SCRCMD_CREATE_OBJ_3D_s32 = 49,  // 3100
+    SCRCMD_CREATE_OBJ_2D_s32 = 50,  // 3200
     SCRCMD_CREATE_OBJ_3D_STR = 51,  // 3300
     SCRCMD_CREATE_OBJ_2D_STR = 52,  // 3400
     SCRCMD_CREATE_CONVEYOR_2D = 53,  // 3500
@@ -231,7 +231,7 @@ enum SCRCMD
     SCRCMD_CHAR_IN_AIR = 202,  // CA00
     SCRCMD_CHAR_SUNK = 203,  // CB00
     SCRCMD_LAST_WEAPON_HIT = 204,  // CC00
-    SCRCMD_ADD_PATROL_POINT = 205,  // CD00
+    SCRCMD_ADD_PATROL_POs32 = 205,  // CD00
     SCRCMD_GET_CAR_SPEED = 206,  // CE00
     SCRCMD_GET_CHAR_CAR_SPEED = 207,  // CF00
     SCRCMD_CHECK_CAR_SPEED = 208,  // D000
@@ -263,7 +263,7 @@ enum SCRCMD
     SCRCMD_TIMER_DECLARE = 233,  // E900
     SCRCMD_CHECK_NUM_ALIVE = 234,  // EA00
     SCRCMD_ADD_CHAR_TO_GROUP = 235,  // EB00
-    SCRCMD_REMOVE_CHAR = 236,  // EC00
+    SCRCMD_REMOVE_char_type = 236,  // EC00
     SCRCMD_SET_MIN_ALIVE = 237,  // ED00
     SCRCMD_SET_CHAR_SHOOT = 238,  // EE00
     SCRCMD_SET_CHAR_BRAVERY = 239,  // EF00
@@ -367,7 +367,7 @@ enum SCRCMD
     SCRCMD_S_IS_S_DIV_S = 337,  // 5101
     SCRCMD_S_IS_S_MULT_S = 338,  // 5201
     SCRCMD_S_IS_S_MOD_S = 339,  // 5301
-    SCRCMD_SET_COUNTER_INT = 340,  // 5401
+    SCRCMD_SET_COUNTER_s32 = 340,  // 5401
     SCRCMD_SET_COUNTER_VAR = 341,  // 5501
     SCRCMD_ADD_SCORE2 = 342,  // 5601
     SCRCMD_FINISH_SCORE = 343,  // 5701
@@ -384,7 +384,7 @@ enum SCRCMD
     SCRCMD_DECIDE_POWERUP = 354,  // 6201
     SCRCMD_CHAR_ARRESTED = 355,  // 6301
     SCRCMD_ONSCREEN_ACCURACY = 356,  // 6401
-    SCRCMD_WARP_CHAR = 357,  // 6501
+    SCRCMD_WARP_char_type = 357,  // 6501
     SCRCMD_WEAP_HIT_CAR = 358,  // 6601
     SCRCMD_SET_GROUP_TYPE = 359,  // 6701
     SCRCMD_CHAR_DO_NOTHING = 360,  // 6801
@@ -394,12 +394,12 @@ enum SCRCMD
     SCRCMD_PED_GRAPHIC = 364,  // 6C01
     SCRCMD_MAKE_MUGGERS = 365,  // 6D01
     SCRCMD_ANY_WEAPON_HIT_CAR = 366,  // 6E01
-    SCRCMD_LOC_SECOND_CHAR = 367,  // 6F01
+    SCRCMD_LOC_SECOND_char_type = 367,  // 6F01
     SCRCMD_STOP_CAR_DRIVE = 368,  // 7001
     SCRCMD_IS_CHAR_MOM_FAT = 449,  // 7101
     SCRCMD_IS_BUS_FULL = 369,  // 7101
     SCRCMD_NO_CHARS_OFF_BUS = 370,  // 7201
-    SCRCMD_KILL_CHAR = 371,  // 7301
+    SCRCMD_KILL_char_type = 371,  // 7301
     SCRCMD_SET_GANGCARRATIO = 372,  // 7401
     SCRCMD_SET_SHADING_LEV = 373,  // 7501
     SCRCMD_SET_CAR_JAMMED = 374,  // 7601
@@ -480,79 +480,79 @@ enum SCRCMD
 class frosty_pasteur_0xC1EA8
 {
 public:
-    EXPORT void Load_512330(const char *pScrName);
+    EXPORT void Load_512330(const char_type *pScrName);
 
-    EXPORT void LoadStringTbl_5121E0(unsigned __int16 tableSize);
+    EXPORT void LoadStringTbl_5121E0(u16 tableSize);
 
     EXPORT void GetScrFileName_5122D0();
 
     EXPORT void LoadSubScripts_5125F0();
 
-    EXPORT str_table_entry* FindStringById_503080(__int16 stringId);
+    EXPORT str_table_entry* FindStringById_503080(s16 stringId);
 
-    __int16 field_0;
-    __int16 field_2;
-    int field_4[96];
-    __int16 field_184;
-    __int16 field_186;
-    int field_188[60];
-    __int16 field_278;
-    __int16 field_27A;
+    s16 field_0;
+    s16 field_2;
+    s32 field_4[96];
+    s16 field_184;
+    s16 field_186;
+    s32 field_188[60];
+    s16 field_278;
+    s16 field_27A;
     BYTE field_27C[120];
-    int field_2F4;
-    int field_2F8;
-    int field_2FC;
-    int field_300;
-    int field_304;
-    int field_308;
-    int field_30C;
-    int field_310;
-    int field_314;
-    int field_318;
-    int field_31C;
-    int field_320;
-    int field_324;
-    int field_328;
-    int field_32C;
-    int field_330;
-    int field_334;
-    int field_338;
-    int field_33C;
-    int field_340;
-    int field_344;
-    int field_348;
-    int field_34C;
-    int field_350;
-    char field_354;
-    char field_355;
-    __int16 field_356;
-    __int16 field_358;
-    __int16 field_35A;
-    char field_35C_full_scr_file_name[256];
-    char field_45C_scr_file_name[9];
-    char field_465;
-    char field_466;
-    char field_467;
-    int field_468;
-    unsigned __int16 field_46C_base_pointers[6000];
+    s32 field_2F4;
+    s32 field_2F8;
+    s32 field_2FC;
+    s32 field_300;
+    s32 field_304;
+    s32 field_308;
+    s32 field_30C;
+    s32 field_310;
+    s32 field_314;
+    s32 field_318;
+    s32 field_31C;
+    s32 field_320;
+    s32 field_324;
+    s32 field_328;
+    s32 field_32C;
+    s32 field_330;
+    s32 field_334;
+    s32 field_338;
+    s32 field_33C;
+    s32 field_340;
+    s32 field_344;
+    s32 field_348;
+    s32 field_34C;
+    s32 field_350;
+    char_type field_354;
+    char_type field_355;
+    s16 field_356;
+    s16 field_358;
+    s16 field_35A;
+    char_type field_35C_full_scr_file_name[256];
+    char_type field_45C_scr_file_name[9];
+    char_type field_465;
+    char_type field_466;
+    char_type field_467;
+    s32 field_468;
+    u16 field_46C_base_pointers[6000];
     BYTE field_334C_script_data[65536];
     str_table_entry *field_1334C_strings;
     str_table_normalized* field_13350_pStringTbl;
     BYTE field_13354[620000];
     BYTE field_AA934[95232];
-    __int16 field_C1D34[30];
-    __int16 field_C1D70;
-    __int16 field_C1D72[30];
-    __int16 field_C1DAE;
-    int field_C1DB0[31];
-    char field_C1E2C;
-    char field_C1E2D;
-    char field_C1E2E;
-    char field_C1E2F;
-    char field_C1E30;
-    char field_C1E31;
-    WORD field_C1E32[32];
-    __int16 field_C1E72;
-    WORD field_C1E74[25];
-    __int16 field_C1EA6;
+    s16 field_C1D34[30];
+    s16 field_C1D70;
+    s16 field_C1D72[30];
+    s16 field_C1DAE;
+    s32 field_C1DB0[31];
+    char_type field_C1E2C;
+    char_type field_C1E2D;
+    char_type field_C1E2E;
+    char_type field_C1E2F;
+    char_type field_C1E30;
+    char_type field_C1E31;
+    u16 field_C1E32[32];
+    s16 field_C1E72;
+    u16 field_C1E74[25];
+    s16 field_C1EA6;
 };

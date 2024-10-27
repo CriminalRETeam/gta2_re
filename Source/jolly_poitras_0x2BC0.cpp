@@ -16,7 +16,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     int* pIter1 = this->field_1884;
     struc_221* pIter2 = this->field_1800;
 
-    int i;
+    s32 i;
     for (i = 0; i < 3; i++)
     {
       //  ++pIter1;
@@ -99,9 +99,9 @@ void jolly_poitras_0x2BC0::sub_56C010()
 }
 
 MATCH_FUNC(0x56B8A0)
-void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(unsigned __int16 a1, char *a2)
+void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type *a2)
 {
-    char Buffer[8];
+    char_type Buffer[8];
     _itoa(a1, Buffer, 10);
     strcpy(a2, "player\\plyslot");
     strcat(a2, Buffer);
@@ -109,9 +109,9 @@ void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(unsigned __int16 a1, char *a
 }
 
 MATCH_FUNC(0x56B940)
-char jolly_poitras_0x2BC0::PlySlotDatExists_56B940(int a1)
+char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
 {
-    char FileName[356];
+    char_type FileName[356];
     GetPlySlotDatName_56B8A0(a1, FileName);
 
     _finddata_t findData;
@@ -125,15 +125,15 @@ char jolly_poitras_0x2BC0::PlySlotDatExists_56B940(int a1)
 }
 
 MATCH_FUNC(0x56BCF0)
-void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char *pName)
+void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type *pName)
 {
     strcpy(pName, "player\\hiscores.hsc");
 }
 
 MATCH_FUNC(0x56BCA0)
-char jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
+char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 {
-    char FileName[356];
+    char_type FileName[356];
     GetHiScoreHscFileName_56BCF0(FileName);
 
     _finddata_t findData;
@@ -147,9 +147,9 @@ char jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 }
 
 /*
- char FileName[356];
+ char_type FileName[356];
 
-    unsigned __int16 idx = (unsigned __int16)slotIdx;
+    u16 idx = (u16)slotIdx;
 
     wchar_t* pStr = field_26A0[idx].field_90_str;
     GetPlySlotDatName_56B8A0(idx, FileName);
@@ -157,23 +157,23 @@ char jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 
 
 
-    int i = 9;
+    s32 i = 9;
     do
     {
-        int readLen = 2;
+        s32 readLen = 2;
         File::Global_Read_4A71C0(pStr, &readLen);
         pStr++;
         i--;
     } while (i);
 
 
-    int j;
-    int k;
+    s32 j;
+    s32 k;
     for (k = 0; k < 3; k++)
     {
         for (j = 0; j < 4; j++)
         {
-            int len_read = 1;
+            s32 len_read = 1;
             File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, &len_read);
 
             len_read = 4;
@@ -187,34 +187,34 @@ char jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 */
 
 // nomatch
-void jolly_poitras_0x2BC0::sub_56B990(int slotIdx)
+void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 {
 
-    char FileName[356];
-    unsigned __int16 idx = (unsigned __int16)slotIdx;
+    char_type FileName[356];
+    u16 idx = (u16)slotIdx;
   
     wchar_t  * pStr = field_26A0[idx].field_90_str; // todo: This instruction is too early lea     esi, [ebx+2730h]
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
 
 
-    int i = 9;
+    s32 i = 9;
     do
     {
-        unsigned int readLen = 2;
+        u32 readLen = 2;
         File::Global_Read_4A71C0(pStr, &readLen);
         pStr++;
         i--;
     } while (i);
 
 
-    int j;
-    int k;
+    s32 j;
+    s32 k;
     for (k = 0; k < 3; k++)
     {
         for (j = 0; j < 4; j++)
         {
-            unsigned int len_read = 1;
+            u32 len_read = 1;
             File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, &len_read);
 
             len_read = 4;
@@ -228,17 +228,17 @@ void jolly_poitras_0x2BC0::sub_56B990(int slotIdx)
 }
 
 // stub
-void jolly_poitras_0x2BC0::sub_56BA60(__int16 a2)
+void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
 {
     // todo
 }
 
 /*
-int len;
-    int k3Counter;
-    int k4Counter;
+s32 len;
+    s32 k3Counter;
+    s32 k4Counter;
 
-    char FileName[256];
+    char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
     File::Global_Open_4A7060(FileName);
 
@@ -270,16 +270,16 @@ int len;
 // nomatch: wrong stack slots
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
-    char FileName[256];
+    char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
     File::Global_Open_4A7060(FileName);
 
-    unsigned int len = 240;
+    u32 len = 240;
     File::Global_Read_4A71C0(&field_23D0.field_0, &len);
 
-    for (int k3Counter = 0; k3Counter < 3; k3Counter++)
+    for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
-        for (int k4Counter = 0; k4Counter < 4; k4Counter++)
+        for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
             len = 240;
             File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, &len);
@@ -336,7 +336,7 @@ void jolly_poitras_0x2BC0::sub_56BD20()
 }
 
 // stub
-void jolly_poitras_0x2BC0::sub_56BBD0(unsigned __int8 a2, unsigned __int8 a3)
+void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 {
     // todo
 }
@@ -356,7 +356,7 @@ agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 MATCH_FUNC(0x56B520)
 void agitated_keldysh_0xF0::Init_56B520()
 {
-    for (int i=0; i<10; i++)
+    for (s32 i=0; i<10; i++)
     {
         wcscpy(field_0[i].field_0_str, word_67DC8C);
         field_0[i].field_14_score = 0;
@@ -364,10 +364,10 @@ void agitated_keldysh_0xF0::Init_56B520()
 }
 
 // nomatch
-char agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, int findScore)
+char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findScore)
 {
-    unsigned __int16 startIdx = 10;
-    for (__int16 i = 9; i != -1; --i)
+    u16 startIdx = 10;
+    for (s16 i = 9; i != -1; --i)
     {
         if (findScore > field_0[i].field_14_score)
         {
@@ -390,7 +390,7 @@ char agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, int findScore)
             small_string* pIter = &field_0[8];// .field_14_score;
           //  int* pIter = &field_0[9 - 1].field_14_score;
 
-            int remainderCount = 9 - startIdx;
+            s32 remainderCount = 9 - startIdx;
             do
             {
                 wcsncpy((pIter+1)->field_0_str, (pIter)->field_0_str, 9u);

@@ -6,12 +6,12 @@
 // todo: move
 struct infallible_turing
 {
-    int field_0_object_type;
-    char field_4;
-    char field_5;
-    char field_6;
-    char field_7;
-    int field_8;
+    s32 field_0_object_type;
+    char_type field_4;
+    char_type field_5;
+    char_type field_6;
+    char_type field_7;
+    s32 field_8;
     
     // Type depends on what field_0_object_type is
     void *field_C_pObject;
@@ -26,52 +26,52 @@ public:
     infallible_turing *field_0;
     infallible_turing field_4[999+1];
     /*
-    int field_3E74;
-    int field_3E78;
-    int field_3E7C;
-    int field_3E80_count;
+    s32 field_3E74;
+    s32 field_3E78;
+    s32 field_3E7C;
+    s32 field_3E80_count;
     */
     // todo: ordering
 
-    EXPORT infallible_turing* CreateSoundObject_40EF40(infallible_turing *pObject, int objectType);
+    EXPORT infallible_turing* CreateSoundObject_40EF40(infallible_turing *pObject, s32 objectType);
 
     EXPORT void sub_40EF80();
 
     EXPORT void Service_40EFA0();
 
-    EXPORT int AddSoundObject_40EFB0(infallible_turing* a2);
+    EXPORT s32 AddSoundObject_40EFB0(infallible_turing* a2);
 
-    EXPORT void FreeSoundEntry_40EFD0(int a2);
+    EXPORT void FreeSoundEntry_40EFD0(s32 a2);
 
-    EXPORT char LoadStyle_40EFF0(const char *pStyleName);
+    EXPORT char_type LoadStyle_40EFF0(const char_type *pStyleName);
 
     EXPORT void sub_40F010();
 
     EXPORT void sub_40F020();
 
-    EXPORT char* sub_40F030(int a1, int a2, int a3);
+    EXPORT char* sub_40F030(s32 a1, s32 a2, s32 a3);
 
-    EXPORT char sub_40F050(int a1, int a2);
+    EXPORT char_type sub_40F050(s32 a1, s32 a2);
 
-    EXPORT void sub_40F070(char a1);
+    EXPORT void sub_40F070(char_type a1);
 
-    EXPORT int sub_40F090(int state);
+    EXPORT s32 sub_40F090(s32 state);
 
-    EXPORT void SetSfxVol_40F0B0(unsigned __int8 cdVol);
+    EXPORT void SetSfxVol_40F0B0(u8 cdVol);
 
-    EXPORT void SetCDVol_40F0F0(unsigned int cdVol);
+    EXPORT void SetCDVol_40F0F0(u32 cdVol);
 
-    EXPORT unsigned __int8 GetCDVol_40F120();
+    EXPORT u8 GetCDVol_40F120();
 
     EXPORT void Release_40F130();
 
     EXPORT void sub_40F140();
 
-    EXPORT char GetAudioDriveLetter_40F150();
+    EXPORT char_type GetAudioDriveLetter_40F150();
 
-    EXPORT char Set3DSound_40F160(char b3dSound);
+    EXPORT char_type Set3DSound_40F160(char_type b3dSound);
 
-    EXPORT char Get3DSound_40F180();
+    EXPORT char_type Get3DSound_40F180();
 
     EXPORT root_sound();
 
