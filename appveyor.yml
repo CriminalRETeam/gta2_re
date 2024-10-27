@@ -51,9 +51,9 @@ for:
    - python setup.py
    - build.bat
    - cd ../Scripts/bin_comp
+   - pip install -r requirements.txt
    - python msvc_dump_func_data.py
    - python download_exe.py
-   - pip install iced-x86
    - python compare_all_functions.py
    - cd ../../build_vc6
 
