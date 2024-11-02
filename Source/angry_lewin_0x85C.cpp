@@ -14,25 +14,25 @@ void angry_lewin_0x85C::sub_5645B0(Car_BC* a2)
 }
 
 STUB_FUNC(0x564610)
-char angry_lewin_0x85C::sub_564610(Car_BC* a2, char a3)
+char_type angry_lewin_0x85C::sub_564610(Car_BC* a2, char_type a3)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x564680)
-u32* angry_lewin_0x85C::sub_564680(int a2)
+u32* angry_lewin_0x85C::sub_564680(s32 a2)
 {
 	return 0;
 }
 
 STUB_FUNC(0x564710)
-void angry_lewin_0x85C::sub_564710(Car_BC* a2, int a3)
+void angry_lewin_0x85C::sub_564710(Car_BC* a2, s32 a3)
 {
 
 }
 
 STUB_FUNC(0x564790)
-void angry_lewin_0x85C::sub_564790(int idx)
+void angry_lewin_0x85C::sub_564790(s32 idx)
 {
 
 }
@@ -56,37 +56,37 @@ void angry_lewin_0x85C::sub_564910(keen_bhaskara_0x30* a2)
 }
 
 STUB_FUNC(0x564940)
-char angry_lewin_0x85C::sub_564940()
+char_type angry_lewin_0x85C::sub_564940()
 {
 	return 'a';
 }
 
 STUB_FUNC(0x564960)
-char angry_lewin_0x85C::sub_564960(int a2, u8 a3)
+char_type angry_lewin_0x85C::sub_564960(s32 a2, u8 a3)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x5649D0)
-u16 angry_lewin_0x85C::sub_5649D0(char a2, char a3)
+u16 angry_lewin_0x85C::sub_5649D0(char_type a2, char_type a3)
 {
 	return 0;
 }
 
 STUB_FUNC(0x564AD0)
-char angry_lewin_0x85C::sub_564AD0(Car_BC* a2)
+char_type angry_lewin_0x85C::sub_564AD0(Car_BC* a2)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x564B60)
-int angry_lewin_0x85C::sub_564B60()
+s32 angry_lewin_0x85C::sub_564B60()
 {
 	return 0;
 }
 
 STUB_FUNC(0x564B80)
-int angry_lewin_0x85C::sub_564B80()
+s32 angry_lewin_0x85C::sub_564B80()
 {
 	return 0;
 }
@@ -98,16 +98,16 @@ u16 angry_lewin_0x85C::sub_564C00()
 }
 
 STUB_FUNC(0x564C50)
-void angry_lewin_0x85C::sub_564C50(int a2)
+void angry_lewin_0x85C::sub_564C50(s32 a2)
 {
 
 }
 
-char byte_67D539;
-char byte_67D57C;
+char_type byte_67D539;
+char_type byte_67D57C;
 
 STUB_FUNC(0x564CC0)
-int angry_lewin_0x85C::sub_564CC0()
+s32 angry_lewin_0x85C::sub_564CC0()
 {
 	/*
 	int i;
@@ -130,6 +130,8 @@ int angry_lewin_0x85C::sub_564CC0()
 	}
 	return i;
 	*/
+
+	return 0;
 }
 
 STUB_FUNC(0x564CF0)
@@ -139,7 +141,7 @@ void angry_lewin_0x85C::sub_564CF0()
 }
 
 STUB_FUNC(0x564D60)
-char angry_lewin_0x85C::sub_564D60(int a2)
+char_type angry_lewin_0x85C::sub_564D60(s32 a2)
 {
 	return 'a';
 }
@@ -151,7 +153,7 @@ u16 angry_lewin_0x85C::sub_565070()
 }
 
 STUB_FUNC(0x5651F0)
-int angry_lewin_0x85C::sub_5651F0(int a2)
+s32 angry_lewin_0x85C::sub_5651F0(s32 a2)
 {
 	return 0;
 }
@@ -169,7 +171,7 @@ void angry_lewin_0x85C::sub_5653E0()
 }
 
 STUB_FUNC(0x565490)
-int angry_lewin_0x85C::sub_565490(cool_nash_0x294* pPed)
+s32 angry_lewin_0x85C::sub_565490(cool_nash_0x294* pPed)
 {
 	return 0;
 }
@@ -205,7 +207,7 @@ void angry_lewin_0x85C::sub_566380(u16 a2)
 }
 
 STUB_FUNC(0x566520)
-char angry_lewin_0x85C::sub_566520()
+char_type angry_lewin_0x85C::sub_566520()
 {
 	return 'a';
 }
@@ -223,25 +225,25 @@ void angry_lewin_0x85C::sub_5668D0(cool_nash_0x294* a2)
 }
 
 STUB_FUNC(0x566C30)
-char angry_lewin_0x85C::sub_566C30(Car_BC* a2)
+char_type angry_lewin_0x85C::sub_566C30(Car_BC* a2)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x566C80)
-char angry_lewin_0x85C::sub_566C80(u32* a2)
+char_type angry_lewin_0x85C::sub_566C80(u32* a2)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x566EE0)
-void angry_lewin_0x85C::sub_566EE0(char a2)
+void angry_lewin_0x85C::sub_566EE0(char_type a2)
 {
 
 }
 
 STUB_FUNC(0x5670B0)
-int angry_lewin_0x85C::sub_5670B0()
+s32 angry_lewin_0x85C::sub_5670B0()
 {
 	return 0;
 }
@@ -285,19 +287,19 @@ void angry_lewin_0x85C::sub_568630()
 }
 
 STUB_FUNC(0x568670)
-char angry_lewin_0x85C::sub_568670()
+char_type angry_lewin_0x85C::sub_568670()
 {
 	return 'a';
 }
 
 STUB_FUNC(0x5686D0)
-char angry_lewin_0x85C::sub_5686D0(DrawUnk_0xBC* a2)
+char_type angry_lewin_0x85C::sub_5686D0(DrawUnk_0xBC* a2)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x568730)
-int angry_lewin_0x85C::sub_568730()
+s32 angry_lewin_0x85C::sub_568730()
 {
 	return 0;
 }
@@ -309,13 +311,13 @@ void angry_lewin_0x85C::sub_5687F0()
 }
 
 STUB_FUNC(0x569410)
-int angry_lewin_0x85C::sub_569410()
+s32 angry_lewin_0x85C::sub_569410()
 {
 	return 0;
 }
 
 STUB_FUNC(0x569530)
-int angry_lewin_0x85C::sub_569530()
+s32 angry_lewin_0x85C::sub_569530()
 {
 	return 0;
 }
@@ -327,19 +329,19 @@ void angry_lewin_0x85C::sub_5695A0()
 }
 
 STUB_FUNC(0x569600)
-char angry_lewin_0x85C::sub_569600(Car_BC* a2)
+char_type angry_lewin_0x85C::sub_569600(Car_BC* a2)
 {
 	return 'a';
 }
 
 STUB_FUNC(0x5696D0)
-void angry_lewin_0x85C::sub_5696D0(int a2)
+void angry_lewin_0x85C::sub_5696D0(s32 a2)
 {
 
 }
 
 STUB_FUNC(0x569840)
-int angry_lewin_0x85C::sub_569840(u8* a2, u8* a3, u8* a4)
+s32 angry_lewin_0x85C::sub_569840(u8* a2, u8* a3, u8* a4)
 {
 	return 0;
 }
@@ -351,13 +353,13 @@ Car_BC* angry_lewin_0x85C::sub_5698E0()
 }
 
 STUB_FUNC(0x569920)
-int angry_lewin_0x85C::sub_569920(u32* a2, int* a3, int* a4)
+s32 angry_lewin_0x85C::sub_569920(u32* a2, int* a3, int* a4)
 {
 	return 0;
 }
 
 STUB_FUNC(0x5699F0)
-int angry_lewin_0x85C::sub_5699F0(int a2)
+s32 angry_lewin_0x85C::sub_5699F0(s32 a2)
 {
 	return 0;
 }
@@ -411,13 +413,13 @@ char* angry_lewin_0x85C::GetDeathText_569F00()
 }
 
 STUB_FUNC(0x569F40)
-int angry_lewin_0x85C::sub_569F40()
+s32 angry_lewin_0x85C::sub_569F40()
 {
 	return 0;
 }
 
 MATCH_FUNC(0x569FF0)
-int angry_lewin_0x85C::sub_569FF0()
+s32 angry_lewin_0x85C::sub_569FF0()
 {
 	field_2F = 1;
 	return sub_569F40();
@@ -454,19 +456,19 @@ void angry_lewin_0x85C::sub_56A040()
 }
 
 STUB_FUNC(0x56A0F0)
-int angry_lewin_0x85C::sub_56A0F0()
+s32 angry_lewin_0x85C::sub_56A0F0()
 {
 	return 0;
 }
 
 STUB_FUNC(0x56A1A0)
-zealous_borg* angry_lewin_0x85C::sub_56A1A0(int a2)
+zealous_borg* angry_lewin_0x85C::sub_56A1A0(s32 a2)
 {
 	return 0;
 }
 
 STUB_FUNC(0x56A310)
-void angry_lewin_0x85C::sub_56A310(int a2)
+void angry_lewin_0x85C::sub_56A310(s32 a2)
 {
 
 }
@@ -478,7 +480,7 @@ void angry_lewin_0x85C::sub_56A490()
 }
 
 STUB_FUNC(0x56A6D0)
-char angry_lewin_0x85C::sub_56A6D0()
+char_type angry_lewin_0x85C::sub_56A6D0()
 {
 	return 'a';
 }
