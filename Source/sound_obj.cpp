@@ -922,7 +922,7 @@ void sound_obj::Service_419EF0()
     static char_type byte_674E24;
     if (gGame_0x40_67E008)
     {
-        field_1 = gGame_0x40_67E008->field_0 == 2;
+        field_1 = gGame_0x40_67E008->field_0_game_state == 2;
         if (!field_1)
         {
             GenerateIntegerRandomNumberTable_41BA90();
