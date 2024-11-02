@@ -57,7 +57,7 @@ struct Game_0x40
     char_type field_25;
     char_type field_26;
     char_type field_27;
-    s32 field_28;
+    s32 field_28_timer;
     s32 field_2C_main_state;
     char_type field_30;
     char_type field_31;

@@ -1,7 +1,7 @@
 #include "Game_0x40.hpp"
 #include "Function.hpp"
 
-Game_0x40* gGame_0x40_67E008;
+Game_0x40 *gGame_0x40_67E008;
 
 STUB_FUNC(0x4B8BB0)
 s32 Game_0x40::sub_4B8BB0()
@@ -12,7 +12,6 @@ s32 Game_0x40::sub_4B8BB0()
 STUB_FUNC(0x4B8BD0)
 void Game_0x40::sub_4B8BD0(s32 arg0, s32 main_state, s8 a2)
 {
-
 }
 
 MATCH_FUNC(0x4B8C00)
@@ -21,16 +20,25 @@ void Game_0x40::sub_4B8C00(s32 a1, s32 a2)
     sub_4B8BD0(a1, a2, 0);
 }
 
-STUB_FUNC(0x4B8C20)
+MATCH_FUNC(0x4B8C20)
 s8 Game_0x40::sub_4B8C20()
 {
+    if (field_28_timer == 0)
+    {
+        return 1;
+    }
+
+    if (field_28_timer > 0)
+    {
+        field_28_timer--;
+    }
+
     return 0;
 }
 
 STUB_FUNC(0x4B8C40)
 void Game_0x40::sub_4B8C40()
 {
-
 }
 
 STUB_FUNC(0x4B8E00)
@@ -42,19 +50,16 @@ s32 Game_0x40::sub_4B8E00(u32 a1, u32 a2)
 STUB_FUNC(0x4B8E50)
 void Game_0x40::sub_4B8E50()
 {
-
 }
 
 STUB_FUNC(0x4B8EB0)
 void Game_0x40::sub_4B8EB0()
 {
-
 }
 
 STUB_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
-
 }
 
 STUB_FUNC(0x4B9270)
@@ -66,7 +71,6 @@ s8 Game_0x40::sub_4B9270(u16 *a2) // TODO: user call 2nd param
 STUB_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
-
 }
 
 STUB_FUNC(0x4B9380)
@@ -84,7 +88,6 @@ s32 Game_0x40::sub_4B93C0()
 STUB_FUNC(0x4B9410)
 void Game_0x40::sub_4B9410()
 {
-
 }
 
 STUB_FUNC(0x4B9640)
@@ -96,19 +99,16 @@ s8 Game_0x40::sub_4B9640()
 STUB_FUNC(0x4B9700)
 void Game_0x40::sub_4B9700()
 {
-
 }
 
 STUB_FUNC(0x4B9710)
 void Game_0x40::sub_4B9710()
 {
-
 }
 
 STUB_FUNC(0x4B9720)
 void Game_0x40::sub_4B9720()
 {
-
 }
 
 STUB_FUNC(0x4B9750)
@@ -120,7 +120,6 @@ angry_lewin_0x85C *Game_0x40::sub_4B9750()
 STUB_FUNC(0x4B9790)
 void Game_0x40::sub_4B9790(s32 a2, s32 a3, s32 a4)
 {
-
 }
 
 STUB_FUNC(0x4B97E0)
@@ -184,19 +183,19 @@ s8 Game_0x40::sub_4B9C10(Car_BC *a2)
 }
 
 STUB_FUNC(0x4B9C50)
-DrawUnk_0xBC* Game_0x40::sub_4B9C50()
+DrawUnk_0xBC *Game_0x40::sub_4B9C50()
 {
     return 0;
 }
 
 STUB_FUNC(0x4B9CD0)
-angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
+angry_lewin_0x85C *Game_0x40::sub_4B9CD0()
 {
     return 0;
 }
 
 STUB_FUNC(0x4B9D10)
-angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
+angry_lewin_0x85C *Game_0x40::IterateNextPlayer_4B9D10()
 {
     return 0;
 }
@@ -204,17 +203,14 @@ angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
 STUB_FUNC(0x4B9D60)
 void Game_0x40::sub_4B9D60(angry_lewin_0x85C *a2)
 {
-
 }
 
 STUB_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
-
 }
 
 STUB_FUNC(0x4BAE30)
-Game_0x40::~Game_0x40() // 4BAE30 
+Game_0x40::~Game_0x40() // 4BAE30
 {
-
 }
