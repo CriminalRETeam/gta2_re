@@ -171,13 +171,97 @@ struct zealous_borg
 };
 
 
+// TODO: add these later
+class Car_BC;
+class Zone_144;
+
 struct angry_lewin_0x85C
 {
+    EXPORT u8 GetIdx_4881E0();
+    EXPORT void sub_5645B0(Car_BC* a2);
+    EXPORT char_type sub_564610(Car_BC* a2, char_type a3);
+    EXPORT u32* sub_564680(s32 a2);
+    EXPORT void sub_564710(Car_BC* a2, s32 a3);
+    EXPORT void sub_564790(s32 idx);
+    EXPORT void sub_5647D0();
+    EXPORT keen_bhaskara_0x30* sub_5648F0();
+    EXPORT void sub_564910(keen_bhaskara_0x30* a2);
+    EXPORT char_type sub_564940();
+    EXPORT char_type sub_564960(s32 a2, u8 a3);
+    EXPORT u16 sub_5649D0(char_type a2, char_type a3);
+    EXPORT char_type sub_564AD0(Car_BC* a2);
+    EXPORT s32 sub_564B60();
+    EXPORT s32 sub_564B80();
+    EXPORT u16 sub_564C00();
+    EXPORT void sub_564C50(s32 a2);
+    EXPORT s32 sub_564CC0();
+    EXPORT void sub_564CF0();
+    EXPORT char_type sub_564D60(s32 a2);
+    EXPORT u16 sub_565070();
+    EXPORT s32 sub_5651F0(s32 a2);
+    EXPORT void sub_565310();
+    EXPORT void sub_5653E0();
+    EXPORT s32 sub_565490(cool_nash_0x294* pPed);
+    EXPORT void SetInputs_565740(u32 input);
+    EXPORT void sub_565770(unsigned __int8 count);
+    EXPORT void sub_565860();
+    EXPORT void sub_565890(u16 action);
+    EXPORT void sub_566380(u16 a2);
+    EXPORT char_type sub_566520();
+    EXPORT void sub_566820();
+    EXPORT void sub_5668D0(cool_nash_0x294* a2);
+    EXPORT char_type sub_566C30(Car_BC* a2);
+    EXPORT char_type sub_566C80(u32* a2);
+    EXPORT void sub_566EE0( char_type a2);
+    EXPORT s32 sub_5670B0();
+    EXPORT void sub_567130();
+    EXPORT void sub_567850();
+    EXPORT void sub_5679E0();
+    EXPORT const char* sub_568520();
+    EXPORT void sub_568630();
+    EXPORT char_type sub_568670();
+    EXPORT char_type sub_5686D0(DrawUnk_0xBC* a2);
+    EXPORT s32 sub_568730();
+    EXPORT void sub_5687F0();
+    EXPORT s32 sub_569410();
+    EXPORT s32 sub_569530();
+    EXPORT void sub_5695A0();
+    EXPORT char_type sub_569600(Car_BC* a2);
+    EXPORT void sub_5696D0(s32 a2);
+    EXPORT s32 sub_569840(u8* a2, u8* a3, u8* a4);
+    EXPORT Car_BC* sub_5698E0();
+    EXPORT s32 sub_569920(u32* a2, int* a3, int* a4);
+    EXPORT s32 sub_5699F0(s32 a2);
+    EXPORT void sub_569A10();
+    EXPORT void sub_569C20();
+    EXPORT void sub_569CB0();
+    EXPORT void sub_569E70();
+    EXPORT char* GetDeathText_569F00();
+    EXPORT s32 sub_569F40();
+    EXPORT s32 sub_569FF0();
+    EXPORT void SetUnknown_56A000();
+    EXPORT void sub_56A010();
+    EXPORT void sub_56A020();
+    EXPORT void sub_56A030();
+    EXPORT void sub_56A040();
+    EXPORT s32 sub_56A0F0();
+    EXPORT zealous_borg* sub_56A1A0(s32 a2);
+    EXPORT void sub_56A310(s32 a2);
+    EXPORT void sub_56A490();
+    EXPORT char_type sub_56A6D0();
+
+    // 0x56A740
+    EXPORT angry_lewin_0x85C(u8 a2);
+
+    // 0x56A940
+    EXPORT ~angry_lewin_0x85C();
+
+
     char_type field_0;
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4;
+    s32 field_4_inputs;
     s16 field_8;
     s16 field_A;
     s32 field_C;
@@ -187,20 +271,20 @@ struct angry_lewin_0x85C
     s16 field_18;
     s16 field_1A;
     s32 field_1C;
-    s32 field_20;
+    Car_BC* field_20;
     s32 field_24;
     char_type field_28;
     char_type field_29;
     char_type field_2A;
     char_type field_2B;
     s16 field_2C;
-    u8 field_2E;
+    u8 field_2E_idx;
     char_type field_2F;
     char_type field_30;
     char_type field_31;
     char_type field_32;
     char_type field_33;
-    s32 field_34_pObj;
+    Zone_144* field_34_pObj;
     s32 field_38;
     s32 field_3C;
     s32 field_40;
@@ -209,11 +293,11 @@ struct angry_lewin_0x85C
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
-    infallible_turing *field_4C_pUnk;
+    infallible_turing* field_4C_pUnk;
     s32 field_50;
     s32 field_54_unk;
-    s32 field_58;
-    s32 field_5C;
+    Car_BC* field_58;
+    Car_BC* field_5C;
     s32 field_60;
     char_type field_64;
     char_type field_65;
@@ -251,13 +335,13 @@ struct angry_lewin_0x85C
     char_type field_8B;
     char_type field_8C;
     char_type field_8D;
-    char_type field_8E;
+    char_type field_8E_bInUse;
     char_type field_8F;
     DrawUnk_0xBC field_90_game_camera;
     DrawUnk_0xBC field_14C_view_camera;
     DrawUnk_0xBC field_208_aux_game_camera;
-    cool_nash_0x294 *field_2C4_unk;
-    cool_nash_0x294 *field_2C8_unkq;
+    cool_nash_0x294* field_2C4_player_ped;
+    cool_nash_0x294* field_2C8_unkq;
     s32 field_2CC;
     char_type field_2D0;
     char_type field_2D1;
@@ -273,10 +357,10 @@ struct angry_lewin_0x85C
     s16 field_682;
     thirsty_lamarr field_684_unk;
     thirsty_lamarr field_6BC_unk;
-    u16 field_6F4[17];
+    WORD field_6F4[17];
     s16 field_716;
-    keen_bhaskara_0x30 *field_718[28];
-    s16 field_788;
+    keen_bhaskara_0x30* field_718[28];
+    s16 field_788_idx;
     char_type field_78A;
     char_type field_78B;
     s32 field_78C;
@@ -326,7 +410,7 @@ struct angry_lewin_0x85C
     s32 field_830;
     s32 field_834;
     s32 field_838;
-    s16 field_83C;
+    wchar_t field_83C_player_name;
     char_type field_83E;
     char_type field_83F;
     s32 field_840;

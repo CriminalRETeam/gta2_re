@@ -10,3 +10,6 @@
         __asm nop\
 
 #define MATCH_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 1) }
+#define STUB_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 0) }
+
+#define GTA2_COUNTOF(x) (sizeof(x) / sizeof(*(x)))

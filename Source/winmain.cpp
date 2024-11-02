@@ -20,6 +20,7 @@
 #include "resource.h"
 #include <ddraw.h>
 //#include <dmusics.h>
+#include "angry_lewin_0x85C.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1180,9 +1181,88 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
+void force_link()
+{
+    angry_lewin_0x85C lewin(1);
+    lewin.GetIdx_4881E0();
+    lewin.sub_5645B0(0);
+    lewin.sub_564610(0, 0);
+    lewin.sub_564680(0);
+    lewin.sub_564710(0, 0);
+    lewin.sub_564790(0);
+    lewin.sub_5647D0();
+    lewin.sub_5648F0();
+    lewin.sub_564910(0);
+    lewin.sub_564940();
+    lewin.sub_564960(0, 0);
+    lewin.sub_5649D0(0, 0);
+    lewin.sub_564AD0(0);
+    lewin.sub_564B60();
+    lewin.sub_564B80();
+    lewin.sub_564C00();
+    lewin.sub_564C50(0);
+    lewin.sub_564CC0();
+    lewin.sub_564CF0();
+    lewin.sub_564D60(0);
+    lewin.sub_565070();
+    lewin.sub_5651F0(0);
+    lewin.sub_565310();
+    lewin.sub_5653E0();
+    lewin.sub_565490(0);
+    lewin.SetInputs_565740(0);
+    lewin.sub_565770(0);
+    lewin.sub_565860();
+    lewin.sub_565890(0);
+    lewin.sub_566380(0);
+    lewin.sub_566520();
+    lewin.sub_566820();
+    lewin.sub_5668D0(0);
+    lewin.sub_566C30(0);
+    lewin.sub_566C80(0);
+    lewin.sub_566EE0(0);
+    lewin.sub_5670B0();
+    lewin.sub_567130();
+    lewin.sub_567850();
+    lewin.sub_5679E0();
+    lewin.sub_568520();
+    lewin.sub_568630();
+    lewin.sub_568670();
+    lewin.sub_5686D0(0);
+    lewin.sub_568730();
+    lewin.sub_5687F0();
+    lewin.sub_569410();
+    lewin.sub_569530();
+    lewin.sub_5695A0();
+    lewin.sub_569600(0);
+    lewin.sub_5696D0(0);
+    lewin.sub_569840(0 ,0 ,0);
+    lewin.sub_5698E0();
+    lewin.sub_569920(0, 0, 0);
+    lewin.sub_5699F0(0);
+    lewin.sub_569A10();
+    lewin.sub_569C20();
+    lewin.sub_569CB0();
+    lewin.sub_569E70();
+    lewin.GetDeathText_569F00();
+    lewin.sub_569F40();
+    lewin.sub_569FF0();
+    lewin.SetUnknown_56A000();
+    lewin.sub_56A010();
+    lewin.sub_56A020();
+    lewin.sub_56A030();
+    lewin.sub_56A040();
+    lewin.sub_56A0F0();
+    lewin.sub_56A1A0(0);
+    lewin.sub_56A310(0);
+    lewin.sub_56A490();
+    lewin.sub_56A6D0();
+}
+
 // nomatch
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
+    force_link();
+
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
     if (CoInitialize(0) < 0)
