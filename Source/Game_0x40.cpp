@@ -15,10 +15,10 @@ void Game_0x40::sub_4B8BD0(s32 arg0, s32 main_state, s8 a2)
 
 }
 
-STUB_FUNC(0x4B8C00)
+MATCH_FUNC(0x4B8C00)
 void Game_0x40::sub_4B8C00(s32 a1, s32 a2)
 {
-
+    sub_4B8BD0(a1, a2, 0);
 }
 
 STUB_FUNC(0x4B8C20)
