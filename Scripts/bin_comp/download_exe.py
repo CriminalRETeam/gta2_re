@@ -1,5 +1,12 @@
 import requests
 import sys
+import os
+
+CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+
+if os.path.exists(os.path.join(CURRENT_DIRECTORY, "10.5.exe")):
+    print("10.5.exe already exists, skipping")
+    sys.exit(0)
 
 r = requests.get("https://mouzedrift.s-ul.eu/KTb8N0bc")
 
