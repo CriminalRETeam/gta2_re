@@ -1,5 +1,7 @@
 #include "Game_0x40.hpp"
 #include "Function.hpp"
+#include "debug.hpp"
+#include "root_sound.hpp"
 
 Game_0x40 *gGame_0x40_67E008;
 
@@ -71,6 +73,7 @@ s8 Game_0x40::sub_4B9270(u16 *a2) // TODO: user call 2nd param
 STUB_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
+    // TODO
 }
 
 STUB_FUNC(0x4B9380)
@@ -93,7 +96,38 @@ void Game_0x40::sub_4B9410()
 STUB_FUNC(0x4B9640)
 s8 Game_0x40::sub_4B9640()
 {
-    return 0;
+    sub_4B9380();
+
+    switch (field_0_game_state)
+    {
+    case 0:
+        sub_4B9410();
+        if (!bSkip_audio_67D6BE)
+        {
+            gRoot_sound_66B038.Service_40EFA0();
+        }
+        field_0_game_state = 2;
+        return sub_4B8C20();
+
+    case 1:
+        sub_4B9410();
+        break;
+
+    case 2:
+        sub_4B93C0();
+        break;
+
+    default:
+        return sub_4B8C20();
+    }
+
+    if (!bSkip_audio_67D6BE)
+    {
+        gRoot_sound_66B038.Service_40EFA0();
+        return sub_4B8C20();
+    }
+
+    return sub_4B8C20();
 }
 
 STUB_FUNC(0x4B9700)
@@ -101,9 +135,13 @@ void Game_0x40::sub_4B9700()
 {
 }
 
-STUB_FUNC(0x4B9710)
+MATCH_FUNC(0x4B9710)
 void Game_0x40::sub_4B9710()
 {
+    if (field_23_max_idx == 1)
+    {
+        field_0_game_state = 0;
+    }
 }
 
 STUB_FUNC(0x4B9720)

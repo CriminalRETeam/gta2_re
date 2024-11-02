@@ -46,7 +46,7 @@ struct Game_0x40
     Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     ~Game_0x40(); // 4BAE30  
 
-    s32 field_0;
+    s32 field_0_game_state;
     angry_lewin_0x85C *field_4[6];
     angry_lewin_0x85C *field_1C_unk;
     u8 field_20;
