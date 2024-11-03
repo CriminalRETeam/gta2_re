@@ -103,13 +103,15 @@ def replace_constants(line, constants):
             return line
 
 def post_process_asm(asmstr):
+    stable_name_index = 1
     lines = asmstr.split("\n")
     constants = {}
     for line in lines:
        extracted_constants = extract_constant(line)
        for v in extracted_constants:
             if not v in constants:
-                constants[v] = "stable_name"
+                constants[v] = "stable_name_" + str(stable_name_index)
+                stable_name_index = stable_name_index + 1
     i = 0
     while i < len(lines):
         lines[i] = replace_constants(lines[i], constants)
