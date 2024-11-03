@@ -194,7 +194,7 @@ struct angry_lewin_0x85C
     EXPORT s32 sub_564B80();
     EXPORT u16 sub_564C00();
     EXPORT void sub_564C50(s32 a2);
-    EXPORT s32 sub_564CC0();
+    EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);
     EXPORT u16 sub_565070();
@@ -203,7 +203,7 @@ struct angry_lewin_0x85C
     EXPORT void sub_5653E0();
     EXPORT s32 sub_565490(cool_nash_0x294* pPed);
     EXPORT void SetInputs_565740(u32 input);
-    EXPORT void sub_565770(unsigned __int8 count);
+    EXPORT void sub_565770(u8 count);
     EXPORT void sub_565860();
     EXPORT void sub_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
@@ -248,7 +248,7 @@ struct angry_lewin_0x85C
     EXPORT zealous_borg* sub_56A1A0(s32 a2);
     EXPORT void sub_56A310(s32 a2);
     EXPORT void sub_56A490();
-    EXPORT char_type sub_56A6D0();
+    EXPORT void sub_56A6D0();
 
     // 0x56A740
     EXPORT angry_lewin_0x85C(u8 a2);

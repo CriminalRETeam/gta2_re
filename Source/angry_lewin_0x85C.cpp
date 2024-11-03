@@ -1,5 +1,6 @@
 #include "Function.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "debug.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -91,10 +92,24 @@ s32 angry_lewin_0x85C::sub_564B80()
 	return 0;
 }
 
-STUB_FUNC(0x564C00)
+MATCH_FUNC(0x564C00)
 u16 angry_lewin_0x85C::sub_564C00()
 {
-	return 0;
+	sub_564B80();
+
+	if (field_788_idx >= 15)
+	{
+		field_16 = field_788_idx;
+		field_788_idx = field_14;
+	}
+
+	if (field_18 >= 15)
+	{
+		field_16 = field_18;
+		field_18 = field_14;
+	}
+
+	return sub_5649D0(0, 0);
 }
 
 STUB_FUNC(0x564C50)
@@ -103,35 +118,26 @@ void angry_lewin_0x85C::sub_564C50(s32 a2)
 
 }
 
-char_type byte_67D539;
-char_type byte_67D57C;
+u8 byte_67D57C;
+u8 byte_67D539;
 
-STUB_FUNC(0x564CC0)
-s32 angry_lewin_0x85C::sub_564CC0()
+MATCH_FUNC(0x564CC0)
+void angry_lewin_0x85C::sub_564CC0()
 {
-	/*
-	int i;
-	for (i = 0; i < GTA2_COUNTOF(field_6F4); ++i)
+	for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4); i++)
 	{
-		if (i == 11)
+		if (i == 11 && byte_67D539)
 		{
-			if (byte_67D539)
-			{
-				continue;
-			}
-		LABEL_7:
-			field_6F4[i] = 0;
 			continue;
 		}
-		if (i != 7 || !byte_67D57C)
-		{
-			goto LABEL_7;
-		}
-	}
-	return i;
-	*/
 
-	return 0;
+		if (i == 7 && byte_67D57C)
+		{
+			continue;
+		}
+
+		field_6F4[i] = 0;
+	}
 }
 
 STUB_FUNC(0x564CF0)
@@ -183,7 +189,7 @@ void angry_lewin_0x85C::SetInputs_565740(u32 input)
 }
 
 STUB_FUNC(0x565770)
-void angry_lewin_0x85C::sub_565770(unsigned __int8 count)
+void angry_lewin_0x85C::sub_565770(u8 count)
 {
 
 }
@@ -254,10 +260,21 @@ void angry_lewin_0x85C::sub_567130()
 
 }
 
-STUB_FUNC(0x567850)
+MATCH_FUNC(0x567850)
 void angry_lewin_0x85C::sub_567850()
 {
+	if (field_29 == 0)
+	{
+		field_29 = 1;
+		field_2C = 70;
+		return;
+	}
 
+	if (--field_2C == 0)
+	{
+		field_29 = 0;
+		sub_5695A0();
+	}
 }
 
 STUB_FUNC(0x5679E0)
@@ -353,7 +370,7 @@ Car_BC* angry_lewin_0x85C::sub_5698E0()
 }
 
 STUB_FUNC(0x569920)
-s32 angry_lewin_0x85C::sub_569920(u32* a2, int* a3, int* a4)
+s32 angry_lewin_0x85C::sub_569920(u32* a2, s32* a3, s32* a4)
 {
 	return 0;
 }
@@ -479,10 +496,30 @@ void angry_lewin_0x85C::sub_56A490()
 
 }
 
-STUB_FUNC(0x56A6D0)
-char_type angry_lewin_0x85C::sub_56A6D0()
+MATCH_FUNC(0x56A6D0)
+void angry_lewin_0x85C::sub_56A6D0()
 {
-	return 'a';
+	// sets some car info to 0
+	field_78 = 0;
+	field_79 = 0;
+	field_7A = 0;
+	field_7B = 0;
+	field_7C = 0;
+	field_7D = 0;
+	field_7E = 0;
+	field_7F = 0;
+	field_80 = 0;
+	field_81 = 0;
+	field_82 = 0;
+	field_83 = 0;
+	field_84 = 0;
+	field_88 = 0;
+	field_87 = 0;
+	field_89 = 0;
+	field_8D = 0;
+	field_8A = 0;
+	field_8B = 0;
+	field_8C = 0;
 }
 
 STUB_FUNC(0x56A740)
