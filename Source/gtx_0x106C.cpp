@@ -287,13 +287,14 @@ s16 gtx_0x106C::get_physical_palettes_len_5AA900()
     return this->field_8_physical_palettes_len;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA910)
 object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
 {
-    if (idx < (u32)this->field_6_map_object_info_len)
-        return &this->field_24_map_object_info[idx];
-    else
+    if (idx >= this->field_6_map_object_info_len)
+    {
         return 0;
+    }
+    return &this->field_24_map_object_info[idx];
 }
 
 // nomatch
