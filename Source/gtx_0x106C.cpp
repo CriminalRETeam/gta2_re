@@ -1009,7 +1009,7 @@ gtx_0x106C::gtx_0x106C()
     this->field_18_sprite_base1 = 0;
 }
 
-// nomatch 0x5AB8A0
+MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
     sprite_base *field_14_sprite_base2; // eax
