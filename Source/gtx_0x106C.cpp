@@ -281,7 +281,7 @@ s16 gtx_0x106C::sub_5AA890()
     return internal_idx;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA900)
 s16 gtx_0x106C::get_physical_palettes_len_5AA900()
 {
     return this->field_8_physical_palettes_len;
