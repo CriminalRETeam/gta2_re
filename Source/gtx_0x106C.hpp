@@ -28,7 +28,7 @@ struct sprite_base
 struct font_base
 {
     s16 field_0_font_count;
-    u16 field_2_base[1]; // variable – see font_count
+    u16 field_2_base[1]; // variable ï¿½ see font_count
 };
 
 struct sprite_index
@@ -52,7 +52,7 @@ struct palette_index
 
 struct tile_array
 {
-    s16 field_0[1024];
+    u16 field_0[1024];
 };
 
 struct delta_entry
@@ -84,9 +84,9 @@ struct car_info
     char_type rear_window_offset;
     BYTE info_flags;
     BYTE info_flags_2;
-    BYTE remap[1]; // [variable – see num_remaps];
+    BYTE remap[1]; // [variable ï¿½ see num_remaps];
     BYTE num_doors;
-    door_info doors[1]; // [variable – see num_doors];
+    door_info doors[1]; // [variable ï¿½ see num_doors];
 };
 
 struct car_info_container
@@ -107,7 +107,7 @@ struct delta_store_entry
 {
     s16 field_0_offset;
     char_type field_2_len;
-    char_type field_3_data[1]; // variable – see field_2_len
+    char_type field_3_data[1]; // variable ï¿½ see field_2_len
 };
 
 
@@ -221,7 +221,7 @@ public:
     s16 field_0_totalPalBase;
     s16 field_2_font_base_total;
     s16 field_4_sprite_index_count;
-    s16 field_6_map_object_info_len;
+    u16 field_6_map_object_info_len;
     s16 field_8_physical_palettes_len;
     s16 field_A;
     palette_base *field_C_palette_base2;

@@ -254,23 +254,23 @@ s16 gtx_0x106C::sub_5AA800(u16 *a2)
     return v2 + 0x22;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA850)
 bool gtx_0x106C::sub_5AA850(u16 tile_idx)
 {
     return this->field_40_tile->field_0[tile_idx] != tile_idx;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA870)
 s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
 {
-    return this->field_40_tile->field_0[tile_idx];
+    return field_40_tile->field_0[tile_idx];
 }
 
 // nomatch
 s16 gtx_0x106C::sub_5AA890()
 {
     s16 internal_idx; // ax
-    s16 *i; // ecx
+    u16 *i; // ecx
 
     internal_idx = 1023;
     for (i = &this->field_40_tile->field_0[1023]; *i; --i)
@@ -281,19 +281,20 @@ s16 gtx_0x106C::sub_5AA890()
     return internal_idx;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA900)
 s16 gtx_0x106C::get_physical_palettes_len_5AA900()
 {
     return this->field_8_physical_palettes_len;
 }
 
-// nomatch
+MATCH_FUNC(0x5AA910)
 object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
 {
-    if (idx < (u32)this->field_6_map_object_info_len)
-        return &this->field_24_map_object_info[idx];
-    else
+    if (idx >= this->field_6_map_object_info_len)
+    {
         return 0;
+    }
+    return &this->field_24_map_object_info[idx];
 }
 
 // nomatch

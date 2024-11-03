@@ -2,6 +2,8 @@
 #include "Function.hpp"
 #include "debug.hpp"
 #include "root_sound.hpp"
+#include "lucid_hamilton.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 Game_0x40 *gGame_0x40_67E008;
 
@@ -11,9 +13,16 @@ s32 Game_0x40::sub_4B8BB0()
     return 0;
 }
 
-STUB_FUNC(0x4B8BD0)
-void Game_0x40::sub_4B8BD0(s32 arg0, s32 main_state, s8 a2)
+MATCH_FUNC(0x4B8BD0)
+void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
 {
+    int timer = this->field_28_timer;
+    if (timer == -1 || timer > new_timer)
+    {
+        this->field_28_timer = new_timer;
+        this->field_2C_main_state = main_state;
+        gLucid_hamilton_67E8E0.sub_4C5930(a2);
+    }
 }
 
 MATCH_FUNC(0x4B8C00)
@@ -76,10 +85,20 @@ void Game_0x40::Draw_4B92D0()
     // TODO
 }
 
-STUB_FUNC(0x4B9380)
-s8 Game_0x40::sub_4B9380()
+MATCH_FUNC(0x4B9380)
+void Game_0x40::sub_4B9380()
 {
-    return 0;
+    angry_lewin_0x85C **ppPlayersIterator = field_4_players;
+    u32 idx = 0;
+    while (idx < field_23_max_idx)
+    {
+        if ((*ppPlayersIterator)->field_8E_bInUse)
+        {
+            (*ppPlayersIterator)->sub_566820();
+        }
+        ++idx;
+        ++ppPlayersIterator;
+    }
 }
 
 STUB_FUNC(0x4B93C0)
@@ -94,7 +113,7 @@ void Game_0x40::sub_4B9410()
 }
 
 STUB_FUNC(0x4B9640)
-s8 Game_0x40::sub_4B9640()
+s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
 {
     sub_4B9380();
 
@@ -102,6 +121,7 @@ s8 Game_0x40::sub_4B9640()
     {
     case 0:
         sub_4B9410();
+        
         if (!bSkip_audio_67D6BE)
         {
             gRoot_sound_66B038.Service_40EFA0();
@@ -111,23 +131,23 @@ s8 Game_0x40::sub_4B9640()
 
     case 1:
         sub_4B9410();
-        break;
+        if (!bSkip_audio_67D6BE)
+        {
+            gRoot_sound_66B038.Service_40EFA0();
+        }
+        return sub_4B8C20();
 
     case 2:
         sub_4B93C0();
-        break;
+        if (!bSkip_audio_67D6BE)
+        {
+            gRoot_sound_66B038.Service_40EFA0();
+        }
+        return sub_4B8C20();
 
     default:
         return sub_4B8C20();
     }
-
-    if (!bSkip_audio_67D6BE)
-    {
-        gRoot_sound_66B038.Service_40EFA0();
-        return sub_4B8C20();
-    }
-
-    return sub_4B8C20();
 }
 
 STUB_FUNC(0x4B9700)
