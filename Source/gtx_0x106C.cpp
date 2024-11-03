@@ -260,10 +260,11 @@ bool gtx_0x106C::sub_5AA850(u16 tile_idx)
     return this->field_40_tile->field_0[tile_idx] != tile_idx;
 }
 
-// nomatch
+
+MATCH_FUNC(0x5AA870)
 s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
 {
-    return this->field_40_tile->field_0[tile_idx];
+    return field_40_tile->field_0[tile_idx];
 }
 
 // nomatch
