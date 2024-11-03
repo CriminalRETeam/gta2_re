@@ -67,7 +67,7 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: windows_vc6_main_exe
-        path: build_vc6/Release/decomp_main.exe
+        path: build_vc6/decomp_main.exe
 
     # ======================================
     #      Linux vc6
@@ -93,4 +93,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: linux_vc6_main_exe
-        path: build_vc6/Release/decomp_main.exe
+        path: build_vc6/decomp_main.exe

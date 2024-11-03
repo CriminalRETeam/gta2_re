@@ -38,7 +38,7 @@ def check_funcs_match():
     ok_funcs = []
     fail_funcs = []
     for func in funcs_to_check:
-        if compare_function.compare_function("../../build_vc6/Release/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16)):
+        if compare_function.compare_function("../../build_vc6/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16)):
             ok_funcs.append(func[0] + " OK!")
         else:
             fail_funcs.append(func[0] + " FAIL!")

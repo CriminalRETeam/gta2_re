@@ -58,7 +58,7 @@ for:
    - cd ../../build_vc6
 
   artifacts:
-    - path: build_vc6/Release/decomp_main.exe
+    - path: build_vc6/decomp_main.exe
       name: windows_vc6_main_exe
 
 # ======================================
@@ -86,5 +86,5 @@ for:
    - ./venv/bin/python compare_all_functions.py
 
   artifacts:
-    - path: build_vc6/Release/decomp_main.exe
+    - path: build_vc6/decomp_main.exe
       name: linux_vc6_main_exe

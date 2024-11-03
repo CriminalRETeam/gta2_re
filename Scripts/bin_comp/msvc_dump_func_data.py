@@ -105,7 +105,7 @@ def parse_map(mapFilename, exeBytes, csv_file):
             pass
 
 mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "new_function_data.csv")
-exeBytes = open("../../build_vc6/Release/decomp_main.exe", "rb").read()
+exeBytes = open("../../build_vc6/decomp_main.exe", "rb").read()
 
 with open(mapping_csv_path, "w") as file:
     parse_map("../../build_vc6/output.map", exeBytes, file)
