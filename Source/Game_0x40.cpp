@@ -3,6 +3,7 @@
 #include "debug.hpp"
 #include "root_sound.hpp"
 #include "lucid_hamilton.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 Game_0x40 *gGame_0x40_67E008;
 
@@ -84,10 +85,20 @@ void Game_0x40::Draw_4B92D0()
     // TODO
 }
 
-STUB_FUNC(0x4B9380)
-s8 Game_0x40::sub_4B9380()
+MATCH_FUNC(0x4B9380)
+void Game_0x40::sub_4B9380()
 {
-    return 0;
+    angry_lewin_0x85C **ppPlayersIterator = field_4_players;
+    u32 idx = 0;
+    while (idx < field_23_max_idx)
+    {
+        if ((*ppPlayersIterator)->field_8E_bInUse)
+        {
+            (*ppPlayersIterator)->sub_566820();
+        }
+        ++idx;
+        ++ppPlayersIterator;
+    }
 }
 
 STUB_FUNC(0x4B93C0)

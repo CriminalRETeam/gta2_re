@@ -20,7 +20,7 @@ struct Game_0x40
     void ShowCounters_4B8FF0();
     s8 sub_4B9270(u16 *a2); // TODO: user call 2nd param
     void Draw_4B92D0();
-    s8 sub_4B9380();
+    void sub_4B9380();
     s32 sub_4B93C0();
     void sub_4B9410();
     s8 sub_4B9640();
@@ -47,7 +47,7 @@ struct Game_0x40
     ~Game_0x40(); // 4BAE30  
 
     s32 field_0_game_state;
-    angry_lewin_0x85C *field_4[6];
+    angry_lewin_0x85C *field_4_players[6];
     angry_lewin_0x85C *field_1C_unk;
     u8 field_20;
     u8 field_21;
