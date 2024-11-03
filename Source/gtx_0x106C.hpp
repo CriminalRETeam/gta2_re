@@ -52,7 +52,7 @@ struct palette_index
 
 struct tile_array
 {
-    s16 field_0[1024];
+    u16 field_0[1024];
 };
 
 struct delta_entry
