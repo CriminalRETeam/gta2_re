@@ -14,3 +14,19 @@
 
 #define GTA2_COUNTOF(x) (sizeof(x) / sizeof(*(x)))
 #define GTA2_COUNTOF_S(x) ((s32)GTA2_COUNTOF(x))
+
+#if defined(EXPORT_FUNCS)
+#define EXPORT __declspec(dllexport)
+#else
+#define EXPORT
+#endif
+
+#if defined(EXPORT_VARS)||defined(IMPORT_VARS)
+        #if defined(EXPORT_VARS)
+                #define EXPORT_VAR __declspec(dllexport) 
+        #elif defined(IMPORT_VARS)
+                #define EXPORT_VAR __declspec(dllimport) 
+        #endif
+#else
+        #define EXPORT_VAR
+#endif

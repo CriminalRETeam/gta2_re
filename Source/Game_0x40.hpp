@@ -71,4 +71,5 @@ struct Game_0x40
     char_type field_3F;       
 };
 
-extern Game_0x40* gGame_0x40_67E008;
+// extern __declspec(dllexport)
+extern EXPORT_VAR Game_0x40* gGame_0x40_67E008;

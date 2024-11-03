@@ -3,6 +3,7 @@
 #include <windows.h>
 #include "types.hpp"
 
+
 struct palette_base
 {
     u16 field_0_tile;
