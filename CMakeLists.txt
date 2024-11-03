@@ -81,7 +81,9 @@ add_library (Source
     Source/distracted_einstein_0xC.cpp
     Source/gtx_0x106C.hpp
     Source/gtx_0x106C.cpp
-    Source/Function.hpp)
+    Source/Function.hpp
+    Source/DrawUnk_0xBC.hpp
+    Source/DrawUnk_0xBC.cpp)
 
 target_compile_definitions(Source PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
 
