@@ -969,10 +969,14 @@ void gtx_0x106C::LoadSty_5AB750(const char_type *pStyFileName)
     sub_5AB720();
 }
 
-// nomatch 0x5AB820
+MATCH_FUNC(0x5AB820)
 gtx_0x106C::gtx_0x106C()
 {
-    memset(this->field_6C_spec, 1, sizeof(field_6C_spec));
+    for (int i=0; i < GTA2_COUNTOF(field_6C_spec); i++)
+    {
+        field_6C_spec[i] = 1;
+    }
+
     this->field_64_car_recycling_info = 0;
     this->field_68_recy_chunk_size = 0;
     this->field_14_sprite_base2 = 0;
@@ -1005,7 +1009,7 @@ gtx_0x106C::gtx_0x106C()
     this->field_18_sprite_base1 = 0;
 }
 
-// nomatch 0x5AB8A0
+MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
     sprite_base *field_14_sprite_base2; // eax
