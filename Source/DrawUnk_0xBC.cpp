@@ -110,9 +110,8 @@ void DrawUnk_0xBC::sub_436120(s32 a2)
 }
 
 STUB_FUNC(0x436140)
-long long DrawUnk_0xBC::sub_436140()
+void DrawUnk_0xBC::sub_436140()
 {
-	return 0;
 }
 
 STUB_FUNC(0x4361B0)
@@ -152,9 +151,8 @@ s32 DrawUnk_0xBC::sub_436830()
 }
 
 STUB_FUNC(0x436860)
-long long DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
+void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
 {
-	return 0;
 }
 
 STUB_FUNC(0x4368E0)
