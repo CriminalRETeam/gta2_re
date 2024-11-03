@@ -13,3 +13,4 @@
 #define STUB_FUNC(addr) __declspec(naked) void Marker_##addr() { FUNC_MARKER_ASM(addr, 0) }
 
 #define GTA2_COUNTOF(x) (sizeof(x) / sizeof(*(x)))
+#define GTA2_COUNTOF_S(x) ((s32)GTA2_COUNTOF(x))
