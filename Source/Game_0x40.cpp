@@ -113,7 +113,7 @@ void Game_0x40::sub_4B9410()
 }
 
 STUB_FUNC(0x4B9640)
-s8 Game_0x40::sub_4B9640()
+s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
 {
     sub_4B9380();
 
@@ -121,6 +121,7 @@ s8 Game_0x40::sub_4B9640()
     {
     case 0:
         sub_4B9410();
+        
         if (!bSkip_audio_67D6BE)
         {
             gRoot_sound_66B038.Service_40EFA0();
@@ -130,23 +131,23 @@ s8 Game_0x40::sub_4B9640()
 
     case 1:
         sub_4B9410();
-        break;
+        if (!bSkip_audio_67D6BE)
+        {
+            gRoot_sound_66B038.Service_40EFA0();
+        }
+        return sub_4B8C20();
 
     case 2:
         sub_4B93C0();
-        break;
+        if (!bSkip_audio_67D6BE)
+        {
+            gRoot_sound_66B038.Service_40EFA0();
+        }
+        return sub_4B8C20();
 
     default:
         return sub_4B8C20();
     }
-
-    if (!bSkip_audio_67D6BE)
-    {
-        gRoot_sound_66B038.Service_40EFA0();
-        return sub_4B8C20();
-    }
-
-    return sub_4B8C20();
 }
 
 STUB_FUNC(0x4B9700)
