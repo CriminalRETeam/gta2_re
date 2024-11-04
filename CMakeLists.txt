@@ -91,6 +91,12 @@ set(gta2_lib_src
   Source/DrawUnk_0xBC.cpp
   Source/cool_nash_0x294.hpp
   Source/cool_nash_0x294.cpp
+  Source/Car_BC.hpp
+  Source/Car_BC.cpp
+  Source/Car_10.hpp
+  Source/Car_10.cpp
+  Source/Ped_Unknown_4.hpp
+  Source/Ped_Unknown_4.cpp
 )
 
 # global include dirs
