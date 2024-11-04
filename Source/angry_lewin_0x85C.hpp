@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include "types.hpp"
+#include "DrawUnk_0xBC.hpp"
 
 struct infallible_turing;
 struct cool_nash_0x294;
@@ -105,60 +106,6 @@ struct eager_benz
     angry_lewin_0x85C *field_368_pObj;
 };
 
-// todo: move
-struct DrawUnk_0xBC
-{
-    s32 field_0;
-    s32 field_4_unk;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    char_type field_44;
-    char_type field_45;
-    char_type field_46;
-    char_type field_47;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
-    s32 field_88;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 field_98_x;
-    s32 field_9C_y;
-    s32 field_A0_z;
-    s32 field_A4;
-    s32 field_A8;
-    s32 field_AC;
-    s32 field_B0;
-    s32 field_B4;
-    s32 field_B8;
-};
 
 // todo: move
 struct zealous_borg

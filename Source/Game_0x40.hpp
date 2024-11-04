@@ -5,7 +5,7 @@
 struct angry_lewin_0x85C;
 struct Car_3C;
 class Car_BC;
-struct DrawUnk_0xBC;
+class DrawUnk_0xBC;
 
 struct Game_0x40
 {

@@ -20,7 +20,10 @@
 #include "resource.h"
 #include <ddraw.h>
 //#include <dmusics.h>
+
+// for force links
 #include "angry_lewin_0x85C.hpp"
+#include "DrawUnk_0xBC.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1256,6 +1259,16 @@ void force_link()
     lewin.sub_56A310(0);
     lewin.sub_56A490();
     lewin.sub_56A6D0();
+
+    DrawUnk_0xBC drawUnk;
+    drawUnk.sub_4357B0();
+    drawUnk.sub_4357F0();
+    drawUnk.sub_435810();
+    drawUnk.sub_435830();
+    drawUnk.sub_435840();
+    drawUnk.sub_435860(0);
+    drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
+    drawUnk.sub_435DD0();
 }
 
 // nomatch
