@@ -5,6 +5,9 @@ ENABLE_LANGUAGE(ASM_MASM)
 
 SET(CMAKE_WARN_VS6 CACHE BOOL OFF)
 
+# override jom -> jom.exe else wine will refuse to execute it
+SET(CMAKE_MAKE_PROGRAM jom.exe)
+
 add_library (mss32 SHARED
     Source/3rdParty/mss.h
     Source/3rdParty/mss.cpp
