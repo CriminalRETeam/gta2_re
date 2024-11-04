@@ -89,6 +89,8 @@ set(gta2_lib_src
   Source/Function.hpp
   Source/DrawUnk_0xBC.hpp
   Source/DrawUnk_0xBC.cpp
+  Source/cool_nash_0x294.hpp
+  Source/cool_nash_0x294.cpp
 )
 
 # global include dirs
