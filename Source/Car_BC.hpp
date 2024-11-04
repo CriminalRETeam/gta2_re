@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Car_10.hpp"
 #include "Ped_Unknown_4.hpp"
+#include <wchar.h>
 
 class Car_6C;
 class Car_78;
