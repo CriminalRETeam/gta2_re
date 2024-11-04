@@ -1165,7 +1165,7 @@ s16 cool_nash_0x294::sub_470050()
 }
 
 STUB_FUNC(0x470160)
-void cool_nash_0x294::add_wanted_pos32s_470160(s16 wanted_amount)
+void cool_nash_0x294::add_wanted_points_470160(s16 wanted_amount)
 {
 
 }

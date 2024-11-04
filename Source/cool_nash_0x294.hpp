@@ -210,7 +210,7 @@ public:
     EXPORT void sub_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
     EXPORT s16 sub_470050();
-    EXPORT void add_wanted_pos32s_470160(s16 wanted_amount);
+    EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_4702D0(cool_nash_0x294 * pPed);
