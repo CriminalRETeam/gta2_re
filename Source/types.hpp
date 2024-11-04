@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Function.hpp"
 
 typedef unsigned char u8;
 typedef signed char s8;
@@ -13,9 +14,3 @@ typedef signed int s32;
 
 typedef float f32;
 typedef double f64;
-
-#if _MSC_VER > 1200
-#define EXPORT __declspec(dllexport)
-#else
-#define EXPORT
-#endif

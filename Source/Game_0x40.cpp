@@ -5,7 +5,46 @@
 #include "lucid_hamilton.hpp"
 #include "angry_lewin_0x85C.hpp"
 
-Game_0x40 *gGame_0x40_67E008;
+// === start wip hook code ===
+// TODO: This will get moved later
+#include <vector>
+
+class GlobalRef;
+
+class GlobalsRegistry
+{
+public:
+    void Add(GlobalRef* pRef)
+    {
+        mGlobals.push_back(pRef);
+    }
+
+    std::vector<GlobalRef*> mGlobals;
+};
+
+GlobalsRegistry& GetGlobalsRegistry()
+{
+    static GlobalsRegistry reg;
+    return reg;
+}
+
+class GlobalRef
+{
+public:
+    GlobalRef(void* pVar, u32 addr)
+     : mVar(pVar), mOgAddr(addr)
+    {
+        GetGlobalsRegistry().Add(this);
+    }
+    const void* mVar;
+    const u32 mOgAddr;
+};
+
+#define GLOBAL(var, addr) const GlobalRef gRef_##var(&var, addr);
+// === end wip hook code ===
+
+EXPORT_VAR Game_0x40* gGame_0x40_67E008;
+GLOBAL(gGame_0x40_67E008, 0x67E008)
 
 STUB_FUNC(0x4B8BB0)
 s32 Game_0x40::sub_4B8BB0()
