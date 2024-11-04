@@ -4,7 +4,7 @@ from idc import *
 import os
 
 # replace with the class you want to stub
-CLASS_NAME = "cool_nash_0x294"
+CLASS_NAME = "Ped_Unknown_4"
 
 # from highest to lowest priority
 rename_table = {
@@ -25,6 +25,7 @@ rename_table = {
     "_WORD": "u16",
     "WORD": "u16",
     "BOOL": "s32",
+    "unsigned int": "u32",
     "int": "s32"
 }
 
@@ -40,7 +41,7 @@ def rename_types(string: str) -> str:
     return new_string
         
 
-def get_args_str(cfunc) -> str:
+def get_args(cfunc) -> str:
     num_args = cfunc.type.get_nargs()
     if (num_args != -1):
         args_str = ""
@@ -56,15 +57,24 @@ def get_args_str(cfunc) -> str:
     return args_str
 
 def get_func_declaration(cfunc, func_name) -> str:
-    return f"EXPORT {cfunc.type.get_rettype()} {func_name}({get_args_str(cfunc)});"
+    rettype = str(cfunc.type.get_rettype())
+    rettype = rename_types(rettype)
+
+    args = get_args(cfunc)
+    args = rename_types(args)
+    return f"EXPORT {rettype} {func_name}({args});"
 
 def get_func_definition(cfunc, func_name) -> str:
-    ret_type = str(cfunc.type.get_rettype())
+    rettype = str(cfunc.type.get_rettype())
+    rettype = rename_types(rettype)
+
+    args = get_args(cfunc)
+    args = rename_types(args)
 
     func_definition = f"STUB_FUNC({hex(cfunc.entry_ea)})\n"
-    func_definition = func_definition + f"{cfunc.type.get_rettype()} {CLASS_NAME}::{func_name}({get_args_str(cfunc)})\n"
+    func_definition = func_definition + f"{rettype} {CLASS_NAME}::{func_name}({args})\n"
     func_definition = func_definition + "{\n"
-    if ret_type != "void":
+    if rettype != "void":
         func_definition = func_definition + "    return 0;"
     func_definition = func_definition + "\n"
     func_definition = func_definition + "}\n"
@@ -84,9 +94,6 @@ def generate_stubs() -> None:
                 
                 func_decl = get_func_declaration(cfunc, func_name)
                 func_def = get_func_definition(cfunc, func_name)
-                
-                func_decl = rename_types(func_decl)
-                func_def = rename_types(func_def)
                 
                 header.write(func_decl)
                 header.write("\n")

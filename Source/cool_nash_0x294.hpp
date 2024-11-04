@@ -423,3 +423,4 @@ public:
     s32 field_28C_threat_reaction;
     s32 field_290;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(cool_nash_0x294, 0x294)
