@@ -19,6 +19,35 @@ struct Fix16
         return t;
     }
 
+    Fix16 operator-=(const Fix16& other)
+    {
+        mValue -= other.mValue;
+        return *this;
+    }
+
+    Fix16 operator+(const Fix16& in)
+    {
+        Fix16 t;
+        t.mValue = mValue + in.mValue;
+        return t;
+    }
+
+    Fix16 operator+=(const Fix16& other)
+    {
+        mValue += other.mValue;
+        return *this;
+    }
+
+    bool operator>(const Fix16& other)
+    {
+        return mValue > other.mValue;
+    }
+
+    bool operator<(const Fix16& other)
+    {
+        return mValue < other.mValue;
+    }
+
     f32 AsFloat() const
     {
         return mValue / 16384.0f;
@@ -30,6 +59,7 @@ struct Fix16
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
+    EXPORT Fix16& FromInt_45C4E0(u8 a2);
 
 public:
     s32 mValue;
