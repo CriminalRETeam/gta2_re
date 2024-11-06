@@ -253,7 +253,8 @@ void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
 	field_10 = a2;
 	field_14 = a3;
-	field_18 = a4 + field_40;
+	a4 += field_40;
+	field_18 = a4;
 	field_1C = a5;
 }
 
