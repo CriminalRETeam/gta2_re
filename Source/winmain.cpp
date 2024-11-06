@@ -1269,6 +1269,11 @@ void force_link()
     drawUnk.sub_435860(0);
     drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
     drawUnk.sub_435DD0();
+    drawUnk.sub_436110();
+    drawUnk.sub_436120(1);
+    drawUnk.sub_436830();
+    drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
+    drawUnk.sub_58CF10(1,1);
 }
 
 // nomatch

@@ -22,8 +22,8 @@ void DrawUnk_0xBC::sub_4357B0()
 	field_94 = field_A4;
 }
 
-s32 dword_676894;
-s32 dword_676678;
+Fix16 dword_676894;
+Fix16 dword_676678;
 
 MATCH_FUNC(0x4357F0)
 void DrawUnk_0xBC::sub_4357F0()
@@ -34,9 +34,9 @@ void DrawUnk_0xBC::sub_4357F0()
 	}
 }
 
-s32 dword_676818;
+Fix16 dword_676818;
 
-STUB_FUNC(0x435810)
+MATCH_FUNC(0x435810)
 void DrawUnk_0xBC::sub_435810()
 {
 	if (field_40 > dword_676818)
@@ -51,7 +51,7 @@ void DrawUnk_0xBC::sub_435830()
 	field_40 = dword_676818;
 }
 
-s32 dword_676898;
+Fix16 dword_676898;
 
 MATCH_FUNC(0x435840)
 void DrawUnk_0xBC::sub_435840()
@@ -101,8 +101,8 @@ s32 DrawUnk_0xBC::sub_435B90()
 	return 0;
 }
 
-s32 dword_67671C;
-s32 dword_67681C;
+Fix16 dword_67671C;
+Fix16 dword_67681C;
 
 STUB_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
@@ -171,10 +171,10 @@ s32 DrawUnk_0xBC::sub_435FF0()
 	return 0;
 }
 
-STUB_FUNC(0x436110)
+MATCH_FUNC(0x436110)
 s32 DrawUnk_0xBC::sub_436110()
 {
-	return 0;
+	return sub_435B90();
 }
 
 STUB_FUNC(0x436120)
@@ -218,10 +218,17 @@ char_type DrawUnk_0xBC::sub_436710(char_type a2, char_type a3, char_type a4, cha
 	return 0;
 }
 
-STUB_FUNC(0x436830)
-s32 DrawUnk_0xBC::sub_436830()
+s32 dword_6766E4;
+
+MATCH_FUNC(0x436830)
+void DrawUnk_0xBC::sub_436830()
 {
-	return 0;
+	field_48 = 0;
+	field_4C = 0;
+	field_58 = dword_6766E4;
+	field_5C = dword_6766E4;
+	field_50 = dword_6766E4;
+	field_54 = dword_6766E4;
 }
 
 STUB_FUNC(0x436860)
@@ -242,14 +249,21 @@ DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
 }
 
 STUB_FUNC(0x4397D0)
-s32 DrawUnk_0xBC::sub_4397D0(s32 a2, s32 a3, s32 a4, s32 a5)
+void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-	return 0;
+	field_10 = a2;
+	field_14 = a3;
+	a4 += field_40;
+	field_18 = a4;
+	field_1C = a5;
 }
 
-STUB_FUNC(0x58CF10)
-s32 DrawUnk_0xBC::sub_58CF10(s32 a2, s32 a3)
+MATCH_FUNC(0x58CF10)
+bool DrawUnk_0xBC::sub_58CF10(s32 a2, s32 a3)
 {
-	return 0;
+	return a2 >= field_78
+		&& a2 <= field_7C
+		&& a3 >= field_80
+		&& a3 <= field_84;
 }
 

@@ -2,6 +2,7 @@
 
 #include "types.hpp"
 #include "Function.hpp"
+#include "fix16.hpp"
 
 // TODO: add later
 class Car_3C;
@@ -34,22 +35,22 @@ public:
 	EXPORT void sub_4364A0(s32 a2);
 	EXPORT void sub_436540(s32* a2);
 	EXPORT char_type sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
-	EXPORT s32 sub_436830();
+	EXPORT void sub_436830();
 	EXPORT void sub_436860(s32 a2, s32* a3, s32* a4, s32 a5);
 	EXPORT DrawUnk_0xBC(); // 4368E0
 	EXPORT ~DrawUnk_0xBC(); // empty 4369E0
-	EXPORT s32 sub_4397D0(s32 a2, s32 a3, s32 a4, s32 a5);
-	EXPORT s32 sub_58CF10(s32 a2, s32 a3);
+	EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
+	EXPORT bool sub_58CF10(s32 a2, s32 a3);
 
 
-	s32 field_0;
-	s32 field_4_unk;
-	s32 field_8;
-	s32 field_C;
-	s32 field_10;
-	s32 field_14;
-	s32 field_18;
-	s32 field_1C;
+	Fix16 field_0;
+	Fix16 field_4_unk;
+	Fix16 field_8;
+	Fix16 field_C;
+	Fix16 field_10;
+	Fix16 field_14;
+	Fix16 field_18;
+	Fix16 field_1C;
 	s32 field_20_right;
 	s32 field_24_left;
 	s32 field_28_bottom;
@@ -58,7 +59,7 @@ public:
 	s32 field_34;
 	s32 field_38;
 	s32 field_3C;
-	s32 field_40;
+	Fix16 field_40;
 	char_type field_44;
 	char_type field_45;
 	char_type field_46;
@@ -79,18 +80,18 @@ public:
 	s32 field_7C;
 	s32 field_80;
 	s32 field_84;
-	s32 field_88;
-	s32 field_8C;
-	s32 field_90;
-	s32 field_94;
-	s32 field_98_x;
-	s32 field_9C_y;
-	s32 field_A0_z;
-	s32 field_A4;
+	Fix16 field_88;
+	Fix16 field_8C;
+	Fix16 field_90;
+	Fix16 field_94;
+	Fix16 field_98_x;
+	Fix16 field_9C_y;
+	Fix16 field_A0_z;
+	Fix16 field_A4;
 	s32 field_A8;
-	s32 field_AC;
-	s32 field_B0;
-	s32 field_B4;
-	s32 field_B8;
+	Fix16 field_AC;
+	Fix16 field_B0;
+	Fix16 field_B4;
+	Fix16 field_B8;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
