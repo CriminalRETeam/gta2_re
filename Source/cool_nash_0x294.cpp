@@ -1,27 +1,6 @@
 #include "cool_nash_0x294.hpp"
 #include "angry_lewin_0x85C.hpp"
-
-// TODO: Move and fully stub
-class Car_BC
-{
-public:
-    void sub_43A600();
-
-    char sub_43B360();
-};
-
-STUB_FUNC(0x43A600)
-void Car_BC::sub_43A600()
-{
-}
-
-STUB_FUNC(0x43B360)
-char Car_BC::sub_43B360()
-{
-    return 0;
-}
-
-// =======
+#include "Car_BC.hpp"
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -495,9 +474,11 @@ char_type cool_nash_0x294::sub_462E70()
     return 0;
 }
 
-STUB_FUNC(0x4632e0)
+MATCH_FUNC(0x4632e0)
 void cool_nash_0x294::sub_4632E0()
 {
+    sub_463AA0();
+    sub_463FB0();
 }
 
 STUB_FUNC(0x463300)
