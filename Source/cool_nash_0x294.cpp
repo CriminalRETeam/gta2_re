@@ -1100,10 +1100,10 @@ void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
     }
 }
 
-STUB_FUNC(0x46f100)
+MATCH_FUNC(0x46f100)
 s32 cool_nash_0x294::sub_46F100(u8 a2)
 {
-    return 0;
+    return a2 < get_wanted_star_count_46EF00();
 }
 
 STUB_FUNC(0x46f110)
