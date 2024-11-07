@@ -1,5 +1,6 @@
 #include "cool_nash_0x294.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "Car_BC.hpp"
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -118,9 +119,11 @@ void cool_nash_0x294::sub_45BFB0(cool_nash_0x294 *a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x45bfd0)
+MATCH_FUNC(0x45bfd0)
 void cool_nash_0x294::sub_45BFD0()
 {
+    field_21C |= 0x2000000u;
+    sub_45C010();
 }
 
 STUB_FUNC(0x45bfe0)
@@ -134,9 +137,11 @@ void cool_nash_0x294::sub_45C010()
 {
 }
 
-STUB_FUNC(0x45c040)
+MATCH_FUNC(0x45c040)
 void cool_nash_0x294::sub_45C040()
 {
+    field_208_invulnerability = 9999;
+    sub_45C070();
 }
 
 STUB_FUNC(0x45c050)
@@ -149,9 +154,18 @@ void cool_nash_0x294::sub_45C070()
 {
 }
 
-STUB_FUNC(0x45c090)
+MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
+    Car_BC *pBc = this->field_16C_car;
+    if (pBc)
+    {
+        pBc->sub_43A600();
+    }
+    else if (field_278 != 9)
+    {
+        field_216_health = 100;
+    }
 }
 
 STUB_FUNC(0x45c0c0)
@@ -194,10 +208,11 @@ s32 cool_nash_0x294::sub_45C540(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45c5a0)
-s32 cool_nash_0x294::sub_45C5A0()
+MATCH_FUNC(0x45c5a0)
+void cool_nash_0x294::sub_45C5A0()
 {
-    return 0;
+    field_278 = field_280;
+    field_27C = field_284;
 }
 
 STUB_FUNC(0x45c5c0)
@@ -211,10 +226,14 @@ s32 cool_nash_0x294::sub_45C730(Car_BC *a2)
     return 0;
 }
 
-STUB_FUNC(0x45c7a0)
-char_type cool_nash_0x294::sub_45C7A0(Car_BC *a2)
+MATCH_FUNC(0x45c7a0)
+void cool_nash_0x294::sub_45C7A0(Car_BC *a2)
 {
-    return 0;
+    sub_463830(0, 9999);
+    sub_463570(35, 9999);
+    field_248_enter_car_as_passenger = 1;
+    field_150_target_objective_car = a2;
+    field_24C_target_car_door = a2->sub_43B360() - 1;
 }
 
 STUB_FUNC(0x45c7f0)
@@ -264,9 +283,28 @@ void cool_nash_0x294::sub_45CAA0()
 {
 }
 
-STUB_FUNC(0x45ce50)
-void cool_nash_0x294::sub_45CE50(s16 a2)
+MATCH_FUNC(0x45ce50)
+void cool_nash_0x294::sub_45CE50(s16 damage)
 {
+    if (field_208_invulnerability <= 0)
+    {
+        field_216_health -= damage;
+        if (field_216_health <= 0)
+        {
+            if (field_278 != 8)
+            {
+                field_216_health = 0;
+                sub_46F9D0();
+            }
+            else
+            {
+                if (field_216_health < 0)
+                {
+                    field_216_health = 0;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x45cf20)
@@ -318,10 +356,10 @@ char_type cool_nash_0x294::sub_45EDC0()
     return 0;
 }
 
-STUB_FUNC(0x45ede0)
+MATCH_FUNC(0x45ede0)
 bool cool_nash_0x294::sub_45EDE0(s32 a2)
 {
-    return 0;
+    return field_238 == a2 ? true : false;
 }
 
 STUB_FUNC(0x45ee00)
@@ -436,9 +474,11 @@ char_type cool_nash_0x294::sub_462E70()
     return 0;
 }
 
-STUB_FUNC(0x4632e0)
+MATCH_FUNC(0x4632e0)
 void cool_nash_0x294::sub_4632E0()
 {
+    sub_463AA0();
+    sub_463FB0();
 }
 
 STUB_FUNC(0x463300)
@@ -996,20 +1036,74 @@ u8 cool_nash_0x294::get_wanted_star_count_46EF00()
     return 0;
 }
 
-STUB_FUNC(0x46ef40)
+MATCH_FUNC(0x46ef40)
 void cool_nash_0x294::set_wanted_level_46EF40(u16 wanted)
 {
+    switch (wanted)
+    {
+    case 0u:
+        this->field_20A_wanted_points = 0;
+        break;
+
+    case 600u:
+        this->field_20A_wanted_points = 600u;
+        break;
+
+    case 1600u:
+        this->field_20A_wanted_points = 1600u;
+        break;
+
+    case 3000u:
+        this->field_20A_wanted_points = 3000;
+        break;
+
+    case 5000u:
+        this->field_20A_wanted_points = 5000;
+        break;
+    case 8000u:
+        this->field_20A_wanted_points = 8000;
+        break;
+    case 12000u:
+        this->field_20A_wanted_points = 12000;
+        break;
+    }
 }
 
-STUB_FUNC(0x46f070)
+MATCH_FUNC(0x46f070)
 void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
 {
+    switch (star_count)
+    {
+    case 0u:
+        this->field_20A_wanted_points = 0;
+        break;
+    case 1u:
+        this->field_20A_wanted_points = 600;
+        break;
+    case 2u:
+        this->field_20A_wanted_points = 1600;
+        break;
+    case 3u:
+        this->field_20A_wanted_points = 3000;
+        break;
+    case 4u:
+        this->field_20A_wanted_points = 5000;
+        break;
+    case 5u:
+        this->field_20A_wanted_points = 8000;
+        break;
+    case 6u:
+        this->field_20A_wanted_points = 12000;
+        break;
+    default:
+        return;
+    }
 }
 
-STUB_FUNC(0x46f100)
+MATCH_FUNC(0x46f100)
 s32 cool_nash_0x294::sub_46F100(u8 a2)
 {
-    return 0;
+    return a2 < get_wanted_star_count_46EF00();
 }
 
 STUB_FUNC(0x46f110)

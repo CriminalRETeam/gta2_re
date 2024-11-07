@@ -49,10 +49,10 @@ public:
     EXPORT s32 sub_45C4B0();
     EXPORT s32 sub_45C500(s32 a2);
     EXPORT s32 sub_45C540(s32 a2);
-    EXPORT s32 sub_45C5A0();
+    EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC * a2);
-    EXPORT char_type sub_45C7A0(Car_BC * a2);
+    EXPORT void sub_45C7A0(Car_BC * a2);
     EXPORT Char_8 * sub_45C7F0(Car_BC * a2);
     EXPORT char_type sub_45C830(s32 xpos, s32 ypos, s32 zpos);
     EXPORT s16 * sub_45C900(s16 * a2);
@@ -352,7 +352,7 @@ public:
     s32 field_1FC;
     s32 field_200;
     s32 field_204;
-    s16 field_208_invulnerability;
+    u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
     s16 field_20C;
     s16 field_20e;
