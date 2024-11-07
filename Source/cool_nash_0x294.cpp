@@ -6,12 +6,22 @@ class Car_BC
 {
 public:
     void sub_43A600();
+
+    char sub_43B360();
 };
 
 STUB_FUNC(0x43A600)
 void Car_BC::sub_43A600()
 {
 }
+
+STUB_FUNC(0x43B360)
+char Car_BC::sub_43B360()
+{
+    return 0;
+}
+
+// =======
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -223,7 +233,7 @@ MATCH_FUNC(0x45c5a0)
 void cool_nash_0x294::sub_45C5A0()
 {
     field_278 = field_280;
-    field_27C = field_284
+    field_27C = field_284;
 }
 
 STUB_FUNC(0x45c5c0)
@@ -237,10 +247,14 @@ s32 cool_nash_0x294::sub_45C730(Car_BC *a2)
     return 0;
 }
 
-STUB_FUNC(0x45c7a0)
-char_type cool_nash_0x294::sub_45C7A0(Car_BC *a2)
+MATCH_FUNC(0x45c7a0)
+void cool_nash_0x294::sub_45C7A0(Car_BC *a2)
 {
-    return 0;
+    sub_463830(0, 9999);
+    sub_463570(35, 9999);
+    field_248_enter_car_as_passenger = 1;
+    field_150_target_objective_car = a2;
+    field_24C_target_car_door = a2->sub_43B360() - 1;
 }
 
 STUB_FUNC(0x45c7f0)

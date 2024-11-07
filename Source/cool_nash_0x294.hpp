@@ -52,7 +52,7 @@ public:
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC * a2);
-    EXPORT char_type sub_45C7A0(Car_BC * a2);
+    EXPORT void sub_45C7A0(Car_BC * a2);
     EXPORT Char_8 * sub_45C7F0(Car_BC * a2);
     EXPORT char_type sub_45C830(s32 xpos, s32 ypos, s32 zpos);
     EXPORT s16 * sub_45C900(s16 * a2);
