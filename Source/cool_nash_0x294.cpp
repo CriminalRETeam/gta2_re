@@ -11,9 +11,7 @@ public:
 STUB_FUNC(0x43A600)
 void Car_BC::sub_43A600()
 {
-
 }
-
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -170,7 +168,7 @@ void cool_nash_0x294::sub_45C070()
 MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
-    Car_BC* pBc = this->field_16C_car;
+    Car_BC *pBc = this->field_16C_car;
     if (pBc)
     {
         pBc->sub_43A600();
@@ -221,10 +219,11 @@ s32 cool_nash_0x294::sub_45C540(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45c5a0)
-s32 cool_nash_0x294::sub_45C5A0()
+MATCH_FUNC(0x45c5a0)
+void cool_nash_0x294::sub_45C5A0()
 {
-    return 0;
+    field_278 = field_280;
+    field_27C = field_284
 }
 
 STUB_FUNC(0x45c5c0)
