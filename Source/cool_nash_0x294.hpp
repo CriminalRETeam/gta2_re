@@ -352,7 +352,7 @@ public:
     s32 field_1FC;
     s32 field_200;
     s32 field_204;
-    s16 field_208_invulnerability;
+    u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
     s16 field_20C;
     s16 field_20e;

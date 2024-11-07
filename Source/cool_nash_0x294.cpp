@@ -304,9 +304,28 @@ void cool_nash_0x294::sub_45CAA0()
 {
 }
 
-STUB_FUNC(0x45ce50)
-void cool_nash_0x294::sub_45CE50(s16 a2)
+MATCH_FUNC(0x45ce50)
+void cool_nash_0x294::sub_45CE50(s16 damage)
 {
+    if (field_208_invulnerability <= 0)
+    {
+        field_216_health -= damage;
+        if (field_216_health <= 0)
+        {
+            if (field_278 != 8)
+            {
+                field_216_health = 0;
+                sub_46F9D0();
+            }
+            else
+            {
+                if (field_216_health < 0)
+                {
+                    field_216_health = 0;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x45cf20)
