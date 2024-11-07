@@ -5,9 +5,9 @@
 #include "DrawUnk_0xBC.hpp"
 
 struct infallible_turing;
-struct cool_nash_0x294;
-struct keen_bhaskara_0x30;
-struct angry_lewin_0x85C;
+class cool_nash_0x294;
+class keen_bhaskara_0x30;
+class angry_lewin_0x85C;
 
 // todo: move
 struct silly_saha_0x2C
@@ -122,8 +122,9 @@ struct zealous_borg
 class Car_BC;
 class Zone_144;
 
-struct angry_lewin_0x85C
+class angry_lewin_0x85C
 {
+public:
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);

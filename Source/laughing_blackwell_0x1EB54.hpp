@@ -9,7 +9,7 @@
 
 #include <Dinput.h>
 
-struct angry_lewin_0x85C;
+class angry_lewin_0x85C;
 
 struct youthful_einstein
 {

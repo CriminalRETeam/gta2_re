@@ -2,13 +2,14 @@
 
 #include "types.hpp"
 
-struct angry_lewin_0x85C;
-struct Car_3C;
+class angry_lewin_0x85C;
+class Car_3C;
 class Car_BC;
 class DrawUnk_0xBC;
 
-struct Game_0x40
+class Game_0x40
 {
+public:
     s32 sub_4B8BB0();
     void sub_4B8BD0(s32 arg0, s32 main_state, s8 a2);
     void sub_4B8C00(s32 a1, s32 a2);

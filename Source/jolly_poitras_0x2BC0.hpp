@@ -3,7 +3,7 @@
 #include <windows.h>
 #include "types.hpp"
 
-struct angry_lewin_0x85C;
+class angry_lewin_0x85C;
 
 // todo: move
 struct gifted_joliot

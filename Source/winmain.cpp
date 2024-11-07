@@ -24,6 +24,7 @@
 // for force links
 #include "angry_lewin_0x85C.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "cool_nash_0x294.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1274,6 +1275,11 @@ void force_link()
     drawUnk.sub_436830();
     drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
     drawUnk.sub_58CF10(1,1);
+
+    cool_nash_0x294 cn;
+    cn.sub_45B550();
+    cn.sub_45B560(NULL, 0);
+    cn.sub_45B590();
 }
 
 // nomatch
