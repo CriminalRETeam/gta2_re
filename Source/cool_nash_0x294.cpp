@@ -1,6 +1,20 @@
 #include "cool_nash_0x294.hpp"
 #include "angry_lewin_0x85C.hpp"
 
+// TODO: Move and fully stub
+class Car_BC
+{
+public:
+    void sub_43A600();
+};
+
+STUB_FUNC(0x43A600)
+void Car_BC::sub_43A600()
+{
+
+}
+
+
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
@@ -118,9 +132,11 @@ void cool_nash_0x294::sub_45BFB0(cool_nash_0x294 *a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x45bfd0)
+MATCH_FUNC(0x45bfd0)
 void cool_nash_0x294::sub_45BFD0()
 {
+    field_21C |= 0x2000000u;
+    sub_45C010();
 }
 
 STUB_FUNC(0x45bfe0)
@@ -134,9 +150,11 @@ void cool_nash_0x294::sub_45C010()
 {
 }
 
-STUB_FUNC(0x45c040)
+MATCH_FUNC(0x45c040)
 void cool_nash_0x294::sub_45C040()
 {
+    field_208_invulnerability = 9999;
+    sub_45C070();
 }
 
 STUB_FUNC(0x45c050)
@@ -149,9 +167,18 @@ void cool_nash_0x294::sub_45C070()
 {
 }
 
-STUB_FUNC(0x45c090)
+MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
+    Car_BC* pBc = this->field_16C_car;
+    if (pBc)
+    {
+        pBc->sub_43A600();
+    }
+    else if (field_278 != 9)
+    {
+        field_216_health = 100;
+    }
 }
 
 STUB_FUNC(0x45c0c0)
