@@ -23,7 +23,7 @@ public:
     EXPORT char_type sub_45B4E0();
     EXPORT u32 * sub_45B520(u32 * a2);
     EXPORT void sub_45B550();
-    EXPORT s32 sub_45B560(angry_lewin_0x85C * a2, char_type a3);
+    EXPORT void sub_45B560(angry_lewin_0x85C * a2, char_type a3);
     EXPORT bool sub_45B590();
     EXPORT s32 sub_45B5B0(s32 a2);
     EXPORT Car_BC * sub_45BBF0();

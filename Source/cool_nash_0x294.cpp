@@ -1,15 +1,14 @@
 #include "cool_nash_0x294.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
-
 }
 
 STUB_FUNC(0x45af00)
 cool_nash_0x294::~cool_nash_0x294()
 {
-
 }
 
 STUB_FUNC(0x45afc0)
@@ -31,7 +30,7 @@ char_type cool_nash_0x294::sub_45B4E0()
 }
 
 STUB_FUNC(0x45b520)
-u32 * cool_nash_0x294::sub_45B520(u32 * a2)
+u32 *cool_nash_0x294::sub_45B520(u32 *a2)
 {
     return 0;
 }
@@ -42,16 +41,26 @@ void cool_nash_0x294::sub_45B550()
     field_26A = 2;
 }
 
-STUB_FUNC(0x45b560)
-s32 cool_nash_0x294::sub_45B560(angry_lewin_0x85C * a2, char_type a3)
+MATCH_FUNC(0x45b560)
+void cool_nash_0x294::sub_45B560(angry_lewin_0x85C *a2, char_type a3)
 {
-    return 0;
+    field_15C_player_weapons = a2;
+    field_200 = a2->field_2E_idx + 1;
+    if (a3)
+    {
+        field_200 += 6;
+    }
 }
 
-STUB_FUNC(0x45b590)
+MATCH_FUNC(0x45b590)
 bool cool_nash_0x294::sub_45B590()
 {
-    return 0;
+    // TODO: was probably a switch case rather than checking a "between" on occupation?
+    if (field_240_occupation >= 23 && (field_240_occupation <= 27 || field_240_occupation == 37))
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x45b5b0)
@@ -61,7 +70,7 @@ s32 cool_nash_0x294::sub_45B5B0(s32 a2)
 }
 
 STUB_FUNC(0x45bbf0)
-Car_BC * cool_nash_0x294::sub_45BBF0()
+Car_BC *cool_nash_0x294::sub_45BBF0()
 {
     return 0;
 }
@@ -75,11 +84,10 @@ s32 cool_nash_0x294::sub_45BC10(s32 a2, s32 a3)
 STUB_FUNC(0x45bc70)
 void cool_nash_0x294::sub_45BC70()
 {
-
 }
 
 STUB_FUNC(0x45bd20)
-char_type cool_nash_0x294::sub_45BD20(Car_BC * a2)
+char_type cool_nash_0x294::sub_45BD20(Car_BC *a2)
 {
     return 0;
 }
@@ -93,31 +101,26 @@ s32 cool_nash_0x294::sub_45BE30()
 STUB_FUNC(0x45be70)
 void cool_nash_0x294::sub_45BE70()
 {
-
 }
 
 STUB_FUNC(0x45be90)
 void cool_nash_0x294::sub_45BE90()
 {
-
 }
 
 STUB_FUNC(0x45bec0)
 void cool_nash_0x294::sub_45BEC0()
 {
-
 }
 
 STUB_FUNC(0x45bfb0)
-void cool_nash_0x294::sub_45BFB0(cool_nash_0x294 * a1, s32 a2)
+void cool_nash_0x294::sub_45BFB0(cool_nash_0x294 *a1, s32 a2)
 {
-
 }
 
 STUB_FUNC(0x45bfd0)
 void cool_nash_0x294::sub_45BFD0()
 {
-
 }
 
 STUB_FUNC(0x45bfe0)
@@ -129,37 +132,31 @@ u32 cool_nash_0x294::sub_45BFE0()
 STUB_FUNC(0x45c010)
 void cool_nash_0x294::sub_45C010()
 {
-
 }
 
 STUB_FUNC(0x45c040)
 void cool_nash_0x294::sub_45C040()
 {
-
 }
 
 STUB_FUNC(0x45c050)
 void cool_nash_0x294::sub_45C050()
 {
-
 }
 
 STUB_FUNC(0x45c070)
 void cool_nash_0x294::sub_45C070()
 {
-
 }
 
 STUB_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
-
 }
 
 STUB_FUNC(0x45c0c0)
-void cool_nash_0x294::sub_45C0C0(gmp_map_zone * a2)
+void cool_nash_0x294::sub_45C0C0(gmp_map_zone *a2)
 {
-
 }
 
 STUB_FUNC(0x45c310)
@@ -169,9 +166,8 @@ s32 cool_nash_0x294::sub_45C310()
 }
 
 STUB_FUNC(0x45c350)
-void cool_nash_0x294::sub_45C350(gmp_map_zone * a2)
+void cool_nash_0x294::sub_45C350(gmp_map_zone *a2)
 {
-
 }
 
 STUB_FUNC(0x45c410)
@@ -207,23 +203,22 @@ s32 cool_nash_0x294::sub_45C5A0()
 STUB_FUNC(0x45c5c0)
 void cool_nash_0x294::sub_45C5C0()
 {
-
 }
 
 STUB_FUNC(0x45c730)
-s32 cool_nash_0x294::sub_45C730(Car_BC * a2)
+s32 cool_nash_0x294::sub_45C730(Car_BC *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c7a0)
-char_type cool_nash_0x294::sub_45C7A0(Car_BC * a2)
+char_type cool_nash_0x294::sub_45C7A0(Car_BC *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c7f0)
-Char_8 * cool_nash_0x294::sub_45C7F0(Car_BC * a2)
+Char_8 *cool_nash_0x294::sub_45C7F0(Car_BC *a2)
 {
     return 0;
 }
@@ -235,31 +230,31 @@ char_type cool_nash_0x294::sub_45C830(s32 xpos, s32 ypos, s32 zpos)
 }
 
 STUB_FUNC(0x45c900)
-s16 * cool_nash_0x294::sub_45C900(s16 * a2)
+s16 *cool_nash_0x294::sub_45C900(s16 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c920)
-s32 * cool_nash_0x294::sub_45C920(s32 * a2)
+s32 *cool_nash_0x294::sub_45C920(s32 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c960)
-s16 * cool_nash_0x294::sub_45C960(s16 * a2)
+s16 *cool_nash_0x294::sub_45C960(s16 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c9b0)
-s32 * cool_nash_0x294::sub_45C9B0(s32 * a2)
+s32 *cool_nash_0x294::sub_45C9B0(s32 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c9d0)
-s16 * cool_nash_0x294::sub_45C9D0(s16 * a2)
+s16 *cool_nash_0x294::sub_45C9D0(s16 *a2)
 {
     return 0;
 }
@@ -267,19 +262,16 @@ s16 * cool_nash_0x294::sub_45C9D0(s16 * a2)
 STUB_FUNC(0x45caa0)
 void cool_nash_0x294::sub_45CAA0()
 {
-
 }
 
 STUB_FUNC(0x45ce50)
 void cool_nash_0x294::sub_45CE50(s16 a2)
 {
-
 }
 
 STUB_FUNC(0x45cf20)
 void cool_nash_0x294::sub_45CF20(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x45d000)
@@ -303,25 +295,21 @@ char_type cool_nash_0x294::sub_45DE80(s32 a2)
 STUB_FUNC(0x45e080)
 void cool_nash_0x294::sub_45E080()
 {
-
 }
 
 STUB_FUNC(0x45e4a0)
 void cool_nash_0x294::sub_45E4A0()
 {
-
 }
 
 STUB_FUNC(0x45ea00)
 void cool_nash_0x294::sub_45EA00()
 {
-
 }
 
 STUB_FUNC(0x45eb60)
 void cool_nash_0x294::sub_45EB60()
 {
-
 }
 
 STUB_FUNC(0x45edc0)
@@ -343,7 +331,7 @@ char_type cool_nash_0x294::sub_45EE00(s32 a2)
 }
 
 STUB_FUNC(0x45ee70)
-gmp_map_zone * cool_nash_0x294::sub_45EE70()
+gmp_map_zone *cool_nash_0x294::sub_45EE70()
 {
     return 0;
 }
@@ -351,25 +339,21 @@ gmp_map_zone * cool_nash_0x294::sub_45EE70()
 STUB_FUNC(0x45f360)
 void cool_nash_0x294::sub_45F360()
 {
-
 }
 
 STUB_FUNC(0x45ff60)
 void cool_nash_0x294::sub_45FF60()
 {
-
 }
 
 STUB_FUNC(0x460820)
 void cool_nash_0x294::sub_460820()
 {
-
 }
 
 STUB_FUNC(0x461290)
 void cool_nash_0x294::sub_461290()
 {
-
 }
 
 STUB_FUNC(0x461530)
@@ -381,7 +365,6 @@ char_type cool_nash_0x294::sub_461530()
 STUB_FUNC(0x461630)
 void cool_nash_0x294::sub_461630()
 {
-
 }
 
 STUB_FUNC(0x4619f0)
@@ -399,7 +382,6 @@ s16 cool_nash_0x294::sub_461A60()
 STUB_FUNC(0x461f20)
 void cool_nash_0x294::sub_461F20()
 {
-
 }
 
 STUB_FUNC(0x462280)
@@ -429,7 +411,6 @@ s32 cool_nash_0x294::sub_462550()
 STUB_FUNC(0x462590)
 void cool_nash_0x294::sub_462590()
 {
-
 }
 
 STUB_FUNC(0x462620)
@@ -447,7 +428,6 @@ char_type cool_nash_0x294::sub_4626B0()
 STUB_FUNC(0x462b80)
 void cool_nash_0x294::sub_462B80()
 {
-
 }
 
 STUB_FUNC(0x462e70)
@@ -459,7 +439,6 @@ char_type cool_nash_0x294::sub_462E70()
 STUB_FUNC(0x4632e0)
 void cool_nash_0x294::sub_4632E0()
 {
-
 }
 
 STUB_FUNC(0x463300)
@@ -483,23 +462,20 @@ char_type cool_nash_0x294::sub_463570(s32 a2, s16 a3)
 STUB_FUNC(0x463830)
 void cool_nash_0x294::sub_463830(s32 a2, s16 a3)
 {
-
 }
 
 STUB_FUNC(0x463aa0)
 void cool_nash_0x294::sub_463AA0()
 {
-
 }
 
 STUB_FUNC(0x463fb0)
 void cool_nash_0x294::sub_463FB0()
 {
-
 }
 
 STUB_FUNC(0x4645b0)
-s16 * cool_nash_0x294::sub_4645B0()
+s16 *cool_nash_0x294::sub_4645B0()
 {
     return 0;
 }
@@ -507,7 +483,6 @@ s16 * cool_nash_0x294::sub_4645B0()
 STUB_FUNC(0x465270)
 void cool_nash_0x294::sub_465270()
 {
-
 }
 
 STUB_FUNC(0x465b20)
@@ -523,31 +498,31 @@ bool cool_nash_0x294::sub_465CD0()
 }
 
 STUB_FUNC(0x465d00)
-char_type cool_nash_0x294::sub_465D00(cool_nash_0x294 * a2)
+char_type cool_nash_0x294::sub_465D00(cool_nash_0x294 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466b90)
-cool_nash_0x294 * cool_nash_0x294::sub_466B90(cool_nash_0x294 * a2)
+cool_nash_0x294 *cool_nash_0x294::sub_466B90(cool_nash_0x294 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bb0)
-cool_nash_0x294 * cool_nash_0x294::sub_466BB0(s32 a2)
+cool_nash_0x294 *cool_nash_0x294::sub_466BB0(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bd0)
-cool_nash_0x294 * cool_nash_0x294::sub_466BD0(cool_nash_0x294 * a2)
+cool_nash_0x294 *cool_nash_0x294::sub_466BD0(cool_nash_0x294 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bf0)
-cool_nash_0x294 * cool_nash_0x294::sub_466BF0(s32 a2)
+cool_nash_0x294 *cool_nash_0x294::sub_466BF0(s32 a2)
 {
     return 0;
 }
@@ -609,25 +584,21 @@ char_type cool_nash_0x294::sub_467A20()
 STUB_FUNC(0x467ad0)
 void cool_nash_0x294::sub_467AD0()
 {
-
 }
 
 STUB_FUNC(0x467bd0)
 void cool_nash_0x294::sub_467BD0()
 {
-
 }
 
 STUB_FUNC(0x467ca0)
 void cool_nash_0x294::sub_467CA0()
 {
-
 }
 
 STUB_FUNC(0x467e20)
 void cool_nash_0x294::sub_467E20()
 {
-
 }
 
 STUB_FUNC(0x467fb0)
@@ -651,43 +622,36 @@ s16 cool_nash_0x294::sub_468040()
 STUB_FUNC(0x4682a0)
 void cool_nash_0x294::sub_4682A0()
 {
-
 }
 
 STUB_FUNC(0x468310)
 void cool_nash_0x294::sub_468310()
 {
-
 }
 
 STUB_FUNC(0x4686c0)
 void cool_nash_0x294::sub_4686C0()
 {
-
 }
 
 STUB_FUNC(0x468820)
 void cool_nash_0x294::sub_468820()
 {
-
 }
 
 STUB_FUNC(0x468930)
 void cool_nash_0x294::sub_468930()
 {
-
 }
 
 STUB_FUNC(0x468a00)
 void cool_nash_0x294::sub_468A00()
 {
-
 }
 
 STUB_FUNC(0x468bd0)
 void cool_nash_0x294::sub_468BD0()
 {
-
 }
 
 STUB_FUNC(0x468c70)
@@ -723,13 +687,11 @@ char_type cool_nash_0x294::sub_469030()
 STUB_FUNC(0x469060)
 void cool_nash_0x294::sub_469060()
 {
-
 }
 
 STUB_FUNC(0x469bd0)
 void cool_nash_0x294::sub_469BD0()
 {
-
 }
 
 STUB_FUNC(0x469bf0)
@@ -747,7 +709,6 @@ s32 cool_nash_0x294::sub_469D60()
 STUB_FUNC(0x469e10)
 void cool_nash_0x294::sub_469E10()
 {
-
 }
 
 STUB_FUNC(0x469e30)
@@ -777,13 +738,11 @@ s32 cool_nash_0x294::sub_469FC0()
 STUB_FUNC(0x469fe0)
 void cool_nash_0x294::sub_469FE0()
 {
-
 }
 
 STUB_FUNC(0x46a1f0)
 void cool_nash_0x294::sub_46A1F0()
 {
-
 }
 
 STUB_FUNC(0x46a290)
@@ -807,7 +766,6 @@ s32 cool_nash_0x294::sub_46A530()
 STUB_FUNC(0x46a5e0)
 void cool_nash_0x294::sub_46A5E0()
 {
-
 }
 
 STUB_FUNC(0x46a6d0)
@@ -819,13 +777,11 @@ s16 cool_nash_0x294::sub_46A6D0()
 STUB_FUNC(0x46a7c0)
 void cool_nash_0x294::sub_46A7C0()
 {
-
 }
 
 STUB_FUNC(0x46a850)
 void cool_nash_0x294::sub_46A850()
 {
-
 }
 
 STUB_FUNC(0x46a8f0)
@@ -873,17 +829,15 @@ s32 cool_nash_0x294::sub_46B2F0()
 STUB_FUNC(0x46b670)
 void cool_nash_0x294::sub_46B670()
 {
-
 }
 
 STUB_FUNC(0x46bd30)
 void cool_nash_0x294::sub_46BD30()
 {
-
 }
 
 STUB_FUNC(0x46bd50)
-char_type cool_nash_0x294::sub_46BD50(u8 * a2)
+char_type cool_nash_0x294::sub_46BD50(u8 *a2)
 {
     return 0;
 }
@@ -891,13 +845,11 @@ char_type cool_nash_0x294::sub_46BD50(u8 * a2)
 STUB_FUNC(0x46bdc0)
 void cool_nash_0x294::sub_46BDC0()
 {
-
 }
 
 STUB_FUNC(0x46c250)
 void cool_nash_0x294::sub_46C250()
 {
-
 }
 
 STUB_FUNC(0x46c770)
@@ -921,19 +873,16 @@ s32 cool_nash_0x294::sub_46C8A0()
 STUB_FUNC(0x46c910)
 void cool_nash_0x294::sub_46C910()
 {
-
 }
 
 STUB_FUNC(0x46c9b0)
 void cool_nash_0x294::sub_46C9B0()
 {
-
 }
 
 STUB_FUNC(0x46ca60)
 void cool_nash_0x294::sub_46CA60()
 {
-
 }
 
 STUB_FUNC(0x46ca70)
@@ -969,59 +918,50 @@ char_type cool_nash_0x294::sub_46CEF0()
 STUB_FUNC(0x46d030)
 void cool_nash_0x294::sub_46D030()
 {
-
 }
 
 STUB_FUNC(0x46d0b0)
 void cool_nash_0x294::sub_46D0B0()
 {
-
 }
 
 STUB_FUNC(0x46d0d0)
 void cool_nash_0x294::sub_46D0D0()
 {
-
 }
 
 STUB_FUNC(0x46d240)
 void cool_nash_0x294::sub_46D240()
 {
-
 }
 
 STUB_FUNC(0x46d300)
 void cool_nash_0x294::sub_46D300()
 {
-
 }
 
 STUB_FUNC(0x46d460)
 void cool_nash_0x294::sub_46D460(char_type a2)
 {
-
 }
 
 STUB_FUNC(0x46db60)
 void cool_nash_0x294::sub_46DB60()
 {
-
 }
 
 STUB_FUNC(0x46db70)
 void cool_nash_0x294::sub_46DB70()
 {
-
 }
 
 STUB_FUNC(0x46db80)
 void cool_nash_0x294::sub_46DB80()
 {
-
 }
 
 STUB_FUNC(0x46df50)
-Car_3C * cool_nash_0x294::sub_46DF50()
+Car_3C *cool_nash_0x294::sub_46DF50()
 {
     return 0;
 }
@@ -1033,7 +973,7 @@ s32 cool_nash_0x294::sub_46DF70(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46e020)
-bool cool_nash_0x294::sub_46E020(Mouze_44 * a2)
+bool cool_nash_0x294::sub_46E020(Mouze_44 *a2)
 {
     return 0;
 }
@@ -1059,13 +999,11 @@ u8 cool_nash_0x294::get_wanted_star_count_46EF00()
 STUB_FUNC(0x46ef40)
 void cool_nash_0x294::set_wanted_level_46EF40(u16 wanted)
 {
-
 }
 
 STUB_FUNC(0x46f070)
 void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
 {
-
 }
 
 STUB_FUNC(0x46f100)
@@ -1075,21 +1013,19 @@ s32 cool_nash_0x294::sub_46F100(u8 a2)
 }
 
 STUB_FUNC(0x46f110)
-keen_bhaskara_0x30 * cool_nash_0x294::sub_46F110()
+keen_bhaskara_0x30 *cool_nash_0x294::sub_46F110()
 {
     return 0;
 }
 
 STUB_FUNC(0x46f1e0)
-void cool_nash_0x294::sub_46F1E0(keen_bhaskara_0x30 * a2)
+void cool_nash_0x294::sub_46F1E0(keen_bhaskara_0x30 *a2)
 {
-
 }
 
 STUB_FUNC(0x46f390)
 void cool_nash_0x294::sub_46F390()
 {
-
 }
 
 STUB_FUNC(0x46f490)
@@ -1105,31 +1041,28 @@ char_type cool_nash_0x294::sub_46F600(s32 a2)
 }
 
 STUB_FUNC(0x46f650)
-u32 * cool_nash_0x294::sub_46F650(s32 a2)
+u32 *cool_nash_0x294::sub_46F650(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x46f680)
-void cool_nash_0x294::sub_46F680(cool_nash_0x294 * a2)
+void cool_nash_0x294::sub_46F680(cool_nash_0x294 *a2)
 {
-
 }
 
 STUB_FUNC(0x46f720)
 void cool_nash_0x294::sub_46F720()
 {
-
 }
 
 STUB_FUNC(0x46f9d0)
 void cool_nash_0x294::sub_46F9D0()
 {
-
 }
 
 STUB_FUNC(0x46fc70)
-u32 * cool_nash_0x294::sub_46FC70()
+u32 *cool_nash_0x294::sub_46FC70()
 {
     return 0;
 }
@@ -1137,7 +1070,6 @@ u32 * cool_nash_0x294::sub_46FC70()
 STUB_FUNC(0x46fc90)
 void cool_nash_0x294::sub_46FC90(s32 a2, s32 a3)
 {
-
 }
 
 STUB_FUNC(0x46fe20)
@@ -1149,13 +1081,11 @@ char_type cool_nash_0x294::sub_46FE20(s32 a2)
 STUB_FUNC(0x46ff00)
 void cool_nash_0x294::sub_46FF00(s32 a2, s32 a3, s32 a4)
 {
-
 }
 
 STUB_FUNC(0x46fff0)
 void cool_nash_0x294::sub_46FFF0(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x470050)
@@ -1167,7 +1097,6 @@ s16 cool_nash_0x294::sub_470050()
 STUB_FUNC(0x470160)
 void cool_nash_0x294::add_wanted_points_470160(s16 wanted_amount)
 {
-
 }
 
 STUB_FUNC(0x4701d0)
@@ -1183,9 +1112,8 @@ s32 cool_nash_0x294::sub_470200(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x4702d0)
-void cool_nash_0x294::sub_4702D0(cool_nash_0x294 * pPed)
+void cool_nash_0x294::sub_4702D0(cool_nash_0x294 *pPed)
 {
-
 }
 
 STUB_FUNC(0x470300)
@@ -1201,8 +1129,7 @@ s32 cool_nash_0x294::sub_470F00()
 }
 
 STUB_FUNC(0x470f90)
-cool_nash_0x294 * cool_nash_0x294::sub_470F90(cool_nash_0x294 * pSrc)
+cool_nash_0x294 *cool_nash_0x294::sub_470F90(cool_nash_0x294 *pSrc)
 {
     return 0;
 }
-

@@ -13,7 +13,7 @@ struct blissful_ganguly_0x20
     wchar_t field_0_str[16];
 };
 
-struct angry_lewin_0x85C;
+class angry_lewin_0x85C;
 
 struct lucid_hamilton
 {

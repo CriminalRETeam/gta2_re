@@ -1278,6 +1278,8 @@ void force_link()
 
     cool_nash_0x294 cn;
     cn.sub_45B550();
+    cn.sub_45B560(NULL, 0);
+    cn.sub_45B590();
 }
 
 // nomatch
