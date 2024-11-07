@@ -377,10 +377,10 @@ char_type cool_nash_0x294::sub_45EDC0()
     return 0;
 }
 
-STUB_FUNC(0x45ede0)
+MATCH_FUNC(0x45ede0)
 bool cool_nash_0x294::sub_45EDE0(s32 a2)
 {
-    return 0;
+    return field_238 == a2 ? true : false;
 }
 
 STUB_FUNC(0x45ee00)
