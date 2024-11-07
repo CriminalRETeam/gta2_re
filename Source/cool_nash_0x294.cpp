@@ -36,10 +36,10 @@ u32 * cool_nash_0x294::sub_45B520(u32 * a2)
     return 0;
 }
 
-STUB_FUNC(0x45b550)
+MATCH_FUNC(0x45b550)
 void cool_nash_0x294::sub_45B550()
 {
-
+    field_26A = 2;
 }
 
 STUB_FUNC(0x45b560)
