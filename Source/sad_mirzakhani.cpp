@@ -57,14 +57,14 @@ void silly_saha_0x2C::sub_431DB0()
 
 // ============
 
-STUB_FUNC(0x431DC0);
+MATCH_FUNC(0x431DC0);
 sad_mirzakhani::sad_mirzakhani()
 {
     field_1B8 = 0;
     field_1BC = 0;
 }
 
-STUB_FUNC(0x431DF0);
+MATCH_FUNC(0x431DF0);
 sad_mirzakhani::~sad_mirzakhani()
 {
     field_1B8 = 0;
@@ -112,4 +112,46 @@ u16 sad_mirzakhani::next_free_idx_431E90()
         }
     }
     return GTA2_COUNTOF(field_0);
+}
+
+STUB_FUNC(0x431EC0);
+u16 sad_mirzakhani::sub_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
+{
+    return 0;
+}
+
+STUB_FUNC(0x431FE0);
+u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, s32 f_1c, s8 f_24, s8 f_25, u16 f_28, gmp_map_zone *pZone)
+{
+    return 0;
+}
+
+STUB_FUNC(0x432080);
+s16 sad_mirzakhani::sub_432080(u16 idx)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4320D0);
+void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
+{
+
+}
+
+STUB_FUNC(0x432170);
+s8 sad_mirzakhani::sub_432170(int a2, int a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x432240);
+s8 sad_mirzakhani::sub_432240(int a2, int a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x432300);
+bool sad_mirzakhani::sub_432300(int a2, int a3)
+{
+    return false;
 }
