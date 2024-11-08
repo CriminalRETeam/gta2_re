@@ -45,14 +45,24 @@ void silly_saha_0x2C::sub_431DB0()
     field_2B = 0;
 }
 
+// ============
+
 STUB_FUNC(0x431DC0);
 sad_mirzakhani::sad_mirzakhani()
 {
     field_1B8 = 0;
     field_1BC = 0;
 }
+
 STUB_FUNC(0x431DF0);
 sad_mirzakhani::~sad_mirzakhani()
 {
     field_1B8 = 0;
+}
+
+MATCH_FUNC(0x431DF0);
+void sad_mirzakhani::sub_431E10(eager_benz *a2)
+{
+    field_1BC = 0;
+    field_1B8 = a2;
 }

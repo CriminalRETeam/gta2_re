@@ -3,6 +3,7 @@
 #include "types.hpp"
 
 class gmp_map_zone;
+class eager_benz;
 
 class silly_saha_0x2C
 {
@@ -42,7 +43,9 @@ public:
 
     ~sad_mirzakhani(); // 0x431DF0
 
+    void sub_431E10(eager_benz *a2);
+    
     silly_saha_0x2C field_0[10];
-    s32 field_1B8;
+    eager_benz* field_1B8;
     s32 field_1BC;
 };
