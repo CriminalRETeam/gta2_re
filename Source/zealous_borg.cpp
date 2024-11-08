@@ -18,7 +18,7 @@ void zealous_borg::sub_484EF0()
 {
     u8 *pByteIter = field_28;
     u32 *pIntIter = field_0;
-    for (s32 i = GTA2_COUNTOF(field_28); i > 0; i--)
+    for (s32 i = GTA2_COUNTOF(field_28)-1; i >= 0; i--)
     {
         *pIntIter = 0;
         *pByteIter = 1;
