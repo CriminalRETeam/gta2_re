@@ -115,15 +115,40 @@ u16 sad_mirzakhani::next_free_idx_431E90()
 }
 
 STUB_FUNC(0x431EC0);
-u16 sad_mirzakhani::sub_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
+u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
 {
     return 0;
 }
 
+
 STUB_FUNC(0x431FE0);
 u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, s32 f_1c, s8 f_24, s8 f_25, u16 f_28, gmp_map_zone *pZone)
 {
-    return 0;
+    const s16 idx = next_free_idx_431E90();
+    if (idx == 10)
+    {
+        return idx;
+    }
+
+    silly_saha_0x2C *pFree = &field_0[idx];
+    pFree->field_4 = f_4;
+    pFree->field_8 = f_8;
+    pFree->field_C = f_c;
+    pFree->field_10 = f_10;
+    pFree->field_12 = f_12;
+    pFree->field_14 = f_14;
+    pFree->field_18 = f_18;
+    pFree->field_0_pZone = pZone;
+    pFree->field_20_counterVal = rng_dword_67AB34->field_0_rng;
+    pFree->field_1C = f_1c;
+    pFree->field_24 = f_24;
+    pFree->field_25 = f_25;
+    pFree->field_26 = 0; // TODO: The compiler just won't stop moving this somewhere else
+    pFree->field_28 = f_28;
+    pFree->field_2A_bUsed = 1;
+    pFree->field_2B = 1;
+
+    return idx;
 }
 
 STUB_FUNC(0x432080);
@@ -135,7 +160,6 @@ s16 sad_mirzakhani::sub_432080(u16 idx)
 STUB_FUNC(0x4320D0);
 void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
 {
-
 }
 
 STUB_FUNC(0x432170);
