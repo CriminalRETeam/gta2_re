@@ -15,7 +15,7 @@ public:
     void sub_431DA0();
     void sub_431DB0();
 
-    gmp_map_zone* field_0_pZone;
+    gmp_map_zone *field_0_pZone;
     s16 field_4;
     char_type field_6;
     char_type field_7;
@@ -44,8 +44,10 @@ public:
     ~sad_mirzakhani(); // 0x431DF0
 
     void sub_431E10(eager_benz *a2);
-    
+
+    void sub_431E30();
+
     silly_saha_0x2C field_0[10];
-    eager_benz* field_1B8;
+    eager_benz *field_1B8;
     s32 field_1BC;
 };

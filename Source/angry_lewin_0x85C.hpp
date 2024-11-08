@@ -41,8 +41,9 @@ struct thirsty_lamarr
 };
 
 // todo: move
-struct eager_benz
+class eager_benz
 {
+public:
     thirsty_lamarr field_0_unk;
     thirsty_lamarr field_38_unk;
     s32 field_70;

@@ -1,6 +1,16 @@
 #include "sad_mirzakhani.hpp"
 #include "Function.hpp"
 
+// TODO: Move
+struct rng
+{
+    s32 field_0_rng;
+    s32 field_4_rnd;
+};
+
+// TODO: Move
+rng* rng_dword_67AB34;
+
 MATCH_FUNC(0x431D30);
 silly_saha_0x2C::silly_saha_0x2C()
 {
@@ -60,9 +70,34 @@ sad_mirzakhani::~sad_mirzakhani()
     field_1B8 = 0;
 }
 
-MATCH_FUNC(0x431DF0);
+MATCH_FUNC(0x431E10);
 void sad_mirzakhani::sub_431E10(eager_benz *a2)
 {
     field_1BC = 0;
     field_1B8 = a2;
+}
+
+MATCH_FUNC(0x431E30);
+void sad_mirzakhani::sub_431E30()
+{
+    s32 i = 10;
+    this->field_1BC = rng_dword_67AB34->field_0_rng;
+    silly_saha_0x2C* pOffIter = &this->field_0[0];
+    do
+    {
+        if (pOffIter->field_2A_bUsed)
+        {
+            if (pOffIter->field_2B)
+            {
+                const u32 f1c = pOffIter->field_1C;
+                if (f1c != -1 && this->field_1BC - pOffIter->field_20_counterVal > f1c)
+                {
+                    pOffIter->field_26 = 0;
+                    pOffIter->sub_431DB0();
+                }
+            }
+        }
+        pOffIter++;
+        --i;
+    } while (i);
 }
