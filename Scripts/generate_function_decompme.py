@@ -2,13 +2,11 @@ from contextlib import suppress
 import json
 from pathlib import Path
 import re
-import subprocess
 import sys
 import urllib.error
 import urllib.request
-from datetime import datetime
-import os
-import stat
+import webbrowser
+from iced_x86 import *
 
 REPO_DIR = Path(__file__).parent.parent
 SCRIPTS_DIR = REPO_DIR / "Scripts"
@@ -45,53 +43,59 @@ def cpp_expand_path(path, matched_files):
 
     raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
 
-def try_download_satsuki():
-    if sys.platform == "win32":
-        url = "https://github.com/happyhavoc/satsuki/releases/download/v0.1.2/x86_64-windows-satsuki.exe"
-        satsuki_name = "satsuki.exe"
-    elif sys.platform == "linux":
-        url = "https://github.com/happyhavoc/satsuki/releases/download/v0.1.2/x86_64-linux-satsuki"
-        satsuki_name = "satsuki"
-    else:
-        print(f"Unsupported platform: {sys.platform}")
-        return
+def load_csv_file(filename):
+    ret = []
+    with open(filename) as file:
+        lines = [line.rstrip() for line in file]
+        for line in lines:
+            ret.append(line.split(","))        
+    return ret
 
-    if (SCRIPTS_DIR / satsuki_name).exists():
-        print("Skipping satsuki download")
-        return
+def get_bytes_from_function(func_name_to_find) -> bytes:
+    funcs = load_csv_file("bin_comp/og_function_data.csv")
+    for func in funcs:
+        func_name, new_func_offset, og_func_offset, og_func_size = func
+        if func_name == func_name_to_find:
+            with open("bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
+                file.seek(int(og_func_offset, 16))
+                return file.read(int(og_func_size, 16))
+            
+    print(f"couldn't find function: {func_name_to_find}")
+    return None
 
-    print(f"Downloading {satsuki_name}...")
-    urllib.request.urlretrieve(url, SCRIPTS_DIR / satsuki_name)
-    mode = os.stat(SCRIPTS_DIR / satsuki_name).st_mode | stat.S_IXUSR
-    os.chmod(SCRIPTS_DIR / satsuki_name, mode)
+def dism_func(func_bytes):
+    decoder = Decoder(32, func_bytes)
+    formatter = Formatter(FormatterSyntax.GAS)
+
+    asm = list()
+    asm.append(".att_syntax")
+    for instruction in decoder:
+        asm.append(formatter.format(instruction))
+
+    asm_str = "\n".join(asm)
+    return asm_str
 
 def main():
-    try_download_satsuki()
 
-    if not (SCRIPTS_DIR / "10.5.exe").exists():
-        print(f"gta2 executable '10.5.exe' not found! Move '10.5.exe' to {str(SCRIPTS_DIR / "10.5.exe")} and try again!")
+    if not (SCRIPTS_DIR / "bin_comp" / "10.5.exe").exists():
+        print(f"gta2 executable '10.5.exe' not found! Move '10.5.exe' to {str(SCRIPTS_DIR / "bin_comp" / "10.5.exe")} and try again!")
         sys.exit(1)
 
-    asm = subprocess.check_output(
-        [
-            str(SCRIPTS_DIR / "satsuki"),
-            "--mapping-file-csv",
-            str(SCRIPTS_DIR / "mapping.csv"),
-            "disassemble",
-            "--att",
-            "--force-address-zero",
-            "--resolve-names",
-            SCRIPTS_DIR / "10.5.exe",
-            sys.argv[1], # function name
-        ]
-    ).decode("utf8")
-    asm = ".att_syntax\n" + asm
+    if not (SCRIPTS_DIR / "bin_comp" / "og_function_data.csv").exists():
+        print(f"og_function_data.csv not found! run ida_dump_func_data.py and try again!")
+        sys.exit(1)
+
+    function_name = sys.argv[1]
+    func_bytes = get_bytes_from_function(function_name)
+    if func_bytes == None:
+        sys.exit(1)
+
+    asm = dism_func(func_bytes)
     print(asm)
 
     #ctx = cpp_expand_path("Game_0x40.hpp", set())
     #print(ctx)
 
-    '''
     req = urllib.request.Request(
         "https://decomp.me/api/scratch",
         headers={
@@ -99,16 +103,14 @@ def main():
         },
         data=json.dumps(
             {
-                "compiler": "msvc7.0",
-                "compiler_flags": "/MT /EHsc /G5 /Gs /GS /Od /Oi /Ob1 /Op /TP",
-                "context": ctx,
+                "compiler": "msvc6.4",
+                "compiler_flags": "/TP /O2 /GX /EHsc",
+                "context": "",
                 "diff_flags": [],
-                "diff_label": sys.argv[1],
-                "libraries": [
-                    {"name": "directx", "version": "8.0"},
-                ],
+                "diff_label": function_name,
+                "libraries": [],
                 "platform": "win32",
-                "preset": 111,
+                "preset": 152,
                 "target_asm": asm,
             }
         ).encode("utf8"),
@@ -121,13 +123,9 @@ def main():
         print(json.load(err.fp))
         raise
 
-    print(
-        "https://decomp.me/scratch/"
-        + out_data["slug"]
-        + "/claim?token="
-        + out_data["claim_token"]
-    )
-    '''
+    scartch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
+    print(scartch_url)
+    webbrowser.open_new_tab(scartch_url)
 
 if __name__ == "__main__":
     main()
