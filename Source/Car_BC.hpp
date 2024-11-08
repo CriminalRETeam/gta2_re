@@ -191,16 +191,20 @@ public:
     EXPORT s32 sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT char_type sub_444020();
     EXPORT u32 sub_444090(Car_BC * a1);
-    EXPORT s32 sub_4441B0();
+    EXPORT void sub_4441B0();
     EXPORT Car_6C * sub_444490();
     EXPORT void sub_4446E0();
     EXPORT s32 sub_4447D0();
-    EXPORT void ctor_444860();
-    EXPORT void dtor_444960();
+    
+    Car_BC(); // 0x444860
+    ~Car_BC(); // 0x444960
+
     EXPORT s32 sub_446730(Car_BC * a1);
     EXPORT char_type sub_447360();
     EXPORT Car_3C * sub_52A6D0(Car_3C * a2);
     EXPORT bool sub_564300();
+
+
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
