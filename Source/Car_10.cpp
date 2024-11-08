@@ -1,19 +1,18 @@
 #include "Car_10.hpp"
 
 STUB_FUNC(0x439CD0)
-Car_10* Car_10::sub_439CD0(s32* a2)
+Car_10 *Car_10::sub_439CD0(s32 *a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x439D40)
-void Car_10::sub_439D40(Car_10* a1, s32 a2, s32* a3)
+void Car_10::sub_439D40(Car_10 *a1, s32 a2, s32 *a3)
 {
-
 }
 
 STUB_FUNC(0x439DA0)
-s32 Car_10::sub_439DA0(s32 edx0, s32* a3)
+s32 Car_10::sub_439DA0(s32 edx0, s32 *a3)
 {
     return 0;
 }
@@ -36,15 +35,19 @@ s32 Car_10::sub_439EA0()
     return 0;
 }
 
-STUB_FUNC(0x447330)
+MATCH_FUNC(0x447330)
 Car_10::Car_10()
 {
-
+  this->field_8 = 0;
+  this->field_2 = 0;
+  this->field_0 = 0;
+  this->field_1 = 3;
+  this->field_4 = 0;
+  this->field_C = 0;
 }
 
-STUB_FUNC(0x447350)
+MATCH_FUNC(0x447350)
 Car_10::~Car_10()
 {
-
+    field_8 = 0;
 }
-

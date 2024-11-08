@@ -993,9 +993,37 @@ u32 Car_BC::sub_444090(Car_BC *a1)
 }
 
 STUB_FUNC(0x4441b0)
-s32 Car_BC::sub_4441B0()
+void Car_BC::sub_4441B0()
 {
-    return 0;
+  s32 info_idx = field_84_car_info_idx;
+  switch ( info_idx )
+  {
+    case 34:
+      sub_443F30(165, 16719888, 10, 16);
+      sub_443F30(171, 16719888, -10, 16);
+      sub_443F30(172, 16719888, 10, -32);
+      sub_443F30(173, 16719888, -10, -32);
+      break;
+    case 12:
+      sub_443F30(165, 16719888, 10, -16);
+      sub_443F30(171, 255, -10, -16);
+      break;
+    case 52:
+      sub_443F30(165, 16719888, 10, 32);
+      sub_443F30(171, 255, -10, 32);
+      sub_443F30(172, 16719888, 10, -32);
+      sub_443F30(173, 255, -10, -32);
+      break;
+    case 17:
+      sub_443F30(165, 16719888, 16, 48);
+      sub_443F30(171, 16719888, -16, 48);
+      sub_443F30(172, 16719888, 16, -16);
+      sub_443F30(173, 16719888, -16, -26);
+      break;
+    case 84:
+      sub_443F30(165, 16719888, 0, 16);
+      break;
+  }
 }
 
 STUB_FUNC(0x444490)
@@ -1015,15 +1043,54 @@ s32 Car_BC::sub_4447D0()
     return 0;
 }
 
+
 STUB_FUNC(0x444860)
-void Car_BC::ctor_444860()
+Car_BC::Car_BC()
 {
+  this->field_0_qq = 0;
+  this->field_4.field_0_pOwner = 0;
+  this->field_8 = 0;
+  this->field_54_driver = 0;
+  this->field_74_damage = 0;
+  this->field_8C = 0;
+  this->field_98 = 0;
+  this->field_9C = 0;
+  this->field_7C_uni_num = 0;
+  this->field_76 = 0;
+  this->field_A4 = 0;
+  this->field_A5 = 0;
+  this->field_A6 = 0;
+  this->field_4C_next = 0;
+  this->field_84_car_info_idx = 87;
+  this->field_50_car_sprite = 0;
+  this->field_58_uni_Car78_or_Car_B0 = 0;
+  this->field_5C = 0;
+  this->field_88 = 0;
+  this->field_6C_maybe_id = 0xFFFF;
+  this->field_64 = 0;
+  this->field_78 = 0;
+  // TODO
+  //Object_3C::sub_5A7010((Object_3C *)this);
+  this->field_A7 = 0;
+  this->field_80 = 0;
+  this->field_A0 = 0;
+  this->field_8D = 0;
+  this->field_70 = 0;
+  this->field_90 = 0;
+  this->field_94 = 0;
+  this->field_95 = 0;
+  this->field_68 = 0x4000;
+  this->field_8E = 0;
 }
 
-STUB_FUNC(0x444960)
-void Car_BC::dtor_444960()
+MATCH_FUNC(0x444960)
+Car_BC::~Car_BC()
 {
+    field_4C_next = 0;
+    field_50_car_sprite = 0;
+    field_5C = 0;
 }
+
 
 STUB_FUNC(0x446730)
 s32 Car_BC::sub_446730(Car_BC *a1)
