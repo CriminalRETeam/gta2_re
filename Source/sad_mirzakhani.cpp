@@ -1,5 +1,6 @@
 #include "sad_mirzakhani.hpp"
 #include "Function.hpp"
+#include "angry_lewin_0x85C.hpp" // eager_benz
 
 // TODO: Move
 struct rng
@@ -179,6 +180,32 @@ s16 sad_mirzakhani::sub_432080(u16 idx)
 STUB_FUNC(0x4320D0);
 void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
 {
+    u16 found_idx = 0;
+    for (s16 i = 0; i < 10u; i = found_idx + 1)
+    {
+        found_idx = find_431EC0(
+            i,
+            f_4,
+            f_8,
+            f_c,
+            f_10,
+            f_12,
+            f_14,
+            f_18,
+            pZone);
+       // _found_idx = found_idx;
+        if (found_idx >= 10u)
+        {
+            break;
+        }
+        silly_saha_0x2C *pFound = &field_0[found_idx];
+        pFound->field_26++;
+        if (pFound->field_26 == pFound->field_25)
+        {
+            field_1B8->field_368_pObj->field_2D4_unk.AddCash_592620(field_1B8->field_368_pObj->field_6BC_unk.field_0 * pFound->field_28);
+            pFound->sub_431DB0();
+        }
+    }
 }
 
 STUB_FUNC(0x432170);
