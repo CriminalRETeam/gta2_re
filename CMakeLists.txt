@@ -101,6 +101,8 @@ set(gta2_lib_src
   Source/zealous_borg.cpp
   Source/infallible_turing.hpp
   Source/infallible_turing.cpp
+  Source/sad_mirzakhani.hpp
+  Source/sad_mirzakhani.cpp
 )
 
 # global include dirs
