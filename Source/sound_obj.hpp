@@ -4,6 +4,8 @@
 #include <windows.h>
 #include "root_sound.hpp" // for infallible_turing
 
+class infallible_turing;
+
 class serene_brattain 
 {
 public:
@@ -95,7 +97,6 @@ struct sound_0x68
     s32 field_64;
 };
 
-struct infallible_turing;
 
 class sound_obj
 {

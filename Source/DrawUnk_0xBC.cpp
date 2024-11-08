@@ -242,7 +242,7 @@ DrawUnk_0xBC::DrawUnk_0xBC() // 4368E0
 
 }
 
-STUB_FUNC(0x4369E0)
+MATCH_FUNC(0x4369E0)
 DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
 {
 

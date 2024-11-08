@@ -795,7 +795,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
             {
             case 1: // brave_archimedes_0x3C ?
             {
-                brave_archimedes_0x3C *v7 = (brave_archimedes_0x3C*)field_147C[idx].field_4_pObj->field_C_pObject;
+                brave_archimedes_0x3C *v7 = (brave_archimedes_0x3C*)field_147C[idx].field_4_pObj->field_C_pAny;
                 if (v7)
                 {
                     switch(v7->field_30)
@@ -846,9 +846,9 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     switch(pTuring->field_0_object_type)
     {
     case 1:
-        if (pTuring->field_C_pObject)
+        if (pTuring->field_C_pAny)
         {
-            brave_archimedes_0x3C *pAny = (brave_archimedes_0x3C *)pTuring->field_C_pObject;
+            brave_archimedes_0x3C *pAny = (brave_archimedes_0x3C *)pTuring->field_C_pAny;
             switch (pAny->field_30)
             {
             case 2:
@@ -869,7 +869,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     }
 
     field_147C[idx].field_0_bUsed = 0;
-    field_147C[idx].field_4_pObj->field_C_pObject = 0;
+    field_147C[idx].field_4_pObj->field_C_pAny = 0;
     field_147C[idx].field_1 = 0;
 
     if (field_147C[idx].field_4_pObj->field_0_object_type == 5)
@@ -1239,7 +1239,7 @@ void sound_obj::ProcessType10_418CA0()
 MATCH_FUNC(0x418B60)
 void sound_obj::ProcessType11_418B60(s32 a2)
 {
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[a2].field_4_pObj->field_C_pObject;
+    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[a2].field_4_pObj->field_C_pAny;
     if (field_C_pObject)
     {
         if (field_C_pObject->field_0_object_type > 0)
@@ -1291,7 +1291,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
     static BYTE byte_66F2D4;
     static BYTE byte_66F540;
  
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[idx].field_4_pObj->field_C_pObject;
+    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[idx].field_4_pObj->field_C_pAny;
     if (!field_C_pObject)
     {
         return;

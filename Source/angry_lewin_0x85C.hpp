@@ -3,8 +3,9 @@
 #include <windows.h>
 #include "types.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "zealous_borg.hpp"
 
-struct infallible_turing;
+class infallible_turing;
 class cool_nash_0x294;
 class keen_bhaskara_0x30;
 class angry_lewin_0x85C;
@@ -106,16 +107,6 @@ struct eager_benz
     angry_lewin_0x85C *field_368_pObj;
 };
 
-
-// todo: move
-struct zealous_borg
-{
-    u32 field_0[10];
-    BYTE field_28[10];
-    s16 field_32;
-    s32 field_34;
-    s32 field_38;
-};
 
 
 // TODO: add these later
@@ -243,9 +234,7 @@ public:
     char_type field_4B;
     infallible_turing* field_4C_pUnk;
     s32 field_50;
-    s32 field_54_unk;
-    Car_BC* field_58;
-    Car_BC* field_5C;
+    Car_BC* field_54_unk[3];
     s32 field_60;
     char_type field_64;
     char_type field_65;

@@ -6,15 +6,6 @@
 
 root_sound gRoot_sound_66B038;
 
-MATCH_FUNC(0x40EF20)
-void infallible_turing::release_40EF20()
-{
-    if (field_8)
-    {
-        gRoot_sound_66B038.FreeSoundEntry_40EFD0(field_8);
-    }
-}
-
 // nomatch
 void root_sound::sub_40EF80()
 {
@@ -147,8 +138,8 @@ MATCH_FUNC(0x40EF40)
 infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObject, s32 objectType)
 {
     infallible_turing* pCurrent = field_0;
-    field_0 = (infallible_turing*)field_0->field_C_pObject;
-    pCurrent->field_C_pObject = pObject;
+    field_0 = (infallible_turing*)field_0->field_C_pAny;
+    pCurrent->field_C_pAny = pObject;
     pCurrent->field_8 = 0;
     pCurrent->field_4 = 0;
     pCurrent->field_0_object_type = objectType;
@@ -179,12 +170,12 @@ root_sound::root_sound()
     infallible_turing* pIter = field_4;
     for (s32 i = 0; i < 999; i++)
     {
-        pIter->field_C_pObject = pIter+1;
+        pIter->field_C_pAny = pIter+1;
         pIter++;
     }
 
     field_0 = field_4;
-    field_4[999].field_C_pObject = 0;
+    field_4[999].field_C_pAny = 0;
 }
 
 // nomatch 0x411E60
