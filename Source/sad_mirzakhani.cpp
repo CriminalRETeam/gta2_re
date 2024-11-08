@@ -9,7 +9,7 @@ struct rng
 };
 
 // TODO: Move
-rng* rng_dword_67AB34;
+rng *rng_dword_67AB34;
 
 MATCH_FUNC(0x431D30);
 silly_saha_0x2C::silly_saha_0x2C()
@@ -82,8 +82,8 @@ void sad_mirzakhani::sub_431E30()
 {
     field_1BC = rng_dword_67AB34->field_0_rng;
 
-    silly_saha_0x2C* pIter = &field_0[0];
-    for (s32 i = GTA2_COUNTOF(field_0)-1; i >= 0; i--)
+    silly_saha_0x2C *pIter = &field_0[0];
+    for (s32 i = GTA2_COUNTOF(field_0) - 1; i >= 0; i--)
     {
         if (pIter->field_2A_bUsed)
         {
@@ -99,4 +99,17 @@ void sad_mirzakhani::sub_431E30()
         }
         pIter++;
     }
+}
+
+MATCH_FUNC(0x431E90);
+u16 sad_mirzakhani::next_free_idx_431E90()
+{
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (!field_0[i].field_2A_bUsed)
+        {
+            return i;
+        }
+    }
+    return GTA2_COUNTOF(field_0);
 }

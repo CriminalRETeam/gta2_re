@@ -47,6 +47,8 @@ public:
 
     void sub_431E30();
 
+    u16 next_free_idx_431E90();
+
     silly_saha_0x2C field_0[10];
     eager_benz *field_1B8;
     s32 field_1BC;
