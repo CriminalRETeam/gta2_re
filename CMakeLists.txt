@@ -97,6 +97,10 @@ set(gta2_lib_src
   Source/Car_10.cpp
   Source/Ped_Unknown_4.hpp
   Source/Ped_Unknown_4.cpp
+  Source/zealous_borg.hpp
+  Source/zealous_borg.cpp
+  Source/infallible_turing.hpp
+  Source/infallible_turing.cpp
 )
 
 # global include dirs

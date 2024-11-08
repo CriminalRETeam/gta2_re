@@ -15,6 +15,7 @@
 #include "file.hpp"
 #include "dma_video.hpp"
 #include "cSampleManager.hpp"
+#include "infallible_turing.hpp"
 #include "fix16.hpp"
 #include <io.h>
 #include <stdio.h>
@@ -456,7 +457,7 @@ void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
         snd1_67D818.field_0_object_type = 0;
         snd1_67D818.field_4 = 0;
         snd2_67D6F8.field_0_object_type = 2;
-        snd2_67D6F8.field_C_pObject = &snd1_67D818;
+        snd2_67D6F8.field_C_pAny = &snd1_67D818;
         snd2_67D6F8.field_4 = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
