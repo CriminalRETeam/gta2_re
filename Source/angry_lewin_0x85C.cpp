@@ -5,6 +5,13 @@
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
 
+// TODO: move
+STUB_FUNC(0x592620)
+void eager_benz::AddCash_592620(s32 cash)
+{
+
+}
+
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
 {

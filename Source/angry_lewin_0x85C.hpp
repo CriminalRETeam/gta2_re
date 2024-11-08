@@ -4,43 +4,12 @@
 #include "types.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "zealous_borg.hpp"
+#include "sad_mirzakhani.hpp"
 
 class infallible_turing;
 class cool_nash_0x294;
 class keen_bhaskara_0x30;
 class angry_lewin_0x85C;
-
-// todo: move
-struct silly_saha_0x2C
-{
-    s32 field_0;
-    s16 field_4;
-    char_type field_6;
-    char_type field_7;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10;
-    s16 field_12;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20_counterVal;
-    char_type field_24;
-    char_type field_25;
-    char_type field_26;
-    char_type field_27;
-    s16 field_28;
-    char_type field_2A_bUsed;
-    char_type field_2B;
-};
-
-// todo: move
-struct sad_mirzakhani
-{
-    silly_saha_0x2C field_0[10];
-    s32 field_1B8;
-    s32 field_1BC;
-};
 
 // todo: move
 struct thirsty_lamarr
@@ -72,8 +41,12 @@ struct thirsty_lamarr
 };
 
 // todo: move
-struct eager_benz
+class eager_benz
 {
+public:
+    // TODO: stub all
+    void AddCash_592620(s32 cash);
+
     thirsty_lamarr field_0_unk;
     thirsty_lamarr field_38_unk;
     s32 field_70;
