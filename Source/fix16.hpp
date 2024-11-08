@@ -65,6 +65,8 @@ struct Fix16
 
     Fix16 operator-();
 
+    Fix16 operator+(const Fix16& rhs) const;
+
 public:
     s32 mValue;
 };

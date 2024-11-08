@@ -30,3 +30,12 @@ Fix16 Fix16::operator-()
     ret.mValue = -mValue;
     return ret;
 }
+
+MATCH_FUNC(0x408660)
+Fix16 Fix16::operator+(const Fix16& rhs) const
+{
+    Fix16 ret;
+    ret.mValue = mValue + rhs.mValue;
+    return ret;
+}
+
