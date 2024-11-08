@@ -63,6 +63,8 @@ struct Fix16
 
     Fix16 operator*(const Fix16 &in);
 
+    Fix16 operator-();
+
 public:
     s32 mValue;
 };

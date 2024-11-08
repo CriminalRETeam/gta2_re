@@ -22,3 +22,11 @@ Fix16 Fix16::operator*(const Fix16 &in)
     ret.mValue = (mValue * (__int64)in.mValue) >> 14;
     return ret;
 }
+
+MATCH_FUNC(0x4086A0)
+Fix16 Fix16::operator-()
+{
+    Fix16 ret;
+    ret.mValue = -mValue;
+    return ret;
+}
