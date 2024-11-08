@@ -69,8 +69,9 @@ struct door_info
     char_type rx, ry;
 };
 
-struct car_info
+class car_info
 {
+public:
     BYTE model;
     BYTE sprite;
     BYTE w;
