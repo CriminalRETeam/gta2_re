@@ -50,11 +50,18 @@ void zealous_borg::sub_484F30()
     this->field_28[9] = 1;
 }
 
-STUB_FUNC(0x484F50)
+MATCH_FUNC(0x484F50)
 void zealous_borg::sub_484F50(int a2)
 {
     switch (a2)
     {
+    case 2:
+        if (field_28[a2])
+        {
+            field_0[a2]++;
+            field_28[a2] = 0;
+        }
+        break;
     case 1:
     case 3:
     case 4:
@@ -63,15 +70,9 @@ void zealous_borg::sub_484F50(int a2)
     case 7:
     case 8:
     case 9:
-        ++this->field_0[a2];
+        field_0[a2]++;
         break;
-    case 2:
-        if (this->field_28[a2])
-        {
-            ++this->field_0[a2];
-            this->field_28[a2] = 0;
-        }
-        break;
+
     default:
         return;
     }
