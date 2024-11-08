@@ -80,24 +80,23 @@ void sad_mirzakhani::sub_431E10(eager_benz *a2)
 MATCH_FUNC(0x431E30);
 void sad_mirzakhani::sub_431E30()
 {
-    s32 i = 10;
-    this->field_1BC = rng_dword_67AB34->field_0_rng;
-    silly_saha_0x2C* pOffIter = &this->field_0[0];
-    do
+    field_1BC = rng_dword_67AB34->field_0_rng;
+
+    silly_saha_0x2C* pIter = &field_0[0];
+    for (s32 i = GTA2_COUNTOF(field_0)-1; i >= 0; i--)
     {
-        if (pOffIter->field_2A_bUsed)
+        if (pIter->field_2A_bUsed)
         {
-            if (pOffIter->field_2B)
+            if (pIter->field_2B)
             {
-                const u32 f1c = pOffIter->field_1C;
-                if (f1c != -1 && this->field_1BC - pOffIter->field_20_counterVal > f1c)
+                const u32 f1c = pIter->field_1C;
+                if (f1c != -1 && field_1BC - pIter->field_20_counterVal > f1c)
                 {
-                    pOffIter->field_26 = 0;
-                    pOffIter->sub_431DB0();
+                    pIter->field_26 = 0;
+                    pIter->sub_431DB0();
                 }
             }
         }
-        pOffIter++;
-        --i;
-    } while (i);
+        pIter++;
+    }
 }
