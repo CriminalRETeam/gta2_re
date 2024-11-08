@@ -120,7 +120,6 @@ u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s1
     return 0;
 }
 
-
 STUB_FUNC(0x431FE0);
 u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, s32 f_1c, s8 f_24, s8 f_25, u16 f_28, gmp_map_zone *pZone)
 {
@@ -151,10 +150,30 @@ u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f
     return idx;
 }
 
-STUB_FUNC(0x432080);
+MATCH_FUNC(0x432080);
 s16 sad_mirzakhani::sub_432080(u16 idx)
 {
-    return 0;
+    silly_saha_0x2C *pItem = &field_0[idx];
+    if (!pItem->field_2A_bUsed)
+    {
+        return -1;
+    }
+
+    if (pItem->field_2B)
+    {
+        return -2;
+    }
+
+    if (pItem->field_26 == pItem->field_25)
+    {
+        pItem->sub_431DA0();
+        return -3;
+    }
+    else
+    {
+        pItem->sub_431DA0();
+        return -4;
+    }
 }
 
 STUB_FUNC(0x4320D0);
