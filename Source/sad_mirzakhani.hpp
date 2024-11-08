@@ -2,14 +2,19 @@
 
 #include "types.hpp"
 
-// todo: move
+class gmp_map_zone;
+
 class silly_saha_0x2C
 {
 public:
+    silly_saha_0x2C();  // 0x431D30
+    ~silly_saha_0x2C(); // 0x431D40
 
+    void sub_431D50();
+    void sub_431DA0();
     void sub_431DB0();
 
-    s32 field_0;
+    gmp_map_zone* field_0_pZone;
     s16 field_4;
     char_type field_6;
     char_type field_7;
@@ -33,6 +38,10 @@ public:
 class sad_mirzakhani
 {
 public:
+    sad_mirzakhani(); // 0x431DC0
+
+    ~sad_mirzakhani(); // 0x431DF0
+
     silly_saha_0x2C field_0[10];
     s32 field_1B8;
     s32 field_1BC;
