@@ -53,6 +53,11 @@ struct Fix16
         return mValue / 16384.0f;
     }
 
+    f64 AsDouble() const
+    {
+        return mValue / 16384.0;
+    }
+
     inline s32 ToInt()
     {
         return mValue >> 14;
@@ -60,13 +65,18 @@ struct Fix16
 
     EXPORT Fix16 &FromInt_4369F0(s32 a2);
     EXPORT Fix16 &FromInt_45C4E0(u8 a2);
+    EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
+    EXPORT Fix16 Abs_436A50(Fix16& a2);
+    EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
 
     Fix16 operator*(const Fix16 &in);
 
     Fix16 operator-();
 
     Fix16 operator+(const Fix16& rhs) const;
+    Fix16 operator/(const Fix16& in);
 
 public:
     s32 mValue;
 };
+
