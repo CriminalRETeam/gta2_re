@@ -13,27 +13,20 @@ zealous_borg::~zealous_borg() // 0x484EE0
     // Empty
 }
 
-STUB_FUNC(0x484EF0)
+MATCH_FUNC(0x484EF0)
 void zealous_borg::sub_484EF0()
 {
-    /*
-    BYTE *v1;         // edx
-    zealous_borg *v2; // eax
-    int v3;           // esi
-
-    v1 = this->field_28;
-    v2 = this;
-    v3 = 10;
-    do
+    u8 *pByteIter = field_28;
+    u32 *pIntIter = field_0;
+    for (s32 i = GTA2_COUNTOF(field_28); i > 0; i--)
     {
-        v2->field_0[0] = 0;
-        *v1 = 1;
-        v2 = (zealous_borg *)((char *)v2 + 4);
-        ++v1;
-        --v3;
-    } while (v3);
-    this->field_34 = 0;
-    */
+        *pIntIter = 0;
+        *pByteIter = 1;
+        ++pIntIter;
+        ++pByteIter;
+    }
+    field_34 = 0;
+    field_38 = 0;
 }
 
 MATCH_FUNC(0x484F20)
