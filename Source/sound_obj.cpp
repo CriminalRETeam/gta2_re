@@ -1535,10 +1535,17 @@ char_type sound_obj::sub_414320(sound_0x68 *a2)
     return 0;
 }
 
-// stub
-char_type sound_obj::sub_414690(sound_0x68 *a2)
+MATCH_FUNC(0x414690)
+char_type sound_obj::sub_414690(sound_0x68 *pObj)
 {
-    return 0;
+    pObj->field_20_rate = 11025;
+    pObj->field_14_samp_idx = 11;
+    pObj->field_3C = 500;
+    pObj->field_30 = 0;
+    pObj->field_34 = 0;
+    pObj->field_38 = -1;
+    pObj->field_4C = 30;
+    return 1;
 }
 
 // stub
