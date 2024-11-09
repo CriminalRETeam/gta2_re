@@ -293,6 +293,8 @@ public:
 
     EXPORT void sub_418C20();
 
+    EXPORT void sub_418C60();
+
     EXPORT void sub_419E10();
 
     EXPORT char_type LoadStyle_41A1B0(const char_type *pStyleName);

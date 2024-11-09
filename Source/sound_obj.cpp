@@ -658,6 +658,16 @@ void sound_obj::sub_418C20()
     }
 }
 
+MATCH_FUNC(0x418C60)
+void sound_obj::sub_418C60()
+{
+    if (this->field_544C[0].field_4_fp)
+    {
+        FreeSoundEntry_41A090(this->field_544C[0].field_4_fp);
+        this->field_544C[0].field_4_fp = 0;
+    }
+}
+
 MATCH_FUNC(0x419E10)
 void sound_obj::sub_419E10()
 {
