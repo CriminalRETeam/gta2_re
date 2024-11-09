@@ -1,9 +1,12 @@
 #include "types.hpp"
 
+class gmp_map_zone;
+
 class Zone_144
 {
 public:
     // TODO stub funcs
+    EXPORT void set_name_4BF090(const char *pName, u8 nameLen);
 
     char field_0_used;
     u8 field_1_zone_idx;
@@ -107,6 +110,7 @@ public:
     EXPORT Zone_144 *zone_by_name_4BF100(const char *pZoneName);
     EXPORT Zone_144 *next_free_zone_4BF170();
     EXPORT Zone_144 *ZoneByIdx_4BF1C0(u8 zone_idx);
+    EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone *pMapZone);
 
     Zone_144 field_0[10];
 };
