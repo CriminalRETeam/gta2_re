@@ -4,7 +4,6 @@ class Zone_144
 {
 public:
     // TODO stub funcs
-    EXPORT Zone_144* zone_by_name_4BF100(const char *pZoneName);
 
     char field_0_used;
     u8 field_1_zone_idx;
@@ -105,8 +104,9 @@ class Zones_CA8
 {
 public:
     // TODO: stub funcs
+    EXPORT Zone_144* zone_by_name_4BF100(const char *pZoneName);
 
     Zone_144 field_0[10];
 };
 
-EXPORT_VAR extern Zone_144* gZones_CA8_67E274;
+EXPORT_VAR extern Zones_CA8* gZones_CA8_67E274;
