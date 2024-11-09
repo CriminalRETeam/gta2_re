@@ -32,3 +32,9 @@ Zone_144 *Zones_CA8::next_free_zone_4BF170()
     }
     return 0;
 }
+
+MATCH_FUNC(0x4BF1C0);
+Zone_144 *Zones_CA8::ZoneByIdx_4BF1C0(u8 zone_idx)
+{
+    return &field_0[zone_idx];
+}
