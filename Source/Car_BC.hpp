@@ -250,7 +250,7 @@ public:
     char_type field_A4;
     char_type field_A5;
     char_type field_A6;
-    char_type field_A7;
+    u8 field_A7;
     char_type field_A8;
     char_type field_A9;
     char_type field_AA;
