@@ -8,6 +8,10 @@ public:
     // TODO stub funcs
     EXPORT void set_name_4BF090(const char *pName, u8 nameLen);
 
+
+    // TODO: other funcs between
+    EXPORT void init_4BED70();
+
     char field_0_used;
     u8 field_1_zone_idx;
     char field_2_name[4];
@@ -112,6 +116,7 @@ public:
     EXPORT Zone_144 *ZoneByIdx_4BF1C0(u8 zone_idx);
     EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone *pMapZone);
     EXPORT u8 get_zone_idx_4BF210(const char *zoneName);
+    EXPORT void sub_4BF230(Zone_144 *pZone, u8 zone_idx);
 
     Zone_144 field_0[10];
 };
