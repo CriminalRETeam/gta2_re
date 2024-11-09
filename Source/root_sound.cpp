@@ -73,12 +73,10 @@ void root_sound::sub_40F070(char_type a1)
     // todo
 }
 
-// stub
-s32 root_sound::sub_40F090(s32 state)
+MATCH_FUNC(0x40F090)
+void root_sound::sub_40F090(s32 state)
 {
-    // todo
-    //return gSound_obj_66F680.sub_418C80(state);
-    return 0;
+    gSound_obj_66F680.sub_418C80(state);
 }
 
 MATCH_FUNC(0x40F0B0)
@@ -88,7 +86,7 @@ void root_sound::SetSfxVol_40F0B0(u8 sfxVol)
 }
 
 MATCH_FUNC(0x40F0F0)
-void root_sound::SetCDVol_40F0F0(u32 cdVol)
+void root_sound::SetCDVol_40F0F0(u8 cdVol)
 {
     gSound_obj_66F680.SetCDVol_41A270(cdVol > 127 ? 127 : cdVol);
 }
@@ -161,7 +159,7 @@ root_sound::root_sound()
     field_4[999].field_C_pAny = 0;
 }
 
-// nomatch 0x411E60
+MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
     field_0 = 0;

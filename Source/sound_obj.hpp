@@ -324,6 +324,8 @@ public:
 
     EXPORT void ProcessType9_412A60(s32 a2);
 
+    EXPORT void sub_418C80(s32 a2);
+
     EXPORT void ProcessType10_418CA0();
 
     EXPORT void ProcessType11_418B60(s32 a2);
