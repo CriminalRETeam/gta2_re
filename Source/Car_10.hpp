@@ -6,7 +6,7 @@
 class Car_10
 {
 public:
-    Car_10 *sub_439CD0(s32 *a2);
+    void sub_439CD0(s32 *a2);
     void sub_439D40(s32 *a3);
     s32 sub_439DA0(s32 edx0, s32 *a3);
     void sub_439E40(u8 a2);

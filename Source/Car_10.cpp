@@ -2,10 +2,31 @@
 
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
-STUB_FUNC(0x439CD0)
-Car_10 *Car_10::sub_439CD0(s32 *a2)
+MATCH_FUNC(0x439CD0)
+void Car_10::sub_439CD0(s32 *pRet)
 {
-    return 0;
+    if (field_0 != 4)
+    {
+        if (field_1 == 0)
+        {
+            if (field_0 != 0)
+            {
+                *pRet &= ~(1 << (field_2 + field_0 - 1));
+            }
+            *pRet |= 1 << (field_0 + field_2);
+            field_1 = 2;
+            field_0++;
+        }
+        else
+        {
+            field_1--;
+        }
+    }
+
+    if (field_0 == 4)
+    {
+        field_4 = 1;
+    }
 }
 
 MATCH_FUNC(0x439D40)
