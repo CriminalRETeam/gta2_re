@@ -95,10 +95,17 @@ s32 cool_nash_0x294::sub_45B5B0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45bbf0)
+MATCH_FUNC(0x45bbf0)
 Car_BC *cool_nash_0x294::sub_45BBF0()
 {
-    return 0;
+    if (field_27C == 6 || field_27C == 7)
+    {
+        return field_154_target_to_enter;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x45bc10)
