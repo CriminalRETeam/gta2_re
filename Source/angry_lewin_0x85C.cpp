@@ -4,6 +4,8 @@
 #include "zealous_borg.hpp"
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
+#include "cool_nash_0x294.hpp"
+#include "map_0x370.hpp"
 
 // TODO: move
 STUB_FUNC(0x592620)
@@ -274,16 +276,22 @@ void angry_lewin_0x85C::sub_5679E0()
 {
 }
 
-STUB_FUNC(0x568520)
-const char *angry_lewin_0x85C::sub_568520()
+MATCH_FUNC(0x568520)
+void angry_lewin_0x85C::sub_568520()
 {
-	return "gobbins";
+	const cool_nash_0x294 *pPed = this->field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
+	const Fix16 cam_x_fp = pPed->field_1AC_cam_x;
+	const Fix16 cam_y_fp = pPed->field_1B0_cam_y;
+	field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
+	field_3C = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 1u);
+	field_40 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 5u);
+	field_34_pObj = gMap_0x370_6F6268->sub_4DFB50(cam_x_fp, cam_y_fp);
 }
 
 MATCH_FUNC(0x568630)
 void angry_lewin_0x85C::sub_568630()
 {
-	infallible_turing* pCam = this->field_4C_pUnk;
+	infallible_turing *pCam = this->field_4C_pUnk;
 	if (pCam)
 	{
 		pCam->field_C_pAny = &this->field_14C_view_camera;

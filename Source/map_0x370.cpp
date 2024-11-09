@@ -318,6 +318,12 @@ gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
     return field_32C_pZones[zone_idx + 1];
 }
 
+STUB_FUNC(0x4DFB50)
+EXPORT Zone_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
+{
+    return 0;
+}
+
 MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
 {
