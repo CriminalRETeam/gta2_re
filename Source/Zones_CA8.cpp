@@ -8,8 +8,8 @@ EXPORT_VAR Zones_CA8 *gZones_CA8_67E274;
 MATCH_FUNC(0x4BF090);
 void Zone_144::set_name_4BF090(const char *pName, u8 nameLen)
 {
-  strncpy(this->field_2_name, pName, nameLen);
-  this->field_2_name[nameLen] = 0; // NULL terminate the string
+    strncpy(this->field_2_name, pName, nameLen);
+    this->field_2_name[nameLen] = 0; // NULL terminate the string
 }
 
 // =====================
@@ -54,7 +54,21 @@ void Zones_CA8::alloc_map_zone_4BF1E0(gmp_map_zone *pMapZone)
 {
     if (!zone_by_name_4BF100(pMapZone->field_6_name))
     {
-        Zone_144* pFreeZone = next_free_zone_4BF170();
+        Zone_144 *pFreeZone = next_free_zone_4BF170();
         pFreeZone->set_name_4BF090(pMapZone->field_6_name, pMapZone->field_5_name_length);
+    }
+}
+
+MATCH_FUNC(0x4BF210);
+u8 Zones_CA8::get_zone_idx_4BF210(const char *zoneName)
+{
+    Zone_144* pZone = zone_by_name_4BF100(zoneName);
+    if (pZone)
+    {
+        return pZone->field_1_zone_idx;
+    }
+    else
+    {
+        return -1;
     }
 }

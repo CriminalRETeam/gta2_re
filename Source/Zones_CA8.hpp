@@ -111,6 +111,7 @@ public:
     EXPORT Zone_144 *next_free_zone_4BF170();
     EXPORT Zone_144 *ZoneByIdx_4BF1C0(u8 zone_idx);
     EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone *pMapZone);
+    EXPORT u8 get_zone_idx_4BF210(const char *zoneName);
 
     Zone_144 field_0[10];
 };
