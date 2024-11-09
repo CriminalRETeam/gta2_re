@@ -105,6 +105,7 @@ class Zones_CA8
 public:
     // TODO: stub funcs
     EXPORT Zone_144* zone_by_name_4BF100(const char *pZoneName);
+    EXPORT Zone_144 * next_free_zone_4BF170();
 
     Zone_144 field_0[10];
 };
