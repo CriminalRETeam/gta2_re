@@ -301,7 +301,7 @@ void sound_obj::sub_41B540()
             {
                 f32 f28_conv;
                 sub_41B520(pIter->field_28, &f28_conv);
-                pIter->field_60 = sub_41B660(pIter->field_60, pIter->field_64, (u32)f28_conv);
+                pIter->field_60 = ComputeEmittingVolume_41B660(pIter->field_60, pIter->field_64, (u32)f28_conv);
             }
         }
     }
@@ -313,23 +313,16 @@ void sound_obj::sub_41B520(s32 a1, f32 *a2) // todo: prob a ref ?
     *a2 = a1 / 16384.0f;
 }
 
-// nomatch
-char_type sound_obj::sub_41B660(u8 a1, u32 a2, u32 a3)
+MATCH_FUNC(0x41B660)
+char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
 {
-    u32 v3; // eax
-    s32 v4; // eax
-
-    v3 = a2 - (a2 >> 2);
-    if (a3 <= v3)
+    const s32 minDistance = maxDistance / 4;
+	const s32 diffDistance = maxDistance - minDistance;
+	if (distance > diffDistance)
     {
-        // LOBYTE(v4) = a1;
-        v4 = a1;
+		return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
     }
-    else
-    {
-        return a1 * ((a2 >> 2) + v3 - a3) / (a2 >> 2);
-    }
-    return v4;
+	return emittingVolume;
 }
 
 MATCH_FUNC(0x41A910)

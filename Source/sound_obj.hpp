@@ -249,7 +249,7 @@ public:
 
     EXPORT void sub_41B520(s32 a1, f32 *a2);
 
-    EXPORT char_type sub_41B660(u8 a1, u32 a2, u32 a3);
+    EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
 
     EXPORT void AddDetailsToRequestedOrderList_41A910(u8 a2);
 
