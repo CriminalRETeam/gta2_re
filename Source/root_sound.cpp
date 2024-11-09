@@ -6,31 +6,31 @@
 
 root_sound gRoot_sound_66B038;
 
-// nomatch
+MATCH_FUNC(0x40EF80)
 void root_sound::sub_40EF80()
 {
     gSound_obj_66F680.sub_419E10();
 }
 
-// nomatch
+MATCH_FUNC(0x40EFA0)
 void root_sound::Service_40EFA0()
 {
     gSound_obj_66F680.Service_419EF0();
 }
 
-// nomatch
+MATCH_FUNC(0x40EFB0)
 s32 root_sound::AddSoundObject_40EFB0(infallible_turing* a2)
 {
     return gSound_obj_66F680.AddSoundObject_419FA0(a2);
 }
 
-// nomatch
+MATCH_FUNC(0x40EFD0)
 void root_sound::FreeSoundEntry_40EFD0(s32 a2)
 {
     gSound_obj_66F680.FreeSoundEntry_41A090(a2);
 }
 
-// nomatch
+MATCH_FUNC(0x40EFF0)
 char_type root_sound::LoadStyle_40EFF0(const char_type *pStyleName)
 {
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
@@ -81,17 +81,10 @@ s32 root_sound::sub_40F090(s32 state)
     return 0;
 }
 
-// nomatch
+MATCH_FUNC(0x40F0B0)
 void root_sound::SetSfxVol_40F0B0(u8 sfxVol)
 {
-    if (sfxVol <= 127u)
-    {
-        gSound_obj_66F680.SetSfxVol_41A250(sfxVol);
-    }
-    else
-    {
-        gSound_obj_66F680.SetSfxVol_41A250(127);
-    }
+    gSound_obj_66F680.SetSfxVol_41A250(sfxVol > 127 ? 127 : sfxVol);
 }
 
 // nomatch
