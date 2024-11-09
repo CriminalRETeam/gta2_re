@@ -157,6 +157,12 @@ void sound_obj::SetCDVol_41A270(u8 cdVol)
     field_25_cdVol = cdVol;
 }
 
+MATCH_FUNC(0x41A2E0)
+char_type sound_obj::GetAudioDriveLetter_41A2E0()
+{
+    return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
+}
+
 MATCH_FUNC(0x41A2F0)
 char_type sound_obj::Set3DSound_41A2F0(char_type b3dSound)
 {

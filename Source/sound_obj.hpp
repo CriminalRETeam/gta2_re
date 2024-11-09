@@ -231,6 +231,8 @@ public:
 
     EXPORT void SetCDVol_41A270(u8 cdVol);
 
+    EXPORT char_type GetAudioDriveLetter_41A2E0();
+
     EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
 
     EXPORT char_type Get3dSound_41A390();

@@ -120,11 +120,10 @@ void root_sound::sub_40F140()
     gSound_obj_66F680.sub_41A2A0();
 }
 
-// stub
+MATCH_FUNC(0x40F150)
 char_type root_sound::GetAudioDriveLetter_40F150()
 {
-    // gSound_obj_66F680.GetAudioDriveLetter_41A2E0()
-    return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
+    return gSound_obj_66F680.GetAudioDriveLetter_41A2E0();
 }
 
 MATCH_FUNC(0x40EF40)
