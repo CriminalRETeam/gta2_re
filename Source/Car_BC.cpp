@@ -678,13 +678,11 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
 STUB_FUNC(0x441520)
 void Car_BC::sub_441520()
 {
-
 }
 
 STUB_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
-
 }
 
 STUB_FUNC(0x441600)
@@ -699,10 +697,18 @@ char_type Car_BC::sub_4416D0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x4417d0)
+MATCH_FUNC(0x4417d0)
 void Car_BC::sub_4417D0()
 {
-
+    if (field_A7 <= 0)
+    {
+        return;
+    }
+    
+    if (field_A7 != 248)
+    {
+        field_A7--;
+    }
 }
 
 STUB_FUNC(0x4417f0)
@@ -760,7 +766,6 @@ char_type Car_BC::sub_441A70()
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-
 }
 
 STUB_FUNC(0x441b20)
@@ -834,7 +839,6 @@ s16 *Car_BC::sub_442520(s16 *a2)
 STUB_FUNC(0x4425d0)
 void Car_BC::sub_4425D0()
 {
-
 }
 
 MATCH_FUNC(0x4426d0)

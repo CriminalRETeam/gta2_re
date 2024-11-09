@@ -4,6 +4,8 @@
 #include "fix16.hpp"
 #include <windows.h>
 
+class Zone_144;
+
 struct gmp_col_info
 {
     u8 field_0_height;
@@ -243,8 +245,9 @@ struct Map_sub
     s32 field_320_max_idx;
 };
 
-struct gmp_map_zone
+class gmp_map_zone
 {
+public:
     u8 field_0_zone_type;
     u8 field_1_x;
     u8 field_2_y;
@@ -352,6 +355,8 @@ public:
     EXPORT void set_nav_unknown_f14_4DFB10(u16 a2, s16 a3);
 
     EXPORT gmp_map_zone* get_zone_4DFB30(u16 zone_idx);
+
+    EXPORT Zone_144* sub_4DFB50(Fix16 x, Fix16 y);
 
     // todo: other funcs between
 

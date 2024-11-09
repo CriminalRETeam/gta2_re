@@ -58,7 +58,7 @@ struct Fix16
         return mValue / 16384.0;
     }
 
-    inline s32 ToInt()
+    inline s32 ToInt() const
     {
         return mValue >> 14;
     }

@@ -103,6 +103,8 @@ set(gta2_lib_src
   Source/infallible_turing.cpp
   Source/sad_mirzakhani.hpp
   Source/sad_mirzakhani.cpp
+  Source/Zones_CA8.hpp
+  Source/Zones_CA8.cpp
 )
 
 # global include dirs

@@ -2,6 +2,7 @@
 
 #include "types.hpp"
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class angry_lewin_0x85C;
 class gmp_map_zone;
@@ -329,9 +330,9 @@ public:
     s32 field_1A0_objective_target_object;
     s32 field_1A4;
     cool_nash_0x294* field_1A8_elvis_leader;
-    s32 field_1AC_cam_x;
-    s32 field_1B0_cam_y;
-    s32 field_1B4_cam_z;
+    Fix16 field_1AC_cam_x;
+    Fix16 field_1B0_cam_y;
+    Fix16 field_1B4_cam_z;
     s32 field_1B8_target_x;
     s32 field_1BC_target_y;
     s32 field_1C0_target_z;

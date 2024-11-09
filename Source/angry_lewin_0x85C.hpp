@@ -129,7 +129,7 @@ public:
     EXPORT void sub_567130();
     EXPORT void sub_567850();
     EXPORT void sub_5679E0();
-    EXPORT const char* sub_568520();
+    EXPORT void sub_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
     EXPORT char_type sub_5686D0(DrawUnk_0xBC* a2);
@@ -197,9 +197,9 @@ public:
     char_type field_32;
     char_type field_33;
     Zone_144* field_34_pObj;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
+    gmp_map_zone* field_38;
+    gmp_map_zone* field_3C;
+    gmp_map_zone* field_40;
     s32 field_44_death_type;
     char_type field_48;
     char_type field_49;
