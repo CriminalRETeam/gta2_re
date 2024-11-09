@@ -9,7 +9,6 @@
 STUB_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
-
 }
 
 MATCH_FUNC(0x4881E0)
@@ -281,18 +280,14 @@ const char *angry_lewin_0x85C::sub_568520()
 	return "gobbins";
 }
 
-STUB_FUNC(0x568630)
+MATCH_FUNC(0x568630)
 void angry_lewin_0x85C::sub_568630()
 {
-	/*
-	infallible_turing* field_4C_pUnk; // eax
-
-	field_4C_pUnk = field_4C_pUnk;
-	if (field_4C_pUnk)
+	infallible_turing* pCam = this->field_4C_pUnk;
+	if (pCam)
 	{
-		field_4C_pUnk->field_C_pAny = &field_14C_view_camera;
+		pCam->field_C_pAny = &this->field_14C_view_camera;
 	}
-	*/
 }
 
 STUB_FUNC(0x568670)
