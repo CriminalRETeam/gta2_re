@@ -15,7 +15,6 @@ void Zone_144::set_name_4BF090(const char *pName, u8 nameLen)
 STUB_FUNC(0x4BED70);
 void Zone_144::init_4BED70()
 {
-
 }
 
 // =====================
@@ -86,7 +85,7 @@ void Zones_CA8::sub_4BF230(Zone_144 *pZone, u8 zone_idx)
     zone.init_4BED70();
     if (pZone->field_1_zone_idx != zone_idx)
     {
-        Zone_144* pZoneByIdx = ZoneByIdx_4BF1C0(zone_idx);
+        Zone_144 *pZoneByIdx = ZoneByIdx_4BF1C0(zone_idx);
         if (pZoneByIdx->field_0_used)
         {
             if (pZoneByIdx->field_138 != pZone->field_138)
@@ -99,4 +98,17 @@ void Zones_CA8::sub_4BF230(Zone_144 *pZone, u8 zone_idx)
             }
         }
     }
+}
+
+MATCH_FUNC(0x4BF2F0);
+u8 Zones_CA8::sub_4BF2F0(int arg0)
+{
+    for (u8 i = 0; i < 10; i++)
+    {
+        if (ZoneByIdx_4BF1C0(i)->field_13C == arg0)
+        {
+            return i;
+        }
+    }
+    return -1;
 }
