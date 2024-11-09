@@ -101,7 +101,7 @@ public:
     EXPORT char_type sub_564940();
     EXPORT char_type sub_564960(s32 a2, u8 a3);
     EXPORT u16 sub_5649D0(char_type a2, char_type a3);
-    EXPORT char_type sub_564AD0(Car_BC* a2);
+    EXPORT void sub_564AD0(Car_BC* a2);
     EXPORT s32 sub_564B60();
     EXPORT s32 sub_564B80();
     EXPORT u16 sub_564C00();
@@ -133,7 +133,7 @@ public:
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
     EXPORT char_type sub_5686D0(DrawUnk_0xBC* a2);
-    EXPORT s32 sub_568730();
+    EXPORT void sub_568730();
     EXPORT void sub_5687F0();
     EXPORT s32 sub_569410();
     EXPORT void sub_569530();

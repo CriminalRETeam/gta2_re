@@ -82,9 +82,9 @@ u16 angry_lewin_0x85C::sub_5649D0(char_type a2, char_type a3)
 }
 
 STUB_FUNC(0x564AD0)
-char_type angry_lewin_0x85C::sub_564AD0(Car_BC *a2)
+void angry_lewin_0x85C::sub_564AD0(Car_BC *a2)
 {
-	return 'a';
+
 }
 
 STUB_FUNC(0x564B60)
@@ -311,10 +311,20 @@ char_type angry_lewin_0x85C::sub_5686D0(DrawUnk_0xBC *a2)
 	return 'a';
 }
 
-STUB_FUNC(0x568730)
-s32 angry_lewin_0x85C::sub_568730()
+MATCH_FUNC(0x568730)
+void angry_lewin_0x85C::sub_568730()
 {
-	return 0;
+	cool_nash_0x294 *pPlayerPed = this->field_2C4_player_ped;
+	if (pPlayerPed)
+	{
+		pPlayerPed->sub_470300();
+	}
+	cool_nash_0x294 *pPed = this->field_2C8_unkq;
+	if (pPed)
+	{
+		pPed->sub_470300();
+	}
+	this->field_8E_bInUse = 0;
 }
 
 STUB_FUNC(0x5687F0)
@@ -331,10 +341,10 @@ s32 angry_lewin_0x85C::sub_569410()
 MATCH_FUNC(0x569530)
 void angry_lewin_0x85C::sub_569530()
 {
-	Car_BC* pCar = field_2C8_unkq->field_16C_car;
+	Car_BC *pCar = field_2C8_unkq->field_16C_car;
 	if (pCar->field_54_driver)
 	{
-		field_2C8_unkq->field_16C_car->sub_4407F0();
+		pCar->sub_4407F0();
 	}
 
 	if (pCar->field_98 != 4)
@@ -347,10 +357,9 @@ void angry_lewin_0x85C::sub_569530()
 
 	sub_564C00();
 
-	cool_nash_0x294* pPed = field_2C4_player_ped;
-	if (pPed->field_16C_car)
+	if (field_2C4_player_ped->field_16C_car)
 	{
-		sub_564AD0(pPed->field_16C_car);
+		sub_564AD0(field_2C4_player_ped->field_16C_car);
 	}
 }
 
