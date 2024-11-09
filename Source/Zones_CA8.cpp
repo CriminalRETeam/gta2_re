@@ -91,15 +91,9 @@ void Zones_CA8::sub_4BF230(Zone_144 *pZone, u8 zone_idx)
         {
             if (pZoneByIdx->field_138 != pZone->field_138)
             {
-                memcpy(&zone, pZoneByIdx, sizeof(zone));
-                memcpy(
-                    &gZones_CA8_67E274->field_0[pZoneByIdx->field_1_zone_idx],
-                    pZone,
-                    sizeof(gZones_CA8_67E274->field_0[pZoneByIdx->field_1_zone_idx]));
-                memcpy(
-                    &gZones_CA8_67E274->field_0[pZone->field_1_zone_idx],
-                    &zone,
-                    sizeof(gZones_CA8_67E274->field_0[pZone->field_1_zone_idx]));
+                zone = *pZoneByIdx;
+                gZones_CA8_67E274->field_0[pZoneByIdx->field_1_zone_idx] = *pZone;
+                gZones_CA8_67E274->field_0[pZone->field_1_zone_idx] = zone;
                 pZone->field_1_zone_idx = pZoneByIdx->field_1_zone_idx;
                 gZones_CA8_67E274->field_0[zone_idx].field_1_zone_idx = zone_idx;
             }
