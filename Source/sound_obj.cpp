@@ -1529,10 +1529,17 @@ char_type sound_obj::sub_415100(sound_0x68 *a2)
     return 0;
 }
 
-// stub
-char_type sound_obj::sub_414320(sound_0x68 *a2)
+MATCH_FUNC(0x414320)
+char_type sound_obj::sub_414320(sound_0x68 *pObj)
 {
-    return 0;
+    pObj->field_14_samp_idx = 10;
+    pObj->field_3C = 400;
+    pObj->field_30 = 0;
+    pObj->field_34 = 0;
+    pObj->field_38 = -1;
+    pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(10);
+    pObj->field_4C = 30;
+    return 1;
 }
 
 MATCH_FUNC(0x414690)
