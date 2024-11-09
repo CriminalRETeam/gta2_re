@@ -676,15 +676,15 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x441520)
-char_type Car_BC::sub_441520()
+void Car_BC::sub_441520()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x4415c0)
-u32 Car_BC::sub_4415C0()
+void Car_BC::sub_4415C0()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x441600)
@@ -700,9 +700,9 @@ char_type Car_BC::sub_4416D0(s32 a2)
 }
 
 STUB_FUNC(0x4417d0)
-char_type Car_BC::sub_4417D0()
+void Car_BC::sub_4417D0()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x4417f0)
@@ -758,9 +758,9 @@ char_type Car_BC::sub_441A70()
 }
 
 STUB_FUNC(0x441b00)
-s32 Car_BC::sub_441B00(s32 a2)
+void Car_BC::sub_441B00()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x441b20)
@@ -832,15 +832,26 @@ s16 *Car_BC::sub_442520(s16 *a2)
 }
 
 STUB_FUNC(0x4425d0)
-s16 Car_BC::sub_4425D0()
+void Car_BC::sub_4425D0()
 {
-    return 0;
+
 }
 
-STUB_FUNC(0x4426d0)
-char_type Car_BC::sub_4426D0(s32 a2)
+MATCH_FUNC(0x4426d0)
+void Car_BC::sub_4426D0()
 {
-    return 0;
+    sub_441B00();
+    sub_441520();
+    if (field_74_damage != 32001)
+    {
+        sub_4415C0();
+        sub_441E70();
+    }
+    sub_4417D0();
+    if (field_84_car_info_idx == 67 && field_9C == 3)
+    {
+        sub_4425D0();
+    }
 }
 
 STUB_FUNC(0x442760)
@@ -995,35 +1006,35 @@ u32 Car_BC::sub_444090(Car_BC *a1)
 STUB_FUNC(0x4441b0)
 void Car_BC::sub_4441B0()
 {
-  s32 info_idx = field_84_car_info_idx;
-  switch ( info_idx )
-  {
+    s32 info_idx = field_84_car_info_idx;
+    switch (info_idx)
+    {
     case 34:
-      sub_443F30(165, 16719888, 10, 16);
-      sub_443F30(171, 16719888, -10, 16);
-      sub_443F30(172, 16719888, 10, -32);
-      sub_443F30(173, 16719888, -10, -32);
-      break;
+        sub_443F30(165, 16719888, 10, 16);
+        sub_443F30(171, 16719888, -10, 16);
+        sub_443F30(172, 16719888, 10, -32);
+        sub_443F30(173, 16719888, -10, -32);
+        break;
     case 12:
-      sub_443F30(165, 16719888, 10, -16);
-      sub_443F30(171, 255, -10, -16);
-      break;
+        sub_443F30(165, 16719888, 10, -16);
+        sub_443F30(171, 255, -10, -16);
+        break;
     case 52:
-      sub_443F30(165, 16719888, 10, 32);
-      sub_443F30(171, 255, -10, 32);
-      sub_443F30(172, 16719888, 10, -32);
-      sub_443F30(173, 255, -10, -32);
-      break;
+        sub_443F30(165, 16719888, 10, 32);
+        sub_443F30(171, 255, -10, 32);
+        sub_443F30(172, 16719888, 10, -32);
+        sub_443F30(173, 255, -10, -32);
+        break;
     case 17:
-      sub_443F30(165, 16719888, 16, 48);
-      sub_443F30(171, 16719888, -16, 48);
-      sub_443F30(172, 16719888, 16, -16);
-      sub_443F30(173, 16719888, -16, -26);
-      break;
+        sub_443F30(165, 16719888, 16, 48);
+        sub_443F30(171, 16719888, -16, 48);
+        sub_443F30(172, 16719888, 16, -16);
+        sub_443F30(173, 16719888, -16, -26);
+        break;
     case 84:
-      sub_443F30(165, 16719888, 0, 16);
-      break;
-  }
+        sub_443F30(165, 16719888, 0, 16);
+        break;
+    }
 }
 
 STUB_FUNC(0x444490)
@@ -1043,44 +1054,43 @@ s32 Car_BC::sub_4447D0()
     return 0;
 }
 
-
 STUB_FUNC(0x444860)
 Car_BC::Car_BC()
 {
-  this->field_0_qq = 0;
-  this->field_4.field_0_pOwner = 0;
-  this->field_8 = 0;
-  this->field_54_driver = 0;
-  this->field_74_damage = 0;
-  this->field_8C = 0;
-  this->field_98 = 0;
-  this->field_9C = 0;
-  this->field_7C_uni_num = 0;
-  this->field_76 = 0;
-  this->field_A4 = 0;
-  this->field_A5 = 0;
-  this->field_A6 = 0;
-  this->field_4C_next = 0;
-  this->field_84_car_info_idx = 87;
-  this->field_50_car_sprite = 0;
-  this->field_58_uni_Car78_or_Car_B0 = 0;
-  this->field_5C = 0;
-  this->field_88 = 0;
-  this->field_6C_maybe_id = 0xFFFF;
-  this->field_64 = 0;
-  this->field_78 = 0;
-  // TODO
-  //Object_3C::sub_5A7010((Object_3C *)this);
-  this->field_A7 = 0;
-  this->field_80 = 0;
-  this->field_A0 = 0;
-  this->field_8D = 0;
-  this->field_70 = 0;
-  this->field_90 = 0;
-  this->field_94 = 0;
-  this->field_95 = 0;
-  this->field_68 = 0x4000;
-  this->field_8E = 0;
+    this->field_0_qq = 0;
+    this->field_4.field_0_pOwner = 0;
+    this->field_8 = 0;
+    this->field_54_driver = 0;
+    this->field_74_damage = 0;
+    this->field_8C = 0;
+    this->field_98 = 0;
+    this->field_9C = 0;
+    this->field_7C_uni_num = 0;
+    this->field_76 = 0;
+    this->field_A4 = 0;
+    this->field_A5 = 0;
+    this->field_A6 = 0;
+    this->field_4C_next = 0;
+    this->field_84_car_info_idx = 87;
+    this->field_50_car_sprite = 0;
+    this->field_58_uni_Car78_or_Car_B0 = 0;
+    this->field_5C = 0;
+    this->field_88 = 0;
+    this->field_6C_maybe_id = 0xFFFF;
+    this->field_64 = 0;
+    this->field_78 = 0;
+    // TODO
+    // Object_3C::sub_5A7010((Object_3C *)this);
+    this->field_A7 = 0;
+    this->field_80 = 0;
+    this->field_A0 = 0;
+    this->field_8D = 0;
+    this->field_70 = 0;
+    this->field_90 = 0;
+    this->field_94 = 0;
+    this->field_95 = 0;
+    this->field_68 = 0x4000;
+    this->field_8E = 0;
 }
 
 MATCH_FUNC(0x444960)
@@ -1090,7 +1100,6 @@ Car_BC::~Car_BC()
     field_50_car_sprite = 0;
     field_5C = 0;
 }
-
 
 STUB_FUNC(0x446730)
 s32 Car_BC::sub_446730(Car_BC *a1)
