@@ -6,12 +6,23 @@
 #include "root_sound.hpp"
 #include "cool_nash_0x294.hpp"
 #include "map_0x370.hpp"
+#include "Car_BC.hpp"
+
+STUB_FUNC(0x4921B0)
+void thirsty_lamarr::sub_4921B0(s32 amount)
+{
+
+}
+
+// =====================
 
 // TODO: move
 STUB_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
 }
+
+// ====================
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -81,9 +92,8 @@ u16 angry_lewin_0x85C::sub_5649D0(char_type a2, char_type a3)
 }
 
 STUB_FUNC(0x564AD0)
-char_type angry_lewin_0x85C::sub_564AD0(Car_BC *a2)
+void angry_lewin_0x85C::sub_564AD0(Car_BC *a2)
 {
-	return 'a';
 }
 
 STUB_FUNC(0x564B60)
@@ -310,10 +320,20 @@ char_type angry_lewin_0x85C::sub_5686D0(DrawUnk_0xBC *a2)
 	return 'a';
 }
 
-STUB_FUNC(0x568730)
-s32 angry_lewin_0x85C::sub_568730()
+MATCH_FUNC(0x568730)
+void angry_lewin_0x85C::sub_568730()
 {
-	return 0;
+	cool_nash_0x294 *pPlayerPed = this->field_2C4_player_ped;
+	if (pPlayerPed)
+	{
+		pPlayerPed->sub_470300();
+	}
+	cool_nash_0x294 *pPed = this->field_2C8_unkq;
+	if (pPed)
+	{
+		pPed->sub_470300();
+	}
+	this->field_8E_bInUse = 0;
 }
 
 STUB_FUNC(0x5687F0)
@@ -327,15 +347,53 @@ s32 angry_lewin_0x85C::sub_569410()
 	return 0;
 }
 
-STUB_FUNC(0x569530)
-s32 angry_lewin_0x85C::sub_569530()
+MATCH_FUNC(0x569530)
+void angry_lewin_0x85C::sub_569530()
 {
-	return 0;
+	Car_BC *pCar = field_2C8_unkq->field_16C_car;
+	if (pCar->field_54_driver)
+	{
+		pCar->sub_4407F0();
+	}
+
+	if (pCar->field_98 != 4)
+	{
+		pCar->field_98 = 3;
+	}
+
+	field_2C8_unkq->sub_46F9D0();
+	field_2C8_unkq = 0;
+
+	sub_564C00();
+
+	if (field_2C4_player_ped->field_16C_car)
+	{
+		sub_564AD0(field_2C4_player_ped->field_16C_car);
+	}
 }
 
-STUB_FUNC(0x5695A0)
+MATCH_FUNC(0x5695A0)
 void angry_lewin_0x85C::sub_5695A0()
 {
+	if (!this->field_28)
+	{
+		this->field_68 = 0;
+		if (field_2D0)
+		{
+			cool_nash_0x294 *pPed = this->field_2C8_unkq;
+			if (pPed)
+			{
+				if (pPed->field_240_occupation == 1)
+				{
+					sub_569530();
+				}
+			}
+		}
+		this->field_2C8_unkq = 0;
+		this->field_2CC = 0;
+		this->field_2D0 = 0;
+		this->field_90_game_camera.field_3C = 1;
+	}
 }
 
 STUB_FUNC(0x569600)
@@ -367,10 +425,13 @@ s32 angry_lewin_0x85C::sub_569920(u32 *a2, s32 *a3, s32 *a4)
 	return 0;
 }
 
-STUB_FUNC(0x5699F0)
-s32 angry_lewin_0x85C::sub_5699F0(s32 a2)
+MATCH_FUNC(0x5699F0)
+void angry_lewin_0x85C::sub_5699F0(s32 a2)
 {
-	return 0;
+	if (!gDo_infinite_lives_67D4C9 || a2 > 0)
+	{
+		field_684_unk.sub_4921B0(a2);
+	}
 }
 
 STUB_FUNC(0x569A10)
