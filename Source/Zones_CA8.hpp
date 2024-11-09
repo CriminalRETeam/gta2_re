@@ -5,6 +5,9 @@ class gmp_map_zone;
 class Zone_144
 {
 public:
+    EXPORT Zone_144(); //  0x4BE4E0
+    EXPORT ~Zone_144(); // 0x4BE4F0
+
     // TODO stub funcs
     EXPORT void set_name_4BF090(const char *pName, u8 nameLen);
 
