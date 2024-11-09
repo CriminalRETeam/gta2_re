@@ -6,7 +6,7 @@ class infallible_turing
 {
  public:
     s32 field_0_object_type;
-    char_type field_4;
+    char_type field_4_bStatus;
     char_type field_5;
     char_type field_6;
     char_type field_7;

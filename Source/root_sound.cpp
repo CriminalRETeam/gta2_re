@@ -6,31 +6,31 @@
 
 root_sound gRoot_sound_66B038;
 
-// nomatch
+MATCH_FUNC(0x40EF80)
 void root_sound::sub_40EF80()
 {
     gSound_obj_66F680.sub_419E10();
 }
 
-// nomatch
+MATCH_FUNC(0x40EFA0)
 void root_sound::Service_40EFA0()
 {
     gSound_obj_66F680.Service_419EF0();
 }
 
-// nomatch
+MATCH_FUNC(0x40EFB0)
 s32 root_sound::AddSoundObject_40EFB0(infallible_turing* a2)
 {
     return gSound_obj_66F680.AddSoundObject_419FA0(a2);
 }
 
-// nomatch
+MATCH_FUNC(0x40EFD0)
 void root_sound::FreeSoundEntry_40EFD0(s32 a2)
 {
     gSound_obj_66F680.FreeSoundEntry_41A090(a2);
 }
 
-// nomatch
+MATCH_FUNC(0x40EFF0)
 char_type root_sound::LoadStyle_40EFF0(const char_type *pStyleName)
 {
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
@@ -73,40 +73,22 @@ void root_sound::sub_40F070(char_type a1)
     // todo
 }
 
-// stub
-s32 root_sound::sub_40F090(s32 state)
+MATCH_FUNC(0x40F090)
+void root_sound::sub_40F090(s32 state)
 {
-    // todo
-    //return gSound_obj_66F680.sub_418C80(state);
-    return 0;
+    gSound_obj_66F680.sub_418C80(state);
 }
 
-// nomatch
+MATCH_FUNC(0x40F0B0)
 void root_sound::SetSfxVol_40F0B0(u8 sfxVol)
 {
-    if (sfxVol <= 127u)
-    {
-        gSound_obj_66F680.SetSfxVol_41A250(sfxVol);
-    }
-    else
-    {
-        gSound_obj_66F680.SetSfxVol_41A250(127);
-    }
+    gSound_obj_66F680.SetSfxVol_41A250(sfxVol > 127 ? 127 : sfxVol);
 }
 
-// nomatch
-void root_sound::SetCDVol_40F0F0(u32 cdVol)
+MATCH_FUNC(0x40F0F0)
+void root_sound::SetCDVol_40F0F0(u8 cdVol)
 {
-    BYTE v = cdVol;
-    if (v > 127)
-    {
-        v = 127;
-        gSound_obj_66F680.SetCDVol_41A270(v);
-    }
-    else
-    {
-        gSound_obj_66F680.SetCDVol_41A270(v & 0xFF);
-    }
+    gSound_obj_66F680.SetCDVol_41A270(cdVol > 127 ? 127 : cdVol);
 }
 
 MATCH_FUNC(0x40F120)
@@ -127,11 +109,10 @@ void root_sound::sub_40F140()
     gSound_obj_66F680.sub_41A2A0();
 }
 
-// stub
+MATCH_FUNC(0x40F150)
 char_type root_sound::GetAudioDriveLetter_40F150()
 {
-    // gSound_obj_66F680.GetAudioDriveLetter_41A2E0()
-    return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
+    return gSound_obj_66F680.GetAudioDriveLetter_41A2E0();
 }
 
 MATCH_FUNC(0x40EF40)
@@ -141,7 +122,7 @@ infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObje
     field_0 = (infallible_turing*)field_0->field_C_pAny;
     pCurrent->field_C_pAny = pObject;
     pCurrent->field_8 = 0;
-    pCurrent->field_4 = 0;
+    pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
 
     if (!bSkip_audio_67D6BE)
@@ -178,7 +159,7 @@ root_sound::root_sound()
     field_4[999].field_C_pAny = 0;
 }
 
-// nomatch 0x411E60
+MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
     field_0 = 0;

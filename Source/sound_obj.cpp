@@ -11,7 +11,7 @@ s32 dword_674CD8;
 s32 dword_66F3F0;
 
 MATCH_FUNC(0x419DF0)
-serene_brattain* serene_brattain::sub_419DF0()
+serene_brattain *serene_brattain::sub_419DF0()
 {
     return this;
 }
@@ -19,8 +19,8 @@ serene_brattain* serene_brattain::sub_419DF0()
 MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
-    sound_0x68 * pIter = &field_9C_asSamples[0][0];
-    for (s32 t = 0; t < 2*16; t++)
+    sound_0x68 *pIter = &field_9C_asSamples[0][0];
+    for (s32 t = 0; t < 2 * 16; t++)
     {
         pIter->field_8_obj.sub_419DF0();
         pIter++;
@@ -41,20 +41,20 @@ sound_obj::sound_obj()
     field_25_cdVol = 127;
     field_28 = dword_674CD8;
     field_2C = 0;
-    
+
     field_98_nActiveSampleQueue = 1;
     ClearRequestedQueue_41B700();
-    
+
     field_98_nActiveSampleQueue = 0;
     ClearRequestedQueue_41B700();
-    
+
     ClearActivateSamples_41B7A0();
-    
+
     field_1450 = 0;
     field_1468_v1 = 0;
     field_146C_v2 = 0;
     field_1470_v3 = 0;
-    
+
     GenerateIntegerRandomNumberTable_41BA90();
 
     field_1478_type5Idx = 0;
@@ -78,7 +78,7 @@ sound_obj::sound_obj()
 
     field_543C_444C_max_idx = 0;
     field_5448_m_FrameCounter = 0;
-    field_544C[0].field_0 = 0; // todo: type check
+    field_544C[0].field_0 = 0;  // todo: type check
     field_544C[0].field_18 = 0; // todo: type check
     field_3 = 1;
 }
@@ -97,7 +97,7 @@ void sound_obj::ClearRequestedQueue_41B700()
 MATCH_FUNC(0x41B7A0)
 void sound_obj::ClearActivateSamples_41B7A0()
 {
-    for (u8 i = 0; i < field_10_nActiveSamples; i++ )
+    for (u8 i = 0; i < field_10_nActiveSamples; i++)
     {
         field_DC0[i].field_0 = 0;
         field_DC0[i].field_4 = 0;
@@ -155,6 +155,12 @@ MATCH_FUNC(0x41A270)
 void sound_obj::SetCDVol_41A270(u8 cdVol)
 {
     field_25_cdVol = cdVol;
+}
+
+MATCH_FUNC(0x41A2E0)
+char_type sound_obj::GetAudioDriveLetter_41A2E0()
+{
+    return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
 }
 
 MATCH_FUNC(0x41A2F0)
@@ -225,7 +231,7 @@ void sound_obj::Init_15_Array_427180()
 // nomatch
 void sound_obj::Set15Val_4271B0(u32 val)
 {
-    u32 clamped_val; // edi
+    u32 clamped_val;      // edi
     s32 field_5529_idx15; // ebp
 
     clamped_val = val;
@@ -250,7 +256,7 @@ void sound_obj::Set15Val_4271B0(u32 val)
 void sound_obj::sub_427220()
 {
     if (!(field_5448_m_FrameCounter % 10u) &&
-        field_5520 ==0 &&
+        field_5520 == 0 &&
         !gSampManager_6FFF00.SampleNotDone_58E880())
     {
         gSampManager_6FFF00.EndSample_58E960();
@@ -267,7 +273,7 @@ void sound_obj::sub_427220()
         {
             field_5528_idx15_cur = 15;
         }
-      
+
         gSampManager_6FFF00.PlayAtIdx_58E7F0(field_552C_15array[field_5528_idx15_cur]);
         gSampManager_6FFF00.SetSampleVol_58E7D0((110 * (u32)field_24_sfx_vol) / 128);
         field_5528_idx15_cur = (field_5528_idx15_cur + 1) % 15;
@@ -295,7 +301,7 @@ void sound_obj::sub_41B540()
             {
                 f32 f28_conv;
                 sub_41B520(pIter->field_28, &f28_conv);
-                pIter->field_60 = sub_41B660(pIter->field_60, pIter->field_64, (u32)f28_conv);
+                pIter->field_60 = ComputeEmittingVolume_41B660(pIter->field_60, pIter->field_64, (u32)f28_conv);
             }
         }
     }
@@ -307,23 +313,16 @@ void sound_obj::sub_41B520(s32 a1, f32 *a2) // todo: prob a ref ?
     *a2 = a1 / 16384.0f;
 }
 
-// nomatch
-char_type sound_obj::sub_41B660(u8 a1, u32 a2, u32 a3)
+MATCH_FUNC(0x41B660)
+char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
 {
-    u32 v3; // eax
-    s32 v4; // eax
-
-    v3 = a2 - (a2 >> 2);
-    if (a3 <= v3)
+    const s32 minDistance = maxDistance / 4;
+    const s32 diffDistance = maxDistance - minDistance;
+    if (distance > diffDistance)
     {
-        //LOBYTE(v4) = a1;
-        v4 = a1;
+        return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
     }
-    else
-    {
-        return a1 * ((a2 >> 2) + v3 - a3) / (a2 >> 2);
-    }
-    return v4;
+    return emittingVolume;
 }
 
 MATCH_FUNC(0x41A910)
@@ -360,7 +359,7 @@ void sound_obj::AddSampleToRequestedQueue_41A850()
     }
     else
     {
-        new_requested_count = field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][field_10_nActiveSamples-1];
+        new_requested_count = field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][field_10_nActiveSamples - 1];
 
         if (field_9C_asSamples[field_98_nActiveSampleQueue][new_requested_count].field_48_nCalculatedVolume <= newVol)
         {
@@ -401,7 +400,6 @@ s32 sound_obj::RandomDisplacement_41A650(u32 seed)
         return -value;
     }
 
-
     return value;
 }
 
@@ -423,7 +421,6 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 // stub
 void sound_obj::InterrogateAudioEntities_41A730()
 {
-
 }
 
 // stub
@@ -434,7 +431,6 @@ void sound_obj::AddReleasingSounds_41A9D0()
 // stub
 void sound_obj::ProcessActiveQueues_41AB80()
 {
-
 }
 
 MATCH_FUNC(0x41A6F0)
@@ -648,13 +644,28 @@ void sound_obj::ResetEntry_41A6C0(s32 idx)
 MATCH_FUNC(0x412240)
 void sound_obj::null_412240()
 {
-
 }
 
-// stub
+STUB_FUNC(0x418C20)
 void sound_obj::sub_418C20()
 {
+    if (this->field_544C[0].field_4_fp == 0)
+    {
+        this->field_544C[0].field_8.field_C_pAny = 0;
+        this->field_544C[0].field_8.field_4_bStatus = 0;
+        this->field_544C[0].field_8.field_0_object_type = 10;
+        this->field_544C[0].field_4_fp = AddSoundObject_419FA0(&field_544C[0].field_8);
+    }
+}
 
+MATCH_FUNC(0x418C60)
+void sound_obj::sub_418C60()
+{
+    if (this->field_544C[0].field_4_fp)
+    {
+        FreeSoundEntry_41A090(this->field_544C[0].field_4_fp);
+        this->field_544C[0].field_4_fp = 0;
+    }
 }
 
 MATCH_FUNC(0x419E10)
@@ -686,15 +697,15 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type *pStyleName)
 char_type byte_674E28[80];
 
 // nomatch
-const char_type* sound_obj::GetFileName_41A1E0(const char_type *pStr)
+const char_type *sound_obj::GetFileName_41A1E0(const char_type *pStr)
 {
-    const char_type *pSlashStr; // eax
+    const char_type *pSlashStr;   // eax
     const char_type *pAfterSlash; // eax
-    char_type after_slash_char; // dl
-    u8 total_idx; // si
-    s32 dst_idx; // ecx
-    const char_type *result; // eax
-    u8 src_idx; // [esp+8h] [ebp+4h]
+    char_type after_slash_char;   // dl
+    u8 total_idx;                 // si
+    s32 dst_idx;                  // ecx
+    const char_type *result;      // eax
+    u8 src_idx;                   // [esp+8h] [ebp+4h]
 
     pSlashStr = strrchr(pStr, '\\');
     if (pSlashStr)
@@ -759,7 +770,7 @@ struct brave_archimedes_0x3C
 };
 
 MATCH_FUNC(0x419FA0)
-s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
+s32 sound_obj::AddSoundObject_419FA0(infallible_turing *pTuring)
 {
     u32 idx = 1;
     if (!this->field_0 || !pTuring)
@@ -768,7 +779,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
     }
 
     vigilant_maxwell *pMaxwellIter = &this->field_147C[1];
-    while(idx < 1020)
+    while (idx < 1020)
     {
         if (!pMaxwellIter->field_0_bUsed)
         {
@@ -795,10 +806,10 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
             {
             case 1: // brave_archimedes_0x3C ?
             {
-                brave_archimedes_0x3C *v7 = (brave_archimedes_0x3C*)field_147C[idx].field_4_pObj->field_C_pAny;
+                brave_archimedes_0x3C *v7 = (brave_archimedes_0x3C *)field_147C[idx].field_4_pObj->field_C_pAny;
                 if (v7)
                 {
-                    switch(v7->field_30)
+                    switch (v7->field_30)
                     {
                     case 2: // note: sub eax, 2 added via switch case instead of if
                         sound_unknown_0xC *pNewObj = new sound_unknown_0xC();
@@ -822,7 +833,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
             return idx;
         }
         idx++;
-       
+
         ++pMaxwellIter;
     }
 
@@ -842,8 +853,8 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
         return;
     }
 
-    infallible_turing* pTuring = field_147C[idx].field_4_pObj;
-    switch(pTuring->field_0_object_type)
+    infallible_turing *pTuring = field_147C[idx].field_4_pObj;
+    switch (pTuring->field_0_object_type)
     {
     case 1:
         if (pTuring->field_C_pAny)
@@ -882,7 +893,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     {
         if (idx == field_444C_pEntities[idx_iter])
         {
-            if (idx_iter < 1020-1)
+            if (idx_iter < 1020 - 1)
             {
                 memmove(
                     &field_444C_pEntities[idx_iter],
@@ -913,7 +924,6 @@ u8 sound_obj::GetCDVol_41A280()
 // stub
 void sound_obj::sub_57EA10()
 {
-
 }
 
 MATCH_FUNC(0x419EF0)
@@ -959,7 +969,7 @@ void sound_obj::Service_419EF0()
 MATCH_FUNC(0x4123A0)
 void sound_obj::ProcessEntity_4123A0(s32 id)
 {
-    if (!field_147C[id].field_4_pObj->field_4)
+    if (!field_147C[id].field_4_pObj->field_4_bStatus)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
@@ -1009,37 +1019,43 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
 // stub
 void sound_obj::ProcessType3_57DD50()
 {
-
 }
 
 // stub
 void sound_obj::ProcessType1_412740(s32 a2)
 {
-
 }
 
 // stub
 void sound_obj::ProcessType6_413760(s32 a2)
 {
-
 }
 
 // stub
 void sound_obj::ProcessType7_42A500(s32 a2)
 {
-
 }
 
 // stub
 void sound_obj::ProcessType8_412820(s32 a2)
 {
-
 }
 
 // stub
 void sound_obj::ProcessType9_412A60(s32 a2)
 {
+}
 
+MATCH_FUNC(0x418C80)
+void sound_obj::sub_418C80(s32 a2)
+{
+    if (field_544C[0].field_4_fp)
+    {
+        if (a2 < 63)
+        {
+            field_544C[0].field_18 = a2;
+        }
+    }
 }
 
 MATCH_FUNC(0x418CA0)
@@ -1239,7 +1255,7 @@ void sound_obj::ProcessType10_418CA0()
 MATCH_FUNC(0x418B60)
 void sound_obj::ProcessType11_418B60(s32 a2)
 {
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[a2].field_4_pObj->field_C_pAny;
+    infallible_turing *field_C_pObject = (infallible_turing *)field_147C[a2].field_4_pObj->field_C_pAny;
     if (field_C_pObject)
     {
         if (field_C_pObject->field_0_object_type > 0)
@@ -1260,7 +1276,7 @@ void sound_obj::ProcessType11_418B60(s32 a2)
                 field_30_sQueueSample.field_20_rate = 33178;
                 v4 = 70;
             }
-            
+
             field_30_sQueueSample.field_14_samp_idx = 57;
             field_30_sQueueSample.field_0 = a2;
             field_30_sQueueSample.field_5C = 0;
@@ -1290,14 +1306,14 @@ void sound_obj::ProcessType2_412490(s32 idx)
 {
     static BYTE byte_66F2D4;
     static BYTE byte_66F540;
- 
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[idx].field_4_pObj->field_C_pAny;
+
+    infallible_turing *field_C_pObject = (infallible_turing *)field_147C[idx].field_4_pObj->field_C_pAny;
     if (!field_C_pObject)
     {
         return;
     }
 
-    if (field_C_pObject->field_4)
+    if (field_C_pObject->field_4_bStatus)
     {
         field_3 = 0;
         if (gSampManager_6FFF00.StreamStatus_58E2C0() || !byte_66F540)
@@ -1513,16 +1529,30 @@ char_type sound_obj::sub_415100(sound_0x68 *a2)
     return 0;
 }
 
-// stub
-char_type sound_obj::sub_414320(sound_0x68 *a2)
+MATCH_FUNC(0x414320)
+char_type sound_obj::sub_414320(sound_0x68 *pObj)
 {
-    return 0;
+    pObj->field_14_samp_idx = 10;
+    pObj->field_3C = 400;
+    pObj->field_30 = 0;
+    pObj->field_34 = 0;
+    pObj->field_38 = -1;
+    pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(10);
+    pObj->field_4C = 30;
+    return 1;
 }
 
-// stub
-char_type sound_obj::sub_414690(sound_0x68 *a2)
+MATCH_FUNC(0x414690)
+char_type sound_obj::sub_414690(sound_0x68 *pObj)
 {
-    return 0;
+    pObj->field_20_rate = 11025;
+    pObj->field_14_samp_idx = 11;
+    pObj->field_3C = 500;
+    pObj->field_30 = 0;
+    pObj->field_34 = 0;
+    pObj->field_38 = -1;
+    pObj->field_4C = 30;
+    return 1;
 }
 
 // stub
@@ -1557,7 +1587,7 @@ void sound_obj::sub_41B490(sound_0x68 *pObj)
 }
 
 MATCH_FUNC(0x4190B0)
-u32* sound_obj::sub_4190B0(u32 *a2)
+u32 *sound_obj::sub_4190B0(u32 *a2)
 {
     s32 v2 = this->field_30_sQueueSample.field_8_obj.field_0 - this->field_1468_v1;
     s32 v3 = this->field_30_sQueueSample.field_8_obj.field_4 - this->field_146C_v2;
@@ -1603,5 +1633,4 @@ void sound_obj::sub_427340(s32 a4, s32 a5, s32 a6)
 // stub
 void sound_obj::sub_426E10(s32 arg0, u32 a2)
 {
-
 }

@@ -40,11 +40,11 @@ public:
 
     EXPORT void sub_40F070(char_type a1);
 
-    EXPORT s32 sub_40F090(s32 state);
+    EXPORT void sub_40F090(s32 state);
 
-    EXPORT void SetSfxVol_40F0B0(u8 cdVol);
+    EXPORT void SetSfxVol_40F0B0(u8 sfxVol);
 
-    EXPORT void SetCDVol_40F0F0(u32 cdVol);
+    EXPORT void SetCDVol_40F0F0(u8 cdVol);
 
     EXPORT u8 GetCDVol_40F120();
 

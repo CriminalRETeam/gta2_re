@@ -44,7 +44,7 @@ struct sound_7
     char_type field_2;
     char_type field_3;
     s32 field_4_fp;
-    infallible_turing field_8_fp;
+    infallible_turing field_8;
     s32 field_18;
 };
 
@@ -231,6 +231,8 @@ public:
 
     EXPORT void SetCDVol_41A270(u8 cdVol);
 
+    EXPORT char_type GetAudioDriveLetter_41A2E0();
+
     EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
 
     EXPORT char_type Get3dSound_41A390();
@@ -247,7 +249,7 @@ public:
 
     EXPORT void sub_41B520(s32 a1, f32 *a2);
 
-    EXPORT char_type sub_41B660(u8 a1, u32 a2, u32 a3);
+    EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
 
     EXPORT void AddDetailsToRequestedOrderList_41A910(u8 a2);
 
@@ -291,6 +293,8 @@ public:
 
     EXPORT void sub_418C20();
 
+    EXPORT void sub_418C60();
+
     EXPORT void sub_419E10();
 
     EXPORT char_type LoadStyle_41A1B0(const char_type *pStyleName);
@@ -321,6 +325,8 @@ public:
     EXPORT void ProcessType8_412820(s32 a2);
 
     EXPORT void ProcessType9_412A60(s32 a2);
+
+    EXPORT void sub_418C80(s32 a2);
 
     EXPORT void ProcessType10_418CA0();
 
