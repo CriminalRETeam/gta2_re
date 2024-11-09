@@ -136,11 +136,11 @@ public:
     EXPORT char_type sub_441360();
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
-    EXPORT char_type sub_441520();
-    EXPORT u32 sub_4415C0();
+    EXPORT void sub_441520();
+    EXPORT void sub_4415C0();
     EXPORT u32 * sub_441600(u32 * a2);
     EXPORT char_type sub_4416D0(s32 a2);
-    EXPORT char_type sub_4417D0();
+    EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
     EXPORT char_type sub_441800(char_type a2);
     EXPORT Car_A4_10 * sub_4418A0();
@@ -150,7 +150,7 @@ public:
     EXPORT Car_B0 * sub_441A10();
     EXPORT char_type sub_441A40();
     EXPORT char_type sub_441A70();
-    EXPORT s32 sub_441B00(s32 a2);
+    EXPORT void sub_441B00();
     EXPORT s16 sub_441B20();
     EXPORT char_type sub_441B50();
     EXPORT void sub_441C00();
@@ -163,8 +163,8 @@ public:
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
     EXPORT s16 * sub_442520(s16 * a2);
-    EXPORT s16 sub_4425D0();
-    EXPORT char_type sub_4426D0(s32 a2);
+    EXPORT void sub_4425D0();
+    EXPORT void sub_4426D0();
     EXPORT Car_A4_10 * sub_442760();
     EXPORT Car_BC * sub_4427A0(Car_BC * a2);
     EXPORT s32 sub_442810();

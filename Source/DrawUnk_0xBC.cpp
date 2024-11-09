@@ -248,7 +248,7 @@ DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
 
 }
 
-STUB_FUNC(0x4397D0)
+MATCH_FUNC(0x4397D0)
 void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
 	field_10 = a2;
