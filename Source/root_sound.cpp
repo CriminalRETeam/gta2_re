@@ -122,7 +122,7 @@ infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObje
     field_0 = (infallible_turing*)field_0->field_C_pAny;
     pCurrent->field_C_pAny = pObject;
     pCurrent->field_8 = 0;
-    pCurrent->field_4 = 0;
+    pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
 
     if (!bSkip_audio_67D6BE)

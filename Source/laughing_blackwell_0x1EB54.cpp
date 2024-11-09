@@ -455,10 +455,10 @@ void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
     if (!bSkip_audio_67D6BE)
     {
         snd1_67D818.field_0_object_type = 0;
-        snd1_67D818.field_4 = 0;
+        snd1_67D818.field_4_bStatus = 0;
         snd2_67D6F8.field_0_object_type = 2;
         snd2_67D6F8.field_C_pAny = &snd1_67D818;
-        snd2_67D6F8.field_4 = 0;
+        snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
         gRoot_sound_66B038.Set3DSound_40F160(0);
@@ -1864,12 +1864,12 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     case 1:
         if (field_132_f136_idx == 9)
         {
-            snd1_67D818.field_4 = 1;
+            snd1_67D818.field_4_bStatus = 1;
             sub_4B7A10();
         }
         else
         {
-            snd1_67D818.field_4 = 0;
+            snd1_67D818.field_4_bStatus = 0;
             sub_4AE2D0();
         }
         break;

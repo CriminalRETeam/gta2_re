@@ -317,12 +317,12 @@ MATCH_FUNC(0x41B660)
 char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
 {
     const s32 minDistance = maxDistance / 4;
-	const s32 diffDistance = maxDistance - minDistance;
-	if (distance > diffDistance)
+    const s32 diffDistance = maxDistance - minDistance;
+    if (distance > diffDistance)
     {
-		return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
+        return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
     }
-	return emittingVolume;
+    return emittingVolume;
 }
 
 MATCH_FUNC(0x41A910)
@@ -646,9 +646,16 @@ void sound_obj::null_412240()
 {
 }
 
-// stub
+STUB_FUNC(0x418C20)
 void sound_obj::sub_418C20()
 {
+    if (this->field_544C[0].field_4_fp == 0)
+    {
+        this->field_544C[0].field_8.field_C_pAny = 0;
+        this->field_544C[0].field_8.field_4_bStatus = 0;
+        this->field_544C[0].field_8.field_0_object_type = 10;
+        this->field_544C[0].field_4_fp = AddSoundObject_419FA0(&field_544C[0].field_8);
+    }
 }
 
 MATCH_FUNC(0x419E10)
@@ -952,7 +959,7 @@ void sound_obj::Service_419EF0()
 MATCH_FUNC(0x4123A0)
 void sound_obj::ProcessEntity_4123A0(s32 id)
 {
-    if (!field_147C[id].field_4_pObj->field_4)
+    if (!field_147C[id].field_4_pObj->field_4_bStatus)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
@@ -1296,7 +1303,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
         return;
     }
 
-    if (field_C_pObject->field_4)
+    if (field_C_pObject->field_4_bStatus)
     {
         field_3 = 0;
         if (gSampManager_6FFF00.StreamStatus_58E2C0() || !byte_66F540)

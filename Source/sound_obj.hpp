@@ -44,7 +44,7 @@ struct sound_7
     char_type field_2;
     char_type field_3;
     s32 field_4_fp;
-    infallible_turing field_8_fp;
+    infallible_turing field_8;
     s32 field_18;
 };
 
