@@ -14,6 +14,20 @@ class Weapon_30;
 class Car_3C;
 class Char_8;
 
+// TODO: Move
+#pragma pack(push)
+#pragma pack(1)
+struct Marz_3
+{
+    EXPORT Marz_3();
+    EXPORT ~Marz_3();
+
+    char field_0;
+    char field_1;
+    char field_2;
+};
+#pragma pack(pop)
+
 class cool_nash_0x294
 {
 public:
@@ -219,82 +233,7 @@ public:
     EXPORT s32 sub_470F00();
     EXPORT cool_nash_0x294 * sub_470F90(cool_nash_0x294 * pSrc);
 
-    s16 field_0;
-    s16 field_2;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
-    s32 field_88;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 field_98;
-    s32 field_9C;
-    s32 field_A0;
-    s32 field_A4;
-    s32 field_A8;
-    s32 field_AC;
-    s32 field_B0;
-    s32 field_B4;
-    s32 field_B8;
-    s32 field_BC;
-    s32 field_C0;
-    s32 field_C4;
-    s32 field_C8;
-    s32 field_CC;
-    s32 field_D0;
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
-    s32 field_E4;
-    s32 field_E8;
-    s32 field_EC;
-    s32 field_F0;
-    s32 field_F4;
-    s32 field_F8;
-    s32 field_FC;
-    s32 field_100;
-    s32 field_104;
-    s32 field_108;
-    s32 field_10C;
-    s32 field_110;
-    s32 field_114;
-    s32 field_118;
-    s32 field_11C;
-    s32 field_120;
-    s32 field_124;
-    s32 field_128;
+    Marz_3 field_0[100];
     s16 field_12C;
     s16 field_12E;
     s16 field_130;

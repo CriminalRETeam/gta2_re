@@ -2,9 +2,34 @@
 #include "angry_lewin_0x85C.hpp"
 #include "Car_BC.hpp"
 
+// TODO: move
+
+MATCH_FUNC(0x463F90)
+Marz_3::Marz_3()
+{
+    this->field_0 = 0;
+    this->field_1 = 0;
+    this->field_2 = 0;
+}
+
+MATCH_FUNC(0x463FA0)
+Marz_3::~Marz_3()
+{
+}
+
+// =================
+
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
+    this->field_12C = 0;
+    this->field_12E = 0;
+    this->field_130 = 0;
+    this->field_132 = 0;
+    this->field_134 = 0;
+    this->field_200 = 0;
+    sub_45AFC0();
+    this->field_160_next_ped = 0;
 }
 
 STUB_FUNC(0x45af00)
