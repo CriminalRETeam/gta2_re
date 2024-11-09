@@ -6,6 +6,7 @@
 #include "root_sound.hpp"
 #include "cool_nash_0x294.hpp"
 #include "map_0x370.hpp"
+#include "Car_BC.hpp"
 
 // TODO: move
 STUB_FUNC(0x592620)
@@ -327,10 +328,30 @@ s32 angry_lewin_0x85C::sub_569410()
 	return 0;
 }
 
-STUB_FUNC(0x569530)
-s32 angry_lewin_0x85C::sub_569530()
+MATCH_FUNC(0x569530)
+void angry_lewin_0x85C::sub_569530()
 {
-	return 0;
+	Car_BC* pCar = field_2C8_unkq->field_16C_car;
+	if (pCar->field_54_driver)
+	{
+		field_2C8_unkq->field_16C_car->sub_4407F0();
+	}
+
+	if (pCar->field_98 != 4)
+	{
+		pCar->field_98 = 3;
+	}
+
+	field_2C8_unkq->sub_46F9D0();
+	field_2C8_unkq = 0;
+
+	sub_564C00();
+
+	cool_nash_0x294* pPed = field_2C4_player_ped;
+	if (pPed->field_16C_car)
+	{
+		sub_564AD0(pPed->field_16C_car);
+	}
 }
 
 MATCH_FUNC(0x5695A0)
