@@ -87,19 +87,10 @@ void root_sound::SetSfxVol_40F0B0(u8 sfxVol)
     gSound_obj_66F680.SetSfxVol_41A250(sfxVol > 127 ? 127 : sfxVol);
 }
 
-// nomatch
+MATCH_FUNC(0x40F0F0)
 void root_sound::SetCDVol_40F0F0(u32 cdVol)
 {
-    BYTE v = cdVol;
-    if (v > 127)
-    {
-        v = 127;
-        gSound_obj_66F680.SetCDVol_41A270(v);
-    }
-    else
-    {
-        gSound_obj_66F680.SetCDVol_41A270(v & 0xFF);
-    }
+    gSound_obj_66F680.SetCDVol_41A270(cdVol > 127 ? 127 : cdVol);
 }
 
 MATCH_FUNC(0x40F120)
