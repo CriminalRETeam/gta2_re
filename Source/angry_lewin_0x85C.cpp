@@ -8,11 +8,21 @@
 #include "map_0x370.hpp"
 #include "Car_BC.hpp"
 
+STUB_FUNC(0x4921B0)
+void thirsty_lamarr::sub_4921B0(s32 amount)
+{
+
+}
+
+// =====================
+
 // TODO: move
 STUB_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
 }
+
+// ====================
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -84,7 +94,6 @@ u16 angry_lewin_0x85C::sub_5649D0(char_type a2, char_type a3)
 STUB_FUNC(0x564AD0)
 void angry_lewin_0x85C::sub_564AD0(Car_BC *a2)
 {
-
 }
 
 STUB_FUNC(0x564B60)
@@ -416,10 +425,13 @@ s32 angry_lewin_0x85C::sub_569920(u32 *a2, s32 *a3, s32 *a4)
 	return 0;
 }
 
-STUB_FUNC(0x5699F0)
-s32 angry_lewin_0x85C::sub_5699F0(s32 a2)
+MATCH_FUNC(0x5699F0)
+void angry_lewin_0x85C::sub_5699F0(s32 a2)
 {
-	return 0;
+	if (!gDo_infinite_lives_67D4C9 || a2 > 0)
+	{
+		field_684_unk.sub_4921B0(a2);
+	}
 }
 
 STUB_FUNC(0x569A10)

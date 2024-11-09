@@ -14,6 +14,8 @@ class angry_lewin_0x85C;
 // todo: move
 struct thirsty_lamarr
 {
+    EXPORT void sub_4921B0(s32 amount);
+
     s32 field_0;
     s32 field_4;
     char_type field_8;
@@ -143,7 +145,7 @@ public:
     EXPORT s32 sub_569840(u8* a2, u8* a3, u8* a4);
     EXPORT Car_BC* sub_5698E0();
     EXPORT s32 sub_569920(u32* a2, int* a3, int* a4);
-    EXPORT s32 sub_5699F0(s32 a2);
+    EXPORT void sub_5699F0(s32 a2);
     EXPORT void sub_569A10();
     EXPORT void sub_569C20();
     EXPORT void sub_569CB0();
