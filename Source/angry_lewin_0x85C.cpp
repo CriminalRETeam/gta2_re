@@ -333,9 +333,28 @@ s32 angry_lewin_0x85C::sub_569530()
 	return 0;
 }
 
-STUB_FUNC(0x5695A0)
+MATCH_FUNC(0x5695A0)
 void angry_lewin_0x85C::sub_5695A0()
 {
+	if (!this->field_28)
+	{
+		this->field_68 = 0;
+		if (field_2D0)
+		{
+			cool_nash_0x294 *pPed = this->field_2C8_unkq;
+			if (pPed)
+			{
+				if (pPed->field_240_occupation == 1)
+				{
+					sub_569530();
+				}
+			}
+		}
+		this->field_2C8_unkq = 0;
+		this->field_2CC = 0;
+		this->field_2D0 = 0;
+		this->field_90_game_camera.field_3C = 1;
+	}
 }
 
 STUB_FUNC(0x569600)
