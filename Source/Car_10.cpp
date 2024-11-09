@@ -8,9 +8,23 @@ Car_10 *Car_10::sub_439CD0(s32 *a2)
     return 0;
 }
 
-STUB_FUNC(0x439D40)
-void Car_10::sub_439D40(Car_10 *a1, s32 a2, s32 *a3)
+MATCH_FUNC(0x439D40)
+void Car_10::sub_439D40(s32 *a3)
 {
+    if (field_0)
+    {
+        *a3 &= ~(1 << (field_2 + field_0 - 1));
+        field_0--;
+    }
+
+    if (!field_0)
+    {
+        field_4 = 6;
+    }
+    else
+    {
+        *a3 |= 1 << (field_2 + field_0 - 1);
+    }
 }
 
 STUB_FUNC(0x439DA0)
