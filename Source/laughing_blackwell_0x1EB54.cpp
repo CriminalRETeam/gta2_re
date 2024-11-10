@@ -863,7 +863,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             {
                 v35 = 0;
                 v36 = &gYouthful_einstein_6F8450.field_20;
-                v37 = gYouthful_einstein_6F8450.field_4;
+                v37 = gYouthful_einstein_6F8450.field_4_time;
                 v38 = a2b;
                 do
                 {
@@ -880,7 +880,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     --v38;
                 } while (v38);
             }
-            v33 = gYouthful_einstein_6F8450.field_4[v65];
+            v33 = gYouthful_einstein_6F8450.field_4_time[v65];
             break;
         default:
             v3 = arg0;
@@ -4380,34 +4380,6 @@ kind_beaver_6::~kind_beaver_6()
     field_0 = 0;
     field_2 = 0;
     field_4 = 1;
-}
-
-// nomatch 0x483E70
-xenodochial_morse::xenodochial_morse()
-{
-    field_0 = 0;
-}
-
-// stub
-void xenodochial_morse::sub_483F20()
-{
-    // todo
-}
-
-// nomatch 0x483E30
-sleepy_stonebraker_0x6C::sleepy_stonebraker_0x6C()
-{
-    field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_6 = 0;
-    memset(field_8_strBuf, 0u, sizeof(field_8_strBuf));
-}
-
-// nomatch 0x483E60
-sleepy_stonebraker_0x6C::~sleepy_stonebraker_0x6C()
-{
-
 }
 
 // nomatch 0x4B6440

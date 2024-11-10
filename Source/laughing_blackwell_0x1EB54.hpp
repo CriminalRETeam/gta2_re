@@ -2,6 +2,9 @@
 
 #include "types.hpp"
 #include <windows.h>
+#include "youthful_einstein.hpp"
+#include "sleepy_stonebraker_0x6C.hpp"
+#include "xenodochial_morse.hpp"
 
 #ifndef DIRECTINPUT_VERSION
 #define DIRECTINPUT_VERSION 0x0500
@@ -10,49 +13,6 @@
 #include <Dinput.h>
 
 class angry_lewin_0x85C;
-
-struct youthful_einstein
-{
-    angry_lewin_0x85C *field_0;
-    s32 field_4[6];
-    s32 field_1C;
-    s32 field_20;
-    s16 field_24;
-    s16 field_26;
-};
-
-// todo: move
-struct sleepy_stonebraker_0x6C
-{
-public:
-
-    EXPORT sleepy_stonebraker_0x6C();
-
-
-    EXPORT ~sleepy_stonebraker_0x6C();
-
-    char_type field_0;
-    char_type field_1;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    wchar_t field_8_strBuf[50];
-};
-
-
-// todo: move
-#pragma pack(push)
-#pragma pack(1)
-struct xenodochial_morse
-{
-    EXPORT xenodochial_morse();
-
-    EXPORT void sub_483F20();
-
-    s16 field_0;
-    sleepy_stonebraker_0x6C field_2[600];
-};
-#pragma pack(pop)
 
 #pragma pack(push)
 #pragma pack(1)
