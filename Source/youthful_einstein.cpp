@@ -1,9 +1,14 @@
 #include "youthful_einstein.hpp"
+#include <string>
 
 STUB_FUNC(0x516560)
-s32 youthful_einstein::ctor_516560()
+youthful_einstein::youthful_einstein() // 516560
 {
-    return 0;
+    field_0 = 0;
+    field_1C = 0;
+    memset(field_4_time, 0, sizeof(field_4_time));
+    field_20 = 0;
+    field_24 = 0;
 }
 
 STUB_FUNC(0x516590)

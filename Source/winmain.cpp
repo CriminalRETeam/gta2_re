@@ -26,6 +26,7 @@
 #include "DrawUnk_0xBC.hpp"
 #include "cool_nash_0x294.hpp"
 #include "miss2_8.hpp"
+#include "BurgerKing_67F8B0.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1286,6 +1287,29 @@ void force_link()
     miss2.add_503160(0);
     miss2.remove_503180();
     miss2.remove_5031E0(0);
+
+    BurgerKing_67F8B0 burgerking;
+    burgerking.sub_4CDCD0();
+    burgerking.sub_4CDCE0();
+    burgerking.sub_4CDCF0(0);
+    burgerking.sub_4CDD10(0);
+    burgerking.sub_4CDD80(0);
+    burgerking.sub_4CDDF0(0);
+    burgerking.sub_4CDE20(0);
+    burgerking.SaveReplay_4CDED0();
+    burgerking.sub_4CDF30(0);
+    burgerking.AppendReplayHeader_4CDF70();
+    burgerking.LoadReplayHeader_4CE380(0);
+    burgerking.sub_4CE650();
+    burgerking.GetNextAttrReplay_4CE6E0(0);
+    burgerking.sub_4CE740(0);
+    burgerking.sub_4CE880(0);
+    burgerking.sub_4CEA40(0);
+    burgerking.sub_4CEAC0();
+    burgerking.sub_4CED00(0, 0);
+    burgerking.sub_4CED90();
+    burgerking.RecOrPlayBackState_4CEDF0();
+    burgerking.ShowInput_4CEE10();
 }
 
 // nomatch
