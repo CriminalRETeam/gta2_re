@@ -115,6 +115,8 @@ set(gta2_lib_src
   Source/miss2_0x11C.cpp
   Source/miss2_8.hpp
   Source/miss2_8.cpp
+  Source/BurgerKing_67F8B0.hpp
+  Source/BurgerKing_67F8B0.cpp
 )
 
 # global include dirs

@@ -7,7 +7,7 @@ class angry_lewin_0x85C;
 class youthful_einstein
 {
 public:
-    EXPORT s32 ctor_516560();
+    EXPORT youthful_einstein(); // 516560
     EXPORT void sub_516590(angry_lewin_0x85C* a2);
     EXPORT s16 sub_516660();
     EXPORT void sub_516740(angry_lewin_0x85C* a2, angry_lewin_0x85C* a3);
