@@ -1,5 +1,11 @@
 import sys
 
+try:
+    from printy import printy
+    printy_available = True
+except ImportError:
+    printy_available = False
+
 # ?first_zone_by_type_4DF1D0@Map_0x370@@QAEPAUgmp_map_zone@@E@Z,0x4030d0,0x30d0,0x4df1d0,0x1
 # mangled_name, v addr, file offset, og addr, match status
 # new_function_data.csv
@@ -9,6 +15,12 @@ import sys
 # og_function_data.csv
 
 import compare_function
+
+def dynamic_print(text: str, color: str = ""):
+    if printy_available and color != "":
+        printy(text, color)
+    else:
+        print(text)
 
 def load_csv_file(filename):
     ret = []
@@ -31,7 +43,7 @@ def calc_funcs_to_check_match(new_data, old_data):
                     break
     return ret
 
-def check_funcs_match():
+def check_funcs_match(verbose: bool = False):
     new_data = load_csv_file("new_function_data.csv")
     old_data = load_csv_file("og_function_data.csv")
     funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
@@ -42,12 +54,13 @@ def check_funcs_match():
             ok_funcs.append(func[0] + " OK!")
         else:
             fail_funcs.append(func[0] + " FAIL!")
-    
-    for ok_func in ok_funcs:
-        print(ok_func)
+
+    if verbose:
+        for ok_func in ok_funcs:
+            dynamic_print(ok_func, "n")
     
     for fail_func in fail_funcs:
-        print(fail_func)
+        dynamic_print(fail_func, "r")
 
     print("[" + str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + "] funcs OK")
     return len(fail_funcs) == 0
