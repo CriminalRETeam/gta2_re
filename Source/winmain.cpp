@@ -25,6 +25,7 @@
 #include "angry_lewin_0x85C.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "cool_nash_0x294.hpp"
+#include "miss2_8.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1280,6 +1281,11 @@ void force_link()
     cn.sub_45B550();
     cn.sub_45B560(NULL, 0);
     cn.sub_45B590();
+
+    miss2_8 miss2;
+    miss2.add_503160(0);
+    miss2.remove_503180();
+    miss2.remove_5031E0(0);
 }
 
 // nomatch
