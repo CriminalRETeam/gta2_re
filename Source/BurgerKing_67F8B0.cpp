@@ -3,7 +3,7 @@
 #include "file.hpp"
 #include <io.h>
 
-#define ATTRACT_COUNT 3u
+#define ATTRACT_COUNT 3
 
 STUB_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
@@ -95,6 +95,7 @@ AttractFile attractFiles_62083C[ATTRACT_COUNT] =
     "data\\attract\\attr3.rep"
 };
 
+// match but the post processor is bugged
 STUB_FUNC(0x4ce6e0)
 void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
@@ -148,10 +149,14 @@ void BurgerKing_67F8B0::sub_4CED90()
 
 }
 
-STUB_FUNC(0x4cedf0)
+MATCH_FUNC(0x4cedf0)
 bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
 {
-    return field_38_replay_state == 1 || field_38_replay_state == 3;
+    if (field_38_replay_state == 1 || field_38_replay_state == 3)
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x4cee10)
