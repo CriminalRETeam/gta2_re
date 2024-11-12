@@ -14,6 +14,55 @@ CONFIG_DIR = REPO_DIR / "config"
 RESOURCES_DIR = REPO_DIR / "resources"
 INCLUDE_PATHS = [REPO_DIR / "Source"]
 
+DATA_OFFSET = 0xFFB59380
+
+class OgFunctionData:
+    def __init__(self, name: str, address: str, offset: str, size: str):
+        self.name = name
+        self.address = int(address, 16)
+        self.offset = int(offset, 16)
+        self.size = int(size, 16)
+
+    def get_function_bytes(self) -> bytes:
+        with open("bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
+            file.seek(self.offset)
+            return file.read(self.size)
+
+class FunctionCollection:
+    __functions: set[OgFunctionData] = set()
+
+    def __init__(self):
+        funcs = self.load_csv_file("bin_comp/og_function_data.csv")
+        for func in funcs:
+            name, address, offset, size = func
+            data = OgFunctionData(name, address, offset, size)
+            self.__functions.add(data)
+
+    def load_csv_file(self, filename) -> list[list]:
+        ret = []
+        with open(filename) as file:
+            lines = [line.rstrip() for line in file]
+            for line in lines:
+                ret.append(line.split(","))        
+        return ret
+
+    def get_data_by_name(self, func_name: str) -> OgFunctionData | None:
+        for data in self.__functions:
+            if data.name == func_name:
+                return data
+        return None
+
+    def get_data_by_address(self, address: int) -> OgFunctionData | None:
+        for data in self.__functions:
+            if data.address == address:
+                return data
+        return None
+    
+    def get_data(self) -> set[OgFunctionData]:
+        return self.__functions.copy()
+
+FUNC_COLLECTION = FunctionCollection()
+
 def cpp_expand(file, path, matched_files):
     out = ""
     for line in file:
@@ -38,40 +87,19 @@ def cpp_expand_path(path, matched_files):
 
     raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
 
-def load_csv_file(filename):
-    ret = []
-    with open(filename) as file:
-        lines = [line.rstrip() for line in file]
-        for line in lines:
-            ret.append(line.split(","))        
-    return ret
-
-def get_bytes_from_function(func_name_to_find) -> bytes:
-    funcs = load_csv_file("bin_comp/og_function_data.csv")
-    for func in funcs:
-        func_name, og_func_address, og_func_offset, og_func_size = func
-        if func_name == func_name_to_find:
-            with open("bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
-                file.seek(int(og_func_offset, 16))
-                return file.read(int(og_func_size, 16))
-            
-    print(f"couldn't find function: {func_name_to_find}")
-    return None
-
-DATA_OFFSET = 0xFFB59380
-
-def resolve_func_name(func_address: int) -> str | None:
-    func_address_offset = func_address - DATA_OFFSET
-    funcs = load_csv_file("bin_comp/og_function_data.csv")
-    for func in funcs:
-        func_name, og_func_address, og_func_offset, og_func_size = func
-        if func_address_offset == int(og_func_address, 16):
+def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData) -> str | None:
+    near_func_address_offset = resolve_func_address - DATA_OFFSET
+    far_func_address_offset = resolve_func_address + current_func.address
+    for func_data in FUNC_COLLECTION.get_data():
+        if (near_func_address_offset == func_data.address or
+            far_func_address_offset == func_data.address):
             # don't include the class name
-            if "::" in func_name:
-                return func_name.split("::")[1]
+            if "::" in func_data.name:
+                return func_data.name.split("::")[1]
             else:
-                return func_name
+                return func_data.name
             
+    print(f"func address: {hex(near_func_address_offset)} not found!")
     return None
 
 def to_str(mnemonic: Mnemonic) -> str:
@@ -98,8 +126,8 @@ def to_str(mnemonic: Mnemonic) -> str:
 def is_jump(mnemonic: Mnemonic) -> bool:
     return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE}
 
-def dism_func(func_bytes):
-    decoder = Decoder(32, func_bytes)
+def dism_func(target_func: OgFunctionData):
+    decoder = Decoder(32, target_func.get_function_bytes())
     formatter = Formatter(FormatterSyntax.GAS)
 
     unk_funcs = dict()
@@ -115,7 +143,7 @@ def dism_func(func_bytes):
                 print(f"add label at ip: {instruction.near_branch_target}")
 
     # reset decoder for the second run
-    decoder = Decoder(32, func_bytes)
+    decoder = Decoder(32, target_func.get_function_bytes())
 
     for instruction in decoder:
         # add label
@@ -123,7 +151,7 @@ def dism_func(func_bytes):
             asm.append(f"{labels[instruction.ip]}:")
         
         if instruction.mnemonic == Mnemonic.CALL:
-            resolved_name = resolve_func_name(instruction.near_branch_target)
+            resolved_name = resolve_func_name(instruction.near_branch_target, target_func)
             if resolved_name is not None:
                 asm.append(f"call {resolved_name}")
             else:
@@ -155,11 +183,11 @@ def main():
         sys.exit(1)
 
     function_name = sys.argv[1]
-    func_bytes = get_bytes_from_function(function_name)
-    if func_bytes == None:
+    target_func = FUNC_COLLECTION.get_data_by_name(function_name)
+    if target_func == None:
         sys.exit(1)
 
-    asm = dism_func(func_bytes)
+    asm = dism_func(target_func)
     print(asm)
 
     #ctx = cpp_expand_path("Game_0x40.hpp", set())
