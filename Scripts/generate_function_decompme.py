@@ -17,11 +17,12 @@ INCLUDE_PATHS = [REPO_DIR / "Source"]
 DATA_OFFSET = 0xFFB59380
 
 class OgFunctionData:
-    def __init__(self, name: str, address: str, offset: str, size: str):
+    def __init__(self, name: str, address: str, offset: str, size: str, mangled_name: str | None = None):
         self.name = name
         self.address = int(address, 16)
         self.offset = int(offset, 16)
         self.size = int(size, 16)
+        self.mangled_name = mangled_name
 
     def get_function_bytes(self) -> bytes:
         with open("bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
@@ -32,10 +33,23 @@ class FunctionCollection:
     __functions: set[OgFunctionData] = set()
 
     def __init__(self):
-        funcs = self.load_csv_file("bin_comp/og_function_data.csv")
-        for func in funcs:
-            name, address, offset, size = func
-            data = OgFunctionData(name, address, offset, size)
+        og_func_data = self.load_csv_file("bin_comp/og_function_data.csv")
+        new_func_data = self.load_csv_file("bin_comp/new_function_data.csv")
+        for og_func in og_func_data:
+            og_name, og_address, og_offset, og_size = og_func
+            mangled_name_found = False
+            for new_func in new_func_data:
+                mangled_name = new_func[0]
+                new_og_address = new_func[3]
+                if og_address.lower() == new_og_address.lower():
+                    mangled_name_found = True
+                    break
+
+            if mangled_name_found:
+                data = OgFunctionData(og_name, og_address, og_offset, og_size, mangled_name)
+            else:
+                data = OgFunctionData(og_name, og_address, og_offset, og_size)
+
             self.__functions.add(data)
 
     def load_csv_file(self, filename) -> list[list]:
@@ -87,12 +101,17 @@ def cpp_expand_path(path, matched_files):
 
     raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
 
-def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData) -> str | None:
+def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, as_mangled_name: bool = True) -> str | None:
     near_func_address_offset = resolve_func_address - DATA_OFFSET
     far_func_address_offset = resolve_func_address + current_func.address
     for func_data in FUNC_COLLECTION.get_data():
         if (near_func_address_offset == func_data.address or
             far_func_address_offset == func_data.address):
+
+            if as_mangled_name and func_data.mangled_name is not None:
+                # the mangled name needs to be in double quotes or the assembler will complain about special characters
+                return f'"{func_data.mangled_name}"'
+            
             # don't include the class name
             if "::" in func_data.name:
                 return func_data.name.split("::")[1]
