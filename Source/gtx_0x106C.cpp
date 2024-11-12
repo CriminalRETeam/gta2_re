@@ -29,7 +29,7 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
-// nomatch
+STUB_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
     u16 result; // ax
@@ -62,7 +62,7 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x5AA4F0)
 s16 gtx_0x106C::sub_5AA4F0(s32 a2)
 {
     s16 result; // ax
@@ -95,7 +95,7 @@ s16 gtx_0x106C::sub_5AA4F0(s32 a2)
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x5AA560)
 s16 gtx_0x106C::sub_5AA560(s32 a2)
 {
     s16 result; // ax
@@ -171,7 +171,7 @@ s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x5AA6A0)
 BYTE* gtx_0x106C::GetPalData_5AA6A0(s16 a2)
 {
     return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFC0) << 8));
@@ -188,7 +188,7 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define LINE_STRING STRINGIZE(__LINE__)
 #define UNIQUE_FUNC printf(__FILE__ LINE_STRING)
 
-// nomatch
+STUB_FUNC(0x5AA710)
 u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 {
     font_base* field_1C_font_base = this->field_1C_font_base;
@@ -207,7 +207,7 @@ u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x5AA760)
 u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t *a3)
 {
     u16 v3; // ax
@@ -242,7 +242,7 @@ u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
         ].field_4_width;
 }
 
-// nomatch
+STUB_FUNC(0x5AA800)
 s16 gtx_0x106C::sub_5AA800(u16 *a2)
 {
     if (*a2 < 0x65u)
@@ -266,7 +266,7 @@ s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
     return field_40_tile->field_0[tile_idx];
 }
 
-// nomatch
+STUB_FUNC(0x5AA890)
 s16 gtx_0x106C::sub_5AA890()
 {
     s16 internal_idx; // ax
@@ -297,7 +297,7 @@ object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
     return &this->field_24_map_object_info[idx];
 }
 
-// nomatch
+STUB_FUNC(0x5AA930)
 s32 gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
 {
     s32 result; // eax
@@ -307,7 +307,7 @@ s32 gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x5AA950)
 void gtx_0x106C::create_tile_num_array_5AA950()
 {
     // TODO
@@ -404,7 +404,8 @@ void gtx_0x106C::create_tile_num_array_5AA950()
         this->field_5C_cari->field_400_count = 0;
     }
 */
-// nomatch
+
+STUB_FUNC(0x5AA9A0)
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
     s32 total_len = 0;
@@ -489,7 +490,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 
 }
 
-// stub
+STUB_FUNC(0x5AAB30)
 void gtx_0x106C::sub_5AAB30(u32 delx_chunk_size)
 {
     // TODO
@@ -503,14 +504,14 @@ sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
     return &this->field_20_sprite_index[idx];
 }
 
-// stub
+STUB_FUNC(0x5AABF0)
 void gtx_0x106C::sub_5AABF0()
 {
     // TODO
     UNIQUE_FUNC;
 }
 
-// nomatch
+STUB_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
     u32 sprite_idx; // eax
@@ -529,14 +530,14 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
     }
 }
 
-// stub
+STUB_FUNC(0x5AAC70)
 void gtx_0x106C::sub_5AAC70()
 {
     // TODO
     UNIQUE_FUNC;
 }
 
-// nomatch
+STUB_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
 {
     u32 len = cari_chunk_size;
@@ -554,7 +555,7 @@ void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
     */
 }
 
-// stub
+STUB_FUNC(0x5AAD80)
 void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
 {
     // TODO
@@ -576,13 +577,13 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
     create_tile_num_array_5AA950();
 }
 
-// nomatch
+STUB_FUNC(0x5AAE20)
 void gtx_0x106C::skip_ovly_5AAE20(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
 }
 
-// nomatch
+STUB_FUNC(0x5AAE30)
 void gtx_0x106C::skip_psxt_5AAE30(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
@@ -620,7 +621,7 @@ void gtx_0x106C::load_palette_index_5AAEA0(u32 palx_chunk_len)
     File::Global_Read_4A71C0(field_28_palette_index, &palx_chunk_len);
 }
 
-// stub
+STUB_FUNC(0x5AAF00)
 void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
 {
     // TODO
@@ -639,14 +640,14 @@ void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
     this->field_4_sprite_index_count = ((u32)sprx_chunk_size >> 3) + 1;
 }
 
-// stub
+STUB_FUNC(0x5AAFE0)
 void gtx_0x106C::sub_5AAFE0(u16 a1)
 {
     // TODO
     UNIQUE_FUNC;
 }
 
-// nomatch
+STUB_FUNC(0x5AB0F0)
 void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
@@ -690,7 +691,7 @@ u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offs
     return total;
 }
 
-// nomatch
+STUB_FUNC(0x5AB1C0)
 void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16 *pBuffer, u32 len)
 {
     s32 idx1 = len - 1;
@@ -750,7 +751,7 @@ void gtx_0x106C::load_sprite_base_5AB210(u32 sprite_base_chunk_size)
     ConvertToVirtualOffsets_5AB1C0(&field_14_sprite_base2->field_0_car, 6);
 }
 
-// nomatch
+STUB_FUNC(0x5AB2C0)
 void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 {
     if (palette_base_chunk_len != sizeof(palette_base))
@@ -778,7 +779,7 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
     ConvertToVirtualOffsets_5AB1C0(&field_C_palette_base2->field_0_tile, 8);
 }
 
-// stub
+STUB_FUNC(0x5AB380)
 bool gtx_0x106C::sub_5AB380(u8 car_id)
 {
     // TODO
@@ -814,7 +815,8 @@ void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
         } while (readValue1);
     }
 */
-// nomatch
+
+STUB_FUNC(0x5AB3F0)
 void gtx_0x106C::read_spec_5AB3F0(u32 type)
 {
     u16 read_value1;
