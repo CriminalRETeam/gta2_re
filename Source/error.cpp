@@ -15,6 +15,7 @@ public:
     ErrorLog& Write_4D9620(const char_type* pMsg);
 };
 
+STUB_FUNC(0x4D9620)
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     return *this;
@@ -61,7 +62,7 @@ const char_type *gListTypes_61AB70[30] =
   "audio_info_space"
 };
 
-// stub
+STUB_FUNC(0x4DA740)
 void sub_4DA740()
 {
 
@@ -105,7 +106,7 @@ struct Coord2
 
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
 
-// nomatch
+STUB_FUNC(0x4A07C0)
 void FatalError_4A07C0(s32 code, const char_type *pFileName, s32 lineNo, ...)
 {
     va_list va; // [esp+94h] [ebp+34h] BYREF

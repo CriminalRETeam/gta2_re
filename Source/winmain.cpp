@@ -77,7 +77,7 @@ char_type gLighting_626A09 = 1;
 u32 gLightingDrawFlag_7068F4;
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x5D8EB0)
 void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
     // todo
@@ -116,21 +116,21 @@ void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D7C60)
 void __stdcall Input_MouseAcquire_5D7C60()
 {
     // todo
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D7C70)
 void __stdcall Input_ReleaseMouse_5D7C70()
 {
     // todo
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D94F0)
 void __stdcall HideCursor_5D94F0()
 {
     while (ShowCursor(0) >= 0)
@@ -138,7 +138,7 @@ void __stdcall HideCursor_5D94F0()
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D7BF0)
 char_type Input_InitMouse_5D7BF0()
 {
     // todo
@@ -146,7 +146,7 @@ char_type Input_InitMouse_5D7BF0()
 }
 
 // todo: move
-// nomatch
+STUB_FUNC(0x5D93A0)
 void __stdcall sub_5D93A0()
 {
     char_type v0; // bl
@@ -200,7 +200,7 @@ void __stdcall sub_5D93A0()
 }
 
 // todo: move
-// nomatch
+STUB_FUNC(0x5D92C0)
 char_type sub_5D92C0()
 {
     return byte_706C5C;
@@ -216,7 +216,7 @@ void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-// nomatch
+STUB_FUNC(0x5D9510)
 char_type sub_5D9510()
 {
 
@@ -326,14 +326,14 @@ s32 ReadScreenSettings_5D8F70()
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D98E0)
 void __stdcall SetSavedGamma_5D98E0()
 {
     // todo
 }
 
 // todo: move
-// nomatch
+STUB_FUNC(0x5D92D0)
 void __stdcall sub_5D92D0()
 {
     u32 field_4_flags; // ecx
@@ -514,21 +514,21 @@ void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 }
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x4DA4D0)
 void __stdcall sub_4DA4D0()
 {
     // todo
 }
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x5D9690)
 void __stdcall sub_5D9690()
 {
     // todo
 }
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x4DA850)
 char_type sub_4DA850()
 {
     // todo
@@ -565,7 +565,7 @@ void __stdcall GetDirectMusicVer_4A0650()
 GUID IID_IDirectDrawSurface4_ = { 0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B };
 
 // todo move to another file for ordering
-// nomatch
+STUB_FUNC(0x4C4EC0)
 void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
 {
     u32 dwMajorVersion; // eax
@@ -812,21 +812,21 @@ void __stdcall UpdateWinXY_5D8E70()
 }
 
 // todo move to another file for ordering
-// nomatch
+STUB_FUNC(0x5D7CA0)
 void __stdcall j_gbh_init_5D7CA0()
 {
     gbh_Init(0);
 }
 
 // todo move to another file for ordering
-// nomatch
+STUB_FUNC(0x4DA700)
 void __stdcall CleanUpInputAndOthers_4DA700()
 {
     // todo
 }
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x4DA390)
 s32 __stdcall SkipWhiteSpace_4DA390(char_type *pStr)
 {
     // todo
@@ -834,7 +834,7 @@ s32 __stdcall SkipWhiteSpace_4DA390(char_type *pStr)
 }
 
 // todo move to another file for ordering
-// stub
+STUB_FUNC(0x4DA3F0)
 char_type *__stdcall sub_4DA3F0(char_type *pStr)
 {
     // todo
@@ -923,7 +923,7 @@ void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 }
 
 // todo: move
-// nomatch
+STUB_FUNC(0x5D9230)
 void __stdcall sub_5D9230(s32 startMode)
 {
     gStartMode_626A0C = startMode;
@@ -931,14 +931,14 @@ void __stdcall sub_5D9230(s32 startMode)
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x5D9680)
 void sub_5D9680()
 {
     // todo
 }
 
 // todo: move
-// stub
+STUB_FUNC(0x498D10)
 void Input_Read_498D10()
 {
     // todo
@@ -946,13 +946,13 @@ void Input_Read_498D10()
 
 
 // todo: move
-// stub
+STUB_FUNC(0x5D9250)
 void __stdcall sub_5D9250()
 {
     // todo
 }
 
-// nomatch
+STUB_FUNC(0x5E4EE0)
 LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     switch (Msg)
@@ -1312,7 +1312,7 @@ void force_link()
     burgerking.ShowInput_4CEE10();
 }
 
-// nomatch
+STUB_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     force_link();
@@ -1599,7 +1599,7 @@ LABEL_23:
     return 0;
 }
 
-// stub
+STUB_FUNC(0x5E5A30)
 char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     return 1;

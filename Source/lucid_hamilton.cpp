@@ -3,49 +3,49 @@
 
 lucid_hamilton gLucid_hamilton_67E8E0;
 
-// stub
+STUB_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()
 {
     // todo
 }
 
-// nomatch
+STUB_FUNC(0x4C5870)
 char* lucid_hamilton::SetMapName_4C5870(char_type *Source)
 {
     return strncpy(field_0_map_name, Source, 255u);
 }
 
-// nomatch
+STUB_FUNC(0x4C5890)
 char* lucid_hamilton::SetStyleName_4C5890(char_type *Source)
 {
     return strncpy(field_100_style_name, Source, 0xFFu);
 }
 
-// nomatch
+STUB_FUNC(0x4C58B0)
 char* lucid_hamilton::SetScriptName_4C58B0(char_type *Source)
 {
     return strncpy(field_200_script_name, Source, 0xFFu);
 }
 
-// nomatch
+STUB_FUNC(0x4C58D0)
 char_type * lucid_hamilton::DebugStr_4C58D0(char_type *Source)
 {
     return strncpy(field_300_debug_str, Source, 0xFFu);
 }
 
-// nomatch
+STUB_FUNC(0x4C58F0)
 void lucid_hamilton::sub_4C58F0(char_type a2)
 {
     field_400 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5900)
 void lucid_hamilton::sub_4C5900(char_type a2)
 {
     field_401 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5910)
 void lucid_hamilton::sub_4C5910(char_type a2)
 {
     field_402 = a2;
@@ -57,79 +57,79 @@ void lucid_hamilton::sub_4C5920(char_type a2)
     field_403 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5930)
 void lucid_hamilton::sub_4C5930(char_type a2)
 {
-    this->field_404 = a2;
+    field_404 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5940)
 char* lucid_hamilton::GetMapName_4C5940()
 {
     return field_0_map_name;
 }
 
-// nomatch
+STUB_FUNC(0x4C5950)
 char* lucid_hamilton::GetStyleName_4C5950()
 {
     return field_100_style_name;
 }
 
-// nomatch
+STUB_FUNC(0x4C5960)
 char* lucid_hamilton::GetScriptName_4C5960()
 {
     return field_200_script_name;
 }
 
-// nomatch
+STUB_FUNC(0x4C5970)
 char* lucid_hamilton::GetDebugStr_4C5970()
 {
-    return this->field_300_debug_str;
+    return field_300_debug_str;
 }
 
-// nomatch
+STUB_FUNC(0x4C5980)
 char_type lucid_hamilton::sub_4C5980()
 {
     return field_400;
 }
 
-// nomatch
+STUB_FUNC(0x4C5990)
 char_type lucid_hamilton::sub_4C5990()
 {
     return field_401;
 }
 
-// nomatch
+STUB_FUNC(0x4C59A0)
 char_type lucid_hamilton::sub_4C59A0()
 {
-    return this->field_402;
+    return field_402;
 }
 
-// nomatch
+STUB_FUNC(0x4C59B0)
 u8 lucid_hamilton::sub_4C59B0()
 {
-    return this->field_403;
+    return field_403;
 }
 
-// nomatch
+STUB_FUNC(0x4C59C0)
 char_type lucid_hamilton::sub_4C59C0()
 {
-    return this->field_404;
+    return field_404;
 }
 
-// nomatch
+STUB_FUNC(0x4C59D0)
 void lucid_hamilton::sub_4C59D0(u8 a2, s32 a3)
 {
-    this->field_408[a2] = a3;
+    field_408[a2] = a3;
 }
 
-// nomatch
+STUB_FUNC(0x4C59F0)
 s32 lucid_hamilton::sub_4C59F0(u8 idx)
 {
-    return this->field_408[idx];
+    return field_408[idx];
 }
 
-// stub
+STUB_FUNC(0x4C5A10)
 void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C *a1)
 {
     // todo
@@ -153,55 +153,55 @@ void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C *a1)
     */
 }
 
-// nomatch
+STUB_FUNC(0x4C5A70)
 void lucid_hamilton::sub_4C5A70(s32 a2)
 {
-    this->field_430 = a2;
+    field_430 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5A80)
 s32 lucid_hamilton::sub_4C5A80()
 {
-    return this->field_430;
+    return field_430;
 }
 
-// nomatch
+STUB_FUNC(0x4C5A90)
 void lucid_hamilton::sub_4C5A90(s32 a2)
 {
-    this->field_434 = a2;
+    field_434 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5AA0)
 s32 lucid_hamilton::sub_4C5AA0()
 {
-    return this->field_434;
+    return field_434;
 }
 
-// nomatch
+STUB_FUNC(0x4C5AB0)
 void lucid_hamilton::sub_4C5AB0(s16 a2)
 {
-    this->field_438 = a2;
+    field_438 = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5AC0)
 s16 lucid_hamilton::sub_4C5AC0()
 {
-    return this->field_438;
+    return field_438;
 }
 
-// nomatch
+STUB_FUNC(0x4C5AD0)
 void lucid_hamilton::sub_4C5AD0(char_type a2)
 {
-    this->field_43A = a2;
+    field_43A = a2;
 }
 
-// nomatch
+STUB_FUNC(0x4C5AE0)
 char_type lucid_hamilton::sub_4C5AE0()
 {
-    return this->field_43A;
+    return field_43A;
 }
 
-// stub
+STUB_FUNC(0x4C5AF0)
 void lucid_hamilton::init_4C5AF0()
 {
     // todo
@@ -239,51 +239,53 @@ void lucid_hamilton::init_4C5AF0()
     */
 }
 
-// nomatch
+STUB_FUNC(0x4C5B80)
 void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6)
 {
-    this->field_43B = a2;
-    this->field_43C = a3;
-    this->field_440 = a4;
-    this->field_441 = a5;
-    this->field_444 = a6;
+    field_43B = a2;
+    field_43C = a3;
+    field_440 = a4;
+    field_441 = a5;
+    field_444 = a6;
 }
 
-// nomatch
+STUB_FUNC(0x4C5BC0)
 char_type lucid_hamilton::sub_4C5BC0()
 {
-    return this->field_43B;
+    return field_43B;
 }
 
-// nomatch
+STUB_FUNC(0x4C5BD0)
 s32 lucid_hamilton::sub_4C5BD0()
 {
-    return this->field_43C;
+    return field_43C;
 }
 
-// nomatch
+STUB_FUNC(0x4C5BE0)
 char_type lucid_hamilton::sub_4C5BE0()
 {
-    return this->field_440;
+    return field_440;
 }
 
-// nomatch
+STUB_FUNC(0x4C5BF0)
 char_type lucid_hamilton::sub_4C5BF0()
 {
-    return this->field_441;
+    return field_441;
 }
 
-// nomatch
+STUB_FUNC(0x4C5C00)
 void lucid_hamilton::sub_4C5C00(char_type a2)
 {
-    if (this->field_442 == 6)
-        this->field_442 = a2;
+    if (field_442 == 6)
+    {
+        field_442 = a2;
+    }
 }
 
-// nomatch
+STUB_FUNC(0x4C5C20)
 char_type lucid_hamilton::sub_4C5C20()
 {
-    return this->field_442;
+    return field_442;
 }
 
 MATCH_FUNC(0x4C5C30)
@@ -292,25 +294,25 @@ void lucid_hamilton::sub_4C5C30(s32 a2, wchar_t *Source)
     wcsncpy(field_4B4[static_cast<u16>(a2)].field_0_str, Source, 16u);
 }
 
-// nomatch
+STUB_FUNC(0x4C5C60)
 blissful_ganguly_0x20 * lucid_hamilton::sub_4C5C60(u16 a2)
 {
-    return &this->field_4B4[a2];
+    return &field_4B4[a2];
 }
 
-// nomatch
+STUB_FUNC(0x4C5C80)
 void lucid_hamilton::sub_4C5C80(u8 a2, s32 a3)
 {
-    this->field_49C[a2] += a3;
+    field_49C[a2] += a3;
 }
 
-// nomatch
+STUB_FUNC(0x4C5CB0)
 s32 lucid_hamilton::sub_4C5CB0(u8 a2)
 {
-    return this->field_49C[a2];
+    return field_49C[a2];
 }
 
-// stub
+STUB_FUNC(0x4C5CD0)
 void lucid_hamilton::sub_4C5CD0(u8 a2, u8 a3)
 {
     // todo
@@ -336,14 +338,14 @@ void lucid_hamilton::sub_4C5CD0(u8 a2, u8 a3)
     }*/
 }
 
-// nomatch
+STUB_FUNC(0x4C5D60)
 u16 lucid_hamilton::sub_4C5D60(u8 a2)
 {
-    return this->field_490[a2];
+    return field_490[a2];
 }
 
-// nomatch
+STUB_FUNC(0x4C5D80)
 s16 lucid_hamilton::sub_4C5D80(u8 a2, u8 a3)
 {
-    return this->field_448[a2].field_0[a3];
+    return field_448[a2].field_0[a3];
 }
