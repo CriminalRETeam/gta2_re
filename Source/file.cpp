@@ -3,6 +3,7 @@
 #include "error.hpp"
 #include <stdlib.h>
 #include <stdio.h>
+#include "memory.hpp"
 
 s32 gbGlobalFileOpen_67D160;
 FILE* ghFile_67CFEC;
@@ -11,10 +12,7 @@ extern char_type gTmpBuffer_67C598[256];
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE *Stream)
 {
-    s32 oldPos; // ebx
-    s32 endPos; // edi
-
-    oldPos = ftell(Stream);
+    s32 oldPos = ftell(Stream);
     if (oldPos == -1)
     {
         FatalError_4A38C0(13, "C:\\Splitting\\Gta2\\Source\\File.cpp", 56);
@@ -25,7 +23,7 @@ s32 __stdcall File::GetFileSize_4A6B10(FILE *Stream)
         FatalError_4A38C0(14, "C:\\Splitting\\Gta2\\Source\\File.cpp", 58);
     }
 
-    endPos = ftell(Stream);
+    s32 endPos = ftell(Stream);
     if (endPos == -1)
     {
         FatalError_4A38C0(13, "C:\\Splitting\\Gta2\\Source\\File.cpp", 60);
@@ -51,46 +49,44 @@ bool __stdcall File::IsCdRomDrive_4A6BB0(char_type driveLetter)
     return false;
 }
 
-// nomatch
+MATCH_FUNC(0x4A6C80)
 void *__stdcall File::ReadFileToBuffer_4A6C80(const char_type *FileName, size_t *pAllocatedBufferSize)
 {
-    FILE *hFileRead1; // eax
-    FILE *v3; // esi
-    void *pBuffer; // esi
-    FILE *hFileRead2; // eax
-    FILE *v6; // edi
-
     Error_SetName_4A0770(FileName);
-    hFileRead1 = fopen(FileName, "rb");
-    v3 = hFileRead1;
+    FILE* hFileRead1 = fopen(FileName, "rb");
     if (!hFileRead1)
+    {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 141);
+    }
+
     *pAllocatedBufferSize = GetFileSize_4A6B10(hFileRead1);
-    if (fclose(v3))
+    if (fclose(hFileRead1))
+    {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 145);
-    pBuffer = malloc(*pAllocatedBufferSize);
+    }
 
-    hFileRead2 = fopen(FileName, "rb");
-    // stack is wrong here
-    v6 = hFileRead2;
-    
+    void* pBuffer = Memory::malloc_4FE4D0(*pAllocatedBufferSize);
 
+    FILE* hFileRead2 = fopen(FileName, "rb");
     if (!hFileRead2)
     {
         free(pBuffer);
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 151);
     }
+
     if (Read_4A6D90(pBuffer, *pAllocatedBufferSize, 1u, hFileRead2) != 1)
     {
         free(pBuffer);
-        fclose(v6);
+        fclose(hFileRead2);
         FatalError_4A38C0(15, "C:\\Splitting\\Gta2\\Source\\File.cpp", 158);
     }
-    if (fclose(v6))
+
+    if (fclose(hFileRead2))
     {
         free(pBuffer);
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 164);
     }
+
     return pBuffer;
 }
 
