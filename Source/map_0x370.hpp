@@ -370,7 +370,9 @@ public:
 
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y);
 
-    void sub_4E90E0(u32 a2);
+    EXPORT void do_process_loaded_zone_data_4E8E30();
+
+    EXPORT void sub_4E90E0(u32 a2);
 
     EXPORT void sub_4E9160(s32 size);
 

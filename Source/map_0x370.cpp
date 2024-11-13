@@ -414,6 +414,12 @@ gmp_map_zone *Map_0x370::nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone
     return pZone;
 }
 
+STUB_FUNC(0x4E8E30)
+void Map_0x370::do_process_loaded_zone_data_4E8E30()
+{
+
+}
+
 STUB_FUNC(0x4E90E0)
 void Map_0x370::sub_4E90E0(u32 a2)
 {
@@ -577,10 +583,10 @@ void Map_0x370::load_chunk_4E94B0(const char_type *pChunkType, size_t chunkLen)
     }
 }
 
-STUB_FUNC(0x4E95A0)
+MATCH_FUNC(0x4E95A0)
 void Map_0x370::process_loaded_zone_data_4E95A0()
 {
-    // do_process_loaded_zone_data_4E8E30();
+    do_process_loaded_zone_data_4E8E30();
 }
 
 MATCH_FUNC(0x4E95B0)
