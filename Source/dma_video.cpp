@@ -70,7 +70,7 @@ void __stdcall DMA_Video_Unload_5EB8C0(SVideo *pVidSys)
     Vid_InitDLL = (T_Vid_InitDLL)DMA_Video_Stub_5EB810;
 }
 
-// nomatch
+STUB_FUNC(0x5EB970)
 s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
     char_type Text[120];

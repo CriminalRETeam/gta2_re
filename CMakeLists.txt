@@ -182,6 +182,13 @@ message(STATUS "${MSVC_VERSION}=${${MSVC_VERSION}}")
 
 if (${MSVC_VERSION} GREATER 1200)
    SET ( CMAKE_SHARED_LINKER_FLAGS /MANIFEST:NO )
+
+   if (NOT DEFINED ENV{CI})
+       add_custom_command(TARGET decomp_main POST_BUILD
+           COMMAND "./compare_matches.bat"
+           WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+           COMMENT "Running compare_matches.bat")
+   endif()
 endif()
 
 #install (TARGETS decomp_main DESTINATION bin)

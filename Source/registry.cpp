@@ -360,7 +360,7 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type *lpValueName, s32 a2)
     return Data;
 }
 
-// nomatch 0x587290
+STUB_FUNC(0x587290)
 Registry::Registry()
 {
 
@@ -425,7 +425,7 @@ char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
     return 1;
 }
 
-// nomatch
+STUB_FUNC(0x5874E0)
 DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 {
     u32 valueData;
@@ -582,7 +582,7 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
     }
 }
 
-// nomatch
+STUB_FUNC(0x5871E0)
 void Registry::Set_Screen_Setting_5871E0(const char_type *lpValueName, BYTE *lpData, u16 maxLen)
 {
     HKEY hKey; // [esp+8h] [ebp-8h] BYREF

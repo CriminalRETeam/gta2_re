@@ -2,13 +2,13 @@
 #include "sharp_bose_0x54.hpp"
 #include <windows.h>
 
-// stub 0x5BEC70
+STUB_FUNC(0x5BEC70)
 sharp_bose_0x54::sharp_bose_0x54()
 {
     // todo
 }
 
-// stub 0x5BECC0
+STUB_FUNC(0x5BECC0)
 sharp_bose_0x54::~sharp_bose_0x54()
 {
     // todo

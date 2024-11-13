@@ -6,7 +6,7 @@
 #include "memory.hpp"
 #include "map_0x370.hpp"
 
-// nomatch
+STUB_FUNC(0x512330)
 void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
 {
     if (!bSkip_mission_67D4E5)
@@ -31,7 +31,7 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
 }
 
 
-// nomatch
+STUB_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
     u32 total_str_length = 0;
@@ -99,7 +99,7 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
     }
 }
 
-// stub
+STUB_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
 
