@@ -132,7 +132,7 @@ def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, a
     return None
 
 def is_jump(mnemonic: Mnemonic) -> bool:
-    return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE, Mnemonic.JMP}
+    return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE, Mnemonic.JMP, Mnemonic.JB}
 
 def dism_func(target_func: OgFunctionData):
     decoder = Decoder(32, target_func.get_function_bytes())
