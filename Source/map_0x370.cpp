@@ -426,6 +426,19 @@ void Map_0x370::sub_4E9160(s32 size)
 
 }
 
+MATCH_FUNC(0x4E91A0)
+void Map_0x370::load_mobj_4E91A0(size_t len)
+{
+    gmp_map_object* v3 = (gmp_map_object*)Memory::malloc_4FE4D0(len);
+    field_338_pMapObjects = v3;
+    File::Global_Read_4A71C0(v3, &len);
+    field_344_map_object_count = len / 6;
+    if (6 * field_344_map_object_count != len)
+    {
+        FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
+    }
+}
+
 MATCH_FUNC(0x4E9200)
 void Map_0x370::load_lght_4E9200(size_t a2)
 {

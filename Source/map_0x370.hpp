@@ -374,6 +374,8 @@ public:
 
     EXPORT void sub_4E9160(s32 size);
 
+    EXPORT void load_mobj_4E91A0(size_t len);
+
     EXPORT void load_lght_4E9200(size_t a2);
 
     EXPORT void load_zone_4E9250(size_t a2);
