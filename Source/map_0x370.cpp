@@ -5,6 +5,7 @@
 #include "error.hpp"
 #include "chunk.hpp"
 #include "Zones_CA8.hpp"
+#include "memory.hpp"
 
 Map_0x370 *gMap_0x370_6F6268;
 
@@ -411,6 +412,110 @@ gmp_map_zone *Map_0x370::nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone
         }
     }
     return pZone;
+}
+
+STUB_FUNC(0x4E90E0)
+void Map_0x370::sub_4E90E0(u32 a2)
+{
+
+}
+
+STUB_FUNC(0x4E9160)
+void Map_0x370::sub_4E9160(s32 size)
+{
+
+}
+
+MATCH_FUNC(0x4E9250)
+void Map_0x370::load_zone_4E9250(size_t a2)
+{
+    gmp_map_zone* v3 = (gmp_map_zone*)Memory::malloc_4FE4D0(a2);
+    field_328_pZoneData = v3;
+    File::Global_Read_4A71C0(v3, &a2);
+    sub_4E90E0(a2);
+}
+
+MATCH_FUNC(0x4E9280)
+void Map_0x370::load_anim_4E9280(size_t size)
+{
+    void* pAlloc = Memory::malloc_4FE4D0(size);
+    field_340_pTileAnimData = pAlloc;
+    File::Global_Read_4A71C0(pAlloc, &size);
+    sub_4E9160(size);
+}
+
+STUB_FUNC(0x4E92B0)
+void Map_0x370::load_dmap_4E92B0(s32 len)
+{
+    __int32 v13; // eax
+    size_t a2; // [esp+4h] [ebp-Ch] BYREF
+
+    gmp_compressed_map_32* pCompressedMap = new gmp_compressed_map_32();
+    if (pCompressedMap)
+    {
+        pCompressedMap->field_40008_pColumn = 0;
+        pCompressedMap->field_4000C_block = 0;
+        pCompressedMap->field_40004_num_blocks = 0;
+        pCompressedMap->field_40000_column_words = 0;
+    }
+    else
+    {
+        pCompressedMap = NULL;
+    }
+
+    field_0_pDmap = pCompressedMap;
+    if (field_0_pDmap == NULL)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
+    }
+
+    size_t len_1 = 0x40000;
+    File::Global_Read_4A71C0(field_0_pDmap, &len_1);
+
+    len_1 = 4;
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40000_column_words, &len_1);
+    if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000)
+    {
+        FatalError_4A38C0(
+            1127,
+            "C:\\Splitting\\Gta2\\Source\\map.cpp",
+            6150,
+            field_0_pDmap->field_40000_column_words - 130048);
+    }
+
+    field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
+    a2 = 4 * field_0_pDmap->field_40000_column_words;
+    field_0_pDmap->field_40008_pColumn = (u16**)Memory::malloc_4FE4D0(4 * field_35C_column_word_extra);
+    File::Global_Read_4A71C0(field_0_pDmap->field_40008_pColumn, &a2);
+    len_1 = 4;
+    field_358_column_words = field_0_pDmap->field_40000_column_words;
+    field_360_column_words = field_0_pDmap->field_40000_column_words;
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40004_num_blocks, &len_1);
+    if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000)
+    {
+        FatalError_4A38C0(
+            1129,
+            "C:\\Splitting\\Gta2\\Source\\map.cpp",
+            6161,
+            field_0_pDmap->field_40004_num_blocks - 130872);
+    }
+    field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
+    size_t v17 = 12 * field_0_pDmap->field_40004_num_blocks;
+    field_0_pDmap->field_4000C_block = (gmp_block_info*)Memory::malloc_4FE4D0(12 * field_350_num_blocks_extra);
+    File::Global_Read_4A71C0(field_0_pDmap->field_4000C_block, &v17);
+    field_34C_num_blocks = field_0_pDmap->field_40004_num_blocks;
+    field_354_num_blocks = field_0_pDmap->field_40004_num_blocks;
+    if (len != v17 + a2 + 0x40008)
+    {
+        FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
+    }
+}
+
+STUB_FUNC(0x4E94A0)
+void Map_0x370::load_rgen_4E94A0()
+{
+    // gSoula_CC68_6FFDC8 stub required
+    //gSoula_CC68_6FFDC8->Load_RGEN_588B30();
 }
 
 STUB_FUNC(0x4E94B0)
