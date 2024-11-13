@@ -14,7 +14,6 @@ CONFIG_DIR = REPO_DIR / "config"
 RESOURCES_DIR = REPO_DIR / "resources"
 INCLUDE_PATHS = [REPO_DIR / "Source"]
 
-DATA_OFFSET = 0xFFB59380
 
 class OgFunctionData:
     def __init__(self, name: str, address: str, offset: str, size: str, mangled_name: str | None = None):
@@ -57,7 +56,7 @@ class FunctionCollection:
         with open(filename) as file:
             lines = [line.rstrip() for line in file]
             for line in lines:
-                ret.append(line.split(","))        
+                ret.append(line.split(","))
         return ret
 
     def get_data_by_name(self, func_name: str) -> OgFunctionData | None:
@@ -101,49 +100,39 @@ def cpp_expand_path(path, matched_files):
 
     raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
 
+DATA_OFFSET = 0x00401000
+
+def toSigned32(n):
+    n = n & 0xffffffff
+    return (n ^ 0x80000000) - 0x80000000
+
 def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, as_mangled_name: bool = True) -> str | None:
-    near_func_address_offset = resolve_func_address - DATA_OFFSET
-    far_func_address_offset = resolve_func_address + current_func.address
+    resolve_func_address = toSigned32(resolve_func_address)
+
+    near_func_address_offset = DATA_OFFSET + resolve_func_address
+    far_func_address_offset = current_func.address + resolve_func_address 
     for func_data in FUNC_COLLECTION.get_data():
         if (near_func_address_offset == func_data.address or
             far_func_address_offset == func_data.address):
-
+            ret_func_name = ""
             if as_mangled_name and func_data.mangled_name is not None:
-                # the mangled name needs to be in double quotes or the assembler will complain about special characters
-                return f'"{func_data.mangled_name}"'
-            
-            # don't include the class name
-            if "::" in func_data.name:
-                return func_data.name.split("::")[1]
+                ret_func_name = func_data.mangled_name
+            elif "::" in func_data.name: # don't include the class name
+                ret_func_name = func_data.name.split("::")[1]
             else:
-                return func_data.name
-            
-    print(f"func address: {hex(near_func_address_offset)} not found!")
+                ret_func_name = func_data.name
+
+            if any(char in ret_func_name for char in {"?", "@", "$"}):
+                # the mangled name needs to be in double quotes or the assembler will complain about special characters
+                return f'"{ret_func_name}"'
+            else:
+                return ret_func_name
+
+    print(f"resolve_func_name: near func address {hex(near_func_address_offset)} nor far func address {hex(far_func_address_offset)} found!")
     return None
 
-def to_str(mnemonic: Mnemonic) -> str:
-    match mnemonic:
-        case Mnemonic.JL:
-            return "jl"
-        case Mnemonic.JLE:
-            return "jle"
-        case Mnemonic.JG:
-            return "jg"
-        case Mnemonic.JGE:
-            return "jge"
-        case Mnemonic.JE:
-            return "je"
-        case Mnemonic.JNE:
-            return "jne"
-        case Mnemonic.JBE:
-            return "jbe"
-        case _:
-            print(f"error: Mnemonic {mnemonic} has no to_str case!")
-            sys.exit(1)
-
-
 def is_jump(mnemonic: Mnemonic) -> bool:
-    return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE}
+    return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE, Mnemonic.JMP}
 
 def dism_func(target_func: OgFunctionData):
     decoder = Decoder(32, target_func.get_function_bytes())
@@ -180,7 +169,8 @@ def dism_func(target_func: OgFunctionData):
         elif is_jump(instruction.mnemonic):
             # add label to jump instruction
             if instruction.near_branch_target in labels:
-                asm.append(f"{to_str(instruction.mnemonic)} {labels[instruction.near_branch_target]}")
+                jump_mnemonic = formatter.format_mnemonic(instruction);
+                asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
         else:
             asm.append(formatter.format(instruction))
 
@@ -207,7 +197,7 @@ def main():
         sys.exit(1)
 
     asm = dism_func(target_func)
-    print(asm)
+    print("\n" + asm)
 
     #ctx = cpp_expand_path("Game_0x40.hpp", set())
     #print(ctx)
