@@ -8,7 +8,7 @@ sharp_pare_0x15D8 *gSharp_pare_0x15D8_705064;
 u32 dword_704ED0;
 u32 dword_704F28;
 
-// nomatch 0x5B9790
+STUB_FUNC(0x5B9790)
 sharp_pare_0x15D8::sharp_pare_0x15D8()
 {
     s32 v2; // ecx
@@ -77,7 +77,7 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
     this->field_1544_pTexture = 0;
 }
 
-// nomatch 0x5B9900
+STUB_FUNC(0x5B9900)
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {
     STexture * *pIter1; // esi
@@ -149,7 +149,7 @@ sharp_pare_0x15D8::~sharp_pare_0x15D8()
     field_1548_unk.Free_5B9050();
 }
 
-// nomatch
+STUB_FUNC(0x5B9350)
 void sharp_pare_0x15D8::sub_5B9350()
 {
     LoadPals_5B90F0();
@@ -202,13 +202,13 @@ void sharp_pare_0x15D8::LoadPals_5B90F0()
     }
 }
 
-// stub
+STUB_FUNC(0x5B92E0)
 void sharp_pare_0x15D8::ReadTextures_5B92E0()
 {
     // todo
 }
 
-// stub
+STUB_FUNC(0x5B9180)
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     // todo
@@ -296,7 +296,7 @@ void festive_hopper::Free_5B9050()
     }
 }
 
-// nomatch
+STUB_FUNC(0x5B8E90)
 void festive_hopper::Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5)
 {
     if (!this->field_0_pAlloc)
@@ -349,7 +349,7 @@ void festive_hopper::sub_5B8F70()
     }
 }
 
-// stub
+STUB_FUNC(0x5B8F00)
 void festive_hopper::LoadTextures_5B8F00()
 {
     if (this->field_10_bDoFree)

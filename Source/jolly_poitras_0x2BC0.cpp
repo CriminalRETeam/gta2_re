@@ -8,7 +8,7 @@ jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;
 
 wchar_t word_67DC8C[50];
 
-// nomatch 0x56B6E0
+STUB_FUNC(0x56B6E0)
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
     // todo
@@ -57,7 +57,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     sub_56BD20();
 }
 
-// nomatch 56B810
+STUB_FUNC(0x56B810)
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
 
@@ -86,13 +86,13 @@ void jolly_poitras_0x2BC0::destroy_56C340()
     }
 }
 
-// stub
+STUB_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::sub_56BB10(angry_lewin_0x85C *a2)
 {
     // todo
 }
 
-// stub
+STUB_FUNC(0x56C010)
 void jolly_poitras_0x2BC0::sub_56C010()
 {
     // todo
@@ -186,7 +186,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     File::Global_Close_4A70C0();
 */
 
-// nomatch
+STUB_FUNC(0x56B990)
 void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 {
 
@@ -227,7 +227,7 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
     File::Global_Close_4A70C0();
 }
 
-// stub
+STUB_FUNC(0x56BA60)
 void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
 {
     // todo
@@ -267,7 +267,8 @@ s32 len;
     File::Global_Close_4A70C0();
 */
 
-// nomatch: wrong stack slots
+// wrong stack slots
+STUB_FUNC(0x56BE50)
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
     char_type FileName[256];
@@ -298,13 +299,13 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     File::Global_Close_4A70C0();
 }
 
-// stub
+STUB_FUNC(0x56C1D0)
 void jolly_poitras_0x2BC0::sub_56C1D0()
 {
     // todo
 }
 
-// stub
+STUB_FUNC(0x56BF20)
 void jolly_poitras_0x2BC0::sub_56BF20()
 {
     // todo
@@ -335,19 +336,19 @@ void jolly_poitras_0x2BC0::sub_56BD20()
     this->field_24C0.field_0[9].field_14_score = 10000;
 }
 
-// stub
+STUB_FUNC(0x56BBD0)
 void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 {
     // todo
 }
 
-// nomatch 0x56B500
+STUB_FUNC(0x56B500)
 agitated_keldysh_0xF0::agitated_keldysh_0xF0()
 {
     Init_56B520();
 }
 
-// nomatch 0x56B510
+STUB_FUNC(0x56B510)
 agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 {
 
@@ -363,7 +364,7 @@ void agitated_keldysh_0xF0::Init_56B520()
     }
 }
 
-// nomatch
+STUB_FUNC(0x56B550)
 char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
@@ -411,19 +412,19 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findSco
     return 0;
 }
 
-// nomatch 0x56B610
+STUB_FUNC(0x56B610)
 dreamy_clarke_0xA4::dreamy_clarke_0xA4()
 {
     sub_56B630();
 }
 
-// nomatch 0x56B620
+STUB_FUNC(0x56B620)
 dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
 
 }
 
-// stub
+STUB_FUNC(0x56B630)
 void dreamy_clarke_0xA4::sub_56B630()
 {
     // todo

@@ -3,7 +3,7 @@
 
 nostalgic_ellis_0x28 **g4096_alloc_6F5400;
 
-// nomatch 0x4D6D20
+STUB_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
     field_0 = (nostalgic_ellis_0x28 *)0x2A2A2A2A;
@@ -21,7 +21,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_18_intensity = 0;
 }
 
-// nomatch 0x4D6D60
+STUB_FUNC(0x4D6D60)
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
     field_1C = 0;
@@ -29,7 +29,7 @@ nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
     field_20 = 0;
 }
 
-// nomatch
+STUB_FUNC(0x4D6D70)
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
     s32 idx; // eax
@@ -51,7 +51,7 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     }
 }
 
-// nomatch
+STUB_FUNC(0x4D6DC0)
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
     nostalgic_ellis_0x28 *v1; // eax
@@ -75,7 +75,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     return result;
 }
 
-// nomatch
+STUB_FUNC(0x4D6E00)
 void __stdcall Light::sub_4D6E00()
 {
     s32 i; // eax
@@ -87,7 +87,7 @@ void __stdcall Light::sub_4D6E00()
     }
 }
 
-// nomatch
+STUB_FUNC(0x4D6E30)
 void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)
@@ -97,7 +97,7 @@ void Light::sub_4D6E30()
     }
 }
 
-// stub
+STUB_FUNC(0x4D6E50)
 s32 __stdcall Light::sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4)
 {
     return 0;

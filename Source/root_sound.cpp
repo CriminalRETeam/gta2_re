@@ -36,21 +36,21 @@ char_type root_sound::LoadStyle_40EFF0(const char_type *pStyleName)
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
 
-// stub
+STUB_FUNC(0x40F010)
 void root_sound::sub_40F010()
 {
     // todo
     //gSound_obj_66F680.sub_57E960(); // stub
 }
 
-// stub
+STUB_FUNC(0x40F020)
 void root_sound::sub_40F020()
 {
     //gSound_obj_66F680.sub_57EA10();
     // todo
 }
 
-// stub
+STUB_FUNC(0x40F030)
 char* root_sound::sub_40F030(s32 a1, s32 a2, s32 a3)
 {
     //return gSound_obj_66F680.sub_57ECB0(a1, a2, a3);
@@ -58,7 +58,7 @@ char* root_sound::sub_40F030(s32 a1, s32 a2, s32 a3)
     return 0;
 }
 
-// stub
+STUB_FUNC(0x40F050)
 char_type root_sound::sub_40F050(s32 a1, s32 a2)
 {
     //return gSound_obj_66F680.sub_57EE30(a1, a2);
@@ -66,7 +66,7 @@ char_type root_sound::sub_40F050(s32 a1, s32 a2)
     return 0;
 }
 
-// stub
+STUB_FUNC(0x40F070)
 void root_sound::sub_40F070(char_type a1)
 {
     //gSound_obj_66F680.sub_57EEE0(a1);
