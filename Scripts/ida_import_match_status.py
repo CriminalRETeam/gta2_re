@@ -2,10 +2,17 @@ import idc
 import idaapi
 import os
 import re
+from enum import IntEnum
 
 # this script will set the colours of functions if they are matched/partial impl or stubbed
 
 # run msvc_dump_func_data.py 1st to extract data from the msvc6 map file/og executable into new_function_data.csv 1st
+
+# in BGR format
+class FuncColor(IntEnum):
+    Matched = 0x0
+    Stubbed = 0x2c1e1e
+    CoverageTrace = 0x14106b
 
 def load_csv_file(filename):
     ret = []
@@ -15,40 +22,37 @@ def load_csv_file(filename):
             ret.append(line.split(","))        
     return ret
 
-def ida_set_function_colour(function_address, colour):
-    idc.set_color(function_address, CIC_FUNC, colour)
+def recolor_all_functions(from_rgb: int, to_bgr: int):
+    """recolors all functions that match from_rgb to to_bgr"""
+    for segment in Segments():
+        for ea in Functions(segment, get_segm_end(segment)):
+            func_color = hex(idc.get_color(ea, idc.CIC_FUNC))
+            if func_color == hex(from_rgb):
+                idc.set_color(ea, idc.CIC_FUNC, to_bgr)
 
-def rename_ida_functions(repo_func_and_var_names) -> None:
-    rename_count = 0
+def ida_set_function_colour(function_address, status):
+    # NOTE: IDA's set_color is in BGR and get_color is RGB
+    if status == "0x1": # matched
+        idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Matched)
+    elif status == "0x0": # stubbed
+        idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Stubbed)
+
+def color_functions(repo_func_and_var_names) -> None:
     #   csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(ogAddr)},{hex(funcStatus)}\n")
     for csv_data in repo_func_and_var_names:
         name = csv_data[0]
-        
-        #ida_name = idc.get_name(ea)
-        
-        #if ida_name == "" or name == ida_name:
-        #    continue
-        
-        #if idaapi.set_name(ea, name):
-        #    print(f"renamed {ida_name} to {name}")
-        #    rename_count = rename_count + 1
-        #else:
-        #    print(f"failed to rename {ida_name} to {name}")
         status = csv_data[4]
         if status != "?":
             ea = int(csv_data[3], 16)
-            print(hex(ea) + " status is " + status)
-            if status == "0x1":
-                # set to matched colour
-                ida_set_function_colour(ea, 0x0)
-
-    print(f"renamed {rename_count} items")
+            #print(hex(ea) + " status is " + status)
+            ida_set_function_colour(ea, status)
         
 
 def main():
     script_path = os.path.dirname(os.path.realpath(__file__))
     map_data = load_csv_file(script_path + "/bin_comp/new_function_data.csv")
-    rename_ida_functions(map_data)
+    color_functions(map_data)
+    #recolor_all_functions(0x42f5e3, 0x14106b) # bright yellow to a more readable red
     print("done!")
 
 if __name__ == "__main__":

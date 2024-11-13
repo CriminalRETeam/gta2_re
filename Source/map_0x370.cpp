@@ -42,7 +42,7 @@ gmp_map_zone *Map_0x370::zone_by_name_4DEFD0(const char_type *pZoneName)
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4DF050)
@@ -103,7 +103,7 @@ gmp_map_zone *Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
         }
     }
 
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4DF1D0)
@@ -124,11 +124,19 @@ gmp_map_zone *Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
-STUB_FUNC(0x4DF4D0)
-gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type zone_y, u8 zone_type)
+static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
+{
+    return x >= pZone->field_1_x &&
+        y >= pZone->field_2_y &&
+        x < pZone->field_1_x + pZone->field_3_w &&
+        y < pZone->field_2_y + pZone->field_4_h;
+}
+
+MATCH_FUNC(0x4DF4D0)
+gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type)
 {
     if (field_328_pZoneData)
     {
@@ -137,20 +145,17 @@ gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type
         field_36B_zone_y = zone_y;
         field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16 *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
-            gmp_map_zone *pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if (field_368_zone_type == pZone->field_0_zone_type &&
-                field_36A_zone_x >= pZone->field_1_x &&
-                field_36B_zone_y >= pZone->field_2_y &&
-                field_36A_zone_x < pZone->field_1_x + pZone->field_3_w &&
-                field_36B_zone_y < pZone->field_2_y + pZone->field_4_h)
+            gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
+            if (pZone->field_0_zone_type == field_368_zone_type &&
+                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4DF840)
@@ -378,40 +383,25 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     return 0;
 }
 
-STUB_FUNC(0x4DF5C0)
-gmp_map_zone *Map_0x370::nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y)
+MATCH_FUNC(0x4DF5C0)
+gmp_map_zone *Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
 {
-    gmp_map_zone **field_32C_pZones; // edx
-    gmp_map_zone *pZone;             // eax
-    char_type field_0_zone_type;     // cl
+    if (field_328_pZoneData)
+    {
+        field_36A_zone_x = zone_x;
+        field_36B_zone_y = zone_y;
 
-    if (!this->field_328_pZoneData)
-    {
-        return 0;
-    }
-
-    field_32C_pZones = this->field_32C_pZones;
-    this->field_36A_zone_x = zone_x;
-    this->field_36B_zone_y = zone_y;
-    this->field_364_cur_zone_idx = 0;
-    if (!*(u16 *)field_32C_pZones)
-    {
-        return 0;
-    }
-    while (1)
-    {
-        pZone = get_zone_4DFB30(this->field_364_cur_zone_idx);
-        field_0_zone_type = pZone->field_0_zone_type;
-        if ((pZone->field_0_zone_type == 10 || field_0_zone_type == 1 || field_0_zone_type == 15) && this->field_36A_zone_x >= pZone->field_1_x && this->field_36B_zone_y >= pZone->field_2_y && this->field_36A_zone_x < pZone->field_1_x + pZone->field_3_w && this->field_36B_zone_y < pZone->field_2_y + pZone->field_4_h)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
-            break;
-        }
-        if (++this->field_364_cur_zone_idx >= *(u16 *)this->field_32C_pZones)
-        {
-            return 0;
+            gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
+            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
+                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
+            {
+                return pZone;
+            }
         }
     }
-    return pZone;
+    return NULL;
 }
 
 STUB_FUNC(0x4E8E30)
