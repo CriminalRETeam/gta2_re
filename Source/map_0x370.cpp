@@ -544,10 +544,9 @@ void Map_0x370::load_rgen_4E94A0()
     //gSoula_CC68_6FFDC8->Load_RGEN_588B30();
 }
 
-STUB_FUNC(0x4E94B0)
-void Map_0x370::load_chunk_4E94B0(const char_type *pChunkType, s32 chunkLen)
+MATCH_FUNC(0x4E94B0)
+void Map_0x370::load_chunk_4E94B0(const char_type *pChunkType, size_t chunkLen)
 {
-    /*
     if (!strncmp(pChunkType, "DMAP", 4u))
     {
         load_dmap_4E92B0(chunkLen);
@@ -575,7 +574,7 @@ void Map_0x370::load_chunk_4E94B0(const char_type *pChunkType, s32 chunkLen)
     else
     {
         File::Global_Seek_4A7140(&chunkLen);
-    }*/
+    }
 }
 
 STUB_FUNC(0x4E95A0)
