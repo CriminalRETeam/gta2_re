@@ -308,7 +308,7 @@ public:
 
     // todo: missing func
 
-    EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type zone_y, u8 zone_type);
+    EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
 
     // todo: other funcs
 
@@ -368,7 +368,7 @@ public:
 
     // todo
 
-    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y);
+    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
 
     EXPORT void do_process_loaded_zone_data_4E8E30();
 
