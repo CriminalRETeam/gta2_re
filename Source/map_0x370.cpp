@@ -127,7 +127,15 @@ gmp_map_zone *Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
     return 0;
 }
 
-STUB_FUNC(0x4DF4D0)
+static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
+{
+    return x >= pZone->field_1_x &&
+        y >= pZone->field_2_y &&
+        x < pZone->field_1_x + pZone->field_3_w &&
+        y < pZone->field_2_y + pZone->field_4_h;
+}
+
+MATCH_FUNC(0x4DF4D0)
 gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type zone_y, u8 zone_type)
 {
     if (field_328_pZoneData)
@@ -137,14 +145,11 @@ gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(char_type zone_x, char_type
         field_36B_zone_y = zone_y;
         field_36C_bUnknown = 1;
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16 *)field_32C_pZones; field_364_cur_zone_idx++)
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
         {
-            gmp_map_zone *pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if (field_368_zone_type == pZone->field_0_zone_type &&
-                field_36A_zone_x >= pZone->field_1_x &&
-                field_36B_zone_y >= pZone->field_2_y &&
-                field_36A_zone_x < pZone->field_1_x + pZone->field_3_w &&
-                field_36B_zone_y < pZone->field_2_y + pZone->field_4_h)
+            gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
+            if (pZone->field_0_zone_type == field_368_zone_type &&
+                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
             {
                 return pZone;
             }
