@@ -370,7 +370,25 @@ public:
 
     EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(char_type zone_x, char_type zone_y);
 
-    EXPORT void load_chunk_4E94B0(const char_type *pChunkType, s32 chunkLen);
+    EXPORT void do_process_loaded_zone_data_4E8E30();
+
+    EXPORT void sub_4E90E0(u32 a2);
+
+    EXPORT void sub_4E9160(s32 size);
+
+    EXPORT void load_mobj_4E91A0(size_t len);
+
+    EXPORT void load_lght_4E9200(size_t a2);
+
+    EXPORT void load_zone_4E9250(size_t a2);
+
+    EXPORT void load_anim_4E9280(size_t size);
+
+    EXPORT void load_dmap_4E92B0(s32 len);
+
+    EXPORT void load_rgen_4E94A0();
+
+    EXPORT void load_chunk_4E94B0(const char_type *pChunkType, size_t chunkLen);
 
     EXPORT void process_loaded_zone_data_4E95A0();
 
