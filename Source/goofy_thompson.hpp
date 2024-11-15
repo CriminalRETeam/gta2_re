@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 
 struct naughty_sinoussi_0x800;
 

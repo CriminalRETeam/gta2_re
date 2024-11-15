@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "zealous_borg.hpp"
 #include "sad_mirzakhani.hpp"

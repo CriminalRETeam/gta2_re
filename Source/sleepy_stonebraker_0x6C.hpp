@@ -1,7 +1,7 @@
 #pragma once
 
-#include "types.hpp"
-#include "cwchar"
+#include "Function.hpp"
+#include <cwchar>
 
 class sleepy_stonebraker_0x6C
 {

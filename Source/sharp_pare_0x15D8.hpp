@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 #include <windows.h>
 
 struct STexture;

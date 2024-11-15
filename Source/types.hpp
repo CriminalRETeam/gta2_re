@@ -1,7 +1,5 @@
 #pragma once
 
-#include "Function.hpp"
-
 typedef unsigned char u8;
 typedef signed char s8;
 typedef char char_type;

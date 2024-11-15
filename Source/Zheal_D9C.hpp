@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
 class infallible_turing;
 class Car_3C;

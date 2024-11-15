@@ -1,17 +1,22 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
+#pragma pack(push)
+#pragma pack(1)
 class Marz_3
 {
 public:
-    EXPORT void ctor_463F90();
-    EXPORT void dtor_463FA0();
+    // ctor 463F90
+    // dtor 463FA0
+    EXPORT Marz_3();
+    EXPORT ~Marz_3();
+
     char_type field_0;
     char_type field_1;
     char_type field_2;
 };
+#pragma pack(pop)
 
 class Marz_96
 {

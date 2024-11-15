@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
 class Monster_48;
 class Monster_2C;

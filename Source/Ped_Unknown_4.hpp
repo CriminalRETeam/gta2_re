@@ -1,6 +1,5 @@
 #pragma once
 
-#include "types.hpp"
 #include "Function.hpp"
 
 class cool_nash_0x294;

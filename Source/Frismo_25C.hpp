@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
 class Frismo_C
 {
@@ -14,6 +13,7 @@ public:
     s16 field_6;
     Frismo_C* field_8_next;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_C, 0xC)
 
 class Frismo_25C
 {
@@ -22,4 +22,5 @@ public:
     Frismo_C* field_0;
     Frismo_C field_4[50];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_25C, 0x25C)
 

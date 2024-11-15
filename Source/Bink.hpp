@@ -2,7 +2,7 @@
 
 #include <windows.h>
 #include "3rdParty/mss.h"
-#include "types.hpp"
+#include "Function.hpp"
 
 class Bink
 {

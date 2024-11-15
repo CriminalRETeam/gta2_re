@@ -1,15 +1,16 @@
 #include "Marz_1D7E.hpp"
 
-STUB_FUNC(0x463f90)
-void Marz_3::ctor_463F90()
+MATCH_FUNC(0x463F90)
+Marz_3::Marz_3()
 {
-
+    field_0 = 0;
+    field_1 = 0;
+    field_2 = 0;
 }
 
-STUB_FUNC(0x463fa0)
-void Marz_3::dtor_463FA0()
+MATCH_FUNC(0x463FA0)
+Marz_3::~Marz_3()
 {
-
 }
 
 

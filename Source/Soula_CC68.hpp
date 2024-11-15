@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
 class gmp_block_info;
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 
 class angry_lewin_0x85C;
 

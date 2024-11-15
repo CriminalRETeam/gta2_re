@@ -1,5 +1,7 @@
 #pragma once
 
+#include "types.hpp"
+
 // Pattern: 0x90, 0x90 0xB8 [addr bytes x4] 0xB8 [status bytes x4] 0x90 0x90
 #define FUNC_MARKER_ASM(addr, status)\
         __asm nop\

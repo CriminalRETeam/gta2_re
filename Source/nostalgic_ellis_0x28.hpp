@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 
 class nostalgic_ellis_0x28
 {

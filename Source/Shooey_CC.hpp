@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 
 class cool_nash_0x294;
 class angry_lewin_0x85C;
