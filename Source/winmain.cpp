@@ -32,6 +32,7 @@
 #include "Montana.hpp"
 #include "Mike_A80.hpp"
 #include "char.hpp"
+#include "nostalgic_ellis_0x28.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1194,6 +1195,9 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    nostalgic_ellis_0x28 nostalgic;
+    nostalgic.sub_4D6D70();
+
     Char_C char_c;
     char_c.DoIanTest_471060(0);
 
