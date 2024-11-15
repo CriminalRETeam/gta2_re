@@ -183,6 +183,8 @@ set(gta2_lib_src
   Source/Hamburger_500.cpp
   Source/CokeZero_100.hpp
   Source/CokeZero_100.cpp
+  Source/Shooey_CC.hpp
+  Source/Shooey_CC.cpp
 )
 
 # global include dirs
