@@ -30,6 +30,24 @@ void Zone_144::init_4BED70()
 
 // =====================
 
+STUB_FUNC(0x4be500)
+void Zones_CA8::dtor_4BE500()
+{
+
+}
+
+STUB_FUNC(0x4beca0)
+Zone_144* Zones_CA8::sub_4BECA0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4bece0)
+Zone_144* Zones_CA8::sub_4BECE0()
+{
+    return 0;
+}
+
 MATCH_FUNC(0x4BF100);
 Zone_144 *Zones_CA8::zone_by_name_4BF100(const char *pZoneName)
 {
