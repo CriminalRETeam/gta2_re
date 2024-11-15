@@ -157,6 +157,12 @@ set(gta2_lib_src
   Source/Soula_CC68.cpp
   Source/Marz_1D7E.hpp
   Source/Marz_1D7E.cpp
+  Source/Orca_2FD4.hpp
+  Source/Orca_2FD4.cpp
+  Source/Monster_808.hpp
+  Source/Monster_808.cpp
+  Source/Particle_8.hpp
+  Source/Particle_8.cpp
 )
 
 # global include dirs
