@@ -1,6 +1,31 @@
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
 
+STUB_FUNC(0x5c8680)
+s32 Car_214::sub_5C8680(u8 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5c86c0)
+char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5c8750)
+void Car_214::sub_5C8750()
+{
+
+}
+
+STUB_FUNC(0x5c8780)
+u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
+{
+    return 0;
+}
+
+
 STUB_FUNC(0x47bd00)
 Car_2* Car_2::sub_47BD00()
 {

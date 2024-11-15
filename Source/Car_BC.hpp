@@ -16,6 +16,33 @@ class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
 
+class Car_18
+{
+public:
+    s32 field_0;
+    s32 field_4;
+    char_type field_8;
+    char_type field_9;
+    char_type field_A;
+    char_type field_B;
+    s32 field_C;
+    s32 field_10;
+    s16 field_14;
+    char_type field_16;
+    char_type field_17;
+};
+
+class Car_214
+{
+public:
+    EXPORT s32 sub_5C8680(u8 a2);
+    EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
+    EXPORT void sub_5C8750();
+    EXPORT u16* sub_5C8780(u8 a2, Car_3C* pCarSprite);
+    s32 field_0;
+    Car_18 field_4[22];
+};
+
 class Car_2
 {
 public:
