@@ -145,6 +145,8 @@ set(gta2_lib_src
   Source/Weapon_8.cpp
   Source/Door_4D4.hpp
   Source/Door_4D4.cpp
+  Source/jawwie_110.hpp
+  Source/jawwie_110.cpp
 )
 
 # global include dirs
