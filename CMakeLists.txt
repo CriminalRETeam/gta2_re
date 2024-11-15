@@ -173,6 +173,8 @@ set(gta2_lib_src
   Source/Maccies_14AC.cpp
   Source/Kfc_1E0.hpp
   Source/Kfc_1E0.cpp
+  Source/Police_7B8.hpp
+  Source/Police_7B8.cpp
 )
 
 # global include dirs
