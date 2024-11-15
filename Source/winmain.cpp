@@ -28,6 +28,7 @@
 #include "miss2_8.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Garox_2B00.hpp"
+#include "Nanobotz.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1314,6 +1315,9 @@ void force_link()
 
     Garox_2B00 garox;
     garox.ctor_5D6CD0();
+
+    Nanobotz nano;
+    nano.draw_bottom_4ED290(0);
 }
 
 STUB_FUNC(0x5E53F0)

@@ -119,6 +119,8 @@ set(gta2_lib_src
   Source/BurgerKing_67F8B0.cpp
   Source/Garox_2B00.hpp
   Source/Garox_2B00.cpp
+  Source/Nanobotz.hpp
+  Source/Nanobotz.cpp
 )
 
 # global include dirs
