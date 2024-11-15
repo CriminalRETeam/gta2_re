@@ -1,12 +1,11 @@
-from contextlib import suppress
 import json
 from pathlib import Path
-import re
 import sys
 import urllib.error
 import urllib.request
 import webbrowser
 from iced_x86 import *
+import argparse
 
 REPO_DIR = Path(__file__).parent.parent
 SCRIPTS_DIR = REPO_DIR / "Scripts"
@@ -76,30 +75,6 @@ class FunctionCollection:
 
 FUNC_COLLECTION = FunctionCollection()
 
-def cpp_expand(file, path, matched_files):
-    out = ""
-    for line in file:
-        val = re.match(r'#include "(.*)"', line)
-        if val:
-            out += cpp_expand_path(val.group(1), matched_files)
-        elif re.match(r"#pragma once", line):
-            matched_files.add(path)
-        else:
-            out += line
-    return out
-
-
-def cpp_expand_path(path, matched_files):
-    if path in matched_files:
-        return ""
-
-    for include_path in INCLUDE_PATHS:
-        with suppress(FileNotFoundError):
-            with open(include_path / path) as f:
-                return cpp_expand(f, path, matched_files)
-
-    raise Exception("No include found for " + path + " in " + str(INCLUDE_PATHS))
-
 DATA_OFFSET = 0x00401000
 
 def toSigned32(n):
@@ -134,7 +109,7 @@ def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, a
 def is_jump(mnemonic: Mnemonic) -> bool:
     return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE, Mnemonic.JMP, Mnemonic.JB}
 
-def dism_func(target_func: OgFunctionData):
+def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     decoder = Decoder(32, target_func.get_function_bytes())
     formatter = Formatter(FormatterSyntax.GAS)
 
@@ -143,11 +118,16 @@ def dism_func(target_func: OgFunctionData):
     asm = list()
     asm.append(".att_syntax")
 
+    if objdiff_scratch:
+        asm.append(f'"{target_func.mangled_name}":')
+        asm.append(f'.global "{target_func.mangled_name}"')
+
     # gather labels first
     for instruction in decoder:
         if is_jump(instruction.mnemonic):
             if instruction.near_branch_target not in labels:
-                labels[instruction.near_branch_target] = f"label_{len(labels)}"
+                # when labels start with .L they aren't emitted by the assembler
+                labels[instruction.near_branch_target] = f".L{len(labels)}"
                 print(f"add label at ip: {instruction.near_branch_target}")
 
     # reset decoder for the second run
@@ -178,6 +158,11 @@ def dism_func(target_func: OgFunctionData):
     return asm_str
 
 def main():
+    parser = argparse.ArgumentParser("generate_function_decompme")
+    parser.add_argument("ida_function_name")
+    parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
+    args = parser.parse_args()
+
     if not (SCRIPTS_DIR / "bin_comp" / "10.5.exe").exists():
         print(f"gta2 executable '10.5.exe' not found! Move '10.5.exe' to {str(SCRIPTS_DIR / "bin_comp" / "10.5.exe")} and try again!")
         sys.exit(1)
@@ -186,21 +171,18 @@ def main():
         print(f"og_function_data.csv not found! run ida_dump_func_data.py and try again!")
         sys.exit(1)
 
-    if len(sys.argv) < 2:
-        print(f"syntax: {sys.argv[0]} <function_name>\n")
-        print("function names are from bin_comp/og_function_data.csv")
-        sys.exit(1)
-
-    function_name = sys.argv[1]
-    target_func = FUNC_COLLECTION.get_data_by_name(function_name)
+    target_func = FUNC_COLLECTION.get_data_by_name(args.ida_function_name)
     if target_func == None:
+        print(f"could not find a function with the name: {args.ida_function_name}")
         sys.exit(1)
 
-    asm = dism_func(target_func)
+    asm = dism_func(target_func, args.objdiff)
     print("\n" + asm)
 
-    #ctx = cpp_expand_path("Game_0x40.hpp", set())
-    #print(ctx)
+    if args.objdiff:
+        diff_label = target_func.mangled_name
+    else:
+        diff_label = args.ida_function_name
 
     req = urllib.request.Request(
         "https://decomp.me/api/scratch",
@@ -213,7 +195,7 @@ def main():
                 "compiler_flags": "/TP /O2 /GX /EHsc",
                 "context": "",
                 "diff_flags": [],
-                "diff_label": function_name,
+                "diff_label": diff_label,
                 "libraries": [],
                 "platform": "win32",
                 "preset": 152,
