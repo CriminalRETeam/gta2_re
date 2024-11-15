@@ -28,6 +28,11 @@
 #include "miss2_8.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Garox_2B00.hpp"
+#include "Nanobotz.hpp"
+#include "Montana.hpp"
+#include "Mike_A80.hpp"
+#include "char.hpp"
+#include "nostalgic_ellis_0x28.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1190,6 +1195,12 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    nostalgic_ellis_0x28 nostalgic;
+    nostalgic.sub_4D6D70();
+
+    Char_C char_c;
+    char_c.DoIanTest_471060(0);
+
     angry_lewin_0x85C lewin(1);
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
@@ -1314,6 +1325,15 @@ void force_link()
 
     Garox_2B00 garox;
     garox.ctor_5D6CD0();
+
+    Nanobotz nano;
+    nano.draw_bottom_4ED290(0);
+
+    Montana montana;
+    montana.ResetAll_4954F0();
+
+    Mike_A80 mike;
+    mike.DebugDrawProfiling_4FF250();
 }
 
 STUB_FUNC(0x5E53F0)

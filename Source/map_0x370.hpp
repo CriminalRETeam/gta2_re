@@ -306,11 +306,15 @@ public:
 
     EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
-    // todo: missing func
+    EXPORT gmp_map_zone* sub_4DF240(u8 a2, u8 a3, char_type a4);
+    EXPORT u8* sub_4DF3E0(u8 a2, u8 a3, char_type a4);
 
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
+    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
 
-    // todo: other funcs
+    EXPORT gmp_map_zone* sub_4DF6A0(u8 a2, u8 a3);
+
+    EXPORT gmp_map_zone* next_zone_4DF770();
 
     EXPORT gmp_zone_unknown* cur_zone_4DF840();
 
@@ -358,17 +362,70 @@ public:
 
     EXPORT Zone_144* sub_4DFB50(Fix16 x, Fix16 y);
 
-    // todo: other funcs between
+    EXPORT void sub_4DFB90();
+    EXPORT void alloc_zones_4DFCA0();
+    EXPORT void update_lights_4DFCD0();
 
     EXPORT gmp_block_info* get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
 
-    // todo
+    EXPORT gmp_block_info* sub_4DFE60(s32 a2, s32 a3, s32 a4);
+    EXPORT gmp_block_info* sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
 
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
-    // todo
-
-    EXPORT gmp_map_zone* nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y);
+    EXPORT s32 sub_4E0000(s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_4E00A0(s32 x, s32 y, s32 z);
+    EXPORT char_type sub_4E0110();
+    EXPORT char_type sub_4E0120();
+    EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
+    EXPORT char_type sub_4E11E0(s32* a2);
+    EXPORT char_type sub_4E1520(s32 a2);
+    EXPORT char_type sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    EXPORT char_type sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
+    EXPORT char_type sub_4E4460(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6);
+    EXPORT char_type sub_4E4630(s32 a2);
+    EXPORT char_type sub_4E4770(s32 a2);
+    EXPORT char_type sub_4E4820(u32* a2, char_type a3);
+    EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
+    EXPORT char_type sub_4E4AC0(char_type a1);
+    EXPORT char_type sub_4E4B40(s32 a1, gmp_block_info* a2);
+    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* sub_4E4C30(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32* a4);
+    EXPORT s32* sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5);
+    EXPORT s32* sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5);
+    EXPORT s32* sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5);
+    EXPORT s32* sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6);
+    EXPORT char_type sub_4E5170(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type sub_4E52A0(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT char_type sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6);
+    EXPORT char_type sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
+    EXPORT s32* sub_4E5B60(s32* a2, s32 a3, s32 a4);
+    EXPORT char_type sub_4E5BF0(s32 a2, s32 a3, s32* a4);
+    EXPORT s16 sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6);
+    EXPORT gmp_block_info* sub_4E62D0(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* sub_4E6360(s32 a2, s32 a3, s32* a4);
+    EXPORT s32* sub_4E6400(s32* a2, s32 a3, s32 a4, s32 a5);
+    EXPORT s32* sub_4E6510(s32* a2, s32 a3, s32 a4);
+    EXPORT s16 sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6);
+    EXPORT s32 sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5);
+    EXPORT s32 sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5);
+    EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
+    EXPORT char_type sub_4E7FC0(s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_4E8140(u32* a2);
+    EXPORT s32 sub_4E8180(u32 a2);
+    EXPORT s32 sub_4E81D0(u32 a2);
+    EXPORT s32 sub_4E8220(u32 a2, s32 a3);
+    EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
+    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value);
+    EXPORT void sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData);
+    EXPORT void sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5);
+    EXPORT void sub_4E8A10(s32 a2, s32 a3);
+    EXPORT void sub_4E8B70(s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT void sub_4E8C00(u32 a2, u32 a3, u32 a4);
+    EXPORT s32 sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7);
 
     EXPORT void do_process_loaded_zone_data_4E8E30();
 

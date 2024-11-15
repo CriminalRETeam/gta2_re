@@ -1,3 +1,5 @@
+#pragma once
+
 #include "types.hpp"
 
 class gmp_map_zone;
@@ -113,7 +115,9 @@ public:
 class Zones_CA8
 {
 public:
-    // TODO: stub funcs
+    EXPORT void dtor_4BE500();
+    EXPORT Zone_144* sub_4BECA0();
+    EXPORT Zone_144* sub_4BECE0();
     EXPORT Zone_144 *zone_by_name_4BF100(const char *pZoneName);
     EXPORT Zone_144 *next_free_zone_4BF170();
     EXPORT Zone_144 *ZoneByIdx_4BF1C0(u8 zone_idx);

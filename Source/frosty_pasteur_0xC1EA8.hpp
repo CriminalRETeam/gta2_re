@@ -2,7 +2,7 @@
 
 #include <windows.h>
 #include "types.hpp"
-
+#include "miss2_0x11C.hpp"
 
 #pragma pack(push)
 #pragma pack(1)
@@ -480,15 +480,38 @@ enum SCRCMD
 class frosty_pasteur_0xC1EA8
 {
 public:
-    EXPORT void Load_512330(const char_type *pScrName);
-
-    EXPORT void LoadStringTbl_5121E0(u16 tableSize);
-
-    EXPORT void GetScrFileName_5122D0();
-
-    EXPORT void LoadSubScripts_5125F0();
-
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
+    EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
+    EXPORT char_type sub_511B10(s32 idx);
+    EXPORT void sub_511B90();
+    EXPORT void sub_511C30();
+    EXPORT void sub_511D40();
+    EXPORT void sub_511E10(char_type* FileName);
+    EXPORT s32 sub_511F80(s32 FileName);
+    EXPORT SCR_CMD_HEADER* sub_512100(s16 toFind, u16 startOff);
+    EXPORT void Update_512160();
+    EXPORT void LoadStringTbl_5121E0(u16 tableSize);
+    EXPORT void GetScrFileName_5122D0();
+    EXPORT void Load_512330(const char_type *pScrName);
+    EXPORT void sub_512400(s32 String1, u16* a3);
+    EXPORT void LoadSubScripts_5125F0();
+    EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
+    EXPORT void sub_5127A0();
+    EXPORT s32* sub_5128A0(s32 a2, s32 a3);
+    EXPORT s32* sub_5128D0(s32 a2, s32 a3, s16 a4);
+    EXPORT char_type sub_512910(s32 a2, s32 a3);
+    EXPORT s32* sub_512980(s32 a2, s32 a3);
+    EXPORT s32* sub_5129B0(s32 a2, s32 a3, s16 a4);
+    EXPORT char_type sub_5129F0(s32 a2, s32 a3);
+    EXPORT s32* sub_512A70(s32 a2, s32 a3);
+    EXPORT char_type* sub_512AA0(s32 a2);
+    EXPORT char_type* sub_512AD0(s32 a2);
+    EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
+    EXPORT char_type* sub_512BA0(s32 a2, char_type a3);
+    EXPORT s32 sub_512C00(s32 a2, s32 a3, char_type a4);
+    EXPORT bool sub_512C70(s32 a2, char_type a3, char_type a4);
+    EXPORT frosty_pasteur_0xC1EA8();
+    EXPORT ~frosty_pasteur_0xC1EA8();
 
     s16 field_0;
     s16 field_2;

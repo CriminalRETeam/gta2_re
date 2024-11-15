@@ -119,6 +119,76 @@ set(gta2_lib_src
   Source/BurgerKing_67F8B0.cpp
   Source/Garox_2B00.hpp
   Source/Garox_2B00.cpp
+  Source/Nanobotz.hpp
+  Source/Nanobotz.cpp
+  Source/Montana.hpp
+  Source/Montana.cpp
+  Source/Mike_A80.hpp
+  Source/Mike_A80.cpp
+  Source/Frismo_25C.hpp
+  Source/Frismo_25C.cpp
+  Source/sprite.hpp
+  Source/sprite.cpp
+  Source/char.hpp
+  Source/char.cpp
+  Source/collide.hpp
+  Source/collide.cpp
+  Source/Phi_8CA8.hpp
+  Source/Phi_8CA8.cpp
+  Source/Object_5C.hpp
+  Source/Object_5C.cpp
+  Source/Varrok_7F8.hpp
+  Source/Varrok_7F8.cpp
+  Source/TileAnim_2.hpp
+  Source/TileAnim_2.cpp
+  Source/Weapon_8.hpp
+  Source/Weapon_8.cpp
+  Source/Door_4D4.hpp
+  Source/Door_4D4.cpp
+  Source/jawwie_110.hpp
+  Source/jawwie_110.cpp
+  Source/Sero_181C.hpp
+  Source/Sero_181C.cpp
+  Source/Taxi_4.hpp
+  Source/Taxi_4.cpp
+  Source/TrafficLights_194.hpp
+  Source/TrafficLights_194.cpp
+  Source/Soula_CC68.hpp
+  Source/Soula_CC68.cpp
+  Source/Marz_1D7E.hpp
+  Source/Marz_1D7E.cpp
+  Source/Orca_2FD4.hpp
+  Source/Orca_2FD4.cpp
+  Source/Monster_808.hpp
+  Source/Monster_808.cpp
+  Source/Particle_8.hpp
+  Source/Particle_8.cpp
+  Source/Wolfy_3D4.hpp
+  Source/Wolfy_3D4.cpp
+  Source/Zheal_D9C.hpp
+  Source/Zheal_D9C.cpp
+  Source/Snooky_94.hpp
+  Source/Snooky_94.cpp
+  Source/Maccies_14AC.hpp
+  Source/Maccies_14AC.cpp
+  Source/Kfc_1E0.hpp
+  Source/Kfc_1E0.cpp
+  Source/Police_7B8.hpp
+  Source/Police_7B8.cpp
+  Source/Light_1D4CC.hpp
+  Source/Light_1D4CC.cpp
+  Source/ChickenLegend_48.hpp
+  Source/ChickenLegend_48.cpp
+  Source/Hamburger_500.hpp
+  Source/Hamburger_500.cpp
+  Source/CokeZero_100.hpp
+  Source/CokeZero_100.cpp
+  Source/Shooey_CC.hpp
+  Source/Shooey_CC.cpp
+  Source/Tango_28.hpp
+  Source/Tango_28.cpp
+  Source/Rozza_C88.hpp
+  Source/Rozza_C88.cpp
 )
 
 # global include dirs

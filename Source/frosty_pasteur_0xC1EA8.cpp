@@ -6,6 +6,77 @@
 #include "memory.hpp"
 #include "map_0x370.hpp"
 
+MATCH_FUNC(0x503080)
+str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
+{
+    u16 idx = 0;
+    str_table_entry* result = field_13350_pStringTbl->field_4[idx];
+    while (result)
+    {
+        if (result->field_0_str_id == stringId)
+        {
+            return result;
+        }
+        idx++;
+        result = field_13350_pStringTbl->field_4[idx];
+    }
+    return 0;
+}
+
+STUB_FUNC(0x5030b0)
+str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strToFind)
+{
+    return 0;
+}
+
+STUB_FUNC(0x511b10)
+char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
+{
+    return 0;
+}
+
+STUB_FUNC(0x511b90)
+void frosty_pasteur_0xC1EA8::sub_511B90()
+{
+
+}
+
+STUB_FUNC(0x511c30)
+void frosty_pasteur_0xC1EA8::sub_511C30()
+{
+
+}
+
+STUB_FUNC(0x511d40)
+void frosty_pasteur_0xC1EA8::sub_511D40()
+{
+
+}
+
+STUB_FUNC(0x511f80)
+s32 frosty_pasteur_0xC1EA8::sub_511F80(s32 FileName)
+{
+    return 0;
+}
+
+STUB_FUNC(0x511e10)
+void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
+{
+
+}
+
+STUB_FUNC(0x512100)
+SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(s16 toFind, u16 startOff)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512160)
+void frosty_pasteur_0xC1EA8::Update_512160()
+{
+
+}
+
 STUB_FUNC(0x512330)
 void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
 {
@@ -30,6 +101,11 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
     }
 }
 
+STUB_FUNC(0x512400)
+void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
+{
+
+}
 
 STUB_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
@@ -105,19 +181,104 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 
 }
 
-MATCH_FUNC(0x503080)
-str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
+STUB_FUNC(0x512770)
+SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 {
-    u16 idx = 0;
-    str_table_entry *result = field_13350_pStringTbl->field_4[idx];
-    while (result)
-    {
-        if (result->field_0_str_id == stringId)
-        {
-            return result;
-        }
-        idx++;
-        result = field_13350_pStringTbl->field_4[idx];
-    }
     return 0;
+}
+
+STUB_FUNC(0x5127a0)
+void frosty_pasteur_0xC1EA8::sub_5127A0()
+{
+
+}
+
+STUB_FUNC(0x5128a0)
+s32* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5128d0)
+s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512910)
+char_type frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512980)
+s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5129b0)
+s32* frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 a3, s16 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5129f0)
+char_type frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512a70)
+s32* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512aa0)
+char_type* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512ad0)
+char_type* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512af0)
+char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 a2, char_type a3, char_type a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512ba0)
+char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512c00)
+s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512c70)
+bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x512ce0)
+frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
+{
+
+}
+
+STUB_FUNC(0x5130e0)
+frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
+{
+
 }

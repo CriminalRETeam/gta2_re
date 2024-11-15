@@ -1,6 +1,134 @@
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
 
+STUB_FUNC(0x5c8680)
+s32 Car_214::sub_5C8680(u8 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5c86c0)
+char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5c8750)
+void Car_214::sub_5C8750()
+{
+
+}
+
+STUB_FUNC(0x5c8780)
+u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
+{
+    return 0;
+}
+
+
+STUB_FUNC(0x47bd00)
+Car_2* Car_2::sub_47BD00()
+{
+    return 0;
+}
+
+STUB_FUNC(0x47bd90)
+void Car_2::sub_47BD90()
+{
+
+}
+
+
+STUB_FUNC(0x444980)
+void Car_6C::sub_444980()
+{
+
+}
+
+STUB_FUNC(0x444ab0)
+u32 Car_6C::sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x444cf0)
+Car_BC* Car_6C::sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x444f80)
+Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, cool_nash_0x294* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x444fa0)
+s32 Car_6C::sub_444FA0(s32 x, s32 y, s32 z, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4458b0)
+Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x446230)
+Car_BC* Car_6C::sub_446230(s32 arg0, s32 a3, s32 a4, s16 a5, s32 a2, s32 a7)
+{
+    return 0;
+}
+
+STUB_FUNC(0x446530)
+Car_A4_10* Car_6C::sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4466c0)
+s32 Car_6C::sub_4466C0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x446760)
+void Car_6C::sub_446760()
+{
+
+}
+
+STUB_FUNC(0x446790)
+void Car_6C::sub_446790()
+{
+
+}
+
+STUB_FUNC(0x446870)
+bool Car_6C::sub_446870(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x446930)
+u32 Car_6C::sub_446930(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4469f0)
+Car_6C* Car_6C::ctor_4469F0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x446dc0)
+void Car_6C::dtor_446DC0()
+{
+
+}
+
 STUB_FUNC(0x439ec0)
 bool Car_BC::sub_439EC0()
 {
