@@ -121,6 +121,8 @@ set(gta2_lib_src
   Source/Garox_2B00.cpp
   Source/Nanobotz.hpp
   Source/Nanobotz.cpp
+  Source/Montana.hpp
+  Source/Montana.cpp
 )
 
 # global include dirs

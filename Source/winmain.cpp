@@ -29,6 +29,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Garox_2B00.hpp"
 #include "Nanobotz.hpp"
+#include "Montana.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1318,6 +1319,9 @@ void force_link()
 
     Nanobotz nano;
     nano.draw_bottom_4ED290(0);
+
+    Montana montana;
+    montana.ResetAll_4954F0();
 }
 
 STUB_FUNC(0x5E53F0)
