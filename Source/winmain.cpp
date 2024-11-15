@@ -31,6 +31,7 @@
 #include "Nanobotz.hpp"
 #include "Montana.hpp"
 #include "Mike_A80.hpp"
+#include "char.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1193,6 +1194,9 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    Char_C char_c;
+    char_c.DoIanTest_471060(0);
+
     angry_lewin_0x85C lewin(1);
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
