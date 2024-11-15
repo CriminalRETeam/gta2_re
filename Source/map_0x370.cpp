@@ -12,6 +12,14 @@ Map_0x370 *gMap_0x370_6F6268;
 gmp_block_info gBlockInfo1_6F5F40;
 gmp_block_info gBlockInfo2_6F6028;
 
+static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
+{
+    return x >= pZone->field_1_x &&
+        y >= pZone->field_2_y &&
+        x < pZone->field_1_x + pZone->field_3_w &&
+        y < pZone->field_2_y + pZone->field_4_h;
+}
+
 MATCH_FUNC(0x452980)
 gmp_block_info *Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 {
@@ -127,12 +135,16 @@ gmp_map_zone *Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
     return NULL;
 }
 
-static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
+STUB_FUNC(0x4DF240)
+gmp_map_zone* Map_0x370::sub_4DF240(u8 a2, u8 a3, char_type a4)
 {
-    return x >= pZone->field_1_x &&
-        y >= pZone->field_2_y &&
-        x < pZone->field_1_x + pZone->field_3_w &&
-        y < pZone->field_2_y + pZone->field_4_h;
+    return 0;
+}
+
+STUB_FUNC(0x4DF3E0)
+u8* Map_0x370::sub_4DF3E0(u8 a2, u8 a3, char_type a4)
+{
+    return 0;
 }
 
 MATCH_FUNC(0x4DF4D0)
@@ -156,6 +168,39 @@ gmp_map_zone *Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zo
         }
     }
     return NULL;
+}
+
+MATCH_FUNC(0x4DF5C0)
+gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
+{
+    if (field_328_pZoneData)
+    {
+        field_36A_zone_x = zone_x;
+        field_36B_zone_y = zone_y;
+
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
+        {
+            gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
+            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
+                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
+            {
+                return pZone;
+            }
+        }
+    }
+    return NULL;
+}
+
+STUB_FUNC(0x4DF6A0)
+gmp_map_zone* Map_0x370::sub_4DF6A0(u8 a2, u8 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4DF770)
+gmp_map_zone* Map_0x370::next_zone_4DF770()
+{
+    return 0;
 }
 
 MATCH_FUNC(0x4DF840)
@@ -338,6 +383,24 @@ Zone_144 *Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
     }
 }
 
+STUB_FUNC(0x4DFB90)
+void Map_0x370::sub_4DFB90()
+{
+
+}
+
+STUB_FUNC(0x4DFCA0)
+void Map_0x370::alloc_zones_4DFCA0()
+{
+
+}
+
+STUB_FUNC(0x4DFCD0)
+void Map_0x370::update_lights_4DFCD0()
+{
+
+}
+
 MATCH_FUNC(0x4DFE10)
 gmp_block_info *Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
 {
@@ -350,6 +413,18 @@ gmp_block_info *Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
             return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z_coord - offset]];
         }
     }
+    return 0;
+}
+
+STUB_FUNC(0x4DFE60)
+gmp_block_info* Map_0x370::sub_4DFE60(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4DFEE0)
+gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
+{
     return 0;
 }
 
@@ -383,25 +458,322 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     return 0;
 }
 
-MATCH_FUNC(0x4DF5C0)
-gmp_map_zone *Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
+STUB_FUNC(0x4E0000)
+s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
 {
-    if (field_328_pZoneData)
-    {
-        field_36A_zone_x = zone_x;
-        field_36B_zone_y = zone_y;
+    return 0;
+}
 
-        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)field_32C_pZones; field_364_cur_zone_idx++)
-        {
-            gmp_map_zone* pZone = get_zone_4DFB30(field_364_cur_zone_idx);
-            if ((pZone->field_0_zone_type == 10 || pZone->field_0_zone_type == 1 || pZone->field_0_zone_type == 15) &&
-                Overlaps(pZone, field_36A_zone_x, field_36B_zone_y))
-            {
-                return pZone;
-            }
-        }
-    }
-    return NULL;
+STUB_FUNC(0x4E00A0)
+s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E0110)
+char_type Map_0x370::sub_4E0110()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E0120)
+char_type Map_0x370::sub_4E0120()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E0130)
+char_type Map_0x370::sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E11E0)
+char_type Map_0x370::sub_4E11E0(s32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E1520)
+char_type Map_0x370::sub_4E1520(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E18A0)
+char_type Map_0x370::sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E1A30)
+char_type Map_0x370::sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E1E00)
+char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4460)
+char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4630)
+char_type Map_0x370::sub_4E4630(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4770)
+char_type Map_0x370::sub_4E4770(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4820)
+char_type Map_0x370::sub_4E4820(u32* a2, char_type a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4930)
+char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4AC0)
+char_type Map_0x370::sub_4E4AC0(char_type a1)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4B40)
+char_type Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4BB0)
+gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4C30)
+gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4CB0)
+gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4D40)
+s32* Map_0x370::sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4E50)
+s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E4F40)
+s32* Map_0x370::sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5050)
+s32* Map_0x370::sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5170)
+char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E52A0)
+char_type Map_0x370::sub_4E52A0(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5300)
+char_type Map_0x370::sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5480)
+char_type Map_0x370::sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5640)
+char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5B60)
+s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E5BF0)
+char_type Map_0x370::sub_4E5BF0(s32 a2, s32 a3, s32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E6190)
+s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E62D0)
+gmp_block_info* Map_0x370::sub_4E62D0(s32 a2, s32 a3, u32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E6360)
+gmp_block_info* Map_0x370::sub_4E6360(s32 a2, s32 a3, s32* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E6400)
+s32* Map_0x370::sub_4E6400(s32* a2, s32 a3, s32 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E6510)
+s32* Map_0x370::sub_4E6510(s32* a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E65A0)
+s16 Map_0x370::sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E6660)
+s32 Map_0x370::sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E7190)
+s32 Map_0x370::sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E7E90)
+char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E7FC0)
+char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E8140)
+s32 Map_0x370::sub_4E8140(u32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E8180)
+s32 Map_0x370::sub_4E8180(u32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E81D0)
+s32 Map_0x370::sub_4E81D0(u32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E8220)
+s32 Map_0x370::sub_4E8220(u32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E8370)
+u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4E8620)
+void Map_0x370::sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value)
+{
+
+}
+
+STUB_FUNC(0x4E87C0)
+void Map_0x370::sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData)
+{
+
+}
+
+STUB_FUNC(0x4E8940)
+void Map_0x370::sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5)
+{
+
+}
+
+STUB_FUNC(0x4E8A10)
+void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
+{
+
+}
+
+STUB_FUNC(0x4E8B70)
+void Map_0x370::sub_4E8B70(s32 a2, s32 a3, s32 a4, s32 a5)
+{
+
+}
+
+STUB_FUNC(0x4E8C00)
+void Map_0x370::sub_4E8C00(u32 a2, u32 a3, u32 a4)
+{
+
+}
+
+STUB_FUNC(0x4E8CF0)
+s32 Map_0x370::sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7)
+{
+    return 0;
 }
 
 STUB_FUNC(0x4E8E30)
