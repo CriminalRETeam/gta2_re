@@ -165,6 +165,10 @@ set(gta2_lib_src
   Source/Particle_8.cpp
   Source/Wolfy_3D4.hpp
   Source/Wolfy_3D4.cpp
+  Source/Zheal_D9C.hpp
+  Source/Zheal_D9C.cpp
+  Source/Snooky_94.hpp
+  Source/Snooky_94.cpp
 )
 
 # global include dirs
