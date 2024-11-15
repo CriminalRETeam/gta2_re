@@ -29,6 +29,12 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
+STUB_FUNC(0x5AA3F0)
+s32 sub_5AA3F0(u16 a2, u8 a3)
+{
+    return 0;
+}
+
 STUB_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
@@ -281,10 +287,16 @@ s16 gtx_0x106C::sub_5AA890()
     return internal_idx;
 }
 
+MATCH_FUNC(0x5AA8C0)
+void* gtx_0x106C::GetTiles_5AA8C0()
+{
+    return field_3C_tiles;
+}
+
 MATCH_FUNC(0x5AA900)
 s16 gtx_0x106C::get_physical_palettes_len_5AA900()
 {
-    return this->field_8_physical_palettes_len;
+    return field_8_physical_palettes_len;
 }
 
 MATCH_FUNC(0x5AA910)

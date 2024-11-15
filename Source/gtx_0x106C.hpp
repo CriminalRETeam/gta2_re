@@ -120,6 +120,8 @@ public:
 
     EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
 
+    EXPORT s32 sub_5AA3F0(u16 a2, u8 a3);
+
     EXPORT sprite_index* get_sprite_index_5AA440(u16 idx);
 
     EXPORT u16 convert_sprite_pal_5AA460(s32 type, s16 sprite_pal);
@@ -147,6 +149,8 @@ public:
     EXPORT s16 sub_5AA870(u16 tile_idx);
 
     EXPORT s16 sub_5AA890();
+
+    EXPORT void* GetTiles_5AA8C0();
 
     EXPORT s16 get_physical_palettes_len_5AA900();
 
