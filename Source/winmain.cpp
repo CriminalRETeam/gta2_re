@@ -27,6 +27,7 @@
 #include "cool_nash_0x294.hpp"
 #include "miss2_8.hpp"
 #include "BurgerKing_67F8B0.hpp"
+#include "Garox_2B00.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1310,6 +1311,9 @@ void force_link()
     burgerking.sub_4CED90();
     burgerking.RecOrPlayBackState_4CEDF0();
     burgerking.ShowInput_4CEE10();
+
+    Garox_2B00 garox;
+    garox.ctor_5D6CD0();
 }
 
 STUB_FUNC(0x5E53F0)
