@@ -163,6 +163,8 @@ set(gta2_lib_src
   Source/Monster_808.cpp
   Source/Particle_8.hpp
   Source/Particle_8.cpp
+  Source/Wolfy_3D4.hpp
+  Source/Wolfy_3D4.cpp
 )
 
 # global include dirs
