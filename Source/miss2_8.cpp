@@ -1,4 +1,5 @@
 #include "miss2_8.hpp"
+#include "Frismo_25C.hpp"
 
 // TODO: move
 Frismo_25C* gFrismo_25C_6F8068;

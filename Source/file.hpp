@@ -2,7 +2,7 @@
 
 #include <stdio.h>
 #include <windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 
 class File
 {

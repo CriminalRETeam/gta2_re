@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 #include <windows.h>
 #include "youthful_einstein.hpp"
 #include "sleepy_stonebraker_0x6C.hpp"

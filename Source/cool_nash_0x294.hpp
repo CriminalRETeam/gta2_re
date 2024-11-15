@@ -1,8 +1,8 @@
 #pragma once
 
-#include "types.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "Marz_1D7E.hpp"
 
 class angry_lewin_0x85C;
 class gmp_map_zone;
@@ -13,20 +13,6 @@ class Zone_144;
 class Weapon_30;
 class Car_3C;
 class Char_8;
-
-// TODO: Move
-#pragma pack(push)
-#pragma pack(1)
-struct Marz_3
-{
-    EXPORT Marz_3();
-    EXPORT ~Marz_3();
-
-    char field_0;
-    char field_1;
-    char field_2;
-};
-#pragma pack(pop)
 
 class cool_nash_0x294
 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 #include "Ped_Unknown_4.hpp"
 
 class cool_nash_0x294;

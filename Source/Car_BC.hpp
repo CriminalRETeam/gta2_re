@@ -1,6 +1,5 @@
 #pragma once
 
-#include "types.hpp"
 #include "Function.hpp"
 #include "Car_10.hpp"
 #include "Ped_Unknown_4.hpp"

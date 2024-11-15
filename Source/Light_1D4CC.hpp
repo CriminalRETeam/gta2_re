@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Function.hpp"
-#include "types.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 
 class Light_1D4CC

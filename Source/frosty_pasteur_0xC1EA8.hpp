@@ -1,7 +1,7 @@
 #pragma once
 
 #include <windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 #include "miss2_0x11C.hpp"
 
 #pragma pack(push)

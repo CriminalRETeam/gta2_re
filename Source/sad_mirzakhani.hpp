@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 
 class gmp_map_zone;
 class eager_benz;

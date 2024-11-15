@@ -1,7 +1,7 @@
 #pragma once
 
 #include <Windows.h>
-#include "types.hpp"
+#include "Function.hpp"
 
 struct SVideo
 {

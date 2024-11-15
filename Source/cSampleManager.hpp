@@ -1,7 +1,7 @@
 #pragma once
 
 #include "3rdParty/mss.h"
-#include "types.hpp"
+#include "Function.hpp"
 
 struct sdt_entry_0x18
 {

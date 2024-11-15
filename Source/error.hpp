@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 
 EXPORT void __stdcall Error_SetName_4A0770(const char_type *pFileName);
 

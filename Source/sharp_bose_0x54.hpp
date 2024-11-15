@@ -1,6 +1,6 @@
 #pragma once
 
-#include "types.hpp"
+#include "Function.hpp"
 #include "distracted_einstein_0xC.hpp"
 
 class Garox_C4;
