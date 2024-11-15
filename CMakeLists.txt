@@ -135,6 +135,10 @@ set(gta2_lib_src
   Source/collide.cpp
   Source/Phi_8CA8.hpp
   Source/Phi_8CA8.cpp
+  Source/Object_5C.hpp
+  Source/Object_5C.cpp
+  Source/Varrok_7F8.hpp
+  Source/Varrok_7F8.cpp
 )
 
 # global include dirs
