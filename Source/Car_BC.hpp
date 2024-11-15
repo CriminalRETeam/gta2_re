@@ -6,7 +6,6 @@
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
-class Car_6C;
 class Car_78;
 class Car_B0;
 class Car_A4_10;
@@ -17,6 +16,77 @@ class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
 
+class Car_2
+{
+public:
+    EXPORT Car_2* sub_47BD00();
+    EXPORT void sub_47BD90();
+    u16 field_0;
+};
+
+class Car_6C
+{
+public:
+    EXPORT void sub_444980();
+    EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
+    EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
+    EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, cool_nash_0x294* a4);
+    EXPORT s32 sub_444FA0(s32 x, s32 y, s32 z, s32 a5);
+    EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
+    EXPORT Car_BC* sub_446230(s32 arg0, s32 a3, s32 a4, s16 a5, s32 a2, s32 a7);
+    EXPORT Car_A4_10* sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6);
+    EXPORT s32 sub_4466C0(s32 a2);
+    EXPORT void sub_446760();
+    EXPORT void sub_446790();
+    EXPORT bool sub_446870(s32 a2);
+    EXPORT u32 sub_446930(s32 a2);
+    EXPORT Car_6C* ctor_4469F0();
+    EXPORT void dtor_446DC0();
+    Car_2 field_0;
+    s16 field_2;
+    cool_nash_0x294* field_4;
+    char_type field_8;
+    u8 field_9;
+    u8 field_A;
+    u8 field_B;
+    s32 field_C;
+    Car_2 field_10_idx;
+    Car_2 field_12;
+    s32 field_14;
+    char_type field_18;
+    char_type field_19;
+    char_type field_1A;
+    char_type field_1B;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28_recycled_cars;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34_unit_cars;
+    s32 field_38;
+    s32 field_3C_mission_cars;
+    s32 field_40_proto_recycled_cars;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50_tv_van_dir;
+    char_type field_54;
+    char_type field_55;
+    char_type field_56;
+    char_type field_57;
+    s32 field_58;
+    char_type field_5C;
+    char_type field_5D;
+    char_type field_5E;
+    char_type field_5F;
+    s32 field_60;
+    s32 field_64;
+    char_type field_68;
+    char_type field_69_do_free_shopping;
+    char_type field_6A;
+    char_type field_6B;
+};
 
 class Car_BC
 {
