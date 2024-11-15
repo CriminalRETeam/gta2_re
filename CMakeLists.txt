@@ -125,6 +125,8 @@ set(gta2_lib_src
   Source/Montana.cpp
   Source/Mike_A80.hpp
   Source/Mike_A80.cpp
+  Source/Frismo_25C.hpp
+  Source/Frismo_25C.cpp
 )
 
 # global include dirs
