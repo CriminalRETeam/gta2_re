@@ -131,6 +131,10 @@ set(gta2_lib_src
   Source/sprite.cpp
   Source/char.hpp
   Source/char.cpp
+  Source/collide.hpp
+  Source/collide.cpp
+  Source/Phi_8CA8.hpp
+  Source/Phi_8CA8.cpp
 )
 
 # global include dirs
