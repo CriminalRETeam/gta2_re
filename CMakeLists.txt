@@ -139,6 +139,12 @@ set(gta2_lib_src
   Source/Object_5C.cpp
   Source/Varrok_7F8.hpp
   Source/Varrok_7F8.cpp
+  Source/TileAnim_2.hpp
+  Source/TileAnim_2.cpp
+  Source/Weapon_8.hpp
+  Source/Weapon_8.cpp
+  Source/Door_4D4.hpp
+  Source/Door_4D4.cpp
 )
 
 # global include dirs
