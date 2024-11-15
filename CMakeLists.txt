@@ -185,6 +185,10 @@ set(gta2_lib_src
   Source/CokeZero_100.cpp
   Source/Shooey_CC.hpp
   Source/Shooey_CC.cpp
+  Source/Tango_28.hpp
+  Source/Tango_28.cpp
+  Source/Rozza_C88.hpp
+  Source/Rozza_C88.cpp
 )
 
 # global include dirs
