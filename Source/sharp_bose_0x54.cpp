@@ -2,6 +2,12 @@
 #include "sharp_bose_0x54.hpp"
 #include <windows.h>
 
+STUB_FUNC(0x5BEC30)
+Garox_C4* ShowFps_5BEC30()
+{
+    return 0;
+}
+
 STUB_FUNC(0x5BEC70)
 sharp_bose_0x54::sharp_bose_0x54()
 {
