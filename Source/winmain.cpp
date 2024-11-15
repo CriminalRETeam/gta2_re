@@ -30,6 +30,7 @@
 #include "Garox_2B00.hpp"
 #include "Nanobotz.hpp"
 #include "Montana.hpp"
+#include "Mike_A80.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1322,6 +1323,9 @@ void force_link()
 
     Montana montana;
     montana.ResetAll_4954F0();
+
+    Mike_A80 mike;
+    mike.DebugDrawProfiling_4FF250();
 }
 
 STUB_FUNC(0x5E53F0)

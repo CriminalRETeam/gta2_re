@@ -123,6 +123,8 @@ set(gta2_lib_src
   Source/Nanobotz.cpp
   Source/Montana.hpp
   Source/Montana.cpp
+  Source/Mike_A80.hpp
+  Source/Mike_A80.cpp
 )
 
 # global include dirs
