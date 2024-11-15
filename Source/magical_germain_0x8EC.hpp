@@ -55,24 +55,19 @@ public:
     s16 field_8EA_pad;
 
     EXPORT void LoadChunks_4D1FC0(const char_type *pChunkId, u32 chunk_len);
-
     EXPORT void Load_kanji_dat_4D2090();
-
-    EXPORT magical_germain_0x8EC();
-
-    EXPORT ~magical_germain_0x8EC();
-
-    EXPORT void sub_4D2B40();
-
-    EXPORT s32 sub_4D29D0(u16 a2);
-
-    EXPORT s32 sub_4D28A0(u16 a2);
-
-    EXPORT STexture * sub_4D27D0(u32 *a2);
-
-    EXPORT STexture * sub_4D2710(wchar_t text_char);
-
+    EXPORT void sub_4D2150(s32 a2, u16 a3, u16 a4);
+    EXPORT u8* sub_4D2240(char_type* a2);
+    EXPORT u8* sub_4D23B0(char_type* a2);
     EXPORT void sub_4D2610(wchar_t text_char);
+    EXPORT s32 sub_4D2690(u16 a2);
+    EXPORT STexture * sub_4D2710(wchar_t text_char);
+    EXPORT STexture * sub_4D27D0(u32 *a2);
+    EXPORT s32 sub_4D28A0(u16 a2);
+    EXPORT s32 sub_4D29D0(u16 a2);
+    EXPORT void sub_4D2B40();
+    EXPORT magical_germain_0x8EC();
+    EXPORT ~magical_germain_0x8EC();
 };
 
 extern magical_germain_0x8EC *gMagical_germain_0x8EC_6F5168;

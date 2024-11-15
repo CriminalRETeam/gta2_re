@@ -64,62 +64,40 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x4D2C80)
-magical_germain_0x8EC::magical_germain_0x8EC()
+STUB_FUNC(0x4D2150)
+void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 a3, u16 a4)
 {
-    field_8E8_v1 = -2;
-    field_8E9_v2 = -9;
-    field_8C8_pKBIT = 0;
-    field_8C4_pKidX = 0;
-    field_8CC_kidx_size_words = 0;
-    field_8C0_count = 0;
-    Load_kanji_dat_4D2090();
+
 }
 
-MATCH_FUNC(0x4D2CC0)
-magical_germain_0x8EC::~magical_germain_0x8EC()
-{
-    if (field_8C8_pKBIT)
-    {
-        delete[] field_8C8_pKBIT;
-    }
-
-    if (field_8C4_pKidX)
-    {
-        delete[] field_8C4_pKidX;
-    }
-
-    field_8CC_kidx_size_words = 0;
-}
-
-STUB_FUNC(0x4D2B40)
-void magical_germain_0x8EC::sub_4D2B40()
-{
-    // todo
-}
-
-STUB_FUNC(0x4D29D0)
-s32 magical_germain_0x8EC::sub_4D29D0(u16 a2)
+STUB_FUNC(0x4D2240)
+u8* magical_germain_0x8EC::sub_4D2240(char_type* a2)
 {
     return 0;
 }
 
-STUB_FUNC(0x4D28A0)
-s32 magical_germain_0x8EC::sub_4D28A0(u16 a2)
+STUB_FUNC(0x4D23B0)
+u8* magical_germain_0x8EC::sub_4D23B0(char_type* a2)
 {
     return 0;
 }
 
-STUB_FUNC(0x4D27D0)
-STexture * magical_germain_0x8EC::sub_4D27D0(u32 *a2)
+STUB_FUNC(0x4D2610)
+void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
+{
+
+}
+
+STUB_FUNC(0x4D2690)
+s32 magical_germain_0x8EC::sub_4D2690(u16 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4D2710)
-STexture * magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
+STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 {
-    kanji_0x10 * pFound;
+    kanji_0x10* pFound;
     u32 nearestId = -1;
 
     s32 i = 0;
@@ -148,14 +126,60 @@ STexture * magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
     pFound->field_1_v2 = field_8E9_v2;
     pFound->field_2_text_char = text_char;
     pFound->field_C_id = field_8C0_count++;
-    
+
     sub_4D2610(text_char);
 
     return field_8D8_pTexture;
 }
 
-STUB_FUNC(0x4D2610)
-void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
+STUB_FUNC(0x4D27D0)
+STexture * magical_germain_0x8EC::sub_4D27D0(u32 *a2)
 {
+    return 0;
+}
 
+STUB_FUNC(0x4D28A0)
+s32 magical_germain_0x8EC::sub_4D28A0(u16 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4D29D0)
+s32 magical_germain_0x8EC::sub_4D29D0(u16 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4D2B40)
+void magical_germain_0x8EC::sub_4D2B40()
+{
+    // todo
+}
+
+STUB_FUNC(0x4D2C80)
+magical_germain_0x8EC::magical_germain_0x8EC()
+{
+    field_8E8_v1 = -2;
+    field_8E9_v2 = -9;
+    field_8C8_pKBIT = 0;
+    field_8C4_pKidX = 0;
+    field_8CC_kidx_size_words = 0;
+    field_8C0_count = 0;
+    Load_kanji_dat_4D2090();
+}
+
+MATCH_FUNC(0x4D2CC0)
+magical_germain_0x8EC::~magical_germain_0x8EC()
+{
+    if (field_8C8_pKBIT)
+    {
+        delete[] field_8C8_pKBIT;
+    }
+
+    if (field_8C4_pKidX)
+    {
+        delete[] field_8C4_pKidX;
+    }
+
+    field_8CC_kidx_size_words = 0;
 }
