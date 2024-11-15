@@ -155,6 +155,8 @@ set(gta2_lib_src
   Source/TrafficLights_194.cpp
   Source/Soula_CC68.hpp
   Source/Soula_CC68.cpp
+  Source/Marz_1D7E.hpp
+  Source/Marz_1D7E.cpp
 )
 
 # global include dirs
