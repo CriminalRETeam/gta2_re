@@ -58,21 +58,20 @@ struct sharp_pare_0x15D8
     s16 field_15D4_idx;
     u16 field_15D6_pal_count;
 
-    EXPORT sharp_pare_0x15D8();
-
-    EXPORT ~sharp_pare_0x15D8();
-
-    EXPORT void sub_5B9350();
-
-    EXPORT void FreePals_5B9140();
-
     EXPORT void LoadPals_5B90F0();
-
-    EXPORT void ReadTextures_5B92E0();
-
+    EXPORT void FreePals_5B9140();
     EXPORT void LoadTextures2_5B9180();
-
+    EXPORT s16 sub_5B9220(s16 a2, s16 a3);
+    EXPORT void ReadTextures_5B92E0();
+    EXPORT void sub_5B9350();
     EXPORT STexture* sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5);
+    EXPORT STexture* GetTexture2_5B95D0(u16 textureIdx);
+    EXPORT STexture* sub_5B95F0(u16 a2, u16 a3, s16 a4);
+    EXPORT s32 sub_5B9660(sharp_pare_0x15D8* a1, u16 a2);
+    EXPORT s32 sub_5B96B0(u16 a2, s16 a3, s32 a4, u16 a5);
+    EXPORT STexture* sub_5B9710(s16 a2, s32 a3, s32 a4, u16 a5);
+    EXPORT sharp_pare_0x15D8();
+    EXPORT ~sharp_pare_0x15D8();
 };
 
 extern sharp_pare_0x15D8 *gSharp_pare_0x15D8_705064;
