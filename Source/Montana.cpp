@@ -1,5 +1,18 @@
 #include "Montana.hpp"
 
+STUB_FUNC(0x5c5f60)
+Montana_2EE4* Montana_2EE4::ctor_5C5F60()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5c5f90)
+s32 Montana_2EE4::dtor_5C5F90()
+{
+    return 0;
+}
+
+
 STUB_FUNC(0x5c5cf0)
 void Montana_4::sub_5C5CF0(s32 a2)
 {
