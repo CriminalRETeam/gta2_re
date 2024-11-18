@@ -238,9 +238,18 @@ angry_lewin_0x85C *Game_0x40::sub_4B9750()
     return NULL;
 }
 
-STUB_FUNC(0x4B9790)
+MATCH_FUNC(0x4B9790)
 void Game_0x40::sub_4B9790(s32 a2, s32 a3, s32 a4)
 {
+    DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
+    while (pCam)
+    {
+        if (a3 >= pCam->field_78 && a3 <= pCam->field_7C && a4 >= pCam->field_80 && a4 <= pCam->field_84)
+        {
+            pCam->sub_436120(a2);
+        }
+        pCam = sub_4B9C50();
+    }
 }
 
 STUB_FUNC(0x4B97E0)
