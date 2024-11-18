@@ -989,3 +989,5 @@ public:
     Garox_13C0_sub field_13C0_sub;
     s32 field_13C4_text_speed;
 };
+
+extern Garox_2B00* gGarox_2B00_706620;

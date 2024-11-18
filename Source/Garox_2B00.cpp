@@ -1,5 +1,7 @@
 #include "Garox_2B00.hpp"
 
+Garox_2B00* gGarox_2B00_706620;
+
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
 {

@@ -4,6 +4,8 @@
 #include "root_sound.hpp"
 #include "lucid_hamilton.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "Garox_2B00.hpp"
+#include "DrawUnk_0xBC.hpp"
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -14,15 +16,15 @@ class GlobalRef;
 class GlobalsRegistry
 {
 public:
-    void Add(GlobalRef* pRef)
+    void Add(GlobalRef *pRef)
     {
         mGlobals.push_back(pRef);
     }
 
-    std::vector<GlobalRef*> mGlobals;
+    std::vector<GlobalRef *> mGlobals;
 };
 
-GlobalsRegistry& GetGlobalsRegistry()
+GlobalsRegistry &GetGlobalsRegistry()
 {
     static GlobalsRegistry reg;
     return reg;
@@ -31,19 +33,19 @@ GlobalsRegistry& GetGlobalsRegistry()
 class GlobalRef
 {
 public:
-    GlobalRef(void* pVar, u32 addr)
-     : mVar(pVar), mOgAddr(addr)
+    GlobalRef(void *pVar, u32 addr)
+        : mVar(pVar), mOgAddr(addr)
     {
         GetGlobalsRegistry().Add(this);
     }
-    const void* mVar;
+    const void *mVar;
     const u32 mOgAddr;
 };
 
 #define GLOBAL(var, addr) const GlobalRef gRef_##var(&var, addr);
 // === end wip hook code ===
 
-EXPORT_VAR Game_0x40* gGame_0x40_67E008;
+EXPORT_VAR Game_0x40 *gGame_0x40_67E008;
 GLOBAL(gGame_0x40_67E008, 0x67E008)
 
 STUB_FUNC(0x4B8BB0)
@@ -91,10 +93,13 @@ void Game_0x40::sub_4B8C40()
 {
 }
 
-STUB_FUNC(0x4B8E00)
-s32 Game_0x40::sub_4B8E00(u32 a1, u32 a2)
+MATCH_FUNC(0x4B8E00)
+void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
 {
-    return 0;
+    field_38_orf1->field_90_game_camera.sub_4361B0(a1, a2);
+    field_38_orf1->field_208_aux_game_camera.sub_4361B0(a1, a2);
+    field_38_orf1->field_14C_view_camera.sub_4361B0(a1, a2);
+    gGarox_2B00_706620->sub_5D6AB0();
 }
 
 STUB_FUNC(0x4B8E50)
@@ -160,7 +165,7 @@ s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
     {
     case 0:
         sub_4B9410();
-        
+
         if (!bSkip_audio_67D6BE)
         {
             gRoot_sound_66B038.Service_40EFA0();

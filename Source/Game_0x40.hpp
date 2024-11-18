@@ -15,7 +15,7 @@ public:
     void sub_4B8C00(s32 a1, s32 a2);
     s8 sub_4B8C20();
     void sub_4B8C40();
-    s32 sub_4B8E00(u32 a1, u32 a2);
+    void sub_4B8E00(u32 a1, u32 a2);
     void sub_4B8E50();
     void sub_4B8EB0();
     void ShowCounters_4B8FF0();
