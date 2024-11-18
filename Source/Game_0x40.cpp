@@ -279,7 +279,7 @@ s8 Game_0x40::sub_4B9830(Car_3C *pCarSprite, s32 a3)
 }
 
 MATCH_FUNC(0x4B9890)
-s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
+s8 Game_0x40::sub_4B9890(s16 *a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -291,9 +291,17 @@ s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x4B98E0)
+MATCH_FUNC(0x4B98E0)
 bool Game_0x40::sub_4B98E0(s16 *a2, u8 playerIdx, s32 a4)
 {
+    if (field_4_players[playerIdx]->field_8E_bInUse)
+    {
+        if (field_4_players[playerIdx]->field_90_game_camera.sub_435630(a2, a4))
+        {
+            return true;
+        }
+        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.sub_435630(a2, a4) ? true : false;
+    }
     return false;
 }
 
