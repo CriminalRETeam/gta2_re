@@ -225,10 +225,17 @@ void Game_0x40::sub_4B9720()
     }
 }
 
-STUB_FUNC(0x4B9750)
+MATCH_FUNC(0x4B9750)
 angry_lewin_0x85C *Game_0x40::sub_4B9750()
 {
-    return 0;
+    for (s32 i = 0; i < field_23_max_idx; i++)
+    {
+        if (field_4_players[i]->field_8E_bInUse && !field_4_players[i]->field_2C4_player_ped)
+        {
+            return field_4_players[i];
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x4B9790)
