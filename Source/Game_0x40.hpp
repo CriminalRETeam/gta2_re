@@ -7,6 +7,16 @@ class Car_3C;
 class Car_BC;
 class DrawUnk_0xBC;
 
+// TODO: Prob should be in its own header
+struct Fix16_Rect
+{
+    // TODO: Types
+  s32 field_0_left;
+  s32 field_4_right;
+  s32 field_8_top;
+  s32 field_C_bottom;
+};
+
 class Game_0x40
 {
 public:
@@ -15,7 +25,7 @@ public:
     void sub_4B8C00(s32 a1, s32 a2);
     s8 sub_4B8C20();
     void sub_4B8C40();
-    s32 sub_4B8E00(u32 a1, u32 a2);
+    void sub_4B8E00(u32 a1, u32 a2);
     void sub_4B8E50();
     void sub_4B8EB0();
     void ShowCounters_4B8FF0();
@@ -32,12 +42,12 @@ public:
     void sub_4B9790(s32 a2, s32 a3, s32 a4);
     s8 sub_4B97E0(Car_3C *a2, s32 a3);
     s8 sub_4B9830(Car_3C *pCarSprite, s32 a3);
-    s8 sub_4B9890(s32 a2, s32 a3);      
+    s8 sub_4B9890(s16* a2, s32 a3);      
     bool sub_4B98E0(s16 *a2, u8 playerIdx, s32 a4);
     s8 sub_4B9950(Car_3C *pCarSprite, u8 idx, s32 a4);
     bool sub_4B9A10(Car_3C *a2, u8 playerIdx);
     s8 is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp);
-    s8 sub_4B9B10(s32 *pBounds);
+    s8 sub_4B9B10(Fix16_Rect *pBounds);
     DrawUnk_0xBC *IteratePlayerCamera_4B9BC0();
     s8 sub_4B9C10(Car_BC *a2);
     DrawUnk_0xBC* sub_4B9C50();
@@ -51,7 +61,7 @@ public:
     angry_lewin_0x85C *field_4_players[6];
     angry_lewin_0x85C *field_1C_unk;
     u8 field_20;
-    u8 field_21;
+    u8 field_21_player_camera_idx;
     char_type field_22;
     u8 field_23_max_idx;
     u8 field_24_cur_idx;
