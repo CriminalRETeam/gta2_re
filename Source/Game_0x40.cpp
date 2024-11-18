@@ -371,10 +371,18 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect *pBounds)
     return 0;
 }
 
-STUB_FUNC(0x4B9BC0)
+MATCH_FUNC(0x4B9BC0)
 DrawUnk_0xBC *Game_0x40::IteratePlayerCamera_4B9BC0()
 {
-    return 0;
+    for (field_21_player_camera_idx = 0 ; field_21_player_camera_idx < field_23_max_idx; field_21_player_camera_idx++)
+    {
+        if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
+        {
+            field_22 = 0;
+            return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x4B9C10)
