@@ -278,9 +278,16 @@ s8 Game_0x40::sub_4B9830(Car_3C *pCarSprite, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x4B9890)
-s8 Game_0x40::sub_4B9890(s32 a2, s32 a3)
+MATCH_FUNC(0x4B9890)
+s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
 {
+    for (u8 i = 0; i < field_23_max_idx; i++)
+    {
+        if (sub_4B98E0(a2, i, a3))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 

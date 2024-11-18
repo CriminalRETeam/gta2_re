@@ -32,7 +32,7 @@ public:
     void sub_4B9790(s32 a2, s32 a3, s32 a4);
     s8 sub_4B97E0(Car_3C *a2, s32 a3);
     s8 sub_4B9830(Car_3C *pCarSprite, s32 a3);
-    s8 sub_4B9890(s32 a2, s32 a3);      
+    s8 sub_4B9890(s16* a2, s32 a3);      
     bool sub_4B98E0(s16 *a2, u8 playerIdx, s32 a4);
     s8 sub_4B9950(Car_3C *pCarSprite, u8 idx, s32 a4);
     bool sub_4B9A10(Car_3C *a2, u8 playerIdx);
