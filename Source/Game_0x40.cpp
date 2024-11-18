@@ -326,9 +326,29 @@ bool Game_0x40::sub_4B9A10(Car_3C *a2, u8 playerIdx)
     return false;
 }
 
+// wip - prob needs Fix16 operators ??
 STUB_FUNC(0x4B9A80)
 s8 Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
 {
+    for (s32 i = 0; i < field_23_max_idx; i++)
+    {
+        if (field_4_players[i]->field_8E_bInUse)
+        {
+            if (
+                (a2_fp >= field_4_players[i]->field_90_game_camera.field_78 && 
+                a2_fp <= field_4_players[i]->field_90_game_camera.field_7C && 
+                a3_fp >= field_4_players[i]->field_90_game_camera.field_80 && 
+                a3_fp <= field_4_players[i]->field_90_game_camera.field_84) || 
+                        (field_4_players[i]->field_2D0 && 
+                        a2_fp >= field_4_players[i]->field_208_aux_game_camera.field_78 
+                        && a2_fp <= field_4_players[i]->field_208_aux_game_camera.field_7C 
+                        && a3_fp >= field_4_players[i]->field_208_aux_game_camera.field_80 
+                        && a3_fp <= field_4_players[i]->field_208_aux_game_camera.field_84))
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
