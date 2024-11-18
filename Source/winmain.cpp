@@ -541,6 +541,14 @@ char_type sub_4DA850()
     return 0;
 }
 
+// TODO: Other missing stubs here
+STUB_FUNC(0x4DA830)
+void __stdcall sub_4DA830()
+{
+
+}
+
+
 GUID IID_DirectMusic = { 1667997456u, 3197u, 4561u, { 149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u } };
 GUID IDD_IDirectMusic = { 1698042202u, 31533u, 4562u, { 186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u } };
 

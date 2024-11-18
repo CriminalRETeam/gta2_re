@@ -115,6 +115,7 @@ public:
     EXPORT s32 sub_5651F0(s32 a2);
     EXPORT void sub_565310();
     EXPORT void sub_5653E0();
+    EXPORT void sub_565460();
     EXPORT s32 sub_565490(cool_nash_0x294* pPed);
     EXPORT void SetInputs_565740(u32 input);
     EXPORT void sub_565770(u8 count);

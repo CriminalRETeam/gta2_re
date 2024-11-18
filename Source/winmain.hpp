@@ -15,3 +15,5 @@ int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 
 void __stdcall GetGTA2Version_5E5D60(int *pVerMinor, int *pVerMajor);
+
+void __stdcall sub_4DA830();

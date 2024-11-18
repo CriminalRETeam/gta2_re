@@ -6,6 +6,7 @@
 #include "angry_lewin_0x85C.hpp"
 #include "Garox_2B00.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "winmain.hpp"
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -208,9 +209,20 @@ void Game_0x40::sub_4B9710()
     }
 }
 
-STUB_FUNC(0x4B9720)
+MATCH_FUNC(0x4B9720)
 void Game_0x40::sub_4B9720()
 {
+    if (field_38_orf1)
+    {
+        field_38_orf1->sub_565460();
+    }
+
+    sub_4DA830();
+
+    if (gGarox_2B00_706620)
+    {
+        gGarox_2B00_706620->sub_5D6A90();
+    }
 }
 
 STUB_FUNC(0x4B9750)

@@ -188,6 +188,12 @@ void angry_lewin_0x85C::sub_5653E0()
 {
 }
 
+MATCH_FUNC(0x565460)
+void angry_lewin_0x85C::sub_565460()
+{
+	// Empty
+}
+
 STUB_FUNC(0x565490)
 s32 angry_lewin_0x85C::sub_565490(cool_nash_0x294 *pPed)
 {
