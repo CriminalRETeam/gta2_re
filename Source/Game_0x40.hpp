@@ -7,6 +7,16 @@ class Car_3C;
 class Car_BC;
 class DrawUnk_0xBC;
 
+// TODO: Prob should be in its own header
+struct Fix16_Rect
+{
+    // TODO: Types
+  s32 field_0_left;
+  s32 field_4_right;
+  s32 field_8_top;
+  s32 field_C_bottom;
+};
+
 class Game_0x40
 {
 public:
@@ -37,7 +47,7 @@ public:
     s8 sub_4B9950(Car_3C *pCarSprite, u8 idx, s32 a4);
     bool sub_4B9A10(Car_3C *a2, u8 playerIdx);
     s8 is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp);
-    s8 sub_4B9B10(s32 *pBounds);
+    s8 sub_4B9B10(Fix16_Rect *pBounds);
     DrawUnk_0xBC *IteratePlayerCamera_4B9BC0();
     s8 sub_4B9C10(Car_BC *a2);
     DrawUnk_0xBC* sub_4B9C50();

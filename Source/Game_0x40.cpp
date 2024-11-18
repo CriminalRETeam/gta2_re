@@ -335,15 +335,12 @@ s8 Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
         if (field_4_players[i]->field_8E_bInUse)
         {
             if (
-                (a2_fp >= field_4_players[i]->field_90_game_camera.field_78 && 
-                a2_fp <= field_4_players[i]->field_90_game_camera.field_7C && 
-                a3_fp >= field_4_players[i]->field_90_game_camera.field_80 && 
-                a3_fp <= field_4_players[i]->field_90_game_camera.field_84) || 
-                        (field_4_players[i]->field_2D0 && 
-                        a2_fp >= field_4_players[i]->field_208_aux_game_camera.field_78 
-                        && a2_fp <= field_4_players[i]->field_208_aux_game_camera.field_7C 
-                        && a3_fp >= field_4_players[i]->field_208_aux_game_camera.field_80 
-                        && a3_fp <= field_4_players[i]->field_208_aux_game_camera.field_84))
+                (a2_fp >= field_4_players[i]->field_90_game_camera.field_78 &&
+                 a2_fp <= field_4_players[i]->field_90_game_camera.field_7C &&
+                 a3_fp >= field_4_players[i]->field_90_game_camera.field_80 &&
+                 a3_fp <= field_4_players[i]->field_90_game_camera.field_84) ||
+                (field_4_players[i]->field_2D0 &&
+                 a2_fp >= field_4_players[i]->field_208_aux_game_camera.field_78 && a2_fp <= field_4_players[i]->field_208_aux_game_camera.field_7C && a3_fp >= field_4_players[i]->field_208_aux_game_camera.field_80 && a3_fp <= field_4_players[i]->field_208_aux_game_camera.field_84))
             {
                 return 1;
             }
@@ -353,8 +350,24 @@ s8 Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
 }
 
 STUB_FUNC(0x4B9B10)
-s8 Game_0x40::sub_4B9B10(s32 *pBounds)
+s8 Game_0x40::sub_4B9B10(Fix16_Rect *pBounds)
 {
+    // wip
+    for (u8 i = 0; i < field_23_max_idx; i++)
+    {
+        angry_lewin_0x85C *pCurPlayer = field_4_players[i];
+        if (pCurPlayer->field_8E_bInUse)
+        {
+            if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_2C_top && pBounds->field_C_bottom >= pCurPlayer->field_90_game_camera.field_28_bottom && pBounds->field_0_left <= pCurPlayer->field_90_game_camera.field_24_left && pBounds->field_4_right >= pCurPlayer->field_90_game_camera.field_20_right)
+            {
+                return 1;
+            }
+            if (pCurPlayer->field_2D0 && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_2C_top && pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_28_bottom && pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_24_left && pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_right)
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
