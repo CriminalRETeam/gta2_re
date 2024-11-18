@@ -308,12 +308,21 @@ bool Game_0x40::sub_4B98E0(s16 *a2, u8 playerIdx, s32 a4)
 STUB_FUNC(0x4B9950)
 s8 Game_0x40::sub_4B9950(Car_3C *pCarSprite, u8 idx, s32 a4)
 {
+    // TODO: Requires Car_3C stubs
     return 0;
 }
 
-STUB_FUNC(0x4B9A10)
+MATCH_FUNC(0x4B9A10)
 bool Game_0x40::sub_4B9A10(Car_3C *a2, u8 playerIdx)
 {
+    if (field_4_players[playerIdx]->field_8E_bInUse)
+    {
+        if (field_4_players[playerIdx]->field_90_game_camera.sub_4355D0(a2))
+        {
+            return true;
+        }
+        return field_4_players[playerIdx]->field_2D0 && field_4_players[playerIdx]->field_208_aux_game_camera.sub_4355D0(a2) ? true : false;
+    }
     return false;
 }
 
