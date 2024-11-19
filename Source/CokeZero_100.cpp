@@ -3,12 +3,12 @@
 CokeZero_100* gCokeZero_100_702F34;
 
 STUB_FUNC(0x596a00)
-void CokeZero_50::ctor_596A00()
+CokeZero_50::CokeZero_50()
 {
 }
 
 STUB_FUNC(0x596a40)
-void CokeZero_50::dtor_596A40()
+CokeZero_50::~CokeZero_50()
 {
 }
 
@@ -50,10 +50,23 @@ void CokeZero_50::sub_597100(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x5967e0)
-CokeZero_100* CokeZero_100::ctor_5967E0()
+MATCH_FUNC(0x5967e0)
+CokeZero_100::CokeZero_100()
 {
-    return 0;
+    CokeZero_50* pIter = field_C;
+    for (s32 i = 0; i < 3 - 1; i++)
+    {
+        pIter->field_44 = pIter + 1;
+        pIter++;
+    }
+
+    field_C[3-1].field_44 = 0;
+    field_4 = field_C;
+
+    field_8 = 0;
+    field_FC_count = 0;
+    field_0 = 9;
+    field_2 = 3;
 }
 
 STUB_FUNC(0x596840)
