@@ -204,9 +204,10 @@ void Network_20324::sub_51BBE0()
 {
 }
 
-STUB_FUNC(0x51bbf0)
+MATCH_FUNC(0x51bbf0)
 void Network_20324::sub_51BBF0()
 {
+    field_1FD6C = 0;
 }
 
 MATCH_FUNC(0x51bc00)
