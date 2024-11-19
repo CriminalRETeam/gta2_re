@@ -26,12 +26,12 @@ CokeZero_50::~CokeZero_50()
     field_44 = 0;
 }
 
-STUB_FUNC(0x596a50)
+MATCH_FUNC(0x596a50)
 void CokeZero_50::Empty_596A50()
 {
 }
 
-STUB_FUNC(0x596a60)
+MATCH_FUNC(0x596a60)
 void CokeZero_50::Empty_596A60()
 {
 }
