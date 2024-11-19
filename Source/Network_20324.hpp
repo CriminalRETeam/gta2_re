@@ -13,12 +13,12 @@ public:
     EXPORT Network_20324();
     EXPORT virtual ~Network_20324();
     EXPORT s32 sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
-    EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, Network_20324* lParam);
+    EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     EXPORT s32 cb_sub_519D30(Network_20324* a1, s32 a2);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
     EXPORT HWND sub_519E20();
     EXPORT LRESULT cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
-    EXPORT void OnPaint_519FD0(s32 a1);
+    EXPORT void OnPaint_519FD0(HWND a1);
     EXPORT void OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4);
     EXPORT LRESULT OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT char_type sub_51AA90(HWND hWndParent);
