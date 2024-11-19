@@ -188,9 +188,10 @@ s32 Network_20324::sub_51B9C0(s32 a2, char_type *Data)
     return 0;
 }
 
-STUB_FUNC(0x51bbc0)
+MATCH_FUNC(0x51bbc0)
 void Network_20324::sub_51BBC0()
 {
+    field_1FD6C++;
 }
 
 MATCH_FUNC(0x51bbd0)
