@@ -189,6 +189,8 @@ set(gta2_lib_src
   Source/Tango_28.cpp
   Source/Rozza_C88.hpp
   Source/Rozza_C88.cpp
+  Source/PurpleDoom.hpp
+  Source/PurpleDoom.cpp
 )
 
 # global include dirs
