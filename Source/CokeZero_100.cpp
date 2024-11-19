@@ -60,7 +60,7 @@ CokeZero_100::CokeZero_100()
         pIter++;
     }
 
-    field_C[3-1].field_44 = 0;
+    field_C[3 - 1].field_44 = 0;
     field_4 = field_C;
 
     field_8 = 0;
@@ -69,9 +69,11 @@ CokeZero_100::CokeZero_100()
     field_2 = 3;
 }
 
-STUB_FUNC(0x596840)
-void CokeZero_100::dtor_596840()
+MATCH_FUNC(0x596840)
+CokeZero_100::~CokeZero_100()
 {
+    field_4 = 0;
+    field_8 = 0;
 }
 
 STUB_FUNC(0x596860)

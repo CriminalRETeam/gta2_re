@@ -36,7 +36,7 @@ class CokeZero_100
 {
   public:
     EXPORT CokeZero_100();
-    EXPORT void dtor_596840();
+    EXPORT ~CokeZero_100();
     EXPORT s16 sub_596860();
     EXPORT void sub_596880();
     EXPORT void sub_596890(s32 a2, s32 a3, s32 a4, u32 a5);
