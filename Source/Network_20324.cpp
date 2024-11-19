@@ -1,4 +1,5 @@
 #include "Network_20324.hpp"
+#include "text_0x14.hpp"
 
 STUB_FUNC(0x519960)
 u16 Network_20324::sub_519960(u8 *a1, u16 *a2)
@@ -18,10 +19,17 @@ char_type *Network_20324::GetString_519A00(const char_type *Key)
     return 0;
 }
 
-STUB_FUNC(0x519a50)
+MATCH_FUNC(0x519a50)
 void Network_20324::GetString_519A50(wchar_t *Dest, char_type *Source, size_t MaxCount)
 {
-
+    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    {
+        sub_5199B0(Dest, Source);
+    }
+    else
+    {
+        mbstowcs(Dest, Source, MaxCount);
+    }
 }
 
 STUB_FUNC(0x519a90)

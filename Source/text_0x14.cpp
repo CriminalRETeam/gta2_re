@@ -6,6 +6,7 @@
 #include "chunk.hpp"
 
 text_0x14* gText_0x14_704DFC;
+text_0x14* gtext_0x14_6F87F0;
 
 extern char_type gTmpBuffer_67C598[256];
 
