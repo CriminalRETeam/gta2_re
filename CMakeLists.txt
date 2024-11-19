@@ -191,6 +191,8 @@ set(gta2_lib_src
   Source/Rozza_C88.cpp
   Source/PurpleDoom.hpp
   Source/PurpleDoom.cpp
+  Source/Network_20324.hpp
+  Source/Network_20324.cpp
 )
 
 # global include dirs

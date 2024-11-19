@@ -33,6 +33,7 @@
 #include "Mike_A80.hpp"
 #include "char.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "Network_20324.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1203,6 +1204,9 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    Network_20324 network;
+    network.cb_sub_519D30(0, 0);
+
     nostalgic_ellis_0x28 nostalgic;
     nostalgic.sub_4D6D70();
 
