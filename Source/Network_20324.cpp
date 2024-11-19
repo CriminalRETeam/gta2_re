@@ -259,9 +259,33 @@ void Network_20324::sub_51BC90()
 }
 
 STUB_FUNC(0x51bd40)
-s32 Network_20324::sub_51BD40(wchar_t *Source, HKEY phkResult)
+void Network_20324::sub_51BD40(const wchar_t *pPlayerNameW, const char *pPlayerNameA)
 {
-    return 0;
+    strcpy(field_1FF80_player_name, pPlayerNameA);
+    wcscpy(field_1FD78_player_name_2, pPlayerNameW);
+
+    HKEY hKey;
+    DWORD dwDisposition;
+    if (RegCreateKeyExA(
+            HKEY_LOCAL_MACHINE,
+            "Software\\DMA Design Ltd\\GTA2\\Network",
+            0,
+            0,
+            0,
+            KEY_ALL_ACCESS,
+            0,
+            &hKey,
+            &dwDisposition) == ERROR_SUCCESS)
+    {
+        RegSetValueExA(
+            hKey,
+            "PlayerName",
+            0,
+            1u, // TODO: constant
+            reinterpret_cast<const u8*>(pPlayerNameA),
+            strlen(pPlayerNameA) + 1); // +1 so the NULL is also written
+        RegCloseKey(hKey);
+    }
 }
 
 STUB_FUNC(0x51bdd0)

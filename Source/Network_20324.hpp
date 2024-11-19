@@ -45,7 +45,7 @@ public:
     EXPORT s32 sub_51BC70(s32 a2);
     EXPORT s32 sub_51BC80();
     EXPORT void sub_51BC90();
-    EXPORT s32 sub_51BD40(wchar_t* Source, HKEY phkResult);
+    EXPORT void sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT LRESULT sub_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT s32 sub_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
