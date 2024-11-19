@@ -1,83 +1,134 @@
 #include "Network_20324.hpp"
+#include "text_0x14.hpp"
+
+UINT_PTR gTimerId_6F8A18;
 
 STUB_FUNC(0x519960)
-u16 Network_20324::sub_519960(u8 *a1, u16 *a2)
+u16 Network_20324::sub_519960(u8* a1, u16* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5199b0)
-char_type Network_20324::sub_5199B0(u16 *a1, char_type *a2)
+char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x519a00)
-char_type *Network_20324::GetString_519A00(const char_type *Key)
+char_type* Network_20324::GetString_519A00(const char_type* Key)
 {
     return 0;
 }
 
-STUB_FUNC(0x519a50)
-void Network_20324::GetString_519A50(wchar_t *Dest, char_type *Source, size_t MaxCount)
+MATCH_FUNC(0x519a50)
+void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount)
 {
-
+    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    {
+        sub_5199B0(Dest, Source);
+    }
+    else
+    {
+        mbstowcs(Dest, Source, MaxCount);
+    }
 }
 
 STUB_FUNC(0x519a90)
-Network_20324 *Network_20324::ctor_519A90()
+Network_20324::Network_20324()
 {
-    return 0;
+    this->field_202E4 = 0;
+    this->field_202E0 = 0;
+    this->field_202DC = 0;
+    this->field_202D4 = 0;
+    this->field_202D8 = 3;
+    this->field_20084 = 0;
+    this->field_1FD6C = 0;
+    this->field_1FD64_f4_idx_count = 0;
+    this->field_1FD68 = 0;
+    this->field_2019C = GetTickCount();
+    this->field_20198_game_type = 1;
+    this->field_20194_f_limit = 1;
+    this->field_2018C_f4_idx = 0;
+    this->field_201A0_police = 0;
+    this->field_201A4_game_time_limiot = 0;
+    memset(this->field_4, 0, sizeof(this->field_4));
+    gtext_0x14_6F87F0 = new text_0x14();
+    gtext_0x14_6F87F0->Load_5B5E90();
+    sub_51BC90();
+    sub_51BFA0();
 }
 
-STUB_FUNC(0x519b80)
-Network_20324 *Network_20324::vdtor_519B80(Network_20324 *lpMem, char_type flags)
+MATCH_FUNC(0x519ba0)
+Network_20324::~Network_20324()
 {
-    return 0;
-}
-
-STUB_FUNC(0x519ba0)
-void Network_20324::dtor_519BA0()
-{
+    if (gtext_0x14_6F87F0)
+    {
+        delete gtext_0x14_6F87F0;
+        gtext_0x14_6F87F0 = 0;
+    }
 }
 
 STUB_FUNC(0x519bd0)
-s32 Network_20324::sub_519BD0(Network_20324 *dwInitParam, HINSTANCE hInstance)
+s32 Network_20324::sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
 {
     return 0;
 }
 
 STUB_FUNC(0x519c80)
-INT_PTR Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, Network_20324 *lParam)
+INT_PTR Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    switch (message)
+    {
+        case WM_TIMER:
+            OnTimer_51A9D0(hDlg, wParam);
+            return 0;
+
+        case WM_HSCROLL:
+            OnWmHScroll_51C630(hDlg, (HWND)lParam, wParam, HIWORD(wParam));
+            return 0;
+
+        case WM_COMMAND:
+            OnWmCommand_519FE0(hDlg, wParam, lParam, HIWORD(wParam));
+            return 0;
+
+        case WM_PAINT:
+            OnPaint_519FD0(hDlg);
+            return 0;
+
+        case WM_INITDIALOG:
+            return OnInitDialog_51AC60(hDlg, wParam, reinterpret_cast<Network_20324 *>(lParam));
+    }
+
     return 0;
 }
 
 STUB_FUNC(0x519d30)
-s32 Network_20324::cb_sub_519D30(Network_20324 *a1, s32 a2)
+s32 Network_20324::cb_sub_519D30(Network_20324* a1, s32 a2)
 {
     return 0;
 }
 
-STUB_FUNC(0x519e10)
+MATCH_FUNC(0x519e10)
 void Network_20324::SetDlgHwnd_519E10(HWND a2)
 {
+    field_2031C_dlg_hwnd = a2;
 }
 
-STUB_FUNC(0x519e20)
-s32 Network_20324::sub_519E20()
+MATCH_FUNC(0x519e20)
+HWND Network_20324::sub_519E20()
 {
-    return 0;
+    return field_2031C_dlg_hwnd;
 }
 
 STUB_FUNC(0x519e30)
-LRESULT Network_20324::cb_sub_519E30(Network_20324 *a1, wchar_t *Source, s32 a3)
+LRESULT Network_20324::cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x519fd0)
-void Network_20324::OnPaint_519FD0(s32 a1)
+void Network_20324::OnPaint_519FD0(HWND a1)
 {
 }
 
@@ -104,10 +155,17 @@ s32 Network_20324::sub_51ABF0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x51ac60)
-s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324 *thisPtr)
+MATCH_FUNC(0x51ac60)
+s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr)
 {
-    return 0;
+    SetWindowLongA(hWnd, 8, (LONG)thisPtr);
+    gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
+    thisPtr->SetDlgHwnd_519E10(hWnd);
+    thisPtr->sub_51AA90(hWnd);
+    thisPtr->sub_51AFA0();
+    thisPtr->SetPlayerNameText_51B7C0();
+    thisPtr->sub_51ABF0(0);
+    return 1;
 }
 
 STUB_FUNC(0x51acc0)
@@ -117,13 +175,13 @@ s32 Network_20324::sub_51ACC0()
 }
 
 STUB_FUNC(0x51acd0)
-LRESULT Network_20324::cb_sub_51ACD0(Network_20324 *a1, wchar_t *Source)
+LRESULT Network_20324::cb_sub_51ACD0(Network_20324* a1, wchar_t* Source)
 {
     return 0;
 }
 
 STUB_FUNC(0x51ade0)
-s32 Network_20324::cb_sub_51ADE0(Network_20324 *a1)
+s32 Network_20324::cb_sub_51ADE0(Network_20324* a1)
 {
     return 0;
 }
@@ -134,7 +192,7 @@ void Network_20324::sub_51AE20(s32 nIDDlgItem)
 }
 
 STUB_FUNC(0x51ae50)
-s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t *Source)
+s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t* Source)
 {
     return 0;
 }
@@ -146,76 +204,87 @@ s32 Network_20324::sub_51AFA0()
 }
 
 STUB_FUNC(0x51b2f0)
-LRESULT Network_20324::cb_sub_51B2F0(Network_20324 *a1, wchar_t *Source)
+LRESULT Network_20324::cb_sub_51B2F0(Network_20324* a1, wchar_t* Source)
 {
     return 0;
 }
 
 STUB_FUNC(0x51b4f0)
-s32 Network_20324::sub_51B4F0(s32 a2, const char_type *a3)
+s32 Network_20324::sub_51B4F0(s32 a2, const char_type* a3)
 {
     return 0;
 }
 
-STUB_FUNC(0x51b7c0)
-s32 Network_20324::SetPlayerNameText_51B7C0()
+MATCH_FUNC(0x51b7c0)
+void Network_20324::SetPlayerNameText_51B7C0()
 {
-    return 0;
+    SetDlgItemTextA(field_2031C_dlg_hwnd,
+                    1004, // TODO: control constant
+                    field_1FF80_player_name);
 }
 
 STUB_FUNC(0x51b7e0)
-void Network_20324::cb_sub_51B7E0(s32 a1, const char_type **a2)
+void Network_20324::cb_sub_51B7E0(s32 a1, const char_type** a2)
 {
 }
 
 STUB_FUNC(0x51b810)
-void Network_20324::sub_51B810(const char_type *a2)
+void Network_20324::sub_51B810(const char_type* a2)
 {
 }
 
 STUB_FUNC(0x51b9c0)
-s32 Network_20324::sub_51B9C0(s32 a2, char_type *Data)
+s32 Network_20324::sub_51B9C0(s32 a2, char_type* Data)
 {
     return 0;
 }
 
-STUB_FUNC(0x51bbc0)
+MATCH_FUNC(0x51bbc0)
 void Network_20324::sub_51BBC0()
 {
+    field_1FD6C++;
 }
 
-STUB_FUNC(0x51bbd0)
+MATCH_FUNC(0x51bbd0)
 s32 Network_20324::sub_51BBD0()
 {
-    return 0;
+    return field_1FD6C;
 }
 
-STUB_FUNC(0x51bbe0)
+MATCH_FUNC(0x51bbe0)
 void Network_20324::sub_51BBE0()
 {
+    field_1FD6C--;
 }
 
-STUB_FUNC(0x51bbf0)
+MATCH_FUNC(0x51bbf0)
 void Network_20324::sub_51BBF0()
 {
+    field_1FD6C = 0;
 }
 
-STUB_FUNC(0x51bc00)
-s32 Network_20324::cb_sub_51BC00(Network_20324 *a1)
+MATCH_FUNC(0x51bc00)
+void Network_20324::cb_sub_51BC00(Network_20324* pThis)
 {
-    return 0;
+    char String[260];
+    wchar_t Dest[260];
+
+    GetDlgItemTextA(pThis->sub_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
+    GetString_519A50(Dest, String, GTA2_COUNTOF(String));
+    pThis->sub_51BD40(Dest, String);
+    pThis->sub_51BC70(1);
 }
 
-STUB_FUNC(0x51bc70)
-s32 Network_20324::sub_51BC70(s32 a2)
+MATCH_FUNC(0x51bc70)
+void Network_20324::sub_51BC70(s32 a2)
 {
-    return 0;
+    field_1FD68 = a2;
 }
 
-STUB_FUNC(0x51bc80)
+MATCH_FUNC(0x51bc80)
 s32 Network_20324::sub_51BC80()
 {
-    return 0;
+    return field_1FD68;
 }
 
 MATCH_FUNC(0x51bc90)
@@ -229,31 +298,45 @@ void Network_20324::sub_51BC90()
 
     DWORD dwDisposition;
 
-    if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "Software\\DMA Design Ltd\\GTA2\\Network",
-            0,
-            0,
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            &phkResult,
-            &dwDisposition) == ERROR_SUCCESS)
+    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                        "Software\\DMA Design Ltd\\GTA2\\Network",
+                        0,
+                        0,
+                        0,
+                        KEY_ALL_ACCESS,
+                        0,
+                        &phkResult,
+                        &dwDisposition) == ERROR_SUCCESS)
     {
 
         if (RegQueryValueExA(phkResult, "PlayerName", 0, &Type, Data, &cbData) == ERROR_SUCCESS)
         {
-            strcpy(field_1FF80_player_name, reinterpret_cast<char *>(Data));
-            GetString_519A50(field_1FD78_player_name_2, reinterpret_cast<char *>(Data), GTA2_COUNTOF(field_1FD78_player_name_2));
+            strcpy(field_1FF80_player_name, reinterpret_cast<char*>(Data));
+            GetString_519A50(field_1FD78_player_name_2, reinterpret_cast<char*>(Data), GTA2_COUNTOF(field_1FD78_player_name_2));
         }
         RegCloseKey(phkResult);
     }
 }
 
 STUB_FUNC(0x51bd40)
-s32 Network_20324::sub_51BD40(wchar_t *Source, HKEY phkResult)
+void Network_20324::sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA)
 {
-    return 0;
+    strcpy(field_1FF80_player_name, pPlayerNameA);
+    wcscpy(field_1FD78_player_name_2, pPlayerNameW);
+
+    HKEY hKey;
+    DWORD dwDisposition;
+    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\DMA Design Ltd\\GTA2\\Network", 0, 0, 0, KEY_ALL_ACCESS, 0, &hKey, &dwDisposition) ==
+        ERROR_SUCCESS)
+    {
+        RegSetValueExA(hKey,
+                       "PlayerName",
+                       0,
+                       1u, // TODO: constant
+                       reinterpret_cast<const u8*>(pPlayerNameA),
+                       strlen(pPlayerNameA) + 1); // +1 so the NULL is also written
+        RegCloseKey(hKey);
+    }
 }
 
 STUB_FUNC(0x51bdd0)
@@ -280,7 +363,7 @@ s32 Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x51c7f0)
-void Network_20324::sub_51C7F0(s32 *a2)
+void Network_20324::sub_51C7F0(s32* a2)
 {
 }
 
@@ -291,25 +374,25 @@ u32 Network_20324::sub_51C830()
 }
 
 STUB_FUNC(0x51ca10)
-char_type *Network_20324::sub_51CA10()
+char_type* Network_20324::sub_51CA10()
 {
     return 0;
 }
 
 STUB_FUNC(0x51ca50)
-char_type *Network_20324::sub_51CA50()
+char_type* Network_20324::sub_51CA50()
 {
     return 0;
 }
 
 STUB_FUNC(0x51ca90)
-char_type *Network_20324::sub_51CA90()
+char_type* Network_20324::sub_51CA90()
 {
     return 0;
 }
 
 STUB_FUNC(0x51cad0)
-s32 Network_20324::sub_51CAD0(const char_type *a1, const char_type *a2)
+s32 Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 {
     return 0;
 }
@@ -345,7 +428,7 @@ s32 Network_20324::sub_51CDC0(s32 a2, s32 a3, HWND hDlg)
 }
 
 STUB_FUNC(0x51cfc0)
-s32 Network_20324::sub_51CFC0(const char_type *lParam, HWND hDlg)
+s32 Network_20324::sub_51CFC0(const char_type* lParam, HWND hDlg)
 {
     return 0;
 }

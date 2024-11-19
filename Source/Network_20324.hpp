@@ -7,24 +7,23 @@ class Network_20324
 {
 public:
     EXPORT u16 sub_519960(u8* a1, u16* a2);
-    EXPORT char_type sub_5199B0(u16* a1, char_type* a2);
+    EXPORT static char_type sub_5199B0(wchar_t* a1, char_type* a2);
     EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
-    EXPORT Network_20324* ctor_519A90();
-    EXPORT Network_20324* vdtor_519B80(Network_20324* lpMem, char_type flags);
-    EXPORT void dtor_519BA0();
+    EXPORT Network_20324();
+    EXPORT virtual ~Network_20324();
     EXPORT s32 sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
-    EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, Network_20324* lParam);
+    EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     EXPORT s32 cb_sub_519D30(Network_20324* a1, s32 a2);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
-    EXPORT s32 sub_519E20();
+    EXPORT HWND sub_519E20();
     EXPORT LRESULT cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
-    EXPORT void OnPaint_519FD0(s32 a1);
+    EXPORT void OnPaint_519FD0(HWND a1);
     EXPORT void OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4);
     EXPORT LRESULT OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT char_type sub_51AA90(HWND hWndParent);
     EXPORT s32 sub_51ABF0(s32 a2);
-    EXPORT s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
+    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 sub_51ACC0();
     EXPORT LRESULT cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 cb_sub_51ADE0(Network_20324* a1);
@@ -33,7 +32,7 @@ public:
     EXPORT s32 sub_51AFA0();
     EXPORT LRESULT cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 sub_51B4F0(s32 a2, const char_type* a3);
-    EXPORT s32 SetPlayerNameText_51B7C0();
+    EXPORT void SetPlayerNameText_51B7C0();
     EXPORT void cb_sub_51B7E0(s32 a1, const char_type** a2);
     EXPORT void sub_51B810(const char_type* a2);
     EXPORT s32 sub_51B9C0(s32 a2, char_type* Data);
@@ -41,11 +40,11 @@ public:
     EXPORT s32 sub_51BBD0();
     EXPORT void sub_51BBE0();
     EXPORT void sub_51BBF0();
-    EXPORT s32 cb_sub_51BC00(Network_20324* a1);
-    EXPORT s32 sub_51BC70(s32 a2);
+    EXPORT static void cb_sub_51BC00(Network_20324* pThis);
+    EXPORT void sub_51BC70(s32 a2);
     EXPORT s32 sub_51BC80();
     EXPORT void sub_51BC90();
-    EXPORT s32 sub_51BD40(wchar_t* Source, HKEY phkResult);
+    EXPORT void sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT LRESULT sub_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT s32 sub_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
@@ -66,7 +65,7 @@ public:
     EXPORT s32 sub_51D2F0(s32 a1, HWND hDlg);
     EXPORT s32 sub_51D3B0(s32 a1, HWND hDlg);
 
-    s32 field_0_vTable;
+    //s32 field_0_vTable; // added by the compiler
     char_type field_4[100][1304];
     s32 field_1FD64_f4_idx_count;
     s32 field_1FD68;
