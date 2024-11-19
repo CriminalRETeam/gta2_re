@@ -76,10 +76,15 @@ CokeZero_100::~CokeZero_100()
     field_8 = 0;
 }
 
-STUB_FUNC(0x596860)
+MATCH_FUNC(0x596860)
 s16 CokeZero_100::sub_596860()
 {
-    return 0;
+    field_0++;
+    if (field_0 > 13u)
+    {
+        field_0 = 9;
+    }
+    return field_0;
 }
 
 STUB_FUNC(0x596880)
