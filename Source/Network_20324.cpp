@@ -10,7 +10,7 @@ u16 Network_20324::sub_519960(u8* a1, u16* a2)
 }
 
 STUB_FUNC(0x5199b0)
-char_type Network_20324::sub_5199B0(u16* a1, char_type* a2)
+char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
 {
     return 0;
 }
