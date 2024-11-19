@@ -220,10 +220,10 @@ s32 Network_20324::sub_51BC70(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x51bc80)
+MATCH_FUNC(0x51bc80)
 s32 Network_20324::sub_51BC80()
 {
-    return 0;
+    return field_1FD68;
 }
 
 MATCH_FUNC(0x51bc90)
