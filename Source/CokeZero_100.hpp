@@ -16,7 +16,7 @@ class CokeZero_50
     EXPORT void sub_597100(s32 a2, s32 a3);
 
     s32 field_0;
-    s32 field_4[9];
+    CokeZero_50 * field_4[9];
     s32 field_28;
     s32 field_2C;
     s32 field_30;

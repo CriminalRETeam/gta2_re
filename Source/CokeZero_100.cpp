@@ -36,9 +36,13 @@ void CokeZero_50::Empty_596A60()
 {
 }
 
-STUB_FUNC(0x596a70)
+MATCH_FUNC(0x596a70)
 void CokeZero_50::sub_596A70(s32 a2)
 {
+    for (u32 i=a2; i > 0; i--)
+    {
+        field_4[i] = 0;
+    }
 }
 
 STUB_FUNC(0x596a90)
