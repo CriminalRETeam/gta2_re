@@ -1,5 +1,7 @@
 #include "CokeZero_100.hpp"
 
+CokeZero_100* gCokeZero_100_702F34;
+
 STUB_FUNC(0x596a00)
 void CokeZero_50::ctor_596A00()
 {

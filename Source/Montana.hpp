@@ -1048,3 +1048,5 @@ class Montana
     EXPORT void dtor_495630();
     Montana_4* field_0_cols[7];
 };
+
+extern Montana* gMontana_67B580;

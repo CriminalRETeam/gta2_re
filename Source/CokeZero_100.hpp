@@ -51,3 +51,5 @@ class CokeZero_100
     s16 field_FC_count;
     s16 field_FE;
 };
+
+extern CokeZero_100* gCokeZero_100_702F34;

@@ -7,6 +7,19 @@
 #include "lucid_hamilton.hpp"
 #include "root_sound.hpp"
 #include "winmain.hpp"
+#include "Nanobotz.hpp"
+#include "PurpleDoom.hpp"
+#include "sprite.hpp"
+#include "Montana.hpp"
+#include "Mike_A80.hpp"
+#include "CokeZero_100.hpp"
+#include "laughing_blackwell_0x1EB54.hpp"
+
+DrawUnk_0xBC* gViewCamera_676978;
+
+// TODO: Move to d3ddll.h or something
+int (*pgbh_BeginScene_626CC0)();
+void (*pgbh_EndScene_626CC4)();
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -123,10 +136,39 @@ s8 Game_0x40::sub_4B9270(u16* a2) // TODO: user call 2nd param
     return 0;
 }
 
-STUB_FUNC(0x4B92D0)
+MATCH_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
-    // TODO
+    gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
+    
+    gpNanobotz_6F66E4->ClearDrawnTileCount_4F6A10();
+    gSprite_8_703820->sub_5A5860();
+    gMontana_67B580->ResetAll_4954F0();
+
+    gPurpleDoom_3_679210->sub_477A40();
+    gPurpleDoom_2_67920C->sub_477A40();
+    gPurpleDoom_1_679208->sub_477A40();
+
+    sub_5D7D30();
+
+    pgbh_BeginScene_626CC0();
+    
+    gpNanobotz_6F66E4->Draw_4F6A20();
+
+    if (!bExplodingOff_67D4FB)
+    {
+        gCokeZero_100_702F34->DrawExploding_5969E0();
+    }
+
+    gGarox_2B00_706620->DrawGui_5D6860(); // user
+    
+    if (bDo_mike_67D5CC)
+    {
+        gMike_A80_6F7328->DebugDrawProfiling_4FF250();
+    }
+
+    pgbh_EndScene_626CC4();
+    FreeSurface_5D7DC0();
 }
 
 MATCH_FUNC(0x4B9380)

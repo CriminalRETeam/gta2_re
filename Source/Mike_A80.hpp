@@ -581,3 +581,5 @@ class Mike_A80
     s32 field_A78;
     s32 field_A7C;
 };
+
+extern Mike_A80* gMike_A80_6F7328;

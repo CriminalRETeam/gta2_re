@@ -1,5 +1,9 @@
 #include "PurpleDoom.hpp"
 
+PurpleDoom* gPurpleDoom_1_679208;
+PurpleDoom* gPurpleDoom_2_67920C;
+PurpleDoom* gPurpleDoom_3_679210;
+
 STUB_FUNC(0x477a40)
 s32 PurpleDoom::sub_477A40()
 {
