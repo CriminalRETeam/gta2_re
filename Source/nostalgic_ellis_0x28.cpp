@@ -1,12 +1,12 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include <stdlib.h>
 
-nostalgic_ellis_0x28 **g4096_alloc_6F5400;
+nostalgic_ellis_0x28** g4096_alloc_6F5400;
 
 STUB_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
-    field_0 = (nostalgic_ellis_0x28 *)0x2A2A2A2A;
+    field_0 = (nostalgic_ellis_0x28*)0x2A2A2A2A;
     field_4_light_x = 0;
     field_8_light_y = 0;
     field_C_light_z = 0;
@@ -33,7 +33,7 @@ STUB_FUNC(0x4D6D70)
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
     s32 idx; // eax
-    nostalgic_ellis_0x28 *pOld; // edx
+    nostalgic_ellis_0x28* pOld; // edx
 
     idx = (this->field_4_light_x >> 16) + (this->field_8_light_y >> 16 << 6);
     pOld = g4096_alloc_6F5400[idx];
@@ -54,8 +54,8 @@ void nostalgic_ellis_0x28::sub_4D6D70()
 STUB_FUNC(0x4D6DC0)
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
-    nostalgic_ellis_0x28 *v1; // eax
-    nostalgic_ellis_0x28 *result; // eax
+    nostalgic_ellis_0x28* v1; // eax
+    nostalgic_ellis_0x28* result; // eax
 
     v1 = this->field_24;
     if (v1)
@@ -80,7 +80,7 @@ void __stdcall Light::sub_4D6E00()
 {
     s32 i; // eax
 
-    g4096_alloc_6F5400 = (nostalgic_ellis_0x28 **)malloc(0x4000u);
+    g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)malloc(0x4000u);
     for (i = 0; i < 4096; g4096_alloc_6F5400[i - 1] = 0)
     {
         ++i;

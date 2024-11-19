@@ -3,25 +3,21 @@
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
 {
-
 }
 
 STUB_FUNC(0x4703f0)
 void Char_C::sub_4703F0(Char_C* a1)
 {
-
 }
 
 STUB_FUNC(0x470650)
 Char_C::Char_C()
 {
-
 }
 
 STUB_FUNC(0x4709b0)
 Char_C::~Char_C()
 {
-
 }
 
 STUB_FUNC(0x470a50)
@@ -69,7 +65,6 @@ cool_nash_0x294* Char_C::sub_470F30()
 STUB_FUNC(0x471060)
 void Char_C::DoIanTest_471060(s16 a1)
 {
-
 }
 
 STUB_FUNC(0x4710c0)

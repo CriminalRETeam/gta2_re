@@ -6,7 +6,7 @@ class gmp_block_info;
 
 class Junction_10
 {
-public:
+  public:
     EXPORT char_type sub_588580(s32 a2);
     EXPORT s16 sub_5885C0(s16 a2);
     s16 field_0_n;
@@ -22,7 +22,7 @@ public:
 
 class Soula_10
 {
-public:
+  public:
     EXPORT Soula_10* sub_5892D0();
     u16 field_0_idx;
     s16 field_2;
@@ -34,11 +34,11 @@ public:
 
 class Soula_CC68
 {
-public:
+  public:
     EXPORT void ShowJunctionIds_588620();
     EXPORT u16 sub_588810(u8 a2, u8 a3, u8 a4);
     EXPORT u16 sub_588950(s32 a2, s32 a3, s32 a4);
-    EXPORT u16 sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2 
+    EXPORT u16 sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
     EXPORT char_type sub_588CA0(gmp_block_info* a1, s32 a2, char_type a3);

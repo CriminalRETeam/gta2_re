@@ -8,7 +8,7 @@ class Car_BC;
 
 class Zheal_15C
 {
-public:
+  public:
     EXPORT void dtor_47E5B0();
     EXPORT void ctor_47E610();
     EXPORT s32 sub_47E620(s32 a2, s32 a3, s32* a4);
@@ -142,7 +142,7 @@ public:
 
 class Zheal_D9C
 {
-public:
+  public:
     EXPORT void sub_480E00(Car_BC* a2, u8 a3);
     EXPORT void sub_480E50();
     EXPORT Zheal_15C* sub_480EC0(s32 a2, s32 a3);
@@ -152,4 +152,3 @@ public:
     Zheal_15C field_0[10];
     s32 field_D98_count;
 };
-

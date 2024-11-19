@@ -4,14 +4,14 @@
 
 class Car_10
 {
-public:
-    void sub_439CD0(s32 *a2);
-    void sub_439D40(s32 *a3);
-    s32 sub_439DA0(s32 *a3);
+  public:
+    void sub_439CD0(s32* a2);
+    void sub_439D40(s32* a3);
+    s32 sub_439DA0(s32* a3);
     void sub_439E40(u8 a2);
     s32 sub_439E60();
     void sub_439EA0();
-    Car_10();  // 447330
+    Car_10(); // 447330
     ~Car_10(); // 447350
 
     s8 field_0;

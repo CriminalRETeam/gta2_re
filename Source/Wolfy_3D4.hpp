@@ -4,7 +4,7 @@
 
 class Wolfy_30
 {
-public:
+  public:
     EXPORT void ctor_5408F0();
     EXPORT void dtor_540A10();
     EXPORT s32 sub_543650();
@@ -29,7 +29,7 @@ public:
 
 class Wolfy_7A8
 {
-public:
+  public:
     EXPORT s32 sub_543690();
     EXPORT Wolfy_30* sub_543800();
     EXPORT Wolfy_7A8* ctor_5438B0();
@@ -40,7 +40,7 @@ public:
 
 class Wolfy_3D4
 {
-public:
+  public:
     EXPORT Wolfy_3D4* ctor_543980();
     EXPORT void dtor_5439C0();
     Wolfy_30 field_0[20];

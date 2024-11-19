@@ -33,37 +33,37 @@ struct SCR_PLAYER_PED
 
 class miss2_0x11C
 {
-public:
+  public:
     EXPORT void sub_503200();
     EXPORT char_type sub_503410(u32 a1);
     EXPORT s16 sub_5035B0();
     EXPORT void sub_5035D0();
-    EXPORT void Next_503620(SCR_CMD_HEADER * a2);
+    EXPORT void Next_503620(SCR_CMD_HEADER* a2);
     EXPORT void sub_503650(u16 a2);
     EXPORT void sub_503670();
-    EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32 * a1, s32 a2);
-    EXPORT void SCRCMD_OBJ_DECSET_5038D0(s32 * a1, s32 a2);
-    EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED * pCmd);
-    EXPORT void SCRCMD_CAR_DECSET_503BC0(s32 * a1, s32 a2);
+    EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2);
+    EXPORT void SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2);
+    EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd);
+    EXPORT void SCRCMD_CAR_DECSET_503BC0(s32* a1, s32 a2);
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1);
-    EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(s32 * a1, s32 a2);
+    EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(s32* a1, s32 a2);
     EXPORT s32 sub_504110(s32 a1, s32 a2);
-    EXPORT void SCRCMD_MAP_ZONE_SET_504150(s16 * a1);
+    EXPORT void SCRCMD_MAP_ZONE_SET_504150(s16* a1);
     EXPORT s32 SCRCMD_ARROW_DEC_5041B0(s32 a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
-    EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32 * a1, s32 a2);
-    EXPORT Maccies_2C * SCRCMD_GENERATOR_DECSET_504420(s32 * a1, s32 a2);
-    EXPORT s32 * SCRCMD_DESTRUCTOR_DECSET_504530(s32 * a1, s32 a2);
-    EXPORT Snooky_30 * SCRCMD_CRUSHER_BASIC_5045A0(s32 a1, s32 a2);
-    EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16 * a2);
-    EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C * a1, s32 a2);
+    EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);
+    EXPORT Maccies_2C* SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2);
+    EXPORT s32* SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2);
+    EXPORT Snooky_30* SCRCMD_CRUSHER_BASIC_5045A0(s32 a1, s32 a2);
+    EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);
+    EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2);
     EXPORT void sub_504710(s32 a1);
-    EXPORT s32 * SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16 * a2);
+    EXPORT s32* SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2);
     EXPORT void SCRCMD_SET_GANG_INFO1_504830(s32 a1);
     EXPORT s16 SCRCMD_SET_DOOR_INFO_504950(s32 a1);
-    EXPORT s32 SCRCMD_DOOR_DECLARE_D1_S1_504970(s32 );
+    EXPORT s32 SCRCMD_DOOR_DECLARE_D1_S1_504970(s32);
     EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3);
-    EXPORT void SCRCMD_DECLARE_MISSION_504DD0(u16 * a1);
+    EXPORT void SCRCMD_DECLARE_MISSION_504DD0(u16* a1);
     EXPORT void sub_504EE0(s32 a1, s32 a2);
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1);
@@ -79,8 +79,8 @@ public:
     EXPORT u16 sub_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(s32 a1);
     EXPORT s16 SCRCMD_DEC_DEATH_BASE_506010(s32 a1);
-    EXPORT SCR_CMD_HEADER * SCRCMD_DO_CRANE_POWERUP_5060D0(u16 * a1);
-    EXPORT void SCRCMD_START_BASIC_KF_506140(u16 * a1);
+    EXPORT SCR_CMD_HEADER* SCRCMD_DO_CRANE_POWERUP_5060D0(u16* a1);
+    EXPORT void SCRCMD_START_BASIC_KF_506140(u16* a1);
     EXPORT void ExecOpCode_5061C0();
     EXPORT void SCRCMD_LEVELSTART_5069C0();
     EXPORT void SCRCMD_LEVELEND_5069F0();
@@ -138,7 +138,7 @@ public:
     EXPORT void SCRCMD_CHECK_CAR_MODEL_50A610();
     EXPORT void SCRCMD_CHECK_CAR_REMAP_50A670();
     EXPORT void SCRCMD_CHECK_CAR_BOTH_50A6E0();
-    EXPORT void sub_50A760(miss2_0x11C * a1);
+    EXPORT void sub_50A760(miss2_0x11C* a1);
     EXPORT void SCRCMD_DELAY_HERE_50A940();
     EXPORT void sub_50A980();
     EXPORT void sub_50A9E0(u16 idx);
@@ -202,7 +202,7 @@ public:
     EXPORT void SCRCMD_LOWER_LEVEL_50CA30();
     EXPORT void sub_50CA70();
     EXPORT void SCRCMD_ADD_NEW_BLOCK_50CAB0();
-    EXPORT void SCRCMD_ROAD_ON_OFF_50CB20(miss2_0x11C * a1);
+    EXPORT void SCRCMD_ROAD_ON_OFF_50CB20(miss2_0x11C* a1);
     EXPORT void sub_50CB70();
     EXPORT void sub_50CCB0();
     EXPORT void sub_50CD30();
@@ -226,7 +226,7 @@ public:
     EXPORT void SCRCMD_CHAR_IN_AIR_50DE50();
     EXPORT void SCRCMD_CHAR_SUNK_50DEB0();
     EXPORT void sub_50DF10();
-    EXPORT void sub_50E0B0(miss2_0x11C * a1);
+    EXPORT void sub_50E0B0(miss2_0x11C* a1);
     EXPORT void sub_50E120();
     EXPORT void sub_50E150();
     EXPORT void sub_50E190();
@@ -290,13 +290,13 @@ public:
     EXPORT void PreExecOpCode_5108D0();
     EXPORT char_type sub_511840();
     EXPORT s32 sub_511930(char_type a2, u16 levelStart);
-    EXPORT miss2_0x11C * sub_511960(s16 a2);
-    EXPORT s32 launch_mission_5119A0(s32 a2, char_type * String1);
+    EXPORT miss2_0x11C* sub_511960(s16 a2);
+    EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
     EXPORT void ctor_511A00();
     EXPORT void sub_511CD0();
     EXPORT void dtor_512FD0();
 
-    miss2_0x11C * field_0;
+    miss2_0x11C* field_0;
     u16 field_4_level_start;
     char_type field_6;
     char_type field_7;
@@ -311,7 +311,7 @@ public:
     s16 field_110;
     char_type field_112;
     char_type field_113;
-    miss2_8 * field_114;
+    miss2_8* field_114;
     char_type field_118;
     char_type field_119;
     s16 field_11A;

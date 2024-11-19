@@ -9,14 +9,14 @@ class Car_BC;
 // TODO: Move
 class Char_8
 {
-public:
-  cool_nash_0x294 *field_0_char_ped;
-  Char_8 *field_4_pOwner;
+  public:
+    cool_nash_0x294* field_0_char_ped;
+    Char_8* field_4_pOwner;
 };
 
 class Ped_Unknown_4
 {
-public:
+  public:
     EXPORT Char_8* sub_471140(cool_nash_0x294* pPed);
     EXPORT Char_8* sub_471160(cool_nash_0x294* a2);
     EXPORT Char_8* sub_4711F0(cool_nash_0x294* a2);

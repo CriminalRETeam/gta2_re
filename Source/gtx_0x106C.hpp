@@ -1,8 +1,7 @@
 #pragma once
 
-#include <windows.h>
 #include "Function.hpp"
-
+#include <windows.h>
 
 struct palette_base
 {
@@ -71,7 +70,7 @@ struct door_info
 
 class car_info
 {
-public:
+  public:
     BYTE model;
     BYTE sprite;
     BYTE w;
@@ -98,7 +97,7 @@ struct car_info_container
         field_400_count = 0;
         memset(field_0, 0, sizeof(field_0));
     }
-    car_info *field_0[256];
+    car_info* field_0[256];
     char_type field_400_count;
     //char_type field_401;// pad
     //char_type field_402;// pad
@@ -112,10 +111,9 @@ struct delta_store_entry
     char_type field_3_data[1]; // variable � see field_2_len
 };
 
-
 class gtx_0x106C
 {
-public:
+  public:
     EXPORT car_info* get_car_info_5AA3B0(u8 idx);
 
     EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
@@ -138,11 +136,11 @@ public:
 
     EXPORT u16 sub_5AA710(u16 a2, s16 a3);
 
-    EXPORT u16 sub_5AA760(u16 *a2, wchar_t *a3);
+    EXPORT u16 sub_5AA760(u16* a2, wchar_t* a3);
 
-    EXPORT u16 space_width_5AA7B0(u16 *a2);
+    EXPORT u16 space_width_5AA7B0(u16* a2);
 
-    EXPORT s16 sub_5AA800(u16 *a2);
+    EXPORT s16 sub_5AA800(u16* a2);
 
     EXPORT bool sub_5AA850(u16 tile_idx);
 
@@ -196,9 +194,9 @@ public:
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
-    EXPORT static u16 __stdcall ConvertToVirtualOffsets_5AB1A0(u16 *pOffsets, u32 offsetsCount);
+    EXPORT static u16 __stdcall ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offsetsCount);
 
-    EXPORT static void __stdcall ConvertToVirtualOffsets_5AB1C0(u16 *pBuffer, u32 len);
+    EXPORT static void __stdcall ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len);
 
     EXPORT void load_sprite_base_5AB210(u32 sprite_base_chunk_size);
 
@@ -212,11 +210,11 @@ public:
 
     EXPORT void load_spec_5AB450();
 
-    EXPORT void LoadChunk_5AB4B0(const char_type *Str1, u32 chunk_len);
+    EXPORT void LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len);
 
     EXPORT void sub_5AB720();
 
-    EXPORT void LoadSty_5AB750(const char_type *pStyFileName);
+    EXPORT void LoadSty_5AB750(const char_type* pStyFileName);
 
     // 0x5AB820
     EXPORT gtx_0x106C();
@@ -230,33 +228,33 @@ public:
     u16 field_6_map_object_info_len;
     s16 field_8_physical_palettes_len;
     s16 field_A;
-    palette_base *field_C_palette_base2;
-    palette_base *field_10_palette_base1;
-    sprite_base *field_14_sprite_base2;
-    sprite_base *field_18_sprite_base1;
-    font_base *field_1C_font_base;
-    sprite_index *field_20_sprite_index;
-    object_info *field_24_map_object_info;
-    palette_index *field_28_palette_index;
+    palette_base* field_C_palette_base2;
+    palette_base* field_10_palette_base1;
+    sprite_base* field_14_sprite_base2;
+    sprite_base* field_18_sprite_base1;
+    font_base* field_1C_font_base;
+    sprite_index* field_20_sprite_index;
+    object_info* field_24_map_object_info;
+    palette_index* field_28_palette_index;
     void* field_2C_physical_palettes;
     void* field_30_physical_palettes_size;
-    BYTE *field_34_sprite_graphics;
+    BYTE* field_34_sprite_graphics;
     void* field_38;
-    void *field_3C_tiles;
-    tile_array *field_40_tile;
+    void* field_3C_tiles;
+    tile_array* field_40_tile;
     void* field_44_aligned_tiles_size;
     delta_store_entry* field_48_delta_store;
-    delta_entry *field_4C_delta_index;
-    void *field_50_delta_buffer;
+    delta_entry* field_4C_delta_index;
+    void* field_50_delta_buffer;
     s32 field_54_del;
     car_info** field_58_car_info;
     car_info_container* field_5C_cari;
     s32 field_60_delta_len;
-    u8 *field_64_car_recycling_info;
+    u8* field_64_car_recycling_info;
     s16 field_68_recy_chunk_size;
     char_type field_6A;
     char_type field_6B;
     s32 field_6C_spec[1024];
 };
 
-extern gtx_0x106C *gGtx_0x106C_703DD4;
+extern gtx_0x106C* gGtx_0x106C_703DD4;

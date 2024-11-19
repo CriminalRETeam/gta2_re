@@ -7,7 +7,7 @@ class Car_3C;
 
 class Phi_74
 {
-public:
+  public:
     EXPORT void dtor_4BDF60();
     EXPORT s32 sub_533060(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_533090();
@@ -63,7 +63,7 @@ public:
 
 class Phi_8CA8
 {
-public:
+  public:
     EXPORT void dtor_4BDF40();
     EXPORT Phi_74* sub_5332D0(s32 a2, s32 a3, s16 a4, char_type a5);
     EXPORT object_info* sub_533300();

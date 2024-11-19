@@ -33,7 +33,6 @@ char_type Weapon_8::sub_5E3D50(s32 a2, u8 a3, Car_BC* a4)
 STUB_FUNC(0x5e3df0)
 void Weapon_8::sub_5E3DF0(u32* a1)
 {
-
 }
 
 STUB_FUNC(0x5e3e70)
@@ -57,5 +56,4 @@ Weapon_8* Weapon_8::ctor_5E3E90()
 STUB_FUNC(0x5e3f60)
 void Weapon_8::dtor_5E3F60()
 {
-
 }

@@ -15,7 +15,6 @@ char_type PurpleDoom::sub_477AE0(Car_3C* a1)
 STUB_FUNC(0x477b00)
 void PurpleDoom::sub_477B00(Car_3C* a1)
 {
-
 }
 
 STUB_FUNC(0x477b20)
@@ -33,7 +32,6 @@ s32 PurpleDoom::sub_477B60(Car_3C* a1)
 STUB_FUNC(0x477ba0)
 void PurpleDoom::sub_477BA0()
 {
-
 }
 
 STUB_FUNC(0x477bd0)
@@ -99,7 +97,6 @@ s32 PurpleDoom::sub_478240(s32 a2, s32 a3, s32 a4, s32 a5)
 STUB_FUNC(0x4782c0)
 void PurpleDoom::sub_4782C0(s32 a2, s32 idx, Car_3C* a4)
 {
-
 }
 
 STUB_FUNC(0x478370)
@@ -117,7 +114,6 @@ char_type PurpleDoom::sub_478440(s32 a2, s32 idx, Car_3C* a4)
 STUB_FUNC(0x4784d0)
 void PurpleDoom::sub_4784D0(s32 idx, Car_3C* a3)
 {
-
 }
 
 STUB_FUNC(0x478590)
@@ -153,7 +149,6 @@ s32 PurpleDoom::sub_478880(u32 a2, u32* a3)
 STUB_FUNC(0x478950)
 void PurpleDoom::sub_478950(s32 a2, s32 a3)
 {
-
 }
 
 STUB_FUNC(0x4789f0)

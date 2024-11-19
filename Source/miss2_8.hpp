@@ -9,7 +9,7 @@ extern Frismo_25C* gFrismo_25C_6F8068;
 
 class miss2_8
 {
-public:
+  public:
     miss2_8(); // 503120
     ~miss2_8(); // 503130
 

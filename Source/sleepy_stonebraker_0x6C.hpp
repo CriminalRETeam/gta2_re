@@ -5,7 +5,7 @@
 
 class sleepy_stonebraker_0x6C
 {
-public:
+  public:
     EXPORT sleepy_stonebraker_0x6C(); // 483E30
     EXPORT ~sleepy_stonebraker_0x6C(); // 483E60
 

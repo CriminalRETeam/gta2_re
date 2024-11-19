@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "distracted_einstein_0xC.hpp"
+#include "Function.hpp"
 #include <windows.h>
 
 MATCH_FUNC(0x5BEBF0)
@@ -19,5 +19,4 @@ distracted_einstein_0xC::distracted_einstein_0xC()
 MATCH_FUNC(0x5BEC20)
 distracted_einstein_0xC::~distracted_einstein_0xC()
 {
-
 }

@@ -16,7 +16,6 @@ char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, 
 STUB_FUNC(0x5c8750)
 void Car_214::sub_5C8750()
 {
-
 }
 
 STUB_FUNC(0x5c8780)
@@ -24,7 +23,6 @@ u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
 {
     return 0;
 }
-
 
 STUB_FUNC(0x47bd00)
 Car_2* Car_2::sub_47BD00()
@@ -35,14 +33,11 @@ Car_2* Car_2::sub_47BD00()
 STUB_FUNC(0x47bd90)
 void Car_2::sub_47BD90()
 {
-
 }
-
 
 STUB_FUNC(0x444980)
 void Car_6C::sub_444980()
 {
-
 }
 
 STUB_FUNC(0x444ab0)
@@ -96,13 +91,11 @@ s32 Car_6C::sub_4466C0(s32 a2)
 STUB_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
-
 }
 
 STUB_FUNC(0x446790)
 void Car_6C::sub_446790()
 {
-
 }
 
 STUB_FUNC(0x446870)
@@ -126,7 +119,6 @@ Car_6C* Car_6C::ctor_4469F0()
 STUB_FUNC(0x446dc0)
 void Car_6C::dtor_446DC0()
 {
-
 }
 
 STUB_FUNC(0x439ec0)
@@ -136,43 +128,43 @@ bool Car_BC::sub_439EC0()
 }
 
 STUB_FUNC(0x439ee0)
-u32 *Car_BC::sub_439EE0(u32 *a2)
+u32* Car_BC::sub_439EE0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x439f30)
-u32 *Car_BC::sub_439F30(u32 *a2)
+u32* Car_BC::sub_439F30(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x439f80)
-wchar_t *Car_BC::GetCarStr_439F80()
+wchar_t* Car_BC::GetCarStr_439F80()
 {
     return 0;
 }
 
 STUB_FUNC(0x439fb0)
-u32 *Car_BC::sub_439FB0(u32 *a2)
+u32* Car_BC::sub_439FB0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a0e0)
-u32 *Car_BC::sub_43A0E0(u32 *a2)
+u32* Car_BC::sub_43A0E0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a120)
-u32 *Car_BC::sub_43A120(u32 *a2)
+u32* Car_BC::sub_43A120(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a1d0)
-s32 *Car_BC::sub_43A1D0(s32 *a2)
+s32* Car_BC::sub_43A1D0(s32* a2)
 {
     return 0;
 }
@@ -190,7 +182,7 @@ bool Car_BC::sub_43A230()
 }
 
 STUB_FUNC(0x43a240)
-s32 *Car_BC::sub_43A240(s32 *a2)
+s32* Car_BC::sub_43A240(s32* a2)
 {
     return 0;
 }
@@ -202,31 +194,31 @@ bool Car_BC::sub_43A3C0()
 }
 
 STUB_FUNC(0x43a3e0)
-s16 *Car_BC::sub_43A3E0(s16 *a2)
+s16* Car_BC::sub_43A3E0(s16* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a450)
-u32 *Car_BC::sub_43A450(u32 *a2)
+u32* Car_BC::sub_43A450(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a4c0)
-s32 *Car_BC::sub_43A4C0(s32 *a2)
+s32* Car_BC::sub_43A4C0(s32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a590)
-u32 *Car_BC::sub_43A590(u32 *a2)
+u32* Car_BC::sub_43A590(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43a5b0)
-u32 *Car_BC::sub_43A5B0(u32 *a2)
+u32* Car_BC::sub_43A5B0(u32* a2)
 {
     return 0;
 }
@@ -271,19 +263,19 @@ char_type Car_BC::sub_43A850()
 }
 
 STUB_FUNC(0x43a950)
-Car_B0 *Car_BC::sub_43A950()
+Car_B0* Car_BC::sub_43A950()
 {
     return 0;
 }
 
 STUB_FUNC(0x43a970)
-Car_B0 *Car_BC::sub_43A970()
+Car_B0* Car_BC::sub_43A970()
 {
     return 0;
 }
 
 STUB_FUNC(0x43a9a0)
-void Car_BC::sub_43A9A0(cool_nash_0x294 *a2)
+void Car_BC::sub_43A9A0(cool_nash_0x294* a2)
 {
 }
 
@@ -293,7 +285,7 @@ void Car_BC::sub_43A9F0()
 }
 
 STUB_FUNC(0x43aa60)
-Car_BC *Car_BC::sub_43AA60()
+Car_BC* Car_BC::sub_43AA60()
 {
     return 0;
 }
@@ -323,7 +315,7 @@ char_type Car_BC::sub_43AF40()
 }
 
 STUB_FUNC(0x43af60)
-Car_78 *Car_BC::sub_43AF60()
+Car_78* Car_BC::sub_43AF60()
 {
     return 0;
 }
@@ -341,13 +333,13 @@ bool Car_BC::sub_43B140(s32 a2)
 }
 
 STUB_FUNC(0x43b2b0)
-bool Car_BC::sub_43B2B0(cool_nash_0x294 *a2)
+bool Car_BC::sub_43B2B0(cool_nash_0x294* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x43b340)
-Car_10 *Car_BC::sub_43B340(u8 a2)
+Car_10* Car_BC::sub_43B340(u8 a2)
 {
     return 0;
 }
@@ -370,13 +362,13 @@ char_type Car_BC::sub_43B3D0()
 }
 
 STUB_FUNC(0x43b420)
-s32 Car_BC::sub_43B420(s32 a2, u32 *a3, u32 *a4)
+s32 Car_BC::sub_43B420(s32 a2, u32* a3, u32* a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x43b5a0)
-s32 *Car_BC::sub_43B5A0(s32 a2, u32 *a3, s32 *a4)
+s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
 {
     return 0;
 }
@@ -394,13 +386,13 @@ char_type Car_BC::sub_43B750()
 }
 
 STUB_FUNC(0x43b770)
-Char_8 *Car_BC::sub_43B770()
+Char_8* Car_BC::sub_43B770()
 {
     return 0;
 }
 
 STUB_FUNC(0x43b7b0)
-char_type Car_BC::sub_43B7B0(Car_BC *a2)
+char_type Car_BC::sub_43B7B0(Car_BC* a2)
 {
     return 0;
 }
@@ -439,7 +431,7 @@ void Car_BC::sub_43BCA0()
 }
 
 STUB_FUNC(0x43bd00)
-Car_B0 *Car_BC::sub_43BD00()
+Car_B0* Car_BC::sub_43BD00()
 {
     return 0;
 }
@@ -481,19 +473,19 @@ u32 Car_BC::sub_43C1C0()
 }
 
 STUB_FUNC(0x43c260)
-car_info *Car_BC::sub_43C260()
+car_info* Car_BC::sub_43C260()
 {
     return 0;
 }
 
 STUB_FUNC(0x43c310)
-car_info *Car_BC::sub_43C310()
+car_info* Car_BC::sub_43C310()
 {
     return 0;
 }
 
 STUB_FUNC(0x43c3c0)
-car_info *Car_BC::sub_43C3C0()
+car_info* Car_BC::sub_43C3C0()
 {
     return 0;
 }
@@ -551,7 +543,7 @@ s32 Car_BC::sub_43CBE0()
 }
 
 STUB_FUNC(0x43cdf0)
-Car_BC *Car_BC::sub_43CDF0(char_type a2)
+Car_BC* Car_BC::sub_43CDF0(char_type a2)
 {
     return 0;
 }
@@ -580,7 +572,7 @@ s32 Car_BC::sub_43D400()
 }
 
 STUB_FUNC(0x43d690)
-s32 *Car_BC::sub_43D690(Car_BC *a1, s32 a2, s32 a3, s32 a4, s32 a5)
+s32* Car_BC::sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5)
 {
     return 0;
 }
@@ -602,7 +594,7 @@ s16 Car_BC::sub_43DA90(s16 a2, s32 a3)
 }
 
 STUB_FUNC(0x43db80)
-Char_8 **Car_BC::sub_43DB80()
+Char_8** Car_BC::sub_43DB80()
 {
     return 0;
 }
@@ -642,13 +634,13 @@ char_type Car_BC::sub_43E560()
 }
 
 STUB_FUNC(0x43e8d0)
-Car_BC *Car_BC::sub_43E8D0()
+Car_BC* Car_BC::sub_43E8D0()
 {
     return 0;
 }
 
 STUB_FUNC(0x43e990)
-cool_nash_0x294 *Car_BC::sub_43E990()
+cool_nash_0x294* Car_BC::sub_43E990()
 {
     return 0;
 }
@@ -666,7 +658,7 @@ char_type Car_BC::sub_43F130(s32 a2)
 }
 
 STUB_FUNC(0x440510)
-u32 *Car_BC::sub_440510(u32 *a2)
+u32* Car_BC::sub_440510(u32* a2)
 {
     return 0;
 }
@@ -706,13 +698,13 @@ s32 Car_BC::sub_440660(u8 a2)
 }
 
 STUB_FUNC(0x4406b0)
-u8 *Car_BC::sub_4406B0(cool_nash_0x294 *a2)
+u8* Car_BC::sub_4406B0(cool_nash_0x294* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4406e0)
-void Car_BC::sub_4406E0(cool_nash_0x294 *a2)
+void Car_BC::sub_4406E0(cool_nash_0x294* a2)
 {
 }
 
@@ -722,7 +714,7 @@ void Car_BC::sub_4407F0()
 }
 
 STUB_FUNC(0x440840)
-Car_3C *Car_BC::sub_440840()
+Car_3C* Car_BC::sub_440840()
 {
     return 0;
 }
@@ -781,7 +773,7 @@ char_type Car_BC::sub_441080(u8 a2, u8 a3, u8 a4, s32 a5)
 }
 
 STUB_FUNC(0x4410d0)
-char_type Car_BC::sub_4410D0(s16 a2, u8 *a3, s32 a4, s32 a5)
+char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
 {
     return 0;
 }
@@ -814,7 +806,7 @@ void Car_BC::sub_4415C0()
 }
 
 STUB_FUNC(0x441600)
-u32 *Car_BC::sub_441600(u32 *a2)
+u32* Car_BC::sub_441600(u32* a2)
 {
     return 0;
 }
@@ -832,7 +824,7 @@ void Car_BC::sub_4417D0()
     {
         return;
     }
-    
+
     if (field_A7 != 248)
     {
         field_A7--;
@@ -851,13 +843,13 @@ char_type Car_BC::sub_441800(char_type a2)
 }
 
 STUB_FUNC(0x4418a0)
-Car_A4_10 *Car_BC::sub_4418A0()
+Car_A4_10* Car_BC::sub_4418A0()
 {
     return 0;
 }
 
 STUB_FUNC(0x4418b0)
-Car_A4_10 *Car_BC::sub_4418B0()
+Car_A4_10* Car_BC::sub_4418B0()
 {
     return 0;
 }
@@ -874,7 +866,7 @@ void Car_BC::sub_4419E0()
 }
 
 STUB_FUNC(0x441a10)
-Car_B0 *Car_BC::sub_441A10()
+Car_B0* Car_BC::sub_441A10()
 {
     return 0;
 }
@@ -959,7 +951,7 @@ char_type Car_BC::sub_4424C0()
 }
 
 STUB_FUNC(0x442520)
-s16 *Car_BC::sub_442520(s16 *a2)
+s16* Car_BC::sub_442520(s16* a2)
 {
     return 0;
 }
@@ -987,13 +979,13 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-Car_A4_10 *Car_BC::sub_442760()
+Car_A4_10* Car_BC::sub_442760()
 {
     return 0;
 }
 
 STUB_FUNC(0x4427a0)
-Car_BC *Car_BC::sub_4427A0(Car_BC *a2)
+Car_BC* Car_BC::sub_4427A0(Car_BC* a2)
 {
     return 0;
 }
@@ -1005,7 +997,7 @@ s32 Car_BC::sub_442810()
 }
 
 STUB_FUNC(0x442d10)
-s32 *Car_BC::sub_442D10()
+s32* Car_BC::sub_442D10()
 {
     return 0;
 }
@@ -1058,7 +1050,7 @@ void Car_BC::sub_4435F0()
 }
 
 STUB_FUNC(0x443710)
-Car_6C *Car_BC::sub_443710(s32 a2)
+Car_6C* Car_BC::sub_443710(s32 a2)
 {
     return 0;
 }
@@ -1090,13 +1082,13 @@ void Car_BC::sub_443D70(s32 a2)
 }
 
 STUB_FUNC(0x443da0)
-Car_6C *Car_BC::sub_443DA0(s32 a2)
+Car_6C* Car_BC::sub_443DA0(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x443e50)
-Car_6C *Car_BC::sub_443E50()
+Car_6C* Car_BC::sub_443E50()
 {
     return 0;
 }
@@ -1112,7 +1104,7 @@ void Car_BC::sub_443EB0(s32 a2)
 }
 
 STUB_FUNC(0x443ee0)
-Car_6C *Car_BC::sub_443EE0(s32 a2)
+Car_6C* Car_BC::sub_443EE0(s32 a2)
 {
     return 0;
 }
@@ -1130,7 +1122,7 @@ char_type Car_BC::sub_444020()
 }
 
 STUB_FUNC(0x444090)
-u32 Car_BC::sub_444090(Car_BC *a1)
+u32 Car_BC::sub_444090(Car_BC* a1)
 {
     return 0;
 }
@@ -1141,36 +1133,36 @@ void Car_BC::sub_4441B0()
     s32 info_idx = field_84_car_info_idx;
     switch (info_idx)
     {
-    case 34:
-        sub_443F30(165, 16719888, 10, 16);
-        sub_443F30(171, 16719888, -10, 16);
-        sub_443F30(172, 16719888, 10, -32);
-        sub_443F30(173, 16719888, -10, -32);
-        break;
-    case 12:
-        sub_443F30(165, 16719888, 10, -16);
-        sub_443F30(171, 255, -10, -16);
-        break;
-    case 52:
-        sub_443F30(165, 16719888, 10, 32);
-        sub_443F30(171, 255, -10, 32);
-        sub_443F30(172, 16719888, 10, -32);
-        sub_443F30(173, 255, -10, -32);
-        break;
-    case 17:
-        sub_443F30(165, 16719888, 16, 48);
-        sub_443F30(171, 16719888, -16, 48);
-        sub_443F30(172, 16719888, 16, -16);
-        sub_443F30(173, 16719888, -16, -26);
-        break;
-    case 84:
-        sub_443F30(165, 16719888, 0, 16);
-        break;
+        case 34:
+            sub_443F30(165, 16719888, 10, 16);
+            sub_443F30(171, 16719888, -10, 16);
+            sub_443F30(172, 16719888, 10, -32);
+            sub_443F30(173, 16719888, -10, -32);
+            break;
+        case 12:
+            sub_443F30(165, 16719888, 10, -16);
+            sub_443F30(171, 255, -10, -16);
+            break;
+        case 52:
+            sub_443F30(165, 16719888, 10, 32);
+            sub_443F30(171, 255, -10, 32);
+            sub_443F30(172, 16719888, 10, -32);
+            sub_443F30(173, 255, -10, -32);
+            break;
+        case 17:
+            sub_443F30(165, 16719888, 16, 48);
+            sub_443F30(171, 16719888, -16, 48);
+            sub_443F30(172, 16719888, 16, -16);
+            sub_443F30(173, 16719888, -16, -26);
+            break;
+        case 84:
+            sub_443F30(165, 16719888, 0, 16);
+            break;
     }
 }
 
 STUB_FUNC(0x444490)
-Car_6C *Car_BC::sub_444490()
+Car_6C* Car_BC::sub_444490()
 {
     return 0;
 }
@@ -1234,7 +1226,7 @@ Car_BC::~Car_BC()
 }
 
 STUB_FUNC(0x446730)
-s32 Car_BC::sub_446730(Car_BC *a1)
+s32 Car_BC::sub_446730(Car_BC* a1)
 {
     return 0;
 }
@@ -1246,7 +1238,7 @@ char_type Car_BC::sub_447360()
 }
 
 STUB_FUNC(0x52a6d0)
-Car_3C *Car_BC::sub_52A6D0(Car_3C *a2)
+Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
 {
     return 0;
 }

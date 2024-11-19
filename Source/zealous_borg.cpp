@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "zealous_borg.hpp"
+#include "Function.hpp"
 
 MATCH_FUNC(0x484ED0)
 zealous_borg::zealous_borg() // 0x484ED0
@@ -16,9 +16,9 @@ zealous_borg::~zealous_borg() // 0x484EE0
 MATCH_FUNC(0x484EF0)
 void zealous_borg::sub_484EF0()
 {
-    u8 *pByteIter = field_28;
-    u32 *pIntIter = field_0;
-    for (s32 i = GTA2_COUNTOF(field_28)-1; i >= 0; i--)
+    u8* pByteIter = field_28;
+    u32* pIntIter = field_0;
+    for (s32 i = GTA2_COUNTOF(field_28) - 1; i >= 0; i--)
     {
         *pIntIter = 0;
         *pByteIter = 1;
@@ -38,8 +38,8 @@ void zealous_borg::sub_484F20()
 STUB_FUNC(0x484F30)
 void zealous_borg::sub_484F30()
 {
-    *(int *)&this->field_28[1] = 0x1010101;
-    *(int *)&this->field_28[5] = 0x1010101;
+    *(int*)&this->field_28[1] = 0x1010101;
+    *(int*)&this->field_28[5] = 0x1010101;
     this->field_28[9] = 1;
 }
 
@@ -48,26 +48,26 @@ void zealous_borg::sub_484F50(int a2)
 {
     switch (a2)
     {
-    case 2:
-        if (field_28[a2])
-        {
+        case 2:
+            if (field_28[a2])
+            {
+                field_0[a2]++;
+                field_28[a2] = 0;
+            }
+            break;
+        case 1:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
             field_0[a2]++;
-            field_28[a2] = 0;
-        }
-        break;
-    case 1:
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-    case 7:
-    case 8:
-    case 9:
-        field_0[a2]++;
-        break;
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 

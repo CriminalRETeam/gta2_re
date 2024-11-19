@@ -7,7 +7,7 @@ class Object_3C;
 
 class PurpleDoom
 {
-public:
+  public:
     EXPORT s32 sub_477A40();
     EXPORT char_type sub_477AE0(Car_3C* a1);
     EXPORT void sub_477B00(Car_3C* a1);

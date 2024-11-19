@@ -97,7 +97,7 @@ INT_PTR Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM
             return 0;
 
         case WM_INITDIALOG:
-            return OnInitDialog_51AC60(hDlg, wParam, reinterpret_cast<Network_20324 *>(lParam));
+            return OnInitDialog_51AC60(hDlg, wParam, reinterpret_cast<Network_20324*>(lParam));
     }
 
     return 0;

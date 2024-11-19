@@ -1,39 +1,39 @@
-#include "Function.hpp"
 #include "winmain.hpp"
-#include <windows.h>
-#include "error.hpp"
-#include "debug.hpp"
-#include "input.hpp"
-#include "registry.hpp"
-#include "Game_0x40.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
-#include "goofy_thompson.hpp"
-#include "lucid_hamilton.hpp"
-#include "root_sound.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include "Bink.hpp"
+#include "Function.hpp"
+#include "Game_0x40.hpp"
+#include "debug.hpp"
 #include "dma_video.hpp"
-#include "keybrd_0x204.hpp"
+#include "error.hpp"
 #include "gbh_graphics.hpp"
+#include "goofy_thompson.hpp"
+#include "input.hpp"
+#include "jolly_poitras_0x2BC0.hpp"
+#include "keybrd_0x204.hpp"
+#include "laughing_blackwell_0x1EB54.hpp"
+#include "lucid_hamilton.hpp"
+#include "registry.hpp"
+#include "resource.h"
+#include "root_sound.hpp"
+#include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
-#include "resource.h"
-#include <ddraw.h>
+#include <windows.h>
 //#include <dmusics.h>
 
 // for force links
-#include "angry_lewin_0x85C.hpp"
+#include "BurgerKing_67F8B0.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "Garox_2B00.hpp"
+#include "Mike_A80.hpp"
+#include "Montana.hpp"
+#include "Nanobotz.hpp"
+#include "Network_20324.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "char.hpp"
 #include "cool_nash_0x294.hpp"
 #include "miss2_8.hpp"
-#include "BurgerKing_67F8B0.hpp"
-#include "Garox_2B00.hpp"
-#include "Nanobotz.hpp"
-#include "Montana.hpp"
-#include "Mike_A80.hpp"
-#include "char.hpp"
 #include "nostalgic_ellis_0x28.hpp"
-#include "Network_20324.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -158,18 +158,15 @@ void __stdcall sub_5D93A0()
 {
     char_type v0; // bl
     s32 bcheckModeRet; // esi
-   // SVideo *v2; // eax
+    // SVideo *v2; // eax
     BYTE field_4_flags; // ecx
 
     v0 = 0;
     bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
-        if (full_width_706B5C == 640
-            || (full_width_706B5C = 640,
-                v0 = 1,
-                full_height_706798 = 480,
-                (bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
+        if (full_width_706B5C == 640 ||
+            (full_width_706B5C = 640, v0 = 1, full_height_706798 = 480, (bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
             FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
         }
@@ -182,7 +179,7 @@ void __stdcall sub_5D93A0()
         //BYTE1(field_4_flags) |= 1u;
         field_4_flags |= 1u;
         gVidSys_7071D0->field_4_flags = field_4_flags;
-       // v2 = gVidSys_7071D0;
+        // v2 = gVidSys_7071D0;
     }
 
     if (Vid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
@@ -217,7 +214,8 @@ MATCH_FUNC(0x5D9660)
 void __stdcall ShowCursor_5D9660()
 {
     s32 refCount;
-    do {
+    do
+    {
         refCount = ShowCursor(1);
     } while (refCount < 0);
 }
@@ -244,14 +242,13 @@ char_type sub_5D9510()
     struct tagRECT clientRect; // [esp+8h] [ebp-20h] BYREF
     GetClientRect(gHwnd_707F04, &clientRect);
 
-    if (!SetWindowPos(
-        gHwnd_707F04,
-        0,
-        gWindowX_706B60,
-        gWindowY_706B64,
-        windowRect.right + clientRect.left + window_width_706630 - clientRect.right - windowRect.left,
-        windowRect.bottom + clientRect.top + window_height_706B50 - clientRect.bottom - windowRect.top,
-        0x316u))
+    if (!SetWindowPos(gHwnd_707F04,
+                      0,
+                      gWindowX_706B60,
+                      gWindowY_706B64,
+                      windowRect.right + clientRect.left + window_width_706630 - clientRect.right - windowRect.left,
+                      windowRect.bottom + clientRect.top + window_height_706B50 - clientRect.bottom - windowRect.top,
+                      0x316u))
     {
         return 0;
     }
@@ -275,7 +272,6 @@ char_type sub_5D9510()
         return 1;
     }
 }
-
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8F70)
@@ -404,7 +400,6 @@ void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
     ShowCursor_5D9660();
 }
 
-
 // todo: move
 MATCH_FUNC(0x5D9290)
 bool Vid_FindDevice_5D9290()
@@ -444,7 +439,7 @@ void sub_5D96C0()
     }
 
     gVidSys_7071D0 = Vid_Init_SYS(gHInstance_708220, 0); // flags param ??
-    
+
     Vid_SetDevice(gVidSys_7071D0, gVideodevice_70694C);
 
     if (!gVidSys_7071D0)
@@ -458,7 +453,6 @@ void sub_5D96C0()
     }
 
     gVidSys_7071D0->field_4_flags |= v1;
-
 
     if (GetHwndDCDeviceCaps_5D9800() == 16) // 16 bpp?
     {
@@ -475,32 +469,16 @@ void sub_5D96C0()
     }
 
     sub_5D92D0();
-    
+
     GBH_GraphicsInit_5D97C0();
 
     SetSavedGamma_5D98E0();
 
-    Vid_ClearScreen(
-        gVidSys_7071D0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        gVidSys_7071D0->field_48_rect_right,
-        gVidSys_7071D0->field_4C_rect_bottom);
+    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 
     Vid_FlipBuffers(gVidSys_7071D0);
 
-    Vid_ClearScreen(
-        gVidSys_7071D0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        gVidSys_7071D0->field_48_rect_right,
-        gVidSys_7071D0->field_4C_rect_bottom);
+    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
 // todo move to another file for ordering
@@ -546,14 +524,10 @@ char_type sub_4DA850()
 STUB_FUNC(0x4DA830)
 void __stdcall sub_4DA830()
 {
-
 }
 
-
-GUID IID_DirectMusic = { 1667997456u, 3197u, 4561u, { 149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u } };
-GUID IDD_IDirectMusic = { 1698042202u, 31533u, 4562u, { 186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u } };
-
-
+GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
+GUID IDD_IDirectMusic = {1698042202u, 31533u, 4562u, {186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u}};
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4A0650)
@@ -561,27 +535,26 @@ void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
     HMODULE hDMusic; // esi
-    IUnknown *pDMusic; // [esp+4h] [ebp-4h] BYREF
+    IUnknown* pDMusic; // [esp+4h] [ebp-4h] BYREF
 
     gDMusicVer_67BD32 = 0;
     hDMusic = LoadLibraryA("DMUSIC.DLL");
     if (hDMusic)
     {
-        if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, (LPVOID *)&pDMusic) >= 0)
+        if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, (LPVOID*)&pDMusic) >= 0)
         {
             gDMusicVer_67BD32 = 0x601;
             pDMusic->Release();
         }
         FreeLibrary(hDMusic);
     }
-    
 }
 
-GUID IID_IDirectDrawSurface4_ = { 0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B };
+GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B};
 
 // todo move to another file for ordering
 STUB_FUNC(0x4C4EC0)
-void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
+void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
     u32 dwMajorVersion; // eax
     HMODULE hDInput; // eax
@@ -589,7 +562,7 @@ void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
     FARPROC pDirectInputCreateA; // ebx
     HMODULE hDDraw; // eax
     HMODULE hDDraw_; // esi
-    HRESULT(__stdcall *pDirectDrawCreate)(GUID *, LPDIRECTDRAW *, IUnknown *); // eax
+    HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*); // eax
     LPDIRECTDRAW pDDraw_; // eax
     HMODULE hDInput2; // eax
     HMODULE hDInput2_; // ebp
@@ -618,16 +591,16 @@ void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
         return;
     }
 
-    if (osVersionInfo.dwPlatformId == 2)        // VER_PLATFORM_WIN32_NT
+    if (osVersionInfo.dwPlatformId == 2) // VER_PLATFORM_WIN32_NT
     {
         dwMajorVersion = osVersionInfo.dwMajorVersion;
         *osKind = 2;
         if (dwMajorVersion < 4)
         {
-            *osKind = 0;                              // less than NT4
+            *osKind = 0; // less than NT4
             return;
         }
-        if (dwMajorVersion == 4)                  // exactly NT4
+        if (dwMajorVersion == 4) // exactly NT4
         {
             *pDXVer = 0x200;
             hDInput = LoadLibraryA("DINPUT.DLL");
@@ -661,16 +634,14 @@ void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
     hDDraw_ = hDDraw;
     if (hDDraw)
     {
-        pDirectDrawCreate = (HRESULT(__stdcall *)(GUID *, LPDIRECTDRAW *, IUnknown *))GetProcAddress(
-            hDDraw,
-            "DirectDrawCreate");
+        pDirectDrawCreate = (HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*))GetProcAddress(hDDraw, "DirectDrawCreate");
         if (pDirectDrawCreate)
         {
             if (pDirectDrawCreate(0, &pDDraw, 0) >= 0)
             {
                 pDDraw_ = pDDraw;
                 *pDXVer = 0x100;
-                if (pDDraw_->QueryInterface(IID_IDirectDraw2, (LPVOID *)&pDraw2) >= 0)
+                if (pDDraw_->QueryInterface(IID_IDirectDraw2, (LPVOID*)&pDraw2) >= 0)
                 {
                     pDraw2->Release();
                     *pDXVer = 0x200;
@@ -691,10 +662,10 @@ void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
                             {
                                 if (pDDraw->CreateSurface(&surfaceDesc, &pDSurface, 0) >= 0)
                                 {
-                                    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID *)&v18) < 0
-                                        || (pDSurface_ = pDSurface,
-                                            *pDXVer = 0x500,
-                                            pDSurface_->QueryInterface(IID_IDirectDrawSurface4_, (LPVOID *)&pDSurface4) < 0))
+                                    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0 ||
+                                        (pDSurface_ = pDSurface,
+                                         *pDXVer = 0x500,
+                                         pDSurface_->QueryInterface(IID_IDirectDrawSurface4_, (LPVOID*)&pDSurface4) < 0))
                                     {
                                         pDDraw->Release();
                                         FreeLibrary(hDDraw_);
@@ -774,8 +745,7 @@ void __stdcall GetDirectXVersion_4C4EC0(u32 *pDXVer, u32 *osKind)
     }
 }
 
-
-const char_type *off_626A00[2] = { "d3ddll.dll", "dmavideo.dll" };
+const char_type* off_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D90E0)
@@ -785,8 +755,8 @@ void __stdcall Video_Render_Inits_5D90E0()
     gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
     strcpy(gRenderDllName_7067F0, off_626A00[0]);
     strcpy(gVideoDllName_706654, off_626A00[1]);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("rendername", (BYTE *)gRenderDllName_7067F0, 0xFFu);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("videoname", (BYTE *)gVideoDllName_706654, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
 
     if (strcmp(gRenderDllName_7067F0, "softdll.dll") == 0)
     {
@@ -803,7 +773,6 @@ void __stdcall Video_Render_Inits_5D90E0()
 
     Init_FrameRateLightAndUnknown_5D8EB0();
     ReadScreenSettings_5D8F70();
-
 }
 
 // todo move to another file for ordering
@@ -842,7 +811,7 @@ void __stdcall CleanUpInputAndOthers_4DA700()
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA390)
-s32 __stdcall SkipWhiteSpace_4DA390(char_type *pStr)
+s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
     // todo
     return 0;
@@ -850,7 +819,7 @@ s32 __stdcall SkipWhiteSpace_4DA390(char_type *pStr)
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA3F0)
-char_type *__stdcall sub_4DA3F0(char_type *pStr)
+char_type* __stdcall sub_4DA3F0(char_type* pStr)
 {
     // todo
     return 0;
@@ -858,7 +827,7 @@ char_type *__stdcall sub_4DA3F0(char_type *pStr)
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA320)
-void __stdcall ParseCommandLine_4DA320(char_type *pCommandLine)
+void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 {
     char* pIter = pCommandLine;
     s32 len = SkipWhiteSpace_4DA390(pCommandLine);
@@ -870,20 +839,20 @@ void __stdcall ParseCommandLine_4DA320(char_type *pCommandLine)
             const char_type cmd_char = *(++pIter);
             switch (cmd_char)
             {
-            case 'R':
-                bPlay_replay_67D4F4 = 1;
-                break;
+                case 'R':
+                    bPlay_replay_67D4F4 = 1;
+                    break;
 
-            case 'Q':
-                bConstant_replay_save_67D5C4 = 1;
-                break;
+                case 'Q':
+                    bConstant_replay_save_67D5C4 = 1;
+                    break;
 
-            case 'N':
-                bStartNetworkGame_7081F0 = 1;
-                break;
+                case 'N':
+                    bStartNetworkGame_7081F0 = 1;
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
             }
         }
 
@@ -891,7 +860,6 @@ void __stdcall ParseCommandLine_4DA320(char_type *pCommandLine)
         --len;
     }
 }
-
 
 MATCH_FUNC(0x5E4DE0)
 void Start_GTA2Manager_5E4DE0()
@@ -959,7 +927,6 @@ void Input_Read_498D10()
     // todo
 }
 
-
 // todo: move
 STUB_FUNC(0x5D9250)
 void __stdcall sub_5D9250()
@@ -973,225 +940,224 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
     switch (Msg)
     {
 
-    case WM_WINDOWPOSCHANGED:
-    {
-        if (gLaughing_blackwell_0x1EB54_67DC84)
+        case WM_WINDOWPOSCHANGED:
         {
-            Bink::sub_513720();
-        }
-        break;
-    }
-
-    case WM_SETFOCUS: // order ok
-        gRoot_sound_66B038.sub_40F140();
-        gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Set_Sound_Setting_586AE0("CDVol", 127));
-        gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Set_Sound_Setting_586AE0("SFXVol", 127));
-
-        if (bDoFrontEnd_626B68)
-        {
-            gRoot_sound_66B038.Set3DSound_40F160(0);
-        }
-        else
-        {
-            gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
-            gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
-        }
-
-        if (!bDestroyed_6F5B70)
-        {
-            //LOBYTE(Msg) = 1;
-            BYTE tmp = 1;
-            laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
-            if (!bDoFrontEnd_626B68)
+            if (gLaughing_blackwell_0x1EB54_67DC84)
             {
-                Input_Read_498D10();
+                Bink::sub_513720();
+            }
+            break;
+        }
+
+        case WM_SETFOCUS: // order ok
+            gRoot_sound_66B038.sub_40F140();
+            gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Set_Sound_Setting_586AE0("CDVol", 127));
+            gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Set_Sound_Setting_586AE0("SFXVol", 127));
+
+            if (bDoFrontEnd_626B68)
+            {
+                gRoot_sound_66B038.Set3DSound_40F160(0);
+            }
+            else
+            {
+                gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+                gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
             }
 
-            if (gVidSys_7071D0 && !Bink::sub_513770())
+            if (!bDestroyed_6F5B70)
             {
-                sub_5D92D0();
-                sub_5D9680();
-                byte_706C5D = 0;
+                //LOBYTE(Msg) = 1;
+                BYTE tmp = 1;
+                laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                if (!bDoFrontEnd_626B68)
+                {
+                    Input_Read_498D10();
+                }
+
+                if (gVidSys_7071D0 && !Bink::sub_513770())
+                {
+                    sub_5D92D0();
+                    sub_5D9680();
+                    byte_706C5D = 0;
+                }
+
+                if (gGame_0x40_67E008)
+                {
+                    gGame_0x40_67E008->sub_4B9720();
+                }
+
+                SetSavedGamma_5D98E0();
             }
+            break;
 
-            if (gGame_0x40_67E008)
-            {
-                gGame_0x40_67E008->sub_4B9720();
-            }
-
-            SetSavedGamma_5D98E0();
-        }
-        break;
-
-    case WM_KILLFOCUS: // order ok
-        //LOBYTE(hWnd) = 0;
-    {
-        BYTE tmp = 0;
-        laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
-        Input_ReleaseMouse_5D7C70();
-        gRoot_sound_66B038.Set3DSound_40F160(0);
-        gRoot_sound_66B038.Release_40F130();
-
-        if (gLaughing_blackwell_0x1EB54_67DC84 && Bink::sub_513760())
-        {
-            Bink::Close1_513340();
-            Bink::Close2_513390();
-            gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(0);
-        }
-
-        if (gVidSys_7071D0)
-        {
-            if (!Vid_FindDevice_5D9290())
-            {
-                Vid_CloseScreen(gVidSys_7071D0);
-                byte_706C5D = 1;
-                ShowWindow(gHwnd_707F04, 7);
-            }
-        }
-        break;
-    }
-
-    case WM_ACTIVATE: // order ok
-        switch (wParam)
-        {
-        case WA_ACTIVE:
-        case WA_CLICKACTIVE:
-        {
-            BYTE tmp = 1;
-            laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
-            Input_MouseAcquire_5D7C60();
-        }
-        break;
-
-        case WA_INACTIVE:
+        case WM_KILLFOCUS: // order ok
+            //LOBYTE(hWnd) = 0;
         {
             BYTE tmp = 0;
             laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
             Input_ReleaseMouse_5D7C70();
-        }
-        break;
-        }
-        break;
-
-    case WM_SIZE:
-        switch (wParam)
-        {
-        case 0u:
-            // goto wm_size_case_2;
-            byte_70827C = 0;
-            gRoot_sound_66B038.sub_40F140();
-            break;
-
-        case 1u:
-            byte_70827C = 2;
+            gRoot_sound_66B038.Set3DSound_40F160(0);
             gRoot_sound_66B038.Release_40F130();
-            break;
 
-        case 2u:
-            // wm_size_case_2:
-            byte_70827C = 0;
-            gRoot_sound_66B038.sub_40F140();
-            break;
-        }
-        break;
-
-
-    case WM_DESTROY: // order ok
-        if (bStartNetworkGame_7081F0)
-        {
-            gGoofy_thompson_7071E8.sub_520D10();
-        }
-
-        ReleaseMutex(gMutex_707078);
-        CloseHandle(gMutex_707078);
-        gMutex_707078 = 0;
-
-        sub_4DA740();
-        GBH_Graphis_DMA_Video_Free_5D9830();
-        PostQuitMessage(0);
-        break;
-
-    case WM_WINDOWPOSCHANGING:
-    {
-        WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-        if (gLaughing_blackwell_0x1EB54_67DC84 && (pPos->flags & 2) == 0)
-        {
-            s32 newX = pPos->x;
-            s32 newY = pPos->y;
-            Bink::sub_5136D0(&newX, &newY);
-            pPos->x = newX;
-            pPos->y = newY;
-        }
-        break;
-    }
-
-    case WM_SYSKEYDOWN:
-        switch (wParam)
-        {
-        case VK_RETURN:
-            if (sub_5D92C0())
+            if (gLaughing_blackwell_0x1EB54_67DC84 && Bink::sub_513760())
             {
-                UpdateWinXY_5D8E70();
-                // The previous key state. The value is 1 if the key is down before the message is sent, or it is 0 if the key is up.
-                if ((lParam & 0x20000000) != 0)
+                Bink::Close1_513340();
+                Bink::Close2_513390();
+                gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(0);
+            }
+
+            if (gVidSys_7071D0)
+            {
+                if (!Vid_FindDevice_5D9290())
                 {
-                    sub_5D9250();
-                    sub_5D92D0();
-                    sub_5D9680();
+                    Vid_CloseScreen(gVidSys_7071D0);
+                    byte_706C5D = 1;
+                    ShowWindow(gHwnd_707F04, 7);
                 }
             }
             break;
-
-        case VK_MENU:
-        case VK_F10:
-        case VK_LMENU:
-            return 0;
-
-        default:
-            break;
         }
-        break;
 
-    case WM_SYSCOMMAND:
-        switch (wParam & 0xFFF0)
-        {
-        case SC_MONITORPOWER:
-        case SC_SCREENSAVE:
-            return 0;
-
-        case SC_MAXIMIZE:
-            UpdateWinXY_5D8E70();
-            if (byte_70827C != 2)
+        case WM_ACTIVATE: // order ok
+            switch (wParam)
             {
-                sub_5D9230(1u);
-                sub_5D92D0();
-                sub_5D9680();
+                case WA_ACTIVE:
+                case WA_CLICKACTIVE:
+                {
+                    BYTE tmp = 1;
+                    laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                    Input_MouseAcquire_5D7C60();
+                }
+                break;
+
+                case WA_INACTIVE:
+                {
+                    BYTE tmp = 0;
+                    laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                    Input_ReleaseMouse_5D7C70();
+                }
+                break;
             }
             break;
 
-        case SC_MINIMIZE:
-            UpdateWinXY_5D8E70();
+        case WM_SIZE:
+            switch (wParam)
+            {
+                case 0u:
+                    // goto wm_size_case_2;
+                    byte_70827C = 0;
+                    gRoot_sound_66B038.sub_40F140();
+                    break;
+
+                case 1u:
+                    byte_70827C = 2;
+                    gRoot_sound_66B038.Release_40F130();
+                    break;
+
+                case 2u:
+                    // wm_size_case_2:
+                    byte_70827C = 0;
+                    gRoot_sound_66B038.sub_40F140();
+                    break;
+            }
             break;
+
+        case WM_DESTROY: // order ok
+            if (bStartNetworkGame_7081F0)
+            {
+                gGoofy_thompson_7071E8.sub_520D10();
+            }
+
+            ReleaseMutex(gMutex_707078);
+            CloseHandle(gMutex_707078);
+            gMutex_707078 = 0;
+
+            sub_4DA740();
+            GBH_Graphis_DMA_Video_Free_5D9830();
+            PostQuitMessage(0);
+            break;
+
+        case WM_WINDOWPOSCHANGING:
+        {
+            WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
+            if (gLaughing_blackwell_0x1EB54_67DC84 && (pPos->flags & 2) == 0)
+            {
+                s32 newX = pPos->x;
+                s32 newY = pPos->y;
+                Bink::sub_5136D0(&newX, &newY);
+                pPos->x = newX;
+                pPos->y = newY;
+            }
+            break;
+        }
+
+        case WM_SYSKEYDOWN:
+            switch (wParam)
+            {
+                case VK_RETURN:
+                    if (sub_5D92C0())
+                    {
+                        UpdateWinXY_5D8E70();
+                        // The previous key state. The value is 1 if the key is down before the message is sent, or it is 0 if the key is up.
+                        if ((lParam & 0x20000000) != 0)
+                        {
+                            sub_5D9250();
+                            sub_5D92D0();
+                            sub_5D9680();
+                        }
+                    }
+                    break;
+
+                case VK_MENU:
+                case VK_F10:
+                case VK_LMENU:
+                    return 0;
+
+                default:
+                    break;
+            }
+            break;
+
+        case WM_SYSCOMMAND:
+            switch (wParam & 0xFFF0)
+            {
+                case SC_MONITORPOWER:
+                case SC_SCREENSAVE:
+                    return 0;
+
+                case SC_MAXIMIZE:
+                    UpdateWinXY_5D8E70();
+                    if (byte_70827C != 2)
+                    {
+                        sub_5D9230(1u);
+                        sub_5D92D0();
+                        sub_5D9680();
+                    }
+                    break;
+
+                case SC_MINIMIZE:
+                    UpdateWinXY_5D8E70();
+                    break;
+
+                default:
+                    break;
+            }
+            break;
+
+        case WM_SIZING:
+        {
+            RECT* pDragRect = reinterpret_cast<RECT*>(lParam);
+            RECT winRec;
+            GetWindowRect(gHwnd_707F04, &winRec);
+            pDragRect->left = winRec.left;
+            pDragRect->top = winRec.top;
+            pDragRect->bottom = winRec.bottom;
+            pDragRect->right = winRec.right;
+            return 0;
+        }
 
         default:
             break;
-        }
-        break;
-
-    case WM_SIZING:
-    {
-        RECT* pDragRect = reinterpret_cast<RECT*>(lParam);
-        RECT winRec;
-        GetWindowRect(gHwnd_707F04, &winRec);
-        pDragRect->left = winRec.left;
-        pDragRect->top = winRec.top;
-        pDragRect->bottom = winRec.bottom;
-        pDragRect->right = winRec.right;
-        return 0;
-    }
-
-    default:
-        break;
     }
 
     if (gVidSys_7071D0)
@@ -1265,7 +1231,7 @@ void force_link()
     lewin.sub_5695A0();
     lewin.sub_569600(0);
     lewin.sub_5696D0(0);
-    lewin.sub_569840(0 ,0 ,0);
+    lewin.sub_569840(0, 0, 0);
     lewin.sub_5698E0();
     lewin.sub_569920(0, 0, 0);
     lewin.sub_5699F0(0);
@@ -1300,7 +1266,7 @@ void force_link()
     drawUnk.sub_436120(1);
     drawUnk.sub_436830();
     drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.sub_58CF10(1,1);
+    drawUnk.sub_58CF10(1, 1);
 
     cool_nash_0x294 cn;
     cn.sub_45B550();
@@ -1367,8 +1333,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     gMutex_707078 = CreateMutexA(0, 0, "GBH_COOP_MUTEX");
     GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMajor_708284);
-    
-   // u32 v16;
+
+    // u32 v16;
     u32 dxVer;
     GetDirectXVersion_4C4EC0(&dxVer, &dxVer); // stack hack
 
@@ -1398,7 +1364,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     RegisterClassA(&WndClass);
 
     Video_Render_Inits_5D90E0();
-    
+
     _getcwd(gWorkingDir_707F64, 256);
 
     ParseCommandLine_4DA320(lpCmdLine);
@@ -1449,7 +1415,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     j_gbh_init_5D7CA0();
     Init_keybrd_jolly_and_sound_4DA440();
 
-    s32 state ;
+    s32 state;
     if (laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0())
     {
         state = gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) != 1 ? 0 : 8;
@@ -1476,7 +1442,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 LABEL_23:
     while (1)
     {
-        
+
         if (!bDoFrontEnd_626B68)
         {
             break;
@@ -1506,14 +1472,11 @@ LABEL_23:
                             {
                                 Input::DInputRelease_498710();
                                 return msg.wParam;
-
                             }
                             TranslateMessage(&msg);
                             DispatchMessageA(&msg);
-
                         }
                     } while ((BYTE)bQuit || byte_70827C == 2 || byte_706C5D);
-
 
                     if (!bDoFrontEnd_626B68)
                     {
@@ -1570,60 +1533,60 @@ LABEL_23:
         {
             switch (gGame_0x40_67E008->field_2C_main_state)
             {
-            case 1:
-                DestroyWindow(gHwnd_707F04);
-                break;
+                case 1:
+                    DestroyWindow(gHwnd_707F04);
+                    break;
 
-            case 2:
-                gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                /* todo
+                case 2:
+                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                    /* todo
                 v15 = -(gLucid_hamilton_67E8E0.sub_4C59A0() != 0);
                 v15 = v15 & 0xFB; //lobyte
                 state = v15 + 11; //loword
                 */
-                state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 1; // 11? prob 1
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
-                break;
+                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 1; // 11? prob 1
+                    CleanUpInputAndOthers_4DA700();
+                    bDoFrontEnd_626B68 = 1;
+                    break;
 
-            case 3:
-                gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 2;
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
-                break;
+                case 3:
+                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 2;
+                    CleanUpInputAndOthers_4DA700();
+                    bDoFrontEnd_626B68 = 1;
+                    break;
 
-            case 4:
-                gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 3;
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
-                break;
+                case 4:
+                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 3;
+                    CleanUpInputAndOthers_4DA700();
+                    bDoFrontEnd_626B68 = 1;
+                    break;
 
-            case 5:
-                state = 7;
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
-                break;
+                case 5:
+                    state = 7;
+                    CleanUpInputAndOthers_4DA700();
+                    bDoFrontEnd_626B68 = 1;
+                    break;
 
-            case 6:
-                state = 0;
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
-                break;
+                case 6:
+                    state = 0;
+                    CleanUpInputAndOthers_4DA700();
+                    bDoFrontEnd_626B68 = 1;
+                    break;
 
-            default:
-                continue;
+                default:
+                    continue;
             }
         }
     }
-    
+
     sub_4DA4D0();
 
     if (!bStartNetworkGame_7081F0 || gGoofy_thompson_7071E8.sub_5213E0())
@@ -1641,10 +1604,10 @@ char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
     return 1;
 }
 
-#pragma comment(lib ,"Version.lib")
+#pragma comment(lib, "Version.lib")
 
 MATCH_FUNC(0x5E5D60)
-void __stdcall GetGTA2Version_5E5D60(s32 *pVerMinor, s32 *pVerMajor)
+void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
 {
     DWORD dwHandle;
     DWORD dwSize = GetFileVersionInfoSizeA("GTA2.EXE", &dwHandle);
@@ -1652,9 +1615,8 @@ void __stdcall GetGTA2Version_5E5D60(s32 *pVerMinor, s32 *pVerMajor)
 
     VS_FIXEDFILEINFO* pFileInfo;
     u32 puLen;
-    if (pAlloc
-        && GetFileVersionInfoA("GTA2.EXE", 0, dwSize, pAlloc)
-        && VerQueryValueA(pAlloc, "\\", reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
+    if (pAlloc && GetFileVersionInfoA("GTA2.EXE", 0, dwSize, pAlloc) &&
+        VerQueryValueA(pAlloc, "\\", reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
     {
         *pVerMinor = (pFileInfo->dwProductVersionMS >> 16);
         *pVerMajor = pFileInfo->dwProductVersionMS & 0xFFFF;

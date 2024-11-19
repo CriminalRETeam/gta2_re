@@ -4,7 +4,7 @@
 
 class Sprite_8
 {
-public:
+  public:
     EXPORT void sub_5A5860();
     EXPORT void sub_5A5870();
     EXPORT Sprite_8* ctor_5A58A0();

@@ -1,9 +1,9 @@
-#include "Function.hpp"
-#include "stdafx.h"
 #include "registry.hpp"
+#include "Function.hpp"
 #include "error.hpp"
-#include <windows.h>
+#include "stdafx.h"
 #include <stdio.h>
+#include <windows.h>
 
 HKEY dword_625018 = HKEY_LOCAL_MACHINE;
 
@@ -16,16 +16,15 @@ bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
     {
         DWORD dwDisposition;
 
-        if (::RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Sound",
-            0,
-            "", //byte_67DC88,
-            0,
-            KEY_ALL_ACCESS,
-            NULL,
-            phkResult,
-            &dwDisposition) != ERROR_SUCCESS)
+        if (::RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                              "SOFTWARE\\DMA Design Ltd\\GTA2\\Sound",
+                              0,
+                              "", //byte_67DC88,
+                              0,
+                              KEY_ALL_ACCESS,
+                              NULL,
+                              phkResult,
+                              &dwDisposition) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 58);
         }
@@ -35,7 +34,7 @@ bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586A70)
-bool Registry::Get_Sound_Settting_586A70(const char_type *lpValueName)
+bool Registry::Get_Sound_Settting_586A70(const char_type* lpValueName)
 {
     HKEY hKey;
     DWORD cbData;
@@ -59,7 +58,7 @@ bool Registry::Get_Sound_Settting_586A70(const char_type *lpValueName)
 }
 
 MATCH_FUNC(0x586AE0)
-s32 Registry::Set_Sound_Setting_586AE0(const char_type *lpValueName, s32 value)
+s32 Registry::Set_Sound_Setting_586AE0(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     Open_Sound_Root_586A00(&hKey);
@@ -68,7 +67,7 @@ s32 Registry::Set_Sound_Setting_586AE0(const char_type *lpValueName, s32 value)
     DWORD data;
     if (::RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&data), &cbData) != ERROR_SUCCESS)
     {
-        if (::RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (::RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 138);
         }
@@ -100,7 +99,6 @@ void Registry::Set_Sound_Setting_586B80(const char_type* lpValueName, s32 Data)
     {
         FatalError_4A38C0(42, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 175);
     }
-
 }
 
 MATCH_FUNC(0x586BF0)
@@ -129,16 +127,15 @@ char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Debug", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
-        if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Debug",
-            0,
-            "", //byte_67DC88,
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            phkResult,
-            &dwDisposition) != ERROR_SUCCESS)
+        if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Debug",
+                            0,
+                            "", //byte_67DC88,
+                            0,
+                            KEY_ALL_ACCESS,
+                            0,
+                            phkResult,
+                            &dwDisposition) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 232);
         }
@@ -153,16 +150,15 @@ char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Option", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
-        if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Option",
-            0,
-            "", //byte_67DC88,
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            phkResult,
-            &dwDisposition) != ERROR_SUCCESS)
+        if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Option",
+                            0,
+                            "", //byte_67DC88,
+                            0,
+                            KEY_ALL_ACCESS,
+                            0,
+                            phkResult,
+                            &dwDisposition) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 265);
         }
@@ -177,16 +173,15 @@ char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Control", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
-        if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Control",
-            0,
-            "", //byte_67DC88,
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            phkResult,
-            &dwDisposition) != ERROR_SUCCESS)
+        if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Control",
+                            0,
+                            "", //byte_67DC88,
+                            0,
+                            KEY_ALL_ACCESS,
+                            0,
+                            phkResult,
+                            &dwDisposition) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 298);
         }
@@ -201,16 +196,15 @@ char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
-        if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen",
-            0,
-            "", //byte_67DC88,
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            phkResult,
-            &dwDisposition))
+        if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen",
+                            0,
+                            "", //byte_67DC88,
+                            0,
+                            KEY_ALL_ACCESS,
+                            0,
+                            phkResult,
+                            &dwDisposition))
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 331);
         }
@@ -220,7 +214,7 @@ char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586E20)
-bool Registry::Get_Debug_Setting_586E20(const char_type *lpValueName)
+bool Registry::Get_Debug_Setting_586E20(const char_type* lpValueName)
 {
     bool bRead = false;
     HKEY hKey;
@@ -257,11 +251,10 @@ void Registry::Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpD
     {
         FatalError_4A38C0(42, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 531);
     }
-
 }
 
 MATCH_FUNC(0x586F00)
-void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE *pBuffer, s32 bufferSize)
+void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s32 bufferSize)
 {
     DWORD cbData;
     HKEY hKey;
@@ -281,7 +274,7 @@ void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE *pBuffer, s3
 }
 
 MATCH_FUNC(0x586F70)
-s32 Registry::Set_Option_586F70(const char_type *lpValueName, s32 a3)
+s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 a3)
 {
     HKEY hKey;
     DWORD Data;
@@ -292,7 +285,7 @@ s32 Registry::Set_Option_586F70(const char_type *lpValueName, s32 a3)
 
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&a3), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a3), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 622);
         }
@@ -320,7 +313,7 @@ s32 Registry::Set_Control_Setting_587010(s32 a1, s32 a2)
 
     if (RegQueryValueExA(hKey, ValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 667);
         }
@@ -336,7 +329,7 @@ s32 Registry::Set_Control_Setting_587010(s32 a1, s32 a2)
 }
 
 MATCH_FUNC(0x5870D0)
-s32 Registry::Get_Screen_Setting_5870D0(const char_type *lpValueName, s32 a2)
+s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
 {
     HKEY hKey;
     Open_Screen_Root_586DB0(&hKey);
@@ -345,7 +338,7 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type *lpValueName, s32 a2)
     DWORD cbData = sizeof(DWORD);
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 709);
         }
@@ -363,17 +356,16 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type *lpValueName, s32 a2)
 STUB_FUNC(0x587290)
 Registry::Registry()
 {
-
 }
 
 MATCH_FUNC(0x5872A0)
-char_type Registry::sub_5872A0(HKEY hKey, const char_type *a2, BYTE *lpData, u32 Data)
+char_type Registry::sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
     char_type ret = 0;
 
     sprintf(Buffer, "%ss", a2);
-    if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
+    if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
     {
         sprintf(Buffer, "%sd", a2);
         if (RegSetValueExA(hKey, Buffer, 0, REG_BINARY, lpData, Data) == ERROR_SUCCESS)
@@ -385,7 +377,7 @@ char_type Registry::sub_5872A0(HKEY hKey, const char_type *a2, BYTE *lpData, u32
 }
 
 MATCH_FUNC(0x587340)
-bool Registry::sub_587340(HKEY hKey, const char_type *keyPath, s32 value, LPBYTE lpData)
+bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
 {
     char_type ValueName[260]; // [esp+14h] [ebp-104h] BYREF
     bool ret = false;
@@ -401,7 +393,7 @@ bool Registry::sub_587340(HKEY hKey, const char_type *keyPath, s32 value, LPBYTE
 }
 
 MATCH_FUNC(0x5873E0)
-s32 Registry::Get_Int_5873E0(HKEY hKey, const char_type *subKey)
+s32 Registry::Get_Int_5873E0(HKEY hKey, const char_type* subKey)
 {
     char_type keyPath[260];
     sprintf(keyPath, "%ss", subKey);
@@ -438,11 +430,11 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
     {
         // the f64 return is removed without the printf, ran out of ideas to try
         printf("meh");
-        return ( int)valueData;
+        return (int)valueData;
     }
     else
     {
-       ret = 0;
+        ret = 0;
         err = 0;
         valueData = 99;
         cbData = 0;
@@ -451,7 +443,7 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 }
 
 MATCH_FUNC(0x587690)
-s32 Registry::Set_Network_Setting_587690(const char_type *lpValueName, s32 a2)
+s32 Registry::Set_Network_Setting_587690(const char_type* lpValueName, s32 a2)
 {
     HKEY hKey;
     CreateNetworkRoot_587420(&hKey);
@@ -460,7 +452,7 @@ s32 Registry::Set_Network_Setting_587690(const char_type *lpValueName, s32 a2)
     DWORD cbData = sizeof(DWORD);
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE *>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1051);
         }
@@ -499,16 +491,15 @@ char_type Registry::Open_Player_Root_5877A0(PHKEY phkResult)
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Player", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
         DWORD dwDisposition;
-        if (RegCreateKeyExA(
-            HKEY_LOCAL_MACHINE,
-            "SOFTWARE\\DMA Design Ltd\\GTA2\\Player",
-            0,
-            "",
-            0,
-            KEY_ALL_ACCESS,
-            0,
-            phkResult,
-            &dwDisposition) != ERROR_SUCCESS)
+        if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
+                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Player",
+                            0,
+                            "",
+                            0,
+                            KEY_ALL_ACCESS,
+                            0,
+                            phkResult,
+                            &dwDisposition) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(43, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1110);
         }
@@ -583,7 +574,7 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
 }
 
 STUB_FUNC(0x5871E0)
-void Registry::Set_Screen_Setting_5871E0(const char_type *lpValueName, BYTE *lpData, u16 maxLen)
+void Registry::Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
 {
     HKEY hKey; // [esp+8h] [ebp-8h] BYREF
     DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
@@ -591,8 +582,8 @@ void Registry::Set_Screen_Setting_5871E0(const char_type *lpValueName, BYTE *lpD
     Open_Screen_Root_586DB0(&hKey);
 
     cbData = maxLen;
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData)
-        && RegSetValueExA(hKey, lpValueName, 0, 1u, lpData, strlen((const char_type *)lpData) + 1))
+    if (RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData) &&
+        RegSetValueExA(hKey, lpValueName, 0, 1u, lpData, strlen((const char_type*)lpData) + 1))
     {
         FatalError_4A38C0(46, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
     }

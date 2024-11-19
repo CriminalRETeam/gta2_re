@@ -8,7 +8,7 @@ class Car_BC;
 
 class Shooey_14
 {
-public:
+  public:
     EXPORT void ctor_484CB0();
     EXPORT void dtor_484CE0();
     EXPORT s32 sub_484CF0(s32 a2, s32 a3);
@@ -23,7 +23,7 @@ public:
 
 class Shooey_CC
 {
-public:
+  public:
     EXPORT Shooey_CC* ctor_484D80();
     EXPORT void dtor_484DB0();
     EXPORT void sub_484DD0(s32 a2, s32 a3);
@@ -40,4 +40,3 @@ public:
     u16 field_2;
     Shooey_14 field_4[10];
 };
-

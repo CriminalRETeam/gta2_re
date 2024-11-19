@@ -5,10 +5,9 @@
 class Car_BC;
 class gmp_map_zone;
 
-
 class Sero_58
 {
-public:
+  public:
     EXPORT void sub_578030();
     EXPORT void sub_578180();
     EXPORT void sub_5781F0();
@@ -47,7 +46,7 @@ public:
 
 class Sero_34
 {
-public:
+  public:
     EXPORT void ctor_577FD0();
     EXPORT void dtor_578010();
     s32 field_0;
@@ -69,7 +68,7 @@ public:
 
 class Sero_181C
 {
-public:
+  public:
     EXPORT Sero_58* sub_578790();
     EXPORT Sero_34* sub_5787E0();
     EXPORT void sub_578820(s32 a2);

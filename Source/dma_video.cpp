@@ -1,8 +1,8 @@
-#include "Function.hpp"
 #include "dma_video.hpp"
+#include "Function.hpp"
 #include <stdio.h>
 
-SVideo *gVidSys_7071D0;
+SVideo* gVidSys_7071D0;
 
 T_Vid_GetVersion Vid_GetVersion;
 T_Vid_Init_SYS Vid_Init_SYS;
@@ -37,7 +37,7 @@ void __stdcall DMA_Video_Stub_5EB810()
 }
 
 MATCH_FUNC(0x5EB8C0)
-void __stdcall DMA_Video_Unload_5EB8C0(SVideo *pVidSys)
+void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 {
     if (Vid_ShutDown_SYS != (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810)
     {

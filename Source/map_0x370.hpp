@@ -36,8 +36,8 @@ struct gmp_compressed_map_32
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;
-    u16 **field_40008_pColumn;
-    gmp_block_info *field_4000C_block;
+    u16** field_40008_pColumn;
+    gmp_block_info* field_4000C_block;
 };
 
 struct Map_sub
@@ -247,7 +247,7 @@ struct Map_sub
 
 class gmp_map_zone
 {
-public:
+  public:
     u8 field_0_zone_type;
     u8 field_1_x;
     u8 field_2_y;
@@ -295,12 +295,12 @@ struct gmp_map_light
 
 class Map_0x370
 {
-public:
+  public:
     EXPORT gmp_block_info* get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord);
 
-    EXPORT gmp_map_zone* zone_by_name_4DEFD0(const char_type *pZoneName);
+    EXPORT gmp_map_zone* zone_by_name_4DEFD0(const char_type* pZoneName);
 
-    EXPORT s32 zone_idx_by_name_4DF050(const char_type *pZoneName, BYTE zone_name_len);
+    EXPORT s32 zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_name_len);
 
     EXPORT gmp_map_zone* zone_by_type_bounded_4DF0F0(u8 zone_type);
 
@@ -320,19 +320,18 @@ public:
 
     EXPORT gmp_zone_unknown* get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y);
 
-    EXPORT void set_nav_unknown_data_4DF8C0(
-        s32 zone_idx,
-        s16 a3,
-        s16 a4,
-        s16 a5,
-        s16 a6,
-        s16 a7,
-        s16 a8,
-        s16 a9,
-        s16 a10,
-        s16 a11,
-        s16 a12,
-        s16 a13);
+    EXPORT void set_nav_unknown_data_4DF8C0(s32 zone_idx,
+                                            s16 a3,
+                                            s16 a4,
+                                            s16 a5,
+                                            s16 a6,
+                                            s16 a7,
+                                            s16 a8,
+                                            s16 a9,
+                                            s16 a10,
+                                            s16 a11,
+                                            s16 a12,
+                                            s16 a13);
 
     EXPORT gmp_zone_unknown* get_zone_unknown_4DF9A0(u16 zone_idx);
 
@@ -445,24 +444,25 @@ public:
 
     EXPORT void load_rgen_4E94A0();
 
-    EXPORT void load_chunk_4E94B0(const char_type *pChunkType, size_t chunkLen);
+    EXPORT void load_chunk_4E94B0(const char_type* pChunkType, size_t chunkLen);
 
     EXPORT void process_loaded_zone_data_4E95A0();
 
-    EXPORT void LoadMap_4E95B0(const char_type *pGmpFileName);
+    EXPORT void LoadMap_4E95B0(const char_type* pGmpFileName);
 
     EXPORT Map_0x370();
 
     EXPORT ~Map_0x370();
-public:
-    gmp_compressed_map_32 *field_0_pDmap;
+
+  public:
+    gmp_compressed_map_32* field_0_pDmap;
     Map_sub field_4_obj;
-    gmp_map_zone *field_328_pZoneData;
-    gmp_map_zone **field_32C_pZones;
-    BYTE *field_330_pZoneArray;
-    gmp_zone_unknown *field_334_pUnknownZoneData;
-    gmp_map_object *field_338_pMapObjects;
-    gmp_map_light *field_33C_pLightData;
+    gmp_map_zone* field_328_pZoneData;
+    gmp_map_zone** field_32C_pZones;
+    BYTE* field_330_pZoneArray;
+    gmp_zone_unknown* field_334_pUnknownZoneData;
+    gmp_map_object* field_338_pMapObjects;
+    gmp_map_light* field_33C_pLightData;
     void* field_340_pTileAnimData;
     s32 field_344_map_object_count;
     s32 field_348_num_lights;

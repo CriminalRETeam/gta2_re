@@ -1,29 +1,29 @@
-#include "Function.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
-#include "registry.hpp"
-#include "error.hpp"
+#include "Bink.hpp"
+#include "Function.hpp"
+#include "cSampleManager.hpp"
 #include "debug.hpp"
-#include "root_sound.hpp"
+#include "dma_video.hpp"
+#include "error.hpp"
+#include "file.hpp"
+#include "fix16.hpp"
+#include "gbh_graphics.hpp"
+#include "gtx_0x106C.hpp"
+#include "infallible_turing.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
-#include "text_0x14.hpp"
-#include "gbh_graphics.hpp"
-#include "Bink.hpp"
-#include "sharp_pare_0x15D8.hpp"
-#include "gtx_0x106C.hpp"
 #include "magical_germain_0x8EC.hpp"
-#include "file.hpp"
-#include "dma_video.hpp"
-#include "cSampleManager.hpp"
-#include "infallible_turing.hpp"
-#include "fix16.hpp"
+#include "registry.hpp"
+#include "root_sound.hpp"
+#include "sharp_pare_0x15D8.hpp"
+#include "text_0x14.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
 
 #pragma comment(lib, "dxguid.lib")
 
-void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
+void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
 void Start_GTA2Manager_5E4DE0();
 
@@ -51,11 +51,11 @@ char_type byte_67DC88[4]; // todo: prob bigger
 
 wchar_t word_67C7D8[640];
 
-wchar_t *dword_67EE54;
+wchar_t* dword_67EE54;
 
 class FreeLoader
 {
-public:
+  public:
     static char_type sub_4AE1F0(u8 a1);
 };
 
@@ -66,328 +66,128 @@ char_type FreeLoader::sub_4AE1F0(u8 a1)
     return 0;
 }
 
-DIOBJECTDATAFORMAT stru_5E9110[256] =
-{
-  { &GUID_Key, 0u, 2147483660u, 0u },
-  { &GUID_Key, 1u, 2147483916u, 0u },
-  { &GUID_Key, 2u, 2147484172u, 0u },
-  { &GUID_Key, 3u, 2147484428u, 0u },
-  { &GUID_Key, 4u, 2147484684u, 0u },
-  { &GUID_Key, 5u, 2147484940u, 0u },
-  { &GUID_Key, 6u, 2147485196u, 0u },
-  { &GUID_Key, 7u, 2147485452u, 0u },
-  { &GUID_Key, 8u, 2147485708u, 0u },
-  { &GUID_Key, 9u, 2147485964u, 0u },
-  { &GUID_Key, 10u, 2147486220u, 0u },
-  { &GUID_Key, 11u, 2147486476u, 0u },
-  { &GUID_Key, 12u, 2147486732u, 0u },
-  { &GUID_Key, 13u, 2147486988u, 0u },
-  { &GUID_Key, 14u, 2147487244u, 0u },
-  { &GUID_Key, 15u, 2147487500u, 0u },
-  { &GUID_Key, 16u, 2147487756u, 0u },
-  { &GUID_Key, 17u, 2147488012u, 0u },
-  { &GUID_Key, 18u, 2147488268u, 0u },
-  { &GUID_Key, 19u, 2147488524u, 0u },
-  { &GUID_Key, 20u, 2147488780u, 0u },
-  { &GUID_Key, 21u, 2147489036u, 0u },
-  { &GUID_Key, 22u, 2147489292u, 0u },
-  { &GUID_Key, 23u, 2147489548u, 0u },
-  { &GUID_Key, 24u, 2147489804u, 0u },
-  { &GUID_Key, 25u, 2147490060u, 0u },
-  { &GUID_Key, 26u, 2147490316u, 0u },
-  { &GUID_Key, 27u, 2147490572u, 0u },
-  { &GUID_Key, 28u, 2147490828u, 0u },
-  { &GUID_Key, 29u, 2147491084u, 0u },
-  { &GUID_Key, 30u, 2147491340u, 0u },
-  { &GUID_Key, 31u, 2147491596u, 0u },
-  { &GUID_Key, 32u, 2147491852u, 0u },
-  { &GUID_Key, 33u, 2147492108u, 0u },
-  { &GUID_Key, 34u, 2147492364u, 0u },
-  { &GUID_Key, 35u, 2147492620u, 0u },
-  { &GUID_Key, 36u, 2147492876u, 0u },
-  { &GUID_Key, 37u, 2147493132u, 0u },
-  { &GUID_Key, 38u, 2147493388u, 0u },
-  { &GUID_Key, 39u, 2147493644u, 0u },
-  { &GUID_Key, 40u, 2147493900u, 0u },
-  { &GUID_Key, 41u, 2147494156u, 0u },
-  { &GUID_Key, 42u, 2147494412u, 0u },
-  { &GUID_Key, 43u, 2147494668u, 0u },
-  { &GUID_Key, 44u, 2147494924u, 0u },
-  { &GUID_Key, 45u, 2147495180u, 0u },
-  { &GUID_Key, 46u, 2147495436u, 0u },
-  { &GUID_Key, 47u, 2147495692u, 0u },
-  { &GUID_Key, 48u, 2147495948u, 0u },
-  { &GUID_Key, 49u, 2147496204u, 0u },
-  { &GUID_Key, 50u, 2147496460u, 0u },
-  { &GUID_Key, 51u, 2147496716u, 0u },
-  { &GUID_Key, 52u, 2147496972u, 0u },
-  { &GUID_Key, 53u, 2147497228u, 0u },
-  { &GUID_Key, 54u, 2147497484u, 0u },
-  { &GUID_Key, 55u, 2147497740u, 0u },
-  { &GUID_Key, 56u, 2147497996u, 0u },
-  { &GUID_Key, 57u, 2147498252u, 0u },
-  { &GUID_Key, 58u, 2147498508u, 0u },
-  { &GUID_Key, 59u, 2147498764u, 0u },
-  { &GUID_Key, 60u, 2147499020u, 0u },
-  { &GUID_Key, 61u, 2147499276u, 0u },
-  { &GUID_Key, 62u, 2147499532u, 0u },
-  { &GUID_Key, 63u, 2147499788u, 0u },
-  { &GUID_Key, 64u, 2147500044u, 0u },
-  { &GUID_Key, 65u, 2147500300u, 0u },
-  { &GUID_Key, 66u, 2147500556u, 0u },
-  { &GUID_Key, 67u, 2147500812u, 0u },
-  { &GUID_Key, 68u, 2147501068u, 0u },
-  { &GUID_Key, 69u, 2147501324u, 0u },
-  { &GUID_Key, 70u, 2147501580u, 0u },
-  { &GUID_Key, 71u, 2147501836u, 0u },
-  { &GUID_Key, 72u, 2147502092u, 0u },
-  { &GUID_Key, 73u, 2147502348u, 0u },
-  { &GUID_Key, 74u, 2147502604u, 0u },
-  { &GUID_Key, 75u, 2147502860u, 0u },
-  { &GUID_Key, 76u, 2147503116u, 0u },
-  { &GUID_Key, 77u, 2147503372u, 0u },
-  { &GUID_Key, 78u, 2147503628u, 0u },
-  { &GUID_Key, 79u, 2147503884u, 0u },
-  { &GUID_Key, 80u, 2147504140u, 0u },
-  { &GUID_Key, 81u, 2147504396u, 0u },
-  { &GUID_Key, 82u, 2147504652u, 0u },
-  { &GUID_Key, 83u, 2147504908u, 0u },
-  { &GUID_Key, 84u, 2147505164u, 0u },
-  { &GUID_Key, 85u, 2147505420u, 0u },
-  { &GUID_Key, 86u, 2147505676u, 0u },
-  { &GUID_Key, 87u, 2147505932u, 0u },
-  { &GUID_Key, 88u, 2147506188u, 0u },
-  { &GUID_Key, 89u, 2147506444u, 0u },
-  { &GUID_Key, 90u, 2147506700u, 0u },
-  { &GUID_Key, 91u, 2147506956u, 0u },
-  { &GUID_Key, 92u, 2147507212u, 0u },
-  { &GUID_Key, 93u, 2147507468u, 0u },
-  { &GUID_Key, 94u, 2147507724u, 0u },
-  { &GUID_Key, 95u, 2147507980u, 0u },
-  { &GUID_Key, 96u, 2147508236u, 0u },
-  { &GUID_Key, 97u, 2147508492u, 0u },
-  { &GUID_Key, 98u, 2147508748u, 0u },
-  { &GUID_Key, 99u, 2147509004u, 0u },
-  { &GUID_Key, 100u, 2147509260u, 0u },
-  { &GUID_Key, 101u, 2147509516u, 0u },
-  { &GUID_Key, 102u, 2147509772u, 0u },
-  { &GUID_Key, 103u, 2147510028u, 0u },
-  { &GUID_Key, 104u, 2147510284u, 0u },
-  { &GUID_Key, 105u, 2147510540u, 0u },
-  { &GUID_Key, 106u, 2147510796u, 0u },
-  { &GUID_Key, 107u, 2147511052u, 0u },
-  { &GUID_Key, 108u, 2147511308u, 0u },
-  { &GUID_Key, 109u, 2147511564u, 0u },
-  { &GUID_Key, 110u, 2147511820u, 0u },
-  { &GUID_Key, 111u, 2147512076u, 0u },
-  { &GUID_Key, 112u, 2147512332u, 0u },
-  { &GUID_Key, 113u, 2147512588u, 0u },
-  { &GUID_Key, 114u, 2147512844u, 0u },
-  { &GUID_Key, 115u, 2147513100u, 0u },
-  { &GUID_Key, 116u, 2147513356u, 0u },
-  { &GUID_Key, 117u, 2147513612u, 0u },
-  { &GUID_Key, 118u, 2147513868u, 0u },
-  { &GUID_Key, 119u, 2147514124u, 0u },
-  { &GUID_Key, 120u, 2147514380u, 0u },
-  { &GUID_Key, 121u, 2147514636u, 0u },
-  { &GUID_Key, 122u, 2147514892u, 0u },
-  { &GUID_Key, 123u, 2147515148u, 0u },
-  { &GUID_Key, 124u, 2147515404u, 0u },
-  { &GUID_Key, 125u, 2147515660u, 0u },
-  { &GUID_Key, 126u, 2147515916u, 0u },
-  { &GUID_Key, 127u, 2147516172u, 0u },
-  { &GUID_Key, 128u, 2147516428u, 0u },
-  { &GUID_Key, 129u, 2147516684u, 0u },
-  { &GUID_Key, 130u, 2147516940u, 0u },
-  { &GUID_Key, 131u, 2147517196u, 0u },
-  { &GUID_Key, 132u, 2147517452u, 0u },
-  { &GUID_Key, 133u, 2147517708u, 0u },
-  { &GUID_Key, 134u, 2147517964u, 0u },
-  { &GUID_Key, 135u, 2147518220u, 0u },
-  { &GUID_Key, 136u, 2147518476u, 0u },
-  { &GUID_Key, 137u, 2147518732u, 0u },
-  { &GUID_Key, 138u, 2147518988u, 0u },
-  { &GUID_Key, 139u, 2147519244u, 0u },
-  { &GUID_Key, 140u, 2147519500u, 0u },
-  { &GUID_Key, 141u, 2147519756u, 0u },
-  { &GUID_Key, 142u, 2147520012u, 0u },
-  { &GUID_Key, 143u, 2147520268u, 0u },
-  { &GUID_Key, 144u, 2147520524u, 0u },
-  { &GUID_Key, 145u, 2147520780u, 0u },
-  { &GUID_Key, 146u, 2147521036u, 0u },
-  { &GUID_Key, 147u, 2147521292u, 0u },
-  { &GUID_Key, 148u, 2147521548u, 0u },
-  { &GUID_Key, 149u, 2147521804u, 0u },
-  { &GUID_Key, 150u, 2147522060u, 0u },
-  { &GUID_Key, 151u, 2147522316u, 0u },
-  { &GUID_Key, 152u, 2147522572u, 0u },
-  { &GUID_Key, 153u, 2147522828u, 0u },
-  { &GUID_Key, 154u, 2147523084u, 0u },
-  { &GUID_Key, 155u, 2147523340u, 0u },
-  { &GUID_Key, 156u, 2147523596u, 0u },
-  { &GUID_Key, 157u, 2147523852u, 0u },
-  { &GUID_Key, 158u, 2147524108u, 0u },
-  { &GUID_Key, 159u, 2147524364u, 0u },
-  { &GUID_Key, 160u, 2147524620u, 0u },
-  { &GUID_Key, 161u, 2147524876u, 0u },
-  { &GUID_Key, 162u, 2147525132u, 0u },
-  { &GUID_Key, 163u, 2147525388u, 0u },
-  { &GUID_Key, 164u, 2147525644u, 0u },
-  { &GUID_Key, 165u, 2147525900u, 0u },
-  { &GUID_Key, 166u, 2147526156u, 0u },
-  { &GUID_Key, 167u, 2147526412u, 0u },
-  { &GUID_Key, 168u, 2147526668u, 0u },
-  { &GUID_Key, 169u, 2147526924u, 0u },
-  { &GUID_Key, 170u, 2147527180u, 0u },
-  { &GUID_Key, 171u, 2147527436u, 0u },
-  { &GUID_Key, 172u, 2147527692u, 0u },
-  { &GUID_Key, 173u, 2147527948u, 0u },
-  { &GUID_Key, 174u, 2147528204u, 0u },
-  { &GUID_Key, 175u, 2147528460u, 0u },
-  { &GUID_Key, 176u, 2147528716u, 0u },
-  { &GUID_Key, 177u, 2147528972u, 0u },
-  { &GUID_Key, 178u, 2147529228u, 0u },
-  { &GUID_Key, 179u, 2147529484u, 0u },
-  { &GUID_Key, 180u, 2147529740u, 0u },
-  { &GUID_Key, 181u, 2147529996u, 0u },
-  { &GUID_Key, 182u, 2147530252u, 0u },
-  { &GUID_Key, 183u, 2147530508u, 0u },
-  { &GUID_Key, 184u, 2147530764u, 0u },
-  { &GUID_Key, 185u, 2147531020u, 0u },
-  { &GUID_Key, 186u, 2147531276u, 0u },
-  { &GUID_Key, 187u, 2147531532u, 0u },
-  { &GUID_Key, 188u, 2147531788u, 0u },
-  { &GUID_Key, 189u, 2147532044u, 0u },
-  { &GUID_Key, 190u, 2147532300u, 0u },
-  { &GUID_Key, 191u, 2147532556u, 0u },
-  { &GUID_Key, 192u, 2147532812u, 0u },
-  { &GUID_Key, 193u, 2147533068u, 0u },
-  { &GUID_Key, 194u, 2147533324u, 0u },
-  { &GUID_Key, 195u, 2147533580u, 0u },
-  { &GUID_Key, 196u, 2147533836u, 0u },
-  { &GUID_Key, 197u, 2147534092u, 0u },
-  { &GUID_Key, 198u, 2147534348u, 0u },
-  { &GUID_Key, 199u, 2147534604u, 0u },
-  { &GUID_Key, 200u, 2147534860u, 0u },
-  { &GUID_Key, 201u, 2147535116u, 0u },
-  { &GUID_Key, 202u, 2147535372u, 0u },
-  { &GUID_Key, 203u, 2147535628u, 0u },
-  { &GUID_Key, 204u, 2147535884u, 0u },
-  { &GUID_Key, 205u, 2147536140u, 0u },
-  { &GUID_Key, 206u, 2147536396u, 0u },
-  { &GUID_Key, 207u, 2147536652u, 0u },
-  { &GUID_Key, 208u, 2147536908u, 0u },
-  { &GUID_Key, 209u, 2147537164u, 0u },
-  { &GUID_Key, 210u, 2147537420u, 0u },
-  { &GUID_Key, 211u, 2147537676u, 0u },
-  { &GUID_Key, 212u, 2147537932u, 0u },
-  { &GUID_Key, 213u, 2147538188u, 0u },
-  { &GUID_Key, 214u, 2147538444u, 0u },
-  { &GUID_Key, 215u, 2147538700u, 0u },
-  { &GUID_Key, 216u, 2147538956u, 0u },
-  { &GUID_Key, 217u, 2147539212u, 0u },
-  { &GUID_Key, 218u, 2147539468u, 0u },
-  { &GUID_Key, 219u, 2147539724u, 0u },
-  { &GUID_Key, 220u, 2147539980u, 0u },
-  { &GUID_Key, 221u, 2147540236u, 0u },
-  { &GUID_Key, 222u, 2147540492u, 0u },
-  { &GUID_Key, 223u, 2147540748u, 0u },
-  { &GUID_Key, 224u, 2147541004u, 0u },
-  { &GUID_Key, 225u, 2147541260u, 0u },
-  { &GUID_Key, 226u, 2147541516u, 0u },
-  { &GUID_Key, 227u, 2147541772u, 0u },
-  { &GUID_Key, 228u, 2147542028u, 0u },
-  { &GUID_Key, 229u, 2147542284u, 0u },
-  { &GUID_Key, 230u, 2147542540u, 0u },
-  { &GUID_Key, 231u, 2147542796u, 0u },
-  { &GUID_Key, 232u, 2147543052u, 0u },
-  { &GUID_Key, 233u, 2147543308u, 0u },
-  { &GUID_Key, 234u, 2147543564u, 0u },
-  { &GUID_Key, 235u, 2147543820u, 0u },
-  { &GUID_Key, 236u, 2147544076u, 0u },
-  { &GUID_Key, 237u, 2147544332u, 0u },
-  { &GUID_Key, 238u, 2147544588u, 0u },
-  { &GUID_Key, 239u, 2147544844u, 0u },
-  { &GUID_Key, 240u, 2147545100u, 0u },
-  { &GUID_Key, 241u, 2147545356u, 0u },
-  { &GUID_Key, 242u, 2147545612u, 0u },
-  { &GUID_Key, 243u, 2147545868u, 0u },
-  { &GUID_Key, 244u, 2147546124u, 0u },
-  { &GUID_Key, 245u, 2147546380u, 0u },
-  { &GUID_Key, 246u, 2147546636u, 0u },
-  { &GUID_Key, 247u, 2147546892u, 0u },
-  { &GUID_Key, 248u, 2147547148u, 0u },
-  { &GUID_Key, 249u, 2147547404u, 0u },
-  { &GUID_Key, 250u, 2147547660u, 0u },
-  { &GUID_Key, 251u, 2147547916u, 0u },
-  { &GUID_Key, 252u, 2147548172u, 0u },
-  { &GUID_Key, 253u, 2147548428u, 0u },
-  { &GUID_Key, 254u, 2147548684u, 0u },
-  { &GUID_Key, 255u, 2147548940u, 0u }
-};
+DIOBJECTDATAFORMAT stru_5E9110[256] = {
+    {&GUID_Key, 0u, 2147483660u, 0u},   {&GUID_Key, 1u, 2147483916u, 0u},   {&GUID_Key, 2u, 2147484172u, 0u},
+    {&GUID_Key, 3u, 2147484428u, 0u},   {&GUID_Key, 4u, 2147484684u, 0u},   {&GUID_Key, 5u, 2147484940u, 0u},
+    {&GUID_Key, 6u, 2147485196u, 0u},   {&GUID_Key, 7u, 2147485452u, 0u},   {&GUID_Key, 8u, 2147485708u, 0u},
+    {&GUID_Key, 9u, 2147485964u, 0u},   {&GUID_Key, 10u, 2147486220u, 0u},  {&GUID_Key, 11u, 2147486476u, 0u},
+    {&GUID_Key, 12u, 2147486732u, 0u},  {&GUID_Key, 13u, 2147486988u, 0u},  {&GUID_Key, 14u, 2147487244u, 0u},
+    {&GUID_Key, 15u, 2147487500u, 0u},  {&GUID_Key, 16u, 2147487756u, 0u},  {&GUID_Key, 17u, 2147488012u, 0u},
+    {&GUID_Key, 18u, 2147488268u, 0u},  {&GUID_Key, 19u, 2147488524u, 0u},  {&GUID_Key, 20u, 2147488780u, 0u},
+    {&GUID_Key, 21u, 2147489036u, 0u},  {&GUID_Key, 22u, 2147489292u, 0u},  {&GUID_Key, 23u, 2147489548u, 0u},
+    {&GUID_Key, 24u, 2147489804u, 0u},  {&GUID_Key, 25u, 2147490060u, 0u},  {&GUID_Key, 26u, 2147490316u, 0u},
+    {&GUID_Key, 27u, 2147490572u, 0u},  {&GUID_Key, 28u, 2147490828u, 0u},  {&GUID_Key, 29u, 2147491084u, 0u},
+    {&GUID_Key, 30u, 2147491340u, 0u},  {&GUID_Key, 31u, 2147491596u, 0u},  {&GUID_Key, 32u, 2147491852u, 0u},
+    {&GUID_Key, 33u, 2147492108u, 0u},  {&GUID_Key, 34u, 2147492364u, 0u},  {&GUID_Key, 35u, 2147492620u, 0u},
+    {&GUID_Key, 36u, 2147492876u, 0u},  {&GUID_Key, 37u, 2147493132u, 0u},  {&GUID_Key, 38u, 2147493388u, 0u},
+    {&GUID_Key, 39u, 2147493644u, 0u},  {&GUID_Key, 40u, 2147493900u, 0u},  {&GUID_Key, 41u, 2147494156u, 0u},
+    {&GUID_Key, 42u, 2147494412u, 0u},  {&GUID_Key, 43u, 2147494668u, 0u},  {&GUID_Key, 44u, 2147494924u, 0u},
+    {&GUID_Key, 45u, 2147495180u, 0u},  {&GUID_Key, 46u, 2147495436u, 0u},  {&GUID_Key, 47u, 2147495692u, 0u},
+    {&GUID_Key, 48u, 2147495948u, 0u},  {&GUID_Key, 49u, 2147496204u, 0u},  {&GUID_Key, 50u, 2147496460u, 0u},
+    {&GUID_Key, 51u, 2147496716u, 0u},  {&GUID_Key, 52u, 2147496972u, 0u},  {&GUID_Key, 53u, 2147497228u, 0u},
+    {&GUID_Key, 54u, 2147497484u, 0u},  {&GUID_Key, 55u, 2147497740u, 0u},  {&GUID_Key, 56u, 2147497996u, 0u},
+    {&GUID_Key, 57u, 2147498252u, 0u},  {&GUID_Key, 58u, 2147498508u, 0u},  {&GUID_Key, 59u, 2147498764u, 0u},
+    {&GUID_Key, 60u, 2147499020u, 0u},  {&GUID_Key, 61u, 2147499276u, 0u},  {&GUID_Key, 62u, 2147499532u, 0u},
+    {&GUID_Key, 63u, 2147499788u, 0u},  {&GUID_Key, 64u, 2147500044u, 0u},  {&GUID_Key, 65u, 2147500300u, 0u},
+    {&GUID_Key, 66u, 2147500556u, 0u},  {&GUID_Key, 67u, 2147500812u, 0u},  {&GUID_Key, 68u, 2147501068u, 0u},
+    {&GUID_Key, 69u, 2147501324u, 0u},  {&GUID_Key, 70u, 2147501580u, 0u},  {&GUID_Key, 71u, 2147501836u, 0u},
+    {&GUID_Key, 72u, 2147502092u, 0u},  {&GUID_Key, 73u, 2147502348u, 0u},  {&GUID_Key, 74u, 2147502604u, 0u},
+    {&GUID_Key, 75u, 2147502860u, 0u},  {&GUID_Key, 76u, 2147503116u, 0u},  {&GUID_Key, 77u, 2147503372u, 0u},
+    {&GUID_Key, 78u, 2147503628u, 0u},  {&GUID_Key, 79u, 2147503884u, 0u},  {&GUID_Key, 80u, 2147504140u, 0u},
+    {&GUID_Key, 81u, 2147504396u, 0u},  {&GUID_Key, 82u, 2147504652u, 0u},  {&GUID_Key, 83u, 2147504908u, 0u},
+    {&GUID_Key, 84u, 2147505164u, 0u},  {&GUID_Key, 85u, 2147505420u, 0u},  {&GUID_Key, 86u, 2147505676u, 0u},
+    {&GUID_Key, 87u, 2147505932u, 0u},  {&GUID_Key, 88u, 2147506188u, 0u},  {&GUID_Key, 89u, 2147506444u, 0u},
+    {&GUID_Key, 90u, 2147506700u, 0u},  {&GUID_Key, 91u, 2147506956u, 0u},  {&GUID_Key, 92u, 2147507212u, 0u},
+    {&GUID_Key, 93u, 2147507468u, 0u},  {&GUID_Key, 94u, 2147507724u, 0u},  {&GUID_Key, 95u, 2147507980u, 0u},
+    {&GUID_Key, 96u, 2147508236u, 0u},  {&GUID_Key, 97u, 2147508492u, 0u},  {&GUID_Key, 98u, 2147508748u, 0u},
+    {&GUID_Key, 99u, 2147509004u, 0u},  {&GUID_Key, 100u, 2147509260u, 0u}, {&GUID_Key, 101u, 2147509516u, 0u},
+    {&GUID_Key, 102u, 2147509772u, 0u}, {&GUID_Key, 103u, 2147510028u, 0u}, {&GUID_Key, 104u, 2147510284u, 0u},
+    {&GUID_Key, 105u, 2147510540u, 0u}, {&GUID_Key, 106u, 2147510796u, 0u}, {&GUID_Key, 107u, 2147511052u, 0u},
+    {&GUID_Key, 108u, 2147511308u, 0u}, {&GUID_Key, 109u, 2147511564u, 0u}, {&GUID_Key, 110u, 2147511820u, 0u},
+    {&GUID_Key, 111u, 2147512076u, 0u}, {&GUID_Key, 112u, 2147512332u, 0u}, {&GUID_Key, 113u, 2147512588u, 0u},
+    {&GUID_Key, 114u, 2147512844u, 0u}, {&GUID_Key, 115u, 2147513100u, 0u}, {&GUID_Key, 116u, 2147513356u, 0u},
+    {&GUID_Key, 117u, 2147513612u, 0u}, {&GUID_Key, 118u, 2147513868u, 0u}, {&GUID_Key, 119u, 2147514124u, 0u},
+    {&GUID_Key, 120u, 2147514380u, 0u}, {&GUID_Key, 121u, 2147514636u, 0u}, {&GUID_Key, 122u, 2147514892u, 0u},
+    {&GUID_Key, 123u, 2147515148u, 0u}, {&GUID_Key, 124u, 2147515404u, 0u}, {&GUID_Key, 125u, 2147515660u, 0u},
+    {&GUID_Key, 126u, 2147515916u, 0u}, {&GUID_Key, 127u, 2147516172u, 0u}, {&GUID_Key, 128u, 2147516428u, 0u},
+    {&GUID_Key, 129u, 2147516684u, 0u}, {&GUID_Key, 130u, 2147516940u, 0u}, {&GUID_Key, 131u, 2147517196u, 0u},
+    {&GUID_Key, 132u, 2147517452u, 0u}, {&GUID_Key, 133u, 2147517708u, 0u}, {&GUID_Key, 134u, 2147517964u, 0u},
+    {&GUID_Key, 135u, 2147518220u, 0u}, {&GUID_Key, 136u, 2147518476u, 0u}, {&GUID_Key, 137u, 2147518732u, 0u},
+    {&GUID_Key, 138u, 2147518988u, 0u}, {&GUID_Key, 139u, 2147519244u, 0u}, {&GUID_Key, 140u, 2147519500u, 0u},
+    {&GUID_Key, 141u, 2147519756u, 0u}, {&GUID_Key, 142u, 2147520012u, 0u}, {&GUID_Key, 143u, 2147520268u, 0u},
+    {&GUID_Key, 144u, 2147520524u, 0u}, {&GUID_Key, 145u, 2147520780u, 0u}, {&GUID_Key, 146u, 2147521036u, 0u},
+    {&GUID_Key, 147u, 2147521292u, 0u}, {&GUID_Key, 148u, 2147521548u, 0u}, {&GUID_Key, 149u, 2147521804u, 0u},
+    {&GUID_Key, 150u, 2147522060u, 0u}, {&GUID_Key, 151u, 2147522316u, 0u}, {&GUID_Key, 152u, 2147522572u, 0u},
+    {&GUID_Key, 153u, 2147522828u, 0u}, {&GUID_Key, 154u, 2147523084u, 0u}, {&GUID_Key, 155u, 2147523340u, 0u},
+    {&GUID_Key, 156u, 2147523596u, 0u}, {&GUID_Key, 157u, 2147523852u, 0u}, {&GUID_Key, 158u, 2147524108u, 0u},
+    {&GUID_Key, 159u, 2147524364u, 0u}, {&GUID_Key, 160u, 2147524620u, 0u}, {&GUID_Key, 161u, 2147524876u, 0u},
+    {&GUID_Key, 162u, 2147525132u, 0u}, {&GUID_Key, 163u, 2147525388u, 0u}, {&GUID_Key, 164u, 2147525644u, 0u},
+    {&GUID_Key, 165u, 2147525900u, 0u}, {&GUID_Key, 166u, 2147526156u, 0u}, {&GUID_Key, 167u, 2147526412u, 0u},
+    {&GUID_Key, 168u, 2147526668u, 0u}, {&GUID_Key, 169u, 2147526924u, 0u}, {&GUID_Key, 170u, 2147527180u, 0u},
+    {&GUID_Key, 171u, 2147527436u, 0u}, {&GUID_Key, 172u, 2147527692u, 0u}, {&GUID_Key, 173u, 2147527948u, 0u},
+    {&GUID_Key, 174u, 2147528204u, 0u}, {&GUID_Key, 175u, 2147528460u, 0u}, {&GUID_Key, 176u, 2147528716u, 0u},
+    {&GUID_Key, 177u, 2147528972u, 0u}, {&GUID_Key, 178u, 2147529228u, 0u}, {&GUID_Key, 179u, 2147529484u, 0u},
+    {&GUID_Key, 180u, 2147529740u, 0u}, {&GUID_Key, 181u, 2147529996u, 0u}, {&GUID_Key, 182u, 2147530252u, 0u},
+    {&GUID_Key, 183u, 2147530508u, 0u}, {&GUID_Key, 184u, 2147530764u, 0u}, {&GUID_Key, 185u, 2147531020u, 0u},
+    {&GUID_Key, 186u, 2147531276u, 0u}, {&GUID_Key, 187u, 2147531532u, 0u}, {&GUID_Key, 188u, 2147531788u, 0u},
+    {&GUID_Key, 189u, 2147532044u, 0u}, {&GUID_Key, 190u, 2147532300u, 0u}, {&GUID_Key, 191u, 2147532556u, 0u},
+    {&GUID_Key, 192u, 2147532812u, 0u}, {&GUID_Key, 193u, 2147533068u, 0u}, {&GUID_Key, 194u, 2147533324u, 0u},
+    {&GUID_Key, 195u, 2147533580u, 0u}, {&GUID_Key, 196u, 2147533836u, 0u}, {&GUID_Key, 197u, 2147534092u, 0u},
+    {&GUID_Key, 198u, 2147534348u, 0u}, {&GUID_Key, 199u, 2147534604u, 0u}, {&GUID_Key, 200u, 2147534860u, 0u},
+    {&GUID_Key, 201u, 2147535116u, 0u}, {&GUID_Key, 202u, 2147535372u, 0u}, {&GUID_Key, 203u, 2147535628u, 0u},
+    {&GUID_Key, 204u, 2147535884u, 0u}, {&GUID_Key, 205u, 2147536140u, 0u}, {&GUID_Key, 206u, 2147536396u, 0u},
+    {&GUID_Key, 207u, 2147536652u, 0u}, {&GUID_Key, 208u, 2147536908u, 0u}, {&GUID_Key, 209u, 2147537164u, 0u},
+    {&GUID_Key, 210u, 2147537420u, 0u}, {&GUID_Key, 211u, 2147537676u, 0u}, {&GUID_Key, 212u, 2147537932u, 0u},
+    {&GUID_Key, 213u, 2147538188u, 0u}, {&GUID_Key, 214u, 2147538444u, 0u}, {&GUID_Key, 215u, 2147538700u, 0u},
+    {&GUID_Key, 216u, 2147538956u, 0u}, {&GUID_Key, 217u, 2147539212u, 0u}, {&GUID_Key, 218u, 2147539468u, 0u},
+    {&GUID_Key, 219u, 2147539724u, 0u}, {&GUID_Key, 220u, 2147539980u, 0u}, {&GUID_Key, 221u, 2147540236u, 0u},
+    {&GUID_Key, 222u, 2147540492u, 0u}, {&GUID_Key, 223u, 2147540748u, 0u}, {&GUID_Key, 224u, 2147541004u, 0u},
+    {&GUID_Key, 225u, 2147541260u, 0u}, {&GUID_Key, 226u, 2147541516u, 0u}, {&GUID_Key, 227u, 2147541772u, 0u},
+    {&GUID_Key, 228u, 2147542028u, 0u}, {&GUID_Key, 229u, 2147542284u, 0u}, {&GUID_Key, 230u, 2147542540u, 0u},
+    {&GUID_Key, 231u, 2147542796u, 0u}, {&GUID_Key, 232u, 2147543052u, 0u}, {&GUID_Key, 233u, 2147543308u, 0u},
+    {&GUID_Key, 234u, 2147543564u, 0u}, {&GUID_Key, 235u, 2147543820u, 0u}, {&GUID_Key, 236u, 2147544076u, 0u},
+    {&GUID_Key, 237u, 2147544332u, 0u}, {&GUID_Key, 238u, 2147544588u, 0u}, {&GUID_Key, 239u, 2147544844u, 0u},
+    {&GUID_Key, 240u, 2147545100u, 0u}, {&GUID_Key, 241u, 2147545356u, 0u}, {&GUID_Key, 242u, 2147545612u, 0u},
+    {&GUID_Key, 243u, 2147545868u, 0u}, {&GUID_Key, 244u, 2147546124u, 0u}, {&GUID_Key, 245u, 2147546380u, 0u},
+    {&GUID_Key, 246u, 2147546636u, 0u}, {&GUID_Key, 247u, 2147546892u, 0u}, {&GUID_Key, 248u, 2147547148u, 0u},
+    {&GUID_Key, 249u, 2147547404u, 0u}, {&GUID_Key, 250u, 2147547660u, 0u}, {&GUID_Key, 251u, 2147547916u, 0u},
+    {&GUID_Key, 252u, 2147548172u, 0u}, {&GUID_Key, 253u, 2147548428u, 0u}, {&GUID_Key, 254u, 2147548684u, 0u},
+    {&GUID_Key, 255u, 2147548940u, 0u}};
 
-DIOBJECTDATAFORMAT stru_5EA110[44] =
-{
-  { &GUID_XAxis, 0u, 2164260611u, 256u },
-  { &GUID_YAxis, 4u, 2164260611u, 256u },
-  { &GUID_ZAxis, 8u, 2164260611u, 256u },
-  { &GUID_RxAxis, 12u, 2164260611u, 256u },
-  { &GUID_RyAxis, 16u, 2164260611u, 256u },
-  { &GUID_RzAxis, 20u, 2164260611u, 256u },
-  { &GUID_Slider, 24u, 2164260611u, 256u },
-  { &GUID_Slider, 28u, 2164260611u, 256u },
-  { &GUID_POV, 32u, 2164260624u, 0u },
-  { &GUID_POV, 36u, 2164260624u, 0u },
-  { &GUID_POV, 40u, 2164260624u, 0u },
-  { &GUID_POV, 44u, 2164260624u, 0u },
-  { NULL, 48u, 2164260620u, 0u },
-  { NULL, 49u, 2164260620u, 0u },
-  { NULL, 50u, 2164260620u, 0u },
-  { NULL, 51u, 2164260620u, 0u },
-  { NULL, 52u, 2164260620u, 0u },
-  { NULL, 53u, 2164260620u, 0u },
-  { NULL, 54u, 2164260620u, 0u },
-  { NULL, 55u, 2164260620u, 0u },
-  { NULL, 56u, 2164260620u, 0u },
-  { NULL, 57u, 2164260620u, 0u },
-  { NULL, 58u, 2164260620u, 0u },
-  { NULL, 59u, 2164260620u, 0u },
-  { NULL, 60u, 2164260620u, 0u },
-  { NULL, 61u, 2164260620u, 0u },
-  { NULL, 62u, 2164260620u, 0u },
-  { NULL, 63u, 2164260620u, 0u },
-  { NULL, 64u, 2164260620u, 0u },
-  { NULL, 65u, 2164260620u, 0u },
-  { NULL, 66u, 2164260620u, 0u },
-  { NULL, 67u, 2164260620u, 0u },
-  { NULL, 68u, 2164260620u, 0u },
-  { NULL, 69u, 2164260620u, 0u },
-  { NULL, 70u, 2164260620u, 0u },
-  { NULL, 71u, 2164260620u, 0u },
-  { NULL, 72u, 2164260620u, 0u },
-  { NULL, 73u, 2164260620u, 0u },
-  { NULL, 74u, 2164260620u, 0u },
-  { NULL, 75u, 2164260620u, 0u },
-  { NULL, 76u, 2164260620u, 0u },
-  { NULL, 77u, 2164260620u, 0u },
-  { NULL, 78u, 2164260620u, 0u },
-  { NULL, 79u, 2164260620u, 0u }
-};
+DIOBJECTDATAFORMAT stru_5EA110[44] = {{&GUID_XAxis, 0u, 2164260611u, 256u},   {&GUID_YAxis, 4u, 2164260611u, 256u},
+                                      {&GUID_ZAxis, 8u, 2164260611u, 256u},   {&GUID_RxAxis, 12u, 2164260611u, 256u},
+                                      {&GUID_RyAxis, 16u, 2164260611u, 256u}, {&GUID_RzAxis, 20u, 2164260611u, 256u},
+                                      {&GUID_Slider, 24u, 2164260611u, 256u}, {&GUID_Slider, 28u, 2164260611u, 256u},
+                                      {&GUID_POV, 32u, 2164260624u, 0u},      {&GUID_POV, 36u, 2164260624u, 0u},
+                                      {&GUID_POV, 40u, 2164260624u, 0u},      {&GUID_POV, 44u, 2164260624u, 0u},
+                                      {NULL, 48u, 2164260620u, 0u},           {NULL, 49u, 2164260620u, 0u},
+                                      {NULL, 50u, 2164260620u, 0u},           {NULL, 51u, 2164260620u, 0u},
+                                      {NULL, 52u, 2164260620u, 0u},           {NULL, 53u, 2164260620u, 0u},
+                                      {NULL, 54u, 2164260620u, 0u},           {NULL, 55u, 2164260620u, 0u},
+                                      {NULL, 56u, 2164260620u, 0u},           {NULL, 57u, 2164260620u, 0u},
+                                      {NULL, 58u, 2164260620u, 0u},           {NULL, 59u, 2164260620u, 0u},
+                                      {NULL, 60u, 2164260620u, 0u},           {NULL, 61u, 2164260620u, 0u},
+                                      {NULL, 62u, 2164260620u, 0u},           {NULL, 63u, 2164260620u, 0u},
+                                      {NULL, 64u, 2164260620u, 0u},           {NULL, 65u, 2164260620u, 0u},
+                                      {NULL, 66u, 2164260620u, 0u},           {NULL, 67u, 2164260620u, 0u},
+                                      {NULL, 68u, 2164260620u, 0u},           {NULL, 69u, 2164260620u, 0u},
+                                      {NULL, 70u, 2164260620u, 0u},           {NULL, 71u, 2164260620u, 0u},
+                                      {NULL, 72u, 2164260620u, 0u},           {NULL, 73u, 2164260620u, 0u},
+                                      {NULL, 74u, 2164260620u, 0u},           {NULL, 75u, 2164260620u, 0u},
+                                      {NULL, 76u, 2164260620u, 0u},           {NULL, 77u, 2164260620u, 0u},
+                                      {NULL, 78u, 2164260620u, 0u},           {NULL, 79u, 2164260620u, 0u}};
 
-DIOBJECTDATAFORMAT stru_5EA3D0[7] =
-{
-  { &GUID_XAxis, 0u, 16776963u, 0u },
-  { &GUID_YAxis, 4u, 16776963u, 0u },
-  { &GUID_ZAxis, 8u, 2164260611u, 0u },
-  { NULL, 12u, 16776972u, 0u },
-  { NULL, 13u, 16776972u, 0u },
-  { NULL, 14u, 2164260620u, 0u },
-  { NULL, 15u, 2164260620u, 0u }
-};
+DIOBJECTDATAFORMAT stru_5EA3D0[7] = {{&GUID_XAxis, 0u, 16776963u, 0u},
+                                     {&GUID_YAxis, 4u, 16776963u, 0u},
+                                     {&GUID_ZAxis, 8u, 2164260611u, 0u},
+                                     {NULL, 12u, 16776972u, 0u},
+                                     {NULL, 13u, 16776972u, 0u},
+                                     {NULL, 14u, 2164260620u, 0u},
+                                     {NULL, 15u, 2164260620u, 0u}};
 
-DIDATAFORMAT gKeyboardDataFormat_601A54 = { 24u, 16u, DIDF_RELAXIS, 256u, 256u, stru_5E9110 };
-DIDATAFORMAT gInputDeviceFormat_601A6C = { 24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110 };
-DIDATAFORMAT stru_601A84 = { 24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0 };
+DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, stru_5E9110};
+DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
+DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
 
 extern LPDIRECTINPUTA gpDInput_67B804;
 extern HWND gHwnd_707F04;
@@ -405,34 +205,31 @@ struct TgaInfo
     s32 field_84_img;
 };
 
-TgaInfo tgaArray_61F0C8[25] =
-{
-  { "data\\frontend\\1.tga", 347564, 0 },
-  { "data\\frontend\\1_Options.tga", 266924, 0 },
-  { "data\\frontend\\1_Play.tga", 266924, 0 },
-  { "data\\frontend\\1_Quit.tga", 266924, 0 },
-  { "data\\frontend\\2.tga", 347564, 0 },
-  { "data\\frontend\\2_Bonus1.tga", 266924, 0 },
-  { "data\\frontend\\2_Bonus2.tga", 266924, 0 },
-  { "data\\frontend\\2_Bonus3.tga", 266924, 0 },
-  { "data\\frontend\\2_League.tga", 266924, 0 },
-  { "data\\frontend\\2_Level1.tga", 266924, 0 },
-  { "data\\frontend\\2_Level2.tga", 266924, 0 },
-  { "data\\frontend\\2_Level3.tga", 266924, 0 },
-  { "data\\frontend\\2_Name.tga", 266924, 0 },
-  { "data\\frontend\\2_Restart.tga", 266924, 0 },
-  { "data\\frontend\\3.tga", 347564, 0 },
-  { "data\\frontend\\3_Tables.tga", 614444, 0 },
-  { "data\\frontend\\GameComplete.tga", 614444, 0 },
-  { "data\\frontend\\LevelComplete.tga", 614444, 0 },
-  { "data\\frontend\\MPLose.tga", 614444, 0 },
-  { "data\\frontend\\PlayerDead.tga", 614444, 0 },
-  { "data\\frontend\\Mask.tga", 104300, 0 },
-  { "data\\frontend\\Mask2.tga", 53594, 0 },
-  { "data\\frontend\\Credits.tga", 614444, 0 },
-  { "data\\frontend\\Mask3.tga", 130427, 0 },
-  { "data\\frontend\\DemoInfo.tga", 614939, 0 }
-};
+TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
+                               {"data\\frontend\\1_Options.tga", 266924, 0},
+                               {"data\\frontend\\1_Play.tga", 266924, 0},
+                               {"data\\frontend\\1_Quit.tga", 266924, 0},
+                               {"data\\frontend\\2.tga", 347564, 0},
+                               {"data\\frontend\\2_Bonus1.tga", 266924, 0},
+                               {"data\\frontend\\2_Bonus2.tga", 266924, 0},
+                               {"data\\frontend\\2_Bonus3.tga", 266924, 0},
+                               {"data\\frontend\\2_League.tga", 266924, 0},
+                               {"data\\frontend\\2_Level1.tga", 266924, 0},
+                               {"data\\frontend\\2_Level2.tga", 266924, 0},
+                               {"data\\frontend\\2_Level3.tga", 266924, 0},
+                               {"data\\frontend\\2_Name.tga", 266924, 0},
+                               {"data\\frontend\\2_Restart.tga", 266924, 0},
+                               {"data\\frontend\\3.tga", 347564, 0},
+                               {"data\\frontend\\3_Tables.tga", 614444, 0},
+                               {"data\\frontend\\GameComplete.tga", 614444, 0},
+                               {"data\\frontend\\LevelComplete.tga", 614444, 0},
+                               {"data\\frontend\\MPLose.tga", 614444, 0},
+                               {"data\\frontend\\PlayerDead.tga", 614444, 0},
+                               {"data\\frontend\\Mask.tga", 104300, 0},
+                               {"data\\frontend\\Mask2.tga", 53594, 0},
+                               {"data\\frontend\\Credits.tga", 614444, 0},
+                               {"data\\frontend\\Mask3.tga", 130427, 0},
+                               {"data\\frontend\\DemoInfo.tga", 614939, 0}};
 
 STUB_FUNC(0x5D9910)
 s32 __stdcall SetGamma_5D9910(s32 gamma)
@@ -492,61 +289,61 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
     u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
-    gifted_joliot *v6; // ecx
+    gifted_joliot* v6; // ecx
     u8 v7; // al
     s32 v8; // edi
-    LPDIRECTINPUTA *v9; // eax
+    LPDIRECTINPUTA* v9; // eax
     char_type v10; // bl
     u8 v11; // al
     char_type v12; // al
-    loving_borg_0xBCA *v13; // ecx
+    loving_borg_0xBCA* v13; // ecx
     s16 playerSlotSetting; // ax
     s32 v15; // edi
     s32 v16; // edx
     s32 i; // eax
-    wchar_t *v18; // eax
+    wchar_t* v18; // eax
     s16 v19; // ax
-    wchar_t *v20; // eax
-    wchar_t *_5B5F90; // eax
+    wchar_t* v20; // eax
+    wchar_t* _5B5F90; // eax
     u8 v22; // bl
-    char_type *v23; // edi
+    char_type* v23; // edi
     u8 v24; // al
     u8 v25; // bl
     s32 v26; // edi
-    wchar_t *field_6_wstr_buf; // ebp
-    blissful_ganguly_0x20 *v28; // eax
-    blissful_ganguly_0x20 *v29; // eax
+    wchar_t* field_6_wstr_buf; // ebp
+    blissful_ganguly_0x20* v28; // eax
+    blissful_ganguly_0x20* v29; // eax
     s32 v30; // edi
     s32 v31; // ebp
     bool v32; // cf
     s32 v33; // eax
     s32 v34; // ebp
     s32 v35; // ebx
-    s32 *v36; // ebp
-    s32 *v37; // edx
+    s32* v36; // ebp
+    s32* v37; // edx
     s32 v38; // eax
     s32 v39; // ecx
     s32 v40; // eax
-    wchar_t *v41; // eax
-    wchar_t *v42; // eax
-    wchar_t *v43; // eax
-    char_type *v44; // eax
-    const char_type *v45; // eax
+    wchar_t* v41; // eax
+    wchar_t* v42; // eax
+    wchar_t* v43; // eax
+    char_type* v44; // eax
+    const char_type* v45; // eax
     u16 field_132_f136_idx; // cx
-    loving_borg_0xBCA *v47; // edi
-    wchar_t *v48; // [esp-4h] [ebp-11Ch]
-    HDIGDRIVER  field_0_hDriver; // [esp-4h] [ebp-11Ch]
-    HDIGDRIVER  v50; // [esp-4h] [ebp-11Ch]
+    loving_borg_0xBCA* v47; // edi
+    wchar_t* v48; // [esp-4h] [ebp-11Ch]
+    HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
+    HDIGDRIVER v50; // [esp-4h] [ebp-11Ch]
     u8 v51; // [esp+13h] [ebp-105h]
     u8 v52; // [esp+13h] [ebp-105h]
     char_type v53; // [esp+13h] [ebp-105h]
     u8 a2; // [esp+14h] [ebp-104h]
     u8 a2a; // [esp+14h] [ebp-104h]
     u8 a2b; // [esp+14h] [ebp-104h]
-    dreamy_clarke_0xA4 *v57; // [esp+18h] [ebp-100h]
-    s32 *v58; // [esp+18h] [ebp-100h]
-    s32 *v59; // [esp+18h] [ebp-100h]
-    s32 *v60; // [esp+18h] [ebp-100h]
+    dreamy_clarke_0xA4* v57; // [esp+18h] [ebp-100h]
+    s32* v58; // [esp+18h] [ebp-100h]
+    s32* v59; // [esp+18h] [ebp-100h]
+    s32* v60; // [esp+18h] [ebp-100h]
     char_type v61; // [esp+1Fh] [ebp-F9h]
     u8 a3; // [esp+20h] [ebp-F8h]
     u8 a3a; // [esp+20h] [ebp-F8h]
@@ -564,375 +361,364 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
     this->field_132_f136_idx = arg0;
     switch (arg0)
     {
-    case 0xEu:
-        this->field_110_state = 5;
-        this->field_C9CA = 0;
-        this->field_C9CB = 0;
-        sub_4B8530();
-        this->field_C9B3 = 1;
-        this->field_C9B4 = 28;
-        this->field_C9B6 = 5;
-        goto LABEL_116;
+        case 0xEu:
+            this->field_110_state = 5;
+            this->field_C9CA = 0;
+            this->field_C9CB = 0;
+            sub_4B8530();
+            this->field_C9B3 = 1;
+            this->field_C9B4 = 28;
+            this->field_C9B6 = 5;
+            goto LABEL_116;
 
-    case 9u:
-        this->field_1EB34 = 0x668000;
-        this->field_1EB30 = 0;
-        this->field_1EB38 = 0;
-        this->field_C9B3 = 1;
-        goto LABEL_116;
+        case 9u:
+            this->field_1EB34 = 0x668000;
+            this->field_1EB30 = 0;
+            this->field_1EB38 = 0;
+            this->field_C9B3 = 1;
+            goto LABEL_116;
 
-    case 3u:
-        a2 = gLucid_hamilton_67E8E0.sub_4C5980();
-        v51 = gLucid_hamilton_67E8E0.sub_4C59C0();
-        if (dword_67EE54 == (wchar_t *)'2')
-        {
-            v51 = 3;
-        }
-
-        v4 = 1;
-        for (a3 = 1; v4 <= v51; a3 = v4)
-        {
-            if (v4 < this->field_1EB51_blocks[a2])
+        case 3u:
+            a2 = gLucid_hamilton_67E8E0.sub_4C5980();
+            v51 = gLucid_hamilton_67E8E0.sub_4C59C0();
+            if (dword_67EE54 == (wchar_t*)'2')
             {
-                gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2, a3);
+                v51 = 3;
             }
-            ++v4;
-        }
-        if (a2 == (unsigned __int8)this->field_1EB50_idx - 1)
-        {
-            this->field_136[3].field_4[0].field_1 = 0;
-            this->field_136[3].field_B8A[0].field_4 = 0;
-        }
-        else
-        {
-            gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
-            this->field_136[3].field_4[0].field_1 = 1;
-            this->field_136[3].field_B8A[0].field_4 = 1;
-        }
-        this->field_136[3].field_4[3].field_1 = 0;
-        this->field_136[3].field_B8A[3].field_4 = 0;
-        v5 = 1;
-        v6 = &v57->field_0[a2][1];
-        do
-        {
-            if (v6->field_0 && v5 < this->field_1EB51_blocks[a2])
-            {
-                this->field_136[3].field_4[3].field_1 = 1;
-                this->field_136[3].field_B8A[3].field_4 = 1;
-            }
-            ++v5;
-            ++v6;
-        } while (v5 < 4u);
-        a2a = 1;
-        goto LABEL_30;
 
-    case 6u:
-        v7 = gLucid_hamilton_67E8E0.sub_4C5990();
-        v8 = v7 >> 4;
-        swprintf(tmpBuff_67BD9C, L"%d", v57->field_0[v8][v7 & 0xF].field_8);
-        wcsncpy(this->field_136[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
-        if (gLucid_hamilton_67E8E0.sub_4C5AE0()
-            || v8 >= (unsigned __int8)this->field_1EB50_idx - 1
-            || !v57->field_0[v8 + 1][0].field_0)
-        {
-            this->field_136[6].field_4[1].field_1 = 0;
-            this->field_136[6].field_B8A[1].field_4 = 0;
-        }
-        else
-        {
-            this->field_136[6].field_4[1].field_1 = 1;
-            this->field_136[6].field_B8A[1].field_4 = 1;
-        }
-        goto LABEL_116;
-    case 2u:
-    case 0xBu:
-        a2a = 0;
-    LABEL_30:
-        v9 = &(&this->field_0_pDInput)[gLucid_hamilton_67E8E0.sub_4C59B0()];
-        v66 = *((BYTE *)v9 + 60905);
-        v52 = *((BYTE *)v9 + 60906);
-        v67 = *((BYTE *)v9 + 60907);
-        if (gLucid_hamilton_67E8E0.sub_4C59A0())
-        {
-            v11 = gLucid_hamilton_67E8E0.sub_4C5990();
-            v10 = v11 >> 4;
-            v61 = v11 & 0xF;
-        }
-        else
-        {
-            v10 = gLucid_hamilton_67E8E0.sub_4C5980();
-            v61 = 0;
-        }
-        if (v67)
-        {
-            v12 = v52 >> 4;
-            v53 = v52 & 0xF;
-        }
-        else
-        {
-            v12 = v66;
-            v53 = 0;
-        }
-        v13 = &this->field_136[arg0];
-        if (v10 == v12 && v61 == v53)
-        {
-            v13->field_4[a2a].field_1 = 1;
-            v13->field_B8A[a2a].field_4 = 1;
-        }
-        else
-        {
-            v13->field_4[a2a].field_1 = 0;
-            v13->field_B8A[a2a].field_4 = 0;
-        }
-        break;
+            v4 = 1;
+            for (a3 = 1; v4 <= v51; a3 = v4)
+            {
+                if (v4 < this->field_1EB51_blocks[a2])
+                {
+                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2, a3);
+                }
+                ++v4;
+            }
+            if (a2 == (unsigned __int8)this->field_1EB50_idx - 1)
+            {
+                this->field_136[3].field_4[0].field_1 = 0;
+                this->field_136[3].field_B8A[0].field_4 = 0;
+            }
+            else
+            {
+                gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
+                this->field_136[3].field_4[0].field_1 = 1;
+                this->field_136[3].field_B8A[0].field_4 = 1;
+            }
+            this->field_136[3].field_4[3].field_1 = 0;
+            this->field_136[3].field_B8A[3].field_4 = 0;
+            v5 = 1;
+            v6 = &v57->field_0[a2][1];
+            do
+            {
+                if (v6->field_0 && v5 < this->field_1EB51_blocks[a2])
+                {
+                    this->field_136[3].field_4[3].field_1 = 1;
+                    this->field_136[3].field_B8A[3].field_4 = 1;
+                }
+                ++v5;
+                ++v6;
+            } while (v5 < 4u);
+            a2a = 1;
+            goto LABEL_30;
+
+        case 6u:
+            v7 = gLucid_hamilton_67E8E0.sub_4C5990();
+            v8 = v7 >> 4;
+            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0[v8][v7 & 0xF].field_8);
+            wcsncpy(this->field_136[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
+            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)this->field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
+            {
+                this->field_136[6].field_4[1].field_1 = 0;
+                this->field_136[6].field_B8A[1].field_4 = 0;
+            }
+            else
+            {
+                this->field_136[6].field_4[1].field_1 = 1;
+                this->field_136[6].field_B8A[1].field_4 = 1;
+            }
+            goto LABEL_116;
+        case 2u:
+        case 0xBu:
+            a2a = 0;
+        LABEL_30:
+            v9 = &(&this->field_0_pDInput)[gLucid_hamilton_67E8E0.sub_4C59B0()];
+            v66 = *((BYTE*)v9 + 60905);
+            v52 = *((BYTE*)v9 + 60906);
+            v67 = *((BYTE*)v9 + 60907);
+            if (gLucid_hamilton_67E8E0.sub_4C59A0())
+            {
+                v11 = gLucid_hamilton_67E8E0.sub_4C5990();
+                v10 = v11 >> 4;
+                v61 = v11 & 0xF;
+            }
+            else
+            {
+                v10 = gLucid_hamilton_67E8E0.sub_4C5980();
+                v61 = 0;
+            }
+            if (v67)
+            {
+                v12 = v52 >> 4;
+                v53 = v52 & 0xF;
+            }
+            else
+            {
+                v12 = v66;
+                v53 = 0;
+            }
+            v13 = &this->field_136[arg0];
+            if (v10 == v12 && v61 == v53)
+            {
+                v13->field_4[a2a].field_1 = 1;
+                v13->field_B8A[a2a].field_4 = 1;
+            }
+            else
+            {
+                v13->field_4[a2a].field_1 = 0;
+                v13->field_B8A[a2a].field_4 = 0;
+            }
+            break;
     }
 
     switch (arg0)
     {
-    case 1u:
-        playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-        this->field_136[1].field_4[0].field_6E_count = playerSlotSetting;
-        this->field_136[1].field_4[0].field_70 = playerSlotSetting;
-        gLucid_hamilton_67E8E0.sub_4C5920(playerSlotSetting);
-        sub_4B42E0();
-        break;
+        case 1u:
+            playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
+            this->field_136[1].field_4[0].field_6E_count = playerSlotSetting;
+            this->field_136[1].field_4[0].field_70 = playerSlotSetting;
+            gLucid_hamilton_67E8E0.sub_4C5920(playerSlotSetting);
+            sub_4B42E0();
+            break;
 
-    case 7u:
-        a2b = gLucid_hamilton_67E8E0.sub_4C5BF0();
-        v15 = -1;
-        if (gLucid_hamilton_67E8E0.sub_4C5BC0() == 3)
-        {
-            v16 = 0;
-            for (i = 4; i < 28; i += 4)
+        case 7u:
+            a2b = gLucid_hamilton_67E8E0.sub_4C5BF0();
+            v15 = -1;
+            if (gLucid_hamilton_67E8E0.sub_4C5BC0() == 3)
             {
-                if (*(s32 *)((char_type *)&gYouthful_einstein_6F8450.field_0 + i) > v15
-                    && !*((BYTE *)&gYouthful_einstein_6F8450.field_20 + v16))
+                v16 = 0;
+                for (i = 4; i < 28; i += 4)
                 {
-                    v15 = *(s32 *)((char_type *)&gYouthful_einstein_6F8450.field_0 + i);
+                    if (*(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i) > v15 &&
+                        !*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v16))
+                    {
+                        v15 = *(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i);
+                    }
+                    ++v16;
                 }
-                ++v16;
-            }
-        }
-        else
-        {
-            gLucid_hamilton_67E8E0.sub_4C5C20();
-        }
-
-        v65 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5BE0();
-        v68 = gLucid_hamilton_67E8E0.sub_4C5BC0();
-        switch (v68)
-        {
-        case 1:
-            _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
-            wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, _5B5F90, 0x32u);
-            v19 = sub_4B0190(
-                this->field_136[7].field_518[13].field_6_wstr_buf,
-                this->field_136[7].field_518[13].field_6A,
-                320);
-            break;
-
-        case 2:
-            v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
-            wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v20, 50u);
-            v19 = sub_4B0190(
-                this->field_136[7].field_518[13].field_6_wstr_buf,
-                this->field_136[7].field_518[13].field_6A,
-                320);
-            break;
-
-        case 3:
-            v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
-            wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v18, 0x32u);
-            v19 = sub_4B0190(
-                this->field_136[7].field_518[13].field_6_wstr_buf,
-                this->field_136[7].field_518[13].field_6A,
-                320);
-            break;
-        default:
-            FatalError_4A38C0(189, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4079); // Multiplayer game type should be frag, tag or score (but isn't)
-        }
-
-        this->field_136[7].field_518[13].field_2 = v19;
-        v22 = 0;
-        v23 = &this->field_136[7].field_518[7].field_1;
-        do
-        {
-            if (v22 >= a2b)
-            {
-                *(v23 - 660) = 0;
-                *v23 = 0;
             }
             else
             {
-                *(v23 - 660) = 1;
-                *v23 = gLucid_hamilton_67E8E0.sub_4C5BC0() != 3;
+                gLucid_hamilton_67E8E0.sub_4C5C20();
             }
-            ++v22;
-            v23 += 110;
-        } while (v22 < 6u);
 
-        v24 = a2b;
-        v25 = 0;
-        v69 = 0;
+            v65 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5BE0();
+            v68 = gLucid_hamilton_67E8E0.sub_4C5BC0();
+            switch (v68)
+            {
+                case 1:
+                    _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
+                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, _5B5F90, 0x32u);
+                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    break;
 
-        if (a2b)
-        {
-            v26 = 0;
-            v58 = &gYouthful_einstein_6F8450.field_20;
-            field_6_wstr_buf = this->field_136[7].field_518[1].field_6_wstr_buf;
+                case 2:
+                    v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
+                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v20, 50u);
+                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    break;
+
+                case 3:
+                    v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
+                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v18, 0x32u);
+                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    break;
+                default:
+                    FatalError_4A38C0(189,
+                                      "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                                      4079); // Multiplayer game type should be frag, tag or score (but isn't)
+            }
+
+            this->field_136[7].field_518[13].field_2 = v19;
+            v22 = 0;
+            v23 = &this->field_136[7].field_518[7].field_1;
             do
             {
-                if (*(BYTE *)v58)
+                if (v22 >= a2b)
                 {
-                    v48 = gText_0x14_704DFC->Find_5B5F90("mult_q");
-                    v28 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
-                    swprintf(Buffer, L"%s (%s)", v28->field_0_str, v48);
-                    wcscpy(Destination, Buffer);
+                    *(v23 - 660) = 0;
+                    *v23 = 0;
                 }
                 else
                 {
-                    v29 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
-                    wcsncpy(Destination, v29->field_0_str, 0x32u);
+                    *(v23 - 660) = 1;
+                    *v23 = gLucid_hamilton_67E8E0.sub_4C5BC0() != 3;
                 }
-                gText_0x14_704DFC->sub_5B5B80(Destination);
-                wcsncpy(field_6_wstr_buf, Destination, 0x32u);
-                if (v26 != v65)
-                {
-                    wcsncpy(this->field_136[7].field_518[v69++ + 8].field_6_wstr_buf, Destination, 0x32u);
-                }
-                ++v25;
-                ++v26;
-                v58 = (s32 *)((char_type *)v58 + 1);
-                v24 = a2b;
-                field_6_wstr_buf += 55;
-            } while (v25 < a2b);
-        }
-        
-        v30 = -1;
+                ++v22;
+                v23 += 110;
+            } while (v22 < 6u);
 
-        if (*((BYTE *)&gYouthful_einstein_6F8450.field_20 + v65))
-        {
+            v24 = a2b;
+            v25 = 0;
+            v69 = 0;
+
+            if (a2b)
+            {
+                v26 = 0;
+                v58 = &gYouthful_einstein_6F8450.field_20;
+                field_6_wstr_buf = this->field_136[7].field_518[1].field_6_wstr_buf;
+                do
+                {
+                    if (*(BYTE*)v58)
+                    {
+                        v48 = gText_0x14_704DFC->Find_5B5F90("mult_q");
+                        v28 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
+                        swprintf(Buffer, L"%s (%s)", v28->field_0_str, v48);
+                        wcscpy(Destination, Buffer);
+                    }
+                    else
+                    {
+                        v29 = gLucid_hamilton_67E8E0.sub_4C5C60(v25);
+                        wcsncpy(Destination, v29->field_0_str, 0x32u);
+                    }
+                    gText_0x14_704DFC->sub_5B5B80(Destination);
+                    wcsncpy(field_6_wstr_buf, Destination, 0x32u);
+                    if (v26 != v65)
+                    {
+                        wcsncpy(this->field_136[7].field_518[v69++ + 8].field_6_wstr_buf, Destination, 0x32u);
+                    }
+                    ++v25;
+                    ++v26;
+                    v58 = (s32*)((char_type*)v58 + 1);
+                    v24 = a2b;
+                    field_6_wstr_buf += 55;
+                } while (v25 < a2b);
+            }
+
+            v30 = -1;
+
+            if (*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v65))
+            {
+                v3 = arg0;
+                goto LABEL_105;
+            }
+
+            switch (v68)
+            {
+                case 1:
+                    a3a = 0;
+                    if (v24)
+                    {
+                        v31 = 0;
+                        v59 = &gYouthful_einstein_6F8450.field_20;
+                        do
+                        {
+                            if (v31 != v65 && !*(BYTE*)v59 && (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a) > v30)
+                            {
+                                v30 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a);
+                            }
+                            ++v31;
+                            v32 = ++a3a < a2b;
+                            v59 = (s32*)((char_type*)v59 + 1);
+                        } while (v32);
+                    }
+                    v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
+                    break;
+                case 2:
+                    a3b = 0;
+                    if (v24)
+                    {
+                        v34 = 0;
+                        v60 = &gYouthful_einstein_6F8450.field_20;
+                        do
+                        {
+                            if (v34 != v65 && !*(BYTE*)v60 && gLucid_hamilton_67E8E0.sub_4C5CB0(a3b) > v30)
+                            {
+                                v30 = gLucid_hamilton_67E8E0.sub_4C5CB0(a3b);
+                            }
+                            ++v34;
+                            v32 = ++a3b < a2b;
+                            v60 = (s32*)((char_type*)v60 + 1);
+                        } while (v32);
+                    }
+                    v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
+                    break;
+                case 3:
+                    if (v24)
+                    {
+                        v35 = 0;
+                        v36 = &gYouthful_einstein_6F8450.field_20;
+                        v37 = gYouthful_einstein_6F8450.field_4_time;
+                        v38 = a2b;
+                        do
+                        {
+                            if (v35 != v65 && !*(BYTE*)v36)
+                            {
+                                v39 = *v37;
+                                if (*v37 <= v30)
+                                    v39 = v30;
+                                v30 = v39;
+                            }
+                            ++v35;
+                            ++v37;
+                            v36 = (s32*)((char_type*)v36 + 1);
+                            --v38;
+                        } while (v38);
+                    }
+                    v33 = gYouthful_einstein_6F8450.field_4_time[v65];
+                    break;
+                default:
+                    v3 = arg0;
+                    goto LABEL_107;
+            }
+
             v3 = arg0;
-            goto LABEL_105;
-        }
+            v40 = v33 - v30;
 
-        switch (v68)
-        {
-        case 1:
-            a3a = 0;
-            if (v24)
+            if (v40 > 0)
             {
-                v31 = 0;
-                v59 = &gYouthful_einstein_6F8450.field_20;
-                do
-                {
-                    if (v31 != v65
-                        && !*(BYTE *)v59
-                        && (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a) > v30)
-                    {
-                        v30 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(a3a);
-                    }
-                    ++v31;
-                    v32 = ++a3a < a2b;
-                    v59 = (s32 *)((char_type *)v59 + 1);
-                } while (v32);
+                v41 = gText_0x14_704DFC->Find_5B5F90("mult_w");
+                wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v41, 0x32u);
+                break;
             }
-            v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
-            break;
-        case 2:
-            a3b = 0;
-            if (v24)
+
+            if (v40 < 0)
             {
-                v34 = 0;
-                v60 = &gYouthful_einstein_6F8450.field_20;
-                do
-                {
-                    if (v34 != v65 && !*(BYTE *)v60 && gLucid_hamilton_67E8E0.sub_4C5CB0(a3b) > v30)
-                    {
-                        v30 = gLucid_hamilton_67E8E0.sub_4C5CB0(a3b);
-                    }
-                    ++v34;
-                    v32 = ++a3b < a2b;
-                    v60 = (s32 *)((char_type *)v60 + 1);
-                } while (v32);
+            LABEL_105:
+                v42 = gText_0x14_704DFC->Find_5B5F90("mult_l");
+                wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v42, 0x32u);
+                break;
             }
-            v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
+
+        LABEL_107:
+            v43 = gText_0x14_704DFC->Find_5B5F90("mult_d");
+            wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v43, 0x32u);
             break;
-        case 3:
-            if (v24)
+
+        case 8u:
+            if (bIsFrench_67D53C)
             {
-                v35 = 0;
-                v36 = &gYouthful_einstein_6F8450.field_20;
-                v37 = gYouthful_einstein_6F8450.field_4_time;
-                v38 = a2b;
-                do
-                {
-                    if (v35 != v65 && !*(BYTE *)v36)
-                    {
-                        v39 = *v37;
-                        if (*v37 <= v30)
-                            v39 = v30;
-                        v30 = v39;
-                    }
-                    ++v35;
-                    ++v37;
-                    v36 = (s32 *)((char_type *)v36 + 1);
-                    --v38;
-                } while (v38);
+                sub_4B8650();
             }
-            v33 = gYouthful_einstein_6F8450.field_4_time[v65];
+
+            if (pre_intro_bik_exists_4B6030())
+            {
+                field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
+                v44 = gLaughing_blackwell_0x1EB54_67DC84->pre_intro_bik_4B5F20();
+                Bink::sub_513560(v44, field_0_hDriver);
+            }
+            else
+            {
+                v50 = gSampManager_6FFF00.field_0_hDriver;
+                v45 = gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50();
+                Bink::sub_5133E0(v45, v50);
+            }
             break;
-        default:
-            v3 = arg0;
-            goto LABEL_107;
-        }
 
-        v3 = arg0;
-        v40 = v33 - v30;
-        
-        if (v40 > 0)
-        {
-            v41 = gText_0x14_704DFC->Find_5B5F90("mult_w");
-            wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v41, 0x32u);
+        case 0u:
+            this->field_C9E4 = timeGetTime();
             break;
-        }
-
-        if (v40 < 0)
-        {
-        LABEL_105:
-            v42 = gText_0x14_704DFC->Find_5B5F90("mult_l");
-            wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v42, 0x32u);
-            break;
-        }
-
-    LABEL_107:
-        v43 = gText_0x14_704DFC->Find_5B5F90("mult_d");
-        wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v43, 0x32u);
-        break;
-
-    case 8u:
-        if (bIsFrench_67D53C)
-        {
-            sub_4B8650();
-        }
-
-        if (pre_intro_bik_exists_4B6030())
-        {
-            field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-            v44 = gLaughing_blackwell_0x1EB54_67DC84->pre_intro_bik_4B5F20();
-            Bink::sub_513560(v44, field_0_hDriver);
-        }
-        else
-        {
-            v50 = gSampManager_6FFF00.field_0_hDriver;
-            v45 = gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50();
-            Bink::sub_5133E0(v45, v50);
-        }
-        break;
-
-    case 0u:
-        this->field_C9E4 = timeGetTime();
-        break;
     }
 
 LABEL_116:
@@ -966,14 +752,14 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
     u32 Time; // eax
     u16 field_132_f136_idx; // cx
-    const char_type *v5; // eax
-    char_type *field_8_keys; // edi
+    const char_type* v5; // eax
+    char_type* field_8_keys; // edi
     s32 v7; // ebx
     s32 result; // eax
-    char_type *v9; // ecx
+    char_type* v9; // ecx
     s32 v10; // edx
     char_type v12; // al
-    HDIGDRIVER  field_0_hDriver; // [esp-4h] [ebp-10h]
+    HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-10h]
 
     Time = timeGetTime();
     field_132_f136_idx = this->field_132_f136_idx;
@@ -1048,7 +834,6 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
         else
         {
             this->field_C9E4 = Time;
-           
         }
 
         if (Time >= this->field_C9DC || (this->field_C9E0 == 3))
@@ -1081,50 +866,50 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
     u16 field_132_f136_idx; // dx
     s32 v5; // ecx
     s32 v6; // eax
-    loving_borg_0xBCA *v7; // edi
+    loving_borg_0xBCA* v7; // edi
     s16 v8; // esp^2
     s32 v9; // eax
     s32 v10; // ecx
-    s32 *v11; // ecx
+    s32* v11; // ecx
     s16 v12; // ax
-    void *v13; // edx
-    void *v14; // eax
+    void* v13; // edx
+    void* v14; // eax
     s16 v15; // ax
-    void *v16; // ecx
+    void* v16; // ecx
     s16 v17; // dx
     s16 v18; // ax
     u8 v19; // al
-    wchar_t *v20; // ecx
+    wchar_t* v20; // ecx
     u16 v21; // ax
     s32 v22; // ecx
     u8 v23; // al
     u8 v24; // bl
     u8 v25; // bp
-    wchar_t *_5B5F90; // eax
+    wchar_t* _5B5F90; // eax
     u16 v27; // ax
     bool v28; // zf
-    s32 *v29; // ecx
+    s32* v29; // ecx
     s32 v30; // eax
     s32 v31; // ebp
-    wchar_t *v32; // edx
-    s32 *v33; // ecx
+    wchar_t* v32; // edx
+    s32* v33; // ecx
     u16 v34; // ax
-    void *v35; // eax
+    void* v35; // eax
     char_type v36; // cl
     s16 v37; // ax
-    void *v38; // ecx
-    void *v39; // edx
+    void* v38; // ecx
+    void* v39; // edx
     s16 v40; // ax
-    void *v41; // ecx
-    s32 *v42; // ecx
-    s32 *v43; // ecx
+    void* v41; // ecx
+    s32* v42; // ecx
+    s32* v43; // ecx
     u16 v44; // ax
     char_type v45; // dl
-    u32 *v46; // eax
-    wchar_t *v47; // ecx
+    u32* v46; // eax
+    wchar_t* v47; // ecx
     s32 v48; // ecx
     s32 v49; // edx
-    wchar_t *v50; // ecx
+    wchar_t* v50; // ecx
     s32 v51; // ecx
     bool v52; // cf
     s32 v53; // eax
@@ -1133,42 +918,42 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
     s32 v56; // ebp
     u16 v57; // bx
     u16 v58; // dx
-    s32 *v59; // eax
-    wchar_t *v60; // ecx
+    s32* v59; // eax
+    wchar_t* v60; // ecx
     s16 v61; // ax
     s32 v62; // edx
     u16 v63; // ax
     s32 v64; // ecx
-    s32 *v65; // ecx
-    wchar_t *v66; // ecx
+    s32* v65; // ecx
+    wchar_t* v66; // ecx
     s32 v67; // ecx
     s16 v68; // ax
     u16 v69; // bp
     u16 v70; // bx
-    s32 *v71; // ecx
-    s32 *v72; // ecx
-    wchar_t *v73; // eax
+    s32* v71; // ecx
+    s32* v72; // ecx
+    wchar_t* v73; // eax
     s32 v74; // eax
     s16 v75; // esp^2
-    s32 *v76; // ecx
-    s32 *v77; // ecx
+    s32* v76; // ecx
+    s32* v77; // ecx
     s16 v78; // ax
     u16 v79; // bx
     u16 v80; // di
-    s32 *v81; // ecx
-    s32 *v82; // ecx
-    wchar_t *v83; // [esp-24h] [ebp-50h] BYREF
+    s32* v81; // ecx
+    s32* v82; // ecx
+    wchar_t* v83; // [esp-24h] [ebp-50h] BYREF
     s32 v84; // [esp-20h] [ebp-4Ch] BYREF
-    agitated_keldysh_0xF0 *v85; // [esp-1Ch] [ebp-48h] BYREF
+    agitated_keldysh_0xF0* v85; // [esp-1Ch] [ebp-48h] BYREF
     s32 v86; // [esp-18h] [ebp-44h]
     s32 v87; // [esp-14h] [ebp-40h] BYREF
     s32 fp_300; // [esp-10h] [ebp-3Ch] BYREF
-    s32 *fp_460; // [esp-Ch] [ebp-38h] BYREF
+    s32* fp_460; // [esp-Ch] [ebp-38h] BYREF
     s32 v90; // [esp-8h] [ebp-34h]
     s32 v91; // [esp-4h] [ebp-30h]
-    wchar_t *field_6_wstr_buf; // [esp+10h] [ebp-1Ch] BYREF
+    wchar_t* field_6_wstr_buf; // [esp+10h] [ebp-1Ch] BYREF
     s32 v93; // [esp+14h] [ebp-18h]
-    s32 *v94; // [esp+18h] [ebp-14h]
+    s32* v94; // [esp+18h] [ebp-14h]
     s32 v95; // [esp+1Ch] [ebp-10h] BYREF
     s32 v96; // [esp+20h] [ebp-Ch]
     s32 v97; // [esp+24h] [ebp-8h] BYREF
@@ -1195,8 +980,8 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         Fix16 tmp;
         tmp.mValue = 0x4000;
 
-        /*v6 =*/ DrawText_4B87A0(tmpBuff_67BD9C, fp_300, fp_460, word_703C14, tmp);
-        
+        /*v6 =*/DrawText_4B87A0(tmpBuff_67BD9C, fp_300, fp_460, word_703C14, tmp);
+
         tmp.mValue = 0x4000;
 
         Fix16 fp_0;
@@ -1758,7 +1543,7 @@ void laughing_blackwell_0x1EB54::sub_4B7AE0()
     // todo
 
     // TEST
-    
+
     if (gbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0) == -10)
     {
         Load_tga_4B6520(23u);
@@ -1782,7 +1567,7 @@ void laughing_blackwell_0x1EB54::sub_4B8650()
 STUB_FUNC(0x4B6030)
 char_type laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
 {
-    char_type *v0; // eax
+    char_type* v0; // eax
     long v1; // eax
     _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
 
@@ -1795,7 +1580,7 @@ char_type laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
 }
 
 STUB_FUNC(0x4B5F20)
-char_type * laughing_blackwell_0x1EB54::pre_intro_bik_4B5F20()
+char_type* laughing_blackwell_0x1EB54::pre_intro_bik_4B5F20()
 {
     // todo
     return "";
@@ -1824,7 +1609,6 @@ bool laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0()
 
     _findclose(hFind);
     return 1;
-
 }
 
 void sub_SetGamma()
@@ -1853,37 +1637,37 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
 
     switch (field_110_state)
     {
-    case 3:
-        sub_4B2F60();
-        break;
+        case 3:
+            sub_4B2F60();
+            break;
 
-    case 5:
-        sub_4B8280();
-        break;
+        case 5:
+            sub_4B8280();
+            break;
 
-    case 1:
-        if (field_132_f136_idx == 9)
-        {
-            snd1_67D818.field_4_bStatus = 1;
-            sub_4B7A10();
-        }
-        else
-        {
-            snd1_67D818.field_4_bStatus = 0;
-            sub_4AE2D0();
-        }
-        break;
+        case 1:
+            if (field_132_f136_idx == 9)
+            {
+                snd1_67D818.field_4_bStatus = 1;
+                sub_4B7A10();
+            }
+            else
+            {
+                snd1_67D818.field_4_bStatus = 0;
+                sub_4AE2D0();
+            }
+            break;
 
-    case 2:
-        sub_4AE990();
-        break;
+        case 2:
+            sub_4AE990();
+            break;
 
-    case 4:
-        sub_4AE9A0();
-        break;
+        case 4:
+            sub_4AE9A0();
+            break;
 
-    default:
-        FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, field_110_state);
+        default:
+            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, field_110_state);
     }
 
     if (!bSkip_audio_67D6BE)
@@ -1913,40 +1697,40 @@ void laughing_blackwell_0x1EB54::sub_4B6780()
         {
             switch (pBorg->field_BC6_nifty_idx)
             {
-            case 0:
-                field_EE08 = Play_1;
-                break;
+                case 0:
+                    field_EE08 = Play_1;
+                    break;
 
-            case 1:
-                field_EE08 = Options_0;
-                break;
+                case 1:
+                    field_EE08 = Options_0;
+                    break;
 
-            case 2:
-                field_EE08 = Quit_2;
-                break;
+                case 2:
+                    field_EE08 = Quit_2;
+                    break;
             }
         }
         else if (field_132_f136_idx == 1)
         {
             switch (pBorg->field_BC6_nifty_idx)
             {
-            case 0u:
-                this->field_EE08 = EnterPlayerName_10;
-                break;
-            case 1u:
-                this->field_EE08 = ResumeLoadSave_11;
-                break;
-            case 2u:
-                this->field_EE08 = ViewHiScore_6;
-                break;
-            case 3u:
-                this->field_EE08 = gLucid_hamilton_67E8E0.sub_4C5980() + 7;
-                break;
-            case 4u:
-                this->field_EE08 = ((unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4) + 3;
-                break;
-            default:
-                break;
+                case 0u:
+                    this->field_EE08 = EnterPlayerName_10;
+                    break;
+                case 1u:
+                    this->field_EE08 = ResumeLoadSave_11;
+                    break;
+                case 2u:
+                    this->field_EE08 = ViewHiScore_6;
+                    break;
+                case 3u:
+                    this->field_EE08 = gLucid_hamilton_67E8E0.sub_4C5980() + 7;
+                    break;
+                case 4u:
+                    this->field_EE08 = ((unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4) + 3;
+                    break;
+                default:
+                    break;
             }
         }
         else if (field_132_f136_idx == 5)
@@ -1957,11 +1741,8 @@ void laughing_blackwell_0x1EB54::sub_4B6780()
         {
             field_EE08 = GameOver_13;
         }
-        else if (field_132_f136_idx == 3u ||
-            field_132_f136_idx == 6 ||
-            field_132_f136_idx == 7 ||
-            field_132_f136_idx == 0xB ||
-            field_132_f136_idx == 0xE)
+        else if (field_132_f136_idx == 3u || field_132_f136_idx == 6 || field_132_f136_idx == 7 || field_132_f136_idx == 0xB ||
+                 field_132_f136_idx == 0xE)
         {
             field_EE08 = RedBar_16;
         }
@@ -1984,7 +1765,7 @@ STUB_FUNC(0x4B7A10)
 void laughing_blackwell_0x1EB54::sub_4B7A10()
 {
     char_type v2; // cl
-    char_type *field_8_keys; // eax
+    char_type* field_8_keys; // eax
     s32 v4; // edx
     s32 v5; // eax
     s32 v6; // eax
@@ -2022,8 +1803,7 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
         {
             while (++this->field_1EB38 != 600)
             {
-                v6 = ((u16)this->field_EE0E_unk.field_2[(u16)this->field_1EB38].field_4 << 14)
-                    + this->field_1EB34;
+                v6 = ((u16)this->field_EE0E_unk.field_2[(u16)this->field_1EB38].field_4 << 14) + this->field_1EB34;
                 this->field_1EB34 = v6;
                 if (v6 > -327680)
                     goto LABEL_13;
@@ -2038,8 +1818,8 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
 STUB_FUNC(0x4AE2D0)
 void laughing_blackwell_0x1EB54::sub_4AE2D0()
 {
-    loving_borg_0xBCA *pBorg; // ebx
-    dreamy_clarke_0xA4 *v3; // ebp
+    loving_borg_0xBCA* pBorg; // ebx
+    dreamy_clarke_0xA4* v3; // ebp
     u16 v4; // ax
     u8 v5; // bl
     char_type v6; // al
@@ -2047,14 +1827,14 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     u8 v8; // di
     u8 v9; // bl
     u16 field_BC6_nifty_idx; // cx
-    nifty_maxwell_0x82 *v11; // edi
+    nifty_maxwell_0x82* v11; // edi
     bool v12; // bl
     s32 v13; // eax
     u16 v14; // cx
-    nifty_maxwell_0x82 *v15; // edi
+    nifty_maxwell_0x82* v15; // edi
     bool v16; // bl
     bool v17; // al
-    loving_borg_0xBCA *v18; // [esp+10h] [ebp-Ch]
+    loving_borg_0xBCA* v18; // [esp+10h] [ebp-Ch]
     u8 v19; // [esp+14h] [ebp-8h]
     s32 v20; // [esp+18h] [ebp-4h]
     u8 i; // [esp+18h] [ebp-4h]
@@ -2069,104 +1849,103 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
             v4 = pBorg->field_4[pBorg->field_BC6_nifty_idx].field_80;
             switch (v4)
             {
-            case 257u:
-                Start_GTA2Manager_5E4DE0();
-                snd1_67D818.field_0_object_type = 5;
-                break;
-            case 258u:
-                this->field_108 = 1;
-                snd1_67D818.field_0_object_type = 5;
-                break;
-            case 259u:
-                goto LABEL_21;
-            case 260u:
-                v20 = gLucid_hamilton_67E8E0.sub_4C59B0(); //  LOBYTE(v20) =
-                if (PlySlotSvgExists_4B5370(v20))
-                {
-                    sub_4B4EC0();
-                }
-                else
-                {
-               
-                }
-            LABEL_21:
-                gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
-                goto LABEL_28;
-            case 261u:
-                if (gLucid_hamilton_67E8E0.sub_4C59A0())
-                {
-                    v6 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4;
-                }
-                else
-                {
-                    v6 = gLucid_hamilton_67E8E0.sub_4C5980();
-                }
+                case 257u:
+                    Start_GTA2Manager_5E4DE0();
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case 258u:
+                    this->field_108 = 1;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case 259u:
+                    goto LABEL_21;
+                case 260u:
+                    v20 = gLucid_hamilton_67E8E0.sub_4C59B0(); //  LOBYTE(v20) =
+                    if (PlySlotSvgExists_4B5370(v20))
+                    {
+                        sub_4B4EC0();
+                    }
+                    else
+                    {
+                    }
+                LABEL_21:
+                    gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
+                    goto LABEL_28;
+                case 261u:
+                    if (gLucid_hamilton_67E8E0.sub_4C59A0())
+                    {
+                        v6 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4;
+                    }
+                    else
+                    {
+                        v6 = gLucid_hamilton_67E8E0.sub_4C5980();
+                    }
 
-                v7 = v6 + 1;
-                if (!FreeLoader::sub_4AE1F0(v6 + 1))
-                {
-                    goto LABEL_10;
-                }
+                    v7 = v6 + 1;
+                    if (!FreeLoader::sub_4AE1F0(v6 + 1))
+                    {
+                        goto LABEL_10;
+                    }
 
-                if (v7 >= (u32)this->field_1EB50_idx)
-                {
-                    FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
-                }
+                    if (v7 >= (u32)this->field_1EB50_idx)
+                    {
+                        FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                    }
 
-                if (!v3->field_0[v7][0].field_0)
-                {
-                    FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
-                }
-                sub_4B4D00(v7, 0);
-                goto LABEL_9;
-            case 263u:
-                v19 = gLucid_hamilton_67E8E0.sub_4C5980();
-                v5 = 3;
-                for (i = 3; !v3->field_0[v19][i].field_0 || v5 >= this->field_1EB51_blocks[v19]; i = v5)
-                {
-                    --v5;
-                }
-                sub_4B4D00(v19, i);
-                gLucid_hamilton_67E8E0.sub_4C5AD0(0);
-                goto LABEL_9;
-            case 264u:
-                v8 = gLucid_hamilton_67E8E0.sub_4C5980();
-                if (!FreeLoader::sub_4AE1F0(v8))
-                {
+                    if (!v3->field_0[v7][0].field_0)
+                    {
+                        FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                    }
+                    sub_4B4D00(v7, 0);
+                    goto LABEL_9;
+                case 263u:
+                    v19 = gLucid_hamilton_67E8E0.sub_4C5980();
+                    v5 = 3;
+                    for (i = 3; !v3->field_0[v19][i].field_0 || v5 >= this->field_1EB51_blocks[v19]; i = v5)
+                    {
+                        --v5;
+                    }
+                    sub_4B4D00(v19, i);
+                    gLucid_hamilton_67E8E0.sub_4C5AD0(0);
+                    goto LABEL_9;
+                case 264u:
+                    v8 = gLucid_hamilton_67E8E0.sub_4C5980();
+                    if (!FreeLoader::sub_4AE1F0(v8))
+                    {
+                        goto LABEL_11;
+                    }
+                    sub_4B4D00(v8, 0);
+                LABEL_28:
+                    this->field_EE08 = RedBar_16;
+                    this->field_110_state = 2;
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case 265u:
+                    v9 = gLucid_hamilton_67E8E0.sub_4C5990();
+                    if (!FreeLoader::sub_4AE1F0(v9 >> 4))
+                    {
+                        goto LABEL_10;
+                    }
+                    sub_4B4D00(v9 >> 4, v9 & 0xF);
+                    gLucid_hamilton_67E8E0.sub_4C5AD0(1);
+                LABEL_9:
+                    this->field_EE08 = RedBar_16;
+                    this->field_110_state = 2;
+                LABEL_10:
+                    pBorg = v18;
+                LABEL_11:
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case 266u:
+                    sub_4B8020();
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
+                case 268u:
                     goto LABEL_11;
-                }
-                sub_4B4D00(v8, 0);
-            LABEL_28:
-                this->field_EE08 = RedBar_16;
-                this->field_110_state = 2;
-                snd1_67D818.field_0_object_type = 5;
-                break;
-            case 265u:
-                v9 = gLucid_hamilton_67E8E0.sub_4C5990();
-                if (!FreeLoader::sub_4AE1F0(v9 >> 4))
-                {
-                    goto LABEL_10;
-                }
-                sub_4B4D00(v9 >> 4, v9 & 0xF);
-                gLucid_hamilton_67E8E0.sub_4C5AD0(1);
-            LABEL_9:
-                this->field_EE08 = RedBar_16;
-                this->field_110_state = 2;
-            LABEL_10:
-                pBorg = v18;
-            LABEL_11:
-                snd1_67D818.field_0_object_type = 5;
-                break;
-            case 266u:
-                sub_4B8020();
-                snd1_67D818.field_0_object_type = 5;
-                break;
-            case 268u:
-                goto LABEL_11;
-            default:
-                sub_4B3170(v4);
-                snd1_67D818.field_0_object_type = 5;
-                break;
+                default:
+                    sub_4B3170(v4);
+                    snd1_67D818.field_0_object_type = 5;
+                    break;
             }
         }
         else if (this->field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
@@ -2186,25 +1965,25 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     {
         switch (this->field_132_f136_idx)
         {
-        case 0u:
-        case 0xEu:
-            sub_4B3170(9u);
-            break;
-        case 1u:
-        case 2u:
-        case 3u:
-        case 4u:
-        case 6u:
-        case 0xAu:
-        case 0xBu:
-            sub_4B3170(0);
-            break;
-        case 5u:
-            sub_4B3170(1u);
-            break;
-        default:
-            this->field_108 = 1;
-            break;
+            case 0u:
+            case 0xEu:
+                sub_4B3170(9u);
+                break;
+            case 1u:
+            case 2u:
+            case 3u:
+            case 4u:
+            case 6u:
+            case 0xAu:
+            case 0xBu:
+                sub_4B3170(0);
+                break;
+            case 5u:
+                sub_4B3170(1u);
+                break;
+            default:
+                this->field_108 = 1;
+                break;
         }
         snd1_67D818.field_0_object_type = 6;
     }
@@ -2472,7 +2251,7 @@ void laughing_blackwell_0x1EB54::sub_4B4230()
 }
 
 STUB_FUNC(0x4B3DD0)
-void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t *String)
+void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* String)
 {
     // todo
 }
@@ -2480,10 +2259,7 @@ void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t *String)
 MATCH_FUNC(0x4B4280)
 void laughing_blackwell_0x1EB54::sub_4B4280()
 {
-    wcsncpy(
-        field_C9A0,
-        gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136[1].field_4[0].field_6E_count].field_90_str,
-        9u);
+    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136[1].field_4[0].field_6E_count].field_90_str, 9u);
 }
 
 STUB_FUNC(0x4B8530)
@@ -2501,7 +2277,7 @@ void laughing_blackwell_0x1EB54::sub_4B8530()
             pStart++;
             remainder--;
         }
-//        wmemset(&field_C9B8[total], 0, remainder);
+        //        wmemset(&field_C9B8[total], 0, remainder);
     }
 }
 
@@ -2510,8 +2286,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
 {
     if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
     {
-        if (intro_bik_exists_4B5FF0()
-            && gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) == 1)
+        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) == 1)
         {
             sub_4B3170(8u);
         }
@@ -2534,7 +2309,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
         wcsncpy(field_136[14].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt1"), 0x32u);
         wcsncpy(field_136[14].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt2"), 0x32u);
         wcsncpy(field_136[14].field_518[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt3"), 0x32u);
-        
+
         field_C9CB = 1;
     }
 }
@@ -2557,9 +2332,7 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
     {
         // note: reg swap + push swap due to redundant local
         u8 i = 3;
-        while (
-            !pClarke->field_0[idx][i].field_0 || 
-            i >= field_1EB51_blocks[idx])
+        while (!pClarke->field_0[idx][i].field_0 || i >= field_1EB51_blocks[idx])
         {
             i--;
         }
@@ -2574,7 +2347,7 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
 STUB_FUNC(0x4B7FB0)
 char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
 {
-    dreamy_clarke_0xA4 *v2; // eax
+    dreamy_clarke_0xA4* v2; // eax
     u16 v3; // bx
     u16 v4; // dx
 
@@ -2650,21 +2423,21 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
 
     switch (field_110_state)
     {
-    case 1:
-    case 3:
-    case 5:
-        if (this->field_132_f136_idx == 9)
-        {
-            sub_4B7AE0();
-        }
-        else
-        {
-            sub_4AD140();
-        }
-        break;
+        case 1:
+        case 3:
+        case 5:
+            if (this->field_132_f136_idx == 9)
+            {
+                sub_4B7AE0();
+            }
+            else
+            {
+                sub_4AD140();
+            }
+            break;
 
-    case 2:
-        /*
+        case 2:
+            /*
         v36 = v29;
         v4 = laughing_blackwell_0x1EB54::sub_4B0190(this, gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
         HIWORD(v6) = v5;
@@ -2677,10 +2450,10 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
         FP::sub_4AE970(&fp_v4, v4);
         sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), fp_v4, fp_300, fp_320, flags);
         */
-        break;
+            break;
 
-    case 4:
-        /*
+        case 4:
+            /*
         v36 = v29;
         if (this->field_EE0C == 1)
         {
@@ -2755,10 +2528,10 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
         FP::FromInt_4369F0(&fp_300, 300);
         sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), fp_300, (int)fp_320, (void *)flags, v35);
         */
-        break;
+            break;
 
-    default:
-        FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, this->field_110_state);
+        default:
+            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, this->field_110_state);
     }
 }
 
@@ -2766,10 +2539,9 @@ STUB_FUNC(0x5D7D30)
 void __stdcall sub_5D7D30()
 {
     Vid_GetSurface(gVidSys_7071D0);
-    MakeScreenTable(
-        (int)gVidSys_7071D0->field_50_surface_pixels_ptr,
-        gVidSys_7071D0->field_54_surface_pixels_pitch,
-        gVidSys_7071D0->field_4C_rect_bottom);
+    MakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
+                    gVidSys_7071D0->field_54_surface_pixels_pitch,
+                    gVidSys_7071D0->field_4C_rect_bottom);
 
     if (gVidSys_7071D0->field_40_full_screen == -2)
     {
@@ -2805,15 +2577,7 @@ void laughing_blackwell_0x1EB54::sub_4ADFB0()
 
     Vid_FlipBuffers(gVidSys_7071D0);
 
-    Vid_ClearScreen(
-        gVidSys_7071D0,
-        0,
-        0,
-        0,
-        0,
-        0,
-        gVidSys_7071D0->field_48_rect_right,
-        gVidSys_7071D0->field_4C_rect_bottom);
+    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
 STUB_FUNC(0x4B6E10)
@@ -2823,12 +2587,8 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
     BYTE tga_idx; // [esp+50h] [ebp-8h] BYREF
     BYTE not_used; // [esp+54h] [ebp-4h] BYREF
 
-    if (field_EE08 == GameOver_13
-        || field_EE08 == RedBar_16
-        || field_EE08 == BlueBar_14
-        || field_EE08 == Loading_15
-        || field_EE08 == HiScoresDisplay_12
-        || field_EE08 == Credits_17)
+    if (field_EE08 == GameOver_13 || field_EE08 == RedBar_16 || field_EE08 == BlueBar_14 || field_EE08 == Loading_15 ||
+        field_EE08 == HiScoresDisplay_12 || field_EE08 == Credits_17)
     {
         sub_4B6B00(field_EE08, &tga_idx, &not_used);
         s32 blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
@@ -2838,7 +2598,6 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
             Load_tga_4B6520(tga_idx);
             gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
         }
-        
     }
     else
     {
@@ -2863,106 +2622,105 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
             }
         }
     }
-    
 }
 
 MATCH_FUNC(0x4B6B00)
-void laughing_blackwell_0x1EB54::sub_4B6B00(u8 a1, BYTE *pTgaIdx, BYTE *a3)
+void laughing_blackwell_0x1EB54::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
 {
     switch (a1)
     {
-    case Options_0:
-        *pTgaIdx = 1;
-        *a3 = 0;
-        break;
+        case Options_0:
+            *pTgaIdx = 1;
+            *a3 = 0;
+            break;
 
-    case Play_1:
-        *pTgaIdx = 2;
-        *a3 = 0;
-        break;
+        case Play_1:
+            *pTgaIdx = 2;
+            *a3 = 0;
+            break;
 
-    case Quit_2:
-        *pTgaIdx = 3;
-        *a3 = 0;
-        break;
+        case Quit_2:
+            *pTgaIdx = 3;
+            *a3 = 0;
+            break;
 
-    case BonusAC_3:
-        *pTgaIdx = 5;
-        *a3 = 4;
-        break;
+        case BonusAC_3:
+            *pTgaIdx = 5;
+            *a3 = 4;
+            break;
 
-    case BonusDF_4:
-        *pTgaIdx = 6;
-        *a3 = 4;
-        break;
+        case BonusDF_4:
+            *pTgaIdx = 6;
+            *a3 = 4;
+            break;
 
-    case BonusGI_5:
-        *pTgaIdx = 7;
-        *a3 = 4;
-        break;
+        case BonusGI_5:
+            *pTgaIdx = 7;
+            *a3 = 4;
+            break;
 
-    case ViewHiScore_6:
-        *pTgaIdx = 8;
-        *a3 = 4;
-        break;
+        case ViewHiScore_6:
+            *pTgaIdx = 8;
+            *a3 = 4;
+            break;
 
-    case PlayArea1_7:
-        *pTgaIdx = 9;
-        *a3 = 4;
-        break;
+        case PlayArea1_7:
+            *pTgaIdx = 9;
+            *a3 = 4;
+            break;
 
-    case PlayArea2_8:
-        *pTgaIdx = 10;
-        *a3 = 4;
-        break;
+        case PlayArea2_8:
+            *pTgaIdx = 10;
+            *a3 = 4;
+            break;
 
-    case PlayArea3_9:
-        *pTgaIdx = 11;
-        *a3 = 4;
-        break;
+        case PlayArea3_9:
+            *pTgaIdx = 11;
+            *a3 = 4;
+            break;
 
-    case EnterPlayerName_10:
-        *pTgaIdx = 12;
-        *a3 = 4;
-        break;
+        case EnterPlayerName_10:
+            *pTgaIdx = 12;
+            *a3 = 4;
+            break;
 
-    case ResumeLoadSave_11:
-        *pTgaIdx = 13;
-        *a3 = 4;
-        break;
+        case ResumeLoadSave_11:
+            *pTgaIdx = 13;
+            *a3 = 4;
+            break;
 
-    case HiScoresDisplay_12:
-        *pTgaIdx = 15;
-        *a3 = 0;
-        break;
+        case HiScoresDisplay_12:
+            *pTgaIdx = 15;
+            *a3 = 0;
+            break;
 
-    case GameOver_13:
-        *pTgaIdx = 19;
-        *a3 = 0;
-        break;
+        case GameOver_13:
+            *pTgaIdx = 19;
+            *a3 = 0;
+            break;
 
-    case RedBar_16:
-        *pTgaIdx = 17;
-        *a3 = 0;
-        break;
+        case RedBar_16:
+            *pTgaIdx = 17;
+            *a3 = 0;
+            break;
 
-    case BlueBar_14:
-        *pTgaIdx = 18;
-        *a3 = 0;
-        break;
+        case BlueBar_14:
+            *pTgaIdx = 18;
+            *a3 = 0;
+            break;
 
-    case Loading_15:
-        *pTgaIdx = 16;
-        *a3 = 0;
-        break;
+        case Loading_15:
+            *pTgaIdx = 16;
+            *a3 = 0;
+            break;
 
-    case Credits_17:
-        *pTgaIdx = 22;
-        *a3 = 0;
-        break;
+        case Credits_17:
+            *pTgaIdx = 22;
+            *a3 = 0;
+            break;
 
-    default:
-        return;
+        default:
+            return;
     }
 }
 
@@ -2992,8 +2750,6 @@ void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
 
     fclose(hFile);
     free(pAlloc);
-
-
 }
 
 STUB_FUNC(0x5D7CB0)
@@ -3035,7 +2791,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
         }
     }
     InitKeyBoardDevice_4AFBE0();
-    
+
     gText_0x14_704DFC->Load_5B5E90();
     gGtx_0x106C_703DD4->LoadSty_5AB750("data\\fstyle.sty");
 
@@ -3044,7 +2800,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     sub_5D7CB0();
 
     gbh_SetAmbient(1.0);
-    
+
     if (gMagical_germain_0x8EC_6F5168)
     {
         gMagical_germain_0x8EC_6F5168->sub_4D2B40();
@@ -3063,16 +2819,16 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_10C_bKeyboardAcquired = 0;
     field_108 = 2;
     field_C9E1_bCheatsEnabled = 0;
-    
+
     sub_4AF0E0();
-    
+
     field_C9DC = timeGetTime();
     field_C9E0 = 0;
     field_132_f136_idx = 0;
     field_C9E4 = 0;
-    
+
     sub_4B0220();
-    
+
     field_C9B2 = 0;
     field_C9B3 = 1;
     field_C9B4 = 256;
@@ -3102,12 +2858,12 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_1EB51_blocks[0] = 0;
     field_1EB51_blocks[1] = 0;
     field_1EB51_blocks[2] = 0;
-    
+
     sub_4B4440();
     LoadPlySlotSvgs_4B53C0();
-    
+
     field_EE08 = Play_1;
-    
+
     Load_tgas_4B66B0();
 
     field_EE0D = 0;
@@ -3122,7 +2878,6 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_1EB4D = 0;
     field_1EB4E = 0;
     field_1EB4F = 0;
-
 
     // todo: fix me
     /*
@@ -3230,7 +2985,7 @@ void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
     field_4_pKeyboardDevice = 0;
-    
+
     if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, 0) < 0)
     {
         FatalError_4A38C0(31, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
@@ -3264,8 +3019,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
 
     s32 v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
     this->field_134 = 16;
- 
-    this->field_136[0].field_0 = 3; 
+
+    this->field_136[0].field_0 = 3;
     this->field_136[0].field_4[0].field_0 = 1; // ebx
     this->field_136[0].field_4[0].field_2 = 300; // edi
     this->field_136[0].field_4[0].field_4 = 250;
@@ -3297,7 +3052,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[1].field_4[0].field_6E_count = 0;
     this->field_136[1].field_4[0].field_70 = 0;
     this->field_136[1].field_4[0].field_7E = 7;
-    
+
     u16 v77 = 0;
     do
     {
@@ -3390,26 +3145,23 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[11].field_4[0].field_0 = 1;
     this->field_136[11].field_4[0].field_4 = 392;
     wcsncpy(this->field_136[11].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[11].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[11].field_4[0].field_6_wstr_buf,
-        this->field_136[11].field_4[0].field_6A,
-        320);
+    this->field_136[11].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[0].field_6_wstr_buf,
+                                                                                    this->field_136[11].field_4[0].field_6A,
+                                                                                    320);
     this->field_136[11].field_4[0].field_80 = 260;
     this->field_136[11].field_4[1].field_0 = 1;
     this->field_136[11].field_4[1].field_4 = 412;
     wcsncpy(this->field_136[11].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[11].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[11].field_4[1].field_6_wstr_buf,
-        this->field_136[11].field_4[1].field_6A,
-        320);
+    this->field_136[11].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[1].field_6_wstr_buf,
+                                                                                    this->field_136[11].field_4[1].field_6A,
+                                                                                    320);
     this->field_136[11].field_4[1].field_80 = 259;
     this->field_136[11].field_4[2].field_0 = 1;
     this->field_136[11].field_4[2].field_4 = 432;
     wcsncpy(this->field_136[11].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[11].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[11].field_4[2].field_6_wstr_buf,
-        this->field_136[11].field_4[2].field_6A,
-        320);
+    this->field_136[11].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[2].field_6_wstr_buf,
+                                                                                    this->field_136[11].field_4[2].field_6A,
+                                                                                    320);
     this->field_136[11].field_4[2].field_80 = 0;
     this->field_136[11].field_B8A[0].field_0 = 150;
     this->field_136[11].field_B8A[0].field_2 = 400;
@@ -3430,26 +3182,20 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[2].field_4[0].field_0 = 1;
     this->field_136[2].field_4[0].field_4 = 392;
     wcsncpy(this->field_136[2].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[2].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[2].field_4[0].field_6_wstr_buf,
-        this->field_136[2].field_4[0].field_6A,
-        320);
+    this->field_136[2].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[0].field_6_wstr_buf, this->field_136[2].field_4[0].field_6A, 320);
     this->field_136[2].field_4[0].field_80 = 260;
     this->field_136[2].field_4[1].field_0 = 1;
     this->field_136[2].field_4[1].field_4 = 412;
     wcsncpy(this->field_136[2].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[2].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[2].field_4[1].field_6_wstr_buf,
-        this->field_136[2].field_4[1].field_6A,
-        320);
+    this->field_136[2].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[1].field_6_wstr_buf, this->field_136[2].field_4[1].field_6A, 320);
     this->field_136[2].field_4[1].field_80 = 259;
     this->field_136[2].field_4[2].field_0 = 1;
     this->field_136[2].field_4[2].field_4 = 432;
     wcsncpy(this->field_136[2].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[2].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[2].field_4[2].field_6_wstr_buf,
-        this->field_136[2].field_4[2].field_6A,
-        320);
+    this->field_136[2].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[2].field_6_wstr_buf, this->field_136[2].field_4[2].field_6A, 320);
     this->field_136[2].field_4[2].field_80 = 0;
     this->field_136[2].field_B8A[0].field_0 = 150;
     this->field_136[2].field_B8A[0].field_2 = 400;
@@ -3469,42 +3215,32 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[3].field_4[0].field_0 = 1;
     this->field_136[3].field_4[0].field_4 = 365;
     wcsncpy(this->field_136[3].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    this->field_136[3].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[3].field_4[0].field_6_wstr_buf,
-        this->field_136[3].field_4[0].field_6A,
-        320);
+    this->field_136[3].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[0].field_6_wstr_buf, this->field_136[3].field_4[0].field_6A, 320);
     this->field_136[3].field_4[0].field_80 = 261;
     this->field_136[3].field_4[1].field_0 = 1;
     this->field_136[3].field_4[1].field_4 = 385;
     wcsncpy(this->field_136[3].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[3].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[3].field_4[1].field_6_wstr_buf,
-        this->field_136[3].field_4[1].field_6A,
-        320);
+    this->field_136[3].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[1].field_6_wstr_buf, this->field_136[3].field_4[1].field_6A, 320);
     this->field_136[3].field_4[1].field_80 = 260;
     this->field_136[3].field_4[2].field_0 = 1;
     this->field_136[3].field_4[2].field_4 = 405;
     wcsncpy(this->field_136[3].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[3].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[3].field_4[2].field_6_wstr_buf,
-        this->field_136[3].field_4[2].field_6A,
-        320);
+    this->field_136[3].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[2].field_6_wstr_buf, this->field_136[3].field_4[2].field_6A, 320);
     this->field_136[3].field_4[2].field_80 = 259;
     this->field_136[3].field_4[3].field_0 = 1;
     this->field_136[3].field_4[3].field_4 = 425;
     wcsncpy(this->field_136[3].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
-    this->field_136[3].field_4[3].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[3].field_4[3].field_6_wstr_buf,
-        this->field_136[3].field_4[3].field_6A,
-        320);
+    this->field_136[3].field_4[3].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[3].field_6_wstr_buf, this->field_136[3].field_4[3].field_6A, 320);
     this->field_136[3].field_4[3].field_80 = 266;
     this->field_136[3].field_4[4].field_0 = 1;
     this->field_136[3].field_4[4].field_4 = 445;
     wcsncpy(this->field_136[3].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[3].field_4[4].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[3].field_4[4].field_6_wstr_buf,
-        this->field_136[3].field_4[4].field_6A,
-        320);
+    this->field_136[3].field_4[4].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[4].field_6_wstr_buf, this->field_136[3].field_4[4].field_6A, 320);
     this->field_136[3].field_4[4].field_80 = 0;
     this->field_136[3].field_B8A[0].field_0 = 150;
     this->field_136[3].field_B8A[0].field_2 = 373;
@@ -3525,10 +3261,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     wcsncpy(this->field_136[4].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
     v30 = this->field_130;
     this->field_136[4].field_518[0].field_6A = v30;
-    this->field_136[4].field_518[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[4].field_518[0].field_6_wstr_buf,
-        v30,
-        320);
+    this->field_136[4].field_518[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[4].field_518[0].field_6_wstr_buf, v30, 320);
     this->field_136[4].field_518[0].field_6C = 4;
     this->field_136[4].field_4[0].field_0 = 1;
     this->field_136[4].field_4[0].field_2 = 180;
@@ -3565,7 +3299,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[5].field_518[1].field_0 = 1;
     this->field_136[5].field_518[1].field_2 = 440;
     this->field_136[5].field_518[1].field_4 = 185;
-//    v34 = ;
+    //    v34 = ;
     this->field_136[5].field_518[2].field_4 = 197;
     this->field_136[5].field_518[3].field_4 = 197;
     this->field_136[5].field_518[1].field_6A = word_703C3C; // v34
@@ -3600,26 +3334,20 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[6].field_518[2].field_6A = v38;
     this->field_136[6].field_4[0].field_4 = 340;
     wcsncpy(this->field_136[6].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
-    this->field_136[6].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[6].field_4[0].field_6_wstr_buf,
-        v38,
-        320);
+    this->field_136[6].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[0].field_6_wstr_buf, v38, 320);
     this->field_136[6].field_4[0].field_80 = 259;
     this->field_136[6].field_4[1].field_0 = 1;
     this->field_136[6].field_4[1].field_4 = 360;
     wcsncpy(this->field_136[6].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    this->field_136[6].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[6].field_4[1].field_6_wstr_buf,
-        this->field_136[6].field_4[1].field_6A,
-        320);
+    this->field_136[6].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[1].field_6_wstr_buf, this->field_136[6].field_4[1].field_6A, 320);
     this->field_136[6].field_4[1].field_80 = 261;
     this->field_136[6].field_4[2].field_0 = 1;
     this->field_136[6].field_4[2].field_4 = 380;
     wcsncpy(this->field_136[6].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[6].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(
-        this->field_136[6].field_4[2].field_6_wstr_buf,
-        this->field_136[6].field_4[2].field_6A,
-        320);
+    this->field_136[6].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[2].field_6_wstr_buf, this->field_136[6].field_4[2].field_6A, 320);
     this->field_136[6].field_4[2].field_80 = 0;
     this->field_136[6].field_B8A[0].field_0 = 150;
     this->field_136[6].field_B8A[0].field_2 = 348;
@@ -3663,10 +3391,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[7].field_518[7].field_0 = 1;
     this->field_136[7].field_518[7].field_4 = 300;
     wcsncpy(this->field_136[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
-    this->field_136[7].field_518[7].field_2 = sub_4B0190(
-        this->field_136[7].field_518[7].field_6_wstr_buf,
-        this->field_136[7].field_518[7].field_6A,
-        320);
+    this->field_136[7].field_518[7].field_2 =
+        sub_4B0190(this->field_136[7].field_518[7].field_6_wstr_buf, this->field_136[7].field_518[7].field_6A, 320);
     this->field_136[7].field_518[8].field_0 = 1;
     this->field_136[7].field_518[8].field_2 = 100;
     this->field_136[7].field_518[8].field_4 = 320;
@@ -3688,10 +3414,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[7].field_4[0].field_0 = 1;
     this->field_136[7].field_4[0].field_4 = 430;
     wcsncpy(this->field_136[7].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    this->field_136[7].field_4[0].field_2 = sub_4B0190(
-        this->field_136[7].field_4[0].field_6_wstr_buf,
-        this->field_136[7].field_4[0].field_6A,
-        320);
+    this->field_136[7].field_4[0].field_2 =
+        sub_4B0190(this->field_136[7].field_4[0].field_6_wstr_buf, this->field_136[7].field_4[0].field_6A, 320);
     this->field_136[7].field_4[0].field_80 = 258;
     this->field_136[7].field_B8A[0].field_0 = 180;
     this->field_136[7].field_B8A[0].field_2 = 438;
@@ -3713,12 +3437,11 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     this->field_136[10].field_518[0].field_0 = 1;
     this->field_136[10].field_518[0].field_4 = 230;
     wcsncpy(this->field_136[10].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
-//    v46 = this->field_130;
+    //    v46 = this->field_130;
     this->field_136[10].field_518[0].field_6A = this->field_130; // v46;
-    this->field_136[10].field_518[0].field_2 = sub_4B0190(
-        this->field_136[10].field_518[0].field_6_wstr_buf,
-        this->field_130, //v46,
-        320);
+    this->field_136[10].field_518[0].field_2 = sub_4B0190(this->field_136[10].field_518[0].field_6_wstr_buf,
+                                                          this->field_130, //v46,
+                                                          320);
     this->field_136[10].field_518[0].field_6C = 4;
     this->field_136[10].field_4[0].field_0 = 1;
     this->field_136[10].field_4[0].field_2 = 180;
@@ -3802,7 +3525,7 @@ void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
 }
 
 MATCH_FUNC(0x4B51D0)
-void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type *pStr)
+void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
     _itoa(idx, Buffer, 10);
@@ -3816,7 +3539,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 {
     char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
-    
+
     _finddata_t findData;
     long hFind = _findfirst(FileName, &findData);
     if (hFind == -1)
@@ -3832,7 +3555,7 @@ extern BYTE byte_6F4BF4;
 extern bool bDoFrontEnd_626B68;
 
 STUB_FUNC(0x5E53C0)
-void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE *a1)
+void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
     {
@@ -3848,9 +3571,9 @@ void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE *a1)
 }
 
 STUB_FUNC(0x5D8990)
-s32 laughing_blackwell_0x1EB54::sub_5D8990(wchar_t *pStr, u16 a2)
+s32 laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
 {
-    wchar_t *pStrIter = pStr;
+    wchar_t* pStrIter = pStr;
     s32 current = 0;
     s32 spaceSize = gGtx_0x106C_703DD4->space_width_5AA7B0(&a2);
     s32 biggestLine = 0;
@@ -3908,7 +3631,7 @@ s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, s16 a3, s32 a4)
 STUB_FUNC(0x4B7060)
 u8 laughing_blackwell_0x1EB54::sub_4B7060(u8 a2)
 {
-    dreamy_clarke_0xA4 *v2; // edx
+    dreamy_clarke_0xA4* v2; // edx
     u8 result; // al
 
     v2 = sub_4B43E0();
@@ -3935,7 +3658,7 @@ u8 laughing_blackwell_0x1EB54::sub_4B7060(u8 a2)
 STUB_FUNC(0x4B7270)
 u8 laughing_blackwell_0x1EB54::sub_4B7270(char_type a2)
 {
-    dreamy_clarke_0xA4 *v2; // esi
+    dreamy_clarke_0xA4* v2; // esi
     u8 result; // al
 
     v2 = sub_4B43E0();
@@ -3971,7 +3694,7 @@ u8 laughing_blackwell_0x1EB54::sub_4B7270(char_type a2)
 STUB_FUNC(0x4B7490)
 bool laughing_blackwell_0x1EB54::sub_4B7490()
 {
-    u8  v2 = gLucid_hamilton_67E8E0.sub_4C5980();
+    u8 v2 = gLucid_hamilton_67E8E0.sub_4C5980();
     return sub_4B7060(v2) != v2;
 }
 
@@ -3985,7 +3708,7 @@ bool laughing_blackwell_0x1EB54::sub_4B74C0()
 STUB_FUNC(0x4B7550)
 void laughing_blackwell_0x1EB54::sub_4B7550()
 {
-    loving_borg_0xBCA *pBorg; // edi
+    loving_borg_0xBCA* pBorg; // edi
     u8 v3; // [esp+Ch] [ebp-4h]
 
     pBorg = &this->field_136[this->field_132_f136_idx];
@@ -4019,8 +3742,8 @@ void laughing_blackwell_0x1EB54::sub_4B7550()
 STUB_FUNC(0x4B6FF0)
 bool laughing_blackwell_0x1EB54::sub_4B6FF0()
 {
-    u8  v3 = gLucid_hamilton_67E8E0.sub_4C5980();
-    u8  a2 = sub_4B7060(v3);
+    u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
+    u8 a2 = sub_4B7060(v3);
     gLucid_hamilton_67E8E0.sub_4C58F0(a2);
     field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
     sub_4B7550();
@@ -4031,9 +3754,9 @@ STUB_FUNC(0x4B42B0)
 void laughing_blackwell_0x1EB54::sub_4B42B0()
 {
     s32 v1; // eax
-    wchar_t *v2; // edi
+    wchar_t* v2; // edi
     u32 v3; // ecx
-    wchar_t *v4; // edi
+    wchar_t* v4; // edi
     s32 i; // ecx
 
     if ((unsigned __int8)this->field_C9B2 < 9u)
@@ -4060,7 +3783,7 @@ char_type laughing_blackwell_0x1EB54::sub_4B7120(char_type a2)
 STUB_FUNC(0x4B7610)
 void laughing_blackwell_0x1EB54::sub_4B7610()
 {
-    loving_borg_0xBCA *pItem; // esi
+    loving_borg_0xBCA* pItem; // esi
     u8 v3; // al
     u8 v4; // [esp+8h] [ebp-8h]
     u8 v5; // [esp+Ch] [ebp-4h]
@@ -4325,7 +4048,7 @@ bool nifty_maxwell_0x82::sub_4B6330()
         }
 
     } while (new_count != old_count && !bFound); // note: field_6E_count being reg cached instead of re-read from this
-    
+
     field_6E_count = new_count;
 
     return old_count != new_count ? true : false;
@@ -4339,19 +4062,18 @@ bool nifty_maxwell_0x82::sub_4B6390()
     char_type bFound = 0;
     do
     {
-       
-        if (new_count ==0 )
+
+        if (new_count == 0)
         {
             if (byte_67DA80)
             {
                 new_count = this->field_7E;
             }
         }
-      
+
         else
         {
             --new_count; // add     eax, 0FFFFh
-           
         }
 
         if (this->field_72[new_count])
@@ -4399,7 +4121,7 @@ admiring_euler_4::~admiring_euler_4()
 }
 
 MATCH_FUNC(0x4B6480)
-void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type *FileName)
+void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 {
     File::Global_Open_4A7060(FileName);
 
@@ -4473,20 +4195,19 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 Fix16 dword_706A6C;
 
 STUB_FUNC(0x5D8A10)
-void __stdcall DrawText_5D8A10(
-    const wchar_t *pText,
-    Fix16 xpos_fp,
-    Fix16 ypos_fp,
-    u16 spaceWidth,
-    Fix16 fp4,
-    s32 *pUnknown,
-    s32 a7,
-    s32 mode,
-    s32 a9)
+void __stdcall DrawText_5D8A10(const wchar_t* pText,
+                               Fix16 xpos_fp,
+                               Fix16 ypos_fp,
+                               u16 spaceWidth,
+                               Fix16 fp4,
+                               s32* pUnknown,
+                               s32 a7,
+                               s32 mode,
+                               s32 a9)
 {
     s32 new_Flags = CalcQuadFlags_5D83E0(mode, a9) | 0x20000;
     s32 drawFlags = new_Flags;
-    const wchar_t *pTextIter = pText;
+    const wchar_t* pTextIter = pText;
 
     Fix16 cur_xpos = xpos_fp; // note: new var
     u16 calcSpaceWidth = gGtx_0x106C_703DD4->space_width_5AA7B0(&spaceWidth);
@@ -4497,7 +4218,7 @@ void __stdcall DrawText_5D8A10(
 
     Fix16 lineHeight;
     lineHeight.mValue = v11.mValue * (u16)gGtx_0x106C_703DD4->sub_5AA800(&spaceWidth);
-  //  pTmpIter = (WORD *)*pUnknown;
+    //  pTmpIter = (WORD *)*pUnknown;
     mode = a7;
 
     s32 kind = *pUnknown;
@@ -4589,7 +4310,7 @@ void __stdcall DrawText_5D8A10(
                 else
                 {
                     pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0((u32 *)text_char);
+                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0((u32*)text_char);
                 }
             }
             else
@@ -4598,9 +4319,12 @@ void __stdcall DrawText_5D8A10(
                 pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D2710(text_char);
             }
 
-            __asm {nop};
-            __asm {nop};
-            __asm {nop};
+            __asm {nop}
+            ;
+            __asm {nop}
+            ;
+            __asm {nop}
+            ;
 
             STexture* pTexture = pTextureToUse;
 
@@ -4608,8 +4332,8 @@ void __stdcall DrawText_5D8A10(
             //v26 = v11.mValue >> 31;
 
             Fix16 sprite_xoff;
-            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) *  (__int64)(v11.mValue >> 14);
-            
+            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) * (__int64)(v11.mValue >> 14);
+
             Fix16 sprite_yoff;
             sprite_yoff.mValue = (__int64)(pSprIdx->field_5_height << 14) * (__int64)(v11.mValue >> 14);
 
@@ -4631,7 +4355,7 @@ void __stdcall DrawText_5D8A10(
             gQuadVerts_706B88.field_0_verts[2].field_4_y = v2_3_y;
             gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
             gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
-         
+
             gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;
             gQuadVerts_706B88.field_0_verts[1].field_1C_v = 0.0;
@@ -4652,14 +4376,13 @@ void __stdcall DrawText_5D8A10(
             v11 = v2_v;
             fp4 = v28;
             //v13 = v29;
-
         }
     }
-   // return (const wchar_t*)pTextIter;
+    // return (const wchar_t*)pTextIter;
 }
 
 MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t *pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
+void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
 {
     s32 local; // [esp+0h] [ebp-4h] BYREF
 

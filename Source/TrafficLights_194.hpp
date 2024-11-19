@@ -6,7 +6,7 @@ class TrafficLight_20;
 
 class TrafficLights_194
 {
-public:
+  public:
     EXPORT void sub_5C2910(u8 x, u8 y, u8 w, u8 h);
     EXPORT void sub_5C2950();
     EXPORT void ShowTrafficLightsInfo_5C2A10();

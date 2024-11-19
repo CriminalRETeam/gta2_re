@@ -1,10 +1,10 @@
 #pragma once
 
-#include <windows.h>
-#include "Function.hpp"
 #include "DrawUnk_0xBC.hpp"
-#include "zealous_borg.hpp"
+#include "Function.hpp"
 #include "sad_mirzakhani.hpp"
+#include "zealous_borg.hpp"
+#include <windows.h>
 
 class infallible_turing;
 class cool_nash_0x294;
@@ -45,7 +45,7 @@ struct thirsty_lamarr
 // todo: move
 class eager_benz
 {
-public:
+  public:
     // TODO: stub all
     void AddCash_592620(s32 cash);
 
@@ -79,10 +79,8 @@ public:
     char_type field_1A6;
     char_type field_1A7;
     sad_mirzakhani field_1A8_unk;
-    angry_lewin_0x85C *field_368_pObj;
+    angry_lewin_0x85C* field_368_pObj;
 };
-
-
 
 // TODO: add these later
 class Car_BC;
@@ -90,7 +88,7 @@ class Zone_144;
 
 class angry_lewin_0x85C
 {
-public:
+  public:
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);
@@ -127,7 +125,7 @@ public:
     EXPORT void sub_5668D0(cool_nash_0x294* a2);
     EXPORT char_type sub_566C30(Car_BC* a2);
     EXPORT char_type sub_566C80(u32* a2);
-    EXPORT void sub_566EE0( char_type a2);
+    EXPORT void sub_566EE0(char_type a2);
     EXPORT s32 sub_5670B0();
     EXPORT void sub_567130();
     EXPORT void sub_567850();
@@ -170,7 +168,6 @@ public:
 
     // 0x56A940
     EXPORT ~angry_lewin_0x85C();
-
 
     char_type field_0;
     char_type field_1;

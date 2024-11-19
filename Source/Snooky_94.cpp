@@ -3,25 +3,21 @@
 STUB_FUNC(0x4882d0)
 void Snooky_30::ctor_4882D0()
 {
-
 }
 
 STUB_FUNC(0x4882e0)
 void Snooky_30::dtor_4882E0()
 {
-
 }
 
 STUB_FUNC(0x488310)
 void Snooky_30::sub_488310(Car_BC* a2)
 {
-
 }
 
 STUB_FUNC(0x488350)
 void Snooky_30::sub_488350()
 {
-
 }
 
 STUB_FUNC(0x4885a0)
@@ -29,7 +25,6 @@ infallible_turing* Snooky_30::sub_4885A0(s32 a2, s32 a3, char_type a4)
 {
     return 0;
 }
-
 
 STUB_FUNC(0x4887a0)
 char_type Snooky_94::sub_4887A0(Car_BC* toFind)
@@ -40,13 +35,11 @@ char_type Snooky_94::sub_4887A0(Car_BC* toFind)
 STUB_FUNC(0x4887d0)
 void Snooky_94::sub_4887D0(Car_BC* a2, u8 idx)
 {
-
 }
 
 STUB_FUNC(0x4887f0)
 void Snooky_94::sub_4887F0()
 {
-
 }
 
 STUB_FUNC(0x488820)
@@ -64,5 +57,4 @@ Snooky_94* Snooky_94::ctor_488860()
 STUB_FUNC(0x4bbc30)
 void Snooky_94::dtor_4BBC30()
 {
-
 }

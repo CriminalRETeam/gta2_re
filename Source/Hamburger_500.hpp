@@ -6,7 +6,7 @@ class cool_nash_0x294;
 
 class Hamburger_40
 {
-public:
+  public:
     EXPORT s32 sub_4747B0();
     EXPORT void ctor_474CA0();
     EXPORT void dtor_474CB0();
@@ -51,7 +51,7 @@ public:
 
 class Hamburger_500
 {
-public:
+  public:
     EXPORT Hamburger_40* sub_474810();
     EXPORT char_type sub_474850(cool_nash_0x294* a1, s32 a2);
     EXPORT s32 sub_4748A0(s32 a2, cool_nash_0x294* a3);

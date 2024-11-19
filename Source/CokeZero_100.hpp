@@ -4,7 +4,7 @@
 
 class CokeZero_50
 {
-public:
+  public:
     EXPORT void ctor_596A00();
     EXPORT void dtor_596A40();
     EXPORT void Empty_596A50();
@@ -34,7 +34,7 @@ public:
 
 class CokeZero_100
 {
-public:
+  public:
     EXPORT CokeZero_100* ctor_5967E0();
     EXPORT void dtor_596840();
     EXPORT s16 sub_596860();

@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "Marz_1D7E.hpp"
+#include "fix16.hpp"
 
 class angry_lewin_0x85C;
 class gmp_map_zone;
@@ -16,26 +16,26 @@ class Char_8;
 
 class cool_nash_0x294
 {
-public:
+  public:
     EXPORT cool_nash_0x294(); // 45AE70
     EXPORT ~cool_nash_0x294(); // 45AF00
     EXPORT char_type sub_45AFC0();
     EXPORT s32 sub_45B440();
     EXPORT char_type sub_45B4E0();
-    EXPORT u32 * sub_45B520(u32 * a2);
+    EXPORT u32* sub_45B520(u32* a2);
     EXPORT void sub_45B550();
-    EXPORT void sub_45B560(angry_lewin_0x85C * a2, char_type a3);
+    EXPORT void sub_45B560(angry_lewin_0x85C* a2, char_type a3);
     EXPORT bool sub_45B590();
     EXPORT s32 sub_45B5B0(s32 a2);
-    EXPORT Car_BC * sub_45BBF0();
+    EXPORT Car_BC* sub_45BBF0();
     EXPORT s32 sub_45BC10(s32 a2, s32 a3);
     EXPORT void sub_45BC70();
-    EXPORT char_type sub_45BD20(Car_BC * a2);
+    EXPORT char_type sub_45BD20(Car_BC* a2);
     EXPORT s32 sub_45BE30();
     EXPORT void sub_45BE70();
     EXPORT void sub_45BE90();
     EXPORT void sub_45BEC0();
-    EXPORT void sub_45BFB0(cool_nash_0x294 * a1, s32 a2);
+    EXPORT void sub_45BFB0(cool_nash_0x294* a1, s32 a2);
     EXPORT void sub_45BFD0();
     EXPORT u32 sub_45BFE0();
     EXPORT void sub_45C010();
@@ -43,24 +43,24 @@ public:
     EXPORT void sub_45C050();
     EXPORT void sub_45C070();
     EXPORT void sub_45C090();
-    EXPORT void sub_45C0C0(gmp_map_zone * a2);
+    EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT s32 sub_45C310();
-    EXPORT void sub_45C350(gmp_map_zone * a2);
+    EXPORT void sub_45C350(gmp_map_zone* a2);
     EXPORT s32 sub_45C410();
     EXPORT s32 sub_45C4B0();
     EXPORT s32 sub_45C500(s32 a2);
     EXPORT s32 sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
-    EXPORT s32 sub_45C730(Car_BC * a2);
-    EXPORT void sub_45C7A0(Car_BC * a2);
-    EXPORT Char_8 * sub_45C7F0(Car_BC * a2);
+    EXPORT s32 sub_45C730(Car_BC* a2);
+    EXPORT void sub_45C7A0(Car_BC* a2);
+    EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(s32 xpos, s32 ypos, s32 zpos);
-    EXPORT s16 * sub_45C900(s16 * a2);
-    EXPORT s32 * sub_45C920(s32 * a2);
-    EXPORT s16 * sub_45C960(s16 * a2);
-    EXPORT s32 * sub_45C9B0(s32 * a2);
-    EXPORT s16 * sub_45C9D0(s16 * a2);
+    EXPORT s16* sub_45C900(s16* a2);
+    EXPORT s32* sub_45C920(s32* a2);
+    EXPORT s16* sub_45C960(s16* a2);
+    EXPORT s32* sub_45C9B0(s32* a2);
+    EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();
     EXPORT void sub_45CE50(s16 a2);
     EXPORT void sub_45CF20(s32 a2);
@@ -74,7 +74,7 @@ public:
     EXPORT char_type sub_45EDC0();
     EXPORT bool sub_45EDE0(s32 a2);
     EXPORT char_type sub_45EE00(s32 a2);
-    EXPORT gmp_map_zone * sub_45EE70();
+    EXPORT gmp_map_zone* sub_45EE70();
     EXPORT void sub_45F360();
     EXPORT void sub_45FF60();
     EXPORT void sub_460820();
@@ -100,15 +100,15 @@ public:
     EXPORT void sub_463830(s32 a2, s16 a3);
     EXPORT void sub_463AA0();
     EXPORT void sub_463FB0();
-    EXPORT s16 * sub_4645B0();
+    EXPORT s16* sub_4645B0();
     EXPORT void sub_465270();
     EXPORT char_type sub_465B20();
     EXPORT bool sub_465CD0();
-    EXPORT char_type sub_465D00(cool_nash_0x294 * a2);
-    EXPORT cool_nash_0x294 * sub_466B90(cool_nash_0x294 * a2);
-    EXPORT cool_nash_0x294 * sub_466BB0(s32 a2);
-    EXPORT cool_nash_0x294 * sub_466BD0(cool_nash_0x294 * a2);
-    EXPORT cool_nash_0x294 * sub_466BF0(s32 a2);
+    EXPORT char_type sub_465D00(cool_nash_0x294* a2);
+    EXPORT cool_nash_0x294* sub_466B90(cool_nash_0x294* a2);
+    EXPORT cool_nash_0x294* sub_466BB0(s32 a2);
+    EXPORT cool_nash_0x294* sub_466BD0(cool_nash_0x294* a2);
+    EXPORT cool_nash_0x294* sub_466BF0(s32 a2);
     EXPORT s32 sub_466F40(u8 a2);
     EXPORT s32 sub_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
@@ -164,7 +164,7 @@ public:
     EXPORT s32 sub_46B2F0();
     EXPORT void sub_46B670();
     EXPORT void sub_46BD30();
-    EXPORT char_type sub_46BD50(u8 * a2);
+    EXPORT char_type sub_46BD50(u8* a2);
     EXPORT void sub_46BDC0();
     EXPORT void sub_46C250();
     EXPORT char_type sub_46C770();
@@ -187,25 +187,25 @@ public:
     EXPORT void sub_46DB60();
     EXPORT void sub_46DB70();
     EXPORT void sub_46DB80();
-    EXPORT Car_3C * sub_46DF50();
+    EXPORT Car_3C* sub_46DF50();
     EXPORT s32 sub_46DF70(s32 a2, s32 a3);
-    EXPORT bool sub_46E020(Mouze_44 * a2);
+    EXPORT bool sub_46E020(Mouze_44* a2);
     EXPORT s32 sub_46E080(s32 a2, s32 a3);
     EXPORT u8 sub_46E200(u8 a2);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
     EXPORT s32 sub_46F100(u8 a2);
-    EXPORT keen_bhaskara_0x30 * sub_46F110();
-    EXPORT void sub_46F1E0(keen_bhaskara_0x30 * a2);
+    EXPORT keen_bhaskara_0x30* sub_46F110();
+    EXPORT void sub_46F1E0(keen_bhaskara_0x30* a2);
     EXPORT void sub_46F390();
     EXPORT s32 sub_46F490();
     EXPORT char_type sub_46F600(s32 a2);
-    EXPORT u32 * sub_46F650(s32 a2);
-    EXPORT void sub_46F680(cool_nash_0x294 * a2);
+    EXPORT u32* sub_46F650(s32 a2);
+    EXPORT void sub_46F680(cool_nash_0x294* a2);
     EXPORT void sub_46F720();
     EXPORT void sub_46F9D0();
-    EXPORT u32 * sub_46FC70();
+    EXPORT u32* sub_46FC70();
     EXPORT void sub_46FC90(s32 a2, s32 a3);
     EXPORT char_type sub_46FE20(s32 a2);
     EXPORT void sub_46FF00(s32 a2, s32 a3, s32 a4);
@@ -214,10 +214,10 @@ public:
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
-    EXPORT void sub_4702D0(cool_nash_0x294 * pPed);
+    EXPORT void sub_4702D0(cool_nash_0x294* pPed);
     EXPORT s32 sub_470300();
     EXPORT s32 sub_470F00();
-    EXPORT cool_nash_0x294 * sub_470F90(cool_nash_0x294 * pSrc);
+    EXPORT cool_nash_0x294* sub_470F90(cool_nash_0x294* pSrc);
 
     Marz_3 field_0[100];
     s16 field_12C;

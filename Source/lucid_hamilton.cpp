@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "lucid_hamilton.hpp"
+#include "Function.hpp"
 
 lucid_hamilton gLucid_hamilton_67E8E0;
 
@@ -10,25 +10,25 @@ void lucid_hamilton::sub_4C53D0()
 }
 
 STUB_FUNC(0x4C5870)
-char* lucid_hamilton::SetMapName_4C5870(char_type *Source)
+char* lucid_hamilton::SetMapName_4C5870(char_type* Source)
 {
     return strncpy(field_0_map_name, Source, 255u);
 }
 
 STUB_FUNC(0x4C5890)
-char* lucid_hamilton::SetStyleName_4C5890(char_type *Source)
+char* lucid_hamilton::SetStyleName_4C5890(char_type* Source)
 {
     return strncpy(field_100_style_name, Source, 0xFFu);
 }
 
 STUB_FUNC(0x4C58B0)
-char* lucid_hamilton::SetScriptName_4C58B0(char_type *Source)
+char* lucid_hamilton::SetScriptName_4C58B0(char_type* Source)
 {
     return strncpy(field_200_script_name, Source, 0xFFu);
 }
 
 STUB_FUNC(0x4C58D0)
-char_type * lucid_hamilton::DebugStr_4C58D0(char_type *Source)
+char_type* lucid_hamilton::DebugStr_4C58D0(char_type* Source)
 {
     return strncpy(field_300_debug_str, Source, 0xFFu);
 }
@@ -130,7 +130,7 @@ s32 lucid_hamilton::sub_4C59F0(u8 idx)
 }
 
 STUB_FUNC(0x4C5A10)
-void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C *a1)
+void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* a1)
 {
     // todo
     /*
@@ -289,13 +289,13 @@ char_type lucid_hamilton::sub_4C5C20()
 }
 
 MATCH_FUNC(0x4C5C30)
-void lucid_hamilton::sub_4C5C30(s32 a2, wchar_t *Source)
+void lucid_hamilton::sub_4C5C30(s32 a2, wchar_t* Source)
 {
     wcsncpy(field_4B4[static_cast<u16>(a2)].field_0_str, Source, 16u);
 }
 
 STUB_FUNC(0x4C5C60)
-blissful_ganguly_0x20 * lucid_hamilton::sub_4C5C60(u16 a2)
+blissful_ganguly_0x20* lucid_hamilton::sub_4C5C60(u16 a2)
 {
     return &field_4B4[a2];
 }

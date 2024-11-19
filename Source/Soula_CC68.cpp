@@ -12,18 +12,15 @@ s16 Junction_10::sub_5885C0(s16 a2)
     return 0;
 }
 
-
 STUB_FUNC(0x5892d0)
 Soula_10* Soula_10::sub_5892D0()
 {
     return 0;
 }
 
-
 STUB_FUNC(0x588620)
 void Soula_CC68::ShowJunctionIds_588620()
 {
-
 }
 
 STUB_FUNC(0x588810)
@@ -47,13 +44,11 @@ u16 Soula_CC68::sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
 STUB_FUNC(0x588b30)
 void Soula_CC68::Load_RGEN_588B30()
 {
-
 }
 
 STUB_FUNC(0x588c60)
 void Soula_CC68::Reset_588C60()
 {
-
 }
 
 STUB_FUNC(0x588ca0)
@@ -113,7 +108,6 @@ Soula_10* Soula_CC68::sub_589390(u16 a2)
 STUB_FUNC(0x589420)
 void Soula_CC68::sub_589420(Soula_10* a2)
 {
-
 }
 
 STUB_FUNC(0x589480)
@@ -191,7 +185,6 @@ s16 Soula_CC68::sub_589F70()
 STUB_FUNC(0x58a020)
 void Soula_CC68::sub_58A020(char_type a2)
 {
-
 }
 
 STUB_FUNC(0x58a0b0)

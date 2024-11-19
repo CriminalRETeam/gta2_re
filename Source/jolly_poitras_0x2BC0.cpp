@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
+#include "Function.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include <io.h>
@@ -19,7 +19,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     s32 i;
     for (i = 0; i < 3; i++)
     {
-      //  ++pIter1;
+        //  ++pIter1;
         memset(pIter2, 0, sizeof(struc_221));
         *pIter1 = 0;
         pIter1++;
@@ -27,8 +27,8 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
         *tmp = 0;
         tmp++;
 
-//        *(pIter1 - 4) = 0;
-  //      *(pIter1 - 1) = 0;
+        //        *(pIter1 - 4) = 0;
+        //      *(pIter1 - 1) = 0;
         ++pIter2;
     }
 
@@ -60,7 +60,6 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 STUB_FUNC(0x56B810)
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
-
 }
 
 MATCH_FUNC(0x56C2C0)
@@ -87,7 +86,7 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 }
 
 STUB_FUNC(0x56BB10)
-void jolly_poitras_0x2BC0::sub_56BB10(angry_lewin_0x85C *a2)
+void jolly_poitras_0x2BC0::sub_56BB10(angry_lewin_0x85C* a2)
 {
     // todo
 }
@@ -99,7 +98,7 @@ void jolly_poitras_0x2BC0::sub_56C010()
 }
 
 MATCH_FUNC(0x56B8A0)
-void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type *a2)
+void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
 {
     char_type Buffer[8];
     _itoa(a1, Buffer, 10);
@@ -125,7 +124,7 @@ char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
 }
 
 MATCH_FUNC(0x56BCF0)
-void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type *pName)
+void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type* pName)
 {
     strcpy(pName, "player\\hiscores.hsc");
 }
@@ -192,11 +191,10 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 
     char_type FileName[356];
     u16 idx = (u16)slotIdx;
-  
-    wchar_t  * pStr = field_26A0[idx].field_90_str; // todo: This instruction is too early lea     esi, [ebx+2730h]
+
+    wchar_t* pStr = field_26A0[idx].field_90_str; // todo: This instruction is too early lea     esi, [ebx+2730h]
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
-
 
     s32 i = 9;
     do
@@ -206,7 +204,6 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
         pStr++;
         i--;
     } while (i);
-
 
     s32 j;
     s32 k;
@@ -351,13 +348,12 @@ agitated_keldysh_0xF0::agitated_keldysh_0xF0()
 STUB_FUNC(0x56B510)
 agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 {
-
 }
 
 MATCH_FUNC(0x56B520)
 void agitated_keldysh_0xF0::Init_56B520()
 {
-    for (s32 i=0; i<10; i++)
+    for (s32 i = 0; i < 10; i++)
     {
         wcscpy(field_0[i].field_0_str, word_67DC8C);
         field_0[i].field_14_score = 0;
@@ -365,7 +361,7 @@ void agitated_keldysh_0xF0::Init_56B520()
 }
 
 STUB_FUNC(0x56B550)
-char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findScore)
+char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
@@ -375,8 +371,7 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findSco
             startIdx = i;
         }
 
-        if (findScore == field_0[i].field_14_score &&
-            wcscmp(pFindStr, field_0[i].field_0_str) == 0)
+        if (findScore == field_0[i].field_14_score && wcscmp(pFindStr, field_0[i].field_0_str) == 0)
         {
             return 0;
         }
@@ -388,14 +383,14 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t *pFindStr, s32 findSco
         if (startIdx < 9u)
         {
             // ??????
-            small_string* pIter = &field_0[8];// .field_14_score;
-          //  int* pIter = &field_0[9 - 1].field_14_score;
+            small_string* pIter = &field_0[8]; // .field_14_score;
+            //  int* pIter = &field_0[9 - 1].field_14_score;
 
             s32 remainderCount = 9 - startIdx;
             do
             {
-                wcsncpy((pIter+1)->field_0_str, (pIter)->field_0_str, 9u);
-                (pIter+1)->field_14_score = (pIter)->field_14_score;
+                wcsncpy((pIter + 1)->field_0_str, (pIter)->field_0_str, 9u);
+                (pIter + 1)->field_14_score = (pIter)->field_14_score;
 
                 pIter--;
 
@@ -421,7 +416,6 @@ dreamy_clarke_0xA4::dreamy_clarke_0xA4()
 STUB_FUNC(0x56B620)
 dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
-
 }
 
 STUB_FUNC(0x56B630)

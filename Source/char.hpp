@@ -8,7 +8,7 @@ class Car_3C;
 
 class Char_C
 {
-public:
+  public:
     EXPORT void sub_46EB60(u32* a2);
     EXPORT void sub_4703F0(Char_C* a1);
     EXPORT Char_C();

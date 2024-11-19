@@ -1,7 +1,7 @@
 #pragma once
 
-#include <Windows.h>
 #include "Function.hpp"
+#include <Windows.h>
 
 struct SVideo
 {
@@ -58,7 +58,7 @@ struct SVideo
     */
 };
 
-extern SVideo *gVidSys_7071D0;
+extern SVideo* gVidSys_7071D0;
 
 struct SVidVersion
 {
@@ -68,29 +68,28 @@ struct SVidVersion
 
 struct SVideoFunctions;
 
-typedef SVidVersion*(__stdcall *T_Vid_GetVersion)();
-typedef SVideo*(__stdcall *T_Vid_Init_SYS)(HINSTANCE param1, u16 param2_flags);
-typedef s32(__stdcall *T_Vid_CheckMode)(SVideo* pVideoDriver, s32 width, s32 height, s32 rgbBitCount);
-typedef SDisplayMode*(__stdcall*T_Vid_FindMode)(SVideo* pVideoDriver, s32 modeId);
-typedef s32(__stdcall*T_Vid_FindFirstMode)(SVideo* pVideoDriver, s32 rgbBitCountFilter);
-typedef s32(__stdcall*T_Vid_FindNextMode)(SVideo* pVideoDriver);
-typedef SDevice*(__stdcall *T_Vid_FindDevice)(SVideo* pVideoDriver, s32 deviceId);
-typedef s32(__stdcall *T_Vid_SetDevice)(SVideo* pVideoDriver, s32 deviceId);
-typedef void(__stdcall *T_Vid_CloseScreen)(SVideo* pVideo);
-typedef s32(__stdcall *T_Vid_SetMode)(SVideo* pVideoDriver, HWND hWnd, s32 modeId);
-typedef void(__stdcall *T_Vid_FlipBuffers)(SVideo* pVideo);
-typedef void(__stdcall*T_Vid_ReleaseSurface)(SVideo* pVideoDriver);
-typedef void(__stdcall*T_Vid_GrabSurface)(SVideo* pVideoDriver);
-typedef void(__stdcall *T_Vid_ShutDown_SYS)(SVideo* pVideoDriver);
-typedef s32(__stdcall*T_Vid_EnableWrites)(SVideo* pVideoDriver);
-typedef s32(__stdcall*T_Vid_DisableWrites)(SVideo* pVideoDriver);
-typedef s32(__stdcall *T_Vid_GetSurface)(SVideo* pVideoDriver);
-typedef s32(__stdcall *T_Vid_FreeSurface)(SVideo* pVideoDriver);
-typedef s32(__stdcall *T_Vid_ClearScreen)(SVideo* pVideoDriver, u8 aR, u8 aG, u8 aB, s32 aLeft, s32 aTop, s32 aRight, s32 aBottom);
-typedef s32(__stdcall *T_Vid_WindowProc)(SVideo* pVideoDriver, HWND hwnd, u32 uMsg, WPARAM wParam, LPARAM lParam);
-typedef s32(__stdcall *T_Vid_InitDLL)(HINSTANCE hInstance, SVideoFunctions* a2);
-typedef s32(__stdcall *T_Vid_SetGamma)(SVideo* pVideoDriver, f32 a2, f32 a3, f32 a4);
-
+typedef SVidVersion*(__stdcall* T_Vid_GetVersion)();
+typedef SVideo*(__stdcall* T_Vid_Init_SYS)(HINSTANCE param1, u16 param2_flags);
+typedef s32(__stdcall* T_Vid_CheckMode)(SVideo* pVideoDriver, s32 width, s32 height, s32 rgbBitCount);
+typedef SDisplayMode*(__stdcall* T_Vid_FindMode)(SVideo* pVideoDriver, s32 modeId);
+typedef s32(__stdcall* T_Vid_FindFirstMode)(SVideo* pVideoDriver, s32 rgbBitCountFilter);
+typedef s32(__stdcall* T_Vid_FindNextMode)(SVideo* pVideoDriver);
+typedef SDevice*(__stdcall* T_Vid_FindDevice)(SVideo* pVideoDriver, s32 deviceId);
+typedef s32(__stdcall* T_Vid_SetDevice)(SVideo* pVideoDriver, s32 deviceId);
+typedef void(__stdcall* T_Vid_CloseScreen)(SVideo* pVideo);
+typedef s32(__stdcall* T_Vid_SetMode)(SVideo* pVideoDriver, HWND hWnd, s32 modeId);
+typedef void(__stdcall* T_Vid_FlipBuffers)(SVideo* pVideo);
+typedef void(__stdcall* T_Vid_ReleaseSurface)(SVideo* pVideoDriver);
+typedef void(__stdcall* T_Vid_GrabSurface)(SVideo* pVideoDriver);
+typedef void(__stdcall* T_Vid_ShutDown_SYS)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_EnableWrites)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_DisableWrites)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_GetSurface)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_FreeSurface)(SVideo* pVideoDriver);
+typedef s32(__stdcall* T_Vid_ClearScreen)(SVideo* pVideoDriver, u8 aR, u8 aG, u8 aB, s32 aLeft, s32 aTop, s32 aRight, s32 aBottom);
+typedef s32(__stdcall* T_Vid_WindowProc)(SVideo* pVideoDriver, HWND hwnd, u32 uMsg, WPARAM wParam, LPARAM lParam);
+typedef s32(__stdcall* T_Vid_InitDLL)(HINSTANCE hInstance, SVideoFunctions* a2);
+typedef s32(__stdcall* T_Vid_SetGamma)(SVideo* pVideoDriver, f32 a2, f32 a3, f32 a4);
 
 struct SVideoFunctions
 {
@@ -141,5 +140,5 @@ extern T_Vid_WindowProc Vid_WindowProc;
 extern T_Vid_InitDLL Vid_InitDLL;
 extern T_Vid_SetGamma Vid_SetGamma;
 
-EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo *pVidSys);
+EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys);
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName);

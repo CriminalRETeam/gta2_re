@@ -1,6 +1,6 @@
 #include "cool_nash_0x294.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "Car_BC.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 // =================
 
@@ -41,7 +41,7 @@ char_type cool_nash_0x294::sub_45B4E0()
 }
 
 STUB_FUNC(0x45b520)
-u32 *cool_nash_0x294::sub_45B520(u32 *a2)
+u32* cool_nash_0x294::sub_45B520(u32* a2)
 {
     return 0;
 }
@@ -53,7 +53,7 @@ void cool_nash_0x294::sub_45B550()
 }
 
 MATCH_FUNC(0x45b560)
-void cool_nash_0x294::sub_45B560(angry_lewin_0x85C *a2, char_type a3)
+void cool_nash_0x294::sub_45B560(angry_lewin_0x85C* a2, char_type a3)
 {
     field_15C_player_weapons = a2;
     field_200 = a2->field_2E_idx + 1;
@@ -81,7 +81,7 @@ s32 cool_nash_0x294::sub_45B5B0(s32 a2)
 }
 
 MATCH_FUNC(0x45bbf0)
-Car_BC *cool_nash_0x294::sub_45BBF0()
+Car_BC* cool_nash_0x294::sub_45BBF0()
 {
     if (field_27C == 6 || field_27C == 7)
     {
@@ -105,7 +105,7 @@ void cool_nash_0x294::sub_45BC70()
 }
 
 STUB_FUNC(0x45bd20)
-char_type cool_nash_0x294::sub_45BD20(Car_BC *a2)
+char_type cool_nash_0x294::sub_45BD20(Car_BC* a2)
 {
     return 0;
 }
@@ -132,7 +132,7 @@ void cool_nash_0x294::sub_45BEC0()
 }
 
 STUB_FUNC(0x45bfb0)
-void cool_nash_0x294::sub_45BFB0(cool_nash_0x294 *a1, s32 a2)
+void cool_nash_0x294::sub_45BFB0(cool_nash_0x294* a1, s32 a2)
 {
 }
 
@@ -174,7 +174,7 @@ void cool_nash_0x294::sub_45C070()
 MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
-    Car_BC *pBc = this->field_16C_car;
+    Car_BC* pBc = this->field_16C_car;
     if (pBc)
     {
         pBc->sub_43A600();
@@ -186,7 +186,7 @@ void cool_nash_0x294::sub_45C090()
 }
 
 STUB_FUNC(0x45c0c0)
-void cool_nash_0x294::sub_45C0C0(gmp_map_zone *a2)
+void cool_nash_0x294::sub_45C0C0(gmp_map_zone* a2)
 {
 }
 
@@ -197,7 +197,7 @@ s32 cool_nash_0x294::sub_45C310()
 }
 
 STUB_FUNC(0x45c350)
-void cool_nash_0x294::sub_45C350(gmp_map_zone *a2)
+void cool_nash_0x294::sub_45C350(gmp_map_zone* a2)
 {
 }
 
@@ -238,13 +238,13 @@ void cool_nash_0x294::sub_45C5C0()
 }
 
 STUB_FUNC(0x45c730)
-s32 cool_nash_0x294::sub_45C730(Car_BC *a2)
+s32 cool_nash_0x294::sub_45C730(Car_BC* a2)
 {
     return 0;
 }
 
 MATCH_FUNC(0x45c7a0)
-void cool_nash_0x294::sub_45C7A0(Car_BC *a2)
+void cool_nash_0x294::sub_45C7A0(Car_BC* a2)
 {
     sub_463830(0, 9999);
     sub_463570(35, 9999);
@@ -254,7 +254,7 @@ void cool_nash_0x294::sub_45C7A0(Car_BC *a2)
 }
 
 STUB_FUNC(0x45c7f0)
-Char_8 *cool_nash_0x294::sub_45C7F0(Car_BC *a2)
+Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* a2)
 {
     return 0;
 }
@@ -266,31 +266,31 @@ char_type cool_nash_0x294::sub_45C830(s32 xpos, s32 ypos, s32 zpos)
 }
 
 STUB_FUNC(0x45c900)
-s16 *cool_nash_0x294::sub_45C900(s16 *a2)
+s16* cool_nash_0x294::sub_45C900(s16* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c920)
-s32 *cool_nash_0x294::sub_45C920(s32 *a2)
+s32* cool_nash_0x294::sub_45C920(s32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c960)
-s16 *cool_nash_0x294::sub_45C960(s16 *a2)
+s16* cool_nash_0x294::sub_45C960(s16* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c9b0)
-s32 *cool_nash_0x294::sub_45C9B0(s32 *a2)
+s32* cool_nash_0x294::sub_45C9B0(s32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x45c9d0)
-s16 *cool_nash_0x294::sub_45C9D0(s16 *a2)
+s16* cool_nash_0x294::sub_45C9D0(s16* a2)
 {
     return 0;
 }
@@ -386,7 +386,7 @@ char_type cool_nash_0x294::sub_45EE00(s32 a2)
 }
 
 STUB_FUNC(0x45ee70)
-gmp_map_zone *cool_nash_0x294::sub_45EE70()
+gmp_map_zone* cool_nash_0x294::sub_45EE70()
 {
     return 0;
 }
@@ -532,7 +532,7 @@ void cool_nash_0x294::sub_463FB0()
 }
 
 STUB_FUNC(0x4645b0)
-s16 *cool_nash_0x294::sub_4645B0()
+s16* cool_nash_0x294::sub_4645B0()
 {
     return 0;
 }
@@ -555,31 +555,31 @@ bool cool_nash_0x294::sub_465CD0()
 }
 
 STUB_FUNC(0x465d00)
-char_type cool_nash_0x294::sub_465D00(cool_nash_0x294 *a2)
+char_type cool_nash_0x294::sub_465D00(cool_nash_0x294* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466b90)
-cool_nash_0x294 *cool_nash_0x294::sub_466B90(cool_nash_0x294 *a2)
+cool_nash_0x294* cool_nash_0x294::sub_466B90(cool_nash_0x294* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bb0)
-cool_nash_0x294 *cool_nash_0x294::sub_466BB0(s32 a2)
+cool_nash_0x294* cool_nash_0x294::sub_466BB0(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bd0)
-cool_nash_0x294 *cool_nash_0x294::sub_466BD0(cool_nash_0x294 *a2)
+cool_nash_0x294* cool_nash_0x294::sub_466BD0(cool_nash_0x294* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x466bf0)
-cool_nash_0x294 *cool_nash_0x294::sub_466BF0(s32 a2)
+cool_nash_0x294* cool_nash_0x294::sub_466BF0(s32 a2)
 {
     return 0;
 }
@@ -894,7 +894,7 @@ void cool_nash_0x294::sub_46BD30()
 }
 
 STUB_FUNC(0x46bd50)
-char_type cool_nash_0x294::sub_46BD50(u8 *a2)
+char_type cool_nash_0x294::sub_46BD50(u8* a2)
 {
     return 0;
 }
@@ -1018,7 +1018,7 @@ void cool_nash_0x294::sub_46DB80()
 }
 
 STUB_FUNC(0x46df50)
-Car_3C *cool_nash_0x294::sub_46DF50()
+Car_3C* cool_nash_0x294::sub_46DF50()
 {
     return 0;
 }
@@ -1030,7 +1030,7 @@ s32 cool_nash_0x294::sub_46DF70(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46e020)
-bool cool_nash_0x294::sub_46E020(Mouze_44 *a2)
+bool cool_nash_0x294::sub_46E020(Mouze_44* a2)
 {
     return 0;
 }
@@ -1058,31 +1058,31 @@ void cool_nash_0x294::set_wanted_level_46EF40(u16 wanted)
 {
     switch (wanted)
     {
-    case 0u:
-        this->field_20A_wanted_points = 0;
-        break;
+        case 0u:
+            this->field_20A_wanted_points = 0;
+            break;
 
-    case 600u:
-        this->field_20A_wanted_points = 600u;
-        break;
+        case 600u:
+            this->field_20A_wanted_points = 600u;
+            break;
 
-    case 1600u:
-        this->field_20A_wanted_points = 1600u;
-        break;
+        case 1600u:
+            this->field_20A_wanted_points = 1600u;
+            break;
 
-    case 3000u:
-        this->field_20A_wanted_points = 3000;
-        break;
+        case 3000u:
+            this->field_20A_wanted_points = 3000;
+            break;
 
-    case 5000u:
-        this->field_20A_wanted_points = 5000;
-        break;
-    case 8000u:
-        this->field_20A_wanted_points = 8000;
-        break;
-    case 12000u:
-        this->field_20A_wanted_points = 12000;
-        break;
+        case 5000u:
+            this->field_20A_wanted_points = 5000;
+            break;
+        case 8000u:
+            this->field_20A_wanted_points = 8000;
+            break;
+        case 12000u:
+            this->field_20A_wanted_points = 12000;
+            break;
     }
 }
 
@@ -1091,29 +1091,29 @@ void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
 {
     switch (star_count)
     {
-    case 0u:
-        this->field_20A_wanted_points = 0;
-        break;
-    case 1u:
-        this->field_20A_wanted_points = 600;
-        break;
-    case 2u:
-        this->field_20A_wanted_points = 1600;
-        break;
-    case 3u:
-        this->field_20A_wanted_points = 3000;
-        break;
-    case 4u:
-        this->field_20A_wanted_points = 5000;
-        break;
-    case 5u:
-        this->field_20A_wanted_points = 8000;
-        break;
-    case 6u:
-        this->field_20A_wanted_points = 12000;
-        break;
-    default:
-        return;
+        case 0u:
+            this->field_20A_wanted_points = 0;
+            break;
+        case 1u:
+            this->field_20A_wanted_points = 600;
+            break;
+        case 2u:
+            this->field_20A_wanted_points = 1600;
+            break;
+        case 3u:
+            this->field_20A_wanted_points = 3000;
+            break;
+        case 4u:
+            this->field_20A_wanted_points = 5000;
+            break;
+        case 5u:
+            this->field_20A_wanted_points = 8000;
+            break;
+        case 6u:
+            this->field_20A_wanted_points = 12000;
+            break;
+        default:
+            return;
     }
 }
 
@@ -1124,13 +1124,13 @@ s32 cool_nash_0x294::sub_46F100(u8 a2)
 }
 
 STUB_FUNC(0x46f110)
-keen_bhaskara_0x30 *cool_nash_0x294::sub_46F110()
+keen_bhaskara_0x30* cool_nash_0x294::sub_46F110()
 {
     return 0;
 }
 
 STUB_FUNC(0x46f1e0)
-void cool_nash_0x294::sub_46F1E0(keen_bhaskara_0x30 *a2)
+void cool_nash_0x294::sub_46F1E0(keen_bhaskara_0x30* a2)
 {
 }
 
@@ -1152,13 +1152,13 @@ char_type cool_nash_0x294::sub_46F600(s32 a2)
 }
 
 STUB_FUNC(0x46f650)
-u32 *cool_nash_0x294::sub_46F650(s32 a2)
+u32* cool_nash_0x294::sub_46F650(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x46f680)
-void cool_nash_0x294::sub_46F680(cool_nash_0x294 *a2)
+void cool_nash_0x294::sub_46F680(cool_nash_0x294* a2)
 {
 }
 
@@ -1173,7 +1173,7 @@ void cool_nash_0x294::sub_46F9D0()
 }
 
 STUB_FUNC(0x46fc70)
-u32 *cool_nash_0x294::sub_46FC70()
+u32* cool_nash_0x294::sub_46FC70()
 {
     return 0;
 }
@@ -1223,7 +1223,7 @@ s32 cool_nash_0x294::sub_470200(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x4702d0)
-void cool_nash_0x294::sub_4702D0(cool_nash_0x294 *pPed)
+void cool_nash_0x294::sub_4702D0(cool_nash_0x294* pPed)
 {
 }
 
@@ -1240,7 +1240,7 @@ s32 cool_nash_0x294::sub_470F00()
 }
 
 STUB_FUNC(0x470f90)
-cool_nash_0x294 *cool_nash_0x294::sub_470F90(cool_nash_0x294 *pSrc)
+cool_nash_0x294* cool_nash_0x294::sub_470F90(cool_nash_0x294* pSrc)
 {
     return 0;
 }

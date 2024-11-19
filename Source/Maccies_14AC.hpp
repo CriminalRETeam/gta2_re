@@ -4,7 +4,7 @@
 
 class Maccies_2C
 {
-public:
+  public:
     EXPORT void sub_4C1C50();
     EXPORT s32 sub_4C1C70(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8);
     s32 field_0;
@@ -28,7 +28,7 @@ public:
 
 class Maccies_14AC
 {
-public:
+  public:
     EXPORT void sub_4C1CD0(Maccies_14AC* a1);
     EXPORT void sub_4C1D70();
     EXPORT Maccies_2C* sub_4C1DC0(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8);

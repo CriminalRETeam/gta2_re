@@ -1,14 +1,14 @@
 #pragma once
 
 #include "Function.hpp"
-#include <windows.h>
 #include "root_sound.hpp" // for infallible_turing
+#include <windows.h>
 
 class infallible_turing;
 
-class serene_brattain 
+class serene_brattain
 {
-public:
+  public:
     EXPORT serene_brattain* sub_419DF0();
     s32 field_0;
     s32 field_4;
@@ -89,7 +89,7 @@ struct sound_0x68
     char_type field_53;
     s32 field_54;
     s32 field_58_type;
-    sound_0x68 *field_5C;
+    sound_0x68* field_5C;
     u8 field_60;
     char_type field_61;
     char_type field_62;
@@ -97,10 +97,9 @@ struct sound_0x68
     s32 field_64;
 };
 
-
 class sound_obj
 {
-public:
+  public:
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -247,7 +246,7 @@ public:
 
     EXPORT void sub_41B540();
 
-    EXPORT void sub_41B520(s32 a1, f32 *a2);
+    EXPORT void sub_41B520(s32 a1, f32* a2);
 
     EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
 
@@ -269,23 +268,23 @@ public:
 
     EXPORT char_type CalcVolume_41A3F0(u8 a1, s32 a2, s32 a3);
 
-    EXPORT  bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
+    EXPORT bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
 
     EXPORT char_type sub_419020(s32 a2);
 
-    EXPORT char_type sub_4186D0(sound_0x68 *pObj);
+    EXPORT char_type sub_4186D0(sound_0x68* pObj);
 
-    EXPORT char_type sub_4182A0(sound_0x68 *pObj);
+    EXPORT char_type sub_4182A0(sound_0x68* pObj);
 
-    EXPORT char_type sub_418130(sound_0x68 *pObj);
+    EXPORT char_type sub_418130(sound_0x68* pObj);
 
     EXPORT char_type sub_417F40(s32 a1);
 
-    EXPORT s32 sub_417EF0(sound_0x68 *pObj);
+    EXPORT s32 sub_417EF0(sound_0x68* pObj);
 
     EXPORT s32 ConvertToPlayBackRate_417C60(s32 a1);
 
-    EXPORT char_type sub_4153F0(sound_0x68 *pObj);
+    EXPORT char_type sub_4153F0(sound_0x68* pObj);
 
     EXPORT void ResetEntry_41A6C0(s32 idx);
 
@@ -297,9 +296,9 @@ public:
 
     EXPORT void sub_419E10();
 
-    EXPORT char_type LoadStyle_41A1B0(const char_type *pStyleName);
+    EXPORT char_type LoadStyle_41A1B0(const char_type* pStyleName);
 
-    EXPORT const char_type* GetFileName_41A1E0(const char_type *pStr);
+    EXPORT const char_type* GetFileName_41A1E0(const char_type* pStr);
 
     EXPORT s32 AddSoundObject_419FA0(infallible_turing* a2);
 
@@ -334,35 +333,35 @@ public:
 
     EXPORT void ProcessType2_412490(s32 idx);
 
-    EXPORT char_type sub_412260(sound_0x68 *pObj);
+    EXPORT char_type sub_412260(sound_0x68* pObj);
 
-    EXPORT char_type sub_416260(sound_0x68 *a1);
+    EXPORT char_type sub_416260(sound_0x68* a1);
 
-    EXPORT char_type sub_4174C0(sound_0x68 *a2);
+    EXPORT char_type sub_4174C0(sound_0x68* a2);
 
-    EXPORT char_type sub_417A00(sound_0x68 *a2);
+    EXPORT char_type sub_417A00(sound_0x68* a2);
 
-    EXPORT char_type sub_415730(sound_0x68 *a2);
+    EXPORT char_type sub_415730(sound_0x68* a2);
 
-    EXPORT char_type sub_418940(sound_0x68 *a2);
+    EXPORT char_type sub_418940(sound_0x68* a2);
 
-    EXPORT char_type sub_414EE0(sound_0x68 *a2);
- 
-    EXPORT char_type sub_414C90(sound_0x68 *a2);
+    EXPORT char_type sub_414EE0(sound_0x68* a2);
 
-    EXPORT char_type sub_415100(sound_0x68 *a2);
+    EXPORT char_type sub_414C90(sound_0x68* a2);
 
-    EXPORT char_type sub_414320(sound_0x68 *a2);
+    EXPORT char_type sub_415100(sound_0x68* a2);
 
-    EXPORT char_type sub_414690(sound_0x68 *a2);
+    EXPORT char_type sub_414320(sound_0x68* a2);
 
-    EXPORT char_type sub_4149D0(sound_0x68 *a2);
+    EXPORT char_type sub_414690(sound_0x68* a2);
 
-    EXPORT void VecDiff_41B4E0(serene_brattain *pVec, serene_brattain *pRet);
+    EXPORT char_type sub_4149D0(sound_0x68* a2);
 
-    EXPORT void sub_41B490(sound_0x68 *pObj);
+    EXPORT void VecDiff_41B4E0(serene_brattain* pVec, serene_brattain* pRet);
 
-    EXPORT u32* sub_4190B0(u32 *a2);
+    EXPORT void sub_41B490(sound_0x68* pObj);
+
+    EXPORT u32* sub_4190B0(u32* a2);
 
     EXPORT BYTE sub_427310();
 

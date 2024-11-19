@@ -7,7 +7,7 @@ class Monster_2C;
 
 class Monster_808
 {
-public:
+  public:
     EXPORT Monster_48* sub_4546B0(u8 a2);
     EXPORT void sub_4546D0();
     EXPORT Monster_2C* sub_454840(u8 idx);

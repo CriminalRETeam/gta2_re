@@ -1,10 +1,10 @@
-#include "Function.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
-#include "file.hpp"
-#include "error.hpp"
+#include "Function.hpp"
 #include "debug.hpp"
-#include "memory.hpp"
+#include "error.hpp"
+#include "file.hpp"
 #include "map_0x370.hpp"
+#include "memory.hpp"
 
 MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
@@ -38,19 +38,16 @@ char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
 STUB_FUNC(0x511b90)
 void frosty_pasteur_0xC1EA8::sub_511B90()
 {
-
 }
 
 STUB_FUNC(0x511c30)
 void frosty_pasteur_0xC1EA8::sub_511C30()
 {
-
 }
 
 STUB_FUNC(0x511d40)
 void frosty_pasteur_0xC1EA8::sub_511D40()
 {
-
 }
 
 STUB_FUNC(0x511f80)
@@ -62,7 +59,6 @@ s32 frosty_pasteur_0xC1EA8::sub_511F80(s32 FileName)
 STUB_FUNC(0x511e10)
 void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
 {
-
 }
 
 STUB_FUNC(0x512100)
@@ -74,11 +70,10 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(s16 toFind, u16 startOff)
 STUB_FUNC(0x512160)
 void frosty_pasteur_0xC1EA8::Update_512160()
 {
-
 }
 
 STUB_FUNC(0x512330)
-void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
+void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 {
     if (!bSkip_mission_67D4E5)
     {
@@ -104,7 +99,6 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type *pScrName)
 STUB_FUNC(0x512400)
 void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
 {
-
 }
 
 STUB_FUNC(0x5121E0)
@@ -122,9 +116,9 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     this->field_13350_pStringTbl = reinterpret_cast<str_table_normalized*>(Memory::malloc_4FE4D0(sizeof(str_table_normalized)));
     memset(field_13350_pStringTbl, 0, sizeof(str_table_normalized));
 
-    str_table_entry *pStringDataIter2 = this->field_1334C_strings;
-  
-   // s32 offset; // ebp
+    str_table_entry* pStringDataIter2 = this->field_1334C_strings;
+
+    // s32 offset; // ebp
     if (tableSize)
     {
         //offset = 4;
@@ -133,14 +127,13 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 
         do
         {
-            pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->zone_idx_by_name_4DF050(
-                (char_type *)&pStringDataIter2[1],
-                strlen((const char_type *)&pStringDataIter2[1]));
+            pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->zone_idx_by_name_4DF050((char_type*)&pStringDataIter2[1],
+                                                                                            strlen((const char_type*)&pStringDataIter2[1]));
             //offset += 4;
             field_13350_pStringTbl->field_4[str_count] = pStringDataIter2;
             s32 str_length_ = pStringDataIter2->field_8_length + 9;
             total_str_length_ += str_length_;
-            pStringDataIter2 = (str_table_entry *)((char_type *)pStringDataIter2 + str_length_);
+            pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
             ++str_count;
         } while (total_str_length_ < tableSize);
 
@@ -155,7 +148,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 MATCH_FUNC(0x5122D0)
 void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 {
-    const char_type * pSlashPos = strrchr(field_35C_full_scr_file_name, '\\');
+    const char_type* pSlashPos = strrchr(field_35C_full_scr_file_name, '\\');
     if (pSlashPos)
     {
         pSlashPos++;
@@ -178,7 +171,6 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 STUB_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
-
 }
 
 STUB_FUNC(0x512770)
@@ -190,7 +182,6 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 STUB_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::sub_5127A0()
 {
-
 }
 
 STUB_FUNC(0x5128a0)
@@ -274,11 +265,9 @@ bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
 STUB_FUNC(0x512ce0)
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
-
 }
 
 STUB_FUNC(0x5130e0)
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
-
 }

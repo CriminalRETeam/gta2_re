@@ -3,13 +3,11 @@
 STUB_FUNC(0x47e5b0)
 void Zheal_15C::dtor_47E5B0()
 {
-
 }
 
 STUB_FUNC(0x47e610)
 void Zheal_15C::ctor_47E610()
 {
-
 }
 
 STUB_FUNC(0x47e620)
@@ -111,7 +109,6 @@ bool Zheal_15C::sub_47F450()
 STUB_FUNC(0x47f4c0)
 void Zheal_15C::sub_47F4C0()
 {
-
 }
 
 STUB_FUNC(0x47f6c0)
@@ -129,7 +126,6 @@ char_type Zheal_15C::sub_47F7F0(u32* a2)
 STUB_FUNC(0x47f930)
 void Zheal_15C::sub_47F930(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x47fb40)
@@ -159,13 +155,11 @@ char_type Zheal_15C::sub_47FD50()
 STUB_FUNC(0x47fe10)
 void Zheal_15C::sub_47FE10()
 {
-
 }
 
 STUB_FUNC(0x480310)
 void Zheal_15C::sub_480310()
 {
-
 }
 
 STUB_FUNC(0x4803b0)
@@ -186,17 +180,14 @@ s32* Zheal_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-
 STUB_FUNC(0x480e00)
 void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
-
 }
 
 STUB_FUNC(0x480e50)
 void Zheal_D9C::sub_480E50()
 {
-
 }
 
 STUB_FUNC(0x480ec0)
@@ -214,5 +205,4 @@ Zheal_D9C* Zheal_D9C::ctor_480F50()
 STUB_FUNC(0x4bbbf0)
 void Zheal_D9C::dtor_4BBBF0()
 {
-
 }

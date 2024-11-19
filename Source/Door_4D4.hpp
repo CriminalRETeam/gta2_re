@@ -8,7 +8,7 @@ class Sprite_4C;
 
 class Door_38
 {
-public:
+  public:
     EXPORT void ctor_49C640();
     EXPORT void dtor_49C690();
     EXPORT s32 sub_49C6A0(s32 a1);
@@ -48,12 +48,34 @@ public:
 
 class Door_4D4
 {
-public:
+  public:
     EXPORT Door_10* sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6);
     EXPORT Door_38* sub_49CF50(u8 a2, char_type a3, s32 a4, char_type a5, s32 a6, char_type a7, char_type a8);
     EXPORT Door_38* sub_49CFA0(u8 a1, u8 a2, u8 a3, u8 a4, s32 a5, s32 a7, char_type a8);
-    EXPORT Door_38* sub_49D170(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, s32 a7, s32 a8, s32 a9, s32 a10, s32 a11, char_type a12, char_type a13);
-    EXPORT Door_38* sub_49D1F0(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, s32 a7, s32 a8, s32 a9, s32 a10, s32 a11, char_type a12, char_type a13);
+    EXPORT Door_38* sub_49D170(u8 a1,
+                               char_type a2,
+                               char_type a3,
+                               char_type a4,
+                               s32 a5,
+                               s32 a7,
+                               s32 a8,
+                               s32 a9,
+                               s32 a10,
+                               s32 a11,
+                               char_type a12,
+                               char_type a13);
+    EXPORT Door_38* sub_49D1F0(u8 a1,
+                               char_type a2,
+                               char_type a3,
+                               char_type a4,
+                               s32 a5,
+                               s32 a7,
+                               s32 a8,
+                               s32 a9,
+                               s32 a10,
+                               s32 a11,
+                               char_type a12,
+                               char_type a13);
     EXPORT s16 sub_49D2D0(s16 a1, s16 a2, char_type a3);
     EXPORT char_type sub_49D340(u32* a2, u8 a3);
     EXPORT void sub_49D370(s32 a2, u8 idx);

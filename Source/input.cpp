@@ -1,20 +1,20 @@
-#include "Function.hpp"
 #include "input.hpp"
+#include "Function.hpp"
 
 #define DIRECTINPUT_VERSION 0x0700
 
-#include <Dinput.h>
 #include "error.hpp"
+#include <Dinput.h>
 
 #if _MSC_VER <= 1200
-#pragma comment(lib, "DInput.lib")
+    #pragma comment(lib, "DInput.lib")
 #endif
 //#pragma comment(lib, "DInput8.lib")
 
 LPDIRECTINPUTA gpDInput_67B804;
 
 #if _MSC_VER > 1200
-HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA *ppDI, LPUNKNOWN punkOuter);
+HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
 #endif
 
 STUB_FUNC(0x4986D0)
@@ -37,12 +37,11 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
     {
         FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
-    
+
     if (((decltype(&Fn_DirectInputCreateA))p)(hInstance, 1792, &gpDInput_67B804, 0) < 0)
     {
         FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
-
 
 #endif
 }

@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "debug.hpp"
+#include "Function.hpp"
 #include "registry.hpp"
 #include <stdio.h>
 
@@ -203,7 +203,7 @@ bool Debug::HaveOnlyFrenchGtx_4AC200()
         bGGtxExists = true;
     }
 
-    FILE*v5 = fopen("data\\i.gxt", "rb");
+    FILE* v5 = fopen("data\\i.gxt", "rb");
     if (v5)
     {
         fclose(v5);

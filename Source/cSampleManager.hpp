@@ -15,12 +15,12 @@ struct sdt_entry_0x18
 
 class cSampleManager
 {
-public:
+  public:
     EXPORT cSampleManager();
 
     EXPORT char_type sub_58D620();
 
-    EXPORT char_type SoundInit_58D6C0(s32 *a2);
+    EXPORT char_type SoundInit_58D6C0(s32* a2);
 
     EXPORT char_type sub_58D720(char_type a2, char_type a3, s32 sampleRate);
 
@@ -30,7 +30,7 @@ public:
 
     EXPORT void sub_58E8C0(u32 idx, u32 a3);
 
-    EXPORT char_type sub_58D820(BYTE *pMaxSamples);
+    EXPORT char_type sub_58D820(BYTE* pMaxSamples);
 
     EXPORT void Reset3DSamples_58D960();
 
@@ -138,7 +138,7 @@ public:
 
     EXPORT void EndSample_58E960();
 
-    EXPORT char_type LoadWavSdtData_58E980(const char_type *pRawOrSdtName);
+    EXPORT char_type LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
 
     EXPORT BYTE sub_58E2A0();
 
@@ -164,7 +164,7 @@ public:
     u8 field_1EB2_3d_samp_count;
     char_type field_1EB3_pad;
     HPROVIDER field_1EB4_h3dProvider[256];
-    char_type *field_22B4_str[256];
+    char_type* field_22B4_str[256];
     HPROVIDER field_26B4_env_idx;
     s32 field_26B8_bEaxSupported;
     s32 field_26BC_k17;
@@ -178,7 +178,6 @@ public:
     char_type field_2715_pad;
     char_type field_2716_pad;
     char_type field_2717_pad;
-
 };
 
 extern cSampleManager gSampManager_6FFF00;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <windows.h>
 #include "Function.hpp"
+#include <windows.h>
 
 class angry_lewin_0x85C;
 
@@ -44,7 +44,7 @@ struct agitated_keldysh_0xF0
 
     EXPORT void Init_56B520();
 
-    EXPORT char_type sub_56B550(const wchar_t *Source, s32 a3);
+    EXPORT char_type sub_56B550(const wchar_t* Source, s32 a3);
 
     small_string field_0[10];
 };
@@ -1611,15 +1611,15 @@ struct jolly_poitras_0x2BC0
     EXPORT static void destroy_56C340();
 
     // todo: ordering
-    EXPORT void sub_56BB10(angry_lewin_0x85C *a2);
+    EXPORT void sub_56BB10(angry_lewin_0x85C* a2);
 
     EXPORT void sub_56C010();
 
-    EXPORT void GetPlySlotDatName_56B8A0(u16 a1, char_type *a2);
+    EXPORT void GetPlySlotDatName_56B8A0(u16 a1, char_type* a2);
 
     EXPORT char_type PlySlotDatExists_56B940(s32 a1);
 
-    EXPORT void GetHiScoreHscFileName_56BCF0(char_type *pName);
+    EXPORT void GetHiScoreHscFileName_56BCF0(char_type* pName);
 
     EXPORT char_type HiScoreHscExists_56BCA0();
 

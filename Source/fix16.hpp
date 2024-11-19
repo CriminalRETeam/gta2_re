@@ -4,46 +4,48 @@
 
 struct Fix16
 {
-    Fix16() : mValue(0) {}
+    Fix16() : mValue(0)
+    {
+    }
 
-    Fix16 &operator=(s32 value)
+    Fix16& operator=(s32 value)
     {
         mValue = value;
         return *this;
     }
 
-    Fix16 operator-(const Fix16 &in)
+    Fix16 operator-(const Fix16& in)
     {
         Fix16 t;
         t.mValue = mValue - in.mValue;
         return t;
     }
 
-    Fix16 operator-=(const Fix16 &other)
+    Fix16 operator-=(const Fix16& other)
     {
         mValue -= other.mValue;
         return *this;
     }
 
-    Fix16 operator+(const Fix16 &in)
+    Fix16 operator+(const Fix16& in)
     {
         Fix16 t;
         t.mValue = mValue + in.mValue;
         return t;
     }
 
-    Fix16 operator+=(const Fix16 &other)
+    Fix16 operator+=(const Fix16& other)
     {
         mValue += other.mValue;
         return *this;
     }
 
-    bool operator>(const Fix16 &other)
+    bool operator>(const Fix16& other)
     {
         return mValue > other.mValue;
     }
 
-    bool operator<(const Fix16 &other)
+    bool operator<(const Fix16& other)
     {
         return mValue < other.mValue;
     }
@@ -63,20 +65,19 @@ struct Fix16
         return mValue >> 14;
     }
 
-    EXPORT Fix16 &FromInt_4369F0(s32 a2);
-    EXPORT Fix16 &FromInt_45C4E0(u8 a2);
+    EXPORT Fix16& FromInt_4369F0(s32 a2);
+    EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
 
-    Fix16 operator*(const Fix16 &in);
+    Fix16 operator*(const Fix16& in);
 
     Fix16 operator-();
 
     Fix16 operator+(const Fix16& rhs) const;
     Fix16 operator/(const Fix16& in);
 
-public:
+  public:
     s32 mValue;
 };
-

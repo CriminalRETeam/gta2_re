@@ -3,7 +3,6 @@
 STUB_FUNC(0x4a85f0)
 void Tango_54::sub_4A85F0()
 {
-
 }
 
 STUB_FUNC(0x4a8620)
@@ -27,9 +26,7 @@ char_type Tango_54::sub_4A8820(Car_BC* a2)
 STUB_FUNC(0x4a88d0)
 void Tango_54::ctor_4A88D0()
 {
-
 }
-
 
 STUB_FUNC(0x4a7fc0)
 char_type Tango_28::sub_4A7FC0()
@@ -40,13 +37,11 @@ char_type Tango_28::sub_4A7FC0()
 STUB_FUNC(0x4a81a0)
 void Tango_28::sub_4A81A0()
 {
-
 }
 
 STUB_FUNC(0x4a81f0)
 void Tango_28::sub_4A81F0()
 {
-
 }
 
 STUB_FUNC(0x4a85c0)

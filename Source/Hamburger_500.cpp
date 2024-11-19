@@ -9,15 +9,12 @@ s32 Hamburger_40::sub_4747B0()
 STUB_FUNC(0x474ca0)
 void Hamburger_40::ctor_474CA0()
 {
-
 }
 
 STUB_FUNC(0x474cb0)
 void Hamburger_40::dtor_474CB0()
 {
-
 }
-
 
 STUB_FUNC(0x474810)
 Hamburger_40* Hamburger_500::sub_474810()
@@ -94,7 +91,6 @@ char_type Hamburger_500::sub_474C30(cool_nash_0x294* a1)
 STUB_FUNC(0x474cc0)
 void Hamburger_500::sub_474CC0(Hamburger_40* a2)
 {
-
 }
 
 STUB_FUNC(0x474d10)
@@ -106,5 +102,4 @@ Hamburger_500* Hamburger_500::ctor_474D10()
 STUB_FUNC(0x474d30)
 void Hamburger_500::dtor_474D30()
 {
-
 }
