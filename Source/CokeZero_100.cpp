@@ -103,7 +103,13 @@ void CokeZero_100::sub_596940()
 {
 }
 
-STUB_FUNC(0x5969e0)
+MATCH_FUNC(0x5969e0)
 void CokeZero_100::DrawExploding_5969E0()
 {
+    CokeZero_50* pIter = field_8;
+    while (pIter)
+    {
+        pIter->sub_596C90();
+        pIter = pIter->field_44;
+    }
 }
