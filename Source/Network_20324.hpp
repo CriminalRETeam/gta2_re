@@ -10,9 +10,8 @@ public:
     EXPORT static char_type sub_5199B0(u16* a1, char_type* a2);
     EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
-    EXPORT Network_20324* ctor_519A90();
-    EXPORT Network_20324* vdtor_519B80(Network_20324* lpMem, char_type flags);
-    EXPORT void dtor_519BA0();
+    EXPORT Network_20324();
+    EXPORT virtual ~Network_20324();
     EXPORT s32 sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
     EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, Network_20324* lParam);
     EXPORT s32 cb_sub_519D30(Network_20324* a1, s32 a2);
@@ -66,7 +65,7 @@ public:
     EXPORT s32 sub_51D2F0(s32 a1, HWND hDlg);
     EXPORT s32 sub_51D3B0(s32 a1, HWND hDlg);
 
-    s32 field_0_vTable;
+    //s32 field_0_vTable; // added by the compiler
     char_type field_4[100][1304];
     s32 field_1FD64_f4_idx_count;
     s32 field_1FD68;
