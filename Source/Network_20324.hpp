@@ -41,7 +41,7 @@ public:
     EXPORT s32 sub_51BBD0();
     EXPORT void sub_51BBE0();
     EXPORT void sub_51BBF0();
-    EXPORT s32 cb_sub_51BC00(Network_20324* a1);
+    EXPORT static void cb_sub_51BC00(Network_20324* pThis);
     EXPORT void sub_51BC70(s32 a2);
     EXPORT s32 sub_51BC80();
     EXPORT void sub_51BC90();

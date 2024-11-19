@@ -209,10 +209,16 @@ void Network_20324::sub_51BBF0()
 {
 }
 
-STUB_FUNC(0x51bc00)
-s32 Network_20324::cb_sub_51BC00(Network_20324 *a1)
+MATCH_FUNC(0x51bc00)
+void Network_20324::cb_sub_51BC00(Network_20324 *pThis)
 {
-    return 0;
+    char String[260];
+    wchar_t Dest[260];
+
+    GetDlgItemTextA(pThis->sub_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
+    GetString_519A50(Dest, String, GTA2_COUNTOF(String));
+    pThis->sub_51BD40(Dest, String);
+    pThis->sub_51BC70(1);
 }
 
 MATCH_FUNC(0x51bc70)
@@ -283,7 +289,7 @@ void Network_20324::sub_51BD40(const wchar_t *pPlayerNameW, const char *pPlayerN
             "PlayerName",
             0,
             1u, // TODO: constant
-            reinterpret_cast<const u8*>(pPlayerNameA),
+            reinterpret_cast<const u8 *>(pPlayerNameA),
             strlen(pPlayerNameA) + 1); // +1 so the NULL is also written
         RegCloseKey(hKey);
     }
