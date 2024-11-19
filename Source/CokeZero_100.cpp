@@ -1,10 +1,23 @@
 #include "CokeZero_100.hpp"
-
+#include <memory.h>
 CokeZero_100* gCokeZero_100_702F34;
 
-STUB_FUNC(0x596a00)
+MATCH_FUNC(0x596a00)
 CokeZero_50::CokeZero_50()
 {
+    field_0 = 0;
+    for (s32 i = 0; i < 9; i++)
+    {
+        field_4[i] = 0;
+    }
+    field_36 = 0;
+    field_38 = 0;
+    field_3C = 0;
+    field_40 = 0;
+    field_4C = 0;
+    field_48 = 0;
+    field_44 = 0;
+    field_34 = 9;
 }
 
 STUB_FUNC(0x596a40)
