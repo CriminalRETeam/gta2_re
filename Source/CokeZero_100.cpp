@@ -20,9 +20,10 @@ CokeZero_50::CokeZero_50()
     field_34 = 9;
 }
 
-STUB_FUNC(0x596a40)
+MATCH_FUNC(0x596a40)
 CokeZero_50::~CokeZero_50()
 {
+    field_44 = 0;
 }
 
 STUB_FUNC(0x596a50)
