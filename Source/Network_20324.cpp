@@ -193,10 +193,10 @@ void Network_20324::sub_51BBC0()
 {
 }
 
-STUB_FUNC(0x51bbd0)
+MATCH_FUNC(0x51bbd0)
 s32 Network_20324::sub_51BBD0()
 {
-    return 0;
+    return field_1FD6C;
 }
 
 MATCH_FUNC(0x51bbe0)
