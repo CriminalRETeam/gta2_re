@@ -67,15 +67,16 @@ s32 Network_20324::cb_sub_519D30(Network_20324 *a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x519e10)
+MATCH_FUNC(0x519e10)
 void Network_20324::SetDlgHwnd_519E10(HWND a2)
 {
+    field_2031C_dlg_hwnd = a2;
 }
 
-STUB_FUNC(0x519e20)
-s32 Network_20324::sub_519E20()
+MATCH_FUNC(0x519e20)
+HWND Network_20324::sub_519E20()
 {
-    return 0;
+    return field_2031C_dlg_hwnd;
 }
 
 STUB_FUNC(0x519e30)
