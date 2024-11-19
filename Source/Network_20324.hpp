@@ -24,7 +24,7 @@ public:
     EXPORT LRESULT OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT char_type sub_51AA90(HWND hWndParent);
     EXPORT s32 sub_51ABF0(s32 a2);
-    EXPORT s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
+    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 sub_51ACC0();
     EXPORT LRESULT cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 cb_sub_51ADE0(Network_20324* a1);

@@ -1,6 +1,8 @@
 #include "Network_20324.hpp"
 #include "text_0x14.hpp"
 
+UINT_PTR gTimerId_6F8A18;
+
 STUB_FUNC(0x519960)
 u16 Network_20324::sub_519960(u8 *a1, u16 *a2)
 {
@@ -113,10 +115,17 @@ s32 Network_20324::sub_51ABF0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x51ac60)
+MATCH_FUNC(0x51ac60)
 s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324 *thisPtr)
 {
-    return 0;
+    SetWindowLongA(hWnd, 8, (LONG)thisPtr);
+    gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
+    thisPtr->SetDlgHwnd_519E10(hWnd);
+    thisPtr->sub_51AA90(hWnd);
+    thisPtr->sub_51AFA0();
+    thisPtr->SetPlayerNameText_51B7C0();
+    thisPtr->sub_51ABF0(0);
+    return 1;
 }
 
 STUB_FUNC(0x51acc0)
@@ -166,7 +175,7 @@ s32 Network_20324::sub_51B4F0(s32 a2, const char_type *a3)
     return 0;
 }
 
-STUB_FUNC(0x51b7c0)
+MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
 {
     SetDlgItemTextA(
