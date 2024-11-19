@@ -1,5 +1,7 @@
 #include "Nanobotz.hpp"
 
+Nanobotz* gpNanobotz_6F66E4;
+
 STUB_FUNC(0x4e9d50)
 s32 Nanobotz::sub_4E9D50(s32* a2, u16* a3)
 {

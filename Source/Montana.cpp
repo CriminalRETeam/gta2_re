@@ -1,5 +1,7 @@
 #include "Montana.hpp"
 
+Montana* gMontana_67B580;
+
 STUB_FUNC(0x5c5f60)
 Montana_2EE4* Montana_2EE4::ctor_5C5F60()
 {

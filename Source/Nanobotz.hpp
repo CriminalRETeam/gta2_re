@@ -3073,3 +3073,5 @@ class Nanobotz
     s32 field_2EFC_count;
     s32 field_2F00_drawn_tile_count;
 };
+
+extern Nanobotz* gpNanobotz_6F66E4;

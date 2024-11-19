@@ -1,5 +1,7 @@
 #include "Mike_A80.hpp"
 
+Mike_A80* gMike_A80_6F7328;
+
 STUB_FUNC(0x4ff1b0)
 void Mike_A80::sub_4FF1B0()
 {

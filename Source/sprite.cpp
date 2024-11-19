@@ -1,5 +1,7 @@
 #include "sprite.hpp"
 
+Sprite_8* gSprite_8_703820;
+
 STUB_FUNC(0x5a5860)
 void Sprite_8::sub_5A5860()
 {

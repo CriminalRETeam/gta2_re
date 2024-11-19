@@ -13,3 +13,5 @@ class Sprite_8
     s16 field_4;
     s16 field_6;
 };
+
+extern Sprite_8* gSprite_8_703820;

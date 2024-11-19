@@ -293,3 +293,7 @@ class PurpleDoom
     s32 field_3F8;
     s32 field_3FC;
 };
+
+extern PurpleDoom* gPurpleDoom_1_679208;
+extern PurpleDoom* gPurpleDoom_2_67920C;
+extern PurpleDoom* gPurpleDoom_3_679210;
