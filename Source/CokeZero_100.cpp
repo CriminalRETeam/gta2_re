@@ -87,9 +87,10 @@ s16 CokeZero_100::sub_596860()
     return field_0;
 }
 
-STUB_FUNC(0x596880)
+MATCH_FUNC(0x596880)
 void CokeZero_100::sub_596880()
 {
+    field_2++;
 }
 
 STUB_FUNC(0x596890)
