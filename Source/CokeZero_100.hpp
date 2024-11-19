@@ -5,8 +5,8 @@
 class CokeZero_50
 {
   public:
-    EXPORT void ctor_596A00();
-    EXPORT void dtor_596A40();
+    EXPORT CokeZero_50();
+    EXPORT ~CokeZero_50();
     EXPORT void Empty_596A50();
     EXPORT void Empty_596A60();
     EXPORT void sub_596A70(s32 a2);
@@ -16,7 +16,7 @@ class CokeZero_50
     EXPORT void sub_597100(s32 a2, s32 a3);
 
     s32 field_0;
-    s32 field_4[9];
+    CokeZero_50 * field_4[9];
     s32 field_28;
     s32 field_2C;
     s32 field_30;
@@ -35,8 +35,8 @@ class CokeZero_50
 class CokeZero_100
 {
   public:
-    EXPORT CokeZero_100* ctor_5967E0();
-    EXPORT void dtor_596840();
+    EXPORT CokeZero_100();
+    EXPORT ~CokeZero_100();
     EXPORT s16 sub_596860();
     EXPORT void sub_596880();
     EXPORT void sub_596890(s32 a2, s32 a3, s32 a4, u32 a5);
