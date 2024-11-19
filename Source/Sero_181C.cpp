@@ -3,61 +3,51 @@
 STUB_FUNC(0x578030)
 void Sero_58::sub_578030()
 {
-
 }
 
 STUB_FUNC(0x578180)
 void Sero_58::sub_578180()
 {
-
 }
 
 STUB_FUNC(0x5781f0)
 void Sero_58::sub_5781F0()
 {
-
 }
 
 STUB_FUNC(0x578260)
 void Sero_58::ctor_578260()
 {
-
 }
 
 STUB_FUNC(0x5782c0)
 void Sero_58::dtor_5782C0()
 {
-
 }
 
 STUB_FUNC(0x5782d0)
 void Sero_58::sub_5782D0()
 {
-
 }
 
 STUB_FUNC(0x578300)
 void Sero_58::sub_578300()
 {
-
 }
 
 STUB_FUNC(0x578330)
 void Sero_58::sub_578330()
 {
-
 }
 
 STUB_FUNC(0x578360)
 void Sero_58::sub_578360()
 {
-
 }
 
 STUB_FUNC(0x578390)
 void Sero_58::sub_578390()
 {
-
 }
 
 STUB_FUNC(0x578670)
@@ -66,19 +56,15 @@ u8 Sero_58::sub_578670()
     return 0;
 }
 
-
 STUB_FUNC(0x577fd0)
 void Sero_34::ctor_577FD0()
 {
-
 }
 
 STUB_FUNC(0x578010)
 void Sero_34::dtor_578010()
 {
-
 }
-
 
 STUB_FUNC(0x578790)
 Sero_58* Sero_181C::sub_578790()
@@ -95,13 +81,11 @@ Sero_34* Sero_181C::sub_5787E0()
 STUB_FUNC(0x578820)
 void Sero_181C::sub_578820(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x578860)
 void Sero_181C::sub_578860()
 {
-
 }
 
 STUB_FUNC(0x5793e0)
@@ -131,7 +115,6 @@ char_type* Sero_181C::sub_5799B0()
 STUB_FUNC(0x579a30)
 void Sero_181C::sub_579A30(Car_BC* a2)
 {
-
 }
 
 STUB_FUNC(0x579aa0)
@@ -161,7 +144,6 @@ char_type Sero_181C::sub_579B10()
 STUB_FUNC(0x579b20)
 void Sero_181C::sub_579B20()
 {
-
 }
 
 STUB_FUNC(0x579b40)
@@ -179,13 +161,11 @@ bool Sero_181C::sub_579B90(Car_BC* a2, u32* a3)
 STUB_FUNC(0x579ca0)
 void Sero_181C::sub_579CA0()
 {
-
 }
 
 STUB_FUNC(0x57a7a0)
 void Sero_181C::sub_57A7A0()
 {
-
 }
 
 STUB_FUNC(0x57b4b0)
@@ -227,5 +207,4 @@ Sero_181C* Sero_181C::ctor_57B7B0()
 STUB_FUNC(0x57b820)
 void Sero_181C::dtor_57B820()
 {
-
 }

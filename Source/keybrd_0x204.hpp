@@ -1,11 +1,11 @@
 #pragma once
 
-#include <stdio.h>
 #include "Function.hpp"
+#include <stdio.h>
 
 class keybrd_0x204
 {
-public:
+  public:
     s16 field_0_keys[256];
     s32 field_200_keyBoardLayout;
 
@@ -23,7 +23,7 @@ public:
 
     EXPORT static s32 GetLayout_4D6000();
 
-    EXPORT void ReadCfg_4D5DA0(FILE *Stream, wchar_t *pOut);
+    EXPORT void ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut);
 
     EXPORT static void RecreateIfLayoutChanged_4D5FD0();
 };

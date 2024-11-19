@@ -1,16 +1,16 @@
-#include "Function.hpp"
 #include "file.hpp"
+#include "Function.hpp"
 #include "error.hpp"
-#include <stdlib.h>
-#include <stdio.h>
 #include "memory.hpp"
+#include <stdio.h>
+#include <stdlib.h>
 
 s32 gbGlobalFileOpen_67D160;
 FILE* ghFile_67CFEC;
 extern char_type gTmpBuffer_67C598[256];
 
 MATCH_FUNC(0x4A6B10)
-s32 __stdcall File::GetFileSize_4A6B10(FILE *Stream)
+s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)
 {
     s32 oldPos = ftell(Stream);
     if (oldPos == -1)
@@ -50,7 +50,7 @@ bool __stdcall File::IsCdRomDrive_4A6BB0(char_type driveLetter)
 }
 
 MATCH_FUNC(0x4A6C80)
-void *__stdcall File::ReadFileToBuffer_4A6C80(const char_type *FileName, size_t *pAllocatedBufferSize)
+void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t* pAllocatedBufferSize)
 {
     Error_SetName_4A0770(FileName);
     FILE* hFileRead1 = fopen(FileName, "rb");
@@ -91,14 +91,14 @@ void *__stdcall File::ReadFileToBuffer_4A6C80(const char_type *FileName, size_t 
 }
 
 MATCH_FUNC(0x4A6D90)
-size_t __stdcall File::Read_4A6D90(void *Buffer, size_t ElementSize, size_t ElementCount, FILE *Stream)
+size_t __stdcall File::Read_4A6D90(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
 {
     size_t ret = fread(Buffer, ElementSize, ElementCount, Stream);
     return ret;
 }
 
 MATCH_FUNC(0x4A6E80)
-void __stdcall File::WriteBufferToFile_4A6E80(const char_type *FileName, void *Buffer, size_t *pBufferSize)
+void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* Buffer, size_t* pBufferSize)
 {
     Error_SetName_4A0770(FileName);
     if (!*pBufferSize)
@@ -106,7 +106,7 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type *FileName, void *B
         FatalError_4A38C0(19, "C:\\Splitting\\Gta2\\Source\\File.cpp", 228);
     }
 
-    FILE *hFile = fopen(FileName, "wb");
+    FILE* hFile = fopen(FileName, "wb");
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 231);
@@ -125,13 +125,13 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type *FileName, void *B
 }
 
 MATCH_FUNC(0x4A6F30)
-size_t __stdcall File::Write_4A6F30(void *Buffer, size_t ElementSize, size_t ElementCount, FILE *Stream)
+size_t __stdcall File::Write_4A6F30(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
 {
     return fwrite(Buffer, ElementSize, ElementCount, Stream);
 }
 
 MATCH_FUNC(0x4A6F50)
-void __stdcall File::AppendBufferToFile_4A6F50(const char_type *FileName, void *pBuffer, size_t *pBufferSize)
+void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* pBuffer, size_t* pBufferSize)
 {
     Error_SetName_4A0770(FileName);
     if (!*pBufferSize)
@@ -158,7 +158,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type *FileName, void *
 }
 
 MATCH_FUNC(0x4A7000)
-void __stdcall File::CreateFile_4A7000(const char_type *FileName)
+void __stdcall File::CreateFile_4A7000(const char_type* FileName)
 {
     Error_SetName_4A0770(FileName);
 
@@ -172,11 +172,10 @@ void __stdcall File::CreateFile_4A7000(const char_type *FileName)
     {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 300);
     }
-
 }
 
 MATCH_FUNC(0x4A7060)
-void __stdcall File::Global_Open_4A7060(const char_type *FileName)
+void __stdcall File::Global_Open_4A7060(const char_type* FileName)
 {
     if (gbGlobalFileOpen_67D160)
     {
@@ -219,7 +218,7 @@ void __stdcall File::Global_Close_UnChecked_4A7110()
 }
 
 MATCH_FUNC(0x4A7140)
-void __stdcall File::Global_Seek_4A7140(u32 *pOffset)
+void __stdcall File::Global_Seek_4A7140(u32* pOffset)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -240,7 +239,7 @@ void __stdcall File::File_Error_4A7190(s32 Code, s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x4A71C0)
-void __stdcall File::Global_Read_4A71C0(void *pBuffer, u32 *pBufferSize)
+void __stdcall File::Global_Read_4A71C0(void* pBuffer, u32* pBufferSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -254,18 +253,17 @@ void __stdcall File::Global_Read_4A71C0(void *pBuffer, u32 *pBufferSize)
 }
 
 MATCH_FUNC(0x4A7210)
-bool __stdcall File::Global_Read_4A7210(void *Buffer, u32 *pSize)
+bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
         FatalError_4A38C0(21, "C:\\Splitting\\Gta2\\Source\\File.cpp", 460);
     }
     return (Read_4A6D90(Buffer, *pSize, 1u, ghFile_67CFEC) == 1) ? true : false;
-
 }
 
 MATCH_FUNC(0x4A7250)
-size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, u32 *pMaxFileSize)
+size_t __stdcall File::GetRemainderSize_4A7250(void* Buffer, u32* pMaxFileSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
@@ -309,7 +307,7 @@ size_t __stdcall File::GetRemainderSize_4A7250(void *Buffer, u32 *pMaxFileSize)
 }
 
 MATCH_FUNC(0x4A7340)
-char_type __stdcall File::SkipWhitespace_4A7340(FILE *Stream)
+char_type __stdcall File::SkipWhitespace_4A7340(FILE* Stream)
 {
     char_type next_char = 0;
 

@@ -5,7 +5,7 @@
 
 class Network_20324
 {
-public:
+  public:
     EXPORT u16 sub_519960(u8* a1, u16* a2);
     EXPORT static char_type sub_5199B0(wchar_t* a1, char_type* a2);
     EXPORT char_type* GetString_519A00(const char_type* Key);

@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "cSampleManager.hpp"
+#include "Function.hpp"
 #include <stdio.h>
 
 cSampleManager gSampManager_6FFF00;
@@ -9,108 +9,104 @@ struct voc_name
     char_type field_0_str[30];
 };
 
-const voc_name gVocNames_5FEA5C[98] =
-{
-    { "accuracyb.wav" },
-    { "back2front.wav" },
-    { "busted.wav" },
-    { "carjacker.wav" },
-    { "copkilla.wav" },
-    { "elvis.wav" },
-    { "expiditious.wav" },
-    { "freeze.wav" },
-    { "frenzyfail.wav" },
-    { "frenzypassed.wav" },
-    { "fryingtonite.wav" },
-    { "gameover.wav" },
-    { "genocide.wav" },
-    { "gta.wav" },
-    { "insanestunt.wav" },
-    { "jobcomplete.wav" },
-    { "jobfail.wav" },
-    { "killfrenzy.wav" },
-    { "medicalemer.wav" },
-    { "respectis.wav" },
-    { "shocking.wav" },
-    { "somethingscookin.wav" },
-    { "timesup.wav" },
-    { "toasted.wav" },
-    { "wasted.wav" },
-    { "wipeout.wav" },
-    { "bombarmed.wav" },
-    { "macgun.wav" },
-    { "dualpist.wav" },
-    { "electro.wav" },
-    { "flamet.wav" },
-    { "grenades.wav" },
-    { "molotovs.wav" },
-    { "oilslick.wav" },
-    { "pistolp.wav" },
-    { "rocketl.wav" },
-    { "shotgun.wav" },
-    { "silentmg.wav" },
-    { "vehbomb.wav" },
-    { "vehbomb2.wav" },
-    { "vehmacgun.wav" },
-    { "vehmines.wav" },
-    { "armour.wav" },
-    { "copbribe.wav" },
-    { "doubledamage.wav" },
-    { "electrofingers.wav" },
-    { "fastreload.wav" },
-    { "getoutjail.wav" },
-    { "health.wav" },
-    { "instantgang.wav" },
-    { "invisibility.wav" },
-    { "invulnerability.wav" },
-    { "life.wav" },
-    { "multiplyer.wav" },
-    { "respect.wav" },
-    { "raceover.wav" },
-    { "2ndlap.wav" },
-    { "finallap.wav" },
-    { "raceon.wav" },
-    { "30peopledown.wav" },
-    { "60peopledown.wav" },
-    { "90peopledown.wav" },
-    { "120peopledown.wav" },
-    { "150peopledown.wav" },
-    { "timeout.wav" },
-    { "timeextended.wav" },
-    { "timesup.wav" },
-    { "sorrydidthathurt.wav" },
-    { "nicework.wav" },
-    { "choctastic.wav" },
-    { "raspberryripple.wav" },
-    { "youshotyourload.wav" },
-    { "oohdidthathurt.wav" },
-    { "deathtoicvans.wav" },
-    { "crispycritter.wav" },
-    { "youretoastbuddy.wav" },
-    { "eatleaddeath.wav" },
-    { "thatsgottahurt.wav" },
-    { "sorryaboutthat.wav" },
-    { "xinloimyman.wav" },
-    { "damnsundaydrivers.wav" },
-    { "suckitandsee.wav" },
-    { "tastemywrath.wav" },
-    { "hallelujah.wav" },
-    { "damnation.wav" },
-    { "laugh1.wav" },
-    { "laugh2.wav" },
-    { "laugh3.wav" },
-    { "laugh4.wav" },
-    { "laugh5.wav" },
-    { "laugh6.wav" },
-    { "laugh7.wav" },
-    { "laugh8.wav" },
-    { "laugh9.wav" },
-    { "laugha.wav" },
-    { "laughb.wav" },
-    { "laughc.wav" },
-    { "laughd.wav" }
-};
-
+const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},
+                                       {"back2front.wav"},
+                                       {"busted.wav"},
+                                       {"carjacker.wav"},
+                                       {"copkilla.wav"},
+                                       {"elvis.wav"},
+                                       {"expiditious.wav"},
+                                       {"freeze.wav"},
+                                       {"frenzyfail.wav"},
+                                       {"frenzypassed.wav"},
+                                       {"fryingtonite.wav"},
+                                       {"gameover.wav"},
+                                       {"genocide.wav"},
+                                       {"gta.wav"},
+                                       {"insanestunt.wav"},
+                                       {"jobcomplete.wav"},
+                                       {"jobfail.wav"},
+                                       {"killfrenzy.wav"},
+                                       {"medicalemer.wav"},
+                                       {"respectis.wav"},
+                                       {"shocking.wav"},
+                                       {"somethingscookin.wav"},
+                                       {"timesup.wav"},
+                                       {"toasted.wav"},
+                                       {"wasted.wav"},
+                                       {"wipeout.wav"},
+                                       {"bombarmed.wav"},
+                                       {"macgun.wav"},
+                                       {"dualpist.wav"},
+                                       {"electro.wav"},
+                                       {"flamet.wav"},
+                                       {"grenades.wav"},
+                                       {"molotovs.wav"},
+                                       {"oilslick.wav"},
+                                       {"pistolp.wav"},
+                                       {"rocketl.wav"},
+                                       {"shotgun.wav"},
+                                       {"silentmg.wav"},
+                                       {"vehbomb.wav"},
+                                       {"vehbomb2.wav"},
+                                       {"vehmacgun.wav"},
+                                       {"vehmines.wav"},
+                                       {"armour.wav"},
+                                       {"copbribe.wav"},
+                                       {"doubledamage.wav"},
+                                       {"electrofingers.wav"},
+                                       {"fastreload.wav"},
+                                       {"getoutjail.wav"},
+                                       {"health.wav"},
+                                       {"instantgang.wav"},
+                                       {"invisibility.wav"},
+                                       {"invulnerability.wav"},
+                                       {"life.wav"},
+                                       {"multiplyer.wav"},
+                                       {"respect.wav"},
+                                       {"raceover.wav"},
+                                       {"2ndlap.wav"},
+                                       {"finallap.wav"},
+                                       {"raceon.wav"},
+                                       {"30peopledown.wav"},
+                                       {"60peopledown.wav"},
+                                       {"90peopledown.wav"},
+                                       {"120peopledown.wav"},
+                                       {"150peopledown.wav"},
+                                       {"timeout.wav"},
+                                       {"timeextended.wav"},
+                                       {"timesup.wav"},
+                                       {"sorrydidthathurt.wav"},
+                                       {"nicework.wav"},
+                                       {"choctastic.wav"},
+                                       {"raspberryripple.wav"},
+                                       {"youshotyourload.wav"},
+                                       {"oohdidthathurt.wav"},
+                                       {"deathtoicvans.wav"},
+                                       {"crispycritter.wav"},
+                                       {"youretoastbuddy.wav"},
+                                       {"eatleaddeath.wav"},
+                                       {"thatsgottahurt.wav"},
+                                       {"sorryaboutthat.wav"},
+                                       {"xinloimyman.wav"},
+                                       {"damnsundaydrivers.wav"},
+                                       {"suckitandsee.wav"},
+                                       {"tastemywrath.wav"},
+                                       {"hallelujah.wav"},
+                                       {"damnation.wav"},
+                                       {"laugh1.wav"},
+                                       {"laugh2.wav"},
+                                       {"laugh3.wav"},
+                                       {"laugh4.wav"},
+                                       {"laugh5.wav"},
+                                       {"laugh6.wav"},
+                                       {"laugh7.wav"},
+                                       {"laugh8.wav"},
+                                       {"laugh9.wav"},
+                                       {"laugha.wav"},
+                                       {"laughb.wav"},
+                                       {"laughc.wav"},
+                                       {"laughd.wav"}};
 
 STUB_FUNC(0x58D400)
 cSampleManager::cSampleManager()
@@ -119,7 +115,7 @@ cSampleManager::cSampleManager()
     field_1EAC_pAudioBuffer2 = 0;
 
     memset(field_58_hSamples, 0, sizeof(field_58_hSamples));
- 
+
     field_9C_hStreams[0] = 0;
     field_9C_hStreams[1] = 0;
 
@@ -135,7 +131,6 @@ cSampleManager::cSampleManager()
         field_A8_sdt_entries[i].field_C = 0;
         field_A8_sdt_entries[i].field_10 = 0;
         field_A8_sdt_entries[i].field_14 = -1;
-
     }
 
     field_0_hDriver = 0;
@@ -151,7 +146,7 @@ cSampleManager::cSampleManager()
     field_26BC_k17 = 0;
     field_2710_3d_provider_count = 0;
     field_2714_bUnknown = 0;
-    
+
     sub_58D620();
 
     field_4_gtaAudioDriveLetter = 0;
@@ -181,7 +176,6 @@ cSampleManager::cSampleManager()
         }
         driveLetter++;
     }
-
 }
 
 STUB_FUNC(0x58D620)
@@ -212,7 +206,7 @@ char_type cSampleManager::sub_58D620()
 }
 
 MATCH_FUNC(0x58D6C0)
-char_type cSampleManager::SoundInit_58D6C0(s32 *a2)
+char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
 
@@ -223,7 +217,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32 *a2)
     }
 
     Enum3DProviders_58E1F0();
-    
+
     field_1EB0_count_samples = 16;
     AllocSamples_58D9F0(1);
 
@@ -262,8 +256,8 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
     // todo: not sure how/why this is here ??
     l.t = (unsigned __int8)(8 * field_1EB1_unknown);
 
-    AIL_set_preference(1, 37);                    // DIG_MIXER_CHANNELS
-    AIL_set_preference(15, 0);                    // DIG_USE_WAVEOUT
+    AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
+    AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
 
     if (a3 != 0)
     {
@@ -274,7 +268,7 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
         AIL_set_preference(33, 0);
     }
 
-    AIL_set_preference(31, 1);                    // DIG_ENABLE_RESAMPLE_FILTER 
+    AIL_set_preference(31, 1); // DIG_ENABLE_RESAMPLE_FILTER
 
     if (AIL_waveOutOpen(&this->field_0_hDriver, 0, -1, &l.waveFormat))
     {
@@ -282,7 +276,7 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
     }
 
     this->field_2714_bUnknown = a3;
-    
+
     AllocSample_58DA80();
 
     this->field_1EA8_pAudioBuffer1 = AIL_mem_alloc_lock(6100000);
@@ -291,7 +285,6 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
         ReleaseSample_58DAC0();
         AIL_waveOutClose(this->field_0_hDriver);
         return 0;
-        
     }
     this->field_1EAC_pAudioBuffer2 = field_1EA8_pAudioBuffer1;
     return 1;
@@ -310,7 +303,7 @@ void cSampleManager::Enum3DProviders_58E1F0()
             break;
         }
 
-        field_22B4_str[prov_counter] = (char_type *)operator new(0x50u);
+        field_22B4_str[prov_counter] = (char_type*)operator new(0x50u);
         strcpy(field_22B4_str[prov_counter], pName);
 
         prov_counter++;
@@ -488,16 +481,15 @@ void cSampleManager::sub_58DC90(s32 channel, s32 a3)
     {
         if (field_A4_bLoaded)
         {
-            AIL_set_sample_address(
-                field_58_hSamples[channel],
-                (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset,
-                field_A8_sdt_entries[a3].field_4_sample_length);
+            AIL_set_sample_address(field_58_hSamples[channel],
+                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset,
+                                   field_A8_sdt_entries[a3].field_4_sample_length);
         }
     }
 }
 
 MATCH_FUNC(0x58DCE0)
-void cSampleManager::SetChannelVolume_58DCE0(s32 channel , s32 volume)
+void cSampleManager::SetChannelVolume_58DCE0(s32 channel, s32 volume)
 {
     if (field_58_hSamples[channel])
     {
@@ -576,10 +568,9 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
     if (field_26C4_3d_sample[channel] && this->field_A4_bLoaded)
     {
 
-
         AILSOUNDINFO soundInfo; // [esp+0h] [ebp-24h] BYREF
         soundInfo.format = WAVE_FORMAT_PCM;
-        soundInfo.data_ptr = ((BYTE *)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[nSfx].field_0_offset);
+        soundInfo.data_ptr = ((BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[nSfx].field_0_offset);
         soundInfo.channels = 1;
         soundInfo.data_len = this->field_A8_sdt_entries[nSfx].field_4_sample_length;
         soundInfo.rate = rate;
@@ -754,15 +745,11 @@ void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
         {
             BYTE* pBuffer = (BYTE*)field_1EAC_pAudioBuffer2;
             s32 off = field_A8_sdt_entries[idx].field_0_offset;
-            s32 off2= field_A8_sdt_entries[a3].field_0_offset;
+            s32 off2 = field_A8_sdt_entries[a3].field_0_offset;
             BYTE* start = pBuffer + off;
             s32 len = off2 - off;
-            AIL_set_sample_address(
-                field_98_hSample,
-                start,
-                len
-            );
-                
+            AIL_set_sample_address(field_98_hSample, start, len);
+
             AIL_set_sample_playback_rate(field_98_hSample, 18050);
             AIL_set_sample_pan(field_98_hSample, 64);
             AIL_set_sample_loop_count(field_98_hSample, 1);
@@ -783,7 +770,7 @@ void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
     }
 }
 
-const char_type dma_wav_5FF5D8[3][6] = { "d.wav", "m.wav", "a.wav" };
+const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
 MATCH_FUNC(0x58E320)
 void cSampleManager::OpenStream_58E320(u32 a2)
@@ -806,7 +793,6 @@ void cSampleManager::OpenStream_58E320(u32 a2)
                     tmp = AIL_open_stream(this->field_0_hDriver, wavPath, 0);
                     field_9C_hStreams[0] = tmp;
                 }
-
             }
 
             if (tmp)
@@ -814,7 +800,6 @@ void cSampleManager::OpenStream_58E320(u32 a2)
                 AIL_set_stream_loop_count(field_9C_hStreams[0], 0);
                 AIL_start_stream(this->field_9C_hStreams[0]);
             }
-
         }
     }
 }
@@ -890,7 +875,7 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAp
             strcpy(fileName, "data\\audio\\vocals\\");
             strcat(fileName, gVocNames_5FEA5C[voc_idx].field_0_str);
         }
-        
+
         field_9C_hStreams[stream_idx] = AIL_open_stream(field_0_hDriver, fileName, 0);
         if (field_9C_hStreams[stream_idx])
         {
@@ -997,10 +982,9 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
     {
         if (field_A4_bLoaded)
         {
-            AIL_set_sample_address(
-                field_98_hSample,
-                (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset,
-                field_A8_sdt_entries[idx].field_4_sample_length);
+            AIL_set_sample_address(field_98_hSample,
+                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset,
+                                   field_A8_sdt_entries[idx].field_4_sample_length);
             AIL_set_sample_playback_rate(field_98_hSample, GetPlayBackRateIdx_58DBF0(idx));
             AIL_set_sample_pan(field_98_hSample, 64);
             AIL_set_sample_loop_count(field_98_hSample, 1);
@@ -1025,12 +1009,12 @@ void cSampleManager::EndSample_58E960()
 }
 
 MATCH_FUNC(0x58E980)
-char_type cSampleManager::LoadWavSdtData_58E980(const char_type *pRawOrSdtName)
+char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
-    FILE *hRawFile; // eax
-    FILE *hRawFile_; // esi
+    FILE* hRawFile; // eax
+    FILE* hRawFile_; // esi
     u32 rawFileSize; // edi
-    FILE *hSdtFile; // edi
+    FILE* hSdtFile; // edi
     char_type rawName[80]; // [esp+10h] [ebp-A0h] BYREF
     char_type sdtName[80]; // [esp+60h] [ebp-50h] BYREF
 
@@ -1054,7 +1038,6 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type *pRawOrSdtName)
     {
         fclose(hRawFile_);
         return 0;
-       
     }
 
     rewind(hRawFile_);
@@ -1089,7 +1072,7 @@ void cSampleManager::Release_58E290()
 }
 
 MATCH_FUNC(0x58D820)
-char_type cSampleManager::sub_58D820(BYTE *pMaxSamples)
+char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
@@ -1124,7 +1107,7 @@ char_type cSampleManager::sub_58D820(BYTE *pMaxSamples)
         if (field_26C0_3d_provider)
         {
             *pMaxSamples = 0;
-            
+
             field_1EB2_3d_samp_count = 0;
             AIL_3D_provider_attribute(field_26C0_3d_provider, "Maximum supported samples", pMaxSamples);
 

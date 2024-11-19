@@ -3,7 +3,6 @@
 STUB_FUNC(0x4bebc0)
 void Light_1D4CC::dtor_4BEBC0()
 {
-
 }
 
 STUB_FUNC(0x5c2b70)

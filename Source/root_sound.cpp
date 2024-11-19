@@ -1,8 +1,8 @@
-#include "Function.hpp"
 #include "root_sound.hpp"
-#include "sound_obj.hpp"
+#include "Function.hpp"
 #include "cSampleManager.hpp"
 #include "debug.hpp"
+#include "sound_obj.hpp"
 
 root_sound gRoot_sound_66B038;
 
@@ -31,7 +31,7 @@ void root_sound::FreeSoundEntry_40EFD0(s32 a2)
 }
 
 MATCH_FUNC(0x40EFF0)
-char_type root_sound::LoadStyle_40EFF0(const char_type *pStyleName)
+char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
 {
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
@@ -116,7 +116,7 @@ char_type root_sound::GetAudioDriveLetter_40F150()
 }
 
 MATCH_FUNC(0x40EF40)
-infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing *pObject, s32 objectType)
+infallible_turing* root_sound::CreateSoundObject_40EF40(infallible_turing* pObject, s32 objectType)
 {
     infallible_turing* pCurrent = field_0;
     field_0 = (infallible_turing*)field_0->field_C_pAny;
@@ -151,7 +151,7 @@ root_sound::root_sound()
     infallible_turing* pIter = field_4;
     for (s32 i = 0; i < 999; i++)
     {
-        pIter->field_C_pAny = pIter+1;
+        pIter->field_C_pAny = pIter + 1;
         pIter++;
     }
 

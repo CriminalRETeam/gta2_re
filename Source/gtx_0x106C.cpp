@@ -1,14 +1,14 @@
-#include "Function.hpp"
 #include "gtx_0x106C.hpp"
+#include "Function.hpp"
+#include "chunk.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "chunk.hpp"
 #include "memory.hpp"
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include <windows.h>
 
-gtx_0x106C *gGtx_0x106C_703DD4;
+gtx_0x106C* gGtx_0x106C_703DD4;
 
 struct sty_header
 {
@@ -42,28 +42,28 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 
     switch (type)
     {
-    case 2:
-        result = sprite_pal + this->field_14_sprite_base2->field_0_car;
-        break;
-    case 3:
-        result = sprite_pal + this->field_14_sprite_base2->field_2_ped;
-        break;
-    case 4:
-    case 8:
-        result = sprite_pal + this->field_14_sprite_base2->field_4_code_obj;
-        break;
-    case 5:
-        result = sprite_pal + this->field_14_sprite_base2->field_6_map_obj;
-        break;
-    case 6:
-        result = sprite_pal + this->field_14_sprite_base2->field_8_user;
-        break;
-    case 7:
-        result = sprite_pal + this->field_14_sprite_base2->field_A_font;
-        break;
-    default:
-        result = sprite_pal;
-        break;
+        case 2:
+            result = sprite_pal + this->field_14_sprite_base2->field_0_car;
+            break;
+        case 3:
+            result = sprite_pal + this->field_14_sprite_base2->field_2_ped;
+            break;
+        case 4:
+        case 8:
+            result = sprite_pal + this->field_14_sprite_base2->field_4_code_obj;
+            break;
+        case 5:
+            result = sprite_pal + this->field_14_sprite_base2->field_6_map_obj;
+            break;
+        case 6:
+            result = sprite_pal + this->field_14_sprite_base2->field_8_user;
+            break;
+        case 7:
+            result = sprite_pal + this->field_14_sprite_base2->field_A_font;
+            break;
+        default:
+            result = sprite_pal;
+            break;
     }
     return result;
 }
@@ -75,28 +75,28 @@ s16 gtx_0x106C::sub_5AA4F0(s32 a2)
 
     switch (a2)
     {
-    case 2:
-        result = this->field_18_sprite_base1->field_0_car;
-        break;
-    case 3:
-        result = this->field_18_sprite_base1->field_2_ped;
-        break;
-    case 4:
-    case 8:
-        result = this->field_18_sprite_base1->field_4_code_obj;
-        break;
-    case 5:
-        result = this->field_18_sprite_base1->field_6_map_obj;
-        break;
-    case 6:
-        result = this->field_18_sprite_base1->field_8_user;
-        break;
-    case 7:
-        result = this->field_18_sprite_base1->field_A_font;
-        break;
-    default:
-        result = 0;
-        break;
+        case 2:
+            result = this->field_18_sprite_base1->field_0_car;
+            break;
+        case 3:
+            result = this->field_18_sprite_base1->field_2_ped;
+            break;
+        case 4:
+        case 8:
+            result = this->field_18_sprite_base1->field_4_code_obj;
+            break;
+        case 5:
+            result = this->field_18_sprite_base1->field_6_map_obj;
+            break;
+        case 6:
+            result = this->field_18_sprite_base1->field_8_user;
+            break;
+        case 7:
+            result = this->field_18_sprite_base1->field_A_font;
+            break;
+        default:
+            result = 0;
+            break;
     }
     return result;
 }
@@ -108,33 +108,33 @@ s16 gtx_0x106C::sub_5AA560(s32 a2)
 
     switch (a2)
     {
-    case 1:
-        result = this->field_10_palette_base1->field_0_tile;
-        break;
-    case 2:
-        result = this->field_10_palette_base1->field_2_sprite;
-        break;
-    case 3:
-        result = this->field_10_palette_base1->field_4_car_remap;
-        break;
-    case 4:
-        result = this->field_10_palette_base1->field_6_red_remap;
-        break;
-    case 5:
-        result = this->field_10_palette_base1->field_8_code_obj_remap;
-        break;
-    case 6:
-        result = this->field_10_palette_base1->field_A_map_obj_remap;
-        break;
-    case 7:
-        result = this->field_10_palette_base1->field_C_user_remap;
-        break;
-    case 8:
-        result = this->field_10_palette_base1->field_E_font_remap;
-        break;
-    default:
-        result = 0;
-        break;
+        case 1:
+            result = this->field_10_palette_base1->field_0_tile;
+            break;
+        case 2:
+            result = this->field_10_palette_base1->field_2_sprite;
+            break;
+        case 3:
+            result = this->field_10_palette_base1->field_4_car_remap;
+            break;
+        case 4:
+            result = this->field_10_palette_base1->field_6_red_remap;
+            break;
+        case 5:
+            result = this->field_10_palette_base1->field_8_code_obj_remap;
+            break;
+        case 6:
+            result = this->field_10_palette_base1->field_A_map_obj_remap;
+            break;
+        case 7:
+            result = this->field_10_palette_base1->field_C_user_remap;
+            break;
+        case 8:
+            result = this->field_10_palette_base1->field_E_font_remap;
+            break;
+        default:
+            result = 0;
+            break;
     }
     return result;
 }
@@ -146,33 +146,33 @@ s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
 
     switch (type)
     {
-    case 1:
-        result = pal + this->field_C_palette_base2->field_0_tile;
-        break;
-    case 2:
-        result = pal + this->field_C_palette_base2->field_2_sprite;
-        break;
-    case 3:
-        result = pal + this->field_C_palette_base2->field_4_car_remap;
-        break;
-    case 4:
-        result = pal + this->field_C_palette_base2->field_6_red_remap;
-        break;
-    case 5:
-        result = pal + this->field_C_palette_base2->field_8_code_obj_remap;
-        break;
-    case 6:
-        result = pal + this->field_C_palette_base2->field_A_map_obj_remap;
-        break;
-    case 7:
-        result = pal + this->field_C_palette_base2->field_C_user_remap;
-        break;
-    case 8:
-        result = pal + this->field_C_palette_base2->field_E_font_remap;
-        break;
-    default:
-        result = pal;
-        break;
+        case 1:
+            result = pal + this->field_C_palette_base2->field_0_tile;
+            break;
+        case 2:
+            result = pal + this->field_C_palette_base2->field_2_sprite;
+            break;
+        case 3:
+            result = pal + this->field_C_palette_base2->field_4_car_remap;
+            break;
+        case 4:
+            result = pal + this->field_C_palette_base2->field_6_red_remap;
+            break;
+        case 5:
+            result = pal + this->field_C_palette_base2->field_8_code_obj_remap;
+            break;
+        case 6:
+            result = pal + this->field_C_palette_base2->field_A_map_obj_remap;
+            break;
+        case 7:
+            result = pal + this->field_C_palette_base2->field_C_user_remap;
+            break;
+        case 8:
+            result = pal + this->field_C_palette_base2->field_E_font_remap;
+            break;
+        default:
+            result = pal;
+            break;
     }
     return result;
 }
@@ -214,7 +214,7 @@ u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 }
 
 STUB_FUNC(0x5AA760)
-u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t *a3)
+u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
 {
     u16 v3; // ax
     s32 v4; // eax
@@ -225,12 +225,10 @@ u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t *a3)
         return this->field_20_sprite_index[field_14_sprite_base2->field_A_font + sub_5AA710(v3, *a3 - 33)].field_4_width;
     }
     v4 = -(v3 < 201u);
-   // LOBYTE(v4) = v4 & 0xF0;
+    // LOBYTE(v4) = v4 & 0xF0;
     v4 = v4 & 0xF0;
     return v4 + 32;
 }
-
-
 
 MATCH_FUNC(0x5AA7B0)
 u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
@@ -240,21 +238,16 @@ u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
         return (*a2 < 0xc9) ? 0x10 : 0x20;
     }
 
-    return field_20_sprite_index
-        [
-            field_14_sprite_base2->field_A_font +
-            77 + 
-            field_1C_font_base->field_2_base[*a2]
-        ].field_4_width;
+    return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*a2]].field_4_width;
 }
 
 STUB_FUNC(0x5AA800)
-s16 gtx_0x106C::sub_5AA800(u16 *a2)
+s16 gtx_0x106C::sub_5AA800(u16* a2)
 {
     if (*a2 < 0x65u)
-        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font
-        + 32
-        + (u16)this->field_1C_font_base->field_2_base[(u16)*a2]].field_5_height;
+        return this
+            ->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 + (u16)this->field_1C_font_base->field_2_base[(u16)*a2]]
+            .field_5_height;
     s32 v2 = -(*a2 < 0xC9u);
     v2 = v2 & 0xEF;
     return v2 + 0x22;
@@ -276,7 +269,7 @@ STUB_FUNC(0x5AA890)
 s16 gtx_0x106C::sub_5AA890()
 {
     s16 internal_idx; // ax
-    u16 *i; // ecx
+    u16* i; // ecx
 
     internal_idx = 1023;
     for (i = &this->field_40_tile->field_0[1023]; *i; --i)
@@ -423,10 +416,10 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
     s32 total_len = 0;
     BYTE total_sprite = 0;
     BYTE last_car_sprite = 0;
-    car_info *pCarInfoIter = (car_info *)this->field_58_car_info;
+    car_info* pCarInfoIter = (car_info*)this->field_58_car_info;
 
-    //car_info_container* pInfo = 
-    this->field_5C_cari = new car_info_container();                  // 257 "dynamic" array ??
+    //car_info_container* pInfo =
+    this->field_5C_cari = new car_info_container(); // 257 "dynamic" array ??
     if (!this->field_5C_cari)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
@@ -435,10 +428,9 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
     if (chunk_size) // jbe
     {
 
-
         s32 idx = 0;
         while (total_len < chunk_size)
-            //while (1)
+        //while (1)
         {
             if (idx >= 256)
             {
@@ -469,7 +461,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
             BYTE* pRemaps = (BYTE*)pCarInfoIter;
             pRemaps += 0xE;
             s32 doorCount = *(pRemaps + pCarInfoIter->num_remaps);
-            if (doorCount > 5u)// num_doors
+            if (doorCount > 5u) // num_doors
             {
                 FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
             }
@@ -479,7 +471,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 
             total_len += next_item_len;
 
-            pCarInfoIter = (car_info *)((char_type *)pCarInfoIter + next_item_len);
+            pCarInfoIter = (car_info*)((char_type*)pCarInfoIter + next_item_len);
 
             idx++;
 
@@ -492,14 +484,12 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
             //this_ = this;
         } // loop end
 
-
         this->field_5C_cari->field_400_count = idx; // moved from if/else
         return;
     }
 
     this->field_5C_cari->field_400_count = 0; // moved from if/else
     //return;
-
 }
 
 STUB_FUNC(0x5AAB30)
@@ -527,13 +517,11 @@ STUB_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
     u32 sprite_idx; // eax
-    sprite_index *field_20_sprite_index; // edx
-    BYTE *field_0_pData; // edi
-    sprite_index *pSpriteIdxIter; // edx
+    sprite_index* field_20_sprite_index; // edx
+    BYTE* field_0_pData; // edi
+    sprite_index* pSpriteIdxIter; // edx
 
-    for (sprite_idx = 0;
-        sprite_idx < (u16)this->field_4_sprite_index_count;
-        )
+    for (sprite_idx = 0; sprite_idx < (u16)this->field_4_sprite_index_count;)
     {
         field_20_sprite_index = this->field_20_sprite_index;
         field_0_pData = field_20_sprite_index[sprite_idx].field_0_pData;
@@ -553,11 +541,11 @@ STUB_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
 {
     u32 len = cari_chunk_size;
-    void *v3; // eax
+    void* v3; // eax
 
     v3 = malloc(cari_chunk_size);
     File::Global_Read_4A71C0(v3, &len);
-    
+
     //this->field_58_car_info = v3;
     sub_5AA9A0(cari_chunk_size);
 
@@ -577,7 +565,7 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
 MATCH_FUNC(0x5AADD0)
 void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
 {
-    field_48_delta_store = (delta_store_entry *)Memory::malloc_4FE4D0(dels_chunk_size); // todo: or new?
+    field_48_delta_store = (delta_store_entry*)Memory::malloc_4FE4D0(dels_chunk_size); // todo: or new?
     File::Global_Read_4A71C0(field_48_delta_store, &dels_chunk_size);
 }
 
@@ -643,7 +631,7 @@ void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
 MATCH_FUNC(0x5AAF80)
 void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
 {
-    this->field_20_sprite_index = (sprite_index *)Memory::malloc_4FE4D0(sprx_chunk_size + 8);
+    this->field_20_sprite_index = (sprite_index*)Memory::malloc_4FE4D0(sprx_chunk_size + 8);
     File::Global_Read_4A71C0(field_20_sprite_index, &sprx_chunk_size);
     if ((sprx_chunk_size & ~7u) > 524280)
     {
@@ -667,22 +655,19 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
         FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1268, fonb_chunk_size);
     }
 
-    this->field_1C_font_base = (font_base *)Memory::malloc_4FE4D0(fonb_chunk_size);
+    this->field_1C_font_base = (font_base*)Memory::malloc_4FE4D0(fonb_chunk_size);
     File::Global_Read_4A71C0(field_1C_font_base, &fonb_chunk_size);
-    
+
     u16 fountCount = this->field_1C_font_base->field_0_font_count;
     if (fonb_chunk_size != (fountCount * 2) + 2)
     {
         FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
-    this->field_2_font_base_total = ConvertToVirtualOffsets_5AB1A0(
-        this->field_1C_font_base->field_2_base,
-        this->field_1C_font_base->field_0_font_count);
+    this->field_2_font_base_total =
+        ConvertToVirtualOffsets_5AB1A0(this->field_1C_font_base->field_2_base, this->field_1C_font_base->field_0_font_count);
 
-    ConvertToVirtualOffsets_5AB1C0(
-        this->field_1C_font_base->field_2_base,
-        this->field_1C_font_base->field_0_font_count);
+    ConvertToVirtualOffsets_5AB1C0(this->field_1C_font_base->field_2_base, this->field_1C_font_base->field_0_font_count);
 
     sub_5AAFE0(this->field_1C_font_base->field_0_font_count);
 }
@@ -691,12 +676,12 @@ MATCH_FUNC(0x5AB1A0)
 u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offsetsCount)
 {
     u16 total = 0;
-    while(offsetsCount >0 ) // jbe vs jz due to missing > 0 and signed vs unsigned
+    while (offsetsCount > 0) // jbe vs jz due to missing > 0 and signed vs unsigned
     {
         // note: mov si, [ecx] also did xor esi, esi because
         // total was 32bits not 16bits, then an additional bitmask of 0xFFFF was done
         // because the return value was 32bits rather than 16bits.
-        total += *pOffsets; 
+        total += *pOffsets;
         pOffsets++;
         offsetsCount--;
     }
@@ -704,12 +689,12 @@ u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offs
 }
 
 STUB_FUNC(0x5AB1C0)
-void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16 *pBuffer, u32 len)
+void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
 {
     s32 idx1 = len - 1;
     if (len - 1 > 0)
     {
-        u16 *pIter1 = &pBuffer[idx1];
+        u16* pIter1 = &pBuffer[idx1];
         do
         {
             *pIter1 = *(pIter1 - 1);
@@ -717,7 +702,7 @@ void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16 *pBuffer, u32 len)
             --idx1;
         } while (idx1);
     }
-    
+
     if (len)
     {
         *pBuffer = 0;
@@ -725,7 +710,7 @@ void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16 *pBuffer, u32 len)
 
     if (len > 1)
     {
-        u16 * pIter2 = pBuffer + 1;
+        u16* pIter2 = pBuffer + 1;
         s32 idx2 = len - 1;
         do
         {
@@ -784,7 +769,7 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
     }
 
     File::Global_Read_4A71C0(this->field_10_palette_base1, &palette_base_chunk_len);
-    
+
     *field_C_palette_base2 = *field_10_palette_base1;
 
     field_0_totalPalBase = ConvertToVirtualOffsets_5AB1A0(&field_C_palette_base2->field_0_tile, 8);
@@ -802,7 +787,8 @@ bool gtx_0x106C::sub_5AB380(u8 car_id)
 MATCH_FUNC(0x5AB3C0)
 void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
 {
-    field_64_car_recycling_info = (u8 *)Memory::malloc_4FE4D0(recy_chunk_size);;
+    field_64_car_recycling_info = (u8*)Memory::malloc_4FE4D0(recy_chunk_size);
+    ;
     field_68_recy_chunk_size = recy_chunk_size;
     File::Global_Read_4A71C0(field_64_car_recycling_info, &recy_chunk_size);
 }
@@ -838,16 +824,15 @@ void gtx_0x106C::read_spec_5AB3F0(u32 type)
     {
         return;
     }
-//    if ((WORD)read_value1)
+    //    if ((WORD)read_value1)
     //{
-        do
-        {
-            read_value1_size = 2;
-            File::Global_Read_4A71C0(&read_value1, &read_value1_size);
-            field_6C_spec[read_value1] = type;
-        } while (read_value1);
-   // }
-
+    do
+    {
+        read_value1_size = 2;
+        File::Global_Read_4A71C0(&read_value1, &read_value1_size);
+        field_6C_spec[read_value1] = type;
+    } while (read_value1);
+    // }
 }
 
 MATCH_FUNC(0x5AB450)
@@ -865,7 +850,7 @@ void gtx_0x106C::load_spec_5AB450()
 }
 
 MATCH_FUNC(0x5AB4B0)
-void gtx_0x106C::LoadChunk_5AB4B0(const char_type *Str1, u32 chunk_len)
+void gtx_0x106C::LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len)
 {
     if (!strncmp(Str1, "PALB", 4u))
     {
@@ -913,7 +898,7 @@ void gtx_0x106C::LoadChunk_5AB4B0(const char_type *Str1, u32 chunk_len)
     }
     else if (!strncmp(Str1, "CARI", 4u))
     {
-        load_car_info_5AAD50( chunk_len);
+        load_car_info_5AAD50(chunk_len);
     }
     else if (!strncmp(Str1, "PSXT", 4u))
     {
@@ -952,7 +937,7 @@ void gtx_0x106C::sub_5AB720()
 }
 
 MATCH_FUNC(0x5AB750)
-void gtx_0x106C::LoadSty_5AB750(const char_type *pStyFileName)
+void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
 {
     File::Global_Open_4A7060(pStyFileName);
 
@@ -987,7 +972,7 @@ void gtx_0x106C::LoadSty_5AB750(const char_type *pStyFileName)
 MATCH_FUNC(0x5AB820)
 gtx_0x106C::gtx_0x106C()
 {
-    for (int i=0; i < GTA2_COUNTOF(field_6C_spec); i++)
+    for (int i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
     {
         field_6C_spec[i] = 1;
     }
@@ -1027,24 +1012,24 @@ gtx_0x106C::gtx_0x106C()
 MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
-    sprite_base *field_14_sprite_base2; // eax
-    sprite_base *field_18_sprite_base1; // ecx
-    palette_base *field_C_palette_base2; // edx
-    palette_base *field_10_palette_base1; // eax
-    font_base *field_1C_font_base; // eax
-    sprite_index *field_20_sprite_index; // eax
-    object_info *field_24_map_object_info; // eax
-    palette_index *field_28_palette_index; // ecx
-    void *field_30_physical_palettes_size; // eax
-    void *field_44_aligned_tiles_size; // eax
-    void *v12; // eax
-    delta_store_entry *field_48_delta_store; // eax
-    void *field_50_delta_buffer; // eax
-    void *field_58_car_info; // eax
-    car_info_container*  field_5C_cari; // edx
-    delta_entry *field_4C_delta_index; // eax
-    void *field_54_del; // eax
-    tile_array *field_40_tile; // eax
+    sprite_base* field_14_sprite_base2; // eax
+    sprite_base* field_18_sprite_base1; // ecx
+    palette_base* field_C_palette_base2; // edx
+    palette_base* field_10_palette_base1; // eax
+    font_base* field_1C_font_base; // eax
+    sprite_index* field_20_sprite_index; // eax
+    object_info* field_24_map_object_info; // eax
+    palette_index* field_28_palette_index; // ecx
+    void* field_30_physical_palettes_size; // eax
+    void* field_44_aligned_tiles_size; // eax
+    void* v12; // eax
+    delta_store_entry* field_48_delta_store; // eax
+    void* field_50_delta_buffer; // eax
+    void* field_58_car_info; // eax
+    car_info_container* field_5C_cari; // edx
+    delta_entry* field_4C_delta_index; // eax
+    void* field_54_del; // eax
+    tile_array* field_40_tile; // eax
 
     if (this->field_64_car_recycling_info)
     {
@@ -1086,21 +1071,21 @@ gtx_0x106C::~gtx_0x106C()
     }
     field_28_palette_index = this->field_28_palette_index;
     this->field_24_map_object_info = 0;
-    delete(field_28_palette_index);
-    field_30_physical_palettes_size = (void *)this->field_30_physical_palettes_size;
+    delete (field_28_palette_index);
+    field_30_physical_palettes_size = (void*)this->field_30_physical_palettes_size;
     this->field_28_palette_index = 0;
     if (field_30_physical_palettes_size)
     {
         free(field_30_physical_palettes_size);
     }
-    field_44_aligned_tiles_size = (void *)this->field_44_aligned_tiles_size;
+    field_44_aligned_tiles_size = (void*)this->field_44_aligned_tiles_size;
     this->field_2C_physical_palettes = 0;
     this->field_30_physical_palettes_size = 0;
     if (field_44_aligned_tiles_size)
     {
         free(field_44_aligned_tiles_size);
     }
-    v12 = (void *)this->field_38;
+    v12 = (void*)this->field_38;
     this->field_3C_tiles = 0;
     this->field_44_aligned_tiles_size = 0;
     if (v12)
@@ -1128,14 +1113,14 @@ gtx_0x106C::~gtx_0x106C()
     }
     field_5C_cari = this->field_5C_cari;
     this->field_58_car_info = 0;
-    delete(field_5C_cari);
+    delete (field_5C_cari);
     field_4C_delta_index = this->field_4C_delta_index;
     this->field_5C_cari = 0;
     if (field_4C_delta_index)
     {
         free(field_4C_delta_index);
     }
-    field_54_del = (void *)this->field_54_del;
+    field_54_del = (void*)this->field_54_del;
     this->field_4C_delta_index = 0;
     if (field_54_del)
     {
@@ -1143,6 +1128,6 @@ gtx_0x106C::~gtx_0x106C()
     }
     field_40_tile = this->field_40_tile;
     this->field_54_del = 0;
-    delete(field_40_tile);
+    delete (field_40_tile);
     this->field_40_tile = 0;
 }

@@ -4,7 +4,7 @@
 
 class Collide_C
 {
-public:
+  public:
     EXPORT void sub_478A20();
     EXPORT Collide_C* ctor_478A30();
     EXPORT void dtor_478BF0();

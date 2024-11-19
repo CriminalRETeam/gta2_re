@@ -1,14 +1,14 @@
-#include "Function.hpp"
 #include "magical_germain_0x8EC.hpp"
+#include "Function.hpp"
+#include "chunk.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "chunk.hpp"
 #include "gtx_0x106C.hpp"
 
-magical_germain_0x8EC *gMagical_germain_0x8EC_6F5168;
+magical_germain_0x8EC* gMagical_germain_0x8EC_6F5168;
 
 MATCH_FUNC(0x4D1FC0)
-void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type *pChunkId, u32 chunk_len)
+void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len)
 {
     if (!strncmp(pChunkId, "KIDX", 4u))
     {
@@ -67,7 +67,6 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 STUB_FUNC(0x4D2150)
 void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 a3, u16 a4)
 {
-
 }
 
 STUB_FUNC(0x4D2240)
@@ -85,7 +84,6 @@ u8* magical_germain_0x8EC::sub_4D23B0(char_type* a2)
 STUB_FUNC(0x4D2610)
 void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
 {
-
 }
 
 STUB_FUNC(0x4D2690)
@@ -103,9 +101,7 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
     s32 i = 0;
     while (i < 120)
     {
-        if (field_0[i].field_2_text_char == text_char &&
-            field_0[i].field_0_v1 == field_8E8_v1 &&
-            field_0[i].field_1_v2 == field_8E9_v2)
+        if (field_0[i].field_2_text_char == text_char && field_0[i].field_0_v1 == field_8E8_v1 && field_0[i].field_1_v2 == field_8E9_v2)
         {
             field_0[i].field_C_id = field_8C0_count++;
             return field_0[i].field_4_pTexture;
@@ -133,7 +129,7 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 }
 
 STUB_FUNC(0x4D27D0)
-STexture * magical_germain_0x8EC::sub_4D27D0(u32 *a2)
+STexture* magical_germain_0x8EC::sub_4D27D0(u32* a2)
 {
     return 0;
 }

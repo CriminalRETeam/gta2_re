@@ -6,7 +6,7 @@ class Car_3C;
 
 class Montana_C
 {
-public:
+  public:
     Montana_C* field_0;
     Montana_C* field_4_pNext;
     Montana_C* field_8;
@@ -14,7 +14,7 @@ public:
 
 class Montana_FA4
 {
-public:
+  public:
     Montana_C* field_0;
     s32 field_4;
     s32 field_8;
@@ -1020,7 +1020,7 @@ public:
 
 class Montana_2EE4
 {
-public:
+  public:
     EXPORT Montana_2EE4* ctor_5C5F60();
     EXPORT s32 dtor_5C5F90();
     Montana_C field_0[1000];
@@ -1029,7 +1029,7 @@ public:
 
 class Montana_4
 {
-public:
+  public:
     EXPORT void sub_5C5CF0(s32 a2);
     EXPORT void Draw_5C5DF0();
     EXPORT void Reset_5C5E50();
@@ -1040,7 +1040,7 @@ public:
 
 class Montana
 {
-public:
+  public:
     EXPORT void ResetAll_4954F0();
     EXPORT s32 sub_495510(Car_3C* a2);
     EXPORT void Draw_495560(s32 col_idx);

@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Function.hpp"
-#include <windows.h>
-#include "youthful_einstein.hpp"
 #include "sleepy_stonebraker_0x6C.hpp"
 #include "xenodochial_morse.hpp"
+#include "youthful_einstein.hpp"
+#include <windows.h>
 
 #ifndef DIRECTINPUT_VERSION
-#define DIRECTINPUT_VERSION 0x0500
+    #define DIRECTINPUT_VERSION 0x0500
 #endif
 
 #include <Dinput.h>
@@ -59,7 +59,7 @@ struct admiring_euler_4
 
     EXPORT ~admiring_euler_4();
 
-    EXPORT void LoadPlySlotSvg_4B6480(const char_type *FileName);
+    EXPORT void LoadPlySlotSvg_4B6480(const char_type* FileName);
 };
 
 // todo: move
@@ -83,7 +83,7 @@ struct competent_noyce_0x6E
 #pragma pack(1)
 struct nifty_maxwell_0x82
 {
-public:
+  public:
     EXPORT nifty_maxwell_0x82();
 
     EXPORT ~nifty_maxwell_0x82();
@@ -112,8 +112,7 @@ public:
 // todo: move
 struct kind_beaver_6
 {
-public:
-
+  public:
     EXPORT kind_beaver_6();
 
     EXPORT ~kind_beaver_6();
@@ -2547,7 +2546,7 @@ struct laughing_blackwell_0x1EB54
     s16 field_1EB40;
     char_type field_1EB42[2]; // 2
     s32 field_1EB44; // 4
-    char_type field_1EB48; // 
+    char_type field_1EB48; //
     char_type field_1EB49; // 8
     char_type field_1EB4A;
     char_type field_1EB4B;
@@ -2599,7 +2598,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void sub_4B4230();
 
-    EXPORT void HandleCheatCode_4B3DD0(const wchar_t *String);
+    EXPORT void HandleCheatCode_4B3DD0(const wchar_t* String);
 
     EXPORT void sub_4B4280();
 
@@ -2611,9 +2610,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT char_type sub_4B7FB0();
 
-    EXPORT void sub_4B4D00(
-        u8 mainBlockIdx,
-        u8 bonusBlockIdx);
+    EXPORT void sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
     EXPORT void sub_4ADF50();
 
@@ -2621,7 +2618,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void sub_4B6B00(u8 a1, BYTE *pTgaIdx, BYTE *a3);
+    EXPORT void sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -2649,13 +2646,13 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void Load_tgas_4B66B0();
 
-    EXPORT void GetPlySlotSvgName_4B51D0(u8 idx, char_type *pStr);
+    EXPORT void GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr);
 
     EXPORT char_type PlySlotSvgExists_4B5370(s32 idx);
 
-    EXPORT static void __stdcall sub_5E53C0(BYTE *a1);
+    EXPORT static void __stdcall sub_5E53C0(BYTE* a1);
 
-    EXPORT s32 sub_5D8990(wchar_t *pStr, u16 a2);
+    EXPORT s32 sub_5D8990(wchar_t* pStr, u16 a2);
 
     EXPORT s32 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
 
@@ -2701,7 +2698,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT char_type pre_intro_bik_exists_4B6030();
 
-    EXPORT char_type * pre_intro_bik_4B5F20();
+    EXPORT char_type* pre_intro_bik_4B5F20();
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);

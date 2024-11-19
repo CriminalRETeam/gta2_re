@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "gbh_graphics.hpp"
+#include "Function.hpp"
 #include <stdio.h>
 
 T_gbh_InitDLL gbh_InitDLL;
@@ -47,25 +47,23 @@ FARPROC DrawLine;
 s32 gGBH_GraphicsLoaded_7085E0;
 int* gpGBH_Globals_7085E4;
 
-
-#define load_gbh_func(varName, varType, funcName)\
-    varName = (varType)GetProcAddress(gGbhDllHandle_7085D8, funcName);\
-    if (!varName)\
-    {\
-        sprintf(Text, "Can't Find Function Called %s", funcName);\
-        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);\
-        FreeLibrary(gGbhDllHandle_7085D8);\
-        return -1;\
+#define load_gbh_func(varName, varType, funcName)                      \
+    varName = (varType)GetProcAddress(gGbhDllHandle_7085D8, funcName); \
+    if (!varName)                                                      \
+    {                                                                  \
+        sprintf(Text, "Can't Find Function Called %s", funcName);      \
+        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
+        FreeLibrary(gGbhDllHandle_7085D8);                             \
+        return -1;                                                     \
     }
 
 //MATCH_FUNC(0x5EA4D0) // TODO: Doesn't actually match
 void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
-    MessageBoxA(
-        0,
-        "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
-        "GBH Graphics Error",
-        MB_OK);
+    MessageBoxA(0,
+                "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
+                "GBH Graphics Error",
+                MB_OK);
 }
 
 STUB_FUNC(0x5EA500)
@@ -179,8 +177,10 @@ s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 
 class Bob
 {
-public:
-    Bob() {}
+  public:
+    Bob()
+    {
+    }
     s32 a, b, c, d, e;
 };
 
@@ -196,7 +196,7 @@ s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pV
 
     gbh_InitDLL(pVidSys);
     gpGBH_Globals_7085E4 = gbh_GetGlobals();
-    
+
     gGBH_GraphicsLoaded_7085E0 = 1;
 
     return 0;

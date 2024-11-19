@@ -4,7 +4,6 @@
 // TODO: move
 Frismo_25C* gFrismo_25C_6F8068;
 
-
 MATCH_FUNC(0x503120)
 miss2_8::miss2_8() // 503120
 {

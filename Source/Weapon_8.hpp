@@ -8,7 +8,7 @@ class Car_BC;
 
 class Weapon_8
 {
-public:
+  public:
     EXPORT Weapon_30* sub_5E3C10(s32 a2, cool_nash_0x294* a3, u8 a4);
     EXPORT s32 sub_5E3CB0(s32 a2);
     EXPORT Weapon_30* sub_5E3CE0(s32 a1, Car_BC* a2, u8 a3);

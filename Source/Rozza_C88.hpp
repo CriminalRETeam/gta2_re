@@ -7,7 +7,7 @@ class Car_3C;
 
 class Rozza_C88
 {
-public:
+  public:
     EXPORT void Reset_40BB90();
     EXPORT void sub_40BBA0(Car_3C* a2, s32 a3);
     EXPORT void sub_40BC40(Car_3C* a2);

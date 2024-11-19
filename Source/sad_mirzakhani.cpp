@@ -10,7 +10,7 @@ struct rng
 };
 
 // TODO: Move
-rng *rng_dword_67AB34;
+rng* rng_dword_67AB34;
 
 MATCH_FUNC(0x431D30);
 silly_saha_0x2C::silly_saha_0x2C()
@@ -72,7 +72,7 @@ sad_mirzakhani::~sad_mirzakhani()
 }
 
 MATCH_FUNC(0x431E10);
-void sad_mirzakhani::sub_431E10(eager_benz *a2)
+void sad_mirzakhani::sub_431E10(eager_benz* a2)
 {
     field_1BC = 0;
     field_1B8 = a2;
@@ -83,7 +83,7 @@ void sad_mirzakhani::sub_431E30()
 {
     field_1BC = rng_dword_67AB34->field_0_rng;
 
-    silly_saha_0x2C *pIter = &field_0[0];
+    silly_saha_0x2C* pIter = &field_0[0];
     for (s32 i = GTA2_COUNTOF(field_0) - 1; i >= 0; i--)
     {
         if (pIter->field_2A_bUsed)
@@ -116,13 +116,24 @@ u16 sad_mirzakhani::next_free_idx_431E90()
 }
 
 STUB_FUNC(0x431EC0);
-u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
+u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     return 0;
 }
 
 STUB_FUNC(0x431FE0);
-u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, s32 f_1c, s8 f_24, s8 f_25, u16 f_28, gmp_map_zone *pZone)
+u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
+                                      s32 f_8,
+                                      s32 f_c,
+                                      s16 f_10,
+                                      s16 f_12,
+                                      s32 f_14,
+                                      s32 f_18,
+                                      s32 f_1c,
+                                      s8 f_24,
+                                      s8 f_25,
+                                      u16 f_28,
+                                      gmp_map_zone* pZone)
 {
     const s16 idx = next_free_idx_431E90();
     if (idx == 10)
@@ -130,7 +141,7 @@ u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f
         return idx;
     }
 
-    silly_saha_0x2C *pFree = &field_0[idx];
+    silly_saha_0x2C* pFree = &field_0[idx];
     pFree->field_4 = f_4;
     pFree->field_8 = f_8;
     pFree->field_C = f_c;
@@ -154,7 +165,7 @@ u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f
 MATCH_FUNC(0x432080);
 s16 sad_mirzakhani::sub_432080(u16 idx)
 {
-    silly_saha_0x2C *pItem = &field_0[idx];
+    silly_saha_0x2C* pItem = &field_0[idx];
     if (!pItem->field_2A_bUsed)
     {
         return -1;
@@ -178,27 +189,18 @@ s16 sad_mirzakhani::sub_432080(u16 idx)
 }
 
 STUB_FUNC(0x4320D0);
-void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone *pZone)
+void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     u16 found_idx = 0;
     for (s16 i = 0; i < 10u; i = found_idx + 1)
     {
-        found_idx = find_431EC0(
-            i,
-            f_4,
-            f_8,
-            f_c,
-            f_10,
-            f_12,
-            f_14,
-            f_18,
-            pZone);
-       // _found_idx = found_idx;
+        found_idx = find_431EC0(i, f_4, f_8, f_c, f_10, f_12, f_14, f_18, pZone);
+        // _found_idx = found_idx;
         if (found_idx >= 10u)
         {
             break;
         }
-        silly_saha_0x2C *pFound = &field_0[found_idx];
+        silly_saha_0x2C* pFound = &field_0[found_idx];
         pFound->field_26++;
         if (pFound->field_26 == pFound->field_25)
         {

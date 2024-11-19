@@ -6,7 +6,7 @@
 #pragma pack(1)
 class Marz_3
 {
-public:
+  public:
     // ctor 463F90
     // dtor 463FA0
     EXPORT Marz_3();
@@ -20,7 +20,7 @@ public:
 
 class Marz_96
 {
-public:
+  public:
     EXPORT void dtor_4BDF90();
     EXPORT void sub_543EC0();
     EXPORT Marz_96* ctor_544BF0();
@@ -29,7 +29,7 @@ public:
 
 class Marz_1D7E
 {
-public:
+  public:
     EXPORT void dtor_4BDF70();
     EXPORT Marz_1D7E* ctor_543ED0();
     EXPORT Marz_96* sub_543F10(u8* a2);

@@ -6,13 +6,12 @@ class gmp_map_zone;
 
 class Zone_144
 {
-public:
+  public:
     EXPORT Zone_144(); //  0x4BE4E0
     EXPORT ~Zone_144(); // 0x4BE4F0
 
     // TODO stub funcs
-    EXPORT void set_name_4BF090(const char *pName, u8 nameLen);
-
+    EXPORT void set_name_4BF090(const char* pName, u8 nameLen);
 
     // TODO: other funcs between
     EXPORT void init_4BED70();
@@ -114,19 +113,19 @@ public:
 
 class Zones_CA8
 {
-public:
+  public:
     EXPORT void dtor_4BE500();
     EXPORT Zone_144* sub_4BECA0();
     EXPORT Zone_144* sub_4BECE0();
-    EXPORT Zone_144 *zone_by_name_4BF100(const char *pZoneName);
-    EXPORT Zone_144 *next_free_zone_4BF170();
-    EXPORT Zone_144 *ZoneByIdx_4BF1C0(u8 zone_idx);
-    EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone *pMapZone);
-    EXPORT u8 get_zone_idx_4BF210(const char *zoneName);
-    EXPORT void sub_4BF230(Zone_144 *pZone, u8 zone_idx);
+    EXPORT Zone_144* zone_by_name_4BF100(const char* pZoneName);
+    EXPORT Zone_144* next_free_zone_4BF170();
+    EXPORT Zone_144* ZoneByIdx_4BF1C0(u8 zone_idx);
+    EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone* pMapZone);
+    EXPORT u8 get_zone_idx_4BF210(const char* zoneName);
+    EXPORT void sub_4BF230(Zone_144* pZone, u8 zone_idx);
     EXPORT u8 sub_4BF2F0(int arg0);
 
     Zone_144 field_0[10];
 };
 
-EXPORT_VAR extern Zones_CA8 *gZones_CA8_67E274;
+EXPORT_VAR extern Zones_CA8* gZones_CA8_67E274;

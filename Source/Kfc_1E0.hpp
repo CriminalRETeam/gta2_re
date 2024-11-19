@@ -8,7 +8,7 @@ class Car_BC;
 
 class Kfc_30
 {
-public:
+  public:
     EXPORT void ctor_4BEB00();
     EXPORT void dtor_4BEB10();
     EXPORT s32 sub_5CBC00();
@@ -41,7 +41,7 @@ public:
 
 class Kfc_1E0
 {
-public:
+  public:
     EXPORT void dtor_4BEB20();
     EXPORT void ctor_5CBB70();
     EXPORT Kfc_30* sub_5CBB80();

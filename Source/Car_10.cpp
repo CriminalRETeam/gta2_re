@@ -3,7 +3,7 @@
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
 MATCH_FUNC(0x439CD0)
-void Car_10::sub_439CD0(s32 *pRet)
+void Car_10::sub_439CD0(s32* pRet)
 {
     if (field_0 != 4)
     {
@@ -30,7 +30,7 @@ void Car_10::sub_439CD0(s32 *pRet)
 }
 
 MATCH_FUNC(0x439D40)
-void Car_10::sub_439D40(s32 *a3)
+void Car_10::sub_439D40(s32* a3)
 {
     if (field_0)
     {
@@ -49,7 +49,7 @@ void Car_10::sub_439D40(s32 *a3)
 }
 
 STUB_FUNC(0x439DA0)
-s32 Car_10::sub_439DA0(s32 *a3)
+s32 Car_10::sub_439DA0(s32* a3)
 {
     return 0;
 }
@@ -68,19 +68,19 @@ s32 Car_10::sub_439E60()
     const s32 result = field_4 - 1;
     switch (field_4)
     {
-    case 1:
-    case 2:
-        field_C = 50;
-        break;
-    case 3:
-    case 4:
-    case 5:
-    case 6:
-        field_1 = 4;
-        field_4 = 2;
-        break;
-    default:
-        break;
+        case 1:
+        case 2:
+            field_C = 50;
+            break;
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+            field_1 = 4;
+            field_4 = 2;
+            break;
+        default:
+            break;
     }
     return result;
 }

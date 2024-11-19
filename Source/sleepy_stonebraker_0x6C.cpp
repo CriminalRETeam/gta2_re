@@ -14,5 +14,4 @@ sleepy_stonebraker_0x6C::sleepy_stonebraker_0x6C() // 483E30
 MATCH_FUNC(0x483E60)
 sleepy_stonebraker_0x6C::~sleepy_stonebraker_0x6C() // 483E60
 {
-
 }

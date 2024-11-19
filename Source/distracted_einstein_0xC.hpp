@@ -4,7 +4,7 @@
 
 class distracted_einstein_0xC
 {
-public:
+  public:
     EXPORT void sub_5BEBF0();
 
     EXPORT distracted_einstein_0xC();

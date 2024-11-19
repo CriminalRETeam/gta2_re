@@ -3,13 +3,11 @@
 STUB_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
-
 }
 
 STUB_FUNC(0x5293a0)
 void Object_5C::sub_5293A0()
 {
-
 }
 
 STUB_FUNC(0x529430)
@@ -21,13 +19,11 @@ Object_5C* Object_5C::ctor_529430()
 STUB_FUNC(0x529750)
 void Object_5C::dtor_529750()
 {
-
 }
 
 STUB_FUNC(0x5297f0)
 void Object_5C::sub_5297F0(s32 a1, Object_5C* a2)
 {
-
 }
 
 STUB_FUNC(0x5298e0)
@@ -67,7 +63,15 @@ Object_2C* Object_5C::sub_529AB0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7,
 }
 
 STUB_FUNC(0x529b20)
-Object_2C* Object_5C::sub_529B20(s32 obj_type, s32 a3, s32 a4, s32 argb, s32 a6, u8 intensity, char_type on_time, char_type off_time, char_type shape)
+Object_2C* Object_5C::sub_529B20(s32 obj_type,
+                                 s32 a3,
+                                 s32 a4,
+                                 s32 argb,
+                                 s32 a6,
+                                 u8 intensity,
+                                 char_type on_time,
+                                 char_type off_time,
+                                 char_type shape)
 {
     return 0;
 }

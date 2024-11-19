@@ -8,14 +8,14 @@ class Kfc_30;
 
 class jawwie_8
 {
-public:
+  public:
     s32 field_0;
     s32 field_4;
 };
 
 class jawwie_20
 {
-public:
+  public:
     EXPORT void ctor_4BEAB0();
     EXPORT void dtor_4BEAD0();
     EXPORT s32 sub_4FA7D0();
@@ -44,7 +44,7 @@ public:
 
 class jawwie_110
 {
-public:
+  public:
     EXPORT void dtor_4BEAE0();
     EXPORT jawwie_8* ctor_4FA310();
     EXPORT char_type sub_4FA330(cool_nash_0x294* a2);

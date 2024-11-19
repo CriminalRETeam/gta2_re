@@ -15,13 +15,11 @@ s32 TileAnim_2::sub_5BC2C0()
 STUB_FUNC(0x5bc300)
 void TileAnim_2::Empty_5BC300()
 {
-
 }
 
 STUB_FUNC(0x5bc310)
 void TileAnim_2::sub_5BC310()
 {
-
 }
 
 STUB_FUNC(0x5bc3a0)
@@ -33,5 +31,4 @@ TileAnim_2* TileAnim_2::ctor_5BC3A0()
 STUB_FUNC(0x5bc470)
 void TileAnim_2::dtor_5BC470()
 {
-
 }

@@ -1,15 +1,14 @@
 #pragma once
 
-#include <windows.h>
 #include "Function.hpp"
 #include "infallible_turing.hpp"
+#include <windows.h>
 
 class root_sound
 {
-public:
-
-    infallible_turing *field_0;
-    infallible_turing field_4[999+1];
+  public:
+    infallible_turing* field_0;
+    infallible_turing field_4[999 + 1];
     /*
     s32 field_3E74;
     s32 field_3E78;
@@ -18,7 +17,7 @@ public:
     */
     // todo: ordering
 
-    EXPORT infallible_turing* CreateSoundObject_40EF40(infallible_turing *pObject, s32 objectType);
+    EXPORT infallible_turing* CreateSoundObject_40EF40(infallible_turing* pObject, s32 objectType);
 
     EXPORT void sub_40EF80();
 
@@ -28,7 +27,7 @@ public:
 
     EXPORT void FreeSoundEntry_40EFD0(s32 a2);
 
-    EXPORT char_type LoadStyle_40EFF0(const char_type *pStyleName);
+    EXPORT char_type LoadStyle_40EFF0(const char_type* pStyleName);
 
     EXPORT void sub_40F010();
 
@@ -62,6 +61,5 @@ public:
 
     EXPORT ~root_sound();
 };
-
 
 extern root_sound gRoot_sound_66B038;

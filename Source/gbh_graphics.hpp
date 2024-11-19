@@ -1,7 +1,7 @@
 #pragma once
 
-#include <windows.h>
 #include "Function.hpp"
+#include <windows.h>
 
 struct SDisplayMode
 {
@@ -45,45 +45,45 @@ struct Vert;
 struct SLight;
 struct SImage;
 
-typedef int(__stdcall *T_gbh_InitDLL)(SVideo*);
-typedef int(__stdcall *T_gbh_Init)(int);
-typedef int(__stdcall *T_gbh_CloseDLL)();
-typedef f32(__stdcall *T_gbh_SetWindow)(f32 left, f32 top, f32 right, f32 bottom);
-typedef int*(__stdcall *T_gbh_GetGlobals)(void);
-typedef int(__stdcall *T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
-typedef int(__stdcall *T_gbh_DrawTilePart)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
-typedef int(__stdcall *T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s32 baseColour);
-typedef int(__stdcall *T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-typedef int(__stdcall *T_gbh_DrawFlatRect)(s32 a1, s32 a2);
-typedef int(__stdcall *T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, s32 diffuseColour);
-typedef int(__stdcall *T_gbh_PrintBitmap)(s32 a1, s32 a2);
-typedef int(__stdcall *T_gbh_SetColourDepth)(void);
-typedef int(__stdcall *T_gbh_Plot)(s32 a1, s32 a2, s32 a3, s32 a4);
-typedef int(__stdcall *T_gbh_ConvertColour)(u8 a1, u8 a2, u8 a3);
-typedef STexture*(__stdcall *T_gbh_RegisterTexture)(s32 width, s32 height, BYTE* pData, s32 pal_idx, char_type flag);
-typedef int(__stdcall *T_gbh_SetCamera)(f32 a1, f32 a2, f32 a3, f32 a4);
-typedef int(__stdcall *T_gbh_ResetLights)();
-typedef int(__stdcall *T_gbh_AddLight)(SLight* pLight);
-typedef int(__stdcall *T_gbh_SetAmbient)(f32 a1);
-typedef int(__stdcall *T_gbh_GetUsedCache)(s32 a1);
-typedef int(__stdcall *T_gbh_FreeTexture)(STexture* pTexture);
-typedef int(__stdcall *T_gbh_RegisterPalette)(s32 palId, BYTE *pData);
-typedef int(__stdcall *T_gbh_FreePalette)(s32 a1);
-typedef int(__stdcall *T_gbh_AssignPalette)(STexture* pTexture, s32 palId);
-typedef int(__stdcall *T_gbh_LockTexture)(STexture *);
-typedef int(__stdcall *T_gbh_UnlockTexture)(STexture *);
-typedef int(__stdcall *T_gbh_BeginScene)();
-typedef f64(__stdcall *T_gbh_EndScene)();
-typedef int(__stdcall *T_gbh_BeginLevel)();
-typedef int(__stdcall *T_gbh_EndLevel)();
-typedef int(__stdcall *T_MakeScreenTable)(s32 result, s32 a2, u32 a3);
-typedef int(__stdcall *T_ConvertColourBank)(s32 a1);
-typedef int(__stdcall *T_SetShadeTableA)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-typedef int(__stdcall *T_gbh_InitImageTable)(s32 tableSize);
-typedef int(__stdcall *T_gbh_FreeImageTable)();
-typedef int(__stdcall *T_gbh_LoadImage)(SImage* pImage);
-typedef int(__stdcall *T_gbh_BlitImage)(s32 imageIndex, s32 srcLeft, s32 srcTop, s32 srcRight, s32 srcBottom, s32 dstX, s32 dstY);
-typedef int(__stdcall *T_gbh_BlitBuffer)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+typedef int(__stdcall* T_gbh_InitDLL)(SVideo*);
+typedef int(__stdcall* T_gbh_Init)(int);
+typedef int(__stdcall* T_gbh_CloseDLL)();
+typedef f32(__stdcall* T_gbh_SetWindow)(f32 left, f32 top, f32 right, f32 bottom);
+typedef int*(__stdcall* T_gbh_GetGlobals)(void);
+typedef int(__stdcall* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
+typedef int(__stdcall* T_gbh_DrawTilePart)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
+typedef int(__stdcall* T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s32 baseColour);
+typedef int(__stdcall* T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+typedef int(__stdcall* T_gbh_DrawFlatRect)(s32 a1, s32 a2);
+typedef int(__stdcall* T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, s32 diffuseColour);
+typedef int(__stdcall* T_gbh_PrintBitmap)(s32 a1, s32 a2);
+typedef int(__stdcall* T_gbh_SetColourDepth)(void);
+typedef int(__stdcall* T_gbh_Plot)(s32 a1, s32 a2, s32 a3, s32 a4);
+typedef int(__stdcall* T_gbh_ConvertColour)(u8 a1, u8 a2, u8 a3);
+typedef STexture*(__stdcall* T_gbh_RegisterTexture)(s32 width, s32 height, BYTE* pData, s32 pal_idx, char_type flag);
+typedef int(__stdcall* T_gbh_SetCamera)(f32 a1, f32 a2, f32 a3, f32 a4);
+typedef int(__stdcall* T_gbh_ResetLights)();
+typedef int(__stdcall* T_gbh_AddLight)(SLight* pLight);
+typedef int(__stdcall* T_gbh_SetAmbient)(f32 a1);
+typedef int(__stdcall* T_gbh_GetUsedCache)(s32 a1);
+typedef int(__stdcall* T_gbh_FreeTexture)(STexture* pTexture);
+typedef int(__stdcall* T_gbh_RegisterPalette)(s32 palId, BYTE* pData);
+typedef int(__stdcall* T_gbh_FreePalette)(s32 a1);
+typedef int(__stdcall* T_gbh_AssignPalette)(STexture* pTexture, s32 palId);
+typedef int(__stdcall* T_gbh_LockTexture)(STexture*);
+typedef int(__stdcall* T_gbh_UnlockTexture)(STexture*);
+typedef int(__stdcall* T_gbh_BeginScene)();
+typedef f64(__stdcall* T_gbh_EndScene)();
+typedef int(__stdcall* T_gbh_BeginLevel)();
+typedef int(__stdcall* T_gbh_EndLevel)();
+typedef int(__stdcall* T_MakeScreenTable)(s32 result, s32 a2, u32 a3);
+typedef int(__stdcall* T_ConvertColourBank)(s32 a1);
+typedef int(__stdcall* T_SetShadeTableA)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+typedef int(__stdcall* T_gbh_InitImageTable)(s32 tableSize);
+typedef int(__stdcall* T_gbh_FreeImageTable)();
+typedef int(__stdcall* T_gbh_LoadImage)(SImage* pImage);
+typedef int(__stdcall* T_gbh_BlitImage)(s32 imageIndex, s32 srcLeft, s32 srcTop, s32 srcRight, s32 srcBottom, s32 dstX, s32 dstY);
+typedef int(__stdcall* T_gbh_BlitBuffer)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
 
 extern T_gbh_InitDLL gbh_InitDLL;
 extern T_gbh_Init gbh_Init;

@@ -5,7 +5,7 @@
 
 class Mike_78
 {
-public:
+  public:
     s32 field_0;
     s32 field_4;
     s32 field_8;
@@ -40,7 +40,7 @@ public:
 
 class Mike_A80
 {
-public:
+  public:
     EXPORT void sub_4FF1B0();
     EXPORT s32 sDrawFlatRect_4FF1C0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT void DebugDrawProfiling_4FF250();

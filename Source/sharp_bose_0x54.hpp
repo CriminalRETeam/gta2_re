@@ -7,8 +7,7 @@ class Garox_C4;
 
 class sharp_bose_0x54
 {
-public:
-
+  public:
     EXPORT Garox_C4* ShowFps_5BEC30();
     EXPORT sharp_bose_0x54();
     EXPORT ~sharp_bose_0x54();

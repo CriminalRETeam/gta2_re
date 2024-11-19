@@ -3,7 +3,6 @@
 STUB_FUNC(0x4bdf60)
 void Phi_74::dtor_4BDF60()
 {
-
 }
 
 STUB_FUNC(0x533060)
@@ -21,7 +20,6 @@ s32 Phi_74::sub_533090()
 STUB_FUNC(0x533110)
 void Phi_74::sub_533110(s16 a2)
 {
-
 }
 
 STUB_FUNC(0x533150)
@@ -45,14 +43,11 @@ s32 Phi_74::sub_5331A0(Car_3C* a2)
 STUB_FUNC(0x533220)
 void Phi_74::ctor_533220()
 {
-
 }
-
 
 STUB_FUNC(0x4bdf40)
 void Phi_8CA8::dtor_4BDF40()
 {
-
 }
 
 STUB_FUNC(0x5332d0)
@@ -70,7 +65,6 @@ object_info* Phi_8CA8::sub_533300()
 STUB_FUNC(0x533360)
 void Phi_8CA8::sub_533360()
 {
-
 }
 
 STUB_FUNC(0x533420)
@@ -100,7 +94,6 @@ u8 Phi_8CA8::sub_534270()
 STUB_FUNC(0x5342d0)
 void Phi_8CA8::sub_5342D0()
 {
-
 }
 
 STUB_FUNC(0x5342f0)
@@ -112,7 +105,6 @@ u8 Phi_8CA8::sub_5342F0(s32 a2)
 STUB_FUNC(0x534330)
 void Phi_8CA8::sub_534330()
 {
-
 }
 
 STUB_FUNC(0x534360)

@@ -9,7 +9,6 @@ Monster_48* Monster_808::sub_4546B0(u8 a2)
 STUB_FUNC(0x4546d0)
 void Monster_808::sub_4546D0()
 {
-
 }
 
 STUB_FUNC(0x454840)
@@ -27,7 +26,6 @@ s32 Monster_808::sub_454850()
 STUB_FUNC(0x4549c0)
 void Monster_808::sub_4549C0()
 {
-
 }
 
 STUB_FUNC(0x454a00)
@@ -51,7 +49,6 @@ s32 Monster_808::sub_454A80(Monster_808* a1)
 STUB_FUNC(0x454aa0)
 void Monster_808::sub_454AA0()
 {
-
 }
 
 STUB_FUNC(0x454b00)

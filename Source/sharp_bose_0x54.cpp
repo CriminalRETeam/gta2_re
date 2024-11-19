@@ -1,5 +1,5 @@
-#include "Function.hpp"
 #include "sharp_bose_0x54.hpp"
+#include "Function.hpp"
 #include <windows.h>
 
 STUB_FUNC(0x5BEC30)

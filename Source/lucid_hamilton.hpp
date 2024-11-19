@@ -48,13 +48,13 @@ struct lucid_hamilton
 
     EXPORT void sub_4C53D0();
 
-    EXPORT char* SetMapName_4C5870(char_type *Source);
+    EXPORT char* SetMapName_4C5870(char_type* Source);
 
-    EXPORT char* SetStyleName_4C5890(char_type *Source);
+    EXPORT char* SetStyleName_4C5890(char_type* Source);
 
-    EXPORT char* SetScriptName_4C58B0(char_type *Source);
+    EXPORT char* SetScriptName_4C58B0(char_type* Source);
 
-    EXPORT char_type *DebugStr_4C58D0(char_type *Source);
+    EXPORT char_type* DebugStr_4C58D0(char_type* Source);
 
     EXPORT void sub_4C58F0(char_type a2);
 
@@ -66,13 +66,13 @@ struct lucid_hamilton
 
     EXPORT void sub_4C5930(char_type a2);
 
-    EXPORT char_type *GetMapName_4C5940();
+    EXPORT char_type* GetMapName_4C5940();
 
-    EXPORT char_type *GetStyleName_4C5950();
+    EXPORT char_type* GetStyleName_4C5950();
 
-    EXPORT char_type *GetScriptName_4C5960();
+    EXPORT char_type* GetScriptName_4C5960();
 
-    EXPORT char_type *GetDebugStr_4C5970();
+    EXPORT char_type* GetDebugStr_4C5970();
 
     EXPORT char_type sub_4C5980();
 
@@ -88,7 +88,7 @@ struct lucid_hamilton
 
     EXPORT s32 sub_4C59F0(u8 idx);
 
-    EXPORT void sub_4C5A10(angry_lewin_0x85C *a1);
+    EXPORT void sub_4C5A10(angry_lewin_0x85C* a1);
 
     EXPORT void sub_4C5A70(s32 a2);
 
@@ -122,9 +122,9 @@ struct lucid_hamilton
 
     EXPORT char_type sub_4C5C20();
 
-    EXPORT void sub_4C5C30(s32 a2, wchar_t *Source);
+    EXPORT void sub_4C5C30(s32 a2, wchar_t* Source);
 
-    EXPORT blissful_ganguly_0x20 *sub_4C5C60(u16 a2);
+    EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
 
     EXPORT void sub_4C5C80(u8 a2, s32 a3);
 

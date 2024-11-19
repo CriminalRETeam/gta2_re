@@ -27,5 +27,4 @@ Varrok_7F8* Varrok_7F8::ctor_59B0F0()
 STUB_FUNC(0x59b110)
 void Varrok_7F8::dtor_59B110()
 {
-
 }

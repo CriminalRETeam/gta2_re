@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Function.hpp"
 #include "Car_10.hpp"
+#include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
@@ -17,7 +17,7 @@ class car_info;
 
 class Car_18
 {
-public:
+  public:
     s32 field_0;
     s32 field_4;
     char_type field_8;
@@ -33,7 +33,7 @@ public:
 
 class Car_214
 {
-public:
+  public:
     EXPORT s32 sub_5C8680(u8 a2);
     EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT void sub_5C8750();
@@ -44,7 +44,7 @@ public:
 
 class Car_2
 {
-public:
+  public:
     EXPORT Car_2* sub_47BD00();
     EXPORT void sub_47BD90();
     u16 field_0;
@@ -52,7 +52,7 @@ public:
 
 class Car_6C
 {
-public:
+  public:
     EXPORT void sub_444980();
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
@@ -116,24 +116,24 @@ public:
 
 class Car_BC
 {
-public:
+  public:
     EXPORT bool sub_439EC0();
-    EXPORT u32 * sub_439EE0(u32 * a2);
-    EXPORT u32 * sub_439F30(u32 * a2);
-    EXPORT wchar_t * GetCarStr_439F80();
-    EXPORT u32 * sub_439FB0(u32 * a2);
-    EXPORT u32 * sub_43A0E0(u32 * a2);
-    EXPORT u32 * sub_43A120(u32 * a2);
-    EXPORT s32 * sub_43A1D0(s32 * a2);
+    EXPORT u32* sub_439EE0(u32* a2);
+    EXPORT u32* sub_439F30(u32* a2);
+    EXPORT wchar_t* GetCarStr_439F80();
+    EXPORT u32* sub_439FB0(u32* a2);
+    EXPORT u32* sub_43A0E0(u32* a2);
+    EXPORT u32* sub_43A120(u32* a2);
+    EXPORT s32* sub_43A1D0(s32* a2);
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
-    EXPORT s32 * sub_43A240(s32 * a2);
+    EXPORT s32* sub_43A240(s32* a2);
     EXPORT bool sub_43A3C0();
-    EXPORT s16 * sub_43A3E0(s16 * a2);
-    EXPORT u32 * sub_43A450(u32 * a2);
-    EXPORT s32 * sub_43A4C0(s32 * a2);
-    EXPORT u32 * sub_43A590(u32 * a2);
-    EXPORT u32 * sub_43A5B0(u32 * a2);
+    EXPORT s16* sub_43A3E0(s16* a2);
+    EXPORT u32* sub_43A450(u32* a2);
+    EXPORT s32* sub_43A4C0(s32* a2);
+    EXPORT u32* sub_43A590(u32* a2);
+    EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
     EXPORT s32 sub_43A680();
     EXPORT s32 sub_43A6F0(u8 a2);
@@ -141,45 +141,45 @@ public:
     EXPORT void sub_43A780(u8 a2);
     EXPORT void sub_43A7D0();
     EXPORT char_type sub_43A850();
-    EXPORT Car_B0 * sub_43A950();
-    EXPORT Car_B0 * sub_43A970();
-    EXPORT void sub_43A9A0(cool_nash_0x294 * a2);
+    EXPORT Car_B0* sub_43A950();
+    EXPORT Car_B0* sub_43A970();
+    EXPORT void sub_43A9A0(cool_nash_0x294* a2);
     EXPORT void sub_43A9F0();
-    EXPORT Car_BC * sub_43AA60();
+    EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
     EXPORT s32 sub_43ADC0(s32 a2);
     EXPORT bool sub_43AF10();
     EXPORT char_type sub_43AF40();
-    EXPORT Car_78 * sub_43AF60();
+    EXPORT Car_78* sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
-    EXPORT bool sub_43B2B0(cool_nash_0x294 * a2);
-    EXPORT Car_10 * sub_43B340(u8 a2);
+    EXPORT bool sub_43B2B0(cool_nash_0x294* a2);
+    EXPORT Car_10* sub_43B340(u8 a2);
     EXPORT char_type sub_43B360();
     EXPORT void sub_43B380();
     EXPORT char_type sub_43B3D0();
-    EXPORT s32 sub_43B420(s32 a2, u32 * a3, u32 * a4);
-    EXPORT s32 * sub_43B5A0(s32 a2, u32 * a3, s32 * a4);
+    EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
+    EXPORT s32* sub_43B5A0(s32 a2, u32* a3, s32* a4);
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
-    EXPORT Char_8 * sub_43B770();
-    EXPORT char_type sub_43B7B0(Car_BC * a2);
+    EXPORT Char_8* sub_43B770();
+    EXPORT char_type sub_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, s32 a3);
     EXPORT s32 sub_43BB90(char_type a1);
     EXPORT char_type sub_43BBC0();
     EXPORT void sub_43BC30();
     EXPORT void sub_43BCA0();
-    EXPORT Car_B0 * sub_43BD00();
+    EXPORT Car_B0* sub_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT s32 sub_43BF10();
     EXPORT u32 sub_43BF70();
     EXPORT char_type sub_43BFE0();
     EXPORT char_type sub_43C0C0();
     EXPORT u32 sub_43C1C0();
-    EXPORT car_info * sub_43C260();
-    EXPORT car_info * sub_43C310();
-    EXPORT car_info * sub_43C3C0();
+    EXPORT car_info* sub_43C260();
+    EXPORT car_info* sub_43C310();
+    EXPORT car_info* sub_43C3C0();
     EXPORT void sub_43C470();
     EXPORT s32 sub_43C500();
     EXPORT s32 sub_43C650();
@@ -189,36 +189,36 @@ public:
     EXPORT s16 sub_43C9D0();
     EXPORT s16 sub_43CA80();
     EXPORT s32 sub_43CBE0();
-    EXPORT Car_BC * sub_43CDF0(char_type a2);
+    EXPORT Car_BC* sub_43CDF0(char_type a2);
     EXPORT char_type sub_43CF30(s32 a2);
     EXPORT bool sub_43D1C0(s32 a2);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
-    EXPORT s32 * sub_43D690(Car_BC * a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT s32* sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void sub_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, s32 a3);
-    EXPORT Char_8 ** sub_43DB80();
+    EXPORT Char_8** sub_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
     EXPORT bool sub_43DC80(s32 a2, s32 a3);
     EXPORT char_type sub_43DD50();
     EXPORT void sub_43DD60();
     EXPORT char_type sub_43E560();
-    EXPORT Car_BC * sub_43E8D0();
-    EXPORT cool_nash_0x294 * sub_43E990();
+    EXPORT Car_BC* sub_43E8D0();
+    EXPORT cool_nash_0x294* sub_43E990();
     EXPORT char_type sub_43EA60(s32 a2);
     EXPORT char_type sub_43F130(s32 a2);
-    EXPORT u32 * sub_440510(u32 * a2);
+    EXPORT u32* sub_440510(u32* a2);
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void sub_440590();
     EXPORT void sub_4405F0();
     EXPORT void sub_440630(s32 a2);
     EXPORT s32 sub_440660(u8 a2);
-    EXPORT u8 * sub_4406B0(cool_nash_0x294 * a2);
-    EXPORT void sub_4406E0(cool_nash_0x294 * a2);
+    EXPORT u8* sub_4406B0(cool_nash_0x294* a2);
+    EXPORT void sub_4406E0(cool_nash_0x294* a2);
     EXPORT void sub_4407F0();
-    EXPORT Car_3C * sub_440840();
+    EXPORT Car_3C* sub_440840();
     EXPORT s32 sub_440AC0();
     EXPORT s32 sub_440B10();
     EXPORT s32 sub_440B60();
@@ -228,22 +228,23 @@ public:
     EXPORT void sub_440F90(char_type a2);
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
-    EXPORT char_type sub_4410D0(s16 a2, u8 * a3, s32 a4, s32 a5);
+    EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
     EXPORT char_type sub_441360();
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_441520();
     EXPORT void sub_4415C0();
-    EXPORT u32 * sub_441600(u32 * a2);
+    EXPORT u32* sub_441600(u32* a2);
     EXPORT char_type sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
     EXPORT char_type sub_441800(char_type a2);
-    EXPORT Car_A4_10 * sub_4418A0();
-    EXPORT Car_A4_10 * sub_4418B0();
-    EXPORT char_type sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
+    EXPORT Car_A4_10* sub_4418A0();
+    EXPORT Car_A4_10* sub_4418B0();
+    EXPORT char_type
+    sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void sub_4419E0();
-    EXPORT Car_B0 * sub_441A10();
+    EXPORT Car_B0* sub_441A10();
     EXPORT char_type sub_441A40();
     EXPORT char_type sub_441A70();
     EXPORT void sub_441B00();
@@ -258,13 +259,13 @@ public:
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
-    EXPORT s16 * sub_442520(s16 * a2);
+    EXPORT s16* sub_442520(s16* a2);
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
-    EXPORT Car_A4_10 * sub_442760();
-    EXPORT Car_BC * sub_4427A0(Car_BC * a2);
+    EXPORT Car_A4_10* sub_442760();
+    EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
-    EXPORT s32 * sub_442D10();
+    EXPORT s32* sub_442D10();
     EXPORT char_type sub_442D70();
     EXPORT char_type sub_443130();
     EXPORT char_type sub_443170();
@@ -273,34 +274,32 @@ public:
     EXPORT char_type sub_4435A0();
     EXPORT s32 sub_4435B0();
     EXPORT void sub_4435F0();
-    EXPORT Car_6C * sub_443710(s32 a2);
+    EXPORT Car_6C* sub_443710(s32 a2);
     EXPORT void sub_443AE0(s32 a2);
     EXPORT void sub_443BD0(s32 a2);
     EXPORT void sub_443C40(s32 a2);
     EXPORT s32 sub_443D00(s32 xpos, s32 ypos, s32 zpos);
     EXPORT void sub_443D70(s32 a2);
-    EXPORT Car_6C * sub_443DA0(s32 a2);
-    EXPORT Car_6C * sub_443E50();
+    EXPORT Car_6C* sub_443DA0(s32 a2);
+    EXPORT Car_6C* sub_443E50();
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
-    EXPORT Car_6C * sub_443EE0(s32 a2);
+    EXPORT Car_6C* sub_443EE0(s32 a2);
     EXPORT s32 sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT char_type sub_444020();
-    EXPORT u32 sub_444090(Car_BC * a1);
+    EXPORT u32 sub_444090(Car_BC* a1);
     EXPORT void sub_4441B0();
-    EXPORT Car_6C * sub_444490();
+    EXPORT Car_6C* sub_444490();
     EXPORT void sub_4446E0();
     EXPORT s32 sub_4447D0();
-    
+
     Car_BC(); // 0x444860
     ~Car_BC(); // 0x444960
 
-    EXPORT s32 sub_446730(Car_BC * a1);
+    EXPORT s32 sub_446730(Car_BC* a1);
     EXPORT char_type sub_447360();
-    EXPORT Car_3C * sub_52A6D0(Car_3C * a2);
+    EXPORT Car_3C* sub_52A6D0(Car_3C* a2);
     EXPORT bool sub_564300();
-
-
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;

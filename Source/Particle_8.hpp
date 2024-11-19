@@ -6,7 +6,7 @@ class Fix16;
 
 class Particle_8
 {
-public:
+  public:
     EXPORT void sub_53E320();
     EXPORT void sub_53E880(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_53E970(Fix16* a2);

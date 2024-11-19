@@ -7,7 +7,7 @@ class cool_nash_0x294;
 
 class Tango_28
 {
-public:
+  public:
     EXPORT char_type sub_4A7FC0();
     EXPORT void sub_4A81A0();
     EXPORT void sub_4A81F0();
@@ -30,7 +30,7 @@ public:
 
 class Tango_54
 {
-public:
+  public:
     EXPORT void sub_4A85F0();
     EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
     EXPORT Tango_28* sub_4A8800();

@@ -1,9 +1,9 @@
-#include "Function.hpp"
 #include "sharp_pare_0x15D8.hpp"
+#include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 
-sharp_pare_0x15D8 *gSharp_pare_0x15D8_705064;
+sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
 
 u32 dword_704ED0;
 u32 dword_704F28;
@@ -114,34 +114,34 @@ void sharp_pare_0x15D8::sub_5B9350()
 MATCH_FUNC(0x5B94F0)
 STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
 {
-    STexture *result;
+    STexture* result;
 
     switch (kind)
     {
-    case 2:
-        result = field_1548_unk.get_texture_5B90A0(type, pal);
-        break;
-    case 3:
-        result = field_155C_unk.sub_5B90D0(pal, a5);
-        break;
-    case 4:
-        result = field_1570_unk.sub_5B90D0(pal, a5);
-        break;
-    case 5:
-        result = field_1584_unk.sub_5B90D0(pal, a5);
-        break;
-    case 6:
-        result = field_1598_unk.sub_5B90D0(pal, a5);
-        break;
-    case 8:
-        result = field_15AC_unk.sub_5B90D0(pal, a5);
-        break;
-    case 7:
-        result = field_15C0_unk.sub_5B90D0(pal, a5);
-        break;
-    default:
-        result = 0;
-        break;
+        case 2:
+            result = field_1548_unk.get_texture_5B90A0(type, pal);
+            break;
+        case 3:
+            result = field_155C_unk.sub_5B90D0(pal, a5);
+            break;
+        case 4:
+            result = field_1570_unk.sub_5B90D0(pal, a5);
+            break;
+        case 5:
+            result = field_1584_unk.sub_5B90D0(pal, a5);
+            break;
+        case 6:
+            result = field_1598_unk.sub_5B90D0(pal, a5);
+            break;
+        case 8:
+            result = field_15AC_unk.sub_5B90D0(pal, a5);
+            break;
+        case 7:
+            result = field_15C0_unk.sub_5B90D0(pal, a5);
+            break;
+        default:
+            result = 0;
+            break;
     }
     return result;
 }
@@ -204,9 +204,9 @@ void festive_hopper::Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5)
             this->field_8_pal_type = a4;
             this->field_C_pal_type = a5;
             this->field_0_pAlloc = (STexture**)malloc(sizeof(STexture*) * (u16)(a3 * a2));
-            
+
             u32 i = 0;
-            while  (i < this->field_4_item_alloc_count)
+            while (i < this->field_4_item_alloc_count)
             {
                 this->field_0_pAlloc[i++] = 0;
             }
@@ -223,7 +223,7 @@ void festive_hopper::sub_5B8F70()
         for (u32 pal_idx = 0; pal_idx < palTotal; pal_idx++)
         {
             const u16 converted_pal_sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_8_pal_type, pal_idx);
-            sprite_index * pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal_sprite_pal);
+            sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal_sprite_pal);
 
             dword_704ED0++;
 
@@ -231,12 +231,8 @@ void festive_hopper::sub_5B8F70()
             {
                 const s16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
                 const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
-                field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] = gbh_RegisterTexture(
-                    pSpriteIndex->field_4_width,
-                    pSpriteIndex->field_5_height,
-                    pSpriteIndex->field_0_pData,
-                    physPal,
-                    1);
+                field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
+                    gbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
 
                 dword_704F28++;
             }
@@ -250,7 +246,7 @@ void festive_hopper::LoadTextures_5B8F00()
     if (this->field_10_bDoFree)
     {
         u32 i = 0;
-        sprite_index *pSpriteIndex;
+        sprite_index* pSpriteIndex;
         u16 tmp;
         u16 t2;
         while (i < this->field_4_item_alloc_count)
@@ -260,7 +256,8 @@ void festive_hopper::LoadTextures_5B8F00()
             t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
 
             this->field_0_pAlloc[i++] = gbh_RegisterTexture(
-                pSpriteIndex->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
+                pSpriteIndex
+                    ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,
                 pSpriteIndex->field_0_pData,
                 t2, // pal idx

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <windows.h>
 #include "Function.hpp"
+#include <windows.h>
 
 struct naughty_sinoussi_0x800;
 
@@ -127,7 +127,7 @@ struct goofy_thompson
     s32 field_750;
     s32 field_754;
     BYTE field_758[368];
-    naughty_sinoussi_0x800 *field_8C8[6];
+    naughty_sinoussi_0x800* field_8C8[6];
     s32 field_8E0_p0x1800_2;
     s32 field_8E4_p0x1800_1;
     s32 field_8E8;

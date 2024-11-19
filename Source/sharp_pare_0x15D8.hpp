@@ -7,15 +7,15 @@ struct STexture;
 
 struct optimistic_moser
 {
-    BYTE *field_0_pPixelData;
-    STexture *field_4_pTexture;
+    BYTE* field_0_pPixelData;
+    STexture* field_4_pTexture;
     s16 field_8;
     s16 field_A;
 };
 
 struct festive_hopper
 {
-    STexture **field_0_pAlloc;
+    STexture** field_0_pAlloc;
     u16 field_4_item_alloc_count;
     u16 field_6_count;
     s32 field_8_pal_type;
@@ -40,14 +40,14 @@ struct festive_hopper
 
 struct sharp_pare_0x15D8
 {
-    STexture *field_0_textures1[1024];
+    STexture* field_0_textures1[1024];
     char_type field_1000_bFreeTextures2;
     char_type field_1001_bFreeTextures1;
     char_type field_1002;
     char_type field_1003;
-    STexture *field_1004_textures2[48];
+    STexture* field_1004_textures2[48];
     optimistic_moser field_10C4[96];
-    STexture *field_1544_pTexture;
+    STexture* field_1544_pTexture;
     festive_hopper field_1548_unk;
     festive_hopper field_155C_unk;
     festive_hopper field_1570_unk;
@@ -74,4 +74,4 @@ struct sharp_pare_0x15D8
     EXPORT ~sharp_pare_0x15D8();
 };
 
-extern sharp_pare_0x15D8 *gSharp_pare_0x15D8_705064;
+extern sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;

@@ -4,7 +4,7 @@
 
 class Varrok_8
 {
-public:
+  public:
     s32 field_0;
     char_type field_4;
     char_type field_5;
@@ -14,7 +14,7 @@ public:
 
 class Varrok_7F8
 {
-public:
+  public:
     EXPORT u8 sub_59B060(s32 a2);
     EXPORT char_type* sub_59B0B0(u8 a2);
     EXPORT char_type sub_59B0D0(u8 idx);

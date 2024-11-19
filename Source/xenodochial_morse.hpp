@@ -7,8 +7,7 @@
 #pragma pack(1)
 class xenodochial_morse
 {
-public:
-
+  public:
     EXPORT xenodochial_morse(); // 483E70
     EXPORT ~xenodochial_morse(); // 483EA0
 

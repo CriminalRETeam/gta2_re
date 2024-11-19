@@ -6,7 +6,7 @@ class Car_BC;
 
 class Taxi_4
 {
-public:
+  public:
     EXPORT u32* sub_457BA0(Car_BC* a2);
     EXPORT s32 sub_457BC0();
     EXPORT s32 sub_457BF0(s32 a2, s32 a3);

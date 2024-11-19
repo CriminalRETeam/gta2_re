@@ -8,7 +8,7 @@ class Kfc_30;
 
 class Police_38
 {
-public:
+  public:
     EXPORT void ctor_4BEB30();
     EXPORT void dtor_4BEB40();
     EXPORT char_type sub_570790(Police_38* a1, s32 a2);
@@ -68,7 +68,7 @@ public:
 
 class Police_7C
 {
-public:
+  public:
     cool_nash_0x294* field_0;
     s32 field_4;
     s32 field_8;
@@ -115,7 +115,7 @@ public:
 
 class Police_A4
 {
-public:
+  public:
     EXPORT s32 sub_575710();
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
@@ -174,7 +174,7 @@ public:
 
 class Police_7B8
 {
-public:
+  public:
     EXPORT void dtor_4BEB50();
     EXPORT s32 sub_56F400();
     EXPORT char_type sub_56F4D0(cool_nash_0x294* a2);

@@ -10,14 +10,14 @@ class infallible_turing;
 
 class Garox_13C0_sub
 {
-public:
+  public:
     EXPORT void sub_5CFE40();
     s32 field_13C0;
 };
 
 class Garox_1_v2
 {
-public:
+  public:
     EXPORT void sub_5D56B0();
     EXPORT void sub_5D56D0();
     EXPORT void sub_5D5730(const wchar_t* pStr);
@@ -32,7 +32,7 @@ public:
 
 class Garox_2A25_sub
 {
-public:
+  public:
     EXPORT char_type sub_5D15E0(s32 a1, s32 a2);
     EXPORT void sub_5D16B0();
     EXPORT bool sub_5D17D0(s32 a2);
@@ -42,7 +42,7 @@ public:
 
 class Garox_12EC_sub
 {
-public:
+  public:
     EXPORT char_type sub_5D13C0(s32 a2, char_type* a3);
     EXPORT void sub_5D1430();
     EXPORT s32 sub_5D15A0(s32 a1);
@@ -52,7 +52,7 @@ public:
 
 class Garox_4
 {
-public:
+  public:
     EXPORT void sub_5CF620();
     EXPORT void sub_5CF6B0();
     s32 field_0_value;
@@ -60,14 +60,14 @@ public:
 
 class Garox_12E4_sub
 {
-public:
+  public:
     EXPORT void sub_5D63B0(s32 a2);
     char_type field_12E4;
 };
 
 class Garox_1C8
 {
-public:
+  public:
     EXPORT void sub_5D1850();
     EXPORT void sub_5D1860(const wchar_t* a1, Garox_1C8* a2);
     EXPORT void sub_5D1940();
@@ -194,10 +194,9 @@ public:
     s32 field_1C4;
 };
 
-
 class Garox_1118_sub
 {
-public:
+  public:
     EXPORT void sub_5D5C80();
     EXPORT void sub_5D6290();
     s32 field_1118;
@@ -205,7 +204,7 @@ public:
 
 class Garox_110C_sub
 {
-public:
+  public:
     EXPORT void sub_5CF730();
     EXPORT void sub_5CF910();
     s32 field_110C;
@@ -217,14 +216,14 @@ public:
 
 class Garox_1108_sub
 {
-public:
+  public:
     EXPORT void sub_5D0260();
     s32 field_1108;
 };
 
 class Garox_1
 {
-public:
+  public:
     EXPORT void sub_5D53E0();
     EXPORT void sub_5D5420();
     EXPORT void sub_5D5600(u8 a2);
@@ -238,14 +237,14 @@ public:
 
 class Garox_27B5_sub
 {
-public:
+  public:
     EXPORT void sub_5CF970();
     char_type field_27B5_sub;
 };
 
 class Garox_107C_sub
 {
-public:
+  public:
     EXPORT void sub_5CFA70();
     EXPORT void sub_5CFE20();
     EXPORT void Empty_5CFE30();
@@ -254,7 +253,7 @@ public:
 
 class Garox_Sub_C
 {
-public:
+  public:
     EXPORT void sub_5D0050(char_type a2);
     EXPORT Garox_Sub_C* ctor_5D7510();
     char_type field_0;
@@ -267,7 +266,7 @@ public:
 
 class Garox_Sub_C_Array
 {
-public:
+  public:
     EXPORT void sub_5D00B0();
     EXPORT void sub_5D0110();
     EXPORT void sub_5D0210();
@@ -279,7 +278,7 @@ public:
 
 class Garox_C4
 {
-public:
+  public:
     EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 displayTime);
     EXPORT void sub_5D1D00(Garox_C4* a1, s32 a2, s32 a3);
     EXPORT bool sub_5D1DB0();
@@ -303,7 +302,7 @@ public:
 
 class Garox_1700_L
 {
-public:
+  public:
     EXPORT void sub_5D1EB0(Garox_C4* String2);
     EXPORT Garox_C4* sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 a6);
     EXPORT void Service_5D2010();
@@ -365,7 +364,7 @@ public:
 
 class Garox_C
 {
-public:
+  public:
     EXPORT void dtor_4BE650();
     EXPORT s32 sub_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
@@ -387,7 +386,7 @@ public:
 
 class Garox_18
 {
-public:
+  public:
     Garox_18* field_0;
     s32 field_4;
     s32 field_8;
@@ -398,7 +397,7 @@ public:
 
 class Garox_30_Sub
 {
-public:
+  public:
     EXPORT void sub_5D03C0(Zone_144* pZone);
     Zone_144* field_30;
     char_type field_34;
@@ -418,7 +417,7 @@ public:
 
 class Garox_20_Sub
 {
-public:
+  public:
     s32 field_20;
     s16 field_24;
     char_type field_26;
@@ -451,7 +450,7 @@ public:
 
 class Garox_7C
 {
-public:
+  public:
     EXPORT void sub_5D0510(s32 a2);
     EXPORT char_type sub_5D0530();
     EXPORT char_type sub_5D0620();
@@ -476,7 +475,7 @@ public:
 
 class Garox_7C_Array
 {
-public:
+  public:
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
@@ -503,7 +502,7 @@ public:
 
 class Garox_1E34_L
 {
-public:
+  public:
     EXPORT s32 sub_5D3330();
     EXPORT char_type* sub_5D3350();
     EXPORT s32 sub_5D3370();
@@ -862,7 +861,7 @@ public:
 
 class Garox_90_L
 {
-public:
+  public:
     EXPORT void sub_5D5900();
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
@@ -915,7 +914,7 @@ public:
 
 class Garox_4_L
 {
-public:
+  public:
     EXPORT Garox_4_L* ctor_5D53B0();
     char_type field_0;
     char_type field_1;
@@ -925,7 +924,7 @@ public:
 
 class Garox_2B00
 {
-public:
+  public:
     EXPORT void dtor_4BBBB0();
     EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
