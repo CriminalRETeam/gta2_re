@@ -42,7 +42,7 @@ public:
     EXPORT void sub_51BBE0();
     EXPORT void sub_51BBF0();
     EXPORT s32 cb_sub_51BC00(Network_20324* a1);
-    EXPORT s32 sub_51BC70(s32 a2);
+    EXPORT void sub_51BC70(s32 a2);
     EXPORT s32 sub_51BC80();
     EXPORT void sub_51BC90();
     EXPORT void sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);

@@ -214,10 +214,10 @@ s32 Network_20324::cb_sub_51BC00(Network_20324 *a1)
     return 0;
 }
 
-STUB_FUNC(0x51bc70)
-s32 Network_20324::sub_51BC70(s32 a2)
+MATCH_FUNC(0x51bc70)
+void Network_20324::sub_51BC70(s32 a2)
 {
-    return 0;
+    field_1FD68 = a2;
 }
 
 MATCH_FUNC(0x51bc80)
