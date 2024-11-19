@@ -33,7 +33,7 @@ public:
     EXPORT s32 sub_51AFA0();
     EXPORT LRESULT cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 sub_51B4F0(s32 a2, const char_type* a3);
-    EXPORT s32 SetPlayerNameText_51B7C0();
+    EXPORT void SetPlayerNameText_51B7C0();
     EXPORT void cb_sub_51B7E0(s32 a1, const char_type** a2);
     EXPORT void sub_51B810(const char_type* a2);
     EXPORT s32 sub_51B9C0(s32 a2, char_type* Data);

@@ -167,9 +167,12 @@ s32 Network_20324::sub_51B4F0(s32 a2, const char_type *a3)
 }
 
 STUB_FUNC(0x51b7c0)
-s32 Network_20324::SetPlayerNameText_51B7C0()
+void Network_20324::SetPlayerNameText_51B7C0()
 {
-    return 0;
+    SetDlgItemTextA(
+        field_2031C_dlg_hwnd,
+        1004, // TODO: control constant
+        field_1FF80_player_name);
 }
 
 STUB_FUNC(0x51b7e0)
