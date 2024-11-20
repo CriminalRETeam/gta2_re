@@ -8,7 +8,7 @@ class infallible_turing;
 class Snooky_30
 {
   public:
-    EXPORT void ctor_4882D0();
+    EXPORT Snooky_30(); // 4882D0
     EXPORT void dtor_4882E0();
     EXPORT void sub_488310(Car_BC* a2);
     EXPORT void sub_488350();

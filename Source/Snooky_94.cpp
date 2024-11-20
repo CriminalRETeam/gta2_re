@@ -1,8 +1,10 @@
 #include "Snooky_94.hpp"
+#include <stdio.h>
 
-STUB_FUNC(0x4882d0)
-void Snooky_30::ctor_4882D0()
+MATCH_FUNC(0x4882d0)
+Snooky_30::Snooky_30()
 {
+    field_18 = NULL;
 }
 
 STUB_FUNC(0x4882e0)
