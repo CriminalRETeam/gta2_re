@@ -304,7 +304,7 @@ class Garox_1700_L
 {
   public:
     EXPORT void sub_5D1EB0(Garox_C4* String2);
-    EXPORT Garox_C4* sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 a6);
+    EXPORT Garox_C4* sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
     EXPORT void Service_5D2010();
     EXPORT void sub_5D2050();
     EXPORT Garox_1700_L* ctor_5D2280();

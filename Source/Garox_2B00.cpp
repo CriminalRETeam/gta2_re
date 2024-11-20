@@ -285,7 +285,7 @@ void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 }
 
 STUB_FUNC(0x5d1f50)
-Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 a6)
+Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6)
 {
     return 0;
 }

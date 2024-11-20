@@ -29,7 +29,7 @@ class Game_0x40
     void sub_4B8E50();
     void sub_4B8EB0();
     void ShowCounters_4B8FF0();
-    s8 sub_4B9270(u16* a2); // TODO: user call 2nd param
+    void sub_4B9270();
     void Draw_4B92D0();
     void sub_4B9380();
     s32 sub_4B93C0();
