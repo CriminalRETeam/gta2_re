@@ -1,5 +1,8 @@
 #include "Snooky_94.hpp"
 #include "Car_BC.hpp"
+#include "DrawUnk_0xBC.hpp"
+#include "infallible_turing.hpp"
+#include "root_sound.hpp"
 #include <stdio.h>
 
 MATCH_FUNC(0x4882d0)
@@ -8,9 +11,17 @@ Snooky_30::Snooky_30()
     field_18 = NULL;
 }
 
-STUB_FUNC(0x4882e0)
-void Snooky_30::dtor_4882E0()
+MATCH_FUNC(0x4882e0)
+Snooky_30::~Snooky_30()
 {
+    if (field_18)
+    {
+        infallible_turing* pOld = field_18;
+        pOld->release_40EF20();
+        pOld->field_C_pAny = gRoot_sound_66B038.field_0;
+        gRoot_sound_66B038.field_0 = pOld;
+        field_18 = NULL;
+    }
 }
 
 MATCH_FUNC(0x488310)
