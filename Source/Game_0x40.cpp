@@ -1,25 +1,27 @@
 #include "Game_0x40.hpp"
+#include "CokeZero_100.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
 #include "Garox_2B00.hpp"
-#include "angry_lewin_0x85C.hpp"
-#include "debug.hpp"
-#include "lucid_hamilton.hpp"
-#include "root_sound.hpp"
-#include "winmain.hpp"
+#include "Mike_A80.hpp"
+#include "Montana.hpp"
 #include "Nanobotz.hpp"
 #include "PurpleDoom.hpp"
-#include "sprite.hpp"
-#include "Montana.hpp"
-#include "Mike_A80.hpp"
-#include "CokeZero_100.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "debug.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
+#include "lucid_hamilton.hpp"
+#include "root_sound.hpp"
+#include "sprite.hpp"
+#include "winmain.hpp"
 
 DrawUnk_0xBC* gViewCamera_676978;
 
 // TODO: Move to d3ddll.h or something
 int (*pgbh_BeginScene_626CC0)();
 void (*pgbh_EndScene_626CC4)();
+
+short word_706600;
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -130,17 +132,27 @@ void Game_0x40::ShowCounters_4B8FF0()
 {
 }
 
-STUB_FUNC(0x4B9270)
-s8 Game_0x40::sub_4B9270(u16* a2) // TODO: user call 2nd param
+MATCH_FUNC(0x4B9270)
+void Game_0x40::sub_4B9270()
 {
-    return 0;
+    if (gDo_show_counter_67D6E6)
+    {
+        ShowCounters_4B8FF0();
+    }
+
+    if (field_30)
+    {
+        Garox_C4* pC4 = gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
+        pC4->field_B0 = 8;
+        pC4->field_B4 = 6;
+    }
 }
 
 MATCH_FUNC(0x4B92D0)
 void Game_0x40::Draw_4B92D0()
 {
     gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
-    
+
     gpNanobotz_6F66E4->ClearDrawnTileCount_4F6A10();
     gSprite_8_703820->sub_5A5860();
     gMontana_67B580->ResetAll_4954F0();
@@ -152,7 +164,7 @@ void Game_0x40::Draw_4B92D0()
     sub_5D7D30();
 
     pgbh_BeginScene_626CC0();
-    
+
     gpNanobotz_6F66E4->Draw_4F6A20();
 
     if (!bExplodingOff_67D4FB)
@@ -161,7 +173,7 @@ void Game_0x40::Draw_4B92D0()
     }
 
     gGarox_2B00_706620->DrawGui_5D6860(); // user
-    
+
     if (bDo_mike_67D5CC)
     {
         gMike_A80_6F7328->DebugDrawProfiling_4FF250();
