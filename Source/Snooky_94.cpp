@@ -1,4 +1,5 @@
 #include "Snooky_94.hpp"
+#include "Car_BC.hpp"
 #include <stdio.h>
 
 MATCH_FUNC(0x4882d0)
@@ -12,9 +13,15 @@ void Snooky_30::dtor_4882E0()
 {
 }
 
-STUB_FUNC(0x488310)
-void Snooky_30::sub_488310(Car_BC* a2)
+MATCH_FUNC(0x488310)
+void Snooky_30::sub_488310(Car_BC* pCar)
 {
+    if (!field_2C && pCar->field_88 != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
+    {
+        field_14_pObj = pCar;
+        field_2C = 1;
+        pCar->field_78_flags |= 2u;
+    }
 }
 
 STUB_FUNC(0x488350)

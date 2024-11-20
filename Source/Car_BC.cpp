@@ -666,7 +666,7 @@ u32* Car_BC::sub_440510(u32* a2)
 MATCH_FUNC(0x440570)
 char_type Car_BC::GetPassengersCount_440570()
 {
-    if ((field_78 & 4) != 0)
+    if ((field_78_flags & 4) != 0)
     {
         return 0;
     }
@@ -1202,7 +1202,7 @@ Car_BC::Car_BC()
     this->field_88 = 0;
     this->field_6C_maybe_id = 0xFFFF;
     this->field_64 = 0;
-    this->field_78 = 0;
+    this->field_78_flags = 0;
     // TODO
     // Object_3C::sub_5A7010((Object_3C *)this);
     this->field_A7 = 0;
