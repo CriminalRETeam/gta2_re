@@ -29,6 +29,7 @@
 #include "Montana.hpp"
 #include "Nanobotz.hpp"
 #include "Network_20324.hpp"
+#include "Snooky_94.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
 #include "cool_nash_0x294.hpp"
@@ -1170,6 +1171,9 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    Snooky_94 snooky;
+    snooky.sub_4887A0(0);
+
     Network_20324 network;
     network.cb_sub_519D30(0, 0);
 
