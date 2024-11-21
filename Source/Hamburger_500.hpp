@@ -56,7 +56,7 @@ class Hamburger_500
     EXPORT char_type sub_474850(cool_nash_0x294* a1, cool_nash_0x294* a2);
     EXPORT cool_nash_0x294* sub_4748A0(s32 a2, cool_nash_0x294* a3);
     EXPORT char_type sub_474920(s32 a2, cool_nash_0x294* a3);
-    EXPORT char_type sub_474970(s32 a2);
+    EXPORT char_type sub_474970(cool_nash_0x294* a2);
     EXPORT char_type sub_4749B0(cool_nash_0x294* a1);
     EXPORT char_type sub_474A20(cool_nash_0x294* a1);
     EXPORT char_type sub_474A80(cool_nash_0x294* a1);
