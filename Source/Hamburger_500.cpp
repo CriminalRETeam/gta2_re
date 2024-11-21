@@ -55,7 +55,7 @@ Hamburger_40* Hamburger_500::sub_474810()
 }
 
 STUB_FUNC(0x474850)
-char_type Hamburger_500::sub_474850(cool_nash_0x294* a1, s32 a2)
+char_type Hamburger_500::sub_474850(cool_nash_0x294* a1, cool_nash_0x294* a2)
 {
     return 0;
 }
