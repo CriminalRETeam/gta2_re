@@ -1,4 +1,5 @@
 #include "Hamburger_500.hpp"
+#include "cool_nash_0x294.hpp"
 
 s32 dword_678D0C;
 
@@ -54,9 +55,23 @@ Hamburger_40* Hamburger_500::sub_474810()
     return 0;
 }
 
-STUB_FUNC(0x474850)
-char_type Hamburger_500::sub_474850(cool_nash_0x294* a1, cool_nash_0x294* a2)
+MATCH_FUNC(0x474850)
+char_type Hamburger_500::sub_474850(cool_nash_0x294* pPed1, cool_nash_0x294* pPed2)
 {
+    if (pPed1->field_240_occupation < 24 || pPed1->field_240_occupation > 27)
+    {
+        if (pPed2->field_17C_pZone == pPed1->field_17C_pZone)
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        if (pPed2->field_240_occupation >= 24 && pPed2->field_240_occupation <= 27)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
