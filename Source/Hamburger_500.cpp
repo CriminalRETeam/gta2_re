@@ -1,9 +1,32 @@
 #include "Hamburger_500.hpp"
 
-STUB_FUNC(0x4747b0)
-s32 Hamburger_40::sub_4747B0()
+s32 dword_678D0C;
+
+MATCH_FUNC(0x4747b0)
+void Hamburger_40::sub_4747B0()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_10 = 0;
+    this->field_8 = 0;
+    this->field_14 = dword_678D0C;
+    this->field_18 = dword_678D0C;
+    this->field_1C = dword_678D0C;
+    this->field_20 = 0;
+    this->field_21 = 0;
+    this->field_22 = 1;
+    this->field_23 = 1;
+    this->field_24 = 0;
+    this->field_25 = 0;
+    this->field_30 = 0;
+    this->field_26 = 0;
+    this->field_2A = 0;
+    this->field_2C = 0;
+    this->field_2E = 0;
+    this->field_C = 0;
+    this->field_34 = 0;
+    this->field_4 = 0;
+    this->field_38 = 0;
+    this->field_3C = 0;
 }
 
 MATCH_FUNC(0x474ca0)

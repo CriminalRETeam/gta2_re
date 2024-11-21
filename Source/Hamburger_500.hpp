@@ -7,7 +7,7 @@ class cool_nash_0x294;
 class Hamburger_40
 {
   public:
-    EXPORT s32 sub_4747B0();
+    EXPORT void sub_4747B0();
     EXPORT Hamburger_40();
     EXPORT ~Hamburger_40();
 
