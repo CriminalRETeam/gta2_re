@@ -25,8 +25,8 @@ class Shooey_14
 class Shooey_CC
 {
   public:
-    EXPORT Shooey_CC* ctor_484D80();
-    EXPORT void dtor_484DB0();
+    EXPORT Shooey_CC();
+    EXPORT ~Shooey_CC();
     EXPORT void sub_484DD0(s32 a2, s32 a3);
     EXPORT bool sub_484E20(s32* a2, s32* a3, s32* a4, u32* a5);
     EXPORT char_type sub_484E90(s32 a2);

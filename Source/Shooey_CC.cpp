@@ -1,6 +1,6 @@
 #include "Shooey_CC.hpp"
-#include "cool_nash_0x294.hpp"
 #include "char.hpp"
+#include "cool_nash_0x294.hpp"
 
 s32 dword_67A370;
 
@@ -36,7 +36,6 @@ void Shooey_14::sub_484CF0(s32 a2, s32 a3)
         this->field_8 = pPed->field_1AC_cam_x;
         this->field_C = pPed->field_1B0_cam_y; // TODO: Regswap
         this->field_10 = pPed->field_1B4_cam_z;
-        
     }
 }
 
@@ -49,14 +48,15 @@ void Shooey_14::sub_484D50(s32* a2, Fix16* a3, Fix16* a4, Fix16* a5)
     *a5 = field_10;
 }
 
-STUB_FUNC(0x484d80)
-Shooey_CC* Shooey_CC::ctor_484D80()
+MATCH_FUNC(0x484d80)
+Shooey_CC::Shooey_CC()
 {
-    return 0;
+    field_0 = 0;
+    field_2 = 0;
 }
 
-STUB_FUNC(0x484db0)
-void Shooey_CC::dtor_484DB0()
+MATCH_FUNC(0x484db0)
+Shooey_CC::~Shooey_CC()
 {
 }
 
