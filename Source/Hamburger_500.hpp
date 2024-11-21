@@ -8,8 +8,8 @@ class Hamburger_40
 {
   public:
     EXPORT s32 sub_4747B0();
-    EXPORT void ctor_474CA0();
-    EXPORT void dtor_474CB0();
+    EXPORT Hamburger_40();
+    EXPORT ~Hamburger_40();
 
     char_type field_0;
     char_type field_1;
@@ -65,8 +65,8 @@ class Hamburger_500
     EXPORT char_type sub_474BC0(cool_nash_0x294* a1);
     EXPORT char_type sub_474C30(cool_nash_0x294* a1);
     EXPORT void sub_474CC0(Hamburger_40* a2);
-    EXPORT Hamburger_500* ctor_474D10();
-    EXPORT void dtor_474D30();
+    EXPORT Hamburger_500();
+    EXPORT ~Hamburger_500();
 
     Hamburger_40 field_0[20];
 };

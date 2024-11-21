@@ -7,12 +7,12 @@ s32 Hamburger_40::sub_4747B0()
 }
 
 STUB_FUNC(0x474ca0)
-void Hamburger_40::ctor_474CA0()
+Hamburger_40::Hamburger_40()
 {
 }
 
 STUB_FUNC(0x474cb0)
-void Hamburger_40::dtor_474CB0()
+Hamburger_40::~Hamburger_40()
 {
 }
 
@@ -102,13 +102,13 @@ void Hamburger_500::sub_474CC0(Hamburger_40* toFind)
     }
 }
 
-STUB_FUNC(0x474d10)
-Hamburger_500* Hamburger_500::ctor_474D10()
+MATCH_FUNC(0x474d10)
+Hamburger_500::Hamburger_500()
 {
-    return 0;
+
 }
 
-STUB_FUNC(0x474d30)
-void Hamburger_500::dtor_474D30()
+MATCH_FUNC(0x474d30)
+Hamburger_500::~Hamburger_500()
 {
 }
