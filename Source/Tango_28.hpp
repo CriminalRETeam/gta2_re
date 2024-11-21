@@ -35,8 +35,8 @@ class Tango_54
     EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
     EXPORT Tango_28* sub_4A8800();
     EXPORT char_type sub_4A8820(Car_BC* a2);
-    EXPORT void ctor_4A88D0();
+    EXPORT void sub_4A88D0();
     Tango_28 field_0[2];
-    s16 field_50;
+    u16 field_50;
     s16 field_52;
 };

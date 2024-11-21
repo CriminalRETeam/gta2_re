@@ -36,6 +36,8 @@
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "Shooey_CC.hpp"
+#include "Tango_28.hpp"
+#include "Hamburger_500.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1318,8 +1320,14 @@ void force_link()
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
 
-    Shooey_14 shooey14;
-    Shooey_CC shooeyCC;
+    Shooey_14 shooey_14;
+    Shooey_CC shooey_CC;
+
+    Tango_28 tango_28;
+    Tango_54 tango_54;
+
+    Hamburger_500 hamburger_500;
+    hamburger_500.sub_474CC0(0);
 }
 
 STUB_FUNC(0x5E53F0)

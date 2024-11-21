@@ -30,9 +30,14 @@ Car_2* Car_2::sub_47BD00()
     return 0;
 }
 
-STUB_FUNC(0x47bd90)
+MATCH_FUNC(0x47bd90)
 void Car_2::sub_47BD90()
 {
+    field_0++;
+    if (field_0 == 1000)
+    {
+        field_0 = 0;
+    }
 }
 
 STUB_FUNC(0x444980)
