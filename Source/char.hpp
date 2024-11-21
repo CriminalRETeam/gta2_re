@@ -32,3 +32,5 @@ class Char_C
     char_type field_7;
     Car_3C* field_8;
 };
+
+extern Char_C* gChar_C_6787BC;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class cool_nash_0x294;
 class angry_lewin_0x85C;
@@ -11,14 +12,14 @@ class Shooey_14
   public:
     EXPORT Shooey_14();
     EXPORT ~Shooey_14();
-    EXPORT s32 sub_484CF0(s32 a2, s32 a3);
-    EXPORT void sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5);
+    EXPORT void sub_484CF0(s32 a2, s32 a3);
+    EXPORT void sub_484D50(s32* a2, Fix16* a3, Fix16* a4, Fix16* a5);
 
     s32 field_0;
     s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
+    Fix16 field_8;
+    Fix16 field_C;
+    Fix16 field_10;
 };
 
 class Shooey_CC
