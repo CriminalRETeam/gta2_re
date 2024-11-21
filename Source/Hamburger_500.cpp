@@ -75,9 +75,16 @@ char_type Hamburger_500::sub_474850(cool_nash_0x294* pPed1, cool_nash_0x294* pPe
     return 0;
 }
 
-STUB_FUNC(0x4748a0)
-s32 Hamburger_500::sub_4748A0(s32 a2, cool_nash_0x294* a3)
+MATCH_FUNC(0x4748a0)
+cool_nash_0x294* Hamburger_500::sub_4748A0(s32 a2, cool_nash_0x294* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1 && field_0[i].field_30 == pPed && sub_474850(pPed, field_0[i].field_4) && a2 == field_0[i].field_C)
+        {
+            return field_0[i].field_4;
+        }
+    }
     return 0;
 }
 
