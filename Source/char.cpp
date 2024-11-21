@@ -1,5 +1,7 @@
 #include "char.hpp"
 
+Char_C* gChar_C_6787BC;
+
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
 {

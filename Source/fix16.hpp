@@ -4,10 +4,6 @@
 
 struct Fix16
 {
-    Fix16() : mValue(0)
-    {
-    }
-
     Fix16& operator=(s32 value)
     {
         mValue = value;

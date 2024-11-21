@@ -1,35 +1,62 @@
 #include "Shooey_CC.hpp"
+#include "char.hpp"
+#include "cool_nash_0x294.hpp"
 
-STUB_FUNC(0x484cb0)
-void Shooey_14::ctor_484CB0()
+s32 dword_67A370;
+
+MATCH_FUNC(0x484cb0)
+Shooey_14::Shooey_14()
 {
+    field_0 = 0;
+    field_4 = 0;
+    field_8 = dword_67A370;
+    field_C = dword_67A370;
+    field_10 = dword_67A370;
 }
 
-STUB_FUNC(0x484ce0)
-void Shooey_14::dtor_484CE0()
+MATCH_FUNC(0x484ce0)
+Shooey_14::~Shooey_14()
 {
 }
 
 STUB_FUNC(0x484cf0)
-s32 Shooey_14::sub_484CF0(s32 a2, s32 a3)
+void Shooey_14::sub_484CF0(s32 a2, s32 a3)
 {
-    return 0;
+    this->field_0 = a2;
+    this->field_4 = a3;
+    if (!a3)
+    {
+        this->field_8 = dword_67A370;
+        this->field_C = dword_67A370;
+        this->field_10 = dword_67A370;
+    }
+    else
+    {
+        cool_nash_0x294* pPed = gChar_C_6787BC->sub_4710C0(a3);
+        this->field_8 = pPed->field_1AC_cam_x;
+        this->field_C = pPed->field_1B0_cam_y; // TODO: Regswap
+        this->field_10 = pPed->field_1B4_cam_z;
+    }
 }
 
-STUB_FUNC(0x484d50)
-s32 Shooey_14::sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5)
+MATCH_FUNC(0x484d50)
+void Shooey_14::sub_484D50(s32* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
-    return 0;
+    *a2 = field_0;
+    *a3 = field_8;
+    *a4 = field_C;
+    *a5 = field_10;
 }
 
-STUB_FUNC(0x484d80)
-Shooey_CC* Shooey_CC::ctor_484D80()
+MATCH_FUNC(0x484d80)
+Shooey_CC::Shooey_CC()
 {
-    return 0;
+    field_0 = 0;
+    field_2 = 0;
 }
 
-STUB_FUNC(0x484db0)
-void Shooey_CC::dtor_484DB0()
+MATCH_FUNC(0x484db0)
+Shooey_CC::~Shooey_CC()
 {
 }
 

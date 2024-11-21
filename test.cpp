@@ -149,6 +149,8 @@ void test_frosty_pasteur_0xC1EA8()
     t.Load_512330("lol.scr");
 }
 
+void force_link();
+
 s32 APIENTRY WinMain(HINSTANCE hInstance,
                      HINSTANCE hPrevInstance,
                      LPSTR     lpCmdLine,
@@ -168,6 +170,8 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
         test_wizardly_margulis();
         test_Map_0x370();
         test_frosty_pasteur_0xC1EA8();
+
+        force_link();
     }
 
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
