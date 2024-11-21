@@ -35,6 +35,7 @@
 #include "cool_nash_0x294.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "Shooey_CC.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1316,13 +1317,14 @@ void force_link()
 
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
+
+    Shooey_14 shooey14;
+    Shooey_CC shooeyCC;
 }
 
 STUB_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
-    force_link();
-
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
     if (CoInitialize(0) < 0)

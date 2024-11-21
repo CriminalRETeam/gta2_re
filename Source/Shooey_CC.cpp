@@ -1,12 +1,19 @@
 #include "Shooey_CC.hpp"
 
-STUB_FUNC(0x484cb0)
-void Shooey_14::ctor_484CB0()
+s32 dword_67A370;
+
+MATCH_FUNC(0x484cb0)
+Shooey_14::Shooey_14()
 {
+    field_0 = 0;
+    field_4 = 0;
+    field_8 = dword_67A370;
+    field_C = dword_67A370;
+    field_10 = dword_67A370;
 }
 
-STUB_FUNC(0x484ce0)
-void Shooey_14::dtor_484CE0()
+MATCH_FUNC(0x484ce0)
+Shooey_14::~Shooey_14()
 {
 }
 
@@ -16,10 +23,13 @@ s32 Shooey_14::sub_484CF0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x484d50)
-s32 Shooey_14::sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5)
+MATCH_FUNC(0x484d50)
+void Shooey_14::sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5)
 {
-    return 0;
+    *a2 = field_0;
+    *a3 = field_8;
+    *a4 = field_C;
+    *a5 = field_10;
 }
 
 STUB_FUNC(0x484d80)

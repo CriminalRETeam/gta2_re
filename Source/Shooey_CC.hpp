@@ -9,10 +9,10 @@ class Car_BC;
 class Shooey_14
 {
   public:
-    EXPORT void ctor_484CB0();
-    EXPORT void dtor_484CE0();
+    EXPORT Shooey_14();
+    EXPORT ~Shooey_14();
     EXPORT s32 sub_484CF0(s32 a2, s32 a3);
-    EXPORT s32 sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5);
+    EXPORT void sub_484D50(s32* a2, s32* a3, s32* a4, u32* a5);
 
     s32 field_0;
     s32 field_4;
