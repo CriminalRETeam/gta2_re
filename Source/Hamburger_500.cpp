@@ -88,9 +88,18 @@ char_type Hamburger_500::sub_474C30(cool_nash_0x294* a1)
     return 0;
 }
 
-STUB_FUNC(0x474cc0)
-void Hamburger_500::sub_474CC0(Hamburger_40* a2)
+MATCH_FUNC(0x474cc0)
+void Hamburger_500::sub_474CC0(Hamburger_40* toFind)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (&field_0[i] == toFind)
+        {
+            field_0[i].field_0 = 0;
+            field_0[i].sub_4747B0();
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x474d10)
