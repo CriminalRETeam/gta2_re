@@ -40,9 +40,17 @@ Hamburger_40::~Hamburger_40()
 {
 }
 
-STUB_FUNC(0x474810)
+MATCH_FUNC(0x474810)
 Hamburger_40* Hamburger_500::sub_474810()
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (!field_0[i].field_0)
+        {
+            field_0[i].field_0 = 1;
+            return &field_0[i];
+        }
+    }
     return 0;
 }
 
