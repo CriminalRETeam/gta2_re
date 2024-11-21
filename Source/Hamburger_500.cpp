@@ -6,12 +6,13 @@ s32 Hamburger_40::sub_4747B0()
     return 0;
 }
 
-STUB_FUNC(0x474ca0)
+MATCH_FUNC(0x474ca0)
 Hamburger_40::Hamburger_40()
 {
+    sub_4747B0();
 }
 
-STUB_FUNC(0x474cb0)
+MATCH_FUNC(0x474cb0)
 Hamburger_40::~Hamburger_40()
 {
 }
