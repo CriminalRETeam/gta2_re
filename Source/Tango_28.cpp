@@ -23,9 +23,10 @@ char_type Tango_54::sub_4A8820(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x4a88d0)
-void Tango_54::ctor_4A88D0()
+MATCH_FUNC(0x4a88d0)
+void Tango_54::sub_4A88D0()
 {
+    field_50 = 0;
 }
 
 STUB_FUNC(0x4a7fc0)

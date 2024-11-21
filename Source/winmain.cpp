@@ -36,6 +36,7 @@
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "Shooey_CC.hpp"
+#include "Tango_28.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1320,6 +1321,9 @@ void force_link()
 
     Shooey_14 shooey14;
     Shooey_CC shooeyCC;
+
+    Tango_28 tango28;
+    Tango_54 tango_54;
 }
 
 STUB_FUNC(0x5E53F0)
