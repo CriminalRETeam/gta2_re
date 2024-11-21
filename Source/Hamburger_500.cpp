@@ -83,9 +83,27 @@ char_type Hamburger_500::sub_474BC0(cool_nash_0x294* a1)
     return 0;
 }
 
-STUB_FUNC(0x474c30)
-char_type Hamburger_500::sub_474C30(cool_nash_0x294* a1)
+MATCH_FUNC(0x474c30)
+char_type Hamburger_500::sub_474C30(cool_nash_0x294* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4))
+            {
+                if (field_0[i].field_C < 4)
+                {
+                    continue;
+                }
+
+                if (field_0[i].field_C <= 5)
+                {
+                    return 1;
+                }
+            }
+        }
+    }
     return 0;
 }
 
@@ -106,7 +124,6 @@ void Hamburger_500::sub_474CC0(Hamburger_40* toFind)
 MATCH_FUNC(0x474d10)
 Hamburger_500::Hamburger_500()
 {
-
 }
 
 MATCH_FUNC(0x474d30)
