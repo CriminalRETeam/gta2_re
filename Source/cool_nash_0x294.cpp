@@ -3,6 +3,7 @@
 #include "angry_lewin_0x85C.hpp"
 
 // =================
+s8 byte_61A8A3;
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -658,10 +659,16 @@ void cool_nash_0x294::sub_467E20()
 {
 }
 
-STUB_FUNC(0x467fb0)
-char_type cool_nash_0x294::sub_467FB0()
+MATCH_FUNC(0x467fb0)
+void cool_nash_0x294::sub_467FB0()
 {
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (!this->field_218_objective_timer)
+        {
+            this->field_225 = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x467fd0)

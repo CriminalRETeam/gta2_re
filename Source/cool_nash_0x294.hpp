@@ -122,7 +122,7 @@ class cool_nash_0x294
     EXPORT void sub_467BD0();
     EXPORT void sub_467CA0();
     EXPORT void sub_467E20();
-    EXPORT char_type sub_467FB0();
+    EXPORT void sub_467FB0();
     EXPORT char_type sub_467FD0();
     EXPORT s16 sub_468040();
     EXPORT void sub_4682A0();
