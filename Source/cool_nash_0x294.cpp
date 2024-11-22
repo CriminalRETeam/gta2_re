@@ -35,9 +35,23 @@ s32 cool_nash_0x294::sub_45B440()
     return 0;
 }
 
-STUB_FUNC(0x45b4e0)
+MATCH_FUNC(0x45b4e0)
 char_type cool_nash_0x294::sub_45B4E0()
 {
+    switch (this->field_240_occupation)
+    {
+        case 24:
+        case 25:
+        case 26:
+        case 27:
+        case 29:
+        case 30:
+        case 31:
+        case 37:
+            return 1;
+        default:
+            return 0;
+    }
     return 0;
 }
 
@@ -209,9 +223,15 @@ s32 cool_nash_0x294::sub_45C410()
 }
 
 STUB_FUNC(0x45c4b0)
-s32 cool_nash_0x294::sub_45C4B0()
+void cool_nash_0x294::sub_45C4B0()
 {
-    return 0;
+    // TODO: Needs Car_3C stubs
+    /*
+    Car_BC* pBc = this->field_16C_car;
+    this->field_1AC_cam_x = pBc->field_50_car_sprite->field_14_xpos;
+    this->field_1B0_cam_y = pBc->field_50_car_sprite->field_18_ypos;
+    this->field_1B4_cam_z = pBc->field_50_car_sprite->field_1C_zpos;
+    */
 }
 
 STUB_FUNC(0x45c500)
@@ -255,9 +275,15 @@ void cool_nash_0x294::sub_45C7A0(Car_BC* a2)
 }
 
 STUB_FUNC(0x45c7f0)
-Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* a2)
+Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* pCar)
 {
-    return 0;
+    // TODO: ordering
+    this->field_248_enter_car_as_passenger = 1;
+    this->field_24C_target_car_door = 1;
+    this->field_16C_car = pCar;
+    this->field_278 = 10;
+    this->field_27C = 10;
+    return pCar->field_4.sub_471140(this);
 }
 
 STUB_FUNC(0x45c830)

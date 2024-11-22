@@ -47,7 +47,7 @@ class cool_nash_0x294
     EXPORT s32 sub_45C310();
     EXPORT void sub_45C350(gmp_map_zone* a2);
     EXPORT s32 sub_45C410();
-    EXPORT s32 sub_45C4B0();
+    EXPORT void sub_45C4B0();
     EXPORT s32 sub_45C500(s32 a2);
     EXPORT s32 sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
