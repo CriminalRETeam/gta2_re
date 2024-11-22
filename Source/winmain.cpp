@@ -38,6 +38,7 @@
 #include "Shooey_CC.hpp"
 #include "Tango_28.hpp"
 #include "Hamburger_500.hpp"
+#include "collide.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1328,6 +1329,8 @@ void force_link()
 
     Hamburger_500 hamburger_500;
     hamburger_500.sub_474CC0(0);
+
+    Collide_C collide_C;
 }
 
 STUB_FUNC(0x5E53F0)
