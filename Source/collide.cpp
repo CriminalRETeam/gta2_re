@@ -73,6 +73,8 @@ void Collide_C::sub_478A20()
     field_0 = 0;
 }
 
+// https://decomp.me/scratch/ggcim
+// matches on decomp.me but not locally due to missing SEH even with the /GX flag for some reason
 STUB_FUNC(0x478a30)
 Collide_C::Collide_C()
 {
