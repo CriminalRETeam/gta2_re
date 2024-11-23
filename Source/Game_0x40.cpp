@@ -445,9 +445,18 @@ DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
     return NULL;
 }
 
-STUB_FUNC(0x4B9C10)
+MATCH_FUNC(0x4B9C10)
 s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 {
+    angry_lewin_0x85C* pPlayer = sub_4B9CD0();
+    while (pPlayer)
+    {
+        if (pPlayer->sub_564610(a2, 1))
+        {
+            return 1;
+        }
+        pPlayer = IterateNextPlayer_4B9D10();
+    }
     return 0;
 }
 
