@@ -472,9 +472,16 @@ angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
     return 0;
 }
 
-STUB_FUNC(0x4B9D10)
+MATCH_FUNC(0x4B9D10)
 angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
 {
+    while (++field_20_idx < field_23_max_idx)
+    {
+        if (field_4_players[field_20_idx]->field_8E_bInUse)
+        {
+            return field_4_players[field_20_idx];
+        }
+    }
     return 0;
 }
 
