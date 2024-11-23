@@ -23,7 +23,7 @@ class OgFunctionData:
         self.mangled_name = mangled_name
 
     def get_function_bytes(self) -> bytes:
-        with open("bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
+        with open(str(SCRIPTS_DIR) + "/bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
             file.seek(self.offset)
             return file.read(self.size)
 
@@ -31,8 +31,8 @@ class FunctionCollection:
     __functions: set[OgFunctionData] = set()
 
     def __init__(self):
-        og_func_data = self.load_csv_file("bin_comp/og_function_data.csv")
-        new_func_data = self.load_csv_file("bin_comp/new_function_data.csv")
+        og_func_data = self.load_csv_file(str(SCRIPTS_DIR) + "/bin_comp/og_function_data.csv")
+        new_func_data = self.load_csv_file(str(SCRIPTS_DIR) + "/bin_comp/new_function_data.csv")
         for og_func in og_func_data:
             og_name, og_address, og_offset, og_size = og_func
             mangled_name_found = False
@@ -164,7 +164,7 @@ def main():
     args = parser.parse_args()
 
     if not (SCRIPTS_DIR / "bin_comp" / "10.5.exe").exists():
-        print(f"gta2 executable '10.5.exe' not found! Move '10.5.exe' to {str(SCRIPTS_DIR / "bin_comp" / "10.5.exe")} and try again!")
+        print("gta2 executable '10.5.exe' not found! Move '10.5.exe' to " + str(SCRIPTS_DIR + "/bin_comp/10.5.exe") + " and try again!")
         sys.exit(1)
 
     if not (SCRIPTS_DIR / "bin_comp" / "og_function_data.csv").exists():
