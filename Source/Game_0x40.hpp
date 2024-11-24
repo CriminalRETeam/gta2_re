@@ -60,7 +60,7 @@ class Game_0x40
     s32 field_0_game_state;
     angry_lewin_0x85C* field_4_players[6];
     angry_lewin_0x85C* field_1C_unk;
-    u8 field_20;
+    u8 field_20_idx;
     u8 field_21_player_camera_idx;
     char_type field_22;
     u8 field_23_max_idx;
