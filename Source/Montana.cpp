@@ -40,9 +40,13 @@ void Montana_4::dtor_5C5F10()
 {
 }
 
-STUB_FUNC(0x4954f0)
+MATCH_FUNC(0x4954f0)
 void Montana::ResetAll_4954F0()
 {
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
+    {
+        field_0_cols[i]->Reset_5C5E50();
+    }
 }
 
 STUB_FUNC(0x495510)
