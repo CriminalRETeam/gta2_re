@@ -24,6 +24,8 @@ void (*pgbh_EndScene_626CC4)();
 
 s16 word_706600;
 s32 dword_67DFB4; // TODO
+s32 dword_7071A0;
+s32 dword_7071B0;
 
 // TODO
 extern u32 counter_706C4C;
@@ -122,9 +124,25 @@ void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
     gGarox_2B00_706620->sub_5D6AB0();
 }
 
-STUB_FUNC(0x4B8E50)
+MATCH_FUNC(0x4B8E50)
 void Game_0x40::sub_4B8E50()
 {
+    switch (dword_7071A0)
+    {
+        case 0:
+            field_34 = 50;
+            break;
+
+        case 1:
+            field_34 = 40;
+            break;
+
+        case 2:
+            field_34 = 33;
+            break;
+    }
+
+    bSkip_police_67D4F9 = dword_7071B0 == 0;
 }
 
 STUB_FUNC(0x4B8EB0)
