@@ -211,7 +211,7 @@ void Game_0x40::sub_4B9410()
 {
 }
 
-STUB_FUNC(0x4B9640)
+MATCH_FUNC(0x4B9640)
 s8 Game_0x40::sub_4B9640()
 {
     sub_4B9380();
