@@ -11,6 +11,7 @@
 #include "debug.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
+#include "registry.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "winmain.hpp"
@@ -21,7 +22,13 @@ DrawUnk_0xBC* gViewCamera_676978;
 int (*pgbh_BeginScene_626CC0)();
 void (*pgbh_EndScene_626CC4)();
 
-short word_706600;
+s16 word_706600;
+s32 dword_67DFB4; // TODO
+s32 dword_7071A0;
+s32 dword_7071B0;
+
+// TODO
+extern u32 counter_706C4C;
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -117,9 +124,25 @@ void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
     gGarox_2B00_706620->sub_5D6AB0();
 }
 
-STUB_FUNC(0x4B8E50)
+MATCH_FUNC(0x4B8E50)
 void Game_0x40::sub_4B8E50()
 {
+    switch (dword_7071A0)
+    {
+        case 0:
+            field_34 = 50;
+            break;
+
+        case 1:
+            field_34 = 40;
+            break;
+
+        case 2:
+            field_34 = 33;
+            break;
+    }
+
+    bSkip_police_67D4F9 = dword_7071B0 == 0;
 }
 
 STUB_FUNC(0x4B8EB0)
@@ -199,10 +222,44 @@ void Game_0x40::sub_4B9380()
     }
 }
 
-STUB_FUNC(0x4B93C0)
-s32 Game_0x40::sub_4B93C0()
+//MATCH_FUNC(0x5D9970)
+static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0x4B9410 - probably move elsewhere
 {
-    return 0;
+    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10u);
+    if (counter_706C4C)
+    {
+        if (SetGamma_5D9910(gamma))
+        {
+            --counter_706C4C;
+        }
+        else
+        {
+            counter_706C4C = 0;
+        }
+    }
+}
+
+MATCH_FUNC(0x4B93C0)
+void Game_0x40::sub_4B93C0()
+{
+    angry_lewin_0x85C** pIter = field_4_players;
+    u32 i = 0;
+    while (i < field_23_max_idx)
+    {
+        if ((*pIter)->field_8E_bInUse)
+        {
+            (*pIter)->sub_569410();
+        }
+        ++i;
+        ++pIter;
+    }
+
+    gGarox_2B00_706620->sub_5D69C0();
+
+    if (counter_706C4C > 0)
+    {
+        SetGamma_5D9970();
+    }
 }
 
 STUB_FUNC(0x4B9410)
@@ -210,8 +267,8 @@ void Game_0x40::sub_4B9410()
 {
 }
 
-STUB_FUNC(0x4B9640)
-s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
+MATCH_FUNC(0x4B9640)
+s8 Game_0x40::sub_4B9640()
 {
     sub_4B9380();
 
@@ -225,7 +282,7 @@ s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
                 gRoot_sound_66B038.Service_40EFA0();
             }
             field_0_game_state = 2;
-            return sub_4B8C20();
+            break;
 
         case 1:
             sub_4B9410();
@@ -233,7 +290,7 @@ s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
             {
                 gRoot_sound_66B038.Service_40EFA0();
             }
-            return sub_4B8C20();
+            break;
 
         case 2:
             sub_4B93C0();
@@ -241,11 +298,12 @@ s8 Game_0x40::sub_4B9640() // TODO: 1 instruction swapped
             {
                 gRoot_sound_66B038.Service_40EFA0();
             }
-            return sub_4B8C20();
+            break;
 
         default:
-            return sub_4B8C20();
+            break;
     }
+    return sub_4B8C20();
 }
 
 STUB_FUNC(0x4B9700)
@@ -460,15 +518,38 @@ s8 Game_0x40::sub_4B9C10(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x4B9C50)
+MATCH_FUNC(0x4B9C50)
 DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 {
-    return 0;
+    if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
+    {
+        while (++field_21_player_camera_idx < field_23_max_idx)
+        {
+            if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
+            {
+                field_22 = 0;
+                return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
+            }
+        }
+        return 0;
+    }
+    else
+    {
+        field_22 = 1;
+        return &field_4_players[field_21_player_camera_idx]->field_208_aux_game_camera;
+    }
 }
 
-STUB_FUNC(0x4B9CD0)
+MATCH_FUNC(0x4B9CD0)
 angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
 {
+    for (field_20_idx = 0; field_20_idx < field_23_max_idx; field_20_idx++)
+    {
+        if (field_4_players[field_20_idx]->field_8E_bInUse)
+        {
+            return field_4_players[field_20_idx];
+        }
+    }
     return 0;
 }
 
@@ -485,9 +566,27 @@ angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
     return 0;
 }
 
-STUB_FUNC(0x4B9D60)
-void Game_0x40::sub_4B9D60(angry_lewin_0x85C* a2)
+MATCH_FUNC(0x4B9D60)
+void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
 {
+    for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
+    {
+        angry_lewin_0x85C* p = gGame_0x40_67E008->field_4_players[i];
+        if (p && p != pExclude)
+        {
+            if (gGame_0x40_67E008->sub_4B9950(a2, i, dword_67DFB4))
+            {
+                if (p->field_680 > p->field_682)
+                {
+                    p->field_680 -= p->field_682;
+                }
+                else
+                {
+                    p->field_680 = 0;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4B9DE0)
