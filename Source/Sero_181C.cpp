@@ -1,5 +1,7 @@
 #include "Sero_181C.hpp"
 
+Sero_181C* gSero_181C_6FF1D4;
+
 STUB_FUNC(0x578030)
 void Sero_58::sub_578030()
 {

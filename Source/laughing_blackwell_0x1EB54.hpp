@@ -2707,3 +2707,4 @@ extern laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
 
 void __stdcall sub_5D7D30();
 void __cdecl FreeSurface_5D7DC0();
+void __stdcall sub_5D7CB0();

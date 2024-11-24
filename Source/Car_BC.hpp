@@ -42,6 +42,8 @@ class Car_214
     Car_18 field_4[22];
 };
 
+extern Car_214* gCar_214_705F20;
+
 class Car_2
 {
   public:

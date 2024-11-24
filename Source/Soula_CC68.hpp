@@ -90,3 +90,5 @@ class Soula_CC68
     u16 field_CC64;
     u16 field_CC66_545_count;
 };
+
+extern Soula_CC68* gSoula_CC68_6FFDC8;

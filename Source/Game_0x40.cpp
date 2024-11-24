@@ -1,16 +1,26 @@
 #include "Game_0x40.hpp"
+#include "Car_BC.hpp"
 #include "CokeZero_100.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
 #include "Garox_2B00.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
+#include "Mouze_44.hpp"
 #include "Nanobotz.hpp"
+#include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
+#include "Sero_181C.hpp"
+#include "Soula_CC68.hpp"
+#include "TileAnim_2.hpp"
+#include "TrafficLights_194.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "debug.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
+#include "jolly_poitras_0x2BC0.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
+#include "map_0x370.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
@@ -145,9 +155,78 @@ void Game_0x40::sub_4B8E50()
     bSkip_police_67D4F9 = dword_7071B0 == 0;
 }
 
+// TODO: move
+extern s32 bStartNetworkGame_7081F0;
+
+// TODO: move
+s32 IanTest_46E370()
+{
+    return 0;
+}
+
+// TODO: move
+void sub_5D8DF0()
+{
+}
+
+// TODO: move
+void sub_5D8E00()
+{
+}
+
 STUB_FUNC(0x4B8EB0)
 void Game_0x40::sub_4B8EB0()
 {
+    gmp_map_zone* v2; // eax
+
+    gLucid_hamilton_67E8E0.sub_4C5AB0(0);
+    if (bStartNetworkGame_7081F0)
+    {
+        sub_4B8E50();
+    }
+
+    sub_5D8DF0();
+    sub_5D7CB0();
+    sub_5D8E00();
+    gSprite_8_703820->sub_5A5870();
+    gTileAnim_2_7052C4->Empty_5BC300();
+    v2 = gSero_181C_6FF1D4->sub_5794B0();
+    gObject_5C_6F8F84->sub_5297F0((__int32)v2, gObject_5C_6F8F84); // TODO: static func?
+    Mouze_44::sub_4CB080();
+    if (bDo_mike_67D5CC)
+    {
+        gMike_A80_6F7328->sub_4FF1B0();
+    }
+    gCar_214_705F20->sub_5C8750();
+    gMap_0x370_6F6268->alloc_zones_4DFCA0();
+    gGarox_2B00_706620->sub_5D6BE0();
+    gfrosty_pasteur_6F8060->Update_512160(); // script
+    gGame_0x40_67E008->field_38_orf1->sub_56A490();
+    if (bDo_iain_test_67D4E9)
+    {
+        IanTest_46E370();
+    }
+    gSoula_CC68_6FFDC8->Reset_588C60();
+    gGarox_2B00_706620->sub_5D6BE0();
+    gMap_0x370_6F6268->sub_4DFB90(); // map objects
+    gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
+    if (!bSkip_traffic_lights_67D4EC)
+    {
+        gTrafficLights_194_705958->sub_5C2AC0();
+    }
+    gSero_181C_6FF1D4->sub_578860(); // trains?
+    s32 playerIdx = 0;
+    if (field_23_max_idx)
+    {
+        angry_lewin_0x85C** ppPlayersIter = field_4_players;
+        do
+        {
+            (*ppPlayersIter)->sub_569CB0(); // respawn dead players?
+            ++playerIdx;
+            ++ppPlayersIter;
+        } while (playerIdx < field_23_max_idx);
+    }
+    gJolly_poitras_0x2BC0_6FEAC0->sub_56C250();
 }
 
 STUB_FUNC(0x4B8FF0)

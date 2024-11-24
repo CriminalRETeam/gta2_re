@@ -578,3 +578,5 @@ class frosty_pasteur_0xC1EA8
     u16 field_C1E74[25];
     s16 field_C1EA6;
 };
+
+extern frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;

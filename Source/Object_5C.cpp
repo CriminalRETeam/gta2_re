@@ -1,5 +1,7 @@
 #include "Object_5C.hpp"
 
+Object_5C* gObject_5C_6F8F84;
+
 STUB_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
