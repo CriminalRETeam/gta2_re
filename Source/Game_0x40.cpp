@@ -460,10 +460,26 @@ s8 Game_0x40::sub_4B9C10(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x4B9C50)
+MATCH_FUNC(0x4B9C50)
 DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 {
-    return 0;
+    if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
+    {
+        while (++field_21_player_camera_idx < field_23_max_idx)
+        {
+            if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
+            {
+                field_22 = 0;
+                return &field_4_players[field_21_player_camera_idx]->field_90_game_camera;
+            }
+        }
+        return 0;
+    }
+    else
+    {
+        field_22 = 1;
+        return &field_4_players[field_21_player_camera_idx]->field_208_aux_game_camera;
+    }
 }
 
 MATCH_FUNC(0x4B9CD0)
