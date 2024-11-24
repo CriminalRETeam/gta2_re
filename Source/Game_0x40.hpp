@@ -53,7 +53,7 @@ class Game_0x40
     DrawUnk_0xBC* sub_4B9C50();
     angry_lewin_0x85C* sub_4B9CD0();
     angry_lewin_0x85C* IterateNextPlayer_4B9D10();
-    void sub_4B9D60(angry_lewin_0x85C* a2);
+    void sub_4B9D60(Car_3C *a2, angry_lewin_0x85C* pExclude);
     Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     ~Game_0x40(); // 4BAE30
 

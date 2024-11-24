@@ -263,8 +263,8 @@ class angry_lewin_0x85C
     char_type field_642;
     char_type field_643;
     zealous_borg field_644_unk;
-    s16 field_680;
-    s16 field_682;
+    u16 field_680;
+    u16 field_682;
     thirsty_lamarr field_684_unk;
     thirsty_lamarr field_6BC_unk;
     WORD field_6F4[17];

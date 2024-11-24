@@ -21,7 +21,8 @@ DrawUnk_0xBC* gViewCamera_676978;
 int (*pgbh_BeginScene_626CC0)();
 void (*pgbh_EndScene_626CC4)();
 
-short word_706600;
+s16 word_706600;
+s32 dword_67DFB4; // TODO
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -508,9 +509,27 @@ angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
     return 0;
 }
 
-STUB_FUNC(0x4B9D60)
-void Game_0x40::sub_4B9D60(angry_lewin_0x85C* a2)
+MATCH_FUNC(0x4B9D60)
+void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
 {
+    for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
+    {
+        angry_lewin_0x85C* p = gGame_0x40_67E008->field_4_players[i];
+        if (p && p != pExclude)
+        {
+            if (gGame_0x40_67E008->sub_4B9950(a2, i, dword_67DFB4))
+            {
+                if (p->field_680 > p->field_682)
+                {
+                    p->field_680 -= p->field_682;
+                }
+                else
+                {
+                    p->field_680 = 0;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4B9DE0)
