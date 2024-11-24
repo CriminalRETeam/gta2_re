@@ -1606,10 +1606,6 @@ struct jolly_poitras_0x2BC0
     EXPORT jolly_poitras_0x2BC0();
     EXPORT ~jolly_poitras_0x2BC0();
 
-    EXPORT static void create_56C2C0();
-
-    EXPORT static void destroy_56C340();
-
     // todo: ordering
     EXPORT void sub_56BB10(angry_lewin_0x85C* a2);
 
@@ -1636,6 +1632,10 @@ struct jolly_poitras_0x2BC0
     EXPORT void sub_56BD20();
 
     EXPORT void sub_56BBD0(u8 a2, u8 a3);
+
+    EXPORT void sub_56C250();
+    EXPORT static void create_56C2C0();
+    EXPORT static void destroy_56C340();
 };
 
 extern jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;

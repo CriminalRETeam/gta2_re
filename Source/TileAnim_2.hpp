@@ -13,3 +13,5 @@ class TileAnim_2
     EXPORT void dtor_5BC470();
     s16 field_0_count;
 };
+
+extern TileAnim_2* gTileAnim_2_7052C4;

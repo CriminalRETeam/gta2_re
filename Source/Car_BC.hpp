@@ -42,6 +42,8 @@ class Car_214
     Car_18 field_4[22];
 };
 
+extern Car_214* gCar_214_705F20;
+
 class Car_2
 {
   public:
@@ -113,6 +115,8 @@ class Car_6C
     char_type field_6A;
     char_type field_6B;
 };
+
+extern Car_6C* gCar_6C_677930;
 
 class Car_BC
 {
@@ -360,3 +364,14 @@ class Car_BC
     char_type field_BB;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
+
+struct Car_E0C4
+{
+    Car_BC* field_0;
+    Car_BC* field_4_firstCar;
+    Car_BC field_8_cars[306];
+    s16 field_E0C0_cars_count;
+    s16 field_E0C2;
+};
+
+extern Car_E0C4* gCar_E0C4_67792C;

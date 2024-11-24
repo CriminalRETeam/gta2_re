@@ -193,6 +193,8 @@ set(gta2_lib_src
   Source/PurpleDoom.cpp
   Source/Network_20324.hpp
   Source/Network_20324.cpp
+  Source/Mouze_44.hpp
+  Source/Mouze_44.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention

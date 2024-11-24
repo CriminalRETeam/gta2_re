@@ -1,5 +1,7 @@
 #include "Soula_CC68.hpp"
 
+Soula_CC68* gSoula_CC68_6FFDC8;
+
 STUB_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
 {

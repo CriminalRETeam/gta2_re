@@ -18,3 +18,5 @@ class TrafficLights_194
     u8 field_192_phase;
     u8 field_193_timer;
 };
+
+extern TrafficLights_194* gTrafficLights_194_705958;

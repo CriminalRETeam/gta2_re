@@ -16,16 +16,79 @@ Zone_144::~Zone_144()
 {
 }
 
-MATCH_FUNC(0x4BF090);
-void Zone_144::set_name_4BF090(const char* pName, u8 nameLen)
+STUB_FUNC(0x4BED30)
+s16* Zone_144::sub_4BED30()
 {
-    strncpy(this->field_2_name, pName, nameLen);
-    this->field_2_name[nameLen] = 0; // NULL terminate the string
+    return 0;
 }
 
 STUB_FUNC(0x4BED70);
 void Zone_144::init_4BED70()
 {
+}
+
+STUB_FUNC(0x4BEDF0)
+char_type Zone_144::sub_4BEDF0(u8 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4BEE30)
+s32 Zone_144::sub_4BEE30(u8 idx, char_type value)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4BEE50)
+char_type Zone_144::sub_4BEE50(u8 idx, char_type a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4BEEA0)
+void Zone_144::sub_4BEEA0(u8 a2, char_type a3)
+{
+}
+
+STUB_FUNC(0x4BEEF0)
+char_type Zone_144::sub_4BEEF0(u8 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4BEF10)
+bool Zone_144::sub_4BEF10(u8 a2)
+{
+    return false;
+}
+
+STUB_FUNC(0x4BEF50)
+void Zone_144::sub_4BEF50(u8 zone_idx, char_type a3)
+{
+}
+
+STUB_FUNC(0x4BEF70)
+char_type Zone_144::sub_4BEF70(u8 a2, u8 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4BF000)
+void Zone_144::sub_4BF000(u8 a2, char_type a3)
+{
+}
+
+MATCH_FUNC(0x4BF090);
+void Zone_144::set_name_4BF090(const char_type* pName, u8 nameLen)
+{
+    strncpy(this->field_2_name, pName, nameLen);
+    this->field_2_name[nameLen] = 0; // NULL terminate the string
+}
+
+STUB_FUNC(0x4BF340)
+wchar_t* Zone_144::sub_4BF340()
+{
+    return 0;
 }
 
 // =====================

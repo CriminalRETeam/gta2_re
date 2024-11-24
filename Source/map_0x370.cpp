@@ -244,7 +244,7 @@ void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx,
     gmp_zone_unknown* pZoneUnknown = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
     if (a3 != -1)
     {
-        pZoneUnknown->field_0 = a3;
+        pZoneUnknown->field_0_density = a3;
     }
 
     if (a4 != -1)
@@ -307,7 +307,7 @@ gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 MATCH_FUNC(0x4DF9D0)
 void Map_0x370::set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_0 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_0_density = a3;
 }
 
 MATCH_FUNC(0x4DF9F0)

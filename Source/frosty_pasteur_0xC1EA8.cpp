@@ -6,6 +6,8 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 
+frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
+
 MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
 {

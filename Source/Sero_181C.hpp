@@ -102,3 +102,5 @@ class Sero_181C
     char_type field_181A;
     char_type field_181B;
 };
+
+extern Sero_181C* gSero_181C_6FF1D4;

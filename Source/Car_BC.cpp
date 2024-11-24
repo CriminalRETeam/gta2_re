@@ -1,6 +1,10 @@
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
 
+Car_214* gCar_214_705F20;
+Car_6C* gCar_6C_677930;
+Car_E0C4* gCar_E0C4_67792C;
+
 STUB_FUNC(0x5c8680)
 s32 Car_214::sub_5C8680(u8 a2)
 {

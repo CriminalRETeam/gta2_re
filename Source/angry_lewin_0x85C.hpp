@@ -68,11 +68,11 @@ class eager_benz
     s32 field_18C;
     s32 field_190;
     s32 field_194;
-    char_type field_198;
+    char_type field_198_accuracy_count;
     char_type field_199;
     char_type field_19A;
     char_type field_19B;
-    s32 field_19C;
+    s32 field_19C_reverse_count;
     s32 field_1A0;
     char_type field_1A4;
     char_type field_1A5;

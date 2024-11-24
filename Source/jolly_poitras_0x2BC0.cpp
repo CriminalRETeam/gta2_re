@@ -62,29 +62,6 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
 }
 
-MATCH_FUNC(0x56C2C0)
-void jolly_poitras_0x2BC0::create_56C2C0()
-{
-    if (!gJolly_poitras_0x2BC0_6FEAC0)
-    {
-        gJolly_poitras_0x2BC0_6FEAC0 = new jolly_poitras_0x2BC0();
-        if (!gJolly_poitras_0x2BC0_6FEAC0)
-        {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
-        }
-    }
-}
-
-MATCH_FUNC(0x56C340)
-void jolly_poitras_0x2BC0::destroy_56C340()
-{
-    if (gJolly_poitras_0x2BC0_6FEAC0)
-    {
-        delete gJolly_poitras_0x2BC0_6FEAC0;
-        gJolly_poitras_0x2BC0_6FEAC0 = 0;
-    }
-}
-
 STUB_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::sub_56BB10(angry_lewin_0x85C* a2)
 {
@@ -338,6 +315,36 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 {
     // todo
 }
+
+STUB_FUNC(0x56C250)
+void jolly_poitras_0x2BC0::sub_56C250()
+{
+}
+
+MATCH_FUNC(0x56C2C0)
+void jolly_poitras_0x2BC0::create_56C2C0()
+{
+    if (!gJolly_poitras_0x2BC0_6FEAC0)
+    {
+        gJolly_poitras_0x2BC0_6FEAC0 = new jolly_poitras_0x2BC0();
+        if (!gJolly_poitras_0x2BC0_6FEAC0)
+        {
+            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
+        }
+    }
+}
+
+MATCH_FUNC(0x56C340)
+void jolly_poitras_0x2BC0::destroy_56C340()
+{
+    if (gJolly_poitras_0x2BC0_6FEAC0)
+    {
+        delete gJolly_poitras_0x2BC0_6FEAC0;
+        gJolly_poitras_0x2BC0_6FEAC0 = 0;
+    }
+}
+
+// =====================================================================
 
 STUB_FUNC(0x56B500)
 agitated_keldysh_0xF0::agitated_keldysh_0xF0()

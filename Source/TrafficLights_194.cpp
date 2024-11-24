@@ -1,5 +1,7 @@
 #include "TrafficLights_194.hpp"
 
+TrafficLights_194* gTrafficLights_194_705958;
+
 STUB_FUNC(0x5c2910)
 void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
 {
