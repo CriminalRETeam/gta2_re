@@ -2704,6 +2704,7 @@ struct laughing_blackwell_0x1EB54
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
 extern laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
+extern wchar_t tmpBuff_67BD9C[640];
 
 void __stdcall sub_5D7D30();
 void __cdecl FreeSurface_5D7DC0();
