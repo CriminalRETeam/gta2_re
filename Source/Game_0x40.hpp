@@ -32,7 +32,7 @@ class Game_0x40
     void sub_4B9270();
     void Draw_4B92D0();
     void sub_4B9380();
-    s32 sub_4B93C0();
+    void sub_4B93C0();
     void sub_4B9410();
     s8 sub_4B9640();
     void sub_4B9700();

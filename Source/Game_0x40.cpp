@@ -11,6 +11,7 @@
 #include "debug.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
+#include "registry.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "winmain.hpp"
@@ -23,6 +24,9 @@ void (*pgbh_EndScene_626CC4)();
 
 s16 word_706600;
 s32 dword_67DFB4; // TODO
+
+// TODO
+extern u32 counter_706C4C;
 
 // === start wip hook code ===
 // TODO: This will get moved later
@@ -200,10 +204,44 @@ void Game_0x40::sub_4B9380()
     }
 }
 
-STUB_FUNC(0x4B93C0)
-s32 Game_0x40::sub_4B93C0()
+//MATCH_FUNC(0x5D9970)
+static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0x4B9410 - probably move elsewhere
 {
-    return 0;
+    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10u);
+    if (counter_706C4C)
+    {
+        if (SetGamma_5D9910(gamma))
+        {
+            --counter_706C4C;
+        }
+        else
+        {
+            counter_706C4C = 0;
+        }
+    }
+}
+
+MATCH_FUNC(0x4B93C0)
+void Game_0x40::sub_4B93C0()
+{
+    angry_lewin_0x85C** pIter = field_4_players;
+    u32 i = 0;
+    while (i < field_23_max_idx)
+    {
+        if ((*pIter)->field_8E_bInUse)
+        {
+            (*pIter)->sub_569410();
+        }
+        ++i;
+        ++pIter;
+    }
+
+    gGarox_2B00_706620->sub_5D69C0();
+
+    if (counter_706C4C > 0)
+    {
+        SetGamma_5D9970();
+    }
 }
 
 STUB_FUNC(0x4B9410)
