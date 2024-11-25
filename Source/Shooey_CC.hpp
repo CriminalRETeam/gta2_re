@@ -17,9 +17,7 @@ class Shooey_14
 
     s32 field_0;
     s32 field_4;
-    Fix16 field_8;
-    Fix16 field_C;
-    Fix16 field_10;
+    Fix16_Vec field_8;
 };
 
 class Shooey_CC

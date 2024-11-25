@@ -24,7 +24,7 @@ void Object_5C::dtor_529750()
 }
 
 STUB_FUNC(0x5297f0)
-void Object_5C::sub_5297F0(s32 a1, Object_5C* a2)
+void Object_5C::sub_5297F0()
 {
 }
 
