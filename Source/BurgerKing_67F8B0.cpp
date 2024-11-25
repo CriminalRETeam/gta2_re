@@ -38,7 +38,8 @@ s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
         a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gGarox_2B00_706620->sub_5D6CB0(a1);
 }
 
-STUB_FUNC(0x4cddf0) s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
+STUB_FUNC(0x4cddf0) 
+s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
 {
     return !sub_4CDD80(a1) && a1 != 78;
 }
