@@ -4,14 +4,14 @@
 
 class Collide_8
 {
-public:
+  public:
     s32 field_0;
     Collide_8* field_4;
 };
 
 class Collide_8004
 {
-public:
+  public:
     Collide_8004()
     {
         Collide_8* pOff = &field_4[0];
@@ -33,7 +33,7 @@ public:
 
 class Collide_Sub_C
 {
-public:
+  public:
     s32 field_0;
     s32 field_4;
     Collide_Sub_C* field_8;
@@ -41,7 +41,7 @@ public:
 
 class Collide_11944
 {
-public:
+  public:
     Collide_11944()
     {
         Collide_Sub_C* pOff = &field_4[0];
@@ -73,9 +73,7 @@ void Collide_C::sub_478A20()
     field_0 = 0;
 }
 
-// https://decomp.me/scratch/ggcim
-// matches on decomp.me but not locally due to missing SEH even with the /GX flag for some reason
-STUB_FUNC(0x478a30)
+MATCH_FUNC(0x478a30)
 Collide_C::Collide_C()
 {
     field_0 = 0;
@@ -118,13 +116,22 @@ Collide_C::Collide_C()
 STUB_FUNC(0x478bf0)
 Collide_C::~Collide_C()
 {
-    delete gPurpleDoom_1_679208;
+    if (gPurpleDoom_1_679208)
+    {
+        delete gPurpleDoom_1_679208;
+    }
     gPurpleDoom_1_679208 = 0;
 
-    delete gPurpleDoom_2_67920C;
+    if (gPurpleDoom_2_67920C)
+    {
+        delete gPurpleDoom_2_67920C;
+    }
     gPurpleDoom_2_67920C = 0;
 
-    delete gPurpleDoom_3_679210;
+    if (gPurpleDoom_3_679210)
+    {
+        delete gPurpleDoom_3_679210;
+    }
     gPurpleDoom_3_679210 = 0;
 
     if (gCollide_8004_679200)

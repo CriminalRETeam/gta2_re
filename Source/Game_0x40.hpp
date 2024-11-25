@@ -76,7 +76,7 @@ class Game_0x40
     char_type field_33;
     s32 field_34;
     angry_lewin_0x85C* field_38_orf1;
-    char_type field_3C_bSkipPolice;
+    bool field_3C_bSkipPolice;
     char_type field_3D;
     char_type field_3E;
     char_type field_3F;

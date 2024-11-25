@@ -20,8 +20,8 @@ class PurpleDoom
     EXPORT s32 sub_477E60(Car_3C* a2, s32 a3);
     EXPORT char_type sub_477F30(s32* a2, char_type a3, s32 a4, Car_3C* a5, Object_3C* a6);
     EXPORT char_type sub_477F60(s32* a2, char_type a3, s32 a4, Car_3C* a5);
-    EXPORT PurpleDoom* ctor_478040();
-    EXPORT s32 dtor_478050();
+    EXPORT PurpleDoom();
+    EXPORT ~PurpleDoom();
     EXPORT u32 sub_478160(u8 a2);
     EXPORT s32 sub_478240(s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT void sub_4782C0(s32 a2, s32 idx, Car_3C* a4);

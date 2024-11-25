@@ -75,15 +75,15 @@ char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Car_3C* a5)
 }
 
 STUB_FUNC(0x478040)
-PurpleDoom* PurpleDoom::ctor_478040()
+PurpleDoom::PurpleDoom()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x478050)
-s32 PurpleDoom::dtor_478050()
+PurpleDoom::~PurpleDoom()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x478160)
