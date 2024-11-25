@@ -1,6 +1,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "debug.hpp"
 #include "file.hpp"
+#include "Garox_2B00.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -138,7 +139,16 @@ bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
     return false;
 }
 
-STUB_FUNC(0x4cee10)
+MATCH_FUNC(0x4cee10)
 void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
+    if (RecOrPlayBackState_4CEDF0())
+    {
+        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+    }
+    else
+    {
+        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+    }
+    sub_4CED90();
 }

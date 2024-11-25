@@ -989,3 +989,6 @@ class Garox_2B00
 };
 
 extern Garox_2B00* gGarox_2B00_706620;
+
+
+extern s16 word_706600;

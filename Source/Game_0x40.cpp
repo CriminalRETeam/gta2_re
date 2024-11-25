@@ -60,7 +60,6 @@ DrawUnk_0xBC* gViewCamera_676978;
 int (*pgbh_BeginScene_626CC0)();
 void (*pgbh_EndScene_626CC4)();
 
-s16 word_706600;
 s32 dword_67DFB4; // TODO
 s32 dword_7071A0;
 s32 dword_7071B0;
