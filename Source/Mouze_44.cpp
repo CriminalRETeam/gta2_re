@@ -1,5 +1,7 @@
 #include "Mouze_44.hpp"
 
+Mouze_44 stru_67EF20[20];
+
 STUB_FUNC(0x4c8e60)
 void Mouze_44::sub_4C8E60()
 {
@@ -191,9 +193,18 @@ cool_nash_0x294* Mouze_44::sub_4CAE80(u8 idx)
     return 0;
 }
 
-STUB_FUNC(0x4cb080)
+
+MATCH_FUNC(0x4cb080)
 void Mouze_44::sub_4CB080()
 {
+    sub_4C8E80();
+    
+    Mouze_44* pIter = stru_67EF20;
+    for (s32 i = 0; i < 20; i++)
+    {
+       pIter->sub_4C8EF0();
+       pIter++;
+    }
 }
 
 STUB_FUNC(0x4cb0d0)

@@ -8,7 +8,7 @@ class Mouze_44
 {
   public:
     EXPORT void sub_4C8E60();
-    EXPORT void sub_4C8E80();
+    EXPORT static void sub_4C8E80();
     EXPORT cool_nash_0x294** sub_4C8E90();
     EXPORT s32 sub_4C8EF0();
     EXPORT void sub_4C8F20();
