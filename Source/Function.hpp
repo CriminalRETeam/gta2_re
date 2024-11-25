@@ -42,3 +42,16 @@
     #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
         typedef int static_assert_##structureName[sizeof(structureName) == expectedSize ? 1 : -1];
 #endif
+
+// Very very silly delete macro (stop checking for null all the time!!)
+#define GTA2_CHECKED_DELETE(x) \
+    if (x)                     \
+    {                          \
+        delete x;              \
+    }                          \
+    x = 0;
+
+// Slightly more sane delete macro
+#define GTA2_DELETE(x) \
+    delete x;          \
+    x = 0;
