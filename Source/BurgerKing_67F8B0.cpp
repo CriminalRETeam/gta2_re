@@ -1,10 +1,12 @@
 #include "BurgerKing_67F8B0.hpp"
+#include "Garox_2B00.hpp"
 #include "debug.hpp"
 #include "file.hpp"
-#include "Garox_2B00.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
+
+extern wchar_t tmpBuff_67BD9C[640];
 
 STUB_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
@@ -124,9 +126,21 @@ void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x4ced90)
+MATCH_FUNC(0x4ced90)
 void BurgerKing_67F8B0::sub_4CED90()
 {
+    s8 i = 0;
+    s32 bit_idx = 0;
+    do
+    {
+        if (((1 << bit_idx) & this->field_4_input_bits) != 0)
+        {
+            swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
+        }
+        ++i;
+        ++bit_idx;
+    } while (i < 12);
 }
 
 MATCH_FUNC(0x4cedf0)
