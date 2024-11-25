@@ -231,10 +231,9 @@ void sub_5D8E00()
 {
 }
 
-STUB_FUNC(0x4B8EB0)
+MATCH_FUNC(0x4B8EB0)
 void Game_0x40::sub_4B8EB0()
 {
-    gmp_map_zone* v2; // eax
 
     gLucid_hamilton_67E8E0.sub_4C5AB0(0);
     if (bStartNetworkGame_7081F0)
@@ -247,8 +246,8 @@ void Game_0x40::sub_4B8EB0()
     sub_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
-    v2 = gSero_181C_6FF1D4->sub_5794B0();
-    gObject_5C_6F8F84->sub_5297F0((__int32)v2, gObject_5C_6F8F84); // TODO: static func?
+    gSero_181C_6FF1D4->sub_5794B0();
+    gObject_5C_6F8F84->sub_5297F0();
     Mouze_44::sub_4CB080();
     if (bDo_mike_67D5CC)
     {
@@ -272,17 +271,12 @@ void Game_0x40::sub_4B8EB0()
         gTrafficLights_194_705958->sub_5C2AC0();
     }
     gSero_181C_6FF1D4->sub_578860(); // trains?
-    s32 playerIdx = 0;
-    if (field_23_max_idx)
+
+    for (s32 i = 0; i < field_23_max_idx; i++)
     {
-        angry_lewin_0x85C** ppPlayersIter = field_4_players;
-        do
-        {
-            (*ppPlayersIter)->sub_569CB0(); // respawn dead players?
-            ++playerIdx;
-            ++ppPlayersIter;
-        } while (playerIdx < field_23_max_idx);
+        field_4_players[i]->sub_569CB0(); // respawn dead players?
     }
+
     gJolly_poitras_0x2BC0_6FEAC0->sub_56C250();
 }
 
