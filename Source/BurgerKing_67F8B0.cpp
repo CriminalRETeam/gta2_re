@@ -1,9 +1,12 @@
 #include "BurgerKing_67F8B0.hpp"
+#include "Garox_2B00.hpp"
 #include "debug.hpp"
 #include "file.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
+
+extern wchar_t tmpBuff_67BD9C[640];
 
 STUB_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
@@ -31,11 +34,11 @@ void BurgerKing_67F8B0::sub_4CDD10(s32 a2)
 STUB_FUNC(0x4cdd80)
 s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
 {
-    // needs Garox_2B00 stub
-    return 0;
+    return a1 == 79 || a1 == 80 || a1 == 81 || a1 == 75 || a1 == 76 || a1 == 77 || a1 == 71 || a1 == 72 || a1 == 73 || a1 == 55 ||
+        a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gGarox_2B00_706620->sub_5D6CB0(a1);
 }
 
-STUB_FUNC(0x4cddf0)
+STUB_FUNC(0x4cddf0) 
 s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
 {
     return !sub_4CDD80(a1) && a1 != 78;
@@ -123,9 +126,21 @@ void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x4ced90)
+MATCH_FUNC(0x4ced90)
 void BurgerKing_67F8B0::sub_4CED90()
 {
+    s8 i = 0;
+    s32 bit_idx = 0;
+    do
+    {
+        if (((1 << bit_idx) & this->field_4_input_bits) != 0)
+        {
+            swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
+        }
+        ++i;
+        ++bit_idx;
+    } while (i < 12);
 }
 
 MATCH_FUNC(0x4cedf0)
@@ -138,7 +153,16 @@ bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
     return false;
 }
 
-STUB_FUNC(0x4cee10)
+MATCH_FUNC(0x4cee10)
 void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
+    if (RecOrPlayBackState_4CEDF0())
+    {
+        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+    }
+    else
+    {
+        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+    }
+    sub_4CED90();
 }

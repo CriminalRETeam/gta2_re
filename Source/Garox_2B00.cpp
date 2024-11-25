@@ -2,6 +2,8 @@
 
 Garox_2B00* gGarox_2B00_706620;
 
+s16 word_706600; // TODO
+
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
 {

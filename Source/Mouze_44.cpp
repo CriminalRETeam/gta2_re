@@ -1,5 +1,7 @@
 #include "Mouze_44.hpp"
 
+Mouze_44 stru_67EF20[20];
+
 STUB_FUNC(0x4c8e60)
 void Mouze_44::sub_4C8E60()
 {
@@ -16,10 +18,22 @@ cool_nash_0x294** Mouze_44::sub_4C8E90()
     return 0;
 }
 
-STUB_FUNC(0x4c8ef0)
-s32 Mouze_44::sub_4C8EF0()
+MATCH_FUNC(0x4c8ef0)
+void Mouze_44::sub_4C8EF0()
 {
-    return 0;
+    this->field_40 = 0;
+    this->field_38 = 2;
+    this->field_30 = 0;
+    this->field_36_count = 0;
+    this->field_2C = 0;
+    this->field_0 = 1;
+    this->field_1 = 0;
+    this->field_34_count = 0;
+    this->field_35 = 0;
+    for (s32 i = 0; i < 9; i++)
+    {
+        field_4[i] = 0;
+    }
 }
 
 STUB_FUNC(0x4c8f20)
@@ -191,9 +205,17 @@ cool_nash_0x294* Mouze_44::sub_4CAE80(u8 idx)
     return 0;
 }
 
-STUB_FUNC(0x4cb080)
+MATCH_FUNC(0x4cb080)
 void Mouze_44::sub_4CB080()
 {
+    sub_4C8E80();
+
+    Mouze_44* pIter = stru_67EF20;
+    for (s32 i = 0; i < 20; i++)
+    {
+        pIter->sub_4C8EF0();
+        pIter++;
+    }
 }
 
 STUB_FUNC(0x4cb0d0)
@@ -202,12 +224,13 @@ Mouze_44* Mouze_44::sub_4CB0D0()
     return 0;
 }
 
-STUB_FUNC(0x4cb860)
-void Mouze_44::ctor_4CB860()
+MATCH_FUNC(0x4cb860)
+Mouze_44::Mouze_44()
 {
+    sub_4C8EF0();
 }
 
-STUB_FUNC(0x4cb870)
-void Mouze_44::dtor_4CB870()
+MATCH_FUNC(0x4cb870)
+Mouze_44::~Mouze_44()
 {
 }
