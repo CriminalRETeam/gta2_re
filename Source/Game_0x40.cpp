@@ -27,6 +27,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "winmain.hpp"
+#include "cool_nash_0x294.hpp"
+#include "map_0x370.hpp"
 
 DrawUnk_0xBC* gViewCamera_676978;
 
