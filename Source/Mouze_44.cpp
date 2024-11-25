@@ -202,12 +202,13 @@ Mouze_44* Mouze_44::sub_4CB0D0()
     return 0;
 }
 
-STUB_FUNC(0x4cb860)
-void Mouze_44::ctor_4CB860()
+MATCH_FUNC(0x4cb860)
+Mouze_44::Mouze_44()
 {
+    sub_4C8EF0();
 }
 
-STUB_FUNC(0x4cb870)
-void Mouze_44::dtor_4CB870()
+MATCH_FUNC(0x4cb870)
+Mouze_44::~Mouze_44()
 {
 }

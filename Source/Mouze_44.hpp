@@ -43,8 +43,8 @@ class Mouze_44
     EXPORT cool_nash_0x294* sub_4CAE80(u8 idx);
     EXPORT static void sub_4CB080();
     EXPORT Mouze_44* sub_4CB0D0();
-    EXPORT void ctor_4CB860();
-    EXPORT void dtor_4CB870();
+    EXPORT Mouze_44();
+    EXPORT ~Mouze_44();
 
     char_type field_0;
     char_type field_1;
