@@ -280,7 +280,7 @@ void Game_0x40::sub_4B8EB0()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56C250();
 }
 
-STUB_FUNC(0x4B8FF0)
+MATCH_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
@@ -309,12 +309,15 @@ void Game_0x40::ShowCounters_4B8FF0()
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_unk.field_19C_reverse_count);
         gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
+        
+        // TODO: Seems strange, converted to a local integer point or something ??
+        const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();                                                
+        const u32 y = field_38_orf1->field_2C4_player_ped->field_1AC_cam.y.ToInt();
 
         gmp_zone_unknown* pNavZone =
-            gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(field_38_orf1->field_2C4_player_ped->field_1AC_cam_x.ToInt(),
-                                                           field_38_orf1->field_2C4_player_ped->field_1B0_cam_y.ToInt());
+            gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
-        swprintf(tmpBuff_67BD9C, L"density:%d", (unsigned __int16)pNavZone->field_0_density);
+        swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_density);
         gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
     }
 }

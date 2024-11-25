@@ -295,8 +295,8 @@ MATCH_FUNC(0x568520)
 void angry_lewin_0x85C::sub_568520()
 {
     const cool_nash_0x294* pPed = this->field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
-    const Fix16 cam_x_fp = pPed->field_1AC_cam_x;
-    const Fix16 cam_y_fp = pPed->field_1B0_cam_y;
+    const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
+    const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
     field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
     field_3C = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 1u);
     field_40 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 5u);

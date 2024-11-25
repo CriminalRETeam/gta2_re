@@ -77,3 +77,10 @@ struct Fix16
   public:
     s32 mValue;
 };
+
+
+struct Fix16_Vec
+{
+  Fix16 x,y,z;
+};
+

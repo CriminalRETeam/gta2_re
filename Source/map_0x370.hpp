@@ -259,7 +259,7 @@ class gmp_map_zone
 
 struct gmp_zone_unknown
 {
-    s16 field_0_density;
+    u16 field_0_density;
     s16 field_2;
     s16 field_4;
     s16 field_6;

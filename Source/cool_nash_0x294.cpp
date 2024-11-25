@@ -228,9 +228,9 @@ void cool_nash_0x294::sub_45C4B0()
     // TODO: Needs Car_3C stubs
     /*
     Car_BC* pBc = this->field_16C_car;
-    this->field_1AC_cam_x = pBc->field_50_car_sprite->field_14_xpos;
-    this->field_1B0_cam_y = pBc->field_50_car_sprite->field_18_ypos;
-    this->field_1B4_cam_z = pBc->field_50_car_sprite->field_1C_zpos;
+    this->field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
+    this->field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
+    this->field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
     */
 }
 
