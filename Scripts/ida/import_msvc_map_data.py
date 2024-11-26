@@ -44,7 +44,7 @@ def rename_ida_functions(repo_func_and_var_names) -> None:
 
 def main():
     script_path = os.path.dirname(os.path.realpath(__file__))
-    map_data = load_csv_file(script_path + "/bin_comp/new_function_data.csv")
+    map_data = load_csv_file(script_path + "/../bin_comp/new_function_data.csv")
     rename_ida_functions(map_data)
     print("done!")
 

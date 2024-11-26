@@ -32,6 +32,8 @@
 #include "Montana.hpp"
 #include "Nanobotz.hpp"
 #include "Network_20324.hpp"
+#include "Phi_8CA8.hpp"
+#include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
 #include "Tango_28.hpp"
@@ -39,8 +41,184 @@
 #include "char.hpp"
 #include "collide.hpp"
 #include "cool_nash_0x294.hpp"
+#include "jawwie_110.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+
+void force_link()
+{
+    Phi_8CA8 phi_8ca8;
+    phi_8ca8.sub_5332D0(0, 0, 0, 0);
+
+    jawwie_20 jaw_20;
+    jaw_20.field_14_count = 1;
+
+    Rozza_C88 rozza;
+    rozza.field_0_pSoundObj = 0;
+
+    Maccies_14AC maccies;
+    maccies.sub_4C1CD0(0);
+
+    Car_3C car_3c;
+    car_3c.field_20 = 5;
+
+    Snooky_94 snooky;
+    snooky.sub_4887A0(0);
+
+    Network_20324 network;
+    network.cb_sub_519D30(0, 0);
+
+    nostalgic_ellis_0x28 nostalgic;
+    nostalgic.sub_4D6D70();
+
+    Char_C char_c;
+    char_c.DoIanTest_471060(0);
+
+    angry_lewin_0x85C lewin(1);
+    lewin.GetIdx_4881E0();
+    lewin.sub_5645B0(0);
+    lewin.sub_564610(0, 0);
+    lewin.sub_564680(0);
+    lewin.sub_564710(0, 0);
+    lewin.sub_564790(0);
+    lewin.sub_5647D0();
+    lewin.sub_5648F0();
+    lewin.sub_564910(0);
+    lewin.sub_564940();
+    lewin.sub_564960(0, 0);
+    lewin.sub_5649D0(0, 0);
+    lewin.sub_564AD0(0);
+    lewin.sub_564B60();
+    lewin.sub_564B80();
+    lewin.sub_564C00();
+    lewin.sub_564C50(0);
+    lewin.sub_564CC0();
+    lewin.sub_564CF0();
+    lewin.sub_564D60(0);
+    lewin.sub_565070();
+    lewin.sub_5651F0(0);
+    lewin.sub_565310();
+    lewin.sub_5653E0();
+    lewin.sub_565490(0);
+    lewin.SetInputs_565740(0);
+    lewin.sub_565770(0);
+    lewin.sub_565860();
+    lewin.sub_565890(0);
+    lewin.sub_566380(0);
+    lewin.sub_566520();
+    lewin.sub_566820();
+    lewin.sub_5668D0(0);
+    lewin.sub_566C30(0);
+    lewin.sub_566C80(0);
+    lewin.sub_566EE0(0);
+    lewin.sub_5670B0();
+    lewin.sub_567130();
+    lewin.sub_567850();
+    lewin.sub_5679E0();
+    lewin.sub_568520();
+    lewin.sub_568630();
+    lewin.sub_568670();
+    lewin.sub_5686D0(0);
+    lewin.sub_568730();
+    lewin.sub_5687F0();
+    lewin.sub_569410();
+    lewin.sub_569530();
+    lewin.sub_5695A0();
+    lewin.sub_569600(0);
+    lewin.sub_5696D0(0);
+    lewin.sub_569840(0, 0, 0);
+    lewin.sub_5698E0();
+    lewin.sub_569920(0, 0, 0);
+    lewin.sub_5699F0(0);
+    lewin.sub_569A10();
+    lewin.sub_569C20();
+    lewin.sub_569CB0();
+    lewin.sub_569E70();
+    lewin.GetDeathText_569F00();
+    lewin.sub_569F40();
+    lewin.sub_569FF0();
+    lewin.SetUnknown_56A000();
+    lewin.sub_56A010();
+    lewin.sub_56A020();
+    lewin.sub_56A030();
+    lewin.sub_56A040();
+    lewin.sub_56A0F0();
+    lewin.sub_56A1A0(0);
+    lewin.sub_56A310(0);
+    lewin.sub_56A490();
+    lewin.sub_56A6D0();
+
+    DrawUnk_0xBC drawUnk;
+    drawUnk.sub_4357B0();
+    drawUnk.sub_4357F0();
+    drawUnk.sub_435810();
+    drawUnk.sub_435830();
+    drawUnk.sub_435840();
+    drawUnk.sub_435860(0);
+    drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
+    drawUnk.sub_435DD0();
+    drawUnk.sub_436110();
+    drawUnk.sub_436120(1);
+    drawUnk.sub_436830();
+    drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
+    drawUnk.sub_58CF10(1, 1);
+
+    cool_nash_0x294 cn;
+    cn.sub_45B550();
+    cn.sub_45B560(NULL, 0);
+    cn.sub_45B590();
+
+    miss2_8 miss2;
+    miss2.add_503160(0);
+    miss2.remove_503180();
+    miss2.remove_5031E0(0);
+
+    BurgerKing_67F8B0 burgerking;
+    burgerking.sub_4CDCD0();
+    burgerking.sub_4CDCE0();
+    burgerking.sub_4CDCF0(0);
+    burgerking.sub_4CDD10(0);
+    burgerking.sub_4CDD80(0);
+    burgerking.sub_4CDDF0(0);
+    burgerking.sub_4CDE20(0);
+    burgerking.SaveReplay_4CDED0();
+    burgerking.sub_4CDF30(0);
+    burgerking.AppendReplayHeader_4CDF70();
+    burgerking.LoadReplayHeader_4CE380(0);
+    burgerking.sub_4CE650();
+    burgerking.GetNextAttrReplay_4CE6E0(0);
+    burgerking.sub_4CE740(0);
+    burgerking.sub_4CE880(0);
+    burgerking.sub_4CEA40(0);
+    burgerking.sub_4CEAC0();
+    burgerking.sub_4CED00(0, 0);
+    burgerking.sub_4CED90();
+    burgerking.RecOrPlayBackState_4CEDF0();
+    burgerking.ShowInput_4CEE10();
+
+    Garox_2B00 garox;
+    garox.ctor_5D6CD0();
+
+    Nanobotz nano;
+    nano.draw_bottom_4ED290(0);
+
+    Montana montana;
+    montana.ResetAll_4954F0();
+
+    Mike_A80 mike;
+    mike.DebugDrawProfiling_4FF250();
+
+    Shooey_14 shooey_14;
+    Shooey_CC shooey_CC;
+
+    Tango_28 tango_28;
+    Tango_54 tango_54;
+
+    Hamburger_500 hamburger_500;
+    hamburger_500.sub_474CC0(0);
+
+    Collide_C collide_C;
+}
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1173,172 +1351,6 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
     }
 
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
-}
-
-void force_link()
-{
-    Maccies_14AC maccies;
-    maccies.sub_4C1CD0(0);
-
-    Car_3C car_3c;
-    car_3c.field_20 = 5;
-
-    Snooky_94 snooky;
-    snooky.sub_4887A0(0);
-
-    Network_20324 network;
-    network.cb_sub_519D30(0, 0);
-
-    nostalgic_ellis_0x28 nostalgic;
-    nostalgic.sub_4D6D70();
-
-    Char_C char_c;
-    char_c.DoIanTest_471060(0);
-
-    angry_lewin_0x85C lewin(1);
-    lewin.GetIdx_4881E0();
-    lewin.sub_5645B0(0);
-    lewin.sub_564610(0, 0);
-    lewin.sub_564680(0);
-    lewin.sub_564710(0, 0);
-    lewin.sub_564790(0);
-    lewin.sub_5647D0();
-    lewin.sub_5648F0();
-    lewin.sub_564910(0);
-    lewin.sub_564940();
-    lewin.sub_564960(0, 0);
-    lewin.sub_5649D0(0, 0);
-    lewin.sub_564AD0(0);
-    lewin.sub_564B60();
-    lewin.sub_564B80();
-    lewin.sub_564C00();
-    lewin.sub_564C50(0);
-    lewin.sub_564CC0();
-    lewin.sub_564CF0();
-    lewin.sub_564D60(0);
-    lewin.sub_565070();
-    lewin.sub_5651F0(0);
-    lewin.sub_565310();
-    lewin.sub_5653E0();
-    lewin.sub_565490(0);
-    lewin.SetInputs_565740(0);
-    lewin.sub_565770(0);
-    lewin.sub_565860();
-    lewin.sub_565890(0);
-    lewin.sub_566380(0);
-    lewin.sub_566520();
-    lewin.sub_566820();
-    lewin.sub_5668D0(0);
-    lewin.sub_566C30(0);
-    lewin.sub_566C80(0);
-    lewin.sub_566EE0(0);
-    lewin.sub_5670B0();
-    lewin.sub_567130();
-    lewin.sub_567850();
-    lewin.sub_5679E0();
-    lewin.sub_568520();
-    lewin.sub_568630();
-    lewin.sub_568670();
-    lewin.sub_5686D0(0);
-    lewin.sub_568730();
-    lewin.sub_5687F0();
-    lewin.sub_569410();
-    lewin.sub_569530();
-    lewin.sub_5695A0();
-    lewin.sub_569600(0);
-    lewin.sub_5696D0(0);
-    lewin.sub_569840(0, 0, 0);
-    lewin.sub_5698E0();
-    lewin.sub_569920(0, 0, 0);
-    lewin.sub_5699F0(0);
-    lewin.sub_569A10();
-    lewin.sub_569C20();
-    lewin.sub_569CB0();
-    lewin.sub_569E70();
-    lewin.GetDeathText_569F00();
-    lewin.sub_569F40();
-    lewin.sub_569FF0();
-    lewin.SetUnknown_56A000();
-    lewin.sub_56A010();
-    lewin.sub_56A020();
-    lewin.sub_56A030();
-    lewin.sub_56A040();
-    lewin.sub_56A0F0();
-    lewin.sub_56A1A0(0);
-    lewin.sub_56A310(0);
-    lewin.sub_56A490();
-    lewin.sub_56A6D0();
-
-    DrawUnk_0xBC drawUnk;
-    drawUnk.sub_4357B0();
-    drawUnk.sub_4357F0();
-    drawUnk.sub_435810();
-    drawUnk.sub_435830();
-    drawUnk.sub_435840();
-    drawUnk.sub_435860(0);
-    drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
-    drawUnk.sub_435DD0();
-    drawUnk.sub_436110();
-    drawUnk.sub_436120(1);
-    drawUnk.sub_436830();
-    drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.sub_58CF10(1, 1);
-
-    cool_nash_0x294 cn;
-    cn.sub_45B550();
-    cn.sub_45B560(NULL, 0);
-    cn.sub_45B590();
-
-    miss2_8 miss2;
-    miss2.add_503160(0);
-    miss2.remove_503180();
-    miss2.remove_5031E0(0);
-
-    BurgerKing_67F8B0 burgerking;
-    burgerking.sub_4CDCD0();
-    burgerking.sub_4CDCE0();
-    burgerking.sub_4CDCF0(0);
-    burgerking.sub_4CDD10(0);
-    burgerking.sub_4CDD80(0);
-    burgerking.sub_4CDDF0(0);
-    burgerking.sub_4CDE20(0);
-    burgerking.SaveReplay_4CDED0();
-    burgerking.sub_4CDF30(0);
-    burgerking.AppendReplayHeader_4CDF70();
-    burgerking.LoadReplayHeader_4CE380(0);
-    burgerking.sub_4CE650();
-    burgerking.GetNextAttrReplay_4CE6E0(0);
-    burgerking.sub_4CE740(0);
-    burgerking.sub_4CE880(0);
-    burgerking.sub_4CEA40(0);
-    burgerking.sub_4CEAC0();
-    burgerking.sub_4CED00(0, 0);
-    burgerking.sub_4CED90();
-    burgerking.RecOrPlayBackState_4CEDF0();
-    burgerking.ShowInput_4CEE10();
-
-    Garox_2B00 garox;
-    garox.ctor_5D6CD0();
-
-    Nanobotz nano;
-    nano.draw_bottom_4ED290(0);
-
-    Montana montana;
-    montana.ResetAll_4954F0();
-
-    Mike_A80 mike;
-    mike.DebugDrawProfiling_4FF250();
-
-    Shooey_14 shooey_14;
-    Shooey_CC shooey_CC;
-
-    Tango_28 tango_28;
-    Tango_54 tango_54;
-
-    Hamburger_500 hamburger_500;
-    hamburger_500.sub_474CC0(0);
-
-    Collide_C collide_C;
 }
 
 STUB_FUNC(0x5E53F0)
