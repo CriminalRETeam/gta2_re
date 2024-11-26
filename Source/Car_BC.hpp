@@ -14,6 +14,77 @@ class Char_8;
 class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
+class infallible_turing;
+class Sprite_4C;
+
+class Car_3C
+{
+  public:
+    EXPORT s32 sub_451950(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_59E2E0();
+    EXPORT Car_3C* sub_59E300();
+    EXPORT s32 sub_59E320(char_type a2);
+    EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
+    EXPORT Car_3C* sub_59E7B0();
+    EXPORT Car_3C* sub_59E7D0(s32 a2);
+    EXPORT s32 sub_59E960();
+    EXPORT Car_3C* sub_59E9C0();
+    EXPORT s16 sub_59EA00(s16 a2);
+    EXPORT s16 sub_59EAA0();
+    EXPORT char_type sub_59EAE0();
+    EXPORT void sub_59EB30(s32 a2, f32* a3);
+    EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
+    EXPORT void sub_59EFF0();
+    EXPORT void sub_59F950(s32 a2, Sprite_4C* a3, Car_BC* a4);
+    EXPORT Sprite_4C* sub_59F990();
+    EXPORT Sprite_4C* sub_59FA40();
+    EXPORT Sprite_4C* sub_59FAD0();
+    EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
+    EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
+    EXPORT char_type sub_5A1030(Car_3C* a2, Car_3C** a3, u8* a4);
+    EXPORT bool sub_5A1490(s32 a2, s32 a3);
+    EXPORT char_type sub_5A19C0();
+    EXPORT char_type sub_5A1A60();
+    EXPORT char_type sub_5A1B30(Car_3C* a2);
+    EXPORT char_type sub_5A1BD0();
+    EXPORT char_type sub_5A1CA0(u32* a2);
+    EXPORT char_type sub_5A2500();
+    EXPORT s32* sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
+    EXPORT s32 sub_5A29D0();
+    EXPORT infallible_turing* sub_5A2A00();
+    EXPORT void sub_5A2A30();
+    EXPORT s32 sub_5A2CF0();
+    EXPORT infallible_turing* sub_5A3030();
+    EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5);
+    EXPORT void dtor_5A3540();
+    EXPORT void ctor_5A5E50();
+
+    s32 field_0;
+    Sprite_4C* field_4_0x4C_len;
+    Car_BC* field_8_uni;
+    Car_3C* field_C_car_or_sprite;
+    s32 field_10;
+    s32 field_14_xpos;
+    s32 field_18_ypos;
+    s32 field_1C_zpos;
+    s16 field_20;
+    s16 field_22;
+    s16 field_24;
+    char_type field_26;
+    char_type field_27;
+    Car_3C* field_28_uni;
+    char_type field_2C;
+    char_type field_2D;
+    char_type field_2E;
+    char_type field_2F;
+    s32 field_30;
+    s32 field_34;
+    char_type field_38;
+    char_type field_39;
+    char_type field_3A;
+    char_type field_3B;
+};
 
 class Car_18
 {
@@ -372,6 +443,15 @@ struct Car_E0C4
     Car_BC field_8_cars[306];
     s16 field_E0C0_cars_count;
     s16 field_E0C2;
+};
+
+class Car_8
+{
+  public:
+    EXPORT void dtor_40AC40();
+    EXPORT Car_8* ctor_563970();
+    Sprite_4C* field_0;
+    Sprite_4C* field_4;
 };
 
 extern Car_E0C4* gCar_E0C4_67792C;

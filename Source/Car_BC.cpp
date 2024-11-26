@@ -1,9 +1,248 @@
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
+#include "sprite.hpp"
 
 Car_214* gCar_214_705F20;
 Car_6C* gCar_6C_677930;
 Car_E0C4* gCar_E0C4_67792C;
+
+STUB_FUNC(0x451950)
+s32 Car_3C::sub_451950(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e2e0)
+void Car_3C::sub_59E2E0()
+{
+}
+
+STUB_FUNC(0x59e300)
+Car_3C* Car_3C::sub_59E300()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e320)
+s32 Car_3C::sub_59E320(char_type a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e390)
+bool Car_3C::sub_59E390(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e4c0)
+s32 Car_3C::sub_59E4C0(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e7b0)
+Car_3C* Car_3C::sub_59E7B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e7d0)
+Car_3C* Car_3C::sub_59E7D0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e960)
+s32 Car_3C::sub_59E960()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59e9c0)
+Car_3C* Car_3C::sub_59E9C0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59ea00)
+s16 Car_3C::sub_59EA00(s16 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59eaa0)
+s16 Car_3C::sub_59EAA0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59eae0)
+char_type Car_3C::sub_59EAE0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59eb30)
+void Car_3C::sub_59EB30(s32 a2, f32* a3)
+{
+}
+
+STUB_FUNC(0x59ee40)
+void Car_3C::ShowHorn_59EE40(s32 a2, s32 a3)
+{
+}
+
+STUB_FUNC(0x59eff0)
+void Car_3C::sub_59EFF0()
+{
+}
+
+MATCH_FUNC(0x59f950)
+void Car_3C::sub_59F950(s32 a2, Sprite_4C* a3, Car_BC* a4)
+{
+    if (field_C_car_or_sprite == NULL)
+    {
+        Sprite_4C* pOldFree = gSprite_5D598_70381C->field_0_pFree;
+        gSprite_5D598_70381C->field_0_pFree = gSprite_5D598_70381C->field_0_pFree->field_2C_pNext;
+        pOldFree->sub_5A57A0();
+        field_C_car_or_sprite = (Car_3C*)pOldFree;
+    }
+
+    Car_3C* pSprite4C = field_C_car_or_sprite;
+    pSprite4C->field_0 = a2;
+    pSprite4C->field_4_0x4C_len = a3;
+    pSprite4C->field_8_uni = a4;
+}
+
+STUB_FUNC(0x59f990)
+Sprite_4C* Car_3C::sub_59F990()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59fa40)
+Sprite_4C* Car_3C::sub_59FA40()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59fad0)
+Sprite_4C* Car_3C::sub_59FAD0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a0150)
+char_type Car_3C::sub_5A0150(s32 a2, u8* a3, u8* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a0320)
+char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1030)
+char_type Car_3C::sub_5A1030(Car_3C* a2, Car_3C** a3, u8* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1490)
+bool Car_3C::sub_5A1490(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a19c0)
+char_type Car_3C::sub_5A19C0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1a60)
+char_type Car_3C::sub_5A1A60()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1b30)
+char_type Car_3C::sub_5A1B30(Car_3C* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1bd0)
+char_type Car_3C::sub_5A1BD0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a1ca0)
+char_type Car_3C::sub_5A1CA0(u32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a2500)
+char_type Car_3C::sub_5A2500()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a2710)
+s32* Car_3C::sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a29d0)
+s32 Car_3C::sub_5A29D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a2a00)
+infallible_turing* Car_3C::sub_5A2A00()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a2a30)
+void Car_3C::sub_5A2A30()
+{
+}
+
+STUB_FUNC(0x5a2cf0)
+s32 Car_3C::sub_5A2CF0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a3030)
+infallible_turing* Car_3C::sub_5A3030()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a3100)
+Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a3540)
+void Car_3C::dtor_5A3540()
+{
+}
+
+STUB_FUNC(0x5a5e50)
+void Car_3C::ctor_5A5E50()
+{
+}
 
 STUB_FUNC(0x5c8680)
 s32 Car_214::sub_5C8680(u8 a2)
@@ -1254,6 +1493,17 @@ Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
 
 STUB_FUNC(0x564300)
 bool Car_BC::sub_564300()
+{
+    return 0;
+}
+
+STUB_FUNC(0x40ac40)
+void Car_8::dtor_40AC40()
+{
+}
+
+STUB_FUNC(0x563970)
+Car_8* Car_8::ctor_563970()
 {
     return 0;
 }
