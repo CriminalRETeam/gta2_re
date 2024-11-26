@@ -32,6 +32,7 @@
 #include "Montana.hpp"
 #include "Nanobotz.hpp"
 #include "Network_20324.hpp"
+#include "Phi_8CA8.hpp"
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
@@ -46,6 +47,9 @@
 
 void force_link()
 {
+    Phi_8CA8 phi_8ca8;
+    phi_8ca8.sub_5332D0(0, 0, 0, 0);
+
     jawwie_20 jaw_20;
     jaw_20.field_14_count = 1;
 

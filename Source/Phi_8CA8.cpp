@@ -1,7 +1,8 @@
 #include "Phi_8CA8.hpp"
+#include <memory.h>
 
-STUB_FUNC(0x4bdf60)
-void Phi_74::dtor_4BDF60()
+MATCH_FUNC(0x4bdf60)
+Phi_74::~Phi_74()
 {
 }
 
@@ -40,9 +41,46 @@ s32 Phi_74::sub_5331A0(Car_3C* a2)
     return 0;
 }
 
-STUB_FUNC(0x533220)
-void Phi_74::ctor_533220()
+// fix16?
+s32 dword_6F8FA4 = 0x3FC000;
+s32 dword_6FCE08 = 0;
+
+MATCH_FUNC(0x533220)
+Phi_74::Phi_74()
 {
+    field_0 = dword_6F8FA4;
+    field_4 = dword_6F8FA4;
+    field_8 = dword_6F8FA4;
+    field_24_idx = 0;
+    field_28 = 0;
+    field_2C = 0;
+    field_30 = 0;
+    field_34 = 0;
+    field_38 = 0;
+    field_3C = 0;
+    field_40 = 0;
+    field_44 = 0;
+    field_48 = 0;
+    field_4C = 1;
+    field_50 = 1;
+    field_58 = 0;
+    field_54 = 0;
+    field_C = dword_6F8FA4;
+    field_10 = dword_6F8FA4;
+    field_14 = dword_6F8FA4;
+    field_1C = 9999;
+    field_61 = 0;
+    field_64 = 99;
+    field_65 = 99;
+    field_1E = 99;
+    field_6C = 99;
+    s32 v1 = dword_6FCE08;
+    field_68 = 0;
+    field_18 = v1;
+    field_20 = 0;
+    field_60 = 0;
+    field_5C = 1;
+    field_70 = 0;
 }
 
 STUB_FUNC(0x4bdf40)
@@ -126,7 +164,9 @@ Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
 }
 
 STUB_FUNC(0x5343f0)
-Phi_8CA8* Phi_8CA8::ctor_5343F0()
+Phi_8CA8::Phi_8CA8()
 {
-    return 0;
+    memset(field_87F4, 0, sizeof(field_87F4));
+    field_0_next_idx = 0;
+    field_8CA4 = 99;
 }
