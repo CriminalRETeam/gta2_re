@@ -40,11 +40,15 @@
 #include "char.hpp"
 #include "collide.hpp"
 #include "cool_nash_0x294.hpp"
+#include "jawwie_110.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 
 void force_link()
 {
+    jawwie_20 jaw_20;
+    jaw_20.field_14_count = 1;
+
     Rozza_C88 rozza;
     rozza.field_0_pSoundObj = 0;
 

@@ -1,12 +1,15 @@
 #include "jawwie_110.hpp"
+#include <stdio.h>
 
-STUB_FUNC(0x4beab0)
-void jawwie_20::ctor_4BEAB0()
+MATCH_FUNC(0x4beab0)
+jawwie_20::jawwie_20()
 {
+    field_10.field_0_pOwner = NULL;
+    sub_4FA7D0();
 }
 
-STUB_FUNC(0x4bead0)
-void jawwie_20::dtor_4BEAD0()
+MATCH_FUNC(0x4bead0)
+jawwie_20::~jawwie_20()
 {
 }
 

@@ -16,8 +16,8 @@ class jawwie_8
 class jawwie_20
 {
   public:
-    EXPORT void ctor_4BEAB0();
-    EXPORT void dtor_4BEAD0();
+    EXPORT jawwie_20();
+    EXPORT ~jawwie_20();
     EXPORT s32 sub_4FA7D0();
     EXPORT void sub_4FA800(cool_nash_0x294* pPed);
     EXPORT char_type sub_4FA820();
