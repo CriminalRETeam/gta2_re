@@ -1,6 +1,6 @@
 @echo off
 rem checks functions marked as matching actually match for a windows build
-python setup.py
+python vc6_setup.py
 call build.bat
 SET PATH=%ORIGINAL_PATH%
 cd ../Scripts/bin_comp

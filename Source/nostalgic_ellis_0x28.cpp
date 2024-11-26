@@ -3,7 +3,7 @@
 
 nostalgic_ellis_0x28** g4096_alloc_6F5400;
 
-STUB_FUNC(0x4D6D20)
+MATCH_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
     field_0 = (nostalgic_ellis_0x28*)0x2A2A2A2A;
@@ -21,7 +21,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_18_intensity = 0;
 }
 
-STUB_FUNC(0x4D6D60)
+MATCH_FUNC(0x4D6D60)
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
     field_1C = 0;

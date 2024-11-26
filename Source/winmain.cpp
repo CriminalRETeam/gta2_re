@@ -23,22 +23,24 @@
 
 // for force links
 #include "BurgerKing_67F8B0.hpp"
+#include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Garox_2B00.hpp"
+#include "Hamburger_500.hpp"
+#include "Maccies_14AC.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
 #include "Nanobotz.hpp"
 #include "Network_20324.hpp"
+#include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
+#include "Tango_28.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
+#include "collide.hpp"
 #include "cool_nash_0x294.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
-#include "Shooey_CC.hpp"
-#include "Tango_28.hpp"
-#include "Hamburger_500.hpp"
-#include "collide.hpp"
 
 HINSTANCE gHInstance_708220;
 HANDLE gMutex_707078;
@@ -1175,6 +1177,12 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    Maccies_14AC maccies;
+    maccies.sub_4C1CD0(0);
+
+    Car_3C car_3c;
+    car_3c.field_20 = 5;
+
     Snooky_94 snooky;
     snooky.sub_4887A0(0);
 
