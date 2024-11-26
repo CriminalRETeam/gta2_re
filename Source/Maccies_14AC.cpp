@@ -21,10 +21,13 @@ void Maccies_14AC::sub_4C1D70()
 {
 }
 
-STUB_FUNC(0x4c1dc0)
+MATCH_FUNC(0x4c1dc0)
 Maccies_2C* Maccies_14AC::sub_4C1DC0(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8)
 {
-    return 0;
+    Maccies_2C* pMaccies = &field_0[field_14A0];
+    pMaccies->sub_4C1C70(a2, a3, a4, a5, a6, a7, a8);
+    field_14A0++;
+    return pMaccies;
 }
 
 MATCH_FUNC(0x4c1e20)
