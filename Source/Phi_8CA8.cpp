@@ -157,10 +157,14 @@ Phi_74* Phi_8CA8::sub_534370(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5343c0)
+MATCH_FUNC(0x5343c0)
 Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
 {
-    return 0;
+    Phi_74* result = &field_4[field_0_next_idx];
+    field_87F4[idx] = result;
+    ++field_0_next_idx;
+    result->field_24_idx = idx;
+    return result;
 }
 
 STUB_FUNC(0x5343f0)
