@@ -366,7 +366,7 @@ class Garox_C
 {
   public:
     EXPORT ~Garox_C();
-    EXPORT s32 sub_5D2320();
+    EXPORT void sub_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);

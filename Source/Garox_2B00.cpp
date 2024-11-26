@@ -327,10 +327,19 @@ Garox_C::~Garox_C()
     }
 }
 
-STUB_FUNC(0x5d2320)
-s32 Garox_C::sub_5D2320()
+MATCH_FUNC(0x5d2320)
+void Garox_C::sub_5D2320()
 {
-    return 0;
+    if (field_0 < 0)
+    {
+        return;
+    }
+
+    field_0--;
+    if (field_0 == -1)
+    {
+        field_4 = 0;
+    }
 }
 
 STUB_FUNC(0x5d2380)
