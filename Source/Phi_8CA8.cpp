@@ -84,8 +84,8 @@ Phi_74::Phi_74()
     field_70 = 0;
 }
 
-STUB_FUNC(0x4bdf40)
-void Phi_8CA8::dtor_4BDF40()
+MATCH_FUNC(0x4bdf40)
+Phi_8CA8::~Phi_8CA8()
 {
 }
 

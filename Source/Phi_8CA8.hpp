@@ -64,7 +64,7 @@ class Phi_74
 class Phi_8CA8
 {
   public:
-    EXPORT void dtor_4BDF40();
+    EXPORT ~Phi_8CA8();
     EXPORT Phi_74* sub_5332D0(s32 a2, s32 a3, s16 a4, char_type a5);
     EXPORT object_info* sub_533300();
     EXPORT void sub_533360();
@@ -79,6 +79,7 @@ class Phi_8CA8
     EXPORT Phi_74* sub_534370(s32 idx1, s32 idx2);
     EXPORT Phi_74* sub_5343C0(s32 idx);
     EXPORT Phi_8CA8();
+
     u16 field_0_next_idx;
     s16 field_2;
     Phi_74 field_4[300];
