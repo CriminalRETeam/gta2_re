@@ -27,8 +27,15 @@ Maccies_2C* Maccies_14AC::sub_4C1DC0(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16
     return 0;
 }
 
-STUB_FUNC(0x4c1e20)
-Maccies_14AC* Maccies_14AC::ctor_4C1E20()
+MATCH_FUNC(0x4c1e20)
+Maccies_14AC::Maccies_14AC()
 {
-    return 0;
+    for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        field_0[i].field_10 = 0;
+    }
+
+    field_14A0 = 0;
+    field_14A4 = 0;
+    field_14A8 = 0;
 }

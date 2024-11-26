@@ -27,6 +27,7 @@
 #include "DrawUnk_0xBC.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
+#include "Maccies_14AC.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
 #include "Nanobotz.hpp"
@@ -1176,6 +1177,9 @@ LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM l
 
 void force_link()
 {
+    Maccies_14AC maccies;
+    maccies.sub_4C1CD0(0);
+
     Car_3C car_3c;
     car_3c.field_20 = 5;
 
