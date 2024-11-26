@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout repository recursively
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
       with:
         submodules: recursive
 
@@ -53,10 +53,10 @@ jobs:
     - name: Build on Windows (Windows_VC6)
       if: matrix.name == 'Windows_VC6'
       run: |
+        pip install -r requirements.txt
         python setup.py
         .\build.bat
         cd .\Scripts\bin_comp
-        pip install -r requirements.txt
         python download_exe.py
         python msvc_dump_func_data.py
         python compare_all_functions.py
