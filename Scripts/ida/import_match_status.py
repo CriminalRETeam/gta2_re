@@ -61,8 +61,8 @@ def color_functions(repo_func_and_var_names, coverage_funcs_addrs) -> None:
 
 def main():
     script_path = os.path.dirname(os.path.realpath(__file__))
-    map_data = load_csv_file(script_path + "/bin_comp/new_function_data.csv")
-    coverage_funcs = load_file(script_path + "/bin_comp/coverage_trace_funcs.txt")
+    map_data = load_csv_file(script_path + "/../bin_comp/new_function_data.csv")
+    coverage_funcs = load_file(script_path + "/../bin_comp/coverage_trace_funcs.txt")
     coverage_funcs_addrs = []
     for c in coverage_funcs:
         coverage_funcs_addrs.append(int(c, 16))
