@@ -124,10 +124,16 @@ u8 Phi_8CA8::sub_533C90()
     return 0;
 }
 
-STUB_FUNC(0x534270)
-u8 Phi_8CA8::sub_534270()
+MATCH_FUNC(0x534270)
+void Phi_8CA8::sub_534270()
 {
-    return 0;
+    sub_5342F0(287);
+    sub_5342F0(288);
+    sub_5342F0(289);
+    sub_5342F0(290);
+    sub_5342F0(291);
+    sub_5342F0(292);
+    sub_5342F0(293);
 }
 
 MATCH_FUNC(0x5342d0)
