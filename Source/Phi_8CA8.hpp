@@ -54,7 +54,7 @@ class Phi_74
     char_type field_66;
     char_type field_67;
     s32 field_68;
-    char_type field_6C;
+    u8 field_6C;
     char_type field_6D;
     char_type field_6E;
     char_type field_6F;
@@ -65,7 +65,7 @@ class Phi_8CA8
 {
   public:
     EXPORT ~Phi_8CA8();
-    EXPORT Phi_74* sub_5332D0(s32 a2, s32 a3, s16 a4, char_type a5);
+    EXPORT Phi_74* sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
     EXPORT object_info* sub_533300();
     EXPORT void sub_533360();
     EXPORT Phi_74* sub_533420();

@@ -89,10 +89,15 @@ Phi_8CA8::~Phi_8CA8()
 {
 }
 
-STUB_FUNC(0x5332d0)
-Phi_74* Phi_8CA8::sub_5332D0(s32 a2, s32 a3, s16 a4, char_type a5)
+MATCH_FUNC(0x5332d0)
+Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
 {
-    return 0;
+    Phi_74* result = sub_5343C0(idx);
+    result->field_28 = a3;
+    result->field_1E = a4;
+    result->field_6C = a5;
+    result->field_30 = 2;
+    return result;
 }
 
 STUB_FUNC(0x533300)
