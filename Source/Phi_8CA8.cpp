@@ -140,9 +140,15 @@ u8 Phi_8CA8::sub_5342F0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x534330)
+MATCH_FUNC(0x534330)
 void Phi_8CA8::sub_534330()
 {
+    sub_533300();
+    sub_533360();
+    sub_533420();
+    sub_533B30();
+    sub_533C90();
+    sub_5342D0();
 }
 
 MATCH_FUNC(0x534360)
