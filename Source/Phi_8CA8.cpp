@@ -145,16 +145,21 @@ void Phi_8CA8::sub_534330()
 {
 }
 
-STUB_FUNC(0x534360)
-Phi_74* Phi_8CA8::sub_534360(s32 a2)
+MATCH_FUNC(0x534360)
+Phi_74* Phi_8CA8::sub_534360(s32 idx)
 {
-    return 0;
+    return field_87F4[idx];
 }
 
-STUB_FUNC(0x534370)
-Phi_74* Phi_8CA8::sub_534370(s32 a2, s32 a3)
+MATCH_FUNC(0x534370)
+Phi_74* Phi_8CA8::sub_534370(s32 idx1, s32 idx2)
 {
-    return 0;
+    Phi_74* result = &field_4[field_0_next_idx];
+    field_87F4[idx1] = result;
+    ++field_0_next_idx;
+    memcpy(result, field_87F4[idx2], sizeof(Phi_74));
+    result->field_24_idx = idx1;
+    return result;
 }
 
 MATCH_FUNC(0x5343c0)

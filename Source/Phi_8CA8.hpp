@@ -75,8 +75,8 @@ class Phi_8CA8
     EXPORT void sub_5342D0();
     EXPORT u8 sub_5342F0(s32 a2);
     EXPORT void sub_534330();
-    EXPORT Phi_74* sub_534360(s32 a2);
-    EXPORT Phi_74* sub_534370(s32 a2, s32 a3);
+    EXPORT Phi_74* sub_534360(s32 idx);
+    EXPORT Phi_74* sub_534370(s32 idx1, s32 idx2);
     EXPORT Phi_74* sub_5343C0(s32 idx);
     EXPORT Phi_8CA8();
     u16 field_0_next_idx;
