@@ -54,7 +54,7 @@ jobs:
       if: matrix.name == 'Windows_VC6'
       run: |
         pip install -r requirements.txt
-        python setup.py
+        python vc6_setup.py
         .\build.bat
         cd .\Scripts\bin_comp
         python download_exe.py
@@ -83,7 +83,7 @@ jobs:
     - name: Build on Linux
       if: matrix.name == 'Linux_wine_VC6'
       run: |
-        python3 setup.py
+        python3 vc6_setup.py
         rm -Rf ./wine
         WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wineboot
         WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wine cmd /c build.bat

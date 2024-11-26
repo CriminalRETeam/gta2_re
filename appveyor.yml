@@ -49,7 +49,7 @@ for:
 
   build_script:
    - pip install -r requirements.txt
-   - python setup.py
+   - python vc6_setup.py
    - build.bat
    - cd ../Scripts/bin_comp
    - python msvc_dump_func_data.py
@@ -76,7 +76,7 @@ for:
   build_script:
    - python3 -m venv ~/venv
    - ~/venv/bin/pip install -r requirements.txt
-   - ~/venv/bin/python setup.py
+   - ~/venv/bin/python vc6_setup.py
    - cd Scripts/bin_comp
    - ~/venv/bin/python download_exe.py
    - ~/venv/bin/python compare_all_functions.py
