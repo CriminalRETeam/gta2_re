@@ -22,3 +22,19 @@ STUB_FUNC(0x5a5b50)
 void Sprite_8::dtor_5A5B50()
 {
 }
+
+MATCH_FUNC(0x5a5c40)
+Sprite_18::~Sprite_18()
+{
+}
+
+STUB_FUNC(0x5a5c50)
+void Sprite_18::ctor_5A5C50()
+{
+}
+
+MATCH_FUNC(0x5a5c20)
+Sprite_1C24::~Sprite_1C24()
+{
+    field_0 = 0;
+}
