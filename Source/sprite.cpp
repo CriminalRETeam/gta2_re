@@ -28,9 +28,10 @@ Sprite_18::~Sprite_18()
 {
 }
 
-STUB_FUNC(0x5a5c50)
-void Sprite_18::ctor_5A5C50()
+MATCH_FUNC(0x5a5c50)
+Sprite_18::Sprite_18()
 {
+    field_10 = 0;
 }
 
 MATCH_FUNC(0x5a5c20)

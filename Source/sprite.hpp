@@ -18,7 +18,7 @@ class Sprite_18
 {
   public:
     EXPORT ~Sprite_18();
-    EXPORT void ctor_5A5C50();
+    EXPORT Sprite_18();
     s32 field_0;
     Sprite_18* field_4;
     s32 field_8;
