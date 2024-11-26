@@ -2,9 +2,10 @@
 
 Sprite_8* gSprite_8_703820;
 
-STUB_FUNC(0x5a5860)
+MATCH_FUNC(0x5a5860)
 void Sprite_8::sub_5A5860()
 {
+    field_0 = 0;
 }
 
 STUB_FUNC(0x5a5870)
