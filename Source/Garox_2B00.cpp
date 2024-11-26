@@ -1,4 +1,5 @@
 #include "Garox_2B00.hpp"
+#include "root_sound.hpp"
 
 Garox_2B00* gGarox_2B00_706620;
 
@@ -310,9 +311,20 @@ Garox_1700_L* Garox_1700_L::ctor_5D2280()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x4be650)
-void Garox_C::dtor_4BE650()
+MATCH_FUNC(0x4be650)
+Garox_C::~Garox_C()
 {
+    infallible_turing* v2 = field_8;
+    field_0 = -1;
+    field_4 = 0;
+
+    if (v2)
+    {
+        v2->release_40EF20();
+        v2->field_C_pAny = gRoot_sound_66B038.field_0;
+        gRoot_sound_66B038.field_0 = v2;
+        field_8 = 0;
+    }
 }
 
 STUB_FUNC(0x5d2320)
@@ -384,10 +396,12 @@ s32 Garox_C::sub_5D3310(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5d7650)
-Garox_C* Garox_C::ctor_5D7650()
+MATCH_FUNC(0x5d7650)
+Garox_C::Garox_C()
 {
-    return 0;
+    field_0 = -1;
+    field_4 = 0;
+    field_8 = 0;
 }
 
 // ----------------------------------------------------

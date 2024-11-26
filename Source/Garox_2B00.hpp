@@ -365,7 +365,7 @@ class Garox_1700_L
 class Garox_C
 {
   public:
-    EXPORT void dtor_4BE650();
+    EXPORT ~Garox_C();
     EXPORT s32 sub_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
@@ -378,7 +378,7 @@ class Garox_C
     EXPORT s32 sub_5D32D0(s32 a2);
     EXPORT Garox_C* sub_5D32F0(s32 a2, s32 a3);
     EXPORT s32 sub_5D3310(s32 a2);
-    EXPORT Garox_C* ctor_5D7650();
+    EXPORT Garox_C();
     s32 field_0;
     s32 field_4;
     infallible_turing* field_8;
