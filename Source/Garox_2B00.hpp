@@ -409,10 +409,7 @@ class Garox_30_Sub
     s32 field_40;
     s32 field_44;
     s32 field_18;
-    char_type field_1C;
-    char_type field_1D;
-    char_type field_1E;
-    char_type field_1F;
+    s32 field_1C;
 };
 
 class Garox_20_Sub
@@ -989,6 +986,5 @@ class Garox_2B00
 };
 
 extern Garox_2B00* gGarox_2B00_706620;
-
 
 extern s16 word_706600;
