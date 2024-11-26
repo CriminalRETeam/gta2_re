@@ -48,10 +48,10 @@ for:
    - git submodule update --init --recursive
 
   build_script:
-   - python setup.py
+   - pip install -r requirements.txt
+   - python vc6_setup.py
    - build.bat
    - cd ../Scripts/bin_comp
-   - pip install -r requirements.txt
    - python msvc_dump_func_data.py
    - python download_exe.py
    - python compare_all_functions.py
@@ -74,16 +74,16 @@ for:
    - git submodule update --init --recursive
 
   build_script:
-   - python3 setup.py
+   - python3 -m venv ~/venv
+   - ~/venv/bin/pip install -r requirements.txt
+   - ~/venv/bin/python vc6_setup.py
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wineboot
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wine cmd /c build.bat
    - cd Scripts/bin_comp
-   - python3 msvc_dump_func_data.py
-   - python3 -m venv ./venv
-   - ./venv/bin/pip install -r requirements.txt
-   - ./venv/bin/python download_exe.py
-   - ./venv/bin/python compare_all_functions.py
+   - ~/venv/bin/python msvc_dump_func_data.py
+   - ~/venv/bin/python download_exe.py
+   - ~/venv/bin/python compare_all_functions.py
 
   artifacts:
     - path: build_vc6/decomp_main.exe
