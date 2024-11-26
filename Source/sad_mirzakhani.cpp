@@ -1,16 +1,7 @@
 #include "sad_mirzakhani.hpp"
 #include "Function.hpp"
 #include "angry_lewin_0x85C.hpp" // eager_benz
-
-// TODO: Move
-struct rng
-{
-    s32 field_0_rng;
-    s32 field_4_rnd;
-};
-
-// TODO: Move
-rng* rng_dword_67AB34;
+#include "rng.hpp"
 
 MATCH_FUNC(0x431D30);
 silly_saha_0x2C::silly_saha_0x2C()
