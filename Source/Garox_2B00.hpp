@@ -915,7 +915,7 @@ class Garox_90_L
 class Garox_4_L
 {
   public:
-    EXPORT Garox_4_L* ctor_5D53B0();
+    EXPORT Garox_4_L();
     char_type field_0;
     char_type field_1;
     char_type field_2;
