@@ -130,9 +130,10 @@ u8 Phi_8CA8::sub_534270()
     return 0;
 }
 
-STUB_FUNC(0x5342d0)
+MATCH_FUNC(0x5342d0)
 void Phi_8CA8::sub_5342D0()
 {
+    field_8CA4 = sub_534360(112)->field_1E;
 }
 
 MATCH_FUNC(0x5342f0)
