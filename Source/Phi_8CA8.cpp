@@ -1,4 +1,5 @@
 #include "Phi_8CA8.hpp"
+#include "gtx_0x106C.hpp"
 #include <memory.h>
 
 MATCH_FUNC(0x4bdf60)
@@ -134,10 +135,13 @@ void Phi_8CA8::sub_5342D0()
 {
 }
 
-STUB_FUNC(0x5342f0)
-u8 Phi_8CA8::sub_5342F0(s32 a2)
+MATCH_FUNC(0x5342f0)
+void Phi_8CA8::sub_5342F0(s32 idx)
 {
-    return 0;
+    Phi_74* v2 = sub_534360(idx);
+    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(4, v2->field_1E);
+    sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+    psprite_index->sub_5ABAA0(1);
 }
 
 MATCH_FUNC(0x534330)

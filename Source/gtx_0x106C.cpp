@@ -16,6 +16,17 @@ struct sty_header
     short field_4_version;
 };
 
+STUB_FUNC(0x5abaa0)
+u8 sprite_index::sub_5ABAA0(char_type a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5abb00)
+void sprite_index::sub_5ABB00(s32 a2)
+{
+}
+
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
 {
