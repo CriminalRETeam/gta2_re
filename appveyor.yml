@@ -77,13 +77,13 @@ for:
    - python3 -m venv ~/venv
    - ~/venv/bin/pip install -r requirements.txt
    - ~/venv/bin/python vc6_setup.py
-   - cd Scripts/bin_comp
-   - ~/venv/bin/python download_exe.py
-   - ~/venv/bin/python compare_all_functions.py
    - rm -Rf ./wine
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wineboot
    - WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run wine cmd /c build.bat
+   - cd Scripts/bin_comp
    - ~/venv/bin/python msvc_dump_func_data.py
+   - ~/venv/bin/python download_exe.py
+   - ~/venv/bin/python compare_all_functions.py
 
   artifacts:
     - path: build_vc6/decomp_main.exe
