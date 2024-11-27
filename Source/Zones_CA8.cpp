@@ -27,10 +27,10 @@ void Zone_144::init_4BED70()
 {
 }
 
-STUB_FUNC(0x4BEDF0)
+MATCH_FUNC(0x4BEDF0)
 char_type Zone_144::sub_4BEDF0(u8 a2)
 {
-    return 0;
+    return field_112[a2];
 }
 
 STUB_FUNC(0x4BEE30)
@@ -62,9 +62,10 @@ bool Zone_144::sub_4BEF10(u8 a2)
     return false;
 }
 
-STUB_FUNC(0x4BEF50)
+MATCH_FUNC(0x4BEF50)
 void Zone_144::sub_4BEF50(u8 zone_idx, char_type a3)
 {
+    field_122[zone_idx] = a3;
 }
 
 STUB_FUNC(0x4BEF70)
@@ -81,8 +82,8 @@ void Zone_144::sub_4BF000(u8 a2, char_type a3)
 MATCH_FUNC(0x4BF090);
 void Zone_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 {
-    strncpy(this->field_2_name, pName, nameLen);
-    this->field_2_name[nameLen] = 0; // NULL terminate the string
+    strncpy(field_2_name, pName, nameLen);
+    field_2_name[nameLen] = 0; // NULL terminate the string
 }
 
 STUB_FUNC(0x4BF340)
@@ -126,7 +127,7 @@ Zone_144* Zones_CA8::zone_by_name_4BF100(const char* pZoneName)
 MATCH_FUNC(0x4BF170);
 Zone_144* Zones_CA8::next_free_zone_4BF170()
 {
-    for (u8 i = 0; i < 10; i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         if (!field_0[i].field_0_used)
         {
@@ -136,7 +137,7 @@ Zone_144* Zones_CA8::next_free_zone_4BF170()
             return result;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4BF1C0);
