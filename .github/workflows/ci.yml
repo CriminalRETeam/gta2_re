@@ -83,10 +83,16 @@ jobs:
     - name: Build on Linux
       if: matrix.name == 'Linux_wine_VC6'
       run: |
-        python3 vc6_setup.py
+        python3 -m venv ~/venv
+        ~/venv/bin/pip install -r requirements.txt
+        ~/venv/bin/python vc6_setup.py
         rm -Rf ./wine
         WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wineboot
         WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wine cmd /c build.bat
+        cd Scripts/bin_comp
+        ~/venv/bin/python msvc_dump_func_data.py
+        ~/venv/bin/python download_exe.py
+        ~/venv/bin/python compare_all_functions.py
 
     - name: Upload artifacts on Linux
       if: matrix.name == 'Linux_wine_VC6'
