@@ -27,10 +27,10 @@ void Zone_144::init_4BED70()
 {
 }
 
-STUB_FUNC(0x4BEDF0)
+MATCH_FUNC(0x4BEDF0)
 char_type Zone_144::sub_4BEDF0(u8 a2)
 {
-    return 0;
+    return field_112[a2];
 }
 
 STUB_FUNC(0x4BEE30)
