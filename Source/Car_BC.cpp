@@ -359,13 +359,12 @@ u32 Car_6C::sub_446930(s32 a2)
 }
 
 STUB_FUNC(0x4469f0)
-Car_6C* Car_6C::ctor_4469F0()
+Car_6C::Car_6C()
 {
-    return 0;
 }
 
 STUB_FUNC(0x446dc0)
-void Car_6C::dtor_446DC0()
+Car_6C::~Car_6C()
 {
 }
 

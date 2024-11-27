@@ -59,7 +59,7 @@ void jawwie_20::sub_4FB330()
 }
 
 STUB_FUNC(0x4beae0)
-void jawwie_110::dtor_4BEAE0()
+jawwie_110::~jawwie_110()
 {
 }
 

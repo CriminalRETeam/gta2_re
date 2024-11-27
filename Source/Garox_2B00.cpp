@@ -676,7 +676,7 @@ Garox_4_L::Garox_4_L()
 // ----------------------------------------------------
 
 STUB_FUNC(0x4bbbb0)
-void Garox_2B00::dtor_4BBBB0()
+Garox_2B00::~Garox_2B00()
 {
 }
 

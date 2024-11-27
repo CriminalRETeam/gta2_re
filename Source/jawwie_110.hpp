@@ -24,6 +24,7 @@ class jawwie_20
     EXPORT char_type sub_4FA9D0();
     EXPORT u32* sub_4FAAC0();
     EXPORT void sub_4FB330();
+
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -45,13 +46,14 @@ class jawwie_20
 class jawwie_110
 {
   public:
-    EXPORT void dtor_4BEAE0();
+    EXPORT ~jawwie_110();
     EXPORT jawwie_8* ctor_4FA310();
     EXPORT char_type sub_4FA330(cool_nash_0x294* a2);
     EXPORT char_type sub_4FA470(cool_nash_0x294* a2);
     EXPORT jawwie_20* sub_4FA4B0();
     EXPORT void sub_4FA500();
     EXPORT void sub_4FA790();
+
     char_type field_0;
     char_type field_1_f8_idx;
     char_type field_2;

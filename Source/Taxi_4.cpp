@@ -25,6 +25,6 @@ Taxi_4* Taxi_4::ctor_5AE060()
 }
 
 STUB_FUNC(0x5ae0d0)
-void Taxi_4::dtor_5AE0D0()
+Taxi_4::~Taxi_4()
 {
 }

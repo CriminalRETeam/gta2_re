@@ -32,7 +32,7 @@ TileAnim_2* TileAnim_2::ctor_5BC3A0()
 }
 
 STUB_FUNC(0x5bc470)
-void TileAnim_2::dtor_5BC470()
+TileAnim_2::~TileAnim_2()
 {
 }
 

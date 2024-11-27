@@ -8,11 +8,12 @@ class cool_nash_0x294;
 class ChickenLegend_48
 {
   public:
-    EXPORT void dtor_4BBC60();
+    EXPORT ~ChickenLegend_48();
     EXPORT char_type sub_534650();
     EXPORT void sub_534700(Car_BC* a2, void* a3);
     EXPORT void sub_5349D0();
     EXPORT ChickenLegend_48* ctor_534E80();
+
     Car_BC* field_0;
     Car_BC* field_4;
     s32 field_8;

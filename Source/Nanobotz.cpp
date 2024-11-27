@@ -2,6 +2,18 @@
 
 Nanobotz* gpNanobotz_6F66E4;
 
+u32 dword_67DCCC;
+
+Nanobotz::Nanobotz()
+{
+    field_0_ambient = dword_67DCCC;
+    field_4 = dword_67DCCC;
+    field_8 = 0;
+    field_2F00_drawn_tile_count = 0;
+    field_2EFC_count = 0;
+    set_shading_lev_4E9DB0(15u);
+}
+
 STUB_FUNC(0x4e9d50)
 s32 Nanobotz::sub_4E9D50(s32* a2, u16* a3)
 {

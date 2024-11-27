@@ -173,7 +173,7 @@ void Police_A4::dtor_5774A0()
 }
 
 STUB_FUNC(0x4beb50)
-void Police_7B8::dtor_4BEB50()
+Police_7B8::~Police_7B8()
 {
 }
 

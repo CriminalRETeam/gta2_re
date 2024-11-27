@@ -30,7 +30,7 @@ Marz_96* Marz_96::ctor_544BF0()
 }
 
 STUB_FUNC(0x4bdf70)
-void Marz_1D7E::dtor_4BDF70()
+Marz_1D7E::~Marz_1D7E()
 {
 }
 

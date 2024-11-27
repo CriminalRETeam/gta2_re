@@ -139,8 +139,9 @@ class Car_6C
     EXPORT void sub_446790();
     EXPORT bool sub_446870(s32 a2);
     EXPORT u32 sub_446930(s32 a2);
-    EXPORT Car_6C* ctor_4469F0();
-    EXPORT void dtor_446DC0();
+    EXPORT Car_6C();
+    EXPORT ~Car_6C();
+
     Car_2 field_0;
     s16 field_2;
     cool_nash_0x294* field_4;

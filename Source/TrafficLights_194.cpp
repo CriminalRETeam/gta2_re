@@ -29,6 +29,6 @@ TrafficLights_194* TrafficLights_194::ctor_5C2B00()
 }
 
 STUB_FUNC(0x5c2b30)
-void TrafficLights_194::dtor_5C2B30()
+TrafficLights_194::~TrafficLights_194()
 {
 }

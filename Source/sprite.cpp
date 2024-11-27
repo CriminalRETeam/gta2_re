@@ -21,7 +21,7 @@ Sprite_8* Sprite_8::ctor_5A58A0()
 }
 
 STUB_FUNC(0x5a5b50)
-void Sprite_8::dtor_5A5B50()
+Sprite_8::~Sprite_8()
 {
 }
 

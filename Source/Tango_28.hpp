@@ -31,6 +31,10 @@ class Tango_28
 class Tango_54
 {
   public:
+    // TODO: address
+    EXPORT ~Tango_54()
+    {
+    }
     EXPORT void sub_4A85F0();
     EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
     EXPORT Tango_28* sub_4A8800();

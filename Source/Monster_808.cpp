@@ -58,7 +58,6 @@ Monster_808* Monster_808::ctor_454B00()
 }
 
 STUB_FUNC(0x454b20)
-s32 Monster_808::dtor_454B20()
+Monster_808::~Monster_808()
 {
-    return 0;
 }

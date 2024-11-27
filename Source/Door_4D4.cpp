@@ -172,6 +172,6 @@ Door_4D4* Door_4D4::ctor_49D4A0()
 }
 
 STUB_FUNC(0x49d570)
-void Door_4D4::dtor_49D570()
+Door_4D4::~Door_4D4()
 {
 }

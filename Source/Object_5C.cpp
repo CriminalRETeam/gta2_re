@@ -19,7 +19,7 @@ Object_5C* Object_5C::ctor_529430()
 }
 
 STUB_FUNC(0x529750)
-void Object_5C::dtor_529750()
+Object_5C::~Object_5C()
 {
 }
 

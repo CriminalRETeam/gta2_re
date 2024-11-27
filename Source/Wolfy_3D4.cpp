@@ -19,7 +19,7 @@ Wolfy_7A8* Wolfy_7A8::ctor_5438B0()
 }
 
 STUB_FUNC(0x5438f0)
-void Wolfy_7A8::dtor_5438F0()
+Wolfy_7A8::~Wolfy_7A8()
 {
 }
 
@@ -46,6 +46,6 @@ Wolfy_3D4* Wolfy_3D4::ctor_543980()
 }
 
 STUB_FUNC(0x5439c0)
-void Wolfy_3D4::dtor_5439C0()
+Wolfy_3D4::~Wolfy_3D4()
 {
 }

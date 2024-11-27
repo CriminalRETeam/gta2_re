@@ -207,6 +207,6 @@ Sero_181C* Sero_181C::ctor_57B7B0()
 }
 
 STUB_FUNC(0x57b820)
-void Sero_181C::dtor_57B820()
+Sero_181C::~Sero_181C()
 {
 }

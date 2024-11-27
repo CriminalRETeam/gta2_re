@@ -123,7 +123,7 @@ class Zone_144
 class Zones_CA8
 {
   public:
-    EXPORT void dtor_4BE500();
+    EXPORT ~Zones_CA8();
     EXPORT Zone_144* sub_4BECA0();
     EXPORT Zone_144* sub_4BECE0();
     EXPORT Zone_144* zone_by_name_4BF100(const char* pZoneName);
