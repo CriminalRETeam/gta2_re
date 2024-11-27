@@ -201,9 +201,8 @@ bool Sero_181C::sub_57B740(Car_BC* a2, Car_BC* a3)
 }
 
 STUB_FUNC(0x57b7b0)
-Sero_181C* Sero_181C::ctor_57B7B0()
+Sero_181C::Sero_181C()
 {
-    return 0;
 }
 
 STUB_FUNC(0x57b820)

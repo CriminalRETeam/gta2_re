@@ -13,9 +13,8 @@ Wolfy_30* Wolfy_7A8::sub_543800()
 }
 
 STUB_FUNC(0x5438b0)
-Wolfy_7A8* Wolfy_7A8::ctor_5438B0()
+Wolfy_7A8::Wolfy_7A8()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5438f0)
@@ -40,9 +39,8 @@ s32 Wolfy_30::sub_543650()
 }
 
 STUB_FUNC(0x543980)
-Wolfy_3D4* Wolfy_3D4::ctor_543980()
+Wolfy_3D4::Wolfy_3D4()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5439c0)

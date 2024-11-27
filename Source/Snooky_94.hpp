@@ -34,7 +34,7 @@ class Snooky_94
     EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
     EXPORT void sub_4887F0();
     EXPORT Snooky_30* sub_488820(s32 a2, s32 a3);
-    EXPORT Snooky_94* ctor_488860();
+    EXPORT Snooky_94();
     EXPORT ~Snooky_94();
 
     Snooky_30 field_0[3];

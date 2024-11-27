@@ -19,9 +19,8 @@ char_type Varrok_7F8::sub_59B0D0(u8 idx)
 }
 
 STUB_FUNC(0x59b0f0)
-Varrok_7F8* Varrok_7F8::ctor_59B0F0()
+Varrok_7F8::Varrok_7F8()
 {
-    return 0;
 }
 
 STUB_FUNC(0x59b110)

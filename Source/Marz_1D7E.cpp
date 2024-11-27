@@ -35,9 +35,8 @@ Marz_1D7E::~Marz_1D7E()
 }
 
 STUB_FUNC(0x543ed0)
-Marz_1D7E* Marz_1D7E::ctor_543ED0()
+Marz_1D7E::Marz_1D7E()
 {
-    return 0;
 }
 
 STUB_FUNC(0x543f10)

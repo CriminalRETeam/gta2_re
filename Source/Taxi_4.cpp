@@ -19,9 +19,8 @@ s32 Taxi_4::sub_457BF0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5ae060)
-Taxi_4* Taxi_4::ctor_5AE060()
+Taxi_4::Taxi_4()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5ae0d0)

@@ -7,6 +7,11 @@ class cool_nash_0x294;
 class Orca_2FD4
 {
   public:
+    Orca_2FD4()
+    {
+        field_3C = 0;
+        ctor_5545E0();
+    }
     EXPORT bool sub_554080(s32 a2);
     EXPORT char_type sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
     EXPORT char_type sub_554110(char_type a2, char_type a3);

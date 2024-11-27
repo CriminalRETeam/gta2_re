@@ -26,9 +26,8 @@ void TileAnim_2::sub_5BC310()
 }
 
 STUB_FUNC(0x5bc3a0)
-TileAnim_2* TileAnim_2::ctor_5BC3A0()
+TileAnim_2::TileAnim_2()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5bc470)

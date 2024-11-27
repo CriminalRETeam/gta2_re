@@ -197,7 +197,6 @@ void force_link()
     burgerking.ShowInput_4CEE10();
 
     Garox_2B00 garox;
-    garox.ctor_5D6CD0();
 
     Nanobotz nano;
     nano.draw_bottom_4ED290(0);

@@ -41,6 +41,7 @@
 #include "collide.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "gtx_0x106C.hpp"
 #include "jawwie_110.hpp"
@@ -757,9 +758,344 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
     }
 }
 
+// TODO: move?
+char_type byte_679C0A;
+u32 dword_67DCCC;
+
 STUB_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
+    stru_6F6784.srand_4F7A40(); // srand?
+
+    field_3C_bSkipPolice = bSkip_police_67D4F9;
+
+    for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
+    {
+        field_4_players[ii] = 0;
+    }
+
+    field_23_max_idx = max_players;
+    field_24_cur_idx = player_idx;
+    for (u32 i = 0; i < field_23_max_idx; i++)
+    {
+        field_4_players[i] = new angry_lewin_0x85C(i); // wrong ctor call ??
+        if (!field_4_players[i])
+        {
+            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1784);
+        }
+    }
+    angry_lewin_0x85C* pPlayer = field_4_players[field_24_cur_idx];
+    field_38_orf1 = pPlayer;
+    pPlayer->field_0 = 1;
+    field_1C_unk = field_38_orf1;
+
+    rng_dword_67AB34 = new rng();
+    if (!rng_dword_67AB34)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1793);
+    }
+
+    gText_0x14_704DFC = new text_0x14();
+    if (!gText_0x14_704DFC)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1795);
+    }
+
+    gGtx_0x106C_703DD4 = new gtx_0x106C();
+    if (!gGtx_0x106C_703DD4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1803);
+    }
+
+    gMap_0x370_6F6268 = new Map_0x370();
+    if (!gMap_0x370_6F6268)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1806);
+    }
+
+    gpNanobotz_6F66E4 = new Nanobotz();
+    if (!gpNanobotz_6F66E4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
+    }
+
+    gMontana_67B580 = new Montana();
+    if (!gMontana_67B580)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1810);
+    }
+
+    gMike_A80_6F7328 = new Mike_A80(); // inlined
+    if (!gMike_A80_6F7328)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1824);
+    }
+
+    gCar_6C_677930 = new Car_6C();
+    if (!gCar_6C_677930)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1827);
+    }
+
+    gCar_214_705F20 = new Car_214();
+    if (!gCar_214_705F20)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1829);
+    }
+
+    gfrosty_pasteur_6F8060 = new frosty_pasteur_0xC1EA8();
+    if (!gfrosty_pasteur_6F8060)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
+    }
+
+    gFrismo_25C_6F8068 = new Frismo_25C();
+    if (!gFrismo_25C_6F8068)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
+    }
+
+    gsharp_bose_0x54_7055D4 = new sharp_bose_0x54();
+    if (!gsharp_bose_0x54_7055D4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1836);
+    }
+
+    gSprite_8_703820 = new Sprite_8();
+    if (!gSprite_8_703820)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1839);
+    }
+
+    gChar_C_6787BC = new Char_C();
+    if (!gChar_C_6787BC)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1841);
+    }
+
+    gCollide_C_6791FC = new Collide_C();
+    if (!gCollide_C_6791FC)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1843);
+    }
+
+    gPhi_8CA8_6FCF00 = new Phi_8CA8();
+    if (!gPhi_8CA8_6FCF00)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1845);
+    }
+
+    gObject_5C_6F8F84 = new Object_5C();
+    if (!gObject_5C_6F8F84)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1847);
+    }
+
+    gVarrok_7F8_703398 = new Varrok_7F8();
+    if (!gVarrok_7F8_703398)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1849);
+    }
+
+    gTileAnim_2_7052C4 = new TileAnim_2();
+    if (!gTileAnim_2_7052C4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1851);
+    }
+
+    gWeapon_8_707018 = new Weapon_8();
+    if (!gWeapon_8_707018)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1853);
+    }
+
+    gDoor_4D4_67BD2C = new Door_4D4();
+    if (!gDoor_4D4_67BD2C)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1855);
+    }
+
+    gjawwie_110_6F70A8 = new jawwie_110();
+    if (!gjawwie_110_6F70A8)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
+    }
+
+    gSero_181C_6FF1D4 = new Sero_181C();
+    if (!gSero_181C_6FF1D4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1860);
+    }
+
+    gTaxi_4_704130 = new Taxi_4();
+    if (!gTaxi_4_704130)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1863);
+    }
+
+    gGarox_2B00_706620 = new Garox_2B00();
+    if (!gGarox_2B00_706620)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1865);
+    }
+
+    gSharp_pare_0x15D8_705064 = new sharp_pare_0x15D8();
+    if (!gSharp_pare_0x15D8_705064)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1867);
+    }
+
+    gTrafficLights_194_705958 = new TrafficLights_194();
+    if (!gTrafficLights_194_705958)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1869);
+    }
+
+    gSoula_CC68_6FFDC8 = new Soula_CC68();
+    if (!gSoula_CC68_6FFDC8)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
+    }
+
+    gMarz_1D7E_6FD784 = new Marz_1D7E();
+    if (!gMarz_1D7E_6FD784)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1873);
+    }
+
+    gOrca_2FD4_6FDEF0 = new Orca_2FD4();
+    if (!gOrca_2FD4_6FDEF0)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
+    }
+
+    gMonster_808_678098 = new Monster_808();
+    if (!gMonster_808_678098)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1877);
+    }
+
+    gParticle_8_6FD5E8 = new Particle_8();
+    if (!gParticle_8_6FD5E8)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1879);
+    }
+
+    gWolfy_3D4_6FD5EC = new Wolfy_3D4();
+    if (!gWolfy_3D4_6FD5EC)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1881);
+    }
+
+    gWolfy_7A8_6FD5F0 = new Wolfy_7A8();
+    if (!gWolfy_7A8_6FD5F0)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1883);
+    }
+
+    gZheal_D9C_679FD4 = new Zheal_D9C();
+    if (!gZheal_D9C_679FD4)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1885);
+    }
+
+    gSnooky_94_67A830 = new Snooky_94();
+    if (!gSnooky_94_67A830)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1887);
+    }
+
+    gMaccies_14AC_67E5D0 = new Maccies_14AC();
+    if (!gMaccies_14AC_67E5D0)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1889);
+    }
+
+    gKfc_1E0_706280 = new Kfc_1E0();
+    if (!gKfc_1E0_706280)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1891);
+    }
+
+    gPolice_7B8_6FEE40 = new Police_7B8();
+    if (!gPolice_7B8_6FEE40)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1893);
+    }
+
+    gLight_1D4CC_6F5520 = new Light_1D4CC();
+    if (!gLight_1D4CC_6F5520)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1896);
+    }
+
+    gZones_CA8_67E274 = new Zones_CA8();
+    if (!gZones_CA8_67E274)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
+    }
+
+    gChickenLegend_48_6FD26C = new ChickenLegend_48();
+    if (!gChickenLegend_48_6FD26C)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
+    }
+
+    gHamburger_500_678E30 = new Hamburger_500();
+    if (!gHamburger_500_678E30)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1903);
+    }
+
+    if (!bExplodingOff_67D4FB)
+    {
+        gCokeZero_100_702F34 = new CokeZero_100();
+        if (!gCokeZero_100_702F34)
+        {
+            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);
+        }
+    }
+
+    gShooey_CC_67A4B8 = new Shooey_CC();
+    if (!gShooey_CC_67A4B8)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
+    }
+
+    gTango_54_67D4C0 = new Tango_54();
+    if (!gTango_54_67D4C0)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1915);
+    }
+
+    gRozza_C88_66AFE0 = new Rozza_C88();
+    if (!gRozza_C88_66AFE0)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1918);
+    }
+
+    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    {
+        gMagical_germain_0x8EC_6F5168 = new magical_germain_0x8EC();
+        if (!gMagical_germain_0x8EC_6F5168)
+        {
+            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1923);
+        }
+    }
+
+    field_21_player_camera_idx = 0;
+    field_22 = 0;
+    field_0_game_state = 1;
+    byte_679C0A = 0;
+    field_20_idx = 0;
+    field_28_timer = -1;
+    field_30 = 0;
+    field_2C_main_state = 0;
+    field_34 = 0;
+    if (!bSkip_audio_67D6BE)
+    {
+        gRoot_sound_66B038.sub_40F010();
+    }
 }
 
 MATCH_FUNC(0x4BAE30)

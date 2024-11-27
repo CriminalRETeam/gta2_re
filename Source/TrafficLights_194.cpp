@@ -23,9 +23,8 @@ void TrafficLights_194::sub_5C2AC0()
 }
 
 STUB_FUNC(0x5c2b00)
-TrafficLights_194* TrafficLights_194::ctor_5C2B00()
+TrafficLights_194::TrafficLights_194()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5c2b30)

@@ -42,6 +42,10 @@ class Kfc_30
 class Kfc_1E0
 {
   public:
+    Kfc_1E0()
+    {
+        ctor_5CBB70();
+    }
     EXPORT ~Kfc_1E0();
     EXPORT void ctor_5CBB70();
     EXPORT Kfc_30* sub_5CBB80();

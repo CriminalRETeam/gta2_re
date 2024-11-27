@@ -48,9 +48,8 @@ char_type Weapon_8::sub_5E3E80(s32 a2)
 }
 
 STUB_FUNC(0x5e3e90)
-Weapon_8* Weapon_8::ctor_5E3E90()
+Weapon_8::Weapon_8()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5e3f60)

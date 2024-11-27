@@ -197,9 +197,8 @@ Zheal_15C* Zheal_D9C::sub_480EC0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x480f50)
-Zheal_D9C* Zheal_D9C::ctor_480F50()
+Zheal_D9C::Zheal_D9C()
 {
-    return 0;
 }
 
 STUB_FUNC(0x4bbbf0)

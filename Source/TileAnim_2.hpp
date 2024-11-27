@@ -9,7 +9,7 @@ class TileAnim_2
     EXPORT s32 sub_5BC2C0();
     EXPORT void Empty_5BC300();
     EXPORT void sub_5BC310();
-    EXPORT TileAnim_2* ctor_5BC3A0();
+    EXPORT TileAnim_2();
     EXPORT ~TileAnim_2();
     s16 field_0_count;
 };

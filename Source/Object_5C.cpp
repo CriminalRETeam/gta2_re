@@ -13,9 +13,8 @@ void Object_5C::sub_5293A0()
 }
 
 STUB_FUNC(0x529430)
-Object_5C* Object_5C::ctor_529430()
+Object_5C::Object_5C()
 {
-    return 0;
 }
 
 STUB_FUNC(0x529750)

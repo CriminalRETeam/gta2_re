@@ -68,7 +68,7 @@ class Soula_CC68
     EXPORT s16 sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
     EXPORT s16 sub_58A130(u8 a2, s16 a3, u8 a4, u8* a5, s32 a6, s32 a7);
     EXPORT s16 sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
-    EXPORT Soula_CC68* ctor_58A1C0();
+    EXPORT Soula_CC68();
 
     s16 field_0;
     u8 field_2;

@@ -18,6 +18,32 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_C, 0xC)
 class Frismo_25C
 {
   public:
+    Frismo_25C()
+    {
+        // TODO: no match
+
+        //  v28 = field_4;
+
+        /*
+    pOff = &pNew_Frismo_25C->field_4[0].field_8_next;
+    v30 = 49;
+    do
+    {
+      *pOff = (Frismo_C *)(pOff + 1);
+      pOff += 3;
+      --v30;
+    }
+    while ( v30 );
+        */
+        for (s32 i = 0; i < 50 - 1; i++)
+        {
+            field_4[i].field_8_next = &field_4[i + 1];
+        }
+
+        field_4[49].field_8_next = 0;
+        field_0 = field_4;
+    }
+
     EXPORT ~Frismo_25C();
     Frismo_C* field_0;
     Frismo_C field_4[50];

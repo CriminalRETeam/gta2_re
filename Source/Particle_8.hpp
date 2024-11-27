@@ -12,7 +12,7 @@ class Particle_8
     EXPORT void sub_53E970(Fix16* a2);
     EXPORT void sub_53F060(s32 a1, s32 a2, s32 a3, s16 a4, char_type a5);
     EXPORT void sub_5406B0(s32 a2, char_type a3);
-    EXPORT Particle_8* ctor_5439D0();
+    EXPORT Particle_8();
     EXPORT ~Particle_8();
     s32 field_0;
     s32 field_4;
