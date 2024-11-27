@@ -6,10 +6,23 @@ void Maccies_2C::sub_4C1C50()
 {
 }
 
-STUB_FUNC(0x4c1c70)
-s32 Maccies_2C::sub_4C1C70(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8)
+MATCH_FUNC(0x4c1c70)
+void Maccies_2C::sub_4C1C70(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8)
 {
-    return 0;
+    field_4 = a2;
+    field_8 = a3;
+    field_C = a4;
+    field_10 = a5;
+    field_0 = a6;
+    field_12 = a7;
+    field_14 = a8;
+    field_18 = rng_dword_67AB34->field_0_rng + 1;
+    field_20 = 1;
+    field_1E = 0;
+    field_1C = 0;
+    field_24 = 0;
+    field_28 = 0;
+    field_21 = 1;
 }
 
 STUB_FUNC(0x4c1cd0)
