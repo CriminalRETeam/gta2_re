@@ -17,7 +17,18 @@ class root_sound
     */
     // todo: ordering
 
-    EXPORT infallible_turing* CreateSoundObject_40EF40(infallible_turing* pObject, s32 objectType);
+/*
+ound obj types
+
+type 1 Car_3C
+type 5 DrawUnk_0xBC
+type 6 Rozza_C88
+type 7 Weapon_30
+type 8 Zheal_15C
+type 9 Snooky_30
+type 11 some garox obj
+*/
+    EXPORT infallible_turing* CreateSoundObject_40EF40(void* pObject, s32 objectType);
 
     EXPORT void sub_40EF80();
 
