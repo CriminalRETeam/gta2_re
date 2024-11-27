@@ -214,7 +214,6 @@ s16 Soula_CC68::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 }
 
 STUB_FUNC(0x58a1c0)
-Soula_CC68* Soula_CC68::ctor_58A1C0()
+Soula_CC68::Soula_CC68()
 {
-    return 0;
 }

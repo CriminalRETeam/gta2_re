@@ -175,6 +175,11 @@ class Police_A4
 class Police_7B8
 {
   public:
+    Police_7B8()
+    {
+        sub_56F400();
+    }
+
     EXPORT ~Police_7B8();
     EXPORT s32 sub_56F400();
     EXPORT char_type sub_56F4D0(cool_nash_0x294* a2);

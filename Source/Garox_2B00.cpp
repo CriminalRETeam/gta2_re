@@ -760,7 +760,6 @@ s32 Garox_2B00::sub_5D6CB0(s32 a1)
 }
 
 STUB_FUNC(0x5d6cd0)
-Garox_2B00* Garox_2B00::ctor_5D6CD0()
+Garox_2B00::Garox_2B00()
 {
-    return 0;
 }

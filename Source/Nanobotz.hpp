@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 
 class Vert_DX;
 class Fix16_2;
@@ -8,7 +9,15 @@ class Fix16_2;
 class Nanobotz
 {
   public:
-    EXPORT Nanobotz();
+    Nanobotz()
+    {
+        field_0_ambient = dword_67DCCC;
+        field_4 = dword_67DCCC;
+        field_8 = 0;
+        field_2F00_drawn_tile_count = 0;
+        field_2EFC_count = 0;
+        set_shading_lev_4E9DB0(15u);
+    }
 
     EXPORT s32 sub_4E9D50(s32* a2, u16* a3);
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);

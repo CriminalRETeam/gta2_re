@@ -163,6 +163,8 @@ class angry_lewin_0x85C
     EXPORT void sub_56A490();
     EXPORT void sub_56A6D0();
 
+    EXPORT angry_lewin_0x85C();
+
     // 0x56A740
     EXPORT angry_lewin_0x85C(u8 a2);
 

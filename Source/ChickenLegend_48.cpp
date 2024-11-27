@@ -22,7 +22,6 @@ void ChickenLegend_48::sub_5349D0()
 }
 
 STUB_FUNC(0x534e80)
-ChickenLegend_48* ChickenLegend_48::ctor_534E80()
+ChickenLegend_48::ChickenLegend_48()
 {
-    return 0;
 }

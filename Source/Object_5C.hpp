@@ -12,7 +12,7 @@ class Object_5C
   public:
     EXPORT void sub_529300();
     EXPORT void sub_5293A0();
-    EXPORT Object_5C* ctor_529430();
+    EXPORT Object_5C();
     EXPORT ~Object_5C();
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);

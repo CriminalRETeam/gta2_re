@@ -166,9 +166,8 @@ void Door_4D4::sub_49D460()
 }
 
 STUB_FUNC(0x49d4a0)
-Door_4D4* Door_4D4::ctor_49D4A0()
+Door_4D4::Door_4D4()
 {
-    return 0;
 }
 
 STUB_FUNC(0x49d570)

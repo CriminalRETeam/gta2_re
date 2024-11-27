@@ -74,7 +74,7 @@ void force_link()
     Char_C char_c;
     char_c.DoIanTest_471060(0);
 
-    angry_lewin_0x85C lewin(1);
+    angry_lewin_0x85C lewin;
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
     lewin.sub_564610(0, 0);
@@ -197,7 +197,6 @@ void force_link()
     burgerking.ShowInput_4CEE10();
 
     Garox_2B00 garox;
-    garox.ctor_5D6CD0();
 
     Nanobotz nano;
     nano.draw_bottom_4ED290(0);

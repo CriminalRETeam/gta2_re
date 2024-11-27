@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <memory.h>
 #include <wchar.h>
 
 class Mike_78
@@ -41,6 +42,36 @@ class Mike_78
 class Mike_A80
 {
   public:
+    Mike_A80()
+    {
+        field_0 = 0;
+        field_4 = 0;
+        field_8 = 0;
+        field_C = 0;
+        field_10 = 0;
+        field_14 = 0;
+        field_18 = 0;
+        field_1C = 0;
+        field_20 = 0;
+        field_24 = 0;
+        field_A4_process = 0;
+        field_A0 = 0;
+        memset(&field_28, 0, sizeof(field_28));
+        field_124 = 0;
+        field_120 = 0;
+        memset(&field_A8, 0, sizeof(field_A8));
+        field_1A4_render = 0;
+        field_1A0 = 0;
+        memset(&field_128, 0, sizeof(field_128));
+        field_224_input = 0;
+        field_220 = 0;
+        memset(&field_1A8, 0, sizeof(field_1A8));
+        field_2A4 = 0;
+        field_2A0 = 0;
+        memset(&field_228, 0, sizeof(field_228));
+        sub_4FF1B0();
+    }
+
     EXPORT void sub_4FF1B0();
     EXPORT s32 sDrawFlatRect_4FF1C0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT void DebugDrawProfiling_4FF250();

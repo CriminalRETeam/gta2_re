@@ -15,9 +15,8 @@ void Sprite_8::sub_5A5870()
 }
 
 STUB_FUNC(0x5a58a0)
-Sprite_8* Sprite_8::ctor_5A58A0()
+Sprite_8::Sprite_8()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5a5b50)

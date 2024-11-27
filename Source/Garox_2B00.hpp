@@ -938,7 +938,7 @@ class Garox_2B00
     EXPORT s32 sub_5D6C20(s32 action, char_type* a2);
     EXPORT s32 sub_5D6C70(s32 a1);
     EXPORT s32 sub_5D6CB0(s32 a1);
-    EXPORT Garox_2B00* ctor_5D6CD0();
+    EXPORT Garox_2B00();
 
     Garox_4_L field_0;
     s32 field_4;

@@ -26,9 +26,8 @@ void Particle_8::sub_5406B0(s32 a2, char_type a3)
 }
 
 STUB_FUNC(0x5439d0)
-Particle_8* Particle_8::ctor_5439D0()
+Particle_8::Particle_8()
 {
-    return 0;
 }
 
 STUB_FUNC(0x543a60)

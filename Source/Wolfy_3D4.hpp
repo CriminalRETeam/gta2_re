@@ -32,7 +32,7 @@ class Wolfy_7A8
   public:
     EXPORT s32 sub_543690();
     EXPORT Wolfy_30* sub_543800();
-    EXPORT Wolfy_7A8* ctor_5438B0();
+    EXPORT Wolfy_7A8();
     EXPORT ~Wolfy_7A8();
     Wolfy_30 field_0[40];
     char_type field_780[40];
@@ -41,7 +41,7 @@ class Wolfy_7A8
 class Wolfy_3D4
 {
   public:
-    EXPORT Wolfy_3D4* ctor_543980();
+    EXPORT Wolfy_3D4();
     EXPORT ~Wolfy_3D4();
     Wolfy_30 field_0[20];
     char_type field_3C0[20];

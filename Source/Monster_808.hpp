@@ -17,7 +17,7 @@ class Monster_808
     EXPORT s32 sub_454A50();
     EXPORT s32 sub_454A80(Monster_808* a1);
     EXPORT void sub_454AA0();
-    EXPORT Monster_808* ctor_454B00();
+    EXPORT Monster_808();
     EXPORT ~Monster_808();
 
     Monster_2C* field_0[2];

@@ -123,6 +123,10 @@ class Zone_144
 class Zones_CA8
 {
   public:
+    Zones_CA8()
+    {
+    }
+
     EXPORT ~Zones_CA8();
     EXPORT Zone_144* sub_4BECA0();
     EXPORT Zone_144* sub_4BECE0();

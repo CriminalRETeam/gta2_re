@@ -31,6 +31,14 @@ class Tango_28
 class Tango_54
 {
   public:
+    Tango_54()
+    {
+        for (s32 i = 0; i < 2; i++)
+        {
+            new Tango_28();
+        }
+    }
+
     // TODO: address
     EXPORT ~Tango_54()
     {

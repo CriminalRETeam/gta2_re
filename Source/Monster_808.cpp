@@ -52,9 +52,8 @@ void Monster_808::sub_454AA0()
 }
 
 STUB_FUNC(0x454b00)
-Monster_808* Monster_808::ctor_454B00()
+Monster_808::Monster_808()
 {
-    return 0;
 }
 
 STUB_FUNC(0x454b20)
