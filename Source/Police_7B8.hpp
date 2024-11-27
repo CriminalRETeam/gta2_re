@@ -120,8 +120,8 @@ class Police_A4
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
     EXPORT char_type sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
-    EXPORT Police_A4* ctor_577480();
-    EXPORT void dtor_5774A0();
+    EXPORT Police_A4();
+    EXPORT ~Police_A4();
     char_type field_0;
     char_type field_1;
     char_type field_2;
