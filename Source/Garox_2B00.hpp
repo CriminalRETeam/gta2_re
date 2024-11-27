@@ -922,7 +922,7 @@ class Garox_4_L
 class Garox_2B00
 {
   public:
-    EXPORT void dtor_4BBBB0();
+    EXPORT ~Garox_2B00();
     EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
     EXPORT void sub_5D5240(wchar_t* Source);
@@ -939,6 +939,7 @@ class Garox_2B00
     EXPORT s32 sub_5D6C70(s32 a1);
     EXPORT s32 sub_5D6CB0(s32 a1);
     EXPORT Garox_2B00* ctor_5D6CD0();
+
     Garox_4_L field_0;
     s32 field_4;
     s32 field_8;

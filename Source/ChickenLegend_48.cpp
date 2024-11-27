@@ -1,7 +1,7 @@
 #include "ChickenLegend_48.hpp"
 
 STUB_FUNC(0x4bbc60)
-void ChickenLegend_48::dtor_4BBC60()
+ChickenLegend_48::~ChickenLegend_48()
 {
 }
 

@@ -14,7 +14,7 @@ class Rozza_C88
     EXPORT void sub_40BD10(Car_3C* a2);
     EXPORT void sub_40BDD0(Car_3C* a2, Car_3C* a3);
     EXPORT Rozza_C88();
-    EXPORT infallible_turing* dtor_40BE40();
+    EXPORT ~Rozza_C88();
 
     infallible_turing* field_0_pSoundObj;
     s32 field_4;

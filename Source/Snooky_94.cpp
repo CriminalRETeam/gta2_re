@@ -83,6 +83,6 @@ Snooky_94* Snooky_94::ctor_488860()
 }
 
 STUB_FUNC(0x4bbc30)
-void Snooky_94::dtor_4BBC30()
+Snooky_94::~Snooky_94()
 {
 }

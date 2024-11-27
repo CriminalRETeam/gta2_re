@@ -61,12 +61,11 @@ void Montana::Draw_495560(s32 col_idx)
 }
 
 STUB_FUNC(0x4955a0)
-Montana* Montana::ctor_4955A0()
+Montana::Montana()
 {
-    return 0;
 }
 
 STUB_FUNC(0x495630)
-void Montana::dtor_495630()
+Montana::~Montana()
 {
 }

@@ -12,6 +12,10 @@ class Orca_2FD4
     EXPORT char_type sub_554110(char_type a2, char_type a3);
     EXPORT s32 sub_5545C0();
     EXPORT s32 ctor_5545E0();
+    // TODO: address
+    EXPORT ~Orca_2FD4()
+    {
+    }
     EXPORT s32 sub_554620(s32 a2);
     EXPORT char_type sub_554640();
     EXPORT char_type sub_554710();

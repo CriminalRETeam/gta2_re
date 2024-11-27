@@ -12,7 +12,7 @@ class TrafficLights_194
     EXPORT void ShowTrafficLightsInfo_5C2A10();
     EXPORT void sub_5C2AC0();
     EXPORT TrafficLights_194* ctor_5C2B00();
-    EXPORT void dtor_5C2B30();
+    EXPORT ~TrafficLights_194();
     TrafficLight_20* field_0_traffic_lights[100];
     s16 field_190_array_used_count;
     u8 field_192_phase;

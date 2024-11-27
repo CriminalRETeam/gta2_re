@@ -23,6 +23,7 @@ class Door_38
     EXPORT Object_2C* sub_49CC00(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
     EXPORT void sub_49CD90();
     EXPORT char_type sub_49CE90();
+
     Door_10* field_0;
     Door_10* field_4;
     s32 field_8;
@@ -83,7 +84,8 @@ class Door_4D4
     EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
     EXPORT void sub_49D460();
     EXPORT Door_4D4* ctor_49D4A0();
-    EXPORT void dtor_49D570();
+    EXPORT ~Door_4D4();
+
     Door_38 field_0[22];
     u16 field_4D0_count;
     s16 field_4D2;

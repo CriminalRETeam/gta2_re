@@ -18,7 +18,7 @@ class Weapon_8
     EXPORT char_type sub_5E3E70(s32 a2);
     EXPORT char_type sub_5E3E80(s32 a2);
     EXPORT Weapon_8* ctor_5E3E90();
-    EXPORT void dtor_5E3F60();
+    EXPORT ~Weapon_8();
     s32 field_0;
     s16 field_4;
     s16 field_6;

@@ -42,16 +42,20 @@
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
+#include "gtx_0x106C.hpp"
 #include "jawwie_110.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
+#include "magical_germain_0x8EC.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
+#include "rng.hpp"
 #include "root_sound.hpp"
 #include "sharp_bose_0x54.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "sprite.hpp"
+#include "text_0x14.hpp"
 #include "winmain.hpp"
 
 DrawUnk_0xBC* gViewCamera_676978;
@@ -133,7 +137,6 @@ Collide_C* gCollide_C_6791FC;
 sharp_bose_0x54* gsharp_bose_0x54_7055D4;
 //Car_214* gCar_214_705F20;
 //Car_6C* gCar_6C_677930;
-//rng* rng_dword_67AB34;
 Light_1D4CC* gLight_1D4CC_6F5520;
 
 STUB_FUNC(0x4B8BB0)
@@ -308,13 +311,12 @@ void Game_0x40::ShowCounters_4B8FF0()
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_unk.field_19C_reverse_count);
         gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
-        
+
         // TODO: Seems strange, converted to a local integer point or something ??
-        const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();                                                
+        const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();
         const u32 y = field_38_orf1->field_2C4_player_ped->field_1AC_cam.y.ToInt();
 
-        gmp_zone_unknown* pNavZone =
-            gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
+        gmp_zone_unknown* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_density);
         gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
@@ -760,7 +762,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
 }
 
-STUB_FUNC(0x4BAE30)
+MATCH_FUNC(0x4BAE30)
 Game_0x40::~Game_0x40() // 4BAE30
 {
     bSkip_police_67D4F9 = field_3C_bSkipPolice;
@@ -775,22 +777,27 @@ Game_0x40::~Game_0x40() // 4BAE30
         GTA2_DELETE(field_4_players[i]);
     }
 
-    //GTA2_DELETE(rng_dword_67AB34);
-    //GTA2_CHECKED_DELETE(gText_0x14_704DFC);
-    //GTA2_CHECKED_DELETE(gGtx_0x106C_703DD4);
+    GTA2_DELETE(rng_dword_67AB34);
+    GTA2_CHECKED_DELETE(gText_0x14_704DFC);
+    GTA2_CHECKED_DELETE(gGtx_0x106C_703DD4);
     GTA2_CHECKED_DELETE(gMap_0x370_6F6268);
-    //GTA2_DELETE(gpNanobotz_6F66E4);
+    GTA2_DELETE(gpNanobotz_6F66E4);
     GTA2_CHECKED_DELETE(gMontana_67B580);
-    //GTA2_CHECKED_DELETE(gChar_203AC_6787B8);
+    GTA2_CHECKED_DELETE(gChar_203AC_6787B8);
+
     GTA2_CHECKED_DELETE(gCar_6C_677930);
     GTA2_DELETE(gCar_214_705F20);
     GTA2_CHECKED_DELETE(gfrosty_pasteur_6F8060);
-    //GTA2_CHECKED_DELETE(gFrismo_25C_6F8068);
+    GTA2_CHECKED_DELETE(gFrismo_25C_6F8068);
+
     GTA2_CHECKED_DELETE(gPhi_8CA8_6FCF00);
     GTA2_CHECKED_DELETE(gObject_5C_6F8F84);
+
     GTA2_CHECKED_DELETE(gChar_C_6787BC);
     GTA2_DELETE(gMike_A80_6F7328);
+
     GTA2_CHECKED_DELETE(gsharp_bose_0x54_7055D4);
+
     GTA2_CHECKED_DELETE(gSprite_8_703820);
     GTA2_CHECKED_DELETE(gCollide_C_6791FC);
     GTA2_CHECKED_DELETE(gVarrok_7F8_703398);
@@ -802,17 +809,23 @@ Game_0x40::~Game_0x40() // 4BAE30
     GTA2_CHECKED_DELETE(gjawwie_110_6F70A8);
     GTA2_CHECKED_DELETE(gGarox_2B00_706620);
     GTA2_CHECKED_DELETE(gSharp_pare_0x15D8_705064);
+
     GTA2_CHECKED_DELETE(gTrafficLights_194_705958);
     GTA2_DELETE(gSoula_CC68_6FFDC8);
+
     GTA2_CHECKED_DELETE(gMarz_1D7E_6FD784);
+
     GTA2_CHECKED_DELETE(gOrca_2FD4_6FDEF0);
+
     GTA2_CHECKED_DELETE(gMonster_808_678098);
+
     GTA2_CHECKED_DELETE(gParticle_8_6FD5E8);
     GTA2_CHECKED_DELETE(gWolfy_3D4_6FD5EC);
     GTA2_CHECKED_DELETE(gWolfy_7A8_6FD5F0);
     GTA2_CHECKED_DELETE(gZheal_D9C_679FD4);
     GTA2_CHECKED_DELETE(gSnooky_94_67A830);
     GTA2_DELETE(gMaccies_14AC_67E5D0);
+
     GTA2_CHECKED_DELETE(gKfc_1E0_706280);
     GTA2_CHECKED_DELETE(gPolice_7B8_6FEE40);
     GTA2_CHECKED_DELETE(gLight_1D4CC_6F5520);
@@ -828,7 +841,11 @@ Game_0x40::~Game_0x40() // 4BAE30
     GTA2_CHECKED_DELETE(gShooey_CC_67A4B8);
     GTA2_CHECKED_DELETE(gTango_54_67D4C0);
     GTA2_CHECKED_DELETE(gRozza_C88_66AFE0);
-    //GTA2_CHECKED_DELETE(gMagical_germain_0x8EC_6F5168);
+
+    if (gMagical_germain_0x8EC_6F5168)
+    {
+        GTA2_CHECKED_DELETE(gMagical_germain_0x8EC_6F5168);
+    }
 
     field_1C_unk = 0;
     field_38_orf1 = 0;

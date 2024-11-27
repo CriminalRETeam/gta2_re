@@ -44,7 +44,6 @@ Rozza_C88::Rozza_C88()
 }
 
 STUB_FUNC(0x40be40)
-infallible_turing* Rozza_C88::dtor_40BE40()
+Rozza_C88::~Rozza_C88()
 {
-    return 0;
 }

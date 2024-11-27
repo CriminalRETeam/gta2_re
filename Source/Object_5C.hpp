@@ -13,7 +13,7 @@ class Object_5C
     EXPORT void sub_529300();
     EXPORT void sub_5293A0();
     EXPORT Object_5C* ctor_529430();
-    EXPORT void dtor_529750();
+    EXPORT ~Object_5C();
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
     EXPORT Object_2C* sub_529950(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32 a7, Sprite_4C* a8, Car_BC* a9);

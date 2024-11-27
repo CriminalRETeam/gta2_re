@@ -147,7 +147,7 @@ class Zheal_D9C
     EXPORT void sub_480E50();
     EXPORT Zheal_15C* sub_480EC0(s32 a2, s32 a3);
     EXPORT Zheal_D9C* ctor_480F50();
-    EXPORT void dtor_4BBBF0();
+    EXPORT ~Zheal_D9C();
 
     Zheal_15C field_0[10];
     s32 field_D98_count;

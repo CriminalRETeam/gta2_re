@@ -94,7 +94,7 @@ wchar_t* Zone_144::sub_4BF340()
 // =====================
 
 STUB_FUNC(0x4be500)
-void Zones_CA8::dtor_4BE500()
+Zones_CA8::~Zones_CA8()
 {
 }
 

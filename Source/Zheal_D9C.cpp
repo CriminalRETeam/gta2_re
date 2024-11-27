@@ -203,6 +203,6 @@ Zheal_D9C* Zheal_D9C::ctor_480F50()
 }
 
 STUB_FUNC(0x4bbbf0)
-void Zheal_D9C::dtor_4BBBF0()
+Zheal_D9C::~Zheal_D9C()
 {
 }

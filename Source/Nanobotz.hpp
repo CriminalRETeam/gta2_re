@@ -8,6 +8,8 @@ class Fix16_2;
 class Nanobotz
 {
   public:
+    EXPORT Nanobotz();
+
     EXPORT s32 sub_4E9D50(s32* a2, u16* a3);
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void ambient_light_tick_4E9EA0();

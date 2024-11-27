@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "cool_nash_0x294.hpp"
 
 class cool_nash_0x294;
 class Car_BC;
@@ -33,4 +34,16 @@ class Char_C
     Car_3C* field_8;
 };
 
+class Char_203AC
+{
+  public:
+    EXPORT ~Char_203AC();
+    cool_nash_0x294* field_0;
+    cool_nash_0x294* field_4;
+    cool_nash_0x294 field_8[200];
+    s16 field_203A8;
+    s16 field_203AA;
+};
+
 extern Char_C* gChar_C_6787BC;
+extern Char_203AC* gChar_203AC_6787B8;

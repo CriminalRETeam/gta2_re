@@ -1,7 +1,7 @@
 #include "Light_1D4CC.hpp"
 
 STUB_FUNC(0x4bebc0)
-void Light_1D4CC::dtor_4BEBC0()
+Light_1D4CC::~Light_1D4CC()
 {
 }
 

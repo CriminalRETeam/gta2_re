@@ -175,7 +175,7 @@ class Police_A4
 class Police_7B8
 {
   public:
-    EXPORT void dtor_4BEB50();
+    EXPORT ~Police_7B8();
     EXPORT s32 sub_56F400();
     EXPORT char_type sub_56F4D0(cool_nash_0x294* a2);
     EXPORT Police_38* sub_56F560();

@@ -11,6 +11,6 @@ class Taxi_4
     EXPORT s32 sub_457BC0();
     EXPORT s32 sub_457BF0(s32 a2, s32 a3);
     EXPORT Taxi_4* ctor_5AE060();
-    EXPORT void dtor_5AE0D0();
+    EXPORT ~Taxi_4();
     s32 field_0;
 };

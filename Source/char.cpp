@@ -1,6 +1,7 @@
 #include "char.hpp"
 
 Char_C* gChar_C_6787BC;
+Char_203AC* gChar_203AC_6787B8;
 
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
@@ -73,4 +74,9 @@ STUB_FUNC(0x4710c0)
 cool_nash_0x294* Char_C::sub_4710C0(s32 a2)
 {
     return 0;
+}
+
+STUB_FUNC(0x471110)
+Char_203AC::~Char_203AC()
+{
 }

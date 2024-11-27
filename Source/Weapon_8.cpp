@@ -54,6 +54,6 @@ Weapon_8* Weapon_8::ctor_5E3E90()
 }
 
 STUB_FUNC(0x5e3f60)
-void Weapon_8::dtor_5E3F60()
+Weapon_8::~Weapon_8()
 {
 }

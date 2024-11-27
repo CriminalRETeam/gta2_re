@@ -5,8 +5,6 @@
 class Frismo_25C;
 class Frismo_C;
 
-extern Frismo_25C* gFrismo_25C_6F8068;
-
 class miss2_8
 {
   public:

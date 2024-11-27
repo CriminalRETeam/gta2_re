@@ -30,7 +30,7 @@ class Marz_96
 class Marz_1D7E
 {
   public:
-    EXPORT void dtor_4BDF70();
+    EXPORT ~Marz_1D7E();
     EXPORT Marz_1D7E* ctor_543ED0();
     EXPORT Marz_96* sub_543F10(u8* a2);
     Marz_96 field_0[50];

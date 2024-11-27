@@ -93,7 +93,8 @@ class Sero_181C
     EXPORT Sero_58* sub_57B6A0(Car_BC* a2);
     EXPORT bool sub_57B740(Car_BC* a2, Car_BC* a3);
     EXPORT Sero_181C* ctor_57B7B0();
-    EXPORT void dtor_57B820();
+    EXPORT ~Sero_181C();
+
     Sero_34 field_0[100];
     Sero_58 field_1450[10];
     Sero_58 field_17C0;

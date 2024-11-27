@@ -32,6 +32,6 @@ Particle_8* Particle_8::ctor_5439D0()
 }
 
 STUB_FUNC(0x543a60)
-void Particle_8::dtor_543A60()
+Particle_8::~Particle_8()
 {
 }

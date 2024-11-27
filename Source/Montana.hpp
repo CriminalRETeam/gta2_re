@@ -1044,8 +1044,8 @@ class Montana
     EXPORT void ResetAll_4954F0();
     EXPORT s32 sub_495510(Car_3C* a2);
     EXPORT void Draw_495560(s32 col_idx);
-    EXPORT Montana* ctor_4955A0();
-    EXPORT void dtor_495630();
+    EXPORT Montana();
+    EXPORT ~Montana();
     Montana_4* field_0_cols[7];
 };
 

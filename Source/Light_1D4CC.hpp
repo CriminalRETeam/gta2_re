@@ -6,7 +6,7 @@
 class Light_1D4CC
 {
   public:
-    EXPORT void dtor_4BEBC0();
+    EXPORT ~Light_1D4CC();
     EXPORT nostalgic_ellis_0x28* sub_5C2B70();
 
     nostalgic_ellis_0x28* field_0;
