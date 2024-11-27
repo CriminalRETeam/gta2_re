@@ -9,8 +9,8 @@ class Kfc_30;
 class Police_38
 {
   public:
-    EXPORT void ctor_4BEB30();
-    EXPORT void dtor_4BEB40();
+    EXPORT Police_38();
+    EXPORT ~Police_38();
     EXPORT char_type sub_570790(Police_38* a1, s32 a2);
     EXPORT s32 sub_5709C0();
     EXPORT void sub_570A10();

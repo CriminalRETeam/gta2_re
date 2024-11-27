@@ -64,7 +64,7 @@ jawwie_110::~jawwie_110()
 }
 
 STUB_FUNC(0x4fa310)
-jawwie_8* jawwie_110::ctor_4FA310()
+jawwie_8* jawwie_110::init_4FA310()
 {
     return 0;
 }

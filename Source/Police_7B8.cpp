@@ -1,12 +1,12 @@
 #include "Police_7B8.hpp"
 
 STUB_FUNC(0x4beb30)
-void Police_38::ctor_4BEB30()
+Police_38::Police_38()
 {
 }
 
 STUB_FUNC(0x4beb40)
-void Police_38::dtor_4BEB40()
+Police_38::~Police_38()
 {
 }
 

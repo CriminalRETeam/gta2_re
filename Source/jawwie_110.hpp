@@ -48,11 +48,11 @@ class jawwie_110
   public:
     jawwie_110()
     {
-        ctor_4FA310();
+        init_4FA310();
     }
 
     EXPORT ~jawwie_110();
-    EXPORT jawwie_8* ctor_4FA310();
+    EXPORT jawwie_8* init_4FA310();
     EXPORT char_type sub_4FA330(cool_nash_0x294* a2);
     EXPORT char_type sub_4FA470(cool_nash_0x294* a2);
     EXPORT jawwie_20* sub_4FA4B0();
