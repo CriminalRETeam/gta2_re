@@ -769,14 +769,16 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     field_3C_bSkipPolice = bSkip_police_67D4F9;
 
-    memset(field_4_players, 0, sizeof(field_4_players));
+    for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
+    {
+        field_4_players[ii] = 0;
+    }
 
     field_23_max_idx = max_players;
     field_24_cur_idx = player_idx;
-
-    for (s32 i = 0; i < field_23_max_idx; i++)
+    for (u32 i = 0; i < field_23_max_idx; i++)
     {
-        field_4_players[i] = new angry_lewin_0x85C(); // wrong ctor call ??
+        field_4_players[i] = new angry_lewin_0x85C(i); // wrong ctor call ??
         if (!field_4_players[i])
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1784);
@@ -847,39 +849,11 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
 
-    /*
-  pFrismo_25C_mem = (Frismo_25C *)operator new(0x25Cu);
-  pNew_Frismo_25C = pFrismo_25C_mem;
-  if ( pFrismo_25C_mem )
-  {
-    v28 = pFrismo_25C_mem->field_4;
-    `eh vector constructor iterator'(
-      (char *)pFrismo_25C_mem->field_4,
-      0xCu,
-      50,
-      (void (__thiscall *)(void *))Frismo_C::ctor_4BEA80,
-      (void (__thiscall *)(void *))Frismo_C::dtor_4BEAA0);
-    pOff = &pNew_Frismo_25C->field_4[0].field_8_next;
-    v30 = 49;
-    do
+    gFrismo_25C_6F8068 = new Frismo_25C();
+    if (!gFrismo_25C_6F8068)
     {
-      *pOff = (Frismo_C *)(pOff + 1);
-      pOff += 3;
-      --v30;
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
-    while ( v30 );
-    pNew_Frismo_25C->field_4[49].field_8_next = 0;
-    pNew_Frismo_25C->field_0 = v28;
-  }
-  else
-  {
-    pNew_Frismo_25C = 0;
-  }
-  gFrismo_25C_6F8068 = pNew_Frismo_25C;
-  if ( !pNew_Frismo_25C )
-  {
-    FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
-  }*/
 
     gsharp_bose_0x54_7055D4 = new sharp_bose_0x54();
     if (!gsharp_bose_0x54_7055D4)
@@ -1049,43 +1023,11 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1893);
     }
 
-    /*
-  pLight_1D4CC_mem = (Light_1D4CC *)operator new(0x1D4CCu);
-  pNew_Light_1D4CC = pLight_1D4CC_mem;
-  if ( pLight_1D4CC_mem )
-  {
-    pStart = pLight_1D4CC_mem->field_8;
-    `eh vector constructor iterator'(
-      (char *)pLight_1D4CC_mem->field_8,
-      0x28u,
-      3000,
-      (void (__thiscall *)(void *))nostalgic_ellis_0x28::ctor_4D6D20,
-      (void (__thiscall *)(void *))nostalgic_ellis_0x28::dtor_4D6D60);
-    v89 = &pNew_Light_1D4CC->field_8[0].field_1C;
-    v90 = 2999;
-    do
+    gLight_1D4CC_6F5520 = new Light_1D4CC();
+    if (!gLight_1D4CC_6F5520)
     {
-      *v89 = (nostalgic_ellis_0x28 *)(v89 + 3);
-      v89 += 10;
-      --v90;
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1896);
     }
-    while ( v90 );
-    pNew_Light_1D4CC->field_8[2999].field_1C = 0;
-    pNew_Light_1D4CC->field_0 = pStart;
-    pNew_Light_1D4CC->field_4 = 0;
-    pNew_Light_1D4CC->field_1D4C8 = 0;
-    Light::sub_4D6E00();
-  }
-  else
-  {
-    pNew_Light_1D4CC = 0;
-  }
-  gLight_1D4CC_6F5520 = pNew_Light_1D4CC;
-  if ( !pNew_Light_1D4CC )
-  {
-    FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1896);
-  }
-   */
 
     gZones_CA8_67E274 = new Zones_CA8();
     if (!gZones_CA8_67E274)

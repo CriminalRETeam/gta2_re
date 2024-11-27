@@ -33,10 +33,11 @@ class Tango_54
   public:
     Tango_54()
     {
-        for (s32 i = 0; i < 2; i++)
+        // for (s32 i=0; i<2; i++)
         {
-            new Tango_28();
+            //   new (&field_0[i]) Tango_28();
         }
+        sub_4A88D0();
     }
 
     // TODO: address
@@ -48,7 +49,8 @@ class Tango_54
     EXPORT Tango_28* sub_4A8800();
     EXPORT char_type sub_4A8820(Car_BC* a2);
     EXPORT void sub_4A88D0();
+
     Tango_28 field_0[2];
-    u16 field_50;
+    s16 field_50;
     s16 field_52;
 };

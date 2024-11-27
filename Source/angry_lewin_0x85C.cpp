@@ -574,10 +574,6 @@ void angry_lewin_0x85C::sub_56A6D0()
     field_8C = 0;
 }
 
-angry_lewin_0x85C::angry_lewin_0x85C()
-{
-}
-
 STUB_FUNC(0x56A740)
 angry_lewin_0x85C::angry_lewin_0x85C(u8 a2)
 {

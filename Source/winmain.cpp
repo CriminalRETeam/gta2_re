@@ -74,7 +74,7 @@ void force_link()
     Char_C char_c;
     char_c.DoIanTest_471060(0);
 
-    angry_lewin_0x85C lewin;
+    angry_lewin_0x85C lewin(1);
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
     lewin.sub_564610(0, 0);
