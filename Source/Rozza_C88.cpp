@@ -28,22 +28,30 @@ void Rozza_C88::sub_40BDD0(Car_3C* a2, Car_3C* a3)
 {
 }
 
-STUB_FUNC(0x40be00)
+MATCH_FUNC(0x40be00)
 Rozza_C88::Rozza_C88()
 {
     if (bSkip_audio_67D6BE)
     {
         field_0_pSoundObj = NULL;
-        Reset_40BB90();
     }
     else
     {
-        field_0_pSoundObj = gRoot_sound_66B038.CreateSoundObject_40EF40(field_0_pSoundObj, 6);
-        Reset_40BB90();
+        field_0_pSoundObj = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 6);
     }
+    Reset_40BB90();
 }
 
-STUB_FUNC(0x40be40)
+MATCH_FUNC(0x40be40)
 Rozza_C88::~Rozza_C88()
 {
+    // TODO: This whole thing is prob an inline as its duplicated in places that use sound
+    infallible_turing* pSoundObj = field_0_pSoundObj;
+    if (field_0_pSoundObj)
+    {
+        field_0_pSoundObj->release_40EF20();
+        pSoundObj->field_C_pAny = gRoot_sound_66B038.field_0;
+        gRoot_sound_66B038.field_0 = pSoundObj;
+        field_0_pSoundObj = 0;
+    }
 }
