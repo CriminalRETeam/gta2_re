@@ -17,22 +17,21 @@ void Maccies_14AC::sub_4C1CD0(Maccies_14AC* a1)
 {
 }
 
-STUB_FUNC(0x4c1d70)
+MATCH_FUNC(0x4c1d70)
 void Maccies_14AC::sub_4C1D70()
 {
-    s32 start_idx; // eax
-    s32 end_idx; // edx
-
-    start_idx = field_14A8 * (rng_dword_67AB34->field_0_rng & 3);
-    end_idx = start_idx + field_14A8;
+    s32 start_idx = field_14A8 * (rng_dword_67AB34->field_0_rng & 3);
+    s32 end_idx = start_idx + field_14A8;
     if (end_idx > field_14A0)
     {
         end_idx = field_14A0;
     }
 
+    Maccies_2C* pIter = &field_0[start_idx];
     for (s32 i = start_idx; i < end_idx; i++)
     {
-        field_0[i].sub_4C1C50();
+        pIter->sub_4C1C50();
+        pIter++;
     }
 }
 
