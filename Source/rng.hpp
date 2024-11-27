@@ -2,8 +2,9 @@
 
 #include "Function.hpp"
 
-struct rng
+class rng
 {
+  public:
     rng()
     {
         field_0_rng = 0;

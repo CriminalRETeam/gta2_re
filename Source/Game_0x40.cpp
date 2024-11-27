@@ -762,7 +762,7 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
 char_type byte_679C0A;
 u32 dword_67DCCC;
 
-MATCH_FUNC(0x4B9DE0)
+STUB_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
     stru_6F6784.srand_4F7A40(); // srand?
