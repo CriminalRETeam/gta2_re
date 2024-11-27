@@ -1,11 +1,12 @@
 #include "Montana.hpp"
 
 Montana* gMontana_67B580;
+Montana_2EE4* gMontana_2EE4_705BBC;
+Montana_FA4* gMontana_FA4_705BC0;
 
 STUB_FUNC(0x5c5f60)
-Montana_2EE4* Montana_2EE4::ctor_5C5F60()
+Montana_2EE4::Montana_2EE4()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5c5f90)
@@ -30,9 +31,18 @@ void Montana_4::Reset_5C5E50()
 }
 
 STUB_FUNC(0x5c5e70)
-Montana_4* Montana_4::ctor_5C5E70()
+Montana_4::Montana_4()
 {
-    return 0;
+    if (!gMontana_2EE4_705BBC)
+    {
+        gMontana_2EE4_705BBC = new Montana_2EE4();
+    }
+
+    if (!gMontana_FA4_705BC0)
+    {
+        gMontana_FA4_705BC0 = new Montana_FA4();
+    }
+    Reset_5C5E50();
 }
 
 STUB_FUNC(0x5c5f10)
