@@ -1,12 +1,12 @@
 #include "Police_7B8.hpp"
 
 STUB_FUNC(0x4beb30)
-void Police_38::ctor_4BEB30()
+Police_38::Police_38()
 {
 }
 
 STUB_FUNC(0x4beb40)
-void Police_38::dtor_4BEB40()
+Police_38::~Police_38()
 {
 }
 
@@ -162,13 +162,13 @@ char_type Police_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
 }
 
 STUB_FUNC(0x577480)
-Police_A4* Police_A4::ctor_577480()
+Police_A4::Police_A4()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x5774a0)
-void Police_A4::dtor_5774A0()
+Police_A4::~Police_A4()
 {
 }
 

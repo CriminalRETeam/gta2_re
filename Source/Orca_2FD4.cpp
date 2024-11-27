@@ -25,7 +25,7 @@ s32 Orca_2FD4::sub_5545C0()
 }
 
 STUB_FUNC(0x5545e0)
-s32 Orca_2FD4::ctor_5545E0()
+s32 Orca_2FD4::init_5545E0()
 {
     return 0;
 }

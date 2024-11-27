@@ -1,12 +1,12 @@
 #include "Kfc_1E0.hpp"
 
 STUB_FUNC(0x4beb00)
-void Kfc_30::ctor_4BEB00()
+Kfc_30::Kfc_30()
 {
 }
 
 STUB_FUNC(0x4beb10)
-void Kfc_30::dtor_4BEB10()
+Kfc_30::~Kfc_30()
 {
 }
 
@@ -61,7 +61,7 @@ Kfc_1E0::~Kfc_1E0()
 }
 
 STUB_FUNC(0x5cbb70)
-void Kfc_1E0::ctor_5CBB70()
+void Kfc_1E0::init_5CBB70()
 {
 }
 

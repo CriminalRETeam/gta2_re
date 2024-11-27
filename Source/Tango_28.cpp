@@ -46,9 +46,9 @@ void Tango_28::sub_4A81F0()
 }
 
 STUB_FUNC(0x4a85c0)
-s32 Tango_28::ctor_4A85C0()
+Tango_28::Tango_28()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x4a85e0)

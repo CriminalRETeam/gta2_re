@@ -11,7 +11,7 @@ class Tango_28
     EXPORT char_type sub_4A7FC0();
     EXPORT void sub_4A81A0();
     EXPORT void sub_4A81F0();
-    EXPORT s32 ctor_4A85C0();
+    EXPORT Tango_28();
     EXPORT s32 sub_4A85E0();
 
     s16 field_0;
