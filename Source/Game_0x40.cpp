@@ -58,6 +58,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
+#include "Globals.hpp"
 
 DrawUnk_0xBC* gViewCamera_676978;
 
@@ -71,43 +72,6 @@ s32 dword_7071B0;
 
 // TODO
 extern u32 counter_706C4C;
-
-// === start wip hook code ===
-// TODO: This will get moved later
-#include <vector>
-
-class GlobalRef;
-
-class GlobalsRegistry
-{
-  public:
-    void Add(GlobalRef* pRef)
-    {
-        mGlobals.push_back(pRef);
-    }
-
-    std::vector<GlobalRef*> mGlobals;
-};
-
-GlobalsRegistry& GetGlobalsRegistry()
-{
-    static GlobalsRegistry reg;
-    return reg;
-}
-
-class GlobalRef
-{
-  public:
-    GlobalRef(void* pVar, u32 addr) : mVar(pVar), mOgAddr(addr)
-    {
-        GetGlobalsRegistry().Add(this);
-    }
-    const void* mVar;
-    const u32 mOgAddr;
-};
-
-#define GLOBAL(var, addr) const GlobalRef gRef_##var(&var, addr);
-// === end wip hook code ===
 
 EXPORT_VAR Game_0x40* gGame_0x40_67E008;
 GLOBAL(gGame_0x40_67E008, 0x67E008)
