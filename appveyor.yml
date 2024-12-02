@@ -26,6 +26,7 @@ for:
     - job_name: Windows_VC2019
 
   build_script:
+   - git submodule update --init --recursive
    - mkdir build_vc2019
    - cd build_vc2019
    - cmake.exe .. -G"Visual Studio 16 2019" -A Win32
