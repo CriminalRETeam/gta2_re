@@ -220,10 +220,15 @@ add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
 target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
 target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm)
 
+
 add_library(HookLoader SHARED 
 Source/HookLoader.cpp
+Source/3rdParty/Detours/src/detours.cpp
+Source/3rdParty/Detours/src/disasm.cpp
 "Source/3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.cpp"
 )
+target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT)
+
 add_executable (ExePatcher
     Source/ExePatcher.cpp)
 

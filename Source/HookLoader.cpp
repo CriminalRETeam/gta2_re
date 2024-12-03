@@ -1,3 +1,6 @@
+#include <windows.h>
+
+#include "3rdParty/Detours/include/detours.h"
 #include "3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.h"
 #include "Globals.hpp"
 #include <map>
@@ -76,147 +79,6 @@ static void EnumExports(LPVOID pContext, LPVOID dllAlloc, TExportCb cb)
         }
     }
 }
-
-class MemoryProtection
-{
-  public:
-    MemoryProtection(void* aAddress, unsigned int aSize) : iAddress(aAddress), iSize(aSize), iOldFlags(0), iProtected(true)
-    {
-        UnProtect();
-    }
-
-    ~MemoryProtection()
-    {
-        Protect();
-    }
-
-    void UnProtect()
-    {
-        if (iProtected)
-        {
-            if (!VirtualProtect(iAddress, iSize, PAGE_EXECUTE_READWRITE, &iOldFlags))
-            {
-                const DWORD gle = GetLastError();
-                //std::stringstream str;
-                //str << "Failed to unprotect memory. Error code: " << gle;
-                //throw MemoryUnProtectException(str.str().c_str());
-            }
-            iProtected = false;
-        }
-    }
-    void Protect()
-    {
-        if (!iProtected)
-        {
-            DWORD notUsed = 0;
-            if (!VirtualProtect(iAddress, iSize, iOldFlags, &notUsed))
-            {
-                const DWORD gle = GetLastError();
-                //std::stringstream str;
-                //str << "Failed to write protect memory. Error code: " << gle;
-                //throw MemoryProtectException(str.str().c_str());
-            }
-            iProtected = true;
-        }
-    }
-
-  private:
-    void* iAddress;
-    unsigned int iSize;
-    DWORD iOldFlags;
-    bool iProtected;
-};
-
-class JmpHookedFunction
-{
-  public:
-    JmpHookedFunction(void* aOldFunc, void* aNewFunc, bool autoRemove = true) :
-        iOldFunc(aOldFunc), iNewFunc(aNewFunc), iHooked(false), mAutoRemove(autoRemove)
-    {
-        // Copy its intro
-        CopyOrignalFunctionBytes();
-
-        // Hook it
-        Hook();
-    }
-
-    ~JmpHookedFunction()
-    {
-        if (mAutoRemove)
-        {
-            UnHook();
-        }
-    }
-
-    void UnHook()
-    {
-        {
-            MemoryProtection memProt((void*)iOldFunc, 0x100);
-
-            if (iNewFunc && iHooked == true)
-            {
-                for (int i = 0; i < sizeof(iOldFuncBytes); ++i)
-                {
-                    *((unsigned char*)((unsigned int)iOldFunc + i)) = iOldFuncBytes[i];
-                }
-                iHooked = false;
-            }
-        }
-        FlushInstructionCache(GetCurrentProcess(), (void*)iOldFunc, 6);
-    }
-
-    void Hook()
-    {
-        {
-            MemoryProtection memProt((void*)iOldFunc, 0x100);
-            if (iNewFunc && iHooked == false)
-            {
-
-                // JMP
-                *((unsigned char*)((unsigned int)iOldFunc + 0)) = 0xE9;
-
-                // New func addr
-                unsigned int addr = (unsigned int)iNewFunc;
-                addr = addr - 5;
-
-                unsigned int tmp = 0;
-                if (unsigned int(iOldFunc) > addr)
-                {
-                    tmp = ((unsigned int)iOldFunc) - addr;
-                }
-                else
-                {
-                    tmp = addr - ((unsigned int)iOldFunc);
-                }
-
-                *((unsigned int*)((unsigned int)iOldFunc + 1)) = (unsigned int)tmp;
-
-                iHooked = true;
-            }
-        }
-        FlushInstructionCache(GetCurrentProcess(), (void*)iOldFunc, 6);
-    }
-
-  private:
-    void CopyOrignalFunctionBytes()
-    {
-        for (int i = 0; i < sizeof(iOldFuncBytes) / sizeof(iOldFuncBytes[0]); ++i)
-        {
-            iOldFuncBytes[i] = *((unsigned char*)((unsigned int)iOldFunc + i));
-        }
-    }
-
-  private:
-    void* iOldFunc;
-    void* iNewFunc;
-
-    bool iHooked;
-
-    // JMP + Target
-    unsigned char iOldFuncBytes[5];
-
-    bool mAutoRemove;
-};
 
 class HookLoader
 {
@@ -337,8 +199,7 @@ class HookLoader
 
         *(char**)0x7099E4 = GetCommandLineA();
 
-        *((char**)0x7082F8) = (char *)((TP2)(0x5F6D61))(); // __crtGetEnvironmentStringsA
-
+        *((char**)0x7082F8) = (char*)((TP2)(0x5F6D61))(); // __crtGetEnvironmentStringsA
 
         printf("_setargv\n");
         ((TP2)(0x5F6B14))();
@@ -389,25 +250,63 @@ class HookLoader
         crt_inits();
 
         EnumExports(this, lpModule, OnImportsExport);
+
+        LONG err = DetourTransactionBegin();
+        if (err != NO_ERROR)
+        {
+            printf("DetourTransactionBegin failed\n");
+        }
+
+        err = DetourUpdateThread(GetCurrentThread());
+        if (err != NO_ERROR)
+        {
+            printf("DetourUpdateThread failed");
+        }
+
         for (std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin(); it != mFunctionsToHookMap.end(); it++)
         {
-            const FuncMeta& meta = it->second;
-            if (meta.mStatus == 0)
             {
-                // stubbed - hook reimpl func to og
-                printf("STUB %s\n", it->first.c_str());
-                JmpHookedFunction h(MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str()),
-                                    reinterpret_cast<void*>(meta.mOgAddr),
-                                    false);
+                LPVOID addr = MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str());
+                const FuncMeta& meta = it->second;
+                if (meta.mStatus == 0)
+                {
+                    // stubbed - hook reimpl func to og
+                    printf("STUB %s\n", it->first.c_str());
+
+                    err = DetourAttach(&(PVOID&)addr, reinterpret_cast<void*>(meta.mOgAddr));
+                }
+                else if (meta.mStatus == 1)
+                {
+                    // matched - hook og func to reimpl
+                    printf("MATCH %s\n", it->first.c_str());
+                    LPVOID addr2 = reinterpret_cast<void*>(meta.mOgAddr);
+                    err = DetourAttach(&(PVOID&)addr2, addr);
+                }
+                if (err != NO_ERROR)
+                {
+                    printf("DetourAttach failed\n");
+                }
             }
-            else if (meta.mStatus == 1)
-            {
-                // matched - hook og func to reimpl
-                printf("MATCH %s\n", it->first.c_str());
-                JmpHookedFunction h(reinterpret_cast<void*>(meta.mOgAddr),
-                                    MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str()),
-                                    false);
-            }
+        }
+
+        err = DetourTransactionCommit();
+        if (err != NO_ERROR)
+        {
+            printf("DetourTransactionCommit failed\n");
+        }
+
+        err = DetourTransactionBegin();
+
+        if (err != NO_ERROR)
+        {
+            printf("DetourTransactionBegin failed\n");
+        }
+
+        err = DetourUpdateThread(GetCurrentThread());
+
+        if (err != NO_ERROR)
+        {
+            printf("DetourUpdateThread failed\n");
         }
 
         LPVOID pGameMain = MemoryLoader::GetFunctionAddress(lpModule, "GameMain");
@@ -417,6 +316,7 @@ class HookLoader
 
         TGameMain pTypedGameMain = (TGameMain)pGameMain;
         pTypedGameMain();
+        printf("Game main returned\n");
     }
 
   private:
