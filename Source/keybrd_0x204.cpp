@@ -159,20 +159,25 @@ s32 keybrd_0x204::GetLayout_4D6000()
     return result;
 }
 
-STUB_FUNC(0x4D5DA0)
+static inline bool is_line_break_or_space(wchar_t letter)
+{
+    return letter == '\n' || letter == ' ';
+}
+
+MATCH_FUNC(0x4D5DA0)
 void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 {
-    s16 read_char; // ax
-    u8 i; // [esp+8h] [ebp-4h]
-
-    for (i = 0;; ++i)
+    u8 i=0;
+    for (;;)
     {
-        read_char = fgetc(Stream);
-        if (read_char == '\n' || read_char == ' ')
-            break;
-        pOut[i] = read_char;
+         const wchar_t read_char = fgetc(Stream);
+         if (is_line_break_or_space(read_char))
+         {
+             pOut[i] = 0;
+             return;
+         }
+        pOut[i++] = read_char;
     }
-    pOut[i] = 0;
 }
 
 MATCH_FUNC(0x4D5FD0)
