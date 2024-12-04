@@ -1,6 +1,8 @@
 #include "Soula_CC68.hpp"
+#include "Globals.hpp"
 
-Soula_CC68* gSoula_CC68_6FFDC8;
+EXPORT_VAR Soula_CC68* gSoula_CC68_6FFDC8;
+GLOBAL(gSoula_CC68_6FFDC8, 0x6FFDC8);
 
 STUB_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)

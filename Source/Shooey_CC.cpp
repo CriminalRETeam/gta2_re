@@ -1,8 +1,10 @@
 #include "Shooey_CC.hpp"
 #include "char.hpp"
 #include "cool_nash_0x294.hpp"
+#include "Globals.hpp"
 
-s32 dword_67A370;
+EXPORT_VAR s32 dword_67A370;
+GLOBAL(dword_67A370, 0x67A370);
 
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()

@@ -35,4 +35,4 @@ class Frismo_25C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_25C, 0x25C)
 
-extern Frismo_25C* gFrismo_25C_6F8068;
+EXPORT_VAR extern Frismo_25C* gFrismo_25C_6F8068;

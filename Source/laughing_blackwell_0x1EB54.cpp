@@ -10,6 +10,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
+#include "Globals.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
@@ -27,31 +28,43 @@ void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos
 
 void Start_GTA2Manager_5E4DE0();
 
-youthful_einstein gYouthful_einstein_6F8450;
+EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
+GLOBAL(gYouthful_einstein_6F8450, 0x6F8450);
 
-laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
+EXPORT_VAR laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
+GLOBAL(gLaughing_blackwell_0x1EB54_67DC84, 0x67DC84);
 
-u32 counter_706C4C;
-s32 dword_67D930;
-u16 gTableSize_61FF20 = 25;
+EXPORT_VAR u32 counter_706C4C;
+GLOBAL(counter_706C4C, 0x706C4C);
 
-extern wchar_t word_67DC8C[50];
+EXPORT_VAR s32 dword_67D930;
+GLOBAL(dword_67D930, 0x67D930);
 
-DWORD dword_67D9FC;
+const u16 gTableSize_61FF20 = 25;
+
+EXPORT_VAR extern wchar_t word_67DC8C[50];
+
+EXPORT_VAR DWORD dword_67D9FC;
+GLOBAL(dword_67D9FC, 0x67D9FC);
 
 // todo: likely an array
-short word_703C14 = 7;
-s16 word_703C3C = 8;
+short word_703C14 = 7; // TODO: NOT CONST! Standalone hack ?? move hack to ctor ??
+s16 word_703C3C = 8; // TODO: Ditto
 
-wchar_t tmpBuff_67BD9C[640];
+EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
+GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
 
-BYTE byte_67DA80;
+EXPORT_VAR BYTE byte_67DA80;
+GLOBAL(byte_67DA80, 0x67DA80);
 
-char_type byte_67DC88[4]; // todo: prob bigger
+EXPORT_VAR char_type byte_67DC88[4]; // todo: prob bigger
+GLOBAL(byte_67DC88, 0x67DC88);
 
-wchar_t word_67C7D8[640];
+EXPORT_VAR wchar_t word_67C7D8[640];
+GLOBAL(word_67C7D8, 0x67C7D8);
 
-wchar_t* dword_67EE54;
+EXPORT_VAR wchar_t* dword_67EE54;
+GLOBAL(dword_67EE54, 0x67EE54);
 
 class FreeLoader
 {
@@ -189,14 +202,16 @@ DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, s
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
 
-extern LPDIRECTINPUTA gpDInput_67B804;
-extern HWND gHwnd_707F04;
+EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
-DWORD dword_70675C;
-DWORD dword_70679C;
+EXPORT_VAR DWORD dword_70675C;
+GLOBAL(dword_70675C, 0x70675C);
 
-extern s32 window_width_706630;
-extern s32 window_height_706B50;
+EXPORT_VAR DWORD dword_70679C;
+GLOBAL(dword_70679C, 0x70679C);
+
+EXPORT_VAR extern s32 window_width_706630;
+EXPORT_VAR extern s32 window_height_706B50;
 
 struct TgaInfo
 {
@@ -238,8 +253,11 @@ s32 __stdcall SetGamma_5D9910(s32 gamma)
     return 0;
 }
 
-infallible_turing snd1_67D818;
-infallible_turing snd2_67D6F8;
+EXPORT_VAR infallible_turing snd1_67D818;
+GLOBAL(snd1_67D818, 0x67D818);
+
+EXPORT_VAR infallible_turing snd2_67D6F8;
+GLOBAL(snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4ACFA0)
 void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
@@ -855,8 +873,8 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 }
 
 // todo: add to header
-extern s32 gGTA2VersionMajor_708280;
-extern s32 gGTA2VersionMajor_708284;
+EXPORT_VAR extern s32 gGTA2VersionMajor_708280;
+EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 
 STUB_FUNC(0x4AD140)
 void laughing_blackwell_0x1EB54::sub_4AD140()
@@ -3551,7 +3569,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
     return 1;
 }
 
-extern BYTE byte_6F4BF4;
+EXPORT_VAR extern BYTE byte_6F4BF4;
 extern bool bDoFrontEnd_626B68;
 
 STUB_FUNC(0x5E53C0)
@@ -4110,14 +4128,16 @@ admiring_euler_4::admiring_euler_4()
     field_0 = 0;
     field_1 = 0;
     field_2 = 0;
+    field_3 = 0;
 }
 
-STUB_FUNC(0x4B6450)
+MATCH_FUNC(0x4B6450)
 admiring_euler_4::~admiring_euler_4()
 {
     field_0 = 0;
     field_1 = 0;
     field_2 = 0;
+    field_3 = 0;
 }
 
 MATCH_FUNC(0x4B6480)
@@ -4153,9 +4173,10 @@ struct QuadVerts
 {
     Vert field_0_verts[4];
 };
-QuadVerts gQuadVerts_706B88;
+EXPORT_VAR QuadVerts gQuadVerts_706B88;
+GLOBAL(gQuadVerts_706B88, 0x706B88);
 
-extern u32 gLightingDrawFlag_7068F4;
+EXPORT_VAR extern u32 gLightingDrawFlag_7068F4;
 
 s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
@@ -4192,7 +4213,8 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
     return result;
 }
 
-Fix16 dword_706A6C;
+EXPORT_VAR Fix16 dword_706A6C;
+GLOBAL(dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,

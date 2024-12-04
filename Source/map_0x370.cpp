@@ -6,11 +6,16 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
+#include "Globals.hpp"
 
-Map_0x370* gMap_0x370_6F6268;
+EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
+GLOBAL(gMap_0x370_6F6268, 0x6F6268);
 
-gmp_block_info gBlockInfo1_6F5F40;
-gmp_block_info gBlockInfo2_6F6028;
+EXPORT_VAR gmp_block_info gBlockInfo1_6F5F40;
+GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
+
+EXPORT_VAR gmp_block_info gBlockInfo2_6F6028;
+GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
 
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {

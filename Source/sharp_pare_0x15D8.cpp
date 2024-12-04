@@ -2,11 +2,16 @@
 #include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "Globals.hpp"
 
-sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
+EXPORT_VAR sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
+GLOBAL(gSharp_pare_0x15D8_705064, 0x705064);
 
-u32 dword_704ED0;
-u32 dword_704F28;
+EXPORT_VAR u32 dword_704ED0;
+GLOBAL(dword_704ED0, 0x704ED0);
+
+EXPORT_VAR u32 dword_704F28;
+GLOBAL(dword_704F28, 0x704F28);
 
 MATCH_FUNC(0x5B90F0)
 void sharp_pare_0x15D8::LoadPals_5B90F0()

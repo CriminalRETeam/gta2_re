@@ -1,8 +1,14 @@
 #include "Montana.hpp"
+#include "Globals.hpp"
 
-Montana* gMontana_67B580;
-Montana_2EE4* gMontana_2EE4_705BBC;
-Montana_FA4* gMontana_FA4_705BC0;
+EXPORT_VAR Montana* gMontana_67B580;
+GLOBAL(gMontana_67B580, 0x67B580);
+
+EXPORT_VAR Montana_2EE4* gMontana_2EE4_705BBC;
+GLOBAL(gMontana_2EE4_705BBC, 0x705BBC);
+
+EXPORT_VAR Montana_FA4* gMontana_FA4_705BC0;
+GLOBAL(gMontana_FA4_705BC0, 0x705BC0);
 
 STUB_FUNC(0x5c5f60)
 Montana_2EE4::Montana_2EE4()

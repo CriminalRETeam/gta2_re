@@ -1,7 +1,9 @@
 #include "nostalgic_ellis_0x28.hpp"
+#include "Globals.hpp"
 #include <stdlib.h>
 
-nostalgic_ellis_0x28** g4096_alloc_6F5400;
+EXPORT_VAR nostalgic_ellis_0x28** g4096_alloc_6F5400;
+GLOBAL(g4096_alloc_6F5400, 0x6F5400);
 
 MATCH_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()

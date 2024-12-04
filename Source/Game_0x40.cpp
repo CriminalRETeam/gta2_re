@@ -59,50 +59,100 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 #include "Globals.hpp"
+#include "gbh_graphics.hpp"
 
-DrawUnk_0xBC* gViewCamera_676978;
+EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
+GLOBAL(gViewCamera_676978,0x676978);
 
-// TODO: Move to d3ddll.h or something
-int (*pgbh_BeginScene_626CC0)();
-void (*pgbh_EndScene_626CC4)();
+EXPORT_VAR s32 dword_67DFB4; // TODO
+GLOBAL(dword_67DFB4,0x67DFB4);
 
-s32 dword_67DFB4; // TODO
-s32 dword_7071A0;
-s32 dword_7071B0;
+EXPORT_VAR s32 dword_7071A0;
+GLOBAL(dword_7071A0,0x7071A0);
+
+EXPORT_VAR s32 dword_7071B0;
+GLOBAL(dword_7071B0,0x7071B0);
 
 // TODO
-extern u32 counter_706C4C;
+EXPORT_VAR extern u32 counter_706C4C;
 
 EXPORT_VAR Game_0x40* gGame_0x40_67E008;
 GLOBAL(gGame_0x40_67E008, 0x67E008)
 
-Rozza_C88* gRozza_C88_66AFE0;
-Tango_54* gTango_54_67D4C0;
-Shooey_CC* gShooey_CC_67A4B8;
-Hamburger_500* gHamburger_500_678E30;
-ChickenLegend_48* gChickenLegend_48_6FD26C;
-Police_7B8* gPolice_7B8_6FEE40;
-Kfc_1E0* gKfc_1E0_706280;
-Maccies_14AC* gMaccies_14AC_67E5D0;
-Snooky_94* gSnooky_94_67A830;
-Zheal_D9C* gZheal_D9C_679FD4;
-Wolfy_7A8* gWolfy_7A8_6FD5F0;
-Wolfy_3D4* gWolfy_3D4_6FD5EC;
-Particle_8* gParticle_8_6FD5E8;
-Monster_808* gMonster_808_678098;
-Orca_2FD4* gOrca_2FD4_6FDEF0;
-Marz_1D7E* gMarz_1D7E_6FD784;
-Taxi_4* gTaxi_4_704130;
-jawwie_110* gjawwie_110_6F70A8;
-Door_4D4* gDoor_4D4_67BD2C;
-Weapon_8* gWeapon_8_707018;
-Varrok_7F8* gVarrok_7F8_703398;
-Phi_8CA8* gPhi_8CA8_6FCF00;
-Collide_C* gCollide_C_6791FC;
-sharp_bose_0x54* gsharp_bose_0x54_7055D4;
-//Car_214* gCar_214_705F20;
-//Car_6C* gCar_6C_677930;
-Light_1D4CC* gLight_1D4CC_6F5520;
+EXPORT_VAR Rozza_C88* gRozza_C88_66AFE0;
+GLOBAL(gRozza_C88_66AFE0,0x66AFE0);
+
+EXPORT_VAR Tango_54* gTango_54_67D4C0;
+GLOBAL(gTango_54_67D4C0,0x67D4C0);
+
+EXPORT_VAR Shooey_CC* gShooey_CC_67A4B8;
+GLOBAL(gShooey_CC_67A4B8,0x67A4B8);
+
+EXPORT_VAR Hamburger_500* gHamburger_500_678E30;
+GLOBAL(gHamburger_500_678E30,0x678E30);
+
+EXPORT_VAR ChickenLegend_48* gChickenLegend_48_6FD26C;
+GLOBAL(gChickenLegend_48_6FD26C,0x6FD26C);
+
+EXPORT_VAR Police_7B8* gPolice_7B8_6FEE40;
+GLOBAL(gPolice_7B8_6FEE40,0x6FEE40);
+
+EXPORT_VAR Kfc_1E0* gKfc_1E0_706280;
+GLOBAL(gKfc_1E0_706280,0x706280);
+
+EXPORT_VAR Maccies_14AC* gMaccies_14AC_67E5D0;
+GLOBAL(gMaccies_14AC_67E5D0,0x67E5D0);
+
+EXPORT_VAR Snooky_94* gSnooky_94_67A830;
+GLOBAL(gSnooky_94_67A830,0x67A830);
+
+EXPORT_VAR Zheal_D9C* gZheal_D9C_679FD4;
+GLOBAL(gZheal_D9C_679FD4,0x679FD4);
+
+EXPORT_VAR Wolfy_7A8* gWolfy_7A8_6FD5F0;
+GLOBAL(gWolfy_7A8_6FD5F0,0x6FD5F0);
+
+EXPORT_VAR Wolfy_3D4* gWolfy_3D4_6FD5EC;
+GLOBAL(gWolfy_3D4_6FD5EC,0x6FD5EC);
+
+EXPORT_VAR Particle_8* gParticle_8_6FD5E8;
+GLOBAL(gParticle_8_6FD5E8,0x6FD5E8);
+
+EXPORT_VAR Monster_808* gMonster_808_678098;
+GLOBAL(gMonster_808_678098,0x678098);
+
+EXPORT_VAR Orca_2FD4* gOrca_2FD4_6FDEF0;
+GLOBAL(gOrca_2FD4_6FDEF0,0x6FDEF0);
+
+EXPORT_VAR Marz_1D7E* gMarz_1D7E_6FD784;
+GLOBAL(gMarz_1D7E_6FD784,0x6FD784);
+
+EXPORT_VAR Taxi_4* gTaxi_4_704130;
+GLOBAL(gTaxi_4_704130,0x704130);
+
+EXPORT_VAR jawwie_110* gjawwie_110_6F70A8;
+GLOBAL(gjawwie_110_6F70A8,0x6F70A8);
+
+EXPORT_VAR Door_4D4* gDoor_4D4_67BD2C;
+GLOBAL(gDoor_4D4_67BD2C,0x67BD2C);
+
+EXPORT_VAR Weapon_8* gWeapon_8_707018;
+GLOBAL(gWeapon_8_707018,0x707018);
+
+EXPORT_VAR Varrok_7F8* gVarrok_7F8_703398;
+GLOBAL(gVarrok_7F8_703398,0x703398);
+
+EXPORT_VAR Phi_8CA8* gPhi_8CA8_6FCF00;
+GLOBAL(gPhi_8CA8_6FCF00,0x6FCF00);
+
+EXPORT_VAR Collide_C* gCollide_C_6791FC;
+GLOBAL(gCollide_C_6791FC,0x6791FC);
+
+EXPORT_VAR sharp_bose_0x54* gsharp_bose_0x54_7055D4;
+GLOBAL(gsharp_bose_0x54_7055D4,0x7055D4);
+
+EXPORT_VAR Light_1D4CC* gLight_1D4CC_6F5520;
+GLOBAL(gLight_1D4CC_6F5520,0x6F5520);
 
 STUB_FUNC(0x4B8BB0)
 s32 Game_0x40::sub_4B8BB0()
@@ -180,7 +230,7 @@ void Game_0x40::sub_4B8E50()
 }
 
 // TODO: move
-extern s32 bStartNetworkGame_7081F0;
+EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
 // TODO: move
 s32 IanTest_46E370()
@@ -319,7 +369,7 @@ void Game_0x40::Draw_4B92D0()
 
     sub_5D7D30();
 
-    pgbh_BeginScene_626CC0();
+    gbh_BeginScene();
 
     gpNanobotz_6F66E4->Draw_4F6A20();
 
@@ -335,7 +385,7 @@ void Game_0x40::Draw_4B92D0()
         gMike_A80_6F7328->DebugDrawProfiling_4FF250();
     }
 
-    pgbh_EndScene_626CC4();
+    gbh_EndScene();
     FreeSurface_5D7DC0();
 }
 
@@ -723,8 +773,11 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
 }
 
 // TODO: move?
-char_type byte_679C0A;
-u32 dword_67DCCC;
+EXPORT_VAR char_type byte_679C0A;
+GLOBAL(byte_679C0A, 0x679C0A);
+
+EXPORT_VAR u32 dword_67DCCC;
+GLOBAL(dword_67DCCC, 0x67DCCC);
 
 STUB_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0

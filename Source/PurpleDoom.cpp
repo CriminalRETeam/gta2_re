@@ -1,8 +1,14 @@
 #include "PurpleDoom.hpp"
+#include "Globals.hpp"
 
-PurpleDoom* gPurpleDoom_1_679208;
-PurpleDoom* gPurpleDoom_2_67920C;
-PurpleDoom* gPurpleDoom_3_679210;
+EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
+GLOBAL(gPurpleDoom_1_679208, 0x679208);
+
+EXPORT_VAR PurpleDoom* gPurpleDoom_2_67920C;
+GLOBAL(gPurpleDoom_2_67920C, 0x67920C);
+
+EXPORT_VAR PurpleDoom* gPurpleDoom_3_679210;
+GLOBAL(gPurpleDoom_3_679210, 0x679210);
 
 STUB_FUNC(0x477a40)
 s32 PurpleDoom::sub_477A40()

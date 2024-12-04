@@ -1,8 +1,10 @@
 #include "miss2_8.hpp"
 #include "Frismo_25C.hpp"
+#include "Globals.hpp"
 
 // TODO: move
-Frismo_25C* gFrismo_25C_6F8068;
+EXPORT_VAR Frismo_25C* gFrismo_25C_6F8068;
+GLOBAL(gFrismo_25C_6F8068, 0x6F8068);
 
 MATCH_FUNC(0x503120)
 miss2_8::miss2_8() // 503120

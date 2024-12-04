@@ -1,5 +1,6 @@
 #include "input.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 
 #define DIRECTINPUT_VERSION 0x0700
 
@@ -11,7 +12,8 @@
 #endif
 //#pragma comment(lib, "DInput8.lib")
 
-LPDIRECTINPUTA gpDInput_67B804;
+EXPORT_VAR LPDIRECTINPUTA gpDInput_67B804;
+GLOBAL(gpDInput_67B804, 0x67B804);
 
 #if _MSC_VER > 1200
 HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);

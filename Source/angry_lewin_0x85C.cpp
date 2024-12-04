@@ -1,6 +1,7 @@
 #include "angry_lewin_0x85C.hpp"
 #include "Car_BC.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "infallible_turing.hpp"
@@ -132,8 +133,11 @@ void angry_lewin_0x85C::sub_564C50(s32 a2)
 {
 }
 
-u8 byte_67D57C;
-u8 byte_67D539;
+EXPORT_VAR u8 byte_67D57C;
+GLOBAL(byte_67D57C, 0x67D57C);
+
+EXPORT_VAR u8 byte_67D539;
+GLOBAL(byte_67D539, 0x67D539);
 
 MATCH_FUNC(0x564CC0)
 void angry_lewin_0x85C::sub_564CC0()

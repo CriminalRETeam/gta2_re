@@ -1,6 +1,8 @@
 #include "Mouze_44.hpp"
+#include "Globals.hpp"
 
-Mouze_44 stru_67EF20[20];
+EXPORT_VAR Mouze_44 stru_67EF20[20];
+GLOBAL(stru_67EF20, 0x67EF20);
 
 STUB_FUNC(0x4c8e60)
 void Mouze_44::sub_4C8E60()

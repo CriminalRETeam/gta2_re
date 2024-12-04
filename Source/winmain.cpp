@@ -15,6 +15,7 @@
 #include "registry.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
+#include "Globals.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -219,53 +220,85 @@ void force_link()
     Collide_C collide_C;
 }
 
-HINSTANCE gHInstance_708220;
-HANDLE gMutex_707078;
+EXPORT_VAR HINSTANCE gHInstance_708220;
+GLOBAL(gHInstance_708220, 0x708220);
 
-s32 gGTA2VersionMajor_708280;
-s32 gGTA2VersionMajor_708284;
+EXPORT_VAR HANDLE gMutex_707078;
+GLOBAL(gMutex_707078, 0x707078);
 
-extern HWND gHwnd_707F04;
+EXPORT_VAR s32 gGTA2VersionMajor_708280;
+GLOBAL(gGTA2VersionMajor_708280, 0x708280);
 
-char_type gWorkingDir_707F64[652];
+EXPORT_VAR s32 gGTA2VersionMajor_708284;
+GLOBAL(gGTA2VersionMajor_708284, 0x708284);
 
-bool bDoFrontEnd_626B68 = true;
+EXPORT_VAR char_type gWorkingDir_707F64[652];
+GLOBAL(gWorkingDir_707F64, 0x707F64);
 
-s32 window_width_706630;
-s32 window_height_706B50;
-s32 full_width_706B5C;
-s32 full_height_706798;
+bool bDoFrontEnd_626B68 = true; // TODO: VAR HACK
 
-s32 gWindowX_706B60;
-s32 gWindowY_706B64;
+EXPORT_VAR s32 window_width_706630;
+GLOBAL(window_width_706630, 0x706630);
 
-s32 bStartNetworkGame_7081F0 = 0;
+EXPORT_VAR s32 window_height_706B50;
+GLOBAL(window_height_706B50, 0x706B50);
 
-BYTE byte_70827C;
-BYTE byte_706C5D;
-BYTE byte_6F5B71;
+EXPORT_VAR s32 full_width_706B5C;
+GLOBAL(full_width_706B5C, 0x706B5C);
 
-BYTE byte_6F4BF4;
+EXPORT_VAR s32 full_height_706798;
+GLOBAL(full_height_706798, 0x706798);
 
-s32 gStartMode_626A0C = 2;
-s32 bTrippleBuffer_706C54;
+EXPORT_VAR s32 gWindowX_706B60;
+GLOBAL(gWindowX_706B60, 0x706B60);
 
-char_type byte_706C5C;
+EXPORT_VAR s32 gWindowY_706B64;
+GLOBAL(gWindowY_706B64, 0x706B64);
 
-extern char_type gTmpBuffer_67C598[256];
+EXPORT_VAR s32 bStartNetworkGame_7081F0;
+GLOBAL(bStartNetworkGame_7081F0, 0x7081F0);
 
-extern char_type bDestroyed_6F5B70;
+EXPORT_VAR BYTE byte_70827C;
+GLOBAL(byte_70827C, 0x70827C);
 
-u32 gBufferMode_706B34;
-char_type gRenderDllName_7067F0[256];
-char_type gVideoDllName_706654[256];
-s32 gVideodevice_70694C;
-s32 gRenderdevice_706998;
+EXPORT_VAR BYTE byte_706C5D;
+GLOBAL(byte_706C5D, 0x706C5D);
 
-u16 gDMusicVer_67BD32;
+EXPORT_VAR BYTE byte_6F5B71;
+GLOBAL(byte_6F5B71, 0x6F5B71);
 
-char_type gLighting_626A09 = 1;
-u32 gLightingDrawFlag_7068F4;
+EXPORT_VAR BYTE byte_6F4BF4;
+GLOBAL(byte_6F4BF4, 0x6F4BF4);
+
+s32 gStartMode_626A0C = 2; // TODO: VAR HACK
+EXPORT_VAR s32 bTrippleBuffer_706C54;
+GLOBAL(bTrippleBuffer_706C54, 0x706C54);
+
+EXPORT_VAR char_type byte_706C5C;
+GLOBAL(byte_706C5C, 0x706C5C);
+
+EXPORT_VAR u32 gBufferMode_706B34;
+GLOBAL(gBufferMode_706B34, 0x706B34);
+
+EXPORT_VAR char_type gRenderDllName_7067F0[256];
+GLOBAL(gRenderDllName_7067F0, 0x7067F0);
+
+EXPORT_VAR char_type gVideoDllName_706654[256];
+GLOBAL(gVideoDllName_706654, 0x706654);
+
+EXPORT_VAR s32 gVideodevice_70694C;
+GLOBAL(gVideodevice_70694C, 0x70694C);
+
+EXPORT_VAR s32 gRenderdevice_706998;
+GLOBAL(gRenderdevice_706998, 0x706998);
+
+EXPORT_VAR u16 gDMusicVer_67BD32;
+GLOBAL(gDMusicVer_67BD32, 0x67BD32);
+
+char_type gLighting_626A09 = 1; // TODO: VAR HACK
+
+EXPORT_VAR u32 gLightingDrawFlag_7068F4;
+GLOBAL(gLightingDrawFlag_7068F4, 0x7068F4);
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)

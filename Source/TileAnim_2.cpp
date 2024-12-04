@@ -1,7 +1,9 @@
 #include "TileAnim_2.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 
-TileAnim_2* gTileAnim_2_7052C4;
+EXPORT_VAR TileAnim_2* gTileAnim_2_7052C4;
+GLOBAL(gTileAnim_2_7052C4, 0x7052C4);
 
 STUB_FUNC(0x5bc260)
 s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)

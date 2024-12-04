@@ -1,7 +1,9 @@
 #include "Network_20324.hpp"
 #include "text_0x14.hpp"
+#include "Globals.hpp"
 
-UINT_PTR gTimerId_6F8A18;
+EXPORT_VAR UINT_PTR gTimerId_6F8A18;
+GLOBAL(gTimerId_6F8A18, 0x6F8A18);
 
 STUB_FUNC(0x519960)
 u16 Network_20324::sub_519960(u8* a1, u16* a2)

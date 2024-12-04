@@ -6,7 +6,9 @@
 
 #define ATTRACT_COUNT 3
 
-extern wchar_t tmpBuff_67BD9C[640];
+EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+
+const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 STUB_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
@@ -80,7 +82,6 @@ STUB_FUNC(0x4ce650)
 void BurgerKing_67F8B0::sub_4CE650()
 {
 }
-AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 // match but the post processor is bugged
 STUB_FUNC(0x4ce6e0)

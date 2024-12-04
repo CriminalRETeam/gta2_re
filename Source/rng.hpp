@@ -17,5 +17,5 @@ class rng
     s32 field_4_rnd;
 };
 
-extern rng* rng_dword_67AB34;
-extern rng stru_6F6784;
+EXPORT_VAR extern rng* rng_dword_67AB34;
+EXPORT_VAR extern rng stru_6F6784;

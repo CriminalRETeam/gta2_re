@@ -1,7 +1,9 @@
 #include "Hamburger_500.hpp"
 #include "cool_nash_0x294.hpp"
+#include "Globals.hpp"
 
-s32 dword_678D0C;
+EXPORT_VAR s32 dword_678D0C;
+GLOBAL(dword_678D0C, 0x678D0C);
 
 MATCH_FUNC(0x4747b0)
 void Hamburger_40::sub_4747B0()

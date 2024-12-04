@@ -68,5 +68,5 @@ class Sprite_5D598
     Sprite_4C field_4[5031];
 };
 
-extern Sprite_8* gSprite_8_703820;
-extern Sprite_5D598* gSprite_5D598_70381C;
+EXPORT_VAR extern Sprite_8* gSprite_8_703820;
+EXPORT_VAR extern Sprite_5D598* gSprite_5D598_70381C;

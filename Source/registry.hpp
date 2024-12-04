@@ -65,4 +65,4 @@ class Registry
     EXPORT void Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen);
 };
 
-extern Registry gRegistry_6FF968;
+EXPORT_VAR extern Registry gRegistry_6FF968;

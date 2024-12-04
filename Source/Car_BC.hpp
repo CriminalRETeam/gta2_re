@@ -113,7 +113,7 @@ class Car_214
     Car_18 field_4[22];
 };
 
-extern Car_214* gCar_214_705F20;
+EXPORT_VAR extern Car_214* gCar_214_705F20;
 
 class Car_2
 {
@@ -188,7 +188,7 @@ class Car_6C
     char_type field_6B;
 };
 
-extern Car_6C* gCar_6C_677930;
+EXPORT_VAR extern Car_6C* gCar_6C_677930;
 
 class Car_BC
 {
@@ -455,4 +455,4 @@ class Car_8
     Sprite_4C* field_4;
 };
 
-extern Car_E0C4* gCar_E0C4_67792C;
+EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;

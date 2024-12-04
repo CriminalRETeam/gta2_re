@@ -56,4 +56,4 @@ class Object_5C
     Car_3C* field_58;
 };
 
-extern Object_5C* gObject_5C_6F8F84;
+EXPORT_VAR extern Object_5C* gObject_5C_6F8F84;

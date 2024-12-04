@@ -4,11 +4,13 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "memory.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
 
-gtx_0x106C* gGtx_0x106C_703DD4;
+EXPORT_VAR gtx_0x106C* gGtx_0x106C_703DD4;
+GLOBAL(gGtx_0x106C_703DD4, 0x703DD4);
 
 struct sty_header
 {

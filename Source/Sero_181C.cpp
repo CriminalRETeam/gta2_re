@@ -1,6 +1,8 @@
 #include "Sero_181C.hpp"
+#include "Globals.hpp"
 
-Sero_181C* gSero_181C_6FF1D4;
+EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
+GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
 
 STUB_FUNC(0x578030)
 void Sero_58::sub_578030()

@@ -2,12 +2,16 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
+#include "Globals.hpp"
 #include <fstream>
 #include <stdio.h>
 #include <windows.h>
 
-char_type bDestroyed_6F5B70;
-HWND gHwnd_707F04;
+EXPORT_VAR char_type bDestroyed_6F5B70;
+GLOBAL(bDestroyed_6F5B70, 0x6F5B70);
+
+EXPORT_VAR HWND gHwnd_707F04;
+GLOBAL(gHwnd_707F04, 0x707F04);
 
 class ErrorLog : public std::fstream
 {
@@ -21,12 +25,20 @@ ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
     return *this;
 }
 
-ErrorLog gErrorLog_67CF58;
+EXPORT_VAR ErrorLog gErrorLog_67CF58;
+GLOBAL(gErrorLog_67CF58, 0x67CF58);
 
-char_type gTmpBuffer_67C598[256]; // TODO: Check
-char_type gErrStr_67C29C[256];
-char_type byte_67C3A8[256];
-char_type gGlobalFileName_67C6AC[256];
+EXPORT_VAR char_type gTmpBuffer_67C598[256]; // TODO: Check
+GLOBAL(gTmpBuffer_67C598, 0x67C598);
+
+EXPORT_VAR char_type gErrStr_67C29C[256];
+GLOBAL(gErrStr_67C29C, 0x67C29C);
+
+EXPORT_VAR char_type byte_67C3A8[256];
+GLOBAL(byte_67C3A8, 0x67C3A8);
+
+EXPORT_VAR char_type gGlobalFileName_67C6AC[256];
+GLOBAL(gGlobalFileName_67C6AC, 0x67C6AC);
 
 const char_type* gListTypes_61AB70[30] = {"objects",
                                           "corner_space",

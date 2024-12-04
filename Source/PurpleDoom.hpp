@@ -294,6 +294,6 @@ class PurpleDoom
     s32 field_3FC;
 };
 
-extern PurpleDoom* gPurpleDoom_1_679208;
-extern PurpleDoom* gPurpleDoom_2_67920C;
-extern PurpleDoom* gPurpleDoom_3_679210;
+EXPORT_VAR extern PurpleDoom* gPurpleDoom_1_679208;
+EXPORT_VAR extern PurpleDoom* gPurpleDoom_2_67920C;
+EXPORT_VAR extern PurpleDoom* gPurpleDoom_3_679210;

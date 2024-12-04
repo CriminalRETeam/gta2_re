@@ -1638,4 +1638,4 @@ struct jolly_poitras_0x2BC0
     EXPORT static void destroy_56C340();
 };
 
-extern jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;
+EXPORT_VAR extern jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;

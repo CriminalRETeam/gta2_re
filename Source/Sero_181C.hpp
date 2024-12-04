@@ -104,4 +104,4 @@ class Sero_181C
     char_type field_181B;
 };
 
-extern Sero_181C* gSero_181C_6FF1D4;
+EXPORT_VAR extern Sero_181C* gSero_181C_6FF1D4;

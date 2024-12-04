@@ -1,34 +1,82 @@
 #include "dma_video.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 
-SVideo* gVidSys_7071D0;
+EXPORT_VAR SVideo* gVidSys_7071D0;
+GLOBAL(gVidSys_7071D0, 0x7071D0);
 
-T_Vid_GetVersion Vid_GetVersion;
-T_Vid_Init_SYS Vid_Init_SYS;
-T_Vid_CheckMode Vid_CheckMode;
-T_Vid_FindMode Vid_FindMode;
-T_Vid_FindFirstMode Vid_FindFirstMode;
-T_Vid_FindNextMode Vid_FindNextMode;
-T_Vid_FindDevice Vid_FindDevice;
-T_Vid_SetDevice Vid_SetDevice;
-T_Vid_CloseScreen Vid_CloseScreen;
-T_Vid_SetMode Vid_SetMode;
-T_Vid_FlipBuffers Vid_FlipBuffers;
-T_Vid_ReleaseSurface Vid_ReleaseSurface;
-T_Vid_GrabSurface Vid_GrabSurface;
-T_Vid_ShutDown_SYS Vid_ShutDown_SYS;
-T_Vid_EnableWrites Vid_EnableWrites;
-T_Vid_DisableWrites Vid_DisableWrites;
-T_Vid_GetSurface Vid_GetSurface;
-T_Vid_FreeSurface Vid_FreeSurface;
-T_Vid_ClearScreen Vid_ClearScreen;
-T_Vid_WindowProc Vid_WindowProc;
-T_Vid_InitDLL Vid_InitDLL;
-T_Vid_SetGamma Vid_SetGamma;
+EXPORT_VAR T_Vid_GetVersion Vid_GetVersion;
+GLOBAL(Vid_GetVersion, 0x626CF0);
 
-HMODULE hDmaVideoDll_7085E8;
-SVideoFunctions gVidFuncs_708600;
+EXPORT_VAR T_Vid_Init_SYS Vid_Init_SYS;
+GLOBAL(Vid_Init_SYS, 0x626CF4);
+
+EXPORT_VAR T_Vid_CheckMode Vid_CheckMode;
+GLOBAL(Vid_CheckMode, 0x626CF8);
+
+EXPORT_VAR T_Vid_FindMode Vid_FindMode;
+GLOBAL(Vid_FindMode, 0x626CFC);
+
+EXPORT_VAR T_Vid_FindFirstMode Vid_FindFirstMode;
+GLOBAL(Vid_FindFirstMode, 0x626D00);
+
+EXPORT_VAR T_Vid_FindNextMode Vid_FindNextMode;
+GLOBAL(Vid_FindNextMode, 0x626D04);
+
+EXPORT_VAR T_Vid_FindDevice Vid_FindDevice;
+GLOBAL(Vid_FindDevice, 0x626D08);
+
+EXPORT_VAR T_Vid_SetDevice Vid_SetDevice;
+GLOBAL(Vid_SetDevice, 0x626D0C);
+
+EXPORT_VAR T_Vid_CloseScreen Vid_CloseScreen;
+GLOBAL(Vid_CloseScreen, 0x626D10);
+
+EXPORT_VAR T_Vid_SetMode Vid_SetMode;
+GLOBAL(Vid_SetMode, 0x626D14);
+
+EXPORT_VAR T_Vid_FlipBuffers Vid_FlipBuffers;
+GLOBAL(Vid_FlipBuffers, 0x626D18);
+
+EXPORT_VAR T_Vid_ReleaseSurface Vid_ReleaseSurface;
+GLOBAL(Vid_ReleaseSurface, 0x626D1C);
+
+EXPORT_VAR T_Vid_GrabSurface Vid_GrabSurface;
+GLOBAL(Vid_GrabSurface, 0x626D20);
+
+EXPORT_VAR T_Vid_ShutDown_SYS Vid_ShutDown_SYS;
+GLOBAL(Vid_ShutDown_SYS, 0x626D24);
+
+EXPORT_VAR T_Vid_EnableWrites Vid_EnableWrites;
+GLOBAL(Vid_EnableWrites, 0x626D28);
+
+EXPORT_VAR T_Vid_DisableWrites Vid_DisableWrites;
+GLOBAL(Vid_DisableWrites, 0x626D2C);
+
+EXPORT_VAR T_Vid_GetSurface Vid_GetSurface;
+GLOBAL(Vid_GetSurface, 0x626D30);
+
+EXPORT_VAR T_Vid_FreeSurface Vid_FreeSurface;
+GLOBAL(Vid_FreeSurface, 0x626D34);
+
+EXPORT_VAR T_Vid_ClearScreen Vid_ClearScreen;
+GLOBAL(Vid_ClearScreen, 0x626D38);
+
+EXPORT_VAR T_Vid_WindowProc Vid_WindowProc;
+GLOBAL(Vid_WindowProc, 0x626D3C);
+
+EXPORT_VAR T_Vid_InitDLL Vid_InitDLL;
+GLOBAL(Vid_InitDLL, 0x626D40);
+
+EXPORT_VAR T_Vid_SetGamma Vid_SetGamma;
+GLOBAL(Vid_SetGamma, 0x626D44);
+
+EXPORT_VAR HMODULE hDmaVideoDll_7085E8;
+GLOBAL(hDmaVideoDll_7085E8, 0x7085E8);
+
+EXPORT_VAR SVideoFunctions gVidFuncs_708600;
+GLOBAL(gVidFuncs_708600, 0x708600);
 
 MATCH_FUNC(0x5EB810)
 void __stdcall DMA_Video_Stub_5EB810()

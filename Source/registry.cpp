@@ -2,12 +2,14 @@
 #include "Function.hpp"
 #include "error.hpp"
 #include "stdafx.h"
+#include "Globals.hpp"
 #include <stdio.h>
 #include <windows.h>
 
-HKEY dword_625018 = HKEY_LOCAL_MACHINE;
+const HKEY dword_625018 = HKEY_LOCAL_MACHINE;
 
-Registry gRegistry_6FF968;
+EXPORT_VAR Registry gRegistry_6FF968;
+GLOBAL(gRegistry_6FF968, 0x6FF968);
 
 MATCH_FUNC(0x586A00)
 bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)

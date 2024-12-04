@@ -1,7 +1,11 @@
 #include "char.hpp"
+#include "Globals.hpp"
 
-Char_C* gChar_C_6787BC;
-Char_203AC* gChar_203AC_6787B8;
+EXPORT_VAR Char_C* gChar_C_6787BC;
+GLOBAL(gChar_C_6787BC, 0x6787BC);
+
+EXPORT_VAR Char_203AC* gChar_203AC_6787B8;
+GLOBAL(gChar_203AC_6787B8, 0x6787B8);
 
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)

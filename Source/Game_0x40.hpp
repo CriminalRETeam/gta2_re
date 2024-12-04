@@ -83,6 +83,6 @@ class Game_0x40
 };
 
 // extern __declspec(dllexport)
-extern EXPORT_VAR Game_0x40* gGame_0x40_67E008;
+EXPORT_VAR extern Game_0x40* gGame_0x40_67E008;
 
-extern u32 dword_67DCCC;
+EXPORT_VAR extern u32 dword_67DCCC;

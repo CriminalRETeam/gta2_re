@@ -137,4 +137,4 @@ struct lucid_hamilton
     EXPORT s16 sub_4C5D80(u8 a2, u8 a3);
 };
 
-extern lucid_hamilton gLucid_hamilton_67E8E0;
+EXPORT_VAR extern lucid_hamilton gLucid_hamilton_67E8E0;

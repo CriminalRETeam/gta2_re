@@ -1,12 +1,14 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "Function.hpp"
 #include "debug.hpp"
+#include "Globals.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
 
-frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
+EXPORT_VAR frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
+GLOBAL(gfrosty_pasteur_6F8060, 0x6F8060);
 
 MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)

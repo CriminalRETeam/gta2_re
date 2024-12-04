@@ -1,5 +1,6 @@
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Car_3C* a2)
@@ -22,8 +23,11 @@ void DrawUnk_0xBC::sub_4357B0()
     field_94 = field_A4;
 }
 
-Fix16 dword_676894;
-Fix16 dword_676678;
+EXPORT_VAR Fix16 dword_676894;
+GLOBAL(dword_676894, 0x676894);
+
+EXPORT_VAR Fix16 dword_676678;
+GLOBAL(dword_676678, 0x676678);
 
 MATCH_FUNC(0x4357F0)
 void DrawUnk_0xBC::sub_4357F0()
@@ -34,7 +38,8 @@ void DrawUnk_0xBC::sub_4357F0()
     }
 }
 
-Fix16 dword_676818;
+EXPORT_VAR Fix16 dword_676818;
+GLOBAL(dword_676818, 0x676818);
 
 MATCH_FUNC(0x435810)
 void DrawUnk_0xBC::sub_435810()
@@ -51,7 +56,8 @@ void DrawUnk_0xBC::sub_435830()
     field_40 = dword_676818;
 }
 
-Fix16 dword_676898;
+EXPORT_VAR Fix16 dword_676898;
+GLOBAL(dword_676898, 0x676898);
 
 MATCH_FUNC(0x435840)
 void DrawUnk_0xBC::sub_435840()
@@ -101,8 +107,11 @@ s32 DrawUnk_0xBC::sub_435B90()
     return 0;
 }
 
-Fix16 dword_67671C;
-Fix16 dword_67681C;
+EXPORT_VAR Fix16 dword_67671C;
+GLOBAL(dword_67671C, 0x67671C);
+
+EXPORT_VAR Fix16 dword_67681C;
+GLOBAL(dword_67681C, 0x67681C);
 
 STUB_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
@@ -215,7 +224,8 @@ char_type DrawUnk_0xBC::sub_436710(char_type a2, char_type a3, char_type a4, cha
     return 0;
 }
 
-s32 dword_6766E4;
+EXPORT_VAR s32 dword_6766E4;
+GLOBAL(dword_6766E4, 0x6766E4);
 
 MATCH_FUNC(0x436830)
 void DrawUnk_0xBC::sub_436830()

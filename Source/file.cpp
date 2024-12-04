@@ -2,12 +2,15 @@
 #include "Function.hpp"
 #include "error.hpp"
 #include "memory.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 
-s32 gbGlobalFileOpen_67D160;
-FILE* ghFile_67CFEC;
-extern char_type gTmpBuffer_67C598[256];
+EXPORT_VAR s32 gbGlobalFileOpen_67D160;
+GLOBAL(gbGlobalFileOpen_67D160, 0x67D160);
+
+EXPORT_VAR FILE* ghFile_67CFEC;
+GLOBAL(ghFile_67CFEC, 0x67CFEC);
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)

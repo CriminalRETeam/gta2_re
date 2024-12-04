@@ -73,5 +73,5 @@ class text_0x14
     EXPORT ~text_0x14();
 };
 
-extern text_0x14* gText_0x14_704DFC;
-extern text_0x14* gtext_0x14_6F87F0;
+EXPORT_VAR extern text_0x14* gText_0x14_704DFC;
+EXPORT_VAR extern text_0x14* gtext_0x14_6F87F0;
