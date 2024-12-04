@@ -17,6 +17,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
+#include "crt_stubs.hpp"
 #include "text_0x14.hpp"
 #include <io.h>
 #include <stdio.h>
@@ -2750,7 +2751,7 @@ void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
 
-    FILE* hFile = fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
+    FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
@@ -2762,14 +2763,14 @@ void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
         FatalError_4A38C0(174, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
     }
 
-    if (fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
+    if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
     {
         FatalError_4A38C0(187, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
 
     tgaArray_61F0C8[idx].field_84_img = gbh_LoadImage((SImage*)pAlloc);
 
-    fclose(hFile);
+    crt::fclose(hFile);
     free(pAlloc);
 }
 
