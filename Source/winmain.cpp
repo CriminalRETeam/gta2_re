@@ -235,7 +235,8 @@ GLOBAL(gGTA2VersionMajor_708284, 0x708284);
 EXPORT_VAR char_type gWorkingDir_707F64[652];
 GLOBAL(gWorkingDir_707F64, 0x707F64);
 
-bool bDoFrontEnd_626B68 = true; // TODO: VAR HACK
+EXPORT_VAR bool bDoFrontEnd_626B68;// = true; // TODO: VAR HACK
+GLOBAL(bDoFrontEnd_626B68, 0x626B68);
 
 EXPORT_VAR s32 window_width_706630;
 GLOBAL(window_width_706630, 0x706630);
@@ -270,7 +271,9 @@ GLOBAL(byte_6F5B71, 0x6F5B71);
 EXPORT_VAR BYTE byte_6F4BF4;
 GLOBAL(byte_6F4BF4, 0x6F4BF4);
 
-s32 gStartMode_626A0C = 2; // TODO: VAR HACK
+EXPORT_VAR s32 gStartMode_626A0C;// = 2; // TODO: VAR HACK
+GLOBAL(gStartMode_626A0C, 0x626A0C);
+
 EXPORT_VAR s32 bTrippleBuffer_706C54;
 GLOBAL(bTrippleBuffer_706C54, 0x706C54);
 
@@ -295,7 +298,8 @@ GLOBAL(gRenderdevice_706998, 0x706998);
 EXPORT_VAR u16 gDMusicVer_67BD32;
 GLOBAL(gDMusicVer_67BD32, 0x67BD32);
 
-char_type gLighting_626A09 = 1; // TODO: VAR HACK
+EXPORT_VAR char_type gLighting_626A09; // = 1; // TODO: VAR HACK
+GLOBAL(gLighting_626A09, 0x626A09);
 
 EXPORT_VAR u32 gLightingDrawFlag_7068F4;
 GLOBAL(gLightingDrawFlag_7068F4, 0x7068F4);
@@ -341,21 +345,21 @@ void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 
 // todo: move
 STUB_FUNC(0x5D7C60)
-void __stdcall Input_MouseAcquire_5D7C60()
+EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 {
     // todo
 }
 
 // todo: move
 STUB_FUNC(0x5D7C70)
-void __stdcall Input_ReleaseMouse_5D7C70()
+EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 {
     // todo
 }
 
 // todo: move
 STUB_FUNC(0x5D94F0)
-void __stdcall HideCursor_5D94F0()
+EXPORT void __stdcall HideCursor_5D94F0()
 {
     while (ShowCursor(0) >= 0)
         ;
@@ -363,7 +367,7 @@ void __stdcall HideCursor_5D94F0()
 
 // todo: move
 STUB_FUNC(0x5D7BF0)
-char_type Input_InitMouse_5D7BF0()
+EXPORT char_type Input_InitMouse_5D7BF0()
 {
     // todo
     return 0;
@@ -371,7 +375,7 @@ char_type Input_InitMouse_5D7BF0()
 
 // todo: move
 STUB_FUNC(0x5D93A0)
-void __stdcall sub_5D93A0()
+EXPORT void __stdcall sub_5D93A0()
 {
     char_type v0; // bl
     s32 bcheckModeRet; // esi
@@ -422,13 +426,13 @@ void __stdcall sub_5D93A0()
 
 // todo: move
 STUB_FUNC(0x5D92C0)
-char_type sub_5D92C0()
+EXPORT char_type sub_5D92C0()
 {
     return byte_706C5C;
 }
 
 MATCH_FUNC(0x5D9660)
-void __stdcall ShowCursor_5D9660()
+EXPORT void __stdcall ShowCursor_5D9660()
 {
     s32 refCount;
     do
@@ -439,7 +443,7 @@ void __stdcall ShowCursor_5D9660()
 
 // todo: move
 STUB_FUNC(0x5D9510)
-char_type sub_5D9510()
+EXPORT char_type sub_5D9510()
 {
 
     if (!sub_5D92C0())
@@ -492,7 +496,7 @@ char_type sub_5D9510()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8F70)
-s32 ReadScreenSettings_5D8F70()
+EXPORT s32 ReadScreenSettings_5D8F70()
 {
     const u32 full_width_old = full_width_706B5C;
     const u32 window_width_old = window_width_706630;
@@ -547,14 +551,14 @@ s32 ReadScreenSettings_5D8F70()
 
 // todo: move
 STUB_FUNC(0x5D98E0)
-void __stdcall SetSavedGamma_5D98E0()
+EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
     // todo
 }
 
 // todo: move
 STUB_FUNC(0x5D92D0)
-void __stdcall sub_5D92D0()
+EXPORT void __stdcall sub_5D92D0()
 {
     u32 field_4_flags; // ecx
     u32 v1; // ecx
@@ -600,13 +604,13 @@ void __stdcall sub_5D92D0()
 }
 
 MATCH_FUNC(0x5D9860)
-s32 jGBH_Graphics_Free_5D9860()
+EXPORT s32 jGBH_Graphics_Free_5D9860()
 {
     return GBH_Graphics_Free_5EA640();
 }
 
 MATCH_FUNC(0x5D9830)
-void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
+EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 {
     jGBH_Graphics_Free_5D9860();
     if (gVidSys_7071D0)
@@ -619,7 +623,7 @@ void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 
 // todo: move
 MATCH_FUNC(0x5D9290)
-bool Vid_FindDevice_5D9290()
+EXPORT bool Vid_FindDevice_5D9290()
 {
     SDevice* pDevice = Vid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
     return pDevice && (pDevice->field_4_flags & 1) == 1;
@@ -627,7 +631,7 @@ bool Vid_FindDevice_5D9290()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D9800)
-s32 GetHwndDCDeviceCaps_5D9800()
+EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 {
     HDC hdc = GetDC(gHwnd_707F04);
     s32 deviceCaps = GetDeviceCaps(hdc, BITSPIXEL);
@@ -700,7 +704,7 @@ void sub_5D96C0()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA440)
-void __stdcall Init_keybrd_jolly_and_sound_4DA440()
+EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
     jolly_poitras_0x2BC0::create_56C2C0();
@@ -717,21 +721,21 @@ void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA4D0)
-void __stdcall sub_4DA4D0()
+EXPORT void __stdcall sub_4DA4D0()
 {
     // todo
 }
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D9690)
-void __stdcall sub_5D9690()
+EXPORT void __stdcall sub_5D9690()
 {
     // todo
 }
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA850)
-char_type sub_4DA850()
+EXPORT char_type sub_4DA850()
 {
     // todo
     return 0;
@@ -739,7 +743,7 @@ char_type sub_4DA850()
 
 // TODO: Other missing stubs here
 STUB_FUNC(0x4DA830)
-void __stdcall sub_4DA830()
+EXPORT void __stdcall sub_4DA830()
 {
 }
 
@@ -748,7 +752,7 @@ GUID IDD_IDirectMusic = {1698042202u, 31533u, 4562u, {186u, 24u, 0u, 0u, 248u, 1
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4A0650)
-void __stdcall GetDirectMusicVer_4A0650()
+EXPORT void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
     HMODULE hDMusic; // esi
@@ -771,7 +775,7 @@ GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0
 
 // todo move to another file for ordering
 STUB_FUNC(0x4C4EC0)
-void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
+EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
     u32 dwMajorVersion; // eax
     HMODULE hDInput; // eax
@@ -966,7 +970,7 @@ const char_type* off_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D90E0)
-void __stdcall Video_Render_Inits_5D90E0()
+EXPORT void __stdcall Video_Render_Inits_5D90E0()
 {
     gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
     gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
@@ -994,14 +998,14 @@ void __stdcall Video_Render_Inits_5D90E0()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D9280)
-bool IsFullScreen_5D9280()
+EXPORT bool IsFullScreen_5D9280()
 {
     return gStartMode_626A0C == 1;
 }
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8E70)
-void __stdcall UpdateWinXY_5D8E70()
+EXPORT void __stdcall UpdateWinXY_5D8E70()
 {
     if (!IsFullScreen_5D9280())
     {
@@ -1014,21 +1018,21 @@ void __stdcall UpdateWinXY_5D8E70()
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D7CA0)
-void __stdcall j_gbh_init_5D7CA0()
+EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
     gbh_Init(0);
 }
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA700)
-void __stdcall CleanUpInputAndOthers_4DA700()
+EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
     // todo
 }
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA390)
-s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
+EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
     // todo
     return 0;
@@ -1036,7 +1040,7 @@ s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA3F0)
-char_type* __stdcall sub_4DA3F0(char_type* pStr)
+EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 {
     // todo
     return 0;
@@ -1044,7 +1048,7 @@ char_type* __stdcall sub_4DA3F0(char_type* pStr)
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA320)
-void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
+EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 {
     char* pIter = pCommandLine;
     s32 len = SkipWhiteSpace_4DA390(pCommandLine);
@@ -1079,7 +1083,7 @@ void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 }
 
 MATCH_FUNC(0x5E4DE0)
-void Start_GTA2Manager_5E4DE0()
+EXPORT void Start_GTA2Manager_5E4DE0()
 {
     HANDLE v1; // eax
     HWND Window; // eax
@@ -1117,14 +1121,14 @@ void Start_GTA2Manager_5E4DE0()
 }
 
 MATCH_FUNC(0x5E4EC0)
-void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
+EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
     MessageBoxA(gHwnd_707F04, lpText, "Error!", 0);
 }
 
 // todo: move
 STUB_FUNC(0x5D9230)
-void __stdcall sub_5D9230(s32 startMode)
+EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
@@ -1132,27 +1136,27 @@ void __stdcall sub_5D9230(s32 startMode)
 
 // todo: move
 STUB_FUNC(0x5D9680)
-void sub_5D9680()
+EXPORT void sub_5D9680()
 {
     // todo
 }
 
 // todo: move
 STUB_FUNC(0x498D10)
-void Input_Read_498D10()
+EXPORT void Input_Read_498D10()
 {
     // todo
 }
 
 // todo: move
 STUB_FUNC(0x5D9250)
-void __stdcall sub_5D9250()
+EXPORT void __stdcall sub_5D9250()
 {
     // todo
 }
 
 STUB_FUNC(0x5E4EE0)
-LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     switch (Msg)
     {
@@ -1668,7 +1672,7 @@ LABEL_23:
 }
 
 STUB_FUNC(0x5E5A30)
-char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
+EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     return 1;
 }
@@ -1676,7 +1680,7 @@ char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 #pragma comment(lib, "Version.lib")
 
 MATCH_FUNC(0x5E5D60)
-void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
+EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
 {
     DWORD dwHandle;
     DWORD dwSize = GetFileVersionInfoSizeA("GTA2.EXE", &dwHandle);

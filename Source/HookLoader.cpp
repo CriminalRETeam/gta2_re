@@ -271,14 +271,14 @@ class HookLoader
                 if (meta.mStatus == 0)
                 {
                     // stubbed - hook reimpl func to og
-                    printf("STUB %s\n", it->first.c_str());
+                    //printf("STUB %s\n", it->first.c_str());
 
                     err = DetourAttach(&(PVOID&)addr, reinterpret_cast<void*>(meta.mOgAddr));
                 }
                 else if (meta.mStatus == 1)
                 {
                     // matched - hook og func to reimpl
-                    printf("MATCH %s\n", it->first.c_str());
+                    //printf("MATCH %s\n", it->first.c_str());
                     LPVOID addr2 = reinterpret_cast<void*>(meta.mOgAddr);
                     err = DetourAttach(&(PVOID&)addr2, addr);
                 }

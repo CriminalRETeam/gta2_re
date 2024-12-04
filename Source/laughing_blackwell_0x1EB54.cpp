@@ -24,7 +24,7 @@
 
 #pragma comment(lib, "dxguid.lib")
 
-void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
+EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
 void Start_GTA2Manager_5E4DE0();
 
@@ -48,8 +48,11 @@ EXPORT_VAR DWORD dword_67D9FC;
 GLOBAL(dword_67D9FC, 0x67D9FC);
 
 // todo: likely an array
-short word_703C14 = 7; // TODO: NOT CONST! Standalone hack ?? move hack to ctor ??
-s16 word_703C3C = 8; // TODO: Ditto
+EXPORT_VAR short word_703C14; // = 7; // TODO: VAR HACK NOT CONST! Standalone hack ?? move hack to ctor ??
+GLOBAL(word_703C14, 0x703C14);
+
+EXPORT_VAR s16 word_703C3C; // = 8; // TODO: Ditto
+GLOBAL(word_703C3C, 0x703C3C);
 
 EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
 GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
@@ -69,11 +72,11 @@ GLOBAL(dword_67EE54, 0x67EE54);
 class FreeLoader
 {
   public:
-    static char_type sub_4AE1F0(u8 a1);
+    EXPORT static char_type sub_4AE1F0(u8 a1);
 };
 
 STUB_FUNC(0x4AE1F0)
-char_type FreeLoader::sub_4AE1F0(u8 a1)
+EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
     // todo
     return 0;
@@ -247,7 +250,7 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
                                {"data\\frontend\\DemoInfo.tga", 614939, 0}};
 
 STUB_FUNC(0x5D9910)
-s32 __stdcall SetGamma_5D9910(s32 gamma)
+EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     // todo
     return 0;
@@ -3570,7 +3573,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 }
 
 EXPORT_VAR extern BYTE byte_6F4BF4;
-extern bool bDoFrontEnd_626B68;
+EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
 STUB_FUNC(0x5E53C0)
 void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
@@ -4404,7 +4407,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 }
 
 MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
+EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
 {
     s32 local; // [esp+0h] [ebp-4h] BYREF
 
