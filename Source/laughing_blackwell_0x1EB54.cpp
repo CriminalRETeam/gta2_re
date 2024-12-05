@@ -224,6 +224,10 @@ struct TgaInfo
     s32 field_84_img;
 };
 
+#if defined(EXPORT_VARS) || defined(IMPORT_VARS)
+EXPORT_VAR TgaInfo tgaArray_61F0C8[25];
+GLOBAL(tgaArray_61F0C8, 0x61F0C8);
+#else
 TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
                                {"data\\frontend\\1_Options.tga", 266924, 0},
                                {"data\\frontend\\1_Play.tga", 266924, 0},
@@ -249,6 +253,9 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
                                {"data\\frontend\\Credits.tga", 614444, 0},
                                {"data\\frontend\\Mask3.tga", 130427, 0},
                                {"data\\frontend\\DemoInfo.tga", 614939, 0}};
+#endif
+
+
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
@@ -2558,7 +2565,7 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
 }
 
 STUB_FUNC(0x5D7D30)
-void __stdcall sub_5D7D30()
+EXPORT void __stdcall sub_5D7D30()
 {
     Vid_GetSurface(gVidSys_7071D0);
     MakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
@@ -2580,7 +2587,7 @@ void __stdcall sub_5D7D30()
 }
 
 STUB_FUNC(0x5D7DC0)
-void __cdecl FreeSurface_5D7DC0()
+EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     Vid_FreeSurface(gVidSys_7071D0);
 }
@@ -2775,7 +2782,7 @@ void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
 }
 
 STUB_FUNC(0x5D7CB0)
-void __stdcall sub_5D7CB0()
+EXPORT void __stdcall sub_5D7CB0()
 {
     // todo: move me
 }
@@ -4182,7 +4189,8 @@ GLOBAL(gQuadVerts_706B88, 0x706B88);
 
 EXPORT_VAR extern u32 gLightingDrawFlag_7068F4;
 
-s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
+STUB_FUNC(0x5D83E0);
+EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
     s32 result; // eax
 
@@ -4221,7 +4229,7 @@ EXPORT_VAR Fix16 dword_706A6C;
 GLOBAL(dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
-void __stdcall DrawText_5D8A10(const wchar_t* pText,
+EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,
                                u16 spaceWidth,
