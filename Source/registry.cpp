@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <windows.h>
 
-const HKEY dword_625018 = HKEY_LOCAL_MACHINE;
+HKEY dword_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
 
 EXPORT_VAR Registry gRegistry_6FF968;
 GLOBAL(gRegistry_6FF968, 0x6FF968);
