@@ -41,7 +41,7 @@ GLOBAL(counter_706C4C, 0x706C4C);
 EXPORT_VAR s32 dword_67D930;
 GLOBAL(dword_67D930, 0x67D930);
 
-const u16 gTableSize_61FF20 = 25;
+u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 
 EXPORT_VAR extern wchar_t word_67DC8C[50];
 
