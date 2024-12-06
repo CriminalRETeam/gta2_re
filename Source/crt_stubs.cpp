@@ -39,4 +39,16 @@ int __cdecl fgetc(FILE* f)
     return ::fgetc(f);
 }
 
+STUB_FUNC(0x5ED478)
+void __cdecl free(void *Block)
+{
+    ::free(Block);
+}
+
+STUB_FUNC(0x5ED3BB)
+void* __cdecl malloc(size_t Size)
+{
+    return ::malloc(Size);
+}
+
 } // namespace crt

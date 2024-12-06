@@ -2,6 +2,7 @@
 #include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "crt_stubs.hpp"
 #include "Globals.hpp"
 
 EXPORT_VAR sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
@@ -191,7 +192,7 @@ void festive_hopper::Free_5B9050()
             gbh_FreeTexture(field_0_pAlloc[i]);
         }
 
-        free(field_0_pAlloc);
+        crt::free(field_0_pAlloc);
         field_0_pAlloc = 0;
     }
 }

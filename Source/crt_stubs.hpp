@@ -18,6 +18,9 @@ EXPORT int __cdecl fclose(FILE*);
 EXPORT size_t __cdecl fread(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream);
 EXPORT int __cdecl fgetc(FILE*);
 
-// TODO: malloc, free
+EXPORT void __cdecl free(void *Block);
+EXPORT void *__cdecl malloc(size_t Size);
+
+// TODO: crt::malloc, crt::free
 
 } // namespace crt

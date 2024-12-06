@@ -5,6 +5,7 @@
 #include "file.hpp"
 #include "memory.hpp"
 #include "Globals.hpp"
+#include "crt_stubs.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -556,7 +557,7 @@ void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
     u32 len = cari_chunk_size;
     void* v3; // eax
 
-    v3 = malloc(cari_chunk_size);
+    v3 = crt::malloc(cari_chunk_size);
     File::Global_Read_4A71C0(v3, &len);
 
     //this->field_58_car_info = v3;
@@ -1046,7 +1047,7 @@ gtx_0x106C::~gtx_0x106C()
 
     if (this->field_64_car_recycling_info)
     {
-        free(this->field_64_car_recycling_info);
+        crt::free(this->field_64_car_recycling_info);
     }
 
     field_14_sprite_base2 = this->field_14_sprite_base2;
@@ -1067,20 +1068,20 @@ gtx_0x106C::~gtx_0x106C()
     this->field_10_palette_base1 = 0;
     if (field_1C_font_base)
     {
-        free(field_1C_font_base);
+        crt::free(field_1C_font_base);
     }
 
     field_20_sprite_index = this->field_20_sprite_index;
     this->field_1C_font_base = 0;
     if (field_20_sprite_index)
     {
-        free(field_20_sprite_index);
+        crt::free(field_20_sprite_index);
     }
     field_24_map_object_info = this->field_24_map_object_info;
     this->field_20_sprite_index = 0;
     if (field_24_map_object_info)
     {
-        free(field_24_map_object_info);
+        crt::free(field_24_map_object_info);
     }
     field_28_palette_index = this->field_28_palette_index;
     this->field_24_map_object_info = 0;
@@ -1089,40 +1090,40 @@ gtx_0x106C::~gtx_0x106C()
     this->field_28_palette_index = 0;
     if (field_30_physical_palettes_size)
     {
-        free(field_30_physical_palettes_size);
+        crt::free(field_30_physical_palettes_size);
     }
     field_44_aligned_tiles_size = (void*)this->field_44_aligned_tiles_size;
     this->field_2C_physical_palettes = 0;
     this->field_30_physical_palettes_size = 0;
     if (field_44_aligned_tiles_size)
     {
-        free(field_44_aligned_tiles_size);
+        crt::free(field_44_aligned_tiles_size);
     }
     v12 = (void*)this->field_38;
     this->field_3C_tiles = 0;
     this->field_44_aligned_tiles_size = 0;
     if (v12)
     {
-        free(v12);
+        crt::free(v12);
     }
     field_48_delta_store = this->field_48_delta_store;
     this->field_34_sprite_graphics = 0;
     this->field_38 = 0;
     if (field_48_delta_store)
     {
-        free(field_48_delta_store);
+        crt::free(field_48_delta_store);
     }
     field_50_delta_buffer = this->field_50_delta_buffer;
     this->field_48_delta_store = 0;
     if (field_50_delta_buffer)
     {
-        free(field_50_delta_buffer);
+        crt::free(field_50_delta_buffer);
     }
     field_58_car_info = this->field_58_car_info;
     this->field_50_delta_buffer = 0;
     if (field_58_car_info)
     {
-        free(field_58_car_info);
+        crt::free(field_58_car_info);
     }
     field_5C_cari = this->field_5C_cari;
     this->field_58_car_info = 0;
@@ -1131,13 +1132,13 @@ gtx_0x106C::~gtx_0x106C()
     this->field_5C_cari = 0;
     if (field_4C_delta_index)
     {
-        free(field_4C_delta_index);
+        crt::free(field_4C_delta_index);
     }
     field_54_del = (void*)this->field_54_del;
     this->field_4C_delta_index = 0;
     if (field_54_del)
     {
-        free(field_54_del);
+        crt::free(field_54_del);
     }
     field_40_tile = this->field_40_tile;
     this->field_54_del = 0;

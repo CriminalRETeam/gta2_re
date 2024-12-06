@@ -74,20 +74,20 @@ void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t*
     FILE* hFileRead2 = crt::fopen(FileName, "rb");
     if (!hFileRead2)
     {
-        free(pBuffer);
+        crt::free(pBuffer);
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 151);
     }
 
     if (Read_4A6D90(pBuffer, *pAllocatedBufferSize, 1u, hFileRead2) != 1)
     {
-        free(pBuffer);
+        crt::free(pBuffer);
         crt::fclose(hFileRead2);
         FatalError_4A38C0(15, "C:\\Splitting\\Gta2\\Source\\File.cpp", 158);
     }
 
     if (crt::fclose(hFileRead2))
     {
-        free(pBuffer);
+        crt::free(pBuffer);
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 164);
     }
 
