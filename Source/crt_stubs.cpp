@@ -54,6 +54,10 @@ void* __cdecl malloc(size_t Size)
 
 } // namespace crt
 
+// WARNING: This might cause some mixed new/delete of 2 crt versions due to hooks 
+// getting applied mid-way. However since after WinMain is called exit() is also
+// called we never "return" to the hook manager code nor ever remove any hooks therefore
+// this shouldn't be a problem but is something to be aware of.
 void* operator new(size_t n) throw(std::bad_alloc)
 {
     printf("new %d\n", n);
