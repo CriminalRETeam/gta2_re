@@ -1,5 +1,6 @@
 #include "crt_stubs.hpp"
 #include "Function.hpp"
+#include <memory>
 
 namespace crt
 {
@@ -40,7 +41,7 @@ int __cdecl fgetc(FILE* f)
 }
 
 STUB_FUNC(0x5ED478)
-void __cdecl free(void *Block)
+void __cdecl free(void* Block)
 {
     ::free(Block);
 }
@@ -52,3 +53,24 @@ void* __cdecl malloc(size_t Size)
 }
 
 } // namespace crt
+
+void* operator new(size_t n) throw(std::bad_alloc)
+{
+    printf("new %d\n", n);
+    return crt::malloc(n);
+}
+void operator delete(void* p) throw()
+{
+    crt::free(p);
+}
+
+void* operator new[](size_t s) throw(std::bad_alloc)
+{
+    printf("new[] %d\n", s);
+    return crt::malloc(s);
+}
+
+void operator delete[](void* p) throw()
+{
+    crt::free(p);
+}
