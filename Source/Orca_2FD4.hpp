@@ -17,9 +17,10 @@ class Orca_2FD4
     EXPORT char_type sub_554110(char_type a2, char_type a3);
     EXPORT s32 sub_5545C0();
     EXPORT s32 init_5545E0();
-    // TODO: address
-    EXPORT ~Orca_2FD4()
+
+    ~Orca_2FD4()
     {
+      // TODO: Should this be empty?
     }
     EXPORT s32 sub_554620(s32 a2);
     EXPORT char_type sub_554640();

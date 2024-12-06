@@ -11,7 +11,7 @@ class rng
         field_4_rnd = 0;
     }
 
-    void srand_4F7A40();
+    EXPORT void srand_4F7A40();
 
     s32 field_0_rng;
     s32 field_4_rnd;

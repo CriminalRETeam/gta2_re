@@ -142,8 +142,8 @@ GLOBAL(gpGBH_Globals_7085E4, 0x7085E4);
         return -1;                                                     \
     }
 
-//MATCH_FUNC(0x5EA4D0) // TODO: Doesn't actually match
-void __stdcall GBH_Graphics_Stub_5EA4D0()
+STUB_FUNC(0x5EA4D0)
+EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
     MessageBoxA(0,
                 "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
@@ -152,7 +152,7 @@ void __stdcall GBH_Graphics_Stub_5EA4D0()
 }
 
 STUB_FUNC(0x5EA500)
-void __stdcall GBH_Graphics_Unload_5EA500()
+EXPORT void __stdcall GBH_Graphics_Unload_5EA500()
 {
     FreeLibrary(gGbhDllHandle_7085D8);
     gbh_InitDLL = (T_gbh_InitDLL)GBH_Graphics_Stub_5EA4D0;
@@ -187,7 +187,7 @@ void __stdcall GBH_Graphics_Unload_5EA500()
 }
 
 STUB_FUNC(0x5EA640)
-s32 GBH_Graphics_Free_5EA640()
+EXPORT s32 GBH_Graphics_Free_5EA640()
 {
     if (gGBH_GraphicsLoaded_7085E0)
     {
@@ -199,7 +199,7 @@ s32 GBH_Graphics_Free_5EA640()
 }
 
 STUB_FUNC(0x5EA680)
-s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
+EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
     char_type Text[120];
 
@@ -270,7 +270,7 @@ class Bob
 };
 
 STUB_FUNC(0x5EB680)
-s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
+EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
 {
     Bob b;
     s32 error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);

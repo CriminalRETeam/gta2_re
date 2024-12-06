@@ -79,13 +79,13 @@ EXPORT_VAR SVideoFunctions gVidFuncs_708600;
 GLOBAL(gVidFuncs_708600, 0x708600);
 
 MATCH_FUNC(0x5EB810)
-void __stdcall DMA_Video_Stub_5EB810()
+EXPORT void __stdcall DMA_Video_Stub_5EB810()
 {
     MessageBoxA(0, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
 }
 
 MATCH_FUNC(0x5EB8C0)
-void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
+EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 {
     if (Vid_ShutDown_SYS != (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810)
     {
@@ -119,7 +119,7 @@ void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 }
 
 STUB_FUNC(0x5EB970)
-s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
+EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
     char_type Text[120];
     char_type Buffer[128];

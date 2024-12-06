@@ -67,12 +67,12 @@ struct Fix16
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
 
-    Fix16 operator*(const Fix16& in);
+    EXPORT Fix16 operator*(const Fix16& in);
 
-    Fix16 operator-();
+    EXPORT Fix16 operator-();
 
-    Fix16 operator+(const Fix16& rhs) const;
-    Fix16 operator/(const Fix16& in);
+    EXPORT Fix16 operator+(const Fix16& rhs) const;
+    EXPORT Fix16 operator/(const Fix16& in);
 
   public:
     s32 mValue;

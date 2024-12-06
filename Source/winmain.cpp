@@ -306,7 +306,7 @@ GLOBAL(gLightingDrawFlag_7068F4, 0x7068F4);
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)
-void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
+EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
     // todo
     /*
@@ -641,7 +641,7 @@ EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D97C0)
-void __stdcall GBH_GraphicsInit_5D97C0()
+EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
     {
@@ -651,7 +651,7 @@ void __stdcall GBH_GraphicsInit_5D97C0()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D96C0)
-void sub_5D96C0()
+EXPORT void sub_5D96C0()
 {
     s32 v1 = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))

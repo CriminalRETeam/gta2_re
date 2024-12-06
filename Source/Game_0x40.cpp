@@ -233,18 +233,21 @@ void Game_0x40::sub_4B8E50()
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
 // TODO: move
-s32 IanTest_46E370()
+STUB_FUNC(0x46E370)
+EXPORT s32 IanTest_46E370()
 {
     return 0;
 }
 
 // TODO: move
-void sub_5D8DF0()
+STUB_FUNC(0x5D8DF0)
+EXPORT void sub_5D8DF0()
 {
 }
 
 // TODO: move
-void sub_5D8E00()
+STUB_FUNC(0x5D8E00)
+EXPORT void sub_5D8E00()
 {
 }
 

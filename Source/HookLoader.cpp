@@ -263,11 +263,14 @@ class HookLoader
             printf("DetourUpdateThread failed");
         }
 
+        printf("Apply hooks..\n");
         for (std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin(); it != mFunctionsToHookMap.end(); it++)
         {
             {
+                printf("Look up %s\n",  it->first.c_str());
                 LPVOID addr = MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str());
                 const FuncMeta& meta = it->second;
+                printf("Doing %s\n",  it->first.c_str());
                 if (meta.mStatus == 0)
                 {
                     // stubbed - hook reimpl func to og
@@ -289,6 +292,7 @@ class HookLoader
             }
         }
 
+        printf("commit hooks\n");
         err = DetourTransactionCommit();
         if (err != NO_ERROR)
         {
@@ -309,6 +313,7 @@ class HookLoader
             printf("DetourUpdateThread failed\n");
         }
 
+        printf("Look up GameMain...\n");
         LPVOID pGameMain = MemoryLoader::GetFunctionAddress(lpModule, "GameMain");
         typedef void(__cdecl * TGameMain)();
 
