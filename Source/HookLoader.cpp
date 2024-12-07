@@ -243,6 +243,7 @@ class HookLoader
         LPVOID lpModule = MemoryLoader::LoadDLL("gta2_dll_imports.dll", cb);
         if (lpModule == NULL)
         {
+            printf("Loading gta2_dll_imports.dll failed\n");
         }
 
         // Replicate what start() does enough to make things work
