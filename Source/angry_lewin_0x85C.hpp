@@ -47,7 +47,7 @@ class eager_benz
 {
   public:
     // TODO: stub all
-    void AddCash_592620(s32 cash);
+    EXPORT void AddCash_592620(s32 cash);
 
     thirsty_lamarr field_0_unk;
     thirsty_lamarr field_38_unk;

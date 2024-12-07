@@ -80,4 +80,4 @@ class Mike_A80
     s32 field_A7C_count;
 };
 
-extern Mike_A80* gMike_A80_6F7328;
+EXPORT_VAR extern Mike_A80* gMike_A80_6F7328;

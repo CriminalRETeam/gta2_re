@@ -35,7 +35,7 @@ void silly_saha_0x2C::sub_431D50()
     field_2B = 0;
 }
 
-MATCH_FUNC(0x4431DA0);
+MATCH_FUNC(0x431DA0);
 void silly_saha_0x2C::sub_431DA0()
 {
     sub_431D50();

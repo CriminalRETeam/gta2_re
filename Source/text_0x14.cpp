@@ -4,17 +4,21 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "registry.hpp"
+#include "Globals.hpp"
 
-text_0x14* gText_0x14_704DFC;
-text_0x14* gtext_0x14_6F87F0;
+EXPORT_VAR text_0x14* gText_0x14_704DFC;
+GLOBAL(gText_0x14_704DFC, 0x704DFC);
 
-extern char_type gTmpBuffer_67C598[256];
+EXPORT_VAR text_0x14* gtext_0x14_6F87F0;
+GLOBAL(gtext_0x14_6F87F0, 0x6F87F0);
 
-wchar_t tmpAscii2WideStr_70488C[640];
+EXPORT_VAR wchar_t tmpAscii2WideStr_70488C[640];
+GLOBAL(tmpAscii2WideStr_70488C, 0x70488C);
 
-char_type tmpWide2AsciiStr_70462C[80];
+EXPORT_VAR char_type tmpWide2AsciiStr_70462C[80];
+GLOBAL(tmpWide2AsciiStr_70462C, 0x70462C);
 
-wchar_t word_626590[256] = {
+const wchar_t word_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
     150u, 128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u,
     149u, 173u, 173u, 175u, 176u, 177u, 178u, 179u, 180u, 181u, 182u, 183u, 184u, 185u, 186u, 187u, 188u, 189u, 190u, 191u, 192u, 193u,
@@ -28,7 +32,7 @@ wchar_t word_626590[256] = {
     220u, 221u, 222u, 223u, 224u, 225u, 226u, 227u, 228u, 229u, 230u, 231u, 232u, 233u, 234u, 235u, 236u, 237u, 238u, 239u, 240u, 241u,
     242u, 243u, 244u, 245u, 246u, 247u, 248u, 249u, 250u, 251u, 252u, 253u, 254u, 255u};
 
-s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
                         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   177, 0,   0,   0,
                         0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   210, 0,   0,   0,   0,   0,   0,   0,   193, 208,
                         192, 184, 198, 182, 199, 187, 205, 178, 181, 197, 204, 183, 196, 194, 195, 203, 206, 180, 190, 188, 179, 202,

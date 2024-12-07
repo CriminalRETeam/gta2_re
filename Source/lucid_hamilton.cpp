@@ -1,7 +1,9 @@
 #include "lucid_hamilton.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 
-lucid_hamilton gLucid_hamilton_67E8E0;
+EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
+GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
 
 STUB_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()

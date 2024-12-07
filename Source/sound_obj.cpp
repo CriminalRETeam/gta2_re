@@ -2,13 +2,18 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "cSampleManager.hpp"
+#include "Globals.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include <math.h>
 
-sound_obj gSound_obj_66F680;
+EXPORT_VAR sound_obj gSound_obj_66F680;
+GLOBAL(gSound_obj_66F680, 0x66F680);
 
-s32 dword_674CD8;
-s32 dword_66F3F0;
+EXPORT_VAR s32 dword_674CD8;
+GLOBAL(dword_674CD8, 0x674CD8);
+
+EXPORT_VAR s32 dword_66F3F0;
+GLOBAL(dword_66F3F0, 0x66F3F0);
 
 MATCH_FUNC(0x419DF0)
 serene_brattain* serene_brattain::sub_419DF0()
@@ -688,7 +693,8 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
     return 0;
 }
 
-char_type byte_674E28[80];
+EXPORT_VAR char_type byte_674E28[80];
+GLOBAL(byte_674E28, 0x674E28);
 
 STUB_FUNC(0x41A1E0)
 const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)

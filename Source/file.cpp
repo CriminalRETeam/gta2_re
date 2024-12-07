@@ -2,34 +2,38 @@
 #include "Function.hpp"
 #include "error.hpp"
 #include "memory.hpp"
+#include "Globals.hpp"
+#include "crt_stubs.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 
-s32 gbGlobalFileOpen_67D160;
-FILE* ghFile_67CFEC;
-extern char_type gTmpBuffer_67C598[256];
+EXPORT_VAR s32 gbGlobalFileOpen_67D160;
+GLOBAL(gbGlobalFileOpen_67D160, 0x67D160);
+
+EXPORT_VAR FILE* ghFile_67CFEC;
+GLOBAL(ghFile_67CFEC, 0x67CFEC);
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)
 {
-    s32 oldPos = ftell(Stream);
+    s32 oldPos = crt::ftell(Stream);
     if (oldPos == -1)
     {
         FatalError_4A38C0(13, "C:\\Splitting\\Gta2\\Source\\File.cpp", 56);
     }
 
-    if (fseek(Stream, 0, SEEK_END))
+    if (crt::fseek(Stream, 0, SEEK_END))
     {
         FatalError_4A38C0(14, "C:\\Splitting\\Gta2\\Source\\File.cpp", 58);
     }
 
-    s32 endPos = ftell(Stream);
+    s32 endPos = crt::ftell(Stream);
     if (endPos == -1)
     {
         FatalError_4A38C0(13, "C:\\Splitting\\Gta2\\Source\\File.cpp", 60);
     }
 
-    if (fseek(Stream, oldPos, SEEK_SET))
+    if (crt::fseek(Stream, oldPos, SEEK_SET))
     {
         FatalError_4A38C0(14, "C:\\Splitting\\Gta2\\Source\\File.cpp", 62);
     }
@@ -53,37 +57,37 @@ MATCH_FUNC(0x4A6C80)
 void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t* pAllocatedBufferSize)
 {
     Error_SetName_4A0770(FileName);
-    FILE* hFileRead1 = fopen(FileName, "rb");
+    FILE* hFileRead1 = crt::fopen(FileName, "rb");
     if (!hFileRead1)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 141);
     }
 
     *pAllocatedBufferSize = GetFileSize_4A6B10(hFileRead1);
-    if (fclose(hFileRead1))
+    if (crt::fclose(hFileRead1))
     {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 145);
     }
 
     void* pBuffer = Memory::malloc_4FE4D0(*pAllocatedBufferSize);
 
-    FILE* hFileRead2 = fopen(FileName, "rb");
+    FILE* hFileRead2 = crt::fopen(FileName, "rb");
     if (!hFileRead2)
     {
-        free(pBuffer);
+        crt::free(pBuffer);
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 151);
     }
 
     if (Read_4A6D90(pBuffer, *pAllocatedBufferSize, 1u, hFileRead2) != 1)
     {
-        free(pBuffer);
-        fclose(hFileRead2);
+        crt::free(pBuffer);
+        crt::fclose(hFileRead2);
         FatalError_4A38C0(15, "C:\\Splitting\\Gta2\\Source\\File.cpp", 158);
     }
 
-    if (fclose(hFileRead2))
+    if (crt::fclose(hFileRead2))
     {
-        free(pBuffer);
+        crt::free(pBuffer);
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 164);
     }
 
@@ -93,7 +97,7 @@ void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t*
 MATCH_FUNC(0x4A6D90)
 size_t __stdcall File::Read_4A6D90(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
 {
-    size_t ret = fread(Buffer, ElementSize, ElementCount, Stream);
+    size_t ret = crt::fread(Buffer, ElementSize, ElementCount, Stream);
     return ret;
 }
 
@@ -106,7 +110,7 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* B
         FatalError_4A38C0(19, "C:\\Splitting\\Gta2\\Source\\File.cpp", 228);
     }
 
-    FILE* hFile = fopen(FileName, "wb");
+    FILE* hFile = crt::fopen(FileName, "wb");
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 231);
@@ -114,11 +118,11 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* B
 
     if (Write_4A6F30(Buffer, *pBufferSize, 1u, hFile) != 1)
     {
-        fclose(hFile);
+        crt::fclose(hFile);
         FatalError_4A38C0(20, "C:\\Splitting\\Gta2\\Source\\File.cpp", 237);
     }
 
-    if (fclose(hFile))
+    if (crt::fclose(hFile))
     {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 241);
     }
@@ -127,7 +131,7 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* B
 MATCH_FUNC(0x4A6F30)
 size_t __stdcall File::Write_4A6F30(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
 {
-    return fwrite(Buffer, ElementSize, ElementCount, Stream);
+    return crt::fwrite(Buffer, ElementSize, ElementCount, Stream);
 }
 
 MATCH_FUNC(0x4A6F50)
@@ -139,7 +143,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* 
         FatalError_4A38C0(19, "C:\\Splitting\\Gta2\\Source\\File.cpp", 261);
     }
 
-    FILE* hFile = fopen(FileName, "ab"); // TODO: check
+    FILE* hFile = crt::fopen(FileName, "ab"); // TODO: check
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 264);
@@ -147,11 +151,11 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* 
 
     if (Write_4A6F30(pBuffer, *pBufferSize, 1u, hFile) != 1)
     {
-        fclose(hFile);
+        crt::fclose(hFile);
         FatalError_4A38C0(20, "C:\\Splitting\\Gta2\\Source\\File.cpp", 270);
     }
 
-    if (fclose(hFile))
+    if (crt::fclose(hFile))
     {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 274);
     }
@@ -162,13 +166,13 @@ void __stdcall File::CreateFile_4A7000(const char_type* FileName)
 {
     Error_SetName_4A0770(FileName);
 
-    FILE* hFile = fopen(FileName, "wb");
+    FILE* hFile = crt::fopen(FileName, "wb");
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 296);
     }
 
-    if (fclose(hFile))
+    if (crt::fclose(hFile))
     {
         FatalError_4A38C0(17, "C:\\Splitting\\Gta2\\Source\\File.cpp", 300);
     }
@@ -184,7 +188,7 @@ void __stdcall File::Global_Open_4A7060(const char_type* FileName)
 
     Error_SetName_4A0770(FileName);
 
-    ghFile_67CFEC = fopen(FileName, "rb");
+    ghFile_67CFEC = crt::fopen(FileName, "rb");
     if (!ghFile_67CFEC)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\Gta2\\Source\\File.cpp", 323);
@@ -198,7 +202,7 @@ void __stdcall File::Global_Close_4A70C0()
 {
     if (gbGlobalFileOpen_67D160)
     {
-        s32 v0 = fclose(ghFile_67CFEC);
+        s32 v0 = crt::fclose(ghFile_67CFEC);
         gbGlobalFileOpen_67D160 = 0;
         if (v0)
         {
@@ -212,7 +216,7 @@ void __stdcall File::Global_Close_UnChecked_4A7110()
 {
     if (gbGlobalFileOpen_67D160)
     {
-        fclose(ghFile_67CFEC);
+        crt::fclose(ghFile_67CFEC);
         gbGlobalFileOpen_67D160 = 0;
     }
 }
@@ -225,7 +229,7 @@ void __stdcall File::Global_Seek_4A7140(u32* pOffset)
         FatalError_4A38C0(21, "C:\\Splitting\\Gta2\\Source\\File.cpp", 416);
     }
 
-    if (fseek(ghFile_67CFEC, *pOffset, 1))
+    if (crt::fseek(ghFile_67CFEC, *pOffset, 1))
     {
         File_Error_4A7190(14, 0, 0);
     }
@@ -270,24 +274,24 @@ size_t __stdcall File::GetRemainderSize_4A7250(void* Buffer, u32* pMaxFileSize)
         FatalError_4A38C0(21, "C:\\Splitting\\Gta2\\Source\\File.cpp", 487);
     }
 
-    s32 curPos = ftell(ghFile_67CFEC);
+    s32 curPos = crt::ftell(ghFile_67CFEC);
     if (curPos == -1)
     {
         File_Error_4A7190(13, 0, 0);
     }
 
-    if (fseek(ghFile_67CFEC, 0, SEEK_END))
+    if (crt::fseek(ghFile_67CFEC, 0, SEEK_END))
     {
         File_Error_4A7190(14, 0, 0);
     }
 
-    s32 endPos = ftell(ghFile_67CFEC);
+    s32 endPos = crt::ftell(ghFile_67CFEC);
     if (endPos == -1)
     {
         File_Error_4A7190(13, 0, 0);
     }
 
-    if (fseek(ghFile_67CFEC, curPos, 0))
+    if (crt::fseek(ghFile_67CFEC, curPos, 0))
     {
         File_Error_4A7190(14, 0, 0);
     }
@@ -313,7 +317,7 @@ char_type __stdcall File::SkipWhitespace_4A7340(FILE* Stream)
 
     while (1)
     {
-        next_char = fgetc(Stream);
+        next_char = crt::fgetc(Stream);
         // note: feof = Stream->_flag & 0x10
         if (feof(Stream) || next_char == '\n')
         {

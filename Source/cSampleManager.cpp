@@ -1,8 +1,10 @@
 #include "cSampleManager.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 
-cSampleManager gSampManager_6FFF00;
+EXPORT_VAR cSampleManager gSampManager_6FFF00;
+GLOBAL(gSampManager_6FFF00, 0x6FFF00);
 
 struct voc_name
 {

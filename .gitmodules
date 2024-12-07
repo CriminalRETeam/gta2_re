@@ -1,3 +1,9 @@
 [submodule "3rdParty/gta2_re_compile_tools"]
 	path = 3rdParty/gta2_re_compile_tools
 	url = https://github.com/CriminalRETeam/gta2_re_compile_tools.git
+[submodule "Source/3rdParty/Manual-DLL-Loader"]
+	path = Source/3rdParty/Manual-DLL-Loader
+	url = https://github.com/CriminalRETeam/Manual-DLL-Loader.git
+[submodule "Source/3rdParty/Detours"]
+	path = Source/3rdParty/Detours
+	url = https://github.com/MrSapps/Detours

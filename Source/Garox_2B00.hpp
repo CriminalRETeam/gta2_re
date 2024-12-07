@@ -986,6 +986,6 @@ class Garox_2B00
     s32 field_13C4_text_speed;
 };
 
-extern Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR extern Garox_2B00* gGarox_2B00_706620;
 
-extern s16 word_706600;
+EXPORT_VAR extern s16 word_706600;

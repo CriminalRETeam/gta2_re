@@ -6,11 +6,17 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
+#include "crt_stubs.hpp"
+#include "Globals.hpp"
 
-Map_0x370* gMap_0x370_6F6268;
+EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
+GLOBAL(gMap_0x370_6F6268, 0x6F6268);
 
-gmp_block_info gBlockInfo1_6F5F40;
-gmp_block_info gBlockInfo2_6F6028;
+EXPORT_VAR gmp_block_info gBlockInfo1_6F5F40;
+GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
+
+EXPORT_VAR gmp_block_info gBlockInfo2_6F6028;
+GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
 
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
@@ -1021,25 +1027,25 @@ Map_0x370::~Map_0x370()
 {
     if (field_33C_pLightData)
     {
-        free(field_33C_pLightData);
+        crt::free(field_33C_pLightData);
     }
     this->field_33C_pLightData = 0;
 
     if (field_328_pZoneData)
     {
-        free(field_328_pZoneData);
+        crt::free(field_328_pZoneData);
     }
     field_328_pZoneData = 0;
 
     if (field_32C_pZones)
     {
-        free(field_32C_pZones);
+        crt::free(field_32C_pZones);
     }
     field_32C_pZones = 0;
 
     if (field_338_pMapObjects)
     {
-        free(field_338_pMapObjects);
+        crt::free(field_338_pMapObjects);
     }
     field_338_pMapObjects = 0;
 
@@ -1047,13 +1053,13 @@ Map_0x370::~Map_0x370()
     {
         if (field_0_pDmap->field_40008_pColumn)
         {
-            free(field_0_pDmap->field_40008_pColumn);
+            crt::free(field_0_pDmap->field_40008_pColumn);
         }
         field_0_pDmap->field_40008_pColumn = 0;
 
         if (field_0_pDmap->field_4000C_block)
         {
-            free(field_0_pDmap->field_4000C_block);
+            crt::free(field_0_pDmap->field_4000C_block);
         }
         field_0_pDmap->field_4000C_block = 0;
 
@@ -1062,19 +1068,19 @@ Map_0x370::~Map_0x370()
 
     if (field_330_pZoneArray)
     {
-        free(field_330_pZoneArray);
+        crt::free(field_330_pZoneArray);
     }
     field_330_pZoneArray = 0;
 
     if (field_334_pUnknownZoneData)
     {
-        free(field_334_pUnknownZoneData);
+        crt::free(field_334_pUnknownZoneData);
     }
     field_334_pUnknownZoneData = 0;
 
     if (field_340_pTileAnimData)
     {
-        free(field_340_pTileAnimData);
+        crt::free(field_340_pTileAnimData);
     }
     field_340_pTileAnimData = 0;
 }

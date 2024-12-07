@@ -73,4 +73,4 @@ type 11 some garox obj
     EXPORT ~root_sound();
 };
 
-extern root_sound gRoot_sound_66B038;
+EXPORT_VAR extern root_sound gRoot_sound_66B038;

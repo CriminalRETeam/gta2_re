@@ -58,7 +58,7 @@ struct SVideo
     */
 };
 
-extern SVideo* gVidSys_7071D0;
+EXPORT_VAR extern SVideo* gVidSys_7071D0;
 
 struct SVidVersion
 {
@@ -117,28 +117,28 @@ struct SVideoFunctions
     T_Vid_SetGamma* pVid_SetGamma;
 };
 
-extern T_Vid_GetVersion Vid_GetVersion;
-extern T_Vid_Init_SYS Vid_Init_SYS;
-extern T_Vid_CheckMode Vid_CheckMode;
-extern T_Vid_FindMode Vid_FindMode;
-extern T_Vid_FindFirstMode Vid_FindFirstMode;
-extern T_Vid_FindNextMode Vid_FindNextMode;
-extern T_Vid_FindDevice Vid_FindDevice;
-extern T_Vid_SetDevice Vid_SetDevice;
-extern T_Vid_CloseScreen Vid_CloseScreen;
-extern T_Vid_SetMode Vid_SetMode;
-extern T_Vid_FlipBuffers Vid_FlipBuffers;
-extern T_Vid_ReleaseSurface Vid_ReleaseSurface;
-extern T_Vid_GrabSurface Vid_GrabSurface;
-extern T_Vid_ShutDown_SYS Vid_ShutDown_SYS;
-extern T_Vid_EnableWrites Vid_EnableWrites;
-extern T_Vid_DisableWrites Vid_DisableWrites;
-extern T_Vid_GetSurface Vid_GetSurface;
-extern T_Vid_FreeSurface Vid_FreeSurface;
-extern T_Vid_ClearScreen Vid_ClearScreen;
-extern T_Vid_WindowProc Vid_WindowProc;
-extern T_Vid_InitDLL Vid_InitDLL;
-extern T_Vid_SetGamma Vid_SetGamma;
+EXPORT_VAR extern T_Vid_GetVersion Vid_GetVersion;
+EXPORT_VAR extern T_Vid_Init_SYS Vid_Init_SYS;
+EXPORT_VAR extern T_Vid_CheckMode Vid_CheckMode;
+EXPORT_VAR extern T_Vid_FindMode Vid_FindMode;
+EXPORT_VAR extern T_Vid_FindFirstMode Vid_FindFirstMode;
+EXPORT_VAR extern T_Vid_FindNextMode Vid_FindNextMode;
+EXPORT_VAR extern T_Vid_FindDevice Vid_FindDevice;
+EXPORT_VAR extern T_Vid_SetDevice Vid_SetDevice;
+EXPORT_VAR extern T_Vid_CloseScreen Vid_CloseScreen;
+EXPORT_VAR extern T_Vid_SetMode Vid_SetMode;
+EXPORT_VAR extern T_Vid_FlipBuffers Vid_FlipBuffers;
+EXPORT_VAR extern T_Vid_ReleaseSurface Vid_ReleaseSurface;
+EXPORT_VAR extern T_Vid_GrabSurface Vid_GrabSurface;
+EXPORT_VAR extern T_Vid_ShutDown_SYS Vid_ShutDown_SYS;
+EXPORT_VAR extern T_Vid_EnableWrites Vid_EnableWrites;
+EXPORT_VAR extern T_Vid_DisableWrites Vid_DisableWrites;
+EXPORT_VAR extern T_Vid_GetSurface Vid_GetSurface;
+EXPORT_VAR extern T_Vid_FreeSurface Vid_FreeSurface;
+EXPORT_VAR extern T_Vid_ClearScreen Vid_ClearScreen;
+EXPORT_VAR extern T_Vid_WindowProc Vid_WindowProc;
+EXPORT_VAR extern T_Vid_InitDLL Vid_InitDLL;
+EXPORT_VAR extern T_Vid_SetGamma Vid_SetGamma;
 
 EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys);
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName);

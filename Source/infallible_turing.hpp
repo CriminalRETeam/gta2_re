@@ -15,5 +15,5 @@ class infallible_turing
     // Type depends on what field_0_object_type is
     void* field_C_pAny;
 
-    void release_40EF20();
+    EXPORT void release_40EF20();
 };

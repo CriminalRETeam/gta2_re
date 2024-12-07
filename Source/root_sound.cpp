@@ -3,8 +3,10 @@
 #include "cSampleManager.hpp"
 #include "debug.hpp"
 #include "sound_obj.hpp"
+#include "Globals.hpp"
 
-root_sound gRoot_sound_66B038;
+EXPORT_VAR root_sound gRoot_sound_66B038;
+GLOBAL(gRoot_sound_66B038, 0x66B038);
 
 MATCH_FUNC(0x40EF80)
 void root_sound::sub_40EF80()

@@ -1,9 +1,11 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "Globals.hpp"
 
 // =================
-s8 byte_61A8A3;
+EXPORT_VAR s8 byte_61A8A3;
+GLOBAL(byte_61A8A3, 0x61A8A3);
 
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()

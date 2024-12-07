@@ -2,12 +2,16 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "winmain.hpp"
+#include "Globals.hpp"
 #include <fstream>
 #include <stdio.h>
 #include <windows.h>
 
-char_type bDestroyed_6F5B70;
-HWND gHwnd_707F04;
+EXPORT_VAR char_type bDestroyed_6F5B70;
+GLOBAL(bDestroyed_6F5B70, 0x6F5B70);
+
+EXPORT_VAR HWND gHwnd_707F04;
+GLOBAL(gHwnd_707F04, 0x707F04);
 
 class ErrorLog : public std::fstream
 {
@@ -21,12 +25,20 @@ ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
     return *this;
 }
 
-ErrorLog gErrorLog_67CF58;
+EXPORT_VAR ErrorLog gErrorLog_67CF58;
+GLOBAL(gErrorLog_67CF58, 0x67CF58);
 
-char_type gTmpBuffer_67C598[256]; // TODO: Check
-char_type gErrStr_67C29C[256];
-char_type byte_67C3A8[256];
-char_type gGlobalFileName_67C6AC[256];
+EXPORT_VAR char_type gTmpBuffer_67C598[256]; // TODO: Check
+GLOBAL(gTmpBuffer_67C598, 0x67C598);
+
+EXPORT_VAR char_type gErrStr_67C29C[256];
+GLOBAL(gErrStr_67C29C, 0x67C29C);
+
+EXPORT_VAR char_type byte_67C3A8[256];
+GLOBAL(byte_67C3A8, 0x67C3A8);
+
+EXPORT_VAR char_type gGlobalFileName_67C6AC[256];
+GLOBAL(gGlobalFileName_67C6AC, 0x67C6AC);
 
 const char_type* gListTypes_61AB70[30] = {"objects",
                                           "corner_space",
@@ -60,18 +72,18 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "audio_info_space"};
 
 STUB_FUNC(0x4DA740)
-void sub_4DA740()
+EXPORT void sub_4DA740()
 {
 }
 
 MATCH_FUNC(0x4A0770)
-void __stdcall Error_SetName_4A0770(const char_type* pFileName)
+EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
 {
     strcpy(gGlobalFileName_67C6AC, pFileName);
 }
 
 MATCH_FUNC(0x4A07A0)
-const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
+EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
 {
     // ecx was swapped with edx without using the local pIter
     const char_type* result = 0;
@@ -103,7 +115,7 @@ struct Coord2
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
 
 STUB_FUNC(0x4A07C0)
-void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
+EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
     va_list va; // [esp+94h] [ebp+34h] BYREF
 
@@ -2189,7 +2201,7 @@ void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 }
 
 MATCH_FUNC(0x4A38C0)
-void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
+EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
     if (Code == 16)
     {

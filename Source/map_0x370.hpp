@@ -484,4 +484,4 @@ class Map_0x370
     char_type field_36F;
 };
 
-extern Map_0x370* gMap_0x370_6F6268;
+EXPORT_VAR extern Map_0x370* gMap_0x370_6F6268;

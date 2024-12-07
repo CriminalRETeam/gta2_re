@@ -1,6 +1,9 @@
 #include "CokeZero_100.hpp"
+#include "Globals.hpp"
 #include <memory.h>
-CokeZero_100* gCokeZero_100_702F34;
+
+EXPORT_VAR CokeZero_100* gCokeZero_100_702F34;
+GLOBAL(gCokeZero_100_702F34, 0x702F34);
 
 MATCH_FUNC(0x596a00)
 CokeZero_50::CokeZero_50()

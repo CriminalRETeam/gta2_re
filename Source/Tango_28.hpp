@@ -40,10 +40,11 @@ class Tango_54
         sub_4A88D0();
     }
 
-    // TODO: address
-    EXPORT ~Tango_54()
+    ~Tango_54()
     {
+      // TODO: Should this be empty?
     }
+
     EXPORT void sub_4A85F0();
     EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
     EXPORT Tango_28* sub_4A8800();

@@ -1,7 +1,11 @@
 #include "sprite.hpp"
+#include "Globals.hpp"
 
-Sprite_8* gSprite_8_703820;
-Sprite_5D598* gSprite_5D598_70381C;
+EXPORT_VAR Sprite_8* gSprite_8_703820;
+GLOBAL(gSprite_8_703820, 0x703820);
+
+EXPORT_VAR Sprite_5D598* gSprite_5D598_70381C;
+GLOBAL(gSprite_5D598_70381C, 0x70381C);
 
 MATCH_FUNC(0x5a5860)
 void Sprite_8::sub_5A5860()

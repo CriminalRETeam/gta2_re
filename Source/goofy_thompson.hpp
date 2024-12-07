@@ -386,4 +386,4 @@ struct goofy_thompson
     EXPORT void sub_520D10();
 };
 
-extern goofy_thompson gGoofy_thompson_7071E8;
+EXPORT_VAR extern goofy_thompson gGoofy_thompson_7071E8;

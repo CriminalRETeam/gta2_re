@@ -1,10 +1,16 @@
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
+#include "Globals.hpp"
 
-Car_214* gCar_214_705F20;
-Car_6C* gCar_6C_677930;
-Car_E0C4* gCar_E0C4_67792C;
+EXPORT_VAR Car_214* gCar_214_705F20;
+GLOBAL(gCar_214_705F20, 0x705F20);
+
+EXPORT_VAR Car_6C* gCar_6C_677930;
+GLOBAL(gCar_6C_677930, 0x677930);
+
+EXPORT_VAR Car_E0C4* gCar_E0C4_67792C;
+GLOBAL(gCar_E0C4_67792C, 0x67792C);
 
 STUB_FUNC(0x451950)
 s32 Car_3C::sub_451950(s32 a2, s32 a3, s32 a4)

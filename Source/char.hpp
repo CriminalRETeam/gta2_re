@@ -45,5 +45,5 @@ class Char_203AC
     s16 field_203AA;
 };
 
-extern Char_C* gChar_C_6787BC;
-extern Char_203AC* gChar_203AC_6787B8;
+EXPORT_VAR extern Char_C* gChar_C_6787BC;
+EXPORT_VAR extern Char_203AC* gChar_203AC_6787B8;

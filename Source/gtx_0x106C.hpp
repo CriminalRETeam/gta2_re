@@ -260,4 +260,4 @@ class gtx_0x106C
     s32 field_6C_spec[1024];
 };
 
-extern gtx_0x106C* gGtx_0x106C_703DD4;
+EXPORT_VAR extern gtx_0x106C* gGtx_0x106C_703DD4;

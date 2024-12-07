@@ -1,10 +1,12 @@
 #include "keybrd_0x204.hpp"
 #include "Function.hpp"
 #include "error.hpp"
+#include "Globals.hpp"
 #include <stdlib.h>
 #include <windows.h>
 
-keybrd_0x204* gKeybrd_0x204_6F52F4;
+EXPORT_VAR keybrd_0x204* gKeybrd_0x204_6F52F4;
+GLOBAL(gKeybrd_0x204_6F52F4, 0x6F52F4);
 
 STUB_FUNC(0x4D5F50)
 void __stdcall keybrd_0x204::create_4D5F50()
@@ -115,7 +117,7 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     fclose(hConfigFile);
 }
 
-DWORD dword_620D2C = 0x2020;
+const DWORD dword_620D2C = 0x2020;
 
 STUB_FUNC(0x4D6000)
 s32 keybrd_0x204::GetLayout_4D6000()
@@ -157,20 +159,25 @@ s32 keybrd_0x204::GetLayout_4D6000()
     return result;
 }
 
-STUB_FUNC(0x4D5DA0)
+static inline bool is_line_break_or_space(wchar_t letter)
+{
+    return letter == '\n' || letter == ' ';
+}
+
+MATCH_FUNC(0x4D5DA0)
 void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 {
-    s16 read_char; // ax
-    u8 i; // [esp+8h] [ebp-4h]
-
-    for (i = 0;; ++i)
+    u8 i=0;
+    for (;;)
     {
-        read_char = fgetc(Stream);
-        if (read_char == '\n' || read_char == ' ')
-            break;
-        pOut[i] = read_char;
+         const wchar_t read_char = fgetc(Stream);
+         if (is_line_break_or_space(read_char))
+         {
+             pOut[i] = 0;
+             return;
+         }
+        pOut[i++] = read_char;
     }
-    pOut[i] = 0;
 }
 
 MATCH_FUNC(0x4D5FD0)

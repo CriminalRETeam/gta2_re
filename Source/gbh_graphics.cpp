@@ -1,51 +1,136 @@
 #include "gbh_graphics.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
 
-T_gbh_InitDLL gbh_InitDLL;
-T_gbh_Init gbh_Init;
-T_gbh_CloseDLL gbh_CloseDLL;
-T_gbh_SetWindow gbh_SetWindow;
-T_gbh_GetGlobals gbh_GetGlobals;
-T_gbh_DrawTile gbh_DrawTile;
-T_gbh_DrawTilePart gbh_DrawTilePart;
-T_gbh_DrawQuad gbh_DrawQuad;
-T_gbh_DrawQuadClipped gbh_DrawQuadClipped;
-T_gbh_DrawFlatRect gbh_DrawFlatRect;
-T_gbh_DrawTriangle gbh_DrawTriangle;
-T_gbh_PrintBitmap gbh_PrintBitmap;
-T_gbh_SetColourDepth gbh_SetColourDepth;
-T_gbh_Plot gbh_Plot;
-T_gbh_ConvertColour gbh_ConvertColour;
-T_gbh_RegisterTexture gbh_RegisterTexture;
-T_gbh_SetCamera gbh_SetCamera;
-T_gbh_ResetLights gbh_ResetLights;
-T_gbh_AddLight gbh_AddLight;
-T_gbh_SetAmbient gbh_SetAmbient;
-T_gbh_GetUsedCache gbh_GetUsedCache;
-T_gbh_FreeTexture gbh_FreeTexture;
-T_gbh_RegisterPalette gbh_RegisterPalette;
-T_gbh_FreePalette gbh_FreePalette;
-T_gbh_AssignPalette gbh_AssignPalette;
-T_gbh_LockTexture gbh_LockTexture;
-T_gbh_UnlockTexture gbh_UnlockTexture;
-T_gbh_BeginScene gbh_BeginScene;
-T_gbh_EndScene gbh_EndScene;
-T_gbh_BeginLevel gbh_BeginLevel;
-T_gbh_EndLevel gbh_EndLevel;
-T_MakeScreenTable MakeScreenTable;
-T_ConvertColourBank ConvertColourBank;
-T_SetShadeTableA SetShadeTableA;
-T_gbh_InitImageTable gbh_InitImageTable;
-T_gbh_FreeImageTable gbh_FreeImageTable;
-T_gbh_LoadImage gbh_LoadImage;
-T_gbh_BlitImage gbh_BlitImage;
-T_gbh_BlitBuffer gbh_BlitBuffer;
+EXPORT_VAR T_gbh_InitDLL gbh_InitDLL;
+GLOBAL(gbh_InitDLL, 0x626C54);
 
-HMODULE gGbhDllHandle_7085D8;
-FARPROC DrawLine;
-s32 gGBH_GraphicsLoaded_7085E0;
-int* gpGBH_Globals_7085E4;
+EXPORT_VAR T_gbh_Init gbh_Init;
+GLOBAL(gbh_Init, 0x626C58);
+
+EXPORT_VAR T_gbh_CloseDLL gbh_CloseDLL;
+GLOBAL(gbh_CloseDLL, 0x626C5C);
+
+EXPORT_VAR T_gbh_SetWindow gbh_SetWindow;
+GLOBAL(gbh_SetWindow, 0x626C60);
+
+EXPORT_VAR T_gbh_GetGlobals gbh_GetGlobals;
+GLOBAL(gbh_GetGlobals, 0x626C64);
+
+EXPORT_VAR T_gbh_DrawTile gbh_DrawTile;
+GLOBAL(gbh_DrawTile, 0x626C68);
+
+EXPORT_VAR T_gbh_DrawTilePart gbh_DrawTilePart;
+GLOBAL(gbh_DrawTilePart, 0x626C6C);
+
+EXPORT_VAR T_gbh_DrawQuad gbh_DrawQuad;
+GLOBAL(gbh_DrawQuad, 0x626C70);
+
+EXPORT_VAR T_gbh_DrawQuadClipped gbh_DrawQuadClipped;
+GLOBAL(gbh_DrawQuadClipped, 0x626C74);
+
+EXPORT_VAR T_gbh_DrawFlatRect gbh_DrawFlatRect;
+GLOBAL(gbh_DrawFlatRect, 0x626C78);
+
+EXPORT_VAR T_gbh_DrawTriangle gbh_DrawTriangle;
+GLOBAL(gbh_DrawTriangle, 0x626C7C);
+
+EXPORT_VAR T_gbh_PrintBitmap gbh_PrintBitmap;
+GLOBAL(gbh_PrintBitmap, 0x626C80);
+
+EXPORT_VAR T_gbh_SetColourDepth gbh_SetColourDepth;
+GLOBAL(gbh_SetColourDepth, 0x626C84);
+
+EXPORT_VAR T_gbh_Plot gbh_Plot;
+GLOBAL(gbh_Plot, 0x626C88);
+
+EXPORT_VAR T_gbh_ConvertColour gbh_ConvertColour;
+GLOBAL(gbh_ConvertColour, 0x626C8C);
+
+EXPORT_VAR T_gbh_RegisterTexture gbh_RegisterTexture;
+GLOBAL(gbh_RegisterTexture, 0x626C90);
+
+EXPORT_VAR T_gbh_SetCamera gbh_SetCamera;
+GLOBAL(gbh_SetCamera, 0x626C94);
+
+EXPORT_VAR T_gbh_ResetLights gbh_ResetLights;
+GLOBAL(gbh_ResetLights, 0x626C98);
+
+EXPORT_VAR T_gbh_AddLight gbh_AddLight;
+GLOBAL(gbh_AddLight, 0x626C9C);
+
+EXPORT_VAR T_gbh_SetAmbient gbh_SetAmbient;
+GLOBAL(gbh_SetAmbient, 0x626CA0);
+
+EXPORT_VAR T_gbh_GetUsedCache gbh_GetUsedCache;
+GLOBAL(gbh_GetUsedCache, 0x626CA4);
+
+EXPORT_VAR T_gbh_FreeTexture gbh_FreeTexture;
+GLOBAL(gbh_FreeTexture, 0x626CA8);
+
+EXPORT_VAR T_gbh_RegisterPalette gbh_RegisterPalette;
+GLOBAL(gbh_RegisterPalette, 0x626CAC);
+
+EXPORT_VAR T_gbh_FreePalette gbh_FreePalette;
+GLOBAL(gbh_FreePalette, 0x626CB0);
+
+EXPORT_VAR T_gbh_AssignPalette gbh_AssignPalette;
+GLOBAL(gbh_AssignPalette, 0x626CB4);
+
+EXPORT_VAR T_gbh_LockTexture gbh_LockTexture;
+GLOBAL(gbh_LockTexture, 0x626CB8);
+
+EXPORT_VAR T_gbh_UnlockTexture gbh_UnlockTexture;
+GLOBAL(gbh_UnlockTexture, 0x626CBC);
+
+EXPORT_VAR T_gbh_BeginScene gbh_BeginScene;
+GLOBAL(gbh_BeginScene, 0x626CC0);
+
+EXPORT_VAR T_gbh_EndScene gbh_EndScene;
+GLOBAL(gbh_EndScene, 0x626CC4);
+
+EXPORT_VAR T_gbh_BeginLevel gbh_BeginLevel;
+GLOBAL(gbh_BeginLevel, 0x626CC8);
+
+EXPORT_VAR T_gbh_EndLevel gbh_EndLevel;
+GLOBAL(gbh_EndLevel, 0x626CCC);
+
+EXPORT_VAR T_MakeScreenTable MakeScreenTable;
+GLOBAL(MakeScreenTable, 0x626CD0);
+
+EXPORT_VAR T_ConvertColourBank ConvertColourBank;
+GLOBAL(ConvertColourBank, 0x0);
+
+EXPORT_VAR T_SetShadeTableA SetShadeTableA;
+GLOBAL(SetShadeTableA, 0x626CD8);
+
+EXPORT_VAR T_gbh_InitImageTable gbh_InitImageTable;
+GLOBAL(gbh_InitImageTable, 0x626CDC);
+
+EXPORT_VAR T_gbh_FreeImageTable gbh_FreeImageTable;
+GLOBAL(gbh_FreeImageTable, 0x626CE0);
+
+EXPORT_VAR T_gbh_LoadImage gbh_LoadImage;
+GLOBAL(gbh_LoadImage, 0x626CE4);
+
+EXPORT_VAR T_gbh_BlitImage gbh_BlitImage;
+GLOBAL(gbh_BlitImage, 0x626CE8);
+
+EXPORT_VAR T_gbh_BlitBuffer gbh_BlitBuffer;
+GLOBAL(gbh_BlitBuffer, 0x626CEC);
+
+EXPORT_VAR HMODULE gGbhDllHandle_7085D8;
+GLOBAL(gGbhDllHandle_7085D8, 0x7085D8);
+
+EXPORT_VAR FARPROC DrawLine;
+GLOBAL(DrawLine, 0x7085DC);
+
+EXPORT_VAR s32 gGBH_GraphicsLoaded_7085E0;
+GLOBAL(gGBH_GraphicsLoaded_7085E0, 0x7085E0);
+
+EXPORT_VAR int* gpGBH_Globals_7085E4;
+GLOBAL(gpGBH_Globals_7085E4, 0x7085E4);
 
 #define load_gbh_func(varName, varType, funcName)                      \
     varName = (varType)GetProcAddress(gGbhDllHandle_7085D8, funcName); \
@@ -57,8 +142,8 @@ int* gpGBH_Globals_7085E4;
         return -1;                                                     \
     }
 
-//MATCH_FUNC(0x5EA4D0) // TODO: Doesn't actually match
-void __stdcall GBH_Graphics_Stub_5EA4D0()
+STUB_FUNC(0x5EA4D0)
+EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
     MessageBoxA(0,
                 "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
@@ -67,7 +152,7 @@ void __stdcall GBH_Graphics_Stub_5EA4D0()
 }
 
 STUB_FUNC(0x5EA500)
-void __stdcall GBH_Graphics_Unload_5EA500()
+EXPORT void __stdcall GBH_Graphics_Unload_5EA500()
 {
     FreeLibrary(gGbhDllHandle_7085D8);
     gbh_InitDLL = (T_gbh_InitDLL)GBH_Graphics_Stub_5EA4D0;
@@ -102,7 +187,7 @@ void __stdcall GBH_Graphics_Unload_5EA500()
 }
 
 STUB_FUNC(0x5EA640)
-s32 GBH_Graphics_Free_5EA640()
+EXPORT s32 GBH_Graphics_Free_5EA640()
 {
     if (gGBH_GraphicsLoaded_7085E0)
     {
@@ -114,7 +199,7 @@ s32 GBH_Graphics_Free_5EA640()
 }
 
 STUB_FUNC(0x5EA680)
-s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
+EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
     char_type Text[120];
 
@@ -185,7 +270,7 @@ class Bob
 };
 
 STUB_FUNC(0x5EB680)
-s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
+EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
 {
     Bob b;
     s32 error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);

@@ -1054,6 +1054,6 @@ class Montana
     Montana_4* field_0_cols[7];
 };
 
-extern Montana* gMontana_67B580;
-extern Montana_2EE4* gMontana_2EE4_705BBC;
-extern Montana_FA4* gMontana_FA4_705BC0;
+EXPORT_VAR extern Montana* gMontana_67B580;
+EXPORT_VAR extern Montana_2EE4* gMontana_2EE4_705BBC;
+EXPORT_VAR extern Montana_FA4* gMontana_FA4_705BC0;

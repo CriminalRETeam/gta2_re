@@ -1,9 +1,11 @@
 #include "Zones_CA8.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "map_0x370.hpp"
 #include <string.h>
 
 EXPORT_VAR Zones_CA8* gZones_CA8_67E274;
+GLOBAL(gZones_CA8_67E274, 0x67E274)
 
 MATCH_FUNC(0x4BE4E0);
 Zone_144::Zone_144()

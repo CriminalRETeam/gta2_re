@@ -1,9 +1,12 @@
 #include "Garox_2B00.hpp"
 #include "root_sound.hpp"
+#include "Globals.hpp"
 
-Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
+GLOBAL(gGarox_2B00_706620, 0x706620);
 
-s16 word_706600; // TODO
+EXPORT_VAR s16 word_706600; // TODO
+GLOBAL(word_706600, 0x706600);
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()

@@ -1,6 +1,8 @@
 #include "Mike_A80.hpp"
+#include "Globals.hpp"
 
-Mike_A80* gMike_A80_6F7328;
+EXPORT_VAR Mike_A80* gMike_A80_6F7328;
+GLOBAL(gMike_A80_6F7328, 0x6F7328);
 
 STUB_FUNC(0x4ff1b0)
 void Mike_A80::sub_4FF1B0()
