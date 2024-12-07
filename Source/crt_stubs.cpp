@@ -40,6 +40,12 @@ int __cdecl fgetc(FILE* f)
     return ::fgetc(f);
 }
 
+STUB_FUNC(0x5EE5DF);
+EXPORT size_t __cdecl fwrite(const void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
+{
+    return ::fwrite(Buffer, ElementSize, ElementCount, Stream);
+}
+
 STUB_FUNC(0x5ED478)
 void __cdecl free(void* Block)
 {

@@ -17,9 +17,10 @@ EXPORT FILE* __cdecl fopen(const char* FileName, const char* Mode);
 EXPORT int __cdecl fclose(FILE*);
 EXPORT size_t __cdecl fread(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream);
 EXPORT int __cdecl fgetc(FILE*);
+EXPORT size_t __cdecl fwrite(const void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream);
 
-EXPORT void __cdecl free(void *Block);
-EXPORT void *__cdecl malloc(size_t Size);
+EXPORT void __cdecl free(void* Block);
+EXPORT void* __cdecl malloc(size_t Size);
 
 // TODO: crt::malloc, crt::free
 

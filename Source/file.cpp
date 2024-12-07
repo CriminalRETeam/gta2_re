@@ -131,7 +131,7 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* B
 MATCH_FUNC(0x4A6F30)
 size_t __stdcall File::Write_4A6F30(void* Buffer, size_t ElementSize, size_t ElementCount, FILE* Stream)
 {
-    return fwrite(Buffer, ElementSize, ElementCount, Stream);
+    return crt::fwrite(Buffer, ElementSize, ElementCount, Stream);
 }
 
 MATCH_FUNC(0x4A6F50)
