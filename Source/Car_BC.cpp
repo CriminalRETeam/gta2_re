@@ -2,6 +2,8 @@
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
 #include "Globals.hpp"
+#include "root_sound.hpp"
+#include "debug.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -12,21 +14,35 @@ GLOBAL(gCar_6C_677930, 0x677930);
 EXPORT_VAR Car_E0C4* gCar_E0C4_67792C;
 GLOBAL(gCar_E0C4_67792C, 0x67792C);
 
-STUB_FUNC(0x451950)
-s32 Car_3C::sub_451950(s32 a2, s32 a3, s32 a4)
-{
-    return 0;
+MATCH_FUNC(0x451950)
+void Car_3C::sub_451950(s32 xpos, s32 ypos, s32 zpos) {
+    if ( field_14_xpos != xpos
+        || field_18_ypos != ypos
+        || field_1C_zpos != zpos )
+    {
+        field_14_xpos = xpos;
+        field_18_ypos = ypos;
+        field_1C_zpos = zpos;
+        sub_59E7B0();
+    }
 }
 
-STUB_FUNC(0x59e2e0)
-void Car_3C::sub_59E2E0()
-{
+MATCH_FUNC(0x59e2e0)
+void Car_3C::sub_59E2E0(void) {
+    sub_59F990();
+    memcpy(
+        field_4_0x4C_len,
+        field_C_car_or_sprite,
+        sizeof(Sprite_4C));
 }
 
-STUB_FUNC(0x59e300)
-Car_3C* Car_3C::sub_59E300()
+MATCH_FUNC(0x59e300)
+void Car_3C::sub_59E300()
 {
-    return 0;
+    memcpy(
+        field_C_car_or_sprite,
+        field_4_0x4C_len,
+        sizeof(Sprite_4C));
 }
 
 STUB_FUNC(0x59e320)
@@ -47,10 +63,18 @@ s32 Car_3C::sub_59E4C0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x59e7b0)
-Car_3C* Car_3C::sub_59E7B0()
+MATCH_FUNC(0x59e7b0)
+void Car_3C::sub_59E7B0()
 {
-    return 0;
+    field_39 = -1;
+    if (field_C_car_or_sprite)
+    {
+        reinterpret_cast<u8*>(&field_C_car_or_sprite[1].field_C_car_or_sprite)[0] = 0;
+    }
+    if (field_4_0x4C_len)
+    {
+        field_4_0x4C_len->field_48 = 0;
+    }
 }
 
 STUB_FUNC(0x59e7d0)
@@ -205,10 +229,16 @@ s32* Car_3C::sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, ch
     return 0;
 }
 
-STUB_FUNC(0x5a29d0)
-s32 Car_3C::sub_5A29D0()
+MATCH_FUNC(0x5a29d0)
+void Car_3C::sub_5A29D0()
 {
-    return 0;
+    if (!field_10)
+    {
+        if (!bSkip_audio_67D6BE)
+        {
+            field_10 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
+        }
+    }
 }
 
 STUB_FUNC(0x5a2a00)
