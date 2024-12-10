@@ -31,8 +31,8 @@ MATCH_FUNC(0x59e2e0)
 void Car_3C::sub_59E2E0(void) {
     sub_59F990();
     memcpy(
-        this->field_4_0x4C_len,
-        this->field_C_car_or_sprite,
+        field_4_0x4C_len,
+        field_C_car_or_sprite,
         sizeof(Sprite_4C));
 }
 
@@ -41,8 +41,8 @@ Car_3C* Car_3C::sub_59E300()
 {
     Car_3C *result = this;
     memcpy(
-        this->field_C_car_or_sprite,
-        this->field_4_0x4C_len,
+        field_C_car_or_sprite,
+        field_4_0x4C_len,
         sizeof(Sprite_4C));
     return result;
 }
@@ -68,10 +68,10 @@ s32 Car_3C::sub_59E4C0(s32 a2, s32 a3)
 MATCH_FUNC(0x59e7b0)
 void Car_3C::sub_59E7B0()
 {
-    this->field_39 = -1;
-    if (this->field_C_car_or_sprite)
+    field_39 = -1;
+    if (field_C_car_or_sprite)
     {
-        reinterpret_cast<u8*>(&this->field_C_car_or_sprite[1].field_C_car_or_sprite)[0] = 0;
+        reinterpret_cast<u8*>(&field_C_car_or_sprite[1].field_C_car_or_sprite)[0] = 0;
     }
     if (field_4_0x4C_len)
     {
@@ -234,11 +234,11 @@ s32* Car_3C::sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, ch
 MATCH_FUNC(0x5a29d0)
 void Car_3C::sub_5A29D0()
 {
-    if (!this->field_10)
+    if (!field_10)
     {
         if (!bSkip_audio_67D6BE)
         {
-            this->field_10 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
+            field_10 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
         }
     }
 }
