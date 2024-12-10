@@ -20,13 +20,13 @@ class Sprite_4C;
 class Car_3C
 {
   public:
-    EXPORT s32 sub_451950(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_451950(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_59E2E0();
     EXPORT Car_3C* sub_59E300();
     EXPORT s32 sub_59E320(char_type a2);
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
-    EXPORT Car_3C* sub_59E7B0();
+    EXPORT void sub_59E7B0();
     EXPORT Car_3C* sub_59E7D0(s32 a2);
     EXPORT s32 sub_59E960();
     EXPORT Car_3C* sub_59E9C0();
@@ -51,7 +51,7 @@ class Car_3C
     EXPORT char_type sub_5A1CA0(u32* a2);
     EXPORT char_type sub_5A2500();
     EXPORT s32* sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
-    EXPORT s32 sub_5A29D0();
+    EXPORT void sub_5A29D0();
     EXPORT infallible_turing* sub_5A2A00();
     EXPORT void sub_5A2A30();
     EXPORT s32 sub_5A2CF0();
@@ -64,7 +64,7 @@ class Car_3C
     Sprite_4C* field_4_0x4C_len;
     Car_BC* field_8_uni;
     Car_3C* field_C_car_or_sprite;
-    s32 field_10;
+    infallible_turing* field_10;
     s32 field_14_xpos;
     s32 field_18_ypos;
     s32 field_1C_zpos;
