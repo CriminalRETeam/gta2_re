@@ -20,9 +20,11 @@ class Frismo_25C
   public:
     Frismo_25C()
     {
+        Frismo_C* pIter = &field_4[0];
         for (s32 i = 0; i < 50 - 1; i++)
         {
-            field_4[i].field_8_next = &field_4[i + 1];
+            pIter->field_8_next = pIter + 1;
+            pIter++;
         }
 
         field_4[49].field_8_next = 0;

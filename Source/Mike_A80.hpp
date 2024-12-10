@@ -4,6 +4,7 @@
 #include <memory.h>
 #include <wchar.h>
 
+// TODO: Not sure if this type actually exists yet
 class Mike_78
 {
   public:
@@ -11,7 +12,6 @@ class Mike_78
 
     void Clear()
     {
-        //             memset(&field_0, 0, 0x78u);
         for (s32 i = 0; i < 30; i++)
         {
             field_0[i] = 0;
@@ -21,7 +21,7 @@ class Mike_78
 
 struct Mike_80
 {
-    void t()
+    Mike_80()
     {
         field_7C = 0;
         field_A0_count = 0;
@@ -32,19 +32,27 @@ struct Mike_80
     s32 field_7C;
 };
 
+struct Mike_8
+{
+    Mike_8()
+    {
+        init();
+    }
+
+    void init()
+    {
+        this->field_0 = 0;
+        this->field_4 = 0;
+    }
+    int field_0;
+    int field_4;
+};
+
 class Mike_A80
 {
   public:
-    Mike_A80() :
-        field_0_time_0(0), field_4_time_0(0), field_8_time_1(0), field_C_time_1(0), field_10(0), field_14(0), field_18_time_2(0),
-        field_1C_time_2(0), field_20_time_3(0), field_24_time_3(0)
+    Mike_A80()
     {
-        field_28_m80[0].t(); // TODO: offset 28 loaded too early
-        field_28_m80[1].t();
-        field_28_m80[2].t();
-        field_28_m80[3].t();
-        field_28_m80[4].t();
-
         sub_4FF1B0();
     }
 
@@ -60,17 +68,18 @@ class Mike_A80
     EXPORT s32 sub_4FFA90();
     EXPORT s32 sub_4FFD90();
 
-    s32 field_0_time_0;
-    s32 field_4_time_0;
-    s32 field_8_time_1;
-    s32 field_C_time_1;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18_time_2;
-    s32 field_1C_time_2;
-    s32 field_20_time_3;
-    s32 field_24_time_3;
-    Mike_80 field_28_m80[5];
+    Mike_8 m81;
+    Mike_8 m82;
+    Mike_8 m83;
+    Mike_8 m84;
+    Mike_8 m85;
+
+    Mike_80 field_28_m80_1;
+    Mike_80 field_28_m80_2;
+    Mike_80 field_28_m80_3;
+    Mike_80 field_28_m80_4;
+    Mike_80 field_28_m80_5;
+
     s32 field_2A8_ary[100];
     s32 field_438_ary[100];
     s32 field_5C8_ary[100];
