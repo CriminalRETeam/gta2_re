@@ -17,6 +17,10 @@ class Char_8
 class Ped_Unknown_4
 {
   public:
+    Ped_Unknown_4()
+    {
+        field_0_pOwner = 0;
+    }
     EXPORT Char_8* sub_471140(cool_nash_0x294* pPed);
     EXPORT Char_8* sub_471160(cool_nash_0x294* a2);
     EXPORT Char_8* sub_4711F0(cool_nash_0x294* a2);
