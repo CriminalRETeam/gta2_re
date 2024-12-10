@@ -782,7 +782,7 @@ GLOBAL(byte_679C0A, 0x679C0A);
 EXPORT_VAR u32 dword_67DCCC;
 GLOBAL(dword_67DCCC, 0x67DCCC);
 
-STUB_FUNC(0x4B9DE0)
+MATCH_FUNC(0x4B9DE0)
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
     stru_6F6784.srand_4F7A40(); // srand?
