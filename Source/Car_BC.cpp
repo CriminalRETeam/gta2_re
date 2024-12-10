@@ -37,14 +37,12 @@ void Car_3C::sub_59E2E0(void) {
 }
 
 MATCH_FUNC(0x59e300)
-Car_3C* Car_3C::sub_59E300()
+void Car_3C::sub_59E300()
 {
-    Car_3C *result = this;
     memcpy(
         field_C_car_or_sprite,
         field_4_0x4C_len,
         sizeof(Sprite_4C));
-    return result;
 }
 
 STUB_FUNC(0x59e320)

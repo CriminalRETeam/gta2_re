@@ -22,7 +22,7 @@ class Car_3C
   public:
     EXPORT void sub_451950(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_59E2E0();
-    EXPORT Car_3C* sub_59E300();
+    EXPORT void sub_59E300();
     EXPORT s32 sub_59E320(char_type a2);
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
