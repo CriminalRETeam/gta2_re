@@ -2,6 +2,8 @@
 
 #include "Function.hpp"
 
+class cool_nash_0x294;
+
 class Car_10
 {
   public:
@@ -18,8 +20,8 @@ class Car_10
     s8 field_1;
     s8 field_2;
     s8 field_3;
-    s32 field_4;
-    u32 field_8;
+    s32 field_4_state;
+    cool_nash_0x294* field_8_pObj;
     s8 field_C;
     s8 field_D;
     s8 field_E;
