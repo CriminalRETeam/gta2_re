@@ -25,7 +25,7 @@ void Car_10::sub_439CD0(s32* pRet)
 
     if (field_0 == 4)
     {
-        field_4 = 1;
+        field_4_state = 1;
     }
 }
 
@@ -40,7 +40,7 @@ void Car_10::sub_439D40(s32* a3)
 
     if (!field_0)
     {
-        field_4 = 6;
+        field_4_state = 6;
     }
     else
     {
@@ -57,7 +57,7 @@ s32 Car_10::sub_439DA0(s32* a3)
 MATCH_FUNC(0x439E40)
 void Car_10::sub_439E40(u8 a2)
 {
-    field_4 = 6;
+    field_4_state = 6;
     field_0 = 0;
     field_2 = byte_61A808[a2];
 }
@@ -65,8 +65,8 @@ void Car_10::sub_439E40(u8 a2)
 MATCH_FUNC(0x439E60)
 s32 Car_10::sub_439E60()
 {
-    const s32 result = field_4 - 1;
-    switch (field_4)
+    const s32 result = field_4_state - 1;
+    switch (field_4_state)
     {
         case 1:
         case 2:
@@ -77,7 +77,7 @@ s32 Car_10::sub_439E60()
         case 5:
         case 6:
             field_1 = 4;
-            field_4 = 2;
+            field_4_state = 2;
             break;
         default:
             break;
@@ -88,25 +88,25 @@ s32 Car_10::sub_439E60()
 MATCH_FUNC(0x439EA0)
 void Car_10::sub_439EA0()
 {
-    if (field_4 > 0 && field_4 <= 2)
+    if (field_4_state > 0 && field_4_state <= 2)
     {
-        field_4 = 5;
+        field_4_state = 5;
     }
 }
 
 MATCH_FUNC(0x447330)
 Car_10::Car_10()
 {
-    field_8 = 0;
+    field_8_pObj = 0;
     field_2 = 0;
     field_0 = 0;
     field_1 = 3;
-    field_4 = 0;
+    field_4_state = 0;
     field_C = 0;
 }
 
 MATCH_FUNC(0x447350)
 Car_10::~Car_10()
 {
-    field_8 = 0;
+    field_8_pObj = 0;
 }
