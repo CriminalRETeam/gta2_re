@@ -49,6 +49,8 @@ class Weapon_30
     EXPORT Weapon_30();
     EXPORT ~Weapon_30();
 
+    EXPORT void sub_5DCD90();
+
     u16 field_0;
     s8 field_2;
     s8 field_3;
