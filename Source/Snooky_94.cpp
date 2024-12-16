@@ -82,7 +82,7 @@ Snooky_94::Snooky_94()
     field_90_count = 0;
 }
 
-STUB_FUNC(0x4bbc30)
+MATCH_FUNC(0x4bbc30)
 Snooky_94::~Snooky_94()
 {
 }
