@@ -1,6 +1,7 @@
 #include "Weapon_8.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
+#include "root_sound.hpp"
 
 EXPORT_VAR Weapon_2FDC* gWeapon_2FDC_707014;
 GLOBAL(gWeapon_2FDC_707014, 0x707014);
@@ -91,9 +92,18 @@ Weapon_30::Weapon_30()
     this->field_28 = 0;
 }
 
-STUB_FUNC(0x5DCD50)
+MATCH_FUNC(0x5DCD50)
 Weapon_30::~Weapon_30()
 {
+    this->field_24 = 0;
+    this->field_18 = 0;
+    this->field_14 = 0;
+    this->field_8 = 0;
+    if (field_28)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
+        this->field_28 = 0;
+    }
 }
 
 MATCH_FUNC(0x5E4090)

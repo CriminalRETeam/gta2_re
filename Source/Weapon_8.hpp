@@ -5,6 +5,7 @@
 class cool_nash_0x294;
 class Weapon_30;
 class Car_BC;
+class infallible_turing;
 
 // TODO: Move this
 class struct_4
@@ -64,7 +65,7 @@ class Weapon_30
     s8 field_22;
     s8 field_23;
     cool_nash_0x294* field_24;
-    void* field_28;
+    infallible_turing* field_28;
     s8 field_2C;
     s8 field_2D;
     s8 field_2E;
