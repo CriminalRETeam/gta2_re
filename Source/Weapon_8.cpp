@@ -94,5 +94,11 @@ Weapon_30::Weapon_30()
 STUB_FUNC(0x5DCD50)
 Weapon_30::~Weapon_30()
 {
+}
 
+MATCH_FUNC(0x5E4090)
+Weapon_2FDC::~Weapon_2FDC()
+{
+    field_0 = 0;
+    field_4 = 0;
 }

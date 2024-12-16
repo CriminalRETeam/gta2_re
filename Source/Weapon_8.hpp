@@ -90,6 +90,8 @@ class Weapon_2FDC
         this->field_2FD8 = 0;
     }
 
+    EXPORT ~Weapon_2FDC();
+
     Weapon_30* field_0;
     Weapon_30* field_4;
     Weapon_30 field_8[255];
