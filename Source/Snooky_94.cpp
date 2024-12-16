@@ -76,9 +76,10 @@ Snooky_30* Snooky_94::sub_488820(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x488860)
+MATCH_FUNC(0x488860)
 Snooky_94::Snooky_94()
 {
+    field_90_count = 0;
 }
 
 STUB_FUNC(0x4bbc30)
