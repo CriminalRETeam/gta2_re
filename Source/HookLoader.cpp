@@ -268,10 +268,10 @@ class HookLoader
         for (std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin(); it != mFunctionsToHookMap.end(); it++)
         {
             {
-                printf("Look up %s\n",  it->first.c_str());
+                printf("Look up %s\n", it->first.c_str());
                 LPVOID addr = MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str());
                 const FuncMeta& meta = it->second;
-                printf("Doing %s\n",  it->first.c_str());
+                printf("Doing %s\n", it->first.c_str());
                 if (meta.mStatus == 0)
                 {
                     // stubbed - hook reimpl func to og
@@ -334,7 +334,7 @@ class HookLoader
 // The OG patched executable will call this function (outside of DllMain/OS loader locks etc)
 extern "C"
 {
-    __declspec(dllexport) __cdecl HookMain()
+    void __declspec(dllexport) __cdecl HookMain()
     {
         HookLoader hl;
         hl.LoadHooks();

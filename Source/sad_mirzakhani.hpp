@@ -3,7 +3,6 @@
 #include "Function.hpp"
 
 class gmp_map_zone;
-class eager_benz;
 
 class silly_saha_0x2C
 {
@@ -40,22 +39,22 @@ class sad_mirzakhani
   public:
     EXPORT sad_mirzakhani(); // 0x431DC0
     EXPORT ~sad_mirzakhani(); // 0x431DF0
-    EXPORT void sub_431E10(eager_benz* a2);
+    EXPORT void sub_431E10(class eager_benz* a2);
     EXPORT void sub_431E30();
     EXPORT u16 next_free_idx_431E90();
     EXPORT u16 find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone);
     EXPORT u16 alloc_next_431FE0(s16 f_4,
-                          s32 f_8,
-                          s32 f_c,
-                          s16 f_10,
-                          s16 f_12,
-                          s32 f_14,
-                          s32 f_18,
-                          s32 f_1c,
-                          s8 f_24,
-                          s8 f_25,
-                          u16 f_28,
-                          gmp_map_zone* pZone);
+                                 s32 f_8,
+                                 s32 f_c,
+                                 s16 f_10,
+                                 s16 f_12,
+                                 s32 f_14,
+                                 s32 f_18,
+                                 s32 f_1c,
+                                 s8 f_24,
+                                 s8 f_25,
+                                 u16 f_28,
+                                 gmp_map_zone* pZone);
     EXPORT s16 sub_432080(u16 idx);
     EXPORT void sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone);
     EXPORT s8 sub_432170(int a2, int a3);
@@ -63,6 +62,6 @@ class sad_mirzakhani
     EXPORT bool sub_432300(int a2, int a3);
 
     silly_saha_0x2C field_0[10];
-    eager_benz* field_1B8;
+    class eager_benz* field_1B8;
     s32 field_1BC;
 };
