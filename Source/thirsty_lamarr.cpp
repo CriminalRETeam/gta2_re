@@ -1,9 +1,9 @@
 #include "thirsty_lamarr.hpp"
 
 STUB_FUNC(0x4920b0)
-thirsty_lamarr* thirsty_lamarr::sub_4920B0()
+thirsty_lamarr::thirsty_lamarr()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x492110)

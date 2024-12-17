@@ -13,7 +13,7 @@ class eager_benz
   public:
     EXPORT eager_benz();
     EXPORT u32 sub_591C70();
-    EXPORT char_type sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6);
+    EXPORT void sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6);
     EXPORT void sub_592330();
     EXPORT thirsty_lamarr* sub_592360();
     EXPORT s32 sub_592370();
@@ -28,12 +28,12 @@ class eager_benz
     EXPORT void sub_593150(Car_BC* a2, s16 a3);
     EXPORT void sub_593220();
     EXPORT void sub_593240(Car_BC* a2);
-    EXPORT char_type sub_593370(Car_BC* a2);
+    EXPORT void sub_593370(Car_BC* a2);
     EXPORT void sub_593410(Car_BC* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, cool_nash_0x294* a4);
     EXPORT thirsty_lamarr* sub_5935B0();
     EXPORT s32 sub_5935C0();
-    EXPORT s32 sub_5935D0(s32 a2);
+    EXPORT void sub_5935D0(s32 a2);
 
     thirsty_lamarr field_0_unk;
     thirsty_lamarr field_38_unk;
