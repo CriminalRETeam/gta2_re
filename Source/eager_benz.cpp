@@ -1,10 +1,15 @@
 #include "eager_benz.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "lucid_hamilton.hpp"
+#include "Shooey_CC.hpp"
+#include "CokeZero_100.hpp"
+#include "Car_BC.hpp"
+#include "debug.hpp"
 #include <string.h>
 
 // TODO: move
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
+EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
 
 MATCH_FUNC(0x591bd0)
 eager_benz::eager_benz()
@@ -138,9 +143,27 @@ void eager_benz::sub_593240(Car_BC* a2)
 }
 
 STUB_FUNC(0x593370)
-char_type eager_benz::sub_593370(Car_BC* a2)
+void eager_benz::sub_593370(Car_BC* a2)
 {
-    return 0;
+    if (!bExplodingOff_67D4FB)
+    {
+        if (field_368_pObj->field_0)
+        {
+            gCokeZero_100_702F34->sub_596890(a2->field_50_car_sprite->field_14_xpos,
+                                             a2->field_50_car_sprite->field_18_ypos,
+                                             a2->field_50_car_sprite->field_1C_zpos,
+                                             10 * field_368_pObj->field_6BC_unk.field_0);
+        }
+    }
+    field_368_pObj->field_2D4_unk.AddCash_592620(10 * field_368_pObj->field_6BC_unk.field_0);
+    if (field_368_pObj->field_68 == 2)
+    {
+        gShooey_CC_67A4B8->sub_484FE0(4u, field_368_pObj->field_2C8_unkq);
+    }
+    else
+    {
+        gShooey_CC_67A4B8->sub_484FE0(4u, field_368_pObj->field_2C4_player_ped);
+    }
 }
 
 STUB_FUNC(0x593410)
