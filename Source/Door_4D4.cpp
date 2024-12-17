@@ -148,10 +148,10 @@ void Door_4D4::sub_49D370(s32 a2, u8 idx)
 {
 }
 
-STUB_FUNC(0x49d3a0)
+MATCH_FUNC(0x49d3a0)
 Door_38* Door_4D4::sub_49D3A0()
 {
-    return 0;
+    return &field_0[field_4D0_count];
 }
 
 STUB_FUNC(0x49d3c0)
