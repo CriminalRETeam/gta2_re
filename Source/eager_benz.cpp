@@ -155,8 +155,8 @@ s32 eager_benz::sub_5935C0()
     return field_38_unk.field_0;
 }
 
-STUB_FUNC(0x5935d0)
-s32 eager_benz::sub_5935D0(s32 a2)
+MATCH_FUNC(0x5935d0)
+void eager_benz::sub_5935D0(s32 a2)
 {
-    return 0;
+    field_38_unk.sub_4921B0(a2);
 }

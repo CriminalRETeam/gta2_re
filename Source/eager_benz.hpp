@@ -33,7 +33,7 @@ class eager_benz
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, cool_nash_0x294* a4);
     EXPORT thirsty_lamarr* sub_5935B0();
     EXPORT s32 sub_5935C0();
-    EXPORT s32 sub_5935D0(s32 a2);
+    EXPORT void sub_5935D0(s32 a2);
 
     thirsty_lamarr field_0_unk;
     thirsty_lamarr field_38_unk;
