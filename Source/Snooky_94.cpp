@@ -70,18 +70,22 @@ void Snooky_94::sub_4887F0()
     }
 }
 
-STUB_FUNC(0x488820)
+MATCH_FUNC(0x488820)
 Snooky_30* Snooky_94::sub_488820(s32 a2, s32 a3)
 {
-    return 0;
+    Snooky_30* pNew = &field_0[field_90_count];
+    pNew->sub_4885A0(a2, a3, field_90_count);
+    field_90_count++;
+    return pNew;
 }
 
-STUB_FUNC(0x488860)
+MATCH_FUNC(0x488860)
 Snooky_94::Snooky_94()
 {
+    field_90_count = 0;
 }
 
-STUB_FUNC(0x4bbc30)
+MATCH_FUNC(0x4bbc30)
 Snooky_94::~Snooky_94()
 {
 }
