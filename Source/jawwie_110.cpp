@@ -1,4 +1,5 @@
 #include "jawwie_110.hpp"
+#include "cool_nash_0x294.hpp"
 #include <stdio.h>
 
 MATCH_FUNC(0x4beab0)
@@ -83,10 +84,18 @@ char_type jawwie_110::sub_4FA330(cool_nash_0x294* a2)
     return 0;
 }
 
-STUB_FUNC(0x4fa470)
+MATCH_FUNC(0x4fa470)
 char_type jawwie_110::sub_4FA470(cool_nash_0x294* a2)
 {
-    return 0;
+    if (a2->sub_45EDE0(2) || field_1_f8_idx >= 25u)
+    {
+        return 0;
+    }
+
+    field_4.sub_471140(a2);
+    field_1_f8_idx++;
+
+    return 1;
 }
 
 STUB_FUNC(0x4fa4b0)
