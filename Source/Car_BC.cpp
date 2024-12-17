@@ -4,6 +4,8 @@
 #include "Globals.hpp"
 #include "root_sound.hpp"
 #include "debug.hpp"
+#include "PurpleDoom.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -13,6 +15,15 @@ GLOBAL(gCar_6C_677930, 0x677930);
 
 EXPORT_VAR Car_E0C4* gCar_E0C4_67792C;
 GLOBAL(gCar_E0C4_67792C, 0x67792C);
+
+EXPORT_VAR Car_3C* gCar_3C_6F61E8;
+GLOBAL(gCar_3C_6F61E8, 0x6F61E8);
+
+EXPORT_VAR Car_3C* gCar_3C_6791A8;
+GLOBAL(gCar_3C_6791A8, 0x6791A8);
+
+EXPORT_VAR s32 dword_679188;
+GLOBAL(dword_679188, 0x679188);
 
 MATCH_FUNC(0x451950)
 void Car_3C::sub_451950(s32 xpos, s32 ypos, s32 zpos) {
@@ -77,10 +88,24 @@ void Car_3C::sub_59E7B0()
     }
 }
 
-STUB_FUNC(0x59e7d0)
-Car_3C* Car_3C::sub_59E7D0(s32 a2)
-{
-    return 0;
+MATCH_FUNC(0x59e7d0)
+Car_3C* Car_3C::sub_59E7D0(s32 a2) {
+    Car_3C *result;
+
+    sub_59E9C0();
+    field_C_car_or_sprite->sub_5A4D90();
+    gCar_3C_6F61E8 = this;
+    if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos >> 14))
+    {
+        return gCar_3C_6791A8;
+    }
+    result = (Car_3C *)gPurpleDoom_1_679208->sub_477E60(this, a2);
+    if (result)
+    {
+        dword_679188 = 3;
+        gCar_3C_6791A8 = result;
+    }
+    return result;
 }
 
 STUB_FUNC(0x59e960)
@@ -272,6 +297,11 @@ Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5)
 
 STUB_FUNC(0x5a3540)
 void Car_3C::dtor_5A3540()
+{
+}
+
+STUB_FUNC(0x5A4D90)
+void Car_3C::sub_5A4D90()
 {
 }
 

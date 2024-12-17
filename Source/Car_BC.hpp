@@ -58,6 +58,7 @@ class Car_3C
     EXPORT infallible_turing* sub_5A3030();
     EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5);
     EXPORT void dtor_5A3540();
+    EXPORT void sub_5A4D90();
     EXPORT void ctor_5A5E50();
 
     s32 field_0;
