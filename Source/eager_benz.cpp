@@ -143,10 +143,10 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 a3, cool_nash_0x294* a4)
 {
 }
 
-STUB_FUNC(0x5935b0)
+MATCH_FUNC(0x5935b0)
 thirsty_lamarr* eager_benz::sub_5935B0()
 {
-    return 0;
+    return &field_38_unk;
 }
 
 STUB_FUNC(0x5935c0)
