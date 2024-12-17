@@ -1,38 +1,34 @@
 #include "eager_benz.hpp"
 #include <string.h>
 
-// https://decomp.me/scratch/lON9a
-STUB_FUNC(0x591bd0)
+MATCH_FUNC(0x591bd0)
 eager_benz::eager_benz()
 {
-    //thirsty_lamarr::sub_4920B0(&this->field_0_money);
-    //thirsty_lamarr::sub_4920B0(&this->field_38_unk);
-    //sad_mirzakhani::ctor_431DC0(&this->field_1A8_unk);
+    field_368_pObj = 0;
 
-    this->field_74 = 1;
-    this->field_75 = 1;
-    this->field_368_pObj = 0;
-    this->field_18C = 0;
-    this->field_190 = 0;
-    this->field_70 = 0;
-    this->field_78 = 0;
-    this->field_7C = 0;
-    this->field_86 = 0;
-    this->field_88 = 0;
-    this->field_8A = 0;
-    this->field_80 = 0;
-    this->field_84 = 0;
-    this->field_194 = 0;
-    this->field_198_accuracy_count = 0;
-    this->field_19C_reverse_count = 0;
-    this->field_1A0 = 0;
-    this->field_1A4 = 0;
-    /*
-    for (s32 i=0; i < GTA2_COUNTOF(field_8C); i++)
+    field_74 = 1;
+    field_75 = 1;
+
+    field_18C = 0;
+    field_190 = 0;
+    field_70 = 0;
+    field_78 = 0;
+    field_7C = 0;
+    field_86 = 0;
+    field_88 = 0;
+    field_8A = 0;
+    field_80 = 0;
+    field_84 = 0;
+    field_194 = 0;
+    field_198_accuracy_count = 0;
+    field_19C_reverse_count = 0;
+    field_1A0 = 0;
+    field_1A4 = 0;
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_8C); i++)
     {
         field_8C[i] = 0;
-    }*/
-    memset(this->field_8C, 0, sizeof(this->field_8C));
+    }
 }
 
 STUB_FUNC(0x591c70)
