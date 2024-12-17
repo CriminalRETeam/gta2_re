@@ -58,10 +58,10 @@ void eager_benz::sub_592330()
     sub_592380(3);
 }
 
-STUB_FUNC(0x592360)
+MATCH_FUNC(0x592360)
 thirsty_lamarr* eager_benz::sub_592360()
 {
-    return 0;
+    return &field_0_unk;
 }
 
 MATCH_FUNC(0x592370)
