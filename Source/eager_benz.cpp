@@ -64,10 +64,10 @@ thirsty_lamarr* eager_benz::sub_592360()
     return 0;
 }
 
-STUB_FUNC(0x592370)
+MATCH_FUNC(0x592370)
 s32 eager_benz::sub_592370()
 {
-    return 0;
+    return field_0_unk.field_0;
 }
 
 STUB_FUNC(0x592380)
