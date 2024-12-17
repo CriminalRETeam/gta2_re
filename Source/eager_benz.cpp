@@ -126,9 +126,10 @@ void eager_benz::sub_593150(Car_BC* a2, s16 a3)
 {
 }
 
-STUB_FUNC(0x593220)
+MATCH_FUNC(0x593220)
 void eager_benz::sub_593220()
 {
+    field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_unk.field_0 * 20);
 }
 
 STUB_FUNC(0x593240)
