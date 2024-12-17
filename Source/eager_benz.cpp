@@ -1,6 +1,6 @@
 #include "eager_benz.hpp"
-#include "lucid_hamilton.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "lucid_hamilton.hpp"
 #include <string.h>
 
 // TODO: move
@@ -81,9 +81,11 @@ void eager_benz::sub_592430(char_type a2)
 {
 }
 
-STUB_FUNC(0x592570)
+MATCH_FUNC(0x592570)
 void eager_benz::sub_592570(char_type a2, s32 a3)
 {
+    field_8C[a3] |= a2;
+    sub_592430(a2);
 }
 
 STUB_FUNC(0x5925b0)
