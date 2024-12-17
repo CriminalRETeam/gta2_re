@@ -13,7 +13,7 @@ class eager_benz
   public:
     EXPORT eager_benz();
     EXPORT u32 sub_591C70();
-    EXPORT char_type sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6);
+    EXPORT void sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6);
     EXPORT void sub_592330();
     EXPORT thirsty_lamarr* sub_592360();
     EXPORT s32 sub_592370();
