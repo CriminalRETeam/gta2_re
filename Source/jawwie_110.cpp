@@ -63,10 +63,18 @@ jawwie_110::~jawwie_110()
 {
 }
 
-STUB_FUNC(0x4fa310)
+MATCH_FUNC(0x4fa310)
 void jawwie_110::init_4FA310()
 {
+    field_0 = 1;
+    field_1_f8_idx = 0;
+    field_4.sub_420E90();
 
+    for (s32 i = 0; i < 25; i++)
+    {
+        field_8[i].field_0 = 0;
+        field_8[i].field_4 = 0;
+    }
 }
 
 STUB_FUNC(0x4fa330)
