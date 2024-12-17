@@ -2,6 +2,7 @@
 
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
+#include "eager_benz.hpp"
 #include "sad_mirzakhani.hpp"
 #include "zealous_borg.hpp"
 #include <windows.h>
@@ -10,77 +11,6 @@ class infallible_turing;
 class cool_nash_0x294;
 class keen_bhaskara_0x30;
 class angry_lewin_0x85C;
-
-// todo: move
-struct thirsty_lamarr
-{
-    EXPORT void sub_4921B0(s32 amount);
-
-    s32 field_0;
-    s32 field_4;
-    char_type field_8;
-    char_type field_9;
-    char_type field_A;
-    char_type field_B;
-    s32 field_C;
-    char_type field_10;
-    char_type field_11;
-    char_type field_12;
-    char_type field_13[9];
-    char_type field_1C;
-    char_type field_1D_buf[9];
-    char_type field_26;
-    char_type field_27;
-    char_type field_28;
-    char_type field_29;
-    s16 field_2A;
-    char_type field_2C;
-    char_type field_2D;
-    s16 field_2E_idx;
-    s32 field_30;
-    s16 field_34;
-    s16 field_36;
-};
-
-// todo: move
-class eager_benz
-{
-  public:
-    // TODO: stub all
-    EXPORT void AddCash_592620(s32 cash);
-
-    thirsty_lamarr field_0_unk;
-    thirsty_lamarr field_38_unk;
-    s32 field_70;
-    char_type field_74;
-    char_type field_75;
-    char_type field_76;
-    char_type field_77;
-    s32 field_78;
-    s16 field_7C;
-    s16 field_7E;
-    s32 field_80;
-    s16 field_84;
-    s16 field_86;
-    s16 field_88;
-    s16 field_8A;
-    BYTE field_8C[256];
-    s32 field_18C;
-    s32 field_190;
-    s32 field_194;
-    char_type field_198_accuracy_count;
-    char_type field_199;
-    char_type field_19A;
-    char_type field_19B;
-    s32 field_19C_reverse_count;
-    s32 field_1A0;
-    char_type field_1A4;
-    char_type field_1A5;
-    char_type field_1A6;
-    char_type field_1A7;
-    sad_mirzakhani field_1A8_unk;
-    angry_lewin_0x85C* field_368_pObj;
-};
 
 // TODO: add these later
 class Car_BC;

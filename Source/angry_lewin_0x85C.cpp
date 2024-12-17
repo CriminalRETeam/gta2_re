@@ -9,21 +9,6 @@
 #include "root_sound.hpp"
 #include "zealous_borg.hpp"
 
-STUB_FUNC(0x4921B0)
-void thirsty_lamarr::sub_4921B0(s32 amount)
-{
-}
-
-// =====================
-
-// TODO: move
-STUB_FUNC(0x592620)
-void eager_benz::AddCash_592620(s32 cash)
-{
-}
-
-// ====================
-
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
 {
