@@ -58,7 +58,7 @@ void jawwie_20::sub_4FB330()
 {
 }
 
-STUB_FUNC(0x4beae0)
+MATCH_FUNC(0x4beae0)
 jawwie_110::~jawwie_110()
 {
 }
