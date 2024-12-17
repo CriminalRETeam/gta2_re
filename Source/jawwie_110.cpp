@@ -98,9 +98,16 @@ char_type jawwie_110::sub_4FA470(cool_nash_0x294* a2)
     return 1;
 }
 
-STUB_FUNC(0x4fa4b0)
+MATCH_FUNC(0x4fa4b0)
 jawwie_20* jawwie_110::sub_4FA4B0()
 {
+    for (u8 i = 0; i < 2; i++)
+    {
+        if (!field_D0[i].field_18)
+        {
+            return &field_D0[i];
+        }
+    }
     return 0;
 }
 
