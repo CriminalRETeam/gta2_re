@@ -149,10 +149,10 @@ thirsty_lamarr* eager_benz::sub_5935B0()
     return &field_38_unk;
 }
 
-STUB_FUNC(0x5935c0)
+MATCH_FUNC(0x5935c0)
 s32 eager_benz::sub_5935C0()
 {
-    return 0;
+    return field_38_unk.field_0;
 }
 
 STUB_FUNC(0x5935d0)
