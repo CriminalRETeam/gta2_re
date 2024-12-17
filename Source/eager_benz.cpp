@@ -1,5 +1,10 @@
 #include "eager_benz.hpp"
+#include "lucid_hamilton.hpp"
+#include "angry_lewin_0x85C.hpp"
 #include <string.h>
+
+// TODO: move
+EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
 MATCH_FUNC(0x591bd0)
 eager_benz::eager_benz()
@@ -87,9 +92,15 @@ s32 eager_benz::sub_5925B0(u8 a1, char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x592620)
+MATCH_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
+    field_0_unk.sub_4921B0(cash);
+
+    if (bStartNetworkGame_7081F0)
+    {
+        gLucid_hamilton_67E8E0.sub_4C5C80(field_368_pObj->field_2E_idx, cash);
+    }
 }
 
 STUB_FUNC(0x592660)
