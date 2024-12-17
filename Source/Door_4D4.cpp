@@ -137,10 +137,10 @@ s16 Door_4D4::sub_49D2D0(s16 a1, s16 a2, char_type a3)
     return 0;
 }
 
-STUB_FUNC(0x49d340)
+MATCH_FUNC(0x49d340)
 char_type Door_4D4::sub_49D340(u32* a2, u8 a3)
 {
-    return 0;
+    return field_0[a3].sub_49C870(a2);
 }
 
 STUB_FUNC(0x49d370)
@@ -148,10 +148,10 @@ void Door_4D4::sub_49D370(s32 a2, u8 idx)
 {
 }
 
-STUB_FUNC(0x49d3a0)
+MATCH_FUNC(0x49d3a0)
 Door_38* Door_4D4::sub_49D3A0()
 {
-    return 0;
+    return &field_0[field_4D0_count];
 }
 
 STUB_FUNC(0x49d3c0)
@@ -160,9 +160,13 @@ char_type Door_4D4::sub_49D3C0(s32 a2, u8 a3)
     return 0;
 }
 
-STUB_FUNC(0x49d460)
+MATCH_FUNC(0x49d460)
 void Door_4D4::sub_49D460()
 {
+    for (u16 i = 0; i < field_4D0_count; ++i)
+    {
+        field_0[i].sub_49CE90();
+    }
 }
 
 STUB_FUNC(0x49d4a0)
