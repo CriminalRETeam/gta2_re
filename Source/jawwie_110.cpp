@@ -119,4 +119,16 @@ void jawwie_110::sub_4FA500()
 STUB_FUNC(0x4fa790)
 void jawwie_110::sub_4FA790()
 {
+    if (field_1_f8_idx)
+    {
+        sub_4FA500();
+    }
+
+    for (s32 i = 0; i < 2; i++)
+    {
+        if (field_D0[i].field_18 == 1)
+        {
+            field_D0[i].sub_4FB330();
+        }
+    }
 }
