@@ -49,9 +49,13 @@ void eager_benz::sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a
     field_38_unk.sub_492110(a3, a6, a5);
 }
 
-STUB_FUNC(0x592330)
+MATCH_FUNC(0x592330)
 void eager_benz::sub_592330()
 {
+    field_0_unk.sub_492150();
+    field_38_unk.sub_492150();
+    field_1A8_unk.sub_431E10(this);
+    sub_592380(3);
 }
 
 STUB_FUNC(0x592360)
