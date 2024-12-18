@@ -36,7 +36,7 @@ class miss2_0x11C
   public:
     EXPORT void sub_503200();
     EXPORT char_type sub_503410(u32 a1);
-    EXPORT s16 sub_5035B0();
+    EXPORT void sub_5035B0();
     EXPORT void sub_5035D0();
     EXPORT void Next_503620(SCR_CMD_HEADER* a2);
     EXPORT void sub_503650(u16 a2);

@@ -1,4 +1,12 @@
 #include "miss2_0x11c.hpp"
+#include "Globals.hpp"
+
+#if defined(EXPORT_VARS) || defined(IMPORT_VARS)
+EXPORT_VAR s16 word_6212EE;
+GLOBAL(word_6212EE, 0x6212EE);
+#else
+s16 word_6212EE = 1;
+#endif
 
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
@@ -11,10 +19,11 @@ char_type miss2_0x11C::sub_503410(u32 a1)
     return 0;
 }
 
-STUB_FUNC(0x5035b0)
-s16 miss2_0x11C::sub_5035B0()
+MATCH_FUNC(0x5035b0)
+void miss2_0x11C::sub_5035B0()
 {
-    return 0;
+    field_118 = 0;
+    field_11A = word_6212EE++;
 }
 
 STUB_FUNC(0x5035d0)
