@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Ped_Unknown_4.hpp"
 
 class cool_nash_0x294;
 
@@ -9,14 +10,13 @@ class Orca_2FD4
   public:
     Orca_2FD4()
     {
-        field_3C = 0;
         init_5545E0();
     }
     EXPORT bool sub_554080(s32 a2);
     EXPORT char_type sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
     EXPORT char_type sub_554110(char_type a2, char_type a3);
     EXPORT s32 sub_5545C0();
-    EXPORT s32 init_5545E0();
+    EXPORT void init_5545E0();
 
     ~Orca_2FD4()
     {
@@ -69,11 +69,12 @@ class Orca_2FD4
     s16 field_2C;
     s16 field_2E;
     s32 field_30;
-    s32 field_34;
+    s16 field_34;
+    s16 field_36;
     char_type field_38;
     char_type field_39;
     s16 field_3A;
-    s32 field_3C;
+    Ped_Unknown_4 field_3C;
     s16 field_40[4488];
     s32 field_2350;
     s32 field_2354;
