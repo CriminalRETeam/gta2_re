@@ -1,4 +1,5 @@
 #include "Orca_2FD4.hpp"
+#include <string.h>
 
 STUB_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)
@@ -24,16 +25,29 @@ s32 Orca_2FD4::sub_5545C0()
     return 0;
 }
 
-STUB_FUNC(0x5545e0)
-s32 Orca_2FD4::init_5545E0()
+MATCH_FUNC(0x5545e0)
+void Orca_2FD4::init_5545E0()
 {
-    return 0;
+    for (s32 i = 0; i < GTA2_COUNTOF(field_40); i++)
+    {
+        field_40[i] = 0;
+    }
+    field_38 = 0;
+    field_34 = 1;
+    field_36 = 0;
+    field_3A = 0;
+    field_2FD0 = 1;
+    field_2FD1 = 0;
 }
 
-STUB_FUNC(0x554620)
-s32 Orca_2FD4::sub_554620(s32 a2)
+MATCH_FUNC(0x554620)
+void Orca_2FD4::sub_554620(s32 a2)
 {
-    return 0;
+    if (a2 == field_0)
+    {
+        field_2FD0 = 1;
+        field_2FD1 = 0;
+    }
 }
 
 STUB_FUNC(0x554640)
@@ -60,10 +74,10 @@ char_type Orca_2FD4::sub_554920()
     return 0;
 }
 
-STUB_FUNC(0x554a90)
+MATCH_FUNC(0x554a90)
 s32 Orca_2FD4::sub_554A90(cool_nash_0x294* a2)
 {
-    return 0;
+    return field_3C.field_0_pOwner->field_0_char_ped == a2;
 }
 
 STUB_FUNC(0x554ab0)
