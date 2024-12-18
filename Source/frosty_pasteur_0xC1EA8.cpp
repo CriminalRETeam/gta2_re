@@ -1,12 +1,12 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
-#include "Game_0x40.hpp"
 
 EXPORT_VAR frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
 GLOBAL(gfrosty_pasteur_6F8060, 0x6F8060);
@@ -81,8 +81,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
-            FatalError_4A38C0(0x41,
-                              "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+            FatalError_4A38C0(0x41, "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                               12774); // No LEVELSTART declaration in scriptfile
             return;
         }
@@ -193,10 +192,14 @@ void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
 }
 
-STUB_FUNC(0x512770)
+MATCH_FUNC(0x512770)
 SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 {
-    return 0;
+    if (!field_46C_base_pointers[idx])
+    {
+        return 0;
+    }
+    return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
 }
 
 STUB_FUNC(0x5127a0)
