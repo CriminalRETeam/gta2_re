@@ -8,6 +8,9 @@ GLOBAL(word_6212EE, 0x6212EE);
 s16 word_6212EE = 1;
 #endif
 
+EXPORT_VAR Miss2_8EC* gMiss2_8EC_6F8064;
+GLOBAL(gMiss2_8EC_6F8064, 0x6F8064);
+
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {

@@ -317,3 +317,25 @@ class miss2_0x11C
     s16 field_11A;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
+
+class Miss2_8EC
+{
+  public:
+    // inlined
+    miss2_0x11C* sub_4767A0()
+    {
+        miss2_0x11C* pf_0 = this->field_0;
+        this->field_0 = pf_0->field_0;
+        pf_0->field_0 = this->field_4;
+        this->field_4 = pf_0;
+        pf_0->sub_5035B0();
+        return pf_0; // ??
+    }
+
+    miss2_0x11C* field_0;
+    miss2_0x11C* field_4;
+    miss2_0x11C field_8[8];
+    s16 field_8E8;
+    s16 field_8EA;
+};
+EXPORT_VAR extern Miss2_8EC* gMiss2_8EC_6F8064;
