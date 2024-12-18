@@ -40,10 +40,14 @@ void Orca_2FD4::init_5545E0()
     field_2FD1 = 0;
 }
 
-STUB_FUNC(0x554620)
-s32 Orca_2FD4::sub_554620(s32 a2)
+MATCH_FUNC(0x554620)
+void Orca_2FD4::sub_554620(s32 a2)
 {
-    return 0;
+    if (a2 == field_0)
+    {
+        field_2FD0 = 1;
+        field_2FD1 = 0;
+    }
 }
 
 STUB_FUNC(0x554640)

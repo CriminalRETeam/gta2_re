@@ -22,7 +22,7 @@ class Orca_2FD4
     {
       // TODO: Should this be empty?
     }
-    EXPORT s32 sub_554620(s32 a2);
+    EXPORT void sub_554620(s32 a2);
     EXPORT char_type sub_554640();
     EXPORT char_type sub_554710();
     EXPORT char_type sub_5548C0();
