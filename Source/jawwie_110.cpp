@@ -118,10 +118,10 @@ void jawwie_110::sub_4FA500()
 {
 }
 
-STUB_FUNC(0x4fa790)
+MATCH_FUNC(0x4fa790)
 void jawwie_110::sub_4FA790()
 {
-    if (field_1_f8_idx)
+    if (field_1_f8_idx > 0)
     {
         sub_4FA500();
     }
