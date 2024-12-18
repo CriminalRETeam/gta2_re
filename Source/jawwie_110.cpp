@@ -31,9 +31,11 @@ void jawwie_20::sub_4FA7D0()
     field_1D = 0;
 }
 
-STUB_FUNC(0x4fa800)
+MATCH_FUNC(0x4fa800)
 void jawwie_20::sub_4FA800(cool_nash_0x294* pPed)
 {
+    field_10.sub_471140(pPed);
+    field_14_count++;
 }
 
 STUB_FUNC(0x4fa820)
@@ -116,10 +118,10 @@ void jawwie_110::sub_4FA500()
 {
 }
 
-STUB_FUNC(0x4fa790)
+MATCH_FUNC(0x4fa790)
 void jawwie_110::sub_4FA790()
 {
-    if (field_1_f8_idx)
+    if (field_1_f8_idx > 0)
     {
         sub_4FA500();
     }

@@ -60,7 +60,7 @@ class jawwie_110
     EXPORT void sub_4FA790();
 
     char_type field_0;
-    char_type field_1_f8_idx;
+    u8 field_1_f8_idx;
     char_type field_2;
     char_type field_3;
     Ped_Unknown_4 field_4;
