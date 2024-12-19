@@ -61,7 +61,7 @@ char_type Zone_144::sub_4BEEF0(u8 a2)
 STUB_FUNC(0x4BEF10)
 bool Zone_144::sub_4BEF10(u8 a2)
 {
-    return false;
+    return (field_11C[a2] < 237) ? true : false;
 }
 
 MATCH_FUNC(0x4BEF50)

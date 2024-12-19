@@ -103,7 +103,7 @@ class Zone_144
     char field_112[2];
     u32 field_114;
     u32 field_118;
-    char field_11C[4];
+    u8 field_11C[4];
     u16 field_120;
     char field_122[10];
     u32 field_12C;
