@@ -40,6 +40,10 @@ class TileAnim_18
 class TileAnim_4BC
 {
   public:
+    TileAnim_4BC()
+    {
+        // TODO
+    }
     EXPORT ~TileAnim_4BC();
     TileAnim_18* field_0_pStart;
     TileAnim_18* field_4_pPrev;
