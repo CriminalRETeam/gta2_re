@@ -16,6 +16,8 @@ class miss2_8
 
     EXPORT Frismo_C* sub_5031A0();
 
+    EXPORT void sub_5031C0(Frismo_C* a2);
+
     EXPORT void remove_5031E0(u8 count);
 
     Frismo_C* field_0_current;
