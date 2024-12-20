@@ -10,10 +10,12 @@ Frismo_C::~Frismo_C()
 {
 }
 
-STUB_FUNC(0x503110)
-s32 Frismo_C::sub_503110()
+MATCH_FUNC(0x503110)
+void Frismo_C::sub_503110()
 {
-    return 0;
+    field_0 = 0;
+    field_4 = 0;
+    field_8_next = 0;
 }
 
 STUB_FUNC(0x4bc300)

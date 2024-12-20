@@ -7,7 +7,7 @@ class Frismo_C
   public:
     EXPORT Frismo_C();
     EXPORT ~Frismo_C();
-    EXPORT s32 sub_503110();
+    EXPORT void sub_503110();
     s32 field_0;
     s16 field_4;
     s16 field_6;
