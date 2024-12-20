@@ -11,9 +11,18 @@ GLOBAL(gTrafficLights_194_705958, 0x705958);
 
 u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x18, 0x96, 0x50, 0x00, 0x00, 0x00};
 
-STUB_FUNC(0x5c2910)
+STUB_FUNC(0x5C1D00)
+void TrafficLight_20::sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5)
+{
+
+}
+
+MATCH_FUNC(0x5c2910)
 void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
 {
+    TrafficLight_20* pMem = new TrafficLight_20();
+    field_0_traffic_lights[field_190_array_used_count++] = pMem;
+    pMem->sub_5C1D00(x, y, w, h);
 }
 
 STUB_FUNC(0x5c2950)
@@ -40,7 +49,7 @@ MATCH_FUNC(0x5c2ac0)
 void TrafficLights_194::sub_5C2AC0()
 {
     gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(2u);
-    while(pZoneIter)
+    while (pZoneIter)
     {
         sub_5C2910(pZoneIter->field_1_x, pZoneIter->field_2_y, pZoneIter->field_3_w, pZoneIter->field_4_h);
         pZoneIter = gMap_0x370_6F6268->next_zone_4DF770();

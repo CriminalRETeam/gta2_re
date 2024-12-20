@@ -7,6 +7,8 @@ class nostalgic_ellis_0x28;
 class TrafficLight_20
 {
   public:
+    EXPORT void sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5);
+
     s32 field_0;
     s32 field_4;
     s32 field_8;
