@@ -1,5 +1,6 @@
 #include "Montana.hpp"
 #include "Globals.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Montana* gMontana_67B580;
 GLOBAL(gMontana_67B580, 0x67B580);
@@ -13,6 +14,12 @@ GLOBAL(gMontana_FA4_705BC0, 0x705BC0);
 EXPORT_VAR s32 gDisplayDraw_67B57C;
 GLOBAL(gDisplayDraw_67B57C, 0x67B57C);
 
+EXPORT_VAR s32 gDisplayAdd_67B578;
+GLOBAL(gDisplayAdd_67B578, 0x67B578);
+
+EXPORT_VAR s32 dword_67B434; // =  0x4000; TODO
+GLOBAL(dword_67B434, 0x67B434);
+
 
 STUB_FUNC(0x5c5f60)
 Montana_2EE4::Montana_2EE4()
@@ -25,7 +32,7 @@ Montana_2EE4::~Montana_2EE4()
 }
 
 STUB_FUNC(0x5c5cf0)
-void Montana_4::sub_5C5CF0(s32 a2)
+void Montana_4::sub_5C5CF0(Car_3C* a2)
 {
 }
 
@@ -72,22 +79,29 @@ void Montana::ResetAll_4954F0()
     }
 }
 
-STUB_FUNC(0x495510)
-s32 Montana::sub_495510(Car_3C* a2)
-{
-    return 0;
-}
-
+// TODO: move
 STUB_FUNC(0x5BEE90)
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
     return 0;
 }
 
+STUB_FUNC(0x495510)
+void Montana::sub_495510(Car_3C* a2)
+{
+    const s32 rdtsc = get_rdtsc_5BEE90();
+    if (a2->field_1C_zpos >= dword_67B434)
+    {
+        const s8 col_idx = a2->sub_5A1BD0();
+        field_0_cols[col_idx]->sub_5C5CF0(a2);
+    }
+    gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
+}
+
 MATCH_FUNC(0x495560)
 void Montana::Draw_495560(s32 col_idx)
 {
-    s32 rdtsc = get_rdtsc_5BEE90();
+    const s32 rdtsc = get_rdtsc_5BEE90();
     field_0_cols[col_idx - 1]->Draw_5C5DF0();
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
