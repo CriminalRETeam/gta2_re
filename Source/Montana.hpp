@@ -15,7 +15,7 @@ class Montana_C
 class Montana_FA4
 {
   public:
-    Montana_FA4()
+    Montana_FA4() // inlined 4C4BD0
     {
         field_FA0 = this;
     }
