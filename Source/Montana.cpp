@@ -1,6 +1,7 @@
 #include "Montana.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 
 EXPORT_VAR Montana* gMontana_67B580;
 GLOBAL(gMontana_67B580, 0x67B580);
@@ -110,9 +111,17 @@ void Montana::Draw_495560(s32 col_idx)
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
 
-STUB_FUNC(0x4955a0)
+MATCH_FUNC(0x4955a0)
 Montana::Montana()
 {
+    for (s32 i = 0; i < 7; i++)
+    {
+        field_0_cols[i] = new Montana_4();
+        if (!field_0_cols[i])
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+        }
+    }
 }
 
 MATCH_FUNC(0x495630)
