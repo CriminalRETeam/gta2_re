@@ -38,7 +38,14 @@ TrafficLights_194::TrafficLights_194()
     field_193_timer = traffic_light_phase_timers_626840[1];
 }
 
-STUB_FUNC(0x5c2b30)
+MATCH_FUNC(0x5c2b30)
 TrafficLights_194::~TrafficLights_194()
 {
+    for (u32 i = 0; i < field_190_array_used_count; i++)
+    {
+        if (field_0_traffic_lights[i])
+        {
+            GTA2_DELETE_AND_NULL(field_0_traffic_lights[i]);
+        }
+    }
 }
