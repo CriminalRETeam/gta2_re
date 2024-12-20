@@ -1,6 +1,6 @@
 #include "Montana.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 
 EXPORT_VAR Montana* gMontana_67B580;
 GLOBAL(gMontana_67B580, 0x67B580);
@@ -20,10 +20,14 @@ GLOBAL(gDisplayAdd_67B578, 0x67B578);
 EXPORT_VAR s32 dword_67B434; // =  0x4000; TODO
 GLOBAL(dword_67B434, 0x67B434);
 
-
-STUB_FUNC(0x5c5f60)
+MATCH_FUNC(0x5c5f60)
 Montana_2EE4::Montana_2EE4()
 {
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        field_0[i].field_0 = 0;
+    }
+    field_2EE0_free_indx = 0;
 }
 
 STUB_FUNC(0x5c5f90)
