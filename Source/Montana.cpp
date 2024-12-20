@@ -115,7 +115,11 @@ Montana::Montana()
 {
 }
 
-STUB_FUNC(0x495630)
+MATCH_FUNC(0x495630)
 Montana::~Montana()
 {
+    for (s32 i = 0; i < 7; i++)
+    {
+        delete field_0_cols[i];
+    }
 }
