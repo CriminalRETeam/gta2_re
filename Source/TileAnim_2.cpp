@@ -5,6 +5,9 @@
 EXPORT_VAR TileAnim_2* gTileAnim_2_7052C4;
 GLOBAL(gTileAnim_2_7052C4, 0x7052C4);
 
+EXPORT_VAR TileAnim_4BC* gTileAnim_4BC_7052C8;
+GLOBAL(gTileAnim_4BC_7052C8, 0x7052C8);
+
 STUB_FUNC(0x5bc260)
 s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)
 {
@@ -35,11 +38,14 @@ TileAnim_2::TileAnim_2()
 STUB_FUNC(0x5bc470)
 TileAnim_2::~TileAnim_2()
 {
+    // TODO: Jump target is diff ??
+    GTA2_DELETE_AND_NULL(gTileAnim_4BC_7052C8);
 }
 
-STUB_FUNC(0x5bc130)
+MATCH_FUNC(0x5bc130)
 void TileAnim_18::sub_5BC130()
 {
+    field_12_idx = gTileAnim_2_7052C4->field_0_count++;
 }
 
 STUB_FUNC(0x5bc150)
@@ -65,9 +71,19 @@ char_type TileAnim_18::sub_5BC1F0()
     return 0;
 }
 
-STUB_FUNC(0x5beba0)
-void TileAnim_18::ctor_5BEBA0()
+MATCH_FUNC(0x5beba0)
+TileAnim_18::TileAnim_18()
 {
+    this->field_0 = 0;
+    this->field_2 = 0;
+    this->field_4 = 0;
+    this->field_6 = 0;
+    this->field_8 = 0;
+    this->field_A = 0;
+    this->field_C_ptr = 0;
+    this->field_10 = 0;
+    this->field_12_idx = 0;
+    this->field_14_next_ptr = 0;
 }
 
 MATCH_FUNC(0x5bebd0)

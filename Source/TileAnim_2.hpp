@@ -22,7 +22,7 @@ class TileAnim_18
     EXPORT void sub_5BC190(s32 pStru);
     EXPORT s32 sub_5BC1D0();
     EXPORT char_type sub_5BC1F0();
-    EXPORT void ctor_5BEBA0();
+    EXPORT TileAnim_18();
     EXPORT ~TileAnim_18();
 
     s16 field_0;
@@ -40,6 +40,10 @@ class TileAnim_18
 class TileAnim_4BC
 {
   public:
+    TileAnim_4BC()
+    {
+        // TODO
+    }
     EXPORT ~TileAnim_4BC();
     TileAnim_18* field_0_pStart;
     TileAnim_18* field_4_pPrev;
