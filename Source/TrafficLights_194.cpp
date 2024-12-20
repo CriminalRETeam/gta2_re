@@ -1,5 +1,9 @@
 #include "TrafficLights_194.hpp"
 #include "Globals.hpp"
+#include "Garox_2B00.hpp"
+
+// TODO
+EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
 EXPORT_VAR TrafficLights_194* gTrafficLights_194_705958;
 GLOBAL(gTrafficLights_194_705958, 0x705958);
@@ -16,9 +20,19 @@ void TrafficLights_194::sub_5C2950()
 {
 }
 
-STUB_FUNC(0x5c2a10)
+MATCH_FUNC(0x5c2a10)
 void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 {
+    swprintf(tmpBuff_67BD9C, L"timer: %d", field_193_timer);
+    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 0, word_706600, 1);
+
+    swprintf(tmpBuff_67BD9C, L"phase: %d", field_192_phase);
+    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_706600, 1);
+
+    if (field_192_phase == 7)
+    {
+        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"peds crossing now!", -1, 32, word_706600, 1);
+    }
 }
 
 STUB_FUNC(0x5c2ac0)
