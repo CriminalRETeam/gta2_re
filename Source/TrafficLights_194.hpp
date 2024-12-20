@@ -2,7 +2,22 @@
 
 #include "Function.hpp"
 
-class TrafficLight_20;
+class nostalgic_ellis_0x28;
+
+class TrafficLight_20
+{
+  public:
+    EXPORT void sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5);
+
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    nostalgic_ellis_0x28* field_10;
+    nostalgic_ellis_0x28* field_14;
+    nostalgic_ellis_0x28* field_18;
+    nostalgic_ellis_0x28* field_1C;
+};
 
 class TrafficLights_194
 {
@@ -14,7 +29,7 @@ class TrafficLights_194
     EXPORT TrafficLights_194();
     EXPORT ~TrafficLights_194();
     TrafficLight_20* field_0_traffic_lights[100];
-    s16 field_190_array_used_count;
+    u16 field_190_array_used_count;
     u8 field_192_phase;
     u8 field_193_timer;
 };
