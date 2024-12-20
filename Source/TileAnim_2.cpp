@@ -65,9 +65,19 @@ char_type TileAnim_18::sub_5BC1F0()
     return 0;
 }
 
-STUB_FUNC(0x5beba0)
-void TileAnim_18::ctor_5BEBA0()
+MATCH_FUNC(0x5beba0)
+TileAnim_18::TileAnim_18()
 {
+    this->field_0 = 0;
+    this->field_2 = 0;
+    this->field_4 = 0;
+    this->field_6 = 0;
+    this->field_8 = 0;
+    this->field_A = 0;
+    this->field_C_ptr = 0;
+    this->field_10 = 0;
+    this->field_12_idx = 0;
+    this->field_14_next_ptr = 0;
 }
 
 MATCH_FUNC(0x5bebd0)
