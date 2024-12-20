@@ -30,7 +30,7 @@ Montana_2EE4::Montana_2EE4()
     field_2EE0_free_indx = 0;
 }
 
-STUB_FUNC(0x5c5f90)
+MATCH_FUNC(0x5c5f90)
 Montana_2EE4::~Montana_2EE4()
 {
 }
