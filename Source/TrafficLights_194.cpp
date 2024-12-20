@@ -1,6 +1,7 @@
 #include "TrafficLights_194.hpp"
-#include "Globals.hpp"
 #include "Garox_2B00.hpp"
+#include "Globals.hpp"
+#include "map_0x370.hpp"
 
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
@@ -35,9 +36,15 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
     }
 }
 
-STUB_FUNC(0x5c2ac0)
+MATCH_FUNC(0x5c2ac0)
 void TrafficLights_194::sub_5C2AC0()
 {
+    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(2u);
+    while(pZoneIter)
+    {
+        sub_5C2910(pZoneIter->field_1_x, pZoneIter->field_2_y, pZoneIter->field_3_w, pZoneIter->field_4_h);
+        pZoneIter = gMap_0x370_6F6268->next_zone_4DF770();
+    }
 }
 
 MATCH_FUNC(0x5c2b00)
