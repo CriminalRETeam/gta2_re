@@ -50,6 +50,23 @@ Frismo_C* miss2_8::remove_503180()
     return pOld;
 }
 
+MATCH_FUNC(0x5031A0)
+Frismo_C* miss2_8::sub_5031A0()
+{
+    Frismo_C* v1 = gFrismo_25C_6F8068->field_0;
+    gFrismo_25C_6F8068->field_0 = gFrismo_25C_6F8068->field_0->field_8_next;
+    v1->sub_503110();
+    return v1;
+}
+
+MATCH_FUNC(0x5031C0)
+void miss2_8::sub_5031C0(Frismo_C* a2)
+{
+    Frismo_25C* pFrismo = gFrismo_25C_6F8068;
+    a2->field_8_next = gFrismo_25C_6F8068->field_0;
+    pFrismo->field_0 = a2;
+}
+
 MATCH_FUNC(0x5031E0)
 void miss2_8::remove_5031E0(u8 count)
 {

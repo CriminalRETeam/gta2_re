@@ -15,9 +15,14 @@ class Montana_C
 class Montana_FA4
 {
   public:
-    Montana_FA4()
+    Montana_FA4() // inlined 4C4BD0
     {
         field_FA0 = this;
+    }
+
+    ~Montana_FA4()
+    {
+
     }
 
     Montana_C* field_0;
@@ -1027,7 +1032,7 @@ class Montana_2EE4
 {
   public:
     EXPORT Montana_2EE4();
-    EXPORT s32 dtor_5C5F90();
+    EXPORT ~Montana_2EE4();
     Montana_C field_0[1000];
     s32 field_2EE0_free_indx;
 };
@@ -1035,11 +1040,11 @@ class Montana_2EE4
 class Montana_4
 {
   public:
-    EXPORT void sub_5C5CF0(s32 a2);
+    EXPORT void sub_5C5CF0(Car_3C* a2);
     EXPORT void Draw_5C5DF0();
     EXPORT void Reset_5C5E50();
     EXPORT Montana_4();
-    EXPORT void dtor_5C5F10();
+    EXPORT ~Montana_4();
     Montana_C* field_0_pFirst;
 };
 
@@ -1047,7 +1052,7 @@ class Montana
 {
   public:
     EXPORT void ResetAll_4954F0();
-    EXPORT s32 sub_495510(Car_3C* a2);
+    EXPORT void sub_495510(Car_3C* a2);
     EXPORT void Draw_495560(s32 col_idx);
     EXPORT Montana();
     EXPORT ~Montana();

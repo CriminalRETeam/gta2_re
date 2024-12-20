@@ -8,12 +8,17 @@ class Frismo_C;
 class miss2_8
 {
   public:
-    miss2_8(); // 503120
-    ~miss2_8(); // 503130
+    EXPORT miss2_8(); // 503120
+    EXPORT ~miss2_8(); // 503130
 
-    void add_503160(Frismo_C* a2);
-    Frismo_C* remove_503180();
-    void remove_5031E0(u8 count);
+    EXPORT void add_503160(Frismo_C* a2);
+    EXPORT Frismo_C* remove_503180();
+
+    EXPORT Frismo_C* sub_5031A0();
+
+    EXPORT void sub_5031C0(Frismo_C* a2);
+
+    EXPORT void remove_5031E0(u8 count);
 
     Frismo_C* field_0_current;
     u8 field_4_count;
