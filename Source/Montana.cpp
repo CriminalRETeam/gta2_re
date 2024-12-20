@@ -91,14 +91,13 @@ EXPORT unsigned __int64 get_rdtsc_5BEE90()
     return 0;
 }
 
-STUB_FUNC(0x495510)
+MATCH_FUNC(0x495510)
 void Montana::sub_495510(Car_3C* a2)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (a2->field_1C_zpos >= dword_67B434)
     {
-        const s8 col_idx = a2->sub_5A1BD0();
-        field_0_cols[col_idx]->sub_5C5CF0(a2);
+        field_0_cols[a2->sub_5A1BD0()]->sub_5C5CF0(a2);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }
