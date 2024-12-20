@@ -16,13 +16,18 @@ void sharp_bose_0x54::ShowFps_5BEC30()
 STUB_FUNC(0x5BEC70)
 sharp_bose_0x54::sharp_bose_0x54()
 {
-    // todo
+    this->field_8 = 0;
+    this->field_14 = 0;
+    this->field_0 = 0;
+    this->field_C = 0;
+    this->field_4 = timeGetTime();
+    this->field_10 = timeGetTime();
 }
 
 STUB_FUNC(0x5BECC0)
 sharp_bose_0x54::~sharp_bose_0x54()
 {
-    // todo
+
 }
 
 MATCH_FUNC(0x5BECF0)
