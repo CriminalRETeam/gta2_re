@@ -192,7 +192,7 @@ STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s32 a3, s32 a4, u16 a5)
 }
 
 MATCH_FUNC(0x5B9050)
-void festive_hopper::Free_5B9050()
+festive_hopper::~festive_hopper()
 {
     if (field_10_bDoFree && field_0_pAlloc)
     {
@@ -314,75 +314,47 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
     }
     field_1544_pTexture = 0;
 }
-
-STUB_FUNC(0x5B9900)
+MATCH_FUNC(0x5B9900)
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {
-    STexture** pIter1; // esi
-    s32 k1024Counter; // ebp
-    STexture** pIter2; // esi
-    s32 k48Counter; // ebp
-    STexture** pIter3; // esi
-    s32 k96Counter; // ebp
-
-    if (this->field_1001_bFreeTextures1)
+    if (field_1001_bFreeTextures1)
     {
-        pIter1 = this->field_0_textures1;
-        k1024Counter = 1024;
-        do
+        for (s32 i = 0; i < GTA2_COUNTOF(field_0_textures1); i++)
         {
-            if (*pIter1)
+            if (field_0_textures1[i])
             {
-                gbh_FreeTexture(*pIter1);
-                *pIter1 = 0;
+                gbh_FreeTexture(field_0_textures1[i]);
+                field_0_textures1[i] = 0;
             }
-            ++pIter1;
-            --k1024Counter;
-        } while (k1024Counter);
-    }
-
-    if (this->field_1000_bFreeTextures2)
-    {
-        pIter2 = this->field_1004_textures2;
-        k48Counter = 48;
-        do
-        {
-            if (*pIter2)
-            {
-                gbh_FreeTexture(*pIter2);
-                *pIter2 = 0;
-            }
-            ++pIter2;
-            --k48Counter;
-        } while (k48Counter);
-    }
-
-    pIter3 = &this->field_10C4[0].field_4_pTexture;
-    k96Counter = 96;
-    do
-    {
-        if (*pIter3)
-        {
-            gbh_FreeTexture(*pIter3);
-            *pIter3 = 0;
         }
-        pIter3 += 3;
-        --k96Counter;
-    } while (k96Counter);
+    }
 
-    if (this->field_1544_pTexture)
+    if (field_1000_bFreeTextures2)
     {
-        gbh_FreeTexture(this->field_1544_pTexture);
-        this->field_1544_pTexture = 0;
+        for (s32 i = 0; i < GTA2_COUNTOF(field_1004_textures2); i++)
+        {
+            if (field_1004_textures2[i])
+            {
+                gbh_FreeTexture(field_1004_textures2[i]);
+                field_1004_textures2[i] = 0;
+            }
+        }
+    }
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_10C4); i++)
+    {
+        if (field_10C4[i].field_4_pTexture)
+        {
+            gbh_FreeTexture(field_10C4[i].field_4_pTexture);
+            field_10C4[i].field_4_pTexture = 0;
+        }
+    }
+
+    if (field_1544_pTexture)
+    {
+        gbh_FreeTexture(field_1544_pTexture);
+        field_1544_pTexture = 0;
     }
 
     FreePals_5B9140();
-
-    field_15C0_unk.Free_5B9050();
-    field_15AC_unk.Free_5B9050();
-    field_1598_unk.Free_5B9050();
-    field_1584_unk.Free_5B9050();
-    field_1570_unk.Free_5B9050();
-    field_155C_unk.Free_5B9050();
-    field_1548_unk.Free_5B9050();
 }

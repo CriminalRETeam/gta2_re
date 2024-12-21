@@ -47,7 +47,7 @@ class festive_hopper
         field_10_bDoFree = 0;
     }
 
-    EXPORT void Free_5B9050();
+    EXPORT ~festive_hopper();
 
     EXPORT void Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5);
 
