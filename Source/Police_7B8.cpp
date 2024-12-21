@@ -231,9 +231,10 @@ Police_A4::Police_A4()
     field_A0_pMem = new u8[0x18u]; // TODO: A class/struct?
 }
 
-STUB_FUNC(0x5774a0)
+MATCH_FUNC(0x5774a0)
 Police_A4::~Police_A4()
 {
+    delete[] field_A0_pMem;
 }
 
 STUB_FUNC(0x4beb50)
