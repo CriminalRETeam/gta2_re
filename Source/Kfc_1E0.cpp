@@ -1,8 +1,9 @@
 #include "Kfc_1E0.hpp"
 
-STUB_FUNC(0x4beb00)
+MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
 {
+    sub_5CBC00();
 }
 
 STUB_FUNC(0x4beb10)
