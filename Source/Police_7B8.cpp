@@ -4,7 +4,6 @@
 EXPORT_VAR s32 dword_6FECE8;
 GLOBAL(dword_6FECE8, 0x6FECE8);
 
-
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
 {
@@ -162,10 +161,51 @@ s32 Police_38::sub_575650()
     return 0;
 }
 
-STUB_FUNC(0x575710)
-s32 Police_A4::sub_575710()
+MATCH_FUNC(0x575710)
+void Police_A4::sub_575710()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_9 = 0;
+    this->field_A = 0;
+    this->field_C = 0;
+    this->field_10 = 0;
+    this->field_14 = 0;
+    this->field_18 = 0;
+    this->field_1C = 0;
+    this->field_20 = 0;
+    this->field_24 = 0;
+    this->field_28 = 0;
+    this->field_2C = 0;
+    this->field_30 = 0;
+    this->field_34 = 0;
+    this->field_38 = 0;
+    this->field_3C = 0;
+    this->field_40 = 0;
+    this->field_44 = 0;
+    this->field_48 = 0;
+    this->field_4C = 0;
+    this->field_50 = 0;
+    this->field_54 = 0;
+    this->field_58 = 0;
+    this->field_5C = 0;
+    this->field_60 = 0;
+    this->field_64 = 0;
+    this->field_68 = 0;
+    this->field_6C = 0;
+    this->field_70 = 0;
+    this->field_74 = 0;
+    this->field_78 = 0;
+    this->field_7C = 0;
+    this->field_80 = 0;
+    this->field_84 = 0;
+    this->field_88 = 0;
+    this->field_8C = 0;
+    this->field_90 = 0;
+    this->field_94 = 0;
+    this->field_98 = 0;
+    this->field_9C = 0;
 }
 
 STUB_FUNC(0x5757b0)
