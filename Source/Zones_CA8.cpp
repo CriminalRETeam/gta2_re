@@ -2,6 +2,8 @@
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
+#include "text_0x14.hpp"
+#include "error.hpp"
 #include <string.h>
 
 EXPORT_VAR Zones_CA8* gZones_CA8_67E274;
@@ -88,10 +90,11 @@ void Zone_144::set_name_4BF090(const char_type* pName, u8 nameLen)
     field_2_name[nameLen] = 0; // NULL terminate the string
 }
 
-STUB_FUNC(0x4BF340)
+MATCH_FUNC(0x4BF340)
 wchar_t* Zone_144::sub_4BF340()
 {
-    return 0;
+    sprintf(gTmpBuffer_67C598, "ganga%d", this->field_138);
+    return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
 }
 
 // =====================
