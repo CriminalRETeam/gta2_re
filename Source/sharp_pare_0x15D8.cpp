@@ -196,9 +196,15 @@ void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
 }
 
 STUB_FUNC(0x5B96B0)
-s32 sharp_pare_0x15D8::sub_5B96B0(u16 a2, s16 a3, s32 a4, u16 a5)
+void sharp_pare_0x15D8::sub_5B96B0(u16 new_width, s16 new_height, s32 a4, u16 pal)
 {
-    return 0;
+    s32 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
+    STexture* pTexture = field_1004_textures2[a4]; // ?? or new_width ?
+    gbh_LockTexture(pTexture);
+    pTexture->field_E_width = new_width;
+    pTexture->field_10_height = new_height;
+    gbh_AssignPalette(pTexture, pal_idx);
+    gbh_UnlockTexture(pTexture);
 }
 
 STUB_FUNC(0x5B9710)
