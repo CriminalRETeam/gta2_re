@@ -1,11 +1,11 @@
 #include "gtx_0x106C.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "chunk.hpp"
+#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "memory.hpp"
-#include "Globals.hpp"
-#include "crt_stubs.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -326,11 +326,21 @@ s32 gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
     return result;
 }
 
-STUB_FUNC(0x5AA950)
+MATCH_FUNC(0x5AA950)
 void gtx_0x106C::create_tile_num_array_5AA950()
 {
-    // TODO
-    UNIQUE_FUNC;
+    field_40_tile = new tile_array();
+
+    for (u16 tile_num = 0; tile_num < 992; tile_num++)
+    {
+        field_40_tile->field_0[tile_num] = tile_num;
+    }
+
+    u32 tile_num_2 = 992;
+    for (u32 i = 32; i > 0; i--)
+    {
+        field_40_tile->field_0[tile_num_2++] = 0;
+    }
 }
 
 /*
