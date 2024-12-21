@@ -25,6 +25,13 @@ class Taxi_324
         field_0_pFirst = &field_4_array[0];
         field_320_count = 0;
     }
+
+    // inlined 0x4C0940
+    ~Taxi_324()
+    {
+        field_0_pFirst = 0;
+    }
+
     Taxi_8* field_0_pFirst;
     Taxi_8 field_4_array[99];
     u32 field_31C;

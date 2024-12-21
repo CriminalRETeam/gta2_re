@@ -50,7 +50,11 @@ Taxi_4::Taxi_4()
     }
 }
 
-STUB_FUNC(0x5ae0d0)
+MATCH_FUNC(0x5ae0d0)
 Taxi_4::~Taxi_4()
 {
+    if (gTaxi_324_6783F8)
+    {
+        GTA2_DELETE_AND_NULL(gTaxi_324_6783F8);
+    }
 }
