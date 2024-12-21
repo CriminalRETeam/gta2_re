@@ -4,7 +4,6 @@
 EXPORT_VAR Nanobotz* gpNanobotz_6F66E4;
 GLOBAL(gpNanobotz_6F66E4, 0x6F66E4);
 
-
 STUB_FUNC(0x4e9d50)
 s32 Nanobotz::sub_4E9D50(s32* a2, u16* a3)
 {
@@ -214,9 +213,10 @@ void Nanobotz::sub_4F6880(s32* pXCoord, s32* pYCoord)
 {
 }
 
-STUB_FUNC(0x4f6a10)
+MATCH_FUNC(0x4f6a10)
 void Nanobotz::ClearDrawnTileCount_4F6A10()
 {
+    field_2F00_drawn_tile_count = 0;
 }
 
 STUB_FUNC(0x4f6a20)
