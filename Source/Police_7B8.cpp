@@ -1,4 +1,9 @@
 #include "Police_7B8.hpp"
+#include "Globals.hpp"
+
+EXPORT_VAR s32 dword_6FECE8;
+GLOBAL(dword_6FECE8, 0x6FECE8);
+
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
@@ -17,10 +22,27 @@ char_type Police_38::sub_570790(Police_38* a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5709c0)
-s32 Police_38::sub_5709C0()
+MATCH_FUNC(0x5709c0)
+void Police_38::sub_5709C0()
 {
-    return 0;
+    this->field_2_targ_x = 0;
+    this->field_3_targ_y = 0;
+    this->field_4_targ_z = 0;
+    this->field_18 = 0;
+    this->field_1C = 0;
+    this->field_1A = 0;
+    this->field_10_subObj = 0;
+    this->field_24_state = 0;
+    this->field_28 = 0;
+    this->field_8 = dword_6FECE8;
+    this->field_C = dword_6FECE8;
+    this->field_14_pObj = 0;
+    this->field_1A = 0;
+    this->field_29 = 0;
+    this->field_2A = 0;
+    this->field_2C = 0;
+    this->field_30 = 0;
+    this->field_34 = 0;
 }
 
 STUB_FUNC(0x570a10)
@@ -165,7 +187,6 @@ char_type Police_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
 STUB_FUNC(0x577480)
 Police_A4::Police_A4()
 {
-
 }
 
 STUB_FUNC(0x5774a0)
