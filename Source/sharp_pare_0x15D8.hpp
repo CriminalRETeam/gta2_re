@@ -13,14 +13,14 @@ class optimistic_moser
     {
         field_0_pPixelData = 0;
         field_4_pTexture = 0;
-        field_8 = 0;
-        field_A = 0;
+        field_8_w = 0;
+        field_A_h = 0;
     }
 
     u8* field_0_pPixelData;
     STexture* field_4_pTexture;
-    s16 field_8;
-    s16 field_A;
+    s16 field_8_w;
+    s16 field_A_h;
 };
 
 class festive_hopper

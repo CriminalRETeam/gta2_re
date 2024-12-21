@@ -168,9 +168,21 @@ STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
 }
 
 STUB_FUNC(0x5B95F0)
-STexture* sharp_pare_0x15D8::sub_5B95F0(u16 a2, u16 a3, s16 a4)
+STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, s16 height)
 {
-    return 0;
+    STexture* pTexture = this->field_10C4[idx].field_4_pTexture;
+    optimistic_moser* pMoser = &this->field_10C4[idx];
+    if (height != this->field_10C4[idx].field_8_w || width != this->field_10C4[idx].field_A_h)
+    {
+        STexture* pTextureInternal = this->field_10C4[idx].field_4_pTexture;
+        this->field_10C4[idx].field_8_w = height;
+        this->field_10C4[idx].field_A_h = width;
+        gbh_LockTexture(pTextureInternal);
+        pTexture->field_14_original_pixel_data_ptr = &pMoser->field_0_pPixelData[256 * width];
+        pTexture->field_10_height = height;
+        gbh_UnlockTexture(pTexture);
+    }
+    return pTexture;
 }
 
 STUB_FUNC(0x5B9660)
