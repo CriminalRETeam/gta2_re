@@ -601,13 +601,13 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
     create_tile_num_array_5AA950();
 }
 
-STUB_FUNC(0x5AAE20)
+MATCH_FUNC(0x5AAE20)
 void gtx_0x106C::skip_ovly_5AAE20(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
 }
 
-STUB_FUNC(0x5AAE30)
+MATCH_FUNC(0x5AAE30)
 void gtx_0x106C::skip_psxt_5AAE30(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
