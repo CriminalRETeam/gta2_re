@@ -65,7 +65,7 @@ char_type Kfc_30::sub_5CC480()
     return 0;
 }
 
-STUB_FUNC(0x4beb20)
+MATCH_FUNC(0x4beb20)
 Kfc_1E0::~Kfc_1E0()
 {
 }
