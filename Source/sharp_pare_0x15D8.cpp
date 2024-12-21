@@ -74,7 +74,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
 }
 
 STUB_FUNC(0x5B9220)
-s16 sub_5B9220(s16 a2, s16 a3)
+s16 sharp_pare_0x15D8::sub_5B9220(s16 a2, s16 a3)
 {
     return 0;
 }
@@ -161,10 +161,10 @@ STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
     return result;
 }
 
-STUB_FUNC(0x5B95D0)
+MATCH_FUNC(0x5B95D0)
 STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
 {
-    return 0;
+    return field_1004_textures2[textureIdx];
 }
 
 STUB_FUNC(0x5B95F0)
@@ -218,7 +218,7 @@ void festive_hopper::Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5)
             this->field_10_bDoFree = 1;
             this->field_8_pal_type = a4;
             this->field_C_pal_type = a5;
-            this->field_0_pAlloc = (STexture**)malloc(sizeof(STexture*) * (u16)(a3 * a2));
+            this->field_0_pAlloc = (STexture**)crt::malloc(sizeof(STexture*) * (u16)(a3 * a2));
 
             u32 i = 0;
             while (i < this->field_4_item_alloc_count)
@@ -314,6 +314,7 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
     }
     field_1544_pTexture = 0;
 }
+
 MATCH_FUNC(0x5B9900)
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {
