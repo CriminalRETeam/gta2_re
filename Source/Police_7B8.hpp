@@ -169,7 +169,7 @@ class Police_A4
     cool_nash_0x294* field_94;
     cool_nash_0x294* field_98;
     cool_nash_0x294* field_9C;
-    s32 field_A0_pMem;
+    u8* field_A0_pMem;
 };
 
 class Police_7B8

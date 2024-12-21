@@ -224,9 +224,11 @@ char_type Police_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x577480)
+MATCH_FUNC(0x577480)
 Police_A4::Police_A4()
 {
+    sub_575710();
+    field_A0_pMem = new u8[0x18u]; // TODO: A class/struct?
 }
 
 STUB_FUNC(0x5774a0)
