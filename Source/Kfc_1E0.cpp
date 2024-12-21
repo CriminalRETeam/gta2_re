@@ -81,7 +81,17 @@ Kfc_30* Kfc_1E0::sub_5CBB80()
     return 0;
 }
 
-STUB_FUNC(0x5cbbd0)
+MATCH_FUNC(0x5cbbd0)
 void Kfc_1E0::sub_5CBBD0()
 {
+    for (s32 i = 0; i < 10; i++)
+    {
+        if (field_0[i].field_1E)
+        {
+            if (field_0[i].sub_5CC480())
+            {
+                field_0[i].field_1E = 0;
+            }
+        }
+    }
 }
