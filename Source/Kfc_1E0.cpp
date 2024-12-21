@@ -70,7 +70,7 @@ Kfc_1E0::~Kfc_1E0()
 {
 }
 
-STUB_FUNC(0x5cbb70)
+MATCH_FUNC(0x5cbb70)
 void Kfc_1E0::init_5CBB70()
 {
 }
