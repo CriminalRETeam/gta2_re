@@ -117,6 +117,18 @@ struct delta_store_entry
 class gtx_0x106C
 {
   public:
+    // inline
+    bool has_tiles_4C2EE0() const
+    {
+        return field_3C_tiles != 0;
+    }
+
+    // inline
+    u8* get_tile_4C2EB0(u16 tile_num)
+    {
+        return &field_3C_tiles[(((tile_num & ~3) * 64) + (tile_num & 3)) * 64];
+    }
+
     EXPORT car_info* get_car_info_5AA3B0(u8 idx);
 
     EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
@@ -243,7 +255,7 @@ class gtx_0x106C
     void* field_30_physical_palettes_size;
     BYTE* field_34_sprite_graphics;
     void* field_38;
-    void* field_3C_tiles;
+    u8* field_3C_tiles;
     tile_array* field_40_tile;
     void* field_44_aligned_tiles_size;
     delta_store_entry* field_48_delta_store;

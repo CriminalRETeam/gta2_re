@@ -586,7 +586,7 @@ void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
 MATCH_FUNC(0x5AADF0)
 void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
 {
-    field_3C_tiles = Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_aligned_tiles_size);
+    field_3C_tiles = (u8*)Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_aligned_tiles_size);
     File::Global_Read_4A71C0(field_3C_tiles, &tile_chunk_len);
     create_tile_num_array_5AA950();
 }
