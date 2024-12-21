@@ -155,49 +155,49 @@ void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* a1)
     */
 }
 
-STUB_FUNC(0x4C5A70)
+MATCH_FUNC(0x4C5A70)
 void lucid_hamilton::sub_4C5A70(s32 a2)
 {
     field_430 = a2;
 }
 
-STUB_FUNC(0x4C5A80)
+MATCH_FUNC(0x4C5A80)
 s32 lucid_hamilton::sub_4C5A80()
 {
     return field_430;
 }
 
-STUB_FUNC(0x4C5A90)
+MATCH_FUNC(0x4C5A90)
 void lucid_hamilton::sub_4C5A90(s32 a2)
 {
     field_434 = a2;
 }
 
-STUB_FUNC(0x4C5AA0)
+MATCH_FUNC(0x4C5AA0)
 s32 lucid_hamilton::sub_4C5AA0()
 {
     return field_434;
 }
 
-STUB_FUNC(0x4C5AB0)
+MATCH_FUNC(0x4C5AB0)
 void lucid_hamilton::sub_4C5AB0(s16 a2)
 {
     field_438 = a2;
 }
 
-STUB_FUNC(0x4C5AC0)
+MATCH_FUNC(0x4C5AC0)
 s16 lucid_hamilton::sub_4C5AC0()
 {
     return field_438;
 }
 
-STUB_FUNC(0x4C5AD0)
+MATCH_FUNC(0x4C5AD0)
 void lucid_hamilton::sub_4C5AD0(char_type a2)
 {
     field_43A = a2;
 }
 
-STUB_FUNC(0x4C5AE0)
+MATCH_FUNC(0x4C5AE0)
 char_type lucid_hamilton::sub_4C5AE0()
 {
     return field_43A;
@@ -241,7 +241,7 @@ void lucid_hamilton::init_4C5AF0()
     */
 }
 
-STUB_FUNC(0x4C5B80)
+MATCH_FUNC(0x4C5B80)
 void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6)
 {
     field_43B = a2;
@@ -251,31 +251,31 @@ void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5
     field_444 = a6;
 }
 
-STUB_FUNC(0x4C5BC0)
+MATCH_FUNC(0x4C5BC0)
 char_type lucid_hamilton::sub_4C5BC0()
 {
     return field_43B;
 }
 
-STUB_FUNC(0x4C5BD0)
+MATCH_FUNC(0x4C5BD0)
 s32 lucid_hamilton::sub_4C5BD0()
 {
     return field_43C;
 }
 
-STUB_FUNC(0x4C5BE0)
+MATCH_FUNC(0x4C5BE0)
 char_type lucid_hamilton::sub_4C5BE0()
 {
     return field_440;
 }
 
-STUB_FUNC(0x4C5BF0)
+MATCH_FUNC(0x4C5BF0)
 char_type lucid_hamilton::sub_4C5BF0()
 {
     return field_441;
 }
 
-STUB_FUNC(0x4C5C00)
+MATCH_FUNC(0x4C5C00)
 void lucid_hamilton::sub_4C5C00(char_type a2)
 {
     if (field_442 == 6)
@@ -284,7 +284,7 @@ void lucid_hamilton::sub_4C5C00(char_type a2)
     }
 }
 
-STUB_FUNC(0x4C5C20)
+MATCH_FUNC(0x4C5C20)
 char_type lucid_hamilton::sub_4C5C20()
 {
     return field_442;
@@ -296,19 +296,19 @@ void lucid_hamilton::sub_4C5C30(s32 a2, wchar_t* Source)
     wcsncpy(field_4B4[static_cast<u16>(a2)].field_0_str, Source, 16u);
 }
 
-STUB_FUNC(0x4C5C60)
+MATCH_FUNC(0x4C5C60)
 blissful_ganguly_0x20* lucid_hamilton::sub_4C5C60(u16 a2)
 {
     return &field_4B4[a2];
 }
 
-STUB_FUNC(0x4C5C80)
+MATCH_FUNC(0x4C5C80)
 void lucid_hamilton::sub_4C5C80(u8 a2, s32 a3)
 {
     field_49C[a2] += a3;
 }
 
-STUB_FUNC(0x4C5CB0)
+MATCH_FUNC(0x4C5CB0)
 s32 lucid_hamilton::sub_4C5CB0(u8 a2)
 {
     return field_49C[a2];
@@ -340,13 +340,13 @@ void lucid_hamilton::sub_4C5CD0(u8 a2, u8 a3)
     }*/
 }
 
-STUB_FUNC(0x4C5D60)
+MATCH_FUNC(0x4C5D60)
 u16 lucid_hamilton::sub_4C5D60(u8 a2)
 {
     return field_490[a2];
 }
 
-STUB_FUNC(0x4C5D80)
+MATCH_FUNC(0x4C5D80)
 s16 lucid_hamilton::sub_4C5D80(u8 a2, u8 a3)
 {
     return field_448[a2].field_0[a3];
