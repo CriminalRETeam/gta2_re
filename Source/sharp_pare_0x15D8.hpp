@@ -5,16 +5,27 @@
 
 struct STexture;
 
-struct optimistic_moser
+class optimistic_moser
 {
-    BYTE* field_0_pPixelData;
+  public:
+    // inlined 0x4C2F70
+    optimistic_moser()
+    {
+        field_0_pPixelData = 0;
+        field_4_pTexture = 0;
+        field_8 = 0;
+        field_A = 0;
+    }
+
+    u8* field_0_pPixelData;
     STexture* field_4_pTexture;
     s16 field_8;
     s16 field_A;
 };
 
-struct festive_hopper
+class festive_hopper
 {
+  public:
     STexture** field_0_pAlloc;
     u16 field_4_item_alloc_count;
     u16 field_6_count;
@@ -24,6 +35,17 @@ struct festive_hopper
     char_type field_11;
     char_type field_12;
     char_type field_13;
+
+    // inlined 0x4C2F10
+    festive_hopper()
+    {
+        field_0_pAlloc = 0;
+        field_4_item_alloc_count = 0;
+        field_6_count = 0;
+        field_8_pal_type = 0;
+        field_C_pal_type = 0;
+        field_10_bDoFree = 0;
+    }
 
     EXPORT void Free_5B9050();
 

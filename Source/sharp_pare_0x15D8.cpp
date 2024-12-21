@@ -123,7 +123,7 @@ void sharp_pare_0x15D8::sub_5B9350()
 
     LoadTextures2_5B9180();
 
-    field_1544_pTexture = (STexture*)gbh_RegisterTexture(128, 128, 0, 0, 0);
+    field_1544_pTexture = gbh_RegisterTexture(128, 128, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5B94F0)
@@ -293,79 +293,25 @@ STexture* festive_hopper::sub_5B90D0(s16 a2, s16 a3)
     return field_0_pAlloc[(u16)(a3 + (a2 * field_6_count))];
 }
 
-STUB_FUNC(0x5B9790)
+MATCH_FUNC(0x5B9790)
 sharp_pare_0x15D8::sharp_pare_0x15D8()
 {
-    s32 v2; // ecx
-    optimistic_moser* v3; // eax
-
-    v2 = 96;
-    v3 = this->field_10C4;
-    do
-    {
-        v3->field_0_pPixelData = 0;
-        v3->field_4_pTexture = 0;
-        v3->field_8 = 0;
-        v3->field_A = 0;
-        ++v3;
-        --v2;
-    } while (v2);
-
-    field_1548_unk.field_0_pAlloc = 0;
-    field_1548_unk.field_4_item_alloc_count = 0;
-    field_1548_unk.field_6_count = 0;
-    field_1548_unk.field_8_pal_type = 0;
-    field_1548_unk.field_C_pal_type = 0;
-    field_1548_unk.field_10_bDoFree = 0;
-
-    field_155C_unk.field_0_pAlloc = 0;
-    field_155C_unk.field_4_item_alloc_count = 0;
-    field_155C_unk.field_6_count = 0;
-    field_155C_unk.field_8_pal_type = 0;
-    field_155C_unk.field_C_pal_type = 0;
-    field_155C_unk.field_10_bDoFree = 0;
-
-    field_1570_unk.field_0_pAlloc = 0;
-    field_1570_unk.field_4_item_alloc_count = 0;
-    field_1570_unk.field_6_count = 0;
-    field_1570_unk.field_8_pal_type = 0;
-    field_1570_unk.field_C_pal_type = 0;
-    field_1570_unk.field_10_bDoFree = 0;
-
-    field_1584_unk.field_0_pAlloc = 0;
-    field_1584_unk.field_4_item_alloc_count = 0;
-    field_1584_unk.field_6_count = 0;
-    field_1584_unk.field_8_pal_type = 0;
-    field_1584_unk.field_C_pal_type = 0;
-    field_1584_unk.field_10_bDoFree = 0;
-
-    field_1598_unk.field_0_pAlloc = 0;
-    field_1598_unk.field_4_item_alloc_count = 0;
-    field_1598_unk.field_6_count = 0;
-    field_1598_unk.field_8_pal_type = 0;
-    field_1598_unk.field_C_pal_type = 0;
-    field_1598_unk.field_10_bDoFree = 0;
-
-    field_15AC_unk.field_0_pAlloc = 0;
-    field_15AC_unk.field_4_item_alloc_count = 0;
-    field_15AC_unk.field_6_count = 0;
-    field_15AC_unk.field_8_pal_type = 0;
-    field_15AC_unk.field_C_pal_type = 0;
-    field_15AC_unk.field_10_bDoFree = 0;
-
-    field_15C0_unk.field_0_pAlloc = 0;
-    field_15C0_unk.field_4_item_alloc_count = 0;
-    field_15C0_unk.field_6_count = 0;
-    field_15C0_unk.field_8_pal_type = 0;
-    field_15C0_unk.field_C_pal_type = 0;
-    field_15C0_unk.field_10_bDoFree = 0;
 
     field_1000_bFreeTextures2 = 0;
     field_1001_bFreeTextures1 = 0;
     field_15D4_idx = 0;
     field_15D6_pal_count = 0;
-    memset(field_0_textures1, 0, 4096u);
-    memset(field_1004_textures2, 0, sizeof(field_1004_textures2));
+    s32 i;
+
+    for (i = 0; i < GTA2_COUNTOF(field_0_textures1); i++)
+    {
+        field_0_textures1[i] = 0;
+    }
+
+    for (i = 0; i < GTA2_COUNTOF(field_1004_textures2); i++)
+    {
+        field_1004_textures2[i] = 0;
+    }
     field_1544_pTexture = 0;
 }
 
