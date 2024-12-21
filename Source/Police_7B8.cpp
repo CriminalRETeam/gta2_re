@@ -1,8 +1,9 @@
 #include "Police_7B8.hpp"
 
-STUB_FUNC(0x4beb30)
+MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
 {
+    sub_5709C0();
 }
 
 STUB_FUNC(0x4beb40)
