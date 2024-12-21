@@ -11,10 +11,19 @@ Kfc_30::~Kfc_30()
 {
 }
 
-STUB_FUNC(0x5cbc00)
-s32 Kfc_30::sub_5CBC00()
+MATCH_FUNC(0x5cbc00)
+void Kfc_30::sub_5CBC00()
 {
-    return 0;
+    this->field_1A = 150;
+    this->field_1E = 0;
+    this->field_20 = 0;
+    this->field_24 = 0;
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_28 = 0;
+    this->field_8 = 0;
+    this->field_2C = 0;
+    this->field_1C = 0;
 }
 
 STUB_FUNC(0x5cbc30)
