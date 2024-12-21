@@ -185,10 +185,14 @@ STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, s16 height)
     return pTexture;
 }
 
-STUB_FUNC(0x5B9660)
-s32 sharp_pare_0x15D8::sub_5B9660(sharp_pare_0x15D8* a1, u16 a2)
+MATCH_FUNC(0x5B9660)
+void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
 {
-    return 0;
+    STexture* pTexture = field_10C4[texture_idx].field_4_pTexture;
+    u16 pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal_idx);
+    gbh_LockTexture(pTexture);
+    gbh_AssignPalette(pTexture, pal);
+    gbh_UnlockTexture(pTexture);
 }
 
 STUB_FUNC(0x5B96B0)

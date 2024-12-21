@@ -89,7 +89,7 @@ struct sharp_pare_0x15D8
     EXPORT STexture* sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5);
     EXPORT STexture* GetTexture2_5B95D0(u16 textureIdx);
     EXPORT STexture* sub_5B95F0(u16 a2, u16 a3, s16 a4);
-    EXPORT s32 sub_5B9660(sharp_pare_0x15D8* a1, u16 a2);
+    EXPORT void sub_5B9660(u16 texture_idx, u16 pal_idx);
     EXPORT s32 sub_5B96B0(u16 a2, s16 a3, s32 a4, u16 a5);
     EXPORT STexture* sub_5B9710(s16 a2, s32 a3, s32 a4, u16 a5);
     EXPORT sharp_pare_0x15D8();
