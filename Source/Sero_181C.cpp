@@ -79,9 +79,15 @@ Sero_34::Sero_34()
     this->field_2C = 0x101;
 }
 
-STUB_FUNC(0x578010)
+MATCH_FUNC(0x578010)
 Sero_34::~Sero_34()
 {
+    this->field_18 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
+    this->field_10_pZone = 0;
+    this->field_20 = 0;
 }
 
 STUB_FUNC(0x578790)
