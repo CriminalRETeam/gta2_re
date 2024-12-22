@@ -9,7 +9,7 @@ if WEBHOOK_URL is None:
     print("the first arg needs to be the discord webhook url")
     sys.exit(1)
 
-def load_csv_file(filename) -> list[list]:
+def load_csv_file(filename):
     ret = []
     with open(filename) as file:
         lines = [line.rstrip() for line in file]
@@ -17,7 +17,7 @@ def load_csv_file(filename) -> list[list]:
             ret.append(line.split(","))
     return ret
 
-def load_coverage_file(filename) -> list[str]:
+def load_coverage_file(filename):
     with open(filename) as file:
         lines = [line.rstrip() for line in file]
         return lines
