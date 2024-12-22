@@ -3,10 +3,15 @@ import sys
 import json
 import urllib.request
 
-WEBHOOK_URL = sys.argv[1]
+DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
+COMMIT_MESSAGE = os.environ.get("COMMIT_MESSAGE")
 
-if WEBHOOK_URL is None:
-    print("the first arg needs to be the discord webhook url")
+if DISCORD_WEBHOOK_URL is None:
+    print("DISCORD_WEBHOOK_URL env variable not set")
+    sys.exit(1)
+
+if COMMIT_MESSAGE is None:
+    print("COMMIT_MESSAGE env variable not set")
     sys.exit(1)
 
 def load_csv_file(filename):
@@ -69,13 +74,13 @@ webhook_message = {
   "embeds": [
     {
       "title": "Status",
-      "description": f"{boot_to_map_str}\n{total_matches_str}\n{unkown_status_str}"
+      "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unkown_status_str}"
     }
   ],
   "attachments": []
 }
 
-req = urllib.request.Request(WEBHOOK_URL, json.dumps(webhook_message).encode())
+req = urllib.request.Request(DISCORD_WEBHOOK_URL, json.dumps(webhook_message).encode())
 req.add_header("Content-Type", "application/json")
 req.add_header("User-Agent", "gta2_rev webhook/1.0")
 response = urllib.request.urlopen(req)
