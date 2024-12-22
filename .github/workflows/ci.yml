@@ -72,7 +72,7 @@ jobs:
     - name: "Post function status on discord (Windows_VC6)"
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-      if: matrix.name == 'Windows_VC6' && ${{ github.event_name == 'push' }}
+      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
       run: |
         cd .\Scripts
         python report_progress_to_discord.py "$env:DISCORD_WEBHOOK_URL"
