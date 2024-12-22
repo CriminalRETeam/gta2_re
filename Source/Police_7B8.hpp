@@ -12,7 +12,7 @@ class Police_38
     EXPORT Police_38();
     EXPORT ~Police_38();
     EXPORT char_type sub_570790(Police_38* a1, s32 a2);
-    EXPORT s32 sub_5709C0();
+    EXPORT void sub_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
     EXPORT Kfc_30* sub_570BF0();
@@ -116,7 +116,7 @@ class Police_7C
 class Police_A4
 {
   public:
-    EXPORT s32 sub_575710();
+    EXPORT void sub_575710();
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
     EXPORT char_type sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
@@ -169,7 +169,7 @@ class Police_A4
     cool_nash_0x294* field_94;
     cool_nash_0x294* field_98;
     cool_nash_0x294* field_9C;
-    s32 field_A0_pMem;
+    u8* field_A0_pMem;
 };
 
 class Police_7B8

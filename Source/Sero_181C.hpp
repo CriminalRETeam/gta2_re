@@ -47,8 +47,8 @@ class Sero_58
 class Sero_34
 {
   public:
-    EXPORT void ctor_577FD0();
-    EXPORT void dtor_578010();
+    EXPORT Sero_34();
+    EXPORT ~Sero_34();
     s32 field_0;
     s32 field_4;
     s32 field_8;

@@ -1,19 +1,29 @@
 #include "Kfc_1E0.hpp"
 
-STUB_FUNC(0x4beb00)
+MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
 {
+    sub_5CBC00();
 }
 
-STUB_FUNC(0x4beb10)
+MATCH_FUNC(0x4beb10)
 Kfc_30::~Kfc_30()
 {
 }
 
-STUB_FUNC(0x5cbc00)
-s32 Kfc_30::sub_5CBC00()
+MATCH_FUNC(0x5cbc00)
+void Kfc_30::sub_5CBC00()
 {
-    return 0;
+    this->field_1A = 150;
+    this->field_1E = 0;
+    this->field_20 = 0;
+    this->field_24 = 0;
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_28 = 0;
+    this->field_8 = 0;
+    this->field_2C = 0;
+    this->field_1C = 0;
 }
 
 STUB_FUNC(0x5cbc30)
@@ -55,12 +65,12 @@ char_type Kfc_30::sub_5CC480()
     return 0;
 }
 
-STUB_FUNC(0x4beb20)
+MATCH_FUNC(0x4beb20)
 Kfc_1E0::~Kfc_1E0()
 {
 }
 
-STUB_FUNC(0x5cbb70)
+MATCH_FUNC(0x5cbb70)
 void Kfc_1E0::init_5CBB70()
 {
 }
@@ -71,7 +81,17 @@ Kfc_30* Kfc_1E0::sub_5CBB80()
     return 0;
 }
 
-STUB_FUNC(0x5cbbd0)
+MATCH_FUNC(0x5cbbd0)
 void Kfc_1E0::sub_5CBBD0()
 {
+    for (s32 i = 0; i < 10; i++)
+    {
+        if (field_0[i].field_1E)
+        {
+            if (field_0[i].sub_5CC480())
+            {
+                field_0[i].field_1E = 0;
+            }
+        }
+    }
 }

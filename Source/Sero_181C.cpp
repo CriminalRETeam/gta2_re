@@ -61,13 +61,33 @@ u8 Sero_58::sub_578670()
 }
 
 STUB_FUNC(0x577fd0)
-void Sero_34::ctor_577FD0()
+Sero_34::Sero_34()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
+    this->field_10_pZone = 0;
+    this->field_14 = 0;
+    this->field_18 = 0;
+    this->field_1C = 0;
+    this->field_20 = 0;
+    this->field_2E = 0;
+    this->field_2F = 0;
+    this->field_24 = 0x1010101;
+    this->field_28 = 0x1010101;
+    this->field_2C = 0x101;
 }
 
-STUB_FUNC(0x578010)
-void Sero_34::dtor_578010()
+MATCH_FUNC(0x578010)
+Sero_34::~Sero_34()
 {
+    this->field_18 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
+    this->field_10_pZone = 0;
+    this->field_20 = 0;
 }
 
 STUB_FUNC(0x578790)

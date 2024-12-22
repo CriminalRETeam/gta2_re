@@ -1,11 +1,11 @@
 #include "gtx_0x106C.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "chunk.hpp"
+#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "memory.hpp"
-#include "Globals.hpp"
-#include "crt_stubs.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <windows.h>
@@ -326,11 +326,21 @@ s32 gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
     return result;
 }
 
-STUB_FUNC(0x5AA950)
+MATCH_FUNC(0x5AA950)
 void gtx_0x106C::create_tile_num_array_5AA950()
 {
-    // TODO
-    UNIQUE_FUNC;
+    field_40_tile = new tile_array();
+
+    for (u16 tile_num = 0; tile_num < 992; tile_num++)
+    {
+        field_40_tile->field_0[tile_num] = tile_num;
+    }
+
+    u32 tile_num_2 = 992;
+    for (u32 i = 32; i > 0; i--)
+    {
+        field_40_tile->field_0[tile_num_2++] = 0;
+    }
 }
 
 /*
@@ -591,13 +601,13 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
     create_tile_num_array_5AA950();
 }
 
-STUB_FUNC(0x5AAE20)
+MATCH_FUNC(0x5AAE20)
 void gtx_0x106C::skip_ovly_5AAE20(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
 }
 
-STUB_FUNC(0x5AAE30)
+MATCH_FUNC(0x5AAE30)
 void gtx_0x106C::skip_psxt_5AAE30(u32 a1)
 {
     File::Global_Seek_4A7140(&a1);
