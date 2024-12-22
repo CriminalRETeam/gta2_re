@@ -69,6 +69,14 @@ jobs:
         name: windows_vc6_main_exe
         path: build_vc6/decomp_main.exe
 
+    - name: "Post function status on discord (Windows_VC6)"
+      env:
+        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      run: |
+        cd .\Scripts
+        python report_progress_to_discord.py "$env:DISCORD_WEBHOOK_URL"
+
     # ======================================
     #      Linux vc6
     # ======================================
