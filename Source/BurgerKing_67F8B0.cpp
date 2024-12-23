@@ -1,6 +1,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Garox_2B00.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "file.hpp"
 #include <io.h>
 
@@ -40,7 +41,7 @@ s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
         a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gGarox_2B00_706620->sub_5D6CB0(a1);
 }
 
-STUB_FUNC(0x4cddf0) 
+STUB_FUNC(0x4cddf0)
 s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
 {
     return !sub_4CDD80(a1) && a1 != 78;
@@ -78,9 +79,22 @@ char_type BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
     return 0;
 }
 
-STUB_FUNC(0x4ce650)
+MATCH_FUNC(0x4ce650)
 void BurgerKing_67F8B0::sub_4CE650()
 {
+    const AttractFile* attr1FilePath = &attractFiles_62083C[0];
+    for (s32 i = 0; i < 3; i++)
+    {
+        struct _finddata_t fileInfo;
+        long hFind = _findfirst(attr1FilePath->field_0_path, &fileInfo);
+        if (hFind == -1)
+        {
+            strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
+            FatalError_4A38C0(0x1BE5, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
+        }
+        _findclose(hFind);
+        ++attr1FilePath;
+    }
 }
 
 // match but the post processor is bugged

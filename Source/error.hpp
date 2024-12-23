@@ -13,3 +13,4 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830();
 EXPORT_VAR extern char_type gTmpBuffer_67C598[256]; 
 EXPORT_VAR extern HWND gHwnd_707F04;
 EXPORT_VAR extern char_type bDestroyed_6F5B70;
+EXPORT_VAR extern char_type gErrStr_67C29C[256];

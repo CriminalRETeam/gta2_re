@@ -78,19 +78,17 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     return result;
 }
 
-STUB_FUNC(0x4D6E00)
+MATCH_FUNC(0x4D6E00)
 void __stdcall Light::sub_4D6E00()
 {
-    s32 i; // eax
-
     g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)crt::malloc(0x4000u);
-    for (i = 0; i < 4096; g4096_alloc_6F5400[i - 1] = 0)
+    for (s32 i = 0; i < 4096; i++)
     {
-        ++i;
+        g4096_alloc_6F5400[i] = 0;
     }
 }
 
-STUB_FUNC(0x4D6E30)
+MATCH_FUNC(0x4D6E30)
 void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)

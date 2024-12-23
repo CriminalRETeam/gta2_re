@@ -1,13 +1,13 @@
 #include "map_0x370.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "Zones_CA8.hpp"
 #include "chunk.hpp"
+#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
-#include "crt_stubs.hpp"
-#include "Globals.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -401,9 +401,15 @@ void Map_0x370::sub_4DFB90()
 {
 }
 
-STUB_FUNC(0x4DFCA0)
+MATCH_FUNC(0x4DFCA0)
 void Map_0x370::alloc_zones_4DFCA0()
 {
+    gmp_map_zone* pZoneIter = first_zone_by_type_4DF1D0(14);
+    while (pZoneIter)
+    {
+        gZones_CA8_67E274->alloc_map_zone_4BF1E0(pZoneIter);
+        pZoneIter = next_zone_4DF770();
+    }
 }
 
 STUB_FUNC(0x4DFCD0)
