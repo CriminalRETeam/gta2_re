@@ -100,10 +100,19 @@ Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
     return result;
 }
 
-STUB_FUNC(0x533300)
-object_info* Phi_8CA8::sub_533300()
+MATCH_FUNC(0x533300)
+void Phi_8CA8::sub_533300()
 {
-    return 0;
+    s16 sprites = 0;
+    u16 i = 0;
+    object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
+    while (pIter)
+    {
+        Phi_74* pPhi = sub_5332D0(pIter->field_0_model, 5, sprites, pIter->field_1_sprites);
+        sprites += pIter->field_1_sprites;
+        pPhi->sub_533090();
+        pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
+    }
 }
 
 STUB_FUNC(0x533360)
@@ -197,7 +206,7 @@ Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
 MATCH_FUNC(0x5343f0)
 Phi_8CA8::Phi_8CA8()
 {
-    for (s32 i=0; i < GTA2_COUNTOF(field_87F4); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_87F4); i++)
     {
         field_87F4[i] = 0;
     }
