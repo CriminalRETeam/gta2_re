@@ -4133,7 +4133,7 @@ kind_beaver_6::~kind_beaver_6()
     field_4 = 1;
 }
 
-STUB_FUNC(0x4B6440)
+MATCH_FUNC(0x4B6440)
 admiring_euler_4::admiring_euler_4()
 {
     field_0 = 0;
