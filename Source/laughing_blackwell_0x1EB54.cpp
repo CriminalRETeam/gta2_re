@@ -3938,7 +3938,7 @@ void laughing_blackwell_0x1EB54::sub_4B4EC0()
     // todo
 }
 
-STUB_FUNC(0x4B6070)
+MATCH_FUNC(0x4B6070)
 loving_borg_0xBCA::loving_borg_0xBCA()
 {
     field_0 = 0;
@@ -3947,7 +3947,7 @@ loving_borg_0xBCA::loving_borg_0xBCA()
     field_BC8 = 0;
 }
 
-STUB_FUNC(0x4B6110)
+MATCH_FUNC(0x4B6110)
 loving_borg_0xBCA::~loving_borg_0xBCA()
 {
     field_0 = 0;
