@@ -4124,7 +4124,7 @@ bool nifty_maxwell_0x82::sub_4B6390()
     return oldCount != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6260)
+MATCH_FUNC(0x4B6260)
 kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
