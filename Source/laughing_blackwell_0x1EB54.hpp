@@ -74,8 +74,8 @@ struct competent_noyce_0x6E
     s16 field_2;
     s16 field_4;
     wchar_t field_6_wstr_buf[50];
-    s16 field_6A;
-    s16 field_6C;
+    u16 field_6A;
+    u16 field_6C;
 };
 
 // todo: move

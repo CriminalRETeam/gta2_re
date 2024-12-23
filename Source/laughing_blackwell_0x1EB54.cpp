@@ -3992,7 +3992,7 @@ bool loving_borg_0xBCA::sub_4B6200()
     return oldIdx != field_BC6_nifty_idx ? true : false;
 }
 
-STUB_FUNC(0x4B63E0)
+MATCH_FUNC(0x4B63E0)
 competent_noyce_0x6E::competent_noyce_0x6E()
 {
     field_0 = 0;
