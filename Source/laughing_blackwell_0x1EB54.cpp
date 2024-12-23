@@ -4132,7 +4132,7 @@ kind_beaver_6::kind_beaver_6()
     field_4 = 1;
 }
 
-STUB_FUNC(0x4B6280)
+MATCH_FUNC(0x4B6280)
 kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
