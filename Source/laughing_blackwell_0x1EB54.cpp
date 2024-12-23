@@ -4004,7 +4004,7 @@ competent_noyce_0x6E::competent_noyce_0x6E()
     field_6C = -1;
 }
 
-STUB_FUNC(0x4B6420)
+MATCH_FUNC(0x4B6420)
 competent_noyce_0x6E::~competent_noyce_0x6E()
 {
     field_1 = 1;
