@@ -4034,7 +4034,7 @@ nifty_maxwell_0x82::nifty_maxwell_0x82()
     field_80 = 0;
 }
 
-STUB_FUNC(0x4B62F0)
+MATCH_FUNC(0x4B62F0)
 nifty_maxwell_0x82::~nifty_maxwell_0x82()
 {
     field_0 = 0;
