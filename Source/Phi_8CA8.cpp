@@ -194,10 +194,13 @@ Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
     return result;
 }
 
-STUB_FUNC(0x5343f0)
+MATCH_FUNC(0x5343f0)
 Phi_8CA8::Phi_8CA8()
 {
-    memset(field_87F4, 0, sizeof(field_87F4));
+    for (s32 i=0; i < GTA2_COUNTOF(field_87F4); i++)
+    {
+        field_87F4[i] = 0;
+    }
     field_0_next_idx = 0;
     field_8CA4 = 99;
 }
