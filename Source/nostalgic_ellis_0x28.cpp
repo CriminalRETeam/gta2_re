@@ -90,7 +90,7 @@ void __stdcall Light::sub_4D6E00()
     }
 }
 
-STUB_FUNC(0x4D6E30)
+MATCH_FUNC(0x4D6E30)
 void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)
