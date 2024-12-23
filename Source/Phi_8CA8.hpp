@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class object_info;
+struct object_info;
 class Car_3C;
 
 class Phi_74
@@ -66,7 +66,7 @@ class Phi_8CA8
   public:
     EXPORT ~Phi_8CA8();
     EXPORT Phi_74* sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
-    EXPORT object_info* sub_533300();
+    EXPORT void sub_533300();
     EXPORT void sub_533360();
     EXPORT Phi_74* sub_533420();
     EXPORT s32 sub_533B30();
