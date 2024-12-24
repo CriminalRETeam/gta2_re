@@ -317,15 +317,12 @@ Garox_1700_L* Garox_1700_L::ctor_5D2280()
 MATCH_FUNC(0x4be650)
 Garox_C::~Garox_C()
 {
-    infallible_turing* v2 = field_8;
     field_0 = -1;
     field_4 = 0;
 
-    if (v2)
+    if (field_8)
     {
-        v2->release_40EF20();
-        v2->field_C_pAny = gRoot_sound_66B038.field_0;
-        gRoot_sound_66B038.field_0 = v2;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_8);
         field_8 = 0;
     }
 }

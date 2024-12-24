@@ -16,10 +16,7 @@ Snooky_30::~Snooky_30()
 {
     if (field_18)
     {
-        infallible_turing* pOld = field_18;
-        pOld->release_40EF20();
-        pOld->field_C_pAny = gRoot_sound_66B038.field_0;
-        gRoot_sound_66B038.field_0 = pOld;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_18);
         field_18 = NULL;
     }
 }

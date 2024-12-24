@@ -69,9 +69,13 @@ Weapon_8::Weapon_8()
     field_0.sub_4207E0();
 }
 
-STUB_FUNC(0x5e3f60)
+MATCH_FUNC(0x5e3f60)
 Weapon_8::~Weapon_8()
 {
+    if (gWeapon_2FDC_707014)
+    {
+        GTA2_DELETE_AND_NULL(gWeapon_2FDC_707014);
+    }
 }
 
 MATCH_FUNC(0x5DCD10)

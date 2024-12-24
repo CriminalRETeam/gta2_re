@@ -185,10 +185,10 @@ s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
     return result;
 }
 
-STUB_FUNC(0x5AA6A0)
-BYTE* gtx_0x106C::GetPalData_5AA6A0(s16 a2)
+MATCH_FUNC(0x5AA6A0)
+BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 a2)
 {
-    return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFC0) << 8));
+    return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
@@ -665,7 +665,7 @@ void gtx_0x106C::sub_5AAFE0(u16 a1)
     UNIQUE_FUNC;
 }
 
-STUB_FUNC(0x5AB0F0)
+MATCH_FUNC(0x5AB0F0)
 void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
@@ -766,7 +766,7 @@ void gtx_0x106C::load_sprite_base_5AB210(u32 sprite_base_chunk_size)
     ConvertToVirtualOffsets_5AB1C0(&field_14_sprite_base2->field_0_car, 6);
 }
 
-STUB_FUNC(0x5AB2C0)
+MATCH_FUNC(0x5AB2C0)
 void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 {
     if (palette_base_chunk_len != sizeof(palette_base))

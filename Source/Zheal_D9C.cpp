@@ -1,13 +1,22 @@
 #include "Zheal_D9C.hpp"
+#include "root_sound.hpp"
 
+// TODO: Should match but doesn't
 STUB_FUNC(0x47e5b0)
 Zheal_15C::~Zheal_15C()
 {
+    if (field_7C)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C);
+        field_7C = 0;
+    }
 }
 
-STUB_FUNC(0x47e610)
+MATCH_FUNC(0x47e610)
 Zheal_15C::Zheal_15C()
 {
+    this->field_28 = 0;
+    this->field_7C = 0;
 }
 
 STUB_FUNC(0x47e620)
@@ -185,20 +194,32 @@ void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
 }
 
-STUB_FUNC(0x480e50)
+MATCH_FUNC(0x480e50)
 void Zheal_D9C::sub_480E50()
 {
+    s32 i = 0;
+    Zheal_15C* pIter = field_0;
+    while (i < field_D98_count)
+    {
+        pIter->sub_480310();
+        i++;
+        pIter++;
+    }
 }
 
-STUB_FUNC(0x480ec0)
+MATCH_FUNC(0x480ec0)
 Zheal_15C* Zheal_D9C::sub_480EC0(s32 a2, s32 a3)
 {
-    return 0;
+    Zheal_15C* v4 = &field_0[field_D98_count];
+    v4->sub_4803B0(a2, a3, field_D98_count);
+    field_D98_count++;
+    return v4;
 }
 
-STUB_FUNC(0x480f50)
+MATCH_FUNC(0x480f50)
 Zheal_D9C::Zheal_D9C()
 {
+    field_D98_count = 0;
 }
 
 MATCH_FUNC(0x4bbbf0)
