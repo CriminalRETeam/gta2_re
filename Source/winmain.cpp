@@ -479,7 +479,7 @@ EXPORT char_type sub_5D9510()
     SetWindowLongA(gHwnd_707F04, -16, 0x10CF0000);
     SetWindowPos(gHwnd_707F04, 0, 0, 0, 0, 0, 0x63Bu);
     UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, 5);
+    ShowWindow(gHwnd_707F04, SW_SHOW);
 
     struct tagRECT windowRect; // [esp+18h] [ebp-10h] BYREF
     GetWindowRect(gHwnd_707F04, &windowRect);
@@ -1041,7 +1041,7 @@ EXPORT void __stdcall UpdateWinXY_5D8E70()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D7CA0)
+MATCH_FUNC(0x5D7CA0)
 EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
     gbh_Init(0);
