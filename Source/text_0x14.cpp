@@ -360,22 +360,11 @@ text_0x14::text_0x14()
     }
 }
 
+// https://decomp.me/scratch/ZNzsG
+// TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
+// seems like the new func we dism is the wrong addr or something
 STUB_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
-    /*
-    // todo: inlined dtor?
-    if (field_8_tDat.field_0_data)
-    {
-        delete field_8_tDat.field_0_data;
-    }
-    field_8_tDat.field_0_data = 0;
 
-    // todo: pointless if then delete set null is prob a macro ?
-    if (field_0_tKey)
-    {
-        delete field_0_tKey;
-    }
-    field_0_tKey = 0;
-    */
 }
