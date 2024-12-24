@@ -56,12 +56,13 @@ def color_functions(repo_func_and_var_names, coverage_funcs_addrs, coverage_func
         if status != "?":
             ea = int(csv_data[3], 16)
             #print(hex(ea) + " status is " + status)
-            if status == "0x0" and ea in coverage_funcs_addrs:
-                # stubbed and covered, let coverage win
-                status = "0x3" # fake status :')
             if status == "0x0" and ea in coverage_funcs_addrs2: # coverage2 wins over 1
                 # stubbed and covered, let coverage win
                 status = "0x4" # fake status :')
+            elif status == "0x0" and ea in coverage_funcs_addrs:
+                # stubbed and covered, let coverage win
+                status = "0x3" # fake status :')
+            
             ida_set_function_colour(ea, status)
         
 
