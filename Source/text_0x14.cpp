@@ -315,19 +315,12 @@ void text_0x14::Load_5B5E90()
 
     File::Global_Open_4A7060(gxtFileName);
 
-    u32 len = sizeof(gtx_header);
-    gtx_header gtxHeader; // [esp+10h] [ebp-24h] BYREF
+    file_header gtxHeader; // [esp+10h] [ebp-24h] BYREF
+    u32 len = sizeof(file_header);
     File::Global_Read_4A71C0(&gtxHeader, &len);
 
-    if (strncmp(expected_code, gtxHeader.field_0_gbl_code, 4u))
-    {
-        FatalError_4A38C0(93, "C:\\Splitting\\Gta2\\Source\\chunk.h", 37);
-    }
-
-    if (gtxHeader.field_4_version != 100)
-    {
-        FatalError_4A38C0(94, "C:\\Splitting\\Gta2\\Source\\chunk.h", 33);
-    }
+    gtxHeader.verify_type(expected_code);
+    gtxHeader.verify_version(100);
 
     for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
     {
