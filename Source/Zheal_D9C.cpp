@@ -1,7 +1,8 @@
 #include "Zheal_D9C.hpp"
 #include "root_sound.hpp"
 
-MATCH_FUNC(0x47e5b0)
+// TODO: Should match but doesn't
+STUB_FUNC(0x47e5b0)
 Zheal_15C::~Zheal_15C()
 {
     if (field_7C)
