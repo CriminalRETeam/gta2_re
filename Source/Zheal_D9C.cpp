@@ -185,9 +185,17 @@ void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
 }
 
-STUB_FUNC(0x480e50)
+MATCH_FUNC(0x480e50)
 void Zheal_D9C::sub_480E50()
 {
+    s32 i = 0;
+    Zheal_15C* pIter = field_0;
+    while (i < field_D98_count)
+    {
+        pIter->sub_480310();
+        i++;
+        pIter++;
+    }
 }
 
 MATCH_FUNC(0x480ec0)
