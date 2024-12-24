@@ -16,18 +16,54 @@ struct gtx_header
     s16 field_4_version;
 };
 
-struct text_tdat
+class text_tdat
 {
+  public:
+    text_tdat() // inline 0x4C2420
+    {
+        field_0_data = 0;
+        field_4_len = 0;
+    }
+
+    ~text_tdat() // inline 0x4C2430
+    {
+        if (field_0_data)
+        {
+            delete[] field_0_data;
+        }
+        field_0_data = 0;
+    }
     BYTE* field_0_data;
     s32 field_4_len;
     EXPORT void TDAT_Load_5B5A80(u32 size);
 };
 
+class text_tkey
+{
+public:
+    text_tkey() // inline 4C23F0
+    {
+        field_0_tKey = 0;
+        field_4_tKey_count = 0;
+    }
+
+    ~text_tkey() // inline 0x4C2400
+    {
+        if (field_0_tKey)
+        {
+            delete[] field_0_tKey;
+        }
+        field_0_tKey = 0;
+    }
+    text_0xC* field_0_tKey;
+    s32 field_4_tKey_count;
+};
+
+
 class text_0x14
 {
   public:
-    text_0xC* field_0_tKey;
-    s32 field_4_tKey_count;
+    text_tkey field_0_tKey;
     text_tdat field_8_tDat;
     char_type field_10_lang_code;
     char_type field_11_pad[3];
