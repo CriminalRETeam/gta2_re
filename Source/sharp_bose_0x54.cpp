@@ -24,7 +24,7 @@ sharp_bose_0x54::sharp_bose_0x54()
     this->field_10 = timeGetTime();
 }
 
-STUB_FUNC(0x5BECC0)
+MATCH_FUNC(0x5BECC0)
 sharp_bose_0x54::~sharp_bose_0x54()
 {
 
