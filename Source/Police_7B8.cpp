@@ -237,6 +237,7 @@ Police_A4::~Police_A4()
     delete[] field_A0_pMem;
 }
 
+// TODO: doesn't match ??
 STUB_FUNC(0x4beb50)
 Police_7B8::~Police_7B8()
 {

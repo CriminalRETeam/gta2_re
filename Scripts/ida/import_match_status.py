@@ -13,6 +13,7 @@ class FuncColor(IntEnum):
     Matched = 0x0
     Stubbed = 0x3e4a4a
     CoverageTrace = 0x14106b
+    CoverageTrace2 = 0x065e03
 
 def load_csv_file(filename):
     ret = []
@@ -42,10 +43,12 @@ def ida_set_function_colour(function_address, status):
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Matched)
     elif status == "0x0": # stubbed
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Stubbed)
-    elif status == "0x3": # coverage
+    elif status == "0x3": # coverage 1
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.CoverageTrace)
+    elif status == "0x4": # coverage 2
+        idc.set_color(function_address, idc.CIC_FUNC, FuncColor.CoverageTrace2)
 
-def color_functions(repo_func_and_var_names, coverage_funcs_addrs) -> None:
+def color_functions(repo_func_and_var_names, coverage_funcs_addrs, coverage_funcs_addrs2) -> None:
     #   csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(ogAddr)},{hex(funcStatus)}\n")
     for csv_data in repo_func_and_var_names:
         name = csv_data[0]
@@ -56,17 +59,28 @@ def color_functions(repo_func_and_var_names, coverage_funcs_addrs) -> None:
             if status == "0x0" and ea in coverage_funcs_addrs:
                 # stubbed and covered, let coverage win
                 status = "0x3" # fake status :')
+            if status == "0x0" and ea in coverage_funcs_addrs2: # coverage2 wins over 1
+                # stubbed and covered, let coverage win
+                status = "0x4" # fake status :')
             ida_set_function_colour(ea, status)
         
 
 def main():
     script_path = os.path.dirname(os.path.realpath(__file__))
     map_data = load_csv_file(script_path + "/../bin_comp/new_function_data.csv")
+
     coverage_funcs = load_file(script_path + "/../bin_comp/coverage_trace_funcs.txt")
     coverage_funcs_addrs = []
     for c in coverage_funcs:
         coverage_funcs_addrs.append(int(c, 16))
-    color_functions(map_data, coverage_funcs_addrs)
+
+    # ugly and nasty but unlikely to have more than 2 coverage files so meh :P
+    coverage_funcs2 = load_file(script_path + "/../bin_comp/coverage_frontend.txt")
+    coverage_funcs_addrs2 = []
+    for c in coverage_funcs2:
+        coverage_funcs_addrs2.append(int(c, 16))
+
+    color_functions(map_data, coverage_funcs_addrs, coverage_funcs_addrs2)
     #recolor_all_functions(0x42f5e3, 0x14106b) # bright yellow to a more readable red
     print("done!")
 
