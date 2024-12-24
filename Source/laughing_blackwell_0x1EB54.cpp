@@ -2586,7 +2586,7 @@ EXPORT void __stdcall sub_5D7D30()
     gbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
-STUB_FUNC(0x5D7DC0)
+MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     Vid_FreeSurface(gVidSys_7071D0);
