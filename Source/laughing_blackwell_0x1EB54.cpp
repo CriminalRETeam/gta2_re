@@ -2959,7 +2959,7 @@ laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
     FreeImageTable_4B6750();
 }
 
-STUB_FUNC(0x4AFD70)
+MATCH_FUNC(0x4AFD70)
 void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
 {
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice; // eax
