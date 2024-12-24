@@ -1,6 +1,6 @@
 #include "xenodochial_morse.hpp"
 
-STUB_FUNC(0x483E70)
+MATCH_FUNC(0x483E70)
 xenodochial_morse::xenodochial_morse() // 483E70
 {
     field_0 = 0;
