@@ -145,7 +145,7 @@ class gtx_0x106C
 
     EXPORT s16 convert_pal_type_5AA5F0(s32 type, s16 pal);
 
-    EXPORT BYTE* GetPalData_5AA6A0(s16 a2);
+    EXPORT BYTE* GetPalData_5AA6A0(u16 a2);
 
     EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
 

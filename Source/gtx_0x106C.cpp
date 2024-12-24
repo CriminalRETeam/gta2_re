@@ -185,10 +185,10 @@ s16 gtx_0x106C::convert_pal_type_5AA5F0(s32 type, s16 pal)
     return result;
 }
 
-STUB_FUNC(0x5AA6A0)
-BYTE* gtx_0x106C::GetPalData_5AA6A0(s16 a2)
+MATCH_FUNC(0x5AA6A0)
+BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 a2)
 {
-    return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFC0) << 8));
+    return (BYTE*)this->field_2C_physical_palettes + 4 * ((a2 & 63) + ((a2 & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
