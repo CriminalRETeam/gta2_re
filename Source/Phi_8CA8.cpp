@@ -9,9 +9,19 @@ Phi_74::~Phi_74()
 }
 
 STUB_FUNC(0x533060)
-s32 Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
+void Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
 {
-    return 0;
+    this->field_8 = a4;
+    this->field_0 = a2;
+    this->field_4 = a3;
+    if (a2 < a3)
+    {
+        this->field_C = a2;
+    }
+    else
+    {
+        this->field_C = a3;
+    }
 }
 
 STUB_FUNC(0x533090)
