@@ -26,7 +26,6 @@ void Marz_96::sub_543EC0()
 MATCH_FUNC(0x544bf0)
 Marz_96::Marz_96()
 {
-
 }
 
 MATCH_FUNC(0x4bdf70)
@@ -34,9 +33,15 @@ Marz_1D7E::~Marz_1D7E()
 {
 }
 
+// https://decomp.me/scratch/1IxE0
 STUB_FUNC(0x543ed0)
 Marz_1D7E::Marz_1D7E()
 {
+    this->field_1D7C = 0;
+    for (s32 i = 0; i < GTA2_COUNTOF(field_1D4C); i++)
+    {
+        field_1D4C[i] = 0;
+    }
 }
 
 STUB_FUNC(0x543f10)
