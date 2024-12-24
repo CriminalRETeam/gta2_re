@@ -2147,7 +2147,7 @@ LABEL_60:
     }
 }
 
-STUB_FUNC(0x4AE990)
+MATCH_FUNC(0x4AE990)
 void laughing_blackwell_0x1EB54::sub_4AE990()
 {
     field_108 = 3;
