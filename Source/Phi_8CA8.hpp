@@ -12,7 +12,7 @@ class Phi_74
     EXPORT s32 sub_533060(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_533090();
     EXPORT void sub_533110(s16 a2);
-    EXPORT s16 sub_533150(s16 a2, char_type a3);
+    EXPORT void sub_533150(s16 a2, char_type a3);
     EXPORT Car_3C* sub_533170();
     EXPORT s32 sub_5331A0(Car_3C* a2);
     EXPORT Phi_74();
