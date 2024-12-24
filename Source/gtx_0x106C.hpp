@@ -27,7 +27,7 @@ struct sprite_base
 
 struct font_base
 {
-    s16 field_0_font_count;
+    u16 field_0_font_count;
     u16 field_2_base[1]; // variable � see font_count
 };
 

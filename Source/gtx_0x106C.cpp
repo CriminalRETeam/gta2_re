@@ -665,8 +665,7 @@ void gtx_0x106C::sub_5AAFE0(u16 a1)
     UNIQUE_FUNC;
 }
 
-// https://decomp.me/scratch/MytSE
-STUB_FUNC(0x5AB0F0)
+MATCH_FUNC(0x5AB0F0)
 void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
 {
     if (fonb_chunk_size < 2)
