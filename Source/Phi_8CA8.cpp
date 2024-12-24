@@ -19,9 +19,23 @@ s32 Phi_74::sub_533090()
     return 0;
 }
 
+// https://decomp.me/scratch/WSyVQ
 STUB_FUNC(0x533110)
 void Phi_74::sub_533110(s16 a2)
 {
+    if (this->field_28 != 4)
+    {
+        this->field_30 = 5;
+        this->field_1C = a2;
+    }
+    else
+    {
+        if (this->field_28 == 5)
+        {
+            this->field_30 = 6;
+        }
+        this->field_1C = a2;
+    }
 }
 
 STUB_FUNC(0x533150)
