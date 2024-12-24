@@ -33,7 +33,8 @@ Marz_1D7E::~Marz_1D7E()
 {
 }
 
-MATCH_FUNC(0x543ed0)
+// https://decomp.me/scratch/1IxE0
+STUB_FUNC(0x543ed0)
 Marz_1D7E::Marz_1D7E()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_1D4C); i++)

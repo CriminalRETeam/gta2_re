@@ -34,5 +34,5 @@ class Marz_1D7E
     EXPORT Marz_1D7E();
     EXPORT Marz_96* sub_543F10(u8* a2);
     Marz_96 field_0[50];
-    u16 field_1D4C[25];
+    u8 field_1D4C[50];
 };
