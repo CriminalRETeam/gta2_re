@@ -45,9 +45,10 @@ void Tango_28::sub_4A81F0()
 {
 }
 
-STUB_FUNC(0x4a85c0)
-Tango_28::Tango_28()
+MATCH_FUNC(0x4a85c0)
+void Tango_28::init_4A85C0()
 {
+    sub_450C10();
 
 }
 

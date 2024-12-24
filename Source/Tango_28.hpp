@@ -8,10 +8,21 @@ class cool_nash_0x294;
 class Tango_28
 {
   public:
+  // inline
+    void sub_450C10()
+    {
+    this->field_C = 0;
+    this->field_8 = 0;
+    this->field_4 = 0;
+    this->field_1C = 0;
+    this->field_20 = 0;
+    this->field_24 = 0;
+    }
+
     EXPORT char_type sub_4A7FC0();
     EXPORT void sub_4A81A0();
     EXPORT void sub_4A81F0();
-    EXPORT Tango_28();
+    EXPORT void init_4A85C0();
     EXPORT s32 sub_4A85E0();
 
     s16 field_0;
@@ -33,10 +44,10 @@ class Tango_54
   public:
     Tango_54()
     {
-        // for (s32 i=0; i<2; i++)
-        {
-            //   new (&field_0[i]) Tango_28();
-        }
+      for (s32 i=0; i<2; i++)
+      {
+        field_0[i].init_4A85C0();
+      }
         sub_4A88D0();
     }
 
