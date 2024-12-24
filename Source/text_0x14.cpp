@@ -301,21 +301,20 @@ void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
 }
 
-// stack order wrong
-STUB_FUNC(0x5B5E90)
+MATCH_FUNC(0x5B5E90)
 void text_0x14::Load_5B5E90()
 {
-    char_type expected_code[8]; // [esp+8h] [ebp-2Ch] BYREF
+    char_type expected_code[5];
 
-    chunk_header chunkHeader; // [esp+18h] [ebp-1Ch] BYREF
-    char_type gxtFileName[20]; // [esp+20h] [ebp-14h] BYREF
+    chunk_header chunkHeader;
+    char_type gxtFileName[20];
     sprintf(gxtFileName, "data\\%c.gxt", this->field_10_lang_code);
 
     sprintf(expected_code, "GBL%c", this->field_10_lang_code - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 
-    file_header gtxHeader; // [esp+10h] [ebp-24h] BYREF
+    file_header gtxHeader;
     u32 len = sizeof(file_header);
     File::Global_Read_4A71C0(&gtxHeader, &len);
 
