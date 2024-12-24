@@ -21,9 +21,9 @@ class Marz_3
 class Marz_96
 {
   public:
-    EXPORT void dtor_4BDF90();
+    EXPORT ~Marz_96();
     EXPORT void sub_543EC0();
-    EXPORT Marz_96* ctor_544BF0();
+    EXPORT Marz_96();
     Marz_3 field_0[50];
 };
 

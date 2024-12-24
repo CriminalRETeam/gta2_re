@@ -14,7 +14,7 @@ Marz_3::~Marz_3()
 }
 
 STUB_FUNC(0x4bdf90)
-void Marz_96::dtor_4BDF90()
+Marz_96::~Marz_96()
 {
 }
 
@@ -23,10 +23,10 @@ void Marz_96::sub_543EC0()
 {
 }
 
-STUB_FUNC(0x544bf0)
-Marz_96* Marz_96::ctor_544BF0()
+MATCH_FUNC(0x544bf0)
+Marz_96::Marz_96()
 {
-    return 0;
+
 }
 
 MATCH_FUNC(0x4bdf70)
