@@ -2611,7 +2611,7 @@ void laughing_blackwell_0x1EB54::sub_4ADFB0()
 
 // https://decomp.me/scratch/IOmk7
 // TODO: stop the tail merge... somehow
-MATCH_FUNC(0x4B6E10)
+STUB_FUNC(0x4B6E10)
 void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
 {
     // todo
