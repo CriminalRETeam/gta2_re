@@ -310,7 +310,6 @@ GLOBAL(gMouseDevice_706C60, 0x706C60);
 EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
 GLOBAL(gMouseDataFormat_601A84, 0x601A84);
 
-
 EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 // todo move to another file for ordering
@@ -353,10 +352,13 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 }
 
 // todo: move
-STUB_FUNC(0x5D7C60)
+MATCH_FUNC(0x5D7C60)
 EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 {
-    // todo
+    if (gMouseDevice_706C60)
+    {
+        gMouseDevice_706C60->Acquire();
+    }
 }
 
 // todo: move
