@@ -449,7 +449,7 @@ EXPORT void __stdcall sub_5D93A0()
 }
 
 // todo: move
-STUB_FUNC(0x5D92C0)
+MATCH_FUNC(0x5D92C0)
 EXPORT char_type sub_5D92C0()
 {
     return byte_706C5C;
