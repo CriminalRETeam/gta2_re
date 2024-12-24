@@ -1,8 +1,20 @@
 #include "Tango_28.hpp"
+#include "debug.hpp"
 
+// https://decomp.me/scratch/68yPe
 STUB_FUNC(0x4a85f0)
 void Tango_54::sub_4A85F0()
 {
+    if (!bSkip_fire_engines_67D53A)
+    {
+        for (u16 i = 0; i < 2; i++)
+        {
+            if (field_0[i].field_4)
+            {
+                field_0[i].sub_4A81F0();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4a8620)
@@ -49,7 +61,6 @@ MATCH_FUNC(0x4a85c0)
 void Tango_28::init_4A85C0()
 {
     sub_450C10();
-
 }
 
 STUB_FUNC(0x4a85e0)
