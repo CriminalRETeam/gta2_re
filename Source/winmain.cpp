@@ -358,11 +358,13 @@ EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 }
 
 // todo: move
-STUB_FUNC(0x5D94F0)
+MATCH_FUNC(0x5D94F0)
 EXPORT void __stdcall HideCursor_5D94F0()
 {
-    while (ShowCursor(0) >= 0)
-        ;
+ do
+    {
+
+    } while(ShowCursor(0) >= 0);
 }
 
 // todo: move
