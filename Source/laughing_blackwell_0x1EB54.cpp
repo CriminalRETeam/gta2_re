@@ -4017,8 +4017,7 @@ competent_noyce_0x6E::~competent_noyce_0x6E()
     field_6C = -1;
 }
 
-// https://decomp.me/scratch/24vRs
-STUB_FUNC(0x4B6290)
+MATCH_FUNC(0x4B6290)
 nifty_maxwell_0x82::nifty_maxwell_0x82()
 {
     field_6A = -1;
@@ -4034,10 +4033,7 @@ nifty_maxwell_0x82::nifty_maxwell_0x82()
     {
         field_72[i] = 0;
     }
-    //memset(&field_72, 0, sizeof(field_72));
 
-    field_76 = 0;
-    field_7A = 0;
     wcscpy(field_6_wstr_buf, word_67DC8C);
     field_7E = 0;
     field_80 = 0;
