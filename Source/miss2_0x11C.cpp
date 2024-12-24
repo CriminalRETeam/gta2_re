@@ -1,5 +1,6 @@
 #include "miss2_0x11c.hpp"
 #include "Globals.hpp"
+#include "miss2_8.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1327,9 +1328,29 @@ s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
     return 0;
 }
 
+// https://decomp.me/scratch/NROia
+// TODO: Instruction swap and diff SEH compiler flags
 STUB_FUNC(0x511a00)
-void miss2_0x11C::ctor_511A00()
+miss2_0x11C::miss2_0x11C()
 {
+    this->field_0 = 0;
+    this->field_114 =  new miss2_8();
+    this->field_4_level_start = 0;
+    this->field_6 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
+    this->field_E = 0;
+    this->field_10 = 0;
+    this->field_12 = 0;
+    this->field_11A = 0;
+    
+    //memset(this->field_14_str, 0, sizeof(this->field_14_str));
+    for (s32 i=0; i < GTA2_COUNTOF(field_14_str); i++)
+    {
+        field_14_str[i] = 0;
+    }
+
+    this->field_118 = 0;
 }
 
 STUB_FUNC(0x511cd0)
@@ -1338,6 +1359,6 @@ void miss2_0x11C::sub_511CD0()
 }
 
 STUB_FUNC(0x512fd0)
-void miss2_0x11C::dtor_512FD0()
+miss2_0x11C::~miss2_0x11C()
 {
 }
