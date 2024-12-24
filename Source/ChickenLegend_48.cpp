@@ -1,6 +1,6 @@
 #include "ChickenLegend_48.hpp"
 
-STUB_FUNC(0x4bbc60)
+MATCH_FUNC(0x4bbc60)
 ChickenLegend_48::~ChickenLegend_48()
 {
 }
