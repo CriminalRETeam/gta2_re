@@ -18,7 +18,8 @@ void Frismo_C::sub_503110()
     field_8_next = 0;
 }
 
-STUB_FUNC(0x4bc300)
+MATCH_FUNC(0x4bc300)
 Frismo_25C::~Frismo_25C()
 {
+    field_0 = 0;
 }
