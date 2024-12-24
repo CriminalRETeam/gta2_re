@@ -1328,9 +1328,7 @@ s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
     return 0;
 }
 
-// https://decomp.me/scratch/NROia
-// TODO: Instruction swap and diff SEH compiler flags
-STUB_FUNC(0x511a00)
+MATCH_FUNC(0x511a00)
 miss2_0x11C::miss2_0x11C()
 {
     this->field_0 = 0;
@@ -1344,11 +1342,7 @@ miss2_0x11C::miss2_0x11C()
     this->field_12 = 0;
     this->field_11A = 0;
     
-    //memset(this->field_14_str, 0, sizeof(this->field_14_str));
-    for (s32 i=0; i < GTA2_COUNTOF(field_14_str); i++)
-    {
-        field_14_str[i] = 0;
-    }
+    memset(this->field_14_str, 0, sizeof(this->field_14_str));
 
     this->field_118 = 0;
 }
