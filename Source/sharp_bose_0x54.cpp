@@ -13,7 +13,7 @@ void sharp_bose_0x54::ShowFps_5BEC30()
     gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 0, word_706600, 1);
 }
 
-STUB_FUNC(0x5BEC70)
+MATCH_FUNC(0x5BEC70)
 sharp_bose_0x54::sharp_bose_0x54()
 {
     this->field_8 = 0;
@@ -24,7 +24,7 @@ sharp_bose_0x54::sharp_bose_0x54()
     this->field_10 = timeGetTime();
 }
 
-STUB_FUNC(0x5BECC0)
+MATCH_FUNC(0x5BECC0)
 sharp_bose_0x54::~sharp_bose_0x54()
 {
 

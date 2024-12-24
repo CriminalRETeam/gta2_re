@@ -10,12 +10,6 @@ struct text_0xC
     s32 field_8;
 };
 
-struct gtx_header
-{
-    char_type field_0_gbl_code[4];
-    s16 field_4_version;
-};
-
 class text_tdat
 {
   public:

@@ -301,33 +301,25 @@ void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
 }
 
-// stack order wrong
-STUB_FUNC(0x5B5E90)
+MATCH_FUNC(0x5B5E90)
 void text_0x14::Load_5B5E90()
 {
-    char_type expected_code[8]; // [esp+8h] [ebp-2Ch] BYREF
+    char_type expected_code[5];
 
-    chunk_header chunkHeader; // [esp+18h] [ebp-1Ch] BYREF
-    char_type gxtFileName[20]; // [esp+20h] [ebp-14h] BYREF
+    chunk_header chunkHeader;
+    char_type gxtFileName[20];
     sprintf(gxtFileName, "data\\%c.gxt", this->field_10_lang_code);
 
     sprintf(expected_code, "GBL%c", this->field_10_lang_code - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 
-    u32 len = sizeof(gtx_header);
-    gtx_header gtxHeader; // [esp+10h] [ebp-24h] BYREF
+    file_header gtxHeader;
+    u32 len = sizeof(file_header);
     File::Global_Read_4A71C0(&gtxHeader, &len);
 
-    if (strncmp(expected_code, gtxHeader.field_0_gbl_code, 4u))
-    {
-        FatalError_4A38C0(93, "C:\\Splitting\\Gta2\\Source\\chunk.h", 37);
-    }
-
-    if (gtxHeader.field_4_version != 100)
-    {
-        FatalError_4A38C0(94, "C:\\Splitting\\Gta2\\Source\\chunk.h", 33);
-    }
+    gtxHeader.verify_type(expected_code);
+    gtxHeader.verify_version(100);
 
     for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
     {
@@ -368,22 +360,11 @@ text_0x14::text_0x14()
     }
 }
 
+// https://decomp.me/scratch/ZNzsG
+// TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
+// seems like the new func we dism is the wrong addr or something
 STUB_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
-    /*
-    // todo: inlined dtor?
-    if (field_8_tDat.field_0_data)
-    {
-        delete field_8_tDat.field_0_data;
-    }
-    field_8_tDat.field_0_data = 0;
 
-    // todo: pointless if then delete set null is prob a macro ?
-    if (field_0_tKey)
-    {
-        delete field_0_tKey;
-    }
-    field_0_tKey = 0;
-    */
 }

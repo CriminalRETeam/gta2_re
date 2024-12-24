@@ -13,12 +13,6 @@
 EXPORT_VAR gtx_0x106C* gGtx_0x106C_703DD4;
 GLOBAL(gGtx_0x106C_703DD4, 0x703DD4);
 
-struct sty_header
-{
-    char_type field_0_type[4];
-    short field_4_version;
-};
-
 STUB_FUNC(0x5abaa0)
 u8 sprite_index::sub_5ABAA0(char_type a2)
 {
@@ -965,19 +959,12 @@ void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
 {
     File::Global_Open_4A7060(pStyFileName);
 
-    sty_header styHeader;
-    u32 len = sizeof(sty_header);
+    file_header styHeader;
+    u32 len = sizeof(file_header);
     File::Global_Read_4A71C0(styHeader.field_0_type, &len);
 
-    if (strncmp("GBST", styHeader.field_0_type, sizeof(styHeader.field_0_type)))
-    {
-        FatalError_4A38C0(93, "C:\\Splitting\\Gta2\\Source\\chunk.h", 37);
-    }
-
-    if (styHeader.field_4_version != 700)
-    {
-        FatalError_4A38C0(94, "C:\\Splitting\\Gta2\\Source\\chunk.h", 33);
-    }
+    styHeader.verify_type("GBST");
+    styHeader.verify_version(700);
 
     chunk_header chunkHeader;
     for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))

@@ -212,6 +212,7 @@ set(gta2_lib_src
 set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
 
 set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
 
 
 

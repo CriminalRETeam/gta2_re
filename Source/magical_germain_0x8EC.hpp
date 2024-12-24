@@ -6,12 +6,6 @@
 struct STexture;
 struct sprite_index;
 
-struct kanji_header
-{
-    char_type field_0_id[4];
-    s16 field_4_version;
-};
-
 struct kanji_0x10
 {
     char_type field_0_v1;

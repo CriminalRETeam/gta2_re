@@ -35,11 +35,13 @@ TileAnim_2::TileAnim_2()
 {
 }
 
-STUB_FUNC(0x5bc470)
+MATCH_FUNC(0x5bc470)
 TileAnim_2::~TileAnim_2()
 {
-    // TODO: Jump target is diff ??
-    GTA2_DELETE_AND_NULL(gTileAnim_4BC_7052C8);
+    if (gTileAnim_4BC_7052C8)
+    {
+        GTA2_DELETE_AND_NULL(gTileAnim_4BC_7052C8);
+    }
 }
 
 MATCH_FUNC(0x5bc130)
