@@ -362,10 +362,15 @@ EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 }
 
 // todo: move
-STUB_FUNC(0x5D7C70)
+MATCH_FUNC(0x5D7C70)
 EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 {
-    // todo
+    if (gMouseDevice_706C60)
+    {
+        gMouseDevice_706C60->Unacquire();
+        gMouseDevice_706C60->Release();
+        gMouseDevice_706C60 = 0;
+    }
 }
 
 // todo: move
