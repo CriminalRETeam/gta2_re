@@ -10,7 +10,7 @@ Police_38::Police_38()
     sub_5709C0();
 }
 
-STUB_FUNC(0x4beb40)
+MATCH_FUNC(0x4beb40)
 Police_38::~Police_38()
 {
 }

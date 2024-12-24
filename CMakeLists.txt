@@ -211,6 +211,10 @@ set(gta2_lib_src
 # else static methods don't match (and I doubt they manually annotated them with __stdcall)
 set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
 
+set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+
+
+
 # global include dirs
 include_directories(Source)
 include_directories(${decomp_SOURCE_DIR})

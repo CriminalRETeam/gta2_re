@@ -1,12 +1,12 @@
 #include "Zheal_D9C.hpp"
 
 STUB_FUNC(0x47e5b0)
-void Zheal_15C::dtor_47E5B0()
+Zheal_15C::~Zheal_15C()
 {
 }
 
 STUB_FUNC(0x47e610)
-void Zheal_15C::ctor_47E610()
+Zheal_15C::Zheal_15C()
 {
 }
 
@@ -201,7 +201,7 @@ Zheal_D9C::Zheal_D9C()
 {
 }
 
-STUB_FUNC(0x4bbbf0)
+MATCH_FUNC(0x4bbbf0)
 Zheal_D9C::~Zheal_D9C()
 {
 }

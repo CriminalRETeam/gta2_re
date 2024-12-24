@@ -2147,7 +2147,7 @@ LABEL_60:
     }
 }
 
-STUB_FUNC(0x4AE990)
+MATCH_FUNC(0x4AE990)
 void laughing_blackwell_0x1EB54::sub_4AE990()
 {
     field_108 = 3;
@@ -2586,20 +2586,20 @@ EXPORT void __stdcall sub_5D7D30()
     gbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
-STUB_FUNC(0x5D7DC0)
+MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     Vid_FreeSurface(gVidSys_7071D0);
 }
 
-STUB_FUNC(0x4ADFB0)
+MATCH_FUNC(0x4ADFB0)
 void laughing_blackwell_0x1EB54::sub_4ADFB0()
 {
     sub_5D7D30();
 
     gbh_BeginScene();
     DrawBackground_4B6E10();
-    sub_4ADF50(); // a2 ??
+    sub_4ADF50();
     gbh_EndScene();
 
     FreeSurface_5D7DC0();
@@ -2609,6 +2609,8 @@ void laughing_blackwell_0x1EB54::sub_4ADFB0()
     Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
+// https://decomp.me/scratch/IOmk7
+// TODO: stop the tail merge... somehow
 STUB_FUNC(0x4B6E10)
 void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
 {
@@ -2959,7 +2961,7 @@ laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
     FreeImageTable_4B6750();
 }
 
-STUB_FUNC(0x4AFD70)
+MATCH_FUNC(0x4AFD70)
 void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
 {
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice; // eax
@@ -3938,7 +3940,7 @@ void laughing_blackwell_0x1EB54::sub_4B4EC0()
     // todo
 }
 
-STUB_FUNC(0x4B6070)
+MATCH_FUNC(0x4B6070)
 loving_borg_0xBCA::loving_borg_0xBCA()
 {
     field_0 = 0;
@@ -3947,7 +3949,7 @@ loving_borg_0xBCA::loving_borg_0xBCA()
     field_BC8 = 0;
 }
 
-STUB_FUNC(0x4B6110)
+MATCH_FUNC(0x4B6110)
 loving_borg_0xBCA::~loving_borg_0xBCA()
 {
     field_0 = 0;
@@ -3992,7 +3994,7 @@ bool loving_borg_0xBCA::sub_4B6200()
     return oldIdx != field_BC6_nifty_idx ? true : false;
 }
 
-STUB_FUNC(0x4B63E0)
+MATCH_FUNC(0x4B63E0)
 competent_noyce_0x6E::competent_noyce_0x6E()
 {
     field_0 = 0;
@@ -4004,7 +4006,7 @@ competent_noyce_0x6E::competent_noyce_0x6E()
     field_6C = -1;
 }
 
-STUB_FUNC(0x4B6420)
+MATCH_FUNC(0x4B6420)
 competent_noyce_0x6E::~competent_noyce_0x6E()
 {
     field_1 = 1;
@@ -4015,6 +4017,7 @@ competent_noyce_0x6E::~competent_noyce_0x6E()
     field_6C = -1;
 }
 
+// https://decomp.me/scratch/24vRs
 STUB_FUNC(0x4B6290)
 nifty_maxwell_0x82::nifty_maxwell_0x82()
 {
@@ -4026,7 +4029,13 @@ nifty_maxwell_0x82::nifty_maxwell_0x82()
     field_4 = 0;
     field_6E_count = 0;
     field_70 = 0;
-    memset(&field_72, 0, sizeof(field_72));
+    
+    for (s32 i=0; i< GTA2_COUNTOF(field_72); i++) // or is it a u32 ??
+    {
+        field_72[i] = 0;
+    }
+    //memset(&field_72, 0, sizeof(field_72));
+
     field_76 = 0;
     field_7A = 0;
     wcscpy(field_6_wstr_buf, word_67DC8C);
@@ -4034,7 +4043,7 @@ nifty_maxwell_0x82::nifty_maxwell_0x82()
     field_80 = 0;
 }
 
-STUB_FUNC(0x4B62F0)
+MATCH_FUNC(0x4B62F0)
 nifty_maxwell_0x82::~nifty_maxwell_0x82()
 {
     field_0 = 0;
@@ -4117,7 +4126,7 @@ bool nifty_maxwell_0x82::sub_4B6390()
     return oldCount != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6260)
+MATCH_FUNC(0x4B6260)
 kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
@@ -4125,7 +4134,7 @@ kind_beaver_6::kind_beaver_6()
     field_4 = 1;
 }
 
-STUB_FUNC(0x4B6280)
+MATCH_FUNC(0x4B6280)
 kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
@@ -4133,7 +4142,7 @@ kind_beaver_6::~kind_beaver_6()
     field_4 = 1;
 }
 
-STUB_FUNC(0x4B6440)
+MATCH_FUNC(0x4B6440)
 admiring_euler_4::admiring_euler_4()
 {
     field_0 = 0;

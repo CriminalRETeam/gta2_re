@@ -1,4 +1,5 @@
 #include "Phi_8CA8.hpp"
+#include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
 #include <memory.h>
 
@@ -8,9 +9,19 @@ Phi_74::~Phi_74()
 }
 
 STUB_FUNC(0x533060)
-s32 Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
+void Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
 {
-    return 0;
+    this->field_8 = a4;
+    this->field_0 = a2;
+    this->field_4 = a3;
+    if (a2 < a3)
+    {
+        this->field_C = a2;
+    }
+    else
+    {
+        this->field_C = a3;
+    }
 }
 
 STUB_FUNC(0x533090)
@@ -19,21 +30,39 @@ s32 Phi_74::sub_533090()
     return 0;
 }
 
-STUB_FUNC(0x533110)
+MATCH_FUNC(0x533110)
 void Phi_74::sub_533110(s16 a2)
 {
+    switch (field_28)
+    {
+        case 4:
+            this->field_30 = 5;
+            break;
+        case 5:
+            this->field_30 = 6;
+            break;
+    }
+    this->field_1C = a2;
 }
 
-STUB_FUNC(0x533150)
-s16 Phi_74::sub_533150(s16 a2, char_type a3)
+MATCH_FUNC(0x533150)
+void Phi_74::sub_533150(s16 a2, char_type a3)
 {
-    return 0;
+    this->field_1E += a2;
+    this->field_6C = a3;
 }
 
 STUB_FUNC(0x533170)
 Car_3C* Phi_74::sub_533170()
 {
-    return 0;
+    /*
+    Car_3C* field_0_pC3C = gSprite_49B28_703818->field_0_pC3C;
+    gSprite_49B28_703818->field_0_pC3C = gSprite_49B28_703818->field_0_pC3C->field_C_car_or_sprite;
+    field_0_pC3C->sub_5A2CF0();
+    sub_5331A0(field_0_pC3C);
+    return field_0_pC3C;
+    */
+    return 0; // TODO: Needs sprite stubs
 }
 
 STUB_FUNC(0x5331a0)

@@ -292,9 +292,9 @@ class miss2_0x11C
     EXPORT s32 sub_511930(char_type a2, u16 levelStart);
     EXPORT miss2_0x11C* sub_511960(s16 a2);
     EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
-    EXPORT void ctor_511A00();
+    EXPORT miss2_0x11C();
     EXPORT void sub_511CD0();
-    EXPORT void dtor_512FD0();
+    EXPORT ~miss2_0x11C();
 
     miss2_0x11C* field_0;
     u16 field_4_level_start;
@@ -307,9 +307,7 @@ class miss2_0x11C
     char_type field_10;
     char_type field_11;
     s16 field_12;
-    char_type field_14_str[252];
-    s16 field_110;
-    char_type field_112;
+    char_type field_14_str[255];
     char_type field_113;
     miss2_8* field_114;
     char_type field_118;

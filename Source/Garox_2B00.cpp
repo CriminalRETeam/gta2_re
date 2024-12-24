@@ -678,7 +678,7 @@ Garox_4_L::Garox_4_L()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x4bbbb0)
+MATCH_FUNC(0x4bbbb0)
 Garox_2B00::~Garox_2B00()
 {
 }
