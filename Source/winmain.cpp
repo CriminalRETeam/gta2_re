@@ -2,6 +2,7 @@
 #include "Bink.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Globals.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
@@ -15,7 +16,6 @@
 #include "registry.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
-#include "Globals.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -235,7 +235,7 @@ GLOBAL(gGTA2VersionMajor_708284, 0x708284);
 EXPORT_VAR char_type gWorkingDir_707F64[652];
 GLOBAL(gWorkingDir_707F64, 0x707F64);
 
-EXPORT_VAR bool bDoFrontEnd_626B68;// = true; // TODO: VAR HACK
+EXPORT_VAR bool bDoFrontEnd_626B68; // = true; // TODO: VAR HACK
 GLOBAL(bDoFrontEnd_626B68, 0x626B68);
 
 EXPORT_VAR s32 window_width_706630;
@@ -271,7 +271,7 @@ GLOBAL(byte_6F5B71, 0x6F5B71);
 EXPORT_VAR BYTE byte_6F4BF4;
 GLOBAL(byte_6F4BF4, 0x6F4BF4);
 
-EXPORT_VAR s32 gStartMode_626A0C;// = 2; // TODO: VAR HACK
+EXPORT_VAR s32 gStartMode_626A0C; // = 2; // TODO: VAR HACK
 GLOBAL(gStartMode_626A0C, 0x626A0C);
 
 EXPORT_VAR s32 bTrippleBuffer_706C54;
@@ -303,6 +303,14 @@ GLOBAL(gLighting_626A09, 0x626A09);
 
 EXPORT_VAR u32 gLightingDrawFlag_7068F4;
 GLOBAL(gLightingDrawFlag_7068F4, 0x7068F4);
+
+EXPORT_VAR LPDIRECTINPUTDEVICEA gMouseDevice_706C60;
+GLOBAL(gMouseDevice_706C60, 0x706C60);
+
+EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
+GLOBAL(gMouseDataFormat_601A84, 0x601A84);
+
+EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)
@@ -344,33 +352,49 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 }
 
 // todo: move
-STUB_FUNC(0x5D7C60)
+MATCH_FUNC(0x5D7C60)
 EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 {
-    // todo
+    if (gMouseDevice_706C60)
+    {
+        gMouseDevice_706C60->Acquire();
+    }
 }
 
 // todo: move
-STUB_FUNC(0x5D7C70)
+MATCH_FUNC(0x5D7C70)
 EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 {
-    // todo
+    if (gMouseDevice_706C60)
+    {
+        gMouseDevice_706C60->Unacquire();
+        gMouseDevice_706C60->Release();
+        gMouseDevice_706C60 = 0;
+    }
 }
 
 // todo: move
-STUB_FUNC(0x5D94F0)
+MATCH_FUNC(0x5D94F0)
 EXPORT void __stdcall HideCursor_5D94F0()
 {
-    while (ShowCursor(0) >= 0)
-        ;
+    do
+    {
+
+    } while (ShowCursor(0) >= 0);
 }
 
 // todo: move
-STUB_FUNC(0x5D7BF0)
+MATCH_FUNC(0x5D7BF0)
 EXPORT char_type Input_InitMouse_5D7BF0()
 {
-    // todo
-    return 0;
+    // TODO: using the HR error checking macros doesn't match here, what did they do??
+    if (!gpDInput_67B804 || gMouseDevice_706C60 || gpDInput_67B804->CreateDevice(GUID_SysMouse, &gMouseDevice_706C60, 0) ||
+        gMouseDevice_706C60->SetDataFormat(&gMouseDataFormat_601A84) || gMouseDevice_706C60->SetCooperativeLevel(gHwnd_707F04, 5))
+    {
+        return 0;
+    }
+    gMouseDevice_706C60->Acquire();
+    return 1;
 }
 
 // todo: move
@@ -425,7 +449,7 @@ EXPORT void __stdcall sub_5D93A0()
 }
 
 // todo: move
-STUB_FUNC(0x5D92C0)
+MATCH_FUNC(0x5D92C0)
 EXPORT char_type sub_5D92C0()
 {
     return byte_706C5C;
@@ -455,7 +479,7 @@ EXPORT char_type sub_5D9510()
     SetWindowLongA(gHwnd_707F04, -16, 0x10CF0000);
     SetWindowPos(gHwnd_707F04, 0, 0, 0, 0, 0, 0x63Bu);
     UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, 5);
+    ShowWindow(gHwnd_707F04, SW_SHOW);
 
     struct tagRECT windowRect; // [esp+18h] [ebp-10h] BYREF
     GetWindowRect(gHwnd_707F04, &windowRect);
@@ -1017,7 +1041,7 @@ EXPORT void __stdcall UpdateWinXY_5D8E70()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D7CA0)
+MATCH_FUNC(0x5D7CA0)
 EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
     gbh_Init(0);

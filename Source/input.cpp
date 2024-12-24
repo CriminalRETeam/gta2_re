@@ -19,7 +19,7 @@ GLOBAL(gpDInput_67B804, 0x67B804);
 HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
 #endif
 
-STUB_FUNC(0x4986D0)
+MATCH_FUNC(0x4986D0)
 void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 {
 #if _MSC_VER <= 1200

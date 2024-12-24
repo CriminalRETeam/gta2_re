@@ -101,9 +101,7 @@ struct nifty_maxwell_0x82
     u16 field_6C;
     u16 field_6E_count;
     s16 field_70;
-    char_type field_72[4];
-    s32 field_76;
-    s32 field_7A;
+    char_type field_72[12];
     u16 field_7E;
     s16 field_80;
 };

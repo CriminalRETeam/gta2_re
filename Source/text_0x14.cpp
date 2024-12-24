@@ -86,22 +86,23 @@ void text_0x14::sub_5B5930(u16* pStr)
 MATCH_FUNC(0x5B5960)
 void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
 {
-    field_4_tKey_count = chunkSize / sizeof(text_0xC);
-    field_0_tKey = new text_0xC[field_4_tKey_count];
-    if (!field_0_tKey)
+    // TODO: probably an inline
+    field_0_tKey.field_4_tKey_count = chunkSize / sizeof(text_0xC);
+    field_0_tKey.field_0_tKey = new text_0xC[field_0_tKey.field_4_tKey_count];
+    if (!field_0_tKey.field_0_tKey)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
-    File::Global_Read_4A71C0(field_0_tKey, &chunkSize);
+    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, &chunkSize);
 }
 
 MATCH_FUNC(0x5B59B0)
 void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
 {
-    text_0xC* ptKeyIter = field_0_tKey;
+    text_0xC* ptKeyIter = field_0_tKey.field_0_tKey;
 
-    for (u32 idx = 0; idx < field_4_tKey_count; idx++)
+    for (u32 idx = 0; idx < field_0_tKey.field_4_tKey_count; idx++)
     {
         // The raw file record is an offset, convert it to pos32 to the string data in the TDAT
         const s32 offsetInBytes = reinterpret_cast<int>(ptKeyIter->field_0_pwstr);
@@ -114,8 +115,8 @@ MATCH_FUNC(0x5B59E0)
 bool text_0x14::TKeyFind_5B59E0(const char_type* pIdStr)
 {
     return bsearch(pIdStr, // search key
-                   field_0_tKey, // array to search
-                   field_4_tKey_count, // array count
+                   field_0_tKey.field_0_tKey, // array to search
+                   field_0_tKey.field_4_tKey_count, // array count
                    sizeof(text_0xC), // element size
                    TKeySearch_5B5A10) ?
         true :
@@ -134,8 +135,8 @@ MATCH_FUNC(0x5B5A50)
 wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
 {
     text_0xC* pFound = (text_0xC*)bsearch(pIdStr, // key
-                                          field_0_tKey, // array
-                                          field_4_tKey_count, // array count
+                                          field_0_tKey.field_0_tKey, // array
+                                          field_0_tKey.field_4_tKey_count, // array count
                                           sizeof(text_0xC), // element size
                                           TKeySearch_5B5A10);
     if (!pFound)
@@ -351,14 +352,9 @@ bool text_0x14::sub_5B5FA0(const char_type* pIdStr)
     return TKeyFind_5B59E0(pIdStr);
 }
 
-STUB_FUNC(0x5B5FB0)
+MATCH_FUNC(0x5B5FB0)
 text_0x14::text_0x14()
 {
-    field_0_tKey = 0;
-    field_4_tKey_count = 0;
-    field_8_tDat.field_0_data = 0;
-    field_8_tDat.field_4_len = 0;
-
     gRegistry_6FF968.Get_Option_586F00("language", reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
 
     if (gTmpBuffer_67C598[0] == 'e' || gTmpBuffer_67C598[0] == 'f' || gTmpBuffer_67C598[0] == 'g' || gTmpBuffer_67C598[0] == 'i' ||
@@ -375,6 +371,7 @@ text_0x14::text_0x14()
 STUB_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
+    /*
     // todo: inlined dtor?
     if (field_8_tDat.field_0_data)
     {
@@ -388,4 +385,5 @@ text_0x14::~text_0x14()
         delete field_0_tKey;
     }
     field_0_tKey = 0;
+    */
 }
