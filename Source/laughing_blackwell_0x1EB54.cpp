@@ -2592,14 +2592,14 @@ EXPORT void __cdecl FreeSurface_5D7DC0()
     Vid_FreeSurface(gVidSys_7071D0);
 }
 
-STUB_FUNC(0x4ADFB0)
+MATCH_FUNC(0x4ADFB0)
 void laughing_blackwell_0x1EB54::sub_4ADFB0()
 {
     sub_5D7D30();
 
     gbh_BeginScene();
     DrawBackground_4B6E10();
-    sub_4ADF50(); // a2 ??
+    sub_4ADF50();
     gbh_EndScene();
 
     FreeSurface_5D7DC0();
