@@ -304,6 +304,13 @@ GLOBAL(gLighting_626A09, 0x626A09);
 EXPORT_VAR u32 gLightingDrawFlag_7068F4;
 GLOBAL(gLightingDrawFlag_7068F4, 0x7068F4);
 
+EXPORT_VAR LPDIRECTINPUTDEVICEA gMouseDevice_706C60;
+GLOBAL(gMouseDevice_706C60, 0x706C60);
+
+EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
+GLOBAL(gMouseDataFormat_601A84, 0x601A84);
+
+
 EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 // todo move to another file for ordering
@@ -368,9 +375,6 @@ EXPORT void __stdcall HideCursor_5D94F0()
 
     } while (ShowCursor(0) >= 0);
 }
-
-LPDIRECTINPUTDEVICEA gMouseDevice_706C60;
-DIDATAFORMAT gMouseDataFormat_601A84;
 
 // todo: move
 MATCH_FUNC(0x5D7BF0)
