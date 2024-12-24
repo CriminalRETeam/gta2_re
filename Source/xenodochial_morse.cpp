@@ -6,7 +6,7 @@ xenodochial_morse::xenodochial_morse() // 483E70
     field_0 = 0;
 }
 
-STUB_FUNC(0x483EA0)
+MATCH_FUNC(0x483EA0)
 xenodochial_morse::~xenodochial_morse() // 483EA0
 {
 }
