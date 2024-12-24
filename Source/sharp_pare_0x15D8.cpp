@@ -4,6 +4,7 @@
 #include "crt_stubs.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "memory.hpp"
 
 EXPORT_VAR sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
 GLOBAL(gSharp_pare_0x15D8_705064, 0x705064);
@@ -231,24 +232,23 @@ festive_hopper::~festive_hopper()
     }
 }
 
-STUB_FUNC(0x5B8E90)
-void festive_hopper::Alloc_5B8E90(s16 a2, s16 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x5B8E90)
+void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_type2)
 {
     if (!this->field_0_pAlloc)
     {
-        if (a2)
+        if (size)
         {
-            this->field_4_item_alloc_count = a3 * a2;
-            this->field_6_count = a3;
+            this->field_4_item_alloc_count = count * size;
+            this->field_6_count = count;
             this->field_10_bDoFree = 1;
-            this->field_8_pal_type = a4;
-            this->field_C_pal_type = a5;
-            this->field_0_pAlloc = (STexture**)crt::malloc(sizeof(STexture*) * (u16)(a3 * a2));
+            this->field_8_pal_type = pal_type1;
+            this->field_C_pal_type = pal_type2;
+            this->field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
 
-            u32 i = 0;
-            while (i < this->field_4_item_alloc_count)
+            for (u32 i =0; i < this->field_4_item_alloc_count; i++)
             {
-                this->field_0_pAlloc[i++] = 0;
+                this->field_0_pAlloc[i] = 0;
             }
         }
     }
