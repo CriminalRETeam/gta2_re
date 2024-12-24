@@ -190,10 +190,13 @@ void Zheal_D9C::sub_480E50()
 {
 }
 
-STUB_FUNC(0x480ec0)
+MATCH_FUNC(0x480ec0)
 Zheal_15C* Zheal_D9C::sub_480EC0(s32 a2, s32 a3)
 {
-    return 0;
+    Zheal_15C* v4 = &field_0[field_D98_count];
+    v4->sub_4803B0(a2, a3, field_D98_count);
+    field_D98_count++;
+    return v4;
 }
 
 MATCH_FUNC(0x480f50)
