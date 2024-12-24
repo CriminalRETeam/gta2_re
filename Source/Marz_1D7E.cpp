@@ -29,7 +29,7 @@ Marz_96* Marz_96::ctor_544BF0()
     return 0;
 }
 
-STUB_FUNC(0x4bdf70)
+MATCH_FUNC(0x4bdf70)
 Marz_1D7E::~Marz_1D7E()
 {
 }
