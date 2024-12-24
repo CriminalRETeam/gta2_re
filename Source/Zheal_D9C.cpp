@@ -5,9 +5,11 @@ Zheal_15C::~Zheal_15C()
 {
 }
 
-STUB_FUNC(0x47e610)
+MATCH_FUNC(0x47e610)
 Zheal_15C::Zheal_15C()
 {
+    this->field_28 = 0;
+    this->field_7C = 0;
 }
 
 STUB_FUNC(0x47e620)
