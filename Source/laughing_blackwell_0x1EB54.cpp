@@ -2609,7 +2609,9 @@ void laughing_blackwell_0x1EB54::sub_4ADFB0()
     Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
-STUB_FUNC(0x4B6E10)
+// https://decomp.me/scratch/IOmk7
+// TODO: stop the tail merge... somehow
+MATCH_FUNC(0x4B6E10)
 void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
 {
     // todo
