@@ -98,7 +98,7 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
     }
 }
 
-STUB_FUNC(0x5B9350)
+MATCH_FUNC(0x5B9350)
 void sharp_pare_0x15D8::sub_5B9350()
 {
     LoadPals_5B90F0();
