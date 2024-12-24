@@ -8,9 +8,10 @@ Frismo_C::Frismo_C()
     this->field_4 = 205;
 }
 
-STUB_FUNC(0x4beaa0)
+MATCH_FUNC(0x4beaa0)
 Frismo_C::~Frismo_C()
 {
+    field_8_next = 0;
 }
 
 MATCH_FUNC(0x503110)
