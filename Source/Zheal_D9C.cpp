@@ -1,8 +1,14 @@
 #include "Zheal_D9C.hpp"
+#include "root_sound.hpp"
 
-STUB_FUNC(0x47e5b0)
+MATCH_FUNC(0x47e5b0)
 Zheal_15C::~Zheal_15C()
 {
+    if (field_7C)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C);
+        field_7C = 0;
+    }
 }
 
 MATCH_FUNC(0x47e610)

@@ -572,7 +572,6 @@ STUB_FUNC(0x56A940)
 angry_lewin_0x85C::~angry_lewin_0x85C()
 {
     Car_BC** field_54_unk; // ecx
-    infallible_turing* field_4C_pUnk; // edi
 
     field_54_unk = this->field_54_unk;
     this->field_2C4_player_ped = 0;
@@ -584,14 +583,13 @@ angry_lewin_0x85C::~angry_lewin_0x85C()
     field_54_unk[0] = 0;
     field_54_unk[1] = 0;
     field_54_unk[2] = 0;
-    field_4C_pUnk = this->field_4C_pUnk;
+    
     if (field_4C_pUnk)
     {
-        field_4C_pUnk->release_40EF20();
-        field_4C_pUnk->field_C_pAny = gRoot_sound_66B038.field_0;
-        gRoot_sound_66B038.field_0 = field_4C_pUnk;
-        this->field_4C_pUnk = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_4C_pUnk);
+        field_4C_pUnk = 0;
     }
+
     /*
 	zealous_borg::dtor_484EE0(&this->field_644_unk);
 	sad_mirzakhani::dtor_431DF0(&this->field_2D4_unk.field_1A8_unk);

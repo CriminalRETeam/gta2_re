@@ -45,13 +45,9 @@ Rozza_C88::Rozza_C88()
 MATCH_FUNC(0x40be40)
 Rozza_C88::~Rozza_C88()
 {
-    // TODO: This whole thing is prob an inline as its duplicated in places that use sound
-    infallible_turing* pSoundObj = field_0_pSoundObj;
     if (field_0_pSoundObj)
     {
-        field_0_pSoundObj->release_40EF20();
-        pSoundObj->field_C_pAny = gRoot_sound_66B038.field_0;
-        gRoot_sound_66B038.field_0 = pSoundObj;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_0_pSoundObj);
         field_0_pSoundObj = 0;
     }
 }
