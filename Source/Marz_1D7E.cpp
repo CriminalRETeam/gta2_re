@@ -13,7 +13,7 @@ Marz_3::~Marz_3()
 {
 }
 
-STUB_FUNC(0x4bdf90)
+MATCH_FUNC(0x4bdf90)
 Marz_96::~Marz_96()
 {
 }
