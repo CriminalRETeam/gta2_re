@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 #include <wchar.h>
 
 class cool_nash_0x294;
@@ -404,12 +405,34 @@ class Garox_30_Sub
     char_type field_5;
     char_type field_6;
     char_type field_7;
-    s32 field_38;
-    angry_lewin_0x85C* field_3C;
-    s32 field_40;
-    s32 field_44;
+};
+
+class Garox_24
+{
+  public:
+    // inline 0x4C6F00
+    void init()
+    {
+        this->field_0 = 0;
+        this->field_4 = 0;
+        this->field_8 = 0;
+        this->field_C = 0;
+        this->field_10 = 0;
+        this->field_20 = 0;
+    }
+
+    s32 field_0;
+    angry_lewin_0x85C* field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
     s32 field_18;
     s32 field_1C;
+    char_type field_20;
+    char_type field_21_pad;
+    char_type field_22_pad;
+    char_type field_23_pad;
 };
 
 class Garox_20_Sub
@@ -424,25 +447,9 @@ class Garox_20_Sub
     char_type field_2E;
     char_type field_2F;
     Garox_30_Sub field_10;
-    s32 field_30;
-    s32 field_34;
-    char_type field_38;
-    char_type field_39;
-    char_type field_3A;
-    char_type field_3B;
-    s32 field_3C_sub;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    char_type field_5C;
-    char_type field_5D;
-    char_type field_5E;
-    char_type field_5F;
-    s32* field_60;
+    Garox_24 field_18;
+    Garox_24 field_3C;
+    Garox_24* field_60;
 };
 
 class Garox_7C
@@ -462,7 +469,7 @@ class Garox_7C
     char_type field_5;
     char_type field_6;
     char_type field_7;
-    s16 field_8;
+    Ang16 field_8;
     s16 field_A;
     s32 field_C;
     s32 field_10;

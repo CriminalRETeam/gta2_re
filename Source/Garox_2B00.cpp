@@ -469,26 +469,17 @@ void Garox_7C::sub_5D1350()
 {
 }
 
-STUB_FUNC(0x5d7600)
+MATCH_FUNC(0x5d7600)
 Garox_7C::Garox_7C()
 {
-    this->field_8 = 0;
     this->field_18.field_10.field_30 = 0;
     this->field_18.field_10.field_34 = 0;
     this->field_18.field_10.field_5 = 0;
-    this->field_18.field_10.field_38 = 0;
-    this->field_18.field_10.field_3C = 0;
-    this->field_18.field_10.field_40 = 0;
-    this->field_18.field_10.field_44 = 0;
-    this->field_18.field_10.field_18 = 0;
-    this->field_18.field_38 = 0;
-    this->field_18.field_3C_sub = 0;
-    this->field_18.field_40 = 0;
-    this->field_18.field_44 = 0;
-    this->field_18.field_48 = 0;
-    this->field_18.field_4C = 0;
-    this->field_18.field_5C = 0;
-    this->field_18.field_60 = &this->field_18.field_10.field_38;
+
+    field_18.field_18.init();
+    field_18.field_3C.init();
+
+    this->field_18.field_60 = &this->field_18.field_18;
     this->field_18.field_2E = 0;
     this->field_18.field_10.field_6 = 0;
 }
