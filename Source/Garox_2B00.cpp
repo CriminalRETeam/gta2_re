@@ -476,10 +476,10 @@ Garox_C* Garox_C::sub_5D32F0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5d3310)
-s32 Garox_C::sub_5D3310(s32 a2)
+MATCH_FUNC(0x5d3310)
+void Garox_C_Array::sub_5D3310(s32 a2)
 {
-    return 0;
+    field_620[a2].field_4 = 0;
 }
 
 MATCH_FUNC(0x5d7650)
