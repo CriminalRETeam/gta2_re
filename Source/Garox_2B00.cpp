@@ -325,7 +325,7 @@ void Garox_107C_sub::sub_5CFE20()
 {
 }
 
-STUB_FUNC(0x5cfe30)
+MATCH_FUNC(0x5cfe30)
 void Garox_107C_sub::Empty_5CFE30()
 {
 }
