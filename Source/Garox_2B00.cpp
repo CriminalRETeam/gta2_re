@@ -11,6 +11,8 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "cool_nash_0x294.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -38,6 +40,7 @@ EXPORT_VAR extern char_type gLighting_626A09;
 
 // TODO: move
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
+EXPORT_VAR extern wchar_t word_67DC8C[50];
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
@@ -308,9 +311,57 @@ Garox_1::Garox_1()
 
 // ----------------------------------------------------
 
+// https://decomp.me/scratch/vYRH9
 STUB_FUNC(0x5cf970)
 void Garox_27B5_sub::sub_5CF970()
 {
+    if (this->field_27B5_sub)
+    {
+        angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+
+        cool_nash_0x294* pPed;
+        if (field_38_orf1->field_68 == 2 || field_38_orf1->field_68 == 3)
+        {
+            pPed = field_38_orf1->field_2C8_unkq;
+        }
+        else
+        {
+            pPed = field_38_orf1->field_2C4_player_ped;
+        }
+
+        Zone_144* pZone = field_38_orf1->field_34_pObj;
+        wchar_t* pZoneName;
+        if (pZone)
+        {
+            pZoneName = pZone->sub_4BED30();
+        }
+        else
+        {
+            pZoneName = word_67DC8C;
+        }
+
+        Car_BC* pCar = pPed->field_16C_car;
+        wchar_t* pCarOrPedStr;
+        if (pCar)
+        {
+            pCarOrPedStr = pCar->GetCarStr_439F80();
+        }
+        else
+        {
+            pCarOrPedStr = L"ped";
+        }
+        swprintf(tmpBuff_67BD9C,
+                 L"%s at (%3.1f, %3.1f, %3.1f) %s",
+                 pCarOrPedStr,
+                 pPed->field_1AC_cam.x.ToFloat() * 0.00006103515625,
+                 pPed->field_1AC_cam.y.ToFloat() * 0.00006103515625,
+                 pPed->field_1AC_cam.z.ToFloat() * 0.00006103515625,
+                 pZoneName);
+
+        Garox_C4* pC4 = gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        pC4->field_B0 = 8;
+        pC4->field_B4 = 0;
+    }
 }
 
 // ----------------------------------------------------
