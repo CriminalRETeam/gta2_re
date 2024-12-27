@@ -22,8 +22,6 @@ GLOBAL(word_7064B8, 0x7064B8);
 EXPORT_VAR s16 word_706618; // TODO
 GLOBAL(word_706618, 0x706618);
 
-
-
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -249,9 +247,13 @@ void Garox_1::sub_5D5600(u8 a2)
 {
 }
 
-STUB_FUNC(0x5d5690)
+MATCH_FUNC(0x5d5690)
 void Garox_1::sub_5D5690()
 {
+    if (field_0_timer)
+    {
+        field_0_timer--;
+    }
 }
 
 STUB_FUNC(0x5d56a0)
