@@ -349,7 +349,7 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 disp
 }
 
 STUB_FUNC(0x5d1d00)
-void Garox_C4::sub_5D1D00(Garox_C4* a1, s32 a2, s32 a3)
+void Garox_C4::sub_5D1D00()
 {
 }
 
@@ -386,9 +386,15 @@ Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, 
     return 0;
 }
 
-STUB_FUNC(0x5d2010)
+MATCH_FUNC(0x5d2010)
 void Garox_1700_L::Service_5D2010()
 {
+    Garox_C4* pIter = field_960_pFirst;
+    while (pIter)
+    {
+        pIter->sub_5D1D00();
+        pIter = pIter->field_C0_pNext;
+    }
 }
 
 STUB_FUNC(0x5d2050)
