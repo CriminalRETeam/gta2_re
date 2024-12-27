@@ -353,10 +353,18 @@ void Garox_C4::sub_5D1D00(Garox_C4* a1, s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x5d1db0)
+MATCH_FUNC(0x5d1db0)
 bool Garox_C4::sub_5D1DB0()
 {
-    return 0;
+    if (field_A4_display_time != -3)
+    {
+        field_A4_display_time--;
+        if (field_A4_display_time < 0)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x5d1e10)
@@ -842,6 +850,21 @@ void Garox_2B00::sub_5D5240(wchar_t* Source)
 STUB_FUNC(0x5d5350)
 void Garox_2B00::sub_5D5350()
 {
+    if (this->field_0.field_0)
+    {
+        field_0.field_0--;
+        if (field_0.field_0 <= 80u)
+        {
+            if (field_0.field_0 < 40u)
+            {
+                --this->field_48;
+            }
+        }
+        else
+        {
+            ++this->field_48;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d6860)
