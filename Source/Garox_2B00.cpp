@@ -22,6 +22,11 @@ GLOBAL(word_7064B8, 0x7064B8);
 EXPORT_VAR s16 word_706618; // TODO
 GLOBAL(word_706618, 0x706618);
 
+EXPORT_VAR s16 word_706508; // TODO
+GLOBAL(word_706508, 0x706508);
+
+
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -73,7 +78,7 @@ Garox_1_v2::Garox_1_v2()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d15e0)
-char_type Garox_2A25_sub::sub_5D15E0(s32 a1, s32 a2)
+char_type Garox_2A25_sub::sub_5D15E0(s32 a1, char_type* a2)
 {
     return 0;
 }
@@ -772,9 +777,14 @@ void Garox_2B00::sub_5D4A10()
 {
 }
 
-STUB_FUNC(0x5d5190)
+MATCH_FUNC(0x5d5190)
 void Garox_2B00::sub_5D5190()
 {
+    if (this->field_0.field_0)
+    {
+        // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
+        this->field_44 = laughing_blackwell_0x1EB54::sub_5D8990((wchar_t*)&this->field_0.field_2, word_706508);
+    }
 }
 
 STUB_FUNC(0x5d5240)
@@ -871,7 +881,7 @@ void Garox_2B00::sub_5D6BE0()
 STUB_FUNC(0x5d6c20)
 s32 Garox_2B00::sub_5D6C20(s32 action, char_type* a2)
 {
-    return 0;
+    return field_12EC_sub.sub_5D13C0(action, a2) || field_2A25_sub.sub_5D15E0(action, a2);
 }
 
 STUB_FUNC(0x5d6c70)
