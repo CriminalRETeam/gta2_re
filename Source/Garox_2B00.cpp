@@ -438,9 +438,37 @@ void Garox_1700_L::Service_5D2010()
     }
 }
 
-STUB_FUNC(0x5d2050)
+MATCH_FUNC(0x5d2050)
 void Garox_1700_L::sub_5D2050()
 {
+    Garox_C4* pAltIter = 0;
+    Garox_C4* pIter = this->field_960_pFirst;
+    while (pIter)
+    {
+        if (pIter->sub_5D1DB0())
+        {
+            if (pAltIter)
+            {
+                pAltIter->field_C0_pNext = pIter->field_C0_pNext;
+                pIter->field_C0_pNext = this->field_964;
+                this->field_964 = pIter;
+                pIter = pAltIter->field_C0_pNext;
+            }
+            else
+            {
+                Garox_C4* pOld_field_964 = this->field_964;
+                this->field_960_pFirst = this->field_960_pFirst->field_C0_pNext;
+                pIter->field_C0_pNext = pOld_field_964;
+                this->field_964 = pIter;
+                pIter = this->field_960_pFirst;
+            }
+        }
+        else
+        {
+            pAltIter = pIter;
+            pIter = pIter->field_C0_pNext;
+        }
+    }
 }
 
 STUB_FUNC(0x5d2280)
