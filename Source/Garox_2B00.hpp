@@ -24,7 +24,7 @@ class Garox_1_v2
     EXPORT void sub_5D5730(const wchar_t* pStr);
     EXPORT void sub_5D5760();
     EXPORT void sub_5D5770(u8* a2, u8* a3);
-    EXPORT Garox_1_v2* ctor_5D58F0();
+    EXPORT Garox_1_v2();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[101];
@@ -62,8 +62,15 @@ class Garox_4
 class Garox_12E4_sub
 {
   public:
+    // inline 0x4C71A0
+    Garox_12E4_sub()
+    {
+        this->field_12E4 = 0;
+        this->field_1 = 45;
+    }
     EXPORT void sub_5D63B0();
     char_type field_12E4;
+    char_type field_1;
 };
 
 class Garox_1C8
@@ -1003,7 +1010,6 @@ class Garox_2B00
     Garox_1118_sub field_1118_sub;
     Garox_1C8 field_111C;
     Garox_12E4_sub field_12E4_sub;
-    char_type field_2A1D;
     char_type field_2A1E;
     char_type field_2A1F;
     Garox_4 field_12E8_sub;

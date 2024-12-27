@@ -43,10 +43,10 @@ void Garox_1_v2::sub_5D5770(u8* a2, u8* a3)
 {
 }
 
-STUB_FUNC(0x5d58f0)
-Garox_1_v2* Garox_1_v2::ctor_5D58F0()
+MATCH_FUNC(0x5d58f0)
+Garox_1_v2::Garox_1_v2()
 {
-    return 0;
+    field_0_timer = 0;
 }
 
 // ----------------------------------------------------
