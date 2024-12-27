@@ -442,7 +442,7 @@ class Garox_20_Sub
     char_type field_5D;
     char_type field_5E;
     char_type field_5F;
-    s32 field_60;
+    s32* field_60;
 };
 
 class Garox_7C
@@ -456,7 +456,7 @@ class Garox_7C
     EXPORT void sub_5D0C90();
     EXPORT s32 sub_5D0DC0(cool_nash_0x294* a2);
     EXPORT void sub_5D1350();
-    EXPORT Garox_7C* ctor_5D7600();
+    EXPORT Garox_7C();
     s32 field_0;
     char_type field_4;
     char_type field_5;
@@ -864,7 +864,7 @@ class Garox_90_L
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
     EXPORT void sub_5D5B60();
     EXPORT s32 sub_5D5C50();
-    EXPORT Garox_90_L* ctor_5D5C60();
+    EXPORT Garox_90_L();
     char_type field_0;
     char_type field_1;
     wchar_t field_2_wstr[2];

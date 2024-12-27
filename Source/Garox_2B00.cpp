@@ -1,9 +1,9 @@
 #include "Garox_2B00.hpp"
-#include "Globals.hpp"
-#include "root_sound.hpp"
-#include "debug.hpp"
 #include "Game_0x40.hpp"
+#include "Globals.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "debug.hpp"
+#include "root_sound.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -470,9 +470,27 @@ void Garox_7C::sub_5D1350()
 }
 
 STUB_FUNC(0x5d7600)
-Garox_7C* Garox_7C::ctor_5D7600()
+Garox_7C::Garox_7C()
 {
-    return 0;
+    this->field_8 = 0;
+    this->field_18.field_10.field_30 = 0;
+    this->field_18.field_10.field_34 = 0;
+    this->field_18.field_10.field_5 = 0;
+    this->field_18.field_10.field_38 = 0;
+    this->field_18.field_10.field_3C = 0;
+    this->field_18.field_10.field_40 = 0;
+    this->field_18.field_10.field_44 = 0;
+    this->field_18.field_10.field_18 = 0;
+    this->field_18.field_38 = 0;
+    this->field_18.field_3C_sub = 0;
+    this->field_18.field_40 = 0;
+    this->field_18.field_44 = 0;
+    this->field_18.field_48 = 0;
+    this->field_18.field_4C = 0;
+    this->field_18.field_5C = 0;
+    this->field_18.field_60 = &this->field_18.field_10.field_38;
+    this->field_18.field_2E = 0;
+    this->field_18.field_10.field_6 = 0;
 }
 
 // ----------------------------------------------------
@@ -662,10 +680,12 @@ s32 Garox_90_L::sub_5D5C50()
     return 0;
 }
 
-STUB_FUNC(0x5d5c60)
-Garox_90_L* Garox_90_L::ctor_5D5C60()
+MATCH_FUNC(0x5d5c60)
+Garox_90_L::Garox_90_L()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_88 = 0;
+    this->field_8C = 0;
 }
 
 // ----------------------------------------------------
