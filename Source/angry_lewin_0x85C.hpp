@@ -210,7 +210,7 @@ class angry_lewin_0x85C
     char_type field_795;
     s16 field_796[79];
     s32 field_834;
-    s32 field_838;
+    s32 field_838_f796_idx;
     wchar_t field_83C_player_name;
     char_type field_83E;
     char_type field_83F;

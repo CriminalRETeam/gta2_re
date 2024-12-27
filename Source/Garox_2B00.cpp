@@ -100,9 +100,12 @@ s32 Garox_2A25_sub::sub_5D17D0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5d1830)
-void Garox_2A25_sub::sub_5D1830(angry_lewin_0x85C* a1)
+MATCH_FUNC(0x5d1830)
+void Garox_2A25_sub::sub_5D1830(angry_lewin_0x85C* pPlayer)
 {
+    pPlayer->field_794 = 1;
+    pPlayer->field_838_f796_idx = 0;
+    pPlayer->field_796[0] = 0;
 }
 
 // ----------------------------------------------------
