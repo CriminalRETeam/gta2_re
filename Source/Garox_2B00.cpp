@@ -19,6 +19,11 @@ GLOBAL(word_706600, 0x706600);
 EXPORT_VAR s16 word_7064B8; // TODO
 GLOBAL(word_7064B8, 0x7064B8);
 
+EXPORT_VAR s16 word_706618; // TODO
+GLOBAL(word_706618, 0x706618);
+
+
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -699,9 +704,13 @@ void Garox_90_L::sub_5D5900()
 {
 }
 
-STUB_FUNC(0x5d5ad0)
+MATCH_FUNC(0x5d5ad0)
 void Garox_90_L::sub_5D5AD0()
 {
+    if (this->field_0)
+    {
+        this->field_84 = laughing_blackwell_0x1EB54::sub_5D8990(this->field_2_wstr, word_706618);
+    }
 }
 
 STUB_FUNC(0x5d5af0)
