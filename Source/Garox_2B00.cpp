@@ -143,10 +143,11 @@ void Garox_1C8::sub_5D1AB0()
 {
 }
 
-STUB_FUNC(0x5d1ae0)
-Garox_1C8* Garox_1C8::ctor_5D1AE0()
+MATCH_FUNC(0x5d1ae0)
+Garox_1C8::Garox_1C8()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_1C4 = 1;
 }
 
 // ----------------------------------------------------

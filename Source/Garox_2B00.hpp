@@ -74,7 +74,7 @@ class Garox_1C8
     EXPORT void sub_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
-    EXPORT Garox_1C8* ctor_5D1AE0();
+    EXPORT Garox_1C8();
     char_type field_0;
     char_type field_1;
     wchar_t field_2_str[2];
@@ -206,11 +206,16 @@ class Garox_1118_sub
 class Garox_110C_sub
 {
   public:
+    // inline 0x4C6E50
+    Garox_110C_sub()
+    {
+        field_284E = 0;
+    }
     EXPORT void sub_5CF730();
     EXPORT void sub_5CF910();
     s32 field_110C;
     s32 field_1110;
-    s16 field_1114;
+    Ang16 field_1114;
     char_type field_284E;
     char_type field_284F;
 };
@@ -239,6 +244,11 @@ class Garox_1
 class Garox_27B5_sub
 {
   public:
+    // inline 0x4C6E70
+    Garox_27B5_sub()
+    {
+        field_27B5_sub = 0;
+    }
     EXPORT void sub_5CF970();
     char_type field_27B5_sub;
 };
@@ -268,6 +278,11 @@ class Garox_Sub_C
 class Garox_Sub_C_Array
 {
   public:
+    // inline 0x4C6EE0
+    Garox_Sub_C_Array()
+    {
+        field_48_count = 0;
+    }
     EXPORT void sub_5D00B0();
     EXPORT void sub_5D0110();
     EXPORT void sub_5D0210();
