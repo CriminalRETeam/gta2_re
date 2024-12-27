@@ -247,7 +247,7 @@ class Garox_1
     EXPORT void sub_5D5420();
     EXPORT void sub_5D5600(u8 a2);
     EXPORT void sub_5D5690();
-    EXPORT Garox_1* ctor_5D56A0();
+    EXPORT Garox_1();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[65];
