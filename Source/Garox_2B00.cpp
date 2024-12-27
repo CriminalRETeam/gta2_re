@@ -850,10 +850,10 @@ s32 Garox_2B00::sub_5D6C70(s32 a1)
     return 0;
 }
 
-STUB_FUNC(0x5d6cb0)
+MATCH_FUNC(0x5d6cb0)
 s32 Garox_2B00::sub_5D6CB0(s32 a1)
 {
-    return 0;
+    return field_12EC_sub.sub_5D15A0(a1);
 }
 
 STUB_FUNC(0x5d6cd0)
