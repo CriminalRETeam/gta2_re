@@ -195,8 +195,8 @@ class angry_lewin_0x85C
     zealous_borg field_644_unk;
     u16 field_680;
     u16 field_682;
-    thirsty_lamarr field_684_unk;
-    thirsty_lamarr field_6BC_unk;
+    thirsty_lamarr field_684_lives;
+    thirsty_lamarr field_6BC_multpliers;
     WORD field_6F4[17];
     s16 field_716;
     keen_bhaskara_0x30* field_718[28];

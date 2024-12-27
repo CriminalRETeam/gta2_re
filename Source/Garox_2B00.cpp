@@ -202,9 +202,21 @@ void Garox_1118_sub::sub_5D5C80()
 {
 }
 
-STUB_FUNC(0x5d6290)
+MATCH_FUNC(0x5d6290)
 void Garox_1118_sub::sub_5D6290()
 {
+    angry_lewin_0x85C* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
+    while (pPlayerIter)
+    {
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_unk.sub_592360();
+        pLamarr1->sub_4925E0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_unk.sub_5935B0();
+        pLamarr2->sub_4925E0();
+        pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
+    }
+    angry_lewin_0x85C* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    pPlayer->field_684_lives.sub_4925E0();
+    pPlayer->field_6BC_multpliers.sub_4925E0();
 }
 
 // ----------------------------------------------------
