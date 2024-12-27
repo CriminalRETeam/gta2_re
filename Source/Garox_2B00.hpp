@@ -36,7 +36,7 @@ class Garox_2A25_sub
   public:
     EXPORT char_type sub_5D15E0(s32 a1, s32 a2);
     EXPORT void sub_5D16B0();
-    EXPORT bool sub_5D17D0(s32 a2);
+    EXPORT s32 sub_5D17D0(s32 a2);
     EXPORT void sub_5D1830(angry_lewin_0x85C* a1);
     char_type field_2A25;
 };

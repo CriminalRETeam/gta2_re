@@ -81,7 +81,7 @@ void Garox_2A25_sub::sub_5D16B0()
 }
 
 STUB_FUNC(0x5d17d0)
-bool Garox_2A25_sub::sub_5D17D0(s32 a2)
+s32 Garox_2A25_sub::sub_5D17D0(s32 a2)
 {
     return 0;
 }
@@ -714,7 +714,7 @@ void Garox_90_L::sub_5D5B60()
 {
 }
 
-STUB_FUNC(0x5d5c50)
+MATCH_FUNC(0x5d5c50)
 void Garox_90_L::sub_5D5C50()
 {
     this->field_90 = 0;
@@ -847,7 +847,8 @@ s32 Garox_2B00::sub_5D6C20(s32 action, char_type* a2)
 STUB_FUNC(0x5d6c70)
 s32 Garox_2B00::sub_5D6C70(s32 a1)
 {
-    return 0;
+    // TODO EAX vs AL reg
+    return field_12EC_sub.sub_5D15A0(a1) || field_2A25_sub.sub_5D17D0(a1);
 }
 
 MATCH_FUNC(0x5d6cb0)
