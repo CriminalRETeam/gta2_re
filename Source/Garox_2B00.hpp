@@ -308,7 +308,7 @@ class Garox_Sub_C_Array
 class Garox_C4
 {
   public:
-    EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 displayTime);
+    EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
     EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
     EXPORT s32 operator_equals_5D1E10(Garox_C4* pOther);

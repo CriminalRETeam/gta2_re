@@ -344,7 +344,7 @@ void Garox_Sub_C_Array::sub_5D0210()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d1b10)
-void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 displayTime)
+void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime)
 {
 }
 
@@ -380,10 +380,17 @@ void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 {
 }
 
-STUB_FUNC(0x5d1f50)
-Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6)
+MATCH_FUNC(0x5d1f50)
+Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 a5, s32 a6)
 {
-    return 0;
+    Garox_C4* pOld_964 = this->field_964;
+    Garox_C4* pOldFirst = this->field_960_pFirst;
+    this->field_964 = pOld_964->field_C0_pNext;
+    pOld_964->field_C0_pNext = pOldFirst;
+    this->field_960_pFirst = pOld_964;
+    pOld_964->sub_5D1B10(pStr, maybe_x, maybe_y, a5, a6);
+    sub_5D1EB0(pOld_964);
+    return pOld_964;
 }
 
 MATCH_FUNC(0x5d2010)
