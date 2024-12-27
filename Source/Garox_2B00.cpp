@@ -480,10 +480,10 @@ s32 Garox_C::sub_5D3280(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5d32d0)
-s32 Garox_C::sub_5D32D0(s32 a2)
+MATCH_FUNC(0x5d32d0)
+void Garox_C_Array::sub_5D32D0(s32 a2)
 {
-    return 0;
+    field_620[a2].field_0 = -1;
 }
 
 STUB_FUNC(0x5d32f0)
