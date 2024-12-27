@@ -54,6 +54,11 @@ class Garox_12EC_sub
 class Garox_4
 {
   public:
+    // inline 0x4C6AC0
+    Garox_4()
+    {
+        field_0_value = 0; // TODO: byte ?
+    }
     EXPORT void sub_5CF620();
     EXPORT void sub_5CF6B0();
     s32 field_0_value;
@@ -330,7 +335,7 @@ class Garox_1700_L
     EXPORT Garox_C4* sub_5D1F50(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 a6);
     EXPORT void Service_5D2010();
     EXPORT void sub_5D2050();
-    EXPORT Garox_1700_L* ctor_5D2280();
+    EXPORT Garox_1700_L();
     s32 field_0;
     s32 field_4;
     s32 field_8;
@@ -394,7 +399,7 @@ class Garox_C
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
-// TODO: These might be part of Garox_C_Array too
+    // TODO: These might be part of Garox_C_Array too
     EXPORT void sub_5D31B0();
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
@@ -565,7 +570,7 @@ class Garox_1E34_L
     EXPORT void sub_5D44D0();
     EXPORT s32 sub_5D4850();
     EXPORT s32 sub_5D4890(s32 a2);
-    EXPORT Garox_1E34_L* ctor_5D4930();
+    EXPORT Garox_1E34_L();
     s32 field_0;
     s32 field_4;
     s32 field_8;
@@ -903,8 +908,6 @@ class Garox_1E34_L
     char_type* field_614;
     s32 field_618_p_start_q;
     s32 field_61C;
-    Garox_C_Array field_620;
-    Garox_1700_L field_650;
 };
 
 class Garox_90_L
@@ -991,7 +994,7 @@ class Garox_2B00
     EXPORT s32 sub_5D6CB0(s32 a1);
     EXPORT Garox_2B00();
 
-    Garox_4_L field_0;
+    Garox_4_L field_0; // ok
     s32 field_4;
     s32 field_8;
     s32 field_C;
@@ -1010,28 +1013,30 @@ class Garox_2B00
     s32 field_40;
     s32 field_44;
     s32 field_48;
-    Garox_90_L field_4C;
-    Garox_1E34_L field_DC;
-    Garox_7C_Array field_1F18;
-    Garox_Sub_C_Array field_1028;
-    Garox_107C_sub field_107C_sub;
-    Garox_27B5_sub field_27B5_sub;
+    Garox_90_L field_4C; // ok
+    Garox_1E34_L field_DC; // ok
+    Garox_C_Array field_620; // ok
+    Garox_1700_L field_650; // ok
+    Garox_7C_Array field_1F18; // ok
+    Garox_Sub_C_Array field_1028; // ok
+    Garox_107C_sub field_107C_sub; // nothing
+    Garox_27B5_sub field_27B5_sub; // ok
     char_type field_27B6;
     char_type field_27B7;
-    Garox_1 field_1080;
+    Garox_1 field_1080; // ok
     Garox_1108_sub field_1108_sub;
-    Garox_110C_sub field_110C_sub;
+    Garox_110C_sub field_110C_sub; // ok
     Garox_1118_sub field_1118_sub;
-    Garox_1C8 field_111C;
-    Garox_12E4_sub field_12E4_sub;
+    Garox_1C8 field_111C; // ok
+    Garox_12E4_sub field_12E4_sub; // ok
     char_type field_2A1E;
     char_type field_2A1F;
-    Garox_4 field_12E8_sub;
+    Garox_4 field_12E8_sub; // ok
     Garox_12EC_sub field_12EC_sub;
     Garox_2A25_sub field_2A25_sub;
     char_type field_2A26;
     char_type field_2A27;
-    Garox_1_v2 field_12F0;
+    Garox_1_v2 field_12F0; // ok
     Garox_13C0_sub field_13C0_sub;
     s32 field_13C4_text_speed;
 };

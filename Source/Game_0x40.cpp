@@ -304,31 +304,31 @@ MATCH_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCar_6C_677930->field_40_proto_recycled_cars);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCar_6C_677930->field_3C_mission_cars);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCar_6C_677930->field_34_unit_cars);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_E0C4_67792C->field_E0C0_cars_count);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
-    gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
+    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
         swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_unk.field_198_accuracy_count);
-        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_unk.field_19C_reverse_count);
-        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
 
         // TODO: Seems strange, converted to a local integer point or something ??
         const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();
@@ -337,7 +337,7 @@ void Game_0x40::ShowCounters_4B8FF0()
         gmp_zone_unknown* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_density);
-        gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
     }
 }
 
@@ -351,7 +351,7 @@ void Game_0x40::sub_4B9270()
 
     if (field_30)
     {
-        Garox_C4* pC4 = gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
+        Garox_C4* pC4 = gGarox_2B00_706620->field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
         pC4->field_B0 = 8;
         pC4->field_B4 = 6;
     }
