@@ -6,6 +6,7 @@
 #include "error.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "registry.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -788,9 +789,10 @@ void Garox_2B00::sub_5D6A70()
 {
 }
 
-STUB_FUNC(0x5d6a90)
+MATCH_FUNC(0x5d6a90)
 void Garox_2B00::sub_5D6A90()
 {
+    field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
 }
 
 STUB_FUNC(0x5d6ab0)
