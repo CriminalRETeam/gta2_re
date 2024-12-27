@@ -4,10 +4,10 @@
 #include "angry_lewin_0x85C.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "gbh_graphics.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "gbh_graphics.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -43,9 +43,13 @@ void Garox_1_v2::sub_5D5730(const wchar_t* pStr)
 {
 }
 
-STUB_FUNC(0x5d5760)
+MATCH_FUNC(0x5d5760)
 void Garox_1_v2::sub_5D5760()
 {
+    if (field_0_timer)
+    {
+        field_0_timer--;
+    }
 }
 
 STUB_FUNC(0x5d5770)
