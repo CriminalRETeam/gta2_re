@@ -187,9 +187,17 @@ void Garox_1C8::sub_5D1940()
 {
 }
 
-STUB_FUNC(0x5d1a00)
+MATCH_FUNC(0x5d1a00)
 void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
+    if (field_0 <= 0 || a3 >= this->field_1C4)
+    {
+        this->field_1C4 = a3;
+        wcscpy(this->field_2_str, pStr);
+        gText_0x14_704DFC->sub_5B5B80(this->field_2_str);
+        this->field_0 = 90;
+        sub_5D1860();
+    }
 }
 
 MATCH_FUNC(0x5d1ab0)

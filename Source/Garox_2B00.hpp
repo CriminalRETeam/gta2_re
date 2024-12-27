@@ -88,7 +88,7 @@ class Garox_1C8
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
     EXPORT Garox_1C8();
-    char_type field_0;
+    u8 field_0;
     char_type field_1;
     wchar_t field_2_str[2];
     char_type field_6;
@@ -280,7 +280,7 @@ class Garox_Sub_C
   public:
     EXPORT void sub_5D0050(char_type a2);
     EXPORT Garox_Sub_C();
-    char_type field_0;
+    u8 field_0;
     char_type field_1;
     char_type field_2;
     char_type field_3;
