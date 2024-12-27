@@ -4,12 +4,18 @@
 #include "angry_lewin_0x85C.hpp"
 #include "debug.hpp"
 #include "root_sound.hpp"
+#include "error.hpp"
+#include "text_0x14.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
 
 EXPORT_VAR s16 word_706600; // TODO
 GLOBAL(word_706600, 0x706600);
+
+// TODO
+EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
@@ -99,9 +105,21 @@ void Garox_12EC_sub::sub_5D15D0(angry_lewin_0x85C* pPlayer)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5cf620)
+MATCH_FUNC(0x5cf620)
 void Garox_4::sub_5CF620()
 {
+    do
+    {
+        field_0_value++;
+        if (field_0_value > 9999)
+        {
+            field_0_value = 0;
+        }
+        sprintf(gTmpBuffer_67C598, "%d", this->field_0_value);
+    } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
+    gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    swprintf(tmpBuff_67BD9C, L"%d", this->field_0_value);
+    gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
 }
 
 STUB_FUNC(0x5cf6b0)
@@ -317,7 +335,6 @@ void Garox_1700_L::sub_5D2050()
 STUB_FUNC(0x5d2280)
 Garox_1700_L::Garox_1700_L()
 {
-
 }
 
 // ----------------------------------------------------
@@ -645,7 +662,6 @@ s32 Garox_1E34_L::sub_5D4890(s32 a2)
 STUB_FUNC(0x5d4930)
 Garox_1E34_L::Garox_1E34_L()
 {
-
 }
 
 // ----------------------------------------------------
