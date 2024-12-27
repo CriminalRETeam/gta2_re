@@ -8,12 +8,19 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "laughing_blackwell_0x1EB54.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
 
 EXPORT_VAR s16 word_706600; // TODO
 GLOBAL(word_706600, 0x706600);
+
+EXPORT_VAR s16 word_7064B8; // TODO
+GLOBAL(word_7064B8, 0x7064B8);
+
+
+
 
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
@@ -221,9 +228,13 @@ void Garox_1108_sub::sub_5D0260()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d53e0)
+MATCH_FUNC(0x5d53e0)
 void Garox_1::sub_5D53E0()
 {
+    if (this->field_0_timer)
+    {
+        this->field_84 = laughing_blackwell_0x1EB54::sub_5D8990(this->field_2_str, word_7064B8);
+    }
 }
 
 STUB_FUNC(0x5d5420)

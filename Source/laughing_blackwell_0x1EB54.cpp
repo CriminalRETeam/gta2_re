@@ -3601,8 +3601,8 @@ void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
     }
 }
 
-STUB_FUNC(0x5D8990)
-s32 laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
+MATCH_FUNC(0x5D8990)
+s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
 {
     wchar_t* pStrIter = pStr;
     s32 current = 0;
