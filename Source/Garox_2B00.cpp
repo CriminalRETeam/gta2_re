@@ -2,6 +2,8 @@
 #include "Globals.hpp"
 #include "root_sound.hpp"
 #include "debug.hpp"
+#include "Game_0x40.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -84,10 +86,10 @@ void Garox_12EC_sub::sub_5D1430()
 {
 }
 
-STUB_FUNC(0x5d15a0)
+MATCH_FUNC(0x5d15a0)
 s32 Garox_12EC_sub::sub_5D15A0(s32 a1)
 {
-    return 0;
+    return gGame_0x40_67E008->field_38_orf1->field_78A && (a1 == 28 || a1 == 1);
 }
 
 STUB_FUNC(0x5d15d0)
