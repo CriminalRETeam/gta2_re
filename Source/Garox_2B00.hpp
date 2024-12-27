@@ -8,6 +8,7 @@ class cool_nash_0x294;
 class angry_lewin_0x85C;
 class Zone_144;
 class infallible_turing;
+class Zone_144;
 
 class Garox_13C0_sub
 {
@@ -422,7 +423,7 @@ class Garox_C_Array
     }
 
     EXPORT void sub_5D3040();
-    
+
     EXPORT void sub_5D3310(s32 a2);
 
     Garox_C field_620[4];
@@ -442,7 +443,6 @@ class Garox_18
 class Garox_30_Sub
 {
   public:
-    EXPORT void sub_5D03C0(Zone_144* pZone);
     Zone_144* field_30;
     char_type field_34;
     char_type field_5;
@@ -453,6 +453,8 @@ class Garox_30_Sub
 class Garox_24
 {
   public:
+    EXPORT void sub_5D03C0(Zone_144* pZone);
+
     // inline 0x4C6F00
     void init()
     {

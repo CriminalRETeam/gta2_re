@@ -1,15 +1,16 @@
 #include "Garox_2B00.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
+#include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "lucid_hamilton.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -496,8 +497,13 @@ Garox_C::Garox_C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d03c0)
-void Garox_30_Sub::sub_5D03C0(Zone_144* pZone)
+void Garox_24::sub_5D03C0(Zone_144* pZone)
 {
+    // TODO: Try to match this soon to verify structs are correct
+    this->field_18 = pZone->field_130;
+    this->field_14 = pZone->field_12C;
+    this->field_1C = pZone->field_134;
+    this->field_10 = 5;
 }
 
 // ----------------------------------------------------
@@ -647,9 +653,15 @@ void Garox_7C_Array::place_gang_phone_5D1110(s32 pPhoneInfo)
 {
 }
 
-STUB_FUNC(0x5d1310)
+MATCH_FUNC(0x5d1310)
 void Garox_7C_Array::sub_5D1310(Zone_144* pZone)
 {
+    Garox_7C* p7C = sub_5D1050();
+    p7C->sub_5D0510(4);
+    p7C->field_18.field_10.field_30 = pZone;
+    p7C->field_18.field_2C = pZone->field_138;
+    p7C->field_18.field_10.field_34 = 0;
+    p7C->field_18.field_18.sub_5D03C0(pZone);
 }
 
 // ----------------------------------------------------
