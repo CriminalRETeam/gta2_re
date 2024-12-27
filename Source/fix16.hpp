@@ -76,6 +76,11 @@ public:
         return mValue >> 14;
     }
 
+    float ToFloat() const
+    {
+        return mValue * 0.0000610351562f;
+    }
+
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);

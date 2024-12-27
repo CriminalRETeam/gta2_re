@@ -88,7 +88,7 @@ class Garox_1C8
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
     EXPORT Garox_1C8();
-    char_type field_0;
+    u8 field_0;
     char_type field_1;
     wchar_t field_2_str[2];
     char_type field_6;
@@ -247,7 +247,7 @@ class Garox_1
     EXPORT void sub_5D5420();
     EXPORT void sub_5D5600(u8 a2);
     EXPORT void sub_5D5690();
-    EXPORT Garox_1* ctor_5D56A0();
+    EXPORT Garox_1();
     char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_str[65];
@@ -280,7 +280,7 @@ class Garox_Sub_C
   public:
     EXPORT void sub_5D0050(char_type a2);
     EXPORT Garox_Sub_C();
-    char_type field_0;
+    u8 field_0;
     char_type field_1;
     char_type field_2;
     char_type field_3;
@@ -308,8 +308,8 @@ class Garox_Sub_C_Array
 class Garox_C4
 {
   public:
-    EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16* a5, s32 displayTime);
-    EXPORT void sub_5D1D00(Garox_C4* a1, s32 a2, s32 a3);
+    EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
+    EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
     EXPORT s32 operator_equals_5D1E10(Garox_C4* pOther);
     wchar_t field_0_str_buf[82];
@@ -401,11 +401,10 @@ class Garox_C
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
     // TODO: These might be part of Garox_C_Array too
-    EXPORT void sub_5D31B0();
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
-    EXPORT s32 sub_5D32D0(s32 a2);
+
     EXPORT Garox_C* sub_5D32F0(s32 a2, s32 a3);
 
     EXPORT Garox_C();
@@ -423,7 +422,8 @@ class Garox_C_Array
     }
 
     EXPORT void sub_5D3040();
-
+    EXPORT void sub_5D31B0();
+    EXPORT void sub_5D32D0(s32 a2);
     EXPORT void sub_5D3310(s32 a2);
 
     Garox_C field_620[4];

@@ -21,7 +21,7 @@ Zone_144::~Zone_144()
 }
 
 STUB_FUNC(0x4BED30)
-s16* Zone_144::sub_4BED30()
+wchar_t* Zone_144::sub_4BED30()
 {
     return 0;
 }
