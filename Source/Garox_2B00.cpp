@@ -1,6 +1,9 @@
 #include "Garox_2B00.hpp"
-#include "root_sound.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "debug.hpp"
+#include "root_sound.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -40,10 +43,10 @@ void Garox_1_v2::sub_5D5770(u8* a2, u8* a3)
 {
 }
 
-STUB_FUNC(0x5d58f0)
-Garox_1_v2* Garox_1_v2::ctor_5D58F0()
+MATCH_FUNC(0x5d58f0)
+Garox_1_v2::Garox_1_v2()
 {
-    return 0;
+    field_0_timer = 0;
 }
 
 // ----------------------------------------------------
@@ -83,10 +86,10 @@ void Garox_12EC_sub::sub_5D1430()
 {
 }
 
-STUB_FUNC(0x5d15a0)
+MATCH_FUNC(0x5d15a0)
 s32 Garox_12EC_sub::sub_5D15A0(s32 a1)
 {
-    return 0;
+    return gGame_0x40_67E008->field_38_orf1->field_78A && (a1 == 28 || a1 == 1);
 }
 
 STUB_FUNC(0x5d15d0)
@@ -109,7 +112,7 @@ void Garox_4::sub_5CF6B0()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d63b0)
-void Garox_12E4_sub::sub_5D63B0(s32 a2)
+void Garox_12E4_sub::sub_5D63B0()
 {
 }
 
@@ -140,10 +143,11 @@ void Garox_1C8::sub_5D1AB0()
 {
 }
 
-STUB_FUNC(0x5d1ae0)
-Garox_1C8* Garox_1C8::ctor_5D1AE0()
+MATCH_FUNC(0x5d1ae0)
+Garox_1C8::Garox_1C8()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_1C4 = 1;
 }
 
 // ----------------------------------------------------
@@ -236,10 +240,14 @@ void Garox_Sub_C::sub_5D0050(char_type a2)
 {
 }
 
-STUB_FUNC(0x5d7510)
-Garox_Sub_C* Garox_Sub_C::ctor_5D7510()
+MATCH_FUNC(0x5d7510)
+Garox_Sub_C::Garox_Sub_C()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_2 = 0;
+    this->field_1 = 0;
+    this->field_4 = 0;
+    this->field_8 = -1;
 }
 
 // ----------------------------------------------------
@@ -307,9 +315,9 @@ void Garox_1700_L::sub_5D2050()
 }
 
 STUB_FUNC(0x5d2280)
-Garox_1700_L* Garox_1700_L::ctor_5D2280()
+Garox_1700_L::Garox_1700_L()
 {
-    return 0;
+
 }
 
 // ----------------------------------------------------
@@ -360,7 +368,7 @@ s32 Garox_C::sub_5D2AB0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d3040)
-void Garox_C::sub_5D3040()
+void Garox_C_Array::sub_5D3040()
 {
 }
 
@@ -466,10 +474,19 @@ void Garox_7C::sub_5D1350()
 {
 }
 
-STUB_FUNC(0x5d7600)
-Garox_7C* Garox_7C::ctor_5D7600()
+MATCH_FUNC(0x5d7600)
+Garox_7C::Garox_7C()
 {
-    return 0;
+    this->field_18.field_10.field_30 = 0;
+    this->field_18.field_10.field_34 = 0;
+    this->field_18.field_10.field_5 = 0;
+
+    field_18.field_18.init();
+    field_18.field_3C.init();
+
+    this->field_18.field_60 = &this->field_18.field_18;
+    this->field_18.field_2E = 0;
+    this->field_18.field_10.field_6 = 0;
 }
 
 // ----------------------------------------------------
@@ -626,9 +643,9 @@ s32 Garox_1E34_L::sub_5D4890(s32 a2)
 }
 
 STUB_FUNC(0x5d4930)
-Garox_1E34_L* Garox_1E34_L::ctor_5D4930()
+Garox_1E34_L::Garox_1E34_L()
 {
-    return 0;
+
 }
 
 // ----------------------------------------------------
@@ -659,10 +676,12 @@ s32 Garox_90_L::sub_5D5C50()
     return 0;
 }
 
-STUB_FUNC(0x5d5c60)
-Garox_90_L* Garox_90_L::ctor_5D5C60()
+MATCH_FUNC(0x5d5c60)
+Garox_90_L::Garox_90_L()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_88 = 0;
+    this->field_8C = 0;
 }
 
 // ----------------------------------------------------
@@ -700,9 +719,31 @@ void Garox_2B00::sub_5D5350()
 {
 }
 
-STUB_FUNC(0x5d6860)
+MATCH_FUNC(0x5d6860)
 void Garox_2B00::DrawGui_5D6860()
 {
+    if (!bSkip_user_67D506)
+    {
+        sub_5D6A70();
+        field_1118_sub.sub_5D5C80();
+        field_110C_sub.sub_5CF910();
+        field_13C0_sub.sub_5CFE40();
+        field_1028.sub_5D0110();
+        field_107C_sub.sub_5CFA70();
+        field_1108_sub.sub_5D0260();
+        field_4C.sub_5D5900();
+        sub_5D4A10();
+        field_1080.sub_5D5420();
+        field_DC.sub_5D3B80();
+        field_620.sub_5D3040();
+        field_650.Service_5D2010();
+        field_1F18.sub_5D0E90();
+        field_12F0.sub_5D56D0();
+        field_111C.sub_5D1940();
+        field_12E4_sub.sub_5D63B0();
+        field_2A25_sub.sub_5D16B0();
+        field_12EC_sub.sub_5D1430();
+    }
 }
 
 STUB_FUNC(0x5d69c0)
@@ -762,4 +803,5 @@ s32 Garox_2B00::sub_5D6CB0(s32 a1)
 STUB_FUNC(0x5d6cd0)
 Garox_2B00::Garox_2B00()
 {
+    field_13C4_text_speed = 0;
 }
