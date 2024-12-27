@@ -25,8 +25,6 @@ GLOBAL(word_706618, 0x706618);
 EXPORT_VAR s16 word_706508; // TODO
 GLOBAL(word_706508, 0x706508);
 
-
-
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -118,9 +116,10 @@ s32 Garox_12EC_sub::sub_5D15A0(s32 a1)
     return gGame_0x40_67E008->field_38_orf1->field_78A && (a1 == 28 || a1 == 1);
 }
 
-STUB_FUNC(0x5d15d0)
+MATCH_FUNC(0x5d15d0)
 void Garox_12EC_sub::sub_5D15D0(angry_lewin_0x85C* pPlayer)
 {
+    pPlayer->field_78A = 1;
 }
 
 // ----------------------------------------------------
