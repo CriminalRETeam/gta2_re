@@ -12,7 +12,7 @@ class Kfc_30
     EXPORT Kfc_30();
     EXPORT ~Kfc_30();
     EXPORT void sub_5CBC00();
-    EXPORT s32 sub_5CBC30();
+    EXPORT void sub_5CBC30();
     EXPORT void sub_5CBC40(cool_nash_0x294* a2);
     EXPORT bool sub_5CBC60();
     EXPORT char_type sub_5CBC90();

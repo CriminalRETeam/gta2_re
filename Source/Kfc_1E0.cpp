@@ -26,10 +26,10 @@ void Kfc_30::sub_5CBC00()
     this->field_1C = 0;
 }
 
-STUB_FUNC(0x5cbc30)
-s32 Kfc_30::sub_5CBC30()
+MATCH_FUNC(0x5cbc30)
+void Kfc_30::sub_5CBC30()
 {
-    return 0;
+    sub_5CBC00();
 }
 
 STUB_FUNC(0x5cbc40)
