@@ -467,7 +467,7 @@ class Garox_24
     s32 field_0;
     angry_lewin_0x85C* field_4;
     s32 field_8;
-    s32 field_C;
+    angry_lewin_0x85C* field_C;
     s32 field_10;
     s32 field_14;
     s32 field_18;

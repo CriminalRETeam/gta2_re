@@ -9,6 +9,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "lucid_hamilton.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -30,6 +31,9 @@ EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
 // TODO
 EXPORT_VAR extern char_type gLighting_626A09;
+
+// TODO: move
+EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
@@ -537,9 +541,31 @@ s32 Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
     return 0;
 }
 
-STUB_FUNC(0x5d1350)
+MATCH_FUNC(0x5d1350)
 void Garox_7C_Array::sub_5D1350()
 {
+    if ((u8)bStartNetworkGame_7081F0)
+    {
+        if (gLucid_hamilton_67E8E0.sub_4C5BC0() != 3)
+        {
+            sub_5D10B0();
+            for (angry_lewin_0x85C* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
+                 pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+            {
+                if (!pPlayerIter->field_0)
+                {
+                    Garox_7C* p7C = sub_5D1050();
+                    p7C->field_18.field_18.field_C = pPlayerIter;
+                    p7C->field_18.field_18.field_10 = 6;
+                    cool_nash_0x294* pPlayerPed = pPlayerIter->field_2C4_player_ped;
+                    if (pPlayerPed)
+                    {
+                        p7C->sub_5D0DC0(pPlayerPed);
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d7600)
