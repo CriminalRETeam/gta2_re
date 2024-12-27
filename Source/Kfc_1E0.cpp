@@ -75,9 +75,16 @@ void Kfc_1E0::init_5CBB70()
 {
 }
 
-STUB_FUNC(0x5cbb80)
+MATCH_FUNC(0x5cbb80)
 Kfc_30* Kfc_1E0::sub_5CBB80()
 {
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (!field_0[i].field_1E)
+        {
+            return &field_0[i];
+        }
+    }
     return 0;
 }
 
