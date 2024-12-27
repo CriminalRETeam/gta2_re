@@ -515,7 +515,7 @@ s32 Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
 }
 
 STUB_FUNC(0x5d1350)
-void Garox_7C::sub_5D1350()
+void Garox_7C_Array::sub_5D1350()
 {
 }
 
@@ -827,9 +827,15 @@ s16 Garox_2B00::sub_5D6B00()
     return 0;
 }
 
-STUB_FUNC(0x5d6be0)
+MATCH_FUNC(0x5d6be0)
 void Garox_2B00::sub_5D6BE0()
 {
+    sub_5D6A90();
+    sub_5D6B00();
+    field_4C.sub_5D5C50();
+    field_107C_sub.Empty_5CFE30();
+    field_1028.sub_5D0210();
+    field_1F18.sub_5D1350();
 }
 
 STUB_FUNC(0x5d6c20)

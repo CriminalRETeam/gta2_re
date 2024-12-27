@@ -503,7 +503,7 @@ class Garox_7C
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
     EXPORT s32 sub_5D0DC0(cool_nash_0x294* a2);
-    EXPORT void sub_5D1350();
+
     EXPORT Garox_7C();
     s32 field_0;
     char_type field_4;
@@ -529,6 +529,7 @@ class Garox_7C_Array
         this->field_844 = 0;
     }
 
+    EXPORT void sub_5D1350();
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
