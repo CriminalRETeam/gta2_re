@@ -508,9 +508,10 @@ void Garox_24::sub_5D03C0(Zone_144* pZone)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0510)
+MATCH_FUNC(0x5d0510)
 void Garox_7C::sub_5D0510(s32 a2)
 {
+    field_18.field_28 = a2;
 }
 
 STUB_FUNC(0x5d0530)
