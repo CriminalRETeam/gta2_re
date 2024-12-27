@@ -1,4 +1,5 @@
 #include "Kfc_1E0.hpp"
+#include "Mouze_44.hpp"
 
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
@@ -32,9 +33,11 @@ void Kfc_30::sub_5CBC30()
     sub_5CBC00();
 }
 
-STUB_FUNC(0x5cbc40)
+MATCH_FUNC(0x5cbc40)
 void Kfc_30::sub_5CBC40(cool_nash_0x294* a2)
 {
+    field_8->sub_4C9970(a2);
+    this->field_4 = this->field_8->field_2C;
 }
 
 STUB_FUNC(0x5cbc60)
