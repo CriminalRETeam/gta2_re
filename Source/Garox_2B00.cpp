@@ -368,7 +368,7 @@ s32 Garox_C::sub_5D2AB0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d3040)
-void Garox_C::sub_5D3040()
+void Garox_C_Array::sub_5D3040()
 {
 }
 
@@ -735,12 +735,12 @@ void Garox_2B00::DrawGui_5D6860()
         sub_5D4A10();
         field_1080.sub_5D5420();
         field_DC.sub_5D3B80();
-        field_DC.field_620[0].sub_5D3040();
+        field_DC.field_620.sub_5D3040();
         field_DC.field_650.Service_5D2010();
         field_1F18.sub_5D0E90();
         field_12F0.sub_5D56D0();
         field_111C.sub_5D1940();
-        field_12E4_sub.sub_5D63B0(); // v2 ?
+        field_12E4_sub.sub_5D63B0();
         field_2A25_sub.sub_5D16B0();
         field_12EC_sub.sub_5D1430();
     }

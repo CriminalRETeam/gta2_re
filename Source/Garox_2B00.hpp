@@ -393,7 +393,8 @@ class Garox_C
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
-    EXPORT void sub_5D3040();
+
+// TODO: These might be part of Garox_C_Array too
     EXPORT void sub_5D31B0();
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
@@ -405,6 +406,19 @@ class Garox_C
     s32 field_0;
     s32 field_4;
     infallible_turing* field_8;
+};
+
+class Garox_C_Array
+{
+  public:
+    // inline 0x4CA660
+    Garox_C_Array()
+    {
+    }
+
+    EXPORT void sub_5D3040();
+
+    Garox_C field_620[4];
 };
 
 class Garox_18
@@ -889,7 +903,7 @@ class Garox_1E34_L
     char_type* field_614;
     s32 field_618_p_start_q;
     s32 field_61C;
-    Garox_C field_620[4];
+    Garox_C_Array field_620;
     Garox_1700_L field_650;
 };
 
