@@ -1,5 +1,6 @@
 #include "Kfc_1E0.hpp"
 #include "Mouze_44.hpp"
+#include "cool_nash_0x294.hpp"
 
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
@@ -43,7 +44,7 @@ void Kfc_30::sub_5CBC40(cool_nash_0x294* a2)
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
-    return 0;
+    return field_4 && field_4->field_278 == 9;
 }
 
 STUB_FUNC(0x5cbc90)
