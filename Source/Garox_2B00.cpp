@@ -192,9 +192,13 @@ void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
 }
 
-STUB_FUNC(0x5d1ab0)
+MATCH_FUNC(0x5d1ab0)
 void Garox_1C8::sub_5D1AB0()
 {
+    if (this->field_0)
+    {
+        this->field_0--;
+    }
 }
 
 MATCH_FUNC(0x5d1ae0)
