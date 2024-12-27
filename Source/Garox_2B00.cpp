@@ -239,10 +239,14 @@ void Garox_Sub_C::sub_5D0050(char_type a2)
 {
 }
 
-STUB_FUNC(0x5d7510)
-Garox_Sub_C* Garox_Sub_C::ctor_5D7510()
+MATCH_FUNC(0x5d7510)
+Garox_Sub_C::Garox_Sub_C()
 {
-    return 0;
+    this->field_0 = 0;
+    this->field_2 = 0;
+    this->field_1 = 0;
+    this->field_4 = 0;
+    this->field_8 = -1;
 }
 
 // ----------------------------------------------------

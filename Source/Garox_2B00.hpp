@@ -256,7 +256,7 @@ class Garox_Sub_C
 {
   public:
     EXPORT void sub_5D0050(char_type a2);
-    EXPORT Garox_Sub_C* ctor_5D7510();
+    EXPORT Garox_Sub_C();
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -480,6 +480,14 @@ class Garox_7C
 class Garox_7C_Array
 {
   public:
+    // inline 0x4C7080
+    Garox_7C_Array()
+    {
+        this->field_83C = 1;
+        this->field_840 = 0;
+        this->field_844 = 0;
+    }
+
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
