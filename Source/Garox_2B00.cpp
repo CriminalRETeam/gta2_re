@@ -367,10 +367,11 @@ bool Garox_C4::sub_5D1DB0()
     return false;
 }
 
-STUB_FUNC(0x5d1e10)
+MATCH_FUNC(0x5d1e10)
 s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
-    return 0;
+    return this->field_A4_display_time > 0 && pOther != this && this->field_A8 == pOther->field_A8 && this->field_AA == pOther->field_AA &&
+        this->field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 // ----------------------------------------------------
