@@ -531,9 +531,18 @@ s32 Garox_7C::sub_5D0850()
     return 0;
 }
 
-STUB_FUNC(0x5d0c60)
+MATCH_FUNC(0x5d0c60)
 void Garox_7C::sub_5D0C60()
 {
+    if (!sub_5D0620())
+    {
+        char_type v2 = sub_5D0530();
+        this->field_18.field_10.field_5 = v2;
+        if (v2)
+        {
+            sub_5D0850();
+        }
+    }
 }
 
 STUB_FUNC(0x5d0c90)
