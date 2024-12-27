@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class gmp_block_info;
+struct gmp_block_info;
 
 class Junction_10
 {

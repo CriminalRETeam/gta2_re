@@ -1,4 +1,6 @@
 #include "Kfc_1E0.hpp"
+#include "Mouze_44.hpp"
+#include "cool_nash_0x294.hpp"
 
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
@@ -26,21 +28,23 @@ void Kfc_30::sub_5CBC00()
     this->field_1C = 0;
 }
 
-STUB_FUNC(0x5cbc30)
-s32 Kfc_30::sub_5CBC30()
+MATCH_FUNC(0x5cbc30)
+void Kfc_30::sub_5CBC30()
 {
-    return 0;
+    sub_5CBC00();
 }
 
-STUB_FUNC(0x5cbc40)
+MATCH_FUNC(0x5cbc40)
 void Kfc_30::sub_5CBC40(cool_nash_0x294* a2)
 {
+    field_8->sub_4C9970(a2);
+    this->field_4 = this->field_8->field_2C;
 }
 
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
-    return 0;
+    return field_4 && field_4->field_278 == 9;
 }
 
 STUB_FUNC(0x5cbc90)
@@ -75,9 +79,16 @@ void Kfc_1E0::init_5CBB70()
 {
 }
 
-STUB_FUNC(0x5cbb80)
+MATCH_FUNC(0x5cbb80)
 Kfc_30* Kfc_1E0::sub_5CBB80()
 {
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (!field_0[i].field_1E)
+        {
+            return &field_0[i];
+        }
+    }
     return 0;
 }
 

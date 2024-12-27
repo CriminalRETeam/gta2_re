@@ -134,7 +134,7 @@ void eager_benz::sub_593150(Car_BC* a2, s16 a3)
 MATCH_FUNC(0x593220)
 void eager_benz::sub_593220()
 {
-    field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_unk.field_0 * 20);
+    field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_multpliers.field_0 * 20);
 }
 
 STUB_FUNC(0x593240)
@@ -152,10 +152,10 @@ void eager_benz::sub_593370(Car_BC* a2)
             gCokeZero_100_702F34->sub_596890(a2->field_50_car_sprite->field_14_xpos,
                                              a2->field_50_car_sprite->field_18_ypos,
                                              a2->field_50_car_sprite->field_1C_zpos,
-                                             10 * field_368_pObj->field_6BC_unk.field_0);
+                                             10 * field_368_pObj->field_6BC_multpliers.field_0);
         }
     }
-    field_368_pObj->field_2D4_unk.AddCash_592620(10 * field_368_pObj->field_6BC_unk.field_0);
+    field_368_pObj->field_2D4_unk.AddCash_592620(10 * field_368_pObj->field_6BC_multpliers.field_0);
     if (field_368_pObj->field_68 == 2)
     {
         gShooey_CC_67A4B8->sub_484FE0(4u, field_368_pObj->field_2C8_unkq);

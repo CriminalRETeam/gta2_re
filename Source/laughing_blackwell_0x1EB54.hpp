@@ -2650,7 +2650,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT static void __stdcall sub_5E53C0(BYTE* a1);
 
-    EXPORT s32 sub_5D8990(wchar_t* pStr, u16 a2);
+    EXPORT static s32 __stdcall sub_5D8990(wchar_t* pStr, u16 a2);
 
     EXPORT s32 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
 

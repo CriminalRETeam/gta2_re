@@ -8,6 +8,7 @@ class cool_nash_0x294;
 class angry_lewin_0x85C;
 class Zone_144;
 class infallible_turing;
+class Zone_144;
 
 class Garox_13C0_sub
 {
@@ -34,9 +35,9 @@ class Garox_1_v2
 class Garox_2A25_sub
 {
   public:
-    EXPORT char_type sub_5D15E0(s32 a1, s32 a2);
+    EXPORT char_type sub_5D15E0(s32 a1, char_type* a2);
     EXPORT void sub_5D16B0();
-    EXPORT bool sub_5D17D0(s32 a2);
+    EXPORT s32 sub_5D17D0(s32 a2);
     EXPORT void sub_5D1830(angry_lewin_0x85C* a1);
     char_type field_2A25;
 };
@@ -82,7 +83,7 @@ class Garox_1C8
 {
   public:
     EXPORT void sub_5D1850();
-    EXPORT void sub_5D1860(const wchar_t* a1, Garox_1C8* a2);
+    EXPORT void sub_5D1860();
     EXPORT void sub_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
@@ -406,7 +407,7 @@ class Garox_C
     EXPORT s32 sub_5D3280(s32 a2);
     EXPORT s32 sub_5D32D0(s32 a2);
     EXPORT Garox_C* sub_5D32F0(s32 a2, s32 a3);
-    EXPORT s32 sub_5D3310(s32 a2);
+
     EXPORT Garox_C();
     s32 field_0;
     s32 field_4;
@@ -422,6 +423,8 @@ class Garox_C_Array
     }
 
     EXPORT void sub_5D3040();
+
+    EXPORT void sub_5D3310(s32 a2);
 
     Garox_C field_620[4];
 };
@@ -440,7 +443,6 @@ class Garox_18
 class Garox_30_Sub
 {
   public:
-    EXPORT void sub_5D03C0(Zone_144* pZone);
     Zone_144* field_30;
     char_type field_34;
     char_type field_5;
@@ -451,6 +453,8 @@ class Garox_30_Sub
 class Garox_24
 {
   public:
+    EXPORT void sub_5D03C0(Zone_144* pZone);
+
     // inline 0x4C6F00
     void init()
     {
@@ -465,7 +469,7 @@ class Garox_24
     s32 field_0;
     angry_lewin_0x85C* field_4;
     s32 field_8;
-    s32 field_C;
+    angry_lewin_0x85C* field_C;
     s32 field_10;
     s32 field_14;
     s32 field_18;
@@ -503,7 +507,7 @@ class Garox_7C
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
     EXPORT s32 sub_5D0DC0(cool_nash_0x294* a2);
-    EXPORT void sub_5D1350();
+
     EXPORT Garox_7C();
     s32 field_0;
     char_type field_4;
@@ -529,6 +533,7 @@ class Garox_7C_Array
         this->field_844 = 0;
     }
 
+    EXPORT void sub_5D1350();
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
@@ -917,7 +922,7 @@ class Garox_90_L
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
     EXPORT void sub_5D5B60();
-    EXPORT s32 sub_5D5C50();
+    EXPORT void sub_5D5C50();
     EXPORT Garox_90_L();
     char_type field_0;
     char_type field_1;

@@ -424,7 +424,7 @@ void angry_lewin_0x85C::sub_5699F0(s32 a2)
 {
     if (!gDo_infinite_lives_67D4C9 || a2 > 0)
     {
-        field_684_unk.sub_4921B0(a2);
+        field_684_lives.sub_4921B0(a2);
     }
 }
 
