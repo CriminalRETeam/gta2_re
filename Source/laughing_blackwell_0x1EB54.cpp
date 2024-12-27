@@ -1,7 +1,9 @@
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "Bink.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "cSampleManager.hpp"
+#include "crt_stubs.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
@@ -10,14 +12,12 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
-#include "Globals.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
-#include "crt_stubs.hpp"
 #include "text_0x14.hpp"
 #include <io.h>
 #include <stdio.h>
@@ -254,8 +254,6 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
                                {"data\\frontend\\Mask3.tga", 130427, 0},
                                {"data\\frontend\\DemoInfo.tga", 614939, 0}};
 #endif
-
-
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
@@ -4028,8 +4026,8 @@ nifty_maxwell_0x82::nifty_maxwell_0x82()
     field_4 = 0;
     field_6E_count = 0;
     field_70 = 0;
-    
-    for (s32 i=0; i< GTA2_COUNTOF(field_72); i++) // or is it a u32 ??
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_72); i++) // or is it a u32 ??
     {
         field_72[i] = 0;
     }
@@ -4235,14 +4233,14 @@ GLOBAL(dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
 EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
-                               Fix16 xpos_fp,
-                               Fix16 ypos_fp,
-                               u16 spaceWidth,
-                               Fix16 fp4,
-                               s32* pUnknown,
-                               s32 a7,
-                               s32 mode,
-                               s32 a9)
+                                      Fix16 xpos_fp,
+                                      Fix16 ypos_fp,
+                                      u16 spaceWidth,
+                                      Fix16 fp4,
+                                      s32* pUnknown,
+                                      s32 a7,
+                                      s32 mode,
+                                      s32 a9)
 {
     s32 new_Flags = CalcQuadFlags_5D83E0(mode, a9) | 0x20000;
     s32 drawFlags = new_Flags;
@@ -4421,10 +4419,10 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
 }
 
 MATCH_FUNC(0x4B87A0)
-EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4)
+EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
     s32 local; // [esp+0h] [ebp-4h] BYREF
 
     local = 2;
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, spaceWidth, fp4, &local, 0, 0, 0);
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, spaceWidth, fontType, &local, 0, 0, 0);
 }
