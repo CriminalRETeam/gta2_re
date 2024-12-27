@@ -401,7 +401,6 @@ class Garox_C
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
     // TODO: These might be part of Garox_C_Array too
-    EXPORT void sub_5D31B0();
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
@@ -423,7 +422,7 @@ class Garox_C_Array
     }
 
     EXPORT void sub_5D3040();
-
+    EXPORT void sub_5D31B0();
     EXPORT void sub_5D3310(s32 a2);
 
     Garox_C field_620[4];

@@ -453,9 +453,13 @@ void Garox_C_Array::sub_5D3040()
 {
 }
 
-STUB_FUNC(0x5d31b0)
-void Garox_C::sub_5D31B0()
+MATCH_FUNC(0x5d31b0)
+void Garox_C_Array::sub_5D31B0()
 {
+    for (s32 i = 0; i < GTA2_COUNTOF(field_620); i++)
+    {
+        field_620[i].sub_5D2320();
+    }
 }
 
 STUB_FUNC(0x5d31f0)
