@@ -917,7 +917,7 @@ class Garox_90_L
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
     EXPORT void sub_5D5B60();
-    EXPORT s32 sub_5D5C50();
+    EXPORT void sub_5D5C50();
     EXPORT Garox_90_L();
     char_type field_0;
     char_type field_1;

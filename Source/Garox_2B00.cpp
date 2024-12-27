@@ -5,10 +5,10 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
+#include "laughing_blackwell_0x1EB54.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -18,9 +18,6 @@ GLOBAL(word_706600, 0x706600);
 
 EXPORT_VAR s16 word_7064B8; // TODO
 GLOBAL(word_7064B8, 0x7064B8);
-
-
-
 
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
@@ -718,9 +715,10 @@ void Garox_90_L::sub_5D5B60()
 }
 
 STUB_FUNC(0x5d5c50)
-s32 Garox_90_L::sub_5D5C50()
+void Garox_90_L::sub_5D5C50()
 {
-    return 0;
+    this->field_90 = 0;
+    this->field_94 = 0;
 }
 
 MATCH_FUNC(0x5d5c60)
