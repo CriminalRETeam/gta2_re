@@ -1,6 +1,7 @@
 #include "Garox_2B00.hpp"
-#include "root_sound.hpp"
 #include "Globals.hpp"
+#include "root_sound.hpp"
+#include "debug.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -109,7 +110,7 @@ void Garox_4::sub_5CF6B0()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d63b0)
-void Garox_12E4_sub::sub_5D63B0(s32 a2)
+void Garox_12E4_sub::sub_5D63B0()
 {
 }
 
@@ -700,9 +701,31 @@ void Garox_2B00::sub_5D5350()
 {
 }
 
-STUB_FUNC(0x5d6860)
+MATCH_FUNC(0x5d6860)
 void Garox_2B00::DrawGui_5D6860()
 {
+    if (!bSkip_user_67D506)
+    {
+        sub_5D6A70();
+        field_1118_sub.sub_5D5C80();
+        field_110C_sub.sub_5CF910();
+        field_13C0_sub.sub_5CFE40();
+        field_1028.sub_5D0110();
+        field_107C_sub.sub_5CFA70();
+        field_1108_sub.sub_5D0260();
+        field_4C.sub_5D5900();
+        sub_5D4A10();
+        field_1080.sub_5D5420();
+        field_DC.sub_5D3B80();
+        field_DC.field_620[0].sub_5D3040();
+        field_DC.field_650.Service_5D2010();
+        field_1F18.sub_5D0E90();
+        field_12F0.sub_5D56D0();
+        field_111C.sub_5D1940();
+        field_12E4_sub.sub_5D63B0(); // v2 ?
+        field_2A25_sub.sub_5D16B0();
+        field_12EC_sub.sub_5D1430();
+    }
 }
 
 STUB_FUNC(0x5d69c0)

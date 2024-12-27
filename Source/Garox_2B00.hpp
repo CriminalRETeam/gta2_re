@@ -61,7 +61,7 @@ class Garox_4
 class Garox_12E4_sub
 {
   public:
-    EXPORT void sub_5D63B0(s32 a2);
+    EXPORT void sub_5D63B0();
     char_type field_12E4;
 };
 
