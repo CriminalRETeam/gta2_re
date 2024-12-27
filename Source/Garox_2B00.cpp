@@ -169,7 +169,7 @@ void Garox_1C8::sub_5D1850()
 }
 
 STUB_FUNC(0x5d1860)
-void Garox_1C8::sub_5D1860(const wchar_t* a1, Garox_1C8* a2)
+void Garox_1C8::sub_5D1860()
 {
 }
 
@@ -827,9 +827,16 @@ void Garox_2B00::sub_5D6A90()
     field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
 }
 
-STUB_FUNC(0x5d6ab0)
+MATCH_FUNC(0x5d6ab0)
 void Garox_2B00::sub_5D6AB0()
 {
+    sub_5D6B00();
+    field_DC.sub_5D3470();
+    sub_5D5190();
+    field_4C.sub_5D5AD0();
+    field_111C.sub_5D1860();
+    field_12F0.sub_5D56B0();
+    field_1080.sub_5D53E0();
 }
 
 STUB_FUNC(0x5d6b00)

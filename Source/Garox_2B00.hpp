@@ -82,7 +82,7 @@ class Garox_1C8
 {
   public:
     EXPORT void sub_5D1850();
-    EXPORT void sub_5D1860(const wchar_t* a1, Garox_1C8* a2);
+    EXPORT void sub_5D1860();
     EXPORT void sub_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
