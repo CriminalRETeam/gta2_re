@@ -4,9 +4,10 @@
 #include "angry_lewin_0x85C.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "registry.hpp"
+#include "gbh_graphics.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -16,6 +17,9 @@ GLOBAL(word_706600, 0x706600);
 
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+
+// TODO
+EXPORT_VAR extern char_type gLighting_626A09;
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::sub_5CFE40()
@@ -784,9 +788,13 @@ void Garox_2B00::sub_5D69D0()
 {
 }
 
-STUB_FUNC(0x5d6a70)
+MATCH_FUNC(0x5d6a70)
 void Garox_2B00::sub_5D6A70()
 {
+    if (gLighting_626A09)
+    {
+        gbh_SetAmbient(1.0);
+    }
 }
 
 MATCH_FUNC(0x5d6a90)
