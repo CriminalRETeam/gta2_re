@@ -378,6 +378,19 @@ s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 STUB_FUNC(0x5d1eb0)
 void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 {
+    Garox_C4* pIter = this->field_960_pFirst;
+    if (pIter)
+    {
+        while (!pIter->operator_equals_5D1E10(String2))
+        {
+            pIter = pIter->field_C0_pNext;
+            if (!pIter)
+            {
+                return;
+            }
+        }
+        pIter->field_A4_display_time = 0;
+    }
 }
 
 MATCH_FUNC(0x5d1f50)
