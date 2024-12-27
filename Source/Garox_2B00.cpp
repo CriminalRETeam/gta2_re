@@ -27,6 +27,9 @@ GLOBAL(word_706618, 0x706618);
 EXPORT_VAR s16 word_706508; // TODO
 GLOBAL(word_706508, 0x706508);
 
+EXPORT_VAR char byte_67CE50[264]; // TODO
+GLOBAL(byte_67CE50, 0x67CE50);
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -275,9 +278,14 @@ void Garox_1::sub_5D5420()
 {
 }
 
-STUB_FUNC(0x5d5600)
+MATCH_FUNC(0x5d5600)
 void Garox_1::sub_5D5600(u8 a2)
 {
+    sprintf(byte_67CE50, "c%02d", a2);
+    this->field_0_timer = 90;
+    wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
+    wcscpy(this->field_2_str, pStr);
+    sub_5D53E0();
 }
 
 MATCH_FUNC(0x5d5690)
