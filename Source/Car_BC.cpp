@@ -1572,8 +1572,6 @@ void Car_8::dtor_40AC40()
 {
 }
 
-EXPORT void sub_5A4D90();
-
 STUB_FUNC(0x563970)
 Car_8* Car_8::ctor_563970()
 {
