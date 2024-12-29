@@ -1,4 +1,5 @@
 #include "PurpleDoom.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
@@ -9,6 +10,12 @@ GLOBAL(gPurpleDoom_2_67920C, 0x67920C);
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_3_679210;
 GLOBAL(gPurpleDoom_3_679210, 0x679210);
+
+EXPORT_VAR s32 dword_6F5F38;
+GLOBAL(dword_6F5F38, 0x6F5F38);
+
+EXPORT_VAR s32 dword_6F6108;
+GLOBAL(dword_6F6108, 0x6F6108);
 
 STUB_FUNC(0x477a40)
 s32 PurpleDoom::sub_477A40()
@@ -22,15 +29,25 @@ char_type PurpleDoom::sub_477AE0(Car_3C* a1)
     return 0;
 }
 
-STUB_FUNC(0x477b00)
+MATCH_FUNC(0x477b00)
 void PurpleDoom::sub_477B00(Car_3C* a1)
 {
+    sub_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
-STUB_FUNC(0x477b20)
+MATCH_FUNC(0x477b20)
 s32 PurpleDoom::sub_477B20(Car_3C* a1a)
 {
-    return 0;
+    s32 result;
+    a1a->sub_59E9C0();
+    a1a->field_C_car_or_sprite->sub_5A4D90();
+    s32 v3 = dword_6F6108;
+    for (result = dword_6F5F38; v3 <= dword_6F5F38; v3++)
+    {
+        sub_4784D0(v3, a1a);
+        result = dword_6F5F38;
+    }
+    return result;
 }
 
 STUB_FUNC(0x477b60)

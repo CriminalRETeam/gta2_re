@@ -3,6 +3,7 @@
 #include "Car_10.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
+#include "Fix16.hpp"
 #include <wchar.h>
 
 class Car_78;
@@ -20,7 +21,7 @@ class Sprite_4C;
 class Car_3C
 {
   public:
-    EXPORT void sub_451950(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_451950(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();
     EXPORT s32 sub_59E320(char_type a2);
@@ -66,9 +67,9 @@ class Car_3C
     Car_BC* field_8_uni;
     Car_3C* field_C_car_or_sprite;
     infallible_turing* field_10;
-    s32 field_14_xpos;
-    s32 field_18_ypos;
-    s32 field_1C_zpos;
+    Fix16 field_14_xpos;
+    Fix16 field_18_ypos;
+    Fix16 field_1C_zpos;
     s16 field_20;
     s16 field_22;
     s16 field_24;

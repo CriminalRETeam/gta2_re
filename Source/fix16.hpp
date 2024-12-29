@@ -61,6 +61,16 @@ public:
         return mValue < other.mValue;
     }
 
+    bool operator!=(const Fix16& other)
+    {
+        return mValue != other.mValue;
+    }
+
+    bool operator>=(const Fix16& other)
+    {
+        return mValue >= other.mValue;
+    }
+
     f32 AsFloat() const
     {
         return mValue / 16384.0f;

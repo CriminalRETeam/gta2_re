@@ -3,6 +3,7 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
 #include "root_sound.hpp"
+#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "PurpleDoom.hpp"
 #include "map_0x370.hpp"
@@ -26,7 +27,7 @@ EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
 MATCH_FUNC(0x451950)
-void Car_3C::sub_451950(s32 xpos, s32 ypos, s32 zpos) {
+void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos) {
     if ( field_14_xpos != xpos
         || field_18_ypos != ypos
         || field_1C_zpos != zpos )
@@ -1556,16 +1557,22 @@ Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
     return 0;
 }
 
-STUB_FUNC(0x564300)
+MATCH_FUNC(0x564300)
 bool Car_BC::sub_564300()
 {
-    return 0;
+    if (field_54_driver) {
+        bool result = field_54_driver->sub_45EDE0(2) == 0;
+        return result;
+    }
+    return false;
 }
 
 STUB_FUNC(0x40ac40)
 void Car_8::dtor_40AC40()
 {
 }
+
+EXPORT void sub_5A4D90();
 
 STUB_FUNC(0x563970)
 Car_8* Car_8::ctor_563970()

@@ -115,7 +115,7 @@ void CokeZero_100::sub_596880()
 }
 
 STUB_FUNC(0x596890)
-void CokeZero_100::sub_596890(s32 a2, s32 a3, s32 a4, u32 a5)
+void CokeZero_100::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
 {
 }
 
