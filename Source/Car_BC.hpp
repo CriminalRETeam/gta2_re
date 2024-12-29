@@ -472,3 +472,4 @@ class Car_8
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
+EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
