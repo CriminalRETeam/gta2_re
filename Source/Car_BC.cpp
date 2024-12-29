@@ -1545,10 +1545,26 @@ s32 Car_BC::sub_446730(Car_BC* a1)
     return 0;
 }
 
-STUB_FUNC(0x447360)
-char_type Car_BC::sub_447360()
+MATCH_FUNC(0x447360)
+void Car_BC::sub_447360()
 {
-    return 0;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
+    {
+        field_8.clear_bit(0x0b);
+        field_8.clear_bit(0x0c);
+        field_8.clear_bit(0x0d);
+        field_8.clear_bit(0x0e);
+        field_8.clear_bit(0x1c);
+        field_8.clear_bit(0x1d);
+        field_8.clear_bit(0x1e);
+        field_8.clear_bit(0x1f);
+    }
+    field_8.clear_bit(0x06);
+    field_8.clear_bit(0x17);
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4)
+    {
+        field_8.clear_bit(0x0f);
+    }
 }
 
 STUB_FUNC(0x52a6d0)

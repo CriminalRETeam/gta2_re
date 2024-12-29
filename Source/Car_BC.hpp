@@ -192,6 +192,19 @@ class Car_6C
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
 
+class BitSet32_Car_BC {
+  public:
+    void clear_bit(int bit) {
+        m_var &= ~(1 << bit);
+    }
+    operator=(u32 value)
+    {
+        m_var = value;
+    }
+  private:
+    u32 m_var;
+};
+
 class Car_BC
 {
   public:
@@ -375,13 +388,13 @@ class Car_BC
     ~Car_BC(); // 0x444960
 
     EXPORT s32 sub_446730(Car_BC* a1);
-    EXPORT char_type sub_447360();
+    EXPORT void sub_447360();
     EXPORT Car_3C* sub_52A6D0(Car_3C* a2);
     EXPORT bool sub_564300();
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
-    s32 field_8;
+    BitSet32_Car_BC field_8;
     Car_10 field_C[3];
     s32 field_3C;
     s32 field_40;
