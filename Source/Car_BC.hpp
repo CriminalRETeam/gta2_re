@@ -197,9 +197,10 @@ class BitSet32_Car_BC {
     void clear_bit(int bit) {
         m_var &= ~(1 << bit);
     }
-    operator=(u32 value)
+    BitSet32_Car_BC& operator=(u32 value)
     {
         m_var = value;
+        return *this;
     }
   private:
     u32 m_var;
