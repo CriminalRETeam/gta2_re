@@ -2,6 +2,9 @@
 #include "Globals.hpp"
 #include "miss2_8.hpp"
 
+#include "Car_BC.hpp"
+#include "cool_nash_0x294.hpp"
+
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
 GLOBAL(word_6212EE, 0x6212EE);
@@ -35,14 +38,26 @@ void miss2_0x11C::sub_5035D0()
 {
 }
 
-STUB_FUNC(0x503620)
+MATCH_FUNC(0x503620)
 void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 {
+	if ( (u16) a2->field_4_cmd_next != 0xFFFF ) {        // FF FF (low endian) is the script terminator
+        dword_6F806C = this->field_4_level_start;
+        this->field_4_level_start = a2->field_4_cmd_next;
+        this->field_C = 0;
+    } else {
+        miss2_0x11C::sub_503670();
+    }
 }
 
-STUB_FUNC(0x503650)
+MATCH_FUNC(0x503650)
 void miss2_0x11C::sub_503650(u16 a2)
 {
+	if ( a2 != 0xFFFF ) {
+        this->field_4_level_start = a2;
+    } else {
+        miss2_0x11C::sub_503670();
+    }
 }
 
 STUB_FUNC(0x503670)
@@ -71,9 +86,15 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(s32* a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x503f80)
+MATCH_FUNC(0x503f80)
 void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1)
 {
+	s32 v1;
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((s32 *)a1, a1);
+    (*(Car_BC **)(a1 + 8))->sub_443EB0(9);
+    v1 = *(s32*)(a1 + 8);
+    *(s32*)(v1 + 124) = 4;
+    *(s16*)(v1 + 118) = 0;
 }
 
 STUB_FUNC(0x503fb0)
@@ -81,10 +102,22 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(s32* a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x504110)
+MATCH_FUNC(0x504110)
 s32 miss2_0x11C::sub_504110(s32 a1, s32 a2)
 {
-    return 0;
+    s32 v2;
+    s32 v3;
+	
+    (*(cool_nash_0x294 **)(a2 + 8))->sub_463570(
+		*(s16*)(a1 + 10),
+		9999);
+    v2 = *(s32 *)(a2 + 8);
+	
+    v3 = *(s32 *)(v2 + 540);
+    v3 &= ~0x400u;
+
+    *(s32 *)(v2 + 540) = v3;
+    return v2;
 }
 
 STUB_FUNC(0x504150)
