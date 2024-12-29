@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 #include "Fix16.hpp"
+#include "BitSet32.hpp"
 #include <wchar.h>
 
 class Car_78;
@@ -191,20 +192,6 @@ class Car_6C
 };
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
-
-class BitSet32_Car_BC {
-  public:
-    void clear_bit(int bit) {
-        m_var &= ~(1 << bit);
-    }
-    BitSet32_Car_BC& operator=(u32 value)
-    {
-        m_var = value;
-        return *this;
-    }
-  private:
-    u32 m_var;
-};
 
 class Car_B0
 {
@@ -401,7 +388,7 @@ class Car_BC
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
-    BitSet32_Car_BC field_8;
+    BitSet32 field_8;
     Car_10 field_C[3];
     s32 field_3C;
     s32 field_40;
