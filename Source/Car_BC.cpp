@@ -435,6 +435,12 @@ Car_6C::~Car_6C()
 {
 }
 
+STUB_FUNC(0x563560)
+s32 Car_B0::sub_563560(Car_3C* a2)
+{
+    return 0;
+}
+
 STUB_FUNC(0x439ec0)
 bool Car_BC::sub_439EC0()
 {
@@ -1384,10 +1390,26 @@ void Car_BC::sub_443C40(s32 a2)
 {
 }
 
-STUB_FUNC(0x443d00)
-s32 Car_BC::sub_443D00(s32 xpos, s32 ypos, s32 zpos)
+MATCH_FUNC(0x443d00)
+s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    return 0;
+    gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
+    Car_3C *pCarSprite = field_50_car_sprite;
+    if (pCarSprite->field_14_xpos != xpos
+        || pCarSprite->field_18_ypos != ypos
+        || pCarSprite->field_1C_zpos != zpos)
+    {
+        pCarSprite->field_14_xpos = xpos;
+        pCarSprite->field_18_ypos = ypos;
+        pCarSprite->field_1C_zpos = zpos;
+        pCarSprite->sub_59E7B0();
+    }
+    Car_B0 *field_58_uni = (Car_B0 *)field_58_uni_Car78_or_Car_B0;
+    if (field_58_uni)
+    {
+        field_58_uni->sub_563560(field_50_car_sprite);
+    }
+    return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
 STUB_FUNC(0x443d70)

@@ -206,6 +206,12 @@ class BitSet32_Car_BC {
     u32 m_var;
 };
 
+class Car_B0
+{
+  public:
+    EXPORT s32 sub_563560(Car_3C* a2);
+};
+
 class Car_BC
 {
   public:
@@ -370,7 +376,7 @@ class Car_BC
     EXPORT void sub_443AE0(s32 a2);
     EXPORT void sub_443BD0(s32 a2);
     EXPORT void sub_443C40(s32 a2);
-    EXPORT s32 sub_443D00(s32 xpos, s32 ypos, s32 zpos);
+    EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_443D70(s32 a2);
     EXPORT Car_6C* sub_443DA0(s32 a2);
     EXPORT Car_6C* sub_443E50();
