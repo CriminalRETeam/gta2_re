@@ -96,7 +96,7 @@ Car_3C* Car_3C::sub_59E7D0(s32 a2) {
     sub_59E9C0();
     field_C_car_or_sprite->sub_5A4D90();
     gCar_3C_6F61E8 = this;
-    if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos >> 14))
+    if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
         return gCar_3C_6791A8;
     }
