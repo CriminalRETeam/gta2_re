@@ -42,7 +42,7 @@ struct lucid_hamilton
     char_type field_443;
     s32 field_444;
     wonderful_knuth_0xC field_448[6];
-    u16 field_490[6];
+    s16 field_490[6];
     s32 field_49C[6];
     blissful_ganguly_0x20 field_4B4[6];
 

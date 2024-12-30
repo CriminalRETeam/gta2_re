@@ -1,5 +1,6 @@
 #include "lucid_hamilton.hpp"
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "registry.hpp"
@@ -365,30 +366,24 @@ s32 lucid_hamilton::sub_4C5CB0(u8 a2)
     return field_49C[a2];
 }
 
-STUB_FUNC(0x4C5CD0)
-void lucid_hamilton::sub_4C5CD0(u8 a2, u8 a3)
+MATCH_FUNC(0x4C5CD0)
+void lucid_hamilton::sub_4C5CD0(u8 player_idx, u8 f0_idx)
 {
-    // todo
-    /*
-    angry_lewin_0x85C *v4; // ecx
-    s16 v5; // dx
-
-    ++this->field_448[a2].field_0[a3];
-    v4 = gGame_0x40_67E008->field_4[a2];
-    if (a2 == a3)
+    field_448[player_idx].field_0[f0_idx]++;
+    angry_lewin_0x85C* pPlayer = gGame_0x40_67E008->field_4_players[player_idx];
+    if (player_idx == f0_idx)
     {
-        v5 = this->field_490[a2];
-        if (v5 > 0)
+        if (field_490[player_idx] > 0)
         {
-            this->field_490[a2] = v5 - 1;
-            eager_benz::sub_5935D0(&v4->field_2D4_unk, -1);
+            field_490[player_idx]--;
+            pPlayer->field_2D4_unk.sub_5935D0(-1);
         }
     }
     else
     {
-        ++this->field_490[a2];
-        eager_benz::sub_5935D0(&v4->field_2D4_unk, 1);
-    }*/
+        field_490[player_idx]++;
+        pPlayer->field_2D4_unk.sub_5935D0(1);
+    }
 }
 
 MATCH_FUNC(0x4C5D60)
