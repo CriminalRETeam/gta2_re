@@ -1,13 +1,19 @@
 #include "Zones_CA8.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include "map_0x370.hpp"
 #include "text_0x14.hpp"
-#include "error.hpp"
 #include <string.h>
 
 EXPORT_VAR Zones_CA8* gZones_CA8_67E274;
 GLOBAL(gZones_CA8_67E274, 0x67E274)
+
+EXPORT_VAR s32 gZoneIdx_6206B8; // = -1 // TODO
+GLOBAL(gZoneIdx_6206B8, 0x6206B8)
+
+EXPORT_VAR wchar_t gZoneNameWide_67E030[4];
+GLOBAL(gZoneNameWide_67E030, 0x67E030)
 
 MATCH_FUNC(0x4BE4E0);
 Zone_144::Zone_144()
@@ -20,10 +26,14 @@ Zone_144::~Zone_144()
 {
 }
 
-STUB_FUNC(0x4BED30)
-wchar_t* Zone_144::sub_4BED30()
+MATCH_FUNC(0x4BED30)
+wchar_t* Zone_144::get_name_wide_4BED30()
 {
-    return 0;
+    gZoneNameWide_67E030[0] = this->field_2_name[0];
+    gZoneNameWide_67E030[1] = this->field_2_name[1];
+    gZoneNameWide_67E030[2] = this->field_2_name[2];
+    gZoneNameWide_67E030[3] = 0;
+    return gZoneNameWide_67E030;
 }
 
 STUB_FUNC(0x4BED70);
@@ -37,10 +47,10 @@ char_type Zone_144::sub_4BEDF0(u8 a2)
     return field_112[a2];
 }
 
-STUB_FUNC(0x4BEE30)
-s32 Zone_144::sub_4BEE30(u8 idx, char_type value)
+MATCH_FUNC(0x4BEE30)
+void Zone_144::sub_4BEE30(u8 idx, char_type value)
 {
-    return 0;
+    field_11C[idx] = value;
 }
 
 STUB_FUNC(0x4BEE50)
@@ -78,9 +88,37 @@ char_type Zone_144::sub_4BEF70(u8 a2, u8 a3)
     return 0;
 }
 
+// https://decomp.me/scratch/pXGoj
 STUB_FUNC(0x4BF000)
-void Zone_144::sub_4BF000(u8 a2, char_type a3)
+void Zone_144::sub_4BF000(u8 a2, char_type idx)
 {
+    if (idx <= 0)
+    {
+        sub_4BEEA0(a2, -idx);
+    }
+    else
+    {
+        sub_4BEE50(a2, idx);
+    }
+
+    for (u8 i = 0; i < 10; ++i)
+    {
+        Zone_144* pZoneFromIdx = gZones_CA8_67E274->ZoneByIdx_4BF1C0(i);
+        if (field_1_zone_idx != pZoneFromIdx->field_1_zone_idx)
+        {
+            if (pZoneFromIdx->field_122[field_1_zone_idx])
+            {
+                if (idx <= 0)
+                {
+                    pZoneFromIdx->sub_4BEE50(a2, -idx);
+                }
+                else
+                {
+                    pZoneFromIdx->sub_4BEEA0(a2, idx);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4BF090);
@@ -104,15 +142,29 @@ Zones_CA8::~Zones_CA8()
 {
 }
 
-STUB_FUNC(0x4beca0)
+MATCH_FUNC(0x4beca0)
 Zone_144* Zones_CA8::sub_4BECA0()
 {
+    for (gZoneIdx_6206B8 = 0; gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0); gZoneIdx_6206B8++)
+    {
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        {
+            return &field_0[gZoneIdx_6206B8];
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x4bece0)
+MATCH_FUNC(0x4bece0)
 Zone_144* Zones_CA8::sub_4BECE0()
 {
+    while (++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
+    {
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        {
+            return &field_0[gZoneIdx_6206B8];
+        }
+    }
     return 0;
 }
 

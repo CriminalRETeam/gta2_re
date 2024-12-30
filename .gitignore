@@ -21,3 +21,4 @@ Scripts/bin_comp/pyvenv.cfg
 .vscode/settings.json
 .idea
 cmake-build-debug
+GTA2_data
