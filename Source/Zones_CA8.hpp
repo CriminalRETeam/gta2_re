@@ -11,10 +11,10 @@ class Zone_144
     EXPORT Zone_144(); //  0x4BE4E0
     EXPORT ~Zone_144(); // 0x4BE4F0
 
-    EXPORT wchar_t* sub_4BED30();
+    EXPORT wchar_t* get_name_wide_4BED30();
     EXPORT void init_4BED70();
     EXPORT char_type sub_4BEDF0(u8 a2);
-    EXPORT s32 sub_4BEE30(u8 idx, char_type value);
+    EXPORT void sub_4BEE30(u8 idx, char_type value);
     EXPORT char_type sub_4BEE50(u8 idx, char_type a3);
     EXPORT void sub_4BEEA0(u8 a2, char_type a3);
     EXPORT char_type sub_4BEEF0(u8 a2);
@@ -25,7 +25,7 @@ class Zone_144
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);
     EXPORT wchar_t* sub_4BF340();
 
-    char field_0_used;
+    u8 field_0_used;
     u8 field_1_zone_idx;
     char field_2_name[4];
     char field_6;
@@ -110,7 +110,7 @@ class Zone_144
     u32 field_130;
     u32 field_134;
     u8 field_138;
-    char field_139;
+    u8 field_139;
     char field_13A;
     char field_13B;
     u32 field_13C;

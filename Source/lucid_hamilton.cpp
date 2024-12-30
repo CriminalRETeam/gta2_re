@@ -1,14 +1,79 @@
 #include "lucid_hamilton.hpp"
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "registry.hpp"
 
 EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
 GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
 
-STUB_FUNC(0x4C53D0)
+EXPORT_VAR extern char_type byte_67DC88[4]; // TODO
+EXPORT_VAR extern wchar_t word_67DC8C[50]; // TODO
+
+MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()
 {
-    // todo
+    char path[256];
+    char tmp[256];
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\jointmap.gmp");
+    }
+    gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\style.sty");
+    }
+    gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\q.scr");
+    }
+    gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "player\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "player\\") == 0)
+    {
+        strcpy(path, byte_67DC88);
+    }
+
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0(path);
+    gLucid_hamilton_67E8E0.sub_4C58F0(0);
+    gLucid_hamilton_67E8E0.sub_4C5900(0);
+    gLucid_hamilton_67E8E0.sub_4C5910(0);
+    gLucid_hamilton_67E8E0.sub_4C5920(0);
+    gLucid_hamilton_67E8E0.sub_4C5930(0);
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_408); i++)
+    {
+        field_408[i] = 0;
+    }
+
+    this->field_430 = 0;
+    this->field_434 = 0;
+    this->field_438 = 0;
+    this->field_43A = 0;
+
+    init_4C5AF0();
 }
 
 MATCH_FUNC(0x4C5870)
@@ -131,28 +196,16 @@ s32 lucid_hamilton::sub_4C59F0(u8 idx)
     return field_408[idx];
 }
 
-STUB_FUNC(0x4C5A10)
-void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* a1)
+MATCH_FUNC(0x4C5A10)
+void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* pPlayer)
 {
-    // todo
-    /*
-    u8 k10Counter; // bl
-    zealous_borg *p_field_644_unk; // esi
-    u8 a2; // [esp+10h] [ebp-4h]
-
-    k10Counter = 0;
-    a2 = 0;
-    p_field_644_unk = &a1->field_644_unk;
-    do
+    for (u8 i = 0; i < 10; i++)
     {
-        lucid_hamilton::sub_4C59D0(this, a2, p_field_644_unk->field_0[0]);
-        ++k10Counter;
-        p_field_644_unk = (zealous_borg *)((char_type *)p_field_644_unk + 4);
-        a2 = k10Counter;
-    } while (k10Counter < 10u);
-    lucid_hamilton::sub_4C5A70(this, a1->field_644_unk.field_34);
-    lucid_hamilton::sub_4C5A90(this, a1->field_644_unk.field_38);
-    */
+        sub_4C59D0(i, pPlayer->field_644_unk.field_0[i]);
+    }
+
+    sub_4C5A70(pPlayer->field_644_unk.field_34);
+    sub_4C5A90(pPlayer->field_644_unk.field_38);
 }
 
 MATCH_FUNC(0x4C5A70)
@@ -203,42 +256,25 @@ char_type lucid_hamilton::sub_4C5AE0()
     return field_43A;
 }
 
-STUB_FUNC(0x4C5AF0)
+MATCH_FUNC(0x4C5AF0)
 void lucid_hamilton::init_4C5AF0()
 {
-    // todo
-    /*
-    blissful_ganguly_0x20 *pIter4; // ebx
-    s32 *pIter3; // edi
-    u16 *pIter2; // esi
-    wonderful_knuth_0xC *pIter1; // ebp
-    s32 k6Counter; // [esp+10h] [ebp-4h]
+    field_43B = 0;
+    field_43C = 0;
+    field_440 = 0;
+    field_441 = 0;
+    field_442 = 6;
 
-    this->field_43B = 0;
-    this->field_43C = 0;
-    this->field_440 = 0;
-    this->field_441 = 0;
-    this->field_442 = 6;
-    pIter4 = this->field_4B4;
-    pIter3 = this->field_49C;
-    pIter2 = this->field_490;
-    pIter1 = this->field_448;
-    k6Counter = 6;
-    do
+    for (s32 i = 0; i < GTA2_COUNTOF(field_490); i++)
     {
-        *(DWORD *)pIter1->field_0 = 0;
-        *(DWORD *)&pIter1->field_0[2] = 0;
-        *(DWORD *)&pIter1->field_0[4] = 0;
-        *pIter2 = 0;
-        *pIter3 = 0;
-        wcscpy(pIter4->field_0_str, word_67DC8C);
-        ++pIter2;
-        ++pIter3;
-        ++pIter1;
-        ++pIter4;
-        --k6Counter;
-    } while (k6Counter);
-    */
+        for (s32 j = 0; j < 6; j++)
+        {
+            field_448[i].field_0[j] = 0;
+        }
+        field_490[i] = 0;
+        field_49C[i] = 0;
+        wcscpy(field_4B4[i].field_0_str, word_67DC8C);
+    }
 }
 
 MATCH_FUNC(0x4C5B80)
@@ -314,30 +350,24 @@ s32 lucid_hamilton::sub_4C5CB0(u8 a2)
     return field_49C[a2];
 }
 
-STUB_FUNC(0x4C5CD0)
-void lucid_hamilton::sub_4C5CD0(u8 a2, u8 a3)
+MATCH_FUNC(0x4C5CD0)
+void lucid_hamilton::sub_4C5CD0(u8 player_idx, u8 f0_idx)
 {
-    // todo
-    /*
-    angry_lewin_0x85C *v4; // ecx
-    s16 v5; // dx
-
-    ++this->field_448[a2].field_0[a3];
-    v4 = gGame_0x40_67E008->field_4[a2];
-    if (a2 == a3)
+    field_448[player_idx].field_0[f0_idx]++;
+    angry_lewin_0x85C* pPlayer = gGame_0x40_67E008->field_4_players[player_idx];
+    if (player_idx == f0_idx)
     {
-        v5 = this->field_490[a2];
-        if (v5 > 0)
+        if (field_490[player_idx] > 0)
         {
-            this->field_490[a2] = v5 - 1;
-            eager_benz::sub_5935D0(&v4->field_2D4_unk, -1);
+            field_490[player_idx]--;
+            pPlayer->field_2D4_unk.sub_5935D0(-1);
         }
     }
     else
     {
-        ++this->field_490[a2];
-        eager_benz::sub_5935D0(&v4->field_2D4_unk, 1);
-    }*/
+        field_490[player_idx]++;
+        pPlayer->field_2D4_unk.sub_5935D0(1);
+    }
 }
 
 MATCH_FUNC(0x4C5D60)

@@ -237,8 +237,9 @@ Police_A4::~Police_A4()
     delete[] field_A0_pMem;
 }
 
-// TODO: doesn't match ??
-STUB_FUNC(0x4beb50)
+// https://decomp.me/scratch/McaDT
+// TODO: Missing SEH for unknown reasons, SEH present on decomp.me
+STUB_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
 {
 }

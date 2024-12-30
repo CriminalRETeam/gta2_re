@@ -333,7 +333,7 @@ void Garox_27B5_sub::sub_5CF970()
         wchar_t* pZoneName;
         if (pZone)
         {
-            pZoneName = pZone->sub_4BED30();
+            pZoneName = pZone->get_name_wide_4BED30();
         }
         else
         {
