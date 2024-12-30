@@ -12,7 +12,7 @@ GLOBAL(gZones_CA8_67E274, 0x67E274)
 EXPORT_VAR s32 gZoneIdx_6206B8; // = -1 // TODO
 GLOBAL(gZoneIdx_6206B8, 0x6206B8)
 
-EXPORT_VAR wchar_t gZoneNameWide_67E030[4]; 
+EXPORT_VAR wchar_t gZoneNameWide_67E030[4];
 GLOBAL(gZoneNameWide_67E030, 0x67E030)
 
 MATCH_FUNC(0x4BE4E0);
@@ -88,9 +88,37 @@ char_type Zone_144::sub_4BEF70(u8 a2, u8 a3)
     return 0;
 }
 
+// https://decomp.me/scratch/pXGoj
 STUB_FUNC(0x4BF000)
-void Zone_144::sub_4BF000(u8 a2, char_type a3)
+void Zone_144::sub_4BF000(u8 a2, char_type idx)
 {
+    if (idx <= 0)
+    {
+        sub_4BEEA0(a2, -idx);
+    }
+    else
+    {
+        sub_4BEE50(a2, idx);
+    }
+
+    for (u8 i = 0; i < 10; ++i)
+    {
+        Zone_144* pZoneFromIdx = gZones_CA8_67E274->ZoneByIdx_4BF1C0(i);
+        if (field_1_zone_idx != pZoneFromIdx->field_1_zone_idx)
+        {
+            if (pZoneFromIdx->field_122[field_1_zone_idx])
+            {
+                if (idx <= 0)
+                {
+                    pZoneFromIdx->sub_4BEE50(a2, -idx);
+                }
+                else
+                {
+                    pZoneFromIdx->sub_4BEEA0(a2, idx);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4BF090);
