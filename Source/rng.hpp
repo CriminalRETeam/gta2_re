@@ -11,9 +11,12 @@ class rng
         field_4_rnd = 0;
     }
 
+    EXPORT void sub_48B900();
+    EXPORT void ShowCycle_48B920();
+
+
     EXPORT void srand_4F7A40();
 
-    EXPORT void sub_48B900();
 
     EXPORT int rand_4F7C00();
 
