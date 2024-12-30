@@ -1,13 +1,16 @@
 #include "Zones_CA8.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include "map_0x370.hpp"
 #include "text_0x14.hpp"
-#include "error.hpp"
 #include <string.h>
 
 EXPORT_VAR Zones_CA8* gZones_CA8_67E274;
 GLOBAL(gZones_CA8_67E274, 0x67E274)
+
+EXPORT_VAR s32 gZoneIdx_6206B8; // = -1 // TODO
+GLOBAL(gZoneIdx_6206B8, 0x6206B8)
 
 MATCH_FUNC(0x4BE4E0);
 Zone_144::Zone_144()
@@ -104,9 +107,16 @@ Zones_CA8::~Zones_CA8()
 {
 }
 
-STUB_FUNC(0x4beca0)
+MATCH_FUNC(0x4beca0)
 Zone_144* Zones_CA8::sub_4BECA0()
 {
+    for (gZoneIdx_6206B8 = 0; gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0); gZoneIdx_6206B8++)
+    {
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        {
+            return &field_0[gZoneIdx_6206B8];
+        }
+    }
     return 0;
 }
 

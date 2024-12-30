@@ -25,7 +25,7 @@ class Zone_144
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);
     EXPORT wchar_t* sub_4BF340();
 
-    char field_0_used;
+    u8 field_0_used;
     u8 field_1_zone_idx;
     char field_2_name[4];
     char field_6;
@@ -110,7 +110,7 @@ class Zone_144
     u32 field_130;
     u32 field_134;
     u8 field_138;
-    char field_139;
+    u8 field_139;
     char field_13A;
     char field_13B;
     u32 field_13C;
