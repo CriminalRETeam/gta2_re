@@ -13,6 +13,10 @@ class rng
 
     EXPORT void srand_4F7A40();
 
+    EXPORT void sub_48B900();
+
+    EXPORT int rand_4F7C00();
+
     s32 field_0_rng;
     s32 field_4_rnd;
 };
