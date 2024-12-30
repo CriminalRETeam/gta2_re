@@ -120,9 +120,16 @@ Zone_144* Zones_CA8::sub_4BECA0()
     return 0;
 }
 
-STUB_FUNC(0x4bece0)
+MATCH_FUNC(0x4bece0)
 Zone_144* Zones_CA8::sub_4BECE0()
 {
+    while ( ++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
+    {
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        {
+            return &field_0[gZoneIdx_6206B8];
+        }
+    }
     return 0;
 }
 
