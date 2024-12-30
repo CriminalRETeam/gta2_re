@@ -12,6 +12,9 @@ GLOBAL(gZones_CA8_67E274, 0x67E274)
 EXPORT_VAR s32 gZoneIdx_6206B8; // = -1 // TODO
 GLOBAL(gZoneIdx_6206B8, 0x6206B8)
 
+EXPORT_VAR wchar_t gZoneNameWide_67E030[4]; 
+GLOBAL(gZoneNameWide_67E030, 0x67E030)
+
 MATCH_FUNC(0x4BE4E0);
 Zone_144::Zone_144()
 {
@@ -23,10 +26,14 @@ Zone_144::~Zone_144()
 {
 }
 
-STUB_FUNC(0x4BED30)
-wchar_t* Zone_144::sub_4BED30()
+MATCH_FUNC(0x4BED30)
+wchar_t* Zone_144::get_name_wide_4BED30()
 {
-    return 0;
+    gZoneNameWide_67E030[0] = this->field_2_name[0];
+    gZoneNameWide_67E030[1] = this->field_2_name[1];
+    gZoneNameWide_67E030[2] = this->field_2_name[2];
+    gZoneNameWide_67E030[3] = 0;
+    return gZoneNameWide_67E030;
 }
 
 STUB_FUNC(0x4BED70);
@@ -123,7 +130,7 @@ Zone_144* Zones_CA8::sub_4BECA0()
 MATCH_FUNC(0x4bece0)
 Zone_144* Zones_CA8::sub_4BECE0()
 {
-    while ( ++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
+    while (++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
     {
         if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
         {
