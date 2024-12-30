@@ -9,6 +9,7 @@ EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
 GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
 
 EXPORT_VAR extern char_type byte_67DC88[4]; // TODO
+EXPORT_VAR extern wchar_t word_67DC8C[50]; // TODO
 
 MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()
@@ -255,42 +256,25 @@ char_type lucid_hamilton::sub_4C5AE0()
     return field_43A;
 }
 
-STUB_FUNC(0x4C5AF0)
+MATCH_FUNC(0x4C5AF0)
 void lucid_hamilton::init_4C5AF0()
 {
-    // todo
-    /*
-    blissful_ganguly_0x20 *pIter4; // ebx
-    s32 *pIter3; // edi
-    u16 *pIter2; // esi
-    wonderful_knuth_0xC *pIter1; // ebp
-    s32 k6Counter; // [esp+10h] [ebp-4h]
+    field_43B = 0;
+    field_43C = 0;
+    field_440 = 0;
+    field_441 = 0;
+    field_442 = 6;
 
-    this->field_43B = 0;
-    this->field_43C = 0;
-    this->field_440 = 0;
-    this->field_441 = 0;
-    this->field_442 = 6;
-    pIter4 = this->field_4B4;
-    pIter3 = this->field_49C;
-    pIter2 = this->field_490;
-    pIter1 = this->field_448;
-    k6Counter = 6;
-    do
+    for (s32 i = 0; i < GTA2_COUNTOF(field_490); i++)
     {
-        *(DWORD *)pIter1->field_0 = 0;
-        *(DWORD *)&pIter1->field_0[2] = 0;
-        *(DWORD *)&pIter1->field_0[4] = 0;
-        *pIter2 = 0;
-        *pIter3 = 0;
-        wcscpy(pIter4->field_0_str, word_67DC8C);
-        ++pIter2;
-        ++pIter3;
-        ++pIter1;
-        ++pIter4;
-        --k6Counter;
-    } while (k6Counter);
-    */
+        for (s32 j = 0; j < 6; j++)
+        {
+            field_448[i].field_0[j] = 0;
+        }
+        field_490[i] = 0;
+        field_49C[i] = 0;
+        wcscpy(field_4B4[i].field_0_str, word_67DC8C);
+    }
 }
 
 MATCH_FUNC(0x4C5B80)
