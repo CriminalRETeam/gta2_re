@@ -3,6 +3,7 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
 #include "root_sound.hpp"
+#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "PurpleDoom.hpp"
 #include "map_0x370.hpp"
@@ -26,7 +27,7 @@ EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
 MATCH_FUNC(0x451950)
-void Car_3C::sub_451950(s32 xpos, s32 ypos, s32 zpos) {
+void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos) {
     if ( field_14_xpos != xpos
         || field_18_ypos != ypos
         || field_1C_zpos != zpos )
@@ -95,7 +96,7 @@ Car_3C* Car_3C::sub_59E7D0(s32 a2) {
     sub_59E9C0();
     field_C_car_or_sprite->sub_5A4D90();
     gCar_3C_6F61E8 = this;
-    if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos >> 14))
+    if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
         return gCar_3C_6791A8;
     }
@@ -432,6 +433,12 @@ Car_6C::Car_6C()
 STUB_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
+}
+
+STUB_FUNC(0x563560)
+s32 Car_B0::sub_563560(Car_3C* a2)
+{
+    return 0;
 }
 
 STUB_FUNC(0x439ec0)
@@ -1383,10 +1390,26 @@ void Car_BC::sub_443C40(s32 a2)
 {
 }
 
-STUB_FUNC(0x443d00)
-s32 Car_BC::sub_443D00(s32 xpos, s32 ypos, s32 zpos)
+MATCH_FUNC(0x443d00)
+s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    return 0;
+    gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
+    Car_3C *pCarSprite = field_50_car_sprite;
+    if (pCarSprite->field_14_xpos != xpos
+        || pCarSprite->field_18_ypos != ypos
+        || pCarSprite->field_1C_zpos != zpos)
+    {
+        pCarSprite->field_14_xpos = xpos;
+        pCarSprite->field_18_ypos = ypos;
+        pCarSprite->field_1C_zpos = zpos;
+        pCarSprite->sub_59E7B0();
+    }
+    Car_B0 *field_58_uni = (Car_B0 *)field_58_uni_Car78_or_Car_B0;
+    if (field_58_uni)
+    {
+        field_58_uni->sub_563560(field_50_car_sprite);
+    }
+    return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
 STUB_FUNC(0x443d70)
@@ -1544,10 +1567,26 @@ s32 Car_BC::sub_446730(Car_BC* a1)
     return 0;
 }
 
-STUB_FUNC(0x447360)
-char_type Car_BC::sub_447360()
+MATCH_FUNC(0x447360)
+void Car_BC::sub_447360()
 {
-    return 0;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
+    {
+        field_8.clear_bit(0x0b);
+        field_8.clear_bit(0x0c);
+        field_8.clear_bit(0x0d);
+        field_8.clear_bit(0x0e);
+        field_8.clear_bit(0x1c);
+        field_8.clear_bit(0x1d);
+        field_8.clear_bit(0x1e);
+        field_8.clear_bit(0x1f);
+    }
+    field_8.clear_bit(0x06);
+    field_8.clear_bit(0x17);
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4)
+    {
+        field_8.clear_bit(0x0f);
+    }
 }
 
 STUB_FUNC(0x52a6d0)
@@ -1556,10 +1595,14 @@ Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
     return 0;
 }
 
-STUB_FUNC(0x564300)
+MATCH_FUNC(0x564300)
 bool Car_BC::sub_564300()
 {
-    return 0;
+    if (field_54_driver) {
+        bool result = field_54_driver->sub_45EDE0(2) == 0;
+        return result;
+    }
+    return false;
 }
 
 STUB_FUNC(0x40ac40)

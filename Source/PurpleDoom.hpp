@@ -297,3 +297,5 @@ class PurpleDoom
 EXPORT_VAR extern PurpleDoom* gPurpleDoom_1_679208;
 EXPORT_VAR extern PurpleDoom* gPurpleDoom_2_67920C;
 EXPORT_VAR extern PurpleDoom* gPurpleDoom_3_679210;
+EXPORT_VAR extern s32 dword_6F6108;
+EXPORT_VAR extern s32 dword_6F5F38;

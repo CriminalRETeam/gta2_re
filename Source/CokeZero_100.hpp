@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Fix16.hpp"
 
 class CokeZero_50
 {
@@ -39,7 +40,7 @@ class CokeZero_100
     EXPORT ~CokeZero_100();
     EXPORT s16 sub_596860();
     EXPORT void sub_596880();
-    EXPORT void sub_596890(s32 a2, s32 a3, s32 a4, u32 a5);
+    EXPORT void sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5);
     EXPORT void sub_596940();
     EXPORT void DrawExploding_5969E0();
 

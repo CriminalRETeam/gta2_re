@@ -3,6 +3,8 @@
 #include "Car_10.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
+#include "Fix16.hpp"
+#include "BitSet32.hpp"
 #include <wchar.h>
 
 class Car_78;
@@ -20,7 +22,7 @@ class Sprite_4C;
 class Car_3C
 {
   public:
-    EXPORT void sub_451950(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_451950(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();
     EXPORT s32 sub_59E320(char_type a2);
@@ -66,9 +68,9 @@ class Car_3C
     Car_BC* field_8_uni;
     Car_3C* field_C_car_or_sprite;
     infallible_turing* field_10;
-    s32 field_14_xpos;
-    s32 field_18_ypos;
-    s32 field_1C_zpos;
+    Fix16 field_14_xpos;
+    Fix16 field_18_ypos;
+    Fix16 field_1C_zpos;
     s16 field_20;
     s16 field_22;
     s16 field_24;
@@ -145,7 +147,7 @@ class Car_6C
 
     Car_2 field_0;
     s16 field_2;
-    cool_nash_0x294* field_4;
+    cool_nash_0x294 *field_4;
     char_type field_8;
     u8 field_9;
     u8 field_A;
@@ -190,6 +192,12 @@ class Car_6C
 };
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
+
+class Car_B0
+{
+  public:
+    EXPORT s32 sub_563560(Car_3C* a2);
+};
 
 class Car_BC
 {
@@ -355,7 +363,7 @@ class Car_BC
     EXPORT void sub_443AE0(s32 a2);
     EXPORT void sub_443BD0(s32 a2);
     EXPORT void sub_443C40(s32 a2);
-    EXPORT s32 sub_443D00(s32 xpos, s32 ypos, s32 zpos);
+    EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_443D70(s32 a2);
     EXPORT Car_6C* sub_443DA0(s32 a2);
     EXPORT Car_6C* sub_443E50();
@@ -374,13 +382,13 @@ class Car_BC
     ~Car_BC(); // 0x444960
 
     EXPORT s32 sub_446730(Car_BC* a1);
-    EXPORT char_type sub_447360();
+    EXPORT void sub_447360();
     EXPORT Car_3C* sub_52A6D0(Car_3C* a2);
     EXPORT bool sub_564300();
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
-    s32 field_8;
+    BitSet32 field_8;
     Car_10 field_C[3];
     s32 field_3C;
     s32 field_40;
@@ -457,3 +465,4 @@ class Car_8
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
+EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;

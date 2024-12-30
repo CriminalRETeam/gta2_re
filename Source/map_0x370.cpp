@@ -7,7 +7,9 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
+#include "PurpleDoom.hpp"
 #include "memory.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -17,6 +19,27 @@ GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
 
 EXPORT_VAR gmp_block_info gBlockInfo2_6F6028;
 GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
+
+EXPORT_VAR s16 word_6F6002;
+GLOBAL(word_6F6002, 0x6F6002);
+
+EXPORT_VAR s32 dword_6F5B80;
+GLOBAL(dword_6F5B80, 0x6F5B80);
+
+EXPORT_VAR s32 dword_6F5FD4;
+GLOBAL(dword_6F5FD4, 0x6F5FD4);
+
+EXPORT_VAR s32 dword_6F620C;
+GLOBAL(dword_6F620C, 0x6F620C);
+
+EXPORT_VAR s32 dword_6F5BA0;
+GLOBAL(dword_6F5BA0, 0x6F5BA0);
+
+EXPORT_VAR s32 dword_6F6248;
+GLOBAL(dword_6F6248, 0x6F6248);
+
+EXPORT_VAR s32 dword_6F5FAC;
+GLOBAL(dword_6F5FAC, 0x6F5FAC);
 
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
@@ -535,10 +558,45 @@ char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, 
     return 0;
 }
 
-STUB_FUNC(0x4E4460)
-char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6)
+MATCH_FUNC(0x4E4460)
+char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Car_3C* a5, s16 a6)
 {
-    return 0;
+    gCar_3C_6F61E8 = a5;
+    word_6F6002 = a6;
+    if (dword_6F5B80 - dword_6F5FD4 >= 3 || a2 > dword_6F5FD4 + 1 || a2 < dword_6F5B80 - 1)
+    {
+        if (sub_4E1E00(a2 - 1, a2 + 1, dword_6F6108, dword_6F5F38, a2, a3, a4))
+        {
+            return 1;
+        }
+        else if (dword_6F5B80 == a2 + 2)
+        {
+            return sub_4E1E00(dword_6F5B80 - 1, dword_6F5B80, dword_6F6108, dword_6F5F38, dword_6F5B80 - 1, a3, dword_6F620C);
+        }
+        else
+        {
+            return sub_4E1E00(dword_6F5FD4, dword_6F5FD4 + 1, dword_6F6108, dword_6F5F38, dword_6F5FD4 + 1, a3, dword_6F5BA0);
+        }
+    }
+    else if (dword_6F5F38 - dword_6F6108 >= 3 || a3 > dword_6F6108 + 1 || a3 < dword_6F5F38 - 1)
+    {
+        if (sub_4E1E00(dword_6F5FD4, dword_6F5B80, a3 - 1, a3 + 1, a2, a3, a4))
+        {
+            return 1;
+        }
+        else if (dword_6F5F38 == a3 + 2)
+        {
+            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F5F38 - 1, dword_6F5F38, a2, dword_6F5F38 - 1, dword_6F6248);
+        }
+        else
+        {
+            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F6108, dword_6F6108 + 1, a2, dword_6F6108 + 1, dword_6F5FAC);
+        }
+    }
+    else
+    {
+        return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F6108, dword_6F5F38, a2, a3, a4);
+    }
 }
 
 STUB_FUNC(0x4E4630)
