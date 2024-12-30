@@ -1,14 +1,76 @@
 #include "lucid_hamilton.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "registry.hpp"
 
 EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
 GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
 
-STUB_FUNC(0x4C53D0)
+EXPORT_VAR extern char_type byte_67DC88[4]; // TODO
+
+MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()
 {
-    // todo
+    char path[256];
+    char tmp[256];
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\jointmap.gmp");
+    }
+    gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\style.sty");
+    }
+    gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "data\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "data\\") == 0)
+    {
+        strcpy(path, "data\\q.scr");
+    }
+    gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+
+    strcpy(tmp, byte_67DC88);
+    strcpy(path, "player\\");
+    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    strcat(path, tmp);
+    if (strcmp(path, "player\\") == 0)
+    {
+        strcpy(path, byte_67DC88);
+    }
+
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0(path);
+    gLucid_hamilton_67E8E0.sub_4C58F0(0);
+    gLucid_hamilton_67E8E0.sub_4C5900(0);
+    gLucid_hamilton_67E8E0.sub_4C5910(0);
+    gLucid_hamilton_67E8E0.sub_4C5920(0);
+    gLucid_hamilton_67E8E0.sub_4C5930(0);
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_408); i++)
+    {
+        field_408[i] = 0;
+    }
+
+    this->field_430 = 0;
+    this->field_434 = 0;
+    this->field_438 = 0;
+    this->field_43A = 0;
+
+    init_4C5AF0();
 }
 
 MATCH_FUNC(0x4C5870)
