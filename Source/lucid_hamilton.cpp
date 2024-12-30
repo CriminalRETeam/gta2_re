@@ -1,6 +1,7 @@
 #include "lucid_hamilton.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "angry_lewin_0x85C.hpp"
 #include "registry.hpp"
 
 EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
@@ -193,28 +194,16 @@ s32 lucid_hamilton::sub_4C59F0(u8 idx)
     return field_408[idx];
 }
 
-STUB_FUNC(0x4C5A10)
-void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* a1)
+MATCH_FUNC(0x4C5A10)
+void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* pPlayer)
 {
-    // todo
-    /*
-    u8 k10Counter; // bl
-    zealous_borg *p_field_644_unk; // esi
-    u8 a2; // [esp+10h] [ebp-4h]
-
-    k10Counter = 0;
-    a2 = 0;
-    p_field_644_unk = &a1->field_644_unk;
-    do
+    for (u8 i = 0; i < 10; i++)
     {
-        lucid_hamilton::sub_4C59D0(this, a2, p_field_644_unk->field_0[0]);
-        ++k10Counter;
-        p_field_644_unk = (zealous_borg *)((char_type *)p_field_644_unk + 4);
-        a2 = k10Counter;
-    } while (k10Counter < 10u);
-    lucid_hamilton::sub_4C5A70(this, a1->field_644_unk.field_34);
-    lucid_hamilton::sub_4C5A90(this, a1->field_644_unk.field_38);
-    */
+        sub_4C59D0(i, pPlayer->field_644_unk.field_0[i]);
+    }
+
+    sub_4C5A70(pPlayer->field_644_unk.field_34);
+    sub_4C5A90(pPlayer->field_644_unk.field_38);
 }
 
 MATCH_FUNC(0x4C5A70)
