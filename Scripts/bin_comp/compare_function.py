@@ -24,7 +24,7 @@ def func_name_as_safe_file_name(func_name):
     return func_name
 
 def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_offset, og_func_size):
-    #strStatus = "Checking " + func_name + " " + hex(new_func_offset) + " " + hex(og_func_offset) + " " + hex(og_func_size)
+    strStatus = "Checking " + func_name + " " + "N:" + hex(new_func_offset) + " OG:" + hex(og_func_offset) + " LEN:" + hex(og_func_size)
     og_func_bytes = get_bytes_from_file(ogExeFile, og_func_offset, og_func_size)
     og_asm_str = dism_func(og_func_bytes)
     og_asm_str_post_processed = post_process_asm.post_process_asm(og_asm_str)
@@ -36,6 +36,7 @@ def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_
     if new_asm_str_post_processed == og_asm_str_post_processed:
         return True
     else:
+        print(strStatus)
         with open(func_name_as_safe_file_name(func_name) + "_og_asm_post_processed.txt", "w") as og_asm_file:
             og_asm_file.write(og_asm_str_post_processed)
         with open(func_name_as_safe_file_name(func_name) + "_og_asm.txt", "w") as og_asm_file:

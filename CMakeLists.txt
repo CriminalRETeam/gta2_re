@@ -215,7 +215,6 @@ set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX
 set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
 
 
-
 # global include dirs
 include_directories(Source)
 include_directories(${decomp_SOURCE_DIR})
