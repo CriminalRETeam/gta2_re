@@ -14,7 +14,7 @@ class Zone_144
     EXPORT wchar_t* sub_4BED30();
     EXPORT void init_4BED70();
     EXPORT char_type sub_4BEDF0(u8 a2);
-    EXPORT s32 sub_4BEE30(u8 idx, char_type value);
+    EXPORT void sub_4BEE30(u8 idx, char_type value);
     EXPORT char_type sub_4BEE50(u8 idx, char_type a3);
     EXPORT void sub_4BEEA0(u8 a2, char_type a3);
     EXPORT char_type sub_4BEEF0(u8 a2);

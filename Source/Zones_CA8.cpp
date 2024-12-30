@@ -37,10 +37,10 @@ char_type Zone_144::sub_4BEDF0(u8 a2)
     return field_112[a2];
 }
 
-STUB_FUNC(0x4BEE30)
-s32 Zone_144::sub_4BEE30(u8 idx, char_type value)
+MATCH_FUNC(0x4BEE30)
+void Zone_144::sub_4BEE30(u8 idx, char_type value)
 {
-    return 0;
+    field_11C[idx] = value;
 }
 
 STUB_FUNC(0x4BEE50)
