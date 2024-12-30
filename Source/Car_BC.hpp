@@ -147,7 +147,7 @@ class Car_6C
 
     Car_2 field_0;
     s16 field_2;
-    cool_nash_0x294* field_4;
+    cool_nash_0x294 *field_4;
     char_type field_8;
     u8 field_9;
     u8 field_A;

@@ -37,6 +37,7 @@ set(gta2_lib_src
   Source/map_0x370.cpp
   Source/nostalgic_ellis_0x28.hpp
   Source/nostalgic_ellis_0x28.cpp
+  Source/BitSet32.hpp
   Source/fix16.hpp
   Source/fix16.cpp
   Source/error.hpp
