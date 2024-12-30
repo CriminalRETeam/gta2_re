@@ -4424,5 +4424,5 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
     s32 local; // [esp+0h] [ebp-4h] BYREF
 
     local = 2;
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, spaceWidth, fontType, &local, 0, 0, 0);
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, &local, 0, 0, 0);
 }
