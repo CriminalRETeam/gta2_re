@@ -11,7 +11,7 @@ BUILD_FOLDER_NAME = "build_vc6"
 BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
-CMAKE_GENERATE_JOM_CMD = "cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
+CMAKE_GENERATE_JOM_CMD = "cmake.exe -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
 CMAKE_BUILD_CMD = "cmake --build . --target all"
 
 BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
@@ -36,7 +36,7 @@ def main():
 def get_vc6_env_cmds():
     vc6_root = os.path.join(CURRENT_DIRECTORY, "3rdParty", "gta2_re_compile_tools")
     lib = os.path.join(vc6_root, "VC98", "Lib")
-    include = f'{os.path.join(vc6_root, "VC98", "ATL", "INCLUDE")};{os.path.join(vc6_root, "VC98", "INCLUDE")};{os.path.join(vc6_root, "VC98", "MFC", "INCLUDE")}'
+    include = f'{os.path.join(vc6_root, "VC98", "ATL", "Include")};{os.path.join(vc6_root, "VC98", "Include")};{os.path.join(vc6_root, "VC98", "MFC", "Include")}'
     path = f'{os.path.join(vc6_root, "cmake-3.5.0-win32-x86", "bin")};{os.path.join(vc6_root, "VC98", "bin")};{os.path.join(vc6_root, "Common", "MSDev98", "Bin")}'
 
     vc6_cmds = list()
