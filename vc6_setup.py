@@ -38,9 +38,14 @@ def create_reg_file():
 
 def import_reg_file():
     if platform.system() == "Windows":
-        subprocess.run(["reg", "import", REG_FILE_NAME], shell=True, check=True)
+        result = subprocess.run(["reg", "import", REG_FILE_NAME], shell=True, check=True)
     elif platform.system() == "Linux":
-        subprocess.run(["wine", "cmd", "reg", "import", REG_FILE_NAME], shell=True, check=True)
+        result = subprocess.run(["wine", "cmd", "reg", "import", REG_FILE_NAME], shell=True, check=True)
+
+    print(result.stdout)
+    print(result.stderr)
+    print(result.returncode)
+
 
 def main():
     create_reg_file()
