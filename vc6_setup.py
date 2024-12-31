@@ -40,7 +40,10 @@ def import_reg_file():
     if platform.system() == "Windows":
         result = subprocess.run(["reg", "import", REG_FILE_NAME], shell=True, check=True)
     elif platform.system() == "Linux":
-        result = subprocess.run(["wine", "cmd", "reg", "import", REG_FILE_NAME], shell=True, check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        try:
+            result = subprocess.run(["wine", "cmd", "reg", "import", REG_FILE_NAME], shell=True, check=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+        except subprocess.CalledProcessError as e:
+            print(f"ERROR: {e.output}")
 
     print(result.stderr)
     print(result.stdout)
