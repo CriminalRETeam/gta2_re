@@ -1,12 +1,15 @@
 import os
 import platform
+import subprocess
+
+REG_FILE_NAME = "vscommondir.reg"
 
 def is_64_bit():
     # On linux wine is 32bit
     #return platform.system() == "Windows" and platform.machine() == "AMD64" or platform.machine() == "x86_64"
     return True
 
-def main():
+def create_reg_file():
     #print(f"architecture: {platform.machine()}")
 
     CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
@@ -27,11 +30,18 @@ def main():
 
     #print(f"Setting VsCommonDir to: {vs_common_dir}")
 
-    with open("vscommondir.reg", "w") as f:
+    with open(REG_FILE_NAME, "w") as f:
         f.write("Windows Registry Editor Version 5.00\n\n")
         f.write(strKey + "\n")
         f.write("\"VsCommonDir\"=\"" + vs_common_dir + "\"")
         f.write("\n\n")
+
+def import_reg_file():
+    subprocess.call(["reg", "import", REG_FILE_NAME])
+
+def main():
+    create_reg_file()
+    import_reg_file()
 
 if __name__ == "__main__":
     main()
