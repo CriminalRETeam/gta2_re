@@ -51,12 +51,7 @@ for:
   build_script:
    - pip install -r requirements.txt
    - python vc6_setup.py
-   - build.bat
-   - cd ../Scripts/bin_comp
-   - python msvc_dump_func_data.py
-   - python download_exe.py
-   - python compare_all_functions.py
-   - cd ../../build_vc6
+   - python build.py
 
   artifacts:
     - path: build_vc6/decomp_main.exe
