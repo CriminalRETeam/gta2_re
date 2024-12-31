@@ -20,10 +20,10 @@ def create_reg_file():
         strKey = "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Wow6432Node\\Microsoft\\VisualStudio\\6.0\\Setup]"
     else:
         strKey = "[HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\VisualStudio\\6.0\\Setup]"
-
+    print(CURRENT_DIRECTORY)
     if CURRENT_DIRECTORY[0] == '/':
         CURRENT_DIRECTORY = "Z:" + CURRENT_DIRECTORY
-
+    print(CURRENT_DIRECTORY)
     vs_common_dir = CURRENT_DIRECTORY + "\\3rdParty" + "\\gta2_re_compile_tools" + "\\Common"
     vs_common_dir = vs_common_dir.replace("/", "\\")
     vs_common_dir = vs_common_dir.replace("\\", "\\\\")
