@@ -54,9 +54,9 @@ def build():
     build_cmds = "\n".join(all_cmds) + "\n"
 
     if platform.system() == "Linux":
-        build_cmds = f"wine cmd /c {build_cmds}"
-
-    p1 = subprocess.Popen("cmd", cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        p1 = subprocess.Popen("wine cmd", cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    elif platform.system() == "Windows":
+        p1 = subprocess.Popen("cmd", cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 
     p1.stdin.write(build_cmds)
     p1.stdin.close()
