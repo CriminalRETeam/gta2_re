@@ -87,7 +87,7 @@ jobs:
     - name: Build on Linux
       if: matrix.name == 'Linux_wine_VC6'
       run: |
-        wine pip install -r requirements.txt
+        wine python -m pip install -r requirements.txt
         wine python vc6_setup.py
         rm -Rf ./wine
         WINEPREFIX=~/.wine32 WINEDEBUG=-all WINEARCH=win32 xvfb-run -a -e /dev/stdout wineboot
