@@ -1,10 +1,11 @@
 #include "magical_germain_0x8EC.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "chunk.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
-#include "Globals.hpp"
+#include "Game_0x40.hpp"
 
 EXPORT_VAR magical_germain_0x8EC* gMagical_germain_0x8EC_6F5168;
 GLOBAL(gMagical_germain_0x8EC_6F5168, 0x6F5168);
@@ -125,21 +126,137 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 }
 
 STUB_FUNC(0x4D27D0)
-STexture* magical_germain_0x8EC::sub_4D27D0(u32* a2)
+STexture* magical_germain_0x8EC::sub_4D27D0(u16 a2)
 {
     return 0;
 }
 
-STUB_FUNC(0x4D28A0)
-s32 magical_germain_0x8EC::sub_4D28A0(u16 a2)
+MATCH_FUNC(0x4D28A0)
+void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
 {
-    return 0;
+    switch (font_type)
+    {
+        case 0x65u:
+        case 0xC9u:
+            this->field_8E8_v1 = -4;
+            this->field_8E9_v2 = -6;
+            break;
+        case 0x66u:
+            this->field_8E8_v1 = 39;
+            this->field_8E9_v2 = 44;
+            break;
+        case 0x67u:
+            this->field_8E8_v1 = -53;
+            this->field_8E9_v2 = -49;
+            break;
+        case 0x68u:
+            this->field_8E8_v1 = 28;
+            this->field_8E9_v2 = 24;
+            break;
+        case 0x69u:
+        case 0xCAu:
+            this->field_8E8_v1 = -23;
+            this->field_8E9_v2 = -17;
+            break;
+        case 0x6Au:
+            this->field_8E8_v1 = -119;
+            this->field_8E9_v2 = -115;
+            break;
+        case 0x6Bu:
+        case 0xCBu:
+            this->field_8E8_v1 = 72;
+            this->field_8E9_v2 = 76;
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x4D29D0)
-s32 magical_germain_0x8EC::sub_4D29D0(u16 a2)
+void magical_germain_0x8EC::sub_4D29D0(u16 a2)
 {
-    return 0;
+    if (gGame_0x40_67E008)
+    {
+        switch (a2)
+        {
+            case 0u:
+                goto LABEL_3;
+            case 1u:
+                this->field_8E8_v1 = -103;
+                this->field_8E9_v2 = -99;
+                break;
+            case 2u:
+                goto LABEL_15;
+            case 3u:
+                this->field_8E8_v1 = 121;
+                this->field_8E9_v2 = 125;
+                break;
+            case 4u:
+                this->field_8E8_v1 = 53;
+                this->field_8E9_v2 = 58;
+                break;
+            case 5u:
+                goto LABEL_7;
+            case 6u:
+                this->field_8E8_v1 = 28;
+                this->field_8E9_v2 = 24;
+                break;
+            case 7u:
+                goto LABEL_9;
+            case 8u:
+                goto LABEL_10;
+            default:
+                return;
+        }
+    }
+    else
+    {
+        switch (a2)
+        {
+            case 0u:
+            case 1u:
+            case 2u:
+                this->field_8E8_v1 = -23;
+                this->field_8E9_v2 = -17;
+                break;
+            case 3u:
+            case 0xDu:
+            LABEL_3:
+                this->field_8E8_v1 = -119;
+                this->field_8E9_v2 = -115;
+                break;
+            case 4u:
+            LABEL_7:
+                this->field_8E8_v1 = 39;
+                this->field_8E9_v2 = 44;
+                break;
+            case 5u:
+            LABEL_10:
+                this->field_8E8_v1 = -4;
+                this->field_8E9_v2 = -6;
+                break;
+            case 8u:
+                this->field_8E8_v1 = -8;
+                this->field_8E9_v2 = -11;
+                break;
+            case 0xAu:
+                this->field_8E8_v1 = 39;
+                this->field_8E9_v2 = 35;
+                break;
+            case 0xEu:
+            LABEL_15:
+                this->field_8E8_v1 = 105;
+                this->field_8E9_v2 = 109;
+                break;
+            case 0xFu:
+            LABEL_9:
+                this->field_8E8_v1 = 72;
+                this->field_8E9_v2 = 76;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x4D2B40)

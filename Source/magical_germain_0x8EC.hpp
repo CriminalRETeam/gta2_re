@@ -56,9 +56,9 @@ class magical_germain_0x8EC
     EXPORT void sub_4D2610(wchar_t text_char);
     EXPORT s32 sub_4D2690(u16 a2);
     EXPORT STexture* sub_4D2710(wchar_t text_char);
-    EXPORT STexture* sub_4D27D0(u32* a2);
-    EXPORT s32 sub_4D28A0(u16 a2);
-    EXPORT s32 sub_4D29D0(u16 a2);
+    EXPORT STexture* sub_4D27D0(u16 a2);
+    EXPORT void sub_4D28A0(u16 a2);
+    EXPORT void sub_4D29D0(u16 a2);
     EXPORT void sub_4D2B40();
     EXPORT magical_germain_0x8EC();
     EXPORT ~magical_germain_0x8EC();
