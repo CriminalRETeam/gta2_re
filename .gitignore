@@ -22,3 +22,4 @@ Scripts/bin_comp/pyvenv.cfg
 .idea
 cmake-build-debug
 GTA2_data
+venv
