@@ -87,10 +87,11 @@ jobs:
     - name: Build on Linux
       if: matrix.name == 'Linux_wine_VC6'
       run: |
-        python3 -m venv ~/venv
-        ~/venv/bin/pip install -r requirements.txt
-        ~/venv/bin/python vc6_setup.py
-        ~/venv/bin/python build.py
+        python3 -m venv venv
+        source venv/bin/activate
+        pip install -r requirements.txt
+        python3 vc6_setup.py
+        python3 build.py
 
     - name: Upload artifacts on Linux
       if: matrix.name == 'Linux_wine_VC6'

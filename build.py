@@ -83,7 +83,7 @@ def build():
 
     if platform.system() == "Linux":
         build_dir = as_wine_path(BUILD_DIRECTORY)
-        command = f"export WINEPATH={path} export LIB={lib} export INCLUDE={include} wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
+        command = f"WINEDEBUG=-all export WINEPATH={path} export LIB={lib} export INCLUDE={include} wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
         p1 = subprocess.Popen(command, cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
     elif platform.system() == "Windows":
         p1 = subprocess.Popen("cmd", cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
