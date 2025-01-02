@@ -9,16 +9,20 @@ Clone the repository with the `--recursive` flag:
 git clone --recursive https://github.com/CriminalRETeam/gta2_re.git
 ```
 
-# Windows 
+### Windows 
 
 ```
-python setup.py
-build.bat
+python vc6_setup.py
+python build.py
 ```
 
-# Linux
+### Linux
+
+*In order to build on linux you'll also need to install wine
 
 ```
-python3 setup.py
-wine build.bat
+python3 -m venv ~/venv
+~/venv/bin/pip install -r requirements.txt
+~/venv/bin/python vc6_setup.py
+~/venv/bin/python build.py
 ```
