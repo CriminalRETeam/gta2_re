@@ -9,7 +9,7 @@ environment:
       APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2022
 
     - job_name: Linux_wine_VC6
-      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu
+      APPVEYOR_BUILD_WORKER_IMAGE: Ubuntu2204
 
 platform:
  - x86
