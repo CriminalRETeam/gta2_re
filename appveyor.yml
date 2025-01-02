@@ -66,7 +66,7 @@ for:
     - job_name: Linux_wine_VC6
   
   install:
-   - sudo apt-get update
+   - sudo apt-get update --allow-releaseinfo-change
    - sudo apt-get install -y xvfb wine32
    - git submodule update --init --recursive
 
