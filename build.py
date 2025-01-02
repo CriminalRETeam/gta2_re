@@ -105,7 +105,6 @@ def build():
         if output:
             print(output.strip())
 
-    sys.exit(0)
     return p1.poll()
 
 def verify():
@@ -114,7 +113,7 @@ def verify():
     if platform.system() == "Windows":
         python = "python"
     elif platform.system() == "Linux":
-        python = "python3"
+        python = sys.executable # should be the python venv
 
     dump_result = subprocess.run(f"{python} msvc_dump_func_data.py", cwd=BIN_COMP_DIRECTORY, shell=True)
     compare_result = subprocess.run(f"{python} compare_all_functions.py", cwd=BIN_COMP_DIRECTORY, shell=True)
