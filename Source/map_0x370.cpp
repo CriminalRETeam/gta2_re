@@ -14,6 +14,9 @@
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
 
+EXPORT_VAR gmp_block_info* gBlockInfo0_6F5EB0;
+GLOBAL(gBlockInfo0_6F5EB0, 0x6F5EB0);
+
 EXPORT_VAR gmp_block_info gBlockInfo1_6F5F40;
 GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
 
@@ -641,10 +644,59 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
     return 0;
 }
 
-STUB_FUNC(0x4E4C30)
+MATCH_FUNC(0x4E4C30)
 gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
 {
-    return 0;
+
+    gmp_column_info* v4;
+    s32 v5;
+    u32* j;
+
+    //  get the column at ( x = a2 , y = a3 )
+    v4 = (gmp_column_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
+
+    //  Subtract the empty bottom blocks from the column
+    //  and subtract "1"
+    v5 = v4->field_0_height - v4->field_1_offset - 1;
+
+    //  air blocks can be empty blocks or blocks with tiles but without ground
+
+    //  if field_0_height != field_1_offset, then there are non-empty blocks on the column v4
+    if (v5 >= 0)
+    {
+
+        j = &(((u32*)v4)[v5 + 1]); //  block number reference; add 1 to correct the index (or bypass the first dword)
+
+        //  Begin with the highest non-empty block in the column
+
+        while (1)
+        {
+            gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[*j]; //  get the block
+
+            if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
+            {
+                break;
+            }
+
+            v5--;
+            j -= 1;
+
+            if (v5 < 0)
+            {
+                //  despite having non-empty blocks, all blocks of this column are air blocks
+                return 0;
+            }
+        }
+    }
+    else
+    {
+        //  if field_0_height = field_1_offset, then there isn't non-empty blocks on the column v4
+        return 0;
+    }
+
+    //  the highest non-air block has Z_coord = (v5'th block) + (number of bottom empty blocks)
+    *a4 = v5 + v4->field_1_offset;
+    return gBlockInfo0_6F5EB0;
 }
 
 STUB_FUNC(0x4E4CB0)
@@ -707,10 +759,55 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
     return 0;
 }
 
-STUB_FUNC(0x4E5B60)
+MATCH_FUNC(0x4E5B60)
 s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
 {
-    return 0;
+    s32 v4;
+    s32 v5;
+    gmp_block_info* v7;
+    char_type field_B_slope_type;
+
+    //  This function returns the Z coord based on the highest block of (X = a3, Y = a4);
+
+    s32 v6;
+    s32* v8;
+    s32* v10;
+
+    s32 v9;
+
+    v4 = a3;
+    v5 = a4;
+
+    //  >> 14 means divide by 16384
+    v7 = Map_0x370::sub_4E4C30(a3 >> 14, a4 >> 14, (u32*)&v6); //  get the highest non-air block at (a3,a4)
+    gBlockInfo0_6F5EB0 = v7;
+
+    if (!v7)
+    {
+        *a2 = 0;
+        return a2;
+    }
+    else
+    {
+        field_B_slope_type = v7->field_B_slope_type;
+
+        //  0xFCu = 1111 1100
+        //  bits 0-1 = surface type
+        //  bits 2-7 = slope angle type
+        if (((u8)field_B_slope_type & 0xFCu) > 0 //  it's not a flat block
+            && ((u8)field_B_slope_type & 0xFCu) < 0xB4u //  < 10110100 = it's a ramp
+            && ((u8)field_B_slope_type & 3) != 0) //  (bits 0-1) != 0 means it's not an air block
+        {
+            v9 = v6 << 14; //  multiply by 16384
+            Map_0x370::sub_4E5BF0(v4, v5, &v9); //  get the Z position based on the slope angle?
+        }
+        else
+        {
+            v9 = (v6 + 1) << 14; //  multiply by 16384
+        }
+        *a2 = v9;
+        return a2;
+    }
 }
 
 STUB_FUNC(0x4E5BF0)
