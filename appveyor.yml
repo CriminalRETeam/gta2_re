@@ -67,7 +67,7 @@ for:
   
   install:
    - sudo apt-get update --allow-releaseinfo-change
-   - sudo apt-get install -y xvfb wine32
+   - sudo apt-get install -y xvfb wine32 python3-venv
    - git submodule update --init --recursive
 
   build_script:
