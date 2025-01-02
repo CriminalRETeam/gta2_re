@@ -62,8 +62,8 @@ def get_vc6_env():
         include3 = as_wine_path(include3)
 
         # escape ";"
-        path = f'{path1}\;{path2}\;{path3}'
-        include = f'{include1}\;{include2}\;{include3};'
+        path = fr'{path1}\;{path2}\;{path3}'
+        include = fr'{include1}\;{include2}\;{include3};'
 
 
     vc6_cmds = list()
@@ -104,6 +104,7 @@ def build():
 
         if output:
             print(output.strip())
+            sys.stdout.flush()
 
     return p1.poll()
 
