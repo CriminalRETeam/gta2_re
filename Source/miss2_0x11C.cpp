@@ -1,9 +1,11 @@
-#include "miss2_0x11c.hpp"
-#include "Globals.hpp"
-#include "miss2_8.hpp"
-
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 #include "cool_nash_0x294.hpp"
+#include "error.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
+#include "miss2_0x11c.hpp"
+#include "miss2_8.hpp"
+#include "root_sound.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -14,6 +16,9 @@ s16 word_6212EE = 1;
 
 EXPORT_VAR Miss2_8EC* gMiss2_8EC_6F8064;
 GLOBAL(gMiss2_8EC_6F8064, 0x6F8064);
+
+EXPORT_VAR SCR_CMD_HEADER* gBasePtr_6F8070;
+GLOBAL(gBasePtr_6F8070, 0x6F8070);
 
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
@@ -44,11 +49,14 @@ GLOBAL(dword_6F806C, 0x6F806C);
 MATCH_FUNC(0x503620)
 void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 {
-	if ( (u16) a2->field_4_cmd_next != 0xFFFF ) {        // FF FF (low endian) is the script terminator
+    if ((u16)a2->field_4_cmd_next != 0xFFFF)
+    { // FF FF (low endian) is the script terminator
         dword_6F806C = this->field_4_level_start;
         this->field_4_level_start = a2->field_4_cmd_next;
         this->field_C = 0;
-    } else {
+    }
+    else
+    {
         miss2_0x11C::sub_503670();
     }
 }
@@ -56,9 +64,12 @@ void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 MATCH_FUNC(0x503650)
 void miss2_0x11C::sub_503650(u16 a2)
 {
-	if ( a2 != 0xFFFF ) {
+    if (a2 != 0xFFFF)
+    {
         this->field_4_level_start = a2;
-    } else {
+    }
+    else
+    {
         miss2_0x11C::sub_503670();
     }
 }
@@ -92,9 +103,9 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(s32* a1, s32 a2)
 MATCH_FUNC(0x503f80)
 void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1)
 {
-	s32 v1;
-    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((s32 *)a1, a1);
-    (*(Car_BC **)(a1 + 8))->sub_443EB0(9);
+    s32 v1;
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((s32*)a1, a1);
+    (*(Car_BC**)(a1 + 8))->sub_443EB0(9);
     v1 = *(s32*)(a1 + 8);
     *(s32*)(v1 + 124) = 4;
     *(s16*)(v1 + 118) = 0;
@@ -110,16 +121,16 @@ s32 miss2_0x11C::sub_504110(s32 a1, s32 a2)
 {
     s32 v2;
     s32 v3;
-	
-    (*(cool_nash_0x294 **)(a2 + 8))->sub_463570(
-		*(s16*)(a1 + 10),
-		9999);
-    v2 = *(s32 *)(a2 + 8);
-	
-    v3 = *(s32 *)(v2 + 540);
+
+    (*(cool_nash_0x294**)(a2 + 8))->sub_463570(*(s16*)(a1 + 10),
+
+ 9999);
+    v2 = *(s32*)(a2 + 8);
+
+    v3 = *(s32*)(v2 + 540);
     v3 &= ~0x400u;
 
-    *(s32 *)(v2 + 540) = v3;
+    *(s32*)(v2 + 540) = v3;
     return v2;
 }
 
@@ -307,9 +318,12 @@ void miss2_0x11C::ExecOpCode_5061C0()
 {
 }
 
-STUB_FUNC(0x5069c0)
-void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
+MATCH_FUNC(0x5069c0)
+void miss2_0x11C::SCRCMD_LEVELSTART_5069C0(void)
 {
+    gRoot_sound_66B038.sub_40F090(24); //  "And remember, respect is everything!"
+    this->field_118 = 1;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x5069f0)
@@ -363,19 +377,42 @@ void miss2_0x11C::sub_507110()
 {
 }
 
-STUB_FUNC(0x507750)
+MATCH_FUNC(0x507750)
 void miss2_0x11C::SCRCMD_NOT_507750()
 {
+    this->field_8 = this->field_8 == 0; //  just toggle the boolean value
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5078d0)
+MATCH_FUNC(0x5078d0)
 void miss2_0x11C::SCRCMD_START_EXEC_5078D0()
 {
+    s16 exec_flag;
+
+    exec_flag = this->field_12;
+
+    //  Only increase EXEC flag if it wasn't set before
+    if (exec_flag <= 0)
+    {
+        this->field_12 = exec_flag + 1; //  increase EXEC flag
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5079a0)
+MATCH_FUNC(0x5079a0)
 void miss2_0x11C::SCRCMD_STOP_EXEC_5079A0()
 {
+    s16 exec_flag;
+
+    exec_flag = this->field_12;
+
+    //  Only decrease EXEC flag if it was set before
+    if (exec_flag >= 0)
+    {
+        this->field_12 = exec_flag - 1; //  decrease EXEC flag
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x507a70)
@@ -1340,10 +1377,77 @@ void miss2_0x11C::PreExecOpCode_5108D0()
 {
 }
 
-STUB_FUNC(0x511840)
+MATCH_FUNC(0x511840)
 char_type miss2_0x11C::sub_511840()
-{
-    return 0;
+{ //  return boolean: true if it has reached LEVELEND, false otherwise
+    SCR_CMD_HEADER* BasePointer_512770;
+    bool v4;
+    SCR_CMD_HEADER* v5;
+
+    //  I guess it's the script executed in mid-game on the current frame
+    //  Normally each opcode is executed in one frame, unless there are WHILE_EXECs or EXECs blocks
+
+    if (this->field_10 == 1)
+    {
+        return true;
+    }
+
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+
+    if (!BasePointer_512770)
+    {
+        sprintf(gTmpBuffer_67C598,
+
+ "Miss2: accessing nonexistant mission line. Current uid: %d",
+
+ this->field_4_level_start);
+    }
+
+    miss2_0x11C::sub_503200();
+
+    if (BasePointer_512770->field_2_type == 0x3F) //  3F 00 = EXEC opcode
+    {
+        do
+        {
+            miss2_0x11C::PreExecOpCode_5108D0();
+            gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+        } while (this->field_12 > 0); //  execute opcodes in the same frame until an ENDEXEC
+    }
+    else //  It isn't an EXEC opcode
+    {
+        // field_6_return_value == 1  means it's in a WHILE_EXEC block
+        if (BasePointer_512770->field_6_return_value == 1)
+        {
+            while (1) // execute commands in the same frame
+            {
+                v5 = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+                miss2_0x11C::PreExecOpCode_5108D0();
+
+                //  If the script has reached a command out of the WHILE_EXEC block, or if it reaches LEVELEND
+                if (v5->field_6_return_value != 1 || this->field_4_level_start == 0xFFFF
+
+)
+                {
+                    break;
+                }
+
+                //  Maybe if it reaches an ENDEXEC?
+                if (this->field_12)
+                {
+                    break;
+                }
+            }
+        }
+        else
+        {
+            //  or else, execute only one command on this frame
+            miss2_0x11C::PreExecOpCode_5108D0();
+        }
+    }
+
+    v4 = this->field_4_level_start == 0xFFFF; // Did it reached the LEVELEND?
+    this->field_12 = 0; // Clear EXEC flag?
+    return v4;
 }
 
 STUB_FUNC(0x511930)
@@ -1368,7 +1472,7 @@ MATCH_FUNC(0x511a00)
 miss2_0x11C::miss2_0x11C()
 {
     this->field_0 = 0;
-    this->field_114 =  new miss2_8();
+    this->field_114 = new miss2_8();
     this->field_4_level_start = 0;
     this->field_6 = 0;
     this->field_8 = 0;
@@ -1377,7 +1481,7 @@ miss2_0x11C::miss2_0x11C()
     this->field_10 = 0;
     this->field_12 = 0;
     this->field_11A = 0;
-    
+
     memset(this->field_14_str, 0, sizeof(this->field_14_str));
 
     this->field_118 = 0;
@@ -1392,3 +1496,5 @@ STUB_FUNC(0x512fd0)
 miss2_0x11C::~miss2_0x11C()
 {
 }
+
+
