@@ -236,10 +236,22 @@ void cool_nash_0x294::sub_45C4B0()
     */
 }
 
-STUB_FUNC(0x45c500)
-s32 cool_nash_0x294::sub_45C500(s32 a2)
+MATCH_FUNC(0x45c500)
+void cool_nash_0x294::sub_45C500(s32 a2)
 {
-    return 0;
+    if (this->field_278 != ped_state1_enum::ped_fall_on_ground)
+    {
+        if (a2 == ped_state1_enum::ped_fall_on_ground)
+        {
+            this->field_280 = this->field_278;
+        }
+        this->field_278 = a2;
+        return;
+    }
+    if (a2 != ped_state1_enum::ped_fall_on_ground)
+    {
+        this->field_280 = a2;
+    }
 }
 
 STUB_FUNC(0x45c540)
@@ -1037,19 +1049,22 @@ void cool_nash_0x294::sub_46D460(char_type a2)
 {
 }
 
-STUB_FUNC(0x46db60)
+MATCH_FUNC(0x46db60)
 void cool_nash_0x294::sub_46DB60()
 {
+    sub_46D460(0);
 }
 
-STUB_FUNC(0x46db70)
+MATCH_FUNC(0x46db70)
 void cool_nash_0x294::sub_46DB70()
 {
+    sub_46D460(1);
 }
 
-STUB_FUNC(0x46db80)
+MATCH_FUNC(0x46db80)
 void cool_nash_0x294::sub_46DB80()
 {
+    sub_46D460(2);
 }
 
 STUB_FUNC(0x46df50)
@@ -1082,10 +1097,53 @@ u8 cool_nash_0x294::sub_46E200(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x46ef00)
+MATCH_FUNC(0x46ef00)
 u8 cool_nash_0x294::get_wanted_star_count_46EF00()
 {
-    return 0;
+    short cVar1 = this->field_20A_wanted_points;
+    if (cVar1 < cop_level_ped_enum::cop_6_stars)
+    {
+        if (cVar1 < cop_level_ped_enum::cop_5_stars)
+        {
+            if (cVar1 < cop_level_ped_enum::cop_4_stars)
+            {
+                if (cVar1 < cop_level_ped_enum::cop_3_stars)
+                {
+                    if (cVar1 < cop_level_ped_enum::cop_2_stars)
+                    {
+                        if (cVar1 < cop_level_ped_enum::cop_1_stars)
+                        {
+                            return cop_level_enum::cops_0;
+                        }
+                        else
+                        {
+                            return cop_level_enum::cops_1;
+                        }
+                    }
+                    else
+                    {
+                        return cop_level_enum::cops_2;
+                    }
+                }
+                else
+                {
+                    return cop_level_enum::cops_3;
+                }
+            }
+            else
+            {
+                return cop_level_enum::cops_4;
+            }
+        }
+        else
+        {
+            return cop_level_enum::cops_5;
+        }
+    }
+    else
+    {
+        return cop_level_enum::cops_6;
+    }
 }
 
 MATCH_FUNC(0x46ef40)

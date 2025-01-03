@@ -1,7 +1,9 @@
 #pragma once
 
+#include <cstdio>
 #include "Function.hpp"
 #include "Marz_1D7E.hpp"
+#include "enums.h"
 #include "fix16.hpp"
 
 class angry_lewin_0x85C;
@@ -48,7 +50,7 @@ class cool_nash_0x294
     EXPORT void sub_45C350(gmp_map_zone* a2);
     EXPORT s32 sub_45C410();
     EXPORT void sub_45C4B0();
-    EXPORT s32 sub_45C500(s32 a2);
+    EXPORT void sub_45C500(s32 a2);
     EXPORT s32 sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
@@ -218,6 +220,57 @@ class cool_nash_0x294
     EXPORT s32 sub_470300();
     EXPORT s32 sub_470F00();
     EXPORT cool_nash_0x294* sub_470F90(cool_nash_0x294* pSrc);
+
+    void reset_ped_group()
+    {
+        field_164_ped_group = NULL;
+        field_23C = 0;
+    }
+
+    void set_ped_group(Mouze_44 *ptr)
+    {
+        field_164_ped_group = ptr;
+    }
+
+    void set_ped_group_id(s8 param_1)
+    {
+        field_23C = param_1;
+    }
+
+    u16 get_field_20e() const
+    {
+        return field_20e;
+    }
+
+    char has_field_16C_car() const
+    {
+        return field_16C_car != NULL;
+    }
+
+    s32 get_ped_state1() const
+    {
+        return field_278;
+    }
+
+    void set_field_14C(cool_nash_0x294* pSrc)
+    {
+		field_14C = pSrc;
+    }
+
+    void unset_bitset_0x04()
+	{
+        field_21C &= ~ped_bit_status_enum::k_ped_0x4;
+	}
+
+    void set_field_150_target_objective_car(Car_BC *ptr)
+    {
+        field_150_target_objective_car = ptr;
+    }
+
+    void set_ped_type(s32 param_1)
+    {
+        field_238 = param_1;
+    }
 
     Marz_3 field_0[100];
     s16 field_12C;
