@@ -1,8 +1,10 @@
 #include "Garox_2B00.hpp"
+#include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
@@ -11,8 +13,6 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "cool_nash_0x294.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -1032,9 +1032,23 @@ void Garox_2B00::sub_5D69C0()
 {
 }
 
-STUB_FUNC(0x5d69d0)
+MATCH_FUNC(0x5d69d0)
 void Garox_2B00::sub_5D69D0()
 {
+    field_1118_sub.sub_5D6290();
+    field_110C_sub.sub_5CF730();
+    field_27B5_sub.sub_5CF970();
+    field_1028.sub_5D00B0();
+    sub_5D5350();
+    field_1080.sub_5D5690();
+    field_4C.sub_5D5B60();
+    field_DC.sub_5D44D0();
+    field_620.sub_5D31B0();
+    field_650.sub_5D2050();
+    field_1F18.sub_5D0FD0();
+    field_107C_sub.sub_5CFE20();
+    field_111C.sub_5D1AB0();
+    field_12F0.sub_5D5760();
 }
 
 MATCH_FUNC(0x5d6a70)
