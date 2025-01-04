@@ -1,4 +1,5 @@
 #include "Car_10.hpp"
+#include "cool_nash_0x294.hpp"
 
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
@@ -49,9 +50,44 @@ void Car_10::sub_439D40(s32* a3)
 }
 
 STUB_FUNC(0x439DA0)
-void Car_10::sub_439DA0()
+void Car_10::sub_439DA0(s32* a3a)
 {
-
+    switch (field_4_state)
+    {
+        case 1:
+            if (field_C > 0)
+            {
+                field_C--;
+            }
+            else
+            {
+                sub_439EA0();
+            }
+            break;
+        case 2:
+            sub_439CD0(a3a);
+            break;
+        case 3:
+            sub_439D40(a3a);
+            break;
+        case 4:
+            field_4_state = 3;
+            break;
+        case 5:
+            field_4_state = 4;
+            break;
+        default:
+            break;
+    }
+    
+    cool_nash_0x294* v4 = field_8_pObj;
+    if (v4)
+    {
+        if (v4->field_278 == 9 || (v4->field_21C & 0x8000000) == 0)
+        {
+            this->field_8_pObj = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x439E40)
