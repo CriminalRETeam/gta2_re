@@ -68,5 +68,15 @@ class Sprite_5D598
     Sprite_4C field_4[5031];
 };
 
+class Sprite_49B28
+{
+    Car_3C* field_0_first_free;
+    Car_3C field_4[5031];
+
+public:
+    Sprite_49B28();
+};
+GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
+
 EXPORT_VAR extern Sprite_8* gSprite_8_703820;
 EXPORT_VAR extern Sprite_5D598* gSprite_5D598_70381C;

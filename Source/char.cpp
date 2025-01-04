@@ -7,6 +7,52 @@ GLOBAL(gChar_C_6787BC, 0x6787BC);
 EXPORT_VAR Char_203AC* gChar_203AC_6787B8;
 GLOBAL(gChar_203AC_6787B8, 0x6787B8);
 
+EXPORT_VAR Char_11944* gChar_11944_6FDB44;
+GLOBAL(gChar_11944_6FDB44, 0x6FDB44);
+
+EXPORT_VAR Char_324* gChar_324_678b50;
+GLOBAL(gChar_324_678b50, 0x678b50);
+
+STUB_FUNC(0x544ff0)
+Char_B4::Char_B4()
+{
+}
+
+Char_B4::~Char_B4()
+{
+}
+
+// This constructor doesn't exist.
+// It's inlined in Char_C::Char_C
+Char_11944::Char_11944()
+{
+    Char_B4* pIter = &field_4_array[0];
+    for (s32 i = 0; i < 399; i++)
+    {
+        pIter->field_78_next = pIter + 1;
+        pIter++;
+    }
+
+    field_4_array[399].field_78_next = NULL;
+    field_0_next = &field_4_array[0];
+}
+
+// This constructor doesn't exist.
+// It's inlined in Char_C::Char_C
+Char_324::Char_324()
+{
+    Char_8* pIter = &field_4_array[0];
+    for (s32 i = 0; i < 99; i++)
+    {
+        pIter->field_4_pOwner = pIter + 1;
+        pIter++;
+    }
+
+    field_4_array[99].field_4_pOwner = NULL;
+    field_0_next = &field_4_array[0];
+    field_320_in_use = 0;
+}
+
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
 {

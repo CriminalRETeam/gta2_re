@@ -7,6 +7,9 @@ GLOBAL(gSprite_8_703820, 0x703820);
 EXPORT_VAR Sprite_5D598* gSprite_5D598_70381C;
 GLOBAL(gSprite_5D598_70381C, 0x70381C);
 
+EXPORT_VAR Sprite_49B28* gSprite_49B28_703818;
+GLOBAL(gSprite_49B28_703818, 0x703818);
+
 MATCH_FUNC(0x5a5860)
 void Sprite_8::sub_5A5860()
 {
@@ -63,5 +66,9 @@ void Sprite_4C::dtor_5A5840()
 
 STUB_FUNC(0x5a5be0)
 void Sprite_5D598::dtor_5A5BE0()
+{
+}
+
+Sprite_49B28::Sprite_49B28()
 {
 }
