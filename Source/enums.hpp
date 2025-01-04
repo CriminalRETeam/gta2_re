@@ -1,7 +1,7 @@
-#ifndef ENUMS_H
-#define ENUMS_H
+#pragma once
 
-namespace car_manager_car_type_enum {
+namespace car_manager_car_type_enum
+{
 enum
 {
     New_Name = 0,
@@ -14,7 +14,8 @@ enum
 };
 // static_assert(sizeof(car_manager_car_type_enum) == 4);
 } // namespace car_manager_car_type_enum
-namespace car_model_enum {
+namespace car_model_enum
+{
 enum
 {
     alfa = 0,
@@ -109,7 +110,8 @@ enum
 // static_assert(sizeof(car_model_enum) == 4);
 } // namespace car_model_enum
 
-namespace cop_level_enum {
+namespace cop_level_enum
+{
 enum cop_level_enum
 {
     cops_0 = 0,
@@ -120,23 +122,25 @@ enum cop_level_enum
     cops_5 = 5,
     cops_6 = 6,
 };
-}
+} // namespace cop_level_enum
 
-namespace cop_level_ped_enum {
+namespace cop_level_ped_enum
+{
 enum
 { /* The cop level stored in the PED */
-  cop_0_stars = 0,
-  cop_1_stars = 600,
-  cop_2_stars = 1600,
-  cop_3_stars = 3000,
-  cop_4_stars = 5000,
-  cop_5_stars = 8000,
-  cop_6_stars = 12000
+    cop_0_stars = 0,
+    cop_1_stars = 600,
+    cop_2_stars = 1600,
+    cop_3_stars = 3000,
+    cop_4_stars = 5000,
+    cop_5_stars = 8000,
+    cop_6_stars = 12000
 };
 // static_assert(sizeof(cop_level_ped_enum) == 2);
 } // namespace cop_level_ped_enum
 
-namespace gmp_zone_type_enum {
+namespace gmp_zone_type_enum
+{
 enum
 {
     general_purpose = 0,
@@ -164,7 +168,8 @@ enum
 // static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
-namespace palette_types_enum {
+namespace palette_types_enum
+{
 enum
 {
     wrong_type = 0,
@@ -180,7 +185,8 @@ enum
 // static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
 
-namespace ped_bit_status_enum {
+namespace ped_bit_status_enum
+{
 enum
 {
     k_ped_0x1 = 0x00000001,
@@ -194,7 +200,8 @@ enum
 // static_assert(sizeof(ped_bit_status_enum) == 0x4);
 } // namespace ped_bit_status_enum
 
-namespace ped_major_state {
+namespace ped_major_state
+{
 enum
 {
     ped_major_New_Name = 0,
@@ -209,66 +216,68 @@ enum
 // static_assert(sizeof(ped_major_state) == 0x1);
 } // namespace ped_major_state
 
-namespace ped_ocupation_enum {
+namespace ped_ocupation_enum
+{
 enum
 { /* The ocupation that a PED can have */
-  player = 0,
-  empty = 1,
-  unknown_1 = 2,
-  dummy = 3,
-  unknown_2 = 4,
-  driver = 5,
-  unknown_3 = 6,
-  unknown_4 = 7,
-  unknown_5 = 8,
-  unknown_6 = 9,
-  driver_2 = 10,
-  unknown_7 = 11,
-  unknown_8 = 12,
-  unknown_9 = 13,
-  psycho = 14,
-  mugger = 15,
-  car_thief = 16,
-  bank_robber = 17,
-  criminal = 18,
-  unknown_10 = 19,
-  unknown_11 = 20,
-  unknown_12 = 21,
-  elvis = 22,
-  unknown_13 = 23,
-  police = 24,
-  swat = 25,
-  fbi = 26,
-  army_army = 27,
-  guard = 28,
-  unknown_14 = 29,
-  unknown_15 = 30,
-  unknown_16 = 31,
-  guard_against_player = 32,
-  criminal_type_1 = 33,
-  criminal_type_2 = 34,
-  special_groups_member = 35,
-  tank_driver = 36,
-  unknown_17 = 37,
-  fireman = 38,
-  road_block_tank_man = 39,
-  unknown_18 = 40,
-  drone = 41,
-  unknown_19 = 42,
-  stand_still_bloke = 43,
-  elvis_leader = 44,
-  refugees = 45,
-  any_law_enforcement = 46,
-  any_emergency_service_man = 47,
-  any_gang_member = 48,
-  any_elvis = 49,
-  driver_3 = 50,
-  no_occupation = 51,
+    player = 0,
+    empty = 1,
+    unknown_1 = 2,
+    dummy = 3,
+    unknown_2 = 4,
+    driver = 5,
+    unknown_3 = 6,
+    unknown_4 = 7,
+    unknown_5 = 8,
+    unknown_6 = 9,
+    driver_2 = 10,
+    unknown_7 = 11,
+    unknown_8 = 12,
+    unknown_9 = 13,
+    psycho = 14,
+    mugger = 15,
+    car_thief = 16,
+    bank_robber = 17,
+    criminal = 18,
+    unknown_10 = 19,
+    unknown_11 = 20,
+    unknown_12 = 21,
+    elvis = 22,
+    unknown_13 = 23,
+    police = 24,
+    swat = 25,
+    fbi = 26,
+    army_army = 27,
+    guard = 28,
+    unknown_14 = 29,
+    unknown_15 = 30,
+    unknown_16 = 31,
+    guard_against_player = 32,
+    criminal_type_1 = 33,
+    criminal_type_2 = 34,
+    special_groups_member = 35,
+    tank_driver = 36,
+    unknown_17 = 37,
+    fireman = 38,
+    road_block_tank_man = 39,
+    unknown_18 = 40,
+    drone = 41,
+    unknown_19 = 42,
+    stand_still_bloke = 43,
+    elvis_leader = 44,
+    refugees = 45,
+    any_law_enforcement = 46,
+    any_emergency_service_man = 47,
+    any_gang_member = 48,
+    any_elvis = 49,
+    driver_3 = 50,
+    no_occupation = 51,
 };
 // static_assert(sizeof(ped_ocupation_enum) == 0x4);
 } // namespace ped_ocupation_enum
 
-namespace ped_remap_enum {
+namespace ped_remap_enum
+{
 enum
 {
     ped_remap_blue_police = 0,
@@ -302,7 +311,8 @@ enum
 // static_assert(sizeof(ped_remap_enum) == 0x1);
 } // namespace ped_remap_enum
 
-namespace ped_state1_enum {
+namespace ped_state1_enum
+{
 enum
 {
     ped_walking = 0,
@@ -320,7 +330,8 @@ enum
 // static_assert(sizeof(ped_state1_enum) == 0x4);
 } // namespace ped_state1_enum
 
-namespace ped_state2_enum {
+namespace ped_state2_enum
+{
 enum
 {
     ped2_walking = 0,
@@ -340,7 +351,8 @@ enum
 // static_assert(sizeof(ped_state2_enum) == 0x4);
 } // namespace ped_state2_enum
 
-namespace ped_type_enum {
+namespace ped_type_enum
+{
 enum
 {
     New_Name = 0,
@@ -354,7 +366,8 @@ enum
 // static_assert(sizeof(ped_type_enum) == 0x4);
 } // namespace ped_type_enum
 
-namespace spec_surface_type_enum {
+namespace spec_surface_type_enum
+{
 enum
 {
     spec_grass = 2,
@@ -370,7 +383,8 @@ enum
 // static_assert(sizeof(spec_surface_type_enum) == 4);
 } // namespace spec_surface_type_enum
 
-namespace sprite_types_enum {
+namespace sprite_types_enum
+{
 enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
@@ -386,7 +400,8 @@ enum
 // static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum
 
-namespace weapon_type {
+namespace weapon_type
+{
 enum
 {
     pistol = 0,
@@ -411,5 +426,3 @@ enum
 };
 // static_assert(sizeof(weapon_type) == 0x4);
 } // namespace weapon_type
-
-#endif // ENUMS_H

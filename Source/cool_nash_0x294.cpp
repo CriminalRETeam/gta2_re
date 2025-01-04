@@ -1,7 +1,7 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "Globals.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;

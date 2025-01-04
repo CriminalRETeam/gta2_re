@@ -48,8 +48,8 @@ class Mouze_44
 
     char_type field_0;
     char_type field_1;
-    char_type field_2;    // padding
-    char_type field_3;    // padding
+    char_type field_2; // padding
+    char_type field_3; // padding
     cool_nash_0x294* field_4_ped_list[9];
     s32 field_28;
     cool_nash_0x294* field_2C_ped_leader;

@@ -206,6 +206,7 @@ set(gta2_lib_src
   Source/eager_benz.cpp
   Source/thirsty_lamarr.hpp
   Source/thirsty_lamarr.cpp
+  Source/enums.hpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention

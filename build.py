@@ -23,12 +23,12 @@ def main():
 
     returncode = build()
     if returncode != 0:
-        print(f"build failed with return code {returncode}")
-        sys.exit(1)
+        print(f"Build failed with return code {returncode}")
+        sys.exit(returncode)
     
     ok = verify()
     if not ok:
-        print(f"function verification failed!")
+        print(f"Function verification failed!")
         sys.exit(1)
 
     print("Build finished and verified successfully!")
@@ -95,7 +95,8 @@ def build():
         for build_cmd in BUILD_CMDS:
             p1.stdin.write(f"{build_cmd}\n")
 
-        p1.stdin.close()
+    p1.stdin.write("exit /b %errorlevel%\n")
+    p1.stdin.close()
     
     while True:
         output = p1.stdout.readline()

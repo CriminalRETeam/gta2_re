@@ -1,7 +1,7 @@
 #include "Mouze_44.hpp"
 #include "Globals.hpp"
 #include "cool_nash_0x294.hpp"
-#include "enums.h"
+#include "enums.hpp"
 
 EXPORT_VAR Mouze_44 stru_67EF20[20];
 GLOBAL(stru_67EF20, 0x67EF20);
@@ -95,9 +95,9 @@ void Mouze_44::replace_leader_4C8FE0(cool_nash_0x294* new_leader)
     field_2C_ped_leader = new_leader;
     new_leader->set_ped_group_id(99);
 
-    for(u8 i = 0; i < field_34_count; i++)
+    for (u8 i = 0; i < field_34_count; i++)
     {
-        field_4_ped_list[i]->sub_463830(0,9999);
+        field_4_ped_list[i]->sub_463830(0, 9999);
     }
 }
 
@@ -126,7 +126,7 @@ bool Mouze_44::sub_4C9040()
     {
         if (this->field_4_ped_list[bVar2] == NULL)
         {
-            for(u8 i = bVar2; i < field_34_count; i++)
+            for (u8 i = bVar2; i < field_34_count; i++)
             {
                 if (this->field_4_ped_list[i] != NULL)
                 {
@@ -173,10 +173,10 @@ char_type Mouze_44::sub_4C9150()
 MATCH_FUNC(0x4c91b0)
 void Mouze_44::sub_4C91B0()
 {
-    for(u8 i = 0; i < field_34_count; i++)
+    for (u8 i = 0; i < field_34_count; i++)
     {
         this->field_4_ped_list[i]->unset_bitset_0x04();
-        this->field_4_ped_list[i]->sub_463830(9,9999);
+        this->field_4_ped_list[i]->sub_463830(9, 9999);
         this->field_4_ped_list[i]->set_field_14C(this->field_2C_ped_leader);
     }
 }
@@ -254,9 +254,8 @@ void Mouze_44::sub_4C93A0()
         return;
     }
 
-    cool_nash_0x294 *ppVar2 = this->field_2C_ped_leader;
-    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) &&
-        (ppVar2->field_280 != ped_state1_enum::ped_wasted))
+    cool_nash_0x294* ppVar2 = this->field_2C_ped_leader;
+    if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
     {
         ppVar2->sub_463570(0, 9999);
         this->field_2C_ped_leader->sub_463830(0, 9999);
@@ -268,9 +267,8 @@ void Mouze_44::sub_4C93A0()
         for (u8 bVar5 = 0; bVar5 < this->field_34_count; bVar5++)
         {
             ppVar2 = this->field_4_ped_list[bVar5];
-            cool_nash_0x294 **pppVar1 = this->field_4_ped_list + bVar5;
-            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) ||
-                (ppVar2->field_280 == ped_state1_enum::ped_wasted))
+            cool_nash_0x294** pppVar1 = this->field_4_ped_list + bVar5;
+            if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
             }
