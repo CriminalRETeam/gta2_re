@@ -49,9 +49,9 @@ void Car_10::sub_439D40(s32* a3)
 }
 
 STUB_FUNC(0x439DA0)
-s32 Car_10::sub_439DA0(s32* a3)
+void Car_10::sub_439DA0()
 {
-    return 0;
+
 }
 
 MATCH_FUNC(0x439E40)

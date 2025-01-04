@@ -5,12 +5,10 @@
 // TODO: Move
 class Ang16
 {
-public:
+  public:
     // inline 0x40E590
-    Ang16()
-    : field_0(0)
+    Ang16() : field_0(0)
     {
-
     }
 
     s16 field_0;
@@ -18,7 +16,12 @@ public:
 
 class Fix16
 {
-public:
+  public:
+    bool operator==(const Fix16& value) const
+    {
+        return mValue == value.mValue;
+    }
+
     Fix16& operator=(s32 value)
     {
         mValue = value;
@@ -91,6 +94,14 @@ public:
         return mValue * 0.0000610351562f;
     }
 
+    Fix16()
+    {
+    }
+
+    Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0))
+    {
+    }
+
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
@@ -108,9 +119,7 @@ public:
     s32 mValue;
 };
 
-
 struct Fix16_Vec
 {
-  Fix16 x,y,z;
+    Fix16 x, y, z;
 };
-

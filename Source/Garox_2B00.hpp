@@ -1049,3 +1049,5 @@ class Garox_2B00
 EXPORT_VAR extern Garox_2B00* gGarox_2B00_706620;
 
 EXPORT_VAR extern s16 word_706600;
+
+EXPORT_VAR extern char byte_67CE50[];
