@@ -3,8 +3,8 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-// TODO: add later
 class Car_3C;
+class Car_BC;
 
 class DrawUnk_0xBC
 {
@@ -23,7 +23,7 @@ class DrawUnk_0xBC
     EXPORT s32 sub_435B90();
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void sub_435DD0();
-    EXPORT u8 sub_435F90(s32 a2);
+    EXPORT void sub_435F90(Car_BC * a2);
     EXPORT s32 sub_435FF0();
     EXPORT s32 sub_436110();
     EXPORT void sub_436120(s32 a2);
@@ -57,7 +57,7 @@ class DrawUnk_0xBC
     s32 field_38;
     s32 field_3C;
     Fix16 field_40;
-    char_type field_44;
+    u8 field_44;
     char_type field_45;
     char_type field_46;
     char_type field_47;

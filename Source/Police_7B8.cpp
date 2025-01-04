@@ -280,7 +280,7 @@ bool Police_7B8::sub_56F800(cool_nash_0x294* a2)
 }
 
 STUB_FUNC(0x56f880)
-bool Police_7B8::sub_56F880(s32 a2)
+bool Police_7B8::sub_56F880(cool_nash_0x294* a2)
 {
     return 0;
 }

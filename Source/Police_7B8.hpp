@@ -187,7 +187,7 @@ class Police_7B8
     EXPORT cool_nash_0x294* sub_56F5C0(s32 a2, s32 a3, s16 a4);
     EXPORT void sub_56F6D0(Car_BC* a2);
     EXPORT bool sub_56F800(cool_nash_0x294* a2);
-    EXPORT bool sub_56F880(s32 a2);
+    EXPORT bool sub_56F880(cool_nash_0x294* a2);
     EXPORT s32 sub_56F8E0(cool_nash_0x294* a2, cool_nash_0x294* a3);
     EXPORT s32 sub_56F940(u32* a2);
     EXPORT s16 sub_56FA40();
