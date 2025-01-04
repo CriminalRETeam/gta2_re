@@ -765,9 +765,23 @@ char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
     return 0;
 }
 
-STUB_FUNC(0x5d0f80)
+MATCH_FUNC(0x5d0f80)
 void Garox_7C_Array::sub_5D0F80()
 {
+    for (s32 i = 0; i < 17; i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            if (field_0_array[i].field_18.field_10.field_30)
+            {
+                if (field_0_array[i].field_18.field_60->field_10 == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
+                {
+                    field_0_array[i].field_18.field_18.field_10 = 0;
+                    field_0_array[i].field_18.field_3C.field_10 = 0;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d0fd0)
