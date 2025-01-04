@@ -770,9 +770,24 @@ void Garox_7C_Array::sub_5D0F80()
 {
 }
 
-STUB_FUNC(0x5d0fd0)
+MATCH_FUNC(0x5d0fd0)
 void Garox_7C_Array::sub_5D0FD0()
 {
+    sub_5D0EF0();
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            field_0_array[i].sub_5D0C60();
+        }
+    }
+
+    if (field_844)
+    {
+        sub_5D0F80();
+        field_844 = 0;
+    }
 }
 
 STUB_FUNC(0x5d1020)
