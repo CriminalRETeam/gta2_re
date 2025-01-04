@@ -13,6 +13,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Police_7B8.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -400,9 +401,21 @@ Garox_Sub_C::Garox_Sub_C()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d00b0)
+MATCH_FUNC(0x5d00b0)
 void Garox_Sub_C_Array::sub_5D00B0()
 {
+    cool_nash_0x294* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    field_48_count = pPed->get_wanted_star_count_46EF00();
+    
+    const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
+    s32 i = 0;
+    Garox_Sub_C* pIter = &field_1028[0];
+    while (i < field_48_count)
+    {
+        pIter->sub_5D0050(a2);
+        i++;
+        pIter++;
+    }
 }
 
 STUB_FUNC(0x5d0110)
