@@ -1001,6 +1001,15 @@ bool cSampleManager::SampleNotDone_58E880()
     return AIL_sample_status(field_98_hSample) != SMP_DONE ? true : false;
 }
 
+MATCH_FUNC(0x58E8A0)
+void cSampleManager::sub_58E8A0()
+{
+    if (this->field_98_hSample)
+    {
+        AIL_end_sample(this->field_98_hSample);
+    }
+}
+
 MATCH_FUNC(0x58E960)
 void cSampleManager::EndSample_58E960()
 {
