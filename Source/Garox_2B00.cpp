@@ -693,9 +693,35 @@ void Garox_7C::sub_5D0C90()
 }
 
 STUB_FUNC(0x5d0dc0)
-s32 Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
+void Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
 {
-    return 0;
+    switch (a2->field_244_remap)
+    {
+        case 5:
+        case 6:
+            this->field_18.field_2C = 4;
+            break;
+        case 7:
+            this->field_18.field_2C = 5;
+            break;
+        case 8:
+            this->field_18.field_2C = 3;
+            break;
+        case 9:
+            this->field_18.field_2C = 6;
+            break;
+        case 10:
+            this->field_18.field_2C = 7;
+            break;
+        case 11:
+            this->field_18.field_2C = 1;
+            break;
+        case 13:
+            this->field_18.field_2C = 2;
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x5d1350)
