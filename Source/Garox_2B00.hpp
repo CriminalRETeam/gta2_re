@@ -540,7 +540,7 @@ class Garox_7C_Array
     EXPORT char_type sub_5D0F40(Zone_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
-    EXPORT Garox_7C_Array* sub_5D1020(s32* a2);
+    EXPORT Garox_7C* sub_5D1020(s32* a2);
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
     EXPORT Garox_7C_Array* sub_5D10D0(Zone_144* pZone, s32 phone_type);

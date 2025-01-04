@@ -790,9 +790,19 @@ void Garox_7C_Array::sub_5D0FD0()
     }
 }
 
-STUB_FUNC(0x5d1020)
-Garox_7C_Array* Garox_7C_Array::sub_5D1020(s32* a2)
+MATCH_FUNC(0x5d1020)
+Garox_7C* Garox_7C_Array::sub_5D1020(s32* a2)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
+    {
+        if (!pIter->field_18.field_10.field_6)
+        {
+            *a2 = i;
+            pIter->field_18.field_10.field_6 = 1;
+            return pIter;
+        }
+    }
     return 0;
 }
 
