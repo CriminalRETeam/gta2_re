@@ -1204,6 +1204,12 @@ char_type Car_BC::sub_441A70()
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
+    Car_10* pIter = field_C;
+    for (s32 i=0; i<GTA2_COUNTOF(field_C); i++)
+    {
+        pIter->sub_439DA0();
+        pIter++;
+    }
 }
 
 STUB_FUNC(0x441b20)
