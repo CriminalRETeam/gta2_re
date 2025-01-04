@@ -553,7 +553,7 @@ s32 Car_BC::sub_43A680()
 }
 
 STUB_FUNC(0x43a6f0)
-s32 Car_BC::sub_43A6F0(u8 a2)
+bool Car_BC::sub_43A6F0(u8 a2)
 {
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->num_remaps > 1u &&
         this->field_50_car_sprite->field_24 != a2;
@@ -565,9 +565,22 @@ s32 Car_BC::sub_43A730(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x43a780)
+MATCH_FUNC(0x43a780)
 void Car_BC::sub_43A780(u8 a2)
 {
+
+    if (sub_43A6F0(a2))
+    {
+        field_50_car_sprite->sub_59EA00(a2);
+    }
+
+    if (field_64)
+    {
+        if (field_64->field_C->sub_43A6F0(a2))
+        {
+            field_64->field_C->field_50_car_sprite->sub_59EA00(a2);
+        }
+    }
 }
 
 STUB_FUNC(0x43a7d0)
