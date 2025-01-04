@@ -1,10 +1,10 @@
 #pragma once
 
+#include "BitSet32.hpp"
 #include "Car_10.hpp"
+#include "Fix16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
-#include "Fix16.hpp"
-#include "BitSet32.hpp"
 #include <wchar.h>
 
 class Car_78;
@@ -147,7 +147,7 @@ class Car_6C
 
     Car_2 field_0;
     s16 field_2;
-    cool_nash_0x294 *field_4;
+    cool_nash_0x294* field_4;
     char_type field_8;
     u8 field_9;
     u8 field_A;
@@ -221,7 +221,7 @@ class Car_BC
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
     EXPORT s32 sub_43A680();
-    EXPORT s32 sub_43A6F0(u8 a2);
+    EXPORT bool sub_43A6F0(u8 a2);
     EXPORT s32 sub_43A730(u8 a2);
     EXPORT void sub_43A780(u8 a2);
     EXPORT void sub_43A7D0();
@@ -462,6 +462,18 @@ class Car_8
     EXPORT Car_8* ctor_563970();
     Sprite_4C* field_0;
     Sprite_4C* field_4;
+};
+
+class Car_A4_10
+{
+  public:
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+    Car_A4_10* field_4;
+    Car_BC* field_8;
+    Car_BC* field_C;
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
