@@ -1,11 +1,11 @@
 #include "miss2_0x11c.hpp"
-#include "Globals.hpp"
-#include "miss2_8.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 #include "cool_nash_0x294.hpp"
-#include "root_sound.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
+#include "miss2_8.hpp"
+#include "root_sound.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -64,9 +64,12 @@ void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 MATCH_FUNC(0x503650)
 void miss2_0x11C::sub_503650(u16 a2)
 {
-	if ( a2 != 0xFFFF ) {
+    if (a2 != 0xFFFF)
+    {
         this->field_4_level_start = a2;
-    } else {
+    }
+    else
+    {
         miss2_0x11C::sub_503670();
     }
 }
@@ -119,7 +122,7 @@ s32 miss2_0x11C::sub_504110(s32 a1, s32 a2)
     s32 v2;
     s32 v3;
 
-    (*(cool_nash_0x294**)(a2 + 8))->sub_463570(*(s16*)(a1 + 10),9999);
+    (*(cool_nash_0x294**)(a2 + 8))->sub_463570(*(s16*)(a1 + 10), 9999);
     v2 = *(s32*)(a2 + 8);
 
     v3 = *(s32*)(v2 + 540);
@@ -621,7 +624,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
 }
 
 STUB_FUNC(0x50a760)
-void miss2_0x11C::sub_50A760(miss2_0x11C* a1)
+void miss2_0x11C::sub_50A760()
 {
 }
 
@@ -941,7 +944,7 @@ void miss2_0x11C::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 }
 
 STUB_FUNC(0x50cb20)
-void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20(miss2_0x11C* a1)
+void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20()
 {
 }
 
@@ -1062,7 +1065,7 @@ void miss2_0x11C::sub_50DF10()
 }
 
 STUB_FUNC(0x50e0b0)
-void miss2_0x11C::sub_50E0B0(miss2_0x11C* a1)
+void miss2_0x11C::sub_50E0B0()
 {
 }
 
@@ -1367,9 +1370,741 @@ void miss2_0x11C::sub_510780()
 {
 }
 
-STUB_FUNC(0x5108d0)
+MATCH_FUNC(0x5108d0)
 void miss2_0x11C::PreExecOpCode_5108D0()
 {
+    if (this->field_10 != 1)
+    {
+        SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+        gBasePtr_6F8070 = pCmd;
+        switch (pCmd->field_2_type)
+        {
+            case 41:
+            case 42:
+                SCR_CMD_CREATE_CHAR_509730();
+                break;
+            case 43:
+            case 44:
+            case 45:
+            case 46:
+            case 394:
+            case 395:
+            case 396:
+            case 397:
+                sub_507F80();
+                break;
+            case 47:
+            case 48:
+            case 49:
+            case 50:
+            case 51:
+            case 52:
+                sub_507CE0();
+                break;
+            case 59:
+                SCRCMD_LEVELSTART_5069C0();
+                break;
+            case 60:
+                SCRCMD_LEVELEND_5069F0();
+                break;
+            case 61:
+                SCRCMD_CREATE_THREAD_506A00();
+                break;
+            case 62:
+                SCRCMD_STOP_THREAD_506A60();
+                break;
+            case 63:
+                SCRCMD_START_EXEC_5078D0();
+                break;
+            case 64:
+                SCRCMD_STOP_EXEC_5079A0();
+                break;
+            case 68:
+            case 273:
+                sub_506B80();
+                break;
+            case 71:
+                SCRCMD_NOT_507750();
+                break;
+            case 78:
+                sub_506B30();
+                break;
+            case 79:
+            case 82:
+            case 86:
+            case 88:
+            case 90:
+            case 92:
+            case 94:
+                sub_506D60();
+                break;
+            case 80:
+            case 83:
+                sub_507110();
+                break;
+            case 81:
+            case 84:
+            case 87:
+            case 89:
+            case 91:
+            case 93:
+            case 95:
+                sub_506ED0();
+                break;
+            case 96:
+                SCRCMD_INCREMENT_507A70();
+                break;
+            case 97:
+                SCRCMD_DECREMENT_507B50();
+                break;
+            case 98:
+                SCRCMD_IF_JUMP_506AF0(); // IF_JUMP?
+                break;
+            case 100:
+                SCRCMD_MAKE_CAR_DUMMY_508220();
+                break;
+            case 103:
+            case 104:
+            case 105:
+            case 106:
+            case 107:
+            case 108:
+            case 109:
+            case 110:
+            case 111:
+            case 112:
+            case 372:
+                sub_508280();
+                break;
+            case 113:
+            case 440:
+                sub_5086F0();
+                break;
+            case 114:
+            case 441:
+                sub_508550();
+                break;
+            case 115:
+                SCRCMD_ARROW_COLOUR_508DC0();
+                break;
+            case 116:
+                SCRCMD_REMOVE_ARROW_508E80();
+                break;
+            case 117:
+            case 118:
+            case 279:
+            case 321:
+                sub_5093C0();
+                break;
+            case 119:
+                SCRCMD_DISPLAY_TIMER_5096E0();
+                break;
+            case 120:
+                sub_50B690();
+                break;
+            case 121:
+                sub_509C10();
+                break;
+            case 122:
+                sub_509C90();
+                break;
+            case 123:
+                sub_509D00();
+                break;
+            case 124:
+                sub_509E70();
+                break;
+            case 125:
+                SCRCMD_IS_CHAR_STUNNED_50C3B0();
+                break;
+            case 126:
+                SCRCMD_CHECK_HEALTH_509030();
+                break;
+            case 127:
+                SCRCMD_HAS_CHAR_DIED_509BB0();
+                break;
+            case 128:
+                SCRCMD_STORE_CAR_INFO_509180();
+                break;
+            case 129:
+                SCRCMD_CHECK_CAR_DAMAGE_508F00();
+                break;
+            case 130:
+            case 154:
+            case 190:
+            case 191:
+            case 267:
+            case 305:
+            case 417:
+                sub_50CB70();
+                break;
+            case 131:
+                sub_5097D0();
+                break;
+            case 132:
+                sub_50A200();
+                break;
+            case 133:
+                sub_50A3E0();
+                break;
+            case 134:
+                sub_509810();
+                break;
+            case 135:
+                sub_509880();
+                break;
+            case 138:
+            case 266:
+                sub_5098E0();
+                break;
+            case 139:
+                sub_509990();
+                break;
+            case 140:
+                sub_509D60();
+                break;
+            case 141:
+            case 392:
+                sub_509D90();
+                break;
+            case 142:
+            case 399:
+            case 404:
+            case 406:
+                sub_509ED0();
+                break;
+            case 143:
+                SCRCMD_EXPLODE_BUILDING_509F60();
+                break;
+            case 144:
+            case 398:
+            case 403:
+            case 405:
+                sub_50C5A0();
+                break;
+            case 145:
+            case 146:
+            case 147:
+            case 148:
+            case 149:
+            case 150:
+                sub_509FD0();
+                break;
+            case 151:
+            case 152:
+            case 153:
+            case 238:
+            case 239:
+                sub_50BBD0();
+                break;
+            case 155:
+                SCRCMD_CHANGE_CAR_REMAP_50A570();
+                break;
+            case 156:
+                SCRCMD_CHANGE_CHAR_REMAP_50A5B0();
+                break;
+            case 157:
+                SCRCMD_CHECK_CAR_MODEL_50A610();
+                break;
+            case 158:
+                SCRCMD_CHECK_CAR_REMAP_50A670();
+                break;
+            case 159:
+                SCRCMD_CHECK_CAR_BOTH_50A6E0();
+                break;
+            case 160:
+            case 356:
+                sub_50A760();
+                break;
+            case 161:
+                SCRCMD_DELAY_HERE_50A940();
+                break;
+            case 162:
+                sub_50A980();
+                break;
+            case 163:
+                sub_50BA30();
+                break;
+            case 164:
+            case 421:
+                sub_50BA70();
+                break;
+            case 165:
+                sub_50B3D0();
+                break;
+            case 166:
+                sub_50B5A0();
+                break;
+            case 167:
+            case 171:
+                sub_50B4F0();
+                break;
+            case 168:
+                sub_50B180();
+                break;
+            case 169:
+                sub_50BB80();
+                break;
+            case 170:
+                sub_50B600();
+                break;
+            case 173:
+                sub_50B8B0();
+                break;
+            case 175:
+                SCRCMD_CAR_DRIVE_AWAY_50B440();
+                break;
+            case 176:
+                SCRCMD_IS_CHAR_FIRING_AREA_50B910();
+                break;
+            case 177:
+            case 178:
+            case 179:
+            case 180:
+                SCRCMD_DOOR_50C8A0();
+                break;
+            case 181:
+                SCRCMD_ROAD_ON_OFF_50CB20();
+                break;
+            case 182:
+                SCRCMD_ADD_NEW_BLOCK_50CAB0();
+                break;
+            case 183:
+                SCRCMD_REMOVE_BLOCK_50C9F0();
+                break;
+            case 184:
+                SCRCMD_LOWER_LEVEL_50CA30();
+                break;
+            case 185:
+            case 186:
+            case 187:
+                sub_50CA70();
+                break;
+            case 188:
+                SCRCMD_GET_CAR_FROM_CRANE_50B470();
+                break;
+            case 189:
+                SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
+                break;
+            case 192:
+            case 196:
+            case 281:
+            case 282:
+                sub_50DB70();
+                break;
+            case 193:
+            case 197:
+                sub_50DD00();
+                break;
+            case 194:
+                SCRCMD_CHECK_SCORE_50B6F0();
+                break;
+            case 195:
+                SCRCMD_GET_SCORE_50B760();
+                break;
+            case 198:
+            case 199:
+            case 231:
+                sub_50AEF0();
+                break;
+            case 200:
+                SCRCMD_CAR_DAMAGE_POS_50CDB0();
+                break;
+            case 201:
+                SCRCMD_GET_PASSENGER_NUM_50B9C0();
+                break;
+            case 202:
+                SCRCMD_CHAR_IN_AIR_50DE50();
+                break;
+            case 203:
+                SCRCMD_CHAR_SUNK_50DEB0();
+                break;
+            case 205:
+                sub_50B0E0();
+                break;
+            case 206:
+            case 207:
+            case 209:
+                sub_50E190();
+                break;
+            case 208:
+                SCRCMD_CHECK_CAR_SPEED_50E360();
+                break;
+            case 215:
+                SCRCMD_ENABLE_THREAD_50ABF0();
+                break;
+            case 216:
+                SCRCMD_DISABLE_THREAD_50ABC0();
+                break;
+            case 219:
+            case 301:
+                sub_50DA50();
+                break;
+            case 220:
+                SCRCMD_CHANGE_INTENSITY_50D870();
+                break;
+            case 221:
+                SCRCMD_CHANGE_COLOUR_50D900();
+                break;
+            case 222:
+                SCRCMD_CHANGE_RADIUS_50D9A0();
+                break;
+            case 223:
+                SCRCMD_SET_GANG_INFO1_50B670();
+                break;
+            case 224:
+                SCRCMD_SET_GANG_RESPECT_50AC20();
+                break;
+            case 225:
+            case 262:
+            case 393:
+                sub_50ACF0();
+                break;
+            case 226:
+                SCRCMD_SET_AMBIENT_50B150();
+                break;
+            case 227:
+                SCRCMD_CHECK_PHONE_50B230();
+                break;
+            case 228:
+                SCRCMD_CHECK_PHONETIMER_50B2C0();
+                break;
+            case 229:
+                SCRCMD_STOP_PHONE_RING_50B360();
+                break;
+            case 232:
+                SCRCMD_IS_CHAR_IN_GANG_50B7D0();
+                break;
+            case 234:
+                SCRCMD_CHECK_NUM_ALIVE_50BC60();
+                break;
+            case 235:
+            case 236:
+            case 259:
+                sub_50BD10();
+                break;
+            case 237:
+                SCRCMD_SET_MIN_ALIVE_50BCD0();
+                break;
+            case 241:
+                SCRCMD_HAS_CAR_WEAPON_50BE00();
+                break;
+            case 242:
+                SCRCMD_IS_CHAR_IN_ZONE_50BF40();
+                break;
+            case 243:
+                SCRCMD_IS_CHAR_HORN_50BE70();
+                break;
+            case 244:
+                SCRCMD_CHECK_MAX_PASS_50BED0();
+                break;
+            case 245:
+                SCRCMD_SET_PHONE_DEAD_50C040();
+                break;
+            case 246:
+                SCRCMD_IS_TRAILER_ATT_50C0E0();
+                break;
+            case 247:
+                SCRCMD_IS_CAR_ON_TRAIL_50C1B0();
+                break;
+            case 248:
+            case 249:
+                SCRCMD_ENABLE_DISABLE_CRANE_50C230();
+                break;
+            case 250:
+                SCRCMD_CAR_GOT_DRIVER_50C2A0();
+                break;
+            case 251:
+                SCRCMD_SPOTTED_PLAYER_50C2F0();
+                break;
+            case 252:
+                SCRCMD_GET_LAST_PUNCHED_50C350();
+                break;
+            case 253:
+                SCRCMD_KILL_ALL_PASSENG_50C410();
+                break;
+            case 254:
+                SCRCMD_IS_GROUP_IN_CAR_50C470();
+                break;
+            case 255:
+                SCRCMD_PUNCHED_SOMEONE_50C4E0();
+                break;
+            case 256:
+                SCRCMD_REMOVE_WEAPON_50C990();
+                break;
+            case 258:
+                SCRCMD_ADD_CHAR_TO_GANG_50C540();
+                break;
+            case 260:
+            case 280:
+                sub_50C6F0();
+                break;
+            case 261:
+                SCRCMD_PARK_FINISHED_50CE10();
+                break;
+            case 263:
+                SCRCMD_PHONE_TEMPLATE_50CE90();
+                break;
+            case 264:
+                SCRCMD_BEEN_PUNCHED_BY_50C760();
+                break;
+            case 265:
+                SCRCMD_UPDATE_DOOR_50C7D0();
+                break;
+            case 268:
+            case 269:
+                sub_50CCB0();
+                break;
+            case 270:
+                SCRCMD_CAR_IN_AREA_509A70();
+                break;
+            case 271:
+                SCRCMD_REMOTE_CONTROL_50D200();
+                break;
+            case 274:
+                SCRCMD_LAUNCH_MISSION_50D2E0();
+                break;
+            case 277:
+                SCRCMD_SAVE_GAME_50D340();
+                break;
+            case 278:
+                SCRCMD_CHANGE_CAR_LOCK_50D680();
+                break;
+            case 283:
+                SCRCMD_SET_DIR_OF_TVVAN_50DD90();
+                break;
+            case 284:
+                SCRCMD_POINT_ONSCREEN_50DE00();
+                break;
+            case 288:
+            case 289:
+            case 290:
+            case 291:
+                sub_50DF10();
+                break;
+            case 292:
+            case 293:
+            case 294:
+                sub_50E0B0();
+                break;
+            case 299:
+                sub_50E120();
+                break;
+            case 300:
+                sub_50E150();
+                break;
+            case 303:
+                sub_50E460();
+                break;
+            case 306:
+                sub_50E730();
+                break;
+            case 307:
+            case 383:
+                sub_50E780();
+                break;
+            case 308:
+            case 309:
+            case 337:
+            case 338:
+            case 339:
+                sub_50E4F0();
+                break;
+            case 310:
+                sub_50E7F0();
+                break;
+            case 311:
+            case 312:
+            case 313:
+                sub_50E820();
+                break;
+            case 315:
+                sub_50A460();
+                break;
+            case 316:
+                sub_50E900();
+                break;
+            case 317:
+                sub_50E9A0();
+                break;
+            case 318:
+                sub_50E9E0();
+                break;
+            case 319:
+                sub_50EA40();
+                break;
+            case 320:
+                sub_50EB00();
+                break;
+            case 324:
+                sub_50ECE0();
+                break;
+            case 325:
+                sub_50ED40();
+                break;
+            case 328:
+                sub_50ED80();
+                break;
+            case 329:
+                sub_50EDC0();
+                break;
+            case 330:
+                SCRCMD_CHAR_INTO_CAR_50F060();
+                break;
+            case 332:
+            case 333:
+            case 334:
+            case 335:
+            case 336:
+                sub_50E610();
+                break;
+            case 340:
+                sub_50BDC0();
+                break;
+            case 342:
+                SCRCMD_ADD_SCORE2_509E00();
+                break;
+            case 350:
+                SCRCMD_SUPPRESS_MODEL_50F220();
+                break;
+            case 351:
+            case 352:
+                sub_50CD30();
+                break;
+            case 354:
+                SCRCMD_DECIDE_POWERUP_50F150();
+                break;
+            case 355:
+                SCRCMD_CHAR_ARRESTED_50E4A0();
+                break;
+            case 357:
+                sub_50F270();
+                break;
+            case 358:
+            case 366:
+                sub_50EBD0();
+                break;
+            case 359:
+                SCRCMD_SET_GROUP_TYPE_50F3D0();
+                break;
+            case 360:
+                SCRCMD_CHAR_DO_NOTHING_50F410();
+                break;
+            case 361:
+                SCRCMD_EMERG_LIGHTS_50F450();
+                break;
+            case 362:
+                SCRCMD_CHECK_OBJ_MODEL_50F4D0();
+                break;
+            case 363:
+            case 384:
+            case 385:
+            case 432:
+                sub_50F5E0();
+                break;
+            case 364:
+                SCRCMD_PED_GRAPHIC_50F550();
+                break;
+            case 365:
+                SCRCMD_MAKE_MUGGERS_50F770();
+                break;
+            case 367:
+            case 381:
+            case 382:
+                sub_50F7B0();
+                break;
+            case 368:
+                SCRCMD_STOP_CAR_DRIVE_50F900();
+                break;
+            case 369:
+                SCRCMD_IS_BUS_FULL_50F940();
+                break;
+            case 370:
+                SCRCMD_NO_CHARS_OFF_BUS_50F9B0();
+                break;
+            case 371:
+                sub_50FA00();
+                break;
+            case 373:
+                SCRCMD_SET_SHADING_LEV_50FA40();
+                break;
+            case 374:
+                SCRCMD_SET_CAR_JAMMED_50FA70();
+                break;
+            case 391:
+                SCRCMD_FINISH_MISSION_50FAD0();
+                break;
+            case 400:
+            case 407:
+                sub_50FB60();
+                break;
+            case 402:
+                sub_50FAF0();
+                break;
+            case 408:
+                sub_50FC20();
+                break;
+            case 409:
+                sub_50FC60();
+                break;
+            case 410:
+                sub_509790();
+                break;
+            case 411:
+                sub_50FE00();
+                break;
+            case 412:
+                sub_50FED0();
+                break;
+            case 414:
+                sub_50FF50();
+                break;
+            case 415:
+            case 416:
+                sub_50FFB0();
+                break;
+            case 418:
+                sub_510030();
+                break;
+            case 419:
+                sub_510050();
+                break;
+            case 420:
+                sub_510090();
+                break;
+            case 422:
+                sub_510100();
+                break;
+            case 423:
+                sub_510280();
+                break;
+            case 424:
+                sub_510530();
+                break;
+            case 433:
+                sub_510560();
+                break;
+            case 438:
+                sub_50D3C0();
+                break;
+            case 442:
+                sub_5105B0();
+                break;
+            case 443:
+                sub_510600();
+                break;
+            case 444:
+                sub_510660();
+                break;
+            case 445:
+            case 446:
+                sub_510780();
+                break;
+            default:
+                Next_503620(pCmd);
+                break;
+        }
+    }
 }
 
 MATCH_FUNC(0x511840)
@@ -1391,7 +2126,7 @@ char_type miss2_0x11C::sub_511840()
 
     if (!BasePointer_512770)
     {
-        sprintf(gTmpBuffer_67C598,"Miss2: accessing nonexistant mission line. Current uid: %d", this->field_4_level_start);
+        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", this->field_4_level_start);
     }
 
     miss2_0x11C::sub_503200();
@@ -1461,7 +2196,7 @@ MATCH_FUNC(0x511a00)
 miss2_0x11C::miss2_0x11C()
 {
     this->field_0 = 0;
-    this->field_114 =  new miss2_8();
+    this->field_114 = new miss2_8();
     this->field_4_level_start = 0;
     this->field_6 = 0;
     this->field_8 = 0;
@@ -1470,7 +2205,7 @@ miss2_0x11C::miss2_0x11C()
     this->field_10 = 0;
     this->field_12 = 0;
     this->field_11A = 0;
-    
+
     memset(this->field_14_str, 0, sizeof(this->field_14_str));
 
     this->field_118 = 0;
