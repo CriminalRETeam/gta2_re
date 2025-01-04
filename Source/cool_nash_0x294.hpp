@@ -1,10 +1,10 @@
 #pragma once
 
-#include <cstdio>
 #include "Function.hpp"
 #include "Marz_1D7E.hpp"
-#include "enums.h"
+#include "enums.hpp"
 #include "fix16.hpp"
+#include <cstdio>
 
 class angry_lewin_0x85C;
 class gmp_map_zone;
@@ -227,7 +227,7 @@ class cool_nash_0x294
         field_23C = 0;
     }
 
-    void set_ped_group(Mouze_44 *ptr)
+    void set_ped_group(Mouze_44* ptr)
     {
         field_164_ped_group = ptr;
     }
@@ -254,15 +254,15 @@ class cool_nash_0x294
 
     void set_field_14C(cool_nash_0x294* pSrc)
     {
-		field_14C = pSrc;
+        field_14C = pSrc;
     }
 
     void unset_bitset_0x04()
-	{
+    {
         field_21C &= ~ped_bit_status_enum::k_ped_0x4;
-	}
+    }
 
-    void set_field_150_target_objective_car(Car_BC *ptr)
+    void set_field_150_target_objective_car(Car_BC* ptr)
     {
         field_150_target_objective_car = ptr;
     }
