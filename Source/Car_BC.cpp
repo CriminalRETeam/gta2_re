@@ -44,13 +44,13 @@ MATCH_FUNC(0x59e2e0)
 void Car_3C::sub_59E2E0(void)
 {
     sub_59F990();
-    memcpy(field_4_0x4C_len, field_C_car_or_sprite, sizeof(Sprite_4C));
+    memcpy(field_4_0x4C_len, sprite_4c_ptr, sizeof(Sprite_4C));
 }
 
 MATCH_FUNC(0x59e300)
 void Car_3C::sub_59E300()
 {
-    memcpy(field_C_car_or_sprite, field_4_0x4C_len, sizeof(Sprite_4C));
+    memcpy(sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
 STUB_FUNC(0x59e320)
@@ -75,11 +75,11 @@ MATCH_FUNC(0x59e7b0)
 void Car_3C::sub_59E7B0()
 {
     field_39 = -1;
-    if (field_C_car_or_sprite)
+    if (sprite_4c_ptr != NULL)
     {
-        reinterpret_cast<u8*>(&field_C_car_or_sprite[1].field_C_car_or_sprite)[0] = 0;
+        sprite_4c_ptr->field_48 = 0;
     }
-    if (field_4_0x4C_len)
+    if (field_4_0x4C_len != NULL)
     {
         field_4_0x4C_len->field_48 = 0;
     }
@@ -91,7 +91,7 @@ Car_3C* Car_3C::sub_59E7D0(s32 a2)
     Car_3C* result;
 
     sub_59E9C0();
-    field_C_car_or_sprite->sub_5A4D90();
+    next_ptr->sub_5A4D90();
     gCar_3C_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
@@ -152,20 +152,20 @@ void Car_3C::sub_59EFF0()
 }
 
 MATCH_FUNC(0x59f950)
-void Car_3C::sub_59F950(s32 a2, Sprite_4C* a3, Car_BC* a4)
+void Car_3C::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    if (field_C_car_or_sprite == NULL)
+    if (sprite_4c_ptr == NULL)
     {
         Sprite_4C* pOldFree = gSprite_5D598_70381C->field_0_pFree;
         gSprite_5D598_70381C->field_0_pFree = gSprite_5D598_70381C->field_0_pFree->field_2C_pNext;
         pOldFree->sub_5A57A0();
-        field_C_car_or_sprite = (Car_3C*)pOldFree;
+        sprite_4c_ptr = pOldFree;
     }
 
-    Car_3C* pSprite4C = field_C_car_or_sprite;
-    pSprite4C->field_0 = a2;
-    pSprite4C->field_4_0x4C_len = a3;
-    pSprite4C->field_8_uni = a4;
+    Sprite_4C* pSprite4C = sprite_4c_ptr;
+    pSprite4C->field_0_width = a2;
+    pSprite4C->field_4_height = a3;
+    pSprite4C->field_8 = a4;
 }
 
 STUB_FUNC(0x59f990)
@@ -556,7 +556,7 @@ STUB_FUNC(0x43a6f0)
 bool Car_BC::sub_43A6F0(u8 a2)
 {
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->num_remaps > 1u &&
-        this->field_50_car_sprite->field_24 != a2;
+        this->field_50_car_sprite->field_24_remap != a2;
 }
 
 STUB_FUNC(0x43a730)
