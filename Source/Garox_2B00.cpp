@@ -832,9 +832,19 @@ char_type* Garox_7C_Array::sub_5D10B0()
     return 0;
 }
 
+// https://decomp.me/scratch/kSfKE
 STUB_FUNC(0x5d10d0)
-Garox_7C_Array* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
+Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < 17; i++, pIter++)
+    {
+        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+            (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
+        {
+            return pIter;
+        }
+    }
     return 0;
 }
 

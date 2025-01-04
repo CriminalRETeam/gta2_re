@@ -543,7 +543,7 @@ class Garox_7C_Array
     EXPORT Garox_7C* sub_5D1020(s32* a2);
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C_Array* sub_5D10D0(Zone_144* pZone, s32 phone_type);
+    EXPORT Garox_7C* sub_5D10D0(Zone_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(s32 pPhoneInfo);
     EXPORT void sub_5D1310(Zone_144* pZone);
     Garox_7C field_0_array[17];
