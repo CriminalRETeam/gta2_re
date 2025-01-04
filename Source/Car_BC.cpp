@@ -1,12 +1,14 @@
 #include "Car_BC.hpp"
-#include "gtx_0x106C.hpp"
-#include "sprite.hpp"
 #include "Globals.hpp"
-#include "root_sound.hpp"
+#include "PurpleDoom.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
-#include "PurpleDoom.hpp"
+#include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
+#include "root_sound.hpp"
+#include "sprite.hpp"
+#include "Garox_2B00.hpp"
+#include "text_0x14.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -27,10 +29,9 @@ EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
 MATCH_FUNC(0x451950)
-void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos) {
-    if ( field_14_xpos != xpos
-        || field_18_ypos != ypos
-        || field_1C_zpos != zpos )
+void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    if (field_14_xpos != xpos || field_18_ypos != ypos || field_1C_zpos != zpos)
     {
         field_14_xpos = xpos;
         field_18_ypos = ypos;
@@ -40,21 +41,16 @@ void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos) {
 }
 
 MATCH_FUNC(0x59e2e0)
-void Car_3C::sub_59E2E0(void) {
+void Car_3C::sub_59E2E0(void)
+{
     sub_59F990();
-    memcpy(
-        field_4_0x4C_len,
-        field_C_car_or_sprite,
-        sizeof(Sprite_4C));
+    memcpy(field_4_0x4C_len, field_C_car_or_sprite, sizeof(Sprite_4C));
 }
 
 MATCH_FUNC(0x59e300)
 void Car_3C::sub_59E300()
 {
-    memcpy(
-        field_C_car_or_sprite,
-        field_4_0x4C_len,
-        sizeof(Sprite_4C));
+    memcpy(field_C_car_or_sprite, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
 STUB_FUNC(0x59e320)
@@ -90,8 +86,9 @@ void Car_3C::sub_59E7B0()
 }
 
 MATCH_FUNC(0x59e7d0)
-Car_3C* Car_3C::sub_59E7D0(s32 a2) {
-    Car_3C *result;
+Car_3C* Car_3C::sub_59E7D0(s32 a2)
+{
+    Car_3C* result;
 
     sub_59E9C0();
     field_C_car_or_sprite->sub_5A4D90();
@@ -100,7 +97,7 @@ Car_3C* Car_3C::sub_59E7D0(s32 a2) {
     {
         return gCar_3C_6791A8;
     }
-    result = (Car_3C *)gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = (Car_3C*)gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
         dword_679188 = 3;
@@ -459,10 +456,11 @@ u32* Car_BC::sub_439F30(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x439f80)
+MATCH_FUNC(0x439f80)
 wchar_t* Car_BC::GetCarStr_439F80()
 {
-    return 0;
+    sprintf(byte_67CE50, "car%d%c%c", this->field_84_car_info_idx, 0, 0);
+    return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
 }
 
 STUB_FUNC(0x439fb0)
@@ -1394,17 +1392,15 @@ MATCH_FUNC(0x443d00)
 s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
-    Car_3C *pCarSprite = field_50_car_sprite;
-    if (pCarSprite->field_14_xpos != xpos
-        || pCarSprite->field_18_ypos != ypos
-        || pCarSprite->field_1C_zpos != zpos)
+    Car_3C* pCarSprite = field_50_car_sprite;
+    if (pCarSprite->field_14_xpos != xpos || pCarSprite->field_18_ypos != ypos || pCarSprite->field_1C_zpos != zpos)
     {
         pCarSprite->field_14_xpos = xpos;
         pCarSprite->field_18_ypos = ypos;
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }
-    Car_B0 *field_58_uni = (Car_B0 *)field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni = (Car_B0*)field_58_uni_Car78_or_Car_B0;
     if (field_58_uni)
     {
         field_58_uni->sub_563560(field_50_car_sprite);
@@ -1598,7 +1594,8 @@ Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
 MATCH_FUNC(0x564300)
 bool Car_BC::sub_564300()
 {
-    if (field_54_driver) {
+    if (field_54_driver)
+    {
         bool result = field_54_driver->sub_45EDE0(2) == 0;
         return result;
     }
