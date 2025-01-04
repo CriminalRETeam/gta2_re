@@ -1,18 +1,11 @@
 #pragma once
 
 #include "Function.hpp"
+#include "char.hpp"
 
 class cool_nash_0x294;
 class Char_8;
 class Car_BC;
-
-// TODO: Move
-class Char_8
-{
-  public:
-    cool_nash_0x294* field_0_char_ped;
-    Char_8* field_4_pOwner;
-};
 
 class Ped_Unknown_4
 {

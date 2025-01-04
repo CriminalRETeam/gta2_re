@@ -61,7 +61,7 @@ void force_link()
     maccies.sub_4C1CD0(0);
 
     Car_3C car_3c;
-    car_3c.field_20 = 5;
+    car_3c.field_20_id = 5;
 
     Snooky_94 snooky;
     snooky.sub_4887A0(0);
