@@ -355,7 +355,7 @@ agitated_keldysh_0xF0::agitated_keldysh_0xF0()
     Init_56B520();
 }
 
-STUB_FUNC(0x56B510)
+MATCH_FUNC(0x56B510)
 agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 {
 }
