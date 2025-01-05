@@ -417,7 +417,7 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
     return 0;
 }
 
-STUB_FUNC(0x56B610)
+MATCH_FUNC(0x56B610)
 dreamy_clarke_0xA4::dreamy_clarke_0xA4()
 {
     sub_56B630();
