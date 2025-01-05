@@ -1,5 +1,6 @@
 from iced_x86 import *
 import post_process_asm
+from pathlib import Path
 
 def get_bytes_from_file(fileName, offset, len):
     with open(fileName, mode='rb') as file: # b is important -> binary
@@ -18,7 +19,7 @@ def dism_func(func_bytes):
     return asm_str
 
 # so windows doesn't like :: being in a file name, and probably other stuff
-# put em in the bin and something its more happy with
+# put em in the bin and replacee with something its more happy with
 def func_name_as_safe_file_name(func_name):
     func_name = func_name.replace("::", "_")
     return func_name
@@ -37,11 +38,13 @@ def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_
         return True
     else:
         print(strStatus)
-        with open(func_name_as_safe_file_name(func_name) + "_og_asm_post_processed.txt", "w") as og_asm_file:
+        Path("diff").mkdir(parents=True, exist_ok=True)
+
+        with open("diff/" + func_name_as_safe_file_name(func_name) + "_og_asm_post_processed.txt", "w") as og_asm_file:
             og_asm_file.write(og_asm_str_post_processed)
-        with open(func_name_as_safe_file_name(func_name) + "_og_asm.txt", "w") as og_asm_file:
+        with open("diff/" + func_name_as_safe_file_name(func_name) + "_og_asm.txt", "w") as og_asm_file:
             og_asm_file.write(og_asm_str)
-        with open(func_name_as_safe_file_name(func_name) + "_new_asm_post_processed.txt", "w") as new_asm_file:
+        with open("diff/" + func_name_as_safe_file_name(func_name) + "_new_asm_post_processed.txt", "w") as new_asm_file:
             new_asm_file.write(new_asm_str_post_processed)
 
         return False

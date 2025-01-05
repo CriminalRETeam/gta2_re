@@ -19,8 +19,8 @@ class optimistic_moser
 
     u8* field_0_pPixelData;
     STexture* field_4_pTexture;
-    s16 field_8_w;
-    s16 field_A_h;
+    u16 field_8_w;
+    u16 field_A_h;
 };
 
 class festive_hopper

@@ -9,6 +9,7 @@ Release
 *.opt
 Scripts/satsuki*
 Scripts/bin_comp/venv/*
+Scripts/bin_comp/diff
 10.5.exe
 vscommondir.reg
 .vs

@@ -1,18 +1,20 @@
 #include "Garox_2B00.hpp"
+#include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Police_7B8.hpp"
 #include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
+#include "gtx_0x106C.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "cool_nash_0x294.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -400,9 +402,21 @@ Garox_Sub_C::Garox_Sub_C()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d00b0)
+MATCH_FUNC(0x5d00b0)
 void Garox_Sub_C_Array::sub_5D00B0()
 {
+    cool_nash_0x294* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    field_48_count = pPed->get_wanted_star_count_46EF00();
+
+    const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
+    s32 i = 0;
+    Garox_Sub_C* pIter = &field_1028[0];
+    while (i < field_48_count)
+    {
+        pIter->sub_5D0050(a2);
+        i++;
+        pIter++;
+    }
 }
 
 STUB_FUNC(0x5d0110)
@@ -410,9 +424,20 @@ void Garox_Sub_C_Array::sub_5D0110()
 {
 }
 
-STUB_FUNC(0x5d0210)
+MATCH_FUNC(0x5d0210)
 void Garox_Sub_C_Array::sub_5D0210()
 {
+    u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+
+    this->field_4C_w_fp.FromU8(sprite_index->field_4_width);
+    this->field_50_h_fp.FromU8(sprite_index->field_5_height);
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_1028); i++)
+    {
+        field_1028[i].field_2 = 2;
+        field_1028[i].field_1 = 2;
+    }
 }
 
 // ----------------------------------------------------
@@ -442,7 +467,7 @@ bool Garox_C4::sub_5D1DB0()
 }
 
 MATCH_FUNC(0x5d1e10)
-s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
+bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
     return this->field_A4_display_time > 0 && pOther != this && this->field_A8 == pOther->field_A8 && this->field_AA == pOther->field_AA &&
         this->field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
@@ -450,21 +475,18 @@ s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1eb0)
+MATCH_FUNC(0x5d1eb0)
 void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 {
     Garox_C4* pIter = this->field_960_pFirst;
-    if (pIter)
+    while (pIter)
     {
-        while (!pIter->operator_equals_5D1E10(String2))
+        if (pIter->operator_equals_5D1E10(String2))
         {
-            pIter = pIter->field_C0_pNext;
-            if (!pIter)
-            {
-                return;
-            }
+            pIter->field_A4_display_time = 0;
+            return;
         }
-        pIter->field_A4_display_time = 0;
+        pIter = pIter->field_C0_pNext;
     }
 }
 
@@ -693,9 +715,35 @@ void Garox_7C::sub_5D0C90()
 }
 
 STUB_FUNC(0x5d0dc0)
-s32 Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
+void Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
 {
-    return 0;
+    switch (a2->field_244_remap)
+    {
+        case 5:
+        case 6:
+            this->field_18.field_2C = 4;
+            break;
+        case 7:
+            this->field_18.field_2C = 5;
+            break;
+        case 8:
+            this->field_18.field_2C = 3;
+            break;
+        case 9:
+            this->field_18.field_2C = 6;
+            break;
+        case 10:
+            this->field_18.field_2C = 7;
+            break;
+        case 11:
+            this->field_18.field_2C = 1;
+            break;
+        case 13:
+            this->field_18.field_2C = 2;
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x5d1350)
@@ -759,25 +807,73 @@ Garox_7C* Garox_7C_Array::sub_5D0EF0()
     return 0;
 }
 
-STUB_FUNC(0x5d0f40)
+MATCH_FUNC(0x5d0f40)
 char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < 17; i++, pIter++)
+    {
+        if ( ( pIter->field_18.field_18.field_10 ||
+            pIter->field_18.field_3C.field_10 ) && (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x5d0f80)
+MATCH_FUNC(0x5d0f80)
 void Garox_7C_Array::sub_5D0F80()
 {
+    for (s32 i = 0; i < 17; i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            if (field_0_array[i].field_18.field_10.field_30)
+            {
+                if (field_0_array[i].field_18.field_60->field_10 == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
+                {
+                    field_0_array[i].field_18.field_18.field_10 = 0;
+                    field_0_array[i].field_18.field_3C.field_10 = 0;
+                }
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x5d0fd0)
+MATCH_FUNC(0x5d0fd0)
 void Garox_7C_Array::sub_5D0FD0()
 {
+    sub_5D0EF0();
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            field_0_array[i].sub_5D0C60();
+        }
+    }
+
+    if (field_844)
+    {
+        sub_5D0F80();
+        field_844 = 0;
+    }
 }
 
-STUB_FUNC(0x5d1020)
-Garox_7C_Array* Garox_7C_Array::sub_5D1020(s32* a2)
+MATCH_FUNC(0x5d1020)
+Garox_7C* Garox_7C_Array::sub_5D1020(s32* a2)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
+    {
+        if (!pIter->field_18.field_10.field_6)
+        {
+            *a2 = i;
+            pIter->field_18.field_10.field_6 = 1;
+            return pIter;
+        }
+    }
     return 0;
 }
 
@@ -793,9 +889,19 @@ char_type* Garox_7C_Array::sub_5D10B0()
     return 0;
 }
 
+// https://decomp.me/scratch/kSfKE
 STUB_FUNC(0x5d10d0)
-Garox_7C_Array* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
+Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < 17; i++, pIter++)
+    {
+        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+            (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
+        {
+            return pIter;
+        }
+    }
     return 0;
 }
 
@@ -1032,9 +1138,23 @@ void Garox_2B00::sub_5D69C0()
 {
 }
 
-STUB_FUNC(0x5d69d0)
+MATCH_FUNC(0x5d69d0)
 void Garox_2B00::sub_5D69D0()
 {
+    field_1118_sub.sub_5D6290();
+    field_110C_sub.sub_5CF730();
+    field_27B5_sub.sub_5CF970();
+    field_1028.sub_5D00B0();
+    sub_5D5350();
+    field_1080.sub_5D5690();
+    field_4C.sub_5D5B60();
+    field_DC.sub_5D44D0();
+    field_620.sub_5D31B0();
+    field_650.sub_5D2050();
+    field_1F18.sub_5D0FD0();
+    field_107C_sub.sub_5CFE20();
+    field_111C.sub_5D1AB0();
+    field_12F0.sub_5D5760();
 }
 
 MATCH_FUNC(0x5d6a70)
