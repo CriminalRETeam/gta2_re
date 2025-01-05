@@ -34,10 +34,19 @@ s32 Door_38::sub_49C840()
     return 0;
 }
 
-STUB_FUNC(0x49c870)
-char_type Door_38::sub_49C870(u32* a2)
+MATCH_FUNC(0x49c870)
+void Door_38::sub_49C870(u32* a2)
 {
-    return 0;
+    if (field_29)
+    {
+        if (sub_49C6D0(a2))
+        {
+            if (field_2C)
+            {
+                sub_49C840();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x49c8a0)
@@ -138,9 +147,9 @@ s16 Door_4D4::sub_49D2D0(s16 a1, s16 a2, char_type a3)
 }
 
 MATCH_FUNC(0x49d340)
-char_type Door_4D4::sub_49D340(u32* a2, u8 a3)
+void Door_4D4::sub_49D340(u32* a2, u8 a3)
 {
-    return field_0[a3].sub_49C870(a2);
+    field_0[a3].sub_49C870(a2);
 }
 
 STUB_FUNC(0x49d370)

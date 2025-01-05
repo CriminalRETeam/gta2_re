@@ -15,7 +15,7 @@ class Door_38
     EXPORT char_type sub_49C6D0(u32* a2);
     EXPORT bool sub_49C7F0(s32 a2);
     EXPORT s32 sub_49C840();
-    EXPORT char_type sub_49C870(u32* a2);
+    EXPORT void sub_49C870(u32* a2);
     EXPORT void sub_49C8A0(s32 a2);
     EXPORT Object_2C* sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
@@ -78,7 +78,7 @@ class Door_4D4
                                char_type a12,
                                char_type a13);
     EXPORT s16 sub_49D2D0(s16 a1, s16 a2, char_type a3);
-    EXPORT char_type sub_49D340(u32* a2, u8 a3);
+    EXPORT void sub_49D340(u32* a2, u8 a3);
     EXPORT void sub_49D370(s32 a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
     EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
