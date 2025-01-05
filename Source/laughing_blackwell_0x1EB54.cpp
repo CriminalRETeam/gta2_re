@@ -1578,7 +1578,7 @@ void laughing_blackwell_0x1EB54::sub_4B7AE0()
     }
 }
 
-STUB_FUNC(0x4B8650)
+MATCH_FUNC(0x4B8650)
 void laughing_blackwell_0x1EB54::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
