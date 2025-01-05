@@ -349,7 +349,7 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 
 // =====================================================================
 
-STUB_FUNC(0x56B500)
+MATCH_FUNC(0x56B500)
 agitated_keldysh_0xF0::agitated_keldysh_0xF0()
 {
     Init_56B520();
