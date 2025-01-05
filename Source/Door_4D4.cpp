@@ -1,4 +1,5 @@
 #include "Door_4D4.hpp"
+#include "cool_nash_0x294.hpp"
 
 STUB_FUNC(0x49c640)
 void Door_38::ctor_49C640()
@@ -22,10 +23,26 @@ char_type Door_38::sub_49C6D0(u32* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/XlGeq asm differ bugged
 STUB_FUNC(0x49c7f0)
-bool Door_38::sub_49C7F0(s32 a2)
+bool Door_38::sub_49C7F0(cool_nash_0x294* a2)
 {
-    return 0;
+    if (this->field_20_state == 1)
+    {
+        return a2->field_15C_player_weapons != 0;
+    }
+
+    if (this->field_20_state == 5)
+    {
+        if (field_10)
+        {
+            if (a2 == field_10)
+            {
+                return a2->field_200 == this->field_14;
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x49c840)
@@ -50,7 +67,7 @@ void Door_38::sub_49C870(u32* a2)
 }
 
 MATCH_FUNC(0x49c8a0)
-void Door_38::sub_49C8A0(s32 a2)
+void Door_38::sub_49C8A0(cool_nash_0x294* a2)
 {
     if (field_29)
     {
@@ -162,9 +179,10 @@ void Door_4D4::sub_49D340(u32* a2, u8 a3)
     field_0[a3].sub_49C870(a2);
 }
 
-STUB_FUNC(0x49d370)
-void Door_4D4::sub_49D370(s32 a2, u8 idx)
+MATCH_FUNC(0x49d370)
+void Door_4D4::sub_49D370(cool_nash_0x294* a2, u8 idx)
 {
+    field_0[idx].sub_49C8A0(a2);
 }
 
 MATCH_FUNC(0x49d3a0)

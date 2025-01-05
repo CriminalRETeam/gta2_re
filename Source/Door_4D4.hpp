@@ -5,6 +5,7 @@
 class Object_2C;
 class Door_10;
 class Sprite_4C;
+class cool_nash_0x294;
 
 class Door_38
 {
@@ -13,10 +14,10 @@ class Door_38
     EXPORT void dtor_49C690();
     EXPORT s32 sub_49C6A0(s32 a1);
     EXPORT char_type sub_49C6D0(u32* a2);
-    EXPORT bool sub_49C7F0(s32 a2);
+    EXPORT bool sub_49C7F0(cool_nash_0x294* a2);
     EXPORT s32 sub_49C840();
     EXPORT void sub_49C870(u32* a2);
-    EXPORT void sub_49C8A0(s32 a2);
+    EXPORT void sub_49C8A0(cool_nash_0x294* a2);
     EXPORT Object_2C* sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
     EXPORT Object_2C* sub_49CAC0(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
@@ -28,7 +29,7 @@ class Door_38
     Door_10* field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    cool_nash_0x294* field_10;
     s32 field_14;
     s32 field_18;
     s16 field_1C;
@@ -79,7 +80,7 @@ class Door_4D4
                                char_type a13);
     EXPORT s16 sub_49D2D0(s16 a1, s16 a2, char_type a3);
     EXPORT void sub_49D340(u32* a2, u8 a3);
-    EXPORT void sub_49D370(s32 a2, u8 idx);
+    EXPORT void sub_49D370(cool_nash_0x294 * a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
     EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
     EXPORT void sub_49D460();
