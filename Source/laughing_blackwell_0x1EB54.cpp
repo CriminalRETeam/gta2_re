@@ -778,27 +778,27 @@ STUB_FUNC(0x4AEDB0)
 s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
     u32 Time; // eax
-    u16 field_132_f136_idx; // cx
+    u16 local_field_132_f136_idx; // cx
     const char_type* v5; // eax
-    char_type* field_8_keys; // edi
+    char_type* local_field_8_keys; // edi
     s32 v7; // ebx
     s32 result; // eax
     char_type* v9; // ecx
     s32 v10; // edx
     char_type v12; // al
-    HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-10h]
+    HDIGDRIVER local_field_0_hDriver; // [esp-4h] [ebp-10h]
 
     Time = timeGetTime();
-    field_132_f136_idx = this->field_132_f136_idx;
-    if (field_132_f136_idx == 8)
+    local_field_132_f136_idx = this->field_132_f136_idx;
+    if (local_field_132_f136_idx == 8)
     {
         if (Bink::sub_513240())
         {
             if (Bink::sub_513790() == 1)
             {
                 Bink::sub_5137A0(2);
-                field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                Bink::sub_5133E0(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), field_0_hDriver);
+                local_field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
+                Bink::sub_5133E0(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
                 Bink::Close1_513340();
                 Bink::sub_5137A0(2);
                 Bink::sub_5137B0(2);
@@ -818,11 +818,11 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 
         sub_4AFEB0();
 
-        field_8_keys = this->field_8_keys;
+        local_field_8_keys = this->field_8_keys;
         v7 = 256;
         do
         {
-            if ((*field_8_keys & 0x80u) != 0)
+            if ((*local_field_8_keys & 0x80u) != 0)
             {
                 Bink::Close1_513340();
                 Bink::Close2_513390();
@@ -832,7 +832,7 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
                 }
                 sub_4B3170(0);
             }
-            ++field_8_keys;
+            ++local_field_8_keys;
             --v7;
         } while (v7);
 
@@ -840,7 +840,7 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
     }
     else
     {
-        if (!field_132_f136_idx)
+        if (!local_field_132_f136_idx)
         {
             v9 = this->field_8_keys;
             v10 = 256;

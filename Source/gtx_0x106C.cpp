@@ -1023,122 +1023,122 @@ gtx_0x106C::gtx_0x106C()
 MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
-    sprite_base* field_14_sprite_base2; // eax
-    sprite_base* field_18_sprite_base1; // ecx
-    palette_base* field_C_palette_base2; // edx
-    palette_base* field_10_palette_base1; // eax
-    font_base* field_1C_font_base; // eax
-    sprite_index* field_20_sprite_index; // eax
-    object_info* field_24_map_object_info; // eax
-    palette_index* field_28_palette_index; // ecx
-    void* field_30_physical_palettes_size; // eax
-    void* field_44_aligned_tiles_size; // eax
-    void* v12; // eax
-    delta_store_entry* field_48_delta_store; // eax
-    void* field_50_delta_buffer; // eax
-    void* field_58_car_info; // eax
-    car_info_container* field_5C_cari; // edx
-    delta_entry* field_4C_delta_index; // eax
-    void* field_54_del; // eax
-    tile_array* field_40_tile; // eax
+    sprite_base* local_field_14_sprite_base2; // eax
+    sprite_base* local_field_18_sprite_base1; // ecx
+    palette_base* local_field_C_palette_base2; // edx
+    palette_base* local_field_10_palette_base1; // eax
+    font_base* local_field_1C_font_base; // eax
+    sprite_index* local_field_20_sprite_index; // eax
+    object_info* local_field_24_map_object_info; // eax
+    palette_index* local_field_28_palette_index; // ecx
+    void* local_field_30_physical_palettes_size; // eax
+    void* local_field_44_aligned_tiles_size; // eax
+    void* local_v12; // eax
+    delta_store_entry* local_field_48_delta_store; // eax
+    void* local_field_50_delta_buffer; // eax
+    void* local_field_58_car_info; // eax
+    car_info_container* local_field_5C_cari; // edx
+    delta_entry* local_field_4C_delta_index; // eax
+    void* local_field_54_del; // eax
+    tile_array* local_field_40_tile; // eax
 
     if (this->field_64_car_recycling_info)
     {
         crt::free(this->field_64_car_recycling_info);
     }
 
-    field_14_sprite_base2 = this->field_14_sprite_base2;
+    local_field_14_sprite_base2 = this->field_14_sprite_base2;
     this->field_64_car_recycling_info = 0;
-    delete field_14_sprite_base2;
+    delete local_field_14_sprite_base2;
 
-    field_18_sprite_base1 = this->field_18_sprite_base1;
+    local_field_18_sprite_base1 = this->field_18_sprite_base1;
     this->field_14_sprite_base2 = 0;
-    delete (field_18_sprite_base1);
+    delete (local_field_18_sprite_base1);
 
-    field_C_palette_base2 = this->field_C_palette_base2;
+    local_field_C_palette_base2 = this->field_C_palette_base2;
     this->field_18_sprite_base1 = 0;
-    delete (field_C_palette_base2);
-    field_10_palette_base1 = this->field_10_palette_base1;
+    delete (local_field_C_palette_base2);
+    local_field_10_palette_base1 = this->field_10_palette_base1;
     this->field_C_palette_base2 = 0;
-    delete (field_10_palette_base1);
-    field_1C_font_base = this->field_1C_font_base;
+    delete (local_field_10_palette_base1);
+    local_field_1C_font_base = this->field_1C_font_base;
     this->field_10_palette_base1 = 0;
-    if (field_1C_font_base)
+    if (local_field_1C_font_base)
     {
-        crt::free(field_1C_font_base);
+        crt::free(local_field_1C_font_base);
     }
 
-    field_20_sprite_index = this->field_20_sprite_index;
+    local_field_20_sprite_index = this->field_20_sprite_index;
     this->field_1C_font_base = 0;
-    if (field_20_sprite_index)
+    if (local_field_20_sprite_index)
     {
-        crt::free(field_20_sprite_index);
+        crt::free(local_field_20_sprite_index);
     }
-    field_24_map_object_info = this->field_24_map_object_info;
+    local_field_24_map_object_info = this->field_24_map_object_info;
     this->field_20_sprite_index = 0;
-    if (field_24_map_object_info)
+    if (local_field_24_map_object_info)
     {
-        crt::free(field_24_map_object_info);
+        crt::free(local_field_24_map_object_info);
     }
-    field_28_palette_index = this->field_28_palette_index;
+    local_field_28_palette_index = this->field_28_palette_index;
     this->field_24_map_object_info = 0;
-    delete (field_28_palette_index);
-    field_30_physical_palettes_size = (void*)this->field_30_physical_palettes_size;
+    delete (local_field_28_palette_index);
+    local_field_30_physical_palettes_size = (void*)this->field_30_physical_palettes_size;
     this->field_28_palette_index = 0;
-    if (field_30_physical_palettes_size)
+    if (local_field_30_physical_palettes_size)
     {
-        crt::free(field_30_physical_palettes_size);
+        crt::free(local_field_30_physical_palettes_size);
     }
-    field_44_aligned_tiles_size = (void*)this->field_44_aligned_tiles_size;
+    local_field_44_aligned_tiles_size = (void*)this->field_44_aligned_tiles_size;
     this->field_2C_physical_palettes = 0;
     this->field_30_physical_palettes_size = 0;
-    if (field_44_aligned_tiles_size)
+    if (local_field_44_aligned_tiles_size)
     {
-        crt::free(field_44_aligned_tiles_size);
+        crt::free(local_field_44_aligned_tiles_size);
     }
-    v12 = (void*)this->field_38;
+    local_v12 = (void*)this->field_38;
     this->field_3C_tiles = 0;
     this->field_44_aligned_tiles_size = 0;
-    if (v12)
+    if (local_v12)
     {
-        crt::free(v12);
+        crt::free(local_v12);
     }
-    field_48_delta_store = this->field_48_delta_store;
+    local_field_48_delta_store = this->field_48_delta_store;
     this->field_34_sprite_graphics = 0;
     this->field_38 = 0;
-    if (field_48_delta_store)
+    if (local_field_48_delta_store)
     {
-        crt::free(field_48_delta_store);
+        crt::free(local_field_48_delta_store);
     }
-    field_50_delta_buffer = this->field_50_delta_buffer;
+    local_field_50_delta_buffer = this->field_50_delta_buffer;
     this->field_48_delta_store = 0;
-    if (field_50_delta_buffer)
+    if (local_field_50_delta_buffer)
     {
-        crt::free(field_50_delta_buffer);
+        crt::free(local_field_50_delta_buffer);
     }
-    field_58_car_info = this->field_58_car_info;
+    local_field_58_car_info = this->field_58_car_info;
     this->field_50_delta_buffer = 0;
-    if (field_58_car_info)
+    if (local_field_58_car_info)
     {
-        crt::free(field_58_car_info);
+        crt::free(local_field_58_car_info);
     }
-    field_5C_cari = this->field_5C_cari;
+    local_field_5C_cari = this->field_5C_cari;
     this->field_58_car_info = 0;
-    delete (field_5C_cari);
-    field_4C_delta_index = this->field_4C_delta_index;
+    delete (local_field_5C_cari);
+    local_field_4C_delta_index = this->field_4C_delta_index;
     this->field_5C_cari = 0;
-    if (field_4C_delta_index)
+    if (local_field_4C_delta_index)
     {
-        crt::free(field_4C_delta_index);
+        crt::free(local_field_4C_delta_index);
     }
-    field_54_del = (void*)this->field_54_del;
+    local_field_54_del = (void*)this->field_54_del;
     this->field_4C_delta_index = 0;
-    if (field_54_del)
+    if (local_field_54_del)
     {
-        crt::free(field_54_del);
+        crt::free(local_field_54_del);
     }
-    field_40_tile = this->field_40_tile;
+    local_field_40_tile = this->field_40_tile;
     this->field_54_del = 0;
-    delete (field_40_tile);
+    delete (local_field_40_tile);
     this->field_40_tile = 0;
 }

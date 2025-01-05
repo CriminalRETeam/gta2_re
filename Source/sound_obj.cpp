@@ -1,8 +1,8 @@
 #include "sound_obj.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
-#include "cSampleManager.hpp"
 #include "Globals.hpp"
+#include "cSampleManager.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include <math.h>
 
@@ -237,7 +237,7 @@ STUB_FUNC(0x4271B0)
 void sound_obj::Set15Val_4271B0(u32 val)
 {
     u32 clamped_val; // edi
-    s32 field_5529_idx15; // ebp
+    s32 local_field_5529_idx15; // ebp
 
     clamped_val = val;
     if (val > 136)
@@ -249,10 +249,10 @@ void sound_obj::Set15Val_4271B0(u32 val)
         clamped_val = 69;
     }
 
-    field_5529_idx15 = this->field_5529_idx15;
-    if ((field_5529_idx15 + 1) % 15 != this->field_5528_idx15_cur)
+    local_field_5529_idx15 = this->field_5529_idx15;
+    if ((local_field_5529_idx15 + 1) % 15 != this->field_5528_idx15_cur)
     {
-        this->field_552C_15array[field_5529_idx15] = clamped_val;
+        this->field_552C_15array[local_field_5529_idx15] = clamped_val;
         this->field_5529_idx15 = (unsigned __int8)(this->field_5529_idx15 + 1) % 15;
     }
 }
