@@ -49,9 +49,19 @@ void Door_38::sub_49C870(u32* a2)
     }
 }
 
-STUB_FUNC(0x49c8a0)
+MATCH_FUNC(0x49c8a0)
 void Door_38::sub_49C8A0(s32 a2)
 {
+    if (field_29)
+    {
+        if (sub_49C7F0(a2))
+        {
+            if (field_2C)
+            {
+                sub_49C840();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x49c8d0)
