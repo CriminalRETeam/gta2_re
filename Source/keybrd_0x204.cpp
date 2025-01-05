@@ -40,7 +40,7 @@ keybrd_0x204::keybrd_0x204()
     memset(field_0_keys, 0, sizeof(field_0_keys));
 }
 
-STUB_FUNC(0x4D5D90)
+MATCH_FUNC(0x4D5D90)
 keybrd_0x204::~keybrd_0x204()
 {
 }
