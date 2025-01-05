@@ -355,8 +355,8 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
     return Data;
 }
 
-STUB_FUNC(0x587290)
-Registry::Registry()
+MATCH_FUNC(0x587290)
+void Registry::sub_587290()
 {
 }
 

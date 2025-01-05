@@ -1,5 +1,6 @@
 #include "winmain.hpp"
 #include "Bink.hpp"
+#include "BurgerKing_67F8B0.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -309,8 +310,6 @@ GLOBAL(gMouseDevice_706C60, 0x706C60);
 
 EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
 GLOBAL(gMouseDataFormat_601A84, 0x601A84);
-
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)
@@ -1048,10 +1047,15 @@ EXPORT void __stdcall j_gbh_init_5D7CA0()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA700)
+MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
-    // todo
+    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    if (gGame_0x40_67E008)
+    {
+        GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
+    }
+    gRoot_sound_66B038.Set3DSound_40F160(0);
 }
 
 // todo move to another file for ordering

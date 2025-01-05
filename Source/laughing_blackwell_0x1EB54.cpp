@@ -19,6 +19,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
+#include "input.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -205,8 +206,6 @@ DIOBJECTDATAFORMAT stru_5EA3D0[7] = {{&GUID_XAxis, 0u, 16776963u, 0u},
 DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, stru_5E9110};
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
-
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 EXPORT_VAR DWORD dword_70675C;
 GLOBAL(dword_70675C, 0x70675C);
@@ -1714,7 +1713,7 @@ void laughing_blackwell_0x1EB54::sub_4AFEB0()
     // todo
 }
 
-STUB_FUNC(0x4B6780)
+MATCH_FUNC(0x4B6780)
 void laughing_blackwell_0x1EB54::sub_4B6780()
 {
     loving_borg_0xBCA* pBorg = &field_136[field_132_f136_idx];
@@ -3573,7 +3572,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
-STUB_FUNC(0x5E53C0)
+MATCH_FUNC(0x5E53C0)
 void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
@@ -3964,7 +3963,7 @@ bool loving_borg_0xBCA::sub_4B61B0()
     return oldIdx != field_BC6_nifty_idx ? true : false;
 }
 
-STUB_FUNC(0x4B6200)
+MATCH_FUNC(0x4B6200)
 bool loving_borg_0xBCA::sub_4B6200()
 {
     u16 oldIdx = field_BC6_nifty_idx;

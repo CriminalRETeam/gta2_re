@@ -349,13 +349,13 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 
 // =====================================================================
 
-STUB_FUNC(0x56B500)
+MATCH_FUNC(0x56B500)
 agitated_keldysh_0xF0::agitated_keldysh_0xF0()
 {
     Init_56B520();
 }
 
-STUB_FUNC(0x56B510)
+MATCH_FUNC(0x56B510)
 agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
 {
 }
@@ -417,13 +417,13 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
     return 0;
 }
 
-STUB_FUNC(0x56B610)
+MATCH_FUNC(0x56B610)
 dreamy_clarke_0xA4::dreamy_clarke_0xA4()
 {
     sub_56B630();
 }
 
-STUB_FUNC(0x56B620)
+MATCH_FUNC(0x56B620)
 dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
 }

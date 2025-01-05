@@ -38,7 +38,7 @@ class Registry
 
     EXPORT s32 Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2);
 
-    EXPORT Registry();
+    EXPORT void sub_587290();
 
     EXPORT char_type sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data);
 
