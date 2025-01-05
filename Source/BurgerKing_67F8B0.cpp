@@ -11,6 +11,9 @@
 
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
+EXPORT_VAR BurgerKing_67F8B0 gBurgerKing_67F8B0;
+GLOBAL(gBurgerKing_67F8B0, 0x67F8B0);
+
 EXPORT_VAR BurgerKing_1* gBurgerKing_1_67B990;
 GLOBAL(gBurgerKing_1_67B990, 0x67B990);
 
@@ -149,7 +152,7 @@ void BurgerKing_67F8B0::sub_4CE880(s32 a2)
 }
 
 MATCH_FUNC(0x4cea00)
-BurgerKing_67F8B0::~BurgerKing_67F8B0() // 4CEA00
+void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
 {
     if (!field_0)
     {

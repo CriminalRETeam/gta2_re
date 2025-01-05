@@ -36,7 +36,7 @@ class BurgerKing_67F8B0
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
     EXPORT s32 sub_4CE740(s32 a2);
     EXPORT void sub_4CE880(s32 a2);
-    EXPORT ~BurgerKing_67F8B0(); // 4CEA00
+    EXPORT void Shutdown_4CEA00();
     EXPORT void sub_4CEA40(u32* a2);
     EXPORT u32 sub_4CEAC0();
     EXPORT void sub_4CED00(s32 a2, s32 a3);
@@ -58,6 +58,8 @@ class BurgerKing_67F8B0
     u8 field_75345_attract_idx;
     s16 field_75346;
 };
+
+EXPORT_VAR extern BurgerKing_67F8B0 gBurgerKing_67F8B0;
 
 // TODO: size does not match
 //GTA2_ASSERT_SIZEOF_ALWAYS(BurgerKing_67F8B0, 0x67F8B0)
