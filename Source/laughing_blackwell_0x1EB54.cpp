@@ -1714,7 +1714,7 @@ void laughing_blackwell_0x1EB54::sub_4AFEB0()
     // todo
 }
 
-STUB_FUNC(0x4B6780)
+MATCH_FUNC(0x4B6780)
 void laughing_blackwell_0x1EB54::sub_4B6780()
 {
     loving_borg_0xBCA* pBorg = &field_136[field_132_f136_idx];
