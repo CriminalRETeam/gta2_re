@@ -9,7 +9,7 @@ GLOBAL(g4096_alloc_6F5400, 0x6F5400);
 MATCH_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
-    field_0 = (nostalgic_ellis_0x28*)0x2A2A2A2A;
+    field_0 = 0x2A2A2A2A;
     field_4_light_x = 0;
     field_8_light_y = 0;
     field_C_light_z = 0;
