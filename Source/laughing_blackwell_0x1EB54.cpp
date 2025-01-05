@@ -3572,7 +3572,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
-STUB_FUNC(0x5E53C0)
+MATCH_FUNC(0x5E53C0)
 void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
