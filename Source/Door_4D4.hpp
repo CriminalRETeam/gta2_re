@@ -10,8 +10,8 @@ class cool_nash_0x294;
 class Door_38
 {
   public:
-    EXPORT void ctor_49C640();
-    EXPORT void dtor_49C690();
+    EXPORT Door_38();
+    EXPORT ~Door_38();
     EXPORT s32 sub_49C6A0(s32 a1);
     EXPORT char_type sub_49C6D0(u32* a2);
     EXPORT bool sub_49C7F0(cool_nash_0x294* a2);

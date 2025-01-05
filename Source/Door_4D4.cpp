@@ -2,13 +2,17 @@
 #include "cool_nash_0x294.hpp"
 
 STUB_FUNC(0x49c640)
-void Door_38::ctor_49C640()
+Door_38::Door_38()
 {
 }
 
-STUB_FUNC(0x49c690)
-void Door_38::dtor_49C690()
+MATCH_FUNC(0x49c690)
+Door_38::~Door_38()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
 }
 
 STUB_FUNC(0x49c6a0)
