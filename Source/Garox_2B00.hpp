@@ -301,8 +301,8 @@ class Garox_Sub_C_Array
     EXPORT void sub_5D0210();
     Garox_Sub_C field_1028[6];
     s32 field_48_count;
-    s32 field_4C_w_fp;
-    s32 field_50_h_fp;
+    Fix16 field_4C_w_fp;
+    Fix16 field_50_h_fp;
 };
 
 class Garox_C4

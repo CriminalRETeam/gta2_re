@@ -98,8 +98,13 @@ class Fix16
     {
     }
 
-    Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0))
+    explicit Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0))
     {
+    }
+
+    void FromU8(u8 v)
+    {
+        mValue = v << 14;
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);

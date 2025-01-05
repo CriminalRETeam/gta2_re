@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Police_7B8.hpp"
 #include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "cool_nash_0x294.hpp"
@@ -13,7 +14,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "Police_7B8.hpp"
+#include "gtx_0x106C.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -406,7 +407,7 @@ void Garox_Sub_C_Array::sub_5D00B0()
 {
     cool_nash_0x294* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
     field_48_count = pPed->get_wanted_star_count_46EF00();
-    
+
     const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
     s32 i = 0;
     Garox_Sub_C* pIter = &field_1028[0];
@@ -423,9 +424,20 @@ void Garox_Sub_C_Array::sub_5D0110()
 {
 }
 
-STUB_FUNC(0x5d0210)
+MATCH_FUNC(0x5d0210)
 void Garox_Sub_C_Array::sub_5D0210()
 {
+    u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+
+    this->field_4C_w_fp.FromU8(sprite_index->field_4_width);
+    this->field_50_h_fp.FromU8(sprite_index->field_5_height);
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_1028); i++)
+    {
+        field_1028[i].field_2 = 2;
+        field_1028[i].field_1 = 2;
+    }
 }
 
 // ----------------------------------------------------
