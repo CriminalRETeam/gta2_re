@@ -1,7 +1,9 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Garox_2B00.hpp"
+#include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "input.hpp"
 #include "file.hpp"
 #include <io.h>
 
@@ -9,7 +11,33 @@
 
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
+EXPORT_VAR BurgerKing_1* gBurgerKing_1_67B990;
+GLOBAL(gBurgerKing_1_67B990, 0x67B990);
+
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
+
+MATCH_FUNC(0x4987A0)
+void BurgerKing_1::sub_4987A0()
+{
+    if (gpDInput_67B804)
+    {
+        if (gKeyboardDevice_67B5C0)
+        {
+            gKeyboardDevice_67B5C0->Unacquire();
+            gKeyboardDevice_67B5C0->Release();
+            gKeyboardDevice_67B5C0 = 0;
+        }
+
+        if (gGamePadDevice_67B6C0)
+        {
+            gGamePadDevice_67B6C0->Unacquire();
+            gGamePadDevice_67B6C0->Release();
+            gGamePadDevice_67B6C0 = 0;
+        }
+    }
+}
+
+// ================================================
 
 STUB_FUNC(0x4cdcd0)
 void BurgerKing_67F8B0::sub_4CDCD0()
@@ -123,6 +151,13 @@ void BurgerKing_67F8B0::sub_4CE880(s32 a2)
 STUB_FUNC(0x4cea00)
 BurgerKing_67F8B0::~BurgerKing_67F8B0() // 4CEA00
 {
+    if (!field_0)
+    {
+        field_0 = 1;
+        gBurgerKing_1_67B990->sub_4987A0();
+        SaveReplay_4CDED0();
+        GTA2_DELETE_AND_NULL(gBurgerKing_1_67B990);
+    }
 }
 
 STUB_FUNC(0x4cea40)

@@ -19,6 +19,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
+#include "input.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -205,8 +206,6 @@ DIOBJECTDATAFORMAT stru_5EA3D0[7] = {{&GUID_XAxis, 0u, 16776963u, 0u},
 DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, stru_5E9110};
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
-
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 EXPORT_VAR DWORD dword_70675C;
 GLOBAL(dword_70675C, 0x70675C);

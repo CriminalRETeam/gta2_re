@@ -7,6 +7,17 @@ struct AttractFile
     char field_0_path[256];
 };
 
+#pragma pack(push)
+#pragma pack(1)
+class BurgerKing_1
+{
+  public:
+    EXPORT void __stdcall sub_4987A0();
+
+    u8 field_0;
+};
+#pragma pack(pop)
+
 class BurgerKing_67F8B0
 {
   public:

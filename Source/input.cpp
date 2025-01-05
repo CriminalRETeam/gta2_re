@@ -2,10 +2,7 @@
 #include "Function.hpp"
 #include "Globals.hpp"
 
-#define DIRECTINPUT_VERSION 0x0700
-
 #include "error.hpp"
-#include <Dinput.h>
 
 #if _MSC_VER <= 1200
     #pragma comment(lib, "DInput.lib")
@@ -14,6 +11,12 @@
 
 EXPORT_VAR LPDIRECTINPUTA gpDInput_67B804;
 GLOBAL(gpDInput_67B804, 0x67B804);
+
+EXPORT_VAR LPDIRECTINPUTDEVICEA gKeyboardDevice_67B5C0;
+GLOBAL(gKeyboardDevice_67B5C0, 0x67B5C0);
+
+EXPORT_VAR LPDIRECTINPUTDEVICEA gGamePadDevice_67B6C0;
+GLOBAL(gGamePadDevice_67B6C0, 0x67B6C0);
 
 #if _MSC_VER > 1200
 HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);

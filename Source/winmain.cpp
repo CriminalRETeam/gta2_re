@@ -310,7 +310,6 @@ GLOBAL(gMouseDevice_706C60, 0x706C60);
 EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
 GLOBAL(gMouseDataFormat_601A84, 0x601A84);
 
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)
