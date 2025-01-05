@@ -3964,7 +3964,7 @@ bool loving_borg_0xBCA::sub_4B61B0()
     return oldIdx != field_BC6_nifty_idx ? true : false;
 }
 
-STUB_FUNC(0x4B6200)
+MATCH_FUNC(0x4B6200)
 bool loving_borg_0xBCA::sub_4B6200()
 {
     u16 oldIdx = field_BC6_nifty_idx;
