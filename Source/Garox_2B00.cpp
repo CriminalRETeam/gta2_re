@@ -813,8 +813,8 @@ char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
     Garox_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
     {
-        if (pIter->field_18.field_18.field_10 ||
-            pIter->field_18.field_3C.field_10 && (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
+        if ( ( pIter->field_18.field_18.field_10 ||
+            pIter->field_18.field_3C.field_10 ) && (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
         {
             return 1;
         }
