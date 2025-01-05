@@ -24,20 +24,20 @@ Shooey_14::~Shooey_14()
 STUB_FUNC(0x484cf0)
 void Shooey_14::sub_484CF0(s32 a2, s32 a3)
 {
-    this->field_0 = a2;
-    this->field_4 = a3;
+    field_0 = a2;
+    field_4 = a3;
     if (!a3)
     {
-        this->field_8.x = dword_67A370;
-        this->field_8.y = dword_67A370;
-        this->field_8.z = dword_67A370;
+        field_8.x = dword_67A370;
+        field_8.y = dword_67A370;
+        field_8.z = dword_67A370;
     }
     else
     {
         cool_nash_0x294* pPed = gChar_C_6787BC->sub_4710C0(a3);
-        this->field_8.x = pPed->field_1AC_cam.x;
-        this->field_8.y = pPed->field_1AC_cam.y; // TODO: Regswap
-        this->field_8.z = pPed->field_1AC_cam.z;
+        field_8.x = pPed->field_1AC_cam.x;
+        field_8.y = pPed->field_1AC_cam.y; // TODO: Regswap
+        field_8.z = pPed->field_1AC_cam.z;
     }
 }
 

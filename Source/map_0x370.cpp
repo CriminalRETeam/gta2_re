@@ -653,7 +653,7 @@ gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
     u32* j;
 
     //  get the column at ( x = a2 , y = a3 )
-    v4 = (gmp_column_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
+    v4 = (gmp_column_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[a3][a2]];
 
     //  Subtract the empty bottom blocks from the column
     //  and subtract "1"
@@ -671,7 +671,7 @@ gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
 
         while (1)
         {
-            gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[*j]; //  get the block
+            gBlockInfo0_6F5EB0 = &field_0_pDmap->field_4000C_block[*j]; //  get the block
 
             if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
             {
@@ -1190,7 +1190,7 @@ Map_0x370::~Map_0x370()
     {
         crt::free(field_33C_pLightData);
     }
-    this->field_33C_pLightData = 0;
+    field_33C_pLightData = 0;
 
     if (field_328_pZoneData)
     {

@@ -50,7 +50,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     if (gGtx_0x106C_703DD4->sub_5AA4F0(2))
     {
         /*
-        this->field_1000_bFreeTextures2 = 1;
+        field_1000_bFreeTextures2 = 1;
         v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
         v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
         idx = 0;
@@ -62,7 +62,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
                 width_height = 128;
             }
 
-            this->field_1004_textures2[idx] = gbh_RegisterTexture(
+            field_1004_textures2[idx] = gbh_RegisterTexture(
                 width_height,
                 width_height,
                 gKind_khorana_0x3CC_67AF1C->field_0[(u16)idx].field_0_pTexturePixelData,
@@ -174,13 +174,13 @@ STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
 STUB_FUNC(0x5B95F0)
 STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, s16 height)
 {
-    STexture* pTexture = this->field_10C4[idx].field_4_pTexture;
-    optimistic_moser* pMoser = &this->field_10C4[idx];
-    if (height != this->field_10C4[idx].field_8_w || width != this->field_10C4[idx].field_A_h)
+    STexture* pTexture = field_10C4[idx].field_4_pTexture;
+    optimistic_moser* pMoser = &field_10C4[idx];
+    if (height != field_10C4[idx].field_8_w || width != field_10C4[idx].field_A_h)
     {
-        STexture* pTextureInternal = this->field_10C4[idx].field_4_pTexture;
-        this->field_10C4[idx].field_8_w = height;
-        this->field_10C4[idx].field_A_h = width;
+        STexture* pTextureInternal = field_10C4[idx].field_4_pTexture;
+        field_10C4[idx].field_8_w = height;
+        field_10C4[idx].field_A_h = width;
         gbh_LockTexture(pTextureInternal);
         pTexture->field_14_original_pixel_data_ptr = &pMoser->field_0_pPixelData[256 * width];
         pTexture->field_10_height = height;
@@ -235,20 +235,20 @@ festive_hopper::~festive_hopper()
 MATCH_FUNC(0x5B8E90)
 void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_type2)
 {
-    if (!this->field_0_pAlloc)
+    if (!field_0_pAlloc)
     {
         if (size)
         {
-            this->field_4_item_alloc_count = count * size;
-            this->field_6_count = count;
-            this->field_10_bDoFree = 1;
-            this->field_8_pal_type = pal_type1;
-            this->field_C_pal_type = pal_type2;
-            this->field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
+            field_4_item_alloc_count = count * size;
+            field_6_count = count;
+            field_10_bDoFree = 1;
+            field_8_pal_type = pal_type1;
+            field_C_pal_type = pal_type2;
+            field_0_pAlloc = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_item_alloc_count);
 
-            for (u32 i =0; i < this->field_4_item_alloc_count; i++)
+            for (u32 i = 0; i < field_4_item_alloc_count; i++)
             {
-                this->field_0_pAlloc[i] = 0;
+                field_0_pAlloc[i] = 0;
             }
         }
     }
@@ -283,19 +283,19 @@ void festive_hopper::sub_5B8F70()
 MATCH_FUNC(0x5B8F00)
 void festive_hopper::LoadTextures_5B8F00()
 {
-    if (this->field_10_bDoFree)
+    if (field_10_bDoFree)
     {
         u32 i = 0;
         sprite_index* pSpriteIndex;
         u16 tmp;
         u16 t2;
-        while (i < this->field_4_item_alloc_count)
+        while (i < field_4_item_alloc_count)
         {
             pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
             tmp = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, i);
             t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
 
-            this->field_0_pAlloc[i++] = gbh_RegisterTexture(
+            field_0_pAlloc[i++] = gbh_RegisterTexture(
                 pSpriteIndex
                     ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,

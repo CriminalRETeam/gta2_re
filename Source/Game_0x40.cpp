@@ -167,11 +167,11 @@ s32 Game_0x40::sub_4B8BB0()
 MATCH_FUNC(0x4B8BD0)
 void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
 {
-    int timer = this->field_28_timer;
+    int timer = field_28_timer;
     if (timer == -1 || timer > new_timer)
     {
-        this->field_28_timer = new_timer;
-        this->field_2C_main_state = main_state;
+        field_28_timer = new_timer;
+        field_2C_main_state = main_state;
         gLucid_hamilton_67E8E0.sub_4C5930(a2);
     }
 }

@@ -51,9 +51,9 @@ void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 {
     if ((u16)a2->field_4_cmd_next != 0xFFFF)
     { // FF FF (low endian) is the script terminator
-        dword_6F806C = this->field_4_level_start;
-        this->field_4_level_start = a2->field_4_cmd_next;
-        this->field_C = 0;
+        dword_6F806C = field_4_level_start;
+        field_4_level_start = a2->field_4_cmd_next;
+        field_C = 0;
     }
     else
     {
@@ -66,7 +66,7 @@ void miss2_0x11C::sub_503650(u16 a2)
 {
     if (a2 != 0xFFFF)
     {
-        this->field_4_level_start = a2;
+        field_4_level_start = a2;
     }
     else
     {
@@ -320,7 +320,7 @@ MATCH_FUNC(0x5069c0)
 void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
 {
     gRoot_sound_66B038.sub_40F090(24); //  "And remember, respect is everything!"
-    this->field_118 = 1;
+    field_118 = 1;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -378,7 +378,7 @@ void miss2_0x11C::sub_507110()
 MATCH_FUNC(0x507750)
 void miss2_0x11C::SCRCMD_NOT_507750()
 {
-    this->field_8 = this->field_8 == 0; //  just toggle the boolean value
+    field_8 = field_8 == 0; //  just toggle the boolean value
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -387,12 +387,12 @@ void miss2_0x11C::SCRCMD_START_EXEC_5078D0()
 {
     s16 exec_flag;
 
-    exec_flag = this->field_12;
+    exec_flag = field_12;
 
     //  Only increase EXEC flag if it wasn't set before
     if (exec_flag <= 0)
     {
-        this->field_12 = exec_flag + 1; //  increase EXEC flag
+        field_12 = exec_flag + 1; //  increase EXEC flag
     }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -403,12 +403,12 @@ void miss2_0x11C::SCRCMD_STOP_EXEC_5079A0()
 {
     s16 exec_flag;
 
-    exec_flag = this->field_12;
+    exec_flag = field_12;
 
     //  Only decrease EXEC flag if it was set before
     if (exec_flag >= 0)
     {
-        this->field_12 = exec_flag - 1; //  decrease EXEC flag
+        field_12 = exec_flag - 1; //  decrease EXEC flag
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1373,9 +1373,9 @@ void miss2_0x11C::sub_510780()
 MATCH_FUNC(0x5108d0)
 void miss2_0x11C::PreExecOpCode_5108D0()
 {
-    if (this->field_10 != 1)
+    if (field_10 != 1)
     {
-        SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+        SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
         gBasePtr_6F8070 = pCmd;
         switch (pCmd->field_2_type)
         {
@@ -2117,16 +2117,16 @@ char_type miss2_0x11C::sub_511840()
     //  I guess it's the script executed in mid-game on the current frame
     //  Normally each opcode is executed in one frame, unless there are WHILE_EXECs or EXECs blocks
 
-    if (this->field_10 == 1)
+    if (field_10 == 1)
     {
         return true;
     }
 
-    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
 
     if (!BasePointer_512770)
     {
-        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", this->field_4_level_start);
+        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_level_start);
     }
 
     miss2_0x11C::sub_503200();
@@ -2136,8 +2136,8 @@ char_type miss2_0x11C::sub_511840()
         do
         {
             miss2_0x11C::PreExecOpCode_5108D0();
-            gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
-        } while (this->field_12 > 0); //  execute opcodes in the same frame until an ENDEXEC
+            gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
+        } while (field_12 > 0); //  execute opcodes in the same frame until an ENDEXEC
     }
     else //  It isn't an EXEC opcode
     {
@@ -2146,17 +2146,17 @@ char_type miss2_0x11C::sub_511840()
         {
             while (1) // execute commands in the same frame
             {
-                v5 = gfrosty_pasteur_6F8060->GetBasePointer_512770(this->field_4_level_start);
+                v5 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
                 miss2_0x11C::PreExecOpCode_5108D0();
 
                 //  If the script has reached a command out of the WHILE_EXEC block, or if it reaches LEVELEND
-                if (v5->field_6_return_value != 1 || this->field_4_level_start == 0xFFFF)
+                if (v5->field_6_return_value != 1 || field_4_level_start == 0xFFFF)
                 {
                     break;
                 }
 
                 //  Maybe if it reaches an ENDEXEC?
-                if (this->field_12)
+                if (field_12)
                 {
                     break;
                 }
@@ -2169,8 +2169,8 @@ char_type miss2_0x11C::sub_511840()
         }
     }
 
-    v4 = this->field_4_level_start == 0xFFFF; // Did it reached the LEVELEND?
-    this->field_12 = 0; // Clear EXEC flag?
+    v4 = field_4_level_start == 0xFFFF; // Did it reached the LEVELEND?
+    field_12 = 0; // Clear EXEC flag?
     return v4;
 }
 
@@ -2195,20 +2195,20 @@ s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
 MATCH_FUNC(0x511a00)
 miss2_0x11C::miss2_0x11C()
 {
-    this->field_0 = 0;
-    this->field_114 = new miss2_8();
-    this->field_4_level_start = 0;
-    this->field_6 = 0;
-    this->field_8 = 0;
-    this->field_C = 0;
-    this->field_E = 0;
-    this->field_10 = 0;
-    this->field_12 = 0;
-    this->field_11A = 0;
+    field_0 = 0;
+    field_114 = new miss2_8();
+    field_4_level_start = 0;
+    field_6 = 0;
+    field_8 = 0;
+    field_C = 0;
+    field_E = 0;
+    field_10 = 0;
+    field_12 = 0;
+    field_11A = 0;
 
-    memset(this->field_14_str, 0, sizeof(this->field_14_str));
+    memset(field_14_str, 0, sizeof(field_14_str));
 
-    this->field_118 = 0;
+    field_118 = 0;
 }
 
 STUB_FUNC(0x511cd0)

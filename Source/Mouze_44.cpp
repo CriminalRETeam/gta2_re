@@ -47,15 +47,15 @@ void Mouze_44::sub_4C8E90()
 MATCH_FUNC(0x4c8ef0)
 void Mouze_44::sub_4C8EF0()
 {
-    this->field_40_in_use = 0;
-    this->field_38 = 2;
-    this->field_30 = 0;
-    this->field_36_count = 0;
-    this->field_2C_ped_leader = NULL;
-    this->field_0 = 1;
-    this->field_1 = 0;
-    this->field_34_count = 0;
-    this->field_35 = 0;
+    field_40_in_use = 0;
+    field_38 = 2;
+    field_30 = 0;
+    field_36_count = 0;
+    field_2C_ped_leader = NULL;
+    field_0 = 1;
+    field_1 = 0;
+    field_34_count = 0;
+    field_35 = 0;
     for (s32 i = 0; i < 9; i++)
     {
         field_4_ped_list[i] = 0;
@@ -104,34 +104,34 @@ void Mouze_44::replace_leader_4C8FE0(cool_nash_0x294* new_leader)
 MATCH_FUNC(0x4c9040)
 bool Mouze_44::sub_4C9040()
 {
-    this->field_36_count = this->field_34_count;
-    if (this->field_2C_ped_leader->field_16C_car != NULL)
+    field_36_count = field_34_count;
+    if (field_2C_ped_leader->field_16C_car != NULL)
     {
-        this->field_2C_ped_leader->sub_46F9D0();
-        this->field_2C_ped_leader = NULL;
+        field_2C_ped_leader->sub_46F9D0();
+        field_2C_ped_leader = NULL;
     }
 
     u8 bVar2;
-    for (bVar2 = 0; bVar2 < this->field_34_count; bVar2++)
+    for (bVar2 = 0; bVar2 < field_34_count; bVar2++)
     {
-        if (this->field_4_ped_list[bVar2]->field_16C_car != NULL)
+        if (field_4_ped_list[bVar2]->field_16C_car != NULL)
         {
-            this->field_4_ped_list[bVar2]->sub_46F9D0();
-            this->field_4_ped_list[bVar2] = NULL;
+            field_4_ped_list[bVar2]->sub_46F9D0();
+            field_4_ped_list[bVar2] = NULL;
         }
     }
 
     // Compacting the ped_list
-    for (bVar2 = 0; bVar2 < this->field_34_count; bVar2++)
+    for (bVar2 = 0; bVar2 < field_34_count; bVar2++)
     {
-        if (this->field_4_ped_list[bVar2] == NULL)
+        if (field_4_ped_list[bVar2] == NULL)
         {
             for (u8 i = bVar2; i < field_34_count; i++)
             {
-                if (this->field_4_ped_list[i] != NULL)
+                if (field_4_ped_list[i] != NULL)
                 {
-                    this->field_4_ped_list[bVar2] = this->field_4_ped_list[i];
-                    this->field_4_ped_list[i] = NULL;
+                    field_4_ped_list[bVar2] = field_4_ped_list[i];
+                    field_4_ped_list[i] = NULL;
                     break;
                 }
             }
@@ -139,7 +139,7 @@ bool Mouze_44::sub_4C9040()
     }
 
     bVar2 = 0;
-    while (this->field_4_ped_list[bVar2] != NULL)
+    while (field_4_ped_list[bVar2] != NULL)
     {
         bVar2++;
     }
@@ -159,7 +159,7 @@ char_type Mouze_44::sub_4C9150()
         return false;
     }
 
-    for (u8 i = 0; i < this->field_34_count; i++)
+    for (u8 i = 0; i < field_34_count; i++)
     {
         if (field_4_ped_list[i]->field_168_game_object == NULL || field_4_ped_list[i]->get_field_20e() < 0x28)
         {
@@ -175,9 +175,9 @@ void Mouze_44::sub_4C91B0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
-        this->field_4_ped_list[i]->unset_bitset_0x04();
-        this->field_4_ped_list[i]->sub_463830(9, 9999);
-        this->field_4_ped_list[i]->set_field_14C(this->field_2C_ped_leader);
+        field_4_ped_list[i]->unset_bitset_0x04();
+        field_4_ped_list[i]->sub_463830(9, 9999);
+        field_4_ped_list[i]->set_field_14C(field_2C_ped_leader);
     }
 }
 
@@ -209,18 +209,18 @@ void Mouze_44::sub_4C9240()
 MATCH_FUNC(0x4c92a0)
 void Mouze_44::sub_4C92A0()
 {
-    if (this->field_40_in_use == false)
+    if (field_40_in_use == false)
     {
         return;
     }
 
     field_2C_ped_leader->reset_ped_group();
-    if (this->field_4_ped_list[0] != NULL)
+    if (field_4_ped_list[0] != NULL)
     {
-        for (u8 bVar4 = 0; bVar4 < this->field_34_count; bVar4++)
+        for (u8 bVar4 = 0; bVar4 < field_34_count; bVar4++)
         {
-            cool_nash_0x294* this_00 = this->field_4_ped_list[bVar4];
-            cool_nash_0x294** pppVar1 = this->field_4_ped_list + bVar4;
+            cool_nash_0x294* this_00 = field_4_ped_list[bVar4];
+            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar4;
             if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280 == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
@@ -254,20 +254,20 @@ void Mouze_44::sub_4C93A0()
         return;
     }
 
-    cool_nash_0x294* ppVar2 = this->field_2C_ped_leader;
+    cool_nash_0x294* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
     {
         ppVar2->sub_463570(0, 9999);
-        this->field_2C_ped_leader->sub_463830(0, 9999);
+        field_2C_ped_leader->sub_463830(0, 9999);
     }
 
-    this->field_2C_ped_leader->reset_ped_group();
-    if (this->field_4_ped_list[0] != NULL)
+    field_2C_ped_leader->reset_ped_group();
+    if (field_4_ped_list[0] != NULL)
     {
-        for (u8 bVar5 = 0; bVar5 < this->field_34_count; bVar5++)
+        for (u8 bVar5 = 0; bVar5 < field_34_count; bVar5++)
         {
-            ppVar2 = this->field_4_ped_list[bVar5];
-            cool_nash_0x294** pppVar1 = this->field_4_ped_list + bVar5;
+            ppVar2 = field_4_ped_list[bVar5];
+            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar5;
             if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
@@ -322,7 +322,7 @@ void Mouze_44::add_ped_leader_4C9B10(cool_nash_0x294* ptr)
 MATCH_FUNC(0x4c9b30)
 void Mouze_44::add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx)
 {
-    this->field_4_ped_list[idx & 0xff] = ptr;
+    field_4_ped_list[idx & 0xff] = ptr;
     ptr->set_ped_group(this);
     ptr->set_ped_group_id(idx);
 }
@@ -379,11 +379,11 @@ void Mouze_44::sub_4CA5E0(u8 idx)
     }
     else
     {
-        if (this->ped_leader_ptr->ped_is_ped_type_004333a0(ped_type_enum::ped_player) == false)
+        if (ped_leader_ptr->ped_is_ped_type_004333a0(ped_type_enum::ped_player) == false)
         {
-            this_00->field124_0x288 = this->ped_leader_ptr->field124_0x288;
-            this_00->field125_0x28c = this->ped_leader_ptr->field125_0x28c;
-            this_00->field25_0x17c = this->ped_leader_ptr->field25_0x17c;
+            this_00->field124_0x288 = ped_leader_ptr->field124_0x288;
+            this_00->field125_0x28c = ped_leader_ptr->field125_0x28c;
+            this_00->field25_0x17c = ped_leader_ptr->field25_0x17c;
         }
         else
         {
@@ -403,7 +403,7 @@ void Mouze_44::sub_4CA5E0(u8 idx)
             }
         }
 
-        ped *ped_leader = this->ped_leader_ptr;
+        ped *ped_leader = ped_leader_ptr;
         if (ped_leader->ped_has_AutoClass30_s1_00403b70())
         {
             if (this_00->ped_has_AutoClass30_s1_00403b70())
@@ -427,10 +427,10 @@ void Mouze_44::sub_4CA5E0(u8 idx)
                             {
                                 FUN_004045d0();
                             }
-                            if (this->ped_leader_ptr->ped_get_0x25c_00403a90() == 0x3b)
+                            if (ped_leader_ptr->ped_get_0x25c_00403a90() == 0x3b)
                             {
                                 this_00->FUN_00436920(0x3b, 9999);
-                                AutoClass21_s1 *pAVar4 = this->ped_leader_ptr->ped_get_AutoClass21_s1_ptr2_00403b10();
+                                AutoClass21_s1 *pAVar4 = ped_leader_ptr->ped_get_AutoClass21_s1_ptr2_00403b10();
                                 this_00->ped_set_AutoClass21_s1_ptr2_00403b00(pAVar4);
                             }
                         }

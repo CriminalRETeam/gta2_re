@@ -249,11 +249,11 @@ void sound_obj::Set15Val_4271B0(u32 val)
         clamped_val = 69;
     }
 
-    local_field_5529_idx15 = this->field_5529_idx15;
-    if ((local_field_5529_idx15 + 1) % 15 != this->field_5528_idx15_cur)
+    local_field_5529_idx15 = field_5529_idx15;
+    if ((local_field_5529_idx15 + 1) % 15 != field_5528_idx15_cur)
     {
-        this->field_552C_15array[local_field_5529_idx15] = clamped_val;
-        this->field_5529_idx15 = (unsigned __int8)(this->field_5529_idx15 + 1) % 15;
+        field_552C_15array[local_field_5529_idx15] = clamped_val;
+        field_5529_idx15 = (unsigned __int8)(field_5529_idx15 + 1) % 15;
     }
 }
 
@@ -453,12 +453,12 @@ MATCH_FUNC(0x419070)
 bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
 {
     u8 v5 = CalcVolume_41A3F0(a2, a3, field_30_sQueueSample.field_28);
-    this->field_30_sQueueSample.field_24_nVolume = v5;
+    field_30_sQueueSample.field_24_nVolume = v5;
     if (a4)
     {
-        this->field_30_sQueueSample.field_24_nVolume = v5 >> 1;
+        field_30_sQueueSample.field_24_nVolume = v5 >> 1;
     }
-    return this->field_30_sQueueSample.field_24_nVolume != 0 ? true : false;
+    return field_30_sQueueSample.field_24_nVolume != 0 ? true : false;
 }
 
 MATCH_FUNC(0x419020)
@@ -648,22 +648,22 @@ void sound_obj::null_412240()
 STUB_FUNC(0x418C20)
 void sound_obj::sub_418C20()
 {
-    if (this->field_544C[0].field_4_fp == 0)
+    if (field_544C[0].field_4_fp == 0)
     {
-        this->field_544C[0].field_8.field_C_pAny = 0;
-        this->field_544C[0].field_8.field_4_bStatus = 0;
-        this->field_544C[0].field_8.field_0_object_type = 10;
-        this->field_544C[0].field_4_fp = AddSoundObject_419FA0(&field_544C[0].field_8);
+        field_544C[0].field_8.field_C_pAny = 0;
+        field_544C[0].field_8.field_4_bStatus = 0;
+        field_544C[0].field_8.field_0_object_type = 10;
+        field_544C[0].field_4_fp = AddSoundObject_419FA0(&field_544C[0].field_8);
     }
 }
 
 MATCH_FUNC(0x418C60)
 void sound_obj::sub_418C60()
 {
-    if (this->field_544C[0].field_4_fp)
+    if (field_544C[0].field_4_fp)
     {
-        FreeSoundEntry_41A090(this->field_544C[0].field_4_fp);
-        this->field_544C[0].field_4_fp = 0;
+        FreeSoundEntry_41A090(field_544C[0].field_4_fp);
+        field_544C[0].field_4_fp = 0;
     }
 }
 
@@ -773,21 +773,21 @@ MATCH_FUNC(0x419FA0)
 s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
 {
     u32 idx = 1;
-    if (!this->field_0 || !pTuring)
+    if (!field_0 || !pTuring)
     {
         return 0;
     }
 
-    vigilant_maxwell* pMaxwellIter = &this->field_147C[1];
+    vigilant_maxwell* pMaxwellIter = &field_147C[1];
     while (idx < 1020)
     {
         if (!pMaxwellIter->field_0_bUsed)
         {
             if (pTuring->field_0_object_type == 5) // DrawUnk_0xBC ?
             {
-                if (!this->field_1478_type5Idx)
+                if (!field_1478_type5Idx)
                 {
-                    this->field_1478_type5Idx = idx;
+                    field_1478_type5Idx = idx;
                 }
                 else
                 {
@@ -800,7 +800,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
             field_147C[idx].field_4_pObj = pTuring;
             field_147C[idx].field_0_bUsed = 1;
             field_147C[idx].field_1 = 1;
-            this->field_444C_pEntities[this->field_543C_444C_max_idx++] = idx;
+            field_444C_pEntities[field_543C_444C_max_idx++] = idx;
 
             switch (pTuring->field_0_object_type)
             {
@@ -1589,8 +1589,8 @@ void sound_obj::sub_41B490(sound_0x68* pObj)
 MATCH_FUNC(0x4190B0)
 u32* sound_obj::sub_4190B0(u32* a2)
 {
-    s32 v2 = this->field_30_sQueueSample.field_8_obj.field_0 - this->field_1468_v1;
-    s32 v3 = this->field_30_sQueueSample.field_8_obj.field_4 - this->field_146C_v2;
+    s32 v2 = field_30_sQueueSample.field_8_obj.field_0 - field_1468_v1;
+    s32 v3 = field_30_sQueueSample.field_8_obj.field_4 - field_146C_v2;
     *a2 = ((v3 * (__int64)v3) >> 14) + ((v2 * (__int64)v2) >> 14); // note: cast required to match, probably some inlined operator
     return a2;
 }

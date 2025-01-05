@@ -85,7 +85,7 @@ void Car_10::sub_439DA0(s32* a3a)
     {
         if (v4->field_278 == 9 || (v4->field_21C & 0x8000000) == 0)
         {
-            this->field_8_pObj = 0;
+            field_8_pObj = 0;
         }
     }
 }

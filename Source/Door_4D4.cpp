@@ -8,34 +8,34 @@ GLOBAL(dword_67BBE0, 0x67BBE0);
 MATCH_FUNC(0x49c640)
 Door_38::Door_38()
 {
-    this->field_0 = 0;
-    this->field_4 = 0;
-    this->field_8 = 0;
-    this->field_C = 0;
-    this->field_20_state = 0;
-    this->field_24 = 0;
-    this->field_10 = 0;
-    this->field_18 = 0;
-    this->field_28 = 1;
-    this->field_2C = 1;
-    this->field_1C = 0;
-    this->field_1E = 0;
-    this->field_14 = 0;
-    this->field_29 = 1;
-    this->field_2A = 0;
-    this->field_2B = 0;
-    this->field_30 = dword_67BBE0;
-    this->field_34 = dword_67BBE0;
-    this->field_2D = 0;
+    field_0 = 0;
+    field_4 = 0;
+    field_8 = 0;
+    field_C = 0;
+    field_20_state = 0;
+    field_24 = 0;
+    field_10 = 0;
+    field_18 = 0;
+    field_28 = 1;
+    field_2C = 1;
+    field_1C = 0;
+    field_1E = 0;
+    field_14 = 0;
+    field_29 = 1;
+    field_2A = 0;
+    field_2B = 0;
+    field_30 = dword_67BBE0;
+    field_34 = dword_67BBE0;
+    field_2D = 0;
 }
 
 MATCH_FUNC(0x49c690)
 Door_38::~Door_38()
 {
-    this->field_0 = 0;
-    this->field_4 = 0;
-    this->field_8 = 0;
-    this->field_C = 0;
+    field_0 = 0;
+    field_4 = 0;
+    field_8 = 0;
+    field_C = 0;
 }
 
 STUB_FUNC(0x49c6a0)
@@ -54,18 +54,18 @@ char_type Door_38::sub_49C6D0(u32* a2)
 STUB_FUNC(0x49c7f0)
 bool Door_38::sub_49C7F0(cool_nash_0x294* a2)
 {
-    if (this->field_20_state == 1)
+    if (field_20_state == 1)
     {
         return a2->field_15C_player_weapons != 0;
     }
 
-    if (this->field_20_state == 5)
+    if (field_20_state == 5)
     {
         if (field_10)
         {
             if (a2 == field_10)
             {
-                return a2->field_200 == this->field_14;
+                return a2->field_200 == field_14;
             }
         }
     }

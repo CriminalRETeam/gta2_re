@@ -80,18 +80,18 @@ class Weapon_2FDC
   public:
     Weapon_2FDC() // 4CDA20 inline
     {
-        Weapon_30* pF8 = this->field_8;
-        Weapon_30* pIter = this->field_8;
+        Weapon_30* pF8 = field_8;
+        Weapon_30* pIter = field_8;
 
         for (s32 i = 0; i < 254; i++)
         {
             pIter->field_18 = pIter + 1;
             pIter++;
         }
-        this->field_0 = pF8;
-        this->field_8[254].field_18 = 0;
-        this->field_4 = 0;
-        this->field_2FD8 = 0;
+        field_0 = pF8;
+        field_8[254].field_18 = 0;
+        field_4 = 0;
+        field_2FD8 = 0;
     }
 
     EXPORT ~Weapon_2FDC();

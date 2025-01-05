@@ -54,7 +54,7 @@ u16 text_0x14::sub_5B58D0(u16 a2)
             return 63;
         }
 
-        result = this->field_10_lang_code == 'r' ? word_626390[a2] : *(u16 *)&aCSplittingGta2_27[2 * a2 + 24];
+        result = field_10_lang_code == 'r' ? word_626390[a2] : *(u16 *)&aCSplittingGta2_27[2 * a2 + 24];
         if (!result)
         {
             return 63;
@@ -169,7 +169,7 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
     u16 result; // ax
 
     result = a2;
-    switch (this->field_10_lang_code)
+    switch (field_10_lang_code)
     {
         case 'e':
             if ((u32)a2 >= 'a' && (u32)a2 <= 'z')
@@ -308,9 +308,9 @@ void text_0x14::Load_5B5E90()
 
     chunk_header chunkHeader;
     char_type gxtFileName[20];
-    sprintf(gxtFileName, "data\\%c.gxt", this->field_10_lang_code);
+    sprintf(gxtFileName, "data\\%c.gxt", field_10_lang_code);
 
-    sprintf(expected_code, "GBL%c", this->field_10_lang_code - ' ');
+    sprintf(expected_code, "GBL%c", field_10_lang_code - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 

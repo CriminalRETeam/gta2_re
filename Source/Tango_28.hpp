@@ -11,12 +11,12 @@ class Tango_28
   // inline
     void sub_450C10()
     {
-    this->field_C = 0;
-    this->field_8 = 0;
-    this->field_4 = 0;
-    this->field_1C = 0;
-    this->field_20 = 0;
-    this->field_24 = 0;
+    field_C = 0;
+    field_8 = 0;
+    field_4 = 0;
+    field_1C = 0;
+    field_20 = 0;
+    field_24 = 0;
     }
 
     EXPORT char_type sub_4A7FC0();

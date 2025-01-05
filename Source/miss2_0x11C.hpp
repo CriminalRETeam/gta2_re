@@ -322,10 +322,10 @@ class Miss2_8EC
     // inlined
     miss2_0x11C* sub_4767A0()
     {
-        miss2_0x11C* pf_0 = this->field_0;
-        this->field_0 = pf_0->field_0;
-        pf_0->field_0 = this->field_4;
-        this->field_4 = pf_0;
+        miss2_0x11C* pf_0 = field_0;
+        field_0 = pf_0->field_0;
+        pf_0->field_0 = field_4;
+        field_4 = pf_0;
         pf_0->sub_5035B0();
         return pf_0; // ??
     }

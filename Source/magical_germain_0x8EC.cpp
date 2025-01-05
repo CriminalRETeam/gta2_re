@@ -21,7 +21,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
-        File::Global_Read_4A71C0(this->field_8C4_pKidX, &chunk_len);
+        File::Global_Read_4A71C0(field_8C4_pKidX, &chunk_len);
     }
     else if (!strncmp(pChunkId, "KBIT", 4u))
     {
@@ -138,34 +138,34 @@ void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
     {
         case 0x65u:
         case 0xC9u:
-            this->field_8E8_v1 = -4;
-            this->field_8E9_v2 = -6;
+            field_8E8_v1 = -4;
+            field_8E9_v2 = -6;
             break;
         case 0x66u:
-            this->field_8E8_v1 = 39;
-            this->field_8E9_v2 = 44;
+            field_8E8_v1 = 39;
+            field_8E9_v2 = 44;
             break;
         case 0x67u:
-            this->field_8E8_v1 = -53;
-            this->field_8E9_v2 = -49;
+            field_8E8_v1 = -53;
+            field_8E9_v2 = -49;
             break;
         case 0x68u:
-            this->field_8E8_v1 = 28;
-            this->field_8E9_v2 = 24;
+            field_8E8_v1 = 28;
+            field_8E9_v2 = 24;
             break;
         case 0x69u:
         case 0xCAu:
-            this->field_8E8_v1 = -23;
-            this->field_8E9_v2 = -17;
+            field_8E8_v1 = -23;
+            field_8E9_v2 = -17;
             break;
         case 0x6Au:
-            this->field_8E8_v1 = -119;
-            this->field_8E9_v2 = -115;
+            field_8E8_v1 = -119;
+            field_8E9_v2 = -115;
             break;
         case 0x6Bu:
         case 0xCBu:
-            this->field_8E8_v1 = 72;
-            this->field_8E9_v2 = 76;
+            field_8E8_v1 = 72;
+            field_8E9_v2 = 76;
             break;
         default:
             return;
@@ -182,24 +182,24 @@ void magical_germain_0x8EC::sub_4D29D0(u16 a2)
             case 0u:
                 goto LABEL_3;
             case 1u:
-                this->field_8E8_v1 = -103;
-                this->field_8E9_v2 = -99;
+                field_8E8_v1 = -103;
+                field_8E9_v2 = -99;
                 break;
             case 2u:
                 goto LABEL_15;
             case 3u:
-                this->field_8E8_v1 = 121;
-                this->field_8E9_v2 = 125;
+                field_8E8_v1 = 121;
+                field_8E9_v2 = 125;
                 break;
             case 4u:
-                this->field_8E8_v1 = 53;
-                this->field_8E9_v2 = 58;
+                field_8E8_v1 = 53;
+                field_8E9_v2 = 58;
                 break;
             case 5u:
                 goto LABEL_7;
             case 6u:
-                this->field_8E8_v1 = 28;
-                this->field_8E9_v2 = 24;
+                field_8E8_v1 = 28;
+                field_8E9_v2 = 24;
                 break;
             case 7u:
                 goto LABEL_9;
@@ -216,42 +216,42 @@ void magical_germain_0x8EC::sub_4D29D0(u16 a2)
             case 0u:
             case 1u:
             case 2u:
-                this->field_8E8_v1 = -23;
-                this->field_8E9_v2 = -17;
+                field_8E8_v1 = -23;
+                field_8E9_v2 = -17;
                 break;
             case 3u:
             case 0xDu:
             LABEL_3:
-                this->field_8E8_v1 = -119;
-                this->field_8E9_v2 = -115;
+                field_8E8_v1 = -119;
+                field_8E9_v2 = -115;
                 break;
             case 4u:
             LABEL_7:
-                this->field_8E8_v1 = 39;
-                this->field_8E9_v2 = 44;
+                field_8E8_v1 = 39;
+                field_8E9_v2 = 44;
                 break;
             case 5u:
             LABEL_10:
-                this->field_8E8_v1 = -4;
-                this->field_8E9_v2 = -6;
+                field_8E8_v1 = -4;
+                field_8E9_v2 = -6;
                 break;
             case 8u:
-                this->field_8E8_v1 = -8;
-                this->field_8E9_v2 = -11;
+                field_8E8_v1 = -8;
+                field_8E9_v2 = -11;
                 break;
             case 0xAu:
-                this->field_8E8_v1 = 39;
-                this->field_8E9_v2 = 35;
+                field_8E8_v1 = 39;
+                field_8E9_v2 = 35;
                 break;
             case 0xEu:
             LABEL_15:
-                this->field_8E8_v1 = 105;
-                this->field_8E9_v2 = 109;
+                field_8E8_v1 = 105;
+                field_8E9_v2 = 109;
                 break;
             case 0xFu:
             LABEL_9:
-                this->field_8E8_v1 = 72;
-                this->field_8E9_v2 = 76;
+                field_8E8_v1 = 72;
+                field_8E9_v2 = 76;
                 break;
             default:
                 return;

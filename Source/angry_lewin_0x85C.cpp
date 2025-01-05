@@ -283,7 +283,7 @@ void angry_lewin_0x85C::sub_5679E0()
 MATCH_FUNC(0x568520)
 void angry_lewin_0x85C::sub_568520()
 {
-    const cool_nash_0x294* pPed = this->field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
+    const cool_nash_0x294* pPed = field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
     field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
@@ -295,10 +295,10 @@ void angry_lewin_0x85C::sub_568520()
 MATCH_FUNC(0x568630)
 void angry_lewin_0x85C::sub_568630()
 {
-    infallible_turing* pCam = this->field_4C_pUnk;
+    infallible_turing* pCam = field_4C_pUnk;
     if (pCam)
     {
-        pCam->field_C_pAny = &this->field_14C_view_camera;
+        pCam->field_C_pAny = &field_14C_view_camera;
     }
 }
 
@@ -317,17 +317,17 @@ char_type angry_lewin_0x85C::sub_5686D0(DrawUnk_0xBC* a2)
 MATCH_FUNC(0x568730)
 void angry_lewin_0x85C::sub_568730()
 {
-    cool_nash_0x294* pPlayerPed = this->field_2C4_player_ped;
+    cool_nash_0x294* pPlayerPed = field_2C4_player_ped;
     if (pPlayerPed)
     {
         pPlayerPed->sub_470300();
     }
-    cool_nash_0x294* pPed = this->field_2C8_unkq;
+    cool_nash_0x294* pPed = field_2C8_unkq;
     if (pPed)
     {
         pPed->sub_470300();
     }
-    this->field_8E_bInUse = 0;
+    field_8E_bInUse = 0;
 }
 
 STUB_FUNC(0x5687F0)
@@ -369,12 +369,12 @@ void angry_lewin_0x85C::sub_569530()
 MATCH_FUNC(0x5695A0)
 void angry_lewin_0x85C::sub_5695A0()
 {
-    if (!this->field_28)
+    if (!field_28)
     {
-        this->field_68 = 0;
+        field_68 = 0;
         if (field_2D0)
         {
-            cool_nash_0x294* pPed = this->field_2C8_unkq;
+            cool_nash_0x294* pPed = field_2C8_unkq;
             if (pPed)
             {
                 if (pPed->field_240_occupation == 1)
@@ -383,10 +383,10 @@ void angry_lewin_0x85C::sub_5695A0()
                 }
             }
         }
-        this->field_2C8_unkq = 0;
-        this->field_2CC = 0;
-        this->field_2D0 = 0;
-        this->field_90_game_camera.field_3C = 1;
+        field_2C8_unkq = 0;
+        field_2CC = 0;
+        field_2D0 = 0;
+        field_90_game_camera.field_3C = 1;
     }
 }
 
@@ -571,19 +571,19 @@ angry_lewin_0x85C::angry_lewin_0x85C(u8 a2)
 STUB_FUNC(0x56A940)
 angry_lewin_0x85C::~angry_lewin_0x85C()
 {
-    Car_BC** field_54_unk; // ecx
+    Car_BC** local_field_54_unk; // ecx
 
-    field_54_unk = this->field_54_unk;
-    this->field_2C4_player_ped = 0;
-    this->field_2C8_unkq = 0;
-    this->field_2CC = 0;
-    this->field_34_pObj = 0;
-    this->field_38 = 0;
-    this->field_3C = 0;
-    field_54_unk[0] = 0;
-    field_54_unk[1] = 0;
-    field_54_unk[2] = 0;
-    
+    local_field_54_unk = field_54_unk;
+    field_2C4_player_ped = 0;
+    field_2C8_unkq = 0;
+    field_2CC = 0;
+    field_34_pObj = 0;
+    field_38 = 0;
+    field_3C = 0;
+    local_field_54_unk[0] = 0;
+    local_field_54_unk[1] = 0;
+    local_field_54_unk[2] = 0;
+
     if (field_4C_pUnk)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_4C_pUnk);
@@ -591,10 +591,10 @@ angry_lewin_0x85C::~angry_lewin_0x85C()
     }
 
     /*
-	zealous_borg::dtor_484EE0(&this->field_644_unk);
-	sad_mirzakhani::dtor_431DF0(&this->field_2D4_unk.field_1A8_unk);
-	DrawUnk_0xBC::dtor_4369E0(&this->field_208_aux_game_camera);
-	DrawUnk_0xBC::dtor_4369E0(&this->field_14C_view_camera);
-	DrawUnk_0xBC::dtor_4369E0(&this->field_90_game_camera);
+	zealous_borg::dtor_484EE0(&field_644_unk);
+	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_unk);
+	DrawUnk_0xBC::dtor_4369E0(&field_208_aux_game_camera);
+	DrawUnk_0xBC::dtor_4369E0(&field_14C_view_camera);
+	DrawUnk_0xBC::dtor_4369E0(&field_90_game_camera);
 	*/
 }

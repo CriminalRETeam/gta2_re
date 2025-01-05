@@ -38,9 +38,9 @@ void zealous_borg::sub_484F20()
 STUB_FUNC(0x484F30)
 void zealous_borg::sub_484F30()
 {
-    *(int*)&this->field_28[1] = 0x1010101;
-    *(int*)&this->field_28[5] = 0x1010101;
-    this->field_28[9] = 1;
+    *(int*)&field_28[1] = 0x1010101;
+    *(int*)&field_28[5] = 0x1010101;
+    field_28[9] = 1;
 }
 
 MATCH_FUNC(0x484F50)
