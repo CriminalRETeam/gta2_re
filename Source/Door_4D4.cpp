@@ -1,9 +1,32 @@
 #include "Door_4D4.hpp"
 #include "cool_nash_0x294.hpp"
+#include "Globals.hpp"
 
-STUB_FUNC(0x49c640)
+EXPORT_VAR s32 dword_67BBE0;
+GLOBAL(dword_67BBE0, 0x67BBE0);
+
+MATCH_FUNC(0x49c640)
 Door_38::Door_38()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_C = 0;
+    this->field_20_state = 0;
+    this->field_24 = 0;
+    this->field_10 = 0;
+    this->field_18 = 0;
+    this->field_28 = 1;
+    this->field_2C = 1;
+    this->field_1C = 0;
+    this->field_1E = 0;
+    this->field_14 = 0;
+    this->field_29 = 1;
+    this->field_2A = 0;
+    this->field_2B = 0;
+    this->field_30 = dword_67BBE0;
+    this->field_34 = dword_67BBE0;
+    this->field_2D = 0;
 }
 
 MATCH_FUNC(0x49c690)
