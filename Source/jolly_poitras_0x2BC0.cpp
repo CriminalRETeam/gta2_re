@@ -423,7 +423,7 @@ dreamy_clarke_0xA4::dreamy_clarke_0xA4()
     sub_56B630();
 }
 
-STUB_FUNC(0x56B620)
+MATCH_FUNC(0x56B620)
 dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
 }
