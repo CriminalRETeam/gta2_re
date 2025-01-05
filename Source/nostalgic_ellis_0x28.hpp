@@ -13,14 +13,15 @@ class nostalgic_ellis_0x28
 
     EXPORT nostalgic_ellis_0x28* sub_4D6DC0();
 
-    nostalgic_ellis_0x28* field_0;
+   // nostalgic_ellis_0x28* field_0;
+    s32 field_0; // todo ??
     s32 field_4_light_x;
     s32 field_8_light_y;
     s32 field_C_light_z;
     s32 field_10_argb;
     char_type field_14_on_time;
     char_type field_15_off_time;
-    char_type field_16_shape;
+    u8 field_16_shape;
     char_type field_17_off_time;
     char_type field_18_intensity;
     char_type field_19;

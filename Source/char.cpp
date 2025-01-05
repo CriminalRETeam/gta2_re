@@ -59,7 +59,7 @@ void Char_C::sub_46EB60(u32* a2)
 }
 
 STUB_FUNC(0x4703f0)
-void Char_C::sub_4703F0(Char_C* a1)
+void Char_C::sub_4703F0()
 {
 }
 

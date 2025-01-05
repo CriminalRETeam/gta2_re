@@ -130,7 +130,7 @@ class Char_C
 {
   public:
     EXPORT void sub_46EB60(u32* a2);
-    EXPORT void sub_4703F0(Char_C* a1);
+    EXPORT void sub_4703F0();
     EXPORT Char_C();
     EXPORT ~Char_C();
     EXPORT cool_nash_0x294* sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 a6);
