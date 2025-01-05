@@ -148,7 +148,7 @@ void BurgerKing_67F8B0::sub_4CE880(s32 a2)
 {
 }
 
-STUB_FUNC(0x4cea00)
+MATCH_FUNC(0x4cea00)
 BurgerKing_67F8B0::~BurgerKing_67F8B0() // 4CEA00
 {
     if (!field_0)
