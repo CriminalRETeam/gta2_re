@@ -68,10 +68,10 @@ void lucid_hamilton::sub_4C53D0()
         field_408[i] = 0;
     }
 
-    this->field_430 = 0;
-    this->field_434 = 0;
-    this->field_438 = 0;
-    this->field_43A = 0;
+    field_430 = 0;
+    field_434 = 0;
+    field_438 = 0;
+    field_43A = 0;
 
     init_4C5AF0();
 }

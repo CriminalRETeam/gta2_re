@@ -404,7 +404,7 @@ EXPORT void __stdcall sub_5D93A0()
     char_type v0; // bl
     s32 bcheckModeRet; // esi
     // SVideo *v2; // eax
-    BYTE field_4_flags; // ecx
+    BYTE local_field_4_flags; // ecx
 
     v0 = 0;
     bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
@@ -420,10 +420,10 @@ EXPORT void __stdcall sub_5D93A0()
     //v2 = gVidSys_7071D0;
     if (gVidSys_7071D0)
     {
-        field_4_flags = gVidSys_7071D0->field_4_flags;
-        //BYTE1(field_4_flags) |= 1u;
-        field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags = field_4_flags;
+        local_field_4_flags = gVidSys_7071D0->field_4_flags;
+        //BYTE1(local_field_4_flags) |= 1u;
+        local_field_4_flags |= 1u;
+        gVidSys_7071D0->field_4_flags = local_field_4_flags;
         // v2 = gVidSys_7071D0;
     }
 

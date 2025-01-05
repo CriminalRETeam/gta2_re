@@ -71,8 +71,8 @@ class Garox_12E4_sub
     // inline 0x4C71A0
     Garox_12E4_sub()
     {
-        this->field_12E4 = 0;
-        this->field_1 = 45;
+        field_12E4 = 0;
+        field_1 = 45;
     }
     EXPORT void sub_5D63B0();
     char_type field_12E4;
@@ -458,12 +458,12 @@ class Garox_24
     // inline 0x4C6F00
     void init()
     {
-        this->field_0 = 0;
-        this->field_4 = 0;
-        this->field_8 = 0;
-        this->field_C = 0;
-        this->field_10 = 0;
-        this->field_20 = 0;
+        field_0 = 0;
+        field_4 = 0;
+        field_8 = 0;
+        field_C = 0;
+        field_10 = 0;
+        field_20 = 0;
     }
 
     s32 field_0;
@@ -528,9 +528,9 @@ class Garox_7C_Array
     // inline 0x4C7080
     Garox_7C_Array()
     {
-        this->field_83C = 1;
-        this->field_840 = 0;
-        this->field_844 = 0;
+        field_83C = 1;
+        field_840 = 0;
+        field_844 = 0;
     }
 
     EXPORT void sub_5D1350();

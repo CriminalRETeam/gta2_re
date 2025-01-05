@@ -167,11 +167,11 @@ s32 Game_0x40::sub_4B8BB0()
 MATCH_FUNC(0x4B8BD0)
 void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
 {
-    int timer = this->field_28_timer;
+    int timer = field_28_timer;
     if (timer == -1 || timer > new_timer)
     {
-        this->field_28_timer = new_timer;
-        this->field_2C_main_state = main_state;
+        field_28_timer = new_timer;
+        field_2C_main_state = main_state;
         gLucid_hamilton_67E8E0.sub_4C5930(a2);
     }
 }
@@ -490,9 +490,9 @@ void Game_0x40::sub_4B9410()
                         u8* p_field_16_shape = &pCurLight->field_16_shape;
                         pCurLight->field_17_off_time = pCurLight->field_15_off_time;
                         //LOBYTE(v8) = 0;
-                        u8 field_16_shape = pCurLight->field_16_shape;
+                        u8 local_field_16_shape = pCurLight->field_16_shape;
                         pCurLight->field_0 = v8;
-                        if (field_16_shape)
+                        if (local_field_16_shape)
                         {
                             // goto LABEL_12;
                             pCurLight->field_17_off_time += stru_6F6784.get_uint8_4F7B70(p_field_16_shape);
@@ -502,15 +502,15 @@ void Game_0x40::sub_4B9410()
                     {
                         int v11 = pCurLight->field_0;
                         // LOBYTE(v11) = 0;
-                        int field_18_intensity = pCurLight->field_18_intensity;
+                        int local_field_18_intensity = pCurLight->field_18_intensity;
                         pCurLight->field_17_off_time = pCurLight->field_14_on_time;
                         u8 shape = pCurLight->field_16_shape;
-                        int v14 = v11 | field_18_intensity;
+                        int v14 = v11 | local_field_18_intensity;
                         u8* p_field_16_shape = &pCurLight->field_16_shape;
                         pCurLight->field_0 = v14;
                         if (shape)
                         {
-                        //LABEL_12:
+                            //LABEL_12:
                             pCurLight->field_17_off_time += stru_6F6784.get_uint8_4F7B70(p_field_16_shape);
                         }
                     }

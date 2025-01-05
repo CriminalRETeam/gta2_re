@@ -10,14 +10,14 @@ GLOBAL(byte_61A8A3, 0x61A8A3);
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
-    this->field_12C = 0;
-    this->field_12E = 0;
-    this->field_130 = 0;
-    this->field_132 = 0;
-    this->field_134 = 0;
-    this->field_200 = 0;
+    field_12C = 0;
+    field_12E = 0;
+    field_130 = 0;
+    field_132 = 0;
+    field_134 = 0;
+    field_200 = 0;
     sub_45AFC0();
-    this->field_160_next_ped = 0;
+    field_160_next_ped = 0;
 }
 
 STUB_FUNC(0x45af00)
@@ -40,7 +40,7 @@ s32 cool_nash_0x294::sub_45B440()
 MATCH_FUNC(0x45b4e0)
 char_type cool_nash_0x294::sub_45B4E0()
 {
-    switch (this->field_240_occupation)
+    switch (field_240_occupation)
     {
         case 24:
         case 25:
@@ -191,7 +191,7 @@ void cool_nash_0x294::sub_45C070()
 MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
-    Car_BC* pBc = this->field_16C_car;
+    Car_BC* pBc = field_16C_car;
     if (pBc)
     {
         pBc->sub_43A600();
@@ -229,28 +229,28 @@ void cool_nash_0x294::sub_45C4B0()
 {
     // TODO: Needs Car_3C stubs
     /*
-    Car_BC* pBc = this->field_16C_car;
-    this->field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
-    this->field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
-    this->field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
+    Car_BC* pBc = field_16C_car;
+    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
+    field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
+    field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
     */
 }
 
 MATCH_FUNC(0x45c500)
 void cool_nash_0x294::sub_45C500(s32 a2)
 {
-    if (this->field_278 != ped_state1_enum::ped_fall_on_ground)
+    if (field_278 != ped_state1_enum::ped_fall_on_ground)
     {
         if (a2 == ped_state1_enum::ped_fall_on_ground)
         {
-            this->field_280 = this->field_278;
+            field_280 = field_278;
         }
-        this->field_278 = a2;
+        field_278 = a2;
         return;
     }
     if (a2 != ped_state1_enum::ped_fall_on_ground)
     {
-        this->field_280 = a2;
+        field_280 = a2;
     }
 }
 
@@ -292,11 +292,11 @@ STUB_FUNC(0x45c7f0)
 Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* pCar)
 {
     // TODO: ordering
-    this->field_248_enter_car_as_passenger = 1;
-    this->field_24C_target_car_door = 1;
-    this->field_16C_car = pCar;
-    this->field_278 = 10;
-    this->field_27C = 10;
+    field_248_enter_car_as_passenger = 1;
+    field_24C_target_car_door = 1;
+    field_16C_car = pCar;
+    field_278 = 10;
+    field_27C = 10;
     return pCar->field_4.sub_471140(this);
 }
 
@@ -704,9 +704,9 @@ void cool_nash_0x294::sub_467FB0()
 {
     if (byte_61A8A3)
     {
-        if (!this->field_218_objective_timer)
+        if (!field_218_objective_timer)
         {
-            this->field_225 = 1;
+            field_225 = 1;
         }
     }
 }
@@ -1100,7 +1100,7 @@ u8 cool_nash_0x294::sub_46E200(u8 a2)
 MATCH_FUNC(0x46ef00)
 u8 cool_nash_0x294::get_wanted_star_count_46EF00()
 {
-    short cVar1 = this->field_20A_wanted_points;
+    short cVar1 = field_20A_wanted_points;
     if (cVar1 < cop_level_ped_enum::cop_6_stars)
     {
         if (cVar1 < cop_level_ped_enum::cop_5_stars)
@@ -1152,29 +1152,29 @@ void cool_nash_0x294::set_wanted_level_46EF40(u16 wanted)
     switch (wanted)
     {
         case 0u:
-            this->field_20A_wanted_points = 0;
+            field_20A_wanted_points = 0;
             break;
 
         case 600u:
-            this->field_20A_wanted_points = 600u;
+            field_20A_wanted_points = 600u;
             break;
 
         case 1600u:
-            this->field_20A_wanted_points = 1600u;
+            field_20A_wanted_points = 1600u;
             break;
 
         case 3000u:
-            this->field_20A_wanted_points = 3000;
+            field_20A_wanted_points = 3000;
             break;
 
         case 5000u:
-            this->field_20A_wanted_points = 5000;
+            field_20A_wanted_points = 5000;
             break;
         case 8000u:
-            this->field_20A_wanted_points = 8000;
+            field_20A_wanted_points = 8000;
             break;
         case 12000u:
-            this->field_20A_wanted_points = 12000;
+            field_20A_wanted_points = 12000;
             break;
     }
 }
@@ -1185,25 +1185,25 @@ void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
     switch (star_count)
     {
         case 0u:
-            this->field_20A_wanted_points = 0;
+            field_20A_wanted_points = 0;
             break;
         case 1u:
-            this->field_20A_wanted_points = 600;
+            field_20A_wanted_points = 600;
             break;
         case 2u:
-            this->field_20A_wanted_points = 1600;
+            field_20A_wanted_points = 1600;
             break;
         case 3u:
-            this->field_20A_wanted_points = 3000;
+            field_20A_wanted_points = 3000;
             break;
         case 4u:
-            this->field_20A_wanted_points = 5000;
+            field_20A_wanted_points = 5000;
             break;
         case 5u:
-            this->field_20A_wanted_points = 8000;
+            field_20A_wanted_points = 8000;
             break;
         case 6u:
-            this->field_20A_wanted_points = 12000;
+            field_20A_wanted_points = 12000;
             break;
         default:
             return;

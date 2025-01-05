@@ -31,9 +31,9 @@ class root_sound
     infallible_turing* DestroySoundObj_40FE60(infallible_turing* a2) // inline
     {
         a2->release_40EF20();
-        infallible_turing* result = this->field_0;
-        a2->field_C_pAny = this->field_0;
-        this->field_0 = a2;
+        infallible_turing* result = field_0;
+        a2->field_C_pAny = field_0;
+        field_0 = a2;
         return result;
     }
 

@@ -9,19 +9,19 @@ EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 MATCH_FUNC(0x5BEC30)
 void sharp_bose_0x54::ShowFps_5BEC30()
 {
-    swprintf(tmpBuff_67BD9C, L"%d/%d fps", this->field_8, this->field_14);
+    swprintf(tmpBuff_67BD9C, L"%d/%d fps", field_8, field_14);
     gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 0, word_706600, 1);
 }
 
 MATCH_FUNC(0x5BEC70)
 sharp_bose_0x54::sharp_bose_0x54()
 {
-    this->field_8 = 0;
-    this->field_14 = 0;
-    this->field_0 = 0;
-    this->field_C = 0;
-    this->field_4 = timeGetTime();
-    this->field_10 = timeGetTime();
+    field_8 = 0;
+    field_14 = 0;
+    field_0 = 0;
+    field_C = 0;
+    field_4 = timeGetTime();
+    field_10 = timeGetTime();
 }
 
 MATCH_FUNC(0x5BECC0)
@@ -61,9 +61,9 @@ void sharp_bose_0x54::sub_5BECF0(char_type a2, char_type a3)
         field_C++;
         if (field_C == 100)
         {
-            this->field_14 = 100000 / (timeGetTime() - this->field_10);
-            this->field_10 = timeGetTime();
-            this->field_C = 0;
+            field_14 = 100000 / (timeGetTime() - field_10);
+            field_10 = timeGetTime();
+            field_C = 0;
         }
     }
 }

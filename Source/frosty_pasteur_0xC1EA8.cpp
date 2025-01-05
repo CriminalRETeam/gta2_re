@@ -124,7 +124,7 @@ STUB_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
     u32 total_str_length = 0;
-    BYTE* pStringDataIter1 = (BYTE*)this->field_1334C_strings;
+    BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
     {
         s32 str_length = pStringDataIter1[8] + 9;
@@ -132,10 +132,10 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
         pStringDataIter1 += str_length;
     }
 
-    this->field_13350_pStringTbl = reinterpret_cast<str_table_normalized*>(Memory::malloc_4FE4D0(sizeof(str_table_normalized)));
+    field_13350_pStringTbl = reinterpret_cast<str_table_normalized*>(Memory::malloc_4FE4D0(sizeof(str_table_normalized)));
     memset(field_13350_pStringTbl, 0, sizeof(str_table_normalized));
 
-    str_table_entry* pStringDataIter2 = this->field_1334C_strings;
+    str_table_entry* pStringDataIter2 = field_1334C_strings;
 
     // s32 offset; // ebp
     if (tableSize)
@@ -160,7 +160,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     }
     else
     {
-        this->field_13350_pStringTbl->field_0_string_count = 0;
+        field_13350_pStringTbl->field_0_string_count = 0;
     }
 }
 

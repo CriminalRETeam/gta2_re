@@ -11,8 +11,8 @@ GLOBAL(stru_6F6784, 0x6F6784);
 MATCH_FUNC(0x48B900)
 void rng::sub_48B900()
 {
-    ++this->field_0_rng;
-    this->field_4_rnd = stru_6F6784.rand_4F7C00();
+    ++field_0_rng;
+    field_4_rnd = stru_6F6784.rand_4F7C00();
 }
 
 STUB_FUNC(0x48B920)

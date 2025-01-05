@@ -16,16 +16,16 @@ Kfc_30::~Kfc_30()
 MATCH_FUNC(0x5cbc00)
 void Kfc_30::sub_5CBC00()
 {
-    this->field_1A = 150;
-    this->field_1E = 0;
-    this->field_20 = 0;
-    this->field_24 = 0;
-    this->field_0 = 0;
-    this->field_4 = 0;
-    this->field_28 = 0;
-    this->field_8 = 0;
-    this->field_2C = 0;
-    this->field_1C = 0;
+    field_1A = 150;
+    field_1E = 0;
+    field_20 = 0;
+    field_24 = 0;
+    field_0 = 0;
+    field_4 = 0;
+    field_28 = 0;
+    field_8 = 0;
+    field_2C = 0;
+    field_1C = 0;
 }
 
 MATCH_FUNC(0x5cbc30)
@@ -38,7 +38,7 @@ MATCH_FUNC(0x5cbc40)
 void Kfc_30::sub_5CBC40(cool_nash_0x294* a2)
 {
     field_8->sub_4C9970(a2);
-    this->field_4 = this->field_8->field_2C_ped_leader;
+    field_4 = field_8->field_2C_ped_leader;
 }
 
 STUB_FUNC(0x5cbc60)

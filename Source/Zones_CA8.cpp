@@ -29,9 +29,9 @@ Zone_144::~Zone_144()
 MATCH_FUNC(0x4BED30)
 wchar_t* Zone_144::get_name_wide_4BED30()
 {
-    gZoneNameWide_67E030[0] = this->field_2_name[0];
-    gZoneNameWide_67E030[1] = this->field_2_name[1];
-    gZoneNameWide_67E030[2] = this->field_2_name[2];
+    gZoneNameWide_67E030[0] = field_2_name[0];
+    gZoneNameWide_67E030[1] = field_2_name[1];
+    gZoneNameWide_67E030[2] = field_2_name[2];
     gZoneNameWide_67E030[3] = 0;
     return gZoneNameWide_67E030;
 }
@@ -131,7 +131,7 @@ void Zone_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 MATCH_FUNC(0x4BF340)
 wchar_t* Zone_144::sub_4BF340()
 {
-    sprintf(gTmpBuffer_67C598, "ganga%d", this->field_138);
+    sprintf(gTmpBuffer_67C598, "ganga%d", field_138);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
 }
 
@@ -173,9 +173,9 @@ Zone_144* Zones_CA8::zone_by_name_4BF100(const char* pZoneName)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        if (_strnicmp(pZoneName, this->field_0[i].field_2_name, 4u) == 0)
+        if (_strnicmp(pZoneName, field_0[i].field_2_name, 4u) == 0)
         {
-            return &this->field_0[i];
+            return &field_0[i];
         }
     }
     return 0;

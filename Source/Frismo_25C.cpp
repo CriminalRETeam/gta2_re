@@ -3,9 +3,9 @@
 MATCH_FUNC(0x4bea80)
 Frismo_C::Frismo_C()
 {
-    this->field_8_next = 0;
-    this->field_0 = 125;
-    this->field_4 = 205;
+    field_8_next = 0;
+    field_0 = 125;
+    field_4 = 205;
 }
 
 MATCH_FUNC(0x4beaa0)

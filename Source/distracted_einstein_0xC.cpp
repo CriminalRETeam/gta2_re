@@ -11,9 +11,9 @@ void distracted_einstein_0xC::sub_5BEBF0()
 MATCH_FUNC(0x5BEC10)
 distracted_einstein_0xC::distracted_einstein_0xC()
 {
-    this->field_0 = 0;
-    this->field_8 = 0;
-    this->field_4 = 0;
+    field_0 = 0;
+    field_8 = 0;
+    field_4 = 0;
 }
 
 MATCH_FUNC(0x5BEC20)

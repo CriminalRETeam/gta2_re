@@ -148,7 +148,7 @@ void BurgerKing_67F8B0::sub_4CED90()
     s32 bit_idx = 0;
     do
     {
-        if (((1 << bit_idx) & this->field_4_input_bits) != 0)
+        if (((1 << bit_idx) & field_4_input_bits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);

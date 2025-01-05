@@ -16,8 +16,8 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
     // todo
     int* tmp = field_1878;
-    int* pIter1 = this->field_1884;
-    struc_221* pIter2 = this->field_1800;
+    int* pIter1 = field_1884;
+    struc_221* pIter2 = field_1800;
 
     s32 i;
     for (i = 0; i < 3; i++)
@@ -291,26 +291,26 @@ void jolly_poitras_0x2BC0::sub_56BF20()
 MATCH_FUNC(0x56BD20)
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
-    wcsncpy(this->field_24C0.field_0[0].field_0_str, L"ALAN", 9u);
-    this->field_24C0.field_0[0].field_14_score = 1000000;
-    wcsncpy(this->field_24C0.field_0[1].field_0_str, L"BRIAN", 9u);
-    this->field_24C0.field_0[1].field_14_score = 500000;
-    wcsncpy(this->field_24C0.field_0[2].field_0_str, L"COLIN", 9u);
-    this->field_24C0.field_0[2].field_14_score = 400000;
-    wcsncpy(this->field_24C0.field_0[3].field_0_str, L"DAVE", 9u);
-    this->field_24C0.field_0[3].field_14_score = 300000;
-    wcsncpy(this->field_24C0.field_0[4].field_0_str, L"ERIC", 9u);
-    this->field_24C0.field_0[4].field_14_score = 250000;
-    wcsncpy(this->field_24C0.field_0[5].field_0_str, L"FRANK", 9u);
-    this->field_24C0.field_0[5].field_14_score = 200000;
-    wcsncpy(this->field_24C0.field_0[6].field_0_str, L"GRAEME", 9u);
-    this->field_24C0.field_0[6].field_14_score = 100000;
-    wcsncpy(this->field_24C0.field_0[7].field_0_str, L"HECTOR", 9u);
-    this->field_24C0.field_0[7].field_14_score = 50000;
-    wcsncpy(this->field_24C0.field_0[8].field_0_str, L"IMOGEN", 9u);
-    this->field_24C0.field_0[8].field_14_score = 25000;
-    wcsncpy(this->field_24C0.field_0[9].field_0_str, L"JACKSON", 9u);
-    this->field_24C0.field_0[9].field_14_score = 10000;
+    wcsncpy(field_24C0.field_0[0].field_0_str, L"ALAN", 9u);
+    field_24C0.field_0[0].field_14_score = 1000000;
+    wcsncpy(field_24C0.field_0[1].field_0_str, L"BRIAN", 9u);
+    field_24C0.field_0[1].field_14_score = 500000;
+    wcsncpy(field_24C0.field_0[2].field_0_str, L"COLIN", 9u);
+    field_24C0.field_0[2].field_14_score = 400000;
+    wcsncpy(field_24C0.field_0[3].field_0_str, L"DAVE", 9u);
+    field_24C0.field_0[3].field_14_score = 300000;
+    wcsncpy(field_24C0.field_0[4].field_0_str, L"ERIC", 9u);
+    field_24C0.field_0[4].field_14_score = 250000;
+    wcsncpy(field_24C0.field_0[5].field_0_str, L"FRANK", 9u);
+    field_24C0.field_0[5].field_14_score = 200000;
+    wcsncpy(field_24C0.field_0[6].field_0_str, L"GRAEME", 9u);
+    field_24C0.field_0[6].field_14_score = 100000;
+    wcsncpy(field_24C0.field_0[7].field_0_str, L"HECTOR", 9u);
+    field_24C0.field_0[7].field_14_score = 50000;
+    wcsncpy(field_24C0.field_0[8].field_0_str, L"IMOGEN", 9u);
+    field_24C0.field_0[8].field_14_score = 25000;
+    wcsncpy(field_24C0.field_0[9].field_0_str, L"JACKSON", 9u);
+    field_24C0.field_0[9].field_14_score = 10000;
 }
 
 STUB_FUNC(0x56BBD0)

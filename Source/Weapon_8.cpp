@@ -81,53 +81,53 @@ Weapon_8::~Weapon_8()
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
 {
-    this->field_0 = 0;
-    this->field_24 = 0;
-    this->field_14 = 0;
-    this->field_2 = 0;
-    this->field_4 = 0;
-    this->field_18 = 0;
-    this->field_1C = 0;
-    this->field_10 = 0;
-    this->field_8 = 0;
-    this->field_C = -1;
-    this->field_20 = 0;
-    this->field_21 = 0;
-    this->field_2C = 0;
-    this->field_28 = 0;
+    field_0 = 0;
+    field_24 = 0;
+    field_14 = 0;
+    field_2 = 0;
+    field_4 = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_10 = 0;
+    field_8 = 0;
+    field_C = -1;
+    field_20 = 0;
+    field_21 = 0;
+    field_2C = 0;
+    field_28 = 0;
 }
 
 MATCH_FUNC(0x5DCD50)
 Weapon_30::~Weapon_30()
 {
-    this->field_24 = 0;
-    this->field_18 = 0;
-    this->field_14 = 0;
-    this->field_8 = 0;
+    field_24 = 0;
+    field_18 = 0;
+    field_14 = 0;
+    field_8 = 0;
     if (field_28)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        this->field_28 = 0;
+        field_28 = 0;
     }
 }
 
 MATCH_FUNC(0x5DCD90)
 void Weapon_30::sub_5DCD90()
 {
-    this->field_24 = 0;
-    this->field_14 = 0;
-    this->field_1C = 0;
-    this->field_0 = 0;
-    this->field_2 = 0;
-    this->field_4 = 0;
-    this->field_21 = 0;
-    this->field_8 = 0;
-    this->field_C = -1;
-    this->field_20 = 0;
-    this->field_2C = 0;
+    field_24 = 0;
+    field_14 = 0;
+    field_1C = 0;
+    field_0 = 0;
+    field_2 = 0;
+    field_4 = 0;
+    field_21 = 0;
+    field_8 = 0;
+    field_C = -1;
+    field_20 = 0;
+    field_2C = 0;
     if (!field_28 && !bSkip_audio_67D6BE)
     {
-        this->field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
+        field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
     }
 }
 
