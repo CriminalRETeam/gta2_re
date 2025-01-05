@@ -311,7 +311,7 @@ class Garox_C4
     EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
     EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
-    EXPORT s32 operator_equals_5D1E10(Garox_C4* pOther);
+    EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
     s16 field_A8;

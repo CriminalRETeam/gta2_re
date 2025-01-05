@@ -9,12 +9,12 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
+#include "gtx_0x106C.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "gtx_0x106C.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -467,7 +467,7 @@ bool Garox_C4::sub_5D1DB0()
 }
 
 MATCH_FUNC(0x5d1e10)
-s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
+bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
     return this->field_A4_display_time > 0 && pOther != this && this->field_A8 == pOther->field_A8 && this->field_AA == pOther->field_AA &&
         this->field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
@@ -475,21 +475,18 @@ s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1eb0)
+MATCH_FUNC(0x5d1eb0)
 void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 {
     Garox_C4* pIter = this->field_960_pFirst;
-    if (pIter)
+    while (pIter)
     {
-        while (!pIter->operator_equals_5D1E10(String2))
+        if (pIter->operator_equals_5D1E10(String2))
         {
-            pIter = pIter->field_C0_pNext;
-            if (!pIter)
-            {
-                return;
-            }
+            pIter->field_A4_display_time = 0;
+            return;
         }
-        pIter->field_A4_display_time = 0;
+        pIter = pIter->field_C0_pNext;
     }
 }
 
