@@ -33,7 +33,7 @@ void keybrd_0x204::destroy_4D5FA0()
     }
 }
 
-STUB_FUNC(0x4D5D70)
+MATCH_FUNC(0x4D5D70)
 keybrd_0x204::keybrd_0x204()
 {
     field_200_keyBoardLayout = 0;
