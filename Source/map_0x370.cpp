@@ -23,9 +23,6 @@ GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
 EXPORT_VAR gmp_block_info gBlockInfo2_6F6028;
 GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
 
-EXPORT_VAR gmp_block_info* gBlockInfo3_6F5EB0;
-GLOBAL(gBlockInfo3_6F5EB0, 0x6F5EB0);
-
 EXPORT_VAR s16 word_6F6002;
 GLOBAL(word_6F6002, 0x6F6002);
 
@@ -792,14 +789,14 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
     for (s32 v5 = v4->field_0_height - v4->field_1_offset - 1; v5 >= 0; v5--)
     {
         //  Begin with the highest non-empty block in the column
-        gBlockInfo3_6F5EB0 = this->field_0_pDmap->get_block(v4->field_4_blockd[v5]); //  get the block
-        switch (gBlockInfo3_6F5EB0->field_B_slope_type & 3)
+        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(v4->field_4_blockd[v5]); //  get the block
+        switch (gBlockInfo0_6F5EB0->field_B_slope_type & 3)
         {
             case 0:
                 break;
             case 2:
                 *a4 = v5 + v4->field_1_offset;
-                return gBlockInfo3_6F5EB0;
+                return gBlockInfo0_6F5EB0;
             default:
                 return 0;
         }
