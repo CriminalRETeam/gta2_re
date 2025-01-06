@@ -219,10 +219,27 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
     return NULL;
 }
 
-STUB_FUNC(0x4DF6A0)
-gmp_map_zone* Map_0x370::sub_4DF6A0(u8 a2, u8 a3)
+MATCH_FUNC(0x4DF6A0)
+gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
 {
-    return 0;
+    gmp_map_zone* pZone;
+
+    if (this->field_328_pZoneData)
+    {
+        this->field_36A_zone_x = zone_x;
+        this->field_36B_zone_y = zone_y;
+        this->field_36C_bUnknown = 1;
+
+        for (field_364_cur_zone_idx = 0; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; field_364_cur_zone_idx++)
+        {
+            pZone = Map_0x370::get_zone_4DFB30(this->field_364_cur_zone_idx);
+            if (Overlaps(pZone, this->field_36A_zone_x, this->field_36B_zone_y))
+            {
+                return pZone;
+            }
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x4DF770)
