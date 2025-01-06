@@ -884,6 +884,7 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 EXPORT_VAR extern s32 gGTA2VersionMajor_708280;
 EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 
+// sub_457920 in 9.6f
 STUB_FUNC(0x4AD140)
 void laughing_blackwell_0x1EB54::sub_4AD140()
 {
