@@ -648,12 +648,12 @@ MATCH_FUNC(0x4E4C30)
 gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
 {
 
-    gmp_column_info* v4;
+    gmp_col_info* v4;
     s32 v5;
-    u32* j;
+    s32* j;
 
     //  get the column at ( x = a2 , y = a3 )
-    v4 = (gmp_column_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[a3][a2]];
+    v4 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[a3][a2]];
 
     //  Subtract the empty bottom blocks from the column
     //  and subtract "1"
@@ -665,7 +665,7 @@ gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
     if (v5 >= 0)
     {
 
-        j = &(((u32*)v4)[v5 + 1]); //  block number reference; add 1 to correct the index (or bypass the first dword)
+        j = &(v4->field_4_blockd[v5]); //  block number reference;
 
         //  Begin with the highest non-empty block in the column
 
