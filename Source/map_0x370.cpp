@@ -651,10 +651,13 @@ s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
     return 0;
 }
 
-STUB_FUNC(0x4E0110)
+MATCH_FUNC(0x4E0110)
 char_type Map_0x370::sub_4E0110()
 {
-    return 0;
+    char result;
+    result = field_36E;
+    field_36E = 0;
+    return result;
 }
 
 STUB_FUNC(0x4E0120)
