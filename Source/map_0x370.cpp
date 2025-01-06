@@ -44,6 +44,12 @@ GLOBAL(dword_6F6248, 0x6F6248);
 EXPORT_VAR s32 dword_6F5FAC;
 GLOBAL(dword_6F5FAC, 0x6F5FAC);
 
+EXPORT_VAR s32 dword_6F610C;
+GLOBAL(dword_6F610C, 0x6F610C);
+
+EXPORT_VAR s32 dword_6F6130;
+GLOBAL(dword_6F6130, 0x6F6130);
+
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
@@ -615,9 +621,33 @@ s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
     return result;
 }
 
-STUB_FUNC(0x4E00A0)
+MATCH_FUNC(0x4E00A0)
 s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
 {
+    gmp_block_info* pBlock;
+    s16 lid;
+    s32 result;
+
+    if (z >= dword_6F610C)
+    {
+        if (z < dword_6F6130)
+        {
+            pBlock = gMap_0x370_6F6268->get_block_4DFE10(x >> 14, y >> 14, z >> 14);
+            if (pBlock)
+            {
+                lid = pBlock->field_8_lid;
+                if (lid)
+                {
+                    result = gGtx_0x106C_703DD4->field_6C_spec[lid & 0x3FF];
+                    if (result == 3)
+                    {
+                        return 1;
+                    }
+                    return result;
+                }
+            }
+        }
+    }
     return 0;
 }
 
