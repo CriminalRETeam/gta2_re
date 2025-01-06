@@ -970,10 +970,61 @@ s32* Map_0x370::sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5)
     return result;
 }
 
-STUB_FUNC(0x4E4E50)
+MATCH_FUNC(0x4E4E50)
 s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
 {
-    return 0;
+    s32 v5;
+    gmp_block_info* block_4DFE10;
+    s8 v10;
+    u8 v11;
+    gmp_block_info* v12;
+    s8 field_B_slope_type;
+    u8 v14;
+    s32 v16;
+
+    for (v5 = a5; v5 < a5 + dword_6F6110.mValue; v5 = dword_6F6110.mValue + (v5 & 0xFFFFC000))
+    {
+        block_4DFE10 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, v5 >> 14);
+        gBlockInfo0_6F5EB0 = block_4DFE10;
+        if (!block_4DFE10 || (v10 = block_4DFE10->field_B_slope_type, (v10 & 3) == 0))
+        {
+            v12 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, (v5 - dword_6F6110.mValue) >> 14);
+            gBlockInfo0_6F5EB0 = v12;
+            if (v12)
+            {
+                field_B_slope_type = v12->field_B_slope_type;
+                if ((field_B_slope_type & 3) != 0)
+                {
+                    v14 = field_B_slope_type & 0xFC;
+                    if (v14 <= 0 || v14 >= 0xB4u)
+                    {
+                        *a2 = v5;
+                        return a2;
+                    }
+                }
+            }
+        }
+        else
+        {
+            v11 = v10 & 0xFC;
+            if (v11 > 0)
+            {
+                if (v11 < 0xB4u)
+                {
+                    v16 = v5 & 0xFFFFC000;
+                    Map_0x370::sub_4E5BF0(a3, a4, &v16);
+                    if (v16 >= v5)
+                    {
+                        *a2 = v16;
+                        return a2;
+                    }
+                }
+            }
+        }
+    }
+    v5 = a5;
+    *a2 = v5;
+    return a2;
 }
 
 STUB_FUNC(0x4E4F40)
