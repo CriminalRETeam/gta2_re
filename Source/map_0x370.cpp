@@ -242,10 +242,29 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
     return NULL;
 }
 
-STUB_FUNC(0x4DF770)
+MATCH_FUNC(0x4DF770)
 gmp_map_zone* Map_0x370::next_zone_4DF770()
 {
-    return 0;
+    u16 cur_zone_idx;
+    gmp_map_zone* pZoneIter;
+
+    if (this->field_328_pZoneData)
+    {
+        for (++this->field_364_cur_zone_idx; field_364_cur_zone_idx < *(u16*)this->field_32C_pZones; ++this->field_364_cur_zone_idx)
+        {
+            if (field_364_cur_zone_idx >= *(u16*)this->field_32C_pZones)
+            {
+                return 0;
+            }
+            pZoneIter = Map_0x370::get_zone_4DFB30(field_364_cur_zone_idx);
+            if (pZoneIter->field_0_zone_type == this->field_368_zone_type &&
+                (!this->field_36C_bUnknown || Overlaps(pZoneIter, field_36A_zone_x, field_36B_zone_y)))
+            {
+                return pZoneIter;
+            }
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x4DF840)
