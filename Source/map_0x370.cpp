@@ -578,10 +578,41 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     return 0;
 }
 
-STUB_FUNC(0x4E0000)
+MATCH_FUNC(0x4E0000)
 s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
 {
-    return 0;
+    gmp_block_info* block_4DFE10;
+    s16 field_6_bottom;
+    s32 result;
+    gmp_block_info* v8;
+    s16 field_4_top;
+
+    block_4DFE10 = Map_0x370::get_block_4DFE10(a2 >> 14, (a3 - dword_6F6110.mValue) >> 14, a4 >> 14);
+    if (block_4DFE10 && (field_6_bottom = block_4DFE10->field_6_bottom) != 0)
+    {
+        result = gGtx_0x106C_703DD4->field_6C_spec[field_6_bottom & 0x3FF];
+        if (result == 3)
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        v8 = Map_0x370::get_block_4DFE10(a2 >> 14, a3 >> 14, a4 >> 14);
+        if (v8 && (field_4_top = v8->field_4_top) != 0)
+        {
+            result = gGtx_0x106C_703DD4->field_6C_spec[field_4_top & 0x3FF];
+            if (result == 3)
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    return result;
 }
 
 STUB_FUNC(0x4E00A0)
