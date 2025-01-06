@@ -501,10 +501,51 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4DFEE0)
+MATCH_FUNC(0x4DFEE0)
 gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
 {
-    return 0;
+    s32 x_clamped;
+    s32 y_clamped;
+    gmp_compressed_map_32* field_0_pDmap;
+    gmp_col_info* pColInfo;
+    s32 offset;
+
+    if (x_coord < 0)
+    {
+        x_coord = 0;
+    }
+    else
+    {
+        if (x_coord > 255)
+        {
+            x_coord = 255;
+        }
+    }
+
+    if (y_coord < 0)
+    {
+        y_coord = 0;
+    }
+    else
+    {
+        if (y_coord > 255)
+        {
+            y_coord = 255;
+        }
+    }
+
+    field_0_pDmap = this->field_0_pDmap;
+    pColInfo = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y_coord][x_coord]];
+
+    if (z_coord < (u8)pColInfo->field_0_height)
+    {
+        offset = (u8)pColInfo->field_1_offset;
+        if (z_coord >= offset)
+        {
+            return &field_0_pDmap->field_4000C_block[pColInfo->field_4_blockd[z_coord - offset]];
+        }
+    }
+    return NULL;
 }
 
 Fix16 dword_6F6110; // = 0x4000; // todo
