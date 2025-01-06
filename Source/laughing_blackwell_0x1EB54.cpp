@@ -12,6 +12,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
+#include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
@@ -19,7 +20,6 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
-#include "input.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -355,7 +355,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
     wchar_t* v43; // eax
     char_type* v44; // eax
     const char_type* v45; // eax
-    u16 field_132_f136_idx; // cx
+    u16 local_field_132_f136_idx; // cx
     loving_borg_0xBCA* v47; // edi
     wchar_t* v48; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
@@ -750,9 +750,9 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
 LABEL_116:
     field_132_f136_idx = v3;
     field_136[v3].field_BC6_nifty_idx = field_136[v3].field_BC8;
-    field_132_f136_idx = field_132_f136_idx;
-    v47 = &field_136[field_132_f136_idx];
-    if (!v47->field_4[field_136[field_132_f136_idx].field_BC6_nifty_idx].field_1)
+    local_field_132_f136_idx = field_132_f136_idx;
+    v47 = &field_136[local_field_132_f136_idx];
+    if (!v47->field_4[field_136[local_field_132_f136_idx].field_BC6_nifty_idx].field_1)
     {
         v47->sub_4B6200();
         if (!v47->field_4[v47->field_BC6_nifty_idx].field_1)
@@ -889,7 +889,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
 {
     s32 v1; // edx
     s32 v2; // ebx
-    u16 field_132_f136_idx; // dx
+    u16 local_field_132_f136_idx; // dx
     s32 v5; // ecx
     s32 v6; // eax
     loving_borg_0xBCA* v7; // edi
@@ -985,11 +985,11 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
     s32 v97; // [esp+24h] [ebp-8h] BYREF
     s32 v98; // [esp+28h] [ebp-4h] BYREF
 
-    field_132_f136_idx = field_132_f136_idx;
+    local_field_132_f136_idx = field_132_f136_idx;
     v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
     v5 = field_132_f136_idx;
-    //v6 = 0x5E5 * field_132_f136_idx;
-    v7 = &field_136[field_132_f136_idx];
+    //v6 = 0x5E5 * local_field_132_f136_idx;
+    v7 = &field_136[local_field_132_f136_idx];
     if (!field_132_f136_idx)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
@@ -1791,7 +1791,7 @@ STUB_FUNC(0x4B7A10)
 void laughing_blackwell_0x1EB54::sub_4B7A10()
 {
     char_type v2; // cl
-    char_type* field_8_keys; // eax
+    char_type* local_field_8_keys; // eax
     s32 v4; // edx
     s32 v5; // eax
     s32 v6; // eax
@@ -1799,13 +1799,13 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
     timeGetTime();
     sub_4AFEB0();
     v2 = 0;
-    field_8_keys = field_8_keys;
+    local_field_8_keys = field_8_keys;
     v4 = 256;
     do
     {
-        if (*field_8_keys < 0)
+        if (*local_field_8_keys < 0)
             v2 = 1;
-        ++field_8_keys;
+        ++local_field_8_keys;
         --v4;
     } while (v4);
     if (v2)

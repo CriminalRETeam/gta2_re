@@ -205,18 +205,18 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 STUB_FUNC(0x5AA710)
 u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 {
-    font_base* field_1C_font_base = field_1C_font_base;
+    font_base* local_field_1C_font_base = field_1C_font_base;
     u16 result = field_1C_font_base->field_2_base[a2] + a3;
-    if (a2 == (u16)field_1C_font_base->field_0_font_count - 1)
+    if (a2 == (u16)local_field_1C_font_base->field_0_font_count - 1)
     {
         if (result >= (u32)field_2_font_base_total)
         {
-            return field_1C_font_base->field_2_base[a2];
+            return local_field_1C_font_base->field_2_base[a2];
         }
     }
-    else if (result >= (u32)field_1C_font_base->field_2_base[a2 + 1])
+    else if (result >= (u32)local_field_1C_font_base->field_2_base[a2 + 1])
     {
-        return field_1C_font_base->field_2_base[a2];
+        return local_field_1C_font_base->field_2_base[a2];
     }
     return result;
 }
@@ -253,8 +253,7 @@ STUB_FUNC(0x5AA800)
 s16 gtx_0x106C::sub_5AA800(u16* a2)
 {
     if (*a2 < 0x65u)
-        return this
-            ->field_20_sprite_index[field_14_sprite_base2->field_A_font + 32 + (u16)field_1C_font_base->field_2_base[(u16)*a2]]
+        return this->field_20_sprite_index[field_14_sprite_base2->field_A_font + 32 + (u16)field_1C_font_base->field_2_base[(u16)*a2]]
             .field_5_height;
     s32 v2 = -(*a2 < 0xC9u);
     v2 = v2 & 0xEF;
@@ -535,15 +534,15 @@ STUB_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
     u32 sprite_idx; // eax
-    sprite_index* field_20_sprite_index; // edx
+    sprite_index* local_field_20_sprite_index; // edx
     BYTE* field_0_pData; // edi
     sprite_index* pSpriteIdxIter; // edx
 
     for (sprite_idx = 0; sprite_idx < (u16)field_4_sprite_index_count;)
     {
-        field_20_sprite_index = field_20_sprite_index;
-        field_0_pData = field_20_sprite_index[sprite_idx].field_0_pData;
-        pSpriteIdxIter = &field_20_sprite_index[sprite_idx++];
+        local_field_20_sprite_index = field_20_sprite_index;
+        field_0_pData = local_field_20_sprite_index[sprite_idx].field_0_pData;
+        pSpriteIdxIter = &local_field_20_sprite_index[sprite_idx++];
         pSpriteIdxIter->field_0_pData = &field_34_sprite_graphics[(u32)field_0_pData]; // converting offsets to ptrs ??
     }
 }
@@ -682,8 +681,7 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
         FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
-    field_2_font_base_total =
-        ConvertToVirtualOffsets_5AB1A0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
+    field_2_font_base_total = ConvertToVirtualOffsets_5AB1A0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
 
     ConvertToVirtualOffsets_5AB1C0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
 
