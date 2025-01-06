@@ -859,10 +859,62 @@ gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
     return gBlockInfo0_6F5EB0;
 }
 
-STUB_FUNC(0x4E4CB0)
+MATCH_FUNC(0x4E4CB0)
 gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
 {
-    return 0;
+    gmp_col_info* v4;
+    s32 v5;
+    s32 v6;
+    s32 v7;
+    s32 v8;
+    u32* j;
+
+    v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
+
+    v6 = v4->field_1_offset;
+    v5 = *a4;
+
+    if (v5 < v6)
+    {
+        return 0;
+    }
+    v7 = v4->field_0_height;
+    v8 = (v5 >= v7 ? v7 - v6 - 1 : v5 - v6);
+
+    if (v8 >= 0)
+    {
+
+        j = &(((u32*)v4)[v8 + 1]); //  block number reference; add 1 to correct the index (or bypass the first dword)
+
+        //  Begin with the highest non-empty block in the column
+
+        while (1)
+        {
+            gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[*j]; //  get the block
+
+            if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
+            {
+                break;
+            }
+
+            v8--;
+            j -= 1;
+
+            if (v8 < 0)
+            {
+                //  despite having non-empty blocks, all blocks of this column are air blocks
+                return 0;
+            }
+        }
+    }
+    else
+    {
+        //  if field_0_height = field_1_offset, then there isn't non-empty blocks on the column v4
+        return 0;
+    }
+
+    *a4 = v8 + v4->field_1_offset;
+    return gBlockInfo0_6F5EB0;
 }
 
 STUB_FUNC(0x4E4D40)
