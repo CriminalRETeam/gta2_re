@@ -1,5 +1,6 @@
 #include "char.hpp"
 #include "Globals.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Char_C* gChar_C_6787BC;
 GLOBAL(gChar_C_6787BC, 0x6787BC);
@@ -73,10 +74,41 @@ Char_C::~Char_C()
 {
 }
 
-STUB_FUNC(0x470a50)
-cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 a6)
+MATCH_FUNC(0x470a50)
+cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 rotation)
 {
-    return 0;
+    Char_203AC* v6;
+    cool_nash_0x294* pPed;
+    void* field_168_game_object;
+
+    v6 = gChar_203AC_6787B8;
+    pPed = v6->field_0;
+    v6->field_0 = pPed->field_160_next_ped;
+
+    pPed->field_160_next_ped = v6->field_4;
+
+    v6->field_4 = pPed;
+
+    pPed->sub_45B440();
+
+    if (!pPed->sub_45C830(xpos, ypos, zpos))
+    {
+        return 0;
+    }
+    *((u16*)pPed->field_168_game_object + 32) = rotation; // TODO: unknown type
+    pPed->field_244_remap = remap;
+    field_168_game_object = pPed->field_168_game_object;
+    *((u8*)field_168_game_object + 5) = remap; // TODO: unknown type
+    if (remap != 0xFF)
+    {
+        (*((Car_3C**)field_168_game_object + 32))->sub_59EA00(remap); // TODO: unknown type
+    }
+    pPed->field_134 = rotation;
+    pPed->field_288_threat_search = 2;
+    pPed->field_28C_threat_reaction = 3;
+    pPed->field_216_health = 100;
+    pPed->field_26C = 0;
+    return pPed;
 }
 
 STUB_FUNC(0x470b00)
