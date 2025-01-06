@@ -32,20 +32,18 @@ struct gmp_header
     s16 field_4_version;
 };
 
-struct gmp_column_info
-{
-    u8 field_0_height;
-    u8 field_1_offset;
-    u16 field_2_pad;
-};
-
 struct gmp_compressed_map_32
 {
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;
-    u16** field_40008_pColumn;          //  TODO: fix type to gmp_column_info*
+    u16** field_40008_pColumn; //  TODO: fix type to gmp_col_info*
     gmp_block_info* field_4000C_block;
+
+    gmp_block_info* get_block(u32 block)
+    {
+        return &field_4000C_block[block];
+    }
 };
 
 struct Map_sub

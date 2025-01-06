@@ -339,9 +339,27 @@ void miss2_0x11C::SCRCMD_STOP_THREAD_506A60()
 {
 }
 
-STUB_FUNC(0x506af0)
+MATCH_FUNC(0x506af0)
 void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
 {
+    //  field_8 = 1  means the boolean opcode has returned true
+    //  field_8 = 0  means the boolean opcode has returned false
+
+    //                       field_0         field_2         field_4        field_6
+    // gBasePtr_6F8070[0] = (cmd_this)  (cmd_type = 62 00)  (cmd_next)  (return value)
+    // gBasePtr_6F8070[1] =  (AND/OR)   (endif/else index)  (unused)     (unused)
+
+    // gBasePtr_6F8070[1].field_0_cmd_this = 1 means it's a OR
+    // gBasePtr_6F8070[1].field_0_cmd_this = 0 means it's a AND or an ENDIF (i.e. the last IF_JUMP)
+
+    //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
+    if (((u8)gBasePtr_6F8070[1].field_0_cmd_this == 1 && this->field_8) || (!(u8)gBasePtr_6F8070[1].field_0_cmd_this && !this->field_8))
+    {
+        sub_503650(gBasePtr_6F8070[1].field_2_type); //  Jump to the last IF_JUMP or go to ELSE section
+        return;
+    }
+
+    Next_503620(gBasePtr_6F8070); // go to field_4_cmd_next
 }
 
 STUB_FUNC(0x506b30)
