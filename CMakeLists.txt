@@ -297,9 +297,9 @@ if (${MSVC_VERSION} GREATER 1200)
 
    if (NOT DEFINED ENV{CI})
        add_custom_command(TARGET decomp_main POST_BUILD
-           COMMAND "./compare_matches.bat"
+           COMMAND python build.py
            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-           COMMENT "Running compare_matches.bat")
+           COMMENT "Running build.py (VC6 build)")
    endif()
 endif()
 
