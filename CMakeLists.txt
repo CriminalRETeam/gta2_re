@@ -42,6 +42,8 @@ set(gta2_lib_src
   Source/BitSet32.hpp
   Source/fix16.hpp
   Source/fix16.cpp
+  Source/ang16.hpp
+  Source/ang16.cpp
   Source/error.hpp
   Source/error.cpp
   Source/memory.hpp
