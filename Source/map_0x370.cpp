@@ -660,10 +660,13 @@ char_type Map_0x370::sub_4E0110()
     return result;
 }
 
-STUB_FUNC(0x4E0120)
+MATCH_FUNC(0x4E0120)
 char_type Map_0x370::sub_4E0120()
 {
-    return 0;
+    char result;
+    result = this->field_36F;
+    this->field_36F = 0;
+    return result;
 }
 
 STUB_FUNC(0x4E0130)
