@@ -2403,48 +2403,8 @@ void laughing_blackwell_0x1EB54::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 }
 
 STUB_FUNC(0x4ADF50)
-void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
+void laughing_blackwell_0x1EB54::sub_4ADF50()
 {
-    // todo
-
-    /*
-    wchar_t *pLoading; // eax
-    u16 v4; // di
-    s16 v5; // esp^2
-    laughing_blackwell_0x1EB54 *v6; // eax
-    s32 v7; // ecx
-    s32 v8; // ecx
-    wchar_t *pLoading2; // eax
-    s16 v11; // esp^2
-    laughing_blackwell_0x1EB54 *v12; // ecx
-    char_type v13; // al
-    s32 v14; // eax
-    s32 v15; // ecx
-    wchar_t *v16; // eax
-    bool v17; // zf
-    s32 *v18; // eax
-    s32 v19; // ecx
-    wchar_t *v20; // eax
-    s32 v21; // edx
-    laughing_blackwell_0x1EB54 *v22; // ecx
-    s32 v23; // ecx
-    wchar_t *v24; // eax
-    laughing_blackwell_0x1EB54 *v25; // ecx
-    s32 *v26; // eax
-    s32 v27; // ecx
-    wchar_t *pNo; // eax
-    s32 v29; // esi
-    s32 field_110_state; // edx
-    s32 fp_v4; // [esp-18h] [ebp-18h] BYREF
-    s32 fp_300; // [esp-14h] [ebp-14h] BYREF
-    laughing_blackwell_0x1EB54 *fp_320; // [esp-10h] [ebp-10h] BYREF
-    s32 flags; // [esp-Ch] [ebp-Ch]
-    s32 v35; // [esp-8h] [ebp-8h] BYREF
-    s32 v36; // [esp-4h] [ebp-4h]
-    */
-
-    field_110_state = field_110_state;
-
     switch (field_110_state)
     {
         case 1:
@@ -2461,101 +2421,117 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
             break;
 
         case 2:
-            /*
-        v36 = v29;
-        v4 = laughing_blackwell_0x1EB54::sub_4B0190(this, gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
-        HIWORD(v6) = v5;
-        flags = 0x4000;
-        LOWORD(v6) = field_11C;
-        fp_320 = v6;
-        fp_300 = v7;
-        FP::FromInt_4369F0(&fp_300, 260);
-        fp_v4 = v8;
-        FP::sub_4AE970(&fp_v4, v4);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), fp_v4, fp_300, fp_320, flags);
-        */
+        {
+            const s32 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+
+            Fix16 scale;
+            scale.mValue = 0x4000;
+
+            Fix16 ypos;
+            ypos.FromInt_4369F0(260);
+
+            Fix16 xpos;
+            xpos.FromU16_4AE970(x);
+
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), xpos, ypos, field_11C, scale);
             break;
+        }
 
         case 4:
-            /*
-        v36 = v29;
-        if (field_EE0C == 1)
         {
-            v35 = (int)this;
-            HIWORD(v12) = v11;
-            v13 = gText_0x14_704DFC->field_10_lang_code - 106;
-            v35 = 0x4000;
-            LOWORD(v12) = field_126;
-            v14 = -(v13 != 0);
-            flags = (int)v12;
-            LOBYTE(v14) = v14 & 0xFC;
-            fp_320 = v12;
-            FP::sub_4AE970(&fp_320, v14 + 16);
-            fp_300 = v15;
-            FP::sub_4AE970(&fp_300, 0x113u);
-            v16 = text_0x14::Find_5B5F90(gText_0x14_704DFC, aClrchar);
-            sub_4B87A0(v16, fp_300, (int)fp_320, (void *)flags, v35);
-        }
-        v17 = field_EE0A == 190;
-        v18 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(field_110_state) = field_120;
-            flags = field_110_state;
-        }
-        else
-        {
-            LOWORD(v18) = field_11C;
-            flags = (int)v18;
-        }
-        fp_320 = this;
-        FP::FromInt_4369F0(&fp_320, 190);
-        fp_300 = v19;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v20 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "sure");
-        sub_4B87A0(v20, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = field_EE0A == 210;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v22) = field_120;
-            flags = (int)v22;
-        }
-        else
-        {
-            LOWORD(v21) = field_11C;
-            flags = v21;
-        }
-        fp_320 = v22;
-        FP::FromInt_4369F0(&fp_320, 210);
-        fp_300 = v23;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v24 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "yes");
-        sub_4B87A0(v24, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = field_EE0A == 230;
-        v26 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v26) = field_120;
-            flags = (int)v26;
-        }
-        else
-        {
-            LOWORD(v25) = field_11C;
-            flags = (int)v25;
-        }
-        fp_320 = v25;
-        FP::FromInt_4369F0(&fp_320, 230);
-        fp_300 = v27;
-        FP::FromInt_4369F0(&fp_300, 300);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), fp_300, (int)fp_320, (void *)flags, v35);
-        */
+            if (field_EE0C == 1)
+            {
+                const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
+
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                // TODO: Fix this part
+                u8 v13 = -(v12 != 0);
+                v13 = v13 & 0xFC;
+
+                Fix16 ypos;
+                ypos.FromU16_4AE970(v13 + 16);
+
+                Fix16 xpos;
+                xpos.FromU16_4AE970(275);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), xpos, ypos, field_126, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 190)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(190);
+                
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 210)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(210);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 230)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(230);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), xpos, ypos, fontType, scale);
+            }
             break;
+        }
 
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            break;
     }
 }
 
