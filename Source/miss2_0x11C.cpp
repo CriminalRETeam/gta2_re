@@ -324,9 +324,11 @@ void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5069f0)
+MATCH_FUNC(0x5069f0)
 void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
 {
+    field_118 = 0;
+    miss2_0x11C::sub_503670();
 }
 
 STUB_FUNC(0x506a00)
