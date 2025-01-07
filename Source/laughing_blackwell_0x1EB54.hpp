@@ -2572,7 +2572,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void sub_4AEC00();
 
-    EXPORT void sub_4AFEB0();
+    EXPORT void read_menu_input_4AFEB0();
 
     EXPORT void sub_4B6780();
 

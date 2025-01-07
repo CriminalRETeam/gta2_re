@@ -815,7 +815,7 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
             }
         }
 
-        sub_4AFEB0();
+        read_menu_input_4AFEB0();
 
         local_field_8_keys = field_8_keys;
         v7 = 256;
@@ -1648,7 +1648,7 @@ void sub_SetGamma()
 MATCH_FUNC(0x4AEC00)
 void laughing_blackwell_0x1EB54::sub_4AEC00()
 {
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     sub_4B6780();
 
     snd1_67D818.field_0_object_type = 0;
@@ -1699,10 +1699,51 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     }
 }
 
+// https://decomp.me/scratch/1I6AD
 STUB_FUNC(0x4AFEB0)
-void laughing_blackwell_0x1EB54::sub_4AFEB0()
+void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
-    // todo
+    if (this->field_10D && KeyBoard_GetKeyStates_4AFDD0())
+    {
+        this->field_C9D5 = this->field_8_keys[200] & 0x80;
+        this->field_C9CE = !(this->field_8_keys[200] >= 0) && !this->field_C9D5;
+        
+        this->field_C9D6 = this->field_8_keys[208] & 0x80;
+        this->field_C9CF = !(this->field_8_keys[208] >= 0) && !this->field_C9D6;
+        
+        this->field_C9D3 = this->field_8_keys[203] & 0x80;
+        this->field_C9CC = !(this->field_8_keys[203] >= 0) && !this->field_C9D3;
+        
+        this->field_C9D4 = this->field_8_keys[205] & 0x80;
+        this->field_C9CD = !(this->field_8_keys[205] >= 0) && !this->field_C9D4;
+        
+        this->field_C9D7 = this->field_8_keys[28] & 0x80;
+        this->field_C9D0 = !(this->field_8_keys[28] >= 0) && !this->field_C9D7;
+        
+        this->field_C9D8 = this->field_8_keys[1] & 0x80;
+        this->field_C9D1 = !(this->field_8_keys[1] >= 0) && !this->field_C9D8;
+
+        if (field_8_keys[211] || this->field_C9D9)
+        {
+            this->field_C9D9 = field_8_keys[211] & 0x80;
+            this->field_C9D2 = 0;
+        }
+        else
+        {
+            this->field_C9D9 = field_8_keys[211] & 0x80;
+            this->field_C9D2 = 1;
+        }
+    }
+    else
+    {
+        this->field_C9CE = 0;
+        this->field_C9CF = 0;
+        this->field_C9CC = 0;
+        this->field_C9CD = 0;
+        this->field_C9D0 = 0;
+        this->field_C9D1 = 0;
+        this->field_C9D2 = 0;
+    }
 }
 
 MATCH_FUNC(0x4B6780)
@@ -1789,7 +1830,7 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
     s32 v6; // eax
 
     timeGetTime();
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     v2 = 0;
     local_field_8_keys = field_8_keys;
     v4 = 256;
@@ -2475,7 +2516,7 @@ void laughing_blackwell_0x1EB54::sub_4ADF50()
 
                 Fix16 ypos;
                 ypos.FromInt_4369F0(190);
-                
+
                 Fix16 xpos;
                 xpos.FromInt_4369F0(300);
                 DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
