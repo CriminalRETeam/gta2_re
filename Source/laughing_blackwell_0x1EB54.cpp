@@ -1706,33 +1706,25 @@ void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
     {
         field_C9CE = (field_8_keys[DIK_UP] & 0x80) && !field_C9D5;
-        field_C9D5 = (field_8_keys[DIK_UP] & 0x80);
+        field_C9D5 = (field_8_keys[DIK_UP]);
 
         field_C9CF = (field_8_keys[DIK_DOWN] & 0x80) && !field_C9D6;
-        field_C9D6 = field_8_keys[DIK_DOWN] & 0x80;
+        field_C9D6 = field_8_keys[DIK_DOWN];
 
         field_C9CC = (field_8_keys[DIK_LEFT] & 0x80) && !field_C9D3;
-        field_C9D3 = field_8_keys[DIK_LEFT] & 0x80;
+        field_C9D3 = field_8_keys[DIK_LEFT];
 
         field_C9CD = (field_8_keys[DIK_RIGHT] & 0x80) && !field_C9D4;
-        field_C9D4 = field_8_keys[DIK_RIGHT] & 0x80;
+        field_C9D4 = field_8_keys[DIK_RIGHT];
 
         field_C9D0 = (field_8_keys[DIK_RETURN] & 0x80) && !field_C9D7;
-        field_C9D7 = field_8_keys[DIK_RETURN] & 0x80;
+        field_C9D7 = field_8_keys[DIK_RETURN];
 
         field_C9D1 = (field_8_keys[DIK_ESCAPE] & 0x80) && !field_C9D8;
-        field_C9D8 = field_8_keys[DIK_ESCAPE] & 0x80;
+        field_C9D8 = field_8_keys[DIK_ESCAPE];
 
-        if (field_8_keys[DIK_DELETE] & 0x80 || field_C9D9)
-        {
-            field_C9D9 = field_8_keys[DIK_DELETE] & 0x80;
-            field_C9D2 = 0;
-        }
-        else
-        {
-            field_C9D9 = field_8_keys[DIK_DELETE] & 0x80;
-            field_C9D2 = 1;
-        }
+        field_C9D2 = field_8_keys[DIK_DELETE] & 0x80 && !field_C9D9;
+        field_C9D9 = field_8_keys[DIK_DELETE];
     }
     else
     {
