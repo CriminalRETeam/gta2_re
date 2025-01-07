@@ -54,12 +54,18 @@ class Monster_808
     EXPORT Monster_2C* sub_454840(u8 idx);
     EXPORT s32 sub_454850();
     EXPORT void sub_4549C0();
-    EXPORT s32 sub_454A00(const char_type* pGciFilePath);
+    EXPORT void sub_454A00(const char_type* pGciFilePath);
     EXPORT s32 sub_454A50();
-    EXPORT s32 Monster_808::sub_454A80(Monster_808* a1);
+    EXPORT void sub_454A80();
     EXPORT void sub_454AA0();
     EXPORT Monster_808();
     EXPORT ~Monster_808();
+
+    static char* __stdcall parse_gci_file_430A30(void* input,
+                                                 size_t input_size,
+                                                 Monster_48* output,
+                                                 size_t output_size,
+                                                 u32* next_position);
 
     Monster_2C* field_0_ptr_array[256];
     Monster_2C* field_400_raw_data;
