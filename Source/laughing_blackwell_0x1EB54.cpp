@@ -3409,7 +3409,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[7].field_518[7].field_0 = 1;
     field_136[7].field_518[7].field_4_ypos = 300;
     wcsncpy(field_136[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
-    field_136[7].field_518[7].field_2_xpos = sub_4B0190(field_136[7].field_518[7].field_6_wstr_buf, field_136[7].field_518[7].field_6A, 320);
+    field_136[7].field_518[7].field_2_xpos =
+        sub_4B0190(field_136[7].field_518[7].field_6_wstr_buf, field_136[7].field_518[7].field_6A, 320);
     field_136[7].field_518[8].field_0 = 1;
     field_136[7].field_518[8].field_2_xpos = 100;
     field_136[7].field_518[8].field_4_ypos = 320;
@@ -3456,8 +3457,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     //    v46 = field_130;
     field_136[10].field_518[0].field_6A = field_130; // v46;
     field_136[10].field_518[0].field_2_xpos = sub_4B0190(field_136[10].field_518[0].field_6_wstr_buf,
-                                                    field_130, //v46,
-                                                    320);
+                                                         field_130, //v46,
+                                                         320);
     field_136[10].field_518[0].field_6C = 4;
     field_136[10].field_4[0].field_0 = 1;
     field_136[10].field_4[0].field_2 = 180;
@@ -3625,23 +3626,20 @@ s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
+// https://decomp.me/scratch/DJCmB
 STUB_FUNC(0x4B0190)
-s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, s16 a3, s32 a4)
+s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
-    // todo
-    /*
-    s32 v4; // eax
-    s32 v5; // ecx
-
-    if (a3 == -1)
-        v4 = sub_5D8990((s16 *)a2, field_11C);
+    u32 v4;
+    if (fontType != -1)
+    {
+        v4 = sub_5D8990(pText, fontType);
+    }
     else
-        v4 = sub_5D8990((s16 *)a2, a3);
-    HIWORD(v5) = HIWORD(v4);
-    LOWORD(v5) = (u16)v4 >> 1;
-    return a4 - v5;
-    */
-    return 0;
+    {
+        v4 = sub_5D8990(pText, field_11C);
+    }
+    return width - (v4 / 2);
 }
 
 STUB_FUNC(0x4B7060)
