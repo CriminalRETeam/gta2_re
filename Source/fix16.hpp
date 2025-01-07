@@ -97,6 +97,8 @@ class Fix16
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
+    EXPORT Fix16& FromU16_4AE970(u16 a2);
+   
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
