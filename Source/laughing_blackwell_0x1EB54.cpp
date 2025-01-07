@@ -1699,32 +1699,38 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     }
 }
 
-// https://decomp.me/scratch/1I6AD
-STUB_FUNC(0x4AFEB0)
+MATCH_FUNC(0x4AFEB0)
 void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
     {
-        field_C9CE = (field_8_keys[DIK_UP] & 0x80) && !field_C9D5;
-        field_C9D5 = (field_8_keys[DIK_UP]);
+        const u8 up = field_8_keys[DIK_UP] & 0x80;
+        field_C9CE = up && !field_C9D5;
+        field_C9D5 = up;
 
-        field_C9CF = (field_8_keys[DIK_DOWN] & 0x80) && !field_C9D6;
-        field_C9D6 = field_8_keys[DIK_DOWN];
+        const u8 down = field_8_keys[DIK_DOWN] & 0x80;
+        field_C9CF = down && !field_C9D6;
+        field_C9D6 = down;
 
-        field_C9CC = (field_8_keys[DIK_LEFT] & 0x80) && !field_C9D3;
-        field_C9D3 = field_8_keys[DIK_LEFT];
+        const u8 left = field_8_keys[DIK_LEFT] & 0x80;
+        field_C9CC = left && !field_C9D3;
+        field_C9D3 = left;
 
-        field_C9CD = (field_8_keys[DIK_RIGHT] & 0x80) && !field_C9D4;
-        field_C9D4 = field_8_keys[DIK_RIGHT];
+        const u8 right = field_8_keys[DIK_RIGHT] & 0x80;
+        field_C9CD = right && !field_C9D4;
+        field_C9D4 = right;
 
-        field_C9D0 = (field_8_keys[DIK_RETURN] & 0x80) && !field_C9D7;
-        field_C9D7 = field_8_keys[DIK_RETURN];
+        const u8 returnKey = field_8_keys[DIK_RETURN] & 0x80;
+        field_C9D0 = returnKey && !field_C9D7;
+        field_C9D7 = returnKey;
 
-        field_C9D1 = (field_8_keys[DIK_ESCAPE] & 0x80) && !field_C9D8;
-        field_C9D8 = field_8_keys[DIK_ESCAPE];
+        const u8 escape = field_8_keys[DIK_ESCAPE] & 0x80;
+        field_C9D1 = escape && !field_C9D8;
+        field_C9D8 = escape;
 
-        field_C9D2 = field_8_keys[DIK_DELETE] & 0x80 && !field_C9D9;
-        field_C9D9 = field_8_keys[DIK_DELETE];
+        const u8 deleteKey = field_8_keys[DIK_DELETE] & 0x80;
+        field_C9D2 = deleteKey && !field_C9D9;
+        field_C9D9 = deleteKey;
     }
     else
     {
