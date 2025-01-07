@@ -331,9 +331,20 @@ void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
     miss2_0x11C::sub_503670();
 }
 
-STUB_FUNC(0x506a00)
+MATCH_FUNC(0x506a00)
 void miss2_0x11C::SCRCMD_CREATE_THREAD_506A00()
 {
+    SCR_CMD_HEADER* v1; // edi
+    SCR_CMD_HEADER* BasePointer_512770; // ebx
+    miss2_0x11C* v4; // eax
+
+    v1 = gBasePtr_6F8070;
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);
+    v4 = miss2_0x11C::sub_511960(v1[1].field_0_cmd_this);
+    *(u32*)&BasePointer_512770[1].field_0_cmd_this = reinterpret_cast<unsigned int>(v4);
+    BasePointer_512770[1].field_4_cmd_next = v4->field_11A;
+    v4->sub_511930(field_6, v1[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x506a60)
