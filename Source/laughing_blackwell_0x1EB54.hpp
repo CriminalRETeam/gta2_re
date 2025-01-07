@@ -71,8 +71,8 @@ struct competent_noyce_0x6E
 
     char_type field_0;
     char_type field_1;
-    s16 field_2;
-    s16 field_4;
+    s16 field_2_xpos;
+    s16 field_4_ypos;
     wchar_t field_6_wstr_buf[50];
     u16 field_6A;
     u16 field_6C;
@@ -182,7 +182,7 @@ struct laughing_blackwell_0x1EB54
     s16 field_11E;
     s16 field_120;
     s16 field_122;
-    s16 field_124;
+    s16 field_124_font_type;
     s16 field_126;
     s16 field_128;
     s16 field_12A;
@@ -2605,6 +2605,8 @@ struct laughing_blackwell_0x1EB54
     EXPORT void sub_4B8560();
 
     EXPORT void sub_4B8020();
+
+    EXPORT static int __stdcall sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind);
 
     EXPORT char_type sub_4B7FB0();
 

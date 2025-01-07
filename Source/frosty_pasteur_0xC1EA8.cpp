@@ -28,9 +28,20 @@ str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
     return 0;
 }
 
-STUB_FUNC(0x5030b0)
+MATCH_FUNC(0x5030b0)
 str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strToFind)
 {
+    u16 idx = 0;
+    str_table_entry* pEntry = field_13350_pStringTbl->field_4[idx];
+    while (pEntry)
+    {
+        if (_strnicmp(strToFind, (const char*)&pEntry[1], pEntry->field_8_length) == 0) // string data is after the end of the structure
+        {
+            return pEntry;
+        }
+        idx++;
+        pEntry = field_13350_pStringTbl->field_4[idx];
+    }
     return 0;
 }
 
