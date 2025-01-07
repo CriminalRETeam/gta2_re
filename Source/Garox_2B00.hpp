@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 #include <wchar.h>
 
 class cool_nash_0x294;

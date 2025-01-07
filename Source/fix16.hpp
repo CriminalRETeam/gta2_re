@@ -2,18 +2,6 @@
 
 #include "Function.hpp"
 
-// TODO: Move
-class Ang16
-{
-  public:
-    // inline 0x40E590
-    Ang16() : field_0(0)
-    {
-    }
-
-    s16 field_0;
-};
-
 class Fix16
 {
   public:
