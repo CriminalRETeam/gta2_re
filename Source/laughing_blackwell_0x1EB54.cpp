@@ -1703,46 +1703,46 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
 STUB_FUNC(0x4AFEB0)
 void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
-    if (this->field_10D && KeyBoard_GetKeyStates_4AFDD0())
+    if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
     {
-        this->field_C9D5 = this->field_8_keys[200] & 0x80;
-        this->field_C9CE = !(this->field_8_keys[200] >= 0) && !this->field_C9D5;
-        
-        this->field_C9D6 = this->field_8_keys[208] & 0x80;
-        this->field_C9CF = !(this->field_8_keys[208] >= 0) && !this->field_C9D6;
-        
-        this->field_C9D3 = this->field_8_keys[203] & 0x80;
-        this->field_C9CC = !(this->field_8_keys[203] >= 0) && !this->field_C9D3;
-        
-        this->field_C9D4 = this->field_8_keys[205] & 0x80;
-        this->field_C9CD = !(this->field_8_keys[205] >= 0) && !this->field_C9D4;
-        
-        this->field_C9D7 = this->field_8_keys[28] & 0x80;
-        this->field_C9D0 = !(this->field_8_keys[28] >= 0) && !this->field_C9D7;
-        
-        this->field_C9D8 = this->field_8_keys[1] & 0x80;
-        this->field_C9D1 = !(this->field_8_keys[1] >= 0) && !this->field_C9D8;
+        field_C9CE = (field_8_keys[DIK_UP] & 0x80) && !field_C9D5;
+        field_C9D5 = (field_8_keys[DIK_UP] & 0x80);
 
-        if (field_8_keys[211] || this->field_C9D9)
+        field_C9CF = (field_8_keys[DIK_DOWN] & 0x80) && !field_C9D6;
+        field_C9D6 = field_8_keys[DIK_DOWN] & 0x80;
+
+        field_C9CC = (field_8_keys[DIK_LEFT] & 0x80) && !field_C9D3;
+        field_C9D3 = field_8_keys[DIK_LEFT] & 0x80;
+
+        field_C9CD = (field_8_keys[DIK_RIGHT] & 0x80) && !field_C9D4;
+        field_C9D4 = field_8_keys[DIK_RIGHT] & 0x80;
+
+        field_C9D0 = (field_8_keys[DIK_RETURN] & 0x80) && !field_C9D7;
+        field_C9D7 = field_8_keys[DIK_RETURN] & 0x80;
+
+        field_C9D1 = (field_8_keys[DIK_ESCAPE] & 0x80) && !field_C9D8;
+        field_C9D8 = field_8_keys[DIK_ESCAPE] & 0x80;
+
+        if (field_8_keys[DIK_DELETE] & 0x80 || field_C9D9)
         {
-            this->field_C9D9 = field_8_keys[211] & 0x80;
-            this->field_C9D2 = 0;
+            field_C9D9 = field_8_keys[DIK_DELETE] & 0x80;
+            field_C9D2 = 0;
         }
         else
         {
-            this->field_C9D9 = field_8_keys[211] & 0x80;
-            this->field_C9D2 = 1;
+            field_C9D9 = field_8_keys[DIK_DELETE] & 0x80;
+            field_C9D2 = 1;
         }
     }
     else
     {
-        this->field_C9CE = 0;
-        this->field_C9CF = 0;
-        this->field_C9CC = 0;
-        this->field_C9CD = 0;
-        this->field_C9D0 = 0;
-        this->field_C9D1 = 0;
-        this->field_C9D2 = 0;
+        field_C9CE = 0;
+        field_C9CF = 0;
+        field_C9CC = 0;
+        field_C9CD = 0;
+        field_C9D0 = 0;
+        field_C9D1 = 0;
+        field_C9D2 = 0;
     }
 }
 
