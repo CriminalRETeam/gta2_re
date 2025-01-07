@@ -443,9 +443,16 @@ void miss2_0x11C::SCRCMD_INCREMENT_507A70()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x507b50)
+MATCH_FUNC(0x507b50)
 void miss2_0x11C::SCRCMD_DECREMENT_507B50()
 {
+    SCR_CMD_HEADER* BasePointer_512770;
+
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    //  get the address of COUNTER from its index and decrease the value it points at
+    --*(u32*)&BasePointer_512770[1].field_0_cmd_this;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x507ce0)
