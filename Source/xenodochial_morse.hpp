@@ -11,7 +11,7 @@ class xenodochial_morse
     EXPORT xenodochial_morse(); // 483E70
     EXPORT ~xenodochial_morse(); // 483EA0
 
-    EXPORT s16 sub_483EC0(s32 a2, s32 a3, s32* a4, char_type a5);
+    EXPORT wchar_t sub_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace);
     EXPORT void sub_483F20();
 
     s16 field_0;

@@ -12,7 +12,7 @@ xenodochial_morse::~xenodochial_morse() // 483EA0
 }
 
 STUB_FUNC(0x483EC0)
-s16 xenodochial_morse::sub_483EC0(s32 a2, s32 a3, s32* a4, char_type a5)
+wchar_t xenodochial_morse::sub_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace)
 {
     return 0;
 }
