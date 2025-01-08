@@ -334,9 +334,9 @@ void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
 MATCH_FUNC(0x506a00)
 void miss2_0x11C::SCRCMD_CREATE_THREAD_506A00()
 {
-    SCR_CMD_HEADER* v1; // edi
-    SCR_CMD_HEADER* BasePointer_512770; // ebx
-    miss2_0x11C* v4; // eax
+    SCR_CMD_HEADER* v1;
+    SCR_CMD_HEADER* BasePointer_512770;
+    miss2_0x11C* v4;
 
     v1 = gBasePtr_6F8070;
     BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);

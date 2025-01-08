@@ -1132,9 +1132,23 @@ s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
     return 0;
 }
 
-STUB_FUNC(0x4E62D0)
+MATCH_FUNC(0x4E62D0)
 gmp_block_info* Map_0x370::sub_4E62D0(s32 a2, s32 a3, u32* a4)
 {
+    gmp_col_info* v4;
+    s32 v5;
+
+    v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
+
+    for (v5 = v4->field_0_height - v4->field_1_offset - 1; v5 >= 0; v5--)
+    {
+        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(v4->field_4_blockd[v5]);
+        if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) == 3 && (gBlockInfo0_6F5EB0->field_A_arrows & 0xF) != 0)
+        {
+            *a4 = v5 + v4->field_1_offset;
+            return gBlockInfo0_6F5EB0;
+        }
+    }
     return 0;
 }
 
