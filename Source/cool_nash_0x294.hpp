@@ -40,7 +40,7 @@ class cool_nash_0x294
     EXPORT void sub_45BEC0();
     EXPORT void sub_45BFB0(cool_nash_0x294* a1, s32 a2);
     EXPORT void sub_45BFD0();
-    EXPORT u32 sub_45BFE0();
+    EXPORT void sub_45BFE0();
     EXPORT void sub_45C010();
     EXPORT void sub_45C040();
     EXPORT void sub_45C050();
