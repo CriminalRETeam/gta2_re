@@ -1699,42 +1699,48 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     }
 }
 
-// https://decomp.me/scratch/1I6AD
-STUB_FUNC(0x4AFEB0)
+MATCH_FUNC(0x4AFEB0)
 void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
     {
-        field_C9CE = (field_8_keys[DIK_UP] & 0x80) && !field_C9D5;
-        field_C9D5 = (field_8_keys[DIK_UP]);
+        const u8 up = field_8_keys[DIK_UP] & 0x80;
+        field_C9CE_up_pressed = up && !field_C9D5_up_key_down;
+        field_C9D5_up_key_down = up;
 
-        field_C9CF = (field_8_keys[DIK_DOWN] & 0x80) && !field_C9D6;
-        field_C9D6 = field_8_keys[DIK_DOWN];
+        const u8 down = field_8_keys[DIK_DOWN] & 0x80;
+        field_C9CF_down_pressed = down && !field_C9D6_down_key_down;
+        field_C9D6_down_key_down = down;
 
-        field_C9CC = (field_8_keys[DIK_LEFT] & 0x80) && !field_C9D3;
-        field_C9D3 = field_8_keys[DIK_LEFT];
+        const u8 left = field_8_keys[DIK_LEFT] & 0x80;
+        field_C9CC_left_pressed = left && !field_C9D3_left_key_down;
+        field_C9D3_left_key_down = left;
 
-        field_C9CD = (field_8_keys[DIK_RIGHT] & 0x80) && !field_C9D4;
-        field_C9D4 = field_8_keys[DIK_RIGHT];
+        const u8 right = field_8_keys[DIK_RIGHT] & 0x80;
+        field_C9CD_right_pressed = right && !field_C9D4_right_key_down;
+        field_C9D4_right_key_down = right;
 
-        field_C9D0 = (field_8_keys[DIK_RETURN] & 0x80) && !field_C9D7;
-        field_C9D7 = field_8_keys[DIK_RETURN];
+        const u8 returnKey = field_8_keys[DIK_RETURN] & 0x80;
+        field_C9D0_return_pressed = returnKey && !field_C9D7_return_key_down;
+        field_C9D7_return_key_down = returnKey;
 
-        field_C9D1 = (field_8_keys[DIK_ESCAPE] & 0x80) && !field_C9D8;
-        field_C9D8 = field_8_keys[DIK_ESCAPE];
+        const u8 escape = field_8_keys[DIK_ESCAPE] & 0x80;
+        field_C9D1_escape_pressed = escape && !field_C9D8_escape_key_down;
+        field_C9D8_escape_key_down = escape;
 
-        field_C9D2 = field_8_keys[DIK_DELETE] & 0x80 && !field_C9D9;
-        field_C9D9 = field_8_keys[DIK_DELETE];
+        const u8 deleteKey = field_8_keys[DIK_DELETE] & 0x80;
+        field_C9D2_delete_pressed = deleteKey && !field_C9D9_delete_key_down;
+        field_C9D9_delete_key_down = deleteKey;
     }
     else
     {
-        field_C9CE = 0;
-        field_C9CF = 0;
-        field_C9CC = 0;
-        field_C9CD = 0;
-        field_C9D0 = 0;
-        field_C9D1 = 0;
-        field_C9D2 = 0;
+        field_C9CE_up_pressed = 0;
+        field_C9CF_down_pressed = 0;
+        field_C9CC_left_pressed = 0;
+        field_C9CD_right_pressed = 0;
+        field_C9D0_return_pressed = 0;
+        field_C9D1_escape_pressed = 0;
+        field_C9D2_delete_pressed = 0;
     }
 }
 
@@ -1893,7 +1899,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     pBorg = &field_136[field_132_f136_idx];
     v18 = pBorg;
     v3 = sub_4B43E0();
-    if (field_C9D0)
+    if (field_C9D0_return_pressed)
     {
         if (pBorg->field_4[pBorg->field_BC6_nifty_idx].field_0 == 1)
         {
@@ -2012,7 +2018,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
         }
     }
 
-    if (field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
         switch (field_132_f136_idx)
         {
@@ -2039,17 +2045,17 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (field_C9CE && pBorg->sub_4B61B0())
+    if (field_C9CE_up_pressed && pBorg->sub_4B61B0())
     {
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (field_C9CF && pBorg->sub_4B6200())
+    if (field_C9CF_down_pressed && pBorg->sub_4B6200())
     {
         snd1_67D818.field_0_object_type = 2;
     }
 
-    if (field_C9CC)
+    if (field_C9CC_left_pressed)
     {
         field_BC6_nifty_idx = pBorg->field_BC6_nifty_idx;
         v11 = &pBorg->field_4[field_BC6_nifty_idx];
@@ -2098,7 +2104,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
     else
     {
-        if (!field_C9CD)
+        if (!field_C9CD_right_pressed)
         {
             goto LABEL_60;
         }
@@ -2152,7 +2158,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
 
 LABEL_60:
-    if (field_C9D2 && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
     {
         field_110_state = 4;
         field_EE0A = 190;
@@ -2187,7 +2193,7 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
     s16 v2; // ax
     s32 v3; // eax
 
-    if (field_C9D0)
+    if (field_C9D0_return_pressed)
     {
         v2 = field_EE0A;
         if (v2 == 210)
@@ -2210,13 +2216,13 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         }
     }
 
-    if (field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
         field_110_state = 1;
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (field_C9CE)
+    if (field_C9CE_up_pressed)
     {
         if (field_EE0A == 190 || field_EE0A == 210)
         {
@@ -2233,7 +2239,7 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (field_C9CF)
+    if (field_C9CF_down_pressed)
     {
         if (field_EE0A != 190)
         {
@@ -2844,13 +2850,13 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_110_state = 1;
     field_114 = 0;
     field_118 = 0;
-    field_C9D5 = 0;
-    field_C9D6 = 0;
-    field_C9D3 = 0;
-    field_C9D4 = 0;
-    field_C9D7 = 0;
-    field_C9D8 = 0;
-    field_C9D9 = 0;
+    field_C9D5_up_key_down = 0;
+    field_C9D6_down_key_down = 0;
+    field_C9D3_left_key_down = 0;
+    field_C9D4_right_key_down = 0;
+    field_C9D7_return_key_down = 0;
+    field_C9D8_escape_key_down = 0;
+    field_C9D9_delete_key_down = 0;
     field_10C_bKeyboardAcquired = 0;
     field_108 = 2;
     field_C9E1_bCheatsEnabled = 0;
