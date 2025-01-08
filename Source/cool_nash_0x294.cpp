@@ -1131,9 +1131,10 @@ s32 cool_nash_0x294::sub_46DF70(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46e020)
-bool cool_nash_0x294::sub_46E020(Mouze_44* a2)
+bool cool_nash_0x294::sub_46E020(Mouze_44* pGroup)
 {
-    return 0;
+    return this->field_164_ped_group != pGroup && !this->field_15C_player_weapons &&
+        (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
 }
 
 STUB_FUNC(0x46e080)
