@@ -814,10 +814,21 @@ s32 cool_nash_0x294::sub_469010()
     return 0;
 }
 
-STUB_FUNC(0x469030)
-char_type cool_nash_0x294::sub_469030()
+MATCH_FUNC(0x469030)
+void cool_nash_0x294::sub_469030()
 {
-    return 0;
+    if (field_264 > 0)
+    {
+        if (field_27C != 26)
+        {
+            field_264--;
+            if (field_264 == 0)
+            {
+                field_204 = 0;
+                field_290 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x469060)

@@ -139,7 +139,7 @@ class cool_nash_0x294
     EXPORT char_type sub_468DE0();
     EXPORT char_type sub_468E80();
     EXPORT s32 sub_469010();
-    EXPORT char_type sub_469030();
+    EXPORT void sub_469030();
     EXPORT void sub_469060();
     EXPORT void sub_469BD0();
     EXPORT char_type sub_469BF0();
@@ -382,7 +382,7 @@ class cool_nash_0x294
     char_type field_261;
     char_type field_262;
     char_type field_263;
-    char_type field_264;
+    u8 field_264;
     char_type field_265;
     char_type field_266;
     u8 field_267;
