@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
+#include "PurpleDoom.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -681,10 +682,19 @@ char_type cool_nash_0x294::sub_467090()
     return 0;
 }
 
-STUB_FUNC(0x467280)
+MATCH_FUNC(0x467280)
 s32 cool_nash_0x294::sub_467280()
 {
-    return 0;
+    this->field_168_game_object->field_8_ped_state_1 = 0;
+    this->field_168_game_object->field_C_ped_state_2 = 0;
+    this->field_168_game_object->field_10 = 1;
+
+    Char_B4* pB4 = this->field_168_game_object;
+    pB4->field_6c = 0;
+    pB4->field_68 = 0;
+
+    this->field_216_health = 50;
+    return gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
 STUB_FUNC(0x4672e0)
