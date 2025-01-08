@@ -74,9 +74,9 @@ class Car_3C
     // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
     union
     {
-        Car_BC *car_bc_ptr;         // field_30_sprite_type_enum == sprite_types_enum::car
-        Char_B4 *char_b4_ptr;       // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object_2C *object_2C_ptr;   // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+        Car_BC* car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
+        Char_B4* char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
+        Object_2C* object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
     };
     // Only one field is enable at the same time.
     // As far as I understand, the next_ptr is only enabled while the instance is being handled by Sprite_49B28.
@@ -100,7 +100,7 @@ class Car_3C
     char_type field_2D_pad;
     char_type field_2E_pad;
     char_type field_2F_pad;
-    s32 field_30_sprite_type_enum;  // Uses the enum defined in the namespace sprite_types_enum
+    s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34;
     char_type field_38;
     u8 field_39;
@@ -211,12 +211,6 @@ class Car_6C
 };
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
-
-class Car_B0
-{
-  public:
-    EXPORT s32 sub_563560(Car_3C* a2);
-};
 
 class Car_BC
 {
