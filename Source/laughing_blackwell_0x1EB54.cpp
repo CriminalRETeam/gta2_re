@@ -49,20 +49,35 @@ EXPORT_VAR extern wchar_t word_67DC8C[50];
 EXPORT_VAR DWORD dword_67D9FC;
 GLOBAL(dword_67D9FC, 0x67D9FC);
 
-// todo: likely an array
-#if defined(EXPORT_VARS)
-EXPORT_VAR short font_type_703C14; // = 7; // TODO: VAR HACK NOT CONST! Standalone hack ?? move hack to ctor ??
+EXPORT_VAR short font_type_703C14; 
 GLOBAL(font_type_703C14, 0x703C14);
-#else
-short font_type_703C14 = 7;
-#endif
 
-#if defined(EXPORT_VARS)
-EXPORT_VAR s16 word_703C3C; // = 8; // TODO: Ditto
+EXPORT_VAR s16 word_703C3C;
 GLOBAL(word_703C3C, 0x703C3C);
-#else
-s16 word_703C3C = 8;
-#endif
+
+EXPORT_VAR s16 word_703D0C;
+GLOBAL(word_703D0C, 0x703D0C);
+
+EXPORT_VAR s16 word_703C16;
+GLOBAL(word_703C16, 0x703C16);
+
+EXPORT_VAR s16 word_703C8C;
+GLOBAL(word_703C8C, 0x703C8C);
+
+EXPORT_VAR s16 word_703C8A;
+GLOBAL(word_703C8A, 0x703C8A);
+
+EXPORT_VAR s16 word_703BE2;
+GLOBAL(word_703BE2, 0x703BE2);
+
+EXPORT_VAR s16 word_703B88;
+GLOBAL(word_703B88, 0x703B88);
+
+EXPORT_VAR s16 word_703DAC;
+GLOBAL(word_703DAC, 0x703DAC);
+
+EXPORT_VAR s16 word_703B9C;
+GLOBAL(word_703B9C, 0x703B9C);
 
 EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
 GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
@@ -3050,10 +3065,37 @@ void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
     AcquireKeyBoard_4AFD70();
 }
 
-STUB_FUNC(0x4AF0E0)
+MATCH_FUNC(0x4AF0E0)
 void laughing_blackwell_0x1EB54::sub_4AF0E0()
 {
-    // todo
+    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    {
+        this->field_11C = 101;
+        this->field_11E = 101;
+        this->field_120 = 102;
+        this->field_122 = 101;
+        this->field_124_font_type = 101;
+        this->field_126 = 101;
+        this->field_128 = 101;
+        this->field_12A = 101;
+        this->field_12C = 106;
+        this->field_12E = 102;
+        this->field_130 = 201;
+    }
+    else
+    {
+        this->field_11C = word_703D0C;
+        this->field_11E = word_703D0C;
+        this->field_120 = word_703C16;
+        this->field_122 = word_703C8C;
+        this->field_124_font_type = font_type_703C14;
+        this->field_126 = word_703C3C;
+        this->field_128 = word_703C8A;
+        this->field_12A = word_703BE2;
+        this->field_12C = word_703B88;
+        this->field_12E = word_703DAC;
+        this->field_130 = word_703B9C;
+    }
 }
 
 STUB_FUNC(0x4B0220)
