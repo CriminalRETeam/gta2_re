@@ -34,7 +34,7 @@ class angry_lewin_0x85C
     EXPORT void sub_564AD0(Car_BC* a2);
     EXPORT s32 sub_564B60();
     EXPORT s32 sub_564B80();
-    EXPORT u16 sub_564C00();
+    EXPORT void sub_564C00();
     EXPORT void sub_564C50(s32 a2);
     EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();

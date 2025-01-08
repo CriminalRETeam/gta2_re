@@ -1,8 +1,75 @@
 #pragma once
 
 #include "Function.hpp"
+#include "ang16.hpp"
 
 class Fix16;
+class Car_3C;
+
+class Particle_4C
+{
+  public:
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    Ang16 field_24;
+    s16 field_26;
+    s32 field_28;
+    s16 field_2C;
+    s16 field_2E;
+    Car_3C* field_30;
+    s32 field_34;
+    s32 field_38;
+    Particle_4C* field_3C;
+    s32 field_40;
+    char field_44;
+    char field_45;
+    char field_46;
+    char field_47;
+    char field_48;
+    char field_49;
+    char field_4A;
+    char field_4B;
+};
+
+class Particle_947C
+{
+  public:
+    // inline 0x48F1E0
+    Particle_947C()
+    {
+        Particle_4C* pIter = field_8;
+        for (s32 i = 0; i < GTA2_COUNTOF(field_8) - 1; i++)
+        {
+            pIter->field_3C = pIter + 1;
+            pIter++;
+        }
+
+        this->field_0 = field_8;
+        this->field_8[GTA2_COUNTOF(field_8) - 1].field_3C = 0;
+        this->field_4 = 0;
+        this->field_9478 = 0;
+    }
+
+    // inline 0x48A8E0
+    ~Particle_947C()
+    {
+        field_0 = 0;
+        field_4 = 0;
+    }
+
+    Particle_4C* field_0;
+    Particle_4C* field_4;
+    Particle_4C field_8[500];
+    s16 field_9478;
+    s16 field_947A;
+};
 
 class Particle_8
 {
