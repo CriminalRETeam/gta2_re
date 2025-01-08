@@ -49,7 +49,7 @@ EXPORT_VAR extern wchar_t word_67DC8C[50];
 EXPORT_VAR DWORD dword_67D9FC;
 GLOBAL(dword_67D9FC, 0x67D9FC);
 
-EXPORT_VAR short font_type_703C14; 
+EXPORT_VAR short font_type_703C14;
 GLOBAL(font_type_703C14, 0x703C14);
 
 EXPORT_VAR s16 word_703C3C;
@@ -911,115 +911,18 @@ EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 STUB_FUNC(0x4AD140)
 void laughing_blackwell_0x1EB54::sub_4AD140()
 {
-    s32 v1; // edx
-    s32 v2; // ebx
-    u16 local_field_132_f136_idx; // dx
-    s32 v5; // ecx
-    s32 v6; // eax
-    loving_borg_0xBCA* v7; // edi
-    s16 v8; // esp^2
-    s32 v9; // eax
-    s32 v10; // ecx
-    s32* v11; // ecx
-    s16 v12; // ax
-    void* v13; // edx
-    void* v14; // eax
-    s16 v15; // ax
-    void* v16; // ecx
-    s16 v17; // dx
-    s16 v18; // ax
-    u8 v19; // al
-    wchar_t* v20; // ecx
-    u16 v21; // ax
-    s32 v22; // ecx
-    u8 v23; // al
-    u8 v24; // bl
-    u8 v25; // bp
-    wchar_t* _5B5F90; // eax
-    u16 v27; // ax
-    bool v28; // zf
-    s32* v29; // ecx
-    s32 v30; // eax
-    s32 v31; // ebp
-    wchar_t* v32; // edx
-    s32* v33; // ecx
-    u16 v34; // ax
-    void* v35; // eax
-    char_type v36; // cl
-    s16 v37; // ax
-    void* v38; // ecx
-    void* v39; // edx
-    s16 v40; // ax
-    void* v41; // ecx
-    s32* v42; // ecx
-    s32* v43; // ecx
-    u16 v44; // ax
-    char_type v45; // dl
-    u32* v46; // eax
-    wchar_t* v47; // ecx
-    s32 v48; // ecx
-    s32 v49; // edx
-    wchar_t* v50; // ecx
-    s32 v51; // ecx
-    bool v52; // cf
-    s32 v53; // eax
-    u16 v54; // ax
-    s32 v55; // eax
-    s32 v56; // ebp
-    u16 v57; // bx
-    u16 v58; // dx
-    s32* v59; // eax
-    wchar_t* v60; // ecx
-    s16 v61; // ax
-    s32 v62; // edx
-    u16 v63; // ax
-    s32 v64; // ecx
-    s32* v65; // ecx
-    wchar_t* v66; // ecx
-    s32 v67; // ecx
-    s16 v68; // ax
-    u16 v69; // bp
-    u16 v70; // bx
-    s32* v71; // ecx
-    s32* v72; // ecx
-    wchar_t* v73; // eax
-    s32 v74; // eax
-    s16 v75; // esp^2
-    s32* v76; // ecx
-    s32* v77; // ecx
-    s16 v78; // ax
-    u16 v79; // bx
-    u16 v80; // di
-    s32* v81; // ecx
-    s32* v82; // ecx
-    wchar_t* v83; // [esp-24h] [ebp-50h] BYREF
-    s32 v84; // [esp-20h] [ebp-4Ch] BYREF
-    agitated_keldysh_0xF0* v85; // [esp-1Ch] [ebp-48h] BYREF
-    s32 v86; // [esp-18h] [ebp-44h]
-    s32 v87; // [esp-14h] [ebp-40h] BYREF
-    s32 fp_300; // [esp-10h] [ebp-3Ch] BYREF
-    s32* fp_460; // [esp-Ch] [ebp-38h] BYREF
-    s32 v90; // [esp-8h] [ebp-34h]
-    s32 v91; // [esp-4h] [ebp-30h]
-    wchar_t* field_6_wstr_buf; // [esp+10h] [ebp-1Ch] BYREF
-    s32 v93; // [esp+14h] [ebp-18h]
-    s32* v94; // [esp+18h] [ebp-14h]
-    s32 v95; // [esp+1Ch] [ebp-10h] BYREF
-    s32 v96; // [esp+20h] [ebp-Ch]
-    s32 v97; // [esp+24h] [ebp-8h] BYREF
-    s32 v98; // [esp+28h] [ebp-4h] BYREF
-
-    local_field_132_f136_idx = field_132_f136_idx;
-    v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
-    v5 = field_132_f136_idx;
+    const u16 local_field_132_f136_idx = field_132_f136_idx;
+    const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
+    const s32 v5 = field_132_f136_idx;
     //v6 = 0x5E5 * local_field_132_f136_idx;
-    v7 = &field_136[local_field_132_f136_idx];
+    loving_borg_0xBCA* v7 = &field_136[local_field_132_f136_idx];
 
     /*
 for (s32 i=0; i<3; i++)
 {
     wprintf(L"%S\n", field_136[i].field_4[0].field_6_wstr_buf);
 }*/
+    printf("field_132_f136_idx %d\n", field_132_f136_idx);
 
     if (field_132_f136_idx == 0)
     {
@@ -1043,10 +946,10 @@ for (s32 i=0; i<3; i++)
         {
             v7->field_518[8].field_1 = 0;
             v7->field_518[9].field_1 = 0;
-            v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
+            const s32 v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
             sub_4B7E10(11, v12 + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
 
-            v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
+            const s32 v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
             sub_4B7E10(10, v15 + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
         }
         else
@@ -1130,7 +1033,7 @@ for (s32 i=0; i<3; i++)
         }*/
     }
 
-    v21 = field_132_f136_idx;
+    const s32 v21 = field_132_f136_idx;
     if (v21 == 2 || v21 == 3 || v21 == 6 || v21 == 11)
     {
         /*
@@ -1169,33 +1072,48 @@ for (s32 i=0; i<3; i++)
         //laughing_blackwell_0x1EB54::sub_4B55F0(this);
     }
 
-    /*
-    v28 = v7->field_0 == 0;
-    v96 = -1;
-    v94 = 0;
-    if (v28)
-        goto LABEL_92;
+    //v28 = v7->field_0 == 0;
+    s32 v96 = -1;
+    s32 v94 = 0;
+
+    if (v7->field_0 == 0)
+    {
+        //goto LABEL_92;
+    }
+
+    s32 v52 = 0;
     do
     {
-        v29 = v94;
-        v30 = (u16)v94;
-        v31 = (int)&v7->field_4[(u16)v94];
-        if (!v7->field_4[(u16)v94].field_1)
+        s32 v29 = v94;
+        s32 v30 = v94;
+        nifty_maxwell_0x82* v31 = &v7->field_4[v94];
+        if (!v7->field_4[v94].field_1)
         {
+            /*
             v44 = field_132_f136_idx;
             v45 = 0;
             if ((v44 == 1 || v44 == 3) && (_WORD)v94 == 1)
+            {
                 v45 = 1;
+            }
+
             if (v44 != 11 && v44 != 2 || (_WORD)v94)
             {
                 if (!v45)
+                {
                     goto LABEL_87;
+                }
                 v29 = v94;
             }
             if (*(_BYTE *)v31 == 2)
-                sub_4B3AF0((int)this, v44, (u16)v29, &field_6_wstr_buf);
+            {
+                sub_4B3AF0(v44, v29, &field_6_wstr_buf);
+            }
             else
-                field_6_wstr_buf = v7->field_4[(u16)v94].field_6_wstr_buf;
+            {
+                field_6_wstr_buf = v7->field_4[v94].field_6_wstr_buf;
+            }
+
             LOWORD(v29) = *(_WORD *)(v31 + 4);
             v28 = *(_WORD *)(v31 + 106) == 0xFFFF;
             LOWORD(v2) = *(_WORD *)(v31 + 2);
@@ -1237,22 +1155,27 @@ for (s32 i=0; i<3; i++)
             FP::sub_4AE970(&v84, v2);
             v83 = field_6_wstr_buf;
             goto LABEL_86;
+            */
         }
-        if (*(_BYTE *)v31 == 2)
+        if (v31->field_0 == 2)
         {
-            v30 = (int)sub_4B3AF0((int)this, field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
+            //v30 = (int)sub_4B3AF0((int)this, field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
         }
         else
         {
-            v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
-            field_6_wstr_buf = v32;
+            //v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
+            //field_6_wstr_buf = v32;
         }
-        LOWORD(v29) = (_WORD)v94;
-        v28 = (_WORD)v94 == v7->field_BC6_nifty_idx;
-        LOWORD(v2) = *(_WORD *)(v31 + 2);
-        LOWORD(v93) = *(_WORD *)(v31 + 4);
+
+        //LOWORD(v29) = (_WORD)v94;
+        const s32 v28 = v94 == v7->field_BC6_nifty_idx;
+        //LOWORD(v2) = *(_WORD *)(v31 + 2);
+        //LOWORD(v93) = *(_WORD *)(v31 + 4);
+        
+
         if (!v28)
         {
+            /*
             if (*(_WORD *)(v31 + 106) != 0xFFFF)
             {
                 LOWORD(v30) = *(_WORD *)(v31 + 108);
@@ -1292,7 +1215,9 @@ for (s32 i=0; i<3; i++)
             v95 = 8;
             fp_460 = (s32 *)v31;
             goto LABEL_85;
+            */
         }
+        /*
         v91 = 0x4000;
         LOWORD(v32) = field_120;
         v90 = (int)v32;
@@ -1301,10 +1226,12 @@ for (s32 i=0; i<3; i++)
         fp_300 = (int)v33;
         FP::sub_4AE970(&fp_300, v2);
         DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
-        v34 = field_132_f136_idx;
-        HIWORD(v2) = 0;
+        */
+        s32 v34 = field_132_f136_idx;
+        //        HIWORD(v2) = 0;
         if (v34 == 1)
         {
+            /*
             v35 = v94;
             v28 = (_WORD)v94 == 3;
             v7->field_518[4].field_1 = 0;
@@ -1321,7 +1248,7 @@ for (s32 i=0; i<3; i++)
                 v7->field_518[4].field_1 = field_1EB4C != 0;
                 v7->field_518[5].field_1 = field_1EB4D != 0;
             }
-            else if ((_WORD)v35 == 4)
+            else if (v35 == 4)
             {
                 v7->field_518[6].field_6_wstr_buf[0] = 1;
                 v7->field_518[7].field_6_wstr_buf[0] = 2;
@@ -1330,7 +1257,7 @@ for (s32 i=0; i<3; i++)
                 v7->field_518[6].field_1 = v36 != 0;
                 v7->field_518[7].field_1 = field_1EB4F != 0;
             }
-            else if (!(_WORD)v35)
+            else if (v35 == 0)
             {
                 v7->field_518[8].field_6_wstr_buf[0] = 1;
                 v7->field_518[9].field_6_wstr_buf[0] = 2;
@@ -1357,19 +1284,18 @@ for (s32 i=0; i<3; i++)
                             field_1EB4A = (char)v35;
                         }
                     }
-                    LOWORD(v35) = field_124;
-                    v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, v35, 0xFFFF);
-                    LOWORD(v38) = field_124;
-                    sub_4B7E10(8, v37 + 300, 0x1B8u, v38, 0xFFFF);
-                    LOWORD(v39) = field_124;
-                    v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, v39, 0xFFFF);
-                    LOWORD(v41) = field_124;
-                    sub_4B7E10(9, v40 + 300, 0x1CCu, v41, 0xFFFF);
+
+                    v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124, 0xFFFF);
+                    sub_4B7E10(8, v37 + 300, 0x1B8u, field_124, 0xFFFF);
+
+                    v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124, 0xFFFF);
+                    sub_4B7E10(9, v40 + 300, 0x1CCu, field_124, 0xFFFF);
                 }
-            }
+            }*/
         }
         else if (v34 == 5)
         {
+            /*
             v28 = (_WORD)v94 == 0;
             v7->field_518[2].field_6_wstr_buf[0] = 3;
             v7->field_518[3].field_6_wstr_buf[0] = 4;
@@ -1378,13 +1304,17 @@ for (s32 i=0; i<3; i++)
                 v7->field_518[2].field_6_wstr_buf[0] = 1;
                 v7->field_518[3].field_6_wstr_buf[0] = 2;
             }
+            */
         }
-    LABEL_87:
-        v52 = (u16)((_WORD)v94 + 1) < v7->field_0;
-        v94 = (s32 *)((char_type *)v94 + 1);
+
+        //LABEL_87:
+        v52 = (u16)(v94 + 1) < v7->field_0;
+        v94++;
     } while (v52);
+
     if (v96 == 3)
     {
+        /*
         LOBYTE(v96) = lucid_hamilton::sub_4C5980(&gLucid_hamilton_67E8E0);
         LOBYTE(v95) = 0;
     LABEL_91:
@@ -1398,28 +1328,34 @@ for (s32 i=0; i<3; i++)
             v53,
             0xFFFF,
             2);
+        */
     }
     else if (v96 == 4)
     {
+        /*
         LOBYTE(v53) = lucid_hamilton::sub_4C5990(&gLucid_hamilton_67E8E0);
         LOBYTE(v96) = (unsigned __int8)v53 >> 4;
         LOBYTE(v95) = v53 & 0xF;
         goto LABEL_91;
+        */
     }
 
-LABEL_92:
-    v54 = 0;
-    v28 = v7->field_2 == 0;
-    v94 = 0;
 
-    if (!v28)
+//LABEL_92:
+    s32 v54 = 0;
+  //  v28 = v7->field_2 == 0;
+
+
+    v94 = 0;
+    if (v7->field_2 != 0)
     {
         do
         {
-            v55 = v54;
-            v56 = (int)&v7->field_518[v55];
+            s32 v55 = v54;
+            competent_noyce_0x6E* v56 = &v7->field_518[v55];
             if (v7->field_518[v55].field_1)
             {
+                /*
                 if (*(_BYTE *)v56 == 1)
                 {
                     LOWORD(v2) = v7->field_518[v55].field_6A;
@@ -1471,9 +1407,11 @@ LABEL_92:
                             DrawText_5D8A10(field_6_wstr_buf, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
                         }
                     }
-                }
-                else if (*(BYTE *)v56 == 3)
-                {
+                */
+            }
+            else if (v56->field_0 == 3)
+            {
+                /*
                     v57 = v7->field_518[v55].field_2;
                     v58 = v7->field_518[v55].field_4;
                     switch (v7->field_518[v55].field_6_wstr_buf[0])
@@ -1511,14 +1449,16 @@ LABEL_92:
                     v83 = v60;
                     FP::sub_4AE970(&v83, v57);
                     sub_5D7EC0(6, v95, (int)v83, v84, (int)v85, v86, (s32 *)v87, fp_300, (int)fp_460, v90, v91);
-                }
+                    */
             }
-            v54 = (_WORD)v94 + 1;
-            v52 = (u16)((_WORD)v94 + 1) < (u32)v7->field_2;
-            v94 = (s32 *)((char_type *)v94 + 1);
-        } while (v52);
+
+            //v54 = (_WORD)v94 + 1;
+            v52 = (u16)(v94 + 1) < (u32)v7->field_2;
+            v94++;
+        }
+
+        while (v52);
     }
-    */
 
     if (field_110_state == 3)
     {
