@@ -815,7 +815,7 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
             }
         }
 
-        sub_4AFEB0();
+        read_menu_input_4AFEB0();
 
         local_field_8_keys = field_8_keys;
         v7 = 256;
@@ -1648,7 +1648,7 @@ void sub_SetGamma()
 MATCH_FUNC(0x4AEC00)
 void laughing_blackwell_0x1EB54::sub_4AEC00()
 {
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     sub_4B6780();
 
     snd1_67D818.field_0_object_type = 0;
@@ -1699,10 +1699,49 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     }
 }
 
-STUB_FUNC(0x4AFEB0)
-void laughing_blackwell_0x1EB54::sub_4AFEB0()
+MATCH_FUNC(0x4AFEB0)
+void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
-    // todo
+    if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
+    {
+        const u8 up = field_8_keys[DIK_UP] & 0x80;
+        field_C9CE_up_pressed = up && !field_C9D5_up_key_down;
+        field_C9D5_up_key_down = up;
+
+        const u8 down = field_8_keys[DIK_DOWN] & 0x80;
+        field_C9CF_down_pressed = down && !field_C9D6_down_key_down;
+        field_C9D6_down_key_down = down;
+
+        const u8 left = field_8_keys[DIK_LEFT] & 0x80;
+        field_C9CC_left_pressed = left && !field_C9D3_left_key_down;
+        field_C9D3_left_key_down = left;
+
+        const u8 right = field_8_keys[DIK_RIGHT] & 0x80;
+        field_C9CD_right_pressed = right && !field_C9D4_right_key_down;
+        field_C9D4_right_key_down = right;
+
+        const u8 returnKey = field_8_keys[DIK_RETURN] & 0x80;
+        field_C9D0_return_pressed = returnKey && !field_C9D7_return_key_down;
+        field_C9D7_return_key_down = returnKey;
+
+        const u8 escape = field_8_keys[DIK_ESCAPE] & 0x80;
+        field_C9D1_escape_pressed = escape && !field_C9D8_escape_key_down;
+        field_C9D8_escape_key_down = escape;
+
+        const u8 deleteKey = field_8_keys[DIK_DELETE] & 0x80;
+        field_C9D2_delete_pressed = deleteKey && !field_C9D9_delete_key_down;
+        field_C9D9_delete_key_down = deleteKey;
+    }
+    else
+    {
+        field_C9CE_up_pressed = 0;
+        field_C9CF_down_pressed = 0;
+        field_C9CC_left_pressed = 0;
+        field_C9CD_right_pressed = 0;
+        field_C9D0_return_pressed = 0;
+        field_C9D1_escape_pressed = 0;
+        field_C9D2_delete_pressed = 0;
+    }
 }
 
 MATCH_FUNC(0x4B6780)
@@ -1789,7 +1828,7 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
     s32 v6; // eax
 
     timeGetTime();
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     v2 = 0;
     local_field_8_keys = field_8_keys;
     v4 = 256;
@@ -1860,7 +1899,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     pBorg = &field_136[field_132_f136_idx];
     v18 = pBorg;
     v3 = sub_4B43E0();
-    if (field_C9D0)
+    if (field_C9D0_return_pressed)
     {
         if (pBorg->field_4[pBorg->field_BC6_nifty_idx].field_0 == 1)
         {
@@ -1979,7 +2018,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
         }
     }
 
-    if (field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
         switch (field_132_f136_idx)
         {
@@ -2006,17 +2045,17 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (field_C9CE && pBorg->sub_4B61B0())
+    if (field_C9CE_up_pressed && pBorg->sub_4B61B0())
     {
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (field_C9CF && pBorg->sub_4B6200())
+    if (field_C9CF_down_pressed && pBorg->sub_4B6200())
     {
         snd1_67D818.field_0_object_type = 2;
     }
 
-    if (field_C9CC)
+    if (field_C9CC_left_pressed)
     {
         field_BC6_nifty_idx = pBorg->field_BC6_nifty_idx;
         v11 = &pBorg->field_4[field_BC6_nifty_idx];
@@ -2065,7 +2104,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
     else
     {
-        if (!field_C9CD)
+        if (!field_C9CD_right_pressed)
         {
             goto LABEL_60;
         }
@@ -2119,7 +2158,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
 
 LABEL_60:
-    if (field_C9D2 && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
     {
         field_110_state = 4;
         field_EE0A = 190;
@@ -2154,7 +2193,7 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
     s16 v2; // ax
     s32 v3; // eax
 
-    if (field_C9D0)
+    if (field_C9D0_return_pressed)
     {
         v2 = field_EE0A;
         if (v2 == 210)
@@ -2177,13 +2216,13 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         }
     }
 
-    if (field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
         field_110_state = 1;
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (field_C9CE)
+    if (field_C9CE_up_pressed)
     {
         if (field_EE0A == 190 || field_EE0A == 210)
         {
@@ -2200,7 +2239,7 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (field_C9CF)
+    if (field_C9CF_down_pressed)
     {
         if (field_EE0A != 190)
         {
@@ -2403,48 +2442,8 @@ void laughing_blackwell_0x1EB54::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 }
 
 STUB_FUNC(0x4ADF50)
-void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
+void laughing_blackwell_0x1EB54::sub_4ADF50()
 {
-    // todo
-
-    /*
-    wchar_t *pLoading; // eax
-    u16 v4; // di
-    s16 v5; // esp^2
-    laughing_blackwell_0x1EB54 *v6; // eax
-    s32 v7; // ecx
-    s32 v8; // ecx
-    wchar_t *pLoading2; // eax
-    s16 v11; // esp^2
-    laughing_blackwell_0x1EB54 *v12; // ecx
-    char_type v13; // al
-    s32 v14; // eax
-    s32 v15; // ecx
-    wchar_t *v16; // eax
-    bool v17; // zf
-    s32 *v18; // eax
-    s32 v19; // ecx
-    wchar_t *v20; // eax
-    s32 v21; // edx
-    laughing_blackwell_0x1EB54 *v22; // ecx
-    s32 v23; // ecx
-    wchar_t *v24; // eax
-    laughing_blackwell_0x1EB54 *v25; // ecx
-    s32 *v26; // eax
-    s32 v27; // ecx
-    wchar_t *pNo; // eax
-    s32 v29; // esi
-    s32 field_110_state; // edx
-    s32 fp_v4; // [esp-18h] [ebp-18h] BYREF
-    s32 fp_300; // [esp-14h] [ebp-14h] BYREF
-    laughing_blackwell_0x1EB54 *fp_320; // [esp-10h] [ebp-10h] BYREF
-    s32 flags; // [esp-Ch] [ebp-Ch]
-    s32 v35; // [esp-8h] [ebp-8h] BYREF
-    s32 v36; // [esp-4h] [ebp-4h]
-    */
-
-    field_110_state = field_110_state;
-
     switch (field_110_state)
     {
         case 1:
@@ -2461,101 +2460,117 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
             break;
 
         case 2:
-            /*
-        v36 = v29;
-        v4 = laughing_blackwell_0x1EB54::sub_4B0190(this, gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
-        HIWORD(v6) = v5;
-        flags = 0x4000;
-        LOWORD(v6) = field_11C;
-        fp_320 = v6;
-        fp_300 = v7;
-        FP::FromInt_4369F0(&fp_300, 260);
-        fp_v4 = v8;
-        FP::sub_4AE970(&fp_v4, v4);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), fp_v4, fp_300, fp_320, flags);
-        */
+        {
+            const s32 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+
+            Fix16 scale;
+            scale.mValue = 0x4000;
+
+            Fix16 ypos;
+            ypos.FromInt_4369F0(260);
+
+            Fix16 xpos;
+            xpos.FromU16_4AE970(x);
+
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), xpos, ypos, field_11C, scale);
             break;
+        }
 
         case 4:
-            /*
-        v36 = v29;
-        if (field_EE0C == 1)
         {
-            v35 = (int)this;
-            HIWORD(v12) = v11;
-            v13 = gText_0x14_704DFC->field_10_lang_code - 106;
-            v35 = 0x4000;
-            LOWORD(v12) = field_126;
-            v14 = -(v13 != 0);
-            flags = (int)v12;
-            LOBYTE(v14) = v14 & 0xFC;
-            fp_320 = v12;
-            FP::sub_4AE970(&fp_320, v14 + 16);
-            fp_300 = v15;
-            FP::sub_4AE970(&fp_300, 0x113u);
-            v16 = text_0x14::Find_5B5F90(gText_0x14_704DFC, aClrchar);
-            sub_4B87A0(v16, fp_300, (int)fp_320, (void *)flags, v35);
-        }
-        v17 = field_EE0A == 190;
-        v18 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(field_110_state) = field_120;
-            flags = field_110_state;
-        }
-        else
-        {
-            LOWORD(v18) = field_11C;
-            flags = (int)v18;
-        }
-        fp_320 = this;
-        FP::FromInt_4369F0(&fp_320, 190);
-        fp_300 = v19;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v20 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "sure");
-        sub_4B87A0(v20, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = field_EE0A == 210;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v22) = field_120;
-            flags = (int)v22;
-        }
-        else
-        {
-            LOWORD(v21) = field_11C;
-            flags = v21;
-        }
-        fp_320 = v22;
-        FP::FromInt_4369F0(&fp_320, 210);
-        fp_300 = v23;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v24 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "yes");
-        sub_4B87A0(v24, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = field_EE0A == 230;
-        v26 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v26) = field_120;
-            flags = (int)v26;
-        }
-        else
-        {
-            LOWORD(v25) = field_11C;
-            flags = (int)v25;
-        }
-        fp_320 = v25;
-        FP::FromInt_4369F0(&fp_320, 230);
-        fp_300 = v27;
-        FP::FromInt_4369F0(&fp_300, 300);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), fp_300, (int)fp_320, (void *)flags, v35);
-        */
+            if (field_EE0C == 1)
+            {
+                const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
+
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                // TODO: Fix this part
+                u8 v13 = -(v12 != 0);
+                v13 = v13 & 0xFC;
+
+                Fix16 ypos;
+                ypos.FromU16_4AE970(v13 + 16);
+
+                Fix16 xpos;
+                xpos.FromU16_4AE970(275);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), xpos, ypos, field_126, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 190)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(190);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 210)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(210);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 230)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(230);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), xpos, ypos, fontType, scale);
+            }
             break;
+        }
 
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            break;
     }
 }
 
@@ -2835,13 +2850,13 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_110_state = 1;
     field_114 = 0;
     field_118 = 0;
-    field_C9D5 = 0;
-    field_C9D6 = 0;
-    field_C9D3 = 0;
-    field_C9D4 = 0;
-    field_C9D7 = 0;
-    field_C9D8 = 0;
-    field_C9D9 = 0;
+    field_C9D5_up_key_down = 0;
+    field_C9D6_down_key_down = 0;
+    field_C9D3_left_key_down = 0;
+    field_C9D4_right_key_down = 0;
+    field_C9D7_return_key_down = 0;
+    field_C9D8_escape_key_down = 0;
+    field_C9D9_delete_key_down = 0;
     field_10C_bKeyboardAcquired = 0;
     field_108 = 2;
     field_C9E1_bCheatsEnabled = 0;
@@ -3409,7 +3424,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[7].field_518[7].field_0 = 1;
     field_136[7].field_518[7].field_4_ypos = 300;
     wcsncpy(field_136[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
-    field_136[7].field_518[7].field_2_xpos = sub_4B0190(field_136[7].field_518[7].field_6_wstr_buf, field_136[7].field_518[7].field_6A, 320);
+    field_136[7].field_518[7].field_2_xpos =
+        sub_4B0190(field_136[7].field_518[7].field_6_wstr_buf, field_136[7].field_518[7].field_6A, 320);
     field_136[7].field_518[8].field_0 = 1;
     field_136[7].field_518[8].field_2_xpos = 100;
     field_136[7].field_518[8].field_4_ypos = 320;
@@ -3456,8 +3472,8 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     //    v46 = field_130;
     field_136[10].field_518[0].field_6A = field_130; // v46;
     field_136[10].field_518[0].field_2_xpos = sub_4B0190(field_136[10].field_518[0].field_6_wstr_buf,
-                                                    field_130, //v46,
-                                                    320);
+                                                         field_130, //v46,
+                                                         320);
     field_136[10].field_518[0].field_6C = 4;
     field_136[10].field_4[0].field_0 = 1;
     field_136[10].field_4[0].field_2 = 180;
@@ -3625,23 +3641,20 @@ s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
+// https://decomp.me/scratch/DJCmB
 STUB_FUNC(0x4B0190)
-s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, s16 a3, s32 a4)
+s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
-    // todo
-    /*
-    s32 v4; // eax
-    s32 v5; // ecx
-
-    if (a3 == -1)
-        v4 = sub_5D8990((s16 *)a2, field_11C);
+    u32 v4;
+    if (fontType != -1)
+    {
+        v4 = sub_5D8990(pText, fontType);
+    }
     else
-        v4 = sub_5D8990((s16 *)a2, a3);
-    HIWORD(v5) = HIWORD(v4);
-    LOWORD(v5) = (u16)v4 >> 1;
-    return a4 - v5;
-    */
-    return 0;
+    {
+        v4 = sub_5D8990(pText, field_11C);
+    }
+    return width - (v4 / 2);
 }
 
 STUB_FUNC(0x4B7060)
