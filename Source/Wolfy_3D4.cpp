@@ -54,7 +54,7 @@ Wolfy_3D4::Wolfy_3D4()
     gParticleInstCount_6FD5F4 = 0;
 }
 
-STUB_FUNC(0x5439c0)
+MATCH_FUNC(0x5439c0)
 Wolfy_3D4::~Wolfy_3D4()
 {
 }
