@@ -83,12 +83,13 @@ Char_C::~Char_C()
 MATCH_FUNC(0x470a50)
 cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 rotation)
 {
+    Char_203AC* v6 = gChar_203AC_6787B8;
     cool_nash_0x294* pPed = gChar_203AC_6787B8->field_0;
-    gChar_203AC_6787B8->field_0 = pPed->field_160_next_ped;
+    v6->field_0 = pPed->field_160_next_ped;
 
-    pPed->field_160_next_ped = gChar_203AC_6787B8->field_4;
+    pPed->field_160_next_ped = v6->field_4;
 
-    gChar_203AC_6787B8->field_4 = pPed;
+    v6->field_4 = pPed;
 
     pPed->sub_45B440();
 
@@ -99,11 +100,12 @@ cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 
     pPed->field_168_game_object->field_40_rotation.field_0_value = rotation;
     pPed->field_244_remap = remap;
 
-    pPed->field_168_game_object->field_5_remap = remap;
+    Char_B4* pB4 = pPed->field_168_game_object;
+    pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
         // TODO: Is Car_3C and Sprite_3C the same thing ??
-        ((Car_3C*)(pPed->field_168_game_object->field_80_sprite_ptr))->sub_59EA00(remap);
+        ((Car_3C*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
     }
     pPed->field_134 = rotation;
     pPed->field_288_threat_search = 2;
