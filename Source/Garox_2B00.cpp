@@ -34,6 +34,11 @@ GLOBAL(word_706508, 0x706508);
 EXPORT_VAR char byte_67CE50[264]; // TODO
 GLOBAL(byte_67CE50, 0x67CE50);
 
+EXPORT_VAR s16 word_7064D8;
+GLOBAL(word_7064D8, 0x7064D8);
+
+
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -51,9 +56,13 @@ void Garox_13C0_sub::sub_5CFE40()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d56b0)
+MATCH_FUNC(0x5d56b0)
 void Garox_1_v2::sub_5D56B0()
 {
+    if (this->field_0_timer)
+    {
+        this->field_CC = laughing_blackwell_0x1EB54::sub_5D8990(field_2_str, word_7064D8);
+    }
 }
 
 STUB_FUNC(0x5d56d0)
