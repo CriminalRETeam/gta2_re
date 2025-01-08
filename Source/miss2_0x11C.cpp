@@ -324,14 +324,27 @@ void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5069f0)
+MATCH_FUNC(0x5069f0)
 void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
 {
+    field_118 = 0;
+    miss2_0x11C::sub_503670();
 }
 
-STUB_FUNC(0x506a00)
+MATCH_FUNC(0x506a00)
 void miss2_0x11C::SCRCMD_CREATE_THREAD_506A00()
 {
+    SCR_CMD_HEADER* v1;
+    SCR_CMD_HEADER* BasePointer_512770;
+    miss2_0x11C* v4;
+
+    v1 = gBasePtr_6F8070;
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);
+    v4 = miss2_0x11C::sub_511960(v1[1].field_0_cmd_this);
+    *(u32*)&BasePointer_512770[1].field_0_cmd_this = reinterpret_cast<unsigned int>(v4);
+    BasePointer_512770[1].field_4_cmd_next = v4->field_11A;
+    v4->sub_511930(field_6, v1[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x506a60)
@@ -431,14 +444,28 @@ void miss2_0x11C::SCRCMD_STOP_EXEC_5079A0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x507a70)
+MATCH_FUNC(0x507a70)
 void miss2_0x11C::SCRCMD_INCREMENT_507A70()
 {
+    SCR_CMD_HEADER* BasePointer_512770;
+
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    //  add 1 to COUNTER as unsigned 32 bits
+    ++*(u32*)&BasePointer_512770[1].field_0_cmd_this;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x507b50)
+MATCH_FUNC(0x507b50)
 void miss2_0x11C::SCRCMD_DECREMENT_507B50()
 {
+    SCR_CMD_HEADER* BasePointer_512770;
+
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    //  sub 1 to COUNTER as unsigned 32 bits
+    --*(u32*)&BasePointer_512770[1].field_0_cmd_this;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x507ce0)
