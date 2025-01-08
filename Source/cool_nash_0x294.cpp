@@ -1067,9 +1067,13 @@ void cool_nash_0x294::sub_46D030()
 {
 }
 
-STUB_FUNC(0x46d0b0)
+MATCH_FUNC(0x46d0b0)
 void cool_nash_0x294::sub_46D0B0()
 {
+    if (!this->field_21A)
+    {
+        this->field_226 = 1;
+    }
 }
 
 STUB_FUNC(0x46d0d0)
