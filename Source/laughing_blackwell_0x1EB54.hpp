@@ -2709,3 +2709,15 @@ EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
 EXPORT void __stdcall sub_5D7CB0();
+
+
+EXPORT_VAR extern short font_type_703C14; 
+EXPORT_VAR extern s16 word_703C3C;
+EXPORT_VAR extern s16 word_703D0C;
+EXPORT_VAR extern s16 word_703C16;
+EXPORT_VAR extern s16 word_703C8C;
+EXPORT_VAR extern s16 word_703C8A;
+EXPORT_VAR extern s16 word_703BE2;
+EXPORT_VAR extern s16 word_703B88;
+EXPORT_VAR extern s16 word_703DAC;
+EXPORT_VAR extern s16 word_703B9C;
