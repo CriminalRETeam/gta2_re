@@ -148,7 +148,7 @@ class cool_nash_0x294
     EXPORT s32 sub_469E30();
     EXPORT s32 sub_469E50();
     EXPORT s32 sub_469F30();
-    EXPORT s32 sub_469FC0();
+    EXPORT void sub_469FC0();
     EXPORT void sub_469FE0();
     EXPORT void sub_46A1F0();
     EXPORT s32 sub_46A290();

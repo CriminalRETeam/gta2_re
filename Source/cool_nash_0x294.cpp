@@ -876,10 +876,18 @@ s32 cool_nash_0x294::sub_469F30()
     return 0;
 }
 
-STUB_FUNC(0x469fc0)
-s32 cool_nash_0x294::sub_469FC0()
+MATCH_FUNC(0x469fc0)
+void cool_nash_0x294::sub_469FC0()
 {
-    return 0;
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        pBC->field_A6 |= 0x20u;
+    }
+    else
+    {
+        this->field_225 = 2;
+    }
 }
 
 STUB_FUNC(0x469fe0)
