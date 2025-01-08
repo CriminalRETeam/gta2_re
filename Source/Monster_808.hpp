@@ -66,6 +66,7 @@ class Monster_808
                                                  Monster_48* output,
                                                  size_t output_size,
                                                  u32* next_position);
+    static s32 __stdcall sub_430b10(char* param_1);
 
     Monster_2C* field_0_ptr_array[256];
     Monster_2C* field_400_raw_data;
@@ -73,3 +74,5 @@ class Monster_808
     Monster_48* field_804_raw_data;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Monster_808, 0x808);
+
+extern EXPORT_VAR Monster_808* gMonster_808_678098;

@@ -7,8 +7,107 @@
 #include <cstdlib>
 #include <cstring>
 
+EXPORT_VAR Monster_808* gMonster_808_678098;
+GLOBAL(gMonster_808_678098, 0x678098);
+
 EXPORT_VAR char file_name_677EC4[64];
 GLOBAL(file_name_677EC4, 0x677EC4);
+
+EXPORT_VAR u32 processed_input_676260;
+GLOBAL(processed_input_676260, 0x676260);
+
+EXPORT_VAR u32 input_size_675F94;
+GLOBAL(input_size_675F94, 0x675F94);
+
+EXPORT_VAR u8* input_data_676170;
+GLOBAL(input_data_676170, 0x676170);
+
+EXPORT_VAR u32 found_open_brackets_67626C;
+GLOBAL(found_open_brackets_67626C, 0x67626C);
+
+EXPORT_VAR s32 line_number_676258;
+GLOBAL(line_number_676258, 0x676258);
+
+MATCH_FUNC(0x430b10)
+s32 __stdcall Monster_808::sub_430b10(char* param_1)
+{
+    s32 iVar2 = 0;
+
+    *param_1 = 0;
+    while (255 > iVar2)
+    {
+        u32 uVar1 = 0;
+
+        // Get the next character
+        if (processed_input_676260 == input_size_675F94)
+        {
+            uVar1 = -1;
+        }
+        else
+        {
+            uVar1 = *input_data_676170;
+            input_data_676170++;
+            processed_input_676260++;
+            if (uVar1 == '\n')
+            {
+                line_number_676258++;
+            }
+        }
+
+        switch (found_open_brackets_67626C)
+        {
+            case 0:
+                if (uVar1 == -1)
+                {
+                    return 1;
+                }
+                if (uVar1 == '{')
+                {
+                    found_open_brackets_67626C = 1;
+                }
+                else if (uVar1 != ' ' && uVar1 != '\t' && uVar1 != '\n' && uVar1 != ')' && uVar1 != '(' && uVar1 != '\r')
+                {
+                    found_open_brackets_67626C = 2;
+                    param_1[iVar2] = (char)uVar1;
+                    iVar2++;
+                }
+                break;
+            case 1:
+                if (uVar1 == -1)
+                {
+                    return -4;
+                }
+                if (uVar1 == '}')
+                {
+                    found_open_brackets_67626C = 0;
+                }
+                break;
+            case 2:
+                if (uVar1 == -1)
+                {
+                    param_1[iVar2] = 0;
+                    return 1;
+                }
+                if (uVar1 == '{')
+                {
+                    param_1[iVar2] = 0;
+                    found_open_brackets_67626C = 1;
+                    return 0;
+                }
+                if (uVar1 == ' ' || uVar1 == '\t' || uVar1 == '\n' || uVar1 == ')' || uVar1 == '(' || uVar1 == '\r')
+                {
+                    param_1[iVar2] = 0;
+                    found_open_brackets_67626C = 0;
+                    return 0;
+                }
+                param_1[iVar2] = (char)uVar1;
+                iVar2++;
+
+                break;
+        }
+    }
+    return -5;
+}
 
 STUB_FUNC(0x430a30)
 char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
