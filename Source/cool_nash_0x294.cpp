@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "char.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -207,10 +208,18 @@ void cool_nash_0x294::sub_45C0C0(gmp_map_zone* a2)
 {
 }
 
+// https://decomp.me/scratch/3vggq
 STUB_FUNC(0x45c310)
-s32 cool_nash_0x294::sub_45C310()
+void cool_nash_0x294::sub_45C310()
 {
-    return 0;
+    //Char_B4* pB4 = field_168_game_object;
+    if (field_168_game_object)
+    {
+        field_168_game_object->sub_5453D0();
+        field_168_game_object->field_78_next = gChar_11944_6FDB44->field_0_next;
+        gChar_11944_6FDB44->field_0_next = field_168_game_object;
+        field_168_game_object = 0;
+    }
 }
 
 STUB_FUNC(0x45c350)

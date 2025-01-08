@@ -92,14 +92,16 @@ class Char_B4
 
     Char_B4();
     ~Char_B4();
+
+    EXPORT void sub_5453D0();
 };
 
 class Char_11944
 {
+  public:
     Char_B4* field_0_next;
     Char_B4 field_4_array[400];
 
-  public:
     Char_11944();
 
     void sub_5453D0();
