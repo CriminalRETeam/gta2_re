@@ -104,7 +104,15 @@ class Char_11944
 
     Char_11944();
 
-    void sub_5453D0();
+    // inline 0x4355C0
+    void sub_4355C0(Char_B4* pB4)
+    {
+        pB4->sub_5453D0();
+        pB4->field_78_next = field_0_next;
+        field_0_next = pB4;
+    }
+
+    EXPORT void sub_5453D0();
 };
 
 class Char_8
