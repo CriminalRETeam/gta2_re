@@ -37,8 +37,6 @@ GLOBAL(byte_67CE50, 0x67CE50);
 EXPORT_VAR s16 word_7064D8;
 GLOBAL(word_7064D8, 0x7064D8);
 
-
-
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -70,9 +68,12 @@ void Garox_1_v2::sub_5D56D0()
 {
 }
 
-STUB_FUNC(0x5d5730)
+MATCH_FUNC(0x5d5730)
 void Garox_1_v2::sub_5D5730(const wchar_t* pStr)
 {
+    this->field_0_timer = 120;
+    wcscpy(this->field_2_str, pStr);
+    sub_5D56B0();
 }
 
 MATCH_FUNC(0x5d5760)
