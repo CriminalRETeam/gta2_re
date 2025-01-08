@@ -17,18 +17,18 @@ Wolfy_7A8::Wolfy_7A8()
 {
 }
 
-STUB_FUNC(0x5438f0)
+MATCH_FUNC(0x5438f0)
 Wolfy_7A8::~Wolfy_7A8()
 {
 }
 
 STUB_FUNC(0x5408f0)
-void Wolfy_30::ctor_5408F0()
+Wolfy_30::Wolfy_30()
 {
 }
 
 STUB_FUNC(0x540a10)
-void Wolfy_30::dtor_540A10()
+Wolfy_30::~Wolfy_30()
 {
 }
 

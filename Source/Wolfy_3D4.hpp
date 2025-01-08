@@ -5,8 +5,8 @@
 class Wolfy_30
 {
   public:
-    EXPORT void ctor_5408F0();
-    EXPORT void dtor_540A10();
+    EXPORT Wolfy_30();
+    EXPORT ~Wolfy_30();
     EXPORT s32 sub_543650();
     s32 field_0;
     char_type field_4_idx;
