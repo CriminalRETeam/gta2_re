@@ -5,6 +5,7 @@
 #include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
+#include "laughing_blackwell_0x1EB54.hpp" // TODO: for some globals, prob should be put some where else
 #include "memory.hpp"
 #include <stdio.h>
 #include <string.h>
@@ -12,6 +13,27 @@
 
 EXPORT_VAR gtx_0x106C* gGtx_0x106C_703DD4;
 GLOBAL(gGtx_0x106C_703DD4, 0x703DD4);
+
+EXPORT_VAR s16 word_703D9C;
+GLOBAL(word_703D9C, 0x703D9C);
+
+EXPORT_VAR s16 word_703D9A;
+GLOBAL(word_703D9A, 0x703D9A);
+
+EXPORT_VAR s16 word_703C3E;
+GLOBAL(word_703C3E, 0x703C3E);
+
+EXPORT_VAR s16 word_703DA4;
+GLOBAL(word_703DA4, 0x703DA4);
+
+EXPORT_VAR s16 word_703BAA;
+GLOBAL(word_703BAA, 0x703BAA);
+
+EXPORT_VAR s16 word_703D98;
+GLOBAL(word_703D98, 0x703D98);
+
+EXPORT_VAR s16 word_703C9C;
+GLOBAL(word_703C9C, 0x703C9C);
 
 STUB_FUNC(0x5abaa0)
 u8 sprite_index::sub_5ABAA0(char_type a2)
@@ -657,11 +679,43 @@ void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
     field_4_sprite_index_count = ((u32)sprx_chunk_size >> 3) + 1;
 }
 
-STUB_FUNC(0x5AAFE0)
-void gtx_0x106C::sub_5AAFE0(u16 a1)
+MATCH_FUNC(0x5AAFE0)
+void gtx_0x106C::sub_5AAFE0(u16 fontCount)
 {
-    // TODO
-    UNIQUE_FUNC;
+    if (fontCount == 14)
+    {
+        word_703D9C = 0;
+        word_703C3E = 1;
+        word_703D9A = 2;
+        word_703DA4 = 3;
+        word_703D0C = 4;
+        word_703C16 = 5;
+        word_703C8C = 6;
+        font_type_703C14 = 7;
+        word_703C3C = 8;
+        word_703C8A = 9;
+        word_703BE2 = 10;
+        word_703B88 = 11;
+        word_703DAC = 12;
+        word_703B9C = 13;
+        word_703BAA = 99;
+        word_703D98 = 99;
+        word_703C9C = 99;
+    }
+    else if (fontCount == 7)
+    {
+        word_703D9C = 0;
+        word_703BAA = 1;
+        word_703D98 = 2;
+        word_703C3E = 3;
+        word_703D9A = 4;
+        word_703C9C = 5;
+        word_703DA4 = 6;
+    }
+    else
+    {
+        FatalError_4A38C0(0x468, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1251, fontCount);
+    }
 }
 
 MATCH_FUNC(0x5AB0F0)
