@@ -94,7 +94,7 @@ s32 angry_lewin_0x85C::sub_564B80()
 }
 
 MATCH_FUNC(0x564C00)
-u16 angry_lewin_0x85C::sub_564C00()
+void angry_lewin_0x85C::sub_564C00()
 {
     sub_564B80();
 
@@ -110,7 +110,7 @@ u16 angry_lewin_0x85C::sub_564C00()
         field_18 = field_14;
     }
 
-    return sub_5649D0(0, 0);
+    sub_5649D0(0, 0);
 }
 
 STUB_FUNC(0x564C50)
