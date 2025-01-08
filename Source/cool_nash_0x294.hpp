@@ -15,6 +15,7 @@ class Zone_144;
 class Weapon_30;
 class Car_3C;
 class Char_8;
+class Char_B4;
 
 class cool_nash_0x294
 {
@@ -46,7 +47,7 @@ class cool_nash_0x294
     EXPORT void sub_45C070();
     EXPORT void sub_45C090();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
-    EXPORT s32 sub_45C310();
+    EXPORT void sub_45C310();
     EXPORT void sub_45C350(gmp_map_zone* a2);
     EXPORT s32 sub_45C410();
     EXPORT void sub_45C4B0();
@@ -291,7 +292,7 @@ class cool_nash_0x294
     angry_lewin_0x85C* field_15C_player_weapons;
     cool_nash_0x294* field_160_next_ped;
     Mouze_44* field_164_ped_group;
-    void* field_168_game_object;
+    Char_B4* field_168_game_object;
     Car_BC* field_16C_car;
     s32 field_170_selected_weapon;
     s32 field_174_pWeapon;

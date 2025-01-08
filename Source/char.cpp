@@ -23,6 +23,12 @@ Char_B4::~Char_B4()
 {
 }
 
+STUB_FUNC(0x5453D0)
+void Char_B4::sub_5453D0()
+{
+
+}
+
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C
 Char_11944::Char_11944()
@@ -77,12 +83,8 @@ Char_C::~Char_C()
 MATCH_FUNC(0x470a50)
 cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 rotation)
 {
-    Char_203AC* v6;
-    cool_nash_0x294* pPed;
-    void* field_168_game_object;
-
-    v6 = gChar_203AC_6787B8;
-    pPed = v6->field_0;
+    Char_203AC* v6 = gChar_203AC_6787B8;
+    cool_nash_0x294* pPed = gChar_203AC_6787B8->field_0;
     v6->field_0 = pPed->field_160_next_ped;
 
     pPed->field_160_next_ped = v6->field_4;
@@ -95,13 +97,15 @@ cool_nash_0x294* Char_C::sub_470A50(s32 xpos, s32 ypos, s32 zpos, u8 remap, s16 
     {
         return 0;
     }
-    *((u16*)pPed->field_168_game_object + 32) = rotation; // TODO: unknown type
+    pPed->field_168_game_object->field_40_rotation.field_0_value = rotation;
     pPed->field_244_remap = remap;
-    field_168_game_object = pPed->field_168_game_object;
-    *((u8*)field_168_game_object + 5) = remap; // TODO: unknown type
+
+    Char_B4* pB4 = pPed->field_168_game_object;
+    pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
-        (*((Car_3C**)field_168_game_object + 32))->sub_59EA00(remap); // TODO: unknown type
+        // TODO: Is Car_3C and Sprite_3C the same thing ??
+        ((Car_3C*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
     }
     pPed->field_134 = rotation;
     pPed->field_288_threat_search = 2;
