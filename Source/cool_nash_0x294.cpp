@@ -1110,10 +1110,18 @@ void cool_nash_0x294::sub_46DB80()
     sub_46D460(2);
 }
 
-STUB_FUNC(0x46df50)
+MATCH_FUNC(0x46df50)
 Car_3C* cool_nash_0x294::sub_46DF50()
 {
-    return 0;
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        return pBC->field_50_car_sprite;
+    }
+    else
+    {
+        return this->field_168_game_object->field_80_sprite_ptr;
+    }
 }
 
 STUB_FUNC(0x46df70)
