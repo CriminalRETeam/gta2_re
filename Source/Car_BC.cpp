@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "Car_B0.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "PurpleDoom.hpp"
@@ -432,12 +433,6 @@ Car_6C::~Car_6C()
 {
 }
 
-STUB_FUNC(0x563560)
-s32 Car_B0::sub_563560(Car_3C* a2)
-{
-    return 0;
-}
-
 STUB_FUNC(0x439ec0)
 bool Car_BC::sub_439EC0()
 {
@@ -555,8 +550,7 @@ s32 Car_BC::sub_43A680()
 STUB_FUNC(0x43a6f0)
 bool Car_BC::sub_43A6F0(u8 a2)
 {
-    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u &&
-        field_50_car_sprite->field_24_remap != a2;
+    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != a2;
 }
 
 STUB_FUNC(0x43a730)
