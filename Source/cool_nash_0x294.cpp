@@ -184,9 +184,17 @@ void cool_nash_0x294::sub_45C050()
 {
 }
 
-STUB_FUNC(0x45c070)
+MATCH_FUNC(0x45c070)
 void cool_nash_0x294::sub_45C070()
 {
+    if (this->field_208_invulnerability == 9999)
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->field_80_sprite_ptr->field_2C |= 4u;
+        }
+    }
 }
 
 MATCH_FUNC(0x45c090)
