@@ -50,11 +50,19 @@ EXPORT_VAR DWORD dword_67D9FC;
 GLOBAL(dword_67D9FC, 0x67D9FC);
 
 // todo: likely an array
-EXPORT_VAR short word_703C14; // = 7; // TODO: VAR HACK NOT CONST! Standalone hack ?? move hack to ctor ??
-GLOBAL(word_703C14, 0x703C14);
+#if defined(EXPORT_VARS)
+EXPORT_VAR short font_type_703C14; // = 7; // TODO: VAR HACK NOT CONST! Standalone hack ?? move hack to ctor ??
+GLOBAL(font_type_703C14, 0x703C14);
+#else
+short font_type_703C14 = 7;
+#endif
 
+#if defined(EXPORT_VARS)
 EXPORT_VAR s16 word_703C3C; // = 8; // TODO: Ditto
 GLOBAL(word_703C3C, 0x703C3C);
+#else
+s16 word_703C3C = 8;
+#endif
 
 EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
 GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
@@ -1011,7 +1019,7 @@ for (s32 i=0; i<3; i++)
         Fix16 scale;
         scale.mValue = 0x4000;
 
-        DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, word_703C14, scale);
+        DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, font_type_703C14, scale);
     }
 
     if (field_132_f136_idx == 1)
