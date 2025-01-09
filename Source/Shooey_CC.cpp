@@ -1,7 +1,7 @@
 #include "Shooey_CC.hpp"
+#include "Globals.hpp"
 #include "char.hpp"
 #include "cool_nash_0x294.hpp"
-#include "Globals.hpp"
 
 EXPORT_VAR s32 dword_67A370;
 GLOBAL(dword_67A370, 0x67A370);
@@ -62,9 +62,26 @@ Shooey_CC::~Shooey_CC()
 {
 }
 
-STUB_FUNC(0x484dd0)
+MATCH_FUNC(0x484dd0)
 void Shooey_CC::sub_484DD0(s32 a2, s32 a3)
 {
+    field_4[field_0].sub_484CF0(a2, a3);
+
+    field_0++;
+
+    if (field_0 >= GTA2_COUNTOF(field_4))
+    {
+        field_0 = 0;
+    }
+
+    if (field_0 == field_2)
+    {
+        field_2++;
+        if (field_2 >= GTA2_COUNTOF(field_4))
+        {
+            field_2 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x484e20)
