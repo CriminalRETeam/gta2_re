@@ -91,9 +91,25 @@ bool Shooey_CC::sub_484E20(s32* a2, s32* a3, s32* a4, u32* a5)
 }
 
 STUB_FUNC(0x484e90)
-char_type Shooey_CC::sub_484E90(s32 a2)
+char_type Shooey_CC::sub_484E90(s32 toFind)
 {
-    return 0;
+    u16 idx = this->field_2;
+    if (idx == this->field_0)
+    {
+        return 0;
+    }
+    while (this->field_4[idx].field_0 != toFind)
+    {
+        if (++idx >= 10u)
+        {
+            idx = 0;
+        }
+        if (idx == this->field_0)
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 STUB_FUNC(0x484fc0)
