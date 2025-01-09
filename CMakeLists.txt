@@ -226,6 +226,7 @@ set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS 
 # global include dirs
 include_directories(Source)
 include_directories(${decomp_SOURCE_DIR})
+include_directories(3rdParty/gta2_re_compile_tools)
 
 add_library (gta2_lib ${gta2_lib_src})
 target_compile_definitions(gta2_lib PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)

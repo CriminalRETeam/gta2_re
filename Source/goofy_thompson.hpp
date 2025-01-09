@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Function.hpp"
-#include <DPLAY.H>
-#include <DPLOBBY.H>
+// Included this way as a hack so > msvc6 can use these headers too as they've been removed in later versions. 
+#include <VC98/Include/DPLAY.H>
+#include <VC98/Include/DPLOBBY.H>
 #include <windows.h>
 
 struct naughty_sinoussi_0x800;
