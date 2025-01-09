@@ -1182,10 +1182,12 @@ void Car_BC::sub_4418A0()
     }
 }
 
-STUB_FUNC(0x4418b0)
-Car_A4_10* Car_BC::sub_4418B0()
+MATCH_FUNC(0x4418b0)
+void Car_BC::sub_4418B0()
 {
-    return 0;
+    sub_43BD40();
+    sub_442760();
+    field_78_flags |= 1;
 }
 
 STUB_FUNC(0x4418d0)

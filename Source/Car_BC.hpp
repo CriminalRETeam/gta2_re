@@ -344,7 +344,7 @@ class Car_BC
     EXPORT void sub_4417F0();
     EXPORT char_type sub_441800(char_type a2);
     EXPORT void sub_4418A0();
-    EXPORT Car_A4_10* sub_4418B0();
+    EXPORT void sub_4418B0();
     EXPORT char_type
     sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void sub_4419E0();
@@ -425,8 +425,8 @@ class Car_BC
     s32 field_70;
     s16 field_74_damage;
     s16 field_76;
-    u8 field_78_flags;
-    u8 field_79;
+    u16 field_78_flags;
+//    u8 field_79;
     s16 field_7A;
     cool_nash_0x294* field_7C_uni_num;
     char_type field_80;
