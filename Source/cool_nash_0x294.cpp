@@ -1,9 +1,9 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "PurpleDoom.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -135,9 +135,14 @@ s32 cool_nash_0x294::sub_45BE30()
     return 0;
 }
 
-STUB_FUNC(0x45be70)
+MATCH_FUNC(0x45be70)
 void cool_nash_0x294::sub_45BE70()
 {
+    if ((field_21C & 0x1000000) == 0)
+    {
+        field_21C |= 0x1000000;
+        sub_45BFB0();
+    }
 }
 
 STUB_FUNC(0x45be90)
@@ -151,7 +156,7 @@ void cool_nash_0x294::sub_45BEC0()
 }
 
 STUB_FUNC(0x45bfb0)
-void cool_nash_0x294::sub_45BFB0(cool_nash_0x294* a1, s32 a2)
+void cool_nash_0x294::sub_45BFB0()
 {
 }
 
