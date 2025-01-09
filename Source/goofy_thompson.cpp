@@ -72,24 +72,34 @@ s32 goofy_thompson::DirectPlayCreate_51DED0()
     this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_4[8];
     this->field_30_enumed_connections.field_C_f4_d_array_count = 0;
 
-    IDirectPlay* pDirectPlay; // [esp+38h] [ebp-14h] BYREF
+    IDirectPlay* pDirectPlay;
     if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, 0) < 0)
     {
         return 0;
     }
 
-    IDirectPlay3* pDirectPlay3; // [esp+30h] [ebp-1Ch] BYREF
-    if (pDirectPlay->QueryInterface(IID_IDirectPlay3, (void**)&pDirectPlay3) < 0)
+    IDirectPlay3* pDirectPlay3;
+    if (FAILED(pDirectPlay->QueryInterface(IID_IDirectPlay3, (void**)&pDirectPlay3)))
     {
         return 0;
     }
 
     pDirectPlay->Release();
 
-    if (pDirectPlay3 && field_5E0_pDPlayLobby2)
+    if (!pDirectPlay3 || !field_5E0_pDPlayLobby2)
+    {
+        return 1;
+    }
     {
         unsigned long playerAddressLen = 0;
-        if (pDirectPlay3->GetPlayerAddress(0, 0, &playerAddressLen) != 0x8877001E)
+        HRESULT result = pDirectPlay3->GetPlayerAddress(0, 0, &playerAddressLen);
+        if (result == DPERR_UNAVAILABLE)
+        {
+            pDirectPlay3->Release();
+            return 0;
+        }
+
+        if (result != DPERR_BUFFERTOOSMALL)
         {
             pDirectPlay3->Release();
             return 0;
@@ -99,7 +109,7 @@ s32 goofy_thompson::DirectPlayCreate_51DED0()
         {
             u8* pPlayerAddressBuf = new u8[playerAddressLen];
             if (pDirectPlay3->GetPlayerAddress(0, pPlayerAddressBuf, &playerAddressLen) >= 0 &&
-                field_5E0_pDPlayLobby2->EnumAddress(goofy_thompson::sub_51E030, pPlayerAddressBuf, playerAddressLen, this) < 0)
+                FAILED(field_5E0_pDPlayLobby2->EnumAddress(goofy_thompson::sub_51E030, pPlayerAddressBuf, playerAddressLen, this)))
             {
                 return 0;
             }
@@ -284,7 +294,14 @@ void goofy_thompson::sub_520DE0(Network_Unknown* pStru)
 STUB_FUNC(0x520e30)
 u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 {
-    return 0;
+    for (u32 i = 0; i < 6; i++)
+    {
+        if (pObj->field_18_ary_start[i].field_8 == toFind)
+        {
+            return i;
+        }
+    }
+    return 0xEEEEEEEE;
 }
 
 STUB_FUNC(0x520e60)
