@@ -29,6 +29,12 @@ void Char_B4::sub_5453D0()
 
 }
 
+STUB_FUNC(0x5454B0)
+void Char_B4::sub_5454B0()
+{
+
+}
+
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C
 Char_11944::Char_11944()

@@ -93,7 +93,9 @@ class Char_B4
     Char_B4();
     ~Char_B4();
 
+    // TODO: Stubs/func ordering
     EXPORT void sub_5453D0();
+    EXPORT void sub_5454B0();
 };
 
 class Char_11944
