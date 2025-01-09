@@ -133,10 +133,10 @@ s16 Car_3C::sub_59EAA0()
 {
     if (field_34 == 2)
     {
-        s16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30, field_22);
+        s16 v2 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v2);
     }
-    return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34, field_24);
+    return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34, field_24_remap);
 }
 
 STUB_FUNC(0x59eae0)
@@ -189,21 +189,21 @@ Sprite_4C* Car_3C::sub_59FA40()
     Sprite_4C *result = field_4_0x4C_len;
     if (result)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30, field_22);
+        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_24_remap);
         sprite_index *sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
 
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-        s32 v8 = (&dword_6F6850)[field_5_height_index];
-        s32 v7 = (&dword_6F6850)[field_4_width_index];
+        Fix16 v8 = (Fix16) (&dword_6F6850)[field_5_height_index];
+        Fix16 v7 = (Fix16) (&dword_6F6850)[field_4_width_index];
 
         result = field_4_0x4C_len;
 
-        if ( v7 != result->field_0 || v8 != result->field_4 )
+        if ( v7 != result->field_0_width || v8 != result->field_4_height )
         {
-            result->field_0 = v7;
-            result->field_4 = v8;
+            result->field_0_width = v7;
+            result->field_4_height = v8;
             result->field_48 = 0;
         }
     }
@@ -226,15 +226,15 @@ MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scr
 char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 {
     u8 result = 0; // Initialize result to 0
-    Car_3C **p_field_C_car_or_sprite = &this->field_C_car_or_sprite->field_C_car_or_sprite; // Pointer to field_C_car_or_sprite
+    Car_3C **next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
 
     for (u8 i = 0; i < 4; ) {
         // First comparison: *p_field_C_car_or_sprite > *a2
-        if ((s32)*p_field_C_car_or_sprite > (s32) *a2) {
+        if ((s32)*next_next_ptr > (s32) *a2) {
             // Second comparison: *p_field_C_car_or_sprite[1] > a2[1] and *p_field_C_car_or_sprite < *a3
             // and *p_field_C_car_or_sprite[1] < a3[1]
-            Car_3C *v8 = p_field_C_car_or_sprite[1];
-            if ((int)v8 > (s32) a2[1] && (int)*p_field_C_car_or_sprite < (s32) *a3 && (int)v8 < (s32) a3[1]) {
+            Car_3C *v8 = next_next_ptr[1];
+            if ((int)v8 > (s32) a2[1] && (int)*next_next_ptr < (s32) *a3 && (int)v8 < (s32) a3[1]) {
                 // If we find the first valid match, store index in a4
                 if (++result == 1) {
                     *a4 = i;
@@ -247,7 +247,7 @@ char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
         }
         // Move the pointer to the next pair
         ++i;
-        p_field_C_car_or_sprite += 2;
+        next_next_ptr += 2;
     }
 
     // Return the result count (0, 1, or 2)
