@@ -9,23 +9,16 @@ GLOBAL(byte_6FDEEC, 0x6FDEEC);
 MATCH_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)
 {
-    u8 v2;
-    u8 v3;
-    bool result;
-
-    v2 = field_25;
-    if (v2 > 1u 
-        && v2 < 0xFEu 
-        && (v3 = field_26, v3 > 1u) 
-        && v3 < 0xFEu)
+    if (field_25 > 1u && field_25 < 254u &&
+        field_26 > 1u && field_26 < 254u)
     {
-        result = gMap_0x370_6F6268->sub_4E0130(
-            (u8)field_25,
-            (u8)field_26, 
-            (u8)field_27, 
-            a2, 
-            &byte_6FDEEC, 
-            1) == 0;
+        bool result = gMap_0x370_6F6268->sub_4E0130(
+                            (u8)field_25,
+                            (u8)field_26,
+                            (u8)field_27,
+                            a2,
+                            &byte_6FDEEC,
+                            1) == 0;
         return result;
     }
     return false;
