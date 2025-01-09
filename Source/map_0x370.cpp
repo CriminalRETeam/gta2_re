@@ -251,7 +251,6 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
 MATCH_FUNC(0x4DF770)
 gmp_map_zone* Map_0x370::next_zone_4DF770()
 {
-    u16 cur_zone_idx;
     gmp_map_zone* pZoneIter;
 
     if (this->field_328_pZoneData)
@@ -510,8 +509,6 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x4DFEE0)
 gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
 {
-    s32 x_clamped;
-    s32 y_clamped;
     gmp_compressed_map_32* field_0_pDmap;
     gmp_col_info* pColInfo;
     s32 offset;
@@ -929,7 +926,6 @@ s32* Map_0x370::sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5)
     s32* result;
     char_type field_B_slope_type;
 
-    s32 v12;
     u8 v13;
     s32 v4;
     s32 v14;
@@ -1080,8 +1076,6 @@ s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
     //  This function returns the Z coord based on the highest block of (X = a3, Y = a4);
 
     s32 v6;
-    s32* v8;
-    s32* v10;
 
     s32 v9;
 
@@ -1358,8 +1352,7 @@ void Map_0x370::load_anim_4E9280(size_t size)
 STUB_FUNC(0x4E92B0)
 void Map_0x370::load_dmap_4E92B0(s32 len)
 {
-    __int32 v13; // eax
-    size_t a2; // [esp+4h] [ebp-Ch] BYREF
+    size_t a2;
 
     gmp_compressed_map_32* pCompressedMap = new gmp_compressed_map_32();
     if (pCompressedMap)
