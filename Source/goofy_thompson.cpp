@@ -65,7 +65,7 @@ s32 goofy_thompson::DirectPlayCreate_51DCD0()
     return 0;
 }
 
-STUB_FUNC(0x51ded0)
+MATCH_FUNC(0x51ded0)
 s32 goofy_thompson::DirectPlayCreate_51DED0()
 {
     GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
