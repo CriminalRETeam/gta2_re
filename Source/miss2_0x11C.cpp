@@ -2219,10 +2219,16 @@ char_type miss2_0x11C::sub_511840()
     return v4;
 }
 
-STUB_FUNC(0x511930)
-s32 miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
+MATCH_FUNC(0x511930)
+void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
 {
-    return 0;
+    field_4_level_start = levelStart;
+    field_6 = a2;
+    field_E = 0;
+    field_C = 0;
+    field_12 = 0;
+    field_8 = 0;
+    field_10 = 0;
 }
 
 STUB_FUNC(0x511960)

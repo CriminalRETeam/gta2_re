@@ -91,22 +91,23 @@ Object_2C* Object_5C::sub_529C00(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6
     return 0;
 }
 
-STUB_FUNC(0x52a210)
+MATCH_FUNC(0x52a210)
 char_type Object_5C::sub_52A210(char_type a2)
 {
-    return 0;
+    this->field_18 = a2;
+    return a2;
 }
 
-STUB_FUNC(0x52a240)
+MATCH_FUNC(0x52a240)
 s32* Object_5C::sub_52A240(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
 {
-    return 0;
+    return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 0);
 }
 
-STUB_FUNC(0x52a280)
+MATCH_FUNC(0x52a280)
 s32* Object_5C::sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
 {
-    return 0;
+    return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 1);
 }
 
 STUB_FUNC(0x52a2c0)

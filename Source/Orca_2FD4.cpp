@@ -1,10 +1,27 @@
 #include "Orca_2FD4.hpp"
+#include "Globals.hpp"
+#include "map_0x370.hpp"
 #include <string.h>
 
-STUB_FUNC(0x554080)
+EXPORT_VAR u8 byte_6FDEEC;
+GLOBAL(byte_6FDEEC, 0x6FDEEC);
+
+MATCH_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)
 {
-    return 0;
+    if (field_25 > 1u && field_25 < 254u &&
+        field_26 > 1u && field_26 < 254u)
+    {
+        bool result = gMap_0x370_6F6268->sub_4E0130(
+                            (u8)field_25,
+                            (u8)field_26,
+                            (u8)field_27,
+                            a2,
+                            &byte_6FDEEC,
+                            1) == 0;
+        return result;
+    }
+    return false;
 }
 
 STUB_FUNC(0x5540e0)
