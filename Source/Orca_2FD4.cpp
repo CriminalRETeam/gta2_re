@@ -14,9 +14,18 @@ bool Orca_2FD4::sub_554080(s32 a2)
     bool result;
 
     v2 = field_25;
-    if (v2 > 1u && v2 < 0xFEu && (v3 = field_26, v3 > 1u) && v3 < 0xFEu)
+    if (v2 > 1u 
+        && v2 < 0xFEu 
+        && (v3 = field_26, v3 > 1u) 
+        && v3 < 0xFEu)
     {
-        result = gMap_0x370_6F6268->sub_4E0130((u8)field_25, (u8)field_26, (u8)field_27, a2, &byte_6FDEEC, 1) == 0;
+        result = gMap_0x370_6F6268->sub_4E0130(
+            (u8)field_25,
+            (u8)field_26, 
+            (u8)field_27, 
+            a2, 
+            &byte_6FDEEC, 
+            1) == 0;
         return result;
     }
     return false;
