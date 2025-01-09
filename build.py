@@ -55,7 +55,7 @@ def get_vc6_env():
     if platform.system() == "Windows":
         path = f'{path1};{path2};{path3}'
         include = f'{include1};{include2};{include3};'
-    elif platform.system() == "Linux":
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
         lib = as_wine_path(lib)
         include1 = as_wine_path(include1)
         include2 = as_wine_path(include2)
@@ -81,7 +81,7 @@ def build():
     include = vc6_env[1]
     path = vc6_env[2]
 
-    if platform.system() == "Linux":
+    if platform.system() == "Linux" or platform.system() == "Darwin":
         build_dir = as_wine_path(BUILD_DIRECTORY)
         command = f"WINEDEBUG=-all export WINEPATH={path} export LIB={lib} export INCLUDE={include} wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
         p1 = subprocess.Popen(command, cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
@@ -114,7 +114,7 @@ def verify():
 
     if platform.system() == "Windows":
         python = "python"
-    elif platform.system() == "Linux":
+    elif platform.system() == "Linux" or platform.system() == "Darwin":
         python = sys.executable # should be the python venv
 
     dump_result = subprocess.run(f"{python} msvc_dump_func_data.py", cwd=BIN_COMP_DIRECTORY, shell=True)
