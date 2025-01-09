@@ -370,6 +370,8 @@ s32 goofy_thompson::sub_521820(s32** a2, s32 idx)
 STUB_FUNC(0x521870)
 void goofy_thompson::Remove_521870(s32 idx)
 {
+    field_CB8_count++;
+    field_900_208_start[idx].field_8 = 0;
 }
 
 STUB_FUNC(0x521890)
