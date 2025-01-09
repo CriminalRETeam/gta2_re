@@ -151,6 +151,38 @@ s32 __stdcall Monster_808::HexStr2Int_430EC0(const char *param_1, s32 *param_2)
     return 0;
 }
 
+MATCH_FUNC(0x430f30)
+s32 __stdcall Monster_808::HexStr2Int_430F30(const char *param_1, s16 *param_2)
+{
+    *param_2 = 0;
+    s32 iVar5 = 1;
+    s32 iVar4 = strlen(param_1);
+
+    while(--iVar4 >= 0)
+    {
+        s8 cVar1 = param_1[iVar4];
+        if ((cVar1 < '0' || '9' < cVar1) && (cVar1 < 'A' || 'F' < cVar1))
+        {
+            return 0xfffffff7;
+        }
+
+        s32 sVar2;
+        if (cVar1 < '0' || '9' < cVar1)
+        {
+            sVar2 = (cVar1 - 0x37) * iVar5;
+        }
+        else
+        {
+            sVar2 = (cVar1 - 0x30) * iVar5;
+        }
+
+        *param_2 += sVar2;
+        iVar5 = iVar5 << 4;
+    }
+
+    return 0;
+}
+
 STUB_FUNC(0x4546b0)
 Monster_48* Monster_808::sub_4546B0(u8 a2)
 {
