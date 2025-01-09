@@ -294,12 +294,18 @@ void goofy_thompson::sub_520DE0(Network_Unknown* pStru)
 STUB_FUNC(0x520e30)
 u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 {
-    for (u32 i = 0; i < 6; i++)
+    u32 i = 0;
+    while (1)
     {
+        if (i >= 6)
+        {
+            break;
+        }
         if (pObj->field_18_ary_start[i].field_8 == toFind)
         {
             return i;
         }
+        i++;
     }
     return 0xEEEEEEEE;
 }
