@@ -114,7 +114,7 @@ struct goofy_thompson
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
-    EXPORT s32 sub_51E030(const void* a1, s32 a2, LPCSTR lpString, goofy_thompson* pThis);
+    EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
     EXPORT s32 sub_51E0E0(wchar_t* Source);
     EXPORT s32 NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4);
     EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);

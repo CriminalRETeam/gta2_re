@@ -43,9 +43,20 @@ s32 goofy_thompson::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseTh
     return 0;
 }
 
-STUB_FUNC(0x51dc90)
+MATCH_FUNC(0x51dc90)
 void goofy_thompson::DirectPlayDestroy_51DC90()
 {
+    if (field_5E4_pDPlay3)
+    {
+        field_5E4_pDPlay3->Release();
+        field_5E4_pDPlay3 = 0;
+    }
+
+    if (field_5E0_pDPlayLobby2)
+    {
+        field_5E0_pDPlayLobby2->Release();
+        field_5E0_pDPlayLobby2 = 0;
+    }
 }
 
 STUB_FUNC(0x51dcd0)
@@ -57,11 +68,51 @@ s32 goofy_thompson::DirectPlayCreate_51DCD0()
 STUB_FUNC(0x51ded0)
 s32 goofy_thompson::DirectPlayCreate_51DED0()
 {
-    return 0;
+    GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
+    this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_4[8];
+    this->field_30_enumed_connections.field_C_f4_d_array_count = 0;
+
+    IDirectPlay* pDirectPlay; // [esp+38h] [ebp-14h] BYREF
+    if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, 0) < 0)
+    {
+        return 0;
+    }
+
+    IDirectPlay3* pDirectPlay3; // [esp+30h] [ebp-1Ch] BYREF
+    if (pDirectPlay->QueryInterface(IID_IDirectPlay3, (void**)&pDirectPlay3) < 0)
+    {
+        return 0;
+    }
+
+    pDirectPlay->Release();
+
+    if (pDirectPlay3 && field_5E0_pDPlayLobby2)
+    {
+        unsigned long playerAddressLen = 0;
+        if (pDirectPlay3->GetPlayerAddress(0, 0, &playerAddressLen) != 0x8877001E)
+        {
+            pDirectPlay3->Release();
+            return 0;
+        }
+
+        if (playerAddressLen)
+        {
+            u8* pPlayerAddressBuf = new u8[playerAddressLen];
+            if (pDirectPlay3->GetPlayerAddress(0, pPlayerAddressBuf, &playerAddressLen) >= 0 &&
+                field_5E0_pDPlayLobby2->EnumAddress(goofy_thompson::sub_51E030, pPlayerAddressBuf, playerAddressLen, this) < 0)
+            {
+                return 0;
+            }
+            delete[] pPlayerAddressBuf;
+        }
+        pDirectPlay3->Release();
+    }
+
+    return 1;
 }
 
 STUB_FUNC(0x51e030)
-s32 goofy_thompson::sub_51E030(const void* a1, s32 a2, LPCSTR lpString, goofy_thompson* pThis)
+BOOL goofy_thompson::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
     return 0;
 }
