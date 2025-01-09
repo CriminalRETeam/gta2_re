@@ -73,7 +73,7 @@ class Char_B4
     s8 field_77;
     Char_B4* field_78_next;
     cool_nash_0x294* field_7c_ped_ptr;
-    Sprite_3C* field_80_sprite_ptr;
+    Car_3C* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84_AutoClass21_s1_ptr1;
     Car_BC* field_88AutoClass21_s1_ptr2;
     Fix16 field_8c;

@@ -38,9 +38,9 @@ class cool_nash_0x294
     EXPORT void sub_45BE70();
     EXPORT void sub_45BE90();
     EXPORT void sub_45BEC0();
-    EXPORT void sub_45BFB0(cool_nash_0x294* a1, s32 a2);
+    EXPORT void sub_45BFB0();
     EXPORT void sub_45BFD0();
-    EXPORT u32 sub_45BFE0();
+    EXPORT void sub_45BFE0();
     EXPORT void sub_45C010();
     EXPORT void sub_45C040();
     EXPORT void sub_45C050();
@@ -139,7 +139,7 @@ class cool_nash_0x294
     EXPORT char_type sub_468DE0();
     EXPORT char_type sub_468E80();
     EXPORT s32 sub_469010();
-    EXPORT char_type sub_469030();
+    EXPORT void sub_469030();
     EXPORT void sub_469060();
     EXPORT void sub_469BD0();
     EXPORT char_type sub_469BF0();
@@ -148,7 +148,7 @@ class cool_nash_0x294
     EXPORT s32 sub_469E30();
     EXPORT s32 sub_469E50();
     EXPORT s32 sub_469F30();
-    EXPORT s32 sub_469FC0();
+    EXPORT void sub_469FC0();
     EXPORT void sub_469FE0();
     EXPORT void sub_46A1F0();
     EXPORT s32 sub_46A290();
@@ -382,7 +382,7 @@ class cool_nash_0x294
     char_type field_261;
     char_type field_262;
     char_type field_263;
-    char_type field_264;
+    u8 field_264;
     char_type field_265;
     char_type field_266;
     u8 field_267;
