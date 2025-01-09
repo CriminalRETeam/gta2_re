@@ -70,6 +70,7 @@ class Monster_808
     static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
     static s32 __stdcall StrToInt_430FA0(const char* param_1, s32* param_2);
+    static s32 __stdcall StrToInt_431080(const char* param_1, s16* param_2);
 
     Monster_2C* field_0_ptr_array[256];
     Monster_2C* field_400_raw_data;
