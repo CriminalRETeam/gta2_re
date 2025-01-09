@@ -133,7 +133,7 @@ char_type Zheal_15C::sub_47F7F0(u32* a2)
 }
 
 STUB_FUNC(0x47f930)
-void Zheal_15C::sub_47F930(s32 a2)
+void Zheal_15C::sub_47F930(Car_BC* a2)
 {
 }
 
@@ -189,9 +189,10 @@ s32* Zheal_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x480e00)
+MATCH_FUNC(0x480e00)
 void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
+    field_0[a3].sub_47F930(a2);
 }
 
 MATCH_FUNC(0x480e50)
