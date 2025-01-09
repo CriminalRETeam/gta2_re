@@ -98,10 +98,10 @@ char_type Object_5C::sub_52A210(char_type a2)
     return a2;
 }
 
-STUB_FUNC(0x52a240)
+MATCH_FUNC(0x52a240)
 s32* Object_5C::sub_52A240(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
 {
-    return 0;
+    return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 0);
 }
 
 STUB_FUNC(0x52a280)
