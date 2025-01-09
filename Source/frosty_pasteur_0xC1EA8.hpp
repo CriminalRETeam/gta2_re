@@ -487,7 +487,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT void sub_511D40();
     EXPORT void sub_511E10(char_type* FileName);
     EXPORT s32 sub_511F80(s32 FileName);
-    EXPORT SCR_CMD_HEADER* sub_512100(s16 toFind, u16 startOff);
+    EXPORT SCR_CMD_HEADER* sub_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();

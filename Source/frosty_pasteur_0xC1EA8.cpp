@@ -77,9 +77,26 @@ void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
 {
 }
 
-STUB_FUNC(0x512100)
-SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(s16 toFind, u16 startOff)
+MATCH_FUNC(0x512100)
+SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
 {
+    u16 idx;
+    SCR_CMD_HEADER* header;
+
+    if (bSkip_mission_67D4E5)
+    {
+        return 0;
+    }
+    for (idx = 0; idx < 6000 - startOff; ++idx)
+    {
+        if (header = frosty_pasteur_0xC1EA8::GetBasePointer_512770(idx + startOff))
+        {
+            if (header->field_2_type == toFind)
+            {
+                return header;
+            }
+        }
+    }
     return 0;
 }
 
