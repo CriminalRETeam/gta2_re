@@ -229,7 +229,7 @@ include_directories(${decomp_SOURCE_DIR})
 include_directories(3rdParty/gta2_re_compile_tools)
 
 # global lib dirs
-link_directories(${CMAKE_SOURCE_DIR}/gta2_lib 3rdParty/gta2_re_compile_tools/VC98/Lib)
+link_directories(${CMAKE_SOURCE_DIR}/gta2_lib ${CMAKE_SOURCE_DIR}/3rdParty/gta2_re_compile_tools/VC98/Lib)
 
 add_library (gta2_lib ${gta2_lib_src})
 target_compile_definitions(gta2_lib PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
@@ -237,11 +237,11 @@ target_link_libraries(gta2_lib)
 
 add_library (gta2_dll_exports SHARED ${gta2_lib_src})
 target_compile_definitions(gta2_dll_exports PRIVATE EXPORT_VARS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
-target_link_libraries(gta2_dll_exports mss32 Winmm DPLAY)
+target_link_libraries(gta2_dll_exports mss32 Winmm DPLAY DPLAYX)
 
 add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
 target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
-target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm DPLAY)
+target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm DPLAY DPLAYX)
 
 
 add_library(HookLoader SHARED 
@@ -259,7 +259,7 @@ add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
     resources.rc)
-target_link_libraries(decomp_main mss32 gta2_lib DPLAY)
+target_link_libraries(decomp_main mss32 gta2_lib DPLAY DPLAYX)
 
 #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /SUBSYSTEM:WINDOWS")
 

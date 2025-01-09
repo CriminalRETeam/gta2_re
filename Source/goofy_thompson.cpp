@@ -59,10 +59,21 @@ void goofy_thompson::DirectPlayDestroy_51DC90()
     }
 }
 
-STUB_FUNC(0x51dcd0)
+MATCH_FUNC(0x51dcd0)
 s32 goofy_thompson::DirectPlayCreate_51DCD0()
 {
-    return 0;
+    IDirectPlayLobby* pIDirectPlayLobby;
+
+    DirectPlayDestroy_51DC90();
+
+    if (CoCreateInstance(CLSID_DirectPlay, 0, 1u, IID_IDirectPlay3, (LPVOID*)&field_5E4_pDPlay3) < 0 ||
+        DirectPlayLobbyCreateW(0, &pIDirectPlayLobby, 0, 0, 0) < 0)
+    {
+        return 0;
+    }
+    pIDirectPlayLobby->QueryInterface(IID_IDirectPlayLobby2, (void**)&this->field_5E0_pDPlayLobby2);
+    pIDirectPlayLobby->Release();
+    return 1;
 }
 
 MATCH_FUNC(0x51ded0)
