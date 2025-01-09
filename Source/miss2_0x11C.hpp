@@ -289,7 +289,7 @@ class miss2_0x11C
     EXPORT void sub_510780();
     EXPORT void PreExecOpCode_5108D0();
     EXPORT char_type sub_511840();
-    EXPORT s32 sub_511930(char_type a2, u16 levelStart);
+    EXPORT void sub_511930(char_type a2, u16 levelStart);
     EXPORT miss2_0x11C* sub_511960(s16 a2);
     EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
     EXPORT miss2_0x11C();
