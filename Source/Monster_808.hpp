@@ -67,6 +67,7 @@ class Monster_808
                                                  size_t output_size,
                                                  u32* next_position);
     static s32 __stdcall sub_430b10(char* param_1);
+    static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
 
     Monster_2C* field_0_ptr_array[256];
     Monster_2C* field_400_raw_data;
