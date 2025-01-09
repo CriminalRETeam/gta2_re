@@ -10,7 +10,7 @@ class miss2_8;
 struct SCR_CMD_HEADER
 {
     s16 field_0_cmd_this;
-    s16 field_2_type;
+    u16 field_2_type;
     s16 field_4_cmd_next;
     s16 field_6_return_value;
 };
@@ -138,7 +138,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHECK_CAR_MODEL_50A610();
     EXPORT void SCRCMD_CHECK_CAR_REMAP_50A670();
     EXPORT void SCRCMD_CHECK_CAR_BOTH_50A6E0();
-    EXPORT void sub_50A760(miss2_0x11C* a1);
+    EXPORT void sub_50A760();
     EXPORT void SCRCMD_DELAY_HERE_50A940();
     EXPORT void sub_50A980();
     EXPORT void sub_50A9E0(u16 idx);
@@ -202,7 +202,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_LOWER_LEVEL_50CA30();
     EXPORT void sub_50CA70();
     EXPORT void SCRCMD_ADD_NEW_BLOCK_50CAB0();
-    EXPORT void SCRCMD_ROAD_ON_OFF_50CB20(miss2_0x11C* a1);
+    EXPORT void SCRCMD_ROAD_ON_OFF_50CB20();
     EXPORT void sub_50CB70();
     EXPORT void sub_50CCB0();
     EXPORT void sub_50CD30();
@@ -226,7 +226,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHAR_IN_AIR_50DE50();
     EXPORT void SCRCMD_CHAR_SUNK_50DEB0();
     EXPORT void sub_50DF10();
-    EXPORT void sub_50E0B0(miss2_0x11C* a1);
+    EXPORT void sub_50E0B0();
     EXPORT void sub_50E120();
     EXPORT void sub_50E150();
     EXPORT void sub_50E190();
@@ -322,10 +322,10 @@ class Miss2_8EC
     // inlined
     miss2_0x11C* sub_4767A0()
     {
-        miss2_0x11C* pf_0 = this->field_0;
-        this->field_0 = pf_0->field_0;
-        pf_0->field_0 = this->field_4;
-        this->field_4 = pf_0;
+        miss2_0x11C* pf_0 = field_0;
+        field_0 = pf_0->field_0;
+        pf_0->field_0 = field_4;
+        field_4 = pf_0;
         pf_0->sub_5035B0();
         return pf_0; // ??
     }

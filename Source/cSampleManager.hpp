@@ -135,6 +135,8 @@ class cSampleManager
     EXPORT void PlayAtIdx_58E7F0(s32 idx);
 
     EXPORT bool SampleNotDone_58E880();
+    
+    EXPORT void sub_58E8A0();
 
     EXPORT void EndSample_58E960();
 

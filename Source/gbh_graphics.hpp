@@ -49,8 +49,8 @@ struct STexture
     void* field_8_locked_pixels_ptr;
     char field_C;
     char field_D;
-    s16 field_E_width;
-    s16 field_10_height;
+    u16 field_E_width;
+    u16 field_10_height;
     char field_12_bPalIsValid;
     char field_13_flags;
     u8* field_14_original_pixel_data_ptr;

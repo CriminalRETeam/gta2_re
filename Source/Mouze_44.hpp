@@ -9,24 +9,24 @@ class Mouze_44
   public:
     EXPORT void sub_4C8E60();
     EXPORT static void sub_4C8E80();
-    EXPORT cool_nash_0x294** sub_4C8E90();
+    EXPORT void sub_4C8E90();
     EXPORT void sub_4C8EF0();
     EXPORT void sub_4C8F20();
-    EXPORT char_type sub_4C8F90(cool_nash_0x294* pPed);
-    EXPORT void sub_4C8FE0(cool_nash_0x294* pPed);
+    EXPORT void add_ped_to_end_of_list_4C8F90(cool_nash_0x294* pPed);
+    EXPORT void replace_leader_4C8FE0(cool_nash_0x294* pPed);
     EXPORT bool sub_4C9040();
     EXPORT char_type sub_4C9150();
-    EXPORT u8 sub_4C91B0();
+    EXPORT void sub_4C91B0();
     EXPORT bool sub_4C9210();
     EXPORT bool sub_4C9220();
     EXPORT void sub_4C9240();
-    EXPORT cool_nash_0x294** sub_4C92A0();
+    EXPORT void sub_4C92A0();
     EXPORT void sub_4C93A0();
     EXPORT void sub_4C94E0(cool_nash_0x294* a2);
     EXPORT void sub_4C9680(u8 a2);
     EXPORT void sub_4C9970(cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_4C9B10(cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_4C9B30(cool_nash_0x294* ptr, u8 idx);
+    EXPORT void add_ped_leader_4C9B10(cool_nash_0x294* a2);
+    EXPORT void add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx);
     EXPORT char_type sub_4C9B60(cool_nash_0x294* a2);
     EXPORT cool_nash_0x294* sub_4C9ED0();
     EXPORT void sub_4C9F00();
@@ -48,11 +48,11 @@ class Mouze_44
 
     char_type field_0;
     char_type field_1;
-    char_type field_2;
-    char_type field_3;
-    cool_nash_0x294* field_4[9];
+    char_type field_2; // padding
+    char_type field_3; // padding
+    cool_nash_0x294* field_4_ped_list[9];
     s32 field_28;
-    cool_nash_0x294* field_2C;
+    cool_nash_0x294* field_2C_ped_leader;
     s32 field_30;
     u8 field_34_count;
     char_type field_35;
@@ -60,7 +60,7 @@ class Mouze_44
     char_type field_37;
     s32 field_38;
     s32 field_3C;
-    char_type field_40;
+    char_type field_40_in_use;
     char_type field_41;
     char_type field_42;
     char_type field_43;

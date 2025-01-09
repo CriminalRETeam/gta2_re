@@ -16,6 +16,14 @@ Fix16& Fix16::FromInt_45C4E0(u8 a2)
     return *this;
 }
 
+MATCH_FUNC(0x4AE970)
+Fix16& Fix16::FromU16_4AE970(u16 a2)
+{
+    mValue = a2 << 14;
+    return *this;
+}
+
+
 MATCH_FUNC(0x408680)
 Fix16 Fix16::operator*(const Fix16& in)
 {

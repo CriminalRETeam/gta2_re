@@ -9,7 +9,7 @@ GLOBAL(g4096_alloc_6F5400, 0x6F5400);
 MATCH_FUNC(0x4D6D20)
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
-    field_0 = (nostalgic_ellis_0x28*)0x2A2A2A2A;
+    field_0 = 0x2A2A2A2A;
     field_4_light_x = 0;
     field_8_light_y = 0;
     field_C_light_z = 0;
@@ -38,19 +38,19 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     s32 idx; // eax
     nostalgic_ellis_0x28* pOld; // edx
 
-    idx = (this->field_4_light_x >> 16) + (this->field_8_light_y >> 16 << 6);
+    idx = (field_4_light_x >> 16) + (field_8_light_y >> 16 << 6);
     pOld = g4096_alloc_6F5400[idx];
     g4096_alloc_6F5400[idx] = this;
     if (pOld)
     {
-        this->field_24 = 0;
-        this->field_20 = pOld;
+        field_24 = 0;
+        field_20 = pOld;
         pOld->field_24 = this;
     }
     else
     {
-        this->field_20 = 0;
-        this->field_24 = 0;
+        field_20 = 0;
+        field_24 = 0;
     }
 }
 
@@ -60,20 +60,20 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     nostalgic_ellis_0x28* v1; // eax
     nostalgic_ellis_0x28* result; // eax
 
-    v1 = this->field_24;
+    v1 = field_24;
     if (v1)
     {
-        v1->field_20 = this->field_20;
+        v1->field_20 = field_20;
     }
     else
     {
-        *(&g4096_alloc_6F5400[64 * (this->field_8_light_y >> 16)] + (this->field_4_light_x >> 16)) = this->field_20;
+        *(&g4096_alloc_6F5400[64 * (field_8_light_y >> 16)] + (field_4_light_x >> 16)) = field_20;
     }
 
-    result = this->field_20;
+    result = field_20;
     if (result)
     {
-        result->field_24 = this->field_24;
+        result->field_24 = field_24;
     }
     return result;
 }

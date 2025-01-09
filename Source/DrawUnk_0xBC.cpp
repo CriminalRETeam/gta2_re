@@ -1,6 +1,10 @@
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "Car_BC.hpp"
+#include "Hamburger_500.hpp"
+#include "Police_7B8.hpp"
+#include "Game_0x40.hpp"
 
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Car_3C* a2)
@@ -168,10 +172,26 @@ void DrawUnk_0xBC::sub_435DD0()
     field_B8 = dword_676818;
 }
 
-STUB_FUNC(0x435F90)
-u8 DrawUnk_0xBC::sub_435F90(s32 a2)
+MATCH_FUNC(0x435F90)
+void DrawUnk_0xBC::sub_435F90(Car_BC* a2)
 {
-    return 0;
+    if (a2->field_54_driver &&
+        (gPolice_7B8_6FEE40->sub_56F880(a2->field_54_driver) ||
+         gHamburger_500_678E30->sub_474970(a2->field_54_driver)))
+    {
+        field_44++;
+        if (field_44 > 80u)
+        {
+            field_44 = 80;
+        }
+    }
+    else
+    {
+        if (field_44 > 0)
+        {
+            field_44--;
+        }
+    }
 }
 
 STUB_FUNC(0x435FF0)

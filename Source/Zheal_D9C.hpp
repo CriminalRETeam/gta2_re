@@ -30,7 +30,7 @@ class Zheal_15C
     EXPORT void sub_47F4C0();
     EXPORT char_type sub_47F6C0(u32* a2, s32* a3, u32* a4);
     EXPORT char_type sub_47F7F0(u32* a2);
-    EXPORT void sub_47F930(s32 a2);
+    EXPORT void sub_47F930(Car_BC* a2);
     EXPORT s32 sub_47FB40();
     EXPORT s32 sub_47FBA0();
     EXPORT s32 sub_47FD10();

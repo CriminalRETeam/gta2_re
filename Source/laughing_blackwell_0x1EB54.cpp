@@ -12,6 +12,7 @@
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
+#include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
@@ -48,12 +49,35 @@ EXPORT_VAR extern wchar_t word_67DC8C[50];
 EXPORT_VAR DWORD dword_67D9FC;
 GLOBAL(dword_67D9FC, 0x67D9FC);
 
-// todo: likely an array
-EXPORT_VAR short word_703C14; // = 7; // TODO: VAR HACK NOT CONST! Standalone hack ?? move hack to ctor ??
-GLOBAL(word_703C14, 0x703C14);
+EXPORT_VAR short font_type_703C14;
+GLOBAL(font_type_703C14, 0x703C14);
 
-EXPORT_VAR s16 word_703C3C; // = 8; // TODO: Ditto
+EXPORT_VAR s16 word_703C3C;
 GLOBAL(word_703C3C, 0x703C3C);
+
+EXPORT_VAR s16 word_703D0C;
+GLOBAL(word_703D0C, 0x703D0C);
+
+EXPORT_VAR s16 word_703C16;
+GLOBAL(word_703C16, 0x703C16);
+
+EXPORT_VAR s16 word_703C8C;
+GLOBAL(word_703C8C, 0x703C8C);
+
+EXPORT_VAR s16 word_703C8A;
+GLOBAL(word_703C8A, 0x703C8A);
+
+EXPORT_VAR s16 word_703BE2;
+GLOBAL(word_703BE2, 0x703BE2);
+
+EXPORT_VAR s16 word_703B88;
+GLOBAL(word_703B88, 0x703B88);
+
+EXPORT_VAR s16 word_703DAC;
+GLOBAL(word_703DAC, 0x703DAC);
+
+EXPORT_VAR s16 word_703B9C;
+GLOBAL(word_703B9C, 0x703B9C);
 
 EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
 GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
@@ -206,8 +230,6 @@ DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, s
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
 
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
-
 EXPORT_VAR DWORD dword_70675C;
 GLOBAL(dword_70675C, 0x70675C);
 
@@ -356,7 +378,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
     wchar_t* v43; // eax
     char_type* v44; // eax
     const char_type* v45; // eax
-    u16 field_132_f136_idx; // cx
+    u16 local_field_132_f136_idx; // cx
     loving_borg_0xBCA* v47; // edi
     wchar_t* v48; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
@@ -385,24 +407,24 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
 
     v3 = arg0;
     v57 = sub_4B43E0();
-    this->field_132_f136_idx = arg0;
+    field_132_f136_idx = arg0;
     switch (arg0)
     {
         case 0xEu:
-            this->field_110_state = 5;
-            this->field_C9CA = 0;
-            this->field_C9CB = 0;
+            field_110_state = 5;
+            field_C9CA = 0;
+            field_C9CB = 0;
             sub_4B8530();
-            this->field_C9B3 = 1;
-            this->field_C9B4 = 28;
-            this->field_C9B6 = 5;
+            field_C9B3 = 1;
+            field_C9B4 = 28;
+            field_C9B6 = 5;
             goto LABEL_116;
 
         case 9u:
-            this->field_1EB34 = 0x668000;
-            this->field_1EB30 = 0;
-            this->field_1EB38 = 0;
-            this->field_C9B3 = 1;
+            field_1EB34 = 0x668000;
+            field_1EB30 = 0;
+            field_1EB38 = 0;
+            field_C9B3 = 1;
             goto LABEL_116;
 
         case 3u:
@@ -416,33 +438,33 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             v4 = 1;
             for (a3 = 1; v4 <= v51; a3 = v4)
             {
-                if (v4 < this->field_1EB51_blocks[a2])
+                if (v4 < field_1EB51_blocks[a2])
                 {
                     gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2, a3);
                 }
                 ++v4;
             }
-            if (a2 == (unsigned __int8)this->field_1EB50_idx - 1)
+            if (a2 == (unsigned __int8)field_1EB50_idx - 1)
             {
-                this->field_136[3].field_4[0].field_1 = 0;
-                this->field_136[3].field_B8A[0].field_4 = 0;
+                field_136[3].field_4[0].field_1 = 0;
+                field_136[3].field_B8A[0].field_4 = 0;
             }
             else
             {
                 gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
-                this->field_136[3].field_4[0].field_1 = 1;
-                this->field_136[3].field_B8A[0].field_4 = 1;
+                field_136[3].field_4[0].field_1 = 1;
+                field_136[3].field_B8A[0].field_4 = 1;
             }
-            this->field_136[3].field_4[3].field_1 = 0;
-            this->field_136[3].field_B8A[3].field_4 = 0;
+            field_136[3].field_4[3].field_1 = 0;
+            field_136[3].field_B8A[3].field_4 = 0;
             v5 = 1;
             v6 = &v57->field_0[a2][1];
             do
             {
-                if (v6->field_0 && v5 < this->field_1EB51_blocks[a2])
+                if (v6->field_0 && v5 < field_1EB51_blocks[a2])
                 {
-                    this->field_136[3].field_4[3].field_1 = 1;
-                    this->field_136[3].field_B8A[3].field_4 = 1;
+                    field_136[3].field_4[3].field_1 = 1;
+                    field_136[3].field_B8A[3].field_4 = 1;
                 }
                 ++v5;
                 ++v6;
@@ -454,23 +476,23 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             v7 = gLucid_hamilton_67E8E0.sub_4C5990();
             v8 = v7 >> 4;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0[v8][v7 & 0xF].field_8);
-            wcsncpy(this->field_136[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
-            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)this->field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
+            wcsncpy(field_136[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
+            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
             {
-                this->field_136[6].field_4[1].field_1 = 0;
-                this->field_136[6].field_B8A[1].field_4 = 0;
+                field_136[6].field_4[1].field_1 = 0;
+                field_136[6].field_B8A[1].field_4 = 0;
             }
             else
             {
-                this->field_136[6].field_4[1].field_1 = 1;
-                this->field_136[6].field_B8A[1].field_4 = 1;
+                field_136[6].field_4[1].field_1 = 1;
+                field_136[6].field_B8A[1].field_4 = 1;
             }
             goto LABEL_116;
         case 2u:
         case 0xBu:
             a2a = 0;
         LABEL_30:
-            v9 = &(&this->field_0_pDInput)[gLucid_hamilton_67E8E0.sub_4C59B0()];
+            v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.sub_4C59B0()];
             v66 = *((BYTE*)v9 + 60905);
             v52 = *((BYTE*)v9 + 60906);
             v67 = *((BYTE*)v9 + 60907);
@@ -495,7 +517,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                 v12 = v66;
                 v53 = 0;
             }
-            v13 = &this->field_136[arg0];
+            v13 = &field_136[arg0];
             if (v10 == v12 && v61 == v53)
             {
                 v13->field_4[a2a].field_1 = 1;
@@ -513,8 +535,8 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
     {
         case 1u:
             playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-            this->field_136[1].field_4[0].field_6E_count = playerSlotSetting;
-            this->field_136[1].field_4[0].field_70 = playerSlotSetting;
+            field_136[1].field_4[0].field_6E_count = playerSlotSetting;
+            field_136[1].field_4[0].field_70 = playerSlotSetting;
             gLucid_hamilton_67E8E0.sub_4C5920(playerSlotSetting);
             sub_4B42E0();
             break;
@@ -546,20 +568,20 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             {
                 case 1:
                     _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
-                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, _5B5F90, 0x32u);
-                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136[7].field_518[13].field_6_wstr_buf, _5B5F90, 0x32u);
+                    v19 = sub_4B0190(field_136[7].field_518[13].field_6_wstr_buf, field_136[7].field_518[13].field_6A, 320);
                     break;
 
                 case 2:
                     v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
-                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v20, 50u);
-                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136[7].field_518[13].field_6_wstr_buf, v20, 50u);
+                    v19 = sub_4B0190(field_136[7].field_518[13].field_6_wstr_buf, field_136[7].field_518[13].field_6A, 320);
                     break;
 
                 case 3:
                     v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
-                    wcsncpy(this->field_136[7].field_518[13].field_6_wstr_buf, v18, 0x32u);
-                    v19 = sub_4B0190(this->field_136[7].field_518[13].field_6_wstr_buf, this->field_136[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136[7].field_518[13].field_6_wstr_buf, v18, 0x32u);
+                    v19 = sub_4B0190(field_136[7].field_518[13].field_6_wstr_buf, field_136[7].field_518[13].field_6A, 320);
                     break;
                 default:
                     FatalError_4A38C0(189,
@@ -567,9 +589,9 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                                       4079); // Multiplayer game type should be frag, tag or score (but isn't)
             }
 
-            this->field_136[7].field_518[13].field_2 = v19;
+            field_136[7].field_518[13].field_2_xpos = v19;
             v22 = 0;
-            v23 = &this->field_136[7].field_518[7].field_1;
+            v23 = &field_136[7].field_518[7].field_1;
             do
             {
                 if (v22 >= a2b)
@@ -594,7 +616,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             {
                 v26 = 0;
                 v58 = &gYouthful_einstein_6F8450.field_20;
-                field_6_wstr_buf = this->field_136[7].field_518[1].field_6_wstr_buf;
+                field_6_wstr_buf = field_136[7].field_518[1].field_6_wstr_buf;
                 do
                 {
                     if (*(BYTE*)v58)
@@ -613,7 +635,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     wcsncpy(field_6_wstr_buf, Destination, 0x32u);
                     if (v26 != v65)
                     {
-                        wcsncpy(this->field_136[7].field_518[v69++ + 8].field_6_wstr_buf, Destination, 0x32u);
+                        wcsncpy(field_136[7].field_518[v69++ + 8].field_6_wstr_buf, Destination, 0x32u);
                     }
                     ++v25;
                     ++v26;
@@ -706,7 +728,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             if (v40 > 0)
             {
                 v41 = gText_0x14_704DFC->Find_5B5F90("mult_w");
-                wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v41, 0x32u);
+                wcsncpy(field_136[7].field_518[0].field_6_wstr_buf, v41, 0x32u);
                 break;
             }
 
@@ -714,13 +736,13 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             {
             LABEL_105:
                 v42 = gText_0x14_704DFC->Find_5B5F90("mult_l");
-                wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v42, 0x32u);
+                wcsncpy(field_136[7].field_518[0].field_6_wstr_buf, v42, 0x32u);
                 break;
             }
 
         LABEL_107:
             v43 = gText_0x14_704DFC->Find_5B5F90("mult_d");
-            wcsncpy(this->field_136[7].field_518[0].field_6_wstr_buf, v43, 0x32u);
+            wcsncpy(field_136[7].field_518[0].field_6_wstr_buf, v43, 0x32u);
             break;
 
         case 8u:
@@ -744,16 +766,16 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             break;
 
         case 0u:
-            this->field_C9E4 = timeGetTime();
+            field_C9E4 = timeGetTime();
             break;
     }
 
 LABEL_116:
-    this->field_132_f136_idx = v3;
-    this->field_136[v3].field_BC6_nifty_idx = this->field_136[v3].field_BC8;
-    field_132_f136_idx = this->field_132_f136_idx;
-    v47 = &this->field_136[field_132_f136_idx];
-    if (!v47->field_4[this->field_136[field_132_f136_idx].field_BC6_nifty_idx].field_1)
+    field_132_f136_idx = v3;
+    field_136[v3].field_BC6_nifty_idx = field_136[v3].field_BC8;
+    local_field_132_f136_idx = field_132_f136_idx;
+    v47 = &field_136[local_field_132_f136_idx];
+    if (!v47->field_4[field_136[local_field_132_f136_idx].field_BC6_nifty_idx].field_1)
     {
         v47->sub_4B6200();
         if (!v47->field_4[v47->field_BC6_nifty_idx].field_1)
@@ -778,27 +800,27 @@ STUB_FUNC(0x4AEDB0)
 s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
     u32 Time; // eax
-    u16 field_132_f136_idx; // cx
-    const char_type* v5; // eax
-    char_type* field_8_keys; // edi
+    u16 local_field_132_f136_idx; // cx
+    //const char_type* v5; // eax
+    char_type* local_field_8_keys; // edi
     s32 v7; // ebx
     s32 result; // eax
     char_type* v9; // ecx
     s32 v10; // edx
     char_type v12; // al
-    HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-10h]
+    HDIGDRIVER local_field_0_hDriver; // [esp-4h] [ebp-10h]
 
     Time = timeGetTime();
-    field_132_f136_idx = this->field_132_f136_idx;
-    if (field_132_f136_idx == 8)
+    local_field_132_f136_idx = field_132_f136_idx;
+    if (local_field_132_f136_idx == 8)
     {
         if (Bink::sub_513240())
         {
             if (Bink::sub_513790() == 1)
             {
                 Bink::sub_5137A0(2);
-                field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                Bink::sub_5133E0(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), field_0_hDriver);
+                local_field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
+                Bink::sub_5133E0(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
                 Bink::Close1_513340();
                 Bink::sub_5137A0(2);
                 Bink::sub_5137B0(2);
@@ -816,13 +838,13 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
             }
         }
 
-        sub_4AFEB0();
+        read_menu_input_4AFEB0();
 
-        field_8_keys = this->field_8_keys;
+        local_field_8_keys = field_8_keys;
         v7 = 256;
         do
         {
-            if ((*field_8_keys & 0x80u) != 0)
+            if ((*local_field_8_keys & 0x80u) != 0)
             {
                 Bink::Close1_513340();
                 Bink::Close2_513390();
@@ -832,52 +854,52 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
                 }
                 sub_4B3170(0);
             }
-            ++field_8_keys;
+            ++local_field_8_keys;
             --v7;
         } while (v7);
 
-        return this->field_108;
+        return field_108;
     }
     else
     {
-        if (!field_132_f136_idx)
+        if (!local_field_132_f136_idx)
         {
-            v9 = this->field_8_keys;
+            v9 = field_8_keys;
             v10 = 256;
             do
             {
                 if ((*v9 & 0x80u) != 0)
                 {
-                    this->field_C9E4 = Time;
+                    field_C9E4 = Time;
                 }
                 ++v9;
                 --v10;
             } while (v10);
-            if (Time - this->field_C9E4 > 60000)
+            if (Time - field_C9E4 > 60000)
             {
                 return 4;
             }
         }
         else
         {
-            this->field_C9E4 = Time;
+            field_C9E4 = Time;
         }
 
-        if (Time >= this->field_C9DC || (this->field_C9E0 == 3))
+        if (Time >= field_C9DC || (field_C9E0 == 3))
         {
             sub_4AEC00();
-            v12 = this->field_C9E0 + 1;
-            this->field_C9DC += 33;
-            this->field_C9E0 = v12;
+            v12 = field_C9E0 + 1;
+            field_C9DC += 33;
+            field_C9E0 = v12;
         }
-        else if (this->field_C9E0)
+        else if (field_C9E0)
         {
             sub_4ADFB0(); // bQuit ??
-            result = this->field_108;
-            this->field_C9E0 = 0;
+            result = field_108;
+            field_C9E0 = 0;
             return result;
         }
-        return this->field_108;
+        return field_108;
     }
 }
 
@@ -885,177 +907,74 @@ s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 EXPORT_VAR extern s32 gGTA2VersionMajor_708280;
 EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 
+// sub_457920 in 9.6f
 STUB_FUNC(0x4AD140)
 void laughing_blackwell_0x1EB54::sub_4AD140()
 {
-    s32 v1; // edx
-    s32 v2; // ebx
-    u16 field_132_f136_idx; // dx
-    s32 v5; // ecx
-    s32 v6; // eax
-    loving_borg_0xBCA* v7; // edi
-    s16 v8; // esp^2
-    s32 v9; // eax
-    s32 v10; // ecx
-    s32* v11; // ecx
-    s16 v12; // ax
-    void* v13; // edx
-    void* v14; // eax
-    s16 v15; // ax
-    void* v16; // ecx
-    s16 v17; // dx
-    s16 v18; // ax
-    u8 v19; // al
-    wchar_t* v20; // ecx
-    u16 v21; // ax
-    s32 v22; // ecx
-    u8 v23; // al
-    u8 v24; // bl
-    u8 v25; // bp
-    wchar_t* _5B5F90; // eax
-    u16 v27; // ax
-    bool v28; // zf
-    s32* v29; // ecx
-    s32 v30; // eax
-    s32 v31; // ebp
-    wchar_t* v32; // edx
-    s32* v33; // ecx
-    u16 v34; // ax
-    void* v35; // eax
-    char_type v36; // cl
-    s16 v37; // ax
-    void* v38; // ecx
-    void* v39; // edx
-    s16 v40; // ax
-    void* v41; // ecx
-    s32* v42; // ecx
-    s32* v43; // ecx
-    u16 v44; // ax
-    char_type v45; // dl
-    u32* v46; // eax
-    wchar_t* v47; // ecx
-    s32 v48; // ecx
-    s32 v49; // edx
-    wchar_t* v50; // ecx
-    s32 v51; // ecx
-    bool v52; // cf
-    s32 v53; // eax
-    u16 v54; // ax
-    s32 v55; // eax
-    s32 v56; // ebp
-    u16 v57; // bx
-    u16 v58; // dx
-    s32* v59; // eax
-    wchar_t* v60; // ecx
-    s16 v61; // ax
-    s32 v62; // edx
-    u16 v63; // ax
-    s32 v64; // ecx
-    s32* v65; // ecx
-    wchar_t* v66; // ecx
-    s32 v67; // ecx
-    s16 v68; // ax
-    u16 v69; // bp
-    u16 v70; // bx
-    s32* v71; // ecx
-    s32* v72; // ecx
-    wchar_t* v73; // eax
-    s32 v74; // eax
-    s16 v75; // esp^2
-    s32* v76; // ecx
-    s32* v77; // ecx
-    s16 v78; // ax
-    u16 v79; // bx
-    u16 v80; // di
-    s32* v81; // ecx
-    s32* v82; // ecx
-    wchar_t* v83; // [esp-24h] [ebp-50h] BYREF
-    s32 v84; // [esp-20h] [ebp-4Ch] BYREF
-    agitated_keldysh_0xF0* v85; // [esp-1Ch] [ebp-48h] BYREF
-    s32 v86; // [esp-18h] [ebp-44h]
-    s32 v87; // [esp-14h] [ebp-40h] BYREF
-    s32 fp_300; // [esp-10h] [ebp-3Ch] BYREF
-    s32* fp_460; // [esp-Ch] [ebp-38h] BYREF
-    s32 v90; // [esp-8h] [ebp-34h]
-    s32 v91; // [esp-4h] [ebp-30h]
-    wchar_t* field_6_wstr_buf; // [esp+10h] [ebp-1Ch] BYREF
-    s32 v93; // [esp+14h] [ebp-18h]
-    s32* v94; // [esp+18h] [ebp-14h]
-    s32 v95; // [esp+1Ch] [ebp-10h] BYREF
-    s32 v96; // [esp+20h] [ebp-Ch]
-    s32 v97; // [esp+24h] [ebp-8h] BYREF
-    s32 v98; // [esp+28h] [ebp-4h] BYREF
+    const u16 local_field_132_f136_idx = field_132_f136_idx;
+    const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
+    const s32 v5 = field_132_f136_idx;
+    //v6 = 0x5E5 * local_field_132_f136_idx;
+    loving_borg_0xBCA* v7 = &field_136[local_field_132_f136_idx];
 
-    field_132_f136_idx = this->field_132_f136_idx;
-    v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
-    v5 = field_132_f136_idx;
-    //v6 = 0x5E5 * field_132_f136_idx;
-    v7 = &this->field_136[field_132_f136_idx];
-    if (!field_132_f136_idx)
+    /*
+for (s32 i=0; i<3; i++)
+{
+    wprintf(L"%S\n", field_136[i].field_4[0].field_6_wstr_buf);
+}*/
+    printf("field_132_f136_idx %d\n", field_132_f136_idx);
+
+    if (field_132_f136_idx == 0)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
-        //HIWORD(v9) = v8;
-        //LOWORD(v9) = word_703C14;
-        //v90 = v9;
-        //fp_460 = (s32 *)v10;
-        Fix16 fp_460;
-        fp_460.FromInt_4369F0(460);
-        //fp_300 = (int)v11;
-        Fix16 fp_300;
-        fp_300.FromInt_4369F0(300);
 
-        Fix16 tmp;
-        tmp.mValue = 0x4000;
+        Fix16 ypos;
+        ypos.FromInt_4369F0(460);
 
-        /*v6 =*/DrawText_4B87A0(tmpBuff_67BD9C, fp_300, fp_460, word_703C14, tmp);
+        Fix16 xpos;
+        xpos.FromInt_4369F0(300);
 
-        tmp.mValue = 0x4000;
+        Fix16 scale;
+        scale.mValue = 0x4000;
 
-        Fix16 fp_0;
-        fp_0.FromInt_4369F0(0);
-        DrawText_4B87A0(L"1111", fp_0, fp_0, word_703C14, tmp);
+        DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, font_type_703C14, scale);
     }
 
-    if (this->field_132_f136_idx == 1)
+    if (field_132_f136_idx == 1)
     {
-        if (this->field_110_state == 3)
+        if (field_110_state == 3)
         {
-            /*
             v7->field_518[8].field_1 = 0;
             v7->field_518[9].field_1 = 0;
-            LOWORD(v5) = this->field_124;
-            v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, (void *)v5, 0xFFFF);
-            LOWORD(v13) = this->field_124;
-            v14 = (void *)sub_4B7E10(11, v12 + 300, 0x1B8u, v13, 0xFFFF);
-            LOWORD(v14) = this->field_124;
-            v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, v14, 0xFFFF);
-            LOWORD(v16) = this->field_124;
-            sub_4B7E10(10, v15 + 300, 0x1CCu, v16, 0xFFFF);
-            */
+            const s32 v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
+            sub_4B7E10(11, v12 + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
+
+            const s32 v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
+            sub_4B7E10(10, v15 + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
         }
         else
         {
             /*
             LOWORD(v6) = v7->field_4[0].field_6E_count;
-            v17 = this->field_11C;
+            v17 = field_11C;
             v97 = v6;
             v18 = laughing_blackwell_0x1EB54::sub_5D8990(
                 (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_str,
                 v17)
                 + 10;
             if (v18 == 10)
-                v18 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, this->field_11C) + 40;
+                v18 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
             v7->field_518[9].field_2 = v18 + v7->field_4[0].field_2;
             */
         }
     }
-    if (this->field_132_f136_idx == 5)
+    if (field_132_f136_idx == 5)
     {
         /*
-        v19 = this->field_EE0D;
+        v19 = field_EE0D;
         if (v19 < 3u)
         {
-            LOWORD(v1) = this->field_12A;
+            LOWORD(v1) = field_12A;
             v91 = 2;
             v90 = 0xFFFF;
             fp_460 = (s32 *)v1;
@@ -1072,7 +991,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             v90 = 0xFFFF;
             if (v19 < 9u)
             {
-                LOWORD(v1) = this->field_12A;
+                LOWORD(v1) = field_12A;
                 fp_460 = (s32 *)v1;
                 fp_300 = 5;
                 v87 = 250;
@@ -1080,7 +999,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v85 = (agitated_keldysh_0xF0 *)(&gJolly_poitras_0x2BC0_6FEAC0->field_17A0 + 60 * v19);
                 goto LABEL_18;
             }
-            LOWORD(v5) = this->field_12A;
+            LOWORD(v5) = field_12A;
             fp_460 = (s32 *)v5;
             fp_300 = 5;
             v87 = 250;
@@ -1089,7 +1008,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         }
         else
         {
-            LOWORD(v5) = this->field_12A;
+            LOWORD(v5) = field_12A;
             v91 = 2;
             v90 = 0xFFFF;
             fp_460 = (s32 *)v5;
@@ -1106,15 +1025,15 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         sub_4B5430(this, (wchar_t *)v85, v86, v87, fp_300, (int)fp_460, v90, v91);
         if (!byte_67DA80)
         {
-            if (this->field_EE0D)
+            if (field_EE0D)
                 v7->field_518[2].field_1 = 1;
             else
                 v7->field_518[2].field_1 = 0;
-            v7->field_518[3].field_1 = this->field_EE0D != 11;
+            v7->field_518[3].field_1 = field_EE0D != 11;
         }*/
     }
 
-    v21 = this->field_132_f136_idx;
+    const s32 v21 = field_132_f136_idx;
     if (v21 == 2 || v21 == 3 || v21 == 6 || v21 == 11)
     {
         /*
@@ -1131,7 +1050,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
         }
         v24 = v96;
         v25 = v95;
-        if (this->field_132_f136_idx == 6)
+        if (field_132_f136_idx == 6)
         {
             v91 = 3 * (unsigned __int8)v96 + (unsigned __int8)v95 + 64;
             _5B5F90 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "bonslev");
@@ -1139,47 +1058,62 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             wcsncpy(v7->field_518[0].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
             sub_4B7D60((int)this, this);
         }
-        LOWORD(v22) = this->field_12A;
+        LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
         sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[0][v2], 170, 155, 3, v22, 0xFFFF, 2);
-        v27 = this->field_132_f136_idx;
+        v27 = field_132_f136_idx;
         if (v27 == 2 || v27 == 3 || v27 == 11)
             sub_4B57B0((int)this, this, 10, (text_0x14 *)0xE1);
             */
     }
 
-    if (this->field_132_f136_idx == 7)
+    if (field_132_f136_idx == 7)
     {
         //laughing_blackwell_0x1EB54::sub_4B55F0(this);
     }
 
-    /*
-    v28 = v7->field_0 == 0;
-    v96 = -1;
-    v94 = 0;
-    if (v28)
-        goto LABEL_92;
+    //v28 = v7->field_0 == 0;
+    s32 v96 = -1;
+    s32 v94 = 0;
+
+    if (v7->field_0 == 0)
+    {
+        //goto LABEL_92;
+    }
+
+    s32 v52 = 0;
     do
     {
-        v29 = v94;
-        v30 = (u16)v94;
-        v31 = (int)&v7->field_4[(u16)v94];
-        if (!v7->field_4[(u16)v94].field_1)
+        s32 v29 = v94;
+        s32 v30 = v94;
+        nifty_maxwell_0x82* v31 = &v7->field_4[v94];
+        if (!v7->field_4[v94].field_1)
         {
-            v44 = this->field_132_f136_idx;
+            /*
+            v44 = field_132_f136_idx;
             v45 = 0;
             if ((v44 == 1 || v44 == 3) && (_WORD)v94 == 1)
+            {
                 v45 = 1;
+            }
+
             if (v44 != 11 && v44 != 2 || (_WORD)v94)
             {
                 if (!v45)
+                {
                     goto LABEL_87;
+                }
                 v29 = v94;
             }
             if (*(_BYTE *)v31 == 2)
-                sub_4B3AF0((int)this, v44, (u16)v29, &field_6_wstr_buf);
+            {
+                sub_4B3AF0(v44, v29, &field_6_wstr_buf);
+            }
             else
-                field_6_wstr_buf = v7->field_4[(u16)v94].field_6_wstr_buf;
+            {
+                field_6_wstr_buf = v7->field_4[v94].field_6_wstr_buf;
+            }
+
             LOWORD(v29) = *(_WORD *)(v31 + 4);
             v28 = *(_WORD *)(v31 + 106) == 0xFFFF;
             LOWORD(v2) = *(_WORD *)(v31 + 2);
@@ -1213,7 +1147,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             fp_300 = (int)&v95;
             v87 = (int)&v95;
             FP::FromInt_4369F0(&v87, 1);
-            LOWORD(v49) = this->field_11C;
+            LOWORD(v49) = field_11C;
             v86 = v49;
             v85 = (agitated_keldysh_0xF0 *)v50;
             FP::sub_4AE970(&v85, v93);
@@ -1221,22 +1155,27 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             FP::sub_4AE970(&v84, v2);
             v83 = field_6_wstr_buf;
             goto LABEL_86;
+            */
         }
-        if (*(_BYTE *)v31 == 2)
+        if (v31->field_0 == 2)
         {
-            v30 = (int)sub_4B3AF0((int)this, this->field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
+            //v30 = (int)sub_4B3AF0((int)this, field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
         }
         else
         {
-            v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
-            field_6_wstr_buf = v32;
+            //v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
+            //field_6_wstr_buf = v32;
         }
-        LOWORD(v29) = (_WORD)v94;
-        v28 = (_WORD)v94 == v7->field_BC6_nifty_idx;
-        LOWORD(v2) = *(_WORD *)(v31 + 2);
-        LOWORD(v93) = *(_WORD *)(v31 + 4);
+
+        //LOWORD(v29) = (_WORD)v94;
+        const s32 v28 = v94 == v7->field_BC6_nifty_idx;
+        //LOWORD(v2) = *(_WORD *)(v31 + 2);
+        //LOWORD(v93) = *(_WORD *)(v31 + 4);
+        
+
         if (!v28)
         {
+            /*
             if (*(_WORD *)(v31 + 106) != 0xFFFF)
             {
                 LOWORD(v30) = *(_WORD *)(v31 + 108);
@@ -1262,7 +1201,7 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             if ((_WORD)v31 == 0xFFFF)
             {
                 v91 = 0x4000;
-                LOWORD(v29) = this->field_11C;
+                LOWORD(v29) = field_11C;
                 v90 = (int)v29;
                 fp_460 = v29;
                 FP::sub_4AE970(&fp_460, v93);
@@ -1276,19 +1215,23 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             v95 = 8;
             fp_460 = (s32 *)v31;
             goto LABEL_85;
+            */
         }
+        /*
         v91 = 0x4000;
-        LOWORD(v32) = this->field_120;
+        LOWORD(v32) = field_120;
         v90 = (int)v32;
         fp_460 = v29;
         FP::sub_4AE970(&fp_460, v93);
         fp_300 = (int)v33;
         FP::sub_4AE970(&fp_300, v2);
         DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
-        v34 = this->field_132_f136_idx;
-        HIWORD(v2) = 0;
+        */
+        s32 v34 = field_132_f136_idx;
+        //        HIWORD(v2) = 0;
         if (v34 == 1)
         {
+            /*
             v35 = v94;
             v28 = (_WORD)v94 == 3;
             v7->field_518[4].field_1 = 0;
@@ -1302,28 +1245,28 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v96 = 3;
                 v7->field_518[4].field_6_wstr_buf[0] = 1;
                 v7->field_518[5].field_6_wstr_buf[0] = 2;
-                v7->field_518[4].field_1 = this->field_1EB4C != 0;
-                v7->field_518[5].field_1 = this->field_1EB4D != 0;
+                v7->field_518[4].field_1 = field_1EB4C != 0;
+                v7->field_518[5].field_1 = field_1EB4D != 0;
             }
-            else if ((_WORD)v35 == 4)
+            else if (v35 == 4)
             {
                 v7->field_518[6].field_6_wstr_buf[0] = 1;
                 v7->field_518[7].field_6_wstr_buf[0] = 2;
-                v36 = this->field_1EB4E;
+                v36 = field_1EB4E;
                 v96 = 4;
                 v7->field_518[6].field_1 = v36 != 0;
-                v7->field_518[7].field_1 = this->field_1EB4F != 0;
+                v7->field_518[7].field_1 = field_1EB4F != 0;
             }
-            else if (!(_WORD)v35)
+            else if (v35 == 0)
             {
                 v7->field_518[8].field_6_wstr_buf[0] = 1;
                 v7->field_518[9].field_6_wstr_buf[0] = 2;
-                if (this->field_110_state != 3)
+                if (field_110_state != 3)
                 {
                     v7->field_518[8].field_1 = 1;
                     v7->field_518[9].field_1 = 1;
-                    this->field_1EB4A = 1;
-                    this->field_1EB4B = 1;
+                    field_1EB4A = 1;
+                    field_1EB4B = 1;
                     if (!byte_67DA80)
                     {
                         v35 = (void *)v97;
@@ -1332,28 +1275,27 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                             if ((_WORD)v97 == v7->field_4[0].field_7E)
                             {
                                 v7->field_518[9].field_1 = 0;
-                                this->field_1EB4B = 0;
+                                field_1EB4B = 0;
                             }
                         }
                         else
                         {
                             v7->field_518[8].field_1 = 0;
-                            this->field_1EB4A = (char)v35;
+                            field_1EB4A = (char)v35;
                         }
                     }
-                    LOWORD(v35) = this->field_124;
-                    v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, v35, 0xFFFF);
-                    LOWORD(v38) = this->field_124;
-                    sub_4B7E10(8, v37 + 300, 0x1B8u, v38, 0xFFFF);
-                    LOWORD(v39) = this->field_124;
-                    v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, v39, 0xFFFF);
-                    LOWORD(v41) = this->field_124;
-                    sub_4B7E10(9, v40 + 300, 0x1CCu, v41, 0xFFFF);
+
+                    v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124, 0xFFFF);
+                    sub_4B7E10(8, v37 + 300, 0x1B8u, field_124, 0xFFFF);
+
+                    v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124, 0xFFFF);
+                    sub_4B7E10(9, v40 + 300, 0x1CCu, field_124, 0xFFFF);
                 }
-            }
+            }*/
         }
         else if (v34 == 5)
         {
+            /*
             v28 = (_WORD)v94 == 0;
             v7->field_518[2].field_6_wstr_buf[0] = 3;
             v7->field_518[3].field_6_wstr_buf[0] = 4;
@@ -1362,17 +1304,21 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
                 v7->field_518[2].field_6_wstr_buf[0] = 1;
                 v7->field_518[3].field_6_wstr_buf[0] = 2;
             }
+            */
         }
-    LABEL_87:
-        v52 = (u16)((_WORD)v94 + 1) < v7->field_0;
-        v94 = (s32 *)((char_type *)v94 + 1);
+
+        //LABEL_87:
+        v52 = (u16)(v94 + 1) < v7->field_0;
+        v94++;
     } while (v52);
+
     if (v96 == 3)
     {
+        /*
         LOBYTE(v96) = lucid_hamilton::sub_4C5980(&gLucid_hamilton_67E8E0);
         LOBYTE(v95) = 0;
     LABEL_91:
-        LOWORD(v53) = this->field_128;
+        LOWORD(v53) = field_128;
         sub_4B5430(
             this,
             (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[(unsigned __int8)v96][(unsigned __int8)v95],
@@ -1382,28 +1328,34 @@ void laughing_blackwell_0x1EB54::sub_4AD140()
             v53,
             0xFFFF,
             2);
+        */
     }
     else if (v96 == 4)
     {
+        /*
         LOBYTE(v53) = lucid_hamilton::sub_4C5990(&gLucid_hamilton_67E8E0);
         LOBYTE(v96) = (unsigned __int8)v53 >> 4;
         LOBYTE(v95) = v53 & 0xF;
         goto LABEL_91;
+        */
     }
 
-LABEL_92:
-    v54 = 0;
-    v28 = v7->field_2 == 0;
-    v94 = 0;
 
-    if (!v28)
+//LABEL_92:
+    s32 v54 = 0;
+  //  v28 = v7->field_2 == 0;
+
+
+    v94 = 0;
+    if (v7->field_2 != 0)
     {
         do
         {
-            v55 = v54;
-            v56 = (int)&v7->field_518[v55];
+            s32 v55 = v54;
+            competent_noyce_0x6E* v56 = &v7->field_518[v55];
             if (v7->field_518[v55].field_1)
             {
+                /*
                 if (*(_BYTE *)v56 == 1)
                 {
                     LOWORD(v2) = v7->field_518[v55].field_6A;
@@ -1411,9 +1363,9 @@ LABEL_92:
                     LOWORD(v96) = *(_WORD *)(v56 + 2);
                     LOWORD(v93) = v61;
                     if ((_WORD)v2 == 0xFFFF)
-                        LOWORD(v2) = this->field_11C;
-                    sub_4B3CC0((int)this, this->field_132_f136_idx, (u16)v94, (wchar_t *)&field_6_wstr_buf);
-                    v63 = this->field_132_f136_idx;
+                        LOWORD(v2) = field_11C;
+                    sub_4B3CC0((int)this, field_132_f136_idx, (u16)v94, (wchar_t *)&field_6_wstr_buf);
+                    v63 = field_132_f136_idx;
                     HIWORD(v64) = HIWORD(v94);
                     if (v63 == 1 && ((_WORD)v94 == 2 || (_WORD)v94 == 3))
                     {
@@ -1455,9 +1407,11 @@ LABEL_92:
                             DrawText_5D8A10(field_6_wstr_buf, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
                         }
                     }
-                }
-                else if (*(BYTE *)v56 == 3)
-                {
+                */
+            }
+            else if (v56->field_0 == 3)
+            {
+                /*
                     v57 = v7->field_518[v55].field_2;
                     v58 = v7->field_518[v55].field_4;
                     switch (v7->field_518[v55].field_6_wstr_buf[0])
@@ -1495,26 +1449,28 @@ LABEL_92:
                     v83 = v60;
                     FP::sub_4AE970(&v83, v57);
                     sub_5D7EC0(6, v95, (int)v83, v84, (int)v85, v86, (s32 *)v87, fp_300, (int)fp_460, v90, v91);
-                }
+                    */
             }
-            v54 = (_WORD)v94 + 1;
-            v52 = (u16)((_WORD)v94 + 1) < (u32)v7->field_2;
-            v94 = (s32 *)((char_type *)v94 + 1);
-        } while (v52);
-    }
-    */
 
-    if (this->field_110_state == 3)
+            //v54 = (_WORD)v94 + 1;
+            v52 = (u16)(v94 + 1) < (u32)v7->field_2;
+            v94++;
+        }
+
+        while (v52);
+    }
+
+    if (field_110_state == 3)
     {
-        if (this->field_114)
+        if (field_114)
         {
             /*
-            v68 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)this->field_C9A0, this->field_11C);
+            v68 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)field_C9A0, field_11C);
             v69 = v7->field_4[0].field_4;
             v70 = v7->field_4[0].field_2 + v68;
             swprintf(tmpBuff_67BD9C, asc_62017C);
             v91 = 0x4000;
-            LOWORD(v71) = this->field_11C;
+            LOWORD(v71) = field_11C;
             v90 = (int)v71;
             fp_460 = v71;
             FP::sub_4AE970(&fp_460, v69);
@@ -1531,7 +1487,7 @@ LABEL_92:
         HIWORD(v76) = v75;
         LOBYTE(v74) = v74 & 0xFC;
         v91 = 0x4000;
-        LOWORD(v76) = this->field_126;
+        LOWORD(v76) = field_126;
         v90 = (int)v76;
         fp_460 = v76;
         FP::sub_4AE970(&fp_460, v74 + 16);
@@ -1541,25 +1497,23 @@ LABEL_92:
         */
     }
 
-    if (this->field_110_state == 5)
+    if (field_110_state == 5)
     {
-        if (this->field_114)
+        if (field_114)
         {
-            /*
-            v78 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)this->field_C9B8, this->field_11C);
-            v91 = (int)asc_62017C;
-            v79 = v7->field_518[4].field_2 + v78;
-            v80 = v7->field_518[4].field_4;
-            swprintf(tmpBuff_67BD9C, asc_62017C);
-            v91 = 0x4000;
-            LOWORD(v81) = this->field_11C;
-            v90 = (int)v81;
-            fp_460 = v81;
-            FP::sub_4AE970(&fp_460, v80);
-            fp_300 = (int)v82;
-            FP::sub_4AE970(&fp_300, v79);
-            DrawText_4B87A0(tmpBuff_67BD9C, fp_300, (int)fp_460, (void *)v90, v91);
-            */
+            s32 v78 = sub_5D8990(this->field_C9B8, this->field_11C);
+
+            swprintf(tmpBuff_67BD9C, L"_");
+
+            Fix16 scale;
+            scale.mValue = 0x4000;
+
+            Fix16 ypos;
+            ypos.FromU16_4AE970(v7->field_518[4].field_4_ypos);
+
+            Fix16 xpos;
+            xpos.FromU16_4AE970(v7->field_518[4].field_2_xpos + v78);
+            DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, field_11C, scale);
         }
     }
 }
@@ -1578,7 +1532,7 @@ void laughing_blackwell_0x1EB54::sub_4B7AE0()
     }
 }
 
-STUB_FUNC(0x4B8650)
+MATCH_FUNC(0x4B8650)
 void laughing_blackwell_0x1EB54::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
@@ -1657,7 +1611,7 @@ void sub_SetGamma()
 MATCH_FUNC(0x4AEC00)
 void laughing_blackwell_0x1EB54::sub_4AEC00()
 {
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     sub_4B6780();
 
     snd1_67D818.field_0_object_type = 0;
@@ -1708,17 +1662,56 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
     }
 }
 
-STUB_FUNC(0x4AFEB0)
-void laughing_blackwell_0x1EB54::sub_4AFEB0()
+MATCH_FUNC(0x4AFEB0)
+void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 {
-    // todo
+    if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
+    {
+        const u8 up = field_8_keys[DIK_UP] & 0x80;
+        field_C9CE_up_pressed = up && !field_C9D5_up_key_down;
+        field_C9D5_up_key_down = up;
+
+        const u8 down = field_8_keys[DIK_DOWN] & 0x80;
+        field_C9CF_down_pressed = down && !field_C9D6_down_key_down;
+        field_C9D6_down_key_down = down;
+
+        const u8 left = field_8_keys[DIK_LEFT] & 0x80;
+        field_C9CC_left_pressed = left && !field_C9D3_left_key_down;
+        field_C9D3_left_key_down = left;
+
+        const u8 right = field_8_keys[DIK_RIGHT] & 0x80;
+        field_C9CD_right_pressed = right && !field_C9D4_right_key_down;
+        field_C9D4_right_key_down = right;
+
+        const u8 returnKey = field_8_keys[DIK_RETURN] & 0x80;
+        field_C9D0_return_pressed = returnKey && !field_C9D7_return_key_down;
+        field_C9D7_return_key_down = returnKey;
+
+        const u8 escape = field_8_keys[DIK_ESCAPE] & 0x80;
+        field_C9D1_escape_pressed = escape && !field_C9D8_escape_key_down;
+        field_C9D8_escape_key_down = escape;
+
+        const u8 deleteKey = field_8_keys[DIK_DELETE] & 0x80;
+        field_C9D2_delete_pressed = deleteKey && !field_C9D9_delete_key_down;
+        field_C9D9_delete_key_down = deleteKey;
+    }
+    else
+    {
+        field_C9CE_up_pressed = 0;
+        field_C9CF_down_pressed = 0;
+        field_C9CC_left_pressed = 0;
+        field_C9CD_right_pressed = 0;
+        field_C9D0_return_pressed = 0;
+        field_C9D1_escape_pressed = 0;
+        field_C9D2_delete_pressed = 0;
+    }
 }
 
-STUB_FUNC(0x4B6780)
+MATCH_FUNC(0x4B6780)
 void laughing_blackwell_0x1EB54::sub_4B6780()
 {
     loving_borg_0xBCA* pBorg = &field_136[field_132_f136_idx];
-    if (this->field_110_state != 2)
+    if (field_110_state != 2)
     {
         if (field_132_f136_idx == 0)
         {
@@ -1742,19 +1735,19 @@ void laughing_blackwell_0x1EB54::sub_4B6780()
             switch (pBorg->field_BC6_nifty_idx)
             {
                 case 0u:
-                    this->field_EE08 = EnterPlayerName_10;
+                    field_EE08 = EnterPlayerName_10;
                     break;
                 case 1u:
-                    this->field_EE08 = ResumeLoadSave_11;
+                    field_EE08 = ResumeLoadSave_11;
                     break;
                 case 2u:
-                    this->field_EE08 = ViewHiScore_6;
+                    field_EE08 = ViewHiScore_6;
                     break;
                 case 3u:
-                    this->field_EE08 = gLucid_hamilton_67E8E0.sub_4C5980() + 7;
+                    field_EE08 = gLucid_hamilton_67E8E0.sub_4C5980() + 7;
                     break;
                 case 4u:
-                    this->field_EE08 = ((unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4) + 3;
+                    field_EE08 = ((unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4) + 3;
                     break;
                 default:
                     break;
@@ -1792,53 +1785,53 @@ STUB_FUNC(0x4B7A10)
 void laughing_blackwell_0x1EB54::sub_4B7A10()
 {
     char_type v2; // cl
-    char_type* field_8_keys; // eax
+    char_type* local_field_8_keys; // eax
     s32 v4; // edx
     s32 v5; // eax
     s32 v6; // eax
 
     timeGetTime();
-    sub_4AFEB0();
+    read_menu_input_4AFEB0();
     v2 = 0;
-    field_8_keys = this->field_8_keys;
+    local_field_8_keys = field_8_keys;
     v4 = 256;
     do
     {
-        if (*field_8_keys < 0)
+        if (*local_field_8_keys < 0)
             v2 = 1;
-        ++field_8_keys;
+        ++local_field_8_keys;
         --v4;
     } while (v4);
     if (v2)
     {
-        if (!this->field_C9B3)
+        if (!field_C9B3)
         {
         LABEL_7:
-            this->field_108 = 1;
+            field_108 = 1;
             return;
         }
     }
     else
     {
-        this->field_C9B3 = 0;
+        field_C9B3 = 0;
     }
-    if (++this->field_1EB30)
+    if (++field_1EB30)
     {
-        v5 = this->field_1EB34;
-        this->field_1EB30 = 0;
+        v5 = field_1EB34;
+        field_1EB30 = 0;
         if (v5 <= -327680)
         {
-            while (++this->field_1EB38 != 600)
+            while (++field_1EB38 != 600)
             {
-                v6 = ((u16)this->field_EE0E_unk.field_2[(u16)this->field_1EB38].field_4 << 14) + this->field_1EB34;
-                this->field_1EB34 = v6;
+                v6 = ((u16)field_EE0E_unk.field_2[(u16)field_1EB38].field_4 << 14) + field_1EB34;
+                field_1EB34 = v6;
                 if (v6 > -327680)
                     goto LABEL_13;
             }
             goto LABEL_7;
         }
     LABEL_13:
-        this->field_1EB34 -= dword_67D9FC;
+        field_1EB34 -= dword_67D9FC;
     }
 }
 
@@ -1866,10 +1859,10 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     s32 v20; // [esp+18h] [ebp-4h]
     u8 i; // [esp+18h] [ebp-4h]
 
-    pBorg = &this->field_136[this->field_132_f136_idx];
+    pBorg = &field_136[field_132_f136_idx];
     v18 = pBorg;
     v3 = sub_4B43E0();
-    if (this->field_C9D0)
+    if (field_C9D0_return_pressed)
     {
         if (pBorg->field_4[pBorg->field_BC6_nifty_idx].field_0 == 1)
         {
@@ -1881,7 +1874,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case 258u:
-                    this->field_108 = 1;
+                    field_108 = 1;
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case 259u:
@@ -1914,7 +1907,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                         goto LABEL_10;
                     }
 
-                    if (v7 >= (u32)this->field_1EB50_idx)
+                    if (v7 >= (u32)field_1EB50_idx)
                     {
                         FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
                     }
@@ -1928,7 +1921,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                 case 263u:
                     v19 = gLucid_hamilton_67E8E0.sub_4C5980();
                     v5 = 3;
-                    for (i = 3; !v3->field_0[v19][i].field_0 || v5 >= this->field_1EB51_blocks[v19]; i = v5)
+                    for (i = 3; !v3->field_0[v19][i].field_0 || v5 >= field_1EB51_blocks[v19]; i = v5)
                     {
                         --v5;
                     }
@@ -1943,8 +1936,8 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     }
                     sub_4B4D00(v8, 0);
                 LABEL_28:
-                    this->field_EE08 = RedBar_16;
-                    this->field_110_state = 2;
+                    field_EE08 = RedBar_16;
+                    field_110_state = 2;
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case 265u:
@@ -1956,8 +1949,8 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     sub_4B4D00(v9 >> 4, v9 & 0xF);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(1);
                 LABEL_9:
-                    this->field_EE08 = RedBar_16;
-                    this->field_110_state = 2;
+                    field_EE08 = RedBar_16;
+                    field_110_state = 2;
                 LABEL_10:
                     pBorg = v18;
                 LABEL_11:
@@ -1975,22 +1968,22 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     break;
             }
         }
-        else if (this->field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+        else if (field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
         {
-            this->field_110_state = 3;
+            field_110_state = 3;
             sub_4B4280();
-            this->field_C9B2 = wcslen(this->field_C9A0);
+            field_C9B2 = wcslen(field_C9A0);
             sub_4B42B0();
-            this->field_C9B3 = 1;
-            this->field_C9B4 = 28;
-            this->field_C9B6 = 5;
+            field_C9B3 = 1;
+            field_C9B4 = 28;
+            field_C9B6 = 5;
             snd1_67D818.field_0_object_type = 5;
         }
     }
 
-    if (this->field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
-        switch (this->field_132_f136_idx)
+        switch (field_132_f136_idx)
         {
             case 0u:
             case 0xEu:
@@ -2009,30 +2002,30 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                 sub_4B3170(1u);
                 break;
             default:
-                this->field_108 = 1;
+                field_108 = 1;
                 break;
         }
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (this->field_C9CE && pBorg->sub_4B61B0())
+    if (field_C9CE_up_pressed && pBorg->sub_4B61B0())
     {
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (this->field_C9CF && pBorg->sub_4B6200())
+    if (field_C9CF_down_pressed && pBorg->sub_4B6200())
     {
         snd1_67D818.field_0_object_type = 2;
     }
 
-    if (this->field_C9CC)
+    if (field_C9CC_left_pressed)
     {
         field_BC6_nifty_idx = pBorg->field_BC6_nifty_idx;
         v11 = &pBorg->field_4[field_BC6_nifty_idx];
         if (v11->field_0 == 2)
         {
             v12 = pBorg->field_4[pBorg->field_BC6_nifty_idx].sub_4B6390();
-            if (this->field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v11->field_6E_count);
                 sub_4B42E0(); // this
@@ -2043,9 +2036,9 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                 }
             }
 
-            if (this->field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
             {
-                this->field_EE0D = v11->field_6E_count;
+                field_EE0D = v11->field_6E_count;
                 if (v12)
                 {
                     snd1_67D818.field_0_object_type = 3;
@@ -2057,7 +2050,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
             goto LABEL_60;
         }
 
-        if (this->field_132_f136_idx == 1)
+        if (field_132_f136_idx == 1)
         {
             if (field_BC6_nifty_idx == 3)
             {
@@ -2074,7 +2067,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
     else
     {
-        if (!this->field_C9CD)
+        if (!field_C9CD_right_pressed)
         {
             goto LABEL_60;
         }
@@ -2084,7 +2077,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
         if (v15->field_0 == 2)
         {
             v16 = pBorg->field_4[pBorg->field_BC6_nifty_idx].sub_4B6330(); // this
-            if (this->field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v15->field_6E_count);
                 sub_4B42E0();
@@ -2094,9 +2087,9 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                     snd1_67D818.field_0_object_type = 4;
                 }
             }
-            if (this->field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
             {
-                this->field_EE0D = v15->field_6E_count;
+                field_EE0D = v15->field_6E_count;
                 if (v16)
                 {
                     snd1_67D818.field_0_object_type = 4;
@@ -2105,7 +2098,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
             goto LABEL_59;
         }
 
-        if (this->field_132_f136_idx == 1)
+        if (field_132_f136_idx == 1)
         {
             if (v14 == 3)
             {
@@ -2128,20 +2121,20 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
     }
 
 LABEL_60:
-    if (this->field_C9D2 && this->field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
     {
-        this->field_110_state = 4;
-        this->field_EE0A = 190;
-        this->field_EE0C = 1;
+        field_110_state = 4;
+        field_EE0A = 190;
+        field_EE0C = 1;
         snd1_67D818.field_0_object_type = 8;
     }
 
-    v13 = this->field_118 - 1;
-    this->field_118 = v13;
+    v13 = field_118 - 1;
+    field_118 = v13;
     if (v13 <= 0)
     {
-        this->field_114 = this->field_114 == 0;
-        this->field_118 = 2;
+        field_114 = field_114 == 0;
+        field_118 = 2;
     }
 }
 
@@ -2163,12 +2156,12 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
     s16 v2; // ax
     s32 v3; // eax
 
-    if (this->field_C9D0)
+    if (field_C9D0_return_pressed)
     {
-        v2 = this->field_EE0A;
+        v2 = field_EE0A;
         if (v2 == 210)
         {
-            if (this->field_EE0C != 1)
+            if (field_EE0C != 1)
             {
                 FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
             }
@@ -2181,61 +2174,61 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         }
         else
         {
-            this->field_110_state = 1;
+            field_110_state = 1;
             snd1_67D818.field_0_object_type = 5;
         }
     }
 
-    if (this->field_C9D1)
+    if (field_C9D1_escape_pressed)
     {
-        this->field_110_state = 1;
+        field_110_state = 1;
         snd1_67D818.field_0_object_type = 6;
     }
 
-    if (this->field_C9CE)
+    if (field_C9CE_up_pressed)
     {
-        if (this->field_EE0A == 190 || this->field_EE0A == 210)
+        if (field_EE0A == 190 || field_EE0A == 210)
         {
-            this->field_EE0A = 230;
+            field_EE0A = 230;
         }
         else
         {
-            if (this->field_EE0A != 230)
+            if (field_EE0A != 230)
             {
                 FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
             }
-            this->field_EE0A = 210;
+            field_EE0A = 210;
         }
         snd1_67D818.field_0_object_type = 1;
     }
 
-    if (this->field_C9CF)
+    if (field_C9CF_down_pressed)
     {
-        if (this->field_EE0A != 190)
+        if (field_EE0A != 190)
         {
-            if (this->field_EE0A == 210)
+            if (field_EE0A == 210)
             {
-                this->field_EE0A = 230;
+                field_EE0A = 230;
                 snd1_67D818.field_0_object_type = 2;
             }
-            else if (this->field_EE0A != 230)
+            else if (field_EE0A != 230)
             {
                 FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
             }
         }
         else
         {
-            this->field_EE0A = 210;
+            field_EE0A = 210;
             snd1_67D818.field_0_object_type = 2;
         }
     }
 
-    v3 = this->field_118 - 1;
-    this->field_118 = v3;
+    v3 = field_118 - 1;
+    field_118 = v3;
     if (v3 <= 0)
     {
-        this->field_114 = this->field_114 == 0;
-        this->field_118 = 2;
+        field_114 = field_114 == 0;
+        field_118 = 2;
     }
 }
 
@@ -2371,6 +2364,12 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
     }
 }
 
+STUB_FUNC(0x4B7E10)
+EXPORT int __stdcall laughing_blackwell_0x1EB54::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
+{
+    return 0;
+}
+
 STUB_FUNC(0x4B7FB0)
 char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
 {
@@ -2380,20 +2379,20 @@ char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
 
     v2 = sub_4B43E0();
     v3 = 0;
-    if (!this->field_1EB50_idx)
+    if (!field_1EB50_idx)
         return 1;
     while (1)
     {
         v4 = 0;
-        if (this->field_1EB51_blocks[v3])
+        if (field_1EB51_blocks[v3])
             break;
     LABEL_5:
-        if (++v3 >= (unsigned __int8)this->field_1EB50_idx)
+        if (++v3 >= (unsigned __int8)field_1EB50_idx)
             return 1;
     }
     while (v2->field_0[v3][v4].field_0)
     {
-        if (++v4 >= this->field_1EB51_blocks[v3])
+        if (++v4 >= field_1EB51_blocks[v3])
             goto LABEL_5;
     }
     return 0;
@@ -2406,54 +2405,14 @@ void laughing_blackwell_0x1EB54::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 }
 
 STUB_FUNC(0x4ADF50)
-void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
+void laughing_blackwell_0x1EB54::sub_4ADF50()
 {
-    // todo
-
-    /*
-    wchar_t *pLoading; // eax
-    u16 v4; // di
-    s16 v5; // esp^2
-    laughing_blackwell_0x1EB54 *v6; // eax
-    s32 v7; // ecx
-    s32 v8; // ecx
-    wchar_t *pLoading2; // eax
-    s16 v11; // esp^2
-    laughing_blackwell_0x1EB54 *v12; // ecx
-    char_type v13; // al
-    s32 v14; // eax
-    s32 v15; // ecx
-    wchar_t *v16; // eax
-    bool v17; // zf
-    s32 *v18; // eax
-    s32 v19; // ecx
-    wchar_t *v20; // eax
-    s32 v21; // edx
-    laughing_blackwell_0x1EB54 *v22; // ecx
-    s32 v23; // ecx
-    wchar_t *v24; // eax
-    laughing_blackwell_0x1EB54 *v25; // ecx
-    s32 *v26; // eax
-    s32 v27; // ecx
-    wchar_t *pNo; // eax
-    s32 v29; // esi
-    s32 field_110_state; // edx
-    s32 fp_v4; // [esp-18h] [ebp-18h] BYREF
-    s32 fp_300; // [esp-14h] [ebp-14h] BYREF
-    laughing_blackwell_0x1EB54 *fp_320; // [esp-10h] [ebp-10h] BYREF
-    s32 flags; // [esp-Ch] [ebp-Ch]
-    s32 v35; // [esp-8h] [ebp-8h] BYREF
-    s32 v36; // [esp-4h] [ebp-4h]
-    */
-
-    field_110_state = this->field_110_state;
-
     switch (field_110_state)
     {
         case 1:
         case 3:
         case 5:
-            if (this->field_132_f136_idx == 9)
+            if (field_132_f136_idx == 9)
             {
                 sub_4B7AE0();
             }
@@ -2464,101 +2423,117 @@ void laughing_blackwell_0x1EB54::sub_4ADF50() // s32 bQuit ??
             break;
 
         case 2:
-            /*
-        v36 = v29;
-        v4 = laughing_blackwell_0x1EB54::sub_4B0190(this, gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
-        HIWORD(v6) = v5;
-        flags = 0x4000;
-        LOWORD(v6) = this->field_11C;
-        fp_320 = v6;
-        fp_300 = v7;
-        FP::FromInt_4369F0(&fp_300, 260);
-        fp_v4 = v8;
-        FP::sub_4AE970(&fp_v4, v4);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), fp_v4, fp_300, fp_320, flags);
-        */
+        {
+            const s32 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+
+            Fix16 scale;
+            scale.mValue = 0x4000;
+
+            Fix16 ypos;
+            ypos.FromInt_4369F0(260);
+
+            Fix16 xpos;
+            xpos.FromU16_4AE970(x);
+
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), xpos, ypos, field_11C, scale);
             break;
+        }
 
         case 4:
-            /*
-        v36 = v29;
-        if (this->field_EE0C == 1)
         {
-            v35 = (int)this;
-            HIWORD(v12) = v11;
-            v13 = gText_0x14_704DFC->field_10_lang_code - 106;
-            v35 = 0x4000;
-            LOWORD(v12) = this->field_126;
-            v14 = -(v13 != 0);
-            flags = (int)v12;
-            LOBYTE(v14) = v14 & 0xFC;
-            fp_320 = v12;
-            FP::sub_4AE970(&fp_320, v14 + 16);
-            fp_300 = v15;
-            FP::sub_4AE970(&fp_300, 0x113u);
-            v16 = text_0x14::Find_5B5F90(gText_0x14_704DFC, aClrchar);
-            sub_4B87A0(v16, fp_300, (int)fp_320, (void *)flags, v35);
-        }
-        v17 = this->field_EE0A == 190;
-        v18 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(field_110_state) = this->field_120;
-            flags = field_110_state;
-        }
-        else
-        {
-            LOWORD(v18) = this->field_11C;
-            flags = (int)v18;
-        }
-        fp_320 = this;
-        FP::FromInt_4369F0(&fp_320, 190);
-        fp_300 = v19;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v20 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "sure");
-        sub_4B87A0(v20, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = this->field_EE0A == 210;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v22) = this->field_120;
-            flags = (int)v22;
-        }
-        else
-        {
-            LOWORD(v21) = this->field_11C;
-            flags = v21;
-        }
-        fp_320 = v22;
-        FP::FromInt_4369F0(&fp_320, 210);
-        fp_300 = v23;
-        FP::FromInt_4369F0(&fp_300, 300);
-        v24 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "yes");
-        sub_4B87A0(v24, fp_300, (int)fp_320, (void *)flags, v35);
-        v17 = this->field_EE0A == 230;
-        v26 = &v35;
-        v35 = 0x4000;
-        if (v17)
-        {
-            LOWORD(v26) = this->field_120;
-            flags = (int)v26;
-        }
-        else
-        {
-            LOWORD(v25) = this->field_11C;
-            flags = (int)v25;
-        }
-        fp_320 = v25;
-        FP::FromInt_4369F0(&fp_320, 230);
-        fp_300 = v27;
-        FP::FromInt_4369F0(&fp_300, 300);
-        sub_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), fp_300, (int)fp_320, (void *)flags, v35);
-        */
+            if (field_EE0C == 1)
+            {
+                const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
+
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                // TODO: Fix this part
+                u8 v13 = -(v12 != 0);
+                v13 = v13 & 0xFC;
+
+                Fix16 ypos;
+                ypos.FromU16_4AE970(v13 + 16);
+
+                Fix16 xpos;
+                xpos.FromU16_4AE970(275);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), xpos, ypos, field_126, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 190)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(190);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 210)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(210);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), xpos, ypos, fontType, scale);
+            }
+
+            {
+                Fix16 scale;
+                scale.mValue = 0x4000;
+
+                u16 fontType;
+                if (field_EE0A == 230)
+                {
+                    fontType = field_120;
+                }
+                else
+                {
+                    fontType = field_11C;
+                }
+
+                Fix16 ypos;
+                ypos.FromInt_4369F0(230);
+
+                Fix16 xpos;
+                xpos.FromInt_4369F0(300);
+
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), xpos, ypos, fontType, scale);
+            }
             break;
+        }
 
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, this->field_110_state);
+            FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            break;
     }
 }
 
@@ -2838,13 +2813,13 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_110_state = 1;
     field_114 = 0;
     field_118 = 0;
-    field_C9D5 = 0;
-    field_C9D6 = 0;
-    field_C9D3 = 0;
-    field_C9D4 = 0;
-    field_C9D7 = 0;
-    field_C9D8 = 0;
-    field_C9D9 = 0;
+    field_C9D5_up_key_down = 0;
+    field_C9D6_down_key_down = 0;
+    field_C9D3_left_key_down = 0;
+    field_C9D4_right_key_down = 0;
+    field_C9D7_return_key_down = 0;
+    field_C9D8_escape_key_down = 0;
+    field_C9D9_delete_key_down = 0;
     field_10C_bKeyboardAcquired = 0;
     field_108 = 2;
     field_C9E1_bCheatsEnabled = 0;
@@ -2865,20 +2840,20 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
 
     memset(&field_C9A0, 0, sizeof(field_C9A0));
     /*
-    *(_DWORD *)this->field_C9A0 = 0;
-    *(_DWORD *)&this->field_C9A0[2] = 0;
-    *(_DWORD *)&this->field_C9A0[4] = 0;
-    *(_DWORD *)&this->field_C9A0[6] = 0;
-    this->field_C9A0[8] = 0;
+    *(_DWORD *)field_C9A0 = 0;
+    *(_DWORD *)&field_C9A0[2] = 0;
+    *(_DWORD *)&field_C9A0[4] = 0;
+    *(_DWORD *)&field_C9A0[6] = 0;
+    field_C9A0[8] = 0;
     */
 
     memset(&field_C9B8, 0, sizeof(field_C9B8));
     /*
-    *(_DWORD *)this->field_C9B8 = 0;
-    *(_DWORD *)&this->field_C9B8[2] = 0;
-    *(_DWORD *)&this->field_C9B8[4] = 0;
-    *(_DWORD *)&this->field_C9B8[6] = 0;
-    *(_WORD *)&this->field_C9C8 = 0;
+    *(_DWORD *)field_C9B8 = 0;
+    *(_DWORD *)&field_C9B8[2] = 0;
+    *(_DWORD *)&field_C9B8[4] = 0;
+    *(_DWORD *)&field_C9B8[6] = 0;
+    *(_WORD *)&field_C9C8 = 0;
     */
     field_C9CA = 0;
     field_C9CB = 0;
@@ -2915,7 +2890,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
 
     }
 
-    v11 = &this->field_1EB42;
+    v11 = &field_1EB42;
     v12 = 8;
     do
     {
@@ -2962,12 +2937,9 @@ laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
 MATCH_FUNC(0x4AFD70)
 void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
 {
-    LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice; // eax
-
-    field_4_pKeyboardDevice = this->field_4_pKeyboardDevice;
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
     {
-        this->field_10C_bKeyboardAcquired = 1;
+        field_10C_bKeyboardAcquired = 1;
     }
 }
 
@@ -2991,7 +2963,7 @@ void laughing_blackwell_0x1EB54::FreeImageTable_4B6750()
 MATCH_FUNC(0x4AFDD0)
 char_type laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
 {
-    HRESULT hr = this->field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
+    HRESULT hr = field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
     if (FAILED(hr))
     {
         if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
@@ -3033,10 +3005,37 @@ void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
     AcquireKeyBoard_4AFD70();
 }
 
-STUB_FUNC(0x4AF0E0)
+MATCH_FUNC(0x4AF0E0)
 void laughing_blackwell_0x1EB54::sub_4AF0E0()
 {
-    // todo
+    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    {
+        this->field_11C = 101;
+        this->field_11E = 101;
+        this->field_120 = 102;
+        this->field_122 = 101;
+        this->field_124_font_type = 101;
+        this->field_126 = 101;
+        this->field_128 = 101;
+        this->field_12A = 101;
+        this->field_12C = 106;
+        this->field_12E = 102;
+        this->field_130 = 201;
+    }
+    else
+    {
+        this->field_11C = word_703D0C;
+        this->field_11E = word_703D0C;
+        this->field_120 = word_703C16;
+        this->field_122 = word_703C8C;
+        this->field_124_font_type = font_type_703C14;
+        this->field_126 = word_703C3C;
+        this->field_128 = word_703C8A;
+        this->field_12A = word_703BE2;
+        this->field_12C = word_703B88;
+        this->field_12E = word_703DAC;
+        this->field_130 = word_703B9C;
+    }
 }
 
 STUB_FUNC(0x4B0220)
@@ -3047,470 +3046,464 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
 
     s32 v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
-    this->field_134 = 16;
+    field_134 = 16;
 
-    this->field_136[0].field_0 = 3;
-    this->field_136[0].field_4[0].field_0 = 1; // ebx
-    this->field_136[0].field_4[0].field_2 = 300; // edi
-    this->field_136[0].field_4[0].field_4 = 250;
-    wcsncpy(this->field_136[0].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
-    this->field_136[0].field_4[0].field_80 = 1;
-    this->field_136[0].field_4[1].field_0 = 1;
-    this->field_136[0].field_4[1].field_2 = 300;
-    this->field_136[0].field_4[1].field_4 = 270;
-    wcsncpy(this->field_136[0].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("options"), 0x32u);
-    this->field_136[0].field_4[1].field_80 = 257;
-    this->field_136[0].field_4[2].field_0 = 1;
-    this->field_136[0].field_4[2].field_2 = 300;
-    this->field_136[0].field_4[2].field_4 = 290;
-    wcsncpy(this->field_136[0].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    this->field_136[0].field_4[2].field_80 = 9;
-    this->field_136[0].field_B8A[0].field_0 = 280;
-    this->field_136[0].field_B8A[0].field_2 = 258;
-    this->field_136[0].field_B8A[1].field_0 = 280;
-    this->field_136[0].field_B8A[1].field_2 = 278;
-    this->field_136[0].field_B8A[2].field_0 = 280;
-    this->field_136[0].field_B8A[2].field_2 = 298;
-    this->field_136[0].field_BC6_nifty_idx = 0;
-    this->field_136[0].field_BC8 = 0;
-    this->field_136[1].field_0 = 5;
-    this->field_136[1].field_4[0].field_0 = 2;
-    this->field_136[1].field_4[0].field_2 = 300;
-    this->field_136[1].field_4[0].field_4 = 210;
-    wcsncpy(this->field_136[1].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("charctr"), 0x32u);
-    this->field_136[1].field_4[0].field_6E_count = 0;
-    this->field_136[1].field_4[0].field_70 = 0;
-    this->field_136[1].field_4[0].field_7E = 7;
+    field_136[0].field_0 = 3;
+    field_136[0].field_4[0].field_0 = 1; // ebx
+    field_136[0].field_4[0].field_2 = 300; // edi
+    field_136[0].field_4[0].field_4 = 250;
+    wcsncpy(field_136[0].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
+    field_136[0].field_4[0].field_80 = 1;
+    field_136[0].field_4[1].field_0 = 1;
+    field_136[0].field_4[1].field_2 = 300;
+    field_136[0].field_4[1].field_4 = 270;
+    wcsncpy(field_136[0].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("options"), 0x32u);
+    field_136[0].field_4[1].field_80 = 257;
+    field_136[0].field_4[2].field_0 = 1;
+    field_136[0].field_4[2].field_2 = 300;
+    field_136[0].field_4[2].field_4 = 290;
+    wcsncpy(field_136[0].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    field_136[0].field_4[2].field_80 = 9;
+    field_136[0].field_B8A[0].field_0 = 280;
+    field_136[0].field_B8A[0].field_2 = 258;
+    field_136[0].field_B8A[1].field_0 = 280;
+    field_136[0].field_B8A[1].field_2 = 278;
+    field_136[0].field_B8A[2].field_0 = 280;
+    field_136[0].field_B8A[2].field_2 = 298;
+    field_136[0].field_BC6_nifty_idx = 0;
+    field_136[0].field_BC8 = 0;
+    field_136[1].field_0 = 5;
+    field_136[1].field_4[0].field_0 = 2;
+    field_136[1].field_4[0].field_2 = 300;
+    field_136[1].field_4[0].field_4 = 210;
+    wcsncpy(field_136[1].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("charctr"), 0x32u);
+    field_136[1].field_4[0].field_6E_count = 0;
+    field_136[1].field_4[0].field_70 = 0;
+    field_136[1].field_4[0].field_7E = 7;
 
     u16 v77 = 0;
     do
     {
-        this->field_136[1].field_4[0].field_72[v77++] = 1;
-    } while (v77 <= this->field_136[1].field_4[0].field_7E);
+        field_136[1].field_4[0].field_72[v77++] = 1;
+    } while (v77 <= field_136[1].field_4[0].field_7E);
 
-    this->field_136[1].field_4[1].field_0 = 1;
-    this->field_136[1].field_4[1].field_2 = 300;
-    this->field_136[1].field_4[1].field_4 = 230;
-    wcsncpy(this->field_136[1].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[1].field_4[1].field_80 = 260;
-    this->field_136[1].field_4[2].field_0 = 1;
-    this->field_136[1].field_4[2].field_2 = 300;
-    this->field_136[1].field_4[2].field_4 = 250;
-    wcsncpy(this->field_136[1].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
-    this->field_136[1].field_4[2].field_80 = 5;
-    this->field_136[1].field_4[3].field_0 = 1;
-    this->field_136[1].field_4[3].field_2 = 300;
-    this->field_136[1].field_4[3].field_4 = 270;
-    wcsncpy(this->field_136[1].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("strtlev"), 0x32u);
-    this->field_136[1].field_4[3].field_80 = 264;
-    this->field_136[1].field_4[4].field_0 = 1;
-    this->field_136[1].field_4[4].field_2 = 300;
-    this->field_136[1].field_4[4].field_4 = 350;
-    wcsncpy(this->field_136[1].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
-    this->field_136[1].field_4[4].field_80 = 265;
-    this->field_136[1].field_B8A[0].field_0 = 280;
-    this->field_136[1].field_B8A[0].field_2 = 218;
-    this->field_136[1].field_B8A[1].field_0 = 280;
-    this->field_136[1].field_B8A[1].field_2 = 238;
-    this->field_136[1].field_B8A[2].field_0 = 280;
-    this->field_136[1].field_B8A[2].field_2 = 258;
-    this->field_136[1].field_B8A[3].field_0 = 280;
-    this->field_136[1].field_B8A[3].field_2 = 278;
-    this->field_136[1].field_B8A[4].field_0 = 280;
-    this->field_136[1].field_B8A[4].field_2 = 358;
-    this->field_136[1].field_BC6_nifty_idx = 3;
-    this->field_136[1].field_BC8 = 3;
-    this->field_136[1].field_2 = 10;
-    this->field_136[1].field_518[0].field_0 = 3;
-    this->field_136[1].field_518[0].field_2 = 420;
-    this->field_136[1].field_518[0].field_4 = 310;
-    this->field_136[1].field_518[0].field_6_wstr_buf[0] = 0;
-    this->field_136[1].field_518[1].field_0 = 3;
-    this->field_136[1].field_518[1].field_2 = 420;
-    this->field_136[1].field_518[1].field_4 = 390;
-    this->field_136[1].field_518[1].field_6_wstr_buf[0] = 0;
-    this->field_136[1].field_518[2].field_0 = 1;
-    this->field_136[1].field_518[2].field_2 = 410;
-    this->field_136[1].field_518[2].field_4 = 298;
-    wcsncpy(this->field_136[1].field_518[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
-    this->field_136[1].field_518[2].field_6A = word_703C3C;
-    this->field_136[1].field_518[3].field_0 = 1;
-    this->field_136[1].field_518[3].field_2 = 410;
-    this->field_136[1].field_518[3].field_4 = 378;
-    wcsncpy(this->field_136[1].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
-    this->field_136[1].field_518[3].field_6A = word_703C3C;
-    this->field_136[1].field_518[4].field_2 = 380;
-    this->field_136[1].field_518[4].field_4 = 310;
-    this->field_136[1].field_518[5].field_2 = 460;
-    this->field_136[1].field_518[5].field_4 = 310;
-    this->field_136[1].field_518[6].field_2 = 380;
-    this->field_136[1].field_518[7].field_2 = 460;
-    this->field_136[1].field_518[4].field_0 = 3;
-    this->field_136[1].field_518[4].field_6_wstr_buf[0] = 3;
-    this->field_136[1].field_518[5].field_0 = 3;
-    this->field_136[1].field_518[5].field_6_wstr_buf[0] = 4;
-    this->field_136[1].field_518[6].field_0 = 3;
-    this->field_136[1].field_518[6].field_4 = 390;
-    this->field_136[1].field_518[6].field_6_wstr_buf[0] = 3;
-    this->field_136[1].field_518[7].field_0 = 3;
-    this->field_136[1].field_518[7].field_4 = 390;
-    this->field_136[1].field_518[7].field_6_wstr_buf[0] = 4;
-    this->field_136[1].field_518[8].field_0 = 3;
-    this->field_136[1].field_518[8].field_2 = 290;
-    this->field_136[1].field_518[8].field_4 = 222;
-    this->field_136[1].field_518[8].field_6_wstr_buf[0] = 3;
-    this->field_136[1].field_518[9].field_0 = 3;
-    this->field_136[1].field_518[9].field_2 = 580;
-    this->field_136[1].field_518[9].field_4 = 222;
-    this->field_136[1].field_518[9].field_6_wstr_buf[0] = 4;
-    this->field_136[11].field_0 = 3;
-    this->field_136[11].field_2 = 1;
-    this->field_136[11].field_518[0].field_0 = 1;
-    this->field_136[11].field_518[0].field_2 = 35;
-    this->field_136[11].field_518[0].field_4 = 11;
-    wcscpy(this->field_136[11].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
-    this->field_136[11].field_518[0].field_6A = this->field_130;
-    this->field_136[11].field_518[0].field_6C = 5;
-    this->field_136[11].field_4[0].field_0 = 1;
-    this->field_136[11].field_4[0].field_4 = 392;
-    wcsncpy(this->field_136[11].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[11].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[0].field_6_wstr_buf,
-                                                                                    this->field_136[11].field_4[0].field_6A,
-                                                                                    320);
-    this->field_136[11].field_4[0].field_80 = 260;
-    this->field_136[11].field_4[1].field_0 = 1;
-    this->field_136[11].field_4[1].field_4 = 412;
-    wcsncpy(this->field_136[11].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[11].field_4[1].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[1].field_6_wstr_buf,
-                                                                                    this->field_136[11].field_4[1].field_6A,
-                                                                                    320);
-    this->field_136[11].field_4[1].field_80 = 259;
-    this->field_136[11].field_4[2].field_0 = 1;
-    this->field_136[11].field_4[2].field_4 = 432;
-    wcsncpy(this->field_136[11].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[11].field_4[2].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[11].field_4[2].field_6_wstr_buf,
-                                                                                    this->field_136[11].field_4[2].field_6A,
-                                                                                    320);
-    this->field_136[11].field_4[2].field_80 = 0;
-    this->field_136[11].field_B8A[0].field_0 = 150;
-    this->field_136[11].field_B8A[0].field_2 = 400;
-    this->field_136[11].field_B8A[1].field_0 = 150;
-    this->field_136[11].field_B8A[1].field_2 = 420;
-    this->field_136[11].field_B8A[2].field_0 = 150;
-    this->field_136[11].field_B8A[2].field_2 = 440;
-    this->field_136[11].field_BC6_nifty_idx = 0;
-    this->field_136[11].field_BC8 = 0;
-    this->field_136[2].field_0 = 3;
-    this->field_136[2].field_2 = 1;
-    this->field_136[2].field_518[0].field_0 = 1;
-    this->field_136[2].field_518[0].field_2 = 35;
-    this->field_136[2].field_518[0].field_4 = 11;
-    wcsncpy(this->field_136[2].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
-    this->field_136[2].field_518[0].field_6A = this->field_130;
-    this->field_136[2].field_518[0].field_6C = 0;
-    this->field_136[2].field_4[0].field_0 = 1;
-    this->field_136[2].field_4[0].field_4 = 392;
-    wcsncpy(this->field_136[2].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[2].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[0].field_6_wstr_buf, this->field_136[2].field_4[0].field_6A, 320);
-    this->field_136[2].field_4[0].field_80 = 260;
-    this->field_136[2].field_4[1].field_0 = 1;
-    this->field_136[2].field_4[1].field_4 = 412;
-    wcsncpy(this->field_136[2].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[2].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[1].field_6_wstr_buf, this->field_136[2].field_4[1].field_6A, 320);
-    this->field_136[2].field_4[1].field_80 = 259;
-    this->field_136[2].field_4[2].field_0 = 1;
-    this->field_136[2].field_4[2].field_4 = 432;
-    wcsncpy(this->field_136[2].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[2].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[2].field_4[2].field_6_wstr_buf, this->field_136[2].field_4[2].field_6A, 320);
-    this->field_136[2].field_4[2].field_80 = 0;
-    this->field_136[2].field_B8A[0].field_0 = 150;
-    this->field_136[2].field_B8A[0].field_2 = 400;
-    this->field_136[2].field_B8A[1].field_0 = 150;
-    this->field_136[2].field_B8A[1].field_2 = 420;
-    this->field_136[2].field_B8A[2].field_0 = 150;
-    this->field_136[2].field_B8A[2].field_2 = 440;
-    this->field_136[2].field_BC6_nifty_idx = 0;
-    this->field_136[2].field_BC8 = 0;
-    this->field_136[3].field_0 = 5;
-    this->field_136[3].field_2 = 1;
-    this->field_136[3].field_518[0].field_0 = 1;
-    this->field_136[3].field_518[0].field_2 = 35;
-    this->field_136[3].field_518[0].field_4 = 11;
-    wcsncpy(this->field_136[3].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
-    this->field_136[3].field_518[0].field_6A = this->field_12C;
-    this->field_136[3].field_4[0].field_0 = 1;
-    this->field_136[3].field_4[0].field_4 = 365;
-    wcsncpy(this->field_136[3].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    this->field_136[3].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[0].field_6_wstr_buf, this->field_136[3].field_4[0].field_6A, 320);
-    this->field_136[3].field_4[0].field_80 = 261;
-    this->field_136[3].field_4[1].field_0 = 1;
-    this->field_136[3].field_4[1].field_4 = 385;
-    wcsncpy(this->field_136[3].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    this->field_136[3].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[1].field_6_wstr_buf, this->field_136[3].field_4[1].field_6A, 320);
-    this->field_136[3].field_4[1].field_80 = 260;
-    this->field_136[3].field_4[2].field_0 = 1;
-    this->field_136[3].field_4[2].field_4 = 405;
-    wcsncpy(this->field_136[3].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    this->field_136[3].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[2].field_6_wstr_buf, this->field_136[3].field_4[2].field_6A, 320);
-    this->field_136[3].field_4[2].field_80 = 259;
-    this->field_136[3].field_4[3].field_0 = 1;
-    this->field_136[3].field_4[3].field_4 = 425;
-    wcsncpy(this->field_136[3].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
-    this->field_136[3].field_4[3].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[3].field_6_wstr_buf, this->field_136[3].field_4[3].field_6A, 320);
-    this->field_136[3].field_4[3].field_80 = 266;
-    this->field_136[3].field_4[4].field_0 = 1;
-    this->field_136[3].field_4[4].field_4 = 445;
-    wcsncpy(this->field_136[3].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[3].field_4[4].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[3].field_4[4].field_6_wstr_buf, this->field_136[3].field_4[4].field_6A, 320);
-    this->field_136[3].field_4[4].field_80 = 0;
-    this->field_136[3].field_B8A[0].field_0 = 150;
-    this->field_136[3].field_B8A[0].field_2 = 373;
-    this->field_136[3].field_B8A[1].field_0 = 150;
-    this->field_136[3].field_B8A[1].field_2 = 393;
-    this->field_136[3].field_B8A[2].field_0 = 150;
-    this->field_136[3].field_B8A[2].field_2 = 413;
-    this->field_136[3].field_B8A[3].field_0 = 150;
-    this->field_136[3].field_B8A[3].field_2 = 433;
-    this->field_136[3].field_B8A[4].field_0 = 150;
-    this->field_136[3].field_B8A[4].field_2 = 453;
-    this->field_136[3].field_BC6_nifty_idx = 0;
-    this->field_136[3].field_BC8 = 0;
-    this->field_136[4].field_0 = 1;
-    this->field_136[4].field_2 = 1;
-    this->field_136[4].field_518[0].field_0 = 1;
-    this->field_136[4].field_518[0].field_4 = 230;
-    wcsncpy(this->field_136[4].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
-    v30 = this->field_130;
-    this->field_136[4].field_518[0].field_6A = v30;
-    this->field_136[4].field_518[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[4].field_518[0].field_6_wstr_buf, v30, 320);
-    this->field_136[4].field_518[0].field_6C = 4;
-    this->field_136[4].field_4[0].field_0 = 1;
-    this->field_136[4].field_4[0].field_2 = 180;
-    this->field_136[4].field_4[0].field_4 = 410;
-    wcsncpy(this->field_136[4].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[4].field_4[0].field_80 = 0;
-    this->field_136[4].field_B8A[0].field_0 = 160;
-    this->field_136[4].field_B8A[0].field_2 = 418;
-    this->field_136[4].field_BC6_nifty_idx = 0;
-    this->field_136[4].field_BC8 = 0;
-    this->field_136[5].field_0 = 1;
-    this->field_136[5].field_2 = 5;
-    this->field_136[5].field_4[0].field_0 = 2;
-    this->field_136[5].field_4[0].field_2 = 300;
-    this->field_136[5].field_4[0].field_4 = 155;
-    this->field_136[5].field_4[0].field_6E_count = 0;
-    this->field_136[5].field_4[0].field_70 = 0;
-    this->field_136[5].field_4[0].field_7E = 11;
+    field_136[1].field_4[1].field_0 = 1;
+    field_136[1].field_4[1].field_2 = 300;
+    field_136[1].field_4[1].field_4 = 230;
+    wcsncpy(field_136[1].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136[1].field_4[1].field_80 = 260;
+    field_136[1].field_4[2].field_0 = 1;
+    field_136[1].field_4[2].field_2 = 300;
+    field_136[1].field_4[2].field_4 = 250;
+    wcsncpy(field_136[1].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
+    field_136[1].field_4[2].field_80 = 5;
+    field_136[1].field_4[3].field_0 = 1;
+    field_136[1].field_4[3].field_2 = 300;
+    field_136[1].field_4[3].field_4 = 270;
+    wcsncpy(field_136[1].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("strtlev"), 0x32u);
+    field_136[1].field_4[3].field_80 = 264;
+    field_136[1].field_4[4].field_0 = 1;
+    field_136[1].field_4[4].field_2 = 300;
+    field_136[1].field_4[4].field_4 = 350;
+    wcsncpy(field_136[1].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
+    field_136[1].field_4[4].field_80 = 265;
+    field_136[1].field_B8A[0].field_0 = 280;
+    field_136[1].field_B8A[0].field_2 = 218;
+    field_136[1].field_B8A[1].field_0 = 280;
+    field_136[1].field_B8A[1].field_2 = 238;
+    field_136[1].field_B8A[2].field_0 = 280;
+    field_136[1].field_B8A[2].field_2 = 258;
+    field_136[1].field_B8A[3].field_0 = 280;
+    field_136[1].field_B8A[3].field_2 = 278;
+    field_136[1].field_B8A[4].field_0 = 280;
+    field_136[1].field_B8A[4].field_2 = 358;
+    field_136[1].field_BC6_nifty_idx = 3;
+    field_136[1].field_BC8 = 3;
+    field_136[1].field_2 = 10;
+    field_136[1].field_518[0].field_0 = 3;
+    field_136[1].field_518[0].field_2_xpos = 420;
+    field_136[1].field_518[0].field_4_ypos = 310;
+    field_136[1].field_518[0].field_6_wstr_buf[0] = 0;
+    field_136[1].field_518[1].field_0 = 3;
+    field_136[1].field_518[1].field_2_xpos = 420;
+    field_136[1].field_518[1].field_4_ypos = 390;
+    field_136[1].field_518[1].field_6_wstr_buf[0] = 0;
+    field_136[1].field_518[2].field_0 = 1;
+    field_136[1].field_518[2].field_2_xpos = 410;
+    field_136[1].field_518[2].field_4_ypos = 298;
+    wcsncpy(field_136[1].field_518[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
+    field_136[1].field_518[2].field_6A = word_703C3C;
+    field_136[1].field_518[3].field_0 = 1;
+    field_136[1].field_518[3].field_2_xpos = 410;
+    field_136[1].field_518[3].field_4_ypos = 378;
+    wcsncpy(field_136[1].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
+    field_136[1].field_518[3].field_6A = word_703C3C;
+    field_136[1].field_518[4].field_2_xpos = 380;
+    field_136[1].field_518[4].field_4_ypos = 310;
+    field_136[1].field_518[5].field_2_xpos = 460;
+    field_136[1].field_518[5].field_4_ypos = 310;
+    field_136[1].field_518[6].field_2_xpos = 380;
+    field_136[1].field_518[7].field_2_xpos = 460;
+    field_136[1].field_518[4].field_0 = 3;
+    field_136[1].field_518[4].field_6_wstr_buf[0] = 3;
+    field_136[1].field_518[5].field_0 = 3;
+    field_136[1].field_518[5].field_6_wstr_buf[0] = 4;
+    field_136[1].field_518[6].field_0 = 3;
+    field_136[1].field_518[6].field_4_ypos = 390;
+    field_136[1].field_518[6].field_6_wstr_buf[0] = 3;
+    field_136[1].field_518[7].field_0 = 3;
+    field_136[1].field_518[7].field_4_ypos = 390;
+    field_136[1].field_518[7].field_6_wstr_buf[0] = 4;
+    field_136[1].field_518[8].field_0 = 3;
+    field_136[1].field_518[8].field_2_xpos = 290;
+    field_136[1].field_518[8].field_4_ypos = 222;
+    field_136[1].field_518[8].field_6_wstr_buf[0] = 3;
+    field_136[1].field_518[9].field_0 = 3;
+    field_136[1].field_518[9].field_2_xpos = 580;
+    field_136[1].field_518[9].field_4_ypos = 222;
+    field_136[1].field_518[9].field_6_wstr_buf[0] = 4;
+    field_136[11].field_0 = 3;
+    field_136[11].field_2 = 1;
+    field_136[11].field_518[0].field_0 = 1;
+    field_136[11].field_518[0].field_2_xpos = 35;
+    field_136[11].field_518[0].field_4_ypos = 11;
+    wcscpy(field_136[11].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
+    field_136[11].field_518[0].field_6A = field_130;
+    field_136[11].field_518[0].field_6C = 5;
+    field_136[11].field_4[0].field_0 = 1;
+    field_136[11].field_4[0].field_4 = 392;
+    wcsncpy(field_136[11].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136[11].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[0].field_6_wstr_buf, field_136[11].field_4[0].field_6A, 320);
+    field_136[11].field_4[0].field_80 = 260;
+    field_136[11].field_4[1].field_0 = 1;
+    field_136[11].field_4[1].field_4 = 412;
+    wcsncpy(field_136[11].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136[11].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[1].field_6_wstr_buf, field_136[11].field_4[1].field_6A, 320);
+    field_136[11].field_4[1].field_80 = 259;
+    field_136[11].field_4[2].field_0 = 1;
+    field_136[11].field_4[2].field_4 = 432;
+    wcsncpy(field_136[11].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[11].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[2].field_6_wstr_buf, field_136[11].field_4[2].field_6A, 320);
+    field_136[11].field_4[2].field_80 = 0;
+    field_136[11].field_B8A[0].field_0 = 150;
+    field_136[11].field_B8A[0].field_2 = 400;
+    field_136[11].field_B8A[1].field_0 = 150;
+    field_136[11].field_B8A[1].field_2 = 420;
+    field_136[11].field_B8A[2].field_0 = 150;
+    field_136[11].field_B8A[2].field_2 = 440;
+    field_136[11].field_BC6_nifty_idx = 0;
+    field_136[11].field_BC8 = 0;
+    field_136[2].field_0 = 3;
+    field_136[2].field_2 = 1;
+    field_136[2].field_518[0].field_0 = 1;
+    field_136[2].field_518[0].field_2_xpos = 35;
+    field_136[2].field_518[0].field_4_ypos = 11;
+    wcsncpy(field_136[2].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
+    field_136[2].field_518[0].field_6A = field_130;
+    field_136[2].field_518[0].field_6C = 0;
+    field_136[2].field_4[0].field_0 = 1;
+    field_136[2].field_4[0].field_4 = 392;
+    wcsncpy(field_136[2].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136[2].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[0].field_6_wstr_buf, field_136[2].field_4[0].field_6A, 320);
+    field_136[2].field_4[0].field_80 = 260;
+    field_136[2].field_4[1].field_0 = 1;
+    field_136[2].field_4[1].field_4 = 412;
+    wcsncpy(field_136[2].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136[2].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[1].field_6_wstr_buf, field_136[2].field_4[1].field_6A, 320);
+    field_136[2].field_4[1].field_80 = 259;
+    field_136[2].field_4[2].field_0 = 1;
+    field_136[2].field_4[2].field_4 = 432;
+    wcsncpy(field_136[2].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[2].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[2].field_6_wstr_buf, field_136[2].field_4[2].field_6A, 320);
+    field_136[2].field_4[2].field_80 = 0;
+    field_136[2].field_B8A[0].field_0 = 150;
+    field_136[2].field_B8A[0].field_2 = 400;
+    field_136[2].field_B8A[1].field_0 = 150;
+    field_136[2].field_B8A[1].field_2 = 420;
+    field_136[2].field_B8A[2].field_0 = 150;
+    field_136[2].field_B8A[2].field_2 = 440;
+    field_136[2].field_BC6_nifty_idx = 0;
+    field_136[2].field_BC8 = 0;
+    field_136[3].field_0 = 5;
+    field_136[3].field_2 = 1;
+    field_136[3].field_518[0].field_0 = 1;
+    field_136[3].field_518[0].field_2_xpos = 35;
+    field_136[3].field_518[0].field_4_ypos = 11;
+    wcsncpy(field_136[3].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
+    field_136[3].field_518[0].field_6A = field_12C;
+    field_136[3].field_4[0].field_0 = 1;
+    field_136[3].field_4[0].field_4 = 365;
+    wcsncpy(field_136[3].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
+    field_136[3].field_4[0].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[0].field_6_wstr_buf, field_136[3].field_4[0].field_6A, 320);
+    field_136[3].field_4[0].field_80 = 261;
+    field_136[3].field_4[1].field_0 = 1;
+    field_136[3].field_4[1].field_4 = 385;
+    wcsncpy(field_136[3].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136[3].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[1].field_6_wstr_buf, field_136[3].field_4[1].field_6A, 320);
+    field_136[3].field_4[1].field_80 = 260;
+    field_136[3].field_4[2].field_0 = 1;
+    field_136[3].field_4[2].field_4 = 405;
+    wcsncpy(field_136[3].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136[3].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[2].field_6_wstr_buf, field_136[3].field_4[2].field_6A, 320);
+    field_136[3].field_4[2].field_80 = 259;
+    field_136[3].field_4[3].field_0 = 1;
+    field_136[3].field_4[3].field_4 = 425;
+    wcsncpy(field_136[3].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
+    field_136[3].field_4[3].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[3].field_6_wstr_buf, field_136[3].field_4[3].field_6A, 320);
+    field_136[3].field_4[3].field_80 = 266;
+    field_136[3].field_4[4].field_0 = 1;
+    field_136[3].field_4[4].field_4 = 445;
+    wcsncpy(field_136[3].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[3].field_4[4].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[4].field_6_wstr_buf, field_136[3].field_4[4].field_6A, 320);
+    field_136[3].field_4[4].field_80 = 0;
+    field_136[3].field_B8A[0].field_0 = 150;
+    field_136[3].field_B8A[0].field_2 = 373;
+    field_136[3].field_B8A[1].field_0 = 150;
+    field_136[3].field_B8A[1].field_2 = 393;
+    field_136[3].field_B8A[2].field_0 = 150;
+    field_136[3].field_B8A[2].field_2 = 413;
+    field_136[3].field_B8A[3].field_0 = 150;
+    field_136[3].field_B8A[3].field_2 = 433;
+    field_136[3].field_B8A[4].field_0 = 150;
+    field_136[3].field_B8A[4].field_2 = 453;
+    field_136[3].field_BC6_nifty_idx = 0;
+    field_136[3].field_BC8 = 0;
+    field_136[4].field_0 = 1;
+    field_136[4].field_2 = 1;
+    field_136[4].field_518[0].field_0 = 1;
+    field_136[4].field_518[0].field_4_ypos = 230;
+    wcsncpy(field_136[4].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
+    v30 = field_130;
+    field_136[4].field_518[0].field_6A = v30;
+    field_136[4].field_518[0].field_2_xpos = laughing_blackwell_0x1EB54::sub_4B0190(field_136[4].field_518[0].field_6_wstr_buf, v30, 320);
+    field_136[4].field_518[0].field_6C = 4;
+    field_136[4].field_4[0].field_0 = 1;
+    field_136[4].field_4[0].field_2 = 180;
+    field_136[4].field_4[0].field_4 = 410;
+    wcsncpy(field_136[4].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[4].field_4[0].field_80 = 0;
+    field_136[4].field_B8A[0].field_0 = 160;
+    field_136[4].field_B8A[0].field_2 = 418;
+    field_136[4].field_BC6_nifty_idx = 0;
+    field_136[4].field_BC8 = 0;
+    field_136[5].field_0 = 1;
+    field_136[5].field_2 = 5;
+    field_136[5].field_4[0].field_0 = 2;
+    field_136[5].field_4[0].field_2 = 300;
+    field_136[5].field_4[0].field_4 = 155;
+    field_136[5].field_4[0].field_6E_count = 0;
+    field_136[5].field_4[0].field_70 = 0;
+    field_136[5].field_4[0].field_7E = 11;
 
     u16 v323 = 0;
     do
     {
-        this->field_136[5].field_4[0].field_72[v323++] = 1;
+        field_136[5].field_4[0].field_72[v323++] = 1;
     } while (v323 <= field_136[5].field_4[0].field_7E);
 
-    this->field_136[5].field_B8A[0].field_0 = 280;
-    this->field_136[5].field_B8A[0].field_2 = 163;
-    this->field_136[5].field_BC6_nifty_idx = 0;
-    this->field_136[5].field_BC8 = 0;
-    this->field_136[5].field_518[0].field_0 = 3;
-    this->field_136[5].field_518[0].field_2 = 450;
-    this->field_136[5].field_518[0].field_4 = 197;
-    this->field_136[5].field_518[0].field_6_wstr_buf[0] = 0;
-    this->field_136[5].field_518[1].field_0 = 1;
-    this->field_136[5].field_518[1].field_2 = 440;
-    this->field_136[5].field_518[1].field_4 = 185;
+    field_136[5].field_B8A[0].field_0 = 280;
+    field_136[5].field_B8A[0].field_2 = 163;
+    field_136[5].field_BC6_nifty_idx = 0;
+    field_136[5].field_BC8 = 0;
+    field_136[5].field_518[0].field_0 = 3;
+    field_136[5].field_518[0].field_2_xpos = 450;
+    field_136[5].field_518[0].field_4_ypos = 197;
+    field_136[5].field_518[0].field_6_wstr_buf[0] = 0;
+    field_136[5].field_518[1].field_0 = 1;
+    field_136[5].field_518[1].field_2_xpos = 440;
+    field_136[5].field_518[1].field_4_ypos = 185;
     //    v34 = ;
-    this->field_136[5].field_518[2].field_4 = 197;
-    this->field_136[5].field_518[3].field_4 = 197;
-    this->field_136[5].field_518[1].field_6A = word_703C3C; // v34
-    this->field_136[5].field_518[2].field_0 = 3;
-    this->field_136[5].field_518[2].field_2 = 410;
-    this->field_136[5].field_518[2].field_6_wstr_buf[0] = 3;
-    this->field_136[5].field_518[3].field_0 = 3;
-    this->field_136[5].field_518[3].field_2 = 490;
-    this->field_136[5].field_518[3].field_6_wstr_buf[0] = 4;
-    this->field_136[5].field_518[4].field_0 = 1;
-    this->field_136[5].field_518[4].field_2 = 340;
-    this->field_136[5].field_518[4].field_4 = v2;
-    wcsncpy(this->field_136[5].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
-    this->field_136[5].field_518[4].field_6A = this->field_126;
-    this->field_136[6].field_0 = 3;
-    this->field_136[6].field_2 = 3;
-    this->field_136[6].field_518[0].field_0 = 1;
-    this->field_136[6].field_518[0].field_2 = 35;
-    this->field_136[6].field_518[0].field_4 = 11;
-    wcsncpy(this->field_136[6].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
-    this->field_136[6].field_518[0].field_6A = this->field_130;
-    this->field_136[6].field_518[0].field_6C = 5;
-    this->field_136[6].field_518[1].field_0 = 1;
-    this->field_136[6].field_518[1].field_2 = 170;
-    this->field_136[6].field_518[1].field_4 = 250;
-    wcsncpy(this->field_136[6].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
-    this->field_136[6].field_518[2].field_0 = 1;
-    this->field_136[6].field_518[2].field_2 = 400;
-    this->field_136[6].field_518[2].field_4 = 250;
-    s16 v38 = this->field_120;
-    this->field_136[6].field_4[0].field_0 = 1;
-    this->field_136[6].field_518[2].field_6A = v38;
-    this->field_136[6].field_4[0].field_4 = 340;
-    wcsncpy(this->field_136[6].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
-    this->field_136[6].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[0].field_6_wstr_buf, v38, 320);
-    this->field_136[6].field_4[0].field_80 = 259;
-    this->field_136[6].field_4[1].field_0 = 1;
-    this->field_136[6].field_4[1].field_4 = 360;
-    wcsncpy(this->field_136[6].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    this->field_136[6].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[1].field_6_wstr_buf, this->field_136[6].field_4[1].field_6A, 320);
-    this->field_136[6].field_4[1].field_80 = 261;
-    this->field_136[6].field_4[2].field_0 = 1;
-    this->field_136[6].field_4[2].field_4 = 380;
-    wcsncpy(this->field_136[6].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[6].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(this->field_136[6].field_4[2].field_6_wstr_buf, this->field_136[6].field_4[2].field_6A, 320);
-    this->field_136[6].field_4[2].field_80 = 0;
-    this->field_136[6].field_B8A[0].field_0 = 150;
-    this->field_136[6].field_B8A[0].field_2 = 348;
-    this->field_136[6].field_B8A[1].field_0 = 150;
-    this->field_136[6].field_B8A[1].field_2 = 368;
-    this->field_136[6].field_B8A[2].field_0 = 150;
-    this->field_136[6].field_B8A[2].field_2 = 388;
-    this->field_136[6].field_BC6_nifty_idx = 0;
-    this->field_136[6].field_BC8 = 0;
-    this->field_136[7].field_0 = 1;
-    this->field_136[7].field_2 = 14;
-    this->field_136[7].field_518[0].field_0 = 1;
-    this->field_136[7].field_518[0].field_2 = 35;
-    this->field_136[7].field_518[0].field_4 = 11;
-    this->field_136[7].field_518[0].field_6A = this->field_130;
-    this->field_136[7].field_518[0].field_6C = 5;
-    this->field_136[7].field_518[1].field_0 = 1;
-    this->field_136[7].field_518[1].field_2 = 100;
-    this->field_136[7].field_518[1].field_4 = 170;
-    wcsncpy(this->field_136[7].field_518[1].field_6_wstr_buf, word_67DC8C, 50u);
-    this->field_136[7].field_518[2].field_0 = 1;
-    this->field_136[7].field_518[2].field_2 = 100;
-    this->field_136[7].field_518[2].field_4 = 190;
-    wcsncpy(this->field_136[7].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[7].field_518[3].field_0 = 1;
-    this->field_136[7].field_518[3].field_2 = 100;
-    this->field_136[7].field_518[3].field_4 = 210;
-    wcsncpy(this->field_136[7].field_518[3].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[7].field_518[4].field_0 = 1;
-    this->field_136[7].field_518[4].field_2 = 100;
-    this->field_136[7].field_518[4].field_4 = 230;
-    wcsncpy(this->field_136[7].field_518[4].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[7].field_518[5].field_0 = 1;
-    this->field_136[7].field_518[5].field_2 = 100;
-    this->field_136[7].field_518[5].field_4 = 250;
-    wcsncpy(this->field_136[7].field_518[5].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[7].field_518[6].field_0 = 1;
-    this->field_136[7].field_518[6].field_2 = 100;
-    this->field_136[7].field_518[6].field_4 = 270;
-    wcsncpy(this->field_136[7].field_518[6].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[7].field_518[7].field_0 = 1;
-    this->field_136[7].field_518[7].field_4 = 300;
-    wcsncpy(this->field_136[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
-    this->field_136[7].field_518[7].field_2 =
-        sub_4B0190(this->field_136[7].field_518[7].field_6_wstr_buf, this->field_136[7].field_518[7].field_6A, 320);
-    this->field_136[7].field_518[8].field_0 = 1;
-    this->field_136[7].field_518[8].field_2 = 100;
-    this->field_136[7].field_518[8].field_4 = 320;
-    this->field_136[7].field_518[9].field_0 = 1;
-    this->field_136[7].field_518[9].field_2 = 100;
-    this->field_136[7].field_518[9].field_4 = 340;
-    this->field_136[7].field_518[10].field_0 = 1;
-    this->field_136[7].field_518[10].field_2 = 100;
-    this->field_136[7].field_518[10].field_4 = 360;
-    this->field_136[7].field_518[11].field_0 = 1;
-    this->field_136[7].field_518[11].field_2 = 100;
-    this->field_136[7].field_518[11].field_4 = 380;
-    this->field_136[7].field_518[12].field_0 = 1;
-    this->field_136[7].field_518[12].field_2 = 100;
-    this->field_136[7].field_518[12].field_4 = 400;
-    this->field_136[7].field_518[13].field_0 = 1;
-    this->field_136[7].field_518[13].field_2 = 30;
-    this->field_136[7].field_518[13].field_4 = 150;
-    this->field_136[7].field_4[0].field_0 = 1;
-    this->field_136[7].field_4[0].field_4 = 430;
-    wcsncpy(this->field_136[7].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    this->field_136[7].field_4[0].field_2 =
-        sub_4B0190(this->field_136[7].field_4[0].field_6_wstr_buf, this->field_136[7].field_4[0].field_6A, 320);
-    this->field_136[7].field_4[0].field_80 = 258;
-    this->field_136[7].field_B8A[0].field_0 = 180;
-    this->field_136[7].field_B8A[0].field_2 = 438;
-    this->field_136[7].field_BC6_nifty_idx = 0;
-    this->field_136[7].field_BC8 = 0;
-    this->field_136[8].field_0 = 1;
-    this->field_136[8].field_2 = 0;
-    this->field_136[8].field_4[0].field_0 = 1;
-    this->field_136[8].field_4[0].field_2 = 200;
-    this->field_136[8].field_4[0].field_4 = 280;
-    wcsncpy(this->field_136[8].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[8].field_4[0].field_80 = 0;
-    this->field_136[8].field_B8A[0].field_0 = 180;
-    this->field_136[8].field_B8A[0].field_2 = 288;
-    this->field_136[8].field_BC6_nifty_idx = 0;
-    this->field_136[8].field_BC8 = 0;
-    this->field_136[10].field_0 = 1;
-    this->field_136[10].field_2 = 1;
-    this->field_136[10].field_518[0].field_0 = 1;
-    this->field_136[10].field_518[0].field_4 = 230;
-    wcsncpy(this->field_136[10].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
-    //    v46 = this->field_130;
-    this->field_136[10].field_518[0].field_6A = this->field_130; // v46;
-    this->field_136[10].field_518[0].field_2 = sub_4B0190(this->field_136[10].field_518[0].field_6_wstr_buf,
-                                                          this->field_130, //v46,
-                                                          320);
-    this->field_136[10].field_518[0].field_6C = 4;
-    this->field_136[10].field_4[0].field_0 = 1;
-    this->field_136[10].field_4[0].field_2 = 180;
-    this->field_136[10].field_4[0].field_4 = 410;
-    wcsncpy(this->field_136[10].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    this->field_136[10].field_4[0].field_80 = 0;
-    this->field_136[10].field_B8A[0].field_0 = 160;
-    this->field_136[10].field_B8A[0].field_2 = 418;
-    this->field_136[10].field_BC6_nifty_idx = 0;
-    this->field_136[10].field_BC8 = 0;
-    this->field_136[14].field_0 = 1;
-    this->field_136[14].field_2 = 5;
-    this->field_136[14].field_4[0].field_0 = 1;
-    this->field_136[14].field_4[0].field_2 = 170;
-    this->field_136[14].field_4[0].field_4 = 340;
-    this->field_136[14].field_4[0].field_80 = 268;
-    this->field_136[14].field_518[0].field_0 = 1;
-    this->field_136[14].field_518[0].field_2 = 20;
-    this->field_136[14].field_518[0].field_4 = 160;
-    wcsncpy(this->field_136[14].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent1"), 0x32u);
-    this->field_136[14].field_518[1].field_0 = 1;
-    this->field_136[14].field_518[1].field_2 = 20;
-    this->field_136[14].field_518[1].field_4 = 180;
-    wcsncpy(this->field_136[14].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent2"), 0x32u);
-    this->field_136[14].field_518[2].field_0 = 1;
-    this->field_136[14].field_518[2].field_2 = 20;
-    this->field_136[14].field_518[2].field_4 = 200;
-    wcsncpy(this->field_136[14].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
-    this->field_136[14].field_518[3].field_0 = 1;
-    this->field_136[14].field_518[3].field_2 = 20;
-    this->field_136[14].field_518[3].field_4 = 300;
-    wcsncpy(this->field_136[14].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_pmpt"), 0x32u);
-    this->field_136[14].field_518[4].field_0 = 1;
-    this->field_136[14].field_518[4].field_2 = 20;
-    this->field_136[14].field_518[4].field_4 = 320;
-    wcsncpy(this->field_136[14].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
-    this->field_136[14].field_B8A[0].field_0 = 150;
-    this->field_136[14].field_B8A[0].field_2 = 348;
-    this->field_136[14].field_BC6_nifty_idx = 0;
-    this->field_136[14].field_BC8 = 0;
+    field_136[5].field_518[2].field_4_ypos = 197;
+    field_136[5].field_518[3].field_4_ypos = 197;
+    field_136[5].field_518[1].field_6A = word_703C3C; // v34
+    field_136[5].field_518[2].field_0 = 3;
+    field_136[5].field_518[2].field_2_xpos = 410;
+    field_136[5].field_518[2].field_6_wstr_buf[0] = 3;
+    field_136[5].field_518[3].field_0 = 3;
+    field_136[5].field_518[3].field_2_xpos = 490;
+    field_136[5].field_518[3].field_6_wstr_buf[0] = 4;
+    field_136[5].field_518[4].field_0 = 1;
+    field_136[5].field_518[4].field_2_xpos = 340;
+    field_136[5].field_518[4].field_4_ypos = v2;
+    wcsncpy(field_136[5].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
+    field_136[5].field_518[4].field_6A = field_126;
+    field_136[6].field_0 = 3;
+    field_136[6].field_2 = 3;
+    field_136[6].field_518[0].field_0 = 1;
+    field_136[6].field_518[0].field_2_xpos = 35;
+    field_136[6].field_518[0].field_4_ypos = 11;
+    wcsncpy(field_136[6].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
+    field_136[6].field_518[0].field_6A = field_130;
+    field_136[6].field_518[0].field_6C = 5;
+    field_136[6].field_518[1].field_0 = 1;
+    field_136[6].field_518[1].field_2_xpos = 170;
+    field_136[6].field_518[1].field_4_ypos = 250;
+    wcsncpy(field_136[6].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
+    field_136[6].field_518[2].field_0 = 1;
+    field_136[6].field_518[2].field_2_xpos = 400;
+    field_136[6].field_518[2].field_4_ypos = 250;
+    s16 v38 = field_120;
+    field_136[6].field_4[0].field_0 = 1;
+    field_136[6].field_518[2].field_6A = v38;
+    field_136[6].field_4[0].field_4 = 340;
+    wcsncpy(field_136[6].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
+    field_136[6].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[0].field_6_wstr_buf, v38, 320);
+    field_136[6].field_4[0].field_80 = 259;
+    field_136[6].field_4[1].field_0 = 1;
+    field_136[6].field_4[1].field_4 = 360;
+    wcsncpy(field_136[6].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
+    field_136[6].field_4[1].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[1].field_6_wstr_buf, field_136[6].field_4[1].field_6A, 320);
+    field_136[6].field_4[1].field_80 = 261;
+    field_136[6].field_4[2].field_0 = 1;
+    field_136[6].field_4[2].field_4 = 380;
+    wcsncpy(field_136[6].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[6].field_4[2].field_2 =
+        laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[2].field_6_wstr_buf, field_136[6].field_4[2].field_6A, 320);
+    field_136[6].field_4[2].field_80 = 0;
+    field_136[6].field_B8A[0].field_0 = 150;
+    field_136[6].field_B8A[0].field_2 = 348;
+    field_136[6].field_B8A[1].field_0 = 150;
+    field_136[6].field_B8A[1].field_2 = 368;
+    field_136[6].field_B8A[2].field_0 = 150;
+    field_136[6].field_B8A[2].field_2 = 388;
+    field_136[6].field_BC6_nifty_idx = 0;
+    field_136[6].field_BC8 = 0;
+    field_136[7].field_0 = 1;
+    field_136[7].field_2 = 14;
+    field_136[7].field_518[0].field_0 = 1;
+    field_136[7].field_518[0].field_2_xpos = 35;
+    field_136[7].field_518[0].field_4_ypos = 11;
+    field_136[7].field_518[0].field_6A = field_130;
+    field_136[7].field_518[0].field_6C = 5;
+    field_136[7].field_518[1].field_0 = 1;
+    field_136[7].field_518[1].field_2_xpos = 100;
+    field_136[7].field_518[1].field_4_ypos = 170;
+    wcsncpy(field_136[7].field_518[1].field_6_wstr_buf, word_67DC8C, 50u);
+    field_136[7].field_518[2].field_0 = 1;
+    field_136[7].field_518[2].field_2_xpos = 100;
+    field_136[7].field_518[2].field_4_ypos = 190;
+    wcsncpy(field_136[7].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[7].field_518[3].field_0 = 1;
+    field_136[7].field_518[3].field_2_xpos = 100;
+    field_136[7].field_518[3].field_4_ypos = 210;
+    wcsncpy(field_136[7].field_518[3].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[7].field_518[4].field_0 = 1;
+    field_136[7].field_518[4].field_2_xpos = 100;
+    field_136[7].field_518[4].field_4_ypos = 230;
+    wcsncpy(field_136[7].field_518[4].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[7].field_518[5].field_0 = 1;
+    field_136[7].field_518[5].field_2_xpos = 100;
+    field_136[7].field_518[5].field_4_ypos = 250;
+    wcsncpy(field_136[7].field_518[5].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[7].field_518[6].field_0 = 1;
+    field_136[7].field_518[6].field_2_xpos = 100;
+    field_136[7].field_518[6].field_4_ypos = 270;
+    wcsncpy(field_136[7].field_518[6].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[7].field_518[7].field_0 = 1;
+    field_136[7].field_518[7].field_4_ypos = 300;
+    wcsncpy(field_136[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
+    field_136[7].field_518[7].field_2_xpos =
+        sub_4B0190(field_136[7].field_518[7].field_6_wstr_buf, field_136[7].field_518[7].field_6A, 320);
+    field_136[7].field_518[8].field_0 = 1;
+    field_136[7].field_518[8].field_2_xpos = 100;
+    field_136[7].field_518[8].field_4_ypos = 320;
+    field_136[7].field_518[9].field_0 = 1;
+    field_136[7].field_518[9].field_2_xpos = 100;
+    field_136[7].field_518[9].field_4_ypos = 340;
+    field_136[7].field_518[10].field_0 = 1;
+    field_136[7].field_518[10].field_2_xpos = 100;
+    field_136[7].field_518[10].field_4_ypos = 360;
+    field_136[7].field_518[11].field_0 = 1;
+    field_136[7].field_518[11].field_2_xpos = 100;
+    field_136[7].field_518[11].field_4_ypos = 380;
+    field_136[7].field_518[12].field_0 = 1;
+    field_136[7].field_518[12].field_2_xpos = 100;
+    field_136[7].field_518[12].field_4_ypos = 400;
+    field_136[7].field_518[13].field_0 = 1;
+    field_136[7].field_518[13].field_2_xpos = 30;
+    field_136[7].field_518[13].field_4_ypos = 150;
+    field_136[7].field_4[0].field_0 = 1;
+    field_136[7].field_4[0].field_4 = 430;
+    wcsncpy(field_136[7].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    field_136[7].field_4[0].field_2 = sub_4B0190(field_136[7].field_4[0].field_6_wstr_buf, field_136[7].field_4[0].field_6A, 320);
+    field_136[7].field_4[0].field_80 = 258;
+    field_136[7].field_B8A[0].field_0 = 180;
+    field_136[7].field_B8A[0].field_2 = 438;
+    field_136[7].field_BC6_nifty_idx = 0;
+    field_136[7].field_BC8 = 0;
+    field_136[8].field_0 = 1;
+    field_136[8].field_2 = 0;
+    field_136[8].field_4[0].field_0 = 1;
+    field_136[8].field_4[0].field_2 = 200;
+    field_136[8].field_4[0].field_4 = 280;
+    wcsncpy(field_136[8].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[8].field_4[0].field_80 = 0;
+    field_136[8].field_B8A[0].field_0 = 180;
+    field_136[8].field_B8A[0].field_2 = 288;
+    field_136[8].field_BC6_nifty_idx = 0;
+    field_136[8].field_BC8 = 0;
+    field_136[10].field_0 = 1;
+    field_136[10].field_2 = 1;
+    field_136[10].field_518[0].field_0 = 1;
+    field_136[10].field_518[0].field_4_ypos = 230;
+    wcsncpy(field_136[10].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
+    //    v46 = field_130;
+    field_136[10].field_518[0].field_6A = field_130; // v46;
+    field_136[10].field_518[0].field_2_xpos = sub_4B0190(field_136[10].field_518[0].field_6_wstr_buf,
+                                                         field_130, //v46,
+                                                         320);
+    field_136[10].field_518[0].field_6C = 4;
+    field_136[10].field_4[0].field_0 = 1;
+    field_136[10].field_4[0].field_2 = 180;
+    field_136[10].field_4[0].field_4 = 410;
+    wcsncpy(field_136[10].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136[10].field_4[0].field_80 = 0;
+    field_136[10].field_B8A[0].field_0 = 160;
+    field_136[10].field_B8A[0].field_2 = 418;
+    field_136[10].field_BC6_nifty_idx = 0;
+    field_136[10].field_BC8 = 0;
+    field_136[14].field_0 = 1;
+    field_136[14].field_2 = 5;
+    field_136[14].field_4[0].field_0 = 1;
+    field_136[14].field_4[0].field_2 = 170;
+    field_136[14].field_4[0].field_4 = 340;
+    field_136[14].field_4[0].field_80 = 268;
+    field_136[14].field_518[0].field_0 = 1;
+    field_136[14].field_518[0].field_2_xpos = 20;
+    field_136[14].field_518[0].field_4_ypos = 160;
+    wcsncpy(field_136[14].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent1"), 0x32u);
+    field_136[14].field_518[1].field_0 = 1;
+    field_136[14].field_518[1].field_2_xpos = 20;
+    field_136[14].field_518[1].field_4_ypos = 180;
+    wcsncpy(field_136[14].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent2"), 0x32u);
+    field_136[14].field_518[2].field_0 = 1;
+    field_136[14].field_518[2].field_2_xpos = 20;
+    field_136[14].field_518[2].field_4_ypos = 200;
+    wcsncpy(field_136[14].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
+    field_136[14].field_518[3].field_0 = 1;
+    field_136[14].field_518[3].field_2_xpos = 20;
+    field_136[14].field_518[3].field_4_ypos = 300;
+    wcsncpy(field_136[14].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_pmpt"), 0x32u);
+    field_136[14].field_518[4].field_0 = 1;
+    field_136[14].field_518[4].field_2_xpos = 20;
+    field_136[14].field_518[4].field_4_ypos = 320;
+    wcsncpy(field_136[14].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
+    field_136[14].field_B8A[0].field_0 = 150;
+    field_136[14].field_B8A[0].field_4 = 348;
+    field_136[14].field_BC6_nifty_idx = 0;
+    field_136[14].field_BC8 = 0;
     field_EE0E_unk.sub_483F20();
 }
 
@@ -3583,7 +3576,7 @@ char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
 EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
-STUB_FUNC(0x5E53C0)
+MATCH_FUNC(0x5E53C0)
 void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
@@ -3638,23 +3631,20 @@ s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
+// https://decomp.me/scratch/DJCmB
 STUB_FUNC(0x4B0190)
-s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* a2, s16 a3, s32 a4)
+s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
-    // todo
-    /*
-    s32 v4; // eax
-    s32 v5; // ecx
-
-    if (a3 == -1)
-        v4 = sub_5D8990((s16 *)a2, this->field_11C);
+    u32 v4;
+    if (fontType != -1)
+    {
+        v4 = sub_5D8990(pText, fontType);
+    }
     else
-        v4 = sub_5D8990((s16 *)a2, a3);
-    HIWORD(v5) = HIWORD(v4);
-    LOWORD(v5) = (u16)v4 >> 1;
-    return a4 - v5;
-    */
-    return 0;
+    {
+        v4 = sub_5D8990(pText, field_11C);
+    }
+    return width - (v4 / 2);
 }
 
 STUB_FUNC(0x4B7060)
@@ -3740,7 +3730,7 @@ void laughing_blackwell_0x1EB54::sub_4B7550()
     loving_borg_0xBCA* pBorg; // edi
     u8 v3; // [esp+Ch] [ebp-4h]
 
-    pBorg = &this->field_136[this->field_132_f136_idx];
+    pBorg = &field_136[field_132_f136_idx];
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     swprintf(tmpBuff_67BD9C, L"%d", v3 + 1);
     wcsncpy(pBorg->field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
@@ -3748,23 +3738,23 @@ void laughing_blackwell_0x1EB54::sub_4B7550()
     if (sub_4B7490())
     {
         pBorg->field_518[4].field_1 = 1;
-        this->field_1EB4C = 1;
+        field_1EB4C = 1;
     }
     else
     {
         pBorg->field_518[4].field_1 = 0;
-        this->field_1EB4C = 0;
+        field_1EB4C = 0;
     }
 
     if (sub_4B74C0())
     {
         pBorg->field_518[5].field_1 = 1;
-        this->field_1EB4D = 1;
+        field_1EB4D = 1;
     }
     else
     {
         pBorg->field_518[5].field_1 = 0;
-        this->field_1EB4D = 0;
+        field_1EB4D = 0;
     }
 }
 
@@ -3788,10 +3778,10 @@ void laughing_blackwell_0x1EB54::sub_4B42B0()
     wchar_t* v4; // edi
     s32 i; // ecx
 
-    if ((unsigned __int8)this->field_C9B2 < 9u)
+    if ((unsigned __int8)field_C9B2 < 9u)
     {
-        v1 = (unsigned __int8)this->field_C9B2;
-        v2 = &this->field_C9A0[v1];
+        v1 = (unsigned __int8)field_C9B2;
+        v2 = &field_C9A0[v1];
         v3 = (u32)(9 - v1) >> 1;
         memset(v2, 0, 4 * v3);
         v4 = &v2[2 * v3];
@@ -3817,7 +3807,7 @@ void laughing_blackwell_0x1EB54::sub_4B7610()
     u8 v4; // [esp+8h] [ebp-8h]
     u8 v5; // [esp+Ch] [ebp-4h]
 
-    pItem = &this->field_136[this->field_132_f136_idx];
+    pItem = &field_136[field_132_f136_idx];
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     v4 = v3 >> 4;
     v5 = v3 & 0xF;
@@ -3841,23 +3831,23 @@ void laughing_blackwell_0x1EB54::sub_4B7610()
         if (sub_4B74F0())
         {
             pItem->field_518[6].field_1 = 1;
-            this->field_1EB4E = 1;
+            field_1EB4E = 1;
         }
         else
         {
             pItem->field_518[6].field_1 = 0;
-            this->field_1EB4E = 0;
+            field_1EB4E = 0;
         }
 
         if (sub_4B7520())
         {
             pItem->field_518[7].field_1 = 1;
-            this->field_1EB4F = 1;
+            field_1EB4F = 1;
         }
         else
         {
             pItem->field_518[7].field_1 = 0;
-            this->field_1EB4F = 0;
+            field_1EB4F = 0;
         }
 
         swprintf(word_67C7D8, L"%c", 3 * v4 + v5 + 64);
@@ -3874,7 +3864,7 @@ bool laughing_blackwell_0x1EB54::sub_4B70B0()
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7120(v3);
     gLucid_hamilton_67E8E0.sub_4C5900(a2);
-    this->field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
     sub_4B7610();
     return v3 != a2;
 }
@@ -3913,7 +3903,7 @@ bool laughing_blackwell_0x1EB54::sub_4B72F0()
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7360(v3);
     gLucid_hamilton_67E8E0.sub_4C5900(a2);
-    this->field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
     sub_4B7610();
     return v3 != a2;
 }
@@ -3927,7 +3917,7 @@ bool laughing_blackwell_0x1EB54::sub_4B7200()
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     a2 = sub_4B7270(v3);
     gLucid_hamilton_67E8E0.sub_4C58F0(a2);
-    this->field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
     sub_4B7550();
     return v3 != (char)a2;
 }
@@ -3974,7 +3964,7 @@ bool loving_borg_0xBCA::sub_4B61B0()
     return oldIdx != field_BC6_nifty_idx ? true : false;
 }
 
-STUB_FUNC(0x4B6200)
+MATCH_FUNC(0x4B6200)
 bool loving_borg_0xBCA::sub_4B6200()
 {
     u16 oldIdx = field_BC6_nifty_idx;
@@ -3996,8 +3986,8 @@ MATCH_FUNC(0x4B63E0)
 competent_noyce_0x6E::competent_noyce_0x6E()
 {
     field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
+    field_2_xpos = 0;
+    field_4_ypos = 0;
     field_1 = 1;
     wcscpy(field_6_wstr_buf, word_67DC8C);
     field_6A = -1;
@@ -4009,8 +3999,8 @@ competent_noyce_0x6E::~competent_noyce_0x6E()
 {
     field_1 = 1;
     field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
+    field_2_xpos = 0;
+    field_4_ypos = 0;
     field_6A = -1;
     field_6C = -1;
 }
@@ -4089,7 +4079,7 @@ bool nifty_maxwell_0x82::sub_4B6330()
 STUB_FUNC(0x4B6390)
 bool nifty_maxwell_0x82::sub_4B6390()
 {
-    u16 oldCount = this->field_6E_count;
+    u16 oldCount = field_6E_count;
     u16 new_count = oldCount;
     char_type bFound = 0;
     do
@@ -4099,7 +4089,7 @@ bool nifty_maxwell_0x82::sub_4B6390()
         {
             if (byte_67DA80)
             {
-                new_count = this->field_7E;
+                new_count = field_7E;
             }
         }
 
@@ -4108,14 +4098,14 @@ bool nifty_maxwell_0x82::sub_4B6390()
             --new_count; // add     eax, 0FFFFh
         }
 
-        if (this->field_72[new_count])
+        if (field_72[new_count])
         {
             bFound = 1;
         }
 
-    } while (new_count != this->field_6E_count && !bFound); // 6E not reloaded
+    } while (new_count != field_6E_count && !bFound); // 6E not reloaded
 
-    this->field_6E_count = new_count;
+    field_6E_count = new_count;
 
     return oldCount != new_count ? true : false;
 }
@@ -4235,119 +4225,118 @@ STUB_FUNC(0x5D8A10)
 EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       Fix16 xpos_fp,
                                       Fix16 ypos_fp,
-                                      u16 spaceWidth,
-                                      Fix16 fp4,
+                                      u16 font_type,
+                                      Fix16 scale_fp,
                                       s32* pUnknown,
-                                      s32 a7,
-                                      s32 mode,
-                                      s32 a9)
+                                      s32 unknown1,
+                                      s32 unknown2,
+                                      s32 flags)
 {
-    s32 new_Flags = CalcQuadFlags_5D83E0(mode, a9) | 0x20000;
-    s32 drawFlags = new_Flags;
-    const wchar_t* pTextIter = pText;
+
+    s32 new_Flags = CalcQuadFlags_5D83E0(unknown2, flags) | 0x20000;
 
     Fix16 cur_xpos = xpos_fp; // note: new var
-    u16 calcSpaceWidth = gGtx_0x106C_703DD4->space_width_5AA7B0(&spaceWidth);
-    Fix16 v11 = fp4;
 
-    Fix16 space_amount;
-    space_amount.mValue = fp4.mValue * calcSpaceWidth;
+    Fix16 spaceWidth;
+    spaceWidth.mValue = gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type); // werid in place construction
+    spaceWidth = scale_fp * spaceWidth;
 
     Fix16 lineHeight;
-    lineHeight.mValue = v11.mValue * (u16)gGtx_0x106C_703DD4->sub_5AA800(&spaceWidth);
-    //  pTmpIter = (WORD *)*pUnknown;
-    mode = a7;
+    lineHeight.mValue = gGtx_0x106C_703DD4->sub_5AA800(&font_type); // werid in place construction
+    lineHeight = scale_fp * lineHeight;
 
-    s32 kind = *pUnknown;
-    if (v11.mValue == dword_706A6C.mValue)
+    unknown2 = unknown1;
+
+    u32 kind = *pUnknown;
+    if (scale_fp == dword_706A6C)
     {
-        drawFlags = new_Flags | 0x10000;
+        new_Flags = new_Flags | 0x10000;
     }
 
-    s32 v15 = spaceWidth;
-    if ((u16)spaceWidth >= 101u)
+    if (font_type >= 101u)
     {
         if (kind == 8)
         {
-            kind = gMagical_germain_0x8EC_6F5168->sub_4D29D0(a7);
+            gMagical_germain_0x8EC_6F5168->sub_4D29D0(unknown1);
         }
         else
         {
-            kind = gMagical_germain_0x8EC_6F5168->sub_4D28A0(spaceWidth);
+            gMagical_germain_0x8EC_6F5168->sub_4D28A0(font_type);
         }
-        v15 = spaceWidth;
     }
 
     //if (*pText)
-    for (wchar_t text_char = *pTextIter; *pTextIter; pTextIter++)
+    while (*pText != 0)
     {
+        wchar_t text_char = *pText;
 
         // HIWORD(v16) =
         //HIWORD(v16) = HIWORD(pTextIter);
 
         // = LOWORD(v16)
-        text_char = *pTextIter;
-        if (*pTextIter == '\n')
+
+        if (text_char == L'\n')
         {
+            // reset xpos back to the start
             cur_xpos = xpos_fp;
-            ypos_fp.mValue += lineHeight.mValue;
+
+            // move to the next line down
+            ypos_fp += lineHeight;
         }
-        else if ((WORD)text_char == ' ')
+        else if (text_char == L' ')
         {
-            cur_xpos.mValue += space_amount.mValue;
+            // advance by size of space char
+            cur_xpos += spaceWidth;
         }
-        else if ((WORD)text_char == '#')
+        else if (text_char == L'#')
         {
-            s32 v18;
-            if (kind == *pUnknown && (WORD)mode == (WORD)a7)
+            if (kind == *pUnknown && (WORD)unknown2 == (WORD)unknown1)
             {
                 kind = 8;
                 /*
-                v17 = -((u16)v15 < 0x65u);
+                v17 = -((u16)font_type < 0x65u);
                 // LOBYTE(v17) =
                 v17 = v17 & 0xFB;
                 v18 = v17 + 5;
                 */
-                v18 = v15 < 0x65u ? 10 : 5;
+                unknown2 = font_type < 0x65u ? 10 : 5;
             }
             else
             {
                 kind = *pUnknown;
-                v18 = a7;
+                unknown2 = unknown1;
             }
-            mode = v18;
 
-            if ((u16)v15 >= 101u)
+            if ((u16)font_type >= 101u)
             {
                 if (kind == 8)
                 {
-                    gMagical_germain_0x8EC_6F5168->sub_4D29D0(mode);
+                    gMagical_germain_0x8EC_6F5168->sub_4D29D0(unknown2);
                 }
                 else
                 {
-                    gMagical_germain_0x8EC_6F5168->sub_4D28A0(v15);
+                    gMagical_germain_0x8EC_6F5168->sub_4D28A0(font_type);
                 }
-                v15 = spaceWidth;
             }
         }
         else
         {
             sprite_index* pSprIdx;
             STexture* pTextureToUse;
-            if ((u16)v15 < 0x65u || (u16)v15 > 107u)
+            if ((u16)font_type < 0x65u || (u16)font_type > 107u)
             {
-                if ((u16)v15 < 0xC9u || (u16)v15 > 203u)
+                if ((u16)font_type < 0xC9u || (u16)font_type > 203u)
                 {
                     // LOWORD(sprite_pal) =
-                    u16 sprite_pal = gGtx_0x106C_703DD4->sub_5AA710(v15, (WORD)text_char - 33);
+                    u16 sprite_pal = gGtx_0x106C_703DD4->sub_5AA710(font_type, text_char - 33);
                     u16 sprt_idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, sprite_pal);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTextureToUse = gSharp_pare_0x15D8_705064->sub_5B94F0(7, sprite_pal, kind, mode);
+                    pTextureToUse = gSharp_pare_0x15D8_705064->sub_5B94F0(7, sprite_pal, kind, unknown2);
                 }
                 else
                 {
                     pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0((u32*)text_char);
+                    pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D27D0(text_char);
                 }
             }
             else
@@ -4356,66 +4345,59 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                 pTextureToUse = gMagical_germain_0x8EC_6F5168->sub_4D2710(text_char);
             }
 
-            __asm {nop}
-            ;
-            __asm {nop}
-            ;
-            __asm {nop}
-            ;
-
             STexture* pTexture = pTextureToUse;
 
             //v25 = v11.mValue;
             //v26 = v11.mValue >> 31;
 
             Fix16 sprite_xoff;
-            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) * (__int64)(v11.mValue >> 14);
+            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) * (__int64)(scale_fp.mValue >> 14);
 
             Fix16 sprite_yoff;
-            sprite_yoff.mValue = (__int64)(pSprIdx->field_5_height << 14) * (__int64)(v11.mValue >> 14);
+            sprite_yoff.mValue = (__int64)(pSprIdx->field_5_height << 14) * (__int64)(scale_fp.mValue >> 14);
 
+            gQuadVerts_706B88.field_0_verts[0].field_0_x = cur_xpos.ToFloat();
+            gQuadVerts_706B88.field_0_verts[0].field_4_y = ypos_fp.ToFloat();
             gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.000099999997;
-            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.000099999997;
-            s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
-            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.000099999997;
-            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
 
-            gQuadVerts_706B88.field_0_verts[0].field_0_x = (f64)cur_xpos.mValue * 0.000061035156;
-            gQuadVerts_706B88.field_0_verts[0].field_4_y = (f64)ypos_fp.mValue * 0.000061035156;
-
-            f32 v_1_2_x = (f64)(sprite_xoff.mValue + cur_xpos.mValue) * 0.000061035156;
+            f32 v_1_2_x = (sprite_xoff + cur_xpos).ToFloat();
             gQuadVerts_706B88.field_0_verts[1].field_0_x = v_1_2_x;
             gQuadVerts_706B88.field_0_verts[1].field_4_y = gQuadVerts_706B88.field_0_verts[0].field_4_y;
-            gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
+            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.000099999997;
 
-            f32 v2_3_y = (f64)(ypos_fp.mValue + sprite_yoff.mValue) * 0.000061035156;
+            // f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
+
+            gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
+            f32 v2_3_y = (ypos_fp + sprite_yoff).ToFloat();
             gQuadVerts_706B88.field_0_verts[2].field_4_y = v2_3_y;
+
+            s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
+            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.000099999997;
+
             gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
             gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
+            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
+
+            Fix16 letterW((float)pSprIdx->field_4_width - 0.000099999997);
+            cur_xpos += letterW;
+            Fix16 spriteH((float)pSprIdx->field_5_height - 0.000099999997);
 
             gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;
+
+            gQuadVerts_706B88.field_0_verts[1].field_18_u = spriteH.ToFloat();
             gQuadVerts_706B88.field_0_verts[1].field_1C_v = 0.0;
+
+            gQuadVerts_706B88.field_0_verts[2].field_18_u = spriteH.ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].field_1C_v = letterW.ToFloat();
+
             gQuadVerts_706B88.field_0_verts[3].field_18_u = 0.0;
+            gQuadVerts_706B88.field_0_verts[3].field_1C_v = letterW.ToFloat();
 
-            f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
-            gQuadVerts_706B88.field_0_verts[1].field_18_u = (f64)v1_u * 0.000061035156;
-            gQuadVerts_706B88.field_0_verts[2].field_18_u = gQuadVerts_706B88.field_0_verts[1].field_18_u;
-
-            f32 v2_v = (((f64)pSprIdx->field_5_height - 0.000099999997) * 16384.0);
-            gQuadVerts_706B88.field_0_verts[2].field_1C_v = (f64)v2_v * 0.000061035156;
-            gQuadVerts_706B88.field_0_verts[3].field_1C_v = gQuadVerts_706B88.field_0_verts[2].field_1C_v;
-
-            gbh_DrawQuad(drawFlags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
-
-            //v15 = (s16)retaddr;
-            space_amount = kind;
-            v11 = v2_v;
-            fp4 = v28;
-            //v13 = v29;
+            gbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
         }
+        pText++;
     }
-    // return (const wchar_t*)pTextIter;
 }
 
 MATCH_FUNC(0x4B87A0)

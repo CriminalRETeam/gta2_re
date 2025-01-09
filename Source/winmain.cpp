@@ -1,5 +1,6 @@
 #include "winmain.hpp"
 #include "Bink.hpp"
+#include "BurgerKing_67F8B0.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -61,7 +62,7 @@ void force_link()
     maccies.sub_4C1CD0(0);
 
     Car_3C car_3c;
-    car_3c.field_20 = 5;
+    car_3c.field_20_id = 5;
 
     Snooky_94 snooky;
     snooky.sub_4887A0(0);
@@ -310,8 +311,6 @@ GLOBAL(gMouseDevice_706C60, 0x706C60);
 EXPORT_VAR DIDATAFORMAT gMouseDataFormat_601A84;
 GLOBAL(gMouseDataFormat_601A84, 0x601A84);
 
-EXPORT_VAR extern LPDIRECTINPUTA gpDInput_67B804;
-
 // todo move to another file for ordering
 STUB_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
@@ -404,7 +403,7 @@ EXPORT void __stdcall sub_5D93A0()
     char_type v0; // bl
     s32 bcheckModeRet; // esi
     // SVideo *v2; // eax
-    BYTE field_4_flags; // ecx
+    BYTE local_field_4_flags; // ecx
 
     v0 = 0;
     bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
@@ -420,10 +419,10 @@ EXPORT void __stdcall sub_5D93A0()
     //v2 = gVidSys_7071D0;
     if (gVidSys_7071D0)
     {
-        field_4_flags = gVidSys_7071D0->field_4_flags;
-        //BYTE1(field_4_flags) |= 1u;
-        field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags = field_4_flags;
+        local_field_4_flags = gVidSys_7071D0->field_4_flags;
+        //BYTE1(local_field_4_flags) |= 1u;
+        local_field_4_flags |= 1u;
+        gVidSys_7071D0->field_4_flags = local_field_4_flags;
         // v2 = gVidSys_7071D0;
     }
 
@@ -1048,10 +1047,15 @@ EXPORT void __stdcall j_gbh_init_5D7CA0()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA700)
+MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
-    // todo
+    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    if (gGame_0x40_67E008)
+    {
+        GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
+    }
+    gRoot_sound_66B038.Set3DSound_40F160(0);
 }
 
 // todo move to another file for ordering

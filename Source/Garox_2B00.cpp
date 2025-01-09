@@ -1,18 +1,20 @@
 #include "Garox_2B00.hpp"
+#include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Police_7B8.hpp"
 #include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
+#include "gtx_0x106C.hpp"
 #include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "cool_nash_0x294.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
@@ -32,6 +34,9 @@ GLOBAL(word_706508, 0x706508);
 EXPORT_VAR char byte_67CE50[264]; // TODO
 GLOBAL(byte_67CE50, 0x67CE50);
 
+EXPORT_VAR s16 word_7064D8;
+GLOBAL(word_7064D8, 0x7064D8);
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -49,9 +54,13 @@ void Garox_13C0_sub::sub_5CFE40()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d56b0)
+MATCH_FUNC(0x5d56b0)
 void Garox_1_v2::sub_5D56B0()
 {
+    if (this->field_0_timer)
+    {
+        this->field_CC = laughing_blackwell_0x1EB54::sub_5D8990(field_2_str, word_7064D8);
+    }
 }
 
 STUB_FUNC(0x5d56d0)
@@ -59,9 +68,12 @@ void Garox_1_v2::sub_5D56D0()
 {
 }
 
-STUB_FUNC(0x5d5730)
+MATCH_FUNC(0x5d5730)
 void Garox_1_v2::sub_5D5730(const wchar_t* pStr)
 {
+    this->field_0_timer = 120;
+    wcscpy(this->field_2_str, pStr);
+    sub_5D56B0();
 }
 
 MATCH_FUNC(0x5d5760)
@@ -148,10 +160,10 @@ void Garox_4::sub_5CF620()
         {
             field_0_value = 0;
         }
-        sprintf(gTmpBuffer_67C598, "%d", this->field_0_value);
+        sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
     gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
-    swprintf(tmpBuff_67BD9C, L"%d", this->field_0_value);
+    swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
 }
 
@@ -165,10 +177,10 @@ void Garox_4::sub_5CF6B0()
         {
             field_0_value = 9999;
         }
-        sprintf(gTmpBuffer_67C598, "%d", this->field_0_value);
+        sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
     gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
-    swprintf(tmpBuff_67BD9C, L"%d", this->field_0_value);
+    swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
 }
 
@@ -199,12 +211,12 @@ void Garox_1C8::sub_5D1940()
 MATCH_FUNC(0x5d1a00)
 void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
-    if (field_0 <= 0 || a3 >= this->field_1C4)
+    if (field_0 <= 0 || a3 >= field_1C4)
     {
-        this->field_1C4 = a3;
-        wcscpy(this->field_2_str, pStr);
-        gText_0x14_704DFC->sub_5B5B80(this->field_2_str);
-        this->field_0 = 90;
+        field_1C4 = a3;
+        wcscpy(field_2_str, pStr);
+        gText_0x14_704DFC->sub_5B5B80(field_2_str);
+        field_0 = 90;
         sub_5D1860();
     }
 }
@@ -212,17 +224,17 @@ void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 MATCH_FUNC(0x5d1ab0)
 void Garox_1C8::sub_5D1AB0()
 {
-    if (this->field_0)
+    if (field_0)
     {
-        this->field_0--;
+        field_0--;
     }
 }
 
 MATCH_FUNC(0x5d1ae0)
 Garox_1C8::Garox_1C8()
 {
-    this->field_0 = 0;
-    this->field_1C4 = 1;
+    field_0 = 0;
+    field_1C4 = 1;
 }
 
 // ----------------------------------------------------
@@ -273,9 +285,9 @@ void Garox_1108_sub::sub_5D0260()
 MATCH_FUNC(0x5d53e0)
 void Garox_1::sub_5D53E0()
 {
-    if (this->field_0_timer)
+    if (field_0_timer)
     {
-        this->field_84 = laughing_blackwell_0x1EB54::sub_5D8990(this->field_2_str, word_7064B8);
+        field_84 = laughing_blackwell_0x1EB54::sub_5D8990(field_2_str, word_7064B8);
     }
 }
 
@@ -288,9 +300,9 @@ MATCH_FUNC(0x5d5600)
 void Garox_1::sub_5D5600(u8 a2)
 {
     sprintf(byte_67CE50, "c%02d", a2);
-    this->field_0_timer = 90;
+    field_0_timer = 90;
     wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
-    wcscpy(this->field_2_str, pStr);
+    wcscpy(field_2_str, pStr);
     sub_5D53E0();
 }
 
@@ -315,7 +327,7 @@ Garox_1::Garox_1()
 STUB_FUNC(0x5cf970)
 void Garox_27B5_sub::sub_5CF970()
 {
-    if (this->field_27B5_sub)
+    if (field_27B5_sub)
     {
         angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
 
@@ -391,18 +403,30 @@ void Garox_Sub_C::sub_5D0050(char_type a2)
 MATCH_FUNC(0x5d7510)
 Garox_Sub_C::Garox_Sub_C()
 {
-    this->field_0 = 0;
-    this->field_2 = 0;
-    this->field_1 = 0;
-    this->field_4 = 0;
-    this->field_8 = -1;
+    field_0 = 0;
+    field_2 = 0;
+    field_1 = 0;
+    field_4 = 0;
+    field_8 = -1;
 }
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d00b0)
+MATCH_FUNC(0x5d00b0)
 void Garox_Sub_C_Array::sub_5D00B0()
 {
+    cool_nash_0x294* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    field_48_count = pPed->get_wanted_star_count_46EF00();
+
+    const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
+    s32 i = 0;
+    Garox_Sub_C* pIter = &field_1028[0];
+    while (i < field_48_count)
+    {
+        pIter->sub_5D0050(a2);
+        i++;
+        pIter++;
+    }
 }
 
 STUB_FUNC(0x5d0110)
@@ -410,9 +434,20 @@ void Garox_Sub_C_Array::sub_5D0110()
 {
 }
 
-STUB_FUNC(0x5d0210)
+MATCH_FUNC(0x5d0210)
 void Garox_Sub_C_Array::sub_5D0210()
 {
+    u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
+
+    field_4C_w_fp.FromU8(sprite_index->field_4_width);
+    field_50_h_fp.FromU8(sprite_index->field_5_height);
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_1028); i++)
+    {
+        field_1028[i].field_2 = 2;
+        field_1028[i].field_1 = 2;
+    }
 }
 
 // ----------------------------------------------------
@@ -442,40 +477,37 @@ bool Garox_C4::sub_5D1DB0()
 }
 
 MATCH_FUNC(0x5d1e10)
-s32 Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
+bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
-    return this->field_A4_display_time > 0 && pOther != this && this->field_A8 == pOther->field_A8 && this->field_AA == pOther->field_AA &&
-        this->field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
+    return field_A4_display_time > 0 && pOther != this && field_A8 == pOther->field_A8 && field_AA == pOther->field_AA &&
+        field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1eb0)
+MATCH_FUNC(0x5d1eb0)
 void Garox_1700_L::sub_5D1EB0(Garox_C4* String2)
 {
-    Garox_C4* pIter = this->field_960_pFirst;
-    if (pIter)
+    Garox_C4* pIter = field_960_pFirst;
+    while (pIter)
     {
-        while (!pIter->operator_equals_5D1E10(String2))
+        if (pIter->operator_equals_5D1E10(String2))
         {
-            pIter = pIter->field_C0_pNext;
-            if (!pIter)
-            {
-                return;
-            }
+            pIter->field_A4_display_time = 0;
+            return;
         }
-        pIter->field_A4_display_time = 0;
+        pIter = pIter->field_C0_pNext;
     }
 }
 
 MATCH_FUNC(0x5d1f50)
 Garox_C4* Garox_1700_L::sub_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 a5, s32 a6)
 {
-    Garox_C4* pOld_964 = this->field_964;
-    Garox_C4* pOldFirst = this->field_960_pFirst;
-    this->field_964 = pOld_964->field_C0_pNext;
+    Garox_C4* pOld_964 = field_964;
+    Garox_C4* pOldFirst = field_960_pFirst;
+    field_964 = pOld_964->field_C0_pNext;
     pOld_964->field_C0_pNext = pOldFirst;
-    this->field_960_pFirst = pOld_964;
+    field_960_pFirst = pOld_964;
     pOld_964->sub_5D1B10(pStr, maybe_x, maybe_y, a5, a6);
     sub_5D1EB0(pOld_964);
     return pOld_964;
@@ -496,7 +528,7 @@ MATCH_FUNC(0x5d2050)
 void Garox_1700_L::sub_5D2050()
 {
     Garox_C4* pAltIter = 0;
-    Garox_C4* pIter = this->field_960_pFirst;
+    Garox_C4* pIter = field_960_pFirst;
     while (pIter)
     {
         if (pIter->sub_5D1DB0())
@@ -504,17 +536,17 @@ void Garox_1700_L::sub_5D2050()
             if (pAltIter)
             {
                 pAltIter->field_C0_pNext = pIter->field_C0_pNext;
-                pIter->field_C0_pNext = this->field_964;
-                this->field_964 = pIter;
+                pIter->field_C0_pNext = field_964;
+                field_964 = pIter;
                 pIter = pAltIter->field_C0_pNext;
             }
             else
             {
-                Garox_C4* pOld_field_964 = this->field_964;
-                this->field_960_pFirst = this->field_960_pFirst->field_C0_pNext;
+                Garox_C4* pOld_field_964 = field_964;
+                field_960_pFirst = field_960_pFirst->field_C0_pNext;
                 pIter->field_C0_pNext = pOld_field_964;
-                this->field_964 = pIter;
-                pIter = this->field_960_pFirst;
+                field_964 = pIter;
+                pIter = field_960_pFirst;
             }
         }
         else
@@ -641,10 +673,10 @@ STUB_FUNC(0x5d03c0)
 void Garox_24::sub_5D03C0(Zone_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
-    this->field_18 = pZone->field_130;
-    this->field_14 = pZone->field_12C;
-    this->field_1C = pZone->field_134;
-    this->field_10 = 5;
+    field_18 = pZone->field_130;
+    field_14 = pZone->field_12C;
+    field_1C = pZone->field_134;
+    field_10 = 5;
 }
 
 // ----------------------------------------------------
@@ -679,7 +711,7 @@ void Garox_7C::sub_5D0C60()
     if (!sub_5D0620())
     {
         char_type v2 = sub_5D0530();
-        this->field_18.field_10.field_5 = v2;
+        field_18.field_10.field_5 = v2;
         if (v2)
         {
             sub_5D0850();
@@ -693,9 +725,35 @@ void Garox_7C::sub_5D0C90()
 }
 
 STUB_FUNC(0x5d0dc0)
-s32 Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
+void Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
 {
-    return 0;
+    switch (a2->field_244_remap)
+    {
+        case 5:
+        case 6:
+            field_18.field_2C = 4;
+            break;
+        case 7:
+            field_18.field_2C = 5;
+            break;
+        case 8:
+            field_18.field_2C = 3;
+            break;
+        case 9:
+            field_18.field_2C = 6;
+            break;
+        case 10:
+            field_18.field_2C = 7;
+            break;
+        case 11:
+            field_18.field_2C = 1;
+            break;
+        case 13:
+            field_18.field_2C = 2;
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x5d1350)
@@ -728,16 +786,16 @@ void Garox_7C_Array::sub_5D1350()
 MATCH_FUNC(0x5d7600)
 Garox_7C::Garox_7C()
 {
-    this->field_18.field_10.field_30 = 0;
-    this->field_18.field_10.field_34 = 0;
-    this->field_18.field_10.field_5 = 0;
+    field_18.field_10.field_30 = 0;
+    field_18.field_10.field_34 = 0;
+    field_18.field_10.field_5 = 0;
 
     field_18.field_18.init();
     field_18.field_3C.init();
 
-    this->field_18.field_60 = &this->field_18.field_18;
-    this->field_18.field_2E = 0;
-    this->field_18.field_10.field_6 = 0;
+    field_18.field_60 = &field_18.field_18;
+    field_18.field_2E = 0;
+    field_18.field_10.field_6 = 0;
 }
 
 // ----------------------------------------------------
@@ -759,25 +817,73 @@ Garox_7C* Garox_7C_Array::sub_5D0EF0()
     return 0;
 }
 
-STUB_FUNC(0x5d0f40)
+MATCH_FUNC(0x5d0f40)
 char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < 17; i++, pIter++)
+    {
+        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+            (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x5d0f80)
+MATCH_FUNC(0x5d0f80)
 void Garox_7C_Array::sub_5D0F80()
 {
+    for (s32 i = 0; i < 17; i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            if (field_0_array[i].field_18.field_10.field_30)
+            {
+                if (field_0_array[i].field_18.field_60->field_10 == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
+                {
+                    field_0_array[i].field_18.field_18.field_10 = 0;
+                    field_0_array[i].field_18.field_3C.field_10 = 0;
+                }
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x5d0fd0)
+MATCH_FUNC(0x5d0fd0)
 void Garox_7C_Array::sub_5D0FD0()
 {
+    sub_5D0EF0();
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
+    {
+        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        {
+            field_0_array[i].sub_5D0C60();
+        }
+    }
+
+    if (field_844)
+    {
+        sub_5D0F80();
+        field_844 = 0;
+    }
 }
 
-STUB_FUNC(0x5d1020)
-Garox_7C_Array* Garox_7C_Array::sub_5D1020(s32* a2)
+MATCH_FUNC(0x5d1020)
+Garox_7C* Garox_7C_Array::sub_5D1020(s32* a2)
 {
+    Garox_7C* pIter = &field_0_array[0];
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
+    {
+        if (!pIter->field_18.field_10.field_6)
+        {
+            *a2 = i;
+            pIter->field_18.field_10.field_6 = 1;
+            return pIter;
+        }
+    }
     return 0;
 }
 
@@ -793,9 +899,21 @@ char_type* Garox_7C_Array::sub_5D10B0()
     return 0;
 }
 
-STUB_FUNC(0x5d10d0)
-Garox_7C_Array* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
+MATCH_FUNC(0x5d10d0)
+Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
 {
+    s32 i = 0;
+    Garox_7C* pIter = field_0_array;
+    while (i < GTA2_COUNTOF_S(field_0_array))
+    {
+        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+            (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
+        {
+            return pIter;
+        }
+        i++;
+        pIter++;
+    }
     return 0;
 }
 
@@ -914,9 +1032,9 @@ void Garox_90_L::sub_5D5900()
 MATCH_FUNC(0x5d5ad0)
 void Garox_90_L::sub_5D5AD0()
 {
-    if (this->field_0)
+    if (field_0)
     {
-        this->field_84 = laughing_blackwell_0x1EB54::sub_5D8990(this->field_2_wstr, word_706618);
+        field_84 = laughing_blackwell_0x1EB54::sub_5D8990(field_2_wstr, word_706618);
     }
 }
 
@@ -933,16 +1051,16 @@ void Garox_90_L::sub_5D5B60()
 MATCH_FUNC(0x5d5c50)
 void Garox_90_L::sub_5D5C50()
 {
-    this->field_90 = 0;
-    this->field_94 = 0;
+    field_90 = 0;
+    field_94 = 0;
 }
 
 MATCH_FUNC(0x5d5c60)
 Garox_90_L::Garox_90_L()
 {
-    this->field_0 = 0;
-    this->field_88 = 0;
-    this->field_8C = 0;
+    field_0 = 0;
+    field_88 = 0;
+    field_8C = 0;
 }
 
 // ----------------------------------------------------
@@ -968,10 +1086,10 @@ void Garox_2B00::sub_5D4A10()
 MATCH_FUNC(0x5d5190)
 void Garox_2B00::sub_5D5190()
 {
-    if (this->field_0.field_0)
+    if (field_0.field_0)
     {
         // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
-        this->field_44 = laughing_blackwell_0x1EB54::sub_5D8990((wchar_t*)&this->field_0.field_2, word_706508);
+        field_44 = laughing_blackwell_0x1EB54::sub_5D8990((wchar_t*)&field_0.field_2, word_706508);
     }
 }
 
@@ -983,19 +1101,19 @@ void Garox_2B00::sub_5D5240(wchar_t* Source)
 STUB_FUNC(0x5d5350)
 void Garox_2B00::sub_5D5350()
 {
-    if (this->field_0.field_0)
+    if (field_0.field_0)
     {
         field_0.field_0--;
         if (field_0.field_0 <= 80u)
         {
             if (field_0.field_0 < 40u)
             {
-                --this->field_48;
+                --field_48;
             }
         }
         else
         {
-            ++this->field_48;
+            ++field_48;
         }
     }
 }
@@ -1032,9 +1150,23 @@ void Garox_2B00::sub_5D69C0()
 {
 }
 
-STUB_FUNC(0x5d69d0)
+MATCH_FUNC(0x5d69d0)
 void Garox_2B00::sub_5D69D0()
 {
+    field_1118_sub.sub_5D6290();
+    field_110C_sub.sub_5CF730();
+    field_27B5_sub.sub_5CF970();
+    field_1028.sub_5D00B0();
+    sub_5D5350();
+    field_1080.sub_5D5690();
+    field_4C.sub_5D5B60();
+    field_DC.sub_5D44D0();
+    field_620.sub_5D31B0();
+    field_650.sub_5D2050();
+    field_1F18.sub_5D0FD0();
+    field_107C_sub.sub_5CFE20();
+    field_111C.sub_5D1AB0();
+    field_12F0.sub_5D5760();
 }
 
 MATCH_FUNC(0x5d6a70)

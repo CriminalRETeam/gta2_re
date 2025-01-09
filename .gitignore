@@ -9,6 +9,7 @@ Release
 *.opt
 Scripts/satsuki*
 Scripts/bin_comp/venv/*
+Scripts/bin_comp/diff
 10.5.exe
 vscommondir.reg
 .vs
@@ -22,3 +23,4 @@ Scripts/bin_comp/pyvenv.cfg
 .idea
 cmake-build-debug
 GTA2_data
+venv

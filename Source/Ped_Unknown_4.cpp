@@ -54,7 +54,7 @@ void Ped_Unknown_4::sub_471680()
 {
     Char_8* pIter; // eax
 
-    for (pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    for (pIter = field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {

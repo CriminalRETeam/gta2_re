@@ -2,6 +2,7 @@
 
 #include "Car_BC.hpp"
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Sprite_8
 {
@@ -43,9 +44,9 @@ class Sprite_4C
     EXPORT s32 sub_5A57A0();
     EXPORT void ctor_5A57B0();
     EXPORT void dtor_5A5840();
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
+    Fix16 field_0_width;
+    Fix16 field_4_height;
+    Fix16 field_8;
     Car_8 field_C[4];
     Sprite_4C* field_2C_pNext;
     s32 field_30;
@@ -67,6 +68,16 @@ class Sprite_5D598
     Sprite_4C* field_0_pFree;
     Sprite_4C field_4[5031];
 };
+
+class Sprite_49B28
+{
+    Car_3C* field_0_first_free;
+    Car_3C field_4[5031];
+
+public:
+    Sprite_49B28();
+};
+GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
 
 EXPORT_VAR extern Sprite_8* gSprite_8_703820;
 EXPORT_VAR extern Sprite_5D598* gSprite_5D598_70381C;

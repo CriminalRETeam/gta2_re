@@ -24,6 +24,8 @@ target_compile_definitions(mss32 PRIVATE BUILD_MSS)
 # this is so that for the hook dll we can redirect importing the vars from the 2nd copy of the dll
 # to the actual executable data/vars
 set(gta2_lib_src
+  Source/angle.cpp
+  Source/angle.hpp
   Source/crt_stubs.cpp
   Source/crt_stubs.hpp
   Source/Globals.cpp
@@ -40,6 +42,8 @@ set(gta2_lib_src
   Source/BitSet32.hpp
   Source/fix16.hpp
   Source/fix16.cpp
+  Source/ang16.hpp
+  Source/ang16.cpp
   Source/error.hpp
   Source/error.cpp
   Source/memory.hpp
@@ -206,6 +210,9 @@ set(gta2_lib_src
   Source/eager_benz.cpp
   Source/thirsty_lamarr.hpp
   Source/thirsty_lamarr.cpp
+  Source/enums.hpp
+  Source/Car_B0.hpp
+  Source/Car_B0.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
@@ -294,9 +301,9 @@ if (${MSVC_VERSION} GREATER 1200)
 
    if (NOT DEFINED ENV{CI})
        add_custom_command(TARGET decomp_main POST_BUILD
-           COMMAND "./compare_matches.bat"
+           COMMAND python build.py
            WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-           COMMENT "Running compare_matches.bat")
+           COMMENT "Running build.py (VC6 build)")
    endif()
 endif()
 

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "types.hpp"
+
 class BitSet32 {
   public:
     void clear_bit(int bit) {

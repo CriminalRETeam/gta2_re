@@ -1,7 +1,9 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "char.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -10,14 +12,14 @@ GLOBAL(byte_61A8A3, 0x61A8A3);
 STUB_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
-    this->field_12C = 0;
-    this->field_12E = 0;
-    this->field_130 = 0;
-    this->field_132 = 0;
-    this->field_134 = 0;
-    this->field_200 = 0;
+    field_12C = 0;
+    field_12E = 0;
+    field_130 = 0;
+    field_132 = 0;
+    field_134 = 0;
+    field_200 = 0;
     sub_45AFC0();
-    this->field_160_next_ped = 0;
+    field_160_next_ped = 0;
 }
 
 STUB_FUNC(0x45af00)
@@ -40,7 +42,7 @@ s32 cool_nash_0x294::sub_45B440()
 MATCH_FUNC(0x45b4e0)
 char_type cool_nash_0x294::sub_45B4E0()
 {
-    switch (this->field_240_occupation)
+    switch (field_240_occupation)
     {
         case 24:
         case 25:
@@ -133,14 +135,28 @@ s32 cool_nash_0x294::sub_45BE30()
     return 0;
 }
 
-STUB_FUNC(0x45be70)
+MATCH_FUNC(0x45be70)
 void cool_nash_0x294::sub_45BE70()
 {
+    if ((field_21C & 0x1000000) == 0)
+    {
+        field_21C |= 0x1000000;
+        sub_45BFB0();
+    }
 }
 
-STUB_FUNC(0x45be90)
+MATCH_FUNC(0x45be90)
 void cool_nash_0x294::sub_45BE90()
 {
+    if ((this->field_21C & 0x1000000) != 0)
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->sub_5454B0();
+        }
+        this->field_21C &= ~0x1000000u;
+    }
 }
 
 STUB_FUNC(0x45bec0)
@@ -149,7 +165,7 @@ void cool_nash_0x294::sub_45BEC0()
 }
 
 STUB_FUNC(0x45bfb0)
-void cool_nash_0x294::sub_45BFB0(cool_nash_0x294* a1, s32 a2)
+void cool_nash_0x294::sub_45BFB0()
 {
 }
 
@@ -160,15 +176,28 @@ void cool_nash_0x294::sub_45BFD0()
     sub_45C010();
 }
 
-STUB_FUNC(0x45bfe0)
-u32 cool_nash_0x294::sub_45BFE0()
+MATCH_FUNC(0x45bfe0)
+void cool_nash_0x294::sub_45BFE0()
 {
-    return 0;
+    this->field_21C &= ~0x2000000u;
+    Char_B4* pB4 = this->field_168_game_object;
+    if (pB4)
+    {
+        pB4->field_80_sprite_ptr->field_2C = 0;
+    }
 }
 
-STUB_FUNC(0x45c010)
+MATCH_FUNC(0x45c010)
 void cool_nash_0x294::sub_45C010()
 {
+    if ((this->field_21C & 0x2000000) != 0)
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->field_80_sprite_ptr->field_2C = 65;
+        }
+    }
 }
 
 MATCH_FUNC(0x45c040)
@@ -178,20 +207,34 @@ void cool_nash_0x294::sub_45C040()
     sub_45C070();
 }
 
-STUB_FUNC(0x45c050)
+MATCH_FUNC(0x45c050)
 void cool_nash_0x294::sub_45C050()
 {
+    this->field_208_invulnerability = 0;
+    Char_B4* pB4 = this->field_168_game_object;
+    if (pB4)
+    {
+        pB4->field_80_sprite_ptr->field_2C &= ~4u;
+    }
 }
 
-STUB_FUNC(0x45c070)
+MATCH_FUNC(0x45c070)
 void cool_nash_0x294::sub_45C070()
 {
+    if (this->field_208_invulnerability == 9999)
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->field_80_sprite_ptr->field_2C |= 4u;
+        }
+    }
 }
 
 MATCH_FUNC(0x45c090)
 void cool_nash_0x294::sub_45C090()
 {
-    Car_BC* pBc = this->field_16C_car;
+    Car_BC* pBc = field_16C_car;
     if (pBc)
     {
         pBc->sub_43A600();
@@ -207,10 +250,14 @@ void cool_nash_0x294::sub_45C0C0(gmp_map_zone* a2)
 {
 }
 
-STUB_FUNC(0x45c310)
-s32 cool_nash_0x294::sub_45C310()
+MATCH_FUNC(0x45c310)
+void cool_nash_0x294::sub_45C310()
 {
-    return 0;
+    if (field_168_game_object)
+    {
+        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+        field_168_game_object = 0;
+    }
 }
 
 STUB_FUNC(0x45c350)
@@ -229,17 +276,29 @@ void cool_nash_0x294::sub_45C4B0()
 {
     // TODO: Needs Car_3C stubs
     /*
-    Car_BC* pBc = this->field_16C_car;
-    this->field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
-    this->field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
-    this->field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
+    Car_BC* pBc = field_16C_car;
+    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
+    field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
+    field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
     */
 }
 
-STUB_FUNC(0x45c500)
-s32 cool_nash_0x294::sub_45C500(s32 a2)
+MATCH_FUNC(0x45c500)
+void cool_nash_0x294::sub_45C500(s32 a2)
 {
-    return 0;
+    if (field_278 != ped_state1_enum::ped_fall_on_ground)
+    {
+        if (a2 == ped_state1_enum::ped_fall_on_ground)
+        {
+            field_280 = field_278;
+        }
+        field_278 = a2;
+        return;
+    }
+    if (a2 != ped_state1_enum::ped_fall_on_ground)
+    {
+        field_280 = a2;
+    }
 }
 
 STUB_FUNC(0x45c540)
@@ -280,11 +339,11 @@ STUB_FUNC(0x45c7f0)
 Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* pCar)
 {
     // TODO: ordering
-    this->field_248_enter_car_as_passenger = 1;
-    this->field_24C_target_car_door = 1;
-    this->field_16C_car = pCar;
-    this->field_278 = 10;
-    this->field_27C = 10;
+    field_248_enter_car_as_passenger = 1;
+    field_24C_target_car_door = 1;
+    field_16C_car = pCar;
+    field_278 = 10;
+    field_27C = 10;
     return pCar->field_4.sub_471140(this);
 }
 
@@ -637,10 +696,19 @@ char_type cool_nash_0x294::sub_467090()
     return 0;
 }
 
-STUB_FUNC(0x467280)
+MATCH_FUNC(0x467280)
 s32 cool_nash_0x294::sub_467280()
 {
-    return 0;
+    this->field_168_game_object->field_8_ped_state_1 = 0;
+    this->field_168_game_object->field_C_ped_state_2 = 0;
+    this->field_168_game_object->field_10 = 1;
+
+    Char_B4* pB4 = this->field_168_game_object;
+    pB4->field_6c = 0;
+    pB4->field_68 = 0;
+
+    this->field_216_health = 50;
+    return gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
 }
 
 STUB_FUNC(0x4672e0)
@@ -692,9 +760,9 @@ void cool_nash_0x294::sub_467FB0()
 {
     if (byte_61A8A3)
     {
-        if (!this->field_218_objective_timer)
+        if (!field_218_objective_timer)
         {
-            this->field_225 = 1;
+            field_225 = 1;
         }
     }
 }
@@ -770,10 +838,21 @@ s32 cool_nash_0x294::sub_469010()
     return 0;
 }
 
-STUB_FUNC(0x469030)
-char_type cool_nash_0x294::sub_469030()
+MATCH_FUNC(0x469030)
+void cool_nash_0x294::sub_469030()
 {
-    return 0;
+    if (field_264 > 0)
+    {
+        if (field_27C != 26)
+        {
+            field_264--;
+            if (field_264 == 0)
+            {
+                field_204 = 0;
+                field_290 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x469060)
@@ -821,10 +900,18 @@ s32 cool_nash_0x294::sub_469F30()
     return 0;
 }
 
-STUB_FUNC(0x469fc0)
-s32 cool_nash_0x294::sub_469FC0()
+MATCH_FUNC(0x469fc0)
+void cool_nash_0x294::sub_469FC0()
 {
-    return 0;
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        pBC->field_A6 |= 0x20u;
+    }
+    else
+    {
+        this->field_225 = 2;
+    }
 }
 
 STUB_FUNC(0x469fe0)
@@ -1012,9 +1099,13 @@ void cool_nash_0x294::sub_46D030()
 {
 }
 
-STUB_FUNC(0x46d0b0)
+MATCH_FUNC(0x46d0b0)
 void cool_nash_0x294::sub_46D0B0()
 {
+    if (!this->field_21A)
+    {
+        this->field_226 = 1;
+    }
 }
 
 STUB_FUNC(0x46d0d0)
@@ -1037,25 +1128,36 @@ void cool_nash_0x294::sub_46D460(char_type a2)
 {
 }
 
-STUB_FUNC(0x46db60)
+MATCH_FUNC(0x46db60)
 void cool_nash_0x294::sub_46DB60()
 {
+    sub_46D460(0);
 }
 
-STUB_FUNC(0x46db70)
+MATCH_FUNC(0x46db70)
 void cool_nash_0x294::sub_46DB70()
 {
+    sub_46D460(1);
 }
 
-STUB_FUNC(0x46db80)
+MATCH_FUNC(0x46db80)
 void cool_nash_0x294::sub_46DB80()
 {
+    sub_46D460(2);
 }
 
-STUB_FUNC(0x46df50)
+MATCH_FUNC(0x46df50)
 Car_3C* cool_nash_0x294::sub_46DF50()
 {
-    return 0;
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        return pBC->field_50_car_sprite;
+    }
+    else
+    {
+        return this->field_168_game_object->field_80_sprite_ptr;
+    }
 }
 
 STUB_FUNC(0x46df70)
@@ -1065,9 +1167,10 @@ s32 cool_nash_0x294::sub_46DF70(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46e020)
-bool cool_nash_0x294::sub_46E020(Mouze_44* a2)
+bool cool_nash_0x294::sub_46E020(Mouze_44* pGroup)
 {
-    return 0;
+    return this->field_164_ped_group != pGroup && !this->field_15C_player_weapons &&
+        (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
 }
 
 STUB_FUNC(0x46e080)
@@ -1082,10 +1185,53 @@ u8 cool_nash_0x294::sub_46E200(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x46ef00)
+MATCH_FUNC(0x46ef00)
 u8 cool_nash_0x294::get_wanted_star_count_46EF00()
 {
-    return 0;
+    short cVar1 = field_20A_wanted_points;
+    if (cVar1 < cop_level_ped_enum::cop_6_stars)
+    {
+        if (cVar1 < cop_level_ped_enum::cop_5_stars)
+        {
+            if (cVar1 < cop_level_ped_enum::cop_4_stars)
+            {
+                if (cVar1 < cop_level_ped_enum::cop_3_stars)
+                {
+                    if (cVar1 < cop_level_ped_enum::cop_2_stars)
+                    {
+                        if (cVar1 < cop_level_ped_enum::cop_1_stars)
+                        {
+                            return cop_level_enum::cops_0;
+                        }
+                        else
+                        {
+                            return cop_level_enum::cops_1;
+                        }
+                    }
+                    else
+                    {
+                        return cop_level_enum::cops_2;
+                    }
+                }
+                else
+                {
+                    return cop_level_enum::cops_3;
+                }
+            }
+            else
+            {
+                return cop_level_enum::cops_4;
+            }
+        }
+        else
+        {
+            return cop_level_enum::cops_5;
+        }
+    }
+    else
+    {
+        return cop_level_enum::cops_6;
+    }
 }
 
 MATCH_FUNC(0x46ef40)
@@ -1094,29 +1240,29 @@ void cool_nash_0x294::set_wanted_level_46EF40(u16 wanted)
     switch (wanted)
     {
         case 0u:
-            this->field_20A_wanted_points = 0;
+            field_20A_wanted_points = 0;
             break;
 
         case 600u:
-            this->field_20A_wanted_points = 600u;
+            field_20A_wanted_points = 600u;
             break;
 
         case 1600u:
-            this->field_20A_wanted_points = 1600u;
+            field_20A_wanted_points = 1600u;
             break;
 
         case 3000u:
-            this->field_20A_wanted_points = 3000;
+            field_20A_wanted_points = 3000;
             break;
 
         case 5000u:
-            this->field_20A_wanted_points = 5000;
+            field_20A_wanted_points = 5000;
             break;
         case 8000u:
-            this->field_20A_wanted_points = 8000;
+            field_20A_wanted_points = 8000;
             break;
         case 12000u:
-            this->field_20A_wanted_points = 12000;
+            field_20A_wanted_points = 12000;
             break;
     }
 }
@@ -1127,25 +1273,25 @@ void cool_nash_0x294::set_wanted_star_count_46F070(u8 star_count)
     switch (star_count)
     {
         case 0u:
-            this->field_20A_wanted_points = 0;
+            field_20A_wanted_points = 0;
             break;
         case 1u:
-            this->field_20A_wanted_points = 600;
+            field_20A_wanted_points = 600;
             break;
         case 2u:
-            this->field_20A_wanted_points = 1600;
+            field_20A_wanted_points = 1600;
             break;
         case 3u:
-            this->field_20A_wanted_points = 3000;
+            field_20A_wanted_points = 3000;
             break;
         case 4u:
-            this->field_20A_wanted_points = 5000;
+            field_20A_wanted_points = 5000;
             break;
         case 5u:
-            this->field_20A_wanted_points = 8000;
+            field_20A_wanted_points = 8000;
             break;
         case 6u:
-            this->field_20A_wanted_points = 12000;
+            field_20A_wanted_points = 12000;
             break;
         default:
             return;

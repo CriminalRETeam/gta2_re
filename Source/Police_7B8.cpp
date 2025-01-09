@@ -24,24 +24,24 @@ char_type Police_38::sub_570790(Police_38* a1, s32 a2)
 MATCH_FUNC(0x5709c0)
 void Police_38::sub_5709C0()
 {
-    this->field_2_targ_x = 0;
-    this->field_3_targ_y = 0;
-    this->field_4_targ_z = 0;
-    this->field_18 = 0;
-    this->field_1C = 0;
-    this->field_1A = 0;
-    this->field_10_subObj = 0;
-    this->field_24_state = 0;
-    this->field_28 = 0;
-    this->field_8 = dword_6FECE8;
-    this->field_C = dword_6FECE8;
-    this->field_14_pObj = 0;
-    this->field_1A = 0;
-    this->field_29 = 0;
-    this->field_2A = 0;
-    this->field_2C = 0;
-    this->field_30 = 0;
-    this->field_34 = 0;
+    field_2_targ_x = 0;
+    field_3_targ_y = 0;
+    field_4_targ_z = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_1A = 0;
+    field_10_subObj = 0;
+    field_24_state = 0;
+    field_28 = 0;
+    field_8 = dword_6FECE8;
+    field_C = dword_6FECE8;
+    field_14_pObj = 0;
+    field_1A = 0;
+    field_29 = 0;
+    field_2A = 0;
+    field_2C = 0;
+    field_30 = 0;
+    field_34 = 0;
 }
 
 STUB_FUNC(0x570a10)
@@ -164,48 +164,48 @@ s32 Police_38::sub_575650()
 MATCH_FUNC(0x575710)
 void Police_A4::sub_575710()
 {
-    this->field_0 = 0;
-    this->field_4 = 0;
-    this->field_8 = 0;
-    this->field_9 = 0;
-    this->field_A = 0;
-    this->field_C = 0;
-    this->field_10 = 0;
-    this->field_14 = 0;
-    this->field_18 = 0;
-    this->field_1C = 0;
-    this->field_20 = 0;
-    this->field_24 = 0;
-    this->field_28 = 0;
-    this->field_2C = 0;
-    this->field_30 = 0;
-    this->field_34 = 0;
-    this->field_38 = 0;
-    this->field_3C = 0;
-    this->field_40 = 0;
-    this->field_44 = 0;
-    this->field_48 = 0;
-    this->field_4C = 0;
-    this->field_50 = 0;
-    this->field_54 = 0;
-    this->field_58 = 0;
-    this->field_5C = 0;
-    this->field_60 = 0;
-    this->field_64 = 0;
-    this->field_68 = 0;
-    this->field_6C = 0;
-    this->field_70 = 0;
-    this->field_74 = 0;
-    this->field_78 = 0;
-    this->field_7C = 0;
-    this->field_80 = 0;
-    this->field_84 = 0;
-    this->field_88 = 0;
-    this->field_8C = 0;
-    this->field_90 = 0;
-    this->field_94 = 0;
-    this->field_98 = 0;
-    this->field_9C = 0;
+    field_0 = 0;
+    field_4 = 0;
+    field_8 = 0;
+    field_9 = 0;
+    field_A = 0;
+    field_C = 0;
+    field_10 = 0;
+    field_14 = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_20 = 0;
+    field_24 = 0;
+    field_28 = 0;
+    field_2C = 0;
+    field_30 = 0;
+    field_34 = 0;
+    field_38 = 0;
+    field_3C = 0;
+    field_40 = 0;
+    field_44 = 0;
+    field_48 = 0;
+    field_4C = 0;
+    field_50 = 0;
+    field_54 = 0;
+    field_58 = 0;
+    field_5C = 0;
+    field_60 = 0;
+    field_64 = 0;
+    field_68 = 0;
+    field_6C = 0;
+    field_70 = 0;
+    field_74 = 0;
+    field_78 = 0;
+    field_7C = 0;
+    field_80 = 0;
+    field_84 = 0;
+    field_88 = 0;
+    field_8C = 0;
+    field_90 = 0;
+    field_94 = 0;
+    field_98 = 0;
+    field_9C = 0;
 }
 
 STUB_FUNC(0x5757b0)
@@ -280,7 +280,7 @@ bool Police_7B8::sub_56F800(cool_nash_0x294* a2)
 }
 
 STUB_FUNC(0x56f880)
-bool Police_7B8::sub_56F880(s32 a2)
+bool Police_7B8::sub_56F880(cool_nash_0x294* a2)
 {
     return 0;
 }

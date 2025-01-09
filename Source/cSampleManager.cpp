@@ -212,7 +212,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
 
-    if (!sub_58D720(1, this->field_2714_bUnknown, 22050))
+    if (!sub_58D720(1, field_2714_bUnknown, 22050))
     {
         AIL_shutdown();
         return 0;
@@ -242,11 +242,11 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
 
     if (a2)
     {
-        this->field_1EB1_unknown = 2;
+        field_1EB1_unknown = 2;
     }
     else
     {
-        this->field_1EB1_unknown = 1;
+        field_1EB1_unknown = 1;
     }
 
     l.waveFormat.nChannels = 2;
@@ -272,23 +272,23 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
 
     AIL_set_preference(31, 1); // DIG_ENABLE_RESAMPLE_FILTER
 
-    if (AIL_waveOutOpen(&this->field_0_hDriver, 0, -1, &l.waveFormat))
+    if (AIL_waveOutOpen(&field_0_hDriver, 0, -1, &l.waveFormat))
     {
         return 0;
     }
 
-    this->field_2714_bUnknown = a3;
+    field_2714_bUnknown = a3;
 
     AllocSample_58DA80();
 
-    this->field_1EA8_pAudioBuffer1 = AIL_mem_alloc_lock(6100000);
+    field_1EA8_pAudioBuffer1 = AIL_mem_alloc_lock(6100000);
     if (!field_1EA8_pAudioBuffer1)
     {
         ReleaseSample_58DAC0();
-        AIL_waveOutClose(this->field_0_hDriver);
+        AIL_waveOutClose(field_0_hDriver);
         return 0;
     }
-    this->field_1EAC_pAudioBuffer2 = field_1EA8_pAudioBuffer1;
+    field_1EAC_pAudioBuffer2 = field_1EA8_pAudioBuffer1;
     return 1;
 }
 
@@ -340,9 +340,9 @@ char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
     Terminate_58DAE0();
     Reset3DSamples_58D960();
 
-    if (this->field_2714_bUnknown)
+    if (field_2714_bUnknown)
     {
-        AIL_waveOutClose(this->field_0_hDriver);
+        AIL_waveOutClose(field_0_hDriver);
 
         if (sub_58D720(1, 0, 22050) == 0)
         {
@@ -419,7 +419,7 @@ void cSampleManager::Shutdown_58DB30()
 MATCH_FUNC(0x58DBF0)
 s32 cSampleManager::GetPlayBackRateIdx_58DBF0(s32 idx)
 {
-    const s32 playBackRate = this->field_A8_sdt_entries[idx].field_8_playBackRate;
+    const s32 playBackRate = field_A8_sdt_entries[idx].field_8_playBackRate;
     if (playBackRate == 0)
     {
         return 1;
@@ -567,16 +567,16 @@ void cSampleManager::StopChannel_58DDD0(s32 channel)
 MATCH_FUNC(0x58DDF0)
 bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
 {
-    if (field_26C4_3d_sample[channel] && this->field_A4_bLoaded)
+    if (field_26C4_3d_sample[channel] && field_A4_bLoaded)
     {
 
         AILSOUNDINFO soundInfo; // [esp+0h] [ebp-24h] BYREF
         soundInfo.format = WAVE_FORMAT_PCM;
         soundInfo.data_ptr = ((BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[nSfx].field_0_offset);
         soundInfo.channels = 1;
-        soundInfo.data_len = this->field_A8_sdt_entries[nSfx].field_4_sample_length;
+        soundInfo.data_len = field_A8_sdt_entries[nSfx].field_4_sample_length;
         soundInfo.rate = rate;
-        soundInfo.bits = 8 * this->field_1EB1_unknown;
+        soundInfo.bits = 8 * field_1EB1_unknown;
         u32 tmp = AIL_set_3D_sample_info(field_26C4_3d_sample[channel], &soundInfo);
         return tmp != 0 ? true : false;
     }
@@ -741,9 +741,9 @@ void cSampleManager::ReleaseSample_58DAC0()
 STUB_FUNC(0x58E8C0)
 void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
 {
-    if (idx < a3 && this->field_98_hSample && !SampleNotDone_58E880())
+    if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
     {
-        if (this->field_A4_bLoaded)
+        if (field_A4_bLoaded)
         {
             BYTE* pBuffer = (BYTE*)field_1EAC_pAudioBuffer2;
             s32 off = field_A8_sdt_entries[idx].field_0_offset;
@@ -780,19 +780,19 @@ void cSampleManager::OpenStream_58E320(u32 a2)
     char_type wavPath[80];
     if (field_55_bMusicLoaded)
     {
-        if (!this->field_9C_hStreams[0] && a2 < 3)
+        if (!field_9C_hStreams[0] && a2 < 3)
         {
-            strcpy(wavPath, this->field_5_str);
+            strcpy(wavPath, field_5_str);
             strcat(wavPath, dma_wav_5FF5D8[a2]);
-            HSTREAM tmp = AIL_open_stream(this->field_0_hDriver, wavPath, 0);
+            HSTREAM tmp = AIL_open_stream(field_0_hDriver, wavPath, 0);
             field_9C_hStreams[0] = tmp;
             if (tmp == 0)
             {
                 if (a2 == 1)
                 {
-                    strcpy(wavPath, this->field_5_str);
+                    strcpy(wavPath, field_5_str);
                     strcat(wavPath, dma_wav_5FF5D8[0]);
-                    tmp = AIL_open_stream(this->field_0_hDriver, wavPath, 0);
+                    tmp = AIL_open_stream(field_0_hDriver, wavPath, 0);
                     field_9C_hStreams[0] = tmp;
                 }
             }
@@ -800,7 +800,7 @@ void cSampleManager::OpenStream_58E320(u32 a2)
             if (tmp)
             {
                 AIL_set_stream_loop_count(field_9C_hStreams[0], 0);
-                AIL_start_stream(this->field_9C_hStreams[0]);
+                AIL_start_stream(field_9C_hStreams[0]);
             }
         }
     }
@@ -1001,6 +1001,15 @@ bool cSampleManager::SampleNotDone_58E880()
     return AIL_sample_status(field_98_hSample) != SMP_DONE ? true : false;
 }
 
+MATCH_FUNC(0x58E8A0)
+void cSampleManager::sub_58E8A0()
+{
+    if (field_98_hSample)
+    {
+        AIL_end_sample(field_98_hSample);
+    }
+}
+
 MATCH_FUNC(0x58E960)
 void cSampleManager::EndSample_58E960()
 {
@@ -1020,7 +1029,7 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     char_type rawName[80]; // [esp+10h] [ebp-A0h] BYREF
     char_type sdtName[80]; // [esp+60h] [ebp-50h] BYREF
 
-    this->field_A4_bLoaded = 0;
+    field_A4_bLoaded = 0;
     strcpy(rawName, "data\\audio\\");
     strcat(rawName, pRawOrSdtName);
     strcat(rawName, ".RAW");
@@ -1043,7 +1052,7 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     }
 
     rewind(hRawFile_);
-    fread(this->field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile_);
+    fread(field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile_);
     fclose(hRawFile_);
     hSdtFile = fopen(sdtName, "rb");
     if (!hSdtFile)
@@ -1051,9 +1060,9 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
         fclose(hRawFile_);
     }
 
-    fread(this->field_A8_sdt_entries, sizeof(sdt_entry_0x18), 320u, hSdtFile);
+    fread(field_A8_sdt_entries, sizeof(sdt_entry_0x18), 320u, hSdtFile);
     fclose(hSdtFile);
-    this->field_A4_bLoaded = 1;
+    field_A4_bLoaded = 1;
     return 1;
 }
 

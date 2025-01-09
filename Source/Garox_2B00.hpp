@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 #include <wchar.h>
 
 class cool_nash_0x294;
@@ -71,8 +72,8 @@ class Garox_12E4_sub
     // inline 0x4C71A0
     Garox_12E4_sub()
     {
-        this->field_12E4 = 0;
-        this->field_1 = 45;
+        field_12E4 = 0;
+        field_1 = 45;
     }
     EXPORT void sub_5D63B0();
     char_type field_12E4;
@@ -301,8 +302,8 @@ class Garox_Sub_C_Array
     EXPORT void sub_5D0210();
     Garox_Sub_C field_1028[6];
     s32 field_48_count;
-    s32 field_4C_w_fp;
-    s32 field_50_h_fp;
+    Fix16 field_4C_w_fp;
+    Fix16 field_50_h_fp;
 };
 
 class Garox_C4
@@ -311,7 +312,7 @@ class Garox_C4
     EXPORT void sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime);
     EXPORT void sub_5D1D00();
     EXPORT bool sub_5D1DB0();
-    EXPORT s32 operator_equals_5D1E10(Garox_C4* pOther);
+    EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
     s16 field_A8;
@@ -458,12 +459,12 @@ class Garox_24
     // inline 0x4C6F00
     void init()
     {
-        this->field_0 = 0;
-        this->field_4 = 0;
-        this->field_8 = 0;
-        this->field_C = 0;
-        this->field_10 = 0;
-        this->field_20 = 0;
+        field_0 = 0;
+        field_4 = 0;
+        field_8 = 0;
+        field_C = 0;
+        field_10 = 0;
+        field_20 = 0;
     }
 
     s32 field_0;
@@ -506,7 +507,7 @@ class Garox_7C
     EXPORT s32 sub_5D0850();
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
-    EXPORT s32 sub_5D0DC0(cool_nash_0x294* a2);
+    EXPORT void sub_5D0DC0(cool_nash_0x294* a2);
 
     EXPORT Garox_7C();
     s32 field_0;
@@ -528,9 +529,9 @@ class Garox_7C_Array
     // inline 0x4C7080
     Garox_7C_Array()
     {
-        this->field_83C = 1;
-        this->field_840 = 0;
-        this->field_844 = 0;
+        field_83C = 1;
+        field_840 = 0;
+        field_844 = 0;
     }
 
     EXPORT void sub_5D1350();
@@ -540,10 +541,10 @@ class Garox_7C_Array
     EXPORT char_type sub_5D0F40(Zone_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
-    EXPORT Garox_7C_Array* sub_5D1020(s32* a2);
+    EXPORT Garox_7C* sub_5D1020(s32* a2);
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C_Array* sub_5D10D0(Zone_144* pZone, s32 phone_type);
+    EXPORT Garox_7C* sub_5D10D0(Zone_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(s32 pPhoneInfo);
     EXPORT void sub_5D1310(Zone_144* pZone);
     Garox_7C field_0_array[17];
@@ -1049,3 +1050,5 @@ class Garox_2B00
 EXPORT_VAR extern Garox_2B00* gGarox_2B00_706620;
 
 EXPORT_VAR extern s16 word_706600;
+
+EXPORT_VAR extern char byte_67CE50[];

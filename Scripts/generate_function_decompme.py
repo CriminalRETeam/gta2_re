@@ -81,14 +81,28 @@ def toSigned32(n):
     n = n & 0xffffffff
     return (n ^ 0x80000000) - 0x80000000
 
-def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, as_mangled_name: bool = True) -> str | None:
-    resolve_func_address = toSigned32(resolve_func_address)
+def resolve_func_name(instruction: Instruction, current_func: OgFunctionData, formatter: Formatter, as_mangled_name: bool = True) -> str | None:
+    resolve_func_address = toSigned32(instruction.near_branch_target)
 
-    near_func_address_offset = DATA_OFFSET + resolve_func_address
-    far_func_address_offset = current_func.address + resolve_func_address 
+    far_func_address_offset = DATA_OFFSET + resolve_func_address
+    near_func_address_offset = current_func.address + resolve_func_address
+
+    if instruction.is_call_near:
+        target_func_address = near_func_address_offset
+    elif instruction.is_call_far:
+        target_func_address = far_func_address_offset
+    elif instruction.is_call_near_indirect:
+        print(f"TODO: need to dump some extra data from IDA to resolve is_call_near_indirect calls ({formatter.format(instruction)})")
+        return None
+    elif instruction.is_call_far_indirect:
+        print(f"TODO: need to dump some extra data from IDA to resolve is_call_far_indirect calls ({formatter.format(instruction)})")
+        return None
+    else:
+        print("instruction call is neither near nor far")
+        sys.exit(1)
+
     for func_data in FUNC_COLLECTION.get_data():
-        if (near_func_address_offset == func_data.address or
-            far_func_address_offset == func_data.address):
+        if target_func_address == func_data.address:
             ret_func_name = ""
             if as_mangled_name and func_data.mangled_name is not None:
                 ret_func_name = func_data.mangled_name
@@ -106,9 +120,17 @@ def resolve_func_name(resolve_func_address: int, current_func: OgFunctionData, a
     print(f"resolve_func_name: near func address {hex(near_func_address_offset)} nor far func address {hex(far_func_address_offset)} found!")
     return None
 
-def is_jump(mnemonic: Mnemonic) -> bool:
-    return mnemonic in {Mnemonic.JL, Mnemonic.JLE, Mnemonic.JG, Mnemonic.JGE, Mnemonic.JE, Mnemonic.JNE, Mnemonic.JBE, Mnemonic.JMP, Mnemonic.JB}
-
+def is_jump(instruction: Instruction, formatter: Formatter):
+    if instruction.flow_control == FlowControl.CONDITIONAL_BRANCH:
+        print(f"conditional branch {formatter.format_mnemonic(instruction)}")
+    elif instruction.flow_control == FlowControl.INDIRECT_BRANCH:
+        print(f"indirect branch {formatter.format_mnemonic(instruction)}")
+    elif instruction.flow_control == FlowControl.UNCONDITIONAL_BRANCH:
+        print(f"unconditional branch {formatter.format_mnemonic(instruction)}")
+    else:
+        return False
+    return True
+    
 def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     decoder = Decoder(32, target_func.get_function_bytes())
     formatter = Formatter(FormatterSyntax.GAS)
@@ -124,7 +146,7 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
 
     # gather labels first
     for instruction in decoder:
-        if is_jump(instruction.mnemonic):
+        if is_jump(instruction, formatter):
             if instruction.near_branch_target not in labels:
                 # when labels start with .L they aren't emitted by the assembler
                 labels[instruction.near_branch_target] = f".L{len(labels)}"
@@ -139,17 +161,18 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
             asm.append(f"{labels[instruction.ip]}:")
         
         if instruction.mnemonic == Mnemonic.CALL:
-            resolved_name = resolve_func_name(instruction.near_branch_target, target_func)
+            resolved_name = resolve_func_name(instruction, target_func, formatter)
             if resolved_name is not None:
                 asm.append(f"call {resolved_name}")
             else:
-                if instruction.near_branch_target not in unk_funcs:
-                    unk_funcs[instruction.near_branch_target] = f"unknown_func{len(unk_funcs)}"
-                asm.append(f"call {unk_funcs[instruction.near_branch_target]}")
-        elif is_jump(instruction.mnemonic):
+                call_op = formatter.format_operand(instruction, 0)
+                if call_op not in unk_funcs:
+                    unk_funcs[call_op] = f"unknown_func{len(unk_funcs)}"
+                asm.append(f"call {unk_funcs[call_op]}")
+        elif is_jump(instruction, formatter):
             # add label to jump instruction
             if instruction.near_branch_target in labels:
-                jump_mnemonic = formatter.format_mnemonic(instruction);
+                jump_mnemonic = formatter.format_mnemonic(instruction)
                 asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
         else:
             asm.append(formatter.format(instruction))

@@ -11,16 +11,16 @@ Phi_74::~Phi_74()
 STUB_FUNC(0x533060)
 void Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
 {
-    this->field_8 = a4;
-    this->field_0 = a2;
-    this->field_4 = a3;
+    field_8 = a4;
+    field_0 = a2;
+    field_4 = a3;
     if (a2 < a3)
     {
-        this->field_C = a2;
+        field_C = a2;
     }
     else
     {
-        this->field_C = a3;
+        field_C = a3;
     }
 }
 
@@ -36,20 +36,20 @@ void Phi_74::sub_533110(s16 a2)
     switch (field_28)
     {
         case 4:
-            this->field_30 = 5;
+            field_30 = 5;
             break;
         case 5:
-            this->field_30 = 6;
+            field_30 = 6;
             break;
     }
-    this->field_1C = a2;
+    field_1C = a2;
 }
 
 MATCH_FUNC(0x533150)
 void Phi_74::sub_533150(s16 a2, char_type a3)
 {
-    this->field_1E += a2;
-    this->field_6C = a3;
+    field_1E += a2;
+    field_6C = a3;
 }
 
 STUB_FUNC(0x533170)

@@ -1,6 +1,6 @@
 #include "Network_20324.hpp"
-#include "text_0x14.hpp"
 #include "Globals.hpp"
+#include "text_0x14.hpp"
 
 EXPORT_VAR UINT_PTR gTimerId_6F8A18;
 GLOBAL(gTimerId_6F8A18, 0x6F8A18);
@@ -39,22 +39,22 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
 STUB_FUNC(0x519a90)
 Network_20324::Network_20324()
 {
-    this->field_202E4 = 0;
-    this->field_202E0 = 0;
-    this->field_202DC = 0;
-    this->field_202D4 = 0;
-    this->field_202D8 = 3;
-    this->field_20084 = 0;
-    this->field_1FD6C = 0;
-    this->field_1FD64_f4_idx_count = 0;
-    this->field_1FD68 = 0;
-    this->field_2019C = GetTickCount();
-    this->field_20198_game_type = 1;
-    this->field_20194_f_limit = 1;
-    this->field_2018C_f4_idx = 0;
-    this->field_201A0_police = 0;
-    this->field_201A4_game_time_limiot = 0;
-    memset(this->field_4, 0, sizeof(this->field_4));
+    field_202E4 = 0;
+    field_202E0 = 0;
+    field_202DC = 0;
+    field_202D4 = 0;
+    field_202D8 = 3;
+    field_20084 = 0;
+    field_1FD6C = 0;
+    field_1FD64_f4_idx_count = 0;
+    field_1FD68 = 0;
+    field_2019C = GetTickCount();
+    field_20198_game_type = 1;
+    field_20194_f_limit = 1;
+    field_2018C_f4_idx = 0;
+    field_201A0_police = 0;
+    field_201A4_game_time_limiot = 0;
+    memset(field_4, 0, sizeof(field_4));
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
     sub_51BC90();

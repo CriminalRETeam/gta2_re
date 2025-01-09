@@ -1,12 +1,13 @@
 #pragma once
 
+#include "BitSet32.hpp"
 #include "Car_10.hpp"
+#include "Fix16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
-#include "Fix16.hpp"
-#include "BitSet32.hpp"
 #include <wchar.h>
 
+class Object_2C;
 class Car_78;
 class Car_B0;
 class Car_A4_10;
@@ -38,7 +39,7 @@ class Car_3C
     EXPORT void sub_59EB30(s32 a2, f32* a3);
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void sub_59EFF0();
-    EXPORT void sub_59F950(s32 a2, Sprite_4C* a3, Car_BC* a4);
+    EXPORT void sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT Sprite_4C* sub_59F990();
     EXPORT Sprite_4C* sub_59FA40();
     EXPORT Sprite_4C* sub_59FAD0();
@@ -63,28 +64,46 @@ class Car_3C
     EXPORT void sub_5A4D90();
     EXPORT void ctor_5A5E50();
 
-    s32 field_0;
+    angle field_0;
+    s8 field_2_pad;
+    s8 field_3_pad;
     Sprite_4C* field_4_0x4C_len;
-    Car_BC* field_8_uni;
-    Car_3C* field_C_car_or_sprite;
+    // Only one field is enable at the same time.
+    // The field that is enabled is decided by field_30_sprite_type_enum
+    // The following list may not be complete.
+    // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
+    union
+    {
+        Car_BC* car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
+        Char_B4* char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
+        Object_2C* object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+    };
+    // Only one field is enable at the same time.
+    // As far as I understand, the next_ptr is only enabled while the instance is being handled by Sprite_49B28.
+    // Otherwise, the sprite_4c_ptr is active. i.e. the instance belongs to another object.
+    union
+    {
+        Car_3C* next_ptr;
+        Sprite_4C* sprite_4c_ptr;
+    };
     infallible_turing* field_10;
     Fix16 field_14_xpos;
     Fix16 field_18_ypos;
     Fix16 field_1C_zpos;
-    s16 field_20;
-    s16 field_22;
-    s16 field_24;
-    char_type field_26;
-    char_type field_27;
+    s16 field_20_id;
+    s16 field_22_sprite_id;
+    s16 field_24_remap;
+    char_type field_26_pad;
+    char_type field_27_pad;
     Car_3C* field_28_uni;
     char_type field_2C;
-    char_type field_2D;
-    char_type field_2E;
-    char_type field_2F;
-    s32 field_30;
+    char_type field_2D_pad;
+    char_type field_2E_pad;
+    char_type field_2F_pad;
+    s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34;
     char_type field_38;
-    char_type field_39;
+    u8 field_39;
     char_type field_3A;
     char_type field_3B;
 };
@@ -147,7 +166,7 @@ class Car_6C
 
     Car_2 field_0;
     s16 field_2;
-    cool_nash_0x294 *field_4;
+    cool_nash_0x294* field_4;
     char_type field_8;
     u8 field_9;
     u8 field_A;
@@ -193,12 +212,6 @@ class Car_6C
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
 
-class Car_B0
-{
-  public:
-    EXPORT s32 sub_563560(Car_3C* a2);
-};
-
 class Car_BC
 {
   public:
@@ -221,7 +234,7 @@ class Car_BC
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
     EXPORT s32 sub_43A680();
-    EXPORT s32 sub_43A6F0(u8 a2);
+    EXPORT bool sub_43A6F0(u8 a2);
     EXPORT s32 sub_43A730(u8 a2);
     EXPORT void sub_43A780(u8 a2);
     EXPORT void sub_43A7D0();
@@ -324,8 +337,8 @@ class Car_BC
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
     EXPORT char_type sub_441800(char_type a2);
-    EXPORT Car_A4_10* sub_4418A0();
-    EXPORT Car_A4_10* sub_4418B0();
+    EXPORT void sub_4418A0();
+    EXPORT void sub_4418B0();
     EXPORT char_type
     sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void sub_4419E0();
@@ -406,8 +419,8 @@ class Car_BC
     s32 field_70;
     s16 field_74_damage;
     s16 field_76;
-    u8 field_78_flags;
-    u8 field_79;
+    u16 field_78_flags;
+//    u8 field_79;
     s16 field_7A;
     cool_nash_0x294* field_7C_uni_num;
     char_type field_80;
@@ -462,6 +475,18 @@ class Car_8
     EXPORT Car_8* ctor_563970();
     Sprite_4C* field_0;
     Sprite_4C* field_4;
+};
+
+class Car_A4_10
+{
+  public:
+    char field_0;
+    char field_1;
+    char field_2;
+    char field_3;
+    Car_A4_10* field_4;
+    Car_BC* field_8;
+    Car_BC* field_C;
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
