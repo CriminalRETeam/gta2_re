@@ -186,21 +186,21 @@ Sprite_4C* Car_3C::sub_59F990()
 STUB_FUNC(0x59fa40)
 Sprite_4C* Car_3C::sub_59FA40()
 {
-    Sprite_4C *result = field_4_0x4C_len;
+    Sprite_4C* result = field_4_0x4C_len;
     if (result)
     {
         u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_24_remap);
-        sprite_index *sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+        sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
 
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-        Fix16 v8 = (Fix16) (&dword_6F6850)[field_5_height_index];
-        Fix16 v7 = (Fix16) (&dword_6F6850)[field_4_width_index];
+        Fix16 v8 = (Fix16)(&dword_6F6850)[field_5_height_index];
+        Fix16 v7 = (Fix16)(&dword_6F6850)[field_4_width_index];
 
         result = field_4_0x4C_len;
 
-        if ( v7 != result->field_0_width || v8 != result->field_4_height )
+        if (v7 != result->field_0_width || v8 != result->field_4_height)
         {
             result->field_0_width = v7;
             result->field_4_height = v8;
@@ -226,21 +226,26 @@ MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scr
 char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 {
     u8 result = 0; // Initialize result to 0
-    Car_3C **next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
+    Car_3C** next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
 
-    for (u8 i = 0; i < 4; ) {
+    for (u8 i = 0; i < 4;)
+    {
         // First comparison: *p_field_C_car_or_sprite > *a2
-        if ((s32)*next_next_ptr > (s32) *a2) {
+        if ((s32)*next_next_ptr > (s32)*a2)
+        {
             // Second comparison: *p_field_C_car_or_sprite[1] > a2[1] and *p_field_C_car_or_sprite < *a3
             // and *p_field_C_car_or_sprite[1] < a3[1]
-            Car_3C *v8 = next_next_ptr[1];
-            if ((int)v8 > (s32) a2[1] && (int)*next_next_ptr < (s32) *a3 && (int)v8 < (s32) a3[1]) {
+            Car_3C* v8 = next_next_ptr[1];
+            if ((int)v8 > (s32)a2[1] && (int)*next_next_ptr < (s32)*a3 && (int)v8 < (s32)a3[1])
+            {
                 // If we find the first valid match, store index in a4
-                if (++result == 1) {
+                if (++result == 1)
+                {
                     *a4 = i;
                 }
                 // If we find the second valid match, store index in a5
-                else if (result == 2) {
+                else if (result == 2)
+                {
                     *a5 = i;
                 }
             }
