@@ -91,10 +91,11 @@ Object_2C* Object_5C::sub_529C00(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6
     return 0;
 }
 
-STUB_FUNC(0x52a210)
+MATCH_FUNC(0x52a210)
 char_type Object_5C::sub_52A210(char_type a2)
 {
-    return 0;
+    this->field_18 = a2;
+    return a2;
 }
 
 STUB_FUNC(0x52a240)
