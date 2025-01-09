@@ -145,9 +145,18 @@ void cool_nash_0x294::sub_45BE70()
     }
 }
 
-STUB_FUNC(0x45be90)
+MATCH_FUNC(0x45be90)
 void cool_nash_0x294::sub_45BE90()
 {
+    if ((this->field_21C & 0x1000000) != 0)
+    {
+        Char_B4* pB4 = this->field_168_game_object;
+        if (pB4)
+        {
+            pB4->sub_5454B0();
+        }
+        this->field_21C &= ~0x1000000u;
+    }
 }
 
 STUB_FUNC(0x45bec0)

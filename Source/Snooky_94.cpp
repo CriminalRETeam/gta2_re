@@ -49,9 +49,10 @@ char_type Snooky_94::sub_4887A0(Car_BC* toFind)
     return 0;
 }
 
-STUB_FUNC(0x4887d0)
+MATCH_FUNC(0x4887d0)
 void Snooky_94::sub_4887D0(Car_BC* a2, u8 idx)
 {
+    field_0[idx].sub_488310(a2);
 }
 
 MATCH_FUNC(0x4887f0)

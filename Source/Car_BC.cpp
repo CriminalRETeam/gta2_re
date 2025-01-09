@@ -1168,16 +1168,21 @@ char_type Car_BC::sub_441800(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x4418a0)
-Car_A4_10* Car_BC::sub_4418A0()
+MATCH_FUNC(0x4418a0)
+void Car_BC::sub_4418A0()
 {
-    return 0;
+    if (field_64)
+    {
+        sub_4418B0();
+    }
 }
 
-STUB_FUNC(0x4418b0)
-Car_A4_10* Car_BC::sub_4418B0()
+MATCH_FUNC(0x4418b0)
+void Car_BC::sub_4418B0()
 {
-    return 0;
+    sub_43BD40();
+    sub_442760();
+    field_78_flags |= 1;
 }
 
 STUB_FUNC(0x4418d0)

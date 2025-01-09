@@ -11,7 +11,7 @@ class Car_10
     EXPORT void sub_439D40(s32* a3);
     EXPORT void sub_439DA0(s32* a3);
     EXPORT void sub_439E40(u8 a2);
-    EXPORT s32 sub_439E60();
+    EXPORT void sub_439E60();
     EXPORT void sub_439EA0();
     EXPORT Car_10(); // 447330
     EXPORT ~Car_10(); // 447350

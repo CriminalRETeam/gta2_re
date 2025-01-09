@@ -99,9 +99,8 @@ void Car_10::sub_439E40(u8 a2)
 }
 
 MATCH_FUNC(0x439E60)
-s32 Car_10::sub_439E60()
+void Car_10::sub_439E60()
 {
-    const s32 result = field_4_state - 1;
     switch (field_4_state)
     {
         case 1:
@@ -118,7 +117,7 @@ s32 Car_10::sub_439E60()
         default:
             break;
     }
-    return result;
+
 }
 
 MATCH_FUNC(0x439EA0)
