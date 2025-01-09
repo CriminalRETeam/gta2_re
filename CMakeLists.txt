@@ -228,6 +228,9 @@ include_directories(Source)
 include_directories(${decomp_SOURCE_DIR})
 include_directories(3rdParty/gta2_re_compile_tools)
 
+# global lib dirs
+link_directories(${CMAKE_SOURCE_DIR}/gta2_lib 3rdParty/gta2_re_compile_tools/VC98/Lib)
+
 add_library (gta2_lib ${gta2_lib_src})
 target_compile_definitions(gta2_lib PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
 target_link_libraries(gta2_lib)
