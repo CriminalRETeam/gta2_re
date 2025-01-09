@@ -31,9 +31,11 @@ Wolfy_30::Wolfy_30()
 {
 }
 
-STUB_FUNC(0x540a10)
+MATCH_FUNC(0x540a10)
 Wolfy_30::~Wolfy_30()
 {
+    this->field_14 = 0;
+    this->field_1C = 0;
 }
 
 STUB_FUNC(0x543650)
