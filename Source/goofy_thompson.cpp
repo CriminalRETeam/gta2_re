@@ -17,7 +17,7 @@ void* goofy_thompson::vdtor_51D7B0(char_type flags)
 }
 
 STUB_FUNC(0x51d7d0)
-void goofy_thompson::dtor_51D7D0()
+goofy_thompson::~goofy_thompson()
 {
 }
 
@@ -115,13 +115,13 @@ u32 goofy_thompson::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, 
 }
 
 STUB_FUNC(0x51eae0)
-s32 goofy_thompson::EnumSessions_cb_51EAE0(tagDPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext)
+s32 goofy_thompson::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext)
 {
     return 0;
 }
 
 STUB_FUNC(0x51eb00)
-s32 goofy_thompson::AddEnumeratedSession_51EB00(tagDPSESSIONDESC2* pSession)
+s32 goofy_thompson::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 {
     return 0;
 }
@@ -367,10 +367,10 @@ s32 goofy_thompson::sub_521820(s32** a2, s32 idx)
     return 0;
 }
 
-STUB_FUNC(0x521870)
+MATCH_FUNC(0x521870)
 void goofy_thompson::Remove_521870(s32 idx)
 {
-    field_CB8_count++;
+    field_CB8_count--;
     field_900_208_start[idx].field_8 = 0;
 }
 

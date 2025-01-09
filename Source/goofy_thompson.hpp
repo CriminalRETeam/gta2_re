@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
+#include <DPLAY.H>
+#include <DPLOBBY.H>
 #include <windows.h>
 
 struct naughty_sinoussi_0x800;
@@ -50,9 +52,7 @@ class Network_Unknown
     s32 field_10;
     s32 field_14;
     Nework_2C field_18_ary_start[6];
-
-    // TODO: uncomment when dplay.h is available
-    //tagDPSESSIONDESC2 field_120_session_desc;
+    DPSESSIONDESC2 field_120_session_desc;
 };
 
 class EnumeratedConnection
@@ -93,21 +93,15 @@ struct Network_18
 
 struct Network_504
 {
-//  tagDPSESSIONDESC2 field_C4_sessions[16];
-  s32 field_5C4_session_count;
+    DPSESSIONDESC2 field_C4_sessions[16];
+    s32 field_5C4_session_count;
 };
-
-// TODO: remove when dplay.h is available
-struct DPNAME;
-struct tagDPSESSIONDESC2;
-struct IDirectPlay3;
-struct IDirectPlayLobby;
 
 struct goofy_thompson
 {
     EXPORT goofy_thompson* ctor_51D6B0();
     EXPORT void* vdtor_51D7B0(char_type flags);
-    EXPORT void dtor_51D7D0();
+    EXPORT virtual ~goofy_thompson();
     EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
     EXPORT s32 EnumConnections_cb_51DA30(GUID* lpguidSP,
                                          const void* lpConnection,
@@ -128,8 +122,8 @@ struct goofy_thompson
     EXPORT s32 sub_51E650();
     EXPORT s32 sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5);
     EXPORT u32 sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6, s32 a7);
-    EXPORT s32 EnumSessions_cb_51EAE0(tagDPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext);
-    EXPORT s32 AddEnumeratedSession_51EB00(tagDPSESSIONDESC2* pSession);
+    EXPORT s32 EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext);
+    EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
     EXPORT void sub_51ECD0(s32 pFunc, Network_20324* pParam);
     EXPORT void sub_51ED00();
     EXPORT s32 Send_51EF60();
@@ -183,7 +177,7 @@ struct goofy_thompson
     EXPORT s32 Send_521E40(s32 a2);
     EXPORT void static_dtor_5E4DD0();
 
-    s32 field_0_vtbl;
+    //s32 field_0_vtbl;
     char field_4;
     char field_5_modem_num;
     char field_6;
