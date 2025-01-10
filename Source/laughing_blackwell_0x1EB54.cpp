@@ -2327,29 +2327,22 @@ void laughing_blackwell_0x1EB54::sub_4B4230()
 MATCH_FUNC(0x4B3DD0)
 void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
-    char* ascii_cheat_str; // edi
-    size_t cheat_str_len; // eax
-    int cheat_str_hash; // ecx
-    size_t str_idx; // edx
-    const int* hash_char; // esi
+    const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
+    const size_t cheat_str_len = wcslen(cheat_str_wide);
 
-    ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
-    cheat_str_len = wcslen(cheat_str_wide);
-
-    if (cheat_str_len > 16)
+    if (cheat_str_len > 16) // OG bug - should be checking for 8?
     {
         return;
     }
 
-    cheat_str_hash = 0;
-    str_idx = 0;
-    if (cheat_str_len > 0) // 29:    jbe
+    s32 cheat_str_hash = 0;
+    u32 str_idx = 0;
+    if (cheat_str_len > 0)
     {
-        hash_char = sCheatHashSecret_61F0A8;
         do
         {
-            cheat_str_hash += *hash_char++ * ascii_cheat_str[str_idx++];
-        } while (str_idx < cheat_str_len);
+            cheat_str_hash += sCheatHashSecret_61F0A8[str_idx] * ascii_cheat_str[str_idx];
+        } while (++str_idx < cheat_str_len);
 
         if (cheat_str_hash == 0x49362) // GOURANGA
         {
