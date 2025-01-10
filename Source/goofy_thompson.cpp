@@ -312,7 +312,7 @@ u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
         {
             break;
         }
-        if (pObj->field_18_ary_start[i].field_8 == toFind)
+        if (pObj->field_10[i].field_10 == toFind)
         {
             return i;
         }
@@ -408,10 +408,18 @@ void goofy_thompson::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
     this->field_4C_func_ptrs_and_params[14] = 4;
 }
 
-STUB_FUNC(0x521350)
+MATCH_FUNC(0x521350)
 s32 goofy_thompson::GetMaxPlayers_521350()
 {
-    return 0;
+    s32 maxPlayers = 0;
+    for (s32 idx = 0; idx < 6; idx++)
+    {
+        if (field_758_n2.field_10[idx].field_0)
+        {
+            maxPlayers++;
+        }
+    }
+    return maxPlayers;
 }
 
 STUB_FUNC(0x521370)

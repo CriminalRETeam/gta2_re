@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-// Included this way as a hack so > msvc6 can use these headers too as they've been removed in later versions. 
+// Included this way as a hack so > msvc6 can use these headers too as they've been removed in later versions.
 #include <VC98/Include/DPLAY.H>
 #include <VC98/Include/DPLOBBY.H>
 #include <windows.h>
@@ -50,9 +50,9 @@ class Network_Unknown
     s32 field_4_count;
     char_type field_8[4];
     s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    Nework_2C field_18_ary_start[6];
+    Nework_2C field_10[6];
+    s32 field_118;
+    s32 field_11C;
     DPSESSIONDESC2 field_120_session_desc;
 };
 
