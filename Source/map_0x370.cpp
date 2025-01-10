@@ -1182,10 +1182,55 @@ gmp_block_info* Map_0x370::sub_4E6360(s32 a2, s32 a3, s32* a4)
     return 0;
 }
 
-STUB_FUNC(0x4E6400)
+MATCH_FUNC(0x4E6400)
 s32* Map_0x370::sub_4E6400(s32* a2, s32 a3, s32 a4, s32 a5)
 {
-    return 0;
+    s32 v5;
+    s32 v6;
+    gmp_block_info* block_4DFE10;
+    u8 v9;
+    s32 v10;
+    gmp_block_info* v11;
+    s8 field_B_slope_type;
+    s32 v7;
+    
+    s32 v14;
+    u8 v13;
+
+    v5 = a5;
+    v6 = a4;
+    v7 = a3;
+    if ((a5 & 0x3FFF) == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, a5 >> 14)) == 0
+        || (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0)
+        || v13 >= 0xB4
+        || (v9 & 3) == 0
+        || (v10 = v5 & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7, v6, &v10),
+         v10 > v5) )
+    {
+        v14 = (v5 >> 14) - 1;
+        v11 = Map_0x370::sub_4E6360(v7 >> 14, v6 >> 14, &v14);
+        gBlockInfo0_6F5EB0 = v11;
+        if (!v11)
+        {
+            *a2 = 0x4000;
+            return a2;
+        }
+        field_B_slope_type = v11->field_B_slope_type;
+        
+        if ( ( v13 = field_B_slope_type & 0xFCu ) > 0 
+            && v13 < 0xB4u
+            && (field_B_slope_type & 3) != 0 )
+        {
+            v10 = v14 << 14;
+            Map_0x370::sub_4E5BF0(v7, v6, &v10);
+        } else {
+            v10 = (v14 + 1) << 14;
+        }
+        
+    }
+    *a2 = v10;
+    return a2;
 }
 
 STUB_FUNC(0x4E6510)
