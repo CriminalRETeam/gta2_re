@@ -366,9 +366,12 @@ s32 goofy_thompson::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
     return 0;
 }
 
-STUB_FUNC(0x5210d0)
+MATCH_FUNC(0x5210d0)
 void goofy_thompson::sub_5210D0(s32 a2, s32 a3)
 {
+    this->field_4C_func_ptrs_and_params[21] = a2;
+    this->field_4C_func_ptrs_and_params[22] = a3;
+    this->field_4C_func_ptrs_and_params[23] = 7;
 }
 
 MATCH_FUNC(0x521100)
