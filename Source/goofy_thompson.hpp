@@ -163,7 +163,7 @@ struct goofy_thompson
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
     EXPORT void sub_521140(s32 a2, s32 a3);
     EXPORT s32 sub_521170(Network_8* a2);
-    EXPORT s32 sub_5211F0(s32 a2, s32 a3);
+    EXPORT void sub_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();

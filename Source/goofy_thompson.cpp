@@ -430,10 +430,12 @@ s32 goofy_thompson::sub_521170(Network_8* pObj)
     return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id, field_758_n2.field_118, field_758_n2.field_11C, 2);
 }
 
-STUB_FUNC(0x5211f0)
-s32 goofy_thompson::sub_5211F0(s32 a2, s32 a3)
+MATCH_FUNC(0x5211f0)
+void goofy_thompson::sub_5211F0(s32 a2, s32 a3)
 {
-    return 0;
+    this->field_4C_func_ptrs_and_params[27] = a2;
+    this->field_4C_func_ptrs_and_params[28] = a3;
+    this->field_4C_func_ptrs_and_params[29] = 9;
 }
 
 STUB_FUNC(0x521220)
