@@ -375,10 +375,10 @@ u32 Network_20324::sub_51C830()
     return 0;
 }
 
-STUB_FUNC(0x51ca10)
+MATCH_FUNC(0x51ca10)
 char_type* Network_20324::sub_51CA10()
 {
-    return 0;
+    return &this->field_4[this->field_2018C_f4_idx][0];
 }
 
 MATCH_FUNC(0x51ca50)
