@@ -393,10 +393,12 @@ char_type* Network_20324::sub_51CA90()
     return &this->field_4[this->field_2018C_f4_idx][520];
 }
 
-STUB_FUNC(0x51cad0)
-s32 Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
+MATCH_FUNC(0x51cad0)
+void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 {
-    return 0;
+    char Text[256];
+    sprintf(Text, "Unable to open file: %s in mmpfile: %s", a2, a1);
+    MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
 }
 
 STUB_FUNC(0x51cb30)

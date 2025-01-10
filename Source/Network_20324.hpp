@@ -54,7 +54,7 @@ class Network_20324
     EXPORT char_type* sub_51CA10();
     EXPORT char_type* sub_51CA50();
     EXPORT char_type* sub_51CA90();
-    EXPORT s32 sub_51CAD0(const char_type* a1, const char_type* a2);
+    EXPORT void sub_51CAD0(const char_type* a1, const char_type* a2);
     EXPORT s32 sub_51CB30(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CBC0();
     EXPORT LRESULT sub_51CCB0(s32 a1, HWND hDlg);
