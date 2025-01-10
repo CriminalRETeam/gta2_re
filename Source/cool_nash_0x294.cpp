@@ -9,14 +9,9 @@
 EXPORT_VAR s8 byte_61A8A3;
 GLOBAL(byte_61A8A3, 0x61A8A3);
 
-STUB_FUNC(0x45ae70)
+MATCH_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
-    field_12C = 0;
-    field_12E = 0;
-    field_130 = 0;
-    field_132 = 0;
-    field_134 = 0;
     field_200 = 0;
     sub_45AFC0();
     field_160_next_ped = 0;
@@ -25,6 +20,32 @@ cool_nash_0x294::cool_nash_0x294()
 STUB_FUNC(0x45af00)
 cool_nash_0x294::~cool_nash_0x294()
 {
+    this->field_15C_player_weapons = 0;
+    this->field_140 = 0;
+    this->field_144 = 0;
+    this->field_148_objective_target_ped = 0;
+    this->field_14C = 0;
+    this->field_150_target_objective_car = 0;
+    this->field_158 = 0;
+    this->field_154_target_to_enter = 0;
+    this->field_160_next_ped = 0;
+    this->field_164_ped_group = 0;
+    this->field_168_game_object = 0;
+    this->field_16C_car = 0;
+    this->field_170_selected_weapon = 0;
+    this->field_174_pWeapon = 0;
+    this->field_180 = 0;
+    this->field_18C = 0;
+    this->field_21C &= ~0x40u;
+    this->field_184 = 0;
+    this->field_208_invulnerability = 0;
+    this->field_204 = 0;
+    this->field_290 = 0;
+    this->field_264 = 0;
+    this->field_268 = 0;
+    this->field_198 = 0;
+    this->field_1A0_objective_target_object = 0;
+    this->field_1A4 = 0;
 }
 
 STUB_FUNC(0x45afc0)
