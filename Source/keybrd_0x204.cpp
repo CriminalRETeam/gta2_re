@@ -1,7 +1,7 @@
 #include "keybrd_0x204.hpp"
 #include "Function.hpp"
-#include "error.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include <stdlib.h>
 #include <windows.h>
 
@@ -117,35 +117,42 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     fclose(hConfigFile);
 }
 
-const DWORD dword_620D2C = 0x2020;
+char dword_620D2C[] = {' ', ' ', 0};
 
 STUB_FUNC(0x4D6000)
 s32 keybrd_0x204::GetLayout_4D6000()
 {
     s32 result; // eax
     char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
-    s32 v2; // [esp+4h] [ebp-10h] BYREF
-    char_type pwszKLID[12]; // [esp+8h] [ebp-Ch] BYREF
+    char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF
 
-    *(u16*)&Buffer[2] = HIWORD(dword_620D2C);
+    memcpy(Buffer, dword_620D2C, sizeof(Buffer));
+
     GetKeyboardLayoutNameA(pwszKLID);
+
     Buffer[0] = pwszKLID[6];
     Buffer[1] = pwszKLID[7];
+
+    s32 v2;
     sscanf(Buffer, "%x", &v2);
     switch (v2)
     {
-        case 7:
-            result = 2;
-            break;
-        case 10:
-            result = 4;
-            break;
         case 12:
             result = 1;
             break;
+
+        case 7:
+            result = 2;
+            break;
+
         case 16:
             result = 3;
             break;
+
+        case 10:
+            result = 4;
+            break;
+
         case 22:
             result = 5;
             break;
@@ -167,15 +174,15 @@ static inline bool is_line_break_or_space(wchar_t letter)
 MATCH_FUNC(0x4D5DA0)
 void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 {
-    u8 i=0;
+    u8 i = 0;
     for (;;)
     {
-         const wchar_t read_char = fgetc(Stream);
-         if (is_line_break_or_space(read_char))
-         {
-             pOut[i] = 0;
-             return;
-         }
+        const wchar_t read_char = fgetc(Stream);
+        if (is_line_break_or_space(read_char))
+        {
+            pOut[i] = 0;
+            return;
+        }
         pOut[i++] = read_char;
     }
 }
