@@ -161,7 +161,7 @@ struct goofy_thompson
     EXPORT s32 SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1);
     EXPORT void sub_5210D0(s32 a2, s32 a3);
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
-    EXPORT s32 sub_521140(s32 a2, s32 a3);
+    EXPORT void sub_521140(s32 a2, s32 a3);
     EXPORT s32 sub_521170(Network_8* a2);
     EXPORT s32 sub_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();

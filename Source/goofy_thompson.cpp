@@ -404,10 +404,12 @@ void goofy_thompson::GetPlayerName_521100(wchar_t* Destination, u32 idx)
     wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C);
 }
 
-STUB_FUNC(0x521140)
-s32 goofy_thompson::sub_521140(s32 a2, s32 a3)
+MATCH_FUNC(0x521140)
+void goofy_thompson::sub_521140(s32 a2, s32 a3)
 {
-    return 0;
+    this->field_4C_func_ptrs_and_params[24] = a2;
+    this->field_4C_func_ptrs_and_params[25] = a3;
+    this->field_4C_func_ptrs_and_params[26] = 8;
 }
 
 MATCH_FUNC(0x521170)
@@ -422,13 +424,10 @@ s32 goofy_thompson::sub_521170(Network_8* pObj)
 
     field_758_n2.field_118 = new u8[pObj->field_4_len];
     field_758_n2.field_11C = pObj->field_4_len;
-    
+
     memcpy(field_758_n2.field_118, pObj->field_0, pObj->field_4_len);
 
-    return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id,
-                                           field_758_n2.field_118,
-                                           field_758_n2.field_11C,
-                                           2);
+    return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id, field_758_n2.field_118, field_758_n2.field_11C, 2);
 }
 
 STUB_FUNC(0x5211f0)
