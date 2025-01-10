@@ -17,7 +17,7 @@ cool_nash_0x294::cool_nash_0x294()
     field_160_next_ped = 0;
 }
 
-STUB_FUNC(0x45af00)
+MATCH_FUNC(0x45af00)
 cool_nash_0x294::~cool_nash_0x294()
 {
     this->field_15C_player_weapons = 0;
@@ -36,7 +36,7 @@ cool_nash_0x294::~cool_nash_0x294()
     this->field_174_pWeapon = 0;
     this->field_180 = 0;
     this->field_18C = 0;
-    this->field_21C &= ~0x40u;
+    this->field_21C &= ~0x4000u;
     this->field_184 = 0;
     this->field_208_invulnerability = 0;
     this->field_204 = 0;
