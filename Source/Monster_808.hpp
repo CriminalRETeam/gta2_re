@@ -27,11 +27,16 @@ class Monster_48
     Fix16 field_3C_gear3_multiplier;
     Fix16 field_40_gear2_speed;
     Fix16 field_44_gear3_speed;
+
+    EXPORT void sub_454680();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Monster_48, 0x48);
 
 class Monster_2C
 {
+  public:
+    EXPORT ~Monster_2C();
+
     s32 field_0;
     s32 field_4_front_wheel_offset;
     s32 field_8_rear_wheel_offset;
@@ -55,7 +60,7 @@ class Monster_808
     EXPORT s32 sub_454850();
     EXPORT void sub_4549C0();
     EXPORT void sub_454A00(const char_type* pGciFilePath);
-    EXPORT s32 sub_454A50();
+    EXPORT void sub_454A50();
     EXPORT void sub_454A80();
     EXPORT void sub_454AA0();
     EXPORT Monster_808();

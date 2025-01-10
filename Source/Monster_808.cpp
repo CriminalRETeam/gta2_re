@@ -28,6 +28,11 @@ GLOBAL(found_open_brackets_67626C, 0x67626C);
 EXPORT_VAR s32 line_number_676258;
 GLOBAL(line_number_676258, 0x676258);
 
+STUB_FUNC(0x454680)
+void Monster_48::sub_454680()
+{
+}
+
 MATCH_FUNC(0x430b10)
 s32 __stdcall Monster_808::sub_430b10(char* param_1)
 {
@@ -120,13 +125,13 @@ char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
 }
 
 MATCH_FUNC(0x430EC0)
-s32 __stdcall Monster_808::HexStr2Int_430EC0(const char *param_1, s32 *param_2)
+s32 __stdcall Monster_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
     s32 iVar4 = strlen(param_1);
 
-    while(--iVar4 >= 0)
+    while (--iVar4 >= 0)
     {
         s8 cVar1 = param_1[iVar4];
         if ((cVar1 < '0' || '9' < cVar1) && (cVar1 < 'A' || 'F' < cVar1))
@@ -152,13 +157,13 @@ s32 __stdcall Monster_808::HexStr2Int_430EC0(const char *param_1, s32 *param_2)
 }
 
 MATCH_FUNC(0x430f30)
-s32 __stdcall Monster_808::HexStr2Int_430F30(const char *param_1, s16 *param_2)
+s32 __stdcall Monster_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
     s32 iVar4 = strlen(param_1);
 
-    while(--iVar4 >= 0)
+    while (--iVar4 >= 0)
     {
         s8 cVar1 = param_1[iVar4];
         if ((cVar1 < '0' || '9' < cVar1) && (cVar1 < 'A' || 'F' < cVar1))
@@ -184,7 +189,7 @@ s32 __stdcall Monster_808::HexStr2Int_430F30(const char *param_1, s16 *param_2)
 }
 
 MATCH_FUNC(0x430fa0)
-s32 __stdcall Monster_808::StrToInt_430FA0(const char *param_1, s32 *param_2)
+s32 __stdcall Monster_808::StrToInt_430FA0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -200,14 +205,14 @@ s32 __stdcall Monster_808::StrToInt_430FA0(const char *param_1, s32 *param_2)
 
         s32 sVar2 = (cVar1 - 0x30) * iVar5;
         *param_2 += sVar2;
-        iVar5 = iVar5 *10;
+        iVar5 = iVar5 * 10;
     }
 
     return 0;
 }
 
 MATCH_FUNC(0x431080)
-s32 __stdcall Monster_808::StrToInt_431080(const char *param_1, s16 *param_2)
+s32 __stdcall Monster_808::StrToInt_431080(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -223,10 +228,16 @@ s32 __stdcall Monster_808::StrToInt_431080(const char *param_1, s16 *param_2)
 
         s32 sVar2 = (cVar1 - 0x30) * iVar5;
         *param_2 += sVar2;
-        iVar5 = iVar5 *10;
+        iVar5 = iVar5 * 10;
     }
 
     return 0;
+}
+
+MATCH_FUNC(0x4549B0)
+Monster_2C::~Monster_2C()
+{
+
 }
 
 STUB_FUNC(0x4546b0)
@@ -288,6 +299,14 @@ s32 Monster_808::sub_454850()
 STUB_FUNC(0x4549c0)
 void Monster_808::sub_4549C0()
 {
+    // stupid meme function - doing some strange backwards looping
+    car_info_container* container = gGtx_0x106C_703DD4->field_5C_cari;
+    Monster_48* pIter = field_804_raw_data;
+    for (s32 i = 0; i < container->field_400_count; i++)
+    {
+        pIter->sub_454680();
+        pIter++;
+    }
 }
 
 MATCH_FUNC(0x454a00)
@@ -300,10 +319,14 @@ void Monster_808::sub_454A00(const char_type* pGciFilePath)
     sub_454850();
 }
 
-STUB_FUNC(0x454a50)
-s32 Monster_808::sub_454A50()
+MATCH_FUNC(0x454a50)
+void Monster_808::sub_454A50()
 {
-    return 0;
+    sub_454AA0();
+    sub_454A80();
+    sub_4546D0();
+    sub_4549C0();
+    sub_454850();
 }
 
 MATCH_FUNC(0x454a80)
@@ -316,9 +339,17 @@ void Monster_808::sub_454A80()
     }
 }
 
-STUB_FUNC(0x454aa0)
+MATCH_FUNC(0x454aa0)
 void Monster_808::sub_454AA0()
 {
+    delete[] field_400_raw_data;
+    field_400_raw_data = 0;
+
+    if (field_804_raw_data)
+    {
+        delete field_804_raw_data;
+    }
+    field_804_raw_data = 0;
 }
 
 MATCH_FUNC(0x454b00)
