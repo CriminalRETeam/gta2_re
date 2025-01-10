@@ -17,7 +17,7 @@ void* goofy_thompson::vdtor_51D7B0(char_type flags)
 }
 
 STUB_FUNC(0x51d7d0)
-void goofy_thompson::dtor_51D7D0()
+goofy_thompson::~goofy_thompson()
 {
 }
 
@@ -43,25 +43,97 @@ s32 goofy_thompson::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseTh
     return 0;
 }
 
-STUB_FUNC(0x51dc90)
+MATCH_FUNC(0x51dc90)
 void goofy_thompson::DirectPlayDestroy_51DC90()
 {
+    if (field_5E4_pDPlay3)
+    {
+        field_5E4_pDPlay3->Release();
+        field_5E4_pDPlay3 = 0;
+    }
+
+    if (field_5E0_pDPlayLobby2)
+    {
+        field_5E0_pDPlayLobby2->Release();
+        field_5E0_pDPlayLobby2 = 0;
+    }
 }
 
-STUB_FUNC(0x51dcd0)
+MATCH_FUNC(0x51dcd0)
 s32 goofy_thompson::DirectPlayCreate_51DCD0()
 {
-    return 0;
+    IDirectPlayLobby* pIDirectPlayLobby;
+
+    DirectPlayDestroy_51DC90();
+
+    if (CoCreateInstance(CLSID_DirectPlay, 0, 1u, IID_IDirectPlay3, (LPVOID*)&field_5E4_pDPlay3) < 0 ||
+        DirectPlayLobbyCreateW(0, &pIDirectPlayLobby, 0, 0, 0) < 0)
+    {
+        return 0;
+    }
+    pIDirectPlayLobby->QueryInterface(IID_IDirectPlayLobby2, (void**)&this->field_5E0_pDPlayLobby2);
+    pIDirectPlayLobby->Release();
+    return 1;
 }
 
-STUB_FUNC(0x51ded0)
+MATCH_FUNC(0x51ded0)
 s32 goofy_thompson::DirectPlayCreate_51DED0()
 {
-    return 0;
+    GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
+    this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_4[8];
+    this->field_30_enumed_connections.field_C_f4_d_array_count = 0;
+
+    IDirectPlay* pDirectPlay;
+    if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, 0) < 0)
+    {
+        return 0;
+    }
+
+    IDirectPlay3* pDirectPlay3;
+    if (FAILED(pDirectPlay->QueryInterface(IID_IDirectPlay3, (void**)&pDirectPlay3)))
+    {
+        return 0;
+    }
+
+    pDirectPlay->Release();
+
+    if (!pDirectPlay3 || !field_5E0_pDPlayLobby2)
+    {
+        return 1;
+    }
+    {
+        unsigned long playerAddressLen = 0;
+        HRESULT result = pDirectPlay3->GetPlayerAddress(0, 0, &playerAddressLen);
+        if (result == DPERR_UNAVAILABLE)
+        {
+            pDirectPlay3->Release();
+            return 0;
+        }
+
+        if (result != DPERR_BUFFERTOOSMALL)
+        {
+            pDirectPlay3->Release();
+            return 0;
+        }
+
+        if (playerAddressLen)
+        {
+            u8* pPlayerAddressBuf = new u8[playerAddressLen];
+            if (pDirectPlay3->GetPlayerAddress(0, pPlayerAddressBuf, &playerAddressLen) >= 0 &&
+                FAILED(field_5E0_pDPlayLobby2->EnumAddress(goofy_thompson::sub_51E030, pPlayerAddressBuf, playerAddressLen, this)))
+            {
+                return 0;
+            }
+            delete[] pPlayerAddressBuf;
+        }
+        pDirectPlay3->Release();
+    }
+
+    return 1;
 }
 
 STUB_FUNC(0x51e030)
-s32 goofy_thompson::sub_51E030(const void* a1, s32 a2, LPCSTR lpString, goofy_thompson* pThis)
+BOOL goofy_thompson::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
     return 0;
 }
@@ -115,13 +187,13 @@ u32 goofy_thompson::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, 
 }
 
 STUB_FUNC(0x51eae0)
-s32 goofy_thompson::EnumSessions_cb_51EAE0(tagDPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext)
+s32 goofy_thompson::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext)
 {
     return 0;
 }
 
 STUB_FUNC(0x51eb00)
-s32 goofy_thompson::AddEnumeratedSession_51EB00(tagDPSESSIONDESC2* pSession)
+s32 goofy_thompson::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 {
     return 0;
 }
@@ -230,10 +302,23 @@ void goofy_thompson::sub_520DE0(Network_Unknown* pStru)
 {
 }
 
-STUB_FUNC(0x520e30)
+MATCH_FUNC(0x520e30)
 u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 {
-    return 0;
+    u32 i = 0;
+    while (1)
+    {
+        if (i >= 6)
+        {
+            break;
+        }
+        if (pObj->field_18_ary_start[i].field_8 == toFind)
+        {
+            return i;
+        }
+        i++;
+    }
+    return 0xEEEEEEEE;
 }
 
 STUB_FUNC(0x520e60)
@@ -367,9 +452,11 @@ s32 goofy_thompson::sub_521820(s32** a2, s32 idx)
     return 0;
 }
 
-STUB_FUNC(0x521870)
+MATCH_FUNC(0x521870)
 void goofy_thompson::Remove_521870(s32 idx)
 {
+    field_CB8_count--;
+    field_900_208_start[idx].field_8 = 0;
 }
 
 STUB_FUNC(0x521890)
