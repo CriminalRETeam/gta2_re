@@ -250,10 +250,10 @@ void Monster_2C::sub_4542A0(s32 idx)
 
 }
 
-STUB_FUNC(0x4546b0)
+MATCH_FUNC(0x4546b0)
 Monster_48* Monster_808::sub_4546B0(u8 a2)
 {
-    return 0;
+    return field_404_ptr_array[a2];
 }
 
 MATCH_FUNC(0x4546d0)
