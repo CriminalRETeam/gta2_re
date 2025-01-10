@@ -381,10 +381,10 @@ char_type* Network_20324::sub_51CA10()
     return 0;
 }
 
-STUB_FUNC(0x51ca50)
+MATCH_FUNC(0x51ca50)
 char_type* Network_20324::sub_51CA50()
 {
-    return 0;
+    return &this->field_4[this->field_2018C_f4_idx][260];
 }
 
 STUB_FUNC(0x51ca90)
