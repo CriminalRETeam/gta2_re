@@ -375,34 +375,39 @@ u32 Network_20324::sub_51C830()
     return 0;
 }
 
-STUB_FUNC(0x51ca10)
+MATCH_FUNC(0x51ca10)
 char_type* Network_20324::sub_51CA10()
 {
-    return 0;
+    return &this->field_4[this->field_2018C_f4_idx][0];
 }
 
-STUB_FUNC(0x51ca50)
+MATCH_FUNC(0x51ca50)
 char_type* Network_20324::sub_51CA50()
 {
-    return 0;
+    return &this->field_4[this->field_2018C_f4_idx][260];
 }
 
-STUB_FUNC(0x51ca90)
+MATCH_FUNC(0x51ca90)
 char_type* Network_20324::sub_51CA90()
 {
-    return 0;
+    return &this->field_4[this->field_2018C_f4_idx][520];
 }
 
-STUB_FUNC(0x51cad0)
-s32 Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
+MATCH_FUNC(0x51cad0)
+void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 {
-    return 0;
+    char Text[256];
+    sprintf(Text, "Unable to open file: %s in mmpfile: %s", a2, a1);
+    MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
 }
 
-STUB_FUNC(0x51cb30)
+MATCH_FUNC(0x51cb30)
 s32 Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 {
-    return 0;
+    char String[260];
+    char* pStr = GetString_519A00("netui13");
+    sprintf(String, "%s %d", pStr, a1);
+    return SetDlgItemTextA(hDlg, 1033, String);
 }
 
 STUB_FUNC(0x51cbc0)

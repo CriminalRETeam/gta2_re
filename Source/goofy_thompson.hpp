@@ -51,7 +51,7 @@ class Network_Unknown
     char_type field_8[4];
     s32 field_C;
     Nework_2C field_10[6];
-    s32 field_118;
+    u8* field_118;
     s32 field_11C;
     DPSESSIONDESC2 field_120_session_desc;
 };
@@ -80,6 +80,12 @@ struct Network_14
 struct Network_4
 {
     wchar_t* field_0_allocated_str;
+};
+
+struct Network_8
+{
+    void* field_0;
+    s32 field_4_len;
 };
 
 struct Network_18
@@ -155,9 +161,9 @@ struct goofy_thompson
     EXPORT s32 SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1);
     EXPORT void sub_5210D0(s32 a2, s32 a3);
     EXPORT void GetPlayerName_521100(wchar_t* Destination, u32 idx);
-    EXPORT s32 sub_521140(s32 a2, s32 a3);
-    EXPORT s32 sub_521170(s32 a2);
-    EXPORT s32 sub_5211F0(s32 a2, s32 a3);
+    EXPORT void sub_521140(s32 a2, s32 a3);
+    EXPORT s32 sub_521170(Network_8* a2);
+    EXPORT void sub_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
