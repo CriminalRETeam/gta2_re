@@ -360,7 +360,8 @@ Monster_808::Monster_808()
     sub_454A80();
 }
 
-STUB_FUNC(0x454b20)
+MATCH_FUNC(0x454b20)
 Monster_808::~Monster_808()
 {
+    sub_454AA0();
 }
