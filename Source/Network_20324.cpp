@@ -401,10 +401,13 @@ void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
     MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
 }
 
-STUB_FUNC(0x51cb30)
+MATCH_FUNC(0x51cb30)
 s32 Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 {
-    return 0;
+    char String[260];
+    char* pStr = GetString_519A00("netui13");
+    sprintf(String, "%s %d", pStr, a1);
+    return SetDlgItemTextA(hDlg, 1033, String);
 }
 
 STUB_FUNC(0x51cbc0)
