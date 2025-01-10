@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-// Included this way as a hack so > msvc6 can use these headers too as they've been removed in later versions. 
+// Included this way as a hack so > msvc6 can use these headers too as they've been removed in later versions.
 #include <VC98/Include/DPLAY.H>
 #include <VC98/Include/DPLOBBY.H>
 #include <windows.h>
@@ -37,7 +37,7 @@ class Nework_2C
     s32 field_10;
     s32 field_14;
     s32 field_18;
-    s32 field_1C;
+    wchar_t* field_1C; // player name?
     s32 field_20;
     s32 field_24;
     s32 field_28;
@@ -50,9 +50,9 @@ class Network_Unknown
     s32 field_4_count;
     char_type field_8[4];
     s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    Nework_2C field_18_ary_start[6];
+    Nework_2C field_10[6];
+    s32 field_118;
+    s32 field_11C;
     DPSESSIONDESC2 field_120_session_desc;
 };
 
@@ -159,7 +159,7 @@ struct goofy_thompson
     EXPORT s32 sub_521170(s32 a2);
     EXPORT s32 sub_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();
-    EXPORT s32 SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
+    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
     EXPORT s32 Send_521370();
     EXPORT bool sub_5213E0();

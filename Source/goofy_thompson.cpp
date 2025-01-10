@@ -312,7 +312,7 @@ u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
         {
             break;
         }
-        if (pObj->field_18_ary_start[i].field_8 == toFind)
+        if (pObj->field_10[i].field_10 == toFind)
         {
             return i;
         }
@@ -366,14 +366,27 @@ s32 goofy_thompson::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
     return 0;
 }
 
-STUB_FUNC(0x5210d0)
+MATCH_FUNC(0x5210d0)
 void goofy_thompson::sub_5210D0(s32 a2, s32 a3)
 {
+    this->field_4C_func_ptrs_and_params[21] = a2;
+    this->field_4C_func_ptrs_and_params[22] = a3;
+    this->field_4C_func_ptrs_and_params[23] = 7;
 }
 
-STUB_FUNC(0x521100)
+MATCH_FUNC(0x521100)
 void goofy_thompson::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 {
+    u32 playerIdx = idx;
+    if (idx == 7)
+    {
+        playerIdx = field_5D4_player_idx;
+    }
+    else if (field_758_n2.field_4_count <= playerIdx)
+    {
+        return;
+    }
+    wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C);
 }
 
 STUB_FUNC(0x521140)
@@ -399,16 +412,27 @@ void goofy_thompson::sub_521220()
 {
 }
 
-STUB_FUNC(0x521330)
-s32 goofy_thompson::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
+MATCH_FUNC(0x521330)
+void goofy_thompson::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
 {
-    return 0;
+    // TODO: fix meme types
+    this->field_4C_func_ptrs_and_params[12] = pFunc;
+    this->field_4C_func_ptrs_and_params[13] = (int)pGame;
+    this->field_4C_func_ptrs_and_params[14] = 4;
 }
 
-STUB_FUNC(0x521350)
+MATCH_FUNC(0x521350)
 s32 goofy_thompson::GetMaxPlayers_521350()
 {
-    return 0;
+    s32 maxPlayers = 0;
+    for (s32 idx = 0; idx < 6; idx++)
+    {
+        if (field_758_n2.field_10[idx].field_0)
+        {
+            maxPlayers++;
+        }
+    }
+    return maxPlayers;
 }
 
 STUB_FUNC(0x521370)
