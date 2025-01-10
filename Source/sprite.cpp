@@ -10,6 +10,20 @@ GLOBAL(gSprite_5D598_70381C, 0x70381C);
 EXPORT_VAR Sprite_49B28* gSprite_49B28_703818;
 GLOBAL(gSprite_49B28_703818, 0x703818);
 
+EXPORT_VAR Sprite_3CC* gSprite_3CC_67AF1C;
+GLOBAL(gSprite_3CC_67AF1C, 0x67AF1C);
+
+EXPORT_VAR Sprite_1C24* gSprite_1C24_703B80;
+GLOBAL(gSprite_1C24_703B80, 0x703B80);
+
+EXPORT_VAR Car_3C* dword_703814;
+GLOBAL(dword_703814, 0x703814);
+
+STUB_FUNC(0x48F7F0)
+Sprite_3CC::~Sprite_3CC()
+{
+}
+
 MATCH_FUNC(0x5a5860)
 void Sprite_8::sub_5A5860()
 {
@@ -26,9 +40,14 @@ Sprite_8::Sprite_8()
 {
 }
 
-STUB_FUNC(0x5a5b50)
+MATCH_FUNC(0x5a5b50)
 Sprite_8::~Sprite_8()
 {
+    GTA2_DELETE_AND_NULL(gSprite_49B28_703818);
+    GTA2_DELETE_AND_NULL(gSprite_5D598_70381C);
+    GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
+    GTA2_DELETE_AND_NULL(gSprite_1C24_703B80);
+    dword_703814 = 0;
 }
 
 MATCH_FUNC(0x5a5c40)
@@ -55,18 +74,25 @@ s32 Sprite_4C::sub_5A57A0()
 }
 
 STUB_FUNC(0x5a57b0)
-void Sprite_4C::ctor_5A57B0()
+Sprite_4C::Sprite_4C()
 {
 }
 
-STUB_FUNC(0x5a5840)
-void Sprite_4C::dtor_5A5840()
+MATCH_FUNC(0x5a5840)
+Sprite_4C::~Sprite_4C()
 {
 }
 
-STUB_FUNC(0x5a5be0)
-void Sprite_5D598::dtor_5A5BE0()
+MATCH_FUNC(0x5a5be0)
+Sprite_5D598::~Sprite_5D598()
 {
+    field_0_pFree = 0;
+}
+
+MATCH_FUNC(0x5A5C00)
+Sprite_49B28::~Sprite_49B28()
+{
+    field_0_first_free = 0;
 }
 
 Sprite_49B28::Sprite_49B28()

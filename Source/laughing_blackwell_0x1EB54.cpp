@@ -2544,7 +2544,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
     }
 }
 
-STUB_FUNC(0x4B8020)
+MATCH_FUNC(0x4B8020)
 void laughing_blackwell_0x1EB54::sub_4B8020()
 {
     dreamy_clarke_0xA4* pClarke = sub_4B43E0();
