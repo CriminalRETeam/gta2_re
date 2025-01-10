@@ -237,13 +237,11 @@ s32 __stdcall Monster_808::StrToInt_431080(const char* param_1, s16* param_2)
 MATCH_FUNC(0x4549A0)
 Monster_2C::Monster_2C()
 {
-
 }
 
 MATCH_FUNC(0x4549B0)
 Monster_2C::~Monster_2C()
 {
-
 }
 
 STUB_FUNC(0x4546b0)
@@ -290,10 +288,10 @@ void Monster_808::sub_4546D0()
     }
 }
 
-STUB_FUNC(0x454840)
+MATCH_FUNC(0x454840)
 Monster_2C* Monster_808::sub_454840(u8 idx)
 {
-    return 0;
+    return field_0_ptr_array[idx];
 }
 
 STUB_FUNC(0x454850)
