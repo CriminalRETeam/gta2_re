@@ -1623,13 +1623,14 @@ bool Car_BC::sub_564300()
     return false;
 }
 
-STUB_FUNC(0x40ac40)
-void Car_8::dtor_40AC40()
+MATCH_FUNC(0x40ac40)
+Car_8::~Car_8()
 {
+
 }
 
-STUB_FUNC(0x563970)
-Car_8* Car_8::ctor_563970()
+MATCH_FUNC(0x563970)
+Car_8::Car_8()
 {
-    return 0;
+
 }

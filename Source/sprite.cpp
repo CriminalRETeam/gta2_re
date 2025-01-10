@@ -78,7 +78,7 @@ Sprite_4C::Sprite_4C()
 {
 }
 
-STUB_FUNC(0x5a5840)
+MATCH_FUNC(0x5a5840)
 Sprite_4C::~Sprite_4C()
 {
 }

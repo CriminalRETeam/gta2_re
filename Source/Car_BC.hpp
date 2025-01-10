@@ -471,8 +471,8 @@ struct Car_E0C4
 class Car_8
 {
   public:
-    EXPORT void dtor_40AC40();
-    EXPORT Car_8* ctor_563970();
+    EXPORT ~Car_8();
+    EXPORT Car_8();
     Sprite_4C* field_0;
     Sprite_4C* field_4;
 };
