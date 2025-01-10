@@ -371,9 +371,19 @@ void goofy_thompson::sub_5210D0(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x521100)
+MATCH_FUNC(0x521100)
 void goofy_thompson::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 {
+    u32 playerIdx = idx;
+    if (idx == 7)
+    {
+        playerIdx = field_5D4_player_idx;
+    }
+    else if (field_758_n2.field_4_count <= playerIdx)
+    {
+        return;
+    }
+    wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C);
 }
 
 STUB_FUNC(0x521140)

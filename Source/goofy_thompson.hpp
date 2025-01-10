@@ -37,7 +37,7 @@ class Nework_2C
     s32 field_10;
     s32 field_14;
     s32 field_18;
-    s32 field_1C;
+    wchar_t* field_1C; // player name?
     s32 field_20;
     s32 field_24;
     s32 field_28;
