@@ -399,10 +399,13 @@ void goofy_thompson::sub_521220()
 {
 }
 
-STUB_FUNC(0x521330)
-s32 goofy_thompson::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
+MATCH_FUNC(0x521330)
+void goofy_thompson::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
 {
-    return 0;
+    // TODO: fix meme types
+    this->field_4C_func_ptrs_and_params[12] = pFunc;
+    this->field_4C_func_ptrs_and_params[13] = (int)pGame;
+    this->field_4C_func_ptrs_and_params[14] = 4;
 }
 
 STUB_FUNC(0x521350)

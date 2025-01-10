@@ -159,7 +159,7 @@ struct goofy_thompson
     EXPORT s32 sub_521170(s32 a2);
     EXPORT s32 sub_5211F0(s32 a2, s32 a3);
     EXPORT void sub_521220();
-    EXPORT s32 SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
+    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
     EXPORT s32 Send_521370();
     EXPORT bool sub_5213E0();
