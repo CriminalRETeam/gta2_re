@@ -89,9 +89,10 @@ Sprite_5D598::~Sprite_5D598()
     field_0_pFree = 0;
 }
 
-STUB_FUNC(0x5A5C00)
+MATCH_FUNC(0x5A5C00)
 Sprite_49B28::~Sprite_49B28()
 {
+    field_0_first_free = 0;
 }
 
 Sprite_49B28::Sprite_49B28()

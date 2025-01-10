@@ -294,9 +294,10 @@ Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5)
     return 0;
 }
 
-STUB_FUNC(0x5a3540)
-void Car_3C::dtor_5A3540()
+MATCH_FUNC(0x5a3540)
+Car_3C::~Car_3C()
 {
+    sub_5A2A00();
 }
 
 STUB_FUNC(0x5A4D90)
