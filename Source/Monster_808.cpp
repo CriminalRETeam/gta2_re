@@ -234,6 +234,12 @@ s32 __stdcall Monster_808::StrToInt_431080(const char* param_1, s16* param_2)
     return 0;
 }
 
+MATCH_FUNC(0x4549A0)
+Monster_2C::Monster_2C()
+{
+
+}
+
 MATCH_FUNC(0x4549B0)
 Monster_2C::~Monster_2C()
 {

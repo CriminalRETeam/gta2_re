@@ -35,6 +35,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Monster_48, 0x48);
 class Monster_2C
 {
   public:
+    EXPORT Monster_2C();
     EXPORT ~Monster_2C();
 
     s32 field_0;
