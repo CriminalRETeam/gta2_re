@@ -42,8 +42,8 @@ class Sprite_4C
 {
   public:
     EXPORT s32 sub_5A57A0();
-    EXPORT void ctor_5A57B0();
-    EXPORT void dtor_5A5840();
+    EXPORT Sprite_4C();
+    EXPORT ~Sprite_4C();
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8;
@@ -64,7 +64,7 @@ class Sprite_4C
 class Sprite_5D598
 {
   public:
-    EXPORT void dtor_5A5BE0();
+    EXPORT ~Sprite_5D598();
     Sprite_4C* field_0_pFree;
     Sprite_4C field_4[5031];
 };

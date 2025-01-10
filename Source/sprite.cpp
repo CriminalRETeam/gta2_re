@@ -55,18 +55,19 @@ s32 Sprite_4C::sub_5A57A0()
 }
 
 STUB_FUNC(0x5a57b0)
-void Sprite_4C::ctor_5A57B0()
+Sprite_4C::Sprite_4C()
 {
 }
 
 STUB_FUNC(0x5a5840)
-void Sprite_4C::dtor_5A5840()
+Sprite_4C::~Sprite_4C()
 {
 }
 
-STUB_FUNC(0x5a5be0)
-void Sprite_5D598::dtor_5A5BE0()
+MATCH_FUNC(0x5a5be0)
+Sprite_5D598::~Sprite_5D598()
 {
+    field_0_pFree = 0;
 }
 
 Sprite_49B28::Sprite_49B28()
