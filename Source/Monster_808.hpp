@@ -37,6 +37,7 @@ class Monster_2C
   public:
     EXPORT Monster_2C();
     EXPORT ~Monster_2C();
+    EXPORT void sub_4542A0(s32 idx);
 
     s32 field_0;
     s32 field_4_front_wheel_offset;
@@ -58,7 +59,7 @@ class Monster_808
     EXPORT Monster_48* sub_4546B0(u8 a2);
     EXPORT void sub_4546D0();
     EXPORT Monster_2C* sub_454840(u8 idx);
-    EXPORT s32 sub_454850();
+    EXPORT void sub_454850();
     EXPORT void sub_4549C0();
     EXPORT void sub_454A00(const char_type* pGciFilePath);
     EXPORT void sub_454A50();
