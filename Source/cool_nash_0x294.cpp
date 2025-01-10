@@ -9,14 +9,9 @@
 EXPORT_VAR s8 byte_61A8A3;
 GLOBAL(byte_61A8A3, 0x61A8A3);
 
-STUB_FUNC(0x45ae70)
+MATCH_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
 {
-    field_12C = 0;
-    field_12E = 0;
-    field_130 = 0;
-    field_132 = 0;
-    field_134 = 0;
     field_200 = 0;
     sub_45AFC0();
     field_160_next_ped = 0;
