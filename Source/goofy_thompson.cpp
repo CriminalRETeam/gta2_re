@@ -360,10 +360,25 @@ s32 goofy_thompson::DeletePlayerFromGroup_521000(u32 idx)
     return 0;
 }
 
+// https://decomp.me/scratch/dSpd7
 STUB_FUNC(0x521060)
 s32 goofy_thompson::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 {
-    return 0;
+    s32 id_to; // edx
+    DPCHAT chatMsg; // [esp+0h] [ebp-Ch] BYREF
+
+    chatMsg.dwSize = sizeof(DPCHAT);
+    chatMsg.dwFlags = 0;
+    chatMsg.lpszMessage = pMsg;
+    if (idx_always_m1 >= 0)
+    {
+        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
+    }
+    else
+    {
+        id_to = this->field_758_n2.field_0_group_id;
+    }
+    return field_5E4_pDPlay3->SendChatMessage(field_5D8_player_id, id_to, 0, &chatMsg);
 }
 
 MATCH_FUNC(0x5210d0)
@@ -395,10 +410,25 @@ s32 goofy_thompson::sub_521140(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x521170)
-s32 goofy_thompson::sub_521170(s32 a2)
+MATCH_FUNC(0x521170)
+s32 goofy_thompson::sub_521170(Network_8* pObj)
 {
-    return 0;
+
+    if (field_758_n2.field_118)
+    {
+        delete[] field_758_n2.field_118;
+        field_758_n2.field_11C = 0;
+    }
+
+    field_758_n2.field_118 = new u8[pObj->field_4_len];
+    field_758_n2.field_11C = pObj->field_4_len;
+    
+    memcpy(field_758_n2.field_118, pObj->field_0, pObj->field_4_len);
+
+    return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id,
+                                           field_758_n2.field_118,
+                                           field_758_n2.field_11C,
+                                           2);
 }
 
 STUB_FUNC(0x5211f0)
@@ -435,6 +465,7 @@ s32 goofy_thompson::GetMaxPlayers_521350()
     return maxPlayers;
 }
 
+// https://decomp.me/scratch/tpDuw
 STUB_FUNC(0x521370)
 s32 goofy_thompson::Send_521370()
 {
