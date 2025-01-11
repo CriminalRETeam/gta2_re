@@ -28,6 +28,15 @@ GLOBAL(found_open_brackets_67626C, 0x67626C);
 EXPORT_VAR s32 line_number_676258;
 GLOBAL(line_number_676258, 0x676258);
 
+EXPORT_VAR u32 processed_output_676250;
+GLOBAL(processed_output_676250, 0x676250);
+
+EXPORT_VAR s32 output_size_675F90;
+GLOBAL(output_size_675F90, 0x675F90);
+
+EXPORT_VAR u8* output_ptr_675F98;
+GLOBAL(output_ptr_675F98, 0x675F98);
+
 STUB_FUNC(0x454680)
 void Monster_48::sub_454680()
 {
@@ -122,6 +131,21 @@ char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
                                                    u32* next_position)
 {
     return NULL;
+}
+
+MATCH_FUNC(0x430e60)
+s32 __stdcall Monster_808::sub_430E60(void* param_1, u32 param_2)
+{
+    processed_output_676250 += param_2;
+    if (processed_output_676250 > output_size_675F90)
+    {
+        return -12;
+    }
+
+    memcpy(output_ptr_675F98, param_1, param_2);
+
+    output_ptr_675F98 = output_ptr_675F98 + param_2;
+    return 0;
 }
 
 MATCH_FUNC(0x430EC0)
