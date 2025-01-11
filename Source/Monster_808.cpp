@@ -43,6 +43,9 @@ GLOBAL(DAT_5e5514, 0x5e5514);
 EXPORT_VAR Fix16 DAT_5e54a0;
 GLOBAL(DAT_5e54a0, 0x5e54a0);
 
+EXPORT_VAR Fix16 DAT_6761A4;
+GLOBAL(DAT_6761A4, 0x6761a4);
+
 MATCH_FUNC(0x454680)
 void Monster_48::sub_454680()
 {
@@ -239,6 +242,36 @@ s32 __stdcall Monster_808::StrToInt_430FA0(const char* param_1, s32* param_2)
         iVar5 = iVar5 * 10;
     }
 
+    return 0;
+}
+
+MATCH_FUNC(0x431000)
+s32 __stdcall Monster_808::FloatStrToFix16_431000(char* param_1, Fix16 &param_2)
+{
+    param_2 = DAT_6761A4;
+    bool bVar2 = false;
+    s32 iVar6 = 1;
+    s32 iVar5 = strlen(param_1);
+
+    while (--iVar5 >= 0)
+    {
+        char cVar1 = param_1[iVar5];
+        if (cVar1 < '0' || '9' < cVar1)
+        {
+            if (cVar1 != '.' || bVar2)
+            {
+                return -11;
+            }
+            param_2.mValue /= iVar6;
+            iVar6 = 1;
+            bVar2 = true;
+        }
+        else
+        {
+            param_2.mValue += (cVar1 - 0x30) * iVar6 * 0x4000;
+            iVar6 = iVar6 * 10;
+        }
+    }
     return 0;
 }
 
