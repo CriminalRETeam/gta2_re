@@ -37,9 +37,16 @@ GLOBAL(output_size_675F90, 0x675F90);
 EXPORT_VAR u8* output_ptr_675F98;
 GLOBAL(output_ptr_675F98, 0x675F98);
 
-STUB_FUNC(0x454680)
+EXPORT_VAR Fix16 DAT_5e5514;
+GLOBAL(DAT_5e5514, 0x5e5514);
+
+EXPORT_VAR Fix16 DAT_5e54a0;
+GLOBAL(DAT_5e54a0, 0x5e54a0);
+
+MATCH_FUNC(0x454680)
 void Monster_48::sub_454680()
 {
+    field_4_mass = field_4_mass * (DAT_5e54a0 + DAT_5e5514);
 }
 
 MATCH_FUNC(0x430b10)
