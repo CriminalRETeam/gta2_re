@@ -18,9 +18,8 @@ class Fix16
 
     Fix16 operator-(const Fix16& in)
     {
-        Fix16 t;
-        t.mValue = mValue - in.mValue;
-        return t;
+        s32 value = mValue - in.mValue;
+        return Fix16(value, 0);
     }
 
     Fix16 operator-=(const Fix16& other)
@@ -31,15 +30,20 @@ class Fix16
 
     Fix16 operator+(const Fix16& in)
     {
-        Fix16 t;
-        t.mValue = mValue + in.mValue;
-        return t;
+        s32 value = mValue + in.mValue;
+        return Fix16(value, 0);
     }
 
     Fix16 operator+=(const Fix16& other)
     {
         mValue += other.mValue;
         return *this;
+    }
+
+    Fix16 operator*(const Fix16& in) const
+    {
+        s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
+        return Fix16(value, 0);
     }
 
     bool operator>(const Fix16& other)
@@ -86,6 +90,10 @@ class Fix16
     {
     }
 
+    Fix16(s32 value, u8) : mValue(value)
+    {
+    }
+
     explicit Fix16(f32 v) : mValue(static_cast<s32>(v * 16384.0))
     {
     }
@@ -102,11 +110,7 @@ class Fix16
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
-
-    EXPORT Fix16 operator*(const Fix16& in);
-
     EXPORT Fix16 operator-();
-
     EXPORT Fix16 operator+(const Fix16& rhs) const;
     EXPORT Fix16 operator/(const Fix16& in);
 
