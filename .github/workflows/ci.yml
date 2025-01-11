@@ -64,6 +64,14 @@ jobs:
         name: windows_vc6_main_exe
         path: build_vc6/decomp_main.exe
 
+    - name: Restore progress.json from cache (Windows_VC6)
+      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      id: cache-progress
+      uses: actions/cache/restore@v4
+      with:
+        path: ./Scripts/progress.json
+        key: progress-json-${{ github.event.before }}
+
     - name: "Post function status on discord (Windows_VC6)"
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -73,6 +81,13 @@ jobs:
         cd .\Scripts
         python report_progress_to_discord.py
 
+    - name: Save progress.json to cache (Windows_VC6)
+      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      uses: actions/cache/save@v4
+      with:
+        path: ./Scripts/progress.json
+        key: progress-json-${{ github.sha }}
+        
     # ======================================
     #      Linux vc6
     # ======================================
