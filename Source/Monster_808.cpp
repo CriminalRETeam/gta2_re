@@ -340,16 +340,13 @@ void Monster_808::sub_454850()
     }
 }
 
-STUB_FUNC(0x4549c0)
+MATCH_FUNC(0x4549c0)
 void Monster_808::sub_4549C0()
 {
-    // stupid meme function - doing some strange backwards looping
-    car_info_container* container = gGtx_0x106C_703DD4->field_5C_cari;
-    Monster_48* pIter = field_804_raw_data;
-    for (s32 i = 0; i < container->field_400_count; i++)
+    u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
+    for (u32 i = 0; i < number_of_cars; i++)
     {
-        pIter->sub_454680();
-        pIter++;
+        field_804_raw_data[i].sub_454680();
     }
 }
 
