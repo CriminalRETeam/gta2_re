@@ -3722,11 +3722,11 @@ void laughing_blackwell_0x1EB54::sub_4B4440()
     // todo
 }
 
-STUB_FUNC(0x4B53C0)
+MATCH_FUNC(0x4B53C0)
 void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
 {
     char_type FileName[256];
-    for (u32 i = 0; i < 8; i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_EDE8_plySlots); i++)
     {
         if (PlySlotSvgExists_4B5370(i))
         {
