@@ -94,7 +94,6 @@ GLOBAL(word_67C7D8, 0x67C7D8);
 EXPORT_VAR wchar_t* dword_67EE54;
 GLOBAL(dword_67EE54, 0x67EE54);
 
-
 EXPORT_VAR bool gCheatOnlyMuggerPeds_67D5A4;
 GLOBAL(gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
 
@@ -149,7 +148,7 @@ GLOBAL(gCheatInvisibility_67D539, 0x67D539);
 EXPORT_VAR bool gCheatMiniCars_67D6C8;
 GLOBAL(gCheatMiniCars_67D6C8, 0x67D6C8);
 
-int sCheatHashSecret_61F0A8[8] = { 829, 761, 23, 641, 43, 809, 677, 191 };
+int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
 class FreeLoader
 {
@@ -853,7 +852,7 @@ void laughing_blackwell_0x1EB54::sub_4B8680()
     }
 }
 
-STUB_FUNC(0x4AEDB0)
+MATCH_FUNC(0x4AEDB0)
 s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
     u32 Time; // eax
@@ -3767,7 +3766,7 @@ void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pSt
 }
 
 MATCH_FUNC(0x4B5370)
-char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
+char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
