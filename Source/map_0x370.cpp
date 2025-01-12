@@ -1352,9 +1352,16 @@ void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x4E8B70)
-void Map_0x370::sub_4E8B70(s32 a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E8B70)
+void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
 {
+    for (s32 column_y = y_min; column_y <= y_max; ++column_y)
+    {
+        for (s32 column_x = x_min; column_x <= x_max; ++column_x)
+        {
+            Map_0x370::sub_4E8A10(column_x, column_y);
+        }
+    }
 }
 
 STUB_FUNC(0x4E8C00)
