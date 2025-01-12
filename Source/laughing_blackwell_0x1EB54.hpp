@@ -2648,7 +2648,7 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr);
 
-    EXPORT char_type PlySlotSvgExists_4B5370(s32 idx);
+    EXPORT char_type PlySlotSvgExists_4B5370(u8 idx);
 
     EXPORT static void __stdcall sub_5E53C0(BYTE* a1);
 
@@ -2710,8 +2710,7 @@ EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
 EXPORT void __stdcall sub_5D7CB0();
 
-
-EXPORT_VAR extern short font_type_703C14; 
+EXPORT_VAR extern short font_type_703C14;
 EXPORT_VAR extern s16 word_703C3C;
 EXPORT_VAR extern s16 word_703D0C;
 EXPORT_VAR extern s16 word_703C16;
