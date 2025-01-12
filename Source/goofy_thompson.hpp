@@ -145,9 +145,9 @@ struct goofy_thompson
     EXPORT s32 sub_520230(s32 a2, u32* a3);
     EXPORT void sub_520530(s32 pFunc, s32 pParam);
     EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
-    EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, u32* a5);
+    EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, goofy_thompson* pContext);
     EXPORT s32 sub_520CA0(s32 a2, s32 a3);
-    EXPORT s32 sub_520D00(s32 a2);
+    EXPORT void sub_520D00(s32 a2);
     EXPORT void sub_520D10();
     EXPORT void sub_520DE0(Network_Unknown* pStru);
     EXPORT u32 IndexOf_520E30(s32 toFind, Network_Unknown* pObj);
@@ -155,7 +155,7 @@ struct goofy_thompson
     EXPORT void sub_520E80(s32 a2, s32 a3);
     EXPORT void NoRefs_null_520EA0();
     EXPORT s32 sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4);
-    EXPORT s32 sub_520F50(s32 a2, s32 a3);
+    EXPORT void sub_520F50(s32 a2, s32 a3);
     EXPORT s32 sub_520F80(wchar_t* String2);
     EXPORT s32 DeletePlayerFromGroup_521000(u32 idx);
     EXPORT s32 SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1);

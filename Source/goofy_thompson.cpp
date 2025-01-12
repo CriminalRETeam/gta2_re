@@ -1,5 +1,6 @@
 #include "goofy_thompson.hpp"
 #include "Globals.hpp"
+#include "crt_stubs.hpp"
 
 EXPORT_VAR goofy_thompson gGoofy_thompson_7071E8;
 GLOBAL(gGoofy_thompson_7071E8, 0x7071E8);
@@ -274,10 +275,26 @@ s32 goofy_thompson::sub_520570(int session_idx, wchar_t* a3, int* a4, s32* a5)
     return 0;
 }
 
-STUB_FUNC(0x520c20)
-s32 goofy_thompson::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, u32* a5)
+MATCH_FUNC(0x520c20)
+s32 goofy_thompson::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, goofy_thompson* pContext)
 {
-    return 0;
+    if ((a4 & 1) != 0)
+    {
+        return 0;
+    }
+
+    if (!a2)
+    {
+        pContext->sub_520D00(a1);
+        return 1;
+    }
+
+    if (a2 == 1)
+    {
+        return pContext->sub_520CA0(a1, a3);
+    }
+
+    return 1;
 }
 
 STUB_FUNC(0x520ca0)
@@ -286,10 +303,10 @@ s32 goofy_thompson::sub_520CA0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x520d00)
-s32 goofy_thompson::sub_520D00(s32 a2)
+MATCH_FUNC(0x520d00)
+void goofy_thompson::sub_520D00(s32 a2)
 {
-    return 0;
+    field_758_n2.field_0_group_id = a2;
 }
 
 STUB_FUNC(0x520d10)
@@ -297,9 +314,21 @@ void goofy_thompson::sub_520D10()
 {
 }
 
-STUB_FUNC(0x520de0)
+MATCH_FUNC(0x520de0)
 void goofy_thompson::sub_520DE0(Network_Unknown* pStru)
 {
+    u32 count = pStru->field_4_count;
+    for (u32 i = 0; i < count; i++)
+    {
+        sub_5201A0(i, pStru);
+    }
+
+    if (pStru->field_120_session_desc.lpszSessionName)
+    {
+        crt::free(pStru->field_120_session_desc.lpszSessionName);
+    }
+
+    memset(&pStru->field_120_session_desc, 0, sizeof(pStru->field_120_session_desc));
 }
 
 MATCH_FUNC(0x520e30)
@@ -321,14 +350,20 @@ u32 goofy_thompson::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
     return 0xEEEEEEEE;
 }
 
-STUB_FUNC(0x520e60)
+MATCH_FUNC(0x520e60)
 void goofy_thompson::sub_520E60(s32 pFunc, s32 pParam)
 {
+    field_4C_func_ptrs_and_params[9] = pFunc;
+    field_4C_func_ptrs_and_params[10] = pParam;
+    field_4C_func_ptrs_and_params[11] = 3;
 }
 
-STUB_FUNC(0x520e80)
+MATCH_FUNC(0x520e80)
 void goofy_thompson::sub_520E80(s32 a2, s32 a3)
 {
+    field_4C_func_ptrs_and_params[3] = a2;
+    field_4C_func_ptrs_and_params[4] = a3;
+    field_4C_func_ptrs_and_params[5] = 1;
 }
 
 STUB_FUNC(0x520ea0)
@@ -342,10 +377,12 @@ s32 goofy_thompson::sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4)
     return 0;
 }
 
-STUB_FUNC(0x520f50)
-s32 goofy_thompson::sub_520F50(s32 a2, s32 a3)
+MATCH_FUNC(0x520f50)
+void goofy_thompson::sub_520F50(s32 a2, s32 a3)
 {
-    return 0;
+    field_4C_func_ptrs_and_params[18] = a2;
+    field_4C_func_ptrs_and_params[19] = a3;
+    field_4C_func_ptrs_and_params[20] = 6;
 }
 
 STUB_FUNC(0x520f80)
