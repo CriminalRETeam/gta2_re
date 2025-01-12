@@ -4391,40 +4391,28 @@ GLOBAL(gQuadVerts_706B88, 0x706B88);
 
 EXPORT_VAR extern u32 gLightingDrawFlag_7068F4;
 
-STUB_FUNC(0x5D83E0);
+MATCH_FUNC(0x5D83E0);
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
-    s32 result; // eax
-
-    if (mode)
+    switch (mode)
     {
-        if (mode == 1)
-        {
+        case 0:
+            return gLightingDrawFlag_7068F4 | 0x80;
+        case 1:
             gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2180;
-        }
-        else if (mode == 2)
-        {
+        case 2:
             gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2280;
-        }
-        else
-        {
+        default:
             return 0;
-        }
     }
-    else
-    {
-        //result = gLightingDrawFlag_7068F4;
-        result = gLightingDrawFlag_7068F4 | 0x80;
-    }
-    return result;
 }
 
 EXPORT_VAR Fix16 dword_706A6C;
