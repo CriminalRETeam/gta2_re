@@ -1250,9 +1250,9 @@ s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
     }
     else
     {
-        u8 v13;
         u8 field_B_slope_type = v7->field_B_slope_type;
-        if ((v13 = field_B_slope_type & 0xFC) > 0 
+        u8 v13 = field_B_slope_type & 0xFC;
+        if ( v13 > 0 
             && v13 < 0xB4 
             && (field_B_slope_type & 3) != 0)
         {
