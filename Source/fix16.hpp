@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <windows.h>
 
 class Fix16
 {
@@ -93,6 +94,18 @@ class Fix16
     void FromU8(u8 v)
     {
         mValue = v << 14;
+    }
+
+    inline Fix16 ConcatenateWord(Fix16 a2)
+    {
+        Fix16 result;
+        result.mValue = mValue + ( a2.mValue & 0xFFFFC000 );
+        return result;
+    }
+
+    inline s32 MultiplyInt64(Fix16 a2)
+    {
+        return (mValue * (__int64)a2.mValue) >> 14;
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
