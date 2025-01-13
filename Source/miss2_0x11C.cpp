@@ -123,7 +123,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x503a20)
+MATCH_FUNC(0x503a20)
 void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 {
 
@@ -137,7 +137,11 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             s32 weird_y = (dword_6F76DC.ConcatenateWord(dword_6F7920)).mValue;
             s32 weird_x = (dword_6F75F0.ConcatenateWord(dword_6F791C)).mValue;
 
-            pPed = gChar_C_6787BC->sub_470A50(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
+            pPed = gChar_C_6787BC->sub_470A50(weird_x,
+                                            weird_y, 
+                                            dword_6F7924, 
+                                            byte_6F799B, 
+                                            dword_6F804C);
         }
         else
         {
