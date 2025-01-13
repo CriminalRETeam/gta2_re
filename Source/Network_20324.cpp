@@ -225,9 +225,14 @@ void Network_20324::SetPlayerNameText_51B7C0()
                     field_1FF80_player_name);
 }
 
-STUB_FUNC(0x51b7e0)
-void Network_20324::cb_sub_51B7E0(s32 a1, const char_type** a2)
+MATCH_FUNC(0x51b7e0)
+void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
 {
+    const char_type* v2 = *a2;
+    if (a1->sub_51ACC0() == 2)
+    {
+        a1->sub_51B810(v2);
+    }
 }
 
 STUB_FUNC(0x51b810)

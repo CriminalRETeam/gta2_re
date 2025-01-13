@@ -251,7 +251,6 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
 MATCH_FUNC(0x4DF770)
 gmp_map_zone* Map_0x370::next_zone_4DF770()
 {
-    u16 cur_zone_idx;
     gmp_map_zone* pZoneIter;
 
     if (this->field_328_pZoneData)
@@ -510,8 +509,6 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x4DFEE0)
 gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
 {
-    s32 x_clamped;
-    s32 y_clamped;
     gmp_compressed_map_32* field_0_pDmap;
     gmp_col_info* pColInfo;
     s32 offset;
@@ -929,7 +926,6 @@ s32* Map_0x370::sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5)
     s32* result;
     char_type field_B_slope_type;
 
-    s32 v12;
     u8 v13;
     s32 v4;
     s32 v14;
@@ -1080,8 +1076,6 @@ s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
     //  This function returns the Z coord based on the highest block of (X = a3, Y = a4);
 
     s32 v6;
-    s32* v8;
-    s32* v10;
 
     s32 v9;
 
@@ -1188,16 +1182,89 @@ gmp_block_info* Map_0x370::sub_4E6360(s32 a2, s32 a3, s32* a4)
     return 0;
 }
 
-STUB_FUNC(0x4E6400)
-s32* Map_0x370::sub_4E6400(s32* a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E6400)
+s32* Map_0x370::sub_4E6400(s32* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-    return 0;
+    Fix16 v5;
+    Fix16 v6;
+    Fix16 v7;
+    gmp_block_info* block_4DFE10;
+    u8 v9;
+    s32 v10;
+    u8 v13;
+
+    v5 = a5;
+    v6 = a4;
+    v7 = a3;
+    if ((a5.mValue & 0x3FFF) == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0
+        || (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0)
+        || v13 >= 0xB4
+        || (v9 & 3) == 0
+        || (v10 = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7.mValue, v6.mValue, (s32*)&v10),
+         v10 > v5.mValue) )
+    {
+        s32 v14 = v5.ToInt() - 1;
+        gmp_block_info* v11 = Map_0x370::sub_4E6360(v7.ToInt(), v6.ToInt(), &v14);
+        gBlockInfo0_6F5EB0 = v11;
+        if (!v11)
+        {
+            *a2 = 0x4000;
+            return a2;
+        }
+        s8 field_B_slope_type = v11->field_B_slope_type;
+        
+        if ( ( v13 = field_B_slope_type & 0xFCu ) > 0 
+            && v13 < 0xB4u
+            && (field_B_slope_type & 3) != 0 )
+        {
+            v10 = v14 << 14;
+            Map_0x370::sub_4E5BF0(v7.mValue, v6.mValue, &v10);
+        } else {
+            v10 = (v14 + 1) << 14;
+        }
+        
+    }
+    *a2 = v10;
+    return a2;
 }
 
-STUB_FUNC(0x4E6510)
-s32* Map_0x370::sub_4E6510(s32* a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4E6510)
+s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
 {
-    return 0;
+    Fix16 v4;
+    Fix16 v5;
+    gmp_block_info* v7;
+    s32 v10;
+    u32 v6;
+    
+    v4 = a3;
+    v5 = a4;
+    v7 = Map_0x370::sub_4E62D0(a3.ToInt(), a4.ToInt(), &v6);
+    gBlockInfo0_6F5EB0 = v7;
+    if (!v7)
+    {
+        *a2 = 0;
+        return a2;
+    }
+    else
+    {
+        u8 field_B_slope_type = v7->field_B_slope_type;
+        u8 v13 = field_B_slope_type & 0xFC;
+        if ( v13 > 0 
+            && v13 < 0xB4 
+            && (field_B_slope_type & 3) != 0)
+        {
+            v10 = v6 << 14;
+            Map_0x370::sub_4E5BF0(v4.mValue, v5.mValue, &v10);
+        }
+        else
+        {
+            v10 = (v6 + 1) << 14;
+        }
+    }
+    *a2 = v10;
+    return a2;
 }
 
 STUB_FUNC(0x4E65A0)
@@ -1280,9 +1347,16 @@ void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x4E8B70)
-void Map_0x370::sub_4E8B70(s32 a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E8B70)
+void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
 {
+    for (s32 column_y = y_min; column_y <= y_max; ++column_y)
+    {
+        for (s32 column_x = x_min; column_x <= x_max; ++column_x)
+        {
+            Map_0x370::sub_4E8A10(column_x, column_y);
+        }
+    }
 }
 
 STUB_FUNC(0x4E8C00)
@@ -1358,8 +1432,7 @@ void Map_0x370::load_anim_4E9280(size_t size)
 STUB_FUNC(0x4E92B0)
 void Map_0x370::load_dmap_4E92B0(s32 len)
 {
-    __int32 v13; // eax
-    size_t a2; // [esp+4h] [ebp-Ch] BYREF
+    size_t a2;
 
     gmp_compressed_map_32* pCompressedMap = new gmp_compressed_map_32();
     if (pCompressedMap)

@@ -107,10 +107,15 @@ class Ang16
         rValue -= other;
         return *this;
     }
-
-    inline s16 Float()
+    
+    inline s32 ToFloat()
     {
         return rValue << 14;
+    }
+
+    inline s32 FromUnsignedToFloat()
+    {
+        return (u16)rValue << 14;
     }
 
     EXPORT void sub_406C20();

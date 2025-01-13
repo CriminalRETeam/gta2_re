@@ -6,6 +6,12 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "miss2_8.hpp"
 #include "root_sound.hpp"
+#include "char.hpp"
+#include "Game_0x40.hpp"
+#include "fix16.hpp"
+#include "ang16.hpp"
+#include "map_0x370.hpp"
+#include "angry_lewin_0x85C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -19,6 +25,33 @@ GLOBAL(gMiss2_8EC_6F8064, 0x6F8064);
 
 EXPORT_VAR SCR_CMD_HEADER* gBasePtr_6F8070;
 GLOBAL(gBasePtr_6F8070, 0x6F8070);
+
+EXPORT_VAR Fix16 dword_6F7920;
+GLOBAL(dword_6F7920, 0x6F7920);
+
+EXPORT_VAR Fix16 dword_6F76DC;
+GLOBAL(dword_6F76DC, 0x6F76DC);
+
+EXPORT_VAR Fix16 dword_6F75F0;
+GLOBAL(dword_6F75F0, 0x6F75F0);
+
+EXPORT_VAR Fix16 dword_6F791C;
+GLOBAL(dword_6F791C, 0x6F791C);
+
+EXPORT_VAR Ang16 word_6F8044;
+GLOBAL(word_6F8044, 0x6F8044);
+
+EXPORT_VAR s32 dword_6F7924;
+GLOBAL(dword_6F7924, 0x6F7924);
+
+EXPORT_VAR s32 dword_6F7570;
+GLOBAL(dword_6F7570, 0x6F7570);
+
+EXPORT_VAR s16 dword_6F804C;
+GLOBAL(dword_6F804C, 0x6F804C);
+
+EXPORT_VAR u8 byte_6F799B;
+GLOBAL(byte_6F799B, 0x6F799B);
 
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
@@ -90,9 +123,75 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x503a20)
+MATCH_FUNC(0x503a20)
 void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 {
+
+    angry_lewin_0x85C* v1 = gGame_0x40_67E008->sub_4B9750();
+
+    if (v1)
+    {
+        cool_nash_0x294* pPed;
+        if (gfrosty_pasteur_6F8060->field_C1E2C)
+        {
+            s32 weird_y = (dword_6F76DC.ConcatenateWord(dword_6F7920)).mValue;
+            s32 weird_x = (dword_6F75F0.ConcatenateWord(dword_6F791C)).mValue;
+
+            pPed = gChar_C_6787BC->sub_470A50(weird_x,
+                                            weird_y, 
+                                            dword_6F7924, 
+                                            byte_6F799B, 
+                                            dword_6F804C);
+        }
+        else
+        {
+            if (pCmd->field_C_pos.field_8_z == dword_6F7570) //  dword_6F7570 is 255.0
+            {
+                s32 temp_z;
+                //  Calculate the real Z position at (X,Y) based on the map
+                pCmd->field_C_pos.field_8_z =
+                    *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
+                                                    pCmd->field_C_pos.field_0_x,
+                                                    pCmd->field_C_pos.field_4_y);
+            }
+
+            Ang16 CmdRotation;
+            CmdRotation.rValue = pCmd->field_18_rot;
+
+            Fix16 fix_1;
+            fix_1.mValue = CmdRotation.FromUnsignedToFloat();
+            Fix16 fix_2;
+            fix_2.mValue = word_6F8044.ToFloat();
+            Fix16 fix_3;
+            fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+            Ang16 rotation;
+            rotation.rValue = fix_3.ToInt();
+            rotation.Normalize();
+
+            pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
+                                             pCmd->field_C_pos.field_4_y,
+                                             pCmd->field_C_pos.field_8_z,
+                                             pCmd->field_1A_remap,
+                                             rotation.rValue);
+        }
+
+        if (pPed != NULL)
+        {
+            pPed->field_238 = 2;
+            if (!gfrosty_pasteur_6F8060->field_C1E2C)
+            {
+                pPed->field_216_health = 100;
+            }
+
+            v1->sub_565490(pPed);
+            pPed->field_26C = 1;
+            pCmd->field_8_ped = pPed;
+
+            Car_3C* v6 = pPed->sub_46DF50();
+            v6->sub_5A2A30();
+        }
+    }
 }
 
 STUB_FUNC(0x503bc0)
