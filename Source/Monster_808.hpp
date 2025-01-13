@@ -74,9 +74,11 @@ class Monster_808
                                                  size_t output_size,
                                                  u32* next_position);
     static s32 __stdcall sub_430b10(char* param_1);
+    static s32 __stdcall sub_430E60(void *param_1, u32 param_2);
     static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
     static s32 __stdcall StrToInt_430FA0(const char* param_1, s32* param_2);
+    static s32 __stdcall FloatStrToFix16_431000(char *param_1, Fix16 &param_2);
     static s32 __stdcall StrToInt_431080(const char* param_1, s16* param_2);
 
     Monster_2C* field_0_ptr_array[256];

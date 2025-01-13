@@ -28,9 +28,28 @@ GLOBAL(found_open_brackets_67626C, 0x67626C);
 EXPORT_VAR s32 line_number_676258;
 GLOBAL(line_number_676258, 0x676258);
 
-STUB_FUNC(0x454680)
+EXPORT_VAR u32 processed_output_676250;
+GLOBAL(processed_output_676250, 0x676250);
+
+EXPORT_VAR s32 output_size_675F90;
+GLOBAL(output_size_675F90, 0x675F90);
+
+EXPORT_VAR u8* output_ptr_675F98;
+GLOBAL(output_ptr_675F98, 0x675F98);
+
+EXPORT_VAR Fix16 DAT_5e5514;
+GLOBAL(DAT_5e5514, 0x5e5514);
+
+EXPORT_VAR Fix16 DAT_5e54a0;
+GLOBAL(DAT_5e54a0, 0x5e54a0);
+
+EXPORT_VAR Fix16 DAT_6761A4;
+GLOBAL(DAT_6761A4, 0x6761a4);
+
+MATCH_FUNC(0x454680)
 void Monster_48::sub_454680()
 {
+    field_4_mass = field_4_mass * (DAT_5e54a0 + DAT_5e5514);
 }
 
 MATCH_FUNC(0x430b10)
@@ -124,6 +143,21 @@ char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
     return NULL;
 }
 
+MATCH_FUNC(0x430e60)
+s32 __stdcall Monster_808::sub_430E60(void* param_1, u32 param_2)
+{
+    processed_output_676250 += param_2;
+    if (processed_output_676250 > output_size_675F90)
+    {
+        return -12;
+    }
+
+    memcpy(output_ptr_675F98, param_1, param_2);
+
+    output_ptr_675F98 = output_ptr_675F98 + param_2;
+    return 0;
+}
+
 MATCH_FUNC(0x430EC0)
 s32 __stdcall Monster_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 {
@@ -208,6 +242,36 @@ s32 __stdcall Monster_808::StrToInt_430FA0(const char* param_1, s32* param_2)
         iVar5 = iVar5 * 10;
     }
 
+    return 0;
+}
+
+MATCH_FUNC(0x431000)
+s32 __stdcall Monster_808::FloatStrToFix16_431000(char* param_1, Fix16 &param_2)
+{
+    param_2 = DAT_6761A4;
+    bool bVar2 = false;
+    s32 iVar6 = 1;
+    s32 iVar5 = strlen(param_1);
+
+    while (--iVar5 >= 0)
+    {
+        char cVar1 = param_1[iVar5];
+        if (cVar1 < '0' || '9' < cVar1)
+        {
+            if (cVar1 != '.' || bVar2)
+            {
+                return -11;
+            }
+            param_2.mValue /= iVar6;
+            iVar6 = 1;
+            bVar2 = true;
+        }
+        else
+        {
+            param_2.mValue += (cVar1 - 0x30) * iVar6 * 0x4000;
+            iVar6 = iVar6 * 10;
+        }
+    }
     return 0;
 }
 
@@ -316,16 +380,13 @@ void Monster_808::sub_454850()
     }
 }
 
-STUB_FUNC(0x4549c0)
+MATCH_FUNC(0x4549c0)
 void Monster_808::sub_4549C0()
 {
-    // stupid meme function - doing some strange backwards looping
-    car_info_container* container = gGtx_0x106C_703DD4->field_5C_cari;
-    Monster_48* pIter = field_804_raw_data;
-    for (s32 i = 0; i < container->field_400_count; i++)
+    u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
+    for (u32 i = 0; i < number_of_cars; i++)
     {
-        pIter->sub_454680();
-        pIter++;
+        field_804_raw_data[i].sub_454680();
     }
 }
 

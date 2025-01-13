@@ -23,29 +23,17 @@ Fix16& Fix16::FromU16_4AE970(u16 a2)
     return *this;
 }
 
-
-MATCH_FUNC(0x408680)
-Fix16 Fix16::operator*(const Fix16& in)
-{
-    Fix16 ret;
-    ret.mValue = (mValue * (__int64)in.mValue) >> 14;
-    return ret;
-}
-
 MATCH_FUNC(0x4086A0)
 Fix16 Fix16::operator-()
 {
-    Fix16 ret;
-    ret.mValue = -mValue;
-    return ret;
+    return Fix16(-mValue, 0);
 }
 
 MATCH_FUNC(0x408660)
 Fix16 Fix16::operator+(const Fix16& rhs) const
 {
-    Fix16 ret;
-    ret.mValue = mValue + rhs.mValue;
-    return ret;
+    s32 value = mValue + rhs.mValue;
+    return Fix16(value, 0);
 }
 
 MATCH_FUNC(0x44E540)
@@ -66,27 +54,24 @@ Fix16 Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
 MATCH_FUNC(0x436A20)
 Fix16 Fix16::operator/(const Fix16& in)
 {
-    Fix16 result;
-    result = ((__int64)mValue << 14) / in.mValue;
-    return result;
+    s32 value = ((__int64)mValue << 14) / in.mValue;
+    return Fix16(value, 0);
 }
 
 MATCH_FUNC(0x436A50)
 Fix16 Fix16::Abs_436A50(Fix16& a2)
 {
-    Fix16 result;
-    result.mValue = a2.mValue;
+    s32 value = a2.mValue;
     if (a2.mValue <= 0)
     {
-        result.mValue = -a2.mValue;
+        value = -a2.mValue;
     }
-    return result;
+    return Fix16(value, 0);
 }
 
 MATCH_FUNC(0x436A70)
 Fix16 Fix16::SquareRoot_436A70(Fix16& a2)
 {
-    Fix16 result;
-    result.mValue = sqrt(a2.AsDouble()) * 16384.0f;
-    return result;
+    s32 value = sqrt(a2.AsDouble()) * 16384.0f;
+    return Fix16(value, 0);
 }
