@@ -413,7 +413,7 @@ class Map_0x370
     EXPORT gmp_block_info* sub_4E62D0(s32 a2, s32 a3, u32* a4);
     EXPORT gmp_block_info* sub_4E6360(s32 a2, s32 a3, s32* a4);
     EXPORT s32* sub_4E6400(s32* a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT s32* sub_4E6510(s32* a2, s32 a3, s32 a4);
+    EXPORT s32* sub_4E6510(s32* a2, Fix16 a3, Fix16 a4);
     EXPORT s16 sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6);
     EXPORT s32 sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5);
     EXPORT s32 sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5);

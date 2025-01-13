@@ -1231,21 +1231,17 @@ s32* Map_0x370::sub_4E6400(s32* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 }
 
 MATCH_FUNC(0x4E6510)
-s32* Map_0x370::sub_4E6510(s32* a2, s32 a3, s32 a4)
+s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
 {
-    s32 v4;
-    s32 v5;
+    Fix16 v4;
+    Fix16 v5;
     gmp_block_info* v7;
-    u8 field_B_slope_type;
-
     s32 v10;
-
     u32 v6;
-    u8 v13;
-
+    
     v4 = a3;
     v5 = a4;
-    v7 = Map_0x370::sub_4E62D0(a3 >> 14, a4 >> 14, &v6);
+    v7 = Map_0x370::sub_4E62D0(a3.ToInt(), a4.ToInt(), &v6);
     gBlockInfo0_6F5EB0 = v7;
     if (!v7)
     {
@@ -1254,11 +1250,14 @@ s32* Map_0x370::sub_4E6510(s32* a2, s32 a3, s32 a4)
     }
     else
     {
-        field_B_slope_type = v7->field_B_slope_type;
-        if ((v13 = field_B_slope_type & 0xFC) > 0 && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
+        u8 v13;
+        u8 field_B_slope_type = v7->field_B_slope_type;
+        if ((v13 = field_B_slope_type & 0xFC) > 0 
+            && v13 < 0xB4 
+            && (field_B_slope_type & 3) != 0)
         {
             v10 = v6 << 14;
-            Map_0x370::sub_4E5BF0(v4, v5, &v10);
+            Map_0x370::sub_4E5BF0(v4.mValue, v5.mValue, &v10);
         }
         else
         {
