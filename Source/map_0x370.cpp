@@ -1191,7 +1191,6 @@ s32* Map_0x370::sub_4E6400(s32* a2, Fix16 a3, Fix16 a4, Fix16 a5)
     gmp_block_info* block_4DFE10;
     u8 v9;
     s32 v10;
-    s8 field_B_slope_type;
     u8 v13;
 
     v5 = a5;
@@ -1213,7 +1212,7 @@ s32* Map_0x370::sub_4E6400(s32* a2, Fix16 a3, Fix16 a4, Fix16 a5)
             *a2 = 0x4000;
             return a2;
         }
-        field_B_slope_type = v11->field_B_slope_type;
+        s8 field_B_slope_type = v11->field_B_slope_type;
         
         if ( ( v13 = field_B_slope_type & 0xFCu ) > 0 
             && v13 < 0xB4u
