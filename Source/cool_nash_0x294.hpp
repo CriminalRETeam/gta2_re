@@ -4,6 +4,7 @@
 #include "Marz_1D7E.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 #include <cstdio>
 
 class angry_lewin_0x85C;
@@ -274,11 +275,11 @@ class cool_nash_0x294
     }
 
     Marz_3 field_0[100];
-    s16 field_12C;
-    s16 field_12E;
-    s16 field_130;
-    s16 field_132;
-    s16 field_134;
+    Ang16 field_12C;
+    Ang16 field_12E;
+    Ang16 field_130;
+    Ang16 field_132;
+    Ang16 field_134;
     s16 field_136;
     s32 field_138;
     s32 field_13C;

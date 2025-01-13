@@ -237,6 +237,13 @@ class gtx_0x106C
     // 0x5AB8A0
     EXPORT ~gtx_0x106C();
 
+
+    // inlined v9.6f, 0x432850
+    u8 get_number_of_cars()
+    {
+        return field_5C_cari->field_400_count;
+    }
+
     s16 field_0_totalPalBase;
     s16 field_2_font_base_total;
     s16 field_4_sprite_index_count;

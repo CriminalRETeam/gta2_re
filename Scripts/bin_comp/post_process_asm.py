@@ -83,6 +83,10 @@ def extract_constant(s):
             ret.append(tmp)
     elif s.startswith("lea"):
         ret = get_constant_from_deref_inst_generic(s, True)
+    elif s.startswith("inc"):
+        ret = get_constant_from_inst_generic(s, True)
+    elif s.startswith("dec"):
+        ret = get_constant_from_inst_generic(s, True)
 
     return ret
 
@@ -180,5 +184,24 @@ class TestStringMethods(unittest.TestCase):
 
     def test_fmuls_hex(self):
         self.assertEqual(extract_constant("fmuls 0x5FE3C8"), ["0x5FE3C8"])
+
+    def test_inc_hex(self):
+        self.assertEqual(extract_constant("inc 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_incw_hex(self):
+        self.assertEqual(extract_constant("incw 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_incl_hex(self):
+        self.assertEqual(extract_constant("incl 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_dec_hex(self):
+        self.assertEqual(extract_constant("dec 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_decw_hex(self):
+        self.assertEqual(extract_constant("decw 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_decl_hex(self):
+        self.assertEqual(extract_constant("decl 0x4D6BAC"), ["0x4D6BAC"])
+
 
 #unittest.main()

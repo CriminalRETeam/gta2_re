@@ -313,6 +313,12 @@ void jolly_poitras_0x2BC0::sub_56BD20()
     field_24C0.field_0[9].field_14_score = 10000;
 }
 
+STUB_FUNC(0x56BC40)
+void jolly_poitras_0x2BC0::sub_56BC40()
+{
+
+}
+
 STUB_FUNC(0x56BBD0)
 void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 {
@@ -336,6 +342,8 @@ void jolly_poitras_0x2BC0::create_56C2C0()
         }
     }
 }
+
+
 
 MATCH_FUNC(0x56C340)
 void jolly_poitras_0x2BC0::destroy_56C340()

@@ -1633,6 +1633,8 @@ struct jolly_poitras_0x2BC0
 
     EXPORT void sub_56BBD0(u8 a2, u8 a3);
 
+    EXPORT void sub_56BC40();
+
     EXPORT void sub_56C250();
     EXPORT static void create_56C2C0();
     EXPORT static void destroy_56C340();

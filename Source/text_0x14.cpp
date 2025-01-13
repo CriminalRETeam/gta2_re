@@ -235,9 +235,9 @@ s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
 }
 
 MATCH_FUNC(0x5B5D10)
-char* text_0x14::Wide2PesudoAscii_5B5D10(u16* a1)
+char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
 {
-    u16* pSrc = a1;
+    const wchar_t* pSrc = a1;
     // jnb forced to jge by changing u32 loop index to int
     s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc

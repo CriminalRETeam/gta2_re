@@ -94,6 +94,62 @@ GLOBAL(word_67C7D8, 0x67C7D8);
 EXPORT_VAR wchar_t* dword_67EE54;
 GLOBAL(dword_67EE54, 0x67EE54);
 
+EXPORT_VAR bool gCheatOnlyMuggerPeds_67D5A4;
+GLOBAL(gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
+
+EXPORT_VAR bool gCheatUnlimitedElectroGun_67D4F7;
+GLOBAL(gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
+
+EXPORT_VAR bool gCheatAllGangMaxRespect_67D587;
+GLOBAL(gCheatAllGangMaxRespect_67D587, 0x67D587);
+
+EXPORT_VAR bool gCheatOnlyElvisPeds_67D4ED;
+GLOBAL(gCheatOnlyElvisPeds_67D4ED, 0x67D4ED);
+
+EXPORT_VAR bool gCheatNakedPeds_67D5E8;
+GLOBAL(gCheatNakedPeds_67D5E8, 0x67D5E8);
+
+EXPORT_VAR bool gCheatGetBasicWeaponsMaxAmmo_67D545;
+GLOBAL(gCheatGetBasicWeaponsMaxAmmo_67D545, 0x67D545);
+
+EXPORT_VAR bool gCheatGet99Lives_67D4F1;
+GLOBAL(gCheatGet99Lives_67D4F1, 0x67D4F1);
+
+EXPORT_VAR bool gCheatGetPlayerPoints_67D4C8;
+GLOBAL(gCheatGetPlayerPoints_67D4C8, 0x67D4C8);
+
+EXPORT_VAR bool gCheatUnlimitedFlameThrower_67D6CC;
+GLOBAL(gCheatUnlimitedFlameThrower_67D6CC, 0x67D6CC);
+
+EXPORT_VAR bool gCheatUnknown_67D4F6;
+GLOBAL(gCheatUnknown_67D4F6, 0x67D4F6);
+
+EXPORT_VAR bool gCheatGet10MillionMoney_67D6CE;
+GLOBAL(gCheatGet10MillionMoney_67D6CE, 0x67D6CE);
+
+EXPORT_VAR bool gCheat10xMultiplier_67D589;
+GLOBAL(gCheat10xMultiplier_67D589, 0x67D589);
+
+EXPORT_VAR bool gCheatUnlockThreeLevels_67D6CB;
+GLOBAL(gCheatUnlockThreeLevels_67D6CB, 0x67D6CB);
+
+EXPORT_VAR bool gCheatUnlockLevelsOneAndTwo_67D584;
+GLOBAL(gCheatUnlockLevelsOneAndTwo_67D584, 0x67D584);
+
+EXPORT_VAR bool gCheatUnlockAllLevels_67D538;
+GLOBAL(gCheatUnlockAllLevels_67D538, 0x67D538);
+
+EXPORT_VAR bool gCheatUnlimitedDoubleDamage_67D57C;
+GLOBAL(gCheatUnlimitedDoubleDamage_67D57C, 0x67D57C);
+
+EXPORT_VAR bool gCheatInvisibility_67D539;
+GLOBAL(gCheatInvisibility_67D539, 0x67D539);
+
+EXPORT_VAR bool gCheatMiniCars_67D6C8;
+GLOBAL(gCheatMiniCars_67D6C8, 0x67D6C8);
+
+int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
+
 class FreeLoader
 {
   public:
@@ -796,7 +852,7 @@ void laughing_blackwell_0x1EB54::sub_4B8680()
     }
 }
 
-STUB_FUNC(0x4AEDB0)
+MATCH_FUNC(0x4AEDB0)
 s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
 {
     u32 Time; // eax
@@ -1171,7 +1227,6 @@ for (s32 i=0; i<3; i++)
         const s32 v28 = v94 == v7->field_BC6_nifty_idx;
         //LOWORD(v2) = *(_WORD *)(v31 + 2);
         //LOWORD(v93) = *(_WORD *)(v31 + 4);
-        
 
         if (!v28)
         {
@@ -1340,11 +1395,9 @@ for (s32 i=0; i<3; i++)
         */
     }
 
-
-//LABEL_92:
+    //LABEL_92:
     s32 v54 = 0;
-  //  v28 = v7->field_2 == 0;
-
+    //  v28 = v7->field_2 == 0;
 
     v94 = 0;
     if (v7->field_2 != 0)
@@ -2270,10 +2323,166 @@ void laughing_blackwell_0x1EB54::sub_4B4230()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
 
-STUB_FUNC(0x4B3DD0)
-void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* String)
+MATCH_FUNC(0x4B3DD0)
+void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
-    // todo
+    const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
+    const size_t cheat_str_len = wcslen(cheat_str_wide);
+
+    if (cheat_str_len > 16) // OG bug - should be checking for 8?
+    {
+        return;
+    }
+
+    s32 cheat_str_hash = 0;
+    u32 str_idx = 0;
+    if (cheat_str_len > 0)
+    {
+        do
+        {
+            cheat_str_hash += sCheatHashSecret_61F0A8[str_idx] * ascii_cheat_str[str_idx];
+        } while (++str_idx < cheat_str_len);
+
+        if (cheat_str_hash == 0x49362) // GOURANGA
+        {
+            this->field_C9E1_bCheatsEnabled = 1;
+            snd1_67D818.field_0_object_type = 9;
+            return;
+        }
+    }
+
+    if (!field_C9E1_bCheatsEnabled)
+    {
+        return;
+    }
+
+    if (cheat_str_hash == 0x484DF)
+    { // GOREFEST
+        bDo_blood_67D5C5 = bDo_blood_67D5C5 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4878D)
+    { // BUCKFAST Only mugger peds spawn
+        gCheatOnlyMuggerPeds_67D5A4 = gCheatOnlyMuggerPeds_67D5A4 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4DA77)
+    { // VOLTFEST Electro Gun with infinite ammo
+        gCheatUnlimitedElectroGun_67D4F7 = gCheatUnlimitedElectroGun_67D4F7 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x41611)
+    { // MADEMAN Max respect from all gangs
+        gCheatAllGangMaxRespect_67D587 = gCheatAllGangMaxRespect_67D587 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x46BE8)
+    { // LASVEGAS Only Elvis peds spawn
+        gCheatOnlyElvisPeds_67D4ED = gCheatOnlyElvisPeds_67D4ED == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x36F62)
+    { // NEKKID All peds are naked
+        gCheatNakedPeds_67D5E8 = gCheatNakedPeds_67D5E8 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4657B)
+    { // EATSOUP Free shopping
+        bDo_free_shopping_67D6CD = bDo_free_shopping_67D6CD == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4639F)
+    { // DAVEMOON Basic set of weapons and max ammo
+        gCheatGetBasicWeaponsMaxAmmo_67D545 = gCheatGetBasicWeaponsMaxAmmo_67D545 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x33A69)
+    { // CUTIE1 99 lives
+        gCheatGet99Lives_67D4F1 = gCheatGet99Lives_67D4F1 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x47AF1)
+    { // ARSESTAR Keep weapons after death
+        bKeep_weapons_after_death_67D54D = bKeep_weapons_after_death_67D54D == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x49771)
+    { // GODOFGTA All weapons
+        bGet_all_weapons_67D684 = bGet_all_weapons_67D684 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x478FB)
+    { // RSJABBER Invincibility
+        bDo_invulnerable_67D4CB = bDo_invulnerable_67D4CB == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x44D2F)
+    { // DANISGOD Player get points
+        gCheatGetPlayerPoints_67D4C8 = gCheatGetPlayerPoints_67D4C8 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x478A9)
+    { // COCKTART Skip exploding scores
+        bExplodingOff_67D4FB = bExplodingOff_67D4FB == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x45EC2)
+    { // FLAMEON Flame Thrower with infinite ammo
+        gCheatUnlimitedFlameThrower_67D6CC = gCheatUnlimitedFlameThrower_67D6CC == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x45118)
+    { // ??
+        gCheatUnknown_67D4F6 = gCheatUnknown_67D4F6 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4672D)
+    { // IAMDAVEJ Get $10,000,000
+        gCheatGet10MillionMoney_67D6CE = gCheatGet10MillionMoney_67D6CE == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4A98B)
+    { // SEGARULZ 10x multiplier
+        gCheat10xMultiplier_67D589 = gCheat10xMultiplier_67D589 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x45B2C)
+    { // UKGAMER Unlock three main levels
+        gCheatUnlockThreeLevels_67D6CB = gCheatUnlockThreeLevels_67D6CB == 0;
+        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
+        sub_4B42E0();
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x49C76)
+    { // GINGERRR Unlock levels one and two
+        gCheatUnlockLevelsOneAndTwo_67D584 = gCheatUnlockLevelsOneAndTwo_67D584 == 0;
+        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(1u, 0);
+        sub_4B42E0();
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x5073D)
+    { // TUMYFROG unlock all levels
+        gCheatUnlockAllLevels_67D538 = gCheatUnlockAllLevels_67D538 == 0;
+        gJolly_poitras_0x2BC0_6FEAC0->sub_56BC40();
+        gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(2u, 2u);
+        sub_4B42E0();
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4D5C4)
+    { // SCHURULZ Unlimited double damage
+        gCheatUnlimitedDoubleDamage_67D57C = gCheatUnlimitedDoubleDamage_67D57C == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x4B28C)
+    { // HUNSRUS Invisibility
+        gCheatInvisibility_67D539 = gCheatInvisibility_67D539 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
+    else if (cheat_str_hash == 0x45AEF)
+    { // FISHFLAP All cars are mini cars
+        gCheatMiniCars_67D6C8 = gCheatMiniCars_67D6C8 == 0;
+        snd1_67D818.field_0_object_type = 9;
+    }
 }
 
 MATCH_FUNC(0x4B4280)
@@ -2334,7 +2543,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
     }
 }
 
-STUB_FUNC(0x4B8020)
+MATCH_FUNC(0x4B8020)
 void laughing_blackwell_0x1EB54::sub_4B8020()
 {
     dreamy_clarke_0xA4* pClarke = sub_4B43E0();
@@ -3513,11 +3722,11 @@ void laughing_blackwell_0x1EB54::sub_4B4440()
     // todo
 }
 
-STUB_FUNC(0x4B53C0)
+MATCH_FUNC(0x4B53C0)
 void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
 {
     char_type FileName[256];
-    for (u32 i = 0; i < 8; i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_EDE8_plySlots); i++)
     {
         if (PlySlotSvgExists_4B5370(i))
         {
@@ -3557,7 +3766,7 @@ void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pSt
 }
 
 MATCH_FUNC(0x4B5370)
-char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(s32 idx)
+char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
@@ -4182,40 +4391,28 @@ GLOBAL(gQuadVerts_706B88, 0x706B88);
 
 EXPORT_VAR extern u32 gLightingDrawFlag_7068F4;
 
-STUB_FUNC(0x5D83E0);
+MATCH_FUNC(0x5D83E0);
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
-    s32 result; // eax
-
-    if (mode)
+    switch (mode)
     {
-        if (mode == 1)
-        {
+        case 0:
+            return gLightingDrawFlag_7068F4 | 0x80;
+        case 1:
             gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2180;
-        }
-        else if (mode == 2)
-        {
+        case 2:
             gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
             gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2280;
-        }
-        else
-        {
+        default:
             return 0;
-        }
     }
-    else
-    {
-        //result = gLightingDrawFlag_7068F4;
-        result = gLightingDrawFlag_7068F4 | 0x80;
-    }
-    return result;
 }
 
 EXPORT_VAR Fix16 dword_706A6C;
