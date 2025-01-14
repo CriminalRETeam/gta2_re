@@ -4,6 +4,8 @@
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
+#include "Police_7B8.hpp"
+#include "Game_0x40.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1410,6 +1412,24 @@ s16 cool_nash_0x294::sub_470050()
 STUB_FUNC(0x470160)
 void cool_nash_0x294::add_wanted_points_470160(s16 wanted_amount)
 {
+    field_20A_wanted_points += wanted_amount;
+    
+    if (field_20A_wanted_points <= 12000)
+    {
+        if (field_20A_wanted_points < 0)
+        {
+            field_20A_wanted_points = 0;
+        }
+    }
+    else
+    {
+        field_20A_wanted_points = 12000;
+    }
+
+    if (get_wanted_star_count_46EF00() >= gPolice_7B8_6FEE40->field_660_wanted_star_count)
+    {
+        set_wanted_star_count_46F070(gPolice_7B8_6FEE40->field_660_wanted_star_count);
+    }
 }
 
 STUB_FUNC(0x4701d0)
