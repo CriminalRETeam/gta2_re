@@ -28,7 +28,7 @@ Varrok_7F8::Varrok_7F8()
     }
 }
 
-STUB_FUNC(0x59b110)
+MATCH_FUNC(0x59b110)
 Varrok_7F8::~Varrok_7F8()
 {
 }
