@@ -422,7 +422,7 @@ class Car_BC
     u16 field_78_flags;
 //    u8 field_79;
     s16 field_7A;
-    cool_nash_0x294* field_7C_uni_num;
+    s32 field_7C_uni_num;
     char_type field_80;
     char_type field_81;
     char_type field_82;
