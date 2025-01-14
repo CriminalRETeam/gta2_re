@@ -725,10 +725,10 @@ bool Car_BC::sub_43B2B0(cool_nash_0x294* a2)
     return 0;
 }
 
-STUB_FUNC(0x43b340)
+MATCH_FUNC(0x43b340)
 Car_10* Car_BC::sub_43B340(u8 a2)
 {
-    return 0;
+    return &field_C[a2];
 }
 
 MATCH_FUNC(0x43b360)
