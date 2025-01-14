@@ -210,9 +210,50 @@ void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1)
     *(s16*)(v1 + 118) = 0;
 }
 
-STUB_FUNC(0x503fb0)
-void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(s32* a1, s32 a2)
+MATCH_FUNC(0x503fb0)
+void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_CHAR_DATA_DEC* a2)
 {
+    cool_nash_0x294* pPed;
+
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        s32 temp_z;
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
+                                                                    pCmd->field_C_pos.field_0_x,
+                                                                    pCmd->field_C_pos.field_4_y);
+    }
+
+    Ang16 CmdRotation;
+    CmdRotation.rValue = pCmd->field_18_rot;
+
+    Fix16 fix_1;
+    fix_1.mValue = CmdRotation.FromUnsignedToFloat();
+    Fix16 fix_2;
+    fix_2.mValue = word_6F8044.ToFloat();
+    Fix16 fix_3;
+    fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+    Ang16 rotation;
+    rotation.rValue = fix_3.ToInt();
+    rotation.Normalize();
+
+    pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
+                                      pCmd->field_C_pos.field_4_y,
+                                      pCmd->field_C_pos.field_8_z,
+                                      (u8)pCmd->field_1A_remap,
+                                      rotation.rValue);
+    a2->field_8_char = pPed;
+
+    if (pPed)
+    {
+        a2->field_8_char->field_238 = 5;
+        a2->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
+        a2->field_8_char->field_26C = 1;
+        a2->field_8_char->sub_463570(26, 9999);
+        a2->field_8_char->field_216_health = 100;
+        Car_3C* v6 = a2->field_8_char->sub_46DF50();
+        v6->sub_5A2A30();
+    }
 }
 
 MATCH_FUNC(0x504110)
