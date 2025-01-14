@@ -7,7 +7,7 @@ s16* Car_B0::sub_4403A0(s16* a2)
 }
 
 STUB_FUNC(0x446ee0)
-void Car_B0::dtor_446EE0()
+Car_B0::~Car_B0()
 {
 }
 
@@ -612,6 +612,9 @@ void Car_B0::sub_5638C0(Car_BC* pBC)
 }
 
 STUB_FUNC(0x563900)
-void Car_B0::ctor_563900()
+Car_B0::Car_B0()
 {
+    field_58_theta = 0;
+    field_C_pNext = 0;
+    sub_563890();
 }

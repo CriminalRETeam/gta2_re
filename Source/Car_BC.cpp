@@ -725,16 +725,16 @@ bool Car_BC::sub_43B2B0(cool_nash_0x294* a2)
     return 0;
 }
 
-STUB_FUNC(0x43b340)
+MATCH_FUNC(0x43b340)
 Car_10* Car_BC::sub_43B340(u8 a2)
 {
-    return 0;
+    return &field_C[a2];
 }
 
-STUB_FUNC(0x43b360)
+MATCH_FUNC(0x43b360)
 char_type Car_BC::sub_43B360()
 {
-    return 0;
+    return *gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
 }
 
 STUB_FUNC(0x43b380)
@@ -772,10 +772,20 @@ char_type Car_BC::sub_43B750()
     return 0;
 }
 
-STUB_FUNC(0x43b770)
-Char_8* Car_BC::sub_43B770()
+MATCH_FUNC(0x43b770)
+void Car_BC::sub_43B770()
 {
-    return 0;
+    cool_nash_0x294* pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        if (pDriver->field_240_occupation != 4)
+        {
+            pDriver->field_204 = this->field_70;
+            this->field_54_driver->field_290 = this->field_90;
+            this->field_54_driver->field_264 = 50;
+        }
+    }
+    field_4.sub_4716D0(this);
 }
 
 STUB_FUNC(0x43b7b0)
@@ -1686,11 +1696,9 @@ bool Car_BC::sub_564300()
 MATCH_FUNC(0x40ac40)
 Car_8::~Car_8()
 {
-
 }
 
 MATCH_FUNC(0x563970)
 Car_8::Car_8()
 {
-
 }

@@ -16,7 +16,7 @@ class Car_B0
 {
   public:
     EXPORT s16* sub_4403A0(s16* a2);
-    EXPORT void dtor_446EE0();
+    EXPORT ~Car_B0();
     EXPORT void sub_559430();
     EXPORT void sub_5597B0();
     EXPORT s32 sub_5599D0();
@@ -121,7 +121,7 @@ class Car_B0
     EXPORT Sprite_4C* sub_5637A0();
     EXPORT Sprite_4C* sub_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
-    EXPORT void ctor_563900();
+    EXPORT Car_B0();
 
     s32 field_0_x_vel_read_only;
     s32 field_4_y_vel_read_only;

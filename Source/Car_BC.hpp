@@ -260,7 +260,7 @@ class Car_BC
     EXPORT s32* sub_43B5A0(s32 a2, u32* a3, s32* a4);
     EXPORT char_type sub_43B730();
     EXPORT char_type sub_43B750();
-    EXPORT Char_8* sub_43B770();
+    EXPORT void sub_43B770();
     EXPORT char_type sub_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, s32 a3);
