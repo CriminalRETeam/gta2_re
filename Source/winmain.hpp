@@ -18,3 +18,5 @@ EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 EXPORT void __stdcall GetGTA2Version_5E5D60(int* pVerMinor, int* pVerMajor);
 
 EXPORT void __stdcall sub_4DA830();
+
+EXPORT_VAR extern s32 bStartNetworkGame_7081F0;

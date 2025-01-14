@@ -195,24 +195,65 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 }
 
 STUB_FUNC(0x503bc0)
-void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(s32* a1, s32 a2)
+void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_CAR_DATA_DEC* a2)
 {
 }
 
 MATCH_FUNC(0x503f80)
-void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1)
+void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_CAR_DATA_DEC* pCmd)
 {
-    s32 v1;
-    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((s32*)a1, a1);
-    (*(Car_BC**)(a1 + 8))->sub_443EB0(9);
-    v1 = *(s32*)(a1 + 8);
-    *(s32*)(v1 + 124) = 4;
-    *(s16*)(v1 + 118) = 0;
+    Car_BC* v1;
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(pCmd, pCmd);
+    (pCmd->field_8_car)->sub_443EB0(9);
+    v1 = pCmd->field_8_car;
+    v1->field_7C_uni_num = 4;
+    v1->field_76 = 0;
 }
 
-STUB_FUNC(0x503fb0)
-void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(s32* a1, s32 a2)
+MATCH_FUNC(0x503fb0)
+void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_CHAR_DATA_DEC* a2)
 {
+    cool_nash_0x294* pPed;
+
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        s32 temp_z;
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
+                                                                    pCmd->field_C_pos.field_0_x,
+                                                                    pCmd->field_C_pos.field_4_y);
+    }
+
+    Ang16 CmdRotation;
+    CmdRotation.rValue = pCmd->field_18_rot;
+
+    Fix16 fix_1;
+    fix_1.mValue = CmdRotation.FromUnsignedToFloat();
+    Fix16 fix_2;
+    fix_2.mValue = word_6F8044.ToFloat();
+    Fix16 fix_3;
+    fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+    Ang16 rotation;
+    rotation.rValue = fix_3.ToInt();
+    rotation.Normalize();
+
+    pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
+                                      pCmd->field_C_pos.field_4_y,
+                                      pCmd->field_C_pos.field_8_z,
+                                      (u8)pCmd->field_1A_remap,
+                                      rotation.rValue);
+    a2->field_8_char = pPed;
+
+    if (pPed)
+    {
+        a2->field_8_char->field_238 = 5;
+        a2->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
+        a2->field_8_char->field_26C = 1;
+        a2->field_8_char->sub_463570(26, 9999);
+        a2->field_8_char->field_216_health = 100;
+        Car_3C* v6 = a2->field_8_char->sub_46DF50();
+        v6->sub_5A2A30();
+    }
 }
 
 MATCH_FUNC(0x504110)
@@ -457,17 +498,13 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     //  field_8 = 1  means the boolean opcode has returned true
     //  field_8 = 0  means the boolean opcode has returned false
 
-    //                       field_0         field_2         field_4        field_6
-    // gBasePtr_6F8070[0] = (cmd_this)  (cmd_type = 62 00)  (cmd_next)  (return value)
-    // gBasePtr_6F8070[1] =  (AND/OR)   (endif/else index)  (unused)     (unused)
-
-    // gBasePtr_6F8070[1].field_0_cmd_this = 1 means it's a OR
-    // gBasePtr_6F8070[1].field_0_cmd_this = 0 means it's a AND or an ENDIF (i.e. the last IF_JUMP)
-
     //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
-    if (((u8)gBasePtr_6F8070[1].field_0_cmd_this == 1 && this->field_8) || (!(u8)gBasePtr_6F8070[1].field_0_cmd_this && !this->field_8))
-    {
-        sub_503650(gBasePtr_6F8070[1].field_2_type); //  Jump to the last IF_JUMP or go to ELSE section
+    SCR_IF_JUMP* base_pointer = (SCR_IF_JUMP*)gBasePtr_6F8070;
+    
+    if ( ( base_pointer->is_or == 1 && this->field_8 )
+        || (!base_pointer->is_or && !this->field_8 ) ) {
+        
+        sub_503650(base_pointer->else_endif_pointer);  //  Jump to the last IF_JUMP or go to ELSE section
         return;
     }
 
