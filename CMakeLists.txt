@@ -232,7 +232,6 @@ include_directories(3rdParty/gta2_re_compile_tools)
 #link_directories(${CMAKE_SOURCE_DIR}/gta2_lib)
 
 set(dplay_libs
-  ${CMAKE_SOURCE_DIR}/3rdParty/gta2_re_compile_tools/VC98/Lib/DPLAY.lib
   ${CMAKE_SOURCE_DIR}/3rdParty/gta2_re_compile_tools/VC98/Lib/DPLAYX.lib)
 
 
