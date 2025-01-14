@@ -457,17 +457,13 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     //  field_8 = 1  means the boolean opcode has returned true
     //  field_8 = 0  means the boolean opcode has returned false
 
-    //                       field_0         field_2         field_4        field_6
-    // gBasePtr_6F8070[0] = (cmd_this)  (cmd_type = 62 00)  (cmd_next)  (return value)
-    // gBasePtr_6F8070[1] =  (AND/OR)   (endif/else index)  (unused)     (unused)
-
-    // gBasePtr_6F8070[1].field_0_cmd_this = 1 means it's a OR
-    // gBasePtr_6F8070[1].field_0_cmd_this = 0 means it's a AND or an ENDIF (i.e. the last IF_JUMP)
-
     //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
-    if (((u8)gBasePtr_6F8070[1].field_0_cmd_this == 1 && this->field_8) || (!(u8)gBasePtr_6F8070[1].field_0_cmd_this && !this->field_8))
-    {
-        sub_503650(gBasePtr_6F8070[1].field_2_type); //  Jump to the last IF_JUMP or go to ELSE section
+    SCR_IF_JUMP* base_pointer = (SCR_IF_JUMP*)gBasePtr_6F8070;
+    
+    if ( ( base_pointer->is_or == 1 && this->field_8 )
+        || (!base_pointer->is_or && !this->field_8 ) ) {
+        
+        sub_503650(base_pointer->else_endif_pointer);  //  Jump to the last IF_JUMP or go to ELSE section
         return;
     }
 
