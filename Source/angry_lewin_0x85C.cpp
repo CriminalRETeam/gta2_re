@@ -8,6 +8,7 @@
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "zealous_borg.hpp"
+#include "winmain.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -247,10 +248,30 @@ void angry_lewin_0x85C::sub_566EE0(char_type a2)
 {
 }
 
-STUB_FUNC(0x5670B0)
-s32 angry_lewin_0x85C::sub_5670B0()
+MATCH_FUNC(0x5670B0)
+void angry_lewin_0x85C::sub_5670B0()
 {
-    return 0;
+    const char_type restart_zone_type = 16;
+
+    if (!(u8)bStartNetworkGame_7081F0 && !field_640)
+    {
+        angry_lewin_0x85C::sub_5699F0(-1);
+    }
+    if (field_684_lives.field_0 > 0)
+    {
+        gmp_map_zone* pZone;
+        if ((u8)bStartNetworkGame_7081F0)
+        {
+            pZone = gMap_0x370_6F6268->zone_by_type_bounded_4DF0F0(0x10u);
+        }
+        else
+        {
+            s32 y_pos = field_2C4_player_ped->field_1AC_cam.y.ToInt();
+            s32 x_pos = field_2C4_player_ped->field_1AC_cam.x.ToInt();
+            pZone = gMap_0x370_6F6268->sub_4DF240(x_pos, y_pos, restart_zone_type);
+        }
+        field_2C4_player_ped->sub_45C350(pZone);
+    }
 }
 
 STUB_FUNC(0x567130)
