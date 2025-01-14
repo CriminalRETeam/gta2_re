@@ -12,10 +12,13 @@ char_type* Varrok_7F8::sub_59B0B0(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x59b0d0)
-char_type Varrok_7F8::sub_59B0D0(u8 idx)
+MATCH_FUNC(0x59b0d0)
+void Varrok_7F8::sub_59B0D0(u8 idx)
 {
-    return 0;
+    if (field_0[idx].field_4 > 0)
+    {
+        field_0[idx].field_4--;
+    }
 }
 
 MATCH_FUNC(0x59b0f0)
