@@ -113,7 +113,8 @@ class Fix16
 
     inline s32 MultiplyInt64(Fix16 a2)
     {
-        return (mValue * (__int64)a2.mValue) >> 14;
+        __int64 t = (mValue * (__int64)a2.mValue) >> 14;
+        return (s32)t;
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
