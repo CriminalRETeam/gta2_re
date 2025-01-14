@@ -731,10 +731,10 @@ Car_10* Car_BC::sub_43B340(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x43b360)
+MATCH_FUNC(0x43b360)
 char_type Car_BC::sub_43B360()
 {
-    return 0;
+    return *gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
 }
 
 STUB_FUNC(0x43b380)
