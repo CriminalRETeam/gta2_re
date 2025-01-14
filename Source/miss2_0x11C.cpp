@@ -195,19 +195,19 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 }
 
 STUB_FUNC(0x503bc0)
-void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(s32* a1, s32 a2)
+void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_CAR_DATA_DEC* a2)
 {
 }
 
 MATCH_FUNC(0x503f80)
-void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(s32 a1)
+void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_CAR_DATA_DEC* pCmd)
 {
-    s32 v1;
-    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((s32*)a1, a1);
-    (*(Car_BC**)(a1 + 8))->sub_443EB0(9);
-    v1 = *(s32*)(a1 + 8);
-    *(s32*)(v1 + 124) = 4;
-    *(s16*)(v1 + 118) = 0;
+    Car_BC* v1;
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(pCmd, pCmd);
+    (pCmd->field_8_car)->sub_443EB0(9);
+    v1 = pCmd->field_8_car;
+    v1->field_7C_uni_num = 4;
+    v1->field_76 = 0;
 }
 
 MATCH_FUNC(0x503fb0)
