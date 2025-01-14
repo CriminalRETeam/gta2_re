@@ -6,6 +6,7 @@ class cool_nash_0x294;
 class Maccies_2C;
 class Snooky_30;
 class miss2_8;
+class Car_BC;
 
 struct SCR_CMD_HEADER
 {
