@@ -31,6 +31,33 @@ struct SCR_PLAYER_PED
     s16 field_1A_remap;
 };
 
+struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
+{
+    Car_BC* field_8_car;
+    SCR_XYZ_f field_C_pos;
+    u16 field_18_rot;
+    u16 field_1A_remap;
+    s16 field_1C_car_id;
+    u16 field_1E_trailer_id;
+};
+
+struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
+{
+    cool_nash_0x294* field_8_char;
+    SCR_XYZ_f field_C_pos;
+    u16 field_18_rot;
+    s16 field_1A_remap;
+    s16 field_1C_occupation;
+    u16 field_1E_padding;
+};
+
+struct SCR_IF_JUMP : SCR_CMD_HEADER
+{
+    u8 is_or;
+    u8 unknown;
+    u16 else_endif_pointer;
+};
+
 class miss2_0x11C
 {
   public:
