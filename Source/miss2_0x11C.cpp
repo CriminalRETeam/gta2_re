@@ -256,18 +256,13 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 }
 
 MATCH_FUNC(0x504110)
-s32 miss2_0x11C::sub_504110(s32 a1, s32 a2)
+cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2)
 {
-    s32 v2;
-    s32 v3;
-
-    (*(cool_nash_0x294**)(a2 + 8))->sub_463570(*(s16*)(a1 + 10), 9999);
-    v2 = *(s32*)(a2 + 8);
-
-    v3 = *(s32*)(v2 + 540);
-    v3 &= ~0x400u;
-
-    *(s32*)(v2 + 540) = v3;
+    (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
+    cool_nash_0x294* v2 = a2->field_8_char;
+    s32 v3 = v2->field_21C;
+    v3 &= ~0x400u; // TODO: Maybe BitSet32
+    v2->field_21C = v3;
     return v2;
 }
 
