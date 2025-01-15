@@ -583,12 +583,12 @@ void miss2_0x11C::SCRCMD_STOP_EXEC_5079A0()
 MATCH_FUNC(0x507a70)
 void miss2_0x11C::SCRCMD_INCREMENT_507A70()
 {
-    SCR_TWO_PARAMS *pCmd;
+    SCR_TWO_PARAMS* pCmd;
 
     pCmd = (SCR_TWO_PARAMS*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
                         gBasePtr_6F8070[1].field_0_cmd_this);
-    
-    ++pCmd->field_8_u32;    //  Increment Counter
+
+    ++pCmd->field_8_u32; //  Increment Counter
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
