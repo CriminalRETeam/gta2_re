@@ -790,9 +790,43 @@ void miss2_0x11C::sub_50A3E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a460)
+MATCH_FUNC(0x50a460)
 void miss2_0x11C::sub_50A460()
 {
+    SCR_CHAR_OBJECTIVE* v1;
+    SCR_POINTER* pCmd;
+
+    v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                    gBasePtr_6F8070[1].field_0_cmd_this); //  TODO: fix gBasePtr_6F8070 type
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
+
+    SCR_POINTER* v4 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                v1->field_C_car_idx);
+
+    if (pCmd->field_8_char)
+    {
+        (pCmd->field_8_char)->field_150_target_objective_car = v4->field_8_car;
+
+        Ang16 CmdRotation;
+        CmdRotation.rValue = v1->field_E_rotation;
+
+        Fix16 fix_1;
+        fix_1.mValue = CmdRotation.FromUnsignedToFloat();
+        Fix16 fix_2;
+        fix_2.mValue = word_6F8044.ToFloat();
+        Fix16 fix_3;
+        fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+        Ang16 rotation;
+        rotation.rValue = fix_3.ToInt();
+        rotation.Normalize();
+
+        (pCmd->field_8_char)->field_132 = rotation.rValue;
+        (pCmd->field_8_char)->field_1FC = v1->field_12_offset;
+        (pCmd->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a570)
