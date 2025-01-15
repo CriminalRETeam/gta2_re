@@ -1,11 +1,39 @@
 #pragma once
 
 #include "Function.hpp"
+#include "ang16.hpp"
 
 class Object_2C;
 class Car_3C;
 class Sprite_4C;
 class Car_BC;
+class Phi_74;
+class Object_3C;
+
+class Object_2C
+{
+  public:
+    Object_2C* field_0;
+    Car_3C* field_4;
+    Phi_74* field_8;
+    int field_C;
+    Object_3C* field_10;
+    s32 field_14;
+    s32 field_18;
+    char field_1C;
+    char field_1D;
+    char field_1E;
+    char field_1F;
+    s32 field_20;
+    char field_24;
+    char field_25;
+    u8 field_26;
+    char field_27;
+    char field_28;
+    char field_29;
+    char field_2A;
+    char field_2B;
+};
 
 class Object_5C
 {
@@ -17,7 +45,7 @@ class Object_5C
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
     EXPORT Object_2C* sub_529950(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32 a7, Sprite_4C* a8, Car_BC* a9);
-    EXPORT Object_2C* sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6);
+    EXPORT Object_2C* sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u8 a3, s32 a4, s32 a5, s32 a6);
     EXPORT s32 sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);
     EXPORT Object_2C* sub_529AB0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, u8 a8);

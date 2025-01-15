@@ -2,15 +2,19 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Mouze_44.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "Mouze_44.hpp"
+#include "Object_5C.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
 GLOBAL(byte_61A8A3, 0x61A8A3);
+
+EXPORT_VAR Ang16 word_6FDB34;
+GLOBAL(word_6FDB34, 0x6FDB34);
 
 MATCH_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -191,6 +195,31 @@ void cool_nash_0x294::sub_45BEC0()
 STUB_FUNC(0x45bfb0)
 void cool_nash_0x294::sub_45BFB0()
 {
+    if ((field_21C & 0x1000000) != 0)
+    {
+        // TODO: This is actually another function
+        Char_B4* pB4 = field_168_game_object;
+        if (pB4)
+        {
+            Fix16 v12;
+            v12.FromInt_4369F0(0);
+
+            Fix16 v11;
+            v11.FromInt_4369F0(0);
+
+            Fix16 v10;
+            v10.FromInt_4369F0(0);
+            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, v10.mValue, v11.mValue, v12.mValue, word_6FDB34);
+
+            Fix16 v13;
+            v13.FromInt_4369F0(0);
+
+            Fix16 v14;
+            v14.FromInt_4369F0(0);
+            pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, v14.mValue, v13.mValue, word_6FDB34);
+            pB4->field_b0 = 10;
+        }
+    }
 }
 
 MATCH_FUNC(0x45bfd0)
