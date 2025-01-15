@@ -52,6 +52,25 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_TWO_PARAMS : SCR_CMD_HEADER
+{
+    union
+    {
+        struct
+        {
+            u16 field_8_unsigned_1;
+            u16 field_A_unsigned_2;
+        };
+        struct
+        {
+            s16 field_8_signed_1;
+            s16 field_A_signed_2;
+        };
+        u32 field_8_u32;
+        s32 field_8_s32;
+    };
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
