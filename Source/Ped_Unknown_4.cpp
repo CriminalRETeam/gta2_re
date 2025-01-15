@@ -43,10 +43,18 @@ Char_8** Ped_Unknown_4::sub_4715E0()
     return 0;
 }
 
-STUB_FUNC(0x471630)
-cool_nash_0x294* Ped_Unknown_4::sub_471630()
+MATCH_FUNC(0x471630)
+void Ped_Unknown_4::sub_471630()
 {
-    return 0;
+    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    {
+        if (pIter->field_0_char_ped->field_240_occupation == 8)
+        {
+            pIter->field_0_char_ped->sub_463830(0, 9999);
+            pIter->field_0_char_ped->sub_463570(34, 9999);
+            pIter->field_0_char_ped->field_150_target_objective_car = pIter->field_0_char_ped->field_16C_car;
+        }
+    }
 }
 
 MATCH_FUNC(0x471680)

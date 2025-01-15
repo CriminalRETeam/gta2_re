@@ -29,7 +29,7 @@ class Police_38
     EXPORT char_type sub_574F10();
     EXPORT void sub_575200();
     EXPORT void sub_575210();
-    EXPORT char_type sub_575270();
+    EXPORT void sub_575270();
     EXPORT void sub_5752C0();
     EXPORT void sub_575310();
     EXPORT void sub_575590();

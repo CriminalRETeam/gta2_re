@@ -349,7 +349,7 @@ infallible_turing* Car_3C::sub_5A3030()
 }
 
 STUB_FUNC(0x5a3100)
-Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, s16 a5)
+Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5)
 {
     return 0;
 }

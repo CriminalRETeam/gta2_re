@@ -1,15 +1,20 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Mouze_44.hpp"
+#include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "Police_7B8.hpp"
-#include "Game_0x40.hpp"
+#include "Object_5C.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
 GLOBAL(byte_61A8A3, 0x61A8A3);
+
+EXPORT_VAR Ang16 word_6FDB34;
+GLOBAL(word_6FDB34, 0x6FDB34);
 
 MATCH_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -190,6 +195,31 @@ void cool_nash_0x294::sub_45BEC0()
 STUB_FUNC(0x45bfb0)
 void cool_nash_0x294::sub_45BFB0()
 {
+    if ((field_21C & 0x1000000) != 0)
+    {
+        // TODO: This is actually another function
+        Char_B4* pB4 = field_168_game_object;
+        if (pB4)
+        {
+            Fix16 v12;
+            v12.FromInt_4369F0(0);
+
+            Fix16 v11;
+            v11.FromInt_4369F0(0);
+
+            Fix16 v10;
+            v10.FromInt_4369F0(0);
+            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, v10.mValue, v11.mValue, v12.mValue, word_6FDB34);
+
+            Fix16 v13;
+            v13.FromInt_4369F0(0);
+
+            Fix16 v14;
+            v14.FromInt_4369F0(0);
+            pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, v14.mValue, v13.mValue, word_6FDB34);
+            pB4->field_b0 = 10;
+        }
+    }
 }
 
 MATCH_FUNC(0x45bfd0)
@@ -337,9 +367,23 @@ void cool_nash_0x294::sub_45C5A0()
     field_27C = field_284;
 }
 
-STUB_FUNC(0x45c5c0)
+MATCH_FUNC(0x45c5c0)
 void cool_nash_0x294::sub_45C5C0()
 {
+    if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
+        this->field_168_game_object->field_10 != 15 && this->field_27C != 6)
+    {
+        sub_45C500(0);
+        sub_45C540(0);
+        this->field_16C_car = 0;
+        sub_463570(0, 9999);
+        sub_463830(0, 9999);
+        Mouze_44* pGroup = this->field_164_ped_group;
+        if (pGroup)
+        {
+            pGroup->sub_4C91B0();
+        }
+    }
 }
 
 STUB_FUNC(0x45c730)
@@ -1413,7 +1457,7 @@ STUB_FUNC(0x470160)
 void cool_nash_0x294::add_wanted_points_470160(s16 wanted_amount)
 {
     field_20A_wanted_points += wanted_amount;
-    
+
     if (field_20A_wanted_points <= 12000)
     {
         if (field_20A_wanted_points < 0)

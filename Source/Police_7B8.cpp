@@ -1,8 +1,14 @@
 #include "Police_7B8.hpp"
 #include "Globals.hpp"
+#include "cool_nash_0x294.hpp"
+#include "Kfc_1E0.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR s32 dword_6FECE8;
 GLOBAL(dword_6FECE8, 0x6FECE8);
+
+EXPORT_VAR cool_nash_0x294* dword_6FEDDC;
+GLOBAL(dword_6FEDDC, 0x6FEDDC);
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
@@ -132,12 +138,26 @@ void Police_38::sub_575200()
 STUB_FUNC(0x575210)
 void Police_38::sub_575210()
 {
+    Kfc_30* pKfc30 = this->field_10_subObj;
+    if (!pKfc30->field_24 || dword_6FEDDC->field_225)
+    {
+        dword_6FEDDC->sub_463830(0, 9999);
+        dword_6FEDDC->sub_463570(0, 9999);
+    }
+    else
+    {
+        pKfc30->field_0->field_A6 |= 0x20u;
+    }
 }
 
 STUB_FUNC(0x575270)
-char_type Police_38::sub_575270()
+void Police_38::sub_575270()
 {
-    return 0;
+    if (!this->field_10_subObj->field_24 || dword_6FEDDC->field_225)
+    {
+        dword_6FEDDC->sub_463830(0, 9999);
+        dword_6FEDDC->sub_463570(0, 9999);
+    }
 }
 
 STUB_FUNC(0x5752c0)

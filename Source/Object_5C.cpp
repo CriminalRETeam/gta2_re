@@ -42,7 +42,7 @@ Object_2C* Object_5C::sub_529950(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32 a7,
 }
 
 STUB_FUNC(0x5299b0)
-Object_2C* Object_5C::sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6)
+Object_2C* Object_5C::sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, Ang16 a6)
 {
     return 0;
 }

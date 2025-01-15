@@ -21,7 +21,7 @@ class Ped_Unknown_4
     EXPORT cool_nash_0x294* sub_471320();
     EXPORT Char_8** sub_4715A0();
     EXPORT Char_8** sub_4715E0();
-    EXPORT cool_nash_0x294* sub_471630();
+    EXPORT void sub_471630();
     EXPORT void sub_471680();
     EXPORT s32 sub_4716B0();
     EXPORT Char_8* sub_4716D0(Car_BC* a2);
