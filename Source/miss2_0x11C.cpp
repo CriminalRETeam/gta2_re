@@ -769,9 +769,25 @@ void miss2_0x11C::sub_50A200()
 {
 }
 
-STUB_FUNC(0x50a3e0)
+MATCH_FUNC(0x50a3e0)
 void miss2_0x11C::sub_50A3E0()
 {
+    SCR_CHAR_OBJECTIVE* v1;
+    SCR_POINTER* pCmd;
+
+    v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
+
+    if (pCmd->field_8_char)
+    {
+        (pCmd->field_8_char)->field_1DC_objective_target_x = v1->field_C_pos.field_0_x;
+        (pCmd->field_8_char)->field_1E0_objective_target_y = v1->field_C_pos.field_4_y;
+        (pCmd->field_8_char)->field_1E4_objective_target_z = v1->field_C_pos.field_8_z;
+
+        (pCmd->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a460)
