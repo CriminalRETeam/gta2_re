@@ -673,9 +673,15 @@ void miss2_0x11C::sub_509790()
 {
 }
 
-STUB_FUNC(0x5097d0)
+MATCH_FUNC(0x5097d0)
 void miss2_0x11C::sub_5097D0()
 {
+    SCR_POINTER* BasePointer_512770;
+    
+    BasePointer_512770 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this); //  TODO: fix gBasePtr_6F8070
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, BasePointer_512770);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509810)
