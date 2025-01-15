@@ -82,6 +82,21 @@ struct SCR_POINTER : SCR_CMD_HEADER
     };
 };
 
+struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx; //  SCR_SET_CHAR_OBJ1
+    s16 field_A_objective;
+    union
+    {
+        struct
+        {
+            u16 field_C_second_item_idx; //  SCR_SET_CHAR_OBJ2
+            u16 field_E_variant;
+        };
+        SCR_XYZ_f field_C_pos; //SCR_SET_CHAR_OBJ3
+    };
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
