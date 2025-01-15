@@ -1,11 +1,12 @@
 #include "cool_nash_0x294.hpp"
 #include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "Police_7B8.hpp"
-#include "Game_0x40.hpp"
+#include "Mouze_44.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -337,9 +338,23 @@ void cool_nash_0x294::sub_45C5A0()
     field_27C = field_284;
 }
 
-STUB_FUNC(0x45c5c0)
+MATCH_FUNC(0x45c5c0)
 void cool_nash_0x294::sub_45C5C0()
 {
+    if (!this->field_16C_car && this->field_258_objective == 35 && this->field_25C_car_state == 35 &&
+        this->field_168_game_object->field_10 != 15 && this->field_27C != 6)
+    {
+        sub_45C500(0);
+        sub_45C540(0);
+        this->field_16C_car = 0;
+        sub_463570(0, 9999);
+        sub_463830(0, 9999);
+        Mouze_44* pGroup = this->field_164_ped_group;
+        if (pGroup)
+        {
+            pGroup->sub_4C91B0();
+        }
+    }
 }
 
 STUB_FUNC(0x45c730)
@@ -1413,7 +1428,7 @@ STUB_FUNC(0x470160)
 void cool_nash_0x294::add_wanted_points_470160(s16 wanted_amount)
 {
     field_20A_wanted_points += wanted_amount;
-    
+
     if (field_20A_wanted_points <= 12000)
     {
         if (field_20A_wanted_points < 0)
