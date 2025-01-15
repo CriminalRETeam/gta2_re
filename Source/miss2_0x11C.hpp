@@ -7,6 +7,7 @@ class Maccies_2C;
 class Snooky_30;
 class miss2_8;
 class Car_BC;
+class Object_2C;
 
 struct SCR_CMD_HEADER
 {
@@ -68,6 +69,16 @@ struct SCR_TWO_PARAMS : SCR_CMD_HEADER
         };
         u32 field_8_u32;
         s32 field_8_s32;
+    };
+};
+
+struct SCR_POINTER : SCR_CMD_HEADER
+{
+    union
+    {
+        cool_nash_0x294* field_8_char;
+        Car_BC* field_8_car;
+        Object_2C* field_8_obj;
     };
 };
 
