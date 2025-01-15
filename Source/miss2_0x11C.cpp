@@ -195,23 +195,22 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 }
 
 STUB_FUNC(0x503bc0)
-void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_CAR_DATA_DEC* a2)
+void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2)
 {
 }
 
 MATCH_FUNC(0x503f80)
-void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_CAR_DATA_DEC* pCmd)
+void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
 {
-    Car_BC* v1;
-    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(pCmd, pCmd);
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
     (pCmd->field_8_car)->sub_443EB0(9);
-    v1 = pCmd->field_8_car;
+    Car_BC* v1 = pCmd->field_8_car;
     v1->field_7C_uni_num = 4;
     v1->field_76 = 0;
 }
 
 MATCH_FUNC(0x503fb0)
-void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_CHAR_DATA_DEC* a2)
+void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_POINTER* a2)
 {
     cool_nash_0x294* pPed;
 
