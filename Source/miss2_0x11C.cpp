@@ -195,23 +195,22 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 }
 
 STUB_FUNC(0x503bc0)
-void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_CAR_DATA_DEC* a2)
+void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2)
 {
 }
 
 MATCH_FUNC(0x503f80)
-void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_CAR_DATA_DEC* pCmd)
+void miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
 {
-    Car_BC* v1;
-    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(pCmd, pCmd);
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
     (pCmd->field_8_car)->sub_443EB0(9);
-    v1 = pCmd->field_8_car;
+    Car_BC* v1 = pCmd->field_8_car;
     v1->field_7C_uni_num = 4;
     v1->field_76 = 0;
 }
 
 MATCH_FUNC(0x503fb0)
-void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_CHAR_DATA_DEC* a2)
+void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_POINTER* a2)
 {
     cool_nash_0x294* pPed;
 
@@ -257,18 +256,13 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_C
 }
 
 MATCH_FUNC(0x504110)
-s32 miss2_0x11C::sub_504110(s32 a1, s32 a2)
+cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2)
 {
-    s32 v2;
-    s32 v3;
-
-    (*(cool_nash_0x294**)(a2 + 8))->sub_463570(*(s16*)(a1 + 10), 9999);
-    v2 = *(s32*)(a2 + 8);
-
-    v3 = *(s32*)(v2 + 540);
-    v3 &= ~0x400u;
-
-    *(s32*)(v2 + 540) = v3;
+    (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
+    cool_nash_0x294* v2 = a2->field_8_char;
+    s32 v3 = v2->field_21C;
+    v3 &= ~0x400u; // TODO: Maybe BitSet32
+    v2->field_21C = v3;
     return v2;
 }
 
@@ -583,24 +577,24 @@ void miss2_0x11C::SCRCMD_STOP_EXEC_5079A0()
 MATCH_FUNC(0x507a70)
 void miss2_0x11C::SCRCMD_INCREMENT_507A70()
 {
-    SCR_CMD_HEADER* BasePointer_512770;
+    SCR_TWO_PARAMS* pCmd;
 
-    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pCmd = (SCR_TWO_PARAMS*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                        gBasePtr_6F8070[1].field_0_cmd_this);
 
-    //  add 1 to COUNTER as unsigned 32 bits
-    ++*(u32*)&BasePointer_512770[1].field_0_cmd_this;
+    ++pCmd->field_8_u32; //  Increment Counter
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x507b50)
 void miss2_0x11C::SCRCMD_DECREMENT_507B50()
 {
-    SCR_CMD_HEADER* BasePointer_512770;
+    SCR_TWO_PARAMS* pCmd;
 
-    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pCmd = (SCR_TWO_PARAMS*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                        gBasePtr_6F8070[1].field_0_cmd_this);
 
-    //  sub 1 to COUNTER as unsigned 32 bits
-    --*(u32*)&BasePointer_512770[1].field_0_cmd_this;
+    --pCmd->field_8_u32; //  Decrement Counter
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -679,9 +673,15 @@ void miss2_0x11C::sub_509790()
 {
 }
 
-STUB_FUNC(0x5097d0)
+MATCH_FUNC(0x5097d0)
 void miss2_0x11C::sub_5097D0()
 {
+    SCR_POINTER* BasePointer_512770;
+    
+    BasePointer_512770 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this); //  TODO: fix gBasePtr_6F8070
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, BasePointer_512770);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509810)
@@ -769,14 +769,64 @@ void miss2_0x11C::sub_50A200()
 {
 }
 
-STUB_FUNC(0x50a3e0)
+MATCH_FUNC(0x50a3e0)
 void miss2_0x11C::sub_50A3E0()
 {
+    SCR_CHAR_OBJECTIVE* v1;
+    SCR_POINTER* pCmd;
+
+    v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
+
+    if (pCmd->field_8_char)
+    {
+        (pCmd->field_8_char)->field_1DC_objective_target_x = v1->field_C_pos.field_0_x;
+        (pCmd->field_8_char)->field_1E0_objective_target_y = v1->field_C_pos.field_4_y;
+        (pCmd->field_8_char)->field_1E4_objective_target_z = v1->field_C_pos.field_8_z;
+
+        (pCmd->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a460)
+MATCH_FUNC(0x50a460)
 void miss2_0x11C::sub_50A460()
 {
+    SCR_CHAR_OBJECTIVE* v1;
+    SCR_POINTER* pCmd;
+
+    v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                    gBasePtr_6F8070[1].field_0_cmd_this); //  TODO: fix gBasePtr_6F8070 type
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
+
+    SCR_POINTER* v4 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                v1->field_C_car_idx);
+
+    if (pCmd->field_8_char)
+    {
+        (pCmd->field_8_char)->field_150_target_objective_car = v4->field_8_car;
+
+        Ang16 CmdRotation;
+        CmdRotation.rValue = v1->field_E_rotation;
+
+        Fix16 fix_1;
+        fix_1.mValue = CmdRotation.FromUnsignedToFloat();
+        Fix16 fix_2;
+        fix_2.mValue = word_6F8044.ToFloat();
+        Fix16 fix_3;
+        fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+        Ang16 rotation;
+        rotation.rValue = fix_3.ToInt();
+        rotation.Normalize();
+
+        (pCmd->field_8_char)->field_132 = rotation.rValue;
+        (pCmd->field_8_char)->field_1FC = v1->field_12_offset;
+        (pCmd->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a570)

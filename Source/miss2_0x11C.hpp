@@ -7,6 +7,7 @@ class Maccies_2C;
 class Snooky_30;
 class miss2_8;
 class Car_BC;
+class Object_2C;
 
 struct SCR_CMD_HEADER
 {
@@ -52,6 +53,56 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_TWO_PARAMS : SCR_CMD_HEADER
+{
+    union
+    {
+        struct
+        {
+            u16 field_8_unsigned_1;
+            u16 field_A_unsigned_2;
+        };
+        struct
+        {
+            s16 field_8_signed_1;
+            s16 field_A_signed_2;
+        };
+        u32 field_8_u32;
+        s32 field_8_s32;
+    };
+};
+
+struct SCR_POINTER : SCR_CMD_HEADER
+{
+    union
+    {
+        cool_nash_0x294* field_8_char;
+        Car_BC* field_8_car;
+        Object_2C* field_8_obj;
+    };
+};
+
+struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx; //  SCR_SET_CHAR_OBJ1
+    s16 field_A_objective;
+    union
+    {
+        struct
+        {
+            u16 field_C_second_item_idx; //  SCR_SET_CHAR_OBJ2
+            u16 field_E_variant;
+        };
+        SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
+        struct
+        {
+            u16 field_C_car_idx; //  SET_CHAR_OBJ_FOLLOW
+            u16 field_E_rotation;
+            s32 field_12_offset;
+        };
+    };
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
@@ -72,10 +123,10 @@ class miss2_0x11C
     EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2);
     EXPORT void SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2);
     EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd);
-    EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_CAR_DATA_DEC* a2);
-    EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_CAR_DATA_DEC* a1);
-    EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* a1, SCR_CHAR_DATA_DEC* a2);
-    EXPORT s32 sub_504110(s32 a1, s32 a2);
+    EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2);
+    EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* a1);
+    EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* a1, SCR_POINTER* a2);
+    EXPORT cool_nash_0x294* sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_MAP_ZONE_SET_504150(s16* a1);
     EXPORT s32 SCRCMD_ARROW_DEC_5041B0(s32 a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
