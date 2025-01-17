@@ -1063,10 +1063,10 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
 }
 
 MATCH_FUNC(0x4E5B60)
-s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
+Fix16* Map_0x370::sub_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
 {
-    s32 v4;
-    s32 v5;
+    Fix16 v4;
+    Fix16 v5;
     gmp_block_info* v7;
     char_type field_B_slope_type;
 
@@ -1074,18 +1074,18 @@ s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
 
     s32 v6;
 
-    s32 v9;
+    Fix16 v9;
 
-    v4 = a3;
-    v5 = a4;
+    v4 = x_pos;
+    v5 = y_pos;
 
     //  >> 14 means divide by 16384
-    v7 = Map_0x370::sub_4E4C30(a3 >> 14, a4 >> 14, (u32*)&v6); //  get the highest non-air block at (a3,a4)
+    v7 = Map_0x370::sub_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&v6); //  get the highest block at (x_pos,y_pos)?
     gBlockInfo0_6F5EB0 = v7;
 
     if (!v7)
     {
-        *a2 = 0;
+        a2->mValue = 0;
         return a2;
     }
     else
@@ -1099,14 +1099,14 @@ s32* Map_0x370::sub_4E5B60(s32* a2, s32 a3, s32 a4)
             && ((u8)field_B_slope_type & 0xFCu) < 0xB4u //  < 10110100 = it's a ramp
             && ((u8)field_B_slope_type & 3) != 0) //  (bits 0-1) != 0 means it's not an air block
         {
-            v9 = v6 << 14; //  multiply by 16384
+            v9.FromInt(v6);
             Map_0x370::sub_4E5BF0(v4, v5, &v9); //  get the Z position based on the slope angle?
         }
         else
         {
-            v9 = (v6 + 1) << 14; //  multiply by 16384
+            v9.FromInt(v6 + 1);
         }
-        *a2 = v9;
+        a2->mValue = v9.mValue;
         return a2;
     }
 }
