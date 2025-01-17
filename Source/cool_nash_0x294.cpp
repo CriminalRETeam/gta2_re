@@ -463,7 +463,7 @@ Char_8* cool_nash_0x294::sub_45C7F0(Car_BC* pCar)
 }
 
 STUB_FUNC(0x45c830)
-char_type cool_nash_0x294::sub_45C830(s32 xpos, s32 ypos, s32 zpos)
+char_type cool_nash_0x294::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     return 0;
 }
