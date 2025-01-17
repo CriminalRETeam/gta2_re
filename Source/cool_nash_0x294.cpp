@@ -3,11 +3,11 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Mouze_44.hpp"
+#include "Object_5C.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "Object_5C.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -187,9 +187,53 @@ void cool_nash_0x294::sub_45BE90()
     }
 }
 
-STUB_FUNC(0x45bec0)
+MATCH_FUNC(0x45bec0)
 void cool_nash_0x294::sub_45BEC0()
 {
+    if ((this->field_21C & 0x1000000) != 0)
+    {
+        if (this->field_208_invulnerability > 0)
+        {
+            sub_45BE90();
+        }
+        else if (this->field_16C_car)
+        {
+            sub_45BE90();
+            field_16C_car->sub_43D840(19);
+        }
+        else
+        {
+            const bool was9Before = this->field_278 == 9;
+            sub_45CE50(1);
+            this->field_264 = 50;
+
+            if (field_278 == 9 && !was9Before)
+            {
+                angry_lewin_0x85C* pWeapons = this->field_15C_player_weapons;
+                if (pWeapons)
+                {
+                    pWeapons->field_44_death_type = 2;
+                }
+            }
+
+            if (!this->field_15C_player_weapons)
+            {
+                if (this->field_168_game_object)
+                {
+                    if (this->field_25C_car_state != 1)
+                    {
+                        this->field_21C |= 4u;
+
+                        sub_463830(1, 9999);
+
+                        this->field_1D0 = field_1AC_cam.x;
+                        this->field_1D4 = field_1AC_cam.y;
+                        this->field_1D8 = field_1AC_cam.z;
+                    }
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x45bfb0)
