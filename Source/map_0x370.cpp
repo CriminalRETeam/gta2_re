@@ -1228,12 +1228,12 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 }
 
 MATCH_FUNC(0x4E6510)
-s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
+Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
 {
     Fix16 v4;
     Fix16 v5;
     gmp_block_info* v7;
-    s32 v10;
+    Fix16 v10;
     u32 v6;
     
     v4 = a3;
@@ -1242,7 +1242,7 @@ s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
     gBlockInfo0_6F5EB0 = v7;
     if (!v7)
     {
-        *a2 = 0;
+        a2->mValue = 0;
         return a2;
     }
     else
@@ -1253,15 +1253,15 @@ s32* Map_0x370::sub_4E6510(s32* a2, Fix16 a3, Fix16 a4)
             && v13 < 0xB4 
             && (field_B_slope_type & 3) != 0)
         {
-            v10 = v6 << 14;
-            Map_0x370::sub_4E5BF0(v4.mValue, v5.mValue, &v10);
+            v10.FromInt(v6);
+            Map_0x370::sub_4E5BF0(v4, v5, &v10);
         }
         else
         {
-            v10 = (v6 + 1) << 14;
+            v10.FromInt(v6 + 1);
         }
     }
-    *a2 = v10;
+    a2->mValue = v10.mValue;
     return a2;
 }
 
