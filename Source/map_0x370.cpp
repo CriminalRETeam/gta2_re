@@ -915,55 +915,52 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
 }
 
 MATCH_FUNC(0x4E4D40)
-s32* Map_0x370::sub_4E4D40(s32* a2, s32 a3, s32 a4, s32 a5)
+Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    s32 v5;
-    s32 v6;
+    Fix16 v4;
+    Fix16 v5;
+    Fix16 v6;
     gmp_block_info* block_4DFE10;
     char_type v9;
-    s32 v10;
+    Fix16 v10;
     gmp_block_info* v11;
-    s32* result;
     char_type field_B_slope_type;
 
     u8 v13;
-    s32 v4;
     s32 v14;
 
-    v5 = a5;
-    v6 = a4;
-    v4 = a3;
-    if ((a5 & 0x3FFF) == dword_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, a5 >> 14)) == 0 ||
+    v5 = z_pos;
+    v6 = y_pos;
+    v4 = x_pos;
+    if ((z_pos.mValue & 0x3FFF) == dword_6F610C ||
+        (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == 0 ||
         (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFCu) <= 0) //  or it's a flat block
         || v13 >= 0xB4 //  or it's not a ramp
         || (v9 & 3) == 0 //  or it's a air block
-        || (v10 = v5 & 0xFFFFC000, Map_0x370::sub_4E5BF0(a3, v6, &v10), v10 > v5))
+        || (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(x_pos, v6, &v10), v10 > v5))
     {
-        v14 = (v5 >> 14) - 1;
-        v11 = Map_0x370::sub_4E4CB0(v4 >> 14, v6 >> 14, &v14);
+        v14 = v5.ToInt() - 1;
+        v11 = Map_0x370::sub_4E4CB0(v4.ToInt(), v6.ToInt(), &v14);
         gBlockInfo0_6F5EB0 = v11;
         if (!v11)
         {
-            result = a2;
-            *a2 = dword_6F6110.mValue;
-            return result;
+            a2->mValue = dword_6F6110.mValue;
+            return a2;
         }
         field_B_slope_type = v11->field_B_slope_type;
 
         if ((v13 = field_B_slope_type & 0xFC) > 0 //  it's not a flat block
             && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
         {
-            v10 = v14 << 14;
-            Map_0x370::sub_4E5BF0(a3, v6, &v10);
-            result = a2;
-            *a2 = v10;
-            return result;
+            v10.FromInt(v14);
+            Map_0x370::sub_4E5BF0(x_pos, v6, &v10);
+            a2->mValue = v10.mValue;
+            return a2;
         }
-        v10 = (++v14) << 14;
+        v10.FromInt(++v14);
     }
-    result = a2;
-    *a2 = v10;
-    return result;
+    a2->mValue = v10.mValue;
+    return a2;
 }
 
 MATCH_FUNC(0x4E4E50)
