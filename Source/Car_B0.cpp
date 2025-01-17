@@ -147,10 +147,15 @@ u32* Car_B0::sub_55A6A0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x55a840)
-s32 Car_B0::sub_55A840()
+MATCH_FUNC(0x55a840)
+void Car_B0::sub_55A840()
 {
-    return 0;
+    this->field_48 = 0;
+    this->field_4C = 0;
+    this->field_50 = 0;
+    this->field_54 = 0;
+    this->field_7C = 0;
+    this->field_80 = 0;
 }
 
 STUB_FUNC(0x55a860)
