@@ -32,10 +32,10 @@ char_type Orca_2FD4::sub_554110(char_type a2, char_type a3)
     return 0;
 }
 
-STUB_FUNC(0x5545c0)
-s32 Orca_2FD4::sub_5545C0()
+MATCH_FUNC(0x5545c0)
+void Orca_2FD4::sub_5545C0()
 {
-    return 0;
+    memset(this->field_40, 0, sizeof(this->field_40));
 }
 
 MATCH_FUNC(0x5545e0)

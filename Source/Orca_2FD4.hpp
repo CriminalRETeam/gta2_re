@@ -15,7 +15,7 @@ class Orca_2FD4
     EXPORT bool sub_554080(s32 a2);
     EXPORT char_type sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
     EXPORT char_type sub_554110(char_type a2, char_type a3);
-    EXPORT s32 sub_5545C0();
+    EXPORT void sub_5545C0();
     EXPORT void init_5545E0();
 
     ~Orca_2FD4()
