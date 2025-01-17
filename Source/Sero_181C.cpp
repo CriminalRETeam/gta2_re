@@ -1,5 +1,6 @@
 #include "Sero_181C.hpp"
 #include "Globals.hpp"
+#include "debug.hpp"
 
 EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
 GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
@@ -20,13 +21,15 @@ void Sero_58::sub_5781F0()
 }
 
 STUB_FUNC(0x578260)
-void Sero_58::ctor_578260()
+Sero_58::Sero_58()
 {
 }
 
-STUB_FUNC(0x5782c0)
-void Sero_58::dtor_5782C0()
+MATCH_FUNC(0x5782c0)
+Sero_58::~Sero_58()
 {
+    this->field_C[0] = 0;
+    this->field_4C = 0;
 }
 
 STUB_FUNC(0x5782d0)
@@ -153,10 +156,20 @@ Car_BC* Sero_181C::sub_579AD0()
     return 0;
 }
 
-STUB_FUNC(0x579af0)
+MATCH_FUNC(0x579af0)
 bool Sero_181C::is_bus_full_579AF0()
 {
-    return 0;
+    if (bSkip_buses_67D558)
+    {
+        return false;
+    }
+    
+    if (field_17C0.field_56_passenger_count >= 10)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 STUB_FUNC(0x579b10)
@@ -222,12 +235,12 @@ bool Sero_181C::sub_57B740(Car_BC* a2, Car_BC* a3)
     return 0;
 }
 
-STUB_FUNC(0x57b7b0)
+MATCH_FUNC(0x57b7b0)
 Sero_181C::Sero_181C()
 {
 }
 
-STUB_FUNC(0x57b820)
+MATCH_FUNC(0x57b820)
 Sero_181C::~Sero_181C()
 {
 }

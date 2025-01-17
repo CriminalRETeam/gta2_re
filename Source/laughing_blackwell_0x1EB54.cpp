@@ -548,7 +548,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
         case 0xBu:
             a2a = 0;
         LABEL_30:
-            v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.sub_4C59B0()];
+            v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
             v66 = *((BYTE*)v9 + 60905);
             v52 = *((BYTE*)v9 + 60906);
             v67 = *((BYTE*)v9 + 60907);
@@ -1015,7 +1015,7 @@ for (s32 i=0; i<3; i++)
             v17 = field_11C;
             v97 = v6;
             v18 = laughing_blackwell_0x1EB54::sub_5D8990(
-                (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_str,
+                (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_strPlayerName,
                 v17)
                 + 10;
             if (v18 == 10)
@@ -1933,7 +1933,7 @@ void laughing_blackwell_0x1EB54::sub_4AE2D0()
                 case 259u:
                     goto LABEL_21;
                 case 260u:
-                    v20 = gLucid_hamilton_67E8E0.sub_4C59B0(); //  LOBYTE(v20) =
+                    v20 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0(); //  LOBYTE(v20) =
                     if (PlySlotSvgExists_4B5370(v20))
                     {
                         sub_4B4EC0();
@@ -2303,7 +2303,7 @@ MATCH_FUNC(0x4B43E0)
 dreamy_clarke_0xA4* laughing_blackwell_0x1EB54::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
-    u16 idx = gLucid_hamilton_67E8E0.sub_4C59B0();
+    u16 idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx];
 }
 
@@ -2317,7 +2317,7 @@ MATCH_FUNC(0x4B4230)
 void laughing_blackwell_0x1EB54::sub_4B4230()
 {
     u16 count = field_136[1].field_4[0].field_6E_count;
-    wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_str;
+    wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_strPlayerName;
     wcsncpy(pStr, field_C9A0, 9u);
     HandleCheatCode_4B3DD0(pStr);
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
@@ -2488,7 +2488,7 @@ void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* cheat_str
 MATCH_FUNC(0x4B4280)
 void laughing_blackwell_0x1EB54::sub_4B4280()
 {
-    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136[1].field_4[0].field_6E_count].field_90_str, 9u);
+    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136[1].field_4[0].field_6E_count].field_90_strPlayerName, 9u);
 }
 
 STUB_FUNC(0x4B8530)
@@ -3973,7 +3973,7 @@ bool laughing_blackwell_0x1EB54::sub_4B6FF0()
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     u8 a2 = sub_4B7060(v3);
     gLucid_hamilton_67E8E0.sub_4C58F0(a2);
-    field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = a2;
     sub_4B7550();
     return v3 != a2;
 }
@@ -4073,7 +4073,7 @@ bool laughing_blackwell_0x1EB54::sub_4B70B0()
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7120(v3);
     gLucid_hamilton_67E8E0.sub_4C5900(a2);
-    field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB42[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = a2;
     sub_4B7610();
     return v3 != a2;
 }
@@ -4112,7 +4112,7 @@ bool laughing_blackwell_0x1EB54::sub_4B72F0()
     v3 = gLucid_hamilton_67E8E0.sub_4C5990();
     a2 = sub_4B7360(v3);
     gLucid_hamilton_67E8E0.sub_4C5900(a2);
-    field_1EB42[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB42[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = a2;
     sub_4B7610();
     return v3 != a2;
 }
@@ -4126,7 +4126,7 @@ bool laughing_blackwell_0x1EB54::sub_4B7200()
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     a2 = sub_4B7270(v3);
     gLucid_hamilton_67E8E0.sub_4C58F0(a2);
-    field_1EB3A[gLucid_hamilton_67E8E0.sub_4C59B0()] = a2;
+    field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = a2;
     sub_4B7550();
     return v3 != (char)a2;
 }

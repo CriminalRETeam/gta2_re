@@ -1,8 +1,11 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "Function.hpp"
-#include "error.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include "file.hpp"
+#include "Game_0x40.hpp"
+#include "angry_lewin_0x85C.hpp"
+#include "lucid_hamilton.hpp"
 #include <io.h>
 
 EXPORT_VAR jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;
@@ -10,6 +13,9 @@ GLOBAL(gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
 
 EXPORT_VAR wchar_t word_67DC8C[50];
 GLOBAL(word_67DC8C, 0x67DC8C);
+
+// TODO
+EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
 STUB_FUNC(0x56B6E0)
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
@@ -130,7 +136,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 
     u16 idx = (u16)slotIdx;
 
-    wchar_t* pStr = field_26A0[idx].field_90_str;
+    wchar_t* pStr = field_26A0[idx].field_90_strPlayerName;
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
 
@@ -172,7 +178,7 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
     char_type FileName[356];
     u16 idx = (u16)slotIdx;
 
-    wchar_t* pStr = field_26A0[idx].field_90_str; // todo: This instruction is too early lea     esi, [ebx+2730h]
+    wchar_t* pStr = field_26A0[idx].field_90_strPlayerName; // todo: This instruction is too early lea     esi, [ebx+2730h]
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
 
@@ -316,7 +322,6 @@ void jolly_poitras_0x2BC0::sub_56BD20()
 STUB_FUNC(0x56BC40)
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
-
 }
 
 STUB_FUNC(0x56BBD0)
@@ -328,6 +333,13 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 STUB_FUNC(0x56C250)
 void jolly_poitras_0x2BC0::sub_56C250()
 {
+    if (!bStartNetworkGame_7081F0)
+    {
+        if (wcscmp(this->field_26A0[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
+        {
+            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 * 500000);
+        }
+    }
 }
 
 MATCH_FUNC(0x56C2C0)
@@ -342,8 +354,6 @@ void jolly_poitras_0x2BC0::create_56C2C0()
         }
     }
 }
-
-
 
 MATCH_FUNC(0x56C340)
 void jolly_poitras_0x2BC0::destroy_56C340()

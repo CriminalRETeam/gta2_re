@@ -177,7 +177,7 @@ class cool_nash_0x294
     EXPORT void sub_46C910();
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();
-    EXPORT s32 sub_46CA70();
+    EXPORT void sub_46CA70();
     EXPORT char_type sub_46CB30();
     EXPORT char_type sub_46CC70();
     EXPORT char_type sub_46CDB0();
@@ -317,9 +317,9 @@ class cool_nash_0x294
     s32 field_1C4_x;
     s32 field_1C8_y;
     s32 field_1CC_z;
-    s32 field_1D0;
-    s32 field_1D4;
-    s32 field_1D8;
+    Fix16 field_1D0;
+    Fix16 field_1D4;
+    Fix16 field_1D8;
     s32 field_1DC_objective_target_x;
     s32 field_1E0_objective_target_y;
     s32 field_1E4_objective_target_z;

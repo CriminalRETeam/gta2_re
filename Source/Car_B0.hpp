@@ -23,7 +23,7 @@ class Car_B0
     EXPORT void sub_559A40();
     EXPORT Car_BC* sub_559B40();
     EXPORT Car_A4_10* sub_559B50();
-    EXPORT u32* sub_559B90(u32* a2);
+    EXPORT void sub_559B90(u32* a2);
     EXPORT u32 sub_559BA0();
     EXPORT void sub_559C30();
     EXPORT s32 sub_559DD0();
@@ -41,7 +41,7 @@ class Car_B0
     EXPORT void sub_55A550();
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
-    EXPORT s32 sub_55A840();
+    EXPORT void sub_55A840();
     EXPORT char_type sub_55A860(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
     EXPORT void sub_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);

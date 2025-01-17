@@ -20,7 +20,7 @@ struct gifted_joliot
 struct dreamy_clarke_0xA4
 {
     gifted_joliot field_0[3][4];
-    wchar_t field_90_str[9];
+    wchar_t field_90_strPlayerName[9];
     s16 field_A2;
 
     EXPORT dreamy_clarke_0xA4();
