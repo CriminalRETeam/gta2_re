@@ -94,7 +94,6 @@ struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
             u16 field_C_second_item_idx; //  SCR_SET_CHAR_OBJ2
             u16 field_E_variant;
         };
-        SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
         struct
         {
             u16 field_C_car_idx; //  SET_CHAR_OBJ_FOLLOW
@@ -102,6 +101,13 @@ struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
             s32 field_12_offset;
         };
     };
+};
+
+struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx;
+    s16 field_A_objective;
+    SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
 };
 
 struct SCR_IF_JUMP : SCR_CMD_HEADER
