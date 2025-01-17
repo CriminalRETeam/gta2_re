@@ -1174,7 +1174,7 @@ void cool_nash_0x294::sub_46C9B0()
 {
 }
 
-STUB_FUNC(0x46ca60)
+MATCH_FUNC(0x46ca60)
 void cool_nash_0x294::sub_46CA60()
 {
 }
