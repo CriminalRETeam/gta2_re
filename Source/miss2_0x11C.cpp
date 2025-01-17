@@ -880,9 +880,11 @@ void miss2_0x11C::SCRCMD_DISABLE_THREAD_50ABC0()
 {
 }
 
-STUB_FUNC(0x50abf0)
+MATCH_FUNC(0x50abf0)
 void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
 {
+    miss2_0x11C::sub_50A9E0(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ac20)
