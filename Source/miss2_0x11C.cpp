@@ -41,10 +41,10 @@ GLOBAL(dword_6F791C, 0x6F791C);
 EXPORT_VAR Ang16 word_6F8044;
 GLOBAL(word_6F8044, 0x6F8044);
 
-EXPORT_VAR s32 dword_6F7924;
+EXPORT_VAR Fix16 dword_6F7924;
 GLOBAL(dword_6F7924, 0x6F7924);
 
-EXPORT_VAR s32 dword_6F7570;
+EXPORT_VAR Fix16 dword_6F7570;
 GLOBAL(dword_6F7570, 0x6F7570);
 
 EXPORT_VAR s16 dword_6F804C;
@@ -134,8 +134,8 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         cool_nash_0x294* pPed;
         if (gfrosty_pasteur_6F8060->field_C1E2C)
         {
-            s32 weird_y = (dword_6F76DC.ConcatenateWord(dword_6F7920)).mValue;
-            s32 weird_x = (dword_6F75F0.ConcatenateWord(dword_6F791C)).mValue;
+            Fix16 weird_y = dword_6F76DC.ConcatenateWord(dword_6F7920);
+            Fix16 weird_x = dword_6F75F0.ConcatenateWord(dword_6F791C);
 
             pPed = gChar_C_6787BC->sub_470A50(weird_x,
                                             weird_y, 
@@ -147,7 +147,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         {
             if (pCmd->field_C_pos.field_8_z == dword_6F7570) //  dword_6F7570 is 255.0
             {
-                s32 temp_z;
+                Fix16 temp_z;
                 //  Calculate the real Z position at (X,Y) based on the map
                 pCmd->field_C_pos.field_8_z =
                     *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
@@ -216,7 +216,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
-        s32 temp_z;
+        Fix16 temp_z;
         pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
                                                                     pCmd->field_C_pos.field_0_x,
                                                                     pCmd->field_C_pos.field_4_y);
