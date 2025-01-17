@@ -44,10 +44,10 @@ Car_A4_10* Car_B0::sub_559B50()
     return 0;
 }
 
-STUB_FUNC(0x559b90)
-u32* Car_B0::sub_559B90(u32* a2)
+MATCH_FUNC(0x559b90)
+void Car_B0::sub_559B90(u32* a2) // TODO: Fix16 ?
 {
-    return 0;
+    field_A0 = *a2;
 }
 
 STUB_FUNC(0x559ba0)
