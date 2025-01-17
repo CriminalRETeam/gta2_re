@@ -9,25 +9,21 @@ GLOBAL(byte_6FDEEC, 0x6FDEEC);
 MATCH_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)
 {
-    if (field_25 > 1u && field_25 < 254u &&
-        field_26 > 1u && field_26 < 254u)
+    if (field_25 > 1u && field_25 < 254u && field_26 > 1u && field_26 < 254u)
     {
-        bool result = gMap_0x370_6F6268->sub_4E0130(
-                            (u8)field_25,
-                            (u8)field_26,
-                            (u8)field_27,
-                            a2,
-                            &byte_6FDEEC,
-                            1) == 0;
+        bool result = gMap_0x370_6F6268->sub_4E0130((u8)field_25, (u8)field_26, (u8)field_27, a2, &byte_6FDEEC, 1) == 0;
         return result;
     }
     return false;
 }
 
-STUB_FUNC(0x5540e0)
+MATCH_FUNC(0x5540e0)
 char_type Orca_2FD4::sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
 {
-    return 0;
+    this->field_25 = a2;
+    this->field_26 = a3;
+    this->field_27 = a4;
+    return sub_554110(a5, a6);
 }
 
 STUB_FUNC(0x554110)
