@@ -20,12 +20,12 @@ void Sero_58::sub_5781F0()
 }
 
 STUB_FUNC(0x578260)
-void Sero_58::ctor_578260()
+Sero_58::Sero_58()
 {
 }
 
 STUB_FUNC(0x5782c0)
-void Sero_58::dtor_5782C0()
+Sero_58::~Sero_58()
 {
 }
 
@@ -222,7 +222,7 @@ bool Sero_181C::sub_57B740(Car_BC* a2, Car_BC* a3)
     return 0;
 }
 
-STUB_FUNC(0x57b7b0)
+MATCH_FUNC(0x57b7b0)
 Sero_181C::Sero_181C()
 {
 }

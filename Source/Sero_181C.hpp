@@ -11,8 +11,8 @@ class Sero_58
     EXPORT void sub_578030();
     EXPORT void sub_578180();
     EXPORT void sub_5781F0();
-    EXPORT void ctor_578260();
-    EXPORT void dtor_5782C0();
+    EXPORT Sero_58();
+    EXPORT ~Sero_58();
     EXPORT void sub_5782D0();
     EXPORT void sub_578300();
     EXPORT void sub_578330();
