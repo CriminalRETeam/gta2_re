@@ -963,25 +963,25 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     return a2;
 }
 
-MATCH_FUNC(0x4E4E50)
-s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
+STUB_FUNC(0x4E4E50)     //  DAMN reg swap    https://decomp.me/scratch/aQODE
+Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-    s32 v5;
+    Fix16 v5;
     gmp_block_info* block_4DFE10;
     s8 v10;
     u8 v11;
     gmp_block_info* v12;
     s8 field_B_slope_type;
     u8 v14;
-    s32 v16;
+    Fix16 v16;
 
-    for (v5 = a5; v5 < a5 + dword_6F6110.mValue; v5 = dword_6F6110.mValue + (v5 & 0xFFFFC000))
+    for (v5.mValue = a5.mValue; v5.mValue < a5.mValue + dword_6F6110.mValue; v5.mValue = dword_6F6110.mValue + (v5.mValue & 0xFFFFC000))
     {
-        block_4DFE10 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, v5 >> 14);
+        block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), v5.ToInt());
         gBlockInfo0_6F5EB0 = block_4DFE10;
         if (!block_4DFE10 || (v10 = block_4DFE10->field_B_slope_type, (v10 & 3) == 0))
         {
-            v12 = Map_0x370::get_block_4DFE10(a3 >> 14, a4 >> 14, (v5 - dword_6F6110.mValue) >> 14);
+            v12 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), (v5 - dword_6F6110).ToInt());
             gBlockInfo0_6F5EB0 = v12;
             if (v12)
             {
@@ -991,7 +991,7 @@ s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
                     v14 = field_B_slope_type & 0xFC;
                     if (v14 <= 0 || v14 >= 0xB4u)
                     {
-                        *a2 = v5;
+                        a2->mValue = v5.mValue;
                         return a2;
                     }
                 }
@@ -1004,11 +1004,11 @@ s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
             {
                 if (v11 < 0xB4u)
                 {
-                    v16 = v5 & 0xFFFFC000;
+                    v16.mValue = v5.mValue & 0xFFFFC000;
                     Map_0x370::sub_4E5BF0(a3, a4, &v16);
                     if (v16 >= v5)
                     {
-                        *a2 = v16;
+                        a2->mValue = v16.mValue;
                         return a2;
                     }
                 }
@@ -1016,7 +1016,7 @@ s32* Map_0x370::sub_4E4E50(s32* a2, s32 a3, s32 a4, s32 a5)
         }
     }
     v5 = a5;
-    *a2 = v5;
+    a2->mValue = v5.mValue;
     return a2;
 }
 
