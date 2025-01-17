@@ -80,7 +80,7 @@ struct lucid_hamilton
 
     EXPORT char_type sub_4C59A0();
 
-    EXPORT u8 sub_4C59B0();
+    EXPORT u8 GetPlySlotIdx_4C59B0();
 
     EXPORT char_type sub_4C59C0();
 

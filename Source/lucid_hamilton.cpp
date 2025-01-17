@@ -173,7 +173,7 @@ char_type lucid_hamilton::sub_4C59A0()
 }
 
 MATCH_FUNC(0x4C59B0)
-u8 lucid_hamilton::sub_4C59B0()
+u8 lucid_hamilton::GetPlySlotIdx_4C59B0()
 {
     return field_403;
 }
