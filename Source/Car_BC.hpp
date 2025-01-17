@@ -20,6 +20,57 @@ class car_info;
 class infallible_turing;
 class Sprite_4C;
 
+// TODO: Move
+class Car_78
+{
+  public:
+    Car_BC* field_0;
+    s32 field_4;
+    char field_8;
+    char field_9;
+    char field_A;
+    char field_B;
+    Car_78* field_C;
+    s16 field_10;
+    s16 field_12;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24_flags;
+    char field_28_junc_idx;
+    char field_29;
+    char field_2A;
+    char field_2B;
+    char field_2C;
+    char field_2D;
+    char field_2E;
+    char field_2F;
+    char field_30;
+    char field_31;
+    char field_32;
+    char field_33;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50;
+    s16 field_54;
+    s16 field_56;
+    s16 field_58;
+    s16 field_5A;
+    s32 field_5C;
+    s32 field_60;
+    s32 field_64;
+    s32 field_68;
+    s32 field_6C;
+    s32 field_70;
+    s32 field_74;
+};
+
 class Car_3C
 {
   public:
@@ -420,7 +471,7 @@ class Car_BC
     s16 field_74_damage;
     s16 field_76;
     u16 field_78_flags;
-//    u8 field_79;
+    //    u8 field_79;
     s16 field_7A;
     s32 field_7C_uni_num;
     char_type field_80;

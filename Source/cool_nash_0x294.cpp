@@ -8,6 +8,7 @@
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
+#include "Hamburger_500.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -15,6 +16,9 @@ GLOBAL(byte_61A8A3, 0x61A8A3);
 
 EXPORT_VAR Ang16 word_6FDB34;
 GLOBAL(word_6FDB34, 0x6FDB34);
+
+EXPORT_VAR s32 dword_67866C; // TODO: Fix16? Static init to 0xC000
+GLOBAL(dword_67866C, 0x67866C);
 
 MATCH_FUNC(0x45ae70)
 cool_nash_0x294::cool_nash_0x294()
@@ -1175,10 +1179,35 @@ void cool_nash_0x294::sub_46CA60()
 {
 }
 
-STUB_FUNC(0x46ca70)
-s32 cool_nash_0x294::sub_46CA70()
+MATCH_FUNC(0x46ca70)
+void cool_nash_0x294::sub_46CA70()
 {
-    return 0;
+    if (!this->field_16C_car->field_60)
+    {
+        this->field_16C_car->field_60 = gHamburger_500_678E30->sub_474810();
+        this->field_16C_car->field_60->field_4 = this;
+    }
+
+    if (this->field_258_objective == 19)
+    {
+        field_16C_car->field_60->field_8 = 5;
+        if ((field_21C & 0x80u) != 0)
+        {
+            this->field_21C |= 0x800;
+        }
+    }
+    else
+    {
+        field_16C_car->field_60->field_8 = 2;
+    }
+
+    Car_BC* pBC = this->field_16C_car;
+    pBC->field_7C_uni_num = 5;
+    pBC->field_76 = 0;
+    this->field_16C_car->field_60->field_30 = this->field_14C;
+    this->field_16C_car->field_A6 &= ~0x20u;
+    this->field_16C_car->field_5C->field_74 = dword_67866C;
+    this->field_16C_car->field_60->field_20 = 1;
 }
 
 STUB_FUNC(0x46cb30)

@@ -177,7 +177,7 @@ class cool_nash_0x294
     EXPORT void sub_46C910();
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();
-    EXPORT s32 sub_46CA70();
+    EXPORT void sub_46CA70();
     EXPORT char_type sub_46CB30();
     EXPORT char_type sub_46CC70();
     EXPORT char_type sub_46CDB0();
