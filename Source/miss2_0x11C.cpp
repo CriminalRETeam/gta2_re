@@ -875,9 +875,11 @@ void miss2_0x11C::sub_50A9E0(u16 idx)
 {
 }
 
-STUB_FUNC(0x50abc0)
+MATCH_FUNC(0x50abc0)
 void miss2_0x11C::SCRCMD_DISABLE_THREAD_50ABC0()
 {
+    miss2_0x11C::sub_505790(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50abf0)
