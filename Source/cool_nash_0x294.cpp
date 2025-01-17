@@ -2,13 +2,13 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Hamburger_500.hpp"
 #include "Mouze_44.hpp"
 #include "Object_5C.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
-#include "Hamburger_500.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1125,9 +1125,13 @@ void cool_nash_0x294::sub_46B670()
 {
 }
 
-STUB_FUNC(0x46bd30)
+MATCH_FUNC(0x46bd30)
 void cool_nash_0x294::sub_46BD30()
 {
+    if (!this->field_21A)
+    {
+        this->field_226 = 1;
+    }
 }
 
 STUB_FUNC(0x46bd50)
