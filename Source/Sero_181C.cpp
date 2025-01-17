@@ -1,5 +1,6 @@
 #include "Sero_181C.hpp"
 #include "Globals.hpp"
+#include "debug.hpp"
 
 EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
 GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
@@ -155,10 +156,20 @@ Car_BC* Sero_181C::sub_579AD0()
     return 0;
 }
 
-STUB_FUNC(0x579af0)
+MATCH_FUNC(0x579af0)
 bool Sero_181C::is_bus_full_579AF0()
 {
-    return 0;
+    if (bSkip_buses_67D558)
+    {
+        return false;
+    }
+    
+    if (field_17C0.field_56_passenger_count >= 10)
+    {
+        return true;
+    }
+
+    return false;
 }
 
 STUB_FUNC(0x579b10)
