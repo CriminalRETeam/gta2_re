@@ -1112,7 +1112,7 @@ Fix16* Map_0x370::sub_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
 }
 
 STUB_FUNC(0x4E5BF0)
-char_type Map_0x370::sub_4E5BF0(s32 a2, s32 a3, s32* a4)
+char_type Map_0x370::sub_4E5BF0(Fix16 a2, Fix16 a3, Fix16* a4)
 {
     return 0;
 }
@@ -1210,7 +1210,6 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
             return a2;
         }
         s8 field_B_slope_type = v11->field_B_slope_type;
-        
         if ( ( v13 = field_B_slope_type & 0xFCu ) > 0 
             && v13 < 0xB4u
             && (field_B_slope_type & 3) != 0 )
