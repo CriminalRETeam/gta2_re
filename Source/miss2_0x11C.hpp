@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class cool_nash_0x294;
 class Maccies_2C;
@@ -19,9 +20,9 @@ struct SCR_CMD_HEADER
 
 struct SCR_XYZ_f
 {
-    s32 field_0_x;
-    s32 field_4_y;
-    s32 field_8_z;
+    Fix16 field_0_x;
+    Fix16 field_4_y;
+    Fix16 field_8_z;
 };
 
 struct SCR_PLAYER_PED
