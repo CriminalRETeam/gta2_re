@@ -227,7 +227,7 @@ Sero_181C::Sero_181C()
 {
 }
 
-STUB_FUNC(0x57b820)
+MATCH_FUNC(0x57b820)
 Sero_181C::~Sero_181C()
 {
 }
