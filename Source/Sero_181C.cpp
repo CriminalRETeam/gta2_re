@@ -24,9 +24,11 @@ Sero_58::Sero_58()
 {
 }
 
-STUB_FUNC(0x5782c0)
+MATCH_FUNC(0x5782c0)
 Sero_58::~Sero_58()
 {
+    this->field_C[0] = 0;
+    this->field_4C = 0;
 }
 
 STUB_FUNC(0x5782d0)
