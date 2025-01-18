@@ -288,10 +288,10 @@ void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
                                                    pCmd->field_1A_policeped_ratio);
 }
 
-STUB_FUNC(0x5041b0)
-s32 miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(s32 a1)
+MATCH_FUNC(0x5041b0)
+void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
 {
-    return 0;
+    pCmd->field_8_u32 = 0;
 }
 
 STUB_FUNC(0x5041c0)
