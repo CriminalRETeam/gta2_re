@@ -108,9 +108,10 @@ void miss2_0x11C::sub_503650(u16 a2)
     }
 }
 
-STUB_FUNC(0x503670)
+MATCH_FUNC(0x503670)
 void miss2_0x11C::sub_503670()
 {
+    field_4_level_start = 0xFFFFu;
 }
 
 STUB_FUNC(0x503680)
