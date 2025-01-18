@@ -120,6 +120,22 @@ struct SCR_SOUND_DECSET : SCR_CMD_HEADER
     u16 field_1B_padding;
 };
 
+struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
+{
+    u16 field_8_car_density;
+    u16 field_A_goodcar_ratio;
+    u16 field_C_badcar_ratio;
+    u16 field_E_policecar_ratio;
+    u16 field_10_ped_density;
+    u16 field_12_mugger_ratio;
+    u16 field_14_carthief_ratio;
+    u16 field_16_elvis_ratio;
+    u16 field_18_gangchar_ratio;
+    u16 field_1A_policeped_ratio;
+    u16 field_1C_gangcar_ratio;
+    u16 field_1E_padding;
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
@@ -144,7 +160,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* a1);
     EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* a1, SCR_POINTER* a2);
     EXPORT cool_nash_0x294* sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2);
-    EXPORT void SCRCMD_MAP_ZONE_SET_504150(s16* a1);
+    EXPORT void SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* a1);
     EXPORT s32 SCRCMD_ARROW_DEC_5041B0(s32 a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
     EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);

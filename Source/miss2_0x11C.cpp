@@ -268,9 +268,24 @@ cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2
     return v2;
 }
 
-STUB_FUNC(0x504150)
-void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(s16* a1)
+MATCH_FUNC(0x504150)
+void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
 {
+    str_table_entry* StringById_503080;
+
+    StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_0_cmd_this);
+    gMap_0x370_6F6268->set_nav_unknown_data_4DF8C0(StringById_503080->field_2_zone_idx,
+                                                   pCmd->field_8_car_density,
+                                                   pCmd->field_A_goodcar_ratio,
+                                                   pCmd->field_C_badcar_ratio,
+                                                   pCmd->field_E_policecar_ratio,
+                                                   pCmd->field_1C_gangcar_ratio,
+                                                   pCmd->field_10_ped_density,
+                                                   pCmd->field_12_mugger_ratio,
+                                                   pCmd->field_14_carthief_ratio,
+                                                   pCmd->field_16_elvis_ratio,
+                                                   pCmd->field_18_gangchar_ratio,
+                                                   pCmd->field_1A_policeped_ratio);
 }
 
 STUB_FUNC(0x5041b0)
