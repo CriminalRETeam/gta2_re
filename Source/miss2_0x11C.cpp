@@ -530,8 +530,8 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
     SCR_IF_JUMP* base_pointer = (SCR_IF_JUMP*)gBasePtr_6F8070;
     
-    if ( ( base_pointer->is_or == 1 && this->field_8 )
-        || (!base_pointer->is_or && !this->field_8 ) ) {
+    if ( ( base_pointer->is_or == 1 && field_8 )
+        || (!base_pointer->is_or && !field_8 ) ) {
         
         sub_503650(base_pointer->else_endif_pointer);  //  Jump to the last IF_JUMP or go to ELSE section
         return;
@@ -1143,11 +1143,11 @@ void miss2_0x11C::SCRCMD_CAR_GOT_DRIVER_50C2A0()
     SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (pCmd->field_8_car->field_54_driver)
     {
-        this->field_8 = 1;
+        field_8 = 1;
     }
     else
     {
-        this->field_8 = 0;
+        field_8 = 0;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1197,11 +1197,11 @@ void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
                                     gBasePtr_6F8070[1].field_0_cmd_this);
     if (pCmd->field_8_char->field_188)
     {
-        this->field_8 = 1;
+        field_8 = 1;
     }
     else
     {
-        this->field_8 = 0;
+        field_8 = 0;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
