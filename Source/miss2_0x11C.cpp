@@ -728,9 +728,23 @@ void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
 {
 }
 
-STUB_FUNC(0x509bb0)
+MATCH_FUNC(0x509bb0)
 void miss2_0x11C::SCRCMD_HAS_CHAR_DIED_509BB0()
 {
+    SCR_POINTER* v2;
+
+    v2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (v2->field_8_char 
+        && v2->field_8_char->field_278 == 9)
+    {
+        field_8 = 1;
+    }
+    else
+    {
+        field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509c10)
