@@ -13,6 +13,7 @@
 #include "map_0x370.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "Object_5C.hpp"
+#include "Sero_181C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1627,9 +1628,19 @@ void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 {
 }
 
-STUB_FUNC(0x50f9b0)
+MATCH_FUNC(0x50f9b0)
 void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    {
+        gSero_181C_6FF1D4->field_1818 = true;
+    }
+    else
+    {
+        gSero_181C_6FF1D4->field_1818 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50fa00)
