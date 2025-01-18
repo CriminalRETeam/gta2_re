@@ -31,6 +31,13 @@ struct SCR_XY_uc
     u8 field_1_y;
 };
 
+struct SCR_XYZ_uc
+{
+	u8 field_0_x;
+    u8 field_1_y;
+    u8 field_2_z;
+};
+
 struct SCR_PLAYER_PED
 {
     SCR_CMD_HEADER field_0_header;
@@ -146,6 +153,12 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
     SCR_XY_uc field_A_max_pos;
+};
+
+struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
+{
+    SCR_XYZ_uc field_8_pos;
+    u8 field_B_do_drop;
 };
 
 struct SCR_IF_JUMP : SCR_CMD_HEADER

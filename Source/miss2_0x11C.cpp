@@ -1216,9 +1216,16 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
 {
 }
 
-STUB_FUNC(0x50c9f0)
+MATCH_FUNC(0x50c9f0)
 void miss2_0x11C::SCRCMD_REMOVE_BLOCK_50C9F0()
 {
+    SCR_REMOVE_BLOCK* pCmd = (SCR_REMOVE_BLOCK*)gBasePtr_6F8070;
+
+    gMap_0x370_6F6268->sub_4E8940(pCmd->field_8_pos.field_0_x,
+                                  pCmd->field_8_pos.field_1_y,
+                                  pCmd->field_8_pos.field_2_z,
+                                  pCmd->field_B_do_drop);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ca30)
