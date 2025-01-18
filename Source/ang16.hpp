@@ -140,5 +140,9 @@ class Ang16
     {
     }
 
+    Ang16(s32 value) : rValue(value)
+    {
+    }
+
     s16 rValue;
 };

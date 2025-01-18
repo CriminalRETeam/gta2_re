@@ -12,6 +12,8 @@
 #include "ang16.hpp"
 #include "map_0x370.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "Object_5C.hpp"
+#include "Sero_181C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -107,9 +109,10 @@ void miss2_0x11C::sub_503650(u16 a2)
     }
 }
 
-STUB_FUNC(0x503670)
+MATCH_FUNC(0x503670)
 void miss2_0x11C::sub_503670()
 {
+    field_4_level_start = 0xFFFFu;
 }
 
 STUB_FUNC(0x503680)
@@ -267,15 +270,30 @@ cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2
     return v2;
 }
 
-STUB_FUNC(0x504150)
-void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(s16* a1)
+MATCH_FUNC(0x504150)
+void miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd)
 {
+    str_table_entry* StringById_503080;
+
+    StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_0_cmd_this);
+    gMap_0x370_6F6268->set_nav_unknown_data_4DF8C0(StringById_503080->field_2_zone_idx,
+                                                   pCmd->field_8_car_density,
+                                                   pCmd->field_A_goodcar_ratio,
+                                                   pCmd->field_C_badcar_ratio,
+                                                   pCmd->field_E_policecar_ratio,
+                                                   pCmd->field_1C_gangcar_ratio,
+                                                   pCmd->field_10_ped_density,
+                                                   pCmd->field_12_mugger_ratio,
+                                                   pCmd->field_14_carthief_ratio,
+                                                   pCmd->field_16_elvis_ratio,
+                                                   pCmd->field_18_gangchar_ratio,
+                                                   pCmd->field_1A_policeped_ratio);
 }
 
-STUB_FUNC(0x5041b0)
-s32 miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(s32 a1)
+MATCH_FUNC(0x5041b0)
+void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
 {
-    return 0;
+    pCmd->field_8_u32 = 0;
 }
 
 STUB_FUNC(0x5041c0)
@@ -382,9 +400,25 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1)
 {
 }
 
-STUB_FUNC(0x505340)
-void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(s32 a1, s32 a2)
+MATCH_FUNC(0x505340)
+void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2)
 {
+    if (!a1->field_19_play_type)
+    {
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299F0(278,
+                                                        a1->field_18_sound_id,
+                                                        a1->field_C_pos.field_0_x,
+                                                        a1->field_C_pos.field_4_y,
+                                                        a1->field_C_pos.field_8_z);
+    }
+    else
+    {
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299F0(279,
+                                                        a1->field_18_sound_id,
+                                                        a1->field_C_pos.field_0_x,
+                                                        a1->field_C_pos.field_4_y,
+                                                        a1->field_C_pos.field_8_z);
+    }
 }
 
 STUB_FUNC(0x505430)
@@ -397,9 +431,10 @@ void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1)
 {
 }
 
-STUB_FUNC(0x505710)
-void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(s32 a1)
+MATCH_FUNC(0x505710)
+void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* pCmd)
 {
+    gfrosty_pasteur_6F8060->field_310_finish_score = pCmd->field_8_s32;
 }
 
 STUB_FUNC(0x505750)
@@ -496,8 +531,8 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
     SCR_IF_JUMP* base_pointer = (SCR_IF_JUMP*)gBasePtr_6F8070;
     
-    if ( ( base_pointer->is_or == 1 && this->field_8 )
-        || (!base_pointer->is_or && !this->field_8 ) ) {
+    if ( ( base_pointer->is_or == 1 && field_8 )
+        || (!base_pointer->is_or && !field_8 ) ) {
         
         sub_503650(base_pointer->else_endif_pointer);  //  Jump to the last IF_JUMP or go to ELSE section
         return;
@@ -710,9 +745,23 @@ void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
 {
 }
 
-STUB_FUNC(0x509bb0)
+MATCH_FUNC(0x509bb0)
 void miss2_0x11C::SCRCMD_HAS_CHAR_DIED_509BB0()
 {
+    SCR_POINTER* v2;
+
+    v2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (v2->field_8_char 
+        && v2->field_8_char->field_278 == 9)
+    {
+        field_8 = 1;
+    }
+    else
+    {
+        field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509c10)
@@ -1089,14 +1138,37 @@ void miss2_0x11C::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 {
 }
 
-STUB_FUNC(0x50c2a0)
+MATCH_FUNC(0x50c2a0)
 void miss2_0x11C::SCRCMD_CAR_GOT_DRIVER_50C2A0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pCmd->field_8_car->field_54_driver)
+    {
+        field_8 = 1;
+    }
+    else
+    {
+        field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c2f0)
+MATCH_FUNC(0x50c2f0)
 void miss2_0x11C::SCRCMD_SPOTTED_PLAYER_50C2F0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    BitSet32 flag;
+    flag.m_var = pCmd->field_8_char->field_21C;
+    if (flag.check_bit(23))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c350)
@@ -1119,9 +1191,20 @@ void miss2_0x11C::SCRCMD_IS_GROUP_IN_CAR_50C470()
 {
 }
 
-STUB_FUNC(0x50c4e0)
+MATCH_FUNC(0x50c4e0)
 void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pCmd->field_8_char->field_188)
+    {
+        field_8 = 1;
+    }
+    else
+    {
+        field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c540)
@@ -1159,14 +1242,28 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
 {
 }
 
-STUB_FUNC(0x50c9f0)
+MATCH_FUNC(0x50c9f0)
 void miss2_0x11C::SCRCMD_REMOVE_BLOCK_50C9F0()
 {
+    SCR_REMOVE_BLOCK* pCmd = (SCR_REMOVE_BLOCK*)gBasePtr_6F8070;
+
+    gMap_0x370_6F6268->sub_4E8940(pCmd->field_8_pos.field_0_x,
+                                  pCmd->field_8_pos.field_1_y,
+                                  pCmd->field_8_pos.field_2_z,
+                                  pCmd->field_B_do_drop);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ca30)
+MATCH_FUNC(0x50ca30)
 void miss2_0x11C::SCRCMD_LOWER_LEVEL_50CA30()
 {
+    SCR_LOWER_LEVEL* pCmd = (SCR_LOWER_LEVEL*)gBasePtr_6F8070;
+
+    gMap_0x370_6F6268->sub_4E8B70(pCmd->field_8_min_pos.field_0_x,
+                                  pCmd->field_A_max_pos.field_0_x,
+                                  pCmd->field_8_min_pos.field_1_y,
+                                  pCmd->field_A_max_pos.field_1_y);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ca70)
@@ -1199,9 +1296,24 @@ void miss2_0x11C::sub_50CD30()
 {
 }
 
-STUB_FUNC(0x50cdb0)
+MATCH_FUNC(0x50cdb0)
 void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 {
+    SCR_TWO_PARAMS* v1;
+    SCR_POINTER* pCmd;
+
+    v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if ((pCmd->field_8_car)->sub_43D1C0(v1->field_A_signed_2)) // field_A_signed_2 = damage pos
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ce10)
@@ -1330,9 +1442,20 @@ void miss2_0x11C::sub_50E460()
 {
 }
 
-STUB_FUNC(0x50e4a0)
+MATCH_FUNC(0x50e4a0)
 void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                gBasePtr_6F8070[1].field_0_cmd_this);
+    if ((pCmd->field_8_char->field_21C & 0x20) != 0)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50e4f0)
@@ -1425,9 +1548,18 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 {
 }
 
-STUB_FUNC(0x50f220)
+MATCH_FUNC(0x50f220)
 void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 {
+    if ((u16)gBasePtr_6F8070[1].field_0_cmd_this == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
+    {
+        gCar_6C_677930->field_C = 87; //  No model suppressed
+    }
+    else
+    {
+        gCar_6C_677930->field_C = (u16)gBasePtr_6F8070[1].field_0_cmd_this;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f270)
@@ -1466,9 +1598,19 @@ void miss2_0x11C::sub_50F5E0()
 {
 }
 
-STUB_FUNC(0x50f770)
+MATCH_FUNC(0x50f770)
 void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    {
+        gChar_C_6787BC->field_7_make_all_muggers = true;
+    }
+    else
+    {
+        gChar_C_6787BC->field_7_make_all_muggers = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f7b0)
@@ -1486,9 +1628,19 @@ void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 {
 }
 
-STUB_FUNC(0x50f9b0)
+MATCH_FUNC(0x50f9b0)
 void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    {
+        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
+    }
+    else
+    {
+        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50fa00)
@@ -1615,32 +1767,32 @@ void miss2_0x11C::PreExecOpCode_5108D0()
         gBasePtr_6F8070 = pCmd;
         switch (pCmd->field_2_type)
         {
-            case 41:
-            case 42:
+            case SCRCMD_CREATE_CHAR_2D:
+            case SCRCMD_CREATE_CHAR_3D:
                 SCR_CMD_CREATE_CHAR_509730();
                 break;
-            case 43:
-            case 44:
-            case 45:
-            case 46:
-            case 394:
-            case 395:
-            case 396:
-            case 397:
+            case SCRCMD_CREATE_CAR_2D:
+            case SCRCMD_CREATE_CAR_3D:
+            case SCRCMD_CREATE_CAR_2D_STR:
+            case SCRCMD_CREATE_CAR_3D_STR:
+            case SCRCMD_CREATE_GANG_CAR1:
+            case SCRCMD_CREATE_GANG_CAR2:
+            case SCRCMD_CREATE_GANG_CAR3:
+            case SCRCMD_CREATE_GANG_CAR4:
                 sub_507F80();
                 break;
-            case 47:
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
+            case SCRCMD_CREATE_OBJ_2D:
+            case SCRCMD_CREATE_OBJ_3D:
+            case SCRCMD_CREATE_OBJ_3D_s32:
+            case SCRCMD_CREATE_OBJ_2D_s32:
+            case SCRCMD_CREATE_OBJ_3D_STR:
+            case SCRCMD_CREATE_OBJ_2D_STR:
                 sub_507CE0();
                 break;
-            case 59:
+            case SCRCMD_LEVELSTART:
                 SCRCMD_LEVELSTART_5069C0();
                 break;
-            case 60:
+            case SCRCMD_LEVELEND:
                 SCRCMD_LEVELEND_5069F0();
                 break;
             case 61:
@@ -1655,99 +1807,99 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 64:
                 SCRCMD_STOP_EXEC_5079A0();
                 break;
-            case 68:
-            case 273:
+            case SCRCMD_RETURN:
+            case SCRCMD_MISSIONEND:
                 sub_506B80();
                 break;
-            case 71:
+            case SCRCMD_NOT:
                 SCRCMD_NOT_507750();
                 break;
-            case 78:
+            case SCRCMD_GOSUB:
                 sub_506B30();
                 break;
-            case 79:
-            case 82:
-            case 86:
-            case 88:
-            case 90:
-            case 92:
-            case 94:
+            case SCRCMD_S_PLUS_I:
+            case SCRCMD_S_MINUS_I:
+            case SCRCMD_S_LESS_I:
+            case SCRCMD_S_LEQUAL_I:
+            case SCRCMD_S_GREATER_I:
+            case SCRCMD_S_GEQUAL_I:
+            case SCRCMD_S_EQUAL_I:
                 sub_506D60();
                 break;
-            case 80:
-            case 83:
+            case SCRCMD_I_PLUS_S:
+            case SCRCMD_I_MINUS_S:
                 sub_507110();
                 break;
-            case 81:
-            case 84:
-            case 87:
-            case 89:
-            case 91:
-            case 93:
-            case 95:
+            case SCRCMD_S_PLUS_S:
+            case SCRCMD_S_MINUS_S:
+            case SCRCMD_S_LESS_S:
+            case SCRCMD_S_LEQUAL_S:
+            case SCRCMD_S_GREATER_S:
+            case SCRCMD_S_GEQUAL_S:
+            case SCRCMD_S_EQUAL_S:
                 sub_506ED0();
                 break;
-            case 96:
+            case SCRCMD_INCREMENT:
                 SCRCMD_INCREMENT_507A70();
                 break;
-            case 97:
+            case SCRCMD_DECREMENT:
                 SCRCMD_DECREMENT_507B50();
                 break;
-            case 98:
+            case SCRCMD_IF_JUMP:
                 SCRCMD_IF_JUMP_506AF0(); // IF_JUMP?
                 break;
-            case 100:
+            case SCRCMD_MAKE_CAR_DUMMY:
                 SCRCMD_MAKE_CAR_DUMMY_508220();
                 break;
-            case 103:
-            case 104:
-            case 105:
-            case 106:
-            case 107:
-            case 108:
-            case 109:
-            case 110:
-            case 111:
-            case 112:
-            case 372:
+            case SCRCMD_SET_CAR_DENSITY:
+            case SCRCMD_SET_GOOD_CAR:
+            case SCRCMD_SET_BAD_CAR:
+            case SCRCMD_SET_POLICE_CAR:
+            case SCRCMD_SET_PED_DENSITY:
+            case SCRCMD_SET_MUGGER:
+            case SCRCMD_SET_CARTHIEF:
+            case SCRCMD_SET_ELVIS:
+            case SCRCMD_SET_GANG:
+            case SCRCMD_SET_POLICE_PED:
+            case SCRCMD_SET_GANGCARRATIO:
                 sub_508280();
                 break;
-            case 113:
-            case 440:
+            case SCRCMD_POINT_ARROW_AT:
+            case SCRCMD_LEVEL_END_ARROW1:
                 sub_5086F0();
                 break;
-            case 114:
-            case 441:
+            case SCRCMD_POINT_ARROW_3D:
+            case SCRCMD_LEVEL_END_ARROW2:
                 sub_508550();
                 break;
-            case 115:
+            case SCRCMD_ARROW_COLOUR:
                 SCRCMD_ARROW_COLOUR_508DC0();
                 break;
-            case 116:
+            case SCRCMD_REMOVE_ARROW:
                 SCRCMD_REMOVE_ARROW_508E80();
                 break;
-            case 117:
-            case 118:
-            case 279:
-            case 321:
+            case SCRCMD_DISPLAY_MESSAGE:
+            case SCRCMD_DISPLAY_BRIEF:
+            case SCRCMD_DISPLAY_BRIEF_NOW:
+            case SCRCMD_DISPLAY_BRIEF_SOON:
                 sub_5093C0();
                 break;
-            case 119:
+            case SCRCMD_DISPLAY_TIMER:
                 SCRCMD_DISPLAY_TIMER_5096E0();
                 break;
-            case 120:
+            case SCRCMD_CLEAR_TIMERS:
                 sub_50B690();
                 break;
-            case 121:
+            case SCRCMD_IS_CHAR_IN_CAR:
                 sub_509C10();
                 break;
-            case 122:
+            case SCRCMD_IS_CHAR_IN_MODEL:
                 sub_509C90();
                 break;
-            case 123:
+            case SCRCMD_IS_CHAR_IN_ANY_CAR:
                 sub_509D00();
                 break;
-            case 124:
+            case SCRCMD_IS_CHAR_STOPPED:
                 sub_509E70();
                 break;
             case 125:
@@ -1765,72 +1917,72 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 129:
                 SCRCMD_CHECK_CAR_DAMAGE_508F00();
                 break;
-            case 130:
-            case 154:
-            case 190:
-            case 191:
-            case 267:
-            case 305:
-            case 417:
+            case SCRCMD_CHECK_CAR_DRIVER:
+            case SCRCMD_IS_CAR_WRECKED:
+            case SCRCMD_CAR_SUNK:
+            case SCRCMD_CAR_IN_AIR:
+            case SCRCMD_IS_CAR_CRUSHED:
+            case SCRCMD_CARBOMB_ACTIVE:
+            case SCRCMD_EMERG_LIGHTS_ON:
                 sub_50CB70();
                 break;
-            case 131:
+            case SCRCMD_SET_CHAR_OBJ1:
                 sub_5097D0();
                 break;
-            case 132:
+            case SCRCMD_SET_CHAR_OBJ2:
                 sub_50A200();
                 break;
-            case 133:
+            case SCRCMD_SET_CHAR_OBJ3:
                 sub_50A3E0();
                 break;
-            case 134:
+            case SCRCMD_IS_CHAR_OBJ_PASS:
                 sub_509810();
                 break;
-            case 135:
+            case SCRCMD_IS_CHAR_OBJ_FAIL:
                 sub_509880();
                 break;
-            case 138:
-            case 266:
+            case SCRCMD_GIVE_WEAPON1:
+            case SCRCMD_GIVE_WEAPON2:
                 sub_5098E0();
                 break;
-            case 139:
+            case SCRCMD_IS_CAR_IN_BLOCK:
                 sub_509990();
                 break;
-            case 140:
+            case SCRCMD_DELETE_ITEM:
                 sub_509D60();
                 break;
-            case 141:
-            case 392:
+            case SCRCMD_ADD_SCORE1:
+            case SCRCMD_ADDSCORE_NO_MULT:
                 sub_509D90();
                 break;
-            case 142:
-            case 399:
-            case 404:
-            case 406:
+            case SCRCMD_EXPLODE:
+            case SCRCMD_EXPLODE_LARGE2:
+            case SCRCMD_EXPLODE_SMALL2:
+            case SCRCMD_EXPLODE_NO_RING2:
                 sub_509ED0();
                 break;
-            case 143:
+            case SCRCMD_EXPLODE_BUILDING:
                 SCRCMD_EXPLODE_BUILDING_509F60();
                 break;
-            case 144:
-            case 398:
-            case 403:
-            case 405:
+            case SCRCMD_EXPLODE_ITEM:
+            case SCRCMD_EXPLODE_LARGE1:
+            case SCRCMD_EXPLODE_SMALL1:
+            case SCRCMD_EXPLODE_NO_RING1:
                 sub_50C5A0();
                 break;
-            case 145:
-            case 146:
-            case 147:
-            case 148:
-            case 149:
-            case 150:
+            case SCRCMD_LOCATE_CHAR_ANY:
+            case SCRCMD_LOCATE_CHAR_ONFOOT:
+            case SCRCMD_LOCATE_CHAR_BY_CAR:
+            case SCRCMD_STOP_LOCATE_CHAR_ANY:
+            case SCRCMD_STOP_LOCATE_CHAR_FOOT:
+            case SCRCMD_STOP_LOCATE_CHAR_CAR:
                 sub_509FD0();
                 break;
-            case 151:
-            case 152:
-            case 153:
-            case 238:
-            case 239:
+            case SCRCMD_SET_THREAT_SEARCH:
+            case SCRCMD_SET_THREAT_REACT:
+            case SCRCMD_ADD_GROUP:
+            case SCRCMD_SET_CHAR_SHOOT:
+            case SCRCMD_SET_CHAR_BRAVERY:
                 sub_50BBD0();
                 break;
             case 155:
@@ -1848,43 +2000,43 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 159:
                 SCRCMD_CHECK_CAR_BOTH_50A6E0();
                 break;
-            case 160:
-            case 356:
+            case SCRCMD_IS_ITEM_ONSCREEN:
+            case SCRCMD_ONSCREEN_ACCURACY:
                 sub_50A760();
                 break;
             case 161:
                 SCRCMD_DELAY_HERE_50A940();
                 break;
-            case 162:
+            case SCRCMD_DELAY:
                 sub_50A980();
                 break;
-            case 163:
+            case SCRCMD_CLEAR_WANTED_LEVEL:
                 sub_50BA30();
                 break;
-            case 164:
-            case 421:
+            case SCRCMD_ALT_WANTED_LEVEL:
+            case SCRCMD_ALTER_WANTED_LEVEL:
                 sub_50BA70();
                 break;
-            case 165:
+            case SCRCMD_IS_CHAR_FIRE_ONSCREEN:
                 sub_50B3D0();
                 break;
-            case 166:
+            case SCRCMD_DRIVER_OUT_CAR:
                 sub_50B5A0();
                 break;
-            case 167:
-            case 171:
+            case SCRCMD_CHAR_TO_DRIVE_CAR:
+            case SCRCMD_CHAR_TO_BACKDOOR:
                 sub_50B4F0();
                 break;
-            case 168:
+            case SCRCMD_ANSWER_PHONE:
                 sub_50B180();
                 break;
-            case 169:
+            case SCRCMD_SEND_CAR_TO_BLOCK:
                 sub_50BB80();
                 break;
-            case 170:
+            case SCRCMD_GIVE_DRIVER_BRAKE:
                 sub_50B600();
                 break;
-            case 173:
+            case SCRCMD_SET_NO_COLLIDE:
                 sub_50B8B0();
                 break;
             case 175:
@@ -1911,9 +2063,9 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 184:
                 SCRCMD_LOWER_LEVEL_50CA30();
                 break;
-            case 185:
-            case 186:
-            case 187:
+            case SCRCMD_CHANGE_BLOCK_SIDE:
+            case SCRCMD_CHANGE_BLOCK_LID:
+            case SCRCMD_CHANGE_BLOCK_TYPE:
                 sub_50CA70();
                 break;
             case 188:
@@ -1922,14 +2074,14 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 189:
                 SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
                 break;
-            case 192:
-            case 196:
-            case 281:
-            case 282:
+            case SCRCMD_CHECK_NUM_LIVES:
+            case SCRCMD_CHECK_MULT:
+            case SCRCMD_ADD_LIVES:
+            case SCRCMD_ADD_MULTIPLIER:
                 sub_50DB70();
                 break;
-            case 193:
-            case 197:
+            case SCRCMD_GET_NUM_LIVES:
+            case SCRCMD_GET_MULT:
                 sub_50DD00();
                 break;
             case 194:
@@ -1938,9 +2090,9 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 195:
                 SCRCMD_GET_SCORE_50B760();
                 break;
-            case 198:
-            case 199:
-            case 231:
+            case SCRCMD_CHECK_RESPECT_GREATER:
+            case SCRCMD_CHECK_RESPECT_LESS:
+            case SCRCMD_CHECK_RESPECT_IS:
                 sub_50AEF0();
                 break;
             case 200:
@@ -1955,12 +2107,12 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 203:
                 SCRCMD_CHAR_SUNK_50DEB0();
                 break;
-            case 205:
+            case SCRCMD_ADD_PATROL_POs32:
                 sub_50B0E0();
                 break;
-            case 206:
-            case 207:
-            case 209:
+            case SCRCMD_GET_CAR_SPEED:
+            case SCRCMD_GET_CHAR_CAR_SPEED:
+            case SCRCMD_GET_MAX_SPEED:
                 sub_50E190();
                 break;
             case 208:
@@ -1972,8 +2124,8 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 216:
                 SCRCMD_DISABLE_THREAD_50ABC0();
                 break;
-            case 219:
-            case 301:
+            case SCRCMD_CREATE_LIGHT1:
+            case SCRCMD_LIGHT_DECSET2:
                 sub_50DA50();
                 break;
             case 220:
@@ -1991,9 +2143,9 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 224:
                 SCRCMD_SET_GANG_RESPECT_50AC20();
                 break;
-            case 225:
-            case 262:
-            case 393:
+            case SCRCMD_SET_CHAR_RESPECT:
+            case SCRCMD_CHANGE_RESPECT:
+            case SCRCMD_CHANGE_GANG_RESP:
                 sub_50ACF0();
                 break;
             case 226:
@@ -2014,9 +2166,9 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 234:
                 SCRCMD_CHECK_NUM_ALIVE_50BC60();
                 break;
-            case 235:
-            case 236:
-            case 259:
+            case SCRCMD_ADD_CHAR_TO_GROUP:
+            case SCRCMD_REMOVE_char_type:
+            case SCRCMD_MAKE_LEADER:
                 sub_50BD10();
                 break;
             case 237:
@@ -2071,8 +2223,8 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 258:
                 SCRCMD_ADD_CHAR_TO_GANG_50C540();
                 break;
-            case 260:
-            case 280:
+            case SCRCMD_PARK:
+            case SCRCMD_PARK_NO_RESPAWN:
                 sub_50C6F0();
                 break;
             case 261:
@@ -2087,8 +2239,8 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 265:
                 SCRCMD_UPDATE_DOOR_50C7D0();
                 break;
-            case 268:
-            case 269:
+            case SCRCMD_SWITCH_GENERATOR1:
+            case SCRCMD_SWITCH_GENERATOR2:
                 sub_50CCB0();
                 break;
             case 270:
@@ -2112,89 +2264,89 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 284:
                 SCRCMD_POINT_ONSCREEN_50DE00();
                 break;
-            case 288:
-            case 289:
-            case 290:
-            case 291:
+            case SCRCMD_START_BONUS1:
+            case SCRCMD_START_BONUS2:
+            case SCRCMD_START_BONUS3:
+            case SCRCMD_START_BONUS4:
                 sub_50DF10();
                 break;
-            case 292:
-            case 293:
-            case 294:
+            case SCRCMD_CHECK_BONUS1:
+            case SCRCMD_CHECK_BONUS2:
+            case SCRCMD_CHECK_BONUS3:
                 sub_50E0B0();
                 break;
-            case 299:
+            case SCRCMD_SETUP_MODEL_CHECK:
                 sub_50E120();
                 break;
-            case 300:
+            case SCRCMD_MODEL_CHECK:
                 sub_50E150();
                 break;
-            case 303:
+            case SCRCMD_SET_CAR_GRAPHIC:
                 sub_50E460();
                 break;
-            case 306:
+            case SCRCMD_CHAR_DRIVE_AGGR:
                 sub_50E730();
                 break;
-            case 307:
-            case 383:
+            case SCRCMD_CHAR_DRIVE_SPEED:
+            case SCRCMD_SET_RUN_SPEED:
                 sub_50E780();
                 break;
-            case 308:
-            case 309:
-            case 337:
-            case 338:
-            case 339:
+            case SCRCMD_S_IS_S_MINUS_S:
+            case SCRCMD_S_IS_S_PLUS_S:
+            case SCRCMD_S_IS_S_DIV_S:
+            case SCRCMD_S_IS_S_MULT_S:
+            case SCRCMD_S_IS_S_MOD_S:
                 sub_50E4F0();
                 break;
-            case 310:
+            case SCRCMD_GIVE_CAR_ALARM:
                 sub_50E7F0();
                 break;
-            case 311:
-            case 312:
-            case 313:
+            case SCRCMD_CAR_BULLETPROOF:
+            case SCRCMD_CAR_ROCKETPROOF:
+            case SCRCMD_CAR_FLAMEPROOF:
                 sub_50E820();
                 break;
-            case 315:
+            case SCRCMD_SET_CHAR_OBJ_FOLLOW:
                 sub_50A460();
                 break;
-            case 316:
+            case SCRCMD_PUT_CAR_ON_TRAILER:
                 sub_50E900();
                 break;
-            case 317:
+            case SCRCMD_CLEAR_BRIEFS:
                 sub_50E9A0();
                 break;
-            case 318:
+            case SCRCMD_CHECK_HEADS:
                 sub_50E9E0();
                 break;
-            case 319:
+            case SCRCMD_FINISH_LEVEL:
                 sub_50EA40();
                 break;
-            case 320:
+            case SCRCMD_CHECK_WEAPONHIT:
                 sub_50EB00();
                 break;
-            case 324:
+            case SCRCMD_IS_CHAR_ON_FIRE:
                 sub_50ECE0();
                 break;
-            case 325:
+            case SCRCMD_BRIEF_ONSCREEN:
                 sub_50ED40();
                 break;
-            case 328:
+            case SCRCMD_CREATE_SOUND:
                 sub_50ED80();
                 break;
-            case 329:
+            case SCRCMD_DO_EASY_PHONE:
                 sub_50EDC0();
                 break;
-            case 330:
+            case SCRCMD_CHAR_INTO_CAR:
                 SCRCMD_CHAR_INTO_CAR_50F060();
                 break;
-            case 332:
-            case 333:
-            case 334:
-            case 335:
-            case 336:
+            case SCRCMD_S_IS_S_MINUS_I:
+            case SCRCMD_S_IS_S_PLUS_I:
+            case SCRCMD_S_IS_S_DIV_I:
+            case SCRCMD_S_IS_S_MULT_I:
+            case SCRCMD_S_IS_S_MOD_I:
                 sub_50E610();
                 break;
-            case 340:
+            case SCRCMD_SET_COUNTER_s32:
                 sub_50BDC0();
                 break;
             case 342:
@@ -2203,8 +2355,8 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 350:
                 SCRCMD_SUPPRESS_MODEL_50F220();
                 break;
-            case 351:
-            case 352:
+            case SCRCMD_SWITCH_GENERATOR3:
+            case SCRCMD_SWITCH_GENERATOR4:
                 sub_50CD30();
                 break;
             case 354:
@@ -2213,11 +2365,11 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 355:
                 SCRCMD_CHAR_ARRESTED_50E4A0();
                 break;
-            case 357:
+            case SCRCMD_WARP_char_type:
                 sub_50F270();
                 break;
-            case 358:
-            case 366:
+            case SCRCMD_WEAP_HIT_CAR:
+            case SCRCMD_ANY_WEAPON_HIT_CAR:
                 sub_50EBD0();
                 break;
             case 359:
@@ -2232,10 +2384,10 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 362:
                 SCRCMD_CHECK_OBJ_MODEL_50F4D0();
                 break;
-            case 363:
-            case 384:
-            case 385:
-            case 432:
+            case SCRCMD_CHAR_INVINCIBLE:
+            case SCRCMD_SET_STAY_IN_CAR:
+            case SCRCMD_SET_USE_CAR_WEAPON:
+            case SCRCMD_DEATH_ARR_STATE:
                 sub_50F5E0();
                 break;
             case 364:
@@ -2244,9 +2396,9 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 365:
                 SCRCMD_MAKE_MUGGERS_50F770();
                 break;
-            case 367:
-            case 381:
-            case 382:
+            case SCRCMD_LOC_SECOND_char_type:
+            case SCRCMD_LOC_SEC_CHAR_CAR:
+            case SCRCMD_LOC_SEC_CHAR_ANY:
                 sub_50F7B0();
                 break;
             case 368:
@@ -2258,7 +2410,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 370:
                 SCRCMD_NO_CHARS_OFF_BUS_50F9B0();
                 break;
-            case 371:
+            case SCRCMD_KILL_char_type:
                 sub_50FA00();
                 break;
             case 373:
