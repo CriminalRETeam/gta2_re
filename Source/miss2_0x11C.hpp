@@ -27,13 +27,13 @@ struct SCR_XYZ_f
 
 struct SCR_XY_uc
 {
-	u8 field_0_x;
+    u8 field_0_x;
     u8 field_1_y;
 };
 
 struct SCR_XYZ_uc
 {
-	u8 field_0_x;
+    u8 field_0_x;
     u8 field_1_y;
     u8 field_2_z;
 };
