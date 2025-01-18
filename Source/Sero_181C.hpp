@@ -98,7 +98,7 @@ class Sero_181C
     Sero_34 field_0[100];
     Sero_58 field_1450[10];
     Sero_58 field_17C0;
-    char_type field_1818;
+    char_type field_1818_stop_getting_off_bus;
     char_type field_1819;
     char_type field_181A;
     char_type field_181B;

@@ -1634,11 +1634,11 @@ void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     if ((u8)pCmd->field_A_unsigned_2 == 1)
     {
-        gSero_181C_6FF1D4->field_1818 = true;
+        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
     }
     else
     {
-        gSero_181C_6FF1D4->field_1818 = false;
+        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
