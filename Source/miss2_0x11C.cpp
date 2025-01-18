@@ -1121,9 +1121,19 @@ void miss2_0x11C::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 {
 }
 
-STUB_FUNC(0x50c2a0)
+MATCH_FUNC(0x50c2a0)
 void miss2_0x11C::SCRCMD_CAR_GOT_DRIVER_50C2A0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pCmd->field_8_car->field_54_driver)
+    {
+        this->field_8 = 1;
+    }
+    else
+    {
+        this->field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c2f0)
