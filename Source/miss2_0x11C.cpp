@@ -1190,9 +1190,20 @@ void miss2_0x11C::SCRCMD_IS_GROUP_IN_CAR_50C470()
 {
 }
 
-STUB_FUNC(0x50c4e0)
+MATCH_FUNC(0x50c4e0)
 void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pCmd->field_8_char->field_188)
+    {
+        this->field_8 = 1;
+    }
+    else
+    {
+        this->field_8 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c540)
