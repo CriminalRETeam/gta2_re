@@ -12,6 +12,7 @@
 #include "ang16.hpp"
 #include "map_0x370.hpp"
 #include "angry_lewin_0x85C.hpp"
+#include "Object_5C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -382,9 +383,25 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1)
 {
 }
 
-STUB_FUNC(0x505340)
-void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(s32 a1, s32 a2)
+MATCH_FUNC(0x505340)
+void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2)
 {
+    if (!a1->field_19_play_type)
+    {
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299F0(278,
+                                                        a1->field_18_sound_id,
+                                                        a1->field_C_pos.field_0_x,
+                                                        a1->field_C_pos.field_4_y,
+                                                        a1->field_C_pos.field_8_z);
+    }
+    else
+    {
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299F0(279,
+                                                        a1->field_18_sound_id,
+                                                        a1->field_C_pos.field_0_x,
+                                                        a1->field_C_pos.field_4_y,
+                                                        a1->field_C_pos.field_8_z);
+    }
 }
 
 STUB_FUNC(0x505430)

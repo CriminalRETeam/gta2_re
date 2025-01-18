@@ -110,6 +110,16 @@ struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
 };
 
+struct SCR_SOUND_DECSET : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    u16 field_A_unk;
+    SCR_XYZ_f field_C_pos;
+    u8 field_18_sound_id;
+    u8 field_19_play_type;
+    u16 field_1B_padding;
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
@@ -155,7 +165,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(s32 a1);
     EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1);
-    EXPORT void SCRCMD_SOUND_DECSET_505340(s32 a1, s32 a2);
+    EXPORT void SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(s32 a1);
     EXPORT void SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1);
     EXPORT void SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* a1);
