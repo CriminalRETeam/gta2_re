@@ -1547,9 +1547,18 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 {
 }
 
-STUB_FUNC(0x50f220)
+MATCH_FUNC(0x50f220)
 void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 {
+    if ((u16)gBasePtr_6F8070[1].field_0_cmd_this == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
+    {
+        gCar_6C_677930->field_C = 87; //  No model suppressed
+    }
+    else
+    {
+        gCar_6C_677930->field_C = (u16)gBasePtr_6F8070[1].field_0_cmd_this;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f270)
