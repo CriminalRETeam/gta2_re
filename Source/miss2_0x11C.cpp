@@ -1441,9 +1441,20 @@ void miss2_0x11C::sub_50E460()
 {
 }
 
-STUB_FUNC(0x50e4a0)
+MATCH_FUNC(0x50e4a0)
 void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                gBasePtr_6F8070[1].field_0_cmd_this);
+    if ((pCmd->field_8_char->field_21C & 0x20) != 0)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50e4f0)
