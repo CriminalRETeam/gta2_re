@@ -82,6 +82,11 @@ class Fix16
         return mValue >> 14;
     }
 
+    inline void FromInt(s32 a1)
+    {
+        mValue = a1 << 14;
+    }
+
     float ToFloat() const
     {
         return mValue * 0.0000610351562f;
@@ -107,7 +112,7 @@ class Fix16
     inline Fix16 ConcatenateWord(Fix16 a2)
     {
         Fix16 result;
-        result.mValue = mValue + ( a2.mValue & 0xFFFFC000 );
+        result.mValue = mValue + (a2.mValue & 0xFFFFC000);
         return result;
     }
 

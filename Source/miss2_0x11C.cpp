@@ -41,10 +41,10 @@ GLOBAL(dword_6F791C, 0x6F791C);
 EXPORT_VAR Ang16 word_6F8044;
 GLOBAL(word_6F8044, 0x6F8044);
 
-EXPORT_VAR s32 dword_6F7924;
+EXPORT_VAR Fix16 dword_6F7924;
 GLOBAL(dword_6F7924, 0x6F7924);
 
-EXPORT_VAR s32 dword_6F7570;
+EXPORT_VAR Fix16 dword_6F7570;
 GLOBAL(dword_6F7570, 0x6F7570);
 
 EXPORT_VAR s16 dword_6F804C;
@@ -134,8 +134,8 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         cool_nash_0x294* pPed;
         if (gfrosty_pasteur_6F8060->field_C1E2C)
         {
-            s32 weird_y = (dword_6F76DC.ConcatenateWord(dword_6F7920)).mValue;
-            s32 weird_x = (dword_6F75F0.ConcatenateWord(dword_6F791C)).mValue;
+            Fix16 weird_y = dword_6F76DC.ConcatenateWord(dword_6F7920);
+            Fix16 weird_x = dword_6F75F0.ConcatenateWord(dword_6F791C);
 
             pPed = gChar_C_6787BC->sub_470A50(weird_x,
                                             weird_y, 
@@ -147,7 +147,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         {
             if (pCmd->field_C_pos.field_8_z == dword_6F7570) //  dword_6F7570 is 255.0
             {
-                s32 temp_z;
+                Fix16 temp_z;
                 //  Calculate the real Z position at (X,Y) based on the map
                 pCmd->field_C_pos.field_8_z =
                     *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
@@ -216,7 +216,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
-        s32 temp_z;
+        Fix16 temp_z;
         pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z,
                                                                     pCmd->field_C_pos.field_0_x,
                                                                     pCmd->field_C_pos.field_4_y);
@@ -260,9 +260,10 @@ cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2
 {
     (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
     cool_nash_0x294* v2 = a2->field_8_char;
-    s32 v3 = v2->field_21C;
-    v3 &= ~0x400u; // TODO: Maybe BitSet32
-    v2->field_21C = v3;
+    BitSet32 v3;
+    v3 = v2->field_21C;
+    v3.clear_bit(10);
+    v2->field_21C = v3.m_var;
     return v2;
 }
 
@@ -772,18 +773,18 @@ void miss2_0x11C::sub_50A200()
 MATCH_FUNC(0x50a3e0)
 void miss2_0x11C::sub_50A3E0()
 {
-    SCR_CHAR_OBJECTIVE* v1;
+    SCR_CHAR_OBJ3* v1;
     SCR_POINTER* pCmd;
 
-    v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    v1 = (SCR_CHAR_OBJ3*)gBasePtr_6F8070;
     pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pCmd);
 
     if (pCmd->field_8_char)
     {
-        (pCmd->field_8_char)->field_1DC_objective_target_x = v1->field_C_pos.field_0_x;
-        (pCmd->field_8_char)->field_1E0_objective_target_y = v1->field_C_pos.field_4_y;
-        (pCmd->field_8_char)->field_1E4_objective_target_z = v1->field_C_pos.field_8_z;
+        (pCmd->field_8_char)->field_1DC_objective_target_x = v1->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in cool_nash
+        (pCmd->field_8_char)->field_1E0_objective_target_y = v1->field_C_pos.field_4_y.mValue;
+        (pCmd->field_8_char)->field_1E4_objective_target_z = v1->field_C_pos.field_8_z.mValue;
 
         (pCmd->field_8_char)->field_21C &= ~0x400u; // TODO: Maybe BitSet32
     }
@@ -874,14 +875,18 @@ void miss2_0x11C::sub_50A9E0(u16 idx)
 {
 }
 
-STUB_FUNC(0x50abc0)
+MATCH_FUNC(0x50abc0)
 void miss2_0x11C::SCRCMD_DISABLE_THREAD_50ABC0()
 {
+    miss2_0x11C::sub_505790(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50abf0)
+MATCH_FUNC(0x50abf0)
 void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
 {
+    miss2_0x11C::sub_50A9E0(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ac20)
