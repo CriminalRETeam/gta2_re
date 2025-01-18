@@ -1616,32 +1616,32 @@ void miss2_0x11C::PreExecOpCode_5108D0()
         gBasePtr_6F8070 = pCmd;
         switch (pCmd->field_2_type)
         {
-            case 41:
-            case 42:
+            case SCRCMD_CREATE_CHAR_2D:
+            case SCRCMD_CREATE_CHAR_3D:
                 SCR_CMD_CREATE_CHAR_509730();
                 break;
-            case 43:
-            case 44:
-            case 45:
-            case 46:
-            case 394:
-            case 395:
-            case 396:
-            case 397:
+            case SCRCMD_CREATE_CAR_2D:
+            case SCRCMD_CREATE_CAR_3D:
+            case SCRCMD_CREATE_CAR_2D_STR:
+            case SCRCMD_CREATE_CAR_3D_STR:
+            case SCRCMD_CREATE_GANG_CAR1:
+            case SCRCMD_CREATE_GANG_CAR2:
+            case SCRCMD_CREATE_GANG_CAR3:
+            case SCRCMD_CREATE_GANG_CAR4:
                 sub_507F80();
                 break;
-            case 47:
-            case 48:
-            case 49:
-            case 50:
-            case 51:
-            case 52:
+            case SCRCMD_CREATE_OBJ_2D:
+            case SCRCMD_CREATE_OBJ_3D:
+            case SCRCMD_CREATE_OBJ_3D_s32:
+            case SCRCMD_CREATE_OBJ_2D_s32:
+            case SCRCMD_CREATE_OBJ_3D_STR:
+            case SCRCMD_CREATE_OBJ_2D_STR:
                 sub_507CE0();
                 break;
-            case 59:
+            case SCRCMD_LEVELSTART:
                 SCRCMD_LEVELSTART_5069C0();
                 break;
-            case 60:
+            case SCRCMD_LEVELEND:
                 SCRCMD_LEVELEND_5069F0();
                 break;
             case 61:
@@ -1656,81 +1656,81 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 64:
                 SCRCMD_STOP_EXEC_5079A0();
                 break;
-            case 68:
-            case 273:
+            case SCRCMD_RETURN:
+            case SCRCMD_MISSIONEND:
                 sub_506B80();
                 break;
-            case 71:
+            case SCRCMD_NOT:
                 SCRCMD_NOT_507750();
                 break;
-            case 78:
+            case SCRCMD_GOSUB:
                 sub_506B30();
                 break;
-            case 79:
-            case 82:
-            case 86:
-            case 88:
-            case 90:
-            case 92:
-            case 94:
+            case SCRCMD_S_PLUS_I:
+            case SCRCMD_S_MINUS_I:
+            case SCRCMD_S_LESS_I:
+            case SCRCMD_S_LEQUAL_I:
+            case SCRCMD_S_GREATER_I:
+            case SCRCMD_S_GEQUAL_I:
+            case SCRCMD_S_EQUAL_I:
                 sub_506D60();
                 break;
-            case 80:
-            case 83:
+            case SCRCMD_I_PLUS_S:
+            case SCRCMD_I_MINUS_S:
                 sub_507110();
                 break;
-            case 81:
-            case 84:
-            case 87:
-            case 89:
-            case 91:
-            case 93:
-            case 95:
+            case SCRCMD_S_PLUS_S:
+            case SCRCMD_S_MINUS_S:
+            case SCRCMD_S_LESS_S:
+            case SCRCMD_S_LEQUAL_S:
+            case SCRCMD_S_GREATER_S:
+            case SCRCMD_S_GEQUAL_S:
+            case SCRCMD_S_EQUAL_S:
                 sub_506ED0();
                 break;
-            case 96:
+            case SCRCMD_INCREMENT:
                 SCRCMD_INCREMENT_507A70();
                 break;
-            case 97:
+            case SCRCMD_DECREMENT:
                 SCRCMD_DECREMENT_507B50();
                 break;
-            case 98:
+            case SCRCMD_IF_JUMP:
                 SCRCMD_IF_JUMP_506AF0(); // IF_JUMP?
                 break;
-            case 100:
+            case SCRCMD_MAKE_CAR_DUMMY:
                 SCRCMD_MAKE_CAR_DUMMY_508220();
                 break;
-            case 103:
-            case 104:
-            case 105:
-            case 106:
-            case 107:
-            case 108:
-            case 109:
-            case 110:
-            case 111:
-            case 112:
-            case 372:
+            case SCRCMD_SET_CAR_DENSITY:
+            case SCRCMD_SET_GOOD_CAR:
+            case SCRCMD_SET_BAD_CAR:
+            case SCRCMD_SET_POLICE_CAR:
+            case SCRCMD_SET_PED_DENSITY:
+            case SCRCMD_SET_MUGGER:
+            case SCRCMD_SET_CARTHIEF:
+            case SCRCMD_SET_ELVIS:
+            case SCRCMD_SET_GANG:
+            case SCRCMD_SET_POLICE_PED:
+            case SCRCMD_SET_GANGCARRATIO:
                 sub_508280();
                 break;
-            case 113:
-            case 440:
+            case SCRCMD_POINT_ARROW_AT:
+            case SCRCMD_LEVEL_END_ARROW1:
                 sub_5086F0();
                 break;
-            case 114:
-            case 441:
+            case SCRCMD_POINT_ARROW_3D:
+            case SCRCMD_LEVEL_END_ARROW2:
                 sub_508550();
                 break;
-            case 115:
+            case SCRCMD_ARROW_COLOUR:
                 SCRCMD_ARROW_COLOUR_508DC0();
                 break;
-            case 116:
+            case SCRCMD_REMOVE_ARROW:
                 SCRCMD_REMOVE_ARROW_508E80();
                 break;
-            case 117:
-            case 118:
-            case 279:
-            case 321:
+            case SCRCMD_DISPLAY_MESSAGE:
+            case SCRCMD_DISPLAY_BRIEF:
+            case SCRCMD_DISPLAY_BRIEF_NOW:
+            case SCRCMD_DISPLAY_BRIEF_SOON:
                 sub_5093C0();
                 break;
             case 119:
