@@ -1221,9 +1221,16 @@ void miss2_0x11C::SCRCMD_REMOVE_BLOCK_50C9F0()
 {
 }
 
-STUB_FUNC(0x50ca30)
+MATCH_FUNC(0x50ca30)
 void miss2_0x11C::SCRCMD_LOWER_LEVEL_50CA30()
 {
+    SCR_LOWER_LEVEL* pCmd = (SCR_LOWER_LEVEL*)gBasePtr_6F8070;
+
+    gMap_0x370_6F6268->sub_4E8B70(pCmd->field_8_min_pos.field_0_x,
+                                  pCmd->field_A_max_pos.field_0_x,
+                                  pCmd->field_8_min_pos.field_1_y,
+                                  pCmd->field_A_max_pos.field_1_y);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ca70)
