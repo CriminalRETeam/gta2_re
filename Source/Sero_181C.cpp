@@ -63,7 +63,7 @@ u8 Sero_58::sub_578670()
     return 0;
 }
 
-STUB_FUNC(0x577fd0)
+MATCH_FUNC(0x577fd0)
 Sero_34::Sero_34()
 {
     field_0 = 0;
@@ -79,7 +79,7 @@ Sero_34::Sero_34()
     field_2F = 0;
     field_24 = 0x1010101;
     field_28 = 0x1010101;
-    field_2C = 0x101;
+    field_2C = field_28;
 }
 
 MATCH_FUNC(0x578010)
