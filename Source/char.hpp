@@ -161,7 +161,7 @@ class Char_C
     char_type field_4;
     char_type field_5;
     char_type field_6_num_peds_on_screen;
-    char_type field_7;
+    char_type field_7_make_all_muggers;
     Car_3C* field_8;
 };
 

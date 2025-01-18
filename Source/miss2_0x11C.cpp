@@ -1604,11 +1604,11 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     if ((u8)pCmd->field_A_unsigned_2 == 1)
     {
-        gChar_C_6787BC->field_7 = true;
+        gChar_C_6787BC->field_7_make_all_muggers = true;
     }
     else
     {
-        gChar_C_6787BC->field_7 = false;
+        gChar_C_6787BC->field_7_make_all_muggers = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
