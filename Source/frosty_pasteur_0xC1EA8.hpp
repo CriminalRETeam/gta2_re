@@ -528,7 +528,7 @@ class frosty_pasteur_0xC1EA8
     s32 field_304;
     s32 field_308;
     s32 field_30C;
-    s32 field_310;
+    s32 field_310_finish_score;
     s32 field_314;
     s32 field_318;
     s32 field_31C;

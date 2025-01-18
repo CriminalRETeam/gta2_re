@@ -397,9 +397,10 @@ void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1)
 {
 }
 
-STUB_FUNC(0x505710)
-void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(s32 a1)
+MATCH_FUNC(0x505710)
+void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* pCmd)
 {
+    gfrosty_pasteur_6F8060->field_310_finish_score = pCmd->field_8_s32;
 }
 
 STUB_FUNC(0x505750)
