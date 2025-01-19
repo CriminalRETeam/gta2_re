@@ -79,10 +79,20 @@ s32 Zheal_15C::sub_47F170()
     return 0;
 }
 
-STUB_FUNC(0x47f220)
+MATCH_FUNC(0x47f220)
 s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, s32 a5)
 {
-    return 0;
+    field_F4 = a2;
+    field_F8 = a3;
+    field_6C = a4;
+    field_70 = a5;
+    field_108 = 71 * a4->field_0.rValue;
+    field_FC = a4->field_14_xpos;
+    field_100 = a4->field_18_ypos;
+    s32 result = a4->field_1C_zpos.mValue;
+    field_104 = result;
+    field_10C = field_80 - result;
+    return result;
 }
 
 STUB_FUNC(0x47f290)

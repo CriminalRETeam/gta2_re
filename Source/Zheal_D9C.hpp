@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
+#include "Car_BC.hpp"
 
 class infallible_turing;
-class Car_3C;
 class Car_BC;
 
 class Zheal_15C
@@ -104,8 +105,8 @@ class Zheal_15C
     s32 field_F0;
     s32 field_F4;
     s32 field_F8;
-    s32 field_FC;
-    s32 field_100;
+    Fix16 field_FC;
+    Fix16 field_100;
     s32 field_104;
     s32 field_108;
     s32 field_10C;
