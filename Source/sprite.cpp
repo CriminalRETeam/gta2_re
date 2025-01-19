@@ -96,9 +96,11 @@ Sprite_1C24::~Sprite_1C24()
     field_0 = 0;
 }
 
-STUB_FUNC(0x5a57a0)
+MATCH_FUNC(0x5a57a0)
 s32 Sprite_4C::sub_5A57A0()
 {
+    field_2C_pNext = NULL;
+    field_48 = 0;
     return 0;
 }
 
