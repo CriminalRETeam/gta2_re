@@ -5,8 +5,8 @@
 class TileAnim_2
 {
   public:
-    EXPORT s32 sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5);
-    EXPORT s32 sub_5BC2C0();
+    EXPORT s32 sub_5BC260(TileAnim_2* a1, s16 a2, s16 a3, s16 a4, s16 a5);
+    EXPORT void sub_5BC2C0();
     EXPORT void Empty_5BC300();
     EXPORT void sub_5BC310();
     EXPORT TileAnim_2();

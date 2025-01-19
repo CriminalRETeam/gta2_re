@@ -32,6 +32,198 @@ GLOBAL(dword_679188, 0x679188);
 EXPORT_VAR s32 dword_6F6850;
 GLOBAL(dword_6F6850, 0x6F6850);
 
+STUB_FUNC(0x4476f0)
+void Car_78::sub_4476F0()
+{
+}
+
+STUB_FUNC(0x447710)
+char_type Car_78::sub_447710()
+{
+    return 0;
+}
+
+STUB_FUNC(0x447970)
+void Car_78::sub_447970()
+{
+}
+
+STUB_FUNC(0x447ca0)
+char_type Car_78::sub_447CA0(u8 a2, u8 a3, u8 a4, s32 a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x447d40)
+char_type Car_78::sub_447D40(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x448270)
+char_type Car_78::sub_448270()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4482c0)
+char_type Car_78::sub_4482C0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x448770)
+char_type Car_78::sub_448770()
+{
+    return 0;
+}
+
+STUB_FUNC(0x448ce0)
+char_type Car_78::sub_448CE0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x44a1f0)
+char_type Car_78::sub_44A1F0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x44af00)
+s16 Car_78::sub_44AF00()
+{
+    return 0;
+}
+
+STUB_FUNC(0x44d1d0)
+char_type Car_78::sub_44D1D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x44e0c0)
+void Car_78::sub_44E0C0()
+{
+}
+
+STUB_FUNC(0x44e560)
+void Car_78::sub_44E560()
+{
+}
+
+STUB_FUNC(0x451980)
+void Car_78::sub_451980()
+{
+}
+
+STUB_FUNC(0x451fa0)
+void Car_78::sub_451FA0()
+{
+}
+
+STUB_FUNC(0x451ff0)
+s32 Car_78::sub_451FF0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x452060)
+char_type Car_78::sub_452060()
+{
+    return 0;
+}
+
+STUB_FUNC(0x452a20)
+s16 Car_78::sub_452A20()
+{
+    return 0;
+}
+
+STUB_FUNC(0x452df0)
+s16 Car_78::sub_452DF0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453470)
+s16 Car_78::sub_453470()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453590)
+s32* Car_78::sub_453590(s32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4537d0)
+char_type Car_78::sub_4537D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4538b0)
+Car_BC* Car_78::sub_4538B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453990)
+s32 Car_78::sub_453990(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x4539b0)
+Car_BC* Car_78::sub_4539B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4539d0)
+u8* Car_78::sub_4539D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453a40)
+s32 Car_78::sub_453A40()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453bb0)
+s16 Car_78::sub_453BB0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453bf0)
+Car_BC* Car_78::sub_453BF0(Car_BC* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x453c00)
+u8* Car_78::sub_453C00()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453cb0)
+Car_78* Car_78::ctor_453CB0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x453d80)
+s32 Car_78::sub_453D80()
+{
+    return 0;
+}
+
 MATCH_FUNC(0x451950)
 void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
@@ -1701,4 +1893,56 @@ Car_8::~Car_8()
 MATCH_FUNC(0x563970)
 Car_8::Car_8()
 {
+}
+
+STUB_FUNC(0x407b90)
+Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x407bb0)
+void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
+{
+}
+
+STUB_FUNC(0x407bd0)
+s32* Car_A4_10::sub_407BD0(s32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x407ce0)
+s32* Car_A4_10::sub_407CE0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408140)
+char_type Car_A4_10::sub_408140()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408190)
+void Car_A4_10::sub_408190()
+{
+}
+
+STUB_FUNC(0x4081b0)
+Car_B0* Car_A4_10::sub_4081B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4081d0)
+char_type Car_A4_10::sub_4081D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408220)
+s32 Car_A4_10::sub_408220()
+{
+    return 0;
 }

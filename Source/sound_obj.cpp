@@ -41,11 +41,11 @@ sound_obj::sound_obj()
     field_4 = 81920;
     field_8 = 30;
     field_C = 491520;
-    field_2 = 1;
+    field_2_service_enabled = 1;
     field_24_sfx_vol = 127;
     field_25_cdVol = 127;
-    field_28 = dword_674CD8;
-    field_2C = 0;
+    field_28_dist_related = dword_674CD8;
+    field_2C_distCalculated = 0;
 
     field_98_nActiveSampleQueue = 1;
     ClearRequestedQueue_41B700();
@@ -72,16 +72,16 @@ sound_obj::sound_obj()
     field_14_sample_rate = 22050;
     field_18 = 1;
     field_19 = 1;
-    field_1 = 0;
+    field_1_isPaused = 0;
     field_1A = 1;
 
     for (s32 i = 0; i < 1020; i++)
     {
         field_147C[i].field_0_bUsed = 0;
-        field_444C_pEntities[i] = 0;
+        field_444C_AudioEntityOrderList[i] = 0;
     }
 
-    field_543C_444C_max_idx = 0;
+    field_543C_444C_nAudioEntitiesCount = 0;
     field_5448_m_FrameCounter = 0;
     field_544C[0].field_0 = 0; // todo: type check
     field_544C[0].field_18 = 0; // todo: type check
@@ -404,7 +404,7 @@ s32 sound_obj::RandomDisplacement_41A650(u32 seed)
 MATCH_FUNC(0x41A3A0)
 void sound_obj::ServiceSoundEffects_41A3A0()
 {
-    if (field_2)
+    if (field_2_service_enabled)
     {
         field_98_nActiveSampleQueue = field_98_nActiveSampleQueue != 1;
         ClearRequestedQueue_41B700();
@@ -434,11 +434,11 @@ void sound_obj::ProcessActiveQueues_41AB80()
 MATCH_FUNC(0x41A6F0)
 void sound_obj::sub_41A6F0()
 {
-    for (u32 idx = 0; idx < field_543C_444C_max_idx; idx++)
+    for (u32 idx = 0; idx < field_543C_444C_nAudioEntitiesCount; idx++)
     {
-        if (field_147C[field_444C_pEntities[idx]].field_1 < 10u)
+        if (field_147C[field_444C_AudioEntityOrderList[idx]].field_1 < 10u)
         {
-            field_147C[field_444C_pEntities[idx]].field_1++;
+            field_147C[field_444C_AudioEntityOrderList[idx]].field_1++;
         }
     }
 }
@@ -464,12 +464,12 @@ bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
 MATCH_FUNC(0x419020)
 char_type sound_obj::sub_419020(s32 a2)
 {
-    if (field_28 < a2)
+    if (field_28_dist_related < a2)
     {
-        if (!field_2C)
+        if (!field_2C_distCalculated)
         {
-            field_2C = 1;
-            field_30_sQueueSample.field_28 = static_cast<int>(sqrt(field_28 / 16384.0) * 16384.0);
+            field_2C_distCalculated = 1;
+            field_30_sQueueSample.field_28 = static_cast<int>(sqrt(field_28_dist_related / 16384.0) * 16384.0);
         }
         return 1;
     }
@@ -800,7 +800,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
             field_147C[idx].field_4_pObj = pTuring;
             field_147C[idx].field_0_bUsed = 1;
             field_147C[idx].field_1 = 1;
-            field_444C_pEntities[field_543C_444C_max_idx++] = idx;
+            field_444C_AudioEntityOrderList[field_543C_444C_nAudioEntitiesCount++] = idx;
 
             switch (pTuring->field_0_object_type)
             {
@@ -889,19 +889,19 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     }
 
     u32 idx_iter = 0;
-    while (idx_iter < field_543C_444C_max_idx)
+    while (idx_iter < field_543C_444C_nAudioEntitiesCount)
     {
-        if (idx == field_444C_pEntities[idx_iter])
+        if (idx == field_444C_AudioEntityOrderList[idx_iter])
         {
             if (idx_iter < 1020 - 1)
             {
-                memmove(&field_444C_pEntities[idx_iter],
-                        &field_444C_pEntities[idx_iter + 1],
-                        sizeof(int) * (field_543C_444C_max_idx - (idx_iter + 1)));
+                memmove(&field_444C_AudioEntityOrderList[idx_iter],
+                        &field_444C_AudioEntityOrderList[idx_iter + 1],
+                        sizeof(int) * (field_543C_444C_nAudioEntitiesCount - (idx_iter + 1)));
             }
 
-            field_543C_444C_max_idx--;
-            field_444C_pEntities[field_543C_444C_max_idx] = 0;
+            field_543C_444C_nAudioEntitiesCount--;
+            field_444C_AudioEntityOrderList[field_543C_444C_nAudioEntitiesCount] = 0;
             break;
         }
         idx_iter++;
@@ -931,8 +931,8 @@ void sound_obj::Service_419EF0()
     static char_type byte_674E24;
     if (gGame_0x40_67E008)
     {
-        field_1 = gGame_0x40_67E008->field_0_game_state == 2;
-        if (!field_1)
+        field_1_isPaused = gGame_0x40_67E008->field_0_game_state == 2;
+        if (!field_1_isPaused)
         {
             GenerateIntegerRandomNumberTable_41BA90();
         }
@@ -945,12 +945,12 @@ void sound_obj::Service_419EF0()
                 gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127u);
             }
         }
-        byte_674E24 = field_1;
+        byte_674E24 = field_1_isPaused;
     }
 
     if (field_0)
     {
-        if (!field_1)
+        if (!field_1_isPaused)
         {
             if (!(field_5448_m_FrameCounter++ % 5))
             {
@@ -977,7 +977,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                 ProcessType3_57DD50();
             }
 
-            if (!field_1)
+            if (!field_1_isPaused)
             {
                 switch (field_147C[id].field_4_pObj->field_0_object_type)
                 {
@@ -1434,7 +1434,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
 MATCH_FUNC(0x412260)
 char_type sound_obj::sub_412260(sound_0x68* pObj)
 {
-    if (gGame_0x40_67E008 && field_1478_type5Idx && !field_1)
+    if (gGame_0x40_67E008 && field_1478_type5Idx && !field_1_isPaused)
     {
         switch (pObj->field_58_type)
         {

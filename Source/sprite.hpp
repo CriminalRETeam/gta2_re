@@ -4,8 +4,14 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-struct Sprite_3CC
+class Sprite_3CC
 {
+  public:
+    EXPORT char_type* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
+    EXPORT char_type* sub_48F690(u32* a2);
+    EXPORT s16* sub_48F6E0(u16* a2);
+    EXPORT s32* sub_48F710();
+    EXPORT Sprite_3CC();
     EXPORT ~Sprite_3CC();
 
     s32 field_0;

@@ -19,6 +19,35 @@ GLOBAL(gSprite_1C24_703B80, 0x703B80);
 EXPORT_VAR Car_3C* dword_703814;
 GLOBAL(dword_703814, 0x703814);
 
+STUB_FUNC(0x48f600)
+char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
+{
+    return 0;
+}
+
+STUB_FUNC(0x48f690)
+char_type* Sprite_3CC::sub_48F690(u32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x48f6e0)
+s16* Sprite_3CC::sub_48F6E0(u16* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x48f710)
+s32* Sprite_3CC::sub_48F710()
+{
+    return 0;
+}
+
+STUB_FUNC(0x48f730)
+Sprite_3CC::Sprite_3CC()
+{
+}
+
 STUB_FUNC(0x48F7F0)
 Sprite_3CC::~Sprite_3CC()
 {
