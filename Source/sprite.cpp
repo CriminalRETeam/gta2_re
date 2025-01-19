@@ -104,9 +104,10 @@ s32 Sprite_4C::sub_5A57A0()
     return 0;
 }
 
-STUB_FUNC(0x5a57b0)
+MATCH_FUNC(0x5a57b0)
 Sprite_4C::Sprite_4C()
 {
+    sub_5A57A0();
 }
 
 MATCH_FUNC(0x5a5840)
