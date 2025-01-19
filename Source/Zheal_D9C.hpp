@@ -24,7 +24,7 @@ class Zheal_15C
     EXPORT s32 sub_47F170();
     EXPORT s32 sub_47F220(s32 a2, s32 a3, Car_3C* a4, s32 a5);
     EXPORT s32 sub_47F290(s32 a2, s32 a3, Car_3C* a4);
-    EXPORT s32 sub_47F2F0(s32 a2, s32 a3, u32* a4);
+    EXPORT void sub_47F2F0(s32 a2, s32 a3, Car_3C* a4);
     EXPORT bool sub_47F350();
     EXPORT bool sub_47F3D0();
     EXPORT bool sub_47F450();
@@ -98,9 +98,9 @@ class Zheal_15C
     s32 field_D4;
     s32 field_D8;
     s32 field_DC;
-    s32 field_E0;
-    s32 field_E4;
-    s32 field_E8;
+    Fix16 field_E0;
+    Fix16 field_E4;
+    Fix16 field_E8;
     s32 field_EC;
     s32 field_F0;
     s32 field_F4;
