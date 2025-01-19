@@ -54,7 +54,7 @@ Object_2C* Object_5C::sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6)
 }
 
 STUB_FUNC(0x529a40)
-s32 Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
+Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
 {
     return 0;
 }
@@ -74,7 +74,7 @@ Object_2C* Object_5C::sub_529B20(s32 obj_type,
                                  u8 intensity,
                                  char_type on_time,
                                  char_type off_time,
-                                 char_type shape)
+                                 u8 shape)
 {
     return 0;
 }
@@ -99,9 +99,9 @@ char_type Object_5C::sub_52A210(char_type a2)
 }
 
 MATCH_FUNC(0x52a240)
-s32* Object_5C::sub_52A240(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
+s32* Object_5C::sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10)
 {
-    return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 0);
+    return Object_5C::sub_52A2C0(a2, maybe_x, maybe_y, maybe_z, pCarBC, maybe_ang, a8, a9, a10, 0);
 }
 
 MATCH_FUNC(0x52a280)
