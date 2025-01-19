@@ -546,6 +546,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
 struct Car_E0C4
 {
+    EXPORT Car_E0C4();
+    EXPORT ~Car_E0C4();
+
     Car_BC* field_0;
     Car_BC* field_4_firstCar;
     Car_BC field_8_cars[306];

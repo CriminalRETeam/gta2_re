@@ -1883,6 +1883,28 @@ bool Car_BC::sub_564300()
     return false;
 }
 
+// Inlined in Car_6C constructor
+Car_E0C4::Car_E0C4()
+{
+    Car_BC* pIter = &field_8_cars[0];
+    for (s32 i = 0; i < 305; i++)
+    {
+        pIter->field_4C_next = pIter + 1;
+        pIter++;
+    }
+
+    field_0 = field_8_cars;
+    field_8_cars[0x131].field_4C_next = NULL;
+    field_4_firstCar = NULL;
+    field_E0C0_cars_count = 0;
+}
+
+Car_E0C4::~Car_E0C4()
+{
+    field_0 = NULL;
+    field_4_firstCar = NULL;
+}
+
 MATCH_FUNC(0x40ac40)
 Car_8::~Car_8()
 {
