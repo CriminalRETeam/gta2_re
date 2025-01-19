@@ -213,6 +213,8 @@ set(gta2_lib_src
   Source/enums.hpp
   Source/Car_B0.hpp
   Source/Car_B0.cpp
+  Source/Miss2_25C.hpp
+  Source/Miss2_25C.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
