@@ -60,14 +60,14 @@ def main():
 
     matched_coverage_funcs = 0
     total_matched_funcs = 0
-    unknown_status_funcs = 0
+    unmatched_funcs = 0
 
     for func in new_func_data:
         status = func[4]
         if status == "0x1":
             total_matched_funcs = total_matched_funcs + 1
         elif status == "0x0":
-            unknown_status_funcs = unknown_status_funcs + 1
+            unmatched_funcs = unmatched_funcs + 1
 
     for func in new_func_data:
         og_address = func[3]
@@ -90,22 +90,22 @@ def main():
     if not prev_json_available:
         boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}%"
         total_matches_str = f"Total matches: {total_matched_funcs}"
-        unkown_status_str = f"Unknown status funcs: {unknown_status_funcs}"
+        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs}"
     else:
         coverage_diff_str = calc_difference(previous_progress_json["matched_boot_to_map_funcs"], matched_coverage_funcs, as_string=True)
         total_diff_str = calc_difference(previous_progress_json["total_matches"], total_matched_funcs, as_string=True)
-        unknown_diff_str = calc_difference(previous_progress_json["unknown_status_funcs"], unknown_status_funcs, as_string=True)
+        unmatched_funcs_diff_str = calc_difference(previous_progress_json["unmatched_funcs"], unmatched_funcs, as_string=True)
 
         boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}% | {coverage_diff_str}"
         total_matches_str = f"Total matches: {total_matched_funcs} | {total_diff_str}"
-        unkown_status_str = f"Unknown status funcs: {unknown_status_funcs} | {unknown_diff_str}"
+        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} | {unmatched_funcs_diff_str}"
 
     webhook_message = {
         "content": None,
         "embeds": [
             {
             "title": "Status",
-            "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unkown_status_str}"
+            "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unmatched_funcs_str}"
             }
         ],
         "attachments": []
@@ -114,7 +114,7 @@ def main():
     new_progress_json = {
         "matched_boot_to_map_funcs": matched_coverage_funcs,
         "total_matches": total_matched_funcs,
-        "unknown_status_funcs": unknown_status_funcs
+        "unmatched_funcs": unmatched_funcs
     }
 
     if prev_json_available and previous_progress_json != new_progress_json:
@@ -125,7 +125,7 @@ def main():
 
     print(boot_to_map_str)
     print(total_matches_str)
-    print(unkown_status_str)
+    print(unmatched_funcs_str)
 
     with open("progress.json", "w") as file:
         json.dump(new_progress_json, file, indent=4)
