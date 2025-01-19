@@ -91,8 +91,8 @@ class Zheal_15C
     s32 field_B8;
     s32 field_BC;
     s32 field_C0;
-    s32 field_C4;
-    s32 field_C8;
+    Fix16 field_C4;
+    Fix16 field_C8;
     s32 field_CC;
     s32 field_D0;
     s32 field_D4;
