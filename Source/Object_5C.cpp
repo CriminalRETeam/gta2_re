@@ -4,9 +4,23 @@
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
 
-STUB_FUNC(0x522140)
-void Object_2C::ctor_522140()
+MATCH_FUNC(0x522140)
+Object_2C::Object_2C()
 {
+    field_0 = 0;
+    field_4 = 0;
+    field_18 = 0;
+    field_8 = 0;
+    field_C = 0;
+    field_10 = 0;
+    field_14 = 99;
+    field_24 = 0;
+    field_25 = 0;
+    field_26 = 99;
+    field_20 = 0;
+    field_27 = 0;
+    field_28 = -51;
+    field_1C = 0;
 }
 
 STUB_FUNC(0x522180)

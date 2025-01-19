@@ -15,7 +15,7 @@ class Object_29178;
 class Object_2C
 {
   public:
-    EXPORT void ctor_522140();
+    EXPORT Object_2C();
     EXPORT void sub_522180();
     EXPORT bool sub_522250(Car_3C* a2);
     EXPORT s32 sub_5222B0();
