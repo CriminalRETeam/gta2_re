@@ -3,6 +3,7 @@
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
+#include "ang16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
@@ -149,7 +150,7 @@ class Car_3C
     EXPORT void sub_5A4D90();
     EXPORT void ctor_5A5E50();
 
-    angle field_0;
+    Ang16 field_0;
     s8 field_2_pad;
     s8 field_3_pad;
     Sprite_4C* field_4_0x4C_len;
