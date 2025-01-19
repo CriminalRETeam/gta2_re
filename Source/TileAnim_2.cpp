@@ -9,15 +9,14 @@ EXPORT_VAR TileAnim_4BC* gTileAnim_4BC_7052C8;
 GLOBAL(gTileAnim_4BC_7052C8, 0x7052C8);
 
 STUB_FUNC(0x5bc260)
-s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)
+s32 TileAnim_2::sub_5BC260(TileAnim_2* a1, s16 a2, s16 a3, s16 a4, s16 a5)
 {
     return 0;
 }
 
 STUB_FUNC(0x5bc2c0)
-s32 TileAnim_2::sub_5BC2C0()
+void TileAnim_2::sub_5BC2C0()
 {
-    return 0;
 }
 
 STUB_FUNC(0x5bc300)
