@@ -34,14 +34,112 @@ Wolfy_30::Wolfy_30()
 MATCH_FUNC(0x540a10)
 Wolfy_30::~Wolfy_30()
 {
-    this->field_14 = 0;
-    this->field_1C = 0;
+    field_14 = 0;
+    field_1C = 0;
+}
+
+STUB_FUNC(0x540a40)
+void Wolfy_30::sub_540A40()
+{
+}
+
+STUB_FUNC(0x540d30)
+void Wolfy_30::sub_540D30(s32 a2, s32 a3)
+{
+}
+
+STUB_FUNC(0x540f90)
+void Wolfy_30::state_4_540F90(s32 a2, s32 a3)
+{
+}
+
+STUB_FUNC(0x5411e0)
+void Wolfy_30::sub_5411E0(s32 a2, s32 a3)
+{
+}
+
+STUB_FUNC(0x541430)
+void Wolfy_30::sub_541430(s32 a2, s32 a3)
+{
+}
+
+STUB_FUNC(0x541680)
+u32* Wolfy_30::sub_541680(u32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x541710)
+u32* Wolfy_30::sub_541710(u32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x541760)
+char_type Wolfy_30::sub_541760()
+{
+    return 0;
+}
+
+STUB_FUNC(0x541850)
+void Wolfy_30::sub_541850(u16 a2)
+{
+}
+
+STUB_FUNC(0x541d60)
+char_type Wolfy_30::sub_541D60()
+{
+    return 0;
+}
+
+STUB_FUNC(0x542060)
+char_type Wolfy_30::sub_542060()
+{
+    return 0;
+}
+
+STUB_FUNC(0x542340)
+char_type Wolfy_30::sub_542340()
+{
+    return 0;
+}
+
+STUB_FUNC(0x542790)
+s16 Wolfy_30::sub_542790()
+{
+    return 0;
+}
+
+STUB_FUNC(0x542e30)
+void Wolfy_30::sub_542E30(char_type a2)
+{
+}
+
+STUB_FUNC(0x5434a0)
+char_type Wolfy_30::sub_5434A0(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5435d0)
+char_type Wolfy_30::sub_5435D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x543610)
+void Wolfy_30::sub_543610()
+{
 }
 
 STUB_FUNC(0x543650)
-s32 Wolfy_30::sub_543650()
+void Wolfy_30::sub_543650()
 {
-    return 0;
+}
+
+STUB_FUNC(0x543680)
+void Wolfy_30::sub_543680(s32 a2)
+{
 }
 
 // https://decomp.me/scratch/TAlwS
