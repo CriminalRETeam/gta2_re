@@ -215,6 +215,8 @@ set(gta2_lib_src
   Source/Car_B0.cpp
   Source/Miss2_25C.hpp
   Source/Miss2_25C.cpp
+  Source/Object_8.hpp
+  Source/Object_8.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
