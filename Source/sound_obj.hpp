@@ -101,8 +101,8 @@ class sound_obj
 {
   public:
     char_type field_0;
-    char_type field_1;
-    char_type field_2;
+    char_type field_1_isPaused;
+    char_type field_2_service_enabled;
     char_type field_3;
     s32 field_4;
     u8 field_8;
@@ -119,7 +119,7 @@ class sound_obj
     char_type field_19;
     char_type field_1A;
     char_type field_1B;
-    BYTE field_1C_samp_count;
+    u8 field_1C_samp_count;
     char_type field_1D_b3d_sound;
     char_type field_1E;
     char_type field_1F;
@@ -128,8 +128,8 @@ class sound_obj
     u8 field_25_cdVol;
     char_type field_26;
     char_type field_27;
-    s32 field_28;
-    char_type field_2C;
+    s32 field_28_dist_related;
+    char_type field_2C_distCalculated;
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;
@@ -139,8 +139,8 @@ class sound_obj
     char_type field_9A_pad;
     char_type field_9B_pad;
     sound_0x68 field_9C_asSamples[2][16];
-    BYTE field_D9C_abSampleQueueIndexTable[2][16];
-    BYTE field_DBC_SampleRequestQueuesStatus[2];
+    u8 field_D9C_abSampleQueueIndexTable[2][16];
+    u8 field_DBC_SampleRequestQueuesStatus[2];
     s16 field_DBE;
     sound_0x68 field_DC0[16];
     s32 field_1440;
@@ -163,8 +163,8 @@ class sound_obj
     char_type field_1477;
     s32 field_1478_type5Idx;
     vigilant_maxwell field_147C[1020];
-    u32 field_444C_pEntities[1020];
-    u32 field_543C_444C_max_idx;
+    u32 field_444C_AudioEntityOrderList[1020];
+    u32 field_543C_444C_nAudioEntitiesCount;
     s32 field_5440;
     s32 field_5444;
     u32 field_5448_m_FrameCounter;
