@@ -1702,3 +1702,55 @@ MATCH_FUNC(0x563970)
 Car_8::Car_8()
 {
 }
+
+STUB_FUNC(0x407b90)
+Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x407bb0)
+void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
+{
+}
+
+STUB_FUNC(0x407bd0)
+s32* Car_A4_10::sub_407BD0(s32* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x407ce0)
+s32* Car_A4_10::sub_407CE0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408140)
+char_type Car_A4_10::sub_408140()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408190)
+void Car_A4_10::sub_408190()
+{
+}
+
+STUB_FUNC(0x4081b0)
+Car_B0* Car_A4_10::sub_4081B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x4081d0)
+char_type Car_A4_10::sub_4081D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x408220)
+s32 Car_A4_10::sub_408220()
+{
+    return 0;
+}

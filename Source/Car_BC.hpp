@@ -531,10 +531,20 @@ class Car_8
 class Car_A4_10
 {
   public:
-    char field_0;
-    char field_1;
-    char field_2;
-    char field_3;
+    EXPORT Car_BC* sub_407B90(Car_BC* a2);
+    EXPORT void sub_407BB0(Car_BC* a2, Car_BC* a3);
+    EXPORT s32* sub_407BD0(s32* a2);
+    EXPORT s32* sub_407CE0();
+    EXPORT char_type sub_408140();
+    EXPORT void sub_408190();
+    EXPORT Car_B0* sub_4081B0();
+    EXPORT char_type sub_4081D0();
+    EXPORT s32 sub_408220();
+
+    char_type field_0;
+    char_type field_1;
+    char_type field_2;
+    char_type field_3;
     Car_A4_10* field_4;
     Car_BC* field_8;
     Car_BC* field_C;
