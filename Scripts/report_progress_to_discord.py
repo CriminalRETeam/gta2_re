@@ -83,6 +83,10 @@ def main():
     try:
         with open("progress.json", "r") as file:
             previous_progress_json = json.load(file)
+            # rename the old key name 'unknown_status_funcs' to 'unmatched_funcs'
+            if "unknown_status_funcs" in previous_progress_json:
+                previous_progress_json["unmatched_funcs"] = previous_progress_json.pop("unknown_status_funcs")
+
     except OSError as e:
         # we don't have a progress.json from a previous build
         prev_json_available = False
