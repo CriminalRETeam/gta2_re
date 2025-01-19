@@ -225,6 +225,8 @@ set(gta2_lib_src
   Source/Object_3C.cpp
   Source/Object_29178.hpp
   Source/Object_29178.cpp
+  Source/Particle_4C.hpp
+  Source/Particle_4C.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
