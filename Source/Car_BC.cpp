@@ -353,7 +353,7 @@ void Car_3C::sub_59EFF0()
 }
 
 MATCH_FUNC(0x59f950)
-void Car_3C::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
+void Car_3C::sub_59F950(s32 a2, s32 a3, s32 a4)
 {
     if (sprite_4c_ptr == NULL)
     {
