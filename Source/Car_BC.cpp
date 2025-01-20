@@ -29,7 +29,7 @@ GLOBAL(gCar_3C_6791A8, 0x6791A8);
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
-EXPORT_VAR s32 dword_6F6850;
+EXPORT_VAR Fix16 dword_6F6850[256];
 GLOBAL(dword_6F6850, 0x6F6850);
 
 STUB_FUNC(0x4476f0)
@@ -375,31 +375,29 @@ Sprite_4C* Car_3C::sub_59F990()
     return 0;
 }
 
-STUB_FUNC(0x59fa40)
-Sprite_4C* Car_3C::sub_59FA40()
+MATCH_FUNC(0x59fa40)
+void Car_3C::sub_59FA40()
 {
-    Sprite_4C* result = field_4_0x4C_len;
-    if (result)
+    if (field_4_0x4C_len)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_24_remap);
+        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
 
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-        Fix16 v8 = (Fix16)(&dword_6F6850)[field_5_height_index];
-        Fix16 v7 = (Fix16)(&dword_6F6850)[field_4_width_index];
+       
+        s32 v8 = dword_6F6850[field_5_height_index].mValue;
+        s32 v7 = dword_6F6850[field_4_width_index].mValue;
 
-        result = field_4_0x4C_len;
-
-        if (v7 != result->field_0_width || v8 != result->field_4_height)
+        if (v7 != field_4_0x4C_len->field_0_width || v8 != field_4_0x4C_len->field_4_height)
         {
-            result->field_0_width = v7;
-            result->field_4_height = v8;
-            result->field_48 = 0;
+            Sprite_4C* t = field_4_0x4C_len;
+            t->field_0_width = v7;
+            t->field_4_height = v8;
+            t->field_48 = 0;
         }
     }
-    return result;
 }
 
 STUB_FUNC(0x59fad0) // https://decomp.me/scratch/Wrzst
