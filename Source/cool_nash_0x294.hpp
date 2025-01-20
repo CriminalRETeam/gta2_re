@@ -298,7 +298,7 @@ class cool_nash_0x294
     s32 field_170_selected_weapon;
     s32 field_174_pWeapon;
     Weapon_30* field_178;
-    Zone_144* field_17C_pZone;
+    Zone_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     s32 field_180;
     s32 field_184;
     cool_nash_0x294* field_188_last_char_punched;

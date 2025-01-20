@@ -14,6 +14,7 @@
 #include "angry_lewin_0x85C.hpp"
 #include "Object_5C.hpp"
 #include "Sero_181C.hpp"
+#include "Zones_CA8.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1295,9 +1296,20 @@ void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c540)
+MATCH_FUNC(0x50c540)
 void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(
+                                        v1->field_A_unsigned_2);
+
+    char* gang_zone_name = (char*)&StringById_503080[1];
+
+    pPointer->field_8_char->field_17C_pZone = gZones_CA8_67E274->zone_by_name_4BF100(gang_zone_name);
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c5a0)
