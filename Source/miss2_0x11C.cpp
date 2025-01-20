@@ -879,9 +879,17 @@ void miss2_0x11C::sub_50A460()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a570)
+MATCH_FUNC(0x50a570)
 void miss2_0x11C::SCRCMD_CHANGE_CAR_REMAP_50A570()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    if (v1->field_A_unsigned_2 != 0xFFu) //  field_A_unsigned_2 = remap
+    {
+        pPointer->field_8_car->sub_43A780(v1->field_A_unsigned_2);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a5b0)
