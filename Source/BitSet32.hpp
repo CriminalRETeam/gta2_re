@@ -15,7 +15,7 @@ class BitSet32
     }
     bool check_bit(s32 bit)
     {
-        return m_var & (1 << bit);
+        return (m_var & (1 << bit)) ? true : false;
     }
     BitSet32& operator=(u32 value)
     {
