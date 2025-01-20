@@ -105,6 +105,15 @@ class Car_78
     s32 field_74;
 };
 
+class Car_8F74
+{
+  public:
+    EXPORT Car_8F74();
+
+    Car_78* field_0;
+    Car_78 field_4[306];
+};
+
 class Car_3C
 {
   public:
@@ -589,3 +598,4 @@ class Car_A4_10
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
 EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
+EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;

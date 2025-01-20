@@ -26,6 +26,9 @@ GLOBAL(gCar_3C_6F61E8, 0x6F61E8);
 EXPORT_VAR Car_3C* gCar_3C_6791A8;
 GLOBAL(gCar_3C_6791A8, 0x6791A8);
 
+EXPORT_VAR Car_8F74* gCar_8F74_677CF8;
+GLOBAL(gCar_8F74_677CF8, 0x677CF8);
+
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
@@ -222,6 +225,19 @@ STUB_FUNC(0x453d80)
 s32 Car_78::sub_453D80()
 {
     return 0;
+}
+
+Car_8F74::Car_8F74()
+{
+    Car_78* pIter = &field_4[0];
+    for (s32 i = 0; i < 305; i++)
+    {
+        pIter->field_C = pIter + 1;
+        pIter++;
+    }
+
+    field_4[305].field_C = NULL;
+    field_0 = field_4;
 }
 
 MATCH_FUNC(0x451950)
