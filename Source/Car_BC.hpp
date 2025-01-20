@@ -596,6 +596,16 @@ class Car_A4_10
     Car_BC* field_C;
 };
 
+class Car_A4
+{
+  public:
+    EXPORT Car_A4();
+
+    Car_A4_10* field_0;
+    Car_A4_10 field_4[10];
+};
+
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
 EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
+EXPORT_VAR extern Car_A4* gCar_A4_66AC80;

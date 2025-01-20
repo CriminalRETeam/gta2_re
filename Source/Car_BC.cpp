@@ -29,6 +29,9 @@ GLOBAL(gCar_3C_6791A8, 0x6791A8);
 EXPORT_VAR Car_8F74* gCar_8F74_677CF8;
 GLOBAL(gCar_8F74_677CF8, 0x677CF8);
 
+EXPORT_VAR Car_A4* gCar_A4_66AC80;
+GLOBAL(gCar_A4_66AC80, 0x66AC80);
+
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
@@ -1980,4 +1983,17 @@ STUB_FUNC(0x408220)
 s32 Car_A4_10::sub_408220()
 {
     return 0;
+}
+
+//Inlined in Car_6C constructor
+Car_A4::Car_A4()
+{
+    Car_A4_10* it = field_4;
+    for (u32 i = 0; i < 9; i++)
+    {
+        it->field_4 = it + 1;
+        it++;
+    }
+    field_4[9].field_4 = NULL;
+    field_0 = field_4;
 }
