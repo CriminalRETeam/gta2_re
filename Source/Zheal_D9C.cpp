@@ -124,10 +124,37 @@ void Zheal_15C::sub_47F2F0(s32 a2, s32 a3, Car_3C* a4)
     field_F0 = field_80 - field_1C_zpos.mValue;
 }
 
-STUB_FUNC(0x47f350)
+MATCH_FUNC(0x47f350)
 bool Zheal_15C::sub_47F350()
 {
-    return 0;
+    Car_BC* v2;
+    Car_3C* v1 = field_70;
+
+    if (v1->field_30_sprite_type_enum == 2)
+    {
+        v2 = v1->car_bc_ptr;
+    }
+    else
+    {
+        v2 = 0;
+    }
+
+    bool result = false;
+
+    if (v2->field_88 != 5)
+    {
+        Car_3C* v3 = field_6C;
+        Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->car_bc_ptr : 0;
+        if (v4->field_88 != 5 
+            && field_FC == v3->field_14_xpos 
+            && field_100 == v3->field_18_ypos 
+            && field_104 == v3->field_1C_zpos 
+            && field_108 == 71 * v3->field_0.rValue)
+        {
+            return true;
+        }
+    }
+    return result;
 }
 
 STUB_FUNC(0x47f3d0)

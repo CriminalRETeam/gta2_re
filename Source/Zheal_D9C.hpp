@@ -22,7 +22,7 @@ class Zheal_15C
     EXPORT s32 sub_47EDF0();
     EXPORT s32 sub_47EF80();
     EXPORT s32 sub_47F170();
-    EXPORT s32 sub_47F220(s32 a2, s32 a3, Car_3C* a4, s32 a5);
+    EXPORT s32 sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5);
     EXPORT s32 sub_47F290(s32 a2, s32 a3, Car_3C* a4);
     EXPORT void sub_47F2F0(s32 a2, s32 a3, Car_3C* a4);
     EXPORT bool sub_47F350();
@@ -70,7 +70,7 @@ class Zheal_15C
     Car_3C* field_64;
     Car_3C* field_68;
     Car_3C* field_6C;
-    s32 field_70;
+    Car_3C* field_70;
     Car_3C* field_74;
     s32 field_78;
     infallible_turing* field_7C;
@@ -107,7 +107,7 @@ class Zheal_15C
     s32 field_F8;
     Fix16 field_FC;
     Fix16 field_100;
-    s32 field_104;
+    Fix16 field_104;
     s32 field_108;
     s32 field_10C;
     s32 field_110;
