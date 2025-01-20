@@ -2,7 +2,9 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 #include "Car_BC.hpp"
+#include "Object_5C.hpp"
 
 class infallible_turing;
 class Car_BC;
@@ -38,7 +40,7 @@ class Zheal_15C
     EXPORT char_type sub_47FD50();
     EXPORT void sub_47FE10();
     EXPORT void sub_480310();
-    EXPORT infallible_turing* sub_4803B0(s32 a2, s32 a3, char_type a4);
+    EXPORT infallible_turing* sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
     EXPORT s32* sub_480900(s32 a2, s32 a3, s32 a4);
     EXPORT s32* sub_480B60(s32 a2, s32 a3, s32 a4);
 
@@ -53,19 +55,19 @@ class Zheal_15C
     s32 field_20;
     s32 field_24;
     s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
+    Object_2C* field_2C;
+    Object_2C* field_30;
+    Object_2C* field_34;
+    Object_2C* field_38;
+    Object_2C* field_3C;
+    Object_2C* field_40;
+    Object_2C* field_44;
+    Object_2C* field_48;
+    Object_2C* field_4C;
+    Object_2C* field_50;
+    Object_2C* field_54;
+    Object_2C* field_58;
+    Object_2C* field_5C;
     Car_3C* field_60;
     Car_3C* field_64;
     Car_3C* field_68;
@@ -74,7 +76,7 @@ class Zheal_15C
     Car_3C* field_74;
     s32 field_78;
     infallible_turing* field_7C;
-    s32 field_80;
+    Fix16 field_80;
     s32 field_84;
     s32 field_88;
     s32 field_8C;
@@ -107,7 +109,7 @@ class Zheal_15C
     s32 field_F8;
     Fix16 field_FC;
     Fix16 field_100;
-    s32 field_104;
+    Fix16 field_104;
     s32 field_108;
     s32 field_10C;
     s32 field_110;
@@ -146,7 +148,7 @@ class Zheal_D9C
   public:
     EXPORT void sub_480E00(Car_BC* a2, u8 a3);
     EXPORT void sub_480E50();
-    EXPORT Zheal_15C* sub_480EC0(s32 a2, s32 a3);
+    EXPORT Zheal_15C* sub_480EC0(Fix16 a2, Fix16 a3);
     EXPORT Zheal_D9C();
     EXPORT ~Zheal_D9C();
 
