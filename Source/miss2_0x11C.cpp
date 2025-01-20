@@ -1249,9 +1249,19 @@ void miss2_0x11C::SCRCMD_SPOTTED_PLAYER_50C2F0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c350)
+MATCH_FUNC(0x50c350)
 void miss2_0x11C::SCRCMD_GET_LAST_PUNCHED_50C350()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCharTargetPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                                gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pCharPunchedPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                                v1->field_A_unsigned_2);
+
+    pCharPunchedPointer->field_8_char = pCharTargetPointer->field_8_char->field_188_last_char_punched;
+    pCharTargetPointer->field_8_char->field_188_last_char_punched = 0; //  reset
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c3b0)
