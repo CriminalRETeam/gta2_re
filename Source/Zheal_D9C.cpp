@@ -80,7 +80,7 @@ s32 Zheal_15C::sub_47F170()
 }
 
 MATCH_FUNC(0x47f220)
-s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, s32 a5)
+s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5)
 {
     field_F4 = a2;
     field_F8 = a3;
@@ -148,7 +148,7 @@ bool Zheal_15C::sub_47F350()
         if (v4->field_88 != 5 
             && field_FC == v3->field_14_xpos 
             && field_100 == v3->field_18_ypos 
-            && field_104 == v3->field_1C_zpos 
+            && field_104 == v3->field_1C_zpos.mValue 
             && field_108 == 71 * v3->field_0.rValue)
         {
             return true;

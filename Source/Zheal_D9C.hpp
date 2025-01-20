@@ -107,7 +107,7 @@ class Zheal_15C
     s32 field_F8;
     Fix16 field_FC;
     Fix16 field_100;
-    Fix16 field_104;
+    s32 field_104;
     s32 field_108;
     s32 field_10C;
     s32 field_110;
