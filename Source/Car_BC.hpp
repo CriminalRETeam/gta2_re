@@ -513,7 +513,7 @@ class Car_BC
     char_type field_81;
     char_type field_82;
     char_type field_83;
-    s32 field_84_car_info_idx;
+    s32 field_84_car_info_idx; // Probably this is s8 type; it stores the car model
     s32 field_88;
     char_type field_8C;
     char_type field_8D;
