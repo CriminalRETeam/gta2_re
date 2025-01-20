@@ -892,9 +892,24 @@ void miss2_0x11C::SCRCMD_CHANGE_CAR_REMAP_50A570()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a5b0)
+MATCH_FUNC(0x50a5b0)
 void miss2_0x11C::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_char)
+    {
+        Char_B4* pChar_b4 = pPointer->field_8_char->field_168_game_object;
+        u8 remap = v1->field_A_unsigned_2;
+        pChar_b4->field_5_remap = remap;
+        if (pChar_b4->field_5_remap != 0xFFu)
+        {
+            pChar_b4->field_80_sprite_ptr->sub_59EA00(remap);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a610)
