@@ -1274,7 +1274,7 @@ void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 {
     SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
                                     gBasePtr_6F8070[1].field_0_cmd_this);
-    if (pCmd->field_8_char->field_188)
+    if (pCmd->field_8_char->field_188_last_char_punched != NULL)
     {
         field_8 = 1;
     }

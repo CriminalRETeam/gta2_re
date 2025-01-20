@@ -301,7 +301,7 @@ class cool_nash_0x294
     Zone_144* field_17C_pZone;
     s32 field_180;
     s32 field_184;
-    s32 field_188;
+    cool_nash_0x294* field_188_last_char_punched;
     cool_nash_0x294* field_18C;
     s32 field_190;
     s32 field_194;
