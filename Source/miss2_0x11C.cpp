@@ -957,9 +957,29 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_REMAP_50A670()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a6e0)
+MATCH_FUNC(0x50a6e0)
 void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
 {
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* pCar = pPointer->field_8_car;
+    s16 car_model_idx = v1->field_A_signed_2;
+    s16 remap = v1->field_C_signed_3;
+
+    if (pCar != NULL 
+        && pCar->field_88 != 6 
+        && (s8)pCar->field_84_car_info_idx == car_model_idx 
+        && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
+    {
+        this->field_8 = true;
+    }
+    else
+    {
+        this->field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a760)
