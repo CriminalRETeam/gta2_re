@@ -7,6 +7,8 @@
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
+struct gmp_zone_unknown;
+class DrawUnk_0xBC;
 class Object_2C;
 class Car_78;
 class Car_B0;
@@ -605,7 +607,22 @@ class Car_A4
     Car_A4_10 field_4[10];
 };
 
+struct Car_14
+{
+    EXPORT Car_14();
+
+    DrawUnk_0xBC* field_0;
+    s32 field_4;
+    s8 field_8;
+    s8 field_9;
+    s8 field_A;
+    s8 field_B;
+    angry_lewin_0x85C* field_C;
+    gmp_zone_unknown* field_10;
+};
+
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
 EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
 EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
+EXPORT_VAR extern Car_14* gCar_14_677934;
