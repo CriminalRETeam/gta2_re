@@ -215,16 +215,15 @@ u8* Car_78::sub_453C00()
     return 0;
 }
 
-STUB_FUNC(0x453cb0)
-Car_78* Car_78::ctor_453CB0()
-{
-    return 0;
-}
-
 STUB_FUNC(0x453d80)
 s32 Car_78::sub_453D80()
 {
     return 0;
+}
+
+STUB_FUNC(0x453cb0)
+Car_78::Car_78()
+{
 }
 
 Car_8F74::Car_8F74()

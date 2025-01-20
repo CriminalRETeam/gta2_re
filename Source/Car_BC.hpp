@@ -55,8 +55,8 @@ class Car_78
     EXPORT s16 sub_453BB0();
     EXPORT Car_BC* sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
-    EXPORT Car_78* ctor_453CB0();
     EXPORT s32 sub_453D80();
+    EXPORT Car_78();
 
     Car_BC* field_0;
     s32 field_4;
