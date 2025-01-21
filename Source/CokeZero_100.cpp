@@ -48,9 +48,112 @@ void CokeZero_50::sub_596A70(s32 a2)
     }
 }
 
-STUB_FUNC(0x596a90)
+MATCH_FUNC(0x596a90)
 void CokeZero_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
 {
+    u32 tmpScore = score;
+
+    this->field_4C = score;
+    this->field_0 = 0;
+
+    if (score >= 100000000)
+    {
+        this->field_0 = 8;
+        this->field_4[8] = score / 100000000;
+        sub_596A70(7);
+        tmpScore = score % 100000000;
+    }
+
+    if (tmpScore >= 10000000)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 7;
+        }
+        this->field_4[7] = tmpScore / 10000000;
+        sub_596A70(6);
+        tmpScore %= 10000000u;
+    }
+
+    if (tmpScore >= 1000000)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 6;
+        }
+        this->field_4[6] = tmpScore / 1000000;
+        sub_596A70(5);
+        tmpScore %= 1000000u;
+    }
+
+    if (tmpScore >= 100000)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 5;
+        }
+        this->field_4[5] = tmpScore / 100000;
+        sub_596A70(4);
+        tmpScore %= 100000u;
+    }
+
+    if (tmpScore >= 10000)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 4;
+        }
+        this->field_4[4] = tmpScore / 10000;
+        sub_596A70(3);
+        tmpScore %= 10000u;
+    }
+
+    if (tmpScore >= 1000)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 3;
+        }
+        this->field_4[3] = tmpScore / 1000;
+        sub_596A70(2);
+        tmpScore %= 1000u;
+    }
+
+    if (tmpScore >= 100)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 2;
+        }
+        this->field_4[2] = tmpScore / 100;
+        sub_596A70(1);
+        tmpScore %= 100u;
+    }
+
+    if (tmpScore >= 10)
+    {
+        if (!this->field_0)
+        {
+            this->field_0 = 1;
+        }
+        this->field_4[1] = tmpScore / 10;
+        this->field_4[0] = tmpScore % 10;
+    }
+    else
+    {
+        this->field_4[0] = tmpScore;
+    }
+
+    this->field_28 = xpos;
+    this->field_2C = ypos;
+    this->field_30 = zpos;
+
+    this->field_34 = gCokeZero_100_702F34->sub_596860();
+
+    this->field_36 = 25;
+    this->field_38 = 2;
+    this->field_3C = 1;
+    this->field_40 = 1;
 }
 
 STUB_FUNC(0x596c90)
