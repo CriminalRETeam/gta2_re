@@ -257,7 +257,7 @@ void cool_nash_0x294::sub_45BFB0()
 
             Fix16 v10;
             v10.FromInt_4369F0(0);
-            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, v10.mValue, v11.mValue, v12.mValue, word_6FDB34);
+            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, v10, v11, v12, word_6FDB34);
 
             Fix16 v13;
             v13.FromInt_4369F0(0);

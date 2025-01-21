@@ -15,7 +15,7 @@ class Object_29178;
 class Object_2C
 {
   public:
-    EXPORT void ctor_522140();
+    EXPORT Object_2C();
     EXPORT void sub_522180();
     EXPORT bool sub_522250(Car_3C* a2);
     EXPORT s32 sub_5222B0();
@@ -102,7 +102,7 @@ class Object_5C
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
     EXPORT Object_2C* sub_529950(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32 a7, Sprite_4C* a8, Car_BC* a9);
-    EXPORT Object_2C* sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, Ang16 a6);
+    EXPORT Object_2C* sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);
     EXPORT Object_2C* sub_529AB0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, u8 a8);

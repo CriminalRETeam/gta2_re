@@ -4,9 +4,23 @@
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
 
-STUB_FUNC(0x522140)
-void Object_2C::ctor_522140()
+MATCH_FUNC(0x522140)
+Object_2C::Object_2C()
 {
+    field_0 = 0;
+    field_4 = 0;
+    field_18 = 0;
+    field_8 = 0;
+    field_C = 0;
+    field_10 = 0;
+    field_14 = 99;
+    field_24 = 0;
+    field_25 = 0;
+    field_26 = 99;
+    field_20 = 0;
+    field_27 = 0;
+    field_28 = -51;
+    field_1C = 0;
 }
 
 STUB_FUNC(0x522180)
@@ -334,7 +348,7 @@ Object_2C* Object_5C::sub_529950(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32 a7,
 }
 
 STUB_FUNC(0x5299b0)
-Object_2C* Object_5C::sub_5299B0(s32 object_type, s32 a3, s32 a4, s32 a5, Ang16 a6)
+Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
 {
     return 0;
 }

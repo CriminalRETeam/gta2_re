@@ -3,6 +3,7 @@
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
+#include "ang16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
@@ -149,7 +150,7 @@ class Car_3C
     EXPORT void sub_5A4D90();
     EXPORT void ctor_5A5E50();
 
-    angle field_0;
+    Ang16 field_0;
     s8 field_2_pad;
     s8 field_3_pad;
     Sprite_4C* field_4_0x4C_len;
@@ -512,7 +513,7 @@ class Car_BC
     char_type field_81;
     char_type field_82;
     char_type field_83;
-    s32 field_84_car_info_idx;
+    s32 field_84_car_info_idx; // Probably this is s8 type; it stores the car model
     s32 field_88;
     char_type field_8C;
     char_type field_8D;

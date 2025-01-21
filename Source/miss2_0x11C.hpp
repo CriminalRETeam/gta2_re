@@ -86,6 +86,38 @@ struct SCR_TWO_PARAMS : SCR_CMD_HEADER
     };
 };
 
+struct SCR_FOUR_PARAMS : SCR_CMD_HEADER
+{
+    union
+    {
+        struct
+        {
+            u16 field_8_unsigned_1;
+            u16 field_A_unsigned_2;
+        };
+        struct
+        {
+            s16 field_8_signed_1;
+            s16 field_A_signed_2;
+        };
+    };
+    union
+    {
+        struct
+        {
+            u16 field_C_unsigned_3;
+            u16 field_E_unsigned_4;
+        };
+        struct
+        {
+            s16 field_C_signed_3;
+            s16 field_E_signed_4;
+        };
+        u32 field_C_u32;
+        s32 field_C_s32;
+    };
+};
+
 struct SCR_POINTER : SCR_CMD_HEADER
 {
     union
