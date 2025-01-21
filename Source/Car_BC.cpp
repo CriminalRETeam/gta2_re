@@ -10,6 +10,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Sero_181C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -407,7 +408,6 @@ void Car_3C::sub_59FA40()
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-       
         s32 v8 = dword_6F6850[field_5_height_index].mValue;
         s32 v7 = dword_6F6850[field_4_width_index].mValue;
 
@@ -705,10 +705,11 @@ Car_6C::~Car_6C()
 {
 }
 
-STUB_FUNC(0x439ec0)
+MATCH_FUNC(0x439ec0)
 bool Car_BC::sub_439EC0()
 {
-    return 0;
+    bool b = field_84_car_info_idx == 12 || field_84_car_info_idx == 52 || field_84_car_info_idx == 84;
+    return b;
 }
 
 STUB_FUNC(0x439ee0)
@@ -754,10 +755,14 @@ s32* Car_BC::sub_43A1D0(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a1f0)
+MATCH_FUNC(0x43a1f0)
 bool Car_BC::is_bus_43A1F0()
 {
-    return 0;
+    if (gSero_181C_6FF1D4->is_bus_579AA0(this))
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x43a230)
