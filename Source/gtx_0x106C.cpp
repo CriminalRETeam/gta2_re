@@ -576,22 +576,14 @@ void gtx_0x106C::sub_5AAC70()
     UNIQUE_FUNC;
 }
 
-STUB_FUNC(0x5AAD50)
+MATCH_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
 {
-    u32 len = cari_chunk_size;
-    void* v3; // eax
-
-    v3 = crt::malloc(cari_chunk_size);
-    File::Global_Read_4A71C0(v3, &len);
+    field_58_car_info = (car_info **)Memory::malloc_4FE4D0(cari_chunk_size);
+    File::Global_Read_4A71C0(field_58_car_info, &cari_chunk_size);
 
     //field_58_car_info = v3;
     sub_5AA9A0(cari_chunk_size);
-
-    /*
-        chunk_header chunkHeader;
-    for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
-    */
 }
 
 STUB_FUNC(0x5AAD80)
