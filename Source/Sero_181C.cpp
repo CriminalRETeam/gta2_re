@@ -209,8 +209,8 @@ Car_BC* Sero_181C::sub_579AD0()
     {
         return 0;
     }
-    
-    Car_BC *result = this->field_17C0.field_C[0];
+
+    Car_BC* result = this->field_17C0.field_C[0];
     if (!result || this->field_17C0.field_48 != 13)
     {
         return 0;
@@ -290,10 +290,17 @@ Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
     return 0;
 }
 
-STUB_FUNC(0x57b540)
+MATCH_FUNC(0x57b540)
 Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 {
-    return 0;
+    if (!bSkip_trains_67D550 && (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 || a2->field_84_car_info_idx == 6))
+    {
+        return sub_57B5C0(a2)->field_C[0];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x57b5c0)
