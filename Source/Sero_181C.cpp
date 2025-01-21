@@ -224,10 +224,13 @@ bool Sero_181C::is_bus_full_579AF0()
     return false;
 }
 
-STUB_FUNC(0x579b10)
-char_type Sero_181C::sub_579B10()
+MATCH_FUNC(0x579b10)
+void Sero_181C::sub_579B10()
 {
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        field_17C0.field_56_passenger_count++;
+    }
 }
 
 MATCH_FUNC(0x579b20)
