@@ -926,11 +926,11 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_MODEL_50A610()
     if (pCar != NULL 
         && (s8)pCar->field_84_car_info_idx == car_model_index)
     {
-        this->field_8 = true;
+        field_8 = true;
     }
     else
     {
-        this->field_8 = false;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -949,11 +949,11 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_REMAP_50A670()
         && pCar->field_88 != 6 
         && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
     {
-        this->field_8 = true;
+        field_8 = true;
     }
     else
     {
-        this->field_8 = false;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -974,11 +974,11 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
         && (s8)pCar->field_84_car_info_idx == car_model_idx 
         && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
     {
-        this->field_8 = true;
+        field_8 = true;
     }
     else
     {
-        this->field_8 = false;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1261,11 +1261,11 @@ void miss2_0x11C::SCRCMD_CAR_GOT_DRIVER_50C2A0()
     SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (pCmd->field_8_car->field_54_driver)
     {
-        field_8 = 1;
+        field_8 = true;
     }
     else
     {
-        field_8 = 0;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1325,11 +1325,11 @@ void miss2_0x11C::SCRCMD_PUNCHED_SOMEONE_50C4E0()
                                     gBasePtr_6F8070[1].field_0_cmd_this);
     if (pCmd->field_8_char->field_188_last_char_punched != NULL)
     {
-        field_8 = 1;
+        field_8 = true;
     }
     else
     {
-        field_8 = 0;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2708,7 +2708,7 @@ void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
     field_E = 0;
     field_C = 0;
     field_12 = 0;
-    field_8 = 0;
+    field_8 = false;
     field_10 = 0;
 }
 
@@ -2731,7 +2731,7 @@ miss2_0x11C::miss2_0x11C()
     field_114 = new miss2_8();
     field_4_level_start = 0;
     field_6 = 0;
-    field_8 = 0;
+    field_8 = false;
     field_C = 0;
     field_E = 0;
     field_10 = 0;
