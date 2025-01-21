@@ -107,6 +107,7 @@ class Door_10
 class Door_2C4
 {
   public:
+    // inlined 0x44C800
     Door_2C4()
     {
         Door_10* pIter = field_0;
@@ -117,6 +118,11 @@ class Door_2C4
         }
         field_0 = field_4;
         field_2C0 = 0;
+    }
+
+    ~Door_2C4()
+    {
+        field_0 = 0;
     }
 
     Door_10* field_0;

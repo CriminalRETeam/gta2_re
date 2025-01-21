@@ -261,4 +261,8 @@ Door_4D4::Door_4D4()
 STUB_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
+    if (gDoor_2C4_67BD28)
+    {
+        GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
+    }
 }
