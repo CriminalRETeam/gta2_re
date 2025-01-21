@@ -386,7 +386,6 @@ void Car_3C::sub_59FA40()
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-       
         s32 v8 = dword_6F6850[field_5_height_index].mValue;
         s32 v7 = dword_6F6850[field_4_width_index].mValue;
 
@@ -684,10 +683,11 @@ Car_6C::~Car_6C()
 {
 }
 
-STUB_FUNC(0x439ec0)
+MATCH_FUNC(0x439ec0)
 bool Car_BC::sub_439EC0()
 {
-    return 0;
+    bool b = field_84_car_info_idx == 12 || field_84_car_info_idx == 52 || field_84_car_info_idx == 84;
+    return b;
 }
 
 STUB_FUNC(0x439ee0)
