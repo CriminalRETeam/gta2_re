@@ -81,7 +81,7 @@ class Sero_181C
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
     EXPORT Car_BC* sub_579AD0();
     EXPORT bool is_bus_full_579AF0();
-    EXPORT char_type sub_579B10();
+    EXPORT void sub_579B10();
     EXPORT void sub_579B20();
     EXPORT Car_BC** sub_579B40(Car_BC* toFind);
     EXPORT bool sub_579B90(Car_BC* a2, u32* a3);

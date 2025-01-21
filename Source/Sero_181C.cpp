@@ -1,4 +1,5 @@
 #include "Sero_181C.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 
@@ -32,14 +33,34 @@ Sero_58::~Sero_58()
     this->field_4C = 0;
 }
 
-STUB_FUNC(0x5782d0)
+MATCH_FUNC(0x5782d0)
 void Sero_58::sub_5782D0()
 {
+    if (!bSkip_trains_67D550)
+    {
+        if (this->field_C[0]->field_54_driver)
+        {
+            this->field_50 = 3;
+        }
+        else
+        {
+            this->field_50 = 2;
+        }
+    }
 }
 
-STUB_FUNC(0x578300)
+MATCH_FUNC(0x578300)
 void Sero_58::sub_578300()
 {
+    if (!bSkip_trains_67D550)
+    {
+        if (this->field_50 < 2)
+        {
+            this->field_1 = 1;
+            sub_578030();
+        }
+        this->field_50 = 2;
+    }
 }
 
 STUB_FUNC(0x578330)
@@ -93,15 +114,34 @@ Sero_34::~Sero_34()
     field_20 = 0;
 }
 
-STUB_FUNC(0x578790)
+MATCH_FUNC(0x578790)
 Sero_58* Sero_181C::sub_578790()
 {
+    if (bSkip_trains_67D550)
+    {
+        return 0;
+    }
+
+    for (u16 i = 0; i < GTA2_COUNTOF(field_1450); i++)
+    {
+        if (!field_1450[i].field_8)
+        {
+            return &this->field_1450[i];
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x5787e0)
+MATCH_FUNC(0x5787e0)
 Sero_34* Sero_181C::sub_5787E0()
 {
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (!this->field_0[i].field_14)
+        {
+            return &this->field_0[i];
+        }
+    }
     return 0;
 }
 
@@ -144,16 +184,38 @@ void Sero_181C::sub_579A30(Car_BC* a2)
 {
 }
 
-STUB_FUNC(0x579aa0)
+MATCH_FUNC(0x579aa0)
 bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
 {
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        Car_BC* pBus = this->field_17C0.field_C[0];
+        if (pBus)
+        {
+            if (pCar == pBus)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
-STUB_FUNC(0x579ad0)
+MATCH_FUNC(0x579ad0)
 Car_BC* Sero_181C::sub_579AD0()
 {
-    return 0;
+    if (bSkip_buses_67D558)
+    {
+        return 0;
+    }
+
+    Car_BC* result = this->field_17C0.field_C[0];
+    if (!result || this->field_17C0.field_48 != 13)
+    {
+        return 0;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x579af0)
@@ -163,7 +225,7 @@ bool Sero_181C::is_bus_full_579AF0()
     {
         return false;
     }
-    
+
     if (field_17C0.field_56_passenger_count >= 10)
     {
         return true;
@@ -172,15 +234,23 @@ bool Sero_181C::is_bus_full_579AF0()
     return false;
 }
 
-STUB_FUNC(0x579b10)
-char_type Sero_181C::sub_579B10()
+MATCH_FUNC(0x579b10)
+void Sero_181C::sub_579B10()
 {
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        field_17C0.field_56_passenger_count++;
+    }
 }
 
-STUB_FUNC(0x579b20)
+MATCH_FUNC(0x579b20)
 void Sero_181C::sub_579B20()
 {
+    if (!bSkip_buses_67D558)
+    {
+        this->field_17C0.field_56_passenger_count = 0;
+        field_17C0.field_C[0]->field_4.sub_4715A0();
+    }
 }
 
 STUB_FUNC(0x579b40)
@@ -205,16 +275,32 @@ void Sero_181C::sub_57A7A0()
 {
 }
 
-STUB_FUNC(0x57b4b0)
+MATCH_FUNC(0x57b4b0)
 Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
 {
+    Sero_34* pIter = &field_0[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (pIter->field_10_pZone == pZone)
+        {
+            return pIter;
+        }
+        pIter++;
+    }
     return 0;
 }
 
-STUB_FUNC(0x57b540)
+MATCH_FUNC(0x57b540)
 Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 {
-    return 0;
+    if (!bSkip_trains_67D550 && (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 || a2->field_84_car_info_idx == 6))
+    {
+        return sub_57B5C0(a2)->field_C[0];
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x57b5c0)
