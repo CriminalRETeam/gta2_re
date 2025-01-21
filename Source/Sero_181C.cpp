@@ -202,10 +202,20 @@ bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
     return false;
 }
 
-STUB_FUNC(0x579ad0)
+MATCH_FUNC(0x579ad0)
 Car_BC* Sero_181C::sub_579AD0()
 {
-    return 0;
+    if (bSkip_buses_67D558)
+    {
+        return 0;
+    }
+    
+    Car_BC *result = this->field_17C0.field_C[0];
+    if (!result || this->field_17C0.field_48 != 13)
+    {
+        return 0;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x579af0)
