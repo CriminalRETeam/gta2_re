@@ -1,7 +1,7 @@
 #include "Sero_181C.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
 GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
@@ -38,9 +38,18 @@ void Sero_58::sub_5782D0()
 {
 }
 
-STUB_FUNC(0x578300)
+MATCH_FUNC(0x578300)
 void Sero_58::sub_578300()
 {
+    if (!bSkip_trains_67D550)
+    {
+        if (this->field_50 < 2)
+        {
+            this->field_1 = 1;
+            sub_578030();
+        }
+        this->field_50 = 2;
+    }
 }
 
 STUB_FUNC(0x578330)
