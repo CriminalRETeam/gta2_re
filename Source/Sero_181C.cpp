@@ -93,9 +93,21 @@ Sero_34::~Sero_34()
     field_20 = 0;
 }
 
-STUB_FUNC(0x578790)
+MATCH_FUNC(0x578790)
 Sero_58* Sero_181C::sub_578790()
 {
+    if (bSkip_trains_67D550)
+    {
+        return 0;
+    }
+
+    for (u16 i = 0; i < 10; i++)
+    {
+        if (!field_1450[i].field_8)
+        {
+            return &this->field_1450[i];
+        }
+    }
     return 0;
 }
 
@@ -163,7 +175,7 @@ bool Sero_181C::is_bus_full_579AF0()
     {
         return false;
     }
-    
+
     if (field_17C0.field_56_passenger_count >= 10)
     {
         return true;
