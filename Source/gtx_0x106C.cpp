@@ -579,18 +579,23 @@ void gtx_0x106C::sub_5AAC70()
 MATCH_FUNC(0x5AAD50)
 void gtx_0x106C::load_car_info_5AAD50(u32 cari_chunk_size)
 {
-    field_58_car_info = (car_info **)Memory::malloc_4FE4D0(cari_chunk_size);
+    field_58_car_info = (car_info**)Memory::malloc_4FE4D0(cari_chunk_size);
     File::Global_Read_4A71C0(field_58_car_info, &cari_chunk_size);
 
-    //field_58_car_info = v3;
     sub_5AA9A0(cari_chunk_size);
 }
 
-STUB_FUNC(0x5AAD80)
+MATCH_FUNC(0x5AAD80)
 void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
 {
-    // TODO
-    UNIQUE_FUNC;
+    this->field_4C_delta_index = (delta_entry*)Memory::malloc_4FE4D0(delx_chunk_size);
+    File::Global_Read_4A71C0(field_4C_delta_index, &delx_chunk_size);
+    
+    sub_5AAB30(delx_chunk_size);
+    sub_5AAC70();
+
+    crt::free(this->field_4C_delta_index);
+    this->field_4C_delta_index = 0;
 }
 
 MATCH_FUNC(0x5AADD0)
