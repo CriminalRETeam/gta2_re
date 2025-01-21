@@ -177,3 +177,13 @@ class Car_B0
     char_type field_AE;
     char_type field_AF;
 };
+
+struct Car_D264
+{
+    EXPORT Car_D264();
+
+    Car_B0* field_0;
+    Car_B0 field_4[306];
+};
+
+EXPORT_VAR extern Car_D264* gCar_D264_6FE3E0;

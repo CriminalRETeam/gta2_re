@@ -8,6 +8,8 @@
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
+struct gmp_zone_unknown;
+class DrawUnk_0xBC;
 class Object_2C;
 class Car_78;
 class Car_B0;
@@ -56,8 +58,8 @@ class Car_78
     EXPORT s16 sub_453BB0();
     EXPORT Car_BC* sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
-    EXPORT Car_78* ctor_453CB0();
     EXPORT s32 sub_453D80();
+    EXPORT Car_78();
 
     Car_BC* field_0;
     s32 field_4;
@@ -104,6 +106,15 @@ class Car_78
     s32 field_6C;
     s32 field_70;
     s32 field_74;
+};
+
+class Car_8F74
+{
+  public:
+    EXPORT Car_8F74();
+
+    Car_78* field_0;
+    Car_78 field_4[306];
 };
 
 class Car_3C
@@ -547,6 +558,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
 struct Car_E0C4
 {
+    EXPORT Car_E0C4();
+    EXPORT ~Car_E0C4();
+
     Car_BC* field_0;
     Car_BC* field_4_firstCar;
     Car_BC field_8_cars[306];
@@ -585,5 +599,31 @@ class Car_A4_10
     Car_BC* field_C;
 };
 
+class Car_A4
+{
+  public:
+    EXPORT Car_A4();
+
+    Car_A4_10* field_0;
+    Car_A4_10 field_4[10];
+};
+
+struct Car_14
+{
+    EXPORT Car_14();
+
+    DrawUnk_0xBC* field_0;
+    s32 field_4;
+    s8 field_8;
+    s8 field_9;
+    s8 field_A;
+    s8 field_B;
+    angry_lewin_0x85C* field_C;
+    gmp_zone_unknown* field_10;
+};
+
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
 EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
+EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
+EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
+EXPORT_VAR extern Car_14* gCar_14_677934;

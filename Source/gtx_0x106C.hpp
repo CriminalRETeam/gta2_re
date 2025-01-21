@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <cstdio>
 #include <windows.h>
 
 struct palette_base
@@ -101,7 +102,7 @@ struct car_info_container
         memset(field_0, 0, sizeof(field_0));
     }
     car_info* field_0[256];
-    char_type field_400_count;
+    u8 field_400_count;
     //char_type field_401;// pad
     //char_type field_402;// pad
     //char_type field_403;// pad
@@ -237,11 +238,16 @@ class gtx_0x106C
     // 0x5AB8A0
     EXPORT ~gtx_0x106C();
 
-
     // inlined v9.6f, 0x432850
-    u8 get_number_of_cars()
+    u8 get_number_of_cars() const
     {
         return field_5C_cari->field_400_count;
+    }
+
+    // inlined v9.6f, 0x420200
+    u8 does_car_exist(u8 iParm1)  const
+    {
+        return this->field_5C_cari->field_0[iParm1] != NULL;
     }
 
     s16 field_0_totalPalBase;

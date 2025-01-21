@@ -26,6 +26,15 @@ GLOBAL(gCar_3C_6F61E8, 0x6F61E8);
 EXPORT_VAR Car_3C* gCar_3C_6791A8;
 GLOBAL(gCar_3C_6791A8, 0x6791A8);
 
+EXPORT_VAR Car_8F74* gCar_8F74_677CF8;
+GLOBAL(gCar_8F74_677CF8, 0x677CF8);
+
+EXPORT_VAR Car_A4* gCar_A4_66AC80;
+GLOBAL(gCar_A4_66AC80, 0x66AC80);
+
+EXPORT_VAR Car_14* gCar_14_677934;
+GLOBAL(gCar_14_677934, 0x677934);
+
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
@@ -212,16 +221,28 @@ u8* Car_78::sub_453C00()
     return 0;
 }
 
-STUB_FUNC(0x453cb0)
-Car_78* Car_78::ctor_453CB0()
-{
-    return 0;
-}
-
 STUB_FUNC(0x453d80)
 s32 Car_78::sub_453D80()
 {
     return 0;
+}
+
+STUB_FUNC(0x453cb0)
+Car_78::Car_78()
+{
+}
+
+Car_8F74::Car_8F74()
+{
+    Car_78* pIter = &field_4[0];
+    for (s32 i = 0; i < 305; i++)
+    {
+        pIter->field_C = pIter + 1;
+        pIter++;
+    }
+
+    field_4[305].field_C = NULL;
+    field_0 = field_4;
 }
 
 MATCH_FUNC(0x451950)
@@ -1883,6 +1904,28 @@ bool Car_BC::sub_564300()
     return false;
 }
 
+// Inlined in Car_6C constructor
+Car_E0C4::Car_E0C4()
+{
+    Car_BC* pIter = &field_8_cars[0];
+    for (s32 i = 0; i < 305; i++)
+    {
+        pIter->field_4C_next = pIter + 1;
+        pIter++;
+    }
+
+    field_0 = field_8_cars;
+    field_8_cars[0x131].field_4C_next = NULL;
+    field_4_firstCar = NULL;
+    field_E0C0_cars_count = 0;
+}
+
+Car_E0C4::~Car_E0C4()
+{
+    field_0 = NULL;
+    field_4_firstCar = NULL;
+}
+
 MATCH_FUNC(0x40ac40)
 Car_8::~Car_8()
 {
@@ -1943,4 +1986,22 @@ STUB_FUNC(0x408220)
 s32 Car_A4_10::sub_408220()
 {
     return 0;
+}
+
+//Inlined in Car_6C constructor
+Car_A4::Car_A4()
+{
+    Car_A4_10* it = field_4;
+    for (u32 i = 0; i < 9; i++)
+    {
+        it->field_4 = it + 1;
+        it++;
+    }
+    field_4[9].field_4 = NULL;
+    field_0 = field_4;
+}
+
+STUB_FUNC(0x582310)
+Car_14::Car_14()
+{
 }

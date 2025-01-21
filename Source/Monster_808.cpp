@@ -364,18 +364,21 @@ Monster_2C* Monster_808::sub_454840(u8 idx)
     return field_0_ptr_array[idx];
 }
 
+// This function has a full match, but it's waiting until sub_4542A0 has matched.
+// Or moved to a different file. While it's empty, this match will fail because of a single intruction
 STUB_FUNC(0x454850)
 void Monster_808::sub_454850()
 {
-    const u32 count = gGtx_0x106C_703DD4->field_5C_cari->field_400_count;
+    const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
     field_400_raw_data = new Monster_2C[count];
 
-    for (s32 i = 0; i < 256; i++)
+    for (u32 i = 0, j = 0; i < 256; i++)
     {
-        if (gGtx_0x106C_703DD4->field_5C_cari->field_0[i])
+        if (gGtx_0x106C_703DD4->does_car_exist(i))
         {
-            field_0_ptr_array[i] = &field_400_raw_data[i];
-            field_400_raw_data[i].sub_4542A0(i);
+            field_0_ptr_array[i] = &field_400_raw_data[j];
+            field_400_raw_data[j].sub_4542A0(i);
+            j++;
         }
     }
 }
