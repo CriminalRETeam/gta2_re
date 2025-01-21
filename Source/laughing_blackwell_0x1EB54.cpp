@@ -3111,33 +3111,29 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     */
 }
 
-STUB_FUNC(0x4AF970)
+MATCH_FUNC(0x4AF970)
 laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
 {
     FreeKeyBoardDevice_4AFD00();
 
     if (gSharp_pare_0x15D8_705064)
     {
-        delete gSharp_pare_0x15D8_705064;
-        gSharp_pare_0x15D8_705064 = 0;
+        GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
     }
 
     if (gGtx_0x106C_703DD4)
     {
-        delete gGtx_0x106C_703DD4;
-        gGtx_0x106C_703DD4 = 0;
+        GTA2_DELETE_AND_NULL(gGtx_0x106C_703DD4);
     }
 
     if (gText_0x14_704DFC)
     {
-        delete gText_0x14_704DFC;
-        gText_0x14_704DFC = 0;
+        GTA2_DELETE_AND_NULL(gText_0x14_704DFC);
     }
 
     if (gMagical_germain_0x8EC_6F5168)
     {
-        delete gMagical_germain_0x8EC_6F5168;
-        gMagical_germain_0x8EC_6F5168 = 0;
+        GTA2_DELETE_AND_NULL(gMagical_germain_0x8EC_6F5168);
     }
 
     FreeImageTable_4B6750();

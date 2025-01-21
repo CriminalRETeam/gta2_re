@@ -265,7 +265,7 @@ void magical_germain_0x8EC::sub_4D2B40()
     // todo
 }
 
-STUB_FUNC(0x4D2C80)
+MATCH_FUNC(0x4D2C80)
 magical_germain_0x8EC::magical_germain_0x8EC()
 {
     field_8E8_v1 = -2;
