@@ -331,14 +331,10 @@ object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
     return &field_24_map_object_info[idx];
 }
 
-STUB_FUNC(0x5AA930)
-s32 gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
+MATCH_FUNC(0x5AA930)
+void gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
 {
-    s32 result; // eax
-
-    result = tile_idx;
     field_40_tile->field_0[tile_idx] = tile_val;
-    return result;
 }
 
 MATCH_FUNC(0x5AA950)
