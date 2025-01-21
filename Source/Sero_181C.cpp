@@ -184,10 +184,22 @@ void Sero_181C::sub_579A30(Car_BC* a2)
 {
 }
 
-STUB_FUNC(0x579aa0)
+MATCH_FUNC(0x579aa0)
 bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
 {
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        Car_BC* pBus = this->field_17C0.field_C[0];
+        if (pBus)
+        {
+            if (pCar == pBus)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 STUB_FUNC(0x579ad0)
