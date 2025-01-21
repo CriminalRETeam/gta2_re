@@ -11,13 +11,13 @@ class CokeZero_50
     EXPORT void Empty_596A50();
     EXPORT void Empty_596A60();
     EXPORT void sub_596A70(s32 a2);
-    EXPORT s16 sub_596A90(s32 a2, s32 a3, s32 a4, u32 a5);
+    EXPORT void sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score);
     EXPORT s32 sub_596C90();
     EXPORT char_type sub_5970C0();
     EXPORT void sub_597100(s32 a2, s32 a3);
 
     s32 field_0;
-    CokeZero_50 * field_4[9];
+    s32 field_4[9];
     s32 field_28;
     s32 field_2C;
     s32 field_30;

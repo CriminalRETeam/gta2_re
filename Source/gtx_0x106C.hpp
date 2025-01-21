@@ -170,7 +170,7 @@ class gtx_0x106C
 
     EXPORT object_info* get_map_object_info_5AA910(u16 idx);
 
-    EXPORT s32 sub_5AA930(u16 tile_idx, s16 tile_val);
+    EXPORT void sub_5AA930(u16 tile_idx, s16 tile_val);
 
     EXPORT void create_tile_num_array_5AA950();
 
