@@ -42,16 +42,15 @@ void CokeZero_50::Empty_596A60()
 MATCH_FUNC(0x596a70)
 void CokeZero_50::sub_596A70(s32 a2)
 {
-    for (u32 i=a2; i > 0; i--)
+    for (u32 i = a2; i > 0; i--)
     {
         field_4[i] = 0;
     }
 }
 
 STUB_FUNC(0x596a90)
-s16 CokeZero_50::sub_596A90(s32 a2, s32 a3, s32 a4, u32 a5)
+void CokeZero_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
 {
-    return 0;
 }
 
 STUB_FUNC(0x596c90)
