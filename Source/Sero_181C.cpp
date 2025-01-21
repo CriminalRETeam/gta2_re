@@ -33,9 +33,20 @@ Sero_58::~Sero_58()
     this->field_4C = 0;
 }
 
-STUB_FUNC(0x5782d0)
+MATCH_FUNC(0x5782d0)
 void Sero_58::sub_5782D0()
 {
+    if (!bSkip_trains_67D550)
+    {
+        if (this->field_C[0]->field_54_driver)
+        {
+            this->field_50 = 3;
+        }
+        else
+        {
+            this->field_50 = 2;
+        }
+    }
 }
 
 MATCH_FUNC(0x578300)
