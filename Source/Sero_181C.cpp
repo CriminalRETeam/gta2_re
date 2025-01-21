@@ -1,6 +1,7 @@
 #include "Sero_181C.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
 GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
@@ -197,9 +198,14 @@ char_type Sero_181C::sub_579B10()
     return 0;
 }
 
-STUB_FUNC(0x579b20)
+MATCH_FUNC(0x579b20)
 void Sero_181C::sub_579B20()
 {
+    if (!bSkip_buses_67D558)
+    {
+        this->field_17C0.field_56_passenger_count = 0;
+        field_17C0.field_C[0]->field_4.sub_4715A0();
+    }
 }
 
 STUB_FUNC(0x579b40)
