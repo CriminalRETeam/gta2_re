@@ -224,9 +224,18 @@ void Sero_181C::sub_57A7A0()
 {
 }
 
-STUB_FUNC(0x57b4b0)
+MATCH_FUNC(0x57b4b0)
 Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
 {
+    Sero_34* pIter = &field_0[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (pIter->field_10_pZone == pZone)
+        {
+            return pIter;
+        }
+        pIter++;
+    }
     return 0;
 }
 
