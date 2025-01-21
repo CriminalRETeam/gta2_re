@@ -101,7 +101,7 @@ Sero_58* Sero_181C::sub_578790()
         return 0;
     }
 
-    for (u16 i = 0; i < 10; i++)
+    for (u16 i = 0; i < GTA2_COUNTOF(field_1450); i++)
     {
         if (!field_1450[i].field_8)
         {
@@ -111,9 +111,16 @@ Sero_58* Sero_181C::sub_578790()
     return 0;
 }
 
-STUB_FUNC(0x5787e0)
+MATCH_FUNC(0x5787e0)
 Sero_34* Sero_181C::sub_5787E0()
 {
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        if (!this->field_0[i].field_14)
+        {
+            return &this->field_0[i];
+        }
+    }
     return 0;
 }
 
