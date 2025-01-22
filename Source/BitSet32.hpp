@@ -23,5 +23,13 @@ class BitSet32
         return *this;
     }
 
+    BitSet32()
+    {
+    }
+
+    BitSet32(s32 value) : m_var(value)
+    {
+    }
+
     u32 m_var;
 };
