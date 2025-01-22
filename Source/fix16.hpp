@@ -67,6 +67,11 @@ class Fix16
         return mValue >= other.mValue;
     }
 
+    bool operator<=(const Fix16& other)
+    {
+        return mValue <= other.mValue;
+    }
+
     f32 AsFloat() const
     {
         return mValue / 16384.0f;
@@ -78,6 +83,11 @@ class Fix16
     }
 
     inline s32 ToInt() const
+    {
+        return mValue >> 14;
+    }
+
+    inline u8 ToUInt8() const
     {
         return mValue >> 14;
     }
