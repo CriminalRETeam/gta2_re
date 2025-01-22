@@ -1806,7 +1806,7 @@ void miss2_0x11C::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
     u32 model_idx = v1->field_C_u32;
 
     if (pObj != NULL
-        && pObj->field_18 == model_idx)
+        && pObj->field_18_model == model_idx)
     {
         this->field_8 = 1;
     }

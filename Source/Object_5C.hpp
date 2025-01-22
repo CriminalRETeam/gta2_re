@@ -76,7 +76,7 @@ class Object_2C
     s32 field_C;
     Object_3C* field_10;
     s32 field_14;
-    s32 field_18;
+    s32 field_18_model;
     char_type field_1C;
     char_type field_1D;
     char_type field_1E;
