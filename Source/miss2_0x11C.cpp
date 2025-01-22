@@ -18,6 +18,7 @@
 #include "Zheal_D9C.hpp"
 #include "ChickenLegend_48.hpp"
 #include "Miss2_25C.hpp"
+#include "nostalgic_ellis_0x28.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1575,9 +1576,16 @@ void miss2_0x11C::SCRCMD_CHANGE_INTENSITY_50D870()
 {
 }
 
-STUB_FUNC(0x50d900)
+MATCH_FUNC(0x50d900)
 void miss2_0x11C::SCRCMD_CHANGE_COLOUR_50D900()
 {
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    u32 rgb = v1->field_C_u32;
+    pPointer->field_8_light->field_10_argb = rgb;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50d9a0)
