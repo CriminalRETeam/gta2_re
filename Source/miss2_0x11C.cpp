@@ -19,6 +19,7 @@
 #include "ChickenLegend_48.hpp"
 #include "Miss2_25C.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "Weapon_8.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1254,9 +1255,24 @@ void miss2_0x11C::sub_50BDC0()
 {
 }
 
-STUB_FUNC(0x50be00)
+MATCH_FUNC(0x50be00)
 void miss2_0x11C::SCRCMD_HAS_CAR_WEAPON_50BE00()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    s16 weapon_idx = v1->field_A_signed_2;
+
+    if (gWeapon_8_707018->sub_5E3D20(pPointer->field_8_car, 
+                                        weapon_idx))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50be70)
