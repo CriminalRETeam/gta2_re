@@ -540,7 +540,7 @@ class frosty_pasteur_0xC1EA8
     s32 field_334;
     s32 field_338;
     s32 field_33C;
-    s32 field_340;
+    u32* field_340_car_list;
     s32 field_344;
     s32 field_348;
     s32 field_34C;

@@ -467,9 +467,10 @@ void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* pCmd)
     gfrosty_pasteur_6F8060->field_310_finish_score = pCmd->field_8_s32;
 }
 
-STUB_FUNC(0x505750)
-void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(s32 a1)
+MATCH_FUNC(0x505750)
+void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
 {
+    gfrosty_pasteur_6F8060->field_340_car_list = &pCmd->field_8_u32;
 }
 
 STUB_FUNC(0x505790)
