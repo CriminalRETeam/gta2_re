@@ -554,10 +554,12 @@ s32 Car_3C::sub_5A2CF0()
     return 0;
 }
 
-STUB_FUNC(0x5a3030)
-infallible_turing* Car_3C::sub_5A3030()
+MATCH_FUNC(0x5a3030)
+void Car_3C::sub_5A3030()
 {
-    return 0;
+    sub_59FAD0();
+    this->field_20_id = 0;
+    sub_5A2A00();
 }
 
 STUB_FUNC(0x5a3100)
