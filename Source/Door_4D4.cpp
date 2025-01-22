@@ -1,9 +1,16 @@
 #include "Door_4D4.hpp"
-#include "cool_nash_0x294.hpp"
 #include "Globals.hpp"
+#include "cool_nash_0x294.hpp"
+#include "error.hpp"
 
 EXPORT_VAR s32 dword_67BBE0;
 GLOBAL(dword_67BBE0, 0x67BBE0);
+
+EXPORT_VAR s16 word_67BB38[24];
+GLOBAL(word_67BB38, 0x67BB38);
+
+EXPORT_VAR Door_2C4 *gDoor_2C4_67BD28;
+GLOBAL(gDoor_2C4_67BD28, 0x67BD28);
 
 MATCH_FUNC(0x49c640)
 Door_38::Door_38()
@@ -233,12 +240,29 @@ void Door_4D4::sub_49D460()
     }
 }
 
+
 STUB_FUNC(0x49d4a0)
 Door_4D4::Door_4D4()
 {
+    if (!gDoor_2C4_67BD28)
+    {
+        gDoor_2C4_67BD28 = new Door_2C4();
+        if (!gDoor_2C4_67BD28)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
+        }
+    }
+    memset(word_67BB38, 0, sizeof(word_67BB38));
+    word_67BB38[24] = 0;
+    this->field_4D0_count = 0;
+    this->field_4D2 = 205;
 }
 
 STUB_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
+    if (gDoor_2C4_67BD28)
+    {
+        GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
+    }
 }

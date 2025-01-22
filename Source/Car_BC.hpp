@@ -152,10 +152,10 @@ class Car_3C
     EXPORT char_type sub_5A2500();
     EXPORT s32* sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
     EXPORT void sub_5A29D0();
-    EXPORT infallible_turing* sub_5A2A00();
+    EXPORT void sub_5A2A00();
     EXPORT void sub_5A2A30();
     EXPORT s32 sub_5A2CF0();
-    EXPORT infallible_turing* sub_5A3030();
+    EXPORT void sub_5A3030();
     EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5);
     EXPORT ~Car_3C();
     EXPORT void sub_5A4D90();
@@ -365,7 +365,7 @@ class Car_BC
     EXPORT char_type sub_43BBC0();
     EXPORT void sub_43BC30();
     EXPORT void sub_43BCA0();
-    EXPORT Car_B0* sub_43BD00();
+    EXPORT void sub_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT s32 sub_43BF10();
     EXPORT u32 sub_43BF70();

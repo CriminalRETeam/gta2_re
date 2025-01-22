@@ -3,14 +3,15 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "PurpleDoom.hpp"
+#include "Sero_181C.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Sero_181C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -536,10 +537,14 @@ void Car_3C::sub_5A29D0()
     }
 }
 
-STUB_FUNC(0x5a2a00)
-infallible_turing* Car_3C::sub_5A2A00()
+MATCH_FUNC(0x5a2a00)
+void Car_3C::sub_5A2A00()
 {
-    return 0;
+    if (field_10)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_10);
+        field_10 = 0;
+    }
 }
 
 STUB_FUNC(0x5a2a30)
@@ -553,10 +558,12 @@ s32 Car_3C::sub_5A2CF0()
     return 0;
 }
 
-STUB_FUNC(0x5a3030)
-infallible_turing* Car_3C::sub_5A3030()
+MATCH_FUNC(0x5a3030)
+void Car_3C::sub_5A3030()
 {
-    return 0;
+    sub_59FAD0();
+    this->field_20_id = 0;
+    sub_5A2A00();
 }
 
 STUB_FUNC(0x5a3100)
@@ -698,6 +705,18 @@ u32 Car_6C::sub_446930(s32 a2)
 STUB_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
+    field_0.sub_47BD00();
+    field_10_idx.sub_47BD00();
+    field_12.sub_47BD00();
+
+    if (!gCar_E0C4_67792C)
+    {
+        gCar_E0C4_67792C = new Car_E0C4();
+        if (!gCar_E0C4_67792C)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
+        }
+    }
 }
 
 STUB_FUNC(0x446dc0)
@@ -1033,20 +1052,48 @@ char_type Car_BC::sub_43BBC0()
     return 0;
 }
 
-STUB_FUNC(0x43bc30)
+MATCH_FUNC(0x43bc30)
 void Car_BC::sub_43BC30()
 {
+    if (!((Car_B0*)this->field_58_uni_Car78_or_Car_B0))
+    {
+        sub_4419E0();
+        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_5638C0(this);
+        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+    }
+    else
+    {
+        if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
+        {
+            ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+        }
+    }
 }
 
-STUB_FUNC(0x43bca0)
+MATCH_FUNC(0x43bca0)
 void Car_BC::sub_43BCA0()
 {
+    if (field_64)
+    {
+        field_64->sub_408190();
+    }
+    else
+    {
+        sub_43BC30();
+    }
 }
 
-STUB_FUNC(0x43bd00)
-Car_B0* Car_BC::sub_43BD00()
+MATCH_FUNC(0x43bd00)
+void Car_BC::sub_43BD00()
 {
-    return 0;
+    if (field_64)
+    {
+        field_64->sub_4081B0();
+    }
+    else
+    {
+        sub_441A10();
+    }
 }
 
 STUB_FUNC(0x43bd40)
@@ -1941,15 +1988,24 @@ Car_8::Car_8()
 {
 }
 
-STUB_FUNC(0x407b90)
+MATCH_FUNC(0x407b90)
 Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
 {
-    return 0;
+    if (a2 == field_8)
+    {
+        return field_C;
+    }
+    return field_8;
 }
 
-STUB_FUNC(0x407bb0)
+MATCH_FUNC(0x407bb0)
 void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
+    this->field_8 = a2;
+    this->field_C = a3;
+    a2->field_64 = this;
+    this->field_C->field_64 = this;
+    this->field_0 = 0;
 }
 
 STUB_FUNC(0x407bd0)
@@ -1970,9 +2026,11 @@ char_type Car_A4_10::sub_408140()
     return 0;
 }
 
-STUB_FUNC(0x408190)
+MATCH_FUNC(0x408190)
 void Car_A4_10::sub_408190()
 {
+    field_8->sub_43BC30();
+    field_C->sub_43BC30();
 }
 
 STUB_FUNC(0x4081b0)
