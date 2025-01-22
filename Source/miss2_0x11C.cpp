@@ -20,6 +20,8 @@
 #include "Miss2_25C.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "Weapon_8.hpp"
+#include "Police_7B8.hpp"
+#include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -417,9 +419,15 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(s32 a1)
 {
 }
 
-STUB_FUNC(0x5052c0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1)
+MATCH_FUNC(0x5052c0)
+void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
 {
+    u8 max_wanted_level = pCmd->field_A_unsigned_2;
+    if (max_wanted_level == 0)
+    {
+        bSkip_police_67D4F9 = 0;
+    }
+    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_unsigned_2; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
