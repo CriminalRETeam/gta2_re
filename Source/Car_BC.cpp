@@ -1992,9 +1992,11 @@ char_type Car_A4_10::sub_408140()
     return 0;
 }
 
-STUB_FUNC(0x408190)
+MATCH_FUNC(0x408190)
 void Car_A4_10::sub_408190()
 {
+    field_8->sub_43BC30();
+    field_C->sub_43BC30();
 }
 
 STUB_FUNC(0x4081b0)
