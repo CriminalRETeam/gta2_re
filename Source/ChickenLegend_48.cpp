@@ -1,4 +1,8 @@
 #include "ChickenLegend_48.hpp"
+#include "Globals.hpp"
+
+EXPORT_VAR ChickenLegend_48* gChickenLegend_48_6FD26C;
+GLOBAL(gChickenLegend_48_6FD26C, 0x6FD26C);
 
 MATCH_FUNC(0x4bbc60)
 ChickenLegend_48::~ChickenLegend_48()

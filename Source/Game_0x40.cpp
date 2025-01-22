@@ -92,9 +92,6 @@ GLOBAL(gShooey_CC_67A4B8, 0x67A4B8);
 EXPORT_VAR Hamburger_500* gHamburger_500_678E30;
 GLOBAL(gHamburger_500_678E30, 0x678E30);
 
-EXPORT_VAR ChickenLegend_48* gChickenLegend_48_6FD26C;
-GLOBAL(gChickenLegend_48_6FD26C, 0x6FD26C);
-
 EXPORT_VAR Police_7B8* gPolice_7B8_6FEE40;
 GLOBAL(gPolice_7B8_6FEE40, 0x6FEE40);
 
