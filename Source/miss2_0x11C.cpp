@@ -56,6 +56,23 @@ GLOBAL(dword_6F804C, 0x6F804C);
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
 
+static inline bool Is_it_in_area(SCR_XYZ_f* pos, SCR_Rect_f* rect)
+{
+    Fix16 x_pos = pos->field_0_x;
+    Fix16 width = rect->field_C_size.field_0_x;
+    Fix16 y_pos, z_pos, z_target, height;
+
+    return (x_pos >= rect->field_0_pos.field_0_x - width 
+        && x_pos <= rect->field_0_pos.field_0_x + width 
+        && (y_pos = pos->field_4_y, 
+        height = rect->field_C_size.field_4_y, 
+        y_pos >= rect->field_0_pos.field_4_y - height) 
+        && pos->field_4_y <= rect->field_0_pos.field_4_y + height 
+        && (z_pos = pos->field_8_z, 
+        z_target = rect->field_0_pos.field_8_z, 
+        z_pos.ToUInt8() == z_target.ToUInt8()));
+}
+
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {
@@ -1160,9 +1177,28 @@ void miss2_0x11C::sub_50B8B0()
 {
 }
 
-STUB_FUNC(0x50b910)
+MATCH_FUNC(0x50b910)
 void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 {
+    SCR_ONEVAR_RECT* v1 = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    BitSet32 flag = pPointer->field_8_char->field_21C;
+
+    if (flag.check_bit(11) 
+        && Is_it_in_area((SCR_XYZ_f*)&pPed->field_1AC_cam, 
+                        &v1->field_C_rect))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b9c0)
