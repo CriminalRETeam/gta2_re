@@ -281,10 +281,9 @@ cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2
 {
     (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
     cool_nash_0x294* v2 = a2->field_8_char;
-    BitSet32 v3;
-    v3 = v2->field_21C;
-    v3.clear_bit(10);
-    v2->field_21C = v3.m_var;
+    BitSet32 flag = v2->field_21C;
+    flag.clear_bit(10);
+    v2->field_21C = flag.m_var;
     return v2;
 }
 
