@@ -1046,9 +1046,22 @@ char_type Car_BC::sub_43BBC0()
     return 0;
 }
 
-STUB_FUNC(0x43bc30)
+MATCH_FUNC(0x43bc30)
 void Car_BC::sub_43BC30()
 {
+    if (!((Car_B0*)this->field_58_uni_Car78_or_Car_B0))
+    {
+        sub_4419E0();
+        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_5638C0(this);
+        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+    }
+    else
+    {
+        if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
+        {
+            ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+        }
+    }
 }
 
 MATCH_FUNC(0x43bca0)
