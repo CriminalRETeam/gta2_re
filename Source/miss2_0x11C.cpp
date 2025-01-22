@@ -16,6 +16,7 @@
 #include "Sero_181C.hpp"
 #include "Zones_CA8.hpp"
 #include "Zheal_D9C.hpp"
+#include "ChickenLegend_48.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1503,9 +1504,18 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ce10)
+MATCH_FUNC(0x50ce10)
 void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 {
+    if ( gChickenLegend_48_6FD26C->field_C == 3 )
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ce50)
