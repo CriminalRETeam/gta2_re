@@ -3,6 +3,7 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "PurpleDoom.hpp"
+#include "Sero_181C.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
@@ -10,7 +11,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Sero_181C.hpp"
+#include "error.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -698,6 +699,18 @@ u32 Car_6C::sub_446930(s32 a2)
 STUB_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
+    field_0.sub_47BD00();
+    field_10_idx.sub_47BD00();
+    field_12.sub_47BD00();
+
+    if (!gCar_E0C4_67792C)
+    {
+        gCar_E0C4_67792C = new Car_E0C4();
+        if (!gCar_E0C4_67792C)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
+        }
+    }
 }
 
 STUB_FUNC(0x446dc0)
@@ -1947,9 +1960,14 @@ Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x407bb0)
+MATCH_FUNC(0x407bb0)
 void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
+    this->field_8 = a2;
+    this->field_C = a3;
+    a2->field_64 = this;
+    this->field_C->field_64 = this;
+    this->field_0 = 0;
 }
 
 STUB_FUNC(0x407bd0)
