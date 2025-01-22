@@ -1387,9 +1387,23 @@ void miss2_0x11C::SCRCMD_GET_LAST_PUNCHED_50C350()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c3b0)
+MATCH_FUNC(0x50c3b0)
 void miss2_0x11C::SCRCMD_IS_CHAR_STUNNED_50C3B0()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed->field_27C == 22 
+        || pPed->field_216_health <= 25)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c410)
