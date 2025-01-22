@@ -1591,6 +1591,7 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
     {
         field_8 = false;
     }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50df10)
