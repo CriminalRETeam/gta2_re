@@ -6,12 +6,12 @@
 #include "Sero_181C.hpp"
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "error.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -1954,10 +1954,14 @@ Car_8::Car_8()
 {
 }
 
-STUB_FUNC(0x407b90)
+MATCH_FUNC(0x407b90)
 Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
 {
-    return 0;
+    if (a2 == field_8)
+    {
+        return field_C;
+    }
+    return field_8;
 }
 
 MATCH_FUNC(0x407bb0)
