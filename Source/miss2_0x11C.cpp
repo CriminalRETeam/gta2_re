@@ -1822,9 +1822,18 @@ void miss2_0x11C::SCRCMD_SET_GROUP_TYPE_50F3D0()
 {
 }
 
-STUB_FUNC(0x50f410)
+MATCH_FUNC(0x50f410)
 void miss2_0x11C::SCRCMD_CHAR_DO_NOTHING_50F410()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        pPed->sub_462590();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f450)
