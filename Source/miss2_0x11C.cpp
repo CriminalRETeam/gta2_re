@@ -17,6 +17,7 @@
 #include "Zones_CA8.hpp"
 #include "Zheal_D9C.hpp"
 #include "ChickenLegend_48.hpp"
+#include "Miss2_25C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1869,9 +1870,11 @@ void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
 {
 }
 
-STUB_FUNC(0x50fad0)
+MATCH_FUNC(0x50fad0)
 void miss2_0x11C::SCRCMD_FINISH_MISSION_50FAD0()
 {
+    gMiss2_25C_6F805C->sub_502DC0();
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50faf0)

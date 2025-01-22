@@ -1,4 +1,8 @@
 #include "Miss2_25C.hpp"
+#include "Globals.hpp"
+
+EXPORT_VAR Miss2_25C* gMiss2_25C_6F805C;
+GLOBAL(gMiss2_25C_6F805C, 0x6F805C);
 
 STUB_FUNC(0x502d90)
 Miss2_25C* Miss2_25C::ctor_502D90()
