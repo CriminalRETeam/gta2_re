@@ -1426,9 +1426,24 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
 }
 
-STUB_FUNC(0x50c990)
+MATCH_FUNC(0x50c990)
 void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+    angry_lewin_0x85C* player_weapons = pPed->field_15C_player_weapons;
+
+    if (player_weapons != NULL)
+    {
+        player_weapons->sub_564C50();
+    }
+    else
+    {
+        pPed->sub_462510();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c9f0)
