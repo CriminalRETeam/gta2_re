@@ -537,10 +537,14 @@ void Car_3C::sub_5A29D0()
     }
 }
 
-STUB_FUNC(0x5a2a00)
-infallible_turing* Car_3C::sub_5A2A00()
+MATCH_FUNC(0x5a2a00)
+void Car_3C::sub_5A2A00()
 {
-    return 0;
+    if (field_10)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_10);
+        field_10 = 0;
+    }
 }
 
 STUB_FUNC(0x5a2a30)
