@@ -9,6 +9,7 @@ class Snooky_30;
 class miss2_8;
 class Car_BC;
 class Object_2C;
+class Zheal_15C;
 
 struct SCR_CMD_HEADER
 {
@@ -144,6 +145,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         cool_nash_0x294* field_8_char;
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
+        Zheal_15C* field_8_crane;
     };
 };
 

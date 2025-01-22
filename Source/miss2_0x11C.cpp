@@ -15,6 +15,7 @@
 #include "Object_5C.hpp"
 #include "Sero_181C.hpp"
 #include "Zones_CA8.hpp"
+#include "Zheal_D9C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1285,9 +1286,22 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 {
 }
 
-STUB_FUNC(0x50c230)
+MATCH_FUNC(0x50c230)
 void miss2_0x11C::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    s16 type = gBasePtr_6F8070->field_2_type;
+    
+    if (type == SCRCMD_ENABLE_CRANE)
+    {
+        pPointer->field_8_crane->field_148 = 0;
+    }
+    else if (type == SCRCMD_DISABLE_CRANE)
+    {
+        pPointer->field_8_crane->field_148 = 1;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c2a0)
