@@ -1283,11 +1283,9 @@ void miss2_0x11C::SCRCMD_IS_CHAR_HORN_50BE70()
     cool_nash_0x294* pPed = pPointer->field_8_char;
     Car_BC* pCar = pPed->field_16C_car;
 
-    u8 horn;
-
     if (pCar != NULL 
-        && ((horn = pCar->field_A7) > 0) 
-        && horn <= 0xF8u)
+        && pCar->field_A7_horn > 0 
+        && pCar->field_A7_horn <= 0xF8u)
     {
         field_8 = true;
     }
