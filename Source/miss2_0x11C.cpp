@@ -1575,9 +1575,22 @@ void miss2_0x11C::SCRCMD_CHAR_IN_AIR_50DE50()
 {
 }
 
-STUB_FUNC(0x50deb0)
+MATCH_FUNC(0x50deb0)
 void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed->field_27C == 20 
+        && pPed->field_278 == 8)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
 }
 
 STUB_FUNC(0x50df10)
