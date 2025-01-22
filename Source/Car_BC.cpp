@@ -1056,10 +1056,17 @@ void Car_BC::sub_43BCA0()
 {
 }
 
-STUB_FUNC(0x43bd00)
-Car_B0* Car_BC::sub_43BD00()
+MATCH_FUNC(0x43bd00)
+void Car_BC::sub_43BD00()
 {
-    return 0;
+    if (field_64)
+    {
+        field_64->sub_4081B0();
+    }
+    else
+    {
+        sub_441A10();
+    }
 }
 
 STUB_FUNC(0x43bd40)
