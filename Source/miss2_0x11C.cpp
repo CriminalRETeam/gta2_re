@@ -1275,9 +1275,27 @@ void miss2_0x11C::SCRCMD_HAS_CAR_WEAPON_50BE00()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50be70)
+MATCH_FUNC(0x50be70)
 void miss2_0x11C::SCRCMD_IS_CHAR_HORN_50BE70()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+    Car_BC* pCar = pPed->field_16C_car;
+
+    u8 horn;
+
+    if (pCar != NULL 
+        && ((horn = pCar->field_A7) > 0) 
+        && horn <= 0xF8u)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bed0)
