@@ -171,3 +171,5 @@ class Miss2_25C
     char_type field_25A;
     char_type field_25B;
 };
+
+EXPORT_VAR extern Miss2_25C* gMiss2_25C_6F805C;

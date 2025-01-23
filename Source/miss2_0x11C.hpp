@@ -9,6 +9,8 @@ class Snooky_30;
 class miss2_8;
 class Car_BC;
 class Object_2C;
+class Zheal_15C;
+class nostalgic_ellis_0x28;
 
 struct SCR_CMD_HEADER
 {
@@ -25,6 +27,18 @@ struct SCR_XYZ_f
     Fix16 field_8_z;
 };
 
+struct SCR_XY_f
+{
+    Fix16 field_0_x;
+    Fix16 field_4_y;
+};
+
+struct SCR_Rect_f
+{
+    SCR_XYZ_f field_0_pos;
+    SCR_XY_f field_C_size;
+};
+
 struct SCR_XY_uc
 {
     u8 field_0_x;
@@ -36,6 +50,13 @@ struct SCR_XYZ_uc
     u8 field_0_x;
     u8 field_1_y;
     u8 field_2_z;
+};
+
+struct SCR_ONEVAR_RECT : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    u16 field_A_unk;
+    SCR_Rect_f field_C_rect;
 };
 
 struct SCR_PLAYER_PED
@@ -125,6 +146,8 @@ struct SCR_POINTER : SCR_CMD_HEADER
         cool_nash_0x294* field_8_char;
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
+        Zheal_15C* field_8_crane;
+        nostalgic_ellis_0x28* field_8_light;
     };
 };
 
@@ -237,12 +260,12 @@ class miss2_0x11C
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(s32 a1);
-    EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1);
+    EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(s32 a1);
     EXPORT void SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1);
     EXPORT void SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* a1);
-    EXPORT void SCRCMD_DECLARE_CARLIST_505750(s32 a1);
+    EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* a1);
     EXPORT s32 sub_505790(u16 a1);
     EXPORT void sub_505B10(u16 idx);
     EXPORT u16 sub_505EA0(u16 idx);

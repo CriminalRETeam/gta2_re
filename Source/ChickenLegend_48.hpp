@@ -39,3 +39,5 @@ class ChickenLegend_48
     char_type field_43;
     s32 field_44;
 };
+
+EXPORT_VAR extern ChickenLegend_48* gChickenLegend_48_6FD26C;

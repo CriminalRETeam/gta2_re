@@ -104,3 +104,4 @@ class Weapon_2FDC
 };
 
 extern EXPORT_VAR Weapon_2FDC* gWeapon_2FDC_707014;
+extern EXPORT_VAR Weapon_8* gWeapon_8_707018;

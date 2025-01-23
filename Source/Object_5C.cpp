@@ -9,7 +9,7 @@ Object_2C::Object_2C()
 {
     field_0 = 0;
     field_4 = 0;
-    field_18 = 0;
+    field_18_model = 0;
     field_8 = 0;
     field_C = 0;
     field_10 = 0;

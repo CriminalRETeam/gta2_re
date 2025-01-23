@@ -1480,14 +1480,14 @@ char_type Car_BC::sub_4416D0(s32 a2)
 MATCH_FUNC(0x4417d0)
 void Car_BC::sub_4417D0()
 {
-    if (field_A7 <= 0)
+    if (field_A7_horn <= 0)
     {
         return;
     }
 
-    if (field_A7 != 248)
+    if (field_A7_horn != 248)
     {
-        field_A7--;
+        field_A7_horn--;
     }
 }
 
@@ -1891,7 +1891,7 @@ Car_BC::Car_BC()
     field_78_flags = 0;
     // TODO
     // Object_3C::sub_5A7010((Object_3C *)this);
-    field_A7 = 0;
+    field_A7_horn = 0;
     field_80 = 0;
     field_A0 = 0;
     field_8D = 0;

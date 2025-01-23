@@ -15,6 +15,13 @@
 #include "Object_5C.hpp"
 #include "Sero_181C.hpp"
 #include "Zones_CA8.hpp"
+#include "Zheal_D9C.hpp"
+#include "ChickenLegend_48.hpp"
+#include "Miss2_25C.hpp"
+#include "nostalgic_ellis_0x28.hpp"
+#include "Weapon_8.hpp"
+#include "Police_7B8.hpp"
+#include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -55,6 +62,23 @@ GLOBAL(dword_6F804C, 0x6F804C);
 
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
+
+static inline bool Is_it_in_area(SCR_XYZ_f* pos, SCR_Rect_f* rect)
+{
+    Fix16 x_pos = pos->field_0_x;
+    Fix16 width = rect->field_C_size.field_0_x;
+    Fix16 y_pos, z_pos, z_target, height;
+
+    return (x_pos >= rect->field_0_pos.field_0_x - width 
+        && x_pos <= rect->field_0_pos.field_0_x + width 
+        && (y_pos = pos->field_4_y, 
+        height = rect->field_C_size.field_4_y, 
+        y_pos >= rect->field_0_pos.field_4_y - height) 
+        && pos->field_4_y <= rect->field_0_pos.field_4_y + height 
+        && (z_pos = pos->field_8_z, 
+        z_target = rect->field_0_pos.field_8_z, 
+        z_pos.ToUInt8() == z_target.ToUInt8()));
+}
 
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
@@ -264,10 +288,9 @@ cool_nash_0x294* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2
 {
     (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
     cool_nash_0x294* v2 = a2->field_8_char;
-    BitSet32 v3;
-    v3 = v2->field_21C;
-    v3.clear_bit(10);
-    v2->field_21C = v3.m_var;
+    BitSet32 flag = v2->field_21C;
+    flag.clear_bit(10);
+    v2->field_21C = flag.m_var;
     return v2;
 }
 
@@ -396,9 +419,15 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(s32 a1)
 {
 }
 
-STUB_FUNC(0x5052c0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(s32 a1)
+MATCH_FUNC(0x5052c0)
+void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
 {
+    u8 max_wanted_level = pCmd->field_A_unsigned_2;
+    if (max_wanted_level == 0)
+    {
+        bSkip_police_67D4F9 = 0;
+    }
+    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_unsigned_2; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -438,9 +467,10 @@ void miss2_0x11C::SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* pCmd)
     gfrosty_pasteur_6F8060->field_310_finish_score = pCmd->field_8_s32;
 }
 
-STUB_FUNC(0x505750)
-void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(s32 a1)
+MATCH_FUNC(0x505750)
+void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
 {
+    gfrosty_pasteur_6F8060->field_340_car_list = &pCmd->field_8_u32;
 }
 
 STUB_FUNC(0x505790)
@@ -1160,9 +1190,28 @@ void miss2_0x11C::sub_50B8B0()
 {
 }
 
-STUB_FUNC(0x50b910)
+MATCH_FUNC(0x50b910)
 void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 {
+    SCR_ONEVAR_RECT* v1 = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    BitSet32 flag = pPointer->field_8_char->field_21C;
+
+    if (flag.check_bit(11) 
+        && Is_it_in_area((SCR_XYZ_f*)&pPed->field_1AC_cam, 
+                        &v1->field_C_rect))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b9c0)
@@ -1215,14 +1264,45 @@ void miss2_0x11C::sub_50BDC0()
 {
 }
 
-STUB_FUNC(0x50be00)
+MATCH_FUNC(0x50be00)
 void miss2_0x11C::SCRCMD_HAS_CAR_WEAPON_50BE00()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    s16 weapon_idx = v1->field_A_signed_2;
+
+    if (gWeapon_8_707018->sub_5E3D20(pPointer->field_8_car, 
+                                        weapon_idx))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50be70)
+MATCH_FUNC(0x50be70)
 void miss2_0x11C::SCRCMD_IS_CHAR_HORN_50BE70()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+    Car_BC* pCar = pPed->field_16C_car;
+
+    if (pCar != NULL 
+        && pCar->field_A7_horn > 0 
+        && pCar->field_A7_horn <= 0xF8u)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bed0)
@@ -1250,9 +1330,22 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 {
 }
 
-STUB_FUNC(0x50c230)
+MATCH_FUNC(0x50c230)
 void miss2_0x11C::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    s16 type = gBasePtr_6F8070->field_2_type;
+    
+    if (type == SCRCMD_ENABLE_CRANE)
+    {
+        pPointer->field_8_crane->field_148 = 0;
+    }
+    else if (type == SCRCMD_DISABLE_CRANE)
+    {
+        pPointer->field_8_crane->field_148 = 1;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c2a0)
@@ -1303,9 +1396,23 @@ void miss2_0x11C::SCRCMD_GET_LAST_PUNCHED_50C350()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c3b0)
+MATCH_FUNC(0x50c3b0)
 void miss2_0x11C::SCRCMD_IS_CHAR_STUNNED_50C3B0()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed->field_27C == 22 
+        || pPed->field_216_health <= 25)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c410)
@@ -1375,9 +1482,24 @@ void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
 }
 
-STUB_FUNC(0x50c990)
+MATCH_FUNC(0x50c990)
 void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+    angry_lewin_0x85C* player_weapons = pPed->field_15C_player_weapons;
+
+    if (player_weapons != NULL)
+    {
+        player_weapons->sub_564C50();
+    }
+    else
+    {
+        pPed->sub_462510();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c9f0)
@@ -1454,9 +1576,18 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ce10)
+MATCH_FUNC(0x50ce10)
 void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 {
+    if ( gChickenLegend_48_6FD26C->field_C == 3 )
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ce50)
@@ -1500,9 +1631,16 @@ void miss2_0x11C::SCRCMD_CHANGE_INTENSITY_50D870()
 {
 }
 
-STUB_FUNC(0x50d900)
+MATCH_FUNC(0x50d900)
 void miss2_0x11C::SCRCMD_CHANGE_COLOUR_50D900()
 {
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    u32 rgb = v1->field_C_u32;
+    pPointer->field_8_light->field_10_argb = rgb;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50d9a0)
@@ -1535,14 +1673,42 @@ void miss2_0x11C::SCRCMD_POINT_ONSCREEN_50DE00()
 {
 }
 
-STUB_FUNC(0x50de50)
+MATCH_FUNC(0x50de50)
 void miss2_0x11C::SCRCMD_CHAR_IN_AIR_50DE50()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed->field_27C == 19 
+        && pPed->field_278 == 8)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50deb0)
+MATCH_FUNC(0x50deb0)
 void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed->field_27C == 20 
+        && pPed->field_278 == 8)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50df10)
@@ -1711,9 +1877,18 @@ void miss2_0x11C::SCRCMD_SET_GROUP_TYPE_50F3D0()
 {
 }
 
-STUB_FUNC(0x50f410)
+MATCH_FUNC(0x50f410)
 void miss2_0x11C::SCRCMD_CHAR_DO_NOTHING_50F410()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        pPed->sub_462590();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f450)
@@ -1721,9 +1896,26 @@ void miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450()
 {
 }
 
-STUB_FUNC(0x50f4d0)
+MATCH_FUNC(0x50f4d0)
 void miss2_0x11C::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
 {
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Object_2C* pObj = pPointer->field_8_obj;
+    u32 model_idx = v1->field_C_u32;
+
+    if (pObj != NULL
+        && pObj->field_18_model == model_idx)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f550)
@@ -1796,9 +1988,11 @@ void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
 {
 }
 
-STUB_FUNC(0x50fad0)
+MATCH_FUNC(0x50fad0)
 void miss2_0x11C::SCRCMD_FINISH_MISSION_50FAD0()
 {
+    gMiss2_25C_6F805C->sub_502DC0();
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50faf0)

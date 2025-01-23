@@ -87,5 +87,4 @@ EXPORT_VAR extern Game_0x40* gGame_0x40_67E008;
 
 EXPORT_VAR extern u32 dword_67DCCC;
 
-EXPORT_VAR extern class Police_7B8* gPolice_7B8_6FEE40;
 EXPORT_VAR extern class Hamburger_500* gHamburger_500_678E30;

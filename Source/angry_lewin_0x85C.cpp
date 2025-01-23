@@ -135,7 +135,7 @@ void angry_lewin_0x85C::sub_564C00()
 }
 
 STUB_FUNC(0x564C50)
-void angry_lewin_0x85C::sub_564C50(s32 a2)
+void angry_lewin_0x85C::sub_564C50()
 {
 }
 
