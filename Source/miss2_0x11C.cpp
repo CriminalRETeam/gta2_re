@@ -495,10 +495,21 @@ void miss2_0x11C::SCRCMD_DISPLAY_MESSAGES_505F50(s32 a1)
 {
 }
 
-STUB_FUNC(0x506010)
-s16 miss2_0x11C::SCRCMD_DEC_DEATH_BASE_506010(s32 a1)
+MATCH_FUNC(0x506010)
+void miss2_0x11C::SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd)
 {
-    return 0;
+    if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_1)
+    {
+        gfrosty_pasteur_6F8060->field_356 = pCmd->field_C_unsigned_3;
+    }
+    else if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_2)
+    {
+        gfrosty_pasteur_6F8060->field_358 = pCmd->field_C_unsigned_3;
+    }
+    else if (pCmd->field_2_type == SCRCMD_DEC_DEATH_BASE_3)
+    {
+        gfrosty_pasteur_6F8060->field_35A = pCmd->field_C_unsigned_3;
+    }
 }
 
 STUB_FUNC(0x5060d0)
