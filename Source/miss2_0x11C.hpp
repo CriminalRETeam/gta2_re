@@ -11,6 +11,7 @@ class Car_BC;
 class Object_2C;
 class Zheal_15C;
 class nostalgic_ellis_0x28;
+class Door_38;
 
 struct SCR_CMD_HEADER
 {
@@ -148,6 +149,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Object_2C* field_8_obj;
         Zheal_15C* field_8_crane;
         nostalgic_ellis_0x28* field_8_light;
+        Door_38* field_8_door;
     };
 };
 

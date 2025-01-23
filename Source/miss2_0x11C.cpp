@@ -1473,9 +1473,21 @@ void miss2_0x11C::sub_50C5A0()
 {
 }
 
-STUB_FUNC(0x50c6f0)
-void miss2_0x11C::sub_50C6F0()
+MATCH_FUNC(0x50c6f0)
+void miss2_0x11C::sub_50C6F0() // PARK and PARK_NO_RESPAWN
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        v1->field_A_unsigned_2);
+
+    gChickenLegend_48_6FD26C->sub_534700(pParam1->field_8_car, pParam2->field_8_door);
+    if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
+    {
+        gChickenLegend_48_6FD26C->field_3F = 1;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c760)
