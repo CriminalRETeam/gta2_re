@@ -72,10 +72,17 @@ void angry_lewin_0x85C::sub_564910(keen_bhaskara_0x30* a2)
     }
 }
 
-STUB_FUNC(0x564940)
+MATCH_FUNC(0x564940)
 char_type angry_lewin_0x85C::sub_564940()
 {
-    return 'a';
+    for (s32 i = 0; i < 15; i++)
+    {
+        if (field_718[i]->field_0)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 STUB_FUNC(0x564960)
