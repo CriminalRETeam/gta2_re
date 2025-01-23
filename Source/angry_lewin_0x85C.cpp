@@ -5,10 +5,11 @@
 #include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "infallible_turing.hpp"
+#include "keen_bhaskara_0x30.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
-#include "zealous_borg.hpp"
 #include "winmain.hpp"
+#include "zealous_borg.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -38,9 +39,15 @@ void angry_lewin_0x85C::sub_564710(Car_BC* a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x564790)
+MATCH_FUNC(0x564790)
 void angry_lewin_0x85C::sub_564790(s32 idx)
 {
+    this->field_18 = this->field_788_idx;
+    this->field_1C = idx;
+    this->field_1A = this->field_718[idx]->field_0;
+    this->field_718[idx]->field_0 = -1;
+    this->field_788_idx = this->field_1C;
+    sub_56A010();
 }
 
 STUB_FUNC(0x5647D0)
@@ -54,15 +61,28 @@ keen_bhaskara_0x30* angry_lewin_0x85C::sub_5648F0()
     return field_788_idx == -1 ? NULL : field_718[field_788_idx];
 }
 
-STUB_FUNC(0x564910)
+MATCH_FUNC(0x564910)
 void angry_lewin_0x85C::sub_564910(keen_bhaskara_0x30* a2)
 {
+    s16 idx = a2->field_1C_idx;
+    this->field_718[idx] = a2;
+    if (!this->field_31)
+    {
+        this->field_788_idx = idx;
+    }
 }
 
-STUB_FUNC(0x564940)
+MATCH_FUNC(0x564940)
 char_type angry_lewin_0x85C::sub_564940()
 {
-    return 'a';
+    for (s32 i = 0; i < 15; i++)
+    {
+        if (field_718[i]->field_0)
+        {
+            return 1;
+        }
+    }
+    return 0;
 }
 
 STUB_FUNC(0x564960)
