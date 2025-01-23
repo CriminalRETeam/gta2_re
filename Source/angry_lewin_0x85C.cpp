@@ -7,8 +7,9 @@
 #include "infallible_turing.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
-#include "zealous_borg.hpp"
 #include "winmain.hpp"
+#include "zealous_borg.hpp"
+#include "keen_bhaskara_0x30.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -38,9 +39,15 @@ void angry_lewin_0x85C::sub_564710(Car_BC* a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x564790)
+MATCH_FUNC(0x564790)
 void angry_lewin_0x85C::sub_564790(s32 idx)
 {
+    this->field_18 = this->field_788_idx;
+    this->field_1C = idx;
+    this->field_1A = this->field_718[idx]->field_0;
+    this->field_718[idx]->field_0 = -1;
+    this->field_788_idx = this->field_1C;
+    sub_56A010();
 }
 
 STUB_FUNC(0x5647D0)
