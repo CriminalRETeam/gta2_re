@@ -72,7 +72,7 @@ class Sero_181C
   public:
     EXPORT Sero_58* sub_578790();
     EXPORT Sero_34* sub_5787E0();
-    EXPORT void sub_578820(u16* a2); //  OBS: the parameter 'a2' is a class/struct pointer, not sure which one
+    EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
     EXPORT void sub_578860();
     EXPORT char_type sub_5793E0();
     EXPORT gmp_map_zone* sub_579440();

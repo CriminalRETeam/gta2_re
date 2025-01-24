@@ -149,7 +149,7 @@ Sero_34* Sero_181C::sub_5787E0()
 }
 
 STUB_FUNC(0x578820)
-void Sero_181C::sub_578820(s32 a2)
+void Sero_181C::sub_578820(u8* a2)
 {
 }
 

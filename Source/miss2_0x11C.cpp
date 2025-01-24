@@ -414,9 +414,19 @@ void miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1)
 {
 }
 
-STUB_FUNC(0x505210)
-void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(s32 a1)
+MATCH_FUNC(0x505210)
+void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 {
+    str_table_entry* StringById;
+
+    if (!bSkip_trains_67D550)
+    {
+        StringById = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
+        const char* station_zone_name = (const char*)&StringById[1];
+        gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0(station_zone_name);
+        Sero_181C* v3 = (Sero_181C*)gSero_181C_6FF1D4->sub_57B4B0(station_zone);
+        v3->sub_578820((u8*)&pCmd->field_A_unsigned_2);  //  The parameter may be the train wagon array, not sure
+    }
 }
 
 MATCH_FUNC(0x5052c0)
@@ -1482,7 +1492,8 @@ void miss2_0x11C::sub_50C6F0() // PARK and PARK_NO_RESPAWN
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
                                         v1->field_A_unsigned_2);
 
-    gChickenLegend_48_6FD26C->sub_534700(pParam1->field_8_car, pParam2->field_8_door);
+    gChickenLegend_48_6FD26C->sub_534700(pParam1->field_8_car, 
+                                        pParam2->field_8_door);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
     {
         gChickenLegend_48_6FD26C->field_3F = 1;
