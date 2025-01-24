@@ -87,31 +87,34 @@ u8 Sero_58::sub_578670()
 MATCH_FUNC(0x577fd0)
 Sero_34::Sero_34()
 {
-    field_0 = 0;
-    field_4 = 0;
-    field_8 = 0;
-    field_C = 0;
-    field_10_pZone = 0;
+    field_0_bus_or_train = 0;
+    field_4_entry_point = NULL;
+    field_8_exit_point = NULL;
+    field_C_stop_point = NULL;
+    field_10_pZone = NULL;
     field_14 = 0;
     field_18 = 0;
     field_1C = 0;
-    field_20 = 0;
-    field_2E = 0;
+    field_20_next_station = NULL;
+    field_2E_wagons_number = 0;
     field_2F = 0;
-    field_24 = 0x1010101;
-    field_28 = 0x1010101;
-    field_2C = field_28;
+
+    u8* i = (u8*)&field_24_train_wagons;
+    for (s32 j = 0; j < 10; j++)
+    {
+        *i++ = 1;
+    }
 }
 
 MATCH_FUNC(0x578010)
 Sero_34::~Sero_34()
 {
     field_18 = 0;
-    field_4 = 0;
-    field_8 = 0;
-    field_C = 0;
+    field_4_entry_point = NULL;
+    field_8_exit_point = NULL;
+    field_C_stop_point = NULL;
     field_10_pZone = 0;
-    field_20 = 0;
+    field_20_next_station = NULL;
 }
 
 MATCH_FUNC(0x578790)

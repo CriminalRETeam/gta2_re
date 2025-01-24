@@ -49,21 +49,22 @@ class Sero_34
   public:
     EXPORT Sero_34();
     EXPORT ~Sero_34();
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
+    s32 field_0_bus_or_train;
+    gmp_map_zone* field_4_entry_point;
+    gmp_map_zone* field_8_exit_point;
+    gmp_map_zone* field_C_stop_point;
     gmp_map_zone* field_10_pZone;
     s32 field_14;
     s32 field_18;
     s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s16 field_2C;
-    char_type field_2E;
+    Sero_34* field_20_next_station;
+    u8 field_24_train_wagons[10];
+    char_type field_2E_wagons_number;
     char_type field_2F;
-    s32 field_30;
+    char_type field_30;
+    char_type field_31;
+    char_type field_32;
+    char_type field_33;
 };
 
 class Sero_181C
@@ -71,7 +72,7 @@ class Sero_181C
   public:
     EXPORT Sero_58* sub_578790();
     EXPORT Sero_34* sub_5787E0();
-    EXPORT void sub_578820(s32 a2);
+    EXPORT void sub_578820(u16* a2); //  OBS: the parameter 'a2' is a class/struct pointer, not sure which one
     EXPORT void sub_578860();
     EXPORT char_type sub_5793E0();
     EXPORT gmp_map_zone* sub_579440();
