@@ -464,9 +464,29 @@ void miss2_0x11C::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* 
     }
 }
 
-STUB_FUNC(0x505430)
-void miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430(s32 a1)
+MATCH_FUNC(0x505430)
+void miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd)
 {
+    switch (pCmd->field_2_type)
+    {
+        case 344:
+            gfrosty_pasteur_6F8060->field_314 = pCmd->field_A_signed_2;
+            break;
+        case 345:
+            gfrosty_pasteur_6F8060->field_318 = pCmd->field_A_signed_2;
+            break;
+        case 386:
+            gfrosty_pasteur_6F8060->field_31C = pCmd->field_A_signed_2;
+            break;
+        case 387:
+            gfrosty_pasteur_6F8060->field_320 = pCmd->field_A_signed_2;
+            break;
+        case 388:
+            gfrosty_pasteur_6F8060->field_324 = pCmd->field_A_signed_2;
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x505580)
