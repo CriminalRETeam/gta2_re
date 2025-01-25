@@ -43,6 +43,19 @@ GLOBAL(dword_679188, 0x679188);
 EXPORT_VAR Fix16 dword_6F6850[256];
 GLOBAL(dword_6F6850, 0x6F6850);
 
+EXPORT_VAR Monster_2C* gMonster_2C_66AB78;
+GLOBAL(gMonster_2C_66AB78, 0x66AB78);
+
+EXPORT_VAR Monster_48* gMonster_48_66AB70;
+GLOBAL(gMonster_48_66AB70, 0x66AB70);
+
+MATCH_FUNC(0x5639c0)
+void sub_5639C0()
+{
+    gMonster_2C_66AB78 = NULL;
+    gMonster_48_66AB70 = NULL;
+}
+
 STUB_FUNC(0x4476f0)
 void Car_78::sub_4476F0()
 {
