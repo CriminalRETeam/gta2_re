@@ -22,6 +22,7 @@
 #include "Weapon_8.hpp"
 #include "Police_7B8.hpp"
 #include "Snooky_94.hpp"
+#include "text_0x14.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -585,9 +586,20 @@ u16 miss2_0x11C::sub_505EA0(u16 idx)
     return 0;
 }
 
-STUB_FUNC(0x505f50)
-void miss2_0x11C::SCRCMD_DISPLAY_MESSAGES_505F50(s32 a1)
+MATCH_FUNC(0x505f50)
+void miss2_0x11C::SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* a1)
 {
+    if (gDo_text_id_test_67D6D0)
+    {
+        sprintf(gTmpBuffer_67C598, "%d", a1->field_8_unsigned_1);
+        if (!gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598))
+        {
+            FatalError_4A38C0(0x47C,
+                              "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                              2460,
+                              a1->field_8_unsigned_1); // Mission script is referring to a 'text id' that doesn't exist. ID
+        }
+    }
 }
 
 MATCH_FUNC(0x506010)
