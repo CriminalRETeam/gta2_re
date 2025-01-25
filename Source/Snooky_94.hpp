@@ -40,3 +40,4 @@ class Snooky_94
     Snooky_30 field_0[3];
     s32 field_90_count;
 };
+EXPORT_VAR extern Snooky_94* gSnooky_94_67A830;

@@ -3,7 +3,11 @@
 #include "DrawUnk_0xBC.hpp"
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
+
+EXPORT_VAR Snooky_94* gSnooky_94_67A830;
+GLOBAL(gSnooky_94_67A830, 0x67A830);
 
 MATCH_FUNC(0x4882d0)
 Snooky_30::Snooky_30()
