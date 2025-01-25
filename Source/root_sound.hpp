@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "infallible_turing.hpp"
+#include "fix16.hpp"
 #include <windows.h>
 
 class root_sound
@@ -53,7 +54,7 @@ class root_sound
 
     EXPORT void sub_40F020();
 
-    EXPORT char* sub_40F030(s32 a1, s32 a2, s32 a3);
+    EXPORT char* sub_40F030(s32 a1, Fix16 a2, Fix16 a3);
 
     EXPORT char_type sub_40F050(s32 a1, s32 a2);
 

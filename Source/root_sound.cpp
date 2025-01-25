@@ -53,7 +53,7 @@ void root_sound::sub_40F020()
 }
 
 STUB_FUNC(0x40F030)
-char* root_sound::sub_40F030(s32 a1, s32 a2, s32 a3)
+char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
 {
     //return gSound_obj_66F680.sub_57ECB0(a1, a2, a3);
     // todo

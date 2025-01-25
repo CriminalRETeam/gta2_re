@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 
 class cool_nash_0x294;
 class Maccies_2C;
@@ -11,6 +12,7 @@ class Car_BC;
 class Object_2C;
 class Zheal_15C;
 class nostalgic_ellis_0x28;
+class Door_38;
 
 struct SCR_CMD_HEADER
 {
@@ -64,7 +66,7 @@ struct SCR_PLAYER_PED
     SCR_CMD_HEADER field_0_header;
     cool_nash_0x294* field_8_ped;
     SCR_XYZ_f field_C_pos;
-    s16 field_18_rot;
+    Ang16 field_18_rot;
     s16 field_1A_remap;
 };
 
@@ -82,10 +84,19 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 {
     cool_nash_0x294* field_8_char;
     SCR_XYZ_f field_C_pos;
-    u16 field_18_rot;
+    Ang16 field_18_rot;
     s16 field_1A_remap;
     s16 field_1C_occupation;
     u16 field_1E_padding;
+};
+
+struct SCR_OBJ_DATA : SCR_CMD_HEADER
+{
+    Object_2C* field_8_obj;
+    SCR_XYZ_f field_C_pos;
+    u16 field_18_obj_id;
+    Ang16 field_1A_rot;
+    u8 field_1C_value_shop_type;
 };
 
 struct SCR_TWO_PARAMS : SCR_CMD_HEADER
@@ -148,6 +159,9 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Object_2C* field_8_obj;
         Zheal_15C* field_8_crane;
         nostalgic_ellis_0x28* field_8_light;
+        Door_38* field_8_door;
+        Snooky_30* field_8_crusher;
+        u32 field_8_counter;
     };
 };
 
@@ -188,6 +202,22 @@ struct SCR_SOUND_DECSET : SCR_CMD_HEADER
     u16 field_1B_padding;
 };
 
+struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
+{
+    SCR_XY_f field_8_pos;
+    u8 field_10_station_type;
+    u8 field_11_padding;
+    u16 field_12_padding;
+};
+
+struct SCR_DECLARE_CRANE_POWERUP : SCR_CMD_HEADER
+{
+    u16 field_8_crane_idx;
+    u16 field_A_generator;
+    SCR_XYZ_uc field_C_pos;
+    u8 field_18_padding;
+};
+
 struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
 {
     u16 field_8_car_density;
@@ -216,6 +246,13 @@ struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
     u8 field_B_do_drop;
 };
 
+struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_XY_f field_C_pos;
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
@@ -234,7 +271,7 @@ class miss2_0x11C
     EXPORT void sub_503650(u16 a2);
     EXPORT void sub_503670();
     EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2);
-    EXPORT void SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2);
+    EXPORT void SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd);
     EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* a1);
@@ -246,7 +283,7 @@ class miss2_0x11C
     EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);
     EXPORT Maccies_2C* SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2);
     EXPORT s32* SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2);
-    EXPORT Snooky_30* SCRCMD_CRUSHER_BASIC_5045A0(s32 a1, s32 a2);
+    EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2);
     EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);
     EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2);
     EXPORT void sub_504710(s32 a1);
@@ -258,20 +295,20 @@ class miss2_0x11C
     EXPORT void SCRCMD_DECLARE_MISSION_504DD0(u16* a1);
     EXPORT void sub_504EE0(s32 a1, s32 a2);
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1);
-    EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1);
-    EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(s32 a1);
+    EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1);
+    EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2);
-    EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(s32 a1);
-    EXPORT void SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1);
+    EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* a1);
+    EXPORT void SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_FINISH_SCORE_505710(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* a1);
     EXPORT s32 sub_505790(u16 a1);
     EXPORT void sub_505B10(u16 idx);
     EXPORT u16 sub_505EA0(u16 idx);
-    EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(s32 a1);
-    EXPORT s16 SCRCMD_DEC_DEATH_BASE_506010(s32 a1);
-    EXPORT SCR_CMD_HEADER* SCRCMD_DO_CRANE_POWERUP_5060D0(u16* a1);
+    EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* a1);
+    EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* a1);
+    EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* a1);
     EXPORT void SCRCMD_START_BASIC_KF_506140(u16* a1);
     EXPORT void ExecOpCode_5061C0();
     EXPORT void SCRCMD_LEVELSTART_5069C0();

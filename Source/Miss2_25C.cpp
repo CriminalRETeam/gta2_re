@@ -28,7 +28,7 @@ void Miss2_25C::sub_502F80(s32 a2)
 }
 
 STUB_FUNC(0x502fb0)
-char_type Miss2_25C::sub_502FB0(s32 a2)
+char_type Miss2_25C::sub_502FB0(cool_nash_0x294* a2)
 {
     return 0;
 }
