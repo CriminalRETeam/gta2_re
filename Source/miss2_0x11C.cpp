@@ -1617,9 +1617,24 @@ void miss2_0x11C::sub_50C6F0() // PARK and PARK_NO_RESPAWN
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c760)
+MATCH_FUNC(0x50c760)
 void miss2_0x11C::SCRCMD_BEEN_PUNCHED_BY_50C760()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointerVictim = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                            gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pPointerAttacker = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                            v1->field_A_unsigned_2);
+
+    if (pPointerAttacker->field_8_char->field_188_last_char_punched == pPointerVictim->field_8_char)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c7d0)
