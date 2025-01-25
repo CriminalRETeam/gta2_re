@@ -1552,9 +1552,18 @@ void miss2_0x11C::SCRCMD_IS_CHAR_STUNNED_50C3B0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c410)
+MATCH_FUNC(0x50c410)
 void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    pPointer->field_8_car->field_4.sub_4715A0();
+
+    if (gSero_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
+    {
+        gSero_181C_6FF1D4->sub_579B20();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c470)
