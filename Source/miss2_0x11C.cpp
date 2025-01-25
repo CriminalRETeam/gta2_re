@@ -611,9 +611,17 @@ SCR_CMD_HEADER* miss2_0x11C::SCRCMD_DO_CRANE_POWERUP_5060D0(u16* a1)
     return 0;
 }
 
-STUB_FUNC(0x506140)
+MATCH_FUNC(0x506140)
 void miss2_0x11C::SCRCMD_START_BASIC_KF_506140(u16* a1)
 {
+    for (u16 idx = 0; idx < 25; idx++)
+    {
+        if (gfrosty_pasteur_6F8060->field_C1E74_basic_kf[idx] == 0)
+        {
+            gfrosty_pasteur_6F8060->field_C1E74_basic_kf[idx] = *a1;
+            break;
+        }
+    }
 }
 
 STUB_FUNC(0x5061c0)
