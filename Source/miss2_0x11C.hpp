@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 
 class cool_nash_0x294;
 class Maccies_2C;
@@ -65,7 +66,7 @@ struct SCR_PLAYER_PED
     SCR_CMD_HEADER field_0_header;
     cool_nash_0x294* field_8_ped;
     SCR_XYZ_f field_C_pos;
-    s16 field_18_rot;
+    Ang16 field_18_rot;
     s16 field_1A_remap;
 };
 
@@ -83,7 +84,7 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 {
     cool_nash_0x294* field_8_char;
     SCR_XYZ_f field_C_pos;
-    u16 field_18_rot;
+    Ang16 field_18_rot;
     s16 field_1A_remap;
     s16 field_1C_occupation;
     u16 field_1E_padding;

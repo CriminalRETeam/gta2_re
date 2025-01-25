@@ -87,7 +87,7 @@ Char_C::~Char_C()
 }
 
 MATCH_FUNC(0x470a50)
-cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, s16 rotation)
+cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
     cool_nash_0x294* pPed = gChar_203AC_6787B8->field_0;
@@ -103,7 +103,7 @@ cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap
     {
         return 0;
     }
-    pPed->field_168_game_object->field_40_rotation.field_0_value = rotation;
+    pPed->field_168_game_object->field_40_rotation.field_0_value = rotation.rValue;
     pPed->field_244_remap = remap;
 
     Char_B4* pB4 = pPed->field_168_game_object;

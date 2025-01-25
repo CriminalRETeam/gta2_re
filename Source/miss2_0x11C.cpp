@@ -57,7 +57,7 @@ GLOBAL(dword_6F7924, 0x6F7924);
 EXPORT_VAR Fix16 dword_6F7570;
 GLOBAL(dword_6F7570, 0x6F7570);
 
-EXPORT_VAR s16 dword_6F804C;
+EXPORT_VAR Ang16 dword_6F804C;
 GLOBAL(dword_6F804C, 0x6F804C);
 
 EXPORT_VAR u8 byte_6F799B;
@@ -183,25 +183,15 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                                                     pCmd->field_C_pos.field_4_y);
             }
 
-            Ang16 CmdRotation;
-            CmdRotation.rValue = pCmd->field_18_rot;
-
-            Fix16 fix_1;
-            fix_1.mValue = CmdRotation.FromUnsignedToFloat();
-            Fix16 fix_2;
-            fix_2.mValue = word_6F8044.ToFloat();
-            Fix16 fix_3;
-            fix_3.mValue = fix_2.MultiplyInt64(fix_1);
-
             Ang16 rotation;
-            rotation.rValue = fix_3.ToInt();
+            rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
             pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
                                              pCmd->field_C_pos.field_4_y,
                                              pCmd->field_C_pos.field_8_z,
                                              pCmd->field_1A_remap,
-                                             rotation.rValue);
+                                             rotation);
         }
 
         if (pPed != NULL)
@@ -250,25 +240,15 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
                                                                     pCmd->field_C_pos.field_4_y);
     }
 
-    Ang16 CmdRotation;
-    CmdRotation.rValue = pCmd->field_18_rot;
-
-    Fix16 fix_1;
-    fix_1.mValue = CmdRotation.FromUnsignedToFloat();
-    Fix16 fix_2;
-    fix_2.mValue = word_6F8044.ToFloat();
-    Fix16 fix_3;
-    fix_3.mValue = fix_2.MultiplyInt64(fix_1);
-
     Ang16 rotation;
-    rotation.rValue = fix_3.ToInt();
+    rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
     pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
                                       pCmd->field_C_pos.field_4_y,
                                       pCmd->field_C_pos.field_8_z,
                                       (u8)pCmd->field_1A_remap,
-                                      rotation.rValue);
+                                      rotation);
     a2->field_8_char = pPed;
 
     if (pPed)

@@ -145,7 +145,7 @@ class Char_C
     EXPORT void sub_4703F0();
     EXPORT Char_C();
     EXPORT ~Char_C();
-    EXPORT cool_nash_0x294* sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, s16 a6);
+    EXPORT cool_nash_0x294* sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 a6);
     EXPORT cool_nash_0x294* sub_470B00(Car_BC* a2);
     EXPORT cool_nash_0x294* sub_470BA0(Car_BC* a1, s32 a2);
     EXPORT cool_nash_0x294* sub_470CC0(Car_BC* a2);
