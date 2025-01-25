@@ -38,6 +38,11 @@ GLOBAL(gCar_A4_66AC80, 0x66AC80);
 EXPORT_VAR Car_14* gCar_14_677934;
 GLOBAL(gCar_14_677934, 0x677934);
 
+// This is not used outside this file.
+// In fact, it's only allocated and deallocated, it's never used.
+EXPORT_VAR Car_3C* gCar_3C_677938;
+GLOBAL(gCar_3C_677938, 0x677938);
+
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
@@ -61,6 +66,14 @@ GLOBAL(gMonster_48_66AB70, 0x66AB70);
 
 EXPORT_VAR s16 DAT_677CFC;
 GLOBAL(DAT_677CFC, 0x677CFC);
+
+// This is a pointer to something
+EXPORT_VAR s32 DAT_0067727c;
+GLOBAL(DAT_0067727c, 0x67727c);
+
+// This is a pointer to something
+EXPORT_VAR s32 DAT_0067737c;
+GLOBAL(DAT_0067737c, 0x67737c);
 
 // Indicates if Car_2 is initialised
 // It can probably turned into a static variable inside Car_2
@@ -744,6 +757,8 @@ u32 Car_6C::sub_446930(s32 a2)
 }
 
 STUB_FUNC(0x4469f0)
+// There are still something missing here.
+// But the structure it seems to be complete
 Car_6C::Car_6C()
 {
     if (!gCar_E0C4_67792C)
@@ -754,6 +769,91 @@ Car_6C::Car_6C()
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
         }
     }
+
+    if (!gCar_D264_6FE3E0)
+    {
+        gCar_D264_6FE3E0 = new Car_D264();
+        if (!gCar_D264_6FE3E0)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
+        }
+    }
+
+    if (!gCar_14_677934)
+    {
+        gCar_14_677934 = new Car_14();
+        if (!gCar_14_677934)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
+        }
+    }
+
+    if (!gCar_8F74_677CF8)
+    {
+        gCar_8F74_677CF8 = new Car_8F74();
+        if (!gCar_8F74_677CF8)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
+        }
+    }
+
+    if (!gCar_A4_66AC80)
+    {
+        gCar_A4_66AC80 = new Car_A4();
+        if (!gCar_A4_66AC80)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
+        }
+    }
+
+    field_64 = gFix16_6777CC;
+    field_60 = 0;
+    field_4 = 0;
+    field_14 = 1;
+    field_9 = 0;
+    field_8 = 0;
+    field_A = 0;
+    field_B = 0;
+    field_1A = 0;
+    field_1C = 0;
+    field_28_recycled_cars = 0;
+    field_40_proto_recycled_cars = 0;
+    field_30 = 0;
+    field_2C = 0;
+    field_34_unit_cars = 0;
+    field_38 = 0;
+    field_3C_mission_cars = 0;
+    field_44 = 0;
+
+    // On version 9.6f this is call to a class method
+    DAT_0067727c = 0;
+    // On version 9.6f this is call to a class method
+    DAT_0067737c = 0;
+    sub_5639C0();
+    sub_447640();
+
+    field_20 = 4;
+    field_24 = 1;
+
+    if (!gCar_3C_677938)
+    {
+        gCar_3C_677938 = new Car_3C();
+        if (!gCar_3C_677938)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
+        }
+    }
+
+    // On version 9.6f this is call to a class method
+    // that initialises the next two fields
+    field_4C = 0;
+    field_50_tv_van_dir = 0;
+    field_54 = 0;
+    field_55 = 0;
+    field_58 = 0x57;
+    field_5C = 0;
+    field_C = 87;
+    field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
 
 STUB_FUNC(0x446dc0)

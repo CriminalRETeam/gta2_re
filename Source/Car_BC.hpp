@@ -337,7 +337,7 @@ class Car_6C
     char_type field_5E;
     char_type field_5F;
     s32 field_60;
-    s32 field_64;
+    Fix16 field_64;
     char_type field_68;
     char_type field_69_do_free_shopping;
     char_type field_6A;
