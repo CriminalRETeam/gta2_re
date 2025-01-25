@@ -754,9 +754,18 @@ void miss2_0x11C::SCRCMD_DISPLAY_TIMER_5096E0()
 {
 }
 
-STUB_FUNC(0x509730)
+MATCH_FUNC(0x509730)
 void miss2_0x11C::SCR_CMD_CREATE_CHAR_509730()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0((SCR_CHAR_DATA_DEC*)gBasePtr_6F8070, 
+                                                    pPointer);
+    if (!field_118)
+    {
+        gMiss2_25C_6F805C->sub_502FB0(pPointer->field_8_char);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509790)
