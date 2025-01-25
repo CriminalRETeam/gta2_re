@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Ang16
 {
@@ -118,6 +119,18 @@ class Ang16
         return (u16)rValue << 14;
     }
 
+    inline void ConvertAndMultiply(Ang16* a1, Ang16* a2)
+    {
+        Fix16 fix_1;
+        fix_1.mValue = a2->FromUnsignedToFloat();
+        Fix16 fix_2;
+        fix_2.mValue = a1->ToFloat();
+        Fix16 fix_3;
+        fix_3.mValue = fix_2.MultiplyInt64(fix_1);
+
+        rValue = fix_3.ToInt();
+    }
+
     EXPORT void sub_406C20();
     inline void Normalize()
     {
@@ -136,7 +149,7 @@ class Ang16
     EXPORT Ang16* sub_482740(Ang16* a1, s32* a2);
     EXPORT Ang16* sub_4516B0(s32* a2, s32 a3);
 
-    Ang16() : rValue(0)
+    Ang16() : rValue(0) // OBS: The default ctor must not init rValue, I will remove it soon
     {
     }
 
