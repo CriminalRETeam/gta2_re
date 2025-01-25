@@ -627,17 +627,3 @@ Car_B0::Car_B0()
     field_C_pNext = 0;
     sub_563890();
 }
-
-// Inlined in Car_6C constructor
-Car_D264::Car_D264()
-{
-    Car_B0* pIter = &field_4[0];
-    for (s32 i = 0; i < 305; i++)
-    {
-        pIter->field_C_pNext = pIter + 1;
-        pIter++;
-    }
-
-    field_4[0x131].field_C_pNext =NULL;
-    field_0 = field_4;
-}

@@ -111,7 +111,19 @@ class Car_78
 class Car_8F74
 {
   public:
-    EXPORT Car_8F74();
+    //Inlined in Car_6C constructor 9.6f -> 0x420eb0
+    EXPORT Car_8F74()
+    {
+        Car_78* pIter = &field_4[0];
+        for (s32 i = 0; i < 305; i++)
+        {
+            pIter->field_C = pIter + 1;
+            pIter++;
+        }
+
+        field_4[305].field_C = NULL;
+        field_0 = field_4;
+    }
 
     Car_78* field_0;
     Car_78 field_4[306];
@@ -558,7 +570,21 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
 struct Car_E0C4
 {
-    EXPORT Car_E0C4();
+    //Inlined in Car_6C constructor 9.6f -> 0x426db0
+    EXPORT Car_E0C4()
+    {
+        Car_BC* pIter = &field_8_cars[0];
+        for (s32 i = 0; i < 305; i++)
+        {
+            pIter->field_4C_next = pIter + 1;
+            pIter++;
+        }
+
+        field_0 = field_8_cars;
+        field_8_cars[0x131].field_4C_next = NULL;
+        field_4_firstCar = NULL;
+        field_E0C0_cars_count = 0;
+    }
     EXPORT ~Car_E0C4();
 
     Car_BC* field_0;
@@ -590,6 +616,15 @@ class Car_A4_10
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
 
+    //Inlined in Car_6C constructor 9.6f -> 0x4212d0
+    Car_A4_10()
+    {
+        field_4 = NULL;
+        field_8 = NULL;
+        field_C = NULL;
+        field_0 = NULL;0;
+    }
+
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -602,7 +637,18 @@ class Car_A4_10
 class Car_A4
 {
   public:
-    EXPORT Car_A4();
+    //Inlined in Car_6C constructor 9.6f -> 0x425500
+    EXPORT Car_A4()
+    {
+        Car_A4_10* it = field_4;
+        for (u32 i = 0; i < 9; i++)
+        {
+            it->field_4 = it + 1;
+            it++;
+        }
+        field_4[9].field_4 = NULL;
+        field_0 = field_4;
+    }
 
     Car_A4_10* field_0;
     Car_A4_10 field_4[10];

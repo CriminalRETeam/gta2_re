@@ -256,19 +256,6 @@ Car_78::Car_78()
 {
 }
 
-Car_8F74::Car_8F74()
-{
-    Car_78* pIter = &field_4[0];
-    for (s32 i = 0; i < 305; i++)
-    {
-        pIter->field_C = pIter + 1;
-        pIter++;
-    }
-
-    field_4[305].field_C = NULL;
-    field_0 = field_4;
-}
-
 MATCH_FUNC(0x451950)
 void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
@@ -1978,22 +1965,6 @@ bool Car_BC::sub_564300()
     return false;
 }
 
-// Inlined in Car_6C constructor
-Car_E0C4::Car_E0C4()
-{
-    Car_BC* pIter = &field_8_cars[0];
-    for (s32 i = 0; i < 305; i++)
-    {
-        pIter->field_4C_next = pIter + 1;
-        pIter++;
-    }
-
-    field_0 = field_8_cars;
-    field_8_cars[0x131].field_4C_next = NULL;
-    field_4_firstCar = NULL;
-    field_E0C0_cars_count = 0;
-}
-
 Car_E0C4::~Car_E0C4()
 {
     field_0 = NULL;
@@ -2071,19 +2042,6 @@ STUB_FUNC(0x408220)
 s32 Car_A4_10::sub_408220()
 {
     return 0;
-}
-
-//Inlined in Car_6C constructor
-Car_A4::Car_A4()
-{
-    Car_A4_10* it = field_4;
-    for (u32 i = 0; i < 9; i++)
-    {
-        it->field_4 = it + 1;
-        it++;
-    }
-    field_4[9].field_4 = NULL;
-    field_0 = field_4;
 }
 
 STUB_FUNC(0x582310)
