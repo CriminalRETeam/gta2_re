@@ -409,9 +409,12 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1)
 {
 }
 
-STUB_FUNC(0x5051d0)
-void miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0(s32 a1)
+MATCH_FUNC(0x5051d0)
+void miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1)
 {
+    gRoot_sound_66B038.sub_40F030(a1->field_10_station_type, 
+                                    a1->field_8_pos.field_0_x, 
+                                    a1->field_8_pos.field_4_y);
 }
 
 MATCH_FUNC(0x505210)
