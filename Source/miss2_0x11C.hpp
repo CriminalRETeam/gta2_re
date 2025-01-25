@@ -160,6 +160,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Zheal_15C* field_8_crane;
         nostalgic_ellis_0x28* field_8_light;
         Door_38* field_8_door;
+        Snooky_30* field_8_crusher;
         u32 field_8_counter;
     };
 };
@@ -237,6 +238,13 @@ struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
     u8 field_B_do_drop;
 };
 
+struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_XY_f field_C_pos;
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
@@ -267,7 +275,7 @@ class miss2_0x11C
     EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);
     EXPORT Maccies_2C* SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2);
     EXPORT s32* SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2);
-    EXPORT Snooky_30* SCRCMD_CRUSHER_BASIC_5045A0(s32 a1, s32 a2);
+    EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2);
     EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);
     EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2);
     EXPORT void sub_504710(s32 a1);

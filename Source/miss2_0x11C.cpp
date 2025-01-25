@@ -21,6 +21,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "Weapon_8.hpp"
 #include "Police_7B8.hpp"
+#include "Snooky_94.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -379,10 +380,11 @@ s32* miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5045a0)
-Snooky_30* miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(s32 a1, s32 a2)
+MATCH_FUNC(0x5045a0)
+void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2)
 {
-    return 0;
+    a2->field_8_crusher = gSnooky_94_67A830->sub_488820(a1->field_C_pos.field_0_x, 
+                                                        a1->field_C_pos.field_4_y);
 }
 
 STUB_FUNC(0x5045d0)
