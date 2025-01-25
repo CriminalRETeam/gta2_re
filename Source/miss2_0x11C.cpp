@@ -470,19 +470,19 @@ void miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd)
     switch (pCmd->field_2_type)
     {
         case 344:
-            gfrosty_pasteur_6F8060->field_314 = pCmd->field_A_signed_2;
+            gfrosty_pasteur_6F8060->field_314_total_missions = pCmd->field_A_signed_2;
             break;
         case 345:
-            gfrosty_pasteur_6F8060->field_318 = pCmd->field_A_signed_2;
+            gfrosty_pasteur_6F8060->field_318_total_secrets = pCmd->field_A_signed_2;
             break;
         case 386:
-            gfrosty_pasteur_6F8060->field_31C = pCmd->field_A_signed_2;
+            gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total = pCmd->field_A_signed_2;
             break;
         case 387:
-            gfrosty_pasteur_6F8060->field_320 = pCmd->field_A_signed_2;
+            gfrosty_pasteur_6F8060->field_320_gang_2_missions_total = pCmd->field_A_signed_2;
             break;
         case 388:
-            gfrosty_pasteur_6F8060->field_324 = pCmd->field_A_signed_2;
+            gfrosty_pasteur_6F8060->field_324_gang_3_missions_total = pCmd->field_A_signed_2;
             break;
         default:
             return;
@@ -497,22 +497,22 @@ void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* a1)
     switch (a1->field_2_type)
     {
         case 346:
-            gfrosty_pasteur_6F8060->field_328 = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_328_passed_flag = &pCmd->field_8_counter;
             break;
         case 347:
-            gfrosty_pasteur_6F8060->field_32C = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_32C_1_passed_flag = &pCmd->field_8_counter;
             break;
         case 348:
-            gfrosty_pasteur_6F8060->field_330 = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_330_2_passed_flag = &pCmd->field_8_counter;
             break;
         case 349:
-            gfrosty_pasteur_6F8060->field_334 = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_334_3_passed_flag = &pCmd->field_8_counter;
             break;
         case 389:
-            gfrosty_pasteur_6F8060->field_338 = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_338_secrets_passed = &pCmd->field_8_counter;
             break;
         case 390:
-            gfrosty_pasteur_6F8060->field_33C = &pCmd->field_8_counter;
+            gfrosty_pasteur_6F8060->field_33C_secrets_failed = &pCmd->field_8_counter;
             break;
         default:
             return;
