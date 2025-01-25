@@ -489,9 +489,34 @@ void miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd)
     }
 }
 
-STUB_FUNC(0x505580)
-void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(s32 a1)
+MATCH_FUNC(0x505580)
+void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* a1)
 {
+    SCR_POINTER* pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(a1->field_8_unsigned_1);
+
+    switch (a1->field_2_type)
+    {
+        case 346:
+            gfrosty_pasteur_6F8060->field_328 = &pCmd->field_8_counter;
+            break;
+        case 347:
+            gfrosty_pasteur_6F8060->field_32C = &pCmd->field_8_counter;
+            break;
+        case 348:
+            gfrosty_pasteur_6F8060->field_330 = &pCmd->field_8_counter;
+            break;
+        case 349:
+            gfrosty_pasteur_6F8060->field_334 = &pCmd->field_8_counter;
+            break;
+        case 389:
+            gfrosty_pasteur_6F8060->field_338 = &pCmd->field_8_counter;
+            break;
+        case 390:
+            gfrosty_pasteur_6F8060->field_33C = &pCmd->field_8_counter;
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x505710)
