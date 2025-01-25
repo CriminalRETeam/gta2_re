@@ -386,7 +386,7 @@ Object_2C* Object_5C::sub_529B20(s32 obj_type,
 }
 
 STUB_FUNC(0x529bc0)
-Object_2C* Object_5C::sub_529BC0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6)
+Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
 {
     return 0;
 }

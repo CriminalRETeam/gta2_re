@@ -153,6 +153,10 @@ class Ang16
     {
     }
 
+    Ang16(u8 null1, u8 null2) //  temporary workaround
+    {
+    }
+
     Ang16(s32 value) : rValue(value)
     {
     }

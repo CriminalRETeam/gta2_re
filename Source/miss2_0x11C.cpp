@@ -146,9 +146,64 @@ s32 miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5038d0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2)
+MATCH_FUNC(0x5038d0)
+void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
 {
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                                                        pCmd->field_C_pos.field_0_x, 
+                                                        pCmd->field_C_pos.field_4_y);
+    }
+
+    if (pCmd->field_18_obj_id < 0xC8u 
+        || pCmd->field_18_obj_id > 0xF4u)
+    {
+        Ang16 rotation(NULL, NULL); //  TODO: fix default ctor
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
+        rotation.sub_406C20();
+
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299B0(pCmd->field_18_obj_id,
+                                                        pCmd->field_C_pos.field_0_x,
+                                                        pCmd->field_C_pos.field_4_y,
+                                                        pCmd->field_C_pos.field_8_z,
+                                                        rotation);
+    }
+    else
+    {
+        Ang16 rotation(NULL, NULL); //  TODO: fix default ctor
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
+        rotation.sub_406C20();
+
+        a2->field_8_obj = gObject_5C_6F8F84->sub_529BC0(pCmd->field_18_obj_id,
+                                                        pCmd->field_C_pos.field_0_x,
+                                                        pCmd->field_C_pos.field_4_y,
+                                                        pCmd->field_C_pos.field_8_z,
+                                                        rotation);
+    }
+
+    if (a2->field_8_obj != NULL)
+    {
+        Object_2C* pObj;
+
+        if (a2->field_8_obj->field_8->field_34 == 1)
+        {
+            a2->field_8_obj->field_26 = pCmd->field_1C_value_shop_type;
+        }
+        else if (pObj = a2->field_8_obj, pObj->check_is_shop())
+        {
+            pObj->field_26 = pCmd->field_1C_value_shop_type;
+        }
+        else
+        {
+            bool is_busy = a2->field_8_obj->check_is_busy_shop();
+            if (is_busy)
+            {
+                a2->field_8_obj->field_26 = pCmd->field_1C_value_shop_type;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x503a20)

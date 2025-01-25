@@ -90,6 +90,15 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_OBJ_DATA : SCR_CMD_HEADER
+{
+    Object_2C* field_8_obj;
+    SCR_XYZ_f field_C_pos;
+    u16 field_18_obj_id;
+    Ang16 field_1A_rot;
+    u8 field_1C_value_shop_type;
+};
+
 struct SCR_TWO_PARAMS : SCR_CMD_HEADER
 {
     union
@@ -246,7 +255,7 @@ class miss2_0x11C
     EXPORT void sub_503650(u16 a2);
     EXPORT void sub_503670();
     EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2);
-    EXPORT void SCRCMD_OBJ_DECSET_5038D0(s32* a1, s32 a2);
+    EXPORT void SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd);
     EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* a1);
