@@ -210,6 +210,14 @@ struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
     u16 field_12_padding;
 };
 
+struct SCR_DECLARE_CRANE_POWERUP : SCR_CMD_HEADER
+{
+    u16 field_8_crane_idx;
+    u16 field_A_generator;
+    SCR_XYZ_uc field_C_pos;
+    u8 field_18_padding;
+};
+
 struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
 {
     u16 field_8_car_density;
@@ -300,7 +308,7 @@ class miss2_0x11C
     EXPORT u16 sub_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(s32 a1);
     EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* a1);
-    EXPORT SCR_CMD_HEADER* SCRCMD_DO_CRANE_POWERUP_5060D0(u16* a1);
+    EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* a1);
     EXPORT void SCRCMD_START_BASIC_KF_506140(u16* a1);
     EXPORT void ExecOpCode_5061C0();
     EXPORT void SCRCMD_LEVELSTART_5069C0();

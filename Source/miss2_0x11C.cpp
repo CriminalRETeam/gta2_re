@@ -607,10 +607,12 @@ void miss2_0x11C::SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd)
     }
 }
 
-STUB_FUNC(0x5060d0)
-SCR_CMD_HEADER* miss2_0x11C::SCRCMD_DO_CRANE_POWERUP_5060D0(u16* a1)
+MATCH_FUNC(0x5060d0)
+void miss2_0x11C::SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* a1)
 {
-    return 0;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        a1->field_8_crane_idx);
+    pPointer->field_8_crane->field_140 = a1->field_0_cmd_this;
 }
 
 MATCH_FUNC(0x506140)
