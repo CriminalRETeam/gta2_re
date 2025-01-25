@@ -469,19 +469,19 @@ void miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd)
 {
     switch (pCmd->field_2_type)
     {
-        case 344:
+        case SCRCMD_TOTAL_MISSIONS:
             gfrosty_pasteur_6F8060->field_314_total_missions = pCmd->field_A_signed_2;
             break;
-        case 345:
+        case SCRCMD_TOTAL_SECRETS:
             gfrosty_pasteur_6F8060->field_318_total_secrets = pCmd->field_A_signed_2;
             break;
-        case 386:
+        case SCRCMD_GANG_1_MISSION_TOTAL:
             gfrosty_pasteur_6F8060->field_31C_gang_1_missions_total = pCmd->field_A_signed_2;
             break;
-        case 387:
+        case SCRCMD_GANG_2_MISSION_TOTAL:
             gfrosty_pasteur_6F8060->field_320_gang_2_missions_total = pCmd->field_A_signed_2;
             break;
-        case 388:
+        case SCRCMD_GANG_3_MISSION_TOTAL:
             gfrosty_pasteur_6F8060->field_324_gang_3_missions_total = pCmd->field_A_signed_2;
             break;
         default:
@@ -496,22 +496,22 @@ void miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* a1)
 
     switch (a1->field_2_type)
     {
-        case 346:
+        case SCRCMD_PASSED_FLAG:
             gfrosty_pasteur_6F8060->field_328_passed_flag = &pCmd->field_8_counter;
             break;
-        case 347:
+        case SCRCMD_1_PASSED_FLAG:
             gfrosty_pasteur_6F8060->field_32C_1_passed_flag = &pCmd->field_8_counter;
             break;
-        case 348:
+        case SCRCMD_2_PASSED_FLAG:
             gfrosty_pasteur_6F8060->field_330_2_passed_flag = &pCmd->field_8_counter;
             break;
-        case 349:
+        case SCRCMD_3_PASSED_FLAG:
             gfrosty_pasteur_6F8060->field_334_3_passed_flag = &pCmd->field_8_counter;
             break;
-        case 389:
+        case SCRCMD_SECRETS_PASSED:
             gfrosty_pasteur_6F8060->field_338_secrets_passed = &pCmd->field_8_counter;
             break;
-        case 390:
+        case SCRCMD_SECRETS_FAILED:
             gfrosty_pasteur_6F8060->field_33C_secrets_failed = &pCmd->field_8_counter;
             break;
         default:
