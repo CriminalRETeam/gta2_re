@@ -123,22 +123,18 @@ class Car_B0
     EXPORT void sub_5638C0(Car_BC* pBC);
     EXPORT Car_B0();
 
-    s32 field_0_x_vel_read_only;
-    s32 field_4_y_vel_read_only;
+    Car_8 field_0_vel_read_only;
     s32 field_8_total_damage_q;
     Car_B0* field_C_pNext;
     Car_8 field_10[4];
-    s32 field_30_cm1;
-    s32 field_34_cm2;
-    s32 field_38_cp1;
-    s32 field_3C_cp2;
-    s32 field_40_linvel_1;
-    s32 field_44_linvel_2;
+    Car_8 field_30_cm1;
+    Car_8 field_38_cp1;
+    Car_8 field_40_linvel_1;
     s32 field_48;
     s32 field_4C;
     s32 field_50;
     s32 field_54;
-    s16 field_58_theta;
+    Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pPrev;
     s32 field_60_gas_pedal;
