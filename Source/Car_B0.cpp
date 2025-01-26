@@ -52,9 +52,9 @@ Car_A4_10* Car_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void Car_B0::sub_559B90(u32* a2) // TODO: Fix16 ?
+void Car_B0::sub_559B90(const Fix16 &a2)
 {
-    field_A0 = *a2;
+    field_A0 = a2;
 }
 
 STUB_FUNC(0x559ba0)

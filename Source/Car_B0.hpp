@@ -23,7 +23,7 @@ class Car_B0
     EXPORT void sub_559A40();
     EXPORT Car_BC* sub_559B40();
     EXPORT Car_A4_10* sub_559B50();
-    EXPORT void sub_559B90(u32* a2);
+    EXPORT void sub_559B90(const Fix16 &a2);
     EXPORT u32 sub_559BA0();
     EXPORT void sub_559C30();
     EXPORT s32 sub_559DD0();
@@ -159,7 +159,7 @@ class Car_B0
     char_type field_97;
     s32 field_98_surface_type;
     s32 field_9C;
-    s32 field_A0;
+    Fix16 field_A0;
     char_type field_A4;
     char_type field_A5_current_slope_length;
     char_type field_A6_current_slope_left_tiles;
