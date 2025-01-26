@@ -23,6 +23,7 @@
 #include "Police_7B8.hpp"
 #include "Snooky_94.hpp"
 #include "text_0x14.hpp"
+#include "Garox_2B00.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -142,10 +143,64 @@ void miss2_0x11C::sub_503670()
     field_4_level_start = 0xFFFFu;
 }
 
-STUB_FUNC(0x503680)
-s32 miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2)
+MATCH_FUNC(0x503680)
+void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
 {
-    return 0;
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                                                        pCmd->field_C_pos.field_0_x, 
+                                                        pCmd->field_C_pos.field_4_y);
+    }
+
+    if (pCmd->field_18_obj_id < 0xC8u 
+        || pCmd->field_18_obj_id > 0xF4u)
+    {
+        Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
+        rotation.Normalize();
+
+        a2->field_8_obj = gObject_5C_6F8F84->sub_5299B0(pCmd->field_18_obj_id,
+                                                        pCmd->field_C_pos.field_0_x,
+                                                        pCmd->field_C_pos.field_4_y,
+                                                        pCmd->field_C_pos.field_8_z,
+                                                        rotation);
+    }
+    else
+    {
+        Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
+        rotation.Normalize();
+
+        a2->field_8_obj = gObject_5C_6F8F84->sub_529BC0(pCmd->field_18_obj_id,
+                                                        pCmd->field_C_pos.field_0_x,
+                                                        pCmd->field_C_pos.field_4_y,
+                                                        pCmd->field_C_pos.field_8_z,
+                                                        rotation);
+    }
+
+    if (a2->field_8_obj != NULL)
+    {
+        s32 v8 = a2->field_8_obj->field_18_model;
+        if (v8 == 176 
+            || v8 == 177 
+            || v8 == 178 
+            || v8 == 179 
+            || v8 == 180 
+            || v8 == 181)
+        {
+            gGarox_2B00_706620->field_1F18.place_gang_phone_5D1110(a2->field_8_obj);
+            for (u8 v9 = 0; v9 < 0x1Fu; v9++)
+            {
+                if (gfrosty_pasteur_6F8060->field_C1E32[v9] == 0)
+                {
+                    gfrosty_pasteur_6F8060->field_C1E32[v9] = a2->field_0_cmd_this;
+                    break;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5038d0)

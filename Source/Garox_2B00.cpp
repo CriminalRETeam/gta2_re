@@ -918,7 +918,7 @@ Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
 }
 
 STUB_FUNC(0x5d1110)
-void Garox_7C_Array::place_gang_phone_5D1110(s32 pPhoneInfo)
+void Garox_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
 }
 
