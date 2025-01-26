@@ -162,6 +162,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Door_38* field_8_door;
         Snooky_30* field_8_crusher;
         u32 field_8_counter;
+        Maccies_2C* field_8_generator;
     };
 };
 
@@ -244,6 +245,20 @@ struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_GENERATOR : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_XYZ_f field_C_pos;
+    Ang16 field_18_rot;
+    u16 field_1A_obj_id;
+    u16 field_1C_mindelay;
+    u16 field_1E_maxdelay;
+    u8 field_20_ammo;
+    u8 field_21_padding;
+    u16 field_22_padding;
+};
+
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
@@ -291,7 +306,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
     EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);
-    EXPORT Maccies_2C* SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2);
+    EXPORT void SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* a1, SCR_POINTER* a2);
     EXPORT s32* SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2);
     EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2);
     EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);

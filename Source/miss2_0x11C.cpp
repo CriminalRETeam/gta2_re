@@ -25,6 +25,7 @@
 #include "text_0x14.hpp"
 #include "Garox_2B00.hpp"
 #include "Door_4D4.hpp"
+#include "Maccies_14AC.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -424,10 +425,32 @@ char_type miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x504420)
-Maccies_2C* miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2)
+MATCH_FUNC(0x504420)
+void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTER* a2)
 {
-    return 0;
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                                                                pCmd->field_C_pos.field_0_x, 
+                                                                pCmd->field_C_pos.field_4_y);
+    }
+
+    Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+    rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
+    rotation.Normalize();
+
+    a2->field_8_generator = gMaccies_14AC_67E5D0->sub_4C1DC0(pCmd->field_C_pos.field_0_x,
+                                                             pCmd->field_C_pos.field_4_y,
+                                                             pCmd->field_C_pos.field_8_z,
+                                                             rotation,
+                                                             pCmd->field_1A_obj_id,
+                                                             pCmd->field_1C_mindelay,
+                                                             pCmd->field_1E_maxdelay);
+    if (pCmd->field_20_ammo > 0)
+    {
+        a2->field_8_generator->field_1C = pCmd->field_20_ammo;
+    }
 }
 
 STUB_FUNC(0x504530)
