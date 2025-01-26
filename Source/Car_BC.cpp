@@ -9,6 +9,7 @@
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
+#include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -60,6 +61,16 @@ GLOBAL(gMonster_48_66AB70, 0x66AB70);
 
 EXPORT_VAR s16 DAT_677CFC;
 GLOBAL(DAT_677CFC, 0x677CFC);
+
+// Indicates if Car_2 is initialised
+// It can probably turned into a static variable inside Car_2
+EXPORT_VAR char_type byte_679C0A;
+GLOBAL(byte_679C0A, 0x679C0A);
+
+// Array of values used by Car_2.
+// It can probably turned into a static variable inside Car_2
+EXPORT_VAR s16 DAT_00679320[1000];
+GLOBAL(DAT_00679320, 0x679320);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -624,10 +635,27 @@ u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
     return 0;
 }
 
-STUB_FUNC(0x47bd00)
-Car_2* Car_2::sub_47BD00()
+MATCH_FUNC(0x47bd00)
+Car_2::Car_2()
 {
-    return 0;
+    if (byte_679C0A == false)
+    {
+        byte_679C0A = true;
+        for (u16 i = 0; i < 1000; i++)
+        {
+            DAT_00679320[i] = i;
+        }
+
+        for (u16 j = 0; j < 1000; j++)
+        {
+            s16 tmp = 1000;
+            u16 idx = stru_6F6784.get_int_4F7AE0(&tmp);
+            s16 next = DAT_00679320[j];
+            DAT_00679320[j] = DAT_00679320[idx];
+            DAT_00679320[idx] = next;
+        }
+    }
+    field_0 = 0;
 }
 
 MATCH_FUNC(0x47bd90)
@@ -718,10 +746,6 @@ u32 Car_6C::sub_446930(s32 a2)
 STUB_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
-    field_0.sub_47BD00();
-    field_10_idx.sub_47BD00();
-    field_12.sub_47BD00();
-
     if (!gCar_E0C4_67792C)
     {
         gCar_E0C4_67792C = new Car_E0C4();

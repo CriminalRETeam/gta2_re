@@ -274,7 +274,7 @@ EXPORT_VAR extern Car_214* gCar_214_705F20;
 class Car_2
 {
   public:
-    EXPORT Car_2* sub_47BD00();
+    EXPORT Car_2();
     EXPORT void sub_47BD90();
     u16 field_0;
 };
@@ -698,3 +698,4 @@ EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
 EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
 EXPORT_VAR extern Car_14* gCar_14_677934;
+EXPORT_VAR extern char_type byte_679C0A;

@@ -903,10 +903,6 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
     }
 }
 
-// TODO: move?
-EXPORT_VAR char_type byte_679C0A;
-GLOBAL(byte_679C0A, 0x679C0A);
-
 EXPORT_VAR u32 dword_67DCCC;
 GLOBAL(dword_67DCCC, 0x67DCCC);
 
