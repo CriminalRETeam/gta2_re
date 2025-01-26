@@ -202,6 +202,16 @@ struct SCR_SOUND_DECSET : SCR_CMD_HEADER
     u16 field_1B_padding;
 };
 
+struct SCR_SET_STATION : SCR_CMD_HEADER
+{
+    u16 field_8_platform;
+    u8 field_A_num_passenger;
+    u8 field_B_num_freight;
+    u8 field_C_num_boxcar;
+    u8 field_D_padding1;
+    u16 field_E_padding2;
+};
+
 struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
 {
     SCR_XY_f field_8_pos;
@@ -294,7 +304,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3);
     EXPORT void SCRCMD_DECLARE_MISSION_504DD0(u16* a1);
     EXPORT void sub_504EE0(s32 a1, s32 a2);
-    EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1);
+    EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* a1);

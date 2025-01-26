@@ -441,9 +441,49 @@ void miss2_0x11C::sub_504EE0(s32 a1, s32 a2)
 {
 }
 
-STUB_FUNC(0x505030)
-void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1)
+MATCH_FUNC(0x505030)
+void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
 {
+    str_table_entry* StringById_503080;
+    gmp_map_zone* station_zone;
+    Sero_34* v4;
+    s32 num_passenger;
+    s32 num_freight;
+
+    if (!bSkip_trains_67D550)
+    {
+        StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_platform);
+        station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0((const char*)&StringById_503080[1]);
+        v4 = gSero_181C_6FF1D4->sub_57B4B0(station_zone);
+
+        for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
+        {
+            if (wagon_idx < pCmd->field_A_num_passenger)
+            {
+                v4->field_24_train_wagons[wagon_idx] = 1; // passenger wagon
+            }
+            else
+            {
+                num_freight = pCmd->field_B_num_freight;
+                num_passenger = pCmd->field_A_num_passenger;
+
+                if (wagon_idx < num_passenger + num_freight)
+                {
+                    v4->field_24_train_wagons[wagon_idx] = 2; // freight wagon
+                }
+                else
+                {
+                    if (wagon_idx < num_passenger + num_freight + pCmd->field_C_num_boxcar)
+                    {
+                        v4->field_24_train_wagons[wagon_idx] = 3; // boxcar wagon
+                    }
+                }
+            }
+        }
+        v4->field_2E_wagons_number = pCmd->field_A_num_passenger 
+                                    + pCmd->field_B_num_freight 
+                                    + pCmd->field_C_num_boxcar;
+    }
 }
 
 MATCH_FUNC(0x5051d0)
