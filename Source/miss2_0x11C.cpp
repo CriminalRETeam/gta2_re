@@ -449,7 +449,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
                                                              pCmd->field_1E_maxdelay);
     if (pCmd->field_20_ammo > 0)
     {
-        a2->field_8_generator->field_1C = pCmd->field_20_ammo;
+        a2->field_8_generator->field_1C_ammo = pCmd->field_20_ammo;
     }
 }
 
