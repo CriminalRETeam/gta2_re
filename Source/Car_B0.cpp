@@ -7,6 +7,15 @@ GLOBAL(gCar_D264_6FE3E0, 0x6FE3E0);
 EXPORT_VAR Ang16 DAT_0066AC08;
 GLOBAL(DAT_0066AC08, 0x66AC08);
 
+EXPORT_VAR Fix16 DAT_006FE20C;
+GLOBAL(DAT_006FE20C, 0x6FE20C);
+
+EXPORT_VAR Fix16 DAT_006FE290;
+GLOBAL(DAT_006FE290, 0x6FE290);
+
+EXPORT_VAR s32 DAT_006FE200;
+GLOBAL(DAT_006FE200, 0x6FE200);
+
 STUB_FUNC(0x4403a0)
 s16* Car_B0::sub_4403A0(s16* a2)
 {
@@ -606,10 +615,42 @@ bool Car_B0::sub_5636E0()
     return 0;
 }
 
-STUB_FUNC(0x5637a0)
-Sprite_4C* Car_B0::sub_5637A0()
+MATCH_FUNC(0x5637a0)
+void Car_B0::sub_5637A0()
 {
-    return 0;
+    field_40_linvel_1.reset();
+    field_74_ang_vel_rad = Fix16(0);
+    field_70 = DAT_006FE20C;
+    sub_55A840();
+    field_91_is_foot_brake_on = 0;
+    field_92_is_hand_brake_on = 0;
+    field_93_is_forward_gas_on = 0;
+    field_94_is_backward_gas_on = 0;
+    field_95 = 0;
+    field_AD_turn_direction = 0;
+    field_A9_car_model = -1;
+    field_A8_hand_brake_force = 0;
+    field_90_timer_since_last_move = 0;
+    sub_559B90(0);
+    field_A4 = 0;
+    field_98_surface_type = 0;
+    field_9C = 0;
+    field_A5_current_slope_length = 0;
+    field_A6_current_slope_left_tiles = 0;
+    field_10[0].reset();
+    field_10[1].reset();
+    field_10[2].reset();
+    field_10[3].reset();
+    field_8C = 1;
+    field_8_total_damage_q = 0;
+    field_60_gas_pedal = DAT_006FE290;
+    field_AC_drive_wheels_locked_q = 0;
+    field_64 = DAT_006FE200;
+    field_68_z_pos = DAT_006FE20C;
+    field_84_front_skid = DAT_006FE20C;
+    field_88_rear_skid = DAT_006FE20C;
+    field_AA_sbw = 0;
+    field_AB_tpa = 0;
 }
 
 MATCH_FUNC(0x563890)
