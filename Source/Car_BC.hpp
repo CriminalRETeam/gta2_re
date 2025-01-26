@@ -8,6 +8,9 @@
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
+EXPORT_VAR extern Ang16 gAng16_703804;
+EXPORT_VAR extern Fix16 gFix16_7035C0;
+
 struct gmp_zone_unknown;
 class DrawUnk_0xBC;
 class Object_2C;
@@ -169,9 +172,31 @@ class Car_3C
     EXPORT s32 sub_5A2CF0();
     EXPORT void sub_5A3030();
     EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5);
+
+    // This function matches, but the marker doesn't seem to work on header files.
+    // Leave it here commented for future reference
+    //MATCH_FUNC(0x5a5e50)
+    EXPORT Car_3C() :field_0(gAng16_703804)
+    {
+        field_4_0x4C_len = NULL;
+        field_14_xpos = gFix16_7035C0;
+        field_18_ypos = gFix16_7035C0;
+        field_1C_zpos = gFix16_7035C0;
+        field_20_id = 0;
+        field_22_sprite_id = 0;
+        field_24_remap = 0;
+        field_28_uni = NULL;
+        field_2C = '\0';
+        field_30_sprite_type_enum = 0;
+        field_34 = 0;
+        field_38 = '\0';
+        field_39 = -1;
+        car_bc_ptr = NULL;
+        next_ptr = NULL;
+        field_10 = NULL;
+    }
     EXPORT ~Car_3C();
     EXPORT void sub_5A4D90();
-    EXPORT void ctor_5A5E50();
 
     Ang16 field_0;
     s8 field_2_pad;
