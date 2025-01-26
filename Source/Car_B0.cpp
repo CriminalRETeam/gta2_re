@@ -628,10 +628,9 @@ void Car_B0::sub_5638C0(Car_BC* pBC)
 {
 }
 
-STUB_FUNC(0x563900)
+MATCH_FUNC(0x563900)
 Car_B0::Car_B0()
 {
-    field_58_theta = 0;
-    field_C_pNext = 0;
+    field_C_pNext = NULL;
     sub_563890();
 }

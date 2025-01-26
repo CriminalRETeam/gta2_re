@@ -2104,11 +2104,6 @@ Car_8::~Car_8()
 {
 }
 
-MATCH_FUNC(0x563970)
-Car_8::Car_8()
-{
-}
-
 MATCH_FUNC(0x407b90)
 Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
 {

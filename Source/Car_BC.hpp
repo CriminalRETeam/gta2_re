@@ -623,7 +623,10 @@ class Car_8
 {
   public:
     EXPORT ~Car_8();
-    EXPORT Car_8();
+    // It needs to be in the header
+    // MATCH_FUNC(0x563970)
+    EXPORT Car_8()
+    {}
 
     // Inlined, on version 9.6f 0x41E1E0
     void reset()
