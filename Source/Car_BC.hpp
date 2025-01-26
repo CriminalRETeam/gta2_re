@@ -624,8 +624,8 @@ class Car_8
   public:
     EXPORT ~Car_8();
     EXPORT Car_8();
-    Sprite_4C* field_0;
-    Sprite_4C* field_4;
+    Fix16 field_0;
+    Fix16 field_4;
 };
 
 class Car_A4_10
