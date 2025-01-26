@@ -24,6 +24,7 @@
 #include "Snooky_94.hpp"
 #include "text_0x14.hpp"
 #include "Garox_2B00.hpp"
+#include "Door_4D4.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -469,10 +470,12 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(s32 a1)
 {
 }
 
-STUB_FUNC(0x504950)
-s16 miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(s32 a1)
+MATCH_FUNC(0x504950)
+void miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1)
 {
-    return 0;
+    gDoor_4D4_67BD2C->sub_49D2D0(a1->field_8_unsigned_1, 
+                                a1->field_A_unsigned_2, 
+                                a1->field_C_unsigned_3);
 }
 
 STUB_FUNC(0x504970)
