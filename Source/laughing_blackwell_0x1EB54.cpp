@@ -4571,9 +4571,9 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
             gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
 
-            Fix16 letterW((float)pSprIdx->field_4_width - 0.000099999997);
+            Fix16 letterW((float)(pSprIdx->field_4_width - 0.000099999997));
             cur_xpos += letterW;
-            Fix16 spriteH((float)pSprIdx->field_5_height - 0.000099999997);
+            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.000099999997));
 
             gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;

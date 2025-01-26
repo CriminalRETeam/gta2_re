@@ -119,7 +119,7 @@ class Car_B0
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
     EXPORT Sprite_4C* sub_5637A0();
-    EXPORT Sprite_4C* sub_563890();
+    EXPORT void sub_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
     EXPORT Car_B0();
 

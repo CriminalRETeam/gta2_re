@@ -624,6 +624,13 @@ class Car_8
   public:
     EXPORT ~Car_8();
     EXPORT Car_8();
+
+    // Inlined, on version 9.6f 0x41E1E0
+    void reset()
+    {
+        field_0 = Fix16(0);
+        field_4 = Fix16(0);
+    }
     Fix16 field_0;
     Fix16 field_4;
 };

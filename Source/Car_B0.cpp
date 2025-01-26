@@ -4,6 +4,9 @@
 EXPORT_VAR Car_D264* gCar_D264_6FE3E0;
 GLOBAL(gCar_D264_6FE3E0, 0x6FE3E0);
 
+EXPORT_VAR Ang16 DAT_0066AC08;
+GLOBAL(DAT_0066AC08, 0x66AC08);
+
 STUB_FUNC(0x4403a0)
 s16* Car_B0::sub_4403A0(s16* a2)
 {
@@ -609,10 +612,15 @@ Sprite_4C* Car_B0::sub_5637A0()
     return 0;
 }
 
-STUB_FUNC(0x563890)
-Sprite_4C* Car_B0::sub_563890()
+MATCH_FUNC(0x563890)
+void Car_B0::sub_563890()
 {
-    return 0;
+    field_30_cm1.reset();
+    field_58_theta = DAT_0066AC08;
+    field_38_cp1.reset();
+    field_5C_pPrev = NULL;
+    sub_5637A0();
+    field_0_vel_read_only.reset();
 }
 
 STUB_FUNC(0x5638c0)
