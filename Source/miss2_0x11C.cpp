@@ -800,9 +800,40 @@ void miss2_0x11C::SCRCMD_CREATE_THREAD_506A00()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x506a60)
+MATCH_FUNC(0x506a60)
 void miss2_0x11C::SCRCMD_STOP_THREAD_506A60()
 {
+    SCR_THREAD* pCmd = (SCR_THREAD*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                gBasePtr_6F8070[1].field_2_type);
+    miss2_0x11C* v3;
+    s16 v4;
+
+    s32 opcode_idx = pCmd->field_2_type;
+    if (opcode_idx != 24)
+    {
+        if (opcode_idx > 210 && opcode_idx <= 214)
+        {
+            v3 = pCmd->field_8_script_thread;
+            v4 = pCmd->field_C_unknown;
+
+            pCmd->field_8_script_thread = NULL;
+            pCmd->field_C_unknown = 0;
+        }
+    }
+    else
+    {
+        v3 = pCmd->field_8_script_thread;
+        v4 = pCmd->field_C_unknown;
+
+        pCmd->field_C_unknown = 0;
+        pCmd->field_8_script_thread = NULL;
+    }
+
+    if (v3->field_11A == v4)
+    {
+        v3->sub_503610();
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x506af0)
