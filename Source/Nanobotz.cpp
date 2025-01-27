@@ -4,10 +4,27 @@
 EXPORT_VAR Nanobotz* gpNanobotz_6F66E4;
 GLOBAL(gpNanobotz_6F66E4, 0x6F66E4);
 
-STUB_FUNC(0x4e9d50)
-s32 Nanobotz::sub_4E9D50(s32& a2, u16& a3)
+EXPORT_VAR Fix16 dword_6F6484;
+GLOBAL(dword_6F6484, 0x6F6484);
+
+MATCH_FUNC(0x4e9d50)
+void Nanobotz::sub_4E9D50(s32& target_level, u16& cycles)
 {
-    return 0;
+    Fix16 tgt_level(target_level, 0);
+    field_4 = tgt_level;
+
+    if (cycles > 0)
+    {
+        Fix16 v7;
+        v7.FromUnsignedShort(cycles);
+        Fix16 v6 = tgt_level - field_0_ambient;
+        field_8 = v6.inline_divide_by(v7);
+    }
+    else
+    {
+        field_0_ambient = tgt_level;
+        field_8 = dword_6F6484;
+    }
 }
 
 STUB_FUNC(0x4e9db0)
