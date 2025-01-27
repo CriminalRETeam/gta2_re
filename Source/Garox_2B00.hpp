@@ -10,6 +10,7 @@ class angry_lewin_0x85C;
 class Zone_144;
 class infallible_turing;
 class Zone_144;
+class Object_2C;
 
 class Garox_13C0_sub
 {
@@ -472,9 +473,9 @@ class Garox_24
     s32 field_8;
     angry_lewin_0x85C* field_C;
     s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    Fix16 field_14;
+    Fix16 field_18;
+    Fix16 field_1C;
     char_type field_20;
     char_type field_21_pad;
     char_type field_22_pad;
@@ -545,7 +546,7 @@ class Garox_7C_Array
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
     EXPORT Garox_7C* sub_5D10D0(Zone_144* pZone, s32 phone_type);
-    EXPORT void place_gang_phone_5D1110(s32 pPhoneInfo);
+    EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void sub_5D1310(Zone_144* pZone);
     Garox_7C field_0_array[17];
     char_type field_83C;

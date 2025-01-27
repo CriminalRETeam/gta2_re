@@ -1,5 +1,9 @@
 #include "Maccies_14AC.hpp"
+#include "Globals.hpp"
 #include "rng.hpp"
+
+EXPORT_VAR Maccies_14AC* gMaccies_14AC_67E5D0;
+GLOBAL(gMaccies_14AC_67E5D0, 0x67E5D0);
 
 STUB_FUNC(0x4c1c50)
 void Maccies_2C::sub_4C1C50()
@@ -7,20 +11,20 @@ void Maccies_2C::sub_4C1C50()
 }
 
 MATCH_FUNC(0x4c1c70)
-void Maccies_2C::sub_4C1C70(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8)
+void Maccies_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
 {
-    field_4 = a2;
-    field_8 = a3;
-    field_C = a4;
-    field_10 = a5;
-    field_0 = a6;
-    field_12 = a7;
-    field_14 = a8;
-    field_18 = rng_dword_67AB34->field_0_rng + 1;
+    field_4_x = x.mValue;
+    field_8_y = y.mValue;
+    field_C_z = z.mValue;
+    field_10 = rot.rValue;
+    field_0_gen_type = generator_type;
+    field_12_min_delay = min_delay;
+    field_14_max_delay = max_delay;
+    field_18_cycle = rng_dword_67AB34->field_0_rng + 1;
     field_20 = 1;
     field_1E = 0;
-    field_1C = 0;
-    field_24 = 0;
+    field_1C_ammo = 0;
+    field_24_obj = NULL;
     field_28 = 0;
     field_21 = 1;
 }
@@ -49,10 +53,10 @@ void Maccies_14AC::sub_4C1D70()
 }
 
 MATCH_FUNC(0x4c1dc0)
-Maccies_2C* Maccies_14AC::sub_4C1DC0(s32 a2, s32 a3, s32 a4, s16 a5, s32 a6, s16 a7, s16 a8)
+Maccies_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Maccies_2C* pMaccies = &field_0[field_14A0];
-    pMaccies->sub_4C1C70(a2, a3, a4, a5, a6, a7, a8);
+    pMaccies->sub_4C1C70(x, y, z, rot, type, min_delay, max_delay);
     field_14A0++;
     return pMaccies;
 }

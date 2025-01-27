@@ -132,3 +132,4 @@ class Door_2C4
     s32 field_2BC;
     s32 field_2C0;
 };
+EXPORT_VAR extern Door_4D4* gDoor_4D4_67BD2C;

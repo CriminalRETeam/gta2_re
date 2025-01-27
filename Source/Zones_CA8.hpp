@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 #include <wchar.h>
 
 class gmp_map_zone;
@@ -96,8 +97,9 @@ class Zone_144
     char field_101;
     char field_102;
     char field_103;
-    u16 field_104;
-    char field_106[10];
+    u32 field_104_basic_weapon;
+    u32 field_108_angry_weapon;
+    u32 field_10C_hate_weapon;
     char field_110;
     char field_111;
     char field_112[2];
@@ -106,15 +108,15 @@ class Zone_144
     u8 field_11C[4];
     u16 field_120;
     char field_122[10];
-    u32 field_12C;
-    u32 field_130;
-    u32 field_134;
-    u8 field_138;
-    u8 field_139;
+    Fix16 field_12C_info_phone_x;
+    Fix16 field_130_info_phone_y;
+    Fix16 field_134_info_phone_z;
+    u8 field_138_arrow_colour;
+    u8 field_139_kill_respect_change;
     char field_13A;
     char field_13B;
-    u32 field_13C;
-    char field_140;
+    u32 field_13C_gang_car_model;
+    char field_140_gang_car_remap;
     char field_141;
     char field_142;
     char field_143;

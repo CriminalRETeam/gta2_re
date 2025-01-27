@@ -13,6 +13,7 @@ class Object_2C;
 class Zheal_15C;
 class nostalgic_ellis_0x28;
 class Door_38;
+class miss2_0x11C;
 
 struct SCR_CMD_HEADER
 {
@@ -162,7 +163,14 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Door_38* field_8_door;
         Snooky_30* field_8_crusher;
         u32 field_8_counter;
+        Maccies_2C* field_8_generator;
     };
+};
+
+struct SCR_THREAD : SCR_CMD_HEADER
+{
+    miss2_0x11C* field_8_script_thread;
+    s16 field_C_unknown;
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
@@ -202,6 +210,16 @@ struct SCR_SOUND_DECSET : SCR_CMD_HEADER
     u16 field_1B_padding;
 };
 
+struct SCR_SET_STATION : SCR_CMD_HEADER
+{
+    u16 field_8_platform;
+    u8 field_A_num_passenger;
+    u8 field_B_num_freight;
+    u8 field_C_num_boxcar;
+    u8 field_D_padding1;
+    u16 field_E_padding2;
+};
+
 struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
 {
     SCR_XY_f field_8_pos;
@@ -234,6 +252,34 @@ struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
+{
+    u16 field_8_gangname;
+    s8 field_A_remap;
+    u8 field_B_weapon1;
+    u8 field_C_weapon2;
+    u8 field_D_weapon3;
+    u8 field_E_arrow_id;
+    u8 field_F_kill_respect_change;
+    SCR_XYZ_f field_10_pos;
+    u16 field_1C_car_model;
+    s16 field_1E_car_remap;
+};
+
+struct SCR_GENERATOR : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_XYZ_f field_C_pos;
+    Ang16 field_18_rot;
+    u16 field_1A_obj_id;
+    u16 field_1C_mindelay;
+    u16 field_1E_maxdelay;
+    u8 field_20_ammo;
+    u8 field_21_padding;
+    u16 field_22_padding;
+};
+
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
@@ -244,6 +290,22 @@ struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
 {
     SCR_XYZ_uc field_8_pos;
     u8 field_B_do_drop;
+};
+
+struct SCR_CONVEYOR : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_Rect_f field_C_rect;
+    SCR_XY_uc field_18_speed;
+    u16 field_1A_padding;
+};
+
+struct SCR_DESTRUCTOR : SCR_CMD_HEADER
+{
+    u16 field_8_unk2;
+    u16 field_A_unk3;
+    SCR_Rect_f field_C_rect;
 };
 
 struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
@@ -267,10 +329,11 @@ class miss2_0x11C
     EXPORT char_type sub_503410(u32 a1);
     EXPORT void sub_5035B0();
     EXPORT void sub_5035D0();
+    EXPORT void sub_503610();
     EXPORT void Next_503620(SCR_CMD_HEADER* a2);
     EXPORT void sub_503650(u16 a2);
     EXPORT void sub_503670();
-    EXPORT s32 SCRCMD_OBJ_DECSET_2D_3D_503680(s32* a1, s32 a2);
+    EXPORT void SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd);
     EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2);
@@ -280,21 +343,21 @@ class miss2_0x11C
     EXPORT void SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* a1);
     EXPORT void SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);
-    EXPORT char_type SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2);
-    EXPORT Maccies_2C* SCRCMD_GENERATOR_DECSET_504420(s32* a1, s32 a2);
-    EXPORT s32* SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2);
+    EXPORT void SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER* a2);
+    EXPORT void SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* a1, SCR_POINTER* a2);
+    EXPORT void SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2);
     EXPORT s32 SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2);
     EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2);
     EXPORT void sub_504710(s32 a1);
     EXPORT s32* SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2);
-    EXPORT void SCRCMD_SET_GANG_INFO1_504830(s32 a1);
-    EXPORT s16 SCRCMD_SET_DOOR_INFO_504950(s32 a1);
+    EXPORT void SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* a1);
+    EXPORT void SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1);
     EXPORT s32 SCRCMD_DOOR_DECLARE_D1_S1_504970(s32);
     EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3);
-    EXPORT void SCRCMD_DECLARE_MISSION_504DD0(u16* a1);
+    EXPORT void SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1);
     EXPORT void sub_504EE0(s32 a1, s32 a2);
-    EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(s32 a1);
+    EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* a1);
