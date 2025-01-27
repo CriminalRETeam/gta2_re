@@ -97,6 +97,16 @@ class Fix16
         mValue = a1 << 14;
     }
 
+    inline void FromShort(s16 a1)
+    {
+        mValue = a1 << 14;
+    }
+
+    inline void FromUnsignedShort(u16 a1)
+    {
+        mValue = a1 << 14;
+    }
+
     float ToFloat() const
     {
         return mValue * 0.0000610351562f;
@@ -135,6 +145,13 @@ class Fix16
     {
         __int64 t = (mValue * (__int64)a2.mValue) >> 14;
         return (s32)t;
+    }
+
+    //  inline div_401B90
+    inline Fix16& inline_divide_by(Fix16& a1) 
+    {
+        mValue = ((__int64)mValue << 14) / a1.mValue;
+        return *this;
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
