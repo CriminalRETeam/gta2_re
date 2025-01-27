@@ -518,9 +518,30 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3)
 {
 }
 
-STUB_FUNC(0x504dd0)
-void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(u16* a1)
+MATCH_FUNC(0x504dd0)
+void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1)
 {
+    SCR_POINTER* pPointer;
+
+    gfrosty_pasteur_6F8060->GetBasePointer_512770(a1->field_8_unsigned_1); //  player pointer not used because missions are singleplayer
+    pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                            a1->field_A_unsigned_2);
+    if (a1->field_2_type == SCRCMD_DEC_GANG_1_FLAG)
+    {
+        gfrosty_pasteur_6F8060->field_348_gang_1_mission_flag = &pPointer->field_8_counter;
+    }
+    else if (a1->field_2_type == SCRCMD_DEC_GANG_2_FLAG)
+    {
+        gfrosty_pasteur_6F8060->field_34C_gang_2_mission_flag = &pPointer->field_8_counter;
+    }
+    else if (a1->field_2_type == SCRCMD_DEC_GANG_3_FLAG)
+    {
+        gfrosty_pasteur_6F8060->field_350_gang_3_mission_flag = &pPointer->field_8_counter;
+    }
+    else    // a1->field_2_type == SCRCMD_DECLARE_MISSION
+    {
+        gfrosty_pasteur_6F8060->field_344_mission_flag = &pPointer->field_8_counter;
+    }
 }
 
 STUB_FUNC(0x504ee0)

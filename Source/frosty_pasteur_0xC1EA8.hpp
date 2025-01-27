@@ -541,10 +541,10 @@ class frosty_pasteur_0xC1EA8
     u32* field_338_secrets_passed;
     u32* field_33C_secrets_failed;
     u32* field_340_car_list;
-    s32 field_344;
-    s32 field_348;
-    s32 field_34C;
-    s32 field_350;
+    u32* field_344_mission_flag;
+    u32* field_348_gang_1_mission_flag;
+    u32* field_34C_gang_2_mission_flag;
+    u32* field_350_gang_3_mission_flag;
     char_type field_354;
     char_type field_355;
     s16 field_356;
