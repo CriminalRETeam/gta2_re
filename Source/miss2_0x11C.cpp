@@ -783,16 +783,14 @@ void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
 MATCH_FUNC(0x506a00)
 void miss2_0x11C::SCRCMD_CREATE_THREAD_506A00()
 {
-    SCR_CMD_HEADER* v1;
-    SCR_CMD_HEADER* BasePointer_512770;
-    miss2_0x11C* v4;
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_THREAD* pCmd = (SCR_THREAD*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                v1->field_A_unsigned_2);
 
-    v1 = gBasePtr_6F8070;
-    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);
-    v4 = miss2_0x11C::sub_511960(v1[1].field_0_cmd_this);
-    *(u32*)&BasePointer_512770[1].field_0_cmd_this = reinterpret_cast<unsigned int>(v4);
-    BasePointer_512770[1].field_4_cmd_next = v4->field_11A;
-    v4->sub_511930(field_6, v1[1].field_0_cmd_this);
+    miss2_0x11C* v4 = miss2_0x11C::sub_511960(v1->field_8_unsigned_1);
+    pCmd->field_8_script_thread = v4;
+    pCmd->field_C_unknown = v4->field_11A;
+    v4->sub_511930(field_6, v1->field_8_unsigned_1);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

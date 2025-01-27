@@ -13,6 +13,7 @@ class Object_2C;
 class Zheal_15C;
 class nostalgic_ellis_0x28;
 class Door_38;
+class miss2_0x11C;
 
 struct SCR_CMD_HEADER
 {
@@ -166,6 +167,12 @@ struct SCR_POINTER : SCR_CMD_HEADER
     };
 };
 
+struct SCR_THREAD : SCR_CMD_HEADER
+{
+    miss2_0x11C* field_8_script_thread;
+    s16 field_C_unknown;
+};
+
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
 {
     u16 field_8_char_idx; //  SCR_SET_CHAR_OBJ1
@@ -292,6 +299,7 @@ class miss2_0x11C
     EXPORT char_type sub_503410(u32 a1);
     EXPORT void sub_5035B0();
     EXPORT void sub_5035D0();
+    EXPORT void sub_503610();
     EXPORT void Next_503620(SCR_CMD_HEADER* a2);
     EXPORT void sub_503650(u16 a2);
     EXPORT void sub_503670();
