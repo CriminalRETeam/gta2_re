@@ -267,6 +267,12 @@ void Object_2C::sub_529000(s32 a2)
 {
 }
 
+MATCH_FUNC(0x529030)
+void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
+{
+    field_26 = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
+}
+
 STUB_FUNC(0x529070)
 void Object_2C::sub_529070(s32 a2)
 {
