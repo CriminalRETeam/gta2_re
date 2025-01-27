@@ -435,7 +435,9 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
     {
         Fix16 temp_z;
         a1->field_C_rect.field_0_pos.field_8_z =
-            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                                            a1->field_C_rect.field_0_pos.field_0_x, 
+                                            a1->field_C_rect.field_0_pos.field_4_y);
     }
     a2->field_8_obj = gObject_5C_6F8F84->sub_529950(139,
                                                     a1->field_C_rect.field_0_pos.field_0_x,
@@ -477,10 +479,26 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     }
 }
 
-STUB_FUNC(0x504530)
-s32* miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(s32* a1, s32 a2)
+MATCH_FUNC(0x504530)
+void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTER* a2)
 {
-    return 0;
+    if (a1->field_C_rect.field_0_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        a1->field_C_rect.field_0_pos.field_8_z =
+            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                                            a1->field_C_rect.field_0_pos.field_0_x, 
+                                            a1->field_C_rect.field_0_pos.field_4_y);
+    }
+
+    a2->field_8_obj = gObject_5C_6F8F84->sub_529950(141,
+                                                    a1->field_C_rect.field_0_pos.field_0_x,
+                                                    a1->field_C_rect.field_0_pos.field_4_y,
+                                                    a1->field_C_rect.field_0_pos.field_8_z,
+                                                    dword_6F804C,
+                                                    a1->field_C_rect.field_C_size.field_0_x,
+                                                    a1->field_C_rect.field_C_size.field_4_y,
+                                                    dword_6F77C4);
 }
 
 MATCH_FUNC(0x5045a0)
