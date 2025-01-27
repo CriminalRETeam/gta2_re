@@ -26,6 +26,7 @@
 #include "Garox_2B00.hpp"
 #include "Door_4D4.hpp"
 #include "Maccies_14AC.hpp"
+#include "Nanobotz.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -1492,9 +1493,12 @@ void miss2_0x11C::sub_50B0E0()
 {
 }
 
-STUB_FUNC(0x50b150)
+MATCH_FUNC(0x50b150)
 void miss2_0x11C::SCRCMD_SET_AMBIENT_50B150()
 {
+    SCR_SET_AMBIENT* pCmd = (SCR_SET_AMBIENT*)gBasePtr_6F8070;
+    gpNanobotz_6F66E4->sub_4E9D50(pCmd->field_8_level, pCmd->field_C_time);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b180)

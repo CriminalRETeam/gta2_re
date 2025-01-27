@@ -315,6 +315,13 @@ struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
     SCR_XY_f field_C_pos;
 };
 
+struct SCR_SET_AMBIENT : SCR_CMD_HEADER
+{
+    s32 field_8_level;
+    u16 field_C_time;
+    u16 field_E_padding;
+};
+
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
