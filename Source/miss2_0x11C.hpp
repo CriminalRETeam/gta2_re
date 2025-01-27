@@ -260,7 +260,7 @@ struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
     u8 field_C_weapon2;
     u8 field_D_weapon3;
     u8 field_E_arrow_id;
-    u8 field_F_respect;
+    u8 field_F_kill_respect_change;
     SCR_XYZ_f field_10_pos;
     u16 field_1C_car_model;
     s16 field_1E_car_remap;

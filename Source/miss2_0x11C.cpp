@@ -524,15 +524,15 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     Fix16 y = pCmd->field_10_pos.field_4_y;
     Fix16 x = pCmd->field_10_pos.field_0_x;
 
-    pZone->field_130 = y;
-    pZone->field_12C = x;
-    pZone->field_134 = z;
+    pZone->field_130_info_phone_y = y;
+    pZone->field_12C_info_phone_x = x;
+    pZone->field_134_info_phone_z = z;
 
-    pZone->field_139 = pCmd->field_F_respect;
+    pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
     gZones_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
     ++gfrosty_pasteur_6F8060->field_354;
     Zone_144* v7 = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
-    if ( (u8) pCmd->field_F_respect > 0 )
+    if ( (u8) pCmd->field_F_kill_respect_change > 0 )
     {
         gGarox_2B00_706620->field_1F18.sub_5D1310(v7);
     }

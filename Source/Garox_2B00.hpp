@@ -473,9 +473,9 @@ class Garox_24
     s32 field_8;
     angry_lewin_0x85C* field_C;
     s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    Fix16 field_14;
+    Fix16 field_18;
+    Fix16 field_1C;
     char_type field_20;
     char_type field_21_pad;
     char_type field_22_pad;

@@ -131,7 +131,7 @@ void Zone_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 MATCH_FUNC(0x4BF340)
 wchar_t* Zone_144::sub_4BF340()
 {
-    sprintf(gTmpBuffer_67C598, "ganga%d", field_138);
+    sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);
 }
 
@@ -147,7 +147,8 @@ Zone_144* Zones_CA8::sub_4BECA0()
 {
     for (gZoneIdx_6206B8 = 0; gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0); gZoneIdx_6206B8++)
     {
-        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        if (field_0[gZoneIdx_6206B8].field_0_used 
+            && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
         {
             return &field_0[gZoneIdx_6206B8];
         }
@@ -160,7 +161,8 @@ Zone_144* Zones_CA8::sub_4BECE0()
 {
     while (++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
     {
-        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139 > 0)
+        if (field_0[gZoneIdx_6206B8].field_0_used 
+            && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
         {
             return &field_0[gZoneIdx_6206B8];
         }
@@ -237,7 +239,7 @@ void Zones_CA8::sub_4BF230(Zone_144* pZone, u8 zone_idx)
         Zone_144* pZoneByIdx = ZoneByIdx_4BF1C0(zone_idx);
         if (pZoneByIdx->field_0_used)
         {
-            if (pZoneByIdx->field_138 != pZone->field_138)
+            if (pZoneByIdx->field_138_arrow_colour != pZone->field_138_arrow_colour)
             {
                 memcpy(&zone, pZoneByIdx, sizeof(zone));
                 memcpy(&gZones_CA8_67E274->field_0[pZoneByIdx->field_1_zone_idx],
@@ -258,7 +260,7 @@ u8 Zones_CA8::sub_4BF2F0(int arg0)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        if (ZoneByIdx_4BF1C0(i)->field_13C == arg0)
+        if (ZoneByIdx_4BF1C0(i)->field_13C_gang_car_model == arg0)
         {
             return i;
         }

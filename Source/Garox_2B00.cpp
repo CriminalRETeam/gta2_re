@@ -673,9 +673,9 @@ STUB_FUNC(0x5d03c0)
 void Garox_24::sub_5D03C0(Zone_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
-    field_18 = pZone->field_130;
-    field_14 = pZone->field_12C;
-    field_1C = pZone->field_134;
+    field_18 = pZone->field_130_info_phone_y;
+    field_14 = pZone->field_12C_info_phone_x;
+    field_1C = pZone->field_134_info_phone_z;
     field_10 = 5;
 }
 
@@ -928,7 +928,7 @@ void Garox_7C_Array::sub_5D1310(Zone_144* pZone)
     Garox_7C* p7C = sub_5D1050();
     p7C->sub_5D0510(4);
     p7C->field_18.field_10.field_30 = pZone;
-    p7C->field_18.field_2C = pZone->field_138;
+    p7C->field_18.field_2C = pZone->field_138_arrow_colour;
     p7C->field_18.field_10.field_34 = 0;
     p7C->field_18.field_18.sub_5D03C0(pZone);
 }
