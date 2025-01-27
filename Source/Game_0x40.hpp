@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class angry_lewin_0x85C;
 class Car_3C;
@@ -85,6 +86,6 @@ class Game_0x40
 
 EXPORT_VAR extern Game_0x40* gGame_0x40_67E008;
 
-EXPORT_VAR extern u32 dword_67DCCC;
+EXPORT_VAR extern Fix16 dword_67DCCC;
 
 EXPORT_VAR extern class Hamburger_500* gHamburger_500_678E30;

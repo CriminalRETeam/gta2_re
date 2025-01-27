@@ -894,7 +894,7 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
     }
 }
 
-EXPORT_VAR u32 dword_67DCCC;
+EXPORT_VAR Fix16 dword_67DCCC;  //  not sure if it's fix16
 GLOBAL(dword_67DCCC, 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
