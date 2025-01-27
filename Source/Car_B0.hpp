@@ -23,7 +23,7 @@ class Car_B0
     EXPORT void sub_559A40();
     EXPORT Car_BC* sub_559B40();
     EXPORT Car_A4_10* sub_559B50();
-    EXPORT void sub_559B90(u32* a2);
+    EXPORT void sub_559B90(const Fix16 &a2);
     EXPORT u32 sub_559BA0();
     EXPORT void sub_559C30();
     EXPORT s32 sub_559DD0();
@@ -118,40 +118,36 @@ class Car_B0
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
-    EXPORT Sprite_4C* sub_5637A0();
-    EXPORT Sprite_4C* sub_563890();
+    EXPORT void sub_5637A0();
+    EXPORT void sub_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
     EXPORT Car_B0();
 
-    s32 field_0_x_vel_read_only;
-    s32 field_4_y_vel_read_only;
+    Car_8 field_0_vel_read_only;
     s32 field_8_total_damage_q;
     Car_B0* field_C_pNext;
     Car_8 field_10[4];
-    s32 field_30_cm1;
-    s32 field_34_cm2;
-    s32 field_38_cp1;
-    s32 field_3C_cp2;
-    s32 field_40_linvel_1;
-    s32 field_44_linvel_2;
+    Car_8 field_30_cm1;
+    Car_8 field_38_cp1;
+    Car_8 field_40_linvel_1;
     s32 field_48;
     s32 field_4C;
     s32 field_50;
     s32 field_54;
-    s16 field_58_theta;
+    Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pPrev;
-    s32 field_60_gas_pedal;
+    Fix16 field_60_gas_pedal;
     s32 field_64;
-    s32 field_68_z_pos;
+    Fix16 field_68_z_pos;
     s32 field_6C_cp3;
-    s32 field_70;
-    s32 field_74_ang_vel_rad;
+    Fix16 field_70;
+    Fix16 field_74_ang_vel_rad;
     s32 field_78_pointing_ang_rad;
     s32 field_7C;
     s32 field_80;
-    s32 field_84_front_skid;
-    s32 field_88_rear_skid;
+    Fix16 field_84_front_skid;
+    Fix16 field_88_rear_skid;
     s32 field_8C;
     char_type field_90_timer_since_last_move;
     char_type field_91_is_foot_brake_on;
@@ -163,7 +159,7 @@ class Car_B0
     char_type field_97;
     s32 field_98_surface_type;
     s32 field_9C;
-    s32 field_A0;
+    Fix16 field_A0;
     char_type field_A4;
     char_type field_A5_current_slope_length;
     char_type field_A6_current_slope_left_tiles;
@@ -180,7 +176,19 @@ class Car_B0
 
 struct Car_D264
 {
-    EXPORT Car_D264();
+  //Inlined in Car_6C constructor 9.6f -> 0x420f80
+    EXPORT Car_D264()
+    {
+      Car_B0* pIter = &field_4[0];
+      for (s32 i = 0; i < 305; i++)
+      {
+        pIter->field_C_pNext = pIter + 1;
+        pIter++;
+      }
+
+      field_4[0x131].field_C_pNext =NULL;
+      field_0 = field_4;
+    }
 
     Car_B0* field_0;
     Car_B0 field_4[306];
