@@ -9,6 +9,7 @@
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
+#include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -37,11 +38,65 @@ GLOBAL(gCar_A4_66AC80, 0x66AC80);
 EXPORT_VAR Car_14* gCar_14_677934;
 GLOBAL(gCar_14_677934, 0x677934);
 
+// This is not used outside this file.
+// In fact, it's only allocated and deallocated, it's never used.
+EXPORT_VAR Car_3C* gCar_3C_677938;
+GLOBAL(gCar_3C_677938, 0x677938);
+
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
 
 EXPORT_VAR Fix16 dword_6F6850[256];
 GLOBAL(dword_6F6850, 0x6F6850);
+
+EXPORT_VAR Ang16 gAng16_703804;
+GLOBAL(gAng16_703804, 0x703804);
+
+EXPORT_VAR Fix16 gFix16_6777CC;
+GLOBAL(gFix16_6777CC, 0x6777CC);
+
+EXPORT_VAR Fix16 gFix16_7035C0;
+GLOBAL(gFix16_7035C0, 0x7035C0);
+
+EXPORT_VAR Monster_2C* gMonster_2C_66AB78;
+GLOBAL(gMonster_2C_66AB78, 0x66AB78);
+
+EXPORT_VAR Monster_48* gMonster_48_66AB70;
+GLOBAL(gMonster_48_66AB70, 0x66AB70);
+
+EXPORT_VAR s16 DAT_677CFC;
+GLOBAL(DAT_677CFC, 0x677CFC);
+
+// This is a pointer to something
+EXPORT_VAR s32 DAT_0067727c;
+GLOBAL(DAT_0067727c, 0x67727c);
+
+// This is a pointer to something
+EXPORT_VAR s32 DAT_0067737c;
+GLOBAL(DAT_0067737c, 0x67737c);
+
+// Indicates if Car_2 is initialised
+// It can probably turned into a static variable inside Car_2
+EXPORT_VAR char_type byte_679C0A;
+GLOBAL(byte_679C0A, 0x679C0A);
+
+// Array of values used by Car_2.
+// It can probably turned into a static variable inside Car_2
+EXPORT_VAR s16 DAT_00679320[1000];
+GLOBAL(DAT_00679320, 0x679320);
+
+MATCH_FUNC(0x5639c0)
+void sub_5639C0()
+{
+    gMonster_2C_66AB78 = NULL;
+    gMonster_48_66AB70 = NULL;
+}
+
+MATCH_FUNC(0x447640)
+void sub_447640()
+{
+    DAT_677CFC = 0;
+}
 
 STUB_FUNC(0x4476f0)
 void Car_78::sub_4476F0()
@@ -232,19 +287,6 @@ s32 Car_78::sub_453D80()
 STUB_FUNC(0x453cb0)
 Car_78::Car_78()
 {
-}
-
-Car_8F74::Car_8F74()
-{
-    Car_78* pIter = &field_4[0];
-    for (s32 i = 0; i < 305; i++)
-    {
-        pIter->field_C = pIter + 1;
-        pIter++;
-    }
-
-    field_4[305].field_C = NULL;
-    field_0 = field_4;
 }
 
 MATCH_FUNC(0x451950)
@@ -583,11 +625,6 @@ void Car_3C::sub_5A4D90()
 {
 }
 
-STUB_FUNC(0x5a5e50)
-void Car_3C::ctor_5A5E50()
-{
-}
-
 STUB_FUNC(0x5c8680)
 s32 Car_214::sub_5C8680(u8 a2)
 {
@@ -611,10 +648,27 @@ u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
     return 0;
 }
 
-STUB_FUNC(0x47bd00)
-Car_2* Car_2::sub_47BD00()
+MATCH_FUNC(0x47bd00)
+Car_2::Car_2()
 {
-    return 0;
+    if (byte_679C0A == false)
+    {
+        byte_679C0A = true;
+        for (u16 i = 0; i < 1000; i++)
+        {
+            DAT_00679320[i] = i;
+        }
+
+        for (u16 j = 0; j < 1000; j++)
+        {
+            s16 tmp = 1000;
+            u16 idx = stru_6F6784.get_int_4F7AE0(&tmp);
+            s16 next = DAT_00679320[j];
+            DAT_00679320[j] = DAT_00679320[idx];
+            DAT_00679320[idx] = next;
+        }
+    }
+    field_0 = 0;
 }
 
 MATCH_FUNC(0x47bd90)
@@ -703,12 +757,10 @@ u32 Car_6C::sub_446930(s32 a2)
 }
 
 STUB_FUNC(0x4469f0)
+// There are still something missing here.
+// But the structure it seems to be complete
 Car_6C::Car_6C()
 {
-    field_0.sub_47BD00();
-    field_10_idx.sub_47BD00();
-    field_12.sub_47BD00();
-
     if (!gCar_E0C4_67792C)
     {
         gCar_E0C4_67792C = new Car_E0C4();
@@ -717,6 +769,91 @@ Car_6C::Car_6C()
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
         }
     }
+
+    if (!gCar_D264_6FE3E0)
+    {
+        gCar_D264_6FE3E0 = new Car_D264();
+        if (!gCar_D264_6FE3E0)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
+        }
+    }
+
+    if (!gCar_14_677934)
+    {
+        gCar_14_677934 = new Car_14();
+        if (!gCar_14_677934)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
+        }
+    }
+
+    if (!gCar_8F74_677CF8)
+    {
+        gCar_8F74_677CF8 = new Car_8F74();
+        if (!gCar_8F74_677CF8)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
+        }
+    }
+
+    if (!gCar_A4_66AC80)
+    {
+        gCar_A4_66AC80 = new Car_A4();
+        if (!gCar_A4_66AC80)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
+        }
+    }
+
+    field_64 = gFix16_6777CC;
+    field_60 = 0;
+    field_4 = 0;
+    field_14 = 1;
+    field_9 = 0;
+    field_8 = 0;
+    field_A = 0;
+    field_B = 0;
+    field_1A = 0;
+    field_1C = 0;
+    field_28_recycled_cars = 0;
+    field_40_proto_recycled_cars = 0;
+    field_30 = 0;
+    field_2C = 0;
+    field_34_unit_cars = 0;
+    field_38 = 0;
+    field_3C_mission_cars = 0;
+    field_44 = 0;
+
+    // On version 9.6f this is call to a class method
+    DAT_0067727c = 0;
+    // On version 9.6f this is call to a class method
+    DAT_0067737c = 0;
+    sub_5639C0();
+    sub_447640();
+
+    field_20 = 4;
+    field_24 = 1;
+
+    if (!gCar_3C_677938)
+    {
+        gCar_3C_677938 = new Car_3C();
+        if (!gCar_3C_677938)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
+        }
+    }
+
+    // On version 9.6f this is call to a class method
+    // that initialises the next two fields
+    field_4C = 0;
+    field_50_tv_van_dir = 0;
+    field_54 = 0;
+    field_55 = 0;
+    field_58 = 0x57;
+    field_5C = 0;
+    field_C = 87;
+    field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
 
 STUB_FUNC(0x446dc0)
@@ -1956,22 +2093,6 @@ bool Car_BC::sub_564300()
     return false;
 }
 
-// Inlined in Car_6C constructor
-Car_E0C4::Car_E0C4()
-{
-    Car_BC* pIter = &field_8_cars[0];
-    for (s32 i = 0; i < 305; i++)
-    {
-        pIter->field_4C_next = pIter + 1;
-        pIter++;
-    }
-
-    field_0 = field_8_cars;
-    field_8_cars[0x131].field_4C_next = NULL;
-    field_4_firstCar = NULL;
-    field_E0C0_cars_count = 0;
-}
-
 Car_E0C4::~Car_E0C4()
 {
     field_0 = NULL;
@@ -1980,11 +2101,6 @@ Car_E0C4::~Car_E0C4()
 
 MATCH_FUNC(0x40ac40)
 Car_8::~Car_8()
-{
-}
-
-MATCH_FUNC(0x563970)
-Car_8::Car_8()
 {
 }
 
@@ -2049,19 +2165,6 @@ STUB_FUNC(0x408220)
 s32 Car_A4_10::sub_408220()
 {
     return 0;
-}
-
-//Inlined in Car_6C constructor
-Car_A4::Car_A4()
-{
-    Car_A4_10* it = field_4;
-    for (u32 i = 0; i < 9; i++)
-    {
-        it->field_4 = it + 1;
-        it++;
-    }
-    field_4[9].field_4 = NULL;
-    field_0 = field_4;
 }
 
 STUB_FUNC(0x582310)

@@ -8,6 +8,9 @@
 #include "Ped_Unknown_4.hpp"
 #include <wchar.h>
 
+EXPORT_VAR extern Ang16 gAng16_703804;
+EXPORT_VAR extern Fix16 gFix16_7035C0;
+
 struct gmp_zone_unknown;
 class DrawUnk_0xBC;
 class Object_2C;
@@ -111,7 +114,19 @@ class Car_78
 class Car_8F74
 {
   public:
-    EXPORT Car_8F74();
+    //Inlined in Car_6C constructor 9.6f -> 0x420eb0
+    EXPORT Car_8F74()
+    {
+        Car_78* pIter = &field_4[0];
+        for (s32 i = 0; i < 305; i++)
+        {
+            pIter->field_C = pIter + 1;
+            pIter++;
+        }
+
+        field_4[305].field_C = NULL;
+        field_0 = field_4;
+    }
 
     Car_78* field_0;
     Car_78 field_4[306];
@@ -157,9 +172,31 @@ class Car_3C
     EXPORT s32 sub_5A2CF0();
     EXPORT void sub_5A3030();
     EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5);
+
+    // This function matches, but the marker doesn't seem to work on header files.
+    // Leave it here commented for future reference
+    //MATCH_FUNC(0x5a5e50)
+    EXPORT Car_3C() :field_0(gAng16_703804)
+    {
+        field_4_0x4C_len = NULL;
+        field_14_xpos = gFix16_7035C0;
+        field_18_ypos = gFix16_7035C0;
+        field_1C_zpos = gFix16_7035C0;
+        field_20_id = 0;
+        field_22_sprite_id = 0;
+        field_24_remap = 0;
+        field_28_uni = NULL;
+        field_2C = '\0';
+        field_30_sprite_type_enum = 0;
+        field_34 = 0;
+        field_38 = '\0';
+        field_39 = -1;
+        car_bc_ptr = NULL;
+        next_ptr = NULL;
+        field_10 = NULL;
+    }
     EXPORT ~Car_3C();
     EXPORT void sub_5A4D90();
-    EXPORT void ctor_5A5E50();
 
     Ang16 field_0;
     s8 field_2_pad;
@@ -237,7 +274,7 @@ EXPORT_VAR extern Car_214* gCar_214_705F20;
 class Car_2
 {
   public:
-    EXPORT Car_2* sub_47BD00();
+    EXPORT Car_2();
     EXPORT void sub_47BD90();
     u16 field_0;
 };
@@ -300,7 +337,7 @@ class Car_6C
     char_type field_5E;
     char_type field_5F;
     s32 field_60;
-    s32 field_64;
+    Fix16 field_64;
     char_type field_68;
     char_type field_69_do_free_shopping;
     char_type field_6A;
@@ -558,7 +595,21 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
 struct Car_E0C4
 {
-    EXPORT Car_E0C4();
+    //Inlined in Car_6C constructor 9.6f -> 0x426db0
+    EXPORT Car_E0C4()
+    {
+        Car_BC* pIter = &field_8_cars[0];
+        for (s32 i = 0; i < 305; i++)
+        {
+            pIter->field_4C_next = pIter + 1;
+            pIter++;
+        }
+
+        field_0 = field_8_cars;
+        field_8_cars[0x131].field_4C_next = NULL;
+        field_4_firstCar = NULL;
+        field_E0C0_cars_count = 0;
+    }
     EXPORT ~Car_E0C4();
 
     Car_BC* field_0;
@@ -572,9 +623,19 @@ class Car_8
 {
   public:
     EXPORT ~Car_8();
-    EXPORT Car_8();
-    Sprite_4C* field_0;
-    Sprite_4C* field_4;
+    // It needs to be in the header
+    // MATCH_FUNC(0x563970)
+    EXPORT Car_8()
+    {}
+
+    // Inlined, on version 9.6f 0x41E1E0
+    void reset()
+    {
+        field_0 = Fix16(0);
+        field_4 = Fix16(0);
+    }
+    Fix16 field_0;
+    Fix16 field_4;
 };
 
 class Car_A4_10
@@ -590,6 +651,15 @@ class Car_A4_10
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
 
+    //Inlined in Car_6C constructor 9.6f -> 0x4212d0
+    Car_A4_10()
+    {
+        field_4 = NULL;
+        field_8 = NULL;
+        field_C = NULL;
+        field_0 = NULL;0;
+    }
+
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -602,7 +672,18 @@ class Car_A4_10
 class Car_A4
 {
   public:
-    EXPORT Car_A4();
+    //Inlined in Car_6C constructor 9.6f -> 0x425500
+    EXPORT Car_A4()
+    {
+        Car_A4_10* it = field_4;
+        for (u32 i = 0; i < 9; i++)
+        {
+            it->field_4 = it + 1;
+            it++;
+        }
+        field_4[9].field_4 = NULL;
+        field_0 = field_4;
+    }
 
     Car_A4_10* field_0;
     Car_A4_10 field_4[10];
@@ -627,3 +708,4 @@ EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
 EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
 EXPORT_VAR extern Car_14* gCar_14_677934;
+EXPORT_VAR extern char_type byte_679C0A;
