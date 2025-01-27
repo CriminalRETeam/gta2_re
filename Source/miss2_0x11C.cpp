@@ -111,6 +111,12 @@ void miss2_0x11C::sub_5035D0()
 EXPORT_VAR s32 dword_6F806C;
 GLOBAL(dword_6F806C, 0x6F806C);
 
+MATCH_FUNC(0x503610)
+void miss2_0x11C::sub_503610()
+{
+    field_10 = 1;
+}
+
 MATCH_FUNC(0x503620)
 void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 {
