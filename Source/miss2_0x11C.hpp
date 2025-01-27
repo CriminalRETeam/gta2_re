@@ -252,6 +252,20 @@ struct SCR_MAP_ZONE_SET : SCR_CMD_HEADER
     u16 field_1E_padding;
 };
 
+struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
+{
+    u16 field_8_gangname;
+    s8 field_A_remap;
+    u8 field_B_weapon1;
+    u8 field_C_weapon2;
+    u8 field_D_weapon3;
+    u8 field_E_arrow_id;
+    u8 field_F_respect;
+    SCR_XYZ_f field_10_pos;
+    u16 field_1C_car_model;
+    s16 field_1E_car_remap;
+};
+
 struct SCR_GENERATOR : SCR_CMD_HEADER
 {
     u16 field_8_unk2;
@@ -321,7 +335,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2);
     EXPORT void sub_504710(s32 a1);
     EXPORT s32* SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2);
-    EXPORT void SCRCMD_SET_GANG_INFO1_504830(s32 a1);
+    EXPORT void SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* a1);
     EXPORT void SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1);
     EXPORT s32 SCRCMD_DOOR_DECLARE_D1_S1_504970(s32);
     EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3);

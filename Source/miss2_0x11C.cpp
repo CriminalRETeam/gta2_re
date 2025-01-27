@@ -494,9 +494,48 @@ s32* miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
     return 0;
 }
 
-STUB_FUNC(0x504830)
-void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(s32 a1)
+MATCH_FUNC(0x504830)
+void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 {
+    str_table_entry* string_entry;
+    
+    string_entry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_gangname);
+
+    Zone_144* pZone = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    pZone->field_101 = pCmd->field_A_remap;
+    
+    pZone->field_104_basic_weapon = pCmd->field_B_weapon1;
+    pZone->field_108_angry_weapon = pCmd->field_C_weapon2;
+    pZone->field_10C_hate_weapon = pCmd->field_D_weapon3;
+
+    pZone->field_138_arrow_colour = pCmd->field_E_arrow_id;
+    pZone->field_13C_gang_car_model = pCmd->field_1C_car_model;
+    pZone->field_140_gang_car_remap = pCmd->field_1E_car_remap;
+
+    if (pCmd->field_10_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        pCmd->field_10_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, 
+                        pCmd->field_10_pos.field_0_x, 
+                        pCmd->field_10_pos.field_4_y);
+    }
+    
+    Fix16 z = pCmd->field_10_pos.field_8_z;
+    Fix16 y = pCmd->field_10_pos.field_4_y;
+    Fix16 x = pCmd->field_10_pos.field_0_x;
+
+    pZone->field_130 = y;
+    pZone->field_12C = x;
+    pZone->field_134 = z;
+
+    pZone->field_139 = pCmd->field_F_respect;
+    gZones_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
+    ++gfrosty_pasteur_6F8060->field_354;
+    Zone_144* v7 = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    if ( (u8) pCmd->field_F_respect > 0 )
+    {
+        gGarox_2B00_706620->field_1F18.sub_5D1310(v7);
+    }
 }
 
 MATCH_FUNC(0x504950)
