@@ -4,8 +4,8 @@
 EXPORT_VAR Nanobotz* gpNanobotz_6F66E4;
 GLOBAL(gpNanobotz_6F66E4, 0x6F66E4);
 
-EXPORT_VAR Fix16 dword_6F6484;
-GLOBAL(dword_6F6484, 0x6F6484);
+EXPORT_VAR Fix16_2 stru_6F6484;
+GLOBAL(stru_6F6484, 0x6F6484);
 
 MATCH_FUNC(0x4e9d50)
 void Nanobotz::sub_4E9D50(s32& target_level, u16& cycles)
@@ -23,7 +23,7 @@ void Nanobotz::sub_4E9D50(s32& target_level, u16& cycles)
     else
     {
         field_0_ambient = tgt_level;
-        field_8 = dword_6F6484;
+        field_8 = stru_6F6484.field_0_full;
     }
 }
 
