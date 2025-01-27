@@ -65,6 +65,9 @@ GLOBAL(dword_6F7570, 0x6F7570);
 EXPORT_VAR Ang16 dword_6F804C;
 GLOBAL(dword_6F804C, 0x6F804C);
 
+EXPORT_VAR s32 dword_6F77C4;
+GLOBAL(dword_6F77C4, 0x6F77C4);
+
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
 
@@ -425,10 +428,25 @@ s32 miss2_0x11C::SCRCMD_CRANE_5041C0(s32 a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5043a0)
-char_type miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(s32* a1, s32 a2)
+MATCH_FUNC(0x5043a0)
+void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER* a2)
 {
-    return 0;
+    if (a1->field_C_rect.field_0_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        a1->field_C_rect.field_0_pos.field_8_z =
+            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+    }
+    a2->field_8_obj = gObject_5C_6F8F84->sub_529950(139,
+                                                    a1->field_C_rect.field_0_pos.field_0_x,
+                                                    a1->field_C_rect.field_0_pos.field_4_y,
+                                                    a1->field_C_rect.field_0_pos.field_8_z,
+                                                    dword_6F804C,
+                                                    a1->field_C_rect.field_C_size.field_0_x,
+                                                    a1->field_C_rect.field_C_size.field_4_y,
+                                                    dword_6F77C4);
+
+    a2->field_8_obj->sub_529030(a1->field_18_speed.field_0_x, a1->field_18_speed.field_1_y);
 }
 
 MATCH_FUNC(0x504420)
