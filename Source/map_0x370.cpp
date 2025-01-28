@@ -500,10 +500,30 @@ gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
     return 0;
 }
 
-STUB_FUNC(0x4DFE60)
-gmp_block_info* Map_0x370::sub_4DFE60(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4DFE60)
+gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 a4)
 {
-    return 0;
+    gmp_col_info* v5;
+
+    v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
+    if (a4 < v5->field_0_height)
+    {
+        s32 v6 = v5->field_1_offset;
+        if (a4 >= v6)
+        {
+            gmp_block_info* v7_block = &field_0_pDmap->field_4000C_block[v5->field_4_blockd[a4 - v6]];
+            s32 slope_type = v7_block->field_B_slope_type & 0xFCu;
+            if (slope_type < 0xD4 || slope_type > 0xF4)
+            {
+                if (slope_type >= 0xC4 && slope_type <= 0xD0)
+                {
+                    return &gBlockInfo2_6F6028;
+                }
+                return v7_block;
+            }
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x4DFEE0)

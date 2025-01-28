@@ -7,7 +7,7 @@ class angry_lewin_0x85C;
 class youthful_einstein
 {
   public:
-    EXPORT void youthful_einstein::ctor_516560(); // For some reason, it's a function instead of a proper ctor
+    EXPORT void youthful_einstein::ctor_516560();
     EXPORT void sub_516590(angry_lewin_0x85C* a2);
     EXPORT s16 sub_516660();
     EXPORT void sub_516740(angry_lewin_0x85C* a2, angry_lewin_0x85C* a3);
