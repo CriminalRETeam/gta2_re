@@ -152,6 +152,7 @@ class Char_C
     EXPORT cool_nash_0x294* sub_470D60();
     EXPORT cool_nash_0x294* sub_470E30();
     EXPORT cool_nash_0x294* sub_470F30();
+    EXPORT cool_nash_0x294* sub_470F90(cool_nash_0x294* pSrc);
     EXPORT void DoIanTest_471060(s16 a1);
     EXPORT cool_nash_0x294* sub_4710C0(s32 a2);
 

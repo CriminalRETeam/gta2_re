@@ -157,6 +157,12 @@ cool_nash_0x294* Char_C::sub_470F30()
     return 0;
 }
 
+STUB_FUNC(0x470f90)
+cool_nash_0x294* Char_C::sub_470F90(cool_nash_0x294* pSrc)
+{
+    return 0;
+}
+
 STUB_FUNC(0x471060)
 void Char_C::DoIanTest_471060(s16 a1)
 {

@@ -221,7 +221,6 @@ class cool_nash_0x294
     EXPORT void sub_4702D0(cool_nash_0x294* pPed);
     EXPORT s32 sub_470300();
     EXPORT s32 sub_470F00();
-    EXPORT cool_nash_0x294* sub_470F90(cool_nash_0x294* pSrc);
 
     void reset_ped_group()
     {
