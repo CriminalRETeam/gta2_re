@@ -27,6 +27,7 @@
 #include "Door_4D4.hpp"
 #include "Maccies_14AC.hpp"
 #include "Nanobotz.hpp"
+#include "Mouze_44.hpp"
 #include "debug.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
@@ -1820,9 +1821,32 @@ void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c470)
+MATCH_FUNC(0x50c470)
 void miss2_0x11C::SCRCMD_IS_GROUP_IN_CAR_50C470()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    cool_nash_0x294* pGroupLeader = pPointer->field_8_char;
+    Mouze_44* pGroup = pGroupLeader->field_164_ped_group;
+
+    bool v1;
+    if (pGroup != NULL)
+    {
+        v1 = pGroup->sub_4CAA20();
+    }
+    else
+    {
+        v1 = (pGroupLeader->field_16C_car != NULL);
+    }
+    if (v1)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c4e0)
