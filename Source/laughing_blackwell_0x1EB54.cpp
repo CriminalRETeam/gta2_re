@@ -20,6 +20,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
+#include "youthful_einstein.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -29,9 +30,6 @@
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
 void Start_GTA2Manager_5E4DE0();
-
-EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
-GLOBAL(gYouthful_einstein_6F8450, 0x6F8450);
 
 EXPORT_VAR laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
 GLOBAL(gLaughing_blackwell_0x1EB54_67DC84, 0x67DC84);

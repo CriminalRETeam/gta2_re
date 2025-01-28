@@ -1,5 +1,9 @@
 #include "youthful_einstein.hpp"
+#include "Globals.hpp"
 #include <string>
+
+EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
+GLOBAL(gYouthful_einstein_6F8450, 0x6F8450);
 
 STUB_FUNC(0x516560)
 youthful_einstein::youthful_einstein() // 516560

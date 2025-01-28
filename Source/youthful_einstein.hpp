@@ -19,3 +19,5 @@ class youthful_einstein
     s16 field_24;
     s16 field_26;
 };
+
+EXPORT_VAR extern youthful_einstein gYouthful_einstein_6F8450;
