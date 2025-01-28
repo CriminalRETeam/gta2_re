@@ -10,6 +10,10 @@
 #include "root_sound.hpp"
 #include "winmain.hpp"
 #include "zealous_borg.hpp"
+#include "youthful_einstein.hpp"
+#include "Game_0x40.hpp"
+#include "Garox_2B00.hpp"
+#include "text_0x14.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 angry_lewin_0x85C::GetIdx_4881E0()
@@ -294,9 +298,119 @@ void angry_lewin_0x85C::sub_5670B0()
     }
 }
 
-STUB_FUNC(0x567130)
+MATCH_FUNC(0x567130)
 void angry_lewin_0x85C::sub_567130()
 {
+    cool_nash_0x294* pPed_killer;
+    angry_lewin_0x85C* player_killer;   //  this function seems to handle the player death
+
+    if (bStartNetworkGame_7081F0)
+    {
+        // cool_nash_0x294: field_204 = the ID of the ped who killed this player/angry_lewin_0x85C
+        if (field_2C4_player_ped->field_204 == 0)
+        {
+            player_killer = NULL;
+        }
+        else if ((pPed_killer = gChar_C_6787BC->sub_4710C0(field_2C4_player_ped->field_204)) == 0)
+        {
+            player_killer = NULL;
+        }
+        else if (pPed_killer->sub_45EDE0(2) == 0)
+        {
+            player_killer = NULL;
+        }
+        else if ((player_killer = pPed_killer->field_15C_player_weapons) == NULL)
+        {
+            player_killer = NULL;
+        }
+
+        (&gYouthful_einstein_6F8450)->sub_516740( //  tag mode death handler
+            gGame_0x40_67E008->field_4_players[field_2E_idx],
+            player_killer);     //  if player_killer != NULL then 'player_killer' now is "IT"
+    }
+
+    field_29 = 0;
+    field_2C4_player_ped->field_21C &= ~0x800u; //  TODO: BitSet32
+    if (field_28 == 0)
+    {
+        if (field_0)
+        {
+            if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
+            {
+                gGarox_2B00_706620->field_111C.sub_5D1A00(   //  It's really ugly, it's probably inlined
+                    gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()), 1);
+                gRoot_sound_66B038.sub_40F090(29);
+            }
+            else
+            {
+                gGarox_2B00_706620->field_111C.sub_5D1A00(
+                    gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gRoot_sound_66B038.sub_40F090(21);
+            }
+        }
+        field_44_death_type = 0;
+        if (field_2D0)
+        {
+            angry_lewin_0x85C::sub_5695A0();
+        }
+        field_28 = 1;
+        field_2C = 70;
+        if (field_684_lives.field_0 > 1)
+        {
+            field_2C8_unkq = gChar_C_6787BC->sub_470F90(field_2C4_player_ped);
+            field_2C8_unkq->field_170_selected_weapon = 0;
+            field_2C8_unkq->field_200 = 0;
+            field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32
+            field_2C8_unkq->field_267 = 0;
+            field_68 = 2;
+            memcpy(&field_208_aux_game_camera, 
+                    &field_90_game_camera, 
+                    sizeof(field_208_aux_game_camera));
+            field_2D0 = 1;
+        }
+        angry_lewin_0x85C::sub_5670B0();
+    }
+    else
+    {
+        if (field_2C8_unkq)
+        {
+            field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32
+        }
+
+        if (field_2C == 0)
+        {
+            if (field_684_lives.field_0 > 0 || bStartNetworkGame_7081F0)
+            {
+                angry_lewin_0x85C::sub_5647D0();
+                if (!bKeep_weapons_after_death_67D54D)
+                {
+                    angry_lewin_0x85C::sub_564C00();
+                    angry_lewin_0x85C::sub_564C50(); //  remove weapons from dead player
+                    angry_lewin_0x85C::sub_564CF0();
+                }
+                field_68 = 0;
+                field_90_game_camera.sub_435DD0();
+                field_90_game_camera.inline_sub_475B60();
+
+                if (field_2C8_unkq != NULL)
+                {
+                    field_2C8_unkq->sub_45EB60();
+                    field_2C8_unkq = NULL;
+                    field_2D0 = 0;
+                }
+                field_2C4_player_ped->sub_45C410();
+                field_28 = 0;
+            }
+            else
+            {
+                gGame_0x40_67E008->sub_4B8C00(0, 3);
+            }
+        }
+        else
+        {
+            field_2C--;
+        }
+    }
 }
 
 MATCH_FUNC(0x567850)
