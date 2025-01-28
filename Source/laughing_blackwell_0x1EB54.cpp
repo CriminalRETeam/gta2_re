@@ -603,10 +603,11 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                 v16 = 0;
                 for (i = 4; i < 28; i += 4)
                 {
-                    if (*(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i) > v15 &&
+                    //  OBS: actually it is field_4_time[v16] and field_20[v16]
+                    if (*(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0_fugitive + i) > v15 &&
                         !*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v16))
                     {
-                        v15 = *(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i);
+                        v15 = *(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0_fugitive + i);
                     }
                     ++v16;
                 }
