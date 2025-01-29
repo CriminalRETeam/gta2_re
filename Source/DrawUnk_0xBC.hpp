@@ -40,6 +40,11 @@ class DrawUnk_0xBC
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT bool sub_58CF10(s32 a2, s32 a3);
 
+    inline void inline_sub_475B60()
+    {
+        field_3C = 1;
+    }
+
     Fix16 field_0;
     Fix16 field_4_unk;
     Fix16 field_8;

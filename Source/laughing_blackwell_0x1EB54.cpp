@@ -20,6 +20,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
+#include "youthful_einstein.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -29,9 +30,6 @@
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
 void Start_GTA2Manager_5E4DE0();
-
-EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
-GLOBAL(gYouthful_einstein_6F8450, 0x6F8450);
 
 EXPORT_VAR laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
 GLOBAL(gLaughing_blackwell_0x1EB54_67DC84, 0x67DC84);
@@ -605,10 +603,11 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                 v16 = 0;
                 for (i = 4; i < 28; i += 4)
                 {
-                    if (*(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i) > v15 &&
+                    //  OBS: actually it is field_4_time[v16] and field_20[v16]
+                    if (*(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0_fugitive + i) > v15 &&
                         !*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v16))
                     {
-                        v15 = *(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0 + i);
+                        v15 = *(s32*)((char_type*)&gYouthful_einstein_6F8450.field_0_fugitive + i);
                     }
                     ++v16;
                 }
@@ -671,7 +670,9 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             if (a2b)
             {
                 v26 = 0;
-                v58 = &gYouthful_einstein_6F8450.field_20;
+                //  OBS: field_20 of youthful_einstein is "u8 field_20[6]" instead of "s32 field_20";
+                /*
+                v58 = &gYouthful_einstein_6F8450.field_20;  
                 field_6_wstr_buf = field_136[7].field_518[1].field_6_wstr_buf;
                 do
                 {
@@ -695,10 +696,11 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     }
                     ++v25;
                     ++v26;
-                    v58 = (s32*)((char_type*)v58 + 1);
+                    v58 = (s32*)((char_type*)v58 + 1);  //  this is an index/array
                     v24 = a2b;
                     field_6_wstr_buf += 55;
                 } while (v25 < a2b);
+                */
             }
 
             v30 = -1;
@@ -716,6 +718,8 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     if (v24)
                     {
                         v31 = 0;
+                        //  OBS: field_20 of youthful_einstein is "u8 field_20[6]" instead of "s32 field_20";
+                        /*
                         v59 = &gYouthful_einstein_6F8450.field_20;
                         do
                         {
@@ -725,8 +729,9 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                             }
                             ++v31;
                             v32 = ++a3a < a2b;
-                            v59 = (s32*)((char_type*)v59 + 1);
+                            v59 = (s32*)((char_type*)v59 + 1);  //  this is an index/array
                         } while (v32);
+                        */
                     }
                     v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
                     break;
@@ -735,6 +740,8 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     if (v24)
                     {
                         v34 = 0;
+                        //  OBS: field_20 of youthful_einstein is "u8 field_20[6]" instead of "s32 field_20";
+                        /*
                         v60 = &gYouthful_einstein_6F8450.field_20;
                         do
                         {
@@ -744,8 +751,9 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                             }
                             ++v34;
                             v32 = ++a3b < a2b;
-                            v60 = (s32*)((char_type*)v60 + 1);
+                            v60 = (s32*)((char_type*)v60 + 1);  //  this is an index/array
                         } while (v32);
+                        */
                     }
                     v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
                     break;
@@ -753,6 +761,8 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                     if (v24)
                     {
                         v35 = 0;
+                        //  OBS: field_20 of youthful_einstein is "u8 field_20[6]" instead of "s32 field_20";
+                        /*
                         v36 = &gYouthful_einstein_6F8450.field_20;
                         v37 = gYouthful_einstein_6F8450.field_4_time;
                         v38 = a2b;
@@ -767,9 +777,10 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                             }
                             ++v35;
                             ++v37;
-                            v36 = (s32*)((char_type*)v36 + 1);
+                            v36 = (s32*)((char_type*)v36 + 1);  //  this is an index/array
                             --v38;
                         } while (v38);
+                        */
                     }
                     v33 = gYouthful_einstein_6F8450.field_4_time[v65];
                     break;

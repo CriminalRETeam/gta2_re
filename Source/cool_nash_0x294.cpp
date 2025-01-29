@@ -1581,9 +1581,3 @@ s32 cool_nash_0x294::sub_470F00()
 {
     return 0;
 }
-
-STUB_FUNC(0x470f90)
-cool_nash_0x294* cool_nash_0x294::sub_470F90(cool_nash_0x294* pSrc)
-{
-    return 0;
-}
