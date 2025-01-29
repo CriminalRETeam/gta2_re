@@ -134,6 +134,25 @@ class Fix16
         mValue = v << 14;
     }
 
+    inline Fix16& Negate()
+    {
+        mValue = -mValue;
+        return *this;
+    }
+
+    inline Fix16& inline_abs_403840(Fix16& input)
+    {
+        if (input.mValue <= 0)
+        {
+            *this = input.Negate();
+        }
+        else
+        {
+            *this = input;
+        }
+        return *this;
+    }
+
     inline Fix16 ConcatenateWord(Fix16 a2)
     {
         Fix16 result;
@@ -150,7 +169,7 @@ class Fix16
     //  inline div_401B90
     inline Fix16& inline_divide_by(Fix16& a1) 
     {
-        mValue = ((__int64)mValue << 14) / a1.mValue;
+        mValue = (s32)(((__int64)mValue << 14) / a1.mValue);
         return *this;
     }
 
