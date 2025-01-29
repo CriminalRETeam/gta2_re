@@ -2531,8 +2531,8 @@ struct laughing_blackwell_0x1EB54
     admiring_euler_4 field_EDE8_plySlots[8];
     char_type field_EE08;
     char_type field_EE09;
-    s16 field_EE0A;
-    char_type field_EE0C;
+    u16 field_EE0A;
+    u8 field_EE0C;
     char_type field_EE0D;
     xenodochial_morse field_EE0E_unk;
     s16 field_1EB30;

@@ -2200,33 +2200,31 @@ void laughing_blackwell_0x1EB54::sub_4B2F60()
     // todo
 }
 
-STUB_FUNC(0x4AE9A0)
+MATCH_FUNC(0x4AE9A0)
 void laughing_blackwell_0x1EB54::sub_4AE9A0()
 {
-    s16 v2; // ax
-    s32 v3; // eax
+    u16 v2;
 
     if (field_C9D0_return_pressed)
     {
         v2 = field_EE0A;
         if (v2 == 210)
         {
-            if (field_EE0C != 1)
+            switch (field_EE0C)
             {
-                FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
+                case 1:
+                    laughing_blackwell_0x1EB54::sub_4B4410();
+                    field_110_state = 1;
+                    break;
+                default:
+                    FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
             }
-
-            sub_4B4410();
         }
-        else if (v2 != 230)
-        {
-            snd1_67D818.field_0_object_type = 5;
-        }
-        else
+        if (v2 == 230)
         {
             field_110_state = 1;
-            snd1_67D818.field_0_object_type = 5;
         }
+        snd1_67D818.field_0_object_type = 5;
     }
 
     if (field_C9D1_escape_pressed)
@@ -2234,53 +2232,51 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
         field_110_state = 1;
         snd1_67D818.field_0_object_type = 6;
     }
-
     if (field_C9CE_up_pressed)
     {
-        if (field_EE0A == 190 || field_EE0A == 210)
+        switch (field_EE0A)
         {
-            field_EE0A = 230;
-        }
-        else
-        {
-            if (field_EE0A != 230)
-            {
-                FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
-            }
-            field_EE0A = 210;
+            case 190:
+            case 210:
+                field_EE0A = 230;
+                break;
+            case 230:
+                field_EE0A = 210;
+                break;
+            default:
+                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
+                break;
         }
         snd1_67D818.field_0_object_type = 1;
     }
-
     if (field_C9CF_down_pressed)
     {
-        if (field_EE0A != 190)
+        switch (field_EE0A)
         {
-            if (field_EE0A == 210)
-            {
+            case 190:
+                field_EE0A = 210;
+                break;
+            case 210:
                 field_EE0A = 230;
                 snd1_67D818.field_0_object_type = 2;
-            }
-            else if (field_EE0A != 230)
-            {
-                FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
-            }
+                break;
+            case 230:
+                field_EE0A = 210;
+                break;
+            default:
+                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
+                break;
         }
-        else
-        {
-            field_EE0A = 210;
-            snd1_67D818.field_0_object_type = 2;
-        }
+        snd1_67D818.field_0_object_type = 2;
     }
-
-    v3 = field_118 - 1;
-    field_118 = v3;
-    if (v3 <= 0)
+    field_118--;
+    if (field_118 <= 0)
     {
         field_114 = field_114 == 0;
         field_118 = 2;
     }
 }
+
 
 STUB_FUNC(0x4B8280)
 void laughing_blackwell_0x1EB54::sub_4B8280()
