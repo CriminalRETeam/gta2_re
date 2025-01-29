@@ -3833,20 +3833,20 @@ s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
-// https://decomp.me/scratch/DJCmB
-STUB_FUNC(0x4B0190)
+// https://decomp.me/scratch/i8BWF
+MATCH_FUNC(0x4B0190)
 s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
-    u32 v4;
+    u16 v4;
     if (fontType != -1)
     {
-        v4 = sub_5D8990(pText, fontType);
+        v4 = ((u16)sub_5D8990(pText, fontType)) / 2;
     }
     else
     {
-        v4 = sub_5D8990(pText, field_11C);
+        v4 = ((u16)sub_5D8990(pText, field_11C)) / 2;
     }
-    return width - (v4 / 2);
+    return width - *(s32*)&v4; //  Illegal expression but it works
 }
 
 STUB_FUNC(0x4B7060)
