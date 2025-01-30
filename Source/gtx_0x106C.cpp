@@ -224,21 +224,24 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define LINE_STRING STRINGIZE(__LINE__)
 #define UNIQUE_FUNC printf(__FILE__ LINE_STRING)
 
-STUB_FUNC(0x5AA710)
+MATCH_FUNC(0x5AA710)
 u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 {
-    font_base* local_field_1C_font_base = field_1C_font_base;
     u16 result = field_1C_font_base->field_2_base[a2] + a3;
-    if (a2 == (u16)local_field_1C_font_base->field_0_font_count - 1)
+    if (a2 == (u16)field_1C_font_base->field_0_font_count - 1)
     {
-        if (result >= (u32)field_2_font_base_total)
+        if (result >= field_2_font_base_total)
         {
-            return local_field_1C_font_base->field_2_base[a2];
+            return field_1C_font_base->field_2_base[a2];
+        }
+        else
+        {
+            return result;
         }
     }
-    else if (result >= (u32)local_field_1C_font_base->field_2_base[a2 + 1])
+    else if (result >= (u32)field_1C_font_base->field_2_base[a2 + 1])
     {
-        return local_field_1C_font_base->field_2_base[a2];
+        return field_1C_font_base->field_2_base[a2];
     }
     return result;
 }

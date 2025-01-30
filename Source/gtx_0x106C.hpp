@@ -251,7 +251,7 @@ class gtx_0x106C
     }
 
     s16 field_0_totalPalBase;
-    s16 field_2_font_base_total;
+    u16 field_2_font_base_total;
     s16 field_4_sprite_index_count;
     u16 field_6_map_object_info_len;
     s16 field_8_physical_palettes_len;
