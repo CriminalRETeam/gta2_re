@@ -1059,11 +1059,51 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA390)
+MATCH_FUNC(0x4DA390)
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
-    // todo
-    return 0;
+    char* v1 = pStr;
+    s32 result = 0;
+    if (pStr == 0)
+    {
+        return 0;
+    }
+    else
+    {
+        if (*pStr)
+        {
+            do
+            {
+                while (1)
+                {
+                    char v3 = *v1;
+                    if (v3 != ' ' && v3 != '\n' && v3 != '\r' && v3 != '\t')
+                    {
+                        break;
+                    }
+                    if (v3 == 0)
+                    {
+                        break;
+                    }
+                    ++v1;
+                }
+                char v4 = *v1;
+                if (!*v1)
+                {
+                    break;
+                }
+                ++result;
+                for (; v4 != ' '; v4 = *++v1)
+                {
+                    if (v4 == '\n' || v4 == '\r' || v4 == '\t' || v4 == 0)
+                    {
+                        break;
+                    }
+                }
+            } while (*v1);
+        }
+    }
+    return result;
 }
 
 // todo move to another file for ordering
