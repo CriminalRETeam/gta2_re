@@ -2539,13 +2539,8 @@ struct laughing_blackwell_0x1EB54
     s16 field_1EB32;
     s32 field_1EB34;
     s16 field_1EB38; // -11 bytes ?
-    char_type field_1EB3A[2];
-    s32 field_1EB3C;
-    s16 field_1EB40;
-    char_type field_1EB42[2]; // 2
-    s32 field_1EB44; // 4
-    char_type field_1EB48; //
-    char_type field_1EB49; // 8
+    u8 field_1EB3A[8];
+    u8 field_1EB42[8];
     char_type field_1EB4A;
     char_type field_1EB4B;
     char_type field_1EB4C;

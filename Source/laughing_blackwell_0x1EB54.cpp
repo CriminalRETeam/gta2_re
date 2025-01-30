@@ -2964,6 +2964,7 @@ EXPORT void __stdcall sub_5D7CB0()
     // todo: move me
 }
 
+// https://decomp.me/scratch/MuqZh
 STUB_FUNC(0x4AF2A0)
 laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
 {
@@ -3040,14 +3041,14 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_C9B4 = 256;
     field_C9B6 = 5;
 
-    memset(&field_C9A0, 0, sizeof(field_C9A0));
-    /*
-    *(_DWORD *)field_C9A0 = 0;
-    *(_DWORD *)&field_C9A0[2] = 0;
-    *(_DWORD *)&field_C9A0[4] = 0;
-    *(_DWORD *)&field_C9A0[6] = 0;
+    //memset(&field_C9A0, 0, sizeof(field_C9A0));
+    
+    *(u32*)field_C9A0 = 0;
+    *(u32*)&field_C9A0[2] = 0;
+    *(u32*)&field_C9A0[4] = 0;
+    *(u32*)&field_C9A0[6] = 0;
     field_C9A0[8] = 0;
-    */
+    
 
     memset(&field_C9B8, 0, sizeof(field_C9B8));
     /*
@@ -3061,8 +3062,8 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_C9CB = 0;
     field_1EB50_idx = 0;
 
-    field_1EB51_blocks[0] = 0;
-    field_1EB51_blocks[1] = 0;
+    field_1EB51_blocks[0] = 0;    //  lobyte of u16?
+    field_1EB51_blocks[1] = 0;    //  hibyte of u16?
     field_1EB51_blocks[2] = 0;
 
     sub_4B4440();
@@ -3076,8 +3077,8 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_EE0A = 190;
     field_EE0C = 0;
     field_1EB30 = 0;
-    field_1EB38 = 0;
     field_1EB34 = dword_67D930;
+    field_1EB38 = 0;
     field_1EB4A = 0;
     field_1EB4B = 0;
     field_1EB4C = 0;
@@ -3085,23 +3086,11 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_1EB4E = 0;
     field_1EB4F = 0;
 
-    // todo: fix me
-    /*
-    for (s32 i = 0; i < 8; i++)
+    for (u8 i = 0; i < 8; i++)
     {
-
+        field_1EB3A[i] = -1;
+        field_1EB42[i] = -1;
     }
-
-    v11 = &field_1EB42;
-    v12 = 8;
-    do
-    {
-        *((_BYTE *)v11 - 8) = -1;
-        *(_BYTE *)v11 = -1;
-        v11 = (s16 *)((char_type *)v11 + 1);
-        --v12;
-    } while (v12);
-    */
 }
 
 MATCH_FUNC(0x4AF970)
