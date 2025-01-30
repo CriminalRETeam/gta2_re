@@ -243,21 +243,18 @@ u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
     return result;
 }
 
-STUB_FUNC(0x5AA760)
+MATCH_FUNC(0x5AA760)
 u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
 {
-    u16 v3; // ax
-    s32 v4; // eax
-
-    v3 = *a2;
-    if (*a2 < 0x65u)
+    if (*a2 >= 0x65u)
     {
-        return field_20_sprite_index[field_14_sprite_base2->field_A_font + sub_5AA710(v3, *a3 - 33)].field_4_width;
+        return (*a2 < 0xC9u) ? 0x10 : 0x20;
     }
-    v4 = -(v3 < 201u);
-    // LOBYTE(v4) = v4 & 0xF0;
-    v4 = v4 & 0xF0;
-    return v4 + 32;
+    else
+    {
+        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font 
+                                    + gtx_0x106C::sub_5AA710(*a2, *a3 - 33)].field_4_width;
+    }
 }
 
 MATCH_FUNC(0x5AA7B0)
