@@ -68,8 +68,7 @@ s32 sub_5AA3F0(u16 a2, u8 a3)
 STUB_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
-    u16 result; // ax
-
+    u16 result;
     switch (type)
     {
         case 2:
@@ -92,81 +91,58 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
             result = sprite_pal + field_14_sprite_base2->field_A_font;
             break;
         default:
-            result = sprite_pal;
-            break;
+            return sprite_pal;
     }
     return result;
 }
 
-STUB_FUNC(0x5AA4F0)
+MATCH_FUNC(0x5AA4F0)
 s16 gtx_0x106C::sub_5AA4F0(s32 a2)
 {
-    s16 result; // ax
-
     switch (a2)
     {
         case 2:
-            result = field_18_sprite_base1->field_0_car;
-            break;
+            return field_18_sprite_base1->field_0_car;
         case 3:
-            result = field_18_sprite_base1->field_2_ped;
-            break;
+            return field_18_sprite_base1->field_2_ped;
         case 4:
         case 8:
-            result = field_18_sprite_base1->field_4_code_obj;
-            break;
+            return field_18_sprite_base1->field_4_code_obj;
         case 5:
-            result = field_18_sprite_base1->field_6_map_obj;
-            break;
-        case 6:
-            result = field_18_sprite_base1->field_8_user;
-            break;
+            return field_18_sprite_base1->field_6_map_obj;
         case 7:
-            result = field_18_sprite_base1->field_A_font;
-            break;
+            return field_18_sprite_base1->field_A_font;
+        case 6:
+            return field_18_sprite_base1->field_8_user;
         default:
-            result = 0;
-            break;
+            return 0;
     }
-    return result;
 }
 
-STUB_FUNC(0x5AA560)
+MATCH_FUNC(0x5AA560)
 s16 gtx_0x106C::sub_5AA560(s32 a2)
 {
-    s16 result; // ax
-
     switch (a2)
     {
         case 1:
-            result = field_10_palette_base1->field_0_tile;
-            break;
+            return field_10_palette_base1->field_0_tile;
         case 2:
-            result = field_10_palette_base1->field_2_sprite;
-            break;
+            return field_10_palette_base1->field_2_sprite;
         case 3:
-            result = field_10_palette_base1->field_4_car_remap;
-            break;
+            return field_10_palette_base1->field_4_car_remap;
         case 4:
-            result = field_10_palette_base1->field_6_red_remap;
-            break;
+            return field_10_palette_base1->field_6_red_remap;
         case 5:
-            result = field_10_palette_base1->field_8_code_obj_remap;
-            break;
+            return field_10_palette_base1->field_8_code_obj_remap;
         case 6:
-            result = field_10_palette_base1->field_A_map_obj_remap;
-            break;
+            return field_10_palette_base1->field_A_map_obj_remap;
         case 7:
-            result = field_10_palette_base1->field_C_user_remap;
-            break;
+            return field_10_palette_base1->field_C_user_remap;
         case 8:
-            result = field_10_palette_base1->field_E_font_remap;
-            break;
+            return field_10_palette_base1->field_E_font_remap;
         default:
-            result = 0;
-            break;
+            return 0;
     }
-    return result;
 }
 
 MATCH_FUNC(0x5AA5F0)
@@ -224,40 +200,40 @@ u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
 #define LINE_STRING STRINGIZE(__LINE__)
 #define UNIQUE_FUNC printf(__FILE__ LINE_STRING)
 
-STUB_FUNC(0x5AA710)
+MATCH_FUNC(0x5AA710)
 u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 {
-    font_base* local_field_1C_font_base = field_1C_font_base;
     u16 result = field_1C_font_base->field_2_base[a2] + a3;
-    if (a2 == (u16)local_field_1C_font_base->field_0_font_count - 1)
+    if (a2 == (u16)field_1C_font_base->field_0_font_count - 1)
     {
-        if (result >= (u32)field_2_font_base_total)
+        if (result >= field_2_font_base_total)
         {
-            return local_field_1C_font_base->field_2_base[a2];
+            return field_1C_font_base->field_2_base[a2];
+        }
+        else
+        {
+            return result;
         }
     }
-    else if (result >= (u32)local_field_1C_font_base->field_2_base[a2 + 1])
+    else if (result >= (u32)field_1C_font_base->field_2_base[a2 + 1])
     {
-        return local_field_1C_font_base->field_2_base[a2];
+        return field_1C_font_base->field_2_base[a2];
     }
     return result;
 }
 
-STUB_FUNC(0x5AA760)
+MATCH_FUNC(0x5AA760)
 u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
 {
-    u16 v3; // ax
-    s32 v4; // eax
-
-    v3 = *a2;
-    if (*a2 < 0x65u)
+    if (*a2 >= 0x65u)
     {
-        return field_20_sprite_index[field_14_sprite_base2->field_A_font + sub_5AA710(v3, *a3 - 33)].field_4_width;
+        return (*a2 < 0xC9u) ? 0x10 : 0x20;
     }
-    v4 = -(v3 < 201u);
-    // LOBYTE(v4) = v4 & 0xF0;
-    v4 = v4 & 0xF0;
-    return v4 + 32;
+    else
+    {
+        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font 
+                                    + gtx_0x106C::sub_5AA710(*a2, *a3 - 33)].field_4_width;
+    }
 }
 
 MATCH_FUNC(0x5AA7B0)
@@ -271,15 +247,18 @@ u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
     return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*a2]].field_4_width;
 }
 
-STUB_FUNC(0x5AA800)
+MATCH_FUNC(0x5AA800)
 s16 gtx_0x106C::sub_5AA800(u16* a2)
 {
-    if (*a2 < 0x65u)
-        return this->field_20_sprite_index[field_14_sprite_base2->field_A_font + 32 + (u16)field_1C_font_base->field_2_base[(u16)*a2]]
-            .field_5_height;
-    s32 v2 = -(*a2 < 0xC9u);
-    v2 = v2 & 0xEF;
-    return v2 + 0x22;
+    if (*a2 >= 0x65u)
+    {
+        return (*a2 < 0xC9u) ? 0x11 : 0x22;
+    }
+    else
+    {
+        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 
+                        + this->field_1C_font_base->field_2_base[*a2]].field_5_height;
+    }
 }
 
 MATCH_FUNC(0x5AA850)
@@ -548,20 +527,17 @@ void gtx_0x106C::sub_5AABF0()
     UNIQUE_FUNC;
 }
 
-STUB_FUNC(0x5AAC40)
+MATCH_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
-    u32 sprite_idx; // eax
-    sprite_index* local_field_20_sprite_index; // edx
-    BYTE* field_0_pData; // edi
-    sprite_index* pSpriteIdxIter; // edx
+    u8* field_0_pData;
+    sprite_index* v4;
 
-    for (sprite_idx = 0; sprite_idx < (u16)field_4_sprite_index_count;)
+    for (u32 i = 0; i < (u16)this->field_4_sprite_index_count; i++)
     {
-        local_field_20_sprite_index = field_20_sprite_index;
-        field_0_pData = local_field_20_sprite_index[sprite_idx].field_0_pData;
-        pSpriteIdxIter = &local_field_20_sprite_index[sprite_idx++];
-        pSpriteIdxIter->field_0_pData = &field_34_sprite_graphics[(u32)field_0_pData]; // converting offsets to ptrs ??
+        field_0_pData = this->field_20_sprite_index[i].field_0_pData;
+        v4 = &this->field_20_sprite_index[i];
+        v4->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
     }
 }
 
@@ -751,36 +727,21 @@ u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offs
     return total;
 }
 
-STUB_FUNC(0x5AB1C0)
+MATCH_FUNC(0x5AB1C0)
 void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
 {
-    s32 idx1 = len - 1;
-    if (len - 1 > 0)
+    for (s32 i = len - 1; i > 0; i--)
     {
-        u16* pIter1 = &pBuffer[idx1];
-        do
-        {
-            *pIter1 = *(pIter1 - 1);
-            --pIter1;
-            --idx1;
-        } while (idx1);
+        pBuffer[i] = pBuffer[i - 1];
     }
-
-    if (len)
+    if (len != 0)
     {
-        *pBuffer = 0;
+        pBuffer[0] = 0;
     }
-
-    if (len > 1)
+    s32 j = 1;
+    for (s32 k = len; k > 1; k--, j++)
     {
-        u16* pIter2 = pBuffer + 1;
-        s32 idx2 = len - 1;
-        do
-        {
-            *pIter2 += *(pIter2 - 1);
-            ++pIter2;
-            --idx2;
-        } while (idx2);
+        pBuffer[j] += pBuffer[j - 1];
     }
 }
 
