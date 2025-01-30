@@ -727,36 +727,21 @@ u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offs
     return total;
 }
 
-STUB_FUNC(0x5AB1C0)
+MATCH_FUNC(0x5AB1C0)
 void __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len)
 {
-    s32 idx1 = len - 1;
-    if (len - 1 > 0)
+    for (s32 i = len - 1; i > 0; i--)
     {
-        u16* pIter1 = &pBuffer[idx1];
-        do
-        {
-            *pIter1 = *(pIter1 - 1);
-            --pIter1;
-            --idx1;
-        } while (idx1);
+        pBuffer[i] = pBuffer[i - 1];
     }
-
-    if (len)
+    if (len != 0)
     {
-        *pBuffer = 0;
+        pBuffer[0] = 0;
     }
-
-    if (len > 1)
+    s32 j = 1;
+    for (s32 k = len; k > 1; k--, j++)
     {
-        u16* pIter2 = pBuffer + 1;
-        s32 idx2 = len - 1;
-        do
-        {
-            *pIter2 += *(pIter2 - 1);
-            ++pIter2;
-            --idx2;
-        } while (idx2);
+        pBuffer[j] += pBuffer[j - 1];
     }
 }
 
