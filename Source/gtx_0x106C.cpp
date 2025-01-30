@@ -131,42 +131,30 @@ s16 gtx_0x106C::sub_5AA4F0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x5AA560)
+MATCH_FUNC(0x5AA560)
 s16 gtx_0x106C::sub_5AA560(s32 a2)
 {
-    s16 result; // ax
-
     switch (a2)
     {
         case 1:
-            result = field_10_palette_base1->field_0_tile;
-            break;
+            return field_10_palette_base1->field_0_tile;
         case 2:
-            result = field_10_palette_base1->field_2_sprite;
-            break;
+            return field_10_palette_base1->field_2_sprite;
         case 3:
-            result = field_10_palette_base1->field_4_car_remap;
-            break;
+            return field_10_palette_base1->field_4_car_remap;
         case 4:
-            result = field_10_palette_base1->field_6_red_remap;
-            break;
+            return field_10_palette_base1->field_6_red_remap;
         case 5:
-            result = field_10_palette_base1->field_8_code_obj_remap;
-            break;
+            return field_10_palette_base1->field_8_code_obj_remap;
         case 6:
-            result = field_10_palette_base1->field_A_map_obj_remap;
-            break;
+            return field_10_palette_base1->field_A_map_obj_remap;
         case 7:
-            result = field_10_palette_base1->field_C_user_remap;
-            break;
+            return field_10_palette_base1->field_C_user_remap;
         case 8:
-            result = field_10_palette_base1->field_E_font_remap;
-            break;
+            return field_10_palette_base1->field_E_font_remap;
         default:
-            result = 0;
-            break;
+            return 0;
     }
-    return result;
 }
 
 MATCH_FUNC(0x5AA5F0)
