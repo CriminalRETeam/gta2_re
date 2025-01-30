@@ -98,37 +98,27 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
     return result;
 }
 
-STUB_FUNC(0x5AA4F0)
+MATCH_FUNC(0x5AA4F0)
 s16 gtx_0x106C::sub_5AA4F0(s32 a2)
 {
-    s16 result; // ax
-
     switch (a2)
     {
         case 2:
-            result = field_18_sprite_base1->field_0_car;
-            break;
+            return field_18_sprite_base1->field_0_car;
         case 3:
-            result = field_18_sprite_base1->field_2_ped;
-            break;
+            return field_18_sprite_base1->field_2_ped;
         case 4:
         case 8:
-            result = field_18_sprite_base1->field_4_code_obj;
-            break;
+            return field_18_sprite_base1->field_4_code_obj;
         case 5:
-            result = field_18_sprite_base1->field_6_map_obj;
-            break;
-        case 6:
-            result = field_18_sprite_base1->field_8_user;
-            break;
+            return field_18_sprite_base1->field_6_map_obj;
         case 7:
-            result = field_18_sprite_base1->field_A_font;
-            break;
+            return field_18_sprite_base1->field_A_font;
+        case 6:
+            return field_18_sprite_base1->field_8_user;
         default:
-            result = 0;
-            break;
+            return 0;
     }
-    return result;
 }
 
 MATCH_FUNC(0x5AA560)
