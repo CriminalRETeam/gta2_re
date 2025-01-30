@@ -68,8 +68,7 @@ s32 sub_5AA3F0(u16 a2, u8 a3)
 STUB_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
-    u16 result; // ax
-
+    u16 result;
     switch (type)
     {
         case 2:
@@ -92,8 +91,7 @@ u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
             result = sprite_pal + field_14_sprite_base2->field_A_font;
             break;
         default:
-            result = sprite_pal;
-            break;
+            return sprite_pal;
     }
     return result;
 }
@@ -529,20 +527,17 @@ void gtx_0x106C::sub_5AABF0()
     UNIQUE_FUNC;
 }
 
-STUB_FUNC(0x5AAC40)
+MATCH_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
-    u32 sprite_idx; // eax
-    sprite_index* local_field_20_sprite_index; // edx
-    BYTE* field_0_pData; // edi
-    sprite_index* pSpriteIdxIter; // edx
+    u8* field_0_pData;
+    sprite_index* v4;
 
-    for (sprite_idx = 0; sprite_idx < (u16)field_4_sprite_index_count;)
+    for (u32 i = 0; i < (u16)this->field_4_sprite_index_count; i++)
     {
-        local_field_20_sprite_index = field_20_sprite_index;
-        field_0_pData = local_field_20_sprite_index[sprite_idx].field_0_pData;
-        pSpriteIdxIter = &local_field_20_sprite_index[sprite_idx++];
-        pSpriteIdxIter->field_0_pData = &field_34_sprite_graphics[(u32)field_0_pData]; // converting offsets to ptrs ??
+        field_0_pData = this->field_20_sprite_index[i].field_0_pData;
+        v4 = &this->field_20_sprite_index[i];
+        v4->field_0_pData = &this->field_34_sprite_graphics[(u32)field_0_pData];
     }
 }
 
