@@ -99,10 +99,9 @@ Sero_34::Sero_34()
     field_2E_wagons_number = 0;
     field_2F = 0;
 
-    u8* i = (u8*)&field_24_train_wagons;
-    for (s32 j = 0; j < 10; j++)
+    for (u8 i = 0; i < 10; i++)
     {
-        *i++ = 1;
+        field_24_train_wagons[i] = 1;
     }
 }
 
