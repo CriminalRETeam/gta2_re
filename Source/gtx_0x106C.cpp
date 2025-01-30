@@ -271,15 +271,18 @@ u16 gtx_0x106C::space_width_5AA7B0(u16* a2)
     return field_20_sprite_index[field_14_sprite_base2->field_A_font + 77 + field_1C_font_base->field_2_base[*a2]].field_4_width;
 }
 
-STUB_FUNC(0x5AA800)
+MATCH_FUNC(0x5AA800)
 s16 gtx_0x106C::sub_5AA800(u16* a2)
 {
-    if (*a2 < 0x65u)
-        return this->field_20_sprite_index[field_14_sprite_base2->field_A_font + 32 + (u16)field_1C_font_base->field_2_base[(u16)*a2]]
-            .field_5_height;
-    s32 v2 = -(*a2 < 0xC9u);
-    v2 = v2 & 0xEF;
-    return v2 + 0x22;
+    if (*a2 >= 0x65u)
+    {
+        return (*a2 < 0xC9u) ? 0x11 : 0x22;
+    }
+    else
+    {
+        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 
+                        + this->field_1C_font_base->field_2_base[*a2]].field_5_height;
+    }
 }
 
 MATCH_FUNC(0x5AA850)
