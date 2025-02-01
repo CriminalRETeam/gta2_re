@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Object_2C;
 class Door_10;
@@ -44,8 +45,8 @@ class Door_38
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30;
-    s32 field_34;
+    Fix16 field_30;
+    Fix16 field_34;
 };
 
 class Door_4D4

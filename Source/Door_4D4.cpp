@@ -1,5 +1,6 @@
 #include "Door_4D4.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "error.hpp"
 
@@ -146,9 +147,20 @@ void Door_38::sub_49CD90()
 {
 }
 
-STUB_FUNC(0x49ce90)
+MATCH_FUNC(0x49ce90)
 char_type Door_38::sub_49CE90()
 {
+    if (field_2D)
+    {
+        gObject_5C_6F8F84->sub_5299F0(0x117, 0x32, field_30, field_34, field_0->field_6);
+        field_2D = 0;
+    }
+
+    if (field_29)
+    {
+        sub_49CD90();
+    }
+    field_28 = 1;
     return 0;
 }
 
