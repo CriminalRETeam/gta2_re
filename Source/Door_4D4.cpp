@@ -125,9 +125,19 @@ Object_2C* Door_38::sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 
     return 0;
 }
 
-STUB_FUNC(0x49ca50)
+MATCH_FUNC(0x49ca50)
 void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5)
 {
+    if (!field_0)
+    {
+        field_0 = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, 0);
+        return;
+    }
+
+    if (!field_4)
+    {
+        field_4 = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, field_2A);
+    }
 }
 
 STUB_FUNC(0x49cac0)
