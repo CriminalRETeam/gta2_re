@@ -1,16 +1,16 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "Game_0x40.hpp"
+#include "fix16.hpp"
 
 class Vert_DX;
 class Fix16_2;
 
-class Nanobotz
+class MapRenderer
 {
   public:
-    Nanobotz()
+    MapRenderer()
     {
         field_0_ambient = dword_67DCCC;
         field_4 = dword_67DCCC;
@@ -3086,4 +3086,4 @@ class Nanobotz
     s32 field_2F00_drawn_tile_count;
 };
 
-EXPORT_VAR extern Nanobotz* gpNanobotz_6F66E4;
+EXPORT_VAR extern MapRenderer* gpMapRenderer_6F66E4;

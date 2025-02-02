@@ -1,6 +1,6 @@
 #include "Door_4D4.hpp"
 #include "Globals.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 #include "error.hpp"
 
 EXPORT_VAR s32 dword_67BBE0;
@@ -9,7 +9,7 @@ GLOBAL(dword_67BBE0, 0x67BBE0);
 EXPORT_VAR s16 word_67BB38[24];
 GLOBAL(word_67BB38, 0x67BB38);
 
-EXPORT_VAR Door_2C4 *gDoor_2C4_67BD28;
+EXPORT_VAR Door_2C4* gDoor_2C4_67BD28;
 GLOBAL(gDoor_2C4_67BD28, 0x67BD28);
 
 EXPORT_VAR Door_4D4* gDoor_4D4_67BD2C;
@@ -62,7 +62,7 @@ char_type Door_38::sub_49C6D0(u32* a2)
 
 // https://decomp.me/scratch/XlGeq asm differ bugged
 STUB_FUNC(0x49c7f0)
-bool Door_38::sub_49C7F0(cool_nash_0x294* a2)
+bool Door_38::sub_49C7F0(Ped* a2)
 {
     if (field_20_state == 1)
     {
@@ -104,7 +104,7 @@ void Door_38::sub_49C870(u32* a2)
 }
 
 MATCH_FUNC(0x49c8a0)
-void Door_38::sub_49C8A0(cool_nash_0x294* a2)
+void Door_38::sub_49C8A0(Ped* a2)
 {
     if (field_29)
     {
@@ -217,7 +217,7 @@ void Door_4D4::sub_49D340(u32* a2, u8 a3)
 }
 
 MATCH_FUNC(0x49d370)
-void Door_4D4::sub_49D370(cool_nash_0x294* a2, u8 idx)
+void Door_4D4::sub_49D370(Ped* a2, u8 idx)
 {
     field_0[idx].sub_49C8A0(a2);
 }
@@ -242,7 +242,6 @@ void Door_4D4::sub_49D460()
         field_0[i].sub_49CE90();
     }
 }
-
 
 STUB_FUNC(0x49d4a0)
 Door_4D4::Door_4D4()

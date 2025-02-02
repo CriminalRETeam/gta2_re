@@ -1,9 +1,9 @@
 #include "sound_obj.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "cSampleManager.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include <math.h>
 
 EXPORT_VAR sound_obj gSound_obj_66F680;
@@ -1477,7 +1477,7 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
                 return 0;
         }
     }
-    return gLaughing_blackwell_0x1EB54_67DC84 && pObj->field_58_type == 20 ? true : false;
+    return gFrontend_67DC84 && pObj->field_58_type == 20 ? true : false;
 }
 
 STUB_FUNC(0x416260)

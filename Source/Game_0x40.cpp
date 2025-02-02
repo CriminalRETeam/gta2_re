@@ -1,33 +1,37 @@
 #include "Game_0x40.hpp"
+#include "Ambulance_110.hpp"
+#include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
-#include "ChickenLegend_48.hpp"
-#include "CokeZero_100.hpp"
 #include "Door_4D4.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "ExplodingScore_100.hpp"
 #include "Frismo_25C.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
+#include "Garage_48.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "Maccies_14AC.hpp"
+#include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Monster_808.hpp"
 #include "Montana.hpp"
-#include "Mouze_44.hpp"
-#include "Nanobotz.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
+#include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Phi_8CA8.hpp"
+#include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Rozza_C88.hpp"
 #include "Sero_181C.hpp"
 #include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
-#include "Soula_CC68.hpp"
 #include "Tango_28.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
@@ -37,18 +41,14 @@
 #include "Wolfy_3D4.hpp"
 #include "Zheal_D9C.hpp"
 #include "Zones_CA8.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
 #include "collide.hpp"
-#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "jawwie_110.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "map_0x370.hpp"
@@ -119,8 +119,8 @@ GLOBAL(gMarz_1D7E_6FD784, 0x6FD784);
 EXPORT_VAR Taxi_4* gTaxi_4_704130;
 GLOBAL(gTaxi_4_704130, 0x704130);
 
-EXPORT_VAR jawwie_110* gjawwie_110_6F70A8;
-GLOBAL(gjawwie_110_6F70A8, 0x6F70A8);
+EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
+GLOBAL(gAmbulance_110_6F70A8, 0x6F70A8);
 
 EXPORT_VAR Varrok_7F8* gVarrok_7F8_703398;
 GLOBAL(gVarrok_7F8_703398, 0x703398);
@@ -254,7 +254,7 @@ void Game_0x40::sub_4B8EB0()
     gTileAnim_2_7052C4->Empty_5BC300();
     gSero_181C_6FF1D4->sub_5794B0();
     gObject_5C_6F8F84->sub_5297F0();
-    Mouze_44::sub_4CB080();
+    PedGroup::sub_4CB080();
     if (bDo_mike_67D5CC)
     {
         gMike_A80_6F7328->sub_4FF1B0();
@@ -268,7 +268,7 @@ void Game_0x40::sub_4B8EB0()
     {
         IanTest_46E370();
     }
-    gSoula_CC68_6FFDC8->Reset_588C60();
+    gRouteFinder_6FFDC8->Reset_588C60();
     gGarox_2B00_706620->sub_5D6BE0();
     gMap_0x370_6F6268->sub_4DFB90(); // map objects
     gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
@@ -307,7 +307,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
     gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
-    angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
         swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_unk.field_198_accuracy_count);
@@ -348,7 +348,7 @@ void Game_0x40::Draw_4B92D0()
 {
     gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
 
-    gpNanobotz_6F66E4->ClearDrawnTileCount_4F6A10();
+    gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSprite_8_703820->sub_5A5860();
     gMontana_67B580->ResetAll_4954F0();
 
@@ -360,11 +360,11 @@ void Game_0x40::Draw_4B92D0()
 
     gbh_BeginScene();
 
-    gpNanobotz_6F66E4->Draw_4F6A20();
+    gpMapRenderer_6F66E4->Draw_4F6A20();
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34->DrawExploding_5969E0();
+        gExplodingScore_100_702F34->DrawExploding_5969E0();
     }
 
     gGarox_2B00_706620->DrawGui_5D6860(); // user
@@ -381,7 +381,7 @@ void Game_0x40::Draw_4B92D0()
 MATCH_FUNC(0x4B9380)
 void Game_0x40::sub_4B9380()
 {
-    angry_lewin_0x85C** ppPlayersIterator = field_4_players;
+    Player** ppPlayersIterator = field_4_players;
     u32 idx = 0;
     while (idx < field_23_max_idx)
     {
@@ -414,7 +414,7 @@ static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0
 MATCH_FUNC(0x4B93C0)
 void Game_0x40::sub_4B93C0()
 {
-    angry_lewin_0x85C** pIter = field_4_players;
+    Player** pIter = field_4_players;
     u32 i = 0;
     while (i < field_23_max_idx)
     {
@@ -507,7 +507,7 @@ void Game_0x40::sub_4B9410()
     gMaccies_14AC_67E5D0->sub_4C1D70();
     gChar_C_6787BC->sub_4703F0(); // ped stuff? has arg??
     gSero_181C_6FF1D4->sub_57A7A0(); // trains
-    gChickenLegend_48_6FD26C->sub_5349D0();
+    gGarage_48_6FD26C->sub_5349D0();
     gCar_6C_677930->sub_446790();
 
     if (bDo_mike_67D5CC)
@@ -531,7 +531,7 @@ void Game_0x40::sub_4B9410()
 
     if (!bSkip_ambulance_67D6C9)
     {
-        gjawwie_110_6F70A8->sub_4FA790(); // ambulance
+        gAmbulance_110_6F70A8->sub_4FA790(); // ambulance
     }
 
     if (!bSkip_police_67D4F9)
@@ -558,12 +558,12 @@ void Game_0x40::sub_4B9410()
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34->sub_596940();
+        gExplodingScore_100_702F34->sub_596940();
     }
 
     if (bDo_show_junc_ids_67D5B0)
     {
-        gSoula_CC68_6FFDC8->ShowJunctionIds_588620();
+        gRouteFinder_6FFDC8->ShowJunctionIds_588620();
     }
 
     if (counter_706C4C)
@@ -642,7 +642,7 @@ void Game_0x40::sub_4B9720()
 }
 
 MATCH_FUNC(0x4B9750)
-angry_lewin_0x85C* Game_0x40::sub_4B9750()
+Player* Game_0x40::sub_4B9750()
 {
     for (s32 i = 0; i < field_23_max_idx; i++)
     {
@@ -669,7 +669,7 @@ void Game_0x40::sub_4B9790(s32 a2, s32 a3, s32 a4)
 }
 
 MATCH_FUNC(0x4B97E0)
-s8 Game_0x40::sub_4B97E0(Car_3C* a2, s32 a3)
+s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -682,7 +682,7 @@ s8 Game_0x40::sub_4B97E0(Car_3C* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B9830)
-s8 Game_0x40::sub_4B9830(Car_3C* pCarSprite, s32 a3)
+s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -723,14 +723,14 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 }
 
 STUB_FUNC(0x4B9950)
-s8 Game_0x40::sub_4B9950(Car_3C* pCarSprite, u8 idx, s32 a4)
+s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
 {
-    // TODO: Requires Car_3C stubs
+    // TODO: Requires Sprite stubs
     return 0;
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game_0x40::sub_4B9A10(Car_3C* a2, u8 playerIdx)
+bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
@@ -772,7 +772,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
     // wip
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
-        angry_lewin_0x85C* pCurPlayer = field_4_players[i];
+        Player* pCurPlayer = field_4_players[i];
         if (pCurPlayer->field_8E_bInUse)
         {
             if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_2C_top &&
@@ -811,7 +811,7 @@ DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 MATCH_FUNC(0x4B9C10)
 s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 {
-    angry_lewin_0x85C* pPlayer = sub_4B9CD0();
+    Player* pPlayer = sub_4B9CD0();
     while (pPlayer)
     {
         if (pPlayer->sub_564610(a2, 1))
@@ -846,7 +846,7 @@ DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 }
 
 MATCH_FUNC(0x4B9CD0)
-angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
+Player* Game_0x40::sub_4B9CD0()
 {
     for (field_20_idx = 0; field_20_idx < field_23_max_idx; field_20_idx++)
     {
@@ -859,7 +859,7 @@ angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
 }
 
 MATCH_FUNC(0x4B9D10)
-angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
+Player* Game_0x40::IterateNextPlayer_4B9D10()
 {
     while (++field_20_idx < field_23_max_idx)
     {
@@ -872,11 +872,11 @@ angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
+void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
-        angry_lewin_0x85C* p = gGame_0x40_67E008->field_4_players[i];
+        Player* p = gGame_0x40_67E008->field_4_players[i];
         if (p && p != pExclude)
         {
             if (gGame_0x40_67E008->sub_4B9950(a2, i, dword_67DFB4))
@@ -894,7 +894,7 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
     }
 }
 
-EXPORT_VAR Fix16 dword_67DCCC;  //  not sure if it's fix16
+EXPORT_VAR Fix16 dword_67DCCC; //  not sure if it's fix16
 GLOBAL(dword_67DCCC, 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
@@ -913,13 +913,13 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     field_24_cur_idx = player_idx;
     for (u32 i = 0; i < field_23_max_idx; i++)
     {
-        field_4_players[i] = new angry_lewin_0x85C(i); // ctor call
+        field_4_players[i] = new Player(i); // ctor call
         if (!field_4_players[i])
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1784);
         }
     }
-    angry_lewin_0x85C* pPlayer = field_4_players[field_24_cur_idx];
+    Player* pPlayer = field_4_players[field_24_cur_idx];
     field_38_orf1 = pPlayer;
     pPlayer->field_0 = 1;
     field_1C_unk = field_38_orf1;
@@ -948,8 +948,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1806);
     }
 
-    gpNanobotz_6F66E4 = new Nanobotz(); // inlined ok?
-    if (!gpNanobotz_6F66E4)
+    gpMapRenderer_6F66E4 = new MapRenderer(); // inlined ok?
+    if (!gpMapRenderer_6F66E4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
     }
@@ -1050,8 +1050,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1855);
     }
 
-    gjawwie_110_6F70A8 = new jawwie_110(); // multi level inline
-    if (!gjawwie_110_6F70A8)
+    gAmbulance_110_6F70A8 = new Ambulance_110(); // multi level inline
+    if (!gAmbulance_110_6F70A8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
     }
@@ -1086,8 +1086,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1869);
     }
 
-    gSoula_CC68_6FFDC8 = new Soula_CC68(); // ctor call
-    if (!gSoula_CC68_6FFDC8)
+    gRouteFinder_6FFDC8 = new RouteFinder(); // ctor call
+    if (!gRouteFinder_6FFDC8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
     }
@@ -1104,8 +1104,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
     }
 
-    gMonster_808_678098 = new Monster_808(); // ctor call
-    if (!gMonster_808_678098)
+    gCarInfo_808_678098 = new CarInfo_808(); // ctor call
+    if (!gCarInfo_808_678098)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1877);
     }
@@ -1170,8 +1170,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
     }
 
-    gChickenLegend_48_6FD26C = new ChickenLegend_48(); // ctor call
-    if (!gChickenLegend_48_6FD26C)
+    gGarage_48_6FD26C = new Garage_48(); // ctor call
+    if (!gGarage_48_6FD26C)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
     }
@@ -1184,8 +1184,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34 = new CokeZero_100(); // ctor call
-        if (!gCokeZero_100_702F34)
+        gExplodingScore_100_702F34 = new ExplodingScore_100(); // ctor call
+        if (!gExplodingScore_100_702F34)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);
         }
@@ -1252,7 +1252,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gText_0x14_704DFC);
     GTA2_DELETE_AND_NULL(gGtx_0x106C_703DD4);
     GTA2_DELETE_AND_NULL(gMap_0x370_6F6268);
-    GTA2_DELETE_AND_NULL(gpNanobotz_6F66E4);
+    GTA2_DELETE_AND_NULL(gpMapRenderer_6F66E4);
     GTA2_DELETE_AND_NULL(gMontana_67B580);
     GTA2_DELETE_AND_NULL(gChar_203AC_6787B8);
 
@@ -1277,18 +1277,18 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gTileAnim_2_7052C4);
     GTA2_DELETE_AND_NULL(gWeapon_8_707018);
     GTA2_DELETE_AND_NULL(gDoor_4D4_67BD2C);
-    GTA2_DELETE_AND_NULL(gjawwie_110_6F70A8);
+    GTA2_DELETE_AND_NULL(gAmbulance_110_6F70A8);
     GTA2_DELETE_AND_NULL(gGarox_2B00_706620);
     GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
 
     GTA2_DELETE_AND_NULL(gTrafficLights_194_705958);
-    GTA2_DELETE_AND_NULL(gSoula_CC68_6FFDC8);
+    GTA2_DELETE_AND_NULL(gRouteFinder_6FFDC8);
 
     GTA2_DELETE_AND_NULL(gMarz_1D7E_6FD784);
 
     GTA2_DELETE_AND_NULL(gOrca_2FD4_6FDEF0);
 
-    GTA2_DELETE_AND_NULL(gMonster_808_678098);
+    GTA2_DELETE_AND_NULL(gCarInfo_808_678098);
 
     GTA2_DELETE_AND_NULL(gParticle_8_6FD5E8);
     GTA2_DELETE_AND_NULL(gWolfy_3D4_6FD5EC);
@@ -1301,12 +1301,12 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
     GTA2_DELETE_AND_NULL(gZones_CA8_67E274);
-    GTA2_DELETE_AND_NULL(gChickenLegend_48_6FD26C);
+    GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
     GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
 
     if (!bExplodingOff_67D4FB)
     {
-        GTA2_DELETE_AND_NULL(gCokeZero_100_702F34);
+        GTA2_DELETE_AND_NULL(gExplodingScore_100_702F34);
     }
 
     GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);

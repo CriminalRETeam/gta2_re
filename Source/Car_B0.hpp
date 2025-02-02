@@ -3,13 +3,13 @@
 #include "Car_BC.hpp"
 #include "Function.hpp"
 
-class Car_3C;
+class Sprite;
 class Car_BC;
 class Car_A4_10;
 class Sprite_4C;
-class cool_nash_0x294;
-class Monster_48;
-class Monster_2C;
+class Ped;
+class CarInfo_48;
+class CarInfo_2C;
 class Car_78;
 
 class Car_B0
@@ -77,7 +77,7 @@ class Car_B0
     EXPORT s32 sub_55F9A0(s32* a2);
     EXPORT s32 sub_55FA10(s32* a2);
     EXPORT u32* sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
-    EXPORT cool_nash_0x294* sub_55FC30(s32* a2, s32 a3);
+    EXPORT Ped* sub_55FC30(s32* a2, s32 a3);
     EXPORT s32 sub_55FD00(s32 a2);
     EXPORT Car_78* sub_55FF20(Car_BC* a2);
     EXPORT void sub_5606C0(s32 a2, char_type a3);
@@ -104,8 +104,8 @@ class Car_B0
     EXPORT void sub_562910();
     EXPORT __int64 sub_562C20(s16* a2);
     EXPORT void sub_562D00();
-    EXPORT Monster_48* sub_562EB0();
-    EXPORT Monster_2C* sub_562ED0();
+    EXPORT CarInfo_48* sub_562EB0();
+    EXPORT CarInfo_2C* sub_562ED0();
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();
     EXPORT char_type sub_562FA0();
@@ -113,8 +113,8 @@ class Car_B0
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();
-    EXPORT s32* sub_563560(Car_3C* a2);
-    EXPORT void sub_563590(Car_3C* a2);
+    EXPORT s32* sub_563560(Sprite* a2);
+    EXPORT void sub_563590(Sprite* a2);
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();

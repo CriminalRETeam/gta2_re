@@ -1,23 +1,23 @@
-#include "Mouze_44.hpp"
+#include "PedGroup.hpp"
 #include "Globals.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 #include "enums.hpp"
 
-EXPORT_VAR Mouze_44 stru_67EF20[20];
-GLOBAL(stru_67EF20, 0x67EF20);
+EXPORT_VAR PedGroup pedGroups_67EF20[20];
+GLOBAL(pedGroups_67EF20, 0x67EF20);
 
 STUB_FUNC(0x4c8e60)
-void Mouze_44::sub_4C8E60()
+void PedGroup::sub_4C8E60()
 {
 }
 
 STUB_FUNC(0x4c8e80)
-void Mouze_44::sub_4C8E80()
+void PedGroup::sub_4C8E80()
 {
 }
 
 MATCH_FUNC(0x4c8e90)
-void Mouze_44::sub_4C8E90()
+void PedGroup::sub_4C8E90()
 {
     field_40_in_use = false;
     field_38 = 2;
@@ -45,7 +45,7 @@ void Mouze_44::sub_4C8E90()
 }
 
 MATCH_FUNC(0x4c8ef0)
-void Mouze_44::sub_4C8EF0()
+void PedGroup::sub_4C8EF0()
 {
     field_40_in_use = 0;
     field_38 = 2;
@@ -63,7 +63,7 @@ void Mouze_44::sub_4C8EF0()
 }
 
 MATCH_FUNC(0x4c8f20)
-void Mouze_44::sub_4C8F20()
+void PedGroup::sub_4C8F20()
 {
     field_2C_ped_leader->sub_463570(0, 9999);
     field_2C_ped_leader->sub_463830(0, 9999);
@@ -79,7 +79,7 @@ void Mouze_44::sub_4C8F20()
 }
 
 MATCH_FUNC(0x4c8f90)
-void Mouze_44::add_ped_to_end_of_list_4C8F90(cool_nash_0x294* pPed)
+void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
     pPed->sub_463830(0, 9999);
     pPed->sub_463570(0, 9999);
@@ -89,7 +89,7 @@ void Mouze_44::add_ped_to_end_of_list_4C8F90(cool_nash_0x294* pPed)
 }
 
 MATCH_FUNC(0x4c8fe0)
-void Mouze_44::replace_leader_4C8FE0(cool_nash_0x294* new_leader)
+void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
 {
     add_ped_to_end_of_list_4C8F90(field_2C_ped_leader);
     field_2C_ped_leader = new_leader;
@@ -102,7 +102,7 @@ void Mouze_44::replace_leader_4C8FE0(cool_nash_0x294* new_leader)
 }
 
 MATCH_FUNC(0x4c9040)
-bool Mouze_44::sub_4C9040()
+bool PedGroup::sub_4C9040()
 {
     field_36_count = field_34_count;
     if (field_2C_ped_leader->field_16C_car != NULL)
@@ -152,7 +152,7 @@ bool Mouze_44::sub_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-char_type Mouze_44::sub_4C9150()
+char_type PedGroup::sub_4C9150()
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->get_field_20e() < 0x28)
     {
@@ -171,7 +171,7 @@ char_type Mouze_44::sub_4C9150()
 }
 
 MATCH_FUNC(0x4c91b0)
-void Mouze_44::sub_4C91B0()
+void PedGroup::sub_4C91B0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -182,14 +182,14 @@ void Mouze_44::sub_4C91B0()
 }
 
 STUB_FUNC(0x4c9210)
-bool Mouze_44::sub_4C9210()
+bool PedGroup::sub_4C9210()
 {
     // Fails to match
     return field_2C_ped_leader->has_field_16C_car();
 }
 
 MATCH_FUNC(0x4c9220)
-bool Mouze_44::sub_4C9220()
+bool PedGroup::sub_4C9220()
 {
     if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::ped_entering_a_car)
     {
@@ -202,12 +202,12 @@ bool Mouze_44::sub_4C9220()
 }
 
 STUB_FUNC(0x4c9240)
-void Mouze_44::sub_4C9240()
+void PedGroup::sub_4C9240()
 {
 }
 
 MATCH_FUNC(0x4c92a0)
-void Mouze_44::sub_4C92A0()
+void PedGroup::sub_4C92A0()
 {
     if (field_40_in_use == false)
     {
@@ -219,8 +219,8 @@ void Mouze_44::sub_4C92A0()
     {
         for (u8 bVar4 = 0; bVar4 < field_34_count; bVar4++)
         {
-            cool_nash_0x294* this_00 = field_4_ped_list[bVar4];
-            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar4;
+            Ped* this_00 = field_4_ped_list[bVar4];
+            Ped** pppVar1 = field_4_ped_list + bVar4;
             if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280 == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
@@ -247,14 +247,14 @@ void Mouze_44::sub_4C92A0()
 }
 
 MATCH_FUNC(0x4c93a0)
-void Mouze_44::sub_4C93A0()
+void PedGroup::sub_4C93A0()
 {
     if (field_40_in_use == false)
     {
         return;
     }
 
-    cool_nash_0x294* ppVar2 = field_2C_ped_leader;
+    Ped* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
     {
         ppVar2->sub_463570(0, 9999);
@@ -267,7 +267,7 @@ void Mouze_44::sub_4C93A0()
         for (u8 bVar5 = 0; bVar5 < field_34_count; bVar5++)
         {
             ppVar2 = field_4_ped_list[bVar5];
-            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar5;
+            Ped** pppVar1 = field_4_ped_list + bVar5;
             if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
@@ -297,22 +297,22 @@ void Mouze_44::sub_4C93A0()
 }
 
 STUB_FUNC(0x4c94e0)
-void Mouze_44::sub_4C94E0(cool_nash_0x294* a2)
+void PedGroup::sub_4C94E0(Ped* a2)
 {
 }
 
 STUB_FUNC(0x4c9680)
-void Mouze_44::sub_4C9680(u8 a2)
+void PedGroup::sub_4C9680(u8 a2)
 {
 }
 
 STUB_FUNC(0x4c9970)
-void Mouze_44::sub_4C9970(cool_nash_0x294* a2)
+void PedGroup::sub_4C9970(Ped* a2)
 {
 }
 
 MATCH_FUNC(0x4c9b10)
-void Mouze_44::add_ped_leader_4C9B10(cool_nash_0x294* ptr)
+void PedGroup::add_ped_leader_4C9B10(Ped* ptr)
 {
     field_2C_ped_leader = ptr;
     field_2C_ped_leader->set_ped_group(this);
@@ -320,7 +320,7 @@ void Mouze_44::add_ped_leader_4C9B10(cool_nash_0x294* ptr)
 }
 
 MATCH_FUNC(0x4c9b30)
-void Mouze_44::add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx)
+void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 {
     field_4_ped_list[idx & 0xff] = ptr;
     ptr->set_ped_group(this);
@@ -328,43 +328,43 @@ void Mouze_44::add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx)
 }
 
 STUB_FUNC(0x4c9b60)
-char_type Mouze_44::sub_4C9B60(cool_nash_0x294* a2)
+char_type PedGroup::sub_4C9B60(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4c9ed0)
-cool_nash_0x294* Mouze_44::sub_4C9ED0()
+Ped* PedGroup::sub_4C9ED0()
 {
     return 0;
 }
 
 STUB_FUNC(0x4c9f00)
-void Mouze_44::sub_4C9F00()
+void PedGroup::sub_4C9F00()
 {
 }
 
 STUB_FUNC(0x4ca3e0)
-u32 Mouze_44::sub_4CA3E0()
+u32 PedGroup::sub_4CA3E0()
 {
     return 0;
 }
 
 STUB_FUNC(0x4ca3f0)
-cool_nash_0x294* Mouze_44::sub_4CA3F0(u32* a2)
+Ped* PedGroup::sub_4CA3F0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4ca4b0)
-void Mouze_44::sub_4CA4B0()
+void PedGroup::sub_4CA4B0()
 {
 }
 
 STUB_FUNC(0x4ca5e0)
-void Mouze_44::sub_4CA5E0(u8 idx)
+void PedGroup::sub_4CA5E0(u8 idx)
 {
-    /*cool_nash_0x294 *this_00 = field_4_ped_list[idx];
+    /*Ped *this_00 = field_4_ped_list[idx];
     if ((this_00->bit_status & 0x8000000) != 0)
     {
         return;
@@ -484,52 +484,52 @@ void Mouze_44::sub_4CA5E0(u8 idx)
 }
 
 STUB_FUNC(0x4ca820)
-void Mouze_44::sub_4CA820(s32 a2)
+void PedGroup::sub_4CA820(s32 a2)
 {
 }
 
 STUB_FUNC(0x4caa20)
-bool Mouze_44::sub_4CAA20()
+bool PedGroup::sub_4CAA20()
 {
     return 0;
 }
 
 STUB_FUNC(0x4caae0)
-char_type Mouze_44::sub_4CAAE0()
+char_type PedGroup::sub_4CAAE0()
 {
     return 0;
 }
 
 STUB_FUNC(0x4cab80)
-char_type Mouze_44::sub_4CAB80()
+char_type PedGroup::sub_4CAB80()
 {
     return 0;
 }
 
 STUB_FUNC(0x4cac20)
-bool Mouze_44::sub_4CAC20(s32 idx)
+bool PedGroup::sub_4CAC20(s32 idx)
 {
     return 0;
 }
 
 STUB_FUNC(0x4cad40)
-bool Mouze_44::sub_4CAD40()
+bool PedGroup::sub_4CAD40()
 {
     return 0;
 }
 
 STUB_FUNC(0x4cae80)
-cool_nash_0x294* Mouze_44::sub_4CAE80(u8 idx)
+Ped* PedGroup::sub_4CAE80(u8 idx)
 {
     return 0;
 }
 
 MATCH_FUNC(0x4cb080)
-void Mouze_44::sub_4CB080()
+void PedGroup::sub_4CB080()
 {
     sub_4C8E80();
 
-    Mouze_44* pIter = stru_67EF20;
+    PedGroup* pIter = pedGroups_67EF20;
     for (s32 i = 0; i < 20; i++)
     {
         pIter->sub_4C8EF0();
@@ -538,18 +538,18 @@ void Mouze_44::sub_4CB080()
 }
 
 STUB_FUNC(0x4cb0d0)
-Mouze_44* Mouze_44::sub_4CB0D0()
+PedGroup* PedGroup::sub_4CB0D0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x4cb860)
-Mouze_44::Mouze_44()
+PedGroup::PedGroup()
 {
     sub_4C8EF0();
 }
 
 MATCH_FUNC(0x4cb870)
-Mouze_44::~Mouze_44()
+PedGroup::~PedGroup()
 {
 }

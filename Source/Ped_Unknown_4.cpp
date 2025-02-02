@@ -1,20 +1,20 @@
 #include "Ped_Unknown_4.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 
 STUB_FUNC(0x471140)
-Char_8* Ped_Unknown_4::sub_471140(cool_nash_0x294* pPed)
+Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 {
     return 0;
 }
 
 STUB_FUNC(0x471160)
-Char_8* Ped_Unknown_4::sub_471160(cool_nash_0x294* a2)
+Char_8* Ped_Unknown_4::sub_471160(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4711f0)
-Char_8* Ped_Unknown_4::sub_4711F0(cool_nash_0x294* a2)
+Char_8* Ped_Unknown_4::sub_4711F0(Ped* a2)
 {
     return 0;
 }
@@ -26,7 +26,7 @@ char_type Ped_Unknown_4::sub_471290()
 }
 
 STUB_FUNC(0x471320)
-cool_nash_0x294* Ped_Unknown_4::sub_471320()
+Ped* Ped_Unknown_4::sub_471320()
 {
     return 0;
 }

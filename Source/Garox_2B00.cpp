@@ -1,16 +1,16 @@
 #include "Garox_2B00.hpp"
 #include "Car_BC.hpp"
+#include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
+#include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "Zones_CA8.hpp"
-#include "angry_lewin_0x85C.hpp"
-#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
@@ -59,7 +59,7 @@ void Garox_1_v2::sub_5D56B0()
 {
     if (this->field_0_timer)
     {
-        this->field_CC = laughing_blackwell_0x1EB54::sub_5D8990(field_2_str, word_7064D8);
+        this->field_CC = Frontend::sub_5D8990(field_2_str, word_7064D8);
     }
 }
 
@@ -116,7 +116,7 @@ s32 Garox_2A25_sub::sub_5D17D0(s32 a2)
 }
 
 MATCH_FUNC(0x5d1830)
-void Garox_2A25_sub::sub_5D1830(angry_lewin_0x85C* pPlayer)
+void Garox_2A25_sub::sub_5D1830(Player* pPlayer)
 {
     pPlayer->field_794 = 1;
     pPlayer->field_838_f796_idx = 0;
@@ -143,7 +143,7 @@ s32 Garox_12EC_sub::sub_5D15A0(s32 a1)
 }
 
 MATCH_FUNC(0x5d15d0)
-void Garox_12EC_sub::sub_5D15D0(angry_lewin_0x85C* pPlayer)
+void Garox_12EC_sub::sub_5D15D0(Player* pPlayer)
 {
     pPlayer->field_78A = 1;
 }
@@ -247,7 +247,7 @@ void Garox_1118_sub::sub_5D5C80()
 MATCH_FUNC(0x5d6290)
 void Garox_1118_sub::sub_5D6290()
 {
-    angry_lewin_0x85C* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
+    Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
     while (pPlayerIter)
     {
         thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_unk.sub_592360();
@@ -256,7 +256,7 @@ void Garox_1118_sub::sub_5D6290()
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
-    angry_lewin_0x85C* pPlayer = gGame_0x40_67E008->field_38_orf1;
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
     pPlayer->field_684_lives.sub_4925E0();
     pPlayer->field_6BC_multpliers.sub_4925E0();
 }
@@ -287,7 +287,7 @@ void Garox_1::sub_5D53E0()
 {
     if (field_0_timer)
     {
-        field_84 = laughing_blackwell_0x1EB54::sub_5D8990(field_2_str, word_7064B8);
+        field_84 = Frontend::sub_5D8990(field_2_str, word_7064B8);
     }
 }
 
@@ -329,9 +329,9 @@ void Garox_27B5_sub::sub_5CF970()
 {
     if (field_27B5_sub)
     {
-        angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+        Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
 
-        cool_nash_0x294* pPed;
+        Ped* pPed;
         if (field_38_orf1->field_68 == 2 || field_38_orf1->field_68 == 3)
         {
             pPed = field_38_orf1->field_2C8_unkq;
@@ -341,7 +341,7 @@ void Garox_27B5_sub::sub_5CF970()
             pPed = field_38_orf1->field_2C4_player_ped;
         }
 
-        Zone_144* pZone = field_38_orf1->field_34_pObj;
+        Gang_144* pZone = field_38_orf1->field_34_pObj;
         wchar_t* pZoneName;
         if (pZone)
         {
@@ -415,7 +415,7 @@ Garox_Sub_C::Garox_Sub_C()
 MATCH_FUNC(0x5d00b0)
 void Garox_Sub_C_Array::sub_5D00B0()
 {
-    cool_nash_0x294* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
+    Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
     field_48_count = pPed->get_wanted_star_count_46EF00();
 
     const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
@@ -670,7 +670,7 @@ Garox_C::Garox_C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d03c0)
-void Garox_24::sub_5D03C0(Zone_144* pZone)
+void Garox_24::sub_5D03C0(Gang_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
     field_18 = pZone->field_130_info_phone_y;
@@ -725,7 +725,7 @@ void Garox_7C::sub_5D0C90()
 }
 
 STUB_FUNC(0x5d0dc0)
-void Garox_7C::sub_5D0DC0(cool_nash_0x294* a2)
+void Garox_7C::sub_5D0DC0(Ped* a2)
 {
     switch (a2->field_244_remap)
     {
@@ -764,7 +764,7 @@ void Garox_7C_Array::sub_5D1350()
         if (gLucid_hamilton_67E8E0.sub_4C5BC0() != 3)
         {
             sub_5D10B0();
-            for (angry_lewin_0x85C* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
+            for (Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
                  pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
                 if (!pPlayerIter->field_0)
@@ -772,7 +772,7 @@ void Garox_7C_Array::sub_5D1350()
                     Garox_7C* p7C = sub_5D1050();
                     p7C->field_18.field_18.field_C = pPlayerIter;
                     p7C->field_18.field_18.field_10 = 6;
-                    cool_nash_0x294* pPlayerPed = pPlayerIter->field_2C4_player_ped;
+                    Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
                     if (pPlayerPed)
                     {
                         p7C->sub_5D0DC0(pPlayerPed);
@@ -818,7 +818,7 @@ Garox_7C* Garox_7C_Array::sub_5D0EF0()
 }
 
 MATCH_FUNC(0x5d0f40)
-char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
+char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
 {
     Garox_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
@@ -900,7 +900,7 @@ char_type* Garox_7C_Array::sub_5D10B0()
 }
 
 MATCH_FUNC(0x5d10d0)
-Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
+Garox_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 {
     s32 i = 0;
     Garox_7C* pIter = field_0_array;
@@ -923,7 +923,7 @@ void Garox_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 }
 
 MATCH_FUNC(0x5d1310)
-void Garox_7C_Array::sub_5D1310(Zone_144* pZone)
+void Garox_7C_Array::sub_5D1310(Gang_144* pZone)
 {
     Garox_7C* p7C = sub_5D1050();
     p7C->sub_5D0510(4);
@@ -1034,7 +1034,7 @@ void Garox_90_L::sub_5D5AD0()
 {
     if (field_0)
     {
-        field_84 = laughing_blackwell_0x1EB54::sub_5D8990(field_2_wstr, word_706618);
+        field_84 = Frontend::sub_5D8990(field_2_wstr, word_706618);
     }
 }
 
@@ -1089,7 +1089,7 @@ void Garox_2B00::sub_5D5190()
     if (field_0.field_0)
     {
         // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
-        field_44 = laughing_blackwell_0x1EB54::sub_5D8990((wchar_t*)&field_0.field_2, word_706508);
+        field_44 = Frontend::sub_5D8990((wchar_t*)&field_0.field_2, word_706508);
     }
 }
 

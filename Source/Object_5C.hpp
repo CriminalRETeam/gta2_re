@@ -6,7 +6,7 @@
 #include "fix16.hpp"
 
 class Object_2C;
-class Car_3C;
+class Sprite;
 class Sprite_4C;
 class Car_BC;
 class Phi_74;
@@ -18,14 +18,14 @@ class Object_2C
   public:
     EXPORT Object_2C();
     EXPORT void sub_522180();
-    EXPORT bool sub_522250(Car_3C* a2);
+    EXPORT bool sub_522250(Sprite* a2);
     EXPORT s32 sub_5222B0();
     EXPORT s32 sub_5222D0();
     EXPORT Object_29178* sub_522340();
     EXPORT void sub_522360();
-    EXPORT char_type sub_5223C0(Car_3C* a2);
-    EXPORT bool sub_522430(Car_3C* a2);
-    EXPORT char_type sub_522460(Car_3C* a2);
+    EXPORT char_type sub_5223C0(Sprite* a2);
+    EXPORT bool sub_522430(Sprite* a2);
+    EXPORT char_type sub_522460(Sprite* a2);
     EXPORT s16* sub_5224E0(s32* a2);
     EXPORT s16 sub_522640(s32 a2);
     EXPORT void sub_5226A0(char_type a2);
@@ -37,7 +37,7 @@ class Object_2C
     EXPORT void sub_522E10(s32* a2);
     EXPORT char_type sub_5233A0(s32 a2);
     EXPORT void sub_523440(s32 a2, s32 a3, char_type a4, char_type a5);
-    EXPORT char_type sub_5235B0(Car_3C* a2, u32* a3, u8* a4, s32 a5);
+    EXPORT char_type sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
     EXPORT void sub_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 a2);
     EXPORT void sub_5257D0();
@@ -58,9 +58,9 @@ class Object_2C
     EXPORT s16* sub_528130(Fix16* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
-    EXPORT char_type sub_528990(Car_3C* a2);
+    EXPORT char_type sub_528990(Sprite* a2);
     EXPORT void sub_528BA0();
-    EXPORT void sub_528E50(Car_3C* a3);
+    EXPORT void sub_528E50(Sprite* a3);
     EXPORT void sub_529000(s32 a2);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(s32 a2);
@@ -85,7 +85,7 @@ class Object_2C
     }
 
     Object_2C* field_0;
-    Car_3C* field_4;
+    Sprite* field_4;
     Phi_74* field_8;
     s32 field_C;
     Object_3C* field_10;
@@ -152,7 +152,7 @@ class Object_5C
     s16 field_50;
     s16 field_52;
     s32 field_54;
-    Car_3C* field_58;
+    Sprite* field_58;
 };
 
 EXPORT_VAR extern Object_5C* gObject_5C_6F8F84;

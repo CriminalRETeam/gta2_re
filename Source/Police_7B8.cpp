@@ -1,14 +1,14 @@
 #include "Police_7B8.hpp"
-#include "Globals.hpp"
-#include "cool_nash_0x294.hpp"
-#include "Kfc_1E0.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
+#include "Kfc_1E0.hpp"
+#include "Ped.hpp"
 
 EXPORT_VAR s32 dword_6FECE8;
 GLOBAL(dword_6FECE8, 0x6FECE8);
 
-EXPORT_VAR cool_nash_0x294* dword_6FEDDC;
-GLOBAL(dword_6FEDDC, 0x6FEDDC);
+EXPORT_VAR Ped* pPed_6FEDDC;
+GLOBAL(pPed_6FEDDC, 0x6FEDDC);
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
@@ -139,10 +139,10 @@ STUB_FUNC(0x575210)
 void Police_38::sub_575210()
 {
     Kfc_30* pKfc30 = this->field_10_subObj;
-    if (!pKfc30->field_24 || dword_6FEDDC->field_225)
+    if (!pKfc30->field_24 || pPed_6FEDDC->field_225)
     {
-        dword_6FEDDC->sub_463830(0, 9999);
-        dword_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->sub_463570(0, 9999);
     }
     else
     {
@@ -153,10 +153,10 @@ void Police_38::sub_575210()
 STUB_FUNC(0x575270)
 void Police_38::sub_575270()
 {
-    if (!this->field_10_subObj->field_24 || dword_6FEDDC->field_225)
+    if (!this->field_10_subObj->field_24 || pPed_6FEDDC->field_225)
     {
-        dword_6FEDDC->sub_463830(0, 9999);
-        dword_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->sub_463570(0, 9999);
     }
 }
 
@@ -271,7 +271,7 @@ s32 Police_7B8::sub_56F400()
 }
 
 STUB_FUNC(0x56f4d0)
-char_type Police_7B8::sub_56F4D0(cool_nash_0x294* a2)
+char_type Police_7B8::sub_56F4D0(Ped* a2)
 {
     return 0;
 }
@@ -283,7 +283,7 @@ Police_38* Police_7B8::sub_56F560()
 }
 
 STUB_FUNC(0x56f5c0)
-cool_nash_0x294* Police_7B8::sub_56F5C0(s32 a2, s32 a3, s16 a4)
+Ped* Police_7B8::sub_56F5C0(s32 a2, s32 a3, s16 a4)
 {
     return 0;
 }
@@ -294,19 +294,19 @@ void Police_7B8::sub_56F6D0(Car_BC* a2)
 }
 
 STUB_FUNC(0x56f800)
-bool Police_7B8::sub_56F800(cool_nash_0x294* a2)
+bool Police_7B8::sub_56F800(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x56f880)
-bool Police_7B8::sub_56F880(cool_nash_0x294* a2)
+bool Police_7B8::sub_56F880(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x56f8e0)
-s32 Police_7B8::sub_56F8E0(cool_nash_0x294* a2, cool_nash_0x294* a3)
+s32 Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
 {
     return 0;
 }
@@ -340,7 +340,7 @@ void Police_7B8::sub_570270()
 }
 
 STUB_FUNC(0x570320)
-s32 Police_7B8::sub_570320(cool_nash_0x294* a2, s32 a3, s32 a4, s32 a5, s16 a6)
+s32 Police_7B8::sub_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
 {
     return 0;
 }
@@ -364,7 +364,7 @@ s32 Police_7B8::sub_5708C0(Police_7B8* a1, s32 a2, u32* a3)
 }
 
 STUB_FUNC(0x570940)
-void Police_7B8::sub_570940(Police_7B8* a1, s32 a2, cool_nash_0x294* a3)
+void Police_7B8::sub_570940(Police_7B8* a1, s32 a2, Ped* a3)
 {
 }
 

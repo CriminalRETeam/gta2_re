@@ -5,11 +5,11 @@
 #include "ang16.hpp"
 #include <wchar.h>
 
-class cool_nash_0x294;
-class angry_lewin_0x85C;
-class Zone_144;
+class Ped;
+class Player;
+class Gang_144;
 class infallible_turing;
-class Zone_144;
+class Gang_144;
 class Object_2C;
 
 class Garox_13C0_sub
@@ -40,7 +40,7 @@ class Garox_2A25_sub
     EXPORT char_type sub_5D15E0(s32 a1, char_type* a2);
     EXPORT void sub_5D16B0();
     EXPORT s32 sub_5D17D0(s32 a2);
-    EXPORT void sub_5D1830(angry_lewin_0x85C* a1);
+    EXPORT void sub_5D1830(Player* a1);
     char_type field_2A25;
 };
 
@@ -50,7 +50,7 @@ class Garox_12EC_sub
     EXPORT char_type sub_5D13C0(s32 a2, char_type* a3);
     EXPORT void sub_5D1430();
     EXPORT s32 sub_5D15A0(s32 a1);
-    EXPORT void sub_5D15D0(angry_lewin_0x85C* pPlayer);
+    EXPORT void sub_5D15D0(Player* pPlayer);
     char_type field_12EC_sub;
 };
 
@@ -445,7 +445,7 @@ class Garox_18
 class Garox_30_Sub
 {
   public:
-    Zone_144* field_30;
+    Gang_144* field_30;
     char_type field_34;
     char_type field_5;
     char_type field_6;
@@ -455,7 +455,7 @@ class Garox_30_Sub
 class Garox_24
 {
   public:
-    EXPORT void sub_5D03C0(Zone_144* pZone);
+    EXPORT void sub_5D03C0(Gang_144* pZone);
 
     // inline 0x4C6F00
     void init()
@@ -469,9 +469,9 @@ class Garox_24
     }
 
     s32 field_0;
-    angry_lewin_0x85C* field_4;
+    Player* field_4;
     s32 field_8;
-    angry_lewin_0x85C* field_C;
+    Player* field_C;
     s32 field_10;
     Fix16 field_14;
     Fix16 field_18;
@@ -508,7 +508,7 @@ class Garox_7C
     EXPORT s32 sub_5D0850();
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
-    EXPORT void sub_5D0DC0(cool_nash_0x294* a2);
+    EXPORT void sub_5D0DC0(Ped* a2);
 
     EXPORT Garox_7C();
     s32 field_0;
@@ -539,15 +539,15 @@ class Garox_7C_Array
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
-    EXPORT char_type sub_5D0F40(Zone_144* a2);
+    EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
     EXPORT Garox_7C* sub_5D1020(s32* a2);
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C* sub_5D10D0(Zone_144* pZone, s32 phone_type);
+    EXPORT Garox_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
-    EXPORT void sub_5D1310(Zone_144* pZone);
+    EXPORT void sub_5D1310(Gang_144* pZone);
     Garox_7C field_0_array[17];
     char_type field_83C;
     char_type field_83D;

@@ -329,8 +329,8 @@ class Sprite_49B28
   public:
     EXPORT ~Sprite_49B28();
 
-    Car_3C* field_0_first_free;
-    Car_3C field_4[5031];
+    Sprite* field_0_first_free;
+    Sprite field_4[5031];
 
   public:
     Sprite_49B28();

@@ -87,10 +87,10 @@ Char_C::~Char_C()
 }
 
 MATCH_FUNC(0x470a50)
-cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
+Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
-    cool_nash_0x294* pPed = gChar_203AC_6787B8->field_0;
+    Ped* pPed = gChar_203AC_6787B8->field_0;
     v6->field_0 = pPed->field_160_next_ped;
 
     pPed->field_160_next_ped = v6->field_4;
@@ -110,8 +110,8 @@ cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap
     pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
-        // TODO: Is Car_3C and Sprite_3C the same thing ??
-        ((Car_3C*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
+        // TODO: Is Sprite and Sprite_3C the same thing ??
+        ((Sprite*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
     }
     pPed->field_134 = rotation;
     pPed->field_288_threat_search = 2;
@@ -122,43 +122,43 @@ cool_nash_0x294* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap
 }
 
 STUB_FUNC(0x470b00)
-cool_nash_0x294* Char_C::sub_470B00(Car_BC* a2)
+Ped* Char_C::sub_470B00(Car_BC* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x470ba0)
-cool_nash_0x294* Char_C::sub_470BA0(Car_BC* a1, s32 a2)
+Ped* Char_C::sub_470BA0(Car_BC* a1, s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x470cc0)
-cool_nash_0x294* Char_C::sub_470CC0(Car_BC* a2)
+Ped* Char_C::sub_470CC0(Car_BC* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x470d60)
-cool_nash_0x294* Char_C::sub_470D60()
+Ped* Char_C::sub_470D60()
 {
     return 0;
 }
 
 STUB_FUNC(0x470e30)
-cool_nash_0x294* Char_C::sub_470E30()
+Ped* Char_C::sub_470E30()
 {
     return 0;
 }
 
 STUB_FUNC(0x470f30)
-cool_nash_0x294* Char_C::sub_470F30()
+Ped* Char_C::sub_470F30()
 {
     return 0;
 }
 
 STUB_FUNC(0x470f90)
-cool_nash_0x294* Char_C::sub_470F90(cool_nash_0x294* pSrc)
+Ped* Char_C::sub_470F90(Ped* pSrc)
 {
     return 0;
 }
@@ -169,7 +169,7 @@ void Char_C::DoIanTest_471060(s16 a1)
 }
 
 STUB_FUNC(0x4710c0)
-cool_nash_0x294* Char_C::sub_4710C0(s32 a2)
+Ped* Char_C::sub_4710C0(s32 a2)
 {
     return 0;
 }

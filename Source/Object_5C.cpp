@@ -29,7 +29,7 @@ void Object_2C::sub_522180()
 }
 
 STUB_FUNC(0x522250)
-bool Object_2C::sub_522250(Car_3C* a2)
+bool Object_2C::sub_522250(Sprite* a2)
 {
     return 0;
 }
@@ -58,19 +58,19 @@ void Object_2C::sub_522360()
 }
 
 STUB_FUNC(0x5223c0)
-char_type Object_2C::sub_5223C0(Car_3C* a2)
+char_type Object_2C::sub_5223C0(Sprite* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x522430)
-bool Object_2C::sub_522430(Car_3C* a2)
+bool Object_2C::sub_522430(Sprite* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x522460)
-char_type Object_2C::sub_522460(Car_3C* a2)
+char_type Object_2C::sub_522460(Sprite* a2)
 {
     return 0;
 }
@@ -134,7 +134,7 @@ void Object_2C::sub_523440(s32 a2, s32 a3, char_type a4, char_type a5)
 }
 
 STUB_FUNC(0x5235b0)
-char_type Object_2C::sub_5235B0(Car_3C* a2, u32* a3, u8* a4, s32 a5)
+char_type Object_2C::sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
 {
     return 0;
 }
@@ -247,7 +247,7 @@ void Object_2C::sub_5283C0(s32 a2)
 }
 
 STUB_FUNC(0x528990)
-char_type Object_2C::sub_528990(Car_3C* a2)
+char_type Object_2C::sub_528990(Sprite* a2)
 {
     return 0;
 }
@@ -258,7 +258,7 @@ void Object_2C::sub_528BA0()
 }
 
 STUB_FUNC(0x528e50)
-void Object_2C::sub_528E50(Car_3C* a3)
+void Object_2C::sub_528E50(Sprite* a3)
 {
 }
 

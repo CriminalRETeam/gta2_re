@@ -2,9 +2,9 @@
 #include "Car_B0.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
 #include "PurpleDoom.hpp"
 #include "Sero_181C.hpp"
-#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
@@ -23,11 +23,11 @@ GLOBAL(gCar_6C_677930, 0x677930);
 EXPORT_VAR Car_E0C4* gCar_E0C4_67792C;
 GLOBAL(gCar_E0C4_67792C, 0x67792C);
 
-EXPORT_VAR Car_3C* gCar_3C_6F61E8;
-GLOBAL(gCar_3C_6F61E8, 0x6F61E8);
+EXPORT_VAR Sprite* gSprite_6F61E8;
+GLOBAL(gSprite_6F61E8, 0x6F61E8);
 
-EXPORT_VAR Car_3C* gCar_3C_6791A8;
-GLOBAL(gCar_3C_6791A8, 0x6791A8);
+EXPORT_VAR Sprite* gSprite_6791A8;
+GLOBAL(gSprite_6791A8, 0x6791A8);
 
 EXPORT_VAR Car_8F74* gCar_8F74_677CF8;
 GLOBAL(gCar_8F74_677CF8, 0x677CF8);
@@ -40,8 +40,8 @@ GLOBAL(gCar_14_677934, 0x677934);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
-EXPORT_VAR Car_3C* gCar_3C_677938;
-GLOBAL(gCar_3C_677938, 0x677938);
+EXPORT_VAR Sprite* gSprite_Unused_677938;
+GLOBAL(gSprite_Unused_677938, 0x677938);
 
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
@@ -58,11 +58,11 @@ GLOBAL(gFix16_6777CC, 0x6777CC);
 EXPORT_VAR Fix16 gFix16_7035C0;
 GLOBAL(gFix16_7035C0, 0x7035C0);
 
-EXPORT_VAR Monster_2C* gMonster_2C_66AB78;
-GLOBAL(gMonster_2C_66AB78, 0x66AB78);
+EXPORT_VAR CarInfo_2C* gCarInfo_2C_66AB78;
+GLOBAL(gCarInfo_2C_66AB78, 0x66AB78);
 
-EXPORT_VAR Monster_48* gMonster_48_66AB70;
-GLOBAL(gMonster_48_66AB70, 0x66AB70);
+EXPORT_VAR CarInfo_48* gCarInfo_48_66AB70;
+GLOBAL(gCarInfo_48_66AB70, 0x66AB70);
 
 EXPORT_VAR s16 DAT_677CFC;
 GLOBAL(DAT_677CFC, 0x677CFC);
@@ -88,8 +88,8 @@ GLOBAL(DAT_00679320, 0x679320);
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
-    gMonster_2C_66AB78 = NULL;
-    gMonster_48_66AB70 = NULL;
+    gCarInfo_2C_66AB78 = NULL;
+    gCarInfo_48_66AB70 = NULL;
 }
 
 MATCH_FUNC(0x447640)
@@ -290,7 +290,7 @@ Car_78::Car_78()
 }
 
 MATCH_FUNC(0x451950)
-void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     if (field_14_xpos != xpos || field_18_ypos != ypos || field_1C_zpos != zpos)
     {
@@ -302,38 +302,38 @@ void Car_3C::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x59e2e0)
-void Car_3C::sub_59E2E0(void)
+void Sprite::sub_59E2E0(void)
 {
     sub_59F990();
     memcpy(field_4_0x4C_len, sprite_4c_ptr, sizeof(Sprite_4C));
 }
 
 MATCH_FUNC(0x59e300)
-void Car_3C::sub_59E300()
+void Sprite::sub_59E300()
 {
     memcpy(sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
 STUB_FUNC(0x59e320) // https://decomp.me/scratch/P1I0C
-s32 Car_3C::sub_59E320(char_type a2)
+s32 Sprite::sub_59E320(char_type a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x59e390) // https://decomp.me/scratch/dijmx
-bool Car_3C::sub_59E390(s32 a2, s32 a3, s32 a4)
+bool Sprite::sub_59E390(s32 a2, s32 a3, s32 a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x59e4c0)
-s32 Car_3C::sub_59E4C0(s32 a2, s32 a3)
+s32 Sprite::sub_59E4C0(s32 a2, s32 a3)
 {
     return 0;
 }
 
 MATCH_FUNC(0x59e7b0)
-void Car_3C::sub_59E7B0()
+void Sprite::sub_59E7B0()
 {
     field_39 = -1;
     if (sprite_4c_ptr != NULL)
@@ -347,46 +347,46 @@ void Car_3C::sub_59E7B0()
 }
 
 MATCH_FUNC(0x59e7d0)
-Car_3C* Car_3C::sub_59E7D0(s32 a2)
+Sprite* Sprite::sub_59E7D0(s32 a2)
 {
-    Car_3C* result;
+    Sprite* result;
 
     sub_59E9C0();
     next_ptr->sub_5A4D90();
-    gCar_3C_6F61E8 = this;
+    gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
-        return gCar_3C_6791A8;
+        return gSprite_6791A8;
     }
-    result = (Car_3C*)gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = (Sprite*)gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
         dword_679188 = 3;
-        gCar_3C_6791A8 = result;
+        gSprite_6791A8 = result;
     }
     return result;
 }
 
 STUB_FUNC(0x59e960)
-s32 Car_3C::sub_59E960()
+s32 Sprite::sub_59E960()
 {
     return 0;
 }
 
 STUB_FUNC(0x59e9c0)
-Car_3C* Car_3C::sub_59E9C0()
+Sprite* Sprite::sub_59E9C0()
 {
     return 0;
 }
 
 STUB_FUNC(0x59ea00)
-s16 Car_3C::sub_59EA00(s16 a2)
+s16 Sprite::sub_59EA00(s16 a2)
 {
     return 0;
 }
 
 MATCH_FUNC(0x59eaa0)
-s16 Car_3C::sub_59EAA0()
+s16 Sprite::sub_59EAA0()
 {
     if (field_34 == 2)
     {
@@ -397,28 +397,28 @@ s16 Car_3C::sub_59EAA0()
 }
 
 STUB_FUNC(0x59eae0)
-char_type Car_3C::sub_59EAE0()
+char_type Sprite::sub_59EAE0()
 {
     return 0;
 }
 
 STUB_FUNC(0x59eb30)
-void Car_3C::sub_59EB30(s32 a2, f32* a3)
+void Sprite::sub_59EB30(s32 a2, f32* a3)
 {
 }
 
 STUB_FUNC(0x59ee40)
-void Car_3C::ShowHorn_59EE40(s32 a2, s32 a3)
+void Sprite::ShowHorn_59EE40(s32 a2, s32 a3)
 {
 }
 
 STUB_FUNC(0x59eff0)
-void Car_3C::sub_59EFF0()
+void Sprite::sub_59EFF0()
 {
 }
 
 MATCH_FUNC(0x59f950)
-void Car_3C::sub_59F950(s32 a2, s32 a3, s32 a4)
+void Sprite::sub_59F950(s32 a2, s32 a3, s32 a4)
 {
     if (sprite_4c_ptr == NULL)
     {
@@ -435,13 +435,13 @@ void Car_3C::sub_59F950(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x59f990)
-Sprite_4C* Car_3C::sub_59F990()
+Sprite_4C* Sprite::sub_59F990()
 {
     return 0;
 }
 
 MATCH_FUNC(0x59fa40)
-void Car_3C::sub_59FA40()
+void Sprite::sub_59FA40()
 {
     if (field_4_0x4C_len)
     {
@@ -465,22 +465,22 @@ void Car_3C::sub_59FA40()
 }
 
 STUB_FUNC(0x59fad0) // https://decomp.me/scratch/Wrzst
-Sprite_4C* Car_3C::sub_59FAD0()
+Sprite_4C* Sprite::sub_59FAD0()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a0150)
-char_type Car_3C::sub_5A0150(s32 a2, u8* a3, u8* a4)
+char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
 {
     return 0;
 }
 
 MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scratch/D7a8C
-char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
+char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 {
     u8 result = 0; // Initialize result to 0
-    Car_3C** next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
+    Sprite** next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
 
     for (u8 i = 0; i < 4;)
     {
@@ -489,7 +489,7 @@ char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
         {
             // Second comparison: *p_field_C_car_or_sprite[1] > a2[1] and *p_field_C_car_or_sprite < *a3
             // and *p_field_C_car_or_sprite[1] < a3[1]
-            Car_3C* v8 = next_next_ptr[1];
+            Sprite* v8 = next_next_ptr[1];
             if ((int)v8 > (s32)a2[1] && (int)*next_next_ptr < (s32)*a3 && (int)v8 < (s32)a3[1])
             {
                 // If we find the first valid match, store index in a4
@@ -514,61 +514,61 @@ char_type Car_3C::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 }
 
 STUB_FUNC(0x5a1030)
-char_type Car_3C::sub_5A1030(Car_3C* a2, Car_3C** a3, u8* a4)
+char_type Sprite::sub_5A1030(Sprite* a2, Sprite** a3, u8* a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x5a1490)
-bool Car_3C::sub_5A1490(s32 a2, s32 a3)
+bool Sprite::sub_5A1490(s32 a2, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x5a19c0)
-char_type Car_3C::sub_5A19C0()
+char_type Sprite::sub_5A19C0()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a1a60)
-char_type Car_3C::sub_5A1A60()
+char_type Sprite::sub_5A1A60()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a1b30)
-char_type Car_3C::sub_5A1B30(Car_3C* a2)
+char_type Sprite::sub_5A1B30(Sprite* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5a1bd0)
-char_type Car_3C::sub_5A1BD0()
+char_type Sprite::sub_5A1BD0()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a1ca0)
-char_type Car_3C::sub_5A1CA0(u32* a2)
+char_type Sprite::sub_5A1CA0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5a2500)
-char_type Car_3C::sub_5A2500()
+char_type Sprite::sub_5A2500()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a2710)
-s32* Car_3C::sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8)
+s32* Sprite::sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8)
 {
     return 0;
 }
 
 MATCH_FUNC(0x5a29d0)
-void Car_3C::sub_5A29D0()
+void Sprite::sub_5A29D0()
 {
     if (!field_10)
     {
@@ -580,7 +580,7 @@ void Car_3C::sub_5A29D0()
 }
 
 MATCH_FUNC(0x5a2a00)
-void Car_3C::sub_5A2A00()
+void Sprite::sub_5A2A00()
 {
     if (field_10)
     {
@@ -590,18 +590,18 @@ void Car_3C::sub_5A2A00()
 }
 
 STUB_FUNC(0x5a2a30)
-void Car_3C::sub_5A2A30()
+void Sprite::sub_5A2A30()
 {
 }
 
 STUB_FUNC(0x5a2cf0)
-s32 Car_3C::sub_5A2CF0()
+s32 Sprite::sub_5A2CF0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5a3030)
-void Car_3C::sub_5A3030()
+void Sprite::sub_5A3030()
 {
     sub_59FAD0();
     this->field_20_id = 0;
@@ -609,19 +609,19 @@ void Car_3C::sub_5A3030()
 }
 
 STUB_FUNC(0x5a3100)
-Car_BC* Car_3C::sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5)
+Car_BC* Sprite::sub_5A3100(Sprite* a2, s32 a3, s32 a4, Ang16 a5)
 {
     return 0;
 }
 
 MATCH_FUNC(0x5a3540)
-Car_3C::~Car_3C()
+Sprite::~Sprite()
 {
     sub_5A2A00();
 }
 
 STUB_FUNC(0x5A4D90)
-void Car_3C::sub_5A4D90()
+void Sprite::sub_5A4D90()
 {
 }
 
@@ -643,7 +643,7 @@ void Car_214::sub_5C8750()
 }
 
 STUB_FUNC(0x5c8780)
-u16* Car_214::sub_5C8780(u8 a2, Car_3C* pCarSprite)
+u16* Car_214::sub_5C8780(u8 a2, Sprite* pCarSprite)
 {
     return 0;
 }
@@ -699,7 +699,7 @@ Car_BC* Car_6C::sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x444f80)
-Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, cool_nash_0x294* a4)
+Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
 {
     return 0;
 }
@@ -835,10 +835,10 @@ Car_6C::Car_6C()
     field_20 = 4;
     field_24 = 1;
 
-    if (!gCar_3C_677938)
+    if (!gSprite_Unused_677938)
     {
-        gCar_3C_677938 = new Car_3C();
-        if (!gCar_3C_677938)
+        gSprite_Unused_677938 = new Sprite();
+        if (!gSprite_Unused_677938)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
         }
@@ -1034,7 +1034,7 @@ Car_B0* Car_BC::sub_43A970()
 }
 
 STUB_FUNC(0x43a9a0)
-void Car_BC::sub_43A9A0(cool_nash_0x294* a2)
+void Car_BC::sub_43A9A0(Ped* a2)
 {
 }
 
@@ -1092,7 +1092,7 @@ bool Car_BC::sub_43B140(s32 a2)
 }
 
 STUB_FUNC(0x43b2b0)
-bool Car_BC::sub_43B2B0(cool_nash_0x294* a2)
+bool Car_BC::sub_43B2B0(Ped* a2)
 {
     return 0;
 }
@@ -1147,7 +1147,7 @@ char_type Car_BC::sub_43B750()
 MATCH_FUNC(0x43b770)
 void Car_BC::sub_43B770()
 {
-    cool_nash_0x294* pDriver = this->field_54_driver;
+    Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
         if (pDriver->field_240_occupation != 4)
@@ -1437,7 +1437,7 @@ Car_BC* Car_BC::sub_43E8D0()
 }
 
 STUB_FUNC(0x43e990)
-cool_nash_0x294* Car_BC::sub_43E990()
+Ped* Car_BC::sub_43E990()
 {
     return 0;
 }
@@ -1495,13 +1495,13 @@ s32 Car_BC::sub_440660(u8 a2)
 }
 
 STUB_FUNC(0x4406b0)
-u8* Car_BC::sub_4406B0(cool_nash_0x294* a2)
+u8* Car_BC::sub_4406B0(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4406e0)
-void Car_BC::sub_4406E0(cool_nash_0x294* a2)
+void Car_BC::sub_4406E0(Ped* a2)
 {
 }
 
@@ -1511,7 +1511,7 @@ void Car_BC::sub_4407F0()
 }
 
 STUB_FUNC(0x440840)
-Car_3C* Car_BC::sub_440840()
+Sprite* Car_BC::sub_440840()
 {
     return 0;
 }
@@ -1883,7 +1883,7 @@ MATCH_FUNC(0x443d00)
 s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
-    Car_3C* pCarSprite = field_50_car_sprite;
+    Sprite* pCarSprite = field_50_car_sprite;
     if (pCarSprite->field_14_xpos != xpos || pCarSprite->field_18_ypos != ypos || pCarSprite->field_1C_zpos != zpos)
     {
         pCarSprite->field_14_xpos = xpos;
@@ -2077,7 +2077,7 @@ void Car_BC::sub_447360()
 }
 
 STUB_FUNC(0x52a6d0)
-Car_3C* Car_BC::sub_52A6D0(Car_3C* a2)
+Sprite* Car_BC::sub_52A6D0(Sprite* a2)
 {
     return 0;
 }

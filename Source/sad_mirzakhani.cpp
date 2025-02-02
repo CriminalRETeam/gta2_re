@@ -1,6 +1,6 @@
 #include "sad_mirzakhani.hpp"
 #include "Function.hpp"
-#include "angry_lewin_0x85C.hpp" // eager_benz
+#include "Player.hpp" // eager_benz
 #include "rng.hpp"
 
 MATCH_FUNC(0x431D30);
@@ -195,7 +195,8 @@ void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s
         pFound->field_26++;
         if (pFound->field_26 == pFound->field_25)
         {
-            field_1B8->field_368_pObj->field_2D4_unk.AddCash_592620(field_1B8->field_368_pObj->field_6BC_multpliers.field_0 * pFound->field_28);
+            field_1B8->field_368_pObj->field_2D4_unk.AddCash_592620(field_1B8->field_368_pObj->field_6BC_multpliers.field_0 *
+                                                                    pFound->field_28);
             pFound->sub_431DB0();
         }
     }

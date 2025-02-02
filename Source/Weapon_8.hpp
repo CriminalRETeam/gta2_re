@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class cool_nash_0x294;
+class Ped;
 class Weapon_30;
 class Car_BC;
 class infallible_turing;
@@ -28,7 +28,7 @@ class struct_4
 class Weapon_8
 {
   public:
-    EXPORT Weapon_30* sub_5E3C10(s32 a2, cool_nash_0x294* a3, u8 a4);
+    EXPORT Weapon_30* sub_5E3C10(s32 a2, Ped* a3, u8 a4);
     EXPORT s32 sub_5E3CB0(s32 a2);
     EXPORT Weapon_30* sub_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
     EXPORT Weapon_30* sub_5E3D20(Car_BC* a2, s32 a3);
@@ -67,7 +67,7 @@ class Weapon_30
     s8 field_21;
     s8 field_22;
     s8 field_23;
-    cool_nash_0x294* field_24;
+    Ped* field_24;
     infallible_turing* field_28;
     s8 field_2C;
     s8 field_2D;

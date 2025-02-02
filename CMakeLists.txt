@@ -71,16 +71,16 @@ set(gta2_lib_src
   Source/text_0x14.cpp
   Source/root_sound.hpp
   Source/root_sound.cpp
-  Source/angry_lewin_0x85C.hpp
-  Source/angry_lewin_0x85C.cpp
-  Source/laughing_blackwell_0x1EB54.hpp
-  Source/laughing_blackwell_0x1EB54.cpp
+  Source/Player.hpp
+  Source/Player.cpp
+  Source/Frontend.hpp
+  Source/Frontend.cpp
   Source/Game_0x40.hpp
   Source/Game_0x40.cpp
   Source/jolly_poitras_0x2BC0.hpp
   Source/jolly_poitras_0x2BC0.cpp
-  Source/goofy_thompson.hpp
-  Source/goofy_thompson.cpp
+  Source/NetPlay.hpp
+  Source/NetPlay.cpp
   Source/input.hpp
   Source/input.cpp
   Source/lucid_hamilton.hpp
@@ -98,8 +98,8 @@ set(gta2_lib_src
   Source/Function.hpp
   Source/DrawUnk_0xBC.hpp
   Source/DrawUnk_0xBC.cpp
-  Source/cool_nash_0x294.hpp
-  Source/cool_nash_0x294.cpp
+  Source/Ped.hpp
+  Source/Ped.cpp
   Source/Car_BC.hpp
   Source/Car_BC.cpp
   Source/Car_10.hpp
@@ -128,8 +128,8 @@ set(gta2_lib_src
   Source/BurgerKing_67F8B0.cpp
   Source/Garox_2B00.hpp
   Source/Garox_2B00.cpp
-  Source/Nanobotz.hpp
-  Source/Nanobotz.cpp
+  Source/MapRenderer.hpp
+  Source/MapRenderer.cpp
   Source/Montana.hpp
   Source/Montana.cpp
   Source/Mike_A80.hpp
@@ -154,22 +154,22 @@ set(gta2_lib_src
   Source/Weapon_8.cpp
   Source/Door_4D4.hpp
   Source/Door_4D4.cpp
-  Source/jawwie_110.hpp
-  Source/jawwie_110.cpp
+  Source/Ambulance_110.hpp
+  Source/Ambulance_110.cpp
   Source/Sero_181C.hpp
   Source/Sero_181C.cpp
   Source/Taxi_4.hpp
   Source/Taxi_4.cpp
   Source/TrafficLights_194.hpp
   Source/TrafficLights_194.cpp
-  Source/Soula_CC68.hpp
-  Source/Soula_CC68.cpp
+  Source/RouteFinder.hpp
+  Source/RouteFinder.cpp
   Source/Marz_1D7E.hpp
   Source/Marz_1D7E.cpp
   Source/Orca_2FD4.hpp
   Source/Orca_2FD4.cpp
-  Source/Monster_808.hpp
-  Source/Monster_808.cpp
+  Source/CarInfo_808.hpp
+  Source/CarInfo_808.cpp
   Source/Particle_8.hpp
   Source/Particle_8.cpp
   Source/Wolfy_3D4.hpp
@@ -186,12 +186,12 @@ set(gta2_lib_src
   Source/Police_7B8.cpp
   Source/Light_1D4CC.hpp
   Source/Light_1D4CC.cpp
-  Source/ChickenLegend_48.hpp
-  Source/ChickenLegend_48.cpp
+  Source/Garage_48.hpp
+  Source/Garage_48.cpp
   Source/Hamburger_500.hpp
   Source/Hamburger_500.cpp
-  Source/CokeZero_100.hpp
-  Source/CokeZero_100.cpp
+  Source/ExplodingScore_100.hpp
+  Source/ExplodingScore_100.cpp
   Source/Shooey_CC.hpp
   Source/Shooey_CC.cpp
   Source/Tango_28.hpp
@@ -202,8 +202,8 @@ set(gta2_lib_src
   Source/PurpleDoom.cpp
   Source/Network_20324.hpp
   Source/Network_20324.cpp
-  Source/Mouze_44.hpp
-  Source/Mouze_44.cpp
+  Source/PedGroup.hpp
+  Source/PedGroup.cpp
   Source/rng.hpp
   Source/rng.cpp
   Source/eager_benz.hpp
@@ -227,8 +227,8 @@ set(gta2_lib_src
   Source/Object_29178.cpp
   Source/Particle_4C.hpp
   Source/Particle_4C.cpp
-  Source/keen_bhaskara_0x30.hpp
-  Source/keen_bhaskara_0x30.cpp
+  Source/Weapon_30.hpp
+  Source/Weapon_30.cpp
 )
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention

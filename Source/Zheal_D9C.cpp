@@ -20,7 +20,7 @@ GLOBAL(dword_679FC4, 0x679FC4);
 
 // TODO: Should match but doesn't
 STUB_FUNC(0x47e5b0)
-Zheal_15C::~Zheal_15C()
+Crane_15C::~Crane_15C()
 {
     if (field_7C)
     {
@@ -30,74 +30,74 @@ Zheal_15C::~Zheal_15C()
 }
 
 MATCH_FUNC(0x47e610)
-Zheal_15C::Zheal_15C()
+Crane_15C::Crane_15C()
 {
     field_28 = 0;
     field_7C = 0;
 }
 
 STUB_FUNC(0x47e620)
-s32 Zheal_15C::sub_47E620(s32 a2, s32 a3, s32* a4)
+s32 Crane_15C::sub_47E620(s32 a2, s32 a3, s32* a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x47e730)
-s32 Zheal_15C::sub_47E730(s32 a2, s32 a3, u32 a4)
+s32 Crane_15C::sub_47E730(s32 a2, s32 a3, u32 a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x47e840)
-s32 Zheal_15C::sub_47E840(s32 a2, s32 a3)
+s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x47e920)
-bool Zheal_15C::sub_47E920()
+bool Crane_15C::sub_47E920()
 {
     return 0;
 }
 
 STUB_FUNC(0x47eb00)
-bool Zheal_15C::sub_47EB00()
+bool Crane_15C::sub_47EB00()
 {
     return 0;
 }
 
 STUB_FUNC(0x47ecc0)
-s32 Zheal_15C::sub_47ECC0()
+s32 Crane_15C::sub_47ECC0()
 {
     return 0;
 }
 
 STUB_FUNC(0x47ed60)
-s32 Zheal_15C::sub_47ED60()
+s32 Crane_15C::sub_47ED60()
 {
     return 0;
 }
 
 STUB_FUNC(0x47edf0)
-s32 Zheal_15C::sub_47EDF0()
+s32 Crane_15C::sub_47EDF0()
 {
     return 0;
 }
 
 STUB_FUNC(0x47ef80)
-s32 Zheal_15C::sub_47EF80()
+s32 Crane_15C::sub_47EF80()
 {
     return 0;
 }
 
 STUB_FUNC(0x47f170)
-s32 Zheal_15C::sub_47F170()
+s32 Crane_15C::sub_47F170()
 {
     return 0;
 }
 
 MATCH_FUNC(0x47f220)
-s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5)
+s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
 {
     field_F4 = a2;
     field_F8 = a3;
@@ -113,7 +113,7 @@ s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5)
 }
 
 MATCH_FUNC(0x47f290)
-s32 Zheal_15C::sub_47F290(s32 a2, s32 a3, Car_3C* a4)
+s32 Crane_15C::sub_47F290(s32 a2, s32 a3, Sprite* a4)
 {
     field_BC = a2;
     field_C0 = a3;
@@ -128,7 +128,7 @@ s32 Zheal_15C::sub_47F290(s32 a2, s32 a3, Car_3C* a4)
 }
 
 MATCH_FUNC(0x47f2f0)
-void Zheal_15C::sub_47F2F0(s32 a2, s32 a3, Car_3C* a4)
+void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
 {
     field_D8 = a2;
     field_DC = a3;
@@ -142,10 +142,10 @@ void Zheal_15C::sub_47F2F0(s32 a2, s32 a3, Car_3C* a4)
 }
 
 MATCH_FUNC(0x47f350)
-bool Zheal_15C::sub_47F350()
+bool Crane_15C::sub_47F350()
 {
     Car_BC* v2;
-    Car_3C* v1 = field_70;
+    Sprite* v1 = field_70;
 
     if (v1->field_30_sprite_type_enum == 2)
     {
@@ -160,7 +160,7 @@ bool Zheal_15C::sub_47F350()
 
     if (v2->field_88 != 5)
     {
-        Car_3C* v3 = field_6C;
+        Sprite* v3 = field_6C;
         Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->car_bc_ptr : 0;
         if (v4->field_88 != 5 
             && field_FC == v3->field_14_xpos 
@@ -175,75 +175,75 @@ bool Zheal_15C::sub_47F350()
 }
 
 STUB_FUNC(0x47f3d0)
-bool Zheal_15C::sub_47F3D0()
+bool Crane_15C::sub_47F3D0()
 {
     return 0;
 }
 
 STUB_FUNC(0x47f450)
-bool Zheal_15C::sub_47F450()
+bool Crane_15C::sub_47F450()
 {
     return 0;
 }
 
 STUB_FUNC(0x47f4c0)
-void Zheal_15C::sub_47F4C0()
+void Crane_15C::sub_47F4C0()
 {
 }
 
 STUB_FUNC(0x47f6c0)
-char_type Zheal_15C::sub_47F6C0(u32* a2, s32* a3, u32* a4)
+char_type Crane_15C::sub_47F6C0(u32* a2, s32* a3, u32* a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x47f7f0)
-char_type Zheal_15C::sub_47F7F0(u32* a2)
+char_type Crane_15C::sub_47F7F0(u32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x47f930)
-void Zheal_15C::sub_47F930(Car_BC* a2)
+void Crane_15C::sub_47F930(Car_BC* a2)
 {
 }
 
 STUB_FUNC(0x47fb40)
-s32 Zheal_15C::sub_47FB40()
+s32 Crane_15C::sub_47FB40()
 {
     return 0;
 }
 
 STUB_FUNC(0x47fba0)
-s32 Zheal_15C::sub_47FBA0()
+s32 Crane_15C::sub_47FBA0()
 {
     return 0;
 }
 
 STUB_FUNC(0x47fd10)
-s32 Zheal_15C::sub_47FD10()
+s32 Crane_15C::sub_47FD10()
 {
     return 0;
 }
 
 STUB_FUNC(0x47fd50)
-char_type Zheal_15C::sub_47FD50()
+char_type Crane_15C::sub_47FD50()
 {
     return 0;
 }
 
 STUB_FUNC(0x47fe10)
-void Zheal_15C::sub_47FE10()
+void Crane_15C::sub_47FE10()
 {
 }
 
 STUB_FUNC(0x480310)
-void Zheal_15C::sub_480310()
+void Crane_15C::sub_480310()
 {
 }
 
 MATCH_FUNC(0x4803b0)
-infallible_turing* Zheal_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
+infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
     infallible_turing* result;
 
@@ -310,7 +310,7 @@ infallible_turing* Zheal_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_C = 0;
     field_11C = dword_679E70;
 
-    Car_3C* current_sprite = gSprite_49B28_703818->field_0_first_free;
+    Sprite* current_sprite = gSprite_49B28_703818->field_0_first_free;
     gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
     current_sprite->sub_5A2CF0();
     field_60 = current_sprite;
@@ -337,7 +337,7 @@ infallible_turing* Zheal_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_24 = 0;
     field_13C = dword_679E70;
     field_155 = 1;
-    Zheal_15C::sub_47FE10();
+    Crane_15C::sub_47FE10();
     result = field_7C;
     field_156 = 0;
     field_157 = 0;
@@ -354,13 +354,13 @@ infallible_turing* Zheal_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 }
 
 STUB_FUNC(0x480900)
-s32* Zheal_15C::sub_480900(s32 a2, s32 a3, s32 a4)
+s32* Crane_15C::sub_480900(s32 a2, s32 a3, s32 a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x480b60)
-s32* Zheal_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
+s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
 {
     return 0;
 }
@@ -375,7 +375,7 @@ MATCH_FUNC(0x480e50)
 void Zheal_D9C::sub_480E50()
 {
     s32 i = 0;
-    Zheal_15C* pIter = field_0;
+    Crane_15C* pIter = field_0;
     while (i < field_D98_count)
     {
         pIter->sub_480310();
@@ -385,9 +385,9 @@ void Zheal_D9C::sub_480E50()
 }
 
 MATCH_FUNC(0x480ec0)
-Zheal_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
+Crane_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
 {
-    Zheal_15C* v4 = &field_0[field_D98_count];
+    Crane_15C* v4 = &field_0[field_D98_count];
     v4->sub_4803B0(x_pos, y_pos, field_D98_count);
     field_D98_count++;
     return v4;

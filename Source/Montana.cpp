@@ -37,7 +37,7 @@ Montana_2EE4::~Montana_2EE4()
 }
 
 STUB_FUNC(0x5c5cf0)
-void Montana_4::sub_5C5CF0(Car_3C* a2)
+void Montana_4::sub_5C5CF0(Sprite* a2)
 {
 }
 
@@ -92,7 +92,7 @@ EXPORT unsigned __int64 get_rdtsc_5BEE90()
 }
 
 MATCH_FUNC(0x495510)
-void Montana::sub_495510(Car_3C* a2)
+void Montana::sub_495510(Sprite* a2)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (a2->field_1C_zpos >= dword_67B434)

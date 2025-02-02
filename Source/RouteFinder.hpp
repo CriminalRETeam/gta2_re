@@ -20,19 +20,19 @@ class Junction_10
     u8 field_F_min_y;
 };
 
-class Soula_10
+class RouteFinder_10
 {
   public:
-    EXPORT Soula_10* sub_5892D0();
+    EXPORT RouteFinder_10* sub_5892D0();
     u16 field_0_idx;
     s16 field_2;
     s16 field_4;
     s16 field_6;
-    Soula_10* field_8;
-    Soula_10* field_C;
+    RouteFinder_10* field_8;
+    RouteFinder_10* field_C;
 };
 
-class Soula_CC68
+class RouteFinder
 {
   public:
     EXPORT void ShowJunctionIds_588620();
@@ -48,17 +48,17 @@ class Soula_CC68
     EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
     EXPORT u8 sub_5890D0(u16 a2, s32 a3, u8* a4, u8* a5);
     EXPORT s32 sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7);
-    EXPORT Soula_10* sub_5892F0(Soula_10* a2, u16 a3, s16 a4);
-    EXPORT Soula_10* sub_589390(u16 a2);
-    EXPORT void sub_589420(Soula_10* a2);
+    EXPORT RouteFinder_10* sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4);
+    EXPORT RouteFinder_10* sub_589390(u16 a2);
+    EXPORT void sub_589420(RouteFinder_10* a2);
     EXPORT char_type sub_589480(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
     EXPORT char_type sub_5895C0(u8 a2, s16 a3, u8 a4, s32 a5, s32 a6);
     EXPORT s16 sub_589930(s16 idx);
     EXPORT s16 sub_589960();
-    EXPORT u16 sub_589990(Soula_10* a2, u16 a3, s16 a4);
-    EXPORT bool sub_5899C0(Soula_10* a2, s32 a3);
-    EXPORT char_type sub_589BB0(Soula_10* a2, s32 a3);
-    EXPORT Soula_10* sub_589E00();
+    EXPORT u16 sub_589990(RouteFinder_10* a2, u16 a3, s16 a4);
+    EXPORT bool sub_5899C0(RouteFinder_10* a2, s32 a3);
+    EXPORT char_type sub_589BB0(RouteFinder_10* a2, s32 a3);
+    EXPORT RouteFinder_10* sub_589E00();
     EXPORT char_type sub_589E20(s32 a2);
     EXPORT char_type sub_589E70(s32 a2);
     EXPORT s16 sub_589EB0();
@@ -68,7 +68,7 @@ class Soula_CC68
     EXPORT s16 sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
     EXPORT s16 sub_58A130(u8 a2, s16 a3, u8 a4, u8* a5, s32 a6, s32 a7);
     EXPORT s16 sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
-    EXPORT Soula_CC68();
+    EXPORT RouteFinder();
 
     s16 field_0;
     u8 field_2;
@@ -79,8 +79,8 @@ class Soula_CC68
     char_type field_2218[25600];
     u16 field_8618_idx;
     u16 field_861A;
-    Soula_10 field_861C[545];
-    Soula_10* field_A82C;
+    RouteFinder_10 field_861C[545];
+    RouteFinder_10* field_A82C;
     char_type field_A830[4360];
     char_type field_B938[4360];
     char_type field_CA40[544];
@@ -91,4 +91,4 @@ class Soula_CC68
     u16 field_CC66_545_count;
 };
 
-EXPORT_VAR extern Soula_CC68* gSoula_CC68_6FFDC8;
+EXPORT_VAR extern RouteFinder* gRouteFinder_6FFDC8;

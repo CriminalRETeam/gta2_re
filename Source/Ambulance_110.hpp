@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 
-class cool_nash_0x294;
+class Ped;
 class Kfc_30;
 
 class jawwie_8
@@ -13,13 +13,13 @@ class jawwie_8
     s32 field_4;
 };
 
-class jawwie_20
+class Ambulance_20
 {
   public:
-    EXPORT jawwie_20();
-    EXPORT ~jawwie_20();
+    EXPORT Ambulance_20();
+    EXPORT ~Ambulance_20();
     EXPORT void sub_4FA7D0();
-    EXPORT void sub_4FA800(cool_nash_0x294* pPed);
+    EXPORT void sub_4FA800(Ped* pPed);
     EXPORT char_type sub_4FA820();
     EXPORT char_type sub_4FA9D0();
     EXPORT u32* sub_4FAAC0();
@@ -30,8 +30,8 @@ class jawwie_20
     char_type field_2;
     char_type field_3;
     Kfc_30* field_4;
-    cool_nash_0x294* field_8;
-    cool_nash_0x294* field_C;
+    Ped* field_8;
+    Ped* field_C;
     Ped_Unknown_4 field_10;
     char_type field_14_count;
     char_type field_15;
@@ -43,19 +43,19 @@ class jawwie_20
     char_type field_1F;
 };
 
-class jawwie_110
+class Ambulance_110
 {
   public:
-    jawwie_110()
+    Ambulance_110()
     {
         init_4FA310();
     }
 
-    EXPORT ~jawwie_110();
+    EXPORT ~Ambulance_110();
     EXPORT void init_4FA310();
-    EXPORT char_type sub_4FA330(cool_nash_0x294* a2);
-    EXPORT char_type sub_4FA470(cool_nash_0x294* a2);
-    EXPORT jawwie_20* sub_4FA4B0();
+    EXPORT char_type sub_4FA330(Ped* a2);
+    EXPORT char_type sub_4FA470(Ped* a2);
+    EXPORT Ambulance_20* sub_4FA4B0();
     EXPORT void sub_4FA500();
     EXPORT void sub_4FA790();
 
@@ -65,5 +65,5 @@ class jawwie_110
     char_type field_3;
     Ped_Unknown_4 field_4;
     jawwie_8 field_8[25];
-    jawwie_20 field_D0[2];
+    Ambulance_20 field_D0[2];
 };

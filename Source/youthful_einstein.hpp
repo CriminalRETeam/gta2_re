@@ -3,17 +3,17 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class angry_lewin_0x85C;
+class Player;
 
 class youthful_einstein
 {
   public:
     EXPORT void youthful_einstein::ctor_516560();
-    EXPORT void sub_516590(angry_lewin_0x85C* a2);
+    EXPORT void sub_516590(Player* a2);
     EXPORT s16 sub_516660();
-    EXPORT void sub_516740(angry_lewin_0x85C* a2, angry_lewin_0x85C* a3);
+    EXPORT void sub_516740(Player* a2, Player* a3);
 
-    angry_lewin_0x85C* field_0_fugitive;  //  the player who is "IT"
+    Player* field_0_fugitive;  //  the player who is "IT"
     s32 field_4_time[6]; //  it may be the timer of each player in tag mode
     s32 field_1C;
     u8 field_20[6];

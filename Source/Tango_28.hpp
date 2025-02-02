@@ -3,7 +3,7 @@
 #include "Function.hpp"
 
 class Car_BC;
-class cool_nash_0x294;
+class Ped;
 
 class Tango_28
 {
@@ -34,7 +34,7 @@ class Tango_28
     s32 field_14;
     s32 field_18;
     Car_BC* field_1C;
-    cool_nash_0x294* field_20;
+    Ped* field_20;
     s16 field_24;
     s16 field_26;
 };

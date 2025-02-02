@@ -1,18 +1,18 @@
 #include "winmain.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "NetPlay.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
-#include "goofy_thompson.hpp"
 #include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "resource.h"
@@ -24,26 +24,26 @@
 //#include <dmusics.h>
 
 // for force links
+#include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
 #include "Maccies_14AC.hpp"
+#include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
-#include "Nanobotz.hpp"
 #include "Network_20324.hpp"
+#include "Ped.hpp"
 #include "Phi_8CA8.hpp"
+#include "Player.hpp"
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
 #include "Tango_28.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
 #include "collide.hpp"
-#include "cool_nash_0x294.hpp"
-#include "jawwie_110.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 
@@ -52,7 +52,7 @@ void force_link()
     Phi_8CA8 phi_8ca8;
     phi_8ca8.sub_5332D0(0, 0, 0, 0);
 
-    jawwie_20 jaw_20;
+    Ambulance_20 jaw_20;
     jaw_20.field_14_count = 1;
 
     Rozza_C88 rozza;
@@ -61,7 +61,7 @@ void force_link()
     Maccies_14AC maccies;
     maccies.sub_4C1CD0(0);
 
-    Car_3C car_3c;
+    Sprite car_3c;
     car_3c.field_20_id = 5;
 
     Snooky_94 snooky;
@@ -76,7 +76,7 @@ void force_link()
     Char_C char_c;
     char_c.DoIanTest_471060(0);
 
-    angry_lewin_0x85C lewin(1);
+    Player lewin(1);
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
     lewin.sub_564610(0, 0);
@@ -165,7 +165,7 @@ void force_link()
     drawUnk.sub_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
     drawUnk.sub_58CF10(1, 1);
 
-    cool_nash_0x294 cn;
+    Ped cn;
     cn.sub_45B550();
     cn.sub_45B560(NULL, 0);
     cn.sub_45B590();
@@ -200,7 +200,7 @@ void force_link()
 
     Garox_2B00 garox;
 
-    Nanobotz nano;
+    MapRenderer nano;
     nano.draw_bottom_4ED290(0);
 
     Montana montana;
@@ -1231,7 +1231,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
         case WM_WINDOWPOSCHANGED:
         {
-            if (gLaughing_blackwell_0x1EB54_67DC84)
+            if (gFrontend_67DC84)
             {
                 Bink::sub_513720();
             }
@@ -1257,7 +1257,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             {
                 //LOBYTE(Msg) = 1;
                 BYTE tmp = 1;
-                laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                Frontend::sub_5E53C0(&tmp);
                 if (!bDoFrontEnd_626B68)
                 {
                     Input_Read_498D10();
@@ -1283,16 +1283,16 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             //LOBYTE(hWnd) = 0;
         {
             BYTE tmp = 0;
-            laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+            Frontend::sub_5E53C0(&tmp);
             Input_ReleaseMouse_5D7C70();
             gRoot_sound_66B038.Set3DSound_40F160(0);
             gRoot_sound_66B038.Release_40F130();
 
-            if (gLaughing_blackwell_0x1EB54_67DC84 && Bink::sub_513760())
+            if (gFrontend_67DC84 && Bink::sub_513760())
             {
                 Bink::Close1_513340();
                 Bink::Close2_513390();
-                gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(0);
+                gFrontend_67DC84->sub_4B3170(0);
             }
 
             if (gVidSys_7071D0)
@@ -1314,7 +1314,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 case WA_CLICKACTIVE:
                 {
                     BYTE tmp = 1;
-                    laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                    Frontend::sub_5E53C0(&tmp);
                     Input_MouseAcquire_5D7C60();
                 }
                 break;
@@ -1322,7 +1322,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 case WA_INACTIVE:
                 {
                     BYTE tmp = 0;
-                    laughing_blackwell_0x1EB54::sub_5E53C0(&tmp);
+                    Frontend::sub_5E53C0(&tmp);
                     Input_ReleaseMouse_5D7C70();
                 }
                 break;
@@ -1354,7 +1354,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_DESTROY: // order ok
             if (bStartNetworkGame_7081F0)
             {
-                gGoofy_thompson_7071E8.sub_520D10();
+                gNetPlay_7071E8.sub_520D10();
             }
 
             ReleaseMutex(gMutex_707078);
@@ -1369,7 +1369,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_WINDOWPOSCHANGING:
         {
             WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-            if (gLaughing_blackwell_0x1EB54_67DC84 && (pPos->flags & 2) == 0)
+            if (gFrontend_67DC84 && (pPos->flags & 2) == 0)
             {
                 s32 newX = pPos->x;
                 s32 newY = pPos->y;
@@ -1557,7 +1557,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     Init_keybrd_jolly_and_sound_4DA440();
 
     s32 state;
-    if (laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0())
+    if (Frontend::intro_bik_exists_4B5FF0())
     {
         state = gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) != 1 ? 0 : 8;
     }
@@ -1589,8 +1589,8 @@ LABEL_23:
             break;
         }
 
-        laughing_blackwell_0x1EB54::create_4ACFA0();
-        gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(state);
+        Frontend::create_4ACFA0();
+        gFrontend_67DC84->sub_4B3170(state);
 
     LABEL_27:
         UpdateWinXY_5D8E70();
@@ -1625,22 +1625,22 @@ LABEL_23:
                     }
 
                     // or switch ?
-                    s32 t = gLaughing_blackwell_0x1EB54_67DC84->sub_4AEDB0();
+                    s32 t = gFrontend_67DC84->sub_4AEDB0();
                     if (t == 1)
                     {
                         bQuit = 1;
-                        laughing_blackwell_0x1EB54::destroy_4AD070();
+                        Frontend::destroy_4AD070();
                         DestroyWindow(gHwnd_707F04);
                     }
                     else if (t == 3)
                     {
-                        laughing_blackwell_0x1EB54::destroy_4AD070();
+                        Frontend::destroy_4AD070();
                         bDoFrontEnd_626B68 = 0;
                         goto LABEL_23;
                     }
                     else if (t == 4)
                     {
-                        laughing_blackwell_0x1EB54::destroy_4AD070();
+                        Frontend::destroy_4AD070();
                         bDoFrontEnd_626B68 = 0;
                         byte_6F5B71 = 1;
                         goto LABEL_23;
@@ -1730,7 +1730,7 @@ LABEL_23:
 
     sub_4DA4D0();
 
-    if (!bStartNetworkGame_7081F0 || gGoofy_thompson_7071E8.sub_5213E0())
+    if (!bStartNetworkGame_7081F0 || gNetPlay_7071E8.sub_5213E0())
     {
         goto LABEL_27;
     }

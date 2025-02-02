@@ -3,9 +3,9 @@
 #include "BitSet32.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
-#include "ang16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
+#include "ang16.hpp"
 #include <wchar.h>
 
 EXPORT_VAR extern Ang16 gAng16_703804;
@@ -17,8 +17,8 @@ class Object_2C;
 class Car_78;
 class Car_B0;
 class Car_A4_10;
-class Car_3C;
-class cool_nash_0x294;
+class Sprite;
+class Ped;
 class Char_8;
 class Hamburger_40;
 class Ped_Unknown_4;
@@ -132,7 +132,7 @@ class Car_8F74
     Car_78 field_4[306];
 };
 
-class Car_3C
+class Sprite
 {
   public:
     EXPORT void sub_451950(Fix16 a2, Fix16 a3, Fix16 a4);
@@ -142,9 +142,9 @@ class Car_3C
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
     EXPORT void sub_59E7B0();
-    EXPORT Car_3C* sub_59E7D0(s32 a2);
+    EXPORT Sprite* sub_59E7D0(s32 a2);
     EXPORT s32 sub_59E960();
-    EXPORT Car_3C* sub_59E9C0();
+    EXPORT Sprite* sub_59E9C0();
     EXPORT s16 sub_59EA00(s16 a2);
     EXPORT s16 sub_59EAA0();
     EXPORT char_type sub_59EAE0();
@@ -157,26 +157,26 @@ class Car_3C
     EXPORT Sprite_4C* sub_59FAD0();
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
-    EXPORT char_type sub_5A1030(Car_3C* a2, Car_3C** a3, u8* a4);
+    EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char_type sub_5A1A60();
-    EXPORT char_type sub_5A1B30(Car_3C* a2);
+    EXPORT char_type sub_5A1B30(Sprite* a2);
     EXPORT char_type sub_5A1BD0();
     EXPORT char_type sub_5A1CA0(u32* a2);
     EXPORT char_type sub_5A2500();
-    EXPORT s32* sub_5A2710(s32* a2, Car_3C* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
+    EXPORT s32* sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
     EXPORT void sub_5A29D0();
     EXPORT void sub_5A2A00();
     EXPORT void sub_5A2A30();
     EXPORT s32 sub_5A2CF0();
     EXPORT void sub_5A3030();
-    EXPORT Car_BC* sub_5A3100(Car_3C* a2, s32 a3, s32 a4, Ang16 a5);
+    EXPORT Car_BC* sub_5A3100(Sprite* a2, s32 a3, s32 a4, Ang16 a5);
 
     // This function matches, but the marker doesn't seem to work on header files.
     // Leave it here commented for future reference
     //MATCH_FUNC(0x5a5e50)
-    EXPORT Car_3C() :field_0(gAng16_703804)
+    EXPORT Sprite() : field_0(gAng16_703804)
     {
         field_4_0x4C_len = NULL;
         field_14_xpos = gFix16_7035C0;
@@ -195,7 +195,7 @@ class Car_3C
         next_ptr = NULL;
         field_10 = NULL;
     }
-    EXPORT ~Car_3C();
+    EXPORT ~Sprite();
     EXPORT void sub_5A4D90();
 
     Ang16 field_0;
@@ -217,7 +217,7 @@ class Car_3C
     // Otherwise, the sprite_4c_ptr is active. i.e. the instance belongs to another object.
     union
     {
-        Car_3C* next_ptr;
+        Sprite* next_ptr;
         Sprite_4C* sprite_4c_ptr;
     };
     infallible_turing* field_10;
@@ -229,7 +229,7 @@ class Car_3C
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;
-    Car_3C* field_28_uni;
+    Sprite* field_28_uni;
     char_type field_2C;
     char_type field_2D_pad;
     char_type field_2E_pad;
@@ -264,7 +264,7 @@ class Car_214
     EXPORT s32 sub_5C8680(u8 a2);
     EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT void sub_5C8750();
-    EXPORT u16* sub_5C8780(u8 a2, Car_3C* pCarSprite);
+    EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
     s32 field_0;
     Car_18 field_4[22];
 };
@@ -285,7 +285,7 @@ class Car_6C
     EXPORT void sub_444980();
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
-    EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, cool_nash_0x294* a4);
+    EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
     EXPORT s32 sub_444FA0(s32 x, s32 y, s32 z, s32 a5);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* sub_446230(s32 arg0, s32 a3, s32 a4, s16 a5, s32 a2, s32 a7);
@@ -300,7 +300,7 @@ class Car_6C
 
     Car_2 field_0;
     s16 field_2;
-    cool_nash_0x294* field_4;
+    Ped* field_4;
     char_type field_8;
     u8 field_9;
     u8 field_A;
@@ -375,7 +375,7 @@ class Car_BC
     EXPORT char_type sub_43A850();
     EXPORT Car_B0* sub_43A950();
     EXPORT Car_B0* sub_43A970();
-    EXPORT void sub_43A9A0(cool_nash_0x294* a2);
+    EXPORT void sub_43A9A0(Ped* a2);
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
@@ -385,7 +385,7 @@ class Car_BC
     EXPORT Car_78* sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
-    EXPORT bool sub_43B2B0(cool_nash_0x294* a2);
+    EXPORT bool sub_43B2B0(Ped* a2);
     EXPORT Car_10* sub_43B340(u8 a2);
     EXPORT char_type sub_43B360();
     EXPORT void sub_43B380();
@@ -438,7 +438,7 @@ class Car_BC
     EXPORT void sub_43DD60();
     EXPORT char_type sub_43E560();
     EXPORT Car_BC* sub_43E8D0();
-    EXPORT cool_nash_0x294* sub_43E990();
+    EXPORT Ped* sub_43E990();
     EXPORT char_type sub_43EA60(s32 a2);
     EXPORT char_type sub_43F130(s32 a2);
     EXPORT u32* sub_440510(u32* a2);
@@ -447,10 +447,10 @@ class Car_BC
     EXPORT void sub_4405F0();
     EXPORT void sub_440630(s32 a2);
     EXPORT s32 sub_440660(u8 a2);
-    EXPORT u8* sub_4406B0(cool_nash_0x294* a2);
-    EXPORT void sub_4406E0(cool_nash_0x294* a2);
+    EXPORT u8* sub_4406B0(Ped* a2);
+    EXPORT void sub_4406E0(Ped* a2);
     EXPORT void sub_4407F0();
-    EXPORT Car_3C* sub_440840();
+    EXPORT Sprite* sub_440840();
     EXPORT s32 sub_440AC0();
     EXPORT s32 sub_440B10();
     EXPORT s32 sub_440B60();
@@ -530,7 +530,7 @@ class Car_BC
 
     EXPORT s32 sub_446730(Car_BC* a1);
     EXPORT void sub_447360();
-    EXPORT Car_3C* sub_52A6D0(Car_3C* a2);
+    EXPORT Sprite* sub_52A6D0(Sprite* a2);
     EXPORT bool sub_564300();
 
     s32 field_0_qq;
@@ -542,8 +542,8 @@ class Car_BC
     s32 field_44;
     s32 field_48;
     Car_BC* field_4C_next;
-    Car_3C* field_50_car_sprite;
-    cool_nash_0x294* field_54_driver;
+    Sprite* field_50_car_sprite;
+    Ped* field_54_driver;
     Car_78* field_58_uni_Car78_or_Car_B0;
     Car_78* field_5C;
     Hamburger_40* field_60;
@@ -626,7 +626,8 @@ class Car_8
     // It needs to be in the header
     // MATCH_FUNC(0x563970)
     EXPORT Car_8()
-    {}
+    {
+    }
 
     // Inlined, on version 9.6f 0x41E1E0
     void reset()
@@ -657,7 +658,8 @@ class Car_A4_10
         field_4 = NULL;
         field_8 = NULL;
         field_C = NULL;
-        field_0 = NULL;0;
+        field_0 = NULL;
+        0;
     }
 
     char_type field_0;
@@ -699,12 +701,12 @@ struct Car_14
     s8 field_9;
     s8 field_A;
     s8 field_B;
-    angry_lewin_0x85C* field_C;
+    Player* field_C;
     gmp_zone_unknown* field_10;
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
-EXPORT_VAR extern Car_3C* gCar_3C_6F61E8;
+EXPORT_VAR extern Sprite* gSprite_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
 EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
 EXPORT_VAR extern Car_14* gCar_14_677934;

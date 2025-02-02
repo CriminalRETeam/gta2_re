@@ -1,10 +1,10 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Player.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "Game_0x40.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "lucid_hamilton.hpp"
 #include <io.h>
 
@@ -72,7 +72,7 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 }
 
 STUB_FUNC(0x56BB10)
-void jolly_poitras_0x2BC0::sub_56BB10(angry_lewin_0x85C* a2)
+void jolly_poitras_0x2BC0::sub_56BB10(Player* a2)
 {
     // todo
 }
@@ -337,7 +337,8 @@ void jolly_poitras_0x2BC0::sub_56C250()
     {
         if (wcscmp(this->field_26A0[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
         {
-            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 * 500000);
+            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 *
+                                                                           500000);
         }
     }
 }

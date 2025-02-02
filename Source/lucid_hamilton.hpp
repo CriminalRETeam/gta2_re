@@ -13,7 +13,7 @@ struct blissful_ganguly_0x20
     wchar_t field_0_str[16];
 };
 
-class angry_lewin_0x85C;
+class Player;
 
 struct lucid_hamilton
 {
@@ -88,7 +88,7 @@ struct lucid_hamilton
 
     EXPORT s32 sub_4C59F0(u8 idx);
 
-    EXPORT void sub_4C5A10(angry_lewin_0x85C* a1);
+    EXPORT void sub_4C5A10(Player* a1);
 
     EXPORT void sub_4C5A70(s32 a2);
 

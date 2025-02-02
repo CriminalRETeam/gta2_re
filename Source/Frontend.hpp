@@ -12,7 +12,7 @@
 
 #include <Dinput.h>
 
-class angry_lewin_0x85C;
+class Player;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -165,7 +165,7 @@ enum MenuScreen
     Credits_17 = 17,
 };
 
-struct laughing_blackwell_0x1EB54
+struct Frontend
 {
     LPDIRECTINPUTA field_0_pDInput;
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
@@ -2617,9 +2617,9 @@ struct laughing_blackwell_0x1EB54
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
-    EXPORT laughing_blackwell_0x1EB54();
+    EXPORT Frontend();
 
-    EXPORT ~laughing_blackwell_0x1EB54();
+    EXPORT ~Frontend();
 
     EXPORT void AcquireKeyBoard_4AFD70();
 
@@ -2698,7 +2698,7 @@ struct laughing_blackwell_0x1EB54
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
-EXPORT_VAR extern laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
+EXPORT_VAR extern Frontend* gFrontend_67DC84;
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
 EXPORT void __stdcall sub_5D7D30();

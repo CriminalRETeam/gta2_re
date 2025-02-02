@@ -10,13 +10,13 @@ EXPORT_VAR Snooky_94* gSnooky_94_67A830;
 GLOBAL(gSnooky_94_67A830, 0x67A830);
 
 MATCH_FUNC(0x4882d0)
-Snooky_30::Snooky_30()
+Crusher_30::Crusher_30()
 {
     field_18 = NULL;
 }
 
 MATCH_FUNC(0x4882e0)
-Snooky_30::~Snooky_30()
+Crusher_30::~Crusher_30()
 {
     if (field_18)
     {
@@ -26,7 +26,7 @@ Snooky_30::~Snooky_30()
 }
 
 MATCH_FUNC(0x488310)
-void Snooky_30::sub_488310(Car_BC* pCar)
+void Crusher_30::sub_488310(Car_BC* pCar)
 {
     if (!field_2C && pCar->field_88 != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
     {
@@ -37,12 +37,12 @@ void Snooky_30::sub_488310(Car_BC* pCar)
 }
 
 STUB_FUNC(0x488350)
-void Snooky_30::sub_488350()
+void Crusher_30::sub_488350()
 {
 }
 
 STUB_FUNC(0x4885a0)
-infallible_turing* Snooky_30::sub_4885A0(Fix16 a2, Fix16 a3, char_type a4)
+infallible_turing* Crusher_30::sub_4885A0(Fix16 a2, Fix16 a3, char_type a4)
 {
     return 0;
 }
@@ -63,7 +63,7 @@ MATCH_FUNC(0x4887f0)
 void Snooky_94::sub_4887F0()
 {
     s32 idx = 0;
-    Snooky_30* pIter = &field_0[0];
+    Crusher_30* pIter = &field_0[0];
     while (idx < field_90_count)
     {
         pIter->sub_488350();
@@ -73,9 +73,9 @@ void Snooky_94::sub_4887F0()
 }
 
 MATCH_FUNC(0x488820)
-Snooky_30* Snooky_94::sub_488820(Fix16 a2, Fix16 a3)
+Crusher_30* Snooky_94::sub_488820(Fix16 a2, Fix16 a3)
 {
-    Snooky_30* pNew = &field_0[field_90_count];
+    Crusher_30* pNew = &field_0[field_90_count];
     pNew->sub_4885A0(a2, a3, field_90_count);
     field_90_count++;
     return pNew;
