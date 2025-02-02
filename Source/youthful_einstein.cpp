@@ -1,9 +1,9 @@
 #include "youthful_einstein.hpp"
-#include "Globals.hpp"
-#include "cool_nash_0x294.hpp"
-#include "lucid_hamilton.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "Game_0x40.hpp"
+#include "Globals.hpp"
+#include "Ped.hpp"
+#include "Player.hpp"
+#include "lucid_hamilton.hpp"
 #include <string>
 
 EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
@@ -19,7 +19,7 @@ void youthful_einstein::ctor_516560() // For some reason, it's a function instea
 }
 
 STUB_FUNC(0x516590)
-void youthful_einstein::sub_516590(angry_lewin_0x85C* a2)
+void youthful_einstein::sub_516590(Player* a2)
 {
 }
 
@@ -30,11 +30,11 @@ s16 youthful_einstein::sub_516660()
 }
 
 MATCH_FUNC(0x516740)
-void youthful_einstein::sub_516740(angry_lewin_0x85C* pFormerPlayerFugitive, angry_lewin_0x85C* pPlayer_killer)
+void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
-    angry_lewin_0x85C* Player_4B9D10;
-    angry_lewin_0x85C* pChosenPlayer;
-    cool_nash_0x294* pFugitive;
+    Player* Player_4B9D10;
+    Player* pChosenPlayer;
+    Ped* pFugitive;
 
     Fix16 taxicab_distance;
     Fix16 threshold_distance;

@@ -3,16 +3,16 @@
 #include "Function.hpp"
 
 class infallible_turing;
-class Car_3C;
+class Sprite;
 
 class Rozza_C88
 {
   public:
     EXPORT void Reset_40BB90();
-    EXPORT void sub_40BBA0(Car_3C* a2, s32 a3);
-    EXPORT void sub_40BC40(Car_3C* a2);
-    EXPORT void sub_40BD10(Car_3C* a2);
-    EXPORT void sub_40BDD0(Car_3C* a2, Car_3C* a3);
+    EXPORT void sub_40BBA0(Sprite* a2, s32 a3);
+    EXPORT void sub_40BC40(Sprite* a2);
+    EXPORT void sub_40BD10(Sprite* a2);
+    EXPORT void sub_40BDD0(Sprite* a2, Sprite* a3);
     EXPORT Rozza_C88();
     EXPORT ~Rozza_C88();
 

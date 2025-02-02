@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 
-class Car_3C;
+class Sprite;
 
 class Particle_4C
 {
@@ -44,7 +44,7 @@ class Particle_4C
     s32 field_28;
     s16 field_2C;
     s16 field_2E;
-    Car_3C* field_30;
+    Sprite* field_30;
     s32 field_34;
     s32 field_38;
     Particle_4C* field_3C;

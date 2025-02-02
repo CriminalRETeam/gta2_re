@@ -378,7 +378,7 @@ u32* Car_B0::sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5)
 }
 
 STUB_FUNC(0x55fc30)
-cool_nash_0x294* Car_B0::sub_55FC30(s32* a2, s32 a3)
+Ped* Car_B0::sub_55FC30(s32* a2, s32 a3)
 {
     return 0;
 }
@@ -588,13 +588,13 @@ s32* Car_B0::sub_563460()
 }
 
 STUB_FUNC(0x563560)
-s32* Car_B0::sub_563560(Car_3C* a2)
+s32* Car_B0::sub_563560(Sprite* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x563590)
-void Car_B0::sub_563590(Car_3C* a2)
+void Car_B0::sub_563590(Sprite* a2)
 {
 }
 

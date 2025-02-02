@@ -24,7 +24,7 @@ bool keen_bhaskara_0x30::sub_5DCEF0()
 }
 
 STUB_FUNC(0x5dcf40)
-angry_lewin_0x85C* keen_bhaskara_0x30::sub_5DCF40()
+Player* keen_bhaskara_0x30::sub_5DCF40()
 {
     return 0;
 }
@@ -76,7 +76,7 @@ s32 keen_bhaskara_0x30::sub_5DE4F0()
 }
 
 STUB_FUNC(0x5dfb60)
-char_type keen_bhaskara_0x30::sub_5DFB60(char_type a2, Car_3C* a3, s16 a4)
+char_type keen_bhaskara_0x30::sub_5DFB60(char_type a2, Sprite* a3, s16 a4)
 {
     return 0;
 }

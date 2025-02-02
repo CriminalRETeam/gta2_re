@@ -1,5 +1,5 @@
 #include "Car_10.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
@@ -79,8 +79,8 @@ void Car_10::sub_439DA0(s32* a3a)
         default:
             break;
     }
-    
-    cool_nash_0x294* v4 = field_8_pObj;
+
+    Ped* v4 = field_8_pObj;
     if (v4)
     {
         if (v4->field_278 == 9 || (v4->field_21C & 0x8000000) == 0)
@@ -117,7 +117,6 @@ void Car_10::sub_439E60()
         default:
             break;
     }
-
 }
 
 MATCH_FUNC(0x439EA0)

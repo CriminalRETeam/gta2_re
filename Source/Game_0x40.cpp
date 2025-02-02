@@ -5,6 +5,7 @@
 #include "Door_4D4.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Frismo_25C.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
@@ -20,7 +21,9 @@
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
+#include "Ped.hpp"
 #include "Phi_8CA8.hpp"
+#include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
@@ -37,10 +40,8 @@
 #include "Wolfy_3D4.hpp"
 #include "Zheal_D9C.hpp"
 #include "Zones_CA8.hpp"
-#include "angry_lewin_0x85C.hpp"
 #include "char.hpp"
 #include "collide.hpp"
-#include "cool_nash_0x294.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
@@ -48,7 +49,6 @@
 #include "gtx_0x106C.hpp"
 #include "jawwie_110.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
 #include "map_0x370.hpp"
@@ -307,7 +307,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
     gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
-    angry_lewin_0x85C* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
         swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_unk.field_198_accuracy_count);
@@ -381,7 +381,7 @@ void Game_0x40::Draw_4B92D0()
 MATCH_FUNC(0x4B9380)
 void Game_0x40::sub_4B9380()
 {
-    angry_lewin_0x85C** ppPlayersIterator = field_4_players;
+    Player** ppPlayersIterator = field_4_players;
     u32 idx = 0;
     while (idx < field_23_max_idx)
     {
@@ -414,7 +414,7 @@ static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0
 MATCH_FUNC(0x4B93C0)
 void Game_0x40::sub_4B93C0()
 {
-    angry_lewin_0x85C** pIter = field_4_players;
+    Player** pIter = field_4_players;
     u32 i = 0;
     while (i < field_23_max_idx)
     {
@@ -642,7 +642,7 @@ void Game_0x40::sub_4B9720()
 }
 
 MATCH_FUNC(0x4B9750)
-angry_lewin_0x85C* Game_0x40::sub_4B9750()
+Player* Game_0x40::sub_4B9750()
 {
     for (s32 i = 0; i < field_23_max_idx; i++)
     {
@@ -669,7 +669,7 @@ void Game_0x40::sub_4B9790(s32 a2, s32 a3, s32 a4)
 }
 
 MATCH_FUNC(0x4B97E0)
-s8 Game_0x40::sub_4B97E0(Car_3C* a2, s32 a3)
+s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -682,7 +682,7 @@ s8 Game_0x40::sub_4B97E0(Car_3C* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B9830)
-s8 Game_0x40::sub_4B9830(Car_3C* pCarSprite, s32 a3)
+s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -723,14 +723,14 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 }
 
 STUB_FUNC(0x4B9950)
-s8 Game_0x40::sub_4B9950(Car_3C* pCarSprite, u8 idx, s32 a4)
+s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
 {
-    // TODO: Requires Car_3C stubs
+    // TODO: Requires Sprite stubs
     return 0;
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game_0x40::sub_4B9A10(Car_3C* a2, u8 playerIdx)
+bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
     {
@@ -772,7 +772,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
     // wip
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
-        angry_lewin_0x85C* pCurPlayer = field_4_players[i];
+        Player* pCurPlayer = field_4_players[i];
         if (pCurPlayer->field_8E_bInUse)
         {
             if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_2C_top &&
@@ -811,7 +811,7 @@ DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 MATCH_FUNC(0x4B9C10)
 s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 {
-    angry_lewin_0x85C* pPlayer = sub_4B9CD0();
+    Player* pPlayer = sub_4B9CD0();
     while (pPlayer)
     {
         if (pPlayer->sub_564610(a2, 1))
@@ -846,7 +846,7 @@ DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 }
 
 MATCH_FUNC(0x4B9CD0)
-angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
+Player* Game_0x40::sub_4B9CD0()
 {
     for (field_20_idx = 0; field_20_idx < field_23_max_idx; field_20_idx++)
     {
@@ -859,7 +859,7 @@ angry_lewin_0x85C* Game_0x40::sub_4B9CD0()
 }
 
 MATCH_FUNC(0x4B9D10)
-angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
+Player* Game_0x40::IterateNextPlayer_4B9D10()
 {
     while (++field_20_idx < field_23_max_idx)
     {
@@ -872,11 +872,11 @@ angry_lewin_0x85C* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
+void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
-        angry_lewin_0x85C* p = gGame_0x40_67E008->field_4_players[i];
+        Player* p = gGame_0x40_67E008->field_4_players[i];
         if (p && p != pExclude)
         {
             if (gGame_0x40_67E008->sub_4B9950(a2, i, dword_67DFB4))
@@ -894,7 +894,7 @@ void Game_0x40::sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude)
     }
 }
 
-EXPORT_VAR Fix16 dword_67DCCC;  //  not sure if it's fix16
+EXPORT_VAR Fix16 dword_67DCCC; //  not sure if it's fix16
 GLOBAL(dword_67DCCC, 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
@@ -913,13 +913,13 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     field_24_cur_idx = player_idx;
     for (u32 i = 0; i < field_23_max_idx; i++)
     {
-        field_4_players[i] = new angry_lewin_0x85C(i); // ctor call
+        field_4_players[i] = new Player(i); // ctor call
         if (!field_4_players[i])
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1784);
         }
     }
-    angry_lewin_0x85C* pPlayer = field_4_players[field_24_cur_idx];
+    Player* pPlayer = field_4_players[field_24_cur_idx];
     field_38_orf1 = pPlayer;
     pPlayer->field_0 = 1;
     field_1C_unk = field_38_orf1;

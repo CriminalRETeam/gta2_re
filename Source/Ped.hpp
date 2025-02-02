@@ -2,33 +2,33 @@
 
 #include "Function.hpp"
 #include "Marz_1D7E.hpp"
+#include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
-#include "ang16.hpp"
 #include <cstdio>
 
-class angry_lewin_0x85C;
+class Player;
 class gmp_map_zone;
 class Car_BC;
 class Mouze_44;
 class keen_bhaskara_0x30;
 class Zone_144;
 class Weapon_30;
-class Car_3C;
+class Sprite;
 class Char_8;
 class Char_B4;
 
-class cool_nash_0x294
+class Ped
 {
   public:
-    EXPORT cool_nash_0x294(); // 45AE70
-    EXPORT ~cool_nash_0x294(); // 45AF00
+    EXPORT Ped(); // 45AE70
+    EXPORT ~Ped(); // 45AF00
     EXPORT char_type sub_45AFC0();
     EXPORT s32 sub_45B440();
     EXPORT char_type sub_45B4E0();
     EXPORT u32* sub_45B520(u32* a2);
     EXPORT void sub_45B550();
-    EXPORT void sub_45B560(angry_lewin_0x85C* a2, char_type a3);
+    EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();
     EXPORT s32 sub_45B5B0(s32 a2);
     EXPORT Car_BC* sub_45BBF0();
@@ -108,11 +108,11 @@ class cool_nash_0x294
     EXPORT void sub_465270();
     EXPORT char_type sub_465B20();
     EXPORT bool sub_465CD0();
-    EXPORT char_type sub_465D00(cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_466B90(cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_466BB0(s32 a2);
-    EXPORT cool_nash_0x294* sub_466BD0(cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_466BF0(s32 a2);
+    EXPORT char_type sub_465D00(Ped* a2);
+    EXPORT Ped* sub_466B90(Ped* a2);
+    EXPORT Ped* sub_466BB0(s32 a2);
+    EXPORT Ped* sub_466BD0(Ped* a2);
+    EXPORT Ped* sub_466BF0(s32 a2);
     EXPORT s32 sub_466F40(u8 a2);
     EXPORT s32 sub_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
@@ -191,7 +191,7 @@ class cool_nash_0x294
     EXPORT void sub_46DB60();
     EXPORT void sub_46DB70();
     EXPORT void sub_46DB80();
-    EXPORT Car_3C* sub_46DF50();
+    EXPORT Sprite* sub_46DF50();
     EXPORT s32 sub_46DF70(s32 a2, s32 a3);
     EXPORT bool sub_46E020(Mouze_44* a2);
     EXPORT s32 sub_46E080(s32 a2, s32 a3);
@@ -206,7 +206,7 @@ class cool_nash_0x294
     EXPORT s32 sub_46F490();
     EXPORT char_type sub_46F600(s32 a2);
     EXPORT u32* sub_46F650(s32 a2);
-    EXPORT void sub_46F680(cool_nash_0x294* a2);
+    EXPORT void sub_46F680(Ped* a2);
     EXPORT void sub_46F720();
     EXPORT void sub_46F9D0();
     EXPORT u32* sub_46FC70();
@@ -218,7 +218,7 @@ class cool_nash_0x294
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
-    EXPORT void sub_4702D0(cool_nash_0x294* pPed);
+    EXPORT void sub_4702D0(Ped* pPed);
     EXPORT s32 sub_470300();
     EXPORT s32 sub_470F00();
 
@@ -253,7 +253,7 @@ class cool_nash_0x294
         return field_278;
     }
 
-    void set_field_14C(cool_nash_0x294* pSrc)
+    void set_field_14C(Ped* pSrc)
     {
         field_14C = pSrc;
     }
@@ -283,14 +283,14 @@ class cool_nash_0x294
     s32 field_138;
     s32 field_13C;
     s32 field_140;
-    cool_nash_0x294* field_144;
-    cool_nash_0x294* field_148_objective_target_ped;
-    cool_nash_0x294* field_14C;
+    Ped* field_144;
+    Ped* field_148_objective_target_ped;
+    Ped* field_14C;
     Car_BC* field_150_target_objective_car;
     Car_BC* field_154_target_to_enter;
     s32 field_158;
-    angry_lewin_0x85C* field_15C_player_weapons;
-    cool_nash_0x294* field_160_next_ped;
+    Player* field_15C_player_weapons;
+    Ped* field_160_next_ped;
     Mouze_44* field_164_ped_group;
     Char_B4* field_168_game_object;
     Car_BC* field_16C_car;
@@ -300,15 +300,15 @@ class cool_nash_0x294
     Zone_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     s32 field_180;
     s32 field_184;
-    cool_nash_0x294* field_188_last_char_punched;
-    cool_nash_0x294* field_18C;
+    Ped* field_188_last_char_punched;
+    Ped* field_18C;
     s32 field_190;
     s32 field_194;
     s32 field_198;
     Zone_144* field_19C;
     s32 field_1A0_objective_target_object;
     s32 field_1A4;
-    cool_nash_0x294* field_1A8_elvis_leader;
+    Ped* field_1A8_elvis_leader;
     Fix16_Vec field_1AC_cam;
     s32 field_1B8_target_x;
     s32 field_1BC_target_y;
@@ -401,4 +401,4 @@ class cool_nash_0x294
     s32 field_28C_threat_reaction;
     s32 field_290;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(cool_nash_0x294, 0x294)
+GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)

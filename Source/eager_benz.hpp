@@ -4,16 +4,16 @@
 #include "sad_mirzakhani.hpp"
 #include "thirsty_lamarr.hpp"
 
-class angry_lewin_0x85C;
+class Player;
 class Car_BC;
-class cool_nash_0x294;
+class Ped;
 
 class eager_benz
 {
   public:
     EXPORT eager_benz();
     EXPORT u32 sub_591C70();
-    EXPORT void sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6);
+    EXPORT void sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6);
     EXPORT void sub_592330();
     EXPORT thirsty_lamarr* sub_592360();
     EXPORT s32 sub_592370();
@@ -22,7 +22,7 @@ class eager_benz
     EXPORT void sub_592570(char_type a2, s32 a3);
     EXPORT s32 sub_5925B0(u8 a1, char_type a2);
     EXPORT void AddCash_592620(s32 cash);
-    EXPORT void sub_592660(cool_nash_0x294* a2, cool_nash_0x294* a3);
+    EXPORT void sub_592660(Ped* a2, Ped* a3);
     EXPORT void sub_592DD0(Car_BC* a2, u32* a3);
     EXPORT char_type sub_593030(Car_BC* a2, s16 a3);
     EXPORT void sub_593150(Car_BC* a2, s16 a3);
@@ -30,7 +30,7 @@ class eager_benz
     EXPORT void sub_593240(Car_BC* a2);
     EXPORT void sub_593370(Car_BC* a2);
     EXPORT void sub_593410(Car_BC* pCar);
-    EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, cool_nash_0x294* a4);
+    EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4);
     EXPORT thirsty_lamarr* sub_5935B0();
     EXPORT s32 sub_5935C0();
     EXPORT void sub_5935D0(s32 a2);
@@ -65,5 +65,5 @@ class eager_benz
     char_type field_1A6;
     char_type field_1A7;
     sad_mirzakhani field_1A8_unk;
-    angry_lewin_0x85C* field_368_pObj;
+    Player* field_368_pObj;
 };

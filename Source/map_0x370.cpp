@@ -723,7 +723,7 @@ char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, 
 }
 
 MATCH_FUNC(0x4E4460)
-char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Car_3C* a5, s16 a6)
+char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
 {
     gCar_3C_6F61E8 = a5;
     word_6F6002 = a6;

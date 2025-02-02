@@ -5,8 +5,8 @@
 #include "ang16.hpp"
 #include <wchar.h>
 
-class cool_nash_0x294;
-class angry_lewin_0x85C;
+class Ped;
+class Player;
 class Zone_144;
 class infallible_turing;
 class Zone_144;
@@ -40,7 +40,7 @@ class Garox_2A25_sub
     EXPORT char_type sub_5D15E0(s32 a1, char_type* a2);
     EXPORT void sub_5D16B0();
     EXPORT s32 sub_5D17D0(s32 a2);
-    EXPORT void sub_5D1830(angry_lewin_0x85C* a1);
+    EXPORT void sub_5D1830(Player* a1);
     char_type field_2A25;
 };
 
@@ -50,7 +50,7 @@ class Garox_12EC_sub
     EXPORT char_type sub_5D13C0(s32 a2, char_type* a3);
     EXPORT void sub_5D1430();
     EXPORT s32 sub_5D15A0(s32 a1);
-    EXPORT void sub_5D15D0(angry_lewin_0x85C* pPlayer);
+    EXPORT void sub_5D15D0(Player* pPlayer);
     char_type field_12EC_sub;
 };
 
@@ -469,9 +469,9 @@ class Garox_24
     }
 
     s32 field_0;
-    angry_lewin_0x85C* field_4;
+    Player* field_4;
     s32 field_8;
-    angry_lewin_0x85C* field_C;
+    Player* field_C;
     s32 field_10;
     Fix16 field_14;
     Fix16 field_18;
@@ -508,7 +508,7 @@ class Garox_7C
     EXPORT s32 sub_5D0850();
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
-    EXPORT void sub_5D0DC0(cool_nash_0x294* a2);
+    EXPORT void sub_5D0DC0(Ped* a2);
 
     EXPORT Garox_7C();
     s32 field_0;

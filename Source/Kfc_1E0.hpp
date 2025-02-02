@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class cool_nash_0x294;
+class Ped;
 class Mouze_44;
 class Car_BC;
 
@@ -13,14 +13,14 @@ class Kfc_30
     EXPORT ~Kfc_30();
     EXPORT void sub_5CBC00();
     EXPORT void sub_5CBC30();
-    EXPORT void sub_5CBC40(cool_nash_0x294* a2);
+    EXPORT void sub_5CBC40(Ped* a2);
     EXPORT bool sub_5CBC60();
     EXPORT char_type sub_5CBC90();
     EXPORT void sub_5CBD50();
     EXPORT void sub_5CC1C0();
     EXPORT char_type sub_5CC480();
     Car_BC* field_0;
-    cool_nash_0x294* field_4;
+    Ped* field_4;
     Mouze_44* field_8;
     s32 field_C;
     s32 field_10;

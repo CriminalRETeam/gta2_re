@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class cool_nash_0x294;
+class Ped;
 class Car_BC;
 class Kfc_30;
 
@@ -69,7 +69,7 @@ class Police_38
 class Police_7C
 {
   public:
-    cool_nash_0x294* field_0;
+    Ped* field_0;
     s32 field_4;
     s32 field_8;
     s16 field_C;
@@ -163,12 +163,12 @@ class Police_A4
     s32 field_7C;
     s32 field_80;
     s32 field_84;
-    cool_nash_0x294* field_88;
-    cool_nash_0x294* field_8C;
-    cool_nash_0x294* field_90;
-    cool_nash_0x294* field_94;
-    cool_nash_0x294* field_98;
-    cool_nash_0x294* field_9C;
+    Ped* field_88;
+    Ped* field_8C;
+    Ped* field_90;
+    Ped* field_94;
+    Ped* field_98;
+    Ped* field_9C;
     u8* field_A0_pMem;
 };
 
@@ -182,23 +182,23 @@ class Police_7B8
 
     EXPORT ~Police_7B8();
     EXPORT s32 sub_56F400();
-    EXPORT char_type sub_56F4D0(cool_nash_0x294* a2);
+    EXPORT char_type sub_56F4D0(Ped* a2);
     EXPORT Police_38* sub_56F560();
-    EXPORT cool_nash_0x294* sub_56F5C0(s32 a2, s32 a3, s16 a4);
+    EXPORT Ped* sub_56F5C0(s32 a2, s32 a3, s16 a4);
     EXPORT void sub_56F6D0(Car_BC* a2);
-    EXPORT bool sub_56F800(cool_nash_0x294* a2);
-    EXPORT bool sub_56F880(cool_nash_0x294* a2);
-    EXPORT s32 sub_56F8E0(cool_nash_0x294* a2, cool_nash_0x294* a3);
+    EXPORT bool sub_56F800(Ped* a2);
+    EXPORT bool sub_56F880(Ped* a2);
+    EXPORT s32 sub_56F8E0(Ped* a2, Ped* a3);
     EXPORT s32 sub_56F940(u32* a2);
     EXPORT s16 sub_56FA40();
     EXPORT char_type sub_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
     EXPORT void sub_570270();
-    EXPORT s32 sub_570320(cool_nash_0x294* a2, s32 a3, s32 a4, s32 a5, s16 a6);
+    EXPORT s32 sub_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6);
     EXPORT char_type sub_5703E0(Car_BC* a2);
     EXPORT char_type sub_5707B0(s32 a2, s32 a3);
     EXPORT s32 sub_5708C0(Police_7B8* a1, s32 a2, u32* a3);
-    EXPORT void sub_570940(Police_7B8* a1, s32 a2, cool_nash_0x294* a3);
+    EXPORT void sub_570940(Police_7B8* a1, s32 a2, Ped* a3);
     EXPORT char_type sub_577320();
     EXPORT void sub_577370(u8 a2, s32 a3, s32 a4);
 
@@ -221,7 +221,7 @@ class Police_7B8
     char_type field_7AD_police_peds_in_range_screen;
     char_type field_7AE;
     char_type field_7AF;
-    cool_nash_0x294* field_7B0;
+    Ped* field_7B0;
     char_type field_7B4;
     char_type field_7B5;
     char_type field_7B6;

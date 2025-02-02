@@ -3,7 +3,7 @@
 #include "Function.hpp"
 
 class Car_BC;
-class cool_nash_0x294;
+class Ped;
 
 class ChickenLegend_48
 {
@@ -19,7 +19,7 @@ class ChickenLegend_48
     s32 field_8;
     s32 field_C;
     s32 field_10;
-    cool_nash_0x294* field_14;
+    Ped* field_14;
     s32 field_18;
     s32 field_1C;
     s32 field_20;

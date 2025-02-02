@@ -1,6 +1,6 @@
 #include "Hamburger_500.hpp"
-#include "cool_nash_0x294.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
 
 EXPORT_VAR s32 dword_678D0C;
 GLOBAL(dword_678D0C, 0x678D0C);
@@ -58,7 +58,7 @@ Hamburger_40* Hamburger_500::sub_474810()
 }
 
 MATCH_FUNC(0x474850)
-char_type Hamburger_500::sub_474850(cool_nash_0x294* pPed1, cool_nash_0x294* pPed2)
+char_type Hamburger_500::sub_474850(Ped* pPed1, Ped* pPed2)
 {
     if (pPed1->field_240_occupation < 24 || pPed1->field_240_occupation > 27)
     {
@@ -78,7 +78,7 @@ char_type Hamburger_500::sub_474850(cool_nash_0x294* pPed1, cool_nash_0x294* pPe
 }
 
 MATCH_FUNC(0x4748a0)
-cool_nash_0x294* Hamburger_500::sub_4748A0(s32 a2, cool_nash_0x294* pPed)
+Ped* Hamburger_500::sub_4748A0(s32 a2, Ped* pPed)
 {
     for (u8 i = 0; i < 20; i++)
     {
@@ -91,13 +91,13 @@ cool_nash_0x294* Hamburger_500::sub_4748A0(s32 a2, cool_nash_0x294* pPed)
 }
 
 STUB_FUNC(0x474920)
-char_type Hamburger_500::sub_474920(s32 a2, cool_nash_0x294* a3)
+char_type Hamburger_500::sub_474920(s32 a2, Ped* a3)
 {
     return 0;
 }
 
 MATCH_FUNC(0x474970)
-char_type Hamburger_500::sub_474970(cool_nash_0x294* pPed)
+char_type Hamburger_500::sub_474970(Ped* pPed)
 {
     for (u8 i = 0; i < 20; i++)
     {
@@ -110,43 +110,43 @@ char_type Hamburger_500::sub_474970(cool_nash_0x294* pPed)
 }
 
 STUB_FUNC(0x4749b0)
-char_type Hamburger_500::sub_4749B0(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_4749B0(Ped* a1)
 {
     return 0;
 }
 
 STUB_FUNC(0x474a20)
-char_type Hamburger_500::sub_474A20(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_474A20(Ped* a1)
 {
     return 0;
 }
 
 STUB_FUNC(0x474a80)
-char_type Hamburger_500::sub_474A80(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_474A80(Ped* a1)
 {
     return 0;
 }
 
 STUB_FUNC(0x474af0)
-char_type Hamburger_500::sub_474AF0(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_474AF0(Ped* a1)
 {
     return 0;
 }
 
 STUB_FUNC(0x474b50)
-char_type Hamburger_500::sub_474B50(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_474B50(Ped* a1)
 {
     return 0;
 }
 
 STUB_FUNC(0x474bc0)
-char_type Hamburger_500::sub_474BC0(cool_nash_0x294* a1)
+char_type Hamburger_500::sub_474BC0(Ped* a1)
 {
     return 0;
 }
 
 MATCH_FUNC(0x474c30)
-char_type Hamburger_500::sub_474C30(cool_nash_0x294* pPed)
+char_type Hamburger_500::sub_474C30(Ped* pPed)
 {
     for (u8 i = 0; i < 20; i++)
     {

@@ -1,10 +1,10 @@
 #include "eager_benz.hpp"
-#include "angry_lewin_0x85C.hpp"
-#include "lucid_hamilton.hpp"
-#include "Shooey_CC.hpp"
-#include "CokeZero_100.hpp"
 #include "Car_BC.hpp"
+#include "CokeZero_100.hpp"
+#include "Player.hpp"
+#include "Shooey_CC.hpp"
 #include "debug.hpp"
+#include "lucid_hamilton.hpp"
 #include <string.h>
 
 // TODO: move
@@ -48,7 +48,7 @@ u32 eager_benz::sub_591C70()
 }
 
 MATCH_FUNC(0x5922f0)
-void eager_benz::sub_5922F0(angry_lewin_0x85C* a2, s16 a3, s32 a4, s16 a5, u16 a6)
+void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
 {
     field_368_pObj = a2;
     field_0_unk.sub_492110(a3, a4, a5);
@@ -111,7 +111,7 @@ void eager_benz::AddCash_592620(s32 cash)
 }
 
 STUB_FUNC(0x592660)
-void eager_benz::sub_592660(cool_nash_0x294* a2, cool_nash_0x294* a3)
+void eager_benz::sub_592660(Ped* a2, Ped* a3)
 {
 }
 
@@ -172,7 +172,7 @@ void eager_benz::sub_593410(Car_BC* pCar)
 }
 
 STUB_FUNC(0x5934f0)
-void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 a3, cool_nash_0x294* a4)
+void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4)
 {
 }
 

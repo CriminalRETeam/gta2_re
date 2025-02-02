@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class Car_3C;
+class Sprite;
 
 class Montana_C
 {
@@ -1040,7 +1040,7 @@ class Montana_2EE4
 class Montana_4
 {
   public:
-    EXPORT void sub_5C5CF0(Car_3C* a2);
+    EXPORT void sub_5C5CF0(Sprite* a2);
     EXPORT void Draw_5C5DF0();
     EXPORT void Reset_5C5E50();
     EXPORT Montana_4();
@@ -1052,7 +1052,7 @@ class Montana
 {
   public:
     EXPORT void ResetAll_4954F0();
-    EXPORT void sub_495510(Car_3C* a2);
+    EXPORT void sub_495510(Sprite* a2);
     EXPORT void Draw_495560(s32 col_idx);
     EXPORT Montana();
     EXPORT ~Montana();

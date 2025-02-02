@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class cool_nash_0x294;
+class Ped;
 
 class Hamburger_40
 {
@@ -15,7 +15,7 @@ class Hamburger_40
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    cool_nash_0x294* field_4;
+    Ped* field_4;
     s32 field_8;
     s32 field_C;
     char_type field_10;
@@ -38,7 +38,7 @@ class Hamburger_40
     s16 field_2A;
     u16 field_2C;
     s16 field_2E;
-    cool_nash_0x294* field_30;
+    Ped* field_30;
     s16 field_34;
     char_type field_36;
     char_type field_37;
@@ -53,17 +53,17 @@ class Hamburger_500
 {
   public:
     EXPORT Hamburger_40* sub_474810();
-    EXPORT char_type sub_474850(cool_nash_0x294* a1, cool_nash_0x294* a2);
-    EXPORT cool_nash_0x294* sub_4748A0(s32 a2, cool_nash_0x294* a3);
-    EXPORT char_type sub_474920(s32 a2, cool_nash_0x294* a3);
-    EXPORT char_type sub_474970(cool_nash_0x294* a2);
-    EXPORT char_type sub_4749B0(cool_nash_0x294* a1);
-    EXPORT char_type sub_474A20(cool_nash_0x294* a1);
-    EXPORT char_type sub_474A80(cool_nash_0x294* a1);
-    EXPORT char_type sub_474AF0(cool_nash_0x294* a1);
-    EXPORT char_type sub_474B50(cool_nash_0x294* a1);
-    EXPORT char_type sub_474BC0(cool_nash_0x294* a1);
-    EXPORT char_type sub_474C30(cool_nash_0x294* a1);
+    EXPORT char_type sub_474850(Ped* a1, Ped* a2);
+    EXPORT Ped* sub_4748A0(s32 a2, Ped* a3);
+    EXPORT char_type sub_474920(s32 a2, Ped* a3);
+    EXPORT char_type sub_474970(Ped* a2);
+    EXPORT char_type sub_4749B0(Ped* a1);
+    EXPORT char_type sub_474A20(Ped* a1);
+    EXPORT char_type sub_474A80(Ped* a1);
+    EXPORT char_type sub_474AF0(Ped* a1);
+    EXPORT char_type sub_474B50(Ped* a1);
+    EXPORT char_type sub_474BC0(Ped* a1);
+    EXPORT char_type sub_474C30(Ped* a1);
     EXPORT void sub_474CC0(Hamburger_40* a2);
     EXPORT Hamburger_500();
     EXPORT ~Hamburger_500();

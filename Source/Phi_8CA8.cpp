@@ -53,10 +53,10 @@ void Phi_74::sub_533150(s16 a2, char_type a3)
 }
 
 STUB_FUNC(0x533170)
-Car_3C* Phi_74::sub_533170()
+Sprite* Phi_74::sub_533170()
 {
     /*
-    Car_3C* field_0_pC3C = gSprite_49B28_703818->field_0_pC3C;
+    Sprite* field_0_pC3C = gSprite_49B28_703818->field_0_pC3C;
     gSprite_49B28_703818->field_0_pC3C = gSprite_49B28_703818->field_0_pC3C->field_C_car_or_sprite;
     field_0_pC3C->sub_5A2CF0();
     sub_5331A0(field_0_pC3C);
@@ -66,7 +66,7 @@ Car_3C* Phi_74::sub_533170()
 }
 
 STUB_FUNC(0x5331a0)
-s32 Phi_74::sub_5331A0(Car_3C* a2)
+s32 Phi_74::sub_5331A0(Sprite* a2)
 {
     return 0;
 }
