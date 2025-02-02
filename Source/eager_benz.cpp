@@ -1,6 +1,6 @@
 #include "eager_benz.hpp"
 #include "Car_BC.hpp"
-#include "CokeZero_100.hpp"
+#include "ExplodingScore_100.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
 #include "debug.hpp"
@@ -149,7 +149,7 @@ void eager_benz::sub_593370(Car_BC* a2)
     {
         if (field_368_pObj->field_0)
         {
-            gCokeZero_100_702F34->sub_596890(a2->field_50_car_sprite->field_14_xpos,
+            gExplodingScore_100_702F34->sub_596890(a2->field_50_car_sprite->field_14_xpos,
                                              a2->field_50_car_sprite->field_18_ypos,
                                              a2->field_50_car_sprite->field_1C_zpos,
                                              10 * field_368_pObj->field_6BC_multpliers.field_0);

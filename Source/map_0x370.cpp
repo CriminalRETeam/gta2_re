@@ -450,7 +450,7 @@ gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 }
 
 MATCH_FUNC(0x4DFB50)
-Zone_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
+Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
 {
     gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), 0xEu);
     if (pZone)
@@ -725,7 +725,7 @@ char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, 
 MATCH_FUNC(0x4E4460)
 char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
 {
-    gCar_3C_6F61E8 = a5;
+    gSprite_6F61E8 = a5;
     word_6F6002 = a6;
     if (dword_6F5B80 - dword_6F5FD4 >= 3 || a2 > dword_6F5FD4 + 1 || a2 < dword_6F5B80 - 1)
     {
@@ -1507,8 +1507,8 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
 STUB_FUNC(0x4E94A0)
 void Map_0x370::load_rgen_4E94A0()
 {
-    // gSoula_CC68_6FFDC8 stub required
-    //gSoula_CC68_6FFDC8->Load_RGEN_588B30();
+    // gRouteFinder_6FFDC8 stub required
+    //gRouteFinder_6FFDC8->Load_RGEN_588B30();
 }
 
 MATCH_FUNC(0x4E94B0)

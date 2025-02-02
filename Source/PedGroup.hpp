@@ -4,7 +4,7 @@
 
 class Ped;
 
-class Mouze_44
+class PedGroup
 {
   public:
     EXPORT void sub_4C8E60();
@@ -42,9 +42,9 @@ class Mouze_44
     EXPORT bool sub_4CAD40();
     EXPORT Ped* sub_4CAE80(u8 idx);
     EXPORT static void sub_4CB080();
-    EXPORT Mouze_44* sub_4CB0D0();
-    EXPORT Mouze_44();
-    EXPORT ~Mouze_44();
+    EXPORT PedGroup* sub_4CB0D0();
+    EXPORT PedGroup();
+    EXPORT ~PedGroup();
 
     char_type field_0;
     char_type field_1;

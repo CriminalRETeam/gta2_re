@@ -9,12 +9,12 @@
 
 class infallible_turing;
 class Ped;
-class keen_bhaskara_0x30;
+class Weapon_30;
 class Player;
 
 // TODO: add these later
 class Car_BC;
-class Zone_144;
+class Gang_144;
 
 class Player
 {
@@ -26,8 +26,8 @@ class Player
     EXPORT void sub_564710(Car_BC* a2, s32 a3);
     EXPORT void sub_564790(s32 idx);
     EXPORT void sub_5647D0();
-    EXPORT keen_bhaskara_0x30* sub_5648F0();
-    EXPORT void sub_564910(keen_bhaskara_0x30* a2);
+    EXPORT Weapon_30* sub_5648F0();
+    EXPORT void sub_564910(Weapon_30* a2);
     EXPORT char_type sub_564940();
     EXPORT char_type sub_564960(s32 a2, u8 a3);
     EXPORT u16 sub_5649D0(char_type a2, char_type a3);
@@ -126,7 +126,7 @@ class Player
     char_type field_31;
     char_type field_32;
     char_type field_33;
-    Zone_144* field_34_pObj;
+    Gang_144* field_34_pObj;
     gmp_map_zone* field_38;
     gmp_map_zone* field_3C;
     gmp_map_zone* field_40;
@@ -199,7 +199,7 @@ class Player
     thirsty_lamarr field_6BC_multpliers;
     WORD field_6F4[17];
     s16 field_716;
-    keen_bhaskara_0x30* field_718[28];
+    Weapon_30* field_718[28];
     s16 field_788_idx;
     char_type field_78A;
     char_type field_78B;

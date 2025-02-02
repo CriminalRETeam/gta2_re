@@ -3,8 +3,8 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
-#include "Mouze_44.hpp"
 #include "Object_5C.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
@@ -426,7 +426,7 @@ void Ped::sub_45C5C0()
         this->field_16C_car = 0;
         sub_463570(0, 9999);
         sub_463830(0, 9999);
-        Mouze_44* pGroup = this->field_164_ped_group;
+        PedGroup* pGroup = this->field_164_ped_group;
         if (pGroup)
         {
             pGroup->sub_4C91B0();
@@ -1311,7 +1311,7 @@ s32 Ped::sub_46DF70(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46e020)
-bool Ped::sub_46E020(Mouze_44* pGroup)
+bool Ped::sub_46E020(PedGroup* pGroup)
 {
     return this->field_164_ped_group != pGroup && !this->field_15C_player_weapons &&
         (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
@@ -1449,13 +1449,13 @@ s32 Ped::sub_46F100(u8 a2)
 }
 
 STUB_FUNC(0x46f110)
-keen_bhaskara_0x30* Ped::sub_46F110()
+Weapon_30* Ped::sub_46F110()
 {
     return 0;
 }
 
 STUB_FUNC(0x46f1e0)
-void Ped::sub_46F1E0(keen_bhaskara_0x30* a2)
+void Ped::sub_46F1E0(Weapon_30* a2)
 {
 }
 

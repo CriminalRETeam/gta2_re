@@ -7,9 +7,9 @@
 
 class Ped;
 class Player;
-class Zone_144;
+class Gang_144;
 class infallible_turing;
-class Zone_144;
+class Gang_144;
 class Object_2C;
 
 class Garox_13C0_sub
@@ -445,7 +445,7 @@ class Garox_18
 class Garox_30_Sub
 {
   public:
-    Zone_144* field_30;
+    Gang_144* field_30;
     char_type field_34;
     char_type field_5;
     char_type field_6;
@@ -455,7 +455,7 @@ class Garox_30_Sub
 class Garox_24
 {
   public:
-    EXPORT void sub_5D03C0(Zone_144* pZone);
+    EXPORT void sub_5D03C0(Gang_144* pZone);
 
     // inline 0x4C6F00
     void init()
@@ -539,15 +539,15 @@ class Garox_7C_Array
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
     EXPORT Garox_7C* sub_5D0EF0();
-    EXPORT char_type sub_5D0F40(Zone_144* a2);
+    EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
     EXPORT Garox_7C* sub_5D1020(s32* a2);
     EXPORT Garox_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C* sub_5D10D0(Zone_144* pZone, s32 phone_type);
+    EXPORT Garox_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
-    EXPORT void sub_5D1310(Zone_144* pZone);
+    EXPORT void sub_5D1310(Gang_144* pZone);
     Garox_7C field_0_array[17];
     char_type field_83C;
     char_type field_83D;

@@ -6,12 +6,12 @@ EXPORT_VAR Maccies_14AC* gMaccies_14AC_67E5D0;
 GLOBAL(gMaccies_14AC_67E5D0, 0x67E5D0);
 
 STUB_FUNC(0x4c1c50)
-void Maccies_2C::sub_4C1C50()
+void Generator_2C::sub_4C1C50()
 {
 }
 
 MATCH_FUNC(0x4c1c70)
-void Maccies_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
+void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
 {
     field_4_x = x.mValue;
     field_8_y = y.mValue;
@@ -44,7 +44,7 @@ void Maccies_14AC::sub_4C1D70()
         end_idx = field_14A0;
     }
 
-    Maccies_2C* pIter = &field_0[start_idx];
+    Generator_2C* pIter = &field_0[start_idx];
     for (s32 i = start_idx; i < end_idx; i++)
     {
         pIter->sub_4C1C50();
@@ -53,9 +53,9 @@ void Maccies_14AC::sub_4C1D70()
 }
 
 MATCH_FUNC(0x4c1dc0)
-Maccies_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
+Generator_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
-    Maccies_2C* pMaccies = &field_0[field_14A0];
+    Generator_2C* pMaccies = &field_0[field_14A0];
     pMaccies->sub_4C1C70(x, y, z, rot, type, min_delay, max_delay);
     field_14A0++;
     return pMaccies;

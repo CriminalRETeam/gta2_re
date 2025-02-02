@@ -23,11 +23,11 @@ GLOBAL(gCar_6C_677930, 0x677930);
 EXPORT_VAR Car_E0C4* gCar_E0C4_67792C;
 GLOBAL(gCar_E0C4_67792C, 0x67792C);
 
-EXPORT_VAR Sprite* gCar_3C_6F61E8;
-GLOBAL(gCar_3C_6F61E8, 0x6F61E8);
+EXPORT_VAR Sprite* gSprite_6F61E8;
+GLOBAL(gSprite_6F61E8, 0x6F61E8);
 
-EXPORT_VAR Sprite* gCar_3C_6791A8;
-GLOBAL(gCar_3C_6791A8, 0x6791A8);
+EXPORT_VAR Sprite* gSprite_6791A8;
+GLOBAL(gSprite_6791A8, 0x6791A8);
 
 EXPORT_VAR Car_8F74* gCar_8F74_677CF8;
 GLOBAL(gCar_8F74_677CF8, 0x677CF8);
@@ -40,8 +40,8 @@ GLOBAL(gCar_14_677934, 0x677934);
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
-EXPORT_VAR Sprite* gCar_3C_677938;
-GLOBAL(gCar_3C_677938, 0x677938);
+EXPORT_VAR Sprite* gSprite_Unused_677938;
+GLOBAL(gSprite_Unused_677938, 0x677938);
 
 EXPORT_VAR s32 dword_679188;
 GLOBAL(dword_679188, 0x679188);
@@ -58,11 +58,11 @@ GLOBAL(gFix16_6777CC, 0x6777CC);
 EXPORT_VAR Fix16 gFix16_7035C0;
 GLOBAL(gFix16_7035C0, 0x7035C0);
 
-EXPORT_VAR Monster_2C* gMonster_2C_66AB78;
-GLOBAL(gMonster_2C_66AB78, 0x66AB78);
+EXPORT_VAR CarInfo_2C* gCarInfo_2C_66AB78;
+GLOBAL(gCarInfo_2C_66AB78, 0x66AB78);
 
-EXPORT_VAR Monster_48* gMonster_48_66AB70;
-GLOBAL(gMonster_48_66AB70, 0x66AB70);
+EXPORT_VAR CarInfo_48* gCarInfo_48_66AB70;
+GLOBAL(gCarInfo_48_66AB70, 0x66AB70);
 
 EXPORT_VAR s16 DAT_677CFC;
 GLOBAL(DAT_677CFC, 0x677CFC);
@@ -88,8 +88,8 @@ GLOBAL(DAT_00679320, 0x679320);
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
-    gMonster_2C_66AB78 = NULL;
-    gMonster_48_66AB70 = NULL;
+    gCarInfo_2C_66AB78 = NULL;
+    gCarInfo_48_66AB70 = NULL;
 }
 
 MATCH_FUNC(0x447640)
@@ -353,16 +353,16 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 
     sub_59E9C0();
     next_ptr->sub_5A4D90();
-    gCar_3C_6F61E8 = this;
+    gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
-        return gCar_3C_6791A8;
+        return gSprite_6791A8;
     }
     result = (Sprite*)gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
         dword_679188 = 3;
-        gCar_3C_6791A8 = result;
+        gSprite_6791A8 = result;
     }
     return result;
 }
@@ -835,10 +835,10 @@ Car_6C::Car_6C()
     field_20 = 4;
     field_24 = 1;
 
-    if (!gCar_3C_677938)
+    if (!gSprite_Unused_677938)
     {
-        gCar_3C_677938 = new Sprite();
-        if (!gCar_3C_677938)
+        gSprite_Unused_677938 = new Sprite();
+        if (!gSprite_Unused_677938)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
         }

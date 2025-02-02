@@ -5,9 +5,9 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
+#include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "infallible_turing.hpp"
-#include "keen_bhaskara_0x30.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
@@ -60,13 +60,13 @@ void Player::sub_5647D0()
 }
 
 MATCH_FUNC(0x5648F0)
-keen_bhaskara_0x30* Player::sub_5648F0()
+Weapon_30* Player::sub_5648F0()
 {
     return field_788_idx == -1 ? NULL : field_718[field_788_idx];
 }
 
 MATCH_FUNC(0x564910)
-void Player::sub_564910(keen_bhaskara_0x30* a2)
+void Player::sub_564910(Weapon_30* a2)
 {
     s16 idx = a2->field_1C_idx;
     this->field_718[idx] = a2;

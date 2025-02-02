@@ -9,7 +9,7 @@ class Fix16;
 class Sprite;
 class Car_BC;
 
-class keen_bhaskara_0x30
+class Weapon_30
 {
   public:
     EXPORT void sub_5DCE20(u8 a2);

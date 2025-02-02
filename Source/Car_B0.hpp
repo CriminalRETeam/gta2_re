@@ -8,8 +8,8 @@ class Car_BC;
 class Car_A4_10;
 class Sprite_4C;
 class Ped;
-class Monster_48;
-class Monster_2C;
+class CarInfo_48;
+class CarInfo_2C;
 class Car_78;
 
 class Car_B0
@@ -104,8 +104,8 @@ class Car_B0
     EXPORT void sub_562910();
     EXPORT __int64 sub_562C20(s16* a2);
     EXPORT void sub_562D00();
-    EXPORT Monster_48* sub_562EB0();
-    EXPORT Monster_2C* sub_562ED0();
+    EXPORT CarInfo_48* sub_562EB0();
+    EXPORT CarInfo_2C* sub_562ED0();
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();
     EXPORT char_type sub_562FA0();

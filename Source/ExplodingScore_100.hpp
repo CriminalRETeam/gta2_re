@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Function.hpp"
 #include "Fix16.hpp"
+#include "Function.hpp"
 
-class CokeZero_50
+class ExplodingScore_50
 {
   public:
-    EXPORT CokeZero_50();
-    EXPORT ~CokeZero_50();
+    EXPORT ExplodingScore_50();
+    EXPORT ~ExplodingScore_50();
     EXPORT void Empty_596A50();
     EXPORT void Empty_596A60();
     EXPORT void sub_596A70(s32 a2);
@@ -27,17 +27,17 @@ class CokeZero_50
     s32 field_38;
     s32 field_3C;
     s32 field_40;
-    CokeZero_50* field_44;
+    ExplodingScore_50* field_44;
     s16 field_48;
     s16 field_4A;
     s32 field_4C;
 };
 
-class CokeZero_100
+class ExplodingScore_100
 {
   public:
-    EXPORT CokeZero_100();
-    EXPORT ~CokeZero_100();
+    EXPORT ExplodingScore_100();
+    EXPORT ~ExplodingScore_100();
     EXPORT s16 sub_596860();
     EXPORT void sub_596880();
     EXPORT void sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5);
@@ -46,11 +46,11 @@ class CokeZero_100
 
     s16 field_0;
     s16 field_2;
-    CokeZero_50* field_4;
-    CokeZero_50* field_8;
-    CokeZero_50 field_C[3];
+    ExplodingScore_50* field_4;
+    ExplodingScore_50* field_8;
+    ExplodingScore_50 field_C[3];
     s16 field_FC_count;
     s16 field_FE;
 };
 
-EXPORT_VAR extern CokeZero_100* gCokeZero_100_702F34;
+EXPORT_VAR extern ExplodingScore_100* gExplodingScore_100_702F34;

@@ -13,11 +13,11 @@ class jawwie_8
     s32 field_4;
 };
 
-class jawwie_20
+class Ambulance_20
 {
   public:
-    EXPORT jawwie_20();
-    EXPORT ~jawwie_20();
+    EXPORT Ambulance_20();
+    EXPORT ~Ambulance_20();
     EXPORT void sub_4FA7D0();
     EXPORT void sub_4FA800(Ped* pPed);
     EXPORT char_type sub_4FA820();
@@ -43,19 +43,19 @@ class jawwie_20
     char_type field_1F;
 };
 
-class jawwie_110
+class Ambulance_110
 {
   public:
-    jawwie_110()
+    Ambulance_110()
     {
         init_4FA310();
     }
 
-    EXPORT ~jawwie_110();
+    EXPORT ~Ambulance_110();
     EXPORT void init_4FA310();
     EXPORT char_type sub_4FA330(Ped* a2);
     EXPORT char_type sub_4FA470(Ped* a2);
-    EXPORT jawwie_20* sub_4FA4B0();
+    EXPORT Ambulance_20* sub_4FA4B0();
     EXPORT void sub_4FA500();
     EXPORT void sub_4FA790();
 
@@ -65,5 +65,5 @@ class jawwie_110
     char_type field_3;
     Ped_Unknown_4 field_4;
     jawwie_8 field_8[25];
-    jawwie_20 field_D0[2];
+    Ambulance_20 field_D0[2];
 };

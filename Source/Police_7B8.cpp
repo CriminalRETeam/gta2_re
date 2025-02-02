@@ -7,8 +7,8 @@
 EXPORT_VAR s32 dword_6FECE8;
 GLOBAL(dword_6FECE8, 0x6FECE8);
 
-EXPORT_VAR Ped* dword_6FEDDC;
-GLOBAL(dword_6FEDDC, 0x6FEDDC);
+EXPORT_VAR Ped* pPed_6FEDDC;
+GLOBAL(pPed_6FEDDC, 0x6FEDDC);
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
@@ -139,10 +139,10 @@ STUB_FUNC(0x575210)
 void Police_38::sub_575210()
 {
     Kfc_30* pKfc30 = this->field_10_subObj;
-    if (!pKfc30->field_24 || dword_6FEDDC->field_225)
+    if (!pKfc30->field_24 || pPed_6FEDDC->field_225)
     {
-        dword_6FEDDC->sub_463830(0, 9999);
-        dword_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->sub_463570(0, 9999);
     }
     else
     {
@@ -153,10 +153,10 @@ void Police_38::sub_575210()
 STUB_FUNC(0x575270)
 void Police_38::sub_575270()
 {
-    if (!this->field_10_subObj->field_24 || dword_6FEDDC->field_225)
+    if (!this->field_10_subObj->field_24 || pPed_6FEDDC->field_225)
     {
-        dword_6FEDDC->sub_463830(0, 9999);
-        dword_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->sub_463570(0, 9999);
     }
 }
 
