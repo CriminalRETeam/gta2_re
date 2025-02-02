@@ -10,9 +10,9 @@
 class Player;
 class gmp_map_zone;
 class Car_BC;
-class Mouze_44;
-class keen_bhaskara_0x30;
-class Zone_144;
+class PedGroup;
+class Weapon_30;
+class Gang_144;
 class Weapon_30;
 class Sprite;
 class Char_8;
@@ -193,15 +193,15 @@ class Ped
     EXPORT void sub_46DB80();
     EXPORT Sprite* sub_46DF50();
     EXPORT s32 sub_46DF70(s32 a2, s32 a3);
-    EXPORT bool sub_46E020(Mouze_44* a2);
+    EXPORT bool sub_46E020(PedGroup* a2);
     EXPORT s32 sub_46E080(s32 a2, s32 a3);
     EXPORT u8 sub_46E200(u8 a2);
     EXPORT u8 get_wanted_star_count_46EF00();
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
     EXPORT s32 sub_46F100(u8 a2);
-    EXPORT keen_bhaskara_0x30* sub_46F110();
-    EXPORT void sub_46F1E0(keen_bhaskara_0x30* a2);
+    EXPORT Weapon_30* sub_46F110();
+    EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void sub_46F390();
     EXPORT s32 sub_46F490();
     EXPORT char_type sub_46F600(s32 a2);
@@ -228,7 +228,7 @@ class Ped
         field_23C = 0;
     }
 
-    void set_ped_group(Mouze_44* ptr)
+    void set_ped_group(PedGroup* ptr)
     {
         field_164_ped_group = ptr;
     }
@@ -291,13 +291,13 @@ class Ped
     s32 field_158;
     Player* field_15C_player_weapons;
     Ped* field_160_next_ped;
-    Mouze_44* field_164_ped_group;
+    PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;
     Car_BC* field_16C_car;
     s32 field_170_selected_weapon;
     s32 field_174_pWeapon;
     Weapon_30* field_178;
-    Zone_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
+    Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     s32 field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
@@ -305,7 +305,7 @@ class Ped
     s32 field_190;
     s32 field_194;
     s32 field_198;
-    Zone_144* field_19C;
+    Gang_144* field_19C;
     s32 field_1A0_objective_target_object;
     s32 field_1A4;
     Ped* field_1A8_elvis_leader;

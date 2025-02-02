@@ -6,11 +6,11 @@
 class Car_BC;
 class infallible_turing;
 
-class Snooky_30
+class Crusher_30
 {
   public:
-    EXPORT Snooky_30(); // 4882D0
-    EXPORT ~Snooky_30(); // 4882E0
+    EXPORT Crusher_30(); // 4882D0
+    EXPORT ~Crusher_30(); // 4882E0
     EXPORT void sub_488310(Car_BC* a2);
     EXPORT void sub_488350();
     EXPORT infallible_turing* sub_4885A0(Fix16 a2, Fix16 a3, char_type a4);
@@ -34,11 +34,11 @@ class Snooky_94
     EXPORT char_type sub_4887A0(Car_BC* toFind);
     EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
     EXPORT void sub_4887F0();
-    EXPORT Snooky_30* sub_488820(Fix16 a2, Fix16 a3);
+    EXPORT Crusher_30* sub_488820(Fix16 a2, Fix16 a3);
     EXPORT Snooky_94();
     EXPORT ~Snooky_94();
 
-    Snooky_30 field_0[3];
+    Crusher_30 field_0[3];
     s32 field_90_count;
 };
 EXPORT_VAR extern Snooky_94* gSnooky_94_67A830;

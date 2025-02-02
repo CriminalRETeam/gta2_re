@@ -1,4 +1,4 @@
-#include "Monster_808.hpp"
+#include "CarInfo_808.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
 #include "file.hpp"
@@ -7,7 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 
-EXPORT_VAR Monster_808* gMonster_808_678098;
+EXPORT_VAR CarInfo_808* gMonster_808_678098;
 GLOBAL(gMonster_808_678098, 0x678098);
 
 EXPORT_VAR char file_name_677EC4[64];
@@ -47,13 +47,13 @@ EXPORT_VAR Fix16 DAT_6761A4;
 GLOBAL(DAT_6761A4, 0x6761a4);
 
 MATCH_FUNC(0x454680)
-void Monster_48::sub_454680()
+void CarInfo_48::sub_454680()
 {
     field_4_mass = field_4_mass * (DAT_5e54a0 + DAT_5e5514);
 }
 
 MATCH_FUNC(0x430b10)
-s32 __stdcall Monster_808::sub_430b10(char* param_1)
+s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
 {
     s32 iVar2 = 0;
 
@@ -134,9 +134,9 @@ s32 __stdcall Monster_808::sub_430b10(char* param_1)
 }
 
 STUB_FUNC(0x430a30)
-char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
+char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
                                                    size_t input_size,
-                                                   Monster_48* output,
+                                                   CarInfo_48* output,
                                                    size_t output_size,
                                                    u32* next_position)
 {
@@ -144,7 +144,7 @@ char* __stdcall Monster_808::parse_gci_file_430A30(void* input,
 }
 
 MATCH_FUNC(0x430e60)
-s32 __stdcall Monster_808::sub_430E60(void* param_1, u32 param_2)
+s32 __stdcall CarInfo_808::sub_430E60(void* param_1, u32 param_2)
 {
     processed_output_676250 += param_2;
     if (processed_output_676250 > output_size_675F90)
@@ -159,7 +159,7 @@ s32 __stdcall Monster_808::sub_430E60(void* param_1, u32 param_2)
 }
 
 MATCH_FUNC(0x430EC0)
-s32 __stdcall Monster_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
+s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -191,7 +191,7 @@ s32 __stdcall Monster_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 }
 
 MATCH_FUNC(0x430f30)
-s32 __stdcall Monster_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
+s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -223,7 +223,7 @@ s32 __stdcall Monster_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
 }
 
 MATCH_FUNC(0x430fa0)
-s32 __stdcall Monster_808::StrToInt_430FA0(const char* param_1, s32* param_2)
+s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -246,7 +246,7 @@ s32 __stdcall Monster_808::StrToInt_430FA0(const char* param_1, s32* param_2)
 }
 
 MATCH_FUNC(0x431000)
-s32 __stdcall Monster_808::FloatStrToFix16_431000(char* param_1, Fix16 &param_2)
+s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* param_1, Fix16& param_2)
 {
     param_2 = DAT_6761A4;
     bool bVar2 = false;
@@ -276,7 +276,7 @@ s32 __stdcall Monster_808::FloatStrToFix16_431000(char* param_1, Fix16 &param_2)
 }
 
 MATCH_FUNC(0x431080)
-s32 __stdcall Monster_808::StrToInt_431080(const char* param_1, s16* param_2)
+s32 __stdcall CarInfo_808::StrToInt_431080(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
     s32 iVar5 = 1;
@@ -299,38 +299,37 @@ s32 __stdcall Monster_808::StrToInt_431080(const char* param_1, s16* param_2)
 }
 
 MATCH_FUNC(0x4549A0)
-Monster_2C::Monster_2C()
+CarInfo_2C::CarInfo_2C()
 {
 }
 
 MATCH_FUNC(0x4549B0)
-Monster_2C::~Monster_2C()
+CarInfo_2C::~CarInfo_2C()
 {
 }
 
 STUB_FUNC(0x4542A0)
-void Monster_2C::sub_4542A0(s32 idx)
+void CarInfo_2C::sub_4542A0(s32 idx)
 {
-
 }
 
 MATCH_FUNC(0x4546b0)
-Monster_48* Monster_808::sub_4546B0(u8 a2)
+CarInfo_48* CarInfo_808::sub_4546B0(u8 a2)
 {
     return field_404_ptr_array[a2];
 }
 
 MATCH_FUNC(0x4546d0)
-void Monster_808::sub_4546D0()
+void CarInfo_808::sub_4546D0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     u32 local_1c;
     size_t file_size;
     void* file_content = File::ReadFileToBuffer_4A6C80(file_name_677EC4, &file_size);
 
-    field_804_raw_data = new Monster_48[number_of_cars];
+    field_804_raw_data = new CarInfo_48[number_of_cars];
 
-    char* pcVar3 = Monster_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
+    char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
     free(file_content);
 
     if (pcVar3 != NULL)
@@ -353,13 +352,13 @@ void Monster_808::sub_4546D0()
 
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        Monster_48* pMVar5 = field_804_raw_data + i;
+        CarInfo_48* pMVar5 = field_804_raw_data + i;
         field_404_ptr_array[pMVar5->field_0_model] = pMVar5;
     }
 }
 
 MATCH_FUNC(0x454840)
-Monster_2C* Monster_808::sub_454840(u8 idx)
+CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
 {
     return field_0_ptr_array[idx];
 }
@@ -367,10 +366,10 @@ Monster_2C* Monster_808::sub_454840(u8 idx)
 // This function has a full match, but it's waiting until sub_4542A0 has matched.
 // Or moved to a different file. While it's empty, this match will fail because of a single intruction
 STUB_FUNC(0x454850)
-void Monster_808::sub_454850()
+void CarInfo_808::sub_454850()
 {
     const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
-    field_400_raw_data = new Monster_2C[count];
+    field_400_raw_data = new CarInfo_2C[count];
 
     for (u32 i = 0, j = 0; i < 256; i++)
     {
@@ -384,7 +383,7 @@ void Monster_808::sub_454850()
 }
 
 MATCH_FUNC(0x4549c0)
-void Monster_808::sub_4549C0()
+void CarInfo_808::sub_4549C0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     for (u32 i = 0; i < number_of_cars; i++)
@@ -394,7 +393,7 @@ void Monster_808::sub_4549C0()
 }
 
 MATCH_FUNC(0x454a00)
-void Monster_808::sub_454A00(const char_type* pGciFilePath)
+void CarInfo_808::sub_454A00(const char_type* pGciFilePath)
 {
     strcpy(&file_name_677EC4[0], pGciFilePath);
 
@@ -404,7 +403,7 @@ void Monster_808::sub_454A00(const char_type* pGciFilePath)
 }
 
 MATCH_FUNC(0x454a50)
-void Monster_808::sub_454A50()
+void CarInfo_808::sub_454A50()
 {
     sub_454AA0();
     sub_454A80();
@@ -414,7 +413,7 @@ void Monster_808::sub_454A50()
 }
 
 MATCH_FUNC(0x454a80)
-void Monster_808::sub_454A80()
+void CarInfo_808::sub_454A80()
 {
     for (int i = 0; i < 0x100; i++)
     {
@@ -424,7 +423,7 @@ void Monster_808::sub_454A80()
 }
 
 MATCH_FUNC(0x454aa0)
-void Monster_808::sub_454AA0()
+void CarInfo_808::sub_454AA0()
 {
     delete[] field_400_raw_data;
     field_400_raw_data = 0;
@@ -437,7 +436,7 @@ void Monster_808::sub_454AA0()
 }
 
 MATCH_FUNC(0x454b00)
-Monster_808::Monster_808()
+CarInfo_808::CarInfo_808()
 {
     field_400_raw_data = NULL;
     field_804_raw_data = NULL;
@@ -445,7 +444,7 @@ Monster_808::Monster_808()
 }
 
 MATCH_FUNC(0x454b20)
-Monster_808::~Monster_808()
+CarInfo_808::~CarInfo_808()
 {
     sub_454AA0();
 }

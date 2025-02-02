@@ -1,6 +1,6 @@
 #include "Kfc_1E0.hpp"
-#include "Mouze_44.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()

@@ -5,14 +5,14 @@
 class Car_BC;
 class Ped;
 
-class ChickenLegend_48
+class Garage_48
 {
   public:
-    EXPORT ~ChickenLegend_48();
+    EXPORT ~Garage_48();
     EXPORT char_type sub_534650();
     EXPORT void sub_534700(Car_BC* a2, void* a3);
     EXPORT void sub_5349D0();
-    EXPORT ChickenLegend_48();
+    EXPORT Garage_48();
 
     Car_BC* field_0;
     Car_BC* field_4;
@@ -40,4 +40,4 @@ class ChickenLegend_48
     s32 field_44;
 };
 
-EXPORT_VAR extern ChickenLegend_48* gChickenLegend_48_6FD26C;
+EXPORT_VAR extern Garage_48* gChickenLegend_48_6FD26C;

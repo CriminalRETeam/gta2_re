@@ -1,16 +1,16 @@
 #include "miss2_0x11c.hpp"
 #include "Car_BC.hpp"
-#include "ChickenLegend_48.hpp"
 #include "Door_4D4.hpp"
 #include "Game_0x40.hpp"
+#include "Garage_48.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Maccies_14AC.hpp"
+#include "MapRenderer.hpp"
 #include "Miss2_25C.hpp"
-#include "Mouze_44.hpp"
-#include "Nanobotz.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "Sero_181C.hpp"
@@ -508,7 +508,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     string_entry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
-    Zone_144* pZone = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    Gang_144* pZone = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
     pZone->field_101 = pCmd->field_A_remap;
 
     pZone->field_104_basic_weapon = pCmd->field_B_weapon1;
@@ -536,7 +536,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
     gZones_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
     ++gfrosty_pasteur_6F8060->field_354;
-    Zone_144* v7 = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    Gang_144* v7 = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
     if ((u8)pCmd->field_F_kill_respect_change > 0)
     {
         gGarox_2B00_706620->field_1F18.sub_5D1310(v7);
@@ -1388,7 +1388,7 @@ void miss2_0x11C::sub_50ACF0()
     str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
 
     char* gang_zone_name = (char*)&StringById_503080[1];
-    Zone_144* v4 = gZones_CA8_67E274->zone_by_name_4BF100(gang_zone_name);
+    Gang_144* v4 = gZones_CA8_67E274->zone_by_name_4BF100(gang_zone_name);
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_unsigned_3);
 
     // v1->field_A_signed_2 = respect parameter
@@ -1744,7 +1744,7 @@ void miss2_0x11C::SCRCMD_IS_GROUP_IN_CAR_50C470()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pGroupLeader = pPointer->field_8_char;
-    Mouze_44* pGroup = pGroupLeader->field_164_ped_group;
+    PedGroup* pGroup = pGroupLeader->field_164_ped_group;
 
     bool v1;
     if (pGroup != NULL)

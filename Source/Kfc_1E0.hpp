@@ -3,7 +3,7 @@
 #include "Function.hpp"
 
 class Ped;
-class Mouze_44;
+class PedGroup;
 class Car_BC;
 
 class Kfc_30
@@ -21,7 +21,7 @@ class Kfc_30
     EXPORT char_type sub_5CC480();
     Car_BC* field_0;
     Ped* field_4;
-    Mouze_44* field_8;
+    PedGroup* field_8;
     s32 field_C;
     s32 field_10;
     s32 field_14;

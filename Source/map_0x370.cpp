@@ -450,7 +450,7 @@ gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 }
 
 MATCH_FUNC(0x4DFB50)
-Zone_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
+Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
 {
     gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), 0xEu);
     if (pZone)

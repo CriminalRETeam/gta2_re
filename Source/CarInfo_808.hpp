@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class Monster_48
+class CarInfo_48
 {
   public:
     u8 field_0_model;
@@ -30,13 +30,13 @@ class Monster_48
 
     EXPORT void sub_454680();
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Monster_48, 0x48);
+GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_48, 0x48);
 
-class Monster_2C
+class CarInfo_2C
 {
   public:
-    EXPORT Monster_2C();
-    EXPORT ~Monster_2C();
+    EXPORT CarInfo_2C();
+    EXPORT ~CarInfo_2C();
     EXPORT void sub_4542A0(s32 idx);
 
     s32 field_0;
@@ -51,41 +51,41 @@ class Monster_2C
     Fix16 field_24_skid_threshhold_1;
     Fix16 field_28_skid_threshhold_2;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Monster_2C, 0x2C);
+GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 
-class Monster_808
+class CarInfo_808
 {
   public:
-    EXPORT Monster_48* sub_4546B0(u8 a2);
+    EXPORT CarInfo_48* sub_4546B0(u8 a2);
     EXPORT void sub_4546D0();
-    EXPORT Monster_2C* sub_454840(u8 idx);
+    EXPORT CarInfo_2C* sub_454840(u8 idx);
     EXPORT void sub_454850();
     EXPORT void sub_4549C0();
     EXPORT void sub_454A00(const char_type* pGciFilePath);
     EXPORT void sub_454A50();
     EXPORT void sub_454A80();
     EXPORT void sub_454AA0();
-    EXPORT Monster_808();
-    EXPORT ~Monster_808();
+    EXPORT CarInfo_808();
+    EXPORT ~CarInfo_808();
 
     static char* __stdcall parse_gci_file_430A30(void* input,
                                                  size_t input_size,
-                                                 Monster_48* output,
+                                                 CarInfo_48* output,
                                                  size_t output_size,
                                                  u32* next_position);
     static s32 __stdcall sub_430b10(char* param_1);
-    static s32 __stdcall sub_430E60(void *param_1, u32 param_2);
+    static s32 __stdcall sub_430E60(void* param_1, u32 param_2);
     static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
     static s32 __stdcall StrToInt_430FA0(const char* param_1, s32* param_2);
-    static s32 __stdcall FloatStrToFix16_431000(char *param_1, Fix16 &param_2);
+    static s32 __stdcall FloatStrToFix16_431000(char* param_1, Fix16& param_2);
     static s32 __stdcall StrToInt_431080(const char* param_1, s16* param_2);
 
-    Monster_2C* field_0_ptr_array[256];
-    Monster_2C* field_400_raw_data;
-    Monster_48* field_404_ptr_array[256];
-    Monster_48* field_804_raw_data;
+    CarInfo_2C* field_0_ptr_array[256];
+    CarInfo_2C* field_400_raw_data;
+    CarInfo_48* field_404_ptr_array[256];
+    CarInfo_48* field_804_raw_data;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Monster_808, 0x808);
+GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
 
-extern EXPORT_VAR Monster_808* gMonster_808_678098;
+extern EXPORT_VAR CarInfo_808* gMonster_808_678098;

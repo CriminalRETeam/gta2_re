@@ -1,12 +1,12 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 
 class Object_2C;
 
-class Maccies_2C
+class Generator_2C
 {
   public:
     EXPORT void sub_4C1C50();
@@ -36,9 +36,9 @@ class Maccies_14AC
   public:
     EXPORT void sub_4C1CD0(Maccies_14AC* a1);
     EXPORT void sub_4C1D70();
-    EXPORT Maccies_2C* sub_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
+    EXPORT Generator_2C* sub_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
     EXPORT Maccies_14AC();
-    Maccies_2C field_0[120];
+    Generator_2C field_0[120];
     s32 field_14A0;
     s32 field_14A4;
     u8 field_14A8;

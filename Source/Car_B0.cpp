@@ -534,13 +534,13 @@ void Car_B0::sub_562D00()
 }
 
 STUB_FUNC(0x562eb0)
-Monster_48* Car_B0::sub_562EB0()
+CarInfo_48* Car_B0::sub_562EB0()
 {
     return 0;
 }
 
 STUB_FUNC(0x562ed0)
-Monster_2C* Car_B0::sub_562ED0()
+CarInfo_2C* Car_B0::sub_562ED0()
 {
     return 0;
 }

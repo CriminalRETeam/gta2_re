@@ -5,12 +5,12 @@
 #include "ang16.hpp"
 
 class Ped;
-class Maccies_2C;
-class Snooky_30;
+class Generator_2C;
+class Crusher_30;
 class miss2_8;
 class Car_BC;
 class Object_2C;
-class Zheal_15C;
+class Crane_15C;
 class nostalgic_ellis_0x28;
 class Door_38;
 class miss2_0x11C;
@@ -158,12 +158,12 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Ped* field_8_char;
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
-        Zheal_15C* field_8_crane;
+        Crane_15C* field_8_crane;
         nostalgic_ellis_0x28* field_8_light;
         Door_38* field_8_door;
-        Snooky_30* field_8_crusher;
+        Crusher_30* field_8_crusher;
         u32 field_8_counter;
-        Maccies_2C* field_8_generator;
+        Generator_2C* field_8_generator;
     };
 };
 

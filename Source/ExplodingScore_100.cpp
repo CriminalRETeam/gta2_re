@@ -1,12 +1,12 @@
-#include "CokeZero_100.hpp"
+#include "ExplodingScore_100.hpp"
 #include "Globals.hpp"
 #include <memory.h>
 
-EXPORT_VAR CokeZero_100* gCokeZero_100_702F34;
+EXPORT_VAR ExplodingScore_100* gCokeZero_100_702F34;
 GLOBAL(gCokeZero_100_702F34, 0x702F34);
 
 MATCH_FUNC(0x596a00)
-CokeZero_50::CokeZero_50()
+ExplodingScore_50::ExplodingScore_50()
 {
     field_0 = 0;
     for (s32 i = 0; i < 9; i++)
@@ -24,23 +24,23 @@ CokeZero_50::CokeZero_50()
 }
 
 MATCH_FUNC(0x596a40)
-CokeZero_50::~CokeZero_50()
+ExplodingScore_50::~ExplodingScore_50()
 {
     field_44 = 0;
 }
 
 MATCH_FUNC(0x596a50)
-void CokeZero_50::Empty_596A50()
+void ExplodingScore_50::Empty_596A50()
 {
 }
 
 MATCH_FUNC(0x596a60)
-void CokeZero_50::Empty_596A60()
+void ExplodingScore_50::Empty_596A60()
 {
 }
 
 MATCH_FUNC(0x596a70)
-void CokeZero_50::sub_596A70(s32 a2)
+void ExplodingScore_50::sub_596A70(s32 a2)
 {
     for (u32 i = a2; i > 0; i--)
     {
@@ -49,7 +49,7 @@ void CokeZero_50::sub_596A70(s32 a2)
 }
 
 MATCH_FUNC(0x596a90)
-void CokeZero_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
+void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
 {
     u32 tmpScore = score;
 
@@ -157,26 +157,26 @@ void CokeZero_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
 }
 
 STUB_FUNC(0x596c90)
-s32 CokeZero_50::sub_596C90()
+s32 ExplodingScore_50::sub_596C90()
 {
     return 0;
 }
 
 STUB_FUNC(0x5970c0)
-char_type CokeZero_50::sub_5970C0()
+char_type ExplodingScore_50::sub_5970C0()
 {
     return 0;
 }
 
 STUB_FUNC(0x597100)
-void CokeZero_50::sub_597100(s32 a2, s32 a3)
+void ExplodingScore_50::sub_597100(s32 a2, s32 a3)
 {
 }
 
 MATCH_FUNC(0x5967e0)
-CokeZero_100::CokeZero_100()
+ExplodingScore_100::ExplodingScore_100()
 {
-    CokeZero_50* pIter = field_C;
+    ExplodingScore_50* pIter = field_C;
     for (s32 i = 0; i < 3 - 1; i++)
     {
         pIter->field_44 = pIter + 1;
@@ -193,14 +193,14 @@ CokeZero_100::CokeZero_100()
 }
 
 MATCH_FUNC(0x596840)
-CokeZero_100::~CokeZero_100()
+ExplodingScore_100::~ExplodingScore_100()
 {
     field_4 = 0;
     field_8 = 0;
 }
 
 MATCH_FUNC(0x596860)
-s16 CokeZero_100::sub_596860()
+s16 ExplodingScore_100::sub_596860()
 {
     field_0++;
     if (field_0 > 13u)
@@ -211,25 +211,25 @@ s16 CokeZero_100::sub_596860()
 }
 
 MATCH_FUNC(0x596880)
-void CokeZero_100::sub_596880()
+void ExplodingScore_100::sub_596880()
 {
     field_2++;
 }
 
 STUB_FUNC(0x596890)
-void CokeZero_100::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
+void ExplodingScore_100::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
 {
 }
 
 STUB_FUNC(0x596940)
-void CokeZero_100::sub_596940()
+void ExplodingScore_100::sub_596940()
 {
 }
 
 MATCH_FUNC(0x5969e0)
-void CokeZero_100::DrawExploding_5969E0()
+void ExplodingScore_100::DrawExploding_5969E0()
 {
-    CokeZero_50* pIter = field_8;
+    ExplodingScore_50* pIter = field_8;
     while (pIter)
     {
         pIter->sub_596C90();

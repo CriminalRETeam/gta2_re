@@ -1,19 +1,19 @@
 #pragma once
 
-#include "Function.hpp"
-#include "fix16.hpp"
-#include "ang16.hpp"
 #include "Car_BC.hpp"
+#include "Function.hpp"
 #include "Object_5C.hpp"
+#include "ang16.hpp"
+#include "fix16.hpp"
 
 class infallible_turing;
 class Car_BC;
 
-class Zheal_15C
+class Crane_15C
 {
   public:
-    EXPORT ~Zheal_15C();
-    EXPORT Zheal_15C();
+    EXPORT ~Crane_15C();
+    EXPORT Crane_15C();
     EXPORT s32 sub_47E620(s32 a2, s32 a3, s32* a4);
     EXPORT s32 sub_47E730(s32 a2, s32 a3, u32 a4);
     EXPORT s32 sub_47E840(s32 a2, s32 a3);
@@ -148,10 +148,10 @@ class Zheal_D9C
   public:
     EXPORT void sub_480E00(Car_BC* a2, u8 a3);
     EXPORT void sub_480E50();
-    EXPORT Zheal_15C* sub_480EC0(Fix16 a2, Fix16 a3);
+    EXPORT Crane_15C* sub_480EC0(Fix16 a2, Fix16 a3);
     EXPORT Zheal_D9C();
     EXPORT ~Zheal_D9C();
 
-    Zheal_15C field_0[10];
+    Crane_15C field_0[10];
     s32 field_D98_count;
 };

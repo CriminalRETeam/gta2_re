@@ -5,11 +5,11 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "NetPlay.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
-#include "goofy_thompson.hpp"
 #include "input.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "keybrd_0x204.hpp"
@@ -24,15 +24,16 @@
 //#include <dmusics.h>
 
 // for force links
+#include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
 #include "Maccies_14AC.hpp"
+#include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
-#include "Nanobotz.hpp"
 #include "Network_20324.hpp"
 #include "Ped.hpp"
 #include "Phi_8CA8.hpp"
@@ -43,7 +44,6 @@
 #include "Tango_28.hpp"
 #include "char.hpp"
 #include "collide.hpp"
-#include "jawwie_110.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 
@@ -52,7 +52,7 @@ void force_link()
     Phi_8CA8 phi_8ca8;
     phi_8ca8.sub_5332D0(0, 0, 0, 0);
 
-    jawwie_20 jaw_20;
+    Ambulance_20 jaw_20;
     jaw_20.field_14_count = 1;
 
     Rozza_C88 rozza;
@@ -200,7 +200,7 @@ void force_link()
 
     Garox_2B00 garox;
 
-    Nanobotz nano;
+    MapRenderer nano;
     nano.draw_bottom_4ED290(0);
 
     Montana montana;

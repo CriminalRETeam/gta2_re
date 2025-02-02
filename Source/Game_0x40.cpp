@@ -1,36 +1,37 @@
 #include "Game_0x40.hpp"
+#include "Ambulance_110.hpp"
+#include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
-#include "ChickenLegend_48.hpp"
-#include "CokeZero_100.hpp"
 #include "Door_4D4.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "ExplodingScore_100.hpp"
 #include "Frismo_25C.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
+#include "Garage_48.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"
 #include "Maccies_14AC.hpp"
+#include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Monster_808.hpp"
 #include "Montana.hpp"
-#include "Mouze_44.hpp"
-#include "Nanobotz.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Rozza_C88.hpp"
 #include "Sero_181C.hpp"
 #include "Shooey_CC.hpp"
 #include "Snooky_94.hpp"
-#include "Soula_CC68.hpp"
 #include "Tango_28.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
@@ -47,7 +48,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "jawwie_110.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
 #include "magical_germain_0x8EC.hpp"
@@ -119,7 +119,7 @@ GLOBAL(gMarz_1D7E_6FD784, 0x6FD784);
 EXPORT_VAR Taxi_4* gTaxi_4_704130;
 GLOBAL(gTaxi_4_704130, 0x704130);
 
-EXPORT_VAR jawwie_110* gjawwie_110_6F70A8;
+EXPORT_VAR Ambulance_110* gjawwie_110_6F70A8;
 GLOBAL(gjawwie_110_6F70A8, 0x6F70A8);
 
 EXPORT_VAR Varrok_7F8* gVarrok_7F8_703398;
@@ -254,7 +254,7 @@ void Game_0x40::sub_4B8EB0()
     gTileAnim_2_7052C4->Empty_5BC300();
     gSero_181C_6FF1D4->sub_5794B0();
     gObject_5C_6F8F84->sub_5297F0();
-    Mouze_44::sub_4CB080();
+    PedGroup::sub_4CB080();
     if (bDo_mike_67D5CC)
     {
         gMike_A80_6F7328->sub_4FF1B0();
@@ -948,7 +948,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1806);
     }
 
-    gpNanobotz_6F66E4 = new Nanobotz(); // inlined ok?
+    gpNanobotz_6F66E4 = new MapRenderer(); // inlined ok?
     if (!gpNanobotz_6F66E4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
@@ -1050,7 +1050,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1855);
     }
 
-    gjawwie_110_6F70A8 = new jawwie_110(); // multi level inline
+    gjawwie_110_6F70A8 = new Ambulance_110(); // multi level inline
     if (!gjawwie_110_6F70A8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
@@ -1086,7 +1086,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1869);
     }
 
-    gSoula_CC68_6FFDC8 = new Soula_CC68(); // ctor call
+    gSoula_CC68_6FFDC8 = new RouteFinder(); // ctor call
     if (!gSoula_CC68_6FFDC8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
@@ -1104,7 +1104,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
     }
 
-    gMonster_808_678098 = new Monster_808(); // ctor call
+    gMonster_808_678098 = new CarInfo_808(); // ctor call
     if (!gMonster_808_678098)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1877);
@@ -1170,7 +1170,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
     }
 
-    gChickenLegend_48_6FD26C = new ChickenLegend_48(); // ctor call
+    gChickenLegend_48_6FD26C = new Garage_48(); // ctor call
     if (!gChickenLegend_48_6FD26C)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
@@ -1184,7 +1184,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34 = new CokeZero_100(); // ctor call
+        gCokeZero_100_702F34 = new ExplodingScore_100(); // ctor call
         if (!gCokeZero_100_702F34)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);

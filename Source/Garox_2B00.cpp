@@ -341,7 +341,7 @@ void Garox_27B5_sub::sub_5CF970()
             pPed = field_38_orf1->field_2C4_player_ped;
         }
 
-        Zone_144* pZone = field_38_orf1->field_34_pObj;
+        Gang_144* pZone = field_38_orf1->field_34_pObj;
         wchar_t* pZoneName;
         if (pZone)
         {
@@ -670,7 +670,7 @@ Garox_C::Garox_C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d03c0)
-void Garox_24::sub_5D03C0(Zone_144* pZone)
+void Garox_24::sub_5D03C0(Gang_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
     field_18 = pZone->field_130_info_phone_y;
@@ -818,7 +818,7 @@ Garox_7C* Garox_7C_Array::sub_5D0EF0()
 }
 
 MATCH_FUNC(0x5d0f40)
-char_type Garox_7C_Array::sub_5D0F40(Zone_144* a2)
+char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
 {
     Garox_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
@@ -900,7 +900,7 @@ char_type* Garox_7C_Array::sub_5D10B0()
 }
 
 MATCH_FUNC(0x5d10d0)
-Garox_7C* Garox_7C_Array::sub_5D10D0(Zone_144* pZone, s32 phone_type)
+Garox_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 {
     s32 i = 0;
     Garox_7C* pIter = field_0_array;
@@ -923,7 +923,7 @@ void Garox_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 }
 
 MATCH_FUNC(0x5d1310)
-void Garox_7C_Array::sub_5D1310(Zone_144* pZone)
+void Garox_7C_Array::sub_5D1310(Gang_144* pZone)
 {
     Garox_7C* p7C = sub_5D1050();
     p7C->sub_5D0510(4);

@@ -104,18 +104,18 @@ struct Network_504
     s32 field_5C4_session_count;
 };
 
-struct goofy_thompson
+struct NetPlay
 {
-    EXPORT goofy_thompson* ctor_51D6B0();
+    EXPORT NetPlay* ctor_51D6B0();
     EXPORT void* vdtor_51D7B0(char_type flags);
-    EXPORT virtual ~goofy_thompson();
+    EXPORT virtual ~NetPlay();
     EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
     EXPORT s32 EnumConnections_cb_51DA30(GUID* lpguidSP,
                                          const void* lpConnection,
                                          u32 dwConnectionSize,
                                          DPNAME* lpName,
                                          s32 dwFlags,
-                                         goofy_thompson* lpContext);
+                                         NetPlay* lpContext);
     EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
@@ -129,7 +129,7 @@ struct goofy_thompson
     EXPORT s32 sub_51E650();
     EXPORT s32 sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5);
     EXPORT u32 sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6, s32 a7);
-    EXPORT s32 EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, goofy_thompson* lpContext);
+    EXPORT s32 EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
     EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
     EXPORT void sub_51ECD0(s32 pFunc, Network_20324* pParam);
     EXPORT void sub_51ED00();
@@ -145,7 +145,7 @@ struct goofy_thompson
     EXPORT s32 sub_520230(s32 a2, u32* a3);
     EXPORT void sub_520530(s32 pFunc, s32 pParam);
     EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
-    EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, goofy_thompson* pContext);
+    EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
     EXPORT s32 sub_520CA0(s32 a2, s32 a3);
     EXPORT void sub_520D00(s32 a2);
     EXPORT void sub_520D10();
@@ -229,4 +229,4 @@ struct goofy_thompson
     s32 field_CB8_count;
 };
 
-EXPORT_VAR extern goofy_thompson gGoofy_thompson_7071E8;
+EXPORT_VAR extern NetPlay gGoofy_thompson_7071E8;
