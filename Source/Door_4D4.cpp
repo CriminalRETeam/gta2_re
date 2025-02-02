@@ -148,9 +148,8 @@ Object_2C* Door_38::sub_49CAC0(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 
 }
 
 STUB_FUNC(0x49cc00)
-Object_2C* Door_38::sub_49CC00(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9)
+void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
-    return 0;
 }
 
 STUB_FUNC(0x49cd90)
@@ -210,21 +209,45 @@ Door_38* Door_4D4::sub_49D170(u8 a1,
     return 0;
 }
 
-STUB_FUNC(0x49d1f0)
+MATCH_FUNC(0x49d1f0)
 Door_38* Door_4D4::sub_49D1F0(u8 a1,
                               char_type a2,
                               char_type a3,
                               char_type a4,
                               s32 a5,
-                              s32 a7,
-                              s32 a8,
-                              s32 a9,
-                              s32 a10,
-                              s32 a11,
-                              char_type a12,
-                              char_type a13)
+                              Fix16 a6,
+                              Fix16 a7,
+                              Fix16 a8,
+                              Fix16 a9,
+                              Fix16 a10,
+                              char_type a11,
+                              char_type a12)
 {
-    return 0;
+    Door_38* this_00 = sub_49D3A0();
+    field_4D0_count++;
+    this_00->field_2A = a11;
+    this_00->field_2B = a12;
+    a12 = a2;
+    a11 = a3;
+    switch (a5)
+    {
+        case 2:
+            a11 = a3 + 1;
+            break;
+        case 3:
+            a12 = a2 + 1;
+            break;
+        case 1:
+            a11 = a3 - 1;
+            break;
+        case 4:
+            a12 = a2 - 1;
+            break;
+    }
+    this_00->sub_49CA50(a1, a2, a3, a4, a5);
+    this_00->sub_49CA50(a1, a12, a11, a4, a5);
+    this_00->sub_49CC00(this_00->field_0, 1, field_4D0_count - 1, a6, a7, a8, a9, a10);
+    return this_00;
 }
 
 MATCH_FUNC(0x49d2d0)

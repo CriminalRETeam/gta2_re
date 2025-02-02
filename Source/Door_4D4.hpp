@@ -32,7 +32,7 @@ class Door_38
     EXPORT Object_2C* sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
     EXPORT Object_2C* sub_49CAC0(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
-    EXPORT Object_2C* sub_49CC00(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
+    EXPORT void sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
     EXPORT void sub_49CD90();
     EXPORT char_type sub_49CE90();
 
@@ -82,13 +82,13 @@ class Door_4D4
                                char_type a3,
                                char_type a4,
                                s32 a5,
-                               s32 a7,
-                               s32 a8,
-                               s32 a9,
-                               s32 a10,
-                               s32 a11,
-                               char_type a12,
-                               char_type a13);
+                               Fix16 a6,
+                               Fix16 a7,
+                               Fix16 a8,
+                               Fix16 a9,
+                               Fix16 a10,
+                               char_type a11,
+                               char_type a12);
     EXPORT void sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
     EXPORT void sub_49D340(u32* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
