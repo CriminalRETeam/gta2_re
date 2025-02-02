@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 
-class cool_nash_0x294;
+class Ped;
 
 class Orca_2FD4
 {
@@ -27,7 +27,7 @@ class Orca_2FD4
     EXPORT char_type sub_554710();
     EXPORT char_type sub_5548C0();
     EXPORT char_type sub_554920();
-    EXPORT s32 sub_554A90(cool_nash_0x294* a2);
+    EXPORT s32 sub_554A90(Ped* a2);
     EXPORT char_type sub_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11);
     EXPORT char_type sub_5552B0(char_type a2, char_type* a3, char_type* a4, char_type* a5, char_type a6);
 

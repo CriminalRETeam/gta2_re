@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 
 class Miss2_25C
 {
@@ -10,7 +10,7 @@ class Miss2_25C
     EXPORT s32 sub_502DC0();
     EXPORT Miss2_25C* sub_502F60();
     EXPORT void sub_502F80(s32 a2);
-    EXPORT char_type sub_502FB0(cool_nash_0x294* a2);
+    EXPORT char_type sub_502FB0(Ped* a2);
     EXPORT void sub_502FF0(s32 a2, char_type a3);
     EXPORT void sub_503050(s32 a2);
 

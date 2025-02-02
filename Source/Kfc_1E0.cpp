@@ -1,6 +1,6 @@
 #include "Kfc_1E0.hpp"
 #include "Mouze_44.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
@@ -35,7 +35,7 @@ void Kfc_30::sub_5CBC30()
 }
 
 MATCH_FUNC(0x5cbc40)
-void Kfc_30::sub_5CBC40(cool_nash_0x294* a2)
+void Kfc_30::sub_5CBC40(Ped* a2)
 {
     field_8->sub_4C9970(a2);
     field_4 = field_8->field_2C_ped_leader;

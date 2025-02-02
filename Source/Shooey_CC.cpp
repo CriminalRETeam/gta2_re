@@ -1,7 +1,7 @@
 #include "Shooey_CC.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
 #include "char.hpp"
-#include "cool_nash_0x294.hpp"
 
 EXPORT_VAR s32 dword_67A370;
 GLOBAL(dword_67A370, 0x67A370);
@@ -34,7 +34,7 @@ void Shooey_14::sub_484CF0(s32 a2, s32 a3)
     }
     else
     {
-        cool_nash_0x294* pPed = gChar_C_6787BC->sub_4710C0(a3);
+        Ped* pPed = gChar_C_6787BC->sub_4710C0(a3);
         field_8.x = pPed->field_1AC_cam.x;
         field_8.y = pPed->field_1AC_cam.y; // TODO: Regswap
         field_8.z = pPed->field_1AC_cam.z;
@@ -124,24 +124,24 @@ void Shooey_CC::dtor_484FD0()
 }
 
 STUB_FUNC(0x484fe0)
-void Shooey_CC::sub_484FE0(u32 a2, cool_nash_0x294* pPed)
+void Shooey_CC::sub_484FE0(u32 a2, Ped* pPed)
 {
 }
 
 STUB_FUNC(0x485090)
-bool Shooey_CC::sub_485090(Car_BC* a2, angry_lewin_0x85C* a3)
+bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x4850f0)
-char_type Shooey_CC::sub_4850F0(Shooey_CC* a1, s32 a2, angry_lewin_0x85C* a3)
+char_type Shooey_CC::sub_4850F0(Shooey_CC* a1, s32 a2, Player* a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x485140)
-char_type Shooey_CC::sub_485140(cool_nash_0x294* a2, angry_lewin_0x85C* a3)
+char_type Shooey_CC::sub_485140(Ped* a2, Player* a3)
 {
     return 0;
 }

@@ -1,11 +1,11 @@
 #include "gtx_0x106C.hpp"
+#include "Frontend.hpp" // TODO: for some globals, prob should be put some where else
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "chunk.hpp"
 #include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
-#include "laughing_blackwell_0x1EB54.hpp" // TODO: for some globals, prob should be put some where else
 #include "memory.hpp"
 #include <stdio.h>
 #include <string.h>
@@ -231,8 +231,8 @@ u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
     }
     else
     {
-        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font 
-                                    + gtx_0x106C::sub_5AA710(*a2, *a3 - 33)].field_4_width;
+        return this->field_20_sprite_index[(u16)this->field_14_sprite_base2->field_A_font + gtx_0x106C::sub_5AA710(*a2, *a3 - 33)]
+            .field_4_width;
     }
 }
 
@@ -256,8 +256,8 @@ s16 gtx_0x106C::sub_5AA800(u16* a2)
     }
     else
     {
-        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 
-                        + this->field_1C_font_base->field_2_base[*a2]].field_5_height;
+        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + 32 + this->field_1C_font_base->field_2_base[*a2]]
+            .field_5_height;
     }
 }
 
@@ -562,7 +562,7 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
 {
     this->field_4C_delta_index = (delta_entry*)Memory::malloc_4FE4D0(delx_chunk_size);
     File::Global_Read_4A71C0(field_4C_delta_index, &delx_chunk_size);
-    
+
     sub_5AAB30(delx_chunk_size);
     sub_5AAC70();
 

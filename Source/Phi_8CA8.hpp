@@ -3,7 +3,7 @@
 #include "Function.hpp"
 
 struct object_info;
-class Car_3C;
+class Sprite;
 
 class Phi_74
 {
@@ -13,8 +13,8 @@ class Phi_74
     EXPORT s32 sub_533090();
     EXPORT void sub_533110(s16 a2);
     EXPORT void sub_533150(s16 a2, char_type a3);
-    EXPORT Car_3C* sub_533170();
-    EXPORT s32 sub_5331A0(Car_3C* a2);
+    EXPORT Sprite* sub_533170();
+    EXPORT s32 sub_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
     s32 field_0;
@@ -32,7 +32,7 @@ class Phi_74
     char_type field_23;
     s32 field_24_idx;
     s32 field_28;
-    Car_3C* field_2C;
+    Sprite* field_2C;
     s32 field_30;
     s32 field_34;
     s32 field_38;

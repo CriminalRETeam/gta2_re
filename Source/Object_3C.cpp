@@ -17,7 +17,7 @@ u32* Object_3C::sub_52ADF0(u32* a2)
 }
 
 STUB_FUNC(0x5a6cd0)
-u32* Object_3C::sub_5A6CD0(Car_3C* a2)
+u32* Object_3C::sub_5A6CD0(Sprite* a2)
 {
     return 0;
 }
@@ -35,7 +35,7 @@ s32 Object_3C::sub_5A6E40(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5a6f70)
-void Object_3C::sub_5A6F70(Car_3C* a2)
+void Object_3C::sub_5A6F70(Sprite* a2)
 {
 }
 
@@ -46,12 +46,12 @@ s32 Object_3C::sub_5A7010()
 }
 
 STUB_FUNC(0x5a7240)
-void Object_3C::sub_5A7240(Car_3C* a2)
+void Object_3C::sub_5A7240(Sprite* a2)
 {
 }
 
 STUB_FUNC(0x5a72b0)
-s32* Object_3C::sub_5A72B0(Car_3C* a2, char_type a3)
+s32* Object_3C::sub_5A72B0(Sprite* a2, char_type a3)
 {
     return 0;
 }

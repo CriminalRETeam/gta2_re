@@ -97,7 +97,7 @@ s32 Zheal_15C::sub_47F170()
 }
 
 MATCH_FUNC(0x47f220)
-s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5)
+s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
 {
     field_F4 = a2;
     field_F8 = a3;
@@ -113,7 +113,7 @@ s32 Zheal_15C::sub_47F220(s32 a2, s32 a3, Car_3C* a4, Car_3C* a5)
 }
 
 MATCH_FUNC(0x47f290)
-s32 Zheal_15C::sub_47F290(s32 a2, s32 a3, Car_3C* a4)
+s32 Zheal_15C::sub_47F290(s32 a2, s32 a3, Sprite* a4)
 {
     field_BC = a2;
     field_C0 = a3;
@@ -128,7 +128,7 @@ s32 Zheal_15C::sub_47F290(s32 a2, s32 a3, Car_3C* a4)
 }
 
 MATCH_FUNC(0x47f2f0)
-void Zheal_15C::sub_47F2F0(s32 a2, s32 a3, Car_3C* a4)
+void Zheal_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
 {
     field_D8 = a2;
     field_DC = a3;
@@ -145,7 +145,7 @@ MATCH_FUNC(0x47f350)
 bool Zheal_15C::sub_47F350()
 {
     Car_BC* v2;
-    Car_3C* v1 = field_70;
+    Sprite* v1 = field_70;
 
     if (v1->field_30_sprite_type_enum == 2)
     {
@@ -160,7 +160,7 @@ bool Zheal_15C::sub_47F350()
 
     if (v2->field_88 != 5)
     {
-        Car_3C* v3 = field_6C;
+        Sprite* v3 = field_6C;
         Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->car_bc_ptr : 0;
         if (v4->field_88 != 5 
             && field_FC == v3->field_14_xpos 
@@ -310,7 +310,7 @@ infallible_turing* Zheal_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_C = 0;
     field_11C = dword_679E70;
 
-    Car_3C* current_sprite = gSprite_49B28_703818->field_0_first_free;
+    Sprite* current_sprite = gSprite_49B28_703818->field_0_first_free;
     gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
     current_sprite->sub_5A2CF0();
     field_60 = current_sprite;

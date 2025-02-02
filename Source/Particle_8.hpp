@@ -5,7 +5,7 @@
 #include "ang16.hpp"
 
 class Fix16;
-class Car_3C;
+class Sprite;
 
 class Particle_947C
 {

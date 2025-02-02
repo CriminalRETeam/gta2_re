@@ -7,7 +7,7 @@
 #include "Game_0x40.hpp"
 
 STUB_FUNC(0x4355D0)
-char_type DrawUnk_0xBC::sub_4355D0(Car_3C* a2)
+char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
     return 0;
 }

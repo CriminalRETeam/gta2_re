@@ -1,6 +1,6 @@
 #include "Mouze_44.hpp"
 #include "Globals.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 #include "enums.hpp"
 
 EXPORT_VAR Mouze_44 stru_67EF20[20];
@@ -79,7 +79,7 @@ void Mouze_44::sub_4C8F20()
 }
 
 MATCH_FUNC(0x4c8f90)
-void Mouze_44::add_ped_to_end_of_list_4C8F90(cool_nash_0x294* pPed)
+void Mouze_44::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
     pPed->sub_463830(0, 9999);
     pPed->sub_463570(0, 9999);
@@ -89,7 +89,7 @@ void Mouze_44::add_ped_to_end_of_list_4C8F90(cool_nash_0x294* pPed)
 }
 
 MATCH_FUNC(0x4c8fe0)
-void Mouze_44::replace_leader_4C8FE0(cool_nash_0x294* new_leader)
+void Mouze_44::replace_leader_4C8FE0(Ped* new_leader)
 {
     add_ped_to_end_of_list_4C8F90(field_2C_ped_leader);
     field_2C_ped_leader = new_leader;
@@ -219,8 +219,8 @@ void Mouze_44::sub_4C92A0()
     {
         for (u8 bVar4 = 0; bVar4 < field_34_count; bVar4++)
         {
-            cool_nash_0x294* this_00 = field_4_ped_list[bVar4];
-            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar4;
+            Ped* this_00 = field_4_ped_list[bVar4];
+            Ped** pppVar1 = field_4_ped_list + bVar4;
             if ((this_00->get_ped_state1() == ped_state1_enum::ped_wasted) || (this_00->field_280 == ped_state1_enum::ped_wasted))
             {
                 this_00->reset_ped_group();
@@ -254,7 +254,7 @@ void Mouze_44::sub_4C93A0()
         return;
     }
 
-    cool_nash_0x294* ppVar2 = field_2C_ped_leader;
+    Ped* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
     {
         ppVar2->sub_463570(0, 9999);
@@ -267,7 +267,7 @@ void Mouze_44::sub_4C93A0()
         for (u8 bVar5 = 0; bVar5 < field_34_count; bVar5++)
         {
             ppVar2 = field_4_ped_list[bVar5];
-            cool_nash_0x294** pppVar1 = field_4_ped_list + bVar5;
+            Ped** pppVar1 = field_4_ped_list + bVar5;
             if ((ppVar2->get_ped_state1() == ped_state1_enum::ped_wasted) || (ppVar2->field_280 == ped_state1_enum::ped_wasted))
             {
                 ppVar2->reset_ped_group();
@@ -297,7 +297,7 @@ void Mouze_44::sub_4C93A0()
 }
 
 STUB_FUNC(0x4c94e0)
-void Mouze_44::sub_4C94E0(cool_nash_0x294* a2)
+void Mouze_44::sub_4C94E0(Ped* a2)
 {
 }
 
@@ -307,12 +307,12 @@ void Mouze_44::sub_4C9680(u8 a2)
 }
 
 STUB_FUNC(0x4c9970)
-void Mouze_44::sub_4C9970(cool_nash_0x294* a2)
+void Mouze_44::sub_4C9970(Ped* a2)
 {
 }
 
 MATCH_FUNC(0x4c9b10)
-void Mouze_44::add_ped_leader_4C9B10(cool_nash_0x294* ptr)
+void Mouze_44::add_ped_leader_4C9B10(Ped* ptr)
 {
     field_2C_ped_leader = ptr;
     field_2C_ped_leader->set_ped_group(this);
@@ -320,7 +320,7 @@ void Mouze_44::add_ped_leader_4C9B10(cool_nash_0x294* ptr)
 }
 
 MATCH_FUNC(0x4c9b30)
-void Mouze_44::add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx)
+void Mouze_44::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 {
     field_4_ped_list[idx & 0xff] = ptr;
     ptr->set_ped_group(this);
@@ -328,13 +328,13 @@ void Mouze_44::add_ped_to_list_4C9B30(cool_nash_0x294* ptr, u8 idx)
 }
 
 STUB_FUNC(0x4c9b60)
-char_type Mouze_44::sub_4C9B60(cool_nash_0x294* a2)
+char_type Mouze_44::sub_4C9B60(Ped* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x4c9ed0)
-cool_nash_0x294* Mouze_44::sub_4C9ED0()
+Ped* Mouze_44::sub_4C9ED0()
 {
     return 0;
 }
@@ -351,7 +351,7 @@ u32 Mouze_44::sub_4CA3E0()
 }
 
 STUB_FUNC(0x4ca3f0)
-cool_nash_0x294* Mouze_44::sub_4CA3F0(u32* a2)
+Ped* Mouze_44::sub_4CA3F0(u32* a2)
 {
     return 0;
 }
@@ -364,7 +364,7 @@ void Mouze_44::sub_4CA4B0()
 STUB_FUNC(0x4ca5e0)
 void Mouze_44::sub_4CA5E0(u8 idx)
 {
-    /*cool_nash_0x294 *this_00 = field_4_ped_list[idx];
+    /*Ped *this_00 = field_4_ped_list[idx];
     if ((this_00->bit_status & 0x8000000) != 0)
     {
         return;
@@ -519,7 +519,7 @@ bool Mouze_44::sub_4CAD40()
 }
 
 STUB_FUNC(0x4cae80)
-cool_nash_0x294* Mouze_44::sub_4CAE80(u8 idx)
+Ped* Mouze_44::sub_4CAE80(u8 idx)
 {
     return 0;
 }

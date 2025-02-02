@@ -88,7 +88,7 @@ char_type Orca_2FD4::sub_554920()
 }
 
 MATCH_FUNC(0x554a90)
-s32 Orca_2FD4::sub_554A90(cool_nash_0x294* a2)
+s32 Orca_2FD4::sub_554A90(Ped* a2)
 {
     return field_3C.field_0_pOwner->field_0_char_ped == a2;
 }

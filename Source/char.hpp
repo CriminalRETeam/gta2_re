@@ -1,13 +1,13 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Ped.hpp"
 #include "angle.hpp"
-#include "cool_nash_0x294.hpp"
 
 class Sprite_3C;
-class cool_nash_0x294;
+class Ped;
 class Car_BC;
-class Car_3C;
+class Sprite;
 
 class Char_B4
 {
@@ -72,8 +72,8 @@ class Char_B4
     s8 field_76;
     s8 field_77;
     Char_B4* field_78_next;
-    cool_nash_0x294* field_7c_ped_ptr;
-    Car_3C* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
+    Ped* field_7c_ped_ptr;
+    Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84_AutoClass21_s1_ptr1;
     Car_BC* field_88AutoClass21_s1_ptr2;
     Fix16 field_8c;
@@ -120,7 +120,7 @@ class Char_11944
 class Char_8
 {
   public:
-    cool_nash_0x294* field_0_char_ped;
+    Ped* field_0_char_ped;
     Char_8* field_4_pOwner;
 };
 
@@ -145,16 +145,16 @@ class Char_C
     EXPORT void sub_4703F0();
     EXPORT Char_C();
     EXPORT ~Char_C();
-    EXPORT cool_nash_0x294* sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 a6);
-    EXPORT cool_nash_0x294* sub_470B00(Car_BC* a2);
-    EXPORT cool_nash_0x294* sub_470BA0(Car_BC* a1, s32 a2);
-    EXPORT cool_nash_0x294* sub_470CC0(Car_BC* a2);
-    EXPORT cool_nash_0x294* sub_470D60();
-    EXPORT cool_nash_0x294* sub_470E30();
-    EXPORT cool_nash_0x294* sub_470F30();
-    EXPORT cool_nash_0x294* sub_470F90(cool_nash_0x294* pSrc);
+    EXPORT Ped* sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 a6);
+    EXPORT Ped* sub_470B00(Car_BC* a2);
+    EXPORT Ped* sub_470BA0(Car_BC* a1, s32 a2);
+    EXPORT Ped* sub_470CC0(Car_BC* a2);
+    EXPORT Ped* sub_470D60();
+    EXPORT Ped* sub_470E30();
+    EXPORT Ped* sub_470F30();
+    EXPORT Ped* sub_470F90(Ped* pSrc);
     EXPORT void DoIanTest_471060(s16 a1);
-    EXPORT cool_nash_0x294* sub_4710C0(s32 a2);
+    EXPORT Ped* sub_4710C0(s32 a2);
 
     s16 field_0;
     char_type field_2;
@@ -163,16 +163,16 @@ class Char_C
     char_type field_5;
     char_type field_6_num_peds_on_screen;
     char_type field_7_make_all_muggers;
-    Car_3C* field_8;
+    Sprite* field_8;
 };
 
 class Char_203AC
 {
   public:
     EXPORT ~Char_203AC();
-    cool_nash_0x294* field_0;
-    cool_nash_0x294* field_4;
-    cool_nash_0x294 field_8[200];
+    Ped* field_0;
+    Ped* field_4;
+    Ped field_8[200];
     s16 field_203A8;
     s16 field_203AA;
 };

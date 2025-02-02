@@ -1,9 +1,9 @@
 #include "sound_obj.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "cSampleManager.hpp"
-#include "laughing_blackwell_0x1EB54.hpp"
 #include <math.h>
 
 EXPORT_VAR sound_obj gSound_obj_66F680;

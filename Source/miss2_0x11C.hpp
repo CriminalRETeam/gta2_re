@@ -4,7 +4,7 @@
 #include "fix16.hpp"
 #include "ang16.hpp"
 
-class cool_nash_0x294;
+class Ped;
 class Maccies_2C;
 class Snooky_30;
 class miss2_8;
@@ -65,7 +65,7 @@ struct SCR_ONEVAR_RECT : SCR_CMD_HEADER
 struct SCR_PLAYER_PED
 {
     SCR_CMD_HEADER field_0_header;
-    cool_nash_0x294* field_8_ped;
+    Ped* field_8_ped;
     SCR_XYZ_f field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
@@ -83,7 +83,7 @@ struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 
 struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 {
-    cool_nash_0x294* field_8_char;
+    Ped* field_8_char;
     SCR_XYZ_f field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
@@ -155,7 +155,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
 {
     union
     {
-        cool_nash_0x294* field_8_char;
+        Ped* field_8_char;
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
         Zheal_15C* field_8_crane;
@@ -346,7 +346,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* a1);
     EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* a1, SCR_POINTER* a2);
-    EXPORT cool_nash_0x294* sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2);
+    EXPORT Ped* sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* a1);
     EXPORT void SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* a1);
     EXPORT s32 SCRCMD_CRANE_5041C0(s32 a1, s32 a2);

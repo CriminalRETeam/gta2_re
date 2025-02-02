@@ -1,4 +1,4 @@
-#include "laughing_blackwell_0x1EB54.hpp"
+#include "Frontend.hpp"
 #include "Bink.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
@@ -31,7 +31,7 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 void Start_GTA2Manager_5E4DE0();
 
-EXPORT_VAR laughing_blackwell_0x1EB54* gLaughing_blackwell_0x1EB54_67DC84;
+EXPORT_VAR Frontend* gLaughing_blackwell_0x1EB54_67DC84;
 GLOBAL(gLaughing_blackwell_0x1EB54_67DC84, 0x67DC84);
 
 EXPORT_VAR u32 counter_706C4C;
@@ -345,11 +345,11 @@ EXPORT_VAR infallible_turing snd2_67D6F8;
 GLOBAL(snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4ACFA0)
-void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
+void __stdcall Frontend::create_4ACFA0()
 {
     if (!gLaughing_blackwell_0x1EB54_67DC84)
     {
-        gLaughing_blackwell_0x1EB54_67DC84 = new laughing_blackwell_0x1EB54();
+        gLaughing_blackwell_0x1EB54_67DC84 = new Frontend();
     }
 
     if (!bSkip_audio_67D6BE)
@@ -368,7 +368,7 @@ void __stdcall laughing_blackwell_0x1EB54::create_4ACFA0()
 }
 
 MATCH_FUNC(0x4AD070)
-void __stdcall laughing_blackwell_0x1EB54::destroy_4AD070()
+void __stdcall Frontend::destroy_4AD070()
 {
     if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
     {
@@ -387,7 +387,7 @@ void __stdcall laughing_blackwell_0x1EB54::destroy_4AD070()
 }
 
 STUB_FUNC(0x4B3170)
-void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
+void Frontend::sub_4B3170(u16 arg0)
 {
     u16 v3; // bp
     u8 v4; // bl
@@ -602,8 +602,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             {
                 for (u8 v16 = 0; v16 < 6; v16++)
                 {
-                    if ( gYouthful_einstein_6F8450.field_4_time[v16] > v15
-                        && gYouthful_einstein_6F8450.field_20[v16] == 0 )
+                    if (gYouthful_einstein_6F8450.field_4_time[v16] > v15 && gYouthful_einstein_6F8450.field_20[v16] == 0)
                     {
                         v15 = gYouthful_einstein_6F8450.field_4_time[v16];
                     }
@@ -712,11 +711,11 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                         v31 = 0;
                         do
                         {
-                            if (v31 != v65     //  not this player (i.e. an opponent)
-                                && gYouthful_einstein_6F8450.field_20[v31] == 0     //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a) > v30)    // v30 = highest frag from opponents
+                            if (v31 != v65 //  not this player (i.e. an opponent)
+                                && gYouthful_einstein_6F8450.field_20[v31] == 0 //  not quit?
+                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a) > v30) // v30 = highest frag from opponents
                             {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a);  // update highest frag
+                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a); // update highest frag
                             }
                             ++v31;
                             ++a3a;
@@ -731,11 +730,11 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                         v34 = 0;
                         do
                         {
-                            if (v34 != v65     //  not you
-                                && gYouthful_einstein_6F8450.field_20[v34] == 0     //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b) > v30)    // v30 = highest score from opponents
+                            if (v34 != v65 //  not you
+                                && gYouthful_einstein_6F8450.field_20[v34] == 0 //  not quit?
+                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b) > v30) // v30 = highest score from opponents
                             {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b);  // update highest opponent score
+                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b); // update highest opponent score
                             }
                             ++v34;
                             ++a3b;
@@ -750,20 +749,20 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
                         v38 = a2b;
                         do
                         {
-                            if (v35 != v65     //  not you
-                                && gYouthful_einstein_6F8450.field_20[v35] == 0)    //  not quit?
+                            if (v35 != v65 //  not you
+                                && gYouthful_einstein_6F8450.field_20[v35] == 0) //  not quit?
                             {
-                                v39 = gYouthful_einstein_6F8450.field_4_time[v35];  //  get opponent time
-                                if (v39 > v30)    //  v30 = highest opponent tag time
+                                v39 = gYouthful_einstein_6F8450.field_4_time[v35]; //  get opponent time
+                                if (v39 > v30) //  v30 = highest opponent tag time
                                 {
-                                    v30 = v39;    //  update highest opponent tag time
+                                    v30 = v39; //  update highest opponent tag time
                                 }
                             }
                             ++v35;
                             --v38;
                         } while (v38 < a2b);
                     }
-                    v33 = gYouthful_einstein_6F8450.field_4_time[v65];  //  get your time
+                    v33 = gYouthful_einstein_6F8450.field_4_time[v65]; //  get your time
                     break;
                 default:
                     v3 = arg0;
@@ -771,7 +770,7 @@ void laughing_blackwell_0x1EB54::sub_4B3170(u16 arg0)
             }
 
             v3 = arg0;
-            v40 = v33 - v30;    //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
+            v40 = v33 - v30; //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
 
             if (v40 > 0)
             {
@@ -836,7 +835,7 @@ LABEL_116:
 }
 
 MATCH_FUNC(0x4B8680)
-void laughing_blackwell_0x1EB54::sub_4B8680()
+void Frontend::sub_4B8680()
 {
     if (!bSkip_audio_67D6BE)
     {
@@ -850,7 +849,7 @@ void laughing_blackwell_0x1EB54::sub_4B8680()
 }
 
 MATCH_FUNC(0x4AEDB0)
-s32 laughing_blackwell_0x1EB54::sub_4AEDB0()
+s32 Frontend::sub_4AEDB0()
 {
     u32 Time; // eax
     u16 local_field_132_f136_idx; // cx
@@ -962,7 +961,7 @@ EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 
 // sub_457920 in 9.6f
 STUB_FUNC(0x4AD140)
-void laughing_blackwell_0x1EB54::sub_4AD140()
+void Frontend::sub_4AD140()
 {
     const u16 local_field_132_f136_idx = field_132_f136_idx;
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
@@ -1011,12 +1010,12 @@ for (s32 i=0; i<3; i++)
             LOWORD(v6) = v7->field_4[0].field_6E_count;
             v17 = field_11C;
             v97 = v6;
-            v18 = laughing_blackwell_0x1EB54::sub_5D8990(
+            v18 = Frontend::sub_5D8990(
                 (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_strPlayerName,
                 v17)
                 + 10;
             if (v18 == 10)
-                v18 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
+                v18 = Frontend::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
             v7->field_518[9].field_2 = v18 + v7->field_4[0].field_2;
             */
         }
@@ -1122,7 +1121,7 @@ for (s32 i=0; i<3; i++)
 
     if (field_132_f136_idx == 7)
     {
-        //laughing_blackwell_0x1EB54::sub_4B55F0(this);
+        //Frontend::sub_4B55F0(this);
     }
 
     //v28 = v7->field_0 == 0;
@@ -1515,7 +1514,7 @@ for (s32 i=0; i<3; i++)
         if (field_114)
         {
             /*
-            v68 = laughing_blackwell_0x1EB54::sub_5D8990((s16 *)field_C9A0, field_11C);
+            v68 = Frontend::sub_5D8990((s16 *)field_C9A0, field_11C);
             v69 = v7->field_4[0].field_4;
             v70 = v7->field_4[0].field_2 + v68;
             swprintf(tmpBuff_67BD9C, asc_62017C);
@@ -1569,7 +1568,7 @@ for (s32 i=0; i<3; i++)
 }
 
 STUB_FUNC(0x4B7AE0)
-void laughing_blackwell_0x1EB54::sub_4B7AE0()
+void Frontend::sub_4B7AE0()
 {
     // todo
 
@@ -1583,7 +1582,7 @@ void laughing_blackwell_0x1EB54::sub_4B7AE0()
 }
 
 MATCH_FUNC(0x4B8650)
-void laughing_blackwell_0x1EB54::sub_4B8650()
+void Frontend::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
     {
@@ -1596,7 +1595,7 @@ void laughing_blackwell_0x1EB54::sub_4B8650()
 }
 
 STUB_FUNC(0x4B6030)
-char_type laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
+char_type Frontend::pre_intro_bik_exists_4B6030()
 {
     char_type* v0; // eax
     long v1; // eax
@@ -1611,21 +1610,21 @@ char_type laughing_blackwell_0x1EB54::pre_intro_bik_exists_4B6030()
 }
 
 STUB_FUNC(0x4B5F20)
-char_type* laughing_blackwell_0x1EB54::pre_intro_bik_4B5F20()
+char_type* Frontend::pre_intro_bik_4B5F20()
 {
     // todo
     return "";
 }
 
 STUB_FUNC(0x4B5E50)
-const char_type* laughing_blackwell_0x1EB54::intro_bik_4B5E50()
+const char_type* Frontend::intro_bik_4B5E50()
 {
     // todo
     return "meh.dat";
 }
 
 MATCH_FUNC(0x4B5FF0)
-bool laughing_blackwell_0x1EB54::intro_bik_exists_4B5FF0()
+bool Frontend::intro_bik_exists_4B5FF0()
 {
     // note: ecx wasn't first due to global being an object instead of a pointer
     _finddata_t findData;
@@ -1659,7 +1658,7 @@ void sub_SetGamma()
 }
 
 MATCH_FUNC(0x4AEC00)
-void laughing_blackwell_0x1EB54::sub_4AEC00()
+void Frontend::sub_4AEC00()
 {
     read_menu_input_4AFEB0();
     sub_4B6780();
@@ -1713,7 +1712,7 @@ void laughing_blackwell_0x1EB54::sub_4AEC00()
 }
 
 MATCH_FUNC(0x4AFEB0)
-void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
+void Frontend::read_menu_input_4AFEB0()
 {
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
     {
@@ -1758,7 +1757,7 @@ void laughing_blackwell_0x1EB54::read_menu_input_4AFEB0()
 }
 
 MATCH_FUNC(0x4B6780)
-void laughing_blackwell_0x1EB54::sub_4B6780()
+void Frontend::sub_4B6780()
 {
     loving_borg_0xBCA* pBorg = &field_136[field_132_f136_idx];
     if (field_110_state != 2)
@@ -1832,7 +1831,7 @@ void laughing_blackwell_0x1EB54::sub_4B6780()
 }
 
 STUB_FUNC(0x4B7A10)
-void laughing_blackwell_0x1EB54::sub_4B7A10()
+void Frontend::sub_4B7A10()
 {
     char_type v2; // cl
     char_type* local_field_8_keys; // eax
@@ -1886,7 +1885,7 @@ void laughing_blackwell_0x1EB54::sub_4B7A10()
 }
 
 STUB_FUNC(0x4AE2D0)
-void laughing_blackwell_0x1EB54::sub_4AE2D0()
+void Frontend::sub_4AE2D0()
 {
     loving_borg_0xBCA* pBorg; // ebx
     dreamy_clarke_0xA4* v3; // ebp
@@ -2189,19 +2188,19 @@ LABEL_60:
 }
 
 MATCH_FUNC(0x4AE990)
-void laughing_blackwell_0x1EB54::sub_4AE990()
+void Frontend::sub_4AE990()
 {
     field_108 = 3;
 }
 
 STUB_FUNC(0x4B2F60)
-void laughing_blackwell_0x1EB54::sub_4B2F60()
+void Frontend::sub_4B2F60()
 {
     // todo
 }
 
 MATCH_FUNC(0x4AE9A0)
-void laughing_blackwell_0x1EB54::sub_4AE9A0()
+void Frontend::sub_4AE9A0()
 {
     u16 v2;
 
@@ -2213,7 +2212,7 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
             switch (field_EE0C)
             {
                 case 1:
-                    laughing_blackwell_0x1EB54::sub_4B4410();
+                    Frontend::sub_4B4410();
                     field_110_state = 1;
                     break;
                 default:
@@ -2277,15 +2276,14 @@ void laughing_blackwell_0x1EB54::sub_4AE9A0()
     }
 }
 
-
 STUB_FUNC(0x4B8280)
-void laughing_blackwell_0x1EB54::sub_4B8280()
+void Frontend::sub_4B8280()
 {
     // todo
 }
 
 MATCH_FUNC(0x4B4410)
-void laughing_blackwell_0x1EB54::sub_4B4410()
+void Frontend::sub_4B4410()
 {
     sub_4B43E0()->sub_56B630();
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(field_136[1].field_4[0].field_6E_count);
@@ -2293,7 +2291,7 @@ void laughing_blackwell_0x1EB54::sub_4B4410()
 }
 
 MATCH_FUNC(0x4B43E0)
-dreamy_clarke_0xA4* laughing_blackwell_0x1EB54::sub_4B43E0()
+dreamy_clarke_0xA4* Frontend::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
     u16 idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
@@ -2301,13 +2299,13 @@ dreamy_clarke_0xA4* laughing_blackwell_0x1EB54::sub_4B43E0()
 }
 
 STUB_FUNC(0x4B42E0)
-void laughing_blackwell_0x1EB54::sub_4B42E0()
+void Frontend::sub_4B42E0()
 {
     // todo
 }
 
 MATCH_FUNC(0x4B4230)
-void laughing_blackwell_0x1EB54::sub_4B4230()
+void Frontend::sub_4B4230()
 {
     u16 count = field_136[1].field_4[0].field_6E_count;
     wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_strPlayerName;
@@ -2317,7 +2315,7 @@ void laughing_blackwell_0x1EB54::sub_4B4230()
 }
 
 MATCH_FUNC(0x4B3DD0)
-void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
+void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
     const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
     const size_t cheat_str_len = wcslen(cheat_str_wide);
@@ -2479,13 +2477,13 @@ void laughing_blackwell_0x1EB54::HandleCheatCode_4B3DD0(const wchar_t* cheat_str
 }
 
 MATCH_FUNC(0x4B4280)
-void laughing_blackwell_0x1EB54::sub_4B4280()
+void Frontend::sub_4B4280()
 {
     wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136[1].field_4[0].field_6E_count].field_90_strPlayerName, 9u);
 }
 
 STUB_FUNC(0x4B8530)
-void laughing_blackwell_0x1EB54::sub_4B8530()
+void Frontend::sub_4B8530()
 {
     short total = field_C9CA;
     if (total < 9)
@@ -2504,7 +2502,7 @@ void laughing_blackwell_0x1EB54::sub_4B8530()
 }
 
 MATCH_FUNC(0x4B8560)
-void laughing_blackwell_0x1EB54::sub_4B8560()
+void Frontend::sub_4B8560()
 {
     if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
     {
@@ -2537,7 +2535,7 @@ void laughing_blackwell_0x1EB54::sub_4B8560()
 }
 
 MATCH_FUNC(0x4B8020)
-void laughing_blackwell_0x1EB54::sub_4B8020()
+void Frontend::sub_4B8020()
 {
     dreamy_clarke_0xA4* pClarke = sub_4B43E0();
     u8 idx = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -2567,13 +2565,13 @@ void laughing_blackwell_0x1EB54::sub_4B8020()
 }
 
 STUB_FUNC(0x4B7E10)
-EXPORT int __stdcall laughing_blackwell_0x1EB54::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
+EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
 {
     return 0;
 }
 
 STUB_FUNC(0x4B7FB0)
-char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
+char_type Frontend::sub_4B7FB0()
 {
     dreamy_clarke_0xA4* v2; // eax
     u16 v3; // bx
@@ -2601,13 +2599,13 @@ char_type laughing_blackwell_0x1EB54::sub_4B7FB0()
 }
 
 STUB_FUNC(0x4B4D00)
-void laughing_blackwell_0x1EB54::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
+void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     // todo
 }
 
 STUB_FUNC(0x4ADF50)
-void laughing_blackwell_0x1EB54::sub_4ADF50()
+void Frontend::sub_4ADF50()
 {
     switch (field_110_state)
     {
@@ -2768,7 +2766,7 @@ EXPORT void __cdecl FreeSurface_5D7DC0()
 }
 
 MATCH_FUNC(0x4ADFB0)
-void laughing_blackwell_0x1EB54::sub_4ADFB0()
+void Frontend::sub_4ADFB0()
 {
     sub_5D7D30();
 
@@ -2787,7 +2785,7 @@ void laughing_blackwell_0x1EB54::sub_4ADFB0()
 // https://decomp.me/scratch/IOmk7
 // TODO: stop the tail merge... somehow
 STUB_FUNC(0x4B6E10)
-void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
+void Frontend::DrawBackground_4B6E10()
 {
     // todo
     BYTE tga_idx; // [esp+50h] [ebp-8h] BYREF
@@ -2831,7 +2829,7 @@ void laughing_blackwell_0x1EB54::DrawBackground_4B6E10()
 }
 
 MATCH_FUNC(0x4B6B00)
-void laughing_blackwell_0x1EB54::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
+void Frontend::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
 {
     switch (a1)
     {
@@ -2931,7 +2929,7 @@ void laughing_blackwell_0x1EB54::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
 }
 
 MATCH_FUNC(0x4B6520)
-void laughing_blackwell_0x1EB54::Load_tga_4B6520(u16 idx)
+void Frontend::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
 
@@ -2966,7 +2964,7 @@ EXPORT void __stdcall sub_5D7CB0()
 
 // https://decomp.me/scratch/MuqZh
 STUB_FUNC(0x4AF2A0)
-laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
+Frontend::Frontend()
 {
     field_10D = 1;
 
@@ -3042,13 +3040,12 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_C9B6 = 5;
 
     //memset(&field_C9A0, 0, sizeof(field_C9A0));
-    
+
     *(u32*)field_C9A0 = 0;
     *(u32*)&field_C9A0[2] = 0;
     *(u32*)&field_C9A0[4] = 0;
     *(u32*)&field_C9A0[6] = 0;
     field_C9A0[8] = 0;
-    
 
     memset(&field_C9B8, 0, sizeof(field_C9B8));
     /*
@@ -3062,8 +3059,8 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
     field_C9CB = 0;
     field_1EB50_idx = 0;
 
-    field_1EB51_blocks[0] = 0;    //  lobyte of u16?
-    field_1EB51_blocks[1] = 0;    //  hibyte of u16?
+    field_1EB51_blocks[0] = 0; //  lobyte of u16?
+    field_1EB51_blocks[1] = 0; //  hibyte of u16?
     field_1EB51_blocks[2] = 0;
 
     sub_4B4440();
@@ -3094,7 +3091,7 @@ laughing_blackwell_0x1EB54::laughing_blackwell_0x1EB54()
 }
 
 MATCH_FUNC(0x4AF970)
-laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
+Frontend::~Frontend()
 {
     FreeKeyBoardDevice_4AFD00();
 
@@ -3122,7 +3119,7 @@ laughing_blackwell_0x1EB54::~laughing_blackwell_0x1EB54()
 }
 
 MATCH_FUNC(0x4AFD70)
-void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
+void Frontend::AcquireKeyBoard_4AFD70()
 {
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
     {
@@ -3131,7 +3128,7 @@ void laughing_blackwell_0x1EB54::AcquireKeyBoard_4AFD70()
 }
 
 MATCH_FUNC(0x4AFD00)
-void laughing_blackwell_0x1EB54::FreeKeyBoardDevice_4AFD00()
+void Frontend::FreeKeyBoardDevice_4AFD00()
 {
     if (field_4_pKeyboardDevice)
     {
@@ -3142,13 +3139,13 @@ void laughing_blackwell_0x1EB54::FreeKeyBoardDevice_4AFD00()
 }
 
 MATCH_FUNC(0x4B6750)
-void laughing_blackwell_0x1EB54::FreeImageTable_4B6750()
+void Frontend::FreeImageTable_4B6750()
 {
     gbh_FreeImageTable();
 }
 
 MATCH_FUNC(0x4AFDD0)
-char_type laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
+char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
     if (FAILED(hr))
@@ -3169,7 +3166,7 @@ char_type laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates_4AFDD0()
 }
 
 MATCH_FUNC(0x4AFBE0)
-void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
+void Frontend::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
     field_4_pKeyboardDevice = 0;
@@ -3193,7 +3190,7 @@ void laughing_blackwell_0x1EB54::InitKeyBoardDevice_4AFBE0()
 }
 
 MATCH_FUNC(0x4AF0E0)
-void laughing_blackwell_0x1EB54::sub_4AF0E0()
+void Frontend::sub_4AF0E0()
 {
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
@@ -3226,7 +3223,7 @@ void laughing_blackwell_0x1EB54::sub_4AF0E0()
 }
 
 STUB_FUNC(0x4B0220)
-void laughing_blackwell_0x1EB54::sub_4B0220()
+void Frontend::sub_4B0220()
 {
     s16 v30; // ax
 
@@ -3361,19 +3358,19 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[11].field_4[0].field_4 = 392;
     wcsncpy(field_136[11].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
     field_136[11].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[0].field_6_wstr_buf, field_136[11].field_4[0].field_6A, 320);
+        Frontend::sub_4B0190(field_136[11].field_4[0].field_6_wstr_buf, field_136[11].field_4[0].field_6A, 320);
     field_136[11].field_4[0].field_80 = 260;
     field_136[11].field_4[1].field_0 = 1;
     field_136[11].field_4[1].field_4 = 412;
     wcsncpy(field_136[11].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
     field_136[11].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[1].field_6_wstr_buf, field_136[11].field_4[1].field_6A, 320);
+        Frontend::sub_4B0190(field_136[11].field_4[1].field_6_wstr_buf, field_136[11].field_4[1].field_6A, 320);
     field_136[11].field_4[1].field_80 = 259;
     field_136[11].field_4[2].field_0 = 1;
     field_136[11].field_4[2].field_4 = 432;
     wcsncpy(field_136[11].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
     field_136[11].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[11].field_4[2].field_6_wstr_buf, field_136[11].field_4[2].field_6A, 320);
+        Frontend::sub_4B0190(field_136[11].field_4[2].field_6_wstr_buf, field_136[11].field_4[2].field_6A, 320);
     field_136[11].field_4[2].field_80 = 0;
     field_136[11].field_B8A[0].field_0 = 150;
     field_136[11].field_B8A[0].field_2 = 400;
@@ -3394,20 +3391,17 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[2].field_4[0].field_0 = 1;
     field_136[2].field_4[0].field_4 = 392;
     wcsncpy(field_136[2].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136[2].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[0].field_6_wstr_buf, field_136[2].field_4[0].field_6A, 320);
+    field_136[2].field_4[0].field_2 = Frontend::sub_4B0190(field_136[2].field_4[0].field_6_wstr_buf, field_136[2].field_4[0].field_6A, 320);
     field_136[2].field_4[0].field_80 = 260;
     field_136[2].field_4[1].field_0 = 1;
     field_136[2].field_4[1].field_4 = 412;
     wcsncpy(field_136[2].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    field_136[2].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[1].field_6_wstr_buf, field_136[2].field_4[1].field_6A, 320);
+    field_136[2].field_4[1].field_2 = Frontend::sub_4B0190(field_136[2].field_4[1].field_6_wstr_buf, field_136[2].field_4[1].field_6A, 320);
     field_136[2].field_4[1].field_80 = 259;
     field_136[2].field_4[2].field_0 = 1;
     field_136[2].field_4[2].field_4 = 432;
     wcsncpy(field_136[2].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136[2].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[2].field_4[2].field_6_wstr_buf, field_136[2].field_4[2].field_6A, 320);
+    field_136[2].field_4[2].field_2 = Frontend::sub_4B0190(field_136[2].field_4[2].field_6_wstr_buf, field_136[2].field_4[2].field_6A, 320);
     field_136[2].field_4[2].field_80 = 0;
     field_136[2].field_B8A[0].field_0 = 150;
     field_136[2].field_B8A[0].field_2 = 400;
@@ -3427,32 +3421,27 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[3].field_4[0].field_0 = 1;
     field_136[3].field_4[0].field_4 = 365;
     wcsncpy(field_136[3].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    field_136[3].field_4[0].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[0].field_6_wstr_buf, field_136[3].field_4[0].field_6A, 320);
+    field_136[3].field_4[0].field_2 = Frontend::sub_4B0190(field_136[3].field_4[0].field_6_wstr_buf, field_136[3].field_4[0].field_6A, 320);
     field_136[3].field_4[0].field_80 = 261;
     field_136[3].field_4[1].field_0 = 1;
     field_136[3].field_4[1].field_4 = 385;
     wcsncpy(field_136[3].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136[3].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[1].field_6_wstr_buf, field_136[3].field_4[1].field_6A, 320);
+    field_136[3].field_4[1].field_2 = Frontend::sub_4B0190(field_136[3].field_4[1].field_6_wstr_buf, field_136[3].field_4[1].field_6A, 320);
     field_136[3].field_4[1].field_80 = 260;
     field_136[3].field_4[2].field_0 = 1;
     field_136[3].field_4[2].field_4 = 405;
     wcsncpy(field_136[3].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    field_136[3].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[2].field_6_wstr_buf, field_136[3].field_4[2].field_6A, 320);
+    field_136[3].field_4[2].field_2 = Frontend::sub_4B0190(field_136[3].field_4[2].field_6_wstr_buf, field_136[3].field_4[2].field_6A, 320);
     field_136[3].field_4[2].field_80 = 259;
     field_136[3].field_4[3].field_0 = 1;
     field_136[3].field_4[3].field_4 = 425;
     wcsncpy(field_136[3].field_4[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
-    field_136[3].field_4[3].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[3].field_6_wstr_buf, field_136[3].field_4[3].field_6A, 320);
+    field_136[3].field_4[3].field_2 = Frontend::sub_4B0190(field_136[3].field_4[3].field_6_wstr_buf, field_136[3].field_4[3].field_6A, 320);
     field_136[3].field_4[3].field_80 = 266;
     field_136[3].field_4[4].field_0 = 1;
     field_136[3].field_4[4].field_4 = 445;
     wcsncpy(field_136[3].field_4[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136[3].field_4[4].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[3].field_4[4].field_6_wstr_buf, field_136[3].field_4[4].field_6A, 320);
+    field_136[3].field_4[4].field_2 = Frontend::sub_4B0190(field_136[3].field_4[4].field_6_wstr_buf, field_136[3].field_4[4].field_6A, 320);
     field_136[3].field_4[4].field_80 = 0;
     field_136[3].field_B8A[0].field_0 = 150;
     field_136[3].field_B8A[0].field_2 = 373;
@@ -3473,7 +3462,7 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     wcsncpy(field_136[4].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
     v30 = field_130;
     field_136[4].field_518[0].field_6A = v30;
-    field_136[4].field_518[0].field_2_xpos = laughing_blackwell_0x1EB54::sub_4B0190(field_136[4].field_518[0].field_6_wstr_buf, v30, 320);
+    field_136[4].field_518[0].field_2_xpos = Frontend::sub_4B0190(field_136[4].field_518[0].field_6_wstr_buf, v30, 320);
     field_136[4].field_518[0].field_6C = 4;
     field_136[4].field_4[0].field_0 = 1;
     field_136[4].field_4[0].field_2 = 180;
@@ -3545,19 +3534,17 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
     field_136[6].field_518[2].field_6A = v38;
     field_136[6].field_4[0].field_4 = 340;
     wcsncpy(field_136[6].field_4[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
-    field_136[6].field_4[0].field_2 = laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[0].field_6_wstr_buf, v38, 320);
+    field_136[6].field_4[0].field_2 = Frontend::sub_4B0190(field_136[6].field_4[0].field_6_wstr_buf, v38, 320);
     field_136[6].field_4[0].field_80 = 259;
     field_136[6].field_4[1].field_0 = 1;
     field_136[6].field_4[1].field_4 = 360;
     wcsncpy(field_136[6].field_4[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    field_136[6].field_4[1].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[1].field_6_wstr_buf, field_136[6].field_4[1].field_6A, 320);
+    field_136[6].field_4[1].field_2 = Frontend::sub_4B0190(field_136[6].field_4[1].field_6_wstr_buf, field_136[6].field_4[1].field_6A, 320);
     field_136[6].field_4[1].field_80 = 261;
     field_136[6].field_4[2].field_0 = 1;
     field_136[6].field_4[2].field_4 = 380;
     wcsncpy(field_136[6].field_4[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136[6].field_4[2].field_2 =
-        laughing_blackwell_0x1EB54::sub_4B0190(field_136[6].field_4[2].field_6_wstr_buf, field_136[6].field_4[2].field_6A, 320);
+    field_136[6].field_4[2].field_2 = Frontend::sub_4B0190(field_136[6].field_4[2].field_6_wstr_buf, field_136[6].field_4[2].field_6A, 320);
     field_136[6].field_4[2].field_80 = 0;
     field_136[6].field_B8A[0].field_0 = 150;
     field_136[6].field_B8A[0].field_2 = 348;
@@ -3695,13 +3682,13 @@ void laughing_blackwell_0x1EB54::sub_4B0220()
 }
 
 STUB_FUNC(0x4B4440)
-void laughing_blackwell_0x1EB54::sub_4B4440()
+void Frontend::sub_4B4440()
 {
     // todo
 }
 
 MATCH_FUNC(0x4B53C0)
-void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
+void Frontend::LoadPlySlotSvgs_4B53C0()
 {
     char_type FileName[256];
     for (u8 i = 0; i < GTA2_COUNTOF(field_EDE8_plySlots); i++)
@@ -3722,7 +3709,7 @@ void laughing_blackwell_0x1EB54::LoadPlySlotSvgs_4B53C0()
 }
 
 MATCH_FUNC(0x4B66B0)
-void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
+void Frontend::Load_tgas_4B66B0()
 {
     if (gbh_InitImageTable(gTableSize_61FF20) != -1)
     {
@@ -3734,7 +3721,7 @@ void laughing_blackwell_0x1EB54::Load_tgas_4B66B0()
 }
 
 MATCH_FUNC(0x4B51D0)
-void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
+void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
     _itoa(idx, Buffer, 10);
@@ -3744,7 +3731,7 @@ void laughing_blackwell_0x1EB54::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pSt
 }
 
 MATCH_FUNC(0x4B5370)
-char_type laughing_blackwell_0x1EB54::PlySlotSvgExists_4B5370(u8 idx)
+char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
@@ -3764,7 +3751,7 @@ EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
 MATCH_FUNC(0x5E53C0)
-void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
+void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
     {
@@ -3780,7 +3767,7 @@ void __stdcall laughing_blackwell_0x1EB54::sub_5E53C0(BYTE* a1)
 }
 
 MATCH_FUNC(0x5D8990)
-s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
+s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
 {
     wchar_t* pStrIter = pStr;
     s32 current = 0;
@@ -3820,7 +3807,7 @@ s32 __stdcall laughing_blackwell_0x1EB54::sub_5D8990(wchar_t* pStr, u16 a2)
 
 // https://decomp.me/scratch/i8BWF
 MATCH_FUNC(0x4B0190)
-s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
+s32 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
     u16 v4;
     if (fontType != -1)
@@ -3835,7 +3822,7 @@ s32 laughing_blackwell_0x1EB54::sub_4B0190(wchar_t* pText, s16 fontType, s32 wid
 }
 
 STUB_FUNC(0x4B7060)
-u8 laughing_blackwell_0x1EB54::sub_4B7060(u8 a2)
+u8 Frontend::sub_4B7060(u8 a2)
 {
     dreamy_clarke_0xA4* v2; // edx
     u8 result; // al
@@ -3862,7 +3849,7 @@ u8 laughing_blackwell_0x1EB54::sub_4B7060(u8 a2)
 }
 
 STUB_FUNC(0x4B7270)
-u8 laughing_blackwell_0x1EB54::sub_4B7270(char_type a2)
+u8 Frontend::sub_4B7270(char_type a2)
 {
     dreamy_clarke_0xA4* v2; // esi
     u8 result; // al
@@ -3898,21 +3885,21 @@ u8 laughing_blackwell_0x1EB54::sub_4B7270(char_type a2)
 }
 
 STUB_FUNC(0x4B7490)
-bool laughing_blackwell_0x1EB54::sub_4B7490()
+bool Frontend::sub_4B7490()
 {
     u8 v2 = gLucid_hamilton_67E8E0.sub_4C5980();
     return sub_4B7060(v2) != v2;
 }
 
 STUB_FUNC(0x4B74C0)
-bool laughing_blackwell_0x1EB54::sub_4B74C0()
+bool Frontend::sub_4B74C0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5980();
     return sub_4B7270(v2) != v2;
 }
 
 STUB_FUNC(0x4B7550)
-void laughing_blackwell_0x1EB54::sub_4B7550()
+void Frontend::sub_4B7550()
 {
     loving_borg_0xBCA* pBorg; // edi
     u8 v3; // [esp+Ch] [ebp-4h]
@@ -3946,7 +3933,7 @@ void laughing_blackwell_0x1EB54::sub_4B7550()
 }
 
 STUB_FUNC(0x4B6FF0)
-bool laughing_blackwell_0x1EB54::sub_4B6FF0()
+bool Frontend::sub_4B6FF0()
 {
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     u8 a2 = sub_4B7060(v3);
@@ -3957,7 +3944,7 @@ bool laughing_blackwell_0x1EB54::sub_4B6FF0()
 }
 
 STUB_FUNC(0x4B42B0)
-void laughing_blackwell_0x1EB54::sub_4B42B0()
+void Frontend::sub_4B42B0()
 {
     s32 v1; // eax
     wchar_t* v2; // edi
@@ -3980,14 +3967,14 @@ void laughing_blackwell_0x1EB54::sub_4B42B0()
 }
 
 STUB_FUNC(0x4B7120)
-char_type laughing_blackwell_0x1EB54::sub_4B7120(char_type a2)
+char_type Frontend::sub_4B7120(char_type a2)
 {
     // todo
     return 0;
 }
 
 STUB_FUNC(0x4B7610)
-void laughing_blackwell_0x1EB54::sub_4B7610()
+void Frontend::sub_4B7610()
 {
     loving_borg_0xBCA* pItem; // esi
     u8 v3; // al
@@ -4043,7 +4030,7 @@ void laughing_blackwell_0x1EB54::sub_4B7610()
 }
 
 STUB_FUNC(0x4B70B0)
-bool laughing_blackwell_0x1EB54::sub_4B70B0()
+bool Frontend::sub_4B70B0()
 {
     char_type v3; // [esp+Bh] [ebp-5h]
     char_type a2; // [esp+Ch] [ebp-4h]
@@ -4057,7 +4044,7 @@ bool laughing_blackwell_0x1EB54::sub_4B70B0()
 }
 
 STUB_FUNC(0x4B74F0)
-bool laughing_blackwell_0x1EB54::sub_4B74F0()
+bool Frontend::sub_4B74F0()
 {
     char_type v2; // bl
 
@@ -4066,14 +4053,14 @@ bool laughing_blackwell_0x1EB54::sub_4B74F0()
 }
 
 STUB_FUNC(0x4B7360)
-char_type laughing_blackwell_0x1EB54::sub_4B7360(char_type a2)
+char_type Frontend::sub_4B7360(char_type a2)
 {
     // todo
     return 0;
 }
 
 STUB_FUNC(0x4B7520)
-bool laughing_blackwell_0x1EB54::sub_4B7520()
+bool Frontend::sub_4B7520()
 {
     char_type v2; // bl
 
@@ -4082,7 +4069,7 @@ bool laughing_blackwell_0x1EB54::sub_4B7520()
 }
 
 STUB_FUNC(0x4B72F0)
-bool laughing_blackwell_0x1EB54::sub_4B72F0()
+bool Frontend::sub_4B72F0()
 {
     char_type v3; // [esp+Bh] [ebp-5h]
     char_type a2; // [esp+Ch] [ebp-4h]
@@ -4096,7 +4083,7 @@ bool laughing_blackwell_0x1EB54::sub_4B72F0()
 }
 
 STUB_FUNC(0x4B7200)
-bool laughing_blackwell_0x1EB54::sub_4B7200()
+bool Frontend::sub_4B7200()
 {
     char_type v3; // [esp+Bh] [ebp-5h]
     u8 a2; // [esp+Ch] [ebp-4h]
@@ -4110,7 +4097,7 @@ bool laughing_blackwell_0x1EB54::sub_4B7200()
 }
 
 STUB_FUNC(0x4B4EC0)
-void laughing_blackwell_0x1EB54::sub_4B4EC0()
+void Frontend::sub_4B4EC0()
 {
     // todo
 }

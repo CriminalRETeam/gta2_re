@@ -8,15 +8,15 @@
 #include <windows.h>
 
 class infallible_turing;
-class cool_nash_0x294;
+class Ped;
 class keen_bhaskara_0x30;
-class angry_lewin_0x85C;
+class Player;
 
 // TODO: add these later
 class Car_BC;
 class Zone_144;
 
-class angry_lewin_0x85C
+class Player
 {
   public:
     EXPORT u8 GetIdx_4881E0();
@@ -44,7 +44,7 @@ class angry_lewin_0x85C
     EXPORT void sub_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
-    EXPORT s32 sub_565490(cool_nash_0x294* pPed);
+    EXPORT s32 sub_565490(Ped* pPed);
     EXPORT void SetInputs_565740(u32 input);
     EXPORT void sub_565770(u8 count);
     EXPORT void sub_565860();
@@ -52,7 +52,7 @@ class angry_lewin_0x85C
     EXPORT void sub_566380(u16 a2);
     EXPORT char_type sub_566520();
     EXPORT void sub_566820();
-    EXPORT void sub_5668D0(cool_nash_0x294* a2);
+    EXPORT void sub_5668D0(Ped* a2);
     EXPORT char_type sub_566C30(Car_BC* a2);
     EXPORT char_type sub_566C80(u32* a2);
     EXPORT void sub_566EE0(char_type a2);
@@ -94,10 +94,10 @@ class angry_lewin_0x85C
     EXPORT void sub_56A6D0();
 
     // 0x56A740
-    EXPORT angry_lewin_0x85C(u8 a2);
+    EXPORT Player(u8 a2);
 
     // 0x56A940
-    EXPORT ~angry_lewin_0x85C();
+    EXPORT ~Player();
 
     char_type field_0;
     char_type field_1;
@@ -180,8 +180,8 @@ class angry_lewin_0x85C
     DrawUnk_0xBC field_90_game_camera;
     DrawUnk_0xBC field_14C_view_camera;
     DrawUnk_0xBC field_208_aux_game_camera;
-    cool_nash_0x294* field_2C4_player_ped;
-    cool_nash_0x294* field_2C8_unkq;
+    Ped* field_2C4_player_ped;
+    Ped* field_2C8_unkq;
     s32 field_2CC;
     char_type field_2D0;
     char_type field_2D1;

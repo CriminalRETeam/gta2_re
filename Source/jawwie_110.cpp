@@ -1,5 +1,5 @@
 #include "jawwie_110.hpp"
-#include "cool_nash_0x294.hpp"
+#include "Ped.hpp"
 #include <stdio.h>
 
 MATCH_FUNC(0x4beab0)
@@ -32,7 +32,7 @@ void jawwie_20::sub_4FA7D0()
 }
 
 MATCH_FUNC(0x4fa800)
-void jawwie_20::sub_4FA800(cool_nash_0x294* pPed)
+void jawwie_20::sub_4FA800(Ped* pPed)
 {
     field_10.sub_471140(pPed);
     field_14_count++;
@@ -81,13 +81,13 @@ void jawwie_110::init_4FA310()
 }
 
 STUB_FUNC(0x4fa330)
-char_type jawwie_110::sub_4FA330(cool_nash_0x294* a2)
+char_type jawwie_110::sub_4FA330(Ped* a2)
 {
     return 0;
 }
 
 MATCH_FUNC(0x4fa470)
-char_type jawwie_110::sub_4FA470(cool_nash_0x294* a2)
+char_type jawwie_110::sub_4FA470(Ped* a2)
 {
     if (a2->sub_45EDE0(2) || field_1_f8_idx >= 25u)
     {

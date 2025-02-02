@@ -3,8 +3,8 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class angry_lewin_0x85C;
-class Car_3C;
+class Player;
+class Sprite;
 class Car_BC;
 class DrawUnk_0xBC;
 
@@ -39,28 +39,28 @@ class Game_0x40
     EXPORT void sub_4B9700();
     EXPORT void sub_4B9710();
     EXPORT void sub_4B9720();
-    EXPORT angry_lewin_0x85C* sub_4B9750();
+    EXPORT Player* sub_4B9750();
     EXPORT void sub_4B9790(s32 a2, s32 a3, s32 a4);
-    EXPORT s8 sub_4B97E0(Car_3C* a2, s32 a3);
-    EXPORT s8 sub_4B9830(Car_3C* pCarSprite, s32 a3);
+    EXPORT s8 sub_4B97E0(Sprite* a2, s32 a3);
+    EXPORT s8 sub_4B9830(Sprite* pCarSprite, s32 a3);
     EXPORT s8 sub_4B9890(s16* a2, s32 a3);
     EXPORT bool sub_4B98E0(s16* a2, u8 playerIdx, s32 a4);
-    EXPORT s8 sub_4B9950(Car_3C* pCarSprite, u8 idx, s32 a4);
-    EXPORT bool sub_4B9A10(Car_3C* a2, u8 playerIdx);
+    EXPORT s8 sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4);
+    EXPORT bool sub_4B9A10(Sprite* a2, u8 playerIdx);
     EXPORT s8 is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp);
     EXPORT s8 sub_4B9B10(Fix16_Rect* pBounds);
     EXPORT DrawUnk_0xBC* IteratePlayerCamera_4B9BC0();
     EXPORT s8 sub_4B9C10(Car_BC* a2);
     EXPORT DrawUnk_0xBC* sub_4B9C50();
-    EXPORT angry_lewin_0x85C* sub_4B9CD0();
-    EXPORT angry_lewin_0x85C* IterateNextPlayer_4B9D10();
-    EXPORT void sub_4B9D60(Car_3C* a2, angry_lewin_0x85C* pExclude);
+    EXPORT Player* sub_4B9CD0();
+    EXPORT Player* IterateNextPlayer_4B9D10();
+    EXPORT void sub_4B9D60(Sprite* a2, Player* pExclude);
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 
     s32 field_0_game_state;
-    angry_lewin_0x85C* field_4_players[6];
-    angry_lewin_0x85C* field_1C_unk;
+    Player* field_4_players[6];
+    Player* field_1C_unk;
     u8 field_20_idx;
     u8 field_21_player_camera_idx;
     char_type field_22;
@@ -76,7 +76,7 @@ class Game_0x40
     char_type field_32;
     char_type field_33;
     s32 field_34;
-    angry_lewin_0x85C* field_38_orf1;
+    Player* field_38_orf1;
     bool field_3C_bSkipPolice;
     char_type field_3D;
     char_type field_3E;

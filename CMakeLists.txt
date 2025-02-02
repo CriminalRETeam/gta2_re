@@ -71,10 +71,10 @@ set(gta2_lib_src
   Source/text_0x14.cpp
   Source/root_sound.hpp
   Source/root_sound.cpp
-  Source/angry_lewin_0x85C.hpp
-  Source/angry_lewin_0x85C.cpp
-  Source/laughing_blackwell_0x1EB54.hpp
-  Source/laughing_blackwell_0x1EB54.cpp
+  Source/Player.hpp
+  Source/Player.cpp
+  Source/Frontend.hpp
+  Source/Frontend.cpp
   Source/Game_0x40.hpp
   Source/Game_0x40.cpp
   Source/jolly_poitras_0x2BC0.hpp
@@ -98,8 +98,8 @@ set(gta2_lib_src
   Source/Function.hpp
   Source/DrawUnk_0xBC.hpp
   Source/DrawUnk_0xBC.cpp
-  Source/cool_nash_0x294.hpp
-  Source/cool_nash_0x294.cpp
+  Source/Ped.hpp
+  Source/Ped.cpp
   Source/Car_BC.hpp
   Source/Car_BC.cpp
   Source/Car_10.hpp

@@ -2,7 +2,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "angry_lewin_0x85C.hpp"
+#include "Player.hpp"
 #include "registry.hpp"
 
 EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
@@ -197,7 +197,7 @@ s32 lucid_hamilton::sub_4C59F0(u8 idx)
 }
 
 MATCH_FUNC(0x4C5A10)
-void lucid_hamilton::sub_4C5A10(angry_lewin_0x85C* pPlayer)
+void lucid_hamilton::sub_4C5A10(Player* pPlayer)
 {
     for (u8 i = 0; i < 10; i++)
     {
@@ -354,7 +354,7 @@ MATCH_FUNC(0x4C5CD0)
 void lucid_hamilton::sub_4C5CD0(u8 player_idx, u8 f0_idx)
 {
     field_448[player_idx].field_0[f0_idx]++;
-    angry_lewin_0x85C* pPlayer = gGame_0x40_67E008->field_4_players[player_idx];
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[player_idx];
     if (player_idx == f0_idx)
     {
         if (field_490[player_idx] > 0)

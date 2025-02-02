@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include <windows.h>
 
-class angry_lewin_0x85C;
+class Player;
 
 // todo: move
 struct gifted_joliot
@@ -1607,7 +1607,7 @@ struct jolly_poitras_0x2BC0
     EXPORT ~jolly_poitras_0x2BC0();
 
     // todo: ordering
-    EXPORT void sub_56BB10(angry_lewin_0x85C* a2);
+    EXPORT void sub_56BB10(Player* a2);
 
     EXPORT void sub_56C010();
 
