@@ -121,7 +121,7 @@ class Door_2C4
     // inlined 0x44C800
     Door_2C4()
     {
-        Door_10* pIter = field_0;
+        Door_10* pIter = field_4;
         for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
         {
             pIter->field_C = pIter + 1;
