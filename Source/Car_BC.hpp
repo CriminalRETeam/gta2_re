@@ -706,7 +706,7 @@ struct Car_14
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
-EXPORT_VAR extern Sprite* gCar_3C_6F61E8;
+EXPORT_VAR extern Sprite* gSprite_6F61E8;
 EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
 EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
 EXPORT_VAR extern Car_14* gCar_14_677934;

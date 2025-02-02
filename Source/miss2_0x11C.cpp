@@ -1431,7 +1431,7 @@ MATCH_FUNC(0x50b150)
 void miss2_0x11C::SCRCMD_SET_AMBIENT_50B150()
 {
     SCR_SET_AMBIENT* pCmd = (SCR_SET_AMBIENT*)gBasePtr_6F8070;
-    gpNanobotz_6F66E4->sub_4E9D50(pCmd->field_8_level, pCmd->field_C_time);
+    gpMapRenderer_6F66E4->sub_4E9D50(pCmd->field_8_level, pCmd->field_C_time);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -1807,10 +1807,10 @@ void miss2_0x11C::sub_50C6F0() // PARK and PARK_NO_RESPAWN
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
 
-    gChickenLegend_48_6FD26C->sub_534700(pParam1->field_8_car, pParam2->field_8_door);
+    gGarage_48_6FD26C->sub_534700(pParam1->field_8_car, pParam2->field_8_door);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
     {
-        gChickenLegend_48_6FD26C->field_3F = 1;
+        gGarage_48_6FD26C->field_3F = 1;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1939,7 +1939,7 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 MATCH_FUNC(0x50ce10)
 void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
 {
-    if (gChickenLegend_48_6FD26C->field_C == 3)
+    if (gGarage_48_6FD26C->field_C == 3)
     {
         field_8 = true;
     }

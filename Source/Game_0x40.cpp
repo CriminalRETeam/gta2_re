@@ -119,8 +119,8 @@ GLOBAL(gMarz_1D7E_6FD784, 0x6FD784);
 EXPORT_VAR Taxi_4* gTaxi_4_704130;
 GLOBAL(gTaxi_4_704130, 0x704130);
 
-EXPORT_VAR Ambulance_110* gjawwie_110_6F70A8;
-GLOBAL(gjawwie_110_6F70A8, 0x6F70A8);
+EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
+GLOBAL(gAmbulance_110_6F70A8, 0x6F70A8);
 
 EXPORT_VAR Varrok_7F8* gVarrok_7F8_703398;
 GLOBAL(gVarrok_7F8_703398, 0x703398);
@@ -268,7 +268,7 @@ void Game_0x40::sub_4B8EB0()
     {
         IanTest_46E370();
     }
-    gSoula_CC68_6FFDC8->Reset_588C60();
+    gRouteFinder_6FFDC8->Reset_588C60();
     gGarox_2B00_706620->sub_5D6BE0();
     gMap_0x370_6F6268->sub_4DFB90(); // map objects
     gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
@@ -348,7 +348,7 @@ void Game_0x40::Draw_4B92D0()
 {
     gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
 
-    gpNanobotz_6F66E4->ClearDrawnTileCount_4F6A10();
+    gpMapRenderer_6F66E4->ClearDrawnTileCount_4F6A10();
     gSprite_8_703820->sub_5A5860();
     gMontana_67B580->ResetAll_4954F0();
 
@@ -360,11 +360,11 @@ void Game_0x40::Draw_4B92D0()
 
     gbh_BeginScene();
 
-    gpNanobotz_6F66E4->Draw_4F6A20();
+    gpMapRenderer_6F66E4->Draw_4F6A20();
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34->DrawExploding_5969E0();
+        gExplodingScore_100_702F34->DrawExploding_5969E0();
     }
 
     gGarox_2B00_706620->DrawGui_5D6860(); // user
@@ -507,7 +507,7 @@ void Game_0x40::sub_4B9410()
     gMaccies_14AC_67E5D0->sub_4C1D70();
     gChar_C_6787BC->sub_4703F0(); // ped stuff? has arg??
     gSero_181C_6FF1D4->sub_57A7A0(); // trains
-    gChickenLegend_48_6FD26C->sub_5349D0();
+    gGarage_48_6FD26C->sub_5349D0();
     gCar_6C_677930->sub_446790();
 
     if (bDo_mike_67D5CC)
@@ -531,7 +531,7 @@ void Game_0x40::sub_4B9410()
 
     if (!bSkip_ambulance_67D6C9)
     {
-        gjawwie_110_6F70A8->sub_4FA790(); // ambulance
+        gAmbulance_110_6F70A8->sub_4FA790(); // ambulance
     }
 
     if (!bSkip_police_67D4F9)
@@ -558,12 +558,12 @@ void Game_0x40::sub_4B9410()
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34->sub_596940();
+        gExplodingScore_100_702F34->sub_596940();
     }
 
     if (bDo_show_junc_ids_67D5B0)
     {
-        gSoula_CC68_6FFDC8->ShowJunctionIds_588620();
+        gRouteFinder_6FFDC8->ShowJunctionIds_588620();
     }
 
     if (counter_706C4C)
@@ -948,8 +948,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1806);
     }
 
-    gpNanobotz_6F66E4 = new MapRenderer(); // inlined ok?
-    if (!gpNanobotz_6F66E4)
+    gpMapRenderer_6F66E4 = new MapRenderer(); // inlined ok?
+    if (!gpMapRenderer_6F66E4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
     }
@@ -1050,8 +1050,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1855);
     }
 
-    gjawwie_110_6F70A8 = new Ambulance_110(); // multi level inline
-    if (!gjawwie_110_6F70A8)
+    gAmbulance_110_6F70A8 = new Ambulance_110(); // multi level inline
+    if (!gAmbulance_110_6F70A8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
     }
@@ -1086,8 +1086,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1869);
     }
 
-    gSoula_CC68_6FFDC8 = new RouteFinder(); // ctor call
-    if (!gSoula_CC68_6FFDC8)
+    gRouteFinder_6FFDC8 = new RouteFinder(); // ctor call
+    if (!gRouteFinder_6FFDC8)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
     }
@@ -1104,8 +1104,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
     }
 
-    gMonster_808_678098 = new CarInfo_808(); // ctor call
-    if (!gMonster_808_678098)
+    gCarInfo_808_678098 = new CarInfo_808(); // ctor call
+    if (!gCarInfo_808_678098)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1877);
     }
@@ -1170,8 +1170,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
     }
 
-    gChickenLegend_48_6FD26C = new Garage_48(); // ctor call
-    if (!gChickenLegend_48_6FD26C)
+    gGarage_48_6FD26C = new Garage_48(); // ctor call
+    if (!gGarage_48_6FD26C)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
     }
@@ -1184,8 +1184,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     if (!bExplodingOff_67D4FB)
     {
-        gCokeZero_100_702F34 = new ExplodingScore_100(); // ctor call
-        if (!gCokeZero_100_702F34)
+        gExplodingScore_100_702F34 = new ExplodingScore_100(); // ctor call
+        if (!gExplodingScore_100_702F34)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);
         }
@@ -1252,7 +1252,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gText_0x14_704DFC);
     GTA2_DELETE_AND_NULL(gGtx_0x106C_703DD4);
     GTA2_DELETE_AND_NULL(gMap_0x370_6F6268);
-    GTA2_DELETE_AND_NULL(gpNanobotz_6F66E4);
+    GTA2_DELETE_AND_NULL(gpMapRenderer_6F66E4);
     GTA2_DELETE_AND_NULL(gMontana_67B580);
     GTA2_DELETE_AND_NULL(gChar_203AC_6787B8);
 
@@ -1277,18 +1277,18 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gTileAnim_2_7052C4);
     GTA2_DELETE_AND_NULL(gWeapon_8_707018);
     GTA2_DELETE_AND_NULL(gDoor_4D4_67BD2C);
-    GTA2_DELETE_AND_NULL(gjawwie_110_6F70A8);
+    GTA2_DELETE_AND_NULL(gAmbulance_110_6F70A8);
     GTA2_DELETE_AND_NULL(gGarox_2B00_706620);
     GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
 
     GTA2_DELETE_AND_NULL(gTrafficLights_194_705958);
-    GTA2_DELETE_AND_NULL(gSoula_CC68_6FFDC8);
+    GTA2_DELETE_AND_NULL(gRouteFinder_6FFDC8);
 
     GTA2_DELETE_AND_NULL(gMarz_1D7E_6FD784);
 
     GTA2_DELETE_AND_NULL(gOrca_2FD4_6FDEF0);
 
-    GTA2_DELETE_AND_NULL(gMonster_808_678098);
+    GTA2_DELETE_AND_NULL(gCarInfo_808_678098);
 
     GTA2_DELETE_AND_NULL(gParticle_8_6FD5E8);
     GTA2_DELETE_AND_NULL(gWolfy_3D4_6FD5EC);
@@ -1301,12 +1301,12 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
     GTA2_DELETE_AND_NULL(gZones_CA8_67E274);
-    GTA2_DELETE_AND_NULL(gChickenLegend_48_6FD26C);
+    GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
     GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
 
     if (!bExplodingOff_67D4FB)
     {
-        GTA2_DELETE_AND_NULL(gCokeZero_100_702F34);
+        GTA2_DELETE_AND_NULL(gExplodingScore_100_702F34);
     }
 
     GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);

@@ -53,4 +53,4 @@ class ExplodingScore_100
     s16 field_FE;
 };
 
-EXPORT_VAR extern ExplodingScore_100* gCokeZero_100_702F34;
+EXPORT_VAR extern ExplodingScore_100* gExplodingScore_100_702F34;

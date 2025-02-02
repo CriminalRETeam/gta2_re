@@ -31,8 +31,8 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 void Start_GTA2Manager_5E4DE0();
 
-EXPORT_VAR Frontend* gLaughing_blackwell_0x1EB54_67DC84;
-GLOBAL(gLaughing_blackwell_0x1EB54_67DC84, 0x67DC84);
+EXPORT_VAR Frontend* gFrontend_67DC84;
+GLOBAL(gFrontend_67DC84, 0x67DC84);
 
 EXPORT_VAR u32 counter_706C4C;
 GLOBAL(counter_706C4C, 0x706C4C);
@@ -347,9 +347,9 @@ GLOBAL(snd2_67D6F8, 0x67D6F8);
 MATCH_FUNC(0x4ACFA0)
 void __stdcall Frontend::create_4ACFA0()
 {
-    if (!gLaughing_blackwell_0x1EB54_67DC84)
+    if (!gFrontend_67DC84)
     {
-        gLaughing_blackwell_0x1EB54_67DC84 = new Frontend();
+        gFrontend_67DC84 = new Frontend();
     }
 
     if (!bSkip_audio_67D6BE)
@@ -376,10 +376,10 @@ void __stdcall Frontend::destroy_4AD070()
         snd2_67D6F8.field_8 = 0;
     }
 
-    if (gLaughing_blackwell_0x1EB54_67DC84)
+    if (gFrontend_67DC84)
     {
-        delete gLaughing_blackwell_0x1EB54_67DC84;
-        gLaughing_blackwell_0x1EB54_67DC84 = 0;
+        delete gFrontend_67DC84;
+        gFrontend_67DC84 = 0;
     }
 
     Bink::Close1_513340();
@@ -801,13 +801,13 @@ void Frontend::sub_4B3170(u16 arg0)
             if (pre_intro_bik_exists_4B6030())
             {
                 field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                v44 = gLaughing_blackwell_0x1EB54_67DC84->pre_intro_bik_4B5F20();
+                v44 = gFrontend_67DC84->pre_intro_bik_4B5F20();
                 Bink::sub_513560(v44, field_0_hDriver);
             }
             else
             {
                 v50 = gSampManager_6FFF00.field_0_hDriver;
-                v45 = gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50();
+                v45 = gFrontend_67DC84->intro_bik_4B5E50();
                 Bink::sub_5133E0(v45, v50);
             }
             break;
@@ -872,7 +872,7 @@ s32 Frontend::sub_4AEDB0()
             {
                 Bink::sub_5137A0(2);
                 local_field_0_hDriver = gSampManager_6FFF00.field_0_hDriver;
-                Bink::sub_5133E0(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
+                Bink::sub_5133E0(gFrontend_67DC84->intro_bik_4B5E50(), local_field_0_hDriver);
                 Bink::Close1_513340();
                 Bink::sub_5137A0(2);
                 Bink::sub_5137B0(2);
@@ -1601,7 +1601,7 @@ char_type Frontend::pre_intro_bik_exists_4B6030()
     long v1; // eax
     _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
 
-    v0 = gLaughing_blackwell_0x1EB54_67DC84->pre_intro_bik_4B5F20();
+    v0 = gFrontend_67DC84->pre_intro_bik_4B5F20();
     v1 = _findfirst(v0, &v3);
     if (v1 == -1)
         return 0;
@@ -1630,7 +1630,7 @@ bool Frontend::intro_bik_exists_4B5FF0()
     _finddata_t findData;
 
     // note: put call in argument rather than local to change inst ordering
-    const long hFind = _findfirst(gLaughing_blackwell_0x1EB54_67DC84->intro_bik_4B5E50(), &findData);
+    const long hFind = _findfirst(gFrontend_67DC84->intro_bik_4B5E50(), &findData);
 
     if (hFind == -1)
     {
@@ -3755,9 +3755,9 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
     {
-        if (gLaughing_blackwell_0x1EB54_67DC84)
+        if (gFrontend_67DC84)
         {
-            gLaughing_blackwell_0x1EB54_67DC84->field_10D = *a1;
+            gFrontend_67DC84->field_10D = *a1;
         }
     }
     else

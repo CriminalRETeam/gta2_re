@@ -16,8 +16,8 @@ GLOBAL(gSprite_3CC_67AF1C, 0x67AF1C);
 EXPORT_VAR Sprite_1C24* gSprite_1C24_703B80;
 GLOBAL(gSprite_1C24_703B80, 0x703B80);
 
-EXPORT_VAR Sprite* dword_703814;
-GLOBAL(dword_703814, 0x703814);
+EXPORT_VAR Sprite* gSprite_703814;
+GLOBAL(gSprite_703814, 0x703814);
 
 STUB_FUNC(0x48f600)
 char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
@@ -76,7 +76,7 @@ Sprite_8::~Sprite_8()
     GTA2_DELETE_AND_NULL(gSprite_5D598_70381C);
     GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
     GTA2_DELETE_AND_NULL(gSprite_1C24_703B80);
-    dword_703814 = 0;
+    gSprite_703814 = 0;
 }
 
 MATCH_FUNC(0x5a5c40)

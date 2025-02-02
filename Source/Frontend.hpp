@@ -2698,7 +2698,7 @@ struct Frontend
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
-EXPORT_VAR extern Frontend* gLaughing_blackwell_0x1EB54_67DC84;
+EXPORT_VAR extern Frontend* gFrontend_67DC84;
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
 EXPORT void __stdcall sub_5D7D30();

@@ -229,4 +229,4 @@ struct NetPlay
     s32 field_CB8_count;
 };
 
-EXPORT_VAR extern NetPlay gGoofy_thompson_7071E8;
+EXPORT_VAR extern NetPlay gNetPlay_7071E8;

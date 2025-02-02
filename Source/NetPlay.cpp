@@ -2,8 +2,8 @@
 #include "Globals.hpp"
 #include "crt_stubs.hpp"
 
-EXPORT_VAR NetPlay gGoofy_thompson_7071E8;
-GLOBAL(gGoofy_thompson_7071E8, 0x7071E8);
+EXPORT_VAR NetPlay gNetPlay_7071E8;
+GLOBAL(gNetPlay_7071E8, 0x7071E8);
 
 STUB_FUNC(0x51d6b0)
 NetPlay* NetPlay::ctor_51D6B0()

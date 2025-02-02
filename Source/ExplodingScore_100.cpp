@@ -2,8 +2,8 @@
 #include "Globals.hpp"
 #include <memory.h>
 
-EXPORT_VAR ExplodingScore_100* gCokeZero_100_702F34;
-GLOBAL(gCokeZero_100_702F34, 0x702F34);
+EXPORT_VAR ExplodingScore_100* gExplodingScore_100_702F34;
+GLOBAL(gExplodingScore_100_702F34, 0x702F34);
 
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
@@ -148,7 +148,7 @@ void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
     this->field_2C = ypos;
     this->field_30 = zpos;
 
-    this->field_34 = gCokeZero_100_702F34->sub_596860();
+    this->field_34 = gExplodingScore_100_702F34->sub_596860();
 
     this->field_36 = 25;
     this->field_38 = 2;

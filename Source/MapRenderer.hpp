@@ -3086,4 +3086,4 @@ class MapRenderer
     s32 field_2F00_drawn_tile_count;
 };
 
-EXPORT_VAR extern MapRenderer* gpNanobotz_6F66E4;
+EXPORT_VAR extern MapRenderer* gpMapRenderer_6F66E4;

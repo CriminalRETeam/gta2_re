@@ -7,8 +7,8 @@
 #include <cstdlib>
 #include <cstring>
 
-EXPORT_VAR CarInfo_808* gMonster_808_678098;
-GLOBAL(gMonster_808_678098, 0x678098);
+EXPORT_VAR CarInfo_808* gCarInfo_808_678098;
+GLOBAL(gCarInfo_808_678098, 0x678098);
 
 EXPORT_VAR char file_name_677EC4[64];
 GLOBAL(file_name_677EC4, 0x677EC4);

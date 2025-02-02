@@ -1,8 +1,8 @@
 #include "RouteFinder.hpp"
 #include "Globals.hpp"
 
-EXPORT_VAR RouteFinder* gSoula_CC68_6FFDC8;
-GLOBAL(gSoula_CC68_6FFDC8, 0x6FFDC8);
+EXPORT_VAR RouteFinder* gRouteFinder_6FFDC8;
+GLOBAL(gRouteFinder_6FFDC8, 0x6FFDC8);
 
 STUB_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)

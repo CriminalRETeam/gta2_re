@@ -1231,7 +1231,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
         case WM_WINDOWPOSCHANGED:
         {
-            if (gLaughing_blackwell_0x1EB54_67DC84)
+            if (gFrontend_67DC84)
             {
                 Bink::sub_513720();
             }
@@ -1288,11 +1288,11 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             gRoot_sound_66B038.Set3DSound_40F160(0);
             gRoot_sound_66B038.Release_40F130();
 
-            if (gLaughing_blackwell_0x1EB54_67DC84 && Bink::sub_513760())
+            if (gFrontend_67DC84 && Bink::sub_513760())
             {
                 Bink::Close1_513340();
                 Bink::Close2_513390();
-                gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(0);
+                gFrontend_67DC84->sub_4B3170(0);
             }
 
             if (gVidSys_7071D0)
@@ -1354,7 +1354,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_DESTROY: // order ok
             if (bStartNetworkGame_7081F0)
             {
-                gGoofy_thompson_7071E8.sub_520D10();
+                gNetPlay_7071E8.sub_520D10();
             }
 
             ReleaseMutex(gMutex_707078);
@@ -1369,7 +1369,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_WINDOWPOSCHANGING:
         {
             WINDOWPOS* pPos = reinterpret_cast<WINDOWPOS*>(lParam);
-            if (gLaughing_blackwell_0x1EB54_67DC84 && (pPos->flags & 2) == 0)
+            if (gFrontend_67DC84 && (pPos->flags & 2) == 0)
             {
                 s32 newX = pPos->x;
                 s32 newY = pPos->y;
@@ -1590,7 +1590,7 @@ LABEL_23:
         }
 
         Frontend::create_4ACFA0();
-        gLaughing_blackwell_0x1EB54_67DC84->sub_4B3170(state);
+        gFrontend_67DC84->sub_4B3170(state);
 
     LABEL_27:
         UpdateWinXY_5D8E70();
@@ -1625,7 +1625,7 @@ LABEL_23:
                     }
 
                     // or switch ?
-                    s32 t = gLaughing_blackwell_0x1EB54_67DC84->sub_4AEDB0();
+                    s32 t = gFrontend_67DC84->sub_4AEDB0();
                     if (t == 1)
                     {
                         bQuit = 1;
@@ -1730,7 +1730,7 @@ LABEL_23:
 
     sub_4DA4D0();
 
-    if (!bStartNetworkGame_7081F0 || gGoofy_thompson_7071E8.sub_5213E0())
+    if (!bStartNetworkGame_7081F0 || gNetPlay_7071E8.sub_5213E0())
     {
         goto LABEL_27;
     }

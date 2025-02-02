@@ -40,4 +40,4 @@ class Garage_48
     s32 field_44;
 };
 
-EXPORT_VAR extern Garage_48* gChickenLegend_48_6FD26C;
+EXPORT_VAR extern Garage_48* gGarage_48_6FD26C;

@@ -1,8 +1,8 @@
 #include "MapRenderer.hpp"
 #include "Globals.hpp"
 
-EXPORT_VAR MapRenderer* gpNanobotz_6F66E4;
-GLOBAL(gpNanobotz_6F66E4, 0x6F66E4);
+EXPORT_VAR MapRenderer* gpMapRenderer_6F66E4;
+GLOBAL(gpMapRenderer_6F66E4, 0x6F66E4);
 
 EXPORT_VAR Fix16_2 stru_6F6484;
 GLOBAL(stru_6F6484, 0x6F6484);

@@ -3,8 +3,8 @@
 #include "Ped.hpp"
 #include "enums.hpp"
 
-EXPORT_VAR PedGroup stru_67EF20[20];
-GLOBAL(stru_67EF20, 0x67EF20);
+EXPORT_VAR PedGroup pedGroups_67EF20[20];
+GLOBAL(pedGroups_67EF20, 0x67EF20);
 
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
@@ -529,7 +529,7 @@ void PedGroup::sub_4CB080()
 {
     sub_4C8E80();
 
-    PedGroup* pIter = stru_67EF20;
+    PedGroup* pIter = pedGroups_67EF20;
     for (s32 i = 0; i < 20; i++)
     {
         pIter->sub_4C8EF0();
