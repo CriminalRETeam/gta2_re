@@ -84,6 +84,12 @@ class Object_2C
         return v1 == 10;
     }
 
+    // Inlined on version 9.6f 0x447e90
+    inline void set_field_26(u8 v)
+    {
+        field_26 = v;
+    }
+
     Object_2C* field_0;
     Sprite* field_4;
     Phi_74* field_8;

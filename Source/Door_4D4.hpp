@@ -38,8 +38,8 @@ class Door_38
 
     Door_10* field_0;
     Door_10* field_4;
-    s32 field_8;
-    s32 field_C;
+    Object_2C* field_8;
+    Object_2C* field_C;
     Ped* field_10;
     s32 field_14;
     s32 field_18;
@@ -107,10 +107,10 @@ class Door_10
 {
   public:
     s32 field_0;
-    char field_4;
-    char field_5;
+    u8 field_4;
+    u8 field_5;
     u8 field_6;
-    char field_7;
+    u8 field_7;
     s32 field_8;
     Door_10* field_C;
 };

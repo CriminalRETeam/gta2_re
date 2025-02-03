@@ -17,6 +17,24 @@ GLOBAL(gDoor_2C4_67BD28, 0x67BD28);
 EXPORT_VAR Door_4D4* gDoor_4D4_67BD2C;
 GLOBAL(gDoor_4D4_67BD2C, 0x67BD2C);
 
+EXPORT_VAR Fix16 DAT_0067BA20;
+GLOBAL(DAT_0067BA20, 0x67BA20);
+
+EXPORT_VAR Fix16 DAT_0067BBE4;
+GLOBAL(DAT_0067BBE4, 0x67BBE4);
+
+EXPORT_VAR Fix16 DAT_0067BBE8;
+GLOBAL(DAT_0067BBE8, 0x67BBE8);
+
+EXPORT_VAR Ang16 DAT_0067BA38;
+GLOBAL(DAT_0067BA38, 0x67BA38);
+
+EXPORT_VAR Ang16 DAT_0067BB2C;
+GLOBAL(DAT_0067BB2C, 0x67BB2C);
+
+EXPORT_VAR Ang16 DAT_0067BD18;
+GLOBAL(DAT_0067BD18, 0x67BD18);
+
 MATCH_FUNC(0x49c640)
 Door_38::Door_38()
 {
@@ -147,9 +165,62 @@ Object_2C* Door_38::sub_49CAC0(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 
     return 0;
 }
 
-STUB_FUNC(0x49cc00)
+MATCH_FUNC(0x49cc00)
 void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
+    Ang16 local_c;
+    Fix16 z(a1->field_6);
+    Fix16 x = Fix16(a1->field_4) + DAT_0067BA20;
+    Fix16 y = Fix16(a1->field_5) + DAT_0067BA20;
+
+    switch (a1->field_8)
+    {
+        case 3:
+            x += DAT_0067BA20;
+            local_c = DAT_0067BB2C;
+            if (this->field_2B)
+            {
+                y -= DAT_0067BBE4;
+            }
+            break;
+        case 1:
+            y -= DAT_0067BA20;
+            local_c = DAT_0067BD18;
+            if (this->field_2B)
+            {
+                x -= DAT_0067BBE4;
+            }
+            break;
+        case 2:
+            y += DAT_0067BA20;
+            local_c = DAT_0067BD18;
+            if (this->field_2B)
+            {
+                x += DAT_0067BBE4;
+            }
+            break;
+        case 4:
+            x -= DAT_0067BA20;
+            local_c = DAT_0067BA38;
+            if (this->field_2B)
+            {
+                y += DAT_0067BBE4;
+            }
+            break;
+    }
+    field_28 = 1;
+    field_2C = 1;
+    u16 sVar1 = (word_67BB38[a1->field_7].field_2_end_frame - word_67BB38[a1->field_7].field_0_start_frame);
+    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7].field_8_speed + 0x28;
+    if (a2)
+    {
+        field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
+        field_C->set_field_26(a3);
+    }
+    field_8 = gObject_5C_6F8F84->sub_529950(0xa9, x, y, z, local_c, DAT_0067BBE4, DAT_0067BBE8, DAT_0067BBE4);
+    field_8->set_field_26(a3);
+    field_30 = x;
+    field_34 = y;
 }
 
 STUB_FUNC(0x49cd90)
