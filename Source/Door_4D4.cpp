@@ -285,7 +285,7 @@ void Door_4D4::sub_49D460()
     }
 }
 
-STUB_FUNC(0x49d4a0)
+MATCH_FUNC(0x49d4a0)
 Door_4D4::Door_4D4()
 {
     if (!gDoor_2C4_67BD28)
