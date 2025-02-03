@@ -3,11 +3,12 @@
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "error.hpp"
+#include "gtx_0x106C.hpp"
 
 EXPORT_VAR s32 dword_67BBE0;
 GLOBAL(dword_67BBE0, 0x67BBE0);
 
-EXPORT_VAR s16 word_67BB38[24];
+EXPORT_VAR Door_A word_67BB38[5];
 GLOBAL(word_67BB38, 0x67BB38);
 
 EXPORT_VAR Door_2C4* gDoor_2C4_67BD28;
@@ -226,10 +227,29 @@ Door_38* Door_4D4::sub_49D1F0(u8 a1,
     return 0;
 }
 
-STUB_FUNC(0x49d2d0)
-s16 Door_4D4::sub_49D2D0(s16 a1, s16 a2, char_type a3)
+MATCH_FUNC(0x49d2d0)
+void Door_4D4::sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
-    return 0;
+    Door_A* psVar3 = &word_67BB38[0];
+    u8 bVar1 = 0;
+    do
+    {
+        if (psVar3->field_0_start_frame == 0 && psVar3->field_2_end_frame == 0)
+        {
+            break;
+        }
+        psVar3++;
+        bVar1++;
+    } while (bVar1 < 5);
+
+    psVar3->field_0_start_frame = start_frame;
+    psVar3->field_2_end_frame = end_frame;
+    psVar3->field_8_speed = speed;
+    s16 sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
+    psVar3->field_4 = sVar2;
+    gGtx_0x106C_703DD4->sub_5AA930(sVar2, psVar3->field_0_start_frame);
+    sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
+    psVar3->field_6 = sVar2;
 }
 
 MATCH_FUNC(0x49d340)
@@ -277,7 +297,6 @@ Door_4D4::Door_4D4()
         }
     }
     memset(word_67BB38, 0, sizeof(word_67BB38));
-    word_67BB38[24] = 0;
     this->field_4D0_count = 0;
     this->field_4D2 = 205;
 }

@@ -8,6 +8,16 @@ class Door_10;
 class Sprite_4C;
 class Ped;
 
+struct Door_A
+{
+    u16 field_0_start_frame;
+    u16 field_2_end_frame;
+    s16 field_4;
+    s16 field_6;
+    u8 field_8_speed;
+    s8 field_9;
+};
+
 class Door_38
 {
   public:
@@ -79,7 +89,7 @@ class Door_4D4
                                s32 a11,
                                char_type a12,
                                char_type a13);
-    EXPORT s16 sub_49D2D0(s16 a1, s16 a2, char_type a3);
+    EXPORT void sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
     EXPORT void sub_49D340(u32* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
