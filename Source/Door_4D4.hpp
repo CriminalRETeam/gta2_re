@@ -1,11 +1,22 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Object_2C;
 class Door_10;
 class Sprite_4C;
 class Ped;
+
+struct Door_A
+{
+    u16 field_0_start_frame;
+    u16 field_2_end_frame;
+    s16 field_4;
+    s16 field_6;
+    u8 field_8_speed;
+    s8 field_9;
+};
 
 class Door_38
 {
@@ -18,17 +29,17 @@ class Door_38
     EXPORT s32 sub_49C840();
     EXPORT void sub_49C870(u32* a2);
     EXPORT void sub_49C8A0(Ped* a2);
-    EXPORT Object_2C* sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5);
+    EXPORT Object_2C* sub_49C8D0(s8 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
-    EXPORT Object_2C* sub_49CAC0(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
-    EXPORT Object_2C* sub_49CC00(s32 a2, char_type a3, u8 a4, s32 a5, s32 a6, s32 a7, s32 a8, Sprite_4C* a9);
+    EXPORT void sub_49CAC0(Door_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
+    EXPORT void sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
     EXPORT void sub_49CD90();
     EXPORT char_type sub_49CE90();
 
     Door_10* field_0;
     Door_10* field_4;
-    s32 field_8;
-    s32 field_C;
+    Object_2C* field_8;
+    Object_2C* field_C;
     Ped* field_10;
     s32 field_14;
     s32 field_18;
@@ -44,8 +55,8 @@ class Door_38
     char_type field_2D;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30;
-    s32 field_34;
+    Fix16 field_30;
+    Fix16 field_34;
 };
 
 class Door_4D4
@@ -59,26 +70,26 @@ class Door_4D4
                                char_type a3,
                                char_type a4,
                                s32 a5,
-                               s32 a7,
-                               s32 a8,
-                               s32 a9,
-                               s32 a10,
-                               s32 a11,
-                               char_type a12,
-                               char_type a13);
+                               Fix16 a6,
+                               Fix16 a7,
+                               Fix16 a8,
+                               Fix16 a9,
+                               Fix16 a10,
+                               char_type a11,
+                               char_type a12);
     EXPORT Door_38* sub_49D1F0(u8 a1,
                                char_type a2,
                                char_type a3,
                                char_type a4,
                                s32 a5,
-                               s32 a7,
-                               s32 a8,
-                               s32 a9,
-                               s32 a10,
-                               s32 a11,
-                               char_type a12,
-                               char_type a13);
-    EXPORT s16 sub_49D2D0(s16 a1, s16 a2, char_type a3);
+                               Fix16 a6,
+                               Fix16 a7,
+                               Fix16 a8,
+                               Fix16 a9,
+                               Fix16 a10,
+                               char_type a11,
+                               char_type a12);
+    EXPORT void sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
     EXPORT void sub_49D340(u32* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
@@ -96,10 +107,10 @@ class Door_10
 {
   public:
     s32 field_0;
-    char field_4;
-    char field_5;
+    u8 field_4;
+    u8 field_5;
     u8 field_6;
-    char field_7;
+    u8 field_7;
     s32 field_8;
     Door_10* field_C;
 };
@@ -110,7 +121,7 @@ class Door_2C4
     // inlined 0x44C800
     Door_2C4()
     {
-        Door_10* pIter = field_0;
+        Door_10* pIter = field_4;
         for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
         {
             pIter->field_C = pIter + 1;

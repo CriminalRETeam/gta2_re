@@ -84,6 +84,12 @@ class Object_2C
         return v1 == 10;
     }
 
+    // Inlined on version 9.6f 0x447e90
+    inline void set_field_26(u8 v)
+    {
+        field_26 = v;
+    }
+
     Object_2C* field_0;
     Sprite* field_4;
     Phi_74* field_8;
@@ -115,7 +121,7 @@ class Object_5C
     EXPORT ~Object_5C();
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
-    EXPORT Object_2C* sub_529950(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, Fix16 a7, Fix16 a8, s32 a9);
+    EXPORT Object_2C* sub_529950(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
     EXPORT Object_2C* sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);
