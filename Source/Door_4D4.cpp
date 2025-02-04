@@ -139,7 +139,7 @@ void Door_38::sub_49C8A0(Ped* a2)
 }
 
 STUB_FUNC(0x49c8d0)
-Object_2C* Door_38::sub_49C8D0(s32 arg0, u8 a1, u8 a2, u8 a3, char_type a4, s32 a5)
+Object_2C* Door_38::sub_49C8D0(s8 a1, u8 a2, u8 a3, u8 a4, char_type a5, s32 a6)
 {
     return 0;
 }
@@ -293,10 +293,15 @@ Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s
     return 0;
 }
 
-STUB_FUNC(0x49cf50)
-Door_38* Door_4D4::sub_49CF50(u8 a2, char_type a3, s32 a4, char_type a5, s32 a6, char_type a7, char_type a8)
+MATCH_FUNC(0x49cf50)
+Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, s32 a3, char_type a4, s32 a5, char_type a6, char_type a7)
 {
-    return 0;
+    Door_38 *pDVar1 = sub_49D3A0();
+    field_4D0_count++;
+    pDVar1->field_2A = a6;
+    pDVar1->field_2B = a7;
+    pDVar1->sub_49C8D0(field_4D0_count + -1, a1, a2, a3, a4, a5);
+    return pDVar1;
 }
 
 STUB_FUNC(0x49cfa0)
