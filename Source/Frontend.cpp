@@ -1006,18 +1006,17 @@ for (s32 i=0; i<3; i++)
         }
         else
         {
-            /*
-            LOWORD(v6) = v7->field_4[0].field_6E_count;
-            v17 = field_11C;
-            v97 = v6;
-            v18 = Frontend::sub_5D8990(
-                (s16 *)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_strPlayerName,
-                v17)
+            u16 v6 = v7->field_4[0].field_6E_count;  //LOWORD(v6) = v7->field_4[0].field_6E_count;
+            //v17 = field_11C;
+            //v97 = v6;     Not used yet
+            s32 v18 = Frontend::sub_5D8990(
+                (wchar_t*)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_strPlayerName,
+                field_11C)
                 + 10;
             if (v18 == 10)
-                v18 = Frontend::sub_5D8990((s16 *)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
-            v7->field_518[9].field_2 = v18 + v7->field_4[0].field_2;
-            */
+                v18 = Frontend::sub_5D8990((wchar_t*)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
+            v7->field_518[9].field_2_xpos = v18 + v7->field_4[0].field_2;
+            
         }
     }
     if (field_132_f136_idx == 5)
@@ -1088,35 +1087,37 @@ for (s32 i=0; i<3; i++)
     const s32 v21 = field_132_f136_idx;
     if (v21 == 2 || v21 == 3 || v21 == 6 || v21 == 11)
     {
-        /*
-        if (lucid_hamilton::sub_4C59A0(&gLucid_hamilton_67E8E0))
+        u8 v96;
+        u8 v95;
+        if (gLucid_hamilton_67E8E0.sub_4C59A0())
         {
-            v23 = lucid_hamilton::sub_4C5990(&gLucid_hamilton_67E8E0);
-            LOBYTE(v96) = v23 >> 4;
-            LOBYTE(v95) = v23 & 0xF;
+            s8 v23 = gLucid_hamilton_67E8E0.sub_4C5990();
+            v96 = v23 >> 4;    //  LOBYTE(v96)
+            v95 = v23 & 0xF;   //  LOBYTE(v95)
         }
         else
         {
-            LOBYTE(v96) = lucid_hamilton::sub_4C5980(&gLucid_hamilton_67E8E0);
-            LOBYTE(v95) = 0;
+            v96 = gLucid_hamilton_67E8E0.sub_4C5980();  //  LOBYTE(v96)
+            v95 = 0;    //  LOBYTE(v95)
         }
-        v24 = v96;
-        v25 = v95;
+        u8 v24 = v96;
+        u8 v25 = v95;
         if (field_132_f136_idx == 6)
         {
-            v91 = 3 * (unsigned __int8)v96 + (unsigned __int8)v95 + 64;
-            _5B5F90 = text_0x14::Find_5B5F90(gText_0x14_704DFC, "bonslev");
+            u8 v91 = 3*v96 + v95 + 64;
+            wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("bonslev");
             swprintf(tmpBuff_67BD9C, L"%s %c", _5B5F90, v91);
             wcsncpy(v7->field_518[0].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
-            sub_4B7D60((int)this, this);
+            //sub_4B7D60((int)this, this);
         }
+        /*
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
-        sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[0][v2], 170, 155, 3, v22, 0xFFFF, 2);
+        sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25], 170, 155, 3, v22, 0xFFFF, 2);
         v27 = field_132_f136_idx;
         if (v27 == 2 || v27 == 3 || v27 == 11)
             sub_4B57B0((int)this, this, 10, (text_0x14 *)0xE1);
-            */
+        */
     }
 
     if (field_132_f136_idx == 7)
@@ -1124,32 +1125,36 @@ for (s32 i=0; i<3; i++)
         //Frontend::sub_4B55F0(this);
     }
 
-    //v28 = v7->field_0 == 0;
+    bool v28 = v7->field_0 == 0;
     s32 v96 = -1;
     s32 v94 = 0;
 
+    s32 v52;
+    s32 v34;
+    wchar_t* field_6_wstr_buf;
+
     if (v7->field_0 == 0)
     {
-        //goto LABEL_92;
+        goto LABEL_92;
     }
 
-    s32 v52 = 0;
+    v52 = 0;
     do
     {
-        s32 v29 = v94;
+        u16 v29 = v94;
         s32 v30 = v94;
         nifty_maxwell_0x82* v31 = &v7->field_4[v94];
         if (!v7->field_4[v94].field_1)
         {
-            /*
-            v44 = field_132_f136_idx;
-            v45 = 0;
-            if ((v44 == 1 || v44 == 3) && (_WORD)v94 == 1)
+            
+            u16 v44 = field_132_f136_idx;
+            s8 v45 = 0;
+            if ((v44 == 1 || v44 == 3) && v94 == 1)
             {
                 v45 = 1;
             }
 
-            if (v44 != 11 && v44 != 2 || (_WORD)v94)
+            if (v44 != 11 && v44 != 2 || v94)
             {
                 if (!v45)
                 {
@@ -1157,40 +1162,102 @@ for (s32 i=0; i<3; i++)
                 }
                 v29 = v94;
             }
-            if (*(_BYTE *)v31 == 2)
+            if (v31->field_0 == 2)
             {
-                sub_4B3AF0(v44, v29, &field_6_wstr_buf);
+                //sub_4B3AF0(v44, v29, &field_6_wstr_buf);
             }
             else
             {
                 field_6_wstr_buf = v7->field_4[v94].field_6_wstr_buf;
             }
 
-            LOWORD(v29) = *(_WORD *)(v31 + 4);
-            v28 = *(_WORD *)(v31 + 106) == 0xFFFF;
-            LOWORD(v2) = *(_WORD *)(v31 + 2);
-            LOWORD(v93) = (_WORD)v29;
+            v29 = v31->field_4; // LOWORD(v29) = *(_WORD *)(v31 + 4);
+            v28 = v31->field_6A == 0xFFFF; //  *(_WORD *)(v31 + 106) == 0xFFFF
+            s16 v2 = v31->field_2;   //  LOWORD(v2) = *(_WORD *)(v31 + 2)
+            u16 v93 = v29;   //  LOWORD(v93) = v29
+
+            Fix16 v46;
+            s32 v91 = 0;
+            s32 v90 = 0;
             if (!v28)
+            {
+                
+                //v95 = 8;
+                s32 fp_460 = 8;
+            LABEL_83:
+                s32 fp_300 = 8;//(int)&v95;
+                //v87 = (int)v29;
+                v46.FromInt_4369F0(1); //v46 = FP::FromInt_4369F0(&v87, 1);
+                u16 v86 = v31->field_6A;    //  LOWORD(v46) = *(_WORD *)(v31 + 106);
+                //v86 = (int)v46;
+                //v85 = (agitated_keldysh_0xF0 *)v47;
+                Fix16 v84;
+                Fix16 v99;
+                /*
+                FP::FromU16_4AE970(&v85, v93);
+                v84 = v48;
+                FP::FromU16_4AE970(&v84, v2);
+                v83 = ;
+                */
+                Fix16 scale_fp;
+                scale_fp.mValue = v29;
+            LABEL_86:
+                DrawText_5D8A10(field_6_wstr_buf, 
+                    v84.FromU16_4AE970(v2), 
+                    v99.FromU16_4AE970(v93), 
+                    v86, 
+                    scale_fp,                //  v87 
+                    &fp_300, 
+                    fp_460, 
+                    v90, 
+                    v91);
+                goto LABEL_87;
+            }
+            else
             {
                 v91 = 0;
                 v90 = 0;
-                v95 = 8;
+                /*
+                //v95 = 8;
                 fp_460 = (s32 *)8;
-            LABEL_83:
+            //LABEL_85:
                 fp_300 = (int)&v95;
-                v87 = (int)v29;
-                v46 = FP::FromInt_4369F0(&v87, 1);
-                LOWORD(v46) = *(_WORD *)(v31 + 106);
-                v86 = (int)v46;
-                v85 = (agitated_keldysh_0xF0 *)v47;
+                v87 = (int)&v95;
+                FP::FromInt_4369F0(&v87, 1);
+                LOWORD(v49) = field_11C;
+                v86 = v49;
+                v85 = (agitated_keldysh_0xF0 *)v50;
                 FP::sub_4AE970(&v85, v93);
-                v84 = v48;
+                v84 = v51;
                 FP::sub_4AE970(&v84, v2);
-                v83 = field_6_wstr_buf;
-            LABEL_86:
-                DrawText_5D8A10(v83, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
-                goto LABEL_87;
+                //v83 = field_6_wstr_buf;
+                */
+
+                s32 fp_460 = 8;
+                s32 fp_300 = 8;//(int)&v95;
+                //v87 = (int)v29;
+                v46.FromInt_4369F0(1); //v46 = FP::FromInt_4369F0(&v87, 1);
+                u16 v86 = field_11C;    //  LOWORD(v46) = *(_WORD *)(v31 + 106);
+                //v86 = (int)v46;
+                //v85 = (agitated_keldysh_0xF0 *)v47;
+                Fix16 v84;
+                Fix16 v99;
+
+                Fix16 scale_fp;
+                scale_fp.mValue = v29;
+
+                DrawText_5D8A10(field_6_wstr_buf, 
+                    v84.FromU16_4AE970(v2), 
+                    v99.FromU16_4AE970(v93), 
+                    v86, 
+                    scale_fp,                //  v87 
+                    &fp_300, 
+                    fp_460, 
+                    v90, 
+                    v91);
+                //goto LABEL_86;
             }
+            /*
             v91 = 0;
             v90 = 0;
             v95 = 8;
@@ -1215,12 +1282,11 @@ for (s32 i=0; i<3; i++)
         }
         else
         {
-            //v32 = v7->field_4[(u16)v94].field_6_wstr_buf;
-            //field_6_wstr_buf = v32;
+            field_6_wstr_buf = v7->field_4[(u16)v94].field_6_wstr_buf;
         }
 
         //LOWORD(v29) = (_WORD)v94;
-        const s32 v28 = v94 == v7->field_BC6_nifty_idx;
+        v28 = v94 == v7->field_BC6_nifty_idx;
         //LOWORD(v2) = *(_WORD *)(v31 + 2);
         //LOWORD(v93) = *(_WORD *)(v31 + 4);
 
@@ -1278,7 +1344,7 @@ for (s32 i=0; i<3; i++)
         FP::sub_4AE970(&fp_300, v2);
         DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
         */
-        s32 v34 = field_132_f136_idx;
+        v34 = field_132_f136_idx;
         //        HIWORD(v2) = 0;
         if (v34 == 1)
         {
@@ -1346,8 +1412,7 @@ for (s32 i=0; i<3; i++)
         }
         else if (v34 == 5)
         {
-            /*
-            v28 = (_WORD)v94 == 0;
+            v28 = v94 == 0;
             v7->field_518[2].field_6_wstr_buf[0] = 3;
             v7->field_518[3].field_6_wstr_buf[0] = 4;
             if (v28)
@@ -1355,10 +1420,9 @@ for (s32 i=0; i<3; i++)
                 v7->field_518[2].field_6_wstr_buf[0] = 1;
                 v7->field_518[3].field_6_wstr_buf[0] = 2;
             }
-            */
         }
 
-        //LABEL_87:
+        LABEL_87:
         v52 = (u16)(v94 + 1) < v7->field_0;
         v94++;
     } while (v52);
@@ -1391,7 +1455,7 @@ for (s32 i=0; i<3; i++)
         */
     }
 
-    //LABEL_92:
+    LABEL_92:
     s32 v54 = 0;
     //  v28 = v7->field_2 == 0;
 
