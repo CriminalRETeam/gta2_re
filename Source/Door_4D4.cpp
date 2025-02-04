@@ -159,9 +159,52 @@ void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5
     }
 }
 
-STUB_FUNC(0x49cac0)
+MATCH_FUNC(0x49cac0)
 void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
+    Fix16 z(a1->field_6);
+    Fix16 x = Fix16(a1->field_4) + DAT_0067BA20;
+    Fix16 y = Fix16(a1->field_5) + DAT_0067BA20;
+    switch (a1->field_8)
+    {
+        case 1:
+            if (this->field_2B)
+            {
+                x -= DAT_0067BBE4;
+            }
+            break;
+        case 2:
+            if (this->field_2B)
+            {
+                x += DAT_0067BBE4;
+            }
+            break;
+        case 3:
+            if (this->field_2B)
+            {
+                y -= DAT_0067BBE4;
+            }
+        break;
+        case 4:
+            if (this->field_2B)
+            {
+                y += DAT_0067BBE4;
+            }
+            break;
+    }
+    field_28 = 1;
+    field_2C = 1;
+    u16 sVar1 = (word_67BB38[a1->field_7].field_2_end_frame - word_67BB38[a1->field_7].field_0_start_frame);
+    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7].field_8_speed + 0x28;
+    if (a2)
+    {
+        field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
+        field_C->set_field_26(a3);
+    }
+    field_8 = gObject_5C_6F8F84->sub_5299B0(0xa9, x, y, z, DAT_0067BD18);
+    field_8->set_field_26(a3);
+    field_30 = x;
+    field_34 = y;
 }
 
 MATCH_FUNC(0x49cc00)
