@@ -4448,7 +4448,7 @@ EXPORT_VAR Fix16 dword_706A6C;
 GLOBAL(dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
-EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
+void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       Fix16 xpos_fp,
                                       Fix16 ypos_fp,
                                       u16 font_type,

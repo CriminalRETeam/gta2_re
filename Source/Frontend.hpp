@@ -2705,6 +2705,16 @@ EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
 EXPORT void __stdcall sub_5D7CB0();
 
+EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
+                                      Fix16 xpos_fp,
+                                      Fix16 ypos_fp,
+                                      u16 font_type,
+                                      Fix16 scale_fp,
+                                      s32* pUnknown,
+                                      s32 unknown1,
+                                      s32 unknown2,
+                                      s32 flags);
+
 EXPORT_VAR extern short font_type_703C14;
 EXPORT_VAR extern s16 word_703C3C;
 EXPORT_VAR extern s16 word_703D0C;
