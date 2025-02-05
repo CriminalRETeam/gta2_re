@@ -87,6 +87,8 @@ def extract_constant(s):
         ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("dec"):
         ret = get_constant_from_inst_generic(s, True)
+    elif s.startswith("sub"):
+        ret = get_constant_from_deref_inst_generic(s, True)
 
     return ret
 
@@ -202,6 +204,9 @@ class TestStringMethods(unittest.TestCase):
 
     def test_decl_hex(self):
         self.assertEqual(extract_constant("decl 0x4D6BAC"), ["0x4D6BAC"])
+
+    def test_sub_hex(self):
+        self.assertEqual(extract_constant("sub 0x4E1A58(%eax),%dx"), ["0x4E1A58"])
 
 
 #unittest.main()
