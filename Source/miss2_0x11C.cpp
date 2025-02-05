@@ -3105,70 +3105,70 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 391:
                 SCRCMD_FINISH_MISSION_50FAD0();
                 break;
-            case 400:
-            case 407:
+            case SCRCMD_SET_ENTER_STATUS:
+            case SCRCMD_SET_ALL_CONTROLS:
                 sub_50FB60();
                 break;
-            case 402:
+            case SCRCMD_STORE_BONUS:
                 sub_50FAF0();
                 break;
-            case 408:
+            case SCRCMD_SET_FAV_CAR:
                 sub_50FC20();
                 break;
-            case 409:
+            case SCRCMD_GROUP_IN_AREA:
                 sub_50FC60();
                 break;
-            case 410:
+            case SCRCMD_SET_CHAR_OCCUPATION:
                 sub_509790();
                 break;
-            case 411:
+            case SCRCMD_SET_KF_WEAPON:
                 sub_50FE00();
                 break;
-            case 412:
+            case SCRCMD_CLEAR_KF_WEAPON:
                 sub_50FED0();
                 break;
-            case 414:
+            case SCRCMD_ADD_ONSCREEN_COUNTER:
                 sub_50FF50();
                 break;
-            case 415:
-            case 416:
+            case SCRCMD_CLEAR_COUNTER:
+            case SCRCMD_CLEAR_CLOCK_ONLY:
                 sub_50FFB0();
                 break;
-            case 418:
+            case SCRCMD_CHANGE_POLICE:
                 sub_510030();
                 break;
-            case 419:
+            case SCRCMD_DESTROY_GROUP:
                 sub_510050();
                 break;
-            case 420:
+            case SCRCMD_CHECK_CURRENT_WEAPON:
                 sub_510090();
                 break;
-            case 422:
+            case SCRCMD_START_BASIC_KF:
                 sub_510100();
                 break;
-            case 423:
+            case SCRCMD_DO_BASIC_KF:
                 sub_510280();
                 break;
-            case 424:
+            case SCRCMD_SET_BONUS_RATING:
                 sub_510530();
                 break;
-            case 433:
+            case SCRCMD_ADD_TIME:
                 sub_510560();
                 break;
-            case 438:
+            case SCRCMD_DO_SAVE_GAME:
                 sub_50D3C0();
                 break;
-            case 442:
+            case SCRCMD_SET_MODEL_WANTED:
                 sub_5105B0();
                 break;
-            case 443:
+            case SCRCMD_CHECK_DEATH_ARR:
                 sub_510600();
                 break;
-            case 444:
+            case SCRCMD_FORCE_CLEANUP:
                 sub_510660();
                 break;
-            case 445:
-            case 446:
+            case SCRCMD_SAVE_RESPECT:
+            case SCRCMD_RESTORE_RESPECT:
                 sub_510780();
                 break;
             default:
