@@ -645,15 +645,16 @@ void sound_obj::null_412240()
 {
 }
 
-STUB_FUNC(0x418C20)
+MATCH_FUNC(0x418C20)
 void sound_obj::sub_418C20()
 {
-    if (field_544C[0].field_4_fp == 0)
+    if (!field_544C[0].field_4_fp)
     {
+        infallible_turing* pSoundObj = &field_544C[0].field_8;
         field_544C[0].field_8.field_C_pAny = 0;
         field_544C[0].field_8.field_4_bStatus = 0;
-        field_544C[0].field_8.field_0_object_type = 10;
-        field_544C[0].field_4_fp = AddSoundObject_419FA0(&field_544C[0].field_8);
+        pSoundObj->field_0_object_type = 10;
+        field_544C[0].field_4_fp = AddSoundObject_419FA0(pSoundObj);
     }
 }
 
