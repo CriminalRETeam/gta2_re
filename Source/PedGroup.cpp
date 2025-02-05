@@ -181,11 +181,17 @@ void PedGroup::sub_4C91B0()
     }
 }
 
-STUB_FUNC(0x4c9210)
+MATCH_FUNC(0x4c9210)
 bool PedGroup::sub_4C9210()
 {
-    // Fails to match
-    return field_2C_ped_leader->has_field_16C_car();
+    if (field_2C_ped_leader->field_16C_car != NULL)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 MATCH_FUNC(0x4c9220)
