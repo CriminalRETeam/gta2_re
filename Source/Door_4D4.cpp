@@ -138,10 +138,65 @@ void Door_38::sub_49C8A0(Ped* a2)
     }
 }
 
-STUB_FUNC(0x49c8d0)
-Object_2C* Door_38::sub_49C8D0(s8 a1, u8 a2, u8 a3, u8 a4, char_type a5, s32 a6)
+MATCH_FUNC(0x49c8d0)
+void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
 {
-    return 0;
+    Fix16 iVar5;
+    Fix16 iVar8;
+
+    sub_49CA50(a2, a3, a4, a5, a6);
+
+    Fix16 _param_4 = Fix16(a3) + DAT_0067BA20;
+    Fix16 iVar6 = Fix16(a4) + DAT_0067BA20;
+
+    switch (a6)
+    {
+        case 1:
+            iVar5 = Fix16(a3) - DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                _param_4 -= DAT_0067BBE4;
+            }
+            break;
+        case 2:
+            iVar5 = Fix16(a3) + DAT_0067BBE4 + DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                _param_4 += DAT_0067BBE4;
+            }
+            break;
+        case 3:
+            iVar5 = Fix16(a3) + DAT_0067BA20;
+            iVar8 = Fix16(a4) - DAT_0067BA20;
+            if (this->field_2B)
+            {
+                iVar6 -= DAT_0067BBE4;
+            }
+            break;
+        case 4:
+            iVar5 = Fix16(a3) + DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BBE4 + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                iVar6 += DAT_0067BBE4;
+            }
+            break;
+    }
+
+    field_28 = 1;
+    field_2C = 1;
+
+    field_1E = field_1C = (word_67BB38[a2].field_2_end_frame - word_67BB38[a2].field_0_start_frame) * word_67BB38[a2].field_8_speed;
+
+    field_C = gObject_5C_6F8F84->sub_5299B0(0xa7, iVar5, iVar8, a5, DAT_0067BD18);
+    field_C->set_field_26(a1);
+
+    field_8 = gObject_5C_6F8F84->sub_5299B0(0xa9, _param_4, iVar6, a5, DAT_0067BD18);
+    field_8->set_field_26(a1);
+    field_30 = _param_4;
+    field_34 = iVar6;
 }
 
 MATCH_FUNC(0x49ca50)
@@ -184,7 +239,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
             {
                 y -= DAT_0067BBE4;
             }
-        break;
+            break;
         case 4:
             if (this->field_2B)
             {
@@ -296,7 +351,7 @@ Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s
 MATCH_FUNC(0x49cf50)
 Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, s32 a3, char_type a4, s32 a5, char_type a6, char_type a7)
 {
-    Door_38 *pDVar1 = sub_49D3A0();
+    Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
     pDVar1->field_2A = a6;
     pDVar1->field_2B = a7;
@@ -324,11 +379,11 @@ Door_38* Door_4D4::sub_49D170(u8 a1,
                               char_type a11,
                               char_type a12)
 {
-    Door_38 *this_00 = sub_49D3A0();
+    Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
     this_00->field_2A = a11;
     this_00->field_2B = a12;
-    this_00->sub_49CA50(a1,a2,a3,a4,a5);
+    this_00->sub_49CA50(a1, a2, a3, a4, a5);
     this_00->sub_49CAC0(this_00->field_0, 1, field_4D0_count + -1, a6, a7, a8, a9, a10);
 
     return this_00;
