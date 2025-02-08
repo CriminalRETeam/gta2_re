@@ -106,6 +106,8 @@ class Door_4D4
 class Door_10
 {
   public:
+    EXPORT void sub_49C320();
+
     s32 field_0;
     u8 field_4;
     u8 field_5;

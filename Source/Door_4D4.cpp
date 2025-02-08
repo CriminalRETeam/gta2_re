@@ -512,3 +512,9 @@ Door_4D4::~Door_4D4()
         GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
     }
 }
+
+MATCH_FUNC(0x49c320)
+void Door_10::sub_49C320()
+{
+    field_0 = 0;
+}
