@@ -107,6 +107,7 @@ class Door_10
 {
   public:
     EXPORT void sub_49C320();
+    EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;
     u8 field_4;

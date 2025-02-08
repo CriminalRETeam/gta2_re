@@ -518,3 +518,21 @@ void Door_10::sub_49C320()
 {
     field_0 = 0;
 }
+
+MATCH_FUNC(0x4DEEB0)
+s32 Door_10::sub_4DEEB0(s32 v)
+{
+    switch (v)
+    {
+        case 1:
+            return 2;
+        case 2:
+            return 1;
+        case 3:
+            return 4;
+        case 4:
+            return 3;
+        default:
+            return 0;
+    }
+}
