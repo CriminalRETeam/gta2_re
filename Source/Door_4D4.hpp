@@ -107,6 +107,7 @@ class Door_10
 {
   public:
     EXPORT void sub_49C320();
+    EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;
@@ -121,6 +122,16 @@ class Door_10
 class Door_2C4
 {
   public:
+    // inlined 0x44c830
+    Door_10* get_new_door_10()
+    {
+        Door_10* tmp = field_0;
+        field_0 = tmp->field_C;
+        tmp->sub_49C320();
+
+        return tmp;
+    }
+
     // inlined 0x44C800
     Door_2C4()
     {

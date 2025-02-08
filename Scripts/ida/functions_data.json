@@ -5071,7 +5071,7 @@
     },
     {
         "name": "Door_4D4::sub_49CF10",
-        "v96f_address": null,
+        "v96f_address": "0x44d140",
         "v105_address": "0x49cf10"
     },
     {

@@ -342,10 +342,12 @@ char_type Door_38::sub_49CE90()
     return 0;
 }
 
-STUB_FUNC(0x49cf10)
+MATCH_FUNC(0x49cf10)
 Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6)
 {
-    return 0;
+    Door_10* tmp = gDoor_2C4_67BD28->get_new_door_10();
+    tmp->sub_49c340(a1, a2, a3, a4, a5, a6);
+    return tmp;
 }
 
 MATCH_FUNC(0x49cf50)
@@ -535,4 +537,9 @@ s32 Door_10::sub_4DEEB0(s32 v)
         default:
             return 0;
     }
+}
+
+STUB_FUNC(0x49c340)
+void Door_10::sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6)
+{
 }
