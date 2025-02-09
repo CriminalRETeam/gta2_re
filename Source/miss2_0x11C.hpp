@@ -280,6 +280,22 @@ struct SCR_GENERATOR : SCR_CMD_HEADER
     u16 field_22_padding;
 };
 
+struct SCR_PHONE_TEMPLATE : SCR_CMD_HEADER
+{
+    u16 field_8_brief_id;
+    u16 field_A_counter1;
+    u16 field_C_counter3b;
+    u16 field_E_mission2;
+    u16 field_10_counter2;
+    u16 field_12_counter3;
+    u16 field_14_counter4;
+    u16 field_16_counter5;
+    u16 field_18_gangname;
+    u16 field_1A_respect;
+    u16 field_1C_mission1;
+    u16 field_1E_padding;
+};
+
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 {
     SCR_XY_uc field_8_min_pos;
