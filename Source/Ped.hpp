@@ -62,7 +62,7 @@ class Ped
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s16* sub_45C900(s16* a2);
     EXPORT s32* sub_45C920(s32* a2);
-    EXPORT s16* sub_45C960(s16* a2);
+    EXPORT Ang16& sub_45C960(Ang16& a2);
     EXPORT s32* sub_45C9B0(s32* a2);
     EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();
@@ -271,6 +271,16 @@ class Ped
     void set_ped_type(s32 param_1)
     {
         field_238 = param_1;
+    }
+
+    inline Fix16 get_cam_x()
+    {
+        return field_1AC_cam.x;
+    }
+
+    inline Fix16 get_cam_y()
+    {
+        return field_1AC_cam.y;
     }
 
     Marz_3 field_0[100];

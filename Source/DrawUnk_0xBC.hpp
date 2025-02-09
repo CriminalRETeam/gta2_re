@@ -5,6 +5,7 @@
 
 class Sprite;
 class Car_BC;
+class Ped;
 
 class DrawUnk_0xBC
 {
@@ -58,7 +59,7 @@ class DrawUnk_0xBC
     s32 field_28_bottom;
     s32 field_2C_top;
     s32 field_30;
-    s32 field_34;
+    Ped* field_34;
     s32 field_38;
     s32 field_3C;
     Fix16 field_40;
