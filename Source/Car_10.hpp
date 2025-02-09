@@ -4,7 +4,7 @@
 
 class Ped;
 
-class Car_10
+class Car_Door_10
 {
   public:
     EXPORT void sub_439CD0(s32* a2);
@@ -13,8 +13,8 @@ class Car_10
     EXPORT void sub_439E40(u8 a2);
     EXPORT void sub_439E60();
     EXPORT void sub_439EA0();
-    EXPORT Car_10(); // 447330
-    EXPORT ~Car_10(); // 447350
+    EXPORT Car_Door_10(); // 447330
+    EXPORT ~Car_Door_10(); // 447350
 
     s8 field_0;
     s8 field_1;
@@ -27,4 +27,4 @@ class Car_10
     s8 field_E;
     s8 field_F;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Car_10, 0x10)
+GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door_10, 0x10)

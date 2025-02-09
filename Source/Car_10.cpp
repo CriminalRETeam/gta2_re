@@ -4,7 +4,7 @@
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
 MATCH_FUNC(0x439CD0)
-void Car_10::sub_439CD0(s32* pRet)
+void Car_Door_10::sub_439CD0(s32* pRet)
 {
     if (field_0 != 4)
     {
@@ -31,7 +31,7 @@ void Car_10::sub_439CD0(s32* pRet)
 }
 
 MATCH_FUNC(0x439D40)
-void Car_10::sub_439D40(s32* a3)
+void Car_Door_10::sub_439D40(s32* a3)
 {
     if (field_0)
     {
@@ -50,7 +50,7 @@ void Car_10::sub_439D40(s32* a3)
 }
 
 STUB_FUNC(0x439DA0)
-void Car_10::sub_439DA0(s32* a3a)
+void Car_Door_10::sub_439DA0(s32* a3a)
 {
     switch (field_4_state)
     {
@@ -91,7 +91,7 @@ void Car_10::sub_439DA0(s32* a3a)
 }
 
 MATCH_FUNC(0x439E40)
-void Car_10::sub_439E40(u8 a2)
+void Car_Door_10::sub_439E40(u8 a2)
 {
     field_4_state = 6;
     field_0 = 0;
@@ -99,7 +99,7 @@ void Car_10::sub_439E40(u8 a2)
 }
 
 MATCH_FUNC(0x439E60)
-void Car_10::sub_439E60()
+void Car_Door_10::sub_439E60()
 {
     switch (field_4_state)
     {
@@ -120,7 +120,7 @@ void Car_10::sub_439E60()
 }
 
 MATCH_FUNC(0x439EA0)
-void Car_10::sub_439EA0()
+void Car_Door_10::sub_439EA0()
 {
     if (field_4_state > 0 && field_4_state <= 2)
     {
@@ -129,7 +129,7 @@ void Car_10::sub_439EA0()
 }
 
 MATCH_FUNC(0x447330)
-Car_10::Car_10()
+Car_Door_10::Car_Door_10()
 {
     field_8_pObj = 0;
     field_2 = 0;
@@ -140,7 +140,7 @@ Car_10::Car_10()
 }
 
 MATCH_FUNC(0x447350)
-Car_10::~Car_10()
+Car_Door_10::~Car_Door_10()
 {
     field_8_pObj = 0;
 }

@@ -386,7 +386,7 @@ class Car_BC
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
-    EXPORT Car_10* sub_43B340(u8 a2);
+    EXPORT Car_Door_10* sub_43B340(u8 a2);
     EXPORT char_type sub_43B360();
     EXPORT void sub_43B380();
     EXPORT char_type sub_43B3D0();
@@ -536,7 +536,7 @@ class Car_BC
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;
-    Car_10 field_C[3];
+    Car_Door_10 field_C[3];
     s32 field_3C;
     s32 field_40;
     s32 field_44;
