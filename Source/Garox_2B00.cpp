@@ -194,22 +194,22 @@ void Garox_12E4_sub::sub_5D63B0()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d1850)
-void Garox_1C8::sub_5D1850()
+void Hud_Message_1C8::sub_5D1850()
 {
 }
 
 STUB_FUNC(0x5d1860)
-void Garox_1C8::sub_5D1860()
+void Hud_Message_1C8::sub_5D1860()
 {
 }
 
 STUB_FUNC(0x5d1940)
-void Garox_1C8::sub_5D1940()
+void Hud_Message_1C8::sub_5D1940()
 {
 }
 
 MATCH_FUNC(0x5d1a00)
-void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
+void Hud_Message_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
     if (field_0 <= 0 || a3 >= field_1C4)
     {
@@ -222,7 +222,7 @@ void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 }
 
 MATCH_FUNC(0x5d1ab0)
-void Garox_1C8::sub_5D1AB0()
+void Hud_Message_1C8::sub_5D1AB0()
 {
     if (field_0)
     {
@@ -231,7 +231,7 @@ void Garox_1C8::sub_5D1AB0()
 }
 
 MATCH_FUNC(0x5d1ae0)
-Garox_1C8::Garox_1C8()
+Hud_Message_1C8::Hud_Message_1C8()
 {
     field_0 = 0;
     field_1C4 = 1;

@@ -81,7 +81,7 @@ class Garox_12E4_sub
     char_type field_1;
 };
 
-class Garox_1C8
+class Hud_Message_1C8
 {
   public:
     EXPORT void sub_5D1850();
@@ -89,7 +89,7 @@ class Garox_1C8
     EXPORT void sub_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
-    EXPORT Garox_1C8();
+    EXPORT Hud_Message_1C8();
     u8 field_0;
     char_type field_1;
     wchar_t field_2_str[2];
@@ -1034,7 +1034,7 @@ class Garox_2B00
     Garox_1108_sub field_1108_sub;
     Garox_110C_sub field_110C_sub; // ok
     Garox_1118_sub field_1118_sub;
-    Garox_1C8 field_111C; // ok
+    Hud_Message_1C8 field_111C; // ok
     Garox_12E4_sub field_12E4_sub; // ok
     char_type field_2A1E;
     char_type field_2A1F;
