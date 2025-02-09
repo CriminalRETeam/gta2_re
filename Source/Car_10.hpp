@@ -16,7 +16,7 @@ class Car_Door_10
     EXPORT Car_Door_10(); // 447330
     EXPORT ~Car_Door_10(); // 447350
 
-    s8 field_0;
+    s8 field_0_animation_frame;
     s8 field_1;
     s8 field_2;
     s8 field_3;
