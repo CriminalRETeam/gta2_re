@@ -2,6 +2,8 @@
 
 #include "Function.hpp"
 #include "root_sound.hpp" // for infallible_turing
+#include "fix16.hpp"
+#include "ang16.hpp"
 #include <windows.h>
 
 class infallible_turing;
@@ -155,10 +157,10 @@ class sound_obj
     char_type field_1452;
     char_type field_1453;
     s32 field_1454_anRandomTable[5];
-    s32 field_1468_v1;
-    s32 field_146C_v2;
-    s32 field_1470_v3;
-    s16 field_1474;
+    Fix16 field_1468_v1;
+    Fix16 field_146C_v2;
+    Fix16 field_1470_v3;
+    Ang16 field_1474;
     char_type field_1476;
     char_type field_1477;
     s32 field_1478_type5Idx;
