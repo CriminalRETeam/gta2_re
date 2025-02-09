@@ -399,12 +399,9 @@ class Hud_Arrow_7C
     EXPORT void sub_5D0DC0(Ped* a2);
 
     EXPORT Hud_Arrow_7C();
-    s32 field_0;
-    char_type field_4;
-    char_type field_5;
-    char_type field_6;
-    char_type field_7;
-    Ang16 field_8;
+    Fix16 field_0_pos_x; // maybe screen x
+    Fix16 field_0_pos_y; // maybe screen y
+    Ang16 field_8_rotation;
     s16 field_A;
     s32 field_C;
     s32 field_10;
