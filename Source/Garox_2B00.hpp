@@ -387,7 +387,7 @@ class Garox_20_Sub
     Garox_24* field_60;
 };
 
-class Garox_7C
+class Hud_Arrow_7C
 {
   public:
     EXPORT void sub_5D0510(s32 a2);
@@ -398,7 +398,7 @@ class Garox_7C
     EXPORT void sub_5D0C90();
     EXPORT void sub_5D0DC0(Ped* a2);
 
-    EXPORT Garox_7C();
+    EXPORT Hud_Arrow_7C();
     s32 field_0;
     char_type field_4;
     char_type field_5;
@@ -426,22 +426,22 @@ class Garox_7C_Array
     EXPORT void sub_5D1350();
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
-    EXPORT Garox_7C* sub_5D0EF0();
+    EXPORT Hud_Arrow_7C* sub_5D0EF0();
     EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
-    EXPORT Garox_7C* sub_5D1020(s32* a2);
-    EXPORT Garox_7C* sub_5D1050();
+    EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
+    EXPORT Hud_Arrow_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
+    EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void sub_5D1310(Gang_144* pZone);
-    Garox_7C field_0_array[17];
+    Hud_Arrow_7C field_0_array[17];
     char_type field_83C;
     char_type field_83D;
     char_type field_83E;
     char_type field_83F;
-    Garox_7C* field_840;
+    Hud_Arrow_7C* field_840;
     char_type field_844;
     char_type field_845;
     char_type field_846;
