@@ -211,12 +211,12 @@ void Hud_Message_1C8::sub_5D1940()
 MATCH_FUNC(0x5d1a00)
 void Hud_Message_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
-    if (field_0 <= 0 || a3 >= field_1C4)
+    if (field_0_time_to_show <= 0 || a3 >= field_1C4_type)
     {
-        field_1C4 = a3;
+        field_1C4_type = a3;
         wcscpy(field_2_str, pStr);
         gText_0x14_704DFC->sub_5B5B80(field_2_str);
-        field_0 = 90;
+        field_0_time_to_show = 90;
         sub_5D1860();
     }
 }
@@ -224,17 +224,17 @@ void Hud_Message_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 MATCH_FUNC(0x5d1ab0)
 void Hud_Message_1C8::sub_5D1AB0()
 {
-    if (field_0)
+    if (field_0_time_to_show != 0)
     {
-        field_0--;
+        field_0_time_to_show--;
     }
 }
 
 MATCH_FUNC(0x5d1ae0)
 Hud_Message_1C8::Hud_Message_1C8()
 {
-    field_0 = 0;
-    field_1C4 = 1;
+    field_0_time_to_show = 0;
+    field_1C4_type = 1;
 }
 
 // ----------------------------------------------------
