@@ -1066,7 +1066,7 @@ Hud_MapZone_98::Hud_MapZone_98()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d53b0)
-Garox_4_L::Garox_4_L()
+Hud_CarName_4C::Hud_CarName_4C()
 {
     field_0 = 0;
 }

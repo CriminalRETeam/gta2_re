@@ -843,10 +843,10 @@ class Hud_MapZone_98
     char_type field_97;
 };
 
-class Garox_4_L
+class Hud_CarName_4C
 {
   public:
-    EXPORT Garox_4_L();
+    EXPORT Hud_CarName_4C();
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -892,7 +892,7 @@ class Hud_2B00
     EXPORT s32 sub_5D6CB0(s32 a1);
     EXPORT Hud_2B00();
 
-    Garox_4_L field_0; // ok
+    Hud_CarName_4C field_0; // ok
     Hud_MapZone_98 field_4C; // ok
     Garox_1E34_L field_DC; // ok    TODO: check if it's Hud_Brief_704
     Garox_C_Array field_620; // ok
