@@ -185,13 +185,13 @@ class Hud_CopHead_C_Array
     // inline 0x4C6EE0
     Hud_CopHead_C_Array()
     {
-        field_48_count = 0;
+        field_48_cop_level = 0;
     }
     EXPORT void sub_5D00B0();
     EXPORT void sub_5D0110();
     EXPORT void sub_5D0210();
     Hud_CopHead_C field_1028[6];
-    s32 field_48_count;
+    s32 field_48_cop_level;
     Fix16 field_4C_w_fp;
     Fix16 field_50_h_fp;
 };

@@ -416,12 +416,12 @@ MATCH_FUNC(0x5d00b0)
 void Hud_CopHead_C_Array::sub_5D00B0()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
-    field_48_count = pPed->get_wanted_star_count_46EF00();
+    field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
     const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
     s32 i = 0;
     Hud_CopHead_C* pIter = &field_1028[0];
-    while (i < field_48_count)
+    while (i < field_48_cop_level)
     {
         pIter->sub_5D0050(a2);
         i++;
