@@ -570,10 +570,10 @@ Hud_Pager_C::~Hud_Pager_C()
     field_0 = -1;
     field_4 = 0;
 
-    if (field_8)
+    if (field_8_sound != NULL)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_8);
-        field_8 = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_8_sound);
+        field_8_sound = NULL;
     }
 }
 
@@ -664,7 +664,7 @@ Hud_Pager_C::Hud_Pager_C()
 {
     field_0 = -1;
     field_4 = 0;
-    field_8 = 0;
+    field_8_sound = NULL;
 }
 
 // ----------------------------------------------------
