@@ -821,7 +821,7 @@ class Garox_1E34_L  // size 0x620
     s32 field_61C;
 };
 
-class Garox_90_L
+class Hud_MapZone_98
 {
   public:
     EXPORT void sub_5D5900();
@@ -829,7 +829,7 @@ class Garox_90_L
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
-    EXPORT Garox_90_L();
+    EXPORT Hud_MapZone_98();
     char_type field_0;
     char_type field_1;
     wchar_t field_2_wstr[65];
@@ -893,7 +893,7 @@ class Hud_2B00
     s32 field_40;
     s32 field_44;
     s32 field_48;
-    Garox_90_L field_4C; // ok
+    Hud_MapZone_98 field_4C; // ok
     Garox_1E34_L field_DC; // ok
     Garox_C_Array field_620; // ok
     Garox_1700_L field_650; // ok

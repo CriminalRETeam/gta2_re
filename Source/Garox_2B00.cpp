@@ -1025,12 +1025,12 @@ Garox_1E34_L::Garox_1E34_L()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d5900)
-void Garox_90_L::sub_5D5900()
+void Hud_MapZone_98::sub_5D5900()
 {
 }
 
 MATCH_FUNC(0x5d5ad0)
-void Garox_90_L::sub_5D5AD0()
+void Hud_MapZone_98::sub_5D5AD0()
 {
     if (field_0)
     {
@@ -1039,24 +1039,24 @@ void Garox_90_L::sub_5D5AD0()
 }
 
 STUB_FUNC(0x5d5af0)
-void Garox_90_L::sub_5D5AF0(u8* a2, u8* a3)
+void Hud_MapZone_98::sub_5D5AF0(u8* a2, u8* a3)
 {
 }
 
 STUB_FUNC(0x5d5b60)
-void Garox_90_L::sub_5D5B60()
+void Hud_MapZone_98::sub_5D5B60()
 {
 }
 
 MATCH_FUNC(0x5d5c50)
-void Garox_90_L::sub_5D5C50()
+void Hud_MapZone_98::sub_5D5C50()
 {
     field_90 = 0;
     field_94 = 0;
 }
 
 MATCH_FUNC(0x5d5c60)
-Garox_90_L::Garox_90_L()
+Hud_MapZone_98::Hud_MapZone_98()
 {
     field_0 = 0;
     field_88_nav_zone = NULL;
