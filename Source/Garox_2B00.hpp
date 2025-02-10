@@ -340,7 +340,7 @@ class Garox_30_Sub
     char_type field_7;
 };
 
-class Garox_24
+class ArrowTrace_24
 {
   public:
     EXPORT void sub_5D03C0(Gang_144* pZone);
@@ -382,9 +382,9 @@ class Garox_20_Sub
     char_type field_2E;
     char_type field_2F;
     Garox_30_Sub field_10;
-    Garox_24 field_18;
-    Garox_24 field_3C;
-    Garox_24* field_60;
+    ArrowTrace_24 field_18;
+    ArrowTrace_24 field_3C;
+    ArrowTrace_24* field_60;
 };
 
 class Hud_Arrow_7C

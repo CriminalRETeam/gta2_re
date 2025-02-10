@@ -670,7 +670,7 @@ Garox_C::Garox_C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d03c0)
-void Garox_24::sub_5D03C0(Gang_144* pZone)
+void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
     field_18 = pZone->field_130_info_phone_y;
