@@ -409,11 +409,11 @@ class Hud_Arrow_7C
     Garox_20_Sub field_18;
 };
 
-class Garox_7C_Array
+class Hud_Arrow_7C_Array
 {
   public:
     // inline 0x4C7080
-    Garox_7C_Array()
+    Hud_Arrow_7C_Array()
     {
         field_83C = 1;
         field_840 = 0;
@@ -909,7 +909,7 @@ class Garox_2B00
     Garox_1E34_L field_DC; // ok
     Garox_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
-    Garox_7C_Array field_1F18; // ok
+    Hud_Arrow_7C_Array field_1F18; // ok
     Garox_Sub_C_Array field_1028; // ok
     Garox_107C_sub field_107C_sub; // nothing
     Garox_27B5_sub field_27B5_sub; // ok

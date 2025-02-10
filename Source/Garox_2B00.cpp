@@ -757,7 +757,7 @@ void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
 }
 
 MATCH_FUNC(0x5d1350)
-void Garox_7C_Array::sub_5D1350()
+void Hud_Arrow_7C_Array::sub_5D1350()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
@@ -801,24 +801,24 @@ Hud_Arrow_7C::Hud_Arrow_7C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d0e40)
-char_type Garox_7C_Array::sub_5D0E40(s32* a2)
+char_type Hud_Arrow_7C_Array::sub_5D0E40(s32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d0e90)
-void Garox_7C_Array::sub_5D0E90()
+void Hud_Arrow_7C_Array::sub_5D0E90()
 {
 }
 
 STUB_FUNC(0x5d0ef0)
-Hud_Arrow_7C* Garox_7C_Array::sub_5D0EF0()
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d0f40)
-char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
+char_type Hud_Arrow_7C_Array::sub_5D0F40(Gang_144* a2)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
@@ -833,7 +833,7 @@ char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
 }
 
 MATCH_FUNC(0x5d0f80)
-void Garox_7C_Array::sub_5D0F80()
+void Hud_Arrow_7C_Array::sub_5D0F80()
 {
     for (s32 i = 0; i < 17; i++)
     {
@@ -852,7 +852,7 @@ void Garox_7C_Array::sub_5D0F80()
 }
 
 MATCH_FUNC(0x5d0fd0)
-void Garox_7C_Array::sub_5D0FD0()
+void Hud_Arrow_7C_Array::sub_5D0FD0()
 {
     sub_5D0EF0();
 
@@ -872,7 +872,7 @@ void Garox_7C_Array::sub_5D0FD0()
 }
 
 MATCH_FUNC(0x5d1020)
-Hud_Arrow_7C* Garox_7C_Array::sub_5D1020(s32* a2)
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1020(s32* a2)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
@@ -888,19 +888,19 @@ Hud_Arrow_7C* Garox_7C_Array::sub_5D1020(s32* a2)
 }
 
 STUB_FUNC(0x5d1050)
-Hud_Arrow_7C* Garox_7C_Array::sub_5D1050()
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
 {
     return 0;
 }
 
 STUB_FUNC(0x5d10b0)
-char_type* Garox_7C_Array::sub_5D10B0()
+char_type* Hud_Arrow_7C_Array::sub_5D10B0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d10d0)
-Hud_Arrow_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 {
     s32 i = 0;
     Hud_Arrow_7C* pIter = field_0_array;
@@ -918,12 +918,12 @@ Hud_Arrow_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 }
 
 STUB_FUNC(0x5d1110)
-void Garox_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
+void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
 }
 
 MATCH_FUNC(0x5d1310)
-void Garox_7C_Array::sub_5D1310(Gang_144* pZone)
+void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 {
     Hud_Arrow_7C* p7C = sub_5D1050();
     p7C->sub_5D0510(4);
