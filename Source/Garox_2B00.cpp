@@ -1059,8 +1059,8 @@ MATCH_FUNC(0x5d5c60)
 Garox_90_L::Garox_90_L()
 {
     field_0 = 0;
-    field_88 = 0;
-    field_8C = 0;
+    field_88_nav_zone = NULL;
+    field_8C_local_nav_zone = NULL;
 }
 
 // ----------------------------------------------------

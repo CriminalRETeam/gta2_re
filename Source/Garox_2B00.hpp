@@ -446,7 +446,6 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-class Garox_1E34_L
 class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L
 {
   public:
@@ -465,6 +464,7 @@ class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L
   */
 };
 
+class Garox_1E34_L  // size 0x620
 {
   public:
     EXPORT s32 sub_5D3330();
@@ -832,41 +832,10 @@ class Garox_90_L
     EXPORT Garox_90_L();
     char_type field_0;
     char_type field_1;
-    wchar_t field_2_wstr[2];
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
+    wchar_t field_2_wstr[65];
     s32 field_84;
-    s32 field_88;
-    s32 field_8C;
+    gmp_map_zone* field_88_nav_zone;
+    gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
     char_type field_94;
     char_type field_95;
