@@ -16,7 +16,7 @@
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 
-EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR Hud_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
 
 EXPORT_VAR s16 word_706600; // TODO
@@ -1074,17 +1074,17 @@ Garox_4_L::Garox_4_L()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x4bbbb0)
-Garox_2B00::~Garox_2B00()
+Hud_2B00::~Hud_2B00()
 {
 }
 
 STUB_FUNC(0x5d4a10)
-void Garox_2B00::sub_5D4A10()
+void Hud_2B00::sub_5D4A10()
 {
 }
 
 MATCH_FUNC(0x5d5190)
-void Garox_2B00::sub_5D5190()
+void Hud_2B00::sub_5D5190()
 {
     if (field_0.field_0)
     {
@@ -1094,12 +1094,12 @@ void Garox_2B00::sub_5D5190()
 }
 
 STUB_FUNC(0x5d5240)
-void Garox_2B00::sub_5D5240(wchar_t* Source)
+void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
 }
 
 STUB_FUNC(0x5d5350)
-void Garox_2B00::sub_5D5350()
+void Hud_2B00::sub_5D5350()
 {
     if (field_0.field_0)
     {
@@ -1119,7 +1119,7 @@ void Garox_2B00::sub_5D5350()
 }
 
 MATCH_FUNC(0x5d6860)
-void Garox_2B00::DrawGui_5D6860()
+void Hud_2B00::DrawGui_5D6860()
 {
     if (!bSkip_user_67D506)
     {
@@ -1146,12 +1146,12 @@ void Garox_2B00::DrawGui_5D6860()
 }
 
 STUB_FUNC(0x5d69c0)
-void Garox_2B00::sub_5D69C0()
+void Hud_2B00::sub_5D69C0()
 {
 }
 
 MATCH_FUNC(0x5d69d0)
-void Garox_2B00::sub_5D69D0()
+void Hud_2B00::sub_5D69D0()
 {
     field_1118_sub.sub_5D6290();
     field_110C_sub.sub_5CF730();
@@ -1170,7 +1170,7 @@ void Garox_2B00::sub_5D69D0()
 }
 
 MATCH_FUNC(0x5d6a70)
-void Garox_2B00::sub_5D6A70()
+void Hud_2B00::sub_5D6A70()
 {
     if (gLighting_626A09)
     {
@@ -1179,13 +1179,13 @@ void Garox_2B00::sub_5D6A70()
 }
 
 MATCH_FUNC(0x5d6a90)
-void Garox_2B00::sub_5D6A90()
+void Hud_2B00::sub_5D6A90()
 {
     field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
 }
 
 MATCH_FUNC(0x5d6ab0)
-void Garox_2B00::sub_5D6AB0()
+void Hud_2B00::sub_5D6AB0()
 {
     sub_5D6B00();
     field_DC.sub_5D3470();
@@ -1197,13 +1197,13 @@ void Garox_2B00::sub_5D6AB0()
 }
 
 STUB_FUNC(0x5d6b00)
-s16 Garox_2B00::sub_5D6B00()
+s16 Hud_2B00::sub_5D6B00()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d6be0)
-void Garox_2B00::sub_5D6BE0()
+void Hud_2B00::sub_5D6BE0()
 {
     sub_5D6A90();
     sub_5D6B00();
@@ -1214,26 +1214,26 @@ void Garox_2B00::sub_5D6BE0()
 }
 
 STUB_FUNC(0x5d6c20)
-s32 Garox_2B00::sub_5D6C20(s32 action, char_type* a2)
+s32 Hud_2B00::sub_5D6C20(s32 action, char_type* a2)
 {
     return field_12EC_sub.sub_5D13C0(action, a2) || field_2A25_sub.sub_5D15E0(action, a2);
 }
 
 STUB_FUNC(0x5d6c70)
-s32 Garox_2B00::sub_5D6C70(s32 a1)
+s32 Hud_2B00::sub_5D6C70(s32 a1)
 {
     // TODO EAX vs AL reg
     return field_12EC_sub.sub_5D15A0(a1) || field_2A25_sub.sub_5D17D0(a1);
 }
 
 MATCH_FUNC(0x5d6cb0)
-s32 Garox_2B00::sub_5D6CB0(s32 a1)
+s32 Hud_2B00::sub_5D6CB0(s32 a1)
 {
     return field_12EC_sub.sub_5D15A0(a1);
 }
 
 STUB_FUNC(0x5d6cd0)
-Garox_2B00::Garox_2B00()
+Hud_2B00::Hud_2B00()
 {
     field_13C4_text_speed = 0;
 }

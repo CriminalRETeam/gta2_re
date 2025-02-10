@@ -865,10 +865,10 @@ class Garox_4_L
     char_type field_3;
 };
 
-class Garox_2B00
+class Hud_2B00
 {
   public:
-    EXPORT ~Garox_2B00();
+    EXPORT ~Hud_2B00();
     EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
     EXPORT void sub_5D5240(wchar_t* Source);
@@ -884,7 +884,7 @@ class Garox_2B00
     EXPORT s32 sub_5D6C20(s32 action, char_type* a2);
     EXPORT s32 sub_5D6C70(s32 a1);
     EXPORT s32 sub_5D6CB0(s32 a1);
-    EXPORT Garox_2B00();
+    EXPORT Hud_2B00();
 
     Garox_4_L field_0; // ok
     s32 field_4;
@@ -933,7 +933,7 @@ class Garox_2B00
     s32 field_13C4_text_speed;
 };
 
-EXPORT_VAR extern Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR extern Hud_2B00* gGarox_2B00_706620;
 
 EXPORT_VAR extern s16 word_706600;
 

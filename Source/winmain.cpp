@@ -198,7 +198,7 @@ void force_link()
     burgerking.RecOrPlayBackState_4CEDF0();
     burgerking.ShowInput_4CEE10();
 
-    Garox_2B00 garox;
+    Hud_2B00 garox;
 
     MapRenderer nano;
     nano.draw_bottom_4ED290(0);
