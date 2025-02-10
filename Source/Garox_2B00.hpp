@@ -166,11 +166,11 @@ class Garox_107C_sub
     char_type field_107C_sub;
 };
 
-class Garox_Sub_C
+class Hud_CopHead_C
 {
   public:
     EXPORT void sub_5D0050(char_type a2);
-    EXPORT Garox_Sub_C();
+    EXPORT Hud_CopHead_C();
     u8 field_0;
     char_type field_1;
     char_type field_2;
@@ -190,7 +190,7 @@ class Garox_Sub_C_Array
     EXPORT void sub_5D00B0();
     EXPORT void sub_5D0110();
     EXPORT void sub_5D0210();
-    Garox_Sub_C field_1028[6];
+    Hud_CopHead_C field_1028[6];
     s32 field_48_count;
     Fix16 field_4C_w_fp;
     Fix16 field_50_h_fp;

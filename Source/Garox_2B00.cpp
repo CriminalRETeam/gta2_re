@@ -396,12 +396,12 @@ void Garox_107C_sub::Empty_5CFE30()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d0050)
-void Garox_Sub_C::sub_5D0050(char_type a2)
+void Hud_CopHead_C::sub_5D0050(char_type a2)
 {
 }
 
 MATCH_FUNC(0x5d7510)
-Garox_Sub_C::Garox_Sub_C()
+Hud_CopHead_C::Hud_CopHead_C()
 {
     field_0 = 0;
     field_2 = 0;
@@ -420,7 +420,7 @@ void Garox_Sub_C_Array::sub_5D00B0()
 
     const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
     s32 i = 0;
-    Garox_Sub_C* pIter = &field_1028[0];
+    Hud_CopHead_C* pIter = &field_1028[0];
     while (i < field_48_count)
     {
         pIter->sub_5D0050(a2);
