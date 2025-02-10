@@ -413,7 +413,7 @@ Hud_CopHead_C::Hud_CopHead_C()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d00b0)
-void Garox_Sub_C_Array::sub_5D00B0()
+void Hud_CopHead_C_Array::sub_5D00B0()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
     field_48_count = pPed->get_wanted_star_count_46EF00();
@@ -430,12 +430,12 @@ void Garox_Sub_C_Array::sub_5D00B0()
 }
 
 STUB_FUNC(0x5d0110)
-void Garox_Sub_C_Array::sub_5D0110()
+void Hud_CopHead_C_Array::sub_5D0110()
 {
 }
 
 MATCH_FUNC(0x5d0210)
-void Garox_Sub_C_Array::sub_5D0210()
+void Hud_CopHead_C_Array::sub_5D0210()
 {
     u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
     sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);

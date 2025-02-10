@@ -179,11 +179,11 @@ class Hud_CopHead_C
     s32 field_8;
 };
 
-class Garox_Sub_C_Array
+class Hud_CopHead_C_Array
 {
   public:
     // inline 0x4C6EE0
-    Garox_Sub_C_Array()
+    Hud_CopHead_C_Array()
     {
         field_48_count = 0;
     }
@@ -832,7 +832,7 @@ class Hud_2B00
     Hud_Pager_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
     Hud_Arrow_7C_Array field_1F18; // ok
-    Garox_Sub_C_Array field_1028; // ok
+    Hud_CopHead_C_Array field_1028; // ok
     Garox_107C_sub field_107C_sub; // nothing
     Garox_27B5_sub field_27B5_sub; // ok
     char_type field_27B6;
