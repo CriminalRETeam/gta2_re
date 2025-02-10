@@ -610,12 +610,12 @@ s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d3040)
-void Garox_C_Array::sub_5D3040()
+void Hud_Pager_C_Array::sub_5D3040()
 {
 }
 
 MATCH_FUNC(0x5d31b0)
-void Garox_C_Array::sub_5D31B0()
+void Hud_Pager_C_Array::sub_5D31B0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_620); i++)
     {
@@ -642,7 +642,7 @@ s32 Hud_Pager_C::sub_5D3280(s32 a2)
 }
 
 MATCH_FUNC(0x5d32d0)
-void Garox_C_Array::sub_5D32D0(s32 a2)
+void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 {
     field_620[a2].field_0 = -1;
 }
@@ -654,7 +654,7 @@ Hud_Pager_C* Hud_Pager_C::sub_5D32F0(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5d3310)
-void Garox_C_Array::sub_5D3310(s32 a2)
+void Hud_Pager_C_Array::sub_5D3310(s32 a2)
 {
     field_620[a2].field_4 = 0;
 }

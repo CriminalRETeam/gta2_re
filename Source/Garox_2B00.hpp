@@ -291,7 +291,7 @@ class Hud_Pager_C
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
-    // TODO: These might be part of Garox_C_Array too
+    // TODO: These might be part of Hud_Pager_C_Array too
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
@@ -304,11 +304,11 @@ class Hud_Pager_C
     infallible_turing* field_8;
 };
 
-class Garox_C_Array
+class Hud_Pager_C_Array
 {
   public:
     // inline 0x4CA660
-    Garox_C_Array()
+    Hud_Pager_C_Array()
     {
     }
 
@@ -878,7 +878,7 @@ class Hud_2B00
     Hud_CarName_4C field_0; // ok
     Hud_MapZone_98 field_4C; // ok
     Garox_1E34_L field_DC; // ok    TODO: check if it's Hud_Brief_704
-    Garox_C_Array field_620; // ok
+    Hud_Pager_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
     Hud_Arrow_7C_Array field_1F18; // ok
     Garox_Sub_C_Array field_1028; // ok
