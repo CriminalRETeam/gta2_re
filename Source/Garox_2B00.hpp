@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "ang16.hpp"
+#include "map_0x370.hpp"
 #include <wchar.h>
 
 class Ped;
@@ -81,7 +82,7 @@ class Garox_12E4_sub
     char_type field_1;
 };
 
-class Garox_1C8
+class Hud_Message_1C8
 {
   public:
     EXPORT void sub_5D1850();
@@ -89,125 +90,13 @@ class Garox_1C8
     EXPORT void sub_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
-    EXPORT Garox_1C8();
-    u8 field_0;
-    char_type field_1;
-    wchar_t field_2_str[2];
-    char_type field_6;
-    char_type field_7;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
-    s32 field_88;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 field_98;
-    s32 field_9C;
-    s32 field_A0;
-    s32 field_A4;
-    s32 field_A8;
-    s32 field_AC;
-    s32 field_B0;
-    s32 field_B4;
-    s32 field_B8;
-    s32 field_BC;
-    s32 field_C0;
-    s32 field_C4;
-    s16 field_C8;
-    s16 field_CA;
-    s32 field_CC;
-    s32 field_D0;
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
-    s32 field_E4;
-    s32 field_E8;
-    s32 field_EC;
-    s32 field_F0;
-    s32 field_F4;
-    s32 field_F8;
-    s32 field_FC;
-    s32 field_100;
-    s32 field_104;
-    s32 field_108;
-    s32 field_10C;
-    s32 field_110;
-    s32 field_114;
-    s32 field_118;
-    s32 field_11C;
-    s32 field_120;
-    s32 field_124;
-    s32 field_128;
-    s32 field_12C;
-    s32 field_130;
-    s32 field_134;
-    s32 field_138;
-    s32 field_13C;
-    s32 field_140;
-    s32 field_144;
-    s32 field_148;
-    s32 field_14C;
-    s32 field_150;
-    s32 field_154;
-    s32 field_158;
-    s32 field_15C;
-    s32 field_160;
-    s32 field_164;
-    s32 field_168;
-    s32 field_16C;
-    s32 field_170;
-    s32 field_174;
-    s32 field_178;
-    s32 field_17C;
-    s32 field_180;
-    s32 field_184;
-    s32 field_188;
-    s32 field_18C;
-    s32 field_190;
-    s32 field_194;
-    s32 field_198;
-    s32 field_19C;
-    s32 field_1A0;
-    s32 field_1A4;
-    s32 field_1A8;
-    s32 field_1AC;
-    s32 field_1B0;
-    s32 field_1B4;
-    s32 field_1B8;
-    s32 field_1BC;
-    s32 field_1C0;
-    s32 field_1C4;
+    EXPORT Hud_Message_1C8();
+    u8 field_0_time_to_show;
+    char_type field_1_unk;
+    wchar_t field_2_str[221];
+    s32 field_1BC_str_width;
+    s32 field_1C0_num_lines;
+    s32 field_1C4_type;
 };
 
 class Garox_1118_sub
@@ -277,11 +166,11 @@ class Garox_107C_sub
     char_type field_107C_sub;
 };
 
-class Garox_Sub_C
+class Hud_CopHead_C
 {
   public:
     EXPORT void sub_5D0050(char_type a2);
-    EXPORT Garox_Sub_C();
+    EXPORT Hud_CopHead_C();
     u8 field_0;
     char_type field_1;
     char_type field_2;
@@ -290,19 +179,19 @@ class Garox_Sub_C
     s32 field_8;
 };
 
-class Garox_Sub_C_Array
+class Hud_CopHead_C_Array
 {
   public:
     // inline 0x4C6EE0
-    Garox_Sub_C_Array()
+    Hud_CopHead_C_Array()
     {
-        field_48_count = 0;
+        field_48_cop_level = 0;
     }
     EXPORT void sub_5D00B0();
     EXPORT void sub_5D0110();
     EXPORT void sub_5D0210();
-    Garox_Sub_C field_1028[6];
-    s32 field_48_count;
+    Hud_CopHead_C field_1028[6];
+    s32 field_48_cop_level;
     Fix16 field_4C_w_fp;
     Fix16 field_50_h_fp;
 };
@@ -339,87 +228,38 @@ class Garox_1700_L
     EXPORT void Service_5D2010();
     EXPORT void sub_5D2050();
     EXPORT Garox_1700_L();
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
-    s32 field_88;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 field_98;
-    s32 field_9C;
-    s32 field_A0;
-    s32 field_A4;
-    s32 field_A8;
-    s32 field_AC;
-    s32 field_B0;
-    s32 field_B4;
-    s32 field_B8;
-    s32 field_BC;
-    Garox_C4 field_C0_29_ary[29];
-    s32 field_95C;
+    Garox_C4 field_0_29_ary[30];
     Garox_C4* field_960_pFirst;
     Garox_C4* field_964;
 };
 
-class Garox_C
+class Hud_Pager_C
 {
   public:
-    EXPORT ~Garox_C();
+    EXPORT ~Hud_Pager_C();
     EXPORT void sub_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
-    // TODO: These might be part of Garox_C_Array too
+    // TODO: These might be part of Hud_Pager_C_Array too
     EXPORT s32 sub_5D31F0(s32 a2);
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
 
-    EXPORT Garox_C* sub_5D32F0(s32 a2, s32 a3);
+    EXPORT Hud_Pager_C* sub_5D32F0(s32 a2, s32 a3);
 
-    EXPORT Garox_C();
-    s32 field_0;
-    s32 field_4;
-    infallible_turing* field_8;
+    EXPORT Hud_Pager_C();
+    s32 field_0;  //  duration? timer?
+    s32 field_4;  //  counter?
+    infallible_turing* field_8_sound;
 };
 
-class Garox_C_Array
+class Hud_Pager_C_Array
 {
   public:
     // inline 0x4CA660
-    Garox_C_Array()
+    Hud_Pager_C_Array()
     {
     }
 
@@ -428,7 +268,7 @@ class Garox_C_Array
     EXPORT void sub_5D32D0(s32 a2);
     EXPORT void sub_5D3310(s32 a2);
 
-    Garox_C field_620[4];
+    Hud_Pager_C field_620[4];
 };
 
 class Garox_18
@@ -452,7 +292,7 @@ class Garox_30_Sub
     char_type field_7;
 };
 
-class Garox_24
+class ArrowTrace_24
 {
   public:
     EXPORT void sub_5D03C0(Gang_144* pZone);
@@ -464,18 +304,18 @@ class Garox_24
         field_4 = 0;
         field_8 = 0;
         field_C = 0;
-        field_10 = 0;
+        field_10_type = 0;
         field_20 = 0;
     }
 
     s32 field_0;
     Player* field_4;
-    s32 field_8;
+    Object_2C* field_8;
     Player* field_C;
-    s32 field_10;
-    Fix16 field_14;
-    Fix16 field_18;
-    Fix16 field_1C;
+    s32 field_10_type;
+    Fix16 field_14_aim_x;
+    Fix16 field_18_aim_y;
+    Fix16 field_1C_aim_z;
     char_type field_20;
     char_type field_21_pad;
     char_type field_22_pad;
@@ -494,12 +334,12 @@ class Garox_20_Sub
     char_type field_2E;
     char_type field_2F;
     Garox_30_Sub field_10;
-    Garox_24 field_18;
-    Garox_24 field_3C;
-    Garox_24* field_60;
+    ArrowTrace_24 field_18;
+    ArrowTrace_24 field_3C;
+    ArrowTrace_24* field_60;
 };
 
-class Garox_7C
+class Hud_Arrow_7C
 {
   public:
     EXPORT void sub_5D0510(s32 a2);
@@ -510,13 +350,10 @@ class Garox_7C
     EXPORT void sub_5D0C90();
     EXPORT void sub_5D0DC0(Ped* a2);
 
-    EXPORT Garox_7C();
-    s32 field_0;
-    char_type field_4;
-    char_type field_5;
-    char_type field_6;
-    char_type field_7;
-    Ang16 field_8;
+    EXPORT Hud_Arrow_7C();
+    Fix16 field_0_pos_x; // maybe screen x
+    Fix16 field_0_pos_y; // maybe screen y
+    Ang16 field_8_rotation;
     s16 field_A;
     s32 field_C;
     s32 field_10;
@@ -524,11 +361,11 @@ class Garox_7C
     Garox_20_Sub field_18;
 };
 
-class Garox_7C_Array
+class Hud_Arrow_7C_Array
 {
   public:
     // inline 0x4C7080
-    Garox_7C_Array()
+    Hud_Arrow_7C_Array()
     {
         field_83C = 1;
         field_840 = 0;
@@ -538,29 +375,47 @@ class Garox_7C_Array
     EXPORT void sub_5D1350();
     EXPORT char_type sub_5D0E40(s32* a2);
     EXPORT void sub_5D0E90();
-    EXPORT Garox_7C* sub_5D0EF0();
+    EXPORT Hud_Arrow_7C* sub_5D0EF0();
     EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
-    EXPORT Garox_7C* sub_5D1020(s32* a2);
-    EXPORT Garox_7C* sub_5D1050();
+    EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
+    EXPORT Hud_Arrow_7C* sub_5D1050();
     EXPORT char_type* sub_5D10B0();
-    EXPORT Garox_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
+    EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void sub_5D1310(Gang_144* pZone);
-    Garox_7C field_0_array[17];
+    Hud_Arrow_7C field_0_array[17];
     char_type field_83C;
     char_type field_83D;
     char_type field_83E;
     char_type field_83F;
-    Garox_7C* field_840;
+    Hud_Arrow_7C* field_840;
     char_type field_844;
     char_type field_845;
     char_type field_846;
     char_type field_847;
 };
 
-class Garox_1E34_L
+class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L, but it has size 0x704
+{
+  public:
+    wchar_t field_0_str[640];
+    char field_500[36];
+    int* field_524;
+    char field_528[452];
+    char field_6EC[12];
+    Hud_Brief_704* field_6F8_prev;
+    int field_6FC;
+    char* field_700;
+  /*
+  public:
+    void SetHudBrief(int priority, const char* str);
+    void Clear(int priority);
+  */
+};
+
+class Garox_1E34_L  // size 0x620
 {
   public:
     EXPORT s32 sub_5D3330();
@@ -917,7 +772,7 @@ class Garox_1E34_L
     s32 field_61C;
 };
 
-class Garox_90_L
+class Hud_MapZone_98
 {
   public:
     EXPORT void sub_5D5900();
@@ -925,44 +780,13 @@ class Garox_90_L
     EXPORT void sub_5D5AF0(u8* a2, u8* a3);
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
-    EXPORT Garox_90_L();
+    EXPORT Hud_MapZone_98();
     char_type field_0;
     char_type field_1;
-    wchar_t field_2_wstr[2];
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
+    wchar_t field_2_wstr[65];
     s32 field_84;
-    s32 field_88;
-    s32 field_8C;
+    gmp_map_zone* field_88_nav_zone;
+    gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
     char_type field_94;
     char_type field_95;
@@ -970,20 +794,21 @@ class Garox_90_L
     char_type field_97;
 };
 
-class Garox_4_L
+class Hud_CarName_4C
 {
   public:
-    EXPORT Garox_4_L();
-    char_type field_0;
+    EXPORT Hud_CarName_4C();
+    char_type field_0_display_time;
     char_type field_1;
-    char_type field_2;
-    char_type field_3;
+    wchar_t field_2_car_name[33];
+    s32 field_44;
+    s32 field_48;
 };
 
-class Garox_2B00
+class Hud_2B00
 {
   public:
-    EXPORT ~Garox_2B00();
+    EXPORT ~Hud_2B00();
     EXPORT void sub_5D4A10();
     EXPORT void sub_5D5190();
     EXPORT void sub_5D5240(wchar_t* Source);
@@ -999,33 +824,15 @@ class Garox_2B00
     EXPORT s32 sub_5D6C20(s32 action, char_type* a2);
     EXPORT s32 sub_5D6C70(s32 a1);
     EXPORT s32 sub_5D6CB0(s32 a1);
-    EXPORT Garox_2B00();
+    EXPORT Hud_2B00();
 
-    Garox_4_L field_0; // ok
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    Garox_90_L field_4C; // ok
-    Garox_1E34_L field_DC; // ok
-    Garox_C_Array field_620; // ok
+    Hud_CarName_4C field_0; // ok
+    Hud_MapZone_98 field_4C; // ok
+    Garox_1E34_L field_DC; // ok    TODO: check if it's Hud_Brief_704
+    Hud_Pager_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
-    Garox_7C_Array field_1F18; // ok
-    Garox_Sub_C_Array field_1028; // ok
+    Hud_Arrow_7C_Array field_1F18; // ok
+    Hud_CopHead_C_Array field_1028; // ok
     Garox_107C_sub field_107C_sub; // nothing
     Garox_27B5_sub field_27B5_sub; // ok
     char_type field_27B6;
@@ -1034,7 +841,7 @@ class Garox_2B00
     Garox_1108_sub field_1108_sub;
     Garox_110C_sub field_110C_sub; // ok
     Garox_1118_sub field_1118_sub;
-    Garox_1C8 field_111C; // ok
+    Hud_Message_1C8 field_111C; // ok
     Garox_12E4_sub field_12E4_sub; // ok
     char_type field_2A1E;
     char_type field_2A1F;
@@ -1048,7 +855,7 @@ class Garox_2B00
     s32 field_13C4_text_speed;
 };
 
-EXPORT_VAR extern Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR extern Hud_2B00* gGarox_2B00_706620;
 
 EXPORT_VAR extern s16 word_706600;
 

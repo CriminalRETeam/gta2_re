@@ -1098,7 +1098,7 @@ bool Car_BC::sub_43B2B0(Ped* a2)
 }
 
 MATCH_FUNC(0x43b340)
-Car_10* Car_BC::sub_43B340(u8 a2)
+Car_Door_10* Car_BC::sub_43B340(u8 a2)
 {
     return &field_C[a2];
 }
@@ -1688,7 +1688,7 @@ char_type Car_BC::sub_441A70()
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    Car_10* pIter = field_C;
+    Car_Door_10* pIter = field_C;
     s32 tmp;
     for (s32 i = 0; i < GTA2_COUNTOF(field_C); i++)
     {

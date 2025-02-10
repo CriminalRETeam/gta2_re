@@ -45,11 +45,10 @@ void root_sound::sub_40F010()
     //gSound_obj_66F680.sub_57E960(); // stub
 }
 
-STUB_FUNC(0x40F020)
+MATCH_FUNC(0x40F020)
 void root_sound::sub_40F020()
 {
-    //gSound_obj_66F680.sub_57EA10();
-    // todo
+    gSound_obj_66F680.sub_57EA10();
 }
 
 STUB_FUNC(0x40F030)

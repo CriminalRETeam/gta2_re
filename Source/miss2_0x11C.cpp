@@ -2191,9 +2191,103 @@ void miss2_0x11C::sub_50ED80()
 {
 }
 
-STUB_FUNC(0x50edc0)
-void miss2_0x11C::sub_50EDC0()
+MATCH_FUNC(0x50edc0)
+void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
 {
+    SCR_PHONE_TEMPLATE* v1 = (SCR_PHONE_TEMPLATE*)gBasePtr_6F8070;
+
+    SCR_POINTER* pParam3;
+    SCR_POINTER* pParam4;
+    SCR_POINTER* pParam5;
+    SCR_POINTER* pParam1;
+    SCR_POINTER* pParam2;
+
+    pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter1);
+    pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_10_counter2);
+    pParam3 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_12_counter3);
+    pParam4 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_14_counter4);
+    pParam5 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_16_counter5);
+    str_table_entry* StringById = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_18_gangname);
+    char_type* gang_name = (char_type*)&StringById[1];
+    Gang_144* pGang_zone = gZones_CA8_67E274->zone_by_name_4BF100(gang_name);
+    if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
+    {
+        s32 v9 = v1->field_8_brief_id - 5;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    if (pParam4->field_8_counter == 1) //  flag_on_[gang2]_mission == 1
+    {
+        s32 v9 = v1->field_8_brief_id - 2;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    if (pParam5->field_8_counter == 1) //  flag_on_[gang3]_mission == 1
+    {
+        s32 v9 = v1->field_8_brief_id - 1;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    if (pParam1->field_8_counter == 1) //  flag_passed_[gang1]_easy_phone_m1 == 1
+    {
+        //  not used in original levels, since phones are disabled after finishing mission
+        s32 v9 = v1->field_8_brief_id;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    if (pParam2->field_8_counter == 1) //  flag_failed_[this_gang]_easy_phone_m1 == 1
+    {
+        //  not used in the game as you can repeat a failed mission in GTA2
+        s32 v9 = v1->field_8_brief_id + 1;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    s8 idx1;
+    //  Check if the player has respect enough to launch the mission
+    if ((idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->sub_4BEEF0(idx1) / 20 >= v1->field_1A_respect))
+    {
+        str_table_entry* mission1_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_1C_mission1);
+        char_type* mission1_name = (char_type*)&mission1_str_table[1];
+        miss2_0x11C::launch_mission_5119A0((int)gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
+        return;
+    }
+    s8 idx2;
+    //  Check if the player has respect = 0
+    if ((idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang_zone->sub_4BEEF0(idx2) / 20) == 0))
+    {
+        s32 v9 = v1->field_8_brief_id - 6;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        return;
+    }
+    s8 idx3;
+    //  Check if the player has negative respect
+    if ((idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->sub_4BEEF0(idx3) / 20 < 0))
+    {
+        s32 v9 = v1->field_8_brief_id - 4;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
+    else
+    {
+        //  In this case, the player has positive respect but not enough to launch the mission
+        s32 v9 = v1->field_8_brief_id - 7;
+        sprintf(gTmpBuffer_67C598, "%d", v9);
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        miss2_0x11C::Next_503620(gBasePtr_6F8070);
+    }
 }
 
 STUB_FUNC(0x50f060)
@@ -3105,70 +3199,70 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case 391:
                 SCRCMD_FINISH_MISSION_50FAD0();
                 break;
-            case 400:
-            case 407:
+            case SCRCMD_SET_ENTER_STATUS:
+            case SCRCMD_SET_ALL_CONTROLS:
                 sub_50FB60();
                 break;
-            case 402:
+            case SCRCMD_STORE_BONUS:
                 sub_50FAF0();
                 break;
-            case 408:
+            case SCRCMD_SET_FAV_CAR:
                 sub_50FC20();
                 break;
-            case 409:
+            case SCRCMD_GROUP_IN_AREA:
                 sub_50FC60();
                 break;
-            case 410:
+            case SCRCMD_SET_CHAR_OCCUPATION:
                 sub_509790();
                 break;
-            case 411:
+            case SCRCMD_SET_KF_WEAPON:
                 sub_50FE00();
                 break;
-            case 412:
+            case SCRCMD_CLEAR_KF_WEAPON:
                 sub_50FED0();
                 break;
-            case 414:
+            case SCRCMD_ADD_ONSCREEN_COUNTER:
                 sub_50FF50();
                 break;
-            case 415:
-            case 416:
+            case SCRCMD_CLEAR_COUNTER:
+            case SCRCMD_CLEAR_CLOCK_ONLY:
                 sub_50FFB0();
                 break;
-            case 418:
+            case SCRCMD_CHANGE_POLICE:
                 sub_510030();
                 break;
-            case 419:
+            case SCRCMD_DESTROY_GROUP:
                 sub_510050();
                 break;
-            case 420:
+            case SCRCMD_CHECK_CURRENT_WEAPON:
                 sub_510090();
                 break;
-            case 422:
+            case SCRCMD_START_BASIC_KF:
                 sub_510100();
                 break;
-            case 423:
+            case SCRCMD_DO_BASIC_KF:
                 sub_510280();
                 break;
-            case 424:
+            case SCRCMD_SET_BONUS_RATING:
                 sub_510530();
                 break;
-            case 433:
+            case SCRCMD_ADD_TIME:
                 sub_510560();
                 break;
-            case 438:
+            case SCRCMD_DO_SAVE_GAME:
                 sub_50D3C0();
                 break;
-            case 442:
+            case SCRCMD_SET_MODEL_WANTED:
                 sub_5105B0();
                 break;
-            case 443:
+            case SCRCMD_CHECK_DEATH_ARR:
                 sub_510600();
                 break;
-            case 444:
+            case SCRCMD_FORCE_CLEANUP:
                 sub_510660();
                 break;
-            case 445:
-            case 446:
+            case SCRCMD_SAVE_RESPECT:
+            case SCRCMD_RESTORE_RESPECT:
                 sub_510780();
                 break;
             default:

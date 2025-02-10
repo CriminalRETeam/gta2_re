@@ -17,6 +17,9 @@ GLOBAL(byte_61A8A3, 0x61A8A3);
 EXPORT_VAR Ang16 word_6FDB34;
 GLOBAL(word_6FDB34, 0x6FDB34);
 
+EXPORT_VAR Ang16 word_6787A8;
+GLOBAL(word_6787A8, 0x6787A8);
+
 EXPORT_VAR s32 dword_67866C; // TODO: Fix16? Static init to 0xC000
 GLOBAL(dword_67866C, 0x67866C);
 
@@ -480,10 +483,25 @@ s32* Ped::sub_45C920(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x45c960)
-s16* Ped::sub_45C960(s16* a2)
+MATCH_FUNC(0x45c960)
+Ang16& Ped::sub_45C960(Ang16& a2)
 {
-    return 0;
+    if (field_168_game_object != NULL)
+    {
+        a2 = *(Ang16*)&field_168_game_object->field_40_rotation;
+    }
+    else
+    {
+        if (field_16C_car != NULL)
+        {
+            a2 = field_16C_car->field_50_car_sprite->field_0;
+        }
+        else
+        {
+            a2 = word_6787A8;
+        }
+    }
+    return a2;
 }
 
 STUB_FUNC(0x45c9b0)

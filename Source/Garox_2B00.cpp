@@ -16,7 +16,7 @@
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 
-EXPORT_VAR Garox_2B00* gGarox_2B00_706620;
+EXPORT_VAR Hud_2B00* gGarox_2B00_706620;
 GLOBAL(gGarox_2B00_706620, 0x706620);
 
 EXPORT_VAR s16 word_706600; // TODO
@@ -194,47 +194,47 @@ void Garox_12E4_sub::sub_5D63B0()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d1850)
-void Garox_1C8::sub_5D1850()
+void Hud_Message_1C8::sub_5D1850()
 {
 }
 
 STUB_FUNC(0x5d1860)
-void Garox_1C8::sub_5D1860()
+void Hud_Message_1C8::sub_5D1860()
 {
 }
 
 STUB_FUNC(0x5d1940)
-void Garox_1C8::sub_5D1940()
+void Hud_Message_1C8::sub_5D1940()
 {
 }
 
 MATCH_FUNC(0x5d1a00)
-void Garox_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
+void Hud_Message_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
 {
-    if (field_0 <= 0 || a3 >= field_1C4)
+    if (field_0_time_to_show <= 0 || a3 >= field_1C4_type)
     {
-        field_1C4 = a3;
+        field_1C4_type = a3;
         wcscpy(field_2_str, pStr);
         gText_0x14_704DFC->sub_5B5B80(field_2_str);
-        field_0 = 90;
+        field_0_time_to_show = 90;
         sub_5D1860();
     }
 }
 
 MATCH_FUNC(0x5d1ab0)
-void Garox_1C8::sub_5D1AB0()
+void Hud_Message_1C8::sub_5D1AB0()
 {
-    if (field_0)
+    if (field_0_time_to_show != 0)
     {
-        field_0--;
+        field_0_time_to_show--;
     }
 }
 
 MATCH_FUNC(0x5d1ae0)
-Garox_1C8::Garox_1C8()
+Hud_Message_1C8::Hud_Message_1C8()
 {
-    field_0 = 0;
-    field_1C4 = 1;
+    field_0_time_to_show = 0;
+    field_1C4_type = 1;
 }
 
 // ----------------------------------------------------
@@ -396,12 +396,12 @@ void Garox_107C_sub::Empty_5CFE30()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d0050)
-void Garox_Sub_C::sub_5D0050(char_type a2)
+void Hud_CopHead_C::sub_5D0050(char_type a2)
 {
 }
 
 MATCH_FUNC(0x5d7510)
-Garox_Sub_C::Garox_Sub_C()
+Hud_CopHead_C::Hud_CopHead_C()
 {
     field_0 = 0;
     field_2 = 0;
@@ -413,15 +413,15 @@ Garox_Sub_C::Garox_Sub_C()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d00b0)
-void Garox_Sub_C_Array::sub_5D00B0()
+void Hud_CopHead_C_Array::sub_5D00B0()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
-    field_48_count = pPed->get_wanted_star_count_46EF00();
+    field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
     const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
     s32 i = 0;
-    Garox_Sub_C* pIter = &field_1028[0];
-    while (i < field_48_count)
+    Hud_CopHead_C* pIter = &field_1028[0];
+    while (i < field_48_cop_level)
     {
         pIter->sub_5D0050(a2);
         i++;
@@ -430,12 +430,12 @@ void Garox_Sub_C_Array::sub_5D00B0()
 }
 
 STUB_FUNC(0x5d0110)
-void Garox_Sub_C_Array::sub_5D0110()
+void Hud_CopHead_C_Array::sub_5D0110()
 {
 }
 
 MATCH_FUNC(0x5d0210)
-void Garox_Sub_C_Array::sub_5D0210()
+void Hud_CopHead_C_Array::sub_5D0210()
 {
     u16 converted_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 14);
     sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
@@ -565,20 +565,20 @@ Garox_1700_L::Garox_1700_L()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x4be650)
-Garox_C::~Garox_C()
+Hud_Pager_C::~Hud_Pager_C()
 {
     field_0 = -1;
     field_4 = 0;
 
-    if (field_8)
+    if (field_8_sound != NULL)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_8);
-        field_8 = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_8_sound);
+        field_8_sound = NULL;
     }
 }
 
 MATCH_FUNC(0x5d2320)
-void Garox_C::sub_5D2320()
+void Hud_Pager_C::sub_5D2320()
 {
     if (field_0 < 0)
     {
@@ -593,29 +593,29 @@ void Garox_C::sub_5D2320()
 }
 
 STUB_FUNC(0x5d2380)
-void Garox_C::sub_5D2380(s32 a2, s32 a3)
+void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
 {
 }
 
 STUB_FUNC(0x5d2680)
-s32 Garox_C::sub_5D2680(s32 a2, s32 a3)
+s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d2ab0)
-s32 Garox_C::sub_5D2AB0(s32 a2, s32 a3)
+s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3040)
-void Garox_C_Array::sub_5D3040()
+void Hud_Pager_C_Array::sub_5D3040()
 {
 }
 
 MATCH_FUNC(0x5d31b0)
-void Garox_C_Array::sub_5D31B0()
+void Hud_Pager_C_Array::sub_5D31B0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_620); i++)
     {
@@ -624,89 +624,89 @@ void Garox_C_Array::sub_5D31B0()
 }
 
 STUB_FUNC(0x5d31f0)
-s32 Garox_C::sub_5D31F0(s32 a2)
+s32 Hud_Pager_C::sub_5D31F0(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3220)
-s32 Garox_C::sub_5D3220(s32 a2)
+s32 Hud_Pager_C::sub_5D3220(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3280)
-s32 Garox_C::sub_5D3280(s32 a2)
+s32 Hud_Pager_C::sub_5D3280(s32 a2)
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d32d0)
-void Garox_C_Array::sub_5D32D0(s32 a2)
+void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 {
     field_620[a2].field_0 = -1;
 }
 
 STUB_FUNC(0x5d32f0)
-Garox_C* Garox_C::sub_5D32F0(s32 a2, s32 a3)
+Hud_Pager_C* Hud_Pager_C::sub_5D32F0(s32 a2, s32 a3)
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d3310)
-void Garox_C_Array::sub_5D3310(s32 a2)
+void Hud_Pager_C_Array::sub_5D3310(s32 a2)
 {
     field_620[a2].field_4 = 0;
 }
 
 MATCH_FUNC(0x5d7650)
-Garox_C::Garox_C()
+Hud_Pager_C::Hud_Pager_C()
 {
     field_0 = -1;
     field_4 = 0;
-    field_8 = 0;
+    field_8_sound = NULL;
 }
 
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d03c0)
-void Garox_24::sub_5D03C0(Gang_144* pZone)
+void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
-    field_18 = pZone->field_130_info_phone_y;
-    field_14 = pZone->field_12C_info_phone_x;
-    field_1C = pZone->field_134_info_phone_z;
-    field_10 = 5;
+    field_18_aim_y = pZone->field_130_info_phone_y;
+    field_14_aim_x = pZone->field_12C_info_phone_x;
+    field_1C_aim_z = pZone->field_134_info_phone_z;
+    field_10_type = 5;
 }
 
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0510)
-void Garox_7C::sub_5D0510(s32 a2)
+void Hud_Arrow_7C::sub_5D0510(s32 a2)
 {
     field_18.field_28 = a2;
 }
 
 STUB_FUNC(0x5d0530)
-char_type Garox_7C::sub_5D0530()
+char_type Hud_Arrow_7C::sub_5D0530()
 {
     return 0;
 }
 
 STUB_FUNC(0x5d0620)
-char_type Garox_7C::sub_5D0620()
+char_type Hud_Arrow_7C::sub_5D0620()
 {
     return 0;
 }
 
 STUB_FUNC(0x5d0850)
-s32 Garox_7C::sub_5D0850()
+s32 Hud_Arrow_7C::sub_5D0850()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d0c60)
-void Garox_7C::sub_5D0C60()
+void Hud_Arrow_7C::sub_5D0C60()
 {
     if (!sub_5D0620())
     {
@@ -720,12 +720,12 @@ void Garox_7C::sub_5D0C60()
 }
 
 STUB_FUNC(0x5d0c90)
-void Garox_7C::sub_5D0C90()
+void Hud_Arrow_7C::sub_5D0C90()
 {
 }
 
 STUB_FUNC(0x5d0dc0)
-void Garox_7C::sub_5D0DC0(Ped* a2)
+void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
 {
     switch (a2->field_244_remap)
     {
@@ -757,7 +757,7 @@ void Garox_7C::sub_5D0DC0(Ped* a2)
 }
 
 MATCH_FUNC(0x5d1350)
-void Garox_7C_Array::sub_5D1350()
+void Hud_Arrow_7C_Array::sub_5D1350()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
@@ -769,9 +769,9 @@ void Garox_7C_Array::sub_5D1350()
             {
                 if (!pPlayerIter->field_0)
                 {
-                    Garox_7C* p7C = sub_5D1050();
+                    Hud_Arrow_7C* p7C = sub_5D1050();
                     p7C->field_18.field_18.field_C = pPlayerIter;
-                    p7C->field_18.field_18.field_10 = 6;
+                    p7C->field_18.field_18.field_10_type = 6;
                     Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
                     if (pPlayerPed)
                     {
@@ -784,7 +784,7 @@ void Garox_7C_Array::sub_5D1350()
 }
 
 MATCH_FUNC(0x5d7600)
-Garox_7C::Garox_7C()
+Hud_Arrow_7C::Hud_Arrow_7C()
 {
     field_18.field_10.field_30 = 0;
     field_18.field_10.field_34 = 0;
@@ -801,30 +801,30 @@ Garox_7C::Garox_7C()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d0e40)
-char_type Garox_7C_Array::sub_5D0E40(s32* a2)
+char_type Hud_Arrow_7C_Array::sub_5D0E40(s32* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d0e90)
-void Garox_7C_Array::sub_5D0E90()
+void Hud_Arrow_7C_Array::sub_5D0E90()
 {
 }
 
 STUB_FUNC(0x5d0ef0)
-Garox_7C* Garox_7C_Array::sub_5D0EF0()
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d0f40)
-char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
+char_type Hud_Arrow_7C_Array::sub_5D0F40(Gang_144* a2)
 {
-    Garox_7C* pIter = &field_0_array[0];
+    Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
     {
-        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
-            (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
+        if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
+            (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10_type != 5))
         {
             return 1;
         }
@@ -833,18 +833,18 @@ char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
 }
 
 MATCH_FUNC(0x5d0f80)
-void Garox_7C_Array::sub_5D0F80()
+void Hud_Arrow_7C_Array::sub_5D0F80()
 {
     for (s32 i = 0; i < 17; i++)
     {
-        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
             if (field_0_array[i].field_18.field_10.field_30)
             {
-                if (field_0_array[i].field_18.field_60->field_10 == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
+                if (field_0_array[i].field_18.field_60->field_10_type == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
                 {
-                    field_0_array[i].field_18.field_18.field_10 = 0;
-                    field_0_array[i].field_18.field_3C.field_10 = 0;
+                    field_0_array[i].field_18.field_18.field_10_type = 0;
+                    field_0_array[i].field_18.field_3C.field_10_type = 0;
                 }
             }
         }
@@ -852,13 +852,13 @@ void Garox_7C_Array::sub_5D0F80()
 }
 
 MATCH_FUNC(0x5d0fd0)
-void Garox_7C_Array::sub_5D0FD0()
+void Hud_Arrow_7C_Array::sub_5D0FD0()
 {
     sub_5D0EF0();
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
             field_0_array[i].sub_5D0C60();
         }
@@ -872,9 +872,9 @@ void Garox_7C_Array::sub_5D0FD0()
 }
 
 MATCH_FUNC(0x5d1020)
-Garox_7C* Garox_7C_Array::sub_5D1020(s32* a2)
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1020(s32* a2)
 {
-    Garox_7C* pIter = &field_0_array[0];
+    Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
         if (!pIter->field_18.field_10.field_6)
@@ -888,25 +888,25 @@ Garox_7C* Garox_7C_Array::sub_5D1020(s32* a2)
 }
 
 STUB_FUNC(0x5d1050)
-Garox_7C* Garox_7C_Array::sub_5D1050()
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
 {
     return 0;
 }
 
 STUB_FUNC(0x5d10b0)
-char_type* Garox_7C_Array::sub_5D10B0()
+char_type* Hud_Arrow_7C_Array::sub_5D10B0()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d10d0)
-Garox_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
+Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 {
     s32 i = 0;
-    Garox_7C* pIter = field_0_array;
+    Hud_Arrow_7C* pIter = field_0_array;
     while (i < GTA2_COUNTOF_S(field_0_array))
     {
-        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+        if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
             (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
         {
             return pIter;
@@ -918,14 +918,14 @@ Garox_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
 }
 
 STUB_FUNC(0x5d1110)
-void Garox_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
+void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
 }
 
 MATCH_FUNC(0x5d1310)
-void Garox_7C_Array::sub_5D1310(Gang_144* pZone)
+void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 {
-    Garox_7C* p7C = sub_5D1050();
+    Hud_Arrow_7C* p7C = sub_5D1050();
     p7C->sub_5D0510(4);
     p7C->field_18.field_10.field_30 = pZone;
     p7C->field_18.field_2C = pZone->field_138_arrow_colour;
@@ -1025,12 +1025,12 @@ Garox_1E34_L::Garox_1E34_L()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d5900)
-void Garox_90_L::sub_5D5900()
+void Hud_MapZone_98::sub_5D5900()
 {
 }
 
 MATCH_FUNC(0x5d5ad0)
-void Garox_90_L::sub_5D5AD0()
+void Hud_MapZone_98::sub_5D5AD0()
 {
     if (field_0)
     {
@@ -1039,87 +1039,87 @@ void Garox_90_L::sub_5D5AD0()
 }
 
 STUB_FUNC(0x5d5af0)
-void Garox_90_L::sub_5D5AF0(u8* a2, u8* a3)
+void Hud_MapZone_98::sub_5D5AF0(u8* a2, u8* a3)
 {
 }
 
 STUB_FUNC(0x5d5b60)
-void Garox_90_L::sub_5D5B60()
+void Hud_MapZone_98::sub_5D5B60()
 {
 }
 
 MATCH_FUNC(0x5d5c50)
-void Garox_90_L::sub_5D5C50()
+void Hud_MapZone_98::sub_5D5C50()
 {
     field_90 = 0;
     field_94 = 0;
 }
 
 MATCH_FUNC(0x5d5c60)
-Garox_90_L::Garox_90_L()
+Hud_MapZone_98::Hud_MapZone_98()
 {
     field_0 = 0;
-    field_88 = 0;
-    field_8C = 0;
+    field_88_nav_zone = NULL;
+    field_8C_local_nav_zone = NULL;
 }
 
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d53b0)
-Garox_4_L::Garox_4_L()
+Hud_CarName_4C::Hud_CarName_4C()
 {
-    field_0 = 0;
+    field_0_display_time = 0;
 }
 
 // ----------------------------------------------------
 
 MATCH_FUNC(0x4bbbb0)
-Garox_2B00::~Garox_2B00()
+Hud_2B00::~Hud_2B00()
 {
 }
 
 STUB_FUNC(0x5d4a10)
-void Garox_2B00::sub_5D4A10()
+void Hud_2B00::sub_5D4A10()
 {
 }
 
 MATCH_FUNC(0x5d5190)
-void Garox_2B00::sub_5D5190()
+void Hud_2B00::sub_5D5190()
 {
-    if (field_0.field_0)
+    if (field_0.field_0_display_time)
     {
         // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
-        field_44 = Frontend::sub_5D8990((wchar_t*)&field_0.field_2, word_706508);
+        field_0.field_44 = Frontend::sub_5D8990((wchar_t*)&field_0.field_2_car_name, word_706508);
     }
 }
 
 STUB_FUNC(0x5d5240)
-void Garox_2B00::sub_5D5240(wchar_t* Source)
+void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
 }
 
 STUB_FUNC(0x5d5350)
-void Garox_2B00::sub_5D5350()
+void Hud_2B00::sub_5D5350()
 {
-    if (field_0.field_0)
+    if (field_0.field_0_display_time)
     {
-        field_0.field_0--;
-        if (field_0.field_0 <= 80u)
+        field_0.field_0_display_time--;
+        if (field_0.field_0_display_time <= 80u)
         {
-            if (field_0.field_0 < 40u)
+            if (field_0.field_0_display_time < 40u)
             {
-                --field_48;
+                --field_0.field_48;
             }
         }
         else
         {
-            ++field_48;
+            ++field_0.field_48;
         }
     }
 }
 
 MATCH_FUNC(0x5d6860)
-void Garox_2B00::DrawGui_5D6860()
+void Hud_2B00::DrawGui_5D6860()
 {
     if (!bSkip_user_67D506)
     {
@@ -1146,12 +1146,12 @@ void Garox_2B00::DrawGui_5D6860()
 }
 
 STUB_FUNC(0x5d69c0)
-void Garox_2B00::sub_5D69C0()
+void Hud_2B00::sub_5D69C0()
 {
 }
 
 MATCH_FUNC(0x5d69d0)
-void Garox_2B00::sub_5D69D0()
+void Hud_2B00::sub_5D69D0()
 {
     field_1118_sub.sub_5D6290();
     field_110C_sub.sub_5CF730();
@@ -1170,7 +1170,7 @@ void Garox_2B00::sub_5D69D0()
 }
 
 MATCH_FUNC(0x5d6a70)
-void Garox_2B00::sub_5D6A70()
+void Hud_2B00::sub_5D6A70()
 {
     if (gLighting_626A09)
     {
@@ -1179,13 +1179,13 @@ void Garox_2B00::sub_5D6A70()
 }
 
 MATCH_FUNC(0x5d6a90)
-void Garox_2B00::sub_5D6A90()
+void Hud_2B00::sub_5D6A90()
 {
     field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
 }
 
 MATCH_FUNC(0x5d6ab0)
-void Garox_2B00::sub_5D6AB0()
+void Hud_2B00::sub_5D6AB0()
 {
     sub_5D6B00();
     field_DC.sub_5D3470();
@@ -1197,13 +1197,13 @@ void Garox_2B00::sub_5D6AB0()
 }
 
 STUB_FUNC(0x5d6b00)
-s16 Garox_2B00::sub_5D6B00()
+s16 Hud_2B00::sub_5D6B00()
 {
     return 0;
 }
 
 MATCH_FUNC(0x5d6be0)
-void Garox_2B00::sub_5D6BE0()
+void Hud_2B00::sub_5D6BE0()
 {
     sub_5D6A90();
     sub_5D6B00();
@@ -1214,26 +1214,26 @@ void Garox_2B00::sub_5D6BE0()
 }
 
 STUB_FUNC(0x5d6c20)
-s32 Garox_2B00::sub_5D6C20(s32 action, char_type* a2)
+s32 Hud_2B00::sub_5D6C20(s32 action, char_type* a2)
 {
     return field_12EC_sub.sub_5D13C0(action, a2) || field_2A25_sub.sub_5D15E0(action, a2);
 }
 
 STUB_FUNC(0x5d6c70)
-s32 Garox_2B00::sub_5D6C70(s32 a1)
+s32 Hud_2B00::sub_5D6C70(s32 a1)
 {
     // TODO EAX vs AL reg
     return field_12EC_sub.sub_5D15A0(a1) || field_2A25_sub.sub_5D17D0(a1);
 }
 
 MATCH_FUNC(0x5d6cb0)
-s32 Garox_2B00::sub_5D6CB0(s32 a1)
+s32 Hud_2B00::sub_5D6CB0(s32 a1)
 {
     return field_12EC_sub.sub_5D15A0(a1);
 }
 
 STUB_FUNC(0x5d6cd0)
-Garox_2B00::Garox_2B00()
+Hud_2B00::Hud_2B00()
 {
     field_13C4_text_speed = 0;
 }

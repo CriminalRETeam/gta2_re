@@ -12,10 +12,15 @@ xenodochial_morse::~xenodochial_morse() // 483EA0
 {
 }
 
-STUB_FUNC(0x483EC0)
-wchar_t xenodochial_morse::sub_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace)
+MATCH_FUNC(0x483EC0)
+wchar_t xenodochial_morse::sub_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace)
 {
-    return 0;
+    wchar_t cur_wchar = pStr[(*pStartPos)++];
+    while ((cur_wchar == ' ' && bStopAtSpace) || cur_wchar == '\n' || cur_wchar == '\t')
+    {
+        cur_wchar = pStr[(*pStartPos)++];
+    }
+    return cur_wchar;
 }
 
 MATCH_FUNC(0x483F20)

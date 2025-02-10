@@ -1068,7 +1068,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1863);
     }
 
-    gGarox_2B00_706620 = new Garox_2B00(); // ctor call
+    gGarox_2B00_706620 = new Hud_2B00(); // ctor call
     if (!gGarox_2B00_706620)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1865);
