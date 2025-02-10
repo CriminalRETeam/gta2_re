@@ -1068,7 +1068,7 @@ Hud_MapZone_98::Hud_MapZone_98()
 MATCH_FUNC(0x5d53b0)
 Hud_CarName_4C::Hud_CarName_4C()
 {
-    field_0 = 0;
+    field_0_display_time = 0;
 }
 
 // ----------------------------------------------------
@@ -1083,13 +1083,13 @@ void Hud_2B00::sub_5D4A10()
 {
 }
 
-STUB_FUNC(0x5d5190)
+MATCH_FUNC(0x5d5190)
 void Hud_2B00::sub_5D5190()
 {
-    if (field_0.field_0)
+    if (field_0.field_0_display_time)
     {
         // TODO: Structure seems wrong, probablty field_2 to field_4C of Garox_2B00 is a string buffer?
-        //field_44 = Frontend::sub_5D8990((wchar_t*)&field_0.field_2, word_706508);
+        field_0.field_44 = Frontend::sub_5D8990((wchar_t*)&field_0.field_2_car_name, word_706508);
     }
 }
 
@@ -1101,19 +1101,19 @@ void Hud_2B00::sub_5D5240(wchar_t* Source)
 STUB_FUNC(0x5d5350)
 void Hud_2B00::sub_5D5350()
 {
-    if (field_0.field_0)
+    if (field_0.field_0_display_time)
     {
-        field_0.field_0--;
-        if (field_0.field_0 <= 80u)
+        field_0.field_0_display_time--;
+        if (field_0.field_0_display_time <= 80u)
         {
-            if (field_0.field_0 < 40u)
+            if (field_0.field_0_display_time < 40u)
             {
-                //--field_48;
+                --field_0.field_48;
             }
         }
         else
         {
-            //++field_48;
+            ++field_0.field_48;
         }
     }
 }

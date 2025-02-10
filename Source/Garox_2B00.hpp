@@ -847,26 +847,9 @@ class Hud_CarName_4C
 {
   public:
     EXPORT Hud_CarName_4C();
-    char_type field_0;
+    char_type field_0_display_time;
     char_type field_1;
-    char_type field_2;
-    char_type field_3;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
+    wchar_t field_2_car_name[33];
     s32 field_44;
     s32 field_48;
 };
