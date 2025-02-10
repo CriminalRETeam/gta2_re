@@ -282,10 +282,10 @@ class Garox_1700_L
     Garox_C4* field_964;
 };
 
-class Garox_C
+class Hud_Pager_C
 {
   public:
-    EXPORT ~Garox_C();
+    EXPORT ~Hud_Pager_C();
     EXPORT void sub_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
@@ -296,9 +296,9 @@ class Garox_C
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
 
-    EXPORT Garox_C* sub_5D32F0(s32 a2, s32 a3);
+    EXPORT Hud_Pager_C* sub_5D32F0(s32 a2, s32 a3);
 
-    EXPORT Garox_C();
+    EXPORT Hud_Pager_C();
     s32 field_0;
     s32 field_4;
     infallible_turing* field_8;
@@ -317,7 +317,7 @@ class Garox_C_Array
     EXPORT void sub_5D32D0(s32 a2);
     EXPORT void sub_5D3310(s32 a2);
 
-    Garox_C field_620[4];
+    Hud_Pager_C field_620[4];
 };
 
 class Garox_18

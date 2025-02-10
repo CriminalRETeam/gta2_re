@@ -565,7 +565,7 @@ Garox_1700_L::Garox_1700_L()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x4be650)
-Garox_C::~Garox_C()
+Hud_Pager_C::~Hud_Pager_C()
 {
     field_0 = -1;
     field_4 = 0;
@@ -578,7 +578,7 @@ Garox_C::~Garox_C()
 }
 
 MATCH_FUNC(0x5d2320)
-void Garox_C::sub_5D2320()
+void Hud_Pager_C::sub_5D2320()
 {
     if (field_0 < 0)
     {
@@ -593,18 +593,18 @@ void Garox_C::sub_5D2320()
 }
 
 STUB_FUNC(0x5d2380)
-void Garox_C::sub_5D2380(s32 a2, s32 a3)
+void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
 {
 }
 
 STUB_FUNC(0x5d2680)
-s32 Garox_C::sub_5D2680(s32 a2, s32 a3)
+s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d2ab0)
-s32 Garox_C::sub_5D2AB0(s32 a2, s32 a3)
+s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
 {
     return 0;
 }
@@ -624,19 +624,19 @@ void Garox_C_Array::sub_5D31B0()
 }
 
 STUB_FUNC(0x5d31f0)
-s32 Garox_C::sub_5D31F0(s32 a2)
+s32 Hud_Pager_C::sub_5D31F0(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3220)
-s32 Garox_C::sub_5D3220(s32 a2)
+s32 Hud_Pager_C::sub_5D3220(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3280)
-s32 Garox_C::sub_5D3280(s32 a2)
+s32 Hud_Pager_C::sub_5D3280(s32 a2)
 {
     return 0;
 }
@@ -648,7 +648,7 @@ void Garox_C_Array::sub_5D32D0(s32 a2)
 }
 
 STUB_FUNC(0x5d32f0)
-Garox_C* Garox_C::sub_5D32F0(s32 a2, s32 a3)
+Hud_Pager_C* Hud_Pager_C::sub_5D32F0(s32 a2, s32 a3)
 {
     return 0;
 }
@@ -660,7 +660,7 @@ void Garox_C_Array::sub_5D3310(s32 a2)
 }
 
 MATCH_FUNC(0x5d7650)
-Garox_C::Garox_C()
+Hud_Pager_C::Hud_Pager_C()
 {
     field_0 = -1;
     field_4 = 0;
