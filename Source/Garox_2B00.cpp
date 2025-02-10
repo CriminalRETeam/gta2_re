@@ -673,10 +673,10 @@ STUB_FUNC(0x5d03c0)
 void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
     // TODO: Try to match this soon to verify structs are correct
-    field_18 = pZone->field_130_info_phone_y;
-    field_14 = pZone->field_12C_info_phone_x;
-    field_1C = pZone->field_134_info_phone_z;
-    field_10 = 5;
+    field_18_aim_y = pZone->field_130_info_phone_y;
+    field_14_aim_x = pZone->field_12C_info_phone_x;
+    field_1C_aim_z = pZone->field_134_info_phone_z;
+    field_10_type = 5;
 }
 
 // ----------------------------------------------------
@@ -771,7 +771,7 @@ void Garox_7C_Array::sub_5D1350()
                 {
                     Hud_Arrow_7C* p7C = sub_5D1050();
                     p7C->field_18.field_18.field_C = pPlayerIter;
-                    p7C->field_18.field_18.field_10 = 6;
+                    p7C->field_18.field_18.field_10_type = 6;
                     Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
                     if (pPlayerPed)
                     {
@@ -823,8 +823,8 @@ char_type Garox_7C_Array::sub_5D0F40(Gang_144* a2)
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < 17; i++, pIter++)
     {
-        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
-            (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10 != 5))
+        if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
+            (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10_type != 5))
         {
             return 1;
         }
@@ -837,14 +837,14 @@ void Garox_7C_Array::sub_5D0F80()
 {
     for (s32 i = 0; i < 17; i++)
     {
-        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
             if (field_0_array[i].field_18.field_10.field_30)
             {
-                if (field_0_array[i].field_18.field_60->field_10 == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
+                if (field_0_array[i].field_18.field_60->field_10_type == 5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30))
                 {
-                    field_0_array[i].field_18.field_18.field_10 = 0;
-                    field_0_array[i].field_18.field_3C.field_10 = 0;
+                    field_0_array[i].field_18.field_18.field_10_type = 0;
+                    field_0_array[i].field_18.field_3C.field_10_type = 0;
                 }
             }
         }
@@ -858,7 +858,7 @@ void Garox_7C_Array::sub_5D0FD0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_array); i++)
     {
-        if (field_0_array[i].field_18.field_18.field_10 || field_0_array[i].field_18.field_3C.field_10)
+        if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
             field_0_array[i].sub_5D0C60();
         }
@@ -906,7 +906,7 @@ Hud_Arrow_7C* Garox_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     Hud_Arrow_7C* pIter = field_0_array;
     while (i < GTA2_COUNTOF_S(field_0_array))
     {
-        if ((pIter->field_18.field_18.field_10 || pIter->field_18.field_3C.field_10) &&
+        if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
             (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
         {
             return pIter;

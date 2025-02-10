@@ -352,18 +352,18 @@ class ArrowTrace_24
         field_4 = 0;
         field_8 = 0;
         field_C = 0;
-        field_10 = 0;
+        field_10_type = 0;
         field_20 = 0;
     }
 
     s32 field_0;
     Player* field_4;
-    s32 field_8;
+    Object_2C* field_8;
     Player* field_C;
-    s32 field_10;
-    Fix16 field_14;
-    Fix16 field_18;
-    Fix16 field_1C;
+    s32 field_10_type;
+    Fix16 field_14_aim_x;
+    Fix16 field_18_aim_y;
+    Fix16 field_1C_aim_z;
     char_type field_20;
     char_type field_21_pad;
     char_type field_22_pad;
