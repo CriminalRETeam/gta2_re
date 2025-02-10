@@ -446,7 +446,7 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L
+class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L, but it has size 0x704
 {
   public:
     wchar_t field_0_str[640];
@@ -851,6 +851,24 @@ class Garox_4_L
     char_type field_1;
     char_type field_2;
     char_type field_3;
+    s32 field_4;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
 };
 
 class Hud_2B00
@@ -875,26 +893,8 @@ class Hud_2B00
     EXPORT Hud_2B00();
 
     Garox_4_L field_0; // ok
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
     Hud_MapZone_98 field_4C; // ok
-    Garox_1E34_L field_DC; // ok
+    Garox_1E34_L field_DC; // ok    TODO: check if it's Hud_Brief_704
     Garox_C_Array field_620; // ok
     Garox_1700_L field_650; // ok
     Hud_Arrow_7C_Array field_1F18; // ok
