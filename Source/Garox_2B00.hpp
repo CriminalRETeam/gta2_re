@@ -228,7 +228,7 @@ class Garox_1700_L
     EXPORT void Service_5D2010();
     EXPORT void sub_5D2050();
     EXPORT Garox_1700_L();
-    Garox_C4 field_C0_29_ary[30];
+    Garox_C4 field_0_29_ary[30];
     Garox_C4* field_960_pFirst;
     Garox_C4* field_964;
 };
