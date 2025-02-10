@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "ang16.hpp"
+#include "map_0x370.hpp"
 #include <wchar.h>
 
 class Ped;
@@ -446,6 +447,24 @@ class Hud_Arrow_7C_Array
 };
 
 class Garox_1E34_L
+class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L
+{
+  public:
+    wchar_t field_0_str[640];
+    char field_500[36];
+    int* field_524;
+    char field_528[452];
+    char field_6EC[12];
+    Hud_Brief_704* field_6F8_prev;
+    int field_6FC;
+    char* field_700;
+  /*
+  public:
+    void SetHudBrief(int priority, const char* str);
+    void Clear(int priority);
+  */
+};
+
 {
   public:
     EXPORT s32 sub_5D3330();
