@@ -351,84 +351,84 @@ Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s
 }
 
 MATCH_FUNC(0x49cf50)
-Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, char_type a3, char_type a4, u32 a5, char_type a6, char_type a7)
+Door_38* Door_4D4::sub_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
     Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
-    pDVar1->field_2A = a6;
-    pDVar1->field_2B = a7;
-    pDVar1->sub_49C8D0(field_4D0_count + -1, a1, a2, a3, a4, a5);
+    pDVar1->field_2A = flip;
+    pDVar1->field_2B = reversed;
+    pDVar1->sub_49C8D0(field_4D0_count + -1, gr_id, x, y, z, face);
     return pDVar1;
 }
 
 STUB_FUNC(0x49cfa0)
-Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 a6, u8 a7)
+Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
     return 0;
 }
 
 MATCH_FUNC(0x49d170)
-Door_38* Door_4D4::sub_49D170(u8 a1,
-                              char_type a2,
-                              char_type a3,
-                              char_type a4,
-                              s32 a5,
-                              Fix16 a6,
-                              Fix16 a7,
-                              Fix16 a8,
-                              Fix16 a9,
-                              Fix16 a10,
-                              char_type a11,
-                              char_type a12)
+Door_38* Door_4D4::sub_49D170(u8 gr_id,
+                              u8 x,
+                              u8 y,
+                              u8 z,
+                              s32 face,
+                              Fix16 check_x,
+                              Fix16 check_y,
+                              Fix16 check_z,
+                              Fix16 check_width,
+                              Fix16 check_height,
+                              u8 flip,
+                              u8 reversed)
 {
     Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = a11;
-    this_00->field_2B = a12;
-    this_00->sub_49CA50(a1, a2, a3, a4, a5);
-    this_00->sub_49CAC0(this_00->field_0, 1, field_4D0_count + -1, a6, a7, a8, a9, a10);
+    this_00->field_2A = flip;
+    this_00->field_2B = reversed;
+    this_00->sub_49CA50(gr_id, x, y, z, face);
+    this_00->sub_49CAC0(this_00->field_0, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
 
     return this_00;
 }
 
 MATCH_FUNC(0x49d1f0)
-Door_38* Door_4D4::sub_49D1F0(u8 a1,
-                              char_type a2,
-                              char_type a3,
-                              char_type a4,
-                              s32 a5,
-                              Fix16 a6,
-                              Fix16 a7,
-                              Fix16 a8,
-                              Fix16 a9,
-                              Fix16 a10,
-                              char_type a11,
-                              char_type a12)
+Door_38* Door_4D4::sub_49D1F0(u8 gr_id,
+                              u8 x,
+                              u8 y,
+                              u8 z,
+                              s32 face,
+                              Fix16 check_x,
+                              Fix16 check_y,
+                              Fix16 check_z,
+                              Fix16 check_width,
+                              Fix16 check_height,
+                              u8 flip,
+                              u8 reversed)
 {
     Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = a11;
-    this_00->field_2B = a12;
-    a12 = a2;
-    a11 = a3;
-    switch (a5)
+    this_00->field_2A = flip;
+    this_00->field_2B = reversed;
+    reversed = x;
+    flip = y;
+    switch (face)
     {
         case 2:
-            a11 = a3 + 1;
+            flip = y + 1;
             break;
         case 3:
-            a12 = a2 + 1;
+            reversed = x + 1;
             break;
         case 1:
-            a11 = a3 - 1;
+            flip = y - 1;
             break;
         case 4:
-            a12 = a2 - 1;
+            reversed = x - 1;
             break;
     }
-    this_00->sub_49CA50(a1, a2, a3, a4, a5);
-    this_00->sub_49CA50(a1, a12, a11, a4, a5);
-    this_00->sub_49CC00(this_00->field_0, 1, field_4D0_count - 1, a6, a7, a8, a9, a10);
+    this_00->sub_49CA50(gr_id, x, y, z, face);
+    this_00->sub_49CA50(gr_id, reversed, flip, z, face);
+    this_00->sub_49CC00(this_00->field_0, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
     return this_00;
 }
 
