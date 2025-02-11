@@ -44,7 +44,7 @@ Door_38::Door_38()
     field_C = 0;
     field_20_state = 0;
     field_24 = 0;
-    field_10 = 0;
+    field_10_model_id = 0;
     field_18 = 0;
     field_28 = 1;
     field_2C = 1;
@@ -91,9 +91,9 @@ bool Door_38::sub_49C7F0(Ped* a2)
 
     if (field_20_state == 5)
     {
-        if (field_10)
+        if (field_10_ped)
         {
-            if (a2 == field_10)
+            if (a2 == field_10_ped)
             {
                 return a2->field_200 == field_14;
             }
@@ -102,10 +102,23 @@ bool Door_38::sub_49C7F0(Ped* a2)
     return false;
 }
 
-STUB_FUNC(0x49c840)
-s32 Door_38::sub_49C840()
+MATCH_FUNC(0x49c840)
+void Door_38::sub_49C840()
 {
-    return 0;
+    Door_10* this_00 = this->field_0;
+    if (this_00 != NULL)
+    {
+        if (this_00->field_0 != 2)
+        {
+            this->field_2D = 1;
+        }
+        this_00->sub_49C4E0(0);
+    }
+    if (this->field_4 != NULL)
+    {
+        this->field_4->sub_49C4E0(this->field_2A);
+    }
+    this->field_28 = 0;
 }
 
 MATCH_FUNC(0x49c870)
@@ -138,10 +151,65 @@ void Door_38::sub_49C8A0(Ped* a2)
     }
 }
 
-STUB_FUNC(0x49c8d0)
-Object_2C* Door_38::sub_49C8D0(s8 a1, u8 a2, u8 a3, u8 a4, char_type a5, s32 a6)
+MATCH_FUNC(0x49c8d0)
+void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
 {
-    return 0;
+    Fix16 iVar5;
+    Fix16 iVar8;
+
+    sub_49CA50(a2, a3, a4, a5, a6);
+
+    Fix16 _param_4 = Fix16(a3) + DAT_0067BA20;
+    Fix16 iVar6 = Fix16(a4) + DAT_0067BA20;
+
+    switch (a6)
+    {
+        case 1:
+            iVar5 = Fix16(a3) - DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                _param_4 -= DAT_0067BBE4;
+            }
+            break;
+        case 2:
+            iVar5 = Fix16(a3) + DAT_0067BBE4 + DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                _param_4 += DAT_0067BBE4;
+            }
+            break;
+        case 3:
+            iVar5 = Fix16(a3) + DAT_0067BA20;
+            iVar8 = Fix16(a4) - DAT_0067BA20;
+            if (this->field_2B)
+            {
+                iVar6 -= DAT_0067BBE4;
+            }
+            break;
+        case 4:
+            iVar5 = Fix16(a3) + DAT_0067BA20;
+            iVar8 = Fix16(a4) + DAT_0067BBE4 + DAT_0067BA20;
+            if (this->field_2B)
+            {
+                iVar6 += DAT_0067BBE4;
+            }
+            break;
+    }
+
+    field_28 = 1;
+    field_2C = 1;
+
+    field_1E = field_1C = (word_67BB38[a2].field_2_end_frame - word_67BB38[a2].field_0_start_frame) * word_67BB38[a2].field_8_speed;
+
+    field_C = gObject_5C_6F8F84->sub_5299B0(0xa7, iVar5, iVar8, a5, DAT_0067BD18);
+    field_C->set_field_26(a1);
+
+    field_8 = gObject_5C_6F8F84->sub_5299B0(0xa9, _param_4, iVar6, a5, DAT_0067BD18);
+    field_8->set_field_26(a1);
+    field_30 = _param_4;
+    field_34 = iVar6;
 }
 
 MATCH_FUNC(0x49ca50)
@@ -184,7 +252,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
             {
                 y -= DAT_0067BBE4;
             }
-        break;
+            break;
         case 4:
             if (this->field_2B)
             {
@@ -287,91 +355,93 @@ char_type Door_38::sub_49CE90()
     return 0;
 }
 
-STUB_FUNC(0x49cf10)
+MATCH_FUNC(0x49cf10)
 Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6)
 {
-    return 0;
+    Door_10* tmp = gDoor_2C4_67BD28->get_new_door_10();
+    tmp->sub_49c340(a1, a2, a3, a4, a5, a6);
+    return tmp;
 }
 
 MATCH_FUNC(0x49cf50)
-Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, s32 a3, char_type a4, s32 a5, char_type a6, char_type a7)
+Door_38* Door_4D4::sub_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
-    Door_38 *pDVar1 = sub_49D3A0();
+    Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
-    pDVar1->field_2A = a6;
-    pDVar1->field_2B = a7;
-    pDVar1->sub_49C8D0(field_4D0_count + -1, a1, a2, a3, a4, a5);
+    pDVar1->field_2A = flip;
+    pDVar1->field_2B = reversed;
+    pDVar1->sub_49C8D0(field_4D0_count + -1, gr_id, x, y, z, face);
     return pDVar1;
 }
 
 STUB_FUNC(0x49cfa0)
-Door_38* Door_4D4::sub_49CFA0(u8 a1, u8 a2, u8 a3, u8 a4, s32 a5, s32 a7, char_type a8)
+Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
     return 0;
 }
 
 MATCH_FUNC(0x49d170)
-Door_38* Door_4D4::sub_49D170(u8 a1,
-                              char_type a2,
-                              char_type a3,
-                              char_type a4,
-                              s32 a5,
-                              Fix16 a6,
-                              Fix16 a7,
-                              Fix16 a8,
-                              Fix16 a9,
-                              Fix16 a10,
-                              char_type a11,
-                              char_type a12)
+Door_38* Door_4D4::sub_49D170(u8 gr_id,
+                              u8 x,
+                              u8 y,
+                              u8 z,
+                              s32 face,
+                              Fix16 check_x,
+                              Fix16 check_y,
+                              Fix16 check_z,
+                              Fix16 check_width,
+                              Fix16 check_height,
+                              u8 flip,
+                              u8 reversed)
 {
-    Door_38 *this_00 = sub_49D3A0();
+    Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = a11;
-    this_00->field_2B = a12;
-    this_00->sub_49CA50(a1,a2,a3,a4,a5);
-    this_00->sub_49CAC0(this_00->field_0, 1, field_4D0_count + -1, a6, a7, a8, a9, a10);
+    this_00->field_2A = flip;
+    this_00->field_2B = reversed;
+    this_00->sub_49CA50(gr_id, x, y, z, face);
+    this_00->sub_49CAC0(this_00->field_0, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
 
     return this_00;
 }
 
 MATCH_FUNC(0x49d1f0)
-Door_38* Door_4D4::sub_49D1F0(u8 a1,
-                              char_type a2,
-                              char_type a3,
-                              char_type a4,
-                              s32 a5,
-                              Fix16 a6,
-                              Fix16 a7,
-                              Fix16 a8,
-                              Fix16 a9,
-                              Fix16 a10,
-                              char_type a11,
-                              char_type a12)
+Door_38* Door_4D4::sub_49D1F0(u8 gr_id,
+                              u8 x,
+                              u8 y,
+                              u8 z,
+                              s32 face,
+                              Fix16 check_x,
+                              Fix16 check_y,
+                              Fix16 check_z,
+                              Fix16 check_width,
+                              Fix16 check_height,
+                              u8 flip,
+                              u8 reversed)
 {
     Door_38* this_00 = sub_49D3A0();
     field_4D0_count++;
-    this_00->field_2A = a11;
-    this_00->field_2B = a12;
-    a12 = a2;
-    a11 = a3;
-    switch (a5)
+    this_00->field_2A = flip;
+    this_00->field_2B = reversed;
+    reversed = x;
+    flip = y;
+    switch (face)
     {
         case 2:
-            a11 = a3 + 1;
+            flip = y + 1;
             break;
         case 3:
-            a12 = a2 + 1;
+            reversed = x + 1;
             break;
         case 1:
-            a11 = a3 - 1;
+            flip = y - 1;
             break;
         case 4:
-            a12 = a2 - 1;
+            reversed = x - 1;
             break;
     }
-    this_00->sub_49CA50(a1, a2, a3, a4, a5);
-    this_00->sub_49CA50(a1, a12, a11, a4, a5);
-    this_00->sub_49CC00(this_00->field_0, 1, field_4D0_count - 1, a6, a7, a8, a9, a10);
+    this_00->sub_49CA50(gr_id, x, y, z, face);
+    this_00->sub_49CA50(gr_id, reversed, flip, z, face);
+    this_00->sub_49CC00(this_00->field_0, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
     return this_00;
 }
 
@@ -456,4 +526,38 @@ Door_4D4::~Door_4D4()
     {
         GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
     }
+}
+
+MATCH_FUNC(0x49c320)
+void Door_10::sub_49C320()
+{
+    field_0 = 0;
+}
+
+MATCH_FUNC(0x4DEEB0)
+s32 Door_10::sub_4DEEB0(s32 v)
+{
+    switch (v)
+    {
+        case 1:
+            return 2;
+        case 2:
+            return 1;
+        case 3:
+            return 4;
+        case 4:
+            return 3;
+        default:
+            return 0;
+    }
+}
+
+STUB_FUNC(0x49c340)
+void Door_10::sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6)
+{
+}
+
+STUB_FUNC(0x49c4e0)
+void Door_10::sub_49C4E0(u8 a1)
+{
 }

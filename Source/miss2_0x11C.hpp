@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 
 class Ped;
 class Generator_2C;
@@ -345,6 +345,48 @@ struct SCR_IF_JUMP : SCR_CMD_HEADER
     u16 else_endif_pointer;
 };
 
+struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
+{
+    Door_38* field_8;
+    SCR_XYZ_uc field_C_block;
+    u8 field_F_face;
+    u8 field_10_gr_id;
+    u8 field_11_open_type; // SCR_DOOR_OPENTYPES
+    u8 field_12_close_type; // SCR_DOOR_CLOSETYPES
+    u8 field_13_delay;
+    SCR_Rect_f field_14_check;
+    u8 field_28_flip;
+    u8 field_29_reversed;
+    u16 field_30_somename; // id of car/model/char or integer value (int is not supported by gta2 according to docs)
+};
+
+namespace SCR_DOOR_OPENTYPES
+{
+enum
+{
+    any_player = 0,
+    any_car = 1,
+    one_car = 2,
+    one_model = 3,
+    one_char_on_foot = 4,
+    unknown1 = 5,
+    any_player_one_car = 6,
+};
+//static_assert(sizeof(SCR_DOOR_OPENTYPES) == 1)
+} // namespace SCR_DOOR_OPENTYPES
+
+namespace SCR_DOOR_CLOSETYPES
+{
+enum
+{
+    close_never = 0,
+    close_time_delay = 1,
+    close_when_clear = 2,
+    close_when_open_rule_fails = 3,
+};
+//static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
+} // namespace SCR_DOOR_CLOSETYPES
+
 class miss2_0x11C
 {
   public:
@@ -376,8 +418,8 @@ class miss2_0x11C
     EXPORT s32* SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2);
     EXPORT void SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* a1);
     EXPORT void SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1);
-    EXPORT s32 SCRCMD_DOOR_DECLARE_D1_S1_504970(s32);
-    EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3);
+    EXPORT void SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1);
+    EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3);
     EXPORT void SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1);
     EXPORT void sub_504EE0(s32 a1, s32 a2);
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* a1);
