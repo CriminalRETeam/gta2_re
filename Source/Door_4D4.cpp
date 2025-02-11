@@ -351,7 +351,7 @@ Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s
 }
 
 MATCH_FUNC(0x49cf50)
-Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, s32 a3, char_type a4, s32 a5, char_type a6, char_type a7)
+Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, char_type a3, char_type a4, u32 a5, char_type a6, char_type a7)
 {
     Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
@@ -362,7 +362,7 @@ Door_38* Door_4D4::sub_49CF50(u8 a1, char_type a2, s32 a3, char_type a4, s32 a5,
 }
 
 STUB_FUNC(0x49cfa0)
-Door_38* Door_4D4::sub_49CFA0(u8 a1, u8 a2, u8 a3, u8 a4, s32 a5, s32 a7, char_type a8)
+Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 a6, u8 a7)
 {
     return 0;
 }

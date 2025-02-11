@@ -549,10 +549,135 @@ void miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1)
     gDoor_4D4_67BD2C->sub_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
 }
 
-STUB_FUNC(0x504970)
-s32 miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(s32)
+Fix16 DAT_006F77C0;
+
+MATCH_FUNC(0x504970)
+void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
 {
-    return 0;
+    if (a1->field_2_type == SCRCMD_DOOR_DECLARE_S1)
+    {
+        if (a1->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a1->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        {
+            a1->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a1->field_10_gr_id,
+                                                       a1->field_C_block.field_0_x,
+                                                       a1->field_C_block.field_1_y,
+                                                       a1->field_C_block.field_2_z,
+                                                       a1->field_F_face,
+                                                       a1->field_28_flip,
+                                                       a1->field_29_reversed);
+        }
+        else
+        {
+            a1->field_8 = gDoor_4D4_67BD2C->sub_49D170(a1->field_10_gr_id,
+                                                       a1->field_C_block.field_0_x,
+                                                       a1->field_C_block.field_1_y,
+                                                       a1->field_C_block.field_2_z,
+                                                       a1->field_F_face,
+                                                       a1->field_14_check.field_0_pos.field_0_x,
+                                                       a1->field_14_check.field_0_pos.field_4_y,
+                                                       a1->field_14_check.field_0_pos.field_8_z,
+                                                       a1->field_14_check.field_C_size.field_0_x,
+                                                       a1->field_14_check.field_C_size.field_4_y,
+                                                       a1->field_28_flip,
+                                                       a1->field_29_reversed);
+        }
+    }
+    else
+    {
+        if (a1->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a1->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        {
+            a1->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a1->field_10_gr_id,
+                                                       a1->field_C_block.field_0_x,
+                                                       a1->field_C_block.field_1_y,
+                                                       a1->field_C_block.field_2_z,
+                                                       a1->field_F_face,
+                                                       a1->field_28_flip,
+                                                       a1->field_29_reversed);
+        }
+        else
+        {
+            a1->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a1->field_10_gr_id,
+                                                       a1->field_C_block.field_0_x,
+                                                       a1->field_C_block.field_1_y,
+                                                       a1->field_C_block.field_2_z,
+                                                       a1->field_F_face,
+                                                       a1->field_14_check.field_0_pos.field_0_x,
+                                                       a1->field_14_check.field_0_pos.field_4_y,
+                                                       a1->field_14_check.field_0_pos.field_8_z,
+                                                       a1->field_14_check.field_C_size.field_0_x,
+                                                       a1->field_14_check.field_C_size.field_4_y,
+                                                       a1->field_28_flip,
+                                                       a1->field_29_reversed);
+        }
+    }
+    switch (a1->field_11_open_type)
+    {
+        case SCR_DOOR_OPENTYPES::any_player:
+            a1->field_8->set_field_20(door_open_type::any_player);
+            break;
+        case SCR_DOOR_OPENTYPES::any_car:
+            a1->field_8->set_field_20(door_open_type::any_car);
+            break;
+        case SCR_DOOR_OPENTYPES::unknown1:
+            a1->field_8->set_field_20(door_open_type::unknown1);
+            break;
+        case SCR_DOOR_OPENTYPES::one_car:
+            a1->field_8->set_field_20(door_open_type::one_car);
+            break;
+        case SCR_DOOR_OPENTYPES::one_char_on_foot:
+            a1->field_8->set_field_20(door_open_type::one_char_on_foot);
+            break;
+        case SCR_DOOR_OPENTYPES::any_player_one_car:
+            a1->field_8->set_field_20(door_open_type::any_player_one_car);
+            break;
+    }
+
+    Door_38* tmp;
+    u16 tmp1;
+    switch (a1->field_12_close_type)
+    {
+        case SCR_DOOR_CLOSETYPES::close_never:
+            // a1->field_8->set_field_24(3);
+            a1->field_8->field_24 = door_close_type::close_never;
+            tmp = a1->field_8;
+            tmp1 = a1->field_13_delay;
+            tmp->field_1C = tmp1;
+            tmp->field_1E = tmp1;
+            return;
+            break;
+        case SCR_DOOR_CLOSETYPES::close_time_delay:
+            // a1->field_8->set_field_24(1);
+            a1->field_8->field_24 = door_close_type::close_time_delay;
+            tmp = a1->field_8;
+            tmp1 = a1->field_13_delay;
+            tmp->field_1C = tmp1;
+            tmp->field_1E = tmp1;
+            return;
+            break;
+        case SCR_DOOR_CLOSETYPES::close_when_clear:
+            // a1->field_8->set_field_24(2);
+            a1->field_8->field_24 = door_close_type::close_when_clear;
+            tmp = a1->field_8;
+            tmp1 = a1->field_13_delay;
+            tmp->field_1C = tmp1;
+            tmp->field_1E = tmp1;
+            return;
+            break;
+        case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
+            // a1->field_8->set_field_24(4);
+            a1->field_8->field_24 = door_close_type::close_when_open_rule_fails;
+            tmp = a1->field_8;
+            tmp1 = a1->field_13_delay;
+            tmp->field_1C = tmp1;
+            tmp->field_1E = tmp1;
+            return;
+            break;
+    }
+    tmp = a1->field_8;
+    tmp1 = a1->field_13_delay;
+    tmp->field_1C = tmp1;
+    tmp->field_1E = tmp1;
+    // a1->field_8->set_field_1c_1e(a1->field_13_delay);
 }
 
 STUB_FUNC(0x504b80)

@@ -8,6 +8,34 @@ class Door_10;
 class Sprite_4C;
 class Ped;
 
+namespace door_open_type
+{
+enum
+{
+    unknown1 = 0,
+    any_player = 1,
+    any_car = 2,
+    one_car = 3,
+    one_model = 4,
+    one_char_on_foot = 5,
+    any_player_one_car = 6,
+};
+//static_assert(sizeof(door_open_type) == 4);
+} // namespace door_open_type
+
+namespace door_close_type
+{
+enum
+{
+    unknown1 = 0,
+    close_time_delay = 1,
+    close_when_clear = 2,
+    close_never = 3,
+    close_when_open_rule_fails = 4,
+};
+//static_assert(sizeof(door_close_type) == 4);
+} // namespace door_close_type
+
 struct Door_A
 {
     u16 field_0_start_frame;
@@ -36,6 +64,12 @@ class Door_38
     EXPORT void sub_49CD90();
     EXPORT char_type sub_49CE90();
 
+    // inlined in 0x476990
+    inline void set_field_20(u32 v)
+    {
+        field_20_state = v;
+    }
+
     Door_10* field_0;
     Door_10* field_4;
     Object_2C* field_8;
@@ -63,8 +97,8 @@ class Door_4D4
 {
   public:
     EXPORT Door_10* sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6);
-    EXPORT Door_38* sub_49CF50(u8 a2, char_type a3, s32 a4, char_type a5, s32 a6, char_type a7, char_type a8);
-    EXPORT Door_38* sub_49CFA0(u8 a1, u8 a2, u8 a3, u8 a4, s32 a5, s32 a7, char_type a8);
+    EXPORT Door_38* sub_49CF50(u8 a2, char_type a3, char_type a4, char_type a5, u32 a6, char_type a7, char_type a8);
+    EXPORT Door_38* sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 a7, u8 a8);
     EXPORT Door_38* sub_49D170(u8 a1,
                                char_type a2,
                                char_type a3,
