@@ -680,9 +680,131 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     // a1->field_8->set_field_1c_1e(a1->field_13_delay);
 }
 
-STUB_FUNC(0x504b80)
-void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(s32 a1, s32 a2, s32 a3)
+MATCH_FUNC(0x504b80)
+void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
 {
+    if (a3->field_2_type == SCRCMD_DOOR_DECLARE_S2)
+    {
+        if (a3->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a3->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        {
+            a3->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a3->field_10_gr_id,
+                                                       a3->field_C_block.field_0_x,
+                                                       a3->field_C_block.field_1_y,
+                                                       a3->field_C_block.field_2_z,
+                                                       a3->field_F_face,
+                                                       a3->field_28_flip,
+                                                       a3->field_29_reversed);
+        }
+        else
+        {
+            a3->field_8 = gDoor_4D4_67BD2C->sub_49D170(a3->field_10_gr_id,
+                                                       a3->field_C_block.field_0_x,
+                                                       a3->field_C_block.field_1_y,
+                                                       a3->field_C_block.field_2_z,
+                                                       a3->field_F_face,
+                                                       a3->field_14_check.field_0_pos.field_0_x,
+                                                       a3->field_14_check.field_0_pos.field_4_y,
+                                                       a3->field_14_check.field_0_pos.field_8_z,
+                                                       a3->field_14_check.field_C_size.field_0_x,
+                                                       a3->field_14_check.field_C_size.field_4_y,
+                                                       a3->field_28_flip,
+                                                       a3->field_29_reversed);
+        }
+    }
+    else
+    {
+        if (a3->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a3->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        {
+            a3->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a3->field_10_gr_id,
+                                                       a3->field_C_block.field_0_x,
+                                                       a3->field_C_block.field_1_y,
+                                                       a3->field_C_block.field_2_z,
+                                                       a3->field_F_face,
+                                                       a3->field_28_flip,
+                                                       a3->field_29_reversed);
+        }
+        else
+        {
+            a3->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a3->field_10_gr_id,
+                                                       a3->field_C_block.field_0_x,
+                                                       a3->field_C_block.field_1_y,
+                                                       a3->field_C_block.field_2_z,
+                                                       a3->field_F_face,
+                                                       a3->field_14_check.field_0_pos.field_0_x,
+                                                       a3->field_14_check.field_0_pos.field_4_y,
+                                                       a3->field_14_check.field_0_pos.field_8_z,
+                                                       a3->field_14_check.field_C_size.field_0_x,
+                                                       a3->field_14_check.field_C_size.field_4_y,
+                                                       a3->field_28_flip,
+                                                       a3->field_29_reversed);
+        }
+    }
+
+    switch (a3->field_11_open_type)
+    {
+        case SCR_DOOR_OPENTYPES::any_player:
+            //a3->field_8->field_20_state = 1;
+            a3->field_8->set_field_20(door_open_type::any_player);
+            break;
+        case SCR_DOOR_OPENTYPES::any_car:
+            //a3->field_8->field_20_state = 2;
+            a3->field_8->set_field_20(door_open_type::any_car);
+            break;
+        case SCR_DOOR_OPENTYPES::one_car:
+        case SCR_DOOR_OPENTYPES::any_player_one_car:
+        {
+            SCR_POINTER* tmp = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(a3->field_30_somename);
+            Car_BC* ped_ptr = tmp->field_8_car;
+            if (ped_ptr != NULL)
+            {
+                a3->field_8->set_open_details_car_bc(door_open_type::one_car, ped_ptr);
+                a3->field_8->set_field_14_id(tmp->field_8_car->field_6C_maybe_id);
+            }
+            break;
+        }
+
+        case SCR_DOOR_OPENTYPES::one_model:
+            a3->field_8->set_open_details_model_id(door_open_type::one_model, a3->field_30_somename);
+            break;
+
+        case SCR_DOOR_OPENTYPES::one_char_on_foot:
+        {
+            SCR_POINTER* tmp = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(a3->field_30_somename);
+            Ped* ped_ptr = tmp->field_8_char;
+            if (ped_ptr != NULL)
+            {
+                a3->field_8->set_open_details_ped(door_open_type::one_char_on_foot, ped_ptr);
+                a3->field_8->set_field_14_id(tmp->field_8_char->field_200);
+            }
+        }
+        break;
+        case SCR_DOOR_OPENTYPES::unknown1:
+            a3->field_8->set_field_20(door_open_type::unknown1);
+            break;
+    }
+
+    switch (a3->field_12_close_type)
+    {
+        case SCR_DOOR_CLOSETYPES::close_never:
+            a3->field_8->set_field_24(door_close_type::close_never);
+            break;
+        case SCR_DOOR_CLOSETYPES::close_time_delay:
+            a3->field_8->set_field_24(door_close_type::close_time_delay);
+            break;
+        case SCR_DOOR_CLOSETYPES::close_when_clear:
+            a3->field_8->set_field_24(door_close_type::close_when_clear);
+            break;
+        case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
+            a3->field_8->set_field_24(door_close_type::close_when_open_rule_fails);
+            break;
+    }
+    Door_38* tmp;
+    u16 tmp1;
+    tmp = a3->field_8;
+    tmp1 = a3->field_13_delay;
+    tmp->field_1C = tmp1;
+    tmp->field_1E = tmp1;
+    // a3->field_8->set_field_1c_1e(a3->field_13_delay);
 }
 
 MATCH_FUNC(0x504dd0)

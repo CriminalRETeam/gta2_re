@@ -44,7 +44,7 @@ Door_38::Door_38()
     field_C = 0;
     field_20_state = 0;
     field_24 = 0;
-    field_10 = 0;
+    field_10_model_id = 0;
     field_18 = 0;
     field_28 = 1;
     field_2C = 1;
@@ -91,9 +91,9 @@ bool Door_38::sub_49C7F0(Ped* a2)
 
     if (field_20_state == 5)
     {
-        if (field_10)
+        if (field_10_ped)
         {
-            if (a2 == field_10)
+            if (a2 == field_10_ped)
             {
                 return a2->field_200 == field_14;
             }

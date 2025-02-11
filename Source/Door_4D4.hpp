@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Car_BC.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
 
@@ -70,11 +71,60 @@ class Door_38
         field_20_state = v;
     }
 
+    // inlined in 0x476a10
+    void set_field_24(u32 v)
+    {
+        field_24 = v;
+    }
+
+    // inlined in 0x476a20
+    void set_field_1c_1e(s16 v)
+    {
+        field_1C = v;
+        field_1E = v;
+    }
+
+    // inlined in 0x4769e0
+    void set_open_details_car_bc(u32 open, Car_BC* car_bc_ptr)
+    {
+        field_20_state = open;
+        field_10_car_bc = car_bc_ptr;
+        field_2C = 1;
+    }
+
+    // inlined in 0x4769a0
+    void set_open_details_model_id(u32 open, s32 id)
+    {
+        field_20_state = open;
+        field_10_model_id = id;
+        field_2C = 1;
+    }
+
+    // inlined in 0x4769c0
+    void set_open_details_ped(u32 open, Ped* ped_ptr)
+    {
+        field_20_state = open;
+        field_10_ped = ped_ptr;
+        field_2C = 1;
+    }
+
+    // inlined in 0x476a00
+    void set_field_14_id(s32 id)
+    {
+        field_14 = id;
+        field_2C = 1;
+    }
+
     Door_10* field_0;
     Door_10* field_4;
     Object_2C* field_8;
     Object_2C* field_C;
-    Ped* field_10;
+    union
+    {
+        Ped* field_10_ped; // Active when field_20_state is door_open_type::one_char_on_foot
+        Car_BC* field_10_car_bc; // Active when field_20_state is door_open_type::one_car
+        s32 field_10_model_id; // Active when field_20_state is door_open_type::one_model
+    };
     s32 field_14;
     s32 field_18;
     s16 field_1C;
