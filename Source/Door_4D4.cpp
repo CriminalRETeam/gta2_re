@@ -102,10 +102,23 @@ bool Door_38::sub_49C7F0(Ped* a2)
     return false;
 }
 
-STUB_FUNC(0x49c840)
-s32 Door_38::sub_49C840()
+MATCH_FUNC(0x49c840)
+void Door_38::sub_49C840()
 {
-    return 0;
+    Door_10* this_00 = this->field_0;
+    if (this_00 != NULL)
+    {
+        if (this_00->field_0 != 2)
+        {
+            this->field_2D = 1;
+        }
+        this_00->sub_49C4E0(0);
+    }
+    if (this->field_4 != NULL)
+    {
+        this->field_4->sub_49C4E0(this->field_2A);
+    }
+    this->field_28 = 0;
 }
 
 MATCH_FUNC(0x49c870)
@@ -541,5 +554,10 @@ s32 Door_10::sub_4DEEB0(s32 v)
 
 STUB_FUNC(0x49c340)
 void Door_10::sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6)
+{
+}
+
+STUB_FUNC(0x49c4e0)
+void Door_10::sub_49C4E0(u8 a1)
 {
 }

@@ -55,7 +55,7 @@ class Door_38
     EXPORT s32 sub_49C6A0(s32 a1);
     EXPORT char_type sub_49C6D0(u32* a2);
     EXPORT bool sub_49C7F0(Ped* a2);
-    EXPORT s32 sub_49C840();
+    EXPORT void sub_49C840();
     EXPORT void sub_49C870(u32* a2);
     EXPORT void sub_49C8A0(Ped* a2);
     EXPORT void sub_49C8D0(u8 arg0, u8 a1, u8 a2, u8 a3, u8 a4, s32 a5);
@@ -192,6 +192,7 @@ class Door_10
   public:
     EXPORT void sub_49C320();
     EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
+    EXPORT void sub_49C4E0(u8 a1);
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;
