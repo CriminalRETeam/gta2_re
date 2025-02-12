@@ -2,8 +2,10 @@
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
+#include "TileAnim_2.hpp"
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR s32 dword_67BBE0;
 GLOBAL(dword_67BBE0, 0x67BBE0);
@@ -557,7 +559,20 @@ void Door_10::sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6)
 {
 }
 
-STUB_FUNC(0x49c4e0)
+MATCH_FUNC(0x49c4e0)
 void Door_10::sub_49C4E0(u8 a1)
 {
+    Door_A* tmp = &word_67BB38[field_7_gr_id];
+    if (field_0 != 2)
+    {
+        field_0 = 2;
+        s16 uVar3 = tmp->field_6 | 0x1000;
+        if (a1)
+        {
+            uVar3 |= 0x2000;
+        }
+        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_6);
+        gTileAnim_2_7052C4->sub_5BC260(tmp->field_6, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
+    }
 }
