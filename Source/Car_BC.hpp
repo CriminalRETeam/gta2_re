@@ -533,6 +533,16 @@ class Car_BC
     EXPORT Sprite* sub_52A6D0(Sprite* a2);
     EXPORT bool sub_564300();
 
+    // Inlined 0x4118d0
+    EXPORT bool is_driven_by_player() const
+    {
+        if (field_54_driver != NULL && field_54_driver->field_15C_player_weapons != NULL)
+        {
+            return true;
+        }
+        return false;
+    }
+
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;

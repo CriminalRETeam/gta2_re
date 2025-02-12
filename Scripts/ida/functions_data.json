@@ -5011,7 +5011,7 @@
     },
     {
         "name": "Door_38::sub_49C6D0",
-        "v96f_address": null,
+        "v96f_address": "0x44ca70",
         "v105_address": "0x49c6d0"
     },
     {
@@ -5026,7 +5026,7 @@
     },
     {
         "name": "Door_38::sub_49C870",
-        "v96f_address": null,
+        "v96f_address": "0x44cbd0",
         "v105_address": "0x49c870"
     },
     {
@@ -5101,7 +5101,7 @@
     },
     {
         "name": "Door_4D4::sub_49D340",
-        "v96f_address": null,
+        "v96f_address": "0x44d180",
         "v105_address": "0x49d340"
     },
     {

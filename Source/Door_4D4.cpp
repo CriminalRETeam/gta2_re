@@ -1,4 +1,5 @@
 #include "Door_4D4.hpp"
+#include "Garage_48.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
@@ -71,15 +72,76 @@ Door_38::~Door_38()
 }
 
 STUB_FUNC(0x49c6a0)
-s32 Door_38::sub_49C6A0(s32 a1)
+s8 Door_38::sub_49C6A0(Sprite* a1)
 {
     return 0;
 }
 
-STUB_FUNC(0x49c6d0)
-char_type Door_38::sub_49C6D0(u32* a2)
+MATCH_FUNC(0x49c6d0)
+bool Door_38::sub_49C6D0(Car_BC* a2)
 {
-    return 0;
+    bool ret = false;
+    switch (field_20_state)
+    {
+        case door_open_type::any_player:
+            if (!a2->is_driven_by_player())
+            {
+                if (ped_type_enum::ped_player != a2->field_7C_uni_num)
+                {
+                    break;
+                }
+            }
+            ret = true;
+            break;
+        case door_open_type::one_car:
+            if (this->field_10_car_bc && a2 == this->field_10_car_bc && a2->field_6C_maybe_id == this->field_14)
+            {
+                ret = true;
+                break;
+            }
+
+            break;
+
+        case door_open_type::one_model:
+            if (a2->field_84_car_info_idx != this->field_10_model_id)
+            {
+                break;
+            }
+            ret = true;
+            break;
+
+        case door_open_type::any_player_one_car:
+            if (this->field_10_car_bc == NULL)
+            {
+                break;
+            }
+            if (a2 != this->field_10_car_bc)
+            {
+                break;
+            }
+            if (a2->field_6C_maybe_id != this->field_14)
+            {
+                break;
+            }
+
+            if (sub_49C6A0(a2->field_50_car_sprite) && (!a2->is_driven_by_player() || gGarage_48_6FD26C->sub_44C870(a2)))
+            {
+                if (a2->is_driven_by_player())
+                {
+                    break;
+                }
+                if (!gGarage_48_6FD26C->sub_44C870(a2))
+                {
+                    break;
+                }
+            }
+            ret = true;
+            break;
+        case door_open_type::any_car:
+            ret = true;
+            break;
+    }
+    return ret;
 }
 
 // https://decomp.me/scratch/XlGeq asm differ bugged
@@ -124,7 +186,7 @@ void Door_38::sub_49C840()
 }
 
 MATCH_FUNC(0x49c870)
-void Door_38::sub_49C870(u32* a2)
+void Door_38::sub_49C870(Car_BC* a2)
 {
     if (field_29)
     {
@@ -473,7 +535,7 @@ void Door_4D4::sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 }
 
 MATCH_FUNC(0x49d340)
-void Door_4D4::sub_49D340(u32* a2, u8 a3)
+void Door_4D4::sub_49D340(Car_BC* a2, u8 a3)
 {
     field_0[a3].sub_49C870(a2);
 }

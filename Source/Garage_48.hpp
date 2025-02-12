@@ -1,6 +1,8 @@
 #pragma once
 
+#include "Car_BC.hpp"
 #include "Function.hpp"
+#include <cstdio>
 
 class Car_BC;
 class Ped;
@@ -13,6 +15,16 @@ class Garage_48
     EXPORT void sub_534700(Car_BC* a2, void* a3);
     EXPORT void sub_5349D0();
     EXPORT Garage_48();
+
+    // inlined 0x44C870
+    bool sub_44C870(Car_BC* param_1) const
+    {
+        if (param_1 == this->field_4 && param_1 != NULL && param_1->field_6C_maybe_id == this->field_8)
+        {
+            return true;
+        }
+        return false;
+    }
 
     Car_BC* field_0;
     Car_BC* field_4;
