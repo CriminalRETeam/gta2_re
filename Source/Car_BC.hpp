@@ -157,6 +157,7 @@ class Sprite
     EXPORT Sprite_4C* sub_59FAD0();
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
+    EXPORT bool sub_5A0380(Sprite *a1);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();

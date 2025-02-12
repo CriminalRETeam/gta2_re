@@ -5006,7 +5006,7 @@
     },
     {
         "name": "Door_38::sub_49C6A0",
-        "v96f_address": null,
+        "v96f_address": "0x44c6d0",
         "v105_address": "0x49c6a0"
     },
     {
@@ -14785,8 +14785,8 @@
         "v105_address": "0x5a0320"
     },
     {
-        "name": "sub_5A0380",
-        "v96f_address": null,
+        "name": "Sprite::sub_5A0380",
+        "v96f_address": "0x4bb560",
         "v105_address": "0x5a0380"
     },
     {

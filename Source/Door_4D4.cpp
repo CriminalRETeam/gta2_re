@@ -71,10 +71,14 @@ Door_38::~Door_38()
     field_C = 0;
 }
 
-STUB_FUNC(0x49c6a0)
-s8 Door_38::sub_49C6A0(Sprite* a1)
+MATCH_FUNC(0x49c6a0)
+bool Door_38::sub_49C6A0(Sprite* a1)
 {
-    return 0;
+    if (a1)
+    {
+        return field_8->field_4->sub_5A0380(a1) == false;
+    }
+    return true;
 }
 
 MATCH_FUNC(0x49c6d0)
