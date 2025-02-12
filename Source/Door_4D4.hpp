@@ -196,11 +196,11 @@ class Door_10
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;
-    u8 field_4;
-    u8 field_5;
-    u8 field_6;
-    u8 field_7;
-    s32 field_8;
+    u8 field_4_x;
+    u8 field_5_y;
+    u8 field_6_z;
+    u8 field_7_gr_id;
+    s32 field_8_face;
     Door_10* field_C;
 };
 

@@ -230,10 +230,10 @@ void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5
 MATCH_FUNC(0x49cac0)
 void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
-    Fix16 z(a1->field_6);
-    Fix16 x = Fix16(a1->field_4) + DAT_0067BA20;
-    Fix16 y = Fix16(a1->field_5) + DAT_0067BA20;
-    switch (a1->field_8)
+    Fix16 z(a1->field_6_z);
+    Fix16 x = Fix16(a1->field_4_x) + DAT_0067BA20;
+    Fix16 y = Fix16(a1->field_5_y) + DAT_0067BA20;
+    switch (a1->field_8_face)
     {
         case 1:
             if (this->field_2B)
@@ -262,8 +262,8 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     }
     field_28 = 1;
     field_2C = 1;
-    u16 sVar1 = (word_67BB38[a1->field_7].field_2_end_frame - word_67BB38[a1->field_7].field_0_start_frame);
-    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7].field_8_speed + 0x28;
+    u16 sVar1 = (word_67BB38[a1->field_7_gr_id].field_2_end_frame - word_67BB38[a1->field_7_gr_id].field_0_start_frame);
+    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
         field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
@@ -279,11 +279,11 @@ MATCH_FUNC(0x49cc00)
 void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
     Ang16 local_c;
-    Fix16 z(a1->field_6);
-    Fix16 x = Fix16(a1->field_4) + DAT_0067BA20;
-    Fix16 y = Fix16(a1->field_5) + DAT_0067BA20;
+    Fix16 z(a1->field_6_z);
+    Fix16 x = Fix16(a1->field_4_x) + DAT_0067BA20;
+    Fix16 y = Fix16(a1->field_5_y) + DAT_0067BA20;
 
-    switch (a1->field_8)
+    switch (a1->field_8_face)
     {
         case 3:
             x += DAT_0067BA20;
@@ -320,8 +320,8 @@ void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     }
     field_28 = 1;
     field_2C = 1;
-    u16 sVar1 = (word_67BB38[a1->field_7].field_2_end_frame - word_67BB38[a1->field_7].field_0_start_frame);
-    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7].field_8_speed + 0x28;
+    u16 sVar1 = (word_67BB38[a1->field_7_gr_id].field_2_end_frame - word_67BB38[a1->field_7_gr_id].field_0_start_frame);
+    field_1E = field_1C = sVar1 * word_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
         field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
@@ -343,7 +343,7 @@ char_type Door_38::sub_49CE90()
 {
     if (field_2D)
     {
-        gObject_5C_6F8F84->sub_5299F0(0x117, 0x32, field_30, field_34, field_0->field_6);
+        gObject_5C_6F8F84->sub_5299F0(0x117, 0x32, field_30, field_34, field_0->field_6_z);
         field_2D = 0;
     }
 
