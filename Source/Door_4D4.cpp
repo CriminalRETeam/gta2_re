@@ -681,7 +681,20 @@ void Door_10::sub_49C4E0(u8 a1)
     }
 }
 
-STUB_FUNC(0x49c590)
-void Door_10::sub_49C590(char param_1)
+MATCH_FUNC(0x49c590)
+void Door_10::sub_49C590(u8 a1)
 {
+    Door_A* tmp = &word_67BB38[field_7_gr_id];
+    if (field_0 != 1)
+    {
+        field_0 = 1;
+        s16 uVar3 = tmp->field_4 | 0x1C00;
+        if (a1)
+        {
+            uVar3 |= 0x2000;
+        }
+        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_4);
+        gTileAnim_2_7052C4->sub_5BC260(tmp->field_4, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
+    }
 }
