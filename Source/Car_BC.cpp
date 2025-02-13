@@ -513,6 +513,12 @@ char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
     return result;
 }
 
+STUB_FUNC(0x5a0380)
+bool Sprite::sub_5A0380(Sprite *a1)
+{
+    return 0;
+}
+
 STUB_FUNC(0x5a1030)
 char_type Sprite::sub_5A1030(Sprite* a2, Sprite** a3, u8* a4)
 {

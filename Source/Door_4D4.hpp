@@ -52,11 +52,11 @@ class Door_38
   public:
     EXPORT Door_38();
     EXPORT ~Door_38();
-    EXPORT s32 sub_49C6A0(s32 a1);
-    EXPORT char_type sub_49C6D0(u32* a2);
+    EXPORT bool sub_49C6A0(Sprite* a1);
+    EXPORT bool sub_49C6D0(Car_BC* a2);
     EXPORT bool sub_49C7F0(Ped* a2);
     EXPORT void sub_49C840();
-    EXPORT void sub_49C870(u32* a2);
+    EXPORT void sub_49C870(Car_BC* a2);
     EXPORT void sub_49C8A0(Ped* a2);
     EXPORT void sub_49C8D0(u8 arg0, u8 a1, u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
@@ -128,7 +128,7 @@ class Door_38
     s32 field_14;
     s32 field_18;
     s16 field_1C;
-    s16 field_1E;
+    u16 field_1E;
     s32 field_20_state;
     s32 field_24;
     char_type field_28;
@@ -174,7 +174,7 @@ class Door_4D4
                                u8 flip,
                                u8 reversed);
     EXPORT void sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void sub_49D340(u32* a2, u8 a3);
+    EXPORT void sub_49D340(Car_BC* a2, u8 a3);
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
     EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
@@ -193,14 +193,15 @@ class Door_10
     EXPORT void sub_49C320();
     EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
     EXPORT void sub_49C4E0(u8 a1);
+    EXPORT void sub_49C590(u8 a1);
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;
-    u8 field_4;
-    u8 field_5;
-    u8 field_6;
-    u8 field_7;
-    s32 field_8;
+    u8 field_4_x;
+    u8 field_5_y;
+    u8 field_6_z;
+    u8 field_7_gr_id;
+    s32 field_8_face;
     Door_10* field_C;
 };
 

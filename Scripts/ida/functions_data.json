@@ -4986,7 +4986,7 @@
     },
     {
         "name": "Door_10::sub_49C4E0",
-        "v96f_address": null,
+        "v96f_address": "0x44c560",
         "v105_address": "0x49c4e0"
     },
     {
@@ -5006,12 +5006,12 @@
     },
     {
         "name": "Door_38::sub_49C6A0",
-        "v96f_address": null,
+        "v96f_address": "0x44c6d0",
         "v105_address": "0x49c6a0"
     },
     {
         "name": "Door_38::sub_49C6D0",
-        "v96f_address": null,
+        "v96f_address": "0x44ca70",
         "v105_address": "0x49c6d0"
     },
     {
@@ -5026,7 +5026,7 @@
     },
     {
         "name": "Door_38::sub_49C870",
-        "v96f_address": null,
+        "v96f_address": "0x44cbd0",
         "v105_address": "0x49c870"
     },
     {
@@ -5056,7 +5056,7 @@
     },
     {
         "name": "Door_38::sub_49CD90",
-        "v96f_address": null,
+        "v96f_address": "0x44cff0",
         "v105_address": "0x49cd90"
     },
     {
@@ -5101,7 +5101,7 @@
     },
     {
         "name": "Door_4D4::sub_49D340",
-        "v96f_address": null,
+        "v96f_address": "0x44d180",
         "v105_address": "0x49d340"
     },
     {
@@ -14785,8 +14785,8 @@
         "v105_address": "0x5a0320"
     },
     {
-        "name": "sub_5A0380",
-        "v96f_address": null,
+        "name": "Sprite::sub_5A0380",
+        "v96f_address": "0x4bb560",
         "v105_address": "0x5a0380"
     },
     {
@@ -16856,7 +16856,7 @@
     },
     {
         "name": "sub_5DCE20",
-        "v96f_address": null,
+        "v96f_address": "0x4cc860",
         "v105_address": "0x5dce20"
     },
     {

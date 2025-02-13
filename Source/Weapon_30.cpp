@@ -1,8 +1,9 @@
 #include "Weapon_30.hpp"
 
-STUB_FUNC(0x5dce20)
+MATCH_FUNC(0x5dce20)
 void Weapon_30::sub_5DCE20(u8 a2)
 {
+    field_0 = a2 * 10;
 }
 
 STUB_FUNC(0x5dce40)

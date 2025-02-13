@@ -157,6 +157,7 @@ class Sprite
     EXPORT Sprite_4C* sub_59FAD0();
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
+    EXPORT bool sub_5A0380(Sprite *a1);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
@@ -532,6 +533,16 @@ class Car_BC
     EXPORT void sub_447360();
     EXPORT Sprite* sub_52A6D0(Sprite* a2);
     EXPORT bool sub_564300();
+
+    // Inlined 0x4118d0
+    EXPORT bool is_driven_by_player() const
+    {
+        if (field_54_driver != NULL && field_54_driver->field_15C_player_weapons != NULL)
+        {
+            return true;
+        }
+        return false;
+    }
 
     s32 field_0_qq;
     Ped_Unknown_4 field_4;
