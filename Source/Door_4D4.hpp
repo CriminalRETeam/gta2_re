@@ -128,7 +128,7 @@ class Door_38
     s32 field_14;
     s32 field_18;
     s16 field_1C;
-    s16 field_1E;
+    u16 field_1E;
     s32 field_20_state;
     s32 field_24;
     char_type field_28;
@@ -193,6 +193,7 @@ class Door_10
     EXPORT void sub_49C320();
     EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
     EXPORT void sub_49C4E0(u8 a1);
+    EXPORT void sub_49C590(char param_1);
     EXPORT static s32 __stdcall sub_4DEEB0(s32 v);
 
     s32 field_0;

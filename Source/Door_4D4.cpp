@@ -401,9 +401,47 @@ void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     field_34 = y;
 }
 
-STUB_FUNC(0x49cd90)
+MATCH_FUNC(0x49cd90)
 void Door_38::sub_49CD90()
 {
+    if (field_29 != 0)
+    {
+        if ((field_0 != NULL && field_0->field_0 == 2) || (field_4 != NULL && field_4->field_0 == 2))
+        {
+            if (field_24 != door_close_type::close_never && field_24 != door_close_type::unknown1)
+            {
+                if (field_24 == door_close_type::close_when_open_rule_fails && field_10_car_bc != NULL)
+                {
+                    if (sub_49C6D0(field_10_car_bc) == false && sub_49C7F0(field_10_ped) == false &&
+                        !sub_49C6A0(field_10_car_bc->field_50_car_sprite))
+                    {
+                        field_28 = 1;
+                        field_1E = 0;
+                    }
+                }
+                if (field_28 != 0)
+                {
+                    if (field_1E > 0)
+                    {
+                        field_1E--;
+                    }
+                }
+                if (field_28 != '\0' && field_1E == 0)
+                {
+                    field_1E = field_1C;
+                    if (field_0 != NULL)
+                    {
+                        gObject_5C_6F8F84->sub_5299F0(0x117, 0x33, field_30, field_34, field_0->field_6_z);
+                        field_0->sub_49C590(0);
+                    }
+                    if (field_4 != NULL)
+                    {
+                        field_4->sub_49C590(field_2A);
+                    }
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x49ce90)
@@ -641,4 +679,9 @@ void Door_10::sub_49C4E0(u8 a1)
         gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_6);
         gTileAnim_2_7052C4->sub_5BC260(tmp->field_6, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
     }
+}
+
+STUB_FUNC(0x49c590)
+void Door_10::sub_49C590(char param_1)
+{
 }
