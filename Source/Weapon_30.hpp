@@ -22,7 +22,7 @@ class Weapon_30
     EXPORT char_type add_ammo_capped_5DCE40(u8 a2);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
-    EXPORT Player* sub_5DCF40();
+    EXPORT void sub_5DCF40();
     EXPORT Object_2C* sub_5DCF60(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32* a7);
     EXPORT void flamethrower_5DD0F0();
     EXPORT u8 shotgun_5DD290();
@@ -49,7 +49,7 @@ class Weapon_30
     EXPORT char_type sub_5E3BD0();
 
     u16 field_0_ammo;
-    s8 field_2_reload_speed;
+    u8 field_2_reload_speed;
     s8 field_3;
     s32 field_4;
     s32 field_8;

@@ -1,8 +1,9 @@
 #include "Weapon_30.hpp"
-#include "debug.hpp"
-#include "root_sound.hpp"
-#include "enums.hpp"
 #include "Ped.hpp"
+#include "debug.hpp"
+#include "enums.hpp"
+#include "root_sound.hpp"
+#include "Player.hpp"
 
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
@@ -92,7 +93,7 @@ bool Weapon_30::is_max_capacity_5DCEA0()
 MATCH_FUNC(0x5dcef0)
 bool Weapon_30::sub_5DCEF0()
 {
-    bool result; 
+    bool result;
     switch (this->field_1C_idx)
     {
         case weapon_type::car_bomb:
@@ -115,10 +116,17 @@ bool Weapon_30::sub_5DCEF0()
     return result;
 }
 
-STUB_FUNC(0x5dcf40)
-Player* Weapon_30::sub_5DCF40()
+MATCH_FUNC(0x5dcf40)
+void Weapon_30::sub_5DCF40()
 {
-    return 0;
+    Player* pPlayer = this->field_24_pPed->field_15C_player_weapons;
+    if (pPlayer)
+    {
+        if (pPlayer->field_6F4[8]) // Fast reload?
+        {
+            this->field_2_reload_speed *= 2;
+        }
+    }
 }
 
 STUB_FUNC(0x5dcf60)
