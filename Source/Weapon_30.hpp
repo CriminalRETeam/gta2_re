@@ -48,23 +48,23 @@ class Weapon_30
     EXPORT void sub_5E3850();
     EXPORT char_type sub_5E3BD0();
 
-    u16 field_0;
-    s8 field_2;
+    u16 field_0_ammo;
+    s8 field_2_reload_speed;
     s8 field_3;
     s32 field_4;
     s32 field_8;
     s32 field_C;
     s16 field_10;
     s16 field_12;
-    Car_BC* field_14;
-    Weapon_30* field_18;
-    s32 field_1C_idx;
+    Car_BC* field_14_car;
+    Weapon_30* field_18_pNext;
+    s32 field_1C_idx; // weapon_type
     s8 field_20;
     s8 field_21;
     s8 field_22;
     s8 field_23;
-    Ped* field_24_pObj;
-    infallible_turing* field_28;
+    Ped* field_24_pPed;
+    infallible_turing* field_28_pSound;
     s8 field_2C;
     s8 field_2D;
     s8 field_2E;

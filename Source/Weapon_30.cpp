@@ -5,12 +5,12 @@
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
 {
-    field_0 = 0;
-    field_24_pObj = 0;
-    field_14 = 0;
-    field_2 = 0;
+    field_0_ammo = 0;
+    field_24_pPed = 0;
+    field_14_car = 0;
+    field_2_reload_speed = 0;
     field_4 = 0;
-    field_18 = 0;
+    field_18_pNext = 0;
     field_1C_idx = 0;
     field_10 = 0;
     field_8 = 0;
@@ -18,40 +18,40 @@ Weapon_30::Weapon_30()
     field_20 = 0;
     field_21 = 0;
     field_2C = 0;
-    field_28 = 0;
+    field_28_pSound = 0;
 }
 
 MATCH_FUNC(0x5DCD50)
 Weapon_30::~Weapon_30()
 {
-    field_24_pObj = 0;
-    field_18 = 0;
-    field_14 = 0;
+    field_24_pPed = 0;
+    field_18_pNext = 0;
+    field_14_car = 0;
     field_8 = 0;
-    if (field_28)
+    if (field_28_pSound)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
+        field_28_pSound = 0;
     }
 }
 
 MATCH_FUNC(0x5DCD90)
 void Weapon_30::sub_5DCD90()
 {
-    field_24_pObj = 0;
-    field_14 = 0;
+    field_24_pPed = 0;
+    field_14_car = 0;
     field_1C_idx = 0;
-    field_0 = 0;
-    field_2 = 0;
+    field_0_ammo = 0;
+    field_2_reload_speed = 0;
     field_4 = 0;
     field_21 = 0;
     field_8 = 0;
     field_C = -1;
     field_20 = 0;
     field_2C = 0;
-    if (!field_28 && !bSkip_audio_67D6BE)
+    if (!field_28_pSound && !bSkip_audio_67D6BE)
     {
-        field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
+        field_28_pSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
     }
 }
 
@@ -62,17 +62,17 @@ void Weapon_30::sub_5DCDE0()
 
     field_8 = 0;
 
-    if (field_28)
+    if (field_28_pSound)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
+        field_28_pSound = 0;
     }
 }
 
 MATCH_FUNC(0x5dce20)
 void Weapon_30::sub_5DCE20(u8 a2)
 {
-    field_0 = a2 * 10;
+    field_0_ammo = a2 * 10;
 }
 
 STUB_FUNC(0x5dce40)

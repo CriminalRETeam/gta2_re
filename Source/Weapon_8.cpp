@@ -14,12 +14,12 @@ MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::sub_5E3C10(s32 a2, Ped* pPed, u8 ammo)
 {
     Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
-    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18;
-    pNewWeap->field_18 = 0;
+    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
+    pNewWeap->field_18_pNext = 0;
     pNewWeap->sub_5DCD90();
-    field_4++;
+    field_4_ref_count++;
     pNewWeap->field_1C_idx = a2;
-    pNewWeap->field_24_pObj = pPed;
+    pNewWeap->field_24_pPed = pPed;
     pNewWeap->sub_5DCE20(ammo);
     return pNewWeap;
 }
@@ -76,7 +76,7 @@ Weapon_8::Weapon_8()
             FatalError_4A38C0(0x20, "weapon.cpp", 2428);
         }
     }
-    field_4 = 0;
+    field_4_ref_count = 0;
     field_0.sub_4207E0();
 }
 

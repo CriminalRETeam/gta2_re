@@ -39,7 +39,7 @@ class Weapon_8
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
     struct_4 field_0;
-    s16 field_4;
+    s16 field_4_ref_count;
     s16 field_6;
 };
 
@@ -53,11 +53,11 @@ class Weapon_2FDC
 
         for (s32 i = 0; i < 254; i++)
         {
-            pIter->field_18 = pIter + 1;
+            pIter->field_18_pNext = pIter + 1;
             pIter++;
         }
         field_0 = pF8;
-        field_8[254].field_18 = 0;
+        field_8[254].field_18_pNext = 0;
         field_4 = 0;
         field_2FD8 = 0;
     }
