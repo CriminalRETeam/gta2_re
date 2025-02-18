@@ -28,14 +28,14 @@ class struct_4
 class Weapon_8
 {
   public:
-    EXPORT Weapon_30* sub_5E3C10(s32 a2, Ped* a3, u8 a4);
-    EXPORT s32 sub_5E3CB0(s32 a2);
-    EXPORT Weapon_30* sub_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
-    EXPORT Weapon_30* sub_5E3D20(Car_BC* a2, s32 a3);
-    EXPORT char_type sub_5E3D50(s32 a2, u8 a3, Car_BC* a4);
-    EXPORT void sub_5E3DF0(u32* a1);
-    EXPORT char_type sub_5E3E70(s32 a2);
-    EXPORT char_type sub_5E3E80(s32 a2);
+    EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
+    EXPORT s32 deallocate_5E3CB0(s32 a2);
+    EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
+    EXPORT Weapon_30* find_5E3D20(Car_BC* a2, s32 a3);
+    EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);
+    EXPORT void alloc_car_weapon_5E3DF0(u32* a1);
+    EXPORT char_type get_max_ammo_capacity_5E3E70(s32 a2);
+    EXPORT char_type get_ammo_5E3E80(s32 a2);
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
     struct_4 field_0;
