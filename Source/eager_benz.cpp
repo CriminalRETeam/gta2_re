@@ -20,20 +20,20 @@ eager_benz::eager_benz()
     field_75 = 1;
 
     field_18C = 0;
-    field_190 = 0;
+    field_190_fly_car_count = 0;
     field_70 = 0;
     field_78 = 0;
-    field_7C = 0;
-    field_86 = 0;
-    field_88 = 0;
-    field_8A = 0;
+    field_7C_e_execution_count = 0;
+    field_86_total_kills = 0;
+    field_88_killed_cops = 0;
+    field_8A_cars_stolen_count = 0;
     field_80 = 0;
-    field_84 = 0;
+    field_84_num_elvis_killed = 0;
     field_194 = 0;
     field_198_accuracy_count = 0;
     field_19C_reverse_count = 0;
     field_1A0 = 0;
-    field_1A4 = 0;
+    field_1A4_em_dest = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_8C); i++)
     {

@@ -48,8 +48,8 @@ void Player::sub_564790(s32 idx)
 {
     this->field_18 = this->field_788_idx;
     this->field_1C = idx;
-    this->field_1A = this->field_718[idx]->field_0;
-    this->field_718[idx]->field_0 = -1;
+    this->field_1A = this->field_718[idx]->field_0_ammo;
+    this->field_718[idx]->field_0_ammo = -1;
     this->field_788_idx = this->field_1C;
     sub_56A010();
 }
@@ -81,7 +81,7 @@ char_type Player::sub_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {
-        if (field_718[i]->field_0)
+        if (field_718[i]->field_0_ammo)
         {
             return 1;
         }

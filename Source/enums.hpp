@@ -415,6 +415,10 @@ enum
     flamethrower = 8,
     silence_smg = 9,
     dual_pistol = 10,
+    weapon_11 = 11,
+    weapon_12 = 12,
+    weapon_13 = 13,
+    weapon_14 = 14,
     car_bomb = 15,
     oil_stain = 16,
     car_mines = 17,
@@ -423,6 +427,7 @@ enum
     fire_truck_gun = 20,
     fire_truck_flamethrower = 21,
     army_gun_jeep = 22,
+    weapon_0x17 = 23,
 };
 // static_assert(sizeof(weapon_type) == 0x4);
 } // namespace weapon_type

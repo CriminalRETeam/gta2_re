@@ -44,7 +44,15 @@ void Kfc_30::sub_5CBC40(Ped* a2)
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
-    return field_4 && field_4->field_278 == 9;
+    Ped* pPed = this->field_4;
+    if (pPed && pPed->field_278 == 9)
+    {
+        return false;
+    }
+    // TODO: Something strange going on here:
+    // mov 0x28(%ecx),%ecx
+    //this = (Kfc_30*)field_28;
+    return true;
 }
 
 STUB_FUNC(0x5cbc90)

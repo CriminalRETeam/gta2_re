@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Weapon_30.hpp"
 
 class Ped;
-class Weapon_30;
 class Car_BC;
 class infallible_turing;
 
@@ -28,51 +28,19 @@ class struct_4
 class Weapon_8
 {
   public:
-    EXPORT Weapon_30* sub_5E3C10(s32 a2, Ped* a3, u8 a4);
-    EXPORT s32 sub_5E3CB0(s32 a2);
-    EXPORT Weapon_30* sub_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
-    EXPORT Weapon_30* sub_5E3D20(Car_BC* a2, s32 a3);
-    EXPORT char_type sub_5E3D50(s32 a2, u8 a3, Car_BC* a4);
-    EXPORT void sub_5E3DF0(u32* a1);
-    EXPORT char_type sub_5E3E70(s32 a2);
-    EXPORT char_type sub_5E3E80(s32 a2);
+    EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
+    EXPORT void deallocate_5E3CB0(Weapon_30 *pWeapon);
+    EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
+    EXPORT Weapon_30* find_5E3D20(Car_BC* a2, s32 a3);
+    EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);
+    EXPORT void alloc_car_weapon_5E3DF0(u32* a1);
+    EXPORT char_type get_max_ammo_capacity_5E3E70(s32 a2);
+    EXPORT char_type get_ammo_5E3E80(s32 a2);
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
     struct_4 field_0;
-    s16 field_4;
+    s16 field_4_ref_count;
     s16 field_6;
-};
-
-class Weapon_30
-{
-  public:
-    EXPORT Weapon_30();
-    EXPORT ~Weapon_30();
-
-    EXPORT void sub_5DCD90();
-    EXPORT void sub_5DCDE0();
-
-    u16 field_0;
-    s8 field_2;
-    s8 field_3;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10;
-    s16 field_12;
-    Car_BC* field_14;
-    Weapon_30* field_18;
-    s32 field_1C;
-    s8 field_20;
-    s8 field_21;
-    s8 field_22;
-    s8 field_23;
-    Ped* field_24;
-    infallible_turing* field_28;
-    s8 field_2C;
-    s8 field_2D;
-    s8 field_2E;
-    s8 field_2F;
 };
 
 class Weapon_2FDC
@@ -85,11 +53,11 @@ class Weapon_2FDC
 
         for (s32 i = 0; i < 254; i++)
         {
-            pIter->field_18 = pIter + 1;
+            pIter->field_18_pNext = pIter + 1;
             pIter++;
         }
         field_0 = pF8;
-        field_8[254].field_18 = 0;
+        field_8[254].field_18_pNext = 0;
         field_4 = 0;
         field_2FD8 = 0;
     }

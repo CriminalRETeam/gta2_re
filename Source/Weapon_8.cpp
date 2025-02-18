@@ -1,5 +1,8 @@
 #include "Weapon_8.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
+#include "Player.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "root_sound.hpp"
@@ -10,49 +13,123 @@ GLOBAL(gWeapon_2FDC_707014, 0x707014);
 EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
-STUB_FUNC(0x5e3c10)
-Weapon_30* Weapon_8::sub_5E3C10(s32 a2, Ped* a3, u8 a4)
+MATCH_FUNC(0x5e3c10)
+Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
-    return 0;
+    Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
+    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
+    pNewWeap->field_18_pNext = 0;
+    pNewWeap->init_5DCD90();
+    field_4_ref_count++;
+    pNewWeap->field_1C_idx = weapon_kind;
+    pNewWeap->field_24_pPed = pPed;
+    pNewWeap->add_ammo_5DCE20(ammo);
+    return pNewWeap;
 }
 
-STUB_FUNC(0x5e3cb0)
-s32 Weapon_8::sub_5E3CB0(s32 a2)
+MATCH_FUNC(0x5e3cb0)
+void Weapon_8::deallocate_5E3CB0(Weapon_30 *pWeapon)
 {
-    return 0;
+    Weapon_2FDC* pRoot = gWeapon_2FDC_707014;
+    pWeapon->clear_5DCDE0();
+    pWeapon->field_18_pNext = pRoot->field_0;
+    pRoot->field_0 = pWeapon;
+    field_4_ref_count--;
 }
 
 STUB_FUNC(0x5e3ce0)
-Weapon_30* Weapon_8::sub_5E3CE0(s32 a1, Car_BC* a2, u8 a3)
+Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
-    return 0;
+    Weapon_30* pWeapon; // esi
+    Weapon_30* pNext; // edx
+
+    pWeapon = gWeapon_2FDC_707014->field_0;
+    pNext = gWeapon_2FDC_707014->field_4;
+    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
+    pWeapon->field_18_pNext = pNext;
+    gWeapon_2FDC_707014->field_4 = pWeapon;
+    pWeapon->init_5DCD90();
+    pWeapon->field_14_car = pCar;
+    pWeapon->field_1C_idx = weapon_kind;
+    pWeapon->add_ammo_5DCE20(ammo);
+    return pWeapon;
 }
 
-STUB_FUNC(0x5e3d20)
-Weapon_30* Weapon_8::sub_5E3D20(Car_BC* a2, s32 a3)
+MATCH_FUNC(0x5e3d20)
+Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 {
-    return 0;
+    Weapon_30* result = gWeapon_2FDC_707014->field_4;
+    if (!result)
+    {
+        return 0;
+    }
+
+    // TODO: Can probably invert this
+    while (result->field_14_car != pCar || result->field_1C_idx != weapon_kind)
+    {
+        result = result->field_18_pNext;
+        if (!result)
+        {
+            return 0;
+        }
+    }
+    return result;
 }
 
 STUB_FUNC(0x5e3d50)
-char_type Weapon_8::sub_5E3D50(s32 a2, u8 a3, Car_BC* a4)
+char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 {
-    return 0;
+    char bAddedAmmo;
+
+    Weapon_30* pWeapon = find_5E3D20(pCar, weapon_kind);
+    if (pWeapon)
+    {
+        bAddedAmmo = pWeapon->add_ammo_capped_5DCE40(ammo);
+        if (!bAddedAmmo)
+        {
+            return bAddedAmmo;
+        }
+    }
+    else
+    {
+        pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
+        bAddedAmmo = 1;
+    }
+
+    Ped* pDriver = pCar->field_54_driver;
+
+    if (pDriver)
+    {
+        Player* pPlayer = pDriver->field_15C_player_weapons;
+        if (pPlayer)
+        {
+            pPlayer->sub_564910(pWeapon);
+            return bAddedAmmo;
+        }
+    }
+
+    if (pDriver)
+    {
+        pCar->field_54_driver->field_178 = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pDriver, 99u);
+        pCar->field_54_driver->field_178->field_14_car = pCar;
+    }
+
+    return bAddedAmmo;
 }
 
 STUB_FUNC(0x5e3df0)
-void Weapon_8::sub_5E3DF0(u32* a1)
+void Weapon_8::alloc_car_weapon_5E3DF0(u32* a1)
 {
 }
 
 STUB_FUNC(0x5e3e70)
-char_type Weapon_8::sub_5E3E70(s32 a2)
+char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5e3e80)
-char_type Weapon_8::sub_5E3E80(s32 a2)
+char_type Weapon_8::get_ammo_5E3E80(s32 a2)
 {
     return 0;
 }
@@ -68,7 +145,7 @@ Weapon_8::Weapon_8()
             FatalError_4A38C0(0x20, "weapon.cpp", 2428);
         }
     }
-    field_4 = 0;
+    field_4_ref_count = 0;
     field_0.sub_4207E0();
 }
 
@@ -78,73 +155,6 @@ Weapon_8::~Weapon_8()
     if (gWeapon_2FDC_707014)
     {
         GTA2_DELETE_AND_NULL(gWeapon_2FDC_707014);
-    }
-}
-
-MATCH_FUNC(0x5DCD10)
-Weapon_30::Weapon_30()
-{
-    field_0 = 0;
-    field_24 = 0;
-    field_14 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_10 = 0;
-    field_8 = 0;
-    field_C = -1;
-    field_20 = 0;
-    field_21 = 0;
-    field_2C = 0;
-    field_28 = 0;
-}
-
-MATCH_FUNC(0x5DCD50)
-Weapon_30::~Weapon_30()
-{
-    field_24 = 0;
-    field_18 = 0;
-    field_14 = 0;
-    field_8 = 0;
-    if (field_28)
-    {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
-    }
-}
-
-MATCH_FUNC(0x5DCD90)
-void Weapon_30::sub_5DCD90()
-{
-    field_24 = 0;
-    field_14 = 0;
-    field_1C = 0;
-    field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_21 = 0;
-    field_8 = 0;
-    field_C = -1;
-    field_20 = 0;
-    field_2C = 0;
-    if (!field_28 && !bSkip_audio_67D6BE)
-    {
-        field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
-    }
-}
-
-MATCH_FUNC(0x5DCDE0)
-void Weapon_30::sub_5DCDE0()
-{
-    sub_5DCD90();
-
-    field_8 = 0;
-
-    if (field_28)
-    {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
     }
 }
 

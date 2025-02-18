@@ -16845,27 +16845,27 @@
         "v105_address": "0x5dcd50"
     },
     {
-        "name": "Weapon_30::sub_5DCD90",
+        "name": "Weapon_30::init_5DCD90",
         "v96f_address": null,
         "v105_address": "0x5dcd90"
     },
     {
-        "name": "Weapon_30::sub_5DCDE0",
+        "name": "Weapon_30::clear_5DCDE0",
         "v96f_address": null,
         "v105_address": "0x5dcde0"
     },
     {
-        "name": "sub_5DCE20",
+        "name": "add_ammo_5DCE20",
         "v96f_address": "0x4cc860",
         "v105_address": "0x5dce20"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCE40",
+        "name": "keen_bhaskara_0x30::add_ammo_capped_5DCE40",
         "v96f_address": null,
         "v105_address": "0x5dce40"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCEA0",
+        "name": "keen_bhaskara_0x30::is_max_capacity_5DCEA0",
         "v96f_address": null,
         "v105_address": "0x5dcea0"
     },
@@ -16890,32 +16890,32 @@
         "v105_address": "0x5dcf60"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DD0F0",
+        "name": "keen_bhaskara_0x30::flamethrower_5DD0F0",
         "v96f_address": null,
         "v105_address": "0x5dd0f0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DD290",
+        "name": "keen_bhaskara_0x30::shotgun_5DD290",
         "v96f_address": null,
         "v105_address": "0x5dd290"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DD860",
+        "name": "keen_bhaskara_0x30::pistol_5DD860",
         "v96f_address": null,
         "v105_address": "0x5dd860"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DDA70",
+        "name": "keen_bhaskara_0x30::dual_pistol_5DDA70",
         "v96f_address": null,
         "v105_address": "0x5dda70"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DDD20",
+        "name": "keen_bhaskara_0x30::smg_5DDD20",
         "v96f_address": null,
         "v105_address": "0x5ddd20"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DDFC0",
+        "name": "keen_bhaskara_0x30::throwable_5DDFC0",
         "v96f_address": null,
         "v105_address": "0x5ddfc0"
     },
@@ -16940,52 +16940,52 @@
         "v105_address": "0x5dfb60"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E06B0",
+        "name": "keen_bhaskara_0x30::shocker_5E06B0",
         "v96f_address": null,
         "v105_address": "0x5e06b0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E0740",
+        "name": "keen_bhaskara_0x30::electro_batton_5E0740",
         "v96f_address": null,
         "v105_address": "0x5e0740"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E0AB0",
+        "name": "keen_bhaskara_0x30::car_bomb_5E0AB0",
         "v96f_address": null,
         "v105_address": "0x5e0ab0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E0B10",
+        "name": "keen_bhaskara_0x30::fire_truck_flamethrower_5E0B10",
         "v96f_address": null,
         "v105_address": "0x5e0b10"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E0E70",
+        "name": "keen_bhaskara_0x30::fire_truck_gun_5E0E70",
         "v96f_address": null,
         "v105_address": "0x5e0e70"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E10E0",
+        "name": "keen_bhaskara_0x30::tank_main_gun_5E10E0",
         "v96f_address": null,
         "v105_address": "0x5e10e0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E13E0",
+        "name": "keen_bhaskara_0x30::army_gun_jeep_5E13E0",
         "v96f_address": null,
         "v105_address": "0x5e13e0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E1DC0",
+        "name": "keen_bhaskara_0x30::oil_stain_5E1DC0",
         "v96f_address": null,
         "v105_address": "0x5e1dc0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E2550",
+        "name": "keen_bhaskara_0x30::car_mine_5E2550",
         "v96f_address": null,
         "v105_address": "0x5e2550"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E2940",
+        "name": "keen_bhaskara_0x30::car_smg_5E2940",
         "v96f_address": null,
         "v105_address": "0x5e2940"
     },
@@ -17000,12 +17000,12 @@
         "v105_address": "0x5e34b0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E3670",
+        "name": "keen_bhaskara_0x30::pull_trigger_5E3670",
         "v96f_address": null,
         "v105_address": "0x5e3670"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5E3850",
+        "name": "keen_bhaskara_0x30::rocket_5E3850",
         "v96f_address": null,
         "v105_address": "0x5e3850"
     },
@@ -17015,42 +17015,42 @@
         "v105_address": "0x5e3bd0"
     },
     {
-        "name": "Weapon_8::sub_5E3C10",
+        "name": "Weapon_8::allocate_5E3C10",
         "v96f_address": null,
         "v105_address": "0x5e3c10"
     },
     {
-        "name": "Weapon_8::sub_5E3CB0",
+        "name": "Weapon_8::deallocate_5E3CB0",
         "v96f_address": null,
         "v105_address": "0x5e3cb0"
     },
     {
-        "name": "Weapon_8::sub_5E3CE0",
+        "name": "Weapon_8::allocate_5E3CE0",
         "v96f_address": null,
         "v105_address": "0x5e3ce0"
     },
     {
-        "name": "Weapon_8::sub_5E3D20",
+        "name": "Weapon_8::find_5E3D20",
         "v96f_address": null,
         "v105_address": "0x5e3d20"
     },
     {
-        "name": "Weapon_8::sub_5E3D50",
+        "name": "Weapon_8::allocate_5E3D50",
         "v96f_address": null,
         "v105_address": "0x5e3d50"
     },
     {
-        "name": "Weapon_8::sub_5E3DF0",
+        "name": "Weapon_8::alloc_car_weapon_5E3DF0",
         "v96f_address": null,
         "v105_address": "0x5e3df0"
     },
     {
-        "name": "Weapon_8::sub_5E3E70",
+        "name": "Weapon_8::get_max_ammo_capacity_5E3E70",
         "v96f_address": null,
         "v105_address": "0x5e3e70"
     },
     {
-        "name": "Weapon_8::sub_5E3E80",
+        "name": "Weapon_8::get_ammo_5E3E80",
         "v96f_address": null,
         "v105_address": "0x5e3e80"
     },

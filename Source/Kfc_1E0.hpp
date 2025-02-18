@@ -32,7 +32,7 @@ class Kfc_30
     char_type field_1F;
     s32 field_20;
     s32 field_24;
-    s32 field_28;
+    Ped* field_28;
     char_type field_2C;
     char_type field_2D;
     char_type field_2E;
