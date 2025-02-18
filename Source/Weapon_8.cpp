@@ -1,11 +1,11 @@
 #include "Weapon_8.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "Ped.hpp"
+#include "Player.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "root_sound.hpp"
-#include "Player.hpp"
-#include "Ped.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Weapon_2FDC* gWeapon_2FDC_707014;
 GLOBAL(gWeapon_2FDC_707014, 0x707014);
@@ -34,9 +34,21 @@ s32 Weapon_8::deallocate_5E3CB0(s32 a2)
 }
 
 STUB_FUNC(0x5e3ce0)
-Weapon_30* Weapon_8::allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3)
+Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
-    return 0;
+    Weapon_30* pWeapon; // esi
+    Weapon_30* pNext; // edx
+
+    pWeapon = gWeapon_2FDC_707014->field_0;
+    pNext = gWeapon_2FDC_707014->field_4;
+    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
+    pWeapon->field_18_pNext = pNext;
+    gWeapon_2FDC_707014->field_4 = pWeapon;
+    pWeapon->init_5DCD90();
+    pWeapon->field_14_car = pCar;
+    pWeapon->field_1C_idx = weapon_kind;
+    pWeapon->add_ammo_5DCE20(ammo);
+    return pWeapon;
 }
 
 MATCH_FUNC(0x5e3d20)
@@ -81,7 +93,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     }
 
     Ped* pDriver = pCar->field_54_driver;
-    
+
     if (pDriver)
     {
         Player* pPlayer = pDriver->field_15C_player_weapons;
