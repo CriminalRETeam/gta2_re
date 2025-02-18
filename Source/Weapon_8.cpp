@@ -3,6 +3,9 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "root_sound.hpp"
+#include "Player.hpp"
+#include "Ped.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Weapon_2FDC* gWeapon_2FDC_707014;
 GLOBAL(gWeapon_2FDC_707014, 0x707014);
@@ -58,9 +61,44 @@ Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 }
 
 STUB_FUNC(0x5e3d50)
-char_type Weapon_8::allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4)
+char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 {
-    return 0;
+    char bAddedAmmo;
+
+    Weapon_30* pWeapon = find_5E3D20(pCar, weapon_kind);
+    if (pWeapon)
+    {
+        bAddedAmmo = pWeapon->add_ammo_capped_5DCE40(ammo);
+        if (!bAddedAmmo)
+        {
+            return bAddedAmmo;
+        }
+    }
+    else
+    {
+        pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
+        bAddedAmmo = 1;
+    }
+
+    Ped* pDriver = pCar->field_54_driver;
+    
+    if (pDriver)
+    {
+        Player* pPlayer = pDriver->field_15C_player_weapons;
+        if (pPlayer)
+        {
+            pPlayer->sub_564910(pWeapon);
+            return bAddedAmmo;
+        }
+    }
+
+    if (pDriver)
+    {
+        pCar->field_54_driver->field_178 = gWeapon_8_707018->allocate_5E3C10(weapon_kind, pDriver, 99u);
+        pCar->field_54_driver->field_178->field_14_car = pCar;
+    }
+
+    return bAddedAmmo;
 }
 
 STUB_FUNC(0x5e3df0)
