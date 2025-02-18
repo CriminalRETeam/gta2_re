@@ -124,7 +124,7 @@ void Weapon_30::sub_5DCF40()
     {
         if (pPlayer->field_6F4[8]) // Fast reload?
         {
-            this->field_2_reload_speed *= 2;
+            this->field_2_reload_speed /= 2;
         }
     }
 }
@@ -275,8 +275,22 @@ void Weapon_30::rocket_5E3850()
 {
 }
 
-STUB_FUNC(0x5e3bd0)
+MATCH_FUNC(0x5e3bd0)
 char_type Weapon_30::sub_5E3BD0()
 {
-    return 0;
+    char result;
+    switch (this->field_1C_idx)
+    {
+        case weapon_type::rocket:
+        case weapon_type::molotov:
+        case weapon_type::car_bomb:
+        case weapon_type::car_mines:
+        case weapon_type::tank_main_gun:
+            result = 1;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
