@@ -1583,9 +1583,12 @@ s32 Ped::sub_470200(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4702d0)
+MATCH_FUNC(0x4702d0)
 void Ped::sub_4702D0(Ped* pPed)
 {
+    PedGroup* pPedGroup = pPed->field_164_ped_group;
+    pPedGroup->replace_leader_4C8FE0(this);
+    this->field_164_ped_group = pPedGroup;
 }
 
 STUB_FUNC(0x470300)
