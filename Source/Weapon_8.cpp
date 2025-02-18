@@ -10,7 +10,7 @@ GLOBAL(gWeapon_2FDC_707014, 0x707014);
 EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
-STUB_FUNC(0x5e3c10)
+MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::sub_5E3C10(s32 a2, Ped* pPed, u8 ammo)
 {
     Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
