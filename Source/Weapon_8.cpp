@@ -11,9 +11,17 @@ EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
 STUB_FUNC(0x5e3c10)
-Weapon_30* Weapon_8::sub_5E3C10(s32 a2, Ped* a3, u8 a4)
+Weapon_30* Weapon_8::sub_5E3C10(s32 a2, Ped* pPed, u8 ammo)
 {
-    return 0;
+    Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
+    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18;
+    pNewWeap->field_18 = 0;
+    pNewWeap->sub_5DCD90();
+    field_4++;
+    pNewWeap->field_1C_idx = a2;
+    pNewWeap->field_24_pObj = pPed;
+    pNewWeap->sub_5DCE20(ammo);
+    return pNewWeap;
 }
 
 STUB_FUNC(0x5e3cb0)
@@ -78,73 +86,6 @@ Weapon_8::~Weapon_8()
     if (gWeapon_2FDC_707014)
     {
         GTA2_DELETE_AND_NULL(gWeapon_2FDC_707014);
-    }
-}
-
-MATCH_FUNC(0x5DCD10)
-Weapon_30::Weapon_30()
-{
-    field_0 = 0;
-    field_24 = 0;
-    field_14 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_18 = 0;
-    field_1C = 0;
-    field_10 = 0;
-    field_8 = 0;
-    field_C = -1;
-    field_20 = 0;
-    field_21 = 0;
-    field_2C = 0;
-    field_28 = 0;
-}
-
-MATCH_FUNC(0x5DCD50)
-Weapon_30::~Weapon_30()
-{
-    field_24 = 0;
-    field_18 = 0;
-    field_14 = 0;
-    field_8 = 0;
-    if (field_28)
-    {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
-    }
-}
-
-MATCH_FUNC(0x5DCD90)
-void Weapon_30::sub_5DCD90()
-{
-    field_24 = 0;
-    field_14 = 0;
-    field_1C = 0;
-    field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_21 = 0;
-    field_8 = 0;
-    field_C = -1;
-    field_20 = 0;
-    field_2C = 0;
-    if (!field_28 && !bSkip_audio_67D6BE)
-    {
-        field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
-    }
-}
-
-MATCH_FUNC(0x5DCDE0)
-void Weapon_30::sub_5DCDE0()
-{
-    sub_5DCD90();
-
-    field_8 = 0;
-
-    if (field_28)
-    {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
-        field_28 = 0;
     }
 }
 

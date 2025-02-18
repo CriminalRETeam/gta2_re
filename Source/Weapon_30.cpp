@@ -1,4 +1,73 @@
 #include "Weapon_30.hpp"
+#include "root_sound.hpp"
+#include "debug.hpp"
+
+MATCH_FUNC(0x5DCD10)
+Weapon_30::Weapon_30()
+{
+    field_0 = 0;
+    field_24_pObj = 0;
+    field_14 = 0;
+    field_2 = 0;
+    field_4 = 0;
+    field_18 = 0;
+    field_1C_idx = 0;
+    field_10 = 0;
+    field_8 = 0;
+    field_C = -1;
+    field_20 = 0;
+    field_21 = 0;
+    field_2C = 0;
+    field_28 = 0;
+}
+
+MATCH_FUNC(0x5DCD50)
+Weapon_30::~Weapon_30()
+{
+    field_24_pObj = 0;
+    field_18 = 0;
+    field_14 = 0;
+    field_8 = 0;
+    if (field_28)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
+        field_28 = 0;
+    }
+}
+
+MATCH_FUNC(0x5DCD90)
+void Weapon_30::sub_5DCD90()
+{
+    field_24_pObj = 0;
+    field_14 = 0;
+    field_1C_idx = 0;
+    field_0 = 0;
+    field_2 = 0;
+    field_4 = 0;
+    field_21 = 0;
+    field_8 = 0;
+    field_C = -1;
+    field_20 = 0;
+    field_2C = 0;
+    if (!field_28 && !bSkip_audio_67D6BE)
+    {
+        field_28 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
+    }
+}
+
+MATCH_FUNC(0x5DCDE0)
+void Weapon_30::sub_5DCDE0()
+{
+    sub_5DCD90();
+
+    field_8 = 0;
+
+    if (field_28)
+    {
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_28);
+        field_28 = 0;
+    }
+}
 
 MATCH_FUNC(0x5dce20)
 void Weapon_30::sub_5DCE20(u8 a2)

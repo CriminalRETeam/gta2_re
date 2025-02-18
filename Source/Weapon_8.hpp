@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Weapon_30.hpp"
 
 class Ped;
-class Weapon_30;
 class Car_BC;
 class infallible_turing;
 
@@ -41,38 +41,6 @@ class Weapon_8
     struct_4 field_0;
     s16 field_4;
     s16 field_6;
-};
-
-class Weapon_30
-{
-  public:
-    EXPORT Weapon_30();
-    EXPORT ~Weapon_30();
-
-    EXPORT void sub_5DCD90();
-    EXPORT void sub_5DCDE0();
-
-    u16 field_0;
-    s8 field_2;
-    s8 field_3;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s16 field_10;
-    s16 field_12;
-    Car_BC* field_14;
-    Weapon_30* field_18;
-    s32 field_1C;
-    s8 field_20;
-    s8 field_21;
-    s8 field_22;
-    s8 field_23;
-    Ped* field_24;
-    infallible_turing* field_28;
-    s8 field_2C;
-    s8 field_2D;
-    s8 field_2E;
-    s8 field_2F;
 };
 
 class Weapon_2FDC
