@@ -1,9 +1,9 @@
 #include "Weapon_30.hpp"
 #include "Ped.hpp"
+#include "Player.hpp"
 #include "debug.hpp"
 #include "enums.hpp"
 #include "root_sound.hpp"
-#include "Player.hpp"
 
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
@@ -239,10 +239,24 @@ u8 Weapon_30::car_smg_5E2940()
     return 0;
 }
 
-STUB_FUNC(0x5e33c0)
+MATCH_FUNC(0x5e33c0)
 char_type Weapon_30::sub_5E33C0()
 {
-    return 0;
+    char result;
+    switch (this->field_1C_idx)
+    {
+        case weapon_type::car_bomb:
+        case weapon_type::oil_stain:
+        case weapon_type::car_mines:
+        case weapon_type::tank_main_gun:
+        case weapon_type::weapon_0x17:
+            result = 0;
+            break;
+        default:
+            result = 1;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x5e34b0)
