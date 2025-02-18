@@ -29,7 +29,7 @@ class Weapon_8
 {
   public:
     EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
-    EXPORT s32 deallocate_5E3CB0(s32 a2);
+    EXPORT void deallocate_5E3CB0(Weapon_30 *pWeapon);
     EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
     EXPORT Weapon_30* find_5E3D20(Car_BC* a2, s32 a3);
     EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);

@@ -27,10 +27,14 @@ Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
     return pNewWeap;
 }
 
-STUB_FUNC(0x5e3cb0)
-s32 Weapon_8::deallocate_5E3CB0(s32 a2)
+MATCH_FUNC(0x5e3cb0)
+void Weapon_8::deallocate_5E3CB0(Weapon_30 *pWeapon)
 {
-    return 0;
+    Weapon_2FDC* pRoot = gWeapon_2FDC_707014;
+    pWeapon->clear_5DCDE0();
+    pWeapon->field_18_pNext = pRoot->field_0;
+    pRoot->field_0 = pWeapon;
+    field_4_ref_count--;
 }
 
 STUB_FUNC(0x5e3ce0)
