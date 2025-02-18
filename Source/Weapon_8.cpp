@@ -11,14 +11,14 @@ EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
 MATCH_FUNC(0x5e3c10)
-Weapon_30* Weapon_8::allocate_5E3C10(s32 a2, Ped* pPed, u8 ammo)
+Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
     Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
     gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
     pNewWeap->field_18_pNext = 0;
     pNewWeap->init_5DCD90();
     field_4_ref_count++;
-    pNewWeap->field_1C_idx = a2;
+    pNewWeap->field_1C_idx = weapon_kind;
     pNewWeap->field_24_pPed = pPed;
     pNewWeap->add_ammo_5DCE20(ammo);
     return pNewWeap;

@@ -427,6 +427,7 @@ enum
     fire_truck_gun = 20,
     fire_truck_flamethrower = 21,
     army_gun_jeep = 22,
+    weapon_0x17 = 23,
 };
 // static_assert(sizeof(weapon_type) == 0x4);
 } // namespace weapon_type

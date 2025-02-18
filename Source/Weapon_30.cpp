@@ -1,6 +1,8 @@
 #include "Weapon_30.hpp"
-#include "root_sound.hpp"
 #include "debug.hpp"
+#include "root_sound.hpp"
+#include "enums.hpp"
+#include "Ped.hpp"
 
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
@@ -87,10 +89,30 @@ bool Weapon_30::is_max_capacity_5DCEA0()
     return 0;
 }
 
-STUB_FUNC(0x5dcef0)
+MATCH_FUNC(0x5dcef0)
 bool Weapon_30::sub_5DCEF0()
 {
-    return 0;
+    bool result; 
+    switch (this->field_1C_idx)
+    {
+        case weapon_type::car_bomb:
+        case weapon_type::oil_stain:
+        case weapon_type::car_mines:
+        case weapon_type::fire_truck_gun:
+        case weapon_type::weapon_0x17:
+            result = 0;
+            break;
+        case weapon_type::car_smg:
+        case weapon_type::tank_main_gun:
+        case weapon_type::fire_truck_flamethrower:
+        case weapon_type::army_gun_jeep:
+            result = 1;
+            break;
+        default:
+            result = this->field_24_pPed->field_16C_car == 0;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x5dcf40)
