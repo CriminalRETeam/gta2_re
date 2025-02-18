@@ -36,10 +36,25 @@ Weapon_30* Weapon_8::allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3)
     return 0;
 }
 
-STUB_FUNC(0x5e3d20)
-Weapon_30* Weapon_8::find_5E3D20(Car_BC* a2, s32 a3)
+MATCH_FUNC(0x5e3d20)
+Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 {
-    return 0;
+    Weapon_30* result = gWeapon_2FDC_707014->field_4;
+    if (!result)
+    {
+        return 0;
+    }
+
+    // TODO: Can probably invert this
+    while (result->field_14_car != pCar || result->field_1C_idx != weapon_kind)
+    {
+        result = result->field_18_pNext;
+        if (!result)
+        {
+            return 0;
+        }
+    }
+    return result;
 }
 
 STUB_FUNC(0x5e3d50)
