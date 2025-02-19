@@ -1,5 +1,9 @@
 #include "RouteFinder.hpp"
 #include "Globals.hpp"
+#include "debug.hpp"
+#include "error.hpp"
+#include "file.hpp"
+#include <cstdio>
 
 EXPORT_VAR RouteFinder* gRouteFinder_6FFDC8;
 GLOBAL(gRouteFinder_6FFDC8, 0x6FFDC8);
@@ -45,9 +49,41 @@ u16 RouteFinder::sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
     return 0;
 }
 
-STUB_FUNC(0x588b30)
+MATCH_FUNC(0x588b30)
 void RouteFinder::Load_RGEN_588B30()
 {
+    File::Global_Read_4A71C0(field_8, 0x2210);
+    File::Global_Read_4A71C0(this->field_A830,0x1108);
+    File::Global_Read_4A71C0(this->field_B938, 0x1108);
+    File::Global_Read_4A71C0(&this->field_4, 2);
+    File::Global_Read_4A71C0(&this->field_CC62, 2);
+    File::Global_Read_4A71C0(&this->field_CC64, 2);
+    this->field_0 = 0;
+
+    if(bLog_routefinder_67D6D1)
+    {
+        int iVar2 = 0;
+        do
+        {
+            sprintf(gTmpBuffer_67C598, "Junc: %d (%d, %d) n %d s %d w %d e %d", iVar2,
+                    field_8[iVar2].field_C_min_x,
+                    field_8[iVar2].field_D_min_y,
+                    field_8[iVar2].field_0_n.FUN_0040ce90(),
+                    field_8[iVar2].field_2_s.FUN_0040ce90(),
+                    field_8[iVar2].field_6_w.FUN_0040ce90(),
+                    field_8[iVar2].field_4_e.FUN_0040ce90()
+                    );
+            gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+
+            if(iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)
+            {
+                break;
+            }
+            iVar2++;
+        } while(iVar2 < 0x221);
+
+        gErrorLog_67C530.Write_4D9620("     ");
+    }
 }
 
 STUB_FUNC(0x588c60)

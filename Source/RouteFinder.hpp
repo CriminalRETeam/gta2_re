@@ -4,15 +4,26 @@
 
 struct gmp_block_info;
 
+class Link_2
+{
+  public:
+    EXPORT u16 FUN_0040ce90()
+    {
+        return field_0 & 0x1ff;
+    }
+
+    s16 field_0;
+};
+
 class Junction_10
 {
   public:
     EXPORT char_type sub_588580(s32 a2);
     EXPORT s16 sub_5885C0(s16 a2);
-    s16 field_0_n;
-    s16 field_2_s;
-    s16 field_4_e;
-    s16 field_6_w;
+    Link_2 field_0_n;
+    Link_2 field_2_s;
+    Link_2 field_4_e;
+    Link_2 field_6_w;
     s32 field_8_type;
     u8 field_C_min_x;
     u8 field_D_min_y;

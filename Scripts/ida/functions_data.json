@@ -13906,7 +13906,7 @@
     },
     {
         "name": "Soula_CC68::Load_RGEN",
-        "v96f_address": null,
+        "v96f_address": "0x40d250",
         "v105_address": "0x588b30"
     },
     {
