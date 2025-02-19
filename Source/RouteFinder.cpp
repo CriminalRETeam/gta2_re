@@ -8,9 +8,27 @@
 EXPORT_VAR RouteFinder* gRouteFinder_6FFDC8;
 GLOBAL(gRouteFinder_6FFDC8, 0x6FFDC8);
 
-STUB_FUNC(0x588580)
+MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
 {
+    if (a2 == 2)
+    {
+        if (this->field_8_type != 1)
+        {
+            return 1;
+        }
+    }
+    else if (a2 == 1)
+    {
+        if (this->field_8_type != 2)
+        {
+            return 1;
+        }
+    }
+    else if (a2 == 3)
+    {
+        return 1;
+    }
     return 0;
 }
 
