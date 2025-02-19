@@ -29,6 +29,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Frismo_25C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1154,9 +1155,15 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     Next_503620(gBasePtr_6F8070); // go to field_4_cmd_next
 }
 
-STUB_FUNC(0x506b30)
+MATCH_FUNC(0x506b30)
 void miss2_0x11C::sub_506B30()
 {
+    SCR_TWO_PARAMS* v2 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    Frismo_C* v3 = field_114->sub_5031A0();
+    v3->field_0 = field_8;
+    v3->field_4 = gBasePtr_6F8070->field_4_cmd_next;
+    field_114->add_503160(v3);
+    miss2_0x11C::sub_503650(v2->field_8_unsigned_1);
 }
 
 STUB_FUNC(0x506b80)
