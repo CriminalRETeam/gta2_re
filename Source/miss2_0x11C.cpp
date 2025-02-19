@@ -1156,7 +1156,7 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
 }
 
 MATCH_FUNC(0x506b30)
-void miss2_0x11C::sub_506B30()
+void miss2_0x11C::sub_506B30()  // GOSUB
 {
     SCR_TWO_PARAMS* v2 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     Frismo_C* v3 = field_114->sub_5031A0();
@@ -1166,9 +1166,21 @@ void miss2_0x11C::sub_506B30()
     miss2_0x11C::sub_503650(v2->field_8_unsigned_1);
 }
 
-STUB_FUNC(0x506b80)
-void miss2_0x11C::sub_506B80()
+MATCH_FUNC(0x506b80)
+void miss2_0x11C::sub_506B80()  // MISSIONEND
 {
+    Frismo_C* v2 = field_114->remove_503180();
+
+    if (v2 == NULL)
+    {
+        miss2_0x11C::sub_503670();
+    }
+    else
+    {
+        miss2_0x11C::sub_503650(v2->field_4);
+        field_8 = v2->field_0;
+        field_114->sub_5031C0(v2);
+    }
 }
 
 STUB_FUNC(0x506bc0)
