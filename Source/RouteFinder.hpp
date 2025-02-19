@@ -34,7 +34,7 @@ class Junction_10
 class RouteFinder_10
 {
   public:
-    EXPORT RouteFinder_10* sub_5892D0();
+    EXPORT RouteFinder_10();
     u16 field_0_idx;
     s16 field_2;
     s16 field_4;

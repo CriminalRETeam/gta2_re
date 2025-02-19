@@ -60,10 +60,14 @@ u16 Junction_10::sub_5885C0(u16 a2)
     }
 }
 
-STUB_FUNC(0x5892d0)
-RouteFinder_10* RouteFinder_10::sub_5892D0()
+MATCH_FUNC(0x5892d0)
+RouteFinder_10::RouteFinder_10()
 {
-    return 0;
+    field_0_idx = 0;
+    field_2 = 0xffff;
+    field_4 = 0;
+    field_8 = 0;
+    field_C = 0;
 }
 
 STUB_FUNC(0x588620)
