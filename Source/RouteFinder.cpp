@@ -32,10 +32,32 @@ char_type Junction_10::sub_588580(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5885c0)
-s16 Junction_10::sub_5885C0(s16 a2)
+MATCH_FUNC(0x5885c0)
+u16 Junction_10::sub_5885C0(u16 a2)
 {
-    return 0;
+    if (a2 != 0)
+    {
+        if (field_0_n.FUN_0040ce90() == a2)
+        {
+            return 1;
+        }
+        if (field_2_s.FUN_0040ce90() == a2)
+        {
+            return 2;
+        }
+        if(field_4_e.FUN_0040ce90() != a2)
+        {
+            return 3;
+        }
+        else
+        {
+            return 4;
+        }
+    }
+    else
+    {
+        return gRouteFinder_6FFDC8->field_2;
+    }
 }
 
 STUB_FUNC(0x5892d0)

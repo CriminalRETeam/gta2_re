@@ -19,7 +19,7 @@ class Junction_10
 {
   public:
     EXPORT char_type sub_588580(s32 a2);
-    EXPORT s16 sub_5885C0(s16 a2);
+    EXPORT u16 sub_5885C0(u16 a2);
     Link_2 field_0_n;
     Link_2 field_2_s;
     Link_2 field_4_e;
