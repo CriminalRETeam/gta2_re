@@ -1,15 +1,16 @@
 #include "map_0x370.hpp"
+#include "Car_BC.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Zones_CA8.hpp"
 #include "chunk.hpp"
 #include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
-#include "PurpleDoom.hpp"
 #include "memory.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -1504,11 +1505,10 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
     }
 }
 
-STUB_FUNC(0x4E94A0)
+MATCH_FUNC(0x4E94A0)
 void Map_0x370::load_rgen_4E94A0()
 {
-    // gRouteFinder_6FFDC8 stub required
-    //gRouteFinder_6FFDC8->Load_RGEN_588B30();
+    gRouteFinder_6FFDC8->Load_RGEN_588B30();
 }
 
 MATCH_FUNC(0x4E94B0)
