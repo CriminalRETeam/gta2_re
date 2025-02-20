@@ -1986,10 +1986,11 @@ void Car_BC::sub_443EB0(s32 a2)
     sub_443D70(a2);
 }
 
-STUB_FUNC(0x443ee0)
-Car_6C* Car_BC::sub_443EE0(s32 a2)
+MATCH_FUNC(0x443ee0)
+void Car_BC::sub_443EE0(s32 a2)
 {
-    return 0;
+    gCar_6C_677930->sub_4466C0(field_A0);
+    sub_443DA0(a2);
 }
 
 STUB_FUNC(0x443f30)
