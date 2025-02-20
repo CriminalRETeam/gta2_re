@@ -1045,10 +1045,15 @@ void Car_BC::sub_43A950()
     pB0->field_95 = 0;
 }
 
-STUB_FUNC(0x43a970)
-Car_B0* Car_BC::sub_43A970()
+MATCH_FUNC(0x43a970)
+void Car_BC::sub_43A970()
 {
-    return 0;
+    ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->field_92_is_hand_brake_on = 1;
+    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    pB0->field_91_is_foot_brake_on = 1;
+    pB0->field_93_is_forward_gas_on = 0;
+    pB0->field_94_is_backward_gas_on = 0;
+    pB0->field_95 = 0;
 }
 
 STUB_FUNC(0x43a9a0)
