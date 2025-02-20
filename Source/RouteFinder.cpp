@@ -250,10 +250,13 @@ char_type RouteFinder::sub_589BB0(RouteFinder_10* a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x589e00)
+MATCH_FUNC(0x589e00)
 RouteFinder_10* RouteFinder::sub_589E00()
 {
-    return 0;
+    RouteFinder_10 *pjVar1;
+
+    for (pjVar1 = field_A82C; pjVar1 != NULL && pjVar1->field_4 != 0;pjVar1 = pjVar1->field_C);
+    return pjVar1;
 }
 
 STUB_FUNC(0x589e20)
