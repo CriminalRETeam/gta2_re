@@ -1309,9 +1309,26 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DAMAGE_508F00()
 {
 }
 
-STUB_FUNC(0x509030)
+MATCH_FUNC(0x509030)
 void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Ped* v3 = pPointer->field_8_char;
+    s16 health_param = v1->field_A_signed_2;
+    
+    if (v3 != NULL 
+        && v3->field_216_health >= health_param)
+    {
+        this->field_8 = true;
+    }
+    else
+    {
+        this->field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509180)
