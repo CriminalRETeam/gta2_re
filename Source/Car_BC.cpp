@@ -2,6 +2,7 @@
 #include "Car_B0.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Object_3C.hpp"
 #include "Ped.hpp"
 #include "PurpleDoom.hpp"
 #include "Sero_181C.hpp"
@@ -13,7 +14,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Object_3C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -86,7 +86,7 @@ GLOBAL(byte_679C0A, 0x679C0A);
 EXPORT_VAR s16 DAT_00679320[1000];
 GLOBAL(DAT_00679320, 0x679320);
 
-EXPORT_VAR s32 dword_6777D0; 
+EXPORT_VAR s32 dword_6777D0;
 GLOBAL(dword_6777D0, 0x6777D0);
 
 MATCH_FUNC(0x5639c0)
@@ -996,10 +996,14 @@ bool Car_BC::sub_43A6F0(u8 a2)
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != a2;
 }
 
-STUB_FUNC(0x43a730)
-s32 Car_BC::sub_43A730(u8 a2)
+MATCH_FUNC(0x43a730)
+bool Car_BC::sub_43A730(u8 a2)
 {
-    return 0;
+    if (field_64)
+    {
+        return sub_43A6F0(a2) || field_64->field_C->sub_43A6F0(a2);
+    }
+    return sub_43A6F0(a2);
 }
 
 MATCH_FUNC(0x43a780)
@@ -2202,8 +2206,8 @@ void Car_BC::sub_444490()
     this->field_80 = 0;
     this->field_78_flags = 0;
     //clear();
-    
-    ((Object_3C *)this)->sub_5A7010();     // base?
+
+    ((Object_3C*)this)->sub_5A7010(); // base?
     this->field_A7_horn = 0;
     sub_443D70(0);
     this->field_8D = 0;
