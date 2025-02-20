@@ -8,6 +8,9 @@
 EXPORT_VAR RouteFinder* gRouteFinder_6FFDC8;
 GLOBAL(gRouteFinder_6FFDC8, 0x6FFDC8);
 
+EXPORT_VAR u8 DAT_6ffdcc;
+GLOBAL(DAT_6ffdcc, 0x6ffdcc);
+
 MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)
 {
@@ -283,10 +286,19 @@ s16 RouteFinder::sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
     return 0;
 }
 
-STUB_FUNC(0x58a130)
-s16 RouteFinder::sub_58A130(u8 a2, s16 a3, u8 a4, u8* a5, s32 a6, s32 a7)
+MATCH_FUNC(0x58a130)
+s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 {
-    return 0;
+    if(sub_5895C0(a1, a2, a3, a5, a6))
+    {
+        if(sub_589E70(a5))
+        {
+            s16 ret = sub_589F70();
+            *a4 = DAT_6ffdcc;
+            return ret;
+        }
+    }
+    return -1;
 }
 
 MATCH_FUNC(0x58a190)
