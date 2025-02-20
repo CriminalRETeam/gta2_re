@@ -1919,10 +1919,42 @@ void Car_BC::sub_443D70(s32 a2)
     }
 }
 
-STUB_FUNC(0x443da0)
-Car_6C* Car_BC::sub_443DA0(s32 a2)
+MATCH_FUNC(0x443da0)
+void Car_BC::sub_443DA0(s32 a2)
 {
-    return 0;
+    this->field_A0 = a2;
+    switch (a2)
+    {
+        case 1:
+            ++gCar_6C_677930->field_28_recycled_cars;
+            break;
+        case 2:
+            ++gCar_6C_677930->field_40_proto_recycled_cars;
+            break;
+        case 5:
+            ++gCar_6C_677930->field_30;
+            break;
+        case 10:
+            ++gCar_6C_677930->field_48;
+            break;
+        case 4:
+            ++gCar_6C_677930->field_2C;
+            break;
+        case 6:
+            ++gCar_6C_677930->field_34_unit_cars;
+            break;
+        case 7:
+            ++gCar_6C_677930->field_38;
+            break;
+        case 8:
+            ++gCar_6C_677930->field_3C_mission_cars;
+            break;
+        case 9:
+            ++gCar_6C_677930->field_44;
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x443e50)
