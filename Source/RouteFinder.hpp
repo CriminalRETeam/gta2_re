@@ -94,9 +94,7 @@ class RouteFinder
     RouteFinder_10* field_A82C;
     char_type field_A830[4360];
     char_type field_B938[4360];
-    char_type field_CA40[544];
-    char_type field_CC60;
-    char_type field_CC61;
+    char_type field_CA40[545];
     s16 field_CC62;
     u16 field_CC64;
     u16 field_CC66_545_count;

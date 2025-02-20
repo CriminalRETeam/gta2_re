@@ -307,7 +307,22 @@ void RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
     sub_58A0D0(a2,a3,a4,a5,a6,a7,a8);
 }
 
-STUB_FUNC(0x58a1c0)
+MATCH_FUNC(0x58a1c0)
 RouteFinder::RouteFinder()
 {
+    field_0 = 0;
+    field_2 = 0;
+    field_4 = 0;
+    memset(field_8, 0, sizeof(field_8));
+    memset(field_2218, 0, sizeof(field_2218));
+    field_8618_idx = 0;
+    field_861A = 0;
+    memset(field_861C, 0, sizeof(field_861C));
+    field_A82C = 0;
+    memset(field_A830, 0, sizeof(field_A830));
+    memset(field_B938, 0, sizeof(field_B938));
+    memset(field_CA40, 0, sizeof(field_CA40));
+    field_CC62 = 0;
+    field_CC64 = 0;
+    field_CC66_545_count = 0;
 }
