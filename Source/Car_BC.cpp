@@ -1999,10 +1999,18 @@ s32 Car_BC::sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x444020)
-char_type Car_BC::sub_444020()
+MATCH_FUNC(0x444020)
+void Car_BC::sub_444020()
 {
-    return 0;
+    if (field_94 > 0)
+    {
+        field_94--;
+        if (field_94 == 0)
+        {
+            field_70 = 0;
+            field_90 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x444090)
