@@ -1632,9 +1632,31 @@ void miss2_0x11C::SCRCMD_DELAY_HERE_50A940()
     }
 }
 
-STUB_FUNC(0x50a980)
-void miss2_0x11C::sub_50A980()
+MATCH_FUNC(0x50a980)
+void miss2_0x11C::sub_50A980()  //  DELAY
 {
+    s16 param_1 = gBasePtr_6F8070[1].field_0_cmd_this;
+    SCR_CMD_HEADER* v2 = gBasePtr_6F8070 + 1; //  TODO: remove this hack
+
+    if (param_1 == -1)
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_2_type;
+        this->field_8 = true;
+    }
+    else
+    {
+        v2->field_0_cmd_this = param_1 - 1;
+        if (!v2->field_0_cmd_this)
+        {
+            v2->field_0_cmd_this = -1;
+            this->field_8 = false;
+        }
+        else
+        {
+            this->field_8 = true;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a9e0)
