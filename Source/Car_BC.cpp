@@ -514,7 +514,7 @@ char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 }
 
 STUB_FUNC(0x5a0380)
-bool Sprite::sub_5A0380(Sprite *a1)
+bool Sprite::sub_5A0380(Sprite* a1)
 {
     return 0;
 }
@@ -1905,9 +1905,18 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
-STUB_FUNC(0x443d70)
+MATCH_FUNC(0x443d70)
 void Car_BC::sub_443D70(s32 a2)
 {
+    sub_443DA0(a2);
+
+    if (field_64)
+    {
+        if (field_64->field_8 == this)
+        {
+            field_64->field_C->sub_443DA0(a2);
+        }
+    }
 }
 
 STUB_FUNC(0x443da0)
