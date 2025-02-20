@@ -265,10 +265,31 @@ char_type RouteFinder::sub_589E20(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x589e70)
+MATCH_FUNC(0x589e70)
 char_type RouteFinder::sub_589E70(s32 a2)
 {
-    return 0;
+    char cVar1;
+    RouteFinder_10* iVar2;
+
+    cVar1 = '\0';
+    if (this->field_A82C != 0)
+    {
+        while (true)
+        {
+            if(cVar1 != '\0')
+            {
+                break;
+            }
+
+            iVar2 = sub_589E00();
+            if(iVar2 == NULL)
+            {
+                break;
+            }
+            cVar1 = sub_589BB0(iVar2, a2);
+        }
+    }
+    return cVar1;
 }
 
 STUB_FUNC(0x589eb0)
