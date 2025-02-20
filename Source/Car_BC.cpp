@@ -14,6 +14,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Game_0x40.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -88,6 +89,10 @@ GLOBAL(DAT_00679320, 0x679320);
 
 EXPORT_VAR s32 dword_6777D0;
 GLOBAL(dword_6777D0, 0x6777D0);
+
+EXPORT_VAR s32 dword_6778D0;
+GLOBAL(dword_6778D0, 0x6778D0);
+
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1158,7 +1163,7 @@ s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
 STUB_FUNC(0x43b730)
 char_type Car_BC::sub_43B730()
 {
-    return 0;
+    return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
 STUB_FUNC(0x43b750)
