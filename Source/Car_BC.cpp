@@ -1957,15 +1957,26 @@ void Car_BC::sub_443DA0(s32 a2)
     }
 }
 
-STUB_FUNC(0x443e50)
-Car_6C* Car_BC::sub_443E50()
+MATCH_FUNC(0x443e50)
+void Car_BC::sub_443E50()
 {
-    return 0;
+    if (field_A0 == 1)
+    {
+        gCar_6C_677930->field_28_recycled_cars--;
+        gCar_6C_677930->field_40_proto_recycled_cars++;
+        field_A0 = 2;
+    }
 }
 
-STUB_FUNC(0x443e80)
+MATCH_FUNC(0x443e80)
 void Car_BC::sub_443E80()
 {
+    if (field_A0 == 2)
+    {
+        gCar_6C_677930->field_28_recycled_cars++;
+        gCar_6C_677930->field_40_proto_recycled_cars--;
+        field_A0 = 1;
+    }
 }
 
 STUB_FUNC(0x443eb0)

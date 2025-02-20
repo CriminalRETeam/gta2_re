@@ -514,7 +514,7 @@ class Car_BC
     EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_443D70(s32 a2);
     EXPORT void sub_443DA0(s32 a2);
-    EXPORT Car_6C* sub_443E50();
+    EXPORT void sub_443E50();
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
     EXPORT Car_6C* sub_443EE0(s32 a2);
