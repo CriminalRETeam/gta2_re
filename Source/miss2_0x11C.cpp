@@ -1612,9 +1612,24 @@ void miss2_0x11C::sub_50A760()
 {
 }
 
-STUB_FUNC(0x50a940)
+MATCH_FUNC(0x50a940)
 void miss2_0x11C::SCRCMD_DELAY_HERE_50A940()
 {
+    SCR_CMD_HEADER* v2 = gBasePtr_6F8070 + 1; //  TODO: remove this hack
+
+    if (gBasePtr_6F8070[1].field_0_cmd_this == -1)
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_2_type;
+    }
+    else
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_0_cmd_this - 1;
+        if (!v2->field_0_cmd_this)
+        {
+            v2->field_0_cmd_this = -1;
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        }
+    }
 }
 
 STUB_FUNC(0x50a980)
@@ -1642,7 +1657,7 @@ void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
 }
 
 MATCH_FUNC(0x50ac20)
-void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20()
+void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20()  // SET_GANG_KILL_REACTION
 {
     str_table_entry* gang_1_str;
 
