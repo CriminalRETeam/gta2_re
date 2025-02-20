@@ -1,9 +1,11 @@
 #include "Car_BC.hpp"
 #include "Car_B0.hpp"
+#include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
 #include "Ped.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Sero_181C.hpp"
 #include "debug.hpp"
@@ -14,7 +16,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Game_0x40.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -92,7 +93,6 @@ GLOBAL(dword_6777D0, 0x6777D0);
 
 EXPORT_VAR s32 dword_6778D0;
 GLOBAL(dword_6778D0, 0x6778D0);
-
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -990,7 +990,7 @@ void Car_BC::sub_43A600()
 }
 
 STUB_FUNC(0x43a680)
-s32 Car_BC::sub_43A680()
+bool Car_BC::sub_43A680()
 {
     return 0;
 }
@@ -1897,9 +1897,24 @@ void Car_BC::sub_443AE0(s32 a2)
 {
 }
 
-STUB_FUNC(0x443bd0)
+MATCH_FUNC(0x443bd0)
 void Car_BC::sub_443BD0(s32 a2)
 {
+    if (sub_43A680())
+    {
+        if (sub_43A730(a2))
+        {
+            sub_443AE0(a2);
+        }
+        else
+        {
+            sub_443AE0(253);
+        }
+    }
+    else if (field_54_driver->field_15C_player_weapons->field_0)
+    {
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
+    }
 }
 
 STUB_FUNC(0x443c40)

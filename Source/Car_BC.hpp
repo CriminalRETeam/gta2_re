@@ -368,7 +368,7 @@ class Car_BC
     EXPORT u32* sub_43A590(u32* a2);
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
-    EXPORT s32 sub_43A680();
+    EXPORT bool sub_43A680();
     EXPORT bool sub_43A6F0(u8 a2);
     EXPORT bool sub_43A730(u8 a2);
     EXPORT void sub_43A780(u8 a2);
