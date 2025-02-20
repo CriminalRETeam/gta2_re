@@ -13,6 +13,11 @@ struct str_table_entry
     s16 field_4_type;
     s16 field_6;
     u8 field_8_length;
+
+    inline char* get_name()
+    {
+        return (char*)&this[1];
+    }
 };
 #pragma pack(pop)
 

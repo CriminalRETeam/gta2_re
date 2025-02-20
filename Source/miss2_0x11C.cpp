@@ -1641,9 +1641,28 @@ void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ac20)
+MATCH_FUNC(0x50ac20)
 void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20()
 {
+    str_table_entry* gang_1_str;
+
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    gang_1_str = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (gang_1_str == NULL)
+    {
+        FatalError_4A38C0(0x474, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
+    }
+    Gang_144* pGang_1 = gZones_CA8_67E274->zone_by_name_4BF100(gang_1_str->get_name());
+    str_table_entry* gang_2_str = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_C_unsigned_3);
+    if (gang_2_str == NULL)
+    {
+        FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
+    }
+    Gang_144* pGang_2 = gZones_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
+    pGang_1->sub_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);
+    pGang_1->field_111 = 1;
+    pGang_2->field_111 = 1;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50acf0)
