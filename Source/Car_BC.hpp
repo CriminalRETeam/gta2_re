@@ -383,7 +383,7 @@ class Car_BC
     EXPORT s32 sub_43ADC0(s32 a2);
     EXPORT bool sub_43AF10();
     EXPORT char_type sub_43AF40();
-    EXPORT Car_78* sub_43AF60();
+    EXPORT void sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);

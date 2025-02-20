@@ -1101,10 +1101,13 @@ char_type Car_BC::sub_43AF40()
     return 0;
 }
 
-STUB_FUNC(0x43af60)
-Car_78* Car_BC::sub_43AF60()
+MATCH_FUNC(0x43af60)
+void Car_BC::sub_43AF60()
 {
-    return 0;
+    if (field_5C)
+    {
+        field_A6 |= 0x20u;
+    }
 }
 
 STUB_FUNC(0x43afe0)
