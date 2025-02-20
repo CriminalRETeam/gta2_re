@@ -522,7 +522,7 @@ class Car_BC
     EXPORT void sub_444020();
     EXPORT u32 sub_444090(Car_BC* a1);
     EXPORT void sub_4441B0();
-    EXPORT Car_6C* sub_444490();
+    EXPORT void sub_444490();
     EXPORT void sub_4446E0();
     EXPORT s32 sub_4447D0();
 
@@ -561,7 +561,6 @@ class Car_BC
     s16 field_74_damage;
     s16 field_76;
     u16 field_78_flags;
-    //    u8 field_79;
     s16 field_7A;
     s32 field_7C_uni_num;
     char_type field_80;

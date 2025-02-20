@@ -13,6 +13,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Object_3C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -84,6 +85,9 @@ GLOBAL(byte_679C0A, 0x679C0A);
 // It can probably turned into a static variable inside Car_2
 EXPORT_VAR s16 DAT_00679320[1000];
 GLOBAL(DAT_00679320, 0x679320);
+
+EXPORT_VAR s32 dword_6777D0; 
+GLOBAL(dword_6777D0, 0x6777D0);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -2176,10 +2180,47 @@ void Car_BC::sub_4441B0()
     }
 }
 
-STUB_FUNC(0x444490) // https://decomp.me/scratch/ciDtc
-Car_6C* Car_BC::sub_444490()
+// TODO: matches on decomp.me
+STUB_FUNC(0x444490) // https://decomp.me/scratch/Mt1bU
+void Car_BC::sub_444490()
 {
-    return 0;
+    this->field_6C_maybe_id = gCar_6C_677930->field_14++;
+    this->field_74_damage = 0;
+    this->field_8C = 0;
+    this->field_8 = 0;
+    this->field_4.field_0_pOwner = 0;
+    this->field_54_driver = 0;
+    this->field_98 = 3;
+    this->field_58_uni_Car78_or_Car_B0 = 0;
+    this->field_A4 = 0;
+    this->field_A5 = 0;
+    this->field_76 = 0;
+    this->field_7C_uni_num = 3;
+    this->field_50_car_sprite = 0;
+    this->field_9C = 1;
+    this->field_A6 = 0;
+    this->field_80 = 0;
+    this->field_78_flags = 0;
+    //clear();
+    
+    ((Object_3C *)this)->sub_5A7010();     // base?
+    this->field_A7_horn = 0;
+    sub_443D70(0);
+    this->field_8D = 0;
+    this->field_60 = 0;
+    this->field_70 = 0;
+    this->field_90 = 0;
+    this->field_94 = 0;
+    this->field_95 = 0;
+    //v3 = dword_6777D0;
+    this->field_68 = dword_6777D0;
+
+    this->field_8E = 0;
+    this->field_A8 = 0;
+    this->field_A9 = 0;
+    this->field_B4 = 0;
+    this->field_B8 = 0;
+    this->field_B0 = 0;
 }
 
 STUB_FUNC(0x4446e0) // https://decomp.me/scratch/Jjnkp
