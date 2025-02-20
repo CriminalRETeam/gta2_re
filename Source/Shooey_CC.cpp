@@ -135,13 +135,21 @@ bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
 }
 
 STUB_FUNC(0x4850f0)
-char_type Shooey_CC::sub_4850F0(Shooey_CC* a1, s32 a2, Player* a3)
+char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
 {
     return 0;
 }
 
-STUB_FUNC(0x485140)
-char_type Shooey_CC::sub_485140(Ped* a2, Player* a3)
+MATCH_FUNC(0x485140)
+char_type Shooey_CC::sub_485140(Ped* pPed, Player* pPlayer)
 {
-    return 0;
+    Char_B4* pB4 = pPed->field_168_game_object;
+    if (pB4)
+    {
+        return sub_4850F0(pB4, pPlayer);
+    }
+    else
+    {
+        return sub_485090(pPed->field_16C_car, pPlayer);
+    }
 }
