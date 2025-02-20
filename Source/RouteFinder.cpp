@@ -232,10 +232,12 @@ s16 RouteFinder::sub_589960()
     return -1;
 }
 
-STUB_FUNC(0x589990)
+MATCH_FUNC(0x589990)
 u16 RouteFinder::sub_589990(RouteFinder_10* a2, u16 a3, s16 a4)
 {
-    return 0;
+    RouteFinder_10 *puVar1 = sub_5892F0(a2,a3,a4);
+    sub_589420(puVar1);
+    return puVar1->field_0_idx;
 }
 
 STUB_FUNC(0x5899c0)
