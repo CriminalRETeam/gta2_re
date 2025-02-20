@@ -277,7 +277,42 @@ s16 RouteFinder::sub_589EB0()
 STUB_FUNC(0x589f70)
 s16 RouteFinder::sub_589F70()
 {
-    return 0;
+    s16 sVar1 = 0;
+    u8 uVar3 = 0;
+    if (field_CC66_545_count == 0)
+    {
+        return -1;
+    }
+
+    RouteFinder_10 *pjVar4 = &field_861C[field_CC66_545_count - 1];
+    s16 sVar2 = sub_589960();
+    if (sVar2 == -1)
+    {
+        return -1;
+    }
+
+    while(pjVar4 != NULL)
+    {
+        pjVar4 = pjVar4->field_8;
+        sVar1++;
+    }
+    DAT_6ffdcc = sVar1;
+
+    pjVar4 = &field_861C[field_CC66_545_count - 1];
+
+
+    if (pjVar4 != NULL)
+    {
+        do
+        {
+            field_2218[sVar2].field_0[uVar3] = pjVar4->field_0_idx;
+            pjVar4 = pjVar4->field_8;
+            uVar3++;
+
+        } while (pjVar4 != NULL);
+    }
+    field_0++;
+    return sVar2;
 }
 
 STUB_FUNC(0x58a020)
