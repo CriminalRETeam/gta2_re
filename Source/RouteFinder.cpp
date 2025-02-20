@@ -289,10 +289,10 @@ s16 RouteFinder::sub_58A130(u8 a2, s16 a3, u8 a4, u8* a5, s32 a6, s32 a7)
     return 0;
 }
 
-STUB_FUNC(0x58a190)
-s16 RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
+MATCH_FUNC(0x58a190)
+void RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 {
-    return 0;
+    sub_58A0D0(a2,a3,a4,a5,a6,a7,a8);
 }
 
 STUB_FUNC(0x58a1c0)
