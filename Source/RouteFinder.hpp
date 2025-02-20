@@ -43,6 +43,12 @@ class RouteFinder_10
     RouteFinder_10* field_C;
 };
 
+class RouteFinder_200
+{
+  public:
+    u16 field_0[0x100];
+};
+
 class RouteFinder
 {
   public:
@@ -87,7 +93,7 @@ class RouteFinder
     s16 field_4;
     s16 field_6;
     Junction_10 field_8[545];
-    char_type field_2218[25600];
+    RouteFinder_200 field_2218[50];
     u16 field_8618_idx;
     u16 field_861A;
     RouteFinder_10 field_861C[545];
