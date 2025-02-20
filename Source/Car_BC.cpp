@@ -1,8 +1,11 @@
 #include "Car_BC.hpp"
 #include "Car_B0.hpp"
+#include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Object_3C.hpp"
 #include "Ped.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Sero_181C.hpp"
 #include "debug.hpp"
@@ -13,7 +16,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Object_3C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -86,8 +88,11 @@ GLOBAL(byte_679C0A, 0x679C0A);
 EXPORT_VAR s16 DAT_00679320[1000];
 GLOBAL(DAT_00679320, 0x679320);
 
-EXPORT_VAR s32 dword_6777D0; 
+EXPORT_VAR s32 dword_6777D0;
 GLOBAL(dword_6777D0, 0x6777D0);
+
+EXPORT_VAR s32 dword_6778D0;
+GLOBAL(dword_6778D0, 0x6778D0);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -985,7 +990,7 @@ void Car_BC::sub_43A600()
 }
 
 STUB_FUNC(0x43a680)
-s32 Car_BC::sub_43A680()
+bool Car_BC::sub_43A680()
 {
     return 0;
 }
@@ -996,10 +1001,14 @@ bool Car_BC::sub_43A6F0(u8 a2)
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != a2;
 }
 
-STUB_FUNC(0x43a730)
-s32 Car_BC::sub_43A730(u8 a2)
+MATCH_FUNC(0x43a730)
+bool Car_BC::sub_43A730(u8 a2)
 {
-    return 0;
+    if (field_64)
+    {
+        return sub_43A6F0(a2) || field_64->field_C->sub_43A6F0(a2);
+    }
+    return sub_43A6F0(a2);
 }
 
 MATCH_FUNC(0x43a780)
@@ -1031,16 +1040,25 @@ char_type Car_BC::sub_43A850()
     return 0;
 }
 
-STUB_FUNC(0x43a950)
-Car_B0* Car_BC::sub_43A950()
+MATCH_FUNC(0x43a950)
+void Car_BC::sub_43A950()
 {
-    return 0;
+    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    pB0->field_91_is_foot_brake_on = 1;
+    pB0->field_93_is_forward_gas_on = 0;
+    pB0->field_94_is_backward_gas_on = 0;
+    pB0->field_95 = 0;
 }
 
-STUB_FUNC(0x43a970)
-Car_B0* Car_BC::sub_43A970()
+MATCH_FUNC(0x43a970)
+void Car_BC::sub_43A970()
 {
-    return 0;
+    ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->field_92_is_hand_brake_on = 1;
+    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    pB0->field_91_is_foot_brake_on = 1;
+    pB0->field_93_is_forward_gas_on = 0;
+    pB0->field_94_is_backward_gas_on = 0;
+    pB0->field_95 = 0;
 }
 
 STUB_FUNC(0x43a9a0)
@@ -1083,10 +1101,13 @@ char_type Car_BC::sub_43AF40()
     return 0;
 }
 
-STUB_FUNC(0x43af60)
-Car_78* Car_BC::sub_43AF60()
+MATCH_FUNC(0x43af60)
+void Car_BC::sub_43AF60()
 {
-    return 0;
+    if (field_5C)
+    {
+        field_A6 |= 0x20u;
+    }
 }
 
 STUB_FUNC(0x43afe0)
@@ -1145,7 +1166,7 @@ s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
 STUB_FUNC(0x43b730)
 char_type Car_BC::sub_43B730()
 {
-    return 0;
+    return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
 STUB_FUNC(0x43b750)
@@ -1879,9 +1900,24 @@ void Car_BC::sub_443AE0(s32 a2)
 {
 }
 
-STUB_FUNC(0x443bd0)
+MATCH_FUNC(0x443bd0)
 void Car_BC::sub_443BD0(s32 a2)
 {
+    if (sub_43A680())
+    {
+        if (sub_43A730(a2))
+        {
+            sub_443AE0(a2);
+        }
+        else
+        {
+            sub_443AE0(253);
+        }
+    }
+    else if (field_54_driver->field_15C_player_weapons->field_0)
+    {
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
+    }
 }
 
 STUB_FUNC(0x443c40)
@@ -2202,8 +2238,8 @@ void Car_BC::sub_444490()
     this->field_80 = 0;
     this->field_78_flags = 0;
     //clear();
-    
-    ((Object_3C *)this)->sub_5A7010();     // base?
+
+    ((Object_3C*)this)->sub_5A7010(); // base?
     this->field_A7_horn = 0;
     sub_443D70(0);
     this->field_8D = 0;

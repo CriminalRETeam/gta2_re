@@ -368,14 +368,14 @@ class Car_BC
     EXPORT u32* sub_43A590(u32* a2);
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
-    EXPORT s32 sub_43A680();
+    EXPORT bool sub_43A680();
     EXPORT bool sub_43A6F0(u8 a2);
-    EXPORT s32 sub_43A730(u8 a2);
+    EXPORT bool sub_43A730(u8 a2);
     EXPORT void sub_43A780(u8 a2);
     EXPORT void sub_43A7D0();
     EXPORT char_type sub_43A850();
-    EXPORT Car_B0* sub_43A950();
-    EXPORT Car_B0* sub_43A970();
+    EXPORT void sub_43A950();
+    EXPORT void sub_43A970();
     EXPORT void sub_43A9A0(Ped* a2);
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
@@ -383,7 +383,7 @@ class Car_BC
     EXPORT s32 sub_43ADC0(s32 a2);
     EXPORT bool sub_43AF10();
     EXPORT char_type sub_43AF40();
-    EXPORT Car_78* sub_43AF60();
+    EXPORT void sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
