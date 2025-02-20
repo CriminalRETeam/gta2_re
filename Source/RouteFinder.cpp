@@ -215,10 +215,21 @@ s16 RouteFinder::sub_589930(s16 idx)
     return 0;
 }
 
-STUB_FUNC(0x589960)
+MATCH_FUNC(0x589960)
 s16 RouteFinder::sub_589960()
 {
-    return 0;
+    s16 sVar1 = 1;
+    if (this->field_0 < 50)
+    {
+        while(sVar1 < 0x32)
+        {
+            if (field_2218[sVar1++].field_0[0] == 0)
+            {
+                return sVar1-1;
+            }
+        }
+    }
+    return -1;
 }
 
 STUB_FUNC(0x589990)

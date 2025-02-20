@@ -87,7 +87,7 @@ class RouteFinder
     EXPORT void sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
     EXPORT RouteFinder();
 
-    s16 field_0;
+    u16 field_0;
     u8 field_2;
     char_type field_3;
     s16 field_4;
