@@ -13,6 +13,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Object_3C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -84,6 +85,9 @@ GLOBAL(byte_679C0A, 0x679C0A);
 // It can probably turned into a static variable inside Car_2
 EXPORT_VAR s16 DAT_00679320[1000];
 GLOBAL(DAT_00679320, 0x679320);
+
+EXPORT_VAR s32 dword_6777D0; 
+GLOBAL(dword_6777D0, 0x6777D0);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -514,7 +518,7 @@ char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 }
 
 STUB_FUNC(0x5a0380)
-bool Sprite::sub_5A0380(Sprite *a1)
+bool Sprite::sub_5A0380(Sprite* a1)
 {
     return 0;
 }
@@ -1905,37 +1909,92 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
-STUB_FUNC(0x443d70)
+MATCH_FUNC(0x443d70)
 void Car_BC::sub_443D70(s32 a2)
 {
+    sub_443DA0(a2);
+
+    if (field_64)
+    {
+        if (field_64->field_8 == this)
+        {
+            field_64->field_C->sub_443DA0(a2);
+        }
+    }
 }
 
-STUB_FUNC(0x443da0)
-Car_6C* Car_BC::sub_443DA0(s32 a2)
+MATCH_FUNC(0x443da0)
+void Car_BC::sub_443DA0(s32 a2)
 {
-    return 0;
+    this->field_A0 = a2;
+    switch (a2)
+    {
+        case 1:
+            ++gCar_6C_677930->field_28_recycled_cars;
+            break;
+        case 2:
+            ++gCar_6C_677930->field_40_proto_recycled_cars;
+            break;
+        case 5:
+            ++gCar_6C_677930->field_30;
+            break;
+        case 10:
+            ++gCar_6C_677930->field_48;
+            break;
+        case 4:
+            ++gCar_6C_677930->field_2C;
+            break;
+        case 6:
+            ++gCar_6C_677930->field_34_unit_cars;
+            break;
+        case 7:
+            ++gCar_6C_677930->field_38;
+            break;
+        case 8:
+            ++gCar_6C_677930->field_3C_mission_cars;
+            break;
+        case 9:
+            ++gCar_6C_677930->field_44;
+            break;
+        default:
+            return;
+    }
 }
 
-STUB_FUNC(0x443e50)
-Car_6C* Car_BC::sub_443E50()
+MATCH_FUNC(0x443e50)
+void Car_BC::sub_443E50()
 {
-    return 0;
+    if (field_A0 == 1)
+    {
+        gCar_6C_677930->field_28_recycled_cars--;
+        gCar_6C_677930->field_40_proto_recycled_cars++;
+        field_A0 = 2;
+    }
 }
 
-STUB_FUNC(0x443e80)
+MATCH_FUNC(0x443e80)
 void Car_BC::sub_443E80()
 {
+    if (field_A0 == 2)
+    {
+        gCar_6C_677930->field_28_recycled_cars++;
+        gCar_6C_677930->field_40_proto_recycled_cars--;
+        field_A0 = 1;
+    }
 }
 
-STUB_FUNC(0x443eb0)
+MATCH_FUNC(0x443eb0)
 void Car_BC::sub_443EB0(s32 a2)
 {
+    gCar_6C_677930->sub_4466C0(field_A0);
+    sub_443D70(a2);
 }
 
-STUB_FUNC(0x443ee0)
-Car_6C* Car_BC::sub_443EE0(s32 a2)
+MATCH_FUNC(0x443ee0)
+void Car_BC::sub_443EE0(s32 a2)
 {
-    return 0;
+    gCar_6C_677930->sub_4466C0(field_A0);
+    sub_443DA0(a2);
 }
 
 STUB_FUNC(0x443f30)
@@ -1944,10 +2003,18 @@ s32 Car_BC::sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x444020)
-char_type Car_BC::sub_444020()
+MATCH_FUNC(0x444020)
+void Car_BC::sub_444020()
 {
-    return 0;
+    if (field_94 > 0)
+    {
+        field_94--;
+        if (field_94 == 0)
+        {
+            field_70 = 0;
+            field_90 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x444090)
@@ -1956,6 +2023,129 @@ u32 Car_BC::sub_444090(Car_BC* a1)
     return 0;
 }
 
+/*
+One of these combinations of the cases will get a match :)
+34,12,52,17,84
+ 34,12,52,84,17
+ 34,12,17,52,84
+ 34,12,17,84,52
+ 34,12,84,52,17
+ 34,12,84,17,52
+ 34,52,12,84,17
+ 34,52,12,17,84
+ 34,52,17,84,12
+ 34,52,17,12,84
+ 34,52,84,17,12
+ 34,52,84,12,17
+ 34,17,12,52,84
+ 34,17,12,84,52
+ 34,17,52,12,84
+ 34,17,52,84,12
+ 34,17,84,12,52
+ 34,17,84,52,12
+ 34,84,12,17,52
+ 34,84,12,52,17
+ 34,84,52,17,12
+ 34,84,52,12,17
+ 34,84,17,52,12
+ 34,84,17,12,52
+ 12,34,84,52,17
+ 12,34,84,17,52
+ 12,34,52,84,17
+ 12,34,52,17,84
+ 12,34,17,84,52
+ 12,34,17,52,84
+ 12,52,84,17,34
+ 12,52,84,34,17
+ 12,52,34,17,84
+ 12,52,34,84,17
+ 12,52,17,34,84
+ 12,52,17,84,34
+ 12,17,84,34,52
+ 12,17,84,52,34
+ 12,17,34,84,52
+ 12,17,34,52,84
+ 12,17,52,84,34
+ 12,17,52,34,84
+ 12,84,17,52,34
+ 12,84,17,34,52
+ 12,84,34,52,17
+ 12,84,34,17,52
+ 12,84,52,34,17
+ 12,84,52,17,34
+ 52,34,17,84,12
+ 52,34,17,12,84
+ 52,34,84,17,12
+ 52,34,84,12,17
+ 52,34,12,17,84
+ 52,34,12,84,17
+ 52,12,17,34,84
+ 52,12,17,84,34
+ 52,12,84,34,17
+ 52,12,84,17,34
+ 52,12,34,84,17
+ 52,12,34,17,84
+ 52,17,12,84,34
+ 52,17,12,34,84
+ 52,17,84,12,34
+ 52,17,84,34,12
+ 52,17,34,12,84
+ 52,17,34,84,12
+ 52,84,12,34,17
+ 52,84,12,17,34
+ 52,84,17,34,12
+ 52,84,17,12,34
+ 52,84,34,17,12
+ 52,84,34,12,17
+ 17,34,12,52,84
+ 17,34,12,84,52
+ 17,34,52,12,84
+ 17,34,52,84,12
+ 17,34,84,12,52
+ 17,34,84,52,12
+ 17,12,34,84,52
+ 17,12,34,52,84
+ 17,12,52,84,34
+ 17,12,52,34,84
+ 17,12,84,52,34
+ 17,12,84,34,52
+ 17,52,34,12,84
+ 17,52,34,84,12
+ 17,52,12,34,84
+ 17,52,12,84,34
+ 17,52,84,34,12
+ 17,52,84,12,34
+ 17,84,34,52,12
+ 17,84,34,12,52
+ 17,84,12,52,34
+ 17,84,12,34,52
+ 17,84,52,12,34
+ 17,84,52,34,12
+ 84,34,17,12,52
+ 84,34,17,52,12
+ 84,34,12,17,52
+ 84,34,12,52,17
+ 84,34,52,17,12
+ 84,34,52,12,17
+ 84,12,17,52,34
+ 84,12,17,34,52
+ 84,12,34,52,17
+ 84,12,34,17,52
+ 84,12,52,34,17
+ 84,12,52,17,34
+ 84,52,17,34,12
+ 84,52,17,12,34
+ 84,52,34,17,12
+ 84,52,34,12,17
+ 84,52,12,17,34
+ 84,52,12,34,17
+ 84,17,52,12,34
+ 84,17,52,34,12
+ 84,17,34,12,52
+ 84,17,34,52,12
+ 84,17,12,34,52
+ 84,17,12,52,34
+*/
 STUB_FUNC(0x4441b0)
 void Car_BC::sub_4441B0()
 {
@@ -1990,10 +2180,47 @@ void Car_BC::sub_4441B0()
     }
 }
 
-STUB_FUNC(0x444490) // https://decomp.me/scratch/ciDtc
-Car_6C* Car_BC::sub_444490()
+// TODO: matches on decomp.me
+STUB_FUNC(0x444490) // https://decomp.me/scratch/Mt1bU
+void Car_BC::sub_444490()
 {
-    return 0;
+    this->field_6C_maybe_id = gCar_6C_677930->field_14++;
+    this->field_74_damage = 0;
+    this->field_8C = 0;
+    this->field_8 = 0;
+    this->field_4.field_0_pOwner = 0;
+    this->field_54_driver = 0;
+    this->field_98 = 3;
+    this->field_58_uni_Car78_or_Car_B0 = 0;
+    this->field_A4 = 0;
+    this->field_A5 = 0;
+    this->field_76 = 0;
+    this->field_7C_uni_num = 3;
+    this->field_50_car_sprite = 0;
+    this->field_9C = 1;
+    this->field_A6 = 0;
+    this->field_80 = 0;
+    this->field_78_flags = 0;
+    //clear();
+    
+    ((Object_3C *)this)->sub_5A7010();     // base?
+    this->field_A7_horn = 0;
+    sub_443D70(0);
+    this->field_8D = 0;
+    this->field_60 = 0;
+    this->field_70 = 0;
+    this->field_90 = 0;
+    this->field_94 = 0;
+    this->field_95 = 0;
+    //v3 = dword_6777D0;
+    this->field_68 = dword_6777D0;
+
+    this->field_8E = 0;
+    this->field_A8 = 0;
+    this->field_A9 = 0;
+    this->field_B4 = 0;
+    this->field_B8 = 0;
+    this->field_B0 = 0;
 }
 
 STUB_FUNC(0x4446e0) // https://decomp.me/scratch/Jjnkp

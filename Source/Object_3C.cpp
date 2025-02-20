@@ -40,9 +40,9 @@ void Object_3C::sub_5A6F70(Sprite* a2)
 }
 
 STUB_FUNC(0x5a7010)
-s32 Object_3C::sub_5A7010()
+void Object_3C::sub_5A7010()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x5a7240)

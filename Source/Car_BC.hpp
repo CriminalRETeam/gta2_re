@@ -513,16 +513,16 @@ class Car_BC
     EXPORT void sub_443C40(s32 a2);
     EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_443D70(s32 a2);
-    EXPORT Car_6C* sub_443DA0(s32 a2);
-    EXPORT Car_6C* sub_443E50();
+    EXPORT void sub_443DA0(s32 a2);
+    EXPORT void sub_443E50();
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
-    EXPORT Car_6C* sub_443EE0(s32 a2);
+    EXPORT void sub_443EE0(s32 a2);
     EXPORT s32 sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5);
-    EXPORT char_type sub_444020();
+    EXPORT void sub_444020();
     EXPORT u32 sub_444090(Car_BC* a1);
     EXPORT void sub_4441B0();
-    EXPORT Car_6C* sub_444490();
+    EXPORT void sub_444490();
     EXPORT void sub_4446E0();
     EXPORT s32 sub_4447D0();
 
@@ -561,7 +561,6 @@ class Car_BC
     s16 field_74_damage;
     s16 field_76;
     u16 field_78_flags;
-    //    u8 field_79;
     s16 field_7A;
     s32 field_7C_uni_num;
     char_type field_80;
@@ -575,7 +574,7 @@ class Car_BC
     char_type field_8E;
     char_type field_8F;
     s32 field_90;
-    char_type field_94;
+    u8 field_94;
     char_type field_95;
     char_type field_96;
     char_type field_97;
