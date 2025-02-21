@@ -508,6 +508,7 @@ class Car_BC
     EXPORT s32 sub_4435B0();
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
+    EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
     EXPORT static void __stdcall sub_443AB0(Player *pPlayer, s32 weapon_cost);
     EXPORT void sub_443AE0(s32 a2);
     EXPORT void sub_443BD0(s32 a2);

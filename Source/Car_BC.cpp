@@ -1934,6 +1934,30 @@ Car_6C* Car_BC::sub_443710(s32 a2)
     return 0;
 }
 
+MATCH_FUNC(0x443A50)
+s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
+{
+
+    if (gCar_6C_677930->field_69_do_free_shopping)
+    {
+        return 0;
+    }
+
+    switch (weapon_kind)
+    {
+        case weapon_type::car_bomb:
+            return 5000;
+        case weapon_type::oil_stain:
+            return 10000;
+        case weapon_type::car_smg:
+            return 25000;
+        case weapon_type::car_mines:
+            return 50000;
+        default:
+            return 0;
+    }
+}
+
 MATCH_FUNC(0x443AB0)
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
