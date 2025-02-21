@@ -19,7 +19,7 @@ class Car_B0
     EXPORT ~Car_B0();
     EXPORT void sub_559430();
     EXPORT void sub_5597B0();
-    EXPORT s32 sub_5599D0();
+    EXPORT bool sub_5599D0();
     EXPORT void sub_559A40();
     EXPORT Car_BC* sub_559B40();
     EXPORT Car_A4_10* sub_559B50();
@@ -149,7 +149,7 @@ class Car_B0
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
     s32 field_8C;
-    char_type field_90_timer_since_last_move;
+    u8 field_90_timer_since_last_move;
     char_type field_91_is_foot_brake_on;
     char_type field_92_is_hand_brake_on;
     char_type field_93_is_forward_gas_on;

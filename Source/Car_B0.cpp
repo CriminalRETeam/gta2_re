@@ -38,7 +38,7 @@ void Car_B0::sub_5597B0()
 }
 
 STUB_FUNC(0x5599d0)
-s32 Car_B0::sub_5599D0()
+bool Car_B0::sub_5599D0()
 {
     return 0;
 }
@@ -61,7 +61,7 @@ Car_A4_10* Car_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void Car_B0::sub_559B90(const Fix16 &a2)
+void Car_B0::sub_559B90(const Fix16& a2)
 {
     field_A0 = a2;
 }
@@ -557,9 +557,24 @@ s32 Car_B0::sub_562F30()
     return 0;
 }
 
-STUB_FUNC(0x562fa0)
+MATCH_FUNC(0x562fa0)
 char_type Car_B0::sub_562FA0()
 {
+    if (sub_5599D0())
+    {
+        if (field_90_timer_since_last_move < 255)
+        {
+            this->field_90_timer_since_last_move++;
+        }
+        if (this->field_90_timer_since_last_move >= 20u)
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        this->field_90_timer_since_last_move = 0;
+    }
     return 0;
 }
 
