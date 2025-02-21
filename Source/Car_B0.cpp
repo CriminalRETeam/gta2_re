@@ -48,10 +48,14 @@ void Car_B0::sub_559A40()
 {
 }
 
-STUB_FUNC(0x559b40)
-Car_BC* Car_B0::sub_559B40()
+MATCH_FUNC(0x559b40)
+void Car_B0::sub_559B40()
 {
-    return 0;
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    if (p10)
+    {
+        p10->sub_407CE0();
+    }
 }
 
 STUB_FUNC(0x559b50)
