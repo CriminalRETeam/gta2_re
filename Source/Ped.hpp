@@ -285,6 +285,11 @@ class Ped
         return field_1AC_cam.y;
     }
 
+    inline Fix16 get_cam_z()
+    {
+        return field_1AC_cam.z;
+    }
+
     Marz_3 field_0[100];
     Ang16 field_12C;
     Ang16 field_12E;
@@ -306,8 +311,8 @@ class Ped
     PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;
     Car_BC* field_16C_car;
-    s32 field_170_selected_weapon;
-    s32 field_174_pWeapon;
+    Weapon_30* field_170_selected_weapon;
+    Weapon_30* field_174_pWeapon;
     Weapon_30* field_178;
     Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     s32 field_180;

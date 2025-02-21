@@ -148,26 +148,33 @@ bool Door_38::sub_49C6D0(Car_BC* a2)
     return ret;
 }
 
-// https://decomp.me/scratch/XlGeq asm differ bugged
-STUB_FUNC(0x49c7f0)
+MATCH_FUNC(0x49c7f0)
 bool Door_38::sub_49C7F0(Ped* a2)
 {
-    if (field_20_state == 1)
+    bool ret = false;
+    switch(field_20_state)
     {
-        return a2->field_15C_player_weapons != 0;
-    }
-
-    if (field_20_state == 5)
-    {
-        if (field_10_ped)
-        {
-            if (a2 == field_10_ped)
+        case 1:
+            if (a2->field_15C_player_weapons != 0)
             {
-                return a2->field_200 == field_14;
+                ret = true;
             }
-        }
+        break;
+
+        case 5:
+            if (field_10_ped)
+            {
+                if (a2 == field_10_ped)
+                {
+                    if ( a2->field_200 == this->field_14)
+                    {
+                        ret = true;
+                    }
+                }
+            }
+        break;
     }
-    return false;
+    return ret;
 }
 
 MATCH_FUNC(0x49c840)

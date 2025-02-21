@@ -1,6 +1,7 @@
 #include "Phi_8CA8.hpp"
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
+#include "sprite.hpp"
 #include <memory.h>
 
 MATCH_FUNC(0x4bdf60)
@@ -52,23 +53,50 @@ void Phi_74::sub_533150(s16 a2, char_type a3)
     field_6C = a3;
 }
 
-STUB_FUNC(0x533170)
+MATCH_FUNC(0x533170)
 Sprite* Phi_74::sub_533170()
 {
-    /*
-    Sprite* field_0_pC3C = gSprite_49B28_703818->field_0_pC3C;
-    gSprite_49B28_703818->field_0_pC3C = gSprite_49B28_703818->field_0_pC3C->field_C_car_or_sprite;
-    field_0_pC3C->sub_5A2CF0();
-    sub_5331A0(field_0_pC3C);
-    return field_0_pC3C;
-    */
-    return 0; // TODO: Needs sprite stubs
+    Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
+    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
+    pFreeSprite->sub_5A2CF0();
+    sub_5331A0(pFreeSprite);
+    return pFreeSprite;
 }
 
 STUB_FUNC(0x5331a0)
-s32 Phi_74::sub_5331A0(Sprite* a2)
+void Phi_74::sub_5331A0(Sprite* pSprite)
 {
-    return 0;
+    s16 f1E; // ax
+    s32 f40; // eax
+
+    pSprite->field_30_sprite_type_enum = this->field_28;
+    pSprite->sub_59E960();
+    f1E = this->field_1E;
+
+    if (pSprite->field_22_sprite_id != f1E)
+    {
+        pSprite->field_22_sprite_id = f1E;
+        pSprite->sub_59FA40();
+    }
+
+    pSprite->field_28_uni = this->field_2C;
+    pSprite->field_2C = this->field_20;
+
+    if (this->field_30 != 2)
+    {
+        pSprite->sub_59EA00(this->field_1C);
+    }
+
+    f40 = this->field_40;
+    if (f40 > 0 && f40 <= 4) // TODO: This part is wrong
+    {
+        pSprite->sub_59F950(this->field_0, this->field_4, this->field_8);
+    }
+
+    if (this->field_70)
+    {
+        pSprite->sub_5A29D0();
+    }
 }
 
 // fix16?
