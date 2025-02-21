@@ -1006,7 +1006,22 @@ void Car_BC::sub_43A600()
 STUB_FUNC(0x43a680)
 bool Car_BC::sub_43A680()
 {
-    return 0;
+    // TODO: which object is sub_5A71A0 part of?
+    s32 info_idx; // eax
+    s32 info_idx_; // esi
+
+    info_idx = this->field_84_car_info_idx;
+
+    if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6 &&
+        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(info_idx)->info_flags & 2) != 2 && this->field_84_car_info_idx != 84 /*&& !sub_5A71A0()*/)
+    {
+        info_idx_ = this->field_84_car_info_idx;
+        if (info_idx_ != 54 && info_idx_ != 22 && info_idx_ != 30 && info_idx_ != 3)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x43a6f0)
@@ -1896,10 +1911,10 @@ char_type Car_BC::sub_443360(s32 a2, s32 a3, s32 a4, s16 a5)
     return 0;
 }
 
-STUB_FUNC(0x4435a0)
+MATCH_FUNC(0x4435a0)
 char_type Car_BC::sub_4435A0()
 {
-    return 0;
+    return sub_441A70();
 }
 
 STUB_FUNC(0x4435b0)
