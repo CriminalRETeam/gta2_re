@@ -606,10 +606,15 @@ s32* Car_B0::sub_563460()
     return 0;
 }
 
-STUB_FUNC(0x563560)
-s32* Car_B0::sub_563560(Sprite* a2)
+MATCH_FUNC(0x563560)
+void Car_B0::sub_563560(Sprite* a2)
 {
-    return 0;
+    this->field_38_cp1.field_0 = a2->field_14_xpos;
+    this->field_38_cp1.field_4 = a2->field_18_ypos;
+    this->field_6C_cp3 = a2->field_1C_zpos;
+    this->field_58_theta = a2->field_0;
+    this->field_78_pointing_ang_rad = 0;
+    sub_563350();
 }
 
 STUB_FUNC(0x563590)

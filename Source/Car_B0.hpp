@@ -113,7 +113,7 @@ class Car_B0
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();
-    EXPORT s32* sub_563560(Sprite* a2);
+    EXPORT void sub_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
@@ -140,7 +140,7 @@ class Car_B0
     Fix16 field_60_gas_pedal;
     s32 field_64;
     Fix16 field_68_z_pos;
-    s32 field_6C_cp3;
+    Fix16 field_6C_cp3;
     Fix16 field_70;
     Fix16 field_74_ang_vel_rad;
     s32 field_78_pointing_ang_rad;
