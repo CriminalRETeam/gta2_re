@@ -2551,10 +2551,28 @@ void Car_A4_10::sub_4081B0()
     field_C->sub_441A10();
 }
 
-STUB_FUNC(0x4081d0)
+MATCH_FUNC(0x4081d0)
 char_type Car_A4_10::sub_4081D0()
 {
-    return 0;
+    if (field_8->field_74_damage == 32001)
+    {
+        if (field_C->field_74_damage != 32001)
+        {
+            field_C->field_74_damage = 32000;
+            field_C->sub_43D840(18);
+        }
+        return 1;
+    }
+    else if (this->field_C->field_74_damage == 32001)
+    {
+        field_8->field_74_damage = 32000;
+        field_8->sub_43D840(18);
+        return 1;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x408220)
