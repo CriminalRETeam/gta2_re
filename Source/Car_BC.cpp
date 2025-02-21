@@ -1832,9 +1832,16 @@ bool Car_BC::sub_442170()
     return false;
 }
 
-STUB_FUNC(0x442190)
+MATCH_FUNC(0x442190)
 void Car_BC::sub_442190()
 {
+    if (((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_562FE0())
+    {
+        if (!this->field_54_driver)
+        {
+            sub_43BD00();
+        }
+    }
 }
 
 MATCH_FUNC(0x4421b0)
