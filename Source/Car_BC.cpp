@@ -2526,7 +2526,7 @@ char_type Car_A4_10::sub_408140()
     {
         return 0;
     }
-    
+
     sub_408190();
 
     if (!this->field_8->field_58_uni_Car78_or_Car_B0->sub_562FE0() || this->field_8->field_54_driver)
@@ -2544,10 +2544,11 @@ void Car_A4_10::sub_408190()
     field_C->sub_43BC30();
 }
 
-STUB_FUNC(0x4081b0)
-Car_B0* Car_A4_10::sub_4081B0()
+MATCH_FUNC(0x4081b0)
+void Car_A4_10::sub_4081B0()
 {
-    return 0;
+    field_8->sub_441A10();
+    field_C->sub_441A10();
 }
 
 STUB_FUNC(0x4081d0)
