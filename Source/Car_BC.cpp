@@ -1659,9 +1659,10 @@ void Car_BC::sub_4417D0()
     }
 }
 
-STUB_FUNC(0x4417f0)
+MATCH_FUNC(0x4417f0)
 void Car_BC::sub_4417F0()
 {
+    field_A7_horn = 45;
 }
 
 STUB_FUNC(0x441800)
