@@ -553,7 +553,7 @@ class Car_BC
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    Car_78* field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni_Car78_or_Car_B0;
     Car_78* field_5C;
     Hamburger_40* field_60;
     Car_A4_10* field_64;

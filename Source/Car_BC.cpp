@@ -953,7 +953,7 @@ bool Car_BC::sub_43A3C0()
 {
     Car_B0* pObj; // eax
 
-    pObj = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    pObj = this->field_58_uni_Car78_or_Car_B0;
     if (!pObj)
     {
         return false;
@@ -1072,7 +1072,7 @@ char_type Car_BC::sub_43A850()
 MATCH_FUNC(0x43a950)
 void Car_BC::sub_43A950()
 {
-    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1082,8 +1082,8 @@ void Car_BC::sub_43A950()
 MATCH_FUNC(0x43a970)
 void Car_BC::sub_43A970()
 {
-    ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->field_92_is_hand_brake_on = 1;
-    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    field_58_uni_Car78_or_Car_B0->field_92_is_hand_brake_on = 1;
+    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1252,17 +1252,17 @@ char_type Car_BC::sub_43BBC0()
 MATCH_FUNC(0x43bc30)
 void Car_BC::sub_43BC30()
 {
-    if (!((Car_B0*)this->field_58_uni_Car78_or_Car_B0))
+    if (!field_58_uni_Car78_or_Car_B0)
     {
         sub_4419E0();
-        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_5638C0(this);
-        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+        field_58_uni_Car78_or_Car_B0->sub_5638C0(this);
+        field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
     }
     else
     {
         if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
         {
-            ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+            field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
         }
     }
 }
@@ -1660,7 +1660,7 @@ void Car_BC::sub_441520()
 MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
-    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
     if (pB0 && pB0->sub_55A150())
     {
         sub_43BF10();
@@ -1835,7 +1835,7 @@ bool Car_BC::sub_442170()
 MATCH_FUNC(0x442190)
 void Car_BC::sub_442190()
 {
-    if (((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_562FE0())
+    if (field_58_uni_Car78_or_Car_B0->sub_562FE0())
     {
         if (!this->field_54_driver)
         {
@@ -2051,7 +2051,7 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }
-    Car_B0* field_58_uni = (Car_B0*)field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni = field_58_uni_Car78_or_Car_B0;
     if (field_58_uni)
     {
         field_58_uni->sub_563560(field_50_car_sprite);
