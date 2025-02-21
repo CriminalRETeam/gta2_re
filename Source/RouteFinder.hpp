@@ -4,15 +4,26 @@
 
 struct gmp_block_info;
 
+class Link_2
+{
+  public:
+    EXPORT u16 FUN_0040ce90()
+    {
+        return field_0 & 0x1ff;
+    }
+
+    s16 field_0;
+};
+
 class Junction_10
 {
   public:
     EXPORT char_type sub_588580(s32 a2);
-    EXPORT s16 sub_5885C0(s16 a2);
-    s16 field_0_n;
-    s16 field_2_s;
-    s16 field_4_e;
-    s16 field_6_w;
+    EXPORT u16 sub_5885C0(u16 a2);
+    Link_2 field_0_n;
+    Link_2 field_2_s;
+    Link_2 field_4_e;
+    Link_2 field_6_w;
     s32 field_8_type;
     u8 field_C_min_x;
     u8 field_D_min_y;
@@ -23,13 +34,19 @@ class Junction_10
 class RouteFinder_10
 {
   public:
-    EXPORT RouteFinder_10* sub_5892D0();
+    EXPORT RouteFinder_10();
     u16 field_0_idx;
     s16 field_2;
     s16 field_4;
     s16 field_6;
     RouteFinder_10* field_8;
     RouteFinder_10* field_C;
+};
+
+class RouteFinder_200
+{
+  public:
+    u16 field_0[0x100];
 };
 
 class RouteFinder
@@ -66,26 +83,24 @@ class RouteFinder
     EXPORT void sub_58A020(char_type a2);
     EXPORT Junction_10* sub_58A0B0(u16 jIdx);
     EXPORT s16 sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
-    EXPORT s16 sub_58A130(u8 a2, s16 a3, u8 a4, u8* a5, s32 a6, s32 a7);
-    EXPORT s16 sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
+    EXPORT s16 sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6);
+    EXPORT void sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8);
     EXPORT RouteFinder();
 
-    s16 field_0;
+    u16 field_0;
     u8 field_2;
     char_type field_3;
     s16 field_4;
     s16 field_6;
     Junction_10 field_8[545];
-    char_type field_2218[25600];
+    RouteFinder_200 field_2218[50];
     u16 field_8618_idx;
     u16 field_861A;
     RouteFinder_10 field_861C[545];
     RouteFinder_10* field_A82C;
     char_type field_A830[4360];
     char_type field_B938[4360];
-    char_type field_CA40[544];
-    char_type field_CC60;
-    char_type field_CC61;
+    char_type field_CA40[545];
     s16 field_CC62;
     u16 field_CC64;
     u16 field_CC66_545_count;

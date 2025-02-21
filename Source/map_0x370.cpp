@@ -1,15 +1,16 @@
 #include "map_0x370.hpp"
+#include "Car_BC.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Zones_CA8.hpp"
 #include "chunk.hpp"
 #include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
-#include "PurpleDoom.hpp"
 #include "memory.hpp"
-#include "Car_BC.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -1407,7 +1408,7 @@ void Map_0x370::load_mobj_4E91A0(size_t len)
 {
     gmp_map_object* v3 = (gmp_map_object*)Memory::malloc_4FE4D0(len);
     field_338_pMapObjects = v3;
-    File::Global_Read_4A71C0(v3, &len);
+    File::Global_Read_4A71C0(v3, len);
     field_344_map_object_count = len / 6;
     if (6 * field_344_map_object_count != len)
     {
@@ -1420,7 +1421,7 @@ void Map_0x370::load_lght_4E9200(size_t a2)
 {
     gmp_map_light* v3 = (gmp_map_light*)Memory::malloc_4FE4D0(a2);
     field_33C_pLightData = v3;
-    File::Global_Read_4A71C0(v3, &a2);
+    File::Global_Read_4A71C0(v3, a2);
     field_348_num_lights = a2 >> 4;
     if (16 * field_348_num_lights != a2)
     {
@@ -1433,7 +1434,7 @@ void Map_0x370::load_zone_4E9250(size_t a2)
 {
     gmp_map_zone* v3 = (gmp_map_zone*)Memory::malloc_4FE4D0(a2);
     field_328_pZoneData = v3;
-    File::Global_Read_4A71C0(v3, &a2);
+    File::Global_Read_4A71C0(v3, a2);
     sub_4E90E0(a2);
 }
 
@@ -1442,7 +1443,7 @@ void Map_0x370::load_anim_4E9280(size_t size)
 {
     void* pAlloc = Memory::malloc_4FE4D0(size);
     field_340_pTileAnimData = pAlloc;
-    File::Global_Read_4A71C0(pAlloc, &size);
+    File::Global_Read_4A71C0(pAlloc, size);
     sub_4E9160(size);
 }
 
@@ -1471,10 +1472,10 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
     }
 
     size_t len_1 = 0x40000;
-    File::Global_Read_4A71C0(field_0_pDmap, &len_1);
+    File::Global_Read_4A71C0(field_0_pDmap, len_1);
 
     len_1 = 4;
-    File::Global_Read_4A71C0(&field_0_pDmap->field_40000_column_words, &len_1);
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40000_column_words, len_1);
     if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000)
     {
         FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 130048);
@@ -1483,11 +1484,11 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
     field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
     a2 = 4 * field_0_pDmap->field_40000_column_words;
     field_0_pDmap->field_40008_pColumn = (u16**)Memory::malloc_4FE4D0(4 * field_35C_column_word_extra);
-    File::Global_Read_4A71C0(field_0_pDmap->field_40008_pColumn, &a2);
+    File::Global_Read_4A71C0(field_0_pDmap->field_40008_pColumn, a2);
     len_1 = 4;
     field_358_column_words = field_0_pDmap->field_40000_column_words;
     field_360_column_words = field_0_pDmap->field_40000_column_words;
-    File::Global_Read_4A71C0(&field_0_pDmap->field_40004_num_blocks, &len_1);
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40004_num_blocks, len_1);
     if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000)
     {
         FatalError_4A38C0(1129, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6161, field_0_pDmap->field_40004_num_blocks - 130872);
@@ -1495,7 +1496,7 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
     field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
     size_t v17 = 12 * field_0_pDmap->field_40004_num_blocks;
     field_0_pDmap->field_4000C_block = (gmp_block_info*)Memory::malloc_4FE4D0(12 * field_350_num_blocks_extra);
-    File::Global_Read_4A71C0(field_0_pDmap->field_4000C_block, &v17);
+    File::Global_Read_4A71C0(field_0_pDmap->field_4000C_block, v17);
     field_34C_num_blocks = field_0_pDmap->field_40004_num_blocks;
     field_354_num_blocks = field_0_pDmap->field_40004_num_blocks;
     if (len != v17 + a2 + 0x40008)
@@ -1504,11 +1505,10 @@ void Map_0x370::load_dmap_4E92B0(s32 len)
     }
 }
 
-STUB_FUNC(0x4E94A0)
+MATCH_FUNC(0x4E94A0)
 void Map_0x370::load_rgen_4E94A0()
 {
-    // gRouteFinder_6FFDC8 stub required
-    //gRouteFinder_6FFDC8->Load_RGEN_588B30();
+    gRouteFinder_6FFDC8->Load_RGEN_588B30();
 }
 
 MATCH_FUNC(0x4E94B0)
@@ -1558,7 +1558,7 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 
     u32 len = sizeof(gmp_header);
     chunk_header chunkHeader;
-    File::Global_Read_4A71C0(&header, &len);
+    File::Global_Read_4A71C0(&header, len);
 
     len = sizeof(chunk_header);
     while (File::Global_Read_4A7210(&chunkHeader, &len))

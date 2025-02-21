@@ -186,7 +186,7 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
     do
     {
         u32 readLen = 2;
-        File::Global_Read_4A71C0(pStr, &readLen);
+        File::Global_Read_4A71C0(pStr, readLen);
         pStr++;
         i--;
     } while (i);
@@ -198,13 +198,13 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
         for (j = 0; j < 4; j++)
         {
             u32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, &len_read);
+            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_4, &len_read);
+            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_4, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_8, &len_read);
+            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_8, len_read);
         }
     }
     File::Global_Close_4A70C0();
@@ -259,24 +259,24 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     File::Global_Open_4A7060(FileName);
 
     u32 len = 240;
-    File::Global_Read_4A71C0(&field_23D0.field_0, &len);
+    File::Global_Read_4A71C0(&field_23D0.field_0, len);
 
     for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
         for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
             len = 240;
-            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, &len);
+            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, len);
         }
 
         len = 40;
-        File::Global_Read_4A71C0(&field_1800[k3Counter], &len); // 3 40 byte objs
+        File::Global_Read_4A71C0(&field_1800[k3Counter], len); // 3 40 byte objs
 
         len = 4;
-        File::Global_Read_4A71C0(&field_1878[k3Counter], &len);
+        File::Global_Read_4A71C0(&field_1878[k3Counter], len);
 
         len = 4;
-        File::Global_Read_4A71C0(&field_1884[k3Counter], &len);
+        File::Global_Read_4A71C0(&field_1884[k3Counter], len);
     }
 
     File::Global_Close_4A70C0();

@@ -94,7 +94,7 @@ void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
-    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, &chunkSize);
+    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunkSize);
 }
 
 MATCH_FUNC(0x5B59B0)
@@ -160,7 +160,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
     }
 
-    File::Global_Read_4A71C0(field_0_data, &size);
+    File::Global_Read_4A71C0(field_0_data, size);
 }
 
 STUB_FUNC(0x5B5AD0)
@@ -316,7 +316,7 @@ void text_0x14::Load_5B5E90()
 
     file_header gtxHeader;
     u32 len = sizeof(file_header);
-    File::Global_Read_4A71C0(&gtxHeader, &len);
+    File::Global_Read_4A71C0(&gtxHeader, len);
 
     gtxHeader.verify_type(expected_code);
     gtxHeader.verify_version(100);
