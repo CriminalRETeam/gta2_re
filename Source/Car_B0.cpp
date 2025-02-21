@@ -628,9 +628,16 @@ s32 Car_B0::sub_563670()
     return 0;
 }
 
-STUB_FUNC(0x5636c0)
+MATCH_FUNC(0x5636c0)
 void Car_B0::sub_5636C0()
 {
+    sub_563670();
+    
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    if (p10)
+    {
+        p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
+    }
 }
 
 STUB_FUNC(0x5636e0)
