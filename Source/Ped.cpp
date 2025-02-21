@@ -3,12 +3,14 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "char.hpp"
+#include "Car_B0.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1592,13 +1594,56 @@ void Ped::sub_4702D0(Ped* pPed)
 }
 
 STUB_FUNC(0x470300)
-s32 Ped::sub_470300()
+void Ped::sub_470300()
 {
-    return 0;
+    this->field_15C_player_weapons = 0;
+    this->field_240_occupation = 3;
+    this->field_238 = 3;
+    Car_BC* pCar = this->field_16C_car;
+    if (pCar)
+    {
+        // NOTE: Split into a function chunk here
+        const s32 info_idx = pCar->field_84_car_info_idx;
+        if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6)
+        {
+            pCar->field_7C_uni_num = 3;
+            pCar->field_76 = 0;
+            Car_B0* pB0 = (Car_B0*)pCar->field_58_uni_Car78_or_Car_B0;
+            if (pB0)
+            {
+                pB0->field_8C = 1;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x470f00)
+MATCH_FUNC(0x4702A0)
+void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
+{
+    // Get a free patrol point
+    Marz_3* pIter = this->field_190->field_0;
+    while (pIter->field_0)
+    {
+        ++pIter;
+    }
+
+    // And populate it
+    pIter->field_0 = x;
+    pIter->field_1 = y;
+    pIter->field_2 = z;
+}
+
+MATCH_FUNC(0x470f00)
 s32 Ped::sub_470F00()
 {
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        const s32 info_idx = pBC->field_84_car_info_idx;
+        if (info_idx == 59 || info_idx == 60 || info_idx == 61 || info_idx == 6)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
