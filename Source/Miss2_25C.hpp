@@ -4,6 +4,7 @@
 
 class Ped;
 class Car_BC;
+class Object_2C;
 
 class Miss2_C
 {
@@ -24,8 +25,8 @@ class Miss2_25C
     EXPORT Miss2_C* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car_BC* pCar);
     EXPORT void push_type_3_ped_502FB0(Ped* pPed);
-    EXPORT void push_type_2_502FF0(s32 a2, char_type a3);
-    EXPORT void push_type_2_503050(s32 a2);
+    EXPORT void push_type_2_502FF0(Object_2C *pObj, char_type a3);
+    EXPORT void push_type_2_503050(Object_2C *pObj);
 
     Miss2_C field_0[50];
 
