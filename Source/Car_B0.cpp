@@ -564,7 +564,7 @@ char_type Car_B0::sub_562FA0()
 }
 
 STUB_FUNC(0x562fe0)
-s32 Car_B0::sub_562FE0()
+bool Car_B0::sub_562FE0()
 {
     return 0;
 }
