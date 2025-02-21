@@ -109,7 +109,7 @@ class Car_B0
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();
     EXPORT char_type sub_562FA0();
-    EXPORT s32 sub_562FE0();
+    EXPORT bool sub_562FE0();
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();

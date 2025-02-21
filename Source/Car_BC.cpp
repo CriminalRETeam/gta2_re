@@ -948,10 +948,18 @@ s32* Car_BC::sub_43A240(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a3c0)
+STUB_FUNC(0x43a3c0) // ??? stupidly easy function that doesn't match :)
 bool Car_BC::sub_43A3C0()
 {
-    return 0;
+    Car_B0* pObj; // eax
+
+    pObj = this->field_58_uni_Car78_or_Car_B0;
+    if (!pObj)
+    {
+        return false;
+    }
+    s32 type = pObj->field_98_surface_type;
+    return (type == 6) ? true : false;
 }
 
 STUB_FUNC(0x43a3e0)
@@ -984,15 +992,36 @@ u32* Car_BC::sub_43A5B0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a600)
+MATCH_FUNC(0x43a600)
 void Car_BC::sub_43A600()
 {
+    sub_43D400();
+    Car_A4_10* v2 = this->field_64;
+    if (v2)
+    {
+        v2->field_C->sub_43D400();
+    }
 }
 
 STUB_FUNC(0x43a680)
 bool Car_BC::sub_43A680()
 {
-    return 0;
+    // TODO: which object is sub_5A71A0 part of?
+    s32 info_idx; // eax
+    s32 info_idx_; // esi
+
+    info_idx = this->field_84_car_info_idx;
+
+    if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6 &&
+        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(info_idx)->info_flags & 2) != 2 && this->field_84_car_info_idx != 84 /*&& !sub_5A71A0()*/)
+    {
+        info_idx_ = this->field_84_car_info_idx;
+        if (info_idx_ != 54 && info_idx_ != 22 && info_idx_ != 30 && info_idx_ != 3)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x43a6f0)
@@ -1043,7 +1072,7 @@ char_type Car_BC::sub_43A850()
 MATCH_FUNC(0x43a950)
 void Car_BC::sub_43A950()
 {
-    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1053,8 +1082,8 @@ void Car_BC::sub_43A950()
 MATCH_FUNC(0x43a970)
 void Car_BC::sub_43A970()
 {
-    ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->field_92_is_hand_brake_on = 1;
-    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    field_58_uni_Car78_or_Car_B0->field_92_is_hand_brake_on = 1;
+    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1223,17 +1252,17 @@ char_type Car_BC::sub_43BBC0()
 MATCH_FUNC(0x43bc30)
 void Car_BC::sub_43BC30()
 {
-    if (!((Car_B0*)this->field_58_uni_Car78_or_Car_B0))
+    if (!field_58_uni_Car78_or_Car_B0)
     {
         sub_4419E0();
-        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_5638C0(this);
-        ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+        field_58_uni_Car78_or_Car_B0->sub_5638C0(this);
+        field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
     }
     else
     {
         if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
         {
-            ((Car_B0*)this->field_58_uni_Car78_or_Car_B0)->sub_563560(this->field_50_car_sprite);
+            field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
         }
     }
 }
@@ -1628,9 +1657,18 @@ void Car_BC::sub_441520()
 {
 }
 
-STUB_FUNC(0x4415c0)
+MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
+    Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
+    if (pB0 && pB0->sub_55A150())
+    {
+        sub_43BF10();
+    }
+    else
+    {
+        sub_43BF70();
+    }
 }
 
 STUB_FUNC(0x441600)
@@ -1659,9 +1697,10 @@ void Car_BC::sub_4417D0()
     }
 }
 
-STUB_FUNC(0x4417f0)
+MATCH_FUNC(0x4417f0)
 void Car_BC::sub_4417F0()
 {
+    field_A7_horn = 45;
 }
 
 STUB_FUNC(0x441800)
@@ -1707,7 +1746,26 @@ Car_B0* Car_BC::sub_441A10()
 STUB_FUNC(0x441a40)
 char_type Car_BC::sub_441A40()
 {
-    return 0;
+    for (s32 i = 0; i < 4; i++)
+    {
+        /*
+        if (field_C[i].field_4_state !=0 && field_C[i].field_4_state !=6)
+        {
+            return 0;
+        }*/
+        switch (field_C[i].field_4_state)
+        {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                return 0;
+            default:
+                break;
+        }
+    }
+    return 1;
 }
 
 STUB_FUNC(0x441a70)
@@ -1728,10 +1786,17 @@ void Car_BC::sub_441B00()
     }
 }
 
-STUB_FUNC(0x441b20)
-s16 Car_BC::sub_441B20()
+MATCH_FUNC(0x441b20)
+void Car_BC::sub_441B20()
 {
-    return 0;
+    if (this->field_9C != 3 || this->field_4.field_0_pOwner)
+    {
+        this->field_8.clear_bit(15);
+    }
+    else
+    {
+        this->field_8.set_bit(15);
+    }
 }
 
 STUB_FUNC(0x441b50)
@@ -1756,21 +1821,38 @@ void Car_BC::sub_441E70()
 {
 }
 
-STUB_FUNC(0x442170)
+MATCH_FUNC(0x442170)
 bool Car_BC::sub_442170()
 {
-    return 0;
+    Ped* pDriver = this->field_54_driver;
+    if ((!pDriver || !pDriver->field_15C_player_weapons) && !sub_43B750())
+    {
+        return true;
+    }
+    return false;
 }
 
-STUB_FUNC(0x442190)
+MATCH_FUNC(0x442190)
 void Car_BC::sub_442190()
 {
+    if (field_58_uni_Car78_or_Car_B0->sub_562FE0())
+    {
+        if (!this->field_54_driver)
+        {
+            sub_43BD00();
+        }
+    }
 }
 
-STUB_FUNC(0x4421b0)
+MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    return 0;
+    if (field_A0 != 8 && field_7C_uni_num != 5 && !field_4.sub_471710())
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 STUB_FUNC(0x442200)
@@ -1872,10 +1954,10 @@ char_type Car_BC::sub_443360(s32 a2, s32 a3, s32 a4, s16 a5)
     return 0;
 }
 
-STUB_FUNC(0x4435a0)
+MATCH_FUNC(0x4435a0)
 char_type Car_BC::sub_4435A0()
 {
-    return 0;
+    return sub_441A70();
 }
 
 STUB_FUNC(0x4435b0)
@@ -1893,6 +1975,38 @@ STUB_FUNC(0x443710)
 Car_6C* Car_BC::sub_443710(s32 a2)
 {
     return 0;
+}
+
+MATCH_FUNC(0x443A50)
+s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
+{
+    if (gCar_6C_677930->field_69_do_free_shopping)
+    {
+        return 0;
+    }
+
+    switch (weapon_kind)
+    {
+        case weapon_type::car_bomb:
+            return 5000;
+        case weapon_type::oil_stain:
+            return 10000;
+        case weapon_type::car_smg:
+            return 25000;
+        case weapon_type::car_mines:
+            return 50000;
+        default:
+            return 0;
+    }
+}
+
+MATCH_FUNC(0x443AB0)
+void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
+{
+    if (pPlayer->field_0)
+    {
+        gGarox_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
+    }
 }
 
 STUB_FUNC(0x443ae0)
@@ -1937,7 +2051,7 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }
-    Car_B0* field_58_uni = (Car_B0*)field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni = field_58_uni_Car78_or_Car_B0;
     if (field_58_uni)
     {
         field_58_uni->sub_563560(field_50_car_sprite);

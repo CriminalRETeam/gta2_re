@@ -481,7 +481,7 @@ class Car_BC
     EXPORT char_type sub_441A40();
     EXPORT char_type sub_441A70();
     EXPORT void sub_441B00();
-    EXPORT s16 sub_441B20();
+    EXPORT void sub_441B20();
     EXPORT char_type sub_441B50();
     EXPORT void sub_441C00();
     EXPORT s16 sub_441D40();
@@ -508,6 +508,8 @@ class Car_BC
     EXPORT s32 sub_4435B0();
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
+    EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
+    EXPORT static void __stdcall sub_443AB0(Player *pPlayer, s32 weapon_cost);
     EXPORT void sub_443AE0(s32 a2);
     EXPORT void sub_443BD0(s32 a2);
     EXPORT void sub_443C40(s32 a2);
@@ -551,7 +553,7 @@ class Car_BC
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    Car_78* field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni_Car78_or_Car_B0;
     Car_78* field_5C;
     Hamburger_40* field_60;
     Car_A4_10* field_64;
