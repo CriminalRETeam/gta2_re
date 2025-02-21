@@ -1597,8 +1597,17 @@ s32 Ped::sub_470300()
     return 0;
 }
 
-STUB_FUNC(0x470f00)
+MATCH_FUNC(0x470f00)
 s32 Ped::sub_470F00()
 {
+    Car_BC* pBC = this->field_16C_car;
+    if (pBC)
+    {
+        const s32 info_idx = pBC->field_84_car_info_idx;
+        if (info_idx == 59 || info_idx == 60 || info_idx == 61 || info_idx == 6)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
