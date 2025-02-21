@@ -29,6 +29,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Frismo_25C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -1154,14 +1155,32 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     Next_503620(gBasePtr_6F8070); // go to field_4_cmd_next
 }
 
-STUB_FUNC(0x506b30)
-void miss2_0x11C::sub_506B30()
+MATCH_FUNC(0x506b30)
+void miss2_0x11C::sub_506B30()  // GOSUB
 {
+    SCR_TWO_PARAMS* v2 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    Frismo_C* v3 = field_114->sub_5031A0();
+    v3->field_0 = field_8;
+    v3->field_4 = gBasePtr_6F8070->field_4_cmd_next;
+    field_114->add_503160(v3);
+    miss2_0x11C::sub_503650(v2->field_8_unsigned_1);
 }
 
-STUB_FUNC(0x506b80)
-void miss2_0x11C::sub_506B80()
+MATCH_FUNC(0x506b80)
+void miss2_0x11C::sub_506B80()  // MISSIONEND
 {
+    Frismo_C* v2 = field_114->remove_503180();
+
+    if (v2 == NULL)
+    {
+        miss2_0x11C::sub_503670();
+    }
+    else
+    {
+        miss2_0x11C::sub_503650(v2->field_4);
+        field_8 = v2->field_0;
+        field_114->sub_5031C0(v2);
+    }
 }
 
 STUB_FUNC(0x506bc0)
@@ -1275,24 +1294,73 @@ void miss2_0x11C::sub_5086F0()
 {
 }
 
-STUB_FUNC(0x508dc0)
+MATCH_FUNC(0x508dc0)
 void miss2_0x11C::SCRCMD_ARROW_COLOUR_508DC0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pPointer->field_8_arrow == NULL)
+    {
+        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
+    }
+    pPointer->field_8_arrow->sub_5D0510(v1->field_A_unsigned_2);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x508e80)
+MATCH_FUNC(0x508e80)
 void miss2_0x11C::SCRCMD_REMOVE_ARROW_508E80()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    Hud_Arrow_7C* pArrow = pPointer->field_8_arrow;
+
+    if (pArrow != NULL)
+    {
+        pArrow->field_18.field_18.field_10_type = 0;
+        pArrow->field_18.field_3C.field_10_type = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x508f00)
+MATCH_FUNC(0x508f00)
 void miss2_0x11C::SCRCMD_CHECK_CAR_DAMAGE_508F00()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    Car_BC* pCar = pPointer->field_8_car;
+    if (pCar->field_74_damage >= 320 * v1->field_A_signed_2)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509030)
+MATCH_FUNC(0x509030)
 void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Ped* v3 = pPointer->field_8_char;
+    s16 health_param = v1->field_A_signed_2;
+    
+    if (v3 != NULL 
+        && v3->field_216_health >= health_param)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509180)
@@ -1593,14 +1661,51 @@ void miss2_0x11C::sub_50A760()
 {
 }
 
-STUB_FUNC(0x50a940)
+MATCH_FUNC(0x50a940)
 void miss2_0x11C::SCRCMD_DELAY_HERE_50A940()
 {
+    SCR_CMD_HEADER* v2 = gBasePtr_6F8070 + 1; //  TODO: remove this hack
+
+    if (gBasePtr_6F8070[1].field_0_cmd_this == -1)
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_2_type;
+    }
+    else
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_0_cmd_this - 1;
+        if (!v2->field_0_cmd_this)
+        {
+            v2->field_0_cmd_this = -1;
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        }
+    }
 }
 
-STUB_FUNC(0x50a980)
-void miss2_0x11C::sub_50A980()
+MATCH_FUNC(0x50a980)
+void miss2_0x11C::sub_50A980()  //  DELAY
 {
+    s16 param_1 = gBasePtr_6F8070[1].field_0_cmd_this;
+    SCR_CMD_HEADER* v2 = gBasePtr_6F8070 + 1; //  TODO: remove this hack
+
+    if (param_1 == -1)
+    {
+        v2->field_0_cmd_this = gBasePtr_6F8070[1].field_2_type;
+        this->field_8 = true;
+    }
+    else
+    {
+        v2->field_0_cmd_this = param_1 - 1;
+        if (!v2->field_0_cmd_this)
+        {
+            v2->field_0_cmd_this = -1;
+            this->field_8 = false;
+        }
+        else
+        {
+            this->field_8 = true;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50a9e0)
@@ -1622,9 +1727,28 @@ void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ac20)
-void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20()
+MATCH_FUNC(0x50ac20)
+void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20()  // SET_GANG_KILL_REACTION
 {
+    str_table_entry* gang_1_str;
+
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    gang_1_str = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (gang_1_str == NULL)
+    {
+        FatalError_4A38C0(0x474, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
+    }
+    Gang_144* pGang_1 = gZones_CA8_67E274->zone_by_name_4BF100(gang_1_str->get_name());
+    str_table_entry* gang_2_str = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_C_unsigned_3);
+    if (gang_2_str == NULL)
+    {
+        FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
+    }
+    Gang_144* pGang_2 = gZones_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
+    pGang_1->sub_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);
+    pGang_1->field_111 = 1;
+    pGang_2->field_111 = 1;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50acf0)
@@ -1869,9 +1993,22 @@ void miss2_0x11C::SCRCMD_IS_CHAR_HORN_50BE70()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bed0)
+MATCH_FUNC(0x50bed0)
 void miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Car_BC* v3 = pPointer->field_8_char->field_16C_car;
+
+    if (v3 && (u8)v3->GetPassengersCount_440570() >= v1->field_A_signed_2)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bf40)
@@ -1884,9 +2021,51 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
 }
 
+// https://decomp.me/scratch/D79Vg  TODO: fix wrong jump
 STUB_FUNC(0x50c0e0)
 void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
+
+    Car_BC* v5;
+    Car_A4_10* v6;
+
+    if (pParam2 == pParam1)
+    {
+        v5 = pParam1->field_8_car;
+        v6 = v5->field_64;
+
+        if ((v6 != NULL && v6->field_C == v5) //  Is the problem here?
+            || (pParam1->field_8_car->field_64 != NULL 
+            && pParam1->field_8_car->field_64->field_8 == v5))
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false; //  or here?
+            //goto LABEL_10;
+        }
+    }
+    else
+    {
+        v5 = pParam2->field_8_car; //  a trailer
+        v6 = pParam1->field_8_car->field_64; //  truck cab -> trailer
+        if (v6 != NULL 
+            && v6->field_C == v5 
+            && pParam1->field_8_car != v5)
+        {
+            field_8 = true;
+        }
+        else
+        {
+        LABEL_10:
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c1b0)
