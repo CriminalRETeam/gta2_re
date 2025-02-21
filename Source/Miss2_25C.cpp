@@ -67,9 +67,20 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x502ff0)
-void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type a3)
+MATCH_FUNC(0x502ff0)
+void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
 {
+    if (bUnknown || pObj && ((pObj->field_18_model < 64) || pObj->field_18_model > 108) && (pObj->field_18_model < 200 || pObj->field_18_model > 244))
+    {
+        Miss2_C* pC = allocate_next_502F60();
+        if (pC)
+        {
+            pC->field_0_uni1 = (int)pObj;
+            pC->field_8_uni2 = pObj->field_14;
+            pC->field_4_type = 2;
+            field_258_count++;
+        }
+    }
 }
 
 MATCH_FUNC(0x503050)
