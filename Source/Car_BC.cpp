@@ -1628,9 +1628,18 @@ void Car_BC::sub_441520()
 {
 }
 
-STUB_FUNC(0x4415c0)
+MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
+    Car_B0* pB0 = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    if (pB0 && pB0->sub_55A150())
+    {
+        sub_43BF10();
+    }
+    else
+    {
+        sub_43BF70();
+    }
 }
 
 STUB_FUNC(0x441600)
