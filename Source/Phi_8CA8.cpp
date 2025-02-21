@@ -1,6 +1,7 @@
 #include "Phi_8CA8.hpp"
 #include "Car_BC.hpp"
 #include "gtx_0x106C.hpp"
+#include "sprite.hpp"
 #include <memory.h>
 
 MATCH_FUNC(0x4bdf60)
@@ -52,17 +53,14 @@ void Phi_74::sub_533150(s16 a2, char_type a3)
     field_6C = a3;
 }
 
-STUB_FUNC(0x533170)
+MATCH_FUNC(0x533170)
 Sprite* Phi_74::sub_533170()
 {
-    /*
-    Sprite* field_0_pC3C = gSprite_49B28_703818->field_0_pC3C;
-    gSprite_49B28_703818->field_0_pC3C = gSprite_49B28_703818->field_0_pC3C->field_C_car_or_sprite;
-    field_0_pC3C->sub_5A2CF0();
-    sub_5331A0(field_0_pC3C);
-    return field_0_pC3C;
-    */
-    return 0; // TODO: Needs sprite stubs
+    Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
+    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
+    pFreeSprite->sub_5A2CF0();
+    sub_5331A0(pFreeSprite);
+    return pFreeSprite;
 }
 
 STUB_FUNC(0x5331a0)
