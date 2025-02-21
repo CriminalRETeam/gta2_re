@@ -1934,6 +1934,15 @@ Car_6C* Car_BC::sub_443710(s32 a2)
     return 0;
 }
 
+MATCH_FUNC(0x443AB0)
+void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
+{
+    if (pPlayer->field_0)
+    {
+        gGarox_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
+    }
+}
+
 STUB_FUNC(0x443ae0)
 void Car_BC::sub_443AE0(s32 a2)
 {
