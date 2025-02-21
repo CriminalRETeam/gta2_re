@@ -1317,7 +1317,7 @@ void miss2_0x11C::SCR_CMD_CREATE_CHAR_509730()
     miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0((SCR_CHAR_DATA_DEC*)gBasePtr_6F8070, pPointer);
     if (!field_118)
     {
-        gMiss2_25C_6F805C->sub_502FB0(pPointer->field_8_char);
+        gMiss2_25C_6F805C->push_type_3_ped_502FB0(pPointer->field_8_char);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

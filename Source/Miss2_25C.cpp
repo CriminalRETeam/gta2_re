@@ -17,9 +17,9 @@ Miss2_25C::Miss2_25C()
 }
 
 STUB_FUNC(0x502dc0)
-s32 Miss2_25C::sub_502DC0()
+void Miss2_25C::sub_502DC0()
 {
-    return 0;
+
 }
 
 MATCH_FUNC(0x502f60)
@@ -38,22 +38,30 @@ Miss2_C* Miss2_25C::allocate_next_502F60()
 }
 
 STUB_FUNC(0x502f80)
-void Miss2_25C::sub_502F80(s32 a2)
+void Miss2_25C::push_type_1_502F80(s32 a2)
 {
 }
 
-STUB_FUNC(0x502fb0)
-char_type Miss2_25C::sub_502FB0(Ped* a2)
+MATCH_FUNC(0x502fb0)
+void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
 {
-    return 0;
+    Miss2_C* pFree = allocate_next_502F60();
+    if (pFree)
+    {
+        pFree->field_0_uni1 = (int)pPed;
+        const s32 v4 = pPed->field_200;
+        pFree->field_4_type = 3;
+        pFree->field_8_uni2 = v4;
+        field_258_count++;
+    }
 }
 
 STUB_FUNC(0x502ff0)
-void Miss2_25C::sub_502FF0(s32 a2, char_type a3)
+void Miss2_25C::push_type_2_502FF0(s32 a2, char_type a3)
 {
 }
 
 STUB_FUNC(0x503050)
-void Miss2_25C::sub_503050(s32 a2)
+void Miss2_25C::push_type_2_503050(s32 a2)
 {
 }

@@ -18,12 +18,12 @@ class Miss2_25C
 {
   public:
     Miss2_25C();
-    EXPORT s32 sub_502DC0();
+    EXPORT void sub_502DC0();
     EXPORT Miss2_C* allocate_next_502F60();
-    EXPORT void sub_502F80(s32 a2);
-    EXPORT char_type sub_502FB0(Ped* a2);
-    EXPORT void sub_502FF0(s32 a2, char_type a3);
-    EXPORT void sub_503050(s32 a2);
+    EXPORT void push_type_1_502F80(s32 a2);
+    EXPORT void push_type_3_ped_502FB0(Ped* pPed);
+    EXPORT void push_type_2_502FF0(s32 a2, char_type a3);
+    EXPORT void push_type_2_503050(s32 a2);
 
     Miss2_C field_0[50];
 
