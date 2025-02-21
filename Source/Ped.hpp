@@ -17,6 +17,7 @@ class Weapon_30;
 class Sprite;
 class Char_8;
 class Char_B4;
+class Marz_96;
 
 class Ped
 {
@@ -220,6 +221,7 @@ class Ped
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_4702D0(Ped* pPed);
     EXPORT s32 sub_470300();
+    EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 
     void reset_ped_group()
@@ -312,7 +314,7 @@ class Ped
     s32 field_184;
     Ped* field_188_last_char_punched;
     Ped* field_18C;
-    s32 field_190;
+    Marz_96* field_190;
     s32 field_194;
     s32 field_198;
     Gang_144* field_19C;

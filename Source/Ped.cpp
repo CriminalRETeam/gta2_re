@@ -3,6 +3,7 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
@@ -1595,6 +1596,22 @@ STUB_FUNC(0x470300)
 s32 Ped::sub_470300()
 {
     return 0;
+}
+
+MATCH_FUNC(0x4702A0)
+void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
+{
+    // Get a free patrol point
+    Marz_3* pIter = this->field_190->field_0;
+    while (pIter->field_0)
+    {
+        ++pIter;
+    }
+
+    // And populate it
+    pIter->field_0 = x;
+    pIter->field_1 = y;
+    pIter->field_2 = z;
 }
 
 MATCH_FUNC(0x470f00)
