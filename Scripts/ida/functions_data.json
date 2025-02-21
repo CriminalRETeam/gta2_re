@@ -7351,7 +7351,7 @@
     },
     {
         "name": "Map_0x370::get_block",
-        "v96f_address": null,
+        "v96f_address": "0x4653c0",
         "v105_address": "0x4dfe10"
     },
     {
@@ -7691,7 +7691,7 @@
     },
     {
         "name": "Map_0x370::sub_4E90E0",
-        "v96f_address": null,
+        "v96f_address": "0x4644e0",
         "v105_address": "0x4e90e0"
     },
     {
@@ -7701,37 +7701,37 @@
     },
     {
         "name": "Map_0x370::load_mobj",
-        "v96f_address": null,
+        "v96f_address": "0x464590",
         "v105_address": "0x4e91a0"
     },
     {
         "name": "Map_0x370::load_lght",
-        "v96f_address": null,
+        "v96f_address": "0x4645f0",
         "v105_address": "0x4e9200"
     },
     {
         "name": "Map_0x370::load_zone",
-        "v96f_address": null,
+        "v96f_address": "0x464640",
         "v105_address": "0x4e9250"
     },
     {
         "name": "Map_0x370::load_anim",
-        "v96f_address": null,
+        "v96f_address": "0x464670",
         "v105_address": "0x4e9280"
     },
     {
         "name": "Map_0x370::load_dmap",
-        "v96f_address": null,
+        "v96f_address": "0x4646a0",
         "v105_address": "0x4e92b0"
     },
     {
         "name": "Map_0x370::load_rgen",
-        "v96f_address": null,
+        "v96f_address": "0x464880",
         "v105_address": "0x4e94a0"
     },
     {
         "name": "Map_0x370::load_chunk",
-        "v96f_address": null,
+        "v96f_address": "0x464890",
         "v105_address": "0x4e94b0"
     },
     {
@@ -7741,7 +7741,7 @@
     },
     {
         "name": "Map_0x370::LoadMap",
-        "v96f_address": null,
+        "v96f_address": "0x464990",
         "v105_address": "0x4e95b0"
     },
     {
@@ -13876,12 +13876,12 @@
     },
     {
         "name": "Junction_10::sub_588580",
-        "v96f_address": null,
+        "v96f_address": "0x40c5d0",
         "v105_address": "0x588580"
     },
     {
         "name": "Junction_10::sub_5885C0",
-        "v96f_address": null,
+        "v96f_address": "0x40d0c0",
         "v105_address": "0x5885c0"
     },
     {
@@ -13906,7 +13906,7 @@
     },
     {
         "name": "Soula_CC68::Load_RGEN",
-        "v96f_address": null,
+        "v96f_address": "0x40d250",
         "v105_address": "0x588b30"
     },
     {
@@ -13951,7 +13951,7 @@
     },
     {
         "name": "Soula_10::sub_5892D0",
-        "v96f_address": null,
+        "v96f_address": "0x40c9b0",
         "v105_address": "0x5892d0"
     },
     {
@@ -13986,12 +13986,12 @@
     },
     {
         "name": "Soula_CC68::sub_589960",
-        "v96f_address": null,
+        "v96f_address": "0x40cb90",
         "v105_address": "0x589960"
     },
     {
         "name": "Soula_CC68::sub_589990",
-        "v96f_address": null,
+        "v96f_address": "0x40cbc0",
         "v105_address": "0x589990"
     },
     {
@@ -14006,7 +14006,7 @@
     },
     {
         "name": "Soula_CC68::sub_589E00",
-        "v96f_address": null,
+        "v96f_address": "0x40cbf0",
         "v105_address": "0x589e00"
     },
     {
@@ -14016,7 +14016,7 @@
     },
     {
         "name": "Soula_CC68::sub_589E70",
-        "v96f_address": null,
+        "v96f_address": "0x40dff0",
         "v105_address": "0x589e70"
     },
     {
@@ -14026,7 +14026,7 @@
     },
     {
         "name": "Soula_CC68::sub_589F70",
-        "v96f_address": null,
+        "v96f_address": "0x40ccc0",
         "v105_address": "0x589f70"
     },
     {
@@ -14046,12 +14046,12 @@
     },
     {
         "name": "Soula_CC68::sub_58A130",
-        "v96f_address": null,
+        "v96f_address": "0x40e090",
         "v105_address": "0x58a130"
     },
     {
         "name": "Soula_CC68::sub_58A190",
-        "v96f_address": null,
+        "v96f_address": "0x40e030",
         "v105_address": "0x58a190"
     },
     {

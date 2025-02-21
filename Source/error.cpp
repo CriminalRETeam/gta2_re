@@ -3,7 +3,6 @@
 #include "fix16.hpp"
 #include "winmain.hpp"
 #include "Globals.hpp"
-#include <fstream>
 #include <stdio.h>
 #include <windows.h>
 
@@ -13,17 +12,14 @@ GLOBAL(bDestroyed_6F5B70, 0x6F5B70);
 EXPORT_VAR HWND gHwnd_707F04;
 GLOBAL(gHwnd_707F04, 0x707F04);
 
-class ErrorLog : public std::fstream
-{
-  public:
-    ErrorLog& Write_4D9620(const char_type* pMsg);
-};
-
 STUB_FUNC(0x4D9620)
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     return *this;
 }
+
+EXPORT_VAR ErrorLog gErrorLog_67C530;
+GLOBAL(gErrorLog_67C530, 0x67C530);
 
 EXPORT_VAR ErrorLog gErrorLog_67CF58;
 GLOBAL(gErrorLog_67CF58, 0x67CF58);

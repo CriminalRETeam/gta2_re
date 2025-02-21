@@ -4389,7 +4389,7 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 
     svg_stru svg;
     u32 len = sizeof(svg_stru);
-    File::Global_Read_4A71C0(&svg, &len);
+    File::Global_Read_4A71C0(&svg, len);
 
     File::Global_Close_4A70C0();
 

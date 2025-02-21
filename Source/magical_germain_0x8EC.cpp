@@ -21,7 +21,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
-        File::Global_Read_4A71C0(field_8C4_pKidX, &chunk_len);
+        File::Global_Read_4A71C0(field_8C4_pKidX, chunk_len);
     }
     else if (!strncmp(pChunkId, "KBIT", 4u))
     {
@@ -30,7 +30,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
         }
-        File::Global_Read_4A71C0(field_8C8_pKBIT, &chunk_len);
+        File::Global_Read_4A71C0(field_8C8_pKBIT, chunk_len);
     }
     else
     {
@@ -45,7 +45,7 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 
     file_header header;
     u32 readSize = sizeof(file_header);
-    File::Global_Read_4A71C0(&header, &readSize);
+    File::Global_Read_4A71C0(&header, readSize);
 
     header.verify_type("KANJ");
     header.verify_version(100);
