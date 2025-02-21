@@ -481,7 +481,7 @@ class Car_BC
     EXPORT char_type sub_441A40();
     EXPORT char_type sub_441A70();
     EXPORT void sub_441B00();
-    EXPORT s16 sub_441B20();
+    EXPORT void sub_441B20();
     EXPORT char_type sub_441B50();
     EXPORT void sub_441C00();
     EXPORT s16 sub_441D40();

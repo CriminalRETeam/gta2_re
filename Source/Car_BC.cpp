@@ -1764,7 +1764,6 @@ char_type Car_BC::sub_441A40()
             default:
                 break;
         }
-      
     }
     return 1;
 }
@@ -1787,10 +1786,17 @@ void Car_BC::sub_441B00()
     }
 }
 
-STUB_FUNC(0x441b20)
-s16 Car_BC::sub_441B20()
+MATCH_FUNC(0x441b20)
+void Car_BC::sub_441B20()
 {
-    return 0;
+    if (this->field_9C != 3 || this->field_4.field_0_pOwner)
+    {
+        this->field_8.clear_bit(15);
+    }
+    else
+    {
+        this->field_8.set_bit(15);
+    }
 }
 
 STUB_FUNC(0x441b50)
