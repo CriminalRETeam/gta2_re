@@ -4,10 +4,16 @@
 EXPORT_VAR Miss2_25C* gMiss2_25C_6F805C;
 GLOBAL(gMiss2_25C_6F805C, 0x6F805C);
 
-STUB_FUNC(0x502d90)
-Miss2_25C* Miss2_25C::ctor_502D90()
+MATCH_FUNC(0x502d90)
+Miss2_25C::Miss2_25C()
 {
-    return 0;
+    field_258_count = 0;
+    for (s32 i = 0; i < 50; i++)
+    {
+        field_0[i].field_0_uni1 = 0;
+        field_0[i].field_8_uni2 = 0;
+        field_0[i].field_4_type = 0;
+    }
 }
 
 STUB_FUNC(0x502dc0)
