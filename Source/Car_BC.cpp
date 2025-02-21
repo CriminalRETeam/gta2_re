@@ -1821,10 +1821,15 @@ void Car_BC::sub_441E70()
 {
 }
 
-STUB_FUNC(0x442170)
+MATCH_FUNC(0x442170)
 bool Car_BC::sub_442170()
 {
-    return 0;
+    Ped* pDriver = this->field_54_driver;
+    if ((!pDriver || !pDriver->field_15C_player_weapons) && !sub_43B750())
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x442190)
