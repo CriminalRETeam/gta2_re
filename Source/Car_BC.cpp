@@ -1837,10 +1837,15 @@ void Car_BC::sub_442190()
 {
 }
 
-STUB_FUNC(0x4421b0)
+MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    return 0;
+    if (field_A0 != 8 && field_7C_uni_num != 5 && !field_4.sub_471710())
+    {
+        return 0;
+    }
+
+    return 1;
 }
 
 STUB_FUNC(0x442200)
