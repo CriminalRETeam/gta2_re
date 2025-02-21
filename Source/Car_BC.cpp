@@ -948,10 +948,18 @@ s32* Car_BC::sub_43A240(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a3c0)
+STUB_FUNC(0x43a3c0) // ??? stupidly easy function that doesn't match :)
 bool Car_BC::sub_43A3C0()
 {
-    return 0;
+    Car_B0* pObj; // eax
+
+    pObj = (Car_B0*)this->field_58_uni_Car78_or_Car_B0;
+    if (!pObj)
+    {
+        return false;
+    }
+    s32 type = pObj->field_98_surface_type;
+    return (type == 6) ? true : false;
 }
 
 STUB_FUNC(0x43a3e0)
@@ -984,9 +992,15 @@ u32* Car_BC::sub_43A5B0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a600)
+MATCH_FUNC(0x43a600)
 void Car_BC::sub_43A600()
 {
+    sub_43D400();
+    Car_A4_10* v2 = this->field_64;
+    if (v2)
+    {
+        v2->field_C->sub_43D400();
+    }
 }
 
 STUB_FUNC(0x43a680)
