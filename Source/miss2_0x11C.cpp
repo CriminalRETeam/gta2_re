@@ -1294,9 +1294,18 @@ void miss2_0x11C::sub_5086F0()
 {
 }
 
-STUB_FUNC(0x508dc0)
+MATCH_FUNC(0x508dc0)
 void miss2_0x11C::SCRCMD_ARROW_COLOUR_508DC0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                        gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pPointer->field_8_arrow == NULL)
+    {
+        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
+    }
+    pPointer->field_8_arrow->sub_5D0510(v1->field_A_unsigned_2);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x508e80)
