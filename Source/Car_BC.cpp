@@ -2519,9 +2519,21 @@ s32* Car_A4_10::sub_407CE0()
     return 0;
 }
 
-STUB_FUNC(0x408140)
+MATCH_FUNC(0x408140)
 char_type Car_A4_10::sub_408140()
 {
+    if (!this->field_8->field_58_uni_Car78_or_Car_B0 && !this->field_C->field_58_uni_Car78_or_Car_B0)
+    {
+        return 0;
+    }
+    
+    sub_408190();
+
+    if (!this->field_8->field_58_uni_Car78_or_Car_B0->sub_562FE0() || this->field_8->field_54_driver)
+    {
+        return this->field_8->sub_43E560();
+    }
+    sub_4081B0();
     return 0;
 }
 
