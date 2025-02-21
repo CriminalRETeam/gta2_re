@@ -12,6 +12,7 @@ class Car_BC;
 class Phi_74;
 class Object_3C;
 class Object_29178;
+class Wolfy_30;
 
 class Object_2C
 {
@@ -93,7 +94,7 @@ class Object_2C
     Object_2C* field_0;
     Sprite* field_4;
     Phi_74* field_8;
-    s32 field_C;
+    Wolfy_30* field_C;
     Object_3C* field_10;
     s32 field_14;
     s32 field_18_model;

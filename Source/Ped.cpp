@@ -1,4 +1,5 @@
 #include "Ped.hpp"
+#include "Car_B0.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -9,8 +10,9 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "Weapon_30.hpp"
+#include "Wolfy_3D4.hpp"
 #include "char.hpp"
-#include "Car_B0.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -573,6 +575,102 @@ char_type Ped::sub_45DE80(s32 a2)
 STUB_FUNC(0x45e080)
 void Ped::sub_45E080()
 {
+    Object_2C* v2; // eax
+
+    if ((this->field_224 & 0x20) != 0 && !this->field_16C_car)
+    {
+        if (this->field_170_selected_weapon)
+        {
+            if (!sub_45EDE0(2))
+            {
+                switch (this->field_170_selected_weapon->field_1C_idx)
+                {
+                    case weapon_type::pistol:
+                    case weapon_type::electro_batton:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::smg:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::rocket:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::shocker:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::molotov:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::grenade:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::shotgun:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::flamethrower:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::silence_smg:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+
+                    case weapon_type::dual_pistol:
+                        v2 = gObject_5C_6F8F84->sub_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        if (v2)
+                        {
+                            v2->field_C->field_4_idx = 9;
+                        }
+                        break;
+                    default:
+                        return;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x45e4a0)

@@ -656,7 +656,7 @@ class Car_A4_10
     EXPORT s32* sub_407CE0();
     EXPORT char_type sub_408140();
     EXPORT void sub_408190();
-    EXPORT Car_B0* sub_4081B0();
+    EXPORT void sub_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
 
