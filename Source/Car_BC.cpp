@@ -1746,7 +1746,27 @@ Car_B0* Car_BC::sub_441A10()
 STUB_FUNC(0x441a40)
 char_type Car_BC::sub_441A40()
 {
-    return 0;
+    for (s32 i = 0; i < 4; i++)
+    {
+        /*
+        if (field_C[i].field_4_state !=0 && field_C[i].field_4_state !=6)
+        {
+            return 0;
+        }*/
+        switch (field_C[i].field_4_state)
+        {
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+                return 0;
+            default:
+                break;
+        }
+      
+    }
+    return 1;
 }
 
 STUB_FUNC(0x441a70)
@@ -1937,7 +1957,6 @@ Car_6C* Car_BC::sub_443710(s32 a2)
 MATCH_FUNC(0x443A50)
 s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
 {
-
     if (gCar_6C_677930->field_69_do_free_shopping)
     {
         return 0;
