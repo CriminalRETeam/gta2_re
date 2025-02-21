@@ -220,7 +220,7 @@ class Ped
     EXPORT bool sub_4701D0();
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_4702D0(Ped* pPed);
-    EXPORT s32 sub_470300();
+    EXPORT void sub_470300();
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 

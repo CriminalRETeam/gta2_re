@@ -10,6 +10,7 @@
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "char.hpp"
+#include "Car_B0.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1593,9 +1594,27 @@ void Ped::sub_4702D0(Ped* pPed)
 }
 
 STUB_FUNC(0x470300)
-s32 Ped::sub_470300()
+void Ped::sub_470300()
 {
-    return 0;
+    this->field_15C_player_weapons = 0;
+    this->field_240_occupation = 3;
+    this->field_238 = 3;
+    Car_BC* pCar = this->field_16C_car;
+    if (pCar)
+    {
+        // NOTE: Split into a function chunk here
+        const s32 info_idx = pCar->field_84_car_info_idx;
+        if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6)
+        {
+            pCar->field_7C_uni_num = 3;
+            pCar->field_76 = 0;
+            Car_B0* pB0 = (Car_B0*)pCar->field_58_uni_Car78_or_Car_B0;
+            if (pB0)
+            {
+                pB0->field_8C = 1;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4702A0)
