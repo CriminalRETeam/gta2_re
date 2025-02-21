@@ -22,10 +22,19 @@ s32 Miss2_25C::sub_502DC0()
     return 0;
 }
 
-STUB_FUNC(0x502f60)
-Miss2_25C* Miss2_25C::sub_502F60()
+MATCH_FUNC(0x502f60)
+Miss2_C* Miss2_25C::allocate_next_502F60()
 {
-    return 0;
+    Miss2_C* pIter = field_0;
+    for (u16 idx = 0; idx < 50; idx++)
+    {
+        if (!pIter->field_0_uni1)
+        {
+            return pIter;
+        }
+        pIter++;
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x502f80)

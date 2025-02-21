@@ -19,7 +19,7 @@ class Miss2_25C
   public:
     Miss2_25C();
     EXPORT s32 sub_502DC0();
-    EXPORT Miss2_25C* sub_502F60();
+    EXPORT Miss2_C* allocate_next_502F60();
     EXPORT void sub_502F80(s32 a2);
     EXPORT char_type sub_502FB0(Ped* a2);
     EXPORT void sub_502FF0(s32 a2, char_type a3);
