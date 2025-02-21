@@ -14,7 +14,7 @@ class Phi_74
     EXPORT void sub_533110(s16 a2);
     EXPORT void sub_533150(s16 a2, char_type a3);
     EXPORT Sprite* sub_533170();
-    EXPORT s32 sub_5331A0(Sprite* a2);
+    EXPORT void sub_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
     s32 field_0;

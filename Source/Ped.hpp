@@ -17,6 +17,7 @@ class Weapon_30;
 class Sprite;
 class Char_8;
 class Char_B4;
+class Marz_96;
 
 class Ped
 {
@@ -219,7 +220,8 @@ class Ped
     EXPORT bool sub_4701D0();
     EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_4702D0(Ped* pPed);
-    EXPORT s32 sub_470300();
+    EXPORT void sub_470300();
+    EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 
     void reset_ped_group()
@@ -283,6 +285,11 @@ class Ped
         return field_1AC_cam.y;
     }
 
+    inline Fix16 get_cam_z()
+    {
+        return field_1AC_cam.z;
+    }
+
     Marz_3 field_0[100];
     Ang16 field_12C;
     Ang16 field_12E;
@@ -304,15 +311,15 @@ class Ped
     PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;
     Car_BC* field_16C_car;
-    s32 field_170_selected_weapon;
-    s32 field_174_pWeapon;
+    Weapon_30* field_170_selected_weapon;
+    Weapon_30* field_174_pWeapon;
     Weapon_30* field_178;
     Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
     s32 field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
     Ped* field_18C;
-    s32 field_190;
+    Marz_96* field_190;
     s32 field_194;
     s32 field_198;
     Gang_144* field_19C;

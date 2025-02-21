@@ -3869,9 +3869,8 @@ s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
-// https://decomp.me/scratch/i8BWF
 MATCH_FUNC(0x4B0190)
-s32 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
+u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
     u16 v4;
     if (fontType != -1)
@@ -3882,7 +3881,7 @@ s32 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     {
         v4 = ((u16)sub_5D8990(pText, field_11C)) / 2;
     }
-    return width - *(s32*)&v4; //  Illegal expression but it works
+    return width - v4; 
 }
 
 STUB_FUNC(0x4B7060)
@@ -4389,7 +4388,7 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 
     svg_stru svg;
     u32 len = sizeof(svg_stru);
-    File::Global_Read_4A71C0(&svg, &len);
+    File::Global_Read_4A71C0(&svg, len);
 
     File::Global_Close_4A70C0();
 

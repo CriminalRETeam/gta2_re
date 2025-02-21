@@ -2649,7 +2649,7 @@ struct Frontend
 
     EXPORT static s32 __stdcall sub_5D8990(wchar_t* pStr, u16 a2);
 
-    EXPORT s32 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
+    EXPORT u16 sub_4B0190(wchar_t* a2, s16 a3, s32 a4);
 
     EXPORT u8 sub_4B7060(u8 a2);
 

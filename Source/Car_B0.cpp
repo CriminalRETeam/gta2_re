@@ -38,7 +38,7 @@ void Car_B0::sub_5597B0()
 }
 
 STUB_FUNC(0x5599d0)
-s32 Car_B0::sub_5599D0()
+bool Car_B0::sub_5599D0()
 {
     return 0;
 }
@@ -48,10 +48,14 @@ void Car_B0::sub_559A40()
 {
 }
 
-STUB_FUNC(0x559b40)
-Car_BC* Car_B0::sub_559B40()
+MATCH_FUNC(0x559b40)
+void Car_B0::sub_559B40()
 {
-    return 0;
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    if (p10)
+    {
+        p10->sub_407CE0();
+    }
 }
 
 STUB_FUNC(0x559b50)
@@ -61,7 +65,7 @@ Car_A4_10* Car_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void Car_B0::sub_559B90(const Fix16 &a2)
+void Car_B0::sub_559B90(const Fix16& a2)
 {
     field_A0 = a2;
 }
@@ -557,14 +561,29 @@ s32 Car_B0::sub_562F30()
     return 0;
 }
 
-STUB_FUNC(0x562fa0)
+MATCH_FUNC(0x562fa0)
 char_type Car_B0::sub_562FA0()
 {
+    if (sub_5599D0())
+    {
+        if (field_90_timer_since_last_move < 255)
+        {
+            this->field_90_timer_since_last_move++;
+        }
+        if (this->field_90_timer_since_last_move >= 20u)
+        {
+            return 1;
+        }
+    }
+    else
+    {
+        this->field_90_timer_since_last_move = 0;
+    }
     return 0;
 }
 
 STUB_FUNC(0x562fe0)
-s32 Car_B0::sub_562FE0()
+bool Car_B0::sub_562FE0()
 {
     return 0;
 }
@@ -587,10 +606,15 @@ s32* Car_B0::sub_563460()
     return 0;
 }
 
-STUB_FUNC(0x563560)
-s32* Car_B0::sub_563560(Sprite* a2)
+MATCH_FUNC(0x563560)
+void Car_B0::sub_563560(Sprite* a2)
 {
-    return 0;
+    this->field_38_cp1.field_0 = a2->field_14_xpos;
+    this->field_38_cp1.field_4 = a2->field_18_ypos;
+    this->field_6C_cp3 = a2->field_1C_zpos;
+    this->field_58_theta = a2->field_0;
+    this->field_78_pointing_ang_rad = 0;
+    sub_563350();
 }
 
 STUB_FUNC(0x563590)
@@ -604,9 +628,16 @@ s32 Car_B0::sub_563670()
     return 0;
 }
 
-STUB_FUNC(0x5636c0)
+MATCH_FUNC(0x5636c0)
 void Car_B0::sub_5636C0()
 {
+    sub_563670();
+    
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    if (p10)
+    {
+        p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
+    }
 }
 
 STUB_FUNC(0x5636e0)

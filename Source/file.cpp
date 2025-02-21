@@ -243,14 +243,14 @@ void __stdcall File::File_Error_4A7190(s32 Code, s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x4A71C0)
-void __stdcall File::Global_Read_4A71C0(void* pBuffer, u32* pBufferSize)
+void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& pBufferSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {
         FatalError_4A38C0(21, "C:\\Splitting\\Gta2\\Source\\File.cpp", 438);
     }
 
-    if (Read_4A6D90(pBuffer, *pBufferSize, 1u, ghFile_67CFEC) != 1)
+    if (Read_4A6D90(pBuffer, pBufferSize, 1u, ghFile_67CFEC) != 1)
     {
         File_Error_4A7190(15, 0, 0);
     }

@@ -19,9 +19,9 @@ class Car_B0
     EXPORT ~Car_B0();
     EXPORT void sub_559430();
     EXPORT void sub_5597B0();
-    EXPORT s32 sub_5599D0();
+    EXPORT bool sub_5599D0();
     EXPORT void sub_559A40();
-    EXPORT Car_BC* sub_559B40();
+    EXPORT void sub_559B40();
     EXPORT Car_A4_10* sub_559B50();
     EXPORT void sub_559B90(const Fix16 &a2);
     EXPORT u32 sub_559BA0();
@@ -109,11 +109,11 @@ class Car_B0
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();
     EXPORT char_type sub_562FA0();
-    EXPORT s32 sub_562FE0();
+    EXPORT bool sub_562FE0();
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();
-    EXPORT s32* sub_563560(Sprite* a2);
+    EXPORT void sub_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
@@ -140,7 +140,7 @@ class Car_B0
     Fix16 field_60_gas_pedal;
     s32 field_64;
     Fix16 field_68_z_pos;
-    s32 field_6C_cp3;
+    Fix16 field_6C_cp3;
     Fix16 field_70;
     Fix16 field_74_ang_vel_rad;
     s32 field_78_pointing_ang_rad;
@@ -149,7 +149,7 @@ class Car_B0
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
     s32 field_8C;
-    char_type field_90_timer_since_last_move;
+    u8 field_90_timer_since_last_move;
     char_type field_91_is_foot_brake_on;
     char_type field_92_is_hand_brake_on;
     char_type field_93_is_forward_gas_on;
