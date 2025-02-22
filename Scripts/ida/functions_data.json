@@ -15351,7 +15351,7 @@
     },
     {
         "name": "gtx_0x106C::load_map_object_info",
-        "v96f_address": null,
+        "v96f_address": "0x4bfbe0",
         "v105_address": "0x5aaf00"
     },
     {
