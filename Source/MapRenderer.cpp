@@ -33,9 +33,27 @@ char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     return 0;
 }
 
-STUB_FUNC(0x4e9ea0)
+MATCH_FUNC(0x4e9ea0)
 void MapRenderer::ambient_light_tick_4E9EA0()
 {
+    field_0_ambient = field_8 + field_0_ambient;
+
+    if (field_8 > stru_6F6484.field_0_full)
+    {
+        if (field_0_ambient >= field_4)
+        {
+            field_8 = stru_6F6484.field_0_full;
+            field_0_ambient = field_4;
+        }
+    }
+    else if (field_8 < stru_6F6484.field_0_full)
+    {
+        if (field_0_ambient <= field_4)
+        {
+            field_8 = stru_6F6484.field_0_full;
+            field_0_ambient = field_4;
+        }
+    }
 }
 
 STUB_FUNC(0x4ea390)
