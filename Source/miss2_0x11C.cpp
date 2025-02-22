@@ -1922,9 +1922,23 @@ void miss2_0x11C::sub_50BA70()
 {
 }
 
-STUB_FUNC(0x50bad0)
+MATCH_FUNC(0x50bad0)
 void miss2_0x11C::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
 {
+    SCR_ONEVAR_RECT* v1 = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if ((pCar->field_74_damage >= 32000 || pCar->field_88 == 5) 
+        && pCar->IsWithinArea(&v1->field_C_rect))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50bb80)

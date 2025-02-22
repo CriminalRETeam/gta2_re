@@ -5,6 +5,7 @@
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
+#include "miss2_0x11C.hpp"
 #include "ang16.hpp"
 #include <wchar.h>
 
@@ -544,6 +545,24 @@ class Car_BC
             return true;
         }
         return false;
+    }
+
+    inline bool IsWithinArea(SCR_Rect_f* rect)
+    {
+        Fix16 x_pos = field_50_car_sprite->field_14_xpos;
+        Fix16 width = rect->field_C_size.field_0_x;
+        Fix16 y_pos, z_pos;
+        Fix16 height;
+        Fix16 z_target;
+        return ( x_pos >= rect->field_0_pos.field_0_x - width
+            && x_pos <= rect->field_0_pos.field_0_x + width
+            && ( y_pos = field_50_car_sprite->field_18_ypos,
+            height = rect->field_C_size.field_4_y,
+            y_pos >= rect->field_0_pos.field_4_y - height ) 
+            && field_50_car_sprite->field_18_ypos <= rect->field_0_pos.field_4_y + height
+            && ( z_pos = field_50_car_sprite->field_1C_zpos,
+            z_target = rect->field_0_pos.field_8_z,
+            z_pos.ToUInt8() == z_target.ToUInt8() ) );
     }
 
     s32 field_0_qq;
