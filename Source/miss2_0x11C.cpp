@@ -1896,7 +1896,7 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 
     BitSet32 flag = pPointer->field_8_char->field_21C;
 
-    if (flag.check_bit(11) && Is_it_in_area((SCR_XYZ_f*)&pPed->field_1AC_cam, &v1->field_C_rect))
+    if (flag.check_bit(11) && pPed->IsWithinArea(&v1->field_C_rect))
     {
         field_8 = true;
     }
