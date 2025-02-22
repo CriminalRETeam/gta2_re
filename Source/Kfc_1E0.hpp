@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Ped;
 class PedGroup;
@@ -22,9 +23,9 @@ class Kfc_30
     Car_BC* field_0;
     Ped* field_4;
     PedGroup* field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
+    Fix16 field_C_x;
+    Fix16 field_10_y;
+    Fix16 field_14_z;
     s16 field_18;
     s16 field_1A;
     s16 field_1C;
