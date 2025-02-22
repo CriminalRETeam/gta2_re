@@ -21,7 +21,7 @@ class struct_4
         field_0 = 0;
     }
 
-  private:
+  public:
     s32 field_0;
 };
 
