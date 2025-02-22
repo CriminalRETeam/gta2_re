@@ -47,7 +47,7 @@ class Game_0x40
     EXPORT bool sub_4B98E0(s16* a2, u8 playerIdx, s32 a4);
     EXPORT s8 sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4);
     EXPORT bool sub_4B9A10(Sprite* a2, u8 playerIdx);
-    EXPORT s8 is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp);
+    EXPORT bool is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp);
     EXPORT s8 sub_4B9B10(Fix16_Rect* pBounds);
     EXPORT DrawUnk_0xBC* IteratePlayerCamera_4B9BC0();
     EXPORT s8 sub_4B9C10(Car_BC* a2);

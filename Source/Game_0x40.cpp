@@ -743,27 +743,26 @@ bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
     return false;
 }
 
-// wip - prob needs Fix16 operators ??
+// https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
 STUB_FUNC(0x4B9A80)
-s8 Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
+bool Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
 {
     for (s32 i = 0; i < field_23_max_idx; i++)
     {
-        if (field_4_players[i]->field_8E_bInUse)
+        Player* pPlayer = field_4_players[i];
+        if (pPlayer->field_8E_bInUse)
         {
-            if ((a2_fp >= field_4_players[i]->field_90_game_camera.field_78 && a2_fp <= field_4_players[i]->field_90_game_camera.field_7C &&
-                 a3_fp >= field_4_players[i]->field_90_game_camera.field_80 &&
-                 a3_fp <= field_4_players[i]->field_90_game_camera.field_84) ||
-                (field_4_players[i]->field_2D0 && a2_fp >= field_4_players[i]->field_208_aux_game_camera.field_78 &&
-                 a2_fp <= field_4_players[i]->field_208_aux_game_camera.field_7C &&
-                 a3_fp >= field_4_players[i]->field_208_aux_game_camera.field_80 &&
-                 a3_fp <= field_4_players[i]->field_208_aux_game_camera.field_84))
+            if (pPlayer->field_90_game_camera.check_camera(a2_fp, a3_fp))
             {
-                return 1;
+                return true;
+            }
+            if (pPlayer->field_2D0 && pPlayer->field_208_aux_game_camera.check_camera(a2_fp, a3_fp))
+            {
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 STUB_FUNC(0x4B9B10)
