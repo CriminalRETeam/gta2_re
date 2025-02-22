@@ -273,19 +273,19 @@ s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
     return field_40_tile->field_0[tile_idx];
 }
 
-STUB_FUNC(0x5AA890)
+MATCH_FUNC(0x5AA890)
 s16 gtx_0x106C::sub_5AA890()
 {
-    s16 internal_idx; // ax
-    u16* i; // ecx
-
-    internal_idx = 1023;
-    for (i = &field_40_tile->field_0[1023]; *i; --i)
+    u16* i = &field_40_tile->field_0[1023];
+    for (u16 j = 1023; j >= 992; j--, i--)
     {
-        if ((u16)--internal_idx < 992u)
-            return 0;
+        if (*i == 0)
+        {
+            return j;
+        }
     }
-    return internal_idx;
+
+    return 0;
 }
 
 MATCH_FUNC(0x5AA8C0)
