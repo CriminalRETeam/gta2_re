@@ -74,18 +74,6 @@ GLOBAL(dword_6F77C4, 0x6F77C4);
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
 
-static inline bool Is_it_in_area(SCR_XYZ_f* pos, SCR_Rect_f* rect)
-{
-    Fix16 x_pos = pos->field_0_x;
-    Fix16 width = rect->field_C_size.field_0_x;
-    Fix16 y_pos, z_pos, z_target, height;
-
-    return (x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
-            (y_pos = pos->field_4_y, height = rect->field_C_size.field_4_y, y_pos >= rect->field_0_pos.field_4_y - height) &&
-            pos->field_4_y <= rect->field_0_pos.field_4_y + height &&
-            (z_pos = pos->field_8_z, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
-}
-
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {
