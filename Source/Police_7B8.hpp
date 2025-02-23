@@ -7,6 +7,7 @@ class Ped;
 class Car_BC;
 class Kfc_30;
 class Object_2C;
+class Police_7C;
 
 class Police_38
 {
