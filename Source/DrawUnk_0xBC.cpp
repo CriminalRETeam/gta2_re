@@ -6,6 +6,9 @@
 #include "Police_7B8.hpp"
 #include "Game_0x40.hpp"
 
+EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
+GLOBAL(gViewCamera_676978, 0x676978);
+
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {

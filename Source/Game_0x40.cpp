@@ -61,9 +61,6 @@
 #include "text_0x14.hpp"
 #include "winmain.hpp"
 
-EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
-GLOBAL(gViewCamera_676978, 0x676978);
-
 EXPORT_VAR s32 dword_67DFB4; // TODO
 GLOBAL(dword_67DFB4, 0x67DFB4);
 

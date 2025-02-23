@@ -106,3 +106,5 @@ class DrawUnk_0xBC
     Fix16 field_B8;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
+
+EXPORT_VAR extern DrawUnk_0xBC* gViewCamera_676978;
