@@ -7,7 +7,7 @@
 class Vert_DX;
 class Fix16_2;
 
-class Nanobotz_8
+class Nanobotz_8  // Maybe Fix16_2
 {
   public:
     s32 field_0;  // x?
@@ -66,7 +66,7 @@ class MapRenderer
     EXPORT void draw_slope_4F6580();
     EXPORT void draw_slope_4F6630();
     EXPORT void sub_4F66C0();
-    EXPORT void sub_4F6880(s32* pXCoord, s32* pYCoord);
+    EXPORT void sub_4F6880(s32& pXCoord, s32& pYCoord);
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
 

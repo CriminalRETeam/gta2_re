@@ -1,11 +1,42 @@
 #include "MapRenderer.hpp"
 #include "Globals.hpp"
+#include "map_0x370.hpp"
+#include "DrawUnk_0xBC.hpp"
+#include "fix16.hpp"
+#include "debug.hpp"
 
 EXPORT_VAR MapRenderer* gpMapRenderer_6F66E4;
 GLOBAL(gpMapRenderer_6F66E4, 0x6F66E4);
 
 EXPORT_VAR Fix16_2 stru_6F6484;
 GLOBAL(stru_6F6484, 0x6F6484);
+
+EXPORT_VAR u16 gBlockLeft_6F62F6;
+GLOBAL(gBlockLeft_6F62F6, 0x6F62F6);
+
+EXPORT_VAR u16 gBlockTop_6F62F4;
+GLOBAL(gBlockTop_6F62F4, 0x6F62F4);
+
+EXPORT_VAR u16 gBlockRight_6F63C6;
+GLOBAL(gBlockRight_6F63C6, 0x6F63C6);
+
+EXPORT_VAR u16 gBlockBottom_6F6468;
+GLOBAL(gBlockBottom_6F6468, 0x6F6468);
+
+EXPORT_VAR u16 gLidType_6F6274;
+GLOBAL(gLidType_6F6274, 0x6F6274);
+
+EXPORT_VAR Fix16 gXCoord_6F63AC;
+GLOBAL(gXCoord_6F63AC, 0x6F63AC);
+
+EXPORT_VAR Fix16 gYCoord_6F63B8;
+GLOBAL(gYCoord_6F63B8, 0x6F63B8);
+
+EXPORT_VAR s32 gZCoord_6F63E0;
+GLOBAL(gZCoord_6F63E0, 0x6F63E0);
+
+EXPORT_VAR gmp_block_info* gpBlock_6F6478;
+GLOBAL(gpBlock_6F6478, 0x6F6478);
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
@@ -243,9 +274,79 @@ void MapRenderer::sub_4F66C0()
 {
 }
 
-STUB_FUNC(0x4f6880)
-void MapRenderer::sub_4F6880(s32* pXCoord, s32* pYCoord)
+MATCH_FUNC(0x4f6880)
+void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
 {
+    gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
+    gpBlock_6F6478 = pBlock;
+    if (pBlock)
+    {
+        gBlockLeft_6F62F6 = pBlock->field_0_left;
+        gBlockRight_6F63C6 = pBlock->field_2_right;
+        gBlockTop_6F62F4 = pBlock->field_4_top;
+        gBlockBottom_6F6468 = pBlock->field_6_bottom;
+        
+        u16 v8 = pBlock->field_8_lid;
+        gLidType_6F6274 = v8;
+        
+        if (bShow_hidden_faces_67D5CD)
+        {
+            if (!v8 && (pBlock->field_B_slope_type & 3) != 0)
+            {
+                gLidType_6F6274 = 0x260;
+            }
+            if ((gBlockLeft_6F62F6 & 0x400) != 0 && (gBlockLeft_6F62F6 & 0x3FF) == 0)
+            {
+                gBlockLeft_6F62F6 = gBlockLeft_6F62F6 | 0x260;
+            }
+            if ((gBlockRight_6F63C6 & 0x400) != 0 && (gBlockRight_6F63C6 & 0x3FF) == 0)
+            {
+                gBlockRight_6F63C6 |= 0x260u;
+            }
+            if ((gBlockTop_6F62F4 & 0x400) != 0 && (gBlockTop_6F62F4 & 0x3FF) == 0)
+            {
+                gBlockTop_6F62F4 |= 0x260u;
+            }
+            if ((gBlockBottom_6F6468 & 0x400) != 0 && (gBlockBottom_6F6468 & 0x3FF) == 0)
+            {
+                gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
+            }
+        }
+        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_x;
+        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_9C_y;
+        
+        u8 v6 = pBlock->field_B_slope_type & 0xFC;
+        
+        if (v6 < 0xB4u || v6 > 0xC0u)
+        {
+            if (v6 < 0xC4u || v6 > 0xD0u)
+            {
+                if (v6 < 0xD4u || v6 > 0xF4u)
+                {
+                    if (v6 > 0 && v6 < 0xB4u)
+                    {
+                        MapRenderer::draw_slope_4F6630();
+                    }
+                    else
+                    {
+                        MapRenderer::sub_4F66C0();
+                    }
+                }
+                else
+                {
+                    MapRenderer::draw_slope_4F6580();
+                }
+            }
+            else
+            {
+                MapRenderer::sub_4F0340();
+            }
+        }
+        else
+        {
+            MapRenderer::sub_4F02D0();
+        }
+    }
 }
 
 MATCH_FUNC(0x4f6a10)
