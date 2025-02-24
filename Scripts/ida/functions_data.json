@@ -1385,32 +1385,32 @@
         "v105_address": "0x4397d0"
     },
     {
-        "name": "Car_10::sub_439CD0",
+        "name": "Car_Door_10::sub_439CD0",
         "v96f_address": null,
         "v105_address": "0x439cd0"
     },
     {
-        "name": "Car_10::sub_439D40",
+        "name": "Car_Door_10::sub_439D40",
         "v96f_address": null,
         "v105_address": "0x439d40"
     },
     {
-        "name": "Car_10::sub_439DA0",
+        "name": "Car_Door_10::sub_439DA0",
         "v96f_address": null,
         "v105_address": "0x439da0"
     },
     {
-        "name": "Car_10::sub_439E40",
+        "name": "Car_Door_10::sub_439E40",
         "v96f_address": null,
         "v105_address": "0x439e40"
     },
     {
-        "name": "Car_10::sub_439E60",
+        "name": "Car_Door_10::sub_439E60",
         "v96f_address": null,
         "v105_address": "0x439e60"
     },
     {
-        "name": "Car_10::sub_439EA0",
+        "name": "Car_Door_10::sub_439EA0",
         "v96f_address": null,
         "v105_address": "0x439ea0"
     },
@@ -2490,12 +2490,12 @@
         "v105_address": "0x447010"
     },
     {
-        "name": "Car_10::ctor",
+        "name": "Car_Door_10::ctor",
         "v96f_address": null,
         "v105_address": "0x447330"
     },
     {
-        "name": "Car_10::dtor",
+        "name": "Car_Door_10::dtor",
         "v96f_address": null,
         "v105_address": "0x447350"
     },
@@ -2615,7 +2615,7 @@
         "v105_address": "0x451730"
     },
     {
-        "name": "Car_3C::sub_451950",
+        "name": "Sprite::sub_451950",
         "v96f_address": null,
         "v105_address": "0x451950"
     },
@@ -2735,7 +2735,7 @@
         "v105_address": "0x453f90"
     },
     {
-        "name": "Monster_2C::sub_4542A0",
+        "name": "CarInfo_2C::sub_4542A0",
         "v96f_address": null,
         "v105_address": "0x4542a0"
     },
@@ -2745,27 +2745,27 @@
         "v105_address": "0x454410"
     },
     {
-        "name": "Monster_48::sub_454680",
+        "name": "CarInfo_48::sub_454680",
         "v96f_address": null,
         "v105_address": "0x454680"
     },
     {
-        "name": "Monster_808::sub_4546B0",
+        "name": "CarInfo_808::sub_4546B0",
         "v96f_address": null,
         "v105_address": "0x4546b0"
     },
     {
-        "name": "Monster_808::sub_4546D0",
+        "name": "CarInfo_808::sub_4546D0",
         "v96f_address": null,
         "v105_address": "0x4546d0"
     },
     {
-        "name": "Monster_808::sub_454840",
+        "name": "CarInfo_808::sub_454840",
         "v96f_address": null,
         "v105_address": "0x454840"
     },
     {
-        "name": "Monster_808::sub_454850",
+        "name": "CarInfo_808::sub_454850",
         "v96f_address": null,
         "v105_address": "0x454850"
     },
@@ -2775,47 +2775,47 @@
         "v105_address": "0x454940"
     },
     {
-        "name": "Monster_2C::ctor",
+        "name": "CarInfo_2C::ctor",
         "v96f_address": null,
         "v105_address": "0x4549a0"
     },
     {
-        "name": "Monster_2C::dtor",
+        "name": "CarInfo_2C::dtor",
         "v96f_address": null,
         "v105_address": "0x4549b0"
     },
     {
-        "name": "Monster_808::sub_4549C0",
+        "name": "CarInfo_808::sub_4549C0",
         "v96f_address": null,
         "v105_address": "0x4549c0"
     },
     {
-        "name": "Monster_808::sub_454A00",
+        "name": "CarInfo_808::sub_454A00",
         "v96f_address": null,
         "v105_address": "0x454a00"
     },
     {
-        "name": "Monster_808::sub_454A50",
+        "name": "CarInfo_808::sub_454A50",
         "v96f_address": null,
         "v105_address": "0x454a50"
     },
     {
-        "name": "Monster_808::sub_454A80",
+        "name": "CarInfo_808::sub_454A80",
         "v96f_address": null,
         "v105_address": "0x454a80"
     },
     {
-        "name": "Monster_808::sub_454AA0",
+        "name": "CarInfo_808::sub_454AA0",
         "v96f_address": null,
         "v105_address": "0x454aa0"
     },
     {
-        "name": "Monster_808::ctor",
+        "name": "CarInfo_808::ctor",
         "v96f_address": "0x432830",
         "v105_address": "0x454b00"
     },
     {
-        "name": "Monster_808::dtor",
+        "name": "CarInfo_808::dtor",
         "v96f_address": null,
         "v105_address": "0x454b20"
     },
@@ -2840,157 +2840,157 @@
         "v105_address": "0x45ae40"
     },
     {
-        "name": "cool_nash_0x294::ctor",
+        "name": "Ped::ctor",
         "v96f_address": null,
         "v105_address": "0x45ae70"
     },
     {
-        "name": "cool_nash_0x294::dtor",
+        "name": "Ped::dtor",
         "v96f_address": null,
         "v105_address": "0x45af00"
     },
     {
-        "name": "cool_nash_0x294::sub_45AFC0",
+        "name": "Ped::sub_45AFC0",
         "v96f_address": null,
         "v105_address": "0x45afc0"
     },
     {
-        "name": "cool_nash_0x294::sub_45B440",
+        "name": "Ped::sub_45B440",
         "v96f_address": null,
         "v105_address": "0x45b440"
     },
     {
-        "name": "cool_nash_0x294::sub_45B4E0",
+        "name": "Ped::sub_45B4E0",
         "v96f_address": null,
         "v105_address": "0x45b4e0"
     },
     {
-        "name": "cool_nash_0x294::sub_45B520",
+        "name": "Ped::sub_45B520",
         "v96f_address": null,
         "v105_address": "0x45b520"
     },
     {
-        "name": "cool_nash_0x294::sub_45B550",
+        "name": "Ped::sub_45B550",
         "v96f_address": null,
         "v105_address": "0x45b550"
     },
     {
-        "name": "cool_nash_0x294::sub_45B560",
+        "name": "Ped::sub_45B560",
         "v96f_address": null,
         "v105_address": "0x45b560"
     },
     {
-        "name": "cool_nash_0x294::sub_45B590",
+        "name": "Ped::sub_45B590",
         "v96f_address": null,
         "v105_address": "0x45b590"
     },
     {
-        "name": "cool_nash_0x294::sub_45B5B0",
+        "name": "Ped::sub_45B5B0",
         "v96f_address": null,
         "v105_address": "0x45b5b0"
     },
     {
-        "name": "cool_nash_0x294::sub_45BBF0",
+        "name": "Ped::sub_45BBF0",
         "v96f_address": null,
         "v105_address": "0x45bbf0"
     },
     {
-        "name": "cool_nash_0x294::sub_45BC10",
+        "name": "Ped::sub_45BC10",
         "v96f_address": null,
         "v105_address": "0x45bc10"
     },
     {
-        "name": "cool_nash_0x294::sub_45BC70",
+        "name": "Ped::sub_45BC70",
         "v96f_address": null,
         "v105_address": "0x45bc70"
     },
     {
-        "name": "cool_nash_0x294::sub_45BD20",
+        "name": "Ped::sub_45BD20",
         "v96f_address": null,
         "v105_address": "0x45bd20"
     },
     {
-        "name": "cool_nash_0x294::sub_45BE30",
+        "name": "Ped::sub_45BE30",
         "v96f_address": null,
         "v105_address": "0x45be30"
     },
     {
-        "name": "cool_nash_0x294::sub_45BE70",
+        "name": "Ped::sub_45BE70",
         "v96f_address": null,
         "v105_address": "0x45be70"
     },
     {
-        "name": "cool_nash_0x294::sub_45BE90",
+        "name": "Ped::sub_45BE90",
         "v96f_address": null,
         "v105_address": "0x45be90"
     },
     {
-        "name": "cool_nash_0x294::sub_45BEC0",
+        "name": "Ped::sub_45BEC0",
         "v96f_address": null,
         "v105_address": "0x45bec0"
     },
     {
-        "name": "cool_nash_0x294::sub_45BFB0",
+        "name": "Ped::sub_45BFB0",
         "v96f_address": null,
         "v105_address": "0x45bfb0"
     },
     {
-        "name": "cool_nash_0x294::sub_45BFD0",
+        "name": "Ped::sub_45BFD0",
         "v96f_address": null,
         "v105_address": "0x45bfd0"
     },
     {
-        "name": "cool_nash_0x294::sub_45BFE0",
+        "name": "Ped::sub_45BFE0",
         "v96f_address": null,
         "v105_address": "0x45bfe0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C010",
+        "name": "Ped::sub_45C010",
         "v96f_address": null,
         "v105_address": "0x45c010"
     },
     {
-        "name": "cool_nash_0x294::sub_45C040",
+        "name": "Ped::sub_45C040",
         "v96f_address": null,
         "v105_address": "0x45c040"
     },
     {
-        "name": "cool_nash_0x294::sub_45C050",
+        "name": "Ped::sub_45C050",
         "v96f_address": null,
         "v105_address": "0x45c050"
     },
     {
-        "name": "cool_nash_0x294::sub_45C070",
+        "name": "Ped::sub_45C070",
         "v96f_address": null,
         "v105_address": "0x45c070"
     },
     {
-        "name": "cool_nash_0x294::sub_45C090",
+        "name": "Ped::sub_45C090",
         "v96f_address": null,
         "v105_address": "0x45c090"
     },
     {
-        "name": "cool_nash_0x294::sub_45C0C0",
+        "name": "Ped::sub_45C0C0",
         "v96f_address": null,
         "v105_address": "0x45c0c0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C310",
+        "name": "Ped::sub_45C310",
         "v96f_address": null,
         "v105_address": "0x45c310"
     },
     {
-        "name": "cool_nash_0x294::sub_45C350",
+        "name": "Ped::sub_45C350",
         "v96f_address": null,
         "v105_address": "0x45c350"
     },
     {
-        "name": "cool_nash_0x294::sub_45C410",
+        "name": "Ped::sub_45C410",
         "v96f_address": null,
         "v105_address": "0x45c410"
     },
     {
-        "name": "cool_nash_0x294::sub_45C4B0",
+        "name": "Ped::sub_45C4B0",
         "v96f_address": null,
         "v105_address": "0x45c4b0"
     },
@@ -3000,22 +3000,22 @@
         "v105_address": "0x45c4e0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C500",
+        "name": "Ped::sub_45C500",
         "v96f_address": null,
         "v105_address": "0x45c500"
     },
     {
-        "name": "cool_nash_0x294::sub_45C540",
+        "name": "Ped::sub_45C540",
         "v96f_address": null,
         "v105_address": "0x45c540"
     },
     {
-        "name": "cool_nash_0x294::sub_45C5A0",
+        "name": "Ped::sub_45C5A0",
         "v96f_address": null,
         "v105_address": "0x45c5a0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C5C0",
+        "name": "Ped::sub_45C5C0",
         "v96f_address": null,
         "v105_address": "0x45c5c0"
     },
@@ -3025,62 +3025,62 @@
         "v105_address": "0x45c650"
     },
     {
-        "name": "cool_nash_0x294::sub_45C730",
+        "name": "Ped::sub_45C730",
         "v96f_address": null,
         "v105_address": "0x45c730"
     },
     {
-        "name": "cool_nash_0x294::sub_45C7A0",
+        "name": "Ped::sub_45C7A0",
         "v96f_address": null,
         "v105_address": "0x45c7a0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C7F0",
+        "name": "Ped::sub_45C7F0",
         "v96f_address": null,
         "v105_address": "0x45c7f0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C830",
+        "name": "Ped::sub_45C830",
         "v96f_address": null,
         "v105_address": "0x45c830"
     },
     {
-        "name": "cool_nash_0x294::sub_45C900",
+        "name": "Ped::sub_45C900",
         "v96f_address": null,
         "v105_address": "0x45c900"
     },
     {
-        "name": "cool_nash_0x294::sub_45C920",
+        "name": "Ped::sub_45C920",
         "v96f_address": null,
         "v105_address": "0x45c920"
     },
     {
-        "name": "cool_nash_0x294::sub_45C960",
+        "name": "Ped::sub_45C960",
         "v96f_address": null,
         "v105_address": "0x45c960"
     },
     {
-        "name": "cool_nash_0x294::sub_45C9B0",
+        "name": "Ped::sub_45C9B0",
         "v96f_address": null,
         "v105_address": "0x45c9b0"
     },
     {
-        "name": "cool_nash_0x294::sub_45C9D0",
+        "name": "Ped::sub_45C9D0",
         "v96f_address": null,
         "v105_address": "0x45c9d0"
     },
     {
-        "name": "cool_nash_0x294::sub_45CAA0",
+        "name": "Ped::sub_45CAA0",
         "v96f_address": null,
         "v105_address": "0x45caa0"
     },
     {
-        "name": "cool_nash_0x294::sub_45CE50",
+        "name": "Ped::sub_45CE50",
         "v96f_address": null,
         "v105_address": "0x45ce50"
     },
     {
-        "name": "cool_nash_0x294::sub_45CF20",
+        "name": "Ped::sub_45CF20",
         "v96f_address": null,
         "v105_address": "0x45cf20"
     },
@@ -3090,77 +3090,77 @@
         "v105_address": "0x45cf90"
     },
     {
-        "name": "cool_nash_0x294::sub_45D000",
+        "name": "Ped::sub_45D000",
         "v96f_address": null,
         "v105_address": "0x45d000"
     },
     {
-        "name": "cool_nash_0x294::sub_45DD30",
+        "name": "Ped::sub_45DD30",
         "v96f_address": null,
         "v105_address": "0x45dd30"
     },
     {
-        "name": "cool_nash_0x294::sub_45DE80",
+        "name": "Ped::sub_45DE80",
         "v96f_address": null,
         "v105_address": "0x45de80"
     },
     {
-        "name": "cool_nash_0x294::sub_45E080",
+        "name": "Ped::sub_45E080",
         "v96f_address": null,
         "v105_address": "0x45e080"
     },
     {
-        "name": "cool_nash_0x294::sub_45E4A0",
+        "name": "Ped::sub_45E4A0",
         "v96f_address": null,
         "v105_address": "0x45e4a0"
     },
     {
-        "name": "cool_nash_0x294::sub_45EA00",
+        "name": "Ped::sub_45EA00",
         "v96f_address": null,
         "v105_address": "0x45ea00"
     },
     {
-        "name": "cool_nash_0x294::sub_45EB60",
+        "name": "Ped::sub_45EB60",
         "v96f_address": null,
         "v105_address": "0x45eb60"
     },
     {
-        "name": "cool_nash_0x294::sub_45EDC0",
+        "name": "Ped::sub_45EDC0",
         "v96f_address": null,
         "v105_address": "0x45edc0"
     },
     {
-        "name": "cool_nash_0x294::sub_45EDE0",
+        "name": "Ped::sub_45EDE0",
         "v96f_address": null,
         "v105_address": "0x45ede0"
     },
     {
-        "name": "cool_nash_0x294::sub_45EE00",
+        "name": "Ped::sub_45EE00",
         "v96f_address": null,
         "v105_address": "0x45ee00"
     },
     {
-        "name": "cool_nash_0x294::sub_45EE70",
+        "name": "Ped::sub_45EE70",
         "v96f_address": null,
         "v105_address": "0x45ee70"
     },
     {
-        "name": "cool_nash_0x294::sub_45F360",
+        "name": "Ped::sub_45F360",
         "v96f_address": null,
         "v105_address": "0x45f360"
     },
     {
-        "name": "cool_nash_0x294::sub_45FF60",
+        "name": "Ped::sub_45FF60",
         "v96f_address": null,
         "v105_address": "0x45ff60"
     },
     {
-        "name": "cool_nash_0x294::sub_460820",
+        "name": "Ped::sub_460820",
         "v96f_address": null,
         "v105_address": "0x460820"
     },
     {
-        "name": "cool_nash_0x294::sub_461290",
+        "name": "Ped::sub_461290",
         "v96f_address": null,
         "v105_address": "0x461290"
     },
@@ -3170,102 +3170,102 @@
         "v105_address": "0x4614e0"
     },
     {
-        "name": "cool_nash_0x294::sub_461530",
+        "name": "Ped::sub_461530",
         "v96f_address": null,
         "v105_address": "0x461530"
     },
     {
-        "name": "cool_nash_0x294::sub_461630",
+        "name": "Ped::sub_461630",
         "v96f_address": null,
         "v105_address": "0x461630"
     },
     {
-        "name": "cool_nash_0x294::sub_4619F0",
+        "name": "Ped::sub_4619F0",
         "v96f_address": null,
         "v105_address": "0x4619f0"
     },
     {
-        "name": "cool_nash_0x294::sub_461A60",
+        "name": "Ped::sub_461A60",
         "v96f_address": null,
         "v105_address": "0x461a60"
     },
     {
-        "name": "cool_nash_0x294::sub_461F20",
+        "name": "Ped::sub_461F20",
         "v96f_address": null,
         "v105_address": "0x461f20"
     },
     {
-        "name": "cool_nash_0x294::sub_462280",
+        "name": "Ped::sub_462280",
         "v96f_address": null,
         "v105_address": "0x462280"
     },
     {
-        "name": "cool_nash_0x294::sub_4624A0",
+        "name": "Ped::sub_4624A0",
         "v96f_address": null,
         "v105_address": "0x4624a0"
     },
     {
-        "name": "cool_nash_0x294::sub_462510",
+        "name": "Ped::sub_462510",
         "v96f_address": null,
         "v105_address": "0x462510"
     },
     {
-        "name": "cool_nash_0x294::sub_462550",
+        "name": "Ped::sub_462550",
         "v96f_address": null,
         "v105_address": "0x462550"
     },
     {
-        "name": "cool_nash_0x294::sub_462590",
+        "name": "Ped::sub_462590",
         "v96f_address": null,
         "v105_address": "0x462590"
     },
     {
-        "name": "cool_nash_0x294::sub_462620",
+        "name": "Ped::sub_462620",
         "v96f_address": null,
         "v105_address": "0x462620"
     },
     {
-        "name": "cool_nash_0x294::sub_4626B0",
+        "name": "Ped::sub_4626B0",
         "v96f_address": null,
         "v105_address": "0x4626b0"
     },
     {
-        "name": "cool_nash_0x294::sub_462B80",
+        "name": "Ped::sub_462B80",
         "v96f_address": null,
         "v105_address": "0x462b80"
     },
     {
-        "name": "cool_nash_0x294::sub_462E70",
+        "name": "Ped::sub_462E70",
         "v96f_address": null,
         "v105_address": "0x462e70"
     },
     {
-        "name": "cool_nash_0x294::sub_4632E0",
+        "name": "Ped::sub_4632E0",
         "v96f_address": null,
         "v105_address": "0x4632e0"
     },
     {
-        "name": "cool_nash_0x294::sub_463300",
+        "name": "Ped::sub_463300",
         "v96f_address": null,
         "v105_address": "0x463300"
     },
     {
-        "name": "cool_nash_0x294::sub_4633E0",
+        "name": "Ped::sub_4633E0",
         "v96f_address": null,
         "v105_address": "0x4633e0"
     },
     {
-        "name": "cool_nash_0x294::sub_463570",
+        "name": "Ped::sub_463570",
         "v96f_address": null,
         "v105_address": "0x463570"
     },
     {
-        "name": "cool_nash_0x294::sub_463830",
+        "name": "Ped::sub_463830",
         "v96f_address": null,
         "v105_address": "0x463830"
     },
     {
-        "name": "cool_nash_0x294::sub_463AA0",
+        "name": "Ped::sub_463AA0",
         "v96f_address": null,
         "v105_address": "0x463aa0"
     },
@@ -3280,32 +3280,32 @@
         "v105_address": "0x463fa0"
     },
     {
-        "name": "cool_nash_0x294::sub_463FB0",
+        "name": "Ped::sub_463FB0",
         "v96f_address": null,
         "v105_address": "0x463fb0"
     },
     {
-        "name": "cool_nash_0x294::sub_4645B0",
+        "name": "Ped::sub_4645B0",
         "v96f_address": null,
         "v105_address": "0x4645b0"
     },
     {
-        "name": "cool_nash_0x294::sub_465270",
+        "name": "Ped::sub_465270",
         "v96f_address": null,
         "v105_address": "0x465270"
     },
     {
-        "name": "cool_nash_0x294::sub_465B20",
+        "name": "Ped::sub_465B20",
         "v96f_address": null,
         "v105_address": "0x465b20"
     },
     {
-        "name": "cool_nash_0x294::sub_465CD0",
+        "name": "Ped::sub_465CD0",
         "v96f_address": null,
         "v105_address": "0x465cd0"
     },
     {
-        "name": "cool_nash_0x294::sub_465D00",
+        "name": "Ped::sub_465D00",
         "v96f_address": null,
         "v105_address": "0x465d00"
     },
@@ -3320,37 +3320,37 @@
         "v105_address": "0x466b70"
     },
     {
-        "name": "cool_nash_0x294::sub_466B90",
+        "name": "Ped::sub_466B90",
         "v96f_address": null,
         "v105_address": "0x466b90"
     },
     {
-        "name": "cool_nash_0x294::sub_466BB0",
+        "name": "Ped::sub_466BB0",
         "v96f_address": null,
         "v105_address": "0x466bb0"
     },
     {
-        "name": "cool_nash_0x294::sub_466BD0",
+        "name": "Ped::sub_466BD0",
         "v96f_address": null,
         "v105_address": "0x466bd0"
     },
     {
-        "name": "cool_nash_0x294::sub_466BF0",
+        "name": "Ped::sub_466BF0",
         "v96f_address": null,
         "v105_address": "0x466bf0"
     },
     {
-        "name": "cool_nash_0x294::sub_466F40",
+        "name": "Ped::sub_466F40",
         "v96f_address": null,
         "v105_address": "0x466f40"
     },
     {
-        "name": "cool_nash_0x294::sub_466F60",
+        "name": "Ped::sub_466F60",
         "v96f_address": null,
         "v105_address": "0x466f60"
     },
     {
-        "name": "cool_nash_0x294::sub_466FB0",
+        "name": "Ped::sub_466FB0",
         "v96f_address": null,
         "v105_address": "0x466fb0"
     },
@@ -3360,377 +3360,377 @@
         "v105_address": "0x467070"
     },
     {
-        "name": "cool_nash_0x294::sub_467090",
+        "name": "Ped::sub_467090",
         "v96f_address": null,
         "v105_address": "0x467090"
     },
     {
-        "name": "cool_nash_0x294::sub_467280",
+        "name": "Ped::sub_467280",
         "v96f_address": null,
         "v105_address": "0x467280"
     },
     {
-        "name": "cool_nash_0x294::sub_4672E0",
+        "name": "Ped::sub_4672E0",
         "v96f_address": null,
         "v105_address": "0x4672e0"
     },
     {
-        "name": "cool_nash_0x294::sub_4678E0",
+        "name": "Ped::sub_4678E0",
         "v96f_address": null,
         "v105_address": "0x4678e0"
     },
     {
-        "name": "cool_nash_0x294::sub_467960",
+        "name": "Ped::sub_467960",
         "v96f_address": null,
         "v105_address": "0x467960"
     },
     {
-        "name": "cool_nash_0x294::sub_467A20",
+        "name": "Ped::sub_467A20",
         "v96f_address": null,
         "v105_address": "0x467a20"
     },
     {
-        "name": "cool_nash_0x294::sub_467AD0",
+        "name": "Ped::sub_467AD0",
         "v96f_address": null,
         "v105_address": "0x467ad0"
     },
     {
-        "name": "cool_nash_0x294::sub_467BD0",
+        "name": "Ped::sub_467BD0",
         "v96f_address": null,
         "v105_address": "0x467bd0"
     },
     {
-        "name": "cool_nash_0x294::sub_467CA0",
+        "name": "Ped::sub_467CA0",
         "v96f_address": null,
         "v105_address": "0x467ca0"
     },
     {
-        "name": "cool_nash_0x294::sub_467E20",
+        "name": "Ped::sub_467E20",
         "v96f_address": null,
         "v105_address": "0x467e20"
     },
     {
-        "name": "cool_nash_0x294::sub_467FB0",
+        "name": "Ped::sub_467FB0",
         "v96f_address": null,
         "v105_address": "0x467fb0"
     },
     {
-        "name": "cool_nash_0x294::sub_467FD0",
+        "name": "Ped::sub_467FD0",
         "v96f_address": null,
         "v105_address": "0x467fd0"
     },
     {
-        "name": "cool_nash_0x294::sub_468040",
+        "name": "Ped::sub_468040",
         "v96f_address": null,
         "v105_address": "0x468040"
     },
     {
-        "name": "cool_nash_0x294::sub_4682A0",
+        "name": "Ped::sub_4682A0",
         "v96f_address": null,
         "v105_address": "0x4682a0"
     },
     {
-        "name": "cool_nash_0x294::sub_468310",
+        "name": "Ped::sub_468310",
         "v96f_address": null,
         "v105_address": "0x468310"
     },
     {
-        "name": "cool_nash_0x294::sub_4686C0",
+        "name": "Ped::sub_4686C0",
         "v96f_address": null,
         "v105_address": "0x4686c0"
     },
     {
-        "name": "cool_nash_0x294::sub_468820",
+        "name": "Ped::sub_468820",
         "v96f_address": null,
         "v105_address": "0x468820"
     },
     {
-        "name": "cool_nash_0x294::sub_468930",
+        "name": "Ped::sub_468930",
         "v96f_address": null,
         "v105_address": "0x468930"
     },
     {
-        "name": "cool_nash_0x294::sub_468A00",
+        "name": "Ped::sub_468A00",
         "v96f_address": null,
         "v105_address": "0x468a00"
     },
     {
-        "name": "cool_nash_0x294::sub_468BD0",
+        "name": "Ped::sub_468BD0",
         "v96f_address": null,
         "v105_address": "0x468bd0"
     },
     {
-        "name": "cool_nash_0x294::sub_468C70",
+        "name": "Ped::sub_468C70",
         "v96f_address": null,
         "v105_address": "0x468c70"
     },
     {
-        "name": "cool_nash_0x294::sub_468DE0",
+        "name": "Ped::sub_468DE0",
         "v96f_address": null,
         "v105_address": "0x468de0"
     },
     {
-        "name": "cool_nash_0x294::sub_468E80",
+        "name": "Ped::sub_468E80",
         "v96f_address": null,
         "v105_address": "0x468e80"
     },
     {
-        "name": "cool_nash_0x294::sub_469010",
+        "name": "Ped::sub_469010",
         "v96f_address": null,
         "v105_address": "0x469010"
     },
     {
-        "name": "cool_nash_0x294::sub_469030",
+        "name": "Ped::sub_469030",
         "v96f_address": null,
         "v105_address": "0x469030"
     },
     {
-        "name": "cool_nash_0x294::sub_469060",
+        "name": "Ped::sub_469060",
         "v96f_address": null,
         "v105_address": "0x469060"
     },
     {
-        "name": "cool_nash_0x294::sub_469BD0",
+        "name": "Ped::sub_469BD0",
         "v96f_address": null,
         "v105_address": "0x469bd0"
     },
     {
-        "name": "cool_nash_0x294::sub_469BF0",
+        "name": "Ped::sub_469BF0",
         "v96f_address": null,
         "v105_address": "0x469bf0"
     },
     {
-        "name": "cool_nash_0x294::sub_469D60",
+        "name": "Ped::sub_469D60",
         "v96f_address": null,
         "v105_address": "0x469d60"
     },
     {
-        "name": "cool_nash_0x294::sub_469E10",
+        "name": "Ped::sub_469E10",
         "v96f_address": null,
         "v105_address": "0x469e10"
     },
     {
-        "name": "cool_nash_0x294::sub_469E30",
+        "name": "Ped::sub_469E30",
         "v96f_address": null,
         "v105_address": "0x469e30"
     },
     {
-        "name": "cool_nash_0x294::sub_469E50",
+        "name": "Ped::sub_469E50",
         "v96f_address": null,
         "v105_address": "0x469e50"
     },
     {
-        "name": "cool_nash_0x294::sub_469F30",
+        "name": "Ped::sub_469F30",
         "v96f_address": null,
         "v105_address": "0x469f30"
     },
     {
-        "name": "cool_nash_0x294::sub_469FC0",
+        "name": "Ped::sub_469FC0",
         "v96f_address": null,
         "v105_address": "0x469fc0"
     },
     {
-        "name": "cool_nash_0x294::sub_469FE0",
+        "name": "Ped::sub_469FE0",
         "v96f_address": null,
         "v105_address": "0x469fe0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A1F0",
+        "name": "Ped::sub_46A1F0",
         "v96f_address": null,
         "v105_address": "0x46a1f0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A290",
+        "name": "Ped::sub_46A290",
         "v96f_address": null,
         "v105_address": "0x46a290"
     },
     {
-        "name": "cool_nash_0x294::sub_46A350",
+        "name": "Ped::sub_46A350",
         "v96f_address": null,
         "v105_address": "0x46a350"
     },
     {
-        "name": "cool_nash_0x294::sub_46A530",
+        "name": "Ped::sub_46A530",
         "v96f_address": null,
         "v105_address": "0x46a530"
     },
     {
-        "name": "cool_nash_0x294::sub_46A5E0",
+        "name": "Ped::sub_46A5E0",
         "v96f_address": null,
         "v105_address": "0x46a5e0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A6D0",
+        "name": "Ped::sub_46A6D0",
         "v96f_address": null,
         "v105_address": "0x46a6d0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A7C0",
+        "name": "Ped::sub_46A7C0",
         "v96f_address": null,
         "v105_address": "0x46a7c0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A850",
+        "name": "Ped::sub_46A850",
         "v96f_address": null,
         "v105_address": "0x46a850"
     },
     {
-        "name": "cool_nash_0x294::sub_46A8F0",
+        "name": "Ped::sub_46A8F0",
         "v96f_address": null,
         "v105_address": "0x46a8f0"
     },
     {
-        "name": "cool_nash_0x294::sub_46A9C0",
+        "name": "Ped::sub_46A9C0",
         "v96f_address": null,
         "v105_address": "0x46a9c0"
     },
     {
-        "name": "cool_nash_0x294::sub_46AAE0",
+        "name": "Ped::sub_46AAE0",
         "v96f_address": null,
         "v105_address": "0x46aae0"
     },
     {
-        "name": "cool_nash_0x294::sub_46AB50",
+        "name": "Ped::sub_46AB50",
         "v96f_address": null,
         "v105_address": "0x46ab50"
     },
     {
-        "name": "cool_nash_0x294::sub_46AC20",
+        "name": "Ped::sub_46AC20",
         "v96f_address": null,
         "v105_address": "0x46ac20"
     },
     {
-        "name": "cool_nash_0x294::sub_46B170",
+        "name": "Ped::sub_46B170",
         "v96f_address": null,
         "v105_address": "0x46b170"
     },
     {
-        "name": "cool_nash_0x294::sub_46B2F0",
+        "name": "Ped::sub_46B2F0",
         "v96f_address": null,
         "v105_address": "0x46b2f0"
     },
     {
-        "name": "cool_nash_0x294::sub_46B670",
+        "name": "Ped::sub_46B670",
         "v96f_address": null,
         "v105_address": "0x46b670"
     },
     {
-        "name": "cool_nash_0x294::sub_46BD30",
+        "name": "Ped::sub_46BD30",
         "v96f_address": null,
         "v105_address": "0x46bd30"
     },
     {
-        "name": "cool_nash_0x294::sub_46BD50",
+        "name": "Ped::sub_46BD50",
         "v96f_address": null,
         "v105_address": "0x46bd50"
     },
     {
-        "name": "cool_nash_0x294::sub_46BDC0",
+        "name": "Ped::sub_46BDC0",
         "v96f_address": null,
         "v105_address": "0x46bdc0"
     },
     {
-        "name": "cool_nash_0x294::sub_46C250",
+        "name": "Ped::sub_46C250",
         "v96f_address": null,
         "v105_address": "0x46c250"
     },
     {
-        "name": "cool_nash_0x294::sub_46C770",
+        "name": "Ped::sub_46C770",
         "v96f_address": null,
         "v105_address": "0x46c770"
     },
     {
-        "name": "cool_nash_0x294::sub_46C7E0",
+        "name": "Ped::sub_46C7E0",
         "v96f_address": null,
         "v105_address": "0x46c7e0"
     },
     {
-        "name": "cool_nash_0x294::sub_46C8A0",
+        "name": "Ped::sub_46C8A0",
         "v96f_address": null,
         "v105_address": "0x46c8a0"
     },
     {
-        "name": "cool_nash_0x294::sub_46C910",
+        "name": "Ped::sub_46C910",
         "v96f_address": null,
         "v105_address": "0x46c910"
     },
     {
-        "name": "cool_nash_0x294::sub_46C9B0",
+        "name": "Ped::sub_46C9B0",
         "v96f_address": null,
         "v105_address": "0x46c9b0"
     },
     {
-        "name": "cool_nash_0x294::sub_46CA60",
+        "name": "Ped::sub_46CA60",
         "v96f_address": null,
         "v105_address": "0x46ca60"
     },
     {
-        "name": "cool_nash_0x294::sub_46CA70",
+        "name": "Ped::sub_46CA70",
         "v96f_address": null,
         "v105_address": "0x46ca70"
     },
     {
-        "name": "cool_nash_0x294::sub_46CB30",
+        "name": "Ped::sub_46CB30",
         "v96f_address": null,
         "v105_address": "0x46cb30"
     },
     {
-        "name": "cool_nash_0x294::sub_46CC70",
+        "name": "Ped::sub_46CC70",
         "v96f_address": null,
         "v105_address": "0x46cc70"
     },
     {
-        "name": "cool_nash_0x294::sub_46CDB0",
+        "name": "Ped::sub_46CDB0",
         "v96f_address": null,
         "v105_address": "0x46cdb0"
     },
     {
-        "name": "cool_nash_0x294::sub_46CEF0",
+        "name": "Ped::sub_46CEF0",
         "v96f_address": null,
         "v105_address": "0x46cef0"
     },
     {
-        "name": "cool_nash_0x294::sub_46D030",
+        "name": "Ped::sub_46D030",
         "v96f_address": null,
         "v105_address": "0x46d030"
     },
     {
-        "name": "cool_nash_0x294::sub_46D0B0",
+        "name": "Ped::sub_46D0B0",
         "v96f_address": null,
         "v105_address": "0x46d0b0"
     },
     {
-        "name": "cool_nash_0x294::sub_46D0D0",
+        "name": "Ped::sub_46D0D0",
         "v96f_address": null,
         "v105_address": "0x46d0d0"
     },
     {
-        "name": "cool_nash_0x294::sub_46D240",
+        "name": "Ped::sub_46D240",
         "v96f_address": null,
         "v105_address": "0x46d240"
     },
     {
-        "name": "cool_nash_0x294::sub_46D300",
+        "name": "Ped::sub_46D300",
         "v96f_address": null,
         "v105_address": "0x46d300"
     },
     {
-        "name": "cool_nash_0x294::sub_46D460",
+        "name": "Ped::sub_46D460",
         "v96f_address": null,
         "v105_address": "0x46d460"
     },
     {
-        "name": "cool_nash_0x294::sub_46DB60",
+        "name": "Ped::sub_46DB60",
         "v96f_address": null,
         "v105_address": "0x46db60"
     },
     {
-        "name": "cool_nash_0x294::sub_46DB70",
+        "name": "Ped::sub_46DB70",
         "v96f_address": null,
         "v105_address": "0x46db70"
     },
     {
-        "name": "cool_nash_0x294::sub_46DB80",
+        "name": "Ped::sub_46DB80",
         "v96f_address": null,
         "v105_address": "0x46db80"
     },
@@ -3750,27 +3750,27 @@
         "v105_address": "0x46dd70"
     },
     {
-        "name": "cool_nash_0x294::sub_46DF50",
+        "name": "Ped::sub_46DF50",
         "v96f_address": null,
         "v105_address": "0x46df50"
     },
     {
-        "name": "cool_nash_0x294::sub_46DF70",
+        "name": "Ped::sub_46DF70",
         "v96f_address": null,
         "v105_address": "0x46df70"
     },
     {
-        "name": "cool_nash_0x294::sub_46E020",
+        "name": "Ped::sub_46E020",
         "v96f_address": null,
         "v105_address": "0x46e020"
     },
     {
-        "name": "cool_nash_0x294::sub_46E080",
+        "name": "Ped::sub_46E080",
         "v96f_address": null,
         "v105_address": "0x46e080"
     },
     {
-        "name": "cool_nash_0x294::sub_46E200",
+        "name": "Ped::sub_46E200",
         "v96f_address": null,
         "v105_address": "0x46e200"
     },
@@ -3790,112 +3790,112 @@
         "v105_address": "0x46eb60"
     },
     {
-        "name": "cool_nash_0x294::get_wanted_star_count",
+        "name": "Ped::get_wanted_star_count",
         "v96f_address": null,
         "v105_address": "0x46ef00"
     },
     {
-        "name": "cool_nash_0x294::set_wanted_level",
+        "name": "Ped::set_wanted_level",
         "v96f_address": null,
         "v105_address": "0x46ef40"
     },
     {
-        "name": "cool_nash_0x294::set_wanted_star_count",
+        "name": "Ped::set_wanted_star_count",
         "v96f_address": null,
         "v105_address": "0x46f070"
     },
     {
-        "name": "cool_nash_0x294::sub_46F100",
+        "name": "Ped::sub_46F100",
         "v96f_address": null,
         "v105_address": "0x46f100"
     },
     {
-        "name": "cool_nash_0x294::sub_46F110",
+        "name": "Ped::sub_46F110",
         "v96f_address": null,
         "v105_address": "0x46f110"
     },
     {
-        "name": "cool_nash_0x294::sub_46F1E0",
+        "name": "Ped::sub_46F1E0",
         "v96f_address": null,
         "v105_address": "0x46f1e0"
     },
     {
-        "name": "cool_nash_0x294::sub_46F390",
+        "name": "Ped::sub_46F390",
         "v96f_address": null,
         "v105_address": "0x46f390"
     },
     {
-        "name": "cool_nash_0x294::sub_46F490",
+        "name": "Ped::sub_46F490",
         "v96f_address": null,
         "v105_address": "0x46f490"
     },
     {
-        "name": "cool_nash_0x294::sub_46F600",
+        "name": "Ped::sub_46F600",
         "v96f_address": null,
         "v105_address": "0x46f600"
     },
     {
-        "name": "cool_nash_0x294::sub_46F650",
+        "name": "Ped::sub_46F650",
         "v96f_address": null,
         "v105_address": "0x46f650"
     },
     {
-        "name": "cool_nash_0x294::sub_46F680",
+        "name": "Ped::sub_46F680",
         "v96f_address": null,
         "v105_address": "0x46f680"
     },
     {
-        "name": "cool_nash_0x294::sub_46F720",
+        "name": "Ped::sub_46F720",
         "v96f_address": null,
         "v105_address": "0x46f720"
     },
     {
-        "name": "cool_nash_0x294::sub_46F9D0",
+        "name": "Ped::sub_46F9D0",
         "v96f_address": null,
         "v105_address": "0x46f9d0"
     },
     {
-        "name": "cool_nash_0x294::sub_46FC70",
+        "name": "Ped::sub_46FC70",
         "v96f_address": null,
         "v105_address": "0x46fc70"
     },
     {
-        "name": "cool_nash_0x294::sub_46FC90",
+        "name": "Ped::sub_46FC90",
         "v96f_address": null,
         "v105_address": "0x46fc90"
     },
     {
-        "name": "cool_nash_0x294::sub_46FE20",
+        "name": "Ped::sub_46FE20",
         "v96f_address": null,
         "v105_address": "0x46fe20"
     },
     {
-        "name": "cool_nash_0x294::sub_46FF00",
+        "name": "Ped::sub_46FF00",
         "v96f_address": null,
         "v105_address": "0x46ff00"
     },
     {
-        "name": "cool_nash_0x294::sub_46FFF0",
+        "name": "Ped::sub_46FFF0",
         "v96f_address": null,
         "v105_address": "0x46fff0"
     },
     {
-        "name": "cool_nash_0x294::sub_470050",
+        "name": "Ped::sub_470050",
         "v96f_address": null,
         "v105_address": "0x470050"
     },
     {
-        "name": "cool_nash_0x294::add_wanted_points",
+        "name": "Ped::add_wanted_points",
         "v96f_address": null,
         "v105_address": "0x470160"
     },
     {
-        "name": "cool_nash_0x294::sub_4701D0",
+        "name": "Ped::sub_4701D0",
         "v96f_address": null,
         "v105_address": "0x4701d0"
     },
     {
-        "name": "cool_nash_0x294::sub_470200",
+        "name": "Ped::sub_470200",
         "v96f_address": null,
         "v105_address": "0x470200"
     },
@@ -3905,12 +3905,12 @@
         "v105_address": "0x4702a0"
     },
     {
-        "name": "cool_nash_0x294::sub_4702D0",
+        "name": "Ped::sub_4702D0",
         "v96f_address": null,
         "v105_address": "0x4702d0"
     },
     {
-        "name": "cool_nash_0x294::sub_470300",
+        "name": "Ped::sub_470300",
         "v96f_address": null,
         "v105_address": "0x470300"
     },
@@ -3965,7 +3965,7 @@
         "v105_address": "0x470e30"
     },
     {
-        "name": "cool_nash_0x294::sub_470F00",
+        "name": "Ped::sub_470F00",
         "v96f_address": null,
         "v105_address": "0x470f00"
     },
@@ -3975,7 +3975,7 @@
         "v105_address": "0x470f30"
     },
     {
-        "name": "cool_nash_0x294::sub_470F90",
+        "name": "Ped::sub_470F90",
         "v96f_address": null,
         "v105_address": "0x470f90"
     },
@@ -4355,157 +4355,157 @@
         "v105_address": "0x47bd90"
     },
     {
-        "name": "Zheal_15C::dtor",
+        "name": "Crane_15C::dtor",
         "v96f_address": null,
         "v105_address": "0x47e5b0"
     },
     {
-        "name": "Zheal_15C::ctor",
+        "name": "Crane_15C::ctor",
         "v96f_address": null,
         "v105_address": "0x47e610"
     },
     {
-        "name": "Zheal_15C::sub_47E620",
+        "name": "Crane_15C::sub_47E620",
         "v96f_address": null,
         "v105_address": "0x47e620"
     },
     {
-        "name": "Zheal_15C::sub_47E730",
+        "name": "Crane_15C::sub_47E730",
         "v96f_address": null,
         "v105_address": "0x47e730"
     },
     {
-        "name": "Zheal_15C::sub_47E840",
+        "name": "Crane_15C::sub_47E840",
         "v96f_address": null,
         "v105_address": "0x47e840"
     },
     {
-        "name": "Zheal_15C::sub_47E920",
+        "name": "Crane_15C::sub_47E920",
         "v96f_address": null,
         "v105_address": "0x47e920"
     },
     {
-        "name": "Zheal_15C::sub_47EB00",
+        "name": "Crane_15C::sub_47EB00",
         "v96f_address": null,
         "v105_address": "0x47eb00"
     },
     {
-        "name": "Zheal_15C::sub_47ECC0",
+        "name": "Crane_15C::sub_47ECC0",
         "v96f_address": null,
         "v105_address": "0x47ecc0"
     },
     {
-        "name": "Zheal_15C::sub_47ED60",
+        "name": "Crane_15C::sub_47ED60",
         "v96f_address": null,
         "v105_address": "0x47ed60"
     },
     {
-        "name": "Zheal_15C::sub_47EDF0",
+        "name": "Crane_15C::sub_47EDF0",
         "v96f_address": null,
         "v105_address": "0x47edf0"
     },
     {
-        "name": "Zheal_15C::sub_47EF80",
+        "name": "Crane_15C::sub_47EF80",
         "v96f_address": null,
         "v105_address": "0x47ef80"
     },
     {
-        "name": "Zheal_15C::sub_47F170",
+        "name": "Crane_15C::sub_47F170",
         "v96f_address": null,
         "v105_address": "0x47f170"
     },
     {
-        "name": "Zheal_15C::sub_47F220",
+        "name": "Crane_15C::sub_47F220",
         "v96f_address": null,
         "v105_address": "0x47f220"
     },
     {
-        "name": "Zheal_15C::sub_47F290",
+        "name": "Crane_15C::sub_47F290",
         "v96f_address": null,
         "v105_address": "0x47f290"
     },
     {
-        "name": "Zheal_15C::sub_47F2F0",
+        "name": "Crane_15C::sub_47F2F0",
         "v96f_address": null,
         "v105_address": "0x47f2f0"
     },
     {
-        "name": "Zheal_15C::sub_47F350",
+        "name": "Crane_15C::sub_47F350",
         "v96f_address": null,
         "v105_address": "0x47f350"
     },
     {
-        "name": "Zheal_15C::sub_47F3D0",
+        "name": "Crane_15C::sub_47F3D0",
         "v96f_address": null,
         "v105_address": "0x47f3d0"
     },
     {
-        "name": "Zheal_15C::sub_47F450",
+        "name": "Crane_15C::sub_47F450",
         "v96f_address": null,
         "v105_address": "0x47f450"
     },
     {
-        "name": "Zheal_15C::sub_47F4C0",
+        "name": "Crane_15C::sub_47F4C0",
         "v96f_address": null,
         "v105_address": "0x47f4c0"
     },
     {
-        "name": "Zheal_15C::sub_47F6C0",
+        "name": "Crane_15C::sub_47F6C0",
         "v96f_address": null,
         "v105_address": "0x47f6c0"
     },
     {
-        "name": "Zheal_15C::sub_47F7F0",
+        "name": "Crane_15C::sub_47F7F0",
         "v96f_address": null,
         "v105_address": "0x47f7f0"
     },
     {
-        "name": "Zheal_15C::sub_47F930",
+        "name": "Crane_15C::sub_47F930",
         "v96f_address": null,
         "v105_address": "0x47f930"
     },
     {
-        "name": "Zheal_15C::sub_47FB40",
+        "name": "Crane_15C::sub_47FB40",
         "v96f_address": null,
         "v105_address": "0x47fb40"
     },
     {
-        "name": "Zheal_15C::sub_47FBA0",
+        "name": "Crane_15C::sub_47FBA0",
         "v96f_address": null,
         "v105_address": "0x47fba0"
     },
     {
-        "name": "Zheal_15C::sub_47FD10",
+        "name": "Crane_15C::sub_47FD10",
         "v96f_address": null,
         "v105_address": "0x47fd10"
     },
     {
-        "name": "Zheal_15C::sub_47FD50",
+        "name": "Crane_15C::sub_47FD50",
         "v96f_address": null,
         "v105_address": "0x47fd50"
     },
     {
-        "name": "Zheal_15C::sub_47FE10",
+        "name": "Crane_15C::sub_47FE10",
         "v96f_address": null,
         "v105_address": "0x47fe10"
     },
     {
-        "name": "Zheal_15C::sub_480310",
+        "name": "Crane_15C::sub_480310",
         "v96f_address": null,
         "v105_address": "0x480310"
     },
     {
-        "name": "Zheal_15C::sub_4803B0",
+        "name": "Crane_15C::sub_4803B0",
         "v96f_address": null,
         "v105_address": "0x4803b0"
     },
     {
-        "name": "Zheal_15C::sub_480900",
+        "name": "Crane_15C::sub_480900",
         "v96f_address": null,
         "v105_address": "0x480900"
     },
     {
-        "name": "Zheal_15C::sub_480B60",
+        "name": "Crane_15C::sub_480B60",
         "v96f_address": null,
         "v105_address": "0x480b60"
     },
@@ -4690,7 +4690,7 @@
         "v105_address": "0x485140"
     },
     {
-        "name": "angry_lewin_0x85C::GetIdx",
+        "name": "Player::GetIdx",
         "v96f_address": null,
         "v105_address": "0x4881e0"
     },
@@ -5345,27 +5345,27 @@
         "v105_address": "0x4ac200"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::create",
+        "name": "Frontend::create",
         "v96f_address": null,
         "v105_address": "0x4acfa0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::destroy",
+        "name": "Frontend::destroy",
         "v96f_address": null,
         "v105_address": "0x4ad070"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AD140",
+        "name": "Frontend::sub_4AD140",
         "v96f_address": null,
         "v105_address": "0x4ad140"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4ADF50",
+        "name": "Frontend::sub_4ADF50",
         "v96f_address": null,
         "v105_address": "0x4adf50"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4ADFB0",
+        "name": "Frontend::sub_4ADFB0",
         "v96f_address": null,
         "v105_address": "0x4adfb0"
     },
@@ -5390,7 +5390,7 @@
         "v105_address": "0x4ae1f0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AE2D0",
+        "name": "Frontend::sub_4AE2D0",
         "v96f_address": null,
         "v105_address": "0x4ae2d0"
     },
@@ -5400,212 +5400,212 @@
         "v105_address": "0x4ae970"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AE990",
+        "name": "Frontend::sub_4AE990",
         "v96f_address": null,
         "v105_address": "0x4ae990"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AE9A0",
+        "name": "Frontend::sub_4AE9A0",
         "v96f_address": null,
         "v105_address": "0x4ae9a0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AEC00",
+        "name": "Frontend::sub_4AEC00",
         "v96f_address": null,
         "v105_address": "0x4aec00"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AEDB0",
+        "name": "Frontend::sub_4AEDB0",
         "v96f_address": null,
         "v105_address": "0x4aedb0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AF0E0",
+        "name": "Frontend::sub_4AF0E0",
         "v96f_address": null,
         "v105_address": "0x4af0e0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::ctor",
+        "name": "Frontend::ctor",
         "v96f_address": null,
         "v105_address": "0x4af2a0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::dtor",
+        "name": "Frontend::dtor",
         "v96f_address": null,
         "v105_address": "0x4af970"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::InitKeyBoardDevice",
+        "name": "Frontend::InitKeyBoardDevice",
         "v96f_address": null,
         "v105_address": "0x4afbe0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::FreeKeyBoardDevice",
+        "name": "Frontend::FreeKeyBoardDevice",
         "v96f_address": null,
         "v105_address": "0x4afd00"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::AcquireKeyBoard",
+        "name": "Frontend::AcquireKeyBoard",
         "v96f_address": null,
         "v105_address": "0x4afd70"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::KeyBoard_GetKeyStates",
+        "name": "Frontend::KeyBoard_GetKeyStates",
         "v96f_address": null,
         "v105_address": "0x4afdd0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4AFEB0",
+        "name": "Frontend::sub_4AFEB0",
         "v96f_address": null,
         "v105_address": "0x4afeb0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B0190",
+        "name": "Frontend::sub_4B0190",
         "v96f_address": null,
         "v105_address": "0x4b0190"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B0220",
+        "name": "Frontend::sub_4B0220",
         "v96f_address": null,
         "v105_address": "0x4b0220"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B2F60",
+        "name": "Frontend::sub_4B2F60",
         "v96f_address": null,
         "v105_address": "0x4b2f60"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B3170",
+        "name": "Frontend::sub_4B3170",
         "v96f_address": null,
         "v105_address": "0x4b3170"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B3AF0",
+        "name": "Frontend::sub_4B3AF0",
         "v96f_address": null,
         "v105_address": "0x4b3af0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B3CC0",
+        "name": "Frontend::sub_4B3CC0",
         "v96f_address": null,
         "v105_address": "0x4b3cc0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::HandleCheatCode",
+        "name": "Frontend::HandleCheatCode",
         "v96f_address": null,
         "v105_address": "0x4b3dd0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4230",
+        "name": "Frontend::sub_4B4230",
         "v96f_address": null,
         "v105_address": "0x4b4230"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4280",
+        "name": "Frontend::sub_4B4280",
         "v96f_address": null,
         "v105_address": "0x4b4280"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B42B0",
+        "name": "Frontend::sub_4B42B0",
         "v96f_address": null,
         "v105_address": "0x4b42b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B42E0",
+        "name": "Frontend::sub_4B42E0",
         "v96f_address": null,
         "v105_address": "0x4b42e0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B43E0",
+        "name": "Frontend::sub_4B43E0",
         "v96f_address": null,
         "v105_address": "0x4b43e0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4410",
+        "name": "Frontend::sub_4B4410",
         "v96f_address": null,
         "v105_address": "0x4b4410"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4440",
+        "name": "Frontend::sub_4B4440",
         "v96f_address": null,
         "v105_address": "0x4b4440"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B48D0",
+        "name": "Frontend::sub_4B48D0",
         "v96f_address": null,
         "v105_address": "0x4b48d0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4BC0",
+        "name": "Frontend::sub_4B4BC0",
         "v96f_address": null,
         "v105_address": "0x4b4bc0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4C60",
+        "name": "Frontend::sub_4B4C60",
         "v96f_address": null,
         "v105_address": "0x4b4c60"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4D00",
+        "name": "Frontend::sub_4B4D00",
         "v96f_address": null,
         "v105_address": "0x4b4d00"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B4EC0",
+        "name": "Frontend::sub_4B4EC0",
         "v96f_address": null,
         "v105_address": "0x4b4ec0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::GetPlySlotSvgName",
+        "name": "Frontend::GetPlySlotSvgName",
         "v96f_address": null,
         "v105_address": "0x4b51d0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B5270",
+        "name": "Frontend::sub_4B5270",
         "v96f_address": null,
         "v105_address": "0x4b5270"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::PlySlotSvgExists",
+        "name": "Frontend::PlySlotSvgExists",
         "v96f_address": null,
         "v105_address": "0x4b5370"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::LoadPlySlotSvgs",
+        "name": "Frontend::LoadPlySlotSvgs",
         "v96f_address": null,
         "v105_address": "0x4b53c0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B5430",
+        "name": "Frontend::sub_4B5430",
         "v96f_address": null,
         "v105_address": "0x4b5430"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B55F0",
+        "name": "Frontend::sub_4B55F0",
         "v96f_address": null,
         "v105_address": "0x4b55f0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B57B0",
+        "name": "Frontend::sub_4B57B0",
         "v96f_address": null,
         "v105_address": "0x4b57b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::intro_bik",
+        "name": "Frontend::intro_bik",
         "v96f_address": null,
         "v105_address": "0x4b5e50"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::pre_intro_bik",
+        "name": "Frontend::pre_intro_bik",
         "v96f_address": null,
         "v105_address": "0x4b5f20"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::intro_bik_exists",
+        "name": "Frontend::intro_bik_exists",
         "v96f_address": null,
         "v105_address": "0x4b5ff0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::pre_intro_bik_exists",
+        "name": "Frontend::pre_intro_bik_exists",
         "v96f_address": null,
         "v105_address": "0x4b6030"
     },
@@ -5685,112 +5685,112 @@
         "v105_address": "0x4b6480"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::Load_tga",
+        "name": "Frontend::Load_tga",
         "v96f_address": null,
         "v105_address": "0x4b6520"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::Load_tgas",
+        "name": "Frontend::Load_tgas",
         "v96f_address": null,
         "v105_address": "0x4b66b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::FreeImageTable",
+        "name": "Frontend::FreeImageTable",
         "v96f_address": null,
         "v105_address": "0x4b6750"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B6780",
+        "name": "Frontend::sub_4B6780",
         "v96f_address": null,
         "v105_address": "0x4b6780"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B6B00",
+        "name": "Frontend::sub_4B6B00",
         "v96f_address": null,
         "v105_address": "0x4b6b00"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::DrawBackground",
+        "name": "Frontend::DrawBackground",
         "v96f_address": null,
         "v105_address": "0x4b6e10"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B6FF0",
+        "name": "Frontend::sub_4B6FF0",
         "v96f_address": null,
         "v105_address": "0x4b6ff0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7060",
+        "name": "Frontend::sub_4B7060",
         "v96f_address": null,
         "v105_address": "0x4b7060"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B70B0",
+        "name": "Frontend::sub_4B70B0",
         "v96f_address": null,
         "v105_address": "0x4b70b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7120",
+        "name": "Frontend::sub_4B7120",
         "v96f_address": null,
         "v105_address": "0x4b7120"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7200",
+        "name": "Frontend::sub_4B7200",
         "v96f_address": null,
         "v105_address": "0x4b7200"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7270",
+        "name": "Frontend::sub_4B7270",
         "v96f_address": null,
         "v105_address": "0x4b7270"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B72F0",
+        "name": "Frontend::sub_4B72F0",
         "v96f_address": null,
         "v105_address": "0x4b72f0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7360",
+        "name": "Frontend::sub_4B7360",
         "v96f_address": null,
         "v105_address": "0x4b7360"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7490",
+        "name": "Frontend::sub_4B7490",
         "v96f_address": null,
         "v105_address": "0x4b7490"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B74C0",
+        "name": "Frontend::sub_4B74C0",
         "v96f_address": null,
         "v105_address": "0x4b74c0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B74F0",
+        "name": "Frontend::sub_4B74F0",
         "v96f_address": null,
         "v105_address": "0x4b74f0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7520",
+        "name": "Frontend::sub_4B7520",
         "v96f_address": null,
         "v105_address": "0x4b7520"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7550",
+        "name": "Frontend::sub_4B7550",
         "v96f_address": null,
         "v105_address": "0x4b7550"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7610",
+        "name": "Frontend::sub_4B7610",
         "v96f_address": null,
         "v105_address": "0x4b7610"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B77B0",
+        "name": "Frontend::sub_4B77B0",
         "v96f_address": null,
         "v105_address": "0x4b77b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7800",
+        "name": "Frontend::sub_4B7800",
         "v96f_address": null,
         "v105_address": "0x4b7800"
     },
@@ -5800,12 +5800,12 @@
         "v105_address": "0x4b78b0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7A10",
+        "name": "Frontend::sub_4B7A10",
         "v96f_address": null,
         "v105_address": "0x4b7a10"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7AE0",
+        "name": "Frontend::sub_4B7AE0",
         "v96f_address": null,
         "v105_address": "0x4b7ae0"
     },
@@ -5820,12 +5820,12 @@
         "v105_address": "0x4b7e10"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B7FB0",
+        "name": "Frontend::sub_4B7FB0",
         "v96f_address": null,
         "v105_address": "0x4b7fb0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8020",
+        "name": "Frontend::sub_4B8020",
         "v96f_address": null,
         "v105_address": "0x4b8020"
     },
@@ -5835,27 +5835,27 @@
         "v105_address": "0x4b80f0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8280",
+        "name": "Frontend::sub_4B8280",
         "v96f_address": null,
         "v105_address": "0x4b8280"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8530",
+        "name": "Frontend::sub_4B8530",
         "v96f_address": null,
         "v105_address": "0x4b8530"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8560",
+        "name": "Frontend::sub_4B8560",
         "v96f_address": null,
         "v105_address": "0x4b8560"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8650",
+        "name": "Frontend::sub_4B8650",
         "v96f_address": null,
         "v105_address": "0x4b8650"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_4B8680",
+        "name": "Frontend::sub_4B8680",
         "v96f_address": null,
         "v105_address": "0x4b8680"
     },
@@ -6045,7 +6045,7 @@
         "v105_address": "0x4bae30"
     },
     {
-        "name": "Garox_2B00::dtor",
+        "name": "Hud_2B00::dtor",
         "v96f_address": null,
         "v105_address": "0x4bbbb0"
     },
@@ -6060,7 +6060,7 @@
         "v105_address": "0x4bbc30"
     },
     {
-        "name": "ChickenLegend_48::dtor",
+        "name": "Garage_48::dtor",
         "v96f_address": null,
         "v105_address": "0x4bbc60"
     },
@@ -6100,12 +6100,12 @@
         "v105_address": "0x4bdf90"
     },
     {
-        "name": "Zone_144::ctor",
+        "name": "Gang_144::ctor",
         "v96f_address": null,
         "v105_address": "0x4be4e0"
     },
     {
-        "name": "Zone_144::dtor",
+        "name": "Gang_144::dtor",
         "v96f_address": null,
         "v105_address": "0x4be4f0"
     },
@@ -6115,7 +6115,7 @@
         "v105_address": "0x4be500"
     },
     {
-        "name": "Garox_C::dtor",
+        "name": "Hud_Pager_C::dtor",
         "v96f_address": null,
         "v105_address": "0x4be650"
     },
@@ -6130,17 +6130,17 @@
         "v105_address": "0x4beaa0"
     },
     {
-        "name": "jawwie_20::ctor",
+        "name": "Ambulance_20::ctor",
         "v96f_address": null,
         "v105_address": "0x4beab0"
     },
     {
-        "name": "jawwie_20::dtor",
+        "name": "Ambulance_20::dtor",
         "v96f_address": null,
         "v105_address": "0x4bead0"
     },
     {
-        "name": "jawwie_110::dtor",
+        "name": "Ambulance_110::dtor",
         "v96f_address": null,
         "v105_address": "0x4beae0"
     },
@@ -6190,62 +6190,62 @@
         "v105_address": "0x4bece0"
     },
     {
-        "name": "Zone_144::sub_4BED30",
+        "name": "Gang_144::sub_4BED30",
         "v96f_address": null,
         "v105_address": "0x4bed30"
     },
     {
-        "name": "Zone_144::init",
+        "name": "Gang_144::init",
         "v96f_address": null,
         "v105_address": "0x4bed70"
     },
     {
-        "name": "Zone_144::sub_4BEDF0",
+        "name": "Gang_144::sub_4BEDF0",
         "v96f_address": null,
         "v105_address": "0x4bedf0"
     },
     {
-        "name": "Zone_144::sub_4BEE30",
+        "name": "Gang_144::sub_4BEE30",
         "v96f_address": null,
         "v105_address": "0x4bee30"
     },
     {
-        "name": "Zone_144::sub_4BEE50",
+        "name": "Gang_144::sub_4BEE50",
         "v96f_address": null,
         "v105_address": "0x4bee50"
     },
     {
-        "name": "Zone_144::sub_4BEEA0",
+        "name": "Gang_144::sub_4BEEA0",
         "v96f_address": null,
         "v105_address": "0x4beea0"
     },
     {
-        "name": "Zone_144::sub_4BEEF0",
+        "name": "Gang_144::sub_4BEEF0",
         "v96f_address": null,
         "v105_address": "0x4beef0"
     },
     {
-        "name": "Zone_144::sub_4BEF10",
+        "name": "Gang_144::sub_4BEF10",
         "v96f_address": null,
         "v105_address": "0x4bef10"
     },
     {
-        "name": "Zone_144::sub_4BEF50",
+        "name": "Gang_144::sub_4BEF50",
         "v96f_address": null,
         "v105_address": "0x4bef50"
     },
     {
-        "name": "Zone_144::sub_4BEF70",
+        "name": "Gang_144::sub_4BEF70",
         "v96f_address": null,
         "v105_address": "0x4bef70"
     },
     {
-        "name": "Zone_144::sub_4BF000",
+        "name": "Gang_144::sub_4BF000",
         "v96f_address": null,
         "v105_address": "0x4bf000"
     },
     {
-        "name": "Zone_144::set_name",
+        "name": "Gang_144::set_name",
         "v96f_address": null,
         "v105_address": "0x4bf090"
     },
@@ -6290,7 +6290,7 @@
         "v105_address": "0x4bf2f0"
     },
     {
-        "name": "Zone_144::sub_4BF340",
+        "name": "Gang_144::sub_4BF340",
         "v96f_address": null,
         "v105_address": "0x4bf340"
     },
@@ -6305,12 +6305,12 @@
         "v105_address": "0x4c1ab0"
     },
     {
-        "name": "Maccies_2C::sub_4C1C50",
+        "name": "Generator_2C::sub_4C1C50",
         "v96f_address": null,
         "v105_address": "0x4c1c50"
     },
     {
-        "name": "Maccies_2C::sub_4C1C70",
+        "name": "Generator_2C::sub_4C1C70",
         "v96f_address": null,
         "v105_address": "0x4c1c70"
     },
@@ -6565,192 +6565,192 @@
         "v105_address": "0x4c5d80"
     },
     {
-        "name": "Mouze_44::sub_4C8E60",
+        "name": "PedGroup::sub_4C8E60",
         "v96f_address": null,
         "v105_address": "0x4c8e60"
     },
     {
-        "name": "Mouze_44::sub_4C8E80",
+        "name": "PedGroup::sub_4C8E80",
         "v96f_address": null,
         "v105_address": "0x4c8e80"
     },
     {
-        "name": "Mouze_44::sub_4C8E90",
+        "name": "PedGroup::sub_4C8E90",
         "v96f_address": null,
         "v105_address": "0x4c8e90"
     },
     {
-        "name": "Mouze_44::sub_4C8EF0",
+        "name": "PedGroup::sub_4C8EF0",
         "v96f_address": null,
         "v105_address": "0x4c8ef0"
     },
     {
-        "name": "Mouze_44::sub_4C8F20",
+        "name": "PedGroup::sub_4C8F20",
         "v96f_address": null,
         "v105_address": "0x4c8f20"
     },
     {
-        "name": "Mouze_44::sub_4C8F90",
+        "name": "PedGroup::sub_4C8F90",
         "v96f_address": null,
         "v105_address": "0x4c8f90"
     },
     {
-        "name": "Mouze_44::sub_4C8FE0",
+        "name": "PedGroup::sub_4C8FE0",
         "v96f_address": null,
         "v105_address": "0x4c8fe0"
     },
     {
-        "name": "Mouze_44::sub_4C9040",
+        "name": "PedGroup::sub_4C9040",
         "v96f_address": null,
         "v105_address": "0x4c9040"
     },
     {
-        "name": "Mouze_44::sub_4C9150",
+        "name": "PedGroup::sub_4C9150",
         "v96f_address": null,
         "v105_address": "0x4c9150"
     },
     {
-        "name": "Mouze_44::sub_4C91B0",
+        "name": "PedGroup::sub_4C91B0",
         "v96f_address": null,
         "v105_address": "0x4c91b0"
     },
     {
-        "name": "Mouze_44::sub_4C9210",
+        "name": "PedGroup::sub_4C9210",
         "v96f_address": null,
         "v105_address": "0x4c9210"
     },
     {
-        "name": "Mouze_44::sub_4C9220",
+        "name": "PedGroup::sub_4C9220",
         "v96f_address": null,
         "v105_address": "0x4c9220"
     },
     {
-        "name": "Mouze_44::sub_4C9240",
+        "name": "PedGroup::sub_4C9240",
         "v96f_address": null,
         "v105_address": "0x4c9240"
     },
     {
-        "name": "Mouze_44::sub_4C92A0",
+        "name": "PedGroup::sub_4C92A0",
         "v96f_address": null,
         "v105_address": "0x4c92a0"
     },
     {
-        "name": "Mouze_44::sub_4C93A0",
+        "name": "PedGroup::sub_4C93A0",
         "v96f_address": null,
         "v105_address": "0x4c93a0"
     },
     {
-        "name": "Mouze_44::sub_4C94E0",
+        "name": "PedGroup::sub_4C94E0",
         "v96f_address": null,
         "v105_address": "0x4c94e0"
     },
     {
-        "name": "Mouze_44::sub_4C9680",
+        "name": "PedGroup::sub_4C9680",
         "v96f_address": null,
         "v105_address": "0x4c9680"
     },
     {
-        "name": "Mouze_44::sub_4C9970",
+        "name": "PedGroup::sub_4C9970",
         "v96f_address": null,
         "v105_address": "0x4c9970"
     },
     {
-        "name": "Mouze_44::sub_4C9B10",
+        "name": "PedGroup::sub_4C9B10",
         "v96f_address": null,
         "v105_address": "0x4c9b10"
     },
     {
-        "name": "Mouze_44::sub_4C9B30",
+        "name": "PedGroup::sub_4C9B30",
         "v96f_address": null,
         "v105_address": "0x4c9b30"
     },
     {
-        "name": "Mouze_44::sub_4C9B60",
+        "name": "PedGroup::sub_4C9B60",
         "v96f_address": null,
         "v105_address": "0x4c9b60"
     },
     {
-        "name": "Mouze_44::sub_4C9ED0",
+        "name": "PedGroup::sub_4C9ED0",
         "v96f_address": null,
         "v105_address": "0x4c9ed0"
     },
     {
-        "name": "Mouze_44::sub_4C9F00",
+        "name": "PedGroup::sub_4C9F00",
         "v96f_address": null,
         "v105_address": "0x4c9f00"
     },
     {
-        "name": "Mouze_44::sub_4CA3E0",
+        "name": "PedGroup::sub_4CA3E0",
         "v96f_address": null,
         "v105_address": "0x4ca3e0"
     },
     {
-        "name": "Mouze_44::sub_4CA3F0",
+        "name": "PedGroup::sub_4CA3F0",
         "v96f_address": null,
         "v105_address": "0x4ca3f0"
     },
     {
-        "name": "Mouze_44::sub_4CA4B0",
+        "name": "PedGroup::sub_4CA4B0",
         "v96f_address": null,
         "v105_address": "0x4ca4b0"
     },
     {
-        "name": "Mouze_44::sub_4CA5E0",
+        "name": "PedGroup::sub_4CA5E0",
         "v96f_address": null,
         "v105_address": "0x4ca5e0"
     },
     {
-        "name": "Mouze_44::sub_4CA820",
+        "name": "PedGroup::sub_4CA820",
         "v96f_address": null,
         "v105_address": "0x4ca820"
     },
     {
-        "name": "Mouze_44::sub_4CAA20",
+        "name": "PedGroup::sub_4CAA20",
         "v96f_address": null,
         "v105_address": "0x4caa20"
     },
     {
-        "name": "Mouze_44::sub_4CAAE0",
+        "name": "PedGroup::sub_4CAAE0",
         "v96f_address": null,
         "v105_address": "0x4caae0"
     },
     {
-        "name": "Mouze_44::sub_4CAB80",
+        "name": "PedGroup::sub_4CAB80",
         "v96f_address": null,
         "v105_address": "0x4cab80"
     },
     {
-        "name": "Mouze_44::sub_4CAC20",
+        "name": "PedGroup::sub_4CAC20",
         "v96f_address": null,
         "v105_address": "0x4cac20"
     },
     {
-        "name": "Mouze_44::sub_4CAD40",
+        "name": "PedGroup::sub_4CAD40",
         "v96f_address": null,
         "v105_address": "0x4cad40"
     },
     {
-        "name": "Mouze_44::sub_4CAE80",
+        "name": "PedGroup::sub_4CAE80",
         "v96f_address": null,
         "v105_address": "0x4cae80"
     },
     {
-        "name": "Mouze_44::sub_4CB080",
+        "name": "PedGroup::sub_4CB080",
         "v96f_address": null,
         "v105_address": "0x4cb080"
     },
     {
-        "name": "Mouze_44::sub_4CB0D0",
+        "name": "PedGroup::sub_4CB0D0",
         "v96f_address": null,
         "v105_address": "0x4cb0d0"
     },
     {
-        "name": "Mouze_44::ctor",
+        "name": "PedGroup::ctor",
         "v96f_address": null,
         "v105_address": "0x4cb860"
     },
     {
-        "name": "Mouze_44::dtor",
+        "name": "PedGroup::dtor",
         "v96f_address": null,
         "v105_address": "0x4cb870"
     },
@@ -7755,17 +7755,17 @@
         "v105_address": "0x4e9770"
     },
     {
-        "name": "Nanobotz::sub_4E9D50",
+        "name": "MapRenderer::sub_4E9D50",
         "v96f_address": null,
         "v105_address": "0x4e9d50"
     },
     {
-        "name": "Nanobotz::set_shading_lev",
+        "name": "MapRenderer::set_shading_lev",
         "v96f_address": "0x46b620",
         "v105_address": "0x4e9db0"
     },
     {
-        "name": "Nanobotz::ambient_light_tick",
+        "name": "MapRenderer::ambient_light_tick",
         "v96f_address": null,
         "v105_address": "0x4e9ea0"
     },
@@ -7780,27 +7780,27 @@
         "v105_address": "0x4ea190"
     },
     {
-        "name": "Nanobotz::sub_4EA390",
+        "name": "MapRenderer::sub_4EA390",
         "v96f_address": null,
         "v105_address": "0x4ea390"
     },
     {
-        "name": "Nanobotz::set_vert_xyz_relative_to_cam",
+        "name": "MapRenderer::set_vert_xyz_relative_to_cam",
         "v96f_address": null,
         "v105_address": "0x4ead90"
     },
     {
-        "name": "Nanobotz::sub_4EAE00",
+        "name": "MapRenderer::sub_4EAE00",
         "v96f_address": null,
         "v105_address": "0x4eae00"
     },
     {
-        "name": "Nanobotz::sub_4EAEA0",
+        "name": "MapRenderer::sub_4EAEA0",
         "v96f_address": null,
         "v105_address": "0x4eaea0"
     },
     {
-        "name": "Nanobotz::sub_4EAF40",
+        "name": "MapRenderer::sub_4EAF40",
         "v96f_address": null,
         "v105_address": "0x4eaf40"
     },
@@ -7810,117 +7810,117 @@
         "v105_address": "0x4eb940"
     },
     {
-        "name": "Nanobotz::sub_4EBA60",
+        "name": "MapRenderer::sub_4EBA60",
         "v96f_address": null,
         "v105_address": "0x4eba60"
     },
     {
-        "name": "Nanobotz::sub_4EC450",
+        "name": "MapRenderer::sub_4EC450",
         "v96f_address": null,
         "v105_address": "0x4ec450"
     },
     {
-        "name": "Nanobotz::sub_4EC7A0",
+        "name": "MapRenderer::sub_4EC7A0",
         "v96f_address": null,
         "v105_address": "0x4ec7a0"
     },
     {
-        "name": "Nanobotz::sub_4ECAF0",
+        "name": "MapRenderer::sub_4ECAF0",
         "v96f_address": null,
         "v105_address": "0x4ecaf0"
     },
     {
-        "name": "Nanobotz::sub_4ECE40",
+        "name": "MapRenderer::sub_4ECE40",
         "v96f_address": null,
         "v105_address": "0x4ece40"
     },
     {
-        "name": "Nanobotz::draw_bottom",
+        "name": "MapRenderer::draw_bottom",
         "v96f_address": null,
         "v105_address": "0x4ed290"
     },
     {
-        "name": "Nanobotz::draw_lid",
+        "name": "MapRenderer::draw_lid",
         "v96f_address": null,
         "v105_address": "0x4f4d60"
     },
     {
-        "name": "Nanobotz::sub_4EEAF0",
+        "name": "MapRenderer::sub_4EEAF0",
         "v96f_address": null,
         "v105_address": "0x4eeaf0"
     },
     {
-        "name": "Nanobotz::sub_4EEE60",
+        "name": "MapRenderer::sub_4EEE60",
         "v96f_address": null,
         "v105_address": "0x4eee60"
     },
     {
-        "name": "Nanobotz::sub_4EF1C0",
+        "name": "MapRenderer::sub_4EF1C0",
         "v96f_address": null,
         "v105_address": "0x4ef1c0"
     },
     {
-        "name": "Nanobotz::sub_4EF520",
+        "name": "MapRenderer::sub_4EF520",
         "v96f_address": null,
         "v105_address": "0x4ef520"
     },
     {
-        "name": "Nanobotz::sub_4EF880",
+        "name": "MapRenderer::sub_4EF880",
         "v96f_address": null,
         "v105_address": "0x4ef880"
     },
     {
-        "name": "Nanobotz::sub_4EFB20",
+        "name": "MapRenderer::sub_4EFB20",
         "v96f_address": null,
         "v105_address": "0x4efb20"
     },
     {
-        "name": "Nanobotz::sub_4EFDB0",
+        "name": "MapRenderer::sub_4EFDB0",
         "v96f_address": null,
         "v105_address": "0x4efdb0"
     },
     {
-        "name": "Nanobotz::sub_4F0030",
+        "name": "MapRenderer::sub_4F0030",
         "v96f_address": null,
         "v105_address": "0x4f0030"
     },
     {
-        "name": "Nanobotz::sub_4F02D0",
+        "name": "MapRenderer::sub_4F02D0",
         "v96f_address": null,
         "v105_address": "0x4f02d0"
     },
     {
-        "name": "Nanobotz::sub_4F0340",
+        "name": "MapRenderer::sub_4F0340",
         "v96f_address": null,
         "v105_address": "0x4f0340"
     },
     {
-        "name": "Nanobotz::sub_4F0420",
+        "name": "MapRenderer::sub_4F0420",
         "v96f_address": null,
         "v105_address": "0x4f0420"
     },
     {
-        "name": "Nanobotz::sub_4F0BD0",
+        "name": "MapRenderer::sub_4F0BD0",
         "v96f_address": null,
         "v105_address": "0x4f0bd0"
     },
     {
-        "name": "Nanobotz::sub_4F1660",
+        "name": "MapRenderer::sub_4F1660",
         "v96f_address": null,
         "v105_address": "0x4f1660"
     },
     {
-        "name": "Nanobotz::sub_4F22F0",
+        "name": "MapRenderer::sub_4F22F0",
         "v96f_address": null,
         "v105_address": "0x4f22f0"
     },
     {
-        "name": "Nanobotz::sub_4F33B0",
+        "name": "MapRenderer::sub_4F33B0",
         "v96f_address": null,
         "v105_address": "0x4f33b0"
     },
     {
-        "name": "Nanobotz::draw_left",
+        "name": "MapRenderer::draw_left",
         "v96f_address": null,
         "v105_address": "0x4f3c00"
     },
@@ -7930,57 +7930,57 @@
         "v105_address": "0x4f3fb0"
     },
     {
-        "name": "Nanobotz::Set_UV",
+        "name": "MapRenderer::Set_UV",
         "v96f_address": null,
         "v105_address": "0x4f4190"
     },
     {
-        "name": "Nanobotz::sub_4F4250",
+        "name": "MapRenderer::sub_4F4250",
         "v96f_address": null,
         "v105_address": "0x4f4250"
     },
     {
-        "name": "Nanobotz::sub_4F4600",
+        "name": "MapRenderer::sub_4F4600",
         "v96f_address": null,
         "v105_address": "0x4f4600"
     },
     {
-        "name": "Nanobotz::sub_4F49B0",
+        "name": "MapRenderer::sub_4F49B0",
         "v96f_address": null,
         "v105_address": "0x4f49b0"
     },
     {
-        "name": "Nanobotz::draw_lid",
+        "name": "MapRenderer::draw_lid",
         "v96f_address": null,
         "v105_address": "0x4f4d60"
     },
     {
-        "name": "Nanobotz::draw_slope",
+        "name": "MapRenderer::draw_slope",
         "v96f_address": null,
         "v105_address": "0x4f6630"
     },
     {
-        "name": "Nanobotz::draw_slope",
+        "name": "MapRenderer::draw_slope",
         "v96f_address": null,
         "v105_address": "0x4f6630"
     },
     {
-        "name": "Nanobotz::sub_4F66C0",
+        "name": "MapRenderer::sub_4F66C0",
         "v96f_address": null,
         "v105_address": "0x4f66c0"
     },
     {
-        "name": "Nanobotz::sub_4F6880",
+        "name": "MapRenderer::sub_4F6880",
         "v96f_address": null,
         "v105_address": "0x4f6880"
     },
     {
-        "name": "Nanobotz::ClearDrawnTileCount",
+        "name": "MapRenderer::ClearDrawnTileCount",
         "v96f_address": null,
         "v105_address": "0x4f6a10"
     },
     {
-        "name": "Nanobotz::Draw",
+        "name": "MapRenderer::Draw",
         "v96f_address": null,
         "v105_address": "0x4f6a20"
     },
@@ -8045,62 +8045,62 @@
         "v105_address": "0x4f7c00"
     },
     {
-        "name": "jawwie_110::ctor",
+        "name": "Ambulance_110::ctor",
         "v96f_address": null,
         "v105_address": "0x4fa310"
     },
     {
-        "name": "jawwie_110::sub_4FA330",
+        "name": "Ambulance_110::sub_4FA330",
         "v96f_address": null,
         "v105_address": "0x4fa330"
     },
     {
-        "name": "jawwie_110::sub_4FA470",
+        "name": "Ambulance_110::sub_4FA470",
         "v96f_address": null,
         "v105_address": "0x4fa470"
     },
     {
-        "name": "jawwie_110::sub_4FA4B0",
+        "name": "Ambulance_110::sub_4FA4B0",
         "v96f_address": null,
         "v105_address": "0x4fa4b0"
     },
     {
-        "name": "jawwie_110::sub_4FA500",
+        "name": "Ambulance_110::sub_4FA500",
         "v96f_address": null,
         "v105_address": "0x4fa500"
     },
     {
-        "name": "jawwie_110::sub_4FA790",
+        "name": "Ambulance_110::sub_4FA790",
         "v96f_address": null,
         "v105_address": "0x4fa790"
     },
     {
-        "name": "jawwie_20::sub_4FA7D0",
+        "name": "Ambulance_20::sub_4FA7D0",
         "v96f_address": null,
         "v105_address": "0x4fa7d0"
     },
     {
-        "name": "jawwie_20::sub_4FA800",
+        "name": "Ambulance_20::sub_4FA800",
         "v96f_address": null,
         "v105_address": "0x4fa800"
     },
     {
-        "name": "jawwie_20::sub_4FA820",
+        "name": "Ambulance_20::sub_4FA820",
         "v96f_address": null,
         "v105_address": "0x4fa820"
     },
     {
-        "name": "jawwie_20::sub_4FA9D0",
+        "name": "Ambulance_20::sub_4FA9D0",
         "v96f_address": null,
         "v105_address": "0x4fa9d0"
     },
     {
-        "name": "jawwie_20::sub_4FAAC0",
+        "name": "Ambulance_20::sub_4FAAC0",
         "v96f_address": null,
         "v105_address": "0x4faac0"
     },
     {
-        "name": "jawwie_20::sub_4FB330",
+        "name": "Ambulance_20::sub_4FB330",
         "v96f_address": null,
         "v105_address": "0x4fb330"
     },
@@ -11195,22 +11195,22 @@
         "v105_address": "0x5345e0"
     },
     {
-        "name": "ChickenLegend_48::sub_534650",
+        "name": "Garage_48::sub_534650",
         "v96f_address": null,
         "v105_address": "0x534650"
     },
     {
-        "name": "ChickenLegend_48::sub_534700",
+        "name": "Garage_48::sub_534700",
         "v96f_address": null,
         "v105_address": "0x534700"
     },
     {
-        "name": "ChickenLegend_48::sub_5349D0",
+        "name": "Garage_48::sub_5349D0",
         "v96f_address": null,
         "v105_address": "0x5349d0"
     },
     {
-        "name": "ChickenLegend_48::ctor",
+        "name": "Garage_48::ctor",
         "v96f_address": null,
         "v105_address": "0x534e80"
     },
@@ -12600,117 +12600,117 @@
         "v105_address": "0x564300"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5645B0",
+        "name": "Player::sub_5645B0",
         "v96f_address": null,
         "v105_address": "0x5645b0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564610",
+        "name": "Player::sub_564610",
         "v96f_address": null,
         "v105_address": "0x564610"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564680",
+        "name": "Player::sub_564680",
         "v96f_address": null,
         "v105_address": "0x564680"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564710",
+        "name": "Player::sub_564710",
         "v96f_address": null,
         "v105_address": "0x564710"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564790",
+        "name": "Player::sub_564790",
         "v96f_address": null,
         "v105_address": "0x564790"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5647D0",
+        "name": "Player::sub_5647D0",
         "v96f_address": null,
         "v105_address": "0x5647d0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5648F0",
+        "name": "Player::sub_5648F0",
         "v96f_address": null,
         "v105_address": "0x5648f0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564910",
+        "name": "Player::sub_564910",
         "v96f_address": null,
         "v105_address": "0x564910"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564940",
+        "name": "Player::sub_564940",
         "v96f_address": null,
         "v105_address": "0x564940"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564960",
+        "name": "Player::sub_564960",
         "v96f_address": null,
         "v105_address": "0x564960"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5649D0",
+        "name": "Player::sub_5649D0",
         "v96f_address": null,
         "v105_address": "0x5649d0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564AD0",
+        "name": "Player::sub_564AD0",
         "v96f_address": null,
         "v105_address": "0x564ad0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564B60",
+        "name": "Player::sub_564B60",
         "v96f_address": null,
         "v105_address": "0x564b60"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564B80",
+        "name": "Player::sub_564B80",
         "v96f_address": null,
         "v105_address": "0x564b80"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564C00",
+        "name": "Player::sub_564C00",
         "v96f_address": null,
         "v105_address": "0x564c00"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564C50",
+        "name": "Player::sub_564C50",
         "v96f_address": null,
         "v105_address": "0x564c50"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564CC0",
+        "name": "Player::sub_564CC0",
         "v96f_address": null,
         "v105_address": "0x564cc0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564CF0",
+        "name": "Player::sub_564CF0",
         "v96f_address": null,
         "v105_address": "0x564cf0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_564D60",
+        "name": "Player::sub_564D60",
         "v96f_address": null,
         "v105_address": "0x564d60"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565070",
+        "name": "Player::sub_565070",
         "v96f_address": null,
         "v105_address": "0x565070"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5651F0",
+        "name": "Player::sub_5651F0",
         "v96f_address": null,
         "v105_address": "0x5651f0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565310",
+        "name": "Player::sub_565310",
         "v96f_address": null,
         "v105_address": "0x565310"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5653E0",
+        "name": "Player::sub_5653E0",
         "v96f_address": null,
         "v105_address": "0x5653e0"
     },
@@ -12720,252 +12720,252 @@
         "v105_address": "0x565460"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565490",
+        "name": "Player::sub_565490",
         "v96f_address": null,
         "v105_address": "0x565490"
     },
     {
-        "name": "angry_lewin_0x85C::SetInputs",
+        "name": "Player::SetInputs",
         "v96f_address": null,
         "v105_address": "0x565740"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565770",
+        "name": "Player::sub_565770",
         "v96f_address": null,
         "v105_address": "0x565770"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565860",
+        "name": "Player::sub_565860",
         "v96f_address": null,
         "v105_address": "0x565860"
     },
     {
-        "name": "angry_lewin_0x85C::sub_565890",
+        "name": "Player::sub_565890",
         "v96f_address": null,
         "v105_address": "0x565890"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566380",
+        "name": "Player::sub_566380",
         "v96f_address": null,
         "v105_address": "0x566380"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566520",
+        "name": "Player::sub_566520",
         "v96f_address": null,
         "v105_address": "0x566520"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566820",
+        "name": "Player::sub_566820",
         "v96f_address": null,
         "v105_address": "0x566820"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5668D0",
+        "name": "Player::sub_5668D0",
         "v96f_address": null,
         "v105_address": "0x5668d0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566C30",
+        "name": "Player::sub_566C30",
         "v96f_address": null,
         "v105_address": "0x566c30"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566C80",
+        "name": "Player::sub_566C80",
         "v96f_address": null,
         "v105_address": "0x566c80"
     },
     {
-        "name": "angry_lewin_0x85C::sub_566EE0",
+        "name": "Player::sub_566EE0",
         "v96f_address": null,
         "v105_address": "0x566ee0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5670B0",
+        "name": "Player::sub_5670B0",
         "v96f_address": null,
         "v105_address": "0x5670b0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_567130",
+        "name": "Player::sub_567130",
         "v96f_address": null,
         "v105_address": "0x567130"
     },
     {
-        "name": "angry_lewin_0x85C::sub_567850",
+        "name": "Player::sub_567850",
         "v96f_address": null,
         "v105_address": "0x567850"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5679E0",
+        "name": "Player::sub_5679E0",
         "v96f_address": null,
         "v105_address": "0x5679e0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_568520",
+        "name": "Player::sub_568520",
         "v96f_address": null,
         "v105_address": "0x568520"
     },
     {
-        "name": "angry_lewin_0x85C::sub_568630",
+        "name": "Player::sub_568630",
         "v96f_address": null,
         "v105_address": "0x568630"
     },
     {
-        "name": "angry_lewin_0x85C::sub_568670",
+        "name": "Player::sub_568670",
         "v96f_address": null,
         "v105_address": "0x568670"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5686D0",
+        "name": "Player::sub_5686D0",
         "v96f_address": null,
         "v105_address": "0x5686d0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_568730",
+        "name": "Player::sub_568730",
         "v96f_address": null,
         "v105_address": "0x568730"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5687F0",
+        "name": "Player::sub_5687F0",
         "v96f_address": null,
         "v105_address": "0x5687f0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569410",
+        "name": "Player::sub_569410",
         "v96f_address": null,
         "v105_address": "0x569410"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569530",
+        "name": "Player::sub_569530",
         "v96f_address": null,
         "v105_address": "0x569530"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5695A0",
+        "name": "Player::sub_5695A0",
         "v96f_address": null,
         "v105_address": "0x5695a0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569600",
+        "name": "Player::sub_569600",
         "v96f_address": null,
         "v105_address": "0x569600"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5696D0",
+        "name": "Player::sub_5696D0",
         "v96f_address": null,
         "v105_address": "0x5696d0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569840",
+        "name": "Player::sub_569840",
         "v96f_address": null,
         "v105_address": "0x569840"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5698E0",
+        "name": "Player::sub_5698E0",
         "v96f_address": null,
         "v105_address": "0x5698e0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569920",
+        "name": "Player::sub_569920",
         "v96f_address": null,
         "v105_address": "0x569920"
     },
     {
-        "name": "angry_lewin_0x85C::sub_5699F0",
+        "name": "Player::sub_5699F0",
         "v96f_address": null,
         "v105_address": "0x5699f0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569A10",
+        "name": "Player::sub_569A10",
         "v96f_address": null,
         "v105_address": "0x569a10"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569C20",
+        "name": "Player::sub_569C20",
         "v96f_address": null,
         "v105_address": "0x569c20"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569CB0",
+        "name": "Player::sub_569CB0",
         "v96f_address": null,
         "v105_address": "0x569cb0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569E70",
+        "name": "Player::sub_569E70",
         "v96f_address": null,
         "v105_address": "0x569e70"
     },
     {
-        "name": "angry_lewin_0x85C::GetDeathText",
+        "name": "Player::GetDeathText",
         "v96f_address": null,
         "v105_address": "0x569f00"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569F40",
+        "name": "Player::sub_569F40",
         "v96f_address": null,
         "v105_address": "0x569f40"
     },
     {
-        "name": "angry_lewin_0x85C::sub_569FF0",
+        "name": "Player::sub_569FF0",
         "v96f_address": null,
         "v105_address": "0x569ff0"
     },
     {
-        "name": "angry_lewin_0x85C::SetUnknown",
+        "name": "Player::SetUnknown",
         "v96f_address": null,
         "v105_address": "0x56a000"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A010",
+        "name": "Player::sub_56A010",
         "v96f_address": null,
         "v105_address": "0x56a010"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A020",
+        "name": "Player::sub_56A020",
         "v96f_address": null,
         "v105_address": "0x56a020"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A030",
+        "name": "Player::sub_56A030",
         "v96f_address": null,
         "v105_address": "0x56a030"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A040",
+        "name": "Player::sub_56A040",
         "v96f_address": null,
         "v105_address": "0x56a040"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A0F0",
+        "name": "Player::sub_56A0F0",
         "v96f_address": null,
         "v105_address": "0x56a0f0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A1A0",
+        "name": "Player::sub_56A1A0",
         "v96f_address": null,
         "v105_address": "0x56a1a0"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A310",
+        "name": "Player::sub_56A310",
         "v96f_address": null,
         "v105_address": "0x56a310"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A490",
+        "name": "Player::sub_56A490",
         "v96f_address": null,
         "v105_address": "0x56a490"
     },
     {
-        "name": "angry_lewin_0x85C::sub_56A6D0",
+        "name": "Player::sub_56A6D0",
         "v96f_address": null,
         "v105_address": "0x56a6d0"
     },
     {
-        "name": "angry_lewin_0x85C::ctor",
+        "name": "Player::ctor",
         "v96f_address": "0x4a83c0",
         "v105_address": "0x56a740"
     },
     {
-        "name": "angry_lewin_0x85C::dtor",
+        "name": "Player::dtor",
         "v96f_address": "0x4a6ef0",
         "v105_address": "0x56a940"
     },
@@ -13885,177 +13885,177 @@
         "v105_address": "0x5885c0"
     },
     {
-        "name": "Soula_CC68::ShowJunctionIds",
+        "name": "RouteFinder::ShowJunctionIds",
         "v96f_address": null,
         "v105_address": "0x588620"
     },
     {
-        "name": "Soula_CC68::sub_588810",
+        "name": "RouteFinder::sub_588810",
         "v96f_address": null,
         "v105_address": "0x588810"
     },
     {
-        "name": "Soula_CC68::sub_588950",
+        "name": "RouteFinder::sub_588950",
         "v96f_address": null,
         "v105_address": "0x588950"
     },
     {
-        "name": "Soula_CC68::sub_588AA0",
+        "name": "RouteFinder::sub_588AA0",
         "v96f_address": null,
         "v105_address": "0x588aa0"
     },
     {
-        "name": "Soula_CC68::Load_RGEN",
+        "name": "RouteFinder::Load_RGEN",
         "v96f_address": "0x40d250",
         "v105_address": "0x588b30"
     },
     {
-        "name": "Soula_CC68::Reset",
+        "name": "RouteFinder::Reset",
         "v96f_address": null,
         "v105_address": "0x588c60"
     },
     {
-        "name": "Soula_CC68::sub_588CA0",
+        "name": "RouteFinder::sub_588CA0",
         "v96f_address": null,
         "v105_address": "0x588ca0"
     },
     {
-        "name": "Soula_CC68::sub_588DE0",
+        "name": "RouteFinder::sub_588DE0",
         "v96f_address": null,
         "v105_address": "0x588de0"
     },
     {
-        "name": "Soula_CC68::sub_588E60",
+        "name": "RouteFinder::sub_588E60",
         "v96f_address": null,
         "v105_address": "0x588e60"
     },
     {
-        "name": "Soula_CC68::sub_588F30",
+        "name": "RouteFinder::sub_588F30",
         "v96f_address": null,
         "v105_address": "0x588f30"
     },
     {
-        "name": "Soula_CC68::sub_589000",
+        "name": "RouteFinder::sub_589000",
         "v96f_address": null,
         "v105_address": "0x589000"
     },
     {
-        "name": "Soula_CC68::sub_5890D0",
+        "name": "RouteFinder::sub_5890D0",
         "v96f_address": null,
         "v105_address": "0x5890d0"
     },
     {
-        "name": "Soula_CC68::sub_589210",
+        "name": "RouteFinder::sub_589210",
         "v96f_address": null,
         "v105_address": "0x589210"
     },
     {
-        "name": "Soula_10::sub_5892D0",
+        "name": "RouteFinder_10::sub_5892D0",
         "v96f_address": "0x40c9b0",
         "v105_address": "0x5892d0"
     },
     {
-        "name": "Soula_CC68::sub_5892F0",
+        "name": "RouteFinder::sub_5892F0",
         "v96f_address": null,
         "v105_address": "0x5892f0"
     },
     {
-        "name": "Soula_CC68::sub_589390",
+        "name": "RouteFinder::sub_589390",
         "v96f_address": null,
         "v105_address": "0x589390"
     },
     {
-        "name": "Soula_CC68::sub_589420",
+        "name": "RouteFinder::sub_589420",
         "v96f_address": null,
         "v105_address": "0x589420"
     },
     {
-        "name": "Soula_CC68::sub_589480",
+        "name": "RouteFinder::sub_589480",
         "v96f_address": null,
         "v105_address": "0x589480"
     },
     {
-        "name": "Soula_CC68::sub_5895C0",
+        "name": "RouteFinder::sub_5895C0",
         "v96f_address": null,
         "v105_address": "0x5895c0"
     },
     {
-        "name": "Soula_CC68::sub_589930",
+        "name": "RouteFinder::sub_589930",
         "v96f_address": null,
         "v105_address": "0x589930"
     },
     {
-        "name": "Soula_CC68::sub_589960",
+        "name": "RouteFinder::sub_589960",
         "v96f_address": "0x40cb90",
         "v105_address": "0x589960"
     },
     {
-        "name": "Soula_CC68::sub_589990",
+        "name": "RouteFinder::sub_589990",
         "v96f_address": "0x40cbc0",
         "v105_address": "0x589990"
     },
     {
-        "name": "Soula_CC68::sub_5899C0",
+        "name": "RouteFinder::sub_5899C0",
         "v96f_address": null,
         "v105_address": "0x5899c0"
     },
     {
-        "name": "Soula_CC68::sub_589BB0",
+        "name": "RouteFinder::sub_589BB0",
         "v96f_address": null,
         "v105_address": "0x589bb0"
     },
     {
-        "name": "Soula_CC68::sub_589E00",
+        "name": "RouteFinder::sub_589E00",
         "v96f_address": "0x40cbf0",
         "v105_address": "0x589e00"
     },
     {
-        "name": "Soula_CC68::sub_589E20",
+        "name": "RouteFinder::sub_589E20",
         "v96f_address": null,
         "v105_address": "0x589e20"
     },
     {
-        "name": "Soula_CC68::sub_589E70",
+        "name": "RouteFinder::sub_589E70",
         "v96f_address": "0x40dff0",
         "v105_address": "0x589e70"
     },
     {
-        "name": "Soula_CC68::sub_589EB0",
+        "name": "RouteFinder::sub_589EB0",
         "v96f_address": null,
         "v105_address": "0x589eb0"
     },
     {
-        "name": "Soula_CC68::sub_589F70",
+        "name": "RouteFinder::sub_589F70",
         "v96f_address": "0x40ccc0",
         "v105_address": "0x589f70"
     },
     {
-        "name": "Soula_CC68::sub_58A020",
+        "name": "RouteFinder::sub_58A020",
         "v96f_address": null,
         "v105_address": "0x58a020"
     },
     {
-        "name": "Soula_CC68::sub_58A0B0",
+        "name": "RouteFinder::sub_58A0B0",
         "v96f_address": null,
         "v105_address": "0x58a0b0"
     },
     {
-        "name": "Soula_CC68::sub_58A0D0",
+        "name": "RouteFinder::sub_58A0D0",
         "v96f_address": null,
         "v105_address": "0x58a0d0"
     },
     {
-        "name": "Soula_CC68::sub_58A130",
+        "name": "RouteFinder::sub_58A130",
         "v96f_address": "0x40e090",
         "v105_address": "0x58a130"
     },
     {
-        "name": "Soula_CC68::sub_58A190",
+        "name": "RouteFinder::sub_58A190",
         "v96f_address": "0x40e030",
         "v105_address": "0x58a190"
     },
     {
-        "name": "Soula_CC68::ctor",
+        "name": "RouteFinder::ctor",
         "v96f_address": "0x40e100",
         "v105_address": "0x58a1c0"
     },
@@ -14485,82 +14485,82 @@
         "v105_address": "0x5935d0"
     },
     {
-        "name": "CokeZero_100::ctor",
+        "name": "ExplodingScore_100::ctor",
         "v96f_address": null,
         "v105_address": "0x5967e0"
     },
     {
-        "name": "CokeZero_100::dtor",
+        "name": "ExplodingScore_100::dtor",
         "v96f_address": null,
         "v105_address": "0x596840"
     },
     {
-        "name": "CokeZero_100::sub_596860",
+        "name": "ExplodingScore_100::sub_596860",
         "v96f_address": null,
         "v105_address": "0x596860"
     },
     {
-        "name": "CokeZero_100::sub_596880",
+        "name": "ExplodingScore_100::sub_596880",
         "v96f_address": null,
         "v105_address": "0x596880"
     },
     {
-        "name": "CokeZero_100::sub_596890",
+        "name": "ExplodingScore_100::sub_596890",
         "v96f_address": null,
         "v105_address": "0x596890"
     },
     {
-        "name": "CokeZero_100::sub_596940",
+        "name": "ExplodingScore_100::sub_596940",
         "v96f_address": null,
         "v105_address": "0x596940"
     },
     {
-        "name": "CokeZero_100::DrawExploding",
+        "name": "ExplodingScore_100::DrawExploding",
         "v96f_address": null,
         "v105_address": "0x5969e0"
     },
     {
-        "name": "CokeZero_50::ctor",
+        "name": "ExplodingScore_50::ctor",
         "v96f_address": null,
         "v105_address": "0x596a00"
     },
     {
-        "name": "CokeZero_50::dtor",
+        "name": "ExplodingScore_50::dtor",
         "v96f_address": null,
         "v105_address": "0x596a40"
     },
     {
-        "name": "CokeZero_50::Empty",
+        "name": "ExplodingScore_50::Empty",
         "v96f_address": null,
         "v105_address": "0x596a60"
     },
     {
-        "name": "CokeZero_50::Empty",
+        "name": "ExplodingScore_50::Empty",
         "v96f_address": null,
         "v105_address": "0x596a60"
     },
     {
-        "name": "CokeZero_50::sub_596A70",
+        "name": "ExplodingScore_50::sub_596A70",
         "v96f_address": null,
         "v105_address": "0x596a70"
     },
     {
-        "name": "CokeZero_50::sub_596A90",
+        "name": "ExplodingScore_50::sub_596A90",
         "v96f_address": null,
         "v105_address": "0x596a90"
     },
     {
-        "name": "CokeZero_50::sub_596C90",
+        "name": "ExplodingScore_50::sub_596C90",
         "v96f_address": null,
         "v105_address": "0x596c90"
     },
     {
-        "name": "CokeZero_50::sub_5970C0",
+        "name": "ExplodingScore_50::sub_5970C0",
         "v96f_address": null,
         "v105_address": "0x5970c0"
     },
     {
-        "name": "CokeZero_50::sub_597100",
+        "name": "ExplodingScore_50::sub_597100",
         "v96f_address": null,
         "v105_address": "0x597100"
     },
@@ -14640,27 +14640,27 @@
         "v105_address": "0x59e250"
     },
     {
-        "name": "Car_3C::sub_59E2E0",
+        "name": "Sprite::sub_59E2E0",
         "v96f_address": null,
         "v105_address": "0x59e2e0"
     },
     {
-        "name": "Car_3C::sub_59E300",
+        "name": "Sprite::sub_59E300",
         "v96f_address": null,
         "v105_address": "0x59e300"
     },
     {
-        "name": "Car_3C::sub_59E320",
+        "name": "Sprite::sub_59E320",
         "v96f_address": null,
         "v105_address": "0x59e320"
     },
     {
-        "name": "Car_3C::sub_59E390",
+        "name": "Sprite::sub_59E390",
         "v96f_address": null,
         "v105_address": "0x59e390"
     },
     {
-        "name": "Car_3C::sub_59E4C0",
+        "name": "Sprite::sub_59E4C0",
         "v96f_address": null,
         "v105_address": "0x59e4c0"
     },
@@ -14675,12 +14675,12 @@
         "v105_address": "0x59e680"
     },
     {
-        "name": "Car_3C::sub_59E7B0",
+        "name": "Sprite::sub_59E7B0",
         "v96f_address": null,
         "v105_address": "0x59e7b0"
     },
     {
-        "name": "Car_3C::sub_59E7D0",
+        "name": "Sprite::sub_59E7D0",
         "v96f_address": null,
         "v105_address": "0x59e7d0"
     },
@@ -14710,62 +14710,62 @@
         "v105_address": "0x59e930"
     },
     {
-        "name": "Car_3C::sub_59E960",
+        "name": "Sprite::sub_59E960",
         "v96f_address": null,
         "v105_address": "0x59e960"
     },
     {
-        "name": "Car_3C::sub_59E9C0",
+        "name": "Sprite::sub_59E9C0",
         "v96f_address": null,
         "v105_address": "0x59e9c0"
     },
     {
-        "name": "Car_3C::sub_59EA00",
+        "name": "Sprite::sub_59EA00",
         "v96f_address": null,
         "v105_address": "0x59ea00"
     },
     {
-        "name": "Car_3C::sub_59EAA0",
+        "name": "Sprite::sub_59EAA0",
         "v96f_address": null,
         "v105_address": "0x59eaa0"
     },
     {
-        "name": "Car_3C::sub_59EAE0",
+        "name": "Sprite::sub_59EAE0",
         "v96f_address": null,
         "v105_address": "0x59eae0"
     },
     {
-        "name": "Car_3C::sub_59EB30",
+        "name": "Sprite::sub_59EB30",
         "v96f_address": null,
         "v105_address": "0x59eb30"
     },
     {
-        "name": "Car_3C::ShowHorn",
+        "name": "Sprite::ShowHorn",
         "v96f_address": null,
         "v105_address": "0x59ee40"
     },
     {
-        "name": "Car_3C::sub_59EFF0",
+        "name": "Sprite::sub_59EFF0",
         "v96f_address": null,
         "v105_address": "0x59eff0"
     },
     {
-        "name": "Car_3C::sub_59F950",
+        "name": "Sprite::sub_59F950",
         "v96f_address": null,
         "v105_address": "0x59f950"
     },
     {
-        "name": "Car_3C::sub_59F990",
+        "name": "Sprite::sub_59F990",
         "v96f_address": null,
         "v105_address": "0x59f990"
     },
     {
-        "name": "Car_3C::sub_59FA40",
+        "name": "Sprite::sub_59FA40",
         "v96f_address": null,
         "v105_address": "0x59fa40"
     },
     {
-        "name": "Car_3C::sub_59FAD0",
+        "name": "Sprite::sub_59FAD0",
         "v96f_address": null,
         "v105_address": "0x59fad0"
     },
@@ -14775,12 +14775,12 @@
         "v105_address": "0x59fb10"
     },
     {
-        "name": "Car_3C::sub_5A0150",
+        "name": "Sprite::sub_5A0150",
         "v96f_address": null,
         "v105_address": "0x5a0150"
     },
     {
-        "name": "Car_3C::sub_5A0320",
+        "name": "Sprite::sub_5A0320",
         "v96f_address": null,
         "v105_address": "0x5a0320"
     },
@@ -14805,37 +14805,37 @@
         "v105_address": "0x5a0ef0"
     },
     {
-        "name": "Car_3C::sub_5A1030",
+        "name": "Sprite::sub_5A1030",
         "v96f_address": null,
         "v105_address": "0x5a1030"
     },
     {
-        "name": "Car_3C::sub_5A1490",
+        "name": "Sprite::sub_5A1490",
         "v96f_address": null,
         "v105_address": "0x5a1490"
     },
     {
-        "name": "Car_3C::sub_5A19C0",
+        "name": "Sprite::sub_5A19C0",
         "v96f_address": null,
         "v105_address": "0x5a19c0"
     },
     {
-        "name": "Car_3C::sub_5A1A60",
+        "name": "Sprite::sub_5A1A60",
         "v96f_address": null,
         "v105_address": "0x5a1a60"
     },
     {
-        "name": "Car_3C::sub_5A1B30",
+        "name": "Sprite::sub_5A1B30",
         "v96f_address": null,
         "v105_address": "0x5a1b30"
     },
     {
-        "name": "Car_3C::sub_5A1BD0",
+        "name": "Sprite::sub_5A1BD0",
         "v96f_address": null,
         "v105_address": "0x5a1bd0"
     },
     {
-        "name": "Car_3C::sub_5A1CA0",
+        "name": "Sprite::sub_5A1CA0",
         "v96f_address": null,
         "v105_address": "0x5a1ca0"
     },
@@ -14860,7 +14860,7 @@
         "v105_address": "0x5a2440"
     },
     {
-        "name": "Car_3C::sub_5A2500",
+        "name": "Sprite::sub_5A2500",
         "v96f_address": null,
         "v105_address": "0x5a2500"
     },
@@ -14870,42 +14870,42 @@
         "v105_address": "0x5a26e0"
     },
     {
-        "name": "Car_3C::sub_5A2710",
+        "name": "Sprite::sub_5A2710",
         "v96f_address": null,
         "v105_address": "0x5a2710"
     },
     {
-        "name": "Car_3C::sub_5A29D0",
+        "name": "Sprite::sub_5A29D0",
         "v96f_address": null,
         "v105_address": "0x5a29d0"
     },
     {
-        "name": "Car_3C::sub_5A2A00",
+        "name": "Sprite::sub_5A2A00",
         "v96f_address": null,
         "v105_address": "0x5a2a00"
     },
     {
-        "name": "Car_3C::sub_5A2A30",
+        "name": "Sprite::sub_5A2A30",
         "v96f_address": null,
         "v105_address": "0x5a2a30"
     },
     {
-        "name": "Car_3C::sub_5A2CF0",
+        "name": "Sprite::sub_5A2CF0",
         "v96f_address": null,
         "v105_address": "0x5a2cf0"
     },
     {
-        "name": "Car_3C::sub_5A3030",
+        "name": "Sprite::sub_5A3030",
         "v96f_address": null,
         "v105_address": "0x5a3030"
     },
     {
-        "name": "Car_3C::sub_5A3100",
+        "name": "Sprite::sub_5A3100",
         "v96f_address": null,
         "v105_address": "0x5a3100"
     },
     {
-        "name": "Car_3C::dtor",
+        "name": "Sprite::dtor",
         "v96f_address": null,
         "v105_address": "0x5a3540"
     },
@@ -15005,7 +15005,7 @@
         "v105_address": "0x5a5e30"
     },
     {
-        "name": "Car_3C::ctor",
+        "name": "Sprite::ctor",
         "v96f_address": null,
         "v105_address": "0x5a5e50"
     },
@@ -16005,22 +16005,22 @@
         "v105_address": "0x5cfe40"
     },
     {
-        "name": "Garox_Sub_C::sub_5D0050",
+        "name": "Hud_CopHead_C::sub_5D0050",
         "v96f_address": null,
         "v105_address": "0x5d0050"
     },
     {
-        "name": "Garox_Sub_C_Array::sub_5D00B0",
+        "name": "Hud_CopHead_C_Array::sub_5D00B0",
         "v96f_address": null,
         "v105_address": "0x5d00b0"
     },
     {
-        "name": "Garox_Sub_C_Array::sub_5D0110",
+        "name": "Hud_CopHead_C_Array::sub_5D0110",
         "v96f_address": null,
         "v105_address": "0x5d0110"
     },
     {
-        "name": "Garox_Sub_C_Array::sub_5D0210",
+        "name": "Hud_CopHead_C_Array::sub_5D0210",
         "v96f_address": null,
         "v105_address": "0x5d0210"
     },
@@ -16040,92 +16040,92 @@
         "v105_address": "0x5d03f0"
     },
     {
-        "name": "Garox_7C::sub_5D0510",
+        "name": "Hud_Arrow_7C::sub_5D0510",
         "v96f_address": null,
         "v105_address": "0x5d0510"
     },
     {
-        "name": "Garox_7C::sub_5D0530",
+        "name": "Hud_Arrow_7C::sub_5D0530",
         "v96f_address": null,
         "v105_address": "0x5d0530"
     },
     {
-        "name": "Garox_7C::sub_5D0620",
+        "name": "Hud_Arrow_7C::sub_5D0620",
         "v96f_address": null,
         "v105_address": "0x5d0620"
     },
     {
-        "name": "Garox_7C::sub_5D0850",
+        "name": "Hud_Arrow_7C::sub_5D0850",
         "v96f_address": null,
         "v105_address": "0x5d0850"
     },
     {
-        "name": "Garox_7C::sub_5D0C60",
+        "name": "Hud_Arrow_7C::sub_5D0C60",
         "v96f_address": null,
         "v105_address": "0x5d0c60"
     },
     {
-        "name": "Garox_7C::sub_5D0C90",
+        "name": "Hud_Arrow_7C::sub_5D0C90",
         "v96f_address": null,
         "v105_address": "0x5d0c90"
     },
     {
-        "name": "Garox_7C::sub_5D0DC0",
+        "name": "Hud_Arrow_7C::sub_5D0DC0",
         "v96f_address": null,
         "v105_address": "0x5d0dc0"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0E40",
+        "name": "Hud_Arrow_7C_Array::sub_5D0E40",
         "v96f_address": null,
         "v105_address": "0x5d0e40"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0E90",
+        "name": "Hud_Arrow_7C_Array::sub_5D0E90",
         "v96f_address": null,
         "v105_address": "0x5d0e90"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0EF0",
+        "name": "Hud_Arrow_7C_Array::sub_5D0EF0",
         "v96f_address": null,
         "v105_address": "0x5d0ef0"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0F40",
+        "name": "Hud_Arrow_7C_Array::sub_5D0F40",
         "v96f_address": null,
         "v105_address": "0x5d0f40"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0F80",
+        "name": "Hud_Arrow_7C_Array::sub_5D0F80",
         "v96f_address": null,
         "v105_address": "0x5d0f80"
     },
     {
-        "name": "Garox_7C_Array::sub_5D0FD0",
+        "name": "Hud_Arrow_7C_Array::sub_5D0FD0",
         "v96f_address": null,
         "v105_address": "0x5d0fd0"
     },
     {
-        "name": "Garox_7C_Array::sub_5D1020",
+        "name": "Hud_Arrow_7C_Array::sub_5D1020",
         "v96f_address": null,
         "v105_address": "0x5d1020"
     },
     {
-        "name": "Garox_7C_Array::sub_5D1050",
+        "name": "Hud_Arrow_7C_Array::sub_5D1050",
         "v96f_address": null,
         "v105_address": "0x5d1050"
     },
     {
-        "name": "Garox_7C_Array::sub_5D10B0",
+        "name": "Hud_Arrow_7C_Array::sub_5D10B0",
         "v96f_address": null,
         "v105_address": "0x5d10b0"
     },
     {
-        "name": "Garox_7C_Array::sub_5D10D0",
+        "name": "Hud_Arrow_7C_Array::sub_5D10D0",
         "v96f_address": null,
         "v105_address": "0x5d10d0"
     },
     {
-        "name": "Garox_7C_Array::place_gang_phone",
+        "name": "Hud_Arrow_7C_Array::place_gang_phone",
         "v96f_address": null,
         "v105_address": "0x5d1110"
     },
@@ -16145,12 +16145,12 @@
         "v105_address": "0x5d12e0"
     },
     {
-        "name": "Garox_7C_Array::sub_5D1310",
+        "name": "Hud_Arrow_7C_Array::sub_5D1310",
         "v96f_address": null,
         "v105_address": "0x5d1310"
     },
     {
-        "name": "Garox_7C::sub_5D1350",
+        "name": "Hud_Arrow_7C::sub_5D1350",
         "v96f_address": null,
         "v105_address": "0x5d1350"
     },
@@ -16225,22 +16225,22 @@
         "v105_address": "0x5d1ae0"
     },
     {
-        "name": "Garox_C4::sub_5D1B10",
+        "name": "Hud_Pager_C4::sub_5D1B10",
         "v96f_address": null,
         "v105_address": "0x5d1b10"
     },
     {
-        "name": "Garox_C4::sub_5D1D00",
+        "name": "Hud_Pager_C4::sub_5D1D00",
         "v96f_address": null,
         "v105_address": "0x5d1d00"
     },
     {
-        "name": "Garox_C4::sub_5D1DB0",
+        "name": "Hud_Pager_C4::sub_5D1DB0",
         "v96f_address": null,
         "v105_address": "0x5d1db0"
     },
     {
-        "name": "Garox_C4::operator_equals",
+        "name": "Hud_Pager_C4::operator_equals",
         "v96f_address": null,
         "v105_address": "0x5d1e10"
     },
@@ -16270,62 +16270,62 @@
         "v105_address": "0x5d2280"
     },
     {
-        "name": "Garox_C::sub_5D2320",
+        "name": "Hud_Pager_C::sub_5D2320",
         "v96f_address": null,
         "v105_address": "0x5d2320"
     },
     {
-        "name": "Garox_C::sub_5D2380",
+        "name": "Hud_Pager_C::sub_5D2380",
         "v96f_address": null,
         "v105_address": "0x5d2380"
     },
     {
-        "name": "Garox_C::sub_5D2680",
+        "name": "Hud_Pager_C::sub_5D2680",
         "v96f_address": null,
         "v105_address": "0x5d2680"
     },
     {
-        "name": "Garox_C::sub_5D2AB0",
+        "name": "Hud_Pager_C::sub_5D2AB0",
         "v96f_address": null,
         "v105_address": "0x5d2ab0"
     },
     {
-        "name": "Garox_C::sub_5D3040",
+        "name": "Hud_Pager_C::sub_5D3040",
         "v96f_address": null,
         "v105_address": "0x5d3040"
     },
     {
-        "name": "Garox_C::sub_5D31B0",
+        "name": "Hud_Pager_C::sub_5D31B0",
         "v96f_address": null,
         "v105_address": "0x5d31b0"
     },
     {
-        "name": "Garox_C::sub_5D31F0",
+        "name": "Hud_Pager_C::sub_5D31F0",
         "v96f_address": null,
         "v105_address": "0x5d31f0"
     },
     {
-        "name": "Garox_C::sub_5D3220",
+        "name": "Hud_Pager_C::sub_5D3220",
         "v96f_address": null,
         "v105_address": "0x5d3220"
     },
     {
-        "name": "Garox_C::sub_5D3280",
+        "name": "Hud_Pager_C::sub_5D3280",
         "v96f_address": null,
         "v105_address": "0x5d3280"
     },
     {
-        "name": "Garox_C::sub_5D32D0",
+        "name": "Hud_Pager_C::sub_5D32D0",
         "v96f_address": null,
         "v105_address": "0x5d32d0"
     },
     {
-        "name": "Garox_C::sub_5D32F0",
+        "name": "Hud_Pager_C::sub_5D32F0",
         "v96f_address": null,
         "v105_address": "0x5d32f0"
     },
     {
-        "name": "Garox_C::sub_5D3310",
+        "name": "Hud_Pager_C::sub_5D3310",
         "v96f_address": null,
         "v105_address": "0x5d3310"
     },
@@ -16405,22 +16405,22 @@
         "v105_address": "0x5d4930"
     },
     {
-        "name": "Garox_2B00::sub_5D4A10",
+        "name": "Hud_2B00::sub_5D4A10",
         "v96f_address": null,
         "v105_address": "0x5d4a10"
     },
     {
-        "name": "Garox_2B00::sub_5D5190",
+        "name": "Hud_2B00::sub_5D5190",
         "v96f_address": null,
         "v105_address": "0x5d5190"
     },
     {
-        "name": "Garox_2B00::sub_5D5240",
+        "name": "Hud_2B00::sub_5D5240",
         "v96f_address": null,
         "v105_address": "0x5d5240"
     },
     {
-        "name": "Garox_2B00::sub_5D5350",
+        "name": "Hud_2B00::sub_5D5350",
         "v96f_address": null,
         "v105_address": "0x5d5350"
     },
@@ -16485,32 +16485,32 @@
         "v105_address": "0x5d58f0"
     },
     {
-        "name": "Garox_90_L::sub_5D5900",
+        "name": "Hud_MapZone_98::sub_5D5900",
         "v96f_address": null,
         "v105_address": "0x5d5900"
     },
     {
-        "name": "Garox_90_L::sub_5D5AD0",
+        "name": "Hud_MapZone_98::sub_5D5AD0",
         "v96f_address": null,
         "v105_address": "0x5d5ad0"
     },
     {
-        "name": "Garox_90_L::sub_5D5AF0",
+        "name": "Hud_MapZone_98::sub_5D5AF0",
         "v96f_address": null,
         "v105_address": "0x5d5af0"
     },
     {
-        "name": "Garox_90_L::sub_5D5B60",
+        "name": "Hud_MapZone_98::sub_5D5B60",
         "v96f_address": null,
         "v105_address": "0x5d5b60"
     },
     {
-        "name": "Garox_90_L::sub_5D5C50",
+        "name": "Hud_MapZone_98::sub_5D5C50",
         "v96f_address": null,
         "v105_address": "0x5d5c50"
     },
     {
-        "name": "Garox_90_L::ctor",
+        "name": "Hud_MapZone_98::ctor",
         "v96f_address": null,
         "v105_address": "0x5d5c60"
     },
@@ -16540,77 +16540,77 @@
         "v105_address": "0x5d63b0"
     },
     {
-        "name": "Garox_2B00::DrawGui",
+        "name": "Hud_2B00::DrawGui",
         "v96f_address": null,
         "v105_address": "0x5d6860"
     },
     {
-        "name": "Garox_2B00::sub_5D69C0",
+        "name": "Hud_2B00::sub_5D69C0",
         "v96f_address": null,
         "v105_address": "0x5d69c0"
     },
     {
-        "name": "Garox_2B00::sub_5D69D0",
+        "name": "Hud_2B00::sub_5D69D0",
         "v96f_address": null,
         "v105_address": "0x5d69d0"
     },
     {
-        "name": "Garox_2B00::sub_5D6A70",
+        "name": "Hud_2B00::sub_5D6A70",
         "v96f_address": null,
         "v105_address": "0x5d6a70"
     },
     {
-        "name": "Garox_2B00::sub_5D6A90",
+        "name": "Hud_2B00::sub_5D6A90",
         "v96f_address": null,
         "v105_address": "0x5d6a90"
     },
     {
-        "name": "Garox_2B00::sub_5D6AB0",
+        "name": "Hud_2B00::sub_5D6AB0",
         "v96f_address": null,
         "v105_address": "0x5d6ab0"
     },
     {
-        "name": "Garox_2B00::sub_5D6B00",
+        "name": "Hud_2B00::sub_5D6B00",
         "v96f_address": null,
         "v105_address": "0x5d6b00"
     },
     {
-        "name": "Garox_2B00::sub_5D6BE0",
+        "name": "Hud_2B00::sub_5D6BE0",
         "v96f_address": null,
         "v105_address": "0x5d6be0"
     },
     {
-        "name": "Garox_2B00::sub_5D6C20",
+        "name": "Hud_2B00::sub_5D6C20",
         "v96f_address": null,
         "v105_address": "0x5d6c20"
     },
     {
-        "name": "Garox_2B00::sub_5D6C70",
+        "name": "Hud_2B00::sub_5D6C70",
         "v96f_address": null,
         "v105_address": "0x5d6c70"
     },
     {
-        "name": "Garox_2B00::sub_5D6CB0",
+        "name": "Hud_2B00::sub_5D6CB0",
         "v96f_address": null,
         "v105_address": "0x5d6cb0"
     },
     {
-        "name": "Garox_2B00::ctor",
+        "name": "Hud_2B00::ctor",
         "v96f_address": null,
         "v105_address": "0x5d6cd0"
     },
     {
-        "name": "Garox_Sub_C::ctor",
+        "name": "Hud_CopHead_C::ctor",
         "v96f_address": null,
         "v105_address": "0x5d7510"
     },
     {
-        "name": "Garox_7C::ctor",
+        "name": "Hud_Arrow_7C::ctor",
         "v96f_address": null,
         "v105_address": "0x5d7600"
     },
     {
-        "name": "Garox_C::ctor",
+        "name": "Hud_Pager_C::ctor",
         "v96f_address": null,
         "v105_address": "0x5d7650"
     },
@@ -16695,7 +16695,7 @@
         "v105_address": "0x5d8940"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_5D8990",
+        "name": "Frontend::sub_5D8990",
         "v96f_address": null,
         "v105_address": "0x5d8990"
     },
@@ -17110,7 +17110,7 @@
         "v105_address": "0x5e4ee0"
     },
     {
-        "name": "laughing_blackwell_0x1EB54::sub_5E53C0",
+        "name": "Frontend::sub_5E53C0",
         "v96f_address": null,
         "v105_address": "0x5e53c0"
     },
