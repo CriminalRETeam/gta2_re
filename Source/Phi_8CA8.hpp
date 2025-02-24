@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 struct object_info;
 class Sprite;
@@ -12,17 +13,17 @@ class Phi_74
     EXPORT void sub_533060(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_533090();
     EXPORT void sub_533110(s16 a2);
-    EXPORT void sub_533150(s16 a2, char_type a3);
+    EXPORT void sub_533150(s16 a2, s16 a3);
     EXPORT Sprite* sub_533170();
     EXPORT void sub_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
     s32 field_0;
     s32 field_4;
-    s32 field_8;
+    Fix16 field_8;
     s32 field_C;
-    s32 field_10;
-    s32 field_14;
+    Fix16 field_10;
+    Fix16 field_14;
     s32 field_18;
     s16 field_1C;
     s16 field_1E;
@@ -68,7 +69,7 @@ class Phi_8CA8
     EXPORT Phi_74* sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5);
     EXPORT void sub_533300();
     EXPORT void sub_533360();
-    EXPORT Phi_74* sub_533420();
+    EXPORT void sub_533420();
     EXPORT s32 sub_533B30();
     EXPORT u8 sub_533C90();
     EXPORT void sub_534270();

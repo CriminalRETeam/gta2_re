@@ -1,8 +1,18 @@
 #include "Phi_8CA8.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
 #include <memory.h>
+
+EXPORT_VAR Fix16 DAT_006f8fd8;
+GLOBAL(DAT_006f8fd8, 0x6F8FD8);
+
+EXPORT_VAR Fix16 DAT_006fcdd8;
+GLOBAL(DAT_006fcdd8, 0x6FCDD8);
+
+EXPORT_VAR Fix16 DAT_006fce10;
+GLOBAL(DAT_006fce10, 0x6FCE10);
 
 MATCH_FUNC(0x4bdf60)
 Phi_74::~Phi_74()
@@ -47,7 +57,7 @@ void Phi_74::sub_533110(s16 a2)
 }
 
 MATCH_FUNC(0x533150)
-void Phi_74::sub_533150(s16 a2, char_type a3)
+void Phi_74::sub_533150(s16 a2, s16 a3)
 {
     field_1E += a2;
     field_6C = a3;
@@ -177,10 +187,302 @@ void Phi_8CA8::sub_533360()
 {
 }
 
-STUB_FUNC(0x533420)
-Phi_74* Phi_8CA8::sub_533420()
+MATCH_FUNC(0x533420)
+void Phi_8CA8::sub_533420()
 {
-    return 0;
+    Phi_74* pAVar1;
+
+    sub_534370(0x97, 6);
+    pAVar1 = sub_534360(0x97);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 2;
+    pAVar1->field_64 = '\x05';
+    pAVar1->field_38 = 0x98;
+    pAVar1->field_3C = 0x98;
+    pAVar1->field_40 = 0;
+    pAVar1->field_44 = 0;
+    pAVar1->field_65 = '\x01';
+    pAVar1->field_61 = '\x01';
+
+    pAVar1 = sub_534370(0x98, 6);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->field_34 = 0;
+    pAVar1->field_38 = 0;
+    pAVar1->field_3C = 0;
+    pAVar1->field_40 = 0;
+    pAVar1->field_44 = 0;
+    pAVar1->field_61 = '\0';
+
+    pAVar1 = sub_534370(0x34, 4);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->field_34 = 0;
+    pAVar1->field_38 = 0;
+    pAVar1->field_3C = 0;
+    pAVar1->field_40 = 0;
+    pAVar1->field_44 = 0;
+    pAVar1->field_61 = '\0';
+
+    sub_534370(0x32, 0xc);
+    pAVar1 = sub_534360(0x32);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 2;
+    pAVar1->field_64 = '\x03';
+    pAVar1->field_38 = 0x33;
+    pAVar1->field_3C = 0x33;
+    pAVar1->field_40 = 0;
+    pAVar1->field_44 = 0;
+    pAVar1->field_65 = '\x01';
+    pAVar1->field_61 = '\x01';
+
+    pAVar1 = sub_534370(0x33, 0xc);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->field_34 = 0;
+    pAVar1->field_38 = 0;
+    pAVar1->field_3C = 0;
+    pAVar1->field_40 = 0;
+    pAVar1->field_44 = 0;
+    pAVar1->field_61 = '\0';
+
+    pAVar1 = sub_534370(0x9b, 3);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = 1;
+    pAVar1->field_38 = 0x35;
+    pAVar1->field_3C = 0x35;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = 1;
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x35, 3);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x7b, 0xb);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x37;
+    pAVar1->field_3C = 0x37;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x37, 0xb);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x9c, 5);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x36;
+    pAVar1->field_3C = 0x36;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x36, 5);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x38, 0xd);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0xd;
+    pAVar1->field_3C = 0xd;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x39, 0xe);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x3a;
+    pAVar1->field_3C = 0x3a;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x3a, 0xe);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x3b, 0xf);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x3c;
+    pAVar1->field_3C = 0x3c;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x3c, 0xf);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x3d, 0x10);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x3e;
+    pAVar1->field_3C = 0x3e;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x3e, 0x10);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x31, 0x12);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x12;
+    pAVar1->field_3C = 0x12;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x2d, 0x16);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x2e;
+    pAVar1->field_3C = 0x2e;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x2e, 0x16);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x2f, 0x15);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x30;
+    pAVar1->field_3C = 0x30;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x30, 0x15);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x3f, 0x11);
+    pAVar1->field_38 = 0x11;
+    pAVar1->field_34 = 3;
+    pAVar1->field_3C = 0x11;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x2b, 0x17);
+    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->field_34 = 4;
+    pAVar1->field_64 = '\x01';
+    pAVar1->field_38 = 0x2c;
+    pAVar1->field_3C = 0x2c;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_10 = DAT_006f8fd8;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_4C = 3;
+    pAVar1->field_50 = 3;
+    pAVar1->field_65 = -1;
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x2c, 0x17);
+    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+
+    pAVar1 = sub_534370(0x9d, 7);
+    pAVar1->field_4C = 2;
+    pAVar1->field_34 = 3;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_38 = 7;
+    pAVar1->field_3C = 7;
+    pAVar1->field_40 = 4;
+    pAVar1->field_44 = 0;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_58 = 1;
+
+    pAVar1 = sub_534370(0x9e, 1);
+    pAVar1->field_34 = 3;
+    pAVar1->field_4C = 2;
+    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_38 = 1;
+    pAVar1->field_3C = 1;
+    pAVar1->field_44 = 0;
+    pAVar1->field_61 = '\x01';
+    pAVar1->field_58 = 1;
+    pAVar1 = sub_534360(0x19);
+    pAVar1->field_28 = 1;
+    pAVar1->field_8 = DAT_006fce10;
+    return;
 }
 
 STUB_FUNC(0x533b30)
