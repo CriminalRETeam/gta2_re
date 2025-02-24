@@ -1,10 +1,13 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Ped;
 class Car_BC;
 class Kfc_30;
+class Object_2C;
+class Police_7C;
 
 class Police_38
 {
@@ -46,7 +49,7 @@ class Police_38
     s32 field_8;
     s32 field_C;
     Kfc_30* field_10_subObj;
-    s32 field_14_pObj;
+    Police_7C* field_14_pObj;
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
@@ -75,9 +78,9 @@ class Police_7C
     s16 field_C;
     char_type field_E;
     char_type field_F;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
+    Fix16 field_10_x;
+    Fix16 field_14_y;
+    Fix16 field_18_z;
     char_type field_1C;
     char_type field_1D;
     char_type field_1E;
@@ -133,24 +136,24 @@ class Police_A4
     char_type field_B;
     s16 field_C;
     s16 field_E;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
+    Car_BC* field_10;
+    Car_BC* field_14;
+    Car_BC* field_18;
+    Car_BC* field_1C;
+    Car_BC* field_20;
+    Car_BC* field_24;
+    Object_2C* field_28;
+    Object_2C* field_2C;
+    Object_2C* field_30;
+    Object_2C* field_34;
+    Object_2C* field_38;
+    Object_2C* field_3C;
+    Object_2C* field_40;
+    Object_2C* field_44;
+    Object_2C* field_48;
+    Object_2C* field_4C;
+    Object_2C* field_50;
+    Object_2C* field_54;
     s32 field_58;
     s32 field_5C;
     s32 field_60;

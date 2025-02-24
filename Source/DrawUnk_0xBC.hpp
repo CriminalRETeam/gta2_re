@@ -46,6 +46,14 @@ class DrawUnk_0xBC
         field_3C = 1;
     }
 
+    // inline sub_40CF60
+    inline bool check_camera(s32 a2_fp, s32 a3_fp)
+    {
+        return a2_fp >= field_78 && a2_fp <= field_7C &&
+                 a3_fp >= field_80 &&
+                 a3_fp <= field_84;
+    }
+
     Fix16 field_0;
     Fix16 field_4_unk;
     Fix16 field_8;
@@ -98,3 +106,5 @@ class DrawUnk_0xBC
     Fix16 field_B8;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
+
+EXPORT_VAR extern DrawUnk_0xBC* gViewCamera_676978;

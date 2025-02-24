@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "Marz_1D7E.hpp"
+#include "miss2_0x11C.hpp"
 #include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
@@ -288,6 +289,24 @@ class Ped
     inline Fix16 get_cam_z()
     {
         return field_1AC_cam.z;
+    }
+
+    inline bool IsWithinArea(SCR_Rect_f* rect)
+    {
+        Fix16 x_pos = field_1AC_cam.x;
+        Fix16 width = rect->field_C_size.field_0_x;
+        Fix16 y_pos, z_pos;
+        Fix16 height;
+        Fix16 z_target;
+        return ( x_pos >= rect->field_0_pos.field_0_x - width
+            && x_pos <= rect->field_0_pos.field_0_x + width
+            && ( y_pos = field_1AC_cam.y,
+            height = rect->field_C_size.field_4_y,
+            y_pos >= rect->field_0_pos.field_4_y - height ) 
+            && field_1AC_cam.y <= rect->field_0_pos.field_4_y + height
+            && ( z_pos = field_1AC_cam.z,
+            z_target = rect->field_0_pos.field_8_z,
+            z_pos.ToUInt8() == z_target.ToUInt8() ) );
     }
 
     Marz_3 field_0[100];
