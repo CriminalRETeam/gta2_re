@@ -9,7 +9,7 @@
 EXPORT_VAR s32 dword_679E58;
 GLOBAL(dword_679E58, 0x679E58);
 
-EXPORT_VAR s32 dword_679E70;
+EXPORT_VAR Fix16 dword_679E70;
 GLOBAL(dword_679E70, 0x679E70);
 
 EXPORT_VAR Fix16 dword_679C78;
@@ -103,7 +103,7 @@ s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
     field_F8 = a3;
     field_6C = a4;
     field_70 = a5;
-    field_108 = 71 * a4->field_0.rValue;
+    field_108 = Ang16::Ang16_to_Fix16(a4->field_0);
     field_FC = a4->field_14_xpos;
     field_100 = a4->field_18_ypos;
     s32 result = a4->field_1C_zpos.mValue;
@@ -113,18 +113,16 @@ s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
 }
 
 MATCH_FUNC(0x47f290)
-s32 Crane_15C::sub_47F290(s32 a2, s32 a3, Sprite* a4)
+void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
 {
     field_BC = a2;
     field_C0 = a3;
     field_64 = a4;
-    field_D0 = 71 * a4->field_0.rValue;
+    field_D0 = Ang16::Ang16_to_Fix16(a4->field_0);
     field_C4 = a4->field_14_xpos;
     field_C8 = a4->field_18_ypos;
-    s32 result = a4->field_1C_zpos.mValue;
-    field_CC = result;
-    field_D4 = field_80.mValue - result;
-    return result;
+    field_CC = a4->field_1C_zpos;
+    field_D4 = field_80 - field_CC;
 }
 
 MATCH_FUNC(0x47f2f0)
@@ -133,7 +131,7 @@ void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
     field_D8 = a2;
     field_DC = a3;
     field_68 = a4;
-    field_EC = 71 * a4->field_0.rValue;
+    field_EC = Ang16::Ang16_to_Fix16(a4->field_0);
     field_E0 = a4->field_14_xpos;
     field_E4 = a4->field_18_ypos;
     Fix16 field_1C_zpos = a4->field_1C_zpos;
@@ -166,7 +164,7 @@ bool Crane_15C::sub_47F350()
             && field_FC == v3->field_14_xpos 
             && field_100 == v3->field_18_ypos 
             && field_104 == v3->field_1C_zpos
-            && field_108 == 71 * v3->field_0.rValue)
+            && field_108 == Ang16::Ang16_to_Fix16(v3->field_0))
         {
             return true;
         }
@@ -314,7 +312,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
     current_sprite->sub_5A2CF0();
     field_60 = current_sprite;
-    current_sprite->sub_59F950(dword_679E70, dword_679E70, dword_679E70);
+    current_sprite->sub_59F950(dword_679E70.mValue, dword_679E70.mValue, dword_679E70.mValue);
     field_14C = 60;
     field_BC = dword_679E70;
     field_C0 = dword_679E70;

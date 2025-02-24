@@ -4416,22 +4416,22 @@
     },
     {
         "name": "Crane_15C::sub_47F220",
-        "v96f_address": null,
+        "v96f_address": "0x4485d0",
         "v105_address": "0x47f220"
     },
     {
         "name": "Crane_15C::sub_47F290",
-        "v96f_address": null,
+        "v96f_address": "0x448650",
         "v105_address": "0x47f290"
     },
     {
         "name": "Crane_15C::sub_47F2F0",
-        "v96f_address": null,
+        "v96f_address": "0x4486c0",
         "v105_address": "0x47f2f0"
     },
     {
         "name": "Crane_15C::sub_47F350",
-        "v96f_address": null,
+        "v96f_address": "0x448730",
         "v105_address": "0x47f350"
     },
     {
