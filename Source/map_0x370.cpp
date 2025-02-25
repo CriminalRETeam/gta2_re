@@ -823,7 +823,7 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
 }
 
 MATCH_FUNC(0x4E4C30)
-gmp_block_info* Map_0x370::sub_4E4C30(s32 a2, s32 a3, u32* a4)
+gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4)
 {
 
     gmp_col_info* v4;
@@ -1100,8 +1100,8 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
     v4 = x_pos;
     v5 = y_pos;
 
-    //  >> 14 means divide by 16384
-    v7 = Map_0x370::sub_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&v6); //  get the highest block at (x_pos,y_pos)?
+    //  get the highest non-air block at (x_pos,y_pos)
+    v7 = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&v6);
     gBlockInfo0_6F5EB0 = v7;
 
     if (!v7)

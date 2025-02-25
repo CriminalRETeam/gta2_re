@@ -37,7 +37,7 @@ struct gmp_compressed_map_32
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;
-    u16** field_40008_pColumn; //  TODO: fix type to gmp_col_info*
+    u16** field_40008_pColumn;
     gmp_block_info* field_4000C_block;
 
     gmp_block_info* get_block(u32 block)
@@ -396,7 +396,7 @@ class Map_0x370
     EXPORT char_type sub_4E4AC0(char_type a1);
     EXPORT char_type sub_4E4B40(s32 a1, gmp_block_info* a2);
     EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32* a4);
-    EXPORT gmp_block_info* sub_4E4C30(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4);
     EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32* a4);
     EXPORT Fix16* sub_4E4D40(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT Fix16* sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
