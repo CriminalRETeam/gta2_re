@@ -47,6 +47,12 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    //MATCH_FUNC(0x4086A0)
+    Fix16 operator-()
+    {
+        return Fix16(-mValue, 0);
+    }
+
     bool operator>(const Fix16& other)
     {
         return mValue > other.mValue;
@@ -185,7 +191,6 @@ class Fix16
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
-    EXPORT Fix16 operator-();
     EXPORT Fix16 operator+(const Fix16& rhs) const;
     EXPORT Fix16 operator/(const Fix16& in);
 

@@ -23,12 +23,6 @@ Fix16& Fix16::FromU16_4AE970(u16 a2)
     return *this;
 }
 
-MATCH_FUNC(0x4086A0)
-Fix16 Fix16::operator-()
-{
-    return Fix16(-mValue, 0);
-}
-
 MATCH_FUNC(0x408660)
 Fix16 Fix16::operator+(const Fix16& rhs) const
 {
