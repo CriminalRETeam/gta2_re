@@ -146,7 +146,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -198,7 +198,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -271,7 +271,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                 Fix16 temp_z;
                 //  Calculate the real Z position at (X,Y) based on the map
                 pCmd->field_C_pos.field_8_z =
-                    *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+                    *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
             }
 
             Ang16 rotation;
@@ -326,7 +326,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     Ang16 rotation;
@@ -402,7 +402,7 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
     {
         Fix16 temp_z;
         a1->field_C_rect.field_0_pos.field_8_z =
-            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
     a2->field_8_obj = gObject_5C_6F8F84->sub_529950(139,
                                                     a1->field_C_rect.field_0_pos.field_0_x,
@@ -422,7 +422,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     Ang16 rotation(NULL, NULL); // TODO: fix default ctor
@@ -449,7 +449,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
     {
         Fix16 temp_z;
         a1->field_C_rect.field_0_pos.field_8_z =
-            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
 
     a2->field_8_obj = gObject_5C_6F8F84->sub_529950(141,
@@ -511,7 +511,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     if (pCmd->field_10_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_10_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
+        pCmd->field_10_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
     }
 
     Fix16 z = pCmd->field_10_pos.field_8_z;

@@ -1084,7 +1084,7 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
 }
 
 MATCH_FUNC(0x4E5B60)
-Fix16* Map_0x370::sub_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
+Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
 {
     Fix16 v4;
     Fix16 v5;
