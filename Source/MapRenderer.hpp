@@ -15,14 +15,14 @@ class Nanobotz_8  // Maybe Fix16_2
 
 struct Vert_DX
 {
-    float field_0_x;
-    float field_4_y;
-    float field_8_z;
+    f32 field_0_x;
+    f32 field_4_y;
+    f32 field_8_z;
     s32 field_C_w;
     s32 field_10_diff;
     s32 field_14_spec;
-    float field_18_u;
-    float field_1C_v;
+    f32 field_18_u;
+    f32 field_1C_v;
 };
 
 class MapRenderer

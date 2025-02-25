@@ -39,7 +39,7 @@ EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
 EXPORT_VAR Vert_DX gTileVerts_6F65A8[2];
-GLOBAL(gTileVerts_6F65A8, 0x6F65A8);
+GLOBAL(gTileVerts_6F65A8, 0x6F65A8);    // TODO: why is it giving 0x46B058?
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
