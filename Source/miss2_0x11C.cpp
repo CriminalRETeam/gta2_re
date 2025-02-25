@@ -1756,21 +1756,21 @@ void miss2_0x11C::sub_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            v4->sub_4BEE30(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->sub_4BEE30(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             v4->field_111 = 1;
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (v1->field_A_signed_2 > 0)
             {
-                v4->sub_4BEE50(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * (v1->field_A_signed_2));
+                v4->sub_4BEE50(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * (v1->field_A_signed_2));
             }
             else
             {
-                v4->sub_4BEEA0(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * abs(v1->field_A_signed_2));
+                v4->sub_4BEEA0(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * abs(v1->field_A_signed_2));
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            v4->sub_4BF000(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->sub_4BF000(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2277,7 +2277,7 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
     Ped* pPed = pPointer->field_8_char;
-    Player* player_weapons = pPed->field_15C_player_weapons;
+    Player* player_weapons = pPed->field_15C_player;
 
     if (player_weapons != NULL)
     {

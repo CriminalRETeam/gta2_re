@@ -352,7 +352,7 @@ void Player::sub_567130()
         {
             player_killer = NULL;
         }
-        else if ((player_killer = pPed_killer->field_15C_player_weapons) == NULL)
+        else if ((player_killer = pPed_killer->field_15C_player) == NULL)
         {
             player_killer = NULL;
         }

@@ -38,7 +38,7 @@ Ped::Ped()
 MATCH_FUNC(0x45af00)
 Ped::~Ped()
 {
-    this->field_15C_player_weapons = 0;
+    this->field_15C_player = 0;
     this->field_140 = 0;
     this->field_144 = 0;
     this->field_148_objective_target_ped = 0;
@@ -113,7 +113,7 @@ void Ped::sub_45B550()
 MATCH_FUNC(0x45b560)
 void Ped::sub_45B560(Player* a2, char_type a3)
 {
-    field_15C_player_weapons = a2;
+    field_15C_player = a2;
     field_200 = a2->field_2E_idx + 1;
     if (a3)
     {
@@ -220,14 +220,14 @@ void Ped::sub_45BEC0()
 
             if (field_278 == 9 && !was9Before)
             {
-                Player* pWeapons = this->field_15C_player_weapons;
+                Player* pWeapons = this->field_15C_player;
                 if (pWeapons)
                 {
                     pWeapons->field_44_death_type = 2;
                 }
             }
 
-            if (!this->field_15C_player_weapons)
+            if (!this->field_15C_player)
             {
                 if (this->field_168_game_object)
                 {
@@ -1431,7 +1431,7 @@ s32 Ped::sub_46DF70(s32 a2, s32 a3)
 STUB_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
-    return this->field_164_ped_group != pGroup && !this->field_15C_player_weapons &&
+    return this->field_164_ped_group != pGroup && !this->field_15C_player &&
         (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
 }
 
@@ -1694,7 +1694,7 @@ void Ped::sub_4702D0(Ped* pPed)
 STUB_FUNC(0x470300)
 void Ped::sub_470300()
 {
-    this->field_15C_player_weapons = 0;
+    this->field_15C_player = 0;
     this->field_240_occupation = 3;
     this->field_238 = 3;
     Car_BC* pCar = this->field_16C_car;

@@ -1825,7 +1825,7 @@ MATCH_FUNC(0x442170)
 bool Car_BC::sub_442170()
 {
     Ped* pDriver = this->field_54_driver;
-    if ((!pDriver || !pDriver->field_15C_player_weapons) && !sub_43B750())
+    if ((!pDriver || !pDriver->field_15C_player) && !sub_43B750())
     {
         return true;
     }
@@ -2028,7 +2028,7 @@ void Car_BC::sub_443BD0(s32 a2)
             sub_443AE0(253);
         }
     }
-    else if (field_54_driver->field_15C_player_weapons->field_0)
+    else if (field_54_driver->field_15C_player->field_0)
     {
         gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
     }

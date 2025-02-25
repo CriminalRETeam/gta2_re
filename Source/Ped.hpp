@@ -325,7 +325,7 @@ class Ped
     Car_BC* field_150_target_objective_car;
     Car_BC* field_154_target_to_enter;
     s32 field_158;
-    Player* field_15C_player_weapons;
+    Player* field_15C_player;
     Ped* field_160_next_ped;
     PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;
