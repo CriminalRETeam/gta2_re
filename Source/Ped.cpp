@@ -773,7 +773,7 @@ s32 Ped::sub_4624A0()
 }
 
 STUB_FUNC(0x462510)
-s32 Ped::sub_462510()
+s32 Ped::RemovePedWeapons_462510()
 {
     return 0;
 }

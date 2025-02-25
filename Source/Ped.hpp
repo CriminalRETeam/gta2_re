@@ -92,7 +92,7 @@ class Ped
     EXPORT void sub_461F20();
     EXPORT s16 sub_462280();
     EXPORT s32 sub_4624A0();
-    EXPORT s32 sub_462510();
+    EXPORT s32 RemovePedWeapons_462510();
     EXPORT s32 sub_462550();
     EXPORT void sub_462590();
     EXPORT s32 sub_462620();

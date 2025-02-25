@@ -2285,7 +2285,7 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
     }
     else
     {
-        pPed->sub_462510();
+        pPed->RemovePedWeapons_462510();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
