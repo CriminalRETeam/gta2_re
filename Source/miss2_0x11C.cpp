@@ -2277,11 +2277,11 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
     Ped* pPed = pPointer->field_8_char;
-    Player* player_weapons = pPed->field_15C_player;
+    Player* player = pPed->field_15C_player;
 
-    if (player_weapons != NULL)
+    if (player != NULL)
     {
-        player_weapons->sub_564C50();
+        player->RemovePlayerWeapons_564C50();
     }
     else
     {

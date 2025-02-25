@@ -93,7 +93,7 @@ void force_link()
     lewin.sub_564B60();
     lewin.sub_564B80();
     lewin.sub_564C00();
-    lewin.sub_564C50();
+    lewin.RemovePlayerWeapons_564C50();
     lewin.sub_564CC0();
     lewin.sub_564CF0();
     lewin.sub_564D60(0);
