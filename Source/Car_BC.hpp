@@ -152,7 +152,7 @@ class Sprite
     EXPORT void sub_59EB30(s32 a2, f32* a3);
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void sub_59EFF0();
-    EXPORT void sub_59F950(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT Sprite_4C* sub_59F990();
     EXPORT void sub_59FA40();
     EXPORT Sprite_4C* sub_59FAD0();

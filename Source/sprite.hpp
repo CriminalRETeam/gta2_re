@@ -73,9 +73,9 @@ class Sprite_4C
     EXPORT s32 sub_5A57A0();
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
-    s32 field_0_width;
-    s32 field_4_height;
-    s32 field_8;
+    Fix16 field_0_width;
+    Fix16 field_4_height;
+    Fix16 field_8;
     Car_8 field_C[4];
     Sprite_4C* field_2C_pNext;
     s32 field_30;
