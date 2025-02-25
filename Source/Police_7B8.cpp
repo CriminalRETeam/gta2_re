@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Kfc_1E0.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 
 EXPORT_VAR s32 dword_6FECE8;
@@ -233,9 +234,272 @@ void Police_A4::sub_5757B0()
 {
 }
 
-STUB_FUNC(0x575ca0)
+MATCH_FUNC(0x575ca0)
 void Police_A4::sub_575CA0()
 {
+    if (field_10)
+    {
+        s32 v3 = field_10->field_88;
+        if (v3 != 5 && v3 != 2 && v3 != 3)
+        {
+            field_10->field_88 = 4;
+        }
+        Car_BC* v4 = field_10;
+        v4->field_7C_uni_num = 3;
+        v4->field_76 = 0;
+        field_10 = 0;
+    }
+
+    if (field_14)
+    {
+        s32 v6 = field_14->field_88;
+        if (v6 != 5 && v6 != 2 && v6 != 3)
+        {
+            field_14->field_88 = 4;
+        }
+        Car_BC* v7 = field_14;
+        v7->field_7C_uni_num = 3;
+        v7->field_76 = 0;
+        field_14 = 0;
+    }
+    if (field_18)
+    {
+        s32 v9 = field_18->field_88;
+        if (v9 != 5 && v9 != 2 && v9 != 3)
+        {
+            field_18->field_88 = 4;
+        }
+        Car_BC* v10 = field_18;
+        v10->field_7C_uni_num = 3;
+        v10->field_76 = 0;
+        field_18 = 0;
+    }
+
+    if (field_1C)
+    {
+        s32 v12 = field_1C->field_88;
+        if (v12 != 5 && v12 != 2 && v12 != 3)
+        {
+            field_1C->field_88 = 4;
+        }
+        Car_BC* v13 = field_1C;
+        v13->field_7C_uni_num = 3;
+        v13->field_76 = 0;
+        field_1C = 0;
+    }
+
+    if (field_20)
+    {
+        s32 v15 = field_20->field_88;
+        if (v15 != 5 && v15 != 2 && v15 != 3)
+        {
+            field_20->field_88 = 4;
+        }
+        Car_BC* v16 = field_20;
+        v16->field_7C_uni_num = 3;
+        v16->field_76 = 0;
+        field_20 = 0;
+    }
+
+    if (field_24)
+    {
+        s32 v18 = field_24->field_88;
+        if (v18 != 5 && v18 != 2 && v18 != 3)
+        {
+            field_24->field_88 = 4;
+        }
+        Car_BC* v19 = field_24;
+        v19->field_7C_uni_num = 3;
+        v19->field_76 = 0;
+        field_24 = 0;
+    }
+
+    if (field_28)
+    {
+        if (field_28->field_14 == field_58)
+        {
+            field_28->sub_5291B0();
+        }
+        field_28 = 0;
+    }
+
+    if (field_2C)
+    {
+        if (field_2C->field_14 == field_5C)
+        {
+            field_2C->sub_5291B0();
+        }
+        field_2C = 0;
+    }
+
+    if (field_30)
+    {
+        if (field_30->field_14 == field_60)
+        {
+            field_30->sub_5291B0();
+        }
+        field_30 = 0;
+    }
+
+    if (field_34)
+    {
+        if (field_34->field_14 == field_64)
+        {
+            field_34->sub_5291B0();
+        }
+        field_34 = 0;
+    }
+
+    if (field_38)
+    {
+        if (field_38->field_14 == field_68)
+        {
+            field_38->sub_5291B0();
+        }
+        field_38 = 0;
+    }
+
+    if (field_3C)
+    {
+        if (field_3C->field_14 == field_6C)
+        {
+            field_3C->sub_5291B0();
+        }
+        field_3C = 0;
+    }
+
+    if (field_40)
+    {
+        if (field_40->field_14 == field_70)
+        {
+            field_40->sub_5291B0();
+        }
+        field_40 = 0;
+    }
+
+    if (field_44)
+    {
+        if (field_44->field_14 == field_74)
+        {
+            field_44->sub_5291B0();
+        }
+        field_44 = 0;
+    }
+
+    if (field_48)
+    {
+        if (field_48->field_14 == field_78)
+        {
+            field_48->sub_5291B0();
+        }
+        field_48 = 0;
+    }
+
+    if (field_4C)
+    {
+        if (field_4C->field_14 == field_7C)
+        {
+            field_4C->sub_5291B0();
+        }
+        field_4C = 0;
+    }
+
+    if (field_50)
+    {
+        if (field_50->field_14 == field_80)
+        {
+            field_50->sub_5291B0();
+        }
+        field_50 = 0;
+    }
+
+    if (field_54)
+    {
+        if (field_54->field_14 == field_84)
+        {
+            field_54->sub_5291B0();
+        }
+        field_54 = 0;
+    }
+
+    if (field_88)
+    {
+        if (field_88->field_20e)
+        {
+            field_88->sub_45EB60();
+        }
+        else
+        {
+            field_88->field_238 = 3;
+        }
+        field_88 = 0;
+    }
+
+    if (field_8C)
+    {
+        if (field_8C->field_20e)
+        {
+            field_8C->sub_45EB60();
+        }
+        else
+        {
+            field_8C->field_238 = 3;
+        }
+        field_8C = 0;
+    }
+
+    if (field_90)
+    {
+        if (field_90->field_20e)
+        {
+            field_90->sub_45EB60();
+        }
+        else
+        {
+            field_90->field_238 = 3;
+        }
+        field_90 = 0;
+    }
+
+    if (field_94)
+    {
+        if (field_94->field_20e)
+        {
+            field_94->sub_45EB60();
+        }
+        else
+        {
+            field_94->field_238 = 3;
+        }
+        field_94 = 0;
+    }
+
+    if (field_98)
+    {
+        if (field_98->field_20e)
+        {
+            field_98->sub_45EB60();
+        }
+        else
+        {
+            field_98->field_238 = 3;
+        }
+        field_98 = 0;
+    }
+
+    if (field_9C)
+    {
+        if (field_9C->field_20e)
+        {
+            field_9C->sub_45EB60();
+            field_9C = 0;
+            field_0 = 0;
+            return;
+        }
+        field_9C->field_238 = 3;
+        field_9C = 0;
+    }
+    field_0 = 0;
 }
 
 STUB_FUNC(0x575ff0)
