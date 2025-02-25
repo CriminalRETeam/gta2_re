@@ -38,6 +38,9 @@ GLOBAL(gZCoord_6F63E0, 0x6F63E0);
 EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
+EXPORT_VAR Vert_DX gTileVerts_6F65A8[2];
+GLOBAL(gTileVerts_6F65A8, 0x6F65A8);
+
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
 {
@@ -92,10 +95,16 @@ void MapRenderer::sub_4EA390(u16* a2)
 {
 }
 
-STUB_FUNC(0x4ead90)
-f32* MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(s32 xCoord, s32 yCoord, s32 z_val, Vert_DX* pVerts)
+STUB_FUNC(0x4ead90) // TODO: Fix 0x46B058 instead of 0x6F65A8 of gTileVerts_6F65A8 address
+void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert_DX* pVerts)
 {
-    return 0;
+    DrawUnk_0xBC* pCam = gViewCamera_676978;
+
+    s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
+
+    gTileVerts_6F65A8[next_idx].field_0_x = (xCoord + pCam->field_98_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].field_4_y = (yCoord + pCam->field_9C_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].field_8_z = z_val.ToFloat();
 }
 
 STUB_FUNC(0x4eae00)
