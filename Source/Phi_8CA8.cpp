@@ -14,6 +14,52 @@ GLOBAL(DAT_006fcdd8, 0x6FCDD8);
 EXPORT_VAR Fix16 DAT_006fce10;
 GLOBAL(DAT_006fce10, 0x6FCE10);
 
+MATCH_FUNC(0x532fb0)
+Phi_54::Phi_54(s32 param_1,
+               s32& param_2,
+               s32 param_3,
+               s8 param_4,
+               s32& param_5,
+               s32& param_6,
+               s32& param_7,
+               s32 param_8,
+               s32 param_9,
+               s8 param_10,
+               s32& param_11,
+               s32& param_12,
+               s8 param_13,
+               s32& param_14,
+               s32 param_15,
+               s32 param_16,
+               s32 param_17,
+               s32 param_18,
+               s8 param_19,
+               s32 param_20,
+               s8 param_21)
+{
+    field_0 = param_1;
+    field_4 = param_2;
+    field_8 = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18 = param_7;
+    field_1C = param_8;
+    field_20 = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30 = param_13;
+    field_34 = param_14;
+    field_38 = param_15;
+    field_3C = param_16;
+    field_40 = param_17;
+    field_44 = param_18;
+    field_48 = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
+}
+
 MATCH_FUNC(0x4bdf60)
 Phi_74::~Phi_74()
 {

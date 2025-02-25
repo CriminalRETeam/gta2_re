@@ -6,6 +6,76 @@
 struct object_info;
 class Sprite;
 
+// This seems to be a temporary type that stores to be converted into Phi_74
+class Phi_54
+{
+  public:
+    // Temporary ctor, otherwise it won't be possible to define Phi_54_array_006FC5F8.
+    EXPORT Phi_54()
+    {}
+    EXPORT Phi_54(s32 param_1,
+                  s32& param_2,
+                  s32 param_3,
+                  s8 param_4,
+                  s32& param_5,
+                  s32& param_6,
+                  s32& param_7,
+                  s32 param_8,
+                  s32 param_9,
+                  s8 param_10,
+                  s32& param_11,
+                  s32& param_12,
+                  s8 param_13,
+                  s32& param_14,
+                  s32 param_15,
+                  s32 param_16,
+                  s32 param_17,
+                  s32 param_18,
+                  s8 param_19,
+                  s32 param_20,
+                  s8 param_21);
+
+    s32 field_0;
+    s32 field_4;
+    s32 field_8;
+    s8 field_C;
+    s8 field_D;
+    s8 field_E;
+    s8 field_F;
+    s32 field_10;
+    s32 field_14;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    s8 field_24;
+    s8 field_25;
+    s8 field_26;
+    s8 field_27;
+    s32 field_28;
+    s32 field_2C;
+    s8 field_30;
+    s8 field_31;
+    s8 field_32;
+    s8 field_33;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s8 field_40;
+    s8 field_41;
+    s8 field_42;
+    s8 field_43;
+    s32 field_44;
+    s8 field_48;
+    s8 field_49;
+    s8 field_4A;
+    s8 field_4B;
+    s32 field_4C;
+    s8 field_50;
+    s8 field_51;
+    s8 field_52;
+    s8 field_53;
+};
+
 class Phi_74
 {
   public:
