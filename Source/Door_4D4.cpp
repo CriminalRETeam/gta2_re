@@ -155,7 +155,7 @@ bool Door_38::sub_49C7F0(Ped* a2)
     switch(field_20_state)
     {
         case 1:
-            if (a2->field_15C_player_weapons != 0)
+            if (a2->field_15C_player != 0)
             {
                 ret = true;
             }

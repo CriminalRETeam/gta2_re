@@ -540,7 +540,7 @@ class Car_BC
     // Inlined 0x4118d0
     EXPORT bool is_driven_by_player() const
     {
-        if (field_54_driver != NULL && field_54_driver->field_15C_player_weapons != NULL)
+        if (field_54_driver != NULL && field_54_driver->field_15C_player != NULL)
         {
             return true;
         }

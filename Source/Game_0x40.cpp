@@ -742,7 +742,7 @@ bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 
 // https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
 STUB_FUNC(0x4B9A80)
-bool Game_0x40::is_point_on_screen_4B9A80(s32 a2_fp, s32 a3_fp)
+bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 {
     for (s32 i = 0; i < field_23_max_idx; i++)
     {

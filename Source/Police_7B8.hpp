@@ -130,11 +130,11 @@ class Police_A4
     char_type field_2;
     char_type field_3;
     s32 field_4;
-    char_type field_8;
-    char_type field_9;
+    u8 field_8;
+    u8 field_9;
     char_type field_A;
     char_type field_B;
-    s16 field_C;
+    u16 field_C;
     s16 field_E;
     Car_BC* field_10;
     Car_BC* field_14;

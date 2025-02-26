@@ -100,7 +100,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 
     if (pDriver)
     {
-        Player* pPlayer = pDriver->field_15C_player_weapons;
+        Player* pPlayer = pDriver->field_15C_player;
         if (pPlayer)
         {
             pPlayer->sub_564910(pWeapon);

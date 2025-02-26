@@ -251,7 +251,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_148 = 0;
 
     Fix16 temp_z;
-    Fix16 v6 = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, x_pos, y_pos);
+    Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
 
     field_80 = v6;
     field_2C = gObject_5C_6F8F84->sub_5299B0(135, x_pos, y_pos, v6, dword_679FC4);

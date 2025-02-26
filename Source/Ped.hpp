@@ -92,7 +92,7 @@ class Ped
     EXPORT void sub_461F20();
     EXPORT s16 sub_462280();
     EXPORT s32 sub_4624A0();
-    EXPORT s32 sub_462510();
+    EXPORT s32 RemovePedWeapons_462510();
     EXPORT s32 sub_462550();
     EXPORT void sub_462590();
     EXPORT s32 sub_462620();
@@ -325,7 +325,7 @@ class Ped
     Car_BC* field_150_target_objective_car;
     Car_BC* field_154_target_to_enter;
     s32 field_158;
-    Player* field_15C_player_weapons;
+    Player* field_15C_player;
     Ped* field_160_next_ped;
     PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;

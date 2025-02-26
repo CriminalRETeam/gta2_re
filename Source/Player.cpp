@@ -140,7 +140,7 @@ void Player::sub_564C00()
 }
 
 STUB_FUNC(0x564C50)
-void Player::sub_564C50()
+void Player::RemovePlayerWeapons_564C50()
 {
 }
 
@@ -352,7 +352,7 @@ void Player::sub_567130()
         {
             player_killer = NULL;
         }
-        else if ((player_killer = pPed_killer->field_15C_player_weapons) == NULL)
+        else if ((player_killer = pPed_killer->field_15C_player) == NULL)
         {
             player_killer = NULL;
         }
@@ -417,7 +417,7 @@ void Player::sub_567130()
                 if (!bKeep_weapons_after_death_67D54D)
                 {
                     Player::sub_564C00();
-                    Player::sub_564C50(); //  remove weapons from dead player
+                    Player::RemovePlayerWeapons_564C50(); //  remove weapons from dead player
                     Player::sub_564CF0();
                 }
                 field_68 = 0;

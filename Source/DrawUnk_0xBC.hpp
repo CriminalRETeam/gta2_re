@@ -47,7 +47,7 @@ class DrawUnk_0xBC
     }
 
     // inline sub_40CF60
-    inline bool check_camera(s32 a2_fp, s32 a3_fp)
+    inline bool check_camera(Fix16 a2_fp, Fix16 a3_fp)
     {
         return a2_fp >= field_78 && a2_fp <= field_7C &&
                  a3_fp >= field_80 &&

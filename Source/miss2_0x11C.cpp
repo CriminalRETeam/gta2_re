@@ -146,7 +146,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -198,7 +198,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -271,7 +271,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                 Fix16 temp_z;
                 //  Calculate the real Z position at (X,Y) based on the map
                 pCmd->field_C_pos.field_8_z =
-                    *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+                    *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
             }
 
             Ang16 rotation;
@@ -326,7 +326,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     Ang16 rotation;
@@ -402,7 +402,7 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
     {
         Fix16 temp_z;
         a1->field_C_rect.field_0_pos.field_8_z =
-            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
     a2->field_8_obj = gObject_5C_6F8F84->sub_529950(139,
                                                     a1->field_C_rect.field_0_pos.field_0_x,
@@ -422,7 +422,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     if (pCmd->field_C_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
     Ang16 rotation(NULL, NULL); // TODO: fix default ctor
@@ -449,7 +449,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
     {
         Fix16 temp_z;
         a1->field_C_rect.field_0_pos.field_8_z =
-            *gMap_0x370_6F6268->sub_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, a1->field_C_rect.field_0_pos.field_0_x, a1->field_C_rect.field_0_pos.field_4_y);
     }
 
     a2->field_8_obj = gObject_5C_6F8F84->sub_529950(141,
@@ -511,7 +511,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     if (pCmd->field_10_pos.field_8_z == dword_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_10_pos.field_8_z = *gMap_0x370_6F6268->sub_4E5B60(&temp_z, pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
+        pCmd->field_10_pos.field_8_z = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
     }
 
     Fix16 z = pCmd->field_10_pos.field_8_z;
@@ -1756,21 +1756,21 @@ void miss2_0x11C::sub_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            v4->sub_4BEE30(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->sub_4BEE30(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             v4->field_111 = 1;
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (v1->field_A_signed_2 > 0)
             {
-                v4->sub_4BEE50(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * (v1->field_A_signed_2));
+                v4->sub_4BEE50(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * (v1->field_A_signed_2));
             }
             else
             {
-                v4->sub_4BEEA0(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * abs(v1->field_A_signed_2));
+                v4->sub_4BEEA0(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * abs(v1->field_A_signed_2));
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            v4->sub_4BF000(pPointer->field_8_char->field_15C_player_weapons->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->sub_4BF000(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2277,15 +2277,15 @@ void miss2_0x11C::SCRCMD_REMOVE_WEAPON_50C990()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
     Ped* pPed = pPointer->field_8_char;
-    Player* player_weapons = pPed->field_15C_player_weapons;
+    Player* player = pPed->field_15C_player;
 
-    if (player_weapons != NULL)
+    if (player != NULL)
     {
-        player_weapons->sub_564C50();
+        player->RemovePlayerWeapons_564C50();
     }
     else
     {
-        pPed->sub_462510();
+        pPed->RemovePedWeapons_462510();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

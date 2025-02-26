@@ -35,7 +35,7 @@ class Player
     EXPORT s32 sub_564B60();
     EXPORT s32 sub_564B80();
     EXPORT void sub_564C00();
-    EXPORT void sub_564C50();
+    EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);

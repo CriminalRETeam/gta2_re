@@ -119,7 +119,7 @@ bool Weapon_30::sub_5DCEF0()
 MATCH_FUNC(0x5dcf40)
 void Weapon_30::sub_5DCF40()
 {
-    Player* pPlayer = this->field_24_pPed->field_15C_player_weapons;
+    Player* pPlayer = this->field_24_pPed->field_15C_player;
     if (pPlayer)
     {
         if (pPlayer->field_6F4[8]) // Fast reload?
