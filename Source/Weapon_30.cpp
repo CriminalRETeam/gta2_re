@@ -199,7 +199,7 @@ void Weapon_30::shocker_5E06B0()
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
     Ped* pPed = this->field_24_pPed;
-    if (pPed->field_15C_player_weapons)
+    if (pPed->field_15C_player)
     {
         gShooey_CC_67A4B8->sub_484FE0(2u, pPed);
     }
