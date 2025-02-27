@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "ang16.hpp"
 
 class Player;
 class Object_2C;
@@ -31,7 +32,7 @@ class Weapon_30
     EXPORT u8 smg_5DDD20();
     EXPORT void throwable_5DDFC0(Fix16* a2, char_type* a3, s32 a4);
     EXPORT s32 sub_5DE4F0();
-    EXPORT char_type sub_5DFB60(char_type a2, Sprite* a3, s16 a4);
+    EXPORT char_type sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4);
     EXPORT void shocker_5E06B0();
     EXPORT char_type electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type a2);

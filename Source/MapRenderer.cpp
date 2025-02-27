@@ -95,7 +95,7 @@ void MapRenderer::sub_4EA390(u16* a2)
 {
 }
 
-STUB_FUNC(0x4ead90) // TODO: Fix 0x46B058 instead of 0x6F65A8 of gTileVerts_6F65A8 address
+MATCH_FUNC(0x4ead90)
 void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert_DX* pVerts)
 {
     DrawUnk_0xBC* pCam = gViewCamera_676978;

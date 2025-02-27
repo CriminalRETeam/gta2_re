@@ -1,9 +1,17 @@
 #include "Weapon_30.hpp"
+#include "Object_3C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "Shooey_CC.hpp"
+#include "Weapon_8.hpp"
+#include "char.hpp"
 #include "debug.hpp"
 #include "enums.hpp"
 #include "root_sound.hpp"
+#include "sprite.hpp"
+
+// TODO: move
+EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
 
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
@@ -176,14 +184,25 @@ s32 Weapon_30::sub_5DE4F0()
 }
 
 STUB_FUNC(0x5dfb60)
-char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, s16 a4)
+char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
 {
     return 0;
 }
 
-STUB_FUNC(0x5e06b0)
+MATCH_FUNC(0x5e06b0)
 void Weapon_30::shocker_5E06B0()
 {
+    // TODO: Fix types
+    ((Object_3C*)&gWeapon_8_707018->field_0.field_0)->sub_5A6E10();
+
+    sub_5DFB60(0,
+               this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,
+               this->field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0);
+    Ped* pPed = this->field_24_pPed;
+    if (pPed->field_15C_player)
+    {
+        gShooey_CC_67A4B8->sub_484FE0(2u, pPed);
+    }
 }
 
 STUB_FUNC(0x5e0740)
