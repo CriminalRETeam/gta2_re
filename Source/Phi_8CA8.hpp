@@ -81,17 +81,17 @@ class Phi_74
   public:
     EXPORT ~Phi_74();
     EXPORT void sub_533060(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_533090();
+    EXPORT void sub_533090();
     EXPORT void sub_533110(s16 a2);
     EXPORT void sub_533150(s16 a2, s16 a3);
     EXPORT Sprite* sub_533170();
     EXPORT void sub_5331A0(Sprite* a2);
     EXPORT Phi_74();
 
-    s32 field_0;
-    s32 field_4;
+    Fix16 field_0;
+    Fix16 field_4;
     Fix16 field_8;
-    s32 field_C;
+    Fix16 field_C;
     Fix16 field_10;
     Fix16 field_14;
     s32 field_18;

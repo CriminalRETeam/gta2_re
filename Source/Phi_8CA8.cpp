@@ -14,6 +14,12 @@ GLOBAL(DAT_006fcdd8, 0x6FCDD8);
 EXPORT_VAR Fix16 DAT_006fce10;
 GLOBAL(DAT_006fce10, 0x6FCE10);
 
+EXPORT_VAR Fix16 DAT_006F8FF0;
+GLOBAL(DAT_006F8FF0, 0x6F8FF0);
+
+EXPORT_VAR Fix16 DAT_006FCED0;
+GLOBAL(DAT_006FCED0, 0x6FCED0);
+
 EXPORT_VAR s32 Phi_54_array_lenght_00623EEC;
 GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
 
@@ -89,10 +95,32 @@ void Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
     }
 }
 
-STUB_FUNC(0x533090)
-s32 Phi_74::sub_533090()
+MATCH_FUNC(0x533090)
+void Phi_74::sub_533090()
 {
-    return 0;
+    if (this->field_28 != sprite_types_enum::unknown_1)
+    {
+        u16 sprite_id = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_28, field_1E);
+        sprite_index * sprite = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_id);
+        field_0 = Fix16(sprite->field_4_width) / 0x40;
+        field_4 = Fix16(sprite->field_5_height) / 0x40;
+        field_8 = DAT_006FCED0;
+    }
+    else
+    {
+        field_0 = DAT_006F8FF0;
+        field_4 = DAT_006F8FF0;
+        field_8 = DAT_006FCED0;
+    }
+
+    if (field_0 < field_4)
+    {
+        field_C = field_0;
+    }
+    else
+    {
+        field_C = field_4;
+    }
 }
 
 MATCH_FUNC(0x533110)

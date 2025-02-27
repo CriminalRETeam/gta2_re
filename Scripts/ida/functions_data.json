@@ -11091,7 +11091,7 @@
     },
     {
         "name": "Phi_74::sub_533090",
-        "v96f_address": null,
+        "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
@@ -15186,7 +15186,7 @@
     },
     {
         "name": "gtx_0x106C::get_sprite_index",
-        "v96f_address": null,
+        "v96f_address": "0x4bf280",
         "v105_address": "0x5aa440"
     },
     {
@@ -15311,7 +15311,7 @@
     },
     {
         "name": "gtx_0x106C::load_delta_index",
-        "v96f_address": null,
+        "v96f_address": "0x4bfa60",
         "v105_address": "0x5aad80"
     },
     {
