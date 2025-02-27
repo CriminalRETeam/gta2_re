@@ -14,6 +14,14 @@ GLOBAL(DAT_006fcdd8, 0x6FCDD8);
 EXPORT_VAR Fix16 DAT_006fce10;
 GLOBAL(DAT_006fce10, 0x6FCE10);
 
+EXPORT_VAR s32 Phi_54_array_lenght_00623EEC;
+GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
+
+// This array is initialized FUN_005323b0, which I think it's a static constructor.
+// It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533360 doesn't match
+EXPORT_VAR Phi_54 Phi_54_array_006FC5F8[24];
+GLOBAL(Phi_54_array_006FC5F8, 0x66FC5F86FC5F8);
+
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,
                s32& param_2,
@@ -228,9 +236,43 @@ void Phi_8CA8::sub_533300()
     }
 }
 
-STUB_FUNC(0x533360)
+MATCH_FUNC(0x533360)
 void Phi_8CA8::sub_533360()
 {
+    int iVar4 = Phi_54_array_lenght_00623EEC;
+
+    if (0 < iVar4)
+    {
+        Phi_54* puVar3 = Phi_54_array_006FC5F8;
+        do
+        {
+            Phi_74* pPVar2 = sub_534360(puVar3->field_0);
+            pPVar2->field_34 = puVar3->field_4;
+            pPVar2->field_38 = puVar3->field_8;
+            pPVar2->field_3C = puVar3->field_8;
+            pPVar2->field_61 = puVar3->field_C;
+            pPVar2->field_40 = puVar3->field_18;
+            pPVar2->field_44 = puVar3->field_10;
+            pPVar2->field_48 = puVar3->field_14;
+            pPVar2->field_10 = puVar3->field_1C;
+            pPVar2->field_65 = puVar3->field_24;
+            pPVar2->field_14 = puVar3->field_20;
+            pPVar2->field_4C = puVar3->field_28;
+            pPVar2->field_64 = puVar3->field_30;
+            pPVar2->field_58 = puVar3->field_34;
+            pPVar2->field_18 = puVar3->field_38;
+            pPVar2->field_20 = puVar3->field_40;
+            pPVar2->field_2C = (Sprite*)puVar3->field_3C;
+            pPVar2->field_60 = 1;
+            pPVar2->field_5C = puVar3->field_4C;
+            pPVar2->field_68 = 0;
+            pPVar2->field_70 = puVar3->field_44;
+            pPVar2->field_62 = puVar3->field_48;
+            pPVar2->field_63 = puVar3->field_50;
+            pPVar2->field_54 = 0;
+            puVar3++;
+        } while (--iVar4 != 0);
+    }
 }
 
 MATCH_FUNC(0x533420)
