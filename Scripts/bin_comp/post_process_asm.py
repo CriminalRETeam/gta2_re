@@ -71,7 +71,7 @@ def extract_constant(s):
             ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("call") or s.startswith("calll"):
         ret = get_constant_from_inst_generic(s, False)
-    elif s.startswith("jmpl"):
+    elif s.startswith("jmpl") or s.startswith("sub") or s.startswith("fstps"):
         tmp = get_constant_from_deref(s.split(" ")[1], True)
         if tmp is None:
              ret = get_constant_from_inst_generic(s, True)
@@ -87,8 +87,6 @@ def extract_constant(s):
         ret = get_constant_from_inst_generic(s, True)
     elif s.startswith("dec"):
         ret = get_constant_from_inst_generic(s, True)
-    elif s.startswith("sub"):
-        ret = get_constant_from_deref_inst_generic(s, True)
 
     return ret
 
@@ -207,6 +205,9 @@ class TestStringMethods(unittest.TestCase):
 
     def test_sub_hex(self):
         self.assertEqual(extract_constant("sub 0x4E1A58(%eax),%dx"), ["0x4E1A58"])
+        self.assertEqual(extract_constant("sub $0x46B058,%eax"), ["$0x46B058"])
 
+    def test_fstps_hex(self):
+        self.assertEqual(extract_constant("fstps 0x6F65A8(%eax)"), ["0x6F65A8"])
 
 #unittest.main()
