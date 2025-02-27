@@ -193,6 +193,14 @@ class Fix16
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
     EXPORT Fix16 operator/(const Fix16& in);
+    // Inlined from 9.6f at 0x401bf0
+    // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
+    // But I couldn't match Phi_74::sub_533090 without this overload.
+    EXPORT Fix16 operator/(const s32& in)
+    {
+        s32 value = mValue / in;
+        return Fix16(value, 0);
+    }
 
   public:
     s32 mValue;
