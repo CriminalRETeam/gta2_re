@@ -53,27 +53,27 @@ class Fix16
         return Fix16(-mValue, 0);
     }
 
-    bool operator>(const Fix16& other)
+    s32 operator>(const Fix16& other)
     {
         return mValue > other.mValue;
     }
 
-    bool operator<(const Fix16& other)
+    s32 operator<(const Fix16& other)
     {
         return mValue < other.mValue;
     }
 
-    bool operator!=(const Fix16& other)
+    s32 operator!=(const Fix16& other)
     {
         return mValue != other.mValue;
     }
 
-    bool operator>=(const Fix16& other)
+    s32 operator>=(const Fix16& other)
     {
         return mValue >= other.mValue;
     }
 
-    bool operator<=(const Fix16& other)
+    s32 operator<=(const Fix16& other)
     {
         return mValue <= other.mValue;
     }
