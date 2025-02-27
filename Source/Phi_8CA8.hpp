@@ -80,7 +80,7 @@ class Phi_74
 {
   public:
     EXPORT ~Phi_74();
-    EXPORT void sub_533060(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_533060(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_533090();
     EXPORT void sub_533110(s16 a2);
     EXPORT void sub_533150(s16 a2, s16 a3);

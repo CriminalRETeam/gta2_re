@@ -79,13 +79,13 @@ Phi_74::~Phi_74()
 {
 }
 
-STUB_FUNC(0x533060)
-void Phi_74::sub_533060(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x533060)
+void Phi_74::sub_533060(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    field_8 = a4;
     field_0 = a2;
     field_4 = a3;
-    if (a2 < a3)
+    field_8 = a4;
+    if (field_0 < field_4)
     {
         field_C = a2;
     }
