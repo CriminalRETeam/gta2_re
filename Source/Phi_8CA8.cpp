@@ -155,7 +155,7 @@ Sprite* Phi_74::sub_533170()
     return pFreeSprite;
 }
 
-STUB_FUNC(0x5331a0)
+MATCH_FUNC(0x5331a0)
 void Phi_74::sub_5331A0(Sprite* pSprite)
 {
     s16 f1E; // ax
@@ -180,7 +180,7 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
     }
 
     f40 = this->field_40;
-    if (f40 > 0 && f40 <= 4) // TODO: This part is wrong
+    if (f40 > 0 && (f40 <= 3 || f40 == 4))
     {
         pSprite->sub_59F950(this->field_0, this->field_4, this->field_8);
     }
