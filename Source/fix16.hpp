@@ -178,6 +178,12 @@ class Fix16
         return *this;
     }
 
+    //  inline sub_4B9E10 in 9.6f
+    inline static bool inline_is_between(Fix16& a1, Fix16& a2, Fix16& a3)
+    {
+        return a3 >= a1 && a3 <= a2;
+    }
+
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16& FromU16_4AE970(u16 a2);
