@@ -1,8 +1,14 @@
 #include "Car_14_18.hpp"
+#include "map_0x370.hpp"
+#include "PurpleDoom.hpp"
 
-STUB_FUNC(0x59dd60)
+MATCH_FUNC(0x59dd60)
 void Car_14_18::sub_59DD60()
 {
+    dword_6F5FD4 = field_0.ToInt();
+    dword_6F5B80 = field_4.ToInt();
+    dword_6F6108 = field_8.ToInt();
+    dword_6F5F38 = field_C.ToInt();
 }
 
 STUB_FUNC(0x59ddf0)

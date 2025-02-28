@@ -491,3 +491,6 @@ class Map_0x370
 };
 
 EXPORT_VAR extern Map_0x370* gMap_0x370_6F6268;
+
+EXPORT_VAR extern s32 dword_6F5FD4;
+EXPORT_VAR extern s32 dword_6F5B80;

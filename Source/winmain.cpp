@@ -46,6 +46,7 @@
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "Car_14_18.hpp"
 
 void force_link()
 {
@@ -219,6 +220,9 @@ void force_link()
     hamburger_500.sub_474CC0(0);
 
     Collide_C collide_C;
+
+    Car_14_18 car14_18;
+    car14_18.sub_59DD60();
 }
 
 EXPORT_VAR HINSTANCE gHInstance_708220;
