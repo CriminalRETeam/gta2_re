@@ -84,8 +84,53 @@ bool Car_14_18::sub_59DF20(u8 zone_type)
     return false;
 }
 
-STUB_FUNC(0x59dfb0)
+MATCH_FUNC(0x59dfb0)
 bool Car_14_18::sub_59DFB0(s32 a2)
 {
-    return 0;
+    u8 y_pos = field_8.ToUInt8();
+    u8 x_pos;
+
+    bool v3 = true;
+
+    while (y_pos <= field_C.ToUInt8())
+    {
+        x_pos = field_0.ToUInt8();
+        while (x_pos <= field_4.ToUInt8())
+        {
+            if (!v3)
+            {
+                return false;
+            }
+
+            gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x_pos, y_pos, field_10.ToInt());
+            if (block_4DFE10)
+            {
+                
+                switch (a2)
+                {
+                    case 1:
+                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 4;  //  green arrow up
+                        break;
+                    case 2:
+                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 8;  //  green arrow down
+                        break;
+                    case 3:
+                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 2;  //  green arrow right
+                        break;
+                    case 4:
+                        v3 = (block_4DFE10->field_A_arrows & 0xF) == 1;  //  green arrow left
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                v3 = false;
+            }
+            ++x_pos;
+        }
+        ++y_pos;
+    }
+    return true;
 }
