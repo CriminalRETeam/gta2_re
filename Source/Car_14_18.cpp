@@ -62,10 +62,26 @@ void Car_14_18::sub_59DEE0(Fix16 a2, Fix16 a3)
     }
 }
 
-STUB_FUNC(0x59df20)
-bool Car_14_18::sub_59DF20(u8 a2)
+MATCH_FUNC(0x59df20)
+bool Car_14_18::sub_59DF20(u8 zone_type)
 {
-    return 0;
+    u8 zone_y = field_8.ToUInt8();
+    u8 zone_x;
+
+    while (zone_y <= field_C.ToUInt8())
+    {
+        zone_x = field_0.ToUInt8();
+        while (zone_x <= field_4.ToUInt8())
+        {
+            if (gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(zone_x, zone_y, zone_type))
+            {
+                return true;
+            }
+            ++zone_x;
+        }
+        ++zone_y;
+    }
+    return false;
 }
 
 STUB_FUNC(0x59dfb0)
