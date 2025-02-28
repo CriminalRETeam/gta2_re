@@ -34,9 +34,32 @@ char_type Car_14_18::sub_59DE80()
     return 0;
 }
 
-STUB_FUNC(0x59dee0)
+MATCH_FUNC(0x59dee0)
 void Car_14_18::sub_59DEE0(Fix16 a2, Fix16 a3)
 {
+    if (a2 < field_0)
+    {
+        field_0 = a2;
+    }
+    else
+    {
+        if (a2 > field_4)
+        {
+            field_4 = a2;
+        }
+    }
+
+    if (a3 < field_8)
+    {
+        field_8 = a3;
+    }
+    else
+    {
+        if (a3 > field_C)
+        {
+            field_C = a3;
+        }
+    }
 }
 
 STUB_FUNC(0x59df20)
