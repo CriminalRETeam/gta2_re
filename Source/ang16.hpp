@@ -149,6 +149,14 @@ class Ang16
     EXPORT Ang16* sub_482740(Ang16* a1, s32* a2);
     EXPORT Ang16* sub_4516B0(s32* a2, s32 a3);
 
+    // inlined from 0x40f580 on v9.6f
+    // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
+    EXPORT static Fix16 Ang16_to_Fix16(const Ang16 &v)
+    {
+        s32 value = v.rValue * 71;
+        return Fix16(value, 0);
+    }
+
     Ang16() : rValue(0) // OBS: The default ctor must not init rValue, I will remove it soon
     {
     }

@@ -47,27 +47,33 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    bool operator>(const Fix16& other)
+    //MATCH_FUNC(0x4086A0)
+    Fix16 operator-()
+    {
+        return Fix16(-mValue, 0);
+    }
+
+    s32 operator>(const Fix16& other)
     {
         return mValue > other.mValue;
     }
 
-    bool operator<(const Fix16& other)
+    s32 operator<(const Fix16& other)
     {
         return mValue < other.mValue;
     }
 
-    bool operator!=(const Fix16& other)
+    s32 operator!=(const Fix16& other)
     {
         return mValue != other.mValue;
     }
 
-    bool operator>=(const Fix16& other)
+    s32 operator>=(const Fix16& other)
     {
         return mValue >= other.mValue;
     }
 
-    bool operator<=(const Fix16& other)
+    s32 operator<=(const Fix16& other)
     {
         return mValue <= other.mValue;
     }
@@ -191,9 +197,16 @@ class Fix16
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
-    EXPORT Fix16 operator-();
     EXPORT Fix16 operator+(const Fix16& rhs) const;
     EXPORT Fix16 operator/(const Fix16& in);
+    // Inlined from 9.6f at 0x401bf0
+    // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
+    // But I couldn't match Phi_74::sub_533090 without this overload.
+    EXPORT Fix16 operator/(const s32& in)
+    {
+        s32 value = mValue / in;
+        return Fix16(value, 0);
+    }
 
   public:
     s32 mValue;

@@ -427,7 +427,7 @@ void Sprite::sub_59EFF0()
 }
 
 MATCH_FUNC(0x59f950)
-void Sprite::sub_59F950(s32 a2, s32 a3, s32 a4)
+void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (sprite_4c_ptr == NULL)
     {
@@ -460,8 +460,8 @@ void Sprite::sub_59FA40()
         u8 field_5_height_index = sprite_index_5AA440->field_5_height;
         u8 field_4_width_index = sprite_index_5AA440->field_4_width;
 
-        s32 v8 = dword_6F6850[field_5_height_index].mValue;
-        s32 v7 = dword_6F6850[field_4_width_index].mValue;
+        Fix16 v8 = dword_6F6850[field_5_height_index];
+        Fix16 v7 = dword_6F6850[field_4_width_index];
 
         if (v7 != field_4_0x4C_len->field_0_width || v8 != field_4_0x4C_len->field_4_height)
         {

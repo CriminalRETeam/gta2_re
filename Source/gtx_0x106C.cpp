@@ -273,19 +273,19 @@ s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
     return field_40_tile->field_0[tile_idx];
 }
 
-STUB_FUNC(0x5AA890)
+MATCH_FUNC(0x5AA890)
 s16 gtx_0x106C::sub_5AA890()
 {
-    s16 internal_idx; // ax
-    u16* i; // ecx
-
-    internal_idx = 1023;
-    for (i = &field_40_tile->field_0[1023]; *i; --i)
+    u16* i = &field_40_tile->field_0[1023];
+    for (u16 j = 1023; j >= 992; j--, i--)
     {
-        if ((u16)--internal_idx < 992u)
-            return 0;
+        if (*i == 0)
+        {
+            return j;
+        }
     }
-    return internal_idx;
+
+    return 0;
 }
 
 MATCH_FUNC(0x5AA8C0)
@@ -629,11 +629,21 @@ void gtx_0x106C::load_palette_index_5AAEA0(u32 palx_chunk_len)
     File::Global_Read_4A71C0(field_28_palette_index, palx_chunk_len);
 }
 
-STUB_FUNC(0x5AAF00)
+MATCH_FUNC(0x5AAF00)
 void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
 {
-    // TODO
-    UNIQUE_FUNC;
+    field_24_map_object_info = (object_info*)Memory::malloc_4FE4D0(obji_chunk_len);
+    File::Global_Read_4A71C0(field_24_map_object_info, obji_chunk_len);
+    if (obji_chunk_len / 2 >= 0x10000)
+    {
+        FatalError_4A38C0(1010, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
+    }
+
+    field_6_map_object_info_len = obji_chunk_len / 2;
+    if (((obji_chunk_len / 2) & 0xffff) * 2 != obji_chunk_len)
+    {
+        FatalError_4A38C0(41, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1179);
+    }
 }
 
 MATCH_FUNC(0x5AAF80)

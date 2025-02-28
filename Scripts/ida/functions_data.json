@@ -4416,22 +4416,22 @@
     },
     {
         "name": "Crane_15C::sub_47F220",
-        "v96f_address": null,
+        "v96f_address": "0x4485d0",
         "v105_address": "0x47f220"
     },
     {
         "name": "Crane_15C::sub_47F290",
-        "v96f_address": null,
+        "v96f_address": "0x448650",
         "v105_address": "0x47f290"
     },
     {
         "name": "Crane_15C::sub_47F2F0",
-        "v96f_address": null,
+        "v96f_address": "0x4486c0",
         "v105_address": "0x47f2f0"
     },
     {
         "name": "Crane_15C::sub_47F350",
-        "v96f_address": null,
+        "v96f_address": "0x448730",
         "v105_address": "0x47f350"
     },
     {
@@ -11086,12 +11086,12 @@
     },
     {
         "name": "Phi_74::sub_533060",
-        "v96f_address": null,
+        "v96f_address": "0x487f60",
         "v105_address": "0x533060"
     },
     {
         "name": "Phi_74::sub_533090",
-        "v96f_address": null,
+        "v96f_address": "0x487fa0",
         "v105_address": "0x533090"
     },
     {
@@ -11111,7 +11111,7 @@
     },
     {
         "name": "Phi_74::sub_5331A0",
-        "v96f_address": null,
+        "v96f_address": "0x4883a0",
         "v105_address": "0x5331a0"
     },
     {
@@ -11131,12 +11131,12 @@
     },
     {
         "name": "Phi_8CA8::sub_533360",
-        "v96f_address": null,
+        "v96f_address": "0x4884b0",
         "v105_address": "0x533360"
     },
     {
         "name": "Phi_8CA8::sub_533420",
-        "v96f_address": null,
+        "v96f_address": "0x488570",
         "v105_address": "0x533420"
     },
     {
@@ -15186,7 +15186,7 @@
     },
     {
         "name": "gtx_0x106C::get_sprite_index",
-        "v96f_address": null,
+        "v96f_address": "0x4bf280",
         "v105_address": "0x5aa440"
     },
     {
@@ -15251,7 +15251,7 @@
     },
     {
         "name": "gtx_0x106C::sub_5AA890",
-        "v96f_address": null,
+        "v96f_address": "0x4bf6d0",
         "v105_address": "0x5aa890"
     },
     {
@@ -15311,7 +15311,7 @@
     },
     {
         "name": "gtx_0x106C::load_delta_index",
-        "v96f_address": null,
+        "v96f_address": "0x4bfa60",
         "v105_address": "0x5aad80"
     },
     {
@@ -15351,7 +15351,7 @@
     },
     {
         "name": "gtx_0x106C::load_map_object_info",
-        "v96f_address": null,
+        "v96f_address": "0x4bfbe0",
         "v105_address": "0x5aaf00"
     },
     {
