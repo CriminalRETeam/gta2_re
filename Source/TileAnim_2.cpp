@@ -60,10 +60,12 @@ void TileAnim_18::sub_5BC190(s32 pStru)
 {
 }
 
-STUB_FUNC(0x5bc1d0)
-s32 TileAnim_18::sub_5BC1D0()
+MATCH_FUNC(0x5bc1d0)
+void TileAnim_18::sub_5BC1D0()
 {
-    return 0;
+    field_A = field_4;
+    field_8 = field_0;
+    sub_5BC150();
 }
 
 MATCH_FUNC(0x5bc1f0)

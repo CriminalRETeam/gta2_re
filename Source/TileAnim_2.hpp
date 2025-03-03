@@ -20,7 +20,7 @@ class TileAnim_18
     EXPORT void sub_5BC130();
     EXPORT s32 sub_5BC150();
     EXPORT void sub_5BC190(s32 pStru);
-    EXPORT s32 sub_5BC1D0();
+    EXPORT void sub_5BC1D0();
     EXPORT char_type sub_5BC1F0();
     EXPORT TileAnim_18();
     EXPORT ~TileAnim_18();
