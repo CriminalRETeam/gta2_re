@@ -1441,7 +1441,7 @@ void Map_0x370::load_zone_4E9250(size_t a2)
 MATCH_FUNC(0x4E9280)
 void Map_0x370::load_anim_4E9280(size_t size)
 {
-    void* pAlloc = Memory::malloc_4FE4D0(size);
+    gmp_tile_animation* pAlloc = static_cast<gmp_tile_animation*>(Memory::malloc_4FE4D0(size));
     field_340_pTileAnimData = pAlloc;
     File::Global_Read_4A71C0(pAlloc, size);
     sub_4E9160(size);
