@@ -1,5 +1,7 @@
 #include "TileAnim_2.hpp"
+
 #include "Globals.hpp"
+#include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include <stdio.h>
@@ -34,9 +36,18 @@ void TileAnim_2::sub_5BC310()
 {
 }
 
-STUB_FUNC(0x5bc3a0)
+MATCH_FUNC(0x5bc3a0)
 TileAnim_2::TileAnim_2()
 {
+    if (gTileAnim_4BC_7052C8 == NULL)
+    {
+        gTileAnim_4BC_7052C8 = new TileAnim_4BC();
+        if (gTileAnim_4BC_7052C8 == NULL)
+        {
+            FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+        }
+    }
+    field_0_count = 1;
 }
 
 MATCH_FUNC(0x5bc470)
