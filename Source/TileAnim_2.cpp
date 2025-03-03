@@ -66,9 +66,35 @@ s32 TileAnim_18::sub_5BC1D0()
     return 0;
 }
 
-STUB_FUNC(0x5bc1f0)
+MATCH_FUNC(0x5bc1f0)
 char_type TileAnim_18::sub_5BC1F0()
 {
+    u8 bVar3;
+
+    field_A--;
+    if (field_A == 0)
+    {
+        if (field_2 < field_0)
+        {
+            field_8--;
+            bVar3 = field_8 < field_2;
+        }
+        else
+        {
+            field_8++;
+            bVar3 = field_8 > field_2 ;
+        }
+        if (bVar3)
+        {
+            if (field_6 > 0 && --field_6 == 0)
+            {
+                return 1;
+            }
+            field_8 = field_0;
+        }
+        sub_5BC150();
+        field_A = field_4;
+    }
     return 0;
 }
 

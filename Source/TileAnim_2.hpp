@@ -25,11 +25,11 @@ class TileAnim_18
     EXPORT TileAnim_18();
     EXPORT ~TileAnim_18();
 
-    s16 field_0;
-    s16 field_2;
+    u16 field_0;
+    u16 field_2;
     s16 field_4;
-    s16 field_6;
-    s16 field_8;
+    u16 field_6;
+    u16 field_8;
     s16 field_A;
     s32 field_C_ptr;
     s16 field_10;
