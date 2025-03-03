@@ -33,7 +33,7 @@ class TileAnim_18
     u16 field_6;
     u16 field_8;
     s16 field_A;
-    s32 field_C_ptr;
+    gmp_tile_animation* field_C_ptr;
     s16 field_10;
     s16 field_12_idx;
     TileAnim_18* field_14_next_ptr;

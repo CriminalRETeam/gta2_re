@@ -1,5 +1,7 @@
 #include "TileAnim_2.hpp"
 #include "Globals.hpp"
+#include "map_0x370.hpp"
+
 #include <stdio.h>
 
 EXPORT_VAR TileAnim_2* gTileAnim_2_7052C4;
@@ -58,9 +60,15 @@ s32 TileAnim_18::sub_5BC150()
     return 0;
 }
 
-STUB_FUNC(0x5bc190)
+MATCH_FUNC(0x5bc190)
 void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
 {
+    field_C_ptr = pStru;
+    field_4 = pStru->field_2_frame_rate;
+    field_6 = pStru->field_3_repeat;
+    field_10 = pStru->field_0_base;
+    field_2 = pStru->field_4_anim_length - 1;
+    field_0 = 0;
 }
 
 MATCH_FUNC(0x5bc1d0)
