@@ -14,9 +14,12 @@ s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)
     return 0;
 }
 
-STUB_FUNC(0x5bc2c0)
-void TileAnim_2::sub_5BC2C0()
+MATCH_FUNC(0x5bc2c0)
+void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
 {
+    TileAnim_18 *tmp = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
+    tmp->sub_5BC190(a1);
+    tmp->sub_5BC1D0();
 }
 
 STUB_FUNC(0x5bc300)
@@ -56,7 +59,7 @@ s32 TileAnim_18::sub_5BC150()
 }
 
 STUB_FUNC(0x5bc190)
-void TileAnim_18::sub_5BC190(s32 pStru)
+void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
 {
 }
 
