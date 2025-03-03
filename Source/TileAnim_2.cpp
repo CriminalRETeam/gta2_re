@@ -64,17 +64,17 @@ MATCH_FUNC(0x5bc190)
 void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
 {
     field_C_ptr = pStru;
-    field_4 = pStru->field_2_frame_rate;
-    field_6 = pStru->field_3_repeat;
-    field_10 = pStru->field_0_base;
-    field_2 = pStru->field_4_anim_length - 1;
+    field_4_frame_rate = pStru->field_2_frame_rate;
+    field_6_repeat = pStru->field_3_repeat;
+    field_10_base = pStru->field_0_base;
+    field_2_anim_length = pStru->field_4_anim_length - 1;
     field_0 = 0;
 }
 
 MATCH_FUNC(0x5bc1d0)
 void TileAnim_18::sub_5BC1D0()
 {
-    field_A = field_4;
+    field_A = field_4_frame_rate;
     field_8 = field_0;
     sub_5BC150();
 }
@@ -87,26 +87,26 @@ char_type TileAnim_18::sub_5BC1F0()
     field_A--;
     if (field_A == 0)
     {
-        if (field_2 < field_0)
+        if (field_2_anim_length < field_0)
         {
             field_8--;
-            bVar3 = field_8 < field_2;
+            bVar3 = field_8 < field_2_anim_length;
         }
         else
         {
             field_8++;
-            bVar3 = field_8 > field_2 ;
+            bVar3 = field_8 > field_2_anim_length ;
         }
         if (bVar3)
         {
-            if (field_6 > 0 && --field_6 == 0)
+            if (field_6_repeat > 0 && --field_6_repeat == 0)
             {
                 return 1;
             }
             field_8 = field_0;
         }
         sub_5BC150();
-        field_A = field_4;
+        field_A = field_4_frame_rate;
     }
     return 0;
 }
@@ -115,13 +115,13 @@ MATCH_FUNC(0x5beba0)
 TileAnim_18::TileAnim_18()
 {
     field_0 = 0;
-    field_2 = 0;
-    field_4 = 0;
-    field_6 = 0;
+    field_2_anim_length = 0;
+    field_4_frame_rate = 0;
+    field_6_repeat = 0;
     field_8 = 0;
     field_A = 0;
     field_C_ptr = 0;
-    field_10 = 0;
+    field_10_base = 0;
     field_12_idx = 0;
     field_14_next_ptr = 0;
 }

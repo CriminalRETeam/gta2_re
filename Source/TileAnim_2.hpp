@@ -28,13 +28,13 @@ class TileAnim_18
     EXPORT ~TileAnim_18();
 
     u16 field_0;
-    u16 field_2;
-    s16 field_4;
-    u16 field_6;
+    u16 field_2_anim_length;
+    s16 field_4_frame_rate;
+    u16 field_6_repeat;
     u16 field_8;
     s16 field_A;
     gmp_tile_animation* field_C_ptr;
-    s16 field_10;
+    s16 field_10_base;
     s16 field_12_idx;
     TileAnim_18* field_14_next_ptr;
 };
