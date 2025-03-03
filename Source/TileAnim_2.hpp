@@ -20,7 +20,7 @@ class TileAnim_18
 {
   public:
     EXPORT void sub_5BC130();
-    EXPORT s32 sub_5BC150();
+    EXPORT void sub_5BC150();
     EXPORT void sub_5BC190(gmp_tile_animation* pStru);
     EXPORT void sub_5BC1D0();
     EXPORT char_type sub_5BC1F0();

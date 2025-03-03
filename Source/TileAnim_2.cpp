@@ -1,7 +1,7 @@
 #include "TileAnim_2.hpp"
 #include "Globals.hpp"
+#include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
-
 #include <stdio.h>
 
 EXPORT_VAR TileAnim_2* gTileAnim_2_7052C4;
@@ -54,10 +54,15 @@ void TileAnim_18::sub_5BC130()
     field_12_idx = gTileAnim_2_7052C4->field_0_count++;
 }
 
-STUB_FUNC(0x5bc150)
-s32 TileAnim_18::sub_5BC150()
+MATCH_FUNC(0x5bc150)
+void TileAnim_18::sub_5BC150()
 {
-    return 0;
+    if (field_C_ptr != NULL)
+    {
+        gGtx_0x106C_703DD4->sub_5AA930(field_10_base, field_C_ptr->field_6_tiles[field_8]);
+        return;
+    }
+    gGtx_0x106C_703DD4->sub_5AA930(field_10_base, field_8);
 }
 
 MATCH_FUNC(0x5bc190)
