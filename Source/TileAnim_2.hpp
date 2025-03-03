@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <cstdio>
 
 struct gmp_tile_animation;
 
@@ -42,9 +43,19 @@ class TileAnim_18
 class TileAnim_4BC
 {
   public:
-    TileAnim_4BC()
+    // Inlined 0x4c34b0
+    EXPORT TileAnim_4BC()
     {
-        // TODO
+        TileAnim_18* it = field_8;
+        for (u32 i = 0; i < 49; i++)
+        {
+            it->field_14_next_ptr = it + 1;
+            it++;
+        }
+        field_0_pStart = field_8;
+        field_8[49].field_14_next_ptr = NULL;
+        field_4_pPrev = NULL;
+        field_4B8 = 0;
     }
     EXPORT ~TileAnim_4BC();
 
