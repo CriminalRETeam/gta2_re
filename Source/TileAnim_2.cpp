@@ -26,7 +26,7 @@ void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
     tmp->sub_5BC1D0();
 }
 
-STUB_FUNC(0x5bc300)
+MATCH_FUNC(0x5bc300)
 void TileAnim_2::Empty_5BC300()
 {
 }

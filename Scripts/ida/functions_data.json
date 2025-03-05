@@ -15721,7 +15721,7 @@
     },
     {
         "name": "TileAnim_2::Empty",
-        "v96f_address": null,
+        "v96f_address": "0x4c3370",
         "v105_address": "0x5bc300"
     },
     {
