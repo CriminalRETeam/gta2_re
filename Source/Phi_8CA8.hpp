@@ -94,7 +94,7 @@ class Phi_74
     Fix16 field_C;
     Fix16 field_10;
     Fix16 field_14;
-    s32 field_18;
+    Fix16 field_18;
     s16 field_1C;
     s16 field_1E;
     char_type field_20;
@@ -141,7 +141,7 @@ class Phi_8CA8
     EXPORT void sub_533360();
     EXPORT void sub_533420();
     EXPORT s32 sub_533B30();
-    EXPORT u8 sub_533C90();
+    EXPORT void sub_533C90();
     EXPORT void sub_534270();
     EXPORT void sub_5342D0();
     EXPORT void sub_5342F0(s32 idx);
