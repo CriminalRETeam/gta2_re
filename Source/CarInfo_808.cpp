@@ -6,6 +6,7 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include "crt_stubs.hpp"
 
 EXPORT_VAR CarInfo_808* gCarInfo_808_678098;
 GLOBAL(gCarInfo_808_678098, 0x678098);
@@ -330,7 +331,8 @@ void CarInfo_808::sub_4546D0()
     field_804_raw_data = new CarInfo_48[number_of_cars];
 
     char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
-    free(file_content);
+
+    crt::free(file_content);
 
     if (pcVar3 != NULL)
     {
@@ -430,7 +432,7 @@ void CarInfo_808::sub_454AA0()
 
     if (field_804_raw_data)
     {
-        delete field_804_raw_data;
+        delete[] field_804_raw_data;
     }
     field_804_raw_data = 0;
 }

@@ -20,13 +20,13 @@ GLOBAL(DAT_006F8FF0, 0x6F8FF0);
 EXPORT_VAR Fix16 DAT_006FCED0;
 GLOBAL(DAT_006FCED0, 0x6FCED0);
 
-EXPORT_VAR s32 Phi_54_array_lenght_00623EEC;
+EXPORT_VAR s32 Phi_54_array_lenght_00623EEC; // = 24
 GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
 
 // This array is initialized FUN_005323b0, which I think it's a static constructor.
 // It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533360 doesn't match
 EXPORT_VAR Phi_54 Phi_54_array_006FC5F8[24];
-GLOBAL(Phi_54_array_006FC5F8, 0x66FC5F86FC5F8);
+GLOBAL(Phi_54_array_006FC5F8, 0x6FC5F8);
 
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,
