@@ -9,7 +9,7 @@ class PurpleDoom
 {
   public:
     EXPORT s32 sub_477A40();
-    EXPORT char_type sub_477AE0(Sprite* a1);
+    EXPORT void sub_477AE0(Sprite* a1);
     EXPORT void sub_477B00(Sprite* a1);
     EXPORT s32 sub_477B20(Sprite* a1a);
     EXPORT s32 sub_477B60(Sprite* a1);
