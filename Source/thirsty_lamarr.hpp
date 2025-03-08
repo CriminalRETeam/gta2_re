@@ -9,7 +9,7 @@ class thirsty_lamarr
     EXPORT char_type sub_492110(s16 a2, s32 a3, s16 a4);
     EXPORT void sub_492150();
     EXPORT void sub_4921B0(s32 amount);
-    EXPORT u16 sub_4921F0(s32 a2, s16 a3);
+    EXPORT void sub_4921F0(s32 a2, s16 a3);
     EXPORT s32 sub_492260(s32 a2, s32 a3);
     EXPORT s32 sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4);
     EXPORT char_type sub_4925C0();
@@ -35,7 +35,7 @@ class thirsty_lamarr
     s16 field_2A;
     char_type field_2C;
     char_type field_2D;
-    s16 field_2E_idx;
+    u16 field_2E_idx;
     s32 field_30;
     s16 field_34;
     s16 field_36;
