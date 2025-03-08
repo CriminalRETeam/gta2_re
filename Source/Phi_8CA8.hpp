@@ -12,7 +12,8 @@ class Phi_54
   public:
     // Temporary ctor, otherwise it won't be possible to define Phi_54_array_006FC5F8.
     EXPORT Phi_54()
-    {}
+    {
+    }
     EXPORT Phi_54(s32 param_1,
                   s32& param_2,
                   s32 param_3,
@@ -74,6 +75,91 @@ class Phi_54
     s8 field_51;
     s8 field_52;
     s8 field_53;
+};
+
+// This seems to be a temporary type that stores data to be converted into Phi_74
+class Phi_6C
+{
+  public:
+    // Temporary ctor, otherwise it won't be possible to define Phi_6C_array_6F9038.
+    EXPORT Phi_6C()
+    {
+    }
+    EXPORT Phi_6C(u32 param_1,
+                  u8 param_2,
+                  u32& param_3,
+                  u32 param_4,
+                  u32 param_5,
+                  u8 param_6,
+                  u32& param_7,
+                  u32& param_8,
+                  u32& param_9,
+                  Fix16 param_10,
+                  Fix16 param_11,
+                  u8 param_12,
+                  u32& param_13,
+                  u32& param_14,
+                  u32 param_15,
+                  u32 param_16,
+                  u32& param_17,
+                  Fix16 param_18,
+                  Fix16 param_19,
+                  Fix16 param_20,
+                  Fix16 param_21,
+                  u32 param_22,
+                  u32 param_23,
+                  u8 param_24,
+                  u32& param_25,
+                  u32 param_26,
+                  u32 param_27,
+                  u8 param_28,
+                  u8 param_29);
+
+    s32 field_0;
+    u8 field_4;
+    s8 field_5;
+    s8 field_6;
+    s8 field_7;
+    s32 field_8;
+    s32 field_C;
+    s32 field_10;
+    s8 field_14;
+    s8 field_15;
+    s8 field_16;
+    s8 field_17;
+    s32 field_18;
+    s32 field_1C;
+    s32 field_20;
+    Fix16 field_24;
+    Fix16 field_28;
+    s8 field_2C;
+    s8 field_2D;
+    s8 field_2E;
+    s8 field_2F;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s8 field_3C;
+    s8 field_3D;
+    s8 field_3E;
+    s8 field_3F;
+    s32 field_40;
+    Fix16 field_44;
+    Fix16 field_48;
+    Fix16 field_4C;
+    Fix16 field_50;
+    s32 field_54;
+    s8 field_58;
+    s8 field_59;
+    s8 field_5A;
+    s8 field_5B;
+    s32 field_5C;
+    s32 field_60;
+    s32 field_64;
+    s8 field_68;
+    s8 field_69;
+    s8 field_6A;
+    s8 field_6B;
 };
 
 class Phi_74

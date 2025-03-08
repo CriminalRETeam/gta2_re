@@ -93,6 +93,68 @@ Phi_54::Phi_54(s32 param_1,
     field_50 = param_21;
 }
 
+MATCH_FUNC(0x531860)
+Phi_6C::Phi_6C(u32 param_1,
+               u8 param_2,
+               u32& param_3,
+               u32 param_4,
+               u32 param_5,
+               u8 param_6,
+               u32& param_7,
+               u32& param_8,
+               u32& param_9,
+               Fix16 param_10,
+               Fix16 param_11,
+               u8 param_12,
+               u32& param_13,
+               u32& param_14,
+               u32 param_15,
+               u32 param_16,
+               u32& param_17,
+               Fix16 param_18,
+               Fix16 param_19,
+               Fix16 param_20,
+               Fix16 param_21,
+               u32 param_22,
+               u32 param_23,
+               u8 param_24,
+               u32& param_25,
+               u32 param_26,
+               u32 param_27,
+               u8 param_28,
+               u8 param_29)
+{
+    field_0 = param_1;
+    field_4 = param_2;
+    field_8 = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18 = param_7;
+    field_1C = param_8;
+    field_20 = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30 = param_13;
+    field_34 = param_14;
+    field_38 = param_15;
+    field_3C = param_16;
+    field_40 = param_17;
+    field_44 = param_18;
+    field_48 = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
+    field_54 = param_22;
+    field_58 = param_23;
+    field_59 = param_24;
+    field_5C = param_25;
+    field_60 = param_26;
+    field_64 = param_27;
+    field_68 = param_28;
+    field_69 = param_29;
+}
+
 MATCH_FUNC(0x4bdf60)
 Phi_74::~Phi_74()
 {
