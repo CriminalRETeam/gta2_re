@@ -137,7 +137,7 @@ class Object_5C
                                  char_type off_time,
                                  u8 shape);
     EXPORT Object_2C* sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
-    EXPORT Object_2C* sub_529C00(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6, char_type a7);
+    EXPORT Object_2C* sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7);
     EXPORT char_type sub_52A210(char_type a2);
     EXPORT s32* sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10);
     EXPORT s32* sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10);

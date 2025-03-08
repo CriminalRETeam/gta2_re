@@ -391,14 +391,19 @@ Object_2C* Object_5C::sub_529B20(s32 obj_type,
     return 0;
 }
 
-STUB_FUNC(0x529bc0)
+MATCH_FUNC(0x529bc0)
 Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
 {
-    return 0;
+    Object_2C* tmp = sub_529C00(a2, a3, a4, a5, a6, 1);
+    if (tmp)
+    {
+        tmp->sub_527AE0();
+    }
+    return tmp;
 }
 
 STUB_FUNC(0x529c00)
-Object_2C* Object_5C::sub_529C00(s32 object_type, s32 a3, s32 a4, s32 a5, s16 a6, char_type a7)
+Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7)
 {
     return 0;
 }
