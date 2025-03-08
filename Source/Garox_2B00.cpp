@@ -37,6 +37,18 @@ GLOBAL(byte_67CE50, 0x67CE50);
 EXPORT_VAR s16 word_7064D8;
 GLOBAL(word_7064D8, 0x7064D8);
 
+EXPORT_VAR s32 dword_7064C0;
+GLOBAL(dword_7064C0, 0x7064C0);
+
+EXPORT_VAR s32 dword_7063B0;
+GLOBAL(dword_7063B0, 0x7063B0);
+
+EXPORT_VAR s32 dword_7065B4;
+GLOBAL(dword_7065B4, 0x7065B4);
+
+EXPORT_VAR s32 dword_706338;
+GLOBAL(dword_706338, 0x706338);
+
 // TODO
 EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
 
@@ -887,10 +899,20 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1020(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x5d1050)
+MATCH_FUNC(0x5d1050)
 Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
 {
-    return 0;
+    s32 idx;
+    Hud_Arrow_7C* pRet = sub_5D1020(&idx);
+    pRet->field_10 = dword_7064C0;
+    pRet->field_14 = dword_7063B0;
+    pRet->sub_5D0510(4);
+    pRet->field_18.field_10.field_5 = 1;
+    pRet->field_18.field_2C = 0;
+    pRet->field_18.field_10.field_30 = 0;
+    pRet->field_18.field_10.field_34 = 0;
+    pRet->field_C = dword_7065B4 + dword_706338 * (16 - idx);
+    return pRet;
 }
 
 STUB_FUNC(0x5d10b0)
