@@ -47,6 +47,14 @@ GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
 EXPORT_VAR Phi_54 Phi_54_array_006FC5F8[24];
 GLOBAL(Phi_54_array_006FC5F8, 0x6FC5F8);
 
+EXPORT_VAR s32 Phi_6C_array_lenght_623EF0;
+GLOBAL(Phi_6C_array_lenght_623EF0, 0x623EF0);
+
+// This array is initialized by FUN_0052cde0, which I think it's a static constructor.
+// It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533B30 doesn't match
+EXPORT_VAR Phi_6C Phi_6C_array_6F9038[126];
+GLOBAL(Phi_6C_array_6F9038, 0x6F9038);
+
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,
                s32& param_2,
@@ -682,10 +690,54 @@ void Phi_8CA8::sub_533420()
     return;
 }
 
-STUB_FUNC(0x533b30)
-s32 Phi_8CA8::sub_533B30()
+MATCH_FUNC(0x533b30)
+void Phi_8CA8::sub_533B30()
 {
-    return 0;
+    u16 sprite_base = 0;
+    if (0 < Phi_6C_array_lenght_623EF0)
+    {
+        Phi_6C* puVar2 = &Phi_6C_array_6F9038[0];
+        for(s32 local_8 = Phi_6C_array_lenght_623EF0; local_8 != 0; local_8--)
+        {
+            Phi_74* this_00 = sub_5332D0(puVar2->field_0, 4, sprite_base, puVar2->field_4);
+            sprite_base += puVar2->field_4;
+            this_00->field_28 = puVar2->field_38;
+            if (puVar2->field_48 == DAT_006fce08 && puVar2->field_4C == DAT_006fce08 && puVar2->field_50 == DAT_006fce08)
+            {
+                this_00->sub_533090();
+            }
+            else
+            {
+                this_00->sub_533060(puVar2->field_48, puVar2->field_4C, puVar2->field_50);
+            }
+
+            this_00->field_34 = puVar2->field_8;
+            this_00->field_38 = puVar2->field_C;
+            this_00->field_3C = puVar2->field_10;
+            this_00->field_61 = puVar2->field_14;
+            this_00->field_40 = puVar2->field_20;
+            this_00->field_44 = puVar2->field_18;
+            this_00->field_48 = puVar2->field_1C;
+            this_00->field_10 = puVar2->field_24;
+            this_00->field_65 = puVar2->field_2C;
+            this_00->field_14 = puVar2->field_28;
+            this_00->field_4C = puVar2->field_30;
+            this_00->field_50 = puVar2->field_34;
+            this_00->field_64 = puVar2->field_3C;
+            this_00->field_54 = 0;
+            this_00->field_58 = puVar2->field_40;
+            this_00->field_18 = puVar2->field_44;
+            this_00->field_2C = (Sprite*)puVar2->field_54;
+            this_00->field_20 = puVar2->field_58;
+            this_00->field_60 = puVar2->field_59;
+            this_00->field_5C = puVar2->field_5C;
+            this_00->field_68 = puVar2->field_60;
+            this_00->field_70 = puVar2->field_64;
+            this_00->field_62 = puVar2->field_68;
+            this_00->field_63 = puVar2->field_69;
+            puVar2++;
+        }
+    }
 }
 
 MATCH_FUNC(0x533c90)

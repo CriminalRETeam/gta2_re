@@ -226,7 +226,7 @@ class Phi_8CA8
     EXPORT void sub_533300();
     EXPORT void sub_533360();
     EXPORT void sub_533420();
-    EXPORT s32 sub_533B30();
+    EXPORT void sub_533B30();
     EXPORT void sub_533C90();
     EXPORT void sub_534270();
     EXPORT void sub_5342D0();
