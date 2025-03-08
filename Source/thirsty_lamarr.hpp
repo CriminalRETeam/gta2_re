@@ -25,7 +25,7 @@ class thirsty_lamarr
     char_type field_10;
     char_type field_11;
     char_type field_12;
-    char_type field_13[9];
+    u8 field_13[9];
     char_type field_1C;
     char_type field_1D_buf[9];
     char_type field_26;

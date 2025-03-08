@@ -59,9 +59,19 @@ s32 thirsty_lamarr::sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4925c0)
+MATCH_FUNC(0x4925c0)
 char_type thirsty_lamarr::sub_4925C0()
 {
+    s32 uVar1 = field_2E_idx;
+
+    while (uVar1 < 9)
+    {
+        if (this->field_13[uVar1] != 0)
+        {
+            return 1;
+        }
+        uVar1++;
+    }
     return 0;
 }
 
