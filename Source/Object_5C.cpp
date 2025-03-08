@@ -1,8 +1,12 @@
 #include "Object_5C.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
 
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
+
+EXPORT_VAR s32 DAT_006f8f88;
+GLOBAL(DAT_006f8f88, 0x6f8f88);
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -214,9 +218,25 @@ void Object_2C::sub_527630(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6)
 {
 }
 
-STUB_FUNC(0x527ae0)
+MATCH_FUNC(0x527ae0)
 void Object_2C::sub_527AE0()
 {
+    switch (field_8->field_40)
+    {
+        case 0:
+        case 1:
+            gPurpleDoom_3_679210->sub_477AE0(field_4);
+            return;
+        case 3:
+            DAT_006f8f88++;
+            gPurpleDoom_2_67920C->sub_477B20(field_4);
+            return;
+        case 4:
+            gPurpleDoom_1_679208->sub_477B20(field_4);
+            return;
+        case 2:
+            return;
+    }
 }
 
 STUB_FUNC(0x527d00)
