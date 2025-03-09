@@ -2,9 +2,28 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
 GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
+
+MATCH_FUNC(0x577E20)
+char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
+{
+    switch (param_1)
+    {
+        case 1:
+            return param_2->field_A_arrows >> 2 & 1;
+        case 2:
+            return param_2->field_A_arrows >> 3 & 1;
+        case 3:
+            return param_2->field_A_arrows >> 1 & 1;
+        case 4:
+            return param_2->field_A_arrows & 1;
+        default:
+            return '\x01';
+    }
+}
 
 STUB_FUNC(0x578030)
 void Sero_58::sub_578030()
