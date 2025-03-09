@@ -1824,9 +1824,32 @@ void miss2_0x11C::SCRCMD_CAR_DRIVE_AWAY_50B440()
 {
 }
 
-STUB_FUNC(0x50b470)
+MATCH_FUNC(0x50b470)
 void miss2_0x11C::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);
+
+    SCR_POINTER* pPointer_2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_8_unsigned_1);
+    Crane_15C* pCrane = pPointer->field_8_crane;
+
+    if (pCrane != NULL)
+    {
+        pPointer_2->field_8_car = pCrane->GetCarFromCrane_480DA0();
+        if (pPointer_2->field_8_car)
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b4f0)
