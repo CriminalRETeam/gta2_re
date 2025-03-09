@@ -659,10 +659,11 @@ void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
     field_620[a2].field_0 = -1;
 }
 
-STUB_FUNC(0x5d32f0)
-Hud_Pager_C* Hud_Pager_C_Array::sub_5D32F0(s32 a2, s32 a3)
+MATCH_FUNC(0x5d32f0)
+void Hud_Pager_C_Array::sub_5D32F0(s32 pager_idx, s32 time_to_add)
 {
-    return 0;
+    Hud_Pager_C* pPager = &field_620[pager_idx];
+    pPager->field_0 += time_to_add;
 }
 
 MATCH_FUNC(0x5d3310)
