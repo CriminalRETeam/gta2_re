@@ -299,6 +299,16 @@ struct gmp_map_light
     char_type field_F_off_time;
 };
 
+struct gmp_tile_animation
+{
+    u16 field_0_base; // The base tile of the animation. This marks the tile as an animating tile.
+    u8 field_2_frame_rate; // The number of game frames that each frame of the animation is displayed for.
+    u8 field_3_repeat; // The number of times the animation will be played. 0 means play forever.
+    u8 field_4_anim_length; // The number of tiles in the animation
+    u8 field_5_unused;
+    u16 field_6_tiles[0]; // Size given by field_4_anim_length
+};
+
 class Map_0x370
 {
   public:
@@ -469,7 +479,7 @@ class Map_0x370
     gmp_zone_unknown* field_334_pUnknownZoneData;
     gmp_map_object* field_338_pMapObjects;
     gmp_map_light* field_33C_pLightData;
-    void* field_340_pTileAnimData;
+    gmp_tile_animation* field_340_pTileAnimData;
     s32 field_344_map_object_count;
     s32 field_348_num_lights;
     s32 field_34C_num_blocks;

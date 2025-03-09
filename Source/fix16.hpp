@@ -47,6 +47,13 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    // Inlined from 9.6f from 0x401bd0
+    Fix16 operator*(const s32& in) const
+    {
+        s32 value = mValue * in;
+        return Fix16(value, 0);
+    }
+
     //MATCH_FUNC(0x4086A0)
     Fix16 operator-()
     {

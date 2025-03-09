@@ -4186,7 +4186,7 @@
     },
     {
         "name": "PurpleDoom::sub_477AE0",
-        "v96f_address": null,
+        "v96f_address": "0x447ba0",
         "v105_address": "0x477ae0"
     },
     {
@@ -4836,7 +4836,7 @@
     },
     {
         "name": "thirsty_lamarr::sub_4921F0",
-        "v96f_address": null,
+        "v96f_address": "0x44b300",
         "v105_address": "0x4921f0"
     },
     {
@@ -4851,7 +4851,7 @@
     },
     {
         "name": "thirsty_lamarr::sub_4925C0",
-        "v96f_address": null,
+        "v96f_address": "0x44b370",
         "v105_address": "0x4925c0"
     },
     {
@@ -10741,7 +10741,7 @@
     },
     {
         "name": "Object_2C::sub_527AE0",
-        "v96f_address": null,
+        "v96f_address": "0x482630",
         "v105_address": "0x527ae0"
     },
     {
@@ -10951,7 +10951,7 @@
     },
     {
         "name": "Object_5C::sub_529BC0",
-        "v96f_address": null,
+        "v96f_address": "0x485480",
         "v105_address": "0x529bc0"
     },
     {
@@ -11071,7 +11071,7 @@
     },
     {
         "name": "sub_531860",
-        "v96f_address": null,
+        "v96f_address": "0x488210",
         "v105_address": "0x531860"
     },
     {
@@ -11141,12 +11141,12 @@
     },
     {
         "name": "Phi_8CA8::sub_533B30",
-        "v96f_address": null,
+        "v96f_address": "0x488d10",
         "v105_address": "0x533b30"
     },
     {
         "name": "Phi_8CA8::sub_533C90",
-        "v96f_address": null,
+        "v96f_address": "0x488f70",
         "v105_address": "0x533c90"
     },
     {
@@ -12881,7 +12881,7 @@
     },
     {
         "name": "Player::sub_569C20",
-        "v96f_address": null,
+        "v96f_address": "0x4a4d80",
         "v105_address": "0x569c20"
     },
     {
@@ -15691,22 +15691,22 @@
     },
     {
         "name": "TileAnim_18::sub_5BC150",
-        "v96f_address": null,
+        "v96f_address": "0x4c3260",
         "v105_address": "0x5bc150"
     },
     {
         "name": "TileAnim_18::sub_5BC190",
-        "v96f_address": null,
+        "v96f_address": "0x4c32a0",
         "v105_address": "0x5bc190"
     },
     {
         "name": "TileAnim_18::sub_5BC1D0",
-        "v96f_address": null,
+        "v96f_address": "0x4c32e0",
         "v105_address": "0x5bc1d0"
     },
     {
         "name": "TileAnim_18::sub_5BC1F0",
-        "v96f_address": null,
+        "v96f_address": "0x4c3300",
         "v105_address": "0x5bc1f0"
     },
     {
@@ -15716,12 +15716,12 @@
     },
     {
         "name": "TileAnim_2::sub_5BC2C0",
-        "v96f_address": null,
+        "v96f_address": "0x4c3470",
         "v105_address": "0x5bc2c0"
     },
     {
         "name": "TileAnim_2::Empty",
-        "v96f_address": null,
+        "v96f_address": "0x4c3370",
         "v105_address": "0x5bc300"
     },
     {
@@ -15731,7 +15731,7 @@
     },
     {
         "name": "TileAnim_2::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4c35a0",
         "v105_address": "0x5bc3a0"
     },
     {

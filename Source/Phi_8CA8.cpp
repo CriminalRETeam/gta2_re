@@ -1,12 +1,31 @@
 #include "Phi_8CA8.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "debug.hpp"
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
 #include <memory.h>
 
+EXPORT_VAR Fix16 DAT_006f8fac;
+GLOBAL(DAT_006f8fac, 0x6f8fac);
+
 EXPORT_VAR Fix16 DAT_006f8fd8;
 GLOBAL(DAT_006f8fd8, 0x6F8FD8);
+
+EXPORT_VAR Fix16 DAT_006fc578;
+GLOBAL(DAT_006fc578, 0x6fc578);
+
+EXPORT_VAR Fix16 DAT_006fc584;
+GLOBAL(DAT_006fc584, 0x6fc584);
+
+EXPORT_VAR Fix16 DAT_006fce08;
+GLOBAL(DAT_006fce08, 0x6fce08);
+
+EXPORT_VAR Fix16 DAT_006fceb0;
+GLOBAL(DAT_006fceb0, 0x6fceb0);
+
+EXPORT_VAR Fix16 DAT_006fcde0;
+GLOBAL(DAT_006fcde0, 0x6fcde0);
 
 EXPORT_VAR Fix16 DAT_006fcdd8;
 GLOBAL(DAT_006fcdd8, 0x6FCDD8);
@@ -27,6 +46,14 @@ GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
 // It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533360 doesn't match
 EXPORT_VAR Phi_54 Phi_54_array_006FC5F8[24];
 GLOBAL(Phi_54_array_006FC5F8, 0x6FC5F8);
+
+EXPORT_VAR s32 Phi_6C_array_lenght_623EF0;
+GLOBAL(Phi_6C_array_lenght_623EF0, 0x623EF0);
+
+// This array is initialized by FUN_0052cde0, which I think it's a static constructor.
+// It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533B30 doesn't match
+EXPORT_VAR Phi_6C Phi_6C_array_6F9038[126];
+GLOBAL(Phi_6C_array_6F9038, 0x6F9038);
 
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,
@@ -72,6 +99,68 @@ Phi_54::Phi_54(s32 param_1,
     field_48 = param_19;
     field_4C = param_20;
     field_50 = param_21;
+}
+
+MATCH_FUNC(0x531860)
+Phi_6C::Phi_6C(u32 param_1,
+               u8 param_2,
+               u32& param_3,
+               u32 param_4,
+               u32 param_5,
+               u8 param_6,
+               u32& param_7,
+               u32& param_8,
+               u32& param_9,
+               Fix16 param_10,
+               Fix16 param_11,
+               u8 param_12,
+               u32& param_13,
+               u32& param_14,
+               u32 param_15,
+               u32 param_16,
+               u32& param_17,
+               Fix16 param_18,
+               Fix16 param_19,
+               Fix16 param_20,
+               Fix16 param_21,
+               u32 param_22,
+               u32 param_23,
+               u8 param_24,
+               u32& param_25,
+               u32 param_26,
+               u32 param_27,
+               u8 param_28,
+               u8 param_29)
+{
+    field_0 = param_1;
+    field_4 = param_2;
+    field_8 = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18 = param_7;
+    field_1C = param_8;
+    field_20 = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30 = param_13;
+    field_34 = param_14;
+    field_38 = param_15;
+    field_3C = param_16;
+    field_40 = param_17;
+    field_44 = param_18;
+    field_48 = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
+    field_54 = param_22;
+    field_58 = param_23;
+    field_59 = param_24;
+    field_5C = param_25;
+    field_60 = param_26;
+    field_64 = param_27;
+    field_68 = param_28;
+    field_69 = param_29;
 }
 
 MATCH_FUNC(0x4bdf60)
@@ -601,16 +690,269 @@ void Phi_8CA8::sub_533420()
     return;
 }
 
-STUB_FUNC(0x533b30)
-s32 Phi_8CA8::sub_533B30()
+MATCH_FUNC(0x533b30)
+void Phi_8CA8::sub_533B30()
 {
-    return 0;
+    u16 sprite_base = 0;
+    if (0 < Phi_6C_array_lenght_623EF0)
+    {
+        Phi_6C* puVar2 = &Phi_6C_array_6F9038[0];
+        for(s32 local_8 = Phi_6C_array_lenght_623EF0; local_8 != 0; local_8--)
+        {
+            Phi_74* this_00 = sub_5332D0(puVar2->field_0, 4, sprite_base, puVar2->field_4);
+            sprite_base += puVar2->field_4;
+            this_00->field_28 = puVar2->field_38;
+            if (puVar2->field_48 == DAT_006fce08 && puVar2->field_4C == DAT_006fce08 && puVar2->field_50 == DAT_006fce08)
+            {
+                this_00->sub_533090();
+            }
+            else
+            {
+                this_00->sub_533060(puVar2->field_48, puVar2->field_4C, puVar2->field_50);
+            }
+
+            this_00->field_34 = puVar2->field_8;
+            this_00->field_38 = puVar2->field_C;
+            this_00->field_3C = puVar2->field_10;
+            this_00->field_61 = puVar2->field_14;
+            this_00->field_40 = puVar2->field_20;
+            this_00->field_44 = puVar2->field_18;
+            this_00->field_48 = puVar2->field_1C;
+            this_00->field_10 = puVar2->field_24;
+            this_00->field_65 = puVar2->field_2C;
+            this_00->field_14 = puVar2->field_28;
+            this_00->field_4C = puVar2->field_30;
+            this_00->field_50 = puVar2->field_34;
+            this_00->field_64 = puVar2->field_3C;
+            this_00->field_54 = 0;
+            this_00->field_58 = puVar2->field_40;
+            this_00->field_18 = puVar2->field_44;
+            this_00->field_2C = (Sprite*)puVar2->field_54;
+            this_00->field_20 = puVar2->field_58;
+            this_00->field_60 = puVar2->field_59;
+            this_00->field_5C = puVar2->field_5C;
+            this_00->field_68 = puVar2->field_60;
+            this_00->field_70 = puVar2->field_64;
+            this_00->field_62 = puVar2->field_68;
+            this_00->field_63 = puVar2->field_69;
+            puVar2++;
+        }
+    }
 }
 
-STUB_FUNC(0x533c90)
-u8 Phi_8CA8::sub_533C90()
+MATCH_FUNC(0x533c90)
+void Phi_8CA8::sub_533C90()
 {
-    return 0;
+    Phi_74* tmp;
+    tmp = sub_534370(0x93, 0x90);
+    tmp->sub_533110(4);
+    tmp = sub_534370(0xfa, 0xfd);
+    tmp->sub_533110(4);
+    tmp = sub_534370(0x78, 0x79);
+    tmp->sub_533110(4);
+    tmp = sub_534370(0x75, 0x76);
+    tmp->sub_533110(4);
+    tmp = sub_534370(0x92, 0x90);
+    tmp->sub_533110(3);
+    tmp = sub_534370(0xf9, 0xfd);
+    tmp->sub_533110(3);
+    tmp = sub_534370(0x77, 0x79);
+    tmp->sub_533110(3);
+    tmp = sub_534370(0x74, 0x76);
+    tmp->sub_533110(3);
+    tmp = sub_534370(0x91, 0x90);
+    tmp->sub_533110(5);
+    tmp->field_64 = 3;
+
+    tmp = sub_534370(0x7c, 0xfd);
+    tmp->sub_533110(5);
+    tmp->field_64 = 3;
+    tmp = sub_534370(0x7d, 0x79);
+    tmp->sub_533110(5);
+    tmp->field_64 = 3;
+    tmp = sub_534370(0x7e, 0x76);
+    tmp->sub_533110(5);
+    tmp->field_64 = 3;
+
+    tmp = sub_534370(0x9a, 0xfe);
+    if (bDo_show_imaginary_67D588 == false)
+    {
+        tmp->field_40 = 2;
+    }
+    sub_534370(0x109, 0xfe);
+    tmp = sub_534370(0x9f, 0x80);
+    if (bDo_show_imaginary_67D588 == false)
+    {
+        tmp->field_40 = 2;
+    }
+
+    sub_534370(0x115, 0xfe);
+    tmp = sub_534370(0x6e, 0x9b);
+    tmp->field_38 = 0x6e;
+    tmp->field_3C = 0x6e;
+    tmp->field_54 = 2;
+    tmp->sub_533060(DAT_006fc578, DAT_006fc578, DAT_006f8fac);
+    tmp->field_18 = DAT_006fc584;
+    if (bDo_show_imaginary_67D588 == false)
+    {
+        tmp->field_40 = 2;
+    }
+    else
+    {
+        tmp->field_40 = 1;
+    }
+    tmp->field_44 = 2;
+    tmp->field_58 = 1;
+    tmp->field_50 = 1;
+
+    tmp = sub_534370(0x7f, 0x9b);
+    tmp->field_38 = 0;
+    tmp->field_3C = 0;
+    tmp->field_54 = 2;
+    tmp->sub_533060((DAT_006fceb0 * 8), (DAT_006fceb0 * 8), DAT_006f8fac);
+    tmp->field_18 = DAT_006fc584;
+    if (bDo_show_imaginary_67D588 == '\0')
+    {
+        tmp->field_40 = 2;
+    }
+    else
+    {
+        tmp->field_40 = 1;
+    }
+    tmp->field_44 = 2;
+    tmp->field_58 = 1;
+    tmp->field_50 = 1;
+
+    tmp = sub_534370(0xc1, 0xc0);
+    tmp->field_38 = 0;
+    tmp->field_3C = 0;
+    if (bDo_show_imaginary_67D588 == '\0')
+    {
+        tmp->field_40 = 2;
+    }
+
+    tmp = sub_534370(0xb9, 0xa3);
+    tmp->field_38 = 0xb8;
+    tmp->field_3C = 0xb8;
+    tmp->field_44 = 4;
+    tmp->field_40 = 3;
+    tmp->field_61 = '\x01';
+
+    tmp = sub_534370(0xb8, 0xa3);
+    tmp->field_38 = 0xb9;
+    tmp->field_3C = 0xa4;
+    tmp->field_65 = 'd';
+    tmp->field_61 = '\x01';
+    tmp->field_34 = 2;
+    tmp->field_6C = '\x01';
+    tmp->field_64 = '\x01';
+    tmp->field_40 = 3;
+    tmp->field_44 = 5;
+
+    tmp = sub_534370(0xb0, 0xa3);
+    tmp->sub_533110(1);
+    tmp->field_38 = 0xb1;
+    tmp->field_3C = 0xb1;
+    if (bDo_kill_phones_on_answer_67D6E8 != '\0')
+    {
+        tmp = sub_534360(0xa4);
+        tmp->field_38 = 0xae;
+        tmp->field_3C = 0xae;
+    }
+    tmp = sub_534370(0xb1, 0xa4);
+    tmp->sub_533110(1);
+    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    {
+        tmp->field_38 = 0xbb;
+        tmp->field_3C = 0xbb;
+    }
+
+    tmp = sub_534370(0xbb, 0xb9);
+    tmp->sub_533110(1);
+    tmp->field_38 = 0xba;
+    tmp->field_3C = 0xba;
+
+    tmp = sub_534370(0xba, 0xb8);
+    tmp->sub_533110(1);
+    tmp->field_38 = 0xbb;
+    tmp->field_3C = 0xb1;
+
+    tmp = sub_534370(0xb2, 0xa3);
+    tmp->sub_533110(2);
+    tmp->field_38 = 0xb3;
+    tmp->field_3C = 0xb3;
+
+    tmp = sub_534370(0xb3, 0xa4);
+    tmp->sub_533110(2);
+    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    {
+        tmp->field_38 = 0xbd;
+        tmp->field_3C = 0xbd;
+    }
+    tmp = sub_534370(0xbd, 0xb9);
+    tmp->sub_533110(2);
+    tmp->field_38 = 0xbc;
+    tmp->field_3C = 0xbc;
+
+    tmp = sub_534370(0xbc, 0xb8);
+    tmp->sub_533110(2);
+    tmp->field_38 = 0xbd;
+    tmp->field_3C = 0xb3;
+
+    tmp = sub_534370(0xb4, 0xa3);
+    tmp->sub_533110(0);
+    tmp->field_38 = 0xb5;
+    tmp->field_3C = 0xb5;
+
+    tmp = sub_534370(0xb5, 0xa4);
+    tmp->sub_533110(0);
+    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    {
+        tmp->field_38 = 0xbf;
+        tmp->field_3C = 0xbf;
+    }
+
+    tmp = sub_534370(0xbf, 0xb9);
+    tmp->sub_533110(0);
+    tmp->field_38 = 0xbe;
+    tmp->field_3C = 0xbe;
+
+    tmp = sub_534370(0xbe, 0xb8);
+    tmp->sub_533110(0);
+    tmp->field_38 = 0xbf;
+    tmp->field_3C = 0xb5;
+
+    tmp = sub_534370(0xae, 0xa3);
+    tmp->field_44 = 0;
+
+    tmp = sub_534370(0xb6, 0xb7);
+    tmp->field_38 = 0xb7;
+    tmp->field_34 = 2;
+    tmp->field_44 = 2;
+
+    tmp->field_14 = DAT_006fce08;
+    tmp->field_10 = DAT_006fce08;
+    tmp->field_4C = 0;
+    tmp->field_50 = 0;
+    tmp->field_64 = '\b';
+    tmp->sub_533150(tmp->field_6C - 1, 1);
+
+    for(s32 iVar3 = 200; iVar3 - 200 <= 44; iVar3++)
+    {
+        tmp = sub_534370(iVar3 - 0x88, iVar3);
+        tmp->field_38 = iVar3;
+        tmp->field_34 = tmp->field_34 == 6 ? 7 : 9;
+        tmp->field_14 = -DAT_006fcdd8;
+        tmp->field_4C = 1;
+        tmp->field_50 = 1;
+        tmp->field_61 = '\x01';
+        tmp->field_58 = 1;
+        tmp->field_40 = 3;
+        tmp->field_18 = DAT_006f8fd8;
+        tmp->field_10 = DAT_006fcde0;
+    }
+
+    sub_534270();
 }
 
 MATCH_FUNC(0x534270)

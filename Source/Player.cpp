@@ -7,6 +7,7 @@
 #include "Ped.hpp"
 #include "Weapon_30.hpp"
 #include "debug.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "infallible_turing.hpp"
 #include "map_0x370.hpp"
 #include "root_sound.hpp"
@@ -620,10 +621,32 @@ void Player::sub_569A10()
 {
 }
 
-STUB_FUNC(0x569C20)
+MATCH_FUNC(0x569C20)
 void Player::sub_569C20()
 {
+    if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
+    {
+        if (field_60 == 0)
+        {
+            u32 score = field_2D4_unk.sub_592370();
+            if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
+            {
+                field_60 = 1;
+                field_2D4_unk.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+            }
+        }
+        else
+        {
+            u32 score = field_2D4_unk.sub_592370();
+            if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
+            {
+                field_60 = 0;
+                field_2D4_unk.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
+            }
+        }
+    }
 }
+
 
 STUB_FUNC(0x569CB0)
 void Player::sub_569CB0()

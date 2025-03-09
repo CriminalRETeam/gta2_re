@@ -23,10 +23,10 @@ s32 PurpleDoom::sub_477A40()
     return 0;
 }
 
-STUB_FUNC(0x477ae0)
-char_type PurpleDoom::sub_477AE0(Sprite* a1)
+MATCH_FUNC(0x477ae0)
+void PurpleDoom::sub_477AE0(Sprite* a1)
 {
-    return 0;
+    sub_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
