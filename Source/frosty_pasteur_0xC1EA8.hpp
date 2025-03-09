@@ -574,7 +574,7 @@ class frosty_pasteur_0xC1EA8
     s32 field_C1DB0[31];
     char_type field_C1E2C;
     char_type field_C1E2D;
-    char_type field_C1E2E;
+    char_type field_C1E2E_death_arrest_flag;
     char_type field_C1E2F;
     char_type field_C1E30;
     char_type field_C1E31;

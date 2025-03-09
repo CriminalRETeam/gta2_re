@@ -3055,7 +3055,7 @@ void miss2_0x11C::sub_5105B0()
 MATCH_FUNC(0x510600)
 void miss2_0x11C::sub_510600()
 {
-    if (gfrosty_pasteur_6F8060->field_C1E2E)
+    if (gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag)
     {
         field_8 = true;
     }
