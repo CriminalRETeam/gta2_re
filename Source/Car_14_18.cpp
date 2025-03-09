@@ -15,7 +15,7 @@ void Car_14_18::sub_59DD60()
 MATCH_FUNC(0x59ddf0)
 u32 Car_14_18::sub_59DDF0(Sprite* a2)
 {
-    Car_8* v3 = (Car_8*)&a2->sprite_4c_ptr->field_C;
+    Car_8* v3 = (Car_8*)&a2->field_C_sprite_4c_ptr->field_C;
 
     if (inline_sub_4B9FD0(&v3[0]) || inline_sub_4B9FD0(&v3[1]) 
         || inline_sub_4B9FD0(&v3[2]) || inline_sub_4B9FD0(&v3[3]))

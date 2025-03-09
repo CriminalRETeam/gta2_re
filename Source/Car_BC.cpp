@@ -314,13 +314,13 @@ MATCH_FUNC(0x59e2e0)
 void Sprite::sub_59E2E0(void)
 {
     sub_59F990();
-    memcpy(field_4_0x4C_len, sprite_4c_ptr, sizeof(Sprite_4C));
+    memcpy(field_4_0x4C_len, field_C_sprite_4c_ptr, sizeof(Sprite_4C));
 }
 
 MATCH_FUNC(0x59e300)
 void Sprite::sub_59E300()
 {
-    memcpy(sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
+    memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
 STUB_FUNC(0x59e320) // https://decomp.me/scratch/P1I0C
@@ -345,9 +345,9 @@ MATCH_FUNC(0x59e7b0)
 void Sprite::sub_59E7B0()
 {
     field_39 = -1;
-    if (sprite_4c_ptr != NULL)
+    if (field_C_sprite_4c_ptr != NULL)
     {
-        sprite_4c_ptr->field_48 = 0;
+        field_C_sprite_4c_ptr->field_48 = 0;
     }
     if (field_4_0x4C_len != NULL)
     {
@@ -361,7 +361,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     Sprite* result;
 
     sub_59E9C0();
-    next_ptr->sub_5A4D90();
+    field_C_sprite_next_ptr->sub_5A4D90();
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
@@ -429,15 +429,15 @@ void Sprite::sub_59EFF0()
 MATCH_FUNC(0x59f950)
 void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    if (sprite_4c_ptr == NULL)
+    if (field_C_sprite_4c_ptr == NULL)
     {
         Sprite_4C* pOldFree = gSprite_5D598_70381C->field_0_pFree;
         gSprite_5D598_70381C->field_0_pFree = gSprite_5D598_70381C->field_0_pFree->field_2C_pNext;
         pOldFree->sub_5A57A0();
-        sprite_4c_ptr = pOldFree;
+        field_C_sprite_4c_ptr = pOldFree;
     }
 
-    Sprite_4C* pSprite4C = sprite_4c_ptr;
+    Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
     pSprite4C->field_0_width = a2;
     pSprite4C->field_4_height = a3;
     pSprite4C->field_8 = a4;
@@ -489,7 +489,7 @@ MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scr
 char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
 {
     u8 result = 0; // Initialize result to 0
-    Sprite** next_next_ptr = &this->next_ptr->next_ptr; // Pointer to field_C_car_or_sprite
+    Sprite** next_next_ptr = &this->field_C_sprite_next_ptr->field_C_sprite_next_ptr; // Pointer to field_C_car_or_sprite
 
     for (u8 i = 0; i < 4;)
     {
