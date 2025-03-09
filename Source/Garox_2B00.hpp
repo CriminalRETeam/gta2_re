@@ -264,7 +264,7 @@ class Hud_Pager_C_Array
     EXPORT void sub_5D3040();
     EXPORT void sub_5D31B0();
     EXPORT void sub_5D32D0(s32 a2);
-    EXPORT void sub_5D32F0(s32 a2, s32 a3);
+    EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
     EXPORT void sub_5D3310(s32 a2);
 
     Hud_Pager_C field_620[4];

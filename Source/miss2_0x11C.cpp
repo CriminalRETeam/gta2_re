@@ -3043,7 +3043,7 @@ void miss2_0x11C::sub_510560()
     SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    gGarox_2B00_706620->field_620.sub_5D32F0(pPointer->field_8_index, 30 * v1->field_C_u32);
+    gGarox_2B00_706620->field_620.AddTime_5D32F0(pPointer->field_8_index, 30 * v1->field_C_u32);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
