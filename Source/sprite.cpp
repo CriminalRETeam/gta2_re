@@ -1,5 +1,6 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
+#include "memory.hpp"
 
 EXPORT_VAR Sprite_8* gSprite_8_703820;
 GLOBAL(gSprite_8_703820, 0x703820);
@@ -43,9 +44,43 @@ s32* Sprite_3CC::sub_48F710()
     return 0;
 }
 
-STUB_FUNC(0x48f730)
+MATCH_FUNC(0x48f730)
 Sprite_3CC::Sprite_3CC()
 {
+    u32 iVar4;
+    field_3C0 = 0;
+    field_3C4 = NULL;
+    field_3C8 = NULL;
+
+    // By the way this is later used, it seems to be an array of a structure of size 0x40.
+    // For now, it's a s32* as it make the code to match.
+    s32 *pvVar2 = (s32*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8));
+    field_3C4 = pvVar2;
+
+    Sprite_14 *tmp = field_0;
+    for(iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x1000, tmp += 4)
+    {
+        tmp[0].field_0 = pvVar2;
+        tmp[1].field_0 = (pvVar2+0x10);
+        tmp[2].field_0 = (pvVar2+0x20);
+        tmp[3].field_0 = (pvVar2+0x30);
+    }
+
+    tmp = field_0 + 33;
+    for(iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x2000, tmp += 4)
+    {
+        // I don't know why this one starts at -1...
+        // Maybe an artifact of the decompilation
+        tmp[-1].field_0 = pvVar2;
+        tmp[0].field_0 = (pvVar2+0x10);
+        tmp[1].field_0 = (pvVar2+0x20);
+        tmp[2].field_0 = (pvVar2+0x30);
+    }
+
+    for(u16 uVar1 = 0; uVar1 < 48; uVar1++)
+    {
+        field_0[uVar1].field_10 = uVar1;
+    }
 }
 
 STUB_FUNC(0x48F7F0)

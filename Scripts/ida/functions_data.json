@@ -4796,7 +4796,7 @@
     },
     {
         "name": "Sprite_3CC::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x44b000",
         "v105_address": "0x48f730"
     },
     {

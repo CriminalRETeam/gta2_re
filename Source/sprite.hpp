@@ -16,7 +16,7 @@ class Sprite_14
         field_12 = 0;
     }
 
-    s32 field_0;
+    s32* field_0;
     s16 field_4;
     char_type field_6;
     char_type field_7;
@@ -38,8 +38,8 @@ class Sprite_3CC
 
     Sprite_14 field_0[48];
     s32 field_3C0;
-    s32 field_3C4;
-    s32 field_3C8;
+    s32* field_3C4;
+    s32* field_3C8;
 };
 
 class Sprite_8
