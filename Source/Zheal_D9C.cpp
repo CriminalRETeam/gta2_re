@@ -363,6 +363,21 @@ s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
+MATCH_FUNC(0x480da0)
+Car_BC* Crane_15C::GetCarFromCrane_480DA0()
+{
+    Sprite* v1 = field_74;
+
+    if (v1 && v1->field_30_sprite_type_enum == 2)
+    {
+        return v1->car_bc_ptr;
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 MATCH_FUNC(0x480e00)
 void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
