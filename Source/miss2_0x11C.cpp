@@ -3052,9 +3052,18 @@ void miss2_0x11C::sub_5105B0()
 {
 }
 
-STUB_FUNC(0x510600)
+MATCH_FUNC(0x510600)
 void miss2_0x11C::sub_510600()
 {
+    if (gfrosty_pasteur_6F8060->field_C1E2E)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x510660)
