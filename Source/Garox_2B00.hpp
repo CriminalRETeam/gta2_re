@@ -248,7 +248,7 @@ class Hud_Pager_C
     EXPORT s32 sub_5D3280(s32 a2);
 
     EXPORT Hud_Pager_C();
-    s32 field_0;  //  duration? timer?
+    s32 field_0_timer;
     s32 field_4;  //  counter?
     infallible_turing* field_8_sound;
 };
