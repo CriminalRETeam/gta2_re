@@ -26,6 +26,7 @@ class Ped_Unknown_4;
 class car_info;
 class infallible_turing;
 class Sprite_4C;
+class Sprite_18;
 
 // TODO: Move
 class Car_78
@@ -565,7 +566,7 @@ class Car_BC
             z_pos.ToUInt8() == z_target.ToUInt8() ) );
     }
 
-    s32 field_0_qq;
+    Sprite_18* field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;
     Car_Door_10 field_C[4];
