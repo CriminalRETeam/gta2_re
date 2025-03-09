@@ -1,5 +1,6 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
+#include "error.hpp"
 #include "memory.hpp"
 
 EXPORT_VAR Sprite_8* gSprite_8_703820;
@@ -99,9 +100,35 @@ void Sprite_8::sub_5A5870()
 {
 }
 
-STUB_FUNC(0x5a58a0)
+MATCH_FUNC(0x5a58a0)
 Sprite_8::Sprite_8()
 {
+    gSprite_49B28_703818 = new Sprite_49B28();
+    if (gSprite_49B28_703818 == NULL)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5039);
+    }
+
+    gSprite_5D598_70381C = new Sprite_5D598();
+    if (gSprite_5D598_70381C == NULL)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5041);
+    }
+
+    gSprite_3CC_67AF1C = new Sprite_3CC();
+    if (gSprite_3CC_67AF1C == NULL)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5043);
+    }
+
+    gSprite_1C24_703B80 = new Sprite_1C24();
+    if (gSprite_1C24_703B80 == NULL)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
+    }
+
+    field_0 = 0;
+    field_4 = 1;
 }
 
 MATCH_FUNC(0x5a5b50)
