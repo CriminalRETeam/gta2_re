@@ -31,6 +31,7 @@
 #include "text_0x14.hpp"
 #include "Frismo_25C.hpp"
 #include "sprite.hpp"
+#include "gtx_0x106C.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -2823,9 +2824,26 @@ void miss2_0x11C::SCRCMD_CHAR_DO_NOTHING_50F410()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f450)
+MATCH_FUNC(0x50f450)
 void miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* v4 = pPointer->field_8_car;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(v4->field_84_car_info_idx)->info_flags & 2) == 2 
+        || v4->field_84_car_info_idx == 84)
+    {
+        if ((u8)v1->field_A_unsigned_2 == 1)
+        {
+            pPointer->field_8_car->sub_43C920(); //  activate sirens
+        }
+        else
+        {
+            pPointer->field_8_car->sub_43C9D0(); //  deactivate sirens
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f4d0)
