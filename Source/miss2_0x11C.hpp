@@ -15,6 +15,7 @@ class nostalgic_ellis_0x28;
 class Door_38;
 class miss2_0x11C;
 class Hud_Arrow_7C;
+class Sprite_18;
 
 struct SCR_CMD_HEADER
 {
@@ -166,6 +167,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         u32 field_8_counter;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
+        Sprite_18* field_8_sprite;
     };
 };
 

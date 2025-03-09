@@ -30,6 +30,7 @@
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "Frismo_25C.hpp"
+#include "sprite.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -2109,9 +2110,26 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c1b0)
+MATCH_FUNC(0x50c1b0)
 void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
+
+    Sprite* v5 = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
+    //Sprite* v5 = pTrailerPointer->field_8_car->field_0_qq->sub_5A6CA0(2);
+    Car_BC* v6;
+
+    if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))
+    {
+        this->field_8 = true;
+    }
+    else
+    {
+        this->field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c230)
