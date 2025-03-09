@@ -1936,9 +1936,24 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b9c0)
+MATCH_FUNC(0x50b9c0)
 void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar != NULL 
+        && (u16)pCar->field_4.sub_4716B0() >= v1->field_A_signed_2)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ba30)
