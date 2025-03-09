@@ -1262,9 +1262,25 @@ void miss2_0x11C::sub_507F80()
 {
 }
 
-STUB_FUNC(0x508220)
+MATCH_FUNC(0x508220)
 void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_car != NULL)
+    {
+        if (!pPointer->field_8_car->field_54_driver)
+        {
+            pPointer->field_8_car->sub_4405F0();
+        }
+        pPointer->field_8_car->sub_440590();
+
+        Car_BC* pCar = pPointer->field_8_car;
+        pCar->field_7C_uni_num = 5;
+        pCar->field_76 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x508280)
