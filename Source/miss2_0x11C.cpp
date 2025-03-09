@@ -296,7 +296,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             }
 
             v1->sub_565490(pPed);
-            pPed->field_26C = 1;
+            pPed->field_26C_graphic_type = 1;
             pCmd->field_8_ped = pPed;
 
             Sprite* v6 = pPed->sub_46DF50();
@@ -346,7 +346,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     {
         a2->field_8_char->field_238 = 5;
         a2->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
-        a2->field_8_char->field_26C = 1;
+        a2->field_8_char->field_26C_graphic_type = 1;
         a2->field_8_char->sub_463570(26, 9999);
         a2->field_8_char->field_216_health = 100;
         Sprite* v6 = a2->field_8_char->sub_46DF50();
@@ -2866,9 +2866,18 @@ void miss2_0x11C::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f550)
+MATCH_FUNC(0x50f550)
 void miss2_0x11C::SCRCMD_PED_GRAPHIC_50F550()
 {
+    SCR_SET_CHAR_GRAPHIC_TYPE* pCmd = (SCR_SET_CHAR_GRAPHIC_TYPE*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_char != NULL)
+    {
+        pPointer->field_8_char->field_26C_graphic_type = pCmd->field_C_graphic_type;
+        pPointer->field_8_char->field_244_remap = pCmd->field_A_remap;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f5e0)
