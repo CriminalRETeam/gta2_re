@@ -101,13 +101,23 @@ class Sprite_5D598
 class Sprite_49B28
 {
   public:
+    // Inlined, from 9.6f at 0x4bca20
+    EXPORT Sprite_49B28()
+    {
+        Sprite* pIter = field_4;
+        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
+        {
+            pIter->field_C_sprite_next_ptr = pIter + 1;
+            pIter++;
+        }
+
+        field_4[0x13a6].field_C_sprite_next_ptr = NULL;
+        field_0_first_free = field_4;
+    }
     EXPORT ~Sprite_49B28();
 
     Sprite* field_0_first_free;
     Sprite field_4[5031];
-
-  public:
-    Sprite_49B28();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
 

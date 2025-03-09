@@ -126,7 +126,3 @@ Sprite_49B28::~Sprite_49B28()
 {
     field_0_first_free = 0;
 }
-
-Sprite_49B28::Sprite_49B28()
-{
-}
