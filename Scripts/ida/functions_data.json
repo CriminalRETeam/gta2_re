@@ -13406,12 +13406,12 @@
     },
     {
         "name": "Sero_58::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4af220",
         "v105_address": "0x578260"
     },
     {
         "name": "Sero_58::dtor",
-        "v96f_address": null,
+        "v96f_address": "0x4af280",
         "v105_address": "0x5782c0"
     },
     {

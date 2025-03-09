@@ -40,15 +40,46 @@ void Sero_58::sub_5781F0()
 {
 }
 
-STUB_FUNC(0x578260)
+MATCH_FUNC(0x578260)
 Sero_58::Sero_58()
 {
+    Car_BC** ppCVar1;
+    char* pcVar2;
+    int iVar3;
+
+    field_8 = 0;
+    field_C_first_carriage = NULL;
+    field_44 = 0;
+    field_4C = 0;
+    field_4 = 0;
+    field_0 = 0;
+    field_2 = 0;
+    field_48 = 0;
+    field_50 = 2;
+    field_54 = 0;
+    field_55 = 0;
+    field_56_passenger_count = 0;
+    field_57 = 0;
+    pcVar2 = field_38;
+    ppCVar1 = field_10;
+    iVar3 = 10;
+    do
+    {
+        *ppCVar1 = NULL;
+        *pcVar2 = -1;
+        ppCVar1++;
+        pcVar2++;
+        iVar3--;
+    } while (iVar3 != 0);
+    field_42 = -1;
+    field_43_idx = 0;
+    field_1 = 0;
 }
 
 MATCH_FUNC(0x5782c0)
 Sero_58::~Sero_58()
 {
-    this->field_C[0] = 0;
+    this->field_C_first_carriage = 0;
     this->field_4C = 0;
 }
 
@@ -57,7 +88,7 @@ void Sero_58::sub_5782D0()
 {
     if (!bSkip_trains_67D550)
     {
-        if (this->field_C[0]->field_54_driver)
+        if (this->field_C_first_carriage->field_54_driver)
         {
             this->field_50 = 3;
         }
@@ -228,7 +259,7 @@ bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
 {
     if (!bSkip_buses_67D558)
     {
-        Car_BC* pBus = this->field_17C0.field_C[0];
+        Car_BC* pBus = this->field_17C0.field_C_first_carriage;
         if (pBus)
         {
             if (pCar == pBus)
@@ -249,7 +280,7 @@ Car_BC* Sero_181C::sub_579AD0()
         return 0;
     }
 
-    Car_BC* result = this->field_17C0.field_C[0];
+    Car_BC* result = this->field_17C0.field_C_first_carriage;
     if (!result || this->field_17C0.field_48 != 13)
     {
         return 0;
@@ -288,7 +319,7 @@ void Sero_181C::sub_579B20()
     if (!bSkip_buses_67D558)
     {
         this->field_17C0.field_56_passenger_count = 0;
-        field_17C0.field_C[0]->field_4.sub_4715A0();
+        field_17C0.field_C_first_carriage->field_4.sub_4715A0();
     }
 }
 
@@ -332,9 +363,11 @@ Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
 MATCH_FUNC(0x57b540)
 Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 {
-    if (!bSkip_trains_67D550 && (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 || a2->field_84_car_info_idx == 6))
+    if (!bSkip_trains_67D550 &&
+        (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 ||
+         a2->field_84_car_info_idx == 6))
     {
-        return sub_57B5C0(a2)->field_C[0];
+        return sub_57B5C0(a2)->field_C_first_carriage;
     }
     else
     {
