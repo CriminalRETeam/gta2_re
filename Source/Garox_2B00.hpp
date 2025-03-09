@@ -247,8 +247,6 @@ class Hud_Pager_C
     EXPORT s32 sub_5D3220(s32 a2);
     EXPORT s32 sub_5D3280(s32 a2);
 
-    EXPORT Hud_Pager_C* sub_5D32F0(s32 a2, s32 a3);
-
     EXPORT Hud_Pager_C();
     s32 field_0;  //  duration? timer?
     s32 field_4;  //  counter?
@@ -266,6 +264,7 @@ class Hud_Pager_C_Array
     EXPORT void sub_5D3040();
     EXPORT void sub_5D31B0();
     EXPORT void sub_5D32D0(s32 a2);
+    EXPORT Hud_Pager_C* sub_5D32F0(s32 a2, s32 a3);
     EXPORT void sub_5D3310(s32 a2);
 
     Hud_Pager_C field_620[4];

@@ -660,7 +660,7 @@ void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 }
 
 STUB_FUNC(0x5d32f0)
-Hud_Pager_C* Hud_Pager_C::sub_5D32F0(s32 a2, s32 a3)
+Hud_Pager_C* Hud_Pager_C_Array::sub_5D32F0(s32 a2, s32 a3)
 {
     return 0;
 }
