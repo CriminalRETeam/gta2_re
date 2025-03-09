@@ -3047,9 +3047,21 @@ void miss2_0x11C::sub_510560()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5105b0)
+MATCH_FUNC(0x5105b0)
 void miss2_0x11C::sub_5105B0()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    s16 model_idx = pCmd->field_A_signed_2;
+
+    if (model_idx == -1)
+    {
+        gfrosty_pasteur_6F8060->field_C1E70 = 87;
+    }
+    else
+    {
+        gfrosty_pasteur_6F8060->field_C1E70 = model_idx;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510600)

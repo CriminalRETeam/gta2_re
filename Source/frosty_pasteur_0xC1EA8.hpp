@@ -578,8 +578,8 @@ class frosty_pasteur_0xC1EA8
     char_type field_C1E2F;
     char_type field_C1E30;
     char_type field_C1E31;
-    u16 field_C1E32[32];
-    s16 field_C1E72;
+    u16 field_C1E32[31];
+    u32 field_C1E70;
     u16 field_C1E74_basic_kf[25];
     s16 field_C1EA6;
 };
