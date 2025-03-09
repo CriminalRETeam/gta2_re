@@ -426,7 +426,7 @@ class Ped
     char_type field_269;
     char_type field_26A;
     char_type field_26B;
-    s32 field_26C;
+    s32 field_26C_graphic_type;
     s32 field_270;
     s32 field_274_gang_car_model;
     s32 field_278;
