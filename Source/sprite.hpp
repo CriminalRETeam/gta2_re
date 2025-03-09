@@ -50,8 +50,10 @@ class Sprite_18
   public:
     EXPORT ~Sprite_18();
     EXPORT Sprite_18();
-    s32 field_0;
-    Sprite_18* field_4;
+    EXPORT Sprite* sub_5A6CA0(s32 a2);
+
+    Sprite* field_0;
+    Sprite_18* field_4_next;
     s32 field_8;
     s32 field_C;
     s16 field_10;
