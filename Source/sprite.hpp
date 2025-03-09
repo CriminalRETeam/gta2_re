@@ -93,6 +93,19 @@ class Sprite_4C
 class Sprite_5D598
 {
   public:
+    // Inlined, from 9.6f at 0x4bc9a0
+    EXPORT Sprite_5D598()
+    {
+        Sprite_4C* pIter = field_4;
+        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
+        {
+            pIter->field_2C_pNext = pIter + 1;
+            pIter++;
+        }
+
+        field_4[0x13a6].field_2C_pNext = NULL;
+        field_0_pFree = field_4;
+    }
     EXPORT ~Sprite_5D598();
     Sprite_4C* field_0_pFree;
     Sprite_4C field_4[5031];
