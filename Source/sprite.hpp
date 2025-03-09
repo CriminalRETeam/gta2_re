@@ -71,6 +71,19 @@ class Sprite_18
 class Sprite_1C24
 {
   public:
+    // Inlined, from 9.6f at 0x4bdcf0
+    EXPORT Sprite_1C24()
+    {
+        Sprite_18* pIter = field_4;
+        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
+        {
+            pIter->field_4 = pIter + 1;
+            pIter++;
+        }
+
+        field_4[299].field_4 = NULL;
+        field_0 = field_4;
+    }
     EXPORT ~Sprite_1C24();
     Sprite_18* field_0;
     Sprite_18 field_4[300];
