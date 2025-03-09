@@ -7,6 +7,15 @@
 class Sprite_14
 {
   public:
+    // Inlined, from 9.6f at 0x44af30
+    EXPORT Sprite_14()
+    {
+        field_C = 0;
+        field_8 = 0;
+        field_4 = -1;
+        field_12 = 0;
+    }
+
     s32 field_0;
     s16 field_4;
     char_type field_6;
