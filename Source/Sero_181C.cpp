@@ -103,6 +103,24 @@ u8 Sero_58::sub_578670()
     return 0;
 }
 
+MATCH_FUNC(0x577f80)
+s32 Sero_34::sub_577f80(u8 idx)
+{
+    if (field_24_train_wagons[0] != 0)
+    {
+        switch (field_24_train_wagons[idx])
+        {
+            case 1:
+                return car_model_enum::TRAIN;
+            case 2:
+                return car_model_enum::TRAINFB;
+            case 3:
+                return car_model_enum::boxcar;
+        }
+    }
+    return car_model_enum::none;
+}
+
 MATCH_FUNC(0x577fd0)
 Sero_34::Sero_34()
 {

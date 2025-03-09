@@ -47,6 +47,8 @@ class Sero_58
 class Sero_34
 {
   public:
+    // returns a car_model_enum
+    EXPORT s32 sub_577f80(u8 idx);
     EXPORT Sero_34();
     EXPORT ~Sero_34();
     s32 field_0_bus_or_train;
