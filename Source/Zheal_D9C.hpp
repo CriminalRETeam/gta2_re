@@ -43,6 +43,7 @@ class Crane_15C
     EXPORT infallible_turing* sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
     EXPORT s32* sub_480900(s32 a2, s32 a3, s32 a4);
     EXPORT s32* sub_480B60(s32 a2, s32 a3, s32 a4);
+    EXPORT Car_BC* GetCarFromCrane_480DA0();
 
     s32 field_0;
     s32 field_4;

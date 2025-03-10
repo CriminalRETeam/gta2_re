@@ -579,7 +579,7 @@ Garox_1700_L::Garox_1700_L()
 MATCH_FUNC(0x4be650)
 Hud_Pager_C::~Hud_Pager_C()
 {
-    field_0 = -1;
+    field_0_timer = -1;
     field_4 = 0;
 
     if (field_8_sound != NULL)
@@ -592,13 +592,13 @@ Hud_Pager_C::~Hud_Pager_C()
 MATCH_FUNC(0x5d2320)
 void Hud_Pager_C::sub_5D2320()
 {
-    if (field_0 < 0)
+    if (field_0_timer < 0)
     {
         return;
     }
 
-    field_0--;
-    if (field_0 == -1)
+    field_0_timer--;
+    if (field_0_timer == -1)
     {
         field_4 = 0;
     }
@@ -656,13 +656,14 @@ s32 Hud_Pager_C::sub_5D3280(s32 a2)
 MATCH_FUNC(0x5d32d0)
 void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 {
-    field_620[a2].field_0 = -1;
+    field_620[a2].field_0_timer = -1;
 }
 
-STUB_FUNC(0x5d32f0)
-Hud_Pager_C* Hud_Pager_C::sub_5D32F0(s32 a2, s32 a3)
+MATCH_FUNC(0x5d32f0)
+void Hud_Pager_C_Array::AddTime_5D32F0(s32 pager_idx, s32 time_to_add)
 {
-    return 0;
+    Hud_Pager_C* pPager = &field_620[pager_idx];
+    pPager->field_0_timer += time_to_add;
 }
 
 MATCH_FUNC(0x5d3310)
@@ -674,7 +675,7 @@ void Hud_Pager_C_Array::sub_5D3310(s32 a2)
 MATCH_FUNC(0x5d7650)
 Hud_Pager_C::Hud_Pager_C()
 {
-    field_0 = -1;
+    field_0_timer = -1;
     field_4 = 0;
     field_8_sound = NULL;
 }

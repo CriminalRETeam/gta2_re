@@ -15,6 +15,7 @@ class nostalgic_ellis_0x28;
 class Door_38;
 class miss2_0x11C;
 class Hud_Arrow_7C;
+class Sprite_18;
 
 struct SCR_CMD_HEADER
 {
@@ -164,8 +165,10 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Door_38* field_8_door;
         Crusher_30* field_8_crusher;
         u32 field_8_counter;
+        u16 field_8_index;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
+        Sprite_18* field_8_sprite;
     };
 };
 
@@ -360,6 +363,14 @@ struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
     u8 field_28_flip;
     u8 field_29_reversed;
     u16 field_30_somename; // id of car/model/char or integer value (int is not supported by gta2 according to docs)
+};
+
+struct SCR_SET_CHAR_GRAPHIC_TYPE : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    s16 field_A_remap;
+    u16 field_C_graphic_type;
+    u16 field_E_padding;
 };
 
 namespace SCR_DOOR_OPENTYPES
@@ -649,7 +660,7 @@ class miss2_0x11C
     EXPORT void PreExecOpCode_5108D0();
     EXPORT char_type sub_511840();
     EXPORT void sub_511930(char_type a2, u16 levelStart);
-    EXPORT miss2_0x11C* sub_511960(s16 a2);
+    EXPORT miss2_0x11C* sub_511960(u16 a2);
     EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
     EXPORT miss2_0x11C();
     EXPORT void sub_511CD0();

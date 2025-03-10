@@ -117,7 +117,7 @@ Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
     pPed->field_288_threat_search = 2;
     pPed->field_28C_threat_reaction = 3;
     pPed->field_216_health = 100;
-    pPed->field_26C = 0;
+    pPed->field_26C_graphic_type = 0;
     return pPed;
 }
 

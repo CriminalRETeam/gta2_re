@@ -30,6 +30,9 @@
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "Frismo_25C.hpp"
+#include "sprite.hpp"
+#include "gtx_0x106C.hpp"
+#include "lucid_hamilton.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -294,7 +297,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             }
 
             v1->sub_565490(pPed);
-            pPed->field_26C = 1;
+            pPed->field_26C_graphic_type = 1;
             pCmd->field_8_ped = pPed;
 
             Sprite* v6 = pPed->sub_46DF50();
@@ -344,7 +347,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     {
         a2->field_8_char->field_238 = 5;
         a2->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
-        a2->field_8_char->field_26C = 1;
+        a2->field_8_char->field_26C_graphic_type = 1;
         a2->field_8_char->sub_463570(26, 9999);
         a2->field_8_char->field_216_health = 100;
         Sprite* v6 = a2->field_8_char->sub_46DF50();
@@ -1262,9 +1265,25 @@ void miss2_0x11C::sub_507F80()
 {
 }
 
-STUB_FUNC(0x508220)
+MATCH_FUNC(0x508220)
 void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_car != NULL)
+    {
+        if (!pPointer->field_8_car->field_54_driver)
+        {
+            pPointer->field_8_car->sub_4405F0();
+        }
+        pPointer->field_8_car->sub_440590();
+
+        Car_BC* pCar = pPointer->field_8_car;
+        pCar->field_7C_uni_num = 5;
+        pCar->field_76 = 0;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x508280)
@@ -1824,9 +1843,32 @@ void miss2_0x11C::SCRCMD_CAR_DRIVE_AWAY_50B440()
 {
 }
 
-STUB_FUNC(0x50b470)
+MATCH_FUNC(0x50b470)
 void miss2_0x11C::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_2_type);
+
+    SCR_POINTER* pPointer_2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_8_unsigned_1);
+    Crane_15C* pCrane = pPointer->field_8_crane;
+
+    if (pCrane != NULL)
+    {
+        pPointer_2->field_8_car = pCrane->GetCarFromCrane_480DA0();
+        if (pPointer_2->field_8_car)
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b4f0)
@@ -1895,9 +1937,24 @@ void miss2_0x11C::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b9c0)
+MATCH_FUNC(0x50b9c0)
 void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar != NULL 
+        && (u16)pCar->field_4.sub_4716B0() >= v1->field_A_signed_2)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50ba30)
@@ -2023,8 +2080,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
 }
 
-// https://decomp.me/scratch/D79Vg  TODO: fix wrong jump
-STUB_FUNC(0x50c0e0)
+MATCH_FUNC(0x50c0e0)
 void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
 {
     SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
@@ -2032,47 +2088,56 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
 
     Car_BC* v5;
-    Car_A4_10* v6;
-
+    
     if (pParam2 == pParam1)
     {
         v5 = pParam1->field_8_car;
-        v6 = v5->field_64;
-
-        if ((v6 != NULL && v6->field_C == v5) //  Is the problem here?
-            || (pParam1->field_8_car->field_64 != NULL 
-            && pParam1->field_8_car->field_64->field_8 == v5))
+        
+        if ( v5->sub_421720() || pParam1->field_8_car->sub_41E460() )
         {
             field_8 = true;
         }
         else
         {
-            field_8 = false; //  or here?
-            //goto LABEL_10;
+            field_8 = false;
         }
     }
     else
     {
-        v5 = pParam2->field_8_car; //  a trailer
-        v6 = pParam1->field_8_car->field_64; //  truck cab -> trailer
-        if (v6 != NULL 
-            && v6->field_C == v5 
-            && pParam1->field_8_car != v5)
+        v5 = pParam2->field_8_car;
+
+        if ( pParam1->field_8_car->sub_475E60(v5) )
         {
             field_8 = true;
         }
         else
         {
-        LABEL_10:
             field_8 = false;
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c1b0)
+MATCH_FUNC(0x50c1b0)
 void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
+
+    Sprite* v5 = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
+    //Sprite* v5 = pTrailerPointer->field_8_car->field_0_qq->sub_5A6CA0(2);
+    Car_BC* v6;
+
+    if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->field_8_car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))
+    {
+        this->field_8 = true;
+    }
+    else
+    {
+        this->field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c230)
@@ -2766,9 +2831,26 @@ void miss2_0x11C::SCRCMD_CHAR_DO_NOTHING_50F410()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f450)
+MATCH_FUNC(0x50f450)
 void miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* v4 = pPointer->field_8_car;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(v4->field_84_car_info_idx)->info_flags & 2) == 2 
+        || v4->field_84_car_info_idx == 84)
+    {
+        if ((u8)v1->field_A_unsigned_2 == 1)
+        {
+            pPointer->field_8_car->sub_43C920(); //  activate sirens
+        }
+        else
+        {
+            pPointer->field_8_car->sub_43C9D0(); //  deactivate sirens
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f4d0)
@@ -2791,9 +2873,18 @@ void miss2_0x11C::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f550)
+MATCH_FUNC(0x50f550)
 void miss2_0x11C::SCRCMD_PED_GRAPHIC_50F550()
 {
+    SCR_SET_CHAR_GRAPHIC_TYPE* pCmd = (SCR_SET_CHAR_GRAPHIC_TYPE*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_char != NULL)
+    {
+        pPointer->field_8_char->field_26C_graphic_type = pCmd->field_C_graphic_type;
+        pPointer->field_8_char->field_244_remap = pCmd->field_A_remap;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f5e0)
@@ -2933,34 +3024,91 @@ void miss2_0x11C::sub_510280()
 {
 }
 
-STUB_FUNC(0x510530)
+MATCH_FUNC(0x510530)
 void miss2_0x11C::sub_510530()
 {
+    gLucid_hamilton_67E8E0.sub_4C5AB0(gBasePtr_6F8070[1].field_2_type);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510560)
+MATCH_FUNC(0x510560)
 void miss2_0x11C::sub_510560()
 {
+    SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    gGarox_2B00_706620->field_620.AddTime_5D32F0(pPointer->field_8_index, 30 * v1->field_C_u32);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5105b0)
+MATCH_FUNC(0x5105b0)
 void miss2_0x11C::sub_5105B0()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    s16 model_idx = pCmd->field_A_signed_2;
+
+    if (model_idx == -1)
+    {
+        gfrosty_pasteur_6F8060->field_C1E70 = 87;
+    }
+    else
+    {
+        gfrosty_pasteur_6F8060->field_C1E70 = model_idx;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510600)
+MATCH_FUNC(0x510600)
 void miss2_0x11C::sub_510600()
 {
+    if (gfrosty_pasteur_6F8060->field_C1E2E_death_arrest_flag)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510660)
+MATCH_FUNC(0x510660)
 void miss2_0x11C::sub_510660()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 3)
+    {
+        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, 1);
+    }
+    else if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 10)
+    {
+        gMiss2_25C_6F805C->push_type_2_503050(pPointer->field_8_obj);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510780)
+MATCH_FUNC(0x510780)
 void miss2_0x11C::sub_510780()
 {
+    u8 v4 = 0;
+    Gang_144* v2 = gZones_CA8_67E274->sub_4BECA0();
+
+    if (gBasePtr_6F8070->field_2_type == 445)
+    {
+        for (; v2 != NULL; v2 = gZones_CA8_67E274->sub_4BECE0())
+        {
+            gfrosty_pasteur_6F8060->field_C1E2F[v4++] = v2->sub_4BEEF0(0);
+        }
+    }
+    else
+    {
+        for (; v2 != NULL; v2 = gZones_CA8_67E274->sub_4BECE0())
+        {
+            v2->sub_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[v4++]);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x5108d0)
@@ -3779,10 +3927,12 @@ void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
     field_10 = 0;
 }
 
-STUB_FUNC(0x511960)
-miss2_0x11C* miss2_0x11C::sub_511960(s16 a2)
+MATCH_FUNC(0x511960)
+miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
 {
-    return 0;
+    miss2_0x11C* v4 = gMiss2_8EC_6F8064->sub_4767A0();
+    v4->sub_511930(field_6, levelStart);
+    return v4;
 }
 
 STUB_FUNC(0x5119a0)
