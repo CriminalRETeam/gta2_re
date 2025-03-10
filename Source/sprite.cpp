@@ -200,10 +200,6 @@ Sprite_49B28::~Sprite_49B28()
     field_0_first_free = 0;
 }
 
-Sprite_49B28::Sprite_49B28()
-{
-}
-
 MATCH_FUNC(0x5A6ca0)
 Sprite* Sprite_18::sub_5A6CA0(s32 a2)
 {
