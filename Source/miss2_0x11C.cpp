@@ -3097,9 +3097,27 @@ void miss2_0x11C::sub_510660()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510780)
+MATCH_FUNC(0x510780)
 void miss2_0x11C::sub_510780()
 {
+    u8 v4 = 0;
+    Gang_144* v2 = gZones_CA8_67E274->sub_4BECA0();
+
+    if (gBasePtr_6F8070->field_2_type == 445)
+    {
+        for (; v2 != NULL; v2 = gZones_CA8_67E274->sub_4BECE0())
+        {
+            gfrosty_pasteur_6F8060->field_C1E2F[v4++] = v2->sub_4BEEF0(0);
+        }
+    }
+    else
+    {
+        for (; v2 != NULL; v2 = gZones_CA8_67E274->sub_4BECE0())
+        {
+            v2->sub_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[v4++]);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x5108d0)
