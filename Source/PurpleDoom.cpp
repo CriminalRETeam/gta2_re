@@ -40,7 +40,7 @@ s32 PurpleDoom::sub_477B20(Sprite* a1a)
 {
     s32 result;
     a1a->sub_59E9C0();
-    a1a->next_ptr->sub_5A4D90();
+    a1a->field_C_sprite_next_ptr->sub_5A4D90();
     s32 v3 = dword_6F6108;
     for (result = dword_6F5F38; v3 <= dword_6F5F38; v3++)
     {

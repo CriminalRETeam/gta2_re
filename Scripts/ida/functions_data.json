@@ -4791,12 +4791,12 @@
     },
     {
         "name": "Sprite_3CC::sub_48F710",
-        "v96f_address": null,
+        "v96f_address": "0x44afe0",
         "v105_address": "0x48f710"
     },
     {
         "name": "Sprite_3CC::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x44b000",
         "v105_address": "0x48f730"
     },
     {
@@ -13361,7 +13361,7 @@
     },
     {
         "name": "sub_577E20",
-        "v96f_address": null,
+        "v96f_address": "0x4af030",
         "v105_address": "0x577e20"
     },
     {
@@ -13375,8 +13375,8 @@
         "v105_address": "0x577ee0"
     },
     {
-        "name": "sub_577F80",
-        "v96f_address": null,
+        "name": "Sero_34::sub_577F80",
+        "v96f_address": "0x4af170",
         "v105_address": "0x577f80"
     },
     {
@@ -13406,12 +13406,12 @@
     },
     {
         "name": "Sero_58::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4af220",
         "v105_address": "0x578260"
     },
     {
         "name": "Sero_58::dtor",
-        "v96f_address": null,
+        "v96f_address": "0x4af280",
         "v105_address": "0x5782c0"
     },
     {
@@ -14956,12 +14956,12 @@
     },
     {
         "name": "Sprite_8::sub_5A5870",
-        "v96f_address": null,
+        "v96f_address": "0x4bdc60",
         "v105_address": "0x5a5870"
     },
     {
         "name": "Sprite_8::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4be5b0",
         "v105_address": "0x5a58a0"
     },
     {
