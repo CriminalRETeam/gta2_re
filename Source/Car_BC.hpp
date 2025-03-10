@@ -194,8 +194,8 @@ class Sprite
         field_34 = 0;
         field_38 = '\0';
         field_39 = -1;
-        car_bc_ptr = NULL;
-        next_ptr = NULL;
+        field_8_car_bc_ptr = NULL;
+        field_C_sprite_next_ptr = NULL;
         field_10 = NULL;
     }
     EXPORT ~Sprite();
@@ -211,17 +211,17 @@ class Sprite
     // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
     union
     {
-        Car_BC* car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
-        Char_B4* char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object_2C* object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+        Car_BC* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
+        Char_B4* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
+        Object_2C* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
     };
     // Only one field is enable at the same time.
-    // As far as I understand, the next_ptr is only enabled while the instance is being handled by Sprite_49B28.
-    // Otherwise, the sprite_4c_ptr is active. i.e. the instance belongs to another object.
+    // As far as I understand, the field_C_sprite_next_ptr is only enabled while the instance is being handled by Sprite_49B28.
+    // Otherwise, the field_C_sprite_4c_ptr is active. i.e. the instance belongs to another object.
     union
     {
-        Sprite* next_ptr;
-        Sprite_4C* sprite_4c_ptr;
+        Sprite* field_C_sprite_next_ptr;
+        Sprite_4C* field_C_sprite_4c_ptr;
     };
     infallible_turing* field_10;
     Fix16 field_14_xpos;

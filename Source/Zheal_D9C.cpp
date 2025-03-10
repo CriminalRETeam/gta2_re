@@ -147,7 +147,7 @@ bool Crane_15C::sub_47F350()
 
     if (v1->field_30_sprite_type_enum == 2)
     {
-        v2 = v1->car_bc_ptr;
+        v2 = v1->field_8_car_bc_ptr;
     }
     else
     {
@@ -159,7 +159,7 @@ bool Crane_15C::sub_47F350()
     if (v2->field_88 != 5)
     {
         Sprite* v3 = field_6C;
-        Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->car_bc_ptr : 0;
+        Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->field_8_car_bc_ptr : 0;
         if (v4->field_88 != 5 
             && field_FC == v3->field_14_xpos 
             && field_100 == v3->field_18_ypos 
@@ -309,7 +309,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_11C = dword_679E70;
 
     Sprite* current_sprite = gSprite_49B28_703818->field_0_first_free;
-    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
+    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->field_C_sprite_next_ptr;
     current_sprite->sub_5A2CF0();
     field_60 = current_sprite;
     current_sprite->sub_59F950(dword_679E70, dword_679E70, dword_679E70);
@@ -370,7 +370,7 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 
     if (v1 && v1->field_30_sprite_type_enum == 2)
     {
-        return v1->car_bc_ptr;
+        return v1->field_8_car_bc_ptr;
     }
     else
     {

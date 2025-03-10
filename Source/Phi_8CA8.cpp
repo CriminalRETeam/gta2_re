@@ -238,7 +238,7 @@ MATCH_FUNC(0x533170)
 Sprite* Phi_74::sub_533170()
 {
     Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
-    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->next_ptr;
+    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->field_C_sprite_next_ptr;
     pFreeSprite->sub_5A2CF0();
     sub_5331A0(pFreeSprite);
     return pFreeSprite;

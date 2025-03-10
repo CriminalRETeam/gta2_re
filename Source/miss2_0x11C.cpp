@@ -2129,7 +2129,7 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     //Sprite* v5 = pTrailerPointer->field_8_car->field_0_qq->sub_5A6CA0(2);
     Car_BC* v6;
 
-    if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))
+    if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->field_8_car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))
     {
         this->field_8 = true;
     }
