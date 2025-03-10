@@ -349,6 +349,38 @@ class Car_6C
 
 EXPORT_VAR extern Car_6C* gCar_6C_677930;
 
+class Car_A4_10
+{
+  public:
+    EXPORT Car_BC* sub_407B90(Car_BC* a2);
+    EXPORT void sub_407BB0(Car_BC* a2, Car_BC* a3);
+    EXPORT s32* sub_407BD0(s32* a2);
+    EXPORT s32* sub_407CE0();
+    EXPORT char_type sub_408140();
+    EXPORT void sub_408190();
+    EXPORT void sub_4081B0();
+    EXPORT char_type sub_4081D0();
+    EXPORT s32 sub_408220();
+
+    //Inlined in Car_6C constructor 9.6f -> 0x4212d0
+    Car_A4_10()
+    {
+        field_4 = NULL;
+        field_8 = NULL;
+        field_C = NULL;
+        field_0 = NULL;
+        0;
+    }
+
+    char_type field_0;
+    char_type field_1;
+    char_type field_2;
+    char_type field_3;
+    Car_A4_10* field_4;
+    Car_BC* field_8;
+    Car_BC* field_C;
+};
+
 class Car_BC
 {
   public:
@@ -548,6 +580,24 @@ class Car_BC
         return false;
     }
 
+    // Inlined 0x421720
+    bool sub_421720()
+    {
+        return field_64 && field_64->field_C == this;
+    }
+    
+    // Inlined 0x41E460
+    bool sub_41E460()
+    {
+        return field_64 && field_64->field_8 == this;
+    }
+
+    // Inlined 0x475E60
+    bool sub_475E60(Car_BC* a1)
+    {
+        return field_64 && field_64->field_C == a1 && this != a1;
+    }
+
     inline bool IsWithinArea(SCR_Rect_f* rect)
     {
         Fix16 x_pos = field_50_car_sprite->field_14_xpos;
@@ -665,38 +715,6 @@ class Car_8
     }
     Fix16 field_0;
     Fix16 field_4;
-};
-
-class Car_A4_10
-{
-  public:
-    EXPORT Car_BC* sub_407B90(Car_BC* a2);
-    EXPORT void sub_407BB0(Car_BC* a2, Car_BC* a3);
-    EXPORT s32* sub_407BD0(s32* a2);
-    EXPORT s32* sub_407CE0();
-    EXPORT char_type sub_408140();
-    EXPORT void sub_408190();
-    EXPORT void sub_4081B0();
-    EXPORT char_type sub_4081D0();
-    EXPORT s32 sub_408220();
-
-    //Inlined in Car_6C constructor 9.6f -> 0x4212d0
-    Car_A4_10()
-    {
-        field_4 = NULL;
-        field_8 = NULL;
-        field_C = NULL;
-        field_0 = NULL;
-        0;
-    }
-
-    char_type field_0;
-    char_type field_1;
-    char_type field_2;
-    char_type field_3;
-    Car_A4_10* field_4;
-    Car_BC* field_8;
-    Car_BC* field_C;
 };
 
 class Car_A4

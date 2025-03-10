@@ -2080,8 +2080,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
 }
 
-// https://decomp.me/scratch/D79Vg  TODO: fix wrong jump
-STUB_FUNC(0x50c0e0)
+MATCH_FUNC(0x50c0e0)
 void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
 {
     SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
@@ -2089,38 +2088,30 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
 
     Car_BC* v5;
-    Car_A4_10* v6;
-
+    
     if (pParam2 == pParam1)
     {
         v5 = pParam1->field_8_car;
-        v6 = v5->field_64;
-
-        if ((v6 != NULL && v6->field_C == v5) //  Is the problem here?
-            || (pParam1->field_8_car->field_64 != NULL 
-            && pParam1->field_8_car->field_64->field_8 == v5))
+        
+        if ( v5->sub_421720() || pParam1->field_8_car->sub_41E460() )
         {
             field_8 = true;
         }
         else
         {
-            field_8 = false; //  or here?
-            //goto LABEL_10;
+            field_8 = false;
         }
     }
     else
     {
-        v5 = pParam2->field_8_car; //  a trailer
-        v6 = pParam1->field_8_car->field_64; //  truck cab -> trailer
-        if (v6 != NULL 
-            && v6->field_C == v5 
-            && pParam1->field_8_car != v5)
+        v5 = pParam2->field_8_car;
+
+        if ( pParam1->field_8_car->sub_475E60(v5) )
         {
             field_8 = true;
         }
         else
         {
-        LABEL_10:
             field_8 = false;
         }
     }
