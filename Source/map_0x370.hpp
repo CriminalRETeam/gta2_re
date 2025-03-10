@@ -22,7 +22,7 @@ struct gmp_block_info
     s16 field_4_top;
     s16 field_6_bottom;
     s16 field_8_lid;
-    char_type field_A_arrows;
+    u8 field_A_arrows;
     u8 field_B_slope_type;
 };
 
