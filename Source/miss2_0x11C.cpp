@@ -32,6 +32,7 @@
 #include "Frismo_25C.hpp"
 #include "sprite.hpp"
 #include "gtx_0x106C.hpp"
+#include "lucid_hamilton.hpp"
 
 #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
 EXPORT_VAR s16 word_6212EE;
@@ -3032,9 +3033,11 @@ void miss2_0x11C::sub_510280()
 {
 }
 
-STUB_FUNC(0x510530)
+MATCH_FUNC(0x510530)
 void miss2_0x11C::sub_510530()
 {
+    gLucid_hamilton_67E8E0.sub_4C5AB0(gBasePtr_6F8070[1].field_2_type);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510560)
