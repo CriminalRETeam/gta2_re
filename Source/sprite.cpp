@@ -21,6 +21,9 @@ GLOBAL(gSprite_1C24_703B80, 0x703B80);
 EXPORT_VAR Sprite* gSprite_703814;
 GLOBAL(gSprite_703814, 0x703814);
 
+EXPORT_VAR Sprite* DAT_0066ff18;
+GLOBAL(DAT_0066ff18, 0x66ff18);
+
 STUB_FUNC(0x48f600)
 char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
@@ -95,9 +98,11 @@ void Sprite_8::sub_5A5860()
     field_0 = 0;
 }
 
-STUB_FUNC(0x5a5870)
+MATCH_FUNC(0x5a5870)
 void Sprite_8::sub_5A5870()
 {
+    DAT_0066ff18 = gSprite_49B28_703818->get_new_sprite();
+    DAT_0066ff18->sub_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
