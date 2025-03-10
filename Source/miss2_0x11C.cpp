@@ -3936,10 +3936,12 @@ void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
     field_10 = 0;
 }
 
-STUB_FUNC(0x511960)
-miss2_0x11C* miss2_0x11C::sub_511960(s16 a2)
+MATCH_FUNC(0x511960)
+miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
 {
-    return 0;
+    miss2_0x11C* v4 = gMiss2_8EC_6F8064->sub_4767A0();
+    v4->sub_511930(field_6, levelStart);
+    return v4;
 }
 
 STUB_FUNC(0x5119a0)
