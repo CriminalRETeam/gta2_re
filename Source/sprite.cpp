@@ -42,10 +42,16 @@ s16* Sprite_3CC::sub_48F6E0(u16* a2)
     return 0;
 }
 
-STUB_FUNC(0x48f710)
-s32* Sprite_3CC::sub_48F710()
+MATCH_FUNC(0x48f710)
+void Sprite_3CC::sub_48F710()
 {
-    return 0;
+    Sprite_14* psVar1 = field_0;
+    s32 iVar2 = 0x30;
+    do {
+        psVar1->field_4 = -1;
+        psVar1++;
+        iVar2--;
+    } while (iVar2 != 0);
 }
 
 MATCH_FUNC(0x48f730)
