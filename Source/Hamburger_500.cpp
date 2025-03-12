@@ -127,9 +127,19 @@ char_type Hamburger_500::sub_474A80(Ped* a1)
     return 0;
 }
 
-STUB_FUNC(0x474af0)
-char_type Hamburger_500::sub_474AF0(Ped* a1)
+MATCH_FUNC(0x474af0)
+char_type Hamburger_500::sub_474AF0(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4) && field_0[i].field_C == 9)
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
