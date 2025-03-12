@@ -31,7 +31,7 @@ class Crusher_30
 class Snooky_94
 {
   public:
-    EXPORT char_type sub_4887A0(Car_BC* toFind);
+    EXPORT bool sub_4887A0(Car_BC* toFind);
     EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
     EXPORT void sub_4887F0();
     EXPORT Crusher_30* sub_488820(Fix16 a2, Fix16 a3);

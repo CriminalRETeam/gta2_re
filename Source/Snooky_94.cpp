@@ -1,9 +1,9 @@
 #include "Snooky_94.hpp"
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "Globals.hpp"
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
-#include "Globals.hpp"
 #include <stdio.h>
 
 EXPORT_VAR Snooky_94* gSnooky_94_67A830;
@@ -47,10 +47,17 @@ infallible_turing* Crusher_30::sub_4885A0(Fix16 a2, Fix16 a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x4887a0)
-char_type Snooky_94::sub_4887A0(Car_BC* toFind)
+MATCH_FUNC(0x4887a0)
+bool Snooky_94::sub_4887A0(Car_BC* toFind)
 {
-    return 0;
+    for (s32 i=0; i < field_90_count; i++)
+    {
+        if (field_0[i].field_14_pObj == toFind)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4887d0)
