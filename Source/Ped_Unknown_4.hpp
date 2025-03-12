@@ -24,7 +24,7 @@ class Ped_Unknown_4
     EXPORT void sub_471630();
     EXPORT void sub_471680();
     EXPORT s32 sub_4716B0();
-    EXPORT Char_8* sub_4716D0(Car_BC* a2);
+    EXPORT void sub_4716D0(Car_BC* a2);
     EXPORT char_type sub_471710();
 
     // inline

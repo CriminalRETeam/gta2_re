@@ -1,5 +1,6 @@
 #include "Ped_Unknown_4.hpp"
 #include "Ped.hpp"
+#include "Car_BC.hpp"
 
 STUB_FUNC(0x471140)
 Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
@@ -77,10 +78,15 @@ s32 Ped_Unknown_4::sub_4716B0()
     return 0;
 }
 
-STUB_FUNC(0x4716d0)
-Char_8* Ped_Unknown_4::sub_4716D0(Car_BC* a2)
+MATCH_FUNC(0x4716d0)
+void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 {
-    return 0;
+    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    {
+        pIter->field_0_char_ped->field_204 = a2->field_70;
+        pIter->field_0_char_ped->field_290 = a2->field_90;
+        pIter->field_0_char_ped->field_264 = 50;
+    }
 }
 
 STUB_FUNC(0x471710)
