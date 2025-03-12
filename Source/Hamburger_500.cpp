@@ -90,10 +90,21 @@ Ped* Hamburger_500::sub_4748A0(s32 a2, Ped* pPed)
     return 0;
 }
 
-STUB_FUNC(0x474920)
-char_type Hamburger_500::sub_474920(s32 a2, Ped* a3)
+MATCH_FUNC(0x474920)
+char_type Hamburger_500::sub_474920(Ped* a2, Ped* a3)
 {
-    return 0;
+    u8 total = 0;
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1 && field_0[i].field_30 == a2)
+        {
+            if (sub_474850(a3, field_0[i].field_4))
+            {
+                total++;
+            }
+        }
+    }
+    return total;
 }
 
 MATCH_FUNC(0x474970)

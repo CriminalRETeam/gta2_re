@@ -55,7 +55,7 @@ class Hamburger_500
     EXPORT Hamburger_40* sub_474810();
     EXPORT char_type sub_474850(Ped* a1, Ped* a2);
     EXPORT Ped* sub_4748A0(s32 a2, Ped* a3);
-    EXPORT char_type sub_474920(s32 a2, Ped* a3);
+    EXPORT char_type sub_474920(Ped* a2, Ped* a3);
     EXPORT char_type sub_474970(Ped* a2);
     EXPORT char_type sub_4749B0(Ped* a1);
     EXPORT char_type sub_474A20(Ped* a1);
