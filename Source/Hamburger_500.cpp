@@ -90,10 +90,21 @@ Ped* Hamburger_500::sub_4748A0(s32 a2, Ped* pPed)
     return 0;
 }
 
-STUB_FUNC(0x474920)
-char_type Hamburger_500::sub_474920(s32 a2, Ped* a3)
+MATCH_FUNC(0x474920)
+char_type Hamburger_500::sub_474920(Ped* a2, Ped* a3)
 {
-    return 0;
+    u8 total = 0;
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1 && field_0[i].field_30 == a2)
+        {
+            if (sub_474850(a3, field_0[i].field_4))
+            {
+                total++;
+            }
+        }
+    }
+    return total;
 }
 
 MATCH_FUNC(0x474970)
@@ -115,33 +126,99 @@ char_type Hamburger_500::sub_4749B0(Ped* a1)
     return 0;
 }
 
-STUB_FUNC(0x474a20)
-char_type Hamburger_500::sub_474A20(Ped* a1)
+MATCH_FUNC(0x474a20)
+char_type Hamburger_500::sub_474A20(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4) && field_0[i].field_C == 8)
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
 STUB_FUNC(0x474a80)
-char_type Hamburger_500::sub_474A80(Ped* a1)
+char_type Hamburger_500::sub_474A80(Ped* pPed)
 {
     return 0;
 }
 
-STUB_FUNC(0x474af0)
-char_type Hamburger_500::sub_474AF0(Ped* a1)
+MATCH_FUNC(0x474af0)
+char_type Hamburger_500::sub_474AF0(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4) && field_0[i].field_C == 9)
+            {
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
 STUB_FUNC(0x474b50)
-char_type Hamburger_500::sub_474B50(Ped* a1)
+char_type Hamburger_500::sub_474B50(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4))
+            {
+                if (field_0[i].field_C == 7)
+                {
+                    return 1;
+                }
+
+                if (field_0[i].field_C == 2 || field_0[i].field_C == 0)
+                {
+                    return 1;
+                }
+
+                // TODO: Some sort switch case annoyance?
+                /*
+                f_c = field_0[i].field_C - 7;
+                if (!f_c)
+                {
+                    return 1;
+                }
+
+                f_c_m2 = f_c - 2;
+                if (!f_c_m2 || f_c_m2 == 2)
+                {
+                    return 1;
+                }
+                */
+            }
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x474bc0)
-char_type Hamburger_500::sub_474BC0(Ped* a1)
+MATCH_FUNC(0x474bc0)
+char_type Hamburger_500::sub_474BC0(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4))
+            {
+                if (field_0[i].field_C >= 6 && (field_0[i].field_C <= 9 || field_0[i].field_C == 13))
+                {
+                    return 1;
+                }
+            }
+        }
+    }
     return 0;
 }
 
