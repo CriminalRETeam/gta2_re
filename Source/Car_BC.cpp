@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "Car_14_18.hpp"
 #include "Car_B0.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
@@ -2628,7 +2629,15 @@ void sub_5822E0()
     DAT_006FF8C5 = 0;
 }
 
-STUB_FUNC(0x582310)
+MATCH_FUNC(0x582310)
 Car_14::Car_14()
 {
+    field_9 = 0;
+    field_A = 0;
+    field_8 = 0;
+    field_0 = NULL;
+    field_C = NULL;
+    field_10 = NULL;
+    field_4 = new Car_14_18();
+    sub_5822E0();
 }

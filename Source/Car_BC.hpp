@@ -15,6 +15,7 @@ EXPORT_VAR extern Fix16 gFix16_7035C0;
 struct gmp_zone_unknown;
 class DrawUnk_0xBC;
 class Object_2C;
+class Car_14_18;
 class Car_78;
 class Car_B0;
 class Car_A4_10;
@@ -742,7 +743,7 @@ struct Car_14
     EXPORT Car_14();
 
     DrawUnk_0xBC* field_0;
-    s32 field_4;
+    Car_14_18* field_4;
     s8 field_8;
     s8 field_9;
     s8 field_A;
