@@ -134,8 +134,41 @@ char_type Hamburger_500::sub_474AF0(Ped* a1)
 }
 
 STUB_FUNC(0x474b50)
-char_type Hamburger_500::sub_474B50(Ped* a1)
+char_type Hamburger_500::sub_474B50(Ped* pPed)
 {
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (field_0[i].field_0 == 1)
+        {
+            if (sub_474850(pPed, field_0[i].field_4))
+            {
+                if (field_0[i].field_C == 7)
+                {
+                    return 1;
+                }
+
+                if (field_0[i].field_C == 2 || field_0[i].field_C == 0)
+                {
+                    return 1;
+                }
+
+                // TODO: Some sort switch case annoyance?
+                /*
+                f_c = field_0[i].field_C - 7;
+                if (!f_c)
+                {
+                    return 1;
+                }
+
+                f_c_m2 = f_c - 2;
+                if (!f_c_m2 || f_c_m2 == 2)
+                {
+                    return 1;
+                }
+                */
+            }
+        }
+    }
     return 0;
 }
 
