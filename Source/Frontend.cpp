@@ -4117,13 +4117,12 @@ char_type Frontend::sub_4B7360(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x4B7520)
+MATCH_FUNC(0x4B7520)
 bool Frontend::sub_4B7520()
 {
-    char_type v2; // bl
-
-    v2 = gLucid_hamilton_67E8E0.sub_4C5990();
-    return sub_4B7360(v2) != v2;
+    char_type v2 = gLucid_hamilton_67E8E0.sub_4C5990();
+    bool result = sub_4B7360(v2) != v2;
+    return result;
 }
 
 STUB_FUNC(0x4B72F0)
