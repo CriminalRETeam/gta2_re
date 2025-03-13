@@ -3991,15 +3991,17 @@ void Frontend::sub_4B7550()
     }
 }
 
-STUB_FUNC(0x4B6FF0)
+MATCH_FUNC(0x4B6FF0)
 bool Frontend::sub_4B6FF0()
 {
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
-    u8 a2 = sub_4B7060(v3);
-    gLucid_hamilton_67E8E0.sub_4C58F0(a2);
-    field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = a2;
+    u8 v4 = v3;
+    v3 = sub_4B7060(v3);
+    gLucid_hamilton_67E8E0.sub_4C58F0(v3);
+    field_1EB3A[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()] = v3;
     sub_4B7550();
-    return v3 != a2;
+    bool result = v4 != v3;
+    return result;
 }
 
 STUB_FUNC(0x4B42B0)
