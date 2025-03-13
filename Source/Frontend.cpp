@@ -3941,11 +3941,12 @@ u8 Frontend::sub_4B7270(char_type a2)
     return result;
 }
 
-STUB_FUNC(0x4B7490)
+MATCH_FUNC(0x4B7490)
 bool Frontend::sub_4B7490()
 {
     u8 v2 = gLucid_hamilton_67E8E0.sub_4C5980();
-    return sub_4B7060(v2) != v2;
+    bool result = sub_4B7060(v2) != v2;
+    return result;
 }
 
 STUB_FUNC(0x4B74C0)
