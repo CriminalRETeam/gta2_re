@@ -2595,6 +2595,8 @@ struct Frontend
 
     EXPORT void sub_4B4280();
 
+    EXPORT u8 sub_4B77B0(dreamy_clarke_0xA4* a2);
+
     EXPORT void sub_4B8530();
 
     EXPORT void sub_4B8560();

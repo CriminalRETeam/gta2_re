@@ -3805,6 +3805,21 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
     return 1;
 }
 
+MATCH_FUNC(0x4B77B0)
+u8 Frontend::sub_4B77B0(dreamy_clarke_0xA4* a2)
+{
+    u8 result;
+
+    for (result = this->field_1EB50_idx - 1; !a2->field_0[result][0].field_0 ; --result)
+    {
+        if (result <= 0)
+        {
+            break;
+        }
+    }
+    return result;
+}
+
 EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
