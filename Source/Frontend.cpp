@@ -2634,32 +2634,26 @@ EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 tex
     return 0;
 }
 
-STUB_FUNC(0x4B7FB0)
+MATCH_FUNC(0x4B7FB0)
 char_type Frontend::sub_4B7FB0()
 {
-    dreamy_clarke_0xA4* v2; // eax
-    u16 v3; // bx
-    u16 v4; // dx
-
-    v2 = sub_4B43E0();
-    v3 = 0;
-    if (!field_1EB50_idx)
-        return 1;
-    while (1)
+    dreamy_clarke_0xA4* v2 = sub_4B43E0();
+    u16 v3 = 0;
+    // note: two separated while's interlaced by a backwards goto may be actually two nested while's
+    while (v3 < field_1EB50_idx)
     {
-        v4 = 0;
-        if (field_1EB51_blocks[v3])
-            break;
-    LABEL_5:
-        if (++v3 >= (unsigned __int8)field_1EB50_idx)
-            return 1;
+        u16 v4 = 0;
+        while (v4 < field_1EB51_blocks[v3])
+        {
+            if (!v2->field_0[v3][v4].field_0)
+            {
+                return false;
+            }
+            v4++;
+        }
+        v3++;
     }
-    while (v2->field_0[v3][v4].field_0)
-    {
-        if (++v4 >= field_1EB51_blocks[v3])
-            goto LABEL_5;
-    }
-    return 0;
+    return true;
 }
 
 STUB_FUNC(0x4B4D00)
