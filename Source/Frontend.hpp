@@ -2533,7 +2533,7 @@ struct Frontend
     char_type field_EE09;
     u16 field_EE0A;
     u8 field_EE0C;
-    char_type field_EE0D;
+    u8 field_EE0D;
     xenodochial_morse field_EE0E_unk;
     s16 field_1EB30;
     s16 field_1EB32;
@@ -2696,6 +2696,8 @@ struct Frontend
     EXPORT char_type pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
+
+    EXPORT void sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
 
     EXPORT void sub_4B78B0(wchar_t* pString,
                     u16 text_xpos,

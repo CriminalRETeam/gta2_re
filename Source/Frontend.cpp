@@ -2378,6 +2378,30 @@ void Frontend::sub_4B4230()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
 
+MATCH_FUNC(0x4B3CC0)
+void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
+{
+    competent_noyce_0x6E* temp = &field_136[a2].field_518[a3];
+
+    if (a2 == 14 && a3 == 4)
+    {
+        wcscpy(word_67C7D8, field_C9B8);
+    }
+    else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
+    {
+        swprintf(word_67C7D8, L"%s", temp->field_6_wstr_buf);
+    }
+    else if (field_EE0D < 3)
+    {
+        swprintf(word_67C7D8, L"%d", field_EE0D + 1);
+    }
+    else
+    {
+        swprintf(word_67C7D8, L"%c", field_EE0D + 62);
+    }
+    *a4 = (wchar_t*)&word_67C7D8;
+}
+
 MATCH_FUNC(0x4B3DD0)
 void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
