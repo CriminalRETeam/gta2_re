@@ -113,6 +113,8 @@ GLOBAL(DAT_006FF8C4, 0x6FF8C4);
 EXPORT_VAR s8 DAT_006FF8C5;
 GLOBAL(DAT_006FF8C5, 0x6FF8C5);
 
+EXPORT_VAR Fix16 DAT_006FF778;
+GLOBAL(DAT_006FF778, 0x6ff778);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -2650,4 +2652,48 @@ Car_14::~Car_14()
     field_0 = NULL;
     field_C = NULL;
     field_10 = NULL;
+}
+
+MATCH_FUNC(0x582360)
+char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
+{
+    switch (param_1)
+    {
+        case 1:
+        case 2:
+        if (field_8 == 0)
+        {
+            if (param_2 < (field_0->field_7C - DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (param_2 > (field_0->field_78 + DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        break;
+        case 3:
+        case 4:
+        if (field_8 == 0)
+        {
+            if (param_3 < (field_0->field_84 - DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (param_3 > (field_0->field_80 + DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        break;
+
+    }
+    return 0;
 }

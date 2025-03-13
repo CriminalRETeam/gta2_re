@@ -742,6 +742,7 @@ struct Car_14
 {
     EXPORT Car_14();
     EXPORT ~Car_14();
+    EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
 
     DrawUnk_0xBC* field_0;
     Car_14_18* field_4;
