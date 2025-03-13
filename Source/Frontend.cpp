@@ -3949,11 +3949,12 @@ bool Frontend::sub_4B7490()
     return result;
 }
 
-STUB_FUNC(0x4B74C0)
+MATCH_FUNC(0x4B74C0)
 bool Frontend::sub_4B74C0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5980();
-    return sub_4B7270(v2) != v2;
+    bool result = (char_type)sub_4B7270(v2) != v2;
+    return result;
 }
 
 STUB_FUNC(0x4B7550)
