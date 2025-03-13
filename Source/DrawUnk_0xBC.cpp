@@ -210,7 +210,7 @@ s32 DrawUnk_0xBC::sub_436110()
 }
 
 STUB_FUNC(0x436120)
-void DrawUnk_0xBC::sub_436120(s32 a2)
+void DrawUnk_0xBC::sub_436120(Fix16 a2)
 {
 }
 
@@ -287,7 +287,7 @@ void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 }
 
 MATCH_FUNC(0x58CF10)
-bool DrawUnk_0xBC::sub_58CF10(s32 a2, s32 a3)
+bool DrawUnk_0xBC::sub_58CF10(Fix16 a2, Fix16 a3)
 {
     return a2 >= field_78 && a2 <= field_7C && a3 >= field_80 && a3 <= field_84;
 }

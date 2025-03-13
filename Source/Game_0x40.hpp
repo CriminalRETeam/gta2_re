@@ -49,7 +49,7 @@ class Game_0x40
     EXPORT void sub_4B9710();
     EXPORT void sub_4B9720();
     EXPORT Player* sub_4B9750();
-    EXPORT void sub_4B9790(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s8 sub_4B97E0(Sprite* a2, s32 a3);
     EXPORT s8 sub_4B9830(Sprite* pCarSprite, s32 a3);
     EXPORT s8 sub_4B9890(s16* a2, s32 a3);
