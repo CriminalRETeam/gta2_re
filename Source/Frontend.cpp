@@ -3878,6 +3878,45 @@ s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
+MATCH_FUNC(0x4B78B0)
+void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr)
+{
+    u16 text_xbase;
+
+    if (pStr)
+    {
+        u16 v9 = 0;
+        for (; pString[v9]; ++v9)
+        {
+            ;
+        }
+        text_xbase = text_xpos - a7 * (v9 - 1);
+    }
+    else
+    {
+        text_xbase = text_xpos;
+    }
+
+    wchar_t chr[2] = {0};
+    u16 text_xposa = 0;
+
+    for (chr[0] = pString[0]; chr[0]; chr[0] = pString[++text_xposa])
+    {
+        u16 biggestLine = Frontend::sub_5D8990(chr, arg_C);
+        u16 v16 = (a7 - biggestLine) / 2;
+        if ((u16)a2 == 0xFFFF)
+        {
+            DrawText_4B87A0(chr, text_xbase + v16, text_ypos, arg_C, a6);
+        }
+        else
+        {
+            s32 eight = 8;
+            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, &eight, a2, false, false);
+        }
+        text_xbase += a7;
+    }
+}
+
 MATCH_FUNC(0x4B0190)
 u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {

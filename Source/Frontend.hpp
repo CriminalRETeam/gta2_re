@@ -2696,6 +2696,15 @@ struct Frontend
     EXPORT char_type pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
+
+    EXPORT void sub_4B78B0(wchar_t* pString,
+                    u16 text_xpos,
+                    u16 text_ypos,
+                    u16 arg_C,
+                    s32 a2,
+                    u16 a6,
+                    u16 a7,
+                    u8 pStr);
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
