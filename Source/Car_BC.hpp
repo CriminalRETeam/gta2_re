@@ -741,6 +741,7 @@ class Car_A4
 struct Car_14
 {
     EXPORT Car_14();
+    EXPORT ~Car_14();
 
     DrawUnk_0xBC* field_0;
     Car_14_18* field_4;

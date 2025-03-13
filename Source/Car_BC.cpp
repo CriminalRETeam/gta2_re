@@ -2641,3 +2641,13 @@ Car_14::Car_14()
     field_4 = new Car_14_18();
     sub_5822E0();
 }
+
+MATCH_FUNC(0x582340)
+Car_14::~Car_14()
+{
+    delete field_4;
+    field_4 = NULL;
+    field_0 = NULL;
+    field_C = NULL;
+    field_10 = NULL;
+}
