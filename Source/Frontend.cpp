@@ -1122,7 +1122,7 @@ for (s32 i=0; i<3; i++)
 
     if (field_132_f136_idx == 7)
     {
-        //Frontend::sub_4B55F0(this);
+        Frontend::sub_4B55F0();
     }
 
     bool v28 = v7->field_0 == 0;
@@ -3938,6 +3938,59 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
             DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, &eight, a2, false, false);
         }
         text_xbase += a7;
+    }
+}
+
+MATCH_FUNC(0x4B55F0)
+void Frontend::sub_4B55F0()
+{
+    s8 game_mode = gLucid_hamilton_67E8E0.sub_4C5BC0();
+    u8 v20 = gLucid_hamilton_67E8E0.sub_4C5BF0();
+    u8 v22 = gLucid_hamilton_67E8E0.sub_4C5BE0();
+
+    u8 v18 = 0;
+
+    for (u8 player_idx = 0; player_idx < v20; ++player_idx)
+    {
+        u16 x_pos;
+        u16 y_pos;
+        wchar_t Buffer[26];
+        //s32* v21 = &gYouthful_einstein_6F8450.field_4_time[player_idx];
+
+        if (game_mode == 1) //  frags
+        {
+            s32 frags = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(player_idx);
+            _itow(frags, Buffer, 10);
+            x_pos = 550;
+            y_pos = 20 * player_idx + 170;
+        }
+        else if (game_mode == 2) //  points game
+        {
+            s32 points = gLucid_hamilton_67E8E0.sub_4C5CB0(player_idx);
+            _itow(points, Buffer, 10);
+            x_pos = 550;
+            y_pos = 20 * player_idx + 170;
+        }
+        else // tag game
+        {
+            s32 player_time = gYouthful_einstein_6F8450.field_4_time[player_idx];
+            swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
+            x_pos = 500;
+            y_pos = 20 * player_idx + 170;
+        }
+
+        DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
+
+        s32 v11 = gLucid_hamilton_67E8E0.sub_4C5D80(v22, player_idx);
+        _itow(v11, Buffer, 10);
+
+        if (game_mode != 3 && player_idx != v22)
+        {
+            x_pos = 550;
+            y_pos = 20 * v18 + 320;
+            DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
+            ++v18;
+        }
     }
 }
 

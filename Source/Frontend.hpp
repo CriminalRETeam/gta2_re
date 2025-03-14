@@ -2699,6 +2699,8 @@ struct Frontend
 
     EXPORT void sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
 
+    EXPORT void sub_4B55F0();
+
     EXPORT void sub_4B78B0(wchar_t* pString,
                     u16 text_xpos,
                     u16 text_ypos,
