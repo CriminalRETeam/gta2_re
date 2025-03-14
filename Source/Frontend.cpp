@@ -1114,10 +1114,13 @@ for (s32 i=0; i<3; i++)
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
         sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25], 170, 155, 3, v22, 0xFFFF, 2);
-        v27 = field_132_f136_idx;
-        if (v27 == 2 || v27 == 3 || v27 == 11)
-            sub_4B57B0(10, 0xE1);
         */
+        u16 v27 = field_132_f136_idx;
+        if (v27 == 2 || v27 == 3 || v27 == 11)
+        {
+            sub_4B57B0(10, 0xE1);   // RIP, 'level quit' and 'area complete'
+        }
+        
     }
 
     if (field_132_f136_idx == 7)

@@ -165,6 +165,33 @@ enum MenuScreen
     Credits_17 = 17,
 };
 
+enum MenuPages  // enum for field_132_f136_idx
+{
+    MENUPAGE_NONE = -1,
+    MENUPAGE_START_MENU = 0,
+    MENUPAGE_PLAY = 1,
+    MENUPAGE_DEAD = 2,
+    MENUPAGE_AREA_COMPLETE = 3,
+    MENUPAGE_GAME_COMPLETE = 4,
+    MENUPAGE_VIEW_HIGH_SCORE = 5,
+    MENUPAGE_BONUS_AREA = 6,
+    MENUPAGE_UNK_KILLS = 7,
+    MENUPAGE_PLAY_INTRO,
+    MENUPAGE_CREDITS = 9,
+    MENUPAGE_NICE_TRY = 10,
+    MENUPAGE_RESULTS_PLAYER_QUIT = 11,
+    MENUPAGE_12 = 12,
+    MENUPAGE_13 = 13,
+    MENUPAGE_PARENTAL_CONTROL = 14,
+    MENUPAGE_15 = 15,
+    NUM_MENUPAGES,
+
+    // Not really pages
+    MENUPAGE_GTA2MANAGER = 257,
+    MENUPAGE_QUIT = 258,
+    MENUPAGE_259 = 259,
+};
+
 struct Frontend
 {
     LPDIRECTINPUTA field_0_pDInput;
