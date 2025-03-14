@@ -261,6 +261,8 @@ class gmp_map_zone
     u8 field_4_h;
     u8 field_5_name_length;
     char_type field_6_name[2];
+
+    EXPORT s8 sub_4DEF40();
 };
 
 struct gmp_zone_unknown

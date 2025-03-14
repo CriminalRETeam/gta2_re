@@ -11,6 +11,7 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
+#include "Game_0x40.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -70,6 +71,13 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
     {
         return &field_0_pDmap->field_4000C_block[pColData->field_4_blockd[z_coord - pColData->field_1_offset]];
     }
+}
+
+MATCH_FUNC(0x4DEF40)
+s8 gmp_map_zone::sub_4DEF40()
+{
+    Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
+    return gGame_0x40_67E008->sub_4B9B10(&zoneBounds);
 }
 
 MATCH_FUNC(0x4DEFD0)

@@ -323,7 +323,7 @@ void Sprite::sub_59E300()
     memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
-MATCH_FUNC(0x59e320) // https://decomp.me/scratch/P1I0C
+MATCH_FUNC(0x59e320)
 s32 Sprite::sub_59E320(char_type a2)
 {
     u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
