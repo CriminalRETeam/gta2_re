@@ -27,6 +27,9 @@ GLOBAL(word_6787A8, 0x6787A8);
 EXPORT_VAR s32 dword_67866C; // TODO: Fix16? Static init to 0xC000
 GLOBAL(dword_67866C, 0x67866C);
 
+EXPORT_VAR Fix16 dword_678438;
+GLOBAL(dword_678438, 0x678438);
+
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
@@ -1677,10 +1680,29 @@ bool Ped::sub_4701D0()
     return 0;
 }
 
-STUB_FUNC(0x470200)
-s32 Ped::sub_470200(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x470200)
+void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    return 0;
+    Ped::sub_45C830(a2, a3, a4);
+    Char_B4* pB4 = field_168_game_object;
+    u8 remap = field_244_remap;
+    pB4->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        pB4->field_80_sprite_ptr->sub_59EA00(remap);
+    }
+    if (field_238 == 2)
+    {
+        Ped::sub_45C540(0);
+        Ped::sub_45C500(0);
+        field_168_game_object->field_38 = dword_678438;
+    }
+    else
+    {
+        Ped::sub_45C540(0);
+        Ped::sub_45C500(0);
+    }
+    field_16C_car = 0;
 }
 
 MATCH_FUNC(0x4702d0)
