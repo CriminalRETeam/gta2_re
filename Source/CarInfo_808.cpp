@@ -38,11 +38,11 @@ GLOBAL(output_size_675F90, 0x675F90);
 EXPORT_VAR u8* output_ptr_675F98;
 GLOBAL(output_ptr_675F98, 0x675F98);
 
-EXPORT_VAR Fix16 DAT_5e5514;
-GLOBAL(DAT_5e5514, 0x5e5514);
+EXPORT_VAR Fix16 dword_677F54;
+GLOBAL(dword_677F54, 0x677F54);
 
-EXPORT_VAR Fix16 DAT_5e54a0;
-GLOBAL(DAT_5e54a0, 0x5e54a0);
+EXPORT_VAR Fix16 dword_677D74;
+GLOBAL(dword_677D74, 0x677D74);
 
 EXPORT_VAR Fix16 DAT_6761A4;
 GLOBAL(DAT_6761A4, 0x6761a4);
@@ -50,7 +50,7 @@ GLOBAL(DAT_6761A4, 0x6761a4);
 MATCH_FUNC(0x454680)
 void CarInfo_48::sub_454680()
 {
-    field_4_mass = field_4_mass * (DAT_5e54a0 + DAT_5e5514);
+    field_4_mass = field_4_mass * (dword_677D74 + dword_677F54);
 }
 
 MATCH_FUNC(0x430b10)
