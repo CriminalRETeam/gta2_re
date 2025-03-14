@@ -323,10 +323,29 @@ void Sprite::sub_59E300()
     memcpy(field_C_sprite_4c_ptr, field_4_0x4C_len, sizeof(Sprite_4C));
 }
 
-STUB_FUNC(0x59e320) // https://decomp.me/scratch/P1I0C
+MATCH_FUNC(0x59e320) // https://decomp.me/scratch/P1I0C
 s32 Sprite::sub_59E320(char_type a2)
 {
-    return 0;
+    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+    u32 field_5_height = sprite_index_5AA440->field_5_height;
+    u32 field_4_width = sprite_index_5AA440->field_4_width;
+
+    s32 result;
+    if ((s32)(field_4_width & 0xFFFFFFFE) < (s32)(field_5_height & 0xFFFFFFFE))
+    {
+        result = field_4_width >> 1;
+    }
+    else
+    {
+        result = field_5_height >> 1;
+    }
+    field_38 = a2 + field_38;
+    if ((field_38 & 0xFF) > result)
+    {
+        field_38 = result;
+    }
+    return result;
 }
 
 STUB_FUNC(0x59e390) // https://decomp.me/scratch/dijmx
