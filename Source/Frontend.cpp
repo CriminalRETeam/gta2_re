@@ -1114,15 +1114,18 @@ for (s32 i=0; i<3; i++)
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
         sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25], 170, 155, 3, v22, 0xFFFF, 2);
-        v27 = field_132_f136_idx;
-        if (v27 == 2 || v27 == 3 || v27 == 11)
-            sub_4B57B0((int)this, this, 10, (text_0x14 *)0xE1);
         */
+        u16 v27 = field_132_f136_idx;
+        if (v27 == 2 || v27 == 3 || v27 == 11)
+        {
+            sub_4B57B0(10, 0xE1);   // RIP, 'level quit' and 'area complete'
+        }
+        
     }
 
     if (field_132_f136_idx == 7)
     {
-        //Frontend::sub_4B55F0(this);
+        Frontend::sub_4B55F0();
     }
 
     bool v28 = v7->field_0 == 0;
@@ -2376,6 +2379,30 @@ void Frontend::sub_4B4230()
     wcsncpy(pStr, field_C9A0, 9u);
     HandleCheatCode_4B3DD0(pStr);
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
+}
+
+MATCH_FUNC(0x4B3CC0)
+void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
+{
+    competent_noyce_0x6E* temp = &field_136[a2].field_518[a3];
+
+    if (a2 == 14 && a3 == 4)
+    {
+        wcscpy(word_67C7D8, field_C9B8);
+    }
+    else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
+    {
+        swprintf(word_67C7D8, L"%s", temp->field_6_wstr_buf);
+    }
+    else if (field_EE0D < 3)
+    {
+        swprintf(word_67C7D8, L"%d", field_EE0D + 1);
+    }
+    else
+    {
+        swprintf(word_67C7D8, L"%c", field_EE0D + 62);
+    }
+    *a4 = (wchar_t*)&word_67C7D8;
 }
 
 MATCH_FUNC(0x4B3DD0)
@@ -3915,6 +3942,162 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
         }
         text_xbase += a7;
     }
+}
+
+MATCH_FUNC(0x4B55F0)
+void Frontend::sub_4B55F0()
+{
+    s8 game_mode = gLucid_hamilton_67E8E0.sub_4C5BC0();
+    u8 v20 = gLucid_hamilton_67E8E0.sub_4C5BF0();
+    u8 v22 = gLucid_hamilton_67E8E0.sub_4C5BE0();
+
+    u8 v18 = 0;
+
+    for (u8 player_idx = 0; player_idx < v20; ++player_idx)
+    {
+        u16 x_pos;
+        u16 y_pos;
+        wchar_t Buffer[26];
+        //s32* v21 = &gYouthful_einstein_6F8450.field_4_time[player_idx];
+
+        if (game_mode == 1) //  frags
+        {
+            s32 frags = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(player_idx);
+            _itow(frags, Buffer, 10);
+            x_pos = 550;
+            y_pos = 20 * player_idx + 170;
+        }
+        else if (game_mode == 2) //  points game
+        {
+            s32 points = gLucid_hamilton_67E8E0.sub_4C5CB0(player_idx);
+            _itow(points, Buffer, 10);
+            x_pos = 550;
+            y_pos = 20 * player_idx + 170;
+        }
+        else // tag game
+        {
+            s32 player_time = gYouthful_einstein_6F8450.field_4_time[player_idx];
+            swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
+            x_pos = 500;
+            y_pos = 20 * player_idx + 170;
+        }
+
+        DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
+
+        s32 v11 = gLucid_hamilton_67E8E0.sub_4C5D80(v22, player_idx);
+        _itow(v11, Buffer, 10);
+
+        if (game_mode != 3 && player_idx != v22)
+        {
+            x_pos = 550;
+            y_pos = 20 * v18 + 320;
+            DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
+            ++v18;
+        }
+    }
+}
+
+MATCH_FUNC(0x4B57B0)
+void Frontend::sub_4B57B0(u16 a3, u16 a5)
+{
+    u16 font_type = this->field_12A;
+    s32 v4 = gText_0x14_704DFC->field_10_lang_code != 106 ? 14 : 16;
+    u8 v39 = gLucid_hamilton_67E8E0.sub_4C5980();
+
+    if (gText_0x14_704DFC->field_10_lang_code == 106)
+    {
+        a5 += 5;
+    }
+    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("last");
+    swprintf(tmpBuff_67BD9C, _5B5F90);
+
+    s32 x = Frontend::sub_5D8990(tmpBuff_67BD9C, font_type);
+
+    u16 x_pos;
+    u16 y_pos;
+    DrawText_4B87A0(tmpBuff_67BD9C, (u16)(a3 - x + 494), (u16)(a5 - 15), font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("best"));
+
+    x = Frontend::sub_5D8990(tmpBuff_67BD9C, font_type);
+
+    y_pos = a5 - 15;
+    DrawText_4B87A0(tmpBuff_67BD9C, (u16)(a3 - x + 624), y_pos, font_type, 1);
+
+    if (gText_0x14_704DFC->field_10_lang_code == 106)
+    {
+        a5 += 5;
+    }
+
+    x_pos = a3;
+    y_pos = a5;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("carjack"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(5));
+    u16 v40 = a3 + 480;
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5, font_type, 10, 1, v4, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[20]);
+    u16 v37 = a3 + 610;
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 610, a5, font_type, 10, 1, v4, 1);
+
+    x_pos = a3;
+    y_pos = a5 + 20;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.sub_4C5A80());
+
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 20, font_type, 10, 1, v4, 1);
+    swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878[v39]);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 20, font_type, 10, 1, v4, 1);
+
+    x_pos = a3;
+    y_pos = a5 + 40;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("run_ovr"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(6u));
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 40, font_type, 10, 1, v4, 1);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[24]);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 40, font_type, 10, 1, v4, 1);
+
+    x_pos = a3;
+    y_pos = a5 + 60;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("murder"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(7u));
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 60, font_type, 10, 1, v4, 1);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[28]);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 60, font_type, 10, 1, v4, 1);
+
+    if (!bIsFrench_67D53C)
+    {
+        x_pos = a3;
+        y_pos = a5 + 80;
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("cop_kl"), x_pos, y_pos, font_type, 1);
+
+        swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(8u));
+        Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, a5 + 80, font_type, 10, 1, v4, 1);
+        swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[32]);
+        Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 80, font_type, 10, 1, v4, 1);
+    }
+
+    x_pos = a3;
+    y_pos = a5 + 100;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("gng_kl"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(9u));
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, a5 + 100, font_type, 10, 1, v4, 1);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[36]);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 100, font_type, 10, 1, v4, 1);
+
+    x_pos = a3;
+    y_pos = a5 + 120;
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C5AA0());
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, y_pos, font_type, 10, 1, v4, 1);
+    swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884[v39]);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, y_pos, font_type, 10, 1, v4, 1);
 }
 
 MATCH_FUNC(0x4B0190)

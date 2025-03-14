@@ -1,6 +1,7 @@
 #include "PurpleDoom.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -143,10 +144,29 @@ void PurpleDoom::sub_4784D0(s32 idx, Sprite* a3)
 {
 }
 
-STUB_FUNC(0x478590)
-u8* PurpleDoom::sub_478590(u32 a2)
+MATCH_FUNC(0x478590)
+PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 {
-    return 0;
+    PurpleDoom_C* pIter;
+    s32 f0;
+
+    if (start_idx < 0 || start_idx > 255)
+    {
+        return 0;
+    }
+    for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
+    {
+        f0 = (u8)pIter->field_0;
+        if (f0 >= dword_6F5FD4)
+        {
+            break;
+        }
+        if (f0 > dword_6F5B80)
+        {
+            return 0;
+        }
+    }
+    return pIter;
 }
 
 STUB_FUNC(0x4785d0)

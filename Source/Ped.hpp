@@ -55,7 +55,7 @@ class Ped
     EXPORT s32 sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);
-    EXPORT s32 sub_45C540(s32 a2);
+    EXPORT void sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC* a2);
@@ -219,7 +219,7 @@ class Ped
     EXPORT s16 sub_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool sub_4701D0();
-    EXPORT s32 sub_470200(s32 a2, s32 a3, s32 a4);
+    EXPORT void sub_470200(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_4702D0(Ped* pPed);
     EXPORT void sub_470300();
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);

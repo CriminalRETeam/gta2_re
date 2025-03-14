@@ -165,6 +165,33 @@ enum MenuScreen
     Credits_17 = 17,
 };
 
+enum MenuPages  // enum for field_132_f136_idx
+{
+    MENUPAGE_NONE = -1,
+    MENUPAGE_START_MENU = 0,
+    MENUPAGE_PLAY = 1,
+    MENUPAGE_DEAD = 2,
+    MENUPAGE_AREA_COMPLETE = 3,
+    MENUPAGE_GAME_COMPLETE = 4,
+    MENUPAGE_VIEW_HIGH_SCORE = 5,
+    MENUPAGE_BONUS_AREA = 6,
+    MENUPAGE_UNK_KILLS = 7,
+    MENUPAGE_PLAY_INTRO,
+    MENUPAGE_CREDITS = 9,
+    MENUPAGE_NICE_TRY = 10,
+    MENUPAGE_RESULTS_PLAYER_QUIT = 11,
+    MENUPAGE_12 = 12,
+    MENUPAGE_13 = 13,
+    MENUPAGE_PARENTAL_CONTROL = 14,
+    MENUPAGE_15 = 15,
+    NUM_MENUPAGES,
+
+    // Not really pages
+    MENUPAGE_GTA2MANAGER = 257,
+    MENUPAGE_QUIT = 258,
+    MENUPAGE_259 = 259,
+};
+
 struct Frontend
 {
     LPDIRECTINPUTA field_0_pDInput;
@@ -2533,7 +2560,7 @@ struct Frontend
     char_type field_EE09;
     u16 field_EE0A;
     u8 field_EE0C;
-    char_type field_EE0D;
+    u8 field_EE0D;
     xenodochial_morse field_EE0E_unk;
     s16 field_1EB30;
     s16 field_1EB32;
@@ -2696,6 +2723,12 @@ struct Frontend
     EXPORT char_type pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
+
+    EXPORT void sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4);
+
+    EXPORT void sub_4B55F0();
+
+    EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
     EXPORT void sub_4B78B0(wchar_t* pString,
                     u16 text_xpos,
