@@ -55,7 +55,7 @@ class Ped
     EXPORT s32 sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);
-    EXPORT s32 sub_45C540(s32 a2);
+    EXPORT void sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC* a2);

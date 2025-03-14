@@ -412,10 +412,27 @@ void Ped::sub_45C500(s32 a2)
     }
 }
 
-STUB_FUNC(0x45c540)
-s32 Ped::sub_45C540(s32 a2)
+MATCH_FUNC(0x45c540)
+void Ped::sub_45C540(s32 a2)
 {
-    return 0;
+    if (field_278 != 8)
+    {
+        field_27C = a2;
+    }
+    else if (field_27C < 17 || field_27C > 28)
+    {
+        field_284 = field_27C;
+        field_27C = a2;
+    }
+    else if (a2 < 23 || a2 > 26)
+    {
+        field_284 = a2;
+    }
+    else
+    {
+        field_284 = field_27C;
+        field_27C = a2;
+    }
 }
 
 MATCH_FUNC(0x45c5a0)
