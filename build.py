@@ -48,8 +48,9 @@ def main():
 
     print("Build finished and verified successfully!")
 
-    if GTA2_ROOT is None and os.environ.get("CI") is not None:
-        print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
+    if GTA2_ROOT is None:
+        if os.environ.get("CI") is None:
+            print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
         sys.exit(0)
 
     copy_files()
