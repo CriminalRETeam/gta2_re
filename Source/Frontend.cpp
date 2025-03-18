@@ -4702,22 +4702,17 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       u16 font_type,
                                       Fix16 scale_fp,
                                       s32* pUnknown,
-                                      s32 unknown1,
-                                      s32 unknown2,
-                                      s32 flags)
+                                      s32 unknown1, // seems to be related with palette
+                                      s32 unknown2, // alpha_value
+                                      s32 flags)    // bool use_alpha
 {
 
     s32 new_Flags = CalcQuadFlags_5D83E0(unknown2, flags) | 0x20000;
 
     Fix16 cur_xpos = xpos_fp; // note: new var
 
-    Fix16 spaceWidth;
-    spaceWidth.mValue = gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type); // werid in place construction
-    spaceWidth = scale_fp * spaceWidth;
-
-    Fix16 lineHeight;
-    lineHeight.mValue = gGtx_0x106C_703DD4->sub_5AA800(&font_type); // werid in place construction
-    lineHeight = scale_fp * lineHeight;
+    Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type);
+    Fix16 lineHeight = scale_fp * gGtx_0x106C_703DD4->sub_5AA800(&font_type);
 
     unknown2 = unknown1;
 
@@ -4739,7 +4734,6 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
     }
 
-    //if (*pText)
     while (*pText != 0)
     {
         wchar_t text_char = *pText;
@@ -4824,37 +4818,34 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             //v25 = v11.mValue;
             //v26 = v11.mValue >> 31;
 
-            Fix16 sprite_xoff;
-            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) * (__int64)(scale_fp.mValue >> 14);
+            Fix16 sprite_xoff = Fix16(pSprIdx->field_4_width) * scale_fp;
 
-            Fix16 sprite_yoff;
-            sprite_yoff.mValue = (__int64)(pSprIdx->field_5_height << 14) * (__int64)(scale_fp.mValue >> 14);
+            Fix16 sprite_yoff = Fix16(pSprIdx->field_5_height) * scale_fp;
 
             gQuadVerts_706B88.field_0_verts[0].field_0_x = cur_xpos.ToFloat();
             gQuadVerts_706B88.field_0_verts[0].field_4_y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.0001; // line 214
 
             f32 v_1_2_x = (sprite_xoff + cur_xpos).ToFloat();
             gQuadVerts_706B88.field_0_verts[1].field_0_x = v_1_2_x;
             gQuadVerts_706B88.field_0_verts[1].field_4_y = gQuadVerts_706B88.field_0_verts[0].field_4_y;
-            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.0001;
 
             // f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
 
             gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
-            f32 v2_3_y = (ypos_fp + sprite_yoff).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].field_4_y = v2_3_y;
+            gQuadVerts_706B88.field_0_verts[2].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
 
             s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
-            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.0001;
 
             gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
-            gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
-            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[3].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.0001;
 
-            Fix16 letterW((float)(pSprIdx->field_4_width - 0.000099999997));
+            Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
             cur_xpos += letterW;
-            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.000099999997));
+            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001)); 
 
             gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;
