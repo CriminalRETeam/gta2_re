@@ -3,6 +3,9 @@ import subprocess
 import platform
 import sys
 import requests
+import shutil
+import argparse
+import enum
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -17,7 +20,19 @@ CMAKE_BUILD_CMD = "cmake --build . --target all"
 BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
               CMAKE_BUILD_CMD]
 
+GTA2_ROOT = os.environ.get("GTA2_ROOT")
+
+class ExeType(enum.IntEnum):
+    standalone = 0,
+    patched = 1
+
 def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--run_standalone", help="Run the standalone gta2 exe after the build successfully finishes", action="store_true")
+    parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
+
+    args = parser.parse_args()
+
     print("Starting build")
     print(f"Build platform: {platform.system()}")
 
@@ -32,6 +47,18 @@ def main():
         sys.exit(1)
 
     print("Build finished and verified successfully!")
+
+    if GTA2_ROOT is None:
+        if os.environ.get("CI") is None:
+            print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
+        sys.exit(0)
+
+    copy_files()
+
+    if args.run_standalone:
+        run_exe(ExeType.standalone)
+    elif args.run_patched:
+        run_exe(ExeType.patched)
 
 def as_wine_path(unix_path):
     wine_path = unix_path.replace("/", "\\")
@@ -138,6 +165,29 @@ def download_exe():
         exe.write(r.content)
 
     print(f"Successfully downloaded 10.5.exe to: {exe_path}")
+
+def copy_files():
+    files = ["gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe"]
+    for file in files:
+        file_src = os.path.join(BUILD_DIRECTORY, file)
+        file_dst = os.path.join(GTA2_ROOT, file)
+        if not os.path.exists(file_src):
+            print(f"Could not find/copy {file_src}")
+        
+        print(f"Copy {file_src} to {file_dst}")
+        shutil.copy2(file_src, file_dst)
+
+def run_exe(exe: ExeType):
+    exe_name = "10.5.new.exe" if exe == ExeType.patched else "decomp_main.exe"
+    exe_path = os.path.join(GTA2_ROOT, exe_name)
+    
+    if not os.path.exists(exe_path):
+        print(f"Could not find exe: {exe_path}")
+        return
+
+    run_command = exe_path if platform.system() == "Windows" else f"wine {exe_path}"
+    print(f"Executing run command: {run_command}")
+    subprocess.run(run_command, cwd=GTA2_ROOT)
 
 if __name__ == "__main__":
     main()
