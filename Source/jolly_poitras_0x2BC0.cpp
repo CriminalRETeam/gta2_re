@@ -461,3 +461,18 @@ s32 dreamy_clarke_0xA4::sub_56B680()
     }
     return result;
 }
+
+MATCH_FUNC(0x56B6B0)
+s32 dreamy_clarke_0xA4::sub_56B6B0()
+{
+    s32 result = 0;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            result += field_0[i][j].field_4;
+        }
+    }
+    return result;
+}
