@@ -29,6 +29,14 @@ struct lucid_hamilton
     char_type field_405;
     char_type field_406;
     char_type field_407;
+    /*
+    statistics:
+    field_408[5] = vehicles hijacked
+    field_408[6] = civilians run down
+    field_408[7] = civilians murdered
+    field_408[8] = lawmen killed
+    field_408[9] = gang members killed
+    */
     s32 field_408[10];
     s32 field_430;
     s32 field_434;
