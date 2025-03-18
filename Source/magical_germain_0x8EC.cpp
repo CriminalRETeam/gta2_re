@@ -125,10 +125,40 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
     return field_8D8_pTexture;
 }
 
-STUB_FUNC(0x4D27D0)
-STexture* magical_germain_0x8EC::sub_4D27D0(u16 a2)
+MATCH_FUNC(0x4D27D0)
+STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
 {
-    return 0;
+    kanji_0x10* pFound;
+    kanji_0x10* pCurrent;
+    u32 nearestId = -1;
+
+    for (s32 i = 0; i < 20; i++)
+    {
+        pCurrent = &field_780[i];
+        if (pCurrent->field_2_text_char == text_char && pCurrent->field_0_v1 == field_8E8_v1 && pCurrent->field_1_v2 == field_8E9_v2)
+        {
+            pCurrent->field_C_id = field_8C0_count++;
+            return pCurrent->field_4_pTexture;
+        }
+
+        if (pCurrent->field_C_id < nearestId)
+        {
+            nearestId = pCurrent->field_C_id;
+            pFound = pCurrent;
+        }
+    }
+
+    field_8DC_pSprtData = pFound->field_8_sprt_index->field_0_pData;
+    field_8E4_pTexture = pFound->field_4_pTexture;
+
+    pFound->field_0_v1 = field_8E8_v1;
+    pFound->field_1_v2 = field_8E9_v2;
+    pFound->field_2_text_char = text_char;
+    pFound->field_C_id = field_8C0_count++;
+
+    sub_4D2690(text_char);
+
+    return field_8E4_pTexture;
 }
 
 MATCH_FUNC(0x4D28A0)
