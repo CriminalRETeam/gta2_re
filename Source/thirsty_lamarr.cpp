@@ -2,10 +2,28 @@
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
-STUB_FUNC(0x4920b0)
+MATCH_FUNC(0x4920b0)
 thirsty_lamarr::thirsty_lamarr()
 {
+    for (s32 iVar2 = 0; iVar2 < 9; iVar2++)
+    {
+        field_13[iVar2] = 0;
+        field_9[iVar2] = 0x30;
+        field_1D_buf[iVar2] = 0x30;
+    }
 
+    field_12 = 0;
+    field_0 = 0;
+    field_4 = -1;
+    field_8 = 0;
+    field_27_sprite_w = -1;
+    field_28_sprite_h_calc = -1;
+    field_2A = 0;
+    field_2C = 0;
+    field_2E_idx = 0;
+    field_30 = 0;
+    field_34 = 0;
+    field_36 = 0;
 }
 
 STUB_FUNC(0x492110)
