@@ -446,3 +446,18 @@ void dreamy_clarke_0xA4::sub_56B630()
     }
     this->field_0[0][0].field_0 = true;
 }
+
+MATCH_FUNC(0x56B680)
+s32 dreamy_clarke_0xA4::sub_56B680()
+{
+    s32 result = 0;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            result += field_0[i][j].field_8;
+        }
+    }
+    return result;
+}
