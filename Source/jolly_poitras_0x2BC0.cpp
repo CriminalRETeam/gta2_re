@@ -17,39 +17,25 @@ GLOBAL(word_67DC8C, 0x67DC8C);
 // TODO
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
-STUB_FUNC(0x56B6E0)
+MATCH_FUNC(0x56B6E0)
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
-    // todo
-    int* tmp = field_1878;
-    int* pIter1 = field_1884;
-    struc_221* pIter2 = field_1800;
-
-    s32 i;
-    for (i = 0; i < 3; i++)
+    for (s32 i = 0; i < 3; i++)
     {
-        //  ++pIter1;
-        memset(pIter2, 0, sizeof(struc_221));
-        *pIter1 = 0;
-        pIter1++;
-
-        *tmp = 0;
-        tmp++;
-
-        //        *(pIter1 - 4) = 0;
-        //      *(pIter1 - 1) = 0;
-        ++pIter2;
+        memset(&field_1800[i], 0, sizeof(struc_221));
+        field_1878[i] = 0;
+        field_1884[i] = 0;
     }
 
-    for (i = 0; i < 8; i++)
+    for (u32 j = 0; (u16)j < 8; j++)
     {
-        if (PlySlotDatExists_56B940(i))
+        if (PlySlotDatExists_56B940(j))
         {
-            sub_56B990(i);
+            sub_56B990(j);
         }
         else
         {
-            sub_56BA60(i);
+            sub_56BA60(j);
         }
     }
 
