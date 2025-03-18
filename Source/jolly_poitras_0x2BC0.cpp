@@ -250,33 +250,27 @@ s32 len;
     File::Global_Close_4A70C0();
 */
 
-// wrong stack slots
-STUB_FUNC(0x56BE50)
+MATCH_FUNC(0x56BE50)
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
     char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
     File::Global_Open_4A7060(FileName);
 
-    u32 len = 240;
-    File::Global_Read_4A71C0(&field_23D0.field_0, len);
+    File::Global_Read_4A71C0(&field_23D0.field_0, 240);
 
     for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
         for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
-            len = 240;
-            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, len);
+            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter], 240);
         }
 
-        len = 40;
-        File::Global_Read_4A71C0(&field_1800[k3Counter], len); // 3 40 byte objs
+        File::Global_Read_4A71C0(&field_1800[k3Counter], 40); // 3 40 byte objs
 
-        len = 4;
-        File::Global_Read_4A71C0(&field_1878[k3Counter], len);
+        File::Global_Read_4A71C0(&field_1878[k3Counter], 4);
 
-        len = 4;
-        File::Global_Read_4A71C0(&field_1884[k3Counter], len);
+        File::Global_Read_4A71C0(&field_1884[k3Counter], 4);
     }
 
     File::Global_Close_4A70C0();
