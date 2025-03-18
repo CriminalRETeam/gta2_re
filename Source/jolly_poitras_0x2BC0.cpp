@@ -427,8 +427,22 @@ dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
 }
 
-STUB_FUNC(0x56B630)
+MATCH_FUNC(0x56B630)
 void dreamy_clarke_0xA4::sub_56B630()
 {
-    // todo
+    for (u16 k = 0; k < 9; k++)
+    {
+        field_90_strPlayerName[k] = 0;
+    }
+
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            field_0[i][j].field_0 = false;
+            field_0[i][j].field_4 = 0;
+            field_0[i][j].field_8 = 0;
+        }
+    }
+    this->field_0[0][0].field_0 = true;
 }
