@@ -8,9 +8,9 @@ struct sprite_index;
 
 struct kanji_0x10
 {
-    char_type field_0_v1;
-    char_type field_1_v2;
-    s16 field_2_text_char;
+    u8 field_0_v1;
+    u8 field_1_v2;
+    wchar_t field_2_text_char;
     STexture* field_4_pTexture;
     sprite_index* field_8_sprt_index;
     u32 field_C_id;
@@ -45,7 +45,7 @@ class magical_germain_0x8EC
     sprite_index* field_8E0_sprite_index;
     STexture* field_8E4_pTexture;
     u8 field_8E8_v1;
-    char_type field_8E9_v2;
+    u8 field_8E9_v2;
     s16 field_8EA_pad;
 
     EXPORT void LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len);
@@ -56,7 +56,7 @@ class magical_germain_0x8EC
     EXPORT void sub_4D2610(wchar_t text_char);
     EXPORT s32 sub_4D2690(u16 a2);
     EXPORT STexture* sub_4D2710(wchar_t text_char);
-    EXPORT STexture* sub_4D27D0(u16 a2);
+    EXPORT STexture* sub_4D27D0(wchar_t a2);
     EXPORT void sub_4D28A0(u16 a2);
     EXPORT void sub_4D29D0(u16 a2);
     EXPORT void sub_4D2B40();

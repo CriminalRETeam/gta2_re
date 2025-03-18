@@ -209,7 +209,7 @@ struct Frontend
     s16 field_11E;
     s16 field_120;
     s16 field_122;
-    s16 field_124_font_type;
+    u16 field_124_font_type;
     s16 field_126;
     s16 field_128;
     s16 field_12A;
@@ -2630,7 +2630,7 @@ struct Frontend
 
     EXPORT void sub_4B8020();
 
-    EXPORT static int __stdcall sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind);
+    EXPORT int __stdcall sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind);
 
     EXPORT char_type sub_4B7FB0();
 

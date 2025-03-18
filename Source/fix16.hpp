@@ -143,6 +143,16 @@ class Fix16
         mValue = value << 14;
     }
 
+    Fix16(s16 value)
+    {
+        mValue = value << 14;
+    }
+
+    Fix16(u32 value)
+    {
+        mValue = value << 14;
+    }
+
     Fix16(s32 value)
     {
         mValue = value << 14;

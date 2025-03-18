@@ -963,11 +963,60 @@ EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 STUB_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
+    __int32 v1; // edx
+    int v2; // ebx
+    __int16 v12; // ax
+    int v13; // edx
+    int v14; // eax
+    __int16 v15; // ax
+    int v16; // ecx
+    u16 v18;
+    small_string* v20; // ecx
+    u16 v21; // ax
+    u8 v23; // al
+    u8 v24; // bl
+    u8 v25; // bp
+    wchar_t* _5B5F90; // eax
+    u16 v27; // ax
+    __int32 v30; // eax
+    int field_6_wstr_buf; // edx
+    u16 v34; // ax
+    u16 v35; // eax
+    char v36; // cl
+    __int16 v37; // ax
+    int v38; // ecx
+    int v39; // edx
+    __int16 v40; // ax
+    u16 v44; // ax
+    Fix16* v46; // eax
+    small_string* v47; // ecx
+    int v48; // ecx
+    int v49; // edx
+    small_string* v50; // ecx
+    int v51; // ecx
+    u16 v54; // ax
+    int v55; // eax
+    competent_noyce_0x6E* v56; // ebp
+    u16 field_2_xpos; // bx
+    u16 v58; // dx
+    int* v59; // eax
+    u16* v60; // ecx
+    u16 field_4_ypos; // ax
+    u16 v63; // ax
+    small_string* v66; // ecx
+    __int16 v68; // ax
+    __int16 v78; // ax
+    agitated_keldysh_0xF0* v85;
+    int a5;
+    int a6;
+
     const u16 local_field_132_f136_idx = field_132_f136_idx;
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
     const s32 v5 = field_132_f136_idx;
-    //v6 = 0x5E5 * local_field_132_f136_idx;
+    s32 v6 = 1509 * field_132_f136_idx;
     loving_borg_0xBCA* v7 = &field_136[local_field_132_f136_idx];
+
+    u16 temp_unk1;
 
     /*
 for (s32 i=0; i<3; i++)
@@ -979,17 +1028,14 @@ for (s32 i=0; i<3; i++)
     if (field_132_f136_idx == 0)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+        DrawText_4B87A0(tmpBuff_67BD9C, 300, 460, font_type_703C14, 1);
 
-        Fix16 ypos;
-        ypos.FromInt_4369F0(460);
-
-        Fix16 xpos;
-        xpos.FromInt_4369F0(300);
-
-        Fix16 scale;
-        scale.mValue = 0x4000;
-
-        DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, font_type_703C14, scale);
+        // Testing...
+        //  buffer, x, y, font_type, palette, scale, lang={14,16,21}, count line
+        //Frontend::sub_4B78B0(L"ABCDE", 300, 400, 4, 10, 1, 16, true);
+        //DrawText_4B87A0(L"ABCDEFGHIJKLM\nNOPQRSTUVW\nXYZ 0123456789", (s32)300, (s32)370, 4, 1);
+        //s32 local = 2;
+        //DrawText_5D8A10(L"ABCDEFGHIJKLM\nNOPQRSTUVW\nXYZ 0123456789", (s32)300, (s32)370, 4, 1, &local, 0, 0, 0);
     }
 
     if (field_132_f136_idx == 1)
@@ -998,129 +1044,133 @@ for (s32 i=0; i<3; i++)
         {
             v7->field_518[8].field_1 = 0;
             v7->field_518[9].field_1 = 0;
-            const s32 v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
-            sub_4B7E10(11, v12 + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
 
-            const s32 v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
+            // NOTE: field_124_font_type is u16
+            // NOTE: sub_4B7E10 is not static
+
+            v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
+            v14 = sub_4B7E10(11, v12 + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
+
+            v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
             sub_4B7E10(10, v15 + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
         }
         else
         {
-            u16 v6 = v7->field_4[0].field_6E_count;  //LOWORD(v6) = v7->field_4[0].field_6E_count;
-            //v17 = field_11C;
-            //v97 = v6;     Not used yet
-            s32 v18 = Frontend::sub_5D8990(
-                (wchar_t*)gJolly_poitras_0x2BC0_6FEAC0->field_26A0[(u16)v6].field_90_strPlayerName,
-                field_11C)
-                + 10;
+            u16 idx = v7->field_4[0].field_6E_count;
+            temp_unk1 = idx;
+            v18 = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx].field_90_strPlayerName, field_11C) + 10;
+
             if (v18 == 10)
-                v18 = Frontend::sub_5D8990((wchar_t*)v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
+            {
+                v18 = Frontend::sub_5D8990(v7->field_4[0].field_6_wstr_buf, field_11C) + 40;
+            }
             v7->field_518[9].field_2_xpos = v18 + v7->field_4[0].field_2;
-            
         }
     }
+
     if (field_132_f136_idx == 5)
     {
-        /*
-        v19 = field_EE0D;
-        if (v19 < 3u)
+        if (field_EE0D < 3)
         {
-            LOWORD(v1) = field_12A;
-            v91 = 2;
-            v90 = 0xFFFF;
-            fp_460 = (s32 *)v1;
-            fp_300 = 5;
-            v87 = 250;
-            v86 = 300;
-            v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890[v19];
-            goto LABEL_18;
+            v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890[field_EE0D];
+            // TODO: STUB
+            //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
-
-        if (v19 >= 6u)
+        else if (field_EE0D < 6u)
         {
-            v91 = 2;
-            v90 = 0xFFFF;
-            if (v19 < 9u)
-            {
-                LOWORD(v1) = field_12A;
-                fp_460 = (s32 *)v1;
-                fp_300 = 5;
-                v87 = 250;
-                v86 = 300;
-                v85 = (agitated_keldysh_0xF0 *)(&gJolly_poitras_0x2BC0_6FEAC0->field_17A0 + 60 * v19);
-                goto LABEL_18;
-            }
-            LOWORD(v5) = field_12A;
-            fp_460 = (s32 *)v5;
-            fp_300 = 5;
-            v87 = 250;
-            v86 = 300;
-            v20 = (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[0][v19];
+            //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_16B0[field_EE0D].field_0; // TODO: struct at field_16B0
+            // TODO: STUB
+            //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
         {
-            LOWORD(v5) = field_12A;
-            v91 = 2;
-            v90 = 0xFFFF;
-            fp_460 = (s32 *)v5;
-            fp_300 = 5;
-            v87 = 250;
-            v86 = 300;
-            v20 = (wchar_t *)(&gJolly_poitras_0x2BC0_6FEAC0->field_16B0 + 0x3C * v19);
+            if (field_EE0D < 9u)
+            {   
+                // TODO: struct at field_17A0
+                //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (agitated_keldysh_0xF0*)(& + 60 * v19);
+                // TODO: STUB
+                //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            }
+            else
+            {
+                v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890[field_EE0D];
+                // TODO: STUB
+                //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            }
         }
-        */
 
-        /*
-        v85 = (agitated_keldysh_0xF0 *)v20;
-    LABEL_18:
-        sub_4B5430(this, (wchar_t *)v85, v86, v87, fp_300, (int)fp_460, v90, v91);
         if (!byte_67DA80)
         {
-            if (field_EE0D)
-                v7->field_518[2].field_1 = 1;
+            if (!field_EE0D)
+            {
+                v7->field_518[2].field_1 = false;
+            }
             else
-                v7->field_518[2].field_1 = 0;
-            v7->field_518[3].field_1 = field_EE0D != 11;
-        }*/
+            {
+                v7->field_518[2].field_1 = true;
+            }
+            if (field_EE0D == 11)
+            {
+                v7->field_518[3].field_1 = false;
+            }
+            else
+            {
+                v7->field_518[3].field_1 = true;
+            }
+        }
     }
 
-    const s32 v21 = field_132_f136_idx;
+    v21 = field_132_f136_idx;
+    u8 temp1;
+    u8 temp2;
     if (v21 == 2 || v21 == 3 || v21 == 6 || v21 == 11)
     {
-        u8 v96;
-        u8 v95;
-        if (gLucid_hamilton_67E8E0.sub_4C59A0())
+        if (!gLucid_hamilton_67E8E0.sub_4C59A0())
         {
-            s8 v23 = gLucid_hamilton_67E8E0.sub_4C5990();
-            v96 = v23 >> 4;    //  LOBYTE(v96)
-            v95 = v23 & 0xF;   //  LOBYTE(v95)
+            temp1 = gLucid_hamilton_67E8E0.sub_4C5980();
+            temp2 = 0;
         }
         else
         {
-            v96 = gLucid_hamilton_67E8E0.sub_4C5980();  //  LOBYTE(v96)
-            v95 = 0;    //  LOBYTE(v95)
+            v23 = gLucid_hamilton_67E8E0.sub_4C5990();
+            temp1 = v23 >> 4;
+            temp2 = v23 & 0xF;
         }
-        u8 v24 = v96;
-        u8 v25 = v95;
+        v24 = temp1;
+        v25 = temp2;
         if (field_132_f136_idx == 6)
         {
-            u8 v91 = 3*v96 + v95 + 64;
-            wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("bonslev");
-            swprintf(tmpBuff_67BD9C, L"%s %c", _5B5F90, v91);
+            // TODO: remove volatile
+            volatile s32 scale_unk = 3 * temp1 + temp2 + 64;
+            _5B5F90 = gText_0x14_704DFC->Find_5B5F90("bonslev");
+            swprintf(tmpBuff_67BD9C, L"%s %c", _5B5F90);
             wcsncpy(v7->field_518[0].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
-            //sub_4B7D60((int)this, this);
+
+            // TODO: STUB
+            //Frontend::sub_4B7D60();
         }
         /*
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
-        sub_4B5430(this, (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25], 170, 155, 3, v22, 0xFFFF, 2);
         */
-        u16 v27 = field_132_f136_idx;
+        //Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890[0][v2].field_0, 0xAAu, 155, 3, v22, 0xFFFF, 2);
+
+        // TODO: STUB
+        /*
+        Frontend::sub_4B5430((small_string**)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25].field_0,
+                             0xAAu,
+                             155,
+                             3,
+                             field_12A,
+                             0xFFFF,
+                             2);
+        */
+
+        v27 = field_132_f136_idx;
         if (v27 == 2 || v27 == 3 || v27 == 11)
         {
-            sub_4B57B0(10, 0xE1);   // RIP, 'level quit' and 'area complete'
+            Frontend::sub_4B57B0(10, 0xE1);
         }
-        
     }
 
     if (field_132_f136_idx == 7)
@@ -1128,508 +1178,356 @@ for (s32 i=0; i<3; i++)
         Frontend::sub_4B55F0();
     }
 
-    bool v28 = v7->field_0 == 0;
-    s32 v96 = -1;
-    s32 v94 = 0;
+    u32 temp3 = -1;
+    u32 temp4 = 0;
 
-    s32 v52;
-    s32 v34;
-    wchar_t* field_6_wstr_buf;
+    nifty_maxwell_0x82* v31;
 
-    if (v7->field_0 == 0)
+    u16 v53;
+    u8 v53_u8;
+
+    u8 unk_idx;
+
+    wchar_t* a4_unk;
+
+    s32 v29;
+
+    u16 v2_u16;
+    u16 v93_a;
+
+    //  note: probably 'for' structure
+    if (v7->field_0 > 0)
     {
-        goto LABEL_92;
-    }
-
-    v52 = 0;
-    do
-    {
-        u16 v29 = v94;
-        s32 v30 = v94;
-        nifty_maxwell_0x82* v31 = &v7->field_4[v94];
-        if (!v7->field_4[v94].field_1)
+        do
         {
-            
-            u16 v44 = field_132_f136_idx;
-            s8 v45 = 0;
-            if ((v44 == 1 || v44 == 3) && v94 == 1)
-            {
-                v45 = 1;
-            }
+            v29 = temp4;
+            v30 = temp4;
+            v31 = &v7->field_4[temp4];
 
-            if (v44 != 11 && v44 != 2 || v94)
+            if (v7->field_4[temp4].field_1)
             {
-                if (!v45)
+                if (v31->field_0 == 2)
                 {
-                    goto LABEL_87;
+                    //v30 = (__int32)Frontend::sub_4B3AF0(field_132_f136_idx, a3[0], a4_unk);
+                    // TODO: STUB
+                    //Frontend::sub_4B3AF0(field_132_f136_idx, temp4, &a4_unk);
                 }
-                v29 = v94;
-            }
-            if (v31->field_0 == 2)
-            {
-                //sub_4B3AF0(v44, v29, &field_6_wstr_buf);
-            }
-            else
-            {
-                field_6_wstr_buf = v7->field_4[v94].field_6_wstr_buf;
-            }
-
-            v29 = v31->field_4; // LOWORD(v29) = *(_WORD *)(v31 + 4);
-            v28 = v31->field_6A == 0xFFFF; //  *(_WORD *)(v31 + 106) == 0xFFFF
-            s16 v2 = v31->field_2;   //  LOWORD(v2) = *(_WORD *)(v31 + 2)
-            u16 v93 = v29;   //  LOWORD(v93) = v29
-
-            Fix16 v46;
-            s32 v91 = 0;
-            s32 v90 = 0;
-            if (!v28)
-            {
-                
-                //v95 = 8;
-                s32 fp_460 = 8;
-            LABEL_83:
-                s32 fp_300 = 8;//(int)&v95;
-                //v87 = (int)v29;
-                v46.FromInt_4369F0(1); //v46 = FP::FromInt_4369F0(&v87, 1);
-                u16 v86 = v31->field_6A;    //  LOWORD(v46) = *(_WORD *)(v31 + 106);
-                //v86 = (int)v46;
-                //v85 = (agitated_keldysh_0xF0 *)v47;
-                Fix16 v84;
-                Fix16 v99;
-                /*
-                FP::FromU16_4AE970(&v85, v93);
-                v84 = v48;
-                FP::FromU16_4AE970(&v84, v2);
-                v83 = ;
-                */
-                Fix16 scale_fp;
-                scale_fp.mValue = v29;
-            LABEL_86:
-                DrawText_5D8A10(field_6_wstr_buf, 
-                    v84.FromU16_4AE970(v2), 
-                    v99.FromU16_4AE970(v93), 
-                    v86, 
-                    scale_fp,                //  v87 
-                    &fp_300, 
-                    fp_460, 
-                    v90, 
-                    v91);
-                goto LABEL_87;
-            }
-            else
-            {
-                v91 = 0;
-                v90 = 0;
-                /*
-                //v95 = 8;
-                fp_460 = (s32 *)8;
-            //LABEL_85:
-                fp_300 = (int)&v95;
-                v87 = (int)&v95;
-                FP::FromInt_4369F0(&v87, 1);
-                LOWORD(v49) = field_11C;
-                v86 = v49;
-                v85 = (agitated_keldysh_0xF0 *)v50;
-                FP::sub_4AE970(&v85, v93);
-                v84 = v51;
-                FP::sub_4AE970(&v84, v2);
-                //v83 = field_6_wstr_buf;
-                */
-
-                s32 fp_460 = 8;
-                s32 fp_300 = 8;//(int)&v95;
-                //v87 = (int)v29;
-                v46.FromInt_4369F0(1); //v46 = FP::FromInt_4369F0(&v87, 1);
-                u16 v86 = field_11C;    //  LOWORD(v46) = *(_WORD *)(v31 + 106);
-                //v86 = (int)v46;
-                //v85 = (agitated_keldysh_0xF0 *)v47;
-                Fix16 v84;
-                Fix16 v99;
-
-                Fix16 scale_fp;
-                scale_fp.mValue = v29;
-
-                DrawText_5D8A10(field_6_wstr_buf, 
-                    v84.FromU16_4AE970(v2), 
-                    v99.FromU16_4AE970(v93), 
-                    v86, 
-                    scale_fp,                //  v87 
-                    &fp_300, 
-                    fp_460, 
-                    v90, 
-                    v91);
-                //goto LABEL_86;
-            }
-            /*
-            v91 = 0;
-            v90 = 0;
-            v95 = 8;
-            fp_460 = (s32 *)8;
-        LABEL_85:
-            fp_300 = (int)&v95;
-            v87 = (int)&v95;
-            FP::FromInt_4369F0(&v87, 1);
-            LOWORD(v49) = field_11C;
-            v86 = v49;
-            v85 = (agitated_keldysh_0xF0 *)v50;
-            FP::sub_4AE970(&v85, v93);
-            v84 = v51;
-            FP::sub_4AE970(&v84, v2);
-            v83 = field_6_wstr_buf;
-            goto LABEL_86;
-            */
-        }
-        if (v31->field_0 == 2)
-        {
-            //v30 = (int)sub_4B3AF0((int)this, field_132_f136_idx, (u16)v94, &field_6_wstr_buf);
-        }
-        else
-        {
-            field_6_wstr_buf = v7->field_4[(u16)v94].field_6_wstr_buf;
-        }
-
-        //LOWORD(v29) = (_WORD)v94;
-        v28 = v94 == v7->field_BC6_nifty_idx;
-        //LOWORD(v2) = *(_WORD *)(v31 + 2);
-        //LOWORD(v93) = *(_WORD *)(v31 + 4);
-
-        if (!v28)
-        {
-            /*
-            if (*(_WORD *)(v31 + 106) != 0xFFFF)
-            {
-                LOWORD(v30) = *(_WORD *)(v31 + 108);
-                if ((_WORD)v30 == 0xFFFF)
+                else
                 {
-                    v91 = 0x4000;
-                    LOWORD(v32) = *(_WORD *)(v31 + 106);
-                    v90 = (int)v32;
-                    fp_460 = v29;
-                    FP::sub_4AE970(&fp_460, v93);
-                    fp_300 = (int)v42;
-                    FP::sub_4AE970(&fp_300, v2);
-                    DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
-                    goto LABEL_87;
+                    a4_unk = (wchar_t*)&v7->field_4[temp4].field_6_wstr_buf;
                 }
-                v91 = 0;
-                v90 = 0;
-                v95 = 8;
-                fp_460 = (s32 *)v30;
-                goto LABEL_83;
-            }
-            LOWORD(v31) = *(_WORD *)(v31 + 108);
-            if ((_WORD)v31 == 0xFFFF)
-            {
-                v91 = 0x4000;
-                LOWORD(v29) = field_11C;
-                v90 = (int)v29;
-                fp_460 = v29;
-                FP::sub_4AE970(&fp_460, v93);
-                fp_300 = (int)v43;
-                FP::sub_4AE970(&fp_300, v2);
-                DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
-                goto LABEL_87;
-            }
-            v91 = 0;
-            v90 = 0;
-            v95 = 8;
-            fp_460 = (s32 *)v31;
-            goto LABEL_85;
-            */
-        }
-        /*
-        v91 = 0x4000;
-        LOWORD(v32) = field_120;
-        v90 = (int)v32;
-        fp_460 = v29;
-        FP::sub_4AE970(&fp_460, v93);
-        fp_300 = (int)v33;
-        FP::sub_4AE970(&fp_300, v2);
-        DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
-        */
-        v34 = field_132_f136_idx;
-        //        HIWORD(v2) = 0;
-        if (v34 == 1)
-        {
-            /*
-            v35 = v94;
-            v28 = (_WORD)v94 == 3;
-            v7->field_518[4].field_1 = 0;
-            v7->field_518[5].field_1 = 0;
-            v7->field_518[6].field_1 = 0;
-            v7->field_518[7].field_1 = 0;
-            v7->field_518[8].field_1 = 0;
-            v7->field_518[9].field_1 = 0;
-            if (v28)
-            {
-                v96 = 3;
-                v7->field_518[4].field_6_wstr_buf[0] = 1;
-                v7->field_518[5].field_6_wstr_buf[0] = 2;
-                v7->field_518[4].field_1 = field_1EB4C != 0;
-                v7->field_518[5].field_1 = field_1EB4D != 0;
-            }
-            else if (v35 == 4)
-            {
-                v7->field_518[6].field_6_wstr_buf[0] = 1;
-                v7->field_518[7].field_6_wstr_buf[0] = 2;
-                v36 = field_1EB4E;
-                v96 = 4;
-                v7->field_518[6].field_1 = v36 != 0;
-                v7->field_518[7].field_1 = field_1EB4F != 0;
-            }
-            else if (v35 == 0)
-            {
-                v7->field_518[8].field_6_wstr_buf[0] = 1;
-                v7->field_518[9].field_6_wstr_buf[0] = 2;
-                if (field_110_state != 3)
+                u16 v29_u16 = temp4;
+                v2_u16 = v31->field_2;
+                v93_a = v31->field_4;
+                if (temp4 == v7->field_BC6_nifty_idx)
                 {
-                    v7->field_518[8].field_1 = 1;
-                    v7->field_518[9].field_1 = 1;
-                    field_1EB4A = 1;
-                    field_1EB4B = 1;
-                    if (!byte_67DA80)
+                    DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
+
+                    v34 = field_132_f136_idx;
+                    if (v34 == 1)
                     {
-                        v35 = (void *)v97;
-                        if ((_WORD)v97)
+                        v35 = temp4;
+                        v7->field_518[4].field_1 = 0;
+                        v7->field_518[5].field_1 = 0;
+                        v7->field_518[6].field_1 = 0;
+                        v7->field_518[7].field_1 = 0;
+                        v7->field_518[8].field_1 = 0;
+                        v7->field_518[9].field_1 = 0;
+                        if (temp4 == 3)
                         {
-                            if ((_WORD)v97 == v7->field_4[0].field_7E)
+                            temp3 = 3;
+                            v7->field_518[4].field_6_wstr_buf[0] = 1;
+                            v7->field_518[5].field_6_wstr_buf[0] = 2;
+                            v7->field_518[4].field_1 = field_1EB4C != 0;
+                            v7->field_518[5].field_1 = field_1EB4D != 0;
+                        }
+                        else if (v35 == 4)
+                        {
+                            v7->field_518[6].field_6_wstr_buf[0] = 1;
+                            v7->field_518[7].field_6_wstr_buf[0] = 2;
+                            v36 = field_1EB4E;
+                            temp3 = 4;
+                            v7->field_518[6].field_1 = v36 != 0;
+                            v7->field_518[7].field_1 = field_1EB4F != 0;
+                        }
+                        else if (v35 == 0)
+                        {
+                            v7->field_518[8].field_6_wstr_buf[0] = 1;
+                            v7->field_518[9].field_6_wstr_buf[0] = 2;
+                            if (field_110_state != 3)
                             {
-                                v7->field_518[9].field_1 = 0;
-                                field_1EB4B = 0;
+                                v7->field_518[8].field_1 = 1;
+                                v7->field_518[9].field_1 = 1;
+                                field_1EB4A = 1;
+                                field_1EB4B = 1;
+                                if (!byte_67DA80)
+                                {
+                                    v35 = temp_unk1;
+                                    if (temp_unk1)
+                                    {
+                                        if (temp_unk1 == v7->field_4[0].field_7E)
+                                        {
+                                            v7->field_518[9].field_1 = 0;
+                                            field_1EB4B = 0;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        v7->field_518[8].field_1 = temp_unk1;
+                                        field_1EB4A = v35;
+                                    }
+                                }
+
+                                v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
+                                sub_4B7E10(8, v37 + 300, 0x1B8u, field_124_font_type, 0xFFFF);
+                                v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
+                                sub_4B7E10(9, v40 + 300, 0x1CCu, field_124_font_type, 0xFFFF);
                             }
+                        }
+                    }
+                    else if (v34 == 5)
+                    {
+                        v7->field_518[2].field_6_wstr_buf[0] = 3;
+                        v7->field_518[3].field_6_wstr_buf[0] = 4;
+                        if (temp4 == 0)
+                        {
+                            v7->field_518[2].field_6_wstr_buf[0] = 1;
+                            v7->field_518[3].field_6_wstr_buf[0] = 2;
+                        }
+                    }
+                }
+                else
+                {
+                    if (v31->field_6A != 0xFFFF)
+                    {
+                        if (v31->field_6C == 0xFFFF)
+                        {
+                            DrawText_4B87A0(a4_unk, v2_u16, v93_a, v31->field_6A, 1);
                         }
                         else
                         {
-                            v7->field_518[8].field_1 = 0;
-                            field_1EB4A = (char)v35;
+                            s32 eight_6 = 8;
+                            DrawText_5D8A10(a4_unk, v2_u16, v93_a, v31->field_6A, (s32)1, &eight_6, v31->field_6C, false, 0);
                         }
                     }
-
-                    v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124, 0xFFFF);
-                    sub_4B7E10(8, v37 + 300, 0x1B8u, field_124, 0xFFFF);
-
-                    v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124, 0xFFFF);
-                    sub_4B7E10(9, v40 + 300, 0x1CCu, field_124, 0xFFFF);
+                    else
+                    {
+                        if (v31->field_6C == 0xFFFF)
+                        {
+                            DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_11C, 1);
+                        }
+                        else
+                        {
+                            s32 eight_unk_8 = 8;
+                            DrawText_5D8A10(a4_unk, v2_u16, v93_a, field_11C, (s32)1, &eight_unk_8, v31->field_6C, false, 0);
+                        }
+                    }
                 }
-            }*/
-        }
-        else if (v34 == 5)
-        {
-            v28 = v94 == 0;
-            v7->field_518[2].field_6_wstr_buf[0] = 3;
-            v7->field_518[3].field_6_wstr_buf[0] = 4;
-            if (v28)
-            {
-                v7->field_518[2].field_6_wstr_buf[0] = 1;
-                v7->field_518[3].field_6_wstr_buf[0] = 2;
             }
+            else
+            {
+                v44 = field_132_f136_idx;
+                bool v45 = false;
+                if ((v44 == 1 || v44 == 3) && temp4 == 1)
+                {
+                    v45 = true;
+                }
+                if (v44 != 11 && v44 != 2 || temp4 != 0)
+                {
+                    if (!v45)
+                    {
+                        continue;
+                    }
+                    v29 = temp4;
+                }
+                if (v31->field_0 == 2)
+                {
+                    //Frontend::sub_4B3AF0(v44, v29, &a4_unk);  TODO: STUB
+                }
+                else
+                {
+                    a4_unk = (wchar_t*)&v7->field_4[temp4].field_6_wstr_buf;
+                }
+                v29 = v31->field_4;
+                v2_u16 = v31->field_2;
+                u16 v93_a = v29;
+
+                if (v31->field_6A != 0xFFFF)
+                {
+                    s32 eight_unk = 8;
+                    DrawText_5D8A10(a4_unk, v2_u16, v93_a, v31->field_6A, (s32)1, &eight_unk, 8, false, 0);
+                }
+                else
+                {
+                    s32 eight_unk_2 = 8;
+                    DrawText_5D8A10(a4_unk, v2_u16, v93_a, field_11C, (s32)1, &eight_unk_2, 8, false, 0);
+                }
+            }
+            ++temp4;
+        } while ((u16)(temp4 + 1) < v7->field_0);
+
+        if (temp3 == 3)
+        {
+            unk_idx = gLucid_hamilton_67E8E0.sub_4C5980();
+            // TODO: STUB
+            /*
+            Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][0].field_0,
+                                 0x12Cu,
+                                 v98,
+                                 1,
+                                 field_128,
+                                 0xFFFF,
+                                 2);
+            */
         }
-
-        LABEL_87:
-        v52 = (u16)(v94 + 1) < v7->field_0;
-        v94++;
-    } while (v52);
-
-    if (v96 == 3)
-    {
-        /*
-        LOBYTE(v96) = lucid_hamilton::sub_4C5980(&gLucid_hamilton_67E8E0);
-        LOBYTE(v95) = 0;
-    LABEL_91:
-        LOWORD(v53) = field_128;
-        sub_4B5430(
-            this,
-            (wchar_t *)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[(unsigned __int8)v96][(unsigned __int8)v95],
-            300,
-            v98,
-            1,
-            v53,
-            0xFFFF,
-            2);
-        */
-    }
-    else if (v96 == 4)
-    {
-        /*
-        LOBYTE(v53) = lucid_hamilton::sub_4C5990(&gLucid_hamilton_67E8E0);
-        LOBYTE(v96) = (unsigned __int8)v53 >> 4;
-        LOBYTE(v95) = v53 & 0xF;
-        goto LABEL_91;
-        */
+        else if (temp3 == 4)
+        {
+            v53_u8 = gLucid_hamilton_67E8E0.sub_4C5990();
+            unk_idx = v53_u8 >> 4;
+            u8 a5_idx = v53_u8 & 0xF;
+            // TODO: STUB
+            /*
+            Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][a5_idx].field_0, //  LOBYTE(v96[0])
+                                 0x12Cu,
+                                 v98,
+                                 1,
+                                 field_128,
+                                 0xFFFF,
+                                 2);
+            */
+        }
     }
 
-    LABEL_92:
-    s32 v54 = 0;
-    //  v28 = v7->field_2 == 0;
+    v54 = 0;
+    temp4 = 0;
 
-    v94 = 0;
     if (v7->field_2 != 0)
     {
         do
         {
-            s32 v55 = v54;
-            competent_noyce_0x6E* v56 = &v7->field_518[v55];
+            v55 = v54;
+            v56 = &v7->field_518[v55];
+
             if (v7->field_518[v55].field_1)
             {
-                /*
-                if (*(_BYTE *)v56 == 1)
+                if (v56->field_0 == 3)
                 {
-                    LOWORD(v2) = v7->field_518[v55].field_6A;
-                    v61 = v7->field_518[v55].field_4;
-                    LOWORD(v96) = *(_WORD *)(v56 + 2);
-                    LOWORD(v93) = v61;
-                    if ((_WORD)v2 == 0xFFFF)
-                        LOWORD(v2) = field_11C;
-                    sub_4B3CC0((int)this, field_132_f136_idx, (u16)v94, (wchar_t *)&field_6_wstr_buf);
-                    v63 = field_132_f136_idx;
-                    HIWORD(v64) = HIWORD(v94);
-                    if (v63 == 1 && ((_WORD)v94 == 2 || (_WORD)v94 == 3))
+                    field_2_xpos = v7->field_518[v55].field_2_xpos;
+                    v58 = v7->field_518[v55].field_4_ypos;
+                    
+                    switch (v7->field_518[v55].field_6_wstr_buf[0])
                     {
-                        LOWORD(v64) = *(_WORD *)(v56 + 108);
-                        sub_4B78B0(field_6_wstr_buf, v96, v93, v2, v64, 1u, 0x15u, 1);
+                        case 0u:
+                            a5 = 2;
+                            break;
+                        case 1u:
+                            a5 = 37;
+                            break;
+                        case 2u:
+                            a5 = 38;
+                            break;
+                        case 3u:
+                            a5 = 40;
+                            break;
+                        case 4u:
+                            a5 = 41;
+                            break;
+                        default:
+                            break;
                     }
-                    else if (v63 == 5 && (_WORD)v94 == 1)
+
+                    /*
+                    scale = 0;
+                    font_type = 0;
+                    ypos.mValue = 0;
+                    v59 = &v98;
+                    v98 = 2;
+                    xpos.mValue = 0;
+                    v87.mValue = (__int32)&v98;
+                    LOWORD(v59) = HIWORD(dword_67DA6E);
+                    v86 = dword_67D934;
+                    v85 = (agitated_keldysh_0xF0*)v59;
+                    v84 = dword_67D934;
+                    Fix16::FromU16_4AE970(&v84, v58);
+                    v83 = v60;
+                    Fix16::FromU16_4AE970(&v83, field_2_xpos);
+                    sub_5D7EC0(6, a5, (int)v83, v84, (int)v85, v86, (int*)v87.mValue, xpos.mValue, ypos.mValue, font_type, scale);
+                    */
+                    //  11 params
+                    s32 two = 2;
+                    //sub_5D7EC0(6, a5, field_2_xpos, dword_67D934, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
+                }
+                else if (v56->field_0 == 1)
+                {
+                    v2_u16 = v7->field_518[v55].field_6A;
+                    field_4_ypos = v7->field_518[v55].field_4_ypos;
+                    u16 v96_u16 = v56->field_2_xpos;
+                    u16 v93_u16 = field_4_ypos;
+                    if (v2_u16 == 0xFFFF)
                     {
-                        LOWORD(v62) = *(_WORD *)(v56 + 108);
-                        sub_4B78B0(field_6_wstr_buf, v96, v93, v2, v62, 1u, 0x15u, 1);
+                        v2_u16 = field_11C;
+                    }
+                    Frontend::sub_4B3CC0(field_132_f136_idx, temp4, &a4_unk);
+                    v63 = field_132_f136_idx;
+                    u16 v64_u16;
+                    if (v63 == 1 && (temp4 == 2 || temp4 == 3))
+                    {
+                        v64_u16 = v56->field_6C;
+                        Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v64_u16, 1u, 0x15u, 1);
+                    }
+                    else if (v63 == 5 && temp4 == 1)
+                    {
+                        u16 v62_u16 = v56->field_6C;
+                        Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v62_u16, 1u, 0x15u, 1);
                     }
                     else
                     {
-                        LOWORD(v56) = *(_WORD *)(v56 + 108);
-                        if ((_WORD)v56 == 0xFFFF)
+                        u16 v56_u16 = v56->field_6C;
+                        if (v56_u16 == 0xFFFF)
                         {
-                            v90 = v2;
-                            fp_460 = v94;
-                            v91 = 0x4000;
-                            FP::sub_4AE970(&fp_460, v93);
-                            fp_300 = (int)v65;
-                            FP::sub_4AE970(&fp_300, v96);
-                            DrawText_4B87A0(field_6_wstr_buf, fp_300, (int)fp_460, (void *)v90, v91);
+                            DrawText_4B87A0(a4_unk, v96_u16, v93_u16, v2_u16, 1);
                         }
                         else
                         {
-                            v91 = 0;
-                            v90 = 0;
-                            fp_460 = (s32 *)v56;
-                            fp_300 = (int)&v97;
-                            v87 = (int)&v97;
-                            v97 = 8;
-                            FP::FromInt_4369F0(&v87, 1);
-                            v86 = v2;
-                            v85 = (agitated_keldysh_0xF0 *)v66;
-                            FP::sub_4AE970(&v85, v93);
-                            v84 = v67;
-                            FP::sub_4AE970(&v84, v96);
-                            DrawText_5D8A10(field_6_wstr_buf, v84, (int)v85, (void *)v86, v87, (s32 *)fp_300, (int)fp_460, v90, v91);
+                            s32 eight_again = 8;
+                            DrawText_5D8A10(a4_unk, v96_u16, v93_u16, v2_u16, (s32)1, &eight_again, v56_u16, false, 0);
                         }
                     }
-                */
+                }
             }
-            else if (v56->field_0 == 3)
-            {
-                /*
-                    v57 = v7->field_518[v55].field_2;
-                    v58 = v7->field_518[v55].field_4;
-                    switch (v7->field_518[v55].field_6_wstr_buf[0])
-                    {
-                    case 0u:
-                        v95 = 2;
-                        break;
-                    case 1u:
-                        v95 = 37;
-                        break;
-                    case 2u:
-                        v95 = 38;
-                        break;
-                    case 3u:
-                        v95 = 40;
-                        break;
-                    case 4u:
-                        v95 = 41;
-                        break;
-                    default:
-                        break;
-                    }
-                    v91 = 0;
-                    v90 = 0;
-                    fp_460 = 0;
-                    v59 = &v98;
-                    v98 = 2;
-                    fp_300 = 0;
-                    v87 = (int)&v98;
-                    LOWORD(v59) = HIWORD(dword_67DA6E);
-                    v86 = dword_67D934;
-                    v85 = (agitated_keldysh_0xF0 *)v59;
-                    v84 = dword_67D934;
-                    FP::sub_4AE970(&v84, v58);
-                    v83 = v60;
-                    FP::sub_4AE970(&v83, v57);
-                    sub_5D7EC0(6, v95, (int)v83, v84, (int)v85, v86, (s32 *)v87, fp_300, (int)fp_460, v90, v91);
-                    */
-            }
-
-            //v54 = (_WORD)v94 + 1;
-            v52 = (u16)(v94 + 1) < (u32)v7->field_2;
-            v94++;
-        }
-
-        while (v52);
+            v54 = temp4 + 1;
+            ++temp4;
+        } while ((u16)(temp4 + 1) < (u32)v7->field_2); //  v52
     }
+
+    u16 x_pos;
+    u16 y_pos;
 
     if (field_110_state == 3)
     {
         if (field_114)
         {
-            /*
-            v68 = Frontend::sub_5D8990((s16 *)field_C9A0, field_11C);
-            v69 = v7->field_4[0].field_4;
-            v70 = v7->field_4[0].field_2 + v68;
-            swprintf(tmpBuff_67BD9C, asc_62017C);
-            v91 = 0x4000;
-            LOWORD(v71) = field_11C;
-            v90 = (int)v71;
-            fp_460 = v71;
-            FP::sub_4AE970(&fp_460, v69);
-            fp_300 = (int)v72;
-            FP::sub_4AE970(&fp_300, v70);
-            DrawText_4B87A0(tmpBuff_67BD9C, fp_300, (int)fp_460, (void *)v90, v91);
-            */
+            v68 = Frontend::sub_5D8990(field_C9A0, field_11C);
+            swprintf(tmpBuff_67BD9C, L"_");
+            x_pos = v7->field_4[0].field_2 + v68;
+            y_pos = v7->field_4[0].field_4;
+            DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
-
-        /*
-        v73 = text_0x14::Find_5B5F90(gText_0x14_704DFC, aEntrnam);
-        wcscpy(tmpBuff_67BD9C, v73);
-        v74 = -(gText_0x14_704DFC->field_10_lang_code != 106);
-        HIWORD(v76) = v75;
-        LOBYTE(v74) = v74 & 0xFC;
-        v91 = 0x4000;
-        LOWORD(v76) = field_126;
-        v90 = (int)v76;
-        fp_460 = v76;
-        FP::sub_4AE970(&fp_460, v74 + 16);
-        fp_300 = (int)v77;
-        FP::sub_4AE970(&fp_300, 0x15Eu);
-        DrawText_4B87A0(tmpBuff_67BD9C, fp_300, (int)fp_460, (void *)v90, v91);
-        */
+        wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
+        u8 v74_u8 = gText_0x14_704DFC->field_10_lang_code != 106 ? 22 : 11;
+        x_pos = 0x15Eu;
+        y_pos = v74_u8 + 16;
+        DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
     }
-
     if (field_110_state == 5)
     {
         if (field_114)
         {
-            s32 v78 = sub_5D8990(this->field_C9B8, this->field_11C);
-
+            v78 = Frontend::sub_5D8990(field_C9B8, field_11C);
             swprintf(tmpBuff_67BD9C, L"_");
-
-            Fix16 scale;
-            scale.mValue = 0x4000;
-
-            Fix16 ypos;
-            ypos.FromU16_4AE970(v7->field_518[4].field_4_ypos);
-
-            Fix16 xpos;
-            xpos.FromU16_4AE970(v7->field_518[4].field_2_xpos + v78);
-            DrawText_4B87A0(tmpBuff_67BD9C, xpos, ypos, field_11C, scale);
+            x_pos = v7->field_518[4].field_2_xpos + v78;
+            y_pos = v7->field_518[4].field_4_ypos;
+            DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
     }
 }
@@ -3958,7 +3856,6 @@ void Frontend::sub_4B55F0()
         u16 x_pos;
         u16 y_pos;
         wchar_t Buffer[26];
-        //s32* v21 = &gYouthful_einstein_6F8450.field_4_time[player_idx];
 
         if (game_mode == 1) //  frags
         {
@@ -4000,7 +3897,7 @@ void Frontend::sub_4B55F0()
 MATCH_FUNC(0x4B57B0)
 void Frontend::sub_4B57B0(u16 a3, u16 a5)
 {
-    u16 font_type = this->field_12A;
+    u16 font_type = field_12A;
     s32 v4 = gText_0x14_704DFC->field_10_lang_code != 106 ? 14 : 16;
     u8 v39 = gLucid_hamilton_67E8E0.sub_4C5980();
 
@@ -4029,45 +3926,57 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
         a5 += 5;
     }
 
+    //  vehicles hijacked
+
     x_pos = a3;
     y_pos = a5;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("carjack"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(5));
-    u16 v40 = a3 + 480;
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5, font_type, 10, 1, v4, 1);
+    u16 x_pos_last = a3 + 480;
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, a5, font_type, 10, 1, v4, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[20]);
-    u16 v37 = a3 + 610;
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 610, a5, font_type, 10, 1, v4, 1);
+    u16 x_pos_best = a3 + 610;
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, a5, font_type, 10, 1, v4, 1);
+
+    //  auto damage cost
 
     x_pos = a3;
     y_pos = a5 + 20;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gLucid_hamilton_67E8E0.sub_4C5A80());
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 20, font_type, 10, 1, v4, 1);
     swprintf(tmpBuff_67BD9C, L"$%d", gJolly_poitras_0x2BC0_6FEAC0->field_1878[v39]);
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 20, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
+
+    //  civilians run down
 
     x_pos = a3;
     y_pos = a5 + 40;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("run_ovr"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(6u));
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 40, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
+
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[24]);
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 40, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
+
+    //  civilians murdered
 
     x_pos = a3;
     y_pos = a5 + 60;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("murder"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(7u));
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, a3 + 480, a5 + 60, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
+
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[28]);
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 60, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
+
+    //  lawmen killed
 
     if (!bIsFrench_67D53C)
     {
@@ -4076,28 +3985,35 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
         DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("cop_kl"), x_pos, y_pos, font_type, 1);
 
         swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(8u));
-        Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, a5 + 80, font_type, 10, 1, v4, 1);
+        Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
+
         swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[32]);
-        Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 80, font_type, 10, 1, v4, 1);
+        Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
     }
+
+    //  gang members killed
 
     x_pos = a3;
     y_pos = a5 + 100;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("gng_kl"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(9u));
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, a5 + 100, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
+
     swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[36]);
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, a5 + 100, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
+
+    //  fugitive factor
 
     x_pos = a3;
     y_pos = a5 + 120;
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C5AA0());
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v40, y_pos, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
+
     swprintf(tmpBuff_67BD9C, L"%d", gJolly_poitras_0x2BC0_6FEAC0->field_1884[v39]);
-    Frontend::sub_4B78B0(tmpBuff_67BD9C, v37, y_pos, font_type, 10, 1, v4, 1);
+    Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 }
 
 MATCH_FUNC(0x4B0190)
@@ -4683,22 +4599,17 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       u16 font_type,
                                       Fix16 scale_fp,
                                       s32* pUnknown,
-                                      s32 unknown1,
-                                      s32 unknown2,
-                                      s32 flags)
+                                      s32 unknown1, // seems to be related with palette
+                                      s32 unknown2, // alpha_value
+                                      s32 flags)    // bool use_alpha
 {
 
     s32 new_Flags = CalcQuadFlags_5D83E0(unknown2, flags) | 0x20000;
 
     Fix16 cur_xpos = xpos_fp; // note: new var
 
-    Fix16 spaceWidth;
-    spaceWidth.mValue = gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type); // werid in place construction
-    spaceWidth = scale_fp * spaceWidth;
-
-    Fix16 lineHeight;
-    lineHeight.mValue = gGtx_0x106C_703DD4->sub_5AA800(&font_type); // werid in place construction
-    lineHeight = scale_fp * lineHeight;
+    Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->space_width_5AA7B0(&font_type);
+    Fix16 lineHeight = scale_fp * gGtx_0x106C_703DD4->sub_5AA800(&font_type);
 
     unknown2 = unknown1;
 
@@ -4720,7 +4631,6 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
     }
 
-    //if (*pText)
     while (*pText != 0)
     {
         wchar_t text_char = *pText;
@@ -4805,37 +4715,34 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             //v25 = v11.mValue;
             //v26 = v11.mValue >> 31;
 
-            Fix16 sprite_xoff;
-            sprite_xoff.mValue = (__int64)(pSprIdx->field_4_width << 14) * (__int64)(scale_fp.mValue >> 14);
+            Fix16 sprite_xoff = Fix16(pSprIdx->field_4_width) * scale_fp;
 
-            Fix16 sprite_yoff;
-            sprite_yoff.mValue = (__int64)(pSprIdx->field_5_height << 14) * (__int64)(scale_fp.mValue >> 14);
+            Fix16 sprite_yoff = Fix16(pSprIdx->field_5_height) * scale_fp;
 
             gQuadVerts_706B88.field_0_verts[0].field_0_x = cur_xpos.ToFloat();
             gQuadVerts_706B88.field_0_verts[0].field_4_y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.0001; // line 214
 
             f32 v_1_2_x = (sprite_xoff + cur_xpos).ToFloat();
             gQuadVerts_706B88.field_0_verts[1].field_0_x = v_1_2_x;
             gQuadVerts_706B88.field_0_verts[1].field_4_y = gQuadVerts_706B88.field_0_verts[0].field_4_y;
-            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.0001;
 
             // f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
 
             gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
-            f32 v2_3_y = (ypos_fp + sprite_yoff).ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].field_4_y = v2_3_y;
+            gQuadVerts_706B88.field_0_verts[2].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
 
             s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
-            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.0001;
 
             gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
-            gQuadVerts_706B88.field_0_verts[3].field_4_y = v2_3_y;
-            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.000099999997;
+            gQuadVerts_706B88.field_0_verts[3].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.0001;
 
-            Fix16 letterW((float)(pSprIdx->field_4_width - 0.000099999997));
+            Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
             cur_xpos += letterW;
-            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.000099999997));
+            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001)); 
 
             gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;
