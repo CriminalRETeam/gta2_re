@@ -161,16 +161,17 @@ STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
     return field_1004_textures2[textureIdx];
 }
 
-STUB_FUNC(0x5B95F0)
-STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, s16 height)
+MATCH_FUNC(0x5B95F0)
+STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
 {
-    STexture* pTexture = field_10C4[idx].field_4_pTexture;
     optimistic_moser* pMoser = &field_10C4[idx];
-    if (height != field_10C4[idx].field_8_w || width != field_10C4[idx].field_A_h)
+    STexture* pTexture = pMoser->field_4_pTexture;
+
+    if (height != pMoser->field_8_w || width != pMoser->field_A_h)
     {
-        STexture* pTextureInternal = field_10C4[idx].field_4_pTexture;
-        field_10C4[idx].field_8_w = height;
-        field_10C4[idx].field_A_h = width;
+        STexture* pTextureInternal = pMoser->field_4_pTexture;
+        pMoser->field_8_w = height;
+        pMoser->field_A_h = width;
         gbh_LockTexture(pTextureInternal);
         pTexture->field_14_original_pixel_data_ptr = &pMoser->field_0_pPixelData[256 * width];
         pTexture->field_10_height = height;
