@@ -202,10 +202,19 @@ void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pa
     gbh_UnlockTexture(pTexture);
 }
 
-STUB_FUNC(0x5B9710)
-STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s32 a3, s32 a4, u16 a5)
+MATCH_FUNC(0x5B9710)
+STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
 {
-    return 0;
+    u16 phys_pal_5AA6F0; // di
+
+    phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(a5);
+    gbh_LockTexture(field_1544_pTexture);
+    field_1544_pTexture->field_14_original_pixel_data_ptr = a3;
+    field_1544_pTexture->field_E_width = a2;
+    field_1544_pTexture->field_10_height = a4;
+    gbh_AssignPalette(field_1544_pTexture, phys_pal_5AA6F0);
+    gbh_UnlockTexture(field_1544_pTexture);
+    return field_1544_pTexture;
 }
 
 MATCH_FUNC(0x5B9050)
