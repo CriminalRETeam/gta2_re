@@ -64,30 +64,30 @@ Sprite_3CC::Sprite_3CC()
 
     // By the way this is later used, it seems to be an array of a structure of size 0x40.
     // For now, it's a s32* as it make the code to match.
-    s32 *pvVar2 = (s32*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8));
+    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8));
     field_3C4 = pvVar2;
 
-    Sprite_14 *tmp = field_0;
-    for(iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x1000, tmp += 4)
+    Sprite_14* tmp = field_0;
+    for (iVar4 = 8; iVar4 != 0; iVar4--, pvVar2 += 0x4000, tmp += 4)
     {
         tmp[0].field_0 = pvVar2;
-        tmp[1].field_0 = (pvVar2+0x10);
-        tmp[2].field_0 = (pvVar2+0x20);
-        tmp[3].field_0 = (pvVar2+0x30);
+        tmp[1].field_0 = (pvVar2 + 0x40);
+        tmp[2].field_0 = (pvVar2 + 0x80);
+        tmp[3].field_0 = (pvVar2 + 0xC0);
     }
 
     tmp = field_0 + 33;
-    for(iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x2000, tmp += 4)
+    for (iVar4 = 4; iVar4 != 0; iVar4--, pvVar2 += 0x8000, tmp += 4)
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
         tmp[-1].field_0 = pvVar2;
-        tmp[0].field_0 = (pvVar2+0x10);
-        tmp[1].field_0 = (pvVar2+0x20);
-        tmp[2].field_0 = (pvVar2+0x30);
+        tmp[0].field_0 = (pvVar2 + 0x40);
+        tmp[1].field_0 = (pvVar2 + 0x80);
+        tmp[2].field_0 = (pvVar2 + 0xC0);
     }
 
-    for(u16 uVar1 = 0; uVar1 < 48; uVar1++)
+    for (u16 uVar1 = 0; uVar1 < 48; uVar1++)
     {
         field_0[uVar1].field_10 = uVar1;
     }

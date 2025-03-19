@@ -16,7 +16,7 @@ class Sprite_14
         field_12 = 0;
     }
 
-    s32* field_0;
+    u8* field_0;
     s16 field_4;
     char_type field_6;
     char_type field_7;
@@ -36,9 +36,14 @@ class Sprite_3CC
     EXPORT Sprite_3CC();
     EXPORT ~Sprite_3CC();
 
+    u8* get_s14(u16 idx)
+    {
+        return field_0[idx].field_0;
+    }
+
     Sprite_14 field_0[48];
     s32 field_3C0;
-    s32* field_3C4;
+    u8* field_3C4;
     s32* field_3C8;
 };
 
@@ -170,3 +175,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
 EXPORT_VAR extern Sprite_8* gSprite_8_703820;
 EXPORT_VAR extern Sprite_49B28* gSprite_49B28_703818;
 EXPORT_VAR extern Sprite_5D598* gSprite_5D598_70381C;
+EXPORT_VAR extern Sprite_3CC* gSprite_3CC_67AF1C;
