@@ -17,39 +17,25 @@ GLOBAL(word_67DC8C, 0x67DC8C);
 // TODO
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
-STUB_FUNC(0x56B6E0)
+MATCH_FUNC(0x56B6E0)
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
-    // todo
-    int* tmp = field_1878;
-    int* pIter1 = field_1884;
-    struc_221* pIter2 = field_1800;
-
-    s32 i;
-    for (i = 0; i < 3; i++)
+    for (s32 i = 0; i < 3; i++)
     {
-        //  ++pIter1;
-        memset(pIter2, 0, sizeof(struc_221));
-        *pIter1 = 0;
-        pIter1++;
-
-        *tmp = 0;
-        tmp++;
-
-        //        *(pIter1 - 4) = 0;
-        //      *(pIter1 - 1) = 0;
-        ++pIter2;
+        memset(&field_1800[i], 0, sizeof(struc_221));
+        field_1878[i] = 0;
+        field_1884[i] = 0;
     }
 
-    for (i = 0; i < 8; i++)
+    for (u32 j = 0; (u16)j < 8; j++)
     {
-        if (PlySlotDatExists_56B940(i))
+        if (PlySlotDatExists_56B940(j))
         {
-            sub_56B990(i);
+            sub_56B990(j);
         }
         else
         {
-            sub_56BA60(i);
+            sub_56BA60(j);
         }
     }
 
@@ -250,33 +236,27 @@ s32 len;
     File::Global_Close_4A70C0();
 */
 
-// wrong stack slots
-STUB_FUNC(0x56BE50)
+MATCH_FUNC(0x56BE50)
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
     char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
     File::Global_Open_4A7060(FileName);
 
-    u32 len = 240;
-    File::Global_Read_4A71C0(&field_23D0.field_0, len);
+    File::Global_Read_4A71C0(&field_23D0.field_0, 240);
 
     for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
         for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
-            len = 240;
-            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, len);
+            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter], 240);
         }
 
-        len = 40;
-        File::Global_Read_4A71C0(&field_1800[k3Counter], len); // 3 40 byte objs
+        File::Global_Read_4A71C0(&field_1800[k3Counter], 40); // 3 40 byte objs
 
-        len = 4;
-        File::Global_Read_4A71C0(&field_1878[k3Counter], len);
+        File::Global_Read_4A71C0(&field_1878[k3Counter], 4);
 
-        len = 4;
-        File::Global_Read_4A71C0(&field_1884[k3Counter], len);
+        File::Global_Read_4A71C0(&field_1884[k3Counter], 4);
     }
 
     File::Global_Close_4A70C0();
@@ -447,8 +427,52 @@ dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
 {
 }
 
-STUB_FUNC(0x56B630)
+MATCH_FUNC(0x56B630)
 void dreamy_clarke_0xA4::sub_56B630()
 {
-    // todo
+    for (u16 k = 0; k < 9; k++)
+    {
+        field_90_strPlayerName[k] = 0;
+    }
+
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            field_0[i][j].field_0 = false;
+            field_0[i][j].field_4 = 0;
+            field_0[i][j].field_8 = 0;
+        }
+    }
+    this->field_0[0][0].field_0 = true;
+}
+
+MATCH_FUNC(0x56B680)
+s32 dreamy_clarke_0xA4::sub_56B680()
+{
+    s32 result = 0;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            result += field_0[i][j].field_8;
+        }
+    }
+    return result;
+}
+
+MATCH_FUNC(0x56B6B0)
+s32 dreamy_clarke_0xA4::sub_56B6B0()
+{
+    s32 result = 0;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 4; j++)
+        {
+            result += field_0[i][j].field_4;
+        }
+    }
+    return result;
 }

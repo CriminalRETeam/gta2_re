@@ -4,6 +4,7 @@
 #include "crt_stubs.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "sprite.hpp"
 #include "memory.hpp"
 
 EXPORT_VAR sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
@@ -36,41 +37,30 @@ void sharp_pare_0x15D8::FreePals_5B9140()
     field_15D6_pal_count = 0;
 }
 
-STUB_FUNC(0x5B9180)
+MATCH_FUNC(0x5B9180)
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
-    // todo
-    u16 width_height; // bp
-    s16 v3; // ax
-    s16 v4; // ax
-    u32 idx; // esi
-    s32 pal_idx; // edi
-
-    width_height = 64;
+    u16 width_height = 64;
     if (gGtx_0x106C_703DD4->sub_5AA4F0(2))
     {
-        /*
         field_1000_bFreeTextures2 = 1;
-        v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
-        v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
-        idx = 0;
-        pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
-        do
+        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(2, 0);
+        u16 v4 = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v3);
+        u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(v4);
+
+        for (u32 idx = 0; idx < 48; idx++)
         {
             if (idx == 32)
             {
                 width_height = 128;
             }
 
-            field_1004_textures2[idx] = gbh_RegisterTexture(
-                width_height,
-                width_height,
-                gKind_khorana_0x3CC_67AF1C->field_0[(u16)idx].field_0_pTexturePixelData,
-                pal_idx,
+            field_1004_textures2[idx] = gbh_RegisterTexture(width_height, 
+                width_height, 
+                gSprite_3CC_67AF1C->get_s14(idx), 
+                pal_idx, 
                 0);
-            ++idx;
-        } while (idx < 48);
-        */
+        }
     }
 }
 

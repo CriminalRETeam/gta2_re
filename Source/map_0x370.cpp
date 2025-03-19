@@ -12,6 +12,7 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "Game_0x40.hpp"
+#include "Object_5C.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -472,9 +473,26 @@ Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
     }
 }
 
-STUB_FUNC(0x4DFB90)
+MATCH_FUNC(0x4DFB90)
 void Map_0x370::sub_4DFB90()
 {
+    gmp_map_object* pMapObjects = field_338_pMapObjects;
+    for (u32 i = 0; i < this->field_344_map_object_count; i++, ++pMapObjects)
+    {
+        Fix16 x_pos = Fix16::ctor_462ED0(pMapObjects->field_0_x);
+        Fix16 y_pos = Fix16::ctor_462ED0(pMapObjects->field_2_y);
+
+        Ang16 rotation = pMapObjects->field_4_rotation.convert_to_ang16();
+        rotation.Normalize();
+
+        Fix16 temp_z;
+
+        gObject_5C_6F8F84->sub_5299B0(pMapObjects->field_5_object_type,
+                                      x_pos,
+                                      y_pos,
+                                      *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),
+                                      rotation);
+    }
 }
 
 MATCH_FUNC(0x4DFCA0)
