@@ -4329,7 +4329,7 @@ loving_borg_0xBCA::~loving_borg_0xBCA()
     field_BC8 = 0;
 }
 
-STUB_FUNC(0x4B61B0)
+MATCH_FUNC(0x4B61B0)
 bool loving_borg_0xBCA::sub_4B61B0()
 {
     u16 oldIdx = field_BC6_nifty_idx;
