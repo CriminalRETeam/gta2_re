@@ -64,10 +64,24 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     }
 }
 
-STUB_FUNC(0x5B9220)
-s16 sharp_pare_0x15D8::sub_5B9220(s16 a2, s16 a3)
+MATCH_FUNC(0x5B9220)
+s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
 {
-    return 0;
+    const u16 og_idx = field_15D4_idx;
+    const s16 v4 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v4);
+    u8* field_0_pData = sprite_index_5AA440->field_0_pData;
+    const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v4));
+
+    field_15D4_idx += a2;
+
+    for (s32 i = 0; i < a2; i++)
+    {
+        field_10C4[og_idx + i].field_4_pTexture =
+            gbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
+        field_10C4[og_idx + i].field_0_pPixelData = field_0_pData;
+    }
+    return og_idx;
 }
 
 MATCH_FUNC(0x5B92E0)
