@@ -212,6 +212,12 @@ class Fix16
         return a3 >= a1 && a3 <= a2;
     }
 
+    //  inline sub_462ED0 in 9.6f
+    static Fix16 ctor_462ED0(s16 a1)
+    {
+        return Fix16(a1 << 7, 0);
+    }
+
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16& FromU16_4AE970(u16 a2);

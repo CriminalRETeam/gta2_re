@@ -169,5 +169,21 @@ class Ang16
     {
     }
 
+    Ang16(Fix16 value) : rValue(value.mValue >> 14) // value.ToInt() breaks Map_0x370::sub_4DFB90
+    {
+    }
+
     s16 rValue;
+};
+
+class Ang8
+{
+  public:
+    //  maybe an Ang8 inline at 0x462EF0 in 9.6f
+    Ang16 convert_to_ang16()
+    {
+        return Ang16((Fix16(rValue) / 256) * 1440);
+    }
+
+    u8 rValue;
 };

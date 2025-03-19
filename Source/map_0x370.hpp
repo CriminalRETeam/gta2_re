@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "ang16.hpp"
 #include "Car_BC.hpp"
 #include <windows.h>
 
@@ -282,10 +283,10 @@ struct gmp_zone_unknown
 
 struct gmp_map_object
 {
-    s16 field_0_x;
-    s16 field_2_y;
-    char_type field_4_rotation;
-    char_type field_5_object_type;
+    u16 field_0_x;
+    u16 field_2_y;
+    Ang8 field_4_rotation;
+    u8 field_5_object_type;
 };
 
 struct gmp_map_light
