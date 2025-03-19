@@ -14,9 +14,14 @@ char_type thirsty_lamarr::sub_492110(s16 a2, s32 a3, s16 a4)
     return 0;
 }
 
-STUB_FUNC(0x492150)
+MATCH_FUNC(0x492150)
 void thirsty_lamarr::sub_492150()
 {
+    u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36);
+    sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
+    field_27_sprite_w = sprite_index->field_4_width;
+    field_28_sprite_h_calc = sprite_index->field_5_height / 11;
+    field_34 = gSharp_pare_0x15D8_705064->sub_5B9220(field_2A, field_36);
 }
 
 STUB_FUNC(0x4921b0)
