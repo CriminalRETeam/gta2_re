@@ -451,7 +451,7 @@
     },
     {
         "name": "sound_obj::ProcessEntity",
-        "v96f_address": null,
+        "v96f_address": "0x4163A0",
         "v105_address": "0x4123a0"
     },
     {
@@ -896,7 +896,7 @@
     },
     {
         "name": "sound_obj::InterrogateAudioEntities",
-        "v96f_address": null,
+        "v96f_address": "0x417030",
         "v105_address": "0x41a730"
     },
     {
@@ -1006,7 +1006,7 @@
     },
     {
         "name": "sound_obj::sub_426790",
-        "v96f_address": null,
+        "v96f_address": "0x41C600",
         "v105_address": "0x426790"
     },
     {
@@ -1036,7 +1036,7 @@
     },
     {
         "name": "sound_obj::sub_427220",
-        "v96f_address": null,
+        "v96f_address": "0x41C000",
         "v105_address": "0x427220"
     },
     {
@@ -1586,7 +1586,7 @@
     },
     {
         "name": "Car_BC::sub_43AFE0",
-        "v96f_address": null,
+        "v96f_address": "0x425A40",
         "v105_address": "0x43afe0"
     },
     {
@@ -3236,12 +3236,12 @@
     },
     {
         "name": "Ped::sub_462E70",
-        "v96f_address": null,
+        "v96f_address": "0x4454E0",
         "v105_address": "0x462e70"
     },
     {
         "name": "Ped::sub_4632E0",
-        "v96f_address": null,
+        "v96f_address": "0x4454D0",
         "v105_address": "0x4632e0"
     },
     {
@@ -3281,7 +3281,7 @@
     },
     {
         "name": "Ped::sub_463FB0",
-        "v96f_address": null,
+        "v96f_address": "0x444D00",
         "v105_address": "0x463fb0"
     },
     {
@@ -3701,7 +3701,7 @@
     },
     {
         "name": "Ped::sub_46D0D0",
-        "v96f_address": null,
+        "v96f_address": "0x43FEE0",
         "v105_address": "0x46d0d0"
     },
     {
@@ -5356,17 +5356,17 @@
     },
     {
         "name": "Frontend::sub_4AD140",
-        "v96f_address": null,
+        "v96f_address": "0x457920",
         "v105_address": "0x4ad140"
     },
     {
         "name": "Frontend::sub_4ADF50",
-        "v96f_address": null,
+        "v96f_address": "0x458590",
         "v105_address": "0x4adf50"
     },
     {
         "name": "Frontend::sub_4ADFB0",
-        "v96f_address": null,
+        "v96f_address": "0x4585F0",
         "v105_address": "0x4adfb0"
     },
     {
@@ -5391,7 +5391,7 @@
     },
     {
         "name": "Frontend::sub_4AE2D0",
-        "v96f_address": null,
+        "v96f_address": "0x4597C0",
         "v105_address": "0x4ae2d0"
     },
     {
@@ -5411,12 +5411,12 @@
     },
     {
         "name": "Frontend::sub_4AEC00",
-        "v96f_address": null,
+        "v96f_address": "0x45A250",
         "v105_address": "0x4aec00"
     },
     {
         "name": "Frontend::sub_4AEDB0",
-        "v96f_address": null,
+        "v96f_address": "0x45A320",
         "v105_address": "0x4aedb0"
     },
     {
@@ -5471,7 +5471,7 @@
     },
     {
         "name": "Frontend::sub_4B2F60",
-        "v96f_address": null,
+        "v96f_address": "0x459E30",
         "v105_address": "0x4b2f60"
     },
     {
@@ -5496,7 +5496,7 @@
     },
     {
         "name": "Frontend::sub_4B4230",
-        "v96f_address": null,
+        "v96f_address": "0x459540",
         "v105_address": "0x4b4230"
     },
     {
@@ -5581,12 +5581,12 @@
     },
     {
         "name": "Frontend::sub_4B55F0",
-        "v96f_address": null,
+        "v96f_address": "0x455C90",
         "v105_address": "0x4b55f0"
     },
     {
         "name": "Frontend::sub_4B57B0",
-        "v96f_address": null,
+        "v96f_address": "0x457140",
         "v105_address": "0x4b57b0"
     },
     {
@@ -5736,12 +5736,12 @@
     },
     {
         "name": "Frontend::sub_4B7200",
-        "v96f_address": null,
+        "v96f_address": "0x456280",
         "v105_address": "0x4b7200"
     },
     {
         "name": "Frontend::sub_4B7270",
-        "v96f_address": null,
+        "v96f_address": "0x453230",
         "v105_address": "0x4b7270"
     },
     {
@@ -5796,7 +5796,7 @@
     },
     {
         "name": "Frontend::sub_4B78B0",
-        "v96f_address": null,
+        "v96f_address": "0x4566C0",
         "v105_address": "0x4b78b0"
     },
     {
@@ -5886,7 +5886,7 @@
     },
     {
         "name": "Game_0x40::sub_4B8C40",
-        "v96f_address": null,
+        "v96f_address": "0x45B470",
         "v105_address": "0x4b8c40"
     },
     {
@@ -7076,7 +7076,7 @@
     },
     {
         "name": "Init_keybrd_jolly_and_sound",
-        "v96f_address": null,
+        "v96f_address": "0x461880",
         "v105_address": "0x4da440"
     },
     {
@@ -7221,7 +7221,7 @@
     },
     {
         "name": "Map_0x370::sub_4DF240",
-        "v96f_address": null,
+        "v96f_address": "0x469110",
         "v105_address": "0x4df240"
     },
     {
@@ -7786,7 +7786,7 @@
     },
     {
         "name": "MapRenderer::set_vert_xyz_relative_to_cam",
-        "v96f_address": null,
+        "v96f_address": "0x46BBF0",
         "v105_address": "0x4ead90"
     },
     {
@@ -7956,17 +7956,12 @@
     },
     {
         "name": "MapRenderer::draw_slope",
-        "v96f_address": null,
-        "v105_address": "0x4f6630"
-    },
-    {
-        "name": "MapRenderer::draw_slope",
-        "v96f_address": null,
+        "v96f_address": "0x471CE0",
         "v105_address": "0x4f6630"
     },
     {
         "name": "MapRenderer::sub_4F66C0",
-        "v96f_address": null,
+        "v96f_address": "0x471D60",
         "v105_address": "0x4f66c0"
     },
     {
@@ -8311,12 +8306,12 @@
     },
     {
         "name": "miss2_0x11C::SCRCMD_PLAYER_PED",
-        "v96f_address": null,
+        "v96f_address": "0x477140",
         "v105_address": "0x503a20"
     },
     {
         "name": "miss2_0x11C::SCRCMD_CAR_DECSET",
-        "v96f_address": null,
+        "v96f_address": "0x477290",
         "v105_address": "0x503bc0"
     },
     {
@@ -8501,7 +8496,7 @@
     },
     {
         "name": "miss2_0x11C::ExecOpCode",
-        "v96f_address": null,
+        "v96f_address": "0x481400",
         "v105_address": "0x5061c0"
     },
     {
@@ -9531,7 +9526,7 @@
     },
     {
         "name": "miss2_0x11C::PreExecOpCode",
-        "v96f_address": null,
+        "v96f_address": "0x4805B0",
         "v105_address": "0x5108d0"
     },
     {
@@ -9811,7 +9806,7 @@
     },
     {
         "name": "youthful_einstein::sub_516590",
-        "v96f_address": null,
+        "v96f_address": "0x4820D0",
         "v105_address": "0x516590"
     },
     {
@@ -13016,7 +13011,7 @@
     },
     {
         "name": "jolly_poitras_0x2BC0::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4A9290",
         "v105_address": "0x56b6e0"
     },
     {
@@ -13036,12 +13031,12 @@
     },
     {
         "name": "jolly_poitras_0x2BC0::sub_56B990",
-        "v96f_address": null,
+        "v96f_address": "0x4A8CB0",
         "v105_address": "0x56b990"
     },
     {
         "name": "jolly_poitras_0x2BC0::sub_56BA60",
-        "v96f_address": null,
+        "v96f_address": "0x4A89E0",
         "v105_address": "0x56ba60"
     },
     {
@@ -13106,7 +13101,7 @@
     },
     {
         "name": "jolly_poitras_0x2BC0::create",
-        "v96f_address": null,
+        "v96f_address": "0x4A93B0",
         "v105_address": "0x56c2c0"
     },
     {
@@ -13571,7 +13566,7 @@
     },
     {
         "name": "sound_obj::ProcessType3",
-        "v96f_address": null,
+        "v96f_address": "0x4B2D50",
         "v105_address": "0x57dd50"
     },
     {
@@ -14596,12 +14591,12 @@
     },
     {
         "name": "Car_14_18::sub_59DDF0",
-        "v96f_address": null,
+        "v96f_address": "0x4BA6C0",
         "v105_address": "0x59ddf0"
     },
     {
         "name": "Car_14_18::sub_59DE80",
-        "v96f_address": null,
+        "v96f_address": "0x4BA720",
         "v105_address": "0x59de80"
     },
     {
@@ -14771,7 +14766,7 @@
     },
     {
         "name": "sub_59FB10",
-        "v96f_address": null,
+        "v96f_address": "0x4BB020",
         "v105_address": "0x59fb10"
     },
     {
@@ -17116,7 +17111,7 @@
     },
     {
         "name": "WinMain",
-        "v96f_address": null,
+        "v96f_address": "0x4D1170",
         "v105_address": "0x5e53f0"
     },
     {
