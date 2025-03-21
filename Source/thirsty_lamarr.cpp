@@ -2,6 +2,21 @@
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
+MATCH_FUNC(0x4f7660)
+s32 __stdcall sub_4F7660(s32 &a1)
+{
+    s32 iVar1 = 1;
+    s32 iVar2 = a1;
+
+    if (iVar2 < 0)
+    {
+        iVar2 = -iVar2;
+    }
+    for (; 10 <= iVar2; iVar2 /= 10, iVar1++)
+    {}
+    return iVar1;
+}
+
 MATCH_FUNC(0x4920b0)
 thirsty_lamarr::thirsty_lamarr()
 {
