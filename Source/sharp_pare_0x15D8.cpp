@@ -64,10 +64,24 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     }
 }
 
-STUB_FUNC(0x5B9220)
-s16 sharp_pare_0x15D8::sub_5B9220(s16 a2, s16 a3)
+MATCH_FUNC(0x5B9220)
+s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
 {
-    return 0;
+    const u16 og_idx = field_15D4_idx;
+    const s16 v4 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v4);
+    u8* field_0_pData = sprite_index_5AA440->field_0_pData;
+    const u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, v4));
+
+    field_15D4_idx += a2;
+
+    for (s32 i = 0; i < a2; i++)
+    {
+        field_10C4[og_idx + i].field_4_pTexture =
+            gbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
+        field_10C4[og_idx + i].field_0_pPixelData = field_0_pData;
+    }
+    return og_idx;
 }
 
 MATCH_FUNC(0x5B92E0)
@@ -161,16 +175,17 @@ STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
     return field_1004_textures2[textureIdx];
 }
 
-STUB_FUNC(0x5B95F0)
-STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, s16 height)
+MATCH_FUNC(0x5B95F0)
+STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
 {
-    STexture* pTexture = field_10C4[idx].field_4_pTexture;
     optimistic_moser* pMoser = &field_10C4[idx];
-    if (height != field_10C4[idx].field_8_w || width != field_10C4[idx].field_A_h)
+    STexture* pTexture = pMoser->field_4_pTexture;
+
+    if (height != pMoser->field_8_w || width != pMoser->field_A_h)
     {
-        STexture* pTextureInternal = field_10C4[idx].field_4_pTexture;
-        field_10C4[idx].field_8_w = height;
-        field_10C4[idx].field_A_h = width;
+        STexture* pTextureInternal = pMoser->field_4_pTexture;
+        pMoser->field_8_w = height;
+        pMoser->field_A_h = width;
         gbh_LockTexture(pTextureInternal);
         pTexture->field_14_original_pixel_data_ptr = &pMoser->field_0_pPixelData[256 * width];
         pTexture->field_10_height = height;
@@ -189,11 +204,11 @@ void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
     gbh_UnlockTexture(pTexture);
 }
 
-STUB_FUNC(0x5B96B0)
-void sharp_pare_0x15D8::sub_5B96B0(u16 new_width, s16 new_height, s32 a4, u16 pal)
+MATCH_FUNC(0x5B96B0)
+void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pal)
 {
-    s32 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
-    STexture* pTexture = field_1004_textures2[a4]; // ?? or new_width ?
+    u16 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
+    STexture* pTexture = field_1004_textures2[a4];
     gbh_LockTexture(pTexture);
     pTexture->field_E_width = new_width;
     pTexture->field_10_height = new_height;
@@ -201,10 +216,19 @@ void sharp_pare_0x15D8::sub_5B96B0(u16 new_width, s16 new_height, s32 a4, u16 pa
     gbh_UnlockTexture(pTexture);
 }
 
-STUB_FUNC(0x5B9710)
-STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s32 a3, s32 a4, u16 a5)
+MATCH_FUNC(0x5B9710)
+STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
 {
-    return 0;
+    u16 phys_pal_5AA6F0; // di
+
+    phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(a5);
+    gbh_LockTexture(field_1544_pTexture);
+    field_1544_pTexture->field_14_original_pixel_data_ptr = a3;
+    field_1544_pTexture->field_E_width = a2;
+    field_1544_pTexture->field_10_height = a4;
+    gbh_AssignPalette(field_1544_pTexture, phys_pal_5AA6F0);
+    gbh_UnlockTexture(field_1544_pTexture);
+    return field_1544_pTexture;
 }
 
 MATCH_FUNC(0x5B9050)
