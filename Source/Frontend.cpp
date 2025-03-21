@@ -980,9 +980,7 @@ void Frontend::sub_4AD140()
     u16 v27; // ax
     __int32 v30; // eax
     int field_6_wstr_buf; // edx
-    u16 v34; // ax
     u16 v35; // eax
-    char v36; // cl
     __int16 v37; // ax
     int v38; // ecx
     int v39; // edx
@@ -995,7 +993,6 @@ void Frontend::sub_4AD140()
     small_string* v50; // ecx
     int v51; // ecx
     u16 v54; // ax
-    int v55; // eax
     competent_noyce_0x6E* v56; // ebp
     u16 field_2_xpos; // bx
     u16 v58; // dx
@@ -1004,8 +1001,6 @@ void Frontend::sub_4AD140()
     u16 field_4_ypos; // ax
     u16 v63; // ax
     small_string* v66; // ecx
-    __int16 v68; // ax
-    __int16 v78; // ax
     agitated_keldysh_0xF0* v85;
     int a5;
     int a6;
@@ -1142,8 +1137,7 @@ for (s32 i=0; i<3; i++)
         {
             // TODO: remove volatile
             volatile s32 scale_unk = 3 * temp1 + temp2 + 64;
-            _5B5F90 = gText_0x14_704DFC->Find_5B5F90("bonslev");
-            swprintf(tmpBuff_67BD9C, L"%s %c", _5B5F90);
+            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"));
             wcsncpy(v7->field_518[0].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
 
             // TODO: STUB
@@ -1179,7 +1173,7 @@ for (s32 i=0; i<3; i++)
     }
 
     u32 temp3 = -1;
-    u32 temp4 = 0;
+    u16 temp4 = 0;
 
     nifty_maxwell_0x82* v31;
 
@@ -1198,11 +1192,11 @@ for (s32 i=0; i<3; i++)
     //  note: probably 'for' structure
     if (v7->field_0 > 0)
     {
-        do
+        for (temp4 = 0; (u16)(temp4) < v7->field_0; temp4++)
         {
             v29 = temp4;
             v30 = temp4;
-            v31 = &v7->field_4[temp4];
+            v31 = &v7->field_4[(u16)temp4];
 
             if (v7->field_4[temp4].field_1)
             {
@@ -1223,8 +1217,7 @@ for (s32 i=0; i<3; i++)
                 {
                     DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
 
-                    v34 = field_132_f136_idx;
-                    if (v34 == 1)
+                    if (field_132_f136_idx == 1)
                     {
                         v35 = temp4;
                         v7->field_518[4].field_1 = 0;
@@ -1233,7 +1226,7 @@ for (s32 i=0; i<3; i++)
                         v7->field_518[7].field_1 = 0;
                         v7->field_518[8].field_1 = 0;
                         v7->field_518[9].field_1 = 0;
-                        if (temp4 == 3)
+                        if ((u16)temp4 == 3)
                         {
                             temp3 = 3;
                             v7->field_518[4].field_6_wstr_buf[0] = 1;
@@ -1243,11 +1236,10 @@ for (s32 i=0; i<3; i++)
                         }
                         else if (v35 == 4)
                         {
+                            temp3 = 4;
                             v7->field_518[6].field_6_wstr_buf[0] = 1;
                             v7->field_518[7].field_6_wstr_buf[0] = 2;
-                            v36 = field_1EB4E;
-                            temp3 = 4;
-                            v7->field_518[6].field_1 = v36 != 0;
+                            v7->field_518[6].field_1 = field_1EB4E != 0;
                             v7->field_518[7].field_1 = field_1EB4F != 0;
                         }
                         else if (v35 == 0)
@@ -1263,18 +1255,18 @@ for (s32 i=0; i<3; i++)
                                 if (!byte_67DA80)
                                 {
                                     v35 = temp_unk1;
-                                    if (temp_unk1)
+                                    if (!temp_unk1)
+                                    {
+                                        v7->field_518[8].field_1 = temp_unk1;
+                                        field_1EB4A = v35;
+                                    }
+                                    else
                                     {
                                         if (temp_unk1 == v7->field_4[0].field_7E)
                                         {
                                             v7->field_518[9].field_1 = 0;
                                             field_1EB4B = 0;
                                         }
-                                    }
-                                    else
-                                    {
-                                        v7->field_518[8].field_1 = temp_unk1;
-                                        field_1EB4A = v35;
                                     }
                                 }
 
@@ -1285,11 +1277,11 @@ for (s32 i=0; i<3; i++)
                             }
                         }
                     }
-                    else if (v34 == 5)
+                    else if (field_132_f136_idx == 5)
                     {
                         v7->field_518[2].field_6_wstr_buf[0] = 3;
                         v7->field_518[3].field_6_wstr_buf[0] = 4;
-                        if (temp4 == 0)
+                        if ((u16)temp4 == 0)
                         {
                             v7->field_518[2].field_6_wstr_buf[0] = 1;
                             v7->field_518[3].field_6_wstr_buf[0] = 2;
@@ -1363,31 +1355,31 @@ for (s32 i=0; i<3; i++)
                     DrawText_5D8A10(a4_unk, v2_u16, v93_a, field_11C, (s32)1, &eight_unk_2, 8, false, 0);
                 }
             }
-            ++temp4;
-        } while ((u16)(temp4 + 1) < v7->field_0);
+        } //  end FOR
 
-        if (temp3 == 3)
+        if (temp3 != 3)
+        {
+            if (temp3 == 4)
+            {
+                v53_u8 = gLucid_hamilton_67E8E0.sub_4C5990();
+                unk_idx = v53_u8 >> 4;
+                u8 a5_idx = v53_u8 & 0xF;
+                /*
+                Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][0].field_0,
+                                     0x12Cu,
+                                     v98,
+                                     1,
+                                     field_128,
+                                     0xFFFF,
+                                     2);
+                */
+            }
+        }
+        else
         {
             unk_idx = gLucid_hamilton_67E8E0.sub_4C5980();
-            // TODO: STUB
             /*
             Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][0].field_0,
-                                 0x12Cu,
-                                 v98,
-                                 1,
-                                 field_128,
-                                 0xFFFF,
-                                 2);
-            */
-        }
-        else if (temp3 == 4)
-        {
-            v53_u8 = gLucid_hamilton_67E8E0.sub_4C5990();
-            unk_idx = v53_u8 >> 4;
-            u8 a5_idx = v53_u8 & 0xF;
-            // TODO: STUB
-            /*
-            Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][a5_idx].field_0, //  LOBYTE(v96[0])
                                  0x12Cu,
                                  v98,
                                  1,
@@ -1401,19 +1393,20 @@ for (s32 i=0; i<3; i++)
     v54 = 0;
     temp4 = 0;
 
-    if (v7->field_2 != 0)
-    {
-        do
-        {
-            v55 = v54;
-            v56 = &v7->field_518[v55];
+    s32 v55;
 
-            if (v7->field_518[v55].field_1)
+    if (v7->field_2 > 0)
+    {
+        for (temp4 = 0; (u16)(temp4) < (u16)v7->field_2; temp4++)
+        {
+            v56 = &v7->field_518[(u16)temp4];
+
+            if (v7->field_518[(u16)temp4].field_1)
             {
                 if (v56->field_0 == 3)
                 {
-                    field_2_xpos = v7->field_518[v55].field_2_xpos;
-                    v58 = v7->field_518[v55].field_4_ypos;
+                    field_2_xpos = v7->field_518[(u16)temp4].field_2_xpos;
+                    v58 = v7->field_518[(u16)temp4].field_4_ypos;
                     
                     switch (v7->field_518[v55].field_6_wstr_buf[0])
                     {
@@ -1459,8 +1452,8 @@ for (s32 i=0; i<3; i++)
                 }
                 else if (v56->field_0 == 1)
                 {
-                    v2_u16 = v7->field_518[v55].field_6A;
-                    field_4_ypos = v7->field_518[v55].field_4_ypos;
+                    v2_u16 = v7->field_518[(u16)temp4].field_6A;
+                    field_4_ypos = v7->field_518[(u16)temp4].field_4_ypos;
                     u16 v96_u16 = v56->field_2_xpos;
                     u16 v93_u16 = field_4_ypos;
                     if (v2_u16 == 0xFFFF)
@@ -1470,12 +1463,12 @@ for (s32 i=0; i<3; i++)
                     Frontend::sub_4B3CC0(field_132_f136_idx, temp4, &a4_unk);
                     v63 = field_132_f136_idx;
                     u16 v64_u16;
-                    if (v63 == 1 && (temp4 == 2 || temp4 == 3))
+                    if (v63 == 1 && ((u16)temp4 == 2 || (u16)temp4 == 3))
                     {
                         v64_u16 = v56->field_6C;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v64_u16, 1u, 0x15u, 1);
                     }
-                    else if (v63 == 5 && temp4 == 1)
+                    else if (v63 == 5 && (u16)temp4 == 1)
                     {
                         u16 v62_u16 = v56->field_6C;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v62_u16, 1u, 0x15u, 1);
@@ -1495,38 +1488,34 @@ for (s32 i=0; i<3; i++)
                     }
                 }
             }
-            v54 = temp4 + 1;
-            ++temp4;
-        } while ((u16)(temp4 + 1) < (u32)v7->field_2); //  v52
+        }
     }
 
     u16 x_pos;
     u16 y_pos;
 
-    if (field_110_state == 3)
+    if (field_110_state == 3) //  enter new player name?
     {
         if (field_114)
         {
-            v68 = Frontend::sub_5D8990(field_C9A0, field_11C);
-            swprintf(tmpBuff_67BD9C, L"_");
-            x_pos = v7->field_4[0].field_2 + v68;
+            x_pos = v7->field_4[0].field_2 + Frontend::sub_5D8990(field_C9A0, field_11C);
             y_pos = v7->field_4[0].field_4;
+            swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
-        u8 v74_u8 = gText_0x14_704DFC->field_10_lang_code != 106 ? 22 : 11;
+        u16 v74_u8 = gText_0x14_704DFC->field_10_lang_code != 106 ? 22 : 11;
         x_pos = 0x15Eu;
         y_pos = v74_u8 + 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
     }
-    if (field_110_state == 5)
+    if (field_110_state == 5) //  change current player name?
     {
         if (field_114)
         {
-            v78 = Frontend::sub_5D8990(field_C9B8, field_11C);
-            swprintf(tmpBuff_67BD9C, L"_");
-            x_pos = v7->field_518[4].field_2_xpos + v78;
+            x_pos = v7->field_518[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
             y_pos = v7->field_518[4].field_4_ypos;
+            swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
     }
