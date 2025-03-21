@@ -6,7 +6,7 @@ class thirsty_lamarr
 {
   public:
     EXPORT thirsty_lamarr();
-    EXPORT char_type sub_492110(s16 a2, s32 a3, s16 a4);
+    EXPORT void sub_492110(s16 a1, s32 a2, s16 a3);
     EXPORT void sub_492150();
     EXPORT void sub_4921B0(s32 amount);
     EXPORT void sub_4921F0(s32 a2, s16 a3);

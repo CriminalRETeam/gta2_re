@@ -41,10 +41,16 @@ thirsty_lamarr::thirsty_lamarr()
     field_36 = 0;
 }
 
-STUB_FUNC(0x492110)
-char_type thirsty_lamarr::sub_492110(s16 a2, s32 a3, s16 a4)
+MATCH_FUNC(0x492110)
+void thirsty_lamarr::sub_492110(s16 a1, s32 a2, s16 a3)
 {
-    return 0;
+    field_36 = a3;
+    field_2C = a1;
+    field_30 = a2;
+    field_2A = sub_4F7660(field_30);
+    s8 tmp = 9;
+    tmp -= static_cast<s8>(field_2A);
+    field_2E_idx = tmp;
 }
 
 MATCH_FUNC(0x492150)
