@@ -2,16 +2,55 @@
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
-STUB_FUNC(0x4920b0)
-thirsty_lamarr::thirsty_lamarr()
+MATCH_FUNC(0x4f7660)
+s32 __stdcall sub_4F7660(s32 &a1)
 {
+    s32 iVar1 = 1;
+    s32 iVar2 = a1;
 
+    if (iVar2 < 0)
+    {
+        iVar2 = -iVar2;
+    }
+    for (; 10 <= iVar2; iVar2 /= 10, iVar1++)
+    {}
+    return iVar1;
 }
 
-STUB_FUNC(0x492110)
-char_type thirsty_lamarr::sub_492110(s16 a2, s32 a3, s16 a4)
+MATCH_FUNC(0x4920b0)
+thirsty_lamarr::thirsty_lamarr()
 {
-    return 0;
+    for (s32 iVar2 = 0; iVar2 < 9; iVar2++)
+    {
+        field_13[iVar2] = 0;
+        field_9[iVar2] = 0x30;
+        field_1D_buf[iVar2] = 0x30;
+    }
+
+    field_12 = 0;
+    field_0 = 0;
+    field_4 = -1;
+    field_8 = 0;
+    field_27_sprite_w = -1;
+    field_28_sprite_h_calc = -1;
+    field_2A = 0;
+    field_2C = 0;
+    field_2E_idx = 0;
+    field_30 = 0;
+    field_34 = 0;
+    field_36 = 0;
+}
+
+MATCH_FUNC(0x492110)
+void thirsty_lamarr::sub_492110(s16 a1, s32 a2, s16 a3)
+{
+    field_36 = a3;
+    field_2C = a1;
+    field_30 = a2;
+    field_2A = sub_4F7660(field_30);
+    s8 tmp = 9;
+    tmp -= static_cast<s8>(field_2A);
+    field_2E_idx = tmp;
 }
 
 MATCH_FUNC(0x492150)
@@ -24,9 +63,39 @@ void thirsty_lamarr::sub_492150()
     field_34 = gSharp_pare_0x15D8_705064->sub_5B9220(field_2A, field_36);
 }
 
-STUB_FUNC(0x4921b0)
+MATCH_FUNC(0x4921b0)
 void thirsty_lamarr::sub_4921B0(s32 amount)
 {
+    if (amount > 0)
+    {
+        if(amount >= field_30)
+        {
+            field_0 = field_30;
+        }
+        else
+        {
+            field_0 += amount;
+            if (field_0 > field_30 )
+            {
+                field_0 = field_30;
+            }
+        }
+    }
+    else
+    {
+        if(amount > -field_30)
+        {
+            field_0 += amount;
+            if(field_0 < 0 )
+            {
+                field_0 = 0;
+            }
+        }
+        else
+        {
+            field_0 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x4921f0)

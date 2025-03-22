@@ -652,7 +652,7 @@ Player* Game_0x40::sub_4B9750()
 }
 
 MATCH_FUNC(0x4B9790)
-void Game_0x40::sub_4B9790(s32 a2, s32 a3, s32 a4)
+void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
