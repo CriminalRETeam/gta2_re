@@ -1446,9 +1446,29 @@ void miss2_0x11C::sub_5097D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509810)
+MATCH_FUNC(0x509810)
 void miss2_0x11C::sub_509810()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        switch (pPed->field_225)
+        {
+            case 2:
+            case 0:
+                field_8 = false;
+                break;
+            case 1:
+                field_8 = true;
+                break;
+            default:
+                break;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509880)
