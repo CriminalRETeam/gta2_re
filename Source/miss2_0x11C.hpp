@@ -373,6 +373,13 @@ struct SCR_SET_CHAR_GRAPHIC_TYPE : SCR_CMD_HEADER
     u16 field_E_padding;
 };
 
+struct SCR_LEVEL_END_ARROW2 : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_pos;
+    u16 field_14_arrowname;
+    u16 field_16_padding;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

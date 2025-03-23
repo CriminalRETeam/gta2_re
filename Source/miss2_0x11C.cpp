@@ -1291,9 +1291,32 @@ void miss2_0x11C::sub_508280()
 {
 }
 
-STUB_FUNC(0x508550)
-void miss2_0x11C::sub_508550()
+MATCH_FUNC(0x508550)
+void miss2_0x11C::sub_508550()  //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
 {
+    SCR_LEVEL_END_ARROW2* v1 = (SCR_LEVEL_END_ARROW2*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[2].field_4_cmd_next);
+    if (pPointer->field_8_arrow == NULL)
+    {
+        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
+    }
+
+    Fix16 z = v1->field_8_pos.field_8_z;
+    Fix16 y = v1->field_8_pos.field_4_y;
+    Fix16 x = v1->field_8_pos.field_0_x;
+
+    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
+
+    pArrow_trace->field_14_aim_x = x;
+    pArrow_trace->field_18_aim_y = y;
+    pArrow_trace->field_1C_aim_z = z;
+    pArrow_trace->field_10_type = 1;
+
+    if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
+    {
+        pPointer->field_8_arrow->sub_5D0510(5);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x5086f0)
