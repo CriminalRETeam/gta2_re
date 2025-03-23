@@ -16295,7 +16295,7 @@
         "v105_address": "0x5d31b0"
     },
     {
-        "name": "Hud_Pager_C::sub_5D31F0",
+        "name": "Hud_Pager_C_Array::CreateTimer_5D31F0",
         "v96f_address": null,
         "v105_address": "0x5d31f0"
     },
