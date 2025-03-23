@@ -1520,9 +1520,31 @@ void miss2_0x11C::sub_5098E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509990)
+MATCH_FUNC(0x509990)
 void miss2_0x11C::sub_509990()
 {
+    SCR_IS_CAR_IN_BLOCK* pCmd = (SCR_IS_CAR_IN_BLOCK*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570)
+    {
+        Fix16 temp_z;
+        pCmd->field_C_pos.field_8_z =
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, 
+                                                            pCmd->field_C_pos.field_0_x, 
+                                                            pCmd->field_C_pos.field_4_y);
+    }
+
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar != NULL && pCar->IsWithinBlock(&pCmd->field_C_pos))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509a70)

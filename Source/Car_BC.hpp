@@ -616,6 +616,20 @@ class Car_BC
             z_pos.ToUInt8() == z_target.ToUInt8() ) );
     }
 
+    inline bool IsWithinBlock(SCR_XYZ_f* pos)
+    {
+        Sprite* pSprite = field_50_car_sprite;
+        Fix16 car_z_pos;
+        return (pSprite->field_14_xpos >= pos->field_0_x.ToUInt8() 
+            && pSprite->field_14_xpos < (pos->field_0_x.ToUInt8() + 1)
+
+            && pSprite->field_18_ypos >= pos->field_4_y.ToUInt8() 
+            && pSprite->field_18_ypos < (pos->field_4_y.ToUInt8() + 1)
+
+            && (car_z_pos = pSprite->field_1C_zpos, 
+                car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
+    }
+
     Sprite_18* field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;

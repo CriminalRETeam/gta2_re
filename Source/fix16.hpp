@@ -85,6 +85,18 @@ class Fix16
         return mValue <= other.mValue;
     }
 
+    // MATCH_FUNC(0x509990)
+    bool operator>=(const s32 value)
+    {
+        return mValue >= value << 14;
+    }
+
+    // MATCH_FUNC(0x509990)
+    bool operator<(const s32 value)
+    {
+        return mValue < value << 14;
+    }
+
     f32 AsFloat() const
     {
         return mValue / 16384.0f;

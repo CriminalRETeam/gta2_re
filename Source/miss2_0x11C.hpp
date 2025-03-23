@@ -380,6 +380,13 @@ struct SCR_LEVEL_END_ARROW2 : SCR_CMD_HEADER
     u16 field_16_padding;
 };
 
+struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    u16 field_A_unk2;
+    SCR_XYZ_f field_C_pos;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
