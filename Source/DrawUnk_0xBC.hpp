@@ -27,7 +27,7 @@ class DrawUnk_0xBC
     EXPORT void sub_435F90(Car_BC * a2);
     EXPORT s32 sub_435FF0();
     EXPORT s32 sub_436110();
-    EXPORT void sub_436120(s32 a2);
+    EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
     EXPORT u32 sub_4361B0(u32 a2, u32 a3);
     EXPORT s32 sub_436200(s32 a2, s32* a3, s32* a4, s32* a5);
@@ -39,7 +39,7 @@ class DrawUnk_0xBC
     EXPORT DrawUnk_0xBC(); // 4368E0
     EXPORT ~DrawUnk_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
-    EXPORT bool sub_58CF10(s32 a2, s32 a3);
+    EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
 
     inline void inline_sub_475B60()
     {
@@ -87,10 +87,10 @@ class DrawUnk_0xBC
     s32 field_6C;
     s32 field_70;
     s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
+    Fix16 field_78;
+    Fix16 field_7C;
+    Fix16 field_80;
+    Fix16 field_84;
     Fix16 field_88;
     Fix16 field_8C;
     Fix16 field_90;

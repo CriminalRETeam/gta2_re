@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "Car_14_18.hpp"
 #include "Car_B0.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
@@ -93,6 +94,27 @@ GLOBAL(dword_6777D0, 0x6777D0);
 
 EXPORT_VAR s32 dword_6778D0;
 GLOBAL(dword_6778D0, 0x6778D0);
+
+EXPORT_VAR Fix16 DAT_006FF744; // 0x147
+GLOBAL(DAT_006FF744, 0x6FF744);
+
+EXPORT_VAR Fix16 DAT_006FF774; // 0x0
+GLOBAL(DAT_006FF774, 0x6FF774);
+
+EXPORT_VAR Fix16 DAT_006FF570;
+GLOBAL(DAT_006FF570, 0x6FF570);
+
+EXPORT_VAR Fix16 DAT_006FF7E8;
+GLOBAL(DAT_006FF7E8, 0x6FF7E8);
+
+EXPORT_VAR s8 DAT_006FF8C4;
+GLOBAL(DAT_006FF8C4, 0x6FF8C4);
+
+EXPORT_VAR s8 DAT_006FF8C5;
+GLOBAL(DAT_006FF8C5, 0x6FF8C5);
+
+EXPORT_VAR Fix16 DAT_006FF778;
+GLOBAL(DAT_006FF778, 0x6ff778);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -2600,7 +2622,78 @@ s32 Car_A4_10::sub_408220()
     return 0;
 }
 
-STUB_FUNC(0x582310)
+MATCH_FUNC(0x5822E0)
+void sub_5822E0()
+{
+    DAT_006FF7E8 = DAT_006FF774;
+    DAT_006FF570 = DAT_006FF744;
+    DAT_006FF8C4 = 0;
+    DAT_006FF8C5 = 0;
+}
+
+MATCH_FUNC(0x582310)
 Car_14::Car_14()
 {
+    field_9 = 0;
+    field_A = 0;
+    field_8 = 0;
+    field_0 = NULL;
+    field_C = NULL;
+    field_10 = NULL;
+    field_4 = new Car_14_18();
+    sub_5822E0();
+}
+
+MATCH_FUNC(0x582340)
+Car_14::~Car_14()
+{
+    delete field_4;
+    field_4 = NULL;
+    field_0 = NULL;
+    field_C = NULL;
+    field_10 = NULL;
+}
+
+MATCH_FUNC(0x582360)
+char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
+{
+    switch (param_1)
+    {
+        case 1:
+        case 2:
+        if (field_8 == 0)
+        {
+            if (param_2 < (field_0->field_7C - DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (param_2 > (field_0->field_78 + DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        break;
+        case 3:
+        case 4:
+        if (field_8 == 0)
+        {
+            if (param_3 < (field_0->field_84 - DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        else
+        {
+            if (param_3 > (field_0->field_80 + DAT_006FF778))
+            {
+                return 1;
+            }
+        }
+        break;
+
+    }
+    return 0;
 }

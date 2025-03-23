@@ -4815,13 +4815,13 @@
         "v105_address": "0x48f8b0"
     },
     {
-        "name": "thirsty_lamarr::sub_4920B0",
-        "v96f_address": null,
+        "name": "thirsty_lamarr::thirsty_lamarr",
+        "v96f_address": "0x44b1d0",
         "v105_address": "0x4920b0"
     },
     {
         "name": "thirsty_lamarr::sub_492110",
-        "v96f_address": null,
+        "v96f_address": "0x44b220",
         "v105_address": "0x492110"
     },
     {
@@ -4831,7 +4831,7 @@
     },
     {
         "name": "thirsty_lamarr::sub_4921B0",
-        "v96f_address": null,
+        "v96f_address": "0x44b2c0",
         "v105_address": "0x4921b0"
     },
     {
@@ -7991,7 +7991,7 @@
     },
     {
         "name": "sub_4F7660",
-        "v96f_address": null,
+        "v96f_address": "0x472570",
         "v105_address": "0x4f7660"
     },
     {
@@ -13651,22 +13651,22 @@
     },
     {
         "name": "Car_14::sub_5822E0",
-        "v96f_address": null,
+        "v96f_address": "0x4b2ff0",
         "v105_address": "0x5822e0"
     },
     {
         "name": "Car_14::ctor",
-        "v96f_address": null,
+        "v96f_address": "0x4B3490",
         "v105_address": "0x582310"
     },
     {
         "name": "Car_14::dtor",
-        "v96f_address": null,
+        "v96f_address": "0x4b3020",
         "v105_address": "0x582340"
     },
     {
         "name": "Car_14::sub_582360",
-        "v96f_address": null,
+        "v96f_address": "0x4b3150",
         "v105_address": "0x582360"
     },
     {

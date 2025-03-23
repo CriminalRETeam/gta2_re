@@ -8,6 +8,10 @@ class Sprite;
 class Car_14_18
 {
   public:
+    // Inlined from 0x41d070
+    Car_14_18()
+    {
+    }
     EXPORT void sub_59DD60();
     EXPORT u32 sub_59DDF0(Sprite* a2);
     EXPORT char_type sub_59DE80();
