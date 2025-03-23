@@ -1493,9 +1493,31 @@ void miss2_0x11C::sub_509880()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5098e0)
+MATCH_FUNC(0x5098e0)
 void miss2_0x11C::sub_5098E0()
 {
+    SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_FOUR_PARAMS* v2 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 1)
+    {
+        if (gBasePtr_6F8070->field_2_type == 138)
+        {
+            pPointer->field_8_char->sub_45DD30(v1->field_A_signed_2, 100);
+        }
+        else
+        {
+            pPointer->field_8_char->sub_45DD30(v2->field_A_signed_2, v2->field_C_signed_3);
+        }
+    }
+    else
+    {
+        // Always 50 ammo for cars
+        gWeapon_8_707018->allocate_5E3D50(v1->field_A_signed_2, 50, pPointer->field_8_car);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509990)
