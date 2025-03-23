@@ -635,10 +635,20 @@ void Hud_Pager_C_Array::sub_5D31B0()
     }
 }
 
-STUB_FUNC(0x5d31f0)
+MATCH_FUNC(0x5d31f0)
 s32 Hud_Pager_C_Array::sub_5D31F0(s32 a2)
 {
-    return 0;
+    for (s32 result = 0; result < 4; result++)
+    {
+        Hud_Pager_C* pPager = &field_620[result];
+        if (pPager->field_0_timer >= 0 || pPager->field_4)
+        {
+            continue;
+        }
+        pPager->field_0_timer = 30 * a2;
+        return result;
+    }
+    return -1;
 }
 
 STUB_FUNC(0x5d3220)
