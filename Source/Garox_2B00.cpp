@@ -636,17 +636,17 @@ void Hud_Pager_C_Array::sub_5D31B0()
 }
 
 MATCH_FUNC(0x5d31f0)
-s32 Hud_Pager_C_Array::sub_5D31F0(s32 a2)
+s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds)   // returns the new Pager id
 {
-    for (s32 result = 0; result < 4; result++)
+    for (s32 id = 0; id < 4; id++)
     {
-        Hud_Pager_C* pPager = &field_620[result];
+        Hud_Pager_C* pPager = &field_620[id];
         if (pPager->field_0_timer >= 0 || pPager->field_4)
         {
             continue;
         }
-        pPager->field_0_timer = 30 * a2;
-        return result;
+        pPager->field_0_timer = 30 * seconds;
+        return id;
     }
     return -1;
 }
