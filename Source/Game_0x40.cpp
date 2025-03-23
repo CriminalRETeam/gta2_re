@@ -137,10 +137,14 @@ GLOBAL(gLight_1D4CC_6F5520, 0x6F5520);
 // TODO: move
 void sub_SetGamma();
 
-STUB_FUNC(0x4B8BB0)
+MATCH_FUNC(0x4B8BB0)
 s32 Game_0x40::sub_4B8BB0()
 {
-    return 0;
+    if (bStartNetworkGame_7081F0 == false)
+    {
+        return field_30 == false ? 33 : 11;
+    }
+    return field_34;
 }
 
 MATCH_FUNC(0x4B8BD0)
