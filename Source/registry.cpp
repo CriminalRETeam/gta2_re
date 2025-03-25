@@ -1,8 +1,8 @@
 #include "registry.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "error.hpp"
 #include "stdafx.h"
-#include "Globals.hpp"
 #include <stdio.h>
 #include <windows.h>
 
@@ -575,7 +575,7 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
     }
 }
 
-STUB_FUNC(0x5871E0)
+MATCH_FUNC(0x5871E0)
 void Registry::Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
 {
     HKEY hKey; // [esp+8h] [ebp-8h] BYREF
