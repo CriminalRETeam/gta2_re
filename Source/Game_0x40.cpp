@@ -181,9 +181,60 @@ s8 Game_0x40::sub_4B8C20()
     return 0;
 }
 
-STUB_FUNC(0x4B8C40)
+MATCH_FUNC(0x4B8C40)
 void Game_0x40::sub_4B8C40()
 {
+    char_type tmp_array[256];
+
+    gText_0x14_704DFC->Load_5B5E90();
+    if (bSkip_audio_67D6BE == false)
+    {
+        char_type* style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
+        gRoot_sound_66B038.LoadStyle_40EFF0(style_name);
+    }
+
+    char_type *style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
+    gGtx_0x106C_703DD4->LoadSty_5AB750(style_name);
+
+    char_type *map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
+    gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
+
+    gPhi_8CA8_6FCF00->sub_534330();
+
+    gSharp_pare_0x15D8_705064->sub_5B9350();
+
+    gLucid_hamilton_67E8E0.reset_field_574();
+
+    char_type *script_name = gLucid_hamilton_67E8E0.GetScriptName_4C5960();
+    gfrosty_pasteur_6F8060->Load_512330(script_name);
+
+    if (strlen(gLucid_hamilton_67E8E0.GetDebugStr_4C5970()) != 0)
+    {
+        char_type *debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
+        gfrosty_pasteur_6F8060->sub_511F80(debug_str);
+    }
+
+    strcpy(tmp_array, "data\\");
+    memset(gTmpBuffer_67C598, 0, sizeof(gTmpBuffer_67C598));
+    gRegistry_6FF968.Get_Debug_Setting_586E90("carname", (LPBYTE)gTmpBuffer_67C598, 0x100);
+
+    strcat(tmp_array, gTmpBuffer_67C598);
+
+    if (strcmp(tmp_array, "data\\"))
+    {
+        gCarInfo_808_678098->sub_454A00(tmp_array);
+    }
+    else
+    {
+        gCarInfo_808_678098->sub_454A00("data\\nyc.gci");
+    }
+
+    gCar_6C_677930->sub_444980();
+
+    if (gMagical_germain_0x8EC_6F5168 != NULL)
+    {
+        gMagical_germain_0x8EC_6F5168->sub_4D2B40();
+    }
 }
 
 MATCH_FUNC(0x4B8E00)

@@ -67,7 +67,7 @@ void frosty_pasteur_0xC1EA8::sub_511D40()
 }
 
 STUB_FUNC(0x511f80)
-s32 frosty_pasteur_0xC1EA8::sub_511F80(s32 FileName)
+s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
 {
     return 0;
 }
