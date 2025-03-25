@@ -16,7 +16,7 @@ class Gang_144
     EXPORT void init_4BED70();
     EXPORT char_type sub_4BEDF0(u8 a2);
     EXPORT void sub_4BEE30(u8 idx, char_type value);
-    EXPORT char_type sub_4BEE50(u8 idx, char_type a3);
+    EXPORT void sub_4BEE50(u8 idx, char_type a3);
     EXPORT void sub_4BEEA0(u8 a2, char_type a3);
     EXPORT char_type sub_4BEEF0(u8 a2);
     EXPORT bool sub_4BEF10(u8 a2);
@@ -105,7 +105,7 @@ class Gang_144
     char field_112[2];
     u32 field_114;
     u32 field_118;
-    u8 field_11C[4];
+    s8 field_11C[4];
     u16 field_120;
     char field_122[10];
     Fix16 field_12C_info_phone_x;

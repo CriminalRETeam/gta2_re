@@ -53,10 +53,31 @@ void Gang_144::sub_4BEE30(u8 idx, char_type value)
     field_11C[idx] = value;
 }
 
-STUB_FUNC(0x4BEE50)
-char_type Gang_144::sub_4BEE50(u8 idx, char_type a3)
+MATCH_FUNC(0x4BEE50)
+void Gang_144::sub_4BEE50(u8 idx, char_type a3)
 {
-    return 0;
+    const s8 new_attr = field_11C[idx] + a3;
+    if (new_attr < field_11C[idx])
+    {
+        field_11C[idx] = 100;
+    }
+    else
+    {
+        field_11C[idx] = new_attr;
+        if (new_attr > 100)
+        {
+            field_11C[idx] = 100;
+        }
+    }
+
+    if (field_11C[idx] >= 80)
+    {
+        field_110 = true;
+    }
+    else
+    {
+        field_110 = false;
+    }
 }
 
 STUB_FUNC(0x4BEEA0)
@@ -147,8 +168,7 @@ Gang_144* Zones_CA8::sub_4BECA0()
 {
     for (gZoneIdx_6206B8 = 0; gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0); gZoneIdx_6206B8++)
     {
-        if (field_0[gZoneIdx_6206B8].field_0_used 
-            && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
         {
             return &field_0[gZoneIdx_6206B8];
         }
@@ -161,8 +181,7 @@ Gang_144* Zones_CA8::sub_4BECE0()
 {
     while (++gZoneIdx_6206B8 < GTA2_COUNTOF_S(field_0))
     {
-        if (field_0[gZoneIdx_6206B8].field_0_used 
-            && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
+        if (field_0[gZoneIdx_6206B8].field_0_used && field_0[gZoneIdx_6206B8].field_139_kill_respect_change > 0)
         {
             return &field_0[gZoneIdx_6206B8];
         }

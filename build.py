@@ -185,9 +185,15 @@ def run_exe(exe: ExeType):
         print(f"Could not find exe: {exe_path}")
         return
 
-    run_command = exe_path if platform.system() == "Windows" else f"wine {exe_path}"
-    print(f"Executing run command: {run_command}")
-    subprocess.run(run_command, cwd=GTA2_ROOT)
+    arg_list = []
+    if platform.system() == "Windows":
+        arg_list.append(exe_path)
+    else:
+        arg_list.append("wine")
+        arg_list.append(exe_path)
+
+    print(f"Executing run command: {arg_list}")
+    subprocess.run(args=arg_list, cwd=GTA2_ROOT)
 
 if __name__ == "__main__":
     main()

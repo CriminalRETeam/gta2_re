@@ -1032,9 +1032,21 @@ s16 Ped::sub_468040()
     return 0;
 }
 
-STUB_FUNC(0x4682a0)
+MATCH_FUNC(0x4682a0)
 void Ped::sub_4682A0()
 {
+    if (this->field_16C_car == 0)
+    {
+        this->field_218_objective_timer = 9999;
+    }
+    else
+    {
+        ++this->field_218_objective_timer;
+        if (this->field_218_objective_timer > 9999u)
+        {
+            this->field_218_objective_timer = 9999;
+        }
+    }
 }
 
 STUB_FUNC(0x468310)
@@ -1085,10 +1097,10 @@ char_type Ped::sub_468E80()
     return 0;
 }
 
-STUB_FUNC(0x469010)
+MATCH_FUNC(0x469010)
 s32 Ped::sub_469010()
 {
-    return 0;
+    return (this->field_200 & 1) != 0 ? 56 : 51;
 }
 
 MATCH_FUNC(0x469030)
