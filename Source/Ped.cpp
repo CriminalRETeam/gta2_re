@@ -1097,10 +1097,10 @@ char_type Ped::sub_468E80()
     return 0;
 }
 
-STUB_FUNC(0x469010)
+MATCH_FUNC(0x469010)
 s32 Ped::sub_469010()
 {
-    return 0;
+    return (this->field_200 & 1) != 0 ? 56 : 51;
 }
 
 MATCH_FUNC(0x469030)
