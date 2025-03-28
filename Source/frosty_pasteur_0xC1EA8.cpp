@@ -67,7 +67,7 @@ void frosty_pasteur_0xC1EA8::sub_511D40()
 }
 
 STUB_FUNC(0x511f80)
-s32 frosty_pasteur_0xC1EA8::sub_511F80(s32 FileName)
+s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
 {
     return 0;
 }
@@ -119,7 +119,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
     }
 }
 
-STUB_FUNC(0x512330)
+MATCH_FUNC(0x512330)
 void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 {
     if (!bSkip_mission_67D4E5)
