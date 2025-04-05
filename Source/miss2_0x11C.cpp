@@ -59,6 +59,9 @@ GLOBAL(dword_6F75F0, 0x6F75F0);
 EXPORT_VAR Fix16 dword_6F791C;
 GLOBAL(dword_6F791C, 0x6F791C);
 
+EXPORT_VAR Fix16 dword_6F77C0;
+GLOBAL(dword_6F77C0, 0x6F77C0);
+
 EXPORT_VAR Ang16 word_6F8044;
 GLOBAL(word_6F8044, 0x6F8044);
 
@@ -1916,9 +1919,24 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509e70)
+MATCH_FUNC(0x509e70)
 void miss2_0x11C::sub_509E70()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+
+    Fix16 temp;
+
+    if (pPed != NULL 
+        && (temp = pPed->field_168_game_object->field_38, temp == dword_6F77C0))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x509ed0)
