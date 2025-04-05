@@ -1255,9 +1255,32 @@ void miss2_0x11C::SCRCMD_DECREMENT_507B50()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x507ce0)
+MATCH_FUNC(0x507ce0)
 void miss2_0x11C::sub_507CE0()
 {
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_OBJ_DATA* pObjData = (SCR_OBJ_DATA*)gBasePtr_6F8070;
+
+    switch (pObjData->field_2_type)
+    {
+        case 0x2F:
+        case 0x30:
+        case 0x32:
+        case 0x33:
+            miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(pObjData, pPointer);
+            break;
+        case 0x31:
+        case 0x34:
+            miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(pObjData, pPointer);
+            break;
+        default:
+            break;
+    }
+    if (!field_118)
+    {
+        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, 0);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x507f80)
