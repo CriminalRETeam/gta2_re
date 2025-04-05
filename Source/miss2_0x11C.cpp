@@ -2020,9 +2020,61 @@ void miss2_0x11C::sub_509FD0()
 {
 }
 
-STUB_FUNC(0x50a200)
+MATCH_FUNC(0x50a200)
 void miss2_0x11C::sub_50A200()
 {
+    SCR_CHAR_OBJECTIVE* v1 = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::sub_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pPointer);
+
+    SCR_POINTER* pParam;
+    switch (v1->field_A_objective)
+    {
+        case 2:
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+        case 0x10:
+        case 0x13:
+        case 0x14:
+        case 0x17:
+            pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_second_item_idx);
+            pPointer->field_8_char->field_148_objective_target_ped = pParam->field_8_char;
+            break;
+        case 0x23:
+            pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_second_item_idx);
+            pPointer->field_8_char->field_150_target_objective_car = pParam->field_8_car;
+            if (v1->field_E_variant == 1)
+            {
+                pPointer->field_8_char->field_248_enter_car_as_passenger = true;
+            }
+            else
+            {
+                pPointer->field_8_char->field_248_enter_car_as_passenger = false;
+            }
+            break;
+        case 0x15:
+        case 0x1B:
+        case 0x24:
+        case 0x37:
+        case 0x3B:
+            pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_second_item_idx);
+            pPointer->field_8_char->field_150_target_objective_car = pParam->field_8_car;
+            break;
+        case 0x39:
+        case 0x3A:
+            pParam = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_second_item_idx);
+            pPointer->field_8_char->field_1A0_objective_target_object = pParam->field_8_obj;
+            break;
+        default:
+            break;
+    }
+
+    Ped* v4 = pPointer->field_8_char;
+    v4->field_21C &= ~0x400;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50a3e0)

@@ -19,6 +19,7 @@ class Sprite;
 class Char_8;
 class Char_B4;
 class Marz_96;
+class Object_2C;
 
 class Ped
 {
@@ -342,7 +343,7 @@ class Ped
     s32 field_194;
     s32 field_198;
     Gang_144* field_19C;
-    s32 field_1A0_objective_target_object;
+    Object_2C* field_1A0_objective_target_object;
     s32 field_1A4;
     Ped* field_1A8_elvis_leader;
     Fix16_Vec field_1AC_cam;
