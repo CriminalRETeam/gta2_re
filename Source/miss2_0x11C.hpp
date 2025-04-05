@@ -214,7 +214,8 @@ struct SCR_EXPLODE : SCR_CMD_HEADER
 struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
 {
     SCR_XYZ_f field_8_pos;
-    u16 field_14_face;
+    u8 field_14_face;
+    u8 field_15_padding1;
     u16 field_16_padding2;
 };
 

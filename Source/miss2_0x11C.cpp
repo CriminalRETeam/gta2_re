@@ -1967,9 +1967,52 @@ void miss2_0x11C::sub_509ED0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509f60)
+MATCH_FUNC(0x509f60)
 void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
 {
+    SCR_EXPLODE_WALL* pCmd = (SCR_EXPLODE_WALL*)gBasePtr_6F8070;
+    switch (pCmd->field_14_face)
+    {
+        case 1:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            23, 
+                            0);
+            break;
+        case 2:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            22, 
+                            0);
+            break;
+        case 3:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            24, 
+                            0);
+            break;
+        case 4:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            25, 
+                            0);
+            break;
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509fd0)
