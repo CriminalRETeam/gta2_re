@@ -173,6 +173,9 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
             # add label to jump instruction
             if instruction.near_branch_target in labels:
                 jump_mnemonic = formatter.format_mnemonic(instruction)
+                # asm-diff currently doesn't support 'jmpl' mnemonic, which is used in switch jumptables. workaround: replace it by 'jmp'
+                if "jmpl" in jump_mnemonic:
+                    jump_mnemonic = jump_mnemonic.replace("jmpl", "jmp")
                 asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
         else:
             asm.append(formatter.format(instruction))
