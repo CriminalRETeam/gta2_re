@@ -1822,9 +1822,26 @@ void miss2_0x11C::sub_509C10()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509c90)
+MATCH_FUNC(0x509c90)
 void miss2_0x11C::sub_509C90()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Ped* pPed = pParam1->field_8_char;
+    Car_BC* pCarCurrent;
+
+    if (pPed != NULL 
+        && (pCarCurrent = pPed->field_16C_car) != NULL 
+        && pCarCurrent->field_84_car_info_idx == pCmd->field_A_signed_2)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509d00)
@@ -2058,7 +2075,7 @@ void miss2_0x11C::sub_50A980()  //  DELAY
     if (param_1 == -1)
     {
         v2->field_0_cmd_this = gBasePtr_6F8070[1].field_2_type;
-        this->field_8 = true;
+        field_8 = true;
     }
     else
     {
@@ -2066,11 +2083,11 @@ void miss2_0x11C::sub_50A980()  //  DELAY
         if (!v2->field_0_cmd_this)
         {
             v2->field_0_cmd_this = -1;
-            this->field_8 = false;
+            field_8 = false;
         }
         else
         {
-            this->field_8 = true;
+            field_8 = true;
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2492,11 +2509,11 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 
     if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->field_8_car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))
     {
-        this->field_8 = true;
+        field_8 = true;
     }
     else
     {
-        this->field_8 = false;
+        field_8 = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
