@@ -1869,9 +1869,30 @@ void miss2_0x11C::sub_509D60()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509d90)
+MATCH_FUNC(0x509d90)
 void miss2_0x11C::sub_509D90()
 {
+    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Ped* pPed = pPointer->field_8_char;
+    
+    if (pPed != NULL)
+    {
+        Player* pPlayer = pPed->field_15C_player;
+        if (pPlayer != NULL)
+        {
+            if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
+            {
+                pPlayer->field_2D4_unk.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0);
+            }
+            else
+            {
+                pPlayer->field_2D4_unk.AddCash_592620(pCmd->field_C_s32); //  no multiplier
+            }
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509e00)
