@@ -1876,7 +1876,7 @@ void miss2_0x11C::sub_509D90()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
     Ped* pPed = pPointer->field_8_char;
-    
+
     if (pPed != NULL)
     {
         Player* pPlayer = pPed->field_15C_player;
@@ -1921,9 +1921,50 @@ void miss2_0x11C::sub_509E70()
 {
 }
 
-STUB_FUNC(0x509ed0)
+MATCH_FUNC(0x509ed0)
 void miss2_0x11C::sub_509ED0()
 {
+    SCR_EXPLODE* pCmd = (SCR_EXPLODE*)gBasePtr_6F8070;
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case 406:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            32, 
+                            0);
+            break;
+        case 404:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            18, 
+                            0);
+            break;
+        case 142:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            19, 
+                            0);
+            break;
+        case 399:
+            gObject_5C_6F8F84
+                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, 
+                            pCmd->field_8_pos.field_4_y, 
+                            pCmd->field_8_pos.field_8_z, 
+                            dword_6F804C, 
+                            20, 
+                            0);
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509f60)

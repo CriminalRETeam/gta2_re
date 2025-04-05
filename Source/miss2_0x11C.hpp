@@ -206,6 +206,18 @@ struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
 };
 
+struct SCR_EXPLODE : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_pos;
+};
+
+struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_pos;
+    u16 field_14_face;
+    u16 field_16_padding2;
+};
+
 struct SCR_SOUND_DECSET : SCR_CMD_HEADER
 {
     u16 field_8_varname;
