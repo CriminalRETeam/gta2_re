@@ -1260,9 +1260,28 @@ void miss2_0x11C::sub_507CE0()
 {
 }
 
-STUB_FUNC(0x507f80)
+MATCH_FUNC(0x507f80)
 void miss2_0x11C::sub_507F80()
 {
+    SCR_CAR_DATA_DEC* v3 = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
+
+    //  TODO: gBasePtr_6F8070 may be an extended union of SCR_CMD_HEADER
+    Fix16* z_coord = (Fix16*)&gBasePtr_6F8070[2].field_4_cmd_next;
+
+    if (*z_coord == dword_6F7570)
+    {
+        Fix16 temp_z;
+        *z_coord = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z,
+                                                  *(Fix16*)&gBasePtr_6F8070[1].field_4_cmd_next,
+                                                  *(Fix16*)&gBasePtr_6F8070[2].field_0_cmd_this);
+    }
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v3->field_8_car_idx);
+    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
+    if (this->field_118 == 0)
+    {
+        gMiss2_25C_6F805C->push_type_1_car_502F80(pPointer->field_8_car);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x508220)

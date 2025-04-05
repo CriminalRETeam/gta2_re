@@ -75,7 +75,8 @@ struct SCR_PLAYER_PED
 
 struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
-    Car_BC* field_8_car;
+    u16 field_8_car_idx;
+    u16 field_A_unk;
     SCR_XYZ_f field_C_pos;
     u16 field_18_rot;
     u16 field_1A_remap;
