@@ -75,7 +75,8 @@ struct SCR_PLAYER_PED
 
 struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
-    Car_BC* field_8_car;
+    u16 field_8_car_idx;
+    u16 field_A_unk;
     SCR_XYZ_f field_C_pos;
     u16 field_18_rot;
     u16 field_1A_remap;
@@ -203,6 +204,19 @@ struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
     u16 field_8_char_idx;
     s16 field_A_objective;
     SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
+};
+
+struct SCR_EXPLODE : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_pos;
+};
+
+struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
+{
+    SCR_XYZ_f field_8_pos;
+    u8 field_14_face;
+    u8 field_15_padding1;
+    u16 field_16_padding2;
 };
 
 struct SCR_SOUND_DECSET : SCR_CMD_HEADER
