@@ -1174,10 +1174,50 @@ void miss2_0x11C::sub_506B80()  // MISSIONEND
     }
 }
 
-STUB_FUNC(0x506bc0)
-char_type miss2_0x11C::sub_506BC0(u32 a1)
+MATCH_FUNC(0x506bc0)
+char miss2_0x11C::sub_506BC0(u32 a1)
 {
-    return 0;
+    switch (a1)
+    {
+        case SCRCMD_S_PLUS_I:
+        case SCRCMD_I_PLUS_S:
+        case SCRCMD_S_PLUS_S:
+        case SCRCMD_S_IS_S_PLUS_S:
+        case SCRCMD_S_IS_S_PLUS_I:
+            return 0;
+        case SCRCMD_S_MINUS_I:
+        case SCRCMD_I_MINUS_S:
+        case SCRCMD_S_MINUS_S:
+        case SCRCMD_S_IS_S_MINUS_I:
+        case SCRCMD_S_IS_S_MINUS_S:
+            return 1;
+        case SCRCMD_S_LESS_I:
+        case SCRCMD_S_LESS_S:
+            return 4;
+        case SCRCMD_S_LEQUAL_I:
+        case SCRCMD_S_LEQUAL_S:
+            return 5;
+        case SCRCMD_S_GREATER_I:
+        case SCRCMD_S_GREATER_S:
+            return 2;
+        case SCRCMD_S_GEQUAL_I:
+        case SCRCMD_S_GEQUAL_S:
+            return 3;
+        case SCRCMD_S_EQUAL_I:
+        case SCRCMD_S_EQUAL_S:
+            return 6;
+        case SCRCMD_S_IS_S_DIV_I:
+        case SCRCMD_S_IS_S_DIV_S:
+            return 7;
+        case SCRCMD_S_IS_S_MULT_I:
+        case SCRCMD_S_IS_S_MULT_S:
+            return 8;
+        case SCRCMD_S_IS_S_MOD_I:
+        case SCRCMD_S_IS_S_MOD_S:
+            return 9;
+        default:
+            return 0;
+    }
 }
 
 STUB_FUNC(0x506d60)
