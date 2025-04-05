@@ -1862,9 +1862,11 @@ void miss2_0x11C::sub_509D00()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509d60)
+MATCH_FUNC(0x509d60)
 void miss2_0x11C::sub_509D60()
 {
+    miss2_0x11C::sub_505B10(gBasePtr_6F8070[1].field_0_cmd_this); //  delete item
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509d90)
