@@ -1796,9 +1796,30 @@ void miss2_0x11C::SCRCMD_HAS_CHAR_DIED_509BB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509c10)
+MATCH_FUNC(0x509c10)
 void miss2_0x11C::sub_509C10()
 {
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+
+    Ped* pPed = pParam1->field_8_char;
+
+    Car_BC* pCarTarget;
+    Car_BC* pCarCurrent;
+
+    if (pPed != NULL 
+        && (pCarTarget = pParam2->field_8_car) != NULL 
+        && (pCarCurrent = pPed->field_16C_car) != NULL 
+        && pCarCurrent == pCarTarget)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x509c90)
