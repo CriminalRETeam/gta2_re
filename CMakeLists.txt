@@ -279,3 +279,5 @@ target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs})
 if(${MSVC})
     include(cmake/vc6.cmake)
 endif ()
+
+add_subdirectory(3rdParty/GTA2Hax)
