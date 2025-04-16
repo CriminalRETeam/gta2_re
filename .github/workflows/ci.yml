@@ -24,7 +24,7 @@ jobs:
     - name: Checkout repository recursively
       uses: actions/checkout@v4
       with:
-        submodules: recursive
+        submodules: true
 
     # ======================================
     #      Windows vc2019
