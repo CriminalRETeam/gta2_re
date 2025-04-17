@@ -7,3 +7,6 @@
 [submodule "Source/3rdParty/Detours"]
 	path = Source/3rdParty/Detours
 	url = https://github.com/MrSapps/Detours
+[submodule "3rdParty/GTA2Hax"]
+	path = 3rdParty/GTA2Hax
+	url = https://github.com/CriminalRETeam/GTA2Hax.git

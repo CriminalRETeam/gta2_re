@@ -308,15 +308,18 @@ void Object_2C::sub_5290A0()
 {
 }
 
-STUB_FUNC(0x5291b0)
+MATCH_FUNC(0x5291b0)
 void Object_2C::sub_5291B0()
 {
+    sub_522340();
+    sub_5290A0();
 }
 
-STUB_FUNC(0x5291d0)
-Object_29178* Object_2C::sub_5291D0()
+MATCH_FUNC(0x5291d0)
+void Object_2C::sub_5291D0()
 {
-    return 0;
+    sub_522340();
+    field_24 = 1;
 }
 
 STUB_FUNC(0x52ae60)

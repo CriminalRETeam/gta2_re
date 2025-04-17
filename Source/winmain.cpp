@@ -47,6 +47,15 @@
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "Car_14_18.hpp"
+#include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
+
+void ImGuiDebugDraw()
+{
+    /*
+    ImGui::Begin("Testing");
+    ImGui::End();
+    */
+}
 
 void force_link()
 {
@@ -1599,6 +1608,8 @@ LABEL_23:
     LABEL_27:
         UpdateWinXY_5D8E70();
         sub_5D9690();
+
+        ImGuiDebugDraw();
 
         while (1)
         {
