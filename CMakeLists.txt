@@ -7,6 +7,8 @@ ENABLE_LANGUAGE(ASM_MASM)
 
 SET(CMAKE_WARN_VS6 CACHE BOOL OFF)
 
+add_subdirectory(3rdParty/GTA2Hax)
+
 add_library (mss32 SHARED
     Source/3rdParty/mss.h
     Source/3rdParty/mss.cpp
@@ -246,17 +248,18 @@ include_directories(3rdParty/gta2_re_compile_tools)
 set(dplay_libs
   ${CMAKE_SOURCE_DIR}/3rdParty/gta2_re_compile_tools/VC98/Lib/DPLAYX.lib)
 
-
 add_library (gta2_lib ${gta2_lib_src})
-target_compile_definitions(gta2_lib PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
+target_compile_definitions(gta2_lib PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
 target_link_libraries(gta2_lib)
 
+message(STATUS "${CMAKE_BINARY_DIR}=${${CMAKE_BINARY_DIR}}")
+
 add_library (gta2_dll_exports SHARED ${gta2_lib_src})
-target_compile_definitions(gta2_dll_exports PRIVATE EXPORT_VARS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
+target_compile_definitions(gta2_dll_exports PRIVATE EXPORT_VARS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
 target_link_libraries(gta2_dll_exports mss32 Winmm ${dplay_libs})
 
 add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
-target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS)
+target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
 target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs})
 
 add_library(HookLoader SHARED 
@@ -265,7 +268,7 @@ add_library(HookLoader SHARED
     Source/3rdParty/Detours/src/disasm.cpp
     "Source/3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.cpp"
 )
-target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT)
+target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT IMGUI_DLL)
 
 add_executable (ExePatcher
     Source/ExePatcher.cpp)
@@ -275,9 +278,10 @@ add_executable (decomp_main WIN32
     StdAfx.cpp
     resources.rc)
 target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs})
+target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
+
 
 if(${MSVC})
     include(cmake/vc6.cmake)
 endif ()
 
-add_subdirectory(3rdParty/GTA2Hax)
