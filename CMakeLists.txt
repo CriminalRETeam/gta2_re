@@ -235,6 +235,8 @@ set(gta2_lib_src
   Source/Particle_4C.cpp
   Source/Weapon_30.hpp
   Source/Weapon_30.cpp
+  Source/ImGuiDebug.hpp
+  Source/ImGuiDebug.cpp
 )
 
 # global include dirs

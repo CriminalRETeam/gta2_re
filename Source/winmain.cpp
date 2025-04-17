@@ -47,22 +47,8 @@
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "Car_14_18.hpp"
-#include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
-#include "gbh_graphics.hpp"
-
-static void CC ImGuiDebugDraw()
-{
-    ImGui::Begin("lol");
-    ImGui::Text("blah blah");
-    static char buf[255];
-    ImGui::InputText("meh", buf, 255);
-    if (ImGui::Button("omfg"))
-    {
-        printf("Clicked\n");
-    }
-    ImGui::End();
-}
+#include "ImGuiDebug.hpp"
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 

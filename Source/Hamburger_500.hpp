@@ -11,7 +11,7 @@ class Hamburger_40
     EXPORT Hamburger_40();
     EXPORT ~Hamburger_40();
 
-    char_type field_0;
+    char_type field_0; // bInUse ?
     char_type field_1;
     char_type field_2;
     char_type field_3;
