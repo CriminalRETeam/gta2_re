@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "fix16.hpp"
+#include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp" // Vert
 
 class Fix16_2;
 
@@ -11,18 +12,6 @@ class Nanobotz_8  // Maybe Fix16_2
   public:
     s32 field_0;  // x?
     s32 field_4;  // y?
-};
-
-struct Vert_DX
-{
-    f32 field_0_x;
-    f32 field_4_y;
-    f32 field_8_z;
-    s32 field_C_w;
-    s32 field_10_diff;
-    s32 field_14_spec;
-    f32 field_18_u;
-    f32 field_1C_v;
 };
 
 class MapRenderer
@@ -42,9 +31,9 @@ class MapRenderer
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void sub_4EA390(u16* a2);
-    EXPORT void set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert_DX* pVerts);
-    EXPORT s32 sub_4EAE00(s32* a2, s32* a3, Vert_DX* a4);
-    EXPORT s32 sub_4EAEA0(s32* a2, s32* a3, Vert_DX* a4);
+    EXPORT void set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
+    EXPORT s32 sub_4EAE00(s32* a2, s32* a3, Vert* a4);
+    EXPORT s32 sub_4EAEA0(s32* a2, s32* a3, Vert* a4);
     EXPORT void sub_4EAF40(u16* a2);
     EXPORT void sub_4EBA60(u16* a2);
     EXPORT s16 sub_4EC450(u16* a2);

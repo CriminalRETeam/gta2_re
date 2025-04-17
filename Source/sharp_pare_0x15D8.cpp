@@ -23,7 +23,7 @@ void sharp_pare_0x15D8::LoadPals_5B90F0()
 
     for (u16 palId = 0; palId < field_15D6_pal_count; palId++)
     {
-        gbh_RegisterPalette(palId, gGtx_0x106C_703DD4->GetPalData_5AA6A0(palId));
+        pgbh_RegisterPalette(palId, (DWORD*)gGtx_0x106C_703DD4->GetPalData_5AA6A0(palId));
     }
 }
 
@@ -32,7 +32,7 @@ void sharp_pare_0x15D8::FreePals_5B9140()
 {
     for (u16 i = 0; i < field_15D6_pal_count; ++i)
     {
-        gbh_FreePalette(i);
+        pgbh_FreePalette(i);
     }
     field_15D6_pal_count = 0;
 }
@@ -55,7 +55,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
                 width_height = 128;
             }
 
-            field_1004_textures2[idx] = gbh_RegisterTexture(width_height, 
+            field_1004_textures2[idx] = pgbh_RegisterTexture(width_height, 
                 width_height, 
                 gSprite_3CC_67AF1C->get_s14(idx), 
                 pal_idx, 
@@ -78,7 +78,7 @@ s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
     for (s32 i = 0; i < a2; i++)
     {
         field_10C4[og_idx + i].field_4_pTexture =
-            gbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
+            pgbh_RegisterTexture(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height, field_0_pData, phys_pal_5AA6F0, 0);
         field_10C4[og_idx + i].field_0_pPixelData = field_0_pData;
     }
     return og_idx;
@@ -95,7 +95,7 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
         while (i < GTA2_COUNTOF(field_0_textures1))
         {
             // 64 256x256 pages of 64x64 8 bit tiles
-            *pIter = gbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
+            *pIter = pgbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
             i++;
             pIter++;
         }
@@ -131,7 +131,7 @@ void sharp_pare_0x15D8::sub_5B9350()
 
     LoadTextures2_5B9180();
 
-    field_1544_pTexture = gbh_RegisterTexture(128, 128, 0, 0, 0);
+    field_1544_pTexture = pgbh_RegisterTexture(128, 128, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5B94F0)
@@ -186,10 +186,10 @@ STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
         STexture* pTextureInternal = pMoser->field_4_pTexture;
         pMoser->field_8_w = height;
         pMoser->field_A_h = width;
-        gbh_LockTexture(pTextureInternal);
+        pgbh_LockTexture(pTextureInternal);
         pTexture->field_14_original_pixel_data_ptr = &pMoser->field_0_pPixelData[256 * width];
         pTexture->field_10_height = height;
-        gbh_UnlockTexture(pTexture);
+        pgbh_UnlockTexture(pTexture);
     }
     return pTexture;
 }
@@ -199,9 +199,9 @@ void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
 {
     STexture* pTexture = field_10C4[texture_idx].field_4_pTexture;
     u16 pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal_idx);
-    gbh_LockTexture(pTexture);
-    gbh_AssignPalette(pTexture, pal);
-    gbh_UnlockTexture(pTexture);
+    pgbh_LockTexture(pTexture);
+    pgbh_AssignPalette(pTexture, pal);
+    pgbh_UnlockTexture(pTexture);
 }
 
 MATCH_FUNC(0x5B96B0)
@@ -209,11 +209,11 @@ void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pa
 {
     u16 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
     STexture* pTexture = field_1004_textures2[a4];
-    gbh_LockTexture(pTexture);
+    pgbh_LockTexture(pTexture);
     pTexture->field_E_width = new_width;
     pTexture->field_10_height = new_height;
-    gbh_AssignPalette(pTexture, pal_idx);
-    gbh_UnlockTexture(pTexture);
+    pgbh_AssignPalette(pTexture, pal_idx);
+    pgbh_UnlockTexture(pTexture);
 }
 
 MATCH_FUNC(0x5B9710)
@@ -222,12 +222,12 @@ STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
     u16 phys_pal_5AA6F0; // di
 
     phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(a5);
-    gbh_LockTexture(field_1544_pTexture);
+    pgbh_LockTexture(field_1544_pTexture);
     field_1544_pTexture->field_14_original_pixel_data_ptr = a3;
     field_1544_pTexture->field_E_width = a2;
     field_1544_pTexture->field_10_height = a4;
-    gbh_AssignPalette(field_1544_pTexture, phys_pal_5AA6F0);
-    gbh_UnlockTexture(field_1544_pTexture);
+    pgbh_AssignPalette(field_1544_pTexture, phys_pal_5AA6F0);
+    pgbh_UnlockTexture(field_1544_pTexture);
     return field_1544_pTexture;
 }
 
@@ -238,7 +238,7 @@ festive_hopper::~festive_hopper()
     {
         for (u16 i = 0; i < field_4_item_alloc_count; ++i)
         {
-            gbh_FreeTexture(field_0_pAlloc[i]);
+            pgbh_FreeTexture(field_0_pAlloc[i]);
         }
 
         crt::free(field_0_pAlloc);
@@ -286,7 +286,7 @@ void festive_hopper::sub_5B8F70()
                 const s16 converted_pal_idx = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_C_pal_type, texture_idx);
                 const u16 physPal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(converted_pal_idx);
                 field_0_pAlloc[texture_idx + (pal_idx * field_6_count)] =
-                    gbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
+                    pgbh_RegisterTexture(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height, pSpriteIndex->field_0_pData, physPal, 1);
 
                 dword_704F28++;
             }
@@ -309,7 +309,7 @@ void festive_hopper::LoadTextures_5B8F00()
             tmp = gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(2, i);
             t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
 
-            field_0_pAlloc[i++] = gbh_RegisterTexture(
+            field_0_pAlloc[i++] = pgbh_RegisterTexture(
                 pSpriteIndex
                     ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,
@@ -363,7 +363,7 @@ sharp_pare_0x15D8::~sharp_pare_0x15D8()
         {
             if (field_0_textures1[i])
             {
-                gbh_FreeTexture(field_0_textures1[i]);
+                pgbh_FreeTexture(field_0_textures1[i]);
                 field_0_textures1[i] = 0;
             }
         }
@@ -375,7 +375,7 @@ sharp_pare_0x15D8::~sharp_pare_0x15D8()
         {
             if (field_1004_textures2[i])
             {
-                gbh_FreeTexture(field_1004_textures2[i]);
+                pgbh_FreeTexture(field_1004_textures2[i]);
                 field_1004_textures2[i] = 0;
             }
         }
@@ -385,14 +385,14 @@ sharp_pare_0x15D8::~sharp_pare_0x15D8()
     {
         if (field_10C4[i].field_4_pTexture)
         {
-            gbh_FreeTexture(field_10C4[i].field_4_pTexture);
+            pgbh_FreeTexture(field_10C4[i].field_4_pTexture);
             field_10C4[i].field_4_pTexture = 0;
         }
     }
 
     if (field_1544_pTexture)
     {
-        gbh_FreeTexture(field_1544_pTexture);
+        pgbh_FreeTexture(field_1544_pTexture);
         field_1544_pTexture = 0;
     }
 

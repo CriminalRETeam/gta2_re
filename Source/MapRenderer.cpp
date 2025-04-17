@@ -38,7 +38,7 @@ GLOBAL(gZCoord_6F63E0, 0x6F63E0);
 EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
-EXPORT_VAR Vert_DX gTileVerts_6F65A8[2];
+EXPORT_VAR Vert gTileVerts_6F65A8[2];
 GLOBAL(gTileVerts_6F65A8, 0x6F65A8);    // TODO: why is it giving 0x46B058?
 
 MATCH_FUNC(0x4e9d50)
@@ -96,25 +96,25 @@ void MapRenderer::sub_4EA390(u16* a2)
 }
 
 MATCH_FUNC(0x4ead90)
-void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert_DX* pVerts)
+void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
     DrawUnk_0xBC* pCam = gViewCamera_676978;
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
-    gTileVerts_6F65A8[next_idx].field_0_x = (xCoord + pCam->field_98_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].field_4_y = (yCoord + pCam->field_9C_y).ToFloat();
-    gTileVerts_6F65A8[next_idx].field_8_z = z_val.ToFloat();
+    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_9C_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
 STUB_FUNC(0x4eae00)
-s32 MapRenderer::sub_4EAE00(s32* a2, s32* a3, Vert_DX* a4)
+s32 MapRenderer::sub_4EAE00(s32* a2, s32* a3, Vert* a4)
 {
     return 0;
 }
 
 STUB_FUNC(0x4eaea0)
-s32 MapRenderer::sub_4EAEA0(s32* a2, s32* a3, Vert_DX* a4)
+s32 MapRenderer::sub_4EAEA0(s32* a2, s32* a3, Vert* a4)
 {
     return 0;
 }

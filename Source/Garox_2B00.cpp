@@ -1207,7 +1207,7 @@ void Hud_2B00::sub_5D6A70()
 {
     if (gLighting_626A09)
     {
-        gbh_SetAmbient(1.0);
+        pgbh_SetAmbient(1.0);
     }
 }
 

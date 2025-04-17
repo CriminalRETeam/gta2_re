@@ -48,13 +48,69 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "Car_14_18.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
+#include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
+#include "gbh_graphics.hpp"
 
-void ImGuiDebugDraw()
+static void CC ImGuiDebugDraw()
 {
-    /*
-    ImGui::Begin("Testing");
+    ImGui::Begin("lol");
+    ImGui::Text("blah blah");
+    static char buf[255];
+    ImGui::InputText("meh", buf, 255);
+    if (ImGui::Button("omfg"))
+    {
+        printf("Clicked\n");
+    }
     ImGui::End();
-    */
+}
+
+static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
+
+class DllRaii
+{
+public:
+    explicit DllRaii(const char* pDllName)
+     : mDll(NULL)
+    {
+        mDll = ::LoadLibrary(pDllName);
+    }
+
+    ~DllRaii()
+    {
+        if (mDll)
+        {
+            ::FreeLibrary(mDll);
+        }
+    }
+
+    FARPROC GetProcAddress(const char* funcName) const 
+    {
+        if (!mDll)
+        {
+            printf("DLL not loaded\n");
+            return NULL;
+        }
+        return ::GetProcAddress(mDll, funcName);
+    }
+
+private:
+    HMODULE mDll;
+};
+
+static void LoadBeginSceneCBPtr()
+{
+    static DllRaii hD3Ddll("d3ddll.dll"); // freed after WinMain return, only if this func is called
+
+    pBeginSceneCB = (T_gbh_SetBeginSceneCB)hD3Ddll.GetProcAddress("gbh_SetBeginSceneCB");
+    if (!pBeginSceneCB)
+    {
+        printf("Using OG Render - no ImGui debug will function/display\n");
+    }
+    else
+    {
+        printf("ImGui debug enabled\n");
+        pBeginSceneCB(ImGuiDebugDraw);
+    }
 }
 
 void force_link()
@@ -419,11 +475,11 @@ EXPORT void __stdcall sub_5D93A0()
     BYTE local_field_4_flags; // ecx
 
     v0 = 0;
-    bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
+    bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
-            (full_width_706B5C = 640, v0 = 1, full_height_706798 = 480, (bcheckModeRet = Vid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
+            (full_width_706B5C = 640, v0 = 1, full_height_706798 = 480, (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
             FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
         }
@@ -439,7 +495,7 @@ EXPORT void __stdcall sub_5D93A0()
         // v2 = gVidSys_7071D0;
     }
 
-    if (Vid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
+    if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
         FatalError_4A38C0(1037, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
@@ -519,7 +575,7 @@ EXPORT char_type sub_5D9510()
         gVidSys_7071D0->field_4_flags |= 1u;
     }
 
-    if (Vid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
+    if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
     {
         return 0;
     }
@@ -603,7 +659,7 @@ EXPORT void __stdcall sub_5D92D0()
     ReadScreenSettings_5D8F70();
     Input_MouseAcquire_5D7C60();
 
-    Vid_CloseScreen(gVidSys_7071D0);
+    pVid_CloseScreen(gVidSys_7071D0);
     field_4_flags = gVidSys_7071D0->field_4_flags;
 
     if (bTrippleBuffer_706C54)
@@ -661,7 +717,7 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 MATCH_FUNC(0x5D9290)
 EXPORT bool Vid_FindDevice_5D9290()
 {
-    SDevice* pDevice = Vid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
+    SDevice* pDevice = pVid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
     return pDevice && (pDevice->field_4_flags & 1) == 1;
 }
 
@@ -695,9 +751,9 @@ EXPORT void sub_5D96C0()
         FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
     }
 
-    gVidSys_7071D0 = Vid_Init_SYS(gHInstance_708220, 0); // flags param ??
+    gVidSys_7071D0 = pVid_Init_SYS(gHInstance_708220, 0); // flags param ??
 
-    Vid_SetDevice(gVidSys_7071D0, gVideodevice_70694C);
+    pVid_SetDevice(gVidSys_7071D0, gVideodevice_70694C);
 
     if (!gVidSys_7071D0)
     {
@@ -731,11 +787,11 @@ EXPORT void sub_5D96C0()
 
     SetSavedGamma_5D98E0();
 
-    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 
-    Vid_FlipBuffers(gVidSys_7071D0);
+    pVid_FlipBuffers(gVidSys_7071D0);
 
-    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
 // todo move to another file for ordering
@@ -1056,7 +1112,7 @@ EXPORT void __stdcall UpdateWinXY_5D8E70()
 MATCH_FUNC(0x5D7CA0)
 EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
-    gbh_Init(0);
+    pgbh_Init(0);
 }
 
 // todo move to another file for ordering
@@ -1312,7 +1368,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             {
                 if (!Vid_FindDevice_5D9290())
                 {
-                    Vid_CloseScreen(gVidSys_7071D0);
+                    pVid_CloseScreen(gVidSys_7071D0);
                     byte_706C5D = 1;
                     ShowWindow(gHwnd_707F04, 7);
                 }
@@ -1464,7 +1520,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
     if (gVidSys_7071D0)
     {
-        Vid_WindowProc(gVidSys_7071D0, hWnd, Msg, wParam, lParam);
+        pVid_WindowProc(gVidSys_7071D0, hWnd, Msg, wParam, lParam);
     }
 
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
@@ -1473,6 +1529,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 STUB_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
+    LoadBeginSceneCBPtr();
+
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
     if (CoInitialize(0) < 0)
@@ -1608,8 +1666,6 @@ LABEL_23:
     LABEL_27:
         UpdateWinXY_5D8E70();
         sub_5D9690();
-
-        ImGuiDebugDraw();
 
         while (1)
         {
