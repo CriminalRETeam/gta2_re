@@ -256,11 +256,11 @@ message(STATUS "${CMAKE_BINARY_DIR}=${${CMAKE_BINARY_DIR}}")
 
 add_library (gta2_dll_exports SHARED ${gta2_lib_src})
 target_compile_definitions(gta2_dll_exports PRIVATE EXPORT_VARS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
-target_link_libraries(gta2_dll_exports mss32 Winmm ${dplay_libs})
+target_link_libraries(gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui)
 
 add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
 target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
-target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs})
+target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui)
 
 add_library(HookLoader SHARED 
     Source/HookLoader.cpp
@@ -277,7 +277,7 @@ add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
     resources.rc)
-target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs})
+target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui)
 target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
 
 

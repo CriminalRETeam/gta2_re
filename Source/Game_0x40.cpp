@@ -410,7 +410,7 @@ void Game_0x40::Draw_4B92D0()
 
     sub_5D7D30();
 
-    gbh_BeginScene();
+    pgbh_BeginScene();
 
     gpMapRenderer_6F66E4->Draw_4F6A20();
 
@@ -426,7 +426,7 @@ void Game_0x40::Draw_4B92D0()
         gMike_A80_6F7328->DebugDrawProfiling_4FF250();
     }
 
-    gbh_EndScene();
+    pgbh_EndScene();
     FreeSurface_5D7DC0();
 }
 

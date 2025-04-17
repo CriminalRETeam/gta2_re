@@ -1528,10 +1528,10 @@ void Frontend::sub_4B7AE0()
 
     // TEST
 
-    if (gbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0) == -10)
+    if (pgbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0) == -10)
     {
         Load_tga_4B6520(23u);
-        gbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0);
+        pgbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0);
     }
 }
 
@@ -2712,8 +2712,8 @@ void Frontend::sub_4ADF50()
 STUB_FUNC(0x5D7D30)
 EXPORT void __stdcall sub_5D7D30()
 {
-    Vid_GetSurface(gVidSys_7071D0);
-    MakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
+    pVid_GetSurface(gVidSys_7071D0);
+    pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
                     gVidSys_7071D0->field_54_surface_pixels_pitch,
                     gVidSys_7071D0->field_4C_rect_bottom);
 
@@ -2728,13 +2728,13 @@ EXPORT void __stdcall sub_5D7D30()
         dword_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
     }
 
-    gbh_SetWindow(0, 0, dword_70675C, dword_70679C);
+    pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
 MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
-    Vid_FreeSurface(gVidSys_7071D0);
+    pVid_FreeSurface(gVidSys_7071D0);
 }
 
 MATCH_FUNC(0x4ADFB0)
@@ -2742,16 +2742,16 @@ void Frontend::sub_4ADFB0()
 {
     sub_5D7D30();
 
-    gbh_BeginScene();
+    pgbh_BeginScene();
     DrawBackground_4B6E10();
     sub_4ADF50();
-    gbh_EndScene();
+    pgbh_EndScene();
 
     FreeSurface_5D7DC0();
 
-    Vid_FlipBuffers(gVidSys_7071D0);
+    pVid_FlipBuffers(gVidSys_7071D0);
 
-    Vid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
 // https://decomp.me/scratch/IOmk7
@@ -2767,12 +2767,12 @@ void Frontend::DrawBackground_4B6E10()
         field_EE08 == HiScoresDisplay_12 || field_EE08 == Credits_17)
     {
         sub_4B6B00(field_EE08, &tga_idx, &not_used);
-        s32 blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
+        s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
         if (blitRet == -10)
         {
             // need to reload image
             Load_tga_4B6520(tga_idx);
-            gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
+            pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0);
         }
     }
     else
@@ -2780,21 +2780,21 @@ void Frontend::DrawBackground_4B6E10()
         sub_4B6B00(field_EE08, &tga_idx, &not_used);
 
         // Left side
-        s32 blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
+        s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
         if (blitRet == -10)
         {
             Load_tga_4B6520(tga_idx);
-            blitRet = gbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
+            blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
         }
 
         // Right side
         if (blitRet == 0)
         {
-            blitRet = gbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
+            blitRet = pgbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
             if (blitRet == -10)
             {
                 Load_tga_4B6520(not_used);
-                gbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
+                pgbh_BlitImage(tgaArray_61F0C8[not_used].field_84_img, 0, 0, 362, 480, 278, 0);
             }
         }
     }
@@ -2922,7 +2922,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
         FatalError_4A38C0(187, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
 
-    tgaArray_61F0C8[idx].field_84_img = gbh_LoadImage((SImage*)pAlloc);
+    tgaArray_61F0C8[idx].field_84_img = pgbh_LoadImage((SImage*)pAlloc);
 
     crt::fclose(hFile);
     free(pAlloc);
@@ -2976,7 +2976,7 @@ Frontend::Frontend()
 
     sub_5D7CB0();
 
-    gbh_SetAmbient(1.0);
+    pgbh_SetAmbient(1.0);
 
     if (gMagical_germain_0x8EC_6F5168)
     {
@@ -3113,7 +3113,7 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
 MATCH_FUNC(0x4B6750)
 void Frontend::FreeImageTable_4B6750()
 {
-    gbh_FreeImageTable();
+    pgbh_FreeImageTable();
 }
 
 MATCH_FUNC(0x4AFDD0)
@@ -3683,7 +3683,7 @@ void Frontend::LoadPlySlotSvgs_4B53C0()
 MATCH_FUNC(0x4B66B0)
 void Frontend::Load_tgas_4B66B0()
 {
-    if (gbh_InitImageTable(gTableSize_61FF20) != -1)
+    if (pgbh_InitImageTable(gTableSize_61FF20) != -1)
     {
         for (u16 i = 0; i < gTableSize_61FF20; ++i)
         {
@@ -4533,19 +4533,7 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
     field_3 = svg.field_4D;
 }
 
-struct Vert
-{
-    f32 field_0_x;
-    f32 field_4_y;
-    f32 field_8_z;
-    f32 field_C_w;
-    s32 field_10_diff;
-    s32 field_14_spec;
-    f32 field_18_u;
-    f32 field_1C_v;
-};
-
-struct QuadVerts
+struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 {
     Vert field_0_verts[4];
 };
@@ -4562,16 +4550,16 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
         case 0:
             return gLightingDrawFlag_7068F4 | 0x80;
         case 1:
-            gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2180;
         case 2:
-            gQuadVerts_706B88.field_0_verts[0].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].field_10_diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].field_10_diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2280;
         default:
             return 0;
@@ -4708,44 +4696,44 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
             Fix16 sprite_yoff = Fix16(pSprIdx->field_5_height) * scale_fp;
 
-            gQuadVerts_706B88.field_0_verts[0].field_0_x = cur_xpos.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].field_4_y = ypos_fp.ToFloat();
-            gQuadVerts_706B88.field_0_verts[0].field_8_z = 0.0001; // line 214
+            gQuadVerts_706B88.field_0_verts[0].x = cur_xpos.ToFloat();
+            gQuadVerts_706B88.field_0_verts[0].y = ypos_fp.ToFloat();
+            gQuadVerts_706B88.field_0_verts[0].z = 0.0001; // line 214
 
             f32 v_1_2_x = (sprite_xoff + cur_xpos).ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].field_0_x = v_1_2_x;
-            gQuadVerts_706B88.field_0_verts[1].field_4_y = gQuadVerts_706B88.field_0_verts[0].field_4_y;
-            gQuadVerts_706B88.field_0_verts[1].field_8_z = 0.0001;
+            gQuadVerts_706B88.field_0_verts[1].x = v_1_2_x;
+            gQuadVerts_706B88.field_0_verts[1].y = gQuadVerts_706B88.field_0_verts[0].y;
+            gQuadVerts_706B88.field_0_verts[1].z = 0.0001;
 
             // f32 v1_u = (((f64)pSprIdx->field_4_width - 0.000099999997) * 16384.0);
 
-            gQuadVerts_706B88.field_0_verts[2].field_0_x = v_1_2_x;
-            gQuadVerts_706B88.field_0_verts[2].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].x = v_1_2_x;
+            gQuadVerts_706B88.field_0_verts[2].y = (ypos_fp + sprite_yoff).ToFloat();
 
             s32 v28 = sprite_xoff.mValue + cur_xpos.mValue;
-            gQuadVerts_706B88.field_0_verts[2].field_8_z = 0.0001;
+            gQuadVerts_706B88.field_0_verts[2].z = 0.0001;
 
-            gQuadVerts_706B88.field_0_verts[3].field_0_x = gQuadVerts_706B88.field_0_verts[0].field_0_x;
-            gQuadVerts_706B88.field_0_verts[3].field_4_y = (ypos_fp + sprite_yoff).ToFloat();
-            gQuadVerts_706B88.field_0_verts[3].field_8_z = 0.0001;
+            gQuadVerts_706B88.field_0_verts[3].x = gQuadVerts_706B88.field_0_verts[0].x;
+            gQuadVerts_706B88.field_0_verts[3].y = (ypos_fp + sprite_yoff).ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].z = 0.0001;
 
             Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
             cur_xpos += letterW;
             Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001)); 
 
-            gQuadVerts_706B88.field_0_verts[0].field_18_u = 0.0;
-            gQuadVerts_706B88.field_0_verts[0].field_1C_v = 0.0;
+            gQuadVerts_706B88.field_0_verts[0].u = 0.0;
+            gQuadVerts_706B88.field_0_verts[0].v = 0.0;
 
-            gQuadVerts_706B88.field_0_verts[1].field_18_u = spriteH.ToFloat();
-            gQuadVerts_706B88.field_0_verts[1].field_1C_v = 0.0;
+            gQuadVerts_706B88.field_0_verts[1].u = spriteH.ToFloat();
+            gQuadVerts_706B88.field_0_verts[1].v = 0.0;
 
-            gQuadVerts_706B88.field_0_verts[2].field_18_u = spriteH.ToFloat();
-            gQuadVerts_706B88.field_0_verts[2].field_1C_v = letterW.ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].u = spriteH.ToFloat();
+            gQuadVerts_706B88.field_0_verts[2].v = letterW.ToFloat();
 
-            gQuadVerts_706B88.field_0_verts[3].field_18_u = 0.0;
-            gQuadVerts_706B88.field_0_verts[3].field_1C_v = letterW.ToFloat();
+            gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+            gQuadVerts_706B88.field_0_verts[3].v = letterW.ToFloat();
 
-            gbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+            pgbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
         }
         pText++;
     }

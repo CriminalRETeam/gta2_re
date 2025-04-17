@@ -167,10 +167,10 @@ def download_exe():
     print(f"Successfully downloaded 10.5.exe to: {exe_path}")
 
 def copy_files():
-    files = ["gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe"]
+    files = ["gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
     for file in files:
         file_src = os.path.join(BUILD_DIRECTORY, file)
-        file_dst = os.path.join(GTA2_ROOT, file)
+        file_dst = file_dst = os.path.join(GTA2_ROOT, os.path.basename(file))
         if not os.path.exists(file_src):
             print(f"Could not find/copy {file_src}")
         
