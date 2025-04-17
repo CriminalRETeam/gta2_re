@@ -121,7 +121,7 @@ def main():
         "unmatched_funcs": unmatched_funcs
     }
 
-    if prev_json_available and previous_progress_json != new_progress_json:
+    if not prev_json_available or (prev_json_available and previous_progress_json != new_progress_json):
         req = urllib.request.Request(DISCORD_WEBHOOK_URL, json.dumps(webhook_message).encode())
         req.add_header("Content-Type", "application/json")
         req.add_header("User-Agent", "gta2_re webhook/1.0")
