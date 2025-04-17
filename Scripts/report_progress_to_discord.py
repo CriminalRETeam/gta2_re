@@ -121,11 +121,18 @@ def main():
         "unmatched_funcs": unmatched_funcs
     }
 
+    print(f"prev_json_available: {prev_json_available}")
+    print(f"previous_progress_json: {previous_progress_json}")
+    print(f"new_progress_json: {new_progress_json}")
+
     if not prev_json_available or (prev_json_available and previous_progress_json != new_progress_json):
+        print("Posting update...")
         req = urllib.request.Request(DISCORD_WEBHOOK_URL, json.dumps(webhook_message).encode())
         req.add_header("Content-Type", "application/json")
         req.add_header("User-Agent", "gta2_re webhook/1.0")
         response = urllib.request.urlopen(req)
+    else:
+        print("Not posting update")
 
     print(boot_to_map_str)
     print(total_matches_str)
