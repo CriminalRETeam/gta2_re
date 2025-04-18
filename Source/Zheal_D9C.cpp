@@ -18,6 +18,9 @@ GLOBAL(dword_679C78, 0x679C78);
 EXPORT_VAR Ang16 dword_679FC4;
 GLOBAL(dword_679FC4, 0x679FC4);
 
+EXPORT_VAR Zheal_D9C* gZheal_D9C_679FD4;
+GLOBAL(gZheal_D9C_679FD4, 0x679FD4);
+
 // TODO: Should match but doesn't
 STUB_FUNC(0x47e5b0)
 Crane_15C::~Crane_15C()

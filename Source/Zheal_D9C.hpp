@@ -156,3 +156,5 @@ class Zheal_D9C
     Crane_15C field_0[10];
     s32 field_D98_count;
 };
+
+EXPORT_VAR extern Zheal_D9C* gZheal_D9C_679FD4;
