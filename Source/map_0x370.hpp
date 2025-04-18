@@ -309,7 +309,8 @@ struct gmp_tile_animation
     u8 field_3_repeat; // The number of times the animation will be played. 0 means play forever.
     u8 field_4_anim_length; // The number of tiles in the animation
     u8 field_5_unused;
-    u16 field_6_tiles[0]; // Size given by field_4_anim_length
+    // NOTE: Size set to 1 to shutup a warning
+    u16 field_6_tiles[1]; // Size given by field_4_anim_length
 };
 
 class Map_0x370

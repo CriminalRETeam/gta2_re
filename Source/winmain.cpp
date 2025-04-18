@@ -265,6 +265,8 @@ void force_link()
     Shooey_CC shooey_CC;
 
     Tango_28 tango_28;
+    tango_28.sub_450C10();
+    
     Tango_54 tango_54;
 
     Hamburger_500 hamburger_500;
@@ -1208,26 +1210,20 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 MATCH_FUNC(0x5E4DE0)
 EXPORT void Start_GTA2Manager_5E4DE0()
 {
-    HANDLE v1; // eax
-    HWND Window; // eax
-    HWND v3; // esi
-    LPARAM lParam; // [esp+4h] [ebp-4h]
-
-    ShowWindow(gHwnd_707F04, 7);
-    v1 = OpenMutexA(0x1F0001u, 0, "GBH_BOB_MUTEX");
-    if (v1)
+    ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
+    HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, 0, "GBH_BOB_MUTEX");
+    if (hMutex)
     {
-        if (!CloseHandle(v1))
+        if (!CloseHandle(hMutex))
         {
             FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
         }
 
-        Window = FindWindowExA(0, 0, 0, "GTA2 Manager");
-        v3 = Window;
-        if (Window)
+        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
+        if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, 6u, 0, (LPARAM)Window);
-            if (!SetForegroundWindow(v3))
+            PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, (LPARAM)hwndGta2Manager);
+            if (!SetForegroundWindow(hwndGta2Manager))
             {
                 FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
             }
@@ -1235,7 +1231,8 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     }
     else
     {
-        PostMessageA(gHwnd_707F04, 6u, 0, lParam);
+        LPARAM lParam; // [esp+4h] [ebp-4h]
+        PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, lParam);
         if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
         {
             FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
@@ -1246,7 +1243,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
 MATCH_FUNC(0x5E4EC0)
 EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
-    MessageBoxA(gHwnd_707F04, lpText, "Error!", 0);
+    MessageBoxA(gHwnd_707F04, lpText, "Error!", MB_OK);
 }
 
 // todo: move
