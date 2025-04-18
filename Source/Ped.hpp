@@ -247,7 +247,7 @@ class Ped
         return field_20e;
     }
 
-    char has_field_16C_car() const
+    bool has_field_16C_car() const
     {
         return field_16C_car != NULL;
     }

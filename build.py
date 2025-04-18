@@ -151,6 +151,14 @@ def get_vc6_env():
 
     return vc6_cmds
 
+def convert_path(strPath):
+    if os.name == "posix":
+        if strPath.startswith("Z:\\"):
+            strPath = strPath[2:]
+            strPath = strPath.replace("\\", "/")
+            return strPath
+    return strPath
+
 def build():
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
 
@@ -190,7 +198,8 @@ def build():
 
             match = pattern.match(output)
             if match:
-                entry = CompileErrorEntry(match.group("file_path"), int(match.group("line_number")), match.group("log_type"), match.group("code"), match.group("message"))
+                strPath = convert_path(match.group("file_path"))
+                entry = CompileErrorEntry(strPath, int(match.group("line_number")), match.group("log_type"), match.group("code"), match.group("message"))
                 error_collection.add(entry)
 
     error_collection.save_json()
