@@ -176,7 +176,7 @@ def build():
     p1.stdin.write("exit /b %errorlevel%\n")
     p1.stdin.close()
     
-    pattern = re.compile(r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)\((?P<line_number>\d+)\)\s*:\s*(?P<log_type>error|warning)\s+(?P<code>C\d+):\s*(?P<message>.+)')
+    pattern = re.compile(r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)\((?P<line_number>\d+)\)\s*:\s*(?:fatal\s+)?(?P<log_type>error|warning)\s+(?P<code>[A-Z]\d+):\s*(?P<message>.+)')
 
     error_collection = CompileErrorCollection()
     while True:
@@ -186,12 +186,12 @@ def build():
 
         if output:
             print(output.strip())
+            sys.stdout.flush()
 
             match = pattern.match(output)
             if match:
                 entry = CompileErrorEntry(match.group("file_path"), int(match.group("line_number")), match.group("log_type"), match.group("code"), match.group("message"))
                 error_collection.add(entry)
-                sys.stdout.flush()
 
     error_collection.save_json()
 
