@@ -6,6 +6,8 @@ import requests
 import shutil
 import argparse
 import enum
+import json
+import re
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,6 +27,55 @@ GTA2_ROOT = os.environ.get("GTA2_ROOT")
 class ExeType(enum.IntEnum):
     standalone = 0,
     patched = 1
+
+class CompileErrorEntry:
+    def __init__(self, file_path: str, line_number: int, log_type: str, error_code: str, message: str):
+        self.file_path = file_path
+        self.line_number = line_number
+        self.log_type = log_type
+        self.error_code = error_code
+        self.message = message
+
+    def __repr__(self):
+        return f"{self.file_path}({self.line_number}) : {self.log_type} {self.error_code}: {self.message}"
+
+class CompileErrorEntryEncoder(json.JSONEncoder):
+        def default(self, o):
+            return o.__dict__
+
+class CompileErrorCollection:
+    def __init__(self):
+        self.entries = list()
+
+    def add(self, entry: CompileErrorEntry):
+        self.entries.append(entry)
+
+    def clear(self):
+        self.entries.clear()
+
+    def items(self):
+        return self.entries
+
+    def warnings(self):
+        warnings = list()
+        for entry in self.entries:
+            if entry.log_type == "warning":
+                warnings.append(entry)
+        return warnings
+    
+    def errors(self):
+        errors = list()
+        for entry in self.entries:
+            if entry.log_type == "error":
+                errors.append(entry)
+        return errors
+    
+    def save_json(self):
+        if len(self.entries) <= 0 or GTA2_ROOT is None:
+            return
+        
+        with open(os.path.join(GTA2_ROOT, "build.json"), "w") as file:
+            json.dump(self.entries, fp=file, indent=4, cls=CompileErrorEntryEncoder)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -125,6 +176,9 @@ def build():
     p1.stdin.write("exit /b %errorlevel%\n")
     p1.stdin.close()
     
+    pattern = re.compile(r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)\((?P<line_number>\d+)\)\s*:\s*(?P<log_type>error|warning)\s+(?P<code>C\d+):\s*(?P<message>.+)')
+
+    error_collection = CompileErrorCollection()
     while True:
         output = p1.stdout.readline()
         if output == "" and p1.poll() is not None:
@@ -132,7 +186,14 @@ def build():
 
         if output:
             print(output.strip())
-            sys.stdout.flush()
+
+            match = pattern.match(output)
+            if match:
+                entry = CompileErrorEntry(match.group("file_path"), int(match.group("line_number")), match.group("log_type"), match.group("code"), match.group("message"))
+                error_collection.add(entry)
+                sys.stdout.flush()
+
+    error_collection.save_json()
 
     return p1.poll()
 
@@ -170,7 +231,7 @@ def copy_files():
     files = ["gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
     for file in files:
         file_src = os.path.join(BUILD_DIRECTORY, file)
-        file_dst = file_dst = os.path.join(GTA2_ROOT, os.path.basename(file))
+        file_dst = os.path.join(GTA2_ROOT, os.path.basename(file))
         if not os.path.exists(file_src):
             print(f"Could not find/copy {file_src}")
         
