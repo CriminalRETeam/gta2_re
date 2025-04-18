@@ -1,6 +1,6 @@
 #include "char.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 
 EXPORT_VAR Char_C* gChar_C_6787BC;
 GLOBAL(gChar_C_6787BC, 0x6787BC);
@@ -26,13 +26,11 @@ Char_B4::~Char_B4()
 STUB_FUNC(0x5453D0)
 void Char_B4::sub_5453D0()
 {
-
 }
 
 STUB_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
-
 }
 
 // This constructor doesn't exist.
@@ -169,9 +167,24 @@ void Char_C::DoIanTest_471060(s16 a1)
 }
 
 STUB_FUNC(0x4710c0)
+// Find ped of type ??
 Ped* Char_C::sub_4710C0(s32 a2)
 {
-    return 0;
+    Ped* pPedIter = gChar_203AC_6787B8->field_4;
+    if (!pPedIter)
+    {
+        return 0;
+    }
+
+    while (pPedIter->field_200 != a2)
+    {
+        pPedIter = pPedIter->field_160_next_ped;
+        if (!pPedIter)
+        {
+            return 0;
+        }
+    }
+    return pPedIter;
 }
 
 STUB_FUNC(0x471110)
