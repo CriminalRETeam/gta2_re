@@ -71,11 +71,15 @@ class CompileErrorCollection:
         return errors
     
     def save_json(self):
-        if len(self.entries) <= 0 or GTA2_ROOT is None:
+        if GTA2_ROOT is None:
             return
-        
+
         with open(os.path.join(GTA2_ROOT, "build.json"), "w") as file:
-            json.dump(self.entries, fp=file, indent=4, cls=CompileErrorEntryEncoder)
+            if len(self.entries) <= 0:
+                json.dump([], fp=file)
+            else:
+                json.dump(self.entries, fp=file, indent=4, cls=CompileErrorEntryEncoder)
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -209,13 +213,19 @@ def build():
 def verify():
     download_exe()
 
-    if platform.system() == "Windows":
-        python = "python"
-    elif platform.system() == "Linux" or platform.system() == "Darwin":
-        python = sys.executable # should be the python venv
+    python = sys.executable # should be the python venv
 
     dump_result = subprocess.run(f"{python} msvc_dump_func_data.py", cwd=BIN_COMP_DIRECTORY, shell=True)
-    compare_result = subprocess.run(f"{python} compare_all_functions.py", cwd=BIN_COMP_DIRECTORY, shell=True)
+    compare_result = subprocess.run(f"{python} compare_all_functions.py", cwd=BIN_COMP_DIRECTORY, shell=True, capture_output=True, text=True)
+
+    error_collection = CompileErrorCollection()
+    for line in compare_result.stdout.splitlines():
+        print(line)
+        if line.endswith(" FAIL!"):
+            entry = CompileErrorEntry("", 0, "function_verification", "", line[:-6])
+            error_collection.add(entry)
+
+    error_collection.save_json()
 
     return dump_result.returncode == 0 and compare_result.returncode == 0
 
