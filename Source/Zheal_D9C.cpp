@@ -18,6 +18,9 @@ GLOBAL(dword_679C78, 0x679C78);
 EXPORT_VAR Ang16 dword_679FC4;
 GLOBAL(dword_679FC4, 0x679FC4);
 
+EXPORT_VAR Zheal_D9C* gZheal_D9C_679FD4;
+GLOBAL(gZheal_D9C_679FD4, 0x679FD4);
+
 // TODO: Should match but doesn't
 STUB_FUNC(0x47e5b0)
 Crane_15C::~Crane_15C()
@@ -272,19 +275,19 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_98 = dword_679E70;
     field_9C = dword_679E70;
     field_A8 = dword_679E70;
-    field_8C = dword_679E70;
-    field_90 = dword_679E58;
-    field_84 = dword_679E70;
+    field_8C_crane_angle = dword_679E70;
+    field_90_hook_radius = dword_679E58;
+    field_84_hook_depth = dword_679E70;
     field_88 = dword_679E70;
-    field_A0 = dword_679E70;
+    field_A0_hook_angle = dword_679E70;
     field_A4 = dword_679E70;
-    field_AC = field_8C;
-    field_B0 = field_90;
-    field_14D = 0;
+    field_AC_crane_angle_target = field_8C_crane_angle;
+    field_B0_hook_radius_target = field_90_hook_radius;
+    field_14D_is_busy = 0;
     field_0 = 0;
     field_4 = 0;
-    field_B4 = field_8C;
-    field_B8 = dword_679E70;
+    field_B4_hook_angle_target = field_8C_crane_angle;
+    field_B8_hook_depth_target = dword_679E70;
     field_68 = 0;
     field_E0 = dword_679E70;
     field_E4 = dword_679E70;

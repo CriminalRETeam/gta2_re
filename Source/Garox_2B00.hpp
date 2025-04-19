@@ -350,13 +350,13 @@ class Hud_Arrow_7C
     EXPORT void sub_5D0DC0(Ped* a2);
 
     EXPORT Hud_Arrow_7C();
-    Fix16 field_0_pos_x; // maybe screen x
-    Fix16 field_0_pos_y; // maybe screen y
+    Fix16 field_0_screen_pos_x; // x and y are not independent from field_10_radius_pos
+    Fix16 field_4_screen_pos_y;
     Ang16 field_8_rotation;
     s16 field_A;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
+    s32 field_C_min_radius_pos; // minimum radial distance from the player
+    s32 field_10_radius_pos;  // radial distance from the player
+    s32 field_14_reposition_speed;  // how slower/faster the arrow goes to the aim target, or "get back" to the player
     Garox_20_Sub field_18;
 };
 
@@ -780,14 +780,14 @@ class Hud_MapZone_98
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
     EXPORT Hud_MapZone_98();
-    char_type field_0;
+    char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_wstr[65];
     s32 field_84;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
-    char_type field_94;
+    char_type field_94_transparency;  // range from 0 to 31
     char_type field_95;
     char_type field_96;
     char_type field_97;

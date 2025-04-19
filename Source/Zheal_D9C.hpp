@@ -78,20 +78,20 @@ class Crane_15C
     s32 field_78;
     infallible_turing* field_7C;
     Fix16 field_80;
-    Fix16 field_84;
+    Fix16 field_84_hook_depth;
     Fix16 field_88;
-    Fix16 field_8C;
-    Fix16 field_90;
+    Fix16 field_8C_crane_angle; //  It's not Ang16, maybe Ang32
+    Fix16 field_90_hook_radius; //  Radial distance
     Fix16 field_94;
     Fix16 field_98;
     Fix16 field_9C;
-    Fix16 field_A0;
+    Fix16 field_A0_hook_angle;  // The angle in its own rotation axis, e.g. the angle of the lifted car
     Fix16 field_A4;
     Fix16 field_A8;
-    Fix16 field_AC;
-    Fix16 field_B0;
-    Fix16 field_B4;
-    Fix16 field_B8;
+    Fix16 field_AC_crane_angle_target;  // the crane will rotate until match this angle
+    Fix16 field_B0_hook_radius_target;
+    Fix16 field_B4_hook_angle_target;
+    Fix16 field_B8_hook_depth_target;
     Fix16 field_BC;
     Fix16 field_C0;
     Fix16 field_C4;
@@ -113,8 +113,8 @@ class Crane_15C
     Fix16 field_104;
     Fix16 field_108;
     Fix16 field_10C;
-    Fix16 field_110;
-    Fix16 field_114;
+    Fix16 field_110;  // something to do with the crane angle
+    Fix16 field_114;  // something to do with the hook radius
     Fix16 field_118;
     Fix16 field_11C;
     Fix16 field_120;
@@ -130,7 +130,7 @@ class Crane_15C
     s32 field_144;
     s32 field_148;
     char_type field_14C;
-    char_type field_14D;
+    char_type field_14D_is_busy;
     char_type field_14E;
     char_type field_14F;
     s32 field_150;
@@ -156,3 +156,5 @@ class Zheal_D9C
     Crane_15C field_0[10];
     s32 field_D98_count;
 };
+
+EXPORT_VAR extern Zheal_D9C* gZheal_D9C_679FD4;
