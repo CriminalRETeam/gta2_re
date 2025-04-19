@@ -915,14 +915,14 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
 {
     s32 idx;
     Hud_Arrow_7C* pRet = sub_5D1020(&idx);
-    pRet->field_10 = dword_7064C0;
-    pRet->field_14 = dword_7063B0;
+    pRet->field_10_radius_pos = dword_7064C0;
+    pRet->field_14_reposition_speed = dword_7063B0;
     pRet->sub_5D0510(4);
     pRet->field_18.field_10.field_5 = 1;
     pRet->field_18.field_2C = 0;
     pRet->field_18.field_10.field_30 = 0;
     pRet->field_18.field_10.field_34 = 0;
-    pRet->field_C = dword_7065B4 + dword_706338 * (16 - idx);
+    pRet->field_C_min_radius_pos = dword_7065B4 + dword_706338 * (16 - idx);
     return pRet;
 }
 
