@@ -780,14 +780,14 @@ class Hud_MapZone_98
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
     EXPORT Hud_MapZone_98();
-    char_type field_0;
+    char_type field_0_timer;
     char_type field_1;
     wchar_t field_2_wstr[65];
     s32 field_84;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
-    char_type field_94;
+    char_type field_94_transparency;  // range from 0 to 31
     char_type field_95;
     char_type field_96;
     char_type field_97;

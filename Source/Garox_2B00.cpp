@@ -1065,7 +1065,7 @@ void Hud_MapZone_98::sub_5D5900()
 MATCH_FUNC(0x5d5ad0)
 void Hud_MapZone_98::sub_5D5AD0()
 {
-    if (field_0)
+    if (field_0_timer)
     {
         field_84 = Frontend::sub_5D8990(field_2_wstr, word_706618);
     }
@@ -1085,13 +1085,13 @@ MATCH_FUNC(0x5d5c50)
 void Hud_MapZone_98::sub_5D5C50()
 {
     field_90 = 0;
-    field_94 = 0;
+    field_94_transparency = 0;
 }
 
 MATCH_FUNC(0x5d5c60)
 Hud_MapZone_98::Hud_MapZone_98()
 {
-    field_0 = 0;
+    field_0_timer = 0;
     field_88_nav_zone = NULL;
     field_8C_local_nav_zone = NULL;
 }
