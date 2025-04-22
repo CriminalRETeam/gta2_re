@@ -1,6 +1,6 @@
 #include "char.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
+#include "Globals.hpp"
 
 EXPORT_VAR Char_C* gChar_C_6787BC;
 GLOBAL(gChar_C_6787BC, 0x6787BC);
@@ -26,13 +26,11 @@ Char_B4::~Char_B4()
 STUB_FUNC(0x5453D0)
 void Char_B4::sub_5453D0()
 {
-
 }
 
 STUB_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
-
 }
 
 // This constructor doesn't exist.
@@ -87,7 +85,7 @@ Char_C::~Char_C()
 }
 
 MATCH_FUNC(0x470a50)
-Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
+Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
     Ped* pPed = gChar_203AC_6787B8->field_0;
@@ -110,8 +108,7 @@ Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
     pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
-        // TODO: Is Sprite and Sprite_3C the same thing ??
-        ((Sprite*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
+        pB4->field_80_sprite_ptr->SetRemap(remap);
     }
     pPed->field_134 = rotation;
     pPed->field_288_threat_search = 2;
@@ -169,9 +166,24 @@ void Char_C::DoIanTest_471060(s16 a1)
 }
 
 STUB_FUNC(0x4710c0)
+// Find ped of type ??
 Ped* Char_C::sub_4710C0(s32 a2)
 {
-    return 0;
+    Ped* pPedIter = gChar_203AC_6787B8->field_4;
+    if (!pPedIter)
+    {
+        return 0;
+    }
+
+    while (pPedIter->field_200 != a2)
+    {
+        pPedIter = pPedIter->field_160_next_ped;
+        if (!pPedIter)
+        {
+            return 0;
+        }
+    }
+    return pPedIter;
 }
 
 STUB_FUNC(0x471110)

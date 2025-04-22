@@ -1505,22 +1505,22 @@
         "v105_address": "0x43a600"
     },
     {
-        "name": "Car_BC::sub_43A680",
+        "name": "Car_BC::AllowResprayOrPlates",
         "v96f_address": null,
         "v105_address": "0x43a680"
     },
     {
-        "name": "Car_BC::sub_43A6F0",
+        "name": "Car_BC::CanSetRemap",
         "v96f_address": null,
         "v105_address": "0x43a6f0"
     },
     {
-        "name": "Car_BC::sub_43A730",
+        "name": "Car_BC::IsNotCurrentRemapOfCarAndTrailerCar",
         "v96f_address": null,
         "v105_address": "0x43a730"
     },
     {
-        "name": "Car_BC::sub_43A780",
+        "name": "Car_BC::SetRemap",
         "v96f_address": null,
         "v105_address": "0x43a780"
     },
@@ -2260,12 +2260,12 @@
         "v105_address": "0x443ab0"
     },
     {
-        "name": "Car_BC::sub_443AE0",
+        "name": "Car_BC::ResprayOrChangePlates",
         "v96f_address": null,
         "v105_address": "0x443ae0"
     },
     {
-        "name": "Car_BC::sub_443BD0",
+        "name": "Car_BC::ResprayOrCleanPlates",
         "v96f_address": null,
         "v105_address": "0x443bd0"
     },
@@ -3935,7 +3935,7 @@
         "v105_address": "0x4709b0"
     },
     {
-        "name": "Char_C::sub_470A50",
+        "name": "Char_C::SpawnPedAt",
         "v96f_address": null,
         "v105_address": "0x470a50"
     },
@@ -14715,7 +14715,7 @@
         "v105_address": "0x59e9c0"
     },
     {
-        "name": "Sprite::sub_59EA00",
+        "name": "Sprite::SetRemap",
         "v96f_address": null,
         "v105_address": "0x59ea00"
     },

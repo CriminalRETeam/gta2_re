@@ -242,10 +242,6 @@ class Hud_Pager_C
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
 
-    // TODO: These might be part of Hud_Pager_C_Array too
-    EXPORT s32 sub_5D3220(s32 a2);
-    EXPORT s32 sub_5D3280(s32 a2);
-
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
     s32 field_4;  //  counter?
@@ -259,6 +255,10 @@ class Hud_Pager_C_Array
     Hud_Pager_C_Array()
     {
     }
+
+    // TODO: Correct order ?
+    EXPORT s32 sub_5D3220(s32 a2);
+    EXPORT s32 sub_5D3280(s32 a2);
 
     EXPORT void sub_5D3040();
     EXPORT void sub_5D31B0();
