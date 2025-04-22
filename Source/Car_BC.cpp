@@ -772,7 +772,7 @@ Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
 }
 
 STUB_FUNC(0x446230)
-Car_BC* Car_6C::sub_446230(s32 arg0, s32 a3, s32 a4, s16 a5, s32 a2, s32 a7)
+Car_BC* Car_6C::sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
     return 0;
 }
