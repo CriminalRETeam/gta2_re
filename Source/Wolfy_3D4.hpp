@@ -2,6 +2,8 @@
 
 #include "Function.hpp"
 
+class Object_2C;
+
 class Wolfy_30
 {
   public:
@@ -25,7 +27,7 @@ class Wolfy_30
     EXPORT char_type sub_5435D0();
     EXPORT void sub_543610();
     EXPORT void sub_543650();
-    EXPORT void sub_543680(s32 a2);
+    EXPORT void sub_543680(Object_2C* a2);
 
     s32 field_0;
     u16 field_4_idx;
@@ -34,7 +36,7 @@ class Wolfy_30
     s16 field_C;
     s16 field_E;
     s32 field_10;
-    s32 field_14;
+    Object_2C* field_14;
     s16 field_18;
     s16 field_1A;
     s32 field_1C;

@@ -137,9 +137,10 @@ void Wolfy_30::sub_543650()
 {
 }
 
-STUB_FUNC(0x543680)
-void Wolfy_30::sub_543680(s32 a2)
+MATCH_FUNC(0x543680)
+void Wolfy_30::sub_543680(Object_2C* a2)
 {
+    this->field_14 = a2;
 }
 
 // https://decomp.me/scratch/TAlwS
