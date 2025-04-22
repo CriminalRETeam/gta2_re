@@ -1,12 +1,14 @@
 #include "ImGuiDebug.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
+#include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
-#include "Player.hpp"
-#include "gbh_graphics.hpp"
 #include "Object_5C.hpp"
+#include "Player.hpp"
+#include "Weapon_8.hpp"
+#include "gbh_graphics.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -49,20 +51,48 @@ bool SliderU8(const char* label, u8* v, u8 v_min, u8 v_max)
     return result;
 }
 
-
-    bool Input_char_type(const char* label, char_type* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
-    {
-        int tmp = *v;
-        bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
-        *v = static_cast<char_type>(tmp);
-        return ret;
-    }
+bool Input_char_type(const char* label, char_type* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+{
+    int tmp = *v;
+    bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
+    *v = static_cast<char_type>(tmp);
+    return ret;
+}
 
 } // namespace ImGui
 
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
+
+    if (ImGui::TreeNode("gCar_6C_677930"))
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+        if (gCar_6C_677930 && pPlayer)
+        {
+            Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+            if (ImGui::Button("Spawn car"))
+            {
+                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+
+                Fix16 scale;
+                scale.mValue = 0x4000;
+                s32 info_idx = 17; // fire truck
+                info_idx = 54; // tank
+
+                Fix16 xOff;
+                xOff.FromInt(1);
+                gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
+                                           pPlayerSprite->field_18_ypos,
+                                           pPlayerSprite->field_1C_zpos,
+                                           0,
+                                           info_idx,
+                                           scale);
+            }
+        }
+        ImGui::TreePop();
+    }
 
     if (ImGui::TreeNode("gObject_5C_6F8F84"))
     {
@@ -81,9 +111,12 @@ void CC ImGuiDebugDraw()
                 // 152 = rubbish pile?
                 // 153 = crash
                 // 154 = nothing?
-                gObject_5C_6F8F84->sub_5299B0(120, pPlayerSprite->field_14_xpos, pPlayerSprite->field_18_ypos, pPlayerSprite->field_1C_zpos, 0);
+                gObject_5C_6F8F84->sub_5299B0(120,
+                                              pPlayerSprite->field_14_xpos,
+                                              pPlayerSprite->field_18_ypos,
+                                              pPlayerSprite->field_1C_zpos,
+                                              0);
             }
-
         }
         ImGui::TreePop();
     }
@@ -101,9 +134,8 @@ void CC ImGuiDebugDraw()
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
             ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
             ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 999999);
-            
-            ImGui::SliderS8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
 
+            ImGui::SliderS8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
 
             Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
             ImGui::Text("Car 0x%X", pPlayerCar);
@@ -122,6 +154,37 @@ void CC ImGuiDebugDraw()
                     pPlayerCar->sub_440BB0(); 
                 }
                 */
+            }
+
+            static int currentWeaponIndex = 0;
+            const char* weaponNames[] = {"Pistol",         "SMG",
+                                         "Rocket",         "Shocker",
+                                         "Molotov",        "Grenade",
+                                         "Shotgun",        "Electro Batton",
+                                         "Flamethrower",   "Silence SMG",
+                                         "Dual Pistol",    "Weapon 11",
+                                         "Weapon 12",      "Weapon 13",
+                                         "Weapon 14",      "Car Bomb",
+                                         "Oil Stain",      "Car Mines",
+                                         "Car SMG",        "Tank Main Gun",
+                                         "Fire Truck Gun", "Fire Truck Flamethrower",
+                                         "Army Gun Jeep",  "Weapon 0x17"};
+            const s32 weaponCount = sizeof(weaponNames) / sizeof(weaponNames[0]);
+            if (ImGui::Combo("Weapon Type", &currentWeaponIndex, weaponNames, weaponCount))
+            {
+                // Weapon selection changed
+            }
+            if (ImGui::Button("Add car weapon"))
+            {
+                if (pPlayerCar)
+                {
+                    gWeapon_8_707018->allocate_5E3D50(currentWeaponIndex, 20, pPlayerCar);
+                }
+            }
+            if (ImGui::Button("Add player weapon"))
+            {
+                //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
+                pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
@@ -166,7 +229,7 @@ void CC ImGuiDebugDraw()
             {
                 gGarox_2B00_706620->field_620.sub_5D3220(v);
             }
-            
+
             ImGui::InputInt("timer f4", &gGarox_2B00_706620->field_620.field_620[1].field_4, 1, 100);
         }
         ImGui::TreePop();
@@ -193,7 +256,7 @@ void CC ImGuiDebugDraw()
             ImGui::Input_char_type("field_2", &gChar_C_6787BC->field_2, 1, 1); // total spawned ?
             ImGui::Input_char_type("field_3", &gChar_C_6787BC->field_3, 1, 1); // something to do with total ped count also
             ImGui::Input_char_type("field_4", &gChar_C_6787BC->field_4, 1, 1); // ??
-            ImGui::Input_char_type("field_5", &gChar_C_6787BC->field_5, 1, 1); // ?? 
+            ImGui::Input_char_type("field_5", &gChar_C_6787BC->field_5, 1, 1); // ??
             ImGui::Text("Num peds on screen %d", gChar_C_6787BC->field_6_num_peds_on_screen);
             ImGui::Input_char_type("field_7_make_all_muggers", &gChar_C_6787BC->field_7_make_all_muggers, 1, 1);
         }
@@ -214,7 +277,11 @@ void CC ImGuiDebugDraw()
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos, pPlayerSprite->field_18_ypos, pPlayerSprite->field_1C_zpos, pPlayerChar->field_5_remap, pPlayerPed->field_134);
+                    gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
+                                               pPlayerSprite->field_18_ypos,
+                                               pPlayerSprite->field_1C_zpos,
+                                               pPlayerChar->field_5_remap,
+                                               pPlayerPed->field_134);
                 }
             }
 
