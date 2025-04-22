@@ -1066,7 +1066,7 @@ bool Car_BC::sub_43A680()
 }
 
 STUB_FUNC(0x43a6f0)
-bool Car_BC::CanSetRemap(u8 remap)
+bool Car_BC::IsCurrentRemap(u8 remap)
 {
     // Does this car info have remaps and is it not the current remap?
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != remap;
@@ -1077,15 +1077,15 @@ bool Car_BC::sub_43A730(u8 remap)
 {
     if (field_64)
     {
-        return CanSetRemap(remap) || field_64->field_C->CanSetRemap(remap);
+        return IsCurrentRemap(remap) || field_64->field_C->IsCurrentRemap(remap);
     }
-    return CanSetRemap(remap);
+    return IsCurrentRemap(remap);
 }
 
 MATCH_FUNC(0x43a780)
 void Car_BC::SetCarRemap(u8 remap)
 {
-    if (CanSetRemap(remap))
+    if (IsCurrentRemap(remap))
     {
         field_50_car_sprite->SetRemap(remap);
     }
@@ -1093,7 +1093,7 @@ void Car_BC::SetCarRemap(u8 remap)
     // trailer ?
     if (field_64)
     {
-        if (field_64->field_C->CanSetRemap(remap))
+        if (field_64->field_C->IsCurrentRemap(remap))
         {
             field_64->field_C->field_50_car_sprite->SetRemap(remap);
         }
