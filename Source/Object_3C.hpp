@@ -15,6 +15,8 @@ class Object_3C
     EXPORT s32 sub_5A6E40(s32 a2, s32 a3);
     EXPORT void sub_5A6F70(Sprite* a2);
     EXPORT void sub_5A7010();
+    EXPORT void sub_5A7080();
+    EXPORT void sub_5A7110();
     EXPORT void sub_5A7240(Sprite* a2);
     EXPORT s32* sub_5A72B0(Sprite* a2, char_type a3);
     EXPORT char_type sub_5A7310();

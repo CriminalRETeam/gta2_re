@@ -432,7 +432,6 @@ Sprite* Sprite::sub_59E9C0()
 STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
-
 }
 
 MATCH_FUNC(0x59eaa0)
@@ -2053,8 +2052,39 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 }
 
 STUB_FUNC(0x443ae0)
-void Car_BC::sub_443AE0(s32 a2)
+void Car_BC::ResprayOrChangePlates(s32 remap)
 {
+    Player* pPlayer = this->field_54_driver->field_15C_player;
+    s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
+    if (cost <= pPlayer->field_2D4_unk.sub_592370())
+    {
+        if (pPlayer->field_0)
+        {
+            if (remap == 0xFD) // clean plates only
+            {
+                gGarox_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
+                this->field_B4 = 2;
+            }
+            else
+            {
+                gGarox_2B00_706620->field_DC.sub_5D3F10(1, "sdone", cost);
+            }
+        }
+
+        if (remap != 0xFD) // respray
+        {
+            SetCarRemap(remap);
+            ((Object_3C*)this)->sub_5A7110();
+            this->field_B4 = 1;
+        }
+        
+        pPlayer->field_2D4_unk.AddCash_592620(-cost);
+        this->field_54_driver->field_20A_wanted_points = 0;
+        sub_43A600(); // trailer respray ??
+        return;
+    }
+    sub_443AB0(pPlayer, cost);
+    this->field_B4 = 8;
 }
 
 MATCH_FUNC(0x443bd0)
@@ -2064,11 +2094,11 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
     {
         if (IsNotCurrentRemapOfCarAndTrailerCar(remap))
         {
-            sub_443AE0(remap);
+            ResprayOrChangePlates(remap);
         }
         else
         {
-            sub_443AE0(0xFD);
+            ResprayOrChangePlates(0xFD); // change plates
         }
     }
     else if (field_54_driver->field_15C_player->field_0)
@@ -2664,39 +2694,38 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
     {
         case 1:
         case 2:
-        if (field_8 == 0)
-        {
-            if (param_2 < (field_0->field_7C - DAT_006FF778))
+            if (field_8 == 0)
             {
-                return 1;
+                if (param_2 < (field_0->field_7C - DAT_006FF778))
+                {
+                    return 1;
+                }
             }
-        }
-        else
-        {
-            if (param_2 > (field_0->field_78 + DAT_006FF778))
+            else
             {
-                return 1;
+                if (param_2 > (field_0->field_78 + DAT_006FF778))
+                {
+                    return 1;
+                }
             }
-        }
-        break;
+            break;
         case 3:
         case 4:
-        if (field_8 == 0)
-        {
-            if (param_3 < (field_0->field_84 - DAT_006FF778))
+            if (field_8 == 0)
             {
-                return 1;
+                if (param_3 < (field_0->field_84 - DAT_006FF778))
+                {
+                    return 1;
+                }
             }
-        }
-        else
-        {
-            if (param_3 > (field_0->field_80 + DAT_006FF778))
+            else
             {
-                return 1;
+                if (param_3 > (field_0->field_80 + DAT_006FF778))
+                {
+                    return 1;
+                }
             }
-        }
-        break;
-
+            break;
     }
     return 0;
 }

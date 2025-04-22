@@ -2260,7 +2260,7 @@
         "v105_address": "0x443ab0"
     },
     {
-        "name": "Car_BC::sub_443AE0",
+        "name": "Car_BC::ResprayOrChangePlates",
         "v96f_address": null,
         "v105_address": "0x443ae0"
     },

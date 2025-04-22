@@ -45,6 +45,18 @@ void Object_3C::sub_5A7010()
 
 }
 
+STUB_FUNC(0x5A7080)
+void Object_3C::sub_5A7080()
+{
+
+}
+
+STUB_FUNC(0x5A7110)
+void Object_3C::sub_5A7110()
+{
+
+}
+
 STUB_FUNC(0x5a7240)
 void Object_3C::sub_5A7240(Sprite* a2)
 {
