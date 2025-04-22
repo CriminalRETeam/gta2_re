@@ -213,7 +213,7 @@ void Phi_74::sub_533090()
 }
 
 MATCH_FUNC(0x533110)
-void Phi_74::sub_533110(s16 a2)
+void Phi_74::sub_533110(s16 remap)
 {
     switch (field_28)
     {
@@ -224,7 +224,7 @@ void Phi_74::sub_533110(s16 a2)
             field_30 = 6;
             break;
     }
-    field_1C = a2;
+    field_1C_remap = remap;
 }
 
 MATCH_FUNC(0x533150)
@@ -265,7 +265,7 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
 
     if (this->field_30 != 2)
     {
-        pSprite->sub_59EA00(this->field_1C);
+        pSprite->SetRemap(this->field_1C_remap);
     }
 
     f40 = this->field_40;
@@ -307,7 +307,7 @@ Phi_74::Phi_74()
     field_C = dword_6F8FA4;
     field_10 = dword_6F8FA4;
     field_14 = dword_6F8FA4;
-    field_1C = 9999;
+    field_1C_remap = 9999;
     field_61 = 0;
     field_64 = 99;
     field_65 = 99;

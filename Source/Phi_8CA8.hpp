@@ -168,7 +168,7 @@ class Phi_74
     EXPORT ~Phi_74();
     EXPORT void sub_533060(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT void sub_533090();
-    EXPORT void sub_533110(s16 a2);
+    EXPORT void sub_533110(s16 remap);
     EXPORT void sub_533150(s16 a2, s16 a3);
     EXPORT Sprite* sub_533170();
     EXPORT void sub_5331A0(Sprite* a2);
@@ -181,7 +181,7 @@ class Phi_74
     Fix16 field_10;
     Fix16 field_14;
     Fix16 field_18;
-    s16 field_1C;
+    s16 field_1C_remap;
     s16 field_1E;
     char_type field_20;
     char_type field_21;

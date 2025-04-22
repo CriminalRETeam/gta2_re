@@ -268,7 +268,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             Fix16 weird_y = dword_6F76DC.ConcatenateWord(dword_6F7920);
             Fix16 weird_x = dword_6F75F0.ConcatenateWord(dword_6F791C);
 
-            pPed = gChar_C_6787BC->sub_470A50(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
+            pPed = gChar_C_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
         }
         else
         {
@@ -284,7 +284,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
+            pPed = gChar_C_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                               pCmd->field_C_pos.field_4_y,
                                               pCmd->field_C_pos.field_8_z,
                                               pCmd->field_1A_remap,
@@ -339,7 +339,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
-    pPed = gChar_C_6787BC->sub_470A50(pCmd->field_C_pos.field_0_x,
+    pPed = gChar_C_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                       pCmd->field_C_pos.field_4_y,
                                       pCmd->field_C_pos.field_8_z,
                                       (u8)pCmd->field_1A_remap,
@@ -2161,7 +2161,7 @@ void miss2_0x11C::SCRCMD_CHANGE_CAR_REMAP_50A570()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (v1->field_A_unsigned_2 != 0xFFu) //  field_A_unsigned_2 = remap
     {
-        pPointer->field_8_car->sub_43A780(v1->field_A_unsigned_2);
+        pPointer->field_8_car->SetCarRemap(v1->field_A_unsigned_2);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2179,7 +2179,7 @@ void miss2_0x11C::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
         pChar_b4->field_5_remap = remap;
         if (pChar_b4->field_5_remap != 0xFFu)
         {
-            pChar_b4->field_80_sprite_ptr->sub_59EA00(remap);
+            pChar_b4->field_80_sprite_ptr->SetRemap(remap);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

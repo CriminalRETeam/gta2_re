@@ -1718,7 +1718,7 @@ void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
     pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
-        pB4->field_80_sprite_ptr->sub_59EA00(remap);
+        pB4->field_80_sprite_ptr->SetRemap(remap);
     }
     if (field_238 == 2)
     {

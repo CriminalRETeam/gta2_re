@@ -430,9 +430,9 @@ Sprite* Sprite::sub_59E9C0()
 }
 
 STUB_FUNC(0x59ea00)
-s16 Sprite::sub_59EA00(s16 a2)
+void Sprite::SetRemap(s16 remap)
 {
-    return 0;
+
 }
 
 MATCH_FUNC(0x59eaa0)
@@ -1066,35 +1066,36 @@ bool Car_BC::sub_43A680()
 }
 
 STUB_FUNC(0x43a6f0)
-bool Car_BC::sub_43A6F0(u8 a2)
+bool Car_BC::CanSetRemap(u8 remap)
 {
-    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != a2;
+    // Does this car info have remaps and is it not the current remap?
+    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != remap;
 }
 
 MATCH_FUNC(0x43a730)
-bool Car_BC::sub_43A730(u8 a2)
+bool Car_BC::sub_43A730(u8 remap)
 {
     if (field_64)
     {
-        return sub_43A6F0(a2) || field_64->field_C->sub_43A6F0(a2);
+        return CanSetRemap(remap) || field_64->field_C->CanSetRemap(remap);
     }
-    return sub_43A6F0(a2);
+    return CanSetRemap(remap);
 }
 
 MATCH_FUNC(0x43a780)
-void Car_BC::sub_43A780(u8 a2)
+void Car_BC::SetCarRemap(u8 remap)
 {
-
-    if (sub_43A6F0(a2))
+    if (CanSetRemap(remap))
     {
-        field_50_car_sprite->sub_59EA00(a2);
+        field_50_car_sprite->SetRemap(remap);
     }
 
+    // trailer ?
     if (field_64)
     {
-        if (field_64->field_C->sub_43A6F0(a2))
+        if (field_64->field_C->CanSetRemap(remap))
         {
-            field_64->field_C->field_50_car_sprite->sub_59EA00(a2);
+            field_64->field_C->field_50_car_sprite->SetRemap(remap);
         }
     }
 }

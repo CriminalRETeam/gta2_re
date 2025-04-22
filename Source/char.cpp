@@ -85,7 +85,7 @@ Char_C::~Char_C()
 }
 
 MATCH_FUNC(0x470a50)
-Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
+Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
     Ped* pPed = gChar_203AC_6787B8->field_0;
@@ -108,8 +108,7 @@ Ped* Char_C::sub_470A50(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
     pB4->field_5_remap = remap;
     if (remap != 0xFF)
     {
-        // TODO: Is Sprite and Sprite_3C the same thing ??
-        ((Sprite*)(pB4->field_80_sprite_ptr))->sub_59EA00(remap);
+        pB4->field_80_sprite_ptr->SetRemap(remap);
     }
     pPed->field_134 = rotation;
     pPed->field_288_threat_search = 2;

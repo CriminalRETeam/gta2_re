@@ -652,13 +652,13 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds)   // returns the new Page
 }
 
 STUB_FUNC(0x5d3220)
-s32 Hud_Pager_C::sub_5D3220(s32 a2)
+s32 Hud_Pager_C_Array::sub_5D3220(s32 a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x5d3280)
-s32 Hud_Pager_C::sub_5D3280(s32 a2)
+s32 Hud_Pager_C_Array::sub_5D3280(s32 a2)
 {
     return 0;
 }
