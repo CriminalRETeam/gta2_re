@@ -1045,7 +1045,7 @@ void Car_BC::sub_43A600()
 }
 
 STUB_FUNC(0x43a680)
-bool Car_BC::sub_43A680()
+bool Car_BC::AllowResprayOrPlates()
 {
     // TODO: which object is sub_5A71A0 part of?
     s32 info_idx; // eax
@@ -1066,26 +1066,27 @@ bool Car_BC::sub_43A680()
 }
 
 STUB_FUNC(0x43a6f0)
-bool Car_BC::IsCurrentRemap(u8 remap)
+bool Car_BC::IsNotCurrentRemap(u8 remap)
 {
     // Does this car info have remaps and is it not the current remap?
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != remap;
 }
 
 MATCH_FUNC(0x43a730)
-bool Car_BC::sub_43A730(u8 remap)
+bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
 {
     if (field_64)
     {
-        return IsCurrentRemap(remap) || field_64->field_C->IsCurrentRemap(remap);
+        // Check trailer car
+        return IsNotCurrentRemap(remap) || field_64->field_C->IsNotCurrentRemap(remap);
     }
-    return IsCurrentRemap(remap);
+    return IsNotCurrentRemap(remap);
 }
 
 MATCH_FUNC(0x43a780)
 void Car_BC::SetCarRemap(u8 remap)
 {
-    if (IsCurrentRemap(remap))
+    if (IsNotCurrentRemap(remap))
     {
         field_50_car_sprite->SetRemap(remap);
     }
@@ -1093,7 +1094,7 @@ void Car_BC::SetCarRemap(u8 remap)
     // trailer ?
     if (field_64)
     {
-        if (field_64->field_C->IsCurrentRemap(remap))
+        if (field_64->field_C->IsNotCurrentRemap(remap))
         {
             field_64->field_C->field_50_car_sprite->SetRemap(remap);
         }
@@ -2057,21 +2058,22 @@ void Car_BC::sub_443AE0(s32 a2)
 }
 
 MATCH_FUNC(0x443bd0)
-void Car_BC::sub_443BD0(s32 a2)
+void Car_BC::ResprayOrCleanPlates(s32 remap)
 {
-    if (sub_43A680())
+    if (AllowResprayOrPlates())
     {
-        if (sub_43A730(a2))
+        if (IsNotCurrentRemapOfCarAndTrailerCar(remap))
         {
-            sub_443AE0(a2);
+            sub_443AE0(remap);
         }
         else
         {
-            sub_443AE0(253);
+            sub_443AE0(0xFD);
         }
     }
     else if (field_54_driver->field_15C_player->field_0)
     {
+        // I ain't touching that get outta here!
         gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
     }
 }

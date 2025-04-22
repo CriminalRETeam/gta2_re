@@ -86,6 +86,11 @@ void CC ImGuiDebugDraw()
             if (pPlayerCar)
             {
                 ImGui::Text("trailer? 0x%X", pPlayerCar->field_64);
+
+                if (ImGui::Button("ResprayOrCleanPlates"))
+                {
+                    pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
+                }
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);

@@ -403,9 +403,9 @@ class Car_BC
     EXPORT u32* sub_43A590(u32* a2);
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void sub_43A600();
-    EXPORT bool sub_43A680();
-    EXPORT bool IsCurrentRemap(u8 remap);
-    EXPORT bool sub_43A730(u8 a2);
+    EXPORT bool AllowResprayOrPlates();
+    EXPORT bool IsNotCurrentRemap(u8 remap);
+    EXPORT bool IsNotCurrentRemapOfCarAndTrailerCar(u8 remap);
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void sub_43A7D0();
     EXPORT char_type sub_43A850();
@@ -546,7 +546,7 @@ class Car_BC
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
     EXPORT static void __stdcall sub_443AB0(Player *pPlayer, s32 weapon_cost);
     EXPORT void sub_443AE0(s32 a2);
-    EXPORT void sub_443BD0(s32 a2);
+    EXPORT void ResprayOrCleanPlates(s32 remap);
     EXPORT void sub_443C40(s32 a2);
     EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_443D70(s32 a2);
