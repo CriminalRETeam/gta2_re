@@ -3,6 +3,7 @@
 #include "Function.hpp"
 
 class Sprite;
+class Sprite_18;
 
 class Object_3C
 {
@@ -10,7 +11,7 @@ class Object_3C
     EXPORT void ctor_52AD80();
     EXPORT void dtor_52ADE0();
     EXPORT u32* sub_52ADF0(u32* a2);
-    EXPORT u32* sub_5A6CD0(Sprite* a2);
+    EXPORT void sub_5A6CD0(Sprite* pSprite);
     EXPORT s32 sub_5A6E10();
     EXPORT s32 sub_5A6E40(s32 a2, s32 a3);
     EXPORT void sub_5A6F70(Sprite* a2);
@@ -21,7 +22,7 @@ class Object_3C
     EXPORT s32* sub_5A72B0(Sprite* a2, char_type a3);
     EXPORT char_type sub_5A7310();
 
-    s32 field_0;
+    Sprite_18* field_0;
     s16 field_4;
     s16 field_6;
     Object_3C* field_8;
