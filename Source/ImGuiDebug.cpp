@@ -6,6 +6,7 @@
 #include "Hamburger_500.hpp"
 #include "Player.hpp"
 #include "gbh_graphics.hpp"
+#include "Object_5C.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -63,6 +64,29 @@ void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
 
+    if (ImGui::TreeNode("gObject_5C_6F8F84"))
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+        if (gObject_5C_6F8F84 && pPlayer)
+        {
+            Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+            if (ImGui::Button("Obj spawn"))
+            {
+                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+                // 120 = tyre skid mark
+                // 149 = tv aerial
+                // 150 = ?
+                // 151 = animated expanding rubbish pile?
+                // 152 = rubbish pile?
+                // 153 = crash
+                // 154 = nothing?
+                gObject_5C_6F8F84->sub_5299B0(120, pPlayerSprite->field_14_xpos, pPlayerSprite->field_18_ypos, pPlayerSprite->field_1C_zpos, 0);
+            }
+
+        }
+        ImGui::TreePop();
+    }
 
     if (ImGui::TreeNode("Player"))
     {
@@ -91,6 +115,13 @@ void CC ImGuiDebugDraw()
                 {
                     pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
                 }
+
+                /* Crash, for some reason
+                if (ImGui::Button("Add TV Aerial"))
+                {
+                    pPlayerCar->sub_440BB0(); 
+                }
+                */
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
