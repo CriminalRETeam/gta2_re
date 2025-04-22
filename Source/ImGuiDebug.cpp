@@ -63,6 +63,36 @@ void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
 
+
+    if (ImGui::TreeNode("Player"))
+    {
+        Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+        if (pPlayer)
+        {
+            ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
+            ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
+            ImGui::SliderInt("Cash", &pPlayer->field_2D4_unk.field_0_unk.field_0, 0, 999999999 - 50);
+            ImGui::SliderInt("??", &pPlayer->field_2D4_unk.field_38_unk.field_0, 0, 99);
+
+            Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+            ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
+            ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 999999);
+            
+            ImGui::SliderS8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
+
+
+            Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
+            ImGui::Text("Car 0x%X", pPlayerCar);
+            if (pPlayerCar)
+            {
+                ImGui::Text("trailer? 0x%X", pPlayerCar->field_64);
+            }
+
+            //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
+        }
+        ImGui::TreePop();
+    }
+
     if (ImGui::TreeNode("gGame_0x40_67E008"))
     {
         if (gGame_0x40_67E008)
@@ -70,23 +100,6 @@ void CC ImGuiDebugDraw()
             if (ImGui::Button("sub_569E70"))
             {
                 gGame_0x40_67E008->field_38_orf1->sub_569E70();
-            }
-
-            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-            if (pPlayer)
-            {
-                ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
-                ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
-                ImGui::SliderInt("Cash", &pPlayer->field_2D4_unk.field_0_unk.field_0, 0, 999999999 - 50);
-                ImGui::SliderInt("??", &pPlayer->field_2D4_unk.field_38_unk.field_0, 0, 99);
-        
-                Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
-                ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
-                ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 999999);
-                
-                ImGui::SliderS8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
-        
-                //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
             }
         }
         ImGui::TreePop();
@@ -155,16 +168,16 @@ void CC ImGuiDebugDraw()
     {
         if (gChar_203AC_6787B8)
         {
+            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+            Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+
             if (ImGui::Button("Spawn 100"))
             {
                 s32 c;
                 for (c = 0; c < 100; c++)
                 {
-                    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-                    Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-
                     gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos, pPlayerSprite->field_18_ypos, pPlayerSprite->field_1C_zpos, pPlayerChar->field_5_remap, pPlayerPed->field_134);
                 }
             }
