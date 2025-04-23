@@ -7,6 +7,7 @@
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
 #include "Player.hpp"
+#include "Shooey_CC.hpp"
 #include "Weapon_8.hpp"
 #include "gbh_graphics.hpp"
 #include <stdarg.h>
@@ -61,6 +62,8 @@ bool Input_char_type(const char* label, char_type* v, int step, int step_fast, I
 
 } // namespace ImGui
 
+EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
+
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
@@ -71,23 +74,44 @@ void CC ImGuiDebugDraw()
         if (gCar_6C_677930 && pPlayer)
         {
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+
+            Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+            Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+
+            Fix16 scale;
+            scale.mValue = 0x4000;
+
+            static int currentCarModelIndex = 0;
+            const char* carModelNames[] = {
+                "Alfa",     "Allard",   "Amdb4",    "Apc",      "Bank Van",  "BMW",       "Boxcar",    "Boxtruck", "Bug",      "CAR9",
+                "BUICK",    "BUS",      "COPCAR",   "DART",     "EDSEL",     "CAR15",     "FIAT",      "FIRETRUK", "GRAHAM",   "GT24640",
+                "CAR20",    "GTRUCK",   "GUNJEEP",  "HOTDOG",   "HOTDOG_D1", "HOTDOG_D2", "HOTDOG_D3", "ICECREAM", "ISETLIMO", "ISETTA",
+                "JEEP",     "JEFFREY",  "LIMO",     "LIMO2",    "MEDICAR",   "MERC",      "MESSER",    "MIURA",    "MONSTER",  "MORGAN",
+                "MORRIS",   "PICKUP",   "RTYPE",    "CAR43",    "SPIDER",    "SPRITE",    "STINGRAY",  "STRATOS",  "STRATOSB", "STRIPETB",
+                "STYPE",    "STYPECAB", "SWATVAN",  "T2000GT",  "TANK",      "TANKER",    "TAXI",      "TBIRD",    "TOWTRUCK", "TRAIN",
+                "TRAINCAB", "TRAINFB",  "TRANCEAM", "TRUKCAB1", "TRUKCAB2",  "TRUKCONT",  "TRUKTRNS",  "TVVAN",    "VAN",      "VESPA",
+                "VTYPE",    "WBTWIN",   "WRECK0",   "WRECK1",   "WRECK2",    "WRECK3",    "WRECK4",    "WRECK5",   "WRECK6",   "WRECK7",
+                "WRECK8",   "WRECK9",   "XK120",    "ZCX5",     "EDSELFBI",  "HOTDOG_D4", "KRSNABUS",  "None"};
+
+            // Calculate the size of the carModelNames array
+            const int carModelCount = sizeof(carModelNames) / sizeof(carModelNames[0]);
+
+            Fix16 xOff;
+            xOff.FromInt(1);
+
+            // Combo box for car model selection
+            if (ImGui::Combo("Car Model", &currentCarModelIndex, carModelNames, carModelCount))
+            {
+                // Car model selection changed
+            }
+
             if (ImGui::Button("Spawn car"))
             {
-                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
-                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-
-                Fix16 scale;
-                scale.mValue = 0x4000;
-                s32 info_idx = 17; // fire truck
-                info_idx = 54; // tank
-
-                Fix16 xOff;
-                xOff.FromInt(1);
                 gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
                                            pPlayerSprite->field_18_ypos,
                                            pPlayerSprite->field_1C_zpos,
                                            0,
-                                           info_idx,
+                                           currentCarModelIndex,
                                            scale);
             }
         }
@@ -100,18 +124,162 @@ void CC ImGuiDebugDraw()
         if (gObject_5C_6F8F84 && pPlayer)
         {
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
+
+            if (ImGui::Button("gShooey_CC_67A4B8->sub_484FE0"))
+            {
+                // 0 = ?
+                // 1 = 10 24
+                // 2 = 10 34
+                // 3 = 10 90
+                // 7 = 10 71 crime - shooting?
+                gShooey_CC_67A4B8->sub_484FE0(0u, pPlayer->field_2C4_player_ped);
+            }
+
+            static int currentObjectIndex = 0;
+            const char* objectNames[] = {"object_0",
+                                         "bin_lid_1",
+                                         "bollard_2",
+                                         "cone_3",
+                                         "boxes_4",
+                                         "blaster_5",
+                                         "rubbish_6",
+                                         "bin_7",
+                                         "animating_oil_8",
+                                         "oil_9",
+                                         "mine_10",
+                                         "bush_11",
+                                         "crate_12",
+                                         "footy_13",
+                                         "hardbox_14",
+                                         "newsdis_15",
+                                         "oildrum_16",
+                                         "tyre_17",
+                                         "hydrant_lid_18",
+                                         "hydrant_19",
+                                         "hydrant_unlid_20",
+                                         "roadblock_21",
+                                         "bench_22",
+                                         "package_23",
+                                         "object_24",
+                                         "tower_25",
+                                         "object_26",
+                                         "object_27",
+                                         "object_28",
+                                         "object_29",
+                                         "object_30",
+                                         "object_31",
+                                         "object_32",
+                                         "object_33",
+                                         "object_34",
+                                         "object_35",
+                                         "object_36",
+                                         "object_37",
+                                         "object_38",
+                                         "object_39",
+                                         "object_40",
+                                         "explode_medium_41",
+                                         "object_42",
+                                         "object_43",
+                                         "object_44",
+                                         "object_45",
+                                         "object_46",
+                                         "moving_collect_00_96",
+                                         "moving_collect_01_97",
+                                         "moving_collect_02_98",
+                                         "moving_collect_03_99",
+                                         "moving_collect_04_100",
+                                         "moving_collect_05_101",
+                                         "moving_collect_06_102",
+                                         "moving_collect_07_103",
+                                         "moving_collect_08_104",
+                                         "moving_collect_09_105",
+                                         "moving_collect_10_106",
+                                         "moving_collect_11_107",
+                                         "moving_collect_12_108",
+                                         "moving_collect_13_109",
+                                         "moving_collect_14_110",
+                                         "moving_collect_15_111",
+                                         "moving_collect_16_112",
+                                         "moving_collect_17_113",
+                                         "moving_collect_18_114",
+                                         "moving_collect_19_115",
+                                         "moving_collect_20_116",
+                                         "moving_collect_21_117",
+                                         "moving_collect_22_118",
+                                         "moving_collect_23_119",
+                                         "moving_collect_24_120",
+                                         "moving_collect_25_121",
+                                         "moving_collect_26_122",
+                                         "moving_collect_27_123",
+                                         "moving_collect_28_124",
+                                         "moving_collect_29_125",
+                                         "moving_collect_30_126",
+                                         "moving_collect_31_127",
+                                         "moving_collect_32_128",
+                                         "moving_collect_33_129",
+                                         "moving_collect_34_130",
+                                         "moving_collect_35_131",
+                                         "moving_collect_36_132",
+                                         "moving_collect_37_133",
+                                         "moving_collect_38_134",
+                                         "moving_collect_39_135",
+                                         "moving_collect_40_136",
+                                         "moving_collect_41_137",
+                                         "moving_collect_42_138",
+                                         "moving_collect_43_139",
+                                         "moving_collect_44_140",
+                                         "small_arrow_141",
+                                         "object_142",
+                                         "blood_spark_143",
+                                         "object_144",
+                                         "particle_system_145",
+                                         "firejet_146",
+                                         "object_147",
+                                         "small_brown_skid_148",
+                                         "small_grey_skid_149",
+                                         "small_red_skid_150",
+                                         "medium_brown_skid_151",
+                                         "medium_grey_skid_152",
+                                         "medium_red_skid_153",
+                                         "car_crossing_154",
+                                         "car_stop_155",
+                                         "big_white_skid_156",
+                                         "medium_white_skid_157",
+                                         "small_white_skid_158",
+                                         "object_159",
+                                         "rocket_160",
+                                         "bus_stop_marker_161",
+                                         "car_shop_162",
+                                         "busy_car_shop_163",
+                                         "car_bomb_164",
+                                         "object_165",
+                                         "object_166",
+                                         "molotov_moving_167",
+                                         "huge_red_skid_189",
+                                         "huge_white_skid_190",
+                                         "huge_brown_skid_191",
+                                         "huge_grey_skid_192",
+                                         "tanktop_193",
+                                         "antenna_194",
+                                         "object_195",
+                                         "animating_rubbish_196",
+                                         "dead_rubbish_197",
+                                         "moving_cone_198",
+                                         "object_199",
+                                         "remote_200"};
+            const int objectCount = sizeof(objectNames) / sizeof(objectNames[0]);
+
+            // Combo box for object selection
+            if (ImGui::Combo("Object", &currentObjectIndex, objectNames, objectCount))
+            {
+                // Object selection changed
+            }
+
             if (ImGui::Button("Obj spawn"))
             {
                 Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                 Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                // 120 = tyre skid mark
-                // 149 = tv aerial
-                // 150 = ?
-                // 151 = animated expanding rubbish pile?
-                // 152 = rubbish pile?
-                // 153 = crash
-                // 154 = nothing?
-                gObject_5C_6F8F84->sub_5299B0(120,
+                gObject_5C_6F8F84->sub_5299B0(currentObjectIndex,
                                               pPlayerSprite->field_14_xpos,
                                               pPlayerSprite->field_18_ypos,
                                               pPlayerSprite->field_1C_zpos,
