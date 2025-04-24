@@ -354,13 +354,18 @@ void CC ImGuiDebugDraw()
                 //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                 pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
 
+                pPlayerPed->RestoreCarOrPedHealth();
+
                 /*
                 Char_B4* pB4 = pPlayerPed->field_168_game_object;
                 if ( pB4 )
                 {
-                  pB4->field_80_sprite_ptr->field_2C |= 4u;
-                }
-                */
+                  //pB4->field_80_sprite_ptr->field_2C |= 4u;
+                 // Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(198, 0, 0, 0, 0); // dead_rubbish_197 ?? but its actually fire
+                 // pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, 0);
+                  pB4->field_b0 = 100;
+                }*/
+                
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);

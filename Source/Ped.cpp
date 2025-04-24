@@ -178,47 +178,47 @@ s32 Ped::sub_45BE30()
 }
 
 MATCH_FUNC(0x45be70)
-void Ped::sub_45BE70()
+void Ped::SetOnFire()
 {
-    if ((field_21C & 0x1000000) == 0)
+    if ((field_21C & ped_bit_status_enum::k_ped_in_flames) == 0)
     {
-        field_21C |= 0x1000000;
-        sub_45BFB0();
+        field_21C |= ped_bit_status_enum::k_ped_in_flames;
+        DrawFlamesAndStartScreamTimer();
     }
 }
 
 MATCH_FUNC(0x45be90)
-void Ped::sub_45BE90()
+void Ped::PutOutFire()
 {
-    if ((this->field_21C & 0x1000000) != 0)
+    if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
             pB4->sub_5454B0();
         }
-        this->field_21C &= ~0x1000000u;
+        this->field_21C &= ~ped_bit_status_enum::k_ped_in_flames;
     }
 }
 
 MATCH_FUNC(0x45bec0)
 void Ped::sub_45BEC0()
 {
-    if ((this->field_21C & 0x1000000) != 0)
+    if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
         if (this->field_208_invulnerability > 0)
         {
-            sub_45BE90();
+            PutOutFire();
         }
         else if (this->field_16C_car)
         {
-            sub_45BE90();
+            PutOutFire();
             field_16C_car->sub_43D840(19);
         }
         else
         {
             const bool was9Before = this->field_278 == 9;
-            sub_45CE50(1);
+            TakeDamage(1);
             this->field_264 = 50;
 
             if (field_278 == 9 && !was9Before)
@@ -236,7 +236,7 @@ void Ped::sub_45BEC0()
                 {
                     if (this->field_25C_car_state != 1)
                     {
-                        this->field_21C |= 4u;
+                        this->field_21C |= ped_bit_status_enum::k_ped_0x00000004;
 
                         sub_463830(1, 9999);
 
@@ -251,31 +251,18 @@ void Ped::sub_45BEC0()
 }
 
 STUB_FUNC(0x45bfb0)
-void Ped::sub_45BFB0()
+void Ped::DrawFlamesAndStartScreamTimer()
 {
-    if ((field_21C & 0x1000000) != 0)
+    if ((field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
         // TODO: This is actually another function
         Char_B4* pB4 = field_168_game_object;
         if (pB4)
         {
-            Fix16 v12;
-            v12.FromInt_4369F0(0);
-
-            Fix16 v11;
-            v11.FromInt_4369F0(0);
-
-            Fix16 v10;
-            v10.FromInt_4369F0(0);
-            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, v10, v11, v12, word_6FDB34);
-
-            Fix16 v13;
-            v13.FromInt_4369F0(0);
-
-            Fix16 v14;
-            v14.FromInt_4369F0(0);
-            pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, v14.mValue, v13.mValue, word_6FDB34);
-            pB4->field_b0 = 10;
+            // Spawn fire
+            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
+            pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
+            pB4->field_b0 = 10; // Start screaming timer
         }
     }
 }
@@ -343,12 +330,12 @@ void Ped::sub_45C070()
 }
 
 MATCH_FUNC(0x45c090)
-void Ped::sub_45C090()
+void Ped::RestoreCarOrPedHealth()
 {
     Car_BC* pBc = field_16C_car;
     if (pBc)
     {
-        pBc->sub_43A600();
+        pBc->RemoveAllDamage();
     }
     else if (field_278 != 9)
     {
@@ -546,7 +533,7 @@ void Ped::sub_45CAA0()
 }
 
 MATCH_FUNC(0x45ce50)
-void Ped::sub_45CE50(s16 damage)
+void Ped::TakeDamage(s16 damage)
 {
     if (field_208_invulnerability <= 0)
     {
