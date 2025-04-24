@@ -314,6 +314,12 @@ void Object_2C::sub_5290A0()
     field_25 = 1;
 }
 
+MATCH_FUNC(0x5290B0)
+void Object_2C::sub_5290B0()
+{
+    field_25 = 2;
+}
+
 MATCH_FUNC(0x5291b0)
 void Object_2C::sub_5291B0()
 {
