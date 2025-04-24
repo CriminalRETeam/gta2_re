@@ -166,8 +166,7 @@ void Char_C::DoIanTest_471060(s16 a1)
 }
 
 STUB_FUNC(0x4710c0)
-// Find ped of type ??
-Ped* Char_C::sub_4710C0(s32 a2)
+Ped* Char_C::PedById(s32 pedId)
 {
     Ped* pPedIter = gChar_203AC_6787B8->field_4;
     if (!pPedIter)
@@ -175,7 +174,7 @@ Ped* Char_C::sub_4710C0(s32 a2)
         return 0;
     }
 
-    while (pPedIter->field_200 != a2)
+    while (pPedIter->field_200_id != pedId)
     {
         pPedIter = pPedIter->field_160_next_ped;
         if (!pPedIter)

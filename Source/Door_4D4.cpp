@@ -166,7 +166,7 @@ bool Door_38::sub_49C7F0(Ped* a2)
             {
                 if (a2 == field_10_ped)
                 {
-                    if ( a2->field_200 == this->field_14)
+                    if ( a2->field_200_id == this->field_14)
                     {
                         ret = true;
                     }

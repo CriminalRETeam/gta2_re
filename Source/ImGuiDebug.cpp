@@ -470,7 +470,7 @@ void CC ImGuiDebugDraw()
             while (pPedIter)
             {
                 char buffer[128];
-                sprintf(buffer, "Ped %d", pPedIter->field_200); // id
+                sprintf(buffer, "Ped %d", pPedIter->field_200_id);
                 if (ImGui::TreeNode(buffer))
                 {
                     ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);

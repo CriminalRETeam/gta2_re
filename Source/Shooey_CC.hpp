@@ -13,7 +13,7 @@ class Shooey_14
   public:
     EXPORT Shooey_14();
     EXPORT ~Shooey_14();
-    EXPORT void sub_484CF0(s32 a2, s32 a3);
+    EXPORT void ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id);
     EXPORT void GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos);
 
     s32 field_0_crime_type;

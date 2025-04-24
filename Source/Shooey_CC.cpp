@@ -22,11 +22,11 @@ Shooey_14::~Shooey_14()
 }
 
 STUB_FUNC(0x484cf0)
-void Shooey_14::sub_484CF0(s32 a2, s32 a3)
+void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
 {
-    field_0_crime_type = a2;
-    field_4_ped_id = a3;
-    if (!a3)
+    field_0_crime_type = crime_type;
+    field_4_ped_id = ped_id;
+    if (!ped_id)
     {
         field_8_pos.x = dword_67A370;
         field_8_pos.y = dword_67A370;
@@ -34,7 +34,7 @@ void Shooey_14::sub_484CF0(s32 a2, s32 a3)
     }
     else
     {
-        Ped* pPed = gChar_C_6787BC->sub_4710C0(a3);
+        Ped* pPed = gChar_C_6787BC->PedById(ped_id);
         field_8_pos.x = pPed->field_1AC_cam.x;
         field_8_pos.y = pPed->field_1AC_cam.y; // TODO: Regswap
         field_8_pos.z = pPed->field_1AC_cam.z;
@@ -65,7 +65,7 @@ Shooey_CC::~Shooey_CC()
 MATCH_FUNC(0x484dd0)
 void Shooey_CC::sub_484DD0(s32 a2, s32 a3)
 {
-    field_4[field_0].sub_484CF0(a2, a3);
+    field_4[field_0].ReportCrimeForPedAtLocation(a2, a3);
 
     field_0++;
 

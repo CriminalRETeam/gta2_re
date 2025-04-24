@@ -33,7 +33,7 @@ GLOBAL(dword_678438, 0x678438);
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
-    field_200 = 0;
+    field_200_id = 0;
     sub_45AFC0();
     field_160_next_ped = 0;
 }
@@ -117,10 +117,10 @@ MATCH_FUNC(0x45b560)
 void Ped::sub_45B560(Player* a2, char_type a3)
 {
     field_15C_player = a2;
-    field_200 = a2->field_2E_idx + 1;
+    field_200_id = a2->field_2E_idx + 1;
     if (a3)
     {
-        field_200 += 6;
+        field_200_id += 6;
     }
 }
 
@@ -1087,7 +1087,7 @@ char_type Ped::sub_468E80()
 MATCH_FUNC(0x469010)
 s32 Ped::sub_469010()
 {
-    return (this->field_200 & 1) != 0 ? 56 : 51;
+    return (this->field_200_id & 1) != 0 ? 56 : 51;
 }
 
 MATCH_FUNC(0x469030)

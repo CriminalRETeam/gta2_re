@@ -154,7 +154,7 @@ class Char_C
     EXPORT Ped* sub_470F30();
     EXPORT Ped* sub_470F90(Ped* pSrc);
     EXPORT void DoIanTest_471060(s16 a1);
-    EXPORT Ped* sub_4710C0(s32 a2);
+    EXPORT Ped* PedById(s32 pedId);
 
     s16 field_0;
     char_type field_2;

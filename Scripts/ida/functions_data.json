@@ -3985,7 +3985,7 @@
         "v105_address": "0x471060"
     },
     {
-        "name": "Char_C::sub_4710C0",
+        "name": "Char_C::PedById",
         "v96f_address": null,
         "v105_address": "0x4710c0"
     },
@@ -4585,7 +4585,7 @@
         "v105_address": "0x484ce0"
     },
     {
-        "name": "Shooey_14::sub_484CF0",
+        "name": "Shooey_14::ReportCrimeForPedAtLocation",
         "v96f_address": null,
         "v105_address": "0x484cf0"
     },

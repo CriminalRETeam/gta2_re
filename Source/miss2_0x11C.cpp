@@ -769,7 +769,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
             if (ped_ptr != NULL)
             {
                 a3->field_8->set_open_details_ped(door_open_type::one_char_on_foot, ped_ptr);
-                a3->field_8->set_field_14_id(tmp->field_8_char->field_200);
+                a3->field_8->set_field_14_id(tmp->field_8_char->field_200_id);
             }
         }
         break;

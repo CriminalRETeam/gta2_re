@@ -365,7 +365,7 @@ class Ped
     s32 field_1F4;
     s32 field_1F8;
     s32 field_1FC;
-    s32 field_200;
+    s32 field_200_id;
     s32 field_204;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
