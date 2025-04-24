@@ -2935,22 +2935,22 @@
         "v105_address": "0x45bfb0"
     },
     {
-        "name": "Ped::sub_45BFD0",
+        "name": "Ped::SetInvisible",
         "v96f_address": null,
         "v105_address": "0x45bfd0"
     },
     {
-        "name": "Ped::sub_45BFE0",
+        "name": "Ped::SetVisible",
         "v96f_address": null,
         "v105_address": "0x45bfe0"
     },
     {
-        "name": "Ped::sub_45C010",
+        "name": "Ped::SetSpriteSemiTransIfInvisible",
         "v96f_address": null,
         "v105_address": "0x45c010"
     },
     {
-        "name": "Ped::sub_45C040",
+        "name": "Ped::SetInvulnerable",
         "v96f_address": null,
         "v105_address": "0x45c040"
     },

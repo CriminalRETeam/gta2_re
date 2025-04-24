@@ -281,38 +281,38 @@ void Ped::sub_45BFB0()
 }
 
 MATCH_FUNC(0x45bfd0)
-void Ped::sub_45BFD0()
+void Ped::SetInvisible()
 {
-    field_21C |= 0x2000000u;
-    sub_45C010();
+    field_21C |= ped_bit_status_enum::k_ped_invisible;
+    SetSpriteSemiTransIfInvisible();
 }
 
 MATCH_FUNC(0x45bfe0)
-void Ped::sub_45BFE0()
+void Ped::SetVisible()
 {
-    this->field_21C &= ~0x2000000u;
+    this->field_21C &= ~ped_bit_status_enum::k_ped_invisible;
     Char_B4* pB4 = this->field_168_game_object;
     if (pB4)
     {
-        pB4->field_80_sprite_ptr->field_2C = 0;
+        pB4->field_80_sprite_ptr->field_2C = 0; // make sprite opaque
     }
 }
 
 MATCH_FUNC(0x45c010)
-void Ped::sub_45C010()
+void Ped::SetSpriteSemiTransIfInvisible()
 {
-    if ((this->field_21C & 0x2000000) != 0)
+    if ((this->field_21C & ped_bit_status_enum::k_ped_invisible) != 0)
     {
         Char_B4* pB4 = this->field_168_game_object;
         if (pB4)
         {
-            pB4->field_80_sprite_ptr->field_2C = 65;
+            pB4->field_80_sprite_ptr->field_2C = 0x41; // make sprite semi transparent
         }
     }
 }
 
 MATCH_FUNC(0x45c040)
-void Ped::sub_45C040()
+void Ped::SetInvulnerable()
 {
     field_208_invulnerability = 9999;
     sub_45C070();

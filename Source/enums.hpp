@@ -189,13 +189,39 @@ namespace ped_bit_status_enum
 {
 enum
 {
-    k_ped_0x1 = 0x00000001,
-    k_ped_0x4 = 0x00000004,
+    k_ped_0x00000001 = 0x00000001,
+    k_ped_0x00000002 = 0x00000002,
+    k_ped_0x00000004 = 0x00000004,
+    k_ped_0x00000008 = 0x00000008,
+    k_ped_0x00000010 = 0x00000010,
+    k_ped_0x00000020 = 0x00000020,
+    k_ped_0x00000040 = 0x00000040,
+    k_ped_0x00000080 = 0x00000080,
+    k_ped_0x00000100 = 0x00000100,
+    k_ped_0x00000200 = 0x00000200,
+    k_ped_0x00000400 = 0x00000400,
     k_ped_has_weapon = 0x00000800,
+    k_ped_0x00001000 = 0x00001000,
+    k_ped_0x00002000 = 0x00002000,
+    k_ped_0x00004000 = 0x00004000,
+    k_ped_0x00008000 = 0x00008000,
+    k_ped_0x00010000 = 0x00010000,
+    k_ped_0x00020000 = 0x00020000,
+    k_ped_0x00040000 = 0x00040000,
+    k_ped_0x00080000 = 0x00080000,
+    k_ped_0x00100000 = 0x00100000,
+    k_ped_0x00200000 = 0x00200000,
+    k_ped_0x00400000 = 0x00400000,
+    k_ped_0x00800000 = 0x00800000,
     k_ped_in_flames = 0x01000000,
     k_ped_invisible = 0x02000000,
-    k_ped_0x400_0000 = 0x04000000,
+    k_ped_0x04000000 = 0x04000000,
+    k_ped_0x08000000 = 0x08000000,
+    k_ped_0x10000000 = 0x10000000,
+    k_ped_0x20000000 = 0x20000000,
+    k_ped_0x40000000 = 0x40000000,
     k_ped_electro_fingers = 0x40000000,
+    k_ped_0x80000000 = 0x80000000,
 };
 // static_assert(sizeof(ped_bit_status_enum) == 0x4);
 } // namespace ped_bit_status_enum
@@ -569,3 +595,90 @@ enum
     remote_200 = 200
 };
 } // namespace objects
+
+namespace threat_reaction_enum
+{
+enum
+{
+    no_reaction_0 = 0,
+    react_as_emergency_1 = 1,
+    react_as_normal_2 = 2,
+    run_away_3 = 3,
+};
+} // namespace threat_reaction_enum
+
+namespace objectives_enum
+{
+enum
+{
+    no_obj_0 = 0,
+    flee_on_foot_till_safe_1 = 1,
+    flee_char_on_foot_till_safe_2 = 2,
+    flee_char_on_foot_always_3 = 3,
+    objective_4 = 4,
+    objective_5 = 5,
+    objective_6 = 6,
+    objective_7 = 7,
+    objective_8 = 8,
+    objective_9 = 9,
+    objective_10 = 10,
+    objective_11 = 11,
+    goto_area_on_foot_12 = 12,
+    objective_13 = 13,
+    goto_area_in_car_14 = 14,
+    objective_15 = 15,
+    goto_char_on_foot_16 = 16,
+    objective_17 = 17,
+    objective_18 = 18,
+    kill_char_any_means_19 = 19,
+    kill_char_on_foot_20 = 20,
+    objective_21 = 21,
+    objective_22 = 22,
+    objective_23 = 23,
+    guard_spot_24 = 24,
+    guard_area_25 = 25,
+    wait_on_foot_26 = 26,
+    wait_in_car_27 = 27,
+    objective_28 = 28,
+    objective_29 = 29,
+    objective_30 = 30,
+    objective_31 = 31,
+    objective_32 = 32,
+    objective_33 = 33,
+    objective_34 = 34,
+    enter_car_as_driver_35 = 35,
+    leave_car_36 = 36,
+    objective_37 = 37,
+    objective_38 = 38,
+    objective_39 = 39,
+    objective_40 = 40,
+    objective_41 = 41,
+    objective_42 = 42,
+    objective_43 = 43,
+    objective_44 = 44,
+    objective_45 = 45,
+    objective_46 = 46,
+    objective_47 = 47,
+    objective_48 = 48,
+    objective_49 = 49,
+    follow_car_in_car_50 = 50,
+    follow_car_on_foot_with_offset_51 = 51,
+    fire_at_object_from_vehicle_52 = 52,
+    destroy_object_53 = 53,
+    destroy_car_54 = 54,
+};
+} // namespace objectives_enum
+
+namespace threat_search_enum
+{
+enum
+{
+    no_threats_0 = 0,
+    line_of_sight_1 = 1,
+    area_2 = 2,
+    area_player_threat_only_3 = 3,
+    line_of_sight_player_threat_only_4 = 4,
+    area_player_only_5 = 5,
+    line_of_sight_player_only_6 = 6,
+};
+} // namespace threat_search_enum

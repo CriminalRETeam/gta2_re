@@ -43,10 +43,10 @@ class Ped
     EXPORT void sub_45BE90();
     EXPORT void sub_45BEC0();
     EXPORT void sub_45BFB0();
-    EXPORT void sub_45BFD0();
-    EXPORT void sub_45BFE0();
-    EXPORT void sub_45C010();
-    EXPORT void sub_45C040();
+    EXPORT void SetInvisible();
+    EXPORT void SetVisible();
+    EXPORT void SetSpriteSemiTransIfInvisible();
+    EXPORT void SetInvulnerable();
     EXPORT void sub_45C050();
     EXPORT void sub_45C070();
     EXPORT void sub_45C090();
@@ -264,7 +264,7 @@ class Ped
 
     void unset_bitset_0x04()
     {
-        field_21C &= ~ped_bit_status_enum::k_ped_0x4;
+        field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
     }
 
     void set_field_150_target_objective_car(Car_BC* ptr)

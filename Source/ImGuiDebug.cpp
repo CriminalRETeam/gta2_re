@@ -353,6 +353,14 @@ void CC ImGuiDebugDraw()
             {
                 //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                 pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
+
+                /*
+                Char_B4* pB4 = pPlayerPed->field_168_game_object;
+                if ( pB4 )
+                {
+                  pB4->field_80_sprite_ptr->field_2C |= 4u;
+                }
+                */
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
