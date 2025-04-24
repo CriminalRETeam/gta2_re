@@ -1033,7 +1033,7 @@ u32* Car_BC::sub_43A5B0(u32* a2)
 }
 
 MATCH_FUNC(0x43a600)
-void Car_BC::sub_43A600()
+void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
     Car_A4_10* v2 = this->field_64;
@@ -2080,7 +2080,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
         
         pPlayer->field_2D4_unk.AddCash_592620(-cost);
         this->field_54_driver->field_20A_wanted_points = 0;
-        sub_43A600(); // trailer respray ??
+        RemoveAllDamage();
         return;
     }
     sub_443AB0(pPlayer, cost);

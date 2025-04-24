@@ -39,17 +39,17 @@ class Ped
     EXPORT void sub_45BC70();
     EXPORT char_type sub_45BD20(Car_BC* a2);
     EXPORT s32 sub_45BE30();
-    EXPORT void sub_45BE70();
-    EXPORT void sub_45BE90();
+    EXPORT void SetOnFire();
+    EXPORT void PutOutFire();
     EXPORT void sub_45BEC0();
-    EXPORT void sub_45BFB0();
-    EXPORT void sub_45BFD0();
-    EXPORT void sub_45BFE0();
-    EXPORT void sub_45C010();
-    EXPORT void sub_45C040();
+    EXPORT void DrawFlamesAndStartScreamTimer();
+    EXPORT void SetInvisible();
+    EXPORT void SetVisible();
+    EXPORT void SetSpriteSemiTransIfInvisible();
+    EXPORT void SetInvulnerable();
     EXPORT void sub_45C050();
     EXPORT void sub_45C070();
-    EXPORT void sub_45C090();
+    EXPORT void RestoreCarOrPedHealth();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT void sub_45C310();
     EXPORT void sub_45C350(gmp_map_zone* a2);
@@ -69,7 +69,7 @@ class Ped
     EXPORT s32* sub_45C9B0(s32* a2);
     EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();
-    EXPORT void sub_45CE50(s16 a2);
+    EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(s32 a2);
     EXPORT char_type sub_45D000(s32 a2);
     EXPORT char_type sub_45DD30(s32 a2, char_type a3);
@@ -264,7 +264,7 @@ class Ped
 
     void unset_bitset_0x04()
     {
-        field_21C &= ~ped_bit_status_enum::k_ped_0x4;
+        field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
     }
 
     void set_field_150_target_objective_car(Car_BC* ptr)

@@ -1500,7 +1500,7 @@
         "v105_address": "0x43a5b0"
     },
     {
-        "name": "Car_BC::sub_43A600",
+        "name": "Car_BC::RemoveAllDamage",
         "v96f_address": null,
         "v105_address": "0x43a600"
     },
@@ -2915,12 +2915,12 @@
         "v105_address": "0x45be30"
     },
     {
-        "name": "Ped::sub_45BE70",
+        "name": "Ped::SetOnFire",
         "v96f_address": null,
         "v105_address": "0x45be70"
     },
     {
-        "name": "Ped::sub_45BE90",
+        "name": "Ped::PutOutFire",
         "v96f_address": null,
         "v105_address": "0x45be90"
     },
@@ -2930,27 +2930,27 @@
         "v105_address": "0x45bec0"
     },
     {
-        "name": "Ped::sub_45BFB0",
+        "name": "Ped::DrawFlamesAndStartScreamTimer",
         "v96f_address": null,
         "v105_address": "0x45bfb0"
     },
     {
-        "name": "Ped::sub_45BFD0",
+        "name": "Ped::SetInvisible",
         "v96f_address": null,
         "v105_address": "0x45bfd0"
     },
     {
-        "name": "Ped::sub_45BFE0",
+        "name": "Ped::SetVisible",
         "v96f_address": null,
         "v105_address": "0x45bfe0"
     },
     {
-        "name": "Ped::sub_45C010",
+        "name": "Ped::SetSpriteSemiTransIfInvisible",
         "v96f_address": null,
         "v105_address": "0x45c010"
     },
     {
-        "name": "Ped::sub_45C040",
+        "name": "Ped::SetInvulnerable",
         "v96f_address": null,
         "v105_address": "0x45c040"
     },
@@ -2965,7 +2965,7 @@
         "v105_address": "0x45c070"
     },
     {
-        "name": "Ped::sub_45C090",
+        "name": "Ped::RestoreCarOrPedHealth",
         "v96f_address": null,
         "v105_address": "0x45c090"
     },
@@ -3075,7 +3075,7 @@
         "v105_address": "0x45caa0"
     },
     {
-        "name": "Ped::sub_45CE50",
+        "name": "Ped::TakeDamage",
         "v96f_address": null,
         "v105_address": "0x45ce50"
     },
