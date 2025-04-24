@@ -308,9 +308,10 @@ void Object_2C::sub_529080(u8 idx)
     gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
-STUB_FUNC(0x5290a0)
+MATCH_FUNC(0x5290a0)
 void Object_2C::sub_5290A0()
 {
+    field_25 = 1;
 }
 
 MATCH_FUNC(0x5291b0)
