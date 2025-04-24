@@ -9,11 +9,11 @@ GLOBAL(dword_67A370, 0x67A370);
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()
 {
-    field_0 = 0;
-    field_4 = 0;
-    field_8.x = dword_67A370;
-    field_8.y = dword_67A370;
-    field_8.z = dword_67A370;
+    field_0_crime_type = 0;
+    field_4_ped_id = 0;
+    field_8_pos.x = dword_67A370;
+    field_8_pos.y = dword_67A370;
+    field_8_pos.z = dword_67A370;
 }
 
 MATCH_FUNC(0x484ce0)
@@ -24,30 +24,30 @@ Shooey_14::~Shooey_14()
 STUB_FUNC(0x484cf0)
 void Shooey_14::sub_484CF0(s32 a2, s32 a3)
 {
-    field_0 = a2;
-    field_4 = a3;
+    field_0_crime_type = a2;
+    field_4_ped_id = a3;
     if (!a3)
     {
-        field_8.x = dword_67A370;
-        field_8.y = dword_67A370;
-        field_8.z = dword_67A370;
+        field_8_pos.x = dword_67A370;
+        field_8_pos.y = dword_67A370;
+        field_8_pos.z = dword_67A370;
     }
     else
     {
         Ped* pPed = gChar_C_6787BC->sub_4710C0(a3);
-        field_8.x = pPed->field_1AC_cam.x;
-        field_8.y = pPed->field_1AC_cam.y; // TODO: Regswap
-        field_8.z = pPed->field_1AC_cam.z;
+        field_8_pos.x = pPed->field_1AC_cam.x;
+        field_8_pos.y = pPed->field_1AC_cam.y; // TODO: Regswap
+        field_8_pos.z = pPed->field_1AC_cam.z;
     }
 }
 
 MATCH_FUNC(0x484d50)
-void Shooey_14::sub_484D50(s32* a2, Fix16* a3, Fix16* a4, Fix16* a5)
+void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
 {
-    *a2 = field_0;
-    *a3 = field_8.x;
-    *a4 = field_8.y;
-    *a5 = field_8.z;
+    *pCrimeType = field_0_crime_type;
+    *pXPos = field_8_pos.x;
+    *yPos = field_8_pos.y;
+    *zPos = field_8_pos.z;
 }
 
 MATCH_FUNC(0x484d80)
@@ -98,7 +98,7 @@ char_type Shooey_CC::sub_484E90(s32 toFind)
     {
         return 0;
     }
-    while (this->field_4[idx].field_0 != toFind)
+    while (this->field_4[idx].field_0_crime_type != toFind)
     {
         if (++idx >= 10u)
         {

@@ -14,11 +14,11 @@ class Shooey_14
     EXPORT Shooey_14();
     EXPORT ~Shooey_14();
     EXPORT void sub_484CF0(s32 a2, s32 a3);
-    EXPORT void sub_484D50(s32* a2, Fix16* a3, Fix16* a4, Fix16* a5);
+    EXPORT void GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos);
 
-    s32 field_0;
-    s32 field_4;
-    Fix16_Vec field_8;
+    s32 field_0_crime_type;
+    s32 field_4_ped_id;
+    Fix16_Vec field_8_pos;
 };
 
 class Shooey_CC
