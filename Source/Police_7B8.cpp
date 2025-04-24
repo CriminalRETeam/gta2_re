@@ -985,7 +985,7 @@ s32 Police_7B8::sub_5708C0(Police_7B8* a1, s32 a2, u32* a3)
 }
 
 STUB_FUNC(0x570940)
-void Police_7B8::sub_570940(Police_7B8* a1, s32 a2, Ped* a3)
+void Police_7B8::sub_570940(Ped* a3)
 {
 }
 

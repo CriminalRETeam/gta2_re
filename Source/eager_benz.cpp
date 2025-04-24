@@ -158,11 +158,11 @@ void eager_benz::sub_593370(Car_BC* a2)
     field_368_pObj->field_2D4_unk.AddCash_592620(10 * field_368_pObj->field_6BC_multpliers.field_0);
     if (field_368_pObj->field_68 == 2)
     {
-        gShooey_CC_67A4B8->sub_484FE0(4u, field_368_pObj->field_2C8_unkq);
+        gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_pObj->field_2C8_unkq);
     }
     else
     {
-        gShooey_CC_67A4B8->sub_484FE0(4u, field_368_pObj->field_2C4_player_ped);
+        gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_pObj->field_2C4_player_ped);
     }
 }
 

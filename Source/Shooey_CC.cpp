@@ -2,6 +2,8 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "char.hpp"
+#include "Player.hpp"
+#include "Police_7B8.hpp"
 
 EXPORT_VAR s32 dword_67A370;
 GLOBAL(dword_67A370, 0x67A370);
@@ -63,9 +65,9 @@ Shooey_CC::~Shooey_CC()
 }
 
 MATCH_FUNC(0x484dd0)
-void Shooey_CC::sub_484DD0(s32 a2, s32 a3)
+void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
 {
-    field_4[field_0].ReportCrimeForPedAtLocation(a2, a3);
+    field_4[field_0].ReportCrimeForPedAtLocation(crime_type, ped_id);
 
     field_0++;
 
@@ -85,20 +87,20 @@ void Shooey_CC::sub_484DD0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x484e20)
-bool Shooey_CC::sub_484E20(s32* a2, s32* a3, s32* a4, u32* a5)
+bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos)
 {
     return 0;
 }
 
 STUB_FUNC(0x484e90)
-char_type Shooey_CC::sub_484E90(s32 toFind)
+char_type Shooey_CC::CanReportCrime(s32 crime_type)
 {
     u16 idx = this->field_2;
     if (idx == this->field_0)
     {
         return 0;
     }
-    while (this->field_4[idx].field_0_crime_type != toFind)
+    while (this->field_4[idx].field_0_crime_type != crime_type)
     {
         if (++idx >= 10u)
         {
@@ -123,9 +125,51 @@ void Shooey_CC::dtor_484FD0()
 {
 }
 
+// TODO: Just wrong case order I think
 STUB_FUNC(0x484fe0)
-void Shooey_CC::sub_484FE0(u32 a2, Ped* pPed)
+void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
+    switch (pPed->field_240_occupation)
+    {
+        case ped_ocupation_enum::police:
+        case ped_ocupation_enum::swat:
+        case ped_ocupation_enum::fbi:
+        case ped_ocupation_enum::army_army:
+        case ped_ocupation_enum::unknown_14:
+        case ped_ocupation_enum::unknown_15:
+        case ped_ocupation_enum::unknown_16:
+        case ped_ocupation_enum::unknown_17:
+            // Feds are allowed to do crime
+            return;
+
+        default:
+        {
+            if (crime_type <= 2)
+            {
+                if (!CanReportCrime(crime_type))
+                {
+                    ReportCrime(crime_type, pPed->field_200_id);
+                }
+            }
+            else
+            {
+                pPed->sub_45B550();
+                ReportCrime(crime_type, pPed->field_200_id);
+                if (pPed->field_15C_player)
+                {
+                    gPolice_7B8_6FEE40->sub_570940(pPed);
+                }
+            }
+
+            Player* pPlayer = pPed->field_15C_player;
+            if (pPlayer)
+            {
+                pPlayer->field_644_unk.report_crime(crime_type);
+            }
+
+            break;
+        }
+    }
 }
 
 STUB_FUNC(0x485090)

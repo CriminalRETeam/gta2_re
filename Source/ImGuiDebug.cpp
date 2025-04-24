@@ -125,14 +125,14 @@ void CC ImGuiDebugDraw()
         {
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
-            if (ImGui::Button("gShooey_CC_67A4B8->sub_484FE0"))
+            if (ImGui::Button("gShooey_CC_67A4B8->ReportCrimeForPed"))
             {
                 // 0 = ?
                 // 1 = 10 24
                 // 2 = 10 34
                 // 3 = 10 90
                 // 7 = 10 71 crime - shooting?
-                gShooey_CC_67A4B8->sub_484FE0(0u, pPlayer->field_2C4_player_ped);
+                gShooey_CC_67A4B8->ReportCrimeForPed(0u, pPlayer->field_2C4_player_ped);
             }
 
             static int currentObjectIndex = 0;

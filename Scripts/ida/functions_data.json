@@ -4605,17 +4605,17 @@
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::sub_484DD0",
+        "name": "Shooey_CC::ReportCrime",
         "v96f_address": null,
         "v105_address": "0x484dd0"
     },
     {
-        "name": "Shooey_CC::sub_484E20",
+        "name": "Shooey_CC::GetLatestReportedCrime",
         "v96f_address": null,
         "v105_address": "0x484e20"
     },
     {
-        "name": "Shooey_CC::sub_484E90",
+        "name": "Shooey_CC::CanReportCrime",
         "v96f_address": null,
         "v105_address": "0x484e90"
     },
@@ -4645,7 +4645,7 @@
         "v105_address": "0x484f30"
     },
     {
-        "name": "zealous_borg::sub_484F50",
+        "name": "zealous_borg::report_crime",
         "v96f_address": null,
         "v105_address": "0x484f50"
     },
@@ -4670,7 +4670,7 @@
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::sub_484FE0",
+        "name": "Shooey_CC::ReportCrimeForPed",
         "v96f_address": null,
         "v105_address": "0x484fe0"
     },
