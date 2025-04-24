@@ -334,6 +334,13 @@ void Object_2C::sub_5291D0()
     field_24 = 1;
 }
 
+MATCH_FUNC(0x5291E0)
+void Object_2C::sub_5291E0(char_type a2)
+{
+    sub_522340();
+    field_24 = a2;
+}
+
 STUB_FUNC(0x52ae60)
 void Object_2C::dtor_52AE60()
 {
