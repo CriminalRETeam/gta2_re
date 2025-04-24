@@ -107,12 +107,14 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
+                Car_BC* pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
                                            pPlayerSprite->field_18_ypos,
                                            pPlayerSprite->field_1C_zpos,
                                            0,
                                            currentCarModelIndex,
                                            scale);
+
+                pNewCar->sub_43A9A0(pPlayerPed);
             }
         }
         ImGui::TreePop();

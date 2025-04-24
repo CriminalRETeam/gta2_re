@@ -1580,9 +1580,17 @@ void Car_BC::sub_440590()
 {
 }
 
-STUB_FUNC(0x4405f0)
+MATCH_FUNC(0x4405f0)
 void Car_BC::sub_4405F0()
 {
+    Ped* pNextPed = gCar_6C_677930->field_4;
+    if (!pNextPed)
+    {
+        pNextPed = gChar_C_6787BC->sub_470CC0(this);
+        gCar_6C_677930->field_4 = pNextPed;
+    }
+    sub_43A9A0(pNextPed);
+    this->field_7C_uni_num = 3;
 }
 
 STUB_FUNC(0x440630)
@@ -2077,7 +2085,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
             ((Object_3C*)this)->sub_5A7110();
             this->field_B4 = 1;
         }
-        
+
         pPlayer->field_2D4_unk.AddCash_592620(-cost);
         this->field_54_driver->field_20A_wanted_points = 0;
         RemoveAllDamage();
