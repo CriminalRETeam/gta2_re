@@ -351,7 +351,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
         a2->field_8_char->field_238 = 5;
         a2->field_8_char->field_240_occupation = pCmd->field_1C_occupation;
         a2->field_8_char->field_26C_graphic_type = 1;
-        a2->field_8_char->sub_463570(26, 9999);
+        a2->field_8_char->SetObjective(objectives_enum::wait_on_foot_26, 9999);
         a2->field_8_char->field_216_health = 100;
         Sprite* v6 = a2->field_8_char->sub_46DF50();
         v6->sub_5A2A30();
@@ -361,7 +361,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
 MATCH_FUNC(0x504110)
 Ped* miss2_0x11C::sub_504110(SCR_CHAR_OBJECTIVE* a1, SCR_POINTER* a2)
 {
-    (a2->field_8_char)->sub_463570(a1->field_A_objective, 9999);
+    (a2->field_8_char)->SetObjective(a1->field_A_objective, 9999);
     Ped* v2 = a2->field_8_char;
     BitSet32 flag = v2->field_21C;
     flag.clear_bit(10);
@@ -1360,7 +1360,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
     {
         if (!pPointer->field_8_car->field_54_driver)
         {
-            pPointer->field_8_car->sub_4405F0();
+            pPointer->field_8_car->SpawnDriverPed();
         }
         pPointer->field_8_car->sub_440590();
 

@@ -1605,7 +1605,7 @@
         "v105_address": "0x43b340"
     },
     {
-        "name": "Car_BC::sub_43B360",
+        "name": "Car_BC::GetRemap",
         "v96f_address": null,
         "v105_address": "0x43b360"
     },
@@ -1905,7 +1905,7 @@
         "v105_address": "0x440590"
     },
     {
-        "name": "Car_BC::sub_4405F0",
+        "name": "Car_BC::SpawnDriverPed",
         "v96f_address": null,
         "v105_address": "0x4405f0"
     },
@@ -3030,7 +3030,7 @@
         "v105_address": "0x45c730"
     },
     {
-        "name": "Ped::sub_45C7A0",
+        "name": "Ped::EnterCarAsDriver",
         "v96f_address": null,
         "v105_address": "0x45c7a0"
     },
@@ -3255,7 +3255,7 @@
         "v105_address": "0x4633e0"
     },
     {
-        "name": "Ped::sub_463570",
+        "name": "Ped::SetObjective",
         "v96f_address": null,
         "v105_address": "0x463570"
     },

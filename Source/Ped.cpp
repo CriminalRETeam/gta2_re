@@ -438,7 +438,7 @@ void Ped::sub_45C5C0()
         sub_45C500(0);
         sub_45C540(0);
         this->field_16C_car = 0;
-        sub_463570(0, 9999);
+        SetObjective(0, 9999);
         sub_463830(0, 9999);
         PedGroup* pGroup = this->field_164_ped_group;
         if (pGroup)
@@ -455,13 +455,13 @@ s32 Ped::sub_45C730(Car_BC* a2)
 }
 
 MATCH_FUNC(0x45c7a0)
-void Ped::sub_45C7A0(Car_BC* a2)
+void Ped::EnterCarAsDriver(Car_BC* pCar)
 {
     sub_463830(0, 9999);
-    sub_463570(35, 9999);
+    SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
     field_248_enter_car_as_passenger = 1;
-    field_150_target_objective_car = a2;
-    field_24C_target_car_door = a2->sub_43B360() - 1;
+    field_150_target_objective_car = pCar;
+    field_24C_target_car_door = pCar->GetRemap() - 1;
 }
 
 STUB_FUNC(0x45c7f0)
@@ -839,7 +839,7 @@ s32 Ped::sub_4633E0(char_type a2)
 }
 
 STUB_FUNC(0x463570)
-char_type Ped::sub_463570(s32 a2, s16 a3)
+char_type Ped::SetObjective(s32 a2, s16 a3)
 {
     return 0;
 }

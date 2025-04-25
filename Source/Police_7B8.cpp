@@ -148,7 +148,7 @@ void Police_38::sub_575210()
     if (!pKfc30->field_24 || pPed_6FEDDC->field_225)
     {
         pPed_6FEDDC->sub_463830(0, 9999);
-        pPed_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->SetObjective(0, 9999);
     }
     else
     {
@@ -162,7 +162,7 @@ void Police_38::sub_575270()
     if (!this->field_10_subObj->field_24 || pPed_6FEDDC->field_225)
     {
         pPed_6FEDDC->sub_463830(0, 9999);
-        pPed_6FEDDC->sub_463570(0, 9999);
+        pPed_6FEDDC->SetObjective(0, 9999);
     }
 }
 

@@ -114,7 +114,7 @@ void CC ImGuiDebugDraw()
                                            currentCarModelIndex,
                                            scale);
 
-                pNewCar->sub_43A9A0(pPlayerPed);
+                // pPlayerPed->EnterCarAsDriver(pNewCar);
             }
         }
         ImGui::TreePop();

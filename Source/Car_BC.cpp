@@ -1206,7 +1206,7 @@ Car_Door_10* Car_BC::sub_43B340(u8 a2)
 }
 
 MATCH_FUNC(0x43b360)
-char_type Car_BC::sub_43B360()
+char_type Car_BC::GetRemap()
 {
     return *gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
 }
@@ -1581,7 +1581,7 @@ void Car_BC::sub_440590()
 }
 
 MATCH_FUNC(0x4405f0)
-void Car_BC::sub_4405F0()
+void Car_BC::SpawnDriverPed()
 {
     Ped* pNextPed = gCar_6C_677930->field_4;
     if (!pNextPed)

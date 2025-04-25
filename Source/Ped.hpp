@@ -60,7 +60,7 @@ class Ped
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC* a2);
-    EXPORT void sub_45C7A0(Car_BC* a2);
+    EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s16* sub_45C900(s16* a2);
@@ -103,7 +103,7 @@ class Ped
     EXPORT void sub_4632E0();
     EXPORT s32 sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
-    EXPORT char_type sub_463570(s32 a2, s16 a3);
+    EXPORT char_type SetObjective(s32 a2, s16 a3);
     EXPORT void sub_463830(s32 a2, s16 a3);
     EXPORT void sub_463AA0();
     EXPORT void sub_463FB0();
