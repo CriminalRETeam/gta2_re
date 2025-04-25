@@ -5,7 +5,8 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 
-EXPORT_VAR s32 dword_67A370;
+EXPORT_VAR extern Fix16 dword_67A370;
+Fix16 dword_67A370(0);
 GLOBAL(dword_67A370, 0x67A370);
 
 MATCH_FUNC(0x484cb0)
