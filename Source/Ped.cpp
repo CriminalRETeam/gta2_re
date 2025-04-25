@@ -495,7 +495,7 @@ s32* Ped::sub_45C920(s32* a2)
 }
 
 MATCH_FUNC(0x45c960)
-Ang16& Ped::sub_45C960(Ang16& a2)
+Ang16& Ped::GetRotation(Ang16& a2)
 {
     if (field_168_game_object != NULL)
     {

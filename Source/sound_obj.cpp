@@ -443,7 +443,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
                 field_146C_v2 = v4->get_cam_y();
                 field_1470_v3 = v4->field_1AC_cam.z;
                 Ang16 ang(NULL, NULL);
-                field_1474 = v4->sub_45C960(ang);
+                field_1474 = v4->GetRotation(ang);
             }
         }
         else

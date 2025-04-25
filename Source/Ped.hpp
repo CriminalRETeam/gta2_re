@@ -65,7 +65,7 @@ class Ped
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s16* sub_45C900(s16* a2);
     EXPORT s32* sub_45C920(s32* a2);
-    EXPORT Ang16& sub_45C960(Ang16& a2);
+    EXPORT Ang16& GetRotation(Ang16& a2);
     EXPORT s32* sub_45C9B0(s32* a2);
     EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();

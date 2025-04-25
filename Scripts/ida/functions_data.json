@@ -1545,7 +1545,7 @@
         "v105_address": "0x43a970"
     },
     {
-        "name": "Car_BC::sub_43A9A0",
+        "name": "Car_BC::SetDriver",
         "v96f_address": null,
         "v105_address": "0x43a9a0"
     },
@@ -3055,7 +3055,7 @@
         "v105_address": "0x45c920"
     },
     {
-        "name": "Ped::sub_45C960",
+        "name": "Ped::GetRotation",
         "v96f_address": null,
         "v105_address": "0x45c960"
     },

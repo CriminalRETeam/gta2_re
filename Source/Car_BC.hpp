@@ -411,7 +411,7 @@ class Car_BC
     EXPORT char_type sub_43A850();
     EXPORT void sub_43A950();
     EXPORT void sub_43A970();
-    EXPORT void sub_43A9A0(Ped* a2);
+    EXPORT void SetDriver(Ped* a2);
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);

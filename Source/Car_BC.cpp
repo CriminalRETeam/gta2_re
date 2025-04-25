@@ -1133,7 +1133,7 @@ void Car_BC::sub_43A970()
 }
 
 STUB_FUNC(0x43a9a0)
-void Car_BC::sub_43A9A0(Ped* a2)
+void Car_BC::SetDriver(Ped* a2)
 {
 }
 
@@ -1589,7 +1589,7 @@ void Car_BC::SpawnDriverPed()
         pNextPed = gChar_C_6787BC->sub_470CC0(this);
         gCar_6C_677930->field_4 = pNextPed;
     }
-    sub_43A9A0(pNextPed);
+    SetDriver(pNextPed);
     this->field_7C_uni_num = 3;
 }
 
