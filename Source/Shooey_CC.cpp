@@ -23,7 +23,7 @@ Shooey_14::~Shooey_14()
 {
 }
 
-STUB_FUNC(0x484cf0)
+MATCH_FUNC(0x484cf0)
 void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
 {
     field_0_crime_type = crime_type;
@@ -37,9 +37,9 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
     else
     {
         Ped* pPed = gChar_C_6787BC->PedById(ped_id);
-        field_8_pos.x = pPed->field_1AC_cam.x;
-        field_8_pos.y = pPed->field_1AC_cam.y; // TODO: Regswap
-        field_8_pos.z = pPed->field_1AC_cam.z;
+        field_8_pos.x = pPed->get_cam_x();
+        field_8_pos.y = pPed->get_cam_y();
+        field_8_pos.z = pPed->get_cam_z();
     }
 }
 

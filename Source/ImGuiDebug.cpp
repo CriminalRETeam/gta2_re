@@ -114,7 +114,7 @@ void CC ImGuiDebugDraw()
                                            currentCarModelIndex,
                                            scale);
 
-                pPlayerPed->sub_45C730(pNewCar);
+                                           pPlayerPed->sub_46F650(weapon_type::flamethrower);
             }
         }
         ImGui::TreePop();
