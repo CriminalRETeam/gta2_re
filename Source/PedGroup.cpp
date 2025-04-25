@@ -65,14 +65,14 @@ void PedGroup::sub_4C8EF0()
 MATCH_FUNC(0x4c8f20)
 void PedGroup::sub_4C8F20()
 {
-    field_2C_ped_leader->sub_463570(0, 9999);
+    field_2C_ped_leader->SetObjective(0, 9999);
     field_2C_ped_leader->sub_463830(0, 9999);
 
     u8 bVar1 = 0;
 
     while (bVar1 < field_34_count)
     {
-        field_4_ped_list[bVar1]->sub_463570(0, 9999);
+        field_4_ped_list[bVar1]->SetObjective(0, 9999);
         field_4_ped_list[bVar1]->sub_463830(0, 9999);
         bVar1++;
     }
@@ -82,7 +82,7 @@ MATCH_FUNC(0x4c8f90)
 void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
     pPed->sub_463830(0, 9999);
-    pPed->sub_463570(0, 9999);
+    pPed->SetObjective(0, 9999);
     add_ped_to_list_4C9B30(pPed, field_34_count);
     ++field_34_count;
     ++field_36_count;
@@ -235,12 +235,12 @@ void PedGroup::sub_4C92A0()
             {
                 if (this_00->has_field_16C_car())
                 {
-                    this_00->sub_463570(0x22, 9999);
+                    this_00->SetObjective(objectives_enum::objective_34, 9999);
                     (*pppVar1)->set_field_150_target_objective_car((*pppVar1)->field_16C_car);
                 }
                 else
                 {
-                    this_00->sub_463570(0, 9999);
+                    this_00->SetObjective(0, 9999);
                 }
                 (*pppVar1)->sub_463830(0, 9999);
                 (*pppVar1)->reset_ped_group();
@@ -263,7 +263,7 @@ void PedGroup::sub_4C93A0()
     Ped* ppVar2 = field_2C_ped_leader;
     if ((ppVar2->get_ped_state1() != ped_state1_enum::ped_wasted) && (ppVar2->field_280 != ped_state1_enum::ped_wasted))
     {
-        ppVar2->sub_463570(0, 9999);
+        ppVar2->SetObjective(0, 9999);
         field_2C_ped_leader->sub_463830(0, 9999);
     }
 
@@ -283,14 +283,14 @@ void PedGroup::sub_4C93A0()
                 if (ppVar2->has_field_16C_car() == true)
                 {
                     ppVar2->sub_463830(0, 9999);
-                    (*pppVar1)->sub_463570(0x22, 9999);
+                    (*pppVar1)->SetObjective(objectives_enum::objective_34, 9999);
                     (*pppVar1)->set_field_150_target_objective_car((*pppVar1)->field_16C_car);
                     (*pppVar1)->reset_ped_group();
                     (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);
                 }
                 else
                 {
-                    ppVar2->sub_463570(0, 9999);
+                    ppVar2->SetObjective(0, 9999);
                     (*pppVar1)->sub_463830(0, 9999);
                     (*pppVar1)->reset_ped_group();
                     (*pppVar1)->set_ped_type(ped_type_enum::New_Name_2);

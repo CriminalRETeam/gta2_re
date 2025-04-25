@@ -1,6 +1,9 @@
 #include "Object_5C.hpp"
 #include "Globals.hpp"
 #include "PurpleDoom.hpp"
+#include "Varrok_7F8.hpp"
+
+EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
@@ -298,14 +301,23 @@ void Object_2C::sub_529070(s32 a2)
 {
 }
 
-STUB_FUNC(0x529080)
-void Object_2C::sub_529080(u8 a2)
+MATCH_FUNC(0x529080)
+void Object_2C::sub_529080(u8 idx)
 {
+    this->field_26 = idx;
+    gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
-STUB_FUNC(0x5290a0)
+MATCH_FUNC(0x5290a0)
 void Object_2C::sub_5290A0()
 {
+    field_25 = 1;
+}
+
+MATCH_FUNC(0x5290B0)
+void Object_2C::sub_5290B0()
+{
+    field_25 = 2;
 }
 
 MATCH_FUNC(0x5291b0)
@@ -320,6 +332,19 @@ void Object_2C::sub_5291D0()
 {
     sub_522340();
     field_24 = 1;
+}
+
+MATCH_FUNC(0x5291E0)
+void Object_2C::sub_5291E0(char_type a2)
+{
+    sub_522340();
+    field_24 = a2;
+}
+
+MATCH_FUNC(0x529200)
+bool Object_2C::sub_529200()
+{
+    return (field_18_model != 174) ? true : false;
 }
 
 STUB_FUNC(0x52ae60)

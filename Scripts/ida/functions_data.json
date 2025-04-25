@@ -1545,7 +1545,7 @@
         "v105_address": "0x43a970"
     },
     {
-        "name": "Car_BC::sub_43A9A0",
+        "name": "Car_BC::SetDriver",
         "v96f_address": null,
         "v105_address": "0x43a9a0"
     },
@@ -1605,7 +1605,7 @@
         "v105_address": "0x43b340"
     },
     {
-        "name": "Car_BC::sub_43B360",
+        "name": "Car_BC::GetRemap",
         "v96f_address": null,
         "v105_address": "0x43b360"
     },
@@ -1905,7 +1905,7 @@
         "v105_address": "0x440590"
     },
     {
-        "name": "Car_BC::sub_4405F0",
+        "name": "Car_BC::SpawnDriverPed",
         "v96f_address": null,
         "v105_address": "0x4405f0"
     },
@@ -3030,7 +3030,7 @@
         "v105_address": "0x45c730"
     },
     {
-        "name": "Ped::sub_45C7A0",
+        "name": "Ped::EnterCarAsDriver",
         "v96f_address": null,
         "v105_address": "0x45c7a0"
     },
@@ -3055,7 +3055,7 @@
         "v105_address": "0x45c920"
     },
     {
-        "name": "Ped::sub_45C960",
+        "name": "Ped::GetRotation",
         "v96f_address": null,
         "v105_address": "0x45c960"
     },
@@ -3255,7 +3255,7 @@
         "v105_address": "0x4633e0"
     },
     {
-        "name": "Ped::sub_463570",
+        "name": "Ped::SetObjective",
         "v96f_address": null,
         "v105_address": "0x463570"
     },
@@ -3985,7 +3985,7 @@
         "v105_address": "0x471060"
     },
     {
-        "name": "Char_C::sub_4710C0",
+        "name": "Char_C::PedById",
         "v96f_address": null,
         "v105_address": "0x4710c0"
     },
@@ -4585,12 +4585,12 @@
         "v105_address": "0x484ce0"
     },
     {
-        "name": "Shooey_14::sub_484CF0",
+        "name": "Shooey_14::ReportCrimeForPedAtLocation",
         "v96f_address": null,
         "v105_address": "0x484cf0"
     },
     {
-        "name": "Shooey_14::sub_484D50",
+        "name": "Shooey_14::GetCrimeTypeAndLocation",
         "v96f_address": null,
         "v105_address": "0x484d50"
     },
@@ -4605,17 +4605,17 @@
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::sub_484DD0",
+        "name": "Shooey_CC::ReportCrime",
         "v96f_address": null,
         "v105_address": "0x484dd0"
     },
     {
-        "name": "Shooey_CC::sub_484E20",
+        "name": "Shooey_CC::GetLatestReportedCrime",
         "v96f_address": null,
         "v105_address": "0x484e20"
     },
     {
-        "name": "Shooey_CC::sub_484E90",
+        "name": "Shooey_CC::CanReportCrime",
         "v96f_address": null,
         "v105_address": "0x484e90"
     },
@@ -4645,7 +4645,7 @@
         "v105_address": "0x484f30"
     },
     {
-        "name": "zealous_borg::sub_484F50",
+        "name": "zealous_borg::report_crime",
         "v96f_address": null,
         "v105_address": "0x484f50"
     },
@@ -4670,7 +4670,7 @@
         "v105_address": "0x484fd0"
     },
     {
-        "name": "Shooey_CC::sub_484FE0",
+        "name": "Shooey_CC::ReportCrimeForPed",
         "v96f_address": null,
         "v105_address": "0x484fe0"
     },

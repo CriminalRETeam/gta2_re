@@ -67,8 +67,11 @@ class Object_2C
     EXPORT void sub_529070(s32 a2);
     EXPORT void sub_529080(u8 a2);
     EXPORT void sub_5290A0();
+    EXPORT void sub_5290B0();
     EXPORT void sub_5291B0();
     EXPORT void sub_5291D0();
+    EXPORT void sub_5291E0(char_type a2);
+    EXPORT bool sub_529200();
     EXPORT void dtor_52AE60();
     EXPORT u32* sub_52AE70(u32* a2);
     EXPORT u32* sub_52AE90(u32* a2);

@@ -60,12 +60,12 @@ class Ped
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT s32 sub_45C730(Car_BC* a2);
-    EXPORT void sub_45C7A0(Car_BC* a2);
+    EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s16* sub_45C900(s16* a2);
     EXPORT s32* sub_45C920(s32* a2);
-    EXPORT Ang16& sub_45C960(Ang16& a2);
+    EXPORT Ang16& GetRotation(Ang16& a2);
     EXPORT s32* sub_45C9B0(s32* a2);
     EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();
@@ -103,7 +103,7 @@ class Ped
     EXPORT void sub_4632E0();
     EXPORT s32 sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
-    EXPORT char_type sub_463570(s32 a2, s16 a3);
+    EXPORT char_type SetObjective(s32 a2, s16 a3);
     EXPORT void sub_463830(s32 a2, s16 a3);
     EXPORT void sub_463AA0();
     EXPORT void sub_463FB0();
@@ -365,7 +365,7 @@ class Ped
     s32 field_1F4;
     s32 field_1F8;
     s32 field_1FC;
-    s32 field_200;
+    s32 field_200_id;
     s32 field_204;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;

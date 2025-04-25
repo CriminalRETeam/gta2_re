@@ -45,15 +45,15 @@ void zealous_borg::sub_484F30()
 }
 
 MATCH_FUNC(0x484F50)
-void zealous_borg::sub_484F50(int a2)
+void zealous_borg::report_crime(int crime_type)
 {
-    switch (a2)
+    switch (crime_type)
     {
         case 2:
-            if (field_28[a2])
+            if (field_28[crime_type])
             {
-                field_0[a2]++;
-                field_28[a2] = 0;
+                field_0[crime_type]++;
+                field_28[crime_type] = 0;
             }
             break;
         case 1:
@@ -64,7 +64,7 @@ void zealous_borg::sub_484F50(int a2)
         case 7:
         case 8:
         case 9:
-            field_0[a2]++;
+            field_0[crime_type]++;
             break;
 
         default:

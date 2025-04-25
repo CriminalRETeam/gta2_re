@@ -201,7 +201,7 @@ void Weapon_30::shocker_5E06B0()
     Ped* pPed = this->field_24_pPed;
     if (pPed->field_15C_player)
     {
-        gShooey_CC_67A4B8->sub_484FE0(2u, pPed);
+        gShooey_CC_67A4B8->ReportCrimeForPed(2u, pPed);
     }
 }
 

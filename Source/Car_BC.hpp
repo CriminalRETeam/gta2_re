@@ -411,7 +411,7 @@ class Car_BC
     EXPORT char_type sub_43A850();
     EXPORT void sub_43A950();
     EXPORT void sub_43A970();
-    EXPORT void sub_43A9A0(Ped* a2);
+    EXPORT void SetDriver(Ped* a2);
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
@@ -423,7 +423,7 @@ class Car_BC
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
     EXPORT Car_Door_10* sub_43B340(u8 a2);
-    EXPORT char_type sub_43B360();
+    EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
     EXPORT char_type sub_43B3D0();
     EXPORT s32 sub_43B420(s32 a2, u32* a3, u32* a4);
@@ -480,7 +480,7 @@ class Car_BC
     EXPORT u32* sub_440510(u32* a2);
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void sub_440590();
-    EXPORT void sub_4405F0();
+    EXPORT void SpawnDriverPed();
     EXPORT void sub_440630(s32 a2);
     EXPORT s32 sub_440660(u8 a2);
     EXPORT u8* sub_4406B0(Ped* a2);

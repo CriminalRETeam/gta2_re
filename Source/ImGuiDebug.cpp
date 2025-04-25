@@ -107,12 +107,14 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
+                Car_BC* pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
                                            pPlayerSprite->field_18_ypos,
                                            pPlayerSprite->field_1C_zpos,
                                            0,
                                            currentCarModelIndex,
                                            scale);
+
+                pPlayerPed->sub_45C730(pNewCar);
             }
         }
         ImGui::TreePop();
@@ -125,14 +127,14 @@ void CC ImGuiDebugDraw()
         {
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
-            if (ImGui::Button("gShooey_CC_67A4B8->sub_484FE0"))
+            if (ImGui::Button("gShooey_CC_67A4B8->ReportCrimeForPed"))
             {
                 // 0 = ?
                 // 1 = 10 24
                 // 2 = 10 34
                 // 3 = 10 90
                 // 7 = 10 71 crime - shooting?
-                gShooey_CC_67A4B8->sub_484FE0(0u, pPlayer->field_2C4_player_ped);
+                gShooey_CC_67A4B8->ReportCrimeForPed(0u, pPlayer->field_2C4_player_ped);
             }
 
             static int currentObjectIndex = 0;
@@ -470,7 +472,7 @@ void CC ImGuiDebugDraw()
             while (pPedIter)
             {
                 char buffer[128];
-                sprintf(buffer, "Ped %d", pPedIter->field_200); // id
+                sprintf(buffer, "Ped %d", pPedIter->field_200_id);
                 if (ImGui::TreeNode(buffer))
                 {
                     ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);

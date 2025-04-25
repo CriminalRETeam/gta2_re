@@ -60,7 +60,7 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
     if (pFree)
     {
         pFree->field_0_uni1 = (int)pPed;
-        const s32 v4 = pPed->field_200;
+        const s32 v4 = pPed->field_200_id;
         pFree->field_4_type = 3;
         pFree->field_8_uni2 = v4;
         field_258_count++;
