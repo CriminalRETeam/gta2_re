@@ -486,9 +486,24 @@ Train_58* Sero_181C::sub_57B6A0(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x57b740)
-bool Sero_181C::sub_57B740(Car_BC* a2, Car_BC* a3)
+static inline bool IsTrainModel(s32 idx1)
 {
+    return idx1 == car_model_enum::TRAIN || idx1 == car_model_enum::TRAINCAB || idx1 == car_model_enum::TRAINFB ||
+        idx1 == car_model_enum::boxcar;
+}
+
+MATCH_FUNC(0x57b740)
+bool Sero_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
+{
+    if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
+    {
+        Train_58* pTrain1 = GetTrainFromCar_57B5C0(pCar1);
+        Train_58* pTrain2 = GetTrainFromCar_57B5C0(pCar2);
+        if (pTrain1->field_57 != pTrain2->field_57)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
