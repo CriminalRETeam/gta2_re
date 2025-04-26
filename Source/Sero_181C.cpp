@@ -185,7 +185,7 @@ TrainStation_34::~TrainStation_34()
 }
 
 MATCH_FUNC(0x578790)
-Train_58* Sero_181C::sub_578790()
+Train_58* Sero_181C::AllocateTrain_578790()
 {
     if (bSkip_trains_67D550)
     {
@@ -215,8 +215,9 @@ TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
     return 0;
 }
 
+// NOTE: Declared out of order
 STUB_FUNC(0x578820)
-void Sero_181C::sub_578820(u8* a2)
+void TrainStation_34::sub_578820(u8* a2)
 {
 }
 

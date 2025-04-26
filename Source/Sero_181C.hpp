@@ -53,6 +53,10 @@ class TrainStation_34
     EXPORT s32 GetWagonType_577f80(u8 idx);
     EXPORT TrainStation_34();
     EXPORT ~TrainStation_34();
+
+    // NOTE: This function defined out of order for some reason
+    EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
+
     s32 field_0_bus_or_train;
     gmp_map_zone* field_4_entry_point;
     gmp_map_zone* field_8_exit_point;
@@ -74,9 +78,8 @@ class TrainStation_34
 class Sero_181C
 {
   public:
-    EXPORT Train_58* sub_578790();
+    EXPORT Train_58* AllocateTrain_578790();
     EXPORT TrainStation_34* AllocateTrainStation_5787E0();
-    EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
     EXPORT void sub_578860();
     EXPORT char_type sub_5793E0();
     EXPORT gmp_map_zone* sub_579440();
