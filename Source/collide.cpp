@@ -6,8 +6,8 @@
 class Collide_8
 {
   public:
-    s32 field_0;
-    Collide_8* field_4;
+    Sprite* field_0_sprt;
+    Collide_8* field_4_pNext;
 };
 
 class Collide_8004
@@ -18,7 +18,7 @@ class Collide_8004
         Collide_8* pOff = &field_4[0];
         for (s32 i = 0; i < 4096 - 1; i++)
         {
-            pOff->field_4 = pOff + 1;
+            pOff->field_4_pNext = pOff + 1;
             ++pOff;
         }
 
@@ -32,23 +32,15 @@ class Collide_8004
     s32 field_8000;
 };
 
-class Collide_Sub_C
-{
-  public:
-    s32 field_0;
-    s32 field_4;
-    Collide_Sub_C* field_8;
-};
-
 class Collide_11944
 {
   public:
     Collide_11944()
     {
-        Collide_Sub_C* pOff = &field_4[0];
+        PurpleDoom_C* pOff = &field_4[0];
         for (s32 i = 0; i < 6000 - 1; i++)
         {
-            pOff->field_8 = pOff + 1;
+            pOff->field_8_pNext = pOff + 1;
             ++pOff;
         }
 
@@ -56,8 +48,8 @@ class Collide_11944
         field_0 = field_4;
     }
 
-    Collide_Sub_C* field_0;
-    Collide_Sub_C field_4[5999];
+    PurpleDoom_C* field_0;
+    PurpleDoom_C field_4[5999];
     s32 field_11938;
     s32 field_1193C;
     s32 field_11940;

@@ -4,11 +4,12 @@
 
 class Sprite;
 class Object_3C;
+class Collide_8;
 
 struct PurpleDoom_C
 {
     u32 field_0_x_len;
-    s32 field_4_pObj_uni;
+    Collide_8* field_4_p8;
     PurpleDoom_C *field_8_pNext;
 };
 
