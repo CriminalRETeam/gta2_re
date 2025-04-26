@@ -21,7 +21,7 @@ class BitSet32
     // TODO: don't know if matches, added for Car_BC::sub_43BF10
     bool mask_bit(u32 bit)
     {
-        return (m_var & (1 << bit)) == (1 << bit);
+        return (m_var & (1u << bit)) == (1u << bit);
     }
 
     BitSet32& operator=(u32 value)

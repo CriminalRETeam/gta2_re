@@ -5,6 +5,7 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
+#include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
@@ -15,7 +16,6 @@
 #include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
-#include "Police_7B8.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -289,10 +289,28 @@ void Player::sub_5668D0(Ped* a2)
 {
 }
 
-STUB_FUNC(0x566C30)
-char_type Player::sub_566C30(Car_BC* a2)
+MATCH_FUNC(0x566C30)
+void Player::sub_566C30(Car_BC* pCar)
 {
-    return 'a';
+    char bUnknown;
+
+    if (this->field_788_idx >= 15)
+    {
+        bUnknown = 0;
+    }
+    else
+    {
+        bUnknown = this->field_7C;
+    }
+
+    pCar->sub_4418D0(this->field_78_bForwardGasOn,
+                     this->field_79_bFootBrakeOn,
+                     this->field_7A,
+                     this->field_7B,
+                     this->field_7E_bHandBrakeOn,
+                     this->field_81,
+                     this->field_84,
+                     bUnknown);
 }
 
 STUB_FUNC(0x566C80)
@@ -647,7 +665,6 @@ void Player::sub_569C20()
     }
 }
 
-
 STUB_FUNC(0x569CB0)
 void Player::sub_569CB0()
 {
@@ -751,13 +768,13 @@ MATCH_FUNC(0x56A6D0)
 void Player::sub_56A6D0()
 {
     // sets some car info to 0
-    field_78 = 0;
-    field_79 = 0;
+    field_78_bForwardGasOn = 0;
+    field_79_bFootBrakeOn = 0;
     field_7A = 0;
     field_7B = 0;
     field_7C = 0;
     field_7D = 0;
-    field_7E = 0;
+    field_7E_bHandBrakeOn = 0;
     field_7F = 0;
     field_80 = 0;
     field_81 = 0;

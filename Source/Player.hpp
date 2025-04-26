@@ -53,7 +53,7 @@ class Player
     EXPORT char_type sub_566520();
     EXPORT void sub_566820();
     EXPORT void sub_5668D0(Ped* a2);
-    EXPORT char_type sub_566C30(Car_BC* a2);
+    EXPORT void sub_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(u32* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void sub_5670B0();
@@ -153,13 +153,13 @@ class Player
     char_type field_75;
     char_type field_76;
     char_type field_77;
-    char_type field_78;
-    char_type field_79;
+    char_type field_78_bForwardGasOn;
+    char_type field_79_bFootBrakeOn;
     char_type field_7A;
     char_type field_7B;
     char_type field_7C;
     char_type field_7D;
-    char_type field_7E;
+    char_type field_7E_bHandBrakeOn;
     char_type field_7F;
     char_type field_80;
     char_type field_81;
