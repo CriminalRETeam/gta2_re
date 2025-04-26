@@ -105,9 +105,10 @@ char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
     return 0;
 }
 
-STUB_FUNC(0x478040)
+MATCH_FUNC(0x478040)
 PurpleDoom::PurpleDoom()
 {
+    Clear_4789F0();
 }
 
 STUB_FUNC(0x478050)
