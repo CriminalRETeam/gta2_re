@@ -1785,12 +1785,12 @@
         "v105_address": "0x43cdf0"
     },
     {
-        "name": "Car_BC::sub_43CF30",
+        "name": "Car_BC::DamageArea_43CF30",
         "v96f_address": null,
         "v105_address": "0x43cf30"
     },
     {
-        "name": "Car_BC::sub_43D1C0",
+        "name": "Car_BC::IsAreaDamaged_43D1C0",
         "v96f_address": null,
         "v105_address": "0x43d1c0"
     },
@@ -4180,7 +4180,7 @@
         "v105_address": "0x477a10"
     },
     {
-        "name": "PurpleDoom::sub_477A40",
+        "name": "PurpleDoom::DrawSpritesClipped_477A40",
         "v96f_address": null,
         "v105_address": "0x477a40"
     },
@@ -4205,7 +4205,7 @@
         "v105_address": "0x477b60"
     },
     {
-        "name": "PurpleDoom::sub_477BA0",
+        "name": "PurpleDoom::DebugLogAll_477BA0",
         "v96f_address": null,
         "v105_address": "0x477ba0"
     },
@@ -4270,7 +4270,7 @@
         "v105_address": "0x4781e0"
     },
     {
-        "name": "PurpleDoom::sub_478240",
+        "name": "PurpleDoom::AddToDrawList_478240",
         "v96f_address": null,
         "v105_address": "0x478240"
     },
@@ -4320,12 +4320,12 @@
         "v105_address": "0x478880"
     },
     {
-        "name": "PurpleDoom::sub_478950",
+        "name": "PurpleDoom::DebugLog_478950",
         "v96f_address": null,
         "v105_address": "0x478950"
     },
     {
-        "name": "PurpleDoom::sub_4789F0",
+        "name": "PurpleDoom::Clear_4789F0",
         "v96f_address": null,
         "v105_address": "0x4789f0"
     },

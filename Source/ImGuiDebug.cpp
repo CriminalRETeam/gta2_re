@@ -10,9 +10,11 @@
 #include "Shooey_CC.hpp"
 #include "Weapon_8.hpp"
 #include "gbh_graphics.hpp"
+#include "collide.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
+extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 
 namespace ImGui
 {
@@ -67,6 +69,29 @@ EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
+
+    if (ImGui::TreeNode("gCollide_C_6791FC"))
+    {
+        if (gCollide_C_6791FC)
+        {
+            ImGui::Text("field_0_count %d", gCollide_C_6791FC->field_0_count);
+            ImGui::Text("field_4_count %d",gCollide_C_6791FC->field_4_count);
+            ImGui::Text("field_8_bUnknown %d", gCollide_C_6791FC->field_8_bUnknown);
+        }
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("gViewCamera_676978"))
+    {
+        if (gViewCamera_676978)
+        {
+            ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_win_left.ToFloat());
+            ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
+            ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
+            ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+        }
+        ImGui::TreePop();
+    }
 
     if (ImGui::TreeNode("gCar_6C_677930"))
     {

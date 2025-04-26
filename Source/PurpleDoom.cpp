@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
+#include "DrawUnk_0xBC.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -18,10 +19,68 @@ GLOBAL(dword_6F5F38, 0x6F5F38);
 EXPORT_VAR s32 dword_6F6108;
 GLOBAL(dword_6F6108, 0x6F6108);
 
+Fix16 dword_678F80(0x6000); // 1.5
+Fix16 dword_679084(0x4000);
+
+
 STUB_FUNC(0x477a40)
-s32 PurpleDoom::sub_477A40()
+void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    return 0;
+    s32 left = (gViewCamera_676978->field_78_win_left - dword_679084).ToInt();
+    if (left >= 0)
+    {
+        if (left > 255)
+        {
+            left = 255;
+        }
+    }
+    else
+    {
+        left = 0;
+    }
+
+    s32 right_val = (dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt();
+    if (right_val >= 0)
+    {
+        if (right_val > 255)
+        {
+            right_val = 255;
+        }
+    }
+    else
+    {
+        right_val = 0;
+    }
+
+    s32 top_val = (gViewCamera_676978->field_80_win_top - dword_679084).ToInt();
+    if (top_val >= 0)
+    {
+        if (top_val > 255)
+        {
+            top_val = 255;
+        }
+    }
+    else
+    {
+        top_val = 0;
+    }
+
+    s32 bottom_val = (dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt();
+    if (bottom_val >= 0)
+    {
+        if (bottom_val > 255)
+        {
+            bottom_val = 255;
+        }
+        //AddToDrawList_478240(left, right_val, top_val, bottom_val);
+    }
+    else
+    {
+        bottom_val = 0;
+        //AddToDrawList_478240(left, right_val, top_val, 0);
+    }
+    AddToDrawList_478240(left, right_val, top_val, bottom_val);
+
 }
 
 MATCH_FUNC(0x477ae0)
@@ -57,9 +116,16 @@ s32 PurpleDoom::sub_477B60(Sprite* a1)
     return 0;
 }
 
-STUB_FUNC(0x477ba0)
-void PurpleDoom::sub_477BA0()
+MATCH_FUNC(0x477ba0)
+void PurpleDoom::DebugLogAll_477BA0()
 {
+    for (s32 i = 0; i < 256; ++i)
+    {
+        for (s32 j = 0; j < 256; ++j)
+        {
+            DebugLog_478950(j, i);
+        }
+    }
 }
 
 STUB_FUNC(0x477bd0)
@@ -98,16 +164,15 @@ char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
     return 0;
 }
 
-STUB_FUNC(0x478040)
+MATCH_FUNC(0x478040)
 PurpleDoom::PurpleDoom()
 {
-
+    Clear_4789F0();
 }
 
 STUB_FUNC(0x478050)
 PurpleDoom::~PurpleDoom()
 {
-
 }
 
 STUB_FUNC(0x478160)
@@ -117,9 +182,8 @@ u32 PurpleDoom::sub_478160(u8 a2)
 }
 
 STUB_FUNC(0x478240)
-s32 PurpleDoom::sub_478240(s32 a2, s32 a3, s32 a4, s32 a5)
+void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
-    return 0;
 }
 
 STUB_FUNC(0x4782c0)
@@ -144,6 +208,7 @@ void PurpleDoom::sub_4784D0(s32 idx, Sprite* a3)
 {
 }
 
+// Get first XItem at y_pos
 MATCH_FUNC(0x478590)
 PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 {
@@ -156,7 +221,7 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
     }
     for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
     {
-        f0 = (u8)pIter->field_0;
+        f0 = (u8)pIter->field_0_x_len;
         if (f0 >= dword_6F5FD4)
         {
             break;
@@ -194,12 +259,12 @@ s32 PurpleDoom::sub_478880(u32 a2, u32* a3)
 }
 
 STUB_FUNC(0x478950)
-void PurpleDoom::sub_478950(s32 a2, s32 a3)
+void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
 }
 
 STUB_FUNC(0x4789f0)
-PurpleDoom* PurpleDoom::sub_4789F0()
+PurpleDoom* PurpleDoom::Clear_4789F0()
 {
     return 0;
 }

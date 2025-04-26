@@ -1386,13 +1386,13 @@ void Car_BC::sub_43BF10()
     }
     else
     {
-        if (!this->field_8.mask_bit(2))
+        if (!this->field_8_damaged_areas.mask_bit(2))
         {
-            this->field_8.set_bit(5);
+            this->field_8_damaged_areas.set_bit(5);
         }
-        if (!this->field_8.mask_bit(1))
+        if (!this->field_8_damaged_areas.mask_bit(1))
         {
-            this->field_8.set_bit(22);
+            this->field_8_damaged_areas.set_bit(22);
         }
         this->field_A4 |= 1u;
     }
@@ -1403,8 +1403,8 @@ void Car_BC::sub_43BF70()
 {
     if ((this->field_A4 & 8) == 0)
     {
-        this->field_8.clear_bit(5);
-        this->field_8.clear_bit(22);
+        this->field_8_damaged_areas.clear_bit(5);
+        this->field_8_damaged_areas.clear_bit(22);
     }
     this->field_A4 &= ~1u;
 }
@@ -1504,15 +1504,37 @@ Car_BC* Car_BC::sub_43CDF0(char_type a2)
 }
 
 STUB_FUNC(0x43cf30)
-char_type Car_BC::sub_43CF30(s32 a2)
+void Car_BC::DamageArea_43CF30(s32 damage_area)
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x43d1c0)
-bool Car_BC::sub_43D1C0(s32 a2)
+bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
 {
-    return 0;
+    bool bDamaged;
+    switch (damage_area)
+    {
+        case CarDamageAreas::FrontLeft_0:
+            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontLeft_4) == CarDamageAreasFlags::FlagsFrontLeft_4;
+            break;
+        case CarDamageAreas::FrontRight_1:
+            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
+            break;
+        case CarDamageAreas::BackLeft_2:
+            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackLeft_2) == CarDamageAreasFlags::FlagsBackLeft_2;
+            break;
+        case CarDamageAreas::BackRight_3:
+            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackRight_1) == CarDamageAreasFlags::FlagsBackRight_1;
+            break;
+        case CarDamageAreas::Window_4:
+            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsWindow_10) == CarDamageAreasFlags::FlagsWindow_10;
+            break;
+        default:
+            bDamaged = 0;
+            break;
+    }
+    return bDamaged;
 }
 
 STUB_FUNC(0x43d2c0)
@@ -1934,11 +1956,11 @@ void Car_BC::sub_441B20()
 {
     if (this->field_9C != 3 || this->field_4.field_0_pOwner)
     {
-        this->field_8.clear_bit(15);
+        this->field_8_damaged_areas.clear_bit(15);
     }
     else
     {
-        this->field_8.set_bit(15);
+        this->field_8_damaged_areas.set_bit(15);
     }
 }
 
@@ -2512,7 +2534,7 @@ void Car_BC::sub_444490()
     this->field_6C_maybe_id = gCar_6C_677930->field_14++;
     this->field_74_damage = 0;
     this->field_8C = 0;
-    this->field_8 = 0;
+    this->field_8_damaged_areas = 0;
     this->field_4.field_0_pOwner = 0;
     this->field_54_driver = 0;
     this->field_98 = 3;
@@ -2564,7 +2586,7 @@ Car_BC::Car_BC()
 {
     field_0_qq = 0;
     field_4.field_0_pOwner = 0;
-    field_8 = 0;
+    field_8_damaged_areas = 0;
     field_54_driver = 0;
     field_74_damage = 0;
     field_8C = 0;
@@ -2617,20 +2639,20 @@ void Car_BC::sub_447360()
 {
     if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
     {
-        field_8.clear_bit(0x0b);
-        field_8.clear_bit(0x0c);
-        field_8.clear_bit(0x0d);
-        field_8.clear_bit(0x0e);
-        field_8.clear_bit(0x1c);
-        field_8.clear_bit(0x1d);
-        field_8.clear_bit(0x1e);
-        field_8.clear_bit(0x1f);
+        field_8_damaged_areas.clear_bit(0x0b);
+        field_8_damaged_areas.clear_bit(0x0c);
+        field_8_damaged_areas.clear_bit(0x0d);
+        field_8_damaged_areas.clear_bit(0x0e);
+        field_8_damaged_areas.clear_bit(0x1c);
+        field_8_damaged_areas.clear_bit(0x1d);
+        field_8_damaged_areas.clear_bit(0x1e);
+        field_8_damaged_areas.clear_bit(0x1f);
     }
-    field_8.clear_bit(0x06);
-    field_8.clear_bit(0x17);
+    field_8_damaged_areas.clear_bit(0x06);
+    field_8_damaged_areas.clear_bit(0x17);
     if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4)
     {
-        field_8.clear_bit(0x0f);
+        field_8_damaged_areas.clear_bit(0x0f);
     }
 }
 
@@ -2797,14 +2819,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 2:
             if (field_8 == 0)
             {
-                if (param_2 < (field_0->field_7C - DAT_006FF778))
+                if (param_2 < (field_0->field_7C_win_right - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_2 > (field_0->field_78 + DAT_006FF778))
+                if (param_2 > (field_0->field_78_win_left + DAT_006FF778))
                 {
                     return 1;
                 }
@@ -2814,14 +2836,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 4:
             if (field_8 == 0)
             {
-                if (param_3 < (field_0->field_84 - DAT_006FF778))
+                if (param_3 < (field_0->field_84_win_bottom - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_3 > (field_0->field_80 + DAT_006FF778))
+                if (param_3 > (field_0->field_80_win_top + DAT_006FF778))
                 {
                     return 1;
                 }

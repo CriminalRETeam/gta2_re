@@ -85,6 +85,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--run_standalone", help="Run the standalone gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
+    parser.add_argument("--ignore_no_match", help="Ignore any errors related to non matching functions", action="store_true")
 
     args = parser.parse_args()
 
@@ -97,7 +98,7 @@ def main():
         sys.exit(returncode)
     
     ok = verify()
-    if not ok:
+    if not ok and not args.ignore_no_match:
         print(f"Function verification failed!")
         sys.exit(1)
 
