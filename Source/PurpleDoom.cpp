@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
+#include "DrawUnk_0xBC.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -18,9 +19,67 @@ GLOBAL(dword_6F5F38, 0x6F5F38);
 EXPORT_VAR s32 dword_6F6108;
 GLOBAL(dword_6F6108, 0x6F6108);
 
+Fix16 dword_678F80(0x6000); // 1.5
+Fix16 dword_679084(0x4000);
+
+
 STUB_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
+    s32 left = (gViewCamera_676978->field_78_win_left - dword_679084).ToInt();
+    if (left >= 0)
+    {
+        if (left > 255)
+        {
+            left = 255;
+        }
+    }
+    else
+    {
+        left = 0;
+    }
+
+    s32 right_val = (dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt();
+    if (right_val >= 0)
+    {
+        if (right_val > 255)
+        {
+            right_val = 255;
+        }
+    }
+    else
+    {
+        right_val = 0;
+    }
+
+    s32 top_val = (gViewCamera_676978->field_80_win_top - dword_679084).ToInt();
+    if (top_val >= 0)
+    {
+        if (top_val > 255)
+        {
+            top_val = 255;
+        }
+    }
+    else
+    {
+        top_val = 0;
+    }
+
+    s32 bottom_val = (dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt();
+    if (bottom_val >= 0)
+    {
+        if (bottom_val > 255)
+        {
+            bottom_val = 255;
+        }
+        //AddToDrawList_478240(left, right_val, top_val, bottom_val);
+    }
+    else
+    {
+        bottom_val = 0;
+        //AddToDrawList_478240(left, right_val, top_val, 0);
+    }
+    AddToDrawList_478240(left, right_val, top_val, bottom_val);
 
 }
 
@@ -123,9 +182,8 @@ u32 PurpleDoom::sub_478160(u8 a2)
 }
 
 STUB_FUNC(0x478240)
-s32 PurpleDoom::sub_478240(s32 a2, s32 a3, s32 a4, s32 a5)
+void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
-    return 0;
 }
 
 STUB_FUNC(0x4782c0)

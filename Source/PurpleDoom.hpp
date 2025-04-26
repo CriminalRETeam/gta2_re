@@ -30,7 +30,7 @@ class PurpleDoom
     EXPORT PurpleDoom();
     EXPORT ~PurpleDoom();
     EXPORT u32 sub_478160(u8 a2);
-    EXPORT s32 sub_478240(s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT void AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom);
     EXPORT void sub_4782C0(s32 a2, s32 idx, Sprite* a4);
     EXPORT u8* sub_478370(s32 a2, s32 a3);
     EXPORT char_type sub_478440(s32 a2, s32 idx, Sprite* a4);
