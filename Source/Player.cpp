@@ -16,6 +16,7 @@
 #include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
+#include "Weapon_8.hpp"
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -40,19 +41,47 @@ u32* Player::sub_564680(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x564710)
-void Player::sub_564710(Car_BC* a2, s32 a3)
+MATCH_FUNC(0x564710)
+void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 {
+    this->field_18 = this->field_788_idx;
+    
+    Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
+    if (pWeapon)
+    {
+        this->field_1A_ammo = pWeapon->field_0_ammo;
+    }
+    else
+    {
+        this->field_1A_ammo = 0;
+        pWeapon = gWeapon_8_707018->allocate_5E3CE0(weapon_kind, pCar, 0);
+    }
+
+    this->field_1C_weapon_kind = weapon_kind;
+    this->field_20_car = pCar;
+    this->field_24 = pCar->field_6C_maybe_id;
+
+    pWeapon->field_0_ammo = -1;
+
+    Ped* pDriver = pCar->field_54_driver;
+    if (pDriver)
+    {
+        if (pDriver->field_15C_player == this)
+        {
+            this->field_718[weapon_kind] = pWeapon;
+            this->field_788_idx = this->field_1C_weapon_kind;
+        }
+    }
 }
 
 MATCH_FUNC(0x564790)
 void Player::sub_564790(s32 idx)
 {
     this->field_18 = this->field_788_idx;
-    this->field_1C = idx;
-    this->field_1A = this->field_718[idx]->field_0_ammo;
+    this->field_1C_weapon_kind = idx;
+    this->field_1A_ammo = this->field_718[idx]->field_0_ammo;
     this->field_718[idx]->field_0_ammo = -1;
-    this->field_788_idx = this->field_1C;
+    this->field_788_idx = this->field_1C_weapon_kind;
     sub_56A010();
 }
 
