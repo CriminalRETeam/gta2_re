@@ -59,9 +59,33 @@ void Train_58::sub_578180()
     }
 }
 
-STUB_FUNC(0x5781f0)
+MATCH_FUNC(0x5781f0)
 void Train_58::sub_5781F0()
 {
+    if (!bSkip_trains_67D550)
+    {
+        switch (this->field_50)
+        {
+            case 1:
+                this->field_50 = 0;
+                break;
+            case 2:
+                sub_578030();
+                this->field_50 = 1;
+                break;
+            case 3:
+                this->field_50 = 2;
+                break;
+            case 4:
+                this->field_50 = 3;
+                break;
+            case 5:
+                this->field_50 = 4;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 MATCH_FUNC(0x578260)
