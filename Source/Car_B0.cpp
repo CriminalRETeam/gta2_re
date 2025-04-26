@@ -51,17 +51,32 @@ void Car_B0::sub_559A40()
 MATCH_FUNC(0x559b40)
 void Car_B0::sub_559B40()
 {
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->sub_407CE0();
     }
 }
 
-STUB_FUNC(0x559b50)
-Car_A4_10* Car_B0::sub_559B50()
+MATCH_FUNC(0x559b50)
+void Car_B0::sub_559B50()
 {
-    return 0;
+    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (pTrailer)
+    {
+        if (pTrailer->field_0)
+        {
+            if (this->field_94_is_backward_gas_on)
+            {
+                this->field_94_is_backward_gas_on = 0;
+                this->field_91_is_foot_brake_on = 1;
+            }
+            if (!this->field_93_is_forward_gas_on)
+            {
+                this->field_AD_turn_direction = 0;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x559b90)
@@ -81,10 +96,24 @@ void Car_B0::sub_559C30()
 {
 }
 
-STUB_FUNC(0x559dd0)
-s32 Car_B0::sub_559DD0()
+MATCH_FUNC(0x559dd0)
+void Car_B0::sub_559DD0()
 {
-    return 0;
+    if (this->field_5C_pPrev->field_54_driver)
+    {
+        if (field_A0.mValue == 1)
+        {
+            this->field_95 = 0;
+            this->field_93_is_forward_gas_on = 1;
+            this->field_AD_turn_direction = -1;
+        }
+        else if (field_A0.mValue == 2)
+        {
+            this->field_95 = 0;
+            this->field_93_is_forward_gas_on = 1;
+            this->field_AD_turn_direction = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x559e20)
@@ -179,7 +208,7 @@ void Car_B0::sub_55A840()
 }
 
 STUB_FUNC(0x55a860)
-char_type Car_B0::sub_55A860(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
+char_type Car_B0::sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
 {
     return 0;
 }
@@ -632,8 +661,8 @@ MATCH_FUNC(0x5636c0)
 void Car_B0::sub_5636C0()
 {
     sub_563670();
-    
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
@@ -647,7 +676,7 @@ bool Car_B0::sub_5636E0()
 }
 
 MATCH_FUNC(0x5637a0)
-void Car_B0::sub_5637A0()
+void Car_B0::Init_5637A0()
 {
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
@@ -685,24 +714,34 @@ void Car_B0::sub_5637A0()
 }
 
 MATCH_FUNC(0x563890)
-void Car_B0::sub_563890()
+void Car_B0::Reset_563890()
 {
     field_30_cm1.reset();
     field_58_theta = DAT_0066AC08;
     field_38_cp1.reset();
     field_5C_pPrev = NULL;
-    sub_5637A0();
+    Init_5637A0();
     field_0_vel_read_only.reset();
 }
 
-STUB_FUNC(0x5638c0)
-void Car_B0::sub_5638C0(Car_BC* pBC)
+MATCH_FUNC(0x5638c0)
+void Car_B0::sub_5638C0(Car_BC* pCar)
 {
+    this->field_5C_pPrev = pCar;
+    Ped* pDriver = pCar->field_54_driver;
+    if (pDriver && pDriver->field_15C_player)
+    {
+        this->field_8C = 2;
+    }
+    else
+    {
+        this->field_8C = 1;
+    }
 }
 
 MATCH_FUNC(0x563900)
 Car_B0::Car_B0()
 {
     field_C_pNext = NULL;
-    sub_563890();
+    Reset_563890();
 }

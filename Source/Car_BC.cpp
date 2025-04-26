@@ -5,6 +5,7 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
@@ -680,10 +681,15 @@ void Sprite::sub_5A4D90()
 {
 }
 
-STUB_FUNC(0x5c8680)
-s32 Car_214::sub_5C8680(u8 a2)
+MATCH_FUNC(0x5c8680)
+void Car_214::sub_5C8680(u8 idx)
 {
-    return 0;
+    field_0[idx].field_8 = 0;
+    field_0[idx].field_C = 0;
+    field_0[idx].field_0 = 0;
+    field_0[idx].field_14 = 2;
+    field_0[idx].field_4_O2C->sub_5291B0();
+    field_0[idx].field_4_O2C = 0;
 }
 
 STUB_FUNC(0x5c86c0)
@@ -692,9 +698,20 @@ char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, 
     return 0;
 }
 
-STUB_FUNC(0x5c8750)
+MATCH_FUNC(0x5c8750)
 void Car_214::sub_5C8750()
 {
+    field_210_count = 0;
+    Car_18* pOff = &field_0[0];
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        pOff->field_10_idx = i;
+        pOff->field_8 = 0;
+        pOff->field_C = 0;
+        pOff->field_0 = 0;
+        pOff->field_14 = 1;
+        pOff++;
+    }
 }
 
 STUB_FUNC(0x5c8780)
@@ -760,7 +777,7 @@ Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
 }
 
 STUB_FUNC(0x444fa0)
-s32 Car_6C::sub_444FA0(s32 x, s32 y, s32 z, s32 a5)
+Car_BC* Car_6C::sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     return 0;
 }
@@ -1036,7 +1053,7 @@ MATCH_FUNC(0x43a600)
 void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
-    Car_A4_10* v2 = this->field_64;
+    Car_A4_10* v2 = this->field_64_pTrailer;
     if (v2)
     {
         v2->field_C->sub_43D400();
@@ -1074,10 +1091,10 @@ bool Car_BC::IsNotCurrentRemap(u8 remap)
 MATCH_FUNC(0x43a730)
 bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
         // Check trailer car
-        return IsNotCurrentRemap(remap) || field_64->field_C->IsNotCurrentRemap(remap);
+        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C->IsNotCurrentRemap(remap);
     }
     return IsNotCurrentRemap(remap);
 }
@@ -1091,11 +1108,11 @@ void Car_BC::SetCarRemap(u8 remap)
     }
 
     // trailer ?
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        if (field_64->field_C->IsNotCurrentRemap(remap))
+        if (field_64_pTrailer->field_C->IsNotCurrentRemap(remap))
         {
-            field_64->field_C->field_50_car_sprite->SetRemap(remap);
+            field_64_pTrailer->field_C->field_50_car_sprite->SetRemap(remap);
         }
     }
 }
@@ -1132,9 +1149,28 @@ void Car_BC::sub_43A970()
     pB0->field_95 = 0;
 }
 
-STUB_FUNC(0x43a9a0)
-void Car_BC::SetDriver(Ped* a2)
+MATCH_FUNC(0x43a9a0)
+void Car_BC::SetDriver(Ped* pNewDriver)
 {
+    char hand_brake_on; // [esp+Ch] [ebp+4h]
+    if (!pNewDriver)
+    {
+        Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
+        if (pB0)
+        {
+            Ped* pOldDriver = this->field_54_driver;
+            if (pOldDriver && pOldDriver->field_15C_player)
+            {
+                hand_brake_on = pB0->field_92_is_hand_brake_on;
+            }
+            else
+            {
+                hand_brake_on = 1;
+            }
+            pB0->sub_55A860(0, 0, 0, 0, hand_brake_on);
+        }
+    }
+    this->field_54_driver = pNewDriver;
 }
 
 STUB_FUNC(0x43a9f0)
@@ -1200,9 +1236,9 @@ bool Car_BC::sub_43B2B0(Ped* a2)
 }
 
 MATCH_FUNC(0x43b340)
-Car_Door_10* Car_BC::sub_43B340(u8 a2)
+Car_Door_10* Car_BC::GetDoor(u8 door_idx)
 {
-    return &field_C[a2];
+    return &field_C_doors[door_idx];
 }
 
 MATCH_FUNC(0x43b360)
@@ -1312,9 +1348,9 @@ void Car_BC::sub_43BC30()
 MATCH_FUNC(0x43bca0)
 void Car_BC::sub_43BCA0()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        field_64->sub_408190();
+        field_64_pTrailer->sub_408190();
     }
     else
     {
@@ -1325,9 +1361,9 @@ void Car_BC::sub_43BCA0()
 MATCH_FUNC(0x43bd00)
 void Car_BC::sub_43BD00()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        field_64->sub_4081B0();
+        field_64_pTrailer->sub_4081B0();
     }
     else
     {
@@ -1342,15 +1378,35 @@ char_type Car_BC::sub_43BD40()
 }
 
 STUB_FUNC(0x43bf10)
-s32 Car_BC::sub_43BF10()
+void Car_BC::sub_43BF10()
 {
-    return 0;
+    if ((this->field_A4 & 8) != 0)
+    {
+        this->field_A4 |= 1u;
+    }
+    else
+    {
+        if (!this->field_8.mask_bit(2))
+        {
+            this->field_8.set_bit(5);
+        }
+        if (!this->field_8.mask_bit(1))
+        {
+            this->field_8.set_bit(22);
+        }
+        this->field_A4 |= 1u;
+    }
 }
 
-STUB_FUNC(0x43bf70)
-u32 Car_BC::sub_43BF70()
+MATCH_FUNC(0x43bf70)
+void Car_BC::sub_43BF70()
 {
-    return 0;
+    if ((this->field_A4 & 8) == 0)
+    {
+        this->field_8.clear_bit(5);
+        this->field_8.clear_bit(22);
+    }
+    this->field_A4 &= ~1u;
 }
 
 STUB_FUNC(0x43bfe0)
@@ -1471,9 +1527,8 @@ s32 Car_BC::sub_43D400()
 }
 
 STUB_FUNC(0x43d690)
-s32* Car_BC::sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5)
+void Car_BC::sub_43D690(s32 a2, s32 a4, s32 a5)
 {
-    return 0;
 }
 
 STUB_FUNC(0x43d7b0)
@@ -1702,9 +1757,40 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x441520)
+MATCH_FUNC(0x441520)
 void Car_BC::sub_441520()
 {
+    Car_B0* pB0;
+    switch (this->field_9C)
+    {
+        case 1:
+            pB0 = this->field_58_uni_Car78_or_Car_B0;
+            if (pB0)
+            {
+                if (pB0->sub_55A180())
+                {
+                    this->field_9C = 4;
+                }
+            }
+            break;
+        case 4:
+            sub_43BFE0();
+            this->field_9C = 3;
+            break;
+        case 2:
+            sub_43C0C0();
+            this->field_9C = 1;
+            break;
+        case 5:
+            sub_43C0C0();
+            this->field_9C = 6;
+            break;
+        case 7:
+            field_50_car_sprite->sub_59E300();
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x4415c0)
@@ -1762,7 +1848,7 @@ char_type Car_BC::sub_441800(char_type a2)
 MATCH_FUNC(0x4418a0)
 void Car_BC::sub_4418A0()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
         sub_4418B0();
     }
@@ -1803,7 +1889,7 @@ char_type Car_BC::sub_441A40()
         {
             return 0;
         }*/
-        switch (field_C[i].field_4_state)
+        switch (field_C_doors[i].field_4_state)
         {
             case 1:
             case 2:
@@ -1827,9 +1913,9 @@ char_type Car_BC::sub_441A70()
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    Car_Door_10* pIter = field_C;
+    Car_Door_10* pIter = field_C_doors;
     s32 tmp;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_C); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
     {
         pIter->sub_439DA0(&tmp);
         pIter++;
@@ -2146,11 +2232,11 @@ void Car_BC::sub_443D70(s32 a2)
 {
     sub_443DA0(a2);
 
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        if (field_64->field_8 == this)
+        if (field_64_pTrailer->field_8 == this)
         {
-            field_64->field_C->sub_443DA0(a2);
+            field_64_pTrailer->field_C->sub_443DA0(a2);
         }
     }
 }
@@ -2489,10 +2575,10 @@ Car_BC::Car_BC()
     field_5C = 0;
     field_88 = 0;
     field_6C_maybe_id = 0xFFFF;
-    field_64 = 0;
+    field_64_pTrailer = 0;
     field_78_flags = 0;
     // TODO
-    // Object_3C::sub_5A7010((Object_3C *)this);
+    ((Object_3C*)this)->sub_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
     field_A0 = 0;
@@ -2584,8 +2670,8 @@ void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
     this->field_8 = a2;
     this->field_C = a3;
-    a2->field_64 = this;
-    this->field_C->field_64 = this;
+    a2->field_64_pTrailer = this;
+    this->field_C->field_64_pTrailer = this;
     this->field_0 = 0;
 }
 

@@ -448,6 +448,12 @@ void Ped::sub_45C5C0()
     }
 }
 
+STUB_FUNC(0x45C650)
+void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
+{
+
+}
+
 STUB_FUNC(0x45c730)
 s32 Ped::sub_45C730(Car_BC* a2)
 {

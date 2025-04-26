@@ -23,12 +23,12 @@ class Player
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);
     EXPORT u32* sub_564680(s32 a2);
-    EXPORT void sub_564710(Car_BC* a2, s32 a3);
+    EXPORT void sub_564710(Car_BC* pCar, s32 weapon_kind);
     EXPORT void sub_564790(s32 idx);
     EXPORT void sub_5647D0();
     EXPORT Weapon_30* sub_5648F0();
     EXPORT void sub_564910(Weapon_30* a2);
-    EXPORT char_type sub_564940();
+    EXPORT char_type HasAnyAmmo_564940();
     EXPORT char_type sub_564960(s32 a2, u8 a3);
     EXPORT u16 sub_5649D0(char_type a2, char_type a3);
     EXPORT void sub_564AD0(Car_BC* a2);
@@ -53,7 +53,7 @@ class Player
     EXPORT char_type sub_566520();
     EXPORT void sub_566820();
     EXPORT void sub_5668D0(Ped* a2);
-    EXPORT char_type sub_566C30(Car_BC* a2);
+    EXPORT void sub_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(u32* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void sub_5670B0();
@@ -70,7 +70,7 @@ class Player
     EXPORT void sub_569530();
     EXPORT void sub_5695A0();
     EXPORT char_type sub_569600(Car_BC* a2);
-    EXPORT void sub_5696D0(s32 a2);
+    EXPORT void sub_5696D0(Car_BC* pCar);
     EXPORT s32 sub_569840(u8* a2, u8* a3, u8* a4);
     EXPORT Car_BC* sub_5698E0();
     EXPORT s32 sub_569920(u32* a2, int* a3, int* a4);
@@ -111,9 +111,9 @@ class Player
     s16 field_14;
     s16 field_16;
     s16 field_18;
-    s16 field_1A;
-    s32 field_1C;
-    Car_BC* field_20;
+    s16 field_1A_ammo; // of last weapon ?
+    s32 field_1C_weapon_kind;
+    Car_BC* field_20_car;
     s32 field_24;
     char_type field_28;
     char_type field_29;
@@ -153,13 +153,13 @@ class Player
     char_type field_75;
     char_type field_76;
     char_type field_77;
-    char_type field_78;
-    char_type field_79;
+    char_type field_78_bForwardGasOn;
+    char_type field_79_bFootBrakeOn;
     char_type field_7A;
     char_type field_7B;
     char_type field_7C;
     char_type field_7D;
-    char_type field_7E;
+    char_type field_7E_bHandBrakeOn;
     char_type field_7F;
     char_type field_80;
     char_type field_81;
@@ -182,7 +182,7 @@ class Player
     DrawUnk_0xBC field_208_aux_game_camera;
     Ped* field_2C4_player_ped;
     Ped* field_2C8_unkq;
-    s32 field_2CC;
+    Car_BC* field_2CC;
     char_type field_2D0;
     char_type field_2D1;
     char_type field_2D2;
@@ -197,7 +197,7 @@ class Player
     u16 field_682;
     thirsty_lamarr field_684_lives;
     thirsty_lamarr field_6BC_multpliers;
-    WORD field_6F4[17];
+    u16 field_6F4[17];
     s16 field_716;
     Weapon_30* field_718[28];
     s16 field_788_idx;

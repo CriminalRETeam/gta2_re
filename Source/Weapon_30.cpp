@@ -13,6 +13,9 @@
 // TODO: move
 EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
 
+u8 max_ammo_capacity_5FF75C[28] = {99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
+                                                99u, 1u,  99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u};
+
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
 {
@@ -87,9 +90,30 @@ void Weapon_30::add_ammo_5DCE20(u8 a2)
 }
 
 STUB_FUNC(0x5dce40)
-char_type Weapon_30::add_ammo_capped_5DCE40(u8 a2)
+char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
 {
-    return 0;
+    s32 cap_total = max_ammo_capacity_5FF75C[this->field_1C_idx] * 10;
+    if (this->field_0_ammo == 0xFFFF)
+    {
+        return 0;
+    }
+
+    s32 cur_amount = this->field_0_ammo;
+    if (cur_amount == cap_total)
+    {
+        return 0;
+    }
+    
+    s32 new_amount = cur_amount + (to_add * 10);
+    if (new_amount <= cap_total)
+    {
+        this->field_0_ammo = new_amount;
+    }
+    else
+    {
+        this->field_0_ammo = cap_total;
+    }
+    return 1;
 }
 
 STUB_FUNC(0x5dcea0)

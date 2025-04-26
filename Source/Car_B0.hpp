@@ -22,11 +22,11 @@ class Car_B0
     EXPORT bool sub_5599D0();
     EXPORT void sub_559A40();
     EXPORT void sub_559B40();
-    EXPORT Car_A4_10* sub_559B50();
+    EXPORT void sub_559B50();
     EXPORT void sub_559B90(const Fix16 &a2);
     EXPORT u32 sub_559BA0();
     EXPORT void sub_559C30();
-    EXPORT s32 sub_559DD0();
+    EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);
     EXPORT s32* sub_559EC0(s32* a2);
     EXPORT u32* sub_559FF0(u32* a2);
@@ -42,7 +42,7 @@ class Car_B0
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
     EXPORT void sub_55A840();
-    EXPORT char_type sub_55A860(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
+    EXPORT char_type sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void sub_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
     EXPORT s32 sub_55AD90(Sprite_4C* a2);
@@ -118,8 +118,8 @@ class Car_B0
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
-    EXPORT void sub_5637A0();
-    EXPORT void sub_563890();
+    EXPORT void Init_5637A0();
+    EXPORT void Reset_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
     EXPORT Car_B0();
 

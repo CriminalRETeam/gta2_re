@@ -232,7 +232,7 @@ s32 DrawUnk_0xBC::sub_436200(s32 a2, s32* a3, s32* a4, s32* a5)
 }
 
 STUB_FUNC(0x4364A0)
-void DrawUnk_0xBC::sub_4364A0(s32 a2)
+void DrawUnk_0xBC::sub_4364A0(Car_BC* pCar)
 {
 }
 

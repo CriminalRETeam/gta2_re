@@ -250,27 +250,24 @@ class Car_18
 {
   public:
     s32 field_0;
-    s32 field_4;
-    char_type field_8;
-    char_type field_9;
-    char_type field_A;
-    char_type field_B;
+    Object_2C* field_4_O2C;
+    s32 field_8;
     s32 field_C;
-    s32 field_10;
-    s16 field_14;
-    char_type field_16;
-    char_type field_17;
+    u8 field_10_idx;
+    u8 field_11_pad[3];
+    s32 field_14;
 };
 
 class Car_214
 {
   public:
-    EXPORT s32 sub_5C8680(u8 a2);
+    EXPORT void sub_5C8680(u8 idx);
     EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT void sub_5C8750();
     EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
-    s32 field_0;
-    Car_18 field_4[22];
+    Car_18 field_0[22];
+    s16 field_210_count;
+    s16 field_212;
 };
 
 EXPORT_VAR extern Car_214* gCar_214_705F20;
@@ -290,7 +287,7 @@ class Car_6C
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
     EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
-    EXPORT s32 sub_444FA0(s32 x, s32 y, s32 z, s32 a5);
+    EXPORT Car_BC* sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Car_A4_10* sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6);
@@ -422,7 +419,7 @@ class Car_BC
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
-    EXPORT Car_Door_10* sub_43B340(u8 a2);
+    EXPORT Car_Door_10* GetDoor(u8 door_idx);
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
     EXPORT char_type sub_43B3D0();
@@ -440,8 +437,8 @@ class Car_BC
     EXPORT void sub_43BCA0();
     EXPORT void sub_43BD00();
     EXPORT char_type sub_43BD40();
-    EXPORT s32 sub_43BF10();
-    EXPORT u32 sub_43BF70();
+    EXPORT void sub_43BF10();
+    EXPORT void sub_43BF70();
     EXPORT char_type sub_43BFE0();
     EXPORT char_type sub_43C0C0();
     EXPORT u32 sub_43C1C0();
@@ -462,7 +459,7 @@ class Car_BC
     EXPORT bool sub_43D1C0(s32 a2);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
-    EXPORT s32* sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void sub_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, s32 a3);
@@ -584,19 +581,19 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64 && field_64->field_C == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C == this;
     }
     
     // Inlined 0x41E460
     bool sub_41E460()
     {
-        return field_64 && field_64->field_8 == this;
+        return field_64_pTrailer && field_64_pTrailer->field_8 == this;
     }
 
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64 && field_64->field_C == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
@@ -634,14 +631,14 @@ class Car_BC
     Sprite_18* field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;
-    Car_Door_10 field_C[4];
+    Car_Door_10 field_C_doors[4];
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     Car_B0* field_58_uni_Car78_or_Car_B0;
     Car_78* field_5C;
     Hamburger_40* field_60;
-    Car_A4_10* field_64;
+    Car_A4_10* field_64_pTrailer;
     s32 field_68;
     s32 field_6C_maybe_id;
     s32 field_70;
