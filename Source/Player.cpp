@@ -91,10 +91,44 @@ char_type Player::HasAnyAmmo_564940()
     return 0;
 }
 
-STUB_FUNC(0x564960)
-char_type Player::sub_564960(s32 a2, u8 a3)
+MATCH_FUNC(0x564960)
+char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
 {
-    return 'a';
+    Ped* pPed;
+    bool bHasAnyAmmo;
+    char bAmmoAdded;
+
+    if (this->field_68 == 2)
+    {
+        pPed = this->field_2C8_unkq;
+    }
+    else
+    {
+        pPed = this->field_2C4_player_ped;
+    }
+
+    if (pPed->field_16C_car)
+    {
+        bHasAnyAmmo = 0;
+    }
+    else
+    {
+        bHasAnyAmmo = HasAnyAmmo_564940() == 0;
+    }
+
+    bAmmoAdded = field_718[weapon_kind]->add_ammo_capped_5DCE40(ammo);
+    if (!this->field_31)
+    {
+        if (bAmmoAdded)
+        {
+            if (bHasAnyAmmo)
+            {
+                this->field_788_idx = weapon_kind;
+            }
+        }
+    }
+
+    return bAmmoAdded;
 }
 
 STUB_FUNC(0x5649D0)
