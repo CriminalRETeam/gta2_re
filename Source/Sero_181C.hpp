@@ -5,14 +5,15 @@
 class Car_BC;
 class gmp_map_zone;
 
-class Sero_58
+
+class Train_58
 {
   public:
     EXPORT void sub_578030();
     EXPORT void sub_578180();
     EXPORT void sub_5781F0();
-    EXPORT Sero_58();
-    EXPORT ~Sero_58();
+    EXPORT Train_58();
+    EXPORT ~Train_58();
     EXPORT void sub_5782D0();
     EXPORT void sub_578300();
     EXPORT void sub_578330();
@@ -73,8 +74,8 @@ class TrainStation_34
 class Sero_181C
 {
   public:
-    EXPORT Sero_58* sub_578790();
-    EXPORT TrainStation_34* sub_5787E0();
+    EXPORT Train_58* sub_578790();
+    EXPORT TrainStation_34* AllocateTrainStation_5787E0();
     EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
     EXPORT void sub_578860();
     EXPORT char_type sub_5793E0();
@@ -91,17 +92,17 @@ class Sero_181C
     EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
     EXPORT void sub_579CA0();
     EXPORT void sub_57A7A0();
-    EXPORT TrainStation_34* sub_57B4B0(gmp_map_zone* pZone);
+    EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
     EXPORT Car_BC* sub_57B540(Car_BC* a2);
-    EXPORT Sero_58* sub_57B5C0(Car_BC* a2);
-    EXPORT Sero_58* sub_57B6A0(Car_BC* a2);
+    EXPORT Train_58* sub_57B5C0(Car_BC* a2);
+    EXPORT Train_58* sub_57B6A0(Car_BC* a2);
     EXPORT bool sub_57B740(Car_BC* a2, Car_BC* a3);
     EXPORT Sero_181C();
     EXPORT ~Sero_181C();
 
     TrainStation_34 field_0[100];
-    Sero_58 field_1450[10];
-    Sero_58 field_17C0;
+    Train_58 field_1450[10];
+    Train_58 field_17C0;
     char_type field_1818_stop_getting_off_bus;
     char_type field_1819;
     char_type field_181A;

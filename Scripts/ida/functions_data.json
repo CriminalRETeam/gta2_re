@@ -13385,57 +13385,57 @@
         "v105_address": "0x578010"
     },
     {
-        "name": "Sero_58::sub_578030",
+        "name": "Train_58::sub_578030",
         "v96f_address": null,
         "v105_address": "0x578030"
     },
     {
-        "name": "Sero_58::sub_578180",
+        "name": "Train_58::sub_578180",
         "v96f_address": null,
         "v105_address": "0x578180"
     },
     {
-        "name": "Sero_58::sub_5781F0",
+        "name": "Train_58::sub_5781F0",
         "v96f_address": null,
         "v105_address": "0x5781f0"
     },
     {
-        "name": "Sero_58::ctor",
+        "name": "Train_58::ctor",
         "v96f_address": "0x4af220",
         "v105_address": "0x578260"
     },
     {
-        "name": "Sero_58::dtor",
+        "name": "Train_58::dtor",
         "v96f_address": "0x4af280",
         "v105_address": "0x5782c0"
     },
     {
-        "name": "Sero_58::sub_5782D0",
+        "name": "Train_58::sub_5782D0",
         "v96f_address": null,
         "v105_address": "0x5782d0"
     },
     {
-        "name": "Sero_58::sub_578300",
+        "name": "Train_58::sub_578300",
         "v96f_address": null,
         "v105_address": "0x578300"
     },
     {
-        "name": "Sero_58::sub_578330",
+        "name": "Train_58::sub_578330",
         "v96f_address": null,
         "v105_address": "0x578330"
     },
     {
-        "name": "Sero_58::sub_578360",
+        "name": "Train_58::sub_578360",
         "v96f_address": null,
         "v105_address": "0x578360"
     },
     {
-        "name": "Sero_58::sub_578390",
+        "name": "Train_58::sub_578390",
         "v96f_address": null,
         "v105_address": "0x578390"
     },
     {
-        "name": "Sero_58::sub_578670",
+        "name": "Train_58::sub_578670",
         "v96f_address": null,
         "v105_address": "0x578670"
     },
@@ -13445,7 +13445,7 @@
         "v105_address": "0x578790"
     },
     {
-        "name": "Sero_181C::sub_5787E0",
+        "name": "Sero_181C::AllocateTrainStation_5787E0",
         "v96f_address": null,
         "v105_address": "0x5787e0"
     },
@@ -13530,7 +13530,7 @@
         "v105_address": "0x57a7a0"
     },
     {
-        "name": "Sero_181C::sub_57B4B0",
+        "name": "Sero_181C::TrainStationForZone_57B4B0",
         "v96f_address": null,
         "v105_address": "0x57b4b0"
     },

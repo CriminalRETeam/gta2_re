@@ -842,13 +842,13 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
     {
         str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_platform);
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0((const char*)&StringById_503080[1]);
-        TrainStation_34* v4 = gSero_181C_6FF1D4->sub_57B4B0(station_zone);
+        TrainStation_34* pStation = gSero_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
         {
             if (wagon_idx < pCmd->field_A_num_passenger)
             {
-                v4->field_24_train_wagons[wagon_idx] = 1; // passenger wagon
+                pStation->field_24_train_wagons[wagon_idx] = 1; // passenger wagon
             }
             else
             {
@@ -857,18 +857,18 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
 
                 if (wagon_idx < num_passenger + num_freight)
                 {
-                    v4->field_24_train_wagons[wagon_idx] = 2; // freight wagon
+                    pStation->field_24_train_wagons[wagon_idx] = 2; // freight wagon
                 }
                 else
                 {
                     if (wagon_idx < num_passenger + num_freight + pCmd->field_C_num_boxcar)
                     {
-                        v4->field_24_train_wagons[wagon_idx] = 3; // boxcar wagon
+                        pStation->field_24_train_wagons[wagon_idx] = 3; // boxcar wagon
                     }
                 }
             }
         }
-        v4->field_2E_wagons_number = pCmd->field_A_num_passenger + pCmd->field_B_num_freight + pCmd->field_C_num_boxcar;
+        pStation->field_2E_wagons_number = pCmd->field_A_num_passenger + pCmd->field_B_num_freight + pCmd->field_C_num_boxcar;
     }
 }
 
@@ -888,7 +888,7 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
         StringById = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
         const char* station_zone_name = (const char*)&StringById[1];
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0(station_zone_name);
-        Sero_181C* v3 = (Sero_181C*)gSero_181C_6FF1D4->sub_57B4B0(station_zone);
+        Sero_181C* v3 = (Sero_181C*)gSero_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
         v3->sub_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
     }
 }
