@@ -1378,9 +1378,24 @@ char_type Car_BC::sub_43BD40()
 }
 
 STUB_FUNC(0x43bf10)
-s32 Car_BC::sub_43BF10()
+void Car_BC::sub_43BF10()
 {
-    return 0;
+    if ((this->field_A4 & 8) != 0)
+    {
+        this->field_A4 |= 1u;
+    }
+    else
+    {
+        if (!this->field_8.mask_bit(2))
+        {
+            this->field_8.set_bit(5);
+        }
+        if (!this->field_8.mask_bit(1))
+        {
+            this->field_8.set_bit(22);
+        }
+        this->field_A4 |= 1u;
+    }
 }
 
 MATCH_FUNC(0x43bf70)
@@ -1389,7 +1404,7 @@ void Car_BC::sub_43BF70()
     if ((this->field_A4 & 8) == 0)
     {
         this->field_8.clear_bit(5);
-        this->field_8 .clear_bit(22);
+        this->field_8.clear_bit(22);
     }
     this->field_A4 &= ~1u;
 }
