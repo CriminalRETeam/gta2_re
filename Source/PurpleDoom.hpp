@@ -7,7 +7,7 @@ class Object_3C;
 
 struct PurpleDoom_C
 {
-    u32 field_0;
+    u32 field_0_x_len;
     s32 field_4_pObj_uni;
     PurpleDoom_C *field_8_pNext;
 };
@@ -41,9 +41,9 @@ class PurpleDoom
     EXPORT char_type sub_4787E0(u32 a2, u32* a3);
     EXPORT s32 sub_478880(u32 a2, u32* a3);
     EXPORT void sub_478950(s32 a2, s32 a3);
-    EXPORT PurpleDoom* sub_4789F0();
+    EXPORT PurpleDoom* Clear_4789F0();
 
-    PurpleDoom_C* field_0[256];
+    PurpleDoom_C* field_0[256]; // y cols with links to x rows, x is sparse to save mem? (whole map is 256x265)
 };
 
 EXPORT_VAR extern PurpleDoom* gPurpleDoom_1_679208;

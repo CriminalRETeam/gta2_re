@@ -156,7 +156,7 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
     }
     for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
     {
-        f0 = (u8)pIter->field_0;
+        f0 = (u8)pIter->field_0_x_len;
         if (f0 >= dword_6F5FD4)
         {
             break;
@@ -199,7 +199,7 @@ void PurpleDoom::sub_478950(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x4789f0)
-PurpleDoom* PurpleDoom::sub_4789F0()
+PurpleDoom* PurpleDoom::Clear_4789F0()
 {
     return 0;
 }

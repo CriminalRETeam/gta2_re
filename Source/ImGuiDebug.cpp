@@ -72,7 +72,11 @@ void CC ImGuiDebugDraw()
     {
         if (gViewCamera_676978)
         {
-            
+            ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_win_left.ToFloat());
+            ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
+            ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
+            ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+
         }
         ImGui::TreePop();
     }
