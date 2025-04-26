@@ -115,13 +115,14 @@ void CC ImGuiDebugDraw()
                                                              scale);
 
                 //pPlayerPed->sub_46F650(weapon_type::flamethrower);
-                pNewCar->sub_43D690(0, 0, 0);
 
                 Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
                                                           pPlayerSprite->field_18_ypos,
                                                           pPlayerSprite->field_1C_zpos,
                                                           pPlayerChar->field_5_remap,
                                                           pPlayerPed->field_134);
+
+                gChar_C_6787BC->sub_470E30();
 
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }

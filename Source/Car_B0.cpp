@@ -152,16 +152,55 @@ u32* Car_B0::sub_55A100(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x55a150)
-char_type Car_B0::sub_55A150()
+MATCH_FUNC(0x55a150)
+char_type Car_B0::IsFootBrakeOn_55A150()
 {
-    return 0;
+    char_type bFootBrakeOn;
+
+    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (pTrailer)
+    {
+        Car_B0* pPhysics = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        if (pPhysics)
+        {
+            bFootBrakeOn = pPhysics->field_91_is_foot_brake_on;
+        }
+        else
+        {
+            bFootBrakeOn = 0;
+        }
+    }
+    else
+    {
+        return this->field_91_is_foot_brake_on;
+    }
+    return bFootBrakeOn;
 }
 
 STUB_FUNC(0x55a180)
 char_type Car_B0::sub_55A180()
 {
-    return 0;
+    Car_A4_10* pTrailer; // eax
+    Car_B0* pB0; // eax
+
+    pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (pTrailer)
+    {
+        pB0 = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        if (!pB0)
+        {
+            return 0;
+        }
+        if (!pB0->field_93_is_forward_gas_on && !pB0->field_94_is_backward_gas_on)
+        {
+            return 0;
+        }
+    }
+    else if (!this->field_93_is_forward_gas_on && !this->field_94_is_backward_gas_on)
+    {
+        return 0;
+    }
+    return 1;
 }
 
 STUB_FUNC(0x55a1d0)

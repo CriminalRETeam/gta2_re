@@ -1659,10 +1659,17 @@ s32 Car_BC::sub_440660(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x4406b0)
-u8* Car_BC::sub_4406B0(Ped* a2)
+MATCH_FUNC(0x4406b0)
+void Car_BC::ShowCarName_4406B0(Ped* pPed)
 {
-    return 0;
+    Player* pPlayer = pPed->field_15C_player;
+    if (pPlayer)
+    {
+        if (pPlayer->field_0)
+        {
+            gGarox_2B00_706620->sub_5D5240(GetCarStr_439F80());
+        }
+    }
 }
 
 STUB_FUNC(0x4406e0)
@@ -1797,7 +1804,7 @@ MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
     Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
-    if (pB0 && pB0->sub_55A150())
+    if (pB0 && pB0->IsFootBrakeOn_55A150())
     {
         sub_43BF10();
     }

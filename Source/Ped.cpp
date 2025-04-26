@@ -451,7 +451,6 @@ void Ped::sub_45C5C0()
 STUB_FUNC(0x45C650)
 void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
 {
-
 }
 
 STUB_FUNC(0x45c730)
@@ -1135,9 +1134,13 @@ s32 Ped::sub_469D60()
     return 0;
 }
 
-STUB_FUNC(0x469e10)
+MATCH_FUNC(0x469e10)
 void Ped::sub_469E10()
 {
+    if (!this->field_218_objective_timer)
+    {
+        this->field_225 = 2;
+    }
 }
 
 STUB_FUNC(0x469e30)

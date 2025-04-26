@@ -11,9 +11,9 @@ void Hamburger_40::sub_4747B0()
     field_0 = 0;
     field_10 = 0;
     field_8 = 0;
-    field_14 = dword_678D0C;
-    field_18 = dword_678D0C;
-    field_1C = dword_678D0C;
+    field_14_target_x = dword_678D0C;
+    field_18_target_y = dword_678D0C;
+    field_1C_target_z = dword_678D0C;
     field_20 = 0;
     field_21 = 0;
     field_22 = 1;

@@ -1920,7 +1920,7 @@
         "v105_address": "0x440660"
     },
     {
-        "name": "Car_BC::sub_4406B0",
+        "name": "Car_BC::ShowCarName_4406B0",
         "v96f_address": null,
         "v105_address": "0x4406b0"
     },
@@ -12080,7 +12080,7 @@
         "v105_address": "0x55a100"
     },
     {
-        "name": "Car_B0::sub_55A150",
+        "name": "Car_B0::IsFootBrakeOn_55A150",
         "v96f_address": null,
         "v105_address": "0x55a150"
     },
@@ -13370,82 +13370,82 @@
         "v105_address": "0x577ee0"
     },
     {
-        "name": "Sero_34::sub_577F80",
+        "name": "TrainStation_34::GetWagonType_577f80",
         "v96f_address": "0x4af170",
         "v105_address": "0x577f80"
     },
     {
-        "name": "Sero_34::ctor",
+        "name": "TrainStation_34::ctor",
         "v96f_address": null,
         "v105_address": "0x577fd0"
     },
     {
-        "name": "Sero_34::dtor",
+        "name": "TrainStation_34::dtor",
         "v96f_address": null,
         "v105_address": "0x578010"
     },
     {
-        "name": "Sero_58::sub_578030",
+        "name": "Train_58::sub_578030",
         "v96f_address": null,
         "v105_address": "0x578030"
     },
     {
-        "name": "Sero_58::sub_578180",
+        "name": "Train_58::sub_578180",
         "v96f_address": null,
         "v105_address": "0x578180"
     },
     {
-        "name": "Sero_58::sub_5781F0",
+        "name": "Train_58::sub_5781F0",
         "v96f_address": null,
         "v105_address": "0x5781f0"
     },
     {
-        "name": "Sero_58::ctor",
+        "name": "Train_58::ctor",
         "v96f_address": "0x4af220",
         "v105_address": "0x578260"
     },
     {
-        "name": "Sero_58::dtor",
+        "name": "Train_58::dtor",
         "v96f_address": "0x4af280",
         "v105_address": "0x5782c0"
     },
     {
-        "name": "Sero_58::sub_5782D0",
+        "name": "Train_58::sub_5782D0",
         "v96f_address": null,
         "v105_address": "0x5782d0"
     },
     {
-        "name": "Sero_58::sub_578300",
+        "name": "Train_58::sub_578300",
         "v96f_address": null,
         "v105_address": "0x578300"
     },
     {
-        "name": "Sero_58::sub_578330",
+        "name": "Train_58::sub_578330",
         "v96f_address": null,
         "v105_address": "0x578330"
     },
     {
-        "name": "Sero_58::sub_578360",
+        "name": "Train_58::sub_578360",
         "v96f_address": null,
         "v105_address": "0x578360"
     },
     {
-        "name": "Sero_58::sub_578390",
+        "name": "Train_58::sub_578390",
         "v96f_address": null,
         "v105_address": "0x578390"
     },
     {
-        "name": "Sero_58::sub_578670",
+        "name": "Train_58::sub_578670",
         "v96f_address": null,
         "v105_address": "0x578670"
     },
     {
-        "name": "Sero_181C::sub_578790",
+        "name": "Sero_181C::AllocateTrain_578790",
         "v96f_address": null,
         "v105_address": "0x578790"
     },
     {
-        "name": "Sero_181C::sub_5787E0",
+        "name": "Sero_181C::AllocateTrainStation_5787E0",
         "v96f_address": null,
         "v105_address": "0x5787e0"
     },
@@ -13530,7 +13530,7 @@
         "v105_address": "0x57a7a0"
     },
     {
-        "name": "Sero_181C::sub_57B4B0",
+        "name": "Sero_181C::TrainStationForZone_57B4B0",
         "v96f_address": null,
         "v105_address": "0x57b4b0"
     },
@@ -13540,7 +13540,7 @@
         "v105_address": "0x57b540"
     },
     {
-        "name": "Sero_181C::sub_57B5C0",
+        "name": "Sero_181C::GetTrainFromCar_57B5C0",
         "v96f_address": null,
         "v105_address": "0x57b5c0"
     },

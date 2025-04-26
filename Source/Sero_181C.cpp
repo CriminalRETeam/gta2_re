@@ -26,22 +26,70 @@ char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
 }
 
 STUB_FUNC(0x578030)
-void Sero_58::sub_578030()
+void Train_58::sub_578030()
 {
 }
 
-STUB_FUNC(0x578180)
-void Sero_58::sub_578180()
+MATCH_FUNC(0x578180)
+void Train_58::sub_578180()
 {
+    if (!bSkip_trains_67D550)
+    {
+        switch (this->field_50)
+        {
+            case 0:
+                this->field_50 = 1;
+                break;
+            case 1:
+                sub_578030();
+                this->field_50 = 2;
+                break;
+            case 2:
+                this->field_50 = 3;
+                break;
+            case 3:
+                this->field_50 = 4;
+                break;
+            case 4:
+                this->field_50 = 5;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
-STUB_FUNC(0x5781f0)
-void Sero_58::sub_5781F0()
+MATCH_FUNC(0x5781f0)
+void Train_58::sub_5781F0()
 {
+    if (!bSkip_trains_67D550)
+    {
+        switch (this->field_50)
+        {
+            case 1:
+                this->field_50 = 0;
+                break;
+            case 2:
+                sub_578030();
+                this->field_50 = 1;
+                break;
+            case 3:
+                this->field_50 = 2;
+                break;
+            case 4:
+                this->field_50 = 3;
+                break;
+            case 5:
+                this->field_50 = 4;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 MATCH_FUNC(0x578260)
-Sero_58::Sero_58()
+Train_58::Train_58()
 {
     Car_BC** ppCVar1;
     char* pcVar2;
@@ -77,14 +125,14 @@ Sero_58::Sero_58()
 }
 
 MATCH_FUNC(0x5782c0)
-Sero_58::~Sero_58()
+Train_58::~Train_58()
 {
     this->field_C_first_carriage = 0;
     this->field_4C = 0;
 }
 
 MATCH_FUNC(0x5782d0)
-void Sero_58::sub_5782D0()
+void Train_58::sub_5782D0()
 {
     if (!bSkip_trains_67D550)
     {
@@ -100,7 +148,7 @@ void Sero_58::sub_5782D0()
 }
 
 MATCH_FUNC(0x578300)
-void Sero_58::sub_578300()
+void Train_58::sub_578300()
 {
     if (!bSkip_trains_67D550)
     {
@@ -113,29 +161,55 @@ void Sero_58::sub_578300()
     }
 }
 
-STUB_FUNC(0x578330)
-void Sero_58::sub_578330()
+MATCH_FUNC(0x578330)
+void Train_58::sub_578330()
 {
+    if (!bSkip_trains_67D550)
+    {
+        for (s32 i = 0; i < 2; i++)
+        {
+            if (field_10[i])
+            {
+                if (field_10[i]->field_84_car_info_idx == car_model_enum::TRAIN)
+                {
+                    field_10[i]->sub_43B3D0();
+                }
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x578360)
-void Sero_58::sub_578360()
+MATCH_FUNC(0x578360)
+void Train_58::sub_578360()
 {
+    if (!bSkip_trains_67D550)
+    {
+        for (s32 i = 0; i < 2; i++)
+        {
+            if (field_10[i])
+            {
+                if (field_10[i]->field_84_car_info_idx == car_model_enum::TRAIN)
+                {
+                    field_10[i]->sub_43B380();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x578390)
-void Sero_58::sub_578390()
+void Train_58::sub_578390()
 {
 }
 
 STUB_FUNC(0x578670)
-u8 Sero_58::sub_578670()
+u8 Train_58::sub_578670()
 {
     return 0;
 }
 
 MATCH_FUNC(0x577f80)
-s32 Sero_34::sub_577f80(u8 idx)
+s32 TrainStation_34::GetWagonType_577f80(u8 idx)
 {
     if (field_24_train_wagons[0] != 0)
     {
@@ -153,7 +227,7 @@ s32 Sero_34::sub_577f80(u8 idx)
 }
 
 MATCH_FUNC(0x577fd0)
-Sero_34::Sero_34()
+TrainStation_34::TrainStation_34()
 {
     field_0_bus_or_train = 0;
     field_4_entry_point = NULL;
@@ -174,7 +248,7 @@ Sero_34::Sero_34()
 }
 
 MATCH_FUNC(0x578010)
-Sero_34::~Sero_34()
+TrainStation_34::~TrainStation_34()
 {
     field_18 = 0;
     field_4_entry_point = NULL;
@@ -185,7 +259,7 @@ Sero_34::~Sero_34()
 }
 
 MATCH_FUNC(0x578790)
-Sero_58* Sero_181C::sub_578790()
+Train_58* Sero_181C::AllocateTrain_578790()
 {
     if (bSkip_trains_67D550)
     {
@@ -203,7 +277,7 @@ Sero_58* Sero_181C::sub_578790()
 }
 
 MATCH_FUNC(0x5787e0)
-Sero_34* Sero_181C::sub_5787E0()
+TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 {
     for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
@@ -215,9 +289,26 @@ Sero_34* Sero_181C::sub_5787E0()
     return 0;
 }
 
+// NOTE: Declared out of order
 STUB_FUNC(0x578820)
-void Sero_181C::sub_578820(u8* a2)
+void TrainStation_34::sub_578820(u8* a2)
 {
+    if (!bSkip_trains_67D550)
+    {
+        u8 i;
+        for (i = 0; i < 10; i++)
+        {
+            field_24_train_wagons[i] = a2[i];
+        }
+
+        for (i = 0; i < 10; i++)
+        {
+            if (field_24_train_wagons[i])
+            {
+                field_2E_wagons_number++;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x578860)
@@ -323,10 +414,18 @@ void Sero_181C::sub_579B20()
     }
 }
 
-STUB_FUNC(0x579b40)
+MATCH_FUNC(0x579b40)
 Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
 {
-    return 0;
+    for (u8 i = 0; i < GTA2_COUNTOF(field_1450); i++)
+    {
+        Train_58* pIter = &field_1450[i];
+        if (pIter->field_C_first_carriage == toFind)
+        {
+            return &pIter->field_10[0];
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x579b90)
@@ -346,9 +445,9 @@ void Sero_181C::sub_57A7A0()
 }
 
 MATCH_FUNC(0x57b4b0)
-Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
+TrainStation_34* Sero_181C::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
 {
-    Sero_34* pIter = &field_0[0];
+    TrainStation_34* pIter = &field_0[0];
     for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         if (pIter->field_10_pZone == pZone)
@@ -367,7 +466,7 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
         (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 ||
          a2->field_84_car_info_idx == 6))
     {
-        return sub_57B5C0(a2)->field_C_first_carriage;
+        return GetTrainFromCar_57B5C0(a2)->field_C_first_carriage;
     }
     else
     {
@@ -376,20 +475,35 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 }
 
 STUB_FUNC(0x57b5c0)
-Sero_58* Sero_181C::sub_57B5C0(Car_BC* a2)
+Train_58* Sero_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 {
     return 0;
 }
 
 STUB_FUNC(0x57b6a0)
-Sero_58* Sero_181C::sub_57B6A0(Car_BC* a2)
+Train_58* Sero_181C::sub_57B6A0(Car_BC* a2)
 {
     return 0;
 }
 
-STUB_FUNC(0x57b740)
-bool Sero_181C::sub_57B740(Car_BC* a2, Car_BC* a3)
+static inline bool IsTrainModel(s32 idx1)
 {
+    return idx1 == car_model_enum::TRAIN || idx1 == car_model_enum::TRAINCAB || idx1 == car_model_enum::TRAINFB ||
+        idx1 == car_model_enum::boxcar;
+}
+
+MATCH_FUNC(0x57b740)
+bool Sero_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
+{
+    if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
+    {
+        Train_58* pTrain1 = GetTrainFromCar_57B5C0(pCar1);
+        Train_58* pTrain2 = GetTrainFromCar_57B5C0(pCar2);
+        if (pTrain1->field_57 != pTrain2->field_57)
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
