@@ -1797,7 +1797,7 @@ MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
     Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
-    if (pB0 && pB0->sub_55A150())
+    if (pB0 && pB0->IsFootBrakeOn_55A150())
     {
         sub_43BF10();
     }

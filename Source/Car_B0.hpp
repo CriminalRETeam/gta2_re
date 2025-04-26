@@ -33,7 +33,7 @@ class Car_B0
     EXPORT u32* sub_55A050(u32* a2);
     EXPORT s32 sub_55A0B0();
     EXPORT u32* sub_55A100(u32* a2);
-    EXPORT char_type sub_55A150();
+    EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type sub_55A180();
     EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
     EXPORT void sub_55A400();
