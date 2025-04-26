@@ -42,7 +42,7 @@ class Car_B0
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
     EXPORT void sub_55A840();
-    EXPORT char_type sub_55A860(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6);
+    EXPORT char_type sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void sub_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
     EXPORT s32 sub_55AD90(Sprite_4C* a2);

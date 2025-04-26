@@ -419,7 +419,7 @@ class Car_BC
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
     EXPORT bool sub_43B2B0(Ped* a2);
-    EXPORT Car_Door_10* sub_43B340(u8 a2);
+    EXPORT Car_Door_10* GetDoor(u8 door_idx);
     EXPORT char_type GetRemap();
     EXPORT void sub_43B380();
     EXPORT char_type sub_43B3D0();
@@ -631,7 +631,7 @@ class Car_BC
     Sprite_18* field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8;
-    Car_Door_10 field_C[4];
+    Car_Door_10 field_C_doors[4];
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;

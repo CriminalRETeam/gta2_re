@@ -701,7 +701,7 @@ char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, 
 MATCH_FUNC(0x5c8750)
 void Car_214::sub_5C8750()
 {
-    field_210_count = 0;    
+    field_210_count = 0;
     Car_18* pOff = &field_0[0];
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
@@ -1149,9 +1149,28 @@ void Car_BC::sub_43A970()
     pB0->field_95 = 0;
 }
 
-STUB_FUNC(0x43a9a0)
-void Car_BC::SetDriver(Ped* a2)
+MATCH_FUNC(0x43a9a0)
+void Car_BC::SetDriver(Ped* pNewDriver)
 {
+    char hand_brake_on; // [esp+Ch] [ebp+4h]
+    if (!pNewDriver)
+    {
+        Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
+        if (pB0)
+        {
+            Ped* pOldDriver = this->field_54_driver;
+            if (pOldDriver && pOldDriver->field_15C_player)
+            {
+                hand_brake_on = pB0->field_92_is_hand_brake_on;
+            }
+            else
+            {
+                hand_brake_on = 1;
+            }
+            pB0->sub_55A860(0, 0, 0, 0, hand_brake_on);
+        }
+    }
+    this->field_54_driver = pNewDriver;
 }
 
 STUB_FUNC(0x43a9f0)
@@ -1217,9 +1236,9 @@ bool Car_BC::sub_43B2B0(Ped* a2)
 }
 
 MATCH_FUNC(0x43b340)
-Car_Door_10* Car_BC::sub_43B340(u8 a2)
+Car_Door_10* Car_BC::GetDoor(u8 door_idx)
 {
-    return &field_C[a2];
+    return &field_C_doors[door_idx];
 }
 
 MATCH_FUNC(0x43b360)
@@ -1819,7 +1838,7 @@ char_type Car_BC::sub_441A40()
         {
             return 0;
         }*/
-        switch (field_C[i].field_4_state)
+        switch (field_C_doors[i].field_4_state)
         {
             case 1:
             case 2:
@@ -1843,9 +1862,9 @@ char_type Car_BC::sub_441A70()
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    Car_Door_10* pIter = field_C;
+    Car_Door_10* pIter = field_C_doors;
     s32 tmp;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_C); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
     {
         pIter->sub_439DA0(&tmp);
         pIter++;

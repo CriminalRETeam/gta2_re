@@ -179,7 +179,7 @@ void Car_B0::sub_55A840()
 }
 
 STUB_FUNC(0x55a860)
-char_type Car_B0::sub_55A860(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
+char_type Car_B0::sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
 {
     return 0;
 }
