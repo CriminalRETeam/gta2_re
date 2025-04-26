@@ -15,16 +15,16 @@ class Hamburger_40
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Ped* field_4;
+    Ped* field_4; // owner/thing going to the target
     s32 field_8;
     s32 field_C;
     char_type field_10;
     char_type field_11;
     char_type field_12;
     char_type field_13;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    s32 field_14_target_x;
+    s32 field_18_target_y;
+    s32 field_1C_target_z;
     char_type field_20;
     char_type field_21;
     char_type field_22;
