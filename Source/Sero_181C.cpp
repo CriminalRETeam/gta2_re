@@ -161,9 +161,22 @@ void Train_58::sub_578300()
     }
 }
 
-STUB_FUNC(0x578330)
+MATCH_FUNC(0x578330)
 void Train_58::sub_578330()
 {
+    if (!bSkip_trains_67D550)
+    {
+        for (s32 i = 0; i < 2; i++)
+        {
+            if (field_10[i])
+            {
+                if (field_10[i]->field_84_car_info_idx == car_model_enum::TRAIN)
+                {
+                    field_10[i]->sub_43B3D0();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x578360)
