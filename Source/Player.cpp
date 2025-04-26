@@ -79,7 +79,7 @@ void Player::sub_564910(Weapon_30* a2)
 }
 
 MATCH_FUNC(0x564940)
-char_type Player::sub_564940()
+char_type Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {

@@ -28,7 +28,7 @@ class Player
     EXPORT void sub_5647D0();
     EXPORT Weapon_30* sub_5648F0();
     EXPORT void sub_564910(Weapon_30* a2);
-    EXPORT char_type sub_564940();
+    EXPORT char_type HasAnyAmmo_564940();
     EXPORT char_type sub_564960(s32 a2, u8 a3);
     EXPORT u16 sub_5649D0(char_type a2, char_type a3);
     EXPORT void sub_564AD0(Car_BC* a2);

@@ -138,7 +138,7 @@ void force_link()
     lewin.sub_5647D0();
     lewin.sub_5648F0();
     lewin.sub_564910(0);
-    lewin.sub_564940();
+    lewin.HasAnyAmmo_564940();
     lewin.sub_564960(0, 0);
     lewin.sub_5649D0(0, 0);
     lewin.sub_564AD0(0);

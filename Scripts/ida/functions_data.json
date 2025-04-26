@@ -12635,7 +12635,7 @@
         "v105_address": "0x564910"
     },
     {
-        "name": "Player::sub_564940",
+        "name": "Player::HasAnyAmmo_564940",
         "v96f_address": null,
         "v105_address": "0x564940"
     },
