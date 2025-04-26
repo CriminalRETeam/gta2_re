@@ -182,7 +182,7 @@ class Player
     DrawUnk_0xBC field_208_aux_game_camera;
     Ped* field_2C4_player_ped;
     Ped* field_2C8_unkq;
-    s32 field_2CC;
+    Car_BC* field_2CC;
     char_type field_2D0;
     char_type field_2D1;
     char_type field_2D2;

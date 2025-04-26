@@ -614,6 +614,18 @@ char_type Player::sub_569600(Car_BC* a2)
 STUB_FUNC(0x5696D0)
 void Player::sub_5696D0(Car_BC* pCar)
 {
+    if (!this->field_2D0 && !this->field_2C8_unkq && !this->field_2CC)
+    {
+        this->field_2CC = pCar;
+        this->field_208_aux_game_camera.sub_4364A0(pCar);
+        this->field_208_aux_game_camera.field_0 = this->field_208_aux_game_camera.field_10;
+        this->field_208_aux_game_camera.field_4_unk = this->field_208_aux_game_camera.field_14;
+        this->field_208_aux_game_camera.field_8 = this->field_208_aux_game_camera.field_18;
+        this->field_208_aux_game_camera.field_C = this->field_208_aux_game_camera.field_1C;
+        this->field_208_aux_game_camera.sub_435DD0();
+        this->field_68 = 3;
+        this->field_2D0 = 1;
+    }
 }
 
 STUB_FUNC(0x569840)
