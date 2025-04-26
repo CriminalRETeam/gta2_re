@@ -92,12 +92,12 @@ EXPORT unsigned __int64 get_rdtsc_5BEE90()
 }
 
 MATCH_FUNC(0x495510)
-void Montana::sub_495510(Sprite* a2)
+void Montana::DisplayAdd_495510(Sprite* pSprite)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
-    if (a2->field_1C_zpos >= dword_67B434)
+    if (pSprite->field_1C_zpos >= dword_67B434)
     {
-        field_0_cols[a2->sub_5A1BD0()]->sub_5C5CF0(a2);
+        field_0_cols[pSprite->sub_5A1BD0()]->sub_5C5CF0(pSprite);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }
