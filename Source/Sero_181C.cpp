@@ -466,7 +466,7 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
         (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 ||
          a2->field_84_car_info_idx == 6))
     {
-        return sub_57B5C0(a2)->field_C_first_carriage;
+        return GetTrainFromCar_57B5C0(a2)->field_C_first_carriage;
     }
     else
     {
@@ -475,7 +475,7 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 }
 
 STUB_FUNC(0x57b5c0)
-Train_58* Sero_181C::sub_57B5C0(Car_BC* a2)
+Train_58* Sero_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 {
     return 0;
 }
