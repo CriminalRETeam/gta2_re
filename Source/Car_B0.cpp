@@ -676,7 +676,7 @@ bool Car_B0::sub_5636E0()
 }
 
 MATCH_FUNC(0x5637a0)
-void Car_B0::sub_5637A0()
+void Car_B0::Init_5637A0()
 {
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
@@ -714,24 +714,34 @@ void Car_B0::sub_5637A0()
 }
 
 MATCH_FUNC(0x563890)
-void Car_B0::sub_563890()
+void Car_B0::Reset_563890()
 {
     field_30_cm1.reset();
     field_58_theta = DAT_0066AC08;
     field_38_cp1.reset();
     field_5C_pPrev = NULL;
-    sub_5637A0();
+    Init_5637A0();
     field_0_vel_read_only.reset();
 }
 
-STUB_FUNC(0x5638c0)
-void Car_B0::sub_5638C0(Car_BC* pBC)
+MATCH_FUNC(0x5638c0)
+void Car_B0::sub_5638C0(Car_BC* pCar)
 {
+    this->field_5C_pPrev = pCar;
+    Ped* pDriver = pCar->field_54_driver;
+    if (pDriver && pDriver->field_15C_player)
+    {
+        this->field_8C = 2;
+    }
+    else
+    {
+        this->field_8C = 1;
+    }
 }
 
 MATCH_FUNC(0x563900)
 Car_B0::Car_B0()
 {
     field_C_pNext = NULL;
-    sub_563890();
+    Reset_563890();
 }

@@ -12560,12 +12560,12 @@
         "v105_address": "0x5636e0"
     },
     {
-        "name": "Car_B0::sub_5637A0",
+        "name": "Car_B0::Init_5637A0",
         "v96f_address": null,
         "v105_address": "0x5637a0"
     },
     {
-        "name": "Car_B0::sub_563890",
+        "name": "Car_B0::Reset_563890",
         "v96f_address": null,
         "v105_address": "0x563890"
     },
