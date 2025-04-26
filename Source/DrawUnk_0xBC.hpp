@@ -49,9 +49,9 @@ class DrawUnk_0xBC
     // inline sub_40CF60
     inline bool check_camera(Fix16 a2_fp, Fix16 a3_fp)
     {
-        return a2_fp >= field_78 && a2_fp <= field_7C &&
-                 a3_fp >= field_80 &&
-                 a3_fp <= field_84;
+        return a2_fp >= field_78_win_left && a2_fp <= field_7C_win_right &&
+                 a3_fp >= field_80_win_top &&
+                 a3_fp <= field_84_win_bottom;
     }
 
     Fix16 field_0;
@@ -87,10 +87,10 @@ class DrawUnk_0xBC
     s32 field_6C;
     s32 field_70;
     s32 field_74;
-    Fix16 field_78;
-    Fix16 field_7C;
-    Fix16 field_80;
-    Fix16 field_84;
+    Fix16 field_78_win_left;
+    Fix16 field_7C_win_right;
+    Fix16 field_80_win_top;
+    Fix16 field_84_win_bottom;
     Fix16 field_88;
     Fix16 field_8C;
     Fix16 field_90;

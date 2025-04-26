@@ -709,7 +709,7 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
     DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (a3 >= pCam->field_78 && a3 <= pCam->field_7C && a4 >= pCam->field_80 && a4 <= pCam->field_84)
+        if (a3 >= pCam->field_78_win_left && a3 <= pCam->field_7C_win_right && a4 >= pCam->field_80_win_top && a4 <= pCam->field_84_win_bottom)
         {
             pCam->sub_436120(a2);
         }

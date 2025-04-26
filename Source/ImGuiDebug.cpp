@@ -68,6 +68,15 @@ void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
 
+    if (ImGui::TreeNode("gViewCamera_676978"))
+    {
+        if (gViewCamera_676978)
+        {
+            
+        }
+        ImGui::TreePop();
+    }
+
     if (ImGui::TreeNode("gCar_6C_677930"))
     {
         Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
