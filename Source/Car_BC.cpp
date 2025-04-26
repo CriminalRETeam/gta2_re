@@ -1737,9 +1737,40 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x441520)
+MATCH_FUNC(0x441520)
 void Car_BC::sub_441520()
 {
+    Car_B0* pB0;
+    switch (this->field_9C)
+    {
+        case 1:
+            pB0 = this->field_58_uni_Car78_or_Car_B0;
+            if (pB0)
+            {
+                if (pB0->sub_55A180())
+                {
+                    this->field_9C = 4;
+                }
+            }
+            break;
+        case 4:
+            sub_43BFE0();
+            this->field_9C = 3;
+            break;
+        case 2:
+            sub_43C0C0();
+            this->field_9C = 1;
+            break;
+        case 5:
+            sub_43C0C0();
+            this->field_9C = 6;
+            break;
+        case 7:
+            field_50_car_sprite->sub_59E300();
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x4415c0)
@@ -2527,7 +2558,7 @@ Car_BC::Car_BC()
     field_64_pTrailer = 0;
     field_78_flags = 0;
     // TODO
-    // Object_3C::sub_5A7010((Object_3C *)this);
+    ((Object_3C*)this)->sub_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
     field_A0 = 0;
