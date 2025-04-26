@@ -122,7 +122,8 @@ void CC ImGuiDebugDraw()
                                                           pPlayerChar->field_5_remap,
                                                           pPlayerPed->field_134);
 
-                pNewPed->sub_469E10();
+                gChar_C_6787BC->sub_470E30();
+
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }
         }
