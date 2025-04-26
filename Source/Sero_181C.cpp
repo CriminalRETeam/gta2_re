@@ -30,9 +30,33 @@ void Train_58::sub_578030()
 {
 }
 
-STUB_FUNC(0x578180)
+MATCH_FUNC(0x578180)
 void Train_58::sub_578180()
 {
+    if (!bSkip_trains_67D550)
+    {
+        switch (this->field_50)
+        {
+            case 0:
+                this->field_50 = 1;
+                break;
+            case 1:
+                sub_578030();
+                this->field_50 = 2;
+                break;
+            case 2:
+                this->field_50 = 3;
+                break;
+            case 3:
+                this->field_50 = 4;
+                break;
+            case 4:
+                this->field_50 = 5;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x5781f0)
@@ -216,7 +240,7 @@ TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 }
 
 // NOTE: Declared out of order
-MATCH_FUNC(0x578820)
+STUB_FUNC(0x578820)
 void TrainStation_34::sub_578820(u8* a2)
 {
     if (!bSkip_trains_67D550)
