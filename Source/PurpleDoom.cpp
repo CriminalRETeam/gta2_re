@@ -57,9 +57,16 @@ s32 PurpleDoom::sub_477B60(Sprite* a1)
     return 0;
 }
 
-STUB_FUNC(0x477ba0)
-void PurpleDoom::sub_477BA0()
+MATCH_FUNC(0x477ba0)
+void PurpleDoom::DebugLogAll_477BA0()
 {
+    for (s32 i = 0; i < 256; ++i)
+    {
+        for (s32 j = 0; j < 256; ++j)
+        {
+            DebugLog_478950(j, i);
+        }
+    }
 }
 
 STUB_FUNC(0x477bd0)
@@ -101,13 +108,11 @@ char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
 STUB_FUNC(0x478040)
 PurpleDoom::PurpleDoom()
 {
-
 }
 
 STUB_FUNC(0x478050)
 PurpleDoom::~PurpleDoom()
 {
-
 }
 
 STUB_FUNC(0x478160)
@@ -194,7 +199,7 @@ s32 PurpleDoom::sub_478880(u32 a2, u32* a3)
 }
 
 STUB_FUNC(0x478950)
-void PurpleDoom::sub_478950(s32 a2, s32 a3)
+void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
 }
 
