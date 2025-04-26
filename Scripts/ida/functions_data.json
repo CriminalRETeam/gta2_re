@@ -1920,7 +1920,7 @@
         "v105_address": "0x440660"
     },
     {
-        "name": "Car_BC::sub_4406B0",
+        "name": "Car_BC::ShowCarName_4406B0",
         "v96f_address": null,
         "v105_address": "0x4406b0"
     },
