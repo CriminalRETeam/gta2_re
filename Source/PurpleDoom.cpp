@@ -208,6 +208,7 @@ void PurpleDoom::sub_4784D0(s32 idx, Sprite* a3)
 {
 }
 
+// Get first XItem at y_pos
 MATCH_FUNC(0x478590)
 PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 {

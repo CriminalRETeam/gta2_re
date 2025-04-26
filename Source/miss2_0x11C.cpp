@@ -3002,7 +3002,7 @@ void miss2_0x11C::SCRCMD_CAR_DAMAGE_POS_50CDB0()
     v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     pCmd = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    if ((pCmd->field_8_car)->sub_43D1C0(v1->field_A_signed_2)) // field_A_signed_2 = damage pos
+    if ((pCmd->field_8_car)->IsAreaDamaged_43D1C0(v1->field_A_signed_2)) // field_A_signed_2 = damage pos
     {
         field_8 = true;
     }

@@ -1785,12 +1785,12 @@
         "v105_address": "0x43cdf0"
     },
     {
-        "name": "Car_BC::sub_43CF30",
+        "name": "Car_BC::DamageArea_43CF30",
         "v96f_address": null,
         "v105_address": "0x43cf30"
     },
     {
-        "name": "Car_BC::sub_43D1C0",
+        "name": "Car_BC::IsAreaDamaged_43D1C0",
         "v96f_address": null,
         "v105_address": "0x43d1c0"
     },

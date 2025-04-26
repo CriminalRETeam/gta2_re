@@ -682,3 +682,27 @@ enum
     line_of_sight_player_only_6 = 6,
 };
 } // namespace threat_search_enum
+
+namespace CarDamageAreas
+{
+enum
+{
+    FrontLeft_0 = 0x0,
+    FrontRight_1 = 0x1,
+    BackLeft_2 = 0x2,
+    BackRight_3 = 0x3,
+    Window_4 = 0x4,
+};
+} // namespace CarDamageAreas
+
+namespace CarDamageAreasFlags
+{
+enum
+{
+    FlagsBackRight_1 = 0x1,
+    FlagsBackLeft_2 = 0x2,
+    FlagsFrontLeft_4 = 0x4,
+    FlagsFrontRight_8 = 0x8,
+    FlagsWindow_10 = 0x10,
+};
+} // namespace CarDamageAreasFlags

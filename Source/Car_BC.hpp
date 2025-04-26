@@ -455,8 +455,8 @@ class Car_BC
     EXPORT s16 sub_43CA80();
     EXPORT s32 sub_43CBE0();
     EXPORT Car_BC* sub_43CDF0(char_type a2);
-    EXPORT char_type sub_43CF30(s32 a2);
-    EXPORT bool sub_43D1C0(s32 a2);
+    EXPORT void DamageArea_43CF30(s32 damage_area);
+    EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
     EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
@@ -630,7 +630,7 @@ class Car_BC
 
     Sprite_18* field_0_qq;
     Ped_Unknown_4 field_4;
-    BitSet32 field_8;
+    BitSet32 field_8_damaged_areas;
     Car_Door_10 field_C_doors[4];
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;

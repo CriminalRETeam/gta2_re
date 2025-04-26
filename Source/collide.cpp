@@ -75,15 +75,15 @@ GLOBAL(dword_678F84, 0x678F84);
 MATCH_FUNC(0x478a20)
 void Collide_C::sub_478A20()
 {
-    field_0 = 0;
+    field_0_count = 0;
 }
 
 MATCH_FUNC(0x478a30)
 Collide_C::Collide_C()
 {
-    field_0 = 0;
-    field_4 = 0;
-    field_8 = 0;
+    field_0_count = 0;
+    field_4_count = 0;
+    field_8_bUnknown = 0;
 
     gCollide_8004_679200 = new Collide_8004();
     if (!gCollide_8004_679200)
