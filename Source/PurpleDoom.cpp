@@ -19,9 +19,9 @@ EXPORT_VAR s32 dword_6F6108;
 GLOBAL(dword_6F6108, 0x6F6108);
 
 STUB_FUNC(0x477a40)
-s32 PurpleDoom::sub_477A40()
+void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    return 0;
+
 }
 
 MATCH_FUNC(0x477ae0)

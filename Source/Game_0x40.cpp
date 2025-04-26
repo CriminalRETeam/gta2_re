@@ -401,15 +401,15 @@ void Game_0x40::Draw_4B92D0()
     gSprite_8_703820->sub_5A5860();
     gMontana_67B580->ResetAll_4954F0();
 
-    gPurpleDoom_3_679210->sub_477A40();
-    gPurpleDoom_2_67920C->sub_477A40();
-    gPurpleDoom_1_679208->sub_477A40();
+    gPurpleDoom_3_679210->DrawSpritesClipped_477A40();
+    gPurpleDoom_2_67920C->DrawSpritesClipped_477A40();
+    gPurpleDoom_1_679208->DrawSpritesClipped_477A40();
 
     sub_5D7D30();
 
     pgbh_BeginScene();
 
-    gpMapRenderer_6F66E4->Draw_4F6A20();
+    gpMapRenderer_6F66E4->Draw_4F6A20(); // Note: Also seems to draw sprites
 
     if (!bExplodingOff_67D4FB)
     {

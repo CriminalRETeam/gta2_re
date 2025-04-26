@@ -15,7 +15,7 @@ struct PurpleDoom_C
 class PurpleDoom
 {
   public:
-    EXPORT s32 sub_477A40();
+    EXPORT void DrawSpritesClipped_477A40();
     EXPORT void sub_477AE0(Sprite* a1);
     EXPORT void sub_477B00(Sprite* a1);
     EXPORT s32 sub_477B20(Sprite* a1a);
