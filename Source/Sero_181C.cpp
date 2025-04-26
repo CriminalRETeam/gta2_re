@@ -326,15 +326,13 @@ void Sero_181C::sub_579B20()
 MATCH_FUNC(0x579b40)
 Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
 {
-    u8 i = 0;
-    while ( i < 10)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_1450); i++)
     {
         Sero_58* pIter = &field_1450[i];
         if (pIter->field_C_first_carriage == toFind)
         {
             return &pIter->field_10[0];
         }
-        i++;
     }
     return NULL;
 }
