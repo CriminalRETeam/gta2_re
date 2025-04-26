@@ -1383,10 +1383,15 @@ s32 Car_BC::sub_43BF10()
     return 0;
 }
 
-STUB_FUNC(0x43bf70)
-u32 Car_BC::sub_43BF70()
+MATCH_FUNC(0x43bf70)
+void Car_BC::sub_43BF70()
 {
-    return 0;
+    if ((this->field_A4 & 8) == 0)
+    {
+        this->field_8.clear_bit(5);
+        this->field_8 .clear_bit(22);
+    }
+    this->field_A4 &= ~1u;
 }
 
 STUB_FUNC(0x43bfe0)

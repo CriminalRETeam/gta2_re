@@ -438,7 +438,7 @@ class Car_BC
     EXPORT void sub_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT s32 sub_43BF10();
-    EXPORT u32 sub_43BF70();
+    EXPORT void sub_43BF70();
     EXPORT char_type sub_43BFE0();
     EXPORT char_type sub_43C0C0();
     EXPORT u32 sub_43C1C0();
