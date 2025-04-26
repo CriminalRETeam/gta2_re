@@ -17,6 +17,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Object_5C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -680,10 +681,15 @@ void Sprite::sub_5A4D90()
 {
 }
 
-STUB_FUNC(0x5c8680)
-s32 Car_214::sub_5C8680(u8 a2)
+MATCH_FUNC(0x5c8680)
+void Car_214::sub_5C8680(u8 idx)
 {
-    return 0;
+    field_0[idx].field_8 = 0;
+    field_0[idx].field_C = 0;
+    field_0[idx].field_0 = 0;
+    field_0[idx].field_14 = 2;
+    field_0[idx].field_4_O2C->sub_5291B0();
+    field_0[idx].field_4_O2C = 0;
 }
 
 STUB_FUNC(0x5c86c0)
@@ -1471,9 +1477,8 @@ s32 Car_BC::sub_43D400()
 }
 
 STUB_FUNC(0x43d690)
-s32* Car_BC::sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5)
+void Car_BC::sub_43D690(s32 a2, s32 a4, s32 a5)
 {
-    return 0;
 }
 
 STUB_FUNC(0x43d7b0)

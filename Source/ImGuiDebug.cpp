@@ -108,13 +108,22 @@ void CC ImGuiDebugDraw()
             if (ImGui::Button("Spawn car"))
             {
                 Car_BC* pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
-                                           pPlayerSprite->field_18_ypos,
-                                           pPlayerSprite->field_1C_zpos,
-                                           0,
-                                           currentCarModelIndex,
-                                           scale);
+                                                             pPlayerSprite->field_18_ypos,
+                                                             pPlayerSprite->field_1C_zpos,
+                                                             0,
+                                                             currentCarModelIndex,
+                                                             scale);
 
-                                           pPlayerPed->sub_46F650(weapon_type::flamethrower);
+                //pPlayerPed->sub_46F650(weapon_type::flamethrower);
+                pNewCar->sub_43D690(0, 0, 0);
+
+                Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
+                                                          pPlayerSprite->field_18_ypos,
+                                                          pPlayerSprite->field_1C_zpos,
+                                                          pPlayerChar->field_5_remap,
+                                                          pPlayerPed->field_134);
+
+                //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }
         }
         ImGui::TreePop();
@@ -356,8 +365,6 @@ void CC ImGuiDebugDraw()
                 //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
                 pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
 
-                pPlayerPed->RestoreCarOrPedHealth();
-
                 /*
                 Char_B4* pB4 = pPlayerPed->field_168_game_object;
                 if ( pB4 )
@@ -367,7 +374,6 @@ void CC ImGuiDebugDraw()
                  // pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, 0);
                   pB4->field_b0 = 100;
                 }*/
-                
             }
 
             //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);

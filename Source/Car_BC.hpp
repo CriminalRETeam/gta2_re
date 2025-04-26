@@ -250,27 +250,23 @@ class Car_18
 {
   public:
     s32 field_0;
-    s32 field_4;
-    char_type field_8;
-    char_type field_9;
-    char_type field_A;
-    char_type field_B;
+    Object_2C* field_4_O2C;
+    s32 field_8;
     s32 field_C;
     s32 field_10;
-    s16 field_14;
-    char_type field_16;
-    char_type field_17;
+    s32 field_14;
 };
 
 class Car_214
 {
   public:
-    EXPORT s32 sub_5C8680(u8 a2);
+    EXPORT void sub_5C8680(u8 idx);
     EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT void sub_5C8750();
     EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
-    s32 field_0;
-    Car_18 field_4[22];
+    Car_18 field_0[22];
+    s16 field_210_count;
+    s16 field_212;
 };
 
 EXPORT_VAR extern Car_214* gCar_214_705F20;
@@ -462,7 +458,7 @@ class Car_BC
     EXPORT bool sub_43D1C0(s32 a2);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
-    EXPORT s32* sub_43D690(Car_BC* a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void sub_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, s32 a3);
