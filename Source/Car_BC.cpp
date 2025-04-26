@@ -777,7 +777,7 @@ Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
 }
 
 STUB_FUNC(0x444fa0)
-s32 Car_6C::sub_444FA0(s32 x, s32 y, s32 z, s32 a5)
+Car_BC* Car_6C::sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     return 0;
 }

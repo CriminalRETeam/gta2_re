@@ -198,9 +198,18 @@ void Player::sub_565310()
 {
 }
 
-STUB_FUNC(0x5653E0)
+MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
+    Car_BC* pCar = gCar_6C_677930->sub_444FA0(this->field_14C_view_camera.field_98_x,
+                                              this->field_14C_view_camera.field_9C_y,
+                                              this->field_14C_view_camera.field_A0_z,
+                                              0);
+    if (pCar)
+    {
+        sub_5695A0();
+        sub_5696D0(pCar);
+    }
 }
 
 MATCH_FUNC(0x565460)
@@ -603,7 +612,7 @@ char_type Player::sub_569600(Car_BC* a2)
 }
 
 STUB_FUNC(0x5696D0)
-void Player::sub_5696D0(s32 a2)
+void Player::sub_5696D0(Car_BC* pCar)
 {
 }
 
