@@ -253,7 +253,8 @@ class Car_18
     Object_2C* field_4_O2C;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    u8 field_10_idx;
+    u8 field_11_pad[3];
     s32 field_14;
 };
 

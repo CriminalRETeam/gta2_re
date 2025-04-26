@@ -5,6 +5,7 @@
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
@@ -17,7 +18,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Object_5C.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -698,9 +698,20 @@ char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, 
     return 0;
 }
 
-STUB_FUNC(0x5c8750)
+MATCH_FUNC(0x5c8750)
 void Car_214::sub_5C8750()
 {
+    field_210_count = 0;    
+    Car_18* pOff = &field_0[0];
+    for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    {
+        pOff->field_10_idx = i;
+        pOff->field_8 = 0;
+        pOff->field_C = 0;
+        pOff->field_0 = 0;
+        pOff->field_14 = 1;
+        pOff++;
+    }
 }
 
 STUB_FUNC(0x5c8780)
