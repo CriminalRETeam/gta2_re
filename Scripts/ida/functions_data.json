@@ -13370,17 +13370,17 @@
         "v105_address": "0x577ee0"
     },
     {
-        "name": "Sero_34::sub_577F80",
+        "name": "TrainStation_34::GetWagonType_577f80",
         "v96f_address": "0x4af170",
         "v105_address": "0x577f80"
     },
     {
-        "name": "Sero_34::ctor",
+        "name": "TrainStation_34::ctor",
         "v96f_address": null,
         "v105_address": "0x577fd0"
     },
     {
-        "name": "Sero_34::dtor",
+        "name": "TrainStation_34::dtor",
         "v96f_address": null,
         "v105_address": "0x578010"
     },

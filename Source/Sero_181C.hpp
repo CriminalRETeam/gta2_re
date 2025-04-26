@@ -45,13 +45,13 @@ class Sero_58
     char_type field_57;
 };
 
-class Sero_34
+class TrainStation_34
 {
   public:
     // returns a car_model_enum
-    EXPORT s32 sub_577f80(u8 idx);
-    EXPORT Sero_34();
-    EXPORT ~Sero_34();
+    EXPORT s32 GetWagonType_577f80(u8 idx);
+    EXPORT TrainStation_34();
+    EXPORT ~TrainStation_34();
     s32 field_0_bus_or_train;
     gmp_map_zone* field_4_entry_point;
     gmp_map_zone* field_8_exit_point;
@@ -60,7 +60,7 @@ class Sero_34
     s32 field_14;
     s32 field_18;
     s32 field_1C;
-    Sero_34* field_20_next_station;
+    TrainStation_34* field_20_next_station;
     u8 field_24_train_wagons[10];
     char_type field_2E_wagons_number;
     char_type field_2F;
@@ -74,7 +74,7 @@ class Sero_181C
 {
   public:
     EXPORT Sero_58* sub_578790();
-    EXPORT Sero_34* sub_5787E0();
+    EXPORT TrainStation_34* sub_5787E0();
     EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
     EXPORT void sub_578860();
     EXPORT char_type sub_5793E0();
@@ -91,7 +91,7 @@ class Sero_181C
     EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
     EXPORT void sub_579CA0();
     EXPORT void sub_57A7A0();
-    EXPORT Sero_34* sub_57B4B0(gmp_map_zone* pZone);
+    EXPORT TrainStation_34* sub_57B4B0(gmp_map_zone* pZone);
     EXPORT Car_BC* sub_57B540(Car_BC* a2);
     EXPORT Sero_58* sub_57B5C0(Car_BC* a2);
     EXPORT Sero_58* sub_57B6A0(Car_BC* a2);
@@ -99,7 +99,7 @@ class Sero_181C
     EXPORT Sero_181C();
     EXPORT ~Sero_181C();
 
-    Sero_34 field_0[100];
+    TrainStation_34 field_0[100];
     Sero_58 field_1450[10];
     Sero_58 field_17C0;
     char_type field_1818_stop_getting_off_bus;

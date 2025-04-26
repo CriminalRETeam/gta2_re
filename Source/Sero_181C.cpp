@@ -135,7 +135,7 @@ u8 Sero_58::sub_578670()
 }
 
 MATCH_FUNC(0x577f80)
-s32 Sero_34::sub_577f80(u8 idx)
+s32 TrainStation_34::GetWagonType_577f80(u8 idx)
 {
     if (field_24_train_wagons[0] != 0)
     {
@@ -153,7 +153,7 @@ s32 Sero_34::sub_577f80(u8 idx)
 }
 
 MATCH_FUNC(0x577fd0)
-Sero_34::Sero_34()
+TrainStation_34::TrainStation_34()
 {
     field_0_bus_or_train = 0;
     field_4_entry_point = NULL;
@@ -174,7 +174,7 @@ Sero_34::Sero_34()
 }
 
 MATCH_FUNC(0x578010)
-Sero_34::~Sero_34()
+TrainStation_34::~TrainStation_34()
 {
     field_18 = 0;
     field_4_entry_point = NULL;
@@ -203,7 +203,7 @@ Sero_58* Sero_181C::sub_578790()
 }
 
 MATCH_FUNC(0x5787e0)
-Sero_34* Sero_181C::sub_5787E0()
+TrainStation_34* Sero_181C::sub_5787E0()
 {
     for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
@@ -354,9 +354,9 @@ void Sero_181C::sub_57A7A0()
 }
 
 MATCH_FUNC(0x57b4b0)
-Sero_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
+TrainStation_34* Sero_181C::sub_57B4B0(gmp_map_zone* pZone)
 {
-    Sero_34* pIter = &field_0[0];
+    TrainStation_34* pIter = &field_0[0];
     for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         if (pIter->field_10_pZone == pZone)

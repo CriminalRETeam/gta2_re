@@ -842,7 +842,7 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
     {
         str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_platform);
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0((const char*)&StringById_503080[1]);
-        Sero_34* v4 = gSero_181C_6FF1D4->sub_57B4B0(station_zone);
+        TrainStation_34* v4 = gSero_181C_6FF1D4->sub_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
         {
