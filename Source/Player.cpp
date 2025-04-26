@@ -20,6 +20,7 @@
 
 EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
 EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
+EXPORT_VAR extern bool gCheatInvisibility_67D539;
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -259,9 +260,27 @@ void Player::sub_564CC0()
     }
 }
 
-STUB_FUNC(0x564CF0)
+MATCH_FUNC(0x564CF0)
 void Player::sub_564CF0()
 {
+    u16 v2 = this->field_6F4[4];
+    if (this->field_6F4[6])
+    {
+        field_2C4_player_ped->sub_45C050();
+    }
+    if (this->field_6F4[9])
+    {
+        this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+    }
+    if (this->field_6F4[11])
+    {
+        if (!gCheatInvisibility_67D539)
+        {
+            field_2C4_player_ped->SetVisible();
+        }
+    }
+    sub_564CC0();
+    this->field_6F4[4] = v2;
 }
 
 STUB_FUNC(0x564D60)
