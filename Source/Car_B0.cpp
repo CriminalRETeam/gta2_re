@@ -81,10 +81,24 @@ void Car_B0::sub_559C30()
 {
 }
 
-STUB_FUNC(0x559dd0)
-s32 Car_B0::sub_559DD0()
+MATCH_FUNC(0x559dd0)
+void Car_B0::sub_559DD0()
 {
-    return 0;
+    if (this->field_5C_pPrev->field_54_driver)
+    {
+        if (field_A0.mValue == 1)
+        {
+            this->field_95 = 0;
+            this->field_93_is_forward_gas_on = 1;
+            this->field_AD_turn_direction = -1;
+        }
+        else if (field_A0.mValue == 2)
+        {
+            this->field_95 = 0;
+            this->field_93_is_forward_gas_on = 1;
+            this->field_AD_turn_direction = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x559e20)
@@ -632,7 +646,7 @@ MATCH_FUNC(0x5636c0)
 void Car_B0::sub_5636C0()
 {
     sub_563670();
-    
+
     Car_A4_10* p10 = this->field_5C_pPrev->field_64;
     if (p10)
     {
