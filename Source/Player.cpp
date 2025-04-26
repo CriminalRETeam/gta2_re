@@ -7,6 +7,7 @@
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
+#include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "infallible_turing.hpp"
@@ -16,7 +17,9 @@
 #include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
-#include "Weapon_8.hpp"
+
+EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
+EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -45,7 +48,7 @@ MATCH_FUNC(0x564710)
 void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 {
     this->field_18 = this->field_788_idx;
-    
+
     Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
     {
@@ -203,9 +206,32 @@ void Player::sub_564C00()
     sub_5649D0(0, 0);
 }
 
-STUB_FUNC(0x564C50)
+MATCH_FUNC(0x564C50)
 void Player::RemovePlayerWeapons_564C50()
 {
+    s32 i = 15;
+    Weapon_30* pWeapon = this->field_718[0];
+    do
+    {
+        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
+            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_idx != weapon_type::flamethrower))
+        {
+            if (pWeapon->field_0_ammo)
+            {
+                pWeapon->add_ammo_5DCE20(0);
+            }
+        }
+        ++pWeapon;
+        --i;
+    } while (i);
+
+    s16 idx = this->field_788_idx;
+    if (idx < 15)
+    {
+        this->field_14 = idx;
+        this->field_788_idx = 0;
+    }
+    sub_5649D0(0, 0);
 }
 
 EXPORT_VAR u8 byte_67D57C;
