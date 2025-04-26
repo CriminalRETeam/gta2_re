@@ -581,19 +581,19 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64 && field_64->field_C == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C == this;
     }
     
     // Inlined 0x41E460
     bool sub_41E460()
     {
-        return field_64 && field_64->field_8 == this;
+        return field_64_pTrailer && field_64_pTrailer->field_8 == this;
     }
 
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64 && field_64->field_C == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
@@ -638,7 +638,7 @@ class Car_BC
     Car_B0* field_58_uni_Car78_or_Car_B0;
     Car_78* field_5C;
     Hamburger_40* field_60;
-    Car_A4_10* field_64;
+    Car_A4_10* field_64_pTrailer;
     s32 field_68;
     s32 field_6C_maybe_id;
     s32 field_70;

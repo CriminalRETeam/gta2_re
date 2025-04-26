@@ -1053,7 +1053,7 @@ MATCH_FUNC(0x43a600)
 void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
-    Car_A4_10* v2 = this->field_64;
+    Car_A4_10* v2 = this->field_64_pTrailer;
     if (v2)
     {
         v2->field_C->sub_43D400();
@@ -1091,10 +1091,10 @@ bool Car_BC::IsNotCurrentRemap(u8 remap)
 MATCH_FUNC(0x43a730)
 bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
         // Check trailer car
-        return IsNotCurrentRemap(remap) || field_64->field_C->IsNotCurrentRemap(remap);
+        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C->IsNotCurrentRemap(remap);
     }
     return IsNotCurrentRemap(remap);
 }
@@ -1108,11 +1108,11 @@ void Car_BC::SetCarRemap(u8 remap)
     }
 
     // trailer ?
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        if (field_64->field_C->IsNotCurrentRemap(remap))
+        if (field_64_pTrailer->field_C->IsNotCurrentRemap(remap))
         {
-            field_64->field_C->field_50_car_sprite->SetRemap(remap);
+            field_64_pTrailer->field_C->field_50_car_sprite->SetRemap(remap);
         }
     }
 }
@@ -1348,9 +1348,9 @@ void Car_BC::sub_43BC30()
 MATCH_FUNC(0x43bca0)
 void Car_BC::sub_43BCA0()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        field_64->sub_408190();
+        field_64_pTrailer->sub_408190();
     }
     else
     {
@@ -1361,9 +1361,9 @@ void Car_BC::sub_43BCA0()
 MATCH_FUNC(0x43bd00)
 void Car_BC::sub_43BD00()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        field_64->sub_4081B0();
+        field_64_pTrailer->sub_4081B0();
     }
     else
     {
@@ -1797,7 +1797,7 @@ char_type Car_BC::sub_441800(char_type a2)
 MATCH_FUNC(0x4418a0)
 void Car_BC::sub_4418A0()
 {
-    if (field_64)
+    if (field_64_pTrailer)
     {
         sub_4418B0();
     }
@@ -2181,11 +2181,11 @@ void Car_BC::sub_443D70(s32 a2)
 {
     sub_443DA0(a2);
 
-    if (field_64)
+    if (field_64_pTrailer)
     {
-        if (field_64->field_8 == this)
+        if (field_64_pTrailer->field_8 == this)
         {
-            field_64->field_C->sub_443DA0(a2);
+            field_64_pTrailer->field_C->sub_443DA0(a2);
         }
     }
 }
@@ -2524,7 +2524,7 @@ Car_BC::Car_BC()
     field_5C = 0;
     field_88 = 0;
     field_6C_maybe_id = 0xFFFF;
-    field_64 = 0;
+    field_64_pTrailer = 0;
     field_78_flags = 0;
     // TODO
     // Object_3C::sub_5A7010((Object_3C *)this);
@@ -2619,8 +2619,8 @@ void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
     this->field_8 = a2;
     this->field_C = a3;
-    a2->field_64 = this;
-    this->field_C->field_64 = this;
+    a2->field_64_pTrailer = this;
+    this->field_C->field_64_pTrailer = this;
     this->field_0 = 0;
 }
 

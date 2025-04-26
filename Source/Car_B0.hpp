@@ -22,7 +22,7 @@ class Car_B0
     EXPORT bool sub_5599D0();
     EXPORT void sub_559A40();
     EXPORT void sub_559B40();
-    EXPORT Car_A4_10* sub_559B50();
+    EXPORT void sub_559B50();
     EXPORT void sub_559B90(const Fix16 &a2);
     EXPORT u32 sub_559BA0();
     EXPORT void sub_559C30();

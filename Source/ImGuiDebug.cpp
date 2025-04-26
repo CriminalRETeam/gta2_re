@@ -320,7 +320,7 @@ void CC ImGuiDebugDraw()
             ImGui::Text("Car 0x%X", pPlayerCar);
             if (pPlayerCar)
             {
-                ImGui::Text("trailer? 0x%X", pPlayerCar->field_64);
+                ImGui::Text("trailer? 0x%X", pPlayerCar->field_64_pTrailer);
 
                 if (ImGui::Button("ResprayOrCleanPlates"))
                 {

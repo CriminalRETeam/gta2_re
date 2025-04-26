@@ -51,17 +51,32 @@ void Car_B0::sub_559A40()
 MATCH_FUNC(0x559b40)
 void Car_B0::sub_559B40()
 {
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->sub_407CE0();
     }
 }
 
-STUB_FUNC(0x559b50)
-Car_A4_10* Car_B0::sub_559B50()
+MATCH_FUNC(0x559b50)
+void Car_B0::sub_559B50()
 {
-    return 0;
+    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (pTrailer)
+    {
+        if (pTrailer->field_0)
+        {
+            if (this->field_94_is_backward_gas_on)
+            {
+                this->field_94_is_backward_gas_on = 0;
+                this->field_91_is_foot_brake_on = 1;
+            }
+            if (!this->field_93_is_forward_gas_on)
+            {
+                this->field_AD_turn_direction = 0;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x559b90)
@@ -647,7 +662,7 @@ void Car_B0::sub_5636C0()
 {
     sub_563670();
 
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64;
+    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
