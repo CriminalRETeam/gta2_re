@@ -323,16 +323,18 @@ void Sero_181C::sub_579B20()
     }
 }
 
-// https://decomp.me/scratch/6Lsut
-STUB_FUNC(0x579b40)
+MATCH_FUNC(0x579b40)
 Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
 {
-    for (u8 i = 0; i < 10; i++)
+    u8 i = 0;
+    while ( i < 10)
     {
-        if (field_1450[i].field_C_first_carriage == toFind)
+        Sero_58* pIter = &field_1450[i];
+        if (pIter->field_C_first_carriage == toFind)
         {
-            return field_1450[i].field_10;
+            return &pIter->field_10[0];
         }
+        i++;
     }
     return NULL;
 }
