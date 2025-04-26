@@ -216,9 +216,25 @@ TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 }
 
 // NOTE: Declared out of order
-STUB_FUNC(0x578820)
+MATCH_FUNC(0x578820)
 void TrainStation_34::sub_578820(u8* a2)
 {
+    if (!bSkip_trains_67D550)
+    {
+        u8 i;
+        for (i = 0; i < 10; i++)
+        {
+            field_24_train_wagons[i] = a2[i];
+        }
+
+        for (i = 0; i < 10; i++)
+        {
+            if (field_24_train_wagons[i])
+            {
+                field_2E_wagons_number++;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x578860)
