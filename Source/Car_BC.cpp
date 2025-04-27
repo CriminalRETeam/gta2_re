@@ -9,6 +9,7 @@
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Sero_181C.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -18,6 +19,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Hamburger_500.hpp"
+#include "Weapon_8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -331,6 +334,30 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         field_1C_zpos = zpos;
         sub_59E7B0();
     }
+}
+
+STUB_FUNC(0x59E170)
+bool Sprite::sub_59E170()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E1B0)
+Ped* Sprite::sub_59E1B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E1D0)
+s32 Sprite::sub_59E1D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E250)
+char Sprite::sub_59E250()
+{
+    return 0;
 }
 
 MATCH_FUNC(0x59e2e0)
@@ -1506,7 +1533,6 @@ Car_BC* Car_BC::sub_43CDF0(char_type a2)
 STUB_FUNC(0x43cf30)
 void Car_BC::DamageArea_43CF30(s32 damage_area)
 {
-
 }
 
 STUB_FUNC(0x43d1c0)
@@ -1519,7 +1545,8 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
             bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontLeft_4) == CarDamageAreasFlags::FlagsFrontLeft_4;
             break;
         case CarDamageAreas::FrontRight_1:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
+            bDamaged =
+                (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
             break;
         case CarDamageAreas::BackLeft_2:
             bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackLeft_2) == CarDamageAreasFlags::FlagsBackLeft_2;
@@ -2570,23 +2597,53 @@ void Car_BC::sub_444490()
     this->field_B0 = 0;
 }
 
-STUB_FUNC(0x4446e0) // https://decomp.me/scratch/Jjnkp
+MATCH_FUNC(0x4446e0)
 void Car_BC::sub_4446E0()
 {
+    if (field_5C)
+    {
+        if (field_5C->field_28_junc_idx > 0)
+        {
+            gRouteFinder_6FFDC8->sub_589930(field_5C->field_28_junc_idx);
+        }
+
+        gCar_8F74_677CF8->Remove(field_5C);
+        field_5C = 0;
+    }
 }
 
-STUB_FUNC(0x4447d0) // https://decomp.me/scratch/ihiHA
-s32 Car_BC::sub_4447D0()
+MATCH_FUNC(0x4447d0)
+void Car_BC::sub_4447D0()
 {
-    return 0;
+    ((Object_3C*)this)->sub_5A7010();
+
+    sub_441A10();
+
+    if (field_50_car_sprite)
+    {
+        gSprite_49B28_703818->remove(field_50_car_sprite);
+        field_50_car_sprite = 0;
+    }
+
+    sub_4446E0();
+
+    if (field_60)
+    {
+        gHamburger_500_678E30->sub_474CC0(field_60);
+        field_60 = 0;
+    }
+
+    sub_43DB80();
+
+    gWeapon_8_707018->alloc_car_weapon_5E3DF0(this);
+    gCar_6C_677930->sub_4466C0(field_A0);
+
+    field_6C_maybe_id = 0;
 }
 
-STUB_FUNC(0x444860)
+MATCH_FUNC(0x444860)
 Car_BC::Car_BC()
 {
-    field_0_qq = 0;
-    field_4.field_0_pOwner = 0;
-    field_8_damaged_areas = 0;
     field_54_driver = 0;
     field_74_damage = 0;
     field_8C = 0;
@@ -2616,7 +2673,7 @@ Car_BC::Car_BC()
     field_90 = 0;
     field_94 = 0;
     field_95 = 0;
-    field_68 = 0x4000;
+    field_68.mValue = 0x4000;
     field_8E = 0;
 }
 

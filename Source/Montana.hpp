@@ -1052,7 +1052,7 @@ class Montana
 {
   public:
     EXPORT void ResetAll_4954F0();
-    EXPORT void sub_495510(Sprite* a2);
+    EXPORT void DisplayAdd_495510(Sprite* pSprite);
     EXPORT void Draw_495560(s32 col_idx);
     EXPORT Montana();
     EXPORT ~Montana();

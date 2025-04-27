@@ -30,7 +30,9 @@ class BitSet32
         return *this;
     }
 
+    // 0x420D80
     BitSet32()
+     : m_var(0)
     {
     }
 
