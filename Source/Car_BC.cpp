@@ -333,6 +333,30 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 }
 
+STUB_FUNC(0x59E170)
+bool Sprite::sub_59E170()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E1B0)
+Ped* Sprite::sub_59E1B0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E1D0)
+s32 Sprite::sub_59E1D0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E250)
+char Sprite::sub_59E250()
+{
+    return 0;
+}
+
 MATCH_FUNC(0x59e2e0)
 void Sprite::sub_59E2E0(void)
 {

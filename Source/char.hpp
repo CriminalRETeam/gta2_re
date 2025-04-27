@@ -75,7 +75,7 @@ class Char_B4
     Ped* field_7c_ped_ptr;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84_AutoClass21_s1_ptr1;
-    Car_BC* field_88AutoClass21_s1_ptr2;
+    Car_BC* field_88_obj_2c;
     Fix16 field_8c;
     Fix16 field_90;
     Fix16 field_94;
@@ -96,6 +96,10 @@ class Char_B4
     // TODO: Stubs/func ordering
     EXPORT void sub_5453D0();
     EXPORT void sub_5454B0();
+
+    EXPORT void sub_5454D0();
+    EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT s32 sub_545570();
 };
 
 class Char_11944

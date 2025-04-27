@@ -13,6 +13,7 @@
 #include "Weapon_30.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
+#include "map_0x370.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -154,10 +155,20 @@ Car_BC* Ped::sub_45BBF0()
     }
 }
 
-STUB_FUNC(0x45bc10)
-s32 Ped::sub_45BC10(s32 a2, s32 a3)
+MATCH_FUNC(0x45bc10)
+void Ped::sub_45BC10(Fix16 xpos, Fix16 ypos)
 {
-    return 0;
+    Fix16 tempZ;
+    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&tempZ, xpos, ypos);
+    Car_BC* pCar = this->field_16C_car;
+    if (pCar)
+    {
+        pCar->sub_443D00(xpos, ypos, tempZ);
+    }
+    else
+    {
+        field_168_game_object->sub_545530(xpos, ypos, tempZ);
+    }
 }
 
 STUB_FUNC(0x45bc70)

@@ -139,6 +139,12 @@ class Sprite
 {
   public:
     EXPORT void sub_451950(Fix16 a2, Fix16 a3, Fix16 a4);
+
+    EXPORT bool sub_59E170();
+    EXPORT Ped* sub_59E1B0();
+    EXPORT s32 sub_59E1D0();
+    EXPORT char sub_59E250();
+
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();
     EXPORT s32 sub_59E320(char_type a2);

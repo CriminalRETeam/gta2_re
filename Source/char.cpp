@@ -1,6 +1,7 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
+#include "Object_3C.hpp"
 
 EXPORT_VAR Char_C* gChar_C_6787BC;
 GLOBAL(gChar_C_6787BC, 0x6787BC);
@@ -28,9 +29,29 @@ void Char_B4::sub_5453D0()
 {
 }
 
-STUB_FUNC(0x5454B0)
+MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
+    this->field_b0 = -1;
+    ((Object_3C *)&this->field_88_obj_2c)->sub_5A7080();
+}
+
+STUB_FUNC(0x5454D0)
+void Char_B4::sub_5454D0()
+{
+
+}
+
+STUB_FUNC(0x545530)
+void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+
+}
+
+MATCH_FUNC(0x545570)
+s32 Char_B4::sub_545570()
+{
+    return field_80_sprite_ptr->sub_59E1D0();
 }
 
 // This constructor doesn't exist.
