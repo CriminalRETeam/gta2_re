@@ -93,13 +93,46 @@ class Char_B4
     Char_B4();
     ~Char_B4();
 
-    // TODO: Stubs/func ordering
     EXPORT void sub_5453D0();
     EXPORT void sub_5454B0();
-
     EXPORT void sub_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 sub_545570();
+    EXPORT void sub_5455F0();
+    EXPORT s16 sub_545600();
+    EXPORT void sub_5456A0();
+    EXPORT s32 sub_545700();
+    EXPORT char_type sub_545720(s32 a2);
+    EXPORT char_type sub_5459C0();
+    EXPORT void sub_5459E0();
+    EXPORT void sub_546360();
+    EXPORT void sub_548590();
+    EXPORT void sub_548670(char_type a2);
+    EXPORT void sub_548840(Object_2C* a2);
+    EXPORT void sub_548BD0(s32 a2);
+    EXPORT void sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4);
+    EXPORT char_type sub_54B8F0();
+    EXPORT s32 sub_54C090();
+    EXPORT char_type sub_54C1A0(s32 a2);
+    EXPORT char_type sub_54C3E0();
+    EXPORT char_type sub_54C500(char_type a2, char_type a3);
+    EXPORT void sub_54C580();
+    EXPORT s16 sub_54C6C0(s32 a2);
+    EXPORT s16 sub_54C900(s32 a2);
+    EXPORT s16 sub_54CAE0();
+    EXPORT void sub_54CC40();
+    EXPORT void sub_54DD70();
+    EXPORT void state_0_54DDF0();
+    EXPORT char_type sub_54ECB0(s32 a2);
+    EXPORT char_type sub_54EF60(char_type a2, char_type a3);
+    EXPORT char_type sub_54FEC0(s32 a2);
+    EXPORT char_type sub_550090(s32 a2, s32 a3);
+    EXPORT void state_1_5504F0();
+    EXPORT s16* sub_550F60(s16* a2, s16 a3);
+    EXPORT char_type sub_551350(s16 a2);
+    EXPORT char_type sub_551400();
+    EXPORT char_type sub_5516F0();
+    //EXPORT void state_1_5504F0();
 };
 
 class Char_11944

@@ -24,7 +24,7 @@ Char_B4::~Char_B4()
 {
 }
 
-STUB_FUNC(0x5453D0)
+STUB_FUNC(0x5453d0)
 void Char_B4::sub_5453D0()
 {
 }
@@ -32,20 +32,18 @@ void Char_B4::sub_5453D0()
 MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
-    this->field_b0 = -1;
-    ((Object_3C *)&this->field_88_obj_2c)->sub_5A7080();
+    field_b0 = -1;
+    ((Object_3C*)&field_88_obj_2c)->sub_5A7080();
 }
 
-STUB_FUNC(0x5454D0)
+STUB_FUNC(0x5454d0)
 void Char_B4::sub_5454D0()
 {
-
 }
 
 STUB_FUNC(0x545530)
 void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-
 }
 
 MATCH_FUNC(0x545570)
@@ -53,6 +51,201 @@ s32 Char_B4::sub_545570()
 {
     return field_80_sprite_ptr->sub_59E1D0();
 }
+
+STUB_FUNC(0x5455f0)
+void Char_B4::sub_5455F0()
+{
+}
+
+STUB_FUNC(0x545600)
+s16 Char_B4::sub_545600()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5456a0)
+void Char_B4::sub_5456A0()
+{
+}
+
+STUB_FUNC(0x545700)
+s32 Char_B4::sub_545700()
+{
+    return 0;
+}
+
+STUB_FUNC(0x545720)
+char_type Char_B4::sub_545720(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5459c0)
+char_type Char_B4::sub_5459C0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5459e0)
+void Char_B4::sub_5459E0()
+{
+}
+
+STUB_FUNC(0x546360)
+void Char_B4::sub_546360()
+{
+}
+
+STUB_FUNC(0x548590)
+void Char_B4::sub_548590()
+{
+}
+
+STUB_FUNC(0x548670)
+void Char_B4::sub_548670(char_type a2)
+{
+}
+
+STUB_FUNC(0x548840)
+void Char_B4::sub_548840(Object_2C* a2)
+{
+}
+
+STUB_FUNC(0x548bd0)
+void Char_B4::sub_548BD0(s32 a2)
+{
+}
+
+STUB_FUNC(0x54a530)
+void Char_B4::sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4)
+{
+}
+
+STUB_FUNC(0x54b8f0)
+char_type Char_B4::sub_54B8F0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c090)
+s32 Char_B4::sub_54C090()
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c1a0)
+char_type Char_B4::sub_54C1A0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c3e0)
+char_type Char_B4::sub_54C3E0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c500)
+char_type Char_B4::sub_54C500(char_type a2, char_type a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c580)
+void Char_B4::sub_54C580()
+{
+}
+
+STUB_FUNC(0x54c6c0)
+s16 Char_B4::sub_54C6C0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54c900)
+s16 Char_B4::sub_54C900(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54cae0)
+s16 Char_B4::sub_54CAE0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x54cc40)
+void Char_B4::sub_54CC40()
+{
+}
+
+STUB_FUNC(0x54dd70)
+void Char_B4::sub_54DD70()
+{
+}
+
+STUB_FUNC(0x54ddf0)
+void Char_B4::state_0_54DDF0()
+{
+}
+
+STUB_FUNC(0x54ecb0)
+char_type Char_B4::sub_54ECB0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54ef60)
+char_type Char_B4::sub_54EF60(char_type a2, char_type a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x54fec0)
+char_type Char_B4::sub_54FEC0(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x550090)
+char_type Char_B4::sub_550090(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5504f0)
+void Char_B4::state_1_5504F0()
+{
+}
+
+STUB_FUNC(0x550f60)
+s16* Char_B4::sub_550F60(s16* a2, s16 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x551350)
+char_type Char_B4::sub_551350(s16 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x551400)
+char_type Char_B4::sub_551400()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5516f0)
+char_type Char_B4::sub_5516F0()
+{
+    return 0;
+}
+
+//STUB_FUNC(0x5519f0)
+//void j_Char_B4::state_1_5504F0()
+//{
+//}
 
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C
