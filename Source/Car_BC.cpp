@@ -2641,12 +2641,9 @@ void Car_BC::sub_4447D0()
     field_6C_maybe_id = 0;
 }
 
-STUB_FUNC(0x444860)
+MATCH_FUNC(0x444860)
 Car_BC::Car_BC()
 {
-    field_0_qq = 0;
-    field_4.field_0_pOwner = 0;
-    field_8_damaged_areas = 0;
     field_54_driver = 0;
     field_74_damage = 0;
     field_8C = 0;
@@ -2676,7 +2673,7 @@ Car_BC::Car_BC()
     field_90 = 0;
     field_94 = 0;
     field_95 = 0;
-    field_68 = 0x4000;
+    field_68.mValue = 0x4000;
     field_8E = 0;
 }
 

@@ -393,6 +393,23 @@ class Car_A4_10
     Car_BC* field_C;
 };
 
+class Unknown_Ptr_4
+{
+public:
+    // 0x424620
+    Unknown_Ptr_4()
+    {
+        sub_4207E0();
+    }
+
+    // 0x4207E0
+    void sub_4207E0()
+    {
+        field_0 = 0;
+    }
+    void* field_0;
+};
+
 class Car_BC
 {
   public:
@@ -637,7 +654,7 @@ class Car_BC
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
 
-    Sprite_18* field_0_qq;
+    Unknown_Ptr_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas;
     Car_Door_10 field_C_doors[4];
@@ -648,7 +665,7 @@ class Car_BC
     Car_78* field_5C;
     Hamburger_40* field_60;
     Car_A4_10* field_64_pTrailer;
-    s32 field_68;
+    Fix16 field_68;
     s32 field_6C_maybe_id;
     s32 field_70;
     s16 field_74_damage;
