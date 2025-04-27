@@ -18,6 +18,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "RouteFinder.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -1530,7 +1531,6 @@ Car_BC* Car_BC::sub_43CDF0(char_type a2)
 STUB_FUNC(0x43cf30)
 void Car_BC::DamageArea_43CF30(s32 damage_area)
 {
-
 }
 
 STUB_FUNC(0x43d1c0)
@@ -1543,7 +1543,8 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
             bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontLeft_4) == CarDamageAreasFlags::FlagsFrontLeft_4;
             break;
         case CarDamageAreas::FrontRight_1:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
+            bDamaged =
+                (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
             break;
         case CarDamageAreas::BackLeft_2:
             bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackLeft_2) == CarDamageAreasFlags::FlagsBackLeft_2;
@@ -2594,9 +2595,19 @@ void Car_BC::sub_444490()
     this->field_B0 = 0;
 }
 
-STUB_FUNC(0x4446e0) // https://decomp.me/scratch/Jjnkp
+MATCH_FUNC(0x4446e0)
 void Car_BC::sub_4446E0()
 {
+    if (field_5C)
+    {
+        if (field_5C->field_28_junc_idx > 0)
+        {
+            gRouteFinder_6FFDC8->sub_589930(field_5C->field_28_junc_idx);
+        }
+
+        gCar_8F74_677CF8->Remove(field_5C);
+        field_5C = 0;
+    }
 }
 
 STUB_FUNC(0x4447d0) // https://decomp.me/scratch/ihiHA

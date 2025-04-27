@@ -5,8 +5,8 @@
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
-#include "miss2_0x11C.hpp"
 #include "ang16.hpp"
+#include "miss2_0x11C.hpp"
 #include <wchar.h>
 
 EXPORT_VAR extern Ang16 gAng16_703804;
@@ -131,6 +131,14 @@ class Car_8F74
         field_0 = field_4;
     }
 
+    // TODO: get 9.6f inline addr
+    void Remove(Car_78* p78)
+    {
+        p78->field_0 = 0;
+        p78->field_C = field_0;
+        field_0 = p78;
+    }
+
     Car_78* field_0;
     Car_78 field_4[306];
 };
@@ -166,7 +174,7 @@ class Sprite
     EXPORT Sprite_4C* sub_59FAD0();
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
-    EXPORT bool sub_5A0380(Sprite *a1);
+    EXPORT bool sub_5A0380(Sprite* a1);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
@@ -547,7 +555,7 @@ class Car_BC
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
-    EXPORT static void __stdcall sub_443AB0(Player *pPlayer, s32 weapon_cost);
+    EXPORT static void __stdcall sub_443AB0(Player* pPlayer, s32 weapon_cost);
     EXPORT void ResprayOrChangePlates(s32 remap);
     EXPORT void ResprayOrCleanPlates(s32 remap);
     EXPORT void sub_443C40(s32 a2);
@@ -589,7 +597,7 @@ class Car_BC
     {
         return field_64_pTrailer && field_64_pTrailer->field_C == this;
     }
-    
+
     // Inlined 0x41E460
     bool sub_41E460()
     {
@@ -609,29 +617,24 @@ class Car_BC
         Fix16 y_pos, z_pos;
         Fix16 height;
         Fix16 z_target;
-        return ( x_pos >= rect->field_0_pos.field_0_x - width
-            && x_pos <= rect->field_0_pos.field_0_x + width
-            && ( y_pos = field_50_car_sprite->field_18_ypos,
-            height = rect->field_C_size.field_4_y,
-            y_pos >= rect->field_0_pos.field_4_y - height ) 
-            && field_50_car_sprite->field_18_ypos <= rect->field_0_pos.field_4_y + height
-            && ( z_pos = field_50_car_sprite->field_1C_zpos,
-            z_target = rect->field_0_pos.field_8_z,
-            z_pos.ToUInt8() == z_target.ToUInt8() ) );
+        return (
+            x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
+            (y_pos = field_50_car_sprite->field_18_ypos,
+             height = rect->field_C_size.field_4_y,
+             y_pos >= rect->field_0_pos.field_4_y - height) &&
+            field_50_car_sprite->field_18_ypos <= rect->field_0_pos.field_4_y + height &&
+            (z_pos = field_50_car_sprite->field_1C_zpos, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
 
     inline bool IsWithinBlock(SCR_XYZ_f* pos)
     {
         Sprite* pSprite = field_50_car_sprite;
         Fix16 car_z_pos;
-        return (pSprite->field_14_xpos >= pos->field_0_x.ToUInt8() 
-            && pSprite->field_14_xpos < (pos->field_0_x.ToUInt8() + 1)
+        return (pSprite->field_14_xpos >= pos->field_0_x.ToUInt8() && pSprite->field_14_xpos < (pos->field_0_x.ToUInt8() + 1)
 
-            && pSprite->field_18_ypos >= pos->field_4_y.ToUInt8() 
-            && pSprite->field_18_ypos < (pos->field_4_y.ToUInt8() + 1)
+                && pSprite->field_18_ypos >= pos->field_4_y.ToUInt8() && pSprite->field_18_ypos < (pos->field_4_y.ToUInt8() + 1)
 
-            && (car_z_pos = pSprite->field_1C_zpos, 
-                car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
+                && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
 
     Sprite_18* field_0_qq;
