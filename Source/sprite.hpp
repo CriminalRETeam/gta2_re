@@ -167,6 +167,14 @@ class Sprite_49B28
         return this_00;
     }
 
+    // TODO: get 9.6f addr
+    void remove(Sprite* pSprite)
+    {
+        pSprite->sub_5A3030();
+        pSprite->field_C_sprite_next_ptr = field_0_first_free;
+        field_0_first_free = pSprite;
+    }
+
     Sprite* field_0_first_free;
     Sprite field_4[5031];
 };

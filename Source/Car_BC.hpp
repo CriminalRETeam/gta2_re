@@ -572,7 +572,7 @@ class Car_BC
     EXPORT void sub_4441B0();
     EXPORT void sub_444490();
     EXPORT void sub_4446E0();
-    EXPORT s32 sub_4447D0();
+    EXPORT void sub_4447D0();
 
     Car_BC(); // 0x444860
     ~Car_BC(); // 0x444960

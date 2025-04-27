@@ -9,6 +9,7 @@
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Sero_181C.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -18,7 +19,8 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "RouteFinder.hpp"
+#include "Hamburger_500.hpp"
+#include "Weapon_8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -2610,10 +2612,33 @@ void Car_BC::sub_4446E0()
     }
 }
 
-STUB_FUNC(0x4447d0) // https://decomp.me/scratch/ihiHA
-s32 Car_BC::sub_4447D0()
+MATCH_FUNC(0x4447d0)
+void Car_BC::sub_4447D0()
 {
-    return 0;
+    ((Object_3C*)this)->sub_5A7010();
+
+    sub_441A10();
+
+    if (field_50_car_sprite)
+    {
+        gSprite_49B28_703818->remove(field_50_car_sprite);
+        field_50_car_sprite = 0;
+    }
+
+    sub_4446E0();
+
+    if (field_60)
+    {
+        gHamburger_500_678E30->sub_474CC0(field_60);
+        field_60 = 0;
+    }
+
+    sub_43DB80();
+
+    gWeapon_8_707018->alloc_car_weapon_5E3DF0(this);
+    gCar_6C_677930->sub_4466C0(field_A0);
+
+    field_6C_maybe_id = 0;
 }
 
 STUB_FUNC(0x444860)
