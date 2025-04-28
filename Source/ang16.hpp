@@ -157,7 +157,8 @@ class Ang16
         return Fix16(value, 0);
     }
 
-    Ang16() : rValue(0) // OBS: The default ctor must not init rValue, I will remove it soon
+    // 9.6f 0x40E590
+    Ang16() : rValue(0)
     {
     }
 

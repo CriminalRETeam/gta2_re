@@ -136,6 +136,14 @@ class Sprite_5D598
         field_0_pFree = field_4;
     }
     EXPORT ~Sprite_5D598();
+
+    // TODO: Get 9.6f inline addr
+    void Remove(Sprite_4C* pToRemove)
+    {
+         pToRemove->field_2C_pNext = field_0_pFree;
+         field_0_pFree = pToRemove;
+    }
+
     Sprite_4C* field_0_pFree;
     Sprite_4C field_4[5031];
 };

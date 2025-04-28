@@ -342,10 +342,17 @@ bool Sprite::sub_59E170()
     return 0;
 }
 
-STUB_FUNC(0x59E1B0)
+MATCH_FUNC(0x59E1B0)
 Ped* Sprite::sub_59E1B0()
 {
-    return 0;
+    if (this->field_30_sprite_type_enum == sprite_types_enum::ped && (this->field_8_char_b4_ptr) != 0)
+    {
+        return field_8_char_b4_ptr->field_7C_pPed;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x59E1D0)
@@ -541,10 +548,20 @@ void Sprite::sub_59FA40()
     }
 }
 
-STUB_FUNC(0x59fad0) // https://decomp.me/scratch/Wrzst
-Sprite_4C* Sprite::sub_59FAD0()
+MATCH_FUNC(0x59fad0)
+void Sprite::sub_59FAD0()
 {
-    return 0;
+    if (field_C_sprite_4c_ptr)
+    {
+        gSprite_5D598_70381C->Remove(field_C_sprite_4c_ptr);
+        field_C_sprite_4c_ptr = 0;
+    }
+
+    if (field_4_0x4C_len)
+    {
+        gSprite_5D598_70381C->Remove(field_4_0x4C_len);
+        field_4_0x4C_len = 0;
+    }
 }
 
 STUB_FUNC(0x5a0150)
@@ -1220,7 +1237,6 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 STUB_FUNC(0x43adc0)
 void Car_BC::sub_43ADC0(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x43af10)
