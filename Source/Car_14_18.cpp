@@ -31,7 +31,13 @@ u32 Car_14_18::sub_59DDF0(Sprite* a2)
 STUB_FUNC(0x59de80)
 char_type Car_14_18::sub_59DE80()
 {
-    return 0;
+    sub_59DD60();
+    return gMap_0x370_6F6268->sub_4E4460(
+             ((this->field_0 + this->field_4) / 2).ToInt(),
+             ((this->field_8 + this->field_C) / 2).ToInt(),
+             ((this->field_10 + this->field_14) / 2).ToInt(),
+             0,
+             1024);
 }
 
 MATCH_FUNC(0x59dee0)
