@@ -1690,9 +1690,30 @@ void Ped::sub_46FF00(s32 a2, s32 a3, s32 a4)
 {
 }
 
-STUB_FUNC(0x46fff0)
-void Ped::sub_46FFF0(s32 a2)
+MATCH_FUNC(0x46fff0)
+void Ped::sub_46FFF0(s32 model)
 {
+    if (sub_45EDE0(2))
+    {
+        field_15C_player->field_2D4_unk.UpdateAccuracyCount_5934F0(0, model, 0);
+    }
+
+    if ((this->field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)
+    {
+        Weapon_30* pWeapon = this->field_174_pWeapon;
+        if (pWeapon)
+        {
+            pWeapon->field_4 = 0;
+        }
+    }
+    else
+    {
+        Weapon_30* pSelectedWeapon = this->field_170_selected_weapon;
+        if (pSelectedWeapon)
+        {
+            pSelectedWeapon->field_4 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x470050)
