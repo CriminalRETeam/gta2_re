@@ -41,9 +41,26 @@ void Montana_4::sub_5C5CF0(Sprite* a2)
 {
 }
 
-STUB_FUNC(0x5c5df0)
+STUB_FUNC(0x5C5DF0)
 void Montana_4::Draw_5C5DF0()
 {
+    Montana_C* pIter = this->field_0_pFirst;
+    for (;;)
+    {
+        while (pIter)
+        {
+            gMontana_FA4_705BC0->Push_4C4B80(pIter);
+            pIter = pIter->field_4_pNext;
+        }
+        if (gMontana_FA4_705BC0->IsEnd_4C4BC0())
+        {
+            break;
+        }
+
+        pIter = gMontana_FA4_705BC0->Pop_4C4BA0();
+        pIter->field_0->sub_59EFF0();
+        pIter = pIter->field_8;
+    }
 }
 
 MATCH_FUNC(0x5c5e50)
