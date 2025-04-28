@@ -175,7 +175,7 @@ void CC ImGuiDebugDraw()
                 }
                 pNewCar->field_5C->sub_453BF0(pNewCar);
 
-                //pPlayerPed->sub_46F650(weapon_type::flamethrower);
+                //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
                 Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
                                                           pPlayerSprite->field_18_ypos,

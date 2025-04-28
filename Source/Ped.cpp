@@ -11,10 +11,10 @@
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Weapon_30.hpp"
+#include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "map_0x370.hpp"
-#include "Weapon_8.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1639,15 +1639,18 @@ void Ped::ForceWeapon_46F600(s32 weapon_kind)
         pWeapon->field_4 = 1;
         if (field_170_selected_weapon->sub_5E3BD0())
         {
-            sub_46F650(weapon_type::pistol);
+            GiveWeapon_46F650(weapon_type::pistol);
         }
     }
 }
 
-STUB_FUNC(0x46f650)
-u32* Ped::sub_46F650(s32 a2)
+MATCH_FUNC(0x46f650)
+void Ped::GiveWeapon_46F650(s32 weapon_kind)
 {
-    return 0;
+    sub_462550();
+    Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
+    this->field_174_pWeapon = pWeapon;
+    pWeapon->field_4 = 1;
 }
 
 STUB_FUNC(0x46f680)
