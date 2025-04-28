@@ -342,10 +342,17 @@ bool Sprite::sub_59E170()
     return 0;
 }
 
-STUB_FUNC(0x59E1B0)
+MATCH_FUNC(0x59E1B0)
 Ped* Sprite::sub_59E1B0()
 {
-    return 0;
+    if (this->field_30_sprite_type_enum == sprite_types_enum::ped && (this->field_8_char_b4_ptr) != 0)
+    {
+        return field_8_char_b4_ptr->field_7C_pPed;
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x59E1D0)
@@ -1220,7 +1227,6 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 STUB_FUNC(0x43adc0)
 void Car_BC::sub_43ADC0(s32 a2)
 {
-
 }
 
 STUB_FUNC(0x43af10)
