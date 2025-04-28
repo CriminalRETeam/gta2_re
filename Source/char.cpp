@@ -346,7 +346,7 @@ Ped* Char_C::sub_470B00(Car_BC* a2)
 }
 
 STUB_FUNC(0x470ba0)
-Ped* Char_C::sub_470BA0(Car_BC* a1, s32 a2)
+Ped* Char_C::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
     return 0;
 }

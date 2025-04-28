@@ -1,8 +1,10 @@
 #include "PurpleDoom.hpp"
 #include "Car_BC.hpp"
+#include "DrawUnk_0xBC.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "collide.hpp"
+#include "Montana.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -21,7 +23,6 @@ GLOBAL(dword_6F6108, 0x6F6108);
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
-
 
 STUB_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
@@ -80,7 +81,6 @@ void PurpleDoom::DrawSpritesClipped_477A40()
         //AddToDrawList_478240(left, right_val, top_val, 0);
     }
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
-
 }
 
 MATCH_FUNC(0x477ae0)
@@ -147,7 +147,7 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
 }
 
 STUB_FUNC(0x477e60)
-s32 PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
+Sprite* PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
 {
     return 0;
 }
@@ -184,6 +184,40 @@ u32 PurpleDoom::sub_478160(u8 a2)
 STUB_FUNC(0x478240)
 void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
+    PurpleDoom_C** pYItem; // ebp
+    PurpleDoom_C* pXItem; // edi
+    int x_cell; // eax
+    Collide_8* p8Iter; // esi
+    int y_total; // [esp+10h] [ebp+Ch]
+
+    pYItem = &this->field_0[top]; // y_start?
+    if (top <= bottom)
+    {
+        y_total = bottom - top + 1;
+        do
+        {
+            for (pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
+            {
+                x_cell = pXItem->field_0_x_len;
+                if (x_cell > right)
+                {
+                    break;
+                }
+                if (x_cell >= left)
+                {
+                    for (p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+                    {
+                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1) 
+                        {
+                            gMontana_67B580->DisplayAdd_495510(p8Iter->field_0_sprt);
+                        }
+                    }
+                }
+            }
+            ++pYItem;
+            --y_total;
+        } while (y_total);
+    }
 }
 
 STUB_FUNC(0x4782c0)

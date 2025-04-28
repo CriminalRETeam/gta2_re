@@ -62,7 +62,7 @@ class Car_78
     EXPORT u8* sub_4539D0();
     EXPORT s32 sub_453A40();
     EXPORT s16 sub_453BB0();
-    EXPORT Car_BC* sub_453BF0(Car_BC* a2);
+    EXPORT void sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
     EXPORT s32 sub_453D80();
     EXPORT Car_78();
@@ -443,7 +443,7 @@ class Car_BC
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
-    EXPORT s32 sub_43ADC0(s32 a2);
+    EXPORT void sub_43ADC0(s32 a2);
     EXPORT bool sub_43AF10();
     EXPORT char_type sub_43AF40();
     EXPORT void sub_43AF60();
@@ -509,7 +509,7 @@ class Car_BC
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void sub_440590();
     EXPORT void SpawnDriverPed();
-    EXPORT void sub_440630(s32 a2);
+    EXPORT void AddGangDriver_440630(Gang_144 *pGang);
     EXPORT s32 sub_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
@@ -577,8 +577,8 @@ class Car_BC
     EXPORT void ResprayOrCleanPlates(s32 remap);
     EXPORT void sub_443C40(s32 a2);
     EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void sub_443D70(s32 a2);
-    EXPORT void sub_443DA0(s32 a2);
+    EXPORT void IncrementCarStats_443D70(s32 car_type);
+    EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
     EXPORT void sub_443E50();
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
@@ -690,7 +690,7 @@ class Car_BC
     char_type field_97;
     s32 field_98;
     s32 field_9C;
-    s32 field_A0;
+    s32 field_A0_car_kind; // police car, fire engine, mission car etc
     char_type field_A4;
     char_type field_A5;
     char_type field_A6;

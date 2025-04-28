@@ -4,6 +4,7 @@
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Hamburger_500.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
@@ -11,6 +12,7 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Sero_181C.hpp"
+#include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
@@ -19,8 +21,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Hamburger_500.hpp"
-#include "Weapon_8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -301,10 +301,10 @@ s16 Car_78::sub_453BB0()
     return 0;
 }
 
-STUB_FUNC(0x453bf0)
-Car_BC* Car_78::sub_453BF0(Car_BC* a2)
+MATCH_FUNC(0x453bf0)
+void Car_78::sub_453BF0(Car_BC* a2)
 {
-    return 0;
+    field_0 = a2;
 }
 
 STUB_FUNC(0x453c00)
@@ -1218,9 +1218,9 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 }
 
 STUB_FUNC(0x43adc0)
-s32 Car_BC::sub_43ADC0(s32 a2)
+void Car_BC::sub_43ADC0(s32 a2)
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x43af10)
@@ -1697,9 +1697,12 @@ void Car_BC::SpawnDriverPed()
     this->field_7C_uni_num = 3;
 }
 
-STUB_FUNC(0x440630)
-void Car_BC::sub_440630(s32 a2)
+MATCH_FUNC(0x440630)
+void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 {
+    Ped* pNewPed = gChar_C_6787BC->SpawnGangDriver_470BA0(this, pGang);
+    SetDriver(pNewPed);
+    field_7C_uni_num = 3;
 }
 
 STUB_FUNC(0x440660)
@@ -2039,7 +2042,7 @@ void Car_BC::sub_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    if (field_A0 != 8 && field_7C_uni_num != 5 && !field_4.sub_471710())
+    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4.sub_471710())
     {
         return 0;
     }
@@ -2284,23 +2287,23 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x443d70)
-void Car_BC::sub_443D70(s32 a2)
+void Car_BC::IncrementCarStats_443D70(s32 a2)
 {
-    sub_443DA0(a2);
+    IncrementAllocatedCarType_443DA0(a2);
 
     if (field_64_pTrailer)
     {
         if (field_64_pTrailer->field_8 == this)
         {
-            field_64_pTrailer->field_C->sub_443DA0(a2);
+            field_64_pTrailer->field_C->IncrementAllocatedCarType_443DA0(a2);
         }
     }
 }
 
 MATCH_FUNC(0x443da0)
-void Car_BC::sub_443DA0(s32 a2)
+void Car_BC::IncrementAllocatedCarType_443DA0(s32 a2)
 {
-    this->field_A0 = a2;
+    this->field_A0_car_kind = a2;
     switch (a2)
     {
         case 1:
@@ -2338,37 +2341,37 @@ void Car_BC::sub_443DA0(s32 a2)
 MATCH_FUNC(0x443e50)
 void Car_BC::sub_443E50()
 {
-    if (field_A0 == 1)
+    if (field_A0_car_kind == 1)
     {
         gCar_6C_677930->field_28_recycled_cars--;
         gCar_6C_677930->field_40_proto_recycled_cars++;
-        field_A0 = 2;
+        field_A0_car_kind = 2;
     }
 }
 
 MATCH_FUNC(0x443e80)
 void Car_BC::sub_443E80()
 {
-    if (field_A0 == 2)
+    if (field_A0_car_kind == 2)
     {
         gCar_6C_677930->field_28_recycled_cars++;
         gCar_6C_677930->field_40_proto_recycled_cars--;
-        field_A0 = 1;
+        field_A0_car_kind = 1;
     }
 }
 
 MATCH_FUNC(0x443eb0)
 void Car_BC::sub_443EB0(s32 a2)
 {
-    gCar_6C_677930->sub_4466C0(field_A0);
-    sub_443D70(a2);
+    gCar_6C_677930->sub_4466C0(field_A0_car_kind);
+    IncrementCarStats_443D70(a2);
 }
 
 MATCH_FUNC(0x443ee0)
 void Car_BC::sub_443EE0(s32 a2)
 {
-    gCar_6C_677930->sub_4466C0(field_A0);
-    sub_443DA0(a2);
+    gCar_6C_677930->sub_4466C0(field_A0_car_kind);
+    IncrementAllocatedCarType_443DA0(a2);
 }
 
 STUB_FUNC(0x443f30)
@@ -2579,7 +2582,7 @@ void Car_BC::sub_444490()
 
     ((Object_3C*)this)->sub_5A7010(); // base?
     this->field_A7_horn = 0;
-    sub_443D70(0);
+    IncrementCarStats_443D70(0);
     this->field_8D = 0;
     this->field_60 = 0;
     this->field_70 = 0;
@@ -2636,7 +2639,7 @@ void Car_BC::sub_4447D0()
     sub_43DB80();
 
     gWeapon_8_707018->alloc_car_weapon_5E3DF0(this);
-    gCar_6C_677930->sub_4466C0(field_A0);
+    gCar_6C_677930->sub_4466C0(field_A0_car_kind);
 
     field_6C_maybe_id = 0;
 }
@@ -2667,7 +2670,7 @@ Car_BC::Car_BC()
     ((Object_3C*)this)->sub_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
-    field_A0 = 0;
+    field_A0_car_kind = 0;
     field_8D = 0;
     field_70 = 0;
     field_90 = 0;

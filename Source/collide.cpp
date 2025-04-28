@@ -3,12 +3,6 @@
 #include "error.hpp"
 #include "Globals.hpp"
 
-class Collide_8
-{
-  public:
-    Sprite* field_0_sprt;
-    Collide_8* field_4_pNext;
-};
 
 class Collide_8004
 {

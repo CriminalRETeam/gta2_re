@@ -11,6 +11,7 @@
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Weapon_30.hpp"
+#include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "map_0x370.hpp"
@@ -953,7 +954,7 @@ char_type Ped::sub_467090()
 }
 
 MATCH_FUNC(0x467280)
-s32 Ped::sub_467280()
+Sprite* Ped::sub_467280()
 {
     this->field_168_game_object->field_8_ped_state_1 = 0;
     this->field_168_game_object->field_C_ped_state_2 = 0;
@@ -1236,9 +1237,9 @@ void Ped::sub_46A850()
 }
 
 STUB_FUNC(0x46a8f0)
-s16 Ped::sub_46A8F0()
+void Ped::sub_46A8F0()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x46a9c0)
@@ -1627,16 +1628,29 @@ s32 Ped::sub_46F490()
     return 0;
 }
 
-STUB_FUNC(0x46f600)
-char_type Ped::sub_46F600(s32 a2)
+MATCH_FUNC(0x46f600)
+void Ped::ForceWeapon_46F600(s32 weapon_kind)
 {
-    return 0;
+    RemovePedWeapons_462510();
+    if (weapon_kind != 28)
+    {
+        Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
+        this->field_170_selected_weapon = pWeapon;
+        pWeapon->field_4 = 1;
+        if (field_170_selected_weapon->sub_5E3BD0())
+        {
+            GiveWeapon_46F650(weapon_type::pistol);
+        }
+    }
 }
 
-STUB_FUNC(0x46f650)
-u32* Ped::sub_46F650(s32 a2)
+MATCH_FUNC(0x46f650)
+void Ped::GiveWeapon_46F650(s32 weapon_kind)
 {
-    return 0;
+    sub_462550();
+    Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
+    this->field_174_pWeapon = pWeapon;
+    pWeapon->field_4 = 1;
 }
 
 STUB_FUNC(0x46f680)
@@ -1676,9 +1690,30 @@ void Ped::sub_46FF00(s32 a2, s32 a3, s32 a4)
 {
 }
 
-STUB_FUNC(0x46fff0)
-void Ped::sub_46FFF0(s32 a2)
+MATCH_FUNC(0x46fff0)
+void Ped::sub_46FFF0(s32 model)
 {
+    if (sub_45EDE0(2))
+    {
+        field_15C_player->field_2D4_unk.UpdateAccuracyCount_5934F0(0, model, 0);
+    }
+
+    if ((this->field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)
+    {
+        Weapon_30* pWeapon = this->field_174_pWeapon;
+        if (pWeapon)
+        {
+            pWeapon->field_4 = 0;
+        }
+    }
+    else
+    {
+        Weapon_30* pSelectedWeapon = this->field_170_selected_weapon;
+        if (pSelectedWeapon)
+        {
+            pSelectedWeapon->field_4 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x470050)
@@ -1710,10 +1745,15 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
     }
 }
 
-STUB_FUNC(0x4701d0)
+MATCH_FUNC(0x4701d0)
 bool Ped::sub_4701D0()
 {
-    return 0;
+    Sprite* pSprite = gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
+    if (pSprite)
+    {
+        return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car) ? false : true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x470200)

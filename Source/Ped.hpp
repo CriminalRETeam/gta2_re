@@ -121,7 +121,7 @@ class Ped
     EXPORT s32 sub_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
     EXPORT char_type sub_467090();
-    EXPORT s32 sub_467280();
+    EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(s32 a2, s32 a3);
     EXPORT char_type sub_4678E0();
     EXPORT char_type sub_467960();
@@ -163,7 +163,7 @@ class Ped
     EXPORT s16 sub_46A6D0();
     EXPORT void sub_46A7C0();
     EXPORT void sub_46A850();
-    EXPORT s16 sub_46A8F0();
+    EXPORT void sub_46A8F0();
     EXPORT s32 sub_46A9C0();
     EXPORT char_type sub_46AAE0();
     EXPORT char_type sub_46AB50();
@@ -208,8 +208,8 @@ class Ped
     EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void sub_46F390();
     EXPORT s32 sub_46F490();
-    EXPORT char_type sub_46F600(s32 a2);
-    EXPORT u32* sub_46F650(s32 a2);
+    EXPORT void ForceWeapon_46F600(s32 a2);
+    EXPORT void GiveWeapon_46F650(s32 a2);
     EXPORT void sub_46F680(Ped* a2);
     EXPORT void sub_46F720();
     EXPORT void sub_46F9D0();
