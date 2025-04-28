@@ -37,7 +37,7 @@ Montana_2EE4::~Montana_2EE4()
 }
 
 STUB_FUNC(0x5c5cf0)
-void Montana_4::sub_5C5CF0(Sprite* a2)
+void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
 }
 
@@ -114,7 +114,7 @@ void Montana::DisplayAdd_495510(Sprite* pSprite)
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (pSprite->field_1C_zpos >= dword_67B434)
     {
-        field_0_cols[pSprite->sub_5A1BD0()]->sub_5C5CF0(pSprite);
+        field_0_cols[pSprite->sub_5A1BD0()]->AddSprite_5C5CF0(pSprite);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }

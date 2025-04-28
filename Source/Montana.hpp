@@ -4,6 +4,7 @@
 
 class Sprite;
 
+// SpriteLayerRecord ?
 class Montana_C
 {
   public:
@@ -14,6 +15,8 @@ class Montana_C
 
 EXPORT_VAR extern class Montana_FA4* gMontana_FA4_705BC0;
 
+// Something to do with the order that sprites are drawn? Not sure almost seems redundant
+// SpriteLayerSorter ?
 class Montana_FA4
 {
   public:
@@ -51,6 +54,7 @@ class Montana_FA4
     Montana_C** field_FA0;
 };
 
+// SpriteList ?
 class Montana_2EE4
 {
   public:
@@ -60,10 +64,11 @@ class Montana_2EE4
     s32 field_2EE0_free_indx;
 };
 
+// SpriteLayer ?
 class Montana_4
 {
   public:
-    EXPORT void sub_5C5CF0(Sprite* a2);
+    EXPORT void AddSprite_5C5CF0(Sprite* pSprite);
     EXPORT void Draw_5C5DF0();
     EXPORT void Reset_5C5E50();
     EXPORT Montana_4();
@@ -71,6 +76,8 @@ class Montana_4
     Montana_C* field_0_pFirst;
 };
 
+
+// SpriteRenderer ?
 class Montana
 {
   public:
