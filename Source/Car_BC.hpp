@@ -577,8 +577,8 @@ class Car_BC
     EXPORT void ResprayOrCleanPlates(s32 remap);
     EXPORT void sub_443C40(s32 a2);
     EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void sub_443D70(s32 a2);
-    EXPORT void sub_443DA0(s32 a2);
+    EXPORT void IncrementCarStats_443D70(s32 car_type);
+    EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
     EXPORT void sub_443E50();
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
@@ -690,7 +690,7 @@ class Car_BC
     char_type field_97;
     s32 field_98;
     s32 field_9C;
-    s32 field_A0;
+    s32 field_A0_car_kind; // police car, fire engine, mission car etc
     char_type field_A4;
     char_type field_A5;
     char_type field_A6;
