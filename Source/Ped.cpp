@@ -14,6 +14,7 @@
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "map_0x370.hpp"
+#include "Weapon_8.hpp"
 
 // =================
 EXPORT_VAR s8 byte_61A8A3;
@@ -1627,10 +1628,20 @@ s32 Ped::sub_46F490()
     return 0;
 }
 
-STUB_FUNC(0x46f600)
-char_type Ped::sub_46F600(s32 a2)
+MATCH_FUNC(0x46f600)
+void Ped::ForceWeapon_46F600(s32 weapon_kind)
 {
-    return 0;
+    RemovePedWeapons_462510();
+    if (weapon_kind != 28)
+    {
+        Weapon_30* pWeapon = gWeapon_8_707018->allocate_5E3C10(weapon_kind, this, 99u);
+        this->field_170_selected_weapon = pWeapon;
+        pWeapon->field_4 = 1;
+        if (field_170_selected_weapon->sub_5E3BD0())
+        {
+            sub_46F650(weapon_type::pistol);
+        }
+    }
 }
 
 STUB_FUNC(0x46f650)

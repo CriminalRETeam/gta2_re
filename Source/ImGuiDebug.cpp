@@ -6,17 +6,19 @@
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
-#include "Weapon_8.hpp"
-#include "gbh_graphics.hpp"
-#include "collide.hpp"
 #include "Tango_28.hpp"
+#include "Weapon_8.hpp"
+#include "collide.hpp"
+#include "gbh_graphics.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 extern EXPORT_VAR Tango_54* gTango_54_67D4C0;
+extern EXPORT_VAR Orca_2FD4* gOrca_2FD4_6FDEF0;
 
 namespace ImGui
 {
@@ -89,7 +91,7 @@ void CC ImGuiDebugDraw()
         if (gCollide_C_6791FC)
         {
             ImGui::Text("field_0_count %d", gCollide_C_6791FC->field_0_count);
-            ImGui::Text("field_4_count %d",gCollide_C_6791FC->field_4_count);
+            ImGui::Text("field_4_count %d", gCollide_C_6791FC->field_4_count);
             ImGui::Text("field_8_bUnknown %d", gCollide_C_6791FC->field_8_bUnknown);
         }
         ImGui::TreePop();
@@ -103,6 +105,16 @@ void CC ImGuiDebugDraw()
             ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
             ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
             ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+        }
+
+        if (ImGui::Button("Orca_2FD4::sub_5552B0"))
+        {
+            char xpos = gViewCamera_676978->field_78_win_left.ToInt() + 5;
+            char ypos = gViewCamera_676978->field_80_win_top.ToInt() + 5;
+            char zpos = 2;
+            if (gOrca_2FD4_6FDEF0->sub_5552B0(0, &xpos, &ypos, &zpos, 1))
+            {
+            }
         }
         ImGui::TreePop();
     }
@@ -153,9 +165,18 @@ void CC ImGuiDebugDraw()
                                                              currentCarModelIndex,
                                                              scale);
                 pNewCar->sub_43BCA0();
+                if (!pNewCar->field_5C)
+                {
+                    printf("Alloc physics\n");
+                    Car_78* v18 = gCar_8F74_677CF8->field_0;
+                    gCar_8F74_677CF8->field_0 = gCar_8F74_677CF8->field_0->field_C;
+                    v18->sub_453D80();
+                    pNewCar->field_5C = v18;
+                }
+                pNewCar->field_5C->sub_453BF0(pNewCar);
 
                 //pPlayerPed->sub_46F650(weapon_type::flamethrower);
-/*
+                /*
                 Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
                                                           pPlayerSprite->field_18_ypos,
                                                           pPlayerSprite->field_1C_zpos,
@@ -406,7 +427,9 @@ void CC ImGuiDebugDraw()
             if (ImGui::Button("Add player weapon"))
             {
                 //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
-                pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
+               // pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
+
+                pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
 
                 /*
                 Char_B4* pB4 = pPlayerPed->field_168_game_object;

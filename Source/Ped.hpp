@@ -208,7 +208,7 @@ class Ped
     EXPORT void sub_46F1E0(Weapon_30* a2);
     EXPORT void sub_46F390();
     EXPORT s32 sub_46F490();
-    EXPORT char_type sub_46F600(s32 a2);
+    EXPORT void ForceWeapon_46F600(s32 a2);
     EXPORT u32* sub_46F650(s32 a2);
     EXPORT void sub_46F680(Ped* a2);
     EXPORT void sub_46F720();
