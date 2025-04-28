@@ -41,7 +41,7 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
 }
 
-STUB_FUNC(0x5C5DF0)
+MATCH_FUNC(0x5C5DF0)
 void Montana_4::Draw_5C5DF0()
 {
     Montana_C* pIter = this->field_0_pFirst;
