@@ -37,13 +37,30 @@ Montana_2EE4::~Montana_2EE4()
 }
 
 STUB_FUNC(0x5c5cf0)
-void Montana_4::sub_5C5CF0(Sprite* a2)
+void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
 }
 
-STUB_FUNC(0x5c5df0)
+MATCH_FUNC(0x5C5DF0)
 void Montana_4::Draw_5C5DF0()
 {
+    Montana_C* pIter = this->field_0_pFirst;
+    for (;;)
+    {
+        while (pIter)
+        {
+            gMontana_FA4_705BC0->Push_4C4B80(pIter);
+            pIter = pIter->field_4_pNext;
+        }
+        if (gMontana_FA4_705BC0->IsEnd_4C4BC0())
+        {
+            break;
+        }
+
+        pIter = gMontana_FA4_705BC0->Pop_4C4BA0();
+        pIter->field_0->sub_59EFF0();
+        pIter = pIter->field_8;
+    }
 }
 
 MATCH_FUNC(0x5c5e50)
@@ -97,7 +114,7 @@ void Montana::DisplayAdd_495510(Sprite* pSprite)
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (pSprite->field_1C_zpos >= dword_67B434)
     {
-        field_0_cols[pSprite->sub_5A1BD0()]->sub_5C5CF0(pSprite);
+        field_0_cols[pSprite->sub_5A1BD0()]->AddSprite_5C5CF0(pSprite);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }

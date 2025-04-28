@@ -185,7 +185,7 @@ class Sprite
     EXPORT char_type sub_5A2500();
     EXPORT s32* sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
     EXPORT void sub_5A29D0();
-    EXPORT void sub_5A2A00();
+    EXPORT void FreeSound_5A2A00();
     EXPORT void sub_5A2A30();
     EXPORT s32 sub_5A2CF0();
     EXPORT void sub_5A3030();

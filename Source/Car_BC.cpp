@@ -663,7 +663,7 @@ void Sprite::sub_5A29D0()
 }
 
 MATCH_FUNC(0x5a2a00)
-void Sprite::sub_5A2A00()
+void Sprite::FreeSound_5A2A00()
 {
     if (field_10)
     {
@@ -688,7 +688,7 @@ void Sprite::sub_5A3030()
 {
     sub_59FAD0();
     this->field_20_id = 0;
-    sub_5A2A00();
+    FreeSound_5A2A00();
 }
 
 STUB_FUNC(0x5a3100)
@@ -700,7 +700,7 @@ Car_BC* Sprite::sub_5A3100(Sprite* a2, s32 a3, s32 a4, Ang16 a5)
 MATCH_FUNC(0x5a3540)
 Sprite::~Sprite()
 {
-    sub_5A2A00();
+    FreeSound_5A2A00();
 }
 
 STUB_FUNC(0x5A4D90)

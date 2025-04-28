@@ -20,8 +20,15 @@ Char_B4::Char_B4()
 {
 }
 
+MATCH_FUNC(0x5451A0)
 Char_B4::~Char_B4()
 {
+    this->field_18 = 0;
+    this->field_1C = 0;
+    this->field_78_next = 0;
+    this->field_7C_pPed = 0;
+    this->field_80_sprite_ptr = 0;
+    this->field_84 = 0;
 }
 
 STUB_FUNC(0x5453d0)

@@ -14875,7 +14875,7 @@
         "v105_address": "0x5a29d0"
     },
     {
-        "name": "Sprite::sub_5A2A00",
+        "name": "Sprite::FreeSound_5A2A00",
         "v96f_address": null,
         "v105_address": "0x5a2a00"
     },
@@ -15845,7 +15845,7 @@
         "v105_address": "0x5c5cd0"
     },
     {
-        "name": "Montana_4::sub_5C5CF0",
+        "name": "Montana_4::AddSprite_5C5CF0",
         "v96f_address": null,
         "v105_address": "0x5c5cf0"
     },

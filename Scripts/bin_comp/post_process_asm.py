@@ -92,19 +92,25 @@ def extract_constant(s):
 
 
 def replace_constants(line, constants):
-    # Loop because there can many constants on 1 asm line
-    while True:
+    # Create a copy of the constants dictionary
+    constants_copy = constants.copy()
+    
+    while constants_copy:
         found_constant = None
-        for c in constants:
-            # bad time complexity here... but the asm dumps per func are usually small so its fine... for now
+        for c in constants_copy:
+            # Bad time complexity here, but for small ASM dumps per function, it's manageable
             if c in line:
-                # find the biggest match and only use that one
+                # Find the biggest match and only use that one
                 if found_constant is None or len(c) > len(found_constant):
                     found_constant = c
-        if not found_constant is None:
-            line = line.replace(found_constant, constants[found_constant])
+        if found_constant:
+            line = line.replace(found_constant, constants_copy[found_constant])
+            # Remove the replaced constant from the copy to prevent looping
+            del constants_copy[found_constant]
         else:
             return line
+    return line
+
 
 def post_process_asm(asmstr):
     stable_name_index = 1
