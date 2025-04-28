@@ -509,7 +509,7 @@ class Car_BC
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void sub_440590();
     EXPORT void SpawnDriverPed();
-    EXPORT void sub_440630(s32 a2);
+    EXPORT void AddGangDriver_440630(Gang_144 *pGang);
     EXPORT s32 sub_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);

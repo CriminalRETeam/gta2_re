@@ -184,7 +184,7 @@ class Char_C
     EXPORT ~Char_C();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
     EXPORT Ped* sub_470B00(Car_BC* a2);
-    EXPORT Ped* sub_470BA0(Car_BC* a1, s32 a2);
+    EXPORT Ped* SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang);
     EXPORT Ped* sub_470CC0(Car_BC* a2);
     EXPORT Ped* sub_470D60();
     EXPORT Ped* sub_470E30();

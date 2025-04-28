@@ -4,6 +4,7 @@
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Hamburger_500.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
@@ -11,6 +12,7 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Sero_181C.hpp"
+#include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
@@ -19,8 +21,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Hamburger_500.hpp"
-#include "Weapon_8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -1697,9 +1697,12 @@ void Car_BC::SpawnDriverPed()
     this->field_7C_uni_num = 3;
 }
 
-STUB_FUNC(0x440630)
-void Car_BC::sub_440630(s32 a2)
+MATCH_FUNC(0x440630)
+void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 {
+    Ped* pNewPed = gChar_C_6787BC->SpawnGangDriver_470BA0(this, pGang);
+    SetDriver(pNewPed);
+    field_7C_uni_num = 3;
 }
 
 STUB_FUNC(0x440660)
