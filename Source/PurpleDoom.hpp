@@ -25,7 +25,7 @@ class PurpleDoom
     EXPORT char_type sub_477BD0(Sprite* a2);
     EXPORT char_type sub_477C30(Sprite* a2);
     EXPORT s32 sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6);
-    EXPORT s32 sub_477E60(Sprite* a2, s32 a3);
+    EXPORT Sprite* sub_477E60(Sprite* a2, s32 a3);
     EXPORT char_type sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6);
     EXPORT char_type sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5);
     EXPORT PurpleDoom();

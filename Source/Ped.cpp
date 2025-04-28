@@ -954,7 +954,7 @@ char_type Ped::sub_467090()
 }
 
 MATCH_FUNC(0x467280)
-s32 Ped::sub_467280()
+Sprite* Ped::sub_467280()
 {
     this->field_168_game_object->field_8_ped_state_1 = 0;
     this->field_168_game_object->field_C_ped_state_2 = 0;
@@ -1724,10 +1724,15 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
     }
 }
 
-STUB_FUNC(0x4701d0)
+MATCH_FUNC(0x4701d0)
 bool Ped::sub_4701D0()
 {
-    return 0;
+    Sprite* pSprite = gPurpleDoom_1_679208->sub_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
+    if (pSprite)
+    {
+        return (pSprite->field_30_sprite_type_enum != sprite_types_enum::car) ? false : true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x470200)

@@ -147,7 +147,7 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
 }
 
 STUB_FUNC(0x477e60)
-s32 PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
+Sprite* PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
 {
     return 0;
 }
