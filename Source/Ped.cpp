@@ -1237,9 +1237,9 @@ void Ped::sub_46A850()
 }
 
 STUB_FUNC(0x46a8f0)
-s16 Ped::sub_46A8F0()
+void Ped::sub_46A8F0()
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x46a9c0)

@@ -2,6 +2,16 @@
 
 #include "Function.hpp"
 
+class Sprite;
+
+class Collide_8
+{
+  public:
+    Sprite* field_0_sprt;
+    Collide_8* field_4_pNext;
+};
+
+
 class Collide_C
 {
   public:
