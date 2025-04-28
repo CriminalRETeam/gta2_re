@@ -24,7 +24,7 @@ class Char_B4
     s8 field_16;
     s8 field_17;
     s32 field_18;
-    s32 field_1c;
+    s32 field_1C;
     s32 field_20;
     s32 field_24;
     angle field_28;
@@ -72,9 +72,9 @@ class Char_B4
     s8 field_76;
     s8 field_77;
     Char_B4* field_78_next;
-    Ped* field_7c_ped_ptr;
+    Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
-    Car_BC* field_84_AutoClass21_s1_ptr1;
+    Car_BC* field_84;
     Car_BC* field_88_obj_2c;
     Fix16 field_8c;
     Fix16 field_90;
