@@ -301,10 +301,10 @@ s16 Car_78::sub_453BB0()
     return 0;
 }
 
-STUB_FUNC(0x453bf0)
-Car_BC* Car_78::sub_453BF0(Car_BC* a2)
+MATCH_FUNC(0x453bf0)
+void Car_78::sub_453BF0(Car_BC* a2)
 {
-    return 0;
+    field_0 = a2;
 }
 
 STUB_FUNC(0x453c00)
@@ -1218,9 +1218,9 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 }
 
 STUB_FUNC(0x43adc0)
-s32 Car_BC::sub_43ADC0(s32 a2)
+void Car_BC::sub_43ADC0(s32 a2)
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x43af10)

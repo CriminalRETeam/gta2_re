@@ -62,7 +62,7 @@ class Car_78
     EXPORT u8* sub_4539D0();
     EXPORT s32 sub_453A40();
     EXPORT s16 sub_453BB0();
-    EXPORT Car_BC* sub_453BF0(Car_BC* a2);
+    EXPORT void sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
     EXPORT s32 sub_453D80();
     EXPORT Car_78();
@@ -443,7 +443,7 @@ class Car_BC
     EXPORT void sub_43A9F0();
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
-    EXPORT s32 sub_43ADC0(s32 a2);
+    EXPORT void sub_43ADC0(s32 a2);
     EXPORT bool sub_43AF10();
     EXPORT char_type sub_43AF40();
     EXPORT void sub_43AF60();

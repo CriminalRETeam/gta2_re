@@ -11,10 +11,12 @@
 #include "Weapon_8.hpp"
 #include "gbh_graphics.hpp"
 #include "collide.hpp"
+#include "Tango_28.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
+extern EXPORT_VAR Tango_54* gTango_54_67D4C0;
 
 namespace ImGui
 {
@@ -69,6 +71,18 @@ EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
+
+    if (ImGui::TreeNode("gTango_54_67D4C0"))
+    {
+        if (gTango_54_67D4C0)
+        {
+            if (ImGui::Button("sub_4A8820"))
+            {
+                gTango_54_67D4C0->sub_4A8820(0);
+            }
+        }
+        ImGui::TreePop();
+    }
 
     if (ImGui::TreeNode("gCollide_C_6791FC"))
     {
@@ -138,16 +152,19 @@ void CC ImGuiDebugDraw()
                                                              0,
                                                              currentCarModelIndex,
                                                              scale);
+                pNewCar->sub_43BCA0();
 
                 //pPlayerPed->sub_46F650(weapon_type::flamethrower);
-
+/*
                 Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
                                                           pPlayerSprite->field_18_ypos,
                                                           pPlayerSprite->field_1C_zpos,
                                                           pPlayerChar->field_5_remap,
                                                           pPlayerPed->field_134);
+*/
+                //gChar_C_6787BC->sub_470E30();
 
-                gChar_C_6787BC->sub_470E30();
+                gTango_54_67D4C0->sub_4A8820(pNewCar);
 
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }
