@@ -298,7 +298,11 @@ void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 }
 
 STUB_FUNC(0x4789f0)
-PurpleDoom* PurpleDoom::Clear_4789F0()
+void PurpleDoom::Clear_4789F0()
 {
-    return 0;
+
+    for (u32 i=0; i< 256; i++)
+    {
+        field_0[i] = 0;
+    }
 }
