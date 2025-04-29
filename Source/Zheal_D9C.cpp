@@ -313,9 +313,9 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 
     Sprite* current_sprite = gSprite_49B28_703818->field_0_first_free;
     gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->field_C_sprite_next_ptr;
-    current_sprite->sub_5A2CF0();
+    current_sprite->Init_5A2CF0();
     field_60 = current_sprite;
-    current_sprite->sub_59F950(dword_679E70, dword_679E70, dword_679E70);
+    current_sprite->AllocInternal_59F950(dword_679E70, dword_679E70, dword_679E70);
     field_14C = 60;
     field_BC = dword_679E70;
     field_C0 = dword_679E70;

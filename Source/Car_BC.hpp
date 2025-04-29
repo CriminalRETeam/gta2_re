@@ -146,21 +146,27 @@ class Car_8F74
 class Sprite
 {
   public:
-    EXPORT void sub_451950(Fix16 a2, Fix16 a3, Fix16 a4);
-
+    EXPORT s32* get_x_y_443580(s32* a2);
+    EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void sub_54EC80(s32 xpos, s32 ypos);
     EXPORT bool sub_59E170();
     EXPORT Ped* sub_59E1B0();
     EXPORT s32 sub_59E1D0();
-    EXPORT char sub_59E250();
-
+    EXPORT char_type sub_59E250();
     EXPORT void sub_59E2E0();
     EXPORT void sub_59E300();
-    EXPORT s32 sub_59E320(char_type a2);
+    EXPORT void sub_59E320(char_type a2);
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
+    EXPORT char_type sub_59E590(Sprite* a2);
+    EXPORT char_type sub_59E680(s32 a2, s16* a3);
     EXPORT void sub_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
-    EXPORT s32 sub_59E960();
+    EXPORT char_type sub_59E830(Sprite* a1, Ped* a2);
+    EXPORT char_type sub_59E850(Sprite* pSprite);
+    EXPORT void sub_59E8C0(Sprite* pSprite);
+    EXPORT void sub_59E910(Sprite* a2);
+    EXPORT void sub_59E960();
     EXPORT Sprite* sub_59E9C0();
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 sub_59EAA0();
@@ -168,13 +174,17 @@ class Sprite
     EXPORT void sub_59EB30(s32 a2, f32* a3);
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void sub_59EFF0();
-    EXPORT void sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4);
+    EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
     EXPORT void sub_59F990();
     EXPORT void sub_59FA40();
     EXPORT void sub_59FAD0();
+    EXPORT bool sub_59FB10(s32* a2);
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
-    EXPORT bool sub_5A0380(Sprite* a1);
+    EXPORT bool sub_5A0380(Sprite* a2);
+    EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
+    EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
@@ -182,15 +192,22 @@ class Sprite
     EXPORT char_type sub_5A1B30(Sprite* a2);
     EXPORT char_type sub_5A1BD0();
     EXPORT char_type sub_5A1CA0(u32* a2);
+    EXPORT char_type sub_5A1EB0();
+    EXPORT char_type sub_5A21F0();
+    EXPORT u32* sub_5A22B0(u32* a2, Sprite* a3);
+    EXPORT char_type sub_5A2440();
     EXPORT char_type sub_5A2500();
+    EXPORT s16* sub_5A26E0(s16* a2);
     EXPORT s32* sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
-    EXPORT void sub_5A29D0();
+    EXPORT void CreateSoundObj_5A29D0();
     EXPORT void FreeSound_5A2A00();
     EXPORT void sub_5A2A30();
-    EXPORT s32 sub_5A2CF0();
+    EXPORT s32 Init_5A2CF0();
     EXPORT void sub_5A3030();
-    EXPORT Car_BC* sub_5A3100(Sprite* a2, s32 a3, s32 a4, Ang16 a5);
+    EXPORT void sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5);
 
+    EXPORT ~Sprite(); // 0x5a3540
+    EXPORT void sub_5A4D90(); // TODO: Sprite or Sprite_4C?
     // This function matches, but the marker doesn't seem to work on header files.
     // Leave it here commented for future reference
     //MATCH_FUNC(0x5a5e50)
@@ -213,8 +230,6 @@ class Sprite
         field_C_sprite_next_ptr = NULL;
         field_10 = NULL;
     }
-    EXPORT ~Sprite();
-    EXPORT void sub_5A4D90();
 
     Ang16 field_0;
     s8 field_2_pad;
@@ -395,7 +410,7 @@ class Car_A4_10
 
 class Unknown_Ptr_4
 {
-public:
+  public:
     // 0x424620
     Unknown_Ptr_4()
     {
@@ -509,7 +524,7 @@ class Car_BC
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void sub_440590();
     EXPORT void SpawnDriverPed();
-    EXPORT void AddGangDriver_440630(Gang_144 *pGang);
+    EXPORT void AddGangDriver_440630(Gang_144* pGang);
     EXPORT s32 sub_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
