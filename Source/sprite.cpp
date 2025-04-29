@@ -108,7 +108,7 @@ MATCH_FUNC(0x5a5870)
 void Sprite_8::sub_5A5870()
 {
     DAT_0066ff18 = gSprite_49B28_703818->get_new_sprite();
-    DAT_0066ff18->sub_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
+    DAT_0066ff18->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)

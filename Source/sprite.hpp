@@ -176,7 +176,7 @@ class Sprite_49B28
     {
         Sprite* this_00 = this->field_0_first_free;
         this->field_0_first_free = this_00->field_C_sprite_next_ptr;
-        this_00->sub_5A2CF0();
+        this_00->Init_5A2CF0();
         return this_00;
     }
 

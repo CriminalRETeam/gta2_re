@@ -324,6 +324,12 @@ Car_78::Car_78()
 {
 }
 
+STUB_FUNC(0x443580)
+s32* Sprite::get_x_y_443580(s32* a2)
+{
+    return 0;
+}
+
 MATCH_FUNC(0x451950)
 void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
@@ -334,6 +340,11 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         field_1C_zpos = zpos;
         sub_59E7B0();
     }
+}
+
+STUB_FUNC(0x54EC80)
+void Sprite::sub_54EC80(s32 xpos, s32 ypos)
+{
 }
 
 STUB_FUNC(0x59E170)
@@ -381,7 +392,7 @@ void Sprite::sub_59E300()
 }
 
 MATCH_FUNC(0x59e320)
-s32 Sprite::sub_59E320(char_type a2)
+void Sprite::sub_59E320(char_type a2)
 {
     u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
@@ -402,7 +413,6 @@ s32 Sprite::sub_59E320(char_type a2)
     {
         field_38 = result;
     }
-    return result;
 }
 
 STUB_FUNC(0x59e390) // https://decomp.me/scratch/dijmx
@@ -413,6 +423,18 @@ bool Sprite::sub_59E390(s32 a2, s32 a3, s32 a4)
 
 STUB_FUNC(0x59e4c0)
 s32 Sprite::sub_59E4C0(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E590)
+char_type Sprite::sub_59E590(Sprite* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E680)
+char_type Sprite::sub_59E680(s32 a2, s16* a3)
 {
     return 0;
 }
@@ -452,10 +474,31 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x59e960)
-s32 Sprite::sub_59E960()
+STUB_FUNC(0x59E830)
+char_type Sprite::sub_59E830(Sprite* a1, Ped* a2)
 {
     return 0;
+}
+
+STUB_FUNC(0x59E850)
+char_type Sprite::sub_59E850(Sprite* pSprite)
+{
+    return 0;
+}
+
+STUB_FUNC(0x59E8C0)
+void Sprite::sub_59E8C0(Sprite* pSprite)
+{
+}
+
+STUB_FUNC(0x59E910)
+void Sprite::sub_59E910(Sprite* a2)
+{
+}
+
+STUB_FUNC(0x59e960)
+void Sprite::sub_59E960()
+{
 }
 
 STUB_FUNC(0x59e9c0)
@@ -502,7 +545,7 @@ void Sprite::sub_59EFF0()
 }
 
 MATCH_FUNC(0x59f950)
-void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
+void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (field_C_sprite_4c_ptr == NULL)
     {
@@ -577,6 +620,12 @@ void Sprite::sub_59FAD0()
     }
 }
 
+STUB_FUNC(0x59FB10)
+bool Sprite::sub_59FB10(s32* a2)
+{
+    return false;
+}
+
 STUB_FUNC(0x5a0150)
 char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
 {
@@ -615,6 +664,24 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 
 STUB_FUNC(0x5a0380)
 bool Sprite::sub_5A0380(Sprite* a1)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A0970)
+char_type Sprite::sub_5A0970(s32 a2, s32 a3, s32 a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A0A70)
+char_type Sprite::sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A0EF0)
+char_type Sprite::sub_5A0EF0(s32 a2, s32 a3, s32 a4)
 {
     return 0;
 }
@@ -661,8 +728,38 @@ char_type Sprite::sub_5A1CA0(u32* a2)
     return 0;
 }
 
+STUB_FUNC(0x5A1EB0)
+char_type Sprite::sub_5A1EB0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A21F0)
+char_type Sprite::sub_5A21F0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A22B0)
+u32* Sprite::sub_5A22B0(u32* a2, Sprite* a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A2440)
+char_type Sprite::sub_5A2440()
+{
+    return 0;
+}
+
 STUB_FUNC(0x5a2500)
 char_type Sprite::sub_5A2500()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5A26E0)
+s16* Sprite::sub_5A26E0(s16* a2)
 {
     return 0;
 }
@@ -674,7 +771,7 @@ s32* Sprite::sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, ch
 }
 
 MATCH_FUNC(0x5a29d0)
-void Sprite::sub_5A29D0()
+void Sprite::CreateSoundObj_5A29D0()
 {
     if (!field_10)
     {
@@ -701,7 +798,7 @@ void Sprite::sub_5A2A30()
 }
 
 STUB_FUNC(0x5a2cf0)
-s32 Sprite::sub_5A2CF0()
+s32 Sprite::Init_5A2CF0()
 {
     return 0;
 }
@@ -715,9 +812,8 @@ void Sprite::sub_5A3030()
 }
 
 STUB_FUNC(0x5a3100)
-Car_BC* Sprite::sub_5A3100(Sprite* a2, s32 a3, s32 a4, Ang16 a5)
+void Sprite::sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5)
 {
-    return 0;
 }
 
 MATCH_FUNC(0x5a3540)

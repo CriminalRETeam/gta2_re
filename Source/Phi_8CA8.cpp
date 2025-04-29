@@ -239,7 +239,7 @@ Sprite* Phi_74::sub_533170()
 {
     Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
     gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->field_C_sprite_next_ptr;
-    pFreeSprite->sub_5A2CF0();
+    pFreeSprite->Init_5A2CF0();
     sub_5331A0(pFreeSprite);
     return pFreeSprite;
 }
@@ -271,12 +271,12 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
     f40 = this->field_40;
     if (f40 > 0 && (f40 <= 3 || f40 == 4))
     {
-        pSprite->sub_59F950(this->field_0, this->field_4, this->field_8);
+        pSprite->AllocInternal_59F950(this->field_0, this->field_4, this->field_8);
     }
 
     if (this->field_70)
     {
-        pSprite->sub_5A29D0();
+        pSprite->CreateSoundObj_5A29D0();
     }
 }
 
