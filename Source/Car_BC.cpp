@@ -570,41 +570,34 @@ char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
     return 0;
 }
 
-MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scratch/D7a8C
-char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
+MATCH_FUNC(0x5a0320)
+char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
 {
-    u8 result = 0; // Initialize result to 0
-    Sprite** next_next_ptr = &this->field_C_sprite_next_ptr->field_C_sprite_next_ptr; // Pointer to field_C_car_or_sprite
+    u8 overlapCount = 0;
+    const Car_8* pBoundingBox = &field_C_sprite_4c_ptr->field_C_b_box[0];
 
-    for (u8 i = 0; i < 4;)
+    for (u8 i = 0; i < 4; i++)
     {
-        // First comparison: *p_field_C_car_or_sprite > *a2
-        if ((s32)*next_next_ptr > (s32)*a2)
+        if ((pBoundingBox[i].field_0 > pXY1[0] && pBoundingBox[i].field_4 > pXY1[1]) && 
+            (pBoundingBox[i].field_0 < pXY2[0] && pBoundingBox[i].field_4 < pXY2[1]))
         {
-            // Second comparison: *p_field_C_car_or_sprite[1] > a2[1] and *p_field_C_car_or_sprite < *a3
-            // and *p_field_C_car_or_sprite[1] < a3[1]
-            Sprite* v8 = next_next_ptr[1];
-            if ((int)v8 > (s32)a2[1] && (int)*next_next_ptr < (s32)*a3 && (int)v8 < (s32)a3[1])
+            // If we find the first valid match, store index in pCollisionIdx1
+            overlapCount++;
+
+            if (overlapCount == 1)
             {
-                // If we find the first valid match, store index in a4
-                if (++result == 1)
-                {
-                    *a4 = i;
-                }
-                // If we find the second valid match, store index in a5
-                else if (result == 2)
-                {
-                    *a5 = i;
-                }
+                *pCollisionIdx1 = i;
+            }
+            // If we find the second valid match, store index in pCollisionIdx2
+            else if (overlapCount == 2)
+            {
+                *pCollisionIdx2 = i;
             }
         }
-        // Move the pointer to the next pair
-        ++i;
-        next_next_ptr += 2;
     }
 
     // Return the result count (0, 1, or 2)
-    return result;
+    return overlapCount;
 }
 
 STUB_FUNC(0x5a0380)

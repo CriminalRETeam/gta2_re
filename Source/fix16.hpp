@@ -60,39 +60,39 @@ class Fix16
         return Fix16(-mValue, 0);
     }
 
-    s32 operator>(const Fix16& other)
+    s32 operator>(const Fix16& other) const
     {
         return mValue > other.mValue;
     }
 
-    s32 operator<(const Fix16& other)
+    s32 operator<(const Fix16& other) const
     {
         return mValue < other.mValue;
     }
 
-    s32 operator!=(const Fix16& other)
+    s32 operator!=(const Fix16& other) const
     {
         return mValue != other.mValue;
     }
 
-    s32 operator>=(const Fix16& other)
+    s32 operator>=(const Fix16& other) const
     {
         return mValue >= other.mValue;
     }
 
-    s32 operator<=(const Fix16& other)
+    s32 operator<=(const Fix16& other) const
     {
         return mValue <= other.mValue;
     }
 
     // MATCH_FUNC(0x509990)
-    bool operator>=(const s32 value)
+    bool operator>=(const s32 value) const
     {
         return mValue >= value << 14;
     }
 
     // MATCH_FUNC(0x509990)
-    bool operator<(const s32 value)
+    bool operator<(const s32 value) const
     {
         return mValue < value << 14;
     }

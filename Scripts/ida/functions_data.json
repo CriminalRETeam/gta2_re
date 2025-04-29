@@ -14775,7 +14775,7 @@
         "v105_address": "0x5a0150"
     },
     {
-        "name": "Sprite::sub_5A0320",
+        "name": "Sprite::CollisionCheck_5A0320",
         "v96f_address": null,
         "v105_address": "0x5a0320"
     },
