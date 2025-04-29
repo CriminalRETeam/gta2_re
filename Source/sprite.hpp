@@ -3,6 +3,7 @@
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "Game_0x40.hpp"
 
 class Sprite_14
 {
@@ -105,14 +106,9 @@ class Sprite_4C
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8;
-    Car_8 field_C[4];
+    Car_8 field_C_b_box[4];
     Sprite_4C* field_2C_pNext;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
+    Fix16_Rect field_30;
     char_type field_48;
     char_type field_49;
     char_type field_4A;

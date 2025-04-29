@@ -11,6 +11,7 @@ class DrawUnk_0xBC;
 // TODO: Prob should be in its own header
 struct Fix16_Rect
 {
+    Fix16_Rect() { }
     Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
     {
         field_0_left = x;
