@@ -17,6 +17,66 @@ u32* Object_3C::sub_52ADF0(u32* a2)
     return 0;
 }
 
+STUB_FUNC(0x5a6a50)
+Sprite_18* Object_3C::sub_5A6A50(s32 a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6a90)
+Object_2C* Object_3C::sub_5A6A90(s32 obj_type)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6ad0)
+Sprite_18* Object_3C::sub_5A6AD0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6b10)
+void Object_3C::sub_5A6B10(Sprite* a2)
+{
+}
+
+STUB_FUNC(0x5a6b60)
+void Object_3C::sub_5A6B60(Sprite* a2)
+{
+}
+
+STUB_FUNC(0x5a6bb0)
+void Object_3C::sub_5A6BB0()
+{
+}
+
+STUB_FUNC(0x5a6bd0)
+void Object_3C::sub_5A6BD0()
+{
+}
+
+STUB_FUNC(0x5a6bf0)
+void Object_3C::sub_5A6BF0(Sprite* pSprite)
+{
+}
+
+STUB_FUNC(0x5a6c10)
+char_type Object_3C::sub_5A6C10(Sprite* a2)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6c40)
+void Object_3C::sub_5A6C40(s32 a2)
+{
+}
+
+STUB_FUNC(0x5a6ca0)
+Sprite* Object_3C::FirstSpriteOfType_5A6CA0(s32 sprite_type)
+{
+    return 0;
+}
+
 MATCH_FUNC(0x5a6cd0)
 void Object_3C::sub_5A6CD0(Sprite* pSprite)
 {
@@ -29,14 +89,48 @@ void Object_3C::sub_5A6CD0(Sprite* pSprite)
     this->field_0 = p18;
 }
 
+STUB_FUNC(0x5a6d00)
+void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, Sprite* pSprite2, s16 a5)
+{
+}
+
+STUB_FUNC(0x5a6d40)
+void Object_3C::PushSprite_5A6D40(Sprite* pToFind)
+{
+}
+
+STUB_FUNC(0x5a6d80)
+char_type Object_3C::SpriteExists_5A6D80(Sprite* pToFind)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6da0)
+Sprite* Object_3C::sub_5A6DA0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6dc0)
+Sprite* Object_3C::sub_5A6DC0()
+{
+    return 0;
+}
+
 STUB_FUNC(0x5a6e10)
-s32 Object_3C::sub_5A6E10()
+Sprite_18* Object_3C::sub_5A6E10()
 {
     return 0;
 }
 
 STUB_FUNC(0x5a6e40)
-s32 Object_3C::sub_5A6E40(s32 a2, s32 a3)
+Sprite* Object_3C::sub_5A6E40(s32 a2, s32 a3)
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a6ea0)
+s32 Object_3C::sub_5A6EA0(s32 a2, s32 a3)
 {
     return 0;
 }
@@ -51,13 +145,24 @@ void Object_3C::sub_5A7010()
 {
 }
 
-STUB_FUNC(0x5A7080)
+STUB_FUNC(0x5a7080)
 void Object_3C::sub_5A7080()
 {
 }
 
-STUB_FUNC(0x5A7110)
+STUB_FUNC(0x5a7110)
 void Object_3C::sub_5A7110()
+{
+}
+
+STUB_FUNC(0x5a71a0)
+s32 Object_3C::sub_5A71A0()
+{
+    return 0;
+}
+
+STUB_FUNC(0x5a71f0)
+void Object_3C::sub_5A71F0()
 {
 }
 
@@ -67,9 +172,8 @@ void Object_3C::sub_5A7240(Sprite* a2)
 }
 
 STUB_FUNC(0x5a72b0)
-s32* Object_3C::sub_5A72B0(Sprite* a2, char_type a3)
+void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
-    return 0;
 }
 
 STUB_FUNC(0x5a7310)
