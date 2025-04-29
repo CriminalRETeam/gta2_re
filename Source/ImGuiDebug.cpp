@@ -12,6 +12,7 @@
 #include "Tango_28.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
+#include "debug.hpp"
 #include "gbh_graphics.hpp"
 #include <stdarg.h>
 
@@ -598,6 +599,49 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_0", hb.field_0);
             }
         }
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("Debug options"))
+    {
+        ImGui::Checkbox("Debug Keys", &bDo_debug_keys_67D6CF);
+        ImGui::Checkbox("Iain Test", &bDo_iain_test_67D4E9);
+        ImGui::Checkbox("Brian Test", &bDo_brian_test_67D544);
+        ImGui::Checkbox("Do Test", &bDo_test_67D4F8);
+        ImGui::Checkbox("Do Mike", &bDo_mike_67D5CC);
+        ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Garox_4 stuff)
+        ImGui::Checkbox("Skip Missions", &bSkip_mission_67D4E5);
+        ImGui::Checkbox("Skip Particles", &bSkip_particles_67D64D);
+        ImGui::Checkbox("3D Sound", &bDo_3d_sound_67D6C2); // seems to not work
+
+        if (ImGui::TreeNode("Show things"))
+        {
+            ImGui::Checkbox("Show Ped IDs", &bDo_show_ids_67D559);
+            ImGui::Checkbox("Show Objects IDs", &bDo_show_object_ids_67D6CA);
+            ImGui::Checkbox("Show Junctions IDs", &bDo_show_junc_ids_67D5B0);
+            ImGui::Checkbox("Show Traffic lights info", &bDo_show_traffic_lights_info_67D4FA);
+            ImGui::Checkbox("Show Imaginary", &bDo_show_imaginary_67D588); // some cones appears when the player is hit by rocket launcher
+            ImGui::Checkbox("Show Camera", &bDo_show_camera_67D58A);
+            //ImGui::Checkbox("Show Collision Box", &bDo_show_collision_box_67D6E5);    // crashes the game
+            ImGui::Checkbox("Show Physics", &bDo_show_physics_67D54F);
+            ImGui::Checkbox("Show Instruments", &bDo_show_instruments_67D64C);
+            ImGui::Checkbox("Show Cycle", &gShow_cycle_67D6BD);
+            ImGui::Checkbox("Show Timing", &bDo_show_timing_67D6DC);
+            ImGui::Checkbox("Show Counter", &gDo_show_counter_67D6E6);
+            ImGui::Checkbox("Show Brief number", &bShow_brief_number_67D504);
+            ImGui::Checkbox("Show Horn", &bDo_show_horn_67D4F2);
+            ImGui::TreePop();
+        } 
+
+        if (ImGui::TreeNode("Cheats"))
+        {
+            ImGui::Checkbox("Invulnerable", &bDo_invulnerable_67D4CB);
+            ImGui::Checkbox("Get all weapons", &bGet_all_weapons_67D684);
+            ImGui::Checkbox("Keep weapons after death", &bKeep_weapons_after_death_67D54D);
+            ImGui::Checkbox("Do Blood", &bDo_blood_67D5C5);
+            ImGui::TreePop();
+        }
+
         ImGui::TreePop();
     }
 
