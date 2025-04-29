@@ -2,8 +2,8 @@
 
 #include "Car_BC.hpp"
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "Game_0x40.hpp"
+#include "fix16.hpp"
 
 class Sprite_14
 {
@@ -136,8 +136,17 @@ class Sprite_5D598
     // TODO: Get 9.6f inline addr
     void Remove(Sprite_4C* pToRemove)
     {
-         pToRemove->field_2C_pNext = field_0_pFree;
-         field_0_pFree = pToRemove;
+        pToRemove->field_2C_pNext = field_0_pFree;
+        field_0_pFree = pToRemove;
+    }
+
+    // TODO: Get 9.6f inline addr
+    Sprite_4C* Allocate()
+    {
+        Sprite_4C* pSprite4C = field_0_pFree;
+        field_0_pFree = field_0_pFree->field_2C_pNext;
+        pSprite4C->sub_5A57A0();
+        return pSprite4C;
     }
 
     Sprite_4C* field_0_pFree;
@@ -165,7 +174,7 @@ class Sprite_49B28
     // Inlined, from 9.6f at 0x421000
     Sprite* get_new_sprite()
     {
-        Sprite *this_00 = this->field_0_first_free;
+        Sprite* this_00 = this->field_0_first_free;
         this->field_0_first_free = this_00->field_C_sprite_next_ptr;
         this_00->sub_5A2CF0();
         return this_00;

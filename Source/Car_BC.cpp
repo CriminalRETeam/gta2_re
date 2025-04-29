@@ -506,10 +506,7 @@ void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (field_C_sprite_4c_ptr == NULL)
     {
-        Sprite_4C* pOldFree = gSprite_5D598_70381C->field_0_pFree;
-        gSprite_5D598_70381C->field_0_pFree = gSprite_5D598_70381C->field_0_pFree->field_2C_pNext;
-        pOldFree->sub_5A57A0();
-        field_C_sprite_4c_ptr = pOldFree;
+        field_C_sprite_4c_ptr = gSprite_5D598_70381C->Allocate();
     }
 
     Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
@@ -519,9 +516,28 @@ void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 }
 
 STUB_FUNC(0x59f990)
-Sprite_4C* Sprite::sub_59F990()
+void Sprite::sub_59F990()
 {
-    return 0;
+    if (this->field_4_0x4C_len == NULL)
+    {
+        this->field_4_0x4C_len = gSprite_5D598_70381C->Allocate();
+
+        const u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
+
+        if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2)
+        {
+            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue / 2;
+            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue / 2;
+            field_4_0x4C_len->field_8 = 0;
+        }
+        else
+        {
+            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue;
+            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue;
+            field_4_0x4C_len->field_8 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x59fa40)
