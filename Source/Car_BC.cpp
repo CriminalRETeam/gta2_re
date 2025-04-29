@@ -529,20 +529,17 @@ void Sprite::sub_59FA40()
 {
     if (field_4_0x4C_len)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-        sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+        const u16 idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
-        u8 field_5_height_index = sprite_index_5AA440->field_5_height;
-        u8 field_4_width_index = sprite_index_5AA440->field_4_width;
+        const Fix16 height = dword_6F6850[pSprite_index->field_5_height];
+        const Fix16 width = dword_6F6850[pSprite_index->field_4_width];
 
-        Fix16 v8 = dword_6F6850[field_5_height_index];
-        Fix16 v7 = dword_6F6850[field_4_width_index];
-
-        if (v7 != field_4_0x4C_len->field_0_width || v8 != field_4_0x4C_len->field_4_height)
+        if (width != field_4_0x4C_len->field_0_width || height != field_4_0x4C_len->field_4_height)
         {
             Sprite_4C* t = field_4_0x4C_len;
-            t->field_0_width = v7;
-            t->field_4_height = v8;
+            t->field_0_width = width;
+            t->field_4_height = height;
             t->field_48 = 0;
         }
     }
@@ -578,7 +575,7 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 
     for (u8 i = 0; i < 4; i++)
     {
-        if ((pBoundingBox[i].field_0 > pXY1[0] && pBoundingBox[i].field_4 > pXY1[1]) && 
+        if ((pBoundingBox[i].field_0 > pXY1[0] && pBoundingBox[i].field_4 > pXY1[1]) &&
             (pBoundingBox[i].field_0 < pXY2[0] && pBoundingBox[i].field_4 < pXY2[1]))
         {
             // If we find the first valid match, store index in pCollisionIdx1
