@@ -506,10 +506,7 @@ void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (field_C_sprite_4c_ptr == NULL)
     {
-        Sprite_4C* pOldFree = gSprite_5D598_70381C->field_0_pFree;
-        gSprite_5D598_70381C->field_0_pFree = gSprite_5D598_70381C->field_0_pFree->field_2C_pNext;
-        pOldFree->sub_5A57A0();
-        field_C_sprite_4c_ptr = pOldFree;
+        field_C_sprite_4c_ptr = gSprite_5D598_70381C->Allocate();
     }
 
     Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
@@ -519,9 +516,28 @@ void Sprite::sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 }
 
 STUB_FUNC(0x59f990)
-Sprite_4C* Sprite::sub_59F990()
+void Sprite::sub_59F990()
 {
-    return 0;
+    if (this->field_4_0x4C_len == NULL)
+    {
+        this->field_4_0x4C_len = gSprite_5D598_70381C->Allocate();
+
+        const u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
+
+        if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2)
+        {
+            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue / 2;
+            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue / 2;
+            field_4_0x4C_len->field_8 = 0;
+        }
+        else
+        {
+            field_4_0x4C_len->field_0_width = dword_6F6850[sprite_index->field_4_width].mValue;
+            field_4_0x4C_len->field_4_height = dword_6F6850[sprite_index->field_5_height].mValue;
+            field_4_0x4C_len->field_8 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x59fa40)
@@ -529,20 +545,17 @@ void Sprite::sub_59FA40()
 {
     if (field_4_0x4C_len)
     {
-        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
-        sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+        const u16 idx = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
+        sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
-        u8 field_5_height_index = sprite_index_5AA440->field_5_height;
-        u8 field_4_width_index = sprite_index_5AA440->field_4_width;
+        const Fix16 height = dword_6F6850[pSprite_index->field_5_height];
+        const Fix16 width = dword_6F6850[pSprite_index->field_4_width];
 
-        Fix16 v8 = dword_6F6850[field_5_height_index];
-        Fix16 v7 = dword_6F6850[field_4_width_index];
-
-        if (v7 != field_4_0x4C_len->field_0_width || v8 != field_4_0x4C_len->field_4_height)
+        if (width != field_4_0x4C_len->field_0_width || height != field_4_0x4C_len->field_4_height)
         {
             Sprite_4C* t = field_4_0x4C_len;
-            t->field_0_width = v7;
-            t->field_4_height = v8;
+            t->field_0_width = width;
+            t->field_4_height = height;
             t->field_48 = 0;
         }
     }
@@ -570,41 +583,34 @@ char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
     return 0;
 }
 
-MATCH_FUNC(0x5a0320) // https://decomp.me/scratch/koRoj or https://decomp.me/scratch/D7a8C
-char_type Sprite::sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5)
+MATCH_FUNC(0x5a0320)
+char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
 {
-    u8 result = 0; // Initialize result to 0
-    Sprite** next_next_ptr = &this->field_C_sprite_next_ptr->field_C_sprite_next_ptr; // Pointer to field_C_car_or_sprite
+    u8 overlapCount = 0;
+    const Car_8* pBoundingBox = &field_C_sprite_4c_ptr->field_C_b_box[0];
 
-    for (u8 i = 0; i < 4;)
+    for (u8 i = 0; i < 4; i++)
     {
-        // First comparison: *p_field_C_car_or_sprite > *a2
-        if ((s32)*next_next_ptr > (s32)*a2)
+        if ((pBoundingBox[i].field_0 > pXY1[0] && pBoundingBox[i].field_4 > pXY1[1]) &&
+            (pBoundingBox[i].field_0 < pXY2[0] && pBoundingBox[i].field_4 < pXY2[1]))
         {
-            // Second comparison: *p_field_C_car_or_sprite[1] > a2[1] and *p_field_C_car_or_sprite < *a3
-            // and *p_field_C_car_or_sprite[1] < a3[1]
-            Sprite* v8 = next_next_ptr[1];
-            if ((int)v8 > (s32)a2[1] && (int)*next_next_ptr < (s32)*a3 && (int)v8 < (s32)a3[1])
+            // If we find the first valid match, store index in pCollisionIdx1
+            overlapCount++;
+
+            if (overlapCount == 1)
             {
-                // If we find the first valid match, store index in a4
-                if (++result == 1)
-                {
-                    *a4 = i;
-                }
-                // If we find the second valid match, store index in a5
-                else if (result == 2)
-                {
-                    *a5 = i;
-                }
+                *pCollisionIdx1 = i;
+            }
+            // If we find the second valid match, store index in pCollisionIdx2
+            else if (overlapCount == 2)
+            {
+                *pCollisionIdx2 = i;
             }
         }
-        // Move the pointer to the next pair
-        ++i;
-        next_next_ptr += 2;
     }
 
     // Return the result count (0, 1, or 2)
-    return result;
+    return overlapCount;
 }
 
 STUB_FUNC(0x5a0380)

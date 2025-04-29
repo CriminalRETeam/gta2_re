@@ -169,11 +169,11 @@ class Sprite
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void sub_59EFF0();
     EXPORT void sub_59F950(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT Sprite_4C* sub_59F990();
+    EXPORT void sub_59F990();
     EXPORT void sub_59FA40();
     EXPORT void sub_59FAD0();
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
-    EXPORT char_type sub_5A0320(u32* a2, u32* a3, u8* a4, u8* a5);
+    EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool sub_5A0380(Sprite* a1);
     EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
