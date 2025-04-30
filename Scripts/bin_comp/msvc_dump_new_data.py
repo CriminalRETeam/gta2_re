@@ -1,6 +1,38 @@
 import os
+import re
+import json
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
+
+class FunctionData:
+    def __init__(self, mangled_name, func_va, func_fo, og_addr, func_status):
+        self.mangled_name = mangled_name
+        self.func_va = func_va
+        self.func_fo = func_fo
+        self.og_addr = og_addr
+        self.func_status = func_status
+        
+    def to_dict(self):
+        return {
+            "mangled_name": self.mangled_name,
+            "func_va": self.func_va,
+            "func_fo": self.func_fo,
+            "og_addr": self.og_addr,
+            "func_status": self.func_status
+        }
+
+class VariableData:
+    def __init__(self, name, mangled_name, og_address):
+        self.name = name
+        self.mangled_name = mangled_name
+        self.og_address = og_address
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "mangled_name": self.mangled_name,
+            "og_address": self.og_address,
+        }
 
 def load_file(filename):
     with open(filename) as file:
@@ -44,7 +76,7 @@ def find_func_meta_data(exeBytes, funcFileOffset):
 
     return []
 
-def parse_map(mapFilename, exeBytes, csv_file):
+def parse_map(mapFilename, exeBytes):
     lines = load_file(mapFilename)
     load_address = 0x0 # executable base load address
 
@@ -56,6 +88,7 @@ def parse_map(mapFilename, exeBytes, csv_file):
     base_file_offset = 0 # to add onto the func offset to get the correct file offset
     last_func_offset = 0 # to calculate current func size
 
+    function_data = list()
     for line in lines:
         if processing_text_section_entries:
             parts = line.split(" ")
@@ -80,9 +113,9 @@ def parse_map(mapFilename, exeBytes, csv_file):
                     if len(meta) > 0:
                         ogAddr = meta[0]
                         funcStatus = meta[1]
-                        csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},{hex(ogAddr)},{hex(funcStatus)}\n")
+                        function_data.append(FunctionData(parts[1], hex(func_va), hex(func_fo), hex(ogAddr), hex(funcStatus)).to_dict())
                     else:
-                        csv_file.write(f"{parts[1]},{hex(func_va)},{hex(func_fo)},?,?\n")
+                        function_data.append(FunctionData(parts[1], hex(func_va), hex(func_fo), "?", "?").to_dict())
                 else:
                     processing_text_section_entries = False
 
@@ -108,8 +141,39 @@ def parse_map(mapFilename, exeBytes, csv_file):
         else:
             pass
 
-mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "new_function_data.csv")
-exeBytes = open("../../build_vc6/decomp_main.exe", "rb").read()
+    return function_data
 
-with open(mapping_csv_path, "w") as file:
-    parse_map("../../build_vc6/output.map", exeBytes, file)
+def parse_lib(lib_file_path):
+    variable_data = list()
+    with open(lib_file_path, "rb") as lib_file:
+        content = lib_file.read().decode("utf-8", errors="ignore")
+        matches = re.findall(r'gRef_([A-Za-z0-9_]+)_(0x[0-9A-Fa-f]+)', content)
+        for match in matches:
+            var_name, hex_address = match
+            if len(hex_address) < 8:
+                print(f"warning: {var_name} has a weird address {hex_address}")
+
+            matches2 = re.findall(rf'\?{var_name}[0-9A-Za-z@_]+', content)
+            for mangled_var_name in matches2:
+                variable_data.append(VariableData(var_name, mangled_var_name, hex_address).to_dict())
+
+    return variable_data
+
+def main():
+    exeBytes = open("../../build_vc6/decomp_main.exe", "rb").read()
+
+    function_data = parse_map("../../build_vc6/output.map", exeBytes)
+    variable_data = parse_lib("../../build_vc6/gta2_lib.lib")
+
+    new_data = {
+        "functions": function_data,
+        "variables": variable_data
+    }
+
+    new_data_path = os.path.join(CURRENT_DIRECTORY, "new_data.json")
+    with open(new_data_path, "w") as file:
+        json.dump(new_data, file, indent=4)
+        
+
+if __name__ == "__main__":
+    main()

@@ -6,14 +6,6 @@ import urllib.request
 DISCORD_WEBHOOK_URL = os.environ.get("DISCORD_WEBHOOK_URL")
 COMMIT_MESSAGE = os.environ.get("COMMIT_MESSAGE")
 
-def load_csv_file(filename):
-    ret = []
-    with open(filename) as file:
-        lines = [line.rstrip() for line in file]
-        for line in lines:
-            ret.append(line.split(","))
-    return ret
-
 def load_coverage_file(filename):
     with open(filename) as file:
         lines = [line.rstrip() for line in file]
@@ -45,15 +37,16 @@ def main():
         print("COMMIT_MESSAGE env variable not set")
         sys.exit(1)
 
-    if not os.path.exists("./bin_comp/new_function_data.csv"):
-        print("couldn't find new_function_data.csv")
+    if not os.path.exists("./bin_comp/new_data.json"):
+        print("couldn't find new_data.json")
         sys.exit(1)
 
     if not os.path.exists("./bin_comp/coverage_trace_funcs.txt"):
         print("couldn't find coverage_trace_funcs.txt")
         sys.exit(1)
 
-    new_func_data = load_csv_file("./bin_comp/new_function_data.csv")
+    with open("./bin_comp/new_data.json", "rt") as file:
+        new_data = json.load(file)
     coverage_data = load_coverage_file("./bin_comp/coverage_trace_funcs.txt")
 
     total_coverage_funcs = len(coverage_data)
@@ -62,16 +55,16 @@ def main():
     total_matched_funcs = 0
     unmatched_funcs = 0
 
-    for func in new_func_data:
-        status = func[4]
+    for func in new_data["functions"]:
+        status = func["func_status"]
         if status == "0x1":
             total_matched_funcs = total_matched_funcs + 1
         elif status == "0x0":
             unmatched_funcs = unmatched_funcs + 1
 
-    for func in new_func_data:
-        og_address = func[3]
-        status = func[4]
+    for func in new_data["functions"]:
+        og_address = func["og_addr"]
+        status = func["func_status"]
         for coverage_addr in coverage_data:
             if status == "0x1" and coverage_addr.lower() == og_address.lower():
                 matched_coverage_funcs = matched_coverage_funcs + 1

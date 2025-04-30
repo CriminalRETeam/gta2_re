@@ -27,18 +27,26 @@ class OgFunctionData:
             file.seek(self.offset)
             return file.read(self.size)
 
+class OgVariableData:
+    def __init__(self, name: str, mangled_name: str, address: str):
+        self.name = name
+        self.mangled_name = mangled_name
+        self.address = int(address, 16)
+
 class FunctionCollection:
     __functions: set[OgFunctionData] = set()
 
     def __init__(self):
         og_func_data = self.load_csv_file(str(SCRIPTS_DIR) + "/bin_comp/og_function_data.csv")
-        new_func_data = self.load_csv_file(str(SCRIPTS_DIR) + "/bin_comp/new_function_data.csv")
+        with open(str(SCRIPTS_DIR) + "/bin_comp/new_data.json", "rt") as file:
+            new_data = json.load(file)
+
         for og_func in og_func_data:
             og_name, og_address, og_offset, og_size = og_func
             mangled_name_found = False
-            for new_func in new_func_data:
-                mangled_name = new_func[0]
-                new_og_address = new_func[3]
+            for new_func in new_data["functions"]:
+                mangled_name = new_func["mangled_name"]
+                new_og_address = new_func["og_addr"]
                 if og_address.lower() == new_og_address.lower():
                     mangled_name_found = True
                     break
@@ -73,7 +81,29 @@ class FunctionCollection:
     def get_data(self) -> set[OgFunctionData]:
         return self.__functions.copy()
 
+
+class VariableCollection:
+    __variables: set[OgVariableData] = set()
+
+    def __init__(self):
+        with open(str(SCRIPTS_DIR) + "/bin_comp/new_data.json", "rt") as file:
+            new_data = json.load(file)
+
+        for var in new_data["variables"]:
+            data = OgVariableData(var["name"], var["mangled_name"], var["og_address"])
+            self.__variables.add(data)
+
+    def get_data_by_address(self, address: int) -> OgVariableData | None:
+        for data in self.__variables:
+            if data.address == address:
+                return data
+        return None
+    
+    def get_data(self) -> set[OgVariableData]:
+        return self.__variables.copy()
+
 FUNC_COLLECTION = FunctionCollection()
+VAR_COLLECTION = VariableCollection()
 
 DATA_OFFSET = 0x00401000
 
@@ -111,13 +141,16 @@ def resolve_func_name(instruction: Instruction, current_func: OgFunctionData, fo
             else:
                 ret_func_name = func_data.name
 
-            if any(char in ret_func_name for char in {"?", "@", "$"}):
-                # the mangled name needs to be in double quotes or the assembler will complain about special characters
-                return f'"{ret_func_name}"'
-            else:
-                return ret_func_name
+            return f'"{ret_func_name}"'
 
     print(f"resolve_func_name: near func address {hex(near_func_address_offset)} nor far func address {hex(far_func_address_offset)} found!")
+    return None
+
+def resolve_var_name(address: int, as_mangled_name: bool = True) -> str | None:
+    for var_data in VAR_COLLECTION.get_data():
+        if var_data.address == address:
+            # the mangled name needs to be in double quotes or the assembler will complain about special characters
+            return f'"{var_data.mangled_name}"' if as_mangled_name else var_data.name
     return None
 
 def is_jump(instruction: Instruction, formatter: Formatter):
@@ -130,7 +163,11 @@ def is_jump(instruction: Instruction, formatter: Formatter):
     else:
         return False
     return True
-    
+
+def is_variable(instruction: Instruction, formatter: Formatter):
+    op0_str = formatter.format_operand(instruction, 0)
+    return instruction.mnemonic == Mnemonic.MOV and len(op0_str) == 8
+
 def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     decoder = Decoder(32, target_func.get_function_bytes())
     formatter = Formatter(FormatterSyntax.GAS)
@@ -177,6 +214,15 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
                 if "jmpl" in jump_mnemonic:
                     jump_mnemonic = jump_mnemonic.replace("jmpl", "jmp")
                 asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
+        elif is_variable(instruction, formatter):
+            var_instruction = ""
+            var_op0 = formatter.format_operand(instruction, 0)
+            resolved_var_name = resolve_var_name(int(var_op0, 16))
+            if resolved_var_name is not None:
+                var_instruction = formatter.format(instruction).replace(var_op0, resolved_var_name)
+            else:
+                var_instruction = formatter.format(instruction)
+            asm.append(var_instruction)
         else:
             asm.append(formatter.format(instruction))
 
