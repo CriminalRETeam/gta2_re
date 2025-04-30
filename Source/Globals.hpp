@@ -31,4 +31,4 @@ class GlobalRef
     const u32 mOgAddr;
 };
 
-#define GLOBAL(var, addr) const GlobalRef gRef_##var(&var, addr);
+#define GLOBAL(var, addr) const GlobalRef gRef_##var##_##addr(&var, addr);
