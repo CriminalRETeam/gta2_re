@@ -165,8 +165,11 @@ def is_jump(instruction: Instruction, formatter: Formatter):
     return True
 
 def is_variable(instruction: Instruction, formatter: Formatter):
+    if instruction.mnemonic != Mnemonic.MOV:
+        return False
+    
     op0_str = formatter.format_operand(instruction, 0).removeprefix("$")
-    return instruction.mnemonic == Mnemonic.MOV and len(op0_str) == 8
+    return len(op0_str) == 8
 
 def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     decoder = Decoder(32, target_func.get_function_bytes())
