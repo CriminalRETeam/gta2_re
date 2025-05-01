@@ -12,6 +12,12 @@ class FunctionData:
         self.og_addr = og_addr
         self.func_status = func_status
         
+    def __eq__(self, value):
+        return self.mangled_name == value.mangled_name
+
+    def __hash__(self):
+        return hash(self.mangled_name)
+
     def to_dict(self):
         return {
             "mangled_name": self.mangled_name,
@@ -26,6 +32,12 @@ class VariableData:
         self.name = name
         self.mangled_name = mangled_name
         self.og_address = og_address
+
+    def __eq__(self, value):
+        return self.mangled_name == value.mangled_name
+
+    def __hash__(self):
+        return hash(self.mangled_name)
 
     def to_dict(self):
         return {
@@ -88,7 +100,7 @@ def parse_map(mapFilename, exeBytes):
     base_file_offset = 0 # to add onto the func offset to get the correct file offset
     last_func_offset = 0 # to calculate current func size
 
-    function_data = list()
+    function_data = set()
     for line in lines:
         if processing_text_section_entries:
             parts = line.split(" ")
@@ -113,9 +125,9 @@ def parse_map(mapFilename, exeBytes):
                     if len(meta) > 0:
                         ogAddr = meta[0]
                         funcStatus = meta[1]
-                        function_data.append(FunctionData(parts[1], hex(func_va), hex(func_fo), hex(ogAddr), hex(funcStatus)).to_dict())
+                        function_data.add(FunctionData(parts[1], hex(func_va), hex(func_fo), hex(ogAddr), hex(funcStatus)))
                     else:
-                        function_data.append(FunctionData(parts[1], hex(func_va), hex(func_fo), "?", "?").to_dict())
+                        function_data.add(FunctionData(parts[1], hex(func_va), hex(func_fo), "?", "?"))
                 else:
                     processing_text_section_entries = False
 
@@ -141,10 +153,10 @@ def parse_map(mapFilename, exeBytes):
         else:
             pass
 
-    return function_data
+    return [func.to_dict() for func in function_data]
 
 def parse_lib(lib_file_path):
-    variable_data = list()
+    variable_data = set() # use a set to prevent duplicates
     with open(lib_file_path, "rb") as lib_file:
         content = lib_file.read().decode("utf-8", errors="ignore")
         matches = re.findall(r'gRef_([A-Za-z0-9_]+)_(0x[0-9A-Fa-f]+)', content)
@@ -155,9 +167,9 @@ def parse_lib(lib_file_path):
 
             matches2 = re.findall(rf'\?{var_name}[0-9A-Za-z@_]+', content)
             for mangled_var_name in matches2:
-                variable_data.append(VariableData(var_name, mangled_var_name, hex_address).to_dict())
+                variable_data.add(VariableData(var_name, mangled_var_name, hex_address))
 
-    return variable_data
+    return [var.to_dict() for var in variable_data]
 
 def main():
     exeBytes = open("../../build_vc6/decomp_main.exe", "rb").read()
