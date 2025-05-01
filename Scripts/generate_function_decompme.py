@@ -165,7 +165,7 @@ def is_jump(instruction: Instruction, formatter: Formatter):
     return True
 
 def is_variable(instruction: Instruction, formatter: Formatter):
-    op0_str = formatter.format_operand(instruction, 0)
+    op0_str = formatter.format_operand(instruction, 0).removeprefix("$")
     return instruction.mnemonic == Mnemonic.MOV and len(op0_str) == 8
 
 def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
@@ -215,11 +215,11 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
                     jump_mnemonic = jump_mnemonic.replace("jmpl", "jmp")
                 asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
         elif is_variable(instruction, formatter):
-            var_instruction = ""
-            var_op0 = formatter.format_operand(instruction, 0)
+            var_op0 = formatter.format_operand(instruction, 0).removeprefix("$")
             resolved_var_name = resolve_var_name(int(var_op0, 16))
             if resolved_var_name is not None:
                 var_instruction = formatter.format(instruction).replace(var_op0, resolved_var_name)
+                var_instruction = var_instruction.replace("$", "")
             else:
                 var_instruction = formatter.format(instruction)
             asm.append(var_instruction)
@@ -283,9 +283,9 @@ def main():
         print(json.load(err.fp))
         raise
 
-    scartch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
-    print(scartch_url)
-    webbrowser.open_new_tab(scartch_url)
+    scratch_url = "https://decomp.me/scratch/" + out_data["slug"] + "/claim?token=" + out_data["claim_token"]
+    print(scratch_url)
+    webbrowser.open_new_tab(scratch_url)
 
 if __name__ == "__main__":
     main()
