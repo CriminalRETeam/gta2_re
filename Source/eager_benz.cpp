@@ -1,10 +1,14 @@
 #include "eager_benz.hpp"
 #include "Car_BC.hpp"
 #include "ExplodingScore_100.hpp"
+#include "Garox_2B00.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
 #include "debug.hpp"
+#include "gtx_0x106C.hpp"
 #include "lucid_hamilton.hpp"
+#include "root_sound.hpp"
+#include "text_0x14.hpp"
 #include <string.h>
 
 // TODO: move
@@ -76,14 +80,90 @@ s32 eager_benz::sub_592370()
     return field_0_unk.field_0;
 }
 
-STUB_FUNC(0x592380)
-void eager_benz::sub_592380(char_type a2)
+MATCH_FUNC(0x592380)
+void eager_benz::sub_592380(char_type bits)
 {
+    if ((bits & 1) != 0)
+    {
+        for (u16 i = 0; i < 256; i++)
+        {
+            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->sub_5AB380(i))
+            {
+                field_8C[i] &= ~1;
+            }
+            else
+            {
+                field_8C[i] |= 1;
+            }
+        }
+    }
+
+    if ((bits & 2) != 0)
+    {
+        for (u16 i = 0; i < 256; i++)
+        {
+            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->sub_5AB380(i))
+            {
+                const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i)->wreck;
+
+                if (wreck == 99)
+                {
+                    field_8C[i] |= 2;
+                }
+                else
+                {
+                    field_8C[i] &= ~2;
+                }
+            }
+            else
+            {
+                field_8C[i] |= 2;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x592430)
-void eager_benz::sub_592430(char_type a2)
+MATCH_FUNC(0x592430)
+void eager_benz::sub_592430(char_type bits)
 {
+    u16 i;
+
+    if ((bits & 1) != 0)
+    {
+        for (i = 0; i < GTA2_COUNTOF(field_8C); i++)
+        {
+            if ((field_8C[i] & 1) == 0)
+            {
+                return;
+            }
+        }
+
+        field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
+        if (field_368_pObj->field_0)
+        {
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
+            gRoot_sound_66B038.sub_40F090(2);
+        }
+        sub_592380(1);
+    }
+    else if ((bits & 2) != 0)
+    {
+        for (i = 0; i < GTA2_COUNTOF(field_8C); i++)
+        {
+            if ((field_8C[i] & 2) == 0)
+            {
+                return;
+            }
+        }
+
+        field_368_pObj->field_2D4_unk.AddCash_592620(50000 * field_368_pObj->field_6BC_multpliers.field_0);
+        if (field_368_pObj->field_0)
+        {
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
+            gRoot_sound_66B038.sub_40F090(3);
+        }
+        sub_592380(2);
+    }
 }
 
 MATCH_FUNC(0x592570)
@@ -120,15 +200,87 @@ void eager_benz::sub_592DD0(Car_BC* a2, u32* a3)
 {
 }
 
-STUB_FUNC(0x593030)
-char_type eager_benz::sub_593030(Car_BC* a2, s16 a3)
+MATCH_FUNC(0x593030)
+void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 {
-    return 0;
+    bool bAddScore = true;
+    s32 mutipler = this->field_368_pObj->field_6BC_multpliers.field_0;
+
+    if (bIsFrench_67D53C)
+    {
+        if (pCar->sub_439EC0())
+        {
+            bAddScore = false;
+        }
+    }
+
+    u32 score_default_2 = score_default;
+    if (score_default_2 > 0)
+    {
+        int base_score;
+        if (score_default_2 < 300)
+        {
+            base_score = 1;
+        }
+        else
+        {
+            base_score = score_default_2 < 400 ? 10 : 100;
+        }
+
+        if (!bExplodingOff_67D4FB)
+        {
+            if (bAddScore)
+            {
+                if (this->field_368_pObj->field_0)
+                {
+                    gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+                                                           pCar->field_50_car_sprite->GetYPos(),
+                                                           pCar->field_50_car_sprite->GetZPos(),
+                                                           mutipler * base_score);
+                }
+            }
+        }
+
+        if (bAddScore)
+        {
+            field_368_pObj->field_2D4_unk.AddCash_592620(base_score * field_368_pObj->field_6BC_multpliers.field_0);
+        }
+
+        field_368_pObj->field_644_unk.sub_484FA0(mutipler * base_score);
+        if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_pObj))
+        {
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_pObj->Get_Field_68_Ped());
+        }
+    }
 }
 
-STUB_FUNC(0x593150)
-void eager_benz::sub_593150(Car_BC* a2, s16 a3)
+MATCH_FUNC(0x593150)
+void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
+    if (pCar->field_74_damage != 32001)
+    {
+        const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
+        u32 t = a3;
+        if (t > 0)
+        {
+            s32 base_score;
+            if (t < 300)
+            {
+                base_score = 1;
+            }
+            else
+            {
+                base_score = t < 400 ? 10 : 100;
+            }
+            if (!bIsFrench_67D53C || !pCar->sub_439EC0())
+            {
+                field_368_pObj->field_2D4_unk.AddCash_592620(base_score * field_368_pObj->field_6BC_multpliers.field_0);
+            }
+            field_368_pObj->field_644_unk.sub_484FA0(multipler * base_score);
+
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_pObj->Get_Field_68_Ped());
+        }
+    }
 }
 
 MATCH_FUNC(0x593220)
@@ -150,9 +302,9 @@ void eager_benz::sub_593370(Car_BC* a2)
         if (field_368_pObj->field_0)
         {
             gExplodingScore_100_702F34->sub_596890(a2->field_50_car_sprite->field_14_xpos,
-                                             a2->field_50_car_sprite->field_18_ypos,
-                                             a2->field_50_car_sprite->field_1C_zpos,
-                                             10 * field_368_pObj->field_6BC_multpliers.field_0);
+                                                   a2->field_50_car_sprite->field_18_ypos,
+                                                   a2->field_50_car_sprite->field_1C_zpos,
+                                                   10 * field_368_pObj->field_6BC_multpliers.field_0);
         }
     }
     field_368_pObj->field_2D4_unk.AddCash_592620(10 * field_368_pObj->field_6BC_multpliers.field_0);

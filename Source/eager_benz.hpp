@@ -17,14 +17,14 @@ class eager_benz
     EXPORT void sub_592330();
     EXPORT thirsty_lamarr* sub_592360();
     EXPORT s32 sub_592370();
-    EXPORT void sub_592380(char_type a2);
-    EXPORT void sub_592430(char_type a2);
+    EXPORT void sub_592380(char_type bits);
+    EXPORT void sub_592430(char_type bits);
     EXPORT void sub_592570(char_type a2, s32 a3);
     EXPORT s32 sub_5925B0(u8 a1, char_type a2);
     EXPORT void AddCash_592620(s32 cash);
     EXPORT void sub_592660(Ped* a2, Ped* a3);
     EXPORT void sub_592DD0(Car_BC* a2, u32* a3);
-    EXPORT char_type sub_593030(Car_BC* a2, s16 a3);
+    EXPORT void sub_593030(Car_BC* pCar, s16 score_default);
     EXPORT void sub_593150(Car_BC* a2, s16 a3);
     EXPORT void sub_593220();
     EXPORT void sub_593240(Car_BC* a2);
