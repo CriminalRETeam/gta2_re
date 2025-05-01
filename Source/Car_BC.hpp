@@ -254,6 +254,22 @@ class Sprite
         Sprite_4C* field_C_sprite_4c_ptr;
     };
     infallible_turing* field_10;
+
+    inline Fix16 GetXPos()
+    {
+        return field_14_xpos;
+    }
+
+    inline Fix16 GetYPos()
+    {
+        return field_18_ypos;
+    }
+
+    inline Fix16 GetZPos()
+    {
+        return field_1C_zpos;
+    }
+
     Fix16 field_14_xpos;
     Fix16 field_18_ypos;
     Fix16 field_1C_zpos;
