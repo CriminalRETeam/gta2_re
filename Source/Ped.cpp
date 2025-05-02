@@ -796,10 +796,15 @@ s32 Ped::sub_4624A0()
     return 0;
 }
 
-STUB_FUNC(0x462510)
-s32 Ped::RemovePedWeapons_462510()
+MATCH_FUNC(0x462510)
+void Ped::RemovePedWeapons_462510()
 {
-    return 0;
+    if (this->field_170_selected_weapon)
+    {
+        this->field_21C &= ~8000000000u;
+        gWeapon_8_707018->deallocate_5E3CB0(field_170_selected_weapon);
+        this->field_170_selected_weapon = 0;
+    }
 }
 
 STUB_FUNC(0x462550)
@@ -1239,7 +1244,6 @@ void Ped::sub_46A850()
 STUB_FUNC(0x46a8f0)
 void Ped::sub_46A8F0()
 {
-
 }
 
 STUB_FUNC(0x46a9c0)
