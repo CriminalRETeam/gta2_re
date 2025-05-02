@@ -28,6 +28,11 @@ class CarInfo_48
     Fix16 field_40_gear2_speed;
     Fix16 field_44_gear3_speed;
 
+    Fix16 get_anti_strngth()
+    {
+      return field_2C_anti_strngth;
+    }
+
     EXPORT void sub_454680();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_48, 0x48);

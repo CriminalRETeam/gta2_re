@@ -21,6 +21,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "CarInfo_808.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -1123,10 +1124,10 @@ u32* Car_BC::sub_43A120(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a1d0)
-s32* Car_BC::sub_43A1D0(s32* a2)
+MATCH_FUNC(0x43a1d0)
+Fix16 Car_BC::get_anti_strngth_43A1D0()
 {
-    return 0;
+    return gCarInfo_808_678098->sub_4546B0(field_84_car_info_idx)->field_2C_anti_strngth;
 }
 
 MATCH_FUNC(0x43a1f0)
