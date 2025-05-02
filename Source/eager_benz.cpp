@@ -7,8 +7,9 @@
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
 #include "lucid_hamilton.hpp"
-#include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Garox_2B00.hpp"
+#include "root_sound.hpp"
 #include <string.h>
 
 // TODO: move
