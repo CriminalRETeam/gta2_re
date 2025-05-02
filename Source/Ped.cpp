@@ -796,21 +796,26 @@ s32 Ped::sub_4624A0()
     return 0;
 }
 
-MATCH_FUNC(0x462510)
+STUB_FUNC(0x462510)
 void Ped::RemovePedWeapons_462510()
 {
     if (this->field_170_selected_weapon)
     {
-        this->field_21C &= ~8000000000u;
+        this->field_21C &= ~800000u; // TODO: Wrong
         gWeapon_8_707018->deallocate_5E3CB0(field_170_selected_weapon);
         this->field_170_selected_weapon = 0;
     }
 }
 
 STUB_FUNC(0x462550)
-s32 Ped::sub_462550()
+void Ped::sub_462550()
 {
-    return 0;
+    if (this->field_174_pWeapon)
+    {
+        this->field_21C &= ~800000u; // TODO: Wrong
+        gWeapon_8_707018->deallocate_5E3CB0(field_174_pWeapon);
+        this->field_174_pWeapon = 0;
+    }
 }
 
 STUB_FUNC(0x462590)
