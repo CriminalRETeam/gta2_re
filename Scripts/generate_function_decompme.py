@@ -146,12 +146,55 @@ def resolve_func_name(instruction: Instruction, current_func: OgFunctionData, fo
     print(f"resolve_func_name: near func address {hex(near_func_address_offset)} nor far func address {hex(far_func_address_offset)} found!")
     return None
 
-def resolve_var_name(address: int, as_mangled_name: bool = True) -> str | None:
+def is_variable_address(address: str) -> bool:
+    address = address.removeprefix("$")
+    banned_chars = ["%", "(", ")"]
+    for banned_char in banned_chars:
+        if banned_char in address:
+            return False
+        
+    if not address.startswith("0x"):
+        return False
+
+    if len(address) != 8:
+        return False 
+
+    return True
+
+def resolve_var_name(address: int, is_immediate: bool, as_mangled_name: bool = True) -> str | None:
     for var_data in VAR_COLLECTION.get_data():
         if var_data.address == address:
             # the mangled name needs to be in double quotes or the assembler will complain about special characters
-            return f'"{var_data.mangled_name}"' if as_mangled_name else var_data.name
+            if is_immediate:
+                return f'$"{var_data.mangled_name}"' if as_mangled_name else "$" + var_data.name
+            else:
+                return f'"{var_data.mangled_name}"' if as_mangled_name else var_data.name
     return None
+
+def format_variable_instruction(instruction: Instruction, formatter: Formatter) -> str | None:
+    # function returns the formatted instruction with the resolved variable names for example "mov foo1,foo2"
+
+    formatted_operands = ""
+    for i in range(instruction.op_count):
+        op = formatter.format_operand(instruction, i)
+        is_immediate = op.startswith("$")
+        if is_variable_address(op):
+            address = int(op.removeprefix("$"), 16)
+            resolved_var_name = resolve_var_name(address, is_immediate)
+            if resolved_var_name is not None:
+                formatted_operands += resolved_var_name
+            else:
+                formatted_operands += op
+        else:
+            formatted_operands += op
+        
+        if i < instruction.op_count - 1:
+            formatted_operands += ","
+
+    if formatted_operands == "":
+        return None
+    
+    return formatter.format_mnemonic(instruction) + " " + formatted_operands
 
 def is_jump(instruction: Instruction, formatter: Formatter):
     if instruction.flow_control == FlowControl.CONDITIONAL_BRANCH:
@@ -163,13 +206,6 @@ def is_jump(instruction: Instruction, formatter: Formatter):
     else:
         return False
     return True
-
-def is_variable(instruction: Instruction, formatter: Formatter):
-    if instruction.mnemonic != Mnemonic.MOV:
-        return False
-    
-    op0_str = formatter.format_operand(instruction, 0).removeprefix("$")
-    return len(op0_str) == 8
 
 def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     decoder = Decoder(32, target_func.get_function_bytes())
@@ -217,15 +253,12 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
                 if "jmpl" in jump_mnemonic:
                     jump_mnemonic = jump_mnemonic.replace("jmpl", "jmp")
                 asm.append(f"{jump_mnemonic} {labels[instruction.near_branch_target]}")
-        elif is_variable(instruction, formatter):
-            var_op0 = formatter.format_operand(instruction, 0).removeprefix("$")
-            resolved_var_name = resolve_var_name(int(var_op0, 16))
-            if resolved_var_name is not None:
-                var_instruction = formatter.format(instruction).replace(var_op0, resolved_var_name)
-                var_instruction = var_instruction.replace("$", "")
+        elif instruction.mnemonic == Mnemonic.MOV or instruction.mnemonic == Mnemonic.CMP or instruction.mnemonic == Mnemonic.PUSH: # resolve variable addresses
+            formatted_var_instr = format_variable_instruction(instruction, formatter)
+            if formatted_var_instr is not None:
+                asm.append(formatted_var_instr)
             else:
-                var_instruction = formatter.format(instruction)
-            asm.append(var_instruction)
+                asm.append(formatter.format(instruction))
         else:
             asm.append(formatter.format(instruction))
 
