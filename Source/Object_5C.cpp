@@ -1,5 +1,6 @@
 #include "Object_5C.hpp"
 #include "Globals.hpp"
+#include "Object_29178.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
 
@@ -497,9 +498,14 @@ void Object_5C::sub_52A590(int pUnknownObj)
 {
 }
 
-STUB_FUNC(0x52A610)
+MATCH_FUNC(0x52A610)
 void Object_5C::sub_52A610(Object_2C* p2C)
 {
+    if (p2C->field_8->field_34 != 11)
+    {
+        gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
+    }
+    gObject_29178_6F8F80->Remove(p2C);
 }
 
 STUB_FUNC(0x52A650)
