@@ -269,6 +269,12 @@ Char_11944::Char_11944()
     field_0_next = &field_4_array[0];
 }
 
+MATCH_FUNC(0x4710F0)
+Char_11944::~Char_11944()
+{
+    field_0_next = 0;
+}
+
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C
 Char_324::Char_324()
