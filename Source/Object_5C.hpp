@@ -147,6 +147,11 @@ class Object_5C
     EXPORT s32* sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10, char_type a11);
     EXPORT s32* sub_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
 
+    EXPORT void sub_52A500(int pUnknownObj);
+    EXPORT void sub_52A590(int pUnknownObj);
+    EXPORT void sub_52A610(Object_2C *p2C);
+    EXPORT void sub_52A650();
+
     s32 field_0;
     s32 field_4;
     s32 field_8;

@@ -1,5 +1,6 @@
 #include "Object_3C.hpp"
 #include "sprite.hpp"
+#include "Object_5C.hpp"
 
 STUB_FUNC(0x52ad80)
 void Object_3C::ctor_52AD80()
@@ -140,9 +141,29 @@ void Object_3C::sub_5A6F70(Sprite* a2)
 {
 }
 
-STUB_FUNC(0x5a7010)
+MATCH_FUNC(0x5a7010)
 void Object_3C::sub_5A7010()
 {
+    Sprite_18* p18Iter = this->field_0;
+    while (p18Iter)
+    {
+        Sprite* pSprite = p18Iter->field_0;
+        switch (p18Iter->field_0->field_30_sprite_type_enum)
+        {
+            case sprite_types_enum::unknown_1:
+            case sprite_types_enum::code_obj1:
+            case sprite_types_enum::map_obj:
+                gObject_5C_6F8F84->sub_52A610(pSprite->field_8_object_2C_ptr);
+                break;
+            case sprite_types_enum::car:
+                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
+                break;
+            default:
+                break;
+        }
+        p18Iter = p18Iter->field_4_next;
+    }
+    sub_5A6E10();
 }
 
 STUB_FUNC(0x5a7080)

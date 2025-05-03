@@ -947,6 +947,12 @@ Car_A4_10* Car_6C::sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6)
     return 0;
 }
 
+STUB_FUNC(0x446730)
+void Car_6C::sub_446730(Car_BC *pCar)
+{
+
+}
+
 STUB_FUNC(0x4466c0)
 s32 Car_6C::sub_4466C0(s32 a2)
 {
@@ -2805,12 +2811,6 @@ Car_BC::~Car_BC()
     field_4C_next = 0;
     field_50_car_sprite = 0;
     field_5C = 0;
-}
-
-STUB_FUNC(0x446730)
-s32 Car_BC::sub_446730(Car_BC* a1)
-{
-    return 0;
 }
 
 MATCH_FUNC(0x447360)

@@ -486,3 +486,23 @@ s32* Object_5C::sub_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
 {
     return 0;
 }
+
+STUB_FUNC(0x52A500)
+void Object_5C::sub_52A500(int pUnknownObj)
+{
+}
+
+STUB_FUNC(0x52A590)
+void Object_5C::sub_52A590(int pUnknownObj)
+{
+}
+
+STUB_FUNC(0x52A610)
+void Object_5C::sub_52A610(Object_2C* p2C)
+{
+}
+
+STUB_FUNC(0x52A650)
+void Object_5C::sub_52A650()
+{
+}
