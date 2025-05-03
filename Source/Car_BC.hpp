@@ -760,6 +760,14 @@ struct Car_E0C4
     }
     EXPORT ~Car_E0C4();
 
+    // TODO: 9.6f addr/check
+    void Remove(Car_BC* pCar)
+    {
+        pCar->sub_4447D0();
+        pCar->field_4C_next = field_0;
+        field_0 = pCar;
+    }
+
     Car_BC* field_0;
     Car_BC* field_4_firstCar;
     Car_BC field_8_cars[306];
