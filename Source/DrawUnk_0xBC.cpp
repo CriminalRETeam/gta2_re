@@ -9,6 +9,15 @@
 EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
 GLOBAL(gViewCamera_676978, 0x676978);
 
+EXPORT_VAR Fix16 dword_676840;
+GLOBAL(dword_676840, 0x676840);
+
+EXPORT_VAR Fix16 dword_67671C;
+GLOBAL(dword_67671C, 0x67671C);
+
+EXPORT_VAR Fix16 dword_67681C;
+GLOBAL(dword_67681C, 0x67681C);
+
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
@@ -102,9 +111,15 @@ s32* DrawUnk_0xBC::sub_435A20(s32* a2)
     return 0;
 }
 
-STUB_FUNC(0x435A70)
-s32 DrawUnk_0xBC::sub_435A70(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x435A70)
+s32 DrawUnk_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
+    Fix16_Point pos = sub_40CFC0(x, y, z);
+    if (pos.x >= dword_676818 && pos.x < Fix16(640) 
+        && pos.y >= dword_676818 && pos.y < Fix16(480))
+    {
+        return 1;
+    }
     return 0;
 }
 
@@ -113,12 +128,6 @@ s32 DrawUnk_0xBC::sub_435B90()
 {
     return 0;
 }
-
-EXPORT_VAR Fix16 dword_67671C;
-GLOBAL(dword_67671C, 0x67671C);
-
-EXPORT_VAR Fix16 dword_67681C;
-GLOBAL(dword_67681C, 0x67681C);
 
 STUB_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)

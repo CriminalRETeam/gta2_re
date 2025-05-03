@@ -252,6 +252,12 @@ class Fix16
     s32 mValue;
 };
 
+struct Fix16_Point
+{
+    Fix16 x;
+    Fix16 y;
+};
+
 struct Fix16_Vec
 {
     Fix16 x, y, z;

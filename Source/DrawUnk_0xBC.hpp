@@ -7,6 +7,9 @@ class Sprite;
 class Car_BC;
 class Ped;
 
+EXPORT_VAR extern Fix16 dword_676840;
+EXPORT_VAR extern Fix16 dword_67681C;
+
 class DrawUnk_0xBC
 {
   public:
@@ -20,7 +23,7 @@ class DrawUnk_0xBC
     EXPORT void sub_435860(DrawUnk_0xBC* a2);
     EXPORT s16* sub_4358D0(s16* a2);
     EXPORT s32* sub_435A20(s32* a2);
-    EXPORT s32 sub_435A70(s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_435B90();
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void sub_435DD0();
@@ -44,6 +47,18 @@ class DrawUnk_0xBC
     inline void inline_sub_475B60()
     {
         field_3C = 1;
+    }
+
+    Fix16_Point sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
+    {
+        Fix16_Point tmp;
+        Fix16 u = field_A0_z - z;
+        Fix16 t(dword_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
+
+        tmp.x = (((x - field_98_x) * field_64) * t) + Fix16(320);
+        tmp.y = (((y - field_9C_y) * field_64) * t) + Fix16(240);
+
+        return tmp;
     }
 
     // inline sub_40CF60
@@ -82,7 +97,7 @@ class DrawUnk_0xBC
     s32 field_58;
     s32 field_5C;
     s32 field_60;
-    s32 field_64;
+    Fix16 field_64;
     s32 field_68;
     s32 field_6C;
     s32 field_70;
