@@ -2,9 +2,9 @@
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Globals.hpp"
-#include "map_0x370.hpp"
-#include "collide.hpp"
 #include "Montana.hpp"
+#include "collide.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -24,62 +24,28 @@ GLOBAL(dword_6F6108, 0x6F6108);
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
 
-STUB_FUNC(0x477a40)
+// TODO: might be used elsewhere too or have been a macro
+static inline s32 Clamp(s32 value, s32 min, s32 max)
+{
+    if (value < min)
+    {
+        value = min;
+    }
+    else if (value > max)
+    {
+        value = max;
+    }
+    return value;
+}
+
+MATCH_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    s32 left = (gViewCamera_676978->field_78_win_left - dword_679084).ToInt();
-    if (left >= 0)
-    {
-        if (left > 255)
-        {
-            left = 255;
-        }
-    }
-    else
-    {
-        left = 0;
-    }
+    const s32 left = Clamp((gViewCamera_676978->field_78_win_left - dword_679084).ToInt(), 0, 255);
+    const s32 right_val = Clamp((dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt(), 0, 255);
+    const s32 top_val = Clamp((gViewCamera_676978->field_80_win_top - dword_679084).ToInt(), 0, 255);
+    const s32 bottom_val = Clamp((dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt(), 0, 255);
 
-    s32 right_val = (dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt();
-    if (right_val >= 0)
-    {
-        if (right_val > 255)
-        {
-            right_val = 255;
-        }
-    }
-    else
-    {
-        right_val = 0;
-    }
-
-    s32 top_val = (gViewCamera_676978->field_80_win_top - dword_679084).ToInt();
-    if (top_val >= 0)
-    {
-        if (top_val > 255)
-        {
-            top_val = 255;
-        }
-    }
-    else
-    {
-        top_val = 0;
-    }
-
-    s32 bottom_val = (dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt();
-    if (bottom_val >= 0)
-    {
-        if (bottom_val > 255)
-        {
-            bottom_val = 255;
-        }
-        //AddToDrawList_478240(left, right_val, top_val, bottom_val);
-    }
-    else
-    {
-        bottom_val = 0;
-        //AddToDrawList_478240(left, right_val, top_val, 0);
-    }
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
 }
 
@@ -201,7 +167,7 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
                 {
                     for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
                     {
-                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1) 
+                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1)
                         {
                             gMontana_67B580->DisplayAdd_495510(p8Iter->field_0_sprt);
                         }
@@ -295,7 +261,7 @@ STUB_FUNC(0x4789f0)
 void PurpleDoom::Clear_4789F0()
 {
 
-    for (u32 i=0; i< 256; i++)
+    for (u32 i = 0; i < 256; i++)
     {
         field_0[i] = 0;
     }
