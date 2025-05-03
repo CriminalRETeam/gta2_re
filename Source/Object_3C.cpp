@@ -3,13 +3,14 @@
 #include "Object_5C.hpp"
 
 STUB_FUNC(0x52ad80)
-void Object_3C::ctor_52AD80()
+Object_3C::Object_3C()
 {
 }
 
-STUB_FUNC(0x52ade0)
-void Object_3C::dtor_52ADE0()
+MATCH_FUNC(0x52ade0)
+Object_3C::~Object_3C()
 {
+    field_8 = 0;
 }
 
 STUB_FUNC(0x52adf0)

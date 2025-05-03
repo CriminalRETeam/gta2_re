@@ -9,8 +9,8 @@ class Object_2C;
 class Object_3C
 {
   public:
-    EXPORT void ctor_52AD80();
-    EXPORT void dtor_52ADE0();
+    EXPORT Object_3C();
+    EXPORT ~Object_3C();
     EXPORT u32* sub_52ADF0(u32* a2);
     EXPORT Sprite_18* sub_5A6A50(s32 a2);
     EXPORT Object_2C* sub_5A6A90(s32 obj_type);
