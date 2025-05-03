@@ -207,7 +207,7 @@ class Sprite
     EXPORT void sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5);
 
     EXPORT ~Sprite(); // 0x5a3540
-    EXPORT void sub_5A4D90(); // TODO: Sprite or Sprite_4C?
+
     // This function matches, but the marker doesn't seem to work on header files.
     // Leave it here commented for future reference
     //MATCH_FUNC(0x5a5e50)
@@ -609,7 +609,7 @@ class Car_BC
     EXPORT void ResprayOrChangePlates(s32 remap);
     EXPORT void ResprayOrCleanPlates(s32 remap);
     EXPORT void sub_443C40(s32 a2);
-    EXPORT s32 sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT void sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void IncrementCarStats_443D70(s32 car_type);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
     EXPORT void sub_443E50();

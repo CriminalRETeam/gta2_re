@@ -460,13 +460,13 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     Sprite* result;
 
     sub_59E9C0();
-    field_C_sprite_next_ptr->sub_5A4D90();
+    field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
         return gSprite_6791A8;
     }
-    result = (Sprite*)gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
         dword_679188 = 3;
@@ -824,7 +824,7 @@ Sprite::~Sprite()
 }
 
 STUB_FUNC(0x5A4D90)
-void Sprite::sub_5A4D90()
+void Sprite_4C::SetCurrentRect_5A4D90()
 {
 }
 
@@ -2393,7 +2393,7 @@ void Car_BC::sub_443C40(s32 a2)
 }
 
 MATCH_FUNC(0x443d00)
-s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
@@ -2409,7 +2409,7 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         field_58_uni->sub_563560(field_50_car_sprite);
     }
-    return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
+    gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
 MATCH_FUNC(0x443d70)

@@ -756,37 +756,37 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
     word_6F6002 = a6;
     if (dword_6F5B80 - dword_6F5FD4 >= 3 || a2 > dword_6F5FD4 + 1 || a2 < dword_6F5B80 - 1)
     {
-        if (sub_4E1E00(a2 - 1, a2 + 1, dword_6F6108, dword_6F5F38, a2, a3, a4))
+        if (sub_4E1E00(a2 - 1, a2 + 1, gPurple_top_6F6108, gPurple_bottom_6F5F38, a2, a3, a4))
         {
             return 1;
         }
         else if (dword_6F5B80 == a2 + 2)
         {
-            return sub_4E1E00(dword_6F5B80 - 1, dword_6F5B80, dword_6F6108, dword_6F5F38, dword_6F5B80 - 1, a3, dword_6F620C);
+            return sub_4E1E00(dword_6F5B80 - 1, dword_6F5B80, gPurple_top_6F6108, gPurple_bottom_6F5F38, dword_6F5B80 - 1, a3, dword_6F620C);
         }
         else
         {
-            return sub_4E1E00(dword_6F5FD4, dword_6F5FD4 + 1, dword_6F6108, dword_6F5F38, dword_6F5FD4 + 1, a3, dword_6F5BA0);
+            return sub_4E1E00(dword_6F5FD4, dword_6F5FD4 + 1, gPurple_top_6F6108, gPurple_bottom_6F5F38, dword_6F5FD4 + 1, a3, dword_6F5BA0);
         }
     }
-    else if (dword_6F5F38 - dword_6F6108 >= 3 || a3 > dword_6F6108 + 1 || a3 < dword_6F5F38 - 1)
+    else if (gPurple_bottom_6F5F38 - gPurple_top_6F6108 >= 3 || a3 > gPurple_top_6F6108 + 1 || a3 < gPurple_bottom_6F5F38 - 1)
     {
         if (sub_4E1E00(dword_6F5FD4, dword_6F5B80, a3 - 1, a3 + 1, a2, a3, a4))
         {
             return 1;
         }
-        else if (dword_6F5F38 == a3 + 2)
+        else if (gPurple_bottom_6F5F38 == a3 + 2)
         {
-            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F5F38 - 1, dword_6F5F38, a2, dword_6F5F38 - 1, dword_6F6248);
+            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, gPurple_bottom_6F5F38 - 1, gPurple_bottom_6F5F38, a2, gPurple_bottom_6F5F38 - 1, dword_6F6248);
         }
         else
         {
-            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F6108, dword_6F6108 + 1, a2, dword_6F6108 + 1, dword_6F5FAC);
+            return sub_4E1E00(dword_6F5FD4, dword_6F5B80, gPurple_top_6F6108, gPurple_top_6F6108 + 1, a2, gPurple_top_6F6108 + 1, dword_6F5FAC);
         }
     }
     else
     {
-        return sub_4E1E00(dword_6F5FD4, dword_6F5B80, dword_6F6108, dword_6F5F38, a2, a3, a4);
+        return sub_4E1E00(dword_6F5FD4, dword_6F5B80, gPurple_top_6F6108, gPurple_bottom_6F5F38, a2, a3, a4);
     }
 }
 
