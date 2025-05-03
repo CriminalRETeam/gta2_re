@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
+#include "ang16.hpp"
 
 class Sprite;
 class Sprite_18;
@@ -43,14 +45,14 @@ class Object_3C
     EXPORT char_type sub_5A7310();
 
     Sprite_18* field_0;
-    s16 field_4;
+    Ang16 field_4;
     s16 field_6;
     Object_3C* field_8;
-    s32 field_C;
-    s32 field_10;
+    Fix16 field_C;
+    Fix16 field_10;
     s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    Fix16 field_18;
+    Fix16 field_1C;
     s32 field_20;
     s32 field_24;
     s16 field_28;

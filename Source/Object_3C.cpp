@@ -1,10 +1,34 @@
 #include "Object_3C.hpp"
-#include "sprite.hpp"
 #include "Object_5C.hpp"
+#include "sprite.hpp"
+#include "Globals.hpp"
 
-STUB_FUNC(0x52ad80)
+// TODO: Init to correct values
+EXPORT_VAR Fix16 dword_6F8BF0;
+GLOBAL(dword_6F8BF0, 0x6F8BF0);
+
+EXPORT_VAR Ang16 word_6F8F68;
+GLOBAL(word_6F8F68, 0x6F8F68);
+
+MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_1C = dword_6F8BF0;
+    this->field_18 = dword_6F8BF0;
+    this->field_10 = dword_6F8BF0;
+    this->field_C = dword_6F8BF0;
+    this->field_4 = word_6F8F68;
+    this->field_28 = 0;
+    this->field_20 = 0;
+    this->field_2C = 0;
+    this->field_2A = 0;
+    this->field_38 = 0;
+    this->field_34 = 2;
+    this->field_2E = 0;
+    this->field_2F = 0;
 }
 
 MATCH_FUNC(0x52ade0)
