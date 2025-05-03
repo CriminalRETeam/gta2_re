@@ -217,11 +217,11 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
     for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
     {
         f0 = (u8)pIter->field_0_x_len;
-        if (f0 >= dword_6F5FD4)
+        if (f0 >= gPurple_left_6F5FD4)
         {
             break;
         }
-        if (f0 > dword_6F5B80)
+        if (f0 > gPurple_right_6F5B80)
         {
             return 0;
         }

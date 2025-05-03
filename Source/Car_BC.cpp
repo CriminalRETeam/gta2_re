@@ -705,10 +705,41 @@ char_type Sprite::sub_5A19C0()
     return 0;
 }
 
-STUB_FUNC(0x5a1a60)
-char_type Sprite::sub_5A1A60()
+MATCH_FUNC(0x5a1a60)
+char Sprite::sub_5A1A60()
 {
-    return 0;
+    sub_59F990();
+
+    Sprite_4C* p4C = this->field_4_0x4C_len;
+
+    if (!p4C->field_48)
+    {
+        p4C->sub_5A3550(this->field_14_xpos, this->field_18_ypos, this->field_1C_zpos, this->field_0);
+    }
+
+    field_4_0x4C_len->SetCurrentRect_5A4D90();
+
+    if (gPurple_left_6F5FD4 < 0)
+    {
+        gPurple_left_6F5FD4 = 0;
+    }
+
+    if (gPurple_right_6F5B80 > 255)
+    {
+        gPurple_right_6F5B80 = 255;
+    }
+
+    if (gPurple_top_6F6108 < 0)
+    {
+        gPurple_top_6F6108 = 0;
+    }
+
+    if (gPurple_bottom_6F5F38 > 255)
+    {
+        gPurple_bottom_6F5F38 = 255;
+    }
+
+    return gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
 }
 
 STUB_FUNC(0x5a1b30)
@@ -827,6 +858,13 @@ STUB_FUNC(0x5A4D90)
 void Sprite_4C::SetCurrentRect_5A4D90()
 {
 }
+
+STUB_FUNC(0x5A3550)
+void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
+{
+
+}
+
 
 MATCH_FUNC(0x5c8680)
 void Car_214::sub_5C8680(u8 idx)
