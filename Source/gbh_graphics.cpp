@@ -142,7 +142,7 @@ GLOBAL(gpGBH_Globals_7085E4, 0x7085E4);
         return -1;                                                     \
     }
 
-STUB_FUNC(0x5EA4D0)
+MATCH_FUNC(0x5EA4D0)
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
     MessageBoxA(0,
