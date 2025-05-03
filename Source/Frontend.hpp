@@ -165,7 +165,7 @@ enum MenuScreen
     Credits_17 = 17,
 };
 
-enum MenuPages  // enum for field_132_f136_idx
+enum MenuPages // enum for field_132_f136_idx
 {
     MENUPAGE_NONE = -1,
     MENUPAGE_START_MENU = 0,
@@ -2578,6 +2578,7 @@ struct Frontend
     u8 field_1EB51_blocks[3];
 
     // todo: ordering
+    EXPORT void sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
 
     // todo move to another file for ordering
     EXPORT static void __stdcall create_4ACFA0();
@@ -2730,14 +2731,7 @@ struct Frontend
 
     EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
-    EXPORT void sub_4B78B0(wchar_t* pString,
-                    u16 text_xpos,
-                    u16 text_ypos,
-                    u16 arg_C,
-                    s32 a2,
-                    u16 a6,
-                    u16 a7,
-                    u8 pStr);
+    EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr);
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);

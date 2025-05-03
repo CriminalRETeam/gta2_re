@@ -344,6 +344,13 @@ GLOBAL(snd1_67D818, 0x67D818);
 EXPORT_VAR infallible_turing snd2_67D6F8;
 GLOBAL(snd2_67D6F8, 0x67D6F8);
 
+STUB_FUNC(0x4B4C60)
+void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
+{
+
+}
+
+
 MATCH_FUNC(0x4ACFA0)
 void __stdcall Frontend::create_4ACFA0()
 {
@@ -1080,7 +1087,7 @@ for (s32 i=0; i<3; i++)
         else
         {
             if (field_EE0D < 9u)
-            {   
+            {
                 // TODO: struct at field_17A0
                 //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (agitated_keldysh_0xF0*)(& + 60 * v19);
                 // TODO: STUB
@@ -1407,7 +1414,7 @@ for (s32 i=0; i<3; i++)
                 {
                     field_2_xpos = v7->field_518[(u16)temp4].field_2_xpos;
                     v58 = v7->field_518[(u16)temp4].field_4_ypos;
-                    
+
                     switch (v7->field_518[v55].field_6_wstr_buf[0])
                     {
                         case 0u:
@@ -2570,10 +2577,36 @@ char_type Frontend::sub_4B7FB0()
     return true;
 }
 
-STUB_FUNC(0x4B4D00)
+MATCH_FUNC(0x4B4D00)
 void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
-    // todo
+    char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
+    char debugStr[256]; // [esp+110h] [ebp-300h] BYREF
+    char mapName[256]; // [esp+210h] [ebp-200h] BYREF
+    char styName[256]; // [esp+310h] [ebp-100h] BYREF
+
+    sub_4B4C60( mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
+    strcpy(fullPath, "data\\");
+    strcat(fullPath, debugStr);
+    gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
+    strcpy(fullPath, "data\\");
+    strcat(fullPath, mapName);
+    gLucid_hamilton_67E8E0.SetStyleName_4C5890(fullPath);
+    strcpy(fullPath, "data\\");
+    strcat(fullPath, styName);
+    gLucid_hamilton_67E8E0.SetScriptName_4C58B0(fullPath);
+    if (!bonusBlockIdx)
+    {
+        gLucid_hamilton_67E8E0.sub_4C58F0(mainBlockIdx);
+        gLucid_hamilton_67E8E0.sub_4C5910(0);
+    }
+    else
+    {
+        gLucid_hamilton_67E8E0.sub_4C5900(bonusBlockIdx | (0x10 * mainBlockIdx));
+        gLucid_hamilton_67E8E0.sub_4C5910(1);
+        
+    }
 }
 
 STUB_FUNC(0x4ADF50)
@@ -2714,8 +2747,8 @@ EXPORT void __stdcall sub_5D7D30()
 {
     pVid_GetSurface(gVidSys_7071D0);
     pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
-                    gVidSys_7071D0->field_54_surface_pixels_pitch,
-                    gVidSys_7071D0->field_4C_rect_bottom);
+                     gVidSys_7071D0->field_54_surface_pixels_pitch,
+                     gVidSys_7071D0->field_4C_rect_bottom);
 
     if (gVidSys_7071D0->field_40_full_screen == -2)
     {
@@ -3724,7 +3757,7 @@ u8 Frontend::sub_4B77B0(dreamy_clarke_0xA4* a2)
 {
     u8 result;
 
-    for (result = this->field_1EB50_idx - 1; !a2->field_0[result][0].field_0 ; --result)
+    for (result = this->field_1EB50_idx - 1; !a2->field_0[result][0].field_0; --result)
     {
         if (result <= 0)
         {
@@ -4017,7 +4050,7 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     {
         v4 = ((u16)sub_5D8990(pText, field_11C)) / 2;
     }
-    return width - v4; 
+    return width - v4;
 }
 
 STUB_FUNC(0x4B7060)
@@ -4571,14 +4604,14 @@ GLOBAL(dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,
-                                      Fix16 xpos_fp,
-                                      Fix16 ypos_fp,
-                                      u16 font_type,
-                                      Fix16 scale_fp,
-                                      s32* pUnknown,
-                                      s32 unknown1, // seems to be related with palette
-                                      s32 unknown2, // alpha_value
-                                      s32 flags)    // bool use_alpha
+                               Fix16 xpos_fp,
+                               Fix16 ypos_fp,
+                               u16 font_type,
+                               Fix16 scale_fp,
+                               s32* pUnknown,
+                               s32 unknown1, // seems to be related with palette
+                               s32 unknown2, // alpha_value
+                               s32 flags) // bool use_alpha
 {
 
     s32 new_Flags = CalcQuadFlags_5D83E0(unknown2, flags) | 0x20000;
@@ -4719,7 +4752,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
             Fix16 letterW((float)(pSprIdx->field_4_width - 0.0001));
             cur_xpos += letterW;
-            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001)); 
+            Fix16 spriteH((float)(pSprIdx->field_5_height - 0.0001));
 
             gQuadVerts_706B88.field_0_verts[0].u = 0.0;
             gQuadVerts_706B88.field_0_verts[0].v = 0.0;
