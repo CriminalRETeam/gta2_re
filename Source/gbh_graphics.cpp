@@ -186,15 +186,17 @@ EXPORT void __stdcall GBH_Graphics_Unload_5EA500()
     pgbh_DrawFlatRect = (T_gbh_DrawFlatRect)GBH_Graphics_Stub_5EA4D0;
 }
 
-STUB_FUNC(0x5EA640)
+MATCH_FUNC(0x5EA640)
 EXPORT s32 GBH_Graphics_Free_5EA640()
 {
-    if (gGBH_GraphicsLoaded_7085E0)
+    if (!gGBH_GraphicsLoaded_7085E0)
     {
-        gGBH_GraphicsLoaded_7085E0 = 0;
-        pgbh_CloseDLL();
-        GBH_Graphics_Unload_5EA500();
+        return 0;
     }
+
+    gGBH_GraphicsLoaded_7085E0 = 0;
+    pgbh_CloseDLL();
+    GBH_Graphics_Unload_5EA500();
     return 0;
 }
 
@@ -257,10 +259,8 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
     load_gbh_func(pgbh_BlitBuffer, T_gbh_BlitBuffer, "gbh_BlitBuffer");
     load_gbh_func(pgbh_DrawFlatRect, T_gbh_DrawFlatRect, "gbh_DrawFlatRect");
 
-
     return 0;
 }
-
 
 STUB_FUNC(0x5EB680)
 EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
