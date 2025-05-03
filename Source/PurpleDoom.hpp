@@ -43,7 +43,7 @@ class PurpleDoom
     EXPORT char_type sub_4787E0(u32 a2, u32* a3);
     EXPORT s32 sub_478880(u32 a2, u32* a3);
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);
-    EXPORT void Clear_4789F0();
+    EXPORT PurpleDoom_C** Clear_4789F0();
 
     PurpleDoom_C* field_0[256]; // y cols with links to x rows, x is sparse to save mem? (whole map is 256x265)
 };
