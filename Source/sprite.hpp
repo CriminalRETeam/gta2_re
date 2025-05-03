@@ -101,6 +101,8 @@ class Sprite_4C
 {
   public:
     EXPORT s32 sub_5A57A0();
+    EXPORT void SetCurrentRect_5A4D90();
+
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
     Fix16 field_0_width;

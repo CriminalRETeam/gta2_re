@@ -8,8 +8,8 @@ void Car_14_18::sub_59DD60()
 {
     dword_6F5FD4 = field_0.ToInt();
     dword_6F5B80 = field_4.ToInt();
-    dword_6F6108 = field_8.ToInt();
-    dword_6F5F38 = field_C.ToInt();
+    gPurple_top_6F6108 = field_8.ToInt();
+    gPurple_bottom_6F5F38 = field_C.ToInt();
 }
 
 MATCH_FUNC(0x59ddf0)

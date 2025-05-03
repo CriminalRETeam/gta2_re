@@ -5,6 +5,7 @@
 #include "Montana.hpp"
 #include "collide.hpp"
 #include "map_0x370.hpp"
+#include "sprite.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -15,11 +16,11 @@ GLOBAL(gPurpleDoom_2_67920C, 0x67920C);
 EXPORT_VAR PurpleDoom* gPurpleDoom_3_679210;
 GLOBAL(gPurpleDoom_3_679210, 0x679210);
 
-EXPORT_VAR s32 dword_6F5F38;
-GLOBAL(dword_6F5F38, 0x6F5F38);
+EXPORT_VAR s32 gPurple_bottom_6F5F38;
+GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
 
-EXPORT_VAR s32 dword_6F6108;
-GLOBAL(dword_6F6108, 0x6F6108);
+EXPORT_VAR s32 gPurple_top_6F6108;
+GLOBAL(gPurple_top_6F6108, 0x6F6108);
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
@@ -62,24 +63,24 @@ void PurpleDoom::Remove_477B00(Sprite* a1)
 }
 
 MATCH_FUNC(0x477b20)
-s32 PurpleDoom::sub_477B20(Sprite* a1a)
+void PurpleDoom::sub_477B20(Sprite* pSprite)
 {
-    s32 result;
-    a1a->sub_59E9C0();
-    a1a->field_C_sprite_next_ptr->sub_5A4D90();
-    s32 v3 = dword_6F6108;
-    for (result = dword_6F5F38; v3 <= dword_6F5F38; v3++)
+    pSprite->sub_59E9C0();
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_4784D0(v3, a1a);
-        result = dword_6F5F38;
+        sub_4784D0(y_pos, pSprite);
     }
-    return result;
 }
 
-STUB_FUNC(0x477b60)
-s32 PurpleDoom::sub_477B60(Sprite* a1)
+MATCH_FUNC(0x477b60)
+void PurpleDoom::sub_477B60(Sprite* pSprite)
 {
-    return 0;
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
+    {
+        sub_478370(y_pos, pSprite);
+    }
 }
 
 MATCH_FUNC(0x477ba0)
@@ -186,7 +187,7 @@ void PurpleDoom::sub_4782C0(s32 a2, s32 idx, Sprite* a4)
 }
 
 STUB_FUNC(0x478370)
-u8* PurpleDoom::sub_478370(s32 a2, s32 a3)
+u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 {
     return 0;
 }
