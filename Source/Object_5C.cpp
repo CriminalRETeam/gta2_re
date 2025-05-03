@@ -351,9 +351,13 @@ bool Object_2C::sub_529200()
     return (field_18_model != 174) ? true : false;
 }
 
-STUB_FUNC(0x52ae60)
-void Object_2C::dtor_52AE60()
+MATCH_FUNC(0x52ae60)
+Object_2C::~Object_2C()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_10 = 0;
 }
 
 STUB_FUNC(0x52ae70)
