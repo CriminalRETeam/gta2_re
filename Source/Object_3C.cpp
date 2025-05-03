@@ -1,14 +1,40 @@
 #include "Object_3C.hpp"
+#include "Object_5C.hpp"
 #include "sprite.hpp"
+#include "Globals.hpp"
 
-STUB_FUNC(0x52ad80)
-void Object_3C::ctor_52AD80()
+// TODO: Init to correct values
+EXPORT_VAR Fix16 dword_6F8BF0;
+GLOBAL(dword_6F8BF0, 0x6F8BF0);
+
+EXPORT_VAR Ang16 word_6F8F68;
+GLOBAL(word_6F8F68, 0x6F8F68);
+
+MATCH_FUNC(0x52ad80)
+Object_3C::Object_3C()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_1C = dword_6F8BF0;
+    this->field_18 = dword_6F8BF0;
+    this->field_10 = dword_6F8BF0;
+    this->field_C = dword_6F8BF0;
+    this->field_4 = word_6F8F68;
+    this->field_28 = 0;
+    this->field_20 = 0;
+    this->field_2C = 0;
+    this->field_2A = 0;
+    this->field_38 = 0;
+    this->field_34 = 2;
+    this->field_2E = 0;
+    this->field_2F = 0;
 }
 
-STUB_FUNC(0x52ade0)
-void Object_3C::dtor_52ADE0()
+MATCH_FUNC(0x52ade0)
+Object_3C::~Object_3C()
 {
+    field_8 = 0;
 }
 
 STUB_FUNC(0x52adf0)
@@ -140,9 +166,29 @@ void Object_3C::sub_5A6F70(Sprite* a2)
 {
 }
 
-STUB_FUNC(0x5a7010)
+MATCH_FUNC(0x5a7010)
 void Object_3C::sub_5A7010()
 {
+    Sprite_18* p18Iter = this->field_0;
+    while (p18Iter)
+    {
+        Sprite* pSprite = p18Iter->field_0;
+        switch (p18Iter->field_0->field_30_sprite_type_enum)
+        {
+            case sprite_types_enum::unknown_1:
+            case sprite_types_enum::code_obj1:
+            case sprite_types_enum::map_obj:
+                gObject_5C_6F8F84->sub_52A610(pSprite->field_8_object_2C_ptr);
+                break;
+            case sprite_types_enum::car:
+                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
+                break;
+            default:
+                break;
+        }
+        p18Iter = p18Iter->field_4_next;
+    }
+    sub_5A6E10();
 }
 
 STUB_FUNC(0x5a7080)

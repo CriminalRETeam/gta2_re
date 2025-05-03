@@ -336,6 +336,8 @@ class Car_6C
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Car_A4_10* sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6);
+    EXPORT void sub_446730(Car_BC *pCar);
+
     EXPORT s32 sub_4466C0(s32 a2);
     EXPORT void sub_446760();
     EXPORT void sub_446790();
@@ -625,7 +627,6 @@ class Car_BC
     Car_BC(); // 0x444860
     ~Car_BC(); // 0x444960
 
-    EXPORT s32 sub_446730(Car_BC* a1);
     EXPORT void sub_447360();
     EXPORT Sprite* sub_52A6D0(Sprite* a2);
     EXPORT bool sub_564300();
@@ -758,6 +759,14 @@ struct Car_E0C4
         field_E0C0_cars_count = 0;
     }
     EXPORT ~Car_E0C4();
+
+    // TODO: 9.6f addr/check
+    void Remove(Car_BC* pCar)
+    {
+        pCar->sub_4447D0();
+        pCar->field_4C_next = field_0;
+        field_0 = pCar;
+    }
 
     Car_BC* field_0;
     Car_BC* field_4_firstCar;

@@ -90,7 +90,7 @@ void PurpleDoom::sub_477AE0(Sprite* a1)
 }
 
 MATCH_FUNC(0x477b00)
-void PurpleDoom::sub_477B00(Sprite* a1)
+void PurpleDoom::Remove_477B00(Sprite* a1)
 {
     sub_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
