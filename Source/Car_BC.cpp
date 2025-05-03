@@ -705,8 +705,8 @@ char_type Sprite::sub_5A19C0()
     return 0;
 }
 
-STUB_FUNC(0x5a1a60)
-void Sprite::sub_5A1A60()
+MATCH_FUNC(0x5a1a60)
+char Sprite::sub_5A1A60()
 {
     sub_59F990();
 
@@ -739,7 +739,7 @@ void Sprite::sub_5A1A60()
         gPurple_bottom_6F5F38 = 255;
     }
 
-    gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
+    return gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
 }
 
 STUB_FUNC(0x5a1b30)
