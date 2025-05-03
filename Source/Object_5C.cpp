@@ -1,10 +1,10 @@
 #include "Object_5C.hpp"
 #include "Globals.hpp"
+#include "Object_226C.hpp"
 #include "Object_29178.hpp"
+#include "Object_5A40.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
-#include "Object_226C.hpp"
-#include "Object_5A40.hpp"
 #include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
@@ -430,10 +430,15 @@ Object_2C* Object_5C::sub_529950(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6,
     return 0;
 }
 
-STUB_FUNC(0x5299b0)
-Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
+MATCH_FUNC(0x5299b0)
+Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
 {
-    return 0;
+    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
+    if (pNewObj)
+    {
+        pNewObj->sub_527AE0();
+    }
+    return pNewObj;
 }
 
 STUB_FUNC(0x5299f0)
