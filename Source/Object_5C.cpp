@@ -1,7 +1,11 @@
 #include "Object_5C.hpp"
 #include "Globals.hpp"
+#include "Object_226C.hpp"
+#include "Object_29178.hpp"
+#include "Object_5A40.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -347,9 +351,13 @@ bool Object_2C::sub_529200()
     return (field_18_model != 174) ? true : false;
 }
 
-STUB_FUNC(0x52ae60)
-void Object_2C::dtor_52AE60()
+MATCH_FUNC(0x52ae60)
+Object_2C::~Object_2C()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
+    this->field_8 = 0;
+    this->field_10 = 0;
 }
 
 STUB_FUNC(0x52ae70)
@@ -379,9 +387,34 @@ Object_5C::Object_5C()
 {
 }
 
-STUB_FUNC(0x529750)
+MATCH_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
+    if (field_58)
+    {
+        gSprite_49B28_703818->remove(field_58);
+        field_58 = 0;
+    }
+
+    if (gObject_29178_6F8F80)
+    {
+        GTA2_DELETE_AND_NULL(gObject_29178_6F8F80);
+    }
+
+    if (gObject_226C_6F8F78)
+    {
+        GTA2_DELETE_AND_NULL(gObject_226C_6F8F78);
+    }
+
+    if (gObject_5A40_6F8F7C)
+    {
+        GTA2_DELETE_AND_NULL(gObject_5A40_6F8F7C);
+    }
+
+    this->field_0 = 0;
+    this->field_C = 0;
+    this->field_8 = 0;
+    this->field_4 = 0;
 }
 
 STUB_FUNC(0x5297f0)
@@ -401,10 +434,15 @@ Object_2C* Object_5C::sub_529950(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6,
     return 0;
 }
 
-STUB_FUNC(0x5299b0)
-Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
+MATCH_FUNC(0x5299b0)
+Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
 {
-    return 0;
+    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
+    if (pNewObj)
+    {
+        pNewObj->sub_527AE0();
+    }
+    return pNewObj;
 }
 
 STUB_FUNC(0x5299f0)
@@ -485,4 +523,29 @@ STUB_FUNC(0x52a3d0)
 s32* Object_5C::sub_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
 {
     return 0;
+}
+
+STUB_FUNC(0x52A500)
+void Object_5C::sub_52A500(int pUnknownObj)
+{
+}
+
+STUB_FUNC(0x52A590)
+void Object_5C::sub_52A590(int pUnknownObj)
+{
+}
+
+MATCH_FUNC(0x52A610)
+void Object_5C::sub_52A610(Object_2C* p2C)
+{
+    if (p2C->field_8->field_34 != 11)
+    {
+        gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
+    }
+    gObject_29178_6F8F80->Remove(p2C);
+}
+
+STUB_FUNC(0x52A650)
+void Object_5C::sub_52A650()
+{
 }

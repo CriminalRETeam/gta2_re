@@ -1,4 +1,5 @@
 #include "Car_BC.hpp"
+#include "CarInfo_808.hpp"
 #include "Car_14_18.hpp"
 #include "Car_B0.hpp"
 #include "Game_0x40.hpp"
@@ -21,7 +22,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "CarInfo_808.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -460,13 +460,13 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     Sprite* result;
 
     sub_59E9C0();
-    field_C_sprite_next_ptr->sub_5A4D90();
+    field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
         return gSprite_6791A8;
     }
-    result = (Sprite*)gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
         dword_679188 = 3;
@@ -824,7 +824,7 @@ Sprite::~Sprite()
 }
 
 STUB_FUNC(0x5A4D90)
-void Sprite::sub_5A4D90()
+void Sprite_4C::SetCurrentRect_5A4D90()
 {
 }
 
@@ -945,6 +945,13 @@ STUB_FUNC(0x446530)
 Car_A4_10* Car_6C::sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6)
 {
     return 0;
+}
+
+MATCH_FUNC(0x446730)
+void Car_6C::sub_446730(Car_BC* pCar)
+{
+    gPurpleDoom_3_679210->Remove_477B00(pCar->field_50_car_sprite);
+    gCar_E0C4_67792C->Remove(pCar);
 }
 
 STUB_FUNC(0x4466c0)
@@ -2386,7 +2393,7 @@ void Car_BC::sub_443C40(s32 a2)
 }
 
 MATCH_FUNC(0x443d00)
-s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
@@ -2402,7 +2409,7 @@ s32 Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         field_58_uni->sub_563560(field_50_car_sprite);
     }
-    return gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
+    gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
 
 MATCH_FUNC(0x443d70)
@@ -2805,12 +2812,6 @@ Car_BC::~Car_BC()
     field_4C_next = 0;
     field_50_car_sprite = 0;
     field_5C = 0;
-}
-
-STUB_FUNC(0x446730)
-s32 Car_BC::sub_446730(Car_BC* a1)
-{
-    return 0;
 }
 
 MATCH_FUNC(0x447360)

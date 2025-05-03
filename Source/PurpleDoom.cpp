@@ -2,9 +2,10 @@
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Globals.hpp"
-#include "map_0x370.hpp"
-#include "collide.hpp"
 #include "Montana.hpp"
+#include "collide.hpp"
+#include "map_0x370.hpp"
+#include "sprite.hpp"
 
 EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
 GLOBAL(gPurpleDoom_1_679208, 0x679208);
@@ -15,71 +16,37 @@ GLOBAL(gPurpleDoom_2_67920C, 0x67920C);
 EXPORT_VAR PurpleDoom* gPurpleDoom_3_679210;
 GLOBAL(gPurpleDoom_3_679210, 0x679210);
 
-EXPORT_VAR s32 dword_6F5F38;
-GLOBAL(dword_6F5F38, 0x6F5F38);
+EXPORT_VAR s32 gPurple_bottom_6F5F38;
+GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
 
-EXPORT_VAR s32 dword_6F6108;
-GLOBAL(dword_6F6108, 0x6F6108);
+EXPORT_VAR s32 gPurple_top_6F6108;
+GLOBAL(gPurple_top_6F6108, 0x6F6108);
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
 
-STUB_FUNC(0x477a40)
+// TODO: might be used elsewhere too or have been a macro
+static inline s32 Clamp(s32 value, s32 min, s32 max)
+{
+    if (value < min)
+    {
+        value = min;
+    }
+    else if (value > max)
+    {
+        value = max;
+    }
+    return value;
+}
+
+MATCH_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    s32 left = (gViewCamera_676978->field_78_win_left - dword_679084).ToInt();
-    if (left >= 0)
-    {
-        if (left > 255)
-        {
-            left = 255;
-        }
-    }
-    else
-    {
-        left = 0;
-    }
+    const s32 left = Clamp((gViewCamera_676978->field_78_win_left - dword_679084).ToInt(), 0, 255);
+    const s32 right_val = Clamp((dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt(), 0, 255);
+    const s32 top_val = Clamp((gViewCamera_676978->field_80_win_top - dword_679084).ToInt(), 0, 255);
+    const s32 bottom_val = Clamp((dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt(), 0, 255);
 
-    s32 right_val = (dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt();
-    if (right_val >= 0)
-    {
-        if (right_val > 255)
-        {
-            right_val = 255;
-        }
-    }
-    else
-    {
-        right_val = 0;
-    }
-
-    s32 top_val = (gViewCamera_676978->field_80_win_top - dword_679084).ToInt();
-    if (top_val >= 0)
-    {
-        if (top_val > 255)
-        {
-            top_val = 255;
-        }
-    }
-    else
-    {
-        top_val = 0;
-    }
-
-    s32 bottom_val = (dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt();
-    if (bottom_val >= 0)
-    {
-        if (bottom_val > 255)
-        {
-            bottom_val = 255;
-        }
-        //AddToDrawList_478240(left, right_val, top_val, bottom_val);
-    }
-    else
-    {
-        bottom_val = 0;
-        //AddToDrawList_478240(left, right_val, top_val, 0);
-    }
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
 }
 
@@ -90,30 +57,30 @@ void PurpleDoom::sub_477AE0(Sprite* a1)
 }
 
 MATCH_FUNC(0x477b00)
-void PurpleDoom::sub_477B00(Sprite* a1)
+void PurpleDoom::Remove_477B00(Sprite* a1)
 {
     sub_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b20)
-s32 PurpleDoom::sub_477B20(Sprite* a1a)
+void PurpleDoom::sub_477B20(Sprite* pSprite)
 {
-    s32 result;
-    a1a->sub_59E9C0();
-    a1a->field_C_sprite_next_ptr->sub_5A4D90();
-    s32 v3 = dword_6F6108;
-    for (result = dword_6F5F38; v3 <= dword_6F5F38; v3++)
+    pSprite->sub_59E9C0();
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
-        sub_4784D0(v3, a1a);
-        result = dword_6F5F38;
+        sub_4784D0(y_pos, pSprite);
     }
-    return result;
 }
 
-STUB_FUNC(0x477b60)
-s32 PurpleDoom::sub_477B60(Sprite* a1)
+MATCH_FUNC(0x477b60)
+void PurpleDoom::sub_477B60(Sprite* pSprite)
 {
-    return 0;
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
+    {
+        sub_478370(y_pos, pSprite);
+    }
 }
 
 MATCH_FUNC(0x477ba0)
@@ -181,33 +148,27 @@ u32 PurpleDoom::sub_478160(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x478240)
+MATCH_FUNC(0x478240)
 void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
-    PurpleDoom_C** pYItem; // ebp
-    PurpleDoom_C* pXItem; // edi
-    int x_cell; // eax
-    Collide_8* p8Iter; // esi
-    int y_total; // [esp+10h] [ebp+Ch]
-
-    pYItem = &this->field_0[top]; // y_start?
+    PurpleDoom_C** pYItem = &this->field_0[top]; // y_start?
     if (top <= bottom)
     {
-        y_total = bottom - top + 1;
+        s32 y_total = bottom - top + 1;
         do
         {
-            for (pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
+            for (PurpleDoom_C* pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
             {
-                x_cell = pXItem->field_0_x_len;
+                const s32 x_cell = pXItem->field_0_x_len;
                 if (x_cell > right)
                 {
                     break;
                 }
                 if (x_cell >= left)
                 {
-                    for (p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+                    for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
                     {
-                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1) 
+                        if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1)
                         {
                             gMontana_67B580->DisplayAdd_495510(p8Iter->field_0_sprt);
                         }
@@ -226,7 +187,7 @@ void PurpleDoom::sub_4782C0(s32 a2, s32 idx, Sprite* a4)
 }
 
 STUB_FUNC(0x478370)
-u8* PurpleDoom::sub_478370(s32 a2, s32 a3)
+u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 {
     return 0;
 }
@@ -301,7 +262,7 @@ STUB_FUNC(0x4789f0)
 void PurpleDoom::Clear_4789F0()
 {
 
-    for (u32 i=0; i< 256; i++)
+    for (u32 i = 0; i < 256; i++)
     {
         field_0[i] = 0;
     }

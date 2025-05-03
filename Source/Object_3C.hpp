@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
+#include "ang16.hpp"
 
 class Sprite;
 class Sprite_18;
@@ -9,8 +11,8 @@ class Object_2C;
 class Object_3C
 {
   public:
-    EXPORT void ctor_52AD80();
-    EXPORT void dtor_52ADE0();
+    EXPORT Object_3C();
+    EXPORT ~Object_3C();
     EXPORT u32* sub_52ADF0(u32* a2);
     EXPORT Sprite_18* sub_5A6A50(s32 a2);
     EXPORT Object_2C* sub_5A6A90(s32 obj_type);
@@ -43,14 +45,14 @@ class Object_3C
     EXPORT char_type sub_5A7310();
 
     Sprite_18* field_0;
-    s16 field_4;
+    Ang16 field_4;
     s16 field_6;
     Object_3C* field_8;
-    s32 field_C;
-    s32 field_10;
+    Fix16 field_C;
+    Fix16 field_10;
     s32 field_14;
-    s32 field_18;
-    s32 field_1C;
+    Fix16 field_18;
+    Fix16 field_1C;
     s32 field_20;
     s32 field_24;
     s16 field_28;
