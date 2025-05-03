@@ -344,10 +344,12 @@ GLOBAL(snd1_67D818, 0x67D818);
 EXPORT_VAR infallible_turing snd2_67D6F8;
 GLOBAL(snd2_67D6F8, 0x67D6F8);
 
-STUB_FUNC(0x4B4C60)
-void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
+MATCH_FUNC(0x4B4C60)
+void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
-
+    strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);// [4][3] array
+    strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100);// +256
+    strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200);// +256
 }
 
 
