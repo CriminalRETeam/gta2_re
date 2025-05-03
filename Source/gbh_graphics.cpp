@@ -132,16 +132,6 @@ GLOBAL(gGBH_GraphicsLoaded_7085E0, 0x7085E0);
 EXPORT_VAR u32* gpGBH_Globals_7085E4;
 GLOBAL(gpGBH_Globals_7085E4, 0x7085E4);
 
-#define load_gbh_func(varName, varType, funcName)                      \
-    varName = (varType)GetProcAddress(gGbhDllHandle_7085D8, funcName); \
-    if (!varName)                                                      \
-    {                                                                  \
-        sprintf(Text, "Can't Find Function Called %s", funcName);      \
-        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
-        FreeLibrary(gGbhDllHandle_7085D8);                             \
-        return -1;                                                     \
-    }
-
 MATCH_FUNC(0x5EA4D0)
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
@@ -200,65 +190,76 @@ EXPORT s32 GBH_Graphics_Free_5EA640()
     return 0;
 }
 
-STUB_FUNC(0x5EA680)
+#define load_gbh_func(varName, varType, funcName)                      \
+    varName = (varType)GetProcAddress(gGbhDllHandle_7085D8, funcName); \
+    if (!varName)                                                      \
+    {                                                                  \
+        char_type Text[120];                                           \
+        sprintf(Text, "Can't Find Function Called %s", funcName);      \
+        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
+        FreeLibrary(gGbhDllHandle_7085D8);                             \
+        return -1;                                                     \
+    }
+
+MATCH_FUNC(0x5EA680)
 EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
-    char_type Text[120];
-
+    char_type Text[126];
     if (!lpLibFileName)
     {
         return 0;
     }
 
     gGbhDllHandle_7085D8 = LoadLibraryA(lpLibFileName);
-    if (!gGbhDllHandle_7085D8)
+    if (gGbhDllHandle_7085D8)
+    {
+        load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, "gbh_InitDLL");
+        load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, "gbh_CloseDLL");
+        load_gbh_func(pgbh_Init, T_gbh_Init, "gbh_Init");
+        load_gbh_func(pgbh_DrawTile, T_gbh_DrawTile, "gbh_DrawTile");
+        load_gbh_func(pgbh_DrawTilePart, T_gbh_DrawTilePart, "gbh_DrawTilePart");
+        load_gbh_func(pgbh_DrawQuad, T_gbh_DrawQuad, "gbh_DrawQuad");
+        load_gbh_func(pgbh_DrawQuadClipped, T_gbh_DrawQuadClipped, "gbh_DrawQuadClipped");
+        load_gbh_func(pgbh_DrawTriangle, T_gbh_DrawTriangle, "gbh_DrawTriangle");
+        load_gbh_func(pgbh_Plot, T_gbh_Plot, "gbh_Plot");
+        load_gbh_func(pgbh_SetWindow, T_gbh_SetWindow, "gbh_SetWindow");
+        load_gbh_func(pgbh_PrintBitmap, T_gbh_PrintBitmap, "gbh_PrintBitmap");
+        load_gbh_func(pgbh_SetColourDepth, T_gbh_SetColourDepth, "gbh_SetColourDepth");
+        load_gbh_func(pgbh_GetGlobals, T_gbh_GetGlobals, "gbh_GetGlobals");
+        load_gbh_func(pgbh_ConvertColour, T_gbh_ConvertColour, "gbh_ConvertColour");
+        load_gbh_func(pgbh_RegisterTexture, T_gbh_RegisterTexture, "gbh_RegisterTexture");
+        load_gbh_func(pgbh_BeginScene, T_gbh_BeginScene, "gbh_BeginScene");
+        load_gbh_func(pgbh_EndScene, T_gbh_EndScene, "gbh_EndScene");
+        load_gbh_func(pgbh_BeginLevel, T_gbh_BeginLevel, "gbh_BeginLevel");
+        load_gbh_func(pgbh_EndLevel, T_gbh_EndLevel, "gbh_EndLevel");
+        load_gbh_func(pConvertColourBank, T_ConvertColourBank, "ConvertColourBank");
+        load_gbh_func(pDrawLine, FARPROC, "DrawLine");
+        load_gbh_func(pMakeScreenTable, T_MakeScreenTable, "MakeScreenTable");
+        load_gbh_func(pSetShadeTableA, T_SetShadeTableA, "SetShadeTableA");
+        load_gbh_func(pgbh_UnlockTexture, T_gbh_UnlockTexture, "gbh_UnlockTexture");
+        load_gbh_func(pgbh_RegisterPalette, T_gbh_RegisterPalette, "gbh_RegisterPalette");
+        load_gbh_func(pgbh_FreePalette, T_gbh_FreePalette, "gbh_FreePalette");
+        load_gbh_func(pgbh_FreeTexture, T_gbh_FreeTexture, "gbh_FreeTexture");
+        load_gbh_func(pgbh_AssignPalette, T_gbh_AssignPalette, "gbh_AssignPalette");
+        load_gbh_func(pgbh_LockTexture, T_gbh_LockTexture, "gbh_LockTexture");
+        load_gbh_func(pgbh_GetUsedCache, T_gbh_GetUsedCache, "gbh_GetUsedCache");
+        load_gbh_func(pgbh_SetCamera, T_gbh_SetCamera, "gbh_SetCamera");
+        load_gbh_func(pgbh_ResetLights, T_gbh_ResetLights, "gbh_ResetLights");
+        load_gbh_func(pgbh_AddLight, T_gbh_AddLight, "gbh_AddLight");
+        load_gbh_func(pgbh_SetAmbient, T_gbh_SetAmbient, "gbh_SetAmbient");
+        load_gbh_func(pgbh_InitImageTable, T_gbh_InitImageTable, "gbh_InitImageTable");
+        load_gbh_func(pgbh_FreeImageTable, T_gbh_FreeImageTable, "gbh_FreeImageTable");
+        load_gbh_func(pgbh_LoadImage, T_gbh_LoadImage, "gbh_LoadImage");
+        load_gbh_func(pgbh_BlitImage, T_gbh_BlitImage, "gbh_BlitImage");
+        load_gbh_func(pgbh_BlitBuffer, T_gbh_BlitBuffer, "gbh_BlitBuffer");
+        load_gbh_func(pgbh_DrawFlatRect, T_gbh_DrawFlatRect, "gbh_DrawFlatRect");
+    }
+    else
     {
         sprintf(Text, "Error can't load DLL file: %s", lpLibFileName);
         MessageBoxA(0, Text, "Error Loading DLL.", MB_OK);
         return -1;
     }
-
-    load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, "gbh_InitDLL");
-    load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, "gbh_CloseDLL");
-    load_gbh_func(pgbh_Init, T_gbh_Init, "gbh_Init");
-    load_gbh_func(pgbh_DrawTile, T_gbh_DrawTile, "gbh_DrawTile");
-    load_gbh_func(pgbh_DrawTilePart, T_gbh_DrawTilePart, "gbh_DrawTilePart");
-    load_gbh_func(pgbh_DrawQuad, T_gbh_DrawQuad, "gbh_DrawQuad");
-    load_gbh_func(pgbh_DrawQuadClipped, T_gbh_DrawQuadClipped, "gbh_DrawQuadClipped");
-    load_gbh_func(pgbh_DrawTriangle, T_gbh_DrawTriangle, "gbh_DrawTriangle");
-    load_gbh_func(pgbh_Plot, T_gbh_Plot, "gbh_Plot");
-    load_gbh_func(pgbh_SetWindow, T_gbh_SetWindow, "gbh_SetWindow");
-    load_gbh_func(pgbh_PrintBitmap, T_gbh_PrintBitmap, "gbh_PrintBitmap");
-    load_gbh_func(pgbh_SetColourDepth, T_gbh_SetColourDepth, "gbh_SetColourDepth");
-    load_gbh_func(pgbh_GetGlobals, T_gbh_GetGlobals, "gbh_GetGlobals");
-    load_gbh_func(pgbh_ConvertColour, T_gbh_ConvertColour, "gbh_ConvertColour");
-    load_gbh_func(pgbh_RegisterTexture, T_gbh_RegisterTexture, "gbh_RegisterTexture");
-    load_gbh_func(pgbh_BeginScene, T_gbh_BeginScene, "gbh_BeginScene");
-    load_gbh_func(pgbh_EndScene, T_gbh_EndScene, "gbh_EndScene");
-    load_gbh_func(pgbh_BeginLevel, T_gbh_BeginLevel, "gbh_BeginLevel");
-    load_gbh_func(pgbh_EndLevel, T_gbh_EndLevel, "gbh_EndLevel");
-    load_gbh_func(pConvertColourBank, T_ConvertColourBank, "ConvertColourBank");
-    load_gbh_func(pDrawLine, FARPROC, "DrawLine");
-    load_gbh_func(pMakeScreenTable, T_MakeScreenTable, "MakeScreenTable");
-    load_gbh_func(pSetShadeTableA, T_SetShadeTableA, "SetShadeTableA");
-    load_gbh_func(pgbh_UnlockTexture, T_gbh_UnlockTexture, "gbh_UnlockTexture");
-    load_gbh_func(pgbh_RegisterPalette, T_gbh_RegisterPalette, "gbh_RegisterPalette");
-    load_gbh_func(pgbh_FreePalette, T_gbh_FreePalette, "gbh_FreePalette");
-    load_gbh_func(pgbh_FreeTexture, T_gbh_FreeTexture, "gbh_FreeTexture");
-    load_gbh_func(pgbh_AssignPalette, T_gbh_AssignPalette, "gbh_AssignPalette");
-    load_gbh_func(pgbh_LockTexture, T_gbh_LockTexture, "gbh_LockTexture");
-    load_gbh_func(pgbh_GetUsedCache, T_gbh_GetUsedCache, "gbh_GetUsedCache");
-    load_gbh_func(pgbh_SetCamera, T_gbh_SetCamera, "gbh_SetCamera");
-    load_gbh_func(pgbh_ResetLights, T_gbh_ResetLights, "gbh_ResetLights");
-    load_gbh_func(pgbh_AddLight, T_gbh_AddLight, "gbh_AddLight");
-    load_gbh_func(pgbh_SetAmbient, T_gbh_SetAmbient, "gbh_SetAmbient");
-    load_gbh_func(pgbh_InitImageTable, T_gbh_InitImageTable, "gbh_InitImageTable");
-    load_gbh_func(pgbh_FreeImageTable, T_gbh_FreeImageTable, "gbh_FreeImageTable");
-    load_gbh_func(pgbh_LoadImage, T_gbh_LoadImage, "gbh_LoadImage");
-    load_gbh_func(pgbh_BlitImage, T_gbh_BlitImage, "gbh_BlitImage");
-    load_gbh_func(pgbh_BlitBuffer, T_gbh_BlitBuffer, "gbh_BlitBuffer");
-    load_gbh_func(pgbh_DrawFlatRect, T_gbh_DrawFlatRect, "gbh_DrawFlatRect");
-
     return 0;
 }
 
