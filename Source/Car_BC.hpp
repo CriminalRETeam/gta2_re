@@ -458,7 +458,7 @@ class Car_BC
     EXPORT bool sub_43A3C0();
     EXPORT s16* sub_43A3E0(s16* a2);
     EXPORT u32* sub_43A450(u32* a2);
-    EXPORT s32* sub_43A4C0(s32* a2);
+    EXPORT Fix16 sub_43A4C0();
     EXPORT u32* sub_43A590(u32* a2);
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void RemoveAllDamage();

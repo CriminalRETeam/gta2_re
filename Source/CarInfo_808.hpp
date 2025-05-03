@@ -8,7 +8,7 @@ class CarInfo_48
   public:
     u8 field_0_model;
     s8 field_1_turbo;
-    s8 field_2_value;
+    u8 field_2_value;
     s8 field_3_padding;
     Fix16 field_4_mass;
     Fix16 field_8_front_drive_bias;
@@ -74,10 +74,10 @@ class CarInfo_808
     EXPORT ~CarInfo_808();
 
     EXPORT static char* __stdcall parse_gci_file_430A30(void* input,
-                                                 size_t input_size,
-                                                 CarInfo_48* output,
-                                                 size_t output_size,
-                                                 u32* next_position);
+                                                        size_t input_size,
+                                                        CarInfo_48* output,
+                                                        size_t output_size,
+                                                        u32* next_position);
     EXPORT static s32 __stdcall sub_430b10(char* param_1);
     EXPORT static s32 __stdcall sub_430E60(void* param_1, u32 param_2);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);

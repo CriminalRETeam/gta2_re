@@ -1179,7 +1179,7 @@ u32* Car_BC::sub_43A450(u32* a2)
 }
 
 STUB_FUNC(0x43a4c0)
-s32* Car_BC::sub_43A4C0(s32* a2)
+Fix16 Car_BC::sub_43A4C0()
 {
     return 0;
 }

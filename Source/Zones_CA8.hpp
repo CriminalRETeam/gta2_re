@@ -138,7 +138,7 @@ class Zones_CA8
     EXPORT void alloc_map_zone_4BF1E0(gmp_map_zone* pMapZone);
     EXPORT u8 get_zone_idx_4BF210(const char* zoneName);
     EXPORT void sub_4BF230(Gang_144* pZone, u8 zone_idx);
-    EXPORT u8 sub_4BF2F0(int arg0);
+    EXPORT s8 sub_4BF2F0(s32 arg0);
 
     Gang_144 field_0[10];
 };

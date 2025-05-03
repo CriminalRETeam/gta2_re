@@ -275,7 +275,7 @@ void Zones_CA8::sub_4BF230(Gang_144* pZone, u8 zone_idx)
 }
 
 MATCH_FUNC(0x4BF2F0);
-u8 Zones_CA8::sub_4BF2F0(int arg0)
+s8 Zones_CA8::sub_4BF2F0(s32 arg0)
 {
     for (u8 i = 0; i < 10; i++)
     {
