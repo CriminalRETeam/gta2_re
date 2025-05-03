@@ -262,7 +262,7 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
     return 0;
 }
 
-STUB_FUNC(0x5EB680)
+MATCH_FUNC(0x5EB680)
 EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys)
 {
     const s32 error = GBH_GraphicsLoadDll_5EA680(lpLibFileName);
