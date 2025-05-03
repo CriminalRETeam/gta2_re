@@ -151,7 +151,7 @@ EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
                 MB_OK);
 }
 
-STUB_FUNC(0x5EA500)
+MATCH_FUNC(0x5EA500)
 EXPORT void __stdcall GBH_Graphics_Unload_5EA500()
 {
     FreeLibrary(gGbhDllHandle_7085D8);
