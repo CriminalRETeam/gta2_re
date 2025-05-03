@@ -412,7 +412,9 @@ Ped* Char_C::PedById(s32 pedId)
     return pPedIter;
 }
 
-STUB_FUNC(0x471110)
+MATCH_FUNC(0x471110)
 Char_203AC::~Char_203AC()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
 }
