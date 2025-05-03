@@ -5,8 +5,8 @@
 class Object_8
 {
   public:
-    EXPORT void ctor_52AD50();
-    EXPORT void dtor_52AD70();
+    EXPORT Object_8();
+    EXPORT ~Object_8();
     Object_8* field_0;
     s32 field_4;
 };
