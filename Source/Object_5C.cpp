@@ -3,6 +3,9 @@
 #include "Object_29178.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "Object_226C.hpp"
+#include "Object_5A40.hpp"
+#include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -380,9 +383,34 @@ Object_5C::Object_5C()
 {
 }
 
-STUB_FUNC(0x529750)
+MATCH_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
+    if (field_58)
+    {
+        gSprite_49B28_703818->remove(field_58);
+        field_58 = 0;
+    }
+
+    if (gObject_29178_6F8F80)
+    {
+        GTA2_DELETE_AND_NULL(gObject_29178_6F8F80);
+    }
+
+    if (gObject_226C_6F8F78)
+    {
+        GTA2_DELETE_AND_NULL(gObject_226C_6F8F78);
+    }
+
+    if (gObject_5A40_6F8F7C)
+    {
+        GTA2_DELETE_AND_NULL(gObject_5A40_6F8F7C);
+    }
+
+    this->field_0 = 0;
+    this->field_C = 0;
+    this->field_8 = 0;
+    this->field_4 = 0;
 }
 
 STUB_FUNC(0x5297f0)
