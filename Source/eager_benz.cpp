@@ -15,6 +15,7 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Ped.inl"
 #include <string.h>
 
 // TODO: move
@@ -417,15 +418,13 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 {
 }
 
-STUB_FUNC(0x592dd0)
+MATCH_FUNC(0x592dd0)
 void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 {
     const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
     gmp_map_zone* pZone = gMap_0x370_6F6268->sub_4DF6A0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt());
 
-    // TODO: we need the inlined get_car_model() function then this should match
-    //u32 car_info_idx = pPed->get_car_model();
-    u32 car_info_idx = 0;
+    u32 car_info_idx = pPed->get_car_model();
 
     u16 bIsGangCar = gZones_CA8_67E274->sub_4BF2F0(pCar->field_84_car_info_idx);
 

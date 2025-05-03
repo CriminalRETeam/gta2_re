@@ -326,20 +326,7 @@ class Ped
     }
 
     // TODO: to use this inline we need to fix a circular dependency issue
-    /*
-    inline u32 get_car_model()
-    {
-        u32 m;
-        if (field_16C_car)
-        {
-            m = field_16C_car->field_84_car_info_idx;
-        }
-        else
-        {
-            m = car_model_enum::none;
-        }
-        return m;
-    }*/
+    inline s32 get_car_model();
 
     Marz_3 field_0[100];
     Ang16 field_12C;
