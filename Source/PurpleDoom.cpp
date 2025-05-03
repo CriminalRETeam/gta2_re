@@ -181,31 +181,25 @@ u32 PurpleDoom::sub_478160(u8 a2)
     return 0;
 }
 
-STUB_FUNC(0x478240)
+MATCH_FUNC(0x478240)
 void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
-    PurpleDoom_C** pYItem; // ebp
-    PurpleDoom_C* pXItem; // edi
-    int x_cell; // eax
-    Collide_8* p8Iter; // esi
-    int y_total; // [esp+10h] [ebp+Ch]
-
-    pYItem = &this->field_0[top]; // y_start?
+    PurpleDoom_C** pYItem = &this->field_0[top]; // y_start?
     if (top <= bottom)
     {
-        y_total = bottom - top + 1;
+        s32 y_total = bottom - top + 1;
         do
         {
-            for (pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
+            for (PurpleDoom_C* pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
             {
-                x_cell = pXItem->field_0_x_len;
+                const s32 x_cell = pXItem->field_0_x_len;
                 if (x_cell > right)
                 {
                     break;
                 }
                 if (x_cell >= left)
                 {
-                    for (p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+                    for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
                     {
                         if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1) 
                         {
