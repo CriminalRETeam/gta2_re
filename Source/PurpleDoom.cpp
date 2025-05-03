@@ -217,11 +217,11 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
     for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
     {
         f0 = (u8)pIter->field_0_x_len;
-        if (f0 >= dword_6F5FD4)
+        if (f0 >= gPurple_left_6F5FD4)
         {
             break;
         }
-        if (f0 > dword_6F5B80)
+        if (f0 > gPurple_right_6F5B80)
         {
             return 0;
         }
@@ -258,12 +258,12 @@ void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
 }
 
-STUB_FUNC(0x4789f0)
-void PurpleDoom::Clear_4789F0()
+MATCH_FUNC(0x4789f0)
+PurpleDoom_C** PurpleDoom::Clear_4789F0()
 {
-
-    for (u32 i = 0; i < 256; i++)
+    for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         field_0[i] = 0;
     }
+    return field_0;
 }

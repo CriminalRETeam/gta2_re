@@ -5,6 +5,8 @@
 #include "eager_benz.hpp"
 #include "sad_mirzakhani.hpp"
 #include "zealous_borg.hpp"
+#include "ang16.hpp"
+#include "fix16.hpp"
 #include <windows.h>
 
 class infallible_turing;
@@ -114,9 +116,9 @@ class Player
     char_type field_2;
     char_type field_3;
     s32 field_4_inputs;
-    s16 field_8;
-    s16 field_A;
-    s32 field_C;
+    Ang16 field_8;
+    Ang16 field_A;
+    Fix16 field_C;
     s32 field_10;
     s16 field_14;
     s16 field_16;

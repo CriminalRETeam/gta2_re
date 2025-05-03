@@ -102,6 +102,7 @@ class Sprite_4C
   public:
     EXPORT s32 sub_5A57A0();
     EXPORT void SetCurrentRect_5A4D90();
+    EXPORT void sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();

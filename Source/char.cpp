@@ -269,6 +269,12 @@ Char_11944::Char_11944()
     field_0_next = &field_4_array[0];
 }
 
+MATCH_FUNC(0x4710F0)
+Char_11944::~Char_11944()
+{
+    field_0_next = 0;
+}
+
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C
 Char_324::Char_324()
@@ -406,7 +412,9 @@ Ped* Char_C::PedById(s32 pedId)
     return pPedIter;
 }
 
-STUB_FUNC(0x471110)
+MATCH_FUNC(0x471110)
 Char_203AC::~Char_203AC()
 {
+    this->field_0 = 0;
+    this->field_4 = 0;
 }

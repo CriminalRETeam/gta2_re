@@ -771,12 +771,14 @@ class Garox_1E34_L  // size 0x620
     s32 field_61C;
 };
 
+class gmp_map_zone;
+
 class Hud_MapZone_98
 {
   public:
     EXPORT void sub_5D5900();
     EXPORT void sub_5D5AD0();
-    EXPORT void sub_5D5AF0(u8* a2, u8* a3);
+    EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
     EXPORT Hud_MapZone_98();

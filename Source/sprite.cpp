@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "error.hpp"
 #include "memory.hpp"
+#include "crt_stubs.hpp"
 
 EXPORT_VAR Sprite_8* gSprite_8_703820;
 GLOBAL(gSprite_8_703820, 0x703820);
@@ -47,7 +48,8 @@ void Sprite_3CC::sub_48F710()
 {
     Sprite_14* psVar1 = field_0;
     s32 iVar2 = 0x30;
-    do {
+    do
+    {
         psVar1->field_4 = -1;
         psVar1++;
         iVar2--;
@@ -93,9 +95,15 @@ Sprite_3CC::Sprite_3CC()
     }
 }
 
-STUB_FUNC(0x48F7F0)
+MATCH_FUNC(0x48F7F0)
 Sprite_3CC::~Sprite_3CC()
 {
+    if (this->field_3C8)
+    {
+        crt::free(this->field_3C8);
+    }
+    this->field_3C4 = 0;
+    this->field_3C8 = 0;
 }
 
 MATCH_FUNC(0x5a5860)

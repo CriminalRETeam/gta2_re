@@ -636,7 +636,7 @@ void Hud_Pager_C_Array::sub_5D31B0()
 }
 
 MATCH_FUNC(0x5d31f0)
-s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds)   // returns the new Pager id
+s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager id
 {
     for (s32 id = 0; id < 4; id++)
     {
@@ -1071,9 +1071,34 @@ void Hud_MapZone_98::sub_5D5AD0()
     }
 }
 
-STUB_FUNC(0x5d5af0)
-void Hud_MapZone_98::sub_5D5AF0(u8* a2, u8* a3)
+// TODO: Thiscall and part of gmp_map_zone?
+STUB_FUNC(0x4DEF00)
+EXPORT wchar_t* __fastcall sub_4DEF00(gmp_map_zone* pZone)
 {
+    return 0;
+}
+
+MATCH_FUNC(0x5d5af0)
+void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
+{
+    gmp_map_zone* pArg2Or3 = pZone2;
+    if (!pZone2)
+    {
+        pArg2Or3 = pZone1;
+    }
+
+    wchar_t* pStr = sub_4DEF00(pArg2Or3);
+    if (pStr)
+    {
+        const wchar_t* pName = gText_0x14_704DFC->sub_5B5B80(pStr);
+        wcscpy(this->field_2_wstr, pName);
+        this->field_88_nav_zone = pZone1;
+        this->field_8C_local_nav_zone = pZone2;
+        this->field_0_timer = 90;
+        sub_5D5AD0();
+        this->field_90 = 1;
+        this->field_94_transparency = 0;
+    }
 }
 
 STUB_FUNC(0x5d5b60)
@@ -1131,22 +1156,20 @@ void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
 }
 
-STUB_FUNC(0x5d5350)
+MATCH_FUNC(0x5d5350)
 void Hud_2B00::sub_5D5350()
 {
-    if (field_0.field_0_display_time)
+    Hud_CarName_4C* pCarName = &field_0;
+    if (pCarName->field_0_display_time)
     {
-        field_0.field_0_display_time--;
-        if (field_0.field_0_display_time <= 80u)
+        pCarName->field_0_display_time--;
+        if (pCarName->field_0_display_time > 80u)
         {
-            if (field_0.field_0_display_time < 40u)
-            {
-                --field_0.field_48;
-            }
+            ++pCarName->field_48;
         }
-        else
+        else if (pCarName->field_0_display_time < 40u)
         {
-            ++field_0.field_48;
+            --pCarName->field_48;
         }
     }
 }

@@ -142,6 +142,7 @@ class Char_11944
     Char_B4 field_4_array[400];
 
     Char_11944();
+    ~Char_11944();
 
     // inline 0x4355C0
     void sub_4355C0(Char_B4* pB4)
