@@ -379,7 +379,7 @@ void CC ImGuiDebugDraw()
             ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
             ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 999999);
 
-            ImGui::SliderS8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
+            ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
 
             Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
             ImGui::Text("Car 0x%X", pPlayerCar);
@@ -428,7 +428,7 @@ void CC ImGuiDebugDraw()
             if (ImGui::Button("Add player weapon"))
             {
                 //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
-               // pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
+                // pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
 
                 pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
 

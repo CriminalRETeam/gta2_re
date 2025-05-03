@@ -2,15 +2,14 @@
 
 #include "Function.hpp"
 #include "Marz_1D7E.hpp"
-#include "miss2_0x11C.hpp"
 #include "ang16.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
+#include "miss2_0x11C.hpp"
 #include <cstdio>
 
 class Player;
 class gmp_map_zone;
-class Car_BC;
 class PedGroup;
 class Weapon_30;
 class Gang_144;
@@ -300,16 +299,47 @@ class Ped
         Fix16 y_pos, z_pos;
         Fix16 height;
         Fix16 z_target;
-        return ( x_pos >= rect->field_0_pos.field_0_x - width
-            && x_pos <= rect->field_0_pos.field_0_x + width
-            && ( y_pos = field_1AC_cam.y,
-            height = rect->field_C_size.field_4_y,
-            y_pos >= rect->field_0_pos.field_4_y - height ) 
-            && field_1AC_cam.y <= rect->field_0_pos.field_4_y + height
-            && ( z_pos = field_1AC_cam.z,
-            z_target = rect->field_0_pos.field_8_z,
-            z_pos.ToUInt8() == z_target.ToUInt8() ) );
+        return (x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
+                (y_pos = field_1AC_cam.y, height = rect->field_C_size.field_4_y, y_pos >= rect->field_0_pos.field_4_y - height) &&
+                field_1AC_cam.y <= rect->field_0_pos.field_4_y + height &&
+                (z_pos = field_1AC_cam.z, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
+
+    inline s16 get_wanted_points_433DC0()
+    {
+        return field_20A_wanted_points;
+    }
+
+    inline bool has_car_403B80()
+    {
+        return field_16C_car != 0;
+    }
+
+    inline bool not_enter_car_as_passenger_4A5040()
+    {
+        return field_248_enter_car_as_passenger != 1;
+    }
+
+    inline Car_BC* get_car_416B60()
+    {
+        return field_16C_car;
+    }
+
+    // TODO: to use this inline we need to fix a circular dependency issue
+    /*
+    inline u32 get_car_model()
+    {
+        u32 m;
+        if (field_16C_car)
+        {
+            m = field_16C_car->field_84_car_info_idx;
+        }
+        else
+        {
+            m = car_model_enum::none;
+        }
+        return m;
+    }*/
 
     Marz_3 field_0[100];
     Ang16 field_12C;

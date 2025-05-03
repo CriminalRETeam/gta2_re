@@ -141,7 +141,7 @@ u32* Car_B0::sub_55A050(u32* a2)
 }
 
 STUB_FUNC(0x55a0b0)
-s32 Car_B0::sub_55A0B0()
+u8 Car_B0::sub_55A0B0()
 {
     return 0;
 }

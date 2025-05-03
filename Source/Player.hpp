@@ -19,7 +19,12 @@ class Gang_144;
 class Player
 {
   public:
-    Ped* Get_Field_68_Ped()
+    inline void Add_2D4(s32 score)
+    {
+        field_2D4_unk.AddCash_592620(score * field_6BC_multpliers.field_0);
+    }
+
+    inline Ped* Get_Field_68_Ped()
     {
         return field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
     }

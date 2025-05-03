@@ -31,7 +31,7 @@ class Car_B0
     EXPORT s32* sub_559EC0(s32* a2);
     EXPORT u32* sub_559FF0(u32* a2);
     EXPORT u32* sub_55A050(u32* a2);
-    EXPORT s32 sub_55A0B0();
+    EXPORT u8 sub_55A0B0();
     EXPORT u32* sub_55A100(u32* a2);
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type sub_55A180();
@@ -122,6 +122,11 @@ class Car_B0
     EXPORT void Reset_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
     EXPORT Car_B0();
+
+    inline char_type is_backward_gas_on_411810()
+    {
+        return field_94_is_backward_gas_on;
+    }
 
     Car_8 field_0_vel_read_only;
     s32 field_8_total_damage_q;
