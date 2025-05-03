@@ -1073,7 +1073,7 @@ void Hud_MapZone_98::sub_5D5AD0()
 
 // TODO: Thiscall and part of gmp_map_zone?
 STUB_FUNC(0x4DEF00)
-EXPORT wchar_t *__fastcall sub_4DEF00(gmp_map_zone *pZone)
+EXPORT wchar_t* __fastcall sub_4DEF00(gmp_map_zone* pZone)
 {
     return 0;
 }
@@ -1156,22 +1156,20 @@ void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
 }
 
-STUB_FUNC(0x5d5350)
+MATCH_FUNC(0x5d5350)
 void Hud_2B00::sub_5D5350()
 {
-    if (field_0.field_0_display_time)
+    Hud_CarName_4C* pCarName = &field_0;
+    if (pCarName->field_0_display_time)
     {
-        field_0.field_0_display_time--;
-        if (field_0.field_0_display_time <= 80u)
+        pCarName->field_0_display_time--;
+        if (pCarName->field_0_display_time > 80u)
         {
-            if (field_0.field_0_display_time < 40u)
-            {
-                --field_0.field_48;
-            }
+            ++pCarName->field_48;
         }
-        else
+        else if (pCarName->field_0_display_time < 40u)
         {
-            ++field_0.field_48;
+            --pCarName->field_48;
         }
     }
 }
