@@ -347,11 +347,18 @@ GLOBAL(snd2_67D6F8, 0x67D6F8);
 MATCH_FUNC(0x4B4C60)
 void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
-    strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);// [4][3] array
-    strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100);// +256
-    strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200);// +256
+    strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);
+    strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100);
+    strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200);
 }
 
+MATCH_FUNC(0x4B4BC0)
+void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
+{
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0, pDebugStr);
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100, pMapName);
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200, pStyName);
+}
 
 MATCH_FUNC(0x4ACFA0)
 void __stdcall Frontend::create_4ACFA0()

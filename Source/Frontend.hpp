@@ -283,6 +283,7 @@ struct Frontend
 
     // todo: ordering
     EXPORT void sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
+    EXPORT void sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
 
     // todo move to another file for ordering
     EXPORT static void __stdcall create_4ACFA0();
