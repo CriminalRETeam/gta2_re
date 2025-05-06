@@ -75,7 +75,7 @@ class Player
     EXPORT void sub_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
-    EXPORT char_type sub_5686D0(DrawUnk_0xBC* a2);
+    EXPORT void sub_5686D0(DrawUnk_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void sub_5687F0();
     EXPORT s32 sub_569410();

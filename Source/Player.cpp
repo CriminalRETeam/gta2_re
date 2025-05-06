@@ -330,7 +330,7 @@ void Player::tick_down_powerups_565070()
         }
     }
 
-    // invisiblity 
+    // invisiblity
     if (this->field_6F4[11])
     {
         if (!gCheatInvisibility_67D539)
@@ -680,10 +680,23 @@ char_type Player::sub_568670()
     return 'a';
 }
 
-STUB_FUNC(0x5686D0)
-char_type Player::sub_5686D0(DrawUnk_0xBC* a2)
+MATCH_FUNC(0x5686D0)
+void Player::sub_5686D0(DrawUnk_0xBC* pCam)
 {
-    return 'a';
+    if (this->field_82)
+    {
+        pCam->sub_436710(this->field_78_bForwardGasOn, this->field_79_bFootBrakeOn, this->field_7A, this->field_7B);
+        this->field_7A = 0;
+        this->field_7B = 0;
+        this->field_78_bForwardGasOn = 0;
+        this->field_79_bFootBrakeOn = 0;
+        this->field_8B = 0;
+        this->field_8C = 0;
+    }
+    else
+    {
+        pCam->sub_436830();
+    }
 }
 
 MATCH_FUNC(0x568730)
