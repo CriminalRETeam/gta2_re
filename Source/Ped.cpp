@@ -512,24 +512,19 @@ s32* Ped::sub_45C920(s32* a2)
 }
 
 MATCH_FUNC(0x45c960)
-Ang16& Ped::GetRotation(Ang16& a2)
+Ang16 Ped::GetRotation()
 {
     if (field_168_game_object != NULL)
     {
-        a2 = *(Ang16*)&field_168_game_object->field_40_rotation;
+        return *(Ang16*)&field_168_game_object->field_40_rotation;
     }
-    else
+    
+    if (field_16C_car != NULL)
     {
-        if (field_16C_car != NULL)
-        {
-            a2 = field_16C_car->field_50_car_sprite->field_0;
-        }
-        else
-        {
-            a2 = word_6787A8;
-        }
+        return field_16C_car->field_50_car_sprite->field_0;
     }
-    return a2;
+
+    return word_6787A8;
 }
 
 STUB_FUNC(0x45c9b0)

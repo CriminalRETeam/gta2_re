@@ -486,8 +486,65 @@ char_type Player::sub_566C80(u32* a2)
 }
 
 STUB_FUNC(0x566EE0)
-void Player::sub_566EE0(char_type a2)
+void Player::sub_566EE0(char_type bDoNothing)
 {
+    /*
+    Ped* pPed; // eax
+    Car_BC* pCar; // edi
+    Car_B0* pPhysics; // ecx
+
+    if (!bDoNothing)
+    {
+        pPed = Get_Field_68_Ped();
+        pCar = pPed->field_16C_car;
+
+        if (pCar)
+        {
+            pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
+            if (pPhysics)
+            {
+                pPhysics->sub_559430();
+                pCar->field_58_uni_Car78_or_Car_B0->sub_5597B0();
+            }
+        }
+
+        if (bDo_show_camera_67D58A)
+        {
+            swprintf(tmpBuff_67BD9C,
+                     L"game camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_90_game_camera.field_98_x.ToFloat(),
+                     (double)this->field_90_game_camera.field_9C_y.ToFloat(),
+                     (double)this->field_90_game_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+
+            swprintf(tmpBuff_67BD9C,
+                     L"aux game camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_208_aux_game_camera.field_98_x.ToFloat(),
+                     (double)this->field_208_aux_game_camera.field_9C_y.ToFloat(),
+                     (double)this->field_208_aux_game_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+
+            swprintf(tmpBuff_67BD9C,
+                     L"view camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_14C_view_camera.field_98_x.ToFloat(),
+                     (double)this->field_14C_view_camera.field_9C_y.ToFloat(),
+                     (double)this->field_14C_view_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+        }
+
+        if (gShow_cycle_67D6BD)
+        {
+            rng_dword_67AB34->ShowCycle_48B920();
+        }
+
+        if (gDo_show_input_67D576)
+        {
+            gBurgerKing_67F8B0.ShowInput_4CEE10(); // input
+        }
+
+        gGame_0x40_67E008->sub_4B9270();
+    }
+    */
 }
 
 MATCH_FUNC(0x5670B0)
