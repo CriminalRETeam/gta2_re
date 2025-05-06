@@ -149,7 +149,7 @@ void force_link()
     lewin.sub_564CC0();
     lewin.sub_564CF0();
     lewin.sub_564D60(0);
-    lewin.sub_565070();
+    lewin.tick_down_powerups_565070();
     lewin.sub_5651F0(0);
     lewin.sub_565310();
     lewin.sub_5653E0();

@@ -21,6 +21,7 @@
 EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
 EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
 EXPORT_VAR extern bool gCheatInvisibility_67D539;
+EXPORT_VAR extern bool gCheatUnlimitedDoubleDamage_67D57C;
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -292,10 +293,55 @@ char_type Player::sub_564D60(s32 a2)
     return 'a';
 }
 
-STUB_FUNC(0x565070)
-u16 Player::sub_565070()
+MATCH_FUNC(0x565070)
+void Player::tick_down_powerups_565070()
 {
-    return 0;
+    // invulnerability
+    this->field_6F4[6];
+    if (field_6F4[6])
+    {
+        this->field_6F4[6]--;
+        if (!field_6F4[6])
+        {
+            field_2C4_player_ped->sub_45C050();
+        }
+    }
+
+    // double damage
+    if (this->field_6F4[7])
+    {
+        if (!gCheatUnlimitedDoubleDamage_67D57C)
+        {
+            this->field_6F4[7]--;
+        }
+    }
+
+    if (this->field_6F4[8])
+    {
+        this->field_6F4[8]--;
+    }
+
+    if (field_6F4[9])
+    {
+        this->field_6F4[9]--;
+        if (!field_6F4[9])
+        {
+            this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+        }
+    }
+
+    // invisiblity 
+    if (this->field_6F4[11])
+    {
+        if (!gCheatInvisibility_67D539)
+        {
+            this->field_6F4[11]--;
+            if (!this->field_6F4[11])
+            {
+                field_2C4_player_ped->SetVisible();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5651F0)

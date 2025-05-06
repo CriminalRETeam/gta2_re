@@ -51,7 +51,7 @@ class Player
     EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);
-    EXPORT u16 sub_565070();
+    EXPORT void tick_down_powerups_565070();
     EXPORT s32 sub_5651F0(s32 a2);
     EXPORT void sub_565310();
     EXPORT void sub_5653E0();
