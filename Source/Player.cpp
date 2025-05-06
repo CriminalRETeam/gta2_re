@@ -861,9 +861,28 @@ s32 Player::sub_569840(u8* a2, u8* a3, u8* a4)
     return 0;
 }
 
-STUB_FUNC(0x5698E0)
+MATCH_FUNC(0x5698E0)
 Car_BC* Player::sub_5698E0()
 {
+    Ped* pPed;
+    if (field_68 == 2 || field_68 == 3)
+    {
+        pPed = this->field_2C8_unkq;
+    }
+    else
+    {
+        pPed = this->field_2C4_player_ped;
+    }
+
+    if (pPed)
+    {
+        Car_BC* pCar = pPed->field_16C_car;
+        if (!pCar)
+        {
+            pCar = pPed->sub_45BBF0();
+        }
+        return pCar;
+    }
     return 0;
 }
 
