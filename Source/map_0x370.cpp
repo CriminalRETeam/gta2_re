@@ -13,7 +13,7 @@
 #include "memory.hpp"
 #include "Game_0x40.hpp"
 #include "Object_5C.hpp"
-#include "Car_14_18.hpp"
+#include "Fix16_Rect.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);

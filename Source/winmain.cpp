@@ -46,7 +46,7 @@
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
-#include "Car_14_18.hpp"
+#include "Fix16_Rect.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "ImGuiDebug.hpp"
 
