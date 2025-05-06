@@ -60,6 +60,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
+#include "Car_14_18.hpp"
 
 EXPORT_VAR s32 dword_67DFB4; // TODO
 GLOBAL(dword_67DFB4, 0x67DFB4);

@@ -274,8 +274,8 @@ void force_link()
 
     Collide_C collide_C;
 
-    Car_14_18 car14_18;
-    car14_18.sub_59DD60();
+    Fix16_Rect car14_18;
+    car14_18.DoSetCurrentRect_59DD60();
 }
 
 EXPORT_VAR HINSTANCE gHInstance_708220;

@@ -7,26 +7,7 @@ class Player;
 class Sprite;
 class Car_BC;
 class DrawUnk_0xBC;
-
-// TODO: Prob should be in its own header
-struct Fix16_Rect
-{
-    Fix16_Rect() { }
-    Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
-    {
-        field_0_left = x;
-        field_8_top = y;
-        field_4_right = w + x;
-        field_C_bottom = h + y;
-    }
-    // TODO: Types
-    Fix16 field_0_left;
-    Fix16 field_4_right;
-    Fix16 field_8_top;
-    Fix16 field_C_bottom;
-    s32 field_10;
-    s32 field_14;
-};
+class Fix16_Rect;
 
 class Game_0x40
 {

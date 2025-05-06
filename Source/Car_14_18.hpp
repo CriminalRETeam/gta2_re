@@ -3,16 +3,27 @@
 #include "Car_BC.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
+
 class Sprite;
 
-class Car_14_18
+class Fix16_Rect
 {
   public:
     // Inlined from 0x41d070
-    Car_14_18()
+    Fix16_Rect()
     {
     }
-    EXPORT void sub_59DD60();
+
+    // TODO: Get inline addr
+    Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
+    {
+        field_0_left = x;
+        field_8_top = y;
+        field_4_right = w + x;
+        field_C_bottom = h + y;
+    }
+
+    EXPORT void DoSetCurrentRect_59DD60();
     EXPORT u32 sub_59DDF0(Sprite* a2);
     EXPORT char_type sub_59DE80();
     EXPORT void sub_59DEE0(Fix16 a2, Fix16 a3);
@@ -21,13 +32,14 @@ class Car_14_18
 
     inline bool inline_sub_4B9FD0(Car_8* a2)
     {
-        return Fix16::inline_is_between(field_0, field_4, a2->field_0) && Fix16::inline_is_between(field_8, field_C, a2->field_4);
+        return Fix16::inline_is_between(field_0_left, field_4_right, a2->field_0) && Fix16::inline_is_between(field_8_top, field_C_bottom, a2->field_4);
     }
 
-    Fix16 field_0;
-    Fix16 field_4;
-    Fix16 field_8;
-    Fix16 field_C;
+    Fix16 field_0_left;
+    Fix16 field_4_right;
+    Fix16 field_8_top;
+    Fix16 field_C_bottom;
+
     Fix16 field_10;
     Fix16 field_14;
 };
