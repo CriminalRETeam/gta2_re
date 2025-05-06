@@ -13,6 +13,9 @@ GLOBAL(gWeapon_2FDC_707014, 0x707014);
 EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
+u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
+    50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
+
 MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
@@ -28,7 +31,7 @@ Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 }
 
 MATCH_FUNC(0x5e3cb0)
-void Weapon_8::deallocate_5E3CB0(Weapon_30 *pWeapon)
+void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
 {
     Weapon_2FDC* pRoot = gWeapon_2FDC_707014;
     pWeapon->clear_5DCDE0();
@@ -128,10 +131,11 @@ char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5e3e80)
-char_type Weapon_8::get_ammo_5E3E80(s32 a2)
+
+MATCH_FUNC(0x5e3e80)
+char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 {
-    return 0;
+    return byte_5FF778[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e90)

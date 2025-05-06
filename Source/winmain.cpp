@@ -46,7 +46,7 @@
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
-#include "Car_14_18.hpp"
+#include "Fix16_Rect.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "ImGuiDebug.hpp"
 
@@ -149,7 +149,7 @@ void force_link()
     lewin.sub_564CC0();
     lewin.sub_564CF0();
     lewin.sub_564D60(0);
-    lewin.sub_565070();
+    lewin.tick_down_powerups_565070();
     lewin.sub_5651F0(0);
     lewin.sub_565310();
     lewin.sub_5653E0();
@@ -274,8 +274,8 @@ void force_link()
 
     Collide_C collide_C;
 
-    Car_14_18 car14_18;
-    car14_18.sub_59DD60();
+    Fix16_Rect car14_18;
+    car14_18.DoSetCurrentRect_59DD60();
 }
 
 EXPORT_VAR HINSTANCE gHInstance_708220;

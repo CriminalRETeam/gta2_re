@@ -118,12 +118,21 @@ EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
     pVid_InitDLL = (T_Vid_InitDLL)DMA_Video_Stub_5EB810;
 }
 
+#define load_gbh_func(varName, varType, funcName)                      \
+    varName = (varType)GetProcAddress(hDmaVideoDll_7085E8, funcName); \
+    if (!varName)                                                      \
+    {                                                                  \
+        char_type Text[120];                                           \
+        sprintf(Text, "Can't Find Function Called %s", funcName);      \
+        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
+        FreeLibrary(hDmaVideoDll_7085E8);                             \
+        return -1;                                                     \
+    }
+
+
 STUB_FUNC(0x5EB970)
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
-    char_type Text[120];
-    char_type Buffer[128];
-
     gVidFuncs_708600.pVid_GetVersion = &pVid_GetVersion;
     gVidFuncs_708600.pVid_Init_SYS = &pVid_Init_SYS;
     gVidFuncs_708600.pVid_CheckMode = &pVid_CheckMode;
@@ -150,209 +159,35 @@ EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
     hDmaVideoDll_7085E8 = LoadLibraryA(lpLibFileName);
     if (hDmaVideoDll_7085E8)
     {
-        pVid_GetVersion = (T_Vid_GetVersion)GetProcAddress(hDmaVideoDll_7085E8, "Vid_GetVersion");
-        if (!pVid_GetVersion)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_GetVersion");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_Init_SYS = (T_Vid_Init_SYS)GetProcAddress(hDmaVideoDll_7085E8, "Vid_Init_SYS");
-        if (!pVid_Init_SYS)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_Init_SYS");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_CheckMode = (T_Vid_CheckMode)GetProcAddress(hDmaVideoDll_7085E8, "Vid_CheckMode");
-        if (!pVid_CheckMode)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_CheckMode");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FindMode = (T_Vid_FindMode)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FindMode");
-        if (!pVid_FindMode)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FindMode");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FindFirstMode = (T_Vid_FindFirstMode)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FindFirstMode");
-        if (!pVid_FindFirstMode)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FindFirstMode");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FindNextMode = (T_Vid_FindNextMode)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FindNextMode");
-        if (!pVid_FindNextMode)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FindNextMode");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_CloseScreen = (T_Vid_CloseScreen)GetProcAddress(hDmaVideoDll_7085E8, "Vid_CloseScreen");
-        if (!pVid_CloseScreen)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_CloseScreen");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_SetMode = (T_Vid_SetMode)GetProcAddress(hDmaVideoDll_7085E8, "Vid_SetMode");
-        if (!pVid_SetMode)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_SetMode");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FlipBuffers = (T_Vid_FlipBuffers)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FlipBuffers");
-        if (!pVid_FlipBuffers)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FlipBuffers");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_ReleaseSurface = (T_Vid_ReleaseSurface)GetProcAddress(hDmaVideoDll_7085E8, "Vid_ReleaseSurface");
-        if (!pVid_ReleaseSurface)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_ReleaseSurface");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_GrabSurface = (T_Vid_GrabSurface)GetProcAddress(hDmaVideoDll_7085E8, "Vid_GrabSurface");
-        if (!pVid_GrabSurface)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_GrabSurface");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_ShutDown_SYS = (T_Vid_ShutDown_SYS)GetProcAddress(hDmaVideoDll_7085E8, "Vid_ShutDown_SYS");
-        if (!pVid_ShutDown_SYS)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_ShutDown_SYS");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_EnableWrites = (T_Vid_EnableWrites)GetProcAddress(hDmaVideoDll_7085E8, "Vid_EnableWrites");
-        if (!pVid_EnableWrites)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_EnableWrites");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_DisableWrites = (T_Vid_DisableWrites)GetProcAddress(hDmaVideoDll_7085E8, "Vid_DisableWrites");
-        if (!pVid_DisableWrites)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_DisableWrites");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_GetSurface = (T_Vid_GetSurface)GetProcAddress(hDmaVideoDll_7085E8, "Vid_GetSurface");
-        if (!pVid_GetSurface)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_GetSurface");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FreeSurface = (T_Vid_FreeSurface)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FreeSurface");
-        if (!pVid_FreeSurface)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FreeSurface");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_ClearScreen = (T_Vid_ClearScreen)GetProcAddress(hDmaVideoDll_7085E8, "Vid_ClearScreen");
-        if (!pVid_ClearScreen)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_ClearScreen");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_InitDLL = (T_Vid_InitDLL)GetProcAddress(hDmaVideoDll_7085E8, "Vid_InitDLL");
-        if (!pVid_InitDLL)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_InitDLL");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_FindDevice = (T_Vid_FindDevice)GetProcAddress(hDmaVideoDll_7085E8, "Vid_FindDevice");
-        if (!pVid_FindDevice)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_FindDevice");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_SetDevice = (T_Vid_SetDevice)GetProcAddress(hDmaVideoDll_7085E8, "Vid_SetDevice");
-        if (!pVid_SetDevice)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_SetDevice");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_WindowProc = (T_Vid_WindowProc)GetProcAddress(hDmaVideoDll_7085E8, "Vid_WindowProc");
-        if (!pVid_WindowProc)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_WindowProc");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
-
-        pVid_SetGamma = (T_Vid_SetGamma)GetProcAddress(hDmaVideoDll_7085E8, "Vid_SetGamma");
-        if (!pVid_SetGamma)
-        {
-            sprintf(Text, "Can't Find Function Called %s", "Vid_SetGamma");
-            MessageBoxA(0, Text, "Error Patching DLL Function", 0);
-            FreeLibrary(hDmaVideoDll_7085E8);
-            return -1;
-        }
+        load_gbh_func(pVid_Init_SYS, T_Vid_Init_SYS, "Vid_Init_SYS");
+        load_gbh_func(pVid_CheckMode, T_Vid_CheckMode, "Vid_CheckMode");
+        load_gbh_func(pVid_FindMode, T_Vid_FindMode, "Vid_FindMode");
+        load_gbh_func(pVid_FindFirstMode, T_Vid_FindFirstMode, "Vid_FindFirstMode");
+        load_gbh_func(pVid_FindNextMode, T_Vid_FindNextMode, "Vid_FindNextMode");
+        load_gbh_func(pVid_CloseScreen, T_Vid_CloseScreen, "Vid_CloseScreen");
+        load_gbh_func(pVid_SetMode, T_Vid_SetMode, "Vid_SetMode");
+        load_gbh_func(pVid_FlipBuffers, T_Vid_FlipBuffers, "Vid_FlipBuffers");
+        load_gbh_func(pVid_ReleaseSurface, T_Vid_ReleaseSurface, "Vid_ReleaseSurface");
+        load_gbh_func(pVid_GrabSurface, T_Vid_GrabSurface, "Vid_GrabSurface");
+        load_gbh_func(pVid_ShutDown_SYS, T_Vid_ShutDown_SYS, "Vid_ShutDown_SYS");
+        load_gbh_func(pVid_EnableWrites, T_Vid_EnableWrites, "Vid_EnableWrites");
+        load_gbh_func(pVid_DisableWrites, T_Vid_DisableWrites, "Vid_DisableWrites");
+        load_gbh_func(pVid_GetSurface, T_Vid_GetSurface, "Vid_GetSurface");
+        load_gbh_func(pVid_FreeSurface, T_Vid_FreeSurface, "Vid_FreeSurface");
+        load_gbh_func(pVid_ClearScreen, T_Vid_ClearScreen, "Vid_ClearScreen");
+        load_gbh_func(pVid_InitDLL, T_Vid_InitDLL, "Vid_InitDLL");
+        load_gbh_func(pVid_FindDevice, T_Vid_FindDevice, "Vid_FindDevice");
+        load_gbh_func(pVid_SetDevice, T_Vid_SetDevice, "Vid_SetDevice");
+        load_gbh_func(pVid_WindowProc, T_Vid_WindowProc, "Vid_WindowProc");
+        load_gbh_func(pVid_SetGamma, T_Vid_SetGamma, "Vid_SetGamma");
+            
 
         pVid_InitDLL(hDmaVideoDll_7085E8, &gVidFuncs_708600);
         return 0;
     }
     else
     {
+        char_type Buffer[128];
         sprintf(Buffer, "Error can't load DLL file: %s", lpLibFileName);
         MessageBoxA(0, Buffer, "Error Loading DLL.", MB_OK);
         return -1;
