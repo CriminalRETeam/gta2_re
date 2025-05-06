@@ -175,10 +175,13 @@ void Player::sub_564AD0(Car_BC* a2)
 {
 }
 
-STUB_FUNC(0x564B60)
-s32 Player::sub_564B60()
+MATCH_FUNC(0x564B60)
+void Player::sub_564B60()
 {
-    return 0;
+    for (u32 i = 15; i < 28; i++)
+    {
+        field_718[i] = 0;
+    }
 }
 
 STUB_FUNC(0x564B80)
