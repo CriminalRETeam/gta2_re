@@ -212,7 +212,8 @@ def build():
     return p1.poll()
 
 def verify():
-    download_exe()
+    download_exe("10.5.exe")
+    download_exe("9.6f.exe")
 
     python = sys.executable # should be the python venv
 
@@ -230,22 +231,30 @@ def verify():
 
     return dump_result.returncode == 0 and compare_result.returncode == 0
 
-def download_exe():
-    exe_path = os.path.join(BIN_COMP_DIRECTORY, "10.5.exe")
+def download_exe(exe: str):
+    if exe == "10.5.exe":
+        url = "https://mouzedrift.s-ul.eu/KTb8N0bc"
+    elif exe == "9.6f.exe":
+        url = "https://mouzedrift.s-ul.eu/66JqLJv3"
+    else:
+        print(f"Tried downloading unknown exe: {exe}")
+        return
+    
+    exe_path = os.path.join(BIN_COMP_DIRECTORY, exe)
     if os.path.exists(exe_path):
-        print("10.5.exe already exists, skipping")
+        print(f"{exe} already exists, skipping")
         return
 
-    r = requests.get("https://mouzedrift.s-ul.eu/KTb8N0bc")
+    r = requests.get(url)
 
     if r.status_code != 200:
-        print(f"Failed to download 10.5.exe error code: {r.status_code}")
+        print(f"Failed to download {exe} error code: {r.status_code}")
         sys.exit(1)
 
-    with open(exe_path, "wb") as exe:
-        exe.write(r.content)
+    with open(exe_path, "wb") as file:
+        file.write(r.content)
 
-    print(f"Successfully downloaded 10.5.exe to: {exe_path}")
+    print(f"Successfully downloaded {exe} to: {exe_path}")
 
 def copy_files():
     files = ["gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]

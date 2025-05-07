@@ -6,6 +6,7 @@ import urllib.request
 import webbrowser
 from iced_x86 import *
 import argparse
+import enum
 
 REPO_DIR = Path(__file__).parent.parent
 SCRIPTS_DIR = REPO_DIR / "Scripts"
@@ -13,17 +14,28 @@ CONFIG_DIR = REPO_DIR / "config"
 RESOURCES_DIR = REPO_DIR / "resources"
 INCLUDE_PATHS = [REPO_DIR / "Source"]
 
+parser = argparse.ArgumentParser("generate_function_decompme")
+parser.add_argument("ida_function_name")
+parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
+parser.add_argument("--v96f", help="generate a scratch for GTA 2 version 9.6f", action="store_true")
+args = parser.parse_args()
+
+class GameVersion(enum.Enum):
+    v96f = 0
+    v105 = 1
 
 class OgFunctionData:
-    def __init__(self, name: str, address: str, offset: str, size: str, mangled_name: str | None = None):
+    def __init__(self, name: str, address: str, offset: str, size: str, game_version: GameVersion, mangled_name: str | None = None):
         self.name = name
         self.address = int(address, 16)
         self.offset = int(offset, 16)
         self.size = int(size, 16)
         self.mangled_name = mangled_name
+        self.game_version = game_version
 
     def get_function_bytes(self) -> bytes:
-        with open(str(SCRIPTS_DIR) + "/bin_comp/10.5.exe", mode='rb') as file: # b is important -> binary
+        game_exe = "10.5.exe" if self.game_version == GameVersion.v105 else "9.6f.exe"
+        with open(str(SCRIPTS_DIR) + f"/bin_comp/{game_exe}", mode='rb') as file: # b is important -> binary
             file.seek(self.offset)
             return file.read(self.size)
 
@@ -36,25 +48,30 @@ class OgVariableData:
 class FunctionCollection:
     __functions: set[OgFunctionData] = set()
 
-    def __init__(self):
-        og_func_data = self.load_csv_file(str(SCRIPTS_DIR) + "/bin_comp/og_function_data.csv")
+    def __init__(self, game_version: GameVersion):
+        self.game_version = game_version
+        game_csv = "og_function_data_v105.csv" if self.game_version == GameVersion.v105 else "og_function_data_v96f.csv"
+        og_func_data = self.load_csv_file(str(SCRIPTS_DIR) + f"/bin_comp/{game_csv}")
         with open(str(SCRIPTS_DIR) + "/bin_comp/new_data.json", "rt") as file:
             new_data = json.load(file)
 
         for og_func in og_func_data:
             og_name, og_address, og_offset, og_size = og_func
             mangled_name_found = False
-            for new_func in new_data["functions"]:
-                mangled_name = new_func["mangled_name"]
-                new_og_address = new_func["og_addr"]
-                if og_address.lower() == new_og_address.lower():
-                    mangled_name_found = True
-                    break
+
+            # only for v10.5
+            if self.game_version == GameVersion.v105:
+                for new_func in new_data["functions"]:
+                    mangled_name = new_func["mangled_name"]
+                    new_og_address = new_func["og_addr"]
+                    if og_address.lower() == new_og_address.lower():
+                        mangled_name_found = True
+                        break
 
             if mangled_name_found:
-                data = OgFunctionData(og_name, og_address, og_offset, og_size, mangled_name)
+                data = OgFunctionData(og_name, og_address, og_offset, og_size, self.game_version, mangled_name)
             else:
-                data = OgFunctionData(og_name, og_address, og_offset, og_size)
+                data = OgFunctionData(og_name, og_address, og_offset, og_size, self.game_version)
 
             self.__functions.add(data)
 
@@ -85,7 +102,12 @@ class FunctionCollection:
 class VariableCollection:
     __variables: set[OgVariableData] = set()
 
-    def __init__(self):
+    def __init__(self, game_version: GameVersion):
+        self.game_version = game_version
+        # 9.6f is not supported atm
+        if self.game_version != GameVersion.v105:
+            return
+        
         with open(str(SCRIPTS_DIR) + "/bin_comp/new_data.json", "rt") as file:
             new_data = json.load(file)
 
@@ -102,8 +124,10 @@ class VariableCollection:
     def get_data(self) -> set[OgVariableData]:
         return self.__variables.copy()
 
-FUNC_COLLECTION = FunctionCollection()
-VAR_COLLECTION = VariableCollection()
+target_game_version = GameVersion.v96f if args.v96f else GameVersion.v105
+
+FUNC_COLLECTION = FunctionCollection(target_game_version)
+VAR_COLLECTION = VariableCollection(target_game_version)
 
 DATA_OFFSET = 0x00401000
 
@@ -266,22 +290,9 @@ def dism_func(target_func: OgFunctionData, objdiff_scratch: bool):
     return asm_str
 
 def main():
-    parser = argparse.ArgumentParser("generate_function_decompme")
-    parser.add_argument("ida_function_name")
-    parser.add_argument("-o", "--objdiff", help="generate a scratch for the objdiff tool", action="store_true")
-    args = parser.parse_args()
-
-    if not (SCRIPTS_DIR / "bin_comp" / "10.5.exe").exists():
-        print("gta2 executable '10.5.exe' not found! Move '10.5.exe' to " + str(SCRIPTS_DIR + "/bin_comp/10.5.exe") + " and try again!")
-        sys.exit(1)
-
-    if not (SCRIPTS_DIR / "bin_comp" / "og_function_data.csv").exists():
-        print(f"og_function_data.csv not found! run ida_dump_func_data.py and try again!")
-        sys.exit(1)
-
     target_func = FUNC_COLLECTION.get_data_by_name(args.ida_function_name)
     if target_func == None:
-        print(f"could not find a function with the name: {args.ida_function_name}")
+        print(f"could not find a function with the name: {args.ida_function_name} for GTA 2 version {FUNC_COLLECTION.game_version}")
         sys.exit(1)
 
     asm = dism_func(target_func, args.objdiff)
