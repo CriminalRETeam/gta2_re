@@ -2,7 +2,7 @@
 This directory contains a bunch of scripts that are executed manually or during a build to check if a reimplemented functions asm matches the original function.
 
 ## ida_dump_func_data.py
-Run from within ida to generate `og_function_data.csv`. This is checked into the repo so generally you won't need to run this locally.
+Run from within ida to generate `og_function_data_v105.csv` or `og_function_data_v96f`. This is checked into the repo so generally you won't need to run this locally.
 
 ## msvc_dump_new_data.py
 Parses the linker map file, executable and the gta2 lib from the build to generate `new_data.json` from the `build_vc6` dir instead of the ida database. This dumps the mangled name, virtual address, file offset, original function addr and function match status (if it has been annotated in the RE'd source).
