@@ -214,7 +214,8 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
     PurpleDoom_C* pAddedTo = 0;
     gCollide_8004_679200->field_0 = gCollide_8004_679200->field_0->field_4_pNext;
     pNewCollide->field_0_sprt = pSprite;
-    for (PurpleDoom_C* pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
+    PurpleDoom_C* pIter;
+    for (pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
     {
         const s32 x_len = pIter->field_0_x_len;
         if (x_len > xpos)
