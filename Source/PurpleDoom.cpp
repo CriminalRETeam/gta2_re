@@ -22,6 +22,10 @@ GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
 EXPORT_VAR s32 gPurple_top_6F6108;
 GLOBAL(gPurple_top_6F6108, 0x6F6108);
 
+extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
+extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
+extern EXPORT_VAR Collide_8004* gCollide_8004_679200;
+
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
 
@@ -53,7 +57,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 MATCH_FUNC(0x477ae0)
 void PurpleDoom::sub_477AE0(Sprite* a1)
 {
-    sub_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
+    DoAdd_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
@@ -95,10 +99,21 @@ void PurpleDoom::DebugLogAll_477BA0()
     }
 }
 
-STUB_FUNC(0x477bd0)
-char_type PurpleDoom::sub_477BD0(Sprite* a2)
+MATCH_FUNC(0x477bd0)
+char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
-    return 0;
+    char_type bUnknown = 0;
+
+    gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
+
+    pSprite->sub_59E9C0();
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+
+    for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
+    {
+        bUnknown |= sub_478750(i, pSprite);
+    }
+    return bUnknown;
 }
 
 STUB_FUNC(0x477c30)
@@ -193,9 +208,45 @@ u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 }
 
 STUB_FUNC(0x478440)
-char_type PurpleDoom::sub_478440(s32 a2, s32 idx, Sprite* a4)
+void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
-    return 0;
+    Collide_8* pNewCollide = gCollide_8004_679200->field_0;
+    PurpleDoom_C* pAddedTo = 0;
+    gCollide_8004_679200->field_0 = gCollide_8004_679200->field_0->field_4_pNext;
+    pNewCollide->field_0_sprt = pSprite;
+    PurpleDoom_C* pIter;
+    for (pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
+    {
+        const s32 x_len = pIter->field_0_x_len;
+        if (x_len > xpos)
+        {
+            break;
+        }
+        if (x_len == xpos)
+        {
+            pNewCollide->field_4_pNext = pIter->field_4_p8;
+            pIter->field_4_p8 = pNewCollide;
+            return;
+        }
+        pAddedTo = pIter;
+    }
+    
+    PurpleDoom_C* pNewItem = gCollide_11944_679204->field_0;
+    gCollide_11944_679204->field_0 = gCollide_11944_679204->field_0->field_8_pNext;
+    
+    if (pAddedTo)
+    {
+        pAddedTo->field_8_pNext = pNewItem;
+    }
+    else
+    {
+        this->field_0[ypos] = pNewItem;
+    }
+
+    pNewItem->field_8_pNext = pIter;
+    pNewItem->field_4_p8 = pNewCollide;
+    pNewItem->field_0_x_len = xpos;
+    pNewCollide->field_4_pNext = 0;
 }
 
 STUB_FUNC(0x4784d0)
@@ -236,7 +287,7 @@ char_type PurpleDoom::sub_4785D0(u32 a2, s32* a3)
 }
 
 STUB_FUNC(0x478750)
-char_type PurpleDoom::sub_478750(u32 a2, u32* a3)
+char_type PurpleDoom::sub_478750(u32 a2, Sprite* a3)
 {
     return 0;
 }
