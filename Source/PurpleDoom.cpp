@@ -22,6 +22,8 @@ GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
 EXPORT_VAR s32 gPurple_top_6F6108;
 GLOBAL(gPurple_top_6F6108, 0x6F6108);
 
+extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
+
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
 
@@ -95,10 +97,21 @@ void PurpleDoom::DebugLogAll_477BA0()
     }
 }
 
-STUB_FUNC(0x477bd0)
-char_type PurpleDoom::sub_477BD0(Sprite* a2)
+MATCH_FUNC(0x477bd0)
+char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
-    return 0;
+    char_type bUnknown = 0;
+    
+    gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
+    
+    pSprite->sub_59E9C0();
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    
+    for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
+    {
+        bUnknown |= sub_478750(i, pSprite);
+    }
+    return bUnknown;
 }
 
 STUB_FUNC(0x477c30)
@@ -236,7 +249,7 @@ char_type PurpleDoom::sub_4785D0(u32 a2, s32* a3)
 }
 
 STUB_FUNC(0x478750)
-char_type PurpleDoom::sub_478750(u32 a2, u32* a3)
+char_type PurpleDoom::sub_478750(u32 a2, Sprite* a3)
 {
     return 0;
 }
