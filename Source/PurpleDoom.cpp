@@ -55,7 +55,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 MATCH_FUNC(0x477ae0)
 void PurpleDoom::sub_477AE0(Sprite* a1)
 {
-    sub_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
+    DoAdd_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
@@ -106,7 +106,7 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
     
     pSprite->sub_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
-    
+
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
         bUnknown |= sub_478750(i, pSprite);
@@ -206,9 +206,9 @@ u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 }
 
 STUB_FUNC(0x478440)
-char_type PurpleDoom::sub_478440(s32 a2, s32 idx, Sprite* a4)
+void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
-    return 0;
+
 }
 
 STUB_FUNC(0x4784d0)
