@@ -23,6 +23,8 @@ EXPORT_VAR s32 gPurple_top_6F6108;
 GLOBAL(gPurple_top_6F6108, 0x6F6108);
 
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
+extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
+extern EXPORT_VAR Collide_8004* gCollide_8004_679200;
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
@@ -101,9 +103,9 @@ MATCH_FUNC(0x477bd0)
 char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
     char_type bUnknown = 0;
-    
+
     gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
-    
+
     pSprite->sub_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
 
@@ -208,7 +210,42 @@ u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 STUB_FUNC(0x478440)
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
+    Collide_8* pNewCollide = gCollide_8004_679200->field_0;
+    PurpleDoom_C* pAddedTo = 0;
+    gCollide_8004_679200->field_0 = gCollide_8004_679200->field_0->field_4_pNext;
+    pNewCollide->field_0_sprt = pSprite;
+    for (PurpleDoom_C* pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
+    {
+        const s32 x_len = pIter->field_0_x_len;
+        if (x_len > xpos)
+        {
+            break;
+        }
+        if (x_len == xpos)
+        {
+            pNewCollide->field_4_pNext = pIter->field_4_p8;
+            pIter->field_4_p8 = pNewCollide;
+            return;
+        }
+        pAddedTo = pIter;
+    }
+    
+    PurpleDoom_C* pNewItem = gCollide_11944_679204->field_0;
+    gCollide_11944_679204->field_0 = gCollide_11944_679204->field_0->field_8_pNext;
+    
+    if (pAddedTo)
+    {
+        pAddedTo->field_8_pNext = pNewItem;
+    }
+    else
+    {
+        this->field_0[ypos] = pNewItem;
+    }
 
+    pNewItem->field_8_pNext = pIter;
+    pNewItem->field_4_p8 = pNewCollide;
+    pNewItem->field_0_x_len = xpos;
+    pNewCollide->field_4_pNext = 0;
 }
 
 STUB_FUNC(0x4784d0)
