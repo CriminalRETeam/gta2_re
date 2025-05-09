@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "fix16.hpp"
+#include "Fix16_Rect.hpp"
 
 class Sprite_14
 {

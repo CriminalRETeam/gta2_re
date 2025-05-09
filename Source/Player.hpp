@@ -44,14 +44,14 @@ class Player
     EXPORT char_type sub_564960(s32 a2, u8 a3);
     EXPORT u16 sub_5649D0(char_type a2, char_type a3);
     EXPORT void sub_564AD0(Car_BC* a2);
-    EXPORT s32 sub_564B60();
+    EXPORT void sub_564B60();
     EXPORT s32 sub_564B80();
     EXPORT void sub_564C00();
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void sub_564CC0();
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);
-    EXPORT u16 sub_565070();
+    EXPORT void tick_down_powerups_565070();
     EXPORT s32 sub_5651F0(s32 a2);
     EXPORT void sub_565310();
     EXPORT void sub_5653E0();
@@ -75,7 +75,7 @@ class Player
     EXPORT void sub_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
-    EXPORT char_type sub_5686D0(DrawUnk_0xBC* a2);
+    EXPORT void sub_5686D0(DrawUnk_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void sub_5687F0();
     EXPORT s32 sub_569410();

@@ -2,6 +2,9 @@ from idautils import *
 from idaapi import *
 from idc import *
 import os
+import enum
+import json
+import sys
 
 #
 # Dumps a csv that contains a record for each function containing:
@@ -11,8 +14,13 @@ import os
 
 CURRENT_DIRECTORY = os.path.dirname(os.path.abspath(__file__))
 
-def dump_function_data():
-    mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "og_function_data.csv")
+class GameVersion(enum.Enum):
+    unknown = 0
+    v96f = 1
+    v105 = 2
+
+def dump_function_data(game_version: GameVersion):
+    mapping_csv_path = os.path.join(CURRENT_DIRECTORY, "og_function_data_v105.csv" if game_version == GameVersion.v105 else "og_function_data_v96f.csv")
     with open(mapping_csv_path, "w") as file:
         for segment in Segments():
             for ea in Functions(segment, get_segm_end(segment)):
@@ -28,7 +36,18 @@ def dump_function_data():
 
                 file.write(f"{func_name},{hex(ea)},{hex(func_fo)},{hex(func_size)}\n")
                 print(f"{func_name},{hex(ea)},{hex(func_fo)},{hex(func_size)}")
-               
 
-dump_function_data()
-print("done!")
+def main():
+    idb_name = idaapi.get_root_filename()
+    if idb_name == "9.6f.exe":
+        dump_function_data(GameVersion.v96f)
+    elif idb_name == "10.5.exe":
+        dump_function_data(GameVersion.v105)
+    else:
+        print(f"unknown game version: {idb_name}")
+        sys.exit(1)
+
+    print("done!")
+
+if __name__ == "__main__":
+    main()

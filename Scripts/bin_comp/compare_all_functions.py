@@ -3,7 +3,7 @@ import json
 
 # Map_0x370::first_zone_by_type_4DF1D0,0x4df1d0,0xdf1d0,0x69
 # func name, v addr, len
-# og_function_data.csv
+# og_function_data_v105.csv
 
 import compare_function
 
@@ -31,7 +31,7 @@ def calc_funcs_to_check_match(new_data, old_data):
 def check_funcs_match(verbose: bool = False):
     with open("new_data.json", "rt") as file:
         new_data = json.load(file)
-    old_data = load_csv_file("og_function_data.csv")
+    old_data = load_csv_file("og_function_data_v105.csv")
     funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
     ok_funcs = []
     fail_funcs = []

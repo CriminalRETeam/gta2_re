@@ -108,8 +108,8 @@ set(gta2_lib_src
   Source/Car_BC.cpp
   Source/Car_10.hpp
   Source/Car_10.cpp
-  Source/Car_14_18.hpp
-  Source/Car_14_18.cpp
+  Source/Fix16_Rect.hpp
+  Source/Fix16_Rect.cpp
   Source/Ped_Unknown_4.hpp
   Source/Ped_Unknown_4.cpp
   Source/zealous_borg.hpp

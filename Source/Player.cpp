@@ -21,6 +21,7 @@
 EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
 EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
 EXPORT_VAR extern bool gCheatInvisibility_67D539;
+EXPORT_VAR extern bool gCheatUnlimitedDoubleDamage_67D57C;
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -175,10 +176,13 @@ void Player::sub_564AD0(Car_BC* a2)
 {
 }
 
-STUB_FUNC(0x564B60)
-s32 Player::sub_564B60()
+MATCH_FUNC(0x564B60)
+void Player::sub_564B60()
 {
-    return 0;
+    for (u32 i = 15; i < 28; i++)
+    {
+        field_718[i] = 0;
+    }
 }
 
 STUB_FUNC(0x564B80)
@@ -289,10 +293,55 @@ char_type Player::sub_564D60(s32 a2)
     return 'a';
 }
 
-STUB_FUNC(0x565070)
-u16 Player::sub_565070()
+MATCH_FUNC(0x565070)
+void Player::tick_down_powerups_565070()
 {
-    return 0;
+    // invulnerability
+    this->field_6F4[6];
+    if (field_6F4[6])
+    {
+        this->field_6F4[6]--;
+        if (!field_6F4[6])
+        {
+            field_2C4_player_ped->sub_45C050();
+        }
+    }
+
+    // double damage
+    if (this->field_6F4[7])
+    {
+        if (!gCheatUnlimitedDoubleDamage_67D57C)
+        {
+            this->field_6F4[7]--;
+        }
+    }
+
+    if (this->field_6F4[8])
+    {
+        this->field_6F4[8]--;
+    }
+
+    if (field_6F4[9])
+    {
+        this->field_6F4[9]--;
+        if (!field_6F4[9])
+        {
+            this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+        }
+    }
+
+    // invisiblity
+    if (this->field_6F4[11])
+    {
+        if (!gCheatInvisibility_67D539)
+        {
+            this->field_6F4[11]--;
+            if (!this->field_6F4[11])
+            {
+                field_2C4_player_ped->SetVisible();
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5651F0)
@@ -437,8 +486,65 @@ char_type Player::sub_566C80(u32* a2)
 }
 
 STUB_FUNC(0x566EE0)
-void Player::sub_566EE0(char_type a2)
+void Player::sub_566EE0(char_type bDoNothing)
 {
+    /*
+    Ped* pPed; // eax
+    Car_BC* pCar; // edi
+    Car_B0* pPhysics; // ecx
+
+    if (!bDoNothing)
+    {
+        pPed = Get_Field_68_Ped();
+        pCar = pPed->field_16C_car;
+
+        if (pCar)
+        {
+            pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
+            if (pPhysics)
+            {
+                pPhysics->sub_559430();
+                pCar->field_58_uni_Car78_or_Car_B0->sub_5597B0();
+            }
+        }
+
+        if (bDo_show_camera_67D58A)
+        {
+            swprintf(tmpBuff_67BD9C,
+                     L"game camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_90_game_camera.field_98_x.ToFloat(),
+                     (double)this->field_90_game_camera.field_9C_y.ToFloat(),
+                     (double)this->field_90_game_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+
+            swprintf(tmpBuff_67BD9C,
+                     L"aux game camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_208_aux_game_camera.field_98_x.ToFloat(),
+                     (double)this->field_208_aux_game_camera.field_9C_y.ToFloat(),
+                     (double)this->field_208_aux_game_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+
+            swprintf(tmpBuff_67BD9C,
+                     L"view camera: (%3.3f,%3.3f,%3.3f)",
+                     (double)this->field_14C_view_camera.field_98_x.ToFloat(),
+                     (double)this->field_14C_view_camera.field_9C_y.ToFloat(),
+                     (double)this->field_14C_view_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+        }
+
+        if (gShow_cycle_67D6BD)
+        {
+            rng_dword_67AB34->ShowCycle_48B920();
+        }
+
+        if (gDo_show_input_67D576)
+        {
+            gBurgerKing_67F8B0.ShowInput_4CEE10(); // input
+        }
+
+        gGame_0x40_67E008->sub_4B9270();
+    }
+    */
 }
 
 MATCH_FUNC(0x5670B0)
@@ -631,10 +737,23 @@ char_type Player::sub_568670()
     return 'a';
 }
 
-STUB_FUNC(0x5686D0)
-char_type Player::sub_5686D0(DrawUnk_0xBC* a2)
+MATCH_FUNC(0x5686D0)
+void Player::sub_5686D0(DrawUnk_0xBC* pCam)
 {
-    return 'a';
+    if (this->field_82)
+    {
+        pCam->sub_436710(this->field_78_bForwardGasOn, this->field_79_bFootBrakeOn, this->field_7A, this->field_7B);
+        this->field_7A = 0;
+        this->field_7B = 0;
+        this->field_78_bForwardGasOn = 0;
+        this->field_79_bFootBrakeOn = 0;
+        this->field_8B = 0;
+        this->field_8C = 0;
+    }
+    else
+    {
+        pCam->sub_436830();
+    }
 }
 
 MATCH_FUNC(0x568730)
@@ -742,9 +861,28 @@ s32 Player::sub_569840(u8* a2, u8* a3, u8* a4)
     return 0;
 }
 
-STUB_FUNC(0x5698E0)
+MATCH_FUNC(0x5698E0)
 Car_BC* Player::sub_5698E0()
 {
+    Ped* pPed;
+    if (field_68 == 2 || field_68 == 3)
+    {
+        pPed = this->field_2C8_unkq;
+    }
+    else
+    {
+        pPed = this->field_2C4_player_ped;
+    }
+
+    if (pPed)
+    {
+        Car_BC* pCar = pPed->field_16C_car;
+        if (!pCar)
+        {
+            pCar = pPed->sub_45BBF0();
+        }
+        return pCar;
+    }
     return 0;
 }
 

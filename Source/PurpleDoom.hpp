@@ -35,11 +35,11 @@ class PurpleDoom
     EXPORT void AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom);
     EXPORT void sub_4782C0(s32 a2, s32 idx, Sprite* a4);
     EXPORT u8* sub_478370(s32 a2, Sprite* a3);
-    EXPORT char_type sub_478440(s32 a2, s32 idx, Sprite* a4);
+    EXPORT void DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite);
     EXPORT void sub_4784D0(s32 idx, Sprite* a3);
     EXPORT PurpleDoom_C* sub_478590(s32 start_idx);
     EXPORT char_type sub_4785D0(u32 a2, s32* a3);
-    EXPORT char_type sub_478750(u32 a2, u32* a3);
+    EXPORT char_type sub_478750(u32 a2, Sprite* a3);
     EXPORT char_type sub_4787E0(u32 a2, u32* a3);
     EXPORT s32 sub_478880(u32 a2, u32* a3);
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);

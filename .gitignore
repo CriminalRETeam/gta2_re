@@ -11,6 +11,7 @@ Scripts/satsuki*
 Scripts/bin_comp/venv/*
 Scripts/bin_comp/diff
 10.5.exe
+9.6f.exe
 vscommondir.reg
 .vs
 __pycache__

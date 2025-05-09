@@ -1,6 +1,6 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
-#include "Car_14_18.hpp"
+#include "Fix16_Rect.hpp"
 #include "Car_B0.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
@@ -854,9 +854,10 @@ Sprite::~Sprite()
     FreeSound_5A2A00();
 }
 
-STUB_FUNC(0x5A4D90)
+MATCH_FUNC(0x5A4D90)
 void Sprite_4C::SetCurrentRect_5A4D90()
 {
+    field_30.DoSetCurrentRect_59DD60();
 }
 
 STUB_FUNC(0x5A3550)
@@ -3014,7 +3015,7 @@ Car_14::Car_14()
     field_0 = NULL;
     field_C = NULL;
     field_10 = NULL;
-    field_4 = new Car_14_18();
+    field_4 = new Fix16_Rect();
     sub_5822E0();
 }
 
