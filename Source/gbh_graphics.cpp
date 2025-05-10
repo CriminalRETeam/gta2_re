@@ -100,7 +100,7 @@ EXPORT_VAR T_MakeScreenTable pMakeScreenTable;
 GLOBAL(pMakeScreenTable, 0x626CD0);
 
 EXPORT_VAR T_ConvertColourBank pConvertColourBank;
-GLOBAL(pConvertColourBank, 0x0);
+GLOBAL(pConvertColourBank, 0x626CD4);
 
 EXPORT_VAR T_SetShadeTableA pSetShadeTableA;
 GLOBAL(pSetShadeTableA, 0x626CD8);
