@@ -269,3 +269,6 @@ class Fix16_2
     Fix16 field_0_full;
     Fix16 field_4_frac;
 };
+
+EXPORT_VAR extern Fix16 gSin_table_667A80[1440];
+EXPORT_VAR extern Fix16 gCos_table_669260[1440];
