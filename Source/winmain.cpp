@@ -1632,164 +1632,165 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
 
-    s32 bQuit = 0;
+    u8 bQuit = 0;    //  %bl
 
-LABEL_23:
     while (1)
     {
-
-        if (!bDoFrontEnd_626B68)
+        if (bDoFrontEnd_626B68)
         {
-            break;
+            Frontend::create_4ACFA0();
+            gFrontend_67DC84->sub_4B3170(state);
         }
-
-        Frontend::create_4ACFA0();
-        gFrontend_67DC84->sub_4B3170(state);
-
-    LABEL_27:
+        else
+        {
+            sub_4DA4D0();
+            if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.sub_5213E0())
+            {
+                CoUninitialize();
+                return 0;
+            }
+        }
+        
         UpdateWinXY_5D8E70();
         sub_5D9690();
 
         while (1)
         {
-            do
+            MSG msg;
+            if (PeekMessageA(&msg, 0, 0, 0, 1u))
             {
-                while (1)
+                if (msg.message == 18) // WM_QUIT
                 {
-                    // Message processing
-                    do
-                    {
-                        MSG msg;
-                        while (PeekMessageA(&msg, 0, 0, 0, 1u))
-                        {
-                            // label here
-                            if (msg.message == 18) // WM_QUIT
-                            {
-                                Input::DInputRelease_498710();
-                                return msg.wParam;
-                            }
-                            TranslateMessage(&msg);
-                            DispatchMessageA(&msg);
-                        }
-                    } while ((BYTE)bQuit || byte_70827C == 2 || byte_706C5D);
-
-                    if (!bDoFrontEnd_626B68)
-                    {
-                        break;
-                    }
-
-                    // or switch ?
-                    s32 t = gFrontend_67DC84->sub_4AEDB0();
-                    if (t == 1)
-                    {
-                        bQuit = 1;
-                        Frontend::destroy_4AD070();
-                        DestroyWindow(gHwnd_707F04);
-                    }
-                    else if (t == 3)
-                    {
-                        Frontend::destroy_4AD070();
-                        bDoFrontEnd_626B68 = 0;
-                        goto LABEL_23;
-                    }
-                    else if (t == 4)
-                    {
-                        Frontend::destroy_4AD070();
-                        bDoFrontEnd_626B68 = 0;
-                        byte_6F5B71 = 1;
-                        goto LABEL_23;
-                    }
+                    Input::DInputRelease_498710();
+                    return msg.wParam;
                 }
-                bQuit = sub_4DA850();
-            } while (!(BYTE)bQuit);
-
-            if (!bSkip_frontend_67D53B)
-            {
-                break;
-            }
-
-            DestroyWindow(gHwnd_707F04);
-        } // loop end
-
-        if (bStartNetworkGame_7081F0)
-        {
-            if (gGame_0x40_67E008->field_2C_main_state == 1)
-            {
-                DestroyWindow(gHwnd_707F04);
+                TranslateMessage(&msg);
+                DispatchMessageA(&msg);
             }
             else
             {
-                state = 7;
-                CleanUpInputAndOthers_4DA700();
-                bDoFrontEnd_626B68 = 1;
+                if (!bQuit && byte_70827C != 2 && !byte_706C5D) //  line 3e4
+                {
+                    if (bDoFrontEnd_626B68)
+                    {
+                        s32 t = gFrontend_67DC84->sub_4AEDB0();
+
+                        if (t == 1)
+                        {
+                            bQuit = 1;
+                            Frontend::destroy_4AD070();
+                            DestroyWindow(gHwnd_707F04);
+                            continue; // go to PeekMessageA
+                        }
+                        else if (t == 3)
+                        {
+                            Frontend::destroy_4AD070();
+                            bDoFrontEnd_626B68 = 0;
+                            break; // go to the beginning
+                        }
+                        else if (t == 4)
+                        {
+                            Frontend::destroy_4AD070();
+                            bDoFrontEnd_626B68 = 0;
+                            byte_6F5B71 = 1;
+                            break; // go to the beginning
+                        }
+                        else
+                        {
+                            continue; // go to PeekMessageA
+                        }
+                    
+                    }
+                    bQuit = sub_4DA850();
+
+                    if (bQuit)
+                    {
+                        if (bSkip_frontend_67D53B)
+                        {
+                            DestroyWindow(gHwnd_707F04);
+                        }
+                        else
+                        {
+                            if (bStartNetworkGame_7081F0)
+                            {
+                                switch (gGame_0x40_67E008->field_2C_main_state)
+                                {
+                                    case 1:
+                                        DestroyWindow(gHwnd_707F04);
+                                        break;
+                                
+                                    default:
+                                        state = 7;
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                                }
+                                break;    // go to the beginning
+                            }
+                            else
+                            {
+                                switch (gGame_0x40_67E008->field_2C_main_state)
+                                {
+                                    case 1:
+                                        DestroyWindow(gHwnd_707F04);
+                                        break;
+                    
+                                    case 2:
+                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        
+                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                    
+                                    case 3:
+                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 2;
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                    
+                                    case 4:
+                                        gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
+                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 3;
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                    
+                                    case 5:
+                                        state = 7;
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                    
+                                    case 6:
+                                        state = 0;
+                                        CleanUpInputAndOthers_4DA700();
+                                        bDoFrontEnd_626B68 = 1;
+                                        break;
+                    
+                                    default:
+                                        continue; // go to PeekMessageA
+                                }
+                                break; // go to the beginning
+                            }
+                            //  nothing here
+                        }
+                        //  nothing here
+                    }
+                    // nothing here
+                }
             }
         }
-        else
-        {
-            switch (gGame_0x40_67E008->field_2C_main_state)
-            {
-                case 1:
-                    DestroyWindow(gHwnd_707F04);
-                    break;
 
-                case 2:
-                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                    /* todo
-                v15 = -(gLucid_hamilton_67E8E0.sub_4C59A0() != 0);
-                v15 = v15 & 0xFB; //lobyte
-                state = v15 + 11; //loword
-                */
-                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 1; // 11? prob 1
-                    CleanUpInputAndOthers_4DA700();
-                    bDoFrontEnd_626B68 = 1;
-                    break;
-
-                case 3:
-                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 2;
-                    CleanUpInputAndOthers_4DA700();
-                    bDoFrontEnd_626B68 = 1;
-                    break;
-
-                case 4:
-                    gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
-                    gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                    state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 3;
-                    CleanUpInputAndOthers_4DA700();
-                    bDoFrontEnd_626B68 = 1;
-                    break;
-
-                case 5:
-                    state = 7;
-                    CleanUpInputAndOthers_4DA700();
-                    bDoFrontEnd_626B68 = 1;
-                    break;
-
-                case 6:
-                    state = 0;
-                    CleanUpInputAndOthers_4DA700();
-                    bDoFrontEnd_626B68 = 1;
-                    break;
-
-                default:
-                    continue;
-            }
-        }
+        //  nothing here
     }
-
-    sub_4DA4D0();
-
-    if (!bStartNetworkGame_7081F0 || gNetPlay_7071E8.sub_5213E0())
-    {
-        goto LABEL_27;
-    }
-
-    CoUninitialize();
     return 0;
 }
 
