@@ -57,10 +57,16 @@ s32 Object_2C::sub_5222D0()
     return 0;
 }
 
-STUB_FUNC(0x522340)
-Object_29178* Object_2C::sub_522340()
+MATCH_FUNC(0x522340)
+void Object_2C::sub_522340()
 {
-    return 0;
+    if (field_20 == 2)
+    {
+        Object_29178* pRoot = gObject_29178_6F8F80;
+        field_0 = pRoot->field_4;
+        pRoot->field_4 = this;
+        field_20 = 1;
+    }
 }
 
 STUB_FUNC(0x522360)

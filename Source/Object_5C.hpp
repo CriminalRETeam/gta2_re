@@ -22,7 +22,7 @@ class Object_2C
     EXPORT bool sub_522250(Sprite* a2);
     EXPORT s32 sub_5222B0();
     EXPORT s32 sub_5222D0();
-    EXPORT Object_29178* sub_522340();
+    EXPORT void sub_522340();
     EXPORT void sub_522360();
     EXPORT char_type sub_5223C0(Sprite* a2);
     EXPORT bool sub_522430(Sprite* a2);
