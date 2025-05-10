@@ -26,7 +26,7 @@ class Ped
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
     EXPORT char_type sub_45AFC0();
-    EXPORT s32 sub_45B440();
+    EXPORT void sub_45B440();
     EXPORT char_type sub_45B4E0();
     EXPORT u32* sub_45B520(u32* a2);
     EXPORT void sub_45B550();
@@ -457,3 +457,9 @@ class Ped
     s32 field_290;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
+
+EXPORT_VAR extern s32 gPedId_61A89C;
+EXPORT_VAR extern u8 byte_6787CA;
+EXPORT_VAR extern u8 byte_6787CB;
+EXPORT_VAR extern u8 byte_6787CC;
+EXPORT_VAR extern u8 byte_6787CD;

@@ -32,6 +32,21 @@ GLOBAL(dword_67866C, 0x67866C);
 EXPORT_VAR Fix16 dword_678438;
 GLOBAL(dword_678438, 0x678438);
 
+EXPORT_VAR s32 gPedId_61A89C;
+GLOBAL(gPedId_61A89C, 0x61A89C);
+
+EXPORT_VAR u8 byte_6787CA;
+GLOBAL(byte_6787CA, 0x6787CA);
+
+EXPORT_VAR u8 byte_6787CB;
+GLOBAL(byte_6787CB, 0x6787CB);
+
+EXPORT_VAR u8 byte_6787CC;
+GLOBAL(byte_6787CC, 0x6787CC);
+
+EXPORT_VAR u8 byte_6787CD;
+GLOBAL(byte_6787CD, 0x6787CD);
+
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
@@ -77,10 +92,29 @@ char_type Ped::sub_45AFC0()
     return 0;
 }
 
-STUB_FUNC(0x45b440)
-s32 Ped::sub_45B440()
+MATCH_FUNC(0x45b440)
+void Ped::sub_45B440()
 {
-    return 0;
+    Ped::sub_45AFC0();
+    field_200_id = gPedId_61A89C++;
+    field_21C |= 1;
+    field_234 = 99;
+
+    switch (field_240_occupation)
+    {
+        case 15:
+            byte_6787CA = 0;
+            break;
+        case 16:
+            byte_6787CB = 0;
+            break;
+        case 22:
+            byte_6787CC = 0;
+            break;
+        case 29:
+            byte_6787CD = 0;
+            break;
+    }
 }
 
 MATCH_FUNC(0x45b4e0)
