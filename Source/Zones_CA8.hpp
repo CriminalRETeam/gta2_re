@@ -102,11 +102,8 @@ class Gang_144
     u32 field_10C_hate_weapon;
     char field_110;
     char field_111;
-    char field_112[2];
-    u32 field_114;
-    u32 field_118;
-    s8 field_11C[4];
-    u16 field_120;
+    char field_112[10];
+    s8 field_11C[6];
     char field_122[10];
     Fix16 field_12C_info_phone_x;
     Fix16 field_130_info_phone_y;

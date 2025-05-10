@@ -36,9 +36,32 @@ wchar_t* Gang_144::get_name_wide_4BED30()
     return gZoneNameWide_67E030;
 }
 
-STUB_FUNC(0x4BED70);
+MATCH_FUNC(0x4BED70);
 void Gang_144::init_4BED70()
 {
+    field_1_zone_idx = 0;
+    field_0_used = 0;
+    field_101 = 1;
+    field_110 = 0;
+    field_111 = 0;
+    field_104_basic_weapon = 0;
+    field_108_angry_weapon = 0;
+    field_10C_hate_weapon = 0;
+    field_13C_gang_car_model = 1;
+    field_140_gang_car_remap = -1;
+    field_139_kill_respect_change = 0;
+
+    for (u8 i = 0; i < 10; i++)
+    {
+        field_112[i] = 1;
+        field_122[i] = 0;
+    }
+
+    for (u8 j = 0; j < 6; j++)
+    {
+        field_11C[j] = 0;
+    }
+    field_141 = 0;
 }
 
 MATCH_FUNC(0x4BEDF0)
