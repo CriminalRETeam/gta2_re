@@ -66,7 +66,7 @@ class Ped
     EXPORT Ang16& sub_45C900(Ang16& a2);
     EXPORT s32* sub_45C920(s32* a2);
     EXPORT Ang16 GetRotation();
-    EXPORT s32* sub_45C9B0(s32* a2);
+    EXPORT Fix16& sub_45C9B0(Fix16& a2);
     EXPORT s16* sub_45C9D0(s16* a2);
     EXPORT void sub_45CAA0();
     EXPORT void TakeDamage(s16 damage);

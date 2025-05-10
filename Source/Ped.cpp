@@ -562,10 +562,11 @@ Ang16 Ped::GetRotation()
     return word_6787A8;
 }
 
-STUB_FUNC(0x45c9b0)
-s32* Ped::sub_45C9B0(s32* a2)
+MATCH_FUNC(0x45c9b0)
+Fix16& Ped::sub_45C9B0(Fix16& a2)
 {
-    return 0;
+    a2 = field_15C_player->field_C;
+    return a2;
 }
 
 STUB_FUNC(0x45c9d0)
