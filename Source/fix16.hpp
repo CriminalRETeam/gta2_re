@@ -252,6 +252,12 @@ class Fix16
     s32 mValue;
 };
 
+struct Fix16_Point
+{
+    Fix16 x;
+    Fix16 y;
+};
+
 struct Fix16_Vec
 {
     Fix16 x, y, z;
@@ -263,3 +269,6 @@ class Fix16_2
     Fix16 field_0_full;
     Fix16 field_4_frac;
 };
+
+EXPORT_VAR extern Fix16 gSin_table_667A80[1440];
+EXPORT_VAR extern Fix16 gCos_table_669260[1440];
