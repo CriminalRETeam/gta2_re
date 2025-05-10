@@ -533,10 +533,11 @@ char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     return 0;
 }
 
-STUB_FUNC(0x45c900)
-s16* Ped::sub_45C900(s16* a2)
+MATCH_FUNC(0x45c900)
+Ang16& Ped::sub_45C900(Ang16& a2)
 {
-    return 0;
+    a2 = field_15C_player->field_8;
+    return a2;
 }
 
 STUB_FUNC(0x45c920)

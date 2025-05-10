@@ -63,7 +63,7 @@ class Ped
     EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT s16* sub_45C900(s16* a2);
+    EXPORT Ang16& sub_45C900(Ang16& a2);
     EXPORT s32* sub_45C920(s32* a2);
     EXPORT Ang16 GetRotation();
     EXPORT s32* sub_45C9B0(s32* a2);
