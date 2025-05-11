@@ -122,22 +122,22 @@ struct kind_beaver_6
 };
 
 // todo: move
-struct loving_borg_0xBCA
+struct MenuPage_0xBCA
 {
-    EXPORT loving_borg_0xBCA();
+    EXPORT MenuPage_0xBCA();
 
-    EXPORT ~loving_borg_0xBCA();
+    EXPORT ~MenuPage_0xBCA();
 
     EXPORT bool sub_4B61B0();
 
     EXPORT bool sub_4B6200();
 
-    u16 field_0;
+    u16 field_0_number_of_options;
     s16 field_2;
     nifty_maxwell_0x82 field_4[10];
     competent_noyce_0x6E field_518[15];
     kind_beaver_6 field_B8A[10];
-    u16 field_BC6_nifty_idx;
+    u16 field_BC6_current_option_idx;
     s16 field_BC8;
 };
 
@@ -230,7 +230,7 @@ struct Frontend
     s16 field_130;
     u16 field_132_f136_idx;
     s16 field_134;
-    loving_borg_0xBCA field_136[17];
+    MenuPage_0xBCA field_136[17];
     wchar_t field_C9A0[9];
     char_type field_C9B2;
     char_type field_C9B3;

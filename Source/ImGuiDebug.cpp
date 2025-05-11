@@ -702,17 +702,17 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("Frontend"))
     {
-        if (ImGui::TreeNode("loving_borg_0xBCA"))
+        if (ImGui::TreeNode("MenuPage_0xBCA"))
         {
             if (gFrontend_67DC84)
             {
                 static s32 loving_id = 0;
                 ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
 
-                loving_borg_0xBCA* loving_borg = &gFrontend_67DC84->field_136[loving_id];
-                ImGui::Value("field_0", loving_borg->field_0);
+                MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136[loving_id];
+                ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
                 ImGui::Value("field_2", loving_borg->field_2);
-                ImGui::Value("field_BC6_nifty_idx", loving_borg->field_BC6_nifty_idx);
+                ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
                 if (ImGui::TreeNode("nifty_maxwell_0x82"))

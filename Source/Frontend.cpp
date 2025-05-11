@@ -415,7 +415,7 @@ void Frontend::sub_4B3170(u16 arg0)
     char_type v10; // bl
     u8 v11; // al
     char_type v12; // al
-    loving_borg_0xBCA* v13; // ecx
+    MenuPage_0xBCA* v13; // ecx
     s16 playerSlotSetting; // ax
     s32 v15; // edi
     //s32 v16; // edx
@@ -449,7 +449,7 @@ void Frontend::sub_4B3170(u16 arg0)
     char_type* v44; // eax
     const char_type* v45; // eax
     u16 local_field_132_f136_idx; // cx
-    loving_borg_0xBCA* v47; // edi
+    MenuPage_0xBCA* v47; // edi
     wchar_t* v48; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER v50; // [esp-4h] [ebp-11Ch]
@@ -835,13 +835,13 @@ void Frontend::sub_4B3170(u16 arg0)
 
 LABEL_116:
     field_132_f136_idx = v3;
-    field_136[v3].field_BC6_nifty_idx = field_136[v3].field_BC8;
+    field_136[v3].field_BC6_current_option_idx = field_136[v3].field_BC8;
     local_field_132_f136_idx = field_132_f136_idx;
     v47 = &field_136[local_field_132_f136_idx];
-    if (!v47->field_4[field_136[local_field_132_f136_idx].field_BC6_nifty_idx].field_1)
+    if (!v47->field_4[field_136[local_field_132_f136_idx].field_BC6_current_option_idx].field_1)
     {
         v47->sub_4B6200();
-        if (!v47->field_4[v47->field_BC6_nifty_idx].field_1)
+        if (!v47->field_4[v47->field_BC6_current_option_idx].field_1)
         {
             FatalError_4A38C0(165, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
         }
@@ -1025,7 +1025,7 @@ void Frontend::sub_4AD140()
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
     const s32 v5 = field_132_f136_idx;
     s32 v6 = 1509 * field_132_f136_idx;
-    loving_borg_0xBCA* v7 = &field_136[local_field_132_f136_idx];
+    MenuPage_0xBCA* v7 = &field_136[local_field_132_f136_idx];
 
     u16 temp_unk1;
 
@@ -1206,9 +1206,9 @@ for (s32 i=0; i<3; i++)
     u16 v93_a;
 
     //  note: probably 'for' structure
-    if (v7->field_0 > 0)
+    if (v7->field_0_number_of_options > 0)
     {
-        for (temp4 = 0; (u16)(temp4) < v7->field_0; temp4++)
+        for (temp4 = 0; (u16)(temp4) < v7->field_0_number_of_options; temp4++)
         {
             v29 = temp4;
             v30 = temp4;
@@ -1229,7 +1229,7 @@ for (s32 i=0; i<3; i++)
                 u16 v29_u16 = temp4;
                 v2_u16 = v31->field_2;
                 v93_a = v31->field_4;
-                if (temp4 == v7->field_BC6_nifty_idx)
+                if (temp4 == v7->field_BC6_current_option_idx)
                 {
                     DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
 
@@ -1729,12 +1729,12 @@ void Frontend::read_menu_input_4AFEB0()
 MATCH_FUNC(0x4B6780)
 void Frontend::sub_4B6780()
 {
-    loving_borg_0xBCA* pBorg = &field_136[field_132_f136_idx];
+    MenuPage_0xBCA* pBorg = &field_136[field_132_f136_idx];
     if (field_110_state != 2)
     {
         if (field_132_f136_idx == 0)
         {
-            switch (pBorg->field_BC6_nifty_idx)
+            switch (pBorg->field_BC6_current_option_idx)
             {
                 case 0:
                     field_EE08 = Play_1;
@@ -1751,7 +1751,7 @@ void Frontend::sub_4B6780()
         }
         else if (field_132_f136_idx == 1)
         {
-            switch (pBorg->field_BC6_nifty_idx)
+            switch (pBorg->field_BC6_current_option_idx)
             {
                 case 0u:
                     field_EE08 = EnterPlayerName_10;
@@ -1857,7 +1857,7 @@ void Frontend::sub_4B7A10()
 STUB_FUNC(0x4AE2D0)
 void Frontend::sub_4AE2D0()
 {
-    loving_borg_0xBCA* pBorg; // ebx
+    MenuPage_0xBCA* pBorg; // ebx
     dreamy_clarke_0xA4* v3; // ebp
     u16 v4; // ax
     u8 v5; // bl
@@ -1873,7 +1873,7 @@ void Frontend::sub_4AE2D0()
     nifty_maxwell_0x82* v15; // edi
     bool v16; // bl
     bool v17; // al
-    loving_borg_0xBCA* v18; // [esp+10h] [ebp-Ch]
+    MenuPage_0xBCA* v18; // [esp+10h] [ebp-Ch]
     u8 v19; // [esp+14h] [ebp-8h]
     s32 v20; // [esp+18h] [ebp-4h]
     u8 i; // [esp+18h] [ebp-4h]
@@ -1883,9 +1883,9 @@ void Frontend::sub_4AE2D0()
     v3 = sub_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        if (pBorg->field_4[pBorg->field_BC6_nifty_idx].field_0 == 1)
+        if (pBorg->field_4[pBorg->field_BC6_current_option_idx].field_0 == 1)
         {
-            v4 = pBorg->field_4[pBorg->field_BC6_nifty_idx].field_80;
+            v4 = pBorg->field_4[pBorg->field_BC6_current_option_idx].field_80;
             switch (v4)
             {
                 case 257u:
@@ -1987,7 +1987,7 @@ void Frontend::sub_4AE2D0()
                     break;
             }
         }
-        else if (field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+        else if (field_132_f136_idx == 1 && !pBorg->field_BC6_current_option_idx)
         {
             field_110_state = 3;
             sub_4B4280();
@@ -2039,12 +2039,12 @@ void Frontend::sub_4AE2D0()
 
     if (field_C9CC_left_pressed)
     {
-        field_BC6_nifty_idx = pBorg->field_BC6_nifty_idx;
+        field_BC6_nifty_idx = pBorg->field_BC6_current_option_idx;
         v11 = &pBorg->field_4[field_BC6_nifty_idx];
         if (v11->field_0 == 2)
         {
-            v12 = pBorg->field_4[pBorg->field_BC6_nifty_idx].sub_4B6390();
-            if (field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
+            v12 = pBorg->field_4[pBorg->field_BC6_current_option_idx].sub_4B6390();
+            if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v11->field_6E_count);
                 sub_4B42E0(); // this
@@ -2055,7 +2055,7 @@ void Frontend::sub_4AE2D0()
                 }
             }
 
-            if (field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
             {
                 field_EE0D = v11->field_6E_count;
                 if (v12)
@@ -2091,12 +2091,12 @@ void Frontend::sub_4AE2D0()
             goto LABEL_60;
         }
 
-        v14 = pBorg->field_BC6_nifty_idx;
+        v14 = pBorg->field_BC6_current_option_idx;
         v15 = &pBorg->field_4[v14];
         if (v15->field_0 == 2)
         {
-            v16 = pBorg->field_4[pBorg->field_BC6_nifty_idx].sub_4B6330(); // this
-            if (field_132_f136_idx == 1 && !v18->field_BC6_nifty_idx)
+            v16 = pBorg->field_4[pBorg->field_BC6_current_option_idx].sub_4B6330(); // this
+            if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v15->field_6E_count);
                 sub_4B42E0();
@@ -2106,7 +2106,7 @@ void Frontend::sub_4AE2D0()
                     snd1_67D818.field_0_object_type = 4;
                 }
             }
-            if (field_132_f136_idx == 5 && !v18->field_BC6_nifty_idx)
+            if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
             {
                 field_EE0D = v15->field_6E_count;
                 if (v16)
@@ -2140,7 +2140,7 @@ void Frontend::sub_4AE2D0()
     }
 
 LABEL_60:
-    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_nifty_idx)
+    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_current_option_idx)
     {
         field_110_state = 4;
         field_EE0A = 190;
@@ -3246,7 +3246,7 @@ void Frontend::sub_4B0220()
     s32 v2 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
     field_134 = 16;
 
-    field_136[0].field_0 = 3;
+    field_136[0].field_0_number_of_options = 3;
     field_136[0].field_4[0].field_0 = 1; // ebx
     field_136[0].field_4[0].field_2 = 300; // edi
     field_136[0].field_4[0].field_4 = 250;
@@ -3268,9 +3268,9 @@ void Frontend::sub_4B0220()
     field_136[0].field_B8A[1].field_2 = 278;
     field_136[0].field_B8A[2].field_0 = 280;
     field_136[0].field_B8A[2].field_2 = 298;
-    field_136[0].field_BC6_nifty_idx = 0;
+    field_136[0].field_BC6_current_option_idx = 0;
     field_136[0].field_BC8 = 0;
-    field_136[1].field_0 = 5;
+    field_136[1].field_0_number_of_options = 5;
     field_136[1].field_4[0].field_0 = 2;
     field_136[1].field_4[0].field_2 = 300;
     field_136[1].field_4[0].field_4 = 210;
@@ -3315,7 +3315,7 @@ void Frontend::sub_4B0220()
     field_136[1].field_B8A[3].field_2 = 278;
     field_136[1].field_B8A[4].field_0 = 280;
     field_136[1].field_B8A[4].field_2 = 358;
-    field_136[1].field_BC6_nifty_idx = 3;
+    field_136[1].field_BC6_current_option_idx = 3;
     field_136[1].field_BC8 = 3;
     field_136[1].field_2 = 10;
     field_136[1].field_518[0].field_0 = 3;
@@ -3360,7 +3360,7 @@ void Frontend::sub_4B0220()
     field_136[1].field_518[9].field_2_xpos = 580;
     field_136[1].field_518[9].field_4_ypos = 222;
     field_136[1].field_518[9].field_6_wstr_buf[0] = 4;
-    field_136[11].field_0 = 3;
+    field_136[11].field_0_number_of_options = 3;
     field_136[11].field_2 = 1;
     field_136[11].field_518[0].field_0 = 1;
     field_136[11].field_518[0].field_2_xpos = 35;
@@ -3392,9 +3392,9 @@ void Frontend::sub_4B0220()
     field_136[11].field_B8A[1].field_2 = 420;
     field_136[11].field_B8A[2].field_0 = 150;
     field_136[11].field_B8A[2].field_2 = 440;
-    field_136[11].field_BC6_nifty_idx = 0;
+    field_136[11].field_BC6_current_option_idx = 0;
     field_136[11].field_BC8 = 0;
-    field_136[2].field_0 = 3;
+    field_136[2].field_0_number_of_options = 3;
     field_136[2].field_2 = 1;
     field_136[2].field_518[0].field_0 = 1;
     field_136[2].field_518[0].field_2_xpos = 35;
@@ -3423,9 +3423,9 @@ void Frontend::sub_4B0220()
     field_136[2].field_B8A[1].field_2 = 420;
     field_136[2].field_B8A[2].field_0 = 150;
     field_136[2].field_B8A[2].field_2 = 440;
-    field_136[2].field_BC6_nifty_idx = 0;
+    field_136[2].field_BC6_current_option_idx = 0;
     field_136[2].field_BC8 = 0;
-    field_136[3].field_0 = 5;
+    field_136[3].field_0_number_of_options = 5;
     field_136[3].field_2 = 1;
     field_136[3].field_518[0].field_0 = 1;
     field_136[3].field_518[0].field_2_xpos = 35;
@@ -3467,9 +3467,9 @@ void Frontend::sub_4B0220()
     field_136[3].field_B8A[3].field_2 = 433;
     field_136[3].field_B8A[4].field_0 = 150;
     field_136[3].field_B8A[4].field_2 = 453;
-    field_136[3].field_BC6_nifty_idx = 0;
+    field_136[3].field_BC6_current_option_idx = 0;
     field_136[3].field_BC8 = 0;
-    field_136[4].field_0 = 1;
+    field_136[4].field_0_number_of_options = 1;
     field_136[4].field_2 = 1;
     field_136[4].field_518[0].field_0 = 1;
     field_136[4].field_518[0].field_4_ypos = 230;
@@ -3485,9 +3485,9 @@ void Frontend::sub_4B0220()
     field_136[4].field_4[0].field_80 = 0;
     field_136[4].field_B8A[0].field_0 = 160;
     field_136[4].field_B8A[0].field_2 = 418;
-    field_136[4].field_BC6_nifty_idx = 0;
+    field_136[4].field_BC6_current_option_idx = 0;
     field_136[4].field_BC8 = 0;
-    field_136[5].field_0 = 1;
+    field_136[5].field_0_number_of_options = 1;
     field_136[5].field_2 = 5;
     field_136[5].field_4[0].field_0 = 2;
     field_136[5].field_4[0].field_2 = 300;
@@ -3504,7 +3504,7 @@ void Frontend::sub_4B0220()
 
     field_136[5].field_B8A[0].field_0 = 280;
     field_136[5].field_B8A[0].field_2 = 163;
-    field_136[5].field_BC6_nifty_idx = 0;
+    field_136[5].field_BC6_current_option_idx = 0;
     field_136[5].field_BC8 = 0;
     field_136[5].field_518[0].field_0 = 3;
     field_136[5].field_518[0].field_2_xpos = 450;
@@ -3528,7 +3528,7 @@ void Frontend::sub_4B0220()
     field_136[5].field_518[4].field_4_ypos = v2;
     wcsncpy(field_136[5].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
     field_136[5].field_518[4].field_6A = field_126;
-    field_136[6].field_0 = 3;
+    field_136[6].field_0_number_of_options = 3;
     field_136[6].field_2 = 3;
     field_136[6].field_518[0].field_0 = 1;
     field_136[6].field_518[0].field_2_xpos = 35;
@@ -3566,9 +3566,9 @@ void Frontend::sub_4B0220()
     field_136[6].field_B8A[1].field_2 = 368;
     field_136[6].field_B8A[2].field_0 = 150;
     field_136[6].field_B8A[2].field_2 = 388;
-    field_136[6].field_BC6_nifty_idx = 0;
+    field_136[6].field_BC6_current_option_idx = 0;
     field_136[6].field_BC8 = 0;
-    field_136[7].field_0 = 1;
+    field_136[7].field_0_number_of_options = 1;
     field_136[7].field_2 = 14;
     field_136[7].field_518[0].field_0 = 1;
     field_136[7].field_518[0].field_2_xpos = 35;
@@ -3629,9 +3629,9 @@ void Frontend::sub_4B0220()
     field_136[7].field_4[0].field_80 = 258;
     field_136[7].field_B8A[0].field_0 = 180;
     field_136[7].field_B8A[0].field_2 = 438;
-    field_136[7].field_BC6_nifty_idx = 0;
+    field_136[7].field_BC6_current_option_idx = 0;
     field_136[7].field_BC8 = 0;
-    field_136[8].field_0 = 1;
+    field_136[8].field_0_number_of_options = 1;
     field_136[8].field_2 = 0;
     field_136[8].field_4[0].field_0 = 1;
     field_136[8].field_4[0].field_2 = 200;
@@ -3640,9 +3640,9 @@ void Frontend::sub_4B0220()
     field_136[8].field_4[0].field_80 = 0;
     field_136[8].field_B8A[0].field_0 = 180;
     field_136[8].field_B8A[0].field_2 = 288;
-    field_136[8].field_BC6_nifty_idx = 0;
+    field_136[8].field_BC6_current_option_idx = 0;
     field_136[8].field_BC8 = 0;
-    field_136[10].field_0 = 1;
+    field_136[10].field_0_number_of_options = 1;
     field_136[10].field_2 = 1;
     field_136[10].field_518[0].field_0 = 1;
     field_136[10].field_518[0].field_4_ypos = 230;
@@ -3660,9 +3660,9 @@ void Frontend::sub_4B0220()
     field_136[10].field_4[0].field_80 = 0;
     field_136[10].field_B8A[0].field_0 = 160;
     field_136[10].field_B8A[0].field_2 = 418;
-    field_136[10].field_BC6_nifty_idx = 0;
+    field_136[10].field_BC6_current_option_idx = 0;
     field_136[10].field_BC8 = 0;
-    field_136[14].field_0 = 1;
+    field_136[14].field_0_number_of_options = 1;
     field_136[14].field_2 = 5;
     field_136[14].field_4[0].field_0 = 1;
     field_136[14].field_4[0].field_2 = 170;
@@ -3690,7 +3690,7 @@ void Frontend::sub_4B0220()
     wcsncpy(field_136[14].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
     field_136[14].field_B8A[0].field_0 = 150;
     field_136[14].field_B8A[0].field_4 = 348;
-    field_136[14].field_BC6_nifty_idx = 0;
+    field_136[14].field_BC6_current_option_idx = 0;
     field_136[14].field_BC8 = 0;
     field_EE0E_unk.sub_483F20();
 }
@@ -4144,7 +4144,7 @@ bool Frontend::sub_4B74C0()
 STUB_FUNC(0x4B7550)
 void Frontend::sub_4B7550()
 {
-    loving_borg_0xBCA* pBorg; // edi
+    MenuPage_0xBCA* pBorg; // edi
     u8 v3; // [esp+Ch] [ebp-4h]
 
     pBorg = &field_136[field_132_f136_idx];
@@ -4221,7 +4221,7 @@ char_type Frontend::sub_4B7120(char_type a2)
 STUB_FUNC(0x4B7610)
 void Frontend::sub_4B7610()
 {
-    loving_borg_0xBCA* pItem; // esi
+    MenuPage_0xBCA* pItem; // esi
     u8 v3; // al
     u8 v4; // [esp+8h] [ebp-8h]
     u8 v5; // [esp+Ch] [ebp-4h]
@@ -4343,57 +4343,57 @@ void Frontend::sub_4B4EC0()
 }
 
 MATCH_FUNC(0x4B6070)
-loving_borg_0xBCA::loving_borg_0xBCA()
+MenuPage_0xBCA::MenuPage_0xBCA()
 {
-    field_0 = 0;
+    field_0_number_of_options = 0;
     field_2 = 0;
-    field_BC6_nifty_idx = 0;
+    field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
 
 MATCH_FUNC(0x4B6110)
-loving_borg_0xBCA::~loving_borg_0xBCA()
+MenuPage_0xBCA::~MenuPage_0xBCA()
 {
-    field_0 = 0;
+    field_0_number_of_options = 0;
     field_2 = 0;
-    field_BC6_nifty_idx = 0;
+    field_BC6_current_option_idx = 0;
     field_BC8 = 0;
 }
 
 MATCH_FUNC(0x4B61B0)
-bool loving_borg_0xBCA::sub_4B61B0()
+bool MenuPage_0xBCA::sub_4B61B0()
 {
-    u16 oldIdx = field_BC6_nifty_idx;
+    u16 oldIdx = field_BC6_current_option_idx;
     do
     {
-        if (!field_BC6_nifty_idx)
+        if (!field_BC6_current_option_idx)
         {
-            field_BC6_nifty_idx = field_0 - 1;
+            field_BC6_current_option_idx = field_0_number_of_options - 1;
         }
         else
         {
-            field_BC6_nifty_idx--;
+            field_BC6_current_option_idx--;
         }
-    } while (!field_B8A[field_BC6_nifty_idx].field_4);
-    return oldIdx != field_BC6_nifty_idx ? true : false;
+    } while (!field_B8A[field_BC6_current_option_idx].field_4);
+    return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
 MATCH_FUNC(0x4B6200)
-bool loving_borg_0xBCA::sub_4B6200()
+bool MenuPage_0xBCA::sub_4B6200()
 {
-    u16 oldIdx = field_BC6_nifty_idx;
+    u16 oldIdx = field_BC6_current_option_idx;
     do
     {
-        if (field_BC6_nifty_idx == field_0 - 1)
+        if (field_BC6_current_option_idx == field_0_number_of_options - 1)
         {
-            field_BC6_nifty_idx = 0;
+            field_BC6_current_option_idx = 0;
         }
         else
         {
-            field_BC6_nifty_idx++;
+            field_BC6_current_option_idx++;
         }
-    } while (!field_B8A[field_BC6_nifty_idx].field_4);
-    return oldIdx != field_BC6_nifty_idx ? true : false;
+    } while (!field_B8A[field_BC6_current_option_idx].field_4);
+    return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
 MATCH_FUNC(0x4B63E0)
