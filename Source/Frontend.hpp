@@ -63,19 +63,19 @@ struct admiring_euler_4
 };
 
 // todo: move
-struct competent_noyce_0x6E
+struct menu_element_0x6E
 {
-    EXPORT competent_noyce_0x6E();
+    EXPORT menu_element_0x6E();
 
-    EXPORT ~competent_noyce_0x6E();
+    EXPORT ~menu_element_0x6E();
 
-    char_type field_0;
-    char_type field_1;
+    char_type field_0_element_type;
+    char_type field_1_is_it_displayed;
     s16 field_2_xpos;
     s16 field_4_ypos;
-    wchar_t field_6_wstr_buf[50];
-    u16 field_6A;
-    u16 field_6C;
+    wchar_t field_6_element_name_str[50];
+    u16 field_6A_font_type;
+    u16 field_6C_font_variant;
 };
 
 // todo: move
@@ -135,7 +135,7 @@ struct MenuPage_0xBCA
     u16 field_0_number_of_options;
     s16 field_2;
     menu_option_0x82 field_4_options_array[10];
-    competent_noyce_0x6E field_518[15];
+    menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
     u16 field_BC6_current_option_idx;
     s16 field_BC8;

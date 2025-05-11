@@ -546,7 +546,7 @@ void Frontend::sub_4B3170(u16 arg0)
             v7 = gLucid_hamilton_67E8E0.sub_4C5990();
             v8 = v7 >> 4;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0[v8][v7 & 0xF].field_8);
-            wcsncpy(field_136_menu_pages_array[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
+            wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
             if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
             {
                 field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
@@ -635,20 +635,20 @@ void Frontend::sub_4B3170(u16 arg0)
             {
                 case 1:
                     _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, _5B5F90, 0x32u);
-                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, field_136_menu_pages_array[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, _5B5F90, 0x32u);
+                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
                     break;
 
                 case 2:
                     v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, v20, 50u);
-                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, field_136_menu_pages_array[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v20, 50u);
+                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
                     break;
 
                 case 3:
                     v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
-                    wcsncpy(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, v18, 0x32u);
-                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518[13].field_6_wstr_buf, field_136_menu_pages_array[7].field_518[13].field_6A, 320);
+                    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v18, 0x32u);
+                    v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
                     break;
                 default:
                     FatalError_4A38C0(189,
@@ -656,9 +656,9 @@ void Frontend::sub_4B3170(u16 arg0)
                                       4079); // Multiplayer game type should be frag, tag or score (but isn't)
             }
 
-            field_136_menu_pages_array[7].field_518[13].field_2_xpos = v19;
+            field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos = v19;
             v22 = 0;
-            v23 = &field_136_menu_pages_array[7].field_518[7].field_1;
+            v23 = &field_136_menu_pages_array[7].field_518_elements_array[7].field_1_is_it_displayed;
             do
             {
                 if (v22 >= a2b)
@@ -682,7 +682,7 @@ void Frontend::sub_4B3170(u16 arg0)
             if (a2b)
             {
                 v26 = 0;
-                field_6_wstr_buf = field_136_menu_pages_array[7].field_518[1].field_6_wstr_buf;
+                field_6_wstr_buf = field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str;
                 do
                 {
                     if (gYouthful_einstein_6F8450.field_20[v26] != 0)
@@ -701,7 +701,7 @@ void Frontend::sub_4B3170(u16 arg0)
                     wcsncpy(field_6_wstr_buf, Destination, 0x32u);
                     if (v26 != v65)
                     {
-                        wcsncpy(field_136_menu_pages_array[7].field_518[v69++ + 8].field_6_wstr_buf, Destination, 0x32u);
+                        wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[v69++ + 8].field_6_element_name_str, Destination, 0x32u);
                     }
                     ++v25;
                     ++v26;
@@ -791,7 +791,7 @@ void Frontend::sub_4B3170(u16 arg0)
             if (v40 > 0)
             {
                 v41 = gText_0x14_704DFC->Find_5B5F90("mult_w"); //  win
-                wcsncpy(field_136_menu_pages_array[7].field_518[0].field_6_wstr_buf, v41, 0x32u);
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v41, 0x32u);
                 break;
             }
 
@@ -799,13 +799,13 @@ void Frontend::sub_4B3170(u16 arg0)
             {
             LABEL_105:
                 v42 = gText_0x14_704DFC->Find_5B5F90("mult_l"); //  lose
-                wcsncpy(field_136_menu_pages_array[7].field_518[0].field_6_wstr_buf, v42, 0x32u);
+                wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v42, 0x32u);
                 break;
             }
 
         LABEL_107:
             v43 = gText_0x14_704DFC->Find_5B5F90("mult_d"); //  draw
-            wcsncpy(field_136_menu_pages_array[7].field_518[0].field_6_wstr_buf, v43, 0x32u);
+            wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v43, 0x32u);
             break;
 
         case 8u:
@@ -1009,7 +1009,7 @@ void Frontend::sub_4AD140()
     small_string* v50; // ecx
     int v51; // ecx
     u16 v54; // ax
-    competent_noyce_0x6E* v56; // ebp
+    menu_element_0x6E* v56; // ebp
     u16 field_2_xpos; // bx
     u16 v58; // dx
     int* v59; // eax
@@ -1032,7 +1032,7 @@ void Frontend::sub_4AD140()
     /*
 for (s32 i=0; i<3; i++)
 {
-    wprintf(L"%S\n", field_136[i].field_4[0].field_6_wstr_buf);
+    wprintf(L"%S\n", field_136[i].field_4[0].field_6_element_name_str);
 }*/
     printf("field_132_f136_idx %d\n", field_132_f136_idx);
 
@@ -1053,8 +1053,8 @@ for (s32 i=0; i<3; i++)
     {
         if (field_110_state == 3)
         {
-            v7->field_518[8].field_1 = 0;
-            v7->field_518[9].field_1 = 0;
+            v7->field_518_elements_array[8].field_1_is_it_displayed = 0;
+            v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
 
             // NOTE: field_124_font_type is u16
             // NOTE: sub_4B7E10 is not static
@@ -1075,7 +1075,7 @@ for (s32 i=0; i<3; i++)
             {
                 v18 = Frontend::sub_5D8990(v7->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
             }
-            v7->field_518[9].field_2_xpos = v18 + v7->field_4_options_array[0].field_2_x_pos;
+            v7->field_518_elements_array[9].field_2_xpos = v18 + v7->field_4_options_array[0].field_2_x_pos;
         }
     }
 
@@ -1114,19 +1114,19 @@ for (s32 i=0; i<3; i++)
         {
             if (!field_EE0D)
             {
-                v7->field_518[2].field_1 = false;
+                v7->field_518_elements_array[2].field_1_is_it_displayed = false;
             }
             else
             {
-                v7->field_518[2].field_1 = true;
+                v7->field_518_elements_array[2].field_1_is_it_displayed = true;
             }
             if (field_EE0D == 11)
             {
-                v7->field_518[3].field_1 = false;
+                v7->field_518_elements_array[3].field_1_is_it_displayed = false;
             }
             else
             {
-                v7->field_518[3].field_1 = true;
+                v7->field_518_elements_array[3].field_1_is_it_displayed = true;
             }
         }
     }
@@ -1154,7 +1154,7 @@ for (s32 i=0; i<3; i++)
             // TODO: remove volatile
             volatile s32 scale_unk = 3 * temp1 + temp2 + 64;
             swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"));
-            wcsncpy(v7->field_518[0].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
+            wcsncpy(v7->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
 
             // TODO: STUB
             //Frontend::sub_4B7D60();
@@ -1236,36 +1236,36 @@ for (s32 i=0; i<3; i++)
                     if (field_132_f136_idx == 1)
                     {
                         v35 = temp4;
-                        v7->field_518[4].field_1 = 0;
-                        v7->field_518[5].field_1 = 0;
-                        v7->field_518[6].field_1 = 0;
-                        v7->field_518[7].field_1 = 0;
-                        v7->field_518[8].field_1 = 0;
-                        v7->field_518[9].field_1 = 0;
+                        v7->field_518_elements_array[4].field_1_is_it_displayed = 0;
+                        v7->field_518_elements_array[5].field_1_is_it_displayed = 0;
+                        v7->field_518_elements_array[6].field_1_is_it_displayed = 0;
+                        v7->field_518_elements_array[7].field_1_is_it_displayed = 0;
+                        v7->field_518_elements_array[8].field_1_is_it_displayed = 0;
+                        v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
                         if ((u16)temp4 == 3)
                         {
                             temp3 = 3;
-                            v7->field_518[4].field_6_wstr_buf[0] = 1;
-                            v7->field_518[5].field_6_wstr_buf[0] = 2;
-                            v7->field_518[4].field_1 = field_1EB4C != 0;
-                            v7->field_518[5].field_1 = field_1EB4D != 0;
+                            v7->field_518_elements_array[4].field_6_element_name_str[0] = 1;
+                            v7->field_518_elements_array[5].field_6_element_name_str[0] = 2;
+                            v7->field_518_elements_array[4].field_1_is_it_displayed = field_1EB4C != 0;
+                            v7->field_518_elements_array[5].field_1_is_it_displayed = field_1EB4D != 0;
                         }
                         else if (v35 == 4)
                         {
                             temp3 = 4;
-                            v7->field_518[6].field_6_wstr_buf[0] = 1;
-                            v7->field_518[7].field_6_wstr_buf[0] = 2;
-                            v7->field_518[6].field_1 = field_1EB4E != 0;
-                            v7->field_518[7].field_1 = field_1EB4F != 0;
+                            v7->field_518_elements_array[6].field_6_element_name_str[0] = 1;
+                            v7->field_518_elements_array[7].field_6_element_name_str[0] = 2;
+                            v7->field_518_elements_array[6].field_1_is_it_displayed = field_1EB4E != 0;
+                            v7->field_518_elements_array[7].field_1_is_it_displayed = field_1EB4F != 0;
                         }
                         else if (v35 == 0)
                         {
-                            v7->field_518[8].field_6_wstr_buf[0] = 1;
-                            v7->field_518[9].field_6_wstr_buf[0] = 2;
+                            v7->field_518_elements_array[8].field_6_element_name_str[0] = 1;
+                            v7->field_518_elements_array[9].field_6_element_name_str[0] = 2;
                             if (field_110_state != 3)
                             {
-                                v7->field_518[8].field_1 = 1;
-                                v7->field_518[9].field_1 = 1;
+                                v7->field_518_elements_array[8].field_1_is_it_displayed = 1;
+                                v7->field_518_elements_array[9].field_1_is_it_displayed = 1;
                                 field_1EB4A = 1;
                                 field_1EB4B = 1;
                                 if (!byte_67DA80)
@@ -1273,14 +1273,14 @@ for (s32 i=0; i<3; i++)
                                     v35 = temp_unk1;
                                     if (!temp_unk1)
                                     {
-                                        v7->field_518[8].field_1 = temp_unk1;
+                                        v7->field_518_elements_array[8].field_1_is_it_displayed = temp_unk1;
                                         field_1EB4A = v35;
                                     }
                                     else
                                     {
                                         if (temp_unk1 == v7->field_4_options_array[0].field_7E_horizontal_max_idx)
                                         {
-                                            v7->field_518[9].field_1 = 0;
+                                            v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
                                             field_1EB4B = 0;
                                         }
                                     }
@@ -1295,12 +1295,12 @@ for (s32 i=0; i<3; i++)
                     }
                     else if (field_132_f136_idx == 5)
                     {
-                        v7->field_518[2].field_6_wstr_buf[0] = 3;
-                        v7->field_518[3].field_6_wstr_buf[0] = 4;
+                        v7->field_518_elements_array[2].field_6_element_name_str[0] = 3;
+                        v7->field_518_elements_array[3].field_6_element_name_str[0] = 4;
                         if ((u16)temp4 == 0)
                         {
-                            v7->field_518[2].field_6_wstr_buf[0] = 1;
-                            v7->field_518[3].field_6_wstr_buf[0] = 2;
+                            v7->field_518_elements_array[2].field_6_element_name_str[0] = 1;
+                            v7->field_518_elements_array[3].field_6_element_name_str[0] = 2;
                         }
                     }
                 }
@@ -1415,16 +1415,16 @@ for (s32 i=0; i<3; i++)
     {
         for (temp4 = 0; (u16)(temp4) < (u16)v7->field_2; temp4++)
         {
-            v56 = &v7->field_518[(u16)temp4];
+            v56 = &v7->field_518_elements_array[(u16)temp4];
 
-            if (v7->field_518[(u16)temp4].field_1)
+            if (v7->field_518_elements_array[(u16)temp4].field_1_is_it_displayed)
             {
-                if (v56->field_0 == 3)
+                if (v56->field_0_element_type == 3)
                 {
-                    field_2_xpos = v7->field_518[(u16)temp4].field_2_xpos;
-                    v58 = v7->field_518[(u16)temp4].field_4_ypos;
+                    field_2_xpos = v7->field_518_elements_array[(u16)temp4].field_2_xpos;
+                    v58 = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
 
-                    switch (v7->field_518[v55].field_6_wstr_buf[0])
+                    switch (v7->field_518_elements_array[v55].field_6_element_name_str[0])
                     {
                         case 0u:
                             a5 = 2;
@@ -1466,10 +1466,10 @@ for (s32 i=0; i<3; i++)
                     s32 two = 2;
                     //sub_5D7EC0(6, a5, field_2_xpos, dword_67D934, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
                 }
-                else if (v56->field_0 == 1)
+                else if (v56->field_0_element_type == 1)
                 {
-                    v2_u16 = v7->field_518[(u16)temp4].field_6A;
-                    field_4_ypos = v7->field_518[(u16)temp4].field_4_ypos;
+                    v2_u16 = v7->field_518_elements_array[(u16)temp4].field_6A_font_type;
+                    field_4_ypos = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
                     u16 v96_u16 = v56->field_2_xpos;
                     u16 v93_u16 = field_4_ypos;
                     if (v2_u16 == 0xFFFF)
@@ -1481,17 +1481,17 @@ for (s32 i=0; i<3; i++)
                     u16 v64_u16;
                     if (v63 == 1 && ((u16)temp4 == 2 || (u16)temp4 == 3))
                     {
-                        v64_u16 = v56->field_6C;
+                        v64_u16 = v56->field_6C_font_variant;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v64_u16, 1u, 0x15u, 1);
                     }
                     else if (v63 == 5 && (u16)temp4 == 1)
                     {
-                        u16 v62_u16 = v56->field_6C;
+                        u16 v62_u16 = v56->field_6C_font_variant;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v62_u16, 1u, 0x15u, 1);
                     }
                     else
                     {
-                        u16 v56_u16 = v56->field_6C;
+                        u16 v56_u16 = v56->field_6C_font_variant;
                         if (v56_u16 == 0xFFFF)
                         {
                             DrawText_4B87A0(a4_unk, v96_u16, v93_u16, v2_u16, 1);
@@ -1529,8 +1529,8 @@ for (s32 i=0; i<3; i++)
     {
         if (field_114)
         {
-            x_pos = v7->field_518[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
-            y_pos = v7->field_518[4].field_4_ypos;
+            x_pos = v7->field_518_elements_array[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
+            y_pos = v7->field_518_elements_array[4].field_4_ypos;
             swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
@@ -2287,7 +2287,7 @@ void Frontend::sub_4B4230()
 MATCH_FUNC(0x4B3CC0)
 void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
 {
-    competent_noyce_0x6E* temp = &field_136_menu_pages_array[a2].field_518[a3];
+    menu_element_0x6E* temp = &field_136_menu_pages_array[a2].field_518_elements_array[a3];
 
     if (a2 == 14 && a3 == 4)
     {
@@ -2295,7 +2295,7 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     }
     else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
     {
-        swprintf(word_67C7D8, L"%s", temp->field_6_wstr_buf);
+        swprintf(word_67C7D8, L"%s", temp->field_6_element_name_str);
     }
     else if (field_EE0D < 3)
     {
@@ -2520,9 +2520,9 @@ void Frontend::sub_4B8560()
         field_C9B4 = 28;
         field_C9B6 = 5;
 
-        wcsncpy(field_136_menu_pages_array[14].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt1"), 0x32u);
-        wcsncpy(field_136_menu_pages_array[14].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt2"), 0x32u);
-        wcsncpy(field_136_menu_pages_array[14].field_518[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_rnt3"), 0x32u);
+        wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_rnt1"), 0x32u);
+        wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_rnt2"), 0x32u);
+        wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_rnt3"), 0x32u);
 
         field_C9CB = 1;
     }
@@ -3318,56 +3318,56 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
     field_136_menu_pages_array[1].field_BC8 = 3;
     field_136_menu_pages_array[1].field_2 = 10;
-    field_136_menu_pages_array[1].field_518[0].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[0].field_2_xpos = 420;
-    field_136_menu_pages_array[1].field_518[0].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518[0].field_6_wstr_buf[0] = 0;
-    field_136_menu_pages_array[1].field_518[1].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[1].field_2_xpos = 420;
-    field_136_menu_pages_array[1].field_518[1].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518[1].field_6_wstr_buf[0] = 0;
-    field_136_menu_pages_array[1].field_518[2].field_0 = 1;
-    field_136_menu_pages_array[1].field_518[2].field_2_xpos = 410;
-    field_136_menu_pages_array[1].field_518[2].field_4_ypos = 298;
-    wcsncpy(field_136_menu_pages_array[1].field_518[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
-    field_136_menu_pages_array[1].field_518[2].field_6A = word_703C3C;
-    field_136_menu_pages_array[1].field_518[3].field_0 = 1;
-    field_136_menu_pages_array[1].field_518[3].field_2_xpos = 410;
-    field_136_menu_pages_array[1].field_518[3].field_4_ypos = 378;
-    wcsncpy(field_136_menu_pages_array[1].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
-    field_136_menu_pages_array[1].field_518[3].field_6A = word_703C3C;
-    field_136_menu_pages_array[1].field_518[4].field_2_xpos = 380;
-    field_136_menu_pages_array[1].field_518[4].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518[5].field_2_xpos = 460;
-    field_136_menu_pages_array[1].field_518[5].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518[6].field_2_xpos = 380;
-    field_136_menu_pages_array[1].field_518[7].field_2_xpos = 460;
-    field_136_menu_pages_array[1].field_518[4].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[4].field_6_wstr_buf[0] = 3;
-    field_136_menu_pages_array[1].field_518[5].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[5].field_6_wstr_buf[0] = 4;
-    field_136_menu_pages_array[1].field_518[6].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[6].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518[6].field_6_wstr_buf[0] = 3;
-    field_136_menu_pages_array[1].field_518[7].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[7].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518[7].field_6_wstr_buf[0] = 4;
-    field_136_menu_pages_array[1].field_518[8].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[8].field_2_xpos = 290;
-    field_136_menu_pages_array[1].field_518[8].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518[8].field_6_wstr_buf[0] = 3;
-    field_136_menu_pages_array[1].field_518[9].field_0 = 3;
-    field_136_menu_pages_array[1].field_518[9].field_2_xpos = 580;
-    field_136_menu_pages_array[1].field_518[9].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518[9].field_6_wstr_buf[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_2_xpos = 420;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_4_ypos = 390;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[1].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[1].field_518_elements_array[2].field_2_xpos = 410;
+    field_136_menu_pages_array[1].field_518_elements_array[2].field_4_ypos = 298;
+    wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[2].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
+    field_136_menu_pages_array[1].field_518_elements_array[2].field_6A_font_type = word_703C3C;
+    field_136_menu_pages_array[1].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[1].field_518_elements_array[3].field_2_xpos = 410;
+    field_136_menu_pages_array[1].field_518_elements_array[3].field_4_ypos = 378;
+    wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[3].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
+    field_136_menu_pages_array[1].field_518_elements_array[3].field_6A_font_type = word_703C3C;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_2_xpos = 380;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_4_ypos = 310;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_2_xpos = 460;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_4_ypos = 310;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_2_xpos = 380;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_2_xpos = 460;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_4_ypos = 390;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_4_ypos = 390;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_2_xpos = 290;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_4_ypos = 222;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_2_xpos = 580;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_6_element_name_str[0] = 4;
     field_136_menu_pages_array[11].field_0_number_of_options = 3;
     field_136_menu_pages_array[11].field_2 = 1;
-    field_136_menu_pages_array[11].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[11].field_518[0].field_2_xpos = 35;
-    field_136_menu_pages_array[11].field_518[0].field_4_ypos = 11;
-    wcscpy(field_136_menu_pages_array[11].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
-    field_136_menu_pages_array[11].field_518[0].field_6A = field_130;
-    field_136_menu_pages_array[11].field_518[0].field_6C = 5;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_2_xpos = 35;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_4_ypos = 11;
+    wcscpy(field_136_menu_pages_array[11].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_6A_font_type = field_130;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_variant = 5;
     field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
@@ -3396,12 +3396,12 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[11].field_BC8 = 0;
     field_136_menu_pages_array[2].field_0_number_of_options = 3;
     field_136_menu_pages_array[2].field_2 = 1;
-    field_136_menu_pages_array[2].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[2].field_518[0].field_2_xpos = 35;
-    field_136_menu_pages_array[2].field_518[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[2].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
-    field_136_menu_pages_array[2].field_518[0].field_6A = field_130;
-    field_136_menu_pages_array[2].field_518[0].field_6C = 0;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_2_xpos = 35;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(field_136_menu_pages_array[2].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_6A_font_type = field_130;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_variant = 0;
     field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
@@ -3427,11 +3427,11 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[2].field_BC8 = 0;
     field_136_menu_pages_array[3].field_0_number_of_options = 5;
     field_136_menu_pages_array[3].field_2 = 1;
-    field_136_menu_pages_array[3].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[3].field_518[0].field_2_xpos = 35;
-    field_136_menu_pages_array[3].field_518[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[3].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
-    field_136_menu_pages_array[3].field_518[0].field_6A = field_12C;
+    field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[3].field_518_elements_array[0].field_2_xpos = 35;
+    field_136_menu_pages_array[3].field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(field_136_menu_pages_array[3].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
+    field_136_menu_pages_array[3].field_518_elements_array[0].field_6A_font_type = field_12C;
     field_136_menu_pages_array[3].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[3].field_4_options_array[0].field_4_y_pos = 365;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
@@ -3471,13 +3471,13 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[3].field_BC8 = 0;
     field_136_menu_pages_array[4].field_0_number_of_options = 1;
     field_136_menu_pages_array[4].field_2 = 1;
-    field_136_menu_pages_array[4].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[4].field_518[0].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[4].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_4_ypos = 230;
+    wcsncpy(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
     v30 = field_130;
-    field_136_menu_pages_array[4].field_518[0].field_6A = v30;
-    field_136_menu_pages_array[4].field_518[0].field_2_xpos = Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518[0].field_6_wstr_buf, v30, 320);
-    field_136_menu_pages_array[4].field_518[0].field_6C = 4;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_6A_font_type = v30;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_2_xpos = Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, v30, 320);
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_variant = 4;
     field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
@@ -3506,46 +3506,46 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[5].field_B8A[0].field_2 = 163;
     field_136_menu_pages_array[5].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[5].field_BC8 = 0;
-    field_136_menu_pages_array[5].field_518[0].field_0 = 3;
-    field_136_menu_pages_array[5].field_518[0].field_2_xpos = 450;
-    field_136_menu_pages_array[5].field_518[0].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518[0].field_6_wstr_buf[0] = 0;
-    field_136_menu_pages_array[5].field_518[1].field_0 = 1;
-    field_136_menu_pages_array[5].field_518[1].field_2_xpos = 440;
-    field_136_menu_pages_array[5].field_518[1].field_4_ypos = 185;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_2_xpos = 450;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_4_ypos = 197;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[5].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[5].field_518_elements_array[1].field_2_xpos = 440;
+    field_136_menu_pages_array[5].field_518_elements_array[1].field_4_ypos = 185;
     //    v34 = ;
-    field_136_menu_pages_array[5].field_518[2].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518[3].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518[1].field_6A = word_703C3C; // v34
-    field_136_menu_pages_array[5].field_518[2].field_0 = 3;
-    field_136_menu_pages_array[5].field_518[2].field_2_xpos = 410;
-    field_136_menu_pages_array[5].field_518[2].field_6_wstr_buf[0] = 3;
-    field_136_menu_pages_array[5].field_518[3].field_0 = 3;
-    field_136_menu_pages_array[5].field_518[3].field_2_xpos = 490;
-    field_136_menu_pages_array[5].field_518[3].field_6_wstr_buf[0] = 4;
-    field_136_menu_pages_array[5].field_518[4].field_0 = 1;
-    field_136_menu_pages_array[5].field_518[4].field_2_xpos = 340;
-    field_136_menu_pages_array[5].field_518[4].field_4_ypos = v2;
-    wcsncpy(field_136_menu_pages_array[5].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
-    field_136_menu_pages_array[5].field_518[4].field_6A = field_126;
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_4_ypos = 197;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_4_ypos = 197;
+    field_136_menu_pages_array[5].field_518_elements_array[1].field_6A_font_type = word_703C3C; // v34
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_2_xpos = 410;
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_2_xpos = 490;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[5].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[5].field_518_elements_array[4].field_2_xpos = 340;
+    field_136_menu_pages_array[5].field_518_elements_array[4].field_4_ypos = v2;
+    wcsncpy(field_136_menu_pages_array[5].field_518_elements_array[4].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
+    field_136_menu_pages_array[5].field_518_elements_array[4].field_6A_font_type = field_126;
     field_136_menu_pages_array[6].field_0_number_of_options = 3;
     field_136_menu_pages_array[6].field_2 = 3;
-    field_136_menu_pages_array[6].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[6].field_518[0].field_2_xpos = 35;
-    field_136_menu_pages_array[6].field_518[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[6].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
-    field_136_menu_pages_array[6].field_518[0].field_6A = field_130;
-    field_136_menu_pages_array[6].field_518[0].field_6C = 5;
-    field_136_menu_pages_array[6].field_518[1].field_0 = 1;
-    field_136_menu_pages_array[6].field_518[1].field_2_xpos = 170;
-    field_136_menu_pages_array[6].field_518[1].field_4_ypos = 250;
-    wcsncpy(field_136_menu_pages_array[6].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
-    field_136_menu_pages_array[6].field_518[2].field_0 = 1;
-    field_136_menu_pages_array[6].field_518[2].field_2_xpos = 400;
-    field_136_menu_pages_array[6].field_518[2].field_4_ypos = 250;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_2_xpos = 35;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_6A_font_type = field_130;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[1].field_2_xpos = 170;
+    field_136_menu_pages_array[6].field_518_elements_array[1].field_4_ypos = 250;
+    wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[1].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_2_xpos = 400;
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_4_ypos = 250;
     s16 v38 = field_120;
     field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = 1;
-    field_136_menu_pages_array[6].field_518[2].field_6A = v38;
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_6A_font_type = v38;
     field_136_menu_pages_array[6].field_4_options_array[0].field_4_y_pos = 340;
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
     field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, v38, 320);
@@ -3570,58 +3570,58 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[6].field_BC8 = 0;
     field_136_menu_pages_array[7].field_0_number_of_options = 1;
     field_136_menu_pages_array[7].field_2 = 14;
-    field_136_menu_pages_array[7].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[0].field_2_xpos = 35;
-    field_136_menu_pages_array[7].field_518[0].field_4_ypos = 11;
-    field_136_menu_pages_array[7].field_518[0].field_6A = field_130;
-    field_136_menu_pages_array[7].field_518[0].field_6C = 5;
-    field_136_menu_pages_array[7].field_518[1].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[1].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[1].field_4_ypos = 170;
-    wcsncpy(field_136_menu_pages_array[7].field_518[1].field_6_wstr_buf, word_67DC8C, 50u);
-    field_136_menu_pages_array[7].field_518[2].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[2].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[2].field_4_ypos = 190;
-    wcsncpy(field_136_menu_pages_array[7].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518[3].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[3].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[3].field_4_ypos = 210;
-    wcsncpy(field_136_menu_pages_array[7].field_518[3].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518[4].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[4].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[4].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[7].field_518[4].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518[5].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[5].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[5].field_4_ypos = 250;
-    wcsncpy(field_136_menu_pages_array[7].field_518[5].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518[6].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[6].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[6].field_4_ypos = 270;
-    wcsncpy(field_136_menu_pages_array[7].field_518[6].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518[7].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[7].field_4_ypos = 300;
-    wcsncpy(field_136_menu_pages_array[7].field_518[7].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
-    field_136_menu_pages_array[7].field_518[7].field_2_xpos =
-        sub_4B0190(field_136_menu_pages_array[7].field_518[7].field_6_wstr_buf, field_136_menu_pages_array[7].field_518[7].field_6A, 320);
-    field_136_menu_pages_array[7].field_518[8].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[8].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[8].field_4_ypos = 320;
-    field_136_menu_pages_array[7].field_518[9].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[9].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[9].field_4_ypos = 340;
-    field_136_menu_pages_array[7].field_518[10].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[10].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[10].field_4_ypos = 360;
-    field_136_menu_pages_array[7].field_518[11].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[11].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[11].field_4_ypos = 380;
-    field_136_menu_pages_array[7].field_518[12].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[12].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518[12].field_4_ypos = 400;
-    field_136_menu_pages_array[7].field_518[13].field_0 = 1;
-    field_136_menu_pages_array[7].field_518[13].field_2_xpos = 30;
-    field_136_menu_pages_array[7].field_518[13].field_4_ypos = 150;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_2_xpos = 35;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_4_ypos = 11;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_6A_font_type = field_130;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_variant = 5;
+    field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[1].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[1].field_4_ypos = 170;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str, word_67DC8C, 50u);
+    field_136_menu_pages_array[7].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[2].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[2].field_4_ypos = 190;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[2].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[3].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[3].field_4_ypos = 210;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[3].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[4].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[4].field_4_ypos = 230;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[4].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[5].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[5].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[5].field_4_ypos = 250;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[5].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[6].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[6].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[6].field_4_ypos = 270;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[6].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[7].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[7].field_4_ypos = 300;
+    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
+    field_136_menu_pages_array[7].field_518_elements_array[7].field_2_xpos =
+        sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[7].field_6A_font_type, 320);
+    field_136_menu_pages_array[7].field_518_elements_array[8].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[8].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[8].field_4_ypos = 320;
+    field_136_menu_pages_array[7].field_518_elements_array[9].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[9].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[9].field_4_ypos = 340;
+    field_136_menu_pages_array[7].field_518_elements_array[10].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[10].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[10].field_4_ypos = 360;
+    field_136_menu_pages_array[7].field_518_elements_array[11].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[11].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[11].field_4_ypos = 380;
+    field_136_menu_pages_array[7].field_518_elements_array[12].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[12].field_2_xpos = 100;
+    field_136_menu_pages_array[7].field_518_elements_array[12].field_4_ypos = 400;
+    field_136_menu_pages_array[7].field_518_elements_array[13].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos = 30;
+    field_136_menu_pages_array[7].field_518_elements_array[13].field_4_ypos = 150;
     field_136_menu_pages_array[7].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[7].field_4_options_array[0].field_4_y_pos = 430;
     wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
@@ -3644,15 +3644,15 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[8].field_BC8 = 0;
     field_136_menu_pages_array[10].field_0_number_of_options = 1;
     field_136_menu_pages_array[10].field_2 = 1;
-    field_136_menu_pages_array[10].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[10].field_518[0].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[10].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_4_ypos = 230;
+    wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
     //    v46 = field_130;
-    field_136_menu_pages_array[10].field_518[0].field_6A = field_130; // v46;
-    field_136_menu_pages_array[10].field_518[0].field_2_xpos = sub_4B0190(field_136_menu_pages_array[10].field_518[0].field_6_wstr_buf,
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_6A_font_type = field_130; // v46;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_2_xpos = sub_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
                                                          field_130, //v46,
                                                          320);
-    field_136_menu_pages_array[10].field_518[0].field_6C = 4;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_variant = 4;
     field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
@@ -3668,26 +3668,26 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
     field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
     field_136_menu_pages_array[14].field_4_options_array[0].field_80_menu_page_target = 268;
-    field_136_menu_pages_array[14].field_518[0].field_0 = 1;
-    field_136_menu_pages_array[14].field_518[0].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518[0].field_4_ypos = 160;
-    wcsncpy(field_136_menu_pages_array[14].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent1"), 0x32u);
-    field_136_menu_pages_array[14].field_518[1].field_0 = 1;
-    field_136_menu_pages_array[14].field_518[1].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518[1].field_4_ypos = 180;
-    wcsncpy(field_136_menu_pages_array[14].field_518[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_ent2"), 0x32u);
-    field_136_menu_pages_array[14].field_518[2].field_0 = 1;
-    field_136_menu_pages_array[14].field_518[2].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518[2].field_4_ypos = 200;
-    wcsncpy(field_136_menu_pages_array[14].field_518[2].field_6_wstr_buf, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[14].field_518[3].field_0 = 1;
-    field_136_menu_pages_array[14].field_518[3].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518[3].field_4_ypos = 300;
-    wcsncpy(field_136_menu_pages_array[14].field_518[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("fr_pmpt"), 0x32u);
-    field_136_menu_pages_array[14].field_518[4].field_0 = 1;
-    field_136_menu_pages_array[14].field_518[4].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518[4].field_4_ypos = 320;
-    wcsncpy(field_136_menu_pages_array[14].field_518[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
+    field_136_menu_pages_array[14].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[0].field_2_xpos = 20;
+    field_136_menu_pages_array[14].field_518_elements_array[0].field_4_ypos = 160;
+    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_ent1"), 0x32u);
+    field_136_menu_pages_array[14].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[1].field_2_xpos = 20;
+    field_136_menu_pages_array[14].field_518_elements_array[1].field_4_ypos = 180;
+    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_ent2"), 0x32u);
+    field_136_menu_pages_array[14].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[2].field_2_xpos = 20;
+    field_136_menu_pages_array[14].field_518_elements_array[2].field_4_ypos = 200;
+    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str, word_67DC8C, 0x32u);
+    field_136_menu_pages_array[14].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[3].field_2_xpos = 20;
+    field_136_menu_pages_array[14].field_518_elements_array[3].field_4_ypos = 300;
+    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[3].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_pmpt"), 0x32u);
+    field_136_menu_pages_array[14].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[4].field_2_xpos = 20;
+    field_136_menu_pages_array[14].field_518_elements_array[4].field_4_ypos = 320;
+    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[4].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
     field_136_menu_pages_array[14].field_B8A[0].field_0 = 150;
     field_136_menu_pages_array[14].field_B8A[0].field_4 = 348;
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
@@ -4150,27 +4150,27 @@ void Frontend::sub_4B7550()
     pBorg = &field_136_menu_pages_array[field_132_f136_idx];
     v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     swprintf(tmpBuff_67BD9C, L"%d", v3 + 1);
-    wcsncpy(pBorg->field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
+    wcsncpy(pBorg->field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
 
     if (sub_4B7490())
     {
-        pBorg->field_518[4].field_1 = 1;
+        pBorg->field_518_elements_array[4].field_1_is_it_displayed = 1;
         field_1EB4C = 1;
     }
     else
     {
-        pBorg->field_518[4].field_1 = 0;
+        pBorg->field_518_elements_array[4].field_1_is_it_displayed = 0;
         field_1EB4C = 0;
     }
 
     if (sub_4B74C0())
     {
-        pBorg->field_518[5].field_1 = 1;
+        pBorg->field_518_elements_array[5].field_1_is_it_displayed = 1;
         field_1EB4D = 1;
     }
     else
     {
-        pBorg->field_518[5].field_1 = 0;
+        pBorg->field_518_elements_array[5].field_1_is_it_displayed = 0;
         field_1EB4D = 0;
     }
 }
@@ -4234,43 +4234,43 @@ void Frontend::sub_4B7610()
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 0;
         pItem->field_B8A[4].field_4 = 0;
-        pItem->field_518[3].field_1 = 0;
-        pItem->field_518[1].field_1 = 0;
-        pItem->field_518[6].field_1 = 0;
-        pItem->field_518[7].field_1 = 0;
+        pItem->field_518_elements_array[3].field_1_is_it_displayed = 0;
+        pItem->field_518_elements_array[1].field_1_is_it_displayed = 0;
+        pItem->field_518_elements_array[6].field_1_is_it_displayed = 0;
+        pItem->field_518_elements_array[7].field_1_is_it_displayed = 0;
     }
     else
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 1;
         pItem->field_B8A[4].field_4 = 1;
-        pItem->field_518[3].field_1 = 1;
-        pItem->field_518[1].field_1 = 1;
-        pItem->field_518[6].field_1 = 1;
-        pItem->field_518[7].field_1 = 1;
+        pItem->field_518_elements_array[3].field_1_is_it_displayed = 1;
+        pItem->field_518_elements_array[1].field_1_is_it_displayed = 1;
+        pItem->field_518_elements_array[6].field_1_is_it_displayed = 1;
+        pItem->field_518_elements_array[7].field_1_is_it_displayed = 1;
         if (sub_4B74F0())
         {
-            pItem->field_518[6].field_1 = 1;
+            pItem->field_518_elements_array[6].field_1_is_it_displayed = 1;
             field_1EB4E = 1;
         }
         else
         {
-            pItem->field_518[6].field_1 = 0;
+            pItem->field_518_elements_array[6].field_1_is_it_displayed = 0;
             field_1EB4E = 0;
         }
 
         if (sub_4B7520())
         {
-            pItem->field_518[7].field_1 = 1;
+            pItem->field_518_elements_array[7].field_1_is_it_displayed = 1;
             field_1EB4F = 1;
         }
         else
         {
-            pItem->field_518[7].field_1 = 0;
+            pItem->field_518_elements_array[7].field_1_is_it_displayed = 0;
             field_1EB4F = 0;
         }
 
         swprintf(word_67C7D8, L"%c", 3 * v4 + v5 + 64);
-        wcsncpy(pItem->field_518[3].field_6_wstr_buf, word_67C7D8, 0x32u);
+        wcsncpy(pItem->field_518_elements_array[3].field_6_element_name_str, word_67C7D8, 0x32u);
     }
 }
 
@@ -4397,26 +4397,26 @@ bool MenuPage_0xBCA::sub_4B6200()
 }
 
 MATCH_FUNC(0x4B63E0)
-competent_noyce_0x6E::competent_noyce_0x6E()
+menu_element_0x6E::menu_element_0x6E()
 {
-    field_0 = 0;
+    field_0_element_type = 0;
     field_2_xpos = 0;
     field_4_ypos = 0;
-    field_1 = 1;
-    wcscpy(field_6_wstr_buf, word_67DC8C);
-    field_6A = -1;
-    field_6C = -1;
+    field_1_is_it_displayed = 1;
+    wcscpy(field_6_element_name_str, word_67DC8C);
+    field_6A_font_type = -1;
+    field_6C_font_variant = -1;
 }
 
 MATCH_FUNC(0x4B6420)
-competent_noyce_0x6E::~competent_noyce_0x6E()
+menu_element_0x6E::~menu_element_0x6E()
 {
-    field_1 = 1;
-    field_0 = 0;
+    field_1_is_it_displayed = 1;
+    field_0_element_type = 0;
     field_2_xpos = 0;
     field_4_ypos = 0;
-    field_6A = -1;
-    field_6C = -1;
+    field_6A_font_type = -1;
+    field_6C_font_variant = -1;
 }
 
 MATCH_FUNC(0x4B6290)

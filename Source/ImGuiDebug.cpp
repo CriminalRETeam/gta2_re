@@ -745,25 +745,25 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("competent_noyce_0x6E"))
+                if (ImGui::TreeNode("menu_element_0x6E"))
                 {
                     static s32 noyce_id = 0;
                     ImGui::SliderInt("Competent Noyce ID", &noyce_id, 0, 14);
 
-                    competent_noyce_0x6E* competent_noyce = &loving_borg->field_518[noyce_id];
+                    menu_element_0x6E* competent_noyce = &loving_borg->field_518_elements_array[noyce_id];
 
-                    ImGui::Value("field_0", competent_noyce->field_0);
-                    ImGui::Value("field_1", competent_noyce->field_1);
+                    ImGui::Value("field_0", competent_noyce->field_0_element_type);
+                    ImGui::Value("field_1", competent_noyce->field_1_is_it_displayed);
 
                     ImGui::SliderS16("field_2_xpos", &competent_noyce->field_2_xpos, 0, 1000);
                     ImGui::SliderS16("field_4_ypos", &competent_noyce->field_4_ypos, 0, 700);
 
                     static char str_buf_2[50];
-                    wchar_to_char(competent_noyce->field_6_wstr_buf, str_buf_2, 50);
+                    wchar_to_char(competent_noyce->field_6_element_name_str, str_buf_2, 50);
                     ImGui::Text(str_buf_2);
 
-                    ImGui::InputU16("field_6A", &competent_noyce->field_6A, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C, 1, 1);
+                    ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_variant, 1, 1);
 
                     ImGui::TreePop();
                 }
