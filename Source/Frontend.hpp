@@ -141,7 +141,7 @@ struct MenuPage_0xBCA
     s16 field_BC8;
 };
 
-struct dreamy_clarke_0xA4;
+struct player_stats_0xA4;
 
 enum MenuScreen
 {
@@ -331,7 +331,7 @@ struct Frontend
 
     EXPORT void sub_4B4410();
 
-    EXPORT dreamy_clarke_0xA4* sub_4B43E0();
+    EXPORT player_stats_0xA4* sub_4B43E0();
 
     EXPORT void sub_4B42E0();
 
@@ -341,7 +341,7 @@ struct Frontend
 
     EXPORT void sub_4B4280();
 
-    EXPORT u8 sub_4B77B0(dreamy_clarke_0xA4* a2);
+    EXPORT u8 sub_4B77B0(player_stats_0xA4* a2);
 
     EXPORT void sub_4B8530();
 

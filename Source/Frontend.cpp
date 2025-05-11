@@ -408,7 +408,7 @@ void Frontend::sub_4B3170(u16 arg0)
     u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
-    gifted_joliot* v6; // ecx
+    stage_stats* v6; // ecx
     u8 v7; // al
     s32 v8; // edi
     LPDIRECTINPUTA* v9; // eax
@@ -459,7 +459,7 @@ void Frontend::sub_4B3170(u16 arg0)
     u8 a2; // [esp+14h] [ebp-104h]
     u8 a2a; // [esp+14h] [ebp-104h]
     u8 a2b; // [esp+14h] [ebp-104h]
-    dreamy_clarke_0xA4* v57; // [esp+18h] [ebp-100h]
+    player_stats_0xA4* v57; // [esp+18h] [ebp-100h]
     s32* v58; // [esp+18h] [ebp-100h]
     s32* v59; // [esp+18h] [ebp-100h]
     s32* v60; // [esp+18h] [ebp-100h]
@@ -528,10 +528,10 @@ void Frontend::sub_4B3170(u16 arg0)
             field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 0;
             field_136_menu_pages_array[3].field_B8A[3].field_4 = 0;
             v5 = 1;
-            v6 = &v57->field_0[a2][1];
+            v6 = &v57->field_0_plyr_stage_stats[a2][1];
             do
             {
-                if (v6->field_0 && v5 < field_1EB51_blocks[a2])
+                if (v6->field_0_is_stage_unlocked && v5 < field_1EB51_blocks[a2])
                 {
                     field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
                     field_136_menu_pages_array[3].field_B8A[3].field_4 = 1;
@@ -545,9 +545,9 @@ void Frontend::sub_4B3170(u16 arg0)
         case 6u:
             v7 = gLucid_hamilton_67E8E0.sub_4C5990();
             v8 = v7 >> 4;
-            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0[v8][v7 & 0xF].field_8);
+            swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[v8][v7 & 0xF].field_8_stage_latest_score);
             wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
+            if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0_plyr_stage_stats[v8 + 1][0].field_0_is_stage_unlocked)
             {
                 field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
                 field_136_menu_pages_array[6].field_B8A[1].field_4 = 0;
@@ -987,7 +987,7 @@ void Frontend::sub_4AD140()
     __int16 v15; // ax
     int v16; // ecx
     u16 v18;
-    small_string* v20; // ecx
+    score_table_line* v20; // ecx
     u16 v21; // ax
     u8 v23; // al
     u8 v24; // bl
@@ -1003,10 +1003,10 @@ void Frontend::sub_4AD140()
     __int16 v40; // ax
     u16 v44; // ax
     Fix16* v46; // eax
-    small_string* v47; // ecx
+    score_table_line* v47; // ecx
     int v48; // ecx
     int v49; // edx
-    small_string* v50; // ecx
+    score_table_line* v50; // ecx
     int v51; // ecx
     u16 v54; // ax
     menu_element_0x6E* v56; // ebp
@@ -1016,8 +1016,8 @@ void Frontend::sub_4AD140()
     u16* v60; // ecx
     u16 field_4_ypos; // ax
     u16 v63; // ax
-    small_string* v66; // ecx
-    agitated_keldysh_0xF0* v85;
+    score_table_line* v66; // ecx
+    high_score_table_0xF0* v85;
     int a5;
     int a6;
 
@@ -1069,7 +1069,7 @@ for (s32 i=0; i<3; i++)
         {
             u16 idx = v7->field_4_options_array[0].field_6E_horizontal_selected_idx;
             temp_unk1 = idx;
-            v18 = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx].field_90_strPlayerName, field_11C) + 10;
+            v18 = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
 
             if (v18 == 10)
             {
@@ -1083,30 +1083,30 @@ for (s32 i=0; i<3; i++)
     {
         if (field_EE0D < 3)
         {
-            v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890[field_EE0D];
+            v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
             // TODO: STUB
-            //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else if (field_EE0D < 6u)
         {
             //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_16B0[field_EE0D].field_0; // TODO: struct at field_16B0
             // TODO: STUB
-            //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
         {
             if (field_EE0D < 9u)
             {
                 // TODO: struct at field_17A0
-                //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (agitated_keldysh_0xF0*)(& + 60 * v19);
+                //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (high_score_table_0xF0*)(& + 60 * v19);
                 // TODO: STUB
-                //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+                //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
             else
             {
-                v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890[field_EE0D];
+                v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
                 // TODO: STUB
-                //Frontend::sub_4B5430((small_string**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+                //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
         }
 
@@ -1163,11 +1163,11 @@ for (s32 i=0; i<3; i++)
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
         */
-        //Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890[0][v2].field_0, 0xAAu, 155, 3, v22, 0xFFFF, 2);
+        //Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][v2].field_0, 0xAAu, 155, 3, v22, 0xFFFF, 2);
 
         // TODO: STUB
         /*
-        Frontend::sub_4B5430((small_string**)&gJolly_poitras_0x2BC0_6FEAC0->field_1890[v24][v25].field_0,
+        Frontend::sub_4B5430((score_table_line**)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[v24][v25].field_0,
                              0xAAu,
                              155,
                              3,
@@ -1381,7 +1381,7 @@ for (s32 i=0; i<3; i++)
                 unk_idx = v53_u8 >> 4;
                 u8 a5_idx = v53_u8 & 0xF;
                 /*
-                Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][0].field_0,
+                Frontend::sub_4B5430((score_table_line**)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0,
                                      0x12Cu,
                                      v98,
                                      1,
@@ -1395,7 +1395,7 @@ for (s32 i=0; i<3; i++)
         {
             unk_idx = gLucid_hamilton_67E8E0.sub_4C5980();
             /*
-            Frontend::sub_4B5430((small_string**)gJolly_poitras_0x2BC0_6FEAC0->field_1890[unk_idx][0].field_0,
+            Frontend::sub_4B5430((score_table_line**)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0,
                                  0x12Cu,
                                  v98,
                                  1,
@@ -1455,7 +1455,7 @@ for (s32 i=0; i<3; i++)
                     v87.mValue = (__int32)&v98;
                     LOWORD(v59) = HIWORD(dword_67DA6E);
                     v86 = dword_67D934;
-                    v85 = (agitated_keldysh_0xF0*)v59;
+                    v85 = (high_score_table_0xF0*)v59;
                     v84 = dword_67D934;
                     Fix16::FromU16_4AE970(&v84, v58);
                     v83 = v60;
@@ -1858,7 +1858,7 @@ STUB_FUNC(0x4AE2D0)
 void Frontend::sub_4AE2D0()
 {
     MenuPage_0xBCA* pBorg; // ebx
-    dreamy_clarke_0xA4* v3; // ebp
+    player_stats_0xA4* v3; // ebp
     u16 v4; // ax
     u8 v5; // bl
     char_type v6; // al
@@ -1931,7 +1931,7 @@ void Frontend::sub_4AE2D0()
                         FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
                     }
 
-                    if (!v3->field_0[v7][0].field_0)
+                    if (!v3->field_0_plyr_stage_stats[v7][0].field_0_is_stage_unlocked)
                     {
                         FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                     }
@@ -1940,7 +1940,7 @@ void Frontend::sub_4AE2D0()
                 case 263u:
                     v19 = gLucid_hamilton_67E8E0.sub_4C5980();
                     v5 = 3;
-                    for (i = 3; !v3->field_0[v19][i].field_0 || v5 >= field_1EB51_blocks[v19]; i = v5)
+                    for (i = 3; !v3->field_0_plyr_stage_stats[v19][i].field_0_is_stage_unlocked || v5 >= field_1EB51_blocks[v19]; i = v5)
                     {
                         --v5;
                     }
@@ -2261,11 +2261,11 @@ void Frontend::sub_4B4410()
 }
 
 MATCH_FUNC(0x4B43E0)
-dreamy_clarke_0xA4* Frontend::sub_4B43E0()
+player_stats_0xA4* Frontend::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
     u16 idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
-    return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx];
+    return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx];
 }
 
 STUB_FUNC(0x4B42E0)
@@ -2278,7 +2278,7 @@ MATCH_FUNC(0x4B4230)
 void Frontend::sub_4B4230()
 {
     u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx;
-    wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_strPlayerName;
+    wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[count].field_90_strPlayerName;
     wcsncpy(pStr, field_C9A0, 9u);
     HandleCheatCode_4B3DD0(pStr);
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
@@ -2473,7 +2473,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 MATCH_FUNC(0x4B4280)
 void Frontend::sub_4B4280()
 {
-    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx].field_90_strPlayerName, 9u);
+    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx].field_90_strPlayerName, 9u);
 }
 
 STUB_FUNC(0x4B8530)
@@ -2531,7 +2531,7 @@ void Frontend::sub_4B8560()
 MATCH_FUNC(0x4B8020)
 void Frontend::sub_4B8020()
 {
-    dreamy_clarke_0xA4* pClarke = sub_4B43E0();
+    player_stats_0xA4* pClarke = sub_4B43E0();
     u8 idx = gLucid_hamilton_67E8E0.sub_4C5980();
 
     if (sub_4B7FB0())
@@ -2546,7 +2546,7 @@ void Frontend::sub_4B8020()
     {
         // note: reg swap + push swap due to redundant local
         u8 i = 3;
-        while (!pClarke->field_0[idx][i].field_0 || i >= field_1EB51_blocks[idx])
+        while (!pClarke->field_0_plyr_stage_stats[idx][i].field_0_is_stage_unlocked || i >= field_1EB51_blocks[idx])
         {
             i--;
         }
@@ -2567,7 +2567,7 @@ EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 tex
 MATCH_FUNC(0x4B7FB0)
 char_type Frontend::sub_4B7FB0()
 {
-    dreamy_clarke_0xA4* v2 = sub_4B43E0();
+    player_stats_0xA4* v2 = sub_4B43E0();
     u16 v3 = 0;
     // note: two separated while's interlaced by a backwards goto may be actually two nested while's
     while (v3 < field_1EB50_idx)
@@ -2575,7 +2575,7 @@ char_type Frontend::sub_4B7FB0()
         u16 v4 = 0;
         while (v4 < field_1EB51_blocks[v3])
         {
-            if (!v2->field_0[v3][v4].field_0)
+            if (!v2->field_0_plyr_stage_stats[v3][v4].field_0_is_stage_unlocked)
             {
                 return false;
             }
@@ -3762,11 +3762,11 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::sub_4B77B0(dreamy_clarke_0xA4* a2)
+u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
 {
     u8 result;
 
-    for (result = this->field_1EB50_idx - 1; !a2->field_0[result][0].field_0; --result)
+    for (result = this->field_1EB50_idx - 1; !a2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked; --result)
     {
         if (result <= 0)
         {
@@ -3967,7 +3967,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     u16 x_pos_last = a3 + 480;
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, a5, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[20]);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[20]);
     u16 x_pos_best = a3 + 610;
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, a5, font_type, 10, 1, v4, 1);
 
@@ -3992,7 +3992,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(6u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[24]);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[24]);
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 
     //  civilians murdered
@@ -4004,7 +4004,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(7u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[28]);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[28]);
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 
     //  lawmen killed
@@ -4018,7 +4018,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
         swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(8u));
         Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-        swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[32]);
+        swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[32]);
         Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
     }
 
@@ -4031,7 +4031,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     swprintf(tmpBuff_67BD9C, L"%d", gLucid_hamilton_67E8E0.sub_4C59F0(9u));
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, v4, 1);
 
-    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800[v39].field_0[36]);
+    swprintf(tmpBuff_67BD9C, L"%d", *(u32*)&gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[v39].field_0[36]);
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 
     //  fugitive factor
@@ -4065,7 +4065,7 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 STUB_FUNC(0x4B7060)
 u8 Frontend::sub_4B7060(u8 a2)
 {
-    dreamy_clarke_0xA4* v2; // edx
+    player_stats_0xA4* v2; // edx
     u8 result; // al
 
     v2 = sub_4B43E0();
@@ -4078,12 +4078,12 @@ u8 Frontend::sub_4B7060(u8 a2)
     if (byte_67DA80)
     {
         result = 2;
-        if (!v2->field_0[2][0].field_0)
+        if (!v2->field_0_plyr_stage_stats[2][0].field_0_is_stage_unlocked)
         {
             do
             {
                 --result;
-            } while (!v2->field_0[result][0].field_0);
+            } while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked);
         }
     }
     return result;
@@ -4092,7 +4092,7 @@ u8 Frontend::sub_4B7060(u8 a2)
 STUB_FUNC(0x4B7270)
 u8 Frontend::sub_4B7270(char_type a2)
 {
-    dreamy_clarke_0xA4* v2; // esi
+    player_stats_0xA4* v2; // esi
     u8 result; // al
 
     v2 = sub_4B43E0();
@@ -4110,7 +4110,7 @@ u8 Frontend::sub_4B7270(char_type a2)
     else
     {
         result = a2 + 1;
-        while (!v2->field_0[result][0].field_0)
+        while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked)
         {
             if (result == 2)
             {

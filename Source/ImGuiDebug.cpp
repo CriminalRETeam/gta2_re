@@ -817,7 +817,7 @@ void CC ImGuiDebugDraw()
             {
                 static s32 struc_221_id = 0;
                 ImGui::SliderInt("struc_221 ID", &struc_221_id, 0, 2);
-                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800[struc_221_id];
+                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[struc_221_id];
 
                 static s32 byte_id = 0;
                 ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
@@ -825,7 +825,7 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("agitated_keldysh_0xF0"))
+            if (ImGui::TreeNode("high_score_table_0xF0"))
             {
                 static s32 agitated_type = 0;
 
@@ -838,12 +838,12 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
                 
-                agitated_keldysh_0xF0* agitated_keldysh;
+                high_score_table_0xF0* agitated_keldysh;
 
                 switch(agitated_type)
                 {
                     case 0:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890[id_1][id_2];
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[id_1][id_2];
                         break;
                     case 1:
                         agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_23D0;
@@ -860,21 +860,21 @@ void CC ImGuiDebugDraw()
 
                 static s32 string_id = 0;
                 ImGui::SliderInt("string_id", &string_id, 0, 9);
-                small_string* s_string = &agitated_keldysh->field_0[string_id];
+                score_table_line* s_string = &agitated_keldysh->field_0_score_table_line[string_id];
 
                 static char str_buf_3[10];
-                wchar_to_char(s_string->field_0_str, str_buf_3, 10);
+                wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
                 ImGui::Text(str_buf_3);
                 ImGui::Value("field_14_score", s_string->field_14_score);
 
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("dreamy_clarke_0xA4"))
+            if (ImGui::TreeNode("player_stats_0xA4"))
             {
                 static s32 dreamy_id = 0;
                 ImGui::SliderInt("dreamy_id", &dreamy_id, 0, 7);
-                dreamy_clarke_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[dreamy_id];
+                player_stats_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[dreamy_id];
 
                 static char str_buf_4[9];
                 wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
@@ -883,16 +883,16 @@ void CC ImGuiDebugDraw()
 
                 static s32 gifted_joliot_id_1 = 0;
                 static s32 gifted_joliot_id_2 = 0;
-                ImGui::SliderInt("gifted_joliot ID 1", &gifted_joliot_id_1, 0, 2);
-                ImGui::SliderInt("gifted_joliot ID 2", &gifted_joliot_id_2, 0, 3);
-                gifted_joliot* g_joliot = &dreamy->field_0[gifted_joliot_id_1][gifted_joliot_id_2];
+                ImGui::SliderInt("stage_stats ID 1", &gifted_joliot_id_1, 0, 2);
+                ImGui::SliderInt("stage_stats ID 2", &gifted_joliot_id_2, 0, 3);
+                stage_stats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
 
-                ImGui::Value("Joliot field_0", g_joliot->field_0);
+                ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
                 ImGui::Value("Joliot field_1", g_joliot->field_1);
                 ImGui::Value("Joliot field_2", g_joliot->field_2);
                 ImGui::Value("Joliot field_3", g_joliot->field_3);
-                ImGui::Value("Joliot field_4", g_joliot->field_4);
-                ImGui::Value("Joliot field_8", g_joliot->field_8);
+                ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
+                ImGui::Value("Joliot field_8", g_joliot->field_8_stage_latest_score);
 
                 ImGui::TreePop();
             }

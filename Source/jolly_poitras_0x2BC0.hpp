@@ -6,25 +6,25 @@
 class Player;
 
 // todo: move
-struct gifted_joliot
+struct stage_stats
 {
-    char_type field_0;
+    char_type field_0_is_stage_unlocked;
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4;
-    s32 field_8;
+    s32 field_4_stage_best_score;
+    s32 field_8_stage_latest_score;
 };
 
 // todo: move
-struct dreamy_clarke_0xA4
+struct player_stats_0xA4
 {
-    gifted_joliot field_0[3][4];
+    stage_stats field_0_plyr_stage_stats[3][4];
     wchar_t field_90_strPlayerName[9];
     s16 field_A2;
 
-    EXPORT dreamy_clarke_0xA4();
-    EXPORT ~dreamy_clarke_0xA4();
+    EXPORT player_stats_0xA4();
+    EXPORT ~player_stats_0xA4();
 
     EXPORT void sub_56B630();
     EXPORT s32 sub_56B680();
@@ -32,23 +32,23 @@ struct dreamy_clarke_0xA4
 };
 
 // todo: move
-struct small_string
+struct score_table_line
 {
-    wchar_t field_0_str[10];
+    wchar_t field_0_player_name[10];
     u32 field_14_score;
 };
 
 // todo: move
-struct agitated_keldysh_0xF0
+struct high_score_table_0xF0
 {
-    EXPORT agitated_keldysh_0xF0();
-    EXPORT ~agitated_keldysh_0xF0();
+    EXPORT high_score_table_0xF0();
+    EXPORT ~high_score_table_0xF0();
 
     EXPORT void Init_56B520();
 
     EXPORT char_type sub_56B550(const wchar_t* Source, s32 a3);
 
-    small_string field_0[10];
+    score_table_line field_0_score_table_line[10];
 };
 
 // todo: move
@@ -1596,14 +1596,14 @@ struct jolly_poitras_0x2BC0
     s32 field_17F4;
     s32 field_17F8;
     s32 field_17FC;
-    struc_221 field_1800[3];
+    struc_221 field_1800_best_stats[3];
     s32 field_1878[3];
     s32 field_1884[3];
-    agitated_keldysh_0xF0 field_1890[3][4];
-    agitated_keldysh_0xF0 field_23D0;
-    agitated_keldysh_0xF0 field_24C0;
-    agitated_keldysh_0xF0 field_25B0;
-    dreamy_clarke_0xA4 field_26A0[8];
+    high_score_table_0xF0 field_1890_stage_scores[3][4];
+    high_score_table_0xF0 field_23D0;
+    high_score_table_0xF0 field_24C0;
+    high_score_table_0xF0 field_25B0;
+    player_stats_0xA4 field_26A0_plyr_stats[8];
 
     EXPORT jolly_poitras_0x2BC0();
     EXPORT ~jolly_poitras_0x2BC0();
