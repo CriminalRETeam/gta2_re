@@ -92,18 +92,18 @@ struct menu_option_0x82
 
     EXPORT bool sub_4B6390();
 
-    char_type field_0;
-    char_type field_1;
-    s16 field_2;
-    s16 field_4;
-    wchar_t field_6_wstr_buf[50];
+    char_type field_0_option_type;
+    char_type field_1_is_unlocked;
+    s16 field_2_x_pos;
+    s16 field_4_y_pos;
+    wchar_t field_6_option_name_str[50];
     u16 field_6A;
     u16 field_6C;
-    u16 field_6E_count;
+    u16 field_6E_horizontal_selected_idx;
     s16 field_70;
     char_type field_72[12];
-    u16 field_7E;
-    s16 field_80;
+    u16 field_7E_horizontal_max_idx;
+    s16 field_80_menu_page_target;
 };
 #pragma pack(pop)
 

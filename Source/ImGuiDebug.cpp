@@ -722,25 +722,25 @@ void CC ImGuiDebugDraw()
 
                     menu_option_0x82* nifty_maxwell = &loving_borg->field_4_options_array[nifty_id];
 
-                    ImGui::Value("field_0", nifty_maxwell->field_0);
-                    ImGui::Value("field_1", nifty_maxwell->field_1);
+                    ImGui::Value("field_0", nifty_maxwell->field_0_option_type);
+                    ImGui::Value("field_1", nifty_maxwell->field_1_is_unlocked);
 
-                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2, 0, 1000);
-                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4, 0, 700);
+                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2_x_pos, 0, 1000);
+                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4_y_pos, 0, 700);
 
                     static char str_buf[50];
-                    wchar_to_char(nifty_maxwell->field_6_wstr_buf, str_buf, 50);
+                    wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
                     ImGui::Value("field_6A", nifty_maxwell->field_6A);
                     ImGui::Value("field_6C", nifty_maxwell->field_6C);
-                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_count);
+                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
                     ImGui::Text(nifty_maxwell->field_72);
 
-                    ImGui::Value("field_7E", nifty_maxwell->field_7E);
-                    ImGui::Value("field_80", nifty_maxwell->field_80);
+                    ImGui::Value("field_7E", nifty_maxwell->field_7E_horizontal_max_idx);
+                    ImGui::Value("field_80", nifty_maxwell->field_80_menu_page_target);
 
                     ImGui::TreePop();
                 }

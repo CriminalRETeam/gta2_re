@@ -516,16 +516,16 @@ void Frontend::sub_4B3170(u16 arg0)
             }
             if (a2 == (unsigned __int8)field_1EB50_idx - 1)
             {
-                field_136_menu_pages_array[3].field_4_options_array[0].field_1 = 0;
+                field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
                 field_136_menu_pages_array[3].field_B8A[0].field_4 = 0;
             }
             else
             {
                 gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
-                field_136_menu_pages_array[3].field_4_options_array[0].field_1 = 1;
+                field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
                 field_136_menu_pages_array[3].field_B8A[0].field_4 = 1;
             }
-            field_136_menu_pages_array[3].field_4_options_array[3].field_1 = 0;
+            field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 0;
             field_136_menu_pages_array[3].field_B8A[3].field_4 = 0;
             v5 = 1;
             v6 = &v57->field_0[a2][1];
@@ -533,7 +533,7 @@ void Frontend::sub_4B3170(u16 arg0)
             {
                 if (v6->field_0 && v5 < field_1EB51_blocks[a2])
                 {
-                    field_136_menu_pages_array[3].field_4_options_array[3].field_1 = 1;
+                    field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
                     field_136_menu_pages_array[3].field_B8A[3].field_4 = 1;
                 }
                 ++v5;
@@ -549,12 +549,12 @@ void Frontend::sub_4B3170(u16 arg0)
             wcsncpy(field_136_menu_pages_array[6].field_518[2].field_6_wstr_buf, tmpBuff_67BD9C, 0x32u);
             if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0[v8 + 1][0].field_0)
             {
-                field_136_menu_pages_array[6].field_4_options_array[1].field_1 = 0;
+                field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
                 field_136_menu_pages_array[6].field_B8A[1].field_4 = 0;
             }
             else
             {
-                field_136_menu_pages_array[6].field_4_options_array[1].field_1 = 1;
+                field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 1;
                 field_136_menu_pages_array[6].field_B8A[1].field_4 = 1;
             }
             goto LABEL_116;
@@ -590,12 +590,12 @@ void Frontend::sub_4B3170(u16 arg0)
             v13 = &field_136_menu_pages_array[arg0];
             if (v10 == v12 && v61 == v53)
             {
-                v13->field_4_options_array[a2a].field_1 = 1;
+                v13->field_4_options_array[a2a].field_1_is_unlocked = 1;
                 v13->field_B8A[a2a].field_4 = 1;
             }
             else
             {
-                v13->field_4_options_array[a2a].field_1 = 0;
+                v13->field_4_options_array[a2a].field_1_is_unlocked = 0;
                 v13->field_B8A[a2a].field_4 = 0;
             }
             break;
@@ -605,7 +605,7 @@ void Frontend::sub_4B3170(u16 arg0)
     {
         case 1u:
             playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
-            field_136_menu_pages_array[1].field_4_options_array[0].field_6E_count = playerSlotSetting;
+            field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
             field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
             gLucid_hamilton_67E8E0.sub_4C5920(playerSlotSetting);
             sub_4B42E0();
@@ -838,10 +838,10 @@ LABEL_116:
     field_136_menu_pages_array[v3].field_BC6_current_option_idx = field_136_menu_pages_array[v3].field_BC8;
     local_field_132_f136_idx = field_132_f136_idx;
     v47 = &field_136_menu_pages_array[local_field_132_f136_idx];
-    if (!v47->field_4_options_array[field_136_menu_pages_array[local_field_132_f136_idx].field_BC6_current_option_idx].field_1)
+    if (!v47->field_4_options_array[field_136_menu_pages_array[local_field_132_f136_idx].field_BC6_current_option_idx].field_1_is_unlocked)
     {
         v47->sub_4B6200();
-        if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1)
+        if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1_is_unlocked)
         {
             FatalError_4A38C0(165, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
         }
@@ -1067,15 +1067,15 @@ for (s32 i=0; i<3; i++)
         }
         else
         {
-            u16 idx = v7->field_4_options_array[0].field_6E_count;
+            u16 idx = v7->field_4_options_array[0].field_6E_horizontal_selected_idx;
             temp_unk1 = idx;
             v18 = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0[idx].field_90_strPlayerName, field_11C) + 10;
 
             if (v18 == 10)
             {
-                v18 = Frontend::sub_5D8990(v7->field_4_options_array[0].field_6_wstr_buf, field_11C) + 40;
+                v18 = Frontend::sub_5D8990(v7->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
             }
-            v7->field_518[9].field_2_xpos = v18 + v7->field_4_options_array[0].field_2;
+            v7->field_518[9].field_2_xpos = v18 + v7->field_4_options_array[0].field_2_x_pos;
         }
     }
 
@@ -1214,9 +1214,9 @@ for (s32 i=0; i<3; i++)
             v30 = temp4;
             v31 = &v7->field_4_options_array[(u16)temp4];
 
-            if (v7->field_4_options_array[temp4].field_1)
+            if (v7->field_4_options_array[temp4].field_1_is_unlocked)
             {
-                if (v31->field_0 == 2)
+                if (v31->field_0_option_type == 2)
                 {
                     //v30 = (__int32)Frontend::sub_4B3AF0(field_132_f136_idx, a3[0], a4_unk);
                     // TODO: STUB
@@ -1224,11 +1224,11 @@ for (s32 i=0; i<3; i++)
                 }
                 else
                 {
-                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_wstr_buf;
+                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_option_name_str;
                 }
                 u16 v29_u16 = temp4;
-                v2_u16 = v31->field_2;
-                v93_a = v31->field_4;
+                v2_u16 = v31->field_2_x_pos;
+                v93_a = v31->field_4_y_pos;
                 if (temp4 == v7->field_BC6_current_option_idx)
                 {
                     DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
@@ -1278,7 +1278,7 @@ for (s32 i=0; i<3; i++)
                                     }
                                     else
                                     {
-                                        if (temp_unk1 == v7->field_4_options_array[0].field_7E)
+                                        if (temp_unk1 == v7->field_4_options_array[0].field_7E_horizontal_max_idx)
                                         {
                                             v7->field_518[9].field_1 = 0;
                                             field_1EB4B = 0;
@@ -1348,16 +1348,16 @@ for (s32 i=0; i<3; i++)
                     }
                     v29 = temp4;
                 }
-                if (v31->field_0 == 2)
+                if (v31->field_0_option_type == 2)
                 {
                     //Frontend::sub_4B3AF0(v44, v29, &a4_unk);  TODO: STUB
                 }
                 else
                 {
-                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_wstr_buf;
+                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_option_name_str;
                 }
-                v29 = v31->field_4;
-                v2_u16 = v31->field_2;
+                v29 = v31->field_4_y_pos;
+                v2_u16 = v31->field_2_x_pos;
                 u16 v93_a = v29;
 
                 if (v31->field_6A != 0xFFFF)
@@ -1514,8 +1514,8 @@ for (s32 i=0; i<3; i++)
     {
         if (field_114)
         {
-            x_pos = v7->field_4_options_array[0].field_2 + Frontend::sub_5D8990(field_C9A0, field_11C);
-            y_pos = v7->field_4_options_array[0].field_4;
+            x_pos = v7->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0, field_11C);
+            y_pos = v7->field_4_options_array[0].field_4_y_pos;
             swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
         }
@@ -1883,9 +1883,9 @@ void Frontend::sub_4AE2D0()
     v3 = sub_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0 == 1)
+        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0_option_type == 1)
         {
-            v4 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80;
+            v4 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80_menu_page_target;
             switch (v4)
             {
                 case 257u:
@@ -2041,14 +2041,14 @@ void Frontend::sub_4AE2D0()
     {
         field_BC6_nifty_idx = pBorg->field_BC6_current_option_idx;
         v11 = &pBorg->field_4_options_array[field_BC6_nifty_idx];
-        if (v11->field_0 == 2)
+        if (v11->field_0_option_type == 2)
         {
             v12 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6390();
             if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
             {
-                gLucid_hamilton_67E8E0.sub_4C5920(v11->field_6E_count);
+                gLucid_hamilton_67E8E0.sub_4C5920(v11->field_6E_horizontal_selected_idx);
                 sub_4B42E0(); // this
-                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v11->field_6E_count);
+                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v11->field_6E_horizontal_selected_idx);
                 if (v12)
                 {
                     snd1_67D818.field_0_object_type = 3;
@@ -2057,7 +2057,7 @@ void Frontend::sub_4AE2D0()
 
             if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
             {
-                field_EE0D = v11->field_6E_count;
+                field_EE0D = v11->field_6E_horizontal_selected_idx;
                 if (v12)
                 {
                     snd1_67D818.field_0_object_type = 3;
@@ -2093,14 +2093,14 @@ void Frontend::sub_4AE2D0()
 
         v14 = pBorg->field_BC6_current_option_idx;
         v15 = &pBorg->field_4_options_array[v14];
-        if (v15->field_0 == 2)
+        if (v15->field_0_option_type == 2)
         {
             v16 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6330(); // this
             if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
             {
-                gLucid_hamilton_67E8E0.sub_4C5920(v15->field_6E_count);
+                gLucid_hamilton_67E8E0.sub_4C5920(v15->field_6E_horizontal_selected_idx);
                 sub_4B42E0();
-                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v15->field_6E_count);
+                gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", v15->field_6E_horizontal_selected_idx);
                 if (v16)
                 {
                     snd1_67D818.field_0_object_type = 4;
@@ -2108,7 +2108,7 @@ void Frontend::sub_4AE2D0()
             }
             if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
             {
-                field_EE0D = v15->field_6E_count;
+                field_EE0D = v15->field_6E_horizontal_selected_idx;
                 if (v16)
                 {
                     snd1_67D818.field_0_object_type = 4;
@@ -2256,7 +2256,7 @@ MATCH_FUNC(0x4B4410)
 void Frontend::sub_4B4410()
 {
     sub_4B43E0()->sub_56B630();
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_count);
+    gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx);
     sub_4B42E0();
 }
 
@@ -2277,7 +2277,7 @@ void Frontend::sub_4B42E0()
 MATCH_FUNC(0x4B4230)
 void Frontend::sub_4B4230()
 {
-    u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_count;
+    u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx;
     wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0[count].field_90_strPlayerName;
     wcsncpy(pStr, field_C9A0, 9u);
     HandleCheatCode_4B3DD0(pStr);
@@ -2473,7 +2473,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 MATCH_FUNC(0x4B4280)
 void Frontend::sub_4B4280()
 {
-    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_count].field_90_strPlayerName, 9u);
+    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx].field_90_strPlayerName, 9u);
 }
 
 STUB_FUNC(0x4B8530)
@@ -3247,21 +3247,21 @@ void Frontend::sub_4B0220()
     field_134 = 16;
 
     field_136_menu_pages_array[0].field_0_number_of_options = 3;
-    field_136_menu_pages_array[0].field_4_options_array[0].field_0 = 1; // ebx
-    field_136_menu_pages_array[0].field_4_options_array[0].field_2 = 300; // edi
-    field_136_menu_pages_array[0].field_4_options_array[0].field_4 = 250;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[0].field_80 = 1;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_2 = 300;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_4 = 270;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("options"), 0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[1].field_80 = 257;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_2 = 300;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_4 = 290;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[2].field_80 = 9;
+    field_136_menu_pages_array[0].field_4_options_array[0].field_0_option_type = 1; // ebx
+    field_136_menu_pages_array[0].field_4_options_array[0].field_2_x_pos = 300; // edi
+    field_136_menu_pages_array[0].field_4_options_array[0].field_4_y_pos = 250;
+    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
+    field_136_menu_pages_array[0].field_4_options_array[0].field_80_menu_page_target = 1;
+    field_136_menu_pages_array[0].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[0].field_4_options_array[1].field_2_x_pos = 300;
+    field_136_menu_pages_array[0].field_4_options_array[1].field_4_y_pos = 270;
+    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("options"), 0x32u);
+    field_136_menu_pages_array[0].field_4_options_array[1].field_80_menu_page_target = 257;
+    field_136_menu_pages_array[0].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[0].field_4_options_array[2].field_2_x_pos = 300;
+    field_136_menu_pages_array[0].field_4_options_array[2].field_4_y_pos = 290;
+    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    field_136_menu_pages_array[0].field_4_options_array[2].field_80_menu_page_target = 9;
     field_136_menu_pages_array[0].field_B8A[0].field_0 = 280;
     field_136_menu_pages_array[0].field_B8A[0].field_2 = 258;
     field_136_menu_pages_array[0].field_B8A[1].field_0 = 280;
@@ -3271,40 +3271,40 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[0].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[0].field_BC8 = 0;
     field_136_menu_pages_array[1].field_0_number_of_options = 5;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_0 = 2;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_2 = 300;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_4 = 210;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("charctr"), 0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[0].field_6E_count = 0;
+    field_136_menu_pages_array[1].field_4_options_array[0].field_0_option_type = 2;
+    field_136_menu_pages_array[1].field_4_options_array[0].field_2_x_pos = 300;
+    field_136_menu_pages_array[1].field_4_options_array[0].field_4_y_pos = 210;
+    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("charctr"), 0x32u);
+    field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
     field_136_menu_pages_array[1].field_4_options_array[0].field_70 = 0;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_7E = 7;
+    field_136_menu_pages_array[1].field_4_options_array[0].field_7E_horizontal_max_idx = 7;
 
     u16 v77 = 0;
     do
     {
         field_136_menu_pages_array[1].field_4_options_array[0].field_72[v77++] = 1;
-    } while (v77 <= field_136_menu_pages_array[1].field_4_options_array[0].field_7E);
+    } while (v77 <= field_136_menu_pages_array[1].field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    field_136_menu_pages_array[1].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[1].field_4_options_array[1].field_2 = 300;
-    field_136_menu_pages_array[1].field_4_options_array[1].field_4 = 230;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[1].field_80 = 260;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_2 = 300;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_4 = 250;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[2].field_80 = 5;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_0 = 1;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_2 = 300;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_4 = 270;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("strtlev"), 0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[3].field_80 = 264;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_0 = 1;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_2 = 300;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_4 = 350;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[4].field_80 = 265;
+    field_136_menu_pages_array[1].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[1].field_2_x_pos = 300;
+    field_136_menu_pages_array[1].field_4_options_array[1].field_4_y_pos = 230;
+    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136_menu_pages_array[1].field_4_options_array[1].field_80_menu_page_target = 260;
+    field_136_menu_pages_array[1].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[2].field_2_x_pos = 300;
+    field_136_menu_pages_array[1].field_4_options_array[2].field_4_y_pos = 250;
+    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
+    field_136_menu_pages_array[1].field_4_options_array[2].field_80_menu_page_target = 5;
+    field_136_menu_pages_array[1].field_4_options_array[3].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[3].field_2_x_pos = 300;
+    field_136_menu_pages_array[1].field_4_options_array[3].field_4_y_pos = 270;
+    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[3].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("strtlev"), 0x32u);
+    field_136_menu_pages_array[1].field_4_options_array[3].field_80_menu_page_target = 264;
+    field_136_menu_pages_array[1].field_4_options_array[4].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[4].field_2_x_pos = 300;
+    field_136_menu_pages_array[1].field_4_options_array[4].field_4_y_pos = 350;
+    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[4].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
+    field_136_menu_pages_array[1].field_4_options_array[4].field_80_menu_page_target = 265;
     field_136_menu_pages_array[1].field_B8A[0].field_0 = 280;
     field_136_menu_pages_array[1].field_B8A[0].field_2 = 218;
     field_136_menu_pages_array[1].field_B8A[1].field_0 = 280;
@@ -3368,24 +3368,24 @@ void Frontend::sub_4B0220()
     wcscpy(field_136_menu_pages_array[11].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
     field_136_menu_pages_array[11].field_518[0].field_6A = field_130;
     field_136_menu_pages_array[11].field_518[0].field_6C = 5;
-    field_136_menu_pages_array[11].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[11].field_4_options_array[0].field_4 = 392;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[0].field_2 =
-        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_wstr_buf, field_136_menu_pages_array[11].field_4_options_array[0].field_6A, 320);
-    field_136_menu_pages_array[11].field_4_options_array[0].field_80 = 260;
-    field_136_menu_pages_array[11].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[11].field_4_options_array[1].field_4 = 412;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[1].field_2 =
-        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_wstr_buf, field_136_menu_pages_array[11].field_4_options_array[1].field_6A, 320);
-    field_136_menu_pages_array[11].field_4_options_array[1].field_80 = 259;
-    field_136_menu_pages_array[11].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[11].field_4_options_array[2].field_4 = 432;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[2].field_2 =
-        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[2].field_6_wstr_buf, field_136_menu_pages_array[11].field_4_options_array[2].field_6A, 320);
-    field_136_menu_pages_array[11].field_4_options_array[2].field_80 = 0;
+    field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
+    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136_menu_pages_array[11].field_4_options_array[0].field_2_x_pos =
+        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[11].field_4_options_array[0].field_6A, 320);
+    field_136_menu_pages_array[11].field_4_options_array[0].field_80_menu_page_target = 260;
+    field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[1].field_4_y_pos = 412;
+    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136_menu_pages_array[11].field_4_options_array[1].field_2_x_pos =
+        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[11].field_4_options_array[1].field_6A, 320);
+    field_136_menu_pages_array[11].field_4_options_array[1].field_80_menu_page_target = 259;
+    field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[2].field_4_y_pos = 432;
+    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[11].field_4_options_array[2].field_2_x_pos =
+        Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[11].field_4_options_array[2].field_6A, 320);
+    field_136_menu_pages_array[11].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[11].field_B8A[0].field_0 = 150;
     field_136_menu_pages_array[11].field_B8A[0].field_2 = 400;
     field_136_menu_pages_array[11].field_B8A[1].field_0 = 150;
@@ -3402,21 +3402,21 @@ void Frontend::sub_4B0220()
     wcsncpy(field_136_menu_pages_array[2].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
     field_136_menu_pages_array[2].field_518[0].field_6A = field_130;
     field_136_menu_pages_array[2].field_518[0].field_6C = 0;
-    field_136_menu_pages_array[2].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[2].field_4_options_array[0].field_4 = 392;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[0].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_wstr_buf, field_136_menu_pages_array[2].field_4_options_array[0].field_6A, 320);
-    field_136_menu_pages_array[2].field_4_options_array[0].field_80 = 260;
-    field_136_menu_pages_array[2].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[2].field_4_options_array[1].field_4 = 412;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[1].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_wstr_buf, field_136_menu_pages_array[2].field_4_options_array[1].field_6A, 320);
-    field_136_menu_pages_array[2].field_4_options_array[1].field_80 = 259;
-    field_136_menu_pages_array[2].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[2].field_4_options_array[2].field_4 = 432;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[2].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_wstr_buf, field_136_menu_pages_array[2].field_4_options_array[2].field_6A, 320);
-    field_136_menu_pages_array[2].field_4_options_array[2].field_80 = 0;
+    field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
+    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136_menu_pages_array[2].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[0].field_6A, 320);
+    field_136_menu_pages_array[2].field_4_options_array[0].field_80_menu_page_target = 260;
+    field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[1].field_4_y_pos = 412;
+    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136_menu_pages_array[2].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[1].field_6A, 320);
+    field_136_menu_pages_array[2].field_4_options_array[1].field_80_menu_page_target = 259;
+    field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[2].field_4_y_pos = 432;
+    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[2].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[2].field_6A, 320);
+    field_136_menu_pages_array[2].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[2].field_B8A[0].field_0 = 150;
     field_136_menu_pages_array[2].field_B8A[0].field_2 = 400;
     field_136_menu_pages_array[2].field_B8A[1].field_0 = 150;
@@ -3432,31 +3432,31 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[3].field_518[0].field_4_ypos = 11;
     wcsncpy(field_136_menu_pages_array[3].field_518[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
     field_136_menu_pages_array[3].field_518[0].field_6A = field_12C;
-    field_136_menu_pages_array[3].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[3].field_4_options_array[0].field_4 = 365;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[0].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_wstr_buf, field_136_menu_pages_array[3].field_4_options_array[0].field_6A, 320);
-    field_136_menu_pages_array[3].field_4_options_array[0].field_80 = 261;
-    field_136_menu_pages_array[3].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[3].field_4_options_array[1].field_4 = 385;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[1].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_wstr_buf, field_136_menu_pages_array[3].field_4_options_array[1].field_6A, 320);
-    field_136_menu_pages_array[3].field_4_options_array[1].field_80 = 260;
-    field_136_menu_pages_array[3].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[3].field_4_options_array[2].field_4 = 405;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[2].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_wstr_buf, field_136_menu_pages_array[3].field_4_options_array[2].field_6A, 320);
-    field_136_menu_pages_array[3].field_4_options_array[2].field_80 = 259;
-    field_136_menu_pages_array[3].field_4_options_array[3].field_0 = 1;
-    field_136_menu_pages_array[3].field_4_options_array[3].field_4 = 425;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[3].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[3].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_wstr_buf, field_136_menu_pages_array[3].field_4_options_array[3].field_6A, 320);
-    field_136_menu_pages_array[3].field_4_options_array[3].field_80 = 266;
-    field_136_menu_pages_array[3].field_4_options_array[4].field_0 = 1;
-    field_136_menu_pages_array[3].field_4_options_array[4].field_4 = 445;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[4].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[4].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_wstr_buf, field_136_menu_pages_array[3].field_4_options_array[4].field_6A, 320);
-    field_136_menu_pages_array[3].field_4_options_array[4].field_80 = 0;
+    field_136_menu_pages_array[3].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[0].field_4_y_pos = 365;
+    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
+    field_136_menu_pages_array[3].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[0].field_6A, 320);
+    field_136_menu_pages_array[3].field_4_options_array[0].field_80_menu_page_target = 261;
+    field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[1].field_4_y_pos = 385;
+    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
+    field_136_menu_pages_array[3].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[1].field_6A, 320);
+    field_136_menu_pages_array[3].field_4_options_array[1].field_80_menu_page_target = 260;
+    field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[2].field_4_y_pos = 405;
+    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
+    field_136_menu_pages_array[3].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[2].field_6A, 320);
+    field_136_menu_pages_array[3].field_4_options_array[2].field_80_menu_page_target = 259;
+    field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[3].field_4_y_pos = 425;
+    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
+    field_136_menu_pages_array[3].field_4_options_array[3].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[3].field_6A, 320);
+    field_136_menu_pages_array[3].field_4_options_array[3].field_80_menu_page_target = 266;
+    field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[4].field_4_y_pos = 445;
+    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[3].field_4_options_array[4].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[4].field_6A, 320);
+    field_136_menu_pages_array[3].field_4_options_array[4].field_80_menu_page_target = 0;
     field_136_menu_pages_array[3].field_B8A[0].field_0 = 150;
     field_136_menu_pages_array[3].field_B8A[0].field_2 = 373;
     field_136_menu_pages_array[3].field_B8A[1].field_0 = 150;
@@ -3478,29 +3478,29 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[4].field_518[0].field_6A = v30;
     field_136_menu_pages_array[4].field_518[0].field_2_xpos = Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518[0].field_6_wstr_buf, v30, 320);
     field_136_menu_pages_array[4].field_518[0].field_6C = 4;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_2 = 180;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_4 = 410;
-    wcsncpy(field_136_menu_pages_array[4].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[4].field_4_options_array[0].field_80 = 0;
+    field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
+    field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
+    wcsncpy(field_136_menu_pages_array[4].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[4].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[4].field_B8A[0].field_0 = 160;
     field_136_menu_pages_array[4].field_B8A[0].field_2 = 418;
     field_136_menu_pages_array[4].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[4].field_BC8 = 0;
     field_136_menu_pages_array[5].field_0_number_of_options = 1;
     field_136_menu_pages_array[5].field_2 = 5;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_0 = 2;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_2 = 300;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_4 = 155;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_6E_count = 0;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = 2;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_2_x_pos = 300;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_4_y_pos = 155;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
     field_136_menu_pages_array[5].field_4_options_array[0].field_70 = 0;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_7E = 11;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_7E_horizontal_max_idx = 11;
 
     u16 v323 = 0;
     do
     {
         field_136_menu_pages_array[5].field_4_options_array[0].field_72[v323++] = 1;
-    } while (v323 <= field_136_menu_pages_array[5].field_4_options_array[0].field_7E);
+    } while (v323 <= field_136_menu_pages_array[5].field_4_options_array[0].field_7E_horizontal_max_idx);
 
     field_136_menu_pages_array[5].field_B8A[0].field_0 = 280;
     field_136_menu_pages_array[5].field_B8A[0].field_2 = 163;
@@ -3544,22 +3544,22 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[6].field_518[2].field_2_xpos = 400;
     field_136_menu_pages_array[6].field_518[2].field_4_ypos = 250;
     s16 v38 = field_120;
-    field_136_menu_pages_array[6].field_4_options_array[0].field_0 = 1;
+    field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = 1;
     field_136_menu_pages_array[6].field_518[2].field_6A = v38;
-    field_136_menu_pages_array[6].field_4_options_array[0].field_4 = 340;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
-    field_136_menu_pages_array[6].field_4_options_array[0].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_wstr_buf, v38, 320);
-    field_136_menu_pages_array[6].field_4_options_array[0].field_80 = 259;
-    field_136_menu_pages_array[6].field_4_options_array[1].field_0 = 1;
-    field_136_menu_pages_array[6].field_4_options_array[1].field_4 = 360;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[1].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
-    field_136_menu_pages_array[6].field_4_options_array[1].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_wstr_buf, field_136_menu_pages_array[6].field_4_options_array[1].field_6A, 320);
-    field_136_menu_pages_array[6].field_4_options_array[1].field_80 = 261;
-    field_136_menu_pages_array[6].field_4_options_array[2].field_0 = 1;
-    field_136_menu_pages_array[6].field_4_options_array[2].field_4 = 380;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[2].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[6].field_4_options_array[2].field_2 = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_wstr_buf, field_136_menu_pages_array[6].field_4_options_array[2].field_6A, 320);
-    field_136_menu_pages_array[6].field_4_options_array[2].field_80 = 0;
+    field_136_menu_pages_array[6].field_4_options_array[0].field_4_y_pos = 340;
+    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
+    field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, v38, 320);
+    field_136_menu_pages_array[6].field_4_options_array[0].field_80_menu_page_target = 259;
+    field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[6].field_4_options_array[1].field_4_y_pos = 360;
+    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
+    field_136_menu_pages_array[6].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[6].field_4_options_array[1].field_6A, 320);
+    field_136_menu_pages_array[6].field_4_options_array[1].field_80_menu_page_target = 261;
+    field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[6].field_4_options_array[2].field_4_y_pos = 380;
+    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[6].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[6].field_4_options_array[2].field_6A, 320);
+    field_136_menu_pages_array[6].field_4_options_array[2].field_80_menu_page_target = 0;
     field_136_menu_pages_array[6].field_B8A[0].field_0 = 150;
     field_136_menu_pages_array[6].field_B8A[0].field_2 = 348;
     field_136_menu_pages_array[6].field_B8A[1].field_0 = 150;
@@ -3622,22 +3622,22 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[7].field_518[13].field_0 = 1;
     field_136_menu_pages_array[7].field_518[13].field_2_xpos = 30;
     field_136_menu_pages_array[7].field_518[13].field_4_ypos = 150;
-    field_136_menu_pages_array[7].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[7].field_4_options_array[0].field_4 = 430;
-    wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    field_136_menu_pages_array[7].field_4_options_array[0].field_2 = sub_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_wstr_buf, field_136_menu_pages_array[7].field_4_options_array[0].field_6A, 320);
-    field_136_menu_pages_array[7].field_4_options_array[0].field_80 = 258;
+    field_136_menu_pages_array[7].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[7].field_4_options_array[0].field_4_y_pos = 430;
+    wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    field_136_menu_pages_array[7].field_4_options_array[0].field_2_x_pos = sub_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[7].field_4_options_array[0].field_6A, 320);
+    field_136_menu_pages_array[7].field_4_options_array[0].field_80_menu_page_target = 258;
     field_136_menu_pages_array[7].field_B8A[0].field_0 = 180;
     field_136_menu_pages_array[7].field_B8A[0].field_2 = 438;
     field_136_menu_pages_array[7].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[7].field_BC8 = 0;
     field_136_menu_pages_array[8].field_0_number_of_options = 1;
     field_136_menu_pages_array[8].field_2 = 0;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_2 = 200;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_4 = 280;
-    wcsncpy(field_136_menu_pages_array[8].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[8].field_4_options_array[0].field_80 = 0;
+    field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[8].field_4_options_array[0].field_2_x_pos = 200;
+    field_136_menu_pages_array[8].field_4_options_array[0].field_4_y_pos = 280;
+    wcsncpy(field_136_menu_pages_array[8].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[8].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[8].field_B8A[0].field_0 = 180;
     field_136_menu_pages_array[8].field_B8A[0].field_2 = 288;
     field_136_menu_pages_array[8].field_BC6_current_option_idx = 0;
@@ -3653,21 +3653,21 @@ void Frontend::sub_4B0220()
                                                          field_130, //v46,
                                                          320);
     field_136_menu_pages_array[10].field_518[0].field_6C = 4;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_2 = 180;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_4 = 410;
-    wcsncpy(field_136_menu_pages_array[10].field_4_options_array[0].field_6_wstr_buf, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
-    field_136_menu_pages_array[10].field_4_options_array[0].field_80 = 0;
+    field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
+    field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
+    wcsncpy(field_136_menu_pages_array[10].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
+    field_136_menu_pages_array[10].field_4_options_array[0].field_80_menu_page_target = 0;
     field_136_menu_pages_array[10].field_B8A[0].field_0 = 160;
     field_136_menu_pages_array[10].field_B8A[0].field_2 = 418;
     field_136_menu_pages_array[10].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[10].field_BC8 = 0;
     field_136_menu_pages_array[14].field_0_number_of_options = 1;
     field_136_menu_pages_array[14].field_2 = 5;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_0 = 1;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_2 = 170;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_4 = 340;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_80 = 268;
+    field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
+    field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
+    field_136_menu_pages_array[14].field_4_options_array[0].field_80_menu_page_target = 268;
     field_136_menu_pages_array[14].field_518[0].field_0 = 1;
     field_136_menu_pages_array[14].field_518[0].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518[0].field_4_ypos = 160;
@@ -4232,7 +4232,7 @@ void Frontend::sub_4B7610()
     v5 = v3 & 0xF;
     if (v3 == 0xFF)
     {
-        pItem->field_4_options_array[4].field_1 = 0;
+        pItem->field_4_options_array[4].field_1_is_unlocked = 0;
         pItem->field_B8A[4].field_4 = 0;
         pItem->field_518[3].field_1 = 0;
         pItem->field_518[1].field_1 = 0;
@@ -4241,7 +4241,7 @@ void Frontend::sub_4B7610()
     }
     else
     {
-        pItem->field_4_options_array[4].field_1 = 1;
+        pItem->field_4_options_array[4].field_1_is_unlocked = 1;
         pItem->field_B8A[4].field_4 = 1;
         pItem->field_518[3].field_1 = 1;
         pItem->field_518[1].field_1 = 1;
@@ -4424,11 +4424,11 @@ menu_option_0x82::menu_option_0x82()
 {
     field_6A = -1;
     field_6C = -1;
-    field_0 = 0;
-    field_1 = 1;
-    field_2 = 0;
-    field_4 = 0;
-    field_6E_count = 0;
+    field_0_option_type = 0;
+    field_1_is_unlocked = 1;
+    field_2_x_pos = 0;
+    field_4_y_pos = 0;
+    field_6E_horizontal_selected_idx = 0;
     field_70 = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_72); i++) // or is it a u32 ??
@@ -4436,37 +4436,37 @@ menu_option_0x82::menu_option_0x82()
         field_72[i] = 0;
     }
 
-    wcscpy(field_6_wstr_buf, word_67DC8C);
-    field_7E = 0;
-    field_80 = 0;
+    wcscpy(field_6_option_name_str, word_67DC8C);
+    field_7E_horizontal_max_idx = 0;
+    field_80_menu_page_target = 0;
 }
 
 MATCH_FUNC(0x4B62F0)
 menu_option_0x82::~menu_option_0x82()
 {
-    field_0 = 0;
-    field_1 = 1;
-    field_2 = 0;
-    field_4 = 0;
+    field_0_option_type = 0;
+    field_1_is_unlocked = 1;
+    field_2_x_pos = 0;
+    field_4_y_pos = 0;
     field_6A = -1;
     field_6C = -1;
-    field_6E_count = 0;
+    field_6E_horizontal_selected_idx = 0;
     field_70 = 0;
-    field_7E = 0;
-    field_80 = 0;
+    field_7E_horizontal_max_idx = 0;
+    field_80_menu_page_target = 0;
 }
 
 STUB_FUNC(0x4B6330)
 bool menu_option_0x82::sub_4B6330()
 {
     BYTE tmp = byte_67DA80;
-    u16 old_count = field_6E_count;
+    u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
     char_type bFound = 0;
     do
     {
         new_count++;
-        if (new_count > field_7E)
+        if (new_count > field_7E_horizontal_max_idx)
         {
             if (tmp)
             {
@@ -4485,7 +4485,7 @@ bool menu_option_0x82::sub_4B6330()
 
     } while (new_count != old_count && !bFound); // note: field_6E_count being reg cached instead of re-read from this
 
-    field_6E_count = new_count;
+    field_6E_horizontal_selected_idx = new_count;
 
     return old_count != new_count ? true : false;
 }
@@ -4493,7 +4493,7 @@ bool menu_option_0x82::sub_4B6330()
 STUB_FUNC(0x4B6390)
 bool menu_option_0x82::sub_4B6390()
 {
-    u16 oldCount = field_6E_count;
+    u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
     do
@@ -4503,7 +4503,7 @@ bool menu_option_0x82::sub_4B6390()
         {
             if (byte_67DA80)
             {
-                new_count = field_7E;
+                new_count = field_7E_horizontal_max_idx;
             }
         }
 
@@ -4517,9 +4517,9 @@ bool menu_option_0x82::sub_4B6390()
             bFound = 1;
         }
 
-    } while (new_count != field_6E_count && !bFound); // 6E not reloaded
+    } while (new_count != field_6E_horizontal_selected_idx && !bFound); // 6E not reloaded
 
-    field_6E_count = new_count;
+    field_6E_horizontal_selected_idx = new_count;
 
     return oldCount != new_count ? true : false;
 }
