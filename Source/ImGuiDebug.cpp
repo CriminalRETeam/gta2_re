@@ -704,7 +704,6 @@ void CC ImGuiDebugDraw()
     {
         if (ImGui::TreeNode("loving_borg_0xBCA"))
         {
-            
             if (gFrontend_67DC84)
             {
                 static s32 loving_id = 0;
@@ -786,6 +785,23 @@ void CC ImGuiDebugDraw()
                 }
                 
 
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("admiring_euler_4"))
+        {
+            if (gFrontend_67DC84)
+            {
+                static s32 euler_id = 0;
+                ImGui::SliderInt("Euler ID", &euler_id, 0, 7);
+
+                admiring_euler_4* admiring_euler = &gFrontend_67DC84->field_EDE8_plySlots[euler_id];
+
+                ImGui::Value("field_0", admiring_euler->field_0);
+                ImGui::Value("field_1", admiring_euler->field_1);
+                ImGui::Value("field_2", admiring_euler->field_2);
+                ImGui::Value("field_3", admiring_euler->field_3);
             }
             ImGui::TreePop();
         }
