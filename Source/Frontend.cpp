@@ -1424,7 +1424,7 @@ for (s32 i=0; i<3; i++)
                     field_2_xpos = v7->field_518_elements_array[(u16)temp4].field_2_xpos;
                     v58 = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
 
-                    switch (v7->field_518_elements_array[v55].field_6_element_name_str[0])
+                    switch (v7->field_518_elements_array[v55].field_6_geometric_shape_type)
                     {
                         case 0u:
                             a5 = 2;
@@ -3321,11 +3321,11 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_6_geometric_shape_type = 0;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_6_geometric_shape_type = 0;
     field_136_menu_pages_array[1].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_518_elements_array[2].field_2_xpos = 410;
     field_136_menu_pages_array[1].field_518_elements_array[2].field_4_ypos = 298;
@@ -3343,23 +3343,23 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[1].field_518_elements_array[6].field_2_xpos = 380;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_2_xpos = 460;
     field_136_menu_pages_array[1].field_518_elements_array[4].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_6_geometric_shape_type = 3;
     field_136_menu_pages_array[1].field_518_elements_array[5].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[1].field_518_elements_array[6].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[6].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_6_geometric_shape_type = 3;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_2_xpos = 290;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_6_geometric_shape_type = 3;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_2_xpos = 580;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[11].field_0_number_of_options = 3;
     field_136_menu_pages_array[11].field_2 = 1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
@@ -3509,7 +3509,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_2_xpos = 450;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_6_element_name_str[0] = 0;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_6_geometric_shape_type = 0;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_2_xpos = 440;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_4_ypos = 185;
@@ -3519,10 +3519,10 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[5].field_518_elements_array[1].field_6A_font_type = word_703C3C; // v34
     field_136_menu_pages_array[5].field_518_elements_array[2].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[2].field_2_xpos = 410;
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_6_element_name_str[0] = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_6_geometric_shape_type = 3;
     field_136_menu_pages_array[5].field_518_elements_array[3].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[3].field_2_xpos = 490;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_6_element_name_str[0] = 4;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_6_geometric_shape_type = 4;
     field_136_menu_pages_array[5].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[5].field_518_elements_array[4].field_2_xpos = 340;
     field_136_menu_pages_array[5].field_518_elements_array[4].field_4_ypos = v2;

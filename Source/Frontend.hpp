@@ -73,9 +73,16 @@ struct menu_element_0x6E
     char_type field_1_is_it_displayed;
     s16 field_2_xpos;
     s16 field_4_ypos;
-    wchar_t field_6_element_name_str[50];
-    u16 field_6A_font_type;
-    u16 field_6C_font_variant;
+    union 
+    {
+        struct  // if field_0_element_type == STRING_TEXT_1 or STRING_TEXT_2
+        {
+            wchar_t field_6_element_name_str[50];
+            u16 field_6A_font_type;
+            u16 field_6C_font_variant;
+        };
+        u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
+    };
 };
 
 // todo: move
