@@ -197,6 +197,14 @@ enum MenuPages // enum for field_132_f136_idx
     MENUPAGE_CONTINUE_NEXT_STAGE = 266,
 };
 
+enum ElementType
+{
+    NULL_TYPE_0 = 0,    //  i.e. don't exists
+    STRING_TEXT_1 = 1,
+    STRING_TEXT_2 = 2,
+    GEOMETRIC_SHAPE_3 = 3,  //  triangles, circles
+};
+
 struct MainBlockStrings
 {
     char field_0[256]; // debugstr

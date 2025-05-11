@@ -1216,7 +1216,7 @@ for (s32 i=0; i<3; i++)
 
             if (v7->field_4_options_array[temp4].field_1_is_unlocked)
             {
-                if (v31->field_0_option_type == 2)
+                if (v31->field_0_option_type == STRING_TEXT_2)
                 {
                     //v30 = (__int32)Frontend::sub_4B3AF0(field_132_f136_idx, a3[0], a4_unk);
                     // TODO: STUB
@@ -1348,7 +1348,7 @@ for (s32 i=0; i<3; i++)
                     }
                     v29 = temp4;
                 }
-                if (v31->field_0_option_type == 2)
+                if (v31->field_0_option_type == STRING_TEXT_2)
                 {
                     //Frontend::sub_4B3AF0(v44, v29, &a4_unk);  TODO: STUB
                 }
@@ -1419,7 +1419,7 @@ for (s32 i=0; i<3; i++)
 
             if (v7->field_518_elements_array[(u16)temp4].field_1_is_it_displayed)
             {
-                if (v56->field_0_element_type == 3)
+                if (v56->field_0_element_type == GEOMETRIC_SHAPE_3)
                 {
                     field_2_xpos = v7->field_518_elements_array[(u16)temp4].field_2_xpos;
                     v58 = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
@@ -1466,7 +1466,7 @@ for (s32 i=0; i<3; i++)
                     s32 two = 2;
                     //sub_5D7EC0(6, a5, field_2_xpos, dword_67D934, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
                 }
-                else if (v56->field_0_element_type == 1)
+                else if (v56->field_0_element_type == STRING_TEXT_1)
                 {
                     v2_u16 = v7->field_518_elements_array[(u16)temp4].field_6A_font_type;
                     field_4_ypos = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
@@ -1883,7 +1883,7 @@ void Frontend::sub_4AE2D0()
     v3 = sub_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0_option_type == 1)
+        if (pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_0_option_type == STRING_TEXT_1)
         {
             v4 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80_menu_page_target;
             switch (v4)
@@ -2041,7 +2041,7 @@ void Frontend::sub_4AE2D0()
     {
         field_BC6_nifty_idx = pBorg->field_BC6_current_option_idx;
         v11 = &pBorg->field_4_options_array[field_BC6_nifty_idx];
-        if (v11->field_0_option_type == 2)
+        if (v11->field_0_option_type == STRING_TEXT_2)
         {
             v12 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6390();
             if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
@@ -2093,7 +2093,7 @@ void Frontend::sub_4AE2D0()
 
         v14 = pBorg->field_BC6_current_option_idx;
         v15 = &pBorg->field_4_options_array[v14];
-        if (v15->field_0_option_type == 2)
+        if (v15->field_0_option_type == STRING_TEXT_2)
         {
             v16 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6330(); // this
             if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
@@ -3247,17 +3247,17 @@ void Frontend::sub_4B0220()
     field_134 = 16;
 
     field_136_menu_pages_array[0].field_0_number_of_options = 3;
-    field_136_menu_pages_array[0].field_4_options_array[0].field_0_option_type = 1; // ebx
+    field_136_menu_pages_array[0].field_4_options_array[0].field_0_option_type = STRING_TEXT_1; // ebx
     field_136_menu_pages_array[0].field_4_options_array[0].field_2_x_pos = 300; // edi
     field_136_menu_pages_array[0].field_4_options_array[0].field_4_y_pos = 250;
     wcsncpy(field_136_menu_pages_array[0].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
     field_136_menu_pages_array[0].field_4_options_array[0].field_80_menu_page_target = 1;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[0].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[0].field_4_options_array[1].field_2_x_pos = 300;
     field_136_menu_pages_array[0].field_4_options_array[1].field_4_y_pos = 270;
     wcsncpy(field_136_menu_pages_array[0].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("options"), 0x32u);
     field_136_menu_pages_array[0].field_4_options_array[1].field_80_menu_page_target = 257;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[0].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[0].field_4_options_array[2].field_2_x_pos = 300;
     field_136_menu_pages_array[0].field_4_options_array[2].field_4_y_pos = 290;
     wcsncpy(field_136_menu_pages_array[0].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
@@ -3271,7 +3271,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[0].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[0].field_BC8 = 0;
     field_136_menu_pages_array[1].field_0_number_of_options = 5;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_0_option_type = 2;
+    field_136_menu_pages_array[1].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
     field_136_menu_pages_array[1].field_4_options_array[0].field_2_x_pos = 300;
     field_136_menu_pages_array[1].field_4_options_array[0].field_4_y_pos = 210;
     wcsncpy(field_136_menu_pages_array[1].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("charctr"), 0x32u);
@@ -3285,22 +3285,22 @@ void Frontend::sub_4B0220()
         field_136_menu_pages_array[1].field_4_options_array[0].field_72[v77++] = 1;
     } while (v77 <= field_136_menu_pages_array[1].field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    field_136_menu_pages_array[1].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_4_options_array[1].field_2_x_pos = 300;
     field_136_menu_pages_array[1].field_4_options_array[1].field_4_y_pos = 230;
     wcsncpy(field_136_menu_pages_array[1].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
     field_136_menu_pages_array[1].field_4_options_array[1].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_4_options_array[2].field_2_x_pos = 300;
     field_136_menu_pages_array[1].field_4_options_array[2].field_4_y_pos = 250;
     wcsncpy(field_136_menu_pages_array[1].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
     field_136_menu_pages_array[1].field_4_options_array[2].field_80_menu_page_target = 5;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_4_options_array[3].field_2_x_pos = 300;
     field_136_menu_pages_array[1].field_4_options_array[3].field_4_y_pos = 270;
     wcsncpy(field_136_menu_pages_array[1].field_4_options_array[3].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("strtlev"), 0x32u);
     field_136_menu_pages_array[1].field_4_options_array[3].field_80_menu_page_target = 264;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_0_option_type = 1;
+    field_136_menu_pages_array[1].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_4_options_array[4].field_2_x_pos = 300;
     field_136_menu_pages_array[1].field_4_options_array[4].field_4_y_pos = 350;
     wcsncpy(field_136_menu_pages_array[1].field_4_options_array[4].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
@@ -3318,20 +3318,20 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
     field_136_menu_pages_array[1].field_BC8 = 3;
     field_136_menu_pages_array[1].field_2 = 10;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
     field_136_menu_pages_array[1].field_518_elements_array[0].field_6_element_name_str[0] = 0;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[1].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_2_xpos = 420;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_4_ypos = 390;
     field_136_menu_pages_array[1].field_518_elements_array[1].field_6_element_name_str[0] = 0;
-    field_136_menu_pages_array[1].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[1].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_518_elements_array[2].field_2_xpos = 410;
     field_136_menu_pages_array[1].field_518_elements_array[2].field_4_ypos = 298;
     wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[2].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
     field_136_menu_pages_array[1].field_518_elements_array[2].field_6A_font_type = word_703C3C;
-    field_136_menu_pages_array[1].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[1].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[1].field_518_elements_array[3].field_2_xpos = 410;
     field_136_menu_pages_array[1].field_518_elements_array[3].field_4_ypos = 378;
     wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[3].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("car_dam"), 0x32u);
@@ -3342,45 +3342,45 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[1].field_518_elements_array[5].field_4_ypos = 310;
     field_136_menu_pages_array[1].field_518_elements_array[6].field_2_xpos = 380;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_2_xpos = 460;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[4].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[4].field_6_element_name_str[0] = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[5].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[5].field_6_element_name_str[0] = 4;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[6].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[6].field_4_ypos = 390;
     field_136_menu_pages_array[1].field_518_elements_array[6].field_6_element_name_str[0] = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[7].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_4_ypos = 390;
     field_136_menu_pages_array[1].field_518_elements_array[7].field_6_element_name_str[0] = 4;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[8].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_2_xpos = 290;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_4_ypos = 222;
     field_136_menu_pages_array[1].field_518_elements_array[8].field_6_element_name_str[0] = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_0_element_type = 3;
+    field_136_menu_pages_array[1].field_518_elements_array[9].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_2_xpos = 580;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
     field_136_menu_pages_array[1].field_518_elements_array[9].field_6_element_name_str[0] = 4;
     field_136_menu_pages_array[11].field_0_number_of_options = 3;
     field_136_menu_pages_array[11].field_2 = 1;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_4_ypos = 11;
     wcscpy(field_136_menu_pages_array[11].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
     field_136_menu_pages_array[11].field_518_elements_array[0].field_6A_font_type = field_130;
     field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_variant = 5;
-    field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
     field_136_menu_pages_array[11].field_4_options_array[0].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[11].field_4_options_array[0].field_6A, 320);
     field_136_menu_pages_array[11].field_4_options_array[0].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_4_options_array[1].field_4_y_pos = 412;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
     field_136_menu_pages_array[11].field_4_options_array[1].field_2_x_pos =
         Frontend::sub_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[11].field_4_options_array[1].field_6A, 320);
     field_136_menu_pages_array[11].field_4_options_array[1].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[11].field_4_options_array[2].field_4_y_pos = 432;
     wcsncpy(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
     field_136_menu_pages_array[11].field_4_options_array[2].field_2_x_pos =
@@ -3396,23 +3396,23 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[11].field_BC8 = 0;
     field_136_menu_pages_array[2].field_0_number_of_options = 3;
     field_136_menu_pages_array[2].field_2 = 1;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_4_ypos = 11;
     wcsncpy(field_136_menu_pages_array[2].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_ded"), 0x32u);
     field_136_menu_pages_array[2].field_518_elements_array[0].field_6A_font_type = field_130;
     field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_variant = 0;
-    field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
     field_136_menu_pages_array[2].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[0].field_6A, 320);
     field_136_menu_pages_array[2].field_4_options_array[0].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_4_options_array[1].field_4_y_pos = 412;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
     field_136_menu_pages_array[2].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[1].field_6A, 320);
     field_136_menu_pages_array[2].field_4_options_array[1].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[2].field_4_options_array[2].field_4_y_pos = 432;
     wcsncpy(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
     field_136_menu_pages_array[2].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[2].field_4_options_array[2].field_6A, 320);
@@ -3427,32 +3427,32 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[2].field_BC8 = 0;
     field_136_menu_pages_array[3].field_0_number_of_options = 5;
     field_136_menu_pages_array[3].field_2 = 1;
-    field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[3].field_518_elements_array[0].field_4_ypos = 11;
     wcsncpy(field_136_menu_pages_array[3].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("cmpltd"), 0x32u);
     field_136_menu_pages_array[3].field_518_elements_array[0].field_6A_font_type = field_12C;
-    field_136_menu_pages_array[3].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_4_options_array[0].field_4_y_pos = 365;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
     field_136_menu_pages_array[3].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[0].field_6A, 320);
     field_136_menu_pages_array[3].field_4_options_array[0].field_80_menu_page_target = 261;
-    field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_4_options_array[1].field_4_y_pos = 385;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("savepos"), 0x32u);
     field_136_menu_pages_array[3].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[1].field_6A, 320);
     field_136_menu_pages_array[3].field_4_options_array[1].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_4_options_array[2].field_4_y_pos = 405;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("replay"), 0x32u);
     field_136_menu_pages_array[3].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[2].field_6A, 320);
     field_136_menu_pages_array[3].field_4_options_array[2].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_4_options_array[3].field_4_y_pos = 425;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("contnue"), 0x32u);
     field_136_menu_pages_array[3].field_4_options_array[3].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[3].field_6A, 320);
     field_136_menu_pages_array[3].field_4_options_array[3].field_80_menu_page_target = 266;
-    field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = 1;
+    field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[3].field_4_options_array[4].field_4_y_pos = 445;
     wcsncpy(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
     field_136_menu_pages_array[3].field_4_options_array[4].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str, field_136_menu_pages_array[3].field_4_options_array[4].field_6A, 320);
@@ -3471,14 +3471,14 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[3].field_BC8 = 0;
     field_136_menu_pages_array[4].field_0_number_of_options = 1;
     field_136_menu_pages_array[4].field_2 = 1;
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("gam_cmp"), 0x32u);
     v30 = field_130;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_6A_font_type = v30;
     field_136_menu_pages_array[4].field_518_elements_array[0].field_2_xpos = Frontend::sub_4B0190(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, v30, 320);
     field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_variant = 4;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
     wcsncpy(field_136_menu_pages_array[4].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
@@ -3489,7 +3489,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[4].field_BC8 = 0;
     field_136_menu_pages_array[5].field_0_number_of_options = 1;
     field_136_menu_pages_array[5].field_2 = 5;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = 2;
+    field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
     field_136_menu_pages_array[5].field_4_options_array[0].field_2_x_pos = 300;
     field_136_menu_pages_array[5].field_4_options_array[0].field_4_y_pos = 155;
     field_136_menu_pages_array[5].field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
@@ -3506,56 +3506,56 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[5].field_B8A[0].field_2 = 163;
     field_136_menu_pages_array[5].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[5].field_BC8 = 0;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_2_xpos = 450;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_4_ypos = 197;
     field_136_menu_pages_array[5].field_518_elements_array[0].field_6_element_name_str[0] = 0;
-    field_136_menu_pages_array[5].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[5].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_2_xpos = 440;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_4_ypos = 185;
     //    v34 = ;
     field_136_menu_pages_array[5].field_518_elements_array[2].field_4_ypos = 197;
     field_136_menu_pages_array[5].field_518_elements_array[3].field_4_ypos = 197;
     field_136_menu_pages_array[5].field_518_elements_array[1].field_6A_font_type = word_703C3C; // v34
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[2].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[2].field_2_xpos = 410;
     field_136_menu_pages_array[5].field_518_elements_array[2].field_6_element_name_str[0] = 3;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_0_element_type = 3;
+    field_136_menu_pages_array[5].field_518_elements_array[3].field_0_element_type = GEOMETRIC_SHAPE_3;
     field_136_menu_pages_array[5].field_518_elements_array[3].field_2_xpos = 490;
     field_136_menu_pages_array[5].field_518_elements_array[3].field_6_element_name_str[0] = 4;
-    field_136_menu_pages_array[5].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[5].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[5].field_518_elements_array[4].field_2_xpos = 340;
     field_136_menu_pages_array[5].field_518_elements_array[4].field_4_ypos = v2;
     wcsncpy(field_136_menu_pages_array[5].field_518_elements_array[4].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("hi_scre"), 0x32u);
     field_136_menu_pages_array[5].field_518_elements_array[4].field_6A_font_type = field_126;
     field_136_menu_pages_array[6].field_0_number_of_options = 3;
     field_136_menu_pages_array[6].field_2 = 3;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_4_ypos = 11;
     wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("bonslev"), 0x32u);
     field_136_menu_pages_array[6].field_518_elements_array[0].field_6A_font_type = field_130;
     field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_variant = 5;
-    field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_2_xpos = 170;
     field_136_menu_pages_array[6].field_518_elements_array[1].field_4_ypos = 250;
     wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[1].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[6].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[2].field_2_xpos = 400;
     field_136_menu_pages_array[6].field_518_elements_array[2].field_4_ypos = 250;
     s16 v38 = field_120;
-    field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_518_elements_array[2].field_6A_font_type = v38;
     field_136_menu_pages_array[6].field_4_options_array[0].field_4_y_pos = 340;
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("repbons"), 0x32u);
     field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str, v38, 320);
     field_136_menu_pages_array[6].field_4_options_array[0].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = 1;
+    field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_4_options_array[1].field_4_y_pos = 360;
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("nxt_lvl"), 0x32u);
     field_136_menu_pages_array[6].field_4_options_array[1].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str, field_136_menu_pages_array[6].field_4_options_array[1].field_6A, 320);
     field_136_menu_pages_array[6].field_4_options_array[1].field_80_menu_page_target = 261;
-    field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = 1;
+    field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[6].field_4_options_array[2].field_4_y_pos = 380;
     wcsncpy(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
     field_136_menu_pages_array[6].field_4_options_array[2].field_2_x_pos = Frontend::sub_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str, field_136_menu_pages_array[6].field_4_options_array[2].field_6A, 320);
@@ -3570,59 +3570,59 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[6].field_BC8 = 0;
     field_136_menu_pages_array[7].field_0_number_of_options = 1;
     field_136_menu_pages_array[7].field_2 = 14;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_2_xpos = 35;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_4_ypos = 11;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_6A_font_type = field_130;
     field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_variant = 5;
-    field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[1].field_4_ypos = 170;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str, word_67DC8C, 50u);
-    field_136_menu_pages_array[7].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[2].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[2].field_4_ypos = 190;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[2].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[3].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[3].field_4_ypos = 210;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[3].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[4].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[4].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[4].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[5].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[5].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[5].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[5].field_4_ypos = 250;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[5].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[6].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[6].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[6].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[6].field_4_ypos = 270;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[6].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[7].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[7].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[7].field_4_ypos = 300;
     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("kills_h"), 0x32u);
     field_136_menu_pages_array[7].field_518_elements_array[7].field_2_xpos =
         sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[7].field_6A_font_type, 320);
-    field_136_menu_pages_array[7].field_518_elements_array[8].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[8].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[8].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[8].field_4_ypos = 320;
-    field_136_menu_pages_array[7].field_518_elements_array[9].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[9].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[9].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[9].field_4_ypos = 340;
-    field_136_menu_pages_array[7].field_518_elements_array[10].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[10].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[10].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[10].field_4_ypos = 360;
-    field_136_menu_pages_array[7].field_518_elements_array[11].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[11].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[11].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[11].field_4_ypos = 380;
-    field_136_menu_pages_array[7].field_518_elements_array[12].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[12].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[12].field_2_xpos = 100;
     field_136_menu_pages_array[7].field_518_elements_array[12].field_4_ypos = 400;
-    field_136_menu_pages_array[7].field_518_elements_array[13].field_0_element_type = 1;
+    field_136_menu_pages_array[7].field_518_elements_array[13].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos = 30;
     field_136_menu_pages_array[7].field_518_elements_array[13].field_4_ypos = 150;
-    field_136_menu_pages_array[7].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[7].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[7].field_4_options_array[0].field_4_y_pos = 430;
     wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     field_136_menu_pages_array[7].field_4_options_array[0].field_2_x_pos = sub_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, field_136_menu_pages_array[7].field_4_options_array[0].field_6A, 320);
@@ -3633,7 +3633,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[7].field_BC8 = 0;
     field_136_menu_pages_array[8].field_0_number_of_options = 1;
     field_136_menu_pages_array[8].field_2 = 0;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[8].field_4_options_array[0].field_2_x_pos = 200;
     field_136_menu_pages_array[8].field_4_options_array[0].field_4_y_pos = 280;
     wcsncpy(field_136_menu_pages_array[8].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
@@ -3644,7 +3644,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[8].field_BC8 = 0;
     field_136_menu_pages_array[10].field_0_number_of_options = 1;
     field_136_menu_pages_array[10].field_2 = 1;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_518_elements_array[0].field_4_ypos = 230;
     wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("nicetry"), 0x32u);
     //    v46 = field_130;
@@ -3653,7 +3653,7 @@ void Frontend::sub_4B0220()
                                                          field_130, //v46,
                                                          320);
     field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_variant = 4;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
     field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
     wcsncpy(field_136_menu_pages_array[10].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("mainmen"), 0x32u);
@@ -3664,27 +3664,27 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[10].field_BC8 = 0;
     field_136_menu_pages_array[14].field_0_number_of_options = 1;
     field_136_menu_pages_array[14].field_2 = 5;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = 1;
+    field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
     field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
     field_136_menu_pages_array[14].field_4_options_array[0].field_80_menu_page_target = 268;
-    field_136_menu_pages_array[14].field_518_elements_array[0].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_518_elements_array[0].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518_elements_array[0].field_4_ypos = 160;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_ent1"), 0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[1].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_518_elements_array[1].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518_elements_array[1].field_4_ypos = 180;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_ent2"), 0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[2].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_518_elements_array[2].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518_elements_array[2].field_4_ypos = 200;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str, word_67DC8C, 0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[3].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_518_elements_array[3].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518_elements_array[3].field_4_ypos = 300;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[3].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("fr_pmpt"), 0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[4].field_0_element_type = 1;
+    field_136_menu_pages_array[14].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
     field_136_menu_pages_array[14].field_518_elements_array[4].field_2_xpos = 20;
     field_136_menu_pages_array[14].field_518_elements_array[4].field_4_ypos = 320;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[4].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
@@ -4399,7 +4399,7 @@ bool MenuPage_0xBCA::sub_4B6200()
 MATCH_FUNC(0x4B63E0)
 menu_element_0x6E::menu_element_0x6E()
 {
-    field_0_element_type = 0;
+    field_0_element_type = NULL_TYPE_0;
     field_2_xpos = 0;
     field_4_ypos = 0;
     field_1_is_it_displayed = 1;
@@ -4412,7 +4412,7 @@ MATCH_FUNC(0x4B6420)
 menu_element_0x6E::~menu_element_0x6E()
 {
     field_1_is_it_displayed = 1;
-    field_0_element_type = 0;
+    field_0_element_type = NULL_TYPE_0;
     field_2_xpos = 0;
     field_4_ypos = 0;
     field_6A_font_type = -1;
@@ -4424,7 +4424,7 @@ menu_option_0x82::menu_option_0x82()
 {
     field_6A = -1;
     field_6C = -1;
-    field_0_option_type = 0;
+    field_0_option_type = NULL_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
@@ -4444,7 +4444,7 @@ menu_option_0x82::menu_option_0x82()
 MATCH_FUNC(0x4B62F0)
 menu_option_0x82::~menu_option_0x82()
 {
-    field_0_option_type = 0;
+    field_0_option_type = NULL_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
