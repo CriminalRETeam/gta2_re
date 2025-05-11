@@ -50,8 +50,8 @@ struct svg_stru
 // todo: move
 struct admiring_euler_4
 {
-    char_type field_0;
-    char_type field_1;
+    char_type field_0_save_exists;
+    char_type field_1_last_saved_stage;
     char_type field_2;
     char_type field_3;
 

@@ -798,8 +798,8 @@ void CC ImGuiDebugDraw()
 
                 admiring_euler_4* admiring_euler = &gFrontend_67DC84->field_EDE8_plySlots[euler_id];
 
-                ImGui::Value("field_0", admiring_euler->field_0);
-                ImGui::Value("field_1", admiring_euler->field_1);
+                ImGui::Value("field_0", admiring_euler->field_0_save_exists);
+                ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
                 ImGui::Value("field_2", admiring_euler->field_2);
                 ImGui::Value("field_3", admiring_euler->field_3);
             }

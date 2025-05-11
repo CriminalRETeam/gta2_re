@@ -3714,8 +3714,8 @@ void Frontend::LoadPlySlotSvgs_4B53C0()
         }
         else
         {
-            field_EDE8_plySlots[i].field_0 = 0;
-            field_EDE8_plySlots[i].field_1 = 3;
+            field_EDE8_plySlots[i].field_0_save_exists = false;
+            field_EDE8_plySlots[i].field_1_last_saved_stage = 3;
             field_EDE8_plySlots[i].field_2 = 4;
             field_EDE8_plySlots[i].field_3 = 0;
         }
@@ -4543,8 +4543,8 @@ kind_beaver_6::~kind_beaver_6()
 MATCH_FUNC(0x4B6440)
 admiring_euler_4::admiring_euler_4()
 {
-    field_0 = 0;
-    field_1 = 0;
+    field_0_save_exists = false;
+    field_1_last_saved_stage = 0;
     field_2 = 0;
     field_3 = 0;
 }
@@ -4552,8 +4552,8 @@ admiring_euler_4::admiring_euler_4()
 MATCH_FUNC(0x4B6450)
 admiring_euler_4::~admiring_euler_4()
 {
-    field_0 = 0;
-    field_1 = 0;
+    field_0_save_exists = false;
+    field_1_last_saved_stage = 0;
     field_2 = 0;
     field_3 = 0;
 }
@@ -4569,8 +4569,8 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 
     File::Global_Close_4A70C0();
 
-    field_0 = 1;
-    field_1 = svg.field_4B;
+    field_0_save_exists = true;
+    field_1_last_saved_stage = svg.field_4B;
     field_2 = svg.field_4C;
     field_3 = svg.field_4D;
 }
