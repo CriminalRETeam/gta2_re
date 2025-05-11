@@ -709,18 +709,18 @@ void CC ImGuiDebugDraw()
                 static s32 loving_id = 0;
                 ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
 
-                MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136[loving_id];
+                MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
                 ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
                 ImGui::Value("field_2", loving_borg->field_2);
                 ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
-                if (ImGui::TreeNode("nifty_maxwell_0x82"))
+                if (ImGui::TreeNode("menu_option_0x82"))
                 {
                     static s32 nifty_id = 0;
                     ImGui::SliderInt("Nifty Maxwell ID", &nifty_id, 0, 9);
 
-                    nifty_maxwell_0x82* nifty_maxwell = &loving_borg->field_4[nifty_id];
+                    menu_option_0x82* nifty_maxwell = &loving_borg->field_4_options_array[nifty_id];
 
                     ImGui::Value("field_0", nifty_maxwell->field_0);
                     ImGui::Value("field_1", nifty_maxwell->field_1);

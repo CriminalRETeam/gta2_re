@@ -81,12 +81,12 @@ struct competent_noyce_0x6E
 // todo: move
 #pragma pack(push)
 #pragma pack(1)
-struct nifty_maxwell_0x82
+struct menu_option_0x82
 {
   public:
-    EXPORT nifty_maxwell_0x82();
+    EXPORT menu_option_0x82();
 
-    EXPORT ~nifty_maxwell_0x82();
+    EXPORT ~menu_option_0x82();
 
     EXPORT bool sub_4B6330();
 
@@ -134,7 +134,7 @@ struct MenuPage_0xBCA
 
     u16 field_0_number_of_options;
     s16 field_2;
-    nifty_maxwell_0x82 field_4[10];
+    menu_option_0x82 field_4_options_array[10];
     competent_noyce_0x6E field_518[15];
     kind_beaver_6 field_B8A[10];
     u16 field_BC6_current_option_idx;
@@ -230,7 +230,7 @@ struct Frontend
     s16 field_130;
     u16 field_132_f136_idx;
     s16 field_134;
-    MenuPage_0xBCA field_136[17];
+    MenuPage_0xBCA field_136_menu_pages_array[17];
     wchar_t field_C9A0[9];
     char_type field_C9B2;
     char_type field_C9B3;
