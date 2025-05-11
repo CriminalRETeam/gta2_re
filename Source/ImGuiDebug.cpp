@@ -14,12 +14,28 @@
 #include "collide.hpp"
 #include "debug.hpp"
 #include "gbh_graphics.hpp"
+#include "Frontend.hpp"
+#include "jolly_poitras_0x2BC0.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 extern EXPORT_VAR Tango_54* gTango_54_67D4C0;
 extern EXPORT_VAR Orca_2FD4* gOrca_2FD4_6FDEF0;
+
+void wchar_to_char(wchar_t* wchar, char* out, u8 size)
+{
+    u16 i = 0;
+    for (; wchar[i]; i++)
+    {
+        out[(s8)i] = wchar[i];
+    }
+    // clear remaining slots
+    for (s8 j = i; j < size; j++)
+    {
+        out[j] = 0;
+    }
+}
 
 namespace ImGui
 {
@@ -67,6 +83,22 @@ bool Input_char_type(const char* label, char_type* v, int step, int step_fast, I
     return ret;
 }
 
+bool InputS16(const char* label, s16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+{
+    int tmp = *v;
+    bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
+    *v = static_cast<s16>(tmp);
+    return ret;
+}
+
+bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+{
+    int tmp = *v;
+    bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
+    *v = static_cast<u16>(tmp);
+    return ret;
+}
+
 } // namespace ImGui
 
 EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
@@ -98,24 +130,47 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gViewCamera_676978"))
+    if (ImGui::TreeNode("Camera"))
     {
-        if (gViewCamera_676978)
+        if (ImGui::TreeNode("gViewCamera_676978"))
         {
-            ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_win_left.ToFloat());
-            ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
-            ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
-            ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+            if (gViewCamera_676978)
+            {
+                ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_win_left.ToFloat());
+                ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
+                ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
+                ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+            }
+
+            if (ImGui::Button("Orca_2FD4::sub_5552B0"))
+            {
+                char xpos = gViewCamera_676978->field_78_win_left.ToInt() + 5;
+                char ypos = gViewCamera_676978->field_80_win_top.ToInt() + 5;
+                char zpos = 2;
+                if (gOrca_2FD4_6FDEF0->sub_5552B0(0, &xpos, &ypos, &zpos, 1))
+                {
+                }
+            }
+            ImGui::TreePop();
         }
 
-        if (ImGui::Button("Orca_2FD4::sub_5552B0"))
+        if (ImGui::TreeNode("Game Camera"))
         {
-            char xpos = gViewCamera_676978->field_78_win_left.ToInt() + 5;
-            char ypos = gViewCamera_676978->field_80_win_top.ToInt() + 5;
-            char zpos = 2;
-            if (gOrca_2FD4_6FDEF0->sub_5552B0(0, &xpos, &ypos, &zpos, 1))
+            if (gGame_0x40_67E008)
             {
+                Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+                if (pPlayer)
+                {
+                    DrawUnk_0xBC* game_camera = &pPlayer->field_90_game_camera;
+                    //DrawUnk_0xBC* view_camera = &pPlayer->field_14C_view_camera;
+                    //DrawUnk_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
+                    if (game_camera)
+                    {
+                        ImGui::SliderInt("field_A4", &game_camera->field_A4.mValue, 0, 25000);
+                    }
+                }
             }
+            ImGui::TreePop();
         }
         ImGui::TreePop();
     }
@@ -642,6 +697,190 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("Frontend"))
+    {
+        if (ImGui::TreeNode("loving_borg_0xBCA"))
+        {
+            
+            if (gFrontend_67DC84)
+            {
+                static s32 loving_id = 0;
+                ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
+
+                loving_borg_0xBCA* loving_borg = &gFrontend_67DC84->field_136[loving_id];
+                ImGui::Value("field_0", loving_borg->field_0);
+                ImGui::Value("field_2", loving_borg->field_2);
+                ImGui::Value("field_BC6_nifty_idx", loving_borg->field_BC6_nifty_idx);
+                ImGui::Value("field_BC8", loving_borg->field_BC8);
+
+                if (ImGui::TreeNode("nifty_maxwell_0x82"))
+                {
+                    static s32 nifty_id = 0;
+                    ImGui::SliderInt("Nifty Maxwell ID", &nifty_id, 0, 9);
+
+                    nifty_maxwell_0x82* nifty_maxwell = &loving_borg->field_4[nifty_id];
+
+                    ImGui::Value("field_0", nifty_maxwell->field_0);
+                    ImGui::Value("field_1", nifty_maxwell->field_1);
+
+                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2, 0, 1000);
+                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4, 0, 700);
+
+                    static char str_buf[50];
+                    wchar_to_char(nifty_maxwell->field_6_wstr_buf, str_buf, 50);
+                    ImGui::Text(str_buf);
+
+                    ImGui::Value("field_6A", nifty_maxwell->field_6A);
+                    ImGui::Value("field_6C", nifty_maxwell->field_6C);
+                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_count);
+                    ImGui::Value("field_70", nifty_maxwell->field_70);
+
+                    ImGui::Text(nifty_maxwell->field_72);
+
+                    ImGui::Value("field_7E", nifty_maxwell->field_7E);
+                    ImGui::Value("field_80", nifty_maxwell->field_80);
+
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("competent_noyce_0x6E"))
+                {
+                    static s32 noyce_id = 0;
+                    ImGui::SliderInt("Competent Noyce ID", &noyce_id, 0, 14);
+
+                    competent_noyce_0x6E* competent_noyce = &loving_borg->field_518[noyce_id];
+
+                    ImGui::Value("field_0", competent_noyce->field_0);
+                    ImGui::Value("field_1", competent_noyce->field_1);
+
+                    ImGui::SliderS16("field_2_xpos", &competent_noyce->field_2_xpos, 0, 1000);
+                    ImGui::SliderS16("field_4_ypos", &competent_noyce->field_4_ypos, 0, 700);
+
+                    static char str_buf_2[50];
+                    wchar_to_char(competent_noyce->field_6_wstr_buf, str_buf_2, 50);
+                    ImGui::Text(str_buf_2);
+
+                    ImGui::InputU16("field_6A", &competent_noyce->field_6A, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C, 1, 1);
+
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("kind_beaver_6"))
+                {
+                    static s32 k_beaver_id = 0;
+                    ImGui::SliderInt("Kind Beaver ID", &k_beaver_id, 0, 9);
+
+                    kind_beaver_6* kind_beaver = &loving_borg->field_B8A[k_beaver_id];
+
+                    ImGui::SliderS16("field_0", &kind_beaver->field_0, 0, 1000);
+                    ImGui::SliderS16("field_2", &kind_beaver->field_2, 0, 700);
+
+                    ImGui::Value("field_4", kind_beaver->field_4);
+                    ImGui::Value("field_5", kind_beaver->field_5);
+
+                    ImGui::TreePop();
+                }
+                
+
+            }
+            ImGui::TreePop();
+        }
+        
+        ImGui::TreePop();
+    }
+    
+    if (ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
+    {
+        if (gJolly_poitras_0x2BC0_6FEAC0)
+        {
+            if (ImGui::TreeNode("struc_221"))
+            {
+                static s32 struc_221_id = 0;
+                ImGui::SliderInt("struc_221 ID", &struc_221_id, 0, 2);
+                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800[struc_221_id];
+
+                static s32 byte_id = 0;
+                ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
+                ImGui::Value("field_0 at id", struc->field_0[byte_id]);
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("agitated_keldysh_0xF0"))
+            {
+                static s32 agitated_type = 0;
+
+                const char* agitated_fields[] = {"field_1890", "field_23D0",
+                                                "field_24C0", "field_25B0"};
+                ImGui::Combo("agitated_field", &agitated_type, agitated_fields, 4);
+
+                static s32 id_1 = 0;
+                static s32 id_2 = 0;
+                ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
+                ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
+                
+                agitated_keldysh_0xF0* agitated_keldysh;
+
+                switch(agitated_type)
+                {
+                    case 0:
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890[id_1][id_2];
+                        break;
+                    case 1:
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_23D0;
+                        break;
+                    case 2:
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_24C0;
+                        break;
+                    case 3:
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_25B0;
+                        break;
+                    default:
+                        break;
+                }
+
+                static s32 string_id = 0;
+                ImGui::SliderInt("string_id", &string_id, 0, 9);
+                small_string* s_string = &agitated_keldysh->field_0[string_id];
+
+                static char str_buf_3[10];
+                wchar_to_char(s_string->field_0_str, str_buf_3, 10);
+                ImGui::Text(str_buf_3);
+                ImGui::Value("field_14_score", s_string->field_14_score);
+
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("dreamy_clarke_0xA4"))
+            {
+                static s32 dreamy_id = 0;
+                ImGui::SliderInt("dreamy_id", &dreamy_id, 0, 7);
+                dreamy_clarke_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[dreamy_id];
+
+                static char str_buf_4[9];
+                wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
+                ImGui::Text(str_buf_4);
+                ImGui::Value("field_A2", dreamy->field_A2);
+
+                static s32 gifted_joliot_id_1 = 0;
+                static s32 gifted_joliot_id_2 = 0;
+                ImGui::SliderInt("gifted_joliot ID 1", &gifted_joliot_id_1, 0, 2);
+                ImGui::SliderInt("gifted_joliot ID 2", &gifted_joliot_id_2, 0, 3);
+                gifted_joliot* g_joliot = &dreamy->field_0[gifted_joliot_id_1][gifted_joliot_id_2];
+
+                ImGui::Value("Joliot field_0", g_joliot->field_0);
+                ImGui::Value("Joliot field_1", g_joliot->field_1);
+                ImGui::Value("Joliot field_2", g_joliot->field_2);
+                ImGui::Value("Joliot field_3", g_joliot->field_3);
+                ImGui::Value("Joliot field_4", g_joliot->field_4);
+                ImGui::Value("Joliot field_8", g_joliot->field_8);
+
+                ImGui::TreePop();
+            }
+        }
         ImGui::TreePop();
     }
 
