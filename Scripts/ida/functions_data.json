@@ -5610,22 +5610,22 @@
         "v105_address": "0x4b6030"
     },
     {
-        "name": "loving_borg_0xBCA::ctor",
+        "name": "MenuPage_0xBCA::ctor",
         "v96f_address": null,
         "v105_address": "0x4b6070"
     },
     {
-        "name": "loving_borg_0xBCA::dtor",
+        "name": "MenuPage_0xBCA::dtor",
         "v96f_address": null,
         "v105_address": "0x4b6110"
     },
     {
-        "name": "loving_borg_0xBCA::sub_4B61B0",
+        "name": "MenuPage_0xBCA::sub_4B61B0",
         "v96f_address": null,
         "v105_address": "0x4b61b0"
     },
     {
-        "name": "loving_borg_0xBCA::sub_4B6200",
+        "name": "MenuPage_0xBCA::sub_4B6200",
         "v96f_address": null,
         "v105_address": "0x4b6200"
     },
@@ -5640,32 +5640,32 @@
         "v105_address": "0x4b6280"
     },
     {
-        "name": "nifty_maxwell_0x82::ctor",
+        "name": "menu_option_0x82::ctor",
         "v96f_address": null,
         "v105_address": "0x4b6290"
     },
     {
-        "name": "nifty_maxwell_0x82::dtor",
+        "name": "menu_option_0x82::dtor",
         "v96f_address": null,
         "v105_address": "0x4b62f0"
     },
     {
-        "name": "nifty_maxwell_0x82::sub_4B6330",
+        "name": "menu_option_0x82::sub_4B6330",
         "v96f_address": null,
         "v105_address": "0x4b6330"
     },
     {
-        "name": "nifty_maxwell_0x82::sub_4B6390",
+        "name": "menu_option_0x82::sub_4B6390",
         "v96f_address": null,
         "v105_address": "0x4b6390"
     },
     {
-        "name": "competent_noyce_0x6E::ctor",
+        "name": "menu_element_0x6E::ctor",
         "v96f_address": null,
         "v105_address": "0x4b63e0"
     },
     {
-        "name": "competent_noyce_0x6E::dtor",
+        "name": "menu_element_0x6E::dtor",
         "v96f_address": null,
         "v105_address": "0x4b6420"
     },
@@ -12965,47 +12965,47 @@
         "v105_address": "0x56a940"
     },
     {
-        "name": "agitated_keldysh_0xF0::ctor",
+        "name": "high_score_table_0xF0::ctor",
         "v96f_address": null,
         "v105_address": "0x56b500"
     },
     {
-        "name": "agitated_keldysh_0xF0::dtor",
+        "name": "high_score_table_0xF0::dtor",
         "v96f_address": null,
         "v105_address": "0x56b510"
     },
     {
-        "name": "agitated_keldysh_0xF0::Init",
+        "name": "high_score_table_0xF0::Init",
         "v96f_address": null,
         "v105_address": "0x56b520"
     },
     {
-        "name": "agitated_keldysh_0xF0::sub_56B550",
+        "name": "high_score_table_0xF0::sub_56B550",
         "v96f_address": null,
         "v105_address": "0x56b550"
     },
     {
-        "name": "dreamy_clarke_0xA4::ctor",
+        "name": "player_stats_0xA4::ctor",
         "v96f_address": null,
         "v105_address": "0x56b610"
     },
     {
-        "name": "dreamy_clarke_0xA4::dtor",
+        "name": "player_stats_0xA4::dtor",
         "v96f_address": null,
         "v105_address": "0x56b620"
     },
     {
-        "name": "dreamy_clarke_0xA4::sub_56B630",
+        "name": "player_stats_0xA4::sub_56B630",
         "v96f_address": null,
         "v105_address": "0x56b630"
     },
     {
-        "name": "dreamy_clarke_0xA4::sub_56B680",
+        "name": "player_stats_0xA4::sub_56B680",
         "v96f_address": null,
         "v105_address": "0x56b680"
     },
     {
-        "name": "dreamy_clarke_0xA4::sub_56B6B0",
+        "name": "player_stats_0xA4::sub_56B6B0",
         "v96f_address": null,
         "v105_address": "0x56b6b0"
     },
