@@ -517,16 +517,16 @@ void Frontend::sub_4B3170(u16 arg0)
             if (a2 == (unsigned __int8)field_1EB50_idx - 1)
             {
                 field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
-                field_136_menu_pages_array[3].field_B8A[0].field_4 = 0;
+                field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 0;
             }
             else
             {
                 gJolly_poitras_0x2BC0_6FEAC0->sub_56BBD0(a2 + 1, 0);
                 field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
-                field_136_menu_pages_array[3].field_B8A[0].field_4 = 1;
+                field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
             }
             field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 0;
-            field_136_menu_pages_array[3].field_B8A[3].field_4 = 0;
+            field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 0;
             v5 = 1;
             v6 = &v57->field_0_plyr_stage_stats[a2][1];
             do
@@ -534,7 +534,7 @@ void Frontend::sub_4B3170(u16 arg0)
                 if (v6->field_0_is_stage_unlocked && v5 < field_1EB51_blocks[a2])
                 {
                     field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
-                    field_136_menu_pages_array[3].field_B8A[3].field_4 = 1;
+                    field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 1;
                 }
                 ++v5;
                 ++v6;
@@ -550,12 +550,12 @@ void Frontend::sub_4B3170(u16 arg0)
             if (gLucid_hamilton_67E8E0.sub_4C5AE0() || v8 >= (unsigned __int8)field_1EB50_idx - 1 || !v57->field_0_plyr_stage_stats[v8 + 1][0].field_0_is_stage_unlocked)
             {
                 field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
-                field_136_menu_pages_array[6].field_B8A[1].field_4 = 0;
+                field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 0;
             }
             else
             {
                 field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 1;
-                field_136_menu_pages_array[6].field_B8A[1].field_4 = 1;
+                field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
             }
             goto LABEL_116;
         case 2u:
@@ -591,12 +591,12 @@ void Frontend::sub_4B3170(u16 arg0)
             if (v10 == v12 && v61 == v53)
             {
                 v13->field_4_options_array[a2a].field_1_is_unlocked = 1;
-                v13->field_B8A[a2a].field_4 = 1;
+                v13->field_B8A[a2a].field_4_is_option_unlocked = 1;
             }
             else
             {
                 v13->field_4_options_array[a2a].field_1_is_unlocked = 0;
-                v13->field_B8A[a2a].field_4 = 0;
+                v13->field_B8A[a2a].field_4_is_option_unlocked = 0;
             }
             break;
     }
@@ -3689,7 +3689,7 @@ void Frontend::sub_4B0220()
     field_136_menu_pages_array[14].field_518_elements_array[4].field_4_ypos = 320;
     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[4].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("score"), 0x32u);
     field_136_menu_pages_array[14].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[14].field_B8A[0].field_4 = 348;
+    field_136_menu_pages_array[14].field_B8A[0].field_2 = 348;  //  TODO: check for wrong var
     field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
     field_136_menu_pages_array[14].field_BC8 = 0;
     field_EE0E_unk.sub_483F20();
@@ -4233,7 +4233,7 @@ void Frontend::sub_4B7610()
     if (v3 == 0xFF)
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 0;
-        pItem->field_B8A[4].field_4 = 0;
+        pItem->field_B8A[4].field_4_is_option_unlocked = 0;
         pItem->field_518_elements_array[3].field_1_is_it_displayed = 0;
         pItem->field_518_elements_array[1].field_1_is_it_displayed = 0;
         pItem->field_518_elements_array[6].field_1_is_it_displayed = 0;
@@ -4242,7 +4242,7 @@ void Frontend::sub_4B7610()
     else
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 1;
-        pItem->field_B8A[4].field_4 = 1;
+        pItem->field_B8A[4].field_4_is_option_unlocked = 1;
         pItem->field_518_elements_array[3].field_1_is_it_displayed = 1;
         pItem->field_518_elements_array[1].field_1_is_it_displayed = 1;
         pItem->field_518_elements_array[6].field_1_is_it_displayed = 1;
@@ -4374,7 +4374,7 @@ bool MenuPage_0xBCA::sub_4B61B0()
         {
             field_BC6_current_option_idx--;
         }
-    } while (!field_B8A[field_BC6_current_option_idx].field_4);
+    } while (!field_B8A[field_BC6_current_option_idx].field_4_is_option_unlocked);
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
@@ -4392,7 +4392,7 @@ bool MenuPage_0xBCA::sub_4B6200()
         {
             field_BC6_current_option_idx++;
         }
-    } while (!field_B8A[field_BC6_current_option_idx].field_4);
+    } while (!field_B8A[field_BC6_current_option_idx].field_4_is_option_unlocked);
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
@@ -4529,7 +4529,7 @@ kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
     field_2 = 0;
-    field_4 = 1;
+    field_4_is_option_unlocked = 1;
 }
 
 MATCH_FUNC(0x4B6280)
@@ -4537,7 +4537,7 @@ kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
     field_2 = 0;
-    field_4 = 1;
+    field_4_is_option_unlocked = 1;
 }
 
 MATCH_FUNC(0x4B6440)

@@ -778,8 +778,8 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderS16("field_0", &kind_beaver->field_0, 0, 1000);
                     ImGui::SliderS16("field_2", &kind_beaver->field_2, 0, 700);
 
-                    ImGui::Value("field_4", kind_beaver->field_4);
-                    ImGui::Value("field_5", kind_beaver->field_5);
+                    ImGui::Input_char_type("field_4_is_option_unlocked", &kind_beaver->field_4_is_option_unlocked, 1, 1);
+                    ImGui::Input_char_type("field_5", &kind_beaver->field_5, 1, 1);
 
                     ImGui::TreePop();
                 }

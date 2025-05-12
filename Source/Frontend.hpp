@@ -124,7 +124,7 @@ struct kind_beaver_6
 
     s16 field_0;
     s16 field_2;
-    char_type field_4;
+    char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
     char_type field_5;
 };
 
