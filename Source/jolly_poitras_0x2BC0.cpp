@@ -22,7 +22,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
     for (s32 i = 0; i < 3; i++)
     {
-        memset(&field_1800[i], 0, sizeof(struc_221));
+        memset(&field_1800_best_stats[i], 0, sizeof(struc_221));
         field_1878[i] = 0;
         field_1884[i] = 0;
     }
@@ -122,7 +122,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 
     u16 idx = (u16)slotIdx;
 
-    wchar_t* pStr = field_26A0[idx].field_90_strPlayerName;
+    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName;
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
 
@@ -145,13 +145,13 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
         for (j = 0; j < 4; j++)
         {
             s32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, &len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_0, &len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_4, &len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_4, &len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_8, &len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_8, &len_read);
         }
     }
     File::Global_Close_4A70C0();
@@ -164,7 +164,7 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
     char_type FileName[356];
     u16 idx = (u16)slotIdx;
 
-    wchar_t* pStr = field_26A0[idx].field_90_strPlayerName; // todo: This instruction is too early lea     esi, [ebx+2730h]
+    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName; // todo: This instruction is too early lea     esi, [ebx+2730h]
     GetPlySlotDatName_56B8A0(idx, FileName);
     File::Global_Open_4A7060(FileName);
 
@@ -184,13 +184,13 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
         for (j = 0; j < 4; j++)
         {
             u32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_0, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_4, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0[idx].field_0[k][j].field_8, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score, len_read);
         }
     }
     File::Global_Close_4A70C0();
@@ -220,11 +220,11 @@ s32 len;
         for (k4Counter = 0; k4Counter < 4; k4Counter++)
         {
             len = 240;
-            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter].field_0, &len);
+            File::Global_Read_4A71C0(&field_1890_stage_scores[k3Counter][k4Counter].field_0, &len);
         }
 
         len = 40;
-        File::Global_Read_4A71C0(&field_1800[k3Counter], &len); // 3 40 byte objs
+        File::Global_Read_4A71C0(&field_1800_best_stats[k3Counter], &len); // 3 40 byte objs
 
         len = 4;
         File::Global_Read_4A71C0(&field_1878[k3Counter], &len);
@@ -243,16 +243,16 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     GetHiScoreHscFileName_56BCF0(FileName);
     File::Global_Open_4A7060(FileName);
 
-    File::Global_Read_4A71C0(&field_23D0.field_0, 240);
+    File::Global_Read_4A71C0(&field_23D0.field_0_score_table_line, 240);
 
     for (s32 k3Counter = 0; k3Counter < 3; k3Counter++)
     {
         for (s32 k4Counter = 0; k4Counter < 4; k4Counter++)
         {
-            File::Global_Read_4A71C0(&field_1890[k3Counter][k4Counter], 240);
+            File::Global_Read_4A71C0(&field_1890_stage_scores[k3Counter][k4Counter], 240);
         }
 
-        File::Global_Read_4A71C0(&field_1800[k3Counter], 40); // 3 40 byte objs
+        File::Global_Read_4A71C0(&field_1800_best_stats[k3Counter], 40); // 3 40 byte objs
 
         File::Global_Read_4A71C0(&field_1878[k3Counter], 4);
 
@@ -277,26 +277,26 @@ void jolly_poitras_0x2BC0::sub_56BF20()
 MATCH_FUNC(0x56BD20)
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
-    wcsncpy(field_24C0.field_0[0].field_0_str, L"ALAN", 9u);
-    field_24C0.field_0[0].field_14_score = 1000000;
-    wcsncpy(field_24C0.field_0[1].field_0_str, L"BRIAN", 9u);
-    field_24C0.field_0[1].field_14_score = 500000;
-    wcsncpy(field_24C0.field_0[2].field_0_str, L"COLIN", 9u);
-    field_24C0.field_0[2].field_14_score = 400000;
-    wcsncpy(field_24C0.field_0[3].field_0_str, L"DAVE", 9u);
-    field_24C0.field_0[3].field_14_score = 300000;
-    wcsncpy(field_24C0.field_0[4].field_0_str, L"ERIC", 9u);
-    field_24C0.field_0[4].field_14_score = 250000;
-    wcsncpy(field_24C0.field_0[5].field_0_str, L"FRANK", 9u);
-    field_24C0.field_0[5].field_14_score = 200000;
-    wcsncpy(field_24C0.field_0[6].field_0_str, L"GRAEME", 9u);
-    field_24C0.field_0[6].field_14_score = 100000;
-    wcsncpy(field_24C0.field_0[7].field_0_str, L"HECTOR", 9u);
-    field_24C0.field_0[7].field_14_score = 50000;
-    wcsncpy(field_24C0.field_0[8].field_0_str, L"IMOGEN", 9u);
-    field_24C0.field_0[8].field_14_score = 25000;
-    wcsncpy(field_24C0.field_0[9].field_0_str, L"JACKSON", 9u);
-    field_24C0.field_0[9].field_14_score = 10000;
+    wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, L"ALAN", 9u);
+    field_24C0.field_0_score_table_line[0].field_14_score = 1000000;
+    wcsncpy(field_24C0.field_0_score_table_line[1].field_0_player_name, L"BRIAN", 9u);
+    field_24C0.field_0_score_table_line[1].field_14_score = 500000;
+    wcsncpy(field_24C0.field_0_score_table_line[2].field_0_player_name, L"COLIN", 9u);
+    field_24C0.field_0_score_table_line[2].field_14_score = 400000;
+    wcsncpy(field_24C0.field_0_score_table_line[3].field_0_player_name, L"DAVE", 9u);
+    field_24C0.field_0_score_table_line[3].field_14_score = 300000;
+    wcsncpy(field_24C0.field_0_score_table_line[4].field_0_player_name, L"ERIC", 9u);
+    field_24C0.field_0_score_table_line[4].field_14_score = 250000;
+    wcsncpy(field_24C0.field_0_score_table_line[5].field_0_player_name, L"FRANK", 9u);
+    field_24C0.field_0_score_table_line[5].field_14_score = 200000;
+    wcsncpy(field_24C0.field_0_score_table_line[6].field_0_player_name, L"GRAEME", 9u);
+    field_24C0.field_0_score_table_line[6].field_14_score = 100000;
+    wcsncpy(field_24C0.field_0_score_table_line[7].field_0_player_name, L"HECTOR", 9u);
+    field_24C0.field_0_score_table_line[7].field_14_score = 50000;
+    wcsncpy(field_24C0.field_0_score_table_line[8].field_0_player_name, L"IMOGEN", 9u);
+    field_24C0.field_0_score_table_line[8].field_14_score = 25000;
+    wcsncpy(field_24C0.field_0_score_table_line[9].field_0_player_name, L"JACKSON", 9u);
+    field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
 STUB_FUNC(0x56BC40)
@@ -315,7 +315,7 @@ void jolly_poitras_0x2BC0::sub_56C250()
 {
     if (!bStartNetworkGame_7081F0)
     {
-        if (wcscmp(this->field_26A0[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
+        if (wcscmp(this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
         {
             gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 *
                                                                            500000);
@@ -349,38 +349,38 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 // =====================================================================
 
 MATCH_FUNC(0x56B500)
-agitated_keldysh_0xF0::agitated_keldysh_0xF0()
+high_score_table_0xF0::high_score_table_0xF0()
 {
     Init_56B520();
 }
 
 MATCH_FUNC(0x56B510)
-agitated_keldysh_0xF0::~agitated_keldysh_0xF0()
+high_score_table_0xF0::~high_score_table_0xF0()
 {
 }
 
 MATCH_FUNC(0x56B520)
-void agitated_keldysh_0xF0::Init_56B520()
+void high_score_table_0xF0::Init_56B520()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        wcscpy(field_0[i].field_0_str, word_67DC8C);
-        field_0[i].field_14_score = 0;
+        wcscpy(field_0_score_table_line[i].field_0_player_name, word_67DC8C);
+        field_0_score_table_line[i].field_14_score = 0;
     }
 }
 
 STUB_FUNC(0x56B550)
-char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
+char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
     {
-        if (findScore > field_0[i].field_14_score)
+        if (findScore > field_0_score_table_line[i].field_14_score)
         {
             startIdx = i;
         }
 
-        if (findScore == field_0[i].field_14_score && wcscmp(pFindStr, field_0[i].field_0_str) == 0)
+        if (findScore == field_0_score_table_line[i].field_14_score && wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
             return 0;
         }
@@ -392,13 +392,13 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
         if (startIdx < 9u)
         {
             // ??????
-            small_string* pIter = &field_0[8]; // .field_14_score;
+            score_table_line* pIter = &field_0_score_table_line[8]; // .field_14_score;
             //  int* pIter = &field_0[9 - 1].field_14_score;
 
             s32 remainderCount = 9 - startIdx;
             do
             {
-                wcsncpy((pIter + 1)->field_0_str, (pIter)->field_0_str, 9u);
+                wcsncpy((pIter + 1)->field_0_player_name, (pIter)->field_0_player_name, 9u);
                 (pIter + 1)->field_14_score = (pIter)->field_14_score;
 
                 pIter--;
@@ -408,8 +408,8 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
             //newScore = findScore;
         }
 
-        wcsncpy(field_0[startIdx].field_0_str, pFindStr, 9u);
-        field_0[startIdx].field_14_score = findScore;
+        wcsncpy(field_0_score_table_line[startIdx].field_0_player_name, pFindStr, 9u);
+        field_0_score_table_line[startIdx].field_14_score = findScore;
 
         return 1;
     }
@@ -417,18 +417,18 @@ char_type agitated_keldysh_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
 }
 
 MATCH_FUNC(0x56B610)
-dreamy_clarke_0xA4::dreamy_clarke_0xA4()
+player_stats_0xA4::player_stats_0xA4()
 {
     sub_56B630();
 }
 
 MATCH_FUNC(0x56B620)
-dreamy_clarke_0xA4::~dreamy_clarke_0xA4()
+player_stats_0xA4::~player_stats_0xA4()
 {
 }
 
 MATCH_FUNC(0x56B630)
-void dreamy_clarke_0xA4::sub_56B630()
+void player_stats_0xA4::sub_56B630()
 {
     for (u16 k = 0; k < 9; k++)
     {
@@ -439,16 +439,16 @@ void dreamy_clarke_0xA4::sub_56B630()
     {
         for (u32 j = 0; j < 4; j++)
         {
-            field_0[i][j].field_0 = false;
-            field_0[i][j].field_4 = 0;
-            field_0[i][j].field_8 = 0;
+            field_0_plyr_stage_stats[i][j].field_0_is_stage_unlocked = false;
+            field_0_plyr_stage_stats[i][j].field_4_stage_best_score = 0;
+            field_0_plyr_stage_stats[i][j].field_8_stage_latest_score = 0;
         }
     }
-    this->field_0[0][0].field_0 = true;
+    field_0_plyr_stage_stats[0][0].field_0_is_stage_unlocked = true;
 }
 
 MATCH_FUNC(0x56B680)
-s32 dreamy_clarke_0xA4::sub_56B680()
+s32 player_stats_0xA4::sub_56B680()
 {
     s32 result = 0;
     
@@ -456,14 +456,14 @@ s32 dreamy_clarke_0xA4::sub_56B680()
     {
         for (u32 j = 0; j < 4; j++)
         {
-            result += field_0[i][j].field_8;
+            result += field_0_plyr_stage_stats[i][j].field_8_stage_latest_score;
         }
     }
     return result;
 }
 
 MATCH_FUNC(0x56B6B0)
-s32 dreamy_clarke_0xA4::sub_56B6B0()
+s32 player_stats_0xA4::sub_56B6B0()
 {
     s32 result = 0;
     
@@ -471,7 +471,7 @@ s32 dreamy_clarke_0xA4::sub_56B6B0()
     {
         for (u32 j = 0; j < 4; j++)
         {
-            result += field_0[i][j].field_4;
+            result += field_0_plyr_stage_stats[i][j].field_4_stage_best_score;
         }
     }
     return result;

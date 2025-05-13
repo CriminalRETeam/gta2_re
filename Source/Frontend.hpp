@@ -50,8 +50,8 @@ struct svg_stru
 // todo: move
 struct admiring_euler_4
 {
-    char_type field_0;
-    char_type field_1;
+    char_type field_0_save_exists;
+    char_type field_1_last_saved_stage;
     char_type field_2;
     char_type field_3;
 
@@ -63,47 +63,54 @@ struct admiring_euler_4
 };
 
 // todo: move
-struct competent_noyce_0x6E
+struct menu_element_0x6E
 {
-    EXPORT competent_noyce_0x6E();
+    EXPORT menu_element_0x6E();
 
-    EXPORT ~competent_noyce_0x6E();
+    EXPORT ~menu_element_0x6E();
 
-    char_type field_0;
-    char_type field_1;
+    char_type field_0_element_type;
+    char_type field_1_is_it_displayed;
     s16 field_2_xpos;
     s16 field_4_ypos;
-    wchar_t field_6_wstr_buf[50];
-    u16 field_6A;
-    u16 field_6C;
+    union 
+    {
+        struct  // if field_0_element_type == STRING_TEXT_1 or STRING_TEXT_2
+        {
+            wchar_t field_6_element_name_str[50];
+            u16 field_6A_font_type;
+            u16 field_6C_font_variant;
+        };
+        u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
+    };
 };
 
 // todo: move
 #pragma pack(push)
 #pragma pack(1)
-struct nifty_maxwell_0x82
+struct menu_option_0x82
 {
   public:
-    EXPORT nifty_maxwell_0x82();
+    EXPORT menu_option_0x82();
 
-    EXPORT ~nifty_maxwell_0x82();
+    EXPORT ~menu_option_0x82();
 
     EXPORT bool sub_4B6330();
 
     EXPORT bool sub_4B6390();
 
-    char_type field_0;
-    char_type field_1;
-    s16 field_2;
-    s16 field_4;
-    wchar_t field_6_wstr_buf[50];
+    char_type field_0_option_type;
+    char_type field_1_is_unlocked;
+    s16 field_2_x_pos;
+    s16 field_4_y_pos;
+    wchar_t field_6_option_name_str[50];
     u16 field_6A;
     u16 field_6C;
-    u16 field_6E_count;
+    u16 field_6E_horizontal_selected_idx;
     s16 field_70;
     char_type field_72[12];
-    u16 field_7E;
-    s16 field_80;
+    u16 field_7E_horizontal_max_idx;
+    s16 field_80_menu_page_target;
 };
 #pragma pack(pop)
 
@@ -117,31 +124,31 @@ struct kind_beaver_6
 
     s16 field_0;
     s16 field_2;
-    char_type field_4;
+    char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
     char_type field_5;
 };
 
 // todo: move
-struct loving_borg_0xBCA
+struct MenuPage_0xBCA
 {
-    EXPORT loving_borg_0xBCA();
+    EXPORT MenuPage_0xBCA();
 
-    EXPORT ~loving_borg_0xBCA();
+    EXPORT ~MenuPage_0xBCA();
 
     EXPORT bool sub_4B61B0();
 
     EXPORT bool sub_4B6200();
 
-    u16 field_0;
+    u16 field_0_number_of_options;
     s16 field_2;
-    nifty_maxwell_0x82 field_4[10];
-    competent_noyce_0x6E field_518[15];
+    menu_option_0x82 field_4_options_array[10];
+    menu_element_0x6E field_518_elements_array[15];
     kind_beaver_6 field_B8A[10];
-    u16 field_BC6_nifty_idx;
+    u16 field_BC6_current_option_idx;
     s16 field_BC8;
 };
 
-struct dreamy_clarke_0xA4;
+struct player_stats_0xA4;
 
 enum MenuScreen
 {
@@ -189,7 +196,20 @@ enum MenuPages // enum for field_132_f136_idx
     // Not really pages
     MENUPAGE_GTA2MANAGER = 257,
     MENUPAGE_QUIT = 258,
-    MENUPAGE_259 = 259,
+    MENUPAGE_REPLAY_PREVIOUS_AREA = 259,
+    MENUPAGE_LOADING_SAVE = 260,
+    MENUPAGE_PLAY_NEXT_AREA = 261,
+    MENUPAGE_READY_TO_PLAY = 264,
+    MENUPAGE_READY_TO_PLAY_BONUS = 265,
+    MENUPAGE_CONTINUE_NEXT_STAGE = 266,
+};
+
+enum ElementType
+{
+    NULL_TYPE_0 = 0,    //  i.e. don't exists
+    STRING_TEXT_1 = 1,
+    STRING_TEXT_2 = 2,
+    GEOMETRIC_SHAPE_3 = 3,  //  triangles, circles
 };
 
 struct MainBlockStrings
@@ -225,7 +245,7 @@ struct Frontend
     s16 field_130;
     u16 field_132_f136_idx;
     s16 field_134;
-    loving_borg_0xBCA field_136[17];
+    MenuPage_0xBCA field_136_menu_pages_array[17];
     wchar_t field_C9A0[9];
     char_type field_C9B2;
     char_type field_C9B3;
@@ -318,7 +338,7 @@ struct Frontend
 
     EXPORT void sub_4B4410();
 
-    EXPORT dreamy_clarke_0xA4* sub_4B43E0();
+    EXPORT player_stats_0xA4* sub_4B43E0();
 
     EXPORT void sub_4B42E0();
 
@@ -328,7 +348,7 @@ struct Frontend
 
     EXPORT void sub_4B4280();
 
-    EXPORT u8 sub_4B77B0(dreamy_clarke_0xA4* a2);
+    EXPORT u8 sub_4B77B0(player_stats_0xA4* a2);
 
     EXPORT void sub_4B8530();
 

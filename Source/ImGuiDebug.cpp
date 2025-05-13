@@ -702,69 +702,68 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("Frontend"))
     {
-        if (ImGui::TreeNode("loving_borg_0xBCA"))
+        if (ImGui::TreeNode("MenuPage_0xBCA"))
         {
-            
             if (gFrontend_67DC84)
             {
                 static s32 loving_id = 0;
                 ImGui::SliderInt("Loving ID", &loving_id, 0, 16);
 
-                loving_borg_0xBCA* loving_borg = &gFrontend_67DC84->field_136[loving_id];
-                ImGui::Value("field_0", loving_borg->field_0);
+                MenuPage_0xBCA* loving_borg = &gFrontend_67DC84->field_136_menu_pages_array[loving_id];
+                ImGui::Value("field_0_number_of_options", loving_borg->field_0_number_of_options);
                 ImGui::Value("field_2", loving_borg->field_2);
-                ImGui::Value("field_BC6_nifty_idx", loving_borg->field_BC6_nifty_idx);
+                ImGui::Value("field_BC6_current_option_idx", loving_borg->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", loving_borg->field_BC8);
 
-                if (ImGui::TreeNode("nifty_maxwell_0x82"))
+                if (ImGui::TreeNode("menu_option_0x82"))
                 {
                     static s32 nifty_id = 0;
                     ImGui::SliderInt("Nifty Maxwell ID", &nifty_id, 0, 9);
 
-                    nifty_maxwell_0x82* nifty_maxwell = &loving_borg->field_4[nifty_id];
+                    menu_option_0x82* nifty_maxwell = &loving_borg->field_4_options_array[nifty_id];
 
-                    ImGui::Value("field_0", nifty_maxwell->field_0);
-                    ImGui::Value("field_1", nifty_maxwell->field_1);
+                    ImGui::Value("field_0", nifty_maxwell->field_0_option_type);
+                    ImGui::Value("field_1", nifty_maxwell->field_1_is_unlocked);
 
-                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2, 0, 1000);
-                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4, 0, 700);
+                    ImGui::SliderS16("field_2", &nifty_maxwell->field_2_x_pos, 0, 1000);
+                    ImGui::SliderS16("field_4", &nifty_maxwell->field_4_y_pos, 0, 700);
 
                     static char str_buf[50];
-                    wchar_to_char(nifty_maxwell->field_6_wstr_buf, str_buf, 50);
+                    wchar_to_char(nifty_maxwell->field_6_option_name_str, str_buf, 50);
                     ImGui::Text(str_buf);
 
                     ImGui::Value("field_6A", nifty_maxwell->field_6A);
                     ImGui::Value("field_6C", nifty_maxwell->field_6C);
-                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_count);
+                    ImGui::Value("field_6E_count", nifty_maxwell->field_6E_horizontal_selected_idx);
                     ImGui::Value("field_70", nifty_maxwell->field_70);
 
                     ImGui::Text(nifty_maxwell->field_72);
 
-                    ImGui::Value("field_7E", nifty_maxwell->field_7E);
-                    ImGui::Value("field_80", nifty_maxwell->field_80);
+                    ImGui::Value("field_7E", nifty_maxwell->field_7E_horizontal_max_idx);
+                    ImGui::Value("field_80", nifty_maxwell->field_80_menu_page_target);
 
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("competent_noyce_0x6E"))
+                if (ImGui::TreeNode("menu_element_0x6E"))
                 {
                     static s32 noyce_id = 0;
                     ImGui::SliderInt("Competent Noyce ID", &noyce_id, 0, 14);
 
-                    competent_noyce_0x6E* competent_noyce = &loving_borg->field_518[noyce_id];
+                    menu_element_0x6E* competent_noyce = &loving_borg->field_518_elements_array[noyce_id];
 
-                    ImGui::Value("field_0", competent_noyce->field_0);
-                    ImGui::Value("field_1", competent_noyce->field_1);
+                    ImGui::Value("field_0", competent_noyce->field_0_element_type);
+                    ImGui::Value("field_1", competent_noyce->field_1_is_it_displayed);
 
                     ImGui::SliderS16("field_2_xpos", &competent_noyce->field_2_xpos, 0, 1000);
                     ImGui::SliderS16("field_4_ypos", &competent_noyce->field_4_ypos, 0, 700);
 
                     static char str_buf_2[50];
-                    wchar_to_char(competent_noyce->field_6_wstr_buf, str_buf_2, 50);
+                    wchar_to_char(competent_noyce->field_6_element_name_str, str_buf_2, 50);
                     ImGui::Text(str_buf_2);
 
-                    ImGui::InputU16("field_6A", &competent_noyce->field_6A, 1, 1);
-                    ImGui::InputU16("field_6C", &competent_noyce->field_6C, 1, 1);
+                    ImGui::InputU16("field_6A", &competent_noyce->field_6A_font_type, 1, 1);
+                    ImGui::InputU16("field_6C", &competent_noyce->field_6C_font_variant, 1, 1);
 
                     ImGui::TreePop();
                 }
@@ -779,13 +778,30 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderS16("field_0", &kind_beaver->field_0, 0, 1000);
                     ImGui::SliderS16("field_2", &kind_beaver->field_2, 0, 700);
 
-                    ImGui::Value("field_4", kind_beaver->field_4);
-                    ImGui::Value("field_5", kind_beaver->field_5);
+                    ImGui::Input_char_type("field_4_is_option_unlocked", &kind_beaver->field_4_is_option_unlocked, 1, 1);
+                    ImGui::Input_char_type("field_5", &kind_beaver->field_5, 1, 1);
 
                     ImGui::TreePop();
                 }
                 
 
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("admiring_euler_4"))
+        {
+            if (gFrontend_67DC84)
+            {
+                static s32 euler_id = 0;
+                ImGui::SliderInt("Euler ID", &euler_id, 0, 7);
+
+                admiring_euler_4* admiring_euler = &gFrontend_67DC84->field_EDE8_plySlots[euler_id];
+
+                ImGui::Value("field_0", admiring_euler->field_0_save_exists);
+                ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
+                ImGui::Value("field_2", admiring_euler->field_2);
+                ImGui::Value("field_3", admiring_euler->field_3);
             }
             ImGui::TreePop();
         }
@@ -801,7 +817,7 @@ void CC ImGuiDebugDraw()
             {
                 static s32 struc_221_id = 0;
                 ImGui::SliderInt("struc_221 ID", &struc_221_id, 0, 2);
-                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800[struc_221_id];
+                struc_221* struc = &gJolly_poitras_0x2BC0_6FEAC0->field_1800_best_stats[struc_221_id];
 
                 static s32 byte_id = 0;
                 ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
@@ -809,7 +825,7 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("agitated_keldysh_0xF0"))
+            if (ImGui::TreeNode("high_score_table_0xF0"))
             {
                 static s32 agitated_type = 0;
 
@@ -822,12 +838,12 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
                 
-                agitated_keldysh_0xF0* agitated_keldysh;
+                high_score_table_0xF0* agitated_keldysh;
 
                 switch(agitated_type)
                 {
                     case 0:
-                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890[id_1][id_2];
+                        agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[id_1][id_2];
                         break;
                     case 1:
                         agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_23D0;
@@ -844,21 +860,21 @@ void CC ImGuiDebugDraw()
 
                 static s32 string_id = 0;
                 ImGui::SliderInt("string_id", &string_id, 0, 9);
-                small_string* s_string = &agitated_keldysh->field_0[string_id];
+                score_table_line* s_string = &agitated_keldysh->field_0_score_table_line[string_id];
 
                 static char str_buf_3[10];
-                wchar_to_char(s_string->field_0_str, str_buf_3, 10);
+                wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
                 ImGui::Text(str_buf_3);
                 ImGui::Value("field_14_score", s_string->field_14_score);
 
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("dreamy_clarke_0xA4"))
+            if (ImGui::TreeNode("player_stats_0xA4"))
             {
                 static s32 dreamy_id = 0;
                 ImGui::SliderInt("dreamy_id", &dreamy_id, 0, 7);
-                dreamy_clarke_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0[dreamy_id];
+                player_stats_0xA4* dreamy = &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[dreamy_id];
 
                 static char str_buf_4[9];
                 wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
@@ -867,16 +883,16 @@ void CC ImGuiDebugDraw()
 
                 static s32 gifted_joliot_id_1 = 0;
                 static s32 gifted_joliot_id_2 = 0;
-                ImGui::SliderInt("gifted_joliot ID 1", &gifted_joliot_id_1, 0, 2);
-                ImGui::SliderInt("gifted_joliot ID 2", &gifted_joliot_id_2, 0, 3);
-                gifted_joliot* g_joliot = &dreamy->field_0[gifted_joliot_id_1][gifted_joliot_id_2];
+                ImGui::SliderInt("stage_stats ID 1", &gifted_joliot_id_1, 0, 2);
+                ImGui::SliderInt("stage_stats ID 2", &gifted_joliot_id_2, 0, 3);
+                stage_stats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
 
-                ImGui::Value("Joliot field_0", g_joliot->field_0);
+                ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
                 ImGui::Value("Joliot field_1", g_joliot->field_1);
                 ImGui::Value("Joliot field_2", g_joliot->field_2);
                 ImGui::Value("Joliot field_3", g_joliot->field_3);
-                ImGui::Value("Joliot field_4", g_joliot->field_4);
-                ImGui::Value("Joliot field_8", g_joliot->field_8);
+                ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
+                ImGui::Value("Joliot field_8", g_joliot->field_8_stage_latest_score);
 
                 ImGui::TreePop();
             }
