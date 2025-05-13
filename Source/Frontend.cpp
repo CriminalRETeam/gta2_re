@@ -1036,7 +1036,7 @@ for (s32 i=0; i<3; i++)
 }*/
     printf("field_132_f136_idx %d\n", field_132_f136_idx);
 
-    if (field_132_f136_idx == 0)
+    if (field_132_f136_idx == MENUPAGE_START_MENU)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
         DrawText_4B87A0(tmpBuff_67BD9C, 300, 460, font_type_703C14, 1);
@@ -1049,7 +1049,7 @@ for (s32 i=0; i<3; i++)
         //DrawText_5D8A10(L"ABCDEFGHIJKLM\nNOPQRSTUVW\nXYZ 0123456789", (s32)300, (s32)370, 4, 1, &local, 0, 0, 0);
     }
 
-    if (field_132_f136_idx == 1)
+    if (field_132_f136_idx == MENUPAGE_PLAY)
     {
         if (field_110_state == 3)
         {
@@ -1079,7 +1079,7 @@ for (s32 i=0; i<3; i++)
         }
     }
 
-    if (field_132_f136_idx == 5)
+    if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
     {
         if (field_EE0D < 3)
         {
@@ -1134,7 +1134,10 @@ for (s32 i=0; i<3; i++)
     v21 = field_132_f136_idx;
     u8 temp1;
     u8 temp2;
-    if (v21 == 2 || v21 == 3 || v21 == 6 || v21 == 11)
+    if (v21 == MENUPAGE_DEAD 
+        || v21 == MENUPAGE_AREA_COMPLETE 
+        || v21 == MENUPAGE_BONUS_AREA 
+        || v21 == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
         if (!gLucid_hamilton_67E8E0.sub_4C59A0())
         {
@@ -1149,7 +1152,7 @@ for (s32 i=0; i<3; i++)
         }
         v24 = temp1;
         v25 = temp2;
-        if (field_132_f136_idx == 6)
+        if (field_132_f136_idx == MENUPAGE_BONUS_AREA)
         {
             // TODO: remove volatile
             volatile s32 scale_unk = 3 * temp1 + temp2 + 64;
@@ -1177,15 +1180,17 @@ for (s32 i=0; i<3; i++)
         */
 
         v27 = field_132_f136_idx;
-        if (v27 == 2 || v27 == 3 || v27 == 11)
+        if (v27 == MENUPAGE_DEAD 
+            || v27 == MENUPAGE_AREA_COMPLETE 
+            || v27 == MENUPAGE_RESULTS_PLAYER_QUIT)
         {
             Frontend::sub_4B57B0(10, 0xE1);
         }
     }
 
-    if (field_132_f136_idx == 7)
+    if (field_132_f136_idx == MENUPAGE_UNK_KILLS)
     {
-        Frontend::sub_4B55F0();
+        Frontend::sub_4B55F0(); // multiplayer results
     }
 
     u32 temp3 = -1;
@@ -1233,7 +1238,7 @@ for (s32 i=0; i<3; i++)
                 {
                     DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
 
-                    if (field_132_f136_idx == 1)
+                    if (field_132_f136_idx == MENUPAGE_PLAY)
                     {
                         v35 = temp4;
                         v7->field_518_elements_array[4].field_1_is_it_displayed = 0;
@@ -1245,23 +1250,23 @@ for (s32 i=0; i<3; i++)
                         if ((u16)temp4 == 3)
                         {
                             temp3 = 3;
-                            v7->field_518_elements_array[4].field_6_element_name_str[0] = 1;
-                            v7->field_518_elements_array[5].field_6_element_name_str[0] = 2;
+                            v7->field_518_elements_array[4].field_6_geometric_shape_type = 1;
+                            v7->field_518_elements_array[5].field_6_geometric_shape_type = 2;
                             v7->field_518_elements_array[4].field_1_is_it_displayed = field_1EB4C != 0;
                             v7->field_518_elements_array[5].field_1_is_it_displayed = field_1EB4D != 0;
                         }
                         else if (v35 == 4)
                         {
                             temp3 = 4;
-                            v7->field_518_elements_array[6].field_6_element_name_str[0] = 1;
-                            v7->field_518_elements_array[7].field_6_element_name_str[0] = 2;
+                            v7->field_518_elements_array[6].field_6_geometric_shape_type = 1;
+                            v7->field_518_elements_array[7].field_6_geometric_shape_type = 2;
                             v7->field_518_elements_array[6].field_1_is_it_displayed = field_1EB4E != 0;
                             v7->field_518_elements_array[7].field_1_is_it_displayed = field_1EB4F != 0;
                         }
                         else if (v35 == 0)
                         {
-                            v7->field_518_elements_array[8].field_6_element_name_str[0] = 1;
-                            v7->field_518_elements_array[9].field_6_element_name_str[0] = 2;
+                            v7->field_518_elements_array[8].field_6_geometric_shape_type = 1;
+                            v7->field_518_elements_array[9].field_6_geometric_shape_type = 2;
                             if (field_110_state != 3)
                             {
                                 v7->field_518_elements_array[8].field_1_is_it_displayed = 1;
@@ -1293,7 +1298,7 @@ for (s32 i=0; i<3; i++)
                             }
                         }
                     }
-                    else if (field_132_f136_idx == 5)
+                    else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
                     {
                         v7->field_518_elements_array[2].field_6_element_name_str[0] = 3;
                         v7->field_518_elements_array[3].field_6_element_name_str[0] = 4;
@@ -1336,11 +1341,11 @@ for (s32 i=0; i<3; i++)
             {
                 v44 = field_132_f136_idx;
                 bool v45 = false;
-                if ((v44 == 1 || v44 == 3) && temp4 == 1)
+                if ((v44 == MENUPAGE_PLAY || v44 == MENUPAGE_AREA_COMPLETE) && temp4 == 1)
                 {
                     v45 = true;
                 }
-                if (v44 != 11 && v44 != 2 || temp4 != 0)
+                if (v44 != MENUPAGE_RESULTS_PLAYER_QUIT && v44 != MENUPAGE_DEAD || temp4 != 0)
                 {
                     if (!v45)
                     {
@@ -1479,12 +1484,12 @@ for (s32 i=0; i<3; i++)
                     Frontend::sub_4B3CC0(field_132_f136_idx, temp4, &a4_unk);
                     v63 = field_132_f136_idx;
                     u16 v64_u16;
-                    if (v63 == 1 && ((u16)temp4 == 2 || (u16)temp4 == 3))
+                    if (v63 == MENUPAGE_PLAY && ((u16)temp4 == 2 || (u16)temp4 == 3))
                     {
                         v64_u16 = v56->field_6C_font_variant;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v64_u16, 1u, 0x15u, 1);
                     }
-                    else if (v63 == 5 && (u16)temp4 == 1)
+                    else if (v63 == MENUPAGE_VIEW_HIGH_SCORE && (u16)temp4 == 1)
                     {
                         u16 v62_u16 = v56->field_6C_font_variant;
                         Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v62_u16, 1u, 0x15u, 1);
@@ -1646,7 +1651,7 @@ void Frontend::sub_4AEC00()
             break;
 
         case 1:
-            if (field_132_f136_idx == 9)
+            if (field_132_f136_idx == MENUPAGE_CREDITS)
             {
                 snd1_67D818.field_4_bStatus = 1;
                 sub_4B7A10();
@@ -1732,7 +1737,7 @@ void Frontend::sub_4B6780()
     MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
     if (field_110_state != 2)
     {
-        if (field_132_f136_idx == 0)
+        if (field_132_f136_idx == MENUPAGE_START_MENU)
         {
             switch (pBorg->field_BC6_current_option_idx)
             {
@@ -1749,7 +1754,7 @@ void Frontend::sub_4B6780()
                     break;
             }
         }
-        else if (field_132_f136_idx == 1)
+        else if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             switch (pBorg->field_BC6_current_option_idx)
             {
@@ -1772,24 +1777,28 @@ void Frontend::sub_4B6780()
                     break;
             }
         }
-        else if (field_132_f136_idx == 5)
+        else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
         {
             field_EE08 = HiScoresDisplay_12;
         }
-        else if (field_132_f136_idx == 2)
+        else if (field_132_f136_idx == MENUPAGE_DEAD)
         {
             field_EE08 = GameOver_13;
         }
-        else if (field_132_f136_idx == 3u || field_132_f136_idx == 6 || field_132_f136_idx == 7 || field_132_f136_idx == 0xB ||
-                 field_132_f136_idx == 0xE)
+        else if (field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
+            || field_132_f136_idx == MENUPAGE_BONUS_AREA 
+            || field_132_f136_idx == MENUPAGE_UNK_KILLS 
+            || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT 
+            || field_132_f136_idx == MENUPAGE_PARENTAL_CONTROL)
         {
             field_EE08 = RedBar_16;
         }
-        else if (field_132_f136_idx == 4 || field_132_f136_idx == 0xA)
+        else if (field_132_f136_idx == MENUPAGE_GAME_COMPLETE 
+            || field_132_f136_idx == MENUPAGE_NICE_TRY)
         {
             field_EE08 = Loading_15;
         }
-        else if (field_132_f136_idx == 9)
+        else if (field_132_f136_idx == MENUPAGE_CREDITS)
         {
             field_EE08 = Credits_17;
         }
@@ -1987,7 +1996,7 @@ void Frontend::sub_4AE2D0()
                     break;
             }
         }
-        else if (field_132_f136_idx == 1 && !pBorg->field_BC6_current_option_idx)
+        else if (field_132_f136_idx == MENUPAGE_PLAY && !pBorg->field_BC6_current_option_idx)
         {
             field_110_state = 3;
             sub_4B4280();
@@ -2004,20 +2013,20 @@ void Frontend::sub_4AE2D0()
     {
         switch (field_132_f136_idx)
         {
-            case 0u:
-            case 0xEu:
+            case MENUPAGE_START_MENU:
+            case MENUPAGE_PARENTAL_CONTROL:
                 sub_4B3170(9u);
                 break;
-            case 1u:
-            case 2u:
-            case 3u:
-            case 4u:
-            case 6u:
-            case 0xAu:
-            case 0xBu:
+            case MENUPAGE_PLAY:
+            case MENUPAGE_DEAD:
+            case MENUPAGE_AREA_COMPLETE:
+            case MENUPAGE_GAME_COMPLETE:
+            case MENUPAGE_BONUS_AREA:
+            case MENUPAGE_NICE_TRY:
+            case MENUPAGE_RESULTS_PLAYER_QUIT:
                 sub_4B3170(0);
                 break;
-            case 5u:
+            case MENUPAGE_VIEW_HIGH_SCORE:
                 sub_4B3170(1u);
                 break;
             default:
@@ -2044,7 +2053,7 @@ void Frontend::sub_4AE2D0()
         if (v11->field_0_option_type == STRING_TEXT_2)
         {
             v12 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6390();
-            if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
+            if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v11->field_6E_horizontal_selected_idx);
                 sub_4B42E0(); // this
@@ -2055,7 +2064,7 @@ void Frontend::sub_4AE2D0()
                 }
             }
 
-            if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
+            if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && !v18->field_BC6_current_option_idx)
             {
                 field_EE0D = v11->field_6E_horizontal_selected_idx;
                 if (v12)
@@ -2069,7 +2078,7 @@ void Frontend::sub_4AE2D0()
             goto LABEL_60;
         }
 
-        if (field_132_f136_idx == 1)
+        if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (field_BC6_nifty_idx == 3)
             {
@@ -2096,7 +2105,7 @@ void Frontend::sub_4AE2D0()
         if (v15->field_0_option_type == STRING_TEXT_2)
         {
             v16 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].sub_4B6330(); // this
-            if (field_132_f136_idx == 1 && !v18->field_BC6_current_option_idx)
+            if (field_132_f136_idx == MENUPAGE_PLAY && !v18->field_BC6_current_option_idx)
             {
                 gLucid_hamilton_67E8E0.sub_4C5920(v15->field_6E_horizontal_selected_idx);
                 sub_4B42E0();
@@ -2106,7 +2115,7 @@ void Frontend::sub_4AE2D0()
                     snd1_67D818.field_0_object_type = 4;
                 }
             }
-            if (field_132_f136_idx == 5 && !v18->field_BC6_current_option_idx)
+            if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && !v18->field_BC6_current_option_idx)
             {
                 field_EE0D = v15->field_6E_horizontal_selected_idx;
                 if (v16)
@@ -2117,7 +2126,7 @@ void Frontend::sub_4AE2D0()
             goto LABEL_59;
         }
 
-        if (field_132_f136_idx == 1)
+        if (field_132_f136_idx == MENUPAGE_PLAY)
         {
             if (v14 == 3)
             {
@@ -2140,7 +2149,7 @@ void Frontend::sub_4AE2D0()
     }
 
 LABEL_60:
-    if (field_C9D2_delete_pressed && field_132_f136_idx == 1 && !pBorg->field_BC6_current_option_idx)
+    if (field_C9D2_delete_pressed && field_132_f136_idx == MENUPAGE_PLAY && !pBorg->field_BC6_current_option_idx)
     {
         field_110_state = 4;
         field_EE0A = 190;
@@ -2626,7 +2635,7 @@ void Frontend::sub_4ADF50()
         case 1:
         case 3:
         case 5:
-            if (field_132_f136_idx == 9)
+            if (field_132_f136_idx == MENUPAGE_CREDITS)
             {
                 sub_4B7AE0();
             }
