@@ -322,6 +322,8 @@ struct Frontend
 
     EXPORT void read_menu_input_4AFEB0();
 
+    EXPORT void sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
+
     EXPORT void sub_4B6780();
 
     EXPORT void sub_4B7A10();

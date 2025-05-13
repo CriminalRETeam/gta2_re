@@ -850,6 +850,45 @@ LABEL_116:
     sub_4B6780();
 }
 
+// https://decomp.me/scratch/xV52f
+STUB_FUNC(0x4B3AF0)
+void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
+{
+    int v5;
+    wchar_t Destination;
+
+    MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
+    menu_option_0x82* pOption = &pPage->field_4_options_array[option_idx];
+
+    if (menu_page_idx == MENUPAGE_PLAY && option_idx == 0) // option 0 = change player/name
+    {
+        s32 plyr_idx = pOption->field_6E_horizontal_selected_idx;
+        if (gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName[0]) // if a name is already set
+        {
+            swprintf(&Destination, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName); // put the player name
+        }
+        else if (field_110_state == 3)
+        {
+            wcscpy(&Destination, field_C9A0);   // player typing a name?
+        }
+        else
+        {
+            swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);    //  player number?
+            swprintf(&Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C); // player 1, player 2, etc
+        }
+    }
+    else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
+    {
+        swprintf(&Destination, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+    }
+    else
+    {
+        swprintf(tmpBuff_67BD9C, L"%d", pOption->field_6E_horizontal_selected_idx);
+        swprintf(&Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+    }
+    *w_buffer = &Destination;
+}
+
 MATCH_FUNC(0x4B8680)
 void Frontend::sub_4B8680()
 {
@@ -1223,9 +1262,7 @@ for (s32 i=0; i<3; i++)
             {
                 if (v31->field_0_option_type == STRING_TEXT_2)
                 {
-                    //v30 = (__int32)Frontend::sub_4B3AF0(field_132_f136_idx, a3[0], a4_unk);
-                    // TODO: STUB
-                    //Frontend::sub_4B3AF0(field_132_f136_idx, temp4, &a4_unk);
+                    sub_4B3AF0(field_132_f136_idx, temp4, &a4_unk);
                 }
                 else
                 {
@@ -1355,7 +1392,7 @@ for (s32 i=0; i<3; i++)
                 }
                 if (v31->field_0_option_type == STRING_TEXT_2)
                 {
-                    //Frontend::sub_4B3AF0(v44, v29, &a4_unk);  TODO: STUB
+                    sub_4B3AF0(v44, v29, &a4_unk);
                 }
                 else
                 {
