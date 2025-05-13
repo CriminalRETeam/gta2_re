@@ -277,6 +277,7 @@ void MapRenderer::draw_slope_4F6630()
 STUB_FUNC(0x4f66c0)
 void MapRenderer::sub_4F66C0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4f6880)
@@ -334,7 +335,7 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
                     }
                     else
                     {
-                        MapRenderer::sub_4F66C0();
+                        MapRenderer::sub_4F66C0(); // !
                     }
                 }
                 else
@@ -363,4 +364,5 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 STUB_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
+
 }
