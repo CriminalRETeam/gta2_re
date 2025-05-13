@@ -38,25 +38,21 @@ GLOBAL(gZCoord_6F63E0, 0x6F63E0);
 EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
-EXPORT_VAR Vert gTileVerts_6F65A8[2];
+EXPORT_VAR Vert gTileVerts_6F65A8[8];
 GLOBAL(gTileVerts_6F65A8, 0x6F65A8);    // TODO: why is it giving 0x46B058?
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
 {
-    Fix16 tgt_level(target_level, 0);
-    field_4 = tgt_level;
+    field_4 = Fix16(target_level, 0);
 
     if (cycles > 0)
     {
-        Fix16 v7;
-        v7.FromUnsignedShort(cycles);
-        Fix16 v6 = tgt_level - field_0_ambient;
-        field_8 = v6.inline_divide_by(v7);
+        field_8 = (field_4 - field_0_ambient) / Fix16(cycles);
     }
     else
     {
-        field_0_ambient = tgt_level;
+        field_0_ambient = field_4;
         field_8 = stru_6F6484.field_0_full;
     }
 }
