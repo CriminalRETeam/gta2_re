@@ -352,12 +352,12 @@ Ped* PedGroup::sub_4C9ED0()
     for (s8 i = this->field_34_count - 1; i >= 0; i--)
     {
         Ped* pPed = field_4_ped_list[i];
-        if (!pPed->get_bitset_0x04()) 
+        if (!pPed->get_bitset_0x04())
         {
-            return field_4_ped_list[i]; 
-        }        
+            return field_4_ped_list[i];
+        }
     }
-    return 0; 
+    return 0;
 }
 
 STUB_FUNC(0x4c9f00)
@@ -515,11 +515,22 @@ void PedGroup::sub_4CA820(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4caa20)
+MATCH_FUNC(0x4caa20)
 bool PedGroup::sub_4CAA20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_34_count == 0)
+    {
+        return field_2C_ped_leader->field_16C_car != 0;
+    }
+
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_278 != 10)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x4caae0)
