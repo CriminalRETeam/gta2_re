@@ -380,6 +380,7 @@ Ped* PedGroup::sub_4CA3F0(u32* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/yX7XM
 STUB_FUNC(0x4ca4b0)
 void PedGroup::sub_4CA4B0()
 {
@@ -559,6 +560,7 @@ char_type PedGroup::sub_4CAB80()
     return true;
 }
 
+// https://decomp.me/scratch/p3Ujn
 STUB_FUNC(0x4cac20)
 bool PedGroup::sub_4CAC20(s32 idx)
 {
@@ -566,6 +568,7 @@ bool PedGroup::sub_4CAC20(s32 idx)
     return 0;
 }
 
+// https://decomp.me/scratch/MrO9e
 STUB_FUNC(0x4cad40)
 bool PedGroup::sub_4CAD40()
 {
