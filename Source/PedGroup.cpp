@@ -346,11 +346,18 @@ char_type PedGroup::sub_4C9B60(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x4c9ed0)
+MATCH_FUNC(0x4c9ed0)
 Ped* PedGroup::sub_4C9ED0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s8 i = this->field_34_count - 1; i >= 0; i--)
+    {
+        Ped* pPed = field_4_ped_list[i];
+        if (!pPed->get_bitset_0x04()) 
+        {
+            return field_4_ped_list[i]; 
+        }        
+    }
+    return 0; 
 }
 
 STUB_FUNC(0x4c9f00)

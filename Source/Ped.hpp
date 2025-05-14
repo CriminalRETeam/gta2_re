@@ -262,6 +262,11 @@ class Ped
         field_14C = pSrc;
     }
 
+    bool get_bitset_0x04()
+    {
+        return field_21C & ped_bit_status_enum::k_ped_0x00000004 ? true : false;
+    }    
+
     void unset_bitset_0x04()
     {
         field_21C &= ~ped_bit_status_enum::k_ped_0x00000004;
