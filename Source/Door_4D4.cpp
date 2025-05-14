@@ -490,6 +490,7 @@ Door_38* Door_4D4::sub_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 
 STUB_FUNC(0x49cfa0)
 Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -604,6 +605,7 @@ Door_38* Door_4D4::sub_49D3A0()
 STUB_FUNC(0x49d3c0)
 char_type Door_4D4::sub_49D3C0(s32 a2, u8 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -635,6 +637,7 @@ Door_4D4::Door_4D4()
 STUB_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
+    NOT_IMPLEMENTED;
     if (gDoor_2C4_67BD28)
     {
         GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
@@ -668,6 +671,7 @@ s32 Door_10::sub_4DEEB0(s32 v)
 STUB_FUNC(0x49c340)
 void Door_10::sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x49c4e0)

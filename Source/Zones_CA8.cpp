@@ -106,6 +106,7 @@ void Gang_144::sub_4BEE50(u8 idx, char_type a3)
 STUB_FUNC(0x4BEEA0)
 void Gang_144::sub_4BEEA0(u8 a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4BEEF0)
@@ -117,6 +118,7 @@ char_type Gang_144::sub_4BEEF0(u8 a2)
 STUB_FUNC(0x4BEF10)
 bool Gang_144::sub_4BEF10(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return (field_11C[a2] < 237) ? true : false;
 }
 
@@ -129,6 +131,7 @@ void Gang_144::sub_4BEF50(u8 zone_idx, char_type a3)
 STUB_FUNC(0x4BEF70)
 char_type Gang_144::sub_4BEF70(u8 a2, u8 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -136,6 +139,7 @@ char_type Gang_144::sub_4BEF70(u8 a2, u8 a3)
 STUB_FUNC(0x4BF000)
 void Gang_144::sub_4BF000(u8 a2, char_type idx)
 {
+    NOT_IMPLEMENTED;
     if (idx <= 0)
     {
         sub_4BEEA0(a2, -idx);
@@ -274,6 +278,7 @@ u8 Zones_CA8::get_zone_idx_4BF210(const char* zoneName)
 STUB_FUNC(0x4BF230);
 void Zones_CA8::sub_4BF230(Gang_144* pZone, u8 zone_idx)
 {
+    NOT_IMPLEMENTED;
     Gang_144 zone;
     zone.init_4BED70();
     if (pZone->field_1_zone_idx != zone_idx)

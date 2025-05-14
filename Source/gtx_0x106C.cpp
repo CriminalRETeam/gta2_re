@@ -38,12 +38,14 @@ GLOBAL(word_703C9C, 0x703C9C);
 STUB_FUNC(0x5abaa0)
 u8 sprite_index::sub_5ABAA0(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5abb00)
 void sprite_index::sub_5ABB00(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5AA3B0)
@@ -62,12 +64,14 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
 STUB_FUNC(0x5AA3F0)
 s32 sub_5AA3F0(u16 a2, u8 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5AA460)
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
+    NOT_IMPLEMENTED;
     u16 result;
     switch (type)
     {
@@ -427,6 +431,7 @@ void gtx_0x106C::create_tile_num_array_5AA950()
 STUB_FUNC(0x5AA9A0)
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
+    NOT_IMPLEMENTED;
     s32 total_len = 0;
     BYTE total_sprite = 0;
     BYTE last_car_sprite = 0;
@@ -509,6 +514,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 STUB_FUNC(0x5AAB30)
 void gtx_0x106C::sub_5AAB30(u32 delx_chunk_size)
 {
+    NOT_IMPLEMENTED;
     // TODO
     UNIQUE_FUNC;
 }
@@ -523,6 +529,7 @@ sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
 STUB_FUNC(0x5AABF0)
 void gtx_0x106C::sub_5AABF0()
 {
+    NOT_IMPLEMENTED;
     // TODO
     UNIQUE_FUNC;
 }
@@ -544,6 +551,7 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 STUB_FUNC(0x5AAC70)
 void gtx_0x106C::sub_5AAC70()
 {
+    NOT_IMPLEMENTED;
     // TODO
     UNIQUE_FUNC;
 }
@@ -813,6 +821,7 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 STUB_FUNC(0x5AB380)
 bool gtx_0x106C::sub_5AB380(u8 car_id)
 {
+    NOT_IMPLEMENTED;
     // TODO
     UNIQUE_FUNC;
     return false;
@@ -851,6 +860,7 @@ void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
 STUB_FUNC(0x5AB3F0)
 void gtx_0x106C::read_spec_5AB3F0(u32 type)
 {
+    NOT_IMPLEMENTED;
     u16 read_value1;
     u32 read_value1_size = 2;
     File::Global_Read_4A71C0(&read_value1, read_value1_size);

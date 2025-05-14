@@ -44,6 +44,7 @@ void Kfc_30::sub_5CBC40(Ped* a2)
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
+    NOT_IMPLEMENTED;
     Ped* pPed = this->field_4;
     if (pPed && pPed->field_278 == 9)
     {
@@ -58,22 +59,26 @@ bool Kfc_30::sub_5CBC60()
 STUB_FUNC(0x5cbc90)
 char_type Kfc_30::sub_5CBC90()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5cbd50)
 void Kfc_30::sub_5CBD50()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5cc1c0)
 void Kfc_30::sub_5CC1C0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5cc480)
 char_type Kfc_30::sub_5CC480()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

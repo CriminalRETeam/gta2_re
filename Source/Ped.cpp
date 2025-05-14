@@ -89,6 +89,7 @@ Ped::~Ped()
 STUB_FUNC(0x45afc0)
 char_type Ped::sub_45AFC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -140,6 +141,7 @@ char_type Ped::sub_45B4E0()
 STUB_FUNC(0x45b520)
 u32* Ped::sub_45B520(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -174,6 +176,7 @@ bool Ped::sub_45B590()
 STUB_FUNC(0x45b5b0)
 s32 Ped::sub_45B5B0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -209,17 +212,20 @@ void Ped::sub_45BC10(Fix16 xpos, Fix16 ypos)
 STUB_FUNC(0x45bc70)
 void Ped::sub_45BC70()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45bd20)
 char_type Ped::sub_45BD20(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45be30)
 s32 Ped::sub_45BE30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -299,6 +305,7 @@ void Ped::sub_45BEC0()
 STUB_FUNC(0x45bfb0)
 void Ped::DrawFlamesAndStartScreamTimer()
 {
+    NOT_IMPLEMENTED;
     if ((field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
         // TODO: This is actually another function
@@ -392,6 +399,7 @@ void Ped::RestoreCarOrPedHealth()
 STUB_FUNC(0x45c0c0)
 void Ped::sub_45C0C0(gmp_map_zone* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x45c310)
@@ -407,17 +415,20 @@ void Ped::sub_45C310()
 STUB_FUNC(0x45c350)
 void Ped::sub_45C350(gmp_map_zone* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45c410)
 s32 Ped::sub_45C410()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45c4b0)
 void Ped::sub_45C4B0()
 {
+    NOT_IMPLEMENTED;
     // TODO: Needs Sprite stubs
     /*
     Car_BC* pBc = field_16C_car;
@@ -497,11 +508,13 @@ void Ped::sub_45C5C0()
 STUB_FUNC(0x45C650)
 void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45c730)
 s32 Ped::sub_45C730(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -518,6 +531,7 @@ void Ped::EnterCarAsDriver(Car_BC* pCar)
 STUB_FUNC(0x45c7f0)
 Char_8* Ped::sub_45C7F0(Car_BC* pCar)
 {
+    NOT_IMPLEMENTED;
     // TODO: ordering
     field_248_enter_car_as_passenger = 1;
     field_24C_target_car_door = 1;
@@ -530,6 +544,7 @@ Char_8* Ped::sub_45C7F0(Car_BC* pCar)
 STUB_FUNC(0x45c830)
 char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -543,6 +558,7 @@ Ang16& Ped::sub_45C900(Ang16& a2)
 STUB_FUNC(0x45c920)
 s32* Ped::sub_45C920(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -572,12 +588,14 @@ Fix16& Ped::sub_45C9B0(Fix16& a2)
 STUB_FUNC(0x45c9d0)
 s16* Ped::sub_45C9D0(s16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45caa0)
 void Ped::sub_45CAA0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x45ce50)
@@ -607,29 +625,34 @@ void Ped::TakeDamage(s16 damage)
 STUB_FUNC(0x45cf20)
 void Ped::sub_45CF20(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45d000)
 char_type Ped::sub_45D000(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45dd30)
 char_type Ped::sub_45DD30(s32 a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45de80)
 char_type Ped::sub_45DE80(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45e080)
 void Ped::sub_45E080()
 {
+    NOT_IMPLEMENTED;
     Object_2C* v2; // eax
 
     if ((this->field_224 & 0x20) != 0 && !this->field_16C_car)
@@ -731,21 +754,25 @@ void Ped::sub_45E080()
 STUB_FUNC(0x45e4a0)
 void Ped::sub_45E4A0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45ea00)
 void Ped::sub_45EA00()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45eb60)
 void Ped::sub_45EB60()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45edc0)
 char_type Ped::sub_45EDC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -758,78 +785,92 @@ bool Ped::sub_45EDE0(s32 a2)
 STUB_FUNC(0x45ee00)
 char_type Ped::sub_45EE00(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45ee70)
 gmp_map_zone* Ped::sub_45EE70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x45f360)
 void Ped::sub_45F360()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45ff60)
 void Ped::sub_45FF60()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x460820)
 void Ped::sub_460820()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x461290)
 void Ped::sub_461290()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x461530)
 char_type Ped::sub_461530()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x461630)
 void Ped::sub_461630()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4619f0)
 char_type Ped::sub_4619F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x461a60)
 s16 Ped::sub_461A60()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x461f20)
 void Ped::sub_461F20()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x462280)
 s16 Ped::sub_462280()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4624a0)
 s32 Ped::sub_4624A0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x462510)
 void Ped::RemovePedWeapons_462510()
 {
+    NOT_IMPLEMENTED;
     if (this->field_170_selected_weapon)
     {
         this->field_21C &= ~800000u; // TODO: Wrong
@@ -841,6 +882,7 @@ void Ped::RemovePedWeapons_462510()
 STUB_FUNC(0x462550)
 void Ped::sub_462550()
 {
+    NOT_IMPLEMENTED;
     if (this->field_174_pWeapon)
     {
         this->field_21C &= ~800000u; // TODO: Wrong
@@ -852,28 +894,33 @@ void Ped::sub_462550()
 STUB_FUNC(0x462590)
 void Ped::sub_462590()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x462620)
 s32 Ped::sub_462620()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4626b0)
 char_type Ped::sub_4626B0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x462b80)
 void Ped::sub_462B80()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x462e70)
 char_type Ped::sub_462E70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -887,110 +934,129 @@ void Ped::sub_4632E0()
 STUB_FUNC(0x463300)
 s32 Ped::sub_463300(u8 a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4633e0)
 s32 Ped::sub_4633E0(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x463570)
 char_type Ped::SetObjective(s32 a2, s16 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x463830)
 void Ped::sub_463830(s32 a2, s16 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x463aa0)
 void Ped::sub_463AA0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x463fb0)
 void Ped::sub_463FB0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4645b0)
 s16* Ped::sub_4645B0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x465270)
 void Ped::sub_465270()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x465b20)
 char_type Ped::sub_465B20()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x465cd0)
 bool Ped::sub_465CD0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x465d00)
 char_type Ped::sub_465D00(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466b90)
 Ped* Ped::sub_466B90(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466bb0)
 Ped* Ped::sub_466BB0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466bd0)
 Ped* Ped::sub_466BD0(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466bf0)
 Ped* Ped::sub_466BF0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466f40)
 s32 Ped::sub_466F40(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466f60)
 s32 Ped::sub_466F60(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x466fb0)
 s32 Ped::sub_466FB0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x467090)
 char_type Ped::sub_467090()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1012,45 +1078,53 @@ Sprite* Ped::sub_467280()
 STUB_FUNC(0x4672e0)
 char_type Ped::sub_4672E0(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4678e0)
 char_type Ped::sub_4678E0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x467960)
 char_type Ped::sub_467960()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x467a20)
 char_type Ped::sub_467A20()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x467ad0)
 void Ped::sub_467AD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x467bd0)
 void Ped::sub_467BD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x467ca0)
 void Ped::sub_467CA0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x467e20)
 void Ped::sub_467E20()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x467fb0)
@@ -1068,12 +1142,14 @@ void Ped::sub_467FB0()
 STUB_FUNC(0x467fd0)
 char_type Ped::sub_467FD0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x468040)
 s16 Ped::sub_468040()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1097,48 +1173,57 @@ void Ped::sub_4682A0()
 STUB_FUNC(0x468310)
 void Ped::sub_468310()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4686c0)
 void Ped::sub_4686C0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x468820)
 void Ped::sub_468820()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x468930)
 void Ped::sub_468930()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x468a00)
 void Ped::sub_468A00()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x468bd0)
 void Ped::sub_468BD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x468c70)
 char_type Ped::sub_468C70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x468de0)
 char_type Ped::sub_468DE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x468e80)
 char_type Ped::sub_468E80()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1168,22 +1253,26 @@ void Ped::sub_469030()
 STUB_FUNC(0x469060)
 void Ped::sub_469060()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x469bd0)
 void Ped::sub_469BD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x469bf0)
 char_type Ped::sub_469BF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x469d60)
 s32 Ped::sub_469D60()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1199,18 +1288,21 @@ void Ped::sub_469E10()
 STUB_FUNC(0x469e30)
 s32 Ped::sub_469E30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x469e50)
 s32 Ped::sub_469E50()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x469f30)
 s32 Ped::sub_469F30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1231,96 +1323,113 @@ void Ped::sub_469FC0()
 STUB_FUNC(0x469fe0)
 void Ped::sub_469FE0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a1f0)
 void Ped::sub_46A1F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a290)
 s32 Ped::sub_46A290()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46a350)
 char_type Ped::sub_46A350()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46a530)
 s32 Ped::sub_46A530()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46a5e0)
 void Ped::sub_46A5E0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a6d0)
 s16 Ped::sub_46A6D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46a7c0)
 void Ped::sub_46A7C0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a850)
 void Ped::sub_46A850()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a8f0)
 void Ped::sub_46A8F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46a9c0)
 s32 Ped::sub_46A9C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46aae0)
 char_type Ped::sub_46AAE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46ab50)
 char_type Ped::sub_46AB50()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46ac20)
 char_type Ped::sub_46AC20()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b170)
 s32 Ped::sub_46B170()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b2f0)
 s32 Ped::sub_46B2F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46b670)
 void Ped::sub_46B670()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46bd30)
@@ -1335,45 +1444,53 @@ void Ped::sub_46BD30()
 STUB_FUNC(0x46bd50)
 char_type Ped::sub_46BD50(u8* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46bdc0)
 void Ped::sub_46BDC0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46c250)
 void Ped::sub_46C250()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46c770)
 char_type Ped::sub_46C770()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46c7e0)
 s32 Ped::sub_46C7E0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46c8a0)
 s32 Ped::sub_46C8A0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46c910)
 void Ped::sub_46C910()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46c9b0)
 void Ped::sub_46C9B0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46ca60)
@@ -1415,30 +1532,35 @@ void Ped::sub_46CA70()
 STUB_FUNC(0x46cb30)
 char_type Ped::sub_46CB30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46cc70)
 char_type Ped::sub_46CC70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46cdb0)
 char_type Ped::sub_46CDB0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46cef0)
 char_type Ped::sub_46CEF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46d030)
 void Ped::sub_46D030()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46d0b0)
@@ -1453,21 +1575,25 @@ void Ped::sub_46D0B0()
 STUB_FUNC(0x46d0d0)
 void Ped::sub_46D0D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46d240)
 void Ped::sub_46D240()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46d300)
 void Ped::sub_46D300()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46d460)
 void Ped::sub_46D460(char_type a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46db60)
@@ -1505,12 +1631,14 @@ Sprite* Ped::sub_46DF50()
 STUB_FUNC(0x46df70)
 s32 Ped::sub_46DF70(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
+    NOT_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
         (sub_45EDE0(3) || (sub_45EDE0(4) || sub_45EDE0(6)) && this->field_240_occupation == 35);
 }
@@ -1518,12 +1646,14 @@ bool Ped::sub_46E020(PedGroup* pGroup)
 STUB_FUNC(0x46e080)
 s32 Ped::sub_46E080(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46e200)
 u8 Ped::sub_46E200(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1649,22 +1779,26 @@ s32 Ped::sub_46F100(u8 a2)
 STUB_FUNC(0x46f110)
 Weapon_30* Ped::sub_46F110()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46f1e0)
 void Ped::sub_46F1E0(Weapon_30* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46f390)
 void Ped::sub_46F390()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46f490)
 s32 Ped::sub_46F490()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1696,38 +1830,45 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
 STUB_FUNC(0x46f680)
 void Ped::sub_46F680(Ped* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46f720)
 void Ped::sub_46F720()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46f9d0)
 void Ped::sub_46F9D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46fc70)
 u32* Ped::sub_46FC70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46fc90)
 void Ped::sub_46FC90(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x46fe20)
 char_type Ped::sub_46FE20(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x46ff00)
 void Ped::sub_46FF00(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x46fff0)
@@ -1759,12 +1900,14 @@ void Ped::sub_46FFF0(s32 model)
 STUB_FUNC(0x470050)
 s16 Ped::sub_470050()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470160)
 void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
+    NOT_IMPLEMENTED;
     field_20A_wanted_points += wanted_amount;
 
     if (field_20A_wanted_points <= 12000)
@@ -1832,6 +1975,7 @@ void Ped::sub_4702D0(Ped* pPed)
 STUB_FUNC(0x470300)
 void Ped::sub_470300()
 {
+    NOT_IMPLEMENTED;
     this->field_15C_player = 0;
     this->field_240_occupation = 3;
     this->field_238 = 3;

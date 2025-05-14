@@ -4,7 +4,8 @@
 #include <fstream>
 #include <windows.h>
 
-class ErrorLog : public std::fstream
+// TODO: Base type is too big
+class ErrorLog /*: public std::ofstream*/
 {
 public:
     ErrorLog& Write_4D9620(const char_type* pMsg);

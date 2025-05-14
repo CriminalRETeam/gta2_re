@@ -31,6 +31,7 @@ u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
 STUB_FUNC(0x59de80)
 char_type Fix16_Rect::sub_59DE80()
 {
+    NOT_IMPLEMENTED;
     DoSetCurrentRect_59DD60();
     return gMap_0x370_6F6268->sub_4E4460(
              ((this->field_0_left + this->field_4_right) / 2).ToInt(),

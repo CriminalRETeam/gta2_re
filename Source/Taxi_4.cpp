@@ -8,18 +8,21 @@ GLOBAL(gTaxi_324_6783F8, 0x6783F8);
 STUB_FUNC(0x457ba0)
 u32* Taxi_4::sub_457BA0(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x457bc0)
 s32 Taxi_4::sub_457BC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x457bf0)
 s32 Taxi_4::sub_457BF0(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

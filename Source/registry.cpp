@@ -422,6 +422,7 @@ char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
 STUB_FUNC(0x5874E0)
 DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 {
+    NOT_IMPLEMENTED;
     u32 valueData;
 
     DWORD cbData = sizeof(DWORD);

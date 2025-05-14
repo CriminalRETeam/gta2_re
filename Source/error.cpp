@@ -15,6 +15,7 @@ GLOBAL(gHwnd_707F04, 0x707F04);
 STUB_FUNC(0x4D9620)
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
+    NOT_IMPLEMENTED;
     return *this;
 }
 
@@ -70,6 +71,7 @@ const char_type* gListTypes_61AB70[30] = {"objects",
 STUB_FUNC(0x4DA740)
 EXPORT void sub_4DA740()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4A0770)
@@ -113,6 +115,7 @@ struct Coord2
 STUB_FUNC(0x4A07C0)
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
+    NOT_IMPLEMENTED;
     va_list va; // [esp+94h] [ebp+34h] BYREF
 
     va_start(va, lineNo);

@@ -272,6 +272,7 @@ EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 STUB_FUNC(0x46E370)
 EXPORT s32 IanTest_46E370()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -279,12 +280,14 @@ EXPORT s32 IanTest_46E370()
 STUB_FUNC(0x5D8DF0)
 EXPORT void sub_5D8DF0()
 {
+    NOT_IMPLEMENTED;
 }
 
 // TODO: move
 STUB_FUNC(0x5D8E00)
 EXPORT void sub_5D8E00()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4B8EB0)
@@ -488,6 +491,7 @@ void Game_0x40::sub_4B93C0()
 STUB_FUNC(0x4B9410)
 void Game_0x40::sub_4B9410()
 {
+    NOT_IMPLEMENTED;
     for (s32 i = 0; i < field_23_max_idx; i++)
     {
         if (field_4_players[i]->field_8E_bInUse)
@@ -664,6 +668,7 @@ s8 Game_0x40::sub_4B9640()
 STUB_FUNC(0x4B9700)
 void Game_0x40::sub_4B9700()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4B9710)
@@ -775,6 +780,7 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 STUB_FUNC(0x4B9950)
 s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
 {
+    NOT_IMPLEMENTED;
     // TODO: Requires Sprite stubs
     return 0;
 }
@@ -797,6 +803,7 @@ bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 STUB_FUNC(0x4B9A80)
 bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 {
+    NOT_IMPLEMENTED;
     for (s32 i = 0; i < field_23_max_idx; i++)
     {
         Player* pPlayer = field_4_players[i];
@@ -818,6 +825,7 @@ bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 STUB_FUNC(0x4B9B10)
 s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
 {
+    NOT_IMPLEMENTED;
     // wip
     for (u8 i = 0; i < field_23_max_idx; i++)
     {

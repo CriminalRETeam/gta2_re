@@ -100,6 +100,7 @@ set(gta2_lib_src
   Source/gtx_0x106C.hpp
   Source/gtx_0x106C.cpp
   Source/Function.hpp
+  Source/Function.cpp
   Source/DrawUnk_0xBC.hpp
   Source/DrawUnk_0xBC.cpp
   Source/Ped.hpp

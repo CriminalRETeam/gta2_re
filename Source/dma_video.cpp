@@ -133,6 +133,7 @@ EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 STUB_FUNC(0x5EB970)
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
+    NOT_IMPLEMENTED;
     gVidFuncs_708600.pVid_GetVersion = &pVid_GetVersion;
     gVidFuncs_708600.pVid_Init_SYS = &pVid_Init_SYS;
     gVidFuncs_708600.pVid_CheckMode = &pVid_CheckMode;

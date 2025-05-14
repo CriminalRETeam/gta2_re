@@ -141,6 +141,7 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
                                                    size_t output_size,
                                                    u32* next_position)
 {
+    NOT_IMPLEMENTED;
     return NULL;
 }
 
@@ -312,6 +313,7 @@ CarInfo_2C::~CarInfo_2C()
 STUB_FUNC(0x4542A0)
 void CarInfo_2C::sub_4542A0(s32 idx)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4546b0)
@@ -370,6 +372,7 @@ CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
 STUB_FUNC(0x454850)
 void CarInfo_808::sub_454850()
 {
+    NOT_IMPLEMENTED;
     const u32 count = gGtx_0x106C_703DD4->get_number_of_cars();
     field_400_raw_data = new CarInfo_2C[count];
 

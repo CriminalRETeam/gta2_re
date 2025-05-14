@@ -11,21 +11,25 @@ void Rozza_C88::Reset_40BB90()
 STUB_FUNC(0x40bba0)
 void Rozza_C88::sub_40BBA0(Sprite* a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x40bc40)
 void Rozza_C88::sub_40BC40(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x40bd10)
 void Rozza_C88::sub_40BD10(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x40bdd0)
 void Rozza_C88::sub_40BDD0(Sprite* a2, Sprite* a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x40be00)

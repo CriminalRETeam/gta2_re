@@ -41,6 +41,7 @@ char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
 STUB_FUNC(0x40F010)
 void root_sound::sub_40F010()
 {
+    NOT_IMPLEMENTED;
     // todo
     //gSound_obj_66F680.sub_57E960(); // stub
 }
@@ -54,6 +55,7 @@ void root_sound::sub_40F020()
 STUB_FUNC(0x40F030)
 char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
 {
+    NOT_IMPLEMENTED;
     //return gSound_obj_66F680.sub_57ECB0(a1, a2, a3);
     // todo
     return 0;
@@ -62,6 +64,7 @@ char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
 STUB_FUNC(0x40F050)
 char_type root_sound::sub_40F050(s32 a1, s32 a2)
 {
+    NOT_IMPLEMENTED;
     //return gSound_obj_66F680.sub_57EE30(a1, a2);
     // todo
     return 0;
@@ -70,6 +73,7 @@ char_type root_sound::sub_40F050(s32 a1, s32 a2)
 STUB_FUNC(0x40F070)
 void root_sound::sub_40F070(char_type a1)
 {
+    NOT_IMPLEMENTED;
     //gSound_obj_66F680.sub_57EEE0(a1);
     // todo
 }

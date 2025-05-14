@@ -42,6 +42,7 @@ const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
 STUB_FUNC(0x5B58D0)
 u16 text_0x14::sub_5B58D0(u16 a2)
 {
+    NOT_IMPLEMENTED;
     // todo
     /*
     u16 result; // ax
@@ -166,6 +167,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 STUB_FUNC(0x5B5AD0)
 u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
+    NOT_IMPLEMENTED;
     u16 result; // ax
 
     result = a2;
@@ -230,6 +232,7 @@ wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
 STUB_FUNC(0x5B5BC0)
 s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -366,5 +369,6 @@ text_0x14::text_0x14()
 STUB_FUNC(0x5B6050)
 text_0x14::~text_0x14()
 {
+    NOT_IMPLEMENTED;
 
 }

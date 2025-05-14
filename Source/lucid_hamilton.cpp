@@ -9,7 +9,7 @@ EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
 GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
 
 EXPORT_VAR extern char_type byte_67DC88[4]; // TODO
-EXPORT_VAR extern wchar_t word_67DC8C[50]; // TODO
+EXPORT_VAR extern wchar_t word_67DC8C[1]; // TODO
 
 MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()
