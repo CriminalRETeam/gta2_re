@@ -14,6 +14,7 @@ u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x
 STUB_FUNC(0x5C1D00)
 void TrafficLight_20::sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5)
 {
+    NOT_IMPLEMENTED;
 
 }
 
@@ -28,6 +29,7 @@ void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
 STUB_FUNC(0x5c2950)
 void TrafficLights_194::sub_5C2950()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5c2a10)

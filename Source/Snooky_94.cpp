@@ -39,11 +39,13 @@ void Crusher_30::sub_488310(Car_BC* pCar)
 STUB_FUNC(0x488350)
 void Crusher_30::sub_488350()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4885a0)
 infallible_turing* Crusher_30::sub_4885A0(Fix16 a2, Fix16 a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

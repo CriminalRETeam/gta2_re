@@ -326,9 +326,6 @@ GLOBAL(byte_706C5D, 0x706C5D);
 EXPORT_VAR BYTE byte_6F5B71;
 GLOBAL(byte_6F5B71, 0x6F5B71);
 
-EXPORT_VAR BYTE byte_6F4BF4;
-GLOBAL(byte_6F4BF4, 0x6F4BF4);
-
 EXPORT_VAR s32 gStartMode_626A0C; // = 2; // TODO: VAR HACK
 GLOBAL(gStartMode_626A0C, 0x626A0C);
 
@@ -372,6 +369,7 @@ GLOBAL(gMouseDataFormat_601A84, 0x601A84);
 STUB_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
+    NOT_IMPLEMENTED;
     // todo
     /*
     if (bStartNetworkGame_7081F0)
@@ -457,6 +455,7 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 STUB_FUNC(0x5D93A0)
 EXPORT void __stdcall sub_5D93A0()
 {
+    NOT_IMPLEMENTED;
     char_type v0; // bl
     s32 bcheckModeRet; // esi
     // SVideo *v2; // eax
@@ -525,6 +524,7 @@ EXPORT void __stdcall ShowCursor_5D9660()
 STUB_FUNC(0x5D9510)
 EXPORT char_type sub_5D9510()
 {
+    NOT_IMPLEMENTED;
 
     if (!sub_5D92C0())
     {
@@ -633,6 +633,7 @@ EXPORT s32 ReadScreenSettings_5D8F70()
 STUB_FUNC(0x5D98E0)
 EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -640,6 +641,7 @@ EXPORT void __stdcall SetSavedGamma_5D98E0()
 STUB_FUNC(0x5D92D0)
 EXPORT void __stdcall sub_5D92D0()
 {
+    NOT_IMPLEMENTED;
     u32 field_4_flags; // ecx
     u32 v1; // ecx
 
@@ -799,17 +801,68 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
+STUB_FUNC(0x4DB170)
+void __stdcall sub_4DB170()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DB0D0)
+void __stdcall ExitGameCallback_4DB0D0(Game_0x40 *pGame, int reason)
+{
+    NOT_IMPLEMENTED;
+}
+
 // todo move to another file for ordering
 STUB_FUNC(0x4DA4D0)
 EXPORT void __stdcall sub_4DA4D0()
 {
-    // todo
+    NOT_IMPLEMENTED;
+
+    if ( byte_6F5B71 )
+    {
+        gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
+    }
+    else
+    {
+        gBurgerKing_67F8B0.sub_4CE880(gHInstance_708220);
+    }
+
+    gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+    gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
+
+    if ( bStartNetworkGame_7081F0 )
+    {
+        gYouthful_einstein_6F8450.ctor_516560();
+
+        sub_4DB170();
+        
+        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.field_5D4_player_idx);
+
+        gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
+
+        // TODO missing code here
+    }
+    else
+    {
+        gGame_0x40_67E008 = new Game_0x40(1, 0);
+    }
+
+    gGame_0x40_67E008->sub_4B8C40();
+    gGame_0x40_67E008->sub_4B8EB0();
+
+    // TODO
+    //byte_6F58D8 = 0;
+    //byte_6F5880 = 0;
+    //dword_6F5A28 = timeGetTime();
+    //byte_6F5760 = 1;
 }
 
 // todo move to another file for ordering
 STUB_FUNC(0x5D9690)
 EXPORT void __stdcall sub_5D9690()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -817,6 +870,7 @@ EXPORT void __stdcall sub_5D9690()
 STUB_FUNC(0x4DA850)
 EXPORT char_type sub_4DA850()
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -825,6 +879,7 @@ EXPORT char_type sub_4DA850()
 STUB_FUNC(0x4DA830)
 EXPORT void __stdcall sub_4DA830()
 {
+    NOT_IMPLEMENTED;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
@@ -857,6 +912,7 @@ GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0
 STUB_FUNC(0x4C4EC0)
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
+    NOT_IMPLEMENTED;
     u32 dwMajorVersion; // eax
     HMODULE hDInput; // eax
     HMODULE hDInput_; // esi
@@ -1167,6 +1223,7 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 STUB_FUNC(0x4DA3F0)
 EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -1250,6 +1307,7 @@ EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 STUB_FUNC(0x5D9230)
 EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
+    NOT_IMPLEMENTED;
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
 }
@@ -1258,6 +1316,7 @@ EXPORT void __stdcall sub_5D9230(s32 startMode)
 STUB_FUNC(0x5D9680)
 EXPORT void sub_5D9680()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -1265,6 +1324,7 @@ EXPORT void sub_5D9680()
 STUB_FUNC(0x498D10)
 EXPORT void Input_Read_498D10()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -1272,12 +1332,15 @@ EXPORT void Input_Read_498D10()
 STUB_FUNC(0x5D9250)
 EXPORT void __stdcall sub_5D9250()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
 STUB_FUNC(0x5E4EE0)
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
+    NOT_IMPLEMENTED;
+
     switch (Msg)
     {
 
@@ -1512,6 +1575,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 STUB_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
+    NOT_IMPLEMENTED;
     LoadBeginSceneCBPtr();
 
     //hInstance_ = hInstance;
@@ -1797,6 +1861,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 STUB_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
+    NOT_IMPLEMENTED;
     return 1;
 }
 

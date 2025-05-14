@@ -66,7 +66,7 @@ void* __cdecl malloc(size_t Size)
 // this shouldn't be a problem but is something to be aware of.
 void* operator new(size_t n) throw(std::bad_alloc)
 {
-    printf("new %d\n", n);
+    //printf("new %d\n", n);
     return crt::malloc(n);
 }
 void operator delete(void* p) throw()
@@ -76,7 +76,7 @@ void operator delete(void* p) throw()
 
 void* operator new[](size_t s) throw(std::bad_alloc)
 {
-    printf("new[] %d\n", s);
+    //printf("new[] %d\n", s);
     return crt::malloc(s);
 }
 

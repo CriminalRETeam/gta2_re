@@ -52,12 +52,14 @@ Fix16 Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
     return result;
 }
 
+/*
 MATCH_FUNC(0x436A20)
 Fix16 Fix16::operator/(const Fix16& in)
 {
     s32 value = ((__int64)mValue << 14) / in.mValue;
     return Fix16(value, 0);
 }
+*/
 
 MATCH_FUNC(0x436A50)
 Fix16 Fix16::Abs_436A50(Fix16& a2)

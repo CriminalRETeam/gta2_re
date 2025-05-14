@@ -62,6 +62,7 @@ Collide_C::Collide_C()
 STUB_FUNC(0x478bf0)
 Collide_C::~Collide_C()
 {
+    NOT_IMPLEMENTED;
     if (gPurpleDoom_1_679208)
     {
         delete gPurpleDoom_1_679208;

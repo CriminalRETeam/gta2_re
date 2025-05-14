@@ -18,6 +18,7 @@ GLOBAL(gChar_324_678b50, 0x678b50);
 STUB_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5451A0)
@@ -34,6 +35,7 @@ Char_B4::~Char_B4()
 STUB_FUNC(0x5453d0)
 void Char_B4::sub_5453D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5454B0)
@@ -46,11 +48,13 @@ void Char_B4::sub_5454B0()
 STUB_FUNC(0x5454d0)
 void Char_B4::sub_5454D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x545530)
 void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x545570)
@@ -62,196 +66,231 @@ s32 Char_B4::sub_545570()
 STUB_FUNC(0x5455f0)
 void Char_B4::sub_5455F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x545600)
 s16 Char_B4::sub_545600()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5456a0)
 void Char_B4::sub_5456A0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x545700)
 s32 Char_B4::sub_545700()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x545720)
 char_type Char_B4::sub_545720(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5459c0)
 char_type Char_B4::sub_5459C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5459e0)
 void Char_B4::sub_5459E0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x546360)
 void Char_B4::sub_546360()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x548590)
 void Char_B4::sub_548590()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x548670)
 void Char_B4::sub_548670(char_type a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x548840)
 void Char_B4::sub_548840(Object_2C* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x548bd0)
 void Char_B4::sub_548BD0(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54a530)
 void Char_B4::sub_54A530(Car_BC* a2, Car_BC* a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54b8f0)
 char_type Char_B4::sub_54B8F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c090)
 s32 Char_B4::sub_54C090()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c1a0)
 char_type Char_B4::sub_54C1A0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c3e0)
 char_type Char_B4::sub_54C3E0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c500)
 char_type Char_B4::sub_54C500(char_type a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c580)
 void Char_B4::sub_54C580()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54c6c0)
 s16 Char_B4::sub_54C6C0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54c900)
 s16 Char_B4::sub_54C900(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54cae0)
 s16 Char_B4::sub_54CAE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54cc40)
 void Char_B4::sub_54CC40()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54dd70)
 void Char_B4::sub_54DD70()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54ddf0)
 void Char_B4::state_0_54DDF0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x54ecb0)
 char_type Char_B4::sub_54ECB0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54ef60)
 char_type Char_B4::sub_54EF60(char_type a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x54fec0)
 char_type Char_B4::sub_54FEC0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x550090)
 char_type Char_B4::sub_550090(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5504f0)
 void Char_B4::state_1_5504F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x550f60)
 s16* Char_B4::sub_550F60(s16* a2, s16 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x551350)
 char_type Char_B4::sub_551350(s16 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x551400)
 char_type Char_B4::sub_551400()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5516f0)
 char_type Char_B4::sub_5516F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 //STUB_FUNC(0x5519f0)
 //void j_Char_B4::state_1_5504F0()
 //{
+//    NOT_IMPLEMENTED;
 //}
 
 // This constructor doesn't exist.
@@ -294,21 +333,25 @@ Char_324::Char_324()
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4703f0)
 void Char_C::sub_4703F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x470650)
 Char_C::Char_C()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4709b0)
 Char_C::~Char_C()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x470a50)
@@ -348,53 +391,62 @@ Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
 STUB_FUNC(0x470b00)
 Ped* Char_C::sub_470B00(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470ba0)
 Ped* Char_C::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470cc0)
 Ped* Char_C::sub_470CC0(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470d60)
 Ped* Char_C::sub_470D60()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470e30)
 Ped* Char_C::sub_470E30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470f30)
 Ped* Char_C::sub_470F30()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470f90)
 Ped* Char_C::sub_470F90(Ped* pSrc)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x471060)
 void Char_C::DoIanTest_471060(s16 a1)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4710c0)
 Ped* Char_C::PedById(s32 pedId)
 {
+    NOT_IMPLEMENTED;
     Ped* pPedIter = gChar_203AC_6787B8->field_4;
     if (!pPedIter)
     {

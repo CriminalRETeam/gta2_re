@@ -45,9 +45,6 @@ GLOBAL(bDo_release_replay_67D4EB, 0x67D4EB);
 EXPORT_VAR bool bSkip_traffic_lights_67D4EC;
 GLOBAL(bSkip_traffic_lights_67D4EC, 0x67D4EC);
 
-EXPORT_VAR bool byte_67D4ED;
-GLOBAL(byte_67D4ED, 0x67D4ED);
-
 EXPORT_VAR bool bDo_corner_window_67D4EE;
 GLOBAL(bDo_corner_window_67D4EE, 0x67D4EE);
 
@@ -56,9 +53,6 @@ GLOBAL(bSkip_dummies_67D4EF, 0x67D4EF);
 
 EXPORT_VAR bool bDo_load_savegame_67D4F0;
 GLOBAL(bDo_load_savegame_67D4F0, 0x67D4F0);
-
-EXPORT_VAR bool byte_67D4F1;
-GLOBAL(byte_67D4F1, 0x67D4F1);
 
 EXPORT_VAR bool bDo_show_horn_67D4F2;
 GLOBAL(bDo_show_horn_67D4F2, 0x67D4F2);
@@ -71,12 +65,6 @@ GLOBAL(bPlay_replay_67D4F4, 0x67D4F4);
 
 EXPORT_VAR bool bDont_get_car_back_67D4F5;
 GLOBAL(bDont_get_car_back_67D4F5, 0x67D4F5);
-
-EXPORT_VAR bool byte_67D4F6;
-GLOBAL(byte_67D4F6, 0x67D4F6);
-
-EXPORT_VAR bool byte_67D4F7;
-GLOBAL(byte_67D4F7, 0x67D4F7);
 
 EXPORT_VAR bool bDo_test_67D4F8;
 GLOBAL(bDo_test_67D4F8, 0x67D4F8);

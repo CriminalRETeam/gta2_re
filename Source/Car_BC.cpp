@@ -137,168 +137,197 @@ void sub_447640()
 STUB_FUNC(0x4476f0)
 void Car_78::sub_4476F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x447710)
 char_type Car_78::sub_447710()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x447970)
 void Car_78::sub_447970()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x447ca0)
 char_type Car_78::sub_447CA0(u8 a2, u8 a3, u8 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x447d40)
 char_type Car_78::sub_447D40(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448270)
 char_type Car_78::sub_448270()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4482c0)
 char_type Car_78::sub_4482C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448770)
 char_type Car_78::sub_448770()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x448ce0)
 char_type Car_78::sub_448CE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44a1f0)
 char_type Car_78::sub_44A1F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44af00)
 s16 Car_78::sub_44AF00()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44d1d0)
 char_type Car_78::sub_44D1D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x44e0c0)
 void Car_78::sub_44E0C0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x44e560)
 void Car_78::sub_44E560()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451980)
 void Car_78::sub_451980()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451fa0)
 void Car_78::sub_451FA0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x451ff0)
 s32 Car_78::sub_451FF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452060)
 char_type Car_78::sub_452060()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452a20)
 s16 Car_78::sub_452A20()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x452df0)
 s16 Car_78::sub_452DF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453470)
 s16 Car_78::sub_453470()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453590)
 s32* Car_78::sub_453590(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4537d0)
 char_type Car_78::sub_4537D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4538b0)
 Car_BC* Car_78::sub_4538B0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453990)
 s32 Car_78::sub_453990(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4539b0)
 Car_BC* Car_78::sub_4539B0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4539d0)
 u8* Car_78::sub_4539D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453a40)
 s32 Car_78::sub_453A40()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453bb0)
 s16 Car_78::sub_453BB0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -311,23 +340,27 @@ void Car_78::sub_453BF0(Car_BC* a2)
 STUB_FUNC(0x453c00)
 u8* Car_78::sub_453C00()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453d80)
 s32 Car_78::sub_453D80()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x453cb0)
 Car_78::Car_78()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x443580)
 s32* Sprite::get_x_y_443580(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -346,11 +379,13 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 STUB_FUNC(0x54EC80)
 void Sprite::sub_54EC80(s32 xpos, s32 ypos)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59E170)
 bool Sprite::sub_59E170()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -370,12 +405,14 @@ Ped* Sprite::sub_59E1B0()
 STUB_FUNC(0x59E1D0)
 s32 Sprite::sub_59E1D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59E250)
 char Sprite::sub_59E250()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -419,24 +456,28 @@ void Sprite::sub_59E320(char_type a2)
 STUB_FUNC(0x59e390) // https://decomp.me/scratch/dijmx
 bool Sprite::sub_59E390(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59e4c0)
 s32 Sprite::sub_59E4C0(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59E590)
 char_type Sprite::sub_59E590(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59E680)
 char_type Sprite::sub_59E680(s32 a2, s16* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -478,39 +519,46 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 STUB_FUNC(0x59E830)
 char_type Sprite::sub_59E830(Sprite* a1, Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59E850)
 char_type Sprite::sub_59E850(Sprite* pSprite)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59E8C0)
 void Sprite::sub_59E8C0(Sprite* pSprite)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59E910)
 void Sprite::sub_59E910(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59e960)
 void Sprite::sub_59E960()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59e9c0)
 Sprite* Sprite::sub_59E9C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x59eaa0)
@@ -527,22 +575,26 @@ s16 Sprite::sub_59EAA0()
 STUB_FUNC(0x59eae0)
 char_type Sprite::sub_59EAE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x59eb30)
 void Sprite::sub_59EB30(s32 a2, f32* a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59ee40)
 void Sprite::ShowHorn_59EE40(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x59eff0)
 void Sprite::sub_59EFF0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x59f950)
@@ -562,6 +614,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 STUB_FUNC(0x59f990)
 void Sprite::sub_59F990()
 {
+    NOT_IMPLEMENTED;
     if (this->field_4_0x4C_len == NULL)
     {
         this->field_4_0x4C_len = gSprite_5D598_70381C->Allocate();
@@ -624,12 +677,14 @@ void Sprite::sub_59FAD0()
 STUB_FUNC(0x59FB10)
 bool Sprite::sub_59FB10(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return false;
 }
 
 STUB_FUNC(0x5a0150)
 char_type Sprite::sub_5A0150(s32 a2, u8* a3, u8* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -666,42 +721,49 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 STUB_FUNC(0x5a0380)
 bool Sprite::sub_5A0380(Sprite* a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A0970)
 char_type Sprite::sub_5A0970(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A0A70)
 char_type Sprite::sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A0EF0)
 char_type Sprite::sub_5A0EF0(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a1030)
 char_type Sprite::sub_5A1030(Sprite* a2, Sprite** a3, u8* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a1490)
 bool Sprite::sub_5A1490(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a19c0)
 char_type Sprite::sub_5A19C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -745,60 +807,70 @@ char Sprite::sub_5A1A60()
 STUB_FUNC(0x5a1b30)
 char_type Sprite::sub_5A1B30(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a1bd0)
 char_type Sprite::sub_5A1BD0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a1ca0)
 char_type Sprite::sub_5A1CA0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A1EB0)
 char_type Sprite::sub_5A1EB0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A21F0)
 char_type Sprite::sub_5A21F0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A22B0)
 u32* Sprite::sub_5A22B0(u32* a2, Sprite* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A2440)
 char_type Sprite::sub_5A2440()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a2500)
 char_type Sprite::sub_5A2500()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5A26E0)
 s16* Sprite::sub_5A26E0(s16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5a2710)
 s32* Sprite::sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -827,11 +899,13 @@ void Sprite::FreeSound_5A2A00()
 STUB_FUNC(0x5a2a30)
 void Sprite::sub_5A2A30()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5a2cf0)
 s32 Sprite::Init_5A2CF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -846,6 +920,7 @@ void Sprite::sub_5A3030()
 STUB_FUNC(0x5a3100)
 void Sprite::sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5a3540)
@@ -863,6 +938,7 @@ void Sprite_4C::SetCurrentRect_5A4D90()
 STUB_FUNC(0x5A3550)
 void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
+    NOT_IMPLEMENTED;
 
 }
 
@@ -881,6 +957,7 @@ void Car_214::sub_5C8680(u8 idx)
 STUB_FUNC(0x5c86c0)
 char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -903,6 +980,7 @@ void Car_214::sub_5C8750()
 STUB_FUNC(0x5c8780)
 u16* Car_214::sub_5C8780(u8 a2, Sprite* pCarSprite)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -942,47 +1020,55 @@ void Car_2::sub_47BD90()
 STUB_FUNC(0x444980)
 void Car_6C::sub_444980()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x444ab0)
 u32 Car_6C::sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x444cf0)
 Car_BC* Car_6C::sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x444f80)
 Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x444fa0)
 Car_BC* Car_6C::sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4458b0)
 Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x446230)
 Car_BC* Car_6C::sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x446530)
 Car_A4_10* Car_6C::sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -996,28 +1082,33 @@ void Car_6C::sub_446730(Car_BC* pCar)
 STUB_FUNC(0x4466c0)
 s32 Car_6C::sub_4466C0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x446790)
 void Car_6C::sub_446790()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x446870)
 bool Car_6C::sub_446870(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x446930)
 u32 Car_6C::sub_446930(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1026,6 +1117,7 @@ STUB_FUNC(0x4469f0)
 // But the structure it seems to be complete
 Car_6C::Car_6C()
 {
+    NOT_IMPLEMENTED;
     if (!gCar_E0C4_67792C)
     {
         gCar_E0C4_67792C = new Car_E0C4();
@@ -1124,6 +1216,7 @@ Car_6C::Car_6C()
 STUB_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x439ec0)
@@ -1136,12 +1229,14 @@ bool Car_BC::sub_439EC0()
 STUB_FUNC(0x439ee0)
 u32* Car_BC::sub_439EE0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x439f30)
 u32* Car_BC::sub_439F30(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1155,18 +1250,21 @@ wchar_t* Car_BC::GetCarStr_439F80()
 STUB_FUNC(0x439fb0)
 u32* Car_BC::sub_439FB0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a0e0)
 u32* Car_BC::sub_43A0E0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a120)
 u32* Car_BC::sub_43A120(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1195,12 +1293,14 @@ bool Car_BC::sub_43A230()
 STUB_FUNC(0x43a240)
 s32* Car_BC::sub_43A240(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a3c0) // ??? stupidly easy function that doesn't match :)
 bool Car_BC::sub_43A3C0()
 {
+    NOT_IMPLEMENTED;
     Car_B0* pObj; // eax
 
     pObj = this->field_58_uni_Car78_or_Car_B0;
@@ -1215,30 +1315,35 @@ bool Car_BC::sub_43A3C0()
 STUB_FUNC(0x43a3e0)
 s16* Car_BC::sub_43A3E0(s16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a450)
 u32* Car_BC::sub_43A450(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a4c0)
 Fix16 Car_BC::sub_43A4C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a590)
 u32* Car_BC::sub_43A590(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43a5b0)
 u32* Car_BC::sub_43A5B0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1256,6 +1361,7 @@ void Car_BC::RemoveAllDamage()
 STUB_FUNC(0x43a680)
 bool Car_BC::AllowResprayOrPlates()
 {
+    NOT_IMPLEMENTED;
     // TODO: which object is sub_5A71A0 part of?
     s32 info_idx; // eax
     s32 info_idx_; // esi
@@ -1277,6 +1383,7 @@ bool Car_BC::AllowResprayOrPlates()
 STUB_FUNC(0x43a6f0)
 bool Car_BC::IsNotCurrentRemap(u8 remap)
 {
+    NOT_IMPLEMENTED;
     // Does this car info have remaps and is it not the current remap?
     return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != remap;
 }
@@ -1313,11 +1420,13 @@ void Car_BC::SetCarRemap(u8 remap)
 STUB_FUNC(0x43a7d0)
 void Car_BC::sub_43A7D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1369,34 +1478,40 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 STUB_FUNC(0x43a9f0)
 void Car_BC::sub_43A9F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43aa60)
 Car_BC* Car_BC::sub_43AA60()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43aaf0)
 char_type Car_BC::sub_43AAF0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43adc0)
 void Car_BC::sub_43ADC0(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43af10)
 bool Car_BC::sub_43AF10()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43af40)
 char_type Car_BC::sub_43AF40()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1412,18 +1527,21 @@ void Car_BC::sub_43AF60()
 STUB_FUNC(0x43afe0)
 char_type Car_BC::sub_43AFE0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b140)
 bool Car_BC::sub_43B140(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b2b0)
 bool Car_BC::sub_43B2B0(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1442,35 +1560,41 @@ char_type Car_BC::GetRemap()
 STUB_FUNC(0x43b380)
 void Car_BC::sub_43B380()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43b3d0)
 char_type Car_BC::sub_43B3D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b420)
 s32 Car_BC::sub_43B420(s32 a2, u32* a3, u32* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b5a0)
 s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b730)
 char_type Car_BC::sub_43B730()
 {
+    NOT_IMPLEMENTED;
     return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
 STUB_FUNC(0x43b750)
 char_type Car_BC::sub_43B750()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1493,29 +1617,34 @@ void Car_BC::sub_43B770()
 STUB_FUNC(0x43b7b0)
 char_type Car_BC::sub_43B7B0(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b850)
 bool Car_BC::sub_43B850(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43b870)
 void Car_BC::sub_43B870(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43bb90)
 s32 Car_BC::sub_43BB90(char_type a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43bbc0)
 char_type Car_BC::sub_43BBC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1566,12 +1695,14 @@ void Car_BC::sub_43BD00()
 STUB_FUNC(0x43bd40)
 char_type Car_BC::sub_43BD40()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43bf10)
 void Car_BC::sub_43BF10()
 {
+    NOT_IMPLEMENTED;
     if ((this->field_A4 & 8) != 0)
     {
         this->field_A4 |= 1u;
@@ -1604,105 +1735,123 @@ void Car_BC::sub_43BF70()
 STUB_FUNC(0x43bfe0)
 char_type Car_BC::sub_43BFE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c0c0)
 char_type Car_BC::sub_43C0C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c1c0)
 u32 Car_BC::sub_43C1C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c260)
 car_info* Car_BC::sub_43C260()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c310)
 car_info* Car_BC::sub_43C310()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c3c0)
 car_info* Car_BC::sub_43C3C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c470)
 void Car_BC::sub_43C470()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43c500)
 s32 Car_BC::sub_43C500()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c650)
 s32 Car_BC::sub_43C650()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c700)
 s32 Car_BC::sub_43C700()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c840)
 void Car_BC::sub_43C840()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43c920)
 s32 Car_BC::sub_43C920()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c9d0)
 s16 Car_BC::sub_43C9D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43ca80)
 s16 Car_BC::sub_43CA80()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43cbe0)
 s32 Car_BC::sub_43CBE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43cdf0)
 Car_BC* Car_BC::sub_43CDF0(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43cf30)
 void Car_BC::DamageArea_43CF30(s32 damage_area)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43d1c0)
 bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
 {
+    NOT_IMPLEMENTED;
     bool bDamaged;
     switch (damage_area)
     {
@@ -1732,102 +1881,120 @@ bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
 STUB_FUNC(0x43d2c0)
 void Car_BC::sub_43D2C0(char_type a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43d400)
 s32 Car_BC::sub_43D400()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43d690)
 void Car_BC::sub_43D690(s32 a2, s32 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43d7b0)
 void Car_BC::sub_43D7B0(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43d840)
 void Car_BC::sub_43D840(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43da90)
 s16 Car_BC::sub_43DA90(s16 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43db80)
 Char_8** Car_BC::sub_43DB80()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43dbd0)
 void Car_BC::sub_43DBD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43dc00)
 bool Car_BC::sub_43DC00()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43dc80)
 bool Car_BC::sub_43DC80(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43dd50)
 char_type Car_BC::sub_43DD50()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43dd60)
 void Car_BC::sub_43DD60()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x43e560)
 char_type Car_BC::sub_43E560()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43e8d0)
 Car_BC* Car_BC::sub_43E8D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43e990)
 Ped* Car_BC::sub_43E990()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43ea60)
 char_type Car_BC::sub_43EA60(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43f130)
 char_type Car_BC::sub_43F130(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440510)
 u32* Car_BC::sub_440510(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1847,6 +2014,7 @@ char_type Car_BC::GetPassengersCount_440570()
 STUB_FUNC(0x440590)
 void Car_BC::sub_440590()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4405f0)
@@ -1873,6 +2041,7 @@ void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 STUB_FUNC(0x440660)
 s32 Car_BC::sub_440660(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1892,92 +2061,108 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
 STUB_FUNC(0x4406e0)
 void Car_BC::sub_4406E0(Ped* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4407f0)
 void Car_BC::sub_4407F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x440840)
 Sprite* Car_BC::sub_440840()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440ac0)
 s32 Car_BC::sub_440AC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440b10)
 s32 Car_BC::sub_440B10()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440b60)
 s32 Car_BC::sub_440B60()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440bb0)
 s32 Car_BC::sub_440BB0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440c10)
 char_type Car_BC::sub_440C10(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440d90)
 char_type Car_BC::sub_440D90(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440f90)
 void Car_BC::sub_440F90(char_type a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x441030)
 char_type Car_BC::sub_441030(u8 a2, u8 a3, u8 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441080)
 char_type Car_BC::sub_441080(u8 a2, u8 a3, u8 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4410d0)
 char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441360)
 char_type Car_BC::sub_441360()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441380)
 void Car_BC::sub_441380()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4413b0)
 char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2034,12 +2219,14 @@ void Car_BC::sub_4415C0()
 STUB_FUNC(0x441600)
 u32* Car_BC::sub_441600(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4416d0)
 char_type Car_BC::sub_4416D0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2066,6 +2253,7 @@ void Car_BC::sub_4417F0()
 STUB_FUNC(0x441800)
 char_type Car_BC::sub_441800(char_type a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2089,23 +2277,27 @@ void Car_BC::sub_4418B0()
 STUB_FUNC(0x4418d0)
 char_type Car_BC::sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4419e0)
 void Car_BC::sub_4419E0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x441a10)
 Car_B0* Car_BC::sub_441A10()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441a40)
 char_type Car_BC::sub_441A40()
 {
+    NOT_IMPLEMENTED;
     for (s32 i = 0; i < 4; i++)
     {
         /*
@@ -2131,12 +2323,14 @@ char_type Car_BC::sub_441A40()
 STUB_FUNC(0x441a70)
 char_type Car_BC::sub_441A70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
+    NOT_IMPLEMENTED;
     Car_Door_10* pIter = field_C_doors;
     s32 tmp;
     for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
@@ -2162,23 +2356,27 @@ void Car_BC::sub_441B20()
 STUB_FUNC(0x441b50)
 char_type Car_BC::sub_441B50()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441c00)
 void Car_BC::sub_441C00()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x441d40)
 s16 Car_BC::sub_441D40()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x441e70)
 void Car_BC::sub_441E70()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x442170)
@@ -2218,29 +2416,34 @@ char_type Car_BC::sub_4421B0()
 STUB_FUNC(0x442200)
 bool Car_BC::sub_442200()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x442310)
 void Car_BC::sub_442310()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4424c0)
 char_type Car_BC::sub_4424C0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x442520)
 s16* Car_BC::sub_442520(s16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4425d0)
 void Car_BC::sub_4425D0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4426d0)
@@ -2263,54 +2466,63 @@ void Car_BC::sub_4426D0()
 STUB_FUNC(0x442760)
 Car_A4_10* Car_BC::sub_442760()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4427a0)
 Car_BC* Car_BC::sub_4427A0(Car_BC* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x442810)
 s32 Car_BC::sub_442810()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x442d10)
 s32* Car_BC::sub_442D10()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x442d70)
 char_type Car_BC::sub_442D70()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x443130)
 char_type Car_BC::sub_443130()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x443170)
 char_type Car_BC::sub_443170()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x443330)
 char_type Car_BC::sub_443330(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x443360)
 char_type Car_BC::sub_443360(s32 a2, s32 a3, s32 a4, s16 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2323,17 +2535,20 @@ char_type Car_BC::sub_4435A0()
 STUB_FUNC(0x4435b0)
 s32 Car_BC::sub_4435B0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4435f0)
 void Car_BC::sub_4435F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x443710)
 Car_6C* Car_BC::sub_443710(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2372,6 +2587,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 STUB_FUNC(0x443ae0)
 void Car_BC::ResprayOrChangePlates(s32 remap)
 {
+    NOT_IMPLEMENTED;
     Player* pPlayer = this->field_54_driver->field_15C_player;
     s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_unk.sub_592370())
@@ -2429,6 +2645,7 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
 STUB_FUNC(0x443c40)
 void Car_BC::sub_443C40(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x443d00)
@@ -2542,6 +2759,7 @@ void Car_BC::sub_443EE0(s32 a2)
 STUB_FUNC(0x443f30)
 s32 Car_BC::sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2562,6 +2780,7 @@ void Car_BC::sub_444020()
 STUB_FUNC(0x444090)
 u32 Car_BC::sub_444090(Car_BC* a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2691,6 +2910,7 @@ One of these combinations of the cases will get a match :)
 STUB_FUNC(0x4441b0)
 void Car_BC::sub_4441B0()
 {
+    NOT_IMPLEMENTED;
     s32 info_idx = field_84_car_info_idx;
     switch (info_idx)
     {
@@ -2726,6 +2946,7 @@ void Car_BC::sub_4441B0()
 STUB_FUNC(0x444490) // https://decomp.me/scratch/Mt1bU
 void Car_BC::sub_444490()
 {
+    NOT_IMPLEMENTED;
     this->field_6C_maybe_id = gCar_6C_677930->field_14++;
     this->field_74_damage = 0;
     this->field_8C = 0;
@@ -2878,6 +3099,7 @@ void Car_BC::sub_447360()
 STUB_FUNC(0x52a6d0)
 Sprite* Car_BC::sub_52A6D0(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2926,12 +3148,14 @@ void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 STUB_FUNC(0x407bd0)
 s32* Car_A4_10::sub_407BD0(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x407ce0)
 s32* Car_A4_10::sub_407CE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2994,6 +3218,7 @@ char_type Car_A4_10::sub_4081D0()
 STUB_FUNC(0x408220)
 s32 Car_A4_10::sub_408220()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

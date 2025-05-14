@@ -64,28 +64,33 @@ void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 STUB_FUNC(0x4D2150)
 void magical_germain_0x8EC::sub_4D2150(s32 a2, u16 a3, u16 a4)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4D2240)
 u8* magical_germain_0x8EC::sub_4D2240(char_type* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4D23B0)
 u8* magical_germain_0x8EC::sub_4D23B0(char_type* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4D2610)
 void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4D2690)
 s32 magical_germain_0x8EC::sub_4D2690(u16 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -205,6 +210,7 @@ void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
 STUB_FUNC(0x4D29D0)
 void magical_germain_0x8EC::sub_4D29D0(u16 a2)
 {
+    NOT_IMPLEMENTED;
     if (gGame_0x40_67E008)
     {
         switch (a2)
@@ -292,6 +298,7 @@ void magical_germain_0x8EC::sub_4D29D0(u16 a2)
 STUB_FUNC(0x4D2B40)
 void magical_germain_0x8EC::sub_4D2B40()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 

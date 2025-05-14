@@ -184,12 +184,14 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 STUB_FUNC(0x4DF240)
 gmp_map_zone* Map_0x370::sub_4DF240(u8 a2, u8 a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4DF3E0)
 u8* Map_0x370::sub_4DF3E0(u8 a2, u8 a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -510,6 +512,7 @@ void Map_0x370::alloc_zones_4DFCA0()
 STUB_FUNC(0x4DFCD0)
 void Map_0x370::update_lights_4DFCD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4DFE10)
@@ -717,36 +720,42 @@ char_type Map_0x370::sub_4E0120()
 STUB_FUNC(0x4E0130)
 char_type Map_0x370::sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E11E0)
 char_type Map_0x370::sub_4E11E0(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E1520)
 char_type Map_0x370::sub_4E1520(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E18A0)
 char_type Map_0x370::sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E1A30)
 char_type Map_0x370::sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E1E00)
 char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -794,36 +803,42 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
 STUB_FUNC(0x4E4630)
 char_type Map_0x370::sub_4E4630(Fix16 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E4770)
 char_type Map_0x370::sub_4E4770(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E4820)
 char_type Map_0x370::sub_4E4820(u32* a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E4930)
 char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E4AC0)
 char_type Map_0x370::sub_4E4AC0(char_type a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E4B40)
 char_type Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1014,6 +1029,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 STUB_FUNC(0x4E4E50)     //  DAMN reg swap    https://decomp.me/scratch/aQODE
 Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
+    NOT_IMPLEMENTED;
     Fix16 v5;
     gmp_block_info* block_4DFE10;
     s8 v10;
@@ -1071,42 +1087,49 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 STUB_FUNC(0x4E4F40)
 s32* Map_0x370::sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E5050)
 s32* Map_0x370::sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E5170)
 char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E52A0)
 char_type Map_0x370::sub_4E52A0(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E5300)
 char_type Map_0x370::sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E5480)
 char_type Map_0x370::sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1162,12 +1185,14 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
 STUB_FUNC(0x4E5BF0)
 char_type Map_0x370::sub_4E5BF0(Fix16 a2, Fix16 a3, Fix16* a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E6190)
 s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -1315,81 +1340,95 @@ Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
 STUB_FUNC(0x4E65A0)
 s16 Map_0x370::sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E6660)
 s32 Map_0x370::sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E7190)
 s32 Map_0x370::sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E7E90)
 char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E7FC0)
 char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8140)
 s32 Map_0x370::sub_4E8140(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8180)
 s32 Map_0x370::sub_4E8180(u32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E81D0)
 s32 Map_0x370::sub_4E81D0(u32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8220)
 s32 Map_0x370::sub_4E8220(u32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8370)
 u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8620)
 void Map_0x370::sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E87C0)
 void Map_0x370::sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E8940)
 void Map_0x370::sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E8A10)
 void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4E8B70)
@@ -1407,27 +1446,32 @@ void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
 STUB_FUNC(0x4E8C00)
 void Map_0x370::sub_4E8C00(u32 a2, u32 a3, u32 a4)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E8CF0)
 s32 Map_0x370::sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E90E0)
 void Map_0x370::sub_4E90E0(u32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4E9160)
 void Map_0x370::sub_4E9160(s32 size)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4E91A0)
@@ -1477,6 +1521,7 @@ void Map_0x370::load_anim_4E9280(size_t size)
 STUB_FUNC(0x4E92B0)
 void Map_0x370::load_dmap_4E92B0(s32 len)
 {
+    NOT_IMPLEMENTED;
     size_t a2;
 
     gmp_compressed_map_32* pCompressedMap = new gmp_compressed_map_32();

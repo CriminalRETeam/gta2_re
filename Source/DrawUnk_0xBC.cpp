@@ -21,12 +21,14 @@ GLOBAL(dword_67681C, 0x67681C);
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x435630)
 char_type DrawUnk_0xBC::sub_435630(s16* a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -102,12 +104,14 @@ void DrawUnk_0xBC::sub_435860(DrawUnk_0xBC* a2)
 STUB_FUNC(0x4358D0)
 s16* DrawUnk_0xBC::sub_4358D0(s16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x435A20)
 s32* DrawUnk_0xBC::sub_435A20(s32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -126,12 +130,14 @@ s32 DrawUnk_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
 STUB_FUNC(0x435B90)
 s32 DrawUnk_0xBC::sub_435B90()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
 {
+    NOT_IMPLEMENTED;
     field_10 = field_0;
     field_14 = field_4_unk;
     field_18 = field_8;
@@ -209,6 +215,7 @@ void DrawUnk_0xBC::sub_435F90(Car_BC* a2)
 STUB_FUNC(0x435FF0)
 s32 DrawUnk_0xBC::sub_435FF0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -221,38 +228,45 @@ s32 DrawUnk_0xBC::sub_436110()
 STUB_FUNC(0x436120)
 void DrawUnk_0xBC::sub_436120(Fix16 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x436140)
 void DrawUnk_0xBC::sub_436140()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4361B0)
 u32 DrawUnk_0xBC::sub_4361B0(u32 a2, u32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x436200)
 s32 DrawUnk_0xBC::sub_436200(s32 a2, s32* a3, s32* a4, s32* a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4364A0)
 void DrawUnk_0xBC::sub_4364A0(Car_BC* pCar)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x436540)
 void DrawUnk_0xBC::sub_436540(s32* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x436710)
 char_type DrawUnk_0xBC::sub_436710(char_type a2, char_type a3, char_type a4, char_type a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -273,11 +287,13 @@ void DrawUnk_0xBC::sub_436830()
 STUB_FUNC(0x436860)
 void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4368E0)
 DrawUnk_0xBC::DrawUnk_0xBC() // 4368E0
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4369E0)

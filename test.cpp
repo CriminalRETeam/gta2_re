@@ -13,6 +13,7 @@
 #include "Source/cSampleManager.hpp"
 #include "Source/map_0x370.hpp"
 #include "Source/frosty_pasteur_0xC1EA8.hpp"
+#include "Globals.hpp"
 
 #pragma comment(lib, "Winmm.lib")
 
@@ -173,6 +174,8 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
 
         force_link();
     }
+
+    GetGlobalsRegistry()->CheckVars();
 
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
