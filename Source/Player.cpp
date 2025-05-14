@@ -246,23 +246,17 @@ void Player::RemovePlayerWeapons_564C50()
     sub_5649D0(0, 0);
 }
 
-EXPORT_VAR u8 byte_67D57C;
-GLOBAL(byte_67D57C, 0x67D57C);
-
-EXPORT_VAR u8 byte_67D539;
-GLOBAL(byte_67D539, 0x67D539);
-
 MATCH_FUNC(0x564CC0)
 void Player::sub_564CC0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4); i++)
     {
-        if (i == 11 && byte_67D539)
+        if (i == 11 && gCheatInvisibility_67D539)
         {
             continue;
         }
 
-        if (i == 7 && byte_67D57C)
+        if (i == 7 && gCheatUnlimitedDoubleDamage_67D57C)
         {
             continue;
         }

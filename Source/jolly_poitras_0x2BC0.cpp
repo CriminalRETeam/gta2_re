@@ -11,7 +11,7 @@
 EXPORT_VAR jolly_poitras_0x2BC0* gJolly_poitras_0x2BC0_6FEAC0;
 GLOBAL(gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
 
-EXPORT_VAR wchar_t word_67DC8C[50];
+EXPORT_VAR wchar_t word_67DC8C[1]; // blank/empty str
 GLOBAL(word_67DC8C, 0x67DC8C);
 
 // TODO

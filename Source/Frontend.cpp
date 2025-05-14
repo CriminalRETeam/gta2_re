@@ -21,6 +21,7 @@
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
 #include "youthful_einstein.hpp"
+#include "BurgerKing_67F8B0.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -88,9 +89,6 @@ GLOBAL(byte_67DC88, 0x67DC88);
 
 EXPORT_VAR wchar_t word_67C7D8[640];
 GLOBAL(word_67C7D8, 0x67C7D8);
-
-EXPORT_VAR wchar_t* dword_67EE54;
-GLOBAL(dword_67EE54, 0x67EE54);
 
 EXPORT_VAR bool gCheatOnlyMuggerPeds_67D5A4;
 GLOBAL(gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
@@ -503,7 +501,7 @@ void Frontend::sub_4B3170(u16 arg0)
         case 3u:
             a2 = gLucid_hamilton_67E8E0.sub_4C5980();
             v51 = gLucid_hamilton_67E8E0.sub_4C59C0();
-            if (dword_67EE54 == (wchar_t*)'2')
+            if (gLucid_hamilton_67E8E0.field_574 == 50)
             {
                 v51 = 3;
             }
@@ -3798,7 +3796,6 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
     return result;
 }
 
-EXPORT_VAR extern BYTE byte_6F4BF4;
 EXPORT_VAR extern bool bDoFrontEnd_626B68;
 
 MATCH_FUNC(0x5E53C0)
@@ -3813,7 +3810,7 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
     }
     else
     {
-        byte_6F4BF4 = *a1;
+        gBurgerKing_67F8B0.field_75344 = *a1;
     }
 }
 
