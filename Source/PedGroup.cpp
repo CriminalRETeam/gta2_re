@@ -533,11 +533,17 @@ bool PedGroup::sub_4CAA20()
     return true;
 }
 
-STUB_FUNC(0x4caae0)
+MATCH_FUNC(0x4caae0)
 char_type PedGroup::sub_4CAAE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_278 != 10 && field_4_ped_list[i]->field_278 != 9)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x4cab80)
