@@ -290,7 +290,7 @@ char_type Char_B4::sub_5516F0()
 //STUB_FUNC(0x5519f0)
 //void j_Char_B4::state_1_5504F0()
 //{
-    NOT_IMPLEMENTED;
+//    NOT_IMPLEMENTED;
 //}
 
 // This constructor doesn't exist.

@@ -1038,7 +1038,7 @@ for (s32 i=0; i<3; i++)
 {
     wprintf(L"%S\n", field_136[i].field_4[0].field_6_element_name_str);
 }*/
-    printf("field_132_f136_idx %d\n", field_132_f136_idx);
+    //printf("field_132_f136_idx %d\n", field_132_f136_idx);
 
     if (field_132_f136_idx == 0)
     {
