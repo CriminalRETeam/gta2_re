@@ -6,6 +6,9 @@
 EXPORT_VAR PedGroup pedGroups_67EF20[20];
 GLOBAL(pedGroups_67EF20, 0x67EF20);
 
+EXPORT_VAR Fix16 dword_67F610;
+GLOBAL(dword_67F610, 0x67F610);
+
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
 {
@@ -380,11 +383,66 @@ Ped* PedGroup::sub_4CA3F0(u32* a2)
     return 0;
 }
 
-// https://decomp.me/scratch/yX7XM
-STUB_FUNC(0x4ca4b0)
+MATCH_FUNC(0x4ca4b0)
 void PedGroup::sub_4CA4B0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_2C_ped_leader->field_16C_car && (field_2C_ped_leader->field_21C_bf.b27) == 0)
+    {
+        for (u8 i = 0; i < field_34_count; i++)
+        {
+            Ped* pIter = field_4_ped_list[i];
+            if (pIter->field_25C_car_state != 9)
+            {
+                if (pIter->field_168_game_object)
+                {
+                    pIter->sub_463830(9, 9999);
+                }
+            }
+            if (field_38 == 1)
+            {
+                if (i == 0)
+                {
+                    pIter->field_14C = field_2C_ped_leader;
+                }
+                else
+                {
+                    pIter->field_14C = field_4_ped_list[i - 1];
+                }
+            }
+            else if (pIter->field_278 != 9)
+            {
+                if (field_2C_ped_leader->sub_45C920() != dword_67F610)
+                {
+                    switch (i)
+                    {
+                        case 3u:
+                            pIter->field_14C = this->field_4_ped_list[0];
+                            break;
+                        case 4u:
+                            pIter->field_14C = this->field_4_ped_list[1];
+                            break;
+                        case 5u:
+                            pIter->field_14C = this->field_4_ped_list[2];
+                            break;
+                        case 6u:
+                            pIter->field_14C = this->field_4_ped_list[3];
+                            break;
+                        case 7u:
+                            pIter->field_14C = this->field_4_ped_list[4];
+                            break;
+                        default:
+                            pIter->field_14C = field_2C_ped_leader;
+                            break;
+                    }
+                }
+                else
+                {
+                    pIter->field_14C = field_2C_ped_leader;
+                }
+            }
+            pIter->inline_clear_bit();
+        }
+    }
 }
 
 STUB_FUNC(0x4ca5e0)
