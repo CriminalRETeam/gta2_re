@@ -1284,7 +1284,7 @@ for (s32 i=0; i<3; i++)
                         v7->field_518_elements_array[7].field_1_is_it_displayed = 0;
                         v7->field_518_elements_array[8].field_1_is_it_displayed = 0;
                         v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
-                        if ((u16)temp4 == 3)
+                        if ((u16)temp4 == 3)    // 
                         {
                             temp3 = 3;
                             v7->field_518_elements_array[4].field_6_geometric_shape_type = 1;
@@ -1300,7 +1300,7 @@ for (s32 i=0; i<3; i++)
                             v7->field_518_elements_array[6].field_1_is_it_displayed = field_1EB4E != 0;
                             v7->field_518_elements_array[7].field_1_is_it_displayed = field_1EB4F != 0;
                         }
-                        else if (v35 == 0)
+                        else if (v35 == 0)  // change player/name option
                         {
                             v7->field_518_elements_array[8].field_6_geometric_shape_type = 1;
                             v7->field_518_elements_array[9].field_6_geometric_shape_type = 2;
@@ -1313,16 +1313,16 @@ for (s32 i=0; i<3; i++)
                                 if (!byte_67DA80)
                                 {
                                     v35 = temp_unk1;
-                                    if (!temp_unk1)
+                                    if (temp_unk1 == 0) // first player
                                     {
-                                        v7->field_518_elements_array[8].field_1_is_it_displayed = temp_unk1;
+                                        v7->field_518_elements_array[8].field_1_is_it_displayed = false; // remove left triangle
                                         field_1EB4A = v35;
                                     }
                                     else
                                     {
-                                        if (temp_unk1 == v7->field_4_options_array[0].field_7E_horizontal_max_idx)
+                                        if (temp_unk1 == v7->field_4_options_array[0].field_7E_horizontal_max_idx)  // last player
                                         {
-                                            v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
+                                            v7->field_518_elements_array[9].field_1_is_it_displayed = false; // remove right triangle
                                             field_1EB4B = 0;
                                         }
                                     }
@@ -1934,17 +1934,17 @@ void Frontend::sub_4AE2D0()
             v4 = pBorg->field_4_options_array[pBorg->field_BC6_current_option_idx].field_80_menu_page_target;
             switch (v4)
             {
-                case 257u:
+                case MENUPAGE_GTA2MANAGER:  // 257
                     Start_GTA2Manager_5E4DE0();
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case 258u:
+                case MENUPAGE_QUIT: // 258
                     field_108 = 1;
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case 259u:
+                case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
                     goto LABEL_21;
-                case 260u:
+                case MENUPAGE_LOADING_SAVE: // 260
                     v20 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0(); //  LOBYTE(v20) =
                     if (PlySlotSvgExists_4B5370(v20))
                     {
@@ -1956,7 +1956,7 @@ void Frontend::sub_4AE2D0()
                 LABEL_21:
                     gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
                     goto LABEL_28;
-                case 261u:
+                case MENUPAGE_PLAY_NEXT_AREA:   // 261
                     if (gLucid_hamilton_67E8E0.sub_4C59A0())
                     {
                         v6 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5990() >> 4;
@@ -1993,7 +1993,7 @@ void Frontend::sub_4AE2D0()
                     sub_4B4D00(v19, i);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(0);
                     goto LABEL_9;
-                case 264u:
+                case MENUPAGE_READY_TO_PLAY:    // 264
                     v8 = gLucid_hamilton_67E8E0.sub_4C5980();
                     if (!FreeLoader::sub_4AE1F0(v8))
                     {
@@ -2005,7 +2005,7 @@ void Frontend::sub_4AE2D0()
                     field_110_state = 2;
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case 265u:
+                case MENUPAGE_READY_TO_PLAY_BONUS:  // 265
                     v9 = gLucid_hamilton_67E8E0.sub_4C5990();
                     if (!FreeLoader::sub_4AE1F0(v9 >> 4))
                     {
@@ -2021,7 +2021,7 @@ void Frontend::sub_4AE2D0()
                 LABEL_11:
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case 266u:
+                case MENUPAGE_CONTINUE_NEXT_STAGE:  // 266
                     sub_4B8020();
                     snd1_67D818.field_0_object_type = 5;
                     break;
