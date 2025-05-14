@@ -20,6 +20,45 @@ class Char_B4;
 class Marz_96;
 class Object_2C;
 
+
+// Dumb name to avoid conflict with BitField32
+struct CompilerBitField32
+{
+    u32 b0 : 1;
+    u32 b1 : 1;
+    u32 b2 : 1;
+    u32 b3 : 1;
+    u32 b4 : 1;
+    u32 b5 : 1;
+    u32 b6 : 1;
+    u32 b7 : 1;
+    u32 b8 : 1;
+    u32 b9 : 1;
+    u32 b10 : 1;
+    u32 b11 : 1;
+    u32 b12 : 1;
+    u32 b13 : 1;
+    u32 b14 : 1;
+    u32 b15 : 1;
+    u32 b16 : 1;
+    u32 b17 : 1;
+    u32 b18 : 1;
+    u32 b19 : 1;
+    u32 b20 : 1;
+    u32 b21 : 1;
+    u32 b22 : 1;
+    u32 b23 : 1;
+    u32 b24 : 1;
+    u32 b25 : 1;
+    u32 b26 : 1;
+    u32 b27 : 1;
+    u32 b28 : 1;
+    u32 b29 : 1;
+    u32 b30 : 1;
+    u32 b31 : 1;
+};
+
+
 class Ped
 {
   public:
@@ -226,6 +265,12 @@ class Ped
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 
+    void inline_clear_bit()
+    {
+        // There was no way to match this without using a bit field
+        field_21C_bf.b11 = 0;
+    }
+
     void reset_ped_group()
     {
         field_164_ped_group = NULL;
@@ -400,7 +445,14 @@ class Ped
     s16 field_216_health;
     s16 field_218_objective_timer;
     s16 field_21A;
-    s32 field_21C;
+
+    union 
+    {
+        CompilerBitField32 field_21C_bf;
+        // TODO: Move everything to use the above field and remove union
+        s32 field_21C;
+    };
+
     s32 field_220;
     char_type field_224;
     u8 field_225;
