@@ -149,14 +149,14 @@ void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 }
 
 STUB_FUNC(0x4ce740)
-s32 BurgerKing_67F8B0::sub_4CE740(s32 a2)
+s32 BurgerKing_67F8B0::sub_4CE740(HINSTANCE a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4ce880)
-void BurgerKing_67F8B0::sub_4CE880(s32 a2)
+void BurgerKing_67F8B0::sub_4CE880(HINSTANCE a2)
 {
     NOT_IMPLEMENTED;
 }
