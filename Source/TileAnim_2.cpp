@@ -15,6 +15,7 @@ GLOBAL(gTileAnim_4BC_7052C8, 0x7052C8);
 STUB_FUNC(0x5bc260)
 s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -34,6 +35,7 @@ void TileAnim_2::Empty_5BC300()
 STUB_FUNC(0x5bc310)
 void TileAnim_2::sub_5BC310()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5bc3a0)

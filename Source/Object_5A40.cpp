@@ -9,4 +9,3 @@ Object_5A40::~Object_5A40()
 {
     field_0 = 0;
 }
-

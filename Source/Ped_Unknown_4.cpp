@@ -5,42 +5,49 @@
 STUB_FUNC(0x471140)
 Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x471160)
 Char_8* Ped_Unknown_4::sub_471160(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4711f0)
 Char_8* Ped_Unknown_4::sub_4711F0(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x471290)
 char_type Ped_Unknown_4::sub_471290()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x471320)
 Ped* Ped_Unknown_4::sub_471320()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4715a0)
 Char_8** Ped_Unknown_4::sub_4715A0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4715e0)
 Char_8** Ped_Unknown_4::sub_4715E0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

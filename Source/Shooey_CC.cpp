@@ -90,12 +90,14 @@ void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
 STUB_FUNC(0x484e20)
 bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x484e90)
 char_type Shooey_CC::CanReportCrime(s32 crime_type)
 {
+    NOT_IMPLEMENTED;
     u16 idx = this->field_2;
     if (idx == this->field_0)
     {
@@ -118,18 +120,21 @@ char_type Shooey_CC::CanReportCrime(s32 crime_type)
 STUB_FUNC(0x484fc0)
 Shooey_CC* Shooey_CC::ctor_484FC0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x484fd0)
 void Shooey_CC::dtor_484FD0()
 {
+    NOT_IMPLEMENTED;
 }
 
 // TODO: Just wrong case order I think
 STUB_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
+    NOT_IMPLEMENTED;
     switch (pPed->field_240_occupation)
     {
         case ped_ocupation_enum::police:
@@ -176,12 +181,14 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 STUB_FUNC(0x485090)
 bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4850f0)
 char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

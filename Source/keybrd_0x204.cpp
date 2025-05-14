@@ -11,6 +11,7 @@ GLOBAL(gKeybrd_0x204_6F52F4, 0x6F52F4);
 STUB_FUNC(0x4D5F50)
 void __stdcall keybrd_0x204::create_4D5F50()
 {
+    NOT_IMPLEMENTED;
     // no match, OG hasn't got SEH here ??
     if (!gKeybrd_0x204_6F52F4)
     {
@@ -122,6 +123,7 @@ char dword_620D2C[] = {' ', ' ', 0};
 STUB_FUNC(0x4D6000)
 s32 keybrd_0x204::GetLayout_4D6000()
 {
+    NOT_IMPLEMENTED;
     s32 result; // eax
     char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
     char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF

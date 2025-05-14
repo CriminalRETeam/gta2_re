@@ -55,17 +55,20 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 STUB_FUNC(0x56B810)
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x56BB10)
 void jolly_poitras_0x2BC0::sub_56BB10(Player* a2)
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
 STUB_FUNC(0x56C010)
 void jolly_poitras_0x2BC0::sub_56C010()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -160,6 +163,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 STUB_FUNC(0x56B990)
 void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 {
+    NOT_IMPLEMENTED;
 
     char_type FileName[356];
     u16 idx = (u16)slotIdx;
@@ -199,6 +203,7 @@ void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 STUB_FUNC(0x56BA60)
 void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -265,12 +270,14 @@ void jolly_poitras_0x2BC0::sub_56BE50()
 STUB_FUNC(0x56C1D0)
 void jolly_poitras_0x2BC0::sub_56C1D0()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
 STUB_FUNC(0x56BF20)
 void jolly_poitras_0x2BC0::sub_56BF20()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -302,17 +309,20 @@ void jolly_poitras_0x2BC0::sub_56BD20()
 STUB_FUNC(0x56BC40)
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x56BBD0)
 void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
 STUB_FUNC(0x56C250)
 void jolly_poitras_0x2BC0::sub_56C250()
 {
+    NOT_IMPLEMENTED;
     if (!bStartNetworkGame_7081F0)
     {
         if (wcscmp(this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
@@ -372,6 +382,7 @@ void high_score_table_0xF0::Init_56B520()
 STUB_FUNC(0x56B550)
 char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
+    NOT_IMPLEMENTED;
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
     {

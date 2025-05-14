@@ -119,30 +119,35 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 STUB_FUNC(0x477c30)
 char_type PurpleDoom::sub_477C30(Sprite* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x477c90)
 s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x477e60)
 Sprite* PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x477f30)
 char_type PurpleDoom::sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x477f60)
 char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -155,11 +160,13 @@ PurpleDoom::PurpleDoom()
 STUB_FUNC(0x478050)
 PurpleDoom::~PurpleDoom()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x478160)
 u32 PurpleDoom::sub_478160(u8 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -199,17 +206,20 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 STUB_FUNC(0x4782c0)
 void PurpleDoom::sub_4782C0(s32 a2, s32 idx, Sprite* a4)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x478370)
 u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x478440)
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
+    NOT_IMPLEMENTED;
     Collide_8* pNewCollide = gCollide_8004_679200->field_0;
     PurpleDoom_C* pAddedTo = 0;
     gCollide_8004_679200->field_0 = gCollide_8004_679200->field_0->field_4_pNext;
@@ -252,6 +262,7 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 STUB_FUNC(0x4784d0)
 void PurpleDoom::sub_4784D0(s32 idx, Sprite* a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 // Get first XItem at y_pos
@@ -283,30 +294,35 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 STUB_FUNC(0x4785d0)
 char_type PurpleDoom::sub_4785D0(u32 a2, s32* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x478750)
 char_type PurpleDoom::sub_478750(u32 a2, Sprite* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4787e0)
 char_type PurpleDoom::sub_4787E0(u32 a2, u32* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x478880)
 s32 PurpleDoom::sub_478880(u32 a2, u32* a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x478950)
 void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4789f0)

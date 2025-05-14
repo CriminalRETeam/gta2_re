@@ -123,6 +123,7 @@ char_type Hamburger_500::sub_474970(Ped* pPed)
 STUB_FUNC(0x4749b0)
 char_type Hamburger_500::sub_4749B0(Ped* a1)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -145,6 +146,7 @@ char_type Hamburger_500::sub_474A20(Ped* pPed)
 STUB_FUNC(0x474a80)
 char_type Hamburger_500::sub_474A80(Ped* pPed)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -167,6 +169,7 @@ char_type Hamburger_500::sub_474AF0(Ped* pPed)
 STUB_FUNC(0x474b50)
 char_type Hamburger_500::sub_474B50(Ped* pPed)
 {
+    NOT_IMPLEMENTED;
     for (u8 i = 0; i < 20; i++)
     {
         if (field_0[i].field_0 == 1)

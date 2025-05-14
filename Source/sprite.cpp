@@ -28,18 +28,21 @@ GLOBAL(DAT_0066ff18, 0x66ff18);
 STUB_FUNC(0x48f600)
 char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x48f690)
 char_type* Sprite_3CC::sub_48F690(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x48f6e0)
 s16* Sprite_3CC::sub_48F6E0(u16* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

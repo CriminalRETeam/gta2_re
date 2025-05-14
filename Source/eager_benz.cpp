@@ -416,6 +416,7 @@ void eager_benz::AddCash_592620(s32 cash)
 STUB_FUNC(0x592660)
 void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x592dd0)

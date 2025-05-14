@@ -157,6 +157,7 @@ class FreeLoader
 STUB_FUNC(0x4AE1F0)
 EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -334,6 +335,7 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -405,6 +407,7 @@ void __stdcall Frontend::destroy_4AD070()
 STUB_FUNC(0x4B3170)
 void Frontend::sub_4B3170(u16 arg0)
 {
+    NOT_IMPLEMENTED;
     u16 v3; // bp
     u8 v4; // bl
     u8 v5; // al
@@ -979,6 +982,7 @@ EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
 STUB_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
+    NOT_IMPLEMENTED;
     __int32 v1; // edx
     int v2; // ebx
     __int16 v12; // ax
@@ -1540,6 +1544,7 @@ for (s32 i=0; i<3; i++)
 STUB_FUNC(0x4B7AE0)
 void Frontend::sub_4B7AE0()
 {
+    NOT_IMPLEMENTED;
     // todo
 
     // TEST
@@ -1567,6 +1572,7 @@ void Frontend::sub_4B8650()
 STUB_FUNC(0x4B6030)
 char_type Frontend::pre_intro_bik_exists_4B6030()
 {
+    NOT_IMPLEMENTED;
     char_type* v0; // eax
     long v1; // eax
     _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
@@ -1582,6 +1588,7 @@ char_type Frontend::pre_intro_bik_exists_4B6030()
 STUB_FUNC(0x4B5F20)
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
+    NOT_IMPLEMENTED;
     // todo
     return "";
 }
@@ -1589,6 +1596,7 @@ char_type* Frontend::pre_intro_bik_4B5F20()
 STUB_FUNC(0x4B5E50)
 const char_type* Frontend::intro_bik_4B5E50()
 {
+    NOT_IMPLEMENTED;
     // todo
     return "meh.dat";
 }
@@ -1803,6 +1811,7 @@ void Frontend::sub_4B6780()
 STUB_FUNC(0x4B7A10)
 void Frontend::sub_4B7A10()
 {
+    NOT_IMPLEMENTED;
     char_type v2; // cl
     char_type* local_field_8_keys; // eax
     s32 v4; // edx
@@ -1857,6 +1866,7 @@ void Frontend::sub_4B7A10()
 STUB_FUNC(0x4AE2D0)
 void Frontend::sub_4AE2D0()
 {
+    NOT_IMPLEMENTED;
     MenuPage_0xBCA* pBorg; // ebx
     player_stats_0xA4* v3; // ebp
     u16 v4; // ax
@@ -2166,6 +2176,7 @@ void Frontend::sub_4AE990()
 STUB_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -2249,6 +2260,7 @@ void Frontend::sub_4AE9A0()
 STUB_FUNC(0x4B8280)
 void Frontend::sub_4B8280()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -2271,6 +2283,7 @@ player_stats_0xA4* Frontend::sub_4B43E0()
 STUB_FUNC(0x4B42E0)
 void Frontend::sub_4B42E0()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -2479,6 +2492,7 @@ void Frontend::sub_4B4280()
 STUB_FUNC(0x4B8530)
 void Frontend::sub_4B8530()
 {
+    NOT_IMPLEMENTED;
     short total = field_C9CA;
     if (total < 9)
     {
@@ -2561,6 +2575,7 @@ void Frontend::sub_4B8020()
 STUB_FUNC(0x4B7E10)
 EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -2621,6 +2636,7 @@ void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 STUB_FUNC(0x4ADF50)
 void Frontend::sub_4ADF50()
 {
+    NOT_IMPLEMENTED;
     switch (field_110_state)
     {
         case 1:
@@ -2754,6 +2770,7 @@ void Frontend::sub_4ADF50()
 STUB_FUNC(0x5D7D30)
 EXPORT void __stdcall sub_5D7D30()
 {
+    NOT_IMPLEMENTED;
     pVid_GetSurface(gVidSys_7071D0);
     pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
                      gVidSys_7071D0->field_54_surface_pixels_pitch,
@@ -2801,6 +2818,7 @@ void Frontend::sub_4ADFB0()
 STUB_FUNC(0x4B6E10)
 void Frontend::DrawBackground_4B6E10()
 {
+    NOT_IMPLEMENTED;
     // todo
     BYTE tga_idx; // [esp+50h] [ebp-8h] BYREF
     BYTE not_used; // [esp+54h] [ebp-4h] BYREF
@@ -2973,6 +2991,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
 STUB_FUNC(0x5D7CB0)
 EXPORT void __stdcall sub_5D7CB0()
 {
+    NOT_IMPLEMENTED;
     // todo: move me
 }
 
@@ -2980,6 +2999,7 @@ EXPORT void __stdcall sub_5D7CB0()
 STUB_FUNC(0x4AF2A0)
 Frontend::Frontend()
 {
+    NOT_IMPLEMENTED;
     field_10D = 1;
 
     gText_0x14_704DFC = new text_0x14();
@@ -3239,6 +3259,7 @@ void Frontend::sub_4AF0E0()
 STUB_FUNC(0x4B0220)
 void Frontend::sub_4B0220()
 {
+    NOT_IMPLEMENTED;
     s16 v30; // ax
 
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
@@ -3698,6 +3719,7 @@ void Frontend::sub_4B0220()
 STUB_FUNC(0x4B4440)
 void Frontend::sub_4B4440()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -4065,6 +4087,7 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 STUB_FUNC(0x4B7060)
 u8 Frontend::sub_4B7060(u8 a2)
 {
+    NOT_IMPLEMENTED;
     player_stats_0xA4* v2; // edx
     u8 result; // al
 
@@ -4092,6 +4115,7 @@ u8 Frontend::sub_4B7060(u8 a2)
 STUB_FUNC(0x4B7270)
 u8 Frontend::sub_4B7270(char_type a2)
 {
+    NOT_IMPLEMENTED;
     player_stats_0xA4* v2; // esi
     u8 result; // al
 
@@ -4144,6 +4168,7 @@ bool Frontend::sub_4B74C0()
 STUB_FUNC(0x4B7550)
 void Frontend::sub_4B7550()
 {
+    NOT_IMPLEMENTED;
     MenuPage_0xBCA* pBorg; // edi
     u8 v3; // [esp+Ch] [ebp-4h]
 
@@ -4191,6 +4216,7 @@ bool Frontend::sub_4B6FF0()
 STUB_FUNC(0x4B42B0)
 void Frontend::sub_4B42B0()
 {
+    NOT_IMPLEMENTED;
     s32 v1; // eax
     wchar_t* v2; // edi
     u32 v3; // ecx
@@ -4214,6 +4240,7 @@ void Frontend::sub_4B42B0()
 STUB_FUNC(0x4B7120)
 char_type Frontend::sub_4B7120(char_type a2)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -4221,6 +4248,7 @@ char_type Frontend::sub_4B7120(char_type a2)
 STUB_FUNC(0x4B7610)
 void Frontend::sub_4B7610()
 {
+    NOT_IMPLEMENTED;
     MenuPage_0xBCA* pItem; // esi
     u8 v3; // al
     u8 v4; // [esp+8h] [ebp-8h]
@@ -4298,6 +4326,7 @@ bool Frontend::sub_4B74F0()
 STUB_FUNC(0x4B7360)
 char_type Frontend::sub_4B7360(char_type a2)
 {
+    NOT_IMPLEMENTED;
     // todo
     return 0;
 }
@@ -4339,6 +4368,7 @@ bool Frontend::sub_4B7200()
 STUB_FUNC(0x4B4EC0)
 void Frontend::sub_4B4EC0()
 {
+    NOT_IMPLEMENTED;
     // todo
 }
 
@@ -4459,6 +4489,7 @@ menu_option_0x82::~menu_option_0x82()
 STUB_FUNC(0x4B6330)
 bool menu_option_0x82::sub_4B6330()
 {
+    NOT_IMPLEMENTED;
     BYTE tmp = byte_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
@@ -4493,6 +4524,7 @@ bool menu_option_0x82::sub_4B6330()
 STUB_FUNC(0x4B6390)
 bool menu_option_0x82::sub_4B6390()
 {
+    NOT_IMPLEMENTED;
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
     char_type bFound = 0;
@@ -4622,6 +4654,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                s32 unknown2, // alpha_value
                                s32 flags) // bool use_alpha
 {
+    NOT_IMPLEMENTED;
 
     s32 new_Flags = CalcQuadFlags_5D83E0(unknown2, flags) | 0x20000;
 

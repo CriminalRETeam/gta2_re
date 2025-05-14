@@ -43,6 +43,7 @@ void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
 STUB_FUNC(0x5e3ce0)
 Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
+    NOT_IMPLEMENTED;
     Weapon_30* pWeapon; // esi
     Weapon_30* pNext; // edx
 
@@ -82,6 +83,7 @@ Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 STUB_FUNC(0x5e3d50)
 char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 {
+    NOT_IMPLEMENTED;
     char bAddedAmmo;
 
     Weapon_30* pWeapon = find_5E3D20(pCar, weapon_kind);
@@ -123,11 +125,13 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 STUB_FUNC(0x5e3df0)
 void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* a1)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5e3e70)
 char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

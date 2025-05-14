@@ -52,6 +52,7 @@ void Car_Door_10::sub_439D40(s32* a3)
 STUB_FUNC(0x439DA0)
 void Car_Door_10::sub_439DA0(s32* a3a)
 {
+    NOT_IMPLEMENTED;
     switch (field_4_state)
     {
         case 1:

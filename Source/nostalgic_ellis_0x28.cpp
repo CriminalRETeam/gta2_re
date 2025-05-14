@@ -35,6 +35,7 @@ nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 STUB_FUNC(0x4D6D70)
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
+    NOT_IMPLEMENTED;
     s32 idx; // eax
     nostalgic_ellis_0x28* pOld; // edx
 
@@ -57,6 +58,7 @@ void nostalgic_ellis_0x28::sub_4D6D70()
 STUB_FUNC(0x4D6DC0)
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
+    NOT_IMPLEMENTED;
     nostalgic_ellis_0x28* v1; // eax
     nostalgic_ellis_0x28* result; // eax
 
@@ -101,5 +103,6 @@ void Light::sub_4D6E30()
 STUB_FUNC(0x4D6E50)
 s32 __stdcall Light::sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }

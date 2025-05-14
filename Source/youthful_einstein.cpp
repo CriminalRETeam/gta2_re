@@ -21,11 +21,13 @@ void youthful_einstein::ctor_516560() // For some reason, it's a function instea
 STUB_FUNC(0x516590)
 void youthful_einstein::sub_516590(Player* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x516660)
 s16 youthful_einstein::sub_516660()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

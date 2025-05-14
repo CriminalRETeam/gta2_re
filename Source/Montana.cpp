@@ -39,6 +39,7 @@ Montana_2EE4::~Montana_2EE4()
 STUB_FUNC(0x5c5cf0)
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5C5DF0)
@@ -73,6 +74,7 @@ void Montana_4::Reset_5C5E50()
 STUB_FUNC(0x5c5e70)
 Montana_4::Montana_4()
 {
+    NOT_IMPLEMENTED;
     if (!gMontana_2EE4_705BBC)
     {
         gMontana_2EE4_705BBC = new Montana_2EE4();
@@ -88,6 +90,7 @@ Montana_4::Montana_4()
 STUB_FUNC(0x5c5f10)
 Montana_4::~Montana_4()
 {
+    NOT_IMPLEMENTED;
     GTA2_DELETE_AND_NULL(gMontana_2EE4_705BBC);
     GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
 }
@@ -105,6 +108,7 @@ void Montana::ResetAll_4954F0()
 STUB_FUNC(0x5BEE90)
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 

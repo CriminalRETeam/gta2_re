@@ -48,33 +48,39 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
 STUB_FUNC(0x511b10)
 char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x511b90)
 void frosty_pasteur_0xC1EA8::sub_511B90()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x511c30)
 void frosty_pasteur_0xC1EA8::sub_511C30()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x511d40)
 void frosty_pasteur_0xC1EA8::sub_511D40()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x511f80)
 s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x511e10)
 void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x512100)
@@ -146,11 +152,13 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 STUB_FUNC(0x512400)
 void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
+    NOT_IMPLEMENTED;
     u32 total_str_length = 0;
     BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
     while (total_str_length < tableSize)
@@ -218,6 +226,7 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 STUB_FUNC(0x5125F0)
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x512770)
@@ -233,92 +242,108 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 STUB_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::sub_5127A0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5128a0)
 s32* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5128d0)
 s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512910)
 char_type frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512980)
 s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5129b0)
 s32* frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 a3, s16 a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5129f0)
 char_type frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512a70)
 s32* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512aa0)
 char_type* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512ad0)
 char_type* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512af0)
 char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 a2, char_type a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512ba0)
 char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512c00)
 s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512c70)
 bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x512ce0)
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x5130e0)
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
+    NOT_IMPLEMENTED;
 }

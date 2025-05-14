@@ -9,11 +9,13 @@ GLOBAL(pedGroups_67EF20, 0x67EF20);
 STUB_FUNC(0x4c8e60)
 void PedGroup::sub_4C8E60()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4c8e80)
 void PedGroup::sub_4C8E80()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4c8e90)
@@ -210,6 +212,7 @@ bool PedGroup::sub_4C9220()
 STUB_FUNC(0x4c9240)
 void PedGroup::sub_4C9240()
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4c92a0)
@@ -305,16 +308,19 @@ void PedGroup::sub_4C93A0()
 STUB_FUNC(0x4c94e0)
 void PedGroup::sub_4C94E0(Ped* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4c9680)
 void PedGroup::sub_4C9680(u8 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4c9970)
 void PedGroup::sub_4C9970(Ped* a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4c9b10)
@@ -336,40 +342,47 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 STUB_FUNC(0x4c9b60)
 char_type PedGroup::sub_4C9B60(Ped* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4c9ed0)
 Ped* PedGroup::sub_4C9ED0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4c9f00)
 void PedGroup::sub_4C9F00()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4ca3e0)
 u32 PedGroup::sub_4CA3E0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4ca3f0)
 Ped* PedGroup::sub_4CA3F0(u32* a2)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4ca4b0)
 void PedGroup::sub_4CA4B0()
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4ca5e0)
 void PedGroup::sub_4CA5E0(u8 idx)
 {
+    NOT_IMPLEMENTED;
     /*Ped *this_00 = field_4_ped_list[idx];
     if ((this_00->bit_status & 0x8000000) != 0)
     {
@@ -492,41 +505,48 @@ void PedGroup::sub_4CA5E0(u8 idx)
 STUB_FUNC(0x4ca820)
 void PedGroup::sub_4CA820(s32 a2)
 {
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4caa20)
 bool PedGroup::sub_4CAA20()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4caae0)
 char_type PedGroup::sub_4CAAE0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cab80)
 char_type PedGroup::sub_4CAB80()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cac20)
 bool PedGroup::sub_4CAC20(s32 idx)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cad40)
 bool PedGroup::sub_4CAD40()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4cae80)
 Ped* PedGroup::sub_4CAE80(u8 idx)
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
@@ -546,6 +566,7 @@ void PedGroup::sub_4CB080()
 STUB_FUNC(0x4cb0d0)
 PedGroup* PedGroup::sub_4CB0D0()
 {
+    NOT_IMPLEMENTED;
     return 0;
 }
 
