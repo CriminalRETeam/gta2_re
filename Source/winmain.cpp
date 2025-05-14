@@ -801,12 +801,61 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
+STUB_FUNC(0x4DB170)
+void __stdcall sub_4DB170()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DB0D0)
+void __stdcall ExitGameCallback_4DB0D0(Game_0x40 *pGame, int reason)
+{
+    NOT_IMPLEMENTED;
+}
+
 // todo move to another file for ordering
 STUB_FUNC(0x4DA4D0)
 EXPORT void __stdcall sub_4DA4D0()
 {
     NOT_IMPLEMENTED;
-    // todo
+
+    if ( byte_6F5B71 )
+    {
+        gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
+    }
+    else
+    {
+        gBurgerKing_67F8B0.sub_4CE880(gHInstance_708220);
+    }
+
+    gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+    gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
+
+    if ( bStartNetworkGame_7081F0 )
+    {
+        gYouthful_einstein_6F8450.ctor_516560();
+
+        sub_4DB170();
+        
+        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.field_5D4_player_idx);
+
+        gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
+
+        // TODO missing code here
+    }
+    else
+    {
+        gGame_0x40_67E008 = new Game_0x40(1, 0);
+    }
+
+    gGame_0x40_67E008->sub_4B8C40();
+    gGame_0x40_67E008->sub_4B8EB0();
+
+    // TODO
+    //byte_6F58D8 = 0;
+    //byte_6F5880 = 0;
+    //dword_6F5A28 = timeGetTime();
+    //byte_6F5760 = 1;
 }
 
 // todo move to another file for ordering

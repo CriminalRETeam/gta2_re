@@ -193,7 +193,7 @@ void Game_0x40::sub_4B8C40()
 
     char_type *style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
     gGtx_0x106C_703DD4->LoadSty_5AB750(style_name);
-
+    
     char_type *map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 

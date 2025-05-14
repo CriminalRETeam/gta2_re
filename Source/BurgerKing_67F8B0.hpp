@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <WINDOWS.H>
 
 struct AttractFile
 {
@@ -34,8 +35,8 @@ class BurgerKing_67F8B0
     EXPORT char_type LoadReplayHeader_4CE380(char_type a1);
     EXPORT void sub_4CE650();
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
-    EXPORT s32 sub_4CE740(s32 a2);
-    EXPORT void sub_4CE880(s32 a2);
+    EXPORT s32 sub_4CE740(HINSTANCE a2);
+    EXPORT void sub_4CE880(HINSTANCE a2);
     EXPORT void Shutdown_4CEA00();
     EXPORT void sub_4CEA40(u32* a2);
     EXPORT u32 sub_4CEAC0();

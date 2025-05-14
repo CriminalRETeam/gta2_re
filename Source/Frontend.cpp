@@ -157,7 +157,7 @@ EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
     NOT_IMPLEMENTED;
     // todo
-    return 0;
+    return 1;
 }
 
 DIOBJECTDATAFORMAT stru_5E9110[256] = {
