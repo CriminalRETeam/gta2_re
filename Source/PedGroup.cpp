@@ -346,10 +346,17 @@ char_type PedGroup::sub_4C9B60(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x4c9ed0)
+MATCH_FUNC(0x4c9ed0)
 Ped* PedGroup::sub_4C9ED0()
 {
-    NOT_IMPLEMENTED;
+    for (s8 i = this->field_34_count - 1; i >= 0; i--)
+    {
+        Ped* pPed = field_4_ped_list[i];
+        if (!pPed->get_bitset_0x04())
+        {
+            return field_4_ped_list[i];
+        }
+    }
     return 0;
 }
 
@@ -373,6 +380,7 @@ Ped* PedGroup::sub_4CA3F0(u32* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/yX7XM
 STUB_FUNC(0x4ca4b0)
 void PedGroup::sub_4CA4B0()
 {
@@ -508,27 +516,51 @@ void PedGroup::sub_4CA820(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4caa20)
+MATCH_FUNC(0x4caa20)
 bool PedGroup::sub_4CAA20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_34_count == 0)
+    {
+        return field_2C_ped_leader->field_16C_car != 0;
+    }
+
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_278 != 10)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
-STUB_FUNC(0x4caae0)
+MATCH_FUNC(0x4caae0)
 char_type PedGroup::sub_4CAAE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_278 != 10 && field_4_ped_list[i]->field_278 != 9)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
-STUB_FUNC(0x4cab80)
+MATCH_FUNC(0x4cab80)
 char_type PedGroup::sub_4CAB80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_16C_car)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
+// https://decomp.me/scratch/p3Ujn
 STUB_FUNC(0x4cac20)
 bool PedGroup::sub_4CAC20(s32 idx)
 {
@@ -536,6 +568,7 @@ bool PedGroup::sub_4CAC20(s32 idx)
     return 0;
 }
 
+// https://decomp.me/scratch/MrO9e
 STUB_FUNC(0x4cad40)
 bool PedGroup::sub_4CAD40()
 {
