@@ -546,11 +546,17 @@ char_type PedGroup::sub_4CAAE0()
     return true;
 }
 
-STUB_FUNC(0x4cab80)
+MATCH_FUNC(0x4cab80)
 char_type PedGroup::sub_4CAB80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < field_34_count; i++)
+    {
+        if (field_4_ped_list[i]->field_16C_car)
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x4cac20)
