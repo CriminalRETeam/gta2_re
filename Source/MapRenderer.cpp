@@ -313,7 +313,6 @@ STUB_FUNC(0x4f66c0)
 void MapRenderer::sub_4F66C0()
 {
     NOT_IMPLEMENTED;
-    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4f6880)

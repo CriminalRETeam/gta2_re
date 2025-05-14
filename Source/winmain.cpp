@@ -1291,7 +1291,6 @@ STUB_FUNC(0x5E4EE0)
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     NOT_IMPLEMENTED;
-    NOT_IMPLEMENTED;
 
     switch (Msg)
     {

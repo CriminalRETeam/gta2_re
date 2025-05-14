@@ -1223,6 +1223,7 @@ for (s32 i=0; i<3; i++)
                     //v30 = (__int32)Frontend::sub_4B3AF0(field_132_f136_idx, a3[0], a4_unk);
                     // TODO: STUB
                     //Frontend::sub_4B3AF0(field_132_f136_idx, temp4, &a4_unk);
+                    a4_unk = L"TODO";
                 }
                 else
                 {
@@ -1411,7 +1412,7 @@ for (s32 i=0; i<3; i++)
     v54 = 0;
     temp4 = 0;
 
-    s32 v55;
+    s32 v55 = 0;
 
     if (v7->field_2 > 0)
     {
