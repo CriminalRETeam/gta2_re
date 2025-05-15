@@ -558,7 +558,36 @@ Sprite* Sprite::sub_59E9C0()
 STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
-    NOT_IMPLEMENTED;
+    switch (this->field_30_sprite_type_enum)
+    {
+        case 2:
+            this->field_34 = 3;
+            this->field_24_remap = remap;
+            break;
+        case 3:
+            this->field_34 = 4;
+            this->field_24_remap = remap;
+            break;
+        case 4:
+        case 8:
+            this->field_34 = 5;
+            this->field_24_remap = remap;
+            break;
+        case 5:
+            this->field_34 = 6;
+            this->field_24_remap = remap;
+            break;
+        case 6:
+            this->field_34 = 7;
+            this->field_24_remap = remap;
+            break;
+        case 7:
+            this->field_34 = 8;
+            this->field_24_remap = remap;
+        default:
+            this->field_24_remap = remap;
+            break;
+    }
 }
 
 MATCH_FUNC(0x59eaa0)
