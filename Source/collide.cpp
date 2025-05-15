@@ -59,39 +59,12 @@ Collide_C::Collide_C()
     dword_678F84 = 0;
 }
 
-STUB_FUNC(0x478bf0)
+MATCH_FUNC(0x478bf0)
 Collide_C::~Collide_C()
 {
-    NOT_IMPLEMENTED;
-    if (gPurpleDoom_1_679208)
-    {
-        delete gPurpleDoom_1_679208;
-    }
-    gPurpleDoom_1_679208 = 0;
-
-    if (gPurpleDoom_2_67920C)
-    {
-        delete gPurpleDoom_2_67920C;
-    }
-    gPurpleDoom_2_67920C = 0;
-
-    if (gPurpleDoom_3_679210)
-    {
-        delete gPurpleDoom_3_679210;
-    }
-    gPurpleDoom_3_679210 = 0;
-
-    if (gCollide_8004_679200)
-    {
-        gCollide_8004_679200->field_0 = 0;
-        delete gCollide_8004_679200;
-    }
-    gCollide_8004_679200 = 0;
-
-    if (gCollide_11944_679204)
-    {
-        gCollide_11944_679204->field_0 = 0;
-        delete gCollide_11944_679204;
-    }
-    gCollide_11944_679204 = 0;
+    GTA2_DELETE_AND_NULL(gPurpleDoom_1_679208);
+    GTA2_DELETE_AND_NULL(gPurpleDoom_2_67920C);
+    GTA2_DELETE_AND_NULL(gPurpleDoom_3_679210);
+    GTA2_DELETE_AND_NULL(gCollide_8004_679200);
+    GTA2_DELETE_AND_NULL(gCollide_11944_679204);
 }

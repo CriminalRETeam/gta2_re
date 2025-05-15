@@ -6,6 +6,7 @@
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
 #include "sprite.hpp"
+#include "Phi_8CA8.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -259,10 +260,40 @@ char_type Object_2C::sub_527070(s16* a2, s32 a3, s16* a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x527630)
-void Object_2C::sub_527630(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6)
+MATCH_FUNC(0x527630)
+void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    NOT_IMPLEMENTED;
+    Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
+    this->field_8 = phi74;
+    this->field_18_model = object_type;
+    this->field_24 = 0;
+    
+    if (field_4)
+    {
+        phi74->sub_5331A0(field_4);
+    }
+    else
+    {
+        this->field_4 = phi74->sub_533170();
+    }
+
+    Sprite* pSprite = this->field_4;
+    if (pSprite->field_14_xpos != xpos || pSprite->field_18_ypos != ypos || pSprite->field_1C_zpos != zpos)
+    {
+        pSprite->field_14_xpos = xpos;
+        pSprite->field_18_ypos = ypos;
+        pSprite->field_1C_zpos = zpos;
+        pSprite->sub_59E7B0();
+    }
+
+    Sprite* pSprite_ = this->field_4;
+    if (rotation.rValue != pSprite_->field_0.rValue)
+    {
+        pSprite_->field_0.rValue = rotation.rValue;
+        pSprite_->sub_59E7B0();
+    }
+    this->field_4->field_8_object_2C_ptr = this;
+
 }
 
 MATCH_FUNC(0x527ae0)

@@ -17,6 +17,7 @@
 #include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include "zealous_borg.hpp"
+#include <DINPUT.H>
 
 EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
 EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
@@ -442,10 +443,51 @@ void Player::sub_565890(u16 action)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x566380)
-void Player::sub_566380(u16 a2)
+MATCH_FUNC(0x566380)
+void Player::sub_566380(u16 key)
 {
-    NOT_IMPLEMENTED;
+    switch (key)
+    {
+        case DIK_NEXT:
+            if (bDo_debug_keys_67D6CF)
+            {
+                this->field_76 = 0;
+            }
+            break;
+
+        case DIK_PRIOR:
+            if (bDo_debug_keys_67D6CF)
+            {
+                this->field_77 = 0;
+            }
+            break;
+        case DIK_NUMPAD2:
+            this->field_71 = 0;
+            break;
+
+        case DIK_NUMPAD8:
+            this->field_70 = 0;
+            break;
+
+        case DIK_NUMPAD4:
+            this->field_72 = 0;
+            break;
+
+        case DIK_NUMPAD6:
+            this->field_73 = 0;
+            break;
+
+        case DIK_NUMPAD7:
+            this->field_74 = 0;
+            break;
+
+        case DIK_NUMPAD9:
+            this->field_75 = 0;
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x566520)
@@ -459,6 +501,25 @@ STUB_FUNC(0x566820)
 void Player::sub_566820()
 {
     NOT_IMPLEMENTED;
+
+    sub_566520();
+
+    const u32 inputs = this->field_4_inputs;
+    if (inputs)
+    {
+        if (((inputs >> 12) & 0x1FF) != 0)
+        {
+            const s32 dx_key = (inputs >> 12) & 0x1FF;
+            if ((inputs & 0x200000) != 0)
+            {
+                sub_565890(dx_key);
+                field_4_inputs = 0;
+                return;
+            }
+            sub_566380(dx_key);
+        }
+        field_4_inputs = 0;
+    }
 }
 
 STUB_FUNC(0x5668D0)
