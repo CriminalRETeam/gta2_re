@@ -501,6 +501,25 @@ STUB_FUNC(0x566820)
 void Player::sub_566820()
 {
     NOT_IMPLEMENTED;
+
+    sub_566520();
+
+    const u32 inputs = this->field_4_inputs;
+    if (inputs)
+    {
+        if (((inputs >> 12) & 0x1FF) != 0)
+        {
+            const s32 dx_key = (inputs >> 12) & 0x1FF;
+            if ((inputs & 0x200000) != 0)
+            {
+                sub_565890(dx_key);
+                field_4_inputs = 0;
+                return;
+            }
+            sub_566380(dx_key);
+        }
+        field_4_inputs = 0;
+    }
 }
 
 STUB_FUNC(0x5668D0)
