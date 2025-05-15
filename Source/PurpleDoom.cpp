@@ -63,7 +63,7 @@ void PurpleDoom::sub_477AE0(Sprite* a1)
 MATCH_FUNC(0x477b00)
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
-    sub_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
+    DoRemove_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b20)
@@ -203,10 +203,53 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
     }
 }
 
-STUB_FUNC(0x4782c0)
-void PurpleDoom::sub_4782C0(s32 a2, s32 idx, Sprite* a4)
+MATCH_FUNC(0x4782c0)
+void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 {
-    NOT_IMPLEMENTED;
+    PurpleDoom_C* pFound = 0;
+    Collide_8* pFoundCollideForX = 0;
+
+    for (PurpleDoom_C* pXIter = this->field_0[y_pos]; pXIter; pXIter = pXIter->field_8_pNext)
+    {
+        if (pXIter->field_0_x_len == x_pos)
+        {
+            Collide_8* pCollideForX = pXIter->field_4_p8;
+            while (pCollideForX)
+            {
+                if (pCollideForX->field_0_sprt == pToFind)
+                {
+                    if (!pFoundCollideForX)
+                    {
+                        pXIter->field_4_p8 = pCollideForX->field_4_pNext;
+                    }
+                    else
+                    {
+                        pFoundCollideForX->field_4_pNext = pCollideForX->field_4_pNext;
+                    }
+
+                    gCollide_8004_679200->Remove(pCollideForX);
+
+                    if (!pXIter->field_4_p8)
+                    {
+                        if (!pFound)
+                        {
+                            this->field_0[y_pos] = pXIter->field_8_pNext;
+                        }
+                        else
+                        {
+                            pFound->field_8_pNext = pXIter->field_8_pNext;
+                        }
+                        gCollide_11944_679204->Remove(pXIter);
+                    }
+                    return;
+                }
+
+                pFoundCollideForX = pCollideForX;
+                pCollideForX = pCollideForX->field_4_pNext;
+            }
+        }
+        pFound = pXIter;
+    }
 }
 
 STUB_FUNC(0x478370)
@@ -240,10 +283,10 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
         }
         pAddedTo = pIter;
     }
-    
+
     PurpleDoom_C* pNewItem = gCollide_11944_679204->field_0;
     gCollide_11944_679204->field_0 = gCollide_11944_679204->field_0->field_8_pNext;
-    
+
     if (pAddedTo)
     {
         pAddedTo->field_8_pNext = pNewItem;
