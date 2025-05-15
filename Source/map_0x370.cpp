@@ -1372,11 +1372,13 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4E8140)
-s32 Map_0x370::sub_4E8140(u32* a2)
+MATCH_FUNC(0x4E8140)
+s32 Map_0x370::sub_4E8140(gmp_block_info *pBlockInfo)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 num_blocks = this->field_354_num_blocks;
+    this->field_354_num_blocks = num_blocks + 1;
+    this->field_0_pDmap->field_4000C_block[num_blocks] = *pBlockInfo;
+    return num_blocks;
 }
 
 STUB_FUNC(0x4E8180)
