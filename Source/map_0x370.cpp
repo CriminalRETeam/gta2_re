@@ -1,7 +1,10 @@
 #include "map_0x370.hpp"
 #include "Car_BC.hpp"
+#include "Fix16_Rect.hpp"
 #include "Function.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Zones_CA8.hpp"
@@ -11,9 +14,6 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
-#include "Game_0x40.hpp"
-#include "Object_5C.hpp"
-#include "Fix16_Rect.hpp"
 
 EXPORT_VAR Map_0x370* gMap_0x370_6F6268;
 GLOBAL(gMap_0x370_6F6268, 0x6F6268);
@@ -772,11 +772,23 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
         }
         else if (gPurple_right_6F5B80 == a2 + 2)
         {
-            return sub_4E1E00(gPurple_right_6F5B80 - 1, gPurple_right_6F5B80, gPurple_top_6F6108, gPurple_bottom_6F5F38, gPurple_right_6F5B80 - 1, a3, dword_6F620C);
+            return sub_4E1E00(gPurple_right_6F5B80 - 1,
+                              gPurple_right_6F5B80,
+                              gPurple_top_6F6108,
+                              gPurple_bottom_6F5F38,
+                              gPurple_right_6F5B80 - 1,
+                              a3,
+                              dword_6F620C);
         }
         else
         {
-            return sub_4E1E00(gPurple_left_6F5FD4, gPurple_left_6F5FD4 + 1, gPurple_top_6F6108, gPurple_bottom_6F5F38, gPurple_left_6F5FD4 + 1, a3, dword_6F5BA0);
+            return sub_4E1E00(gPurple_left_6F5FD4,
+                              gPurple_left_6F5FD4 + 1,
+                              gPurple_top_6F6108,
+                              gPurple_bottom_6F5F38,
+                              gPurple_left_6F5FD4 + 1,
+                              a3,
+                              dword_6F5BA0);
         }
     }
     else if (gPurple_bottom_6F5F38 - gPurple_top_6F6108 >= 3 || a3 > gPurple_top_6F6108 + 1 || a3 < gPurple_bottom_6F5F38 - 1)
@@ -787,11 +799,23 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
         }
         else if (gPurple_bottom_6F5F38 == a3 + 2)
         {
-            return sub_4E1E00(gPurple_left_6F5FD4, gPurple_right_6F5B80, gPurple_bottom_6F5F38 - 1, gPurple_bottom_6F5F38, a2, gPurple_bottom_6F5F38 - 1, dword_6F6248);
+            return sub_4E1E00(gPurple_left_6F5FD4,
+                              gPurple_right_6F5B80,
+                              gPurple_bottom_6F5F38 - 1,
+                              gPurple_bottom_6F5F38,
+                              a2,
+                              gPurple_bottom_6F5F38 - 1,
+                              dword_6F6248);
         }
         else
         {
-            return sub_4E1E00(gPurple_left_6F5FD4, gPurple_right_6F5B80, gPurple_top_6F6108, gPurple_top_6F6108 + 1, a2, gPurple_top_6F6108 + 1, dword_6F5FAC);
+            return sub_4E1E00(gPurple_left_6F5FD4,
+                              gPurple_right_6F5B80,
+                              gPurple_top_6F6108,
+                              gPurple_top_6F6108 + 1,
+                              a2,
+                              gPurple_top_6F6108 + 1,
+                              dword_6F5FAC);
         }
     }
     else
@@ -1026,7 +1050,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     return a2;
 }
 
-STUB_FUNC(0x4E4E50)     //  DAMN reg swap    https://decomp.me/scratch/aQODE
+STUB_FUNC(0x4E4E50) //  DAMN reg swap    https://decomp.me/scratch/aQODE
 Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
@@ -1266,13 +1290,9 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
     v5 = a5;
     v6 = a4;
     v7 = a3;
-    if ((a5.mValue & 0x3FFF) == dword_6F610C 
-        || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0
-        || (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0)
-        || v13 >= 0xB4
-        || (v9 & 3) == 0
-        || (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7, v6, &v10),
-         v10 > v5))
+    if ((a5.mValue & 0x3FFF) == dword_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0 ||
+        (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0) || v13 >= 0xB4 || (v9 & 3) == 0 ||
+        (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7, v6, &v10), v10 > v5))
     {
         s32 v14 = v5.ToInt() - 1;
         gmp_block_info* v11 = Map_0x370::sub_4E6360(v7.ToInt(), v6.ToInt(), &v14);
@@ -1283,9 +1303,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
             return a2;
         }
         s8 field_B_slope_type = v11->field_B_slope_type;
-        if ( ( v13 = field_B_slope_type & 0xFCu ) > 0 
-            && v13 < 0xB4u
-            && (field_B_slope_type & 3) != 0 )
+        if ((v13 = field_B_slope_type & 0xFCu) > 0 && v13 < 0xB4u && (field_B_slope_type & 3) != 0)
         {
             v10.FromInt(v14);
             Map_0x370::sub_4E5BF0(v7, v6, &v10);
@@ -1307,7 +1325,7 @@ Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
     gmp_block_info* v7;
     Fix16 v10;
     u32 v6;
-    
+
     v4 = a3;
     v5 = a4;
     v7 = Map_0x370::sub_4E62D0(a3.ToInt(), a4.ToInt(), &v6);
@@ -1321,9 +1339,7 @@ Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
     {
         u8 field_B_slope_type = v7->field_B_slope_type;
         u8 v13 = field_B_slope_type & 0xFC;
-        if ( v13 > 0 
-            && v13 < 0xB4 
-            && (field_B_slope_type & 3) != 0)
+        if (v13 > 0 && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
         {
             v10.FromInt(v6);
             Map_0x370::sub_4E5BF0(v4, v5, &v10);
@@ -1373,7 +1389,7 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
 }
 
 MATCH_FUNC(0x4E8140)
-s32 Map_0x370::sub_4E8140(gmp_block_info *pBlockInfo)
+s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
 {
     s32 num_blocks = this->field_354_num_blocks;
     this->field_354_num_blocks = num_blocks + 1;
@@ -1381,11 +1397,17 @@ s32 Map_0x370::sub_4E8140(gmp_block_info *pBlockInfo)
     return num_blocks;
 }
 
-STUB_FUNC(0x4E8180)
-s32 Map_0x370::sub_4E8180(u32 a2)
+MATCH_FUNC(0x4E8180)
+s32 Map_0x370::sub_4E8180(u32 read_block_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (read_block_idx < this->field_34C_num_blocks)
+    {
+        s32 old_num_blocks = this->field_354_num_blocks;
+        this->field_354_num_blocks = old_num_blocks + 1;
+        field_0_pDmap->field_4000C_block[old_num_blocks] = field_0_pDmap->field_4000C_block[read_block_idx];
+        return old_num_blocks;
+    }
+    return read_block_idx;
 }
 
 STUB_FUNC(0x4E81D0)
