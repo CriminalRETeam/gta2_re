@@ -57,7 +57,7 @@ class Sprite_8
     EXPORT Sprite_8();
     EXPORT ~Sprite_8();
     s32 field_0;
-    s16 field_4;
+    s16 field_4_id_base;
     s16 field_6;
 };
 

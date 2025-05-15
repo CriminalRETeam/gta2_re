@@ -147,7 +147,7 @@ Sprite_8::Sprite_8()
     }
 
     field_0 = 0;
-    field_4 = 1;
+    field_4_id_base = 1;
 }
 
 MATCH_FUNC(0x5a5b50)
