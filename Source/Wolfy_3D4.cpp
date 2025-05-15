@@ -18,10 +18,16 @@ Wolfy_30* Wolfy_7A8::sub_543800()
     return 0;
 }
 
-STUB_FUNC(0x5438b0)
+MATCH_FUNC(0x5438b0)
 Wolfy_7A8::Wolfy_7A8()
 {
-    NOT_IMPLEMENTED;
+    for (u8 i = 0; i < 40; i++)
+    {
+        field_0[i].field_4_idx = i;
+        field_780[i] = 0;
+    }
+
+    gParticleInstCount_6FD5F4 = 0;
 }
 
 MATCH_FUNC(0x5438f0)

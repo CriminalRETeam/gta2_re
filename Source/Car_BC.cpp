@@ -558,6 +558,8 @@ Sprite* Sprite::sub_59E9C0()
 STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
+    NOT_IMPLEMENTED;
+    
     switch (this->field_30_sprite_type_enum)
     {
         case 2:

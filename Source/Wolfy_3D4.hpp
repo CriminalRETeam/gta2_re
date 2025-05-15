@@ -30,7 +30,8 @@ class Wolfy_30
     EXPORT void sub_543680(Object_2C* a2);
 
     s32 field_0;
-    u16 field_4_idx;
+    u8 field_4_idx;
+    u8 field_5;
     s16 field_6;
     s32 field_8;
     s16 field_C;
