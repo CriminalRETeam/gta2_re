@@ -41,6 +41,12 @@ class Collide_8004
         field_0 = field_4;
     }
 
+    // 0x4468A0
+    ~Collide_8004()
+    {
+      field_0 = 0;
+    }
+
     void Remove(Collide_8* pToRemove)
     {
         pToRemove->field_4_pNext = this->field_0;
@@ -67,6 +73,12 @@ class Collide_11944
 
         field_11940 = 0;
         field_0 = field_4;
+    }
+
+    // 0x4468B0
+    ~Collide_11944()
+    {
+      field_0 = 0;
     }
 
     void Remove(PurpleDoom_C* pToRemove)
