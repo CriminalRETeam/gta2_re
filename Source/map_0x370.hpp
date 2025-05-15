@@ -433,7 +433,7 @@ class Map_0x370
     EXPORT s32 sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type sub_4E7FC0(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_4E8140(u32* a2);
+    EXPORT s32 sub_4E8140(gmp_block_info *pBlockInfo);
     EXPORT s32 sub_4E8180(u32 a2);
     EXPORT s32 sub_4E81D0(u32 a2);
     EXPORT s32 sub_4E8220(u32 a2, s32 a3);
