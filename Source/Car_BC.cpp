@@ -1,7 +1,7 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
-#include "Fix16_Rect.hpp"
 #include "Car_B0.hpp"
+#include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
@@ -484,7 +484,7 @@ char_type Sprite::sub_59E680(s32 a2, s16* a3)
 MATCH_FUNC(0x59e7b0)
 void Sprite::sub_59E7B0()
 {
-    field_39 = -1;
+    field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
     {
         field_C_sprite_4c_ptr->field_48 = 0;
@@ -559,6 +559,37 @@ STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
     NOT_IMPLEMENTED;
+    
+    switch (this->field_30_sprite_type_enum)
+    {
+        case 2:
+            this->field_34 = 3;
+            this->field_24_remap = remap;
+            break;
+        case 3:
+            this->field_34 = 4;
+            this->field_24_remap = remap;
+            break;
+        case 4:
+        case 8:
+            this->field_34 = 5;
+            this->field_24_remap = remap;
+            break;
+        case 5:
+            this->field_34 = 6;
+            this->field_24_remap = remap;
+            break;
+        case 6:
+            this->field_34 = 7;
+            this->field_24_remap = remap;
+            break;
+        case 7:
+            this->field_34 = 8;
+            this->field_24_remap = remap;
+        default:
+            this->field_24_remap = remap;
+            break;
+    }
 }
 
 MATCH_FUNC(0x59eaa0)
@@ -877,11 +908,11 @@ s32* Sprite::sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, ch
 MATCH_FUNC(0x5a29d0)
 void Sprite::CreateSoundObj_5A29D0()
 {
-    if (!field_10)
+    if (!field_10_sound)
     {
         if (!bSkip_audio_67D6BE)
         {
-            field_10 = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
+            field_10_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
         }
     }
 }
@@ -889,10 +920,10 @@ void Sprite::CreateSoundObj_5A29D0()
 MATCH_FUNC(0x5a2a00)
 void Sprite::FreeSound_5A2A00()
 {
-    if (field_10)
+    if (field_10_sound)
     {
-        gRoot_sound_66B038.DestroySoundObj_40FE60(field_10);
-        field_10 = 0;
+        gRoot_sound_66B038.DestroySoundObj_40FE60(field_10_sound);
+        field_10_sound = 0;
     }
 }
 
@@ -902,11 +933,31 @@ void Sprite::sub_5A2A30()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a2cf0)
-s32 Sprite::Init_5A2CF0()
+MATCH_FUNC(0x5a2cf0)
+void Sprite::Init_5A2CF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_2C = 0;
+    this->field_28_uni = 0;
+    this->field_8_car_bc_ptr = 0;
+    this->field_14_xpos = gFix16_7035C0;
+    this->field_18_ypos = gFix16_7035C0;
+    this->field_1C_zpos = gFix16_7035C0;
+    this->field_39_z_col = -1;
+    this->field_0 = gAng16_703804;
+    this->field_22_sprite_id = 0;
+    this->field_24_remap = 0;
+    this->field_34 = 2;
+    this->field_C_sprite_4c_ptr = 0;
+    this->field_4_0x4C_len = 0;
+    this->field_38 = 0;
+    this->field_10_sound = 0;
+
+    // TODO: Probably an inline
+    this->field_20_id = gSprite_8_703820->field_4_id_base++;
+    if (!gSprite_8_703820->field_4_id_base)
+    {
+        gSprite_8_703820->field_4_id_base = 1;
+    }
 }
 
 MATCH_FUNC(0x5a3030)
@@ -939,9 +990,7 @@ STUB_FUNC(0x5A3550)
 void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
     NOT_IMPLEMENTED;
-
 }
-
 
 MATCH_FUNC(0x5c8680)
 void Car_214::sub_5C8680(u8 idx)

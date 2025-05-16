@@ -41,6 +41,18 @@ class Collide_8004
         field_0 = field_4;
     }
 
+    // 0x4468A0
+    ~Collide_8004()
+    {
+      field_0 = 0;
+    }
+
+    void Remove(Collide_8* pToRemove)
+    {
+        pToRemove->field_4_pNext = this->field_0;
+        this->field_0 = pToRemove;
+    }
+
     Collide_8* field_0;
     Collide_8 field_4[4095];
     s32 field_7FFC;
@@ -62,6 +74,18 @@ class Collide_11944
         field_11940 = 0;
         field_0 = field_4;
     }
+
+    // 0x4468B0
+    ~Collide_11944()
+    {
+      field_0 = 0;
+    }
+
+    void Remove(PurpleDoom_C* pToRemove)
+    {
+        pToRemove->field_8_pNext = this->field_0;
+        this->field_0 = pToRemove;
+    }    
 
     PurpleDoom_C* field_0;
     PurpleDoom_C field_4[5999];

@@ -47,6 +47,10 @@ GLOBAL(byte_6787CC, 0x6787CC);
 EXPORT_VAR u8 byte_6787CD;
 GLOBAL(byte_6787CD, 0x6787CD);
 
+EXPORT_VAR Fix16 dword_678660;
+GLOBAL(dword_678660, 0x678660);
+
+
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
@@ -555,11 +559,21 @@ Ang16& Ped::sub_45C900(Ang16& a2)
     return a2;
 }
 
-STUB_FUNC(0x45c920)
-s32* Ped::sub_45C920(s32* a2)
+MATCH_FUNC(0x45c920)
+Fix16 Ped::sub_45C920()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_168_game_object)
+    {
+        return field_168_game_object->field_38; // velocity ??
+    }
+    else
+    {
+        if (field_16C_car)
+        {
+            return field_16C_car->sub_43A4C0();
+        }
+        return dword_678660;
+    }
 }
 
 MATCH_FUNC(0x45c960)
@@ -569,7 +583,7 @@ Ang16 Ped::GetRotation()
     {
         return *(Ang16*)&field_168_game_object->field_40_rotation;
     }
-    
+
     if (field_16C_car != NULL)
     {
         return field_16C_car->field_50_car_sprite->field_0;

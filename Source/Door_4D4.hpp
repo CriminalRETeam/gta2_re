@@ -231,6 +231,7 @@ class Door_2C4
         field_2C0 = 0;
     }
 
+    // 0x44C7F0
     ~Door_2C4()
     {
         field_0 = 0;

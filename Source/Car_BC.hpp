@@ -202,7 +202,7 @@ class Sprite
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT void FreeSound_5A2A00();
     EXPORT void sub_5A2A30();
-    EXPORT s32 Init_5A2CF0();
+    EXPORT void Init_5A2CF0();
     EXPORT void sub_5A3030();
     EXPORT void sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5);
 
@@ -221,14 +221,14 @@ class Sprite
         field_22_sprite_id = 0;
         field_24_remap = 0;
         field_28_uni = NULL;
-        field_2C = '\0';
+        field_2C = 0;
         field_30_sprite_type_enum = 0;
         field_34 = 0;
-        field_38 = '\0';
-        field_39 = -1;
+        field_38 = 0;
+        field_39_z_col = -1;
         field_8_car_bc_ptr = NULL;
         field_C_sprite_next_ptr = NULL;
-        field_10 = NULL;
+        field_10_sound = NULL;
     }
 
     Ang16 field_0;
@@ -253,7 +253,7 @@ class Sprite
         Sprite* field_C_sprite_next_ptr;
         Sprite_4C* field_C_sprite_4c_ptr;
     };
-    infallible_turing* field_10;
+    infallible_turing* field_10_sound;
 
     inline Fix16 GetXPos()
     {
@@ -286,7 +286,7 @@ class Sprite
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34;
     char_type field_38;
-    u8 field_39;
+    u8 field_39_z_col;
     char_type field_3A;
     char_type field_3B;
 };

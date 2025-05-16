@@ -18,10 +18,16 @@ Wolfy_30* Wolfy_7A8::sub_543800()
     return 0;
 }
 
-STUB_FUNC(0x5438b0)
+MATCH_FUNC(0x5438b0)
 Wolfy_7A8::Wolfy_7A8()
 {
-    NOT_IMPLEMENTED;
+    for (u8 i = 0; i < 40; i++)
+    {
+        field_0[i].field_4_idx = i;
+        field_780[i] = 0;
+    }
+
+    gParticleInstCount_6FD5F4 = 0;
 }
 
 MATCH_FUNC(0x5438f0)
@@ -165,12 +171,10 @@ void Wolfy_30::sub_543680(Object_2C* a2)
     this->field_14 = a2;
 }
 
-// https://decomp.me/scratch/TAlwS
-STUB_FUNC(0x543980)
+MATCH_FUNC(0x543980)
 Wolfy_3D4::Wolfy_3D4()
 {
-    NOT_IMPLEMENTED;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_3C0); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_3C0); i++)
     {
         field_0[i].field_4_idx = i;
         field_3C0[i] = 0;

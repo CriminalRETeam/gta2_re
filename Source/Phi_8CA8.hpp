@@ -244,3 +244,5 @@ class Phi_8CA8
     s16 field_8CA4;
     s16 field_8CA6;
 };
+
+extern EXPORT_VAR Phi_8CA8* gPhi_8CA8_6FCF00;

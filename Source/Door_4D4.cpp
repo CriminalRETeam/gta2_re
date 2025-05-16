@@ -634,6 +634,7 @@ Door_4D4::Door_4D4()
     this->field_4D2 = 205;
 }
 
+// Broken due to missing SEH
 STUB_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
