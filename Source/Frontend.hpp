@@ -183,7 +183,7 @@ enum MenuPages // enum for field_132_f136_idx
     MENUPAGE_GAME_COMPLETE = 4,
     MENUPAGE_VIEW_HIGH_SCORE = 5,
     MENUPAGE_BONUS_AREA = 6,
-    MENUPAGE_UNK_KILLS = 7,
+    MENUPAGE_MULTIPLAYER_RESULTS = 7,
     MENUPAGE_PLAY_INTRO = 8,
     MENUPAGE_CREDITS = 9,
     MENUPAGE_NICE_TRY = 10,
@@ -211,6 +211,13 @@ enum ElementType
     STRING_TEXT_1 = 1,
     STRING_TEXT_2 = 2,
     GEOMETRIC_SHAPE_3 = 3,  //  triangles, circles
+};
+
+enum MultiplayerGameType
+{
+    FRAG_GAME_1 = 1,
+    POINTS_GAME_2 = 2,
+    TAG_GAME_3 = 3,
 };
 
 struct MainBlockStrings

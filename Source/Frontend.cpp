@@ -404,7 +404,7 @@ void __stdcall Frontend::destroy_4AD070()
 }
 
 STUB_FUNC(0x4B3170)
-void Frontend::sub_4B3170(u16 arg0)
+void Frontend::sub_4B3170(u16 menu_page_idx)
 {
     NOT_IMPLEMENTED;
     u16 v3; // bp
@@ -477,12 +477,12 @@ void Frontend::sub_4B3170(u16 arg0)
     wchar_t Destination[50]; // [esp+34h] [ebp-E4h] BYREF
     wchar_t Buffer[64]; // [esp+98h] [ebp-80h] BYREF
 
-    v3 = arg0;
+    v3 = menu_page_idx;
     v57 = sub_4B43E0();
-    field_132_f136_idx = arg0;
-    switch (arg0)
+    field_132_f136_idx = menu_page_idx;
+    switch (menu_page_idx)
     {
-        case 0xEu:
+        case MENUPAGE_PARENTAL_CONTROL:
             field_110_state = 5;
             field_C9CA = 0;
             field_C9CB = 0;
@@ -492,14 +492,14 @@ void Frontend::sub_4B3170(u16 arg0)
             field_C9B6 = 5;
             goto LABEL_116;
 
-        case 9u:
+        case MENUPAGE_CREDITS:
             field_1EB34 = 0x668000;
             field_1EB30 = 0;
             field_1EB38 = 0;
             field_C9B3 = 1;
             goto LABEL_116;
 
-        case 3u:
+        case MENUPAGE_AREA_COMPLETE:
             a2 = gLucid_hamilton_67E8E0.sub_4C5980();
             v51 = gLucid_hamilton_67E8E0.sub_4C59C0();
             if (gLucid_hamilton_67E8E0.field_574 == 50)
@@ -544,7 +544,7 @@ void Frontend::sub_4B3170(u16 arg0)
             a2a = 1;
             goto LABEL_30;
 
-        case 6u:
+        case MENUPAGE_BONUS_AREA:
             v7 = gLucid_hamilton_67E8E0.sub_4C5990();
             v8 = v7 >> 4;
             swprintf(tmpBuff_67BD9C, L"%d", v57->field_0_plyr_stage_stats[v8][v7 & 0xF].field_8_stage_latest_score);
@@ -560,8 +560,8 @@ void Frontend::sub_4B3170(u16 arg0)
                 field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 1;
             }
             goto LABEL_116;
-        case 2u:
-        case 0xBu:
+        case MENUPAGE_DEAD:
+        case MENUPAGE_RESULTS_PLAYER_QUIT:
             a2a = 0;
         LABEL_30:
             v9 = &(&field_0_pDInput)[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
@@ -589,7 +589,7 @@ void Frontend::sub_4B3170(u16 arg0)
                 v12 = v66;
                 v53 = 0;
             }
-            v13 = &field_136_menu_pages_array[arg0];
+            v13 = &field_136_menu_pages_array[menu_page_idx];
             if (v10 == v12 && v61 == v53)
             {
                 v13->field_4_options_array[a2a].field_1_is_unlocked = 1;
@@ -603,9 +603,9 @@ void Frontend::sub_4B3170(u16 arg0)
             break;
     }
 
-    switch (arg0)
+    switch (menu_page_idx)
     {
-        case 1u:
+        case MENUPAGE_PLAY:
             playerSlotSetting = gRegistry_6FF968.Create_Player_Setting_587810("plyrslot");
             field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = playerSlotSetting;
             field_136_menu_pages_array[1].field_4_options_array[0].field_70 = playerSlotSetting;
@@ -613,7 +613,7 @@ void Frontend::sub_4B3170(u16 arg0)
             sub_4B42E0();
             break;
 
-        case 7u:
+        case MENUPAGE_MULTIPLAYER_RESULTS:
             a2b = gLucid_hamilton_67E8E0.sub_4C5BF0();
             v15 = -1;
             if (gLucid_hamilton_67E8E0.sub_4C5BC0() == 3)
@@ -635,19 +635,19 @@ void Frontend::sub_4B3170(u16 arg0)
             v68 = gLucid_hamilton_67E8E0.sub_4C5BC0();
             switch (v68)
             {
-                case 1:
+                case FRAG_GAME_1:
                     _5B5F90 = gText_0x14_704DFC->Find_5B5F90("frags_h");
                     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, _5B5F90, 0x32u);
                     v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
                     break;
 
-                case 2:
+                case POINTS_GAME_2:
                     v20 = gText_0x14_704DFC->Find_5B5F90("pnts_h");
                     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v20, 50u);
                     v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
                     break;
 
-                case 3:
+                case TAG_GAME_3:
                     v18 = gText_0x14_704DFC->Find_5B5F90("times_h");
                     wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, v18, 0x32u);
                     v19 = sub_4B0190(field_136_menu_pages_array[7].field_518_elements_array[13].field_6_element_name_str, field_136_menu_pages_array[7].field_518_elements_array[13].field_6A_font_type, 320);
@@ -716,13 +716,13 @@ void Frontend::sub_4B3170(u16 arg0)
 
             if (*((BYTE*)&gYouthful_einstein_6F8450.field_20 + v65))
             {
-                v3 = arg0;
+                v3 = menu_page_idx;
                 goto LABEL_105;
             }
 
             switch (v68)
             {
-                case 1:
+                case FRAG_GAME_1:
                     a3a = 0;
                     if (v24)
                     {
@@ -741,7 +741,7 @@ void Frontend::sub_4B3170(u16 arg0)
                     }
                     v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
                     break;
-                case 2:
+                case POINTS_GAME_2:
                     a3b = 0;
                     if (v24)
                     {
@@ -760,7 +760,7 @@ void Frontend::sub_4B3170(u16 arg0)
                     }
                     v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
                     break;
-                case 3:
+                case TAG_GAME_3:
                     if (v24)
                     {
                         v35 = 0;
@@ -783,11 +783,11 @@ void Frontend::sub_4B3170(u16 arg0)
                     v33 = gYouthful_einstein_6F8450.field_4_time[v65]; //  get your time
                     break;
                 default:
-                    v3 = arg0;
+                    v3 = menu_page_idx;
                     goto LABEL_107;
             }
 
-            v3 = arg0;
+            v3 = menu_page_idx;
             v40 = v33 - v30; //  v33 = your frag/score/time, v30 = highest opponent frag/score/time
 
             if (v40 > 0)
@@ -810,7 +810,7 @@ void Frontend::sub_4B3170(u16 arg0)
             wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[0].field_6_element_name_str, v43, 0x32u);
             break;
 
-        case 8u:
+        case MENUPAGE_PLAY_INTRO:
             if (bIsFrench_67D53C)
             {
                 sub_4B8650();
@@ -830,7 +830,7 @@ void Frontend::sub_4B3170(u16 arg0)
             }
             break;
 
-        case 0u:
+        case MENUPAGE_START_MENU:
             field_C9E4 = timeGetTime();
             break;
     }
@@ -864,15 +864,18 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         wchar_t* p_wName = (wchar_t*)&gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName;
         if (field_110_state == 3)
         {
+            // player typing a name
             wcscpy(word_67C7D8, field_C9A0_curr_plyr_name);
         }
         else if (!*p_wName)
         {
+            // player 1, 2, 3 etc.
             swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);
             swprintf(word_67C7D8, L"%s %s", pOption->field_6_option_name_str , tmpBuff_67BD9C);
         }
         else
         {
+            // get saved player name
             swprintf(word_67C7D8, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName);
         }
     }
@@ -1197,7 +1200,7 @@ for (s32 i=0; i<3; i++)
         else if (field_EE0D < 6u)
         {
             //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_16B0[field_EE0D].field_0; // TODO: struct at field_16B0
-            //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            //Frontend::sub_4B5430((score_table_line*)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
         {
@@ -1205,7 +1208,7 @@ for (s32 i=0; i<3; i++)
             {
                 // TODO: struct at field_17A0
                 //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (high_score_table_0xF0*)(& + 60 * v19);
-                //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+                //Frontend::sub_4B5430((score_table_line*)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
             else
             {
@@ -1294,7 +1297,7 @@ for (s32 i=0; i<3; i++)
         }
     }
 
-    if (field_132_f136_idx == MENUPAGE_UNK_KILLS)
+    if (field_132_f136_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
         Frontend::sub_4B55F0(); // multiplayer results
     }
@@ -1892,7 +1895,7 @@ void Frontend::sub_4B6780()
         }
         else if (field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
             || field_132_f136_idx == MENUPAGE_BONUS_AREA 
-            || field_132_f136_idx == MENUPAGE_UNK_KILLS 
+            || field_132_f136_idx == MENUPAGE_MULTIPLAYER_RESULTS 
             || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT 
             || field_132_f136_idx == MENUPAGE_PARENTAL_CONTROL)
         {
