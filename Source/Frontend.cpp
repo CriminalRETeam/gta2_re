@@ -22,6 +22,7 @@
 #include "text_0x14.hpp"
 #include "youthful_einstein.hpp"
 #include "BurgerKing_67F8B0.hpp"
+#include "keybrd_0x204.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
