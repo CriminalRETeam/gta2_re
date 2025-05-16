@@ -246,8 +246,8 @@ struct Frontend
     u16 field_132_f136_idx;
     s16 field_134;
     MenuPage_0xBCA field_136_menu_pages_array[17];
-    wchar_t field_C9A0[9];
-    char_type field_C9B2;
+    wchar_t field_C9A0_curr_plyr_name[9];
+    char_type field_C9B2_curr_plyr_name_length;
     char_type field_C9B3;
     s16 field_C9B4;
     s16 field_C9B6;

@@ -871,7 +871,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         }
         else if (field_110_state == 3)
         {
-            wcscpy(Destination, field_C9A0);   // player typing a name?
+            wcscpy(Destination, field_C9A0_curr_plyr_name);   // player typing a name?
         }
         else
         {
@@ -1567,7 +1567,7 @@ for (s32 i=0; i<3; i++)
     {
         if (field_114)
         {
-            x_pos = v7->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0, field_11C);
+            x_pos = v7->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0_curr_plyr_name, field_11C);
             y_pos = v7->field_4_options_array[0].field_4_y_pos;
             swprintf(tmpBuff_67BD9C, L"_");
             DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
@@ -2054,7 +2054,7 @@ void Frontend::sub_4AE2D0()
         {
             field_110_state = 3;
             sub_4B4280();
-            field_C9B2 = wcslen(field_C9A0);
+            field_C9B2_curr_plyr_name_length = wcslen(field_C9A0_curr_plyr_name);
             sub_4B42B0();
             field_C9B3 = 1;
             field_C9B4 = 28;
@@ -2456,7 +2456,7 @@ void Frontend::sub_4B4230()
 {
     u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx;
     wchar_t* pStr = gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[count].field_90_strPlayerName;
-    wcsncpy(pStr, field_C9A0, 9u);
+    wcsncpy(pStr, field_C9A0_curr_plyr_name, 9u);
     HandleCheatCode_4B3DD0(pStr);
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
@@ -2650,7 +2650,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 MATCH_FUNC(0x4B4280)
 void Frontend::sub_4B4280()
 {
-    wcsncpy(field_C9A0, gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx].field_90_strPlayerName, 9u);
+    wcsncpy(field_C9A0_curr_plyr_name, gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx].field_90_strPlayerName, 9u);
 }
 
 STUB_FUNC(0x4B8530)
@@ -3232,18 +3232,18 @@ Frontend::Frontend()
 
     sub_4B0220();
 
-    field_C9B2 = 0;
+    field_C9B2_curr_plyr_name_length = 0;
     field_C9B3 = 1;
     field_C9B4 = 256;
     field_C9B6 = 5;
 
-    //memset(&field_C9A0, 0, sizeof(field_C9A0));
+    //memset(&field_C9A0_curr_plyr_name, 0, sizeof(field_C9A0_curr_plyr_name));
 
-    *(u32*)field_C9A0 = 0;
-    *(u32*)&field_C9A0[2] = 0;
-    *(u32*)&field_C9A0[4] = 0;
-    *(u32*)&field_C9A0[6] = 0;
-    field_C9A0[8] = 0;
+    *(u32*)field_C9A0_curr_plyr_name = 0;
+    *(u32*)&field_C9A0_curr_plyr_name[2] = 0;
+    *(u32*)&field_C9A0_curr_plyr_name[4] = 0;
+    *(u32*)&field_C9A0_curr_plyr_name[6] = 0;
+    field_C9A0_curr_plyr_name[8] = 0;
 
     memset(&field_C9B8, 0, sizeof(field_C9B8));
     /*
@@ -4380,10 +4380,10 @@ bool Frontend::sub_4B6FF0()
 STUB_FUNC(0x4B42B0)
 void Frontend::sub_4B42B0()
 {
-    u16 name_length = this->field_C9B2;
+    u16 name_length = this->field_C9B2_curr_plyr_name_length;
     if (name_length < 9)
     {
-        memset(&field_C9A0[name_length], 0, 9-name_length);
+        memset(&field_C9A0_curr_plyr_name[name_length], 0, 9-name_length);
     }
 }
 
