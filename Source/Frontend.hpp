@@ -13,6 +13,7 @@
 #include <Dinput.h>
 
 class Player;
+class score_table_line;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -79,7 +80,7 @@ struct menu_element_0x6E
         {
             wchar_t field_6_element_name_str[50];
             u16 field_6A_font_type;
-            u16 field_6C_font_variant;
+            u16 field_6C_font_variant;  // actaully it's the font palette
         };
         u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
     };
@@ -459,6 +460,14 @@ struct Frontend
     EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
     EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr);
+
+    EXPORT void Frontend::sub_4B5430(score_table_line* pStrings,
+                           u16 text_xpos,
+                           u16 text_ypos,
+                           u16 num_entries,
+                           u16 arg_fontType,
+                           u16 draw_kind,
+                           u8 spacing_type);
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);

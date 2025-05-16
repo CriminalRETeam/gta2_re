@@ -1009,6 +1009,75 @@ s32 Frontend::sub_4AEDB0()
     }
 }
 
+// https://decomp.me/scratch/ci11a
+STUB_FUNC(0x4B5430)
+void Frontend::sub_4B5430(score_table_line* pStrings,
+                           u16 text_xpos,
+                           u16 text_ypos,
+                           u16 num_entries,
+                           u16 arg_fontType,
+                           u16 draw_kind,
+                           u8 spacing_type)
+{
+    NOT_IMPLEMENTED;
+    if (num_entries > 0)
+    {
+        u16 new_xpos;
+        score_table_line* pSmallStringIter = pStrings;
+        u16 og_y_pos = text_ypos;
+
+        for (u16 i = 0; i < num_entries; i++)
+        {
+            //pSmallStringIter = pStrings[i];
+            u16 text_ypos_to_use = text_ypos;
+            if (spacing_type)
+            {
+                text_ypos_to_use = og_y_pos;
+            }
+            if (!wcscmp(pSmallStringIter->field_0_player_name, (wchar_t*)&word_67DC8C))
+            {
+                swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("hi_empt"));
+            }
+            else
+            {
+                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter);
+            }
+            if (draw_kind == 0xFFFFu)
+            {
+                DrawText_4B87A0(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1);
+            }
+            else
+            {
+                s32 eight = 8;
+                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, &eight, draw_kind, false, 0);
+            }
+            if (spacing_type == 0)
+            {
+                new_xpos = text_xpos + 175;
+                text_ypos_to_use = text_ypos + 20;
+            }
+            else
+            {
+                new_xpos = spacing_type == 1 ? text_xpos + 600 : text_xpos + 300;
+            }
+            swprintf(tmpBuff_67BD9C, L"%d", pSmallStringIter->field_14_score);
+
+            if (gText_0x14_704DFC->field_10_lang_code == 106)
+            {
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 16, true);
+            }
+            else
+            {
+                Frontend::sub_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, draw_kind, 1, 13, true);
+            }
+
+            ++pSmallStringIter;
+            og_y_pos += 20;
+            text_ypos += 40;
+        }
+    }
+}
+
 // todo: add to header
 EXPORT_VAR extern s32 gGTA2VersionMajor_708280;
 EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
@@ -1123,13 +1192,11 @@ for (s32 i=0; i<3; i++)
         if (field_EE0D < 3)
         {
             v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
-            // TODO: STUB
-            //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            Frontend::sub_4B5430((score_table_line*)&v85->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else if (field_EE0D < 6u)
         {
             //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_16B0[field_EE0D].field_0; // TODO: struct at field_16B0
-            // TODO: STUB
             //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
@@ -1138,14 +1205,12 @@ for (s32 i=0; i<3; i++)
             {
                 // TODO: struct at field_17A0
                 //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (high_score_table_0xF0*)(& + 60 * v19);
-                // TODO: STUB
                 //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
             else
             {
                 v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
-                // TODO: STUB
-                //Frontend::sub_4B5430((score_table_line**)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+                Frontend::sub_4B5430((score_table_line*)&v85->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
         }
 
@@ -1205,18 +1270,20 @@ for (s32 i=0; i<3; i++)
         LOWORD(v22) = field_12A;
         v2 = v25 + 4 * v24;
         */
-        //Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][v2].field_0, 0xAAu, 155, 3, v22, 0xFFFF, 2);
+        v2 = v25 + 4 * v24;
+        Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][v2].field_0_score_table_line,
+         0xAAu, 155, 3, field_12A, 0xFFFF, 2);
 
         // TODO: STUB
-        /*
-        Frontend::sub_4B5430((score_table_line**)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[v24][v25].field_0,
+        
+        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[v24][v25].field_0_score_table_line,
                              0xAAu,
                              155,
                              3,
                              field_12A,
                              0xFFFF,
                              2);
-        */
+        
 
         v27 = field_132_f136_idx;
         if (v27 == MENUPAGE_DEAD 
@@ -1422,29 +1489,26 @@ for (s32 i=0; i<3; i++)
                 v53_u8 = gLucid_hamilton_67E8E0.sub_4C5990();
                 unk_idx = v53_u8 >> 4;
                 u8 a5_idx = v53_u8 & 0xF;
-                /*
-                Frontend::sub_4B5430((score_table_line**)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0,
+                Frontend::sub_4B5430((score_table_line*)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0_score_table_line,
                                      0x12Cu,
                                      v98,
                                      1,
                                      field_128,
                                      0xFFFF,
                                      2);
-                */
+                
             }
         }
         else
         {
             unk_idx = gLucid_hamilton_67E8E0.sub_4C5980();
-            /*
-            Frontend::sub_4B5430((score_table_line**)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0,
+            Frontend::sub_4B5430((score_table_line*)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0_score_table_line,
                                  0x12Cu,
                                  v98,
                                  1,
                                  field_128,
                                  0xFFFF,
                                  2);
-            */
         }
     }
 
