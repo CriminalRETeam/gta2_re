@@ -856,8 +856,6 @@ LABEL_116:
 STUB_FUNC(0x4B3AF0)
 void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
-    *w_buffer = L"TODO";
-    return;
     wchar_t Destination[9];
 
     MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
@@ -2232,7 +2230,7 @@ void Frontend::sub_4AE990()
 STUB_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
-    NOT_IMPLEMENTED;
+    //NOT_IMPLEMENTED;
     s16 v1;
     s16 v3;
     u8* field_8_keys;
@@ -4377,14 +4375,13 @@ bool Frontend::sub_4B6FF0()
     return result;
 }
 
-// https://decomp.me/scratch/nrjm8
-STUB_FUNC(0x4B42B0)
+MATCH_FUNC(0x4B42B0)
 void Frontend::sub_4B42B0()
 {
-    u16 name_length = this->field_C9B2_curr_plyr_name_length;
-    if (name_length < 9)
+    u16 name_length = field_C9B2_curr_plyr_name_length;
+    for (u16 i = name_length; i < 9; i++)
     {
-        memset(&field_C9A0_curr_plyr_name[name_length], 0, 9-name_length);
+        field_C9A0_curr_plyr_name[i] = 0;
     }
 }
 
