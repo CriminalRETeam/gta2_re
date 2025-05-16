@@ -2226,11 +2226,122 @@ void Frontend::sub_4AE990()
     field_108 = 3;
 }
 
+// It matches, but we need to get rid of goto's
+// https://decomp.me/scratch/LYZij
 STUB_FUNC(0x4B2F60)
 void Frontend::sub_4B2F60()
 {
     NOT_IMPLEMENTED;
-    // todo
+    s16 v1;
+    s16 v3;
+    u8* field_8_keys;
+    wchar_t Key_4D5F40;
+    u16 v7;
+    u8 v8;
+    s16 v9;
+    s32 v10;
+    u16 v11;
+    s16 v12;
+
+    v1 = 0;
+    v3 = 256;
+    field_8_keys = (u8*)&field_8_keys;
+    do
+    {
+        if ((*field_8_keys & 0x80u) != 0 && v1 != 54 && v1 != 42)
+        {
+            v3 = v1;
+        }
+        ++v1;
+        ++field_8_keys;
+    } while ((u16)v1 < 0x100u);
+
+    if (field_C9B4 != v3)
+    {
+        field_C9B4 = v3;
+        field_C9B6 = 5;
+
+        if (v3 == 28)
+        {
+            field_110_state = 1;
+            Frontend::sub_4B42B0();
+            Frontend::sub_4B4230();
+            field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
+            if (snd1_67D818.field_0_object_type != 9)
+            {
+                snd1_67D818.field_0_object_type = 5;
+            }
+        }
+        else if (v3 == 14)
+        {
+            v8 = field_C9B2_curr_plyr_name_length;
+            if (v8 > 0)
+            {
+                field_C9B2_curr_plyr_name_length = v8 - 1;
+                Frontend::sub_4B42B0();
+                snd1_67D818.field_0_object_type = 8;
+            }
+        }
+        else if (v3 == 1)
+        {
+            field_110_state = 1;
+            Frontend::sub_4B42B0();
+            field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
+            snd1_67D818.field_0_object_type = 6;
+        }
+        else if (v3 == 256)
+        {
+        LABEL_27:
+            field_C9B3 = 0;
+            goto LABEL_29;
+        }
+        else if (v3 == 57)
+        {
+            v7 = 32;
+        LABEL_13:
+            if (field_C9B2_curr_plyr_name_length != 8)
+            {
+                field_C9A0_curr_plyr_name[field_C9B2_curr_plyr_name_length++] = v7;
+                snd1_67D818.field_0_object_type = 7;
+            }
+            goto LABEL_26;
+        }
+        keybrd_0x204::RecreateIfLayoutChanged_4D5FD0();
+        Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(v3);
+        v7 = gText_0x14_704DFC->sub_5B58D0(Key_4D5F40);
+        v11 = v7;
+        v12 = field_11C;
+        if ((u16)gGtx_0x106C_703DD4->sub_5AA760((u16*)&v12, (wchar_t*)&v11) >= 3u && v7)
+        {
+            goto LABEL_13;
+        }
+    }
+    else
+    {
+        v9 = field_C9B6;
+        if (v9 == 0)
+        {
+            field_C9B4 = 256;
+            field_C9B6 = 5;
+        }
+        else
+        {
+            field_C9B6 = v9 - 1;
+        }
+    }
+LABEL_26:
+    if (v3 == 256)
+    {
+        goto LABEL_27;
+    }
+    field_C9B3 = 1;
+LABEL_29:
+    field_118--;
+    if (field_118 <= 0)
+    {
+        field_114 = field_114 == 0;
+        field_118 = 2;
+    }
 }
 
 MATCH_FUNC(0x4AE9A0)
