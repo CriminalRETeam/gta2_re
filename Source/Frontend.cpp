@@ -855,8 +855,9 @@ LABEL_116:
 STUB_FUNC(0x4B3AF0)
 void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
-    int v5;
-    wchar_t Destination;
+    *w_buffer = L"TODO";
+    return;
+    wchar_t Destination[9];
 
     MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
     menu_option_0x82* pOption = &pPage->field_4_options_array[option_idx];
@@ -866,28 +867,36 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         s32 plyr_idx = pOption->field_6E_horizontal_selected_idx;
         if (gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName[0]) // if a name is already set
         {
-            swprintf(&Destination, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName); // put the player name
+            swprintf(Destination, L"%s", gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName); // put the player name
         }
         else if (field_110_state == 3)
         {
-            wcscpy(&Destination, field_C9A0);   // player typing a name?
+            wcscpy(Destination, field_C9A0);   // player typing a name?
         }
         else
         {
             swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);    //  player number?
-            swprintf(&Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C); // player 1, player 2, etc
+            swprintf(Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C); // player 1, player 2, etc
         }
     }
     else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
     {
-        swprintf(&Destination, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+        swprintf(Destination, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
     }
     else
     {
         swprintf(tmpBuff_67BD9C, L"%d", pOption->field_6E_horizontal_selected_idx);
-        swprintf(&Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+        swprintf(Destination, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
     }
-    *w_buffer = &Destination;
+    // TODO: fix this
+    if (Destination[0])
+    {
+        *w_buffer = Destination;
+    }
+    else
+    {
+        *w_buffer = L"TODO";
+    }
 }
 
 MATCH_FUNC(0x4B8680)
@@ -2041,7 +2050,7 @@ void Frontend::sub_4AE2D0()
                     break;
             }
         }
-        else if (field_132_f136_idx == MENUPAGE_PLAY && !pBorg->field_BC6_current_option_idx)
+        else if (field_132_f136_idx == MENUPAGE_PLAY && pBorg->field_BC6_current_option_idx == 0) // player
         {
             field_110_state = 3;
             sub_4B4280();
@@ -4256,27 +4265,14 @@ bool Frontend::sub_4B6FF0()
     return result;
 }
 
+// https://decomp.me/scratch/nrjm8
 STUB_FUNC(0x4B42B0)
 void Frontend::sub_4B42B0()
 {
-    NOT_IMPLEMENTED;
-    s32 v1; // eax
-    wchar_t* v2; // edi
-    u32 v3; // ecx
-    wchar_t* v4; // edi
-    s32 i; // ecx
-
-    if ((unsigned __int8)field_C9B2 < 9u)
+    u16 name_length = this->field_C9B2;
+    if (name_length < 9)
     {
-        v1 = (unsigned __int8)field_C9B2;
-        v2 = &field_C9A0[v1];
-        v3 = (u32)(9 - v1) >> 1;
-        memset(v2, 0, 4 * v3);
-        v4 = &v2[2 * v3];
-        for (i = (9 - (BYTE)v1) & 1; i; --i)
-        {
-            *v4++ = 0;
-        }
+        memset(&field_C9A0[name_length], 0, 9-name_length);
     }
 }
 
