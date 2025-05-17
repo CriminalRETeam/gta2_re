@@ -13,6 +13,7 @@
 #include <Dinput.h>
 
 class Player;
+class score_table_line;
 
 #pragma pack(push)
 #pragma pack(1)
@@ -79,7 +80,7 @@ struct menu_element_0x6E
         {
             wchar_t field_6_element_name_str[50];
             u16 field_6A_font_type;
-            u16 field_6C_font_variant;
+            u16 field_6C_font_variant;  // actaully it's the font palette
         };
         u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
     };
@@ -182,8 +183,8 @@ enum MenuPages // enum for field_132_f136_idx
     MENUPAGE_GAME_COMPLETE = 4,
     MENUPAGE_VIEW_HIGH_SCORE = 5,
     MENUPAGE_BONUS_AREA = 6,
-    MENUPAGE_UNK_KILLS = 7,
-    MENUPAGE_PLAY_INTRO,
+    MENUPAGE_MULTIPLAYER_RESULTS = 7,
+    MENUPAGE_PLAY_INTRO = 8,
     MENUPAGE_CREDITS = 9,
     MENUPAGE_NICE_TRY = 10,
     MENUPAGE_RESULTS_PLAYER_QUIT = 11,
@@ -210,6 +211,13 @@ enum ElementType
     STRING_TEXT_1 = 1,
     STRING_TEXT_2 = 2,
     GEOMETRIC_SHAPE_3 = 3,  //  triangles, circles
+};
+
+enum MultiplayerGameType
+{
+    FRAG_GAME_1 = 1,
+    POINTS_GAME_2 = 2,
+    TAG_GAME_3 = 3,
 };
 
 struct MainBlockStrings
@@ -246,8 +254,8 @@ struct Frontend
     u16 field_132_f136_idx;
     s16 field_134;
     MenuPage_0xBCA field_136_menu_pages_array[17];
-    wchar_t field_C9A0[9];
-    char_type field_C9B2;
+    wchar_t field_C9A0_curr_plyr_name[9];
+    u8 field_C9B2_curr_plyr_name_length;
     char_type field_C9B3;
     s16 field_C9B4;
     s16 field_C9B6;
@@ -321,6 +329,8 @@ struct Frontend
     EXPORT void sub_4AEC00();
 
     EXPORT void read_menu_input_4AFEB0();
+
+    EXPORT void sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer);
 
     EXPORT void sub_4B6780();
 
@@ -457,6 +467,14 @@ struct Frontend
     EXPORT void sub_4B57B0(u16 a3, u16 a5);
 
     EXPORT void sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr);
+
+    EXPORT void Frontend::sub_4B5430(score_table_line* pStrings,
+                           u16 text_xpos,
+                           u16 text_ypos,
+                           u16 num_entries,
+                           u16 arg_fontType,
+                           u16 draw_kind,
+                           u8 spacing_type);
 };
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);

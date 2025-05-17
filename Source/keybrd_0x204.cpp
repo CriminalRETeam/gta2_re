@@ -189,6 +189,12 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
     }
 }
 
+MATCH_FUNC(0x4D5F40)
+wchar_t keybrd_0x204::GetKey_4D5F40(u16 key_idx)
+{
+    return field_0_keys[key_idx];
+}
+
 MATCH_FUNC(0x4D5FD0)
 void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
 {
