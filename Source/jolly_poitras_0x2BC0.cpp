@@ -56,6 +56,8 @@ STUB_FUNC(0x56B810)
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
     NOT_IMPLEMENTED;
+
+    // Should match but doesn't
 }
 
 STUB_FUNC(0x56BB10)
@@ -124,7 +126,7 @@ MATCH_FUNC(0x56B990)
 void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 {
     char_type FileName[356];
-    
+
     player_stats_0xA4* pTmp = &field_26A0_plyr_stats[slotIdx];
 
     GetPlySlotDatName_56B8A0(slotIdx, FileName);
@@ -134,8 +136,8 @@ void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
     {
         u32 len_read = 2;
         File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
-    } 
-    
+    }
+
     for (s32 k = 0; k < 3; k++)
     {
         for (s32 j = 0; j < 4; j++)
@@ -265,11 +267,15 @@ void jolly_poitras_0x2BC0::sub_56BC40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56BBD0)
-void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
+MATCH_FUNC(0x56BBD0)
+void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
 {
-    NOT_IMPLEMENTED;
-    // todo
+    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num].field_0_is_stage_unlocked = 1;
+    if (!bStartNetworkGame_7081F0)
+    {
+        sub_56BA60(slot_idx);
+    }
 }
 
 MATCH_FUNC(0x56C250)
@@ -344,7 +350,8 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
             startIdx = i;
         }
 
-        if (findScore == field_0_score_table_line[i].field_14_score && wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
+        if (findScore == field_0_score_table_line[i].field_14_score &&
+            wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
             return 0;
         }
@@ -415,7 +422,7 @@ MATCH_FUNC(0x56B680)
 s32 player_stats_0xA4::sub_56B680()
 {
     s32 result = 0;
-    
+
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 4; j++)
@@ -430,7 +437,7 @@ MATCH_FUNC(0x56B6B0)
 s32 player_stats_0xA4::sub_56B6B0()
 {
     s32 result = 0;
-    
+
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 4; j++)
