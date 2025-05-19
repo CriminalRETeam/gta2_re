@@ -319,16 +319,16 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
     // todo
 }
 
-STUB_FUNC(0x56C250)
-void jolly_poitras_0x2BC0::sub_56C250()
+MATCH_FUNC(0x56C250)
+void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
 {
-    NOT_IMPLEMENTED;
     if (!bStartNetworkGame_7081F0)
     {
-        if (wcscmp(this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
+        player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+        if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
-            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 *
-                                                                           500000);
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            pPlayer->field_2D4_unk.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
         }
     }
 }
