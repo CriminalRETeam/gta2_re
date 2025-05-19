@@ -402,6 +402,8 @@ struct Frontend
 
     EXPORT void sub_4B4440();
 
+    EXPORT u32 GetSeqItem_4B48D0(s32 type, char_type *ppRet);
+
     EXPORT void LoadPlySlotSvgs_4B53C0();
 
     EXPORT void Load_tgas_4B66B0();
