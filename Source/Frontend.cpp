@@ -4072,6 +4072,8 @@ void Frontend::sub_4B0220()
 STUB_FUNC(0x4B4440)
 void Frontend::sub_4B4440()
 {
+    NOT_IMPLEMENTED;
+
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
     char styName[256]; // [esp+114h] [ebp-618h] BYREF
@@ -4109,7 +4111,7 @@ void Frontend::sub_4B4440()
     }
 
     GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
-    
+
     while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
     {
         if (strcmp(mainOrBonus, "MAIN") == 0)
@@ -4155,11 +4157,92 @@ void Frontend::sub_4B4440()
     crt::fclose(hSeqFile);
 }
 
-STUB_FUNC(0x4B48D0)
-u32 Frontend::GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile)
+MATCH_FUNC(0x4B48D0)
+void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type type_buf[52];
+    char_type output_buf[256];
+
+    u16 pos = 0;
+    char_type letter = File::SkipWhitespace_4A7340(hSeqFile);
+    while (!letter)
+    {
+        if (feof(hSeqFile))
+        {
+            strcpy(ppRet, byte_67DC88);
+            return;
+        }
+        letter = File::SkipWhitespace_4A7340(hSeqFile);
+    }
+
+    if (letter)
+    {
+        if ((letter < 'a' || letter > 'z') && (letter < 'A' || letter > 'Z'))
+        {
+            FatalError_4A38C0(0x9F, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014); // InvalidFirstLineCharacter
+        }
+
+        while (letter != '=')
+        {
+            output_buf[pos++] = letter;
+            letter = File::SkipWhitespace_4A7340(hSeqFile);
+            if (!letter)
+            {
+                FatalError_4A38C0(0xA0, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026); // LineInterruptedByNewline
+            }
+            if (pos > 0xFFu)
+            {
+                FatalError_4A38C0(0xA1, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031); // LabelTooLong
+            }
+        } // 0x3d
+        output_buf[pos] = 0;
+
+        switch (type & 0xff) // TODO: Wrong type ??
+        {
+            case 0:
+                strcpy(type_buf, "MainOrBonus");
+                break;
+            case 1:
+                strcpy(type_buf, "GMPFile");
+                break;
+            case 2:
+                strcpy(type_buf, "STYFile");
+                break;
+            case 3:
+                strcpy(type_buf, "SCRFile");
+                break;
+            case 4:
+                strcpy(type_buf, "Description");
+                break;
+            default:
+                FatalError_4A38C0(0xA2, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056); // UndefinedLabel
+                break;
+        }
+
+        if (strcmp(type_buf, output_buf) == 0)
+        {
+            pos = 0;
+            letter = File::SkipWhitespace_4A7340(hSeqFile);
+            if (letter)
+            {
+                do
+                {
+                    output_buf[pos++] = letter;
+                    letter = File::SkipWhitespace_4A7340(hSeqFile);
+                    if (pos > 255u)
+                    {
+                        FatalError_4A38C0(0xA3, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074); // LineDataTooLong
+                    }
+                } while (letter);
+            }
+            output_buf[pos] = 0;
+            strcpy(ppRet, output_buf);
+        }
+        else
+        {
+            FatalError_4A38C0(0xA4, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086); // UnexpectedLabel
+        }
+    }
 }
 
 MATCH_FUNC(0x4B53C0)
