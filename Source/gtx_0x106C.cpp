@@ -834,13 +834,20 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
     ConvertToVirtualOffsets_5AB1C0(&field_C_palette_base2->field_0_tile, 8);
 }
 
-STUB_FUNC(0x5AB380)
+MATCH_FUNC(0x5AB380)
 bool gtx_0x106C::sub_5AB380(u8 car_id)
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
-    return false;
+    s32 i = 0;
+    if (!field_64_car_recycling_info)
+    {
+        return 1;
+    }
+
+    while (field_64_car_recycling_info[i] < car_id)
+    {
+        i++;
+    }
+    return field_64_car_recycling_info[i] == car_id;
 }
 
 MATCH_FUNC(0x5AB3C0)
