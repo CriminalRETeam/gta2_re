@@ -4102,14 +4102,14 @@ void Frontend::sub_4B4440()
 
     u16 block_idx = 0;
 
-    FILE* hSeqFile = fopen(seqFileName, "rt");
+    FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
         FatalError_4A38C0(0x9A, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906); // SeqFileOpenError
     }
 
     GetSeqItem_4B48D0(0, mainOrBonus);
-
+    
     while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
     {
         if (strcmp(mainOrBonus, "MAIN") == 0)
@@ -4152,7 +4152,7 @@ void Frontend::sub_4B4440()
     }
 
     this->field_1EB50_idx = block_idx + 1;
-    fclose(hSeqFile);
+    crt::fclose(hSeqFile);
 }
 
 STUB_FUNC(0x4B48D0)
