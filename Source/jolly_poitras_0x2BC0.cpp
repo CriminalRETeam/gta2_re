@@ -120,42 +120,34 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     return 1;
 }
 
-// https://decomp.me/scratch/cfsd2
-STUB_FUNC(0x56B990)
-void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
+MATCH_FUNC(0x56B990)
+void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 {
-    NOT_IMPLEMENTED;
-
     char_type FileName[356];
-    u16 idx = (u16)slotIdx;
+    
+    player_stats_0xA4* pTmp = &field_26A0_plyr_stats[slotIdx];
 
-    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName; // todo: This instruction is too early lea     esi, [ebx+2730h]
-    GetPlySlotDatName_56B8A0(idx, FileName);
+    GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
 
-    s32 i = 9;
-    do
+    for (s32 i = 0; i < 9; i++)
     {
-        u32 readLen = 2;
-        File::Global_Read_4A71C0(pStr, readLen);
-        pStr++;
-        i--;
-    } while (i);
-
-    s32 j;
-    s32 k;
-    for (k = 0; k < 3; k++)
+        u32 len_read = 2;
+        File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
+    } 
+    
+    for (s32 k = 0; k < 3; k++)
     {
-        for (j = 0; j < 4; j++)
+        for (s32 j = 0; j < 4; j++)
         {
             u32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score, len_read);
         }
     }
     File::Global_Close_4A70C0();

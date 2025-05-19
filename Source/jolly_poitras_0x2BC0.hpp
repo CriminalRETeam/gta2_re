@@ -1621,7 +1621,7 @@ struct jolly_poitras_0x2BC0
 
     EXPORT char_type HiScoreHscExists_56BCA0();
 
-    EXPORT void sub_56B990(s32 a2);
+    EXPORT void sub_56B990(u16 a2);
 
     EXPORT void sub_56BA60(s16 a2);
 
