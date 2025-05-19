@@ -79,7 +79,6 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
         const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.sub_4C5990();
         map_num = map_and_bonus_nibbles >> 4;
         bonus_num = map_and_bonus_nibbles & 0xF;
-      
     }
 
     stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
@@ -286,10 +285,23 @@ void jolly_poitras_0x2BC0::sub_56BD20()
     field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
-STUB_FUNC(0x56BC40)
+MATCH_FUNC(0x56BC40)
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
-    NOT_IMPLEMENTED;
+    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[slot_idx];
+    for (s32 k3 = 0; k3 < 3; k3++)
+    {
+        for (s32 k4 = 0; k4 < 4; k4++)
+        {
+            pStats->field_0_plyr_stage_stats[k3][k4].field_0_is_stage_unlocked = 1;
+        }
+    }
+
+    if (!bStartNetworkGame_7081F0)
+    {
+        sub_56BA60(slot_idx);
+    }
 }
 
 MATCH_FUNC(0x56BBD0)
