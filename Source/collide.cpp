@@ -24,6 +24,7 @@ Collide_C::Collide_C()
 {
     field_0_count = 0;
     field_4_count = 0;
+    
     field_8_bUnknown = 0;
 
     gCollide_8004_679200 = new Collide_8004();

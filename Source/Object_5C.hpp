@@ -4,6 +4,7 @@
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Object_3C.hpp"
 
 class Object_2C;
 class Sprite;
@@ -162,11 +163,7 @@ class Object_5C
     char_type field_19;
     char_type field_1A;
     char_type field_1B;
-    s32 field_1C;
-    char_type field_20[48];
-    s16 field_50;
-    s16 field_52;
-    s32 field_54;
+    Object_3C field_1C;
     Sprite* field_58;
 };
 

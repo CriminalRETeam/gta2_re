@@ -252,6 +252,7 @@ class Sprite
     {
         Sprite* field_C_sprite_next_ptr;
         Sprite_4C* field_C_sprite_4c_ptr;
+        class Object_5C* field_C_o5c;
     };
     infallible_turing* field_10_sound;
 
