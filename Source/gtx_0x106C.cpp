@@ -35,20 +35,22 @@ GLOBAL(word_703D98, 0x703D98);
 EXPORT_VAR s16 word_703C9C;
 GLOBAL(word_703C9C, 0x703C9C);
 
-STUB_FUNC(0x5ABAE0)
-void __stdcall sub_5ABAE0(u8* pData, int width, char clear_target)
+MATCH_FUNC(0x5ABAE0)
+void __stdcall sub_5ABAE0(u8* pData, int width, u8 clear_target)
 {
+    u8* pDataIter = pData;
     for (s32 i = 0; i < width; i++)
     {
-        if (pData[i] == clear_target)
+        if (*pDataIter == clear_target)
         {
-            pData[i] = 0;
+            *pDataIter = 0;
         }
+        pDataIter++;
     }
 }
 
 MATCH_FUNC(0x5abaa0)
-void sprite_index::sub_5ABAA0(char_type clear_target)
+void sprite_index::sub_5ABAA0(u8 clear_target)
 {
     for (s32 i = 0; i < field_5_height; i++)
     {
