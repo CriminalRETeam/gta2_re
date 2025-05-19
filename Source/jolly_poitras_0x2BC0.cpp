@@ -60,11 +60,36 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
     // Should match but doesn't
 }
 
+// https://decomp.me/scratch/oIJET
 STUB_FUNC(0x56BB10)
-void jolly_poitras_0x2BC0::sub_56BB10(Player* a2)
+void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
 {
     NOT_IMPLEMENTED;
-    // todo
+
+    const s32 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    u8 map_num;
+    u8 bonus_num;
+    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    {
+        map_num = gLucid_hamilton_67E8E0.sub_4C5980();
+        bonus_num = 0;
+    }
+    else
+    {
+        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.sub_4C5990();
+        map_num = map_and_bonus_nibbles >> 4;
+        bonus_num = map_and_bonus_nibbles & 0xF;
+      
+    }
+
+    stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
+    const u32 latest_score = pPlayer->field_2D4_unk.sub_592370();
+    if (latest_score > pStageStats->field_4_stage_best_score)
+    {
+        pStageStats->field_4_stage_best_score = latest_score;
+    }
+    pStageStats->field_8_stage_latest_score = latest_score;
+    sub_56BA60(slot_idx);
 }
 
 STUB_FUNC(0x56C010)
