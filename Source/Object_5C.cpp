@@ -3,10 +3,10 @@
 #include "Object_226C.hpp"
 #include "Object_29178.hpp"
 #include "Object_5A40.hpp"
+#include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
 #include "sprite.hpp"
-#include "Phi_8CA8.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -267,7 +267,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     this->field_8 = phi74;
     this->field_18_model = object_type;
     this->field_24 = 0;
-    
+
     if (field_4)
     {
         phi74->sub_5331A0(field_4);
@@ -293,7 +293,6 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         pSprite_->sub_59E7B0();
     }
     this->field_4->field_8_object_2C_ptr = this;
-
 }
 
 MATCH_FUNC(0x527ae0)
@@ -368,10 +367,22 @@ void Object_2C::sub_528E50(Sprite* a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x529000)
-void Object_2C::sub_529000(s32 a2)
+MATCH_FUNC(0x529000)
+void Object_2C::sub_529000(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    switch (pSprite->field_18_ypos.mValue)
+    {
+        case 139:
+            sub_529070(pSprite);
+            break;
+
+        case 141:
+            if (this->field_8->field_60)
+            {
+                sub_5291B0();
+            }
+            break;
+    }
 }
 
 MATCH_FUNC(0x529030)
@@ -381,7 +392,7 @@ void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 }
 
 STUB_FUNC(0x529070)
-void Object_2C::sub_529070(s32 a2)
+void Object_2C::sub_529070(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
