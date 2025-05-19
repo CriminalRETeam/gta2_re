@@ -14,6 +14,12 @@ GLOBAL(gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
 EXPORT_VAR wchar_t word_67DC8C[1]; // blank/empty str
 GLOBAL(word_67DC8C, 0x67DC8C);
 
+EXPORT_VAR score_table_line stru_6242B0[10];
+GLOBAL(stru_6242B0, 0x6242B0);
+
+EXPORT_VAR score_table_line stru_6243A0[120]; // [3][4][10]
+GLOBAL(stru_6243A0, 0x6243A0);
+
 // TODO
 EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
 
@@ -79,7 +85,6 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
         const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.sub_4C5990();
         map_num = map_and_bonus_nibbles >> 4;
         bonus_num = map_and_bonus_nibbles & 0xF;
-      
     }
 
     stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
@@ -247,11 +252,30 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x56C1D0)
+MATCH_FUNC(0x56C1D0)
 void jolly_poitras_0x2BC0::sub_56C1D0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    field_23D0.Init_56B520();
+    score_table_line* p10StruIter = stru_6242B0;
+    for (s32 k10 = 0; k10 < 10; k10++)
+    {
+        field_23D0.sub_56B550(p10StruIter->field_0_player_name, p10StruIter->field_14_score);
+        ++p10StruIter;
+    }
+
+    score_table_line* pSruIter = stru_6243A0;
+    for (s32 k3 = 0; k3 < 3; k3++)
+    {
+        for (s32 k4 = 0; k4 < 4; k4++)
+        {
+            field_1890_stage_scores[k3][k4].Init_56B520();
+            for (s32 k10 = 0; k10 < 10; k10++)
+            {
+                field_1890_stage_scores[k3][k4].sub_56B550(pSruIter->field_0_player_name, pSruIter->field_14_score);
+                ++pSruIter;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x56BF20)
@@ -286,10 +310,23 @@ void jolly_poitras_0x2BC0::sub_56BD20()
     field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
-STUB_FUNC(0x56BC40)
+MATCH_FUNC(0x56BC40)
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
-    NOT_IMPLEMENTED;
+    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[slot_idx];
+    for (s32 k3 = 0; k3 < 3; k3++)
+    {
+        for (s32 k4 = 0; k4 < 4; k4++)
+        {
+            pStats->field_0_plyr_stage_stats[k3][k4].field_0_is_stage_unlocked = 1;
+        }
+    }
+
+    if (!bStartNetworkGame_7081F0)
+    {
+        sub_56BA60(slot_idx);
+    }
 }
 
 MATCH_FUNC(0x56BBD0)

@@ -35,11 +35,27 @@ GLOBAL(word_703D98, 0x703D98);
 EXPORT_VAR s16 word_703C9C;
 GLOBAL(word_703C9C, 0x703C9C);
 
-STUB_FUNC(0x5abaa0)
-u8 sprite_index::sub_5ABAA0(char_type a2)
+MATCH_FUNC(0x5ABAE0)
+void __stdcall sub_5ABAE0(u8* pData, int width, u8 clear_target)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8* pDataIter = pData;
+    for (s32 i = 0; i < width; i++)
+    {
+        if (*pDataIter == clear_target)
+        {
+            *pDataIter = 0;
+        }
+        pDataIter++;
+    }
+}
+
+MATCH_FUNC(0x5abaa0)
+void sprite_index::sub_5ABAA0(u8 clear_target)
+{
+    for (s32 i = 0; i < field_5_height; i++)
+    {
+        sub_5ABAE0(&this->field_0_pData[i * 256], this->field_4_width, clear_target);
+    }
 }
 
 STUB_FUNC(0x5abb00)
@@ -818,65 +834,42 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
     ConvertToVirtualOffsets_5AB1C0(&field_C_palette_base2->field_0_tile, 8);
 }
 
-STUB_FUNC(0x5AB380)
+MATCH_FUNC(0x5AB380)
 bool gtx_0x106C::sub_5AB380(u8 car_id)
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
-    return false;
+    s32 i = 0;
+    if (!field_64_car_recycling_info)
+    {
+        return 1;
+    }
+
+    while (field_64_car_recycling_info[i] < car_id)
+    {
+        i++;
+    }
+    return field_64_car_recycling_info[i] == car_id;
 }
 
 MATCH_FUNC(0x5AB3C0)
 void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
 {
     field_64_car_recycling_info = (u8*)Memory::malloc_4FE4D0(recy_chunk_size);
-    ;
     field_68_recy_chunk_size = recy_chunk_size;
     File::Global_Read_4A71C0(field_64_car_recycling_info, recy_chunk_size);
 }
-/*
-   // u16 readBuffer_; // ax
-    s32 specEntry; // edi
-    u16 readValue1; // [esp+4h] [ebp-8h] BYREF
-    s32 read_size; // [esp+8h] [ebp-4h] BYREF
 
-    read_size = 2;
-    File::Global_Read_4A71C0(&readValue1, &read_size);
-   // readBuffer_ = readValue1;
-    if (readValue1)
-    {
-        specEntry = type;
-        do
-        {
-            field_6C_spec[readValue1] = specEntry;
-            type = 2;
-            File::Global_Read_4A71C0(&readValue1, &type);
-           // readBuffer_ = readValue1;
-        } while (readValue1);
-    }
-*/
-
-STUB_FUNC(0x5AB3F0)
-void gtx_0x106C::read_spec_5AB3F0(u32 type)
+MATCH_FUNC(0x5AB3F0)
+void gtx_0x106C::read_spec_5AB3F0(u32 value_to_set)
 {
-    NOT_IMPLEMENTED;
-    u16 read_value1;
-    u32 read_value1_size = 2;
-    File::Global_Read_4A71C0(&read_value1, read_value1_size);
-    if (!read_value1)
+    u16 index_to_set;
+    u32 len = 2;
+    File::Global_Read_4A71C0(&index_to_set, len);
+    while (index_to_set)
     {
-        return;
+        this->field_6C_spec[index_to_set] = value_to_set;
+        s32 len2 = 2;
+        File::Global_Read_4A71C0(&index_to_set, len2);
     }
-    //    if ((WORD)read_value1)
-    //{
-    do
-    {
-        read_value1_size = 2;
-        File::Global_Read_4A71C0(&read_value1, read_value1_size);
-        field_6C_spec[read_value1] = type;
-    } while (read_value1);
-    // }
 }
 
 MATCH_FUNC(0x5AB450)
