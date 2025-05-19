@@ -252,11 +252,68 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
     }
 }
 
-STUB_FUNC(0x478370)
-u8* PurpleDoom::sub_478370(s32 a2, Sprite* a3)
+MATCH_FUNC(0x478370)
+void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 x_pos = gPurple_left_6F5FD4;
+    PurpleDoom_C* pLastXIter = 0;
+    for (PurpleDoom_C* pXItemIter = this->field_0[y_pos]; pXItemIter; pXItemIter = pXItemIter->field_8_pNext)
+    {
+        if (pXItemIter->field_0_x_len == x_pos)
+        {
+            Collide_8* pObj = pXItemIter->field_4_p8;
+            Collide_8* pLast = 0;
+            while (pObj)
+            {
+                if (pObj->field_0_sprt == pSprite)
+                {
+                    if (!pLast)
+                    {
+                        pXItemIter->field_4_p8 = pObj->field_4_pNext;
+                    }
+                    else
+                    {
+                        pLast->field_4_pNext = pObj->field_4_pNext;
+                    }
+
+                    gCollide_8004_679200->Remove(pObj);
+
+                    if (!pXItemIter->field_4_p8)
+                    {
+                        PurpleDoom_C* pNext = pXItemIter->field_8_pNext;
+                        if (!pLastXIter)
+                        {
+                            this->field_0[y_pos] = pNext;
+                        }
+                        else
+                        {
+                            pLastXIter->field_8_pNext = pNext;
+                        }
+                        pXItemIter = gCollide_11944_679204->Allocate(pXItemIter);
+                    }
+                    else
+                    {
+                        pLastXIter = pXItemIter;
+                        pXItemIter = pXItemIter->field_8_pNext;
+                    }
+                    ++x_pos;
+
+                    if (x_pos > gPurple_right_6F5B80)
+                    {
+                        return;
+                    }
+                    pObj = pXItemIter->field_4_p8;
+                    pLast = 0;
+                }
+                else
+                {
+                    pLast = pObj;
+                    pObj = pObj->field_4_pNext;
+                }
+            }
+        }
+        pLastXIter = pXItemIter;
+    }
 }
 
 STUB_FUNC(0x478440)

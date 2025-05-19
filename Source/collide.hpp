@@ -87,6 +87,15 @@ class Collide_11944
         this->field_0 = pToRemove;
     }    
 
+    // TODO: bad name, and maybe not the correct code for the inline, perhaps its Remove() mixed with something else
+    PurpleDoom_C* Allocate(PurpleDoom_C* pXItemIter)
+    {
+         PurpleDoom_C* field_8_pNext = pXItemIter->field_8_pNext;
+         pXItemIter->field_8_pNext = this->field_0;
+         this->field_0 = pXItemIter;
+         return field_8_pNext;
+    }
+
     PurpleDoom_C* field_0;
     PurpleDoom_C field_4[5999];
     s32 field_11938;
