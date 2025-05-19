@@ -120,46 +120,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     return 1;
 }
 
-/*
- char_type FileName[356];
-
-    u16 idx = (u16)slotIdx;
-
-    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName;
-    GetPlySlotDatName_56B8A0(idx, FileName);
-    File::Global_Open_4A7060(FileName);
-
-
-
-    s32 i = 9;
-    do
-    {
-        s32 readLen = 2;
-        File::Global_Read_4A71C0(pStr, &readLen);
-        pStr++;
-        i--;
-    } while (i);
-
-
-    s32 j;
-    s32 k;
-    for (k = 0; k < 3; k++)
-    {
-        for (j = 0; j < 4; j++)
-        {
-            s32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_0, &len_read);
-
-            len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_4, &len_read);
-
-            len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_8, &len_read);
-        }
-    }
-    File::Global_Close_4A70C0();
-*/
-
+// https://decomp.me/scratch/cfsd2
 STUB_FUNC(0x56B990)
 void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
 {
