@@ -4108,7 +4108,7 @@ void Frontend::sub_4B4440()
         FatalError_4A38C0(0x9A, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906); // SeqFileOpenError
     }
 
-    GetSeqItem_4B48D0(0, mainOrBonus);
+    GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
     
     while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
     {
@@ -4142,13 +4142,13 @@ void Frontend::sub_4B4440()
             }
         }
 
-        GetSeqItem_4B48D0(1, debugStr);
-        GetSeqItem_4B48D0(2, styName);
-        GetSeqItem_4B48D0(3, mapName);
-        GetSeqItem_4B48D0(4, description);
+        GetSeqItem_4B48D0(1, debugStr, hSeqFile);
+        GetSeqItem_4B48D0(2, styName, hSeqFile);
+        GetSeqItem_4B48D0(3, mapName, hSeqFile);
+        GetSeqItem_4B48D0(4, description, hSeqFile);
         sub_4B4BC0(block_idx, *pBlock, debugStr, styName, mapName);
         ++*pBlock;
-        GetSeqItem_4B48D0(0, mainOrBonus);
+        GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
     }
 
     this->field_1EB50_idx = block_idx + 1;
@@ -4156,7 +4156,7 @@ void Frontend::sub_4B4440()
 }
 
 STUB_FUNC(0x4B48D0)
-u32 Frontend::GetSeqItem_4B48D0(s32 type, char_type *ppRet)
+u32 Frontend::GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile)
 {
     NOT_IMPLEMENTED;
     return 0;
