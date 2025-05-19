@@ -13,7 +13,7 @@
 #include <Dinput.h>
 
 class Player;
-class score_table_line;
+struct score_table_line;
 
 #pragma pack(push)
 #pragma pack(1)

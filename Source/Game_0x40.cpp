@@ -336,7 +336,7 @@ void Game_0x40::sub_4B8EB0()
         field_4_players[i]->sub_569CB0(); // respawn dead players?
     }
 
-    gJolly_poitras_0x2BC0_6FEAC0->sub_56C250();
+    gJolly_poitras_0x2BC0_6FEAC0->DoMuchCashCheat_56C250();
 }
 
 MATCH_FUNC(0x4B8FF0)

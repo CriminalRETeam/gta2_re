@@ -12,7 +12,7 @@ struct stage_stats
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4_stage_best_score;
+    u32 field_4_stage_best_score;
     s32 field_8_stage_latest_score;
 };
 
@@ -1609,7 +1609,7 @@ struct jolly_poitras_0x2BC0
     EXPORT ~jolly_poitras_0x2BC0();
 
     // todo: ordering
-    EXPORT void sub_56BB10(Player* a2);
+    EXPORT void sub_56BB10(Player* pPlayer);
 
     EXPORT void sub_56C010();
 
@@ -1621,7 +1621,7 @@ struct jolly_poitras_0x2BC0
 
     EXPORT char_type HiScoreHscExists_56BCA0();
 
-    EXPORT void sub_56B990(s32 a2);
+    EXPORT void sub_56B990(u16 a2);
 
     EXPORT void sub_56BA60(s16 a2);
 
@@ -1637,7 +1637,7 @@ struct jolly_poitras_0x2BC0
 
     EXPORT void sub_56BC40();
 
-    EXPORT void sub_56C250();
+    EXPORT void DoMuchCashCheat_56C250();
     EXPORT static void create_56C2C0();
     EXPORT static void destroy_56C340();
 };

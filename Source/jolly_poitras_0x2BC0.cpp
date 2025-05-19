@@ -56,13 +56,40 @@ STUB_FUNC(0x56B810)
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
     NOT_IMPLEMENTED;
+
+    // Should match but doesn't
 }
 
+// https://decomp.me/scratch/oIJET
 STUB_FUNC(0x56BB10)
-void jolly_poitras_0x2BC0::sub_56BB10(Player* a2)
+void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
 {
     NOT_IMPLEMENTED;
-    // todo
+
+    const s32 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    u8 map_num;
+    u8 bonus_num;
+    if (!gLucid_hamilton_67E8E0.sub_4C59A0())
+    {
+        map_num = gLucid_hamilton_67E8E0.sub_4C5980();
+        bonus_num = 0;
+    }
+    else
+    {
+        const u8 map_and_bonus_nibbles = gLucid_hamilton_67E8E0.sub_4C5990();
+        map_num = map_and_bonus_nibbles >> 4;
+        bonus_num = map_and_bonus_nibbles & 0xF;
+      
+    }
+
+    stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
+    const u32 latest_score = pPlayer->field_2D4_unk.sub_592370();
+    if (latest_score > pStageStats->field_4_stage_best_score)
+    {
+        pStageStats->field_4_stage_best_score = latest_score;
+    }
+    pStageStats->field_8_stage_latest_score = latest_score;
+    sub_56BA60(slot_idx);
 }
 
 STUB_FUNC(0x56C010)
@@ -120,81 +147,34 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     return 1;
 }
 
-/*
- char_type FileName[356];
-
-    u16 idx = (u16)slotIdx;
-
-    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName;
-    GetPlySlotDatName_56B8A0(idx, FileName);
-    File::Global_Open_4A7060(FileName);
-
-
-
-    s32 i = 9;
-    do
-    {
-        s32 readLen = 2;
-        File::Global_Read_4A71C0(pStr, &readLen);
-        pStr++;
-        i--;
-    } while (i);
-
-
-    s32 j;
-    s32 k;
-    for (k = 0; k < 3; k++)
-    {
-        for (j = 0; j < 4; j++)
-        {
-            s32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_0, &len_read);
-
-            len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_4, &len_read);
-
-            len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0[k][j].field_8, &len_read);
-        }
-    }
-    File::Global_Close_4A70C0();
-*/
-
-STUB_FUNC(0x56B990)
-void jolly_poitras_0x2BC0::sub_56B990(s32 slotIdx)
+MATCH_FUNC(0x56B990)
+void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 {
-    NOT_IMPLEMENTED;
-
     char_type FileName[356];
-    u16 idx = (u16)slotIdx;
 
-    wchar_t* pStr = field_26A0_plyr_stats[idx].field_90_strPlayerName; // todo: This instruction is too early lea     esi, [ebx+2730h]
-    GetPlySlotDatName_56B8A0(idx, FileName);
+    player_stats_0xA4* pTmp = &field_26A0_plyr_stats[slotIdx];
+
+    GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
 
-    s32 i = 9;
-    do
+    for (s32 i = 0; i < 9; i++)
     {
-        u32 readLen = 2;
-        File::Global_Read_4A71C0(pStr, readLen);
-        pStr++;
-        i--;
-    } while (i);
+        u32 len_read = 2;
+        File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
+    }
 
-    s32 j;
-    s32 k;
-    for (k = 0; k < 3; k++)
+    for (s32 k = 0; k < 3; k++)
     {
-        for (j = 0; j < 4; j++)
+        for (s32 j = 0; j < 4; j++)
         {
             u32 len_read = 1;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score, len_read);
 
             len_read = 4;
-            File::Global_Read_4A71C0(&field_26A0_plyr_stats[idx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score, len_read);
+            File::Global_Read_4A71C0(&field_26A0_plyr_stats[slotIdx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score, len_read);
         }
     }
     File::Global_Close_4A70C0();
@@ -312,23 +292,27 @@ void jolly_poitras_0x2BC0::sub_56BC40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56BBD0)
-void jolly_poitras_0x2BC0::sub_56BBD0(u8 a2, u8 a3)
+MATCH_FUNC(0x56BBD0)
+void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
 {
-    NOT_IMPLEMENTED;
-    // todo
-}
-
-STUB_FUNC(0x56C250)
-void jolly_poitras_0x2BC0::sub_56C250()
-{
-    NOT_IMPLEMENTED;
+    const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num].field_0_is_stage_unlocked = 1;
     if (!bStartNetworkGame_7081F0)
     {
-        if (wcscmp(this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()].field_90_strPlayerName, L"MUCHCASH") == 0)
+        sub_56BA60(slot_idx);
+    }
+}
+
+MATCH_FUNC(0x56C250)
+void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
+{
+    if (!bStartNetworkGame_7081F0)
+    {
+        player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
+        if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
-            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.AddCash_592620(gGame_0x40_67E008->field_38_orf1->field_6BC_multpliers.field_0 *
-                                                                           500000);
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            pPlayer->field_2D4_unk.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
         }
     }
 }
@@ -391,7 +375,8 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
             startIdx = i;
         }
 
-        if (findScore == field_0_score_table_line[i].field_14_score && wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
+        if (findScore == field_0_score_table_line[i].field_14_score &&
+            wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
             return 0;
         }
@@ -462,7 +447,7 @@ MATCH_FUNC(0x56B680)
 s32 player_stats_0xA4::sub_56B680()
 {
     s32 result = 0;
-    
+
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 4; j++)
@@ -477,7 +462,7 @@ MATCH_FUNC(0x56B6B0)
 s32 player_stats_0xA4::sub_56B6B0()
 {
     s32 result = 0;
-    
+
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 4; j++)
