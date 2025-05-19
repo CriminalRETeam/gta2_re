@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "PurpleDoom.hpp"
+#include "fix16.hpp"
 
 class Sprite;
 
@@ -18,8 +19,8 @@ class Collide_C
     EXPORT void sub_478A20();
     EXPORT Collide_C();
     EXPORT ~Collide_C();
-    s32 field_0_count;
-    s32 field_4_count;
+    Fix16 field_0_count;
+    Fix16 field_4_count;
     s32 field_8_bUnknown;
 };
 

@@ -3,6 +3,7 @@
 #include "DrawUnk_0xBC.hpp"
 #include "Globals.hpp"
 #include "Montana.hpp"
+#include "Object_5C.hpp"
 #include "collide.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
@@ -21,6 +22,9 @@ GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
 
 EXPORT_VAR s32 gPurple_top_6F6108;
 GLOBAL(gPurple_top_6F6108, 0x6F6108);
+
+EXPORT_VAR s32 dword_678FA8;
+GLOBAL(dword_678FA8, 0x678FA8);
 
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
@@ -104,7 +108,7 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
     char_type bUnknown = 0;
 
-    gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
+    gCollide_C_6791FC->field_4_count.mValue++; // TODO: Prob an inline
 
     pSprite->sub_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
@@ -403,11 +407,42 @@ char_type PurpleDoom::sub_478750(u32 a2, Sprite* a3)
     return 0;
 }
 
-STUB_FUNC(0x4787e0)
-char_type PurpleDoom::sub_4787E0(u32 a2, u32* a3)
+MATCH_FUNC(0x4787e0)
+bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bRet;
+    PurpleDoom_C* pXItemIter;
+    Collide_8* p8Iter;
+
+    bRet = false;
+    pXItemIter = sub_478590(y_pos);
+    while (pXItemIter)
+    {
+        if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
+        {
+            break;
+        }
+
+        for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+        {
+            if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
+                p8Iter->field_0_sprt->field_C_o5c->field_1C.field_10 != gCollide_C_6791FC->field_4_count)
+            {
+                gCollide_C_6791FC->field_0_count.mValue++;
+
+                if (pSprite->sub_59E590(p8Iter->field_0_sprt))
+                {
+                    bRet = true;
+                    p8Iter->field_0_sprt->sub_59E910(pSprite);
+                }
+
+                p8Iter->field_0_sprt->field_C_o5c->field_1C.field_10 = gCollide_C_6791FC->field_4_count;
+            }
+        }
+        pXItemIter = pXItemIter->field_8_pNext;
+    }
+
+    return bRet;
 }
 
 STUB_FUNC(0x478880)

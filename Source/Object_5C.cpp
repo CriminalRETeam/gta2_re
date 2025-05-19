@@ -473,9 +473,12 @@ Object_5C::Object_5C()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x529750)
+STUB_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
+    // TODO: The call to Object_3C dtor breaks the match, so is field_1C really that type ??
+    NOT_IMPLEMENTED;
+
     if (field_58)
     {
         gSprite_49B28_703818->remove(field_58);
