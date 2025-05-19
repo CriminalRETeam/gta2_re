@@ -316,14 +316,13 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x478440)
+MATCH_FUNC(0x478440)
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    Collide_8* pNewCollide = gCollide_8004_679200->field_0;
-    PurpleDoom_C* pAddedTo = 0;
-    gCollide_8004_679200->field_0 = gCollide_8004_679200->field_0->field_4_pNext;
+    Collide_8* pNewCollide = gCollide_8004_679200->Allocate();
     pNewCollide->field_0_sprt = pSprite;
+
+    PurpleDoom_C* pAddedTo = 0;
     PurpleDoom_C* pIter;
     for (pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
     {
@@ -341,16 +340,15 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
         pAddedTo = pIter;
     }
 
-    PurpleDoom_C* pNewItem = gCollide_11944_679204->field_0;
-    gCollide_11944_679204->field_0 = gCollide_11944_679204->field_0->field_8_pNext;
+    PurpleDoom_C* pNewItem = gCollide_11944_679204->Allocate2();
 
-    if (pAddedTo)
+    if (!pAddedTo)
     {
-        pAddedTo->field_8_pNext = pNewItem;
+        this->field_0[ypos] = pNewItem;
     }
     else
     {
-        this->field_0[ypos] = pNewItem;
+        pAddedTo->field_8_pNext = pNewItem;
     }
 
     pNewItem->field_8_pNext = pIter;
