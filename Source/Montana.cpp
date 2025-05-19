@@ -71,6 +71,7 @@ void Montana_4::Reset_5C5E50()
     field_0_pFirst = 0;
 }
 
+// TODO: Doesn't match due to SEH stuff
 STUB_FUNC(0x5c5e70)
 Montana_4::Montana_4()
 {

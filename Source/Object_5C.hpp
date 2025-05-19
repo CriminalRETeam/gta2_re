@@ -63,9 +63,9 @@ class Object_2C
     EXPORT char_type sub_528990(Sprite* a2);
     EXPORT void sub_528BA0();
     EXPORT void sub_528E50(Sprite* a3);
-    EXPORT void sub_529000(s32 a2);
+    EXPORT void sub_529000(Sprite* pSprite);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
-    EXPORT void sub_529070(s32 a2);
+    EXPORT void sub_529070(Sprite* a2);
     EXPORT void sub_529080(u8 a2);
     EXPORT void sub_5290A0();
     EXPORT void sub_5290B0();
