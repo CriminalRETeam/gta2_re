@@ -220,7 +220,7 @@ class Sprite
         field_20_id = 0;
         field_22_sprite_id = 0;
         field_24_remap = 0;
-        field_28_uni = NULL;
+        field_28_num = NULL;
         field_2C = 0;
         field_30_sprite_type_enum = 0;
         field_34 = 0;
@@ -244,6 +244,7 @@ class Sprite
         Car_BC* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
         Char_B4* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
         Object_2C* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+        Sprite* field_8_pSprite;
     };
     // Only one field is enable at the same time.
     // As far as I understand, the field_C_sprite_next_ptr is only enabled while the instance is being handled by Sprite_49B28.
@@ -279,7 +280,7 @@ class Sprite
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;
-    Sprite* field_28_uni;
+    s32 field_28_num;
     char_type field_2C;
     char_type field_2D_pad;
     char_type field_2E_pad;
@@ -687,6 +688,12 @@ class Car_BC
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
 
+    bool is_train_model()
+    {
+        return field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
+               field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
+    }
+    
     Unknown_Ptr_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas;

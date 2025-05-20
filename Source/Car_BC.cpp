@@ -121,6 +121,9 @@ GLOBAL(DAT_006FF8C5, 0x6FF8C5);
 EXPORT_VAR Fix16 DAT_006FF778;
 GLOBAL(DAT_006FF778, 0x6ff778);
 
+EXPORT_VAR Fix16 dword_7035C4;
+GLOBAL(dword_7035C4, 0x7035C4);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -530,10 +533,22 @@ char_type Sprite::sub_59E850(Sprite* pSprite)
     return 0;
 }
 
-STUB_FUNC(0x59E8C0)
+MATCH_FUNC(0x59E8C0)
 void Sprite::sub_59E8C0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    s32 sprite_type = this->field_30_sprite_type_enum;
+    if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
+    {
+        field_8_object_2C_ptr->sub_528E50(pSprite);
+        s32 type = pSprite->field_30_sprite_type_enum;
+        if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
+        {
+            if (pSprite->field_8_pSprite)
+            {
+                field_8_object_2C_ptr->sub_529000(pSprite->field_8_pSprite);
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x59E910)
@@ -542,10 +557,35 @@ void Sprite::sub_59E910(Sprite* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x59e960)
+MATCH_FUNC(0x59e960)
 void Sprite::sub_59E960()
 {
-    NOT_IMPLEMENTED;
+    switch (this->field_30_sprite_type_enum)
+    {
+        case sprite_types_enum::car:
+            this->field_28_num = 15;
+            break;
+        case sprite_types_enum::ped:
+            this->field_28_num = 23;
+            break;
+        case sprite_types_enum::code_obj1:
+            this->field_28_num = 2;
+            break;
+        case sprite_types_enum::map_obj:
+            this->field_28_num = 2;
+            break;
+        case sprite_types_enum::code_obj2:
+            this->field_28_num = 33;
+            break;
+        case sprite_types_enum::unknown_0:
+            this->field_28_num = 0;
+            break;
+        case sprite_types_enum::unknown_1:
+            this->field_28_num = 0;
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x59e9c0)
@@ -559,7 +599,7 @@ STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
     NOT_IMPLEMENTED;
-    
+
     switch (this->field_30_sprite_type_enum)
     {
         case 2:
@@ -842,11 +882,21 @@ char_type Sprite::sub_5A1B30(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a1bd0)
+MATCH_FUNC(0x5a1bd0)
 char_type Sprite::sub_5A1BD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_39_z_col == 0xFF)
+    {
+        if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->is_train_model())
+        {
+            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt();
+        }
+        else
+        {
+            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt() + sub_5A1A60();
+        }
+    }
+    return field_39_z_col;
 }
 
 STUB_FUNC(0x5a1ca0)
@@ -937,7 +987,7 @@ MATCH_FUNC(0x5a2cf0)
 void Sprite::Init_5A2CF0()
 {
     this->field_2C = 0;
-    this->field_28_uni = 0;
+    this->field_28_num = 0;
     this->field_8_car_bc_ptr = 0;
     this->field_14_xpos = gFix16_7035C0;
     this->field_18_ypos = gFix16_7035C0;

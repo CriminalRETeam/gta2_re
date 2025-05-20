@@ -260,7 +260,7 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
         pSprite->sub_59FA40();
     }
 
-    pSprite->field_28_uni = this->field_2C;
+    pSprite->field_28_num = this->field_2C;
     pSprite->field_2C = this->field_20;
 
     if (this->field_30 != 2)
@@ -379,7 +379,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_58 = puVar3->field_34;
             pPVar2->field_18 = puVar3->field_38;
             pPVar2->field_20 = puVar3->field_40;
-            pPVar2->field_2C = (Sprite*)puVar3->field_3C;
+            pPVar2->field_2C = puVar3->field_3C;
             pPVar2->field_60 = 1;
             pPVar2->field_5C = puVar3->field_4C;
             pPVar2->field_68 = 0;
@@ -727,7 +727,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_54 = 0;
             this_00->field_58 = puVar2->field_40;
             this_00->field_18 = puVar2->field_44;
-            this_00->field_2C = (Sprite*)puVar2->field_54;
+            this_00->field_2C = puVar2->field_54;
             this_00->field_20 = puVar2->field_58;
             this_00->field_60 = puVar2->field_59;
             this_00->field_5C = puVar2->field_5C;
