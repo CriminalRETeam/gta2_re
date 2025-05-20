@@ -530,10 +530,22 @@ char_type Sprite::sub_59E850(Sprite* pSprite)
     return 0;
 }
 
-STUB_FUNC(0x59E8C0)
+MATCH_FUNC(0x59E8C0)
 void Sprite::sub_59E8C0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    s32 sprite_type = this->field_30_sprite_type_enum;
+    if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
+    {
+        field_8_object_2C_ptr->sub_528E50(pSprite);
+        s32 type = pSprite->field_30_sprite_type_enum;
+        if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
+        {
+            if (pSprite->field_8_pSprite)
+            {
+                field_8_object_2C_ptr->sub_529000(pSprite->field_8_pSprite);
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x59E910)
@@ -559,7 +571,7 @@ STUB_FUNC(0x59ea00)
 void Sprite::SetRemap(s16 remap)
 {
     NOT_IMPLEMENTED;
-    
+
     switch (this->field_30_sprite_type_enum)
     {
         case 2:
