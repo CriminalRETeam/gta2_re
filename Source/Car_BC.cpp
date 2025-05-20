@@ -121,6 +121,9 @@ GLOBAL(DAT_006FF8C5, 0x6FF8C5);
 EXPORT_VAR Fix16 DAT_006FF778;
 GLOBAL(DAT_006FF778, 0x6ff778);
 
+EXPORT_VAR Fix16 dword_7035C4;
+GLOBAL(dword_7035C4, 0x7035C4);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -879,11 +882,21 @@ char_type Sprite::sub_5A1B30(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a1bd0)
+MATCH_FUNC(0x5a1bd0)
 char_type Sprite::sub_5A1BD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_39_z_col == 0xFF)
+    {
+        if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->is_train_model())
+        {
+            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt();
+        }
+        else
+        {
+            this->field_39_z_col = (this->field_1C_zpos - dword_7035C4).ToInt() + sub_5A1A60();
+        }
+    }
+    return field_39_z_col;
 }
 
 STUB_FUNC(0x5a1ca0)

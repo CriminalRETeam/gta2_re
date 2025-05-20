@@ -688,6 +688,12 @@ class Car_BC
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }
 
+    bool is_train_model()
+    {
+        return field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
+               field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
+    }
+    
     Unknown_Ptr_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas;
