@@ -444,13 +444,14 @@ void gtx_0x106C::create_tile_num_array_5AA950()
     }
 */
 
+// https://decomp.me/scratch/IKsR3
 STUB_FUNC(0x5AA9A0)
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
     NOT_IMPLEMENTED;
-    s32 total_len = 0;
-    BYTE total_sprite = 0;
-    BYTE last_car_sprite = 0;
+    u32 total_len = 0;
+    u8 total_sprite = 0;
+    u8 last_car_sprite = 0;
     car_info* pCarInfoIter = (car_info*)field_58_car_info;
 
     //car_info_container* pInfo =
@@ -460,71 +461,49 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
-    if (chunk_size) // jbe
+    u32 idx = 0;
+    for (; total_len < chunk_size; idx++)
     {
-
-        s32 idx = 0;
-        while (total_len < chunk_size)
-        //while (1)
+        if (idx >= 256)
         {
-            if (idx >= 256)
-            {
-                FatalError_4A38C0(34, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
-            }
+            FatalError_4A38C0(34, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
+        }
 
-            if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
-            {
-                FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
-            }
+        if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
+        {
+            FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
+        }
 
-            BYTE sprite = pCarInfoIter->sprite;
-            if (sprite != 0 && sprite != 1)
-            {
-                FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
-            }
+        u8 sprite = pCarInfoIter->sprite;
+        if (sprite != 0 && sprite != 1)
+        {
+            FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
+        }
 
-            field_5C_cari->field_0[pCarInfoIter->model] = pCarInfoIter;
+        field_5C_cari->field_0[pCarInfoIter->model] = pCarInfoIter;
 
-            if (pCarInfoIter->sprite)
-            {
-                total_sprite += last_car_sprite;
-                last_car_sprite = pCarInfoIter->sprite;
-            }
+        if (pCarInfoIter->sprite)
+        {
+            total_sprite += last_car_sprite;
+            last_car_sprite = pCarInfoIter->sprite;
+        }
 
-            pCarInfoIter->sprite = total_sprite;
+        pCarInfoIter->sprite = total_sprite;
+        
+        u8* doorCount = ((u8*)&pCarInfoIter->remap + pCarInfoIter->num_remaps);
+        if (*doorCount > 5u) // num_doors
+        {
+            FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
+        }
 
-            BYTE* pRemaps = (BYTE*)pCarInfoIter;
-            pRemaps += 0xE;
-            s32 doorCount = *(pRemaps + pCarInfoIter->num_remaps);
-            if (doorCount > 5u) // num_doors
-            {
-                FatalError_4A38C0(1107, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
-            }
+        // 0xE = remap
+        u32 curr_item_len = *doorCount*sizeof(door_info) + 0xE + pCarInfoIter->num_remaps + 1; //doorCount + 0xE + pCarInfoIter->num_remaps;
 
-            // 0xE = remap
-            s32 next_item_len = doorCount + 0xE + pCarInfoIter->num_remaps;
+        total_len += curr_item_len;
 
-            total_len += next_item_len;
-
-            pCarInfoIter = (car_info*)((char_type*)pCarInfoIter + next_item_len);
-
-            idx++;
-
-            //++idx;
-
-            //if (total_len >= chunk_size)
-            //{
-            //    break;
-            //}
-            //this_ = this;
-        } // loop end
-
-        field_5C_cari->field_400_count = idx; // moved from if/else
-        return;
+        pCarInfoIter = (car_info*)((u8*)pCarInfoIter + curr_item_len);
     }
-
-    field_5C_cari->field_400_count = 0; // moved from if/else
-    //return;
+    field_5C_cari->field_400_count = idx;
 }
 
 STUB_FUNC(0x5AAB30)
