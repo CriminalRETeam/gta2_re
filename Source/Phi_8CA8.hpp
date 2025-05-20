@@ -189,7 +189,7 @@ class Phi_74
     char_type field_23;
     s32 field_24_idx;
     s32 field_28;
-    Sprite* field_2C;
+    s32 field_2C;
     s32 field_30;
     s32 field_34;
     s32 field_38;

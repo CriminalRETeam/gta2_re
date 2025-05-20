@@ -220,7 +220,7 @@ class Sprite
         field_20_id = 0;
         field_22_sprite_id = 0;
         field_24_remap = 0;
-        field_28_uni = NULL;
+        field_28_num = NULL;
         field_2C = 0;
         field_30_sprite_type_enum = 0;
         field_34 = 0;
@@ -280,7 +280,7 @@ class Sprite
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;
-    Sprite* field_28_uni;
+    s32 field_28_num;
     char_type field_2C;
     char_type field_2D_pad;
     char_type field_2E_pad;
