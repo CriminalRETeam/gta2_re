@@ -59,6 +59,13 @@ class Collide_8004
         return pNewCollide;
     }
 
+    Collide_8* Allocate2()
+    {
+        Collide_8* v8 = this->field_0;
+        this->field_0 = this->field_0->field_4_pNext;
+        return v8;
+    }
+    
     Collide_8* field_0;
     Collide_8 field_4[4095];
     s32 field_7FFC;

@@ -1,5 +1,8 @@
 #include "Player.hpp"
+#include "BurgerKing_67F8B0.hpp"
+#include "Car_B0.hpp"
 #include "Car_BC.hpp"
+#include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
@@ -12,6 +15,7 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "infallible_turing.hpp"
 #include "map_0x370.hpp"
+#include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
@@ -563,7 +567,6 @@ STUB_FUNC(0x566EE0)
 void Player::sub_566EE0(char_type bDoNothing)
 {
     NOT_IMPLEMENTED;
-    /*
     Ped* pPed; // eax
     Car_BC* pCar; // edi
     Car_B0* pPhysics; // ecx
@@ -585,26 +588,26 @@ void Player::sub_566EE0(char_type bDoNothing)
 
         if (bDo_show_camera_67D58A)
         {
-            swprintf(tmpBuff_67BD9C,
-                     L"game camera: (%3.3f,%3.3f,%3.3f)",
-                     (double)this->field_90_game_camera.field_98_x.ToFloat(),
-                     (double)this->field_90_game_camera.field_9C_y.ToFloat(),
-                     (double)this->field_90_game_camera.field_A0_z.ToFloat());
-            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+            // fmuls vs fmull
+            float x = this->field_90_game_camera.field_98_x.ToFloat();
+            float y = this->field_90_game_camera.field_9C_y.ToFloat();
+            float z = this->field_90_game_camera.field_A0_z.ToFloat();
+            swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
+            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
-                     (double)this->field_208_aux_game_camera.field_98_x.ToFloat(),
-                     (double)this->field_208_aux_game_camera.field_9C_y.ToFloat(),
-                     (double)this->field_208_aux_game_camera.field_A0_z.ToFloat());
-            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+                     this->field_208_aux_game_camera.field_98_x.ToFloat(),
+                     this->field_208_aux_game_camera.field_9C_y.ToFloat(),
+                     this->field_208_aux_game_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
-                     (double)this->field_14C_view_camera.field_98_x.ToFloat(),
-                     (double)this->field_14C_view_camera.field_9C_y.ToFloat(),
-                     (double)this->field_14C_view_camera.field_A0_z.ToFloat());
-            gGarox_2B00_706620->field_DC.field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+                     this->field_14C_view_camera.field_98_x.ToFloat(),
+                     this->field_14C_view_camera.field_9C_y.ToFloat(),
+                     this->field_14C_view_camera.field_A0_z.ToFloat());
+            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
         if (gShow_cycle_67D6BD)
@@ -619,7 +622,6 @@ void Player::sub_566EE0(char_type bDoNothing)
 
         gGame_0x40_67E008->sub_4B9270();
     }
-    */
 }
 
 MATCH_FUNC(0x5670B0)
