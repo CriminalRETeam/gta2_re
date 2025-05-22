@@ -481,7 +481,7 @@ class Car_BC
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
-    EXPORT s32* sub_43A240(s32* a2);
+    EXPORT Fix16 sub_43A240();
     EXPORT bool sub_43A3C0();
     EXPORT s16* sub_43A3E0(s16* a2);
     EXPORT u32* sub_43A450(u32* a2);
