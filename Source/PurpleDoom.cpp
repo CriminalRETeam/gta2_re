@@ -26,6 +26,12 @@ GLOBAL(gPurple_top_6F6108, 0x6F6108);
 EXPORT_VAR s32 dword_678FA8;
 GLOBAL(dword_678FA8, 0x678FA8);
 
+EXPORT_VAR s32 dword_678F60;
+GLOBAL(dword_678F60, 0x678F60);
+
+EXPORT_VAR Sprite* dword_678E40;
+GLOBAL(dword_678E40, 0x678E40);
+
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
 extern EXPORT_VAR Collide_8004* gCollide_8004_679200;
@@ -134,11 +140,27 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
     return 0;
 }
 
-STUB_FUNC(0x477e60)
-Sprite* PurpleDoom::sub_477E60(Sprite* a2, s32 a3)
+MATCH_FUNC(0x477e60)
+Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_678F60 = sprite_type_enum;
+    dword_678E40 = 0;
+
+    gCollide_C_6791FC->field_4_count.mValue++;
+
+    pSprite->sub_59E9C0();
+    pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+
+    for (s32 top = gPurple_top_6F6108; top <= gPurple_bottom_6F5F38; top++)
+    {
+        Sprite* pObj = sub_478880(top, pSprite);
+        if (pObj)
+        {
+            return pObj;
+        }
+    }
+
+    return dword_678E40;
 }
 
 STUB_FUNC(0x477f30)
@@ -517,7 +539,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 }
 
 STUB_FUNC(0x478880)
-s32 PurpleDoom::sub_478880(u32 a2, u32* a3)
+Sprite* PurpleDoom::sub_478880(u32 a2, Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
