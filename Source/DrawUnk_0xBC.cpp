@@ -24,6 +24,21 @@ GLOBAL(dword_67681C, 0x67681C);
 EXPORT_VAR Fix16 dword_6766D4;
 GLOBAL(dword_6766D4, 0x6766D4);
 
+EXPORT_VAR s32 dword_6766E4;
+GLOBAL(dword_6766E4, 0x6766E4);
+
+EXPORT_VAR s32 dword_6768F0;
+GLOBAL(dword_6768F0, 0x6768F0);
+
+EXPORT_VAR s32 dword_676910;
+GLOBAL(dword_676910, 0x676910);
+
+EXPORT_VAR s32 dword_676608;
+GLOBAL(dword_676608, 0x676608);
+
+EXPORT_VAR s32 dword_6768C0;
+GLOBAL(dword_6768C0, 0x6768C0);
+
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
@@ -271,15 +286,88 @@ void DrawUnk_0xBC::sub_436540(s32* a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/04lxo
 STUB_FUNC(0x436710)
-char_type DrawUnk_0xBC::sub_436710(char_type a2, char_type a3, char_type a4, char_type a5)
+void DrawUnk_0xBC::sub_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
 {
     NOT_IMPLEMENTED;
-    return 0;
-}
 
-EXPORT_VAR s32 dword_6766E4;
-GLOBAL(dword_6766E4, 0x6766E4);
+    if (bForwardGasOn)
+    {
+        field_4C -= field_50;
+        if (field_4C < -dword_6768F0)
+        {
+            field_4C = -dword_6768F0;
+        }
+
+        field_50 += dword_676910;
+        if (field_50 > dword_676608)
+        {
+            field_50 = dword_676608;
+        }
+    }
+    else
+    {
+        field_50 = dword_6766E4;
+    }
+
+    if (bFootBrakeOn)
+    {
+        field_4C += field_54;
+        if (field_4C > dword_6768F0)
+        {
+            field_4C = dword_6768F0;
+        }
+
+        field_54 += dword_676910;
+        if (field_54 > dword_676608)
+        {
+            field_54 = dword_676608;
+        }
+    }
+    else
+    {
+        field_54 = dword_6766E4;
+    }
+
+    if (a4)
+    {
+        field_48 -= field_58;
+        if (field_48 < -dword_6768C0)
+        {
+            field_48 = -dword_6768C0;
+        }
+
+        field_58 += dword_676910;
+        if (field_58 > dword_676608)
+        {
+            field_58 = dword_676608;
+        }
+    }
+    else
+    {
+        field_58 = dword_6766E4;
+    }
+
+    if (a5)
+    {
+        field_48 += field_5C;
+        if (field_48 > dword_6768C0)
+        {
+            field_48 = dword_6768C0;
+        }
+
+        field_5C += dword_676910;
+        if (field_5C > dword_676608)
+        {
+            field_5C = dword_676608;
+        }
+    }
+    else
+    {
+        field_5C = dword_6766E4;
+    }
+}
 
 MATCH_FUNC(0x436830)
 void DrawUnk_0xBC::sub_436830()
@@ -292,8 +380,9 @@ void DrawUnk_0xBC::sub_436830()
     field_54 = dword_6766E4;
 }
 
+// https://decomp.me/scratch/M4gJ2
 STUB_FUNC(0x436860)
-void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
+void DrawUnk_0xBC::sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -329,8 +418,6 @@ void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 MATCH_FUNC(0x58CF10)
 bool DrawUnk_0xBC::sub_58CF10(Fix16 a2, Fix16 a3)
 {
-    return a2 >= field_78_boundaries_non_neg.field_0_left 
-        && a2 <= field_78_boundaries_non_neg.field_4_right 
-        && a3 >= field_78_boundaries_non_neg.field_8_top 
-        && a3 <= field_78_boundaries_non_neg.field_C_bottom;
+    return a2 >= field_78_boundaries_non_neg.field_0_left && a2 <= field_78_boundaries_non_neg.field_4_right &&
+        a3 >= field_78_boundaries_non_neg.field_8_top && a3 <= field_78_boundaries_non_neg.field_C_bottom;
 }

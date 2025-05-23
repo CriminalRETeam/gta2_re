@@ -2257,11 +2257,23 @@ char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x441360)
-char_type Car_BC::sub_441360()
+MATCH_FUNC(0x441360)
+void Car_BC::sub_441360()
+{
+    if (field_A9)
+    {
+        field_A9--;
+        if (field_A9 == 0)
+        {
+            sub_4436A0(); // jmp to function chunk
+        }
+    }
+}
+
+STUB_FUNC(0x4436A0)
+void Car_BC::sub_4436A0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x441380)
@@ -2438,6 +2450,7 @@ char_type Car_BC::sub_441A70()
     return 0;
 }
 
+// https://decomp.me/scratch/54UNc
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
@@ -2537,11 +2550,34 @@ void Car_BC::sub_442310()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4424c0)
+MATCH_FUNC(0x4424c0)
 char_type Car_BC::sub_4424C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_88)
+    {
+        case 3:
+            this->field_88 = 5;
+            return 0;
+
+        case 4:
+            this->field_88 = 2;
+            return 0;
+
+        case 2:
+            if (!sub_442170())
+            {
+                return 0;
+            }
+            this->field_88 = 5;
+            return 0;
+
+        case 5:
+            this->field_88 = 6;
+            return 1;
+
+        default:
+            return 0;
+    }
 }
 
 STUB_FUNC(0x442520)
@@ -2643,17 +2679,52 @@ char_type Car_BC::sub_4435A0()
     return sub_441A70();
 }
 
-STUB_FUNC(0x4435b0)
+MATCH_FUNC(0x4435b0)
 s32 Car_BC::sub_4435B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_78_flags & 0x10) != 0)
+    {
+        return 14;
+    }
+
+    if ((field_78_flags & 0x40) != 0)
+    {
+        return 20;
+    }
+
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) != 1)
+    {
+        return 17;
+    }
+    return 22;
 }
 
-STUB_FUNC(0x4435f0)
+MATCH_FUNC(0x4435f0)
 void Car_BC::sub_4435F0()
 {
-    NOT_IMPLEMENTED;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10)
+    {
+        this->field_50_car_sprite->field_28_num = 16;
+    }
+    else
+    {
+        if ((field_78_flags & 0x10) != 0)
+        {
+            this->field_50_car_sprite->field_28_num = 13;
+        }
+        else if ((field_78_flags & 0x40) != 0)
+        {
+            this->field_50_car_sprite->field_28_num = 19;
+        }
+        else if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) == 1)
+        {
+            this->field_50_car_sprite->field_28_num = 21;
+        }
+        else
+        {
+            this->field_50_car_sprite->field_28_num = 15;
+        }
+    }
 }
 
 STUB_FUNC(0x443710)

@@ -583,7 +583,8 @@ class Car_BC
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
-    EXPORT char_type sub_441360();
+    EXPORT void sub_441360();
+    EXPORT void sub_4436A0();
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_441520();
