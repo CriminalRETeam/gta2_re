@@ -1402,7 +1402,7 @@ bool Car_BC::sub_43A230()
 }
 
 STUB_FUNC(0x43a240)
-s32* Car_BC::sub_43A240(s32* a2)
+Fix16 Car_BC::sub_43A240()
 {
     NOT_IMPLEMENTED;
     return 0;

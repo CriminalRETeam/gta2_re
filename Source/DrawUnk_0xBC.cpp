@@ -1,10 +1,10 @@
 #include "DrawUnk_0xBC.hpp"
-#include "Function.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
+#include "Function.hpp"
+#include "Game_0x40.hpp"
+#include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Police_7B8.hpp"
-#include "Game_0x40.hpp"
 
 EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
 GLOBAL(gViewCamera_676978, 0x676978);
@@ -111,19 +111,31 @@ s16* DrawUnk_0xBC::sub_4358D0(s16* a2)
     return 0;
 }
 
-STUB_FUNC(0x435A20)
-s32* DrawUnk_0xBC::sub_435A20(s32* a2)
+MATCH_FUNC(0x435A20)
+Fix16 DrawUnk_0xBC::sub_435A20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = this->field_34_ped;
+    if (pPed)
+    {
+        return pPed->sub_45C920();
+    }
+
+    Car_BC* pCar = this->field_38_car;
+    if (pCar)
+    {
+        return pCar->sub_43A240();
+    }
+    else
+    {
+        return dword_676818;
+    }
 }
 
 MATCH_FUNC(0x435A70)
 s32 DrawUnk_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16_Point pos = sub_40CFC0(x, y, z);
-    if (pos.x >= dword_676818 && pos.x < Fix16(640) 
-        && pos.y >= dword_676818 && pos.y < Fix16(480))
+    if (pos.x >= dword_676818 && pos.x < Fix16(640) && pos.y >= dword_676818 && pos.y < Fix16(480))
     {
         return 1;
     }
@@ -191,8 +203,7 @@ MATCH_FUNC(0x435F90)
 void DrawUnk_0xBC::sub_435F90(Car_BC* a2)
 {
     if (a2->field_54_driver &&
-        (gPolice_7B8_6FEE40->sub_56F880(a2->field_54_driver) ||
-         gHamburger_500_678E30->sub_474970(a2->field_54_driver)))
+        (gPolice_7B8_6FEE40->sub_56F880(a2->field_54_driver) || gHamburger_500_678E30->sub_474970(a2->field_54_driver)))
     {
         field_44++;
         if (field_44 > 80u)
