@@ -563,22 +563,17 @@ char_type Player::sub_566C80(u32* a2)
     return 'a';
 }
 
-STUB_FUNC(0x566EE0)
+MATCH_FUNC(0x566EE0)
 void Player::sub_566EE0(char_type bDoNothing)
 {
-    NOT_IMPLEMENTED;
-    Ped* pPed; // eax
-    Car_BC* pCar; // edi
-    Car_B0* pPhysics; // ecx
-
     if (!bDoNothing)
     {
-        pPed = Get_Field_68_Ped();
-        pCar = pPed->field_16C_car;
+        Ped* pPed = Get_Field_68_Ped();
+        Car_BC* pCar = pPed->field_16C_car;
 
         if (pCar)
         {
-            pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
+            Car_B0* pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
             if (pPhysics)
             {
                 pPhysics->sub_559430();
@@ -589,24 +584,24 @@ void Player::sub_566EE0(char_type bDoNothing)
         if (bDo_show_camera_67D58A)
         {
             // fmuls vs fmull
-            float x = this->field_90_game_camera.field_98_x.ToFloat();
-            float y = this->field_90_game_camera.field_9C_y.ToFloat();
-            float z = this->field_90_game_camera.field_A0_z.ToFloat();
+            double x = this->field_90_game_camera.field_98_x.AsDouble();
+            double y = this->field_90_game_camera.field_9C_y.AsDouble();
+            double z = this->field_90_game_camera.field_A0_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_208_aux_game_camera.field_98_x.ToFloat(),
-                     this->field_208_aux_game_camera.field_9C_y.ToFloat(),
-                     this->field_208_aux_game_camera.field_A0_z.ToFloat());
+                     this->field_208_aux_game_camera.field_98_x.AsDouble(),
+                     this->field_208_aux_game_camera.field_9C_y.AsDouble(),
+                     this->field_208_aux_game_camera.field_A0_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_14C_view_camera.field_98_x.ToFloat(),
-                     this->field_14C_view_camera.field_9C_y.ToFloat(),
-                     this->field_14C_view_camera.field_A0_z.ToFloat());
+                     this->field_14C_view_camera.field_98_x.AsDouble(),
+                     this->field_14C_view_camera.field_9C_y.AsDouble(),
+                     this->field_14C_view_camera.field_A0_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
