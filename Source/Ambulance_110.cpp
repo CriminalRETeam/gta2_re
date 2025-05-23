@@ -1,6 +1,13 @@
 #include "Ambulance_110.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
+#include "Kfc_1E0.hpp"
+#include "Car_BC.hpp"
+#include "Globals.hpp"
 #include <stdio.h>
+
+EXPORT_VAR s32 dword_6F6DD4;
+GLOBAL(dword_6F6DD4, 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
 Ambulance_20::Ambulance_20()
@@ -38,11 +45,72 @@ void Ambulance_20::sub_4FA800(Ped* pPed)
     field_14_count++;
 }
 
-STUB_FUNC(0x4fa820)
-char_type Ambulance_20::sub_4FA820()
+MATCH_FUNC(0x4fa820)
+bool Ambulance_20::sub_4FA820()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    PedGroup* pGroup = PedGroup::sub_4CB0D0();
+    if (!pGroup)
+    {
+        return false;
+    }
+
+    if (gChar_C_6787BC->field_5 >= 30u)
+    {
+        return false;
+    }
+
+    Ped* pPed1 = gChar_C_6787BC->sub_470F30();
+    if (!pPed1)
+    {
+        return false;
+    }
+    pPed1->field_238 = 4;
+    pPed1->field_240_occupation = ped_ocupation_enum::unknown_13;
+    pPed1->field_230 = 2;
+    pPed1->sub_45C730(field_4->field_0);
+    pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
+    pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
+    pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;
+    pPed1->field_1E4_objective_target_z = (unsigned __int8)this->field_2 << 14;
+    pPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
+    pPed1->field_244_remap = 16;
+    pPed1->field_26C_graphic_type = 0;
+    pPed1->field_1F8 = dword_6F6DD4;
+
+    Ped* pPed2 = gChar_C_6787BC->sub_470F30();
+    if (!pPed2)
+    {
+        return false;
+    }
+
+    pPed2->sub_45C7F0(field_4->field_0);
+    pPed2->field_238 = 4;
+    pPed2->field_240_occupation = ped_ocupation_enum::unknown_13;
+    pPed2->field_230 = 2;
+    pPed2->SetObjective(objectives_enum::no_obj_0, 9999);
+    pPed2->field_244_remap = 16;
+    pPed2->field_26C_graphic_type = 0;
+    pPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pPed2->field_288_threat_search = threat_search_enum::no_threats_0;
+    pGroup->add_ped_leader_4C9B10(pPed1);
+    pGroup->field_36_count = 1;
+    pGroup->field_34_count = 1;
+    pGroup->add_ped_to_list_4C9B30(pPed2, 0);
+    pGroup->field_0 = 0;
+    field_4->field_4 = pPed1;
+    field_4->field_28 = 6;
+
+    Car_BC* pCar = field_4->field_0;
+
+    pCar->field_7C_uni_num = 4;
+    pCar->field_76 = 0;
+
+    field_4->field_0->sub_43BCA0();
+    field_4->field_0->sub_440590();
+    field_4->field_0->sub_43AF40();
+    field_4->field_8 = pGroup;
+    return true;
 }
 
 STUB_FUNC(0x4fa9d0)

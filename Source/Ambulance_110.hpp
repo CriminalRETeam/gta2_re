@@ -20,7 +20,7 @@ class Ambulance_20
     EXPORT ~Ambulance_20();
     EXPORT void sub_4FA7D0();
     EXPORT void sub_4FA800(Ped* pPed);
-    EXPORT char_type sub_4FA820();
+    EXPORT bool sub_4FA820();
     EXPORT char_type sub_4FA9D0();
     EXPORT u32* sub_4FAAC0();
     EXPORT void sub_4FB330();
