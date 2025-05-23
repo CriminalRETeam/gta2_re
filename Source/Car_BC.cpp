@@ -124,6 +124,18 @@ GLOBAL(DAT_006FF778, 0x6ff778);
 EXPORT_VAR Fix16 dword_7035C4;
 GLOBAL(dword_7035C4, 0x7035C4);
 
+EXPORT_VAR Fix16 dword_6F7690;
+GLOBAL(dword_6F7690, 0x6F7690);
+
+EXPORT_VAR Fix16 dword_6F77D4;
+GLOBAL(dword_6F77D4, 0x6F77D4);
+
+EXPORT_VAR Ang16 word_6F804C;
+GLOBAL(word_6F804C, 0x6F804C);
+
+EXPORT_VAR Ang16 word_6F771E;
+GLOBAL(word_6F771E, 0x6F771E);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1019,7 +1031,7 @@ void Sprite::sub_5A3030()
 }
 
 STUB_FUNC(0x5a3100)
-void Sprite::sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5)
+void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -1165,7 +1177,7 @@ Car_BC* Car_6C::sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s
 }
 
 STUB_FUNC(0x446530)
-Car_A4_10* Car_6C::sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6)
+Car_A4_10* Car_6C::sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx)
 {
     NOT_IMPLEMENTED;
     return 0;

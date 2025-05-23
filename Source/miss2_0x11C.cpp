@@ -312,10 +312,110 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
     }
 }
 
-STUB_FUNC(0x503bc0)
-void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* a1, SCR_POINTER* a2)
+MATCH_FUNC(0x503bc0)
+void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* pPointer)
 {
-    NOT_IMPLEMENTED;
+    if (pCmd->field_C_pos.field_8_z == dword_6F7570) //  255.0
+    {
+        Fix16 temp_z;
+        pCmd->field_C_pos.field_8_z =
+            *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+    }
+    if (pCmd->field_1E_trailer_id == -1) //  No trailers
+    {
+        Ang16 rotation;
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
+        rotation.sub_406C20();
+        pPointer->field_8_car = gCar_6C_677930->sub_426E10(pCmd->field_C_pos.field_0_x,
+                                                           pCmd->field_C_pos.field_4_y,
+                                                           pCmd->field_C_pos.field_8_z,
+                                                           rotation,
+                                                           pCmd->field_1C_car_id);
+    }
+    else if (pCmd->field_1E_trailer_id == -2) //  Mini car
+    {
+        Ang16 rotation;
+        rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
+        rotation.sub_406C20();
+        pPointer->field_8_car = gCar_6C_677930->sub_4764A0(pCmd->field_C_pos.field_0_x,
+                                                           pCmd->field_C_pos.field_4_y,
+                                                           pCmd->field_C_pos.field_8_z,
+                                                           rotation,
+                                                           pCmd->field_1C_car_id);
+        if (pPointer->field_8_car != NULL)
+        {
+            pPointer->field_8_car->field_98 = 4;
+            pPointer->field_8_car->field_78_flags |= 0x10u;
+            pPointer->field_8_car->sub_4435F0();
+        }
+    }
+    else //  There is a trailer
+    {
+        if (pCmd->field_1C_car_id == car_model_enum::TRUKTRNS) // 66 = TRUKTRNS Truck Trailer, Flatbed
+        {
+            Car_BC* v7 = gCar_6C_677930->sub_446230_shortened(pCmd->field_1E_trailer_id);
+            Ang16 rotation;
+            rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
+            rotation.Normalize();
+
+            pPointer->field_8_car = gCar_6C_677930->sub_426E10(pCmd->field_C_pos.field_0_x,
+                                                               pCmd->field_C_pos.field_4_y,
+                                                               pCmd->field_C_pos.field_8_z,
+                                                               rotation,
+                                                               pCmd->field_1C_car_id);
+            pPointer->field_8_car->field_50_car_sprite->sub_5A3100(v7->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+            v7->IncrementCarStats_443D70(8);
+        }
+        else
+        {
+            Ang16 rotation;
+            rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
+            rotation.Normalize();
+
+            Car_A4_10* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
+                                                        pCmd->field_C_pos.field_4_y,
+                                                        rotation,
+                                                        pCmd->field_1C_car_id,
+                                                        pCmd->field_1E_trailer_id);
+            if (v11 != NULL)
+            {
+                pPointer->field_8_car = v11->field_8;
+            }
+            else
+            {
+                pPointer->field_8_car = NULL;
+            }
+        }
+    }
+    if (pPointer->field_8_car != NULL)
+    {
+        if (pCmd->field_1A_remap != -1)
+        {
+            pPointer->field_8_car->SetCarRemap(pCmd->field_1A_remap);
+        }
+
+        Car_BC* v12 = pPointer->field_8_car;
+        v12->field_7C_uni_num = 5;
+        v12->field_76 = 0;
+
+        if (pPointer->field_8_car->field_98 != 4)
+        {
+            pPointer->field_8_car->field_98 = 2;
+        }
+        pPointer->field_8_car->IncrementCarStats_443D70(8);
+        pPointer->field_8_car->field_50_car_sprite->sub_5A2A30();
+
+        if (pCmd->field_2_type >= 0x18Au //  create gang car
+            && pCmd->field_2_type <= 0x18Du)
+        {
+            s8 zone_idx = gZones_CA8_67E274->sub_4BF2F0(pPointer->field_8_car->field_84_car_info_idx);
+            if (zone_idx > -1)
+            {
+                Gang_144* pZone = gZones_CA8_67E274->ZoneByIdx_4BF1C0(zone_idx);
+                pPointer->field_8_car->sub_440660(pZone->field_138_arrow_colour);
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x503f80)

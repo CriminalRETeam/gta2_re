@@ -78,10 +78,10 @@ struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
     u16 field_8_car_idx;
     u16 field_A_unk;
     SCR_XYZ_f field_C_pos;
-    u16 field_18_rot;
-    u16 field_1A_remap;
+    Ang16 field_18_rot;
+    s16 field_1A_remap;
     s16 field_1C_car_id;
-    u16 field_1E_trailer_id;
+    s16 field_1E_trailer_id;
 };
 
 struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
@@ -427,6 +427,9 @@ enum
 };
 //static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
 } // namespace SCR_DOOR_CLOSETYPES
+
+EXPORT_VAR extern Fix16 dword_6F77C0;
+EXPORT_VAR extern Fix16 dword_6F77C4;
 
 class miss2_0x11C
 {
