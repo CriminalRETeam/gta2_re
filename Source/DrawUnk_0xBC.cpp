@@ -301,7 +301,7 @@ DrawUnk_0xBC::DrawUnk_0xBC()
 }
 
 STUB_FUNC(0x4369E0)
-DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0   Why doesn't it match anymore?
+DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0    Why doesn't it match anymore?
 {
 }
 
