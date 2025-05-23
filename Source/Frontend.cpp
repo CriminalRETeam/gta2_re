@@ -4686,15 +4686,11 @@ bool Frontend::sub_4B74C0()
     return result;
 }
 
-STUB_FUNC(0x4B7550)
+MATCH_FUNC(0x4B7550)
 void Frontend::sub_4B7550()
 {
-    NOT_IMPLEMENTED;
-    MenuPage_0xBCA* pBorg; // edi
-    u8 v3; // [esp+Ch] [ebp-4h]
-
-    pBorg = &field_136_menu_pages_array[field_132_f136_idx];
-    v3 = gLucid_hamilton_67E8E0.sub_4C5980();
+    MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
+    u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     swprintf(tmpBuff_67BD9C, L"%d", v3 + 1);
     wcsncpy(pBorg->field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
 
