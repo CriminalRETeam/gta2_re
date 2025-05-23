@@ -4748,19 +4748,13 @@ char_type Frontend::sub_4B7120(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x4B7610)
+MATCH_FUNC(0x4B7610)
 void Frontend::sub_4B7610()
 {
-    NOT_IMPLEMENTED;
-    MenuPage_0xBCA* pItem; // esi
-    u8 v3; // al
-    u8 v4; // [esp+8h] [ebp-8h]
-    u8 v5; // [esp+Ch] [ebp-4h]
-
-    pItem = &field_136_menu_pages_array[field_132_f136_idx];
-    v3 = gLucid_hamilton_67E8E0.sub_4C5990();
-    v4 = v3 >> 4;
-    v5 = v3 & 0xF;
+    MenuPage_0xBCA* pItem = &field_136_menu_pages_array[field_132_f136_idx];
+    u8 v3 = gLucid_hamilton_67E8E0.sub_4C5990();
+    u8 v4 = v3 >> 4;
+    u8 v5 = v3 & 0xF;
     if (v3 == 0xFF)
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 0;
