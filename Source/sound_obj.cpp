@@ -427,7 +427,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     if (field_1478_type5Idx != 0 && (field_C_pAny = (DrawUnk_0xBC*)field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny) != NULL)
     {
-        Ped* v4 = field_C_pAny->field_34;
+        Ped* v4 = field_C_pAny->field_34_ped;
 
         if (v4 != NULL)
         {

@@ -56,25 +56,25 @@ GLOBAL(dword_676678, 0x676678);
 MATCH_FUNC(0x4357F0)
 void DrawUnk_0xBC::sub_4357F0()
 {
-    if (field_40 < dword_676894)
+    if (field_40_tgt_elevation < dword_676894)
     {
-        field_40 += dword_676678;
+        field_40_tgt_elevation += dword_676678;
     }
 }
 
 MATCH_FUNC(0x435810)
 void DrawUnk_0xBC::sub_435810()
 {
-    if (field_40 > dword_676818)
+    if (field_40_tgt_elevation > dword_676818)
     {
-        field_40 -= dword_676678;
+        field_40_tgt_elevation -= dword_676678;
     }
 }
 
 MATCH_FUNC(0x435830)
 void DrawUnk_0xBC::sub_435830()
 {
-    field_40 = dword_676818;
+    field_40_tgt_elevation = dword_676818;
 }
 
 EXPORT_VAR Fix16 dword_676898;
@@ -290,8 +290,8 @@ void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
 MATCH_FUNC(0x4368E0)
 DrawUnk_0xBC::DrawUnk_0xBC()
 {
-    field_68 = 0;
-    field_6C = 0;
+    field_68_screen_px_width = 0;
+    field_6C_screen_px_height = 0;
     sub_435830();
     field_98_cam_pos2.field_C_zoom = dword_6766D4;
     sub_4397D0(-1, -1, -1, dword_6766D4);
@@ -310,7 +310,7 @@ void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
     field_10_cam_pos_tgt2.field_0_x = a2;
     field_10_cam_pos_tgt2.field_4_y = a3;
-    a4 += field_40;
+    a4 += field_40_tgt_elevation;
     field_10_cam_pos_tgt2.field_8_z = a4;
     field_10_cam_pos_tgt2.field_C_zoom = a5;
 }

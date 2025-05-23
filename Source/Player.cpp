@@ -904,7 +904,7 @@ void Player::sub_5695A0()
         field_2C8_unkq = 0;
         field_2CC = 0;
         field_2D0 = 0;
-        field_90_game_camera.field_3C = 1;
+        field_90_game_camera.field_3C_followed_ped_id = 1;
     }
 }
 

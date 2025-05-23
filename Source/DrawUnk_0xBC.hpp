@@ -65,7 +65,7 @@ class DrawUnk_0xBC
 
     inline void inline_sub_475B60()
     {
-        field_3C = 1;
+        field_3C_followed_ped_id = 1;
     }
 
     Fix16_Point sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
@@ -108,9 +108,9 @@ class DrawUnk_0xBC
         field_AC_cam_velocity.field_4_y = dword_676818;
         field_AC_cam_velocity.field_8_z = dword_676818;
 
-        field_3C = 0;
+        field_3C_followed_ped_id = 0;
         field_30 = dword_676818;
-        field_34 = 0;
+        field_34_ped = NULL;
 
         sub_4361B0(x, y);
     }
@@ -119,10 +119,10 @@ class DrawUnk_0xBC
     CameraPos field_10_cam_pos_tgt2;
     WorldRect field_20_boundaries;
     Fix16 field_30;
-    Ped* field_34;
-    s32 field_38;
-    s32 field_3C;
-    Fix16 field_40;
+    Ped* field_34_ped;
+    Car_BC *field_38_car;
+    s32 field_3C_followed_ped_id;
+    Fix16 field_40_tgt_elevation;
     u8 field_44;
     char_type field_45;
     char_type field_46;
@@ -134,14 +134,14 @@ class DrawUnk_0xBC
     s32 field_58;
     s32 field_5C;
     Car_8 field_60;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
+    s32 field_68_screen_px_width;
+    s32 field_6C_screen_px_height;
+    s32 field_70_screen_px_center_x;
+    s32 field_74_screen_px_center_y;
     WorldRect field_78_boundaries_non_neg;
     CameraPos field_88_cam_pos1;
     CameraPos field_98_cam_pos2;
-    s32 field_A8;
+    s32 field_A8_ui_scale;
     CameraPos field_AC_cam_velocity;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
