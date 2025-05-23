@@ -8,7 +8,24 @@ class Car_BC;
 class Ped;
 
 EXPORT_VAR extern Fix16 dword_676840;
+EXPORT_VAR extern Fix16 dword_676818;
 EXPORT_VAR extern Fix16 dword_67681C;
+
+struct CameraPos
+{
+    Fix16 field_0_x;
+    Fix16 field_4_y;
+    Fix16 field_8_z;
+    Fix16 field_C_zoom;
+};
+
+struct WorldRect
+{
+    Fix16 field_0_left;
+    Fix16 field_4_right;
+    Fix16 field_8_top;
+    Fix16 field_C_bottom;
+};
 
 class DrawUnk_0xBC
 {
@@ -69,14 +86,18 @@ class DrawUnk_0xBC
                  a3_fp <= field_84_win_bottom;
     }
 
-    Fix16 field_0;
-    Fix16 field_4_unk;
-    Fix16 field_8;
-    Fix16 field_C;
-    Fix16 field_10;
-    Fix16 field_14;
-    Fix16 field_18;
-    Fix16 field_1C;
+    inline void sub_41E410()
+    {
+        field_0_cam_pos_tgt1 = field_10_cam_pos_tgt2;
+    }
+
+    inline void sub_41E410_reversed()
+    {
+        field_10_cam_pos_tgt2 = field_0_cam_pos_tgt1;
+    }
+
+    CameraPos field_0_cam_pos_tgt1;
+    CameraPos field_10_cam_pos_tgt2;
     s32 field_20_right;
     s32 field_24_left;
     s32 field_28_bottom;

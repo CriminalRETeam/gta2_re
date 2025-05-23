@@ -15,6 +15,9 @@ GLOBAL(dword_676840, 0x676840);
 EXPORT_VAR Fix16 dword_67671C;
 GLOBAL(dword_67671C, 0x67671C);
 
+EXPORT_VAR Fix16 dword_676818;
+GLOBAL(dword_676818, 0x676818);
+
 EXPORT_VAR Fix16 dword_67681C;
 GLOBAL(dword_67681C, 0x67681C);
 
@@ -56,9 +59,6 @@ void DrawUnk_0xBC::sub_4357F0()
     }
 }
 
-EXPORT_VAR Fix16 dword_676818;
-GLOBAL(dword_676818, 0x676818);
-
 MATCH_FUNC(0x435810)
 void DrawUnk_0xBC::sub_435810()
 {
@@ -80,24 +80,24 @@ GLOBAL(dword_676898, 0x676898);
 MATCH_FUNC(0x435840)
 void DrawUnk_0xBC::sub_435840()
 {
-    if (field_18 < dword_676818)
+    if (field_10_cam_pos_tgt2.field_8_z < dword_676818)
     {
-        field_18 = dword_676818;
+        field_10_cam_pos_tgt2.field_8_z = dword_676818;
     }
 
-    if (field_18 > dword_676898)
+    if (field_10_cam_pos_tgt2.field_8_z > dword_676898)
     {
-        field_18 = dword_676898;
+        field_10_cam_pos_tgt2.field_8_z = dword_676898;
     }
 }
 
 MATCH_FUNC(0x435860)
 void DrawUnk_0xBC::sub_435860(DrawUnk_0xBC* a2)
 {
-    field_10 += a2->field_98_x - a2->field_88;
-    field_14 += a2->field_9C_y - a2->field_8C;
-    field_18 += a2->field_A0_z - a2->field_90;
-    field_1C += a2->field_A4 - a2->field_94;
+    field_10_cam_pos_tgt2.field_0_x += a2->field_98_x - a2->field_88;
+    field_10_cam_pos_tgt2.field_4_y += a2->field_9C_y - a2->field_8C;
+    field_10_cam_pos_tgt2.field_8_z += a2->field_A0_z - a2->field_90;
+    field_10_cam_pos_tgt2.field_C_zoom += a2->field_A4 - a2->field_94;
     sub_435840();
 }
 
@@ -138,39 +138,41 @@ STUB_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
 {
     NOT_IMPLEMENTED;
+    sub_41E410_reversed();
+    /*
     field_10 = field_0;
     field_14 = field_4_unk;
     field_18 = field_8;
     field_1C = field_C;
-
+    */
     if (a2)
     {
-        field_14 -= dword_67671C;
+        field_10_cam_pos_tgt2.field_4_y -= dword_67671C;//field_14 -= dword_67671C;
     }
 
     if (a3)
     {
-        field_14 += dword_67671C;
+        field_10_cam_pos_tgt2.field_4_y += dword_67671C;//field_14 += dword_67671C;
     }
 
     if (a4)
     {
-        field_10 -= dword_67671C;
+        field_10_cam_pos_tgt2.field_0_x -= dword_67671C;//field_10 -= dword_67671C;
     }
 
     if (a5)
     {
-        field_10 += dword_67671C;
+        field_10_cam_pos_tgt2.field_0_x += dword_67671C;//field_10 += dword_67671C;
     }
 
     if (a6)
     {
-        field_18 += dword_67681C;
+        field_10_cam_pos_tgt2.field_8_z += dword_67681C;//field_18 += dword_67681C;
     }
 
     if (a7)
     {
-        field_18 -= dword_67681C;
+        field_10_cam_pos_tgt2.field_8_z -= dword_67681C;//field_18 -= dword_67681C;
     }
 
     sub_435840();
@@ -179,10 +181,10 @@ void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_typ
 MATCH_FUNC(0x435DD0)
 void DrawUnk_0xBC::sub_435DD0()
 {
-    field_98_x = field_0;
-    field_9C_y = field_4_unk;
-    field_A0_z = field_8;
-    field_A4 = field_C;
+    field_98_x = field_0_cam_pos_tgt1.field_0_x;//field_0;
+    field_9C_y = field_0_cam_pos_tgt1.field_4_y;//field_4_unk;
+    field_A0_z = field_0_cam_pos_tgt1.field_8_z;
+    field_A4 = field_0_cam_pos_tgt1.field_C_zoom;//field_C;
 
     field_AC = dword_676818;
     field_B0 = dword_676818;
@@ -304,11 +306,11 @@ DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
 MATCH_FUNC(0x4397D0)
 void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-    field_10 = a2;
-    field_14 = a3;
+    field_10_cam_pos_tgt2.field_0_x = a2;//field_10 = a2;
+    field_10_cam_pos_tgt2.field_4_y = a3;//field_14 = a3;
     a4 += field_40;
-    field_18 = a4;
-    field_1C = a5;
+    field_10_cam_pos_tgt2.field_8_z = a4;//field_18 = a4;
+    field_10_cam_pos_tgt2.field_C_zoom = a5;//field_1C = a5;
 }
 
 MATCH_FUNC(0x58CF10)

@@ -919,17 +919,14 @@ STUB_FUNC(0x5696D0)
 void Player::sub_5696D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
-    if (!this->field_2D0 && !this->field_2C8_unkq && !this->field_2CC)
+    if (!field_2D0 && !field_2C8_unkq && !field_2CC)
     {
-        this->field_2CC = pCar;
-        this->field_208_aux_game_camera.sub_4364A0(pCar);
-        this->field_208_aux_game_camera.field_0 = this->field_208_aux_game_camera.field_10;
-        this->field_208_aux_game_camera.field_4_unk = this->field_208_aux_game_camera.field_14;
-        this->field_208_aux_game_camera.field_8 = this->field_208_aux_game_camera.field_18;
-        this->field_208_aux_game_camera.field_C = this->field_208_aux_game_camera.field_1C;
-        this->field_208_aux_game_camera.sub_435DD0();
-        this->field_68 = 3;
-        this->field_2D0 = 1;
+        field_2CC = pCar;
+        field_208_aux_game_camera.sub_4364A0(pCar);
+        field_208_aux_game_camera.field_0_cam_pos_tgt1 = field_208_aux_game_camera.field_10_cam_pos_tgt2;
+        field_208_aux_game_camera.sub_435DD0();
+        field_68 = 3;
+        field_2D0 = 1;
     }
 }
 
