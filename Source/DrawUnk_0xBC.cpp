@@ -21,6 +21,9 @@ GLOBAL(dword_676818, 0x676818);
 EXPORT_VAR Fix16 dword_67681C;
 GLOBAL(dword_67681C, 0x67681C);
 
+EXPORT_VAR Fix16 dword_6766D4;
+GLOBAL(dword_6766D4, 0x6766D4);
+
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
@@ -178,10 +181,10 @@ void DrawUnk_0xBC::sub_435DD0()
     field_A0_z = field_0_cam_pos_tgt1.field_8_z;
     field_A4 = field_0_cam_pos_tgt1.field_C_zoom;//field_C;
 
-    field_AC = dword_676818;
-    field_B0 = dword_676818;
-    field_B4 = dword_676818;
-    field_B8 = dword_676818;
+    field_AC_cam_velocity.field_0_x = dword_676818;
+    field_AC_cam_velocity.field_4_y = dword_676818;
+    field_AC_cam_velocity.field_8_z = dword_676818;
+    field_AC_cam_velocity.field_C_zoom = dword_676818;
 }
 
 MATCH_FUNC(0x435F90)
@@ -284,25 +287,32 @@ void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4368E0)
-DrawUnk_0xBC::DrawUnk_0xBC() // 4368E0
+MATCH_FUNC(0x4368E0)
+DrawUnk_0xBC::DrawUnk_0xBC()
 {
-    NOT_IMPLEMENTED;
+    field_68 = 0;
+    field_6C = 0;
+    sub_435830();
+    field_A4 = dword_6766D4;
+    sub_4397D0(-1, -1, -1, dword_6766D4);
+    ctor_inline(640, 480);
+    field_44 = 0;
+    sub_436830();
 }
 
-MATCH_FUNC(0x4369E0)
-DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
+STUB_FUNC(0x4369E0)
+DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0   Why doesn't it match anymore?
 {
 }
 
 MATCH_FUNC(0x4397D0)
 void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-    field_10_cam_pos_tgt2.field_0_x = a2;//field_10 = a2;
-    field_10_cam_pos_tgt2.field_4_y = a3;//field_14 = a3;
+    field_10_cam_pos_tgt2.field_0_x = a2;
+    field_10_cam_pos_tgt2.field_4_y = a3;
     a4 += field_40;
-    field_10_cam_pos_tgt2.field_8_z = a4;//field_18 = a4;
-    field_10_cam_pos_tgt2.field_C_zoom = a5;//field_1C = a5;
+    field_10_cam_pos_tgt2.field_8_z = a4;
+    field_10_cam_pos_tgt2.field_C_zoom = a5;
 }
 
 MATCH_FUNC(0x58CF10)

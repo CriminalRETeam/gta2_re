@@ -2,9 +2,11 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "Car_BC.hpp"
 
 class Sprite;
 class Car_BC;
+class Car_8;
 class Ped;
 
 EXPORT_VAR extern Fix16 dword_676840;
@@ -72,8 +74,8 @@ class DrawUnk_0xBC
         Fix16 u = field_A0_z - z;
         Fix16 t(dword_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
 
-        tmp.x = (((x - field_98_x) * field_64) * t) + Fix16(320);
-        tmp.y = (((y - field_9C_y) * field_64) * t) + Fix16(240);
+        tmp.x = (((x - field_98_x) * field_60.field_4) * t) + Fix16(320);
+        tmp.y = (((y - field_9C_y) * field_60.field_4) * t) + Fix16(240);
 
         return tmp;
     }
@@ -96,13 +98,29 @@ class DrawUnk_0xBC
         field_10_cam_pos_tgt2 = field_0_cam_pos_tgt1;
     }
 
+    inline void ctor_inline(s32 x, s32 y)
+    {
+        sub_41E410();
+        field_60.field_0 = Fix16(-1);
+        field_60.field_4 = Fix16(-1);
+        field_AC_cam_velocity.field_0_x = dword_676818;
+        field_AC_cam_velocity.field_4_y = dword_676818;
+        field_AC_cam_velocity.field_8_z = dword_676818;
+
+        field_3C = 0;
+        field_30 = dword_676818;
+        field_34 = 0;
+
+        sub_4361B0(x, y);
+    }
+
     CameraPos field_0_cam_pos_tgt1;
     CameraPos field_10_cam_pos_tgt2;
     s32 field_20_right;
     s32 field_24_left;
     s32 field_28_bottom;
     s32 field_2C_top;
-    s32 field_30;
+    Fix16 field_30;
     Ped* field_34;
     s32 field_38;
     s32 field_3C;
@@ -117,8 +135,8 @@ class DrawUnk_0xBC
     s32 field_54;
     s32 field_58;
     s32 field_5C;
-    s32 field_60;
-    Fix16 field_64;
+    Car_8 field_60;
+    //Fix16 field_64;
     s32 field_68;
     s32 field_6C;
     s32 field_70;
@@ -136,10 +154,7 @@ class DrawUnk_0xBC
     Fix16 field_A0_z;
     Fix16 field_A4;
     s32 field_A8;
-    Fix16 field_AC;
-    Fix16 field_B0;
-    Fix16 field_B4;
-    Fix16 field_B8;
+    CameraPos field_AC_cam_velocity;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
 
