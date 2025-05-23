@@ -114,13 +114,13 @@ s16* DrawUnk_0xBC::sub_4358D0(s16* a2)
 MATCH_FUNC(0x435A20)
 Fix16 DrawUnk_0xBC::sub_435A20()
 {
-    Ped* pPed = this->field_34;
+    Ped* pPed = this->field_34_ped;
     if (pPed)
     {
         return pPed->sub_45C920();
     }
 
-    Car_BC* pCar = this->field_38;
+    Car_BC* pCar = this->field_38_car;
     if (pCar)
     {
         return pCar->sub_43A240();
