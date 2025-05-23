@@ -367,9 +367,9 @@ void Player::sub_565310()
 MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
-    Car_BC* pCar = gCar_6C_677930->sub_444FA0(this->field_14C_view_camera.field_98_x,
-                                              this->field_14C_view_camera.field_9C_y,
-                                              this->field_14C_view_camera.field_A0_z,
+    Car_BC* pCar = gCar_6C_677930->sub_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
+                                              field_14C_view_camera.field_98_cam_pos2.field_4_y,
+                                              field_14C_view_camera.field_98_cam_pos2.field_8_z,
                                               0);
     if (pCar)
     {
@@ -563,22 +563,17 @@ char_type Player::sub_566C80(u32* a2)
     return 'a';
 }
 
-STUB_FUNC(0x566EE0)
+MATCH_FUNC(0x566EE0)
 void Player::sub_566EE0(char_type bDoNothing)
 {
-    NOT_IMPLEMENTED;
-    Ped* pPed; // eax
-    Car_BC* pCar; // edi
-    Car_B0* pPhysics; // ecx
-
     if (!bDoNothing)
     {
-        pPed = Get_Field_68_Ped();
-        pCar = pPed->field_16C_car;
+        Ped* pPed = Get_Field_68_Ped();
+        Car_BC* pCar = pPed->field_16C_car;
 
         if (pCar)
         {
-            pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
+            Car_B0* pPhysics = pCar->field_58_uni_Car78_or_Car_B0;
             if (pPhysics)
             {
                 pPhysics->sub_559430();
@@ -589,24 +584,24 @@ void Player::sub_566EE0(char_type bDoNothing)
         if (bDo_show_camera_67D58A)
         {
             // fmuls vs fmull
-            float x = this->field_90_game_camera.field_98_x.ToFloat();
-            float y = this->field_90_game_camera.field_9C_y.ToFloat();
-            float z = this->field_90_game_camera.field_A0_z.ToFloat();
+            double x = this->field_90_game_camera.field_98_cam_pos2.field_0_x.AsDouble();
+            double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
+            double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_208_aux_game_camera.field_98_x.ToFloat(),
-                     this->field_208_aux_game_camera.field_9C_y.ToFloat(),
-                     this->field_208_aux_game_camera.field_A0_z.ToFloat());
+                     this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
+                     this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
+                     this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
-                     this->field_14C_view_camera.field_98_x.ToFloat(),
-                     this->field_14C_view_camera.field_9C_y.ToFloat(),
-                     this->field_14C_view_camera.field_A0_z.ToFloat());
+                     this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
+                     this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
+                     this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
@@ -909,7 +904,7 @@ void Player::sub_5695A0()
         field_2C8_unkq = 0;
         field_2CC = 0;
         field_2D0 = 0;
-        field_90_game_camera.field_3C = 1;
+        field_90_game_camera.field_3C_followed_ped_id = 1;
     }
 }
 
@@ -924,17 +919,14 @@ STUB_FUNC(0x5696D0)
 void Player::sub_5696D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
-    if (!this->field_2D0 && !this->field_2C8_unkq && !this->field_2CC)
+    if (!field_2D0 && !field_2C8_unkq && !field_2CC)
     {
-        this->field_2CC = pCar;
-        this->field_208_aux_game_camera.sub_4364A0(pCar);
-        this->field_208_aux_game_camera.field_0 = this->field_208_aux_game_camera.field_10;
-        this->field_208_aux_game_camera.field_4_unk = this->field_208_aux_game_camera.field_14;
-        this->field_208_aux_game_camera.field_8 = this->field_208_aux_game_camera.field_18;
-        this->field_208_aux_game_camera.field_C = this->field_208_aux_game_camera.field_1C;
-        this->field_208_aux_game_camera.sub_435DD0();
-        this->field_68 = 3;
-        this->field_2D0 = 1;
+        field_2CC = pCar;
+        field_208_aux_game_camera.sub_4364A0(pCar);
+        field_208_aux_game_camera.field_0_cam_pos_tgt1 = field_208_aux_game_camera.field_10_cam_pos_tgt2;
+        field_208_aux_game_camera.sub_435DD0();
+        field_68 = 3;
+        field_2D0 = 1;
     }
 }
 

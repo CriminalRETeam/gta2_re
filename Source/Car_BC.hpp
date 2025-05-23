@@ -204,7 +204,7 @@ class Sprite
     EXPORT void sub_5A2A30();
     EXPORT void Init_5A2CF0();
     EXPORT void sub_5A3030();
-    EXPORT void sub_5A3100(Sprite* a2, s32 a3, Sprite* a4, Ang16 a5);
+    EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
 
     EXPORT ~Sprite(); // 0x5a3540
 
@@ -327,6 +327,11 @@ class Car_2
     u16 field_0;
 };
 
+EXPORT_VAR extern Fix16 dword_6F7690;
+EXPORT_VAR extern Fix16 dword_6F77D4;
+EXPORT_VAR extern Ang16 word_6F804C;
+EXPORT_VAR extern Ang16 word_6F771E;
+
 class Car_6C
 {
   public:
@@ -337,7 +342,7 @@ class Car_6C
     EXPORT Car_BC* sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
-    EXPORT Car_A4_10* sub_446530(s32 a2, s32 a3, Car_BC* a4, s32 a5, s32 a6);
+    EXPORT Car_A4_10* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void sub_446730(Car_BC *pCar);
 
     EXPORT s32 sub_4466C0(s32 a2);
@@ -347,6 +352,24 @@ class Car_6C
     EXPORT u32 sub_446930(s32 a2);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
+    
+    // 9.6f inlined
+    inline Car_BC* sub_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    {
+        return sub_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
+    }
+
+    // 9.6f inlined
+    inline Car_BC* sub_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    {
+        return sub_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F7690);
+    }
+
+    // unknown inlined function
+    inline Car_BC* sub_446230_shortened(s32 car_info_idx)
+    {
+        return sub_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, word_6F804C, car_info_idx, dword_6F77C4);
+    }
 
     Car_2 field_0;
     s16 field_2;

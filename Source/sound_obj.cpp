@@ -427,7 +427,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     if (field_1478_type5Idx != 0 && (field_C_pAny = (DrawUnk_0xBC*)field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny) != NULL)
     {
-        Ped* v4 = field_C_pAny->field_34;
+        Ped* v4 = field_C_pAny->field_34_ped;
 
         if (v4 != NULL)
         {
@@ -449,9 +449,9 @@ void sound_obj::InterrogateAudioEntities_41A730()
         }
         else
         {
-            field_1468_v1 = field_C_pAny->field_98_x;
-            field_146C_v2 = field_C_pAny->field_9C_y;
-            field_1470_v3 = field_C_pAny->field_A0_z;
+            field_1468_v1 = field_C_pAny->field_98_cam_pos2.field_0_x;
+            field_146C_v2 = field_C_pAny->field_98_cam_pos2.field_4_y;
+            field_1470_v3 = field_C_pAny->field_98_cam_pos2.field_8_z;
         }
     }
     else

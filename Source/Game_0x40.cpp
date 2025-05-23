@@ -715,7 +715,10 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
     DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (a3 >= pCam->field_78_win_left && a3 <= pCam->field_7C_win_right && a4 >= pCam->field_80_win_top && a4 <= pCam->field_84_win_bottom)
+        if (a3 >= pCam->field_78_boundaries_non_neg.field_0_left 
+            && a3 <= pCam->field_78_boundaries_non_neg.field_4_right 
+            && a4 >= pCam->field_78_boundaries_non_neg.field_8_top 
+            && a4 <= pCam->field_78_boundaries_non_neg.field_C_bottom)
         {
             pCam->sub_436120(a2);
         }
@@ -832,17 +835,18 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
         Player* pCurPlayer = field_4_players[i];
         if (pCurPlayer->field_8E_bInUse)
         {
-            if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_2C_top &&
-                pBounds->field_C_bottom >= pCurPlayer->field_90_game_camera.field_28_bottom &&
-                pBounds->field_0_left <= pCurPlayer->field_90_game_camera.field_24_left &&
-                pBounds->field_4_right >= pCurPlayer->field_90_game_camera.field_20_right)
+            if (pBounds->field_8_top <= pCurPlayer->field_90_game_camera.field_20_boundaries.field_C_bottom &&
+                pBounds->field_C_bottom >= pCurPlayer->field_90_game_camera.field_20_boundaries.field_8_top &&
+                pBounds->field_0_left <= pCurPlayer->field_90_game_camera.field_20_boundaries.field_4_right &&
+                pBounds->field_4_right >= pCurPlayer->field_90_game_camera.field_20_boundaries.field_0_left)
             {
                 return 1;
             }
-            if (pCurPlayer->field_2D0 && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_2C_top &&
-                pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_28_bottom &&
-                pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_24_left &&
-                pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_right)
+            if (pCurPlayer->field_2D0 &&
+                pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
+                pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top &&
+                pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right &&
+                pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left)
             {
                 return 1;
             }

@@ -56,10 +56,10 @@ static inline s32 Clamp(s32 value, s32 min, s32 max)
 MATCH_FUNC(0x477a40)
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
-    const s32 left = Clamp((gViewCamera_676978->field_78_win_left - dword_679084).ToInt(), 0, 255);
-    const s32 right_val = Clamp((dword_678F80 + gViewCamera_676978->field_7C_win_right).ToInt(), 0, 255);
-    const s32 top_val = Clamp((gViewCamera_676978->field_80_win_top - dword_679084).ToInt(), 0, 255);
-    const s32 bottom_val = Clamp((dword_678F80 + gViewCamera_676978->field_84_win_bottom).ToInt(), 0, 255);
+    const s32 left = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_0_left - dword_679084).ToInt(), 0, 255);
+    const s32 right_val = Clamp((dword_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_4_right).ToInt(), 0, 255);
+    const s32 top_val = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_8_top - dword_679084).ToInt(), 0, 255);
+    const s32 bottom_val = Clamp((dword_678F80 + gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom).ToInt(), 0, 255);
 
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
 }

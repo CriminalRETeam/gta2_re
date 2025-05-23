@@ -15,8 +15,14 @@ GLOBAL(dword_676840, 0x676840);
 EXPORT_VAR Fix16 dword_67671C;
 GLOBAL(dword_67671C, 0x67671C);
 
+EXPORT_VAR Fix16 dword_676818;
+GLOBAL(dword_676818, 0x676818);
+
 EXPORT_VAR Fix16 dword_67681C;
 GLOBAL(dword_67681C, 0x67681C);
+
+EXPORT_VAR Fix16 dword_6766D4;
+GLOBAL(dword_6766D4, 0x6766D4);
 
 STUB_FUNC(0x4355D0)
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
@@ -35,10 +41,10 @@ char_type DrawUnk_0xBC::sub_435630(s16* a2, s32 a3)
 MATCH_FUNC(0x4357B0)
 void DrawUnk_0xBC::sub_4357B0()
 {
-    field_88 = field_98_x;
-    field_8C = field_9C_y;
-    field_90 = field_A0_z;
-    field_94 = field_A4;
+    field_88_cam_pos1.field_0_x = field_98_cam_pos2.field_0_x;
+    field_88_cam_pos1.field_4_y = field_98_cam_pos2.field_4_y;
+    field_88_cam_pos1.field_8_z = field_98_cam_pos2.field_8_z;
+    field_88_cam_pos1.field_C_zoom = field_98_cam_pos2.field_C_zoom;
 }
 
 EXPORT_VAR Fix16 dword_676894;
@@ -50,28 +56,25 @@ GLOBAL(dword_676678, 0x676678);
 MATCH_FUNC(0x4357F0)
 void DrawUnk_0xBC::sub_4357F0()
 {
-    if (field_40 < dword_676894)
+    if (field_40_tgt_elevation < dword_676894)
     {
-        field_40 += dword_676678;
+        field_40_tgt_elevation += dword_676678;
     }
 }
-
-EXPORT_VAR Fix16 dword_676818;
-GLOBAL(dword_676818, 0x676818);
 
 MATCH_FUNC(0x435810)
 void DrawUnk_0xBC::sub_435810()
 {
-    if (field_40 > dword_676818)
+    if (field_40_tgt_elevation > dword_676818)
     {
-        field_40 -= dword_676678;
+        field_40_tgt_elevation -= dword_676678;
     }
 }
 
 MATCH_FUNC(0x435830)
 void DrawUnk_0xBC::sub_435830()
 {
-    field_40 = dword_676818;
+    field_40_tgt_elevation = dword_676818;
 }
 
 EXPORT_VAR Fix16 dword_676898;
@@ -80,24 +83,24 @@ GLOBAL(dword_676898, 0x676898);
 MATCH_FUNC(0x435840)
 void DrawUnk_0xBC::sub_435840()
 {
-    if (field_18 < dword_676818)
+    if (field_10_cam_pos_tgt2.field_8_z < dword_676818)
     {
-        field_18 = dword_676818;
+        field_10_cam_pos_tgt2.field_8_z = dword_676818;
     }
 
-    if (field_18 > dword_676898)
+    if (field_10_cam_pos_tgt2.field_8_z > dword_676898)
     {
-        field_18 = dword_676898;
+        field_10_cam_pos_tgt2.field_8_z = dword_676898;
     }
 }
 
 MATCH_FUNC(0x435860)
 void DrawUnk_0xBC::sub_435860(DrawUnk_0xBC* a2)
 {
-    field_10 += a2->field_98_x - a2->field_88;
-    field_14 += a2->field_9C_y - a2->field_8C;
-    field_18 += a2->field_A0_z - a2->field_90;
-    field_1C += a2->field_A4 - a2->field_94;
+    field_10_cam_pos_tgt2.field_0_x += a2->field_98_cam_pos2.field_0_x - a2->field_88_cam_pos1.field_0_x;
+    field_10_cam_pos_tgt2.field_4_y += a2->field_98_cam_pos2.field_4_y - a2->field_88_cam_pos1.field_4_y;
+    field_10_cam_pos_tgt2.field_8_z += a2->field_98_cam_pos2.field_8_z - a2->field_88_cam_pos1.field_8_z;
+    field_10_cam_pos_tgt2.field_C_zoom += a2->field_98_cam_pos2.field_C_zoom - a2->field_88_cam_pos1.field_C_zoom;
     sub_435840();
 }
 
@@ -134,60 +137,54 @@ s32 DrawUnk_0xBC::sub_435B90()
     return 0;
 }
 
-STUB_FUNC(0x435D20)
+MATCH_FUNC(0x435D20)
 void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
 {
-    NOT_IMPLEMENTED;
-    field_10 = field_0;
-    field_14 = field_4_unk;
-    field_18 = field_8;
-    field_1C = field_C;
-
+    sub_41E410_reversed();
     if (a2)
     {
-        field_14 -= dword_67671C;
+        field_10_cam_pos_tgt2.field_4_y -= dword_67671C;
     }
 
     if (a3)
     {
-        field_14 += dword_67671C;
+        field_10_cam_pos_tgt2.field_4_y += dword_67671C;
     }
 
     if (a4)
     {
-        field_10 -= dword_67671C;
+        field_10_cam_pos_tgt2.field_0_x -= dword_67671C;
     }
 
     if (a5)
     {
-        field_10 += dword_67671C;
+        field_10_cam_pos_tgt2.field_0_x += dword_67671C;
     }
 
     if (a6)
     {
-        field_18 += dword_67681C;
+        field_10_cam_pos_tgt2.field_8_z += dword_67681C;
     }
 
     if (a7)
     {
-        field_18 -= dword_67681C;
+        field_10_cam_pos_tgt2.field_8_z -= dword_67681C;
     }
-
     sub_435840();
 }
 
 MATCH_FUNC(0x435DD0)
 void DrawUnk_0xBC::sub_435DD0()
 {
-    field_98_x = field_0;
-    field_9C_y = field_4_unk;
-    field_A0_z = field_8;
-    field_A4 = field_C;
+    field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
+    field_98_cam_pos2.field_4_y = field_0_cam_pos_tgt1.field_4_y;
+    field_98_cam_pos2.field_8_z = field_0_cam_pos_tgt1.field_8_z;
+    field_98_cam_pos2.field_C_zoom = field_0_cam_pos_tgt1.field_C_zoom;
 
-    field_AC = dword_676818;
-    field_B0 = dword_676818;
-    field_B4 = dword_676818;
-    field_B8 = dword_676818;
+    field_AC_cam_velocity.field_0_x = dword_676818;
+    field_AC_cam_velocity.field_4_y = dword_676818;
+    field_AC_cam_velocity.field_8_z = dword_676818;
+    field_AC_cam_velocity.field_C_zoom = dword_676818;
 }
 
 MATCH_FUNC(0x435F90)
@@ -290,29 +287,39 @@ void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4368E0)
-DrawUnk_0xBC::DrawUnk_0xBC() // 4368E0
+MATCH_FUNC(0x4368E0)
+DrawUnk_0xBC::DrawUnk_0xBC()
 {
-    NOT_IMPLEMENTED;
+    field_68_screen_px_width = 0;
+    field_6C_screen_px_height = 0;
+    sub_435830();
+    field_98_cam_pos2.field_C_zoom = dword_6766D4;
+    sub_4397D0(-1, -1, -1, dword_6766D4);
+    ctor_inline(640, 480);
+    field_44 = 0;
+    sub_436830();
 }
 
-MATCH_FUNC(0x4369E0)
-DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0
+STUB_FUNC(0x4369E0)
+DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0    Why doesn't it match anymore?
 {
 }
 
 MATCH_FUNC(0x4397D0)
 void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 {
-    field_10 = a2;
-    field_14 = a3;
-    a4 += field_40;
-    field_18 = a4;
-    field_1C = a5;
+    field_10_cam_pos_tgt2.field_0_x = a2;
+    field_10_cam_pos_tgt2.field_4_y = a3;
+    a4 += field_40_tgt_elevation;
+    field_10_cam_pos_tgt2.field_8_z = a4;
+    field_10_cam_pos_tgt2.field_C_zoom = a5;
 }
 
 MATCH_FUNC(0x58CF10)
 bool DrawUnk_0xBC::sub_58CF10(Fix16 a2, Fix16 a3)
 {
-    return a2 >= field_78_win_left && a2 <= field_7C_win_right && a3 >= field_80_win_top && a3 <= field_84_win_bottom;
+    return a2 >= field_78_boundaries_non_neg.field_0_left 
+        && a2 <= field_78_boundaries_non_neg.field_4_right 
+        && a3 >= field_78_boundaries_non_neg.field_8_top 
+        && a3 <= field_78_boundaries_non_neg.field_C_bottom;
 }

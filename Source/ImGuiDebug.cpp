@@ -16,6 +16,7 @@
 #include "gbh_graphics.hpp"
 #include "Frontend.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
+#include "Phi_8CA8.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -136,16 +137,17 @@ void CC ImGuiDebugDraw()
         {
             if (gViewCamera_676978)
             {
-                ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_win_left.ToFloat());
-                ImGui::Text("field_7C_right %f", gViewCamera_676978->field_7C_win_right.ToFloat());
-                ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_80_win_top.ToFloat());
-                ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_84_win_bottom.ToFloat());
+                ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToFloat());
+                ImGui::Text("field_7C_right %f", gViewCamera_676978->field_78_boundaries_non_neg.field_4_right.ToFloat());
+                ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToFloat());
+                ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom.ToFloat());
+                ImGui::SliderInt("field_A4", &gViewCamera_676978->field_98_cam_pos2.field_C_zoom.mValue, 0, 30000);
             }
 
             if (ImGui::Button("Orca_2FD4::sub_5552B0"))
             {
-                char xpos = gViewCamera_676978->field_78_win_left.ToInt() + 5;
-                char ypos = gViewCamera_676978->field_80_win_top.ToInt() + 5;
+                char xpos = gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToInt() + 5;
+                char ypos = gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToInt() + 5;
                 char zpos = 2;
                 if (gOrca_2FD4_6FDEF0->sub_5552B0(0, &xpos, &ypos, &zpos, 1))
                 {
@@ -166,7 +168,7 @@ void CC ImGuiDebugDraw()
                     //DrawUnk_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
                     if (game_camera)
                     {
-                        ImGui::SliderInt("field_A4", &game_camera->field_A4.mValue, 0, 25000);
+                        ImGui::SliderInt("field_A4", &game_camera->field_98_cam_pos2.field_C_zoom.mValue, 0, 25000);
                     }
                 }
             }
@@ -652,6 +654,45 @@ void CC ImGuiDebugDraw()
             {
                 Hamburger_40& hb = gHamburger_500_678E30->field_0[i];
                 ImGui::Value("field_0", hb.field_0);
+            }
+        }
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("gPhi_8CA8_6FCF00"))
+    {
+        if (gPhi_8CA8_6FCF00)
+        {
+            ImGui::Value("field_0_next_idx", gPhi_8CA8_6FCF00->field_0_next_idx);
+            ImGui::Value("field_2", gPhi_8CA8_6FCF00->field_2);
+            ImGui::Value("field_8CA4", gPhi_8CA8_6FCF00->field_8CA4);
+            ImGui::Value("field_8CA6", gPhi_8CA8_6FCF00->field_8CA6);
+
+            static s32 phi_74_id = 0;
+            ImGui::SliderInt("Phi_74 id", &phi_74_id, 0, 299);
+            Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4[phi_74_id];
+            if (phi)
+            {
+                ImGui::Value("field_0", phi->field_0.mValue);
+                ImGui::Value("field_4", phi->field_4.mValue);
+                ImGui::Value("field_8", phi->field_8.mValue);
+                ImGui::Value("field_C", phi->field_C.mValue);
+                ImGui::Value("field_10", phi->field_10.mValue);
+                ImGui::Value("field_14", phi->field_14.mValue);
+                ImGui::Value("field_18", phi->field_18.mValue);
+                ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
+                ImGui::Value("field_20", phi->field_20);
+                ImGui::Value("field_21", phi->field_21);
+                ImGui::Value("field_22", phi->field_22);
+                ImGui::Value("field_23", phi->field_23);
+                ImGui::Value("field_24_idx", phi->field_24_idx);
+                ImGui::Value("field_28", phi->field_28);
+
+                ImGui::Value("field_6C", phi->field_6C);
+                ImGui::Value("field_6D", phi->field_6D);
+                ImGui::Value("field_6E", phi->field_6E);
+                ImGui::Value("field_6F", phi->field_6F);
+                ImGui::Value("field_70", phi->field_70);
             }
         }
         ImGui::TreePop();
