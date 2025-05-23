@@ -234,6 +234,8 @@ set(gta2_lib_src
   Source/Object_29178.cpp
   Source/Particle_4C.hpp
   Source/Particle_4C.cpp
+  Source/Police_38.hpp
+  Source/Police_38.cpp
   Source/Weapon_30.hpp
   Source/Weapon_30.cpp
   Source/ImGuiDebug.hpp
