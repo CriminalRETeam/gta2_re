@@ -2257,11 +2257,23 @@ char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x441360)
-char_type Car_BC::sub_441360()
+MATCH_FUNC(0x441360)
+void Car_BC::sub_441360()
+{
+    if (field_A9)
+    {
+        field_A9--;
+        if (field_A9 == 0)
+        {
+            sub_4436A0();   // jmp to function chunk
+        }
+    }
+}
+
+STUB_FUNC(0x4436A0)
+void Car_BC::sub_4436A0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x441380)
@@ -2438,6 +2450,7 @@ char_type Car_BC::sub_441A70()
     return 0;
 }
 
+// https://decomp.me/scratch/54UNc
 STUB_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
