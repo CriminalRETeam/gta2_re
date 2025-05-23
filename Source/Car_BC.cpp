@@ -2265,7 +2265,7 @@ void Car_BC::sub_441360()
         field_A9--;
         if (field_A9 == 0)
         {
-            sub_4436A0();   // jmp to function chunk
+            sub_4436A0(); // jmp to function chunk
         }
     }
 }
@@ -2550,11 +2550,34 @@ void Car_BC::sub_442310()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4424c0)
+MATCH_FUNC(0x4424c0)
 char_type Car_BC::sub_4424C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_88)
+    {
+        case 3:
+            this->field_88 = 5;
+            return 0;
+
+        case 4:
+            this->field_88 = 2;
+            return 0;
+
+        case 2:
+            if (!sub_442170())
+            {
+                return 0;
+            }
+            this->field_88 = 5;
+            return 0;
+
+        case 5:
+            this->field_88 = 6;
+            return 1;
+
+        default:
+            return 0;
+    }
 }
 
 STUB_FUNC(0x442520)
