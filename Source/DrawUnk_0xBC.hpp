@@ -1,8 +1,8 @@
 #pragma once
 
+#include "Car_BC.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
-#include "Car_BC.hpp"
 
 class Sprite;
 class Car_BC;
@@ -46,7 +46,7 @@ class DrawUnk_0xBC
     EXPORT s32 sub_435B90();
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void sub_435DD0();
-    EXPORT void sub_435F90(Car_BC * a2);
+    EXPORT void sub_435F90(Car_BC* a2);
     EXPORT s32 sub_435FF0();
     EXPORT s32 sub_436110();
     EXPORT void sub_436120(Fix16 a2);
@@ -57,7 +57,7 @@ class DrawUnk_0xBC
     EXPORT void sub_436540(s32* a2);
     EXPORT void sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
     EXPORT void sub_436830();
-    EXPORT void sub_436860(s32 a2, s32* a3, s32* a4, s32 a5);
+    EXPORT void sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5);
     EXPORT DrawUnk_0xBC(); // 4368E0
     EXPORT ~DrawUnk_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
@@ -83,10 +83,8 @@ class DrawUnk_0xBC
     // inline sub_40CF60
     inline bool check_camera(Fix16 a2_fp, Fix16 a3_fp)
     {
-        return a2_fp >= field_78_boundaries_non_neg.field_0_left && 
-                a2_fp <= field_78_boundaries_non_neg.field_4_right &&
-                a3_fp >= field_78_boundaries_non_neg.field_8_top &&
-                a3_fp <= field_78_boundaries_non_neg.field_C_bottom;
+        return a2_fp >= field_78_boundaries_non_neg.field_0_left && a2_fp <= field_78_boundaries_non_neg.field_4_right &&
+            a3_fp >= field_78_boundaries_non_neg.field_8_top && a3_fp <= field_78_boundaries_non_neg.field_C_bottom;
     }
 
     inline void sub_41E410()
@@ -120,7 +118,7 @@ class DrawUnk_0xBC
     WorldRect field_20_boundaries;
     Fix16 field_30;
     Ped* field_34_ped;
-    Car_BC *field_38_car;
+    Car_BC* field_38_car;
     s32 field_3C_followed_ped_id;
     Fix16 field_40_tgt_elevation;
     u8 field_44;

@@ -380,8 +380,9 @@ void DrawUnk_0xBC::sub_436830()
     field_54 = dword_6766E4;
 }
 
+// https://decomp.me/scratch/M4gJ2
 STUB_FUNC(0x436860)
-void DrawUnk_0xBC::sub_436860(s32 a2, s32* a3, s32* a4, s32 a5)
+void DrawUnk_0xBC::sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5)
 {
     NOT_IMPLEMENTED;
 }
