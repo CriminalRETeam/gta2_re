@@ -4605,32 +4605,28 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     return width - v4;
 }
 
-STUB_FUNC(0x4B7060)
+MATCH_FUNC(0x4B7060)
 u8 Frontend::sub_4B7060(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    player_stats_0xA4* v2; // edx
-    u8 result; // al
-
-    v2 = sub_4B43E0();
-    result = a2;
-    if (a2)
+    player_stats_0xA4* v2 = sub_4B43E0();
+    u8 result = a2;
+    if (a2 == 0)
     {
-        return a2 - 1;
-    }
-
-    if (byte_67DA80)
-    {
-        result = 2;
-        if (!v2->field_0_plyr_stage_stats[2][0].field_0_is_stage_unlocked)
+        if (byte_67DA80)
         {
-            do
+            result = 2;
+            while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked)
             {
                 --result;
-            } while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked);
+            }
         }
+        return result;
     }
-    return result;
+    else
+    {
+        a2--;
+        return a2;
+    }
 }
 
 STUB_FUNC(0x4B7270)
