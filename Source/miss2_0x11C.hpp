@@ -401,6 +401,12 @@ struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos;
 };
 
+struct SCR_CHECK_SCORE_GREATER : SCR_CMD_HEADER
+{
+    u32 field_8_unknown;
+    s32 field_C_target_score;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
