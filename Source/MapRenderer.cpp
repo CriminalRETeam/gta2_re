@@ -100,8 +100,8 @@ void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
-    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_9C_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_cam_pos2.field_0_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_98_cam_pos2.field_4_y).ToFloat();
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -353,8 +353,8 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
                 gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_x;
-        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_9C_y;
+        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
+        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
         
         u8 v6 = pBlock->field_B_slope_type & 0xFC;
         

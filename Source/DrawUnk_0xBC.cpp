@@ -41,10 +41,10 @@ char_type DrawUnk_0xBC::sub_435630(s16* a2, s32 a3)
 MATCH_FUNC(0x4357B0)
 void DrawUnk_0xBC::sub_4357B0()
 {
-    field_88 = field_98_x;
-    field_8C = field_9C_y;
-    field_90 = field_A0_z;
-    field_94 = field_A4;
+    field_88_cam_pos1.field_0_x = field_98_cam_pos2.field_0_x;
+    field_88_cam_pos1.field_4_y = field_98_cam_pos2.field_4_y;
+    field_88_cam_pos1.field_8_z = field_98_cam_pos2.field_8_z;
+    field_88_cam_pos1.field_C_zoom = field_98_cam_pos2.field_C_zoom;
 }
 
 EXPORT_VAR Fix16 dword_676894;
@@ -97,10 +97,10 @@ void DrawUnk_0xBC::sub_435840()
 MATCH_FUNC(0x435860)
 void DrawUnk_0xBC::sub_435860(DrawUnk_0xBC* a2)
 {
-    field_10_cam_pos_tgt2.field_0_x += a2->field_98_x - a2->field_88;
-    field_10_cam_pos_tgt2.field_4_y += a2->field_9C_y - a2->field_8C;
-    field_10_cam_pos_tgt2.field_8_z += a2->field_A0_z - a2->field_90;
-    field_10_cam_pos_tgt2.field_C_zoom += a2->field_A4 - a2->field_94;
+    field_10_cam_pos_tgt2.field_0_x += a2->field_98_cam_pos2.field_0_x - a2->field_88_cam_pos1.field_0_x;
+    field_10_cam_pos_tgt2.field_4_y += a2->field_98_cam_pos2.field_4_y - a2->field_88_cam_pos1.field_4_y;
+    field_10_cam_pos_tgt2.field_8_z += a2->field_98_cam_pos2.field_8_z - a2->field_88_cam_pos1.field_8_z;
+    field_10_cam_pos_tgt2.field_C_zoom += a2->field_98_cam_pos2.field_C_zoom - a2->field_88_cam_pos1.field_C_zoom;
     sub_435840();
 }
 
@@ -176,10 +176,10 @@ void DrawUnk_0xBC::sub_435D20(char_type a2, char_type a3, char_type a4, char_typ
 MATCH_FUNC(0x435DD0)
 void DrawUnk_0xBC::sub_435DD0()
 {
-    field_98_x = field_0_cam_pos_tgt1.field_0_x;//field_0;
-    field_9C_y = field_0_cam_pos_tgt1.field_4_y;//field_4_unk;
-    field_A0_z = field_0_cam_pos_tgt1.field_8_z;
-    field_A4 = field_0_cam_pos_tgt1.field_C_zoom;//field_C;
+    field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
+    field_98_cam_pos2.field_4_y = field_0_cam_pos_tgt1.field_4_y;
+    field_98_cam_pos2.field_8_z = field_0_cam_pos_tgt1.field_8_z;
+    field_98_cam_pos2.field_C_zoom = field_0_cam_pos_tgt1.field_C_zoom;
 
     field_AC_cam_velocity.field_0_x = dword_676818;
     field_AC_cam_velocity.field_4_y = dword_676818;
@@ -293,7 +293,7 @@ DrawUnk_0xBC::DrawUnk_0xBC()
     field_68 = 0;
     field_6C = 0;
     sub_435830();
-    field_A4 = dword_6766D4;
+    field_98_cam_pos2.field_C_zoom = dword_6766D4;
     sub_4397D0(-1, -1, -1, dword_6766D4);
     ctor_inline(640, 480);
     field_44 = 0;
@@ -318,5 +318,8 @@ void DrawUnk_0xBC::sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
 MATCH_FUNC(0x58CF10)
 bool DrawUnk_0xBC::sub_58CF10(Fix16 a2, Fix16 a3)
 {
-    return a2 >= field_78_win_left && a2 <= field_7C_win_right && a3 >= field_80_win_top && a3 <= field_84_win_bottom;
+    return a2 >= field_78_boundaries_non_neg.field_0_left 
+        && a2 <= field_78_boundaries_non_neg.field_4_right 
+        && a3 >= field_78_boundaries_non_neg.field_8_top 
+        && a3 <= field_78_boundaries_non_neg.field_C_bottom;
 }

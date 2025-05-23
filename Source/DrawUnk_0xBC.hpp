@@ -71,11 +71,11 @@ class DrawUnk_0xBC
     Fix16_Point sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point tmp;
-        Fix16 u = field_A0_z - z;
+        Fix16 u = field_98_cam_pos2.field_8_z - z;
         Fix16 t(dword_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
 
-        tmp.x = (((x - field_98_x) * field_60.field_4) * t) + Fix16(320);
-        tmp.y = (((y - field_9C_y) * field_60.field_4) * t) + Fix16(240);
+        tmp.x = (((x - field_98_cam_pos2.field_0_x) * field_60.field_4) * t) + Fix16(320);
+        tmp.y = (((y - field_98_cam_pos2.field_4_y) * field_60.field_4) * t) + Fix16(240);
 
         return tmp;
     }
@@ -83,9 +83,10 @@ class DrawUnk_0xBC
     // inline sub_40CF60
     inline bool check_camera(Fix16 a2_fp, Fix16 a3_fp)
     {
-        return a2_fp >= field_78_win_left && a2_fp <= field_7C_win_right &&
-                 a3_fp >= field_80_win_top &&
-                 a3_fp <= field_84_win_bottom;
+        return a2_fp >= field_78_boundaries_non_neg.field_0_left && 
+                a2_fp <= field_78_boundaries_non_neg.field_4_right &&
+                a3_fp >= field_78_boundaries_non_neg.field_8_top &&
+                a3_fp <= field_78_boundaries_non_neg.field_C_bottom;
     }
 
     inline void sub_41E410()
@@ -116,10 +117,7 @@ class DrawUnk_0xBC
 
     CameraPos field_0_cam_pos_tgt1;
     CameraPos field_10_cam_pos_tgt2;
-    s32 field_20_right;
-    s32 field_24_left;
-    s32 field_28_bottom;
-    s32 field_2C_top;
+    WorldRect field_20_boundaries;
     Fix16 field_30;
     Ped* field_34;
     s32 field_38;
@@ -136,23 +134,13 @@ class DrawUnk_0xBC
     s32 field_58;
     s32 field_5C;
     Car_8 field_60;
-    //Fix16 field_64;
     s32 field_68;
     s32 field_6C;
     s32 field_70;
     s32 field_74;
-    Fix16 field_78_win_left;
-    Fix16 field_7C_win_right;
-    Fix16 field_80_win_top;
-    Fix16 field_84_win_bottom;
-    Fix16 field_88;
-    Fix16 field_8C;
-    Fix16 field_90;
-    Fix16 field_94;
-    Fix16 field_98_x;
-    Fix16 field_9C_y;
-    Fix16 field_A0_z;
-    Fix16 field_A4;
+    WorldRect field_78_boundaries_non_neg;
+    CameraPos field_88_cam_pos1;
+    CameraPos field_98_cam_pos2;
     s32 field_A8;
     CameraPos field_AC_cam_velocity;
 };

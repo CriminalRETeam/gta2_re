@@ -3374,14 +3374,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 2:
             if (field_8 == 0)
             {
-                if (param_2 < (field_0->field_7C_win_right - DAT_006FF778))
+                if (param_2 < (field_0->field_78_boundaries_non_neg.field_4_right - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_2 > (field_0->field_78_win_left + DAT_006FF778))
+                if (param_2 > (field_0->field_78_boundaries_non_neg.field_0_left + DAT_006FF778))
                 {
                     return 1;
                 }
@@ -3391,14 +3391,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 4:
             if (field_8 == 0)
             {
-                if (param_3 < (field_0->field_84_win_bottom - DAT_006FF778))
+                if (param_3 < (field_0->field_78_boundaries_non_neg.field_C_bottom - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_3 > (field_0->field_80_win_top + DAT_006FF778))
+                if (param_3 > (field_0->field_78_boundaries_non_neg.field_8_top + DAT_006FF778))
                 {
                     return 1;
                 }
