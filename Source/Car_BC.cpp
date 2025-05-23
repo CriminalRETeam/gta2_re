@@ -2679,11 +2679,24 @@ char_type Car_BC::sub_4435A0()
     return sub_441A70();
 }
 
-STUB_FUNC(0x4435b0)
+MATCH_FUNC(0x4435b0)
 s32 Car_BC::sub_4435B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_78_flags & 0x10) != 0)
+    {
+        return 14;
+    }
+
+    if ((field_78_flags & 0x40) != 0)
+    {
+        return 20;
+    }
+
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) != 1)
+    {
+        return 17;
+    }
+    return 22;
 }
 
 STUB_FUNC(0x4435f0)
