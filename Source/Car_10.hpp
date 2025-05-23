@@ -7,9 +7,9 @@ class Ped;
 class Car_Door_10
 {
   public:
-    EXPORT void sub_439CD0(s32* a2);
-    EXPORT void sub_439D40(s32* a3);
-    EXPORT void sub_439DA0(s32* a3);
+    EXPORT void sub_439CD0(u32* a2);
+    EXPORT void sub_439D40(u32* a3);
+    EXPORT void sub_439DA0(u32* a3);
     EXPORT void sub_439E40(u8 a2);
     EXPORT void sub_439E60();
     EXPORT void sub_439EA0();

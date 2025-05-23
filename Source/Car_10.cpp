@@ -4,7 +4,7 @@
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
 MATCH_FUNC(0x439CD0)
-void Car_Door_10::sub_439CD0(s32* pRet)
+void Car_Door_10::sub_439CD0(u32* pRet)
 {
     if (field_0_animation_frame != 4)
     {
@@ -31,7 +31,7 @@ void Car_Door_10::sub_439CD0(s32* pRet)
 }
 
 MATCH_FUNC(0x439D40)
-void Car_Door_10::sub_439D40(s32* a3)
+void Car_Door_10::sub_439D40(u32* a3)
 {
     if (field_0_animation_frame)
     {
@@ -50,7 +50,7 @@ void Car_Door_10::sub_439D40(s32* a3)
 }
 
 STUB_FUNC(0x439DA0)
-void Car_Door_10::sub_439DA0(s32* a3a)
+void Car_Door_10::sub_439DA0(u32* a3a)
 {
     NOT_IMPLEMENTED;
     switch (field_4_state)

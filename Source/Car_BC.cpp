@@ -2450,17 +2450,14 @@ char_type Car_BC::sub_441A70()
     return 0;
 }
 
-// https://decomp.me/scratch/54UNc
-STUB_FUNC(0x441b00)
+MATCH_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    NOT_IMPLEMENTED;
-    Car_Door_10* pIter = field_C_doors;
-    s32 tmp;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
+    Car_Door_10* p = field_C_doors;
+    for (s32 i = 0; i < 4; i++)
     {
-        pIter->sub_439DA0(&tmp);
-        pIter++;
+        p->sub_439DA0(&field_8_damaged_areas.m_var);
+        p++;
     }
 }
 
