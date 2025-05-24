@@ -45,7 +45,7 @@ class Wolfy_30
     s16 field_22;
     s32 field_24;
     s32 field_28;
-    s32 field_2C;
+    s32 field_2C_ped_id;
 };
 
 class Wolfy_7A8

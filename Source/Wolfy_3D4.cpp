@@ -4,6 +4,12 @@
 EXPORT_VAR s16 gParticleInstCount_6FD5F4;
 GLOBAL(gParticleInstCount_6FD5F4, 0x6FD5F4);
 
+EXPORT_VAR s32 dword_6FD49C;
+GLOBAL(dword_6FD49C, 0x6FD49C);
+
+EXPORT_VAR s16 word_6FD5D4;
+GLOBAL(word_6FD5D4, 0x6FD5D4);
+
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()
 {
@@ -35,10 +41,26 @@ Wolfy_7A8::~Wolfy_7A8()
 {
 }
 
-STUB_FUNC(0x5408f0)
+MATCH_FUNC(0x5408f0)
 Wolfy_30::Wolfy_30()
 {
-    NOT_IMPLEMENTED;
+    this->field_C = 0;
+    this->field_20 = 0;
+    this->field_22 = 0;
+    this->field_4_idx = 0;
+    this->field_10 = 0;
+    this->field_14 = 0;
+    this->field_18 = 0;
+    this->field_1A = 0;
+    this->field_8 = dword_6FD49C;
+    this->field_20 = word_6FD5D4;
+    this->field_22 = word_6FD5D4;
+    this->field_24 = dword_6FD49C;
+    this->field_28 = dword_6FD49C;
+    this->field_C = word_6FD5D4;
+    this->field_1C = 0;
+    this->field_6 = 0;
+    this->field_2C_ped_id = 0;
 }
 
 MATCH_FUNC(0x540a10)
