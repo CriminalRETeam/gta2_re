@@ -115,7 +115,7 @@ Garox_1_v2::Garox_1_v2()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d15e0)
-char_type Garox_2A25_sub::sub_5D15E0(s32 a1, char_type* a2)
+char_type Garox_2A25_sub::sub_5D15E0(s32 action, Player *pPlayer)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -159,7 +159,7 @@ void Garox_2A25_sub::sub_5D1830(Player* pPlayer)
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d13c0)
-char_type Garox_12EC_sub::sub_5D13C0(s32 a2, char_type* a3)
+char_type Garox_12EC_sub::sub_5D13C0(s32 a2, Player *pPlayer)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1348,10 +1348,10 @@ void Hud_2B00::sub_5D6BE0()
 }
 
 STUB_FUNC(0x5d6c20)
-s32 Hud_2B00::sub_5D6C20(s32 action, char_type* a2)
+s32 Hud_2B00::sub_5D6C20(s32 action, Player *pPlayer)
 {
     NOT_IMPLEMENTED;
-    return field_12EC_sub.sub_5D13C0(action, a2) || field_2A25_sub.sub_5D15E0(action, a2);
+    return field_12EC_sub.sub_5D13C0(action, pPlayer) || field_2A25_sub.sub_5D15E0(action, pPlayer);
 }
 
 STUB_FUNC(0x5d6c70)
