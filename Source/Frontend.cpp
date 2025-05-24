@@ -395,8 +395,7 @@ void __stdcall Frontend::destroy_4AD070()
 
     if (gFrontend_67DC84)
     {
-        delete gFrontend_67DC84;
-        gFrontend_67DC84 = 0;
+        GTA2_DELETE_AND_NULL(gFrontend_67DC84);
     }
 
     Bink::Close1_513340();

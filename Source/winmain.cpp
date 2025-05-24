@@ -17,11 +17,11 @@
 #include "registry.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
+#include "sharp_bose_0x54.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
 #include <windows.h>
-#include "sharp_bose_0x54.hpp"
 //#include <dmusics.h>
 
 // for force links
@@ -50,6 +50,9 @@
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "sound_obj.hpp"
+#include "cSampleManager.hpp"
+
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -1870,6 +1873,52 @@ EXPORT char sub_4DA780()
         gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
     }
     return v0;
+}
+
+// TODO: order
+STUB_FUNC(0x4DA740)
+EXPORT void __stdcall sub_4DA740()
+{
+    if (!bDestroyed_6F5B70)
+    {
+        bDestroyed_6F5B70 = 1;
+        keybrd_0x204::destroy_4D5FA0();
+        jolly_poitras_0x2BC0::destroy_56C340();
+        CleanUpInputAndOthers_4DA700();
+        Frontend::destroy_4AD070();
+
+        // TODO: Function chunk
+        if (!bSkip_audio_67D6BE)
+        {
+            if (gSound_obj_66F680.field_0)
+            {
+                gSound_obj_66F680.sub_57EA10();
+                gSound_obj_66F680.sub_418C60();
+                for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
+                {
+                    if (gSound_obj_66F680.field_1D_b3d_sound)
+                    {
+                        gSampManager_6FFF00.StopChannel3D_58DFC0(i);
+                    }
+                    else
+                    {
+                        gSampManager_6FFF00.StopChannel_58DDD0(i);
+                    }
+                }
+
+                for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
+                {
+                    gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+                    gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
+                }
+                gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
+
+                gSound_obj_66F680.null_412250();
+                gSampManager_6FFF00.Shutdown_58DB30();
+                gSound_obj_66F680.field_0 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5E5A30)

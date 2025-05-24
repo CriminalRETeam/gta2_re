@@ -696,6 +696,12 @@ void sound_obj::null_412240()
 {
 }
 
+MATCH_FUNC(0x412250)
+void sound_obj::null_412250()
+{
+
+}
+
 MATCH_FUNC(0x418C20)
 void sound_obj::sub_418C20()
 {
