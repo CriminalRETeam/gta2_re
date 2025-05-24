@@ -68,11 +68,6 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "scorefx_space",
                                           "audio_info_space"};
 
-STUB_FUNC(0x4DA740)
-EXPORT void sub_4DA740()
-{
-    NOT_IMPLEMENTED;
-}
 
 MATCH_FUNC(0x4A0770)
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
