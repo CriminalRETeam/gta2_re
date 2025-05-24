@@ -22,6 +22,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -1197,10 +1198,22 @@ s32 Car_6C::sub_4466C0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x446760)
+MATCH_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
-    NOT_IMPLEMENTED;
+    // Enable free shopping once all KF's are passed
+    u32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
+    if (pSecretsPassed)
+    {
+        const u32 total_secrets = gfrosty_pasteur_6F8060->field_318_total_secrets;
+        if (total_secrets > 0)
+        {
+            if (!this->field_69_do_free_shopping && *pSecretsPassed >= total_secrets)
+            {
+                this->field_69_do_free_shopping = 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x446790)
@@ -2450,17 +2463,14 @@ char_type Car_BC::sub_441A70()
     return 0;
 }
 
-// https://decomp.me/scratch/54UNc
-STUB_FUNC(0x441b00)
+MATCH_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    NOT_IMPLEMENTED;
-    Car_Door_10* pIter = field_C_doors;
-    s32 tmp;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
+    Car_Door_10* p = field_C_doors;
+    for (s32 i = 0; i < 4; i++)
     {
-        pIter->sub_439DA0(&tmp);
-        pIter++;
+        p->sub_439DA0(&field_8_damaged_areas.m_var);
+        p++;
     }
 }
 

@@ -535,7 +535,7 @@ class frosty_pasteur_0xC1EA8
     s32 field_30C;
     s32 field_310_finish_score;
     s32 field_314_total_missions;
-    s32 field_318_total_secrets;
+    u32 field_318_total_secrets;
     s32 field_31C_gang_1_missions_total;
     s32 field_320_gang_2_missions_total;
     s32 field_324_gang_3_missions_total;
