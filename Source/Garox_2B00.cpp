@@ -11,6 +11,7 @@
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
@@ -113,10 +114,50 @@ Garox_1_v2::Garox_1_v2()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d15e0)
-char_type Garox_2A25_sub::sub_5D15E0(s32 a1, char_type* a2)
+MATCH_FUNC(0x5d15e0)
+char_type Garox_2A25_sub::sub_5D15E0(s32 action, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
+    if (bStartNetworkGame_7081F0 && pPlayer->field_794)
+    {
+        if (action == DIK_RETURN)
+        {
+            pPlayer->field_794 = 0;
+            return 1;
+        }
+        else if (action == DIK_BACK)
+        {
+            if (pPlayer->field_838_f796_idx > 0)
+            {
+                pPlayer->field_838_f796_idx--;
+                pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+            }
+            return 1;
+        }
+        else if (action == DIK_SPACE)
+        {
+            if (pPlayer->field_838_f796_idx < 79)
+            {
+                pPlayer->field_796[pPlayer->field_838_f796_idx] = ' ';
+                pPlayer->field_838_f796_idx++;
+                pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+            }
+            return 1;
+        }
+        else
+        {
+            const u16 char_value = gText_0x14_704DFC->sub_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(action));
+            if (char_value)
+            {
+                if (pPlayer->field_838_f796_idx < 79)
+                {
+                    pPlayer->field_796[pPlayer->field_838_f796_idx] = char_value;
+                    pPlayer->field_838_f796_idx++;
+                    pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+                }
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
@@ -126,11 +167,25 @@ void Garox_2A25_sub::sub_5D16B0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d17d0)
-s32 Garox_2A25_sub::sub_5D17D0(s32 a2)
+MATCH_FUNC(0x5d17d0)
+bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (bStartNetworkGame_7081F0)
+    {
+        if (gGame_0x40_67E008->field_38_orf1->field_794)
+        {
+            if (key_idx == DIK_RETURN || key_idx == DIK_BACK || key_idx == DIK_SPACE)
+            {
+                return true;
+            }
+
+            if (gText_0x14_704DFC->sub_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_idx)))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x5d1830)
@@ -143,10 +198,32 @@ void Garox_2A25_sub::sub_5D1830(Player* pPlayer)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d13c0)
-char_type Garox_12EC_sub::sub_5D13C0(s32 a2, char_type* a3)
+MATCH_FUNC(0x5d13c0)
+char_type Garox_12EC_sub::sub_5D13C0(s32 action, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
+    if (pPlayer->field_78A)
+    {
+        if (action == DIK_RETURN)
+        {
+            pPlayer->field_78A = 0;
+            if (pPlayer->field_0)
+            {
+                gGame_0x40_67E008->sub_4B8C00(1, 2);
+            }
+
+            if ((u8)bStartNetworkGame_7081F0)
+            {
+                gYouthful_einstein_6F8450.field_20[pPlayer->field_2E_idx] = 1;
+            }
+
+            return 1;
+        }
+        else if (action == DIK_ESCAPE)
+        {
+            pPlayer->field_78A = 0;
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -1332,11 +1409,10 @@ void Hud_2B00::sub_5D6BE0()
     field_1F18.sub_5D1350();
 }
 
-STUB_FUNC(0x5d6c20)
-s32 Hud_2B00::sub_5D6C20(s32 action, char_type* a2)
+MATCH_FUNC(0x5d6c20)
+s32 Hud_2B00::sub_5D6C20(s32 action, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-    return field_12EC_sub.sub_5D13C0(action, a2) || field_2A25_sub.sub_5D15E0(action, a2);
+    return field_12EC_sub.sub_5D13C0(action, pPlayer) || field_2A25_sub.sub_5D15E0(action, pPlayer);
 }
 
 STUB_FUNC(0x5d6c70)

@@ -329,7 +329,7 @@ class Car_2
 
 EXPORT_VAR extern Fix16 dword_6F7690;
 EXPORT_VAR extern Fix16 dword_6F77D4;
-EXPORT_VAR extern Ang16 word_6F804C;
+EXPORT_VAR extern Ang16 dword_6F804C;
 EXPORT_VAR extern Ang16 word_6F771E;
 
 class Car_6C
@@ -368,7 +368,7 @@ class Car_6C
     // unknown inlined function
     inline Car_BC* sub_446230_shortened(s32 car_info_idx)
     {
-        return sub_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, word_6F804C, car_info_idx, dword_6F77C4);
+        return sub_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
     }
 
     Car_2 field_0;
@@ -583,7 +583,8 @@ class Car_BC
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
-    EXPORT char_type sub_441360();
+    EXPORT void sub_441360();
+    EXPORT void sub_4436A0();
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_441520();

@@ -17,6 +17,7 @@
 #include "registry.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
+#include "sharp_bose_0x54.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -24,12 +25,15 @@
 //#include <dmusics.h>
 
 // for force links
+#include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
 #include "DrawUnk_0xBC.hpp"
+#include "Fix16_Rect.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
+#include "ImGuiDebug.hpp"
 #include "Maccies_14AC.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
@@ -46,17 +50,16 @@
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
-#include "Fix16_Rect.hpp"
-#include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
-#include "ImGuiDebug.hpp"
+#include "sound_obj.hpp"
+#include "cSampleManager.hpp"
+
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
 class DllRaii
 {
-public:
-    explicit DllRaii(const char* pDllName)
-     : mDll(NULL)
+  public:
+    explicit DllRaii(const char* pDllName) : mDll(NULL)
     {
         mDll = ::LoadLibrary(pDllName);
     }
@@ -69,7 +72,7 @@ public:
         }
     }
 
-    FARPROC GetProcAddress(const char* funcName) const 
+    FARPROC GetProcAddress(const char* funcName) const
     {
         if (!mDll)
         {
@@ -79,7 +82,7 @@ public:
         return ::GetProcAddress(mDll, funcName);
     }
 
-private:
+  private:
     HMODULE mDll;
 };
 
@@ -266,7 +269,7 @@ void force_link()
 
     Tango_28 tango_28;
     tango_28.sub_450C10();
-    
+
     Tango_54 tango_54;
 
     Hamburger_500 hamburger_500;
@@ -466,7 +469,10 @@ EXPORT void __stdcall sub_5D93A0()
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
-            (full_width_706B5C = 640, v0 = 1, full_height_706798 = 480, (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
+            (full_width_706B5C = 640,
+             v0 = 1,
+             full_height_706798 = 480,
+             (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
             FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
         }
@@ -808,7 +814,7 @@ void __stdcall sub_4DB170()
 }
 
 STUB_FUNC(0x4DB0D0)
-void __stdcall ExitGameCallback_4DB0D0(Game_0x40 *pGame, int reason)
+void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
 }
@@ -819,7 +825,7 @@ EXPORT void __stdcall sub_4DA4D0()
 {
     NOT_IMPLEMENTED;
 
-    if ( byte_6F5B71 )
+    if (byte_6F5B71)
     {
         gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
     }
@@ -831,12 +837,12 @@ EXPORT void __stdcall sub_4DA4D0()
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
     gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
 
-    if ( bStartNetworkGame_7081F0 )
+    if (bStartNetworkGame_7081F0)
     {
         gYouthful_einstein_6F8450.ctor_516560();
 
         sub_4DB170();
-        
+
         gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.field_5D4_player_idx);
 
         gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
@@ -1396,31 +1402,31 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
         case WM_KILLFOCUS: // order ok
             //LOBYTE(hWnd) = 0;
-        {
-            BYTE tmp = 0;
-            Frontend::sub_5E53C0(&tmp);
-            Input_ReleaseMouse_5D7C70();
-            gRoot_sound_66B038.Set3DSound_40F160(0);
-            gRoot_sound_66B038.Release_40F130();
-
-            if (gFrontend_67DC84 && Bink::sub_513760())
             {
-                Bink::Close1_513340();
-                Bink::Close2_513390();
-                gFrontend_67DC84->sub_4B3170(0);
-            }
+                BYTE tmp = 0;
+                Frontend::sub_5E53C0(&tmp);
+                Input_ReleaseMouse_5D7C70();
+                gRoot_sound_66B038.Set3DSound_40F160(0);
+                gRoot_sound_66B038.Release_40F130();
 
-            if (gVidSys_7071D0)
-            {
-                if (!Vid_FindDevice_5D9290())
+                if (gFrontend_67DC84 && Bink::sub_513760())
                 {
-                    pVid_CloseScreen(gVidSys_7071D0);
-                    byte_706C5D = 1;
-                    ShowWindow(gHwnd_707F04, 7);
+                    Bink::Close1_513340();
+                    Bink::Close2_513390();
+                    gFrontend_67DC84->sub_4B3170(0);
                 }
+
+                if (gVidSys_7071D0)
+                {
+                    if (!Vid_FindDevice_5D9290())
+                    {
+                        pVid_CloseScreen(gVidSys_7071D0);
+                        byte_706C5D = 1;
+                        ShowWindow(gHwnd_707F04, 7);
+                    }
+                }
+                break;
             }
-            break;
-        }
 
         case WM_ACTIVATE: // order ok
             switch (wParam)
@@ -1696,7 +1702,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
 
-    u8 bQuit = 0;    //  %bl
+    u8 bQuit = 0; //  %bl
 
     while (1)
     {
@@ -1714,7 +1720,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                 return 0;
             }
         }
-        
+
         UpdateWinXY_5D8E70();
         sub_5D9690();
 
@@ -1763,7 +1769,6 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             continue; // go to PeekMessageA
                         }
-                    
                     }
                     bQuit = sub_4DA850();
 
@@ -1782,14 +1787,14 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
-                                
+
                                     default:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
                                 }
-                                break;    // go to the beginning
+                                break; // go to the beginning
                             }
                             else
                             {
@@ -1798,17 +1803,17 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
-                    
+
                                     case 2:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        
+
                                         state = gLucid_hamilton_67E8E0.sub_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
-                    
+
                                     case 3:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
@@ -1817,7 +1822,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
-                    
+
                                     case 4:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
@@ -1826,19 +1831,19 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
-                    
+
                                     case 5:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
-                    
+
                                     case 6:
                                         state = 0;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
-                    
+
                                     default:
                                         continue; // go to PeekMessageA
                                 }
@@ -1856,6 +1861,64 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         //  nothing here
     }
     return 0;
+}
+
+// TODO: order
+MATCH_FUNC(0x4DA780)
+EXPORT char sub_4DA780()
+{
+    char v0 = gGame_0x40_67E008->sub_4B9640();
+    if (gsharp_bose_0x54_7055D4)
+    {
+        gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
+    }
+    return v0;
+}
+
+// TODO: order
+STUB_FUNC(0x4DA740)
+EXPORT void __stdcall sub_4DA740()
+{
+    if (!bDestroyed_6F5B70)
+    {
+        bDestroyed_6F5B70 = 1;
+        keybrd_0x204::destroy_4D5FA0();
+        jolly_poitras_0x2BC0::destroy_56C340();
+        CleanUpInputAndOthers_4DA700();
+        Frontend::destroy_4AD070();
+
+        // TODO: Function chunk
+        if (!bSkip_audio_67D6BE)
+        {
+            if (gSound_obj_66F680.field_0)
+            {
+                gSound_obj_66F680.sub_57EA10();
+                gSound_obj_66F680.sub_418C60();
+                for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
+                {
+                    if (gSound_obj_66F680.field_1D_b3d_sound)
+                    {
+                        gSampManager_6FFF00.StopChannel3D_58DFC0(i);
+                    }
+                    else
+                    {
+                        gSampManager_6FFF00.StopChannel_58DDD0(i);
+                    }
+                }
+
+                for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
+                {
+                    gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+                    gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
+                }
+                gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
+
+                gSound_obj_66F680.null_412250();
+                gSampManager_6FFF00.Shutdown_58DB30();
+                gSound_obj_66F680.field_0 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5E5A30)

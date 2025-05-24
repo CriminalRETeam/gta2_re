@@ -292,6 +292,8 @@ class sound_obj
 
     EXPORT void null_412240();
 
+    EXPORT void null_412250();
+
     EXPORT void sub_418C20();
 
     EXPORT void sub_418C60();

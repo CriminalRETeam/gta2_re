@@ -22,6 +22,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -127,11 +128,11 @@ GLOBAL(dword_7035C4, 0x7035C4);
 EXPORT_VAR Fix16 dword_6F7690;
 GLOBAL(dword_6F7690, 0x6F7690);
 
+
 EXPORT_VAR Fix16 dword_6F77D4;
 GLOBAL(dword_6F77D4, 0x6F77D4);
 
-EXPORT_VAR Ang16 word_6F804C;
-GLOBAL(word_6F804C, 0x6F804C);
+extern EXPORT_VAR Ang16 dword_6F804C;
 
 EXPORT_VAR Ang16 word_6F771E;
 GLOBAL(word_6F771E, 0x6F771E);
@@ -1197,10 +1198,22 @@ s32 Car_6C::sub_4466C0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x446760)
+MATCH_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
-    NOT_IMPLEMENTED;
+    // Enable free shopping once all KF's are passed
+    u32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
+    if (pSecretsPassed)
+    {
+        const u32 total_secrets = gfrosty_pasteur_6F8060->field_318_total_secrets;
+        if (total_secrets > 0)
+        {
+            if (!this->field_69_do_free_shopping && *pSecretsPassed >= total_secrets)
+            {
+                this->field_69_do_free_shopping = 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x446790)
@@ -2257,11 +2270,23 @@ char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x441360)
-char_type Car_BC::sub_441360()
+MATCH_FUNC(0x441360)
+void Car_BC::sub_441360()
+{
+    if (field_A9)
+    {
+        field_A9--;
+        if (field_A9 == 0)
+        {
+            sub_4436A0(); // jmp to function chunk
+        }
+    }
+}
+
+STUB_FUNC(0x4436A0)
+void Car_BC::sub_4436A0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x441380)
@@ -2438,16 +2463,14 @@ char_type Car_BC::sub_441A70()
     return 0;
 }
 
-STUB_FUNC(0x441b00)
+MATCH_FUNC(0x441b00)
 void Car_BC::sub_441B00()
 {
-    NOT_IMPLEMENTED;
-    Car_Door_10* pIter = field_C_doors;
-    s32 tmp;
-    for (s32 i = 0; i < GTA2_COUNTOF(field_C_doors); i++)
+    Car_Door_10* p = field_C_doors;
+    for (s32 i = 0; i < 4; i++)
     {
-        pIter->sub_439DA0(&tmp);
-        pIter++;
+        p->sub_439DA0(&field_8_damaged_areas.m_var);
+        p++;
     }
 }
 
@@ -2537,11 +2560,34 @@ void Car_BC::sub_442310()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4424c0)
+MATCH_FUNC(0x4424c0)
 char_type Car_BC::sub_4424C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_88)
+    {
+        case 3:
+            this->field_88 = 5;
+            return 0;
+
+        case 4:
+            this->field_88 = 2;
+            return 0;
+
+        case 2:
+            if (!sub_442170())
+            {
+                return 0;
+            }
+            this->field_88 = 5;
+            return 0;
+
+        case 5:
+            this->field_88 = 6;
+            return 1;
+
+        default:
+            return 0;
+    }
 }
 
 STUB_FUNC(0x442520)
@@ -2643,17 +2689,52 @@ char_type Car_BC::sub_4435A0()
     return sub_441A70();
 }
 
-STUB_FUNC(0x4435b0)
+MATCH_FUNC(0x4435b0)
 s32 Car_BC::sub_4435B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_78_flags & 0x10) != 0)
+    {
+        return 14;
+    }
+
+    if ((field_78_flags & 0x40) != 0)
+    {
+        return 20;
+    }
+
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) != 1)
+    {
+        return 17;
+    }
+    return 22;
 }
 
-STUB_FUNC(0x4435f0)
+MATCH_FUNC(0x4435f0)
 void Car_BC::sub_4435F0()
 {
-    NOT_IMPLEMENTED;
+    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x10) == 0x10)
+    {
+        this->field_50_car_sprite->field_28_num = 16;
+    }
+    else
+    {
+        if ((field_78_flags & 0x10) != 0)
+        {
+            this->field_50_car_sprite->field_28_num = 13;
+        }
+        else if ((field_78_flags & 0x40) != 0)
+        {
+            this->field_50_car_sprite->field_28_num = 19;
+        }
+        else if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 1) == 1)
+        {
+            this->field_50_car_sprite->field_28_num = 21;
+        }
+        else
+        {
+            this->field_50_car_sprite->field_28_num = 15;
+        }
+    }
 }
 
 STUB_FUNC(0x443710)
