@@ -11,6 +11,7 @@
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
+#include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
@@ -126,11 +127,25 @@ void Garox_2A25_sub::sub_5D16B0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d17d0)
-s32 Garox_2A25_sub::sub_5D17D0(s32 a2)
+MATCH_FUNC(0x5d17d0)
+bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (bStartNetworkGame_7081F0)
+    {
+        if (gGame_0x40_67E008->field_38_orf1->field_794)
+        {
+            if (key_idx == DIK_RETURN || key_idx == DIK_BACK || key_idx == DIK_SPACE)
+            {
+                return true;
+            }
+
+            if (gText_0x14_704DFC->sub_5B58D0(gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_idx)))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x5d1830)
