@@ -35,11 +35,20 @@ GLOBAL(gYCoord_6F63B8, 0x6F63B8);
 EXPORT_VAR s32 gZCoord_6F63E0;
 GLOBAL(gZCoord_6F63E0, 0x6F63E0);
 
+EXPORT_VAR u32 dword_6F6480;
+GLOBAL(dword_6F6480, 0x6F6480);
+
+EXPORT_VAR u32 dword_6F647C;
+GLOBAL(dword_6F647C, 0x6F647C);
+
 EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
+EXPORT_VAR gmp_map_slope dword_6F646C;
+GLOBAL(dword_6F646C, 0x6F646C);
+
 EXPORT_VAR Vert gTileVerts_6F65A8[8];
-GLOBAL(gTileVerts_6F65A8, 0x6F65A8);    // TODO: why is it giving 0x46B058?
+GLOBAL(gTileVerts_6F65A8, 0x6F65A8);
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
@@ -303,10 +312,33 @@ void MapRenderer::draw_slope_4F6580()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f6630)
+MATCH_FUNC(0x4f6630)
 void MapRenderer::draw_slope_4F6630()
 {
-    NOT_IMPLEMENTED;
+    u32 slope_idx = (gpBlock_6F6478->field_B_slope_type >> 2);
+
+    if (!bSkip_slopes_67D505)
+    {
+        u8 tmp = update_and_get_f0(slope_idx);
+
+        switch (tmp)
+        {
+            case 1:
+                MapRenderer::sub_4F0420();
+                break;
+            case 2:
+                MapRenderer::sub_4F1660();
+                break;
+            case 3:
+                MapRenderer::sub_4F22F0();
+                break;
+            case 4:
+                MapRenderer::sub_4F33B0();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x4f66c0)

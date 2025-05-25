@@ -313,6 +313,21 @@ struct gmp_tile_animation
     u16 field_6_tiles[1]; // Size given by field_4_anim_length
 };
 
+struct gmp_map_slope
+{
+    u8 field_0;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
+    Fix16 field_4;
+    u8 field_8;
+    u8 field_9;
+    u8 field_A;
+    u8 field_B;
+};
+
+EXPORT_VAR extern gmp_map_slope byte_6F5BA8[64];
+
 class Map_0x370
 {
   public:
