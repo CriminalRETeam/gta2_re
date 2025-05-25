@@ -341,10 +341,82 @@ void MapRenderer::draw_slope_4F6630()
     }
 }
 
+// https://decomp.me/scratch/8po7Q  instruction swap at lines (0xbc vs 0xc2) and (0x125 vs 0x12b)
 STUB_FUNC(0x4f66c0)
 void MapRenderer::sub_4F66C0()
 {
     NOT_IMPLEMENTED;
+    u16 v6;
+    dword_6F646C.field_0 = 0;
+
+    if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
+    {
+        if ((gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            v6 = gBlockLeft_6F62F6 | 0x1000;
+            MapRenderer::draw_left_4F3C00(&v6, &stru_6F6484.field_4_frac.mValue, (s32)&stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac);
+        }
+        if ((gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            v6 = gBlockRight_6F63C6 | 0x1000;
+            MapRenderer::sub_4F4250(&v6, 
+                &stru_6F6484.field_0_full.mValue, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac);
+        }
+    }
+
+    if (gBlockTop_6F62F4 && gBlockBottom_6F6468)
+    {
+        if ((gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            v6 = gBlockTop_6F62F4 | 0x1000;
+            MapRenderer::sub_4F4600(&v6, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac, 
+                (u32*)&stru_6F6484.field_4_frac.mValue);
+        }
+        if ((gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            v6 = *(u32*)&gBlockBottom_6F6468 | 0x1000;
+            MapRenderer::sub_4F49B0(&v6, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac, 
+                (u32*)&stru_6F6484.field_0_full.mValue);
+        }
+    }
+    if (gBlockLeft_6F62F6) // line 103
+    {
+        if (gBlockRight_6F63C6 == 0 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EA390(&gBlockLeft_6F62F6);
+        }
+    }
+    if (gBlockRight_6F63C6)
+    {
+        if (gBlockLeft_6F62F6 == 0 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EAF40(&gBlockRight_6F63C6);
+        }
+    }
+    if (gBlockTop_6F62F4)
+    {
+        if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EBA60(&gBlockTop_6F62F4);
+        }
+    }
+    if (gBlockBottom_6F6468)
+    {
+        if (gBlockTop_6F62F4 == 0 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            MapRenderer::draw_bottom_4ED290(&gBlockBottom_6F6468);
+        }
+    }
+    if (gLidType_6F6274)
+    {
+        MapRenderer::draw_lid_4EE130();
+    }
 }
 
 MATCH_FUNC(0x4f6880)
