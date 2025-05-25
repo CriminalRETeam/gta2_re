@@ -57,7 +57,7 @@ class DrawUnk_0xBC
     EXPORT void sub_436540(s32* a2);
     EXPORT void sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
     EXPORT void sub_436830();
-    EXPORT void sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5);
+    EXPORT void sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT DrawUnk_0xBC(); // 4368E0
     EXPORT ~DrawUnk_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
@@ -125,8 +125,8 @@ class DrawUnk_0xBC
     char_type field_45;
     char_type field_46;
     char_type field_47;
-    s32 field_48;
-    s32 field_4C;
+    Fix16 field_48;
+    Fix16 field_4C;
     s32 field_50;
     s32 field_54;
     s32 field_58;

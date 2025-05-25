@@ -5,6 +5,7 @@
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Police_7B8.hpp"
+#include "Ped.hpp"
 
 EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
 GLOBAL(gViewCamera_676978, 0x676978);
@@ -380,11 +381,12 @@ void DrawUnk_0xBC::sub_436830()
     field_54 = dword_6766E4;
 }
 
-// https://decomp.me/scratch/M4gJ2
-STUB_FUNC(0x436860)
-void DrawUnk_0xBC::sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5)
+MATCH_FUNC(0x436860)
+void DrawUnk_0xBC::sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    NOT_IMPLEMENTED;
+    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.field_4;
+    x_pos += field_48 * v5;
+    y_pos += field_4C * v5;
 }
 
 MATCH_FUNC(0x4368E0)
