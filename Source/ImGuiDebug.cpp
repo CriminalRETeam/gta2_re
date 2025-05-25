@@ -17,6 +17,7 @@
 #include "Frontend.hpp"
 #include "jolly_poitras_0x2BC0.hpp"
 #include "Phi_8CA8.hpp"
+#include "MapRenderer.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -142,6 +143,12 @@ void CC ImGuiDebugDraw()
                 ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToFloat());
                 ImGui::Text("field_84_win_bottom %f", gViewCamera_676978->field_78_boundaries_non_neg.field_C_bottom.ToFloat());
                 ImGui::SliderInt("field_A4", &gViewCamera_676978->field_98_cam_pos2.field_C_zoom.mValue, 0, 30000);
+                ImGui::SliderInt("screen_px_center_x", &gViewCamera_676978->field_70_screen_px_center_x, 0, 2000);
+                ImGui::SliderInt("screen_px_center_y", &gViewCamera_676978->field_74_screen_px_center_y, 0, 1200);
+
+                ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
+                ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
+                ImGui::SliderInt("gZCoord_6F63E0", &gZCoord_6F63E0, 0, 2000);
             }
 
             if (ImGui::Button("Orca_2FD4::sub_5552B0"))

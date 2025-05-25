@@ -14,6 +14,9 @@ class Nanobotz_8  // Maybe Fix16_2
     s32 field_4;  // y?
 };
 
+EXPORT_VAR extern Fix16 gXCoord_6F63AC;
+EXPORT_VAR extern Fix16 gYCoord_6F63B8;
+EXPORT_VAR extern s32 gZCoord_6F63E0;
 class MapRenderer
 {
   public:
