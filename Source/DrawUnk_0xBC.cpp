@@ -261,11 +261,19 @@ void DrawUnk_0xBC::sub_436140()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4361B0)
-u32 DrawUnk_0xBC::sub_4361B0(u32 a2, u32 a3)
+MATCH_FUNC(0x4361B0)
+void DrawUnk_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_68_screen_px_width = x_pos;
+    field_6C_screen_px_height = y_pos;
+
+    field_70_screen_px_center_x = x_pos / 2;
+    field_74_screen_px_center_y = y_pos / 2;
+
+    field_60.field_0 = Fix16(-1);
+    field_60.field_4 = Fix16(-1);
+
+    field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
 STUB_FUNC(0x436200)
