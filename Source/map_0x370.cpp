@@ -27,6 +27,9 @@ GLOBAL(gBlockInfo1_6F5F40, 0x6F5F40);
 EXPORT_VAR gmp_block_info gBlockInfo2_6F6028;
 GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
 
+EXPORT_VAR gmp_map_slope byte_6F5BA8[64];   // maybe size 64
+GLOBAL(byte_6F5BA8, 0x6F5BA8);
+
 EXPORT_VAR s16 word_6F6002;
 GLOBAL(word_6F6002, 0x6F6002);
 

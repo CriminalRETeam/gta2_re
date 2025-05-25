@@ -4604,32 +4604,28 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     return width - v4;
 }
 
-STUB_FUNC(0x4B7060)
+MATCH_FUNC(0x4B7060)
 u8 Frontend::sub_4B7060(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    player_stats_0xA4* v2; // edx
-    u8 result; // al
-
-    v2 = sub_4B43E0();
-    result = a2;
-    if (a2)
+    player_stats_0xA4* v2 = sub_4B43E0();
+    u8 result = a2;
+    if (a2 == 0)
     {
-        return a2 - 1;
-    }
-
-    if (byte_67DA80)
-    {
-        result = 2;
-        if (!v2->field_0_plyr_stage_stats[2][0].field_0_is_stage_unlocked)
+        if (byte_67DA80)
         {
-            do
+            result = 2;
+            while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked)
             {
                 --result;
-            } while (!v2->field_0_plyr_stage_stats[result][0].field_0_is_stage_unlocked);
+            }
         }
+        return result;
     }
-    return result;
+    else
+    {
+        a2--;
+        return a2;
+    }
 }
 
 STUB_FUNC(0x4B7270)
@@ -4685,15 +4681,11 @@ bool Frontend::sub_4B74C0()
     return result;
 }
 
-STUB_FUNC(0x4B7550)
+MATCH_FUNC(0x4B7550)
 void Frontend::sub_4B7550()
 {
-    NOT_IMPLEMENTED;
-    MenuPage_0xBCA* pBorg; // edi
-    u8 v3; // [esp+Ch] [ebp-4h]
-
-    pBorg = &field_136_menu_pages_array[field_132_f136_idx];
-    v3 = gLucid_hamilton_67E8E0.sub_4C5980();
+    MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
+    u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
     swprintf(tmpBuff_67BD9C, L"%d", v3 + 1);
     wcsncpy(pBorg->field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
 
@@ -4751,19 +4743,13 @@ char_type Frontend::sub_4B7120(char_type a2)
     return 0;
 }
 
-STUB_FUNC(0x4B7610)
+MATCH_FUNC(0x4B7610)
 void Frontend::sub_4B7610()
 {
-    NOT_IMPLEMENTED;
-    MenuPage_0xBCA* pItem; // esi
-    u8 v3; // al
-    u8 v4; // [esp+8h] [ebp-8h]
-    u8 v5; // [esp+Ch] [ebp-4h]
-
-    pItem = &field_136_menu_pages_array[field_132_f136_idx];
-    v3 = gLucid_hamilton_67E8E0.sub_4C5990();
-    v4 = v3 >> 4;
-    v5 = v3 & 0xF;
+    MenuPage_0xBCA* pItem = &field_136_menu_pages_array[field_132_f136_idx];
+    u8 v3 = gLucid_hamilton_67E8E0.sub_4C5990();
+    u8 v4 = v3 >> 4;
+    u8 v5 = v3 & 0xF;
     if (v3 == 0xFF)
     {
         pItem->field_4_options_array[4].field_1_is_unlocked = 0;

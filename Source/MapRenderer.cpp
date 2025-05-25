@@ -35,11 +35,20 @@ GLOBAL(gYCoord_6F63B8, 0x6F63B8);
 EXPORT_VAR s32 gZCoord_6F63E0;
 GLOBAL(gZCoord_6F63E0, 0x6F63E0);
 
+EXPORT_VAR u32 dword_6F6480;
+GLOBAL(dword_6F6480, 0x6F6480);
+
+EXPORT_VAR u32 dword_6F647C;
+GLOBAL(dword_6F647C, 0x6F647C);
+
 EXPORT_VAR gmp_block_info* gpBlock_6F6478;
 GLOBAL(gpBlock_6F6478, 0x6F6478);
 
+EXPORT_VAR gmp_map_slope dword_6F646C;
+GLOBAL(dword_6F646C, 0x6F646C);
+
 EXPORT_VAR Vert gTileVerts_6F65A8[8];
-GLOBAL(gTileVerts_6F65A8, 0x6F65A8);    // TODO: why is it giving 0x46B058?
+GLOBAL(gTileVerts_6F65A8, 0x6F65A8);
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
@@ -303,16 +312,111 @@ void MapRenderer::draw_slope_4F6580()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f6630)
+MATCH_FUNC(0x4f6630)
 void MapRenderer::draw_slope_4F6630()
 {
-    NOT_IMPLEMENTED;
+    u32 slope_idx = (gpBlock_6F6478->field_B_slope_type >> 2);
+
+    if (!bSkip_slopes_67D505)
+    {
+        u8 tmp = update_and_get_f0(slope_idx);
+
+        switch (tmp)
+        {
+            case 1:
+                MapRenderer::sub_4F0420();
+                break;
+            case 2:
+                MapRenderer::sub_4F1660();
+                break;
+            case 3:
+                MapRenderer::sub_4F22F0();
+                break;
+            case 4:
+                MapRenderer::sub_4F33B0();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
+// https://decomp.me/scratch/8po7Q  instruction swap at lines (0xbc vs 0xc2) and (0x125 vs 0x12b)
 STUB_FUNC(0x4f66c0)
 void MapRenderer::sub_4F66C0()
 {
     NOT_IMPLEMENTED;
+    u16 v6;
+    dword_6F646C.field_0 = 0;
+
+    if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
+    {
+        if ((gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            v6 = gBlockLeft_6F62F6 | 0x1000;
+            MapRenderer::draw_left_4F3C00(&v6, &stru_6F6484.field_4_frac.mValue, (s32)&stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac);
+        }
+        if ((gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            v6 = gBlockRight_6F63C6 | 0x1000;
+            MapRenderer::sub_4F4250(&v6, 
+                &stru_6F6484.field_0_full.mValue, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac);
+        }
+    }
+
+    if (gBlockTop_6F62F4 && gBlockBottom_6F6468)
+    {
+        if ((gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            v6 = gBlockTop_6F62F4 | 0x1000;
+            MapRenderer::sub_4F4600(&v6, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac, 
+                (u32*)&stru_6F6484.field_4_frac.mValue);
+        }
+        if ((gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            v6 = *(u32*)&gBlockBottom_6F6468 | 0x1000;
+            MapRenderer::sub_4F49B0(&v6, 
+                (s32)&stru_6F6484, 
+                (Fix16_2*)&stru_6F6484.field_4_frac, 
+                (u32*)&stru_6F6484.field_0_full.mValue);
+        }
+    }
+    if (gBlockLeft_6F62F6) // line 103
+    {
+        if (gBlockRight_6F63C6 == 0 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EA390(&gBlockLeft_6F62F6);
+        }
+    }
+    if (gBlockRight_6F63C6)
+    {
+        if (gBlockLeft_6F62F6 == 0 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EAF40(&gBlockRight_6F63C6);
+        }
+    }
+    if (gBlockTop_6F62F4)
+    {
+        if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
+        {
+            MapRenderer::sub_4EBA60(&gBlockTop_6F62F4);
+        }
+    }
+    if (gBlockBottom_6F6468)
+    {
+        if (gBlockTop_6F62F4 == 0 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
+        {
+            MapRenderer::draw_bottom_4ED290(&gBlockBottom_6F6468);
+        }
+    }
+    if (gLidType_6F6274)
+    {
+        MapRenderer::draw_lid_4EE130();
+    }
 }
 
 MATCH_FUNC(0x4f6880)

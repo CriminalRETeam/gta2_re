@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "map_0x370.hpp"
 #include "fix16.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp" // Vert
 
@@ -13,6 +14,15 @@ class Nanobotz_8  // Maybe Fix16_2
     s32 field_0;  // x?
     s32 field_4;  // y?
 };
+
+EXPORT_VAR extern Fix16 gXCoord_6F63AC;
+EXPORT_VAR extern Fix16 gYCoord_6F63B8;
+EXPORT_VAR extern s32 gZCoord_6F63E0;
+
+EXPORT_VAR extern gmp_map_slope dword_6F646C;
+
+EXPORT_VAR extern u32 dword_6F6480;
+EXPORT_VAR extern u32 dword_6F647C;
 
 class MapRenderer
 {
@@ -69,6 +79,14 @@ class MapRenderer
     EXPORT void sub_4F6880(s32& pXCoord, s32& pYCoord);
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
+
+    inline u32 update_and_get_f0(u32 idx)
+    {
+        dword_6F6480 = byte_6F5BA8[idx].field_1;
+        dword_6F647C = byte_6F5BA8[idx].field_2;
+        dword_6F646C.field_0 = byte_6F5BA8[idx].field_0;
+        return dword_6F646C.field_0;
+    }
 
     Fix16 field_0_ambient;
     Fix16 field_4;
