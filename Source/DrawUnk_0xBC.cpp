@@ -25,19 +25,19 @@ GLOBAL(dword_67681C, 0x67681C);
 EXPORT_VAR Fix16 dword_6766D4;
 GLOBAL(dword_6766D4, 0x6766D4);
 
-EXPORT_VAR s32 dword_6766E4;
+EXPORT_VAR Fix16 dword_6766E4;
 GLOBAL(dword_6766E4, 0x6766E4);
 
-EXPORT_VAR s32 dword_6768F0;
+EXPORT_VAR Fix16 dword_6768F0;
 GLOBAL(dword_6768F0, 0x6768F0);
 
-EXPORT_VAR s32 dword_676910;
+EXPORT_VAR Fix16 dword_676910;
 GLOBAL(dword_676910, 0x676910);
 
-EXPORT_VAR s32 dword_676608;
+EXPORT_VAR Fix16 dword_676608;
 GLOBAL(dword_676608, 0x676608);
 
-EXPORT_VAR s32 dword_6768C0;
+EXPORT_VAR Fix16 dword_6768C0;
 GLOBAL(dword_6768C0, 0x6768C0);
 
 STUB_FUNC(0x4355D0)
@@ -295,12 +295,9 @@ void DrawUnk_0xBC::sub_436540(s32* a2)
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/04lxo
-STUB_FUNC(0x436710)
+MATCH_FUNC(0x436710)
 void DrawUnk_0xBC::sub_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
 {
-    NOT_IMPLEMENTED;
-
     if (bForwardGasOn)
     {
         field_4C -= field_50;

@@ -127,10 +127,10 @@ class DrawUnk_0xBC
     char_type field_47;
     Fix16 field_48;
     Fix16 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
+    Fix16 field_50;
+    Fix16 field_54;
+    Fix16 field_58;
+    Fix16 field_5C;
     Car_8 field_60;
     s32 field_68_screen_px_width;
     s32 field_6C_screen_px_height;
