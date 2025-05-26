@@ -16,13 +16,13 @@
 #include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -127,7 +127,6 @@ GLOBAL(dword_7035C4, 0x7035C4);
 
 EXPORT_VAR Fix16 dword_6F7690;
 GLOBAL(dword_6F7690, 0x6F7690);
-
 
 EXPORT_VAR Fix16 dword_6F77D4;
 GLOBAL(dword_6F77D4, 0x6F77D4);
@@ -2456,11 +2455,21 @@ char_type Car_BC::sub_441A40()
     return 1;
 }
 
-STUB_FUNC(0x441a70)
-char_type Car_BC::sub_441A70()
+MATCH_FUNC(0x441a70)
+void Car_BC::sub_441A70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const u8* pRemapCount = gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
+    u8 i;
+    for (i = 0; i < *pRemapCount; i++)
+    {
+        field_C_doors[i].sub_439E40(i);
+        field_C_doors[i].field_8_pObj = 0;
+    }
+
+    for (i = *pRemapCount; i < 4; i++)
+    {
+        field_C_doors[i].field_4_state = 0;
+    }
 }
 
 MATCH_FUNC(0x441b00)
@@ -2684,9 +2693,9 @@ char_type Car_BC::sub_443360(s32 a2, s32 a3, s32 a4, s16 a5)
 }
 
 MATCH_FUNC(0x4435a0)
-char_type Car_BC::sub_4435A0()
+void Car_BC::sub_4435A0()
 {
-    return sub_441A70();
+    sub_441A70();
 }
 
 MATCH_FUNC(0x4435b0)

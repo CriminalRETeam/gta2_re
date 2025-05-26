@@ -601,7 +601,7 @@ class Car_BC
     EXPORT void sub_4419E0();
     EXPORT Car_B0* sub_441A10();
     EXPORT char_type sub_441A40();
-    EXPORT char_type sub_441A70();
+    EXPORT void sub_441A70();
     EXPORT void sub_441B00();
     EXPORT void sub_441B20();
     EXPORT char_type sub_441B50();
@@ -626,7 +626,7 @@ class Car_BC
     EXPORT char_type sub_443170();
     EXPORT char_type sub_443330(s32 a2);
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
-    EXPORT char_type sub_4435A0();
+    EXPORT void sub_4435A0();
     EXPORT s32 sub_4435B0();
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
