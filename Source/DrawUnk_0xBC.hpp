@@ -51,13 +51,13 @@ class DrawUnk_0xBC
     EXPORT s32 sub_436110();
     EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
-    EXPORT u32 sub_4361B0(u32 a2, u32 a3);
+    EXPORT void sub_4361B0(u32 a2, u32 a3);
     EXPORT s32 sub_436200(s32 a2, s32* a3, s32* a4, s32* a5);
     EXPORT void sub_4364A0(Car_BC* pCar);
     EXPORT void sub_436540(s32* a2);
     EXPORT void sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
     EXPORT void sub_436830();
-    EXPORT void sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5);
+    EXPORT void sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT DrawUnk_0xBC(); // 4368E0
     EXPORT ~DrawUnk_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
@@ -125,12 +125,12 @@ class DrawUnk_0xBC
     char_type field_45;
     char_type field_46;
     char_type field_47;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
+    Fix16 field_48;
+    Fix16 field_4C;
+    Fix16 field_50;
+    Fix16 field_54;
+    Fix16 field_58;
+    Fix16 field_5C;
     Car_8 field_60;
     s32 field_68_screen_px_width;
     s32 field_6C_screen_px_height;
@@ -139,7 +139,7 @@ class DrawUnk_0xBC
     WorldRect field_78_boundaries_non_neg;
     CameraPos field_88_cam_pos1;
     CameraPos field_98_cam_pos2;
-    s32 field_A8_ui_scale;
+    Fix16 field_A8_ui_scale;
     CameraPos field_AC_cam_velocity;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)

@@ -5,6 +5,7 @@
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Police_7B8.hpp"
+#include "Ped.hpp"
 
 EXPORT_VAR DrawUnk_0xBC* gViewCamera_676978;
 GLOBAL(gViewCamera_676978, 0x676978);
@@ -24,19 +25,19 @@ GLOBAL(dword_67681C, 0x67681C);
 EXPORT_VAR Fix16 dword_6766D4;
 GLOBAL(dword_6766D4, 0x6766D4);
 
-EXPORT_VAR s32 dword_6766E4;
+EXPORT_VAR Fix16 dword_6766E4;
 GLOBAL(dword_6766E4, 0x6766E4);
 
-EXPORT_VAR s32 dword_6768F0;
+EXPORT_VAR Fix16 dword_6768F0;
 GLOBAL(dword_6768F0, 0x6768F0);
 
-EXPORT_VAR s32 dword_676910;
+EXPORT_VAR Fix16 dword_676910;
 GLOBAL(dword_676910, 0x676910);
 
-EXPORT_VAR s32 dword_676608;
+EXPORT_VAR Fix16 dword_676608;
 GLOBAL(dword_676608, 0x676608);
 
-EXPORT_VAR s32 dword_6768C0;
+EXPORT_VAR Fix16 dword_6768C0;
 GLOBAL(dword_6768C0, 0x6768C0);
 
 STUB_FUNC(0x4355D0)
@@ -260,11 +261,19 @@ void DrawUnk_0xBC::sub_436140()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4361B0)
-u32 DrawUnk_0xBC::sub_4361B0(u32 a2, u32 a3)
+MATCH_FUNC(0x4361B0)
+void DrawUnk_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_68_screen_px_width = x_pos;
+    field_6C_screen_px_height = y_pos;
+
+    field_70_screen_px_center_x = x_pos / 2;
+    field_74_screen_px_center_y = y_pos / 2;
+
+    field_60.field_0 = Fix16(-1);
+    field_60.field_4 = Fix16(-1);
+
+    field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
 STUB_FUNC(0x436200)
@@ -286,12 +295,9 @@ void DrawUnk_0xBC::sub_436540(s32* a2)
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/04lxo
-STUB_FUNC(0x436710)
+MATCH_FUNC(0x436710)
 void DrawUnk_0xBC::sub_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
 {
-    NOT_IMPLEMENTED;
-
     if (bForwardGasOn)
     {
         field_4C -= field_50;
@@ -380,11 +386,12 @@ void DrawUnk_0xBC::sub_436830()
     field_54 = dword_6766E4;
 }
 
-// https://decomp.me/scratch/M4gJ2
-STUB_FUNC(0x436860)
-void DrawUnk_0xBC::sub_436860(Ped* pPed, s32* a3, s32* a4, Fix16 a5)
+MATCH_FUNC(0x436860)
+void DrawUnk_0xBC::sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    NOT_IMPLEMENTED;
+    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.field_4;
+    x_pos += field_48 * v5;
+    y_pos += field_4C * v5;
 }
 
 MATCH_FUNC(0x4368E0)
