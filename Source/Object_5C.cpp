@@ -7,6 +7,7 @@
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
 #include "sprite.hpp"
+#include "Wolfy_3D4.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -472,11 +473,17 @@ Object_2C::sub_5290C0(u8 id_base)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525AC0)
+MATCH_FUNC(0x525AC0)
 char Object_2C::sub_525AC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_18_model == 113)
+    {
+        return field_C->sub_5435D0();
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x529300)
