@@ -1,8 +1,8 @@
 #include "Object_3C.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
-#include "sprite.hpp"
 #include "rng.hpp"
+#include "sprite.hpp"
 
 // TODO: Init to correct values
 EXPORT_VAR Fix16 dword_6F8BF0;
@@ -90,10 +90,13 @@ void Object_3C::sub_5A6BD0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a6bf0)
+MATCH_FUNC(0x5a6bf0)
 void Object_3C::sub_5A6BF0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->field_0->sub_59E910(pSprite);
+    }
 }
 
 MATCH_FUNC(0x5a6c10)
@@ -101,9 +104,9 @@ char_type Object_3C::sub_5A6C10(Sprite* toFind)
 {
     if (field_0 != NULL)
     {
-        for (Sprite_18* pNext = field_0; pNext != NULL ; pNext = pNext->field_4_next)
+        for (Sprite_18* pNext = field_0; pNext != NULL; pNext = pNext->field_4_next)
         {
-            if ( pNext->field_0 == toFind )
+            if (pNext->field_0 == toFind)
             {
                 pNext->field_14_rng = rng_dword_67AB34->field_0_rng;
                 return 1;
