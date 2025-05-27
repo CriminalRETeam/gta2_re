@@ -116,10 +116,30 @@ Sprite_18* Object_3C::sub_5A6AD0()
     return 0;
 }
 
-STUB_FUNC(0x5a6b10)
-void Object_3C::sub_5A6B10(Sprite* a2)
+MATCH_FUNC(0x5a6b10)
+void Object_3C::sub_5A6B10(Sprite* toFind)
 {
-    NOT_IMPLEMENTED;
+    // TODO: Probably needs logic refactoring
+    Sprite_18* pLast = 0;
+
+    Sprite_18* pIter = this->field_0;
+    while (pIter->field_0 != toFind) 
+    {
+        pLast = pIter;
+        pIter = pIter->field_4_next;
+    }
+
+    if (pLast)
+    {
+        pLast->field_4_next = pIter->field_4_next;
+        gSprite_1C24_703B80->DeAlloc(pIter);
+  
+    }
+    else
+    {
+        this->field_0 = pIter->field_4_next;
+        gSprite_1C24_703B80->DeAlloc(pIter);
+    }
 }
 
 STUB_FUNC(0x5a6b60)

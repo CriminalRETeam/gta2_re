@@ -78,7 +78,7 @@ class Object_2C
     EXPORT u32* sub_52AE90(u32* a2);
 
     // TODO: ordering
-    EXPORT sub_5290C0(u8 id_base);
+    EXPORT void sub_5290C0(u8 id_base);
     EXPORT char sub_525AC0();
 
     inline bool check_is_shop()
