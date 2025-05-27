@@ -332,11 +332,29 @@ Sprite* Object_3C::sub_5A6DA0()
     return pOld;
 }
 
-STUB_FUNC(0x5a6dc0)
+MATCH_FUNC(0x5a6dc0)
 Sprite* Object_3C::sub_5A6DC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+    while (pIter->field_4_next)
+    {
+        pLast = pIter;
+        pIter = pIter->field_4_next;
+    }
+
+    Sprite* result = pIter->field_0;
+    if (pLast)
+    {
+        pLast->field_4_next = 0;
+    }
+    else
+    {
+        this->field_0 = 0;
+    }
+    gSprite_1C24_703B80->DeAlloc(pIter);
+
+    return result;
 }
 
 MATCH_FUNC(0x5a6e10)
