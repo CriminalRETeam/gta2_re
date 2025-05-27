@@ -6,6 +6,7 @@
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "Wolfy_3D4.hpp"
 #include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
@@ -466,6 +467,34 @@ u32* Object_2C::sub_52AE90(u32* a2)
     return 0;
 }
 
+STUB_FUNC(0x5290C0)
+void Object_2C::sub_5290C0(u8 id_base)
+{
+    NOT_IMPLEMENTED;
+
+    Phi_74* pPhi = this->field_8;
+    Sprite* pSprite = this->field_4;
+    s16 new_id = id_base + pPhi->field_1E;
+    if (pSprite->field_22_sprite_id != new_id)
+    {
+        pSprite->field_22_sprite_id = new_id;
+        pSprite->sub_59FA40();
+    }
+}
+
+MATCH_FUNC(0x525AC0)
+char Object_2C::sub_525AC0()
+{
+    if (this->field_18_model == 113)
+    {
+        return field_C->sub_5435D0();
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 STUB_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
@@ -605,7 +634,8 @@ Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, 
 MATCH_FUNC(0x52a210)
 char_type Object_5C::sub_52A210(char_type a2)
 {
-    this->field_18 = a2;
+    // TODO: Why is it a byte here? enum ??
+    *(u8*)&this->field_18 = a2;
     return a2;
 }
 

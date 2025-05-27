@@ -1,6 +1,7 @@
 #include "Object_3C.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "rng.hpp"
 #include "sprite.hpp"
 
 // TODO: Init to correct values
@@ -44,61 +45,170 @@ u32* Object_3C::sub_52ADF0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a6a50)
-Sprite_18* Object_3C::sub_5A6A50(s32 a2)
+MATCH_FUNC(0x5a6a50)
+Sprite_18* Object_3C::sub_5A6A50(s32 obj_type)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+            sprite_type_enum == sprite_types_enum::unknown_1)
+        {
+            Object_5C* o5c = pIter->field_0->field_8_o5C;
+            if (o5c)
+            {
+                if (o5c->field_18 == obj_type)
+                {
+                    return pIter;
+                }
+            }
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
-STUB_FUNC(0x5a6a90)
+MATCH_FUNC(0x5a6a90)
 Object_2C* Object_3C::sub_5A6A90(s32 obj_type)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+            sprite_type_enum == sprite_types_enum::unknown_1)
+        {
+            Object_2C* p2C = pIter->field_0->field_8_object_2C_ptr;
+            if (p2C)
+            {
+                if (p2C->field_18_model == obj_type)
+                {
+                    return p2C;
+                }
+            }
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
-STUB_FUNC(0x5a6ad0)
+MATCH_FUNC(0x5a6ad0)
 Sprite_18* Object_3C::sub_5A6AD0()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pObjIter = this->field_0;
+    while (pObjIter)
+    {
+        const s32 sprite_type = pObjIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type == 4 || sprite_type == 5 || sprite_type == 1)
+        {
+            Object_2C* o2c = pObjIter->field_0->field_8_object_2C_ptr;
+            if (o2c)
+            {
+                if (o2c->sub_525AC0())
+                {
+                    return pObjIter;
+                }
+            }
+        }
+        pObjIter = pObjIter->field_4_next;
+    }
     return 0;
 }
 
-STUB_FUNC(0x5a6b10)
-void Object_3C::sub_5A6B10(Sprite* a2)
+MATCH_FUNC(0x5a6b10)
+void Object_3C::sub_5A6B10(Sprite* toFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pLast = 0;
+    Sprite_18* pIter = this->field_0;
+    for (;;)
+    {
+        if (pIter->field_0 == toFind)
+        {
+            if (pLast)
+            {
+                pLast->field_4_next = pIter->field_4_next;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+            }
+            else
+            {
+                this->field_0 = pIter->field_4_next;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+            }
+            return;
+        }
+        pLast = pIter;
+        pIter = pIter->field_4_next;
+    }
 }
 
-STUB_FUNC(0x5a6b60)
-void Object_3C::sub_5A6B60(Sprite* a2)
+MATCH_FUNC(0x5a6b60)
+void Object_3C::sub_5A6B60(Sprite* toFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pLast = 0;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        if (pIter->field_0 == toFind)
+        {
+            if (pLast)
+            {
+                pLast->field_4_next = pIter->field_4_next;
+            }
+            else
+            {
+                this->field_0 = pIter->field_4_next;
+            }
+
+            gSprite_1C24_703B80->DeAlloc(pIter);
+            return;
+        }
+        pLast = pIter;
+        pIter = pIter->field_4_next;
+    }
 }
 
-STUB_FUNC(0x5a6bb0)
+MATCH_FUNC(0x5a6bb0)
 void Object_3C::sub_5A6BB0()
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->sub_5A69E0();
+    }
 }
 
-STUB_FUNC(0x5a6bd0)
+MATCH_FUNC(0x5a6bd0)
 void Object_3C::sub_5A6BD0()
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->sub_5A6A20();
+    }
 }
 
-STUB_FUNC(0x5a6bf0)
+MATCH_FUNC(0x5a6bf0)
 void Object_3C::sub_5A6BF0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->field_0->sub_59E910(pSprite);
+    }
 }
 
-STUB_FUNC(0x5a6c10)
-char_type Object_3C::sub_5A6C10(Sprite* a2)
+MATCH_FUNC(0x5a6c10)
+char_type Object_3C::sub_5A6C10(Sprite* toFind)
 {
-    NOT_IMPLEMENTED;
+    if (field_0 != NULL)
+    {
+        for (Sprite_18* pNext = field_0; pNext != NULL; pNext = pNext->field_4_next)
+        {
+            if (pNext->field_0 == toFind)
+            {
+                pNext->field_14_rng = rng_dword_67AB34->field_0_rng;
+                return 1;
+            }
+        }
+    }
     return 0;
 }
 
@@ -173,24 +283,53 @@ void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
     field_0 = p18;
 }
 
-STUB_FUNC(0x5a6d40)
+MATCH_FUNC(0x5a6d40)
 void Object_3C::PushSprite_5A6D40(Sprite* pToFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        if (pIter->field_0 == pToFind)
+        {
+            return;
+        }
+        pIter = pIter->field_4_next;
+    }
+
+    Sprite_18* pNew = gSprite_1C24_703B80->Alloc();
+    pNew->field_0 = pToFind;
+
+    pNew->field_4_next = this->field_0;
+    this->field_0 = pNew;
 }
 
-STUB_FUNC(0x5a6d80)
+MATCH_FUNC(0x5a6d80)
 char_type Object_3C::SpriteExists_5A6D80(Sprite* pToFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        if (pIter->field_0 == pToFind)
+        {
+            return 1;
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
-STUB_FUNC(0x5a6da0)
+MATCH_FUNC(0x5a6da0)
 Sprite* Object_3C::sub_5A6DA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* p18 = this->field_0;
+    if (!this->field_0)
+    {
+        return 0;
+    }
+    Sprite* pOld = p18->field_0;
+    this->field_0 = p18->field_4_next;
+    gSprite_1C24_703B80->DeAlloc(p18);
+    return pOld;
 }
 
 STUB_FUNC(0x5a6dc0)
@@ -345,9 +484,16 @@ void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     }
 }
 
-STUB_FUNC(0x5a7310)
+MATCH_FUNC(0x5a7310)
 char_type Object_3C::sub_5A7310()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18Iter;
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        if (p18Iter->field_0->sub_5A1A60())
+        {
+            return 1;
+        }
+    }
     return 0;
 }

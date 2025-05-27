@@ -77,6 +77,10 @@ class Object_2C
     EXPORT u32* sub_52AE70(u32* a2);
     EXPORT u32* sub_52AE90(u32* a2);
 
+    // TODO: ordering
+    EXPORT void sub_5290C0(u8 id_base);
+    EXPORT char sub_525AC0();
+
     inline bool check_is_shop()
     {
         s32 v1 = field_8->field_34;
@@ -159,11 +163,25 @@ class Object_5C
     s32 field_C;
     s32 field_10;
     s32 field_14;
-    char_type field_18;
-    char_type field_19;
-    char_type field_1A;
-    char_type field_1B;
-    Object_3C field_1C;
+    u32 field_18;
+
+    // !! not object_3c here
+    s32 field_1C;
+    s32 field_20;
+    s32 field_24;
+    s32 field_28;
+    s32 field_2C;
+    s32 field_30;
+    s32 field_34;
+    s32 field_38;
+    s32 field_3C;
+    s32 field_40;
+    s32 field_44;
+    s32 field_48;
+    s32 field_4C;
+    s32 field_50;
+    s32 field_54;
+
     Sprite* field_58;
 };
 

@@ -265,6 +265,11 @@ class Ped
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 
+    inline s32 sub_420B70()
+    {
+        return field_238;
+    }
+        
     void inline_clear_bit()
     {
         // There was no way to match this without using a bit field

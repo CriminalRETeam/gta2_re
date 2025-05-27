@@ -13,6 +13,7 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Sero_181C.hpp"
+#include "Taxi_4.hpp"
 #include "Weapon_8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -23,7 +24,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Taxi_4.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -2671,12 +2671,9 @@ char_type Car_BC::sub_443130()
     return 0;
 }
 
-// https://decomp.me/scratch/ETLIS
-STUB_FUNC(0x443170)
+MATCH_FUNC(0x443170)
 char_type Car_BC::sub_443170()
 {
-    NOT_IMPLEMENTED;
-
     if (!this->field_76)
     {
         gCar_6C_677930->field_55++;
@@ -2690,8 +2687,7 @@ char_type Car_BC::sub_443170()
     }
 
     // IsTrain inline ?
-    if (field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
-        field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar)
+    if (is_train_model())
     {
         return sub_442D70();
     }
@@ -2714,7 +2710,7 @@ char_type Car_BC::sub_443170()
             Ped* pDriver = this->field_54_driver;
             if (pDriver)
             {
-                if (pDriver->field_238 != 2 || this->field_84_car_info_idx == car_model_enum::TRAINCAB)
+                if (pDriver->sub_420B70() == 2 && this->field_84_car_info_idx == car_model_enum::TRAINCAB || pDriver->sub_420B70() != 2)
                 {
                     v4->sub_453BB0();
                 }
