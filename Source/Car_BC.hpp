@@ -245,6 +245,7 @@ class Sprite
         Char_B4* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
         Object_2C* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
         Sprite* field_8_pSprite;
+        class Object_5C* field_8_o5C;
     };
     // Only one field is enable at the same time.
     // As far as I understand, the field_C_sprite_next_ptr is only enabled while the instance is being handled by Sprite_49B28.

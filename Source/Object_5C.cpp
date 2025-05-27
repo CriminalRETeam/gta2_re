@@ -611,7 +611,8 @@ Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, 
 MATCH_FUNC(0x52a210)
 char_type Object_5C::sub_52A210(char_type a2)
 {
-    this->field_18 = a2;
+    // TODO: Why is it a byte here? enum ??
+    *(u8*)&this->field_18 = a2;
     return a2;
 }
 

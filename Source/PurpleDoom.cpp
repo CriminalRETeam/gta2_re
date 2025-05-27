@@ -591,7 +591,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
         Collide_8* pC8Iter = pIter->field_4_p8;
         while (pC8Iter)
         {
-            if (pC8Iter->field_0_sprt->field_C_o5c->field_1C.field_10.mValue != gCollide_C_6791FC->field_4_count.mValue)
+            if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count.mValue)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
                 if (pSprite->sub_59E590(pC8Iter->field_0_sprt))
@@ -599,7 +599,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
                     bRet = 1;
                     pC8Iter->field_0_sprt->sub_59E8C0(pSprite);
                 }
-                pC8Iter->field_0_sprt->field_C_o5c->field_1C.field_10.mValue = gCollide_C_6791FC->field_4_count.mValue;
+                pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count.mValue;
             }
             pC8Iter = pC8Iter->field_4_pNext;
         }
@@ -627,7 +627,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
         for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
         {
             if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
-                p8Iter->field_0_sprt->field_C_o5c->field_1C.field_10 != gCollide_C_6791FC->field_4_count)
+                p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count.mValue)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
 
@@ -637,7 +637,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
                     p8Iter->field_0_sprt->sub_59E910(pSprite);
                 }
 
-                p8Iter->field_0_sprt->field_C_o5c->field_1C.field_10 = gCollide_C_6791FC->field_4_count;
+                p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count.mValue;
             }
         }
         pXItemIter = pXItemIter->field_8_pNext;

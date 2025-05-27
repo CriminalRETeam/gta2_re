@@ -45,10 +45,27 @@ u32* Object_3C::sub_52ADF0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a6a50)
-Sprite_18* Object_3C::sub_5A6A50(s32 a2)
+MATCH_FUNC(0x5a6a50)
+Sprite_18* Object_3C::sub_5A6A50(s32 obj_type)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+            sprite_type_enum == sprite_types_enum::unknown_1)
+        {
+            Object_5C* o5c = pIter->field_0->field_8_o5C;
+            if (o5c)
+            {
+                if (o5c->field_18 == obj_type)
+                {
+                    return pIter;
+                }
+            }
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
