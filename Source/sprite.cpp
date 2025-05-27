@@ -1,8 +1,8 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
+#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "memory.hpp"
-#include "crt_stubs.hpp"
 
 EXPORT_VAR Sprite_8* gSprite_8_703820;
 GLOBAL(gSprite_8_703820, 0x703820);
@@ -222,4 +222,20 @@ Sprite* Sprite_18::sub_5A6CA0(s32 a2)
         }
     }
     return NULL;
+}
+
+MATCH_FUNC(0x5A6A20)
+void Sprite_18::sub_5A6A20()
+{
+    if (this->field_0->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        Car_BC* cBC = this->field_0->field_8_car_bc_ptr;
+        if (cBC)
+        {
+            if (cBC->field_88 != 2 && cBC->field_88 != 4 && cBC->field_88 != 3)
+            {
+                cBC->sub_43DD60();
+            }
+        }
+    }
 }
