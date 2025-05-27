@@ -303,10 +303,18 @@ void Object_3C::PushSprite_5A6D40(Sprite* pToFind)
     this->field_0 = pNew;
 }
 
-STUB_FUNC(0x5a6d80)
+MATCH_FUNC(0x5a6d80)
 char_type Object_3C::SpriteExists_5A6D80(Sprite* pToFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        if (pIter->field_0 == pToFind)
+        {
+            return 1;
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
