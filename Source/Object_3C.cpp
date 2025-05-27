@@ -118,8 +118,7 @@ Sprite* Object_3C::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 MATCH_FUNC(0x5a6cd0)
 void Object_3C::sub_5A6CD0(Sprite* pSprite)
 {
-    Sprite_18* p18 = gSprite_1C24_703B80->field_0;
-    gSprite_1C24_703B80->field_0 = gSprite_1C24_703B80->field_0->field_4_next;
+    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite;
     p18->field_4_next = this->field_0;
     p18->field_8 = 0;
@@ -127,10 +126,16 @@ void Object_3C::sub_5A6CD0(Sprite* pSprite)
     this->field_0 = p18;
 }
 
-STUB_FUNC(0x5a6d00)
-void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, Sprite* pSprite2, s16 a5)
+MATCH_FUNC(0x5a6d00)
+void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
+    p18->field_0 = pSprite1;
+    p18->field_4_next = field_0;
+    p18->field_8 = a3;
+    p18->field_C = pSprite2;
+    p18->field_10 = a5;
+    field_0 = p18;      
 }
 
 STUB_FUNC(0x5a6d40)
