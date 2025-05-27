@@ -365,9 +365,16 @@ void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     }
 }
 
-STUB_FUNC(0x5a7310)
+MATCH_FUNC(0x5a7310)
 char_type Object_3C::sub_5A7310()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18Iter;
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        if (p18Iter->field_0->sub_5A1A60())
+        {
+            return 1;
+        }
+    }
     return 0;
 }
