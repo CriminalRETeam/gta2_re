@@ -52,10 +52,27 @@ Sprite_18* Object_3C::sub_5A6A50(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5a6a90)
+MATCH_FUNC(0x5a6a90)
 Object_2C* Object_3C::sub_5A6A90(s32 obj_type)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        const s32 sprite_type_enum = pIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
+            sprite_type_enum == sprite_types_enum::unknown_1)
+        {
+            Object_2C* p2C = pIter->field_0->field_8_object_2C_ptr;
+            if (p2C)
+            {
+                if (p2C->field_18_model == obj_type)
+                {
+                    return p2C;
+                }
+            }
+        }
+        pIter = pIter->field_4_next;
+    }
     return 0;
 }
 
