@@ -198,11 +198,24 @@ class Fix16
         return *this;
     }
 
+    // OBS: obsolete, I will remove it soon
     inline Fix16 ConcatenateWord(Fix16 a2)
     {
         Fix16 result;
         result.mValue = mValue + (a2.mValue & 0xFFFFC000);
         return result;
+    }
+
+    inline Fix16 GetRoundValue()
+    {
+        // get the "integer part" of Fix16, since everything less than 0x3FFF is decimal in float
+        return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
+    }
+
+    inline Fix16 GetFracValue()
+    {
+        // get the "fractional part" of Fix16
+        return Fix16(mValue & 0x3FFF, 0); // 0x4000 = Fix16(1)
     }
 
     inline s32 MultiplyInt64(Fix16 a2)
