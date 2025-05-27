@@ -417,10 +417,47 @@ void Object_3C::sub_5A7010()
     sub_5A6E10();
 }
 
+// https://decomp.me/scratch/hQof2
 STUB_FUNC(0x5a7080)
 void Object_3C::sub_5A7080()
 {
     NOT_IMPLEMENTED;
+    
+    Sprite_18* pIter; // esi
+    Sprite_18* pLastOfType; // edi
+    int type; // eax
+    Object_2C* o2c; // ecx
+    Sprite_1C24* pRoot_; // eax
+
+    pIter = this->field_0;
+    pLastOfType = 0;
+    while (pIter)
+    {
+        type = pIter->field_0->field_30_sprite_type_enum;
+        if ((type == 1 || type > 3 && type <= 5))
+        {
+            o2c = pIter->field_0->field_8_object_2C_ptr;
+            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            {
+                gObject_5C_6F8F84->sub_52A610((Object_2C*)o2c); // ??
+                if (pLastOfType)
+                {
+                    pLastOfType->field_4_next = pIter->field_4_next;
+                    gSprite_1C24_703B80->DeAlloc(pIter);
+                    pIter = pLastOfType->field_4_next;
+                }
+                else
+                {
+                    Sprite_18* pOldNext = pIter->field_4_next;
+                    gSprite_1C24_703B80->DeAlloc(pIter);
+                    pIter = pOldNext;
+                    this->field_0 = pOldNext;
+                }
+            }
+        }
+        pLastOfType = pIter;
+        pIter = pIter->field_4_next;
+    }
 }
 
 MATCH_FUNC(0x5a7110)
