@@ -134,11 +134,20 @@ void Object_3C::sub_5A6C40(s32 toFind)
     }
 }
 
-STUB_FUNC(0x5a6ca0)
+MATCH_FUNC(0x5a6ca0)
 Sprite* Object_3C::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_0 != NULL)
+    {
+        for (Sprite_18* pNext = field_0; pNext != NULL; pNext = pNext->field_4_next)
+        {
+            if (pNext->field_0->field_30_sprite_type_enum == sprite_type)
+            {
+                return pNext->field_0;
+            }
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x5a6cd0)
