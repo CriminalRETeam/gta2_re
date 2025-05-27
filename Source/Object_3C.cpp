@@ -1,6 +1,7 @@
 #include "Object_3C.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "Wolfy_3D4.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 
@@ -332,11 +333,29 @@ Sprite* Object_3C::sub_5A6DA0()
     return pOld;
 }
 
-STUB_FUNC(0x5a6dc0)
+MATCH_FUNC(0x5a6dc0)
 Sprite* Object_3C::sub_5A6DC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+    while (pIter->field_4_next)
+    {
+        pLast = pIter;
+        pIter = pIter->field_4_next;
+    }
+
+    Sprite* result = pIter->field_0;
+    if (pLast)
+    {
+        pLast->field_4_next = 0;
+    }
+    else
+    {
+        this->field_0 = 0;
+    }
+    gSprite_1C24_703B80->DeAlloc(pIter);
+
+    return result;
 }
 
 MATCH_FUNC(0x5a6e10)
@@ -353,11 +372,31 @@ Sprite_18* Object_3C::sub_5A6E10()
     return pIter;
 }
 
-STUB_FUNC(0x5a6e40)
-Sprite* Object_3C::sub_5A6E40(s32 a2, s32 a3)
+MATCH_FUNC(0x5a6e40)
+Sprite* Object_3C::sub_5A6E40(Fix16 xOff, Fix16 yOff)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 smallest(99999);
+
+    Sprite* new_ret = 0;
+    for (Sprite_18* pIter = this->field_0; pIter; pIter = pIter->field_4_next)
+    {
+        Fix16 xd = pIter->field_0->field_14_xpos - xOff;
+        Fix16 yd = pIter->field_0->field_18_ypos - yOff;
+        Fix16 yDelta = yDelta.inline_abs_403840(yd);
+        Fix16 xDelta = xDelta.inline_abs_403840(xd);
+
+        if (xDelta > yDelta)
+        {
+            yDelta = xDelta;
+        }
+
+        if (yDelta < smallest)
+        {
+            new_ret = pIter->field_0;
+            smallest = yDelta;
+        }
+    }
+    return new_ret;
 }
 
 STUB_FUNC(0x5a6ea0)
@@ -398,29 +437,137 @@ void Object_3C::sub_5A7010()
     sub_5A6E10();
 }
 
+// https://decomp.me/scratch/hQof2
 STUB_FUNC(0x5a7080)
 void Object_3C::sub_5A7080()
 {
     NOT_IMPLEMENTED;
+
+    Sprite_18* pIter; // esi
+    Sprite_18* pLastOfType; // edi
+    int type; // eax
+    Object_2C* o2c; // ecx
+    Sprite_1C24* pRoot_; // eax
+
+    pIter = this->field_0;
+    pLastOfType = 0;
+    while (pIter)
+    {
+        type = pIter->field_0->field_30_sprite_type_enum;
+        if ((type == 1 || type > 3 && type <= 5))
+        {
+            o2c = pIter->field_0->field_8_object_2C_ptr;
+            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            {
+                gObject_5C_6F8F84->sub_52A610((Object_2C*)o2c); // ??
+                if (pLastOfType)
+                {
+                    pLastOfType->field_4_next = pIter->field_4_next;
+                    gSprite_1C24_703B80->DeAlloc(pIter);
+                    pIter = pLastOfType->field_4_next;
+                }
+                else
+                {
+                    Sprite_18* pOldNext = pIter->field_4_next;
+                    gSprite_1C24_703B80->DeAlloc(pIter);
+                    pIter = pOldNext;
+                    this->field_0 = pOldNext;
+                }
+            }
+        }
+        pLastOfType = pIter;
+        pIter = pIter->field_4_next;
+    }
 }
 
-STUB_FUNC(0x5a7110)
+MATCH_FUNC(0x5a7110)
 void Object_3C::sub_5A7110()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+    Object_5C* p5C;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            const s32 type = pIter->field_0->field_30_sprite_type_enum;
+            if (type == 4 || type == 5 || type == 1)
+            {
+                p5C = pIter->field_0->field_8_o5C;
+                if (p5C)
+                {
+                    if (p5C->field_18 >= 287 && p5C->field_18 <= 293)
+                    {
+
+                        break;
+                    }
+                }
+            }
+            pLast = pIter;
+            pIter = pIter->field_4_next;
+            if (!pIter)
+            {
+                return;
+            }
+        }
+
+        // ??? TODO: Need to check this - seems wrong, unless 5C inherits 2C ??
+        gObject_5C_6F8F84->sub_52A610((Object_2C*)p5C);
+
+        if (pLast)
+        {
+            pLast->field_4_next = pIter->field_4_next;
+        }
+        else
+        {
+            this->field_0 = pIter->field_4_next;
+        }
+        gSprite_1C24_703B80->DeAlloc(pIter);
+    }
 }
 
-STUB_FUNC(0x5a71a0)
+MATCH_FUNC(0x5a71a0)
 s32 Object_3C::sub_5A71A0()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18Iter = this->field_0;
+    while (p18Iter)
+    {
+        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        if (type == 4 || type == 5 || type == 1)
+        {
+            Object_5C* o5c = p18Iter->field_0->field_8_o5C;
+            if (o5c)
+            {
+                if (o5c->field_18 >= 287 && o5c->field_18 <= 293)
+                {
+                    return o5c->field_18 - 286;
+                }
+            }
+        }
+        p18Iter = p18Iter->field_4_next;
+        if (!p18Iter)
+        {
+            return 0;
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x5a71f0)
+MATCH_FUNC(0x5a71f0)
 void Object_3C::sub_5A71F0()
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        if (type == 1 || type > 3 && type <= 5)
+        {
+            Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
+            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            {
+                p18Iter->field_0->field_8_object_2C_ptr->field_C->field_1A = 2;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5a7240)

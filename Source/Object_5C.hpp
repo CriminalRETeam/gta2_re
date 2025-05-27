@@ -163,7 +163,7 @@ class Object_5C
     s32 field_C;
     s32 field_10;
     s32 field_14;
-    u32 field_18;
+    s32 field_18;
 
     // !! not object_3c here
     s32 field_1C;
