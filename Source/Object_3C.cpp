@@ -119,34 +119,34 @@ Sprite_18* Object_3C::sub_5A6AD0()
 MATCH_FUNC(0x5a6b10)
 void Object_3C::sub_5A6B10(Sprite* toFind)
 {
-    // TODO: Probably needs logic refactoring
     Sprite_18* pLast = 0;
-
     Sprite_18* pIter = this->field_0;
-    while (pIter->field_0 != toFind)
+    for (;;)
     {
+        if (pIter->field_0 == toFind)
+        {
+            if (pLast)
+            {
+                pLast->field_4_next = pIter->field_4_next;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+            }
+            else
+            {
+                this->field_0 = pIter->field_4_next;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+            }
+            return;
+        }
         pLast = pIter;
         pIter = pIter->field_4_next;
-    }
-
-    if (pLast)
-    {
-        pLast->field_4_next = pIter->field_4_next;
-        gSprite_1C24_703B80->DeAlloc(pIter);
-    }
-    else
-    {
-        this->field_0 = pIter->field_4_next;
-        gSprite_1C24_703B80->DeAlloc(pIter);
     }
 }
 
 MATCH_FUNC(0x5a6b60)
 void Object_3C::sub_5A6B60(Sprite* toFind)
 {
-    Sprite_18* pIter = this->field_0;
     Sprite_18* pLast = 0;
-
+    Sprite_18* pIter = this->field_0;
     while (pIter)
     {
         if (pIter->field_0 == toFind)
