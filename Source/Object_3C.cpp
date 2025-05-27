@@ -3,6 +3,7 @@
 #include "Object_5C.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
+#include "Wolfy_3D4.hpp"
 
 // TODO: Init to correct values
 EXPORT_VAR Fix16 dword_6F8BF0;
@@ -435,10 +436,21 @@ s32 Object_3C::sub_5A71A0()
     return 0;
 }
 
-STUB_FUNC(0x5a71f0)
+MATCH_FUNC(0x5a71f0)
 void Object_3C::sub_5A71F0()
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        if (type == 1 || type > 3 && type <= 5)
+        {
+            Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
+            if (o2c->field_18_model == 197 || o2c->sub_525AC0())
+            {
+                p18Iter->field_0->field_8_object_2C_ptr->field_C->field_1A = 2;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5a7240)
