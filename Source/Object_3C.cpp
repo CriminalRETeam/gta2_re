@@ -102,10 +102,36 @@ char_type Object_3C::sub_5A6C10(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a6c40)
-void Object_3C::sub_5A6C40(s32 a2)
+MATCH_FUNC(0x5a6c40)
+void Object_3C::sub_5A6C40(s32 toFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+
+    while (pIter)
+    {
+        if (pIter->field_14_rng == toFind)
+        {
+            pLast = pIter;
+            pIter = pIter->field_4_next;
+        }
+        else
+        {
+            Sprite_18* pSavedNext = pIter->field_4_next;
+            if (pLast)
+            {
+                pLast->field_4_next = pSavedNext;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+                pIter = pLast->field_4_next;
+            }
+            else
+            {
+                gSprite_1C24_703B80->DeAlloc(pIter);
+                pIter = pSavedNext;
+                this->field_0 = pSavedNext;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5a6ca0)
@@ -303,7 +329,7 @@ void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     {
         pSprite->field_39_z_col = max_val;
     }
-    
+
     for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
     {
         p18Iter->field_0->field_39_z_col = max_val;

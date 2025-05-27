@@ -74,7 +74,7 @@ class Sprite_18
     s32 field_C;
     s16 field_10;
     s16 field_12;
-    s32 field_14;
+    s32 field_14_rng;
 };
 
 class Sprite_1C24
