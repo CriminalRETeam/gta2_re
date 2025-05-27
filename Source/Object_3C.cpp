@@ -280,10 +280,34 @@ void Object_3C::sub_5A7240(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x5a72b0)
+MATCH_FUNC(0x5a72b0)
 void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
-    NOT_IMPLEMENTED;
+    char start_val = pSprite->sub_5A1BD0();
+    char max_val = start_val;
+
+    Sprite_18* p18Iter;
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
+        {
+            const char_type cur_val = p18Iter->field_0->sub_5A1BD0();
+            if (cur_val > max_val)
+            {
+                max_val = cur_val;
+            }
+        }
+    }
+
+    if (bUnknown)
+    {
+        pSprite->field_39_z_col = max_val;
+    }
+    
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->field_0->field_39_z_col = max_val;
+    }
 }
 
 STUB_FUNC(0x5a7310)
