@@ -101,6 +101,12 @@ class Sprite_1C24
         return p18;
     }
 
+    void DeAlloc(Sprite_18* pNext)
+    {
+        pNext->field_4_next = field_0;
+        field_0 = pNext;
+    }
+
     EXPORT ~Sprite_1C24();
     Sprite_18* field_0;
     Sprite_18 field_4[300];

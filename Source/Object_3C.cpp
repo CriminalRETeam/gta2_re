@@ -1,7 +1,7 @@
 #include "Object_3C.hpp"
+#include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "sprite.hpp"
-#include "Globals.hpp"
 
 // TODO: Init to correct values
 EXPORT_VAR Fix16 dword_6F8BF0;
@@ -135,7 +135,7 @@ void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
     p18->field_8 = a3;
     p18->field_C = pSprite2;
     p18->field_10 = a5;
-    field_0 = p18;      
+    field_0 = p18;
 }
 
 STUB_FUNC(0x5a6d40)
@@ -242,10 +242,35 @@ void Object_3C::sub_5A71F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a7240)
-void Object_3C::sub_5A7240(Sprite* a2)
+MATCH_FUNC(0x5a7240)
+void Object_3C::sub_5A7240(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pNext = this->field_0;
+    Sprite_18* pLast = 0;
+
+    pSprite->sub_59E9C0();
+
+    while (pNext)
+    {
+        if (pSprite->sub_59E590(pNext->field_0))
+        {
+            pLast = pNext;
+            pNext = pNext->field_4_next;
+        }
+        else if (pLast)
+        {
+            pLast->field_4_next = pNext->field_4_next;
+            gSprite_1C24_703B80->DeAlloc(pNext);
+            pNext = pLast->field_4_next;
+        }
+        else
+        {
+            Sprite_18* pSaveNext = pNext->field_4_next;
+            gSprite_1C24_703B80->DeAlloc(pNext);
+            pNext = pSaveNext;
+            this->field_0 = pSaveNext;
+        }
+    }
 }
 
 STUB_FUNC(0x5a72b0)
