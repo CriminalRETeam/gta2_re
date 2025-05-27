@@ -206,11 +206,18 @@ char_type Object_3C::SpriteExists_5A6D80(Sprite* pToFind)
     return 0;
 }
 
-STUB_FUNC(0x5a6da0)
+MATCH_FUNC(0x5a6da0)
 Sprite* Object_3C::sub_5A6DA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* p18 = this->field_0;
+    if (!this->field_0)
+    {
+        return 0;
+    }
+    Sprite* pOld = p18->field_0;
+    this->field_0 = p18->field_4_next;
+    gSprite_1C24_703B80->DeAlloc(p18);
+    return pOld;
 }
 
 STUB_FUNC(0x5a6dc0)
