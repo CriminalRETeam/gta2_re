@@ -6,8 +6,8 @@
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
-#include "sprite.hpp"
 #include "Wolfy_3D4.hpp"
+#include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
 
@@ -471,6 +471,15 @@ STUB_FUNC(0x5290C0)
 Object_2C::sub_5290C0(u8 id_base)
 {
     NOT_IMPLEMENTED;
+    
+    Phi_74* pPhi = this->field_8;
+    Sprite* pSprite = this->field_4;
+    s16 new_id = id_base + pPhi->field_1E;
+    if (pSprite->field_22_sprite_id != new_id)
+    {
+        pSprite->field_22_sprite_id = new_id;
+        pSprite->sub_59FA40();
+    }
 }
 
 MATCH_FUNC(0x525AC0)
