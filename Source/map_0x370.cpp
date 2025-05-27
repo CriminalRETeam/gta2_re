@@ -51,7 +51,7 @@ GLOBAL(dword_6F6248, 0x6F6248);
 EXPORT_VAR s32 dword_6F5FAC;
 GLOBAL(dword_6F5FAC, 0x6F5FAC);
 
-EXPORT_VAR s32 dword_6F610C;
+EXPORT_VAR Fix16 dword_6F610C;
 GLOBAL(dword_6F610C, 0x6F610C);
 
 EXPORT_VAR s32 dword_6F6130;
@@ -695,7 +695,7 @@ s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
     s16 lid;
     s32 result;
 
-    if (z >= dword_6F610C)
+    if (z >= dword_6F610C.mValue)   // TODO: Fix16 this function
     {
         if (z < dword_6F6130)
         {
@@ -1023,49 +1023,40 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
 MATCH_FUNC(0x4E4D40)
 Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    Fix16 v4;
-    Fix16 v5;
-    Fix16 v6;
     gmp_block_info* block_4DFE10;
-    char_type v9;
-    Fix16 v10;
-    gmp_block_info* v11;
-    char_type field_B_slope_type;
+    u8 slope_byte;
+    Fix16 new_z;
 
-    u8 v13;
-    s32 v14;
-
-    v5 = z_pos;
-    v6 = y_pos;
-    v4 = x_pos;
-    if ((z_pos.mValue & 0x3FFF) == dword_6F610C ||
-        (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == 0 ||
-        (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFCu) <= 0) //  or it's a flat block
-        || v13 >= 0xB4 //  or it's not a ramp
-        || (v9 & 3) == 0 //  or it's a air block
-        || (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(x_pos, v6, &v10), v10 > v5))
+    if (z_pos.GetFracValue() == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
+        || (slope_byte = block_4DFE10->field_B_slope_type, 
+            !is_climbing_slope(slope_byte))
+        || is_air_type(slope_byte) 
+        || (new_z = z_pos.GetRoundValue(), 
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z), 
+            new_z > z_pos))
     {
-        v14 = v5.ToInt() - 1;
-        v11 = Map_0x370::sub_4E4CB0(v4.ToInt(), v6.ToInt(), &v14);
+        s32 v14 = z_pos.ToInt() - 1;
+        gmp_block_info* v11 = Map_0x370::sub_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), &v14);
         gBlockInfo0_6F5EB0 = v11;
-        if (!v11)
+        if (v11 == NULL)
         {
-            a2->mValue = dword_6F6110.mValue;
+            *a2 = dword_6F6110;
             return a2;
         }
-        field_B_slope_type = v11->field_B_slope_type;
+        slope_byte = v11->field_B_slope_type;
 
-        if ((v13 = field_B_slope_type & 0xFC) > 0 //  it's not a flat block
-            && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
+        if (is_climbing_slope(slope_byte) && !is_air_type(slope_byte))
         {
-            v10.FromInt(v14);
-            Map_0x370::sub_4E5BF0(x_pos, v6, &v10);
-            a2->mValue = v10.mValue;
-            return a2;
+            new_z = Fix16(v14);
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z);
         }
-        v10.FromInt(++v14);
+        else
+        {
+            new_z = Fix16(v14) + 1;
+        }
     }
-    a2->mValue = v10.mValue;
+    *a2 = new_z;
     return a2;
 }
 
@@ -1296,7 +1287,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
     v5 = a5;
     v6 = a4;
     v7 = a3;
-    if ((a5.mValue & 0x3FFF) == dword_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0 ||
+    if ((a5.mValue & 0x3FFF) == dword_6F610C.mValue || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0 ||
         (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0) || v13 >= 0xB4 || (v9 & 3) == 0 ||
         (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7, v6, &v10), v10 > v5))
     {
