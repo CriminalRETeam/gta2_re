@@ -469,7 +469,14 @@ u32* Object_2C::sub_52AE90(u32* a2)
 STUB_FUNC(0x5290C0)
 Object_2C::sub_5290C0(u8 id_base)
 {
+    NOT_IMPLEMENTED;
+}
 
+STUB_FUNC(0x525AC0)
+char Object_2C::sub_525AC0()
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 STUB_FUNC(0x529300)

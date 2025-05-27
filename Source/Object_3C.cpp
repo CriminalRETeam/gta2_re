@@ -93,10 +93,26 @@ Object_2C* Object_3C::sub_5A6A90(s32 obj_type)
     return 0;
 }
 
-STUB_FUNC(0x5a6ad0)
+MATCH_FUNC(0x5a6ad0)
 Sprite_18* Object_3C::sub_5A6AD0()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pObjIter = this->field_0;
+    while (pObjIter)
+    {
+        const s32 sprite_type = pObjIter->field_0->field_30_sprite_type_enum;
+        if (sprite_type == 4 || sprite_type == 5 || sprite_type == 1)
+        {
+            Object_2C* o2c = pObjIter->field_0->field_8_object_2C_ptr;
+            if (o2c)
+            {
+                if (o2c->sub_525AC0())
+                {
+                    return pObjIter;
+                }
+            }
+        }
+        pObjIter = pObjIter->field_4_next;
+    }
     return 0;
 }
 
