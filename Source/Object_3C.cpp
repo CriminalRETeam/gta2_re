@@ -283,10 +283,24 @@ void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
     field_0 = p18;
 }
 
-STUB_FUNC(0x5a6d40)
+MATCH_FUNC(0x5a6d40)
 void Object_3C::PushSprite_5A6D40(Sprite* pToFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        if (pIter->field_0 == pToFind)
+        {
+            return;
+        }
+        pIter = pIter->field_4_next;
+    }
+
+    Sprite_18* pNew = gSprite_1C24_703B80->Alloc();
+    pNew->field_0 = pToFind;
+
+    pNew->field_4_next = this->field_0;
+    this->field_0 = pNew;
 }
 
 STUB_FUNC(0x5a6d80)
