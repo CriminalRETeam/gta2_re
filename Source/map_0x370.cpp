@@ -63,6 +63,22 @@ static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
         y < pZone->field_2_y + pZone->field_4_h;
 }
 
+static inline u8 get_slope(u8& slope_byte)
+{
+    return slope_byte & 0xFCu;
+}
+
+static inline bool is_air_type(u8& slope_byte)
+{
+    return (slope_byte & 3) == 0;
+}
+
+static inline bool is_climbing_slope(u8& slope_byte)
+{
+    u8 slope = get_slope(slope_byte);
+    return slope > 0 && slope < 0xB4u;
+}
+
 MATCH_FUNC(0x452980)
 gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 {
@@ -1053,36 +1069,28 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     return a2;
 }
 
-STUB_FUNC(0x4E4E50) //  DAMN reg swap    https://decomp.me/scratch/aQODE
-Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
+MATCH_FUNC(0x4E4E50)
+Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    NOT_IMPLEMENTED;
-    Fix16 v5;
-    gmp_block_info* block_4DFE10;
-    s8 v10;
-    u8 v11;
-    gmp_block_info* v12;
-    s8 field_B_slope_type;
-    u8 v14;
-    Fix16 v16;
-
-    for (v5.mValue = a5.mValue; v5.mValue < a5.mValue + dword_6F6110.mValue; v5.mValue = dword_6F6110.mValue + (v5.mValue & 0xFFFFC000))
+    for (Fix16 new_z = z_pos; new_z < z_pos + dword_6F6110; new_z = dword_6F6110 + new_z.GetRoundValue())
     {
-        block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), v5.ToInt());
+        gmp_block_info* block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), new_z.ToInt());
         gBlockInfo0_6F5EB0 = block_4DFE10;
-        if (!block_4DFE10 || (v10 = block_4DFE10->field_B_slope_type, (v10 & 3) == 0))
+        u8 slope_byte;
+        if (block_4DFE10 == NULL || (slope_byte = block_4DFE10->field_B_slope_type, is_air_type(slope_byte)))
         {
-            v12 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), (v5 - dword_6F6110).ToInt());
+            gmp_block_info* v12 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), (new_z - dword_6F6110).ToInt());
             gBlockInfo0_6F5EB0 = v12;
             if (v12)
             {
-                field_B_slope_type = v12->field_B_slope_type;
-                if ((field_B_slope_type & 3) != 0)
+                u8 slope_byte = v12->field_B_slope_type;
+
+                if (!is_air_type(slope_byte))
                 {
-                    v14 = field_B_slope_type & 0xFC;
-                    if (v14 <= 0 || v14 >= 0xB4u)
+                    u8 slope = get_slope(slope_byte);
+                    if (slope <= 0 || slope >= 0xB4u) // !is_climbing_slope(slope_byte)
                     {
-                        a2->mValue = v5.mValue;
+                        *a2 = new_z;
                         return a2;
                     }
                 }
@@ -1090,24 +1098,19 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
         }
         else
         {
-            v11 = v10 & 0xFC;
-            if (v11 > 0)
+            if (is_climbing_slope(slope_byte))
             {
-                if (v11 < 0xB4u)
+                Fix16 unk_z_coord = new_z.GetRoundValue();
+                Map_0x370::sub_4E5BF0(x_pos, y_pos, &unk_z_coord);
+                if (unk_z_coord >= new_z)
                 {
-                    v16.mValue = v5.mValue & 0xFFFFC000;
-                    Map_0x370::sub_4E5BF0(a3, a4, &v16);
-                    if (v16 >= v5)
-                    {
-                        a2->mValue = v16.mValue;
-                        return a2;
-                    }
+                    *a2 = unk_z_coord;
+                    return a2;
                 }
             }
         }
     }
-    v5 = a5;
-    a2->mValue = v5.mValue;
+    *a2 = z_pos;
     return a2;
 }
 
