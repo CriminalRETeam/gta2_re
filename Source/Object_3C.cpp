@@ -423,10 +423,50 @@ void Object_3C::sub_5A7080()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a7110)
+MATCH_FUNC(0x5a7110)
 void Object_3C::sub_5A7110()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+    Object_5C* p5C;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            const s32 type = pIter->field_0->field_30_sprite_type_enum;
+            if (type == 4 || type == 5 || type == 1)
+            {
+                p5C = pIter->field_0->field_8_o5C;
+                if (p5C)
+                {
+                    if (p5C->field_18 >= 287 && p5C->field_18 <= 293)
+                    {
+
+                        break;
+                    }
+                }
+            }
+            pLast = pIter;
+            pIter = pIter->field_4_next;
+            if (!pIter)
+            {
+                return;
+            }
+        }
+
+        // ??? TODO: Need to check this - seems wrong, unless 5C inherits 2C ??
+        gObject_5C_6F8F84->sub_52A610((Object_2C*)p5C);
+
+        if (pLast)
+        {
+            pLast->field_4_next = pIter->field_4_next;
+        }
+        else
+        {
+            this->field_0 = pIter->field_4_next;
+        }
+        gSprite_1C24_703B80->DeAlloc(pIter);
+    }
 }
 
 MATCH_FUNC(0x5a71a0)
