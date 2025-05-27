@@ -372,11 +372,31 @@ Sprite_18* Object_3C::sub_5A6E10()
     return pIter;
 }
 
-STUB_FUNC(0x5a6e40)
-Sprite* Object_3C::sub_5A6E40(s32 a2, s32 a3)
+MATCH_FUNC(0x5a6e40)
+Sprite* Object_3C::sub_5A6E40(Fix16 xOff, Fix16 yOff)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 smallest(99999);
+
+    Sprite* new_ret = 0;
+    for (Sprite_18* pIter = this->field_0; pIter; pIter = pIter->field_4_next)
+    {
+        Fix16 xd = pIter->field_0->field_14_xpos - xOff;
+        Fix16 yd = pIter->field_0->field_18_ypos - yOff;
+        Fix16 yDelta = yDelta.inline_abs_403840(yd);
+        Fix16 xDelta = xDelta.inline_abs_403840(xd);
+
+        if (xDelta > yDelta)
+        {
+            yDelta = xDelta;
+        }
+
+        if (yDelta < smallest)
+        {
+            new_ret = pIter->field_0;
+            smallest = yDelta;
+        }
+    }
+    return new_ret;
 }
 
 STUB_FUNC(0x5a6ea0)
@@ -422,7 +442,7 @@ STUB_FUNC(0x5a7080)
 void Object_3C::sub_5A7080()
 {
     NOT_IMPLEMENTED;
-    
+
     Sprite_18* pIter; // esi
     Sprite_18* pLastOfType; // edi
     int type; // eax
