@@ -1157,48 +1157,30 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
 MATCH_FUNC(0x4E5B60)
 Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
 {
-    Fix16 v4;
-    Fix16 v5;
-    gmp_block_info* v7;
-    char_type field_B_slope_type;
+    s32 z_pos_int;
+    gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&z_pos_int);
+    gBlockInfo0_6F5EB0 = pHighestBlock;
 
-    //  This function returns the Z coord based on the highest block of (X = a3, Y = a4);
-
-    s32 v6;
-
-    Fix16 v9;
-
-    v4 = x_pos;
-    v5 = y_pos;
-
-    //  get the highest non-air block at (x_pos,y_pos)
-    v7 = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&v6);
-    gBlockInfo0_6F5EB0 = v7;
-
-    if (!v7)
+    if (pHighestBlock == NULL)
     {
-        a2->mValue = 0;
+        *a2 = 0;
         return a2;
     }
     else
     {
-        field_B_slope_type = v7->field_B_slope_type;
-
-        //  0xFCu = 1111 1100
-        //  bits 0-1 = surface type
-        //  bits 2-7 = slope angle type
-        if (((u8)field_B_slope_type & 0xFCu) > 0 //  it's not a flat block
-            && ((u8)field_B_slope_type & 0xFCu) < 0xB4u //  < 10110100 = it's a ramp
-            && ((u8)field_B_slope_type & 3) != 0) //  (bits 0-1) != 0 means it's not an air block
+        Fix16 z_pos;
+        u8 slope_byte = pHighestBlock->field_B_slope_type;
+        if (is_climbing_slope(slope_byte) 
+            && !is_air_type(slope_byte))
         {
-            v9.FromInt(v6);
-            Map_0x370::sub_4E5BF0(v4, v5, &v9); //  get the Z position based on the slope angle?
+            z_pos = Fix16(z_pos_int);
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &z_pos); //  get the Z position based on the slope angle
         }
         else
         {
-            v9.FromInt(v6 + 1);
+            z_pos = Fix16(z_pos_int) + 1;
         }
-        a2->mValue = v9.mValue;
+        *a2 = z_pos;
         return a2;
     }
 }
