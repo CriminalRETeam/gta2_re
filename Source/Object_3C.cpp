@@ -78,10 +78,13 @@ void Object_3C::sub_5A6B60(Sprite* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a6bb0)
+MATCH_FUNC(0x5a6bb0)
 void Object_3C::sub_5A6BB0()
 {
-    NOT_IMPLEMENTED;
+    for (Sprite_18* p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->sub_5A69E0();
+    }
 }
 
 MATCH_FUNC(0x5a6bd0)

@@ -1,5 +1,6 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "crt_stubs.hpp"
 #include "error.hpp"
 #include "memory.hpp"
@@ -236,6 +237,38 @@ void Sprite_18::sub_5A6A20()
             {
                 cBC->sub_43DD60();
             }
+        }
+    }
+}
+
+STUB_FUNC(0x5A69E0)
+void Sprite_18::sub_5A69E0()
+{
+    Sprite* pSprite = this->field_0;
+    if ((pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1 ||
+         pSprite->field_30_sprite_type_enum == sprite_types_enum::map_obj ||
+         pSprite->field_30_sprite_type_enum == sprite_types_enum::unknown_1) &&
+        (pSprite->field_8_object_2C_ptr) != 0)
+    {
+        Object_2C* pO2c = pSprite->field_8_object_2C_ptr;
+        if (pO2c->field_8->field_34 <= 1u)
+        {
+            if (pO2c->field_18_model == 148)
+            {
+                pO2c->sub_5290C0(1u);
+            }
+            else
+            {
+                pO2c->sub_5290A0();
+            }
+        }
+    }
+    else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        Car_BC* pBC = pSprite->field_8_car_bc_ptr;
+        if (pBC)
+        {
+            pBC->sub_43D7B0(19);
         }
     }
 }

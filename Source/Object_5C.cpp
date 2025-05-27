@@ -466,6 +466,12 @@ u32* Object_2C::sub_52AE90(u32* a2)
     return 0;
 }
 
+STUB_FUNC(0x5290C0)
+Object_2C::sub_5290C0(u8 id_base)
+{
+
+}
+
 STUB_FUNC(0x529300)
 void Object_5C::sub_529300()
 {

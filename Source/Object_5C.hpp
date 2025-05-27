@@ -77,6 +77,9 @@ class Object_2C
     EXPORT u32* sub_52AE70(u32* a2);
     EXPORT u32* sub_52AE90(u32* a2);
 
+    // TODO: ordering
+    EXPORT sub_5290C0(u8 id_base);
+
     inline bool check_is_shop()
     {
         s32 v1 = field_8->field_34;

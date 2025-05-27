@@ -72,6 +72,8 @@ class Sprite_18
 
     EXPORT void sub_5A6A20();
 
+    EXPORT void sub_5A69E0();
+
     Sprite* field_0;
     Sprite_18* field_4_next;
     s32 field_8;
