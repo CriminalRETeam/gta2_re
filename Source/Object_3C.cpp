@@ -1,7 +1,7 @@
 #include "Object_3C.hpp"
+#include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "sprite.hpp"
-#include "Globals.hpp"
 
 // TODO: Init to correct values
 EXPORT_VAR Fix16 dword_6F8BF0;
@@ -102,24 +102,58 @@ char_type Object_3C::sub_5A6C10(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x5a6c40)
-void Object_3C::sub_5A6C40(s32 a2)
+MATCH_FUNC(0x5a6c40)
+void Object_3C::sub_5A6C40(s32 toFind)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pIter = this->field_0;
+    Sprite_18* pLast = 0;
+
+    while (pIter)
+    {
+        if (pIter->field_14_rng == toFind)
+        {
+            pLast = pIter;
+            pIter = pIter->field_4_next;
+        }
+        else
+        {
+            Sprite_18* pSavedNext = pIter->field_4_next;
+            if (pLast)
+            {
+                pLast->field_4_next = pSavedNext;
+                gSprite_1C24_703B80->DeAlloc(pIter);
+                pIter = pLast->field_4_next;
+            }
+            else
+            {
+                gSprite_1C24_703B80->DeAlloc(pIter);
+                pIter = pSavedNext;
+                this->field_0 = pSavedNext;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x5a6ca0)
+MATCH_FUNC(0x5a6ca0)
 Sprite* Object_3C::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_0 != NULL)
+    {
+        for (Sprite_18* pNext = field_0; pNext != NULL; pNext = pNext->field_4_next)
+        {
+            if (pNext->field_0->field_30_sprite_type_enum == sprite_type)
+            {
+                return pNext->field_0;
+            }
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x5a6cd0)
 void Object_3C::sub_5A6CD0(Sprite* pSprite)
 {
-    Sprite_18* p18 = gSprite_1C24_703B80->field_0;
-    gSprite_1C24_703B80->field_0 = gSprite_1C24_703B80->field_0->field_4_next;
+    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite;
     p18->field_4_next = this->field_0;
     p18->field_8 = 0;
@@ -127,10 +161,16 @@ void Object_3C::sub_5A6CD0(Sprite* pSprite)
     this->field_0 = p18;
 }
 
-STUB_FUNC(0x5a6d00)
-void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, Sprite* pSprite2, s16 a5)
+MATCH_FUNC(0x5a6d00)
+void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
+    p18->field_0 = pSprite1;
+    p18->field_4_next = field_0;
+    p18->field_8 = a3;
+    p18->field_C = pSprite2;
+    p18->field_10 = a5;
+    field_0 = p18;
 }
 
 STUB_FUNC(0x5a6d40)
@@ -160,11 +200,18 @@ Sprite* Object_3C::sub_5A6DC0()
     return 0;
 }
 
-STUB_FUNC(0x5a6e10)
+MATCH_FUNC(0x5a6e10)
 Sprite_18* Object_3C::sub_5A6E10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        Sprite_18* pLast = pIter;
+        pIter = pIter->field_4_next;
+        gSprite_1C24_703B80->DeAlloc(pLast);
+    }
+    this->field_0 = 0;
+    return pIter;
 }
 
 STUB_FUNC(0x5a6e40)
@@ -237,16 +284,65 @@ void Object_3C::sub_5A71F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a7240)
-void Object_3C::sub_5A7240(Sprite* a2)
+MATCH_FUNC(0x5a7240)
+void Object_3C::sub_5A7240(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* pNext = this->field_0;
+    Sprite_18* pLast = 0;
+
+    pSprite->sub_59E9C0();
+
+    while (pNext)
+    {
+        if (pSprite->sub_59E590(pNext->field_0))
+        {
+            pLast = pNext;
+            pNext = pNext->field_4_next;
+        }
+        else if (pLast)
+        {
+            pLast->field_4_next = pNext->field_4_next;
+            gSprite_1C24_703B80->DeAlloc(pNext);
+            pNext = pLast->field_4_next;
+        }
+        else
+        {
+            Sprite_18* pSaveNext = pNext->field_4_next;
+            gSprite_1C24_703B80->DeAlloc(pNext);
+            pNext = pSaveNext;
+            this->field_0 = pSaveNext;
+        }
+    }
 }
 
-STUB_FUNC(0x5a72b0)
+MATCH_FUNC(0x5a72b0)
 void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
-    NOT_IMPLEMENTED;
+    char start_val = pSprite->sub_5A1BD0();
+    char max_val = start_val;
+
+    Sprite_18* p18Iter;
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
+        {
+            const char_type cur_val = p18Iter->field_0->sub_5A1BD0();
+            if (cur_val > max_val)
+            {
+                max_val = cur_val;
+            }
+        }
+    }
+
+    if (bUnknown)
+    {
+        pSprite->field_39_z_col = max_val;
+    }
+
+    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    {
+        p18Iter->field_0->field_39_z_col = max_val;
+    }
 }
 
 STUB_FUNC(0x5a7310)

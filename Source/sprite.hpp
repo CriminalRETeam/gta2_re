@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Car_BC.hpp"
+#include "Fix16_Rect.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "fix16.hpp"
-#include "Fix16_Rect.hpp"
 
 class Sprite_14
 {
@@ -74,7 +74,7 @@ class Sprite_18
     s32 field_C;
     s16 field_10;
     s16 field_12;
-    s32 field_14;
+    s32 field_14_rng;
 };
 
 class Sprite_1C24
@@ -93,6 +93,20 @@ class Sprite_1C24
         field_4[299].field_4_next = NULL;
         field_0 = field_4;
     }
+
+    Sprite_18* Alloc()
+    {
+        Sprite_18* p18 = field_0;
+        field_0 = field_0->field_4_next;
+        return p18;
+    }
+
+    void DeAlloc(Sprite_18* pNext)
+    {
+        pNext->field_4_next = field_0;
+        field_0 = pNext;
+    }
+
     EXPORT ~Sprite_1C24();
     Sprite_18* field_0;
     Sprite_18 field_4[300];

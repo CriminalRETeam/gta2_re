@@ -23,6 +23,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Taxi_4.hpp"
 
 EXPORT_VAR Car_214* gCar_214_705F20;
 GLOBAL(gCar_214_705F20, 0x705F20);
@@ -81,9 +82,8 @@ GLOBAL(DAT_677CFC, 0x677CFC);
 EXPORT_VAR s32 DAT_0067727c;
 GLOBAL(DAT_0067727c, 0x67727c);
 
-// This is a pointer to something
-EXPORT_VAR s32 DAT_0067737c;
-GLOBAL(DAT_0067737c, 0x67737c);
+EXPORT_VAR Object_3C stru_67737C;
+GLOBAL(stru_67737C, 0x67737c);
 
 // Indicates if Car_2 is initialised
 // It can probably turned into a static variable inside Car_2
@@ -1308,7 +1308,7 @@ Car_6C::Car_6C()
     // On version 9.6f this is call to a class method
     DAT_0067727c = 0;
     // On version 9.6f this is call to a class method
-    DAT_0067737c = 0;
+    stru_67737C.field_0 = 0;
     sub_5639C0();
     sub_447640();
 
@@ -2671,10 +2671,100 @@ char_type Car_BC::sub_443130()
     return 0;
 }
 
+// https://decomp.me/scratch/ETLIS
 STUB_FUNC(0x443170)
 char_type Car_BC::sub_443170()
 {
     NOT_IMPLEMENTED;
+
+    if (!this->field_76)
+    {
+        gCar_6C_677930->field_55++;
+    }
+
+    sub_444020();
+
+    if (this->field_64_pTrailer)
+    {
+        return sub_443130();
+    }
+
+    // IsTrain inline ?
+    if (field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
+        field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar)
+    {
+        return sub_442D70();
+    }
+
+    if (this->field_88 != 5)
+    {
+        gPurpleDoom_1_679208->sub_477B60(this->field_50_car_sprite);
+    }
+
+    if (sub_4424C0())
+    {
+        return 1;
+    }
+
+    if (this->field_58_uni_Car78_or_Car_B0)
+    {
+        Car_78* v4 = this->field_5C;
+        if (v4)
+        {
+            Ped* pDriver = this->field_54_driver;
+            if (pDriver)
+            {
+                if (pDriver->field_238 != 2 || this->field_84_car_info_idx == car_model_enum::TRAINCAB)
+                {
+                    v4->sub_453BB0();
+                }
+            }
+            field_5C->field_68 = 0;
+            field_5C->field_24_flags &= ~0x1000u;
+        }
+        sub_442190();
+    }
+
+    if ((this->field_78_flags & 0x2000) != 0)
+    {
+        stru_67737C.sub_5A72B0(this->field_50_car_sprite, 1);
+        stru_67737C.sub_5A6E10();
+    }
+
+    if (this->field_0_qq.field_0)
+    {
+        ((Object_3C*)this)->sub_5A6F70(this->field_50_car_sprite);
+        ((Object_3C*)this)->sub_5A72B0(this->field_50_car_sprite, 0);
+    }
+
+    if (this->field_58_uni_Car78_or_Car_B0)
+    {
+        sub_43E560();
+    }
+
+    if (!this->field_64_pTrailer && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8)
+    {
+        sub_442810();
+    }
+
+    sub_4426D0();
+    sub_442310();
+    sub_441360();
+
+    if (this->field_88 != 5)
+    {
+        if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 0x20) == 0x20)
+        {
+            if (this->field_54_driver)
+            {
+                if (this->field_9C == 3 && !this->field_4.field_0_pOwner && this->field_8C < 3u)
+                {
+                    gTaxi_4_704130->sub_457BA0(this);
+                }
+            }
+        }
+        gPurpleDoom_1_679208->sub_477B20(this->field_50_car_sprite);
+    }
     return 0;
 }
 
@@ -3143,7 +3233,7 @@ void Car_BC::sub_4441B0()
     }
 }
 
-// TODO: matches on decomp.me
+// TODO: matches on decomp.me -  BitSet32 field_8_damaged_areas; needs changing to a u32/bitfield
 STUB_FUNC(0x444490) // https://decomp.me/scratch/Mt1bU
 void Car_BC::sub_444490()
 {

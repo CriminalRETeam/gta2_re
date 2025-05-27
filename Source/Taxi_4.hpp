@@ -60,3 +60,5 @@ class Taxi_4
     EXPORT ~Taxi_4();
     s32 field_0;
 };
+
+extern EXPORT_VAR Taxi_4* gTaxi_4_704130;
