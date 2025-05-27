@@ -908,58 +908,21 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
 }
 
 MATCH_FUNC(0x4E4C30)
-gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4)
+gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, u32* z_pos)
 {
+    gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
-    gmp_col_info* v4;
-    s32 v5;
-    s32* j;
-
-    //  get the column at ( x = a2 , y = a3 )
-    v4 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[a3][a2]];
-
-    //  Subtract the empty bottom blocks from the column
-    //  and subtract "1"
-    v5 = v4->field_0_height - v4->field_1_offset - 1;
-
-    //  air blocks can be empty blocks or blocks with tiles but without ground
-
-    //  if field_0_height != field_1_offset, then there are non-empty blocks on the column v4
-    if (v5 >= 0)
+    for (s32 curr_z_pos = v4->field_0_height - v4->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
-
-        j = &(v4->field_4_blockd[v5]); //  block number reference;
-
-        //  Begin with the highest non-empty block in the column
-
-        while (1)
+        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(v4->field_4_blockd[curr_z_pos]);
+        u8 slope_byte = gBlockInfo0_6F5EB0->field_B_slope_type;
+        if (!is_air_type(slope_byte))
         {
-            gBlockInfo0_6F5EB0 = &field_0_pDmap->field_4000C_block[*j]; //  get the block
-
-            if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
-            {
-                break;
-            }
-
-            v5--;
-            j -= 1;
-
-            if (v5 < 0)
-            {
-                //  despite having non-empty blocks, all blocks of this column are air blocks
-                return 0;
-            }
+            *z_pos = curr_z_pos + v4->field_1_offset;
+            return gBlockInfo0_6F5EB0;
         }
     }
-    else
-    {
-        //  if field_0_height = field_1_offset, then there isn't non-empty blocks on the column v4
-        return 0;
-    }
-
-    //  the highest non-air block has Z_coord = (v5'th block) + (number of bottom empty blocks)
-    *a4 = v5 + v4->field_1_offset;
-    return gBlockInfo0_6F5EB0;
+    return 0;
 }
 
 MATCH_FUNC(0x4E4CB0)
