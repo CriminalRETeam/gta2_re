@@ -165,11 +165,18 @@ Sprite* Object_3C::sub_5A6DC0()
     return 0;
 }
 
-STUB_FUNC(0x5a6e10)
+MATCH_FUNC(0x5a6e10)
 Sprite_18* Object_3C::sub_5A6E10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* pIter = this->field_0;
+    while (pIter)
+    {
+        Sprite_18* pLast = pIter;
+        pIter = pIter->field_4_next;
+        gSprite_1C24_703B80->DeAlloc(pLast);
+    }
+    this->field_0 = 0;
+    return pIter;
 }
 
 STUB_FUNC(0x5a6e40)
