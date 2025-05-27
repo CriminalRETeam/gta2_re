@@ -1,9 +1,9 @@
 #include "Object_3C.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "Wolfy_3D4.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "Wolfy_3D4.hpp"
 
 // TODO: Init to correct values
 EXPORT_VAR Fix16 dword_6F8BF0;
@@ -429,10 +429,30 @@ void Object_3C::sub_5A7110()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5a71a0)
+MATCH_FUNC(0x5a71a0)
 s32 Object_3C::sub_5A71A0()
 {
-    NOT_IMPLEMENTED;
+    Sprite_18* p18Iter = this->field_0;
+    while (p18Iter)
+    {
+        const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
+        if (type == 4 || type == 5 || type == 1)
+        {
+            Object_5C* o5c = p18Iter->field_0->field_8_o5C;
+            if (o5c)
+            {
+                if (o5c->field_18 >= 287 && o5c->field_18 <= 293)
+                {
+                    return o5c->field_18 - 286;
+                }
+            }
+        }
+        p18Iter = p18Iter->field_4_next;
+        if (!p18Iter)
+        {
+            return 0;
+        }
+    }
     return 0;
 }
 
