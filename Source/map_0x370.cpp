@@ -51,7 +51,7 @@ GLOBAL(dword_6F6248, 0x6F6248);
 EXPORT_VAR s32 dword_6F5FAC;
 GLOBAL(dword_6F5FAC, 0x6F5FAC);
 
-EXPORT_VAR s32 dword_6F610C;
+EXPORT_VAR Fix16 dword_6F610C;
 GLOBAL(dword_6F610C, 0x6F610C);
 
 EXPORT_VAR s32 dword_6F6130;
@@ -61,6 +61,22 @@ static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
         y < pZone->field_2_y + pZone->field_4_h;
+}
+
+static inline u8 get_slope(u8& slope_byte)
+{
+    return slope_byte & 0xFCu;
+}
+
+static inline bool is_air_type(u8& slope_byte)
+{
+    return (slope_byte & 3) == 0;
+}
+
+static inline bool is_climbing_slope(u8& slope_byte)
+{
+    u8 slope = get_slope(slope_byte);
+    return slope > 0 && slope < 0xB4u;
 }
 
 MATCH_FUNC(0x452980)
@@ -679,7 +695,7 @@ s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
     s16 lid;
     s32 result;
 
-    if (z >= dword_6F610C)
+    if (z >= dword_6F610C.mValue)   // TODO: Fix16 this function
     {
         if (z < dword_6F6130)
         {
@@ -892,58 +908,21 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
 }
 
 MATCH_FUNC(0x4E4C30)
-gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4)
+gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, u32* z_pos)
 {
+    gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
-    gmp_col_info* v4;
-    s32 v5;
-    s32* j;
-
-    //  get the column at ( x = a2 , y = a3 )
-    v4 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[a3][a2]];
-
-    //  Subtract the empty bottom blocks from the column
-    //  and subtract "1"
-    v5 = v4->field_0_height - v4->field_1_offset - 1;
-
-    //  air blocks can be empty blocks or blocks with tiles but without ground
-
-    //  if field_0_height != field_1_offset, then there are non-empty blocks on the column v4
-    if (v5 >= 0)
+    for (s32 curr_z_pos = v4->field_0_height - v4->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
-
-        j = &(v4->field_4_blockd[v5]); //  block number reference;
-
-        //  Begin with the highest non-empty block in the column
-
-        while (1)
+        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(v4->field_4_blockd[curr_z_pos]);
+        u8 slope_byte = gBlockInfo0_6F5EB0->field_B_slope_type;
+        if (!is_air_type(slope_byte))
         {
-            gBlockInfo0_6F5EB0 = &field_0_pDmap->field_4000C_block[*j]; //  get the block
-
-            if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
-            {
-                break;
-            }
-
-            v5--;
-            j -= 1;
-
-            if (v5 < 0)
-            {
-                //  despite having non-empty blocks, all blocks of this column are air blocks
-                return 0;
-            }
+            *z_pos = curr_z_pos + v4->field_1_offset;
+            return gBlockInfo0_6F5EB0;
         }
     }
-    else
-    {
-        //  if field_0_height = field_1_offset, then there isn't non-empty blocks on the column v4
-        return 0;
-    }
-
-    //  the highest non-air block has Z_coord = (v5'th block) + (number of bottom empty blocks)
-    *a4 = v5 + v4->field_1_offset;
-    return gBlockInfo0_6F5EB0;
+    return 0;
 }
 
 MATCH_FUNC(0x4E4CB0)
@@ -1007,82 +986,65 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
 MATCH_FUNC(0x4E4D40)
 Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    Fix16 v4;
-    Fix16 v5;
-    Fix16 v6;
     gmp_block_info* block_4DFE10;
-    char_type v9;
-    Fix16 v10;
-    gmp_block_info* v11;
-    char_type field_B_slope_type;
+    u8 slope_byte;
+    Fix16 new_z;
 
-    u8 v13;
-    s32 v14;
-
-    v5 = z_pos;
-    v6 = y_pos;
-    v4 = x_pos;
-    if ((z_pos.mValue & 0x3FFF) == dword_6F610C ||
-        (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == 0 ||
-        (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFCu) <= 0) //  or it's a flat block
-        || v13 >= 0xB4 //  or it's not a ramp
-        || (v9 & 3) == 0 //  or it's a air block
-        || (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(x_pos, v6, &v10), v10 > v5))
+    if (z_pos.GetFracValue() == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
+        || (slope_byte = block_4DFE10->field_B_slope_type, 
+            !is_climbing_slope(slope_byte))
+        || is_air_type(slope_byte) 
+        || (new_z = z_pos.GetRoundValue(), 
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z), 
+            new_z > z_pos))
     {
-        v14 = v5.ToInt() - 1;
-        v11 = Map_0x370::sub_4E4CB0(v4.ToInt(), v6.ToInt(), &v14);
+        s32 v14 = z_pos.ToInt() - 1;
+        gmp_block_info* v11 = Map_0x370::sub_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), &v14);
         gBlockInfo0_6F5EB0 = v11;
-        if (!v11)
+        if (v11 == NULL)
         {
-            a2->mValue = dword_6F6110.mValue;
+            *a2 = dword_6F6110;
             return a2;
         }
-        field_B_slope_type = v11->field_B_slope_type;
+        slope_byte = v11->field_B_slope_type;
 
-        if ((v13 = field_B_slope_type & 0xFC) > 0 //  it's not a flat block
-            && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
+        if (is_climbing_slope(slope_byte) && !is_air_type(slope_byte))
         {
-            v10.FromInt(v14);
-            Map_0x370::sub_4E5BF0(x_pos, v6, &v10);
-            a2->mValue = v10.mValue;
-            return a2;
+            new_z = Fix16(v14);
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z);
         }
-        v10.FromInt(++v14);
+        else
+        {
+            new_z = Fix16(v14) + 1;
+        }
     }
-    a2->mValue = v10.mValue;
+    *a2 = new_z;
     return a2;
 }
 
-STUB_FUNC(0x4E4E50) //  DAMN reg swap    https://decomp.me/scratch/aQODE
-Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
+MATCH_FUNC(0x4E4E50)
+Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    NOT_IMPLEMENTED;
-    Fix16 v5;
-    gmp_block_info* block_4DFE10;
-    s8 v10;
-    u8 v11;
-    gmp_block_info* v12;
-    s8 field_B_slope_type;
-    u8 v14;
-    Fix16 v16;
-
-    for (v5.mValue = a5.mValue; v5.mValue < a5.mValue + dword_6F6110.mValue; v5.mValue = dword_6F6110.mValue + (v5.mValue & 0xFFFFC000))
+    for (Fix16 new_z = z_pos; new_z < z_pos + dword_6F6110; new_z = dword_6F6110 + new_z.GetRoundValue())
     {
-        block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), v5.ToInt());
+        gmp_block_info* block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), new_z.ToInt());
         gBlockInfo0_6F5EB0 = block_4DFE10;
-        if (!block_4DFE10 || (v10 = block_4DFE10->field_B_slope_type, (v10 & 3) == 0))
+        u8 slope_byte;
+        if (block_4DFE10 == NULL || (slope_byte = block_4DFE10->field_B_slope_type, is_air_type(slope_byte)))
         {
-            v12 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), (v5 - dword_6F6110).ToInt());
+            gmp_block_info* v12 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), (new_z - dword_6F6110).ToInt());
             gBlockInfo0_6F5EB0 = v12;
             if (v12)
             {
-                field_B_slope_type = v12->field_B_slope_type;
-                if ((field_B_slope_type & 3) != 0)
+                u8 slope_byte = v12->field_B_slope_type;
+
+                if (!is_air_type(slope_byte))
                 {
-                    v14 = field_B_slope_type & 0xFC;
-                    if (v14 <= 0 || v14 >= 0xB4u)
+                    u8 slope = get_slope(slope_byte);
+                    if (slope <= 0 || slope >= 0xB4u) // !is_climbing_slope(slope_byte)
                     {
-                        a2->mValue = v5.mValue;
+                        *a2 = new_z;
                         return a2;
                     }
                 }
@@ -1090,24 +1052,19 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
         }
         else
         {
-            v11 = v10 & 0xFC;
-            if (v11 > 0)
+            if (is_climbing_slope(slope_byte))
             {
-                if (v11 < 0xB4u)
+                Fix16 unk_z_coord = new_z.GetRoundValue();
+                Map_0x370::sub_4E5BF0(x_pos, y_pos, &unk_z_coord);
+                if (unk_z_coord >= new_z)
                 {
-                    v16.mValue = v5.mValue & 0xFFFFC000;
-                    Map_0x370::sub_4E5BF0(a3, a4, &v16);
-                    if (v16 >= v5)
-                    {
-                        a2->mValue = v16.mValue;
-                        return a2;
-                    }
+                    *a2 = unk_z_coord;
+                    return a2;
                 }
             }
         }
     }
-    v5 = a5;
-    a2->mValue = v5.mValue;
+    *a2 = z_pos;
     return a2;
 }
 
@@ -1163,48 +1120,30 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
 MATCH_FUNC(0x4E5B60)
 Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
 {
-    Fix16 v4;
-    Fix16 v5;
-    gmp_block_info* v7;
-    char_type field_B_slope_type;
+    s32 z_pos_int;
+    gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&z_pos_int);
+    gBlockInfo0_6F5EB0 = pHighestBlock;
 
-    //  This function returns the Z coord based on the highest block of (X = a3, Y = a4);
-
-    s32 v6;
-
-    Fix16 v9;
-
-    v4 = x_pos;
-    v5 = y_pos;
-
-    //  get the highest non-air block at (x_pos,y_pos)
-    v7 = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&v6);
-    gBlockInfo0_6F5EB0 = v7;
-
-    if (!v7)
+    if (pHighestBlock == NULL)
     {
-        a2->mValue = 0;
+        *a2 = 0;
         return a2;
     }
     else
     {
-        field_B_slope_type = v7->field_B_slope_type;
-
-        //  0xFCu = 1111 1100
-        //  bits 0-1 = surface type
-        //  bits 2-7 = slope angle type
-        if (((u8)field_B_slope_type & 0xFCu) > 0 //  it's not a flat block
-            && ((u8)field_B_slope_type & 0xFCu) < 0xB4u //  < 10110100 = it's a ramp
-            && ((u8)field_B_slope_type & 3) != 0) //  (bits 0-1) != 0 means it's not an air block
+        Fix16 z_pos;
+        u8 slope_byte = pHighestBlock->field_B_slope_type;
+        if (is_climbing_slope(slope_byte) 
+            && !is_air_type(slope_byte))
         {
-            v9.FromInt(v6);
-            Map_0x370::sub_4E5BF0(v4, v5, &v9); //  get the Z position based on the slope angle?
+            z_pos = Fix16(z_pos_int);
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &z_pos); //  get the Z position based on the slope angle
         }
         else
         {
-            v9.FromInt(v6 + 1);
+            z_pos = Fix16(z_pos_int) + 1;
         }
-        a2->mValue = v9.mValue;
+        *a2 = z_pos;
         return a2;
     }
 }
@@ -1280,43 +1219,40 @@ gmp_block_info* Map_0x370::sub_4E6360(s32 a2, s32 a3, s32* a4)
 }
 
 MATCH_FUNC(0x4E6400)
-Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5)
+Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    Fix16 v5;
-    Fix16 v6;
-    Fix16 v7;
     gmp_block_info* block_4DFE10;
-    u8 v9;
-    Fix16 v10;
-    u8 v13;
+    u8 slope_byte;
+    Fix16 new_z;
 
-    v5 = a5;
-    v6 = a4;
-    v7 = a3;
-    if ((a5.mValue & 0x3FFF) == dword_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(a3.ToInt(), a4.ToInt(), a5.ToInt())) == 0 ||
-        (v9 = block_4DFE10->field_B_slope_type, (v13 = v9 & 0xFC) <= 0) || v13 >= 0xB4 || (v9 & 3) == 0 ||
-        (v10.mValue = v5.mValue & 0xFFFFC000, Map_0x370::sub_4E5BF0(v7, v6, &v10), v10 > v5))
+    if (z_pos.GetFracValue() == dword_6F610C 
+        || (block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
+        || (slope_byte = block_4DFE10->field_B_slope_type, 
+            !is_climbing_slope(slope_byte)) 
+        || is_air_type(slope_byte) 
+        || (new_z = z_pos.GetRoundValue(), 
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z), new_z > z_pos))
     {
-        s32 v14 = v5.ToInt() - 1;
-        gmp_block_info* v11 = Map_0x370::sub_4E6360(v7.ToInt(), v6.ToInt(), &v14);
-        gBlockInfo0_6F5EB0 = v11;
-        if (!v11)
+        s32 v14 = z_pos.ToInt() - 1;
+        gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), &v14);
+        gBlockInfo0_6F5EB0 = pBlock;
+        if (pBlock == NULL)
         {
-            a2->mValue = 0x4000;
+            *a2 = Fix16(1);
             return a2;
         }
-        s8 field_B_slope_type = v11->field_B_slope_type;
-        if ((v13 = field_B_slope_type & 0xFCu) > 0 && v13 < 0xB4u && (field_B_slope_type & 3) != 0)
+        slope_byte = pBlock->field_B_slope_type;
+        if (is_climbing_slope(slope_byte) && !is_air_type(slope_byte))
         {
-            v10.FromInt(v14);
-            Map_0x370::sub_4E5BF0(v7, v6, &v10);
+            new_z = Fix16(v14);
+            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z);
         }
         else
         {
-            v10.FromInt(v14 + 1);
+            new_z = Fix16(v14) + 1;
         }
     }
-    a2->mValue = v10.mValue;
+    *a2 = new_z;
     return a2;
 }
 
