@@ -32,6 +32,12 @@ class Taxi_324
         field_0_pFirst = 0;
     }
 
+    void DeAlloc(Taxi_8* pItem)
+    {
+        pItem->field_4_pNext = field_0_pFirst;
+        field_0_pFirst = pItem;
+    }
+
     Taxi_8* field_0_pFirst;
     Taxi_8 field_4_array[99];
     u32 field_31C;
@@ -54,11 +60,11 @@ class Taxi_4
     }
 
     EXPORT u32* sub_457BA0(Car_BC* a2);
-    EXPORT s32 sub_457BC0();
+    EXPORT void sub_457BC0();
     EXPORT s32 sub_457BF0(s32 a2, s32 a3);
     EXPORT Taxi_4();
     EXPORT ~Taxi_4();
-    s32 field_0;
+    Taxi_8* field_0;
 };
 
 extern EXPORT_VAR Taxi_4* gTaxi_4_704130;

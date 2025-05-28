@@ -12,11 +12,17 @@ u32* Taxi_4::sub_457BA0(Car_BC* a2)
     return 0;
 }
 
-STUB_FUNC(0x457bc0)
-s32 Taxi_4::sub_457BC0()
+MATCH_FUNC(0x457bc0)
+void Taxi_4::sub_457BC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Taxi_8* pIter = this->field_0;
+    while (pIter)
+    {
+        Taxi_8* pOldIter = pIter;
+        pIter = pIter->field_4_pNext;
+        gTaxi_324_6783F8->DeAlloc(pOldIter);
+    }
+    this->field_0 = 0;
 }
 
 STUB_FUNC(0x457bf0)
