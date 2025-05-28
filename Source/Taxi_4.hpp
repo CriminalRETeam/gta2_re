@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Car_BC;
 
@@ -66,9 +67,9 @@ class Taxi_4
         field_0 = 0;
     }
 
-    EXPORT void sub_457BA0(Car_BC* pCar);
-    EXPORT void sub_457BC0();
-    EXPORT s32 sub_457BF0(s32 a2, s32 a3);
+    EXPORT void PushTaxi_457BA0(Car_BC* pCar);
+    EXPORT void PopAll_457BC0();
+    EXPORT Car_BC* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
     EXPORT Taxi_4();
     EXPORT ~Taxi_4();
     Taxi_8* field_0;

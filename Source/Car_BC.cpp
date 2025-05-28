@@ -2755,7 +2755,7 @@ char_type Car_BC::sub_443170()
             {
                 if (this->field_9C == 3 && !this->field_4.field_0_pOwner && this->field_8C < 3u)
                 {
-                    gTaxi_4_704130->sub_457BA0(this);
+                    gTaxi_4_704130->PushTaxi_457BA0(this);
                 }
             }
         }

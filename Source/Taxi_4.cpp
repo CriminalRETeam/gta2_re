@@ -6,7 +6,7 @@ EXPORT_VAR Taxi_324* gTaxi_324_6783F8;
 GLOBAL(gTaxi_324_6783F8, 0x6783F8);
 
 MATCH_FUNC(0x457ba0)
-void Taxi_4::sub_457BA0(Car_BC* pCar)
+void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
     Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
     pFirst->field_0 = pCar;
@@ -15,7 +15,7 @@ void Taxi_4::sub_457BA0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x457bc0)
-void Taxi_4::sub_457BC0()
+void Taxi_4::PopAll_457BC0()
 {
     Taxi_8* pIter = this->field_0;
     while (pIter)
@@ -28,24 +28,12 @@ void Taxi_4::sub_457BC0()
 }
 
 STUB_FUNC(0x457bf0)
-s32 Taxi_4::sub_457BF0(s32 a2, s32 a3)
+Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-/*
- i = 99;
-            pIter = pTaxi_324_mem->field_8_array;
-            do
-            {
-                pIter->field_0_ptr = &pIter->field_4_data;
-                ++pIter;
-                --i;
-            } while (i);
-            pTaxi_324_mem->field_0_pFirst = &pTaxi_324_mem->field_4;
-            pTaxi_324_mem->field_320_count = 0;
-*/
 MATCH_FUNC(0x5ae060)
 Taxi_4::Taxi_4()
 {
