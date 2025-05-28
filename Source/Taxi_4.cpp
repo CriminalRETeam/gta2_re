@@ -5,11 +5,13 @@
 EXPORT_VAR Taxi_324* gTaxi_324_6783F8;
 GLOBAL(gTaxi_324_6783F8, 0x6783F8);
 
-STUB_FUNC(0x457ba0)
-u32* Taxi_4::sub_457BA0(Car_BC* a2)
+MATCH_FUNC(0x457ba0)
+void Taxi_4::sub_457BA0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
+    pFirst->field_0 = pCar;
+    pFirst->field_4_pNext = this->field_0;
+    this->field_0 = pFirst;
 }
 
 MATCH_FUNC(0x457bc0)

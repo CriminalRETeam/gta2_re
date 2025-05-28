@@ -6,7 +6,7 @@ class Car_BC;
 
 struct Taxi_8
 {
-    u32 field_0;
+    Car_BC* field_0;
     Taxi_8* field_4_pNext;
 };
 
@@ -30,6 +30,13 @@ class Taxi_324
     ~Taxi_324()
     {
         field_0_pFirst = 0;
+    }
+
+    Taxi_8* Alloc()
+    {
+        Taxi_8* pFirst = field_0_pFirst;
+        field_0_pFirst = pFirst->field_4_pNext;
+        return pFirst;
     }
 
     void DeAlloc(Taxi_8* pItem)
@@ -59,7 +66,7 @@ class Taxi_4
         field_0 = 0;
     }
 
-    EXPORT u32* sub_457BA0(Car_BC* a2);
+    EXPORT void sub_457BA0(Car_BC* pCar);
     EXPORT void sub_457BC0();
     EXPORT s32 sub_457BF0(s32 a2, s32 a3);
     EXPORT Taxi_4();
