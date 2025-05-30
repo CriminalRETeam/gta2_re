@@ -1016,7 +1016,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             !is_gradient_slope(slope_byte))
         || is_air_type(slope_byte) 
         || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, new_z), 
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), 
             new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
@@ -1032,7 +1032,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
         {
             new_z = Fix16(v14);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, new_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z);
         }
         else
         {
@@ -1075,7 +1075,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             if (is_gradient_slope(slope_byte))
             {
                 Fix16 unk_z_coord = new_z.GetRoundValue();
-                Map_0x370::sub_4E5BF0(x_pos, y_pos, unk_z_coord);
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
                 if (unk_z_coord >= new_z)
                 {
                     *a2 = unk_z_coord;
@@ -1157,7 +1157,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
             && !is_air_type(slope_byte))
         {
             z_pos = Fix16(z_pos_int);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, z_pos); //  get the Z position based on the slope angle
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, z_pos); //  get the Z position based on the slope angle
         }
         else
         {
@@ -1169,7 +1169,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
 }
 
 MATCH_FUNC(0x4E5BF0)
-u8 Map_0x370::sub_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
+u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
 {
     gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
 
@@ -1293,7 +1293,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             !is_gradient_slope(slope_byte)) 
         || is_air_type(slope_byte) 
         || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), &v14);
@@ -1307,7 +1307,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
         {
             new_z = Fix16(v14);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, new_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z);
         }
         else
         {
@@ -1343,7 +1343,7 @@ Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
         if (v13 > 0 && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
         {
             v10.FromInt(v6);
-            Map_0x370::sub_4E5BF0(v4, v5, v10);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(v4, v5, v10);
         }
         else
         {
