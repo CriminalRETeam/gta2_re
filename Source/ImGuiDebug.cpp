@@ -18,6 +18,7 @@
 #include "jolly_poitras_0x2BC0.hpp"
 #include "Phi_8CA8.hpp"
 #include "MapRenderer.hpp"
+#include "map_0x370.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -944,6 +945,23 @@ void CC ImGuiDebugDraw()
 
                 ImGui::TreePop();
             }
+        }
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("Slope struct 0x6F5BA8"))
+    {
+        static u8 slope_idx = 0;
+        ImGui::SliderU8("slope_idx", &slope_idx, 0, 63);
+        gmp_map_slope* slope_struct = &byte_6F5BA8[slope_idx];
+        if (slope_struct)
+        {
+            ImGui::Value("field_0", slope_struct->field_0_gradient_direction);
+            ImGui::Value("field_1", slope_struct->field_1_gradient_size);
+            ImGui::Value("field_2", slope_struct->field_2_gradient_level);
+            ImGui::Value("field_3", slope_struct->field_3_padding);
+            ImGui::Value("field_4 float", slope_struct->field_4_zpos_lower.ToFloat());
+            ImGui::Value("field_8 float", slope_struct->field_8_zpos_higher.ToFloat());
         }
         ImGui::TreePop();
     }
