@@ -424,7 +424,7 @@ class Garox_1E34_L  // size 0x620
     EXPORT s32 sub_5D33F0();
     EXPORT size_t sub_5D3470();
     EXPORT char_type sub_5D3680(s16 a1);
-    EXPORT s32 sub_5D39D0();
+    EXPORT void sub_5D39D0();
     EXPORT void sub_5D3B80();
     EXPORT s32 sub_5D3F10(s32 a2, const char_type* a3, s32 a4);
     EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
@@ -856,7 +856,7 @@ class Hud_2B00
     char_type field_2A27;
     Garox_1_v2 field_12F0; // ok
     Garox_13C0_sub field_13C0_sub;
-    s32 field_13C4_text_speed;
+    u32 field_13C4_text_speed;
 };
 
 EXPORT_VAR extern Hud_2B00* gGarox_2B00_706620;

@@ -1144,11 +1144,14 @@ char_type Garox_1E34_L::sub_5D3680(s16 a1)
     return 0;
 }
 
-STUB_FUNC(0x5d39d0)
-s32 Garox_1E34_L::sub_5D39D0()
+MATCH_FUNC(0x5d39d0)
+void Garox_1E34_L::sub_5D39D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_510 = Garox_1E34_L::sub_5D3470();
+    field_504 = field_510 * gGarox_2B00_706620->field_13C4_text_speed;
+    field_50C = 0;
+    field_514 = 0;
+    field_614_prev_brief->field_10 = 0;
 }
 
 STUB_FUNC(0x5d3b80)
