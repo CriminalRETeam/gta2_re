@@ -98,6 +98,9 @@ GLOBAL(DAT_00679320, 0x679320);
 EXPORT_VAR s32 dword_6777D0;
 GLOBAL(dword_6777D0, 0x6777D0);
 
+EXPORT_VAR s32 dword_677888;
+GLOBAL(dword_677888, 0x677888);
+
 EXPORT_VAR s32 dword_6778D0;
 GLOBAL(dword_6778D0, 0x6778D0);
 
@@ -135,6 +138,9 @@ extern EXPORT_VAR Ang16 dword_6F804C;
 
 EXPORT_VAR Ang16 word_6F771E;
 GLOBAL(word_6F771E, 0x6F771E);
+
+EXPORT_VAR Ang16 word_67791C;
+GLOBAL(word_67791C, 0x67791C);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -3043,11 +3049,12 @@ void Car_BC::sub_443EE0(s32 a2)
     IncrementAllocatedCarType_443DA0(a2);
 }
 
-STUB_FUNC(0x443f30)
-s32 Car_BC::sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x443f30)
+void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, stru_67727C.field_30, 200);
+    pObj->sub_527990();
+    field_50_car_sprite->sub_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
 }
 
 MATCH_FUNC(0x444020)
