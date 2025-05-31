@@ -417,7 +417,7 @@ class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L, bu
 class Garox_1E34_L  // size 0x620
 {
   public:
-    EXPORT s32 sub_5D3330();
+    EXPORT void sub_5D3330();
     EXPORT char_type* sub_5D3350();
     EXPORT s32 sub_5D3370();
     EXPORT s32 sub_5D33A0();
@@ -435,7 +435,7 @@ class Garox_1E34_L  // size 0x620
     s32 field_0;
     s32 field_4;
     s32 field_8;
-    s32 field_C;
+    Garox_1E34_L* field_C;
     u8 field_10;
     u8 field_11;
     u8 field_12;
@@ -771,7 +771,7 @@ class Garox_1E34_L  // size 0x620
     s32 field_610;
     Garox_1E34_L* field_614_prev_brief;
     s32 field_618_p_start_q;
-    s32 field_61C;
+    Garox_1E34_L* field_61C;
 };
 
 class gmp_map_zone;

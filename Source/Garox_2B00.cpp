@@ -1086,11 +1086,13 @@ void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d3330)
-s32 Garox_1E34_L::sub_5D3330()
+MATCH_FUNC(0x5d3330)
+void Garox_1E34_L::sub_5D3330()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_1E34_L* curr_brief = this->field_61C;
+    this->field_61C = curr_brief->field_C;
+    curr_brief->field_C = this->field_614_prev_brief;
+    this->field_614_prev_brief = curr_brief;
 }
 
 STUB_FUNC(0x5d3350)
