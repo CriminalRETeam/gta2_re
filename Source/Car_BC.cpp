@@ -95,7 +95,7 @@ GLOBAL(byte_679C0A, 0x679C0A);
 EXPORT_VAR s16 DAT_00679320[1000];
 GLOBAL(DAT_00679320, 0x679320);
 
-EXPORT_VAR s32 dword_6777D0;
+EXPORT_VAR Fix16 dword_6777D0;
 GLOBAL(dword_6777D0, 0x6777D0);
 
 EXPORT_VAR s32 dword_677888;
@@ -3118,11 +3118,10 @@ void Car_BC::sub_4441B0()
     }
 }
 
-// TODO: matches on decomp.me -  BitSet32 field_8_damaged_areas; needs changing to a u32/bitfield
-STUB_FUNC(0x444490) // https://decomp.me/scratch/Mt1bU
+// Note: bitset32 needs to get the arg value by reference
+MATCH_FUNC(0x444490)
 void Car_BC::sub_444490()
 {
-    NOT_IMPLEMENTED;
     this->field_6C_maybe_id = gCar_6C_677930->field_14++;
     this->field_74_damage = 0;
     this->field_8C = 0;

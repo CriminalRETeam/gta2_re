@@ -24,7 +24,7 @@ class BitSet32
         return (m_var & (1u << bit)) == (1u << bit);
     }
 
-    BitSet32& operator=(u32 value)
+    BitSet32& operator=(u32& value) // Note: arg as reference
     {
         m_var = value;
         return *this;
