@@ -420,7 +420,7 @@ class Garox_1E34_L  // size 0x620
     EXPORT void sub_5D3330();
     EXPORT char_type* sub_5D3350();
     EXPORT s32 sub_5D3370();
-    EXPORT s32 sub_5D33A0();
+    EXPORT void sub_5D33A0();
     EXPORT s32 sub_5D33F0();
     EXPORT size_t sub_5D3470();
     EXPORT char_type sub_5D3680(s16 a1);

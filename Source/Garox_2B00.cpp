@@ -1109,11 +1109,18 @@ s32 Garox_1E34_L::sub_5D3370()
     return 0;
 }
 
-STUB_FUNC(0x5d33a0)
-s32 Garox_1E34_L::sub_5D33A0()
+MATCH_FUNC(0x5d33a0)
+void Garox_1E34_L::sub_5D33A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_1E34_L* pBrief;
+    for (pBrief = field_61C; pBrief->field_C; pBrief = pBrief->field_C)
+    {
+        ;
+    }
+    pBrief->field_C = field_614_prev_brief;
+    field_614_prev_brief->field_8 = 0;
+    field_614_prev_brief = field_614_prev_brief->field_C;
+    pBrief->field_C->field_C = 0;
 }
 
 STUB_FUNC(0x5d33f0)
