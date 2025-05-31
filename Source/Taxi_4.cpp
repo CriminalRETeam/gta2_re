@@ -1,43 +1,82 @@
 #include "Taxi_4.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
+#include "Car_BC.hpp"
 
 EXPORT_VAR Taxi_324* gTaxi_324_6783F8;
 GLOBAL(gTaxi_324_6783F8, 0x6783F8);
 
-STUB_FUNC(0x457ba0)
-u32* Taxi_4::sub_457BA0(Car_BC* a2)
+MATCH_FUNC(0x457ba0)
+void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
+    pFirst->field_0 = pCar;
+    pFirst->field_4_pNext = this->field_0;
+    this->field_0 = pFirst;
 }
 
-STUB_FUNC(0x457bc0)
-s32 Taxi_4::sub_457BC0()
+MATCH_FUNC(0x457bc0)
+void Taxi_4::PopAll_457BC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Taxi_8* pIter = this->field_0;
+    while (pIter)
+    {
+        Taxi_8* pOldIter = pIter;
+        pIter = pIter->field_4_pNext;
+        gTaxi_324_6783F8->DeAlloc(pOldIter);
+    }
+    this->field_0 = 0;
 }
 
+// https://decomp.me/scratch/7fYdj
 STUB_FUNC(0x457bf0)
-s32 Taxi_4::sub_457BF0(s32 a2, s32 a3)
+Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    Car_BC* pCarRet = 0;
+    Fix16 smallest(99999);
+
+    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->field_4_pNext)
+    {
+        Sprite* pCarSprite = pIter->field_0->field_50_car_sprite;
+
+        Fix16 yd = pCarSprite->field_18_ypos - ypos;
+        Fix16 xd = pCarSprite->field_14_xpos - xpos;
+
+        //v14 = xDelta;
+
+        if (yd <= 0)
+        {
+            yd = -yd; //  Fix16::Negate_4086A0 inlined ?
+        }
+
+        // ypos = yDelta;
+        if (xd <= 0)
+        {
+            xd = -xd;
+        }
+        //else
+        {
+            //  xpos = xDelta;
+        }
+
+        //current = *Fix16::Max_44E540(&v15, &xpos, &ypos);
+
+        Fix16 current = current.Max_44E540(xd, yd);
+
+        if (current < smallest)
+        {
+            pCarRet = pIter->field_0;
+            if (pIter->field_0->field_88 != 5)
+            {
+                smallest = current;
+            }
+        }
+    }
+    return pCarRet;
 }
 
-/*
- i = 99;
-            pIter = pTaxi_324_mem->field_8_array;
-            do
-            {
-                pIter->field_0_ptr = &pIter->field_4_data;
-                ++pIter;
-                --i;
-            } while (i);
-            pTaxi_324_mem->field_0_pFirst = &pTaxi_324_mem->field_4;
-            pTaxi_324_mem->field_320_count = 0;
-*/
 MATCH_FUNC(0x5ae060)
 Taxi_4::Taxi_4()
 {

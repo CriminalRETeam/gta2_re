@@ -1,12 +1,13 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Car_BC;
 
 struct Taxi_8
 {
-    u32 field_0;
+    Car_BC* field_0;
     Taxi_8* field_4_pNext;
 };
 
@@ -32,6 +33,19 @@ class Taxi_324
         field_0_pFirst = 0;
     }
 
+    Taxi_8* Alloc()
+    {
+        Taxi_8* pFirst = field_0_pFirst;
+        field_0_pFirst = pFirst->field_4_pNext;
+        return pFirst;
+    }
+
+    void DeAlloc(Taxi_8* pItem)
+    {
+        pItem->field_4_pNext = field_0_pFirst;
+        field_0_pFirst = pItem;
+    }
+
     Taxi_8* field_0_pFirst;
     Taxi_8 field_4_array[99];
     u32 field_31C;
@@ -53,12 +67,12 @@ class Taxi_4
         field_0 = 0;
     }
 
-    EXPORT u32* sub_457BA0(Car_BC* a2);
-    EXPORT s32 sub_457BC0();
-    EXPORT s32 sub_457BF0(s32 a2, s32 a3);
+    EXPORT void PushTaxi_457BA0(Car_BC* pCar);
+    EXPORT void PopAll_457BC0();
+    EXPORT Car_BC* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
     EXPORT Taxi_4();
     EXPORT ~Taxi_4();
-    s32 field_0;
+    Taxi_8* field_0;
 };
 
 extern EXPORT_VAR Taxi_4* gTaxi_4_704130;
