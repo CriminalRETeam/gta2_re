@@ -641,7 +641,7 @@ gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
     return NULL;
 }
 
-Fix16 dword_6F6110; // = 0x4000; // todo
+Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
 
 MATCH_FUNC(0x4DFF60)
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
