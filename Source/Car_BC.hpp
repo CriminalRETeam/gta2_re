@@ -721,7 +721,7 @@ class Car_BC
     
     Unknown_Ptr_4 field_0_qq;
     Ped_Unknown_4 field_4;
-    BitSet32 field_8_damaged_areas;
+    BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;

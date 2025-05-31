@@ -3118,7 +3118,6 @@ void Car_BC::sub_4441B0()
     }
 }
 
-// Note: bitset32 needs to get the arg value by reference
 MATCH_FUNC(0x444490)
 void Car_BC::sub_444490()
 {

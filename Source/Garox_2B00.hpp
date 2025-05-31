@@ -429,14 +429,17 @@ class Garox_1E34_L  // size 0x620
     EXPORT s32 sub_5D3F10(s32 a2, const char_type* a3, s32 a4);
     EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
     EXPORT void sub_5D44D0();
-    EXPORT s32 sub_5D4850();
+    EXPORT void sub_5D4850();
     EXPORT s32 sub_5D4890(s32 a2);
     EXPORT Garox_1E34_L();
     s32 field_0;
     s32 field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    u8 field_10;
+    u8 field_11;
+    u8 field_12;
+    u8 field_13;
     s32 field_14;
     s32 field_18;
     s32 field_1C;
@@ -766,7 +769,7 @@ class Garox_1E34_L  // size 0x620
     s32 field_608;
     s32 field_60C;
     s32 field_610;
-    char_type* field_614;
+    Garox_1E34_L* field_614_prev_brief;
     s32 field_618_p_start_q;
     s32 field_61C;
 };

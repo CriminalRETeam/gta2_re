@@ -1168,11 +1168,22 @@ void Garox_1E34_L::sub_5D44D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d4850)
-s32 Garox_1E34_L::sub_5D4850()
+MATCH_FUNC(0x5d4850)
+void Garox_1E34_L::sub_5D4850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_61C)
+    {
+        Garox_1E34_L* prev_brief = field_614_prev_brief;
+        if (prev_brief)
+        {
+            if (prev_brief->field_10)
+            {
+                Garox_1E34_L::sub_5D33A0();
+            }
+        }
+        Garox_1E34_L::sub_5D3330();
+        Garox_1E34_L::sub_5D39D0();
+    }
 }
 
 STUB_FUNC(0x5d4890)
