@@ -347,7 +347,7 @@ void MapRenderer::sub_4F66C0()
 {
     NOT_IMPLEMENTED;
     u16 v6;
-    dword_6F646C.field_0 = 0;
+    dword_6F646C.field_0_gradient_direction = 0;
 
     if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
     {

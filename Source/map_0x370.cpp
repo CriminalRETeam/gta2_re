@@ -30,6 +30,9 @@ GLOBAL(gBlockInfo2_6F6028, 0x6F6028);
 EXPORT_VAR gmp_map_slope byte_6F5BA8[64];   // maybe size 64
 GLOBAL(byte_6F5BA8, 0x6F5BA8);
 
+EXPORT_VAR gmp_map_slope* dword_6F5EC8;
+GLOBAL(dword_6F5EC8, 0x6F5EC8);
+
 EXPORT_VAR s16 word_6F6002;
 GLOBAL(word_6F6002, 0x6F6002);
 
@@ -57,15 +60,32 @@ GLOBAL(dword_6F610C, 0x6F610C);
 EXPORT_VAR s32 dword_6F6130;
 GLOBAL(dword_6F6130, 0x6F6130);
 
+EXPORT_VAR Fix16 dword_6F60C0;
+GLOBAL(dword_6F60C0, 0x6F60C0);
+
+EXPORT_VAR Fix16 dword_6F5ED8;
+GLOBAL(dword_6F5ED8, 0x6F5ED8);
+
+EXPORT_VAR Fix16 dword_6F5FA8;
+GLOBAL(dword_6F5FA8, 0x6F5FA8);
+
+EXPORT_VAR Fix16 dword_6F6214;
+GLOBAL(dword_6F6214, 0x6F6214);
+
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
         y < pZone->field_2_y + pZone->field_4_h;
 }
 
-static inline u8 get_slope(u8& slope_byte)
+static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
 {
     return slope_byte & 0xFCu;
+}
+
+static inline u8 get_slope_idx(u8& slope_byte) // 0 to 63
+{
+    return slope_byte >> 2;
 }
 
 static inline bool is_air_type(u8& slope_byte)
@@ -73,10 +93,10 @@ static inline bool is_air_type(u8& slope_byte)
     return (slope_byte & 3) == 0;
 }
 
-static inline bool is_climbing_slope(u8& slope_byte)
+static inline bool is_gradient_slope(u8& slope_byte)
 {
-    u8 slope = get_slope(slope_byte);
-    return slope > 0 && slope < 0xB4u;
+    u8 slope = get_slope_bits(slope_byte);
+    return slope > 0 && slope < 0xB4u;  // slope idx in range 1 to 45
 }
 
 MATCH_FUNC(0x452980)
@@ -621,7 +641,7 @@ gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
     return NULL;
 }
 
-Fix16 dword_6F6110; // = 0x4000; // todo
+Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
 
 MATCH_FUNC(0x4DFF60)
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
@@ -993,10 +1013,10 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     if (z_pos.GetFracValue() == dword_6F610C 
         || (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
         || (slope_byte = block_4DFE10->field_B_slope_type, 
-            !is_climbing_slope(slope_byte))
+            !is_gradient_slope(slope_byte))
         || is_air_type(slope_byte) 
         || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z), 
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), 
             new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
@@ -1009,10 +1029,10 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         }
         slope_byte = v11->field_B_slope_type;
 
-        if (is_climbing_slope(slope_byte) && !is_air_type(slope_byte))
+        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
         {
             new_z = Fix16(v14);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z);
         }
         else
         {
@@ -1041,8 +1061,8 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 
                 if (!is_air_type(slope_byte))
                 {
-                    u8 slope = get_slope(slope_byte);
-                    if (slope <= 0 || slope >= 0xB4u) // !is_climbing_slope(slope_byte)
+                    u8 slope = get_slope_bits(slope_byte);
+                    if (slope <= 0 || slope >= 0xB4u) // !is_gradient_slope(slope_byte)
                     {
                         *a2 = new_z;
                         return a2;
@@ -1052,10 +1072,10 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         }
         else
         {
-            if (is_climbing_slope(slope_byte))
+            if (is_gradient_slope(slope_byte))
             {
                 Fix16 unk_z_coord = new_z.GetRoundValue();
-                Map_0x370::sub_4E5BF0(x_pos, y_pos, &unk_z_coord);
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
                 if (unk_z_coord >= new_z)
                 {
                     *a2 = unk_z_coord;
@@ -1133,11 +1153,11 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
     {
         Fix16 z_pos;
         u8 slope_byte = pHighestBlock->field_B_slope_type;
-        if (is_climbing_slope(slope_byte) 
+        if (is_gradient_slope(slope_byte) 
             && !is_air_type(slope_byte))
         {
             z_pos = Fix16(z_pos_int);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, &z_pos); //  get the Z position based on the slope angle
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, z_pos); //  get the Z position based on the slope angle
         }
         else
         {
@@ -1148,10 +1168,52 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
     }
 }
 
-STUB_FUNC(0x4E5BF0)
-char_type Map_0x370::sub_4E5BF0(Fix16 a2, Fix16 a3, Fix16* a4)
+MATCH_FUNC(0x4E5BF0)
+u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
 {
-    NOT_IMPLEMENTED;
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
+
+    if (gBlockInfo0_6F5EB0)
+    {
+        Fix16 grad_pos;
+        Fix16 grad_scale;
+
+        if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            dword_6F5EC8 = &byte_6F5BA8[get_slope_idx(gBlockInfo0_6F5EB0->field_B_slope_type)];
+
+            switch (dword_6F5EC8->field_0_gradient_direction)
+            {
+                case 0:
+                    return 0;
+                case NORTH_1:
+                    grad_pos = dword_6F6110 - y_pos.GetFracValue();
+                    break;
+                case SOUTH_2:
+                    grad_pos = y_pos.GetFracValue();
+                    break;
+                case WEST_3:
+                    grad_pos = dword_6F6110 - x_pos.GetFracValue();
+                    break;
+                case EAST_4:
+                    grad_pos = x_pos.GetFracValue();
+                    break;
+                default:
+                    break;
+            }
+
+            get_grad_scale_from_size_4634E0(grad_scale, dword_6F5EC8->field_1_gradient_size);
+
+            Fix16 relative_z_pos = dword_6F5EC8->field_4_zpos_lower + (grad_pos * grad_scale);
+
+            if (relative_z_pos == dword_6F610C)
+            {
+                relative_z_pos = dword_6F60C0;
+            }
+            z_pos = relative_z_pos + z_pos.GetRoundValue();
+            return dword_6F5EC8->field_0_gradient_direction;
+        }
+    }
     return 0;
 }
 
@@ -1228,10 +1290,10 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     if (z_pos.GetFracValue() == dword_6F610C 
         || (block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
         || (slope_byte = block_4DFE10->field_B_slope_type, 
-            !is_climbing_slope(slope_byte)) 
+            !is_gradient_slope(slope_byte)) 
         || is_air_type(slope_byte) 
         || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z), new_z > z_pos))
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), &v14);
@@ -1242,10 +1304,10 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             return a2;
         }
         slope_byte = pBlock->field_B_slope_type;
-        if (is_climbing_slope(slope_byte) && !is_air_type(slope_byte))
+        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
         {
             new_z = Fix16(v14);
-            Map_0x370::sub_4E5BF0(x_pos, y_pos, &new_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z);
         }
         else
         {
@@ -1281,7 +1343,7 @@ Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
         if (v13 > 0 && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
         {
             v10.FromInt(v6);
-            Map_0x370::sub_4E5BF0(v4, v5, &v10);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(v4, v5, v10);
         }
         else
         {

@@ -315,18 +315,34 @@ struct gmp_tile_animation
 
 struct gmp_map_slope
 {
-    u8 field_0;
-    u8 field_1;
-    u8 field_2;
-    u8 field_3;
-    Fix16 field_4;
-    u8 field_8;
-    u8 field_9;
-    u8 field_A;
-    u8 field_B;
+    u8 field_0_gradient_direction; // the direction the slope level increases. E.g. "direction north" means it increases the level from south to north
+    u8 field_1_gradient_size; // 1 = 45 degree; 2 = 26 degree; 8 = 7 degree slope
+    u8 field_2_gradient_level; // 0 = highest slope of the gradient, it increases as going lower
+    u8 field_3_padding;
+    Fix16 field_4_zpos_lower; // relative z coordinate from the lowest point of the slope
+    Fix16 field_8_zpos_higher; // relative z coordinate from the highest point of the slope
+};
+
+enum gmp_gradient_slope_direction   // direction: low to high
+{
+    NORTH_1 = 1,
+    SOUTH_2 = 2,
+    WEST_3 = 3,
+    EAST_4 = 4,
+};
+
+enum gmp_gradient_slope_size
+{
+    SIZE_1 = 1,
+    SIZE_2 = 2,
+    SIZE_8 = 8,
 };
 
 EXPORT_VAR extern gmp_map_slope byte_6F5BA8[64];
+EXPORT_VAR extern Fix16 dword_6F5ED8;
+EXPORT_VAR extern Fix16 dword_6F5FA8;
+EXPORT_VAR extern Fix16 dword_6F6214;
+EXPORT_VAR extern Fix16 dword_6F610C;
 
 class Map_0x370
 {
@@ -437,7 +453,7 @@ class Map_0x370
     EXPORT char_type sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6);
     EXPORT char_type sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT Fix16* FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 a3, Fix16 a4);
-    EXPORT char_type sub_4E5BF0(Fix16 a2, Fix16 a3, Fix16* a4);
+    EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 a2, Fix16 a3, Fix16& a4);
     EXPORT s16 sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6);
     EXPORT gmp_block_info* sub_4E62D0(s32 a2, s32 a3, u32* a4);
     EXPORT gmp_block_info* sub_4E6360(s32 a2, s32 a3, s32* a4);
@@ -488,6 +504,27 @@ class Map_0x370
     EXPORT Map_0x370();
 
     EXPORT ~Map_0x370();
+
+    // 9.6f inline 0x4634E0
+    inline Fix16 get_grad_scale_from_size_4634E0(Fix16& scale, u8 gradient_size)
+    {
+        switch (gradient_size)
+        {
+            case SIZE_1:
+                scale = dword_6F5ED8;    //  16384
+                break;
+            case SIZE_2:
+                scale = dword_6F5FA8;    //  8168
+                break;
+            case SIZE_8:
+                scale = dword_6F6214;    //  2084
+                break;
+            default:
+                scale = dword_6F610C;    //  0
+                break;
+        }
+        return scale;
+    }
 
   public:
     gmp_compressed_map_32* field_0_pDmap;

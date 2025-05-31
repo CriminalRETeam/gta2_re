@@ -81,11 +81,52 @@ void Object_2C::sub_522360()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5223c0)
-char_type Object_2C::sub_5223C0(Sprite* a2)
+MATCH_FUNC(0x5223c0)
+char Object_2C::sub_5223C0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 sprite_type;
+
+    if (!pSprite)
+    {
+        return 0;
+    }
+    switch (field_8->field_54)
+    {
+        case 0:
+            return true;
+        case 1:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+            {
+                return false;
+            }
+            break;
+        case 2:
+            if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
+            {
+                return false;
+            }
+            break;
+        case 3:
+            sprite_type = pSprite->field_30_sprite_type_enum;
+            if (sprite_type != sprite_types_enum::code_obj1
+                && sprite_type != sprite_types_enum::map_obj 
+                && sprite_type != sprite_types_enum::unknown_1)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+            break;
+        case 4:
+            return 0;
+            break;
+        default:
+            return 1;
+            break;
+    }
+    return true;
 }
 
 STUB_FUNC(0x522430)

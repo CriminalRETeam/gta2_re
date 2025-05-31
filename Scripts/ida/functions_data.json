@@ -7525,8 +7525,8 @@
         "v105_address": "0x4e5b60"
     },
     {
-        "name": "Map_0x370::sub_4E5BF0",
-        "v96f_address": null,
+        "name": "Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0",
+        "v96f_address": "0x466B70",
         "v105_address": "0x4e5bf0"
     },
     {
