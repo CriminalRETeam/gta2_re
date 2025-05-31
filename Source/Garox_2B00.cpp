@@ -1086,11 +1086,13 @@ void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d3330)
-s32 Garox_1E34_L::sub_5D3330()
+MATCH_FUNC(0x5d3330)
+void Garox_1E34_L::sub_5D3330()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_1E34_L* curr_brief = this->field_61C;
+    this->field_61C = curr_brief->field_C;
+    curr_brief->field_C = this->field_614_prev_brief;
+    this->field_614_prev_brief = curr_brief;
 }
 
 STUB_FUNC(0x5d3350)
@@ -1107,11 +1109,18 @@ s32 Garox_1E34_L::sub_5D3370()
     return 0;
 }
 
-STUB_FUNC(0x5d33a0)
-s32 Garox_1E34_L::sub_5D33A0()
+MATCH_FUNC(0x5d33a0)
+void Garox_1E34_L::sub_5D33A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Garox_1E34_L* pBrief;
+    for (pBrief = field_61C; pBrief->field_C; pBrief = pBrief->field_C)
+    {
+        ;
+    }
+    pBrief->field_C = field_614_prev_brief;
+    field_614_prev_brief->field_8 = 0;
+    field_614_prev_brief = field_614_prev_brief->field_C;
+    pBrief->field_C->field_C = 0;
 }
 
 STUB_FUNC(0x5d33f0)
@@ -1135,11 +1144,14 @@ char_type Garox_1E34_L::sub_5D3680(s16 a1)
     return 0;
 }
 
-STUB_FUNC(0x5d39d0)
-s32 Garox_1E34_L::sub_5D39D0()
+MATCH_FUNC(0x5d39d0)
+void Garox_1E34_L::sub_5D39D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_510 = Garox_1E34_L::sub_5D3470();
+    field_504 = field_510 * gGarox_2B00_706620->field_13C4_text_speed;
+    field_50C = 0;
+    field_514 = 0;
+    field_614_prev_brief->field_10 = 0;
 }
 
 STUB_FUNC(0x5d3b80)
@@ -1168,11 +1180,22 @@ void Garox_1E34_L::sub_5D44D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d4850)
-s32 Garox_1E34_L::sub_5D4850()
+MATCH_FUNC(0x5d4850)
+void Garox_1E34_L::sub_5D4850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_61C)
+    {
+        Garox_1E34_L* prev_brief = field_614_prev_brief;
+        if (prev_brief)
+        {
+            if (prev_brief->field_10)
+            {
+                Garox_1E34_L::sub_5D33A0();
+            }
+        }
+        Garox_1E34_L::sub_5D3330();
+        Garox_1E34_L::sub_5D39D0();
+    }
 }
 
 STUB_FUNC(0x5d4890)

@@ -60,12 +60,12 @@ class Object_3C
     s16 field_2C;
     char_type field_2E;
     char_type field_2F;
-    char_type field_30;
-    char_type field_31;
-    s16 field_32;
+    s32 field_30;
     s32 field_34;
     char_type field_38;
     char_type field_39;
     char_type field_3A;
     char_type field_3B;
 };
+
+EXPORT_VAR extern EXPORT_VAR Object_3C stru_67727C;

@@ -643,7 +643,7 @@ class Car_BC
     EXPORT void sub_443E80();
     EXPORT void sub_443EB0(s32 a2);
     EXPORT void sub_443EE0(s32 a2);
-    EXPORT s32 sub_443F30(s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT void sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5);
     EXPORT void sub_444020();
     EXPORT u32 sub_444090(Car_BC* a1);
     EXPORT void sub_4441B0();
@@ -721,7 +721,7 @@ class Car_BC
     
     Unknown_Ptr_4 field_0_qq;
     Ped_Unknown_4 field_4;
-    BitSet32 field_8_damaged_areas;
+    BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;

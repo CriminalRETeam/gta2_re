@@ -337,6 +337,12 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     this->field_4->field_8_object_2C_ptr = this;
 }
 
+STUB_FUNC(0x527990)
+void Object_2C::sub_527990()
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x527ae0)
 void Object_2C::sub_527AE0()
 {
@@ -633,7 +639,7 @@ Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
 }
 
 STUB_FUNC(0x529ab0)
-Object_2C* Object_5C::sub_529AB0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, u8 a8)
+Object_2C* Object_5C::sub_529AB0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, s32 a6, s32 a7, u8 a8)
 {
     NOT_IMPLEMENTED;
     return 0;
