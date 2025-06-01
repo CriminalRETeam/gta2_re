@@ -277,7 +277,10 @@ class Garox_18
     s32 field_4;
     s32 field_8;
     Garox_18* field_C;
-    s32 field_10;
+    u8 field_10;
+    u8 field_11;
+    u8 field_12;
+    u8 field_13;
     s32 field_14;
 };
 
@@ -776,9 +779,9 @@ class Garox_1E34_L  // size 0x620
     s32 field_6EC;
     s32 field_6F0;
     s32 field_6F4;
-    Garox_1E34_L* field_6F8_prev_brief;
+    Garox_18* field_6F8_prev_brief;
     s32 field_6FC_p_start_q;
-    Garox_1E34_L* field_700;
+    Garox_18* field_700;
 };
 
 class gmp_map_zone;

@@ -1084,10 +1084,10 @@ void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 MATCH_FUNC(0x5d3330)
 void Garox_1E34_L::sub_5D3330()
 {
-    Garox_1E34_L* curr_brief = this->field_700;
-    this->field_700 = curr_brief->field_C;
-    curr_brief->field_C = this->field_6F8_prev_brief;
-    this->field_6F8_prev_brief = curr_brief;
+    Garox_18* pGarox_18 = field_700;
+    field_700 = pGarox_18->field_C;
+    pGarox_18->field_C = field_6F8_prev_brief;
+    field_6F8_prev_brief = pGarox_18;
 }
 
 STUB_FUNC(0x5d3350)
@@ -1107,7 +1107,7 @@ s32 Garox_1E34_L::sub_5D3370()
 MATCH_FUNC(0x5d33a0)
 void Garox_1E34_L::sub_5D33A0()
 {
-    Garox_1E34_L* pBrief;
+    Garox_18* pBrief;
     for (pBrief = field_700; pBrief->field_C; pBrief = pBrief->field_C)
     {
         ;
@@ -1180,7 +1180,7 @@ void Garox_1E34_L::sub_5D4850()
 {
     if (field_700)
     {
-        Garox_1E34_L* prev_brief = field_6F8_prev_brief;
+        Garox_18* prev_brief = field_6F8_prev_brief;
         if (prev_brief)
         {
             if (prev_brief->field_10)
