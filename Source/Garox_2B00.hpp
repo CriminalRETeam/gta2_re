@@ -307,6 +307,13 @@ class ArrowTrace_24
         field_20 = 0;
     }
 
+    inline void load_arrow_aim_from_pos_4767C0(Fix16 x, Fix16 y, Fix16 z)
+    {
+        field_14_aim_x = x;
+        field_18_aim_y = y;
+        field_1C_aim_z = z;
+    }
+
     s32 field_0;
     Player* field_4;
     Object_2C* field_8;

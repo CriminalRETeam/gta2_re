@@ -797,20 +797,15 @@ Hud_Pager_C::Hud_Pager_C()
     field_8_sound = NULL;
 }
 
-// ----------------------------------------------------
-
-STUB_FUNC(0x5d03c0)
+MATCH_FUNC(0x5d03c0)
 void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
-    NOT_IMPLEMENTED;
-    // TODO: Try to match this soon to verify structs are correct
-    field_18_aim_y = pZone->field_130_info_phone_y;
-    field_14_aim_x = pZone->field_12C_info_phone_x;
-    field_1C_aim_z = pZone->field_134_info_phone_z;
+    load_arrow_aim_from_pos_4767C0(
+                pZone->field_12C_info_phone_x, 
+                pZone->field_130_info_phone_y, 
+                pZone->field_134_info_phone_z);
     field_10_type = 5;
 }
-
-// ----------------------------------------------------
 
 MATCH_FUNC(0x5d0510)
 void Hud_Arrow_7C::sub_5D0510(s32 a2)
