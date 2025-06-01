@@ -797,20 +797,15 @@ Hud_Pager_C::Hud_Pager_C()
     field_8_sound = NULL;
 }
 
-// ----------------------------------------------------
-
-STUB_FUNC(0x5d03c0)
+MATCH_FUNC(0x5d03c0)
 void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
-    NOT_IMPLEMENTED;
-    // TODO: Try to match this soon to verify structs are correct
-    field_18_aim_y = pZone->field_130_info_phone_y;
-    field_14_aim_x = pZone->field_12C_info_phone_x;
-    field_1C_aim_z = pZone->field_134_info_phone_z;
+    set_arrow_aim_from_pos_4767C0(
+                pZone->field_12C_info_phone_x, 
+                pZone->field_130_info_phone_y, 
+                pZone->field_134_info_phone_z);
     field_10_type = 5;
 }
-
-// ----------------------------------------------------
 
 MATCH_FUNC(0x5d0510)
 void Hud_Arrow_7C::sub_5D0510(s32 a2)
@@ -1089,10 +1084,10 @@ void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 MATCH_FUNC(0x5d3330)
 void Garox_1E34_L::sub_5D3330()
 {
-    Garox_1E34_L* curr_brief = this->field_61C;
-    this->field_61C = curr_brief->field_C;
-    curr_brief->field_C = this->field_614_prev_brief;
-    this->field_614_prev_brief = curr_brief;
+    Garox_18* pGarox_18 = field_700;
+    field_700 = pGarox_18->field_C;
+    pGarox_18->field_C = field_6F8_prev_brief;
+    field_6F8_prev_brief = pGarox_18;
 }
 
 STUB_FUNC(0x5d3350)
@@ -1112,14 +1107,14 @@ s32 Garox_1E34_L::sub_5D3370()
 MATCH_FUNC(0x5d33a0)
 void Garox_1E34_L::sub_5D33A0()
 {
-    Garox_1E34_L* pBrief;
-    for (pBrief = field_61C; pBrief->field_C; pBrief = pBrief->field_C)
+    Garox_18* pBrief;
+    for (pBrief = field_700; pBrief->field_C; pBrief = pBrief->field_C)
     {
         ;
     }
-    pBrief->field_C = field_614_prev_brief;
-    field_614_prev_brief->field_8 = 0;
-    field_614_prev_brief = field_614_prev_brief->field_C;
+    pBrief->field_C = field_6F8_prev_brief;
+    field_6F8_prev_brief->field_8 = 0;
+    field_6F8_prev_brief = field_6F8_prev_brief->field_C;
     pBrief->field_C->field_C = 0;
 }
 
@@ -1151,7 +1146,7 @@ void Garox_1E34_L::sub_5D39D0()
     field_504 = field_510 * gGarox_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
     field_514 = 0;
-    field_614_prev_brief->field_10 = 0;
+    field_6F8_prev_brief->field_10 = 0;
 }
 
 STUB_FUNC(0x5d3b80)
@@ -1183,9 +1178,9 @@ void Garox_1E34_L::sub_5D44D0()
 MATCH_FUNC(0x5d4850)
 void Garox_1E34_L::sub_5D4850()
 {
-    if (field_61C)
+    if (field_700)
     {
-        Garox_1E34_L* prev_brief = field_614_prev_brief;
+        Garox_18* prev_brief = field_6F8_prev_brief;
         if (prev_brief)
         {
             if (prev_brief->field_10)
