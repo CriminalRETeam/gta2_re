@@ -800,7 +800,7 @@ Hud_Pager_C::Hud_Pager_C()
 MATCH_FUNC(0x5d03c0)
 void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
-    load_arrow_aim_from_pos_4767C0(
+    set_arrow_aim_from_pos_4767C0(
                 pZone->field_12C_info_phone_x, 
                 pZone->field_130_info_phone_y, 
                 pZone->field_134_info_phone_z);

@@ -1504,15 +1504,13 @@ void miss2_0x11C::sub_508550()  //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_A
         pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
     }
 
-    Fix16 z = v1->field_8_pos.field_8_z;
-    Fix16 y = v1->field_8_pos.field_4_y;
-    Fix16 x = v1->field_8_pos.field_0_x;
-
     ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
 
-    pArrow_trace->field_14_aim_x = x;
-    pArrow_trace->field_18_aim_y = y;
-    pArrow_trace->field_1C_aim_z = z;
+    pArrow_trace->set_arrow_aim_from_pos_4767C0(
+                v1->field_8_pos.field_0_x, 
+                v1->field_8_pos.field_4_y, 
+                v1->field_8_pos.field_8_z);
+
     pArrow_trace->field_10_type = 1;
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
