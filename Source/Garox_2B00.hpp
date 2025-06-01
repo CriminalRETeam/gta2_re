@@ -773,12 +773,12 @@ class Garox_1E34_L  // size 0x620
     s32 field_51C;
     s32 field_520;
     Garox_18 field_524_ary_19[19];
-    s32 field_608;
-    s32 field_60C;
-    s32 field_610;
-    Garox_1E34_L* field_614_prev_brief;
-    s32 field_618_p_start_q;
-    Garox_1E34_L* field_61C;
+    s32 field_6EC;
+    s32 field_6F0;
+    s32 field_6F4;
+    Garox_1E34_L* field_6F8_prev_brief;
+    s32 field_6FC_p_start_q;
+    Garox_1E34_L* field_700;
 };
 
 class gmp_map_zone;
