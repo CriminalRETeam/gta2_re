@@ -29,7 +29,7 @@ class Weapon_8
 {
   public:
     EXPORT Weapon_30* allocate_5E3C10(s32 a2, Ped* a3, u8 a4);
-    EXPORT void deallocate_5E3CB0(Weapon_30 *pWeapon);
+    EXPORT void deallocate_5E3CB0(Weapon_30* pWeapon);
     EXPORT Weapon_30* allocate_5E3CE0(s32 a1, Car_BC* a2, u8 a3);
     EXPORT Weapon_30* find_5E3D20(Car_BC* a2, s32 a3);
     EXPORT char_type allocate_5E3D50(s32 a2, u8 a3, Car_BC* a4);
@@ -60,6 +60,15 @@ class Weapon_2FDC
         field_8[254].field_18_pNext = 0;
         field_4 = 0;
         field_2FD8 = 0;
+    }
+
+    Weapon_30* Allocate()
+    {
+        Weapon_30* pWeapon = field_0;
+        field_0 = pWeapon->field_18_pNext;
+        pWeapon->field_18_pNext = field_4;
+        field_4 = pWeapon;
+        return pWeapon;
     }
 
     EXPORT ~Weapon_2FDC();

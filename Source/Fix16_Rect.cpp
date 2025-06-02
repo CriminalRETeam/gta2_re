@@ -141,3 +141,12 @@ bool Fix16_Rect::sub_59DFB0(s32 a2)
     }
     return true;
 }
+
+MATCH_FUNC(0x5A5E30)
+void Fix16_Rect::sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
+{
+    this->field_0_left = left;
+    this->field_4_right = right;
+    this->field_8_top = top;
+    this->field_C_bottom = bottom;
+}

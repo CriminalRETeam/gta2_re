@@ -14,7 +14,7 @@ EXPORT_VAR Weapon_8* gWeapon_8_707018;
 GLOBAL(gWeapon_8_707018, 0x707018);
 
 u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
-    50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
+                      50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
 
 MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
@@ -40,21 +40,13 @@ void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
     field_4_ref_count--;
 }
 
-STUB_FUNC(0x5e3ce0)
+MATCH_FUNC(0x5e3ce0)
 Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
-    NOT_IMPLEMENTED;
-    Weapon_30* pWeapon; // esi
-    Weapon_30* pNext; // edx
-
-    pWeapon = gWeapon_2FDC_707014->field_0;
-    pNext = gWeapon_2FDC_707014->field_4;
-    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
-    pWeapon->field_18_pNext = pNext;
-    gWeapon_2FDC_707014->field_4 = pWeapon;
+    Weapon_30* pWeapon = gWeapon_2FDC_707014->Allocate();
     pWeapon->init_5DCD90();
-    pWeapon->field_14_car = pCar;
     pWeapon->field_1C_idx = weapon_kind;
+    pWeapon->field_14_car = pCar;
     pWeapon->add_ammo_5DCE20(ammo);
     return pWeapon;
 }
@@ -134,7 +126,6 @@ char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 a2)
     NOT_IMPLEMENTED;
     return 0;
 }
-
 
 MATCH_FUNC(0x5e3e80)
 char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
