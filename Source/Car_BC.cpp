@@ -3294,10 +3294,12 @@ Car_E0C4::~Car_E0C4()
     field_4_firstCar = NULL;
 }
 
+/*
 MATCH_FUNC(0x40ac40)
 Car_8::~Car_8()
 {
 }
+*/
 
 MATCH_FUNC(0x407b90)
 Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)

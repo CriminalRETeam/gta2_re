@@ -811,10 +811,12 @@ struct Car_E0C4
 class Car_8
 {
   public:
-    EXPORT ~Car_8();
+    // Both inlined and exists as a function... some strange array init behaviour??
+     ~Car_8() {}
+
     // It needs to be in the header
     // MATCH_FUNC(0x563970)
-    EXPORT Car_8()
+    Car_8()
     {
     }
 

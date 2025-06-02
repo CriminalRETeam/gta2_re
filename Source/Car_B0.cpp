@@ -23,10 +23,10 @@ s16* Car_B0::sub_4403A0(s16* a2)
     return 0;
 }
 
-STUB_FUNC(0x446ee0)
+MATCH_FUNC(0x446ee0)
 Car_B0::~Car_B0()
 {
-    NOT_IMPLEMENTED;
+
 }
 
 STUB_FUNC(0x559430)
