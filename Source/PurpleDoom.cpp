@@ -32,6 +32,12 @@ GLOBAL(dword_678F60, 0x678F60);
 EXPORT_VAR Sprite* dword_678E40;
 GLOBAL(dword_678E40, 0x678E40);
 
+EXPORT_VAR s32 gPurpleDoom_679090;
+GLOBAL(gPurpleDoom_679090, 0x679090);
+
+EXPORT_VAR s32 gPurpleDoom_start_y_679098;
+GLOBAL(gPurpleDoom_start_y_679098, 0x679098);
+
 extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
 extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
 extern EXPORT_VAR Collide_8004* gCollide_8004_679200;
@@ -194,6 +200,30 @@ u32 PurpleDoom::sub_478160(u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+STUB_FUNC(0x478060)
+void __stdcall PurpleDoom::sub_478060(Collide_8 *a1)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4781E0)
+void PurpleDoom::sub_4781E0(u8 width)
+{
+    NOT_IMPLEMENTED;
+
+    gPurple_left_6F5FD4 = gPurpleDoom_679090;
+    gPurple_right_6F5B80 = width + gPurpleDoom_679090 - 1;
+
+    for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->field_8_pNext)
+    {
+        if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
+        {
+            break;
+        }
+        sub_478060(pXItemIter->field_4_p8);
+    }
 }
 
 MATCH_FUNC(0x478240)
@@ -467,7 +497,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     NOT_IMPLEMENTED;
 
-/*
+    /*
     PurpleDoom_C* v3; // ebp
     char bRet; // bl
     Collide_8* pObj; // esi

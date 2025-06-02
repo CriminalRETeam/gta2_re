@@ -450,7 +450,7 @@ void Object_3C::sub_5A7080()
     Sprite_18* pLastOfType; // edi
     int type; // eax
     Object_2C* o2c; // ecx
-    Sprite_1C24* pRoot_; // eax
+    //Sprite_1C24* pRoot_; // eax
 
     pIter = this->field_0;
     pLastOfType = 0;
