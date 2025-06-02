@@ -32,8 +32,12 @@ class Fix16_Rect
 
     inline bool inline_sub_4B9FD0(Car_8* a2)
     {
-        return Fix16::inline_is_between(field_0_left, field_4_right, a2->field_0) && Fix16::inline_is_between(field_8_top, field_C_bottom, a2->field_4);
+        return Fix16::inline_is_between(field_0_left, field_4_right, a2->field_0) &&
+            Fix16::inline_is_between(field_8_top, field_C_bottom, a2->field_4);
     }
+
+    // TODO: Ordering
+    EXPORT void sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
 
     Fix16 field_0_left;
     Fix16 field_4_right;
