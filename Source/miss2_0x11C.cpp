@@ -3635,10 +3635,19 @@ void miss2_0x11C::sub_50F270()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f3d0)
+MATCH_FUNC(0x50f3d0)
 void miss2_0x11C::SCRCMD_SET_GROUP_TYPE_50F3D0()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_GROUP_TYPE* pCmd = (SCR_SET_GROUP_TYPE*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+    PedGroup* pGroup = pPed->field_164_ped_group;
+
+    if (pGroup != NULL)
+    {
+        pGroup->field_38_group_type = pCmd->field_C_group_type;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f410)

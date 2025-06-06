@@ -414,6 +414,12 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos;
 };
 
+struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
+{
+    u32 field_8_unk;
+    u32 field_C_group_type;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
