@@ -444,7 +444,8 @@ class Garox_1E34_L  // size 0x704
     EXPORT Garox_1E34_L();
 
     wchar_t field_0_str[640];
-    s32 field_500;
+    s16 field_500;
+    s16 field_502;
     s16 field_504;
     s16 field_506;
     s32 field_508;
