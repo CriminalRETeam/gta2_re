@@ -273,10 +273,10 @@ class Hud_Pager_C_Array
 class Garox_18
 {
   public:
-    Garox_18* field_0;
+    Garox_18** field_0; // prob wrong type
     s32 field_4;
     s32 field_8;
-    Garox_18* field_C;
+    Garox_18* field_C;  // prob wrong type
     u8 field_10;
     u8 field_11;
     u8 field_12;
@@ -451,7 +451,7 @@ class Garox_1E34_L  // size 0x704
     s32 field_50C;
     s32 field_510;
     s32 field_514;
-    s32 field_518_ary_19_start_q;
+    Garox_18* field_518_ary_19_start_q;
     s32 field_51C;
     s32 field_520;
     Garox_18 field_524_ary_19[19];
@@ -459,7 +459,7 @@ class Garox_1E34_L  // size 0x704
     s32 field_6F0;
     s32 field_6F4;
     Garox_18* field_6F8_prev_brief;
-    s32 field_6FC_p_start_q;
+    Garox_18** field_6FC_p_start_q;
     Garox_18* field_700;
 };
 

@@ -407,6 +407,19 @@ struct SCR_CHECK_SCORE_GREATER : SCR_CMD_HEADER
     s32 field_C_target_score;
 };
 
+struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_char_idx;
+    Ang16 field_A_rotation;
+    SCR_XYZ_f field_C_pos;
+};
+
+struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
+{
+    u32 field_8_unk;
+    u32 field_C_group_type;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -659,7 +672,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CHAR_INTO_CAR_50F060();
     EXPORT void SCRCMD_DECIDE_POWERUP_50F150();
     EXPORT void SCRCMD_SUPPRESS_MODEL_50F220();
-    EXPORT s32 sub_50F270();
+    EXPORT void sub_50F270();
     EXPORT void SCRCMD_SET_GROUP_TYPE_50F3D0();
     EXPORT void SCRCMD_CHAR_DO_NOTHING_50F410();
     EXPORT void SCRCMD_EMERG_LIGHTS_50F450();

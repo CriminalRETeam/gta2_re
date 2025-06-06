@@ -290,7 +290,7 @@ void DrawUnk_0xBC::sub_4364A0(Car_BC* pCar)
 }
 
 STUB_FUNC(0x436540)
-void DrawUnk_0xBC::sub_436540(s32* a2)
+void DrawUnk_0xBC::sub_436540(Ped* a2)
 {
     NOT_IMPLEMENTED;
 }
