@@ -3828,14 +3828,18 @@ void miss2_0x11C::sub_50FE00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fed0)
-void miss2_0x11C::sub_50FED0()
+MATCH_FUNC(0x50fed0)
+void miss2_0x11C::sub_50FED0()  // SCRCMD_CLEAR_KF_WEAPON
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Player* pPlayer = pPointer->field_8_char->field_15C_player;
+
+    pPlayer->sub_5647D0();  // clear kill frenzy weapon
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ff50)
-void miss2_0x11C::sub_50FF50()
+void miss2_0x11C::sub_50FF50()  // SCRCMD_ADD_ONSCREEN_COUNTER
 {
     SCR_ADD_ONSCREEN_COUNTER* v1 = (SCR_ADD_ONSCREEN_COUNTER*)gBasePtr_6F8070;
     SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
@@ -3846,7 +3850,7 @@ void miss2_0x11C::sub_50FF50()
 }
 
 MATCH_FUNC(0x50ffb0)
-void miss2_0x11C::sub_50FFB0()
+void miss2_0x11C::sub_50FFB0()  // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ONLY
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     u16 idx = pPointer->field_8_index;
@@ -3866,14 +3870,14 @@ void miss2_0x11C::sub_50FFB0()
 }
 
 MATCH_FUNC(0x510030)
-void miss2_0x11C::sub_510030()  // change police level
+void miss2_0x11C::sub_510030()  // SCRCMD_CHANGE_POLICE
 {
     miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510050)
-void miss2_0x11C::sub_510050()
+void miss2_0x11C::sub_510050()  // SCRCMD_DESTROY_GROUP
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Ped* pGroupLeader = pPointer->field_8_char;
