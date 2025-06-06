@@ -3858,10 +3858,23 @@ void miss2_0x11C::sub_510050()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x510090)
+MATCH_FUNC(0x510090)
 void miss2_0x11C::sub_510090()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_CURRENT_WEAPON* pCmd = (SCR_CHECK_CURRENT_WEAPON*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Weapon_30* pWeapon = pPointer->field_8_char->field_15C_player->sub_5648F0();
+
+    if (pWeapon != NULL && pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x510100)

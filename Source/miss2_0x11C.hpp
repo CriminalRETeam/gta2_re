@@ -420,6 +420,13 @@ struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
     u32 field_C_group_type;
 };
 
+struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_padding;
+    u32 field_C_weapon_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
