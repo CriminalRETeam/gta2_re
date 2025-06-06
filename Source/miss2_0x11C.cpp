@@ -3834,10 +3834,15 @@ void miss2_0x11C::sub_50FED0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ff50)
+MATCH_FUNC(0x50ff50)
 void miss2_0x11C::sub_50FF50()
 {
-    NOT_IMPLEMENTED;
+    SCR_ADD_ONSCREEN_COUNTER* v1 = (SCR_ADD_ONSCREEN_COUNTER*)gBasePtr_6F8070;
+    SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
+
+    pOnScreenCounter->field_8_index = gGarox_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ffb0)

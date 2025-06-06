@@ -433,6 +433,12 @@ struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
     u16 field_A_wanted_level;
 };
 
+struct SCR_ADD_ONSCREEN_COUNTER : SCR_CMD_HEADER
+{
+    u16 field_8_onscreen_counter_idx;
+    u16 field_A_counter_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
