@@ -1855,7 +1855,7 @@ void miss2_0x11C::sub_5098E0()
 
     if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 1)
     {
-        if (gBasePtr_6F8070->field_2_type == 138)
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_GIVE_WEAPON1)
         {
             pPointer->field_8_char->sub_45DD30(v1->field_A_signed_2, 100);
         }
@@ -3803,10 +3803,21 @@ void miss2_0x11C::SCRCMD_FINISH_MISSION_50FAD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50faf0)
-void miss2_0x11C::sub_50FAF0()
+MATCH_FUNC(0x50faf0)
+void miss2_0x11C::sub_50FAF0() // SCRCMD_STORE_BONUS
 {
-    NOT_IMPLEMENTED;
+    SCR_STORE_BONUS_COUNT* pCmd = (SCR_STORE_BONUS_COUNT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointerBonus = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pPointerCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+
+    s32 bonus_unk = pPointerBonus->field_8_counter;
+
+    if (bonus_unk != -3 && bonus_unk != -4)
+    {
+        pPointerCounter->field_8_counter =
+            (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fb60)

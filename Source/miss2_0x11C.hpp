@@ -459,6 +459,12 @@ struct SCR_SET_PLAYER_CONTROLS : SCR_CMD_HEADER
     u8 field_A_new_state;
 };
 
+struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
+{
+    u16 field_8_bonus;
+    u16 field_A_counter_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
