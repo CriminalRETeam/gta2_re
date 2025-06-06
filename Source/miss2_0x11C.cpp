@@ -1004,14 +1004,14 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x5052c0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
+void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_DECLARE_POLICELEVEL* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
 {
-    u8 max_wanted_level = pCmd->field_A_unsigned_2;
+    u8 max_wanted_level = pCmd->field_A_wanted_level;
     if (max_wanted_level == 0)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_unsigned_2; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_wanted_level; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -3846,10 +3846,11 @@ void miss2_0x11C::sub_50FFB0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x510030)
-void miss2_0x11C::sub_510030()
+MATCH_FUNC(0x510030)
+void miss2_0x11C::sub_510030()  // change police level
 {
-    NOT_IMPLEMENTED;
+    miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510050)
