@@ -3852,10 +3852,18 @@ void miss2_0x11C::sub_510030()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x510050)
+MATCH_FUNC(0x510050)
 void miss2_0x11C::sub_510050()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pGroupLeader = pPointer->field_8_char;
+    PedGroup* pGroup = pGroupLeader->field_164_ped_group;
+
+    if (pGroup)
+    {
+        pGroup->sub_4C93A0(); // destroy group
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510090)
