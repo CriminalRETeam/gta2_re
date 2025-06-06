@@ -446,6 +446,13 @@ struct SCR_SET_KF_WEAPON : SCR_CMD_HEADER
     u32 field_C_weapon_idx;
 };
 
+struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_unk;
+    u32 field_C_favourite_car;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
