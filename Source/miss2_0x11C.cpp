@@ -80,6 +80,11 @@ GLOBAL(dword_6F77C4, 0x6F77C4);
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
 
+static inline bool is_car_weapon(s32& weapon_idx)
+{
+    return weapon_idx >= 15 && weapon_idx <= 27;
+}
+
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {
@@ -3822,10 +3827,23 @@ void miss2_0x11C::sub_50FC60()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fe00)
-void miss2_0x11C::sub_50FE00()
+MATCH_FUNC(0x50fe00)
+void miss2_0x11C::sub_50FE00() // SCRCMD_SET_KF_WEAPON
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_KF_WEAPON* v1 = (SCR_SET_KF_WEAPON*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    s32 weapon_idx = v1->field_C_weapon_idx;
+
+    if (is_car_weapon(weapon_idx))
+    {
+        pPointer->field_8_char->field_15C_player->sub_564710(pPointer->field_8_char->field_16C_car, weapon_idx);
+    }
+    else
+    {
+        pPointer->field_8_char->field_15C_player->sub_564790(weapon_idx);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fed0)
