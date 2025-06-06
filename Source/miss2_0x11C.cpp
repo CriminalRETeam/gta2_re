@@ -3840,10 +3840,24 @@ void miss2_0x11C::sub_50FF50()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ffb0)
+MATCH_FUNC(0x50ffb0)
 void miss2_0x11C::sub_50FFB0()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    u16 idx = pPointer->field_8_index;
+
+    if (idx != 0xFFFF)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_COUNTER)
+        {
+            gGarox_2B00_706620->field_620.sub_5D3310(idx);
+        }
+        else    // == SCRCMD_CLEAR_CLOCK_ONLY
+        {
+            gGarox_2B00_706620->field_620.sub_5D32D0(idx);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510030)
