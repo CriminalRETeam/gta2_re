@@ -58,7 +58,7 @@ class PedGroup
     char_type field_35;
     char_type field_36_count;
     char_type field_37;
-    s32 field_38;
+    s32 field_38_group_type;
     s32 field_3C;
     char_type field_40_in_use;
     char_type field_41;

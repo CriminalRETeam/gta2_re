@@ -25,7 +25,7 @@ MATCH_FUNC(0x4c8e90)
 void PedGroup::sub_4C8E90()
 {
     field_40_in_use = false;
-    field_38 = 2;
+    field_38_group_type = 2;
     field_30 = 0;
     field_36_count = 0;
     field_34_count = 0;
@@ -53,7 +53,7 @@ MATCH_FUNC(0x4c8ef0)
 void PedGroup::sub_4C8EF0()
 {
     field_40_in_use = 0;
-    field_38 = 2;
+    field_38_group_type = 2;
     field_30 = 0;
     field_36_count = 0;
     field_2C_ped_leader = NULL;
@@ -398,7 +398,7 @@ void PedGroup::sub_4CA4B0()
                     pIter->sub_463830(9, 9999);
                 }
             }
-            if (field_38 == 1)
+            if (field_38_group_type == 1)
             {
                 if (i == 0)
                 {
