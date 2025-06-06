@@ -453,6 +453,12 @@ struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
     u32 field_C_favourite_car;
 };
 
+struct SCR_SET_PLAYER_CONTROLS : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u8 field_A_new_state;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

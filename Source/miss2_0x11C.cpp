@@ -3809,10 +3809,36 @@ void miss2_0x11C::sub_50FAF0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fb60)
-void miss2_0x11C::sub_50FB60()
+MATCH_FUNC(0x50fb60)
+void miss2_0x11C::sub_50FB60() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CONTROLS
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_PLAYER_CONTROLS* pCmd = (SCR_SET_PLAYER_CONTROLS*)gBasePtr_6F8070;
+
+    gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    // The player pointer is not used, so the user controls are modified instead
+    // This explains desync in multiplayer when SET_ENTER_CONTROL_STATUS are used
+
+    if (pCmd->field_A_new_state == 1)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
+        {
+            gGame_0x40_67E008->field_38_orf1->sub_56A040(); // SET_ENTER_STATUS = ON
+        }
+        else
+        {
+            gGame_0x40_67E008->field_38_orf1->SetUnknown_56A000();  // SET_ALL_CONTROLS = ON
+        }
+    }
+    else if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
+    {
+        gGame_0x40_67E008->field_38_orf1->sub_56A030(); // SET_ENTER_STATUS = OFF
+    }
+    else
+    {
+        gGame_0x40_67E008->field_38_orf1->sub_569FF0();  // SET_ALL_CONTROLS = OFF
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fc20)
