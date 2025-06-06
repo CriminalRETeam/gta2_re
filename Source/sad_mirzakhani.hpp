@@ -26,8 +26,8 @@ class silly_saha_0x2C
     s32 field_1C;
     s32 field_20_counterVal;
     char_type field_24;
-    char_type field_25;
-    char_type field_26;
+    u8 field_25;
+    u8 field_26;
     char_type field_27;
     s16 field_28;
     char_type field_2A_bUsed;

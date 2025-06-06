@@ -3778,10 +3778,17 @@ void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fa00)
-void miss2_0x11C::sub_50FA00()
+MATCH_FUNC(0x50fa00)
+void miss2_0x11C::sub_50FA00()  // SCRCMD_KILL_char_type
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        pPed->sub_46F9D0(); // kill ped
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50fa40)
@@ -3815,7 +3822,7 @@ void miss2_0x11C::sub_50FAF0() // SCRCMD_STORE_BONUS
     if (bonus_unk != -3 && bonus_unk != -4)
     {
         pPointerCounter->field_8_counter =
-            (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
+            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
