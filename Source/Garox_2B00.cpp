@@ -1200,10 +1200,24 @@ s32 Garox_1E34_L::sub_5D4890(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x5d4930)
+MATCH_FUNC(0x5d4930)
 Garox_1E34_L::Garox_1E34_L()
 {
-    NOT_IMPLEMENTED;
+    field_6FC_p_start_q = &field_518_ary_19_start_q;
+
+    field_50C = 0;
+    field_510 = 0;
+    field_514 = 0;
+    field_6F8_prev_brief = 0;
+    field_700 = 0;
+    field_504 = 0;
+
+    for (s32 i = 0; i < 19; i++)
+    {
+        field_524_ary_19[i].field_0 = &field_524_ary_19[i].field_C;
+    }
+
+    field_6EC = 0;
 }
 
 // ----------------------------------------------------
