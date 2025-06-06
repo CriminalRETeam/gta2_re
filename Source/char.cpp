@@ -371,7 +371,7 @@ Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
     {
         return 0;
     }
-    pPed->field_168_game_object->field_40_rotation.field_0_value = rotation.rValue;
+    pPed->field_168_game_object->field_40_rotation.rValue = rotation.rValue;
     pPed->field_244_remap = remap;
 
     Char_B4* pB4 = pPed->field_168_game_object;

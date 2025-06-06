@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Ped.hpp"
 #include "angle.hpp"
+#include "ang16.hpp"
 
 class Sprite_3C;
 class Ped;
@@ -38,7 +39,7 @@ class Char_B4
     s8 field_37;
     Fix16 field_38;
     Fix16 field_3c;
-    angle field_40_rotation;
+    Ang16 field_40_rotation;
     angle field_42;
     s8 field_44;
     s8 field_45;

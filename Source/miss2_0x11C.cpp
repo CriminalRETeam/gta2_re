@@ -3604,11 +3604,35 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f270)
-s32 miss2_0x11C::sub_50F270()
+MATCH_FUNC(0x50f270)
+void miss2_0x11C::sub_50F270()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_WARP_FROM_CAR* pCmd = (SCR_WARP_FROM_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+    Car_BC* pCar = pPed->field_16C_car;
+
+    if (pPed != NULL)
+    {
+        pPed->sub_470200(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y, pCmd->field_C_pos.field_8_z);
+
+        Ang16 rotation = word_6F8044 * pCmd->field_A_rotation;
+        rotation.Normalize();
+
+        pPointer->field_8_char->field_168_game_object->field_40_rotation = rotation;
+        pCar->sub_4407F0();
+        pCar->field_54_driver = 0;
+        gGame_0x40_67E008->field_38_orf1->sub_569F40();
+        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_436540(pPointer->field_8_char);
+
+        DrawUnk_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);
+
+        p_game_camera->sub_41E410();
+
+        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_435DD0();
+        gGame_0x40_67E008->field_38_orf1->field_90_game_camera.field_3C_followed_ped_id = 1;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50f3d0)
