@@ -13,9 +13,9 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: windows-2019
-            name: Windows_VC2019
-          - os: windows-2019
+          - os: windows-latest
+            name: Windows_VC_Latest
+          - os: windows-latest
             name: Windows_VC6
           - os: ubuntu-latest
             name: Linux_wine_VC6
@@ -30,21 +30,21 @@ jobs:
     #      Windows vc2019
     # ======================================
 
-    - name: Build on Windows (Windows_VC2019)
-      if: matrix.name == 'Windows_VC2019'
+    - name: Build on Windows (Windows_VC_Latest)
+      if: matrix.name == 'Windows_VC_Latest'
       run: |
-        mkdir build_vc2019
-        cd build_vc2019
-        cmake .. -G"Visual Studio 16 2019" -A Win32
+        mkdir build_vc_latest
+        cd build_vc_latest
+        cmake .. -G"Visual Studio 17 2022" -A Win32
         cmake --build . --target decomp_main --config Release
         cd ..
 
-    - name: Upload artifacts on Windows (Windows_VC2019)
-      if: matrix.name == 'Windows_VC2019'
+    - name: Upload artifacts on Windows (Windows_VC_Latest)
+      if: matrix.name == 'Windows_VC_Latest'
       uses: actions/upload-artifact@v4
       with:
-        name: windows_vc2019_main_exe
-        path: build_vc2019/Release/decomp_main.exe
+        name: Windows_VC_Latest_main_exe
+        path: build_vc_latest/Release/decomp_main.exe
 
     # ======================================
     #      Windows vc6

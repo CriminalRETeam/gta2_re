@@ -73,6 +73,7 @@ def main():
     coverage_funcs_percentage = matched_coverage_funcs / total_coverage_funcs * 100
 
     prev_json_available = True
+    previous_progress_json = {}
     try:
         with open("progress.json", "r") as file:
             previous_progress_json = json.load(file)
