@@ -529,29 +529,56 @@ void CC ImGuiDebugDraw()
     {
         if (gGarox_2B00_706620)
         {
-            if (ImGui::Button("CreateTimer_5D31F0"))
+            if (ImGui::TreeNode("Timer"))
             {
-                gGarox_2B00_706620->field_620.CreateTimer_5D31F0(40);
+                if (ImGui::Button("CreateTimer_5D31F0"))
+                {
+                    gGarox_2B00_706620->field_620.CreateTimer_5D31F0(40);
+                }
+
+                static u32 v = 0;
+                ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
+                if (ImGui::Button("Stop timer") && v <= 3)
+                {
+                    gGarox_2B00_706620->field_620.sub_5D32D0(v);
+                }
+
+                if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
+                {
+                    gGarox_2B00_706620->field_620.sub_5D3280(v);
+                }
+
+                if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
+                {
+                    gGarox_2B00_706620->field_620.sub_5D3220(v);
+                }
+
+                ImGui::InputInt("timer f4", &gGarox_2B00_706620->field_620.field_620[1].field_4, 1, 100);
+                ImGui::TreePop();
             }
 
-            static int v = 0;
-            ImGui::InputInt("Timer num", &v, 1, 1);
-            if (ImGui::Button("Stop timer") && v <= 3)
+            if (ImGui::TreeNode("Garox_1E34_L"))
             {
-                gGarox_2B00_706620->field_620.sub_5D32D0(v);
+                Garox_1E34_L* pGarox_1E34_L = &gGarox_2B00_706620->field_DC;
+                
+                if (pGarox_1E34_L)
+                {
+                    ImGui::Value("field_500", pGarox_1E34_L->field_500);
+                    ImGui::Value("field_500_face_sprite_idx", pGarox_1E34_L->field_502);
+                    ImGui::Value("field_504_tick_timer", pGarox_1E34_L->field_504);
+                    ImGui::Value("field_506", pGarox_1E34_L->field_506);
+                    ImGui::Value("field_508_num_lines", pGarox_1E34_L->field_508);
+                    ImGui::Value("field_50C", pGarox_1E34_L->field_50C);
+                    ImGui::Value("field_510_time_to_show", pGarox_1E34_L->field_510);
+                    ImGui::Value("field_514_upward_timer", pGarox_1E34_L->field_514);
+                    ImGui::Value("field_51C", pGarox_1E34_L->field_51C);
+                    ImGui::Value("field_6EC", pGarox_1E34_L->field_6EC);
+                    ImGui::Value("field_6F0", pGarox_1E34_L->field_6F0);
+                    ImGui::Value("field_6F4", pGarox_1E34_L->field_6F4);
+                }
+                
+                ImGui::TreePop();
             }
-
-            if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
-            {
-                gGarox_2B00_706620->field_620.sub_5D3280(v);
-            }
-
-            if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
-            {
-                gGarox_2B00_706620->field_620.sub_5D3220(v);
-            }
-
-            ImGui::InputInt("timer f4", &gGarox_2B00_706620->field_620.field_620[1].field_4, 1, 100);
         }
         ImGui::TreePop();
     }

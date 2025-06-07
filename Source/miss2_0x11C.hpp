@@ -420,6 +420,51 @@ struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
     u32 field_C_group_type;
 };
 
+struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_padding;
+    u32 field_C_weapon_idx;
+};
+
+struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
+{
+    u16 field_8_unk;
+    u16 field_A_wanted_level;
+};
+
+struct SCR_ADD_ONSCREEN_COUNTER : SCR_CMD_HEADER
+{
+    u16 field_8_onscreen_counter_idx;
+    u16 field_A_counter_idx;
+};
+
+struct SCR_SET_KF_WEAPON : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_unk;
+    u32 field_C_weapon_idx;
+};
+
+struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_unk;
+    u32 field_C_favourite_car;
+};
+
+struct SCR_SET_PLAYER_CONTROLS : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u8 field_A_new_state;
+};
+
+struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
+{
+    u16 field_8_bonus;
+    u16 field_A_counter_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -488,7 +533,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* a1);
-    EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* a1);
+    EXPORT void SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_DECLARE_POLICELEVEL* a1);
     EXPORT void SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* a1, SCR_POINTER* a2);
     EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* a1);

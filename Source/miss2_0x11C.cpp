@@ -80,6 +80,11 @@ GLOBAL(dword_6F77C4, 0x6F77C4);
 EXPORT_VAR u8 byte_6F799B;
 GLOBAL(byte_6F799B, 0x6F799B);
 
+static inline bool is_car_weapon(s32& weapon_idx)
+{
+    return weapon_idx >= 15 && weapon_idx <= 27;
+}
+
 STUB_FUNC(0x503200)
 void miss2_0x11C::sub_503200()
 {
@@ -1004,14 +1009,14 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x5052c0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_TWO_PARAMS* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
+void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_DECLARE_POLICELEVEL* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
 {
-    u8 max_wanted_level = pCmd->field_A_unsigned_2;
+    u8 max_wanted_level = pCmd->field_A_wanted_level;
     if (max_wanted_level == 0)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_unsigned_2; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_wanted_star_count = pCmd->field_A_wanted_level; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -1850,7 +1855,7 @@ void miss2_0x11C::sub_5098E0()
 
     if (miss2_0x11C::sub_503410(pPointer->field_2_type) == 1)
     {
-        if (gBasePtr_6F8070->field_2_type == 138)
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_GIVE_WEAPON1)
         {
             pPointer->field_8_char->sub_45DD30(v1->field_A_signed_2, 100);
         }
@@ -3773,10 +3778,17 @@ void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fa00)
-void miss2_0x11C::sub_50FA00()
+MATCH_FUNC(0x50fa00)
+void miss2_0x11C::sub_50FA00()  // SCRCMD_KILL_char_type
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        pPed->sub_46F9D0(); // kill ped
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50fa40)
@@ -3798,22 +3810,67 @@ void miss2_0x11C::SCRCMD_FINISH_MISSION_50FAD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50faf0)
-void miss2_0x11C::sub_50FAF0()
+MATCH_FUNC(0x50faf0)
+void miss2_0x11C::sub_50FAF0() // SCRCMD_STORE_BONUS
 {
-    NOT_IMPLEMENTED;
+    SCR_STORE_BONUS_COUNT* pCmd = (SCR_STORE_BONUS_COUNT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointerBonus = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pPointerCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+
+    s32 bonus_unk = pPointerBonus->field_8_counter;
+
+    if (bonus_unk != -3 && bonus_unk != -4)
+    {
+        pPointerCounter->field_8_counter =
+            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fb60)
-void miss2_0x11C::sub_50FB60()
+MATCH_FUNC(0x50fb60)
+void miss2_0x11C::sub_50FB60() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CONTROLS
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_PLAYER_CONTROLS* pCmd = (SCR_SET_PLAYER_CONTROLS*)gBasePtr_6F8070;
+
+    gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    // The player pointer is not used, so the user controls are modified instead
+    // This explains desync in multiplayer when SET_ENTER_CONTROL_STATUS are used
+
+    if (pCmd->field_A_new_state == 1)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
+        {
+            gGame_0x40_67E008->field_38_orf1->sub_56A040(); // SET_ENTER_STATUS = ON
+        }
+        else
+        {
+            gGame_0x40_67E008->field_38_orf1->SetUnknown_56A000();  // SET_ALL_CONTROLS = ON
+        }
+    }
+    else if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
+    {
+        gGame_0x40_67E008->field_38_orf1->sub_56A030(); // SET_ENTER_STATUS = OFF
+    }
+    else
+    {
+        gGame_0x40_67E008->field_38_orf1->sub_569FF0();  // SET_ALL_CONTROLS = OFF
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fc20)
-void miss2_0x11C::sub_50FC20()
+MATCH_FUNC(0x50fc20)
+void miss2_0x11C::sub_50FC20() // SCRCMD_SET_FAV_CAR
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_FAV_CAR* pCmd = (SCR_SET_FAV_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pPed = pPointer->field_8_char;
+
+    if (pPed != NULL)
+    {
+        pPed->field_274_gang_car_model = pCmd->field_C_favourite_car;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50fc60)
@@ -3822,46 +3879,104 @@ void miss2_0x11C::sub_50FC60()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fe00)
-void miss2_0x11C::sub_50FE00()
+MATCH_FUNC(0x50fe00)
+void miss2_0x11C::sub_50FE00() // SCRCMD_SET_KF_WEAPON
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_KF_WEAPON* v1 = (SCR_SET_KF_WEAPON*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    s32 weapon_idx = v1->field_C_weapon_idx;
+
+    if (is_car_weapon(weapon_idx))
+    {
+        pPointer->field_8_char->field_15C_player->sub_564710(pPointer->field_8_char->field_16C_car, weapon_idx);
+    }
+    else
+    {
+        pPointer->field_8_char->field_15C_player->sub_564790(weapon_idx);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fed0)
-void miss2_0x11C::sub_50FED0()
+MATCH_FUNC(0x50fed0)
+void miss2_0x11C::sub_50FED0()  // SCRCMD_CLEAR_KF_WEAPON
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Player* pPlayer = pPointer->field_8_char->field_15C_player;
+
+    pPlayer->sub_5647D0();  // clear kill frenzy weapon
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ff50)
-void miss2_0x11C::sub_50FF50()
+MATCH_FUNC(0x50ff50)
+void miss2_0x11C::sub_50FF50()  // SCRCMD_ADD_ONSCREEN_COUNTER
 {
-    NOT_IMPLEMENTED;
+    SCR_ADD_ONSCREEN_COUNTER* v1 = (SCR_ADD_ONSCREEN_COUNTER*)gBasePtr_6F8070;
+    SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
+
+    pOnScreenCounter->field_8_index = gGarox_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ffb0)
-void miss2_0x11C::sub_50FFB0()
+MATCH_FUNC(0x50ffb0)
+void miss2_0x11C::sub_50FFB0()  // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ONLY
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    u16 idx = pPointer->field_8_index;
+
+    if (idx != 0xFFFF)
+    {
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_COUNTER)
+        {
+            gGarox_2B00_706620->field_620.sub_5D3310(idx);
+        }
+        else    // == SCRCMD_CLEAR_CLOCK_ONLY
+        {
+            gGarox_2B00_706620->field_620.sub_5D32D0(idx);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510030)
-void miss2_0x11C::sub_510030()
+MATCH_FUNC(0x510030)
+void miss2_0x11C::sub_510030()  // SCRCMD_CHANGE_POLICE
 {
-    NOT_IMPLEMENTED;
+    miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510050)
-void miss2_0x11C::sub_510050()
+MATCH_FUNC(0x510050)
+void miss2_0x11C::sub_510050()  // SCRCMD_DESTROY_GROUP
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* pGroupLeader = pPointer->field_8_char;
+    PedGroup* pGroup = pGroupLeader->field_164_ped_group;
+
+    if (pGroup)
+    {
+        pGroup->sub_4C93A0(); // destroy group
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510090)
+MATCH_FUNC(0x510090)
 void miss2_0x11C::sub_510090()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_CURRENT_WEAPON* pCmd = (SCR_CHECK_CURRENT_WEAPON*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Weapon_30* pWeapon = pPointer->field_8_char->field_15C_player->sub_5648F0();
+
+    if (pWeapon != NULL && pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x510100)

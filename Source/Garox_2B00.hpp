@@ -257,7 +257,7 @@ class Hud_Pager_C_Array
     }
 
     // TODO: Correct order ?
-    EXPORT s32 sub_5D3220(s32 a2);
+    EXPORT s32 sub_5D3220(u32& a2);
     EXPORT s32 sub_5D3280(s32 a2);
 
     EXPORT void sub_5D3040();
@@ -444,7 +444,8 @@ class Garox_1E34_L  // size 0x704
     EXPORT Garox_1E34_L();
 
     wchar_t field_0_str[640];
-    s32 field_500;
+    s16 field_500;
+    s16 field_502;
     s16 field_504;
     s16 field_506;
     s32 field_508;
