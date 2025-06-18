@@ -564,7 +564,7 @@ void CC ImGuiDebugDraw()
                 if (pGarox_1E34_L)
                 {
                     ImGui::Value("field_500", pGarox_1E34_L->field_500);
-                    ImGui::Value("field_500_face_sprite_idx", pGarox_1E34_L->field_502);
+                    ImGui::InputS16("field_500_face_sprite_idx", &pGarox_1E34_L->field_502, 1, 1);
                     ImGui::Value("field_504_tick_timer", pGarox_1E34_L->field_504);
                     ImGui::Value("field_506", pGarox_1E34_L->field_506);
                     ImGui::Value("field_508_num_lines", pGarox_1E34_L->field_508);

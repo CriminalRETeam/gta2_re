@@ -3610,7 +3610,7 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 }
 
 MATCH_FUNC(0x50f270)
-void miss2_0x11C::sub_50F270()
+void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
 {
     SCR_WARP_FROM_CAR* pCmd = (SCR_WARP_FROM_CAR*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
@@ -3733,8 +3733,8 @@ void miss2_0x11C::sub_50F5E0()
 MATCH_FUNC(0x50f770)
 void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    SCR_MAKE_ALL_MUGGERS* pCmd = (SCR_MAKE_ALL_MUGGERS*)gBasePtr_6F8070;
+    if (pCmd->field_A_status == true)
     {
         gChar_C_6787BC->field_7_make_all_muggers = true;
     }
