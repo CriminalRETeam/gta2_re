@@ -465,7 +465,7 @@ struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
     u16 field_A_counter_idx;
 };
 
-struct SCR_MAKE_ALL_MUGGERS : SCR_CMD_HEADER
+struct SCR_SET_STATE : SCR_CMD_HEADER
 {
     u16 field_8_unk;
     u8 field_A_status;

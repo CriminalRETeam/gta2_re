@@ -3733,8 +3733,8 @@ void miss2_0x11C::sub_50F5E0()
 MATCH_FUNC(0x50f770)
 void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
 {
-    SCR_MAKE_ALL_MUGGERS* pCmd = (SCR_MAKE_ALL_MUGGERS*)gBasePtr_6F8070;
-    if (pCmd->field_A_status == true)
+    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    if (pCmd->field_A_status == 1)
     {
         gChar_C_6787BC->field_7_make_all_muggers = true;
     }
@@ -3766,8 +3766,8 @@ void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 MATCH_FUNC(0x50f9b0)
 void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    if (pCmd->field_A_status == 1)
     {
         gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
     }
