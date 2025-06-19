@@ -3466,10 +3466,22 @@ void miss2_0x11C::sub_50EBD0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ece0)
-void miss2_0x11C::sub_50ECE0()
+// TODO: https://decomp.me/scratch/NMvtk trying to match this using CompilerBitField32 instead of BitSet32
+MATCH_FUNC(0x50ece0)
+void miss2_0x11C::sub_50ECE0() //  SCRCMD_IS_CHAR_ON_FIRE
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    BitSet32 flag = pPointer->field_8_char->field_21C;
+
+    if (flag.check_bit(24))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ed40)
