@@ -488,6 +488,12 @@ struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
     s16 field_A_bonus_type;
 };
 
+struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    s16 field_A_wanted_level;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

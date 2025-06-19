@@ -3442,10 +3442,20 @@ void miss2_0x11C::sub_50E9A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e9e0)
-void miss2_0x11C::sub_50E9E0()
+MATCH_FUNC(0x50e9e0)
+void miss2_0x11C::sub_50E9E0() //  SCRCMD_CHECK_HEADS
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_HEADS_GREATER* pCmd = (SCR_CHECK_HEADS_GREATER*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pPointer->field_8_char->get_wanted_star_count_46EF00() > pCmd->field_A_wanted_level)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ea40)
