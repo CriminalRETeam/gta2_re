@@ -3472,10 +3472,20 @@ void miss2_0x11C::sub_50ECE0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ed40)
-void miss2_0x11C::sub_50ED40()
+MATCH_FUNC(0x50ed40)
+void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
-    NOT_IMPLEMENTED;
+    Garox_18* field_6F8_prev_brief = gGarox_2B00_706620->field_DC.field_6F8_prev_brief;
+    if (field_6F8_prev_brief != NULL 
+        && field_6F8_prev_brief->field_8)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ed80)
