@@ -3447,6 +3447,7 @@ void miss2_0x11C::sub_50E9E0() //  SCRCMD_CHECK_HEADS
 {
     SCR_CHECK_HEADS_GREATER* pCmd = (SCR_CHECK_HEADS_GREATER*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
     if (pPointer->field_8_char->get_wanted_star_count_46EF00() > pCmd->field_A_wanted_level)
     {
         field_8 = true;
@@ -3593,7 +3594,7 @@ void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
     Garox_18* field_6F8_prev_brief = gGarox_2B00_706620->field_DC.field_6F8_prev_brief;
     if (field_6F8_prev_brief != NULL 
-        && field_6F8_prev_brief->field_8_is_brief_onscreen)
+        && field_6F8_prev_brief->field_8_brief_priority != 0)
     {
         field_8 = true;
     }

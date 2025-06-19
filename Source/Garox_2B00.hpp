@@ -275,7 +275,7 @@ class Garox_18
   public:
     Garox_18** field_0; // prob wrong type
     s32 field_4;
-    s32 field_8_is_brief_onscreen;
+    s32 field_8_brief_priority;
     Garox_18* field_C;  // prob wrong type
     u8 field_10;
     u8 field_11;
