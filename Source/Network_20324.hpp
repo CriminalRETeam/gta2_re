@@ -3,12 +3,15 @@
 #include "Function.hpp"
 #include <windows.h>
 
+EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
+EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
+
 class Network_20324
 {
   public:
-    EXPORT u16 sub_519960(u8* a1, u16* a2);
+    //EXPORT u16 sub_519960(u8* a1, u16* a2);
     EXPORT static char_type sub_5199B0(wchar_t* a1, char_type* a2);
-    EXPORT char_type* GetString_519A00(const char_type* Key);
+    //EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT Network_20324();
     EXPORT virtual ~Network_20324();

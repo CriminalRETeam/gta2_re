@@ -5,8 +5,11 @@
 EXPORT_VAR UINT_PTR gTimerId_6F8A18;
 GLOBAL(gTimerId_6F8A18, 0x6F8A18);
 
+EXPORT_VAR char_type Dest_6F88A4[256];
+GLOBAL(Dest_6F88A4, 0x6F88A4);
+
 STUB_FUNC(0x519960)
-u16 Network_20324::sub_519960(u8* a1, u16* a2)
+u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -19,11 +22,20 @@ char_type Network_20324::sub_5199B0(wchar_t* a1, char_type* a2)
     return 0;
 }
 
-STUB_FUNC(0x519a00)
-char_type* Network_20324::GetString_519A00(const char_type* Key)
+MATCH_FUNC(0x519a00)
+char_type* __stdcall GetString_519A00(const char_type* pKey)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    wchar_t* pText = gtext_0x14_6F87F0->Find_5B5F90(pKey);
+
+    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    {
+        sub_519960(Dest_6F88A4, pText);
+    }
+    else
+    {
+        wcstombs(Dest_6F88A4, pText, 256u);
+    }
+    return Dest_6F88A4;
 }
 
 MATCH_FUNC(0x519a50)
