@@ -3478,10 +3478,12 @@ void miss2_0x11C::sub_50ED40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ed80)
-void miss2_0x11C::sub_50ED80()
+MATCH_FUNC(0x50ed80)
+void miss2_0x11C::sub_50ED80() //  SCRCMD_CREATE_SOUND
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::SCRCMD_SOUND_DECSET_505340((SCR_SOUND_DECSET*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50edc0)
