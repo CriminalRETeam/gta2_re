@@ -380,6 +380,11 @@ class Ped
         return field_16C_car;
     }
 
+    s32 get_id() const
+    {
+        return field_200_id;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 

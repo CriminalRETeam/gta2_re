@@ -3454,16 +3454,38 @@ void miss2_0x11C::sub_50EA40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50eb00)
-void miss2_0x11C::sub_50EB00()
+MATCH_FUNC(0x50eb00)
+void miss2_0x11C::sub_50EB00() //  SCRCMD_CHECK_WEAPONHIT
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (!pCmd->field_A_status)
+    {
+        gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1);
+        field_8 = false;
+        pCmd->field_A_status = 1;
+    }
+    else
+    {
+        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
+        {
+            field_8 = true;
+            gfrosty_pasteur_6F8060->sub_512BA0(pPointer->field_8_char->get_id(), 1);
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ebd0)
 void miss2_0x11C::sub_50EBD0() //  SCRCMD_WEAP_HIT_CAR
 {
-    SCR_WEAPON_HIT_CAR* pCmd = (SCR_WEAPON_HIT_CAR*)gBasePtr_6F8070;
+    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
     if (!pCmd->field_A_status)
