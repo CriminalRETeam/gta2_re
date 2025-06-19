@@ -482,6 +482,12 @@ struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
     u16 field_C_weapon;
 };
 
+struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
+{
+    u16 field_8_unk;
+    s16 field_A_bonus_type;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -508,6 +514,17 @@ enum
 };
 //static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
 } // namespace SCR_DOOR_CLOSETYPES
+
+namespace SCR_BONUSES
+{
+enum
+{
+    NO_BONUS = 0,
+    BONUS_1 = 1,
+    BONUS_2 = 2,
+    BONUS_3 = 3,
+};
+}
 
 EXPORT_VAR extern Fix16 dword_6F77C0;
 EXPORT_VAR extern Fix16 dword_6F77C4;

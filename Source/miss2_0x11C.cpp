@@ -3448,10 +3448,45 @@ void miss2_0x11C::sub_50E9E0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ea40)
-void miss2_0x11C::sub_50EA40()
+MATCH_FUNC(0x50ea40)
+void miss2_0x11C::sub_50EA40() //  SCRCMD_FINISH_LEVEL
 {
-    NOT_IMPLEMENTED;
+    SCR_FINISH_LEVEL* pCmd = (SCR_FINISH_LEVEL*)gBasePtr_6F8070;
+    char bonus_type;
+    switch (pCmd->field_A_bonus_type)
+    {
+        case SCR_BONUSES::NO_BONUS:
+            bonus_type = 0;
+            break;
+        case SCR_BONUSES::BONUS_1:
+            bonus_type = 1;
+            break;
+        case SCR_BONUSES::BONUS_2:
+            bonus_type = 2;
+            break;
+        case SCR_BONUSES::BONUS_3:
+            bonus_type = 3;
+            break;
+        default:
+            break;
+    }
+
+    u32* num_passed_flag = gfrosty_pasteur_6F8060->field_328_passed_flag;
+    if (num_passed_flag != NULL 
+        && gfrosty_pasteur_6F8060->field_314_total_missions == *num_passed_flag)
+    {
+        bonus_type = 2;
+    }
+    if (bonus_type)
+    {
+        gGame_0x40_67E008->sub_4B8BD0(0, 4, bonus_type);
+    }
+    else
+    {
+        gGame_0x40_67E008->sub_4B8C00(0, 4);
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50eb00)
