@@ -307,6 +307,7 @@ def main():
         "https://decomp.me/api/scratch",
         headers={
             "Content-Type": "application/json",
+            "User-Agent": "python-requests/2.28.2",
         },
         data=json.dumps(
             {

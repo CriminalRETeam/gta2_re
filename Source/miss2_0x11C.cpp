@@ -3373,10 +3373,14 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e460)
-void miss2_0x11C::sub_50E460()
+MATCH_FUNC(0x50e460)
+void miss2_0x11C::sub_50E460() //  SCRCMD_SET_CAR_GRAPHIC
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPointer->field_8_car->sub_43CDF0(pCmd->field_C_number); // set the number on the top of the car
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e4a0)
@@ -3436,52 +3440,183 @@ void miss2_0x11C::sub_50E900()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e9a0)
+MATCH_FUNC(0x50e9a0)
 void miss2_0x11C::sub_50E9A0()
 {
-    NOT_IMPLEMENTED;
+    gGarox_2B00_706620->field_DC.sub_5D4890(1); // clear lowest brief priority
+    gGarox_2B00_706620->field_DC.sub_5D4890(3); // clear highest brief priority
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e9e0)
-void miss2_0x11C::sub_50E9E0()
+MATCH_FUNC(0x50e9e0)
+void miss2_0x11C::sub_50E9E0() //  SCRCMD_CHECK_HEADS
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_HEADS_GREATER* pCmd = (SCR_CHECK_HEADS_GREATER*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_char->get_wanted_star_count_46EF00() > pCmd->field_A_wanted_level)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ea40)
-void miss2_0x11C::sub_50EA40()
+MATCH_FUNC(0x50ea40)
+void miss2_0x11C::sub_50EA40() //  SCRCMD_FINISH_LEVEL
 {
-    NOT_IMPLEMENTED;
+    SCR_FINISH_LEVEL* pCmd = (SCR_FINISH_LEVEL*)gBasePtr_6F8070;
+    char bonus_type;
+    switch (pCmd->field_A_bonus_type)
+    {
+        case SCR_BONUSES::NO_BONUS:
+            bonus_type = 0;
+            break;
+        case SCR_BONUSES::BONUS_1:
+            bonus_type = 1;
+            break;
+        case SCR_BONUSES::BONUS_2:
+            bonus_type = 2;
+            break;
+        case SCR_BONUSES::BONUS_3:
+            bonus_type = 3;
+            break;
+        default:
+            break;
+    }
+
+    u32* num_passed_flag = gfrosty_pasteur_6F8060->field_328_passed_flag;
+    if (num_passed_flag != NULL 
+        && gfrosty_pasteur_6F8060->field_314_total_missions == *num_passed_flag)
+    {
+        bonus_type = 2;
+    }
+    if (bonus_type)
+    {
+        gGame_0x40_67E008->sub_4B8BD0(0, 4, bonus_type);
+    }
+    else
+    {
+        gGame_0x40_67E008->sub_4B8C00(0, 4);
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50eb00)
-void miss2_0x11C::sub_50EB00()
+MATCH_FUNC(0x50eb00)
+void miss2_0x11C::sub_50EB00() //  SCRCMD_CHECK_WEAPONHIT
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (!pCmd->field_A_status)
+    {
+        gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1);
+        field_8 = false;
+        pCmd->field_A_status = 1;
+    }
+    else
+    {
+        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
+        {
+            field_8 = true;
+            gfrosty_pasteur_6F8060->sub_512BA0(pPointer->field_8_char->get_id(), 1);
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ebd0)
-void miss2_0x11C::sub_50EBD0()
+MATCH_FUNC(0x50ebd0)
+void miss2_0x11C::sub_50EBD0() //  SCRCMD_WEAP_HIT_CAR
 {
-    NOT_IMPLEMENTED;
+    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (!pCmd->field_A_status)
+    {
+        char v5;
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
+        {
+            v5 = gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0);
+        }
+        else
+        {
+            v5 = gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_car->field_6C_maybe_id, 23, 0);
+        }
+        if (v5 && gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        {
+            field_8 = true;
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+            pCmd->field_A_status = 1;
+        }
+    }
+    else
+    {
+        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        {
+            field_8 = true;
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ece0)
-void miss2_0x11C::sub_50ECE0()
+// TODO: https://decomp.me/scratch/NMvtk trying to match this using CompilerBitField32 instead of BitSet32
+MATCH_FUNC(0x50ece0)
+void miss2_0x11C::sub_50ECE0() //  SCRCMD_IS_CHAR_ON_FIRE
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    BitSet32 flag = pPointer->field_8_char->field_21C;
+
+    if (flag.check_bit(24))
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ed40)
-void miss2_0x11C::sub_50ED40()
+MATCH_FUNC(0x50ed40)
+void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
-    NOT_IMPLEMENTED;
+    Garox_18* field_6F8_prev_brief = gGarox_2B00_706620->field_DC.field_6F8_prev_brief;
+    if (field_6F8_prev_brief != NULL 
+        && field_6F8_prev_brief->field_8_brief_priority != 0)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ed80)
-void miss2_0x11C::sub_50ED80()
+MATCH_FUNC(0x50ed80)
+void miss2_0x11C::sub_50ED80() //  SCRCMD_CREATE_SOUND
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::SCRCMD_SOUND_DECSET_505340((SCR_SOUND_DECSET*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50edc0)
@@ -3610,7 +3745,7 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 }
 
 MATCH_FUNC(0x50f270)
-void miss2_0x11C::sub_50F270()
+void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
 {
     SCR_WARP_FROM_CAR* pCmd = (SCR_WARP_FROM_CAR*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
@@ -3733,8 +3868,8 @@ void miss2_0x11C::sub_50F5E0()
 MATCH_FUNC(0x50f770)
 void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    if (pCmd->field_A_status == 1)
     {
         gChar_C_6787BC->field_7_make_all_muggers = true;
     }
@@ -3766,8 +3901,8 @@ void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 MATCH_FUNC(0x50f9b0)
 void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    if ((u8)pCmd->field_A_unsigned_2 == 1)
+    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    if (pCmd->field_A_status == 1)
     {
         gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
     }

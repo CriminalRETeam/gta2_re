@@ -465,6 +465,42 @@ struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
     u16 field_A_counter_idx;
 };
 
+struct SCR_SET_STATE : SCR_CMD_HEADER
+{
+    u16 field_8_unk;
+    u8 field_A_status;
+};
+
+struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
+{
+    union
+    {
+        u16 field_8_car_idx;
+        u16 field_8_ped_idx;
+    };
+    u16 field_A_status;
+    u16 field_C_weapon;
+};
+
+struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
+{
+    u16 field_8_unk;
+    s16 field_A_bonus_type;
+};
+
+struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    s16 field_A_wanted_level;
+};
+
+struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_unk;
+    u16 field_C_number;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -491,6 +527,17 @@ enum
 };
 //static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
 } // namespace SCR_DOOR_CLOSETYPES
+
+namespace SCR_BONUSES
+{
+enum
+{
+    NO_BONUS = 0,
+    BONUS_1 = 1,
+    BONUS_2 = 2,
+    BONUS_3 = 3,
+};
+}
 
 EXPORT_VAR extern Fix16 dword_6F77C0;
 EXPORT_VAR extern Fix16 dword_6F77C4;

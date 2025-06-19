@@ -302,7 +302,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_90_hook_radius = dword_679E58;
     field_84_hook_depth = dword_679E70;
     field_88 = dword_679E70;
-    field_A0_hook_angle = dword_679E70;
+    field_A0_hook_axial_angle = dword_679E70;
     field_A4 = dword_679E70;
     field_AC_crane_angle_target = field_8C_crane_angle;
     field_B0_hook_radius_target = field_90_hook_radius;

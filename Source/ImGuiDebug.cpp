@@ -564,13 +564,13 @@ void CC ImGuiDebugDraw()
                 if (pGarox_1E34_L)
                 {
                     ImGui::Value("field_500", pGarox_1E34_L->field_500);
-                    ImGui::Value("field_500_face_sprite_idx", pGarox_1E34_L->field_502);
-                    ImGui::Value("field_504_tick_timer", pGarox_1E34_L->field_504);
+                    ImGui::InputS16("field_502_face_idx", &pGarox_1E34_L->field_502_face_idx, 1, 1);
+                    ImGui::Value("field_504_tick_timer", pGarox_1E34_L->field_504_tick_timer);
                     ImGui::Value("field_506", pGarox_1E34_L->field_506);
-                    ImGui::Value("field_508_num_lines", pGarox_1E34_L->field_508);
+                    ImGui::Value("field_508_num_lines", pGarox_1E34_L->field_508_num_lines);
                     ImGui::Value("field_50C", pGarox_1E34_L->field_50C);
-                    ImGui::Value("field_510_time_to_show", pGarox_1E34_L->field_510);
-                    ImGui::Value("field_514_upward_timer", pGarox_1E34_L->field_514);
+                    ImGui::Value("field_510_time_to_show", pGarox_1E34_L->field_510_time_to_show);
+                    ImGui::Value("field_514_upward_timer", pGarox_1E34_L->field_514_upward_timer);
                     ImGui::Value("field_51C", pGarox_1E34_L->field_51C);
                     ImGui::Value("field_6EC", pGarox_1E34_L->field_6EC);
                     ImGui::Value("field_6F0", pGarox_1E34_L->field_6F0);

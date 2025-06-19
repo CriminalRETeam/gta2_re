@@ -85,7 +85,7 @@ class Crane_15C
     Fix16 field_94;
     Fix16 field_98;
     Fix16 field_9C;
-    Fix16 field_A0_hook_angle;  // The angle in its own rotation axis, e.g. the angle of the lifted car
+    Fix16 field_A0_hook_axial_angle;  // The angle in its own rotation axis, e.g. the angle of the lifted car
     Fix16 field_A4;
     Fix16 field_A8;
     Fix16 field_AC_crane_angle_target;  // the crane will rotate until match this angle
