@@ -494,6 +494,13 @@ struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
     s16 field_A_wanted_level;
 };
 
+struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_unk;
+    u16 field_C_number;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

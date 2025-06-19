@@ -3373,10 +3373,14 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e460)
-void miss2_0x11C::sub_50E460()
+MATCH_FUNC(0x50e460)
+void miss2_0x11C::sub_50E460() //  SCRCMD_SET_CAR_GRAPHIC
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPointer->field_8_car->sub_43CDF0(pCmd->field_C_number); // set the number on the top of the car
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e4a0)
