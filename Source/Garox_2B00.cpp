@@ -1113,7 +1113,7 @@ void Garox_1E34_L::sub_5D33A0()
         ;
     }
     pBrief->field_C = field_6F8_prev_brief;
-    field_6F8_prev_brief->field_8 = 0;
+    field_6F8_prev_brief->field_8_is_brief_onscreen = false;
     field_6F8_prev_brief = field_6F8_prev_brief->field_C;
     pBrief->field_C->field_C = 0;
 }

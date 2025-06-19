@@ -3477,7 +3477,7 @@ void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
     Garox_18* field_6F8_prev_brief = gGarox_2B00_706620->field_DC.field_6F8_prev_brief;
     if (field_6F8_prev_brief != NULL 
-        && field_6F8_prev_brief->field_8)
+        && field_6F8_prev_brief->field_8_is_brief_onscreen)
     {
         field_8 = true;
     }
