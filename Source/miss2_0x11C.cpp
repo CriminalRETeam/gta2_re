@@ -3436,10 +3436,12 @@ void miss2_0x11C::sub_50E900()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e9a0)
+MATCH_FUNC(0x50e9a0)
 void miss2_0x11C::sub_50E9A0()
 {
-    NOT_IMPLEMENTED;
+    gGarox_2B00_706620->field_DC.sub_5D4890(1); // clear lowest brief priority
+    gGarox_2B00_706620->field_DC.sub_5D4890(3); // clear highest brief priority
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e9e0)
