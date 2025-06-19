@@ -3460,10 +3460,47 @@ void miss2_0x11C::sub_50EB00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ebd0)
-void miss2_0x11C::sub_50EBD0()
+MATCH_FUNC(0x50ebd0)
+void miss2_0x11C::sub_50EBD0() //  SCRCMD_WEAP_HIT_CAR
 {
-    NOT_IMPLEMENTED;
+    SCR_WEAPON_HIT_CAR* pCmd = (SCR_WEAPON_HIT_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (!pCmd->field_A_status)
+    {
+        char v5;
+        if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
+        {
+            v5 = gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0);
+        }
+        else
+        {
+            v5 = gfrosty_pasteur_6F8060->sub_512AF0(pPointer->field_8_car->field_6C_maybe_id, 23, 0);
+        }
+        if (v5 && gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        {
+            field_8 = true;
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+            pCmd->field_A_status = 1;
+        }
+    }
+    else
+    {
+        if (gfrosty_pasteur_6F8060->sub_512C70(pPointer->field_8_car->field_6C_maybe_id, pCmd->field_C_weapon, 0))
+        {
+            field_8 = true;
+            pCmd->field_A_status = 0;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 // TODO: https://decomp.me/scratch/NMvtk trying to match this using CompilerBitField32 instead of BitSet32

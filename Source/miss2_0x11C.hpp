@@ -471,6 +471,13 @@ struct SCR_SET_STATE : SCR_CMD_HEADER
     u8 field_A_status;
 };
 
+struct SCR_WEAPON_HIT_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_status;
+    u16 field_C_weapon;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
