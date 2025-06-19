@@ -1142,10 +1142,10 @@ char_type Garox_1E34_L::sub_5D3680(s16 a1)
 MATCH_FUNC(0x5d39d0)
 void Garox_1E34_L::sub_5D39D0()
 {
-    field_510 = Garox_1E34_L::sub_5D3470();
-    field_504 = field_510 * gGarox_2B00_706620->field_13C4_text_speed;
+    field_510_time_to_show = Garox_1E34_L::sub_5D3470();
+    field_504_tick_timer = field_510_time_to_show * gGarox_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
-    field_514 = 0;
+    field_514_upward_timer = 0;
     field_6F8_prev_brief->field_10 = 0;
 }
 
@@ -1206,11 +1206,11 @@ Garox_1E34_L::Garox_1E34_L()
     field_6FC_p_start_q = &field_518_ary_19_start_q;
 
     field_50C = 0;
-    field_510 = 0;
-    field_514 = 0;
+    field_510_time_to_show = 0;
+    field_514_upward_timer = 0;
     field_6F8_prev_brief = 0;
     field_700 = 0;
-    field_504 = 0;
+    field_504_tick_timer = 0;
 
     for (s32 i = 0; i < 19; i++)
     {

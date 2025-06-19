@@ -445,13 +445,13 @@ class Garox_1E34_L  // size 0x704
 
     wchar_t field_0_str[640];
     s16 field_500;
-    s16 field_502;
-    s16 field_504;
+    s16 field_502_face_idx;
+    s16 field_504_tick_timer;
     s16 field_506;
-    s32 field_508;
+    s32 field_508_num_lines;
     s32 field_50C;
-    s32 field_510;
-    s32 field_514;
+    s32 field_510_time_to_show;
+    s32 field_514_upward_timer;
     Garox_18* field_518_ary_19_start_q;
     s32 field_51C;
     s32 field_520;
