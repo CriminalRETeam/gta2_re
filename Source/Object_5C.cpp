@@ -17,6 +17,9 @@ GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
 EXPORT_VAR s32 DAT_006f8f88;
 GLOBAL(DAT_006f8f88, 0x6f8f88);
 
+EXPORT_VAR Fix16 stru_6F8EF0;
+GLOBAL(stru_6F8EF0, 0x6F8EF0);
+
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
@@ -108,9 +111,8 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
             break;
         case 3:
             sprite_type = pSprite->field_30_sprite_type_enum;
-            if (sprite_type != sprite_types_enum::code_obj1
-                && sprite_type != sprite_types_enum::map_obj 
-                && sprite_type != sprite_types_enum::unknown_1)
+            if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
+                sprite_type != sprite_types_enum::unknown_1)
             {
                 return 1;
             }
@@ -161,6 +163,16 @@ STUB_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type a2)
 {
     NOT_IMPLEMENTED;
+
+    if (this->field_10)
+    {
+        this->field_10->field_38 = a2;
+    }
+    else
+    {
+        sub_528130(&stru_6F8EF0);
+        this->field_10->field_38 = a2;
+    }
 }
 
 STUB_FUNC(0x522710)
@@ -350,7 +362,7 @@ void Object_2C::sub_527AE0()
     {
         case 0:
         case 1:
-            gPurpleDoom_3_679210->sub_477AE0(field_4);
+            gPurpleDoom_3_679210->Add_477AE0(field_4);
             return;
         case 3:
             DAT_006f8f88++;
@@ -439,10 +451,10 @@ void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
     field_26 = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
-STUB_FUNC(0x529070)
-void Object_2C::sub_529070(Sprite* a2)
+MATCH_FUNC(0x529070)
+void Object_2C::sub_529070(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    sub_5226A0(pSprite->field_26_pad);
 }
 
 MATCH_FUNC(0x529080)
@@ -560,12 +572,9 @@ Object_5C::Object_5C()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x529750)
+MATCH_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
-    // TODO: The call to Object_3C dtor breaks the match, so is field_1C really that type ??
-    NOT_IMPLEMENTED;
-
     if (field_58)
     {
         gSprite_49B28_703818->remove(field_58);
@@ -738,4 +747,29 @@ STUB_FUNC(0x52A650)
 void Object_5C::sub_52A650()
 {
     NOT_IMPLEMENTED;
+}
+
+
+MATCH_FUNC(0x52a6d0)
+void Object_5C::sub_52A6D0(Sprite* pSprite)
+{
+    // TODO: field_0 or inheritance ???
+    ((Object_2C*)this)->sub_527D00();
+
+    // TODO
+    if (*(u32*)(this->field_8 + 52) != 11)
+    {
+        gPurpleDoom_3_679210->Add_477AE0(this->field_4);
+    }
+    
+    ((Object_2C*)this)->sub_522360();
+
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        Car_BC* pObj = pSprite->field_8_car_bc_ptr;
+        if (pObj)
+        {
+            this->field_4->field_28_num = pObj->sub_4435B0();
+        }
+    }
 }

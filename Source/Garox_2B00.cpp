@@ -800,10 +800,7 @@ Hud_Pager_C::Hud_Pager_C()
 MATCH_FUNC(0x5d03c0)
 void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
-    set_arrow_aim_from_pos_4767C0(
-                pZone->field_12C_info_phone_x, 
-                pZone->field_130_info_phone_y, 
-                pZone->field_134_info_phone_z);
+    set_arrow_aim_from_pos_4767C0(pZone->field_12C_info_phone_x, pZone->field_130_info_phone_y, pZone->field_134_info_phone_z);
     field_10_type = 5;
 }
 
@@ -1169,10 +1166,43 @@ s32 Garox_1E34_L::sub_5D4400(s32 a2, const char_type* a3)
     return 0;
 }
 
-STUB_FUNC(0x5d44d0)
+MATCH_FUNC(0x5d44d0)
 void Garox_1E34_L::sub_5D44D0()
 {
-    NOT_IMPLEMENTED;
+    if (field_6F8_prev_brief)
+    {
+        field_504_tick_timer--;
+
+        if (!(field_504_tick_timer % 3))
+        {
+            field_514_upward_timer++;
+            if (field_514_upward_timer == field_510_time_to_show)
+            {
+                field_514_upward_timer = 0;
+            }
+
+            const s32 ary_val = field_0_str[field_514_upward_timer];
+            if (!(ary_val % 20))
+            {
+                field_50C = 1;
+            }
+            else
+            {
+                field_50C = 2 * (ary_val % 2);
+            }
+        }
+
+        field_6F8_prev_brief->field_10 = 1;
+
+        if (field_504_tick_timer == 0)
+        {
+            sub_5D3370();
+            if (field_6F8_prev_brief)
+            {
+                sub_5D39D0();
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d4850)

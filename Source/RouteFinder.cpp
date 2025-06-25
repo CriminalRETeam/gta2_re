@@ -48,7 +48,7 @@ u16 Junction_10::sub_5885C0(u16 a2)
         {
             return 2;
         }
-        if(field_4_e.FUN_0040ce90() != a2)
+        if (field_4_e.FUN_0040ce90() != a2)
         {
             return 3;
         }
@@ -104,43 +104,46 @@ MATCH_FUNC(0x588b30)
 void RouteFinder::Load_RGEN_588B30()
 {
     File::Global_Read_4A71C0(field_8, 0x2210);
-    File::Global_Read_4A71C0(this->field_A830,0x1108);
+    File::Global_Read_4A71C0(this->field_A830, 0x1108);
     File::Global_Read_4A71C0(this->field_B938, 0x1108);
     File::Global_Read_4A71C0(&this->field_4, 2);
     File::Global_Read_4A71C0(&this->field_CC62, 2);
     File::Global_Read_4A71C0(&this->field_CC64, 2);
     this->field_0 = 0;
 
-    if(bLog_routefinder_67D6D1)
+    if (bLog_routefinder_67D6D1)
     {
         int iVar2 = 0;
         do
         {
-            sprintf(gTmpBuffer_67C598, "Junc: %d (%d, %d) n %d s %d w %d e %d", iVar2,
+            sprintf(gTmpBuffer_67C598,
+                    "Junc: %d (%d, %d) n %d s %d w %d e %d",
+                    iVar2,
                     field_8[iVar2].field_C_min_x,
                     field_8[iVar2].field_D_min_y,
                     field_8[iVar2].field_0_n.FUN_0040ce90(),
                     field_8[iVar2].field_2_s.FUN_0040ce90(),
                     field_8[iVar2].field_6_w.FUN_0040ce90(),
-                    field_8[iVar2].field_4_e.FUN_0040ce90()
-                    );
+                    field_8[iVar2].field_4_e.FUN_0040ce90());
             gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
 
-            if(iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)
+            if (iVar2 > 0 && field_8[iVar2].field_C_min_x == 0 && field_8[iVar2].field_D_min_y == 0)
             {
                 break;
             }
             iVar2++;
-        } while(iVar2 < 0x221);
+        } while (iVar2 < 0x221);
 
         gErrorLog_67C530.Write_4D9620("     ");
     }
 }
 
-STUB_FUNC(0x588c60)
+MATCH_FUNC(0x588c60)
 void RouteFinder::Reset_588C60()
 {
-    NOT_IMPLEMENTED;
+    memset(this->field_CA40, 0, sizeof(this->field_CA40));
+    memset(this->field_861C, 0, sizeof(this->field_861C));
+    memset(this->field_2218, 0, sizeof(this->field_2218));
 }
 
 STUB_FUNC(0x588ca0)
@@ -239,11 +242,11 @@ s16 RouteFinder::sub_589960()
     s16 sVar1 = 1;
     if (this->field_0 < 50)
     {
-        while(sVar1 < 0x32)
+        while (sVar1 < 0x32)
         {
             if (field_2218[sVar1++].field_0[0] == 0)
             {
-                return sVar1-1;
+                return sVar1 - 1;
             }
         }
     }
@@ -253,7 +256,7 @@ s16 RouteFinder::sub_589960()
 MATCH_FUNC(0x589990)
 u16 RouteFinder::sub_589990(RouteFinder_10* a2, u16 a3, s16 a4)
 {
-    RouteFinder_10 *puVar1 = sub_5892F0(a2,a3,a4);
+    RouteFinder_10* puVar1 = sub_5892F0(a2, a3, a4);
     sub_589420(puVar1);
     return puVar1->field_0_idx;
 }
@@ -275,9 +278,10 @@ char_type RouteFinder::sub_589BB0(RouteFinder_10* a2, s32 a3)
 MATCH_FUNC(0x589e00)
 RouteFinder_10* RouteFinder::sub_589E00()
 {
-    RouteFinder_10 *pjVar1;
+    RouteFinder_10* pjVar1;
 
-    for (pjVar1 = field_A82C; pjVar1 != NULL && pjVar1->field_4 != 0;pjVar1 = pjVar1->field_C);
+    for (pjVar1 = field_A82C; pjVar1 != NULL && pjVar1->field_4 != 0; pjVar1 = pjVar1->field_C)
+        ;
     return pjVar1;
 }
 
@@ -299,13 +303,13 @@ char_type RouteFinder::sub_589E70(s32 a2)
     {
         while (true)
         {
-            if(cVar1 != '\0')
+            if (cVar1 != '\0')
             {
                 break;
             }
 
             iVar2 = sub_589E00();
-            if(iVar2 == NULL)
+            if (iVar2 == NULL)
             {
                 break;
             }
@@ -333,14 +337,14 @@ s16 RouteFinder::sub_589F70()
         return -1;
     }
 
-    RouteFinder_10 *pjVar4 = &field_861C[field_CC66_545_count - 1];
+    RouteFinder_10* pjVar4 = &field_861C[field_CC66_545_count - 1];
     s16 sVar2 = sub_589960();
     if (sVar2 == -1)
     {
         return -1;
     }
 
-    while(pjVar4 != NULL)
+    while (pjVar4 != NULL)
     {
         pjVar4 = pjVar4->field_8;
         sVar1++;
@@ -348,7 +352,6 @@ s16 RouteFinder::sub_589F70()
     DAT_6ffdcc = sVar1;
 
     pjVar4 = &field_861C[field_CC66_545_count - 1];
-
 
     if (pjVar4 != NULL)
     {
@@ -387,9 +390,9 @@ s16 RouteFinder::sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 MATCH_FUNC(0x58a130)
 s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 {
-    if(sub_5895C0(a1, a2, a3, a5, a6))
+    if (sub_5895C0(a1, a2, a3, a5, a6))
     {
-        if(sub_589E70(a5))
+        if (sub_589E70(a5))
         {
             s16 ret = sub_589F70();
             *a4 = DAT_6ffdcc;
@@ -402,7 +405,7 @@ s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 MATCH_FUNC(0x58a190)
 void RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 {
-    sub_58A0D0(a2,a3,a4,a5,a6,a7,a8);
+    sub_58A0D0(a2, a3, a4, a5, a6, a7, a8);
 }
 
 MATCH_FUNC(0x58a1c0)
