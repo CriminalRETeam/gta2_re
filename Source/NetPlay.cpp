@@ -31,7 +31,7 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51da30)
+MATCH_FUNC(0x51da30)
 s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
                                        const void* lpConnection,
                                        u32 dwConnectionSize,
@@ -39,8 +39,19 @@ s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
                                        s32 dwFlags,
                                        NetPlay* lpContext)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    EnumeratedConnection info;
+    info.field_0_sp_guid = *lpguidSP; // store guid
+    info.field_14_pConnection = new u8[dwConnectionSize]; //alloc connection buffer
+    memcpy(info.field_14_pConnection, lpConnection, dwConnectionSize); // copy into alloc
+    info.field_18_connection_len = dwConnectionSize; // store size
+
+    const size_t connectionNameLen = wcslen(lpName->lpszShortName); // get short name len
+    info.field_10_pConnectionName = new wchar_t[connectionNameLen + 1]; // alloc buffer + null space
+    wcscpy(info.field_10_pConnectionName, lpName->lpszShortName); // copy it
+    ((NetPlay*)lpContext)->AddEnumeratedConnection_51D930(&info);
+    delete[] info.field_10_pConnectionName; // free copy
+    delete[] info.field_14_pConnection; // free copy
+    return 1;
 }
 
 STUB_FUNC(0x51dae0)
