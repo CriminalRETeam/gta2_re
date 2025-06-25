@@ -226,10 +226,36 @@ s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, c
     }
 }
 
-STUB_FUNC(0x51eb00)
+MATCH_FUNC(0x51eb00)
 s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 {
-    NOT_IMPLEMENTED;
+    //NOT_IMPLEMENTED;
+
+    if (field_C4_sessions.field_5C4_session_count < 16)
+    {
+        memset(&field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count], 0, sizeof(DPSESSIONDESC2));
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwSize = sizeof(DPSESSIONDESC2);
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwFlags = pSession->dwFlags;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].guidInstance = pSession->guidInstance;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].guidApplication = pSession->guidApplication;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwMaxPlayers = pSession->dwMaxPlayers;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwCurrentPlayers = pSession->dwCurrentPlayers;
+
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].lpszSessionName =
+            new wchar_t[wcslen(pSession->lpszSessionName) + 1];
+        wcscpy(field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].lpszSessionName, pSession->lpszSessionName);
+
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwReserved1 = pSession->dwReserved1;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwReserved2 = pSession->dwReserved2;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser1 = pSession->dwUser1;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser2 = pSession->dwUser2;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser3 = pSession->dwUser3;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser4 = pSession->dwUser4;
+
+        field_C4_sessions.field_5C4_session_count++;
+
+        return 1;
+    }
     return 0;
 }
 
@@ -443,7 +469,7 @@ STUB_FUNC(0x520f80)
 s32 NetPlay::sub_520F80(wchar_t* String2)
 {
     NOT_IMPLEMENTED;
-    
+
     for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
     {
         if (wcscmp(field_758_n2.field_10[i].field_1C, String2) == 0)
