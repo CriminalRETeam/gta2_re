@@ -443,6 +443,15 @@ STUB_FUNC(0x520f80)
 s32 NetPlay::sub_520F80(wchar_t* String2)
 {
     NOT_IMPLEMENTED;
+    
+    for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
+    {
+        if (wcscmp(field_758_n2.field_10[i].field_1C, String2) == 0)
+        {
+            field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
+            return 1;
+        }
+    }
     return 0;
 }
 
