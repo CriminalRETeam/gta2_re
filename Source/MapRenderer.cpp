@@ -1,9 +1,9 @@
 #include "MapRenderer.hpp"
-#include "Globals.hpp"
-#include "map_0x370.hpp"
 #include "DrawUnk_0xBC.hpp"
-#include "fix16.hpp"
+#include "Globals.hpp"
 #include "debug.hpp"
+#include "fix16.hpp"
+#include "map_0x370.hpp"
 
 EXPORT_VAR MapRenderer* gpMapRenderer_6F66E4;
 GLOBAL(gpMapRenderer_6F66E4, 0x6F66E4);
@@ -245,11 +245,23 @@ void MapRenderer::sub_4F0420()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0bd0)
-char_type MapRenderer::sub_4F0BD0(s32 a2)
+MATCH_FUNC(0x4f0bd0)
+char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (lid_type)
+    {
+        case 0:
+            return -1;
+        case 1:
+            return this->field_C_colour_t1;
+        case 2:
+            return this->field_E_colour_t2;
+        case 3:
+            return this->field_F_colour_t3;
+        default:
+            return 0;
+            break;
+    }
 }
 
 STUB_FUNC(0x4f1660)
@@ -359,10 +371,7 @@ void MapRenderer::sub_4F66C0()
         if ((gBlockLeft_6F62F6 & 0x1000) != 0)
         {
             v6 = gBlockRight_6F63C6 | 0x1000;
-            MapRenderer::sub_4F4250(&v6, 
-                &stru_6F6484.field_0_full.mValue, 
-                (s32)&stru_6F6484, 
-                (Fix16_2*)&stru_6F6484.field_4_frac);
+            MapRenderer::sub_4F4250(&v6, &stru_6F6484.field_0_full.mValue, (s32)&stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac);
         }
     }
 
@@ -371,18 +380,12 @@ void MapRenderer::sub_4F66C0()
         if ((gBlockBottom_6F6468 & 0x1000) != 0)
         {
             v6 = gBlockTop_6F62F4 | 0x1000;
-            MapRenderer::sub_4F4600(&v6, 
-                (s32)&stru_6F6484, 
-                (Fix16_2*)&stru_6F6484.field_4_frac, 
-                (u32*)&stru_6F6484.field_4_frac.mValue);
+            MapRenderer::sub_4F4600(&v6, (s32)&stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac, (u32*)&stru_6F6484.field_4_frac.mValue);
         }
         if ((gBlockTop_6F62F4 & 0x1000) != 0)
         {
             v6 = *(u32*)&gBlockBottom_6F6468 | 0x1000;
-            MapRenderer::sub_4F49B0(&v6, 
-                (s32)&stru_6F6484, 
-                (Fix16_2*)&stru_6F6484.field_4_frac, 
-                (u32*)&stru_6F6484.field_0_full.mValue);
+            MapRenderer::sub_4F49B0(&v6, (s32)&stru_6F6484, (Fix16_2*)&stru_6F6484.field_4_frac, (u32*)&stru_6F6484.field_0_full.mValue);
         }
     }
     if (gBlockLeft_6F62F6) // line 103
@@ -430,10 +433,10 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
         gBlockRight_6F63C6 = pBlock->field_2_right;
         gBlockTop_6F62F4 = pBlock->field_4_top;
         gBlockBottom_6F6468 = pBlock->field_6_bottom;
-        
+
         u16 v8 = pBlock->field_8_lid;
         gLidType_6F6274 = v8;
-        
+
         if (bShow_hidden_faces_67D5CD)
         {
             if (!v8 && (pBlock->field_B_slope_type & 3) != 0)
@@ -459,9 +462,9 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
         }
         gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
         gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
-        
+
         u8 v6 = pBlock->field_B_slope_type & 0xFC;
-        
+
         if (v6 < 0xB4u || v6 > 0xC0u)
         {
             if (v6 < 0xC4u || v6 > 0xD0u)
@@ -504,5 +507,4 @@ STUB_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
     NOT_IMPLEMENTED;
-
 }

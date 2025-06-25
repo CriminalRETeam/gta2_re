@@ -63,7 +63,7 @@ class MapRenderer
     EXPORT void sub_4F02D0();
     EXPORT void sub_4F0340();
     EXPORT void sub_4F0420();
-    EXPORT char_type sub_4F0BD0(s32 a2);
+    EXPORT char_type GetColour_4F0BD0(s32 lid_type);
     EXPORT void sub_4F1660();
     EXPORT void sub_4F22F0();
     EXPORT void sub_4F33B0();
@@ -91,10 +91,10 @@ class MapRenderer
     Fix16 field_0_ambient;
     Fix16 field_4;
     Fix16 field_8;
-    char_type field_C;
+    char_type field_C_colour_t1;
     char_type field_D;
-    char_type field_E;
-    char_type field_F;
+    char_type field_E_colour_t2;
+    char_type field_F_colour_t3;
     char_type field_10;
     char_type field_11;
     char_type field_12;
