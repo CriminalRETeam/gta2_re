@@ -448,27 +448,40 @@ STUB_FUNC(0x521000)
 s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    if (idx >= 6)
+    {
+        return 0;
+    }
+
+    char* v3 = &((char*)&field_2C_ptrs)[idx];
+    if (!*((u32*)v3 + 0x1DA))
+    {
+        return 0;
+    }
+
+    u32 idPlayer = *((u32*)v3 + 478);    
+    sub_5201A0(idx, &this->field_758_n2);
+    field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
+    return 1;
 }
 
-// https://decomp.me/scratch/dSpd7
-STUB_FUNC(0x521060)
+MATCH_FUNC(0x521060)
 s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 {
-    NOT_IMPLEMENTED;
     s32 id_to; // edx
     DPCHAT chatMsg; // [esp+0h] [ebp-Ch] BYREF
+    memset(&chatMsg, 0, sizeof(chatMsg));
 
     chatMsg.dwSize = sizeof(DPCHAT);
-    chatMsg.dwFlags = 0;
     chatMsg.lpszMessage = pMsg;
-    if (idx_always_m1 >= 0)
+    if (idx_always_m1 < 0)
     {
-        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
+        id_to = this->field_758_n2.field_0_group_id;
     }
     else
     {
-        id_to = this->field_758_n2.field_0_group_id;
+        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
     }
     return field_5E4_pDPlay3->SendChatMessage(field_5D8_player_id, id_to, 0, &chatMsg);
 }
