@@ -233,10 +233,12 @@ s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
     return 0;
 }
 
-STUB_FUNC(0x51ecd0)
+MATCH_FUNC(0x51ecd0)
 void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
 {
-    NOT_IMPLEMENTED;
+    this->field_4C_func_ptrs_and_params[15] = pFunc;
+    this->field_4C_func_ptrs_and_params[16] = (u32)pParam;
+    this->field_4C_func_ptrs_and_params[17] = 5;
 }
 
 STUB_FUNC(0x51ed00)
@@ -460,7 +462,7 @@ s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
         return 0;
     }
 
-    u32 idPlayer = *((u32*)v3 + 478);    
+    u32 idPlayer = *((u32*)v3 + 478);
     sub_5201A0(idx, &this->field_758_n2);
     field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
     return 1;
