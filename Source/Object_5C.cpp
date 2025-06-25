@@ -162,6 +162,8 @@ s16 Object_2C::sub_522640(s32 a2)
 STUB_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type a2)
 {
+    NOT_IMPLEMENTED;
+
     if (this->field_10)
     {
         this->field_10->field_38 = a2;
@@ -570,12 +572,9 @@ Object_5C::Object_5C()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x529750)
+MATCH_FUNC(0x529750)
 Object_5C::~Object_5C()
 {
-    // TODO: The call to Object_3C dtor breaks the match, so is field_1C really that type ??
-    NOT_IMPLEMENTED;
-
     if (field_58)
     {
         gSprite_49B28_703818->remove(field_58);
