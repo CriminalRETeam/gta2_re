@@ -71,7 +71,7 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 }
 
 MATCH_FUNC(0x477ae0)
-void PurpleDoom::sub_477AE0(Sprite* a1)
+void PurpleDoom::Add_477AE0(Sprite* a1)
 {
     DoAdd_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
 }

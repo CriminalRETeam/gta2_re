@@ -3270,12 +3270,6 @@ void Car_BC::sub_447360()
     }
 }
 
-STUB_FUNC(0x52a6d0)
-Sprite* Car_BC::sub_52A6D0(Sprite* a2)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
 
 MATCH_FUNC(0x564300)
 bool Car_BC::sub_564300()

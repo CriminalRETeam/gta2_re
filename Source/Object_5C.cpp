@@ -362,7 +362,7 @@ void Object_2C::sub_527AE0()
     {
         case 0:
         case 1:
-            gPurpleDoom_3_679210->sub_477AE0(field_4);
+            gPurpleDoom_3_679210->Add_477AE0(field_4);
             return;
         case 3:
             DAT_006f8f88++;
@@ -747,4 +747,29 @@ STUB_FUNC(0x52A650)
 void Object_5C::sub_52A650()
 {
     NOT_IMPLEMENTED;
+}
+
+
+MATCH_FUNC(0x52a6d0)
+void Object_5C::sub_52A6D0(Sprite* pSprite)
+{
+    // TODO: field_0 or inheritance ???
+    ((Object_2C*)this)->sub_527D00();
+
+    // TODO
+    if (*(u32*)(this->field_8 + 52) != 11)
+    {
+        gPurpleDoom_3_679210->Add_477AE0(this->field_4);
+    }
+    
+    ((Object_2C*)this)->sub_522360();
+
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        Car_BC* pObj = pSprite->field_8_car_bc_ptr;
+        if (pObj)
+        {
+            this->field_4->field_28_num = pObj->sub_4435B0();
+        }
+    }
 }

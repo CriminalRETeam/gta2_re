@@ -655,7 +655,7 @@ class Car_BC
     ~Car_BC(); // 0x444960
 
     EXPORT void sub_447360();
-    EXPORT Sprite* sub_52A6D0(Sprite* a2);
+  
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0

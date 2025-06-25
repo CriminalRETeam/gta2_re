@@ -158,11 +158,14 @@ class Object_5C
     EXPORT void sub_52A610(Object_2C *p2C);
     EXPORT void sub_52A650();
 
-    s32 field_0;
-    s32 field_4;
+    // TODO: order ?
+    EXPORT void sub_52A6D0(Sprite* a2);
+
+    s32 field_0; // Object_2C* ?
+    Sprite* field_4;
     s32 field_8;
     s32 field_C;
-    s32 field_10;
+    Object_3C* field_10;
     s32 field_14;
     s32 field_18;
 

@@ -19,7 +19,7 @@ class PurpleDoom
 {
   public:
     EXPORT void DrawSpritesClipped_477A40();
-    EXPORT void sub_477AE0(Sprite* a1);
+    EXPORT void Add_477AE0(Sprite* a1);
     EXPORT void Remove_477B00(Sprite* a1);
     EXPORT void sub_477B20(Sprite* a1a);
     EXPORT void sub_477B60(Sprite* a1);
