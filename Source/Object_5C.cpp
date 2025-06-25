@@ -17,6 +17,9 @@ GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
 EXPORT_VAR s32 DAT_006f8f88;
 GLOBAL(DAT_006f8f88, 0x6f8f88);
 
+EXPORT_VAR Fix16 stru_6F8EF0;
+GLOBAL(stru_6F8EF0, 0x6F8EF0);
+
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
@@ -159,7 +162,15 @@ s16 Object_2C::sub_522640(s32 a2)
 STUB_FUNC(0x5226a0)
 void Object_2C::sub_5226A0(char_type a2)
 {
-    NOT_IMPLEMENTED;
+    if (this->field_10)
+    {
+        this->field_10->field_38 = a2;
+    }
+    else
+    {
+        sub_528130(&stru_6F8EF0);
+        this->field_10->field_38 = a2;
+    }
 }
 
 STUB_FUNC(0x522710)
