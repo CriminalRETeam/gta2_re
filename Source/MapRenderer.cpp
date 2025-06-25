@@ -260,7 +260,6 @@ char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
             return this->field_F_colour_t3;
         default:
             return 0;
-            break;
     }
 }
 
