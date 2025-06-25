@@ -17,7 +17,7 @@ class Fix16
         return *this;
     }
 
-    Fix16 operator-(const Fix16& in)
+    Fix16 operator-(const Fix16& in) const
     {
         s32 value = mValue - in.mValue;
         return Fix16(value, 0);

@@ -142,6 +142,9 @@ GLOBAL(word_6F771E, 0x6F771E);
 EXPORT_VAR Ang16 word_67791C;
 GLOBAL(word_67791C, 0x67791C);
 
+
+extern EXPORT_VAR Fix16 dword_7035C4;
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -423,10 +426,30 @@ Ped* Sprite::sub_59E1B0()
     }
 }
 
-STUB_FUNC(0x59E1D0)
-s32 Sprite::sub_59E1D0()
+MATCH_FUNC(0x59E1D0)
+s32 Sprite::sub_59E1D0() // IsWater?
 {
-    NOT_IMPLEMENTED;
+    gmp_block_info* pBlock;
+
+    const Fix16 zpos = this->field_1C_zpos;
+    if (zpos > gFix16_7035C0)
+    {
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.ToInt(), field_18_ypos.ToInt(), (zpos - dword_7035C4).ToInt());
+    }
+    else
+    {
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.ToInt(), field_18_ypos.ToInt(), zpos.ToInt());
+    }
+
+    if (pBlock)
+    {
+        const u16 lid_idx = pBlock->field_8_lid & 1023;
+        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == 4 && gGtx_0x106C_703DD4->sub_5AA850(lid_idx))
+        {
+            
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -3269,7 +3292,6 @@ void Car_BC::sub_447360()
         field_8_damaged_areas.clear_bit(0x0f);
     }
 }
-
 
 MATCH_FUNC(0x564300)
 bool Car_BC::sub_564300()
