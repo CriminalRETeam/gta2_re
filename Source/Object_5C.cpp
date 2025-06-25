@@ -108,9 +108,8 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
             break;
         case 3:
             sprite_type = pSprite->field_30_sprite_type_enum;
-            if (sprite_type != sprite_types_enum::code_obj1
-                && sprite_type != sprite_types_enum::map_obj 
-                && sprite_type != sprite_types_enum::unknown_1)
+            if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
+                sprite_type != sprite_types_enum::unknown_1)
             {
                 return 1;
             }
@@ -439,10 +438,10 @@ void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
     field_26 = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
-STUB_FUNC(0x529070)
-void Object_2C::sub_529070(Sprite* a2)
+MATCH_FUNC(0x529070)
+void Object_2C::sub_529070(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    sub_5226A0(pSprite->field_26_pad);
 }
 
 MATCH_FUNC(0x529080)
