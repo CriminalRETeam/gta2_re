@@ -202,11 +202,17 @@ u32 NetPlay::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6,
     return 0;
 }
 
-STUB_FUNC(0x51eae0)
+MATCH_FUNC(0x51eae0)
 s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((dwFlags & 1) != 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return ((NetPlay*)lpContext)->AddEnumeratedSession_51EB00(lpThisSD);
+    }
 }
 
 STUB_FUNC(0x51eb00)
