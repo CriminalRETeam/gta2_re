@@ -78,10 +78,6 @@ GLOBAL(gCarInfo_48_66AB70, 0x66AB70);
 EXPORT_VAR s16 DAT_677CFC;
 GLOBAL(DAT_677CFC, 0x677CFC);
 
-// This is a pointer to something
-EXPORT_VAR s32 DAT_0067727c;
-GLOBAL(DAT_0067727c, 0x67727c);
-
 EXPORT_VAR Object_3C stru_67737C;
 GLOBAL(stru_67737C, 0x67737c);
 
@@ -1335,7 +1331,7 @@ Car_6C::Car_6C()
     field_44 = 0;
 
     // On version 9.6f this is call to a class method
-    DAT_0067727c = 0;
+    stru_67727C.field_0 = 0;
     // On version 9.6f this is call to a class method
     stru_67737C.field_0 = 0;
     sub_5639C0();

@@ -175,6 +175,12 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
         force_link();
     }
 
+    if (lpCmdLine && strstr(lpCmdLine, "--check_vars_only"))
+    {
+        GetGlobalsRegistry()->CheckVars();
+        return 0;
+    }
+
     GetGlobalsRegistry()->CheckVars();
 
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
