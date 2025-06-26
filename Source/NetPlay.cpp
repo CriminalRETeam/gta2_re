@@ -25,13 +25,40 @@ NetPlay::~NetPlay()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51d930)
+MATCH_FUNC(0x51d930)
 void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo)
 {
-    NOT_IMPLEMENTED;
+    const u32 connection_idx = this->field_30_enumed_connections.field_8_connections_count;
+    if (connection_idx < 8)
+    {
+        EnumeratedConnection* pConnections = this->field_30_enumed_connections.field_0_enumed_connections;
+        if (pConnections)
+        {
+            EnumeratedConnection* v5 = &pConnections[connection_idx];
+            v5->field_0_sp_guid = pConnectionInfo->field_0_sp_guid;
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_10_pConnectionName = new wchar_t[wcslen(pConnectionInfo->field_10_pConnectionName) + 1];
+            wcscpy(this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                       .field_10_pConnectionName,
+                   pConnectionInfo->field_10_pConnectionName);
+
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_14_pConnection = new u8[pConnectionInfo->field_18_connection_len];
+            memcpy(
+                this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                    .field_14_pConnection,
+                pConnectionInfo->field_14_pConnection,
+                pConnectionInfo->field_18_connection_len);
+
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_18_connection_len = pConnectionInfo->field_18_connection_len;
+
+            field_30_enumed_connections.field_8_connections_count++;
+        }
+    }
 }
 
-STUB_FUNC(0x51da30)
+MATCH_FUNC(0x51da30)
 s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
                                        const void* lpConnection,
                                        u32 dwConnectionSize,
@@ -39,8 +66,19 @@ s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
                                        s32 dwFlags,
                                        NetPlay* lpContext)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    EnumeratedConnection info;
+    info.field_0_sp_guid = *lpguidSP; // store guid
+    info.field_14_pConnection = new u8[dwConnectionSize]; //alloc connection buffer
+    memcpy(info.field_14_pConnection, lpConnection, dwConnectionSize); // copy into alloc
+    info.field_18_connection_len = dwConnectionSize; // store size
+
+    const size_t connectionNameLen = wcslen(lpName->lpszShortName); // get short name len
+    info.field_10_pConnectionName = new wchar_t[connectionNameLen + 1]; // alloc buffer + null space
+    wcscpy(info.field_10_pConnectionName, lpName->lpszShortName); // copy it
+    ((NetPlay*)lpContext)->AddEnumeratedConnection_51D930(&info);
+    delete[] info.field_10_pConnectionName; // free copy
+    delete[] info.field_14_pConnection; // free copy
+    return 1;
 }
 
 STUB_FUNC(0x51dae0)
@@ -202,24 +240,58 @@ u32 NetPlay::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6,
     return 0;
 }
 
-STUB_FUNC(0x51eae0)
+MATCH_FUNC(0x51eae0)
 s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((dwFlags & 1) != 0)
+    {
+        return 0;
+    }
+    else
+    {
+        return ((NetPlay*)lpContext)->AddEnumeratedSession_51EB00(lpThisSD);
+    }
 }
 
-STUB_FUNC(0x51eb00)
+MATCH_FUNC(0x51eb00)
 s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 {
-    NOT_IMPLEMENTED;
+    //NOT_IMPLEMENTED;
+
+    if (field_C4_sessions.field_5C4_session_count < 16)
+    {
+        memset(&field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count], 0, sizeof(DPSESSIONDESC2));
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwSize = sizeof(DPSESSIONDESC2);
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwFlags = pSession->dwFlags;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].guidInstance = pSession->guidInstance;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].guidApplication = pSession->guidApplication;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwMaxPlayers = pSession->dwMaxPlayers;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwCurrentPlayers = pSession->dwCurrentPlayers;
+
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].lpszSessionName =
+            new wchar_t[wcslen(pSession->lpszSessionName) + 1];
+        wcscpy(field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].lpszSessionName, pSession->lpszSessionName);
+
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwReserved1 = pSession->dwReserved1;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwReserved2 = pSession->dwReserved2;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser1 = pSession->dwUser1;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser2 = pSession->dwUser2;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser3 = pSession->dwUser3;
+        field_C4_sessions.field_C4_sessions[field_C4_sessions.field_5C4_session_count].dwUser4 = pSession->dwUser4;
+
+        field_C4_sessions.field_5C4_session_count++;
+
+        return 1;
+    }
     return 0;
 }
 
-STUB_FUNC(0x51ecd0)
+MATCH_FUNC(0x51ecd0)
 void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
 {
-    NOT_IMPLEMENTED;
+    this->field_4C_func_ptrs_and_params[15] = pFunc;
+    this->field_4C_func_ptrs_and_params[16] = (u32)pParam;
+    this->field_4C_func_ptrs_and_params[17] = 5;
 }
 
 STUB_FUNC(0x51ed00)
@@ -424,6 +496,15 @@ STUB_FUNC(0x520f80)
 s32 NetPlay::sub_520F80(wchar_t* String2)
 {
     NOT_IMPLEMENTED;
+
+    for (u32 i = 0; i < this->field_758_n2.field_4_count; i++)
+    {
+        if (wcscmp(field_758_n2.field_10[i].field_1C, String2) == 0)
+        {
+            field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, field_758_n2.field_10[i].field_10);
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -431,27 +512,40 @@ STUB_FUNC(0x521000)
 s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    if (idx >= 6)
+    {
+        return 0;
+    }
+
+    char* v3 = &((char*)&field_2C_ptrs)[idx];
+    if (!*((u32*)v3 + 0x1DA))
+    {
+        return 0;
+    }
+
+    u32 idPlayer = *((u32*)v3 + 478);
+    sub_5201A0(idx, &this->field_758_n2);
+    field_5E4_pDPlay3->DeletePlayerFromGroup(field_758_n2.field_0_group_id, idPlayer);
+    return 1;
 }
 
-// https://decomp.me/scratch/dSpd7
-STUB_FUNC(0x521060)
+MATCH_FUNC(0x521060)
 s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 {
-    NOT_IMPLEMENTED;
     s32 id_to; // edx
     DPCHAT chatMsg; // [esp+0h] [ebp-Ch] BYREF
+    memset(&chatMsg, 0, sizeof(chatMsg));
 
     chatMsg.dwSize = sizeof(DPCHAT);
-    chatMsg.dwFlags = 0;
     chatMsg.lpszMessage = pMsg;
-    if (idx_always_m1 >= 0)
+    if (idx_always_m1 < 0)
     {
-        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
+        id_to = this->field_758_n2.field_0_group_id;
     }
     else
     {
-        id_to = this->field_758_n2.field_0_group_id;
+        id_to = this->field_758_n2.field_10[idx_always_m1].field_10;
     }
     return field_5E4_pDPlay3->SendChatMessage(field_5D8_player_id, id_to, 0, &chatMsg);
 }

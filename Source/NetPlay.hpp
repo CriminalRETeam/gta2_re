@@ -101,7 +101,7 @@ struct Network_18
 struct Network_504
 {
     DPSESSIONDESC2 field_C4_sessions[16];
-    s32 field_5C4_session_count;
+    u32 field_5C4_session_count;
 };
 
 struct NetPlay
