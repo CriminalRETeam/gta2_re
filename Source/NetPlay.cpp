@@ -25,10 +25,37 @@ NetPlay::~NetPlay()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51d930)
+MATCH_FUNC(0x51d930)
 void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo)
 {
-    NOT_IMPLEMENTED;
+    const u32 connection_idx = this->field_30_enumed_connections.field_8_connections_count;
+    if (connection_idx < 8)
+    {
+        EnumeratedConnection* pConnections = this->field_30_enumed_connections.field_0_enumed_connections;
+        if (pConnections)
+        {
+            EnumeratedConnection* v5 = &pConnections[connection_idx];
+            v5->field_0_sp_guid = pConnectionInfo->field_0_sp_guid;
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_10_pConnectionName = new wchar_t[wcslen(pConnectionInfo->field_10_pConnectionName) + 1];
+            wcscpy(this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                       .field_10_pConnectionName,
+                   pConnectionInfo->field_10_pConnectionName);
+
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_14_pConnection = new u8[pConnectionInfo->field_18_connection_len];
+            memcpy(
+                this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                    .field_14_pConnection,
+                pConnectionInfo->field_14_pConnection,
+                pConnectionInfo->field_18_connection_len);
+
+            this->field_30_enumed_connections.field_0_enumed_connections[this->field_30_enumed_connections.field_8_connections_count]
+                .field_18_connection_len = pConnectionInfo->field_18_connection_len;
+
+            field_30_enumed_connections.field_8_connections_count++;
+        }
+    }
 }
 
 MATCH_FUNC(0x51da30)
