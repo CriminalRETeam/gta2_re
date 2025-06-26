@@ -51,25 +51,27 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
     }
 }
 
+// https://decomp.me/scratch/NJ1e0 compiler flag annoyance
 STUB_FUNC(0x519a90)
 Network_20324::Network_20324()
 {
     NOT_IMPLEMENTED;
-    field_202E4 = 0;
-    field_202E0 = 0;
-    field_202DC = 0;
-    field_202D4 = 0;
-    field_202D8 = 3;
-    field_20084 = 0;
-    field_1FD6C = 0;
-    field_1FD64_f4_idx_count = 0;
-    field_1FD68 = 0;
-    field_2019C = GetTickCount();
-    field_20198_game_type = 1;
-    field_20194_f_limit = 1;
-    field_2018C_f4_idx = 0;
-    field_201A0_police = 0;
-    field_201A4_game_time_limiot = 0;
+    
+    this->field_20320 = 0;
+    this->field_202E0_hwnd = 0;
+    this->field_20318 = 0;
+    this->field_20310 = 0;
+    this->field_20314 = 3;
+    this->field_20084 = 0;
+    this->field_1FD6C = 0;
+    this->field_1FD64_f4_idx_count = 0;
+    this->field_1FD68 = 0;
+    this->field_2019C = GetTickCount();
+    this->field_20198_game_type = 1;
+    this->field_20194_f_limit = 1;
+    this->field_2018C_f4_idx = 0;
+    this->field_201A0_police = 0;
+    this->field_201A4_game_time_limiot = 0;
     memset(field_4, 0, sizeof(field_4));
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
@@ -133,13 +135,13 @@ s32 Network_20324::cb_sub_519D30(Network_20324* a1, s32 a2)
 MATCH_FUNC(0x519e10)
 void Network_20324::SetDlgHwnd_519E10(HWND a2)
 {
-    field_2031C_dlg_hwnd = a2;
+    field_202E0_hwnd = a2;
 }
 
 MATCH_FUNC(0x519e20)
 HWND Network_20324::sub_519E20()
 {
-    return field_2031C_dlg_hwnd;
+    return field_202E0_hwnd;
 }
 
 STUB_FUNC(0x519e30)
@@ -253,7 +255,7 @@ s32 Network_20324::sub_51B4F0(s32 a2, const char_type* a3)
 MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
 {
-    SetDlgItemTextA(field_2031C_dlg_hwnd,
+    SetDlgItemTextA(field_202E0_hwnd,
                     1004, // TODO: control constant
                     field_1FF80_player_name);
 }
