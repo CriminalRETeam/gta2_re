@@ -1433,11 +1433,53 @@ s32 Map_0x370::sub_4E81D0(u32 column_idx)
     return idx;
 }
 
-STUB_FUNC(0x4E8220)
-s32 Map_0x370::sub_4E8220(u32 a2, s32 a3)
+MATCH_FUNC(0x4E8220)
+s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+
+    if (z < v5->field_0_height && z >= v5->field_1_offset)
+    {
+        return Map_0x370::sub_4E81D0(column_idx);
+    }
+
+    gmp_col_info* v8 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_360_column_words];
+    s32 local_column_words = field_360_column_words;
+
+    if (z >= v5->field_0_height)
+    {
+        v8->field_0_height = z + 1;
+        v8->field_1_offset = v5->field_1_offset;
+
+        for (s32 i = 0; i < v5->field_0_height - v5->field_1_offset; i++)
+        {
+            v8->field_4_blockd[i] = v5->field_4_blockd[i];
+        }
+
+        for (s32 j = v5->field_0_height - v5->field_1_offset; j < v8->field_0_height - v8->field_1_offset; j++)
+        {
+            v8->field_4_blockd[j] = 0;
+        }
+    }
+    else
+    {
+        v8->field_0_height = v5->field_0_height;
+        v8->field_1_offset = z;
+
+        s32 v13 = v5->field_1_offset - (u8)z;
+
+        for (s32 j = 0; j < v13; j++)
+        {
+            v8->field_4_blockd[j] = 0;
+        }
+
+        for (s32 k = 0; k < v5->field_0_height - v5->field_1_offset; k++)
+        {
+            v8->field_4_blockd[k + v13] = v5->field_4_blockd[k];
+        }
+    }
+    field_360_column_words += v8->field_0_height - v8->field_1_offset + 1;
+    return local_column_words;
 }
 
 STUB_FUNC(0x4E8370)
