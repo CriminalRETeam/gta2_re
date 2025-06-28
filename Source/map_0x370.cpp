@@ -1364,6 +1364,12 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
+STUB_FUNC(0x4E80E0)
+void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x4E8140)
 s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
 {
@@ -1407,10 +1413,46 @@ u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x4E8620)
-void Map_0x370::sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value)
+MATCH_FUNC(0x4E8620)
+void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
-    NOT_IMPLEMENTED;
+    s32 column_idx = Map_0x370::sub_4E81D0(field_0_pDmap->field_0_base[y][x]);
+    field_0_pDmap->field_0_base[y][x] = column_idx;
+    field_4_obj.sub_4E80E0(x, y, column_idx);
+
+    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[column_idx];
+
+    s32 block_idx = Map_0x370::sub_4E8180(pColumn->field_4_blockd[z - pColumn->field_1_offset]);
+
+    pColumn->field_4_blockd[z - pColumn->field_1_offset] = block_idx;
+    gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[block_idx];
+
+    switch (info_type_to_set)
+    {
+        case 1:
+            gBlockInfo0_6F5EB0->field_0_left = info_value;
+            break;
+        case 2:
+            gBlockInfo0_6F5EB0->field_2_right = info_value;
+            break;
+        case 3:
+            gBlockInfo0_6F5EB0->field_4_top = info_value;
+            break;
+        case 4:
+            gBlockInfo0_6F5EB0->field_6_bottom = info_value;
+            break;
+        case 5:
+            gBlockInfo0_6F5EB0->field_8_lid = info_value;
+            break;
+        case 6:
+            gBlockInfo0_6F5EB0->field_B_slope_type = info_value;
+            break;
+        case 7:
+            gBlockInfo0_6F5EB0->field_A_arrows = info_value;
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x4E87C0)

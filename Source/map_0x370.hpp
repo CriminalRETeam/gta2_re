@@ -57,6 +57,8 @@ struct gmp_compressed_map_32
 
 struct Map_sub
 {
+    EXPORT void sub_4E80E0(u8 x, u8 y, u32 column_idx);
+
     s32 field_0;
     s32 field_4;
     s32 field_8;
@@ -477,7 +479,7 @@ class Map_0x370
     EXPORT s32 sub_4E81D0(u32 a2);
     EXPORT s32 sub_4E8220(u32 a2, s32 a3);
     EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
-    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value);
+    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
     EXPORT void sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData);
     EXPORT void sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5);
     EXPORT void sub_4E8A10(s32 a2, s32 a3);
