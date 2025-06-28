@@ -114,6 +114,26 @@ static inline bool is_diagonal_block(s32& slope)
     return slope >= 0xC4 && slope <= 0xD0;
 }
 
+static inline bool check_green_up(u8& arrow_data)
+{
+    return (arrow_data >> 2) & 1;
+}
+
+static inline bool check_green_down(u8& arrow_data)
+{
+    return (arrow_data >> 3) & 1;
+}
+
+static inline bool check_green_right(u8& arrow_data)
+{
+    return (arrow_data >> 1) & 1;
+}
+
+static inline bool check_green_left(u8& arrow_data)
+{
+    return arrow_data & 1;
+}
+
 MATCH_FUNC(0x452980)
 gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 {
@@ -907,11 +927,27 @@ char_type Map_0x370::sub_4E4AC0(char_type a1)
     return 0;
 }
 
-STUB_FUNC(0x4E4B40)
-char_type Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
+MATCH_FUNC(0x4E4B40)
+bool Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (a1)
+    {
+        case 1:
+            return check_green_up(a2->field_A_arrows);
+            break;
+        case 2:
+            return check_green_down(a2->field_A_arrows);
+            break;
+        case 3:
+            return check_green_right(a2->field_A_arrows);
+            break;
+        case 4:
+            return check_green_left(a2->field_A_arrows);
+            break;
+        default:
+            return true;
+            break;
+    }
 }
 
 MATCH_FUNC(0x4E4BB0)

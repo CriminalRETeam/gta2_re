@@ -277,7 +277,7 @@ class Map_0x370
     EXPORT char_type sub_4E4820(u32* a2, char_type a3);
     EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
     EXPORT char_type sub_4E4AC0(char_type a1);
-    EXPORT char_type sub_4E4B40(s32 a1, gmp_block_info* a2);
+    EXPORT bool sub_4E4B40(s32 a1, gmp_block_info* a2);
     EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32& a4);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4);
     EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32& a4);
