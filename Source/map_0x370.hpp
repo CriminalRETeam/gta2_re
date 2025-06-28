@@ -27,6 +27,14 @@ struct gmp_block_info
     u8 field_B_slope_type;
 };
 
+enum gmp_slope_type
+{
+    AIR = 0,
+    ROAD = 1,
+    PAVEMENT = 2,
+    FIELD = 3,
+};
+
 struct gmp_header
 {
     char_type field_0_file_type[4];
@@ -424,7 +432,7 @@ class Map_0x370
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
     EXPORT s32 sub_4E0000(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_4E00A0(s32 x, s32 y, s32 z);
+    EXPORT s32 sub_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
     EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
@@ -440,9 +448,9 @@ class Map_0x370
     EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
     EXPORT char_type sub_4E4AC0(char_type a1);
     EXPORT char_type sub_4E4B40(s32 a1, gmp_block_info* a2);
-    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32& a4);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4);
-    EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32* a4);
+    EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32& a4);
     EXPORT Fix16* sub_4E4D40(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT Fix16* sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT s32* sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5);
