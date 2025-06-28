@@ -5020,3 +5020,10 @@ miss2_0x11C::~miss2_0x11C()
     }
     field_0 = 0;
 }
+
+STUB_FUNC(0x5131C0)
+Miss2_8EC::~Miss2_8EC()
+{
+    this->field_0 = 0;
+    this->field_4 = 0;
+}
