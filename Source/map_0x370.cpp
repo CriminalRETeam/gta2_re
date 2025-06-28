@@ -114,6 +114,11 @@ static inline bool is_diagonal_block(s32& slope)
     return slope >= 0xC4 && slope <= 0xD0;
 }
 
+static inline u16 get_tile_idx(s16& side_word)
+{
+    return side_word & 1023;
+}
+
 static inline bool check_green_up(u8& arrow_data)
 {
     return (arrow_data >> 2) & 1;
@@ -1120,11 +1125,23 @@ char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4E52A0)
-char_type Map_0x370::sub_4E52A0(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4E52A0)
+char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(a2.ToInt(), a3.ToInt(), (a4 - dword_6F6110).ToInt());
+
+    if (gBlockInfo0_6F5EB0)
+    {
+        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == 4)
+        {
+            return 7;
+        }
+        if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            return 0;
+        }
+    }
+    return 5;
 }
 
 STUB_FUNC(0x4E5300)
