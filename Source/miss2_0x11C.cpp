@@ -3137,10 +3137,17 @@ void miss2_0x11C::SCRCMD_LOWER_LEVEL_50CA30()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ca70)
+MATCH_FUNC(0x50ca70)
 void miss2_0x11C::sub_50CA70()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHANGE_BLOCK* pCmd = (SCR_CHANGE_BLOCK*)gBasePtr_6F8070;
+    gMap_0x370_6F6268->sub_4E8620(
+        pCmd->field_8_x, 
+        pCmd->field_9_y, 
+        pCmd->field_A_z, 
+        pCmd->field_B_change_type, 
+        pCmd->field_C_info_word);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50cab0)

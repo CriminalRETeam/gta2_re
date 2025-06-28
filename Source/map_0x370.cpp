@@ -57,7 +57,7 @@ GLOBAL(dword_6F5FAC, 0x6F5FAC);
 EXPORT_VAR Fix16 dword_6F610C;
 GLOBAL(dword_6F610C, 0x6F610C);
 
-EXPORT_VAR s32 dword_6F6130;
+EXPORT_VAR Fix16 dword_6F6130;
 GLOBAL(dword_6F6130, 0x6F6130);
 
 EXPORT_VAR Fix16 dword_6F60C0;
@@ -97,6 +97,46 @@ static inline bool is_gradient_slope(u8& slope_byte)
 {
     u8 slope = get_slope_bits(slope_byte);
     return slope > 0 && slope < 0xB4u;  // slope idx in range 1 to 45
+}
+
+static inline u8 get_block_type(u8& slope_byte)
+{
+    return slope_byte & 3;
+}
+
+static inline bool is_partial_block(s32& slope)
+{
+    return slope >= 0xD4 && slope <= 0xF4;
+}
+
+static inline bool is_diagonal_block(s32& slope)
+{
+    return slope >= 0xC4 && slope <= 0xD0;
+}
+
+static inline u16 get_tile_idx(s16& side_word)
+{
+    return side_word & 1023;
+}
+
+static inline bool check_green_up(u8& arrow_data)
+{
+    return (arrow_data >> 2) & 1;
+}
+
+static inline bool check_green_down(u8& arrow_data)
+{
+    return (arrow_data >> 3) & 1;
+}
+
+static inline bool check_green_right(u8& arrow_data)
+{
+    return (arrow_data >> 1) & 1;
+}
+
+static inline bool check_green_left(u8& arrow_data)
+{
+    return arrow_data & 1;
 }
 
 MATCH_FUNC(0x452980)
@@ -571,21 +611,19 @@ gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
 }
 
 MATCH_FUNC(0x4DFE60)
-gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 a4)
+gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
 {
-    gmp_col_info* v5;
-
-    v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
-    if (a4 < v5->field_0_height)
+    gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
+    if (z < v5->field_0_height)
     {
-        s32 v6 = v5->field_1_offset;
-        if (a4 >= v6)
+        if (z >= v5->field_1_offset)
         {
-            gmp_block_info* v7_block = &field_0_pDmap->field_4000C_block[v5->field_4_blockd[a4 - v6]];
-            s32 slope_type = v7_block->field_B_slope_type & 0xFCu;
-            if (slope_type < 0xD4 || slope_type > 0xF4)
+            gmp_block_info* v7_block = &field_0_pDmap->field_4000C_block[v5->field_4_blockd[z - v5->field_1_offset]];
+            s32 slope_type = get_slope_bits(v7_block->field_B_slope_type);
+
+            if (!is_partial_block(slope_type))
             {
-                if (slope_type >= 0xC4 && slope_type <= 0xD0)
+                if (is_diagonal_block(slope_type))
                 {
                     return &gBlockInfo2_6F6028;
                 }
@@ -709,23 +747,19 @@ s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
 }
 
 MATCH_FUNC(0x4E00A0)
-s32 Map_0x370::sub_4E00A0(s32 x, s32 y, s32 z)
+s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
 {
-    gmp_block_info* pBlock;
-    s16 lid;
-    s32 result;
-
-    if (z >= dword_6F610C.mValue)   // TODO: Fix16 this function
+    if (z >= dword_6F610C)
     {
         if (z < dword_6F6130)
         {
-            pBlock = gMap_0x370_6F6268->get_block_4DFE10(x >> 14, y >> 14, z >> 14);
+            gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
-                lid = pBlock->field_8_lid;
+                u16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
-                    result = gGtx_0x106C_703DD4->field_6C_spec[lid & 0x3FF];
+                    s32 result = gGtx_0x106C_703DD4->field_6C_spec[lid & 0x3FF];
                     if (result == 3)
                     {
                         return 1;
@@ -898,33 +932,49 @@ char_type Map_0x370::sub_4E4AC0(char_type a1)
     return 0;
 }
 
-STUB_FUNC(0x4E4B40)
-char_type Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
+MATCH_FUNC(0x4E4B40)
+bool Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (a1)
+    {
+        case 1:
+            return check_green_up(a2->field_A_arrows);
+            break;
+        case 2:
+            return check_green_down(a2->field_A_arrows);
+            break;
+        case 3:
+            return check_green_right(a2->field_A_arrows);
+            break;
+        case 4:
+            return check_green_left(a2->field_A_arrows);
+            break;
+        default:
+            return true;
+            break;
+    }
 }
 
 MATCH_FUNC(0x4E4BB0)
-gmp_block_info* Map_0x370::sub_4E4BB0(s32 a2, s32 a3, u32* a4)
+gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, u32& z) //  TODO: rename it to FindPavementBlockForCoord_4E4BB0
 {
-    gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
-    for (s32 v5 = v4->field_0_height - v4->field_1_offset - 1; v5 >= 0; v5--)
+    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
+    for (s32 curr_z_pos = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
         //  Begin with the highest non-empty block in the column
-        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(v4->field_4_blockd[v5]); //  get the block
-        switch (gBlockInfo0_6F5EB0->field_B_slope_type & 3)
+        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]); //  get the block
+        switch (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
-            case 0:
-                break;
-            case 2:
-                *a4 = v5 + v4->field_1_offset;
+            case AIR:
+                continue;
+            case PAVEMENT:
+                z = curr_z_pos + pColumn->field_1_offset;
                 return gBlockInfo0_6F5EB0;
             default:
-                return 0;
+                return NULL;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4E4C30)
@@ -946,61 +996,27 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, u32* z_
 }
 
 MATCH_FUNC(0x4E4CB0)
-gmp_block_info* Map_0x370::sub_4E4CB0(s32 a2, s32 a3, s32* a4)
+gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* v4;
-    s32 v5;
-    s32 v6;
-    s32 v7;
-    s32 v8;
-    u32* j;
+    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
 
-    v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
-
-    v6 = v4->field_1_offset;
-    v5 = *a4;
-
-    if (v5 < v6)
+    if (z < pColumn->field_1_offset)
     {
         return 0;
     }
-    v7 = v4->field_0_height;
-    v8 = (v5 >= v7 ? v7 - v6 - 1 : v5 - v6);
 
-    if (v8 >= 0)
+    s32 curr_z_pos = (z >= pColumn->field_0_height ? pColumn->field_0_height - pColumn->field_1_offset - 1 : z - pColumn->field_1_offset);
+
+    for (; curr_z_pos >= 0; curr_z_pos--)
     {
-
-        j = &(((u32*)v4)[v8 + 1]); //  block number reference; add 1 to correct the index (or bypass the first dword)
-
-        //  Begin with the highest non-empty block in the column
-
-        while (1)
+        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]);
+        if (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type) != AIR)
         {
-            gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[*j]; //  get the block
-
-            if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) != 0) //  if it isn't an air block
-            {
-                break;
-            }
-
-            v8--;
-            j -= 1;
-
-            if (v8 < 0)
-            {
-                //  despite having non-empty blocks, all blocks of this column are air blocks
-                return 0;
-            }
+            z = curr_z_pos + pColumn->field_1_offset;
+            return gBlockInfo0_6F5EB0;
         }
     }
-    else
-    {
-        //  if field_0_height = field_1_offset, then there isn't non-empty blocks on the column v4
-        return 0;
-    }
-
-    *a4 = v8 + v4->field_1_offset;
-    return gBlockInfo0_6F5EB0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4E4D40)
@@ -1020,7 +1036,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
-        gmp_block_info* v11 = Map_0x370::sub_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), &v14);
+        gmp_block_info* v11 = Map_0x370::sub_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), v14);
         gBlockInfo0_6F5EB0 = v11;
         if (v11 == NULL)
         {
@@ -1046,14 +1062,14 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 MATCH_FUNC(0x4E4E50)
 Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    for (Fix16 new_z = z_pos; new_z < z_pos + dword_6F6110; new_z = dword_6F6110 + new_z.GetRoundValue())
+    for (Fix16 curr_z = z_pos; curr_z < z_pos + dword_6F6110; curr_z = dword_6F6110 + curr_z.GetRoundValue())
     {
-        gmp_block_info* block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), new_z.ToInt());
+        gmp_block_info* block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), curr_z.ToInt());
         gBlockInfo0_6F5EB0 = block_4DFE10;
         u8 slope_byte;
         if (block_4DFE10 == NULL || (slope_byte = block_4DFE10->field_B_slope_type, is_air_type(slope_byte)))
         {
-            gmp_block_info* v12 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), (new_z - dword_6F6110).ToInt());
+            gmp_block_info* v12 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), (curr_z - dword_6F6110).ToInt());
             gBlockInfo0_6F5EB0 = v12;
             if (v12)
             {
@@ -1064,7 +1080,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
                     u8 slope = get_slope_bits(slope_byte);
                     if (slope <= 0 || slope >= 0xB4u) // !is_gradient_slope(slope_byte)
                     {
-                        *a2 = new_z;
+                        *a2 = curr_z;
                         return a2;
                     }
                 }
@@ -1074,9 +1090,9 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         {
             if (is_gradient_slope(slope_byte))
             {
-                Fix16 unk_z_coord = new_z.GetRoundValue();
+                Fix16 unk_z_coord = curr_z.GetRoundValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
-                if (unk_z_coord >= new_z)
+                if (unk_z_coord >= curr_z)
                 {
                     *a2 = unk_z_coord;
                     return a2;
@@ -1109,11 +1125,23 @@ char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4E52A0)
-char_type Map_0x370::sub_4E52A0(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4E52A0)
+char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(a2.ToInt(), a3.ToInt(), (a4 - dword_6F6110).ToInt());
+
+    if (gBlockInfo0_6F5EB0)
+    {
+        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == 4)
+        {
+            return 7;
+        }
+        if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            return 0;
+        }
+    }
+    return 5;
 }
 
 STUB_FUNC(0x4E5300)
@@ -1389,6 +1417,37 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
+MATCH_FUNC(0x4E80A0)
+void gmp_compressed_map_32::sub_4E80A0(Map_sub* a2)
+{
+    u32 j = 0;
+    for (u32 i = 0; i < a2->field_320_max_idx; i++, j++)
+    {
+        u32 x = a2->field_0[j].field_4_x;
+        u32 y = a2->field_0[j].field_5_y;
+        field_0_base[y][x] = a2->field_0[j].field_0_column_idx;
+    }
+}
+
+MATCH_FUNC(0x4E80E0)
+void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
+{
+    u32 local_max_idx = field_320_max_idx;
+    gmp_dmap_info* v6 = &field_0[0];
+
+    for (u32 i = 0; i < local_max_idx; i++, v6++)
+    {
+        if (v6->field_4_x == x && v6->field_5_y == y)
+        {
+            v6->field_0_column_idx = column_idx;
+            return;
+        }
+    }
+
+    field_0[local_max_idx].set_data_463080(x, y, column_idx);
+    ++field_320_max_idx;
+}
+
 MATCH_FUNC(0x4E8140)
 s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
 {
@@ -1411,18 +1470,69 @@ s32 Map_0x370::sub_4E8180(u32 read_block_idx)
     return read_block_idx;
 }
 
-STUB_FUNC(0x4E81D0)
-s32 Map_0x370::sub_4E81D0(u32 a2)
+MATCH_FUNC(0x4E81D0)
+s32 Map_0x370::sub_4E81D0(u32 column_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx = column_idx;
+
+    if (column_idx < field_358_column_words)
+    {
+        gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+        s32 len = pColumn->field_0_height - pColumn->field_1_offset + 1;
+        idx = field_360_column_words;
+        field_360_column_words += len;
+        memcpy(&field_0_pDmap->field_40008_pColumn[idx], pColumn, 4 * len);
+    }
+    return idx;
 }
 
-STUB_FUNC(0x4E8220)
-s32 Map_0x370::sub_4E8220(u32 a2, s32 a3)
+MATCH_FUNC(0x4E8220)
+s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+
+    if (z < v5->field_0_height && z >= v5->field_1_offset)
+    {
+        return Map_0x370::sub_4E81D0(column_idx);
+    }
+
+    gmp_col_info* v8 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_360_column_words];
+    s32 local_column_words = field_360_column_words;
+
+    if (z >= v5->field_0_height)
+    {
+        v8->field_0_height = z + 1;
+        v8->field_1_offset = v5->field_1_offset;
+
+        for (s32 i = 0; i < v5->field_0_height - v5->field_1_offset; i++)
+        {
+            v8->field_4_blockd[i] = v5->field_4_blockd[i];
+        }
+
+        for (s32 j = v5->field_0_height - v5->field_1_offset; j < v8->field_0_height - v8->field_1_offset; j++)
+        {
+            v8->field_4_blockd[j] = 0;
+        }
+    }
+    else
+    {
+        v8->field_0_height = v5->field_0_height;
+        v8->field_1_offset = z;
+
+        s32 v13 = v5->field_1_offset - (u8)z;
+
+        for (s32 j = 0; j < v13; j++)
+        {
+            v8->field_4_blockd[j] = 0;
+        }
+
+        for (s32 k = 0; k < v5->field_0_height - v5->field_1_offset; k++)
+        {
+            v8->field_4_blockd[k + v13] = v5->field_4_blockd[k];
+        }
+    }
+    field_360_column_words += v8->field_0_height - v8->field_1_offset + 1;
+    return local_column_words;
 }
 
 STUB_FUNC(0x4E8370)
@@ -1432,22 +1542,76 @@ u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x4E8620)
-void Map_0x370::sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value)
+MATCH_FUNC(0x4E8620)
+void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
-    NOT_IMPLEMENTED;
+    s32 column_idx = Map_0x370::sub_4E81D0(field_0_pDmap->field_0_base[y][x]);
+    field_0_pDmap->field_0_base[y][x] = column_idx;
+    field_4_obj.sub_4E80E0(x, y, column_idx);
+
+    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[column_idx];
+
+    s32 block_idx = Map_0x370::sub_4E8180(pColumn->field_4_blockd[z - pColumn->field_1_offset]);
+
+    pColumn->field_4_blockd[z - pColumn->field_1_offset] = block_idx;
+    gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[block_idx];
+
+    switch (info_type_to_set)
+    {
+        case 1:
+            gBlockInfo0_6F5EB0->field_0_left = info_value;
+            break;
+        case 2:
+            gBlockInfo0_6F5EB0->field_2_right = info_value;
+            break;
+        case 3:
+            gBlockInfo0_6F5EB0->field_4_top = info_value;
+            break;
+        case 4:
+            gBlockInfo0_6F5EB0->field_6_bottom = info_value;
+            break;
+        case 5:
+            gBlockInfo0_6F5EB0->field_8_lid = info_value;
+            break;
+        case 6:
+            gBlockInfo0_6F5EB0->field_B_slope_type = info_value;
+            break;
+        case 7:
+            gBlockInfo0_6F5EB0->field_A_arrows = info_value;
+            break;
+        default:
+            return;
+    }
 }
 
-STUB_FUNC(0x4E87C0)
-void Map_0x370::sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData)
+MATCH_FUNC(0x4E87C0)
+void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
-    NOT_IMPLEMENTED;
+    s32 column_idx = Map_0x370::sub_4E8220(field_0_pDmap->field_0_base[y][x], z);
+    field_0_pDmap->field_0_base[y][x] = column_idx;
+    field_4_obj.sub_4E80E0(x, y, column_idx);
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+    u32 block_id = pColumn->field_4_blockd[z - pColumn->field_1_offset];
+
+    if (block_id < field_34C_num_blocks)
+    {
+        pColumn->field_4_blockd[z - pColumn->field_1_offset] = Map_0x370::sub_4E8140(pBlockData);
+    }
+    else
+    {
+        field_0_pDmap->field_4000C_block[block_id] = *pBlockData;
+    }
 }
 
-STUB_FUNC(0x4E8940)
-void Map_0x370::sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5)
+MATCH_FUNC(0x4E8940)
+void Map_0x370::sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
-    NOT_IMPLEMENTED;
+    const s32 column_idx = sub_4E8370(field_0_pDmap->field_0_base[y_pos][x_pos], offset, do_drop);
+    if (column_idx != -1)
+    {
+        field_0_pDmap->field_0_base[y_pos][x_pos] = column_idx;
+        field_4_obj.sub_4E80E0(x_pos, y_pos, column_idx);
+    }
 }
 
 STUB_FUNC(0x4E8A10)
@@ -1487,10 +1651,37 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4E90E0)
-void Map_0x370::sub_4E90E0(u32 a2)
+MATCH_FUNC(0x4E90E0)
+void Map_0x370::sub_4E90E0(u32 chunk_size)
 {
-    NOT_IMPLEMENTED;
+    u32 in_use_size = 0;
+    s32 num_zones = 0;
+    s32 zone_data_size;
+
+    for (gmp_map_zone* pZone = this->field_328_pZoneData; in_use_size < chunk_size; ++num_zones)
+    {
+        zone_data_size = pZone->field_5_name_length + 6;
+        in_use_size += zone_data_size;
+        pZone = (gmp_map_zone*)((u8*)pZone + zone_data_size);
+    }
+    gmp_map_zone** v7 = (gmp_map_zone**)Memory::malloc_4FE4D0(4 * num_zones + 4);
+    this->field_32C_pZones = v7;
+
+    in_use_size = 0;
+    *(u16*)v7 = num_zones; // TODO: fix this
+
+    gmp_map_zone* local_pZoneData = this->field_328_pZoneData;
+    if (chunk_size > 0)
+    {
+        u32 zone_idx = 1;
+        do
+        {
+            this->field_32C_pZones[zone_idx++] = local_pZoneData;
+            zone_data_size = local_pZoneData->field_5_name_length + 6;
+            in_use_size += zone_data_size;
+            local_pZoneData = (gmp_map_zone*)((char*)local_pZoneData + zone_data_size);
+        } while (in_use_size < chunk_size);
+    }
 }
 
 STUB_FUNC(0x4E9160)
@@ -1543,60 +1734,54 @@ void Map_0x370::load_anim_4E9280(size_t size)
     sub_4E9160(size);
 }
 
-STUB_FUNC(0x4E92B0)
-void Map_0x370::load_dmap_4E92B0(s32 len)
+MATCH_FUNC(0x4E92B0)
+void Map_0x370::load_dmap_4E92B0(u32 len)
 {
-    NOT_IMPLEMENTED;
-    size_t a2;
-
-    gmp_compressed_map_32* pCompressedMap = new gmp_compressed_map_32();
-    if (pCompressedMap)
-    {
-        pCompressedMap->field_40008_pColumn = 0;
-        pCompressedMap->field_4000C_block = 0;
-        pCompressedMap->field_40004_num_blocks = 0;
-        pCompressedMap->field_40000_column_words = 0;
-    }
-    else
-    {
-        pCompressedMap = NULL;
-    }
-
-    field_0_pDmap = pCompressedMap;
+    field_0_pDmap = new gmp_compressed_map_32();
     if (field_0_pDmap == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
     }
 
-    size_t len_1 = 0x40000;
-    File::Global_Read_4A71C0(field_0_pDmap, len_1);
+    File::Global_Read_4A71C0(&field_0_pDmap->field_0_base[0][0], 0x40000);
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40000_column_words, sizeof(DWORD));
 
-    len_1 = 4;
-    File::Global_Read_4A71C0(&field_0_pDmap->field_40000_column_words, len_1);
-    if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000)
+    if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000u)
     {
-        FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 130048);
+        FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
     }
 
     field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
-    a2 = 4 * field_0_pDmap->field_40000_column_words;
-    field_0_pDmap->field_40008_pColumn = (u16**)Memory::malloc_4FE4D0(4 * field_35C_column_word_extra);
-    File::Global_Read_4A71C0(field_0_pDmap->field_40008_pColumn, a2);
-    len_1 = 4;
+
+    u32 m_size = field_35C_column_word_extra * sizeof(DWORD);
+    u32 column_data_size = field_0_pDmap->field_40000_column_words * sizeof(DWORD);
+
+    field_0_pDmap->field_40008_pColumn = (u16**)Memory::malloc_4FE4D0(m_size);
+
+    File::Global_Read_4A71C0(field_0_pDmap->field_40008_pColumn, column_data_size);
+
     field_358_column_words = field_0_pDmap->field_40000_column_words;
-    field_360_column_words = field_0_pDmap->field_40000_column_words;
-    File::Global_Read_4A71C0(&field_0_pDmap->field_40004_num_blocks, len_1);
-    if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000)
+    field_360_column_words = field_358_column_words;
+
+    File::Global_Read_4A71C0(&field_0_pDmap->field_40004_num_blocks, 4);
+
+    if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000u)
     {
         FatalError_4A38C0(1129, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6161, field_0_pDmap->field_40004_num_blocks - 130872);
     }
     field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
-    size_t v17 = 12 * field_0_pDmap->field_40004_num_blocks;
-    field_0_pDmap->field_4000C_block = (gmp_block_info*)Memory::malloc_4FE4D0(12 * field_350_num_blocks_extra);
-    File::Global_Read_4A71C0(field_0_pDmap->field_4000C_block, v17);
+
+    u32 m_size2 = field_350_num_blocks_extra * sizeof(gmp_block_info);
+    u32 block_info_size = field_0_pDmap->field_40004_num_blocks * sizeof(gmp_block_info);
+
+    field_0_pDmap->field_4000C_block = (gmp_block_info*)Memory::malloc_4FE4D0(m_size2);
+
+    File::Global_Read_4A71C0(field_0_pDmap->field_4000C_block, block_info_size);
+
     field_34C_num_blocks = field_0_pDmap->field_40004_num_blocks;
-    field_354_num_blocks = field_0_pDmap->field_40004_num_blocks;
-    if (len != v17 + a2 + 0x40008)
+    field_354_num_blocks = field_34C_num_blocks;
+
+    if (len != block_info_size + column_data_size + 0x40008)
     {
         FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
     }

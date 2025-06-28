@@ -27,14 +27,34 @@ struct gmp_block_info
     u8 field_B_slope_type;
 };
 
+enum gmp_slope_type
+{
+    AIR = 0,
+    ROAD = 1,
+    PAVEMENT = 2,
+    FIELD = 3,
+};
+
 struct gmp_header
 {
     char_type field_0_file_type[4];
     s16 field_4_version;
 };
 
+struct Map_sub;
+
 struct gmp_compressed_map_32
 {
+    EXPORT void sub_4E80A0(Map_sub* a2);
+
+    gmp_compressed_map_32()
+    {
+        field_40008_pColumn = 0;
+        field_4000C_block = 0;
+        field_40004_num_blocks = 0;
+        field_40000_column_words = 0;
+    }
+
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;
@@ -47,208 +67,26 @@ struct gmp_compressed_map_32
     }
 };
 
+struct gmp_dmap_info
+{
+    inline void set_data_463080(u8 x, u8 y, u32 column_idx)
+    {
+        field_4_x = x;
+        field_5_y = y;
+        field_0_column_idx = column_idx;
+    }
+    
+    u32 field_0_column_idx;
+    u8 field_4_x;
+    u8 field_5_y;
+    u16 field_6_unk;
+};
+
 struct Map_sub
 {
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
-    s32 field_58;
-    s32 field_5C;
-    s32 field_60;
-    s32 field_64;
-    s32 field_68;
-    s32 field_6C;
-    s32 field_70;
-    s32 field_74;
-    s32 field_78;
-    s32 field_7C;
-    s32 field_80;
-    s32 field_84;
-    s32 field_88;
-    s32 field_8C;
-    s32 field_90;
-    s32 field_94;
-    s32 field_98;
-    s32 field_9C;
-    s32 field_A0;
-    s32 field_A4;
-    s32 field_A8;
-    s32 field_AC;
-    s32 field_B0;
-    s32 field_B4;
-    s32 field_B8;
-    s32 field_BC;
-    s32 field_C0;
-    s32 field_C4;
-    s32 field_C8;
-    s32 field_CC;
-    s32 field_D0;
-    s32 field_D4;
-    s32 field_D8;
-    s32 field_DC;
-    s32 field_E0;
-    s32 field_E4;
-    s32 field_E8;
-    s32 field_EC;
-    s32 field_F0;
-    s32 field_F4;
-    s32 field_F8;
-    s32 field_FC;
-    s32 field_100;
-    s32 field_104;
-    s32 field_108;
-    s32 field_10C;
-    s32 field_110;
-    s32 field_114;
-    s32 field_118;
-    s32 field_11C;
-    s32 field_120;
-    s32 field_124;
-    s32 field_128;
-    s32 field_12C;
-    s32 field_130;
-    s32 field_134;
-    s32 field_138;
-    s32 field_13C;
-    s32 field_140;
-    s32 field_144;
-    s32 field_148;
-    s32 field_14C;
-    s32 field_150;
-    s32 field_154;
-    s32 field_158;
-    s32 field_15C;
-    s32 field_160;
-    s32 field_164;
-    s32 field_168;
-    s32 field_16C;
-    s32 field_170;
-    s32 field_174;
-    s32 field_178;
-    s32 field_17C;
-    s32 field_180;
-    s32 field_184;
-    s32 field_188;
-    s32 field_18C;
-    s32 field_190;
-    s32 field_194;
-    s32 field_198;
-    s32 field_19C;
-    s32 field_1A0;
-    s32 field_1A4;
-    s32 field_1A8;
-    s32 field_1AC;
-    s32 field_1B0;
-    s32 field_1B4;
-    s32 field_1B8;
-    s32 field_1BC;
-    s32 field_1C0;
-    s32 field_1C4;
-    s32 field_1C8;
-    s32 field_1CC;
-    s32 field_1D0;
-    s32 field_1D4;
-    s32 field_1D8;
-    s32 field_1DC;
-    s32 field_1E0;
-    s32 field_1E4;
-    s32 field_1E8;
-    s32 field_1EC;
-    s32 field_1F0;
-    s32 field_1F4;
-    s32 field_1F8;
-    s32 field_1FC;
-    s32 field_200;
-    s32 field_204;
-    s32 field_208;
-    s32 field_20C;
-    s32 field_210;
-    s32 field_214;
-    s32 field_218;
-    s32 field_21C;
-    s32 field_220;
-    s32 field_224;
-    s32 field_228;
-    s32 field_22C;
-    s32 field_230;
-    s32 field_234;
-    s32 field_238;
-    s32 field_23C;
-    s32 field_240;
-    s32 field_244;
-    s32 field_248;
-    s32 field_24C;
-    s32 field_250;
-    s32 field_254;
-    s32 field_258;
-    s32 field_25C;
-    s32 field_260;
-    s32 field_264;
-    s32 field_268;
-    s32 field_26C;
-    s32 field_270;
-    s32 field_274;
-    s32 field_278;
-    s32 field_27C;
-    s32 field_280;
-    s32 field_284;
-    s32 field_288;
-    s32 field_28C;
-    s32 field_290;
-    s32 field_294;
-    s32 field_298;
-    s32 field_29C;
-    s32 field_2A0;
-    s32 field_2A4;
-    s32 field_2A8;
-    s32 field_2AC;
-    s32 field_2B0;
-    s32 field_2B4;
-    s32 field_2B8;
-    s32 field_2BC;
-    s32 field_2C0;
-    s32 field_2C4;
-    s32 field_2C8;
-    s32 field_2CC;
-    s32 field_2D0;
-    s32 field_2D4;
-    s32 field_2D8;
-    s32 field_2DC;
-    s32 field_2E0;
-    s32 field_2E4;
-    s32 field_2E8;
-    s32 field_2EC;
-    s32 field_2F0;
-    s32 field_2F4;
-    s32 field_2F8;
-    s32 field_2FC;
-    s32 field_300;
-    s32 field_304;
-    s32 field_308;
-    s32 field_30C;
-    s32 field_310;
-    s32 field_314;
-    s32 field_318;
-    s32 field_31C;
+    EXPORT void sub_4E80E0(u8 x, u8 y, u32 column_idx);
+
+    gmp_dmap_info field_0[100];
     s32 field_320_max_idx;
 };
 
@@ -424,7 +262,7 @@ class Map_0x370
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
     EXPORT s32 sub_4E0000(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_4E00A0(s32 x, s32 y, s32 z);
+    EXPORT s32 sub_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
     EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
@@ -439,16 +277,16 @@ class Map_0x370
     EXPORT char_type sub_4E4820(u32* a2, char_type a3);
     EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
     EXPORT char_type sub_4E4AC0(char_type a1);
-    EXPORT char_type sub_4E4B40(s32 a1, gmp_block_info* a2);
-    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32* a4);
+    EXPORT bool sub_4E4B40(s32 a1, gmp_block_info* a2);
+    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32& a4);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4);
-    EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32* a4);
+    EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32& a4);
     EXPORT Fix16* sub_4E4D40(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT Fix16* sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT s32* sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5);
     EXPORT s32* sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6);
     EXPORT char_type sub_4E5170(s32 a2, s32 a3, s32 a4);
-    EXPORT char_type sub_4E52A0(s32 a2, s32 a3, s32 a4);
+    EXPORT char_type sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT char_type sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6);
     EXPORT char_type sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
@@ -469,8 +307,8 @@ class Map_0x370
     EXPORT s32 sub_4E81D0(u32 a2);
     EXPORT s32 sub_4E8220(u32 a2, s32 a3);
     EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
-    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, s16 info_value);
-    EXPORT void sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData);
+    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
+    EXPORT void sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
     EXPORT void sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5);
     EXPORT void sub_4E8A10(s32 a2, s32 a3);
     EXPORT void sub_4E8B70(s32 a2, s32 a3, s32 a4, s32 a5);
@@ -491,7 +329,7 @@ class Map_0x370
 
     EXPORT void load_anim_4E9280(size_t size);
 
-    EXPORT void load_dmap_4E92B0(s32 len);
+    EXPORT void load_dmap_4E92B0(u32 len);
 
     EXPORT void load_rgen_4E94A0();
 
