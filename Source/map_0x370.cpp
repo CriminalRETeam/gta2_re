@@ -1364,10 +1364,23 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x4E80E0)
+MATCH_FUNC(0x4E80E0)
 void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
 {
-    NOT_IMPLEMENTED;
+    u32 local_max_idx = field_320_max_idx;
+    gmp_dmap_info* v6 = &field_0[0];
+
+    for (u32 i = 0; i < local_max_idx; i++, v6++)
+    {
+        if (v6->field_4_x == x && v6->field_5_y == y)
+        {
+            v6->field_0_column_idx = column_idx;
+            return;
+        }
+    }
+
+    field_0[local_max_idx].set_data_463080(x, y, column_idx);
+    ++field_320_max_idx;
 }
 
 MATCH_FUNC(0x4E8140)
