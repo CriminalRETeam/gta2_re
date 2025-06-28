@@ -47,6 +47,14 @@ struct gmp_compressed_map_32
 {
     EXPORT void sub_4E80A0(Map_sub* a2);
 
+    gmp_compressed_map_32()
+    {
+        field_40008_pColumn = 0;
+        field_4000C_block = 0;
+        field_40004_num_blocks = 0;
+        field_40000_column_words = 0;
+    }
+
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;
@@ -321,7 +329,7 @@ class Map_0x370
 
     EXPORT void load_anim_4E9280(size_t size);
 
-    EXPORT void load_dmap_4E92B0(s32 len);
+    EXPORT void load_dmap_4E92B0(u32 len);
 
     EXPORT void load_rgen_4E94A0();
 
