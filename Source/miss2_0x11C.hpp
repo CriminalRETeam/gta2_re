@@ -501,6 +501,15 @@ struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
     u16 field_C_number;
 };
 
+struct SCR_CHANGE_BLOCK : SCR_CMD_HEADER
+{
+    u8 field_8_x;
+    u8 field_9_y;
+    u8 field_A_z;
+    u8 field_B_change_type;
+    u16 field_C_info_word;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
