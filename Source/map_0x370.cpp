@@ -1480,10 +1480,23 @@ void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_v
     }
 }
 
-STUB_FUNC(0x4E87C0)
-void Map_0x370::sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData)
+MATCH_FUNC(0x4E87C0)
+void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
-    NOT_IMPLEMENTED;
+    s32 column_idx = Map_0x370::sub_4E8220(field_0_pDmap->field_0_base[y][x], z);
+    field_0_pDmap->field_0_base[y][x] = column_idx;
+    field_4_obj.sub_4E80E0(x, y, column_idx);
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+    u32 block_id = pColumn->field_4_blockd[z - pColumn->field_1_offset];
+
+    if (block_id < field_34C_num_blocks)
+    {
+        pColumn->field_4_blockd[z - pColumn->field_1_offset] = Map_0x370::sub_4E8140(pBlockData);
+    }
+    else
+    {
+        field_0_pDmap->field_4000C_block[block_id] = *pBlockData;
+    }
 }
 
 MATCH_FUNC(0x4E8940)
