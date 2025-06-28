@@ -1486,10 +1486,15 @@ void Map_0x370::sub_4E87C0(s32 a2, s32 a3, s32 a4, u32* pBlockData)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4E8940)
-void Map_0x370::sub_4E8940(s32 a2, s32 a3, s32 a4, char_type a5)
+MATCH_FUNC(0x4E8940)
+void Map_0x370::sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
-    NOT_IMPLEMENTED;
+    const s32 column_idx = sub_4E8370(field_0_pDmap->field_0_base[y_pos][x_pos], offset, do_drop);
+    if (column_idx != -1)
+    {
+        field_0_pDmap->field_0_base[y_pos][x_pos] = column_idx;
+        field_4_obj.sub_4E80E0(x_pos, y_pos, column_idx);
+    }
 }
 
 STUB_FUNC(0x4E8A10)
