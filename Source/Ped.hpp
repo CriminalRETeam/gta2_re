@@ -427,7 +427,7 @@ class Ped
     s32 field_198;
     Gang_144* field_19C;
     Object_2C* field_1A0_objective_target_object;
-    s32 field_1A4;
+    Object_2C* field_1A4;
     Ped* field_1A8_elvis_leader;
     Fix16_Vec field_1AC_cam;
     s32 field_1B8_target_x;

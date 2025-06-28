@@ -1386,10 +1386,39 @@ s16 Ped::sub_46A6D0()
     return 0;
 }
 
-STUB_FUNC(0x46a7c0)
+MATCH_FUNC(0x46a7c0)
 void Ped::sub_46A7C0()
 {
-    NOT_IMPLEMENTED;
+    if (byte_61A8A3 && (field_21C & 4) == 0)
+    {
+        switch (field_25C_car_state)
+        {
+            case 0:
+                Ped::sub_463830(58, 9999);
+                field_1A4 = field_1A0_objective_target_object;
+                return;
+            case 1:
+                if (field_226 != 1)
+                {
+                    return;
+                }
+                break;
+            case 58:
+                if (field_226 == 1)
+                {
+                    field_225 = 1;
+                }
+                if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+                return;
+            default:
+                return;
+        }
+        Ped::sub_463830(58, 9999);
+        field_1A4 = field_1A0_objective_target_object;
+    }
 }
 
 MATCH_FUNC(0x46a850)
