@@ -1392,10 +1392,43 @@ void Ped::sub_46A7C0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46a850)
+MATCH_FUNC(0x46a850)
 void Ped::sub_46A850()
 {
-    NOT_IMPLEMENTED;
+    if (field_150_target_objective_car->field_74_damage == 32001)
+    {
+        field_225 = 1;
+    }
+    if (byte_61A8A3 && (field_21C & 4) == 0)
+    {
+        switch (field_25C_car_state)
+        {
+            case 0:
+                Ped::sub_463830(59, 9999);
+                field_154_target_to_enter = field_150_target_objective_car;
+                return;
+            case 1:
+                if (field_226 != 1)
+                {
+                    return;
+                }
+                break;
+            case 59:
+                if (field_226 == 1)
+                {
+                    field_225 = 1;
+                }
+                if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+                return;
+            default:
+                return;
+        }
+        Ped::sub_463830(59, 9999);
+        field_154_target_to_enter = field_150_target_objective_car;
+    }
 }
 
 MATCH_FUNC(0x46a8f0)
