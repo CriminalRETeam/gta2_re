@@ -1598,10 +1598,37 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4E90E0)
-void Map_0x370::sub_4E90E0(u32 a2)
+MATCH_FUNC(0x4E90E0)
+void Map_0x370::sub_4E90E0(u32 chunk_size)
 {
-    NOT_IMPLEMENTED;
+    u32 in_use_size = 0;
+    s32 num_zones = 0;
+    s32 zone_data_size;
+
+    for (gmp_map_zone* pZone = this->field_328_pZoneData; in_use_size < chunk_size; ++num_zones)
+    {
+        zone_data_size = pZone->field_5_name_length + 6;
+        in_use_size += zone_data_size;
+        pZone = (gmp_map_zone*)((u8*)pZone + zone_data_size);
+    }
+    gmp_map_zone** v7 = (gmp_map_zone**)Memory::malloc_4FE4D0(4 * num_zones + 4);
+    this->field_32C_pZones = v7;
+
+    in_use_size = 0;
+    *(u16*)v7 = num_zones; // TODO: fix this
+
+    gmp_map_zone* local_pZoneData = this->field_328_pZoneData;
+    if (chunk_size > 0)
+    {
+        u32 zone_idx = 1;
+        do
+        {
+            this->field_32C_pZones[zone_idx++] = local_pZoneData;
+            zone_data_size = local_pZoneData->field_5_name_length + 6;
+            in_use_size += zone_data_size;
+            local_pZoneData = (gmp_map_zone*)((char*)local_pZoneData + zone_data_size);
+        } while (in_use_size < chunk_size);
+    }
 }
 
 STUB_FUNC(0x4E9160)
