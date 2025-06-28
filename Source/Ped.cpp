@@ -50,6 +50,12 @@ GLOBAL(byte_6787CD, 0x6787CD);
 EXPORT_VAR Fix16 dword_678660;
 GLOBAL(dword_678660, 0x678660);
 
+EXPORT_VAR Fix16 dword_678750;
+GLOBAL(dword_678750, 0x678750);
+
+EXPORT_VAR Fix16 dword_678520;
+GLOBAL(dword_678520, 0x678520);
+
 
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
@@ -1392,10 +1398,34 @@ void Ped::sub_46A850()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46a8f0)
+MATCH_FUNC(0x46a8f0)
 void Ped::sub_46A8F0()
 {
-    NOT_IMPLEMENTED;
+    if (dword_678750 > dword_678520)
+    {
+        Char_B4* pB4 = field_168_game_object;
+        if (pB4)
+        {
+            if (field_258_objective || pB4->field_44 == 2)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                field_226 = 1;
+            }
+            else
+            {
+                pB4->field_38 = get_field_1F0();
+            }
+        }
+        else
+        {
+            field_21C_bf.b11 = 0;
+        }
+    }
+    else
+    {
+        field_168_game_object->field_38 = get_field_1F0();
+    }
 }
 
 STUB_FUNC(0x46a9c0)

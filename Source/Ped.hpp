@@ -385,6 +385,11 @@ class Ped
         return field_200_id;
     }
 
+    inline Fix16 get_field_1F0()
+    {
+        return field_1F0;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
@@ -439,7 +444,7 @@ class Ped
     s32 field_1E4_objective_target_z;
     s32 field_1E8;
     s32 field_1EC;
-    s32 field_1F0;
+    Fix16 field_1F0;
     s32 field_1F4;
     s32 field_1F8;
     s32 field_1FC;
