@@ -1417,11 +1417,20 @@ s32 Map_0x370::sub_4E8180(u32 read_block_idx)
     return read_block_idx;
 }
 
-STUB_FUNC(0x4E81D0)
-s32 Map_0x370::sub_4E81D0(u32 a2)
+MATCH_FUNC(0x4E81D0)
+s32 Map_0x370::sub_4E81D0(u32 column_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 idx = column_idx;
+
+    if (column_idx < field_358_column_words)
+    {
+        gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
+        s32 len = pColumn->field_0_height - pColumn->field_1_offset + 1;
+        idx = field_360_column_words;
+        field_360_column_words += len;
+        memcpy(&field_0_pDmap->field_40008_pColumn[idx], pColumn, 4 * len);
+    }
+    return idx;
 }
 
 STUB_FUNC(0x4E8220)
