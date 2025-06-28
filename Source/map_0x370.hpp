@@ -41,8 +41,12 @@ struct gmp_header
     s16 field_4_version;
 };
 
+struct Map_sub;
+
 struct gmp_compressed_map_32
 {
+    EXPORT void sub_4E80A0(Map_sub* a2);
+
     u32 field_0_base[256][256];
     s32 field_40000_column_words;
     s32 field_40004_num_blocks;

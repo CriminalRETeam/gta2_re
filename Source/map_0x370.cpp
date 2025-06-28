@@ -1364,6 +1364,18 @@ char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
+MATCH_FUNC(0x4E80A0)
+void gmp_compressed_map_32::sub_4E80A0(Map_sub* a2)
+{
+    u32 j = 0;
+    for (u32 i = 0; i < a2->field_320_max_idx; i++, j++)
+    {
+        u32 x = a2->field_0[j].field_4_x;
+        u32 y = a2->field_0[j].field_5_y;
+        field_0_base[y][x] = a2->field_0[j].field_0_column_idx;
+    }
+}
+
 MATCH_FUNC(0x4E80E0)
 void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
 {
