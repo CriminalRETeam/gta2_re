@@ -6,11 +6,12 @@
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "sprite.hpp"
-#include "Weapon_8.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
+EXPORT_VAR extern Ang16 word_6F8F68;
 
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
@@ -653,11 +654,19 @@ Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
     return pNewObj;
 }
 
-STUB_FUNC(0x5299f0)
-Object_2C* Object_5C::sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6)
+MATCH_FUNC(0x5299f0)
+Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, word_6F8F68, 0);
+    if (pNewObj)
+    {
+        pNewObj->field_26_varrok_idx = varrok_idx;
+        if (object_type == 279)
+        {
+            pNewObj->sub_5290A0();
+        }
+    }
+    return pNewObj;
 }
 
 STUB_FUNC(0x529a40)
