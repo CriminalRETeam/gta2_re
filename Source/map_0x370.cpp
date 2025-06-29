@@ -78,6 +78,18 @@ static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
         y < pZone->field_2_y + pZone->field_4_h;
 }
 
+static inline s32 clamp_z_from_column(s32 height, s32 offset, s32 z_pos)
+{
+    if (z_pos >= height)
+    {
+        return height - offset - 1; // highest block possible on the column
+    }
+    else
+    {
+        return z_pos - offset;
+    }
+}
+
 static inline u8 get_slope_bits(u8& slope_byte) // slope_byte but with its first 2 bits cleared
 {
     return slope_byte & 0xFCu;
@@ -119,6 +131,11 @@ static inline u16 get_tile_idx(s16& side_word)
     return side_word & 1023;
 }
 
+static inline bool has_any_green_arrows(u8& arrow_data)
+{
+    return (arrow_data & 0xF) != 0;
+}
+
 static inline bool check_green_up(u8& arrow_data)
 {
     return (arrow_data >> 2) & 1;
@@ -137,6 +154,16 @@ static inline bool check_green_right(u8& arrow_data)
 static inline bool check_green_left(u8& arrow_data)
 {
     return arrow_data & 1;
+}
+
+static inline bool has_bottom(gmp_block_info* pBlock)
+{
+    return pBlock->field_6_bottom != 0;
+}
+
+static inline bool has_top(gmp_block_info* pBlock)
+{
+    return pBlock->field_4_top != 0;
 }
 
 MATCH_FUNC(0x452980)
@@ -710,18 +737,13 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 }
 
 MATCH_FUNC(0x4E0000)
-s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
+s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    gmp_block_info* block_4DFE10;
-    s16 field_6_bottom;
     s32 result;
-    gmp_block_info* v8;
-    s16 field_4_top;
-
-    block_4DFE10 = Map_0x370::get_block_4DFE10(a2 >> 14, (a3 - dword_6F6110.mValue) >> 14, a4 >> 14);
-    if (block_4DFE10 && (field_6_bottom = block_4DFE10->field_6_bottom) != 0)
+    gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), (y_pos - dword_6F6110).ToInt(), z_pos.ToInt());
+    if (block_4DFE10 && has_bottom(block_4DFE10))
     {
-        result = gGtx_0x106C_703DD4->field_6C_spec[field_6_bottom & 0x3FF];
+        result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
         if (result == 3)
         {
             return 1;
@@ -729,10 +751,10 @@ s32 Map_0x370::sub_4E0000(s32 a2, s32 a3, s32 a4)
     }
     else
     {
-        v8 = Map_0x370::get_block_4DFE10(a2 >> 14, a3 >> 14, a4 >> 14);
-        if (v8 && (field_4_top = v8->field_4_top) != 0)
+        gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
+        if (pBlock && has_top(pBlock))
         {
-            result = gGtx_0x106C_703DD4->field_6C_spec[field_4_top & 0x3FF];
+            result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
             if (result == 3)
             {
                 return 1;
@@ -978,7 +1000,7 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, u32& z) //  TODO: rename it 
 }
 
 MATCH_FUNC(0x4E4C30)
-gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, u32* z_pos)
+gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* z_pos)
 {
     gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
@@ -1166,16 +1188,16 @@ char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, 
 }
 
 MATCH_FUNC(0x4E5B60)
-Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos)
+Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 y_pos)
 {
     s32 z_pos_int;
-    gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), (u32*)&z_pos_int);
+    gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), &z_pos_int);
     gBlockInfo0_6F5EB0 = pHighestBlock;
 
     if (pHighestBlock == NULL)
     {
-        *a2 = 0;
-        return a2;
+        *found_z = 0;
+        return found_z;
     }
     else
     {
@@ -1191,8 +1213,8 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 x_pos, Fix16 y_pos
         {
             z_pos = Fix16(z_pos_int) + 1;
         }
-        *a2 = z_pos;
-        return a2;
+        *found_z = z_pos;
+        return found_z;
     }
 }
 
@@ -1253,19 +1275,17 @@ s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
 }
 
 MATCH_FUNC(0x4E62D0)
-gmp_block_info* Map_0x370::sub_4E62D0(s32 a2, s32 a3, u32* a4)
+gmp_block_info* Map_0x370::sub_4E62D0(s32 x, s32 y, s32& found_z) // TODO: rename it to FindRailwayAtCoord_4E62D0
 {
-    gmp_col_info* v4;
-    s32 v5;
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
-    v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
-
-    for (v5 = v4->field_0_height - v4->field_1_offset - 1; v5 >= 0; v5--)
+    for (s32 curr_z = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z >= 0; curr_z--)
     {
-        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(v4->field_4_blockd[v5]);
-        if ((gBlockInfo0_6F5EB0->field_B_slope_type & 3) == 3 && (gBlockInfo0_6F5EB0->field_A_arrows & 0xF) != 0)
+        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
+        if (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type) == FIELD 
+            && has_any_green_arrows(gBlockInfo0_6F5EB0->field_A_arrows))
         {
-            *a4 = v5 + v4->field_1_offset;
+            found_z = curr_z + pColumn->field_1_offset;
             return gBlockInfo0_6F5EB0;
         }
     }
@@ -1273,39 +1293,28 @@ gmp_block_info* Map_0x370::sub_4E62D0(s32 a2, s32 a3, u32* a4)
 }
 
 MATCH_FUNC(0x4E6360)
-gmp_block_info* Map_0x370::sub_4E6360(s32 a2, s32 a3, s32* a4)
+gmp_block_info* Map_0x370::sub_4E6360(s32 x, s32 y, s32& z) // TODO: rename it to FindRailwayBelowZAtCoord_4E6360
 {
-    gmp_col_info* v4;
-    s32 v7;
-    s32 v9;
-    s32 v10;
-    s32 v11;
-    gmp_block_info* v13;
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
-    v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[a3][a2]];
-
-    v7 = v4->field_1_offset;
-
-    v9 = *a4;
-    if (v9 < v7)
+    if (z >= pColumn->field_1_offset)
     {
-        return 0;
-    }
+        s32 curr_z = clamp_z_from_column(pColumn->field_0_height, pColumn->field_1_offset, z);
 
-    v10 = v4->field_0_height;
-    v11 = v9 >= v10 ? v10 - v7 - 1 : v9 - v7;
-
-    for (; v11 >= 0; v11--)
-    {
-        v13 = this->field_0_pDmap->get_block(v4->field_4_blockd[v11]);
-        gBlockInfo0_6F5EB0 = v13;
-        if ((v13->field_B_slope_type & 3) == 3 && (v13->field_A_arrows & 0xF) != 0)
+        for (; curr_z >= 0; curr_z--)
         {
-            *a4 = v11 + v4->field_1_offset;
-            return gBlockInfo0_6F5EB0;
+            gmp_block_info* pBlock = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
+            gBlockInfo0_6F5EB0 = pBlock;
+
+            if (get_block_type(pBlock->field_B_slope_type) == FIELD 
+                && has_any_green_arrows(pBlock->field_A_arrows))
+            {
+                z = curr_z + pColumn->field_1_offset;
+                return gBlockInfo0_6F5EB0;
+            }
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4E6400)
@@ -1324,7 +1333,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
-        gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), &v14);
+        gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), v14);
         gBlockInfo0_6F5EB0 = pBlock;
         if (pBlock == NULL)
         {
@@ -1347,39 +1356,32 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 }
 
 MATCH_FUNC(0x4E6510)
-Fix16* Map_0x370::sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4)
+Fix16* Map_0x370::sub_4E6510(Fix16* z, Fix16 x, Fix16 y)
 {
-    Fix16 v4;
-    Fix16 v5;
-    gmp_block_info* v7;
-    Fix16 v10;
-    u32 v6;
-
-    v4 = a3;
-    v5 = a4;
-    v7 = Map_0x370::sub_4E62D0(a3.ToInt(), a4.ToInt(), &v6);
-    gBlockInfo0_6F5EB0 = v7;
-    if (!v7)
+    s32 found_z;
+    gBlockInfo0_6F5EB0 = Map_0x370::sub_4E62D0(x.ToInt(), y.ToInt(), found_z);
+    
+    if (!gBlockInfo0_6F5EB0)
     {
-        a2->mValue = 0;
-        return a2;
+        *z = 0;
+        return z;
     }
     else
     {
-        u8 field_B_slope_type = v7->field_B_slope_type;
-        u8 v13 = field_B_slope_type & 0xFC;
-        if (v13 > 0 && v13 < 0xB4 && (field_B_slope_type & 3) != 0)
+        Fix16 new_z;
+        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type)
+           && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
-            v10.FromInt(v6);
-            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(v4, v5, v10);
+            new_z = Fix16(found_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
         }
         else
         {
-            v10.FromInt(v6 + 1);
+            new_z = Fix16(found_z + 1);
         }
+        *z = new_z;
+        return z;
     }
-    a2->mValue = v10.mValue;
-    return a2;
 }
 
 STUB_FUNC(0x4E65A0)
