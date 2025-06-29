@@ -696,6 +696,16 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("gPhi_8CA8_6FCF00"))
     {
+        if (ImGui::TreeNode("Global Vars"))
+        {
+            ImGui::Value("DAT_006f8fac", DAT_006f8fac.mValue);
+            ImGui::Value("DAT_006f8fd8", DAT_006f8fd8.mValue);
+            ImGui::Value("DAT_006fc578", DAT_006fc578.mValue);
+            ImGui::Value("DAT_006fc584", DAT_006fc584.mValue);
+            ImGui::Value("Phi_54_array_lenght_00623EEC", Phi_54_array_lenght_00623EEC);
+            ImGui::Value("Phi_6C_array_lenght_623EF0", Phi_6C_array_lenght_623EF0);
+            ImGui::TreePop();
+        }
         if (gPhi_8CA8_6FCF00)
         {
             ImGui::Value("field_0_next_idx", gPhi_8CA8_6FCF00->field_0_next_idx);
