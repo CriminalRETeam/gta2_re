@@ -67,6 +67,7 @@ class Object_2C
     EXPORT void sub_529000(Sprite* pSprite);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(Sprite* a2);
+    EXPORT void sub_5292D0();
     EXPORT void sub_529080(u8 a2);
     EXPORT void sub_5290A0();
     EXPORT void sub_5290B0();
@@ -97,7 +98,7 @@ class Object_2C
     // Inlined on version 9.6f 0x447e90
     inline void set_field_26(u8 v)
     {
-        field_26 = v;
+      field_26_varrok_idx = v;
     }
 
     Object_2C* field_0;
@@ -114,7 +115,7 @@ class Object_2C
     s32 field_20;
     char_type field_24;
     char_type field_25;
-    u8 field_26;
+    u8 field_26_varrok_idx;
     char_type field_27;
     char_type field_28;
     char_type field_29;

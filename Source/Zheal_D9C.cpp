@@ -292,7 +292,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_54 = gObject_5C_6F8F84->sub_5299B0(136, x_pos, y_pos, field_80, dword_679FC4);
 
     field_58 = gObject_5C_6F8F84->sub_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, dword_679FC4);
-    field_58->field_26 = a4;
+    field_58->field_26_varrok_idx = a4;
     field_78 = 0;
     field_94 = dword_679E70;
     field_98 = dword_679E70;

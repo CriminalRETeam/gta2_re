@@ -546,7 +546,7 @@ enum
     BONUS_2 = 2,
     BONUS_3 = 3,
 };
-}
+} // namespace SCR_BONUSES
 
 EXPORT_VAR extern Fix16 dword_6F77C0;
 EXPORT_VAR extern Fix16 dword_6F77C4;
@@ -850,6 +850,8 @@ class Miss2_8EC
         pf_0->sub_5035B0();
         return pf_0; // ??
     }
+
+    EXPORT ~Miss2_8EC();
 
     miss2_0x11C* field_0;
     miss2_0x11C* field_4;

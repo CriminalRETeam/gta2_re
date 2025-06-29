@@ -6,10 +6,12 @@
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "sprite.hpp"
 
 EXPORT_VAR extern Varrok_7F8* gVarrok_7F8_703398;
+EXPORT_VAR extern Ang16 word_6F8F68;
 
 EXPORT_VAR Object_5C* gObject_5C_6F8F84;
 GLOBAL(gObject_5C_6F8F84, 0x6F8F84);
@@ -32,7 +34,7 @@ Object_2C::Object_2C()
     field_14 = 99;
     field_24 = 0;
     field_25 = 0;
-    field_26 = 99;
+    field_26_varrok_idx = 99;
     field_20 = 0;
     field_27 = 0;
     field_28 = -51;
@@ -448,7 +450,7 @@ void Object_2C::sub_529000(Sprite* pSprite)
 MATCH_FUNC(0x529030)
 void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 {
-    field_26 = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
+    field_26_varrok_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
 MATCH_FUNC(0x529070)
@@ -457,10 +459,29 @@ void Object_2C::sub_529070(Sprite* pSprite)
     sub_5226A0(pSprite->field_26_pad);
 }
 
+MATCH_FUNC(0x5292D0)
+void Object_2C::sub_5292D0()
+{
+    s32 wepon_kind;
+    if (field_18_model >= 200)
+    {
+        wepon_kind = field_18_model - 200;
+    }
+    else
+    {
+        wepon_kind = field_18_model - 64;
+    }
+
+    if (wepon_kind <= 27)
+    {
+        this->field_26_varrok_idx = gWeapon_8_707018->get_ammo_5E3E80(wepon_kind);
+    }
+}
+
 MATCH_FUNC(0x529080)
 void Object_2C::sub_529080(u8 idx)
 {
-    this->field_26 = idx;
+    this->field_26_varrok_idx = idx;
     gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
@@ -633,11 +654,19 @@ Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
     return pNewObj;
 }
 
-STUB_FUNC(0x5299f0)
-Object_2C* Object_5C::sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6)
+MATCH_FUNC(0x5299f0)
+Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, word_6F8F68, 0);
+    if (pNewObj)
+    {
+        pNewObj->field_26_varrok_idx = varrok_idx;
+        if (object_type == 279)
+        {
+            pNewObj->sub_5290A0();
+        }
+    }
+    return pNewObj;
 }
 
 STUB_FUNC(0x529a40)
@@ -749,7 +778,6 @@ void Object_5C::sub_52A650()
     NOT_IMPLEMENTED;
 }
 
-
 MATCH_FUNC(0x52a6d0)
 void Object_5C::sub_52A6D0(Sprite* pSprite)
 {
@@ -761,7 +789,7 @@ void Object_5C::sub_52A6D0(Sprite* pSprite)
     {
         gPurpleDoom_3_679210->Add_477AE0(this->field_4);
     }
-    
+
     ((Object_2C*)this)->sub_522360();
 
     if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
