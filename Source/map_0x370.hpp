@@ -261,7 +261,7 @@ class Map_0x370
 
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
-    EXPORT s32 sub_4E0000(s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_4E0000(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT s32 sub_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
@@ -279,7 +279,7 @@ class Map_0x370
     EXPORT char_type sub_4E4AC0(char_type a1);
     EXPORT bool sub_4E4B40(s32 a1, gmp_block_info* a2);
     EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32& a4);
-    EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, u32* a4);
+    EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, s32* a4);
     EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32& a4);
     EXPORT Fix16* sub_4E4D40(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT Fix16* sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
@@ -293,8 +293,8 @@ class Map_0x370
     EXPORT Fix16* FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 a3, Fix16 a4);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 a2, Fix16 a3, Fix16& a4);
     EXPORT s16 sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6);
-    EXPORT gmp_block_info* sub_4E62D0(s32 a2, s32 a3, u32* a4);
-    EXPORT gmp_block_info* sub_4E6360(s32 a2, s32 a3, s32* a4);
+    EXPORT gmp_block_info* sub_4E62D0(s32 a2, s32 a3, s32& a4);
+    EXPORT gmp_block_info* sub_4E6360(s32 a2, s32 a3, s32& a4);
     EXPORT Fix16* sub_4E6400(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT Fix16* sub_4E6510(Fix16* a2, Fix16 a3, Fix16 a4);
     EXPORT s16 sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6);

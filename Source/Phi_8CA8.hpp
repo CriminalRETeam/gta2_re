@@ -246,3 +246,10 @@ class Phi_8CA8
 };
 
 extern EXPORT_VAR Phi_8CA8* gPhi_8CA8_6FCF00;
+
+extern EXPORT_VAR Fix16 DAT_006f8fac;
+extern EXPORT_VAR Fix16 DAT_006f8fd8;
+extern EXPORT_VAR Fix16 DAT_006fc578;
+extern EXPORT_VAR Fix16 DAT_006fc584;
+extern EXPORT_VAR s32 Phi_54_array_lenght_00623EEC;
+extern EXPORT_VAR s32 Phi_6C_array_lenght_623EF0;
