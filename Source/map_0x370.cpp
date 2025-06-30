@@ -1274,6 +1274,13 @@ s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
     return 0;
 }
 
+MATCH_FUNC(0x4E62B0)
+Fix16* Map_0x370::sub_4E62B0(Fix16* a1, Fix16 a2)
+{
+    *a1 = dword_6F6110 + a2.GetRoundValue();
+    return a1;
+}
+
 MATCH_FUNC(0x4E62D0)
 gmp_block_info* Map_0x370::sub_4E62D0(s32 x, s32 y, s32& found_z) // TODO: rename it to FindRailwayAtCoord_4E62D0
 {
