@@ -714,8 +714,8 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock1 = get_block_4DFE10((x_coord - dword_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->field_2_right != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock1->field_2_right & 0x3FF];
-        if (spec == 3)
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock1->field_2_right)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -725,8 +725,8 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock2 = get_block_4DFE10(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->field_0_left != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock2->field_0_left & 0x3FF];
-        if (spec == 3)
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock2->field_0_left)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -739,12 +739,12 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 MATCH_FUNC(0x4E0000)
 s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    s32 result;
+    s32 spec;
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), (y_pos - dword_6F6110).ToInt(), z_pos.ToInt());
     if (block_4DFE10 && has_bottom(block_4DFE10))
     {
-        result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
-        if (result == 3)
+        spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -754,8 +754,8 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
-            if (result == 3)
+            spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
+            if (spec == tile_spec::road_junction_special)
             {
                 return 1;
             }
@@ -765,7 +765,7 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             return 0;
         }
     }
-    return result;
+    return spec;
 }
 
 MATCH_FUNC(0x4E00A0)
@@ -778,15 +778,15 @@ s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
             gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
-                u16 lid = pBlock->field_8_lid;
+                s16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
-                    s32 result = gGtx_0x106C_703DD4->field_6C_spec[lid & 0x3FF];
-                    if (result == 3)
+                    s32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(lid)];
+                    if (spec == tile_spec::road_junction_special)
                     {
                         return 1;
                     }
-                    return result;
+                    return spec;
                 }
             }
         }
@@ -1154,7 +1154,7 @@ char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
 
     if (gBlockInfo0_6F5EB0)
     {
-        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == 4)
+        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == tile_spec::water)
         {
             return 7;
         }

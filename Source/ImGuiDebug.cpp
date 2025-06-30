@@ -19,6 +19,7 @@
 #include "Phi_8CA8.hpp"
 #include "MapRenderer.hpp"
 #include "map_0x370.hpp"
+#include "gtx_0x106C.hpp"
 #include <stdarg.h>
 
 extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
@@ -982,6 +983,18 @@ void CC ImGuiDebugDraw()
 
                 ImGui::TreePop();
             }
+        }
+        ImGui::TreePop();
+    }
+
+    if (ImGui::TreeNode("gGtx_0x106C_703DD4"))
+    {
+        if (gGtx_0x106C_703DD4)
+        {
+            static s32 tile_idx = 0;
+            ImGui::InputInt("Tile idx", &tile_idx, 1, 1);
+            s32 spec = gGtx_0x106C_703DD4->field_6C_spec[tile_idx];
+            ImGui::Value("Spec", spec);
         }
         ImGui::TreePop();
     }

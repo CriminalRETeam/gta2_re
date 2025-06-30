@@ -115,6 +115,24 @@ struct delta_store_entry
     char_type field_3_data[1]; // variable � see field_2_len
 };
 
+namespace tile_spec
+{
+enum
+{
+    none = 1,
+    grass_dirt_floor = 2,
+    road_junction_special = 3,
+    water = 4,
+    electrified_floor = 5,
+    electrified_platform_floor = 6,
+    wood_floor = 7,
+    metal_floor = 8,
+    metal_wall = 9,
+    grass_dirt_wall = 10,
+};
+//static_assert(sizeof(tile_spec) == 1)
+} // namespace tile_spec
+
 class gtx_0x106C
 {
   public:
