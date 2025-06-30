@@ -1267,6 +1267,57 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
+MATCH_FUNC(0x4E5FC0)
+s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
+{
+    s32 result = 0;
+    if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 4))
+    {
+        if (a2 != 0)
+        {
+            result = 3;
+        }
+        else
+        {
+            result = 4;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 2))
+    {
+        if (a2 != 0)
+        {
+            result = 2;
+        }
+        else
+        {
+            result = 1;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 3))
+    {
+        if (a2 != 0)
+        {
+            result = 4;
+        }
+        else
+        {
+            result = 3;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 1))
+    {
+        if (a2 != 0)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = 2;
+        }
+    }
+    return result;
+}
+
 STUB_FUNC(0x4E6190)
 s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
 {
