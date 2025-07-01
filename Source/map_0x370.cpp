@@ -1319,7 +1319,7 @@ s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
 }
 
 STUB_FUNC(0x4E6190)
-s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
+s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1442,11 +1442,23 @@ Fix16* Map_0x370::sub_4E6510(Fix16* z, Fix16 x, Fix16 y)
     }
 }
 
-STUB_FUNC(0x4E65A0)
-s16 Map_0x370::sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6)
+MATCH_FUNC(0x4E65A0)
+void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char a5, char a6)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
+    if (get_slope_bits(block_4DFE10->field_B_slope_type) == 0xFC)
+    {
+        Fix16 temp;
+        *z_pos = *sub_4E62B0(&temp, *z_pos);
+        block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
+    }
+    s32 v11 = sub_4E5FC0(block_4DFE10, a5);
+
+    if (Map_0x370::sub_4E6190(x, y, *z_pos - dword_6F6110, v11, a6) != 3)
+    {
+        Fix16 z_temp;
+        *z_pos = *Map_0x370::sub_4E6400(&z_temp, x, y, *z_pos);
+    }
 }
 
 STUB_FUNC(0x4E6660)
