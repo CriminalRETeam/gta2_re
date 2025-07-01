@@ -714,8 +714,8 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock1 = get_block_4DFE10((x_coord - dword_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->field_2_right != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock1->field_2_right & 0x3FF];
-        if (spec == 3)
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock1->field_2_right)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -725,8 +725,8 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     gmp_block_info* pBlock2 = get_block_4DFE10(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->field_0_left != 0)
     {
-        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[pBlock2->field_0_left & 0x3FF];
-        if (spec == 3)
+        u32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock2->field_0_left)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -739,12 +739,12 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 MATCH_FUNC(0x4E0000)
 s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    s32 result;
+    s32 spec;
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), (y_pos - dword_6F6110).ToInt(), z_pos.ToInt());
     if (block_4DFE10 && has_bottom(block_4DFE10))
     {
-        result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
-        if (result == 3)
+        spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(block_4DFE10->field_6_bottom)];
+        if (spec == tile_spec::road_junction_special)
         {
             return 1;
         }
@@ -754,8 +754,8 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            result = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
-            if (result == 3)
+            spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(pBlock->field_4_top)];
+            if (spec == tile_spec::road_junction_special)
             {
                 return 1;
             }
@@ -765,7 +765,7 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             return 0;
         }
     }
-    return result;
+    return spec;
 }
 
 MATCH_FUNC(0x4E00A0)
@@ -778,15 +778,15 @@ s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
             gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
-                u16 lid = pBlock->field_8_lid;
+                s16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
-                    s32 result = gGtx_0x106C_703DD4->field_6C_spec[lid & 0x3FF];
-                    if (result == 3)
+                    s32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(lid)];
+                    if (spec == tile_spec::road_junction_special)
                     {
                         return 1;
                     }
-                    return result;
+                    return spec;
                 }
             }
         }
@@ -1154,7 +1154,7 @@ char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
 
     if (gBlockInfo0_6F5EB0)
     {
-        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == 4)
+        if (gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)] == tile_spec::water)
         {
             return 7;
         }
@@ -1267,11 +1267,69 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
+MATCH_FUNC(0x4E5FC0)
+s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
+{
+    s32 result = 0;
+    if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 4))
+    {
+        if (a2 != 0)
+        {
+            result = 3;
+        }
+        else
+        {
+            result = 4;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 2))
+    {
+        if (a2 != 0)
+        {
+            result = 2;
+        }
+        else
+        {
+            result = 1;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 3))
+    {
+        if (a2 != 0)
+        {
+            result = 4;
+        }
+        else
+        {
+            result = 3;
+        }
+    }
+    else if (gRouteFinder_6FFDC8->sub_588CA0(pBlock, 3, 1))
+    {
+        if (a2 != 0)
+        {
+            result = 1;
+        }
+        else
+        {
+            result = 2;
+        }
+    }
+    return result;
+}
+
 STUB_FUNC(0x4E6190)
-s16 Map_0x370::sub_4E6190(s32 x, s32 y, s32 z, s32 a5, char_type a6)
+s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+MATCH_FUNC(0x4E62B0)
+Fix16* Map_0x370::sub_4E62B0(Fix16* a1, Fix16 a2)
+{
+    *a1 = dword_6F6110 + a2.GetRoundValue();
+    return a1;
 }
 
 MATCH_FUNC(0x4E62D0)
@@ -1384,11 +1442,23 @@ Fix16* Map_0x370::sub_4E6510(Fix16* z, Fix16 x, Fix16 y)
     }
 }
 
-STUB_FUNC(0x4E65A0)
-s16 Map_0x370::sub_4E65A0(s32 a2, s32 a3, s32* a4, char_type a5, char_type a6)
+MATCH_FUNC(0x4E65A0)
+void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char a5, char a6)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
+    if (get_slope_bits(block_4DFE10->field_B_slope_type) == 0xFC)
+    {
+        Fix16 temp;
+        *z_pos = *sub_4E62B0(&temp, *z_pos);
+        block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
+    }
+    s32 v11 = sub_4E5FC0(block_4DFE10, a5);
+
+    if (Map_0x370::sub_4E6190(x, y, *z_pos - dword_6F6110, v11, a6) != 3)
+    {
+        Fix16 z_temp;
+        *z_pos = *Map_0x370::sub_4E6400(&z_temp, x, y, *z_pos);
+    }
 }
 
 STUB_FUNC(0x4E6660)
