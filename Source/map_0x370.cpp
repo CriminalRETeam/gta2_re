@@ -72,6 +72,15 @@ GLOBAL(dword_6F5FA8, 0x6F5FA8);
 EXPORT_VAR Fix16 dword_6F6214;
 GLOBAL(dword_6F6214, 0x6F6214);
 
+EXPORT_VAR s32 dword_6F6164;
+GLOBAL(dword_6F6164, 0x6F6164);
+
+EXPORT_VAR s32 dword_6F6148;
+GLOBAL(dword_6F6148, 0x6F6148);
+
+EXPORT_VAR s32 dword_6F613C;
+GLOBAL(dword_6F613C, 0x6F613C);
+
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
@@ -126,7 +135,7 @@ static inline bool is_diagonal_block(s32& slope)
     return slope >= 0xC4 && slope <= 0xD0;
 }
 
-static inline u16 get_tile_idx(s16& side_word)
+static inline u16 get_tile_idx(u16& side_word)
 {
     return side_word & 1023;
 }
@@ -392,7 +401,7 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
 }
 
 MATCH_FUNC(0x4DF840)
-gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
+gmp_zone_info* Map_0x370::cur_zone_4DF840()
 {
     if (field_328_pZoneData)
     {
@@ -406,7 +415,7 @@ gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
 }
 
 MATCH_FUNC(0x4DF890)
-gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
+gmp_zone_info* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 {
     if (nav_zone_by_pos_4DF5C0(zone_x, zone_y))
     {
@@ -420,78 +429,78 @@ gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 
 MATCH_FUNC(0x4DF8C0)
 void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx,
-                                            s16 a3,
-                                            s16 a4,
-                                            s16 a5,
-                                            s16 a6,
-                                            s16 a7,
-                                            s16 a8,
-                                            s16 a9,
-                                            s16 a10,
-                                            s16 a11,
-                                            s16 a12,
-                                            s16 a13)
+                                            s16 car_density,
+                                            s16 goodcar_ratio,
+                                            s16 badcar_ratio,
+                                            s16 policecar_ratio,
+                                            s16 gangcar_ratio,
+                                            s16 ped_density,
+                                            s16 mugger_ratio,
+                                            s16 carthief_ratio,
+                                            s16 elvis_ratio,
+                                            s16 gangchar_ratio,
+                                            s16 policeped_ratio)
 {
     get_zone_4DFB30(zone_idx);
-    gmp_zone_unknown* pZoneUnknown = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
-    if (a3 != -1)
+    gmp_zone_info* pZoneInfo = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
+    if (car_density != -1)
     {
-        pZoneUnknown->field_0_density = a3;
+        pZoneInfo->field_0_car_density = car_density;
     }
 
-    if (a4 != -1)
+    if (goodcar_ratio != -1)
     {
-        pZoneUnknown->field_2 = a4;
+        pZoneInfo->field_2_goodcar_ratio = goodcar_ratio;
     }
 
-    if (a5 != -1)
+    if (badcar_ratio != -1)
     {
-        pZoneUnknown->field_4 = a5;
+        pZoneInfo->field_4_badcar_ratio = badcar_ratio;
     }
 
-    if (a6 != -1)
+    if (policecar_ratio != -1)
     {
-        pZoneUnknown->field_6 = a6;
+        pZoneInfo->field_6_policecar_ratio = policecar_ratio;
     }
 
-    if (a7 != -1)
+    if (gangcar_ratio != -1)
     {
-        pZoneUnknown->field_8 = a7;
+        pZoneInfo->field_8_gangcar_ratio = gangcar_ratio;
     }
 
-    if (a8 != -1)
+    if (ped_density != -1)
     {
-        pZoneUnknown->field_A = a8;
+        pZoneInfo->field_A_ped_density = ped_density;
     }
 
-    if (a9 != -1)
+    if (mugger_ratio != -1)
     {
-        pZoneUnknown->field_C = a9;
+        pZoneInfo->field_C_mugger_ratio = mugger_ratio;
     }
 
-    if (a10 != -1)
+    if (carthief_ratio != -1)
     {
-        pZoneUnknown->field_E = a10;
+        pZoneInfo->field_E_carthief_ratio = carthief_ratio;
     }
 
-    if (a11 != -1)
+    if (elvis_ratio != -1)
     {
-        pZoneUnknown->field_10 = a11;
+        pZoneInfo->field_10_elvis_ratio = elvis_ratio;
     }
 
-    if (a12 != -1)
+    if (gangchar_ratio != -1)
     {
-        pZoneUnknown->field_12 = a12;
+        pZoneInfo->field_12_gangchar_ratio = gangchar_ratio;
     }
 
-    if (a13 != -1)
+    if (policeped_ratio != -1)
     {
-        pZoneUnknown->field_14 = a13;
+        pZoneInfo->field_14_policeped_ratio = policeped_ratio;
     }
 }
 
 MATCH_FUNC(0x4DF9A0)
-gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
+gmp_zone_info* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 {
     return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
 }
@@ -499,67 +508,67 @@ gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 MATCH_FUNC(0x4DF9D0)
 void Map_0x370::set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_0_density = a3;
+    get_zone_unknown_4DF9A0(a2)->field_0_car_density = a3;
 }
 
 MATCH_FUNC(0x4DF9F0)
 void Map_0x370::set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_2 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_2_goodcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA10)
 void Map_0x370::set_nav_unknown_f4_4DFA10(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_4 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_4_badcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA30)
 void Map_0x370::set_nav_unknown_f6_4DFA30(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_6 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_6_policecar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA50)
 void Map_0x370::set_nav_unknown_f8_4DFA50(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_8 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_8_gangcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA70)
 void Map_0x370::set_nav_unknown_fA_4DFA70(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_A = a3;
+    get_zone_unknown_4DF9A0(a2)->field_A_ped_density = a3;
 }
 
 MATCH_FUNC(0x4DFA90)
 void Map_0x370::set_nav_unknown_fC_4DFA90(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_C = a3;
+    get_zone_unknown_4DF9A0(a2)->field_C_mugger_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAB0)
 void Map_0x370::set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_E = a3;
+    get_zone_unknown_4DF9A0(a2)->field_E_carthief_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAD0)
 void Map_0x370::set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_10 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_10_elvis_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAF0)
 void Map_0x370::set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_12 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_12_gangchar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFB10)
 void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_14 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_14_policeped_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFB30)
@@ -778,7 +787,7 @@ s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
             gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
-                s16 lid = pBlock->field_8_lid;
+                u16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
                     s32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(lid)];
@@ -833,11 +842,57 @@ char_type Map_0x370::sub_4E1520(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x4E18A0)
-char_type Map_0x370::sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
+MATCH_FUNC(0x4E18A0)
+bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* pBlock;
+
+    for (s32 y_pos = y_min; y_pos <= y_max; y_pos++)
+    {
+        for (s32 x_pos = x_min; x_pos <= x_max; x_pos++)
+        {
+            if (x_pos < x_max)
+            {
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_2_right & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+                pBlock = Map_0x370::sub_4DFE60(x_pos + 1, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_0_left & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            if (y_pos < y_max)
+            {
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_6_bottom & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos + 1, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_4_top & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E1A30)
@@ -926,11 +981,41 @@ char_type Map_0x370::sub_4E4630(Fix16 a2)
     return 0;
 }
 
-STUB_FUNC(0x4E4770)
-char_type Map_0x370::sub_4E4770(s32 a2)
+MATCH_FUNC(0x4E4770)
+bool Map_0x370::sub_4E4770(Fix16 z_pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 z = z_pos.ToInt();
+    bool flag2 = false;
+    bool flag1 = false;
+
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    {
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
+        {
+            gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos, y_pos, z);
+
+            if (gBlockInfo0_6F5EB0 != NULL)
+            {
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                    && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+                {
+                    if (flag1)
+                    {
+                        return true;
+                    }
+                    flag2 = true;
+                    continue;
+                }
+            }
+
+            if (flag2)
+            {
+                return true;
+            }
+            flag1 = true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E4820)
@@ -947,29 +1032,42 @@ char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x4E4AC0)
-char_type Map_0x370::sub_4E4AC0(char_type a1)
+MATCH_FUNC(0x4E4AC0)
+bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
+    {
+        if (block_type == PAVEMENT)
+        {
+            if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(dword_6F6164, dword_6F6148, dword_6F613C))
+            {
+                return true;
+            }
+        }
+        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6F6164, dword_6F6148, dword_6F613C) == ROAD)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E4B40)
-bool Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
+bool Map_0x370::CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock)
 {
-    switch (a1)
+    switch (direction)
     {
         case 1:
-            return check_green_up(a2->field_A_arrows);
+            return check_green_up(pBlock->field_A_arrows);
             break;
         case 2:
-            return check_green_down(a2->field_A_arrows);
+            return check_green_down(pBlock->field_A_arrows);
             break;
         case 3:
-            return check_green_right(a2->field_A_arrows);
+            return check_green_right(pBlock->field_A_arrows);
             break;
         case 4:
-            return check_green_left(a2->field_A_arrows);
+            return check_green_left(pBlock->field_A_arrows);
             break;
         default:
             return true;
@@ -978,13 +1076,13 @@ bool Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
 }
 
 MATCH_FUNC(0x4E4BB0)
-gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, u32& z) //  TODO: rename it to FindPavementBlockForCoord_4E4BB0
+gmp_block_info* Map_0x370::FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z)
 {
-    gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
+    gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
     for (s32 curr_z_pos = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
         //  Begin with the highest non-empty block in the column
-        gBlockInfo0_6F5EB0 = this->field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]); //  get the block
+        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]); //  get the block
         switch (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
             case AIR:
@@ -1000,7 +1098,7 @@ gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, u32& z) //  TODO: rename it 
 }
 
 MATCH_FUNC(0x4E4C30)
-gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* z_pos)
+gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z)
 {
     gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
@@ -1010,7 +1108,7 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* z_
         u8 slope_byte = gBlockInfo0_6F5EB0->field_B_slope_type;
         if (!is_air_type(slope_byte))
         {
-            *z_pos = curr_z_pos + v4->field_1_offset;
+            *found_z = curr_z_pos + v4->field_1_offset;
             return gBlockInfo0_6F5EB0;
         }
     }
@@ -1027,7 +1125,7 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
         return 0;
     }
 
-    s32 curr_z_pos = (z >= pColumn->field_0_height ? pColumn->field_0_height - pColumn->field_1_offset - 1 : z - pColumn->field_1_offset);
+    s32 curr_z_pos = clamp_z_from_column(pColumn->field_0_height, pColumn->field_1_offset, z);
 
     for (; curr_z_pos >= 0; curr_z_pos--)
     {
@@ -1042,7 +1140,7 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
 }
 
 MATCH_FUNC(0x4E4D40)
-Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
     u8 slope_byte;
@@ -1062,8 +1160,8 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
         gBlockInfo0_6F5EB0 = v11;
         if (v11 == NULL)
         {
-            *a2 = dword_6F6110;
-            return a2;
+            *found_z = dword_6F6110;
+            return found_z;
         }
         slope_byte = v11->field_B_slope_type;
 
@@ -1077,12 +1175,12 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             new_z = Fix16(v14) + 1;
         }
     }
-    *a2 = new_z;
-    return a2;
+    *found_z = new_z;
+    return found_z;
 }
 
 MATCH_FUNC(0x4E4E50)
-Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     for (Fix16 curr_z = z_pos; curr_z < z_pos + dword_6F6110; curr_z = dword_6F6110 + curr_z.GetRoundValue())
     {
@@ -1102,8 +1200,8 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
                     u8 slope = get_slope_bits(slope_byte);
                     if (slope <= 0 || slope >= 0xB4u) // !is_gradient_slope(slope_byte)
                     {
-                        *a2 = curr_z;
-                        return a2;
+                        *found_z = curr_z;
+                        return found_z;
                     }
                 }
             }
@@ -1116,41 +1214,138 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
                 if (unk_z_coord >= curr_z)
                 {
-                    *a2 = unk_z_coord;
-                    return a2;
+                    *found_z = unk_z_coord;
+                    return found_z;
                 }
             }
         }
     }
-    *a2 = z_pos;
-    return a2;
+    *found_z = z_pos;
+    return found_z;
 }
 
-STUB_FUNC(0x4E4F40)
-s32* Map_0x370::sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E4F40)
+Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* block_4DFE10;
+    Fix16 new_z;
+
+    if (z.GetFracValue() == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt())) == NULL 
+        || !is_gradient_slope(block_4DFE10->field_B_slope_type) 
+        || is_air_type(block_4DFE10->field_B_slope_type) 
+        || (new_z = z.GetRoundValue(), 
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), 
+            new_z > z))
+    {
+        s32 int_z = z.ToInt() - 1;
+        gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), int_z);
+
+        if (!gBlockInfo0_6F5EB0)
+        {
+            *found_z = dword_6F610C;
+            return found_z;
+        }
+        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+            && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            new_z = Fix16(int_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+        }
+        else
+        {
+            new_z = Fix16(int_z + 1);
+        }
+    }
+    *found_z = new_z;
+    return found_z;
 }
 
-STUB_FUNC(0x4E5050)
-s32* Map_0x370::sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6)
+MATCH_FUNC(0x4E5050)
+Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bFound)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 new_z;
+    bFound = false;
+
+    if (z.GetFracValue() != dword_6F610C)
+    {
+        gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        if (block_4DFE10)
+        {
+            if (is_gradient_slope(block_4DFE10->field_B_slope_type) 
+                && !is_air_type(block_4DFE10->field_B_slope_type))
+            {
+                new_z = z.GetRoundValue();
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                if (new_z <= z)
+                {
+                    *found_z = new_z;
+                    return found_z;
+                }
+                bFound = true;
+            }
+        }
+    }
+    s32 v14 = z.ToInt() - 1;
+    gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), v14);
+    if (!gBlockInfo0_6F5EB0)
+    {
+        *found_z = dword_6F6110;
+        return found_z;
+    }
+    if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+        && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+    {
+        new_z = Fix16(v14);
+        Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+    }
+    else
+    {
+        new_z = Fix16(v14 + 1);
+    }
+    *found_z = new_z;
+    return found_z;
 }
 
-STUB_FUNC(0x4E5170)
-char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4E5170)
+bool Map_0x370::sub_4E5170(Fix16 x, Fix16 y, Fix16 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (z.GetFracValue() != dword_6F610C)
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                Fix16 new_z = z.GetRoundValue();
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                if (new_z == z)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (z == dword_6F6110)
+        {
+            return true;
+        }
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E52A0)
-char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
+char_type Map_0x370::sub_4E52A0(Fix16 x, Fix16 y, Fix16 z)
 {
-    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(a2.ToInt(), a3.ToInt(), (a4 - dword_6F6110).ToInt());
+    gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
 
     if (gBlockInfo0_6F5EB0)
     {
@@ -1166,18 +1361,133 @@ char_type Map_0x370::sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4)
     return 5;
 }
 
-STUB_FUNC(0x4E5300)
-char_type Map_0x370::sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E5300)
+bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 new_z;
+    Fix16 floor_z = z.GetRoundValue();
+    Fix16 floor_second_z = second_z.GetRoundValue();
+
+    if (floor_z == floor_second_z)
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                new_z = floor_z;
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                if (second_z >= new_z && z <= new_z)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), floor_second_z.ToInt());
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                new_z = floor_second_z;
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                if (second_z >= new_z)
+                {
+                    return true;
+                }
+            }
+        }
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+                {
+                    new_z = floor_z;
+                    Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                    if (z <= new_z)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
-STUB_FUNC(0x4E5480)
-char_type Map_0x370::sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6)
+MATCH_FUNC(0x4E5480)
+bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 z_floor = z.GetRoundValue();
+    Fix16 unk_z_floor = unk_z_coord.GetRoundValue();
+
+    if (z_floor == unk_z_floor)
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                *found_z = z_floor;
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+                if (unk_z_coord >= *found_z && z <= *found_z)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), unk_z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+            && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            *found_z = unk_z_floor;
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+            if (unk_z_coord >= *found_z)
+            {
+                return true;
+            }
+        }
+
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+                {
+                    *found_z = z_floor;
+                    Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+                    if (z <= *found_z)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    *found_z = z_floor + dword_6F6110;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E5640)
@@ -1333,7 +1643,7 @@ Fix16* Map_0x370::sub_4E62B0(Fix16* a1, Fix16 a2)
 }
 
 MATCH_FUNC(0x4E62D0)
-gmp_block_info* Map_0x370::sub_4E62D0(s32 x, s32 y, s32& found_z) // TODO: rename it to FindRailwayAtCoord_4E62D0
+gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
@@ -1351,7 +1661,7 @@ gmp_block_info* Map_0x370::sub_4E62D0(s32 x, s32 y, s32& found_z) // TODO: renam
 }
 
 MATCH_FUNC(0x4E6360)
-gmp_block_info* Map_0x370::sub_4E6360(s32 x, s32 y, s32& z) // TODO: rename it to FindRailwayBelowZAtCoord_4E6360
+gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
 
@@ -1376,7 +1686,7 @@ gmp_block_info* Map_0x370::sub_4E6360(s32 x, s32 y, s32& z) // TODO: rename it t
 }
 
 MATCH_FUNC(0x4E6400)
-Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
+Fix16* Map_0x370::sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
     u8 slope_byte;
@@ -1391,12 +1701,12 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
-        gmp_block_info* pBlock = Map_0x370::sub_4E6360(x_pos.ToInt(), y_pos.ToInt(), v14);
+        gmp_block_info* pBlock = Map_0x370::FindRailwayBelowZAtCoord_4E6360(x_pos.ToInt(), y_pos.ToInt(), v14);
         gBlockInfo0_6F5EB0 = pBlock;
         if (pBlock == NULL)
         {
-            *a2 = Fix16(1);
-            return a2;
+            *found_z = Fix16(1);
+            return found_z;
         }
         slope_byte = pBlock->field_B_slope_type;
         if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
@@ -1409,20 +1719,20 @@ Fix16* Map_0x370::sub_4E6400(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
             new_z = Fix16(v14) + 1;
         }
     }
-    *a2 = new_z;
-    return a2;
+    *found_z = new_z;
+    return found_z;
 }
 
 MATCH_FUNC(0x4E6510)
-Fix16* Map_0x370::sub_4E6510(Fix16* z, Fix16 x, Fix16 y)
+Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
 {
-    s32 found_z;
-    gBlockInfo0_6F5EB0 = Map_0x370::sub_4E62D0(x.ToInt(), y.ToInt(), found_z);
+    s32 rail_z_coord;
+    gBlockInfo0_6F5EB0 = Map_0x370::FindRailwayAtCoord_4E62D0(x.ToInt(), y.ToInt(), rail_z_coord);
     
     if (!gBlockInfo0_6F5EB0)
     {
-        *z = 0;
-        return z;
+        *found_z = 0;
+        return found_z;
     }
     else
     {
@@ -1430,20 +1740,20 @@ Fix16* Map_0x370::sub_4E6510(Fix16* z, Fix16 x, Fix16 y)
         if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type)
            && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
-            new_z = Fix16(found_z);
+            new_z = Fix16(rail_z_coord);
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
         }
         else
         {
-            new_z = Fix16(found_z + 1);
+            new_z = Fix16(rail_z_coord + 1);
         }
-        *z = new_z;
-        return z;
+        *found_z = new_z;
+        return found_z;
     }
 }
 
 MATCH_FUNC(0x4E65A0)
-void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char a5, char a6)
+void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6)
 {
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
     if (get_slope_bits(block_4DFE10->field_B_slope_type) == 0xFC)

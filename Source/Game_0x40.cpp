@@ -373,9 +373,9 @@ void Game_0x40::ShowCounters_4B8FF0()
         const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();
         const u32 y = field_38_orf1->field_2C4_player_ped->field_1AC_cam.y.ToInt();
 
-        gmp_zone_unknown* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
+        gmp_zone_info* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
-        swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_density);
+        swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
         gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
     }
 }

@@ -12,7 +12,7 @@
 EXPORT_VAR extern Ang16 gAng16_703804;
 EXPORT_VAR extern Fix16 gFix16_7035C0;
 
-struct gmp_zone_unknown;
+struct gmp_zone_info;
 class DrawUnk_0xBC;
 class Object_2C;
 class Fix16_Rect;
@@ -863,7 +863,7 @@ struct Car_14
     s8 field_A;
     s8 field_B;
     Player* field_C;
-    gmp_zone_unknown* field_10;
+    gmp_zone_info* field_10;
 };
 
 EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
