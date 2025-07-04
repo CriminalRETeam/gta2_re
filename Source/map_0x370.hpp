@@ -285,7 +285,7 @@ class Map_0x370
     EXPORT Fix16* sub_4E4E50(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT s32* sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5);
     EXPORT s32* sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6);
-    EXPORT char_type sub_4E5170(s32 a2, s32 a3, s32 a4);
+    EXPORT bool sub_4E5170(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5);
     EXPORT char_type sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6);

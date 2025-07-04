@@ -1238,11 +1238,39 @@ s32* Map_0x370::sub_4E5050(s32* a2, s32 a3, s32 a4, s32 a5, u8* a6)
     return 0;
 }
 
-STUB_FUNC(0x4E5170)
-char_type Map_0x370::sub_4E5170(s32 a2, s32 a3, s32 a4)
+MATCH_FUNC(0x4E5170)
+bool Map_0x370::sub_4E5170(Fix16 x, Fix16 y, Fix16 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (z.GetFracValue() != dword_6F610C)
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                Fix16 new_z = z.GetRoundValue();
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+                if (new_z == z)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        if (z == dword_6F6110)
+        {
+            return true;
+        }
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
+        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E52A0)
