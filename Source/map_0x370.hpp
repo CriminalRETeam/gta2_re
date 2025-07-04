@@ -276,9 +276,9 @@ class Map_0x370
     EXPORT bool sub_4E4770(Fix16 a2);
     EXPORT char_type sub_4E4820(u32* a2, char_type a3);
     EXPORT char_type sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4);
-    EXPORT char_type sub_4E4AC0(char_type a1);
+    EXPORT bool sub_4E4AC0(char_type a1);
     EXPORT bool sub_4E4B40(s32 a1, gmp_block_info* a2);
-    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, u32& a4);
+    EXPORT gmp_block_info* sub_4E4BB0(s32 a2, s32 a3, s32& a4);
     EXPORT gmp_block_info* FindHighestBlockForCoord_4E4C30(s32 a2, s32 a3, s32* a4);
     EXPORT gmp_block_info* sub_4E4CB0(s32 a2, s32 a3, s32& a4);
     EXPORT Fix16* sub_4E4D40(Fix16* a2, Fix16 a3, Fix16 a4, Fix16 a5);
@@ -364,6 +364,17 @@ class Map_0x370
                 break;
         }
         return scale;
+    }
+
+    // 9.6f inline 0x420420
+    inline u8 GetBlockTypeAtCoord_420420(s32 a2, s32 a3, s32 a4)
+    {
+        gmp_block_info* pBlock = get_block_4DFE10(a2, a3, a4);
+        if (pBlock)
+        {
+            return pBlock->field_B_slope_type & 3;
+        }
+        return 0;
     }
 
   public:

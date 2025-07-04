@@ -72,6 +72,15 @@ GLOBAL(dword_6F5FA8, 0x6F5FA8);
 EXPORT_VAR Fix16 dword_6F6214;
 GLOBAL(dword_6F6214, 0x6F6214);
 
+EXPORT_VAR s32 dword_6F6164;
+GLOBAL(dword_6F6164, 0x6F6164);
+
+EXPORT_VAR s32 dword_6F6148;
+GLOBAL(dword_6F6148, 0x6F6148);
+
+EXPORT_VAR s32 dword_6F613C;
+GLOBAL(dword_6F613C, 0x6F613C);
+
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
@@ -1023,11 +1032,24 @@ char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
     return 0;
 }
 
-STUB_FUNC(0x4E4AC0)
-char_type Map_0x370::sub_4E4AC0(char_type a1)
+MATCH_FUNC(0x4E4AC0)
+bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
+    {
+        if (block_type == PAVEMENT)
+        {
+            if (gMap_0x370_6F6268->sub_4E4BB0(dword_6F6164, dword_6F6148, dword_6F613C))
+            {
+                return true;
+            }
+        }
+        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6F6164, dword_6F6148, dword_6F613C) == ROAD)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4E4B40)
@@ -1054,7 +1076,7 @@ bool Map_0x370::sub_4E4B40(s32 a1, gmp_block_info* a2)
 }
 
 MATCH_FUNC(0x4E4BB0)
-gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, u32& z) //  TODO: rename it to FindPavementBlockForCoord_4E4BB0
+gmp_block_info* Map_0x370::sub_4E4BB0(s32 x, s32 y, s32& z) //  TODO: rename it to FindPavementBlockForCoord_4E4BB0
 {
     gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
     for (s32 curr_z_pos = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
