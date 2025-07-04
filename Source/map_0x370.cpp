@@ -401,7 +401,7 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
 }
 
 MATCH_FUNC(0x4DF840)
-gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
+gmp_zone_info* Map_0x370::cur_zone_4DF840()
 {
     if (field_328_pZoneData)
     {
@@ -415,7 +415,7 @@ gmp_zone_unknown* Map_0x370::cur_zone_4DF840()
 }
 
 MATCH_FUNC(0x4DF890)
-gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
+gmp_zone_info* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 {
     if (nav_zone_by_pos_4DF5C0(zone_x, zone_y))
     {
@@ -429,78 +429,78 @@ gmp_zone_unknown* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 
 MATCH_FUNC(0x4DF8C0)
 void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx,
-                                            s16 a3,
-                                            s16 a4,
-                                            s16 a5,
-                                            s16 a6,
-                                            s16 a7,
-                                            s16 a8,
-                                            s16 a9,
-                                            s16 a10,
-                                            s16 a11,
-                                            s16 a12,
-                                            s16 a13)
+                                            s16 car_density,
+                                            s16 goodcar_ratio,
+                                            s16 badcar_ratio,
+                                            s16 policecar_ratio,
+                                            s16 gangcar_ratio,
+                                            s16 ped_density,
+                                            s16 mugger_ratio,
+                                            s16 carthief_ratio,
+                                            s16 elvis_ratio,
+                                            s16 gangchar_ratio,
+                                            s16 policeped_ratio)
 {
     get_zone_4DFB30(zone_idx);
-    gmp_zone_unknown* pZoneUnknown = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
-    if (a3 != -1)
+    gmp_zone_info* pZoneInfo = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
+    if (car_density != -1)
     {
-        pZoneUnknown->field_0_density = a3;
+        pZoneInfo->field_0_car_density = car_density;
     }
 
-    if (a4 != -1)
+    if (goodcar_ratio != -1)
     {
-        pZoneUnknown->field_2 = a4;
+        pZoneInfo->field_2_goodcar_ratio = goodcar_ratio;
     }
 
-    if (a5 != -1)
+    if (badcar_ratio != -1)
     {
-        pZoneUnknown->field_4 = a5;
+        pZoneInfo->field_4_badcar_ratio = badcar_ratio;
     }
 
-    if (a6 != -1)
+    if (policecar_ratio != -1)
     {
-        pZoneUnknown->field_6 = a6;
+        pZoneInfo->field_6_policecar_ratio = policecar_ratio;
     }
 
-    if (a7 != -1)
+    if (gangcar_ratio != -1)
     {
-        pZoneUnknown->field_8 = a7;
+        pZoneInfo->field_8_gangcar_ratio = gangcar_ratio;
     }
 
-    if (a8 != -1)
+    if (ped_density != -1)
     {
-        pZoneUnknown->field_A = a8;
+        pZoneInfo->field_A_ped_density = ped_density;
     }
 
-    if (a9 != -1)
+    if (mugger_ratio != -1)
     {
-        pZoneUnknown->field_C = a9;
+        pZoneInfo->field_C_mugger_ratio = mugger_ratio;
     }
 
-    if (a10 != -1)
+    if (carthief_ratio != -1)
     {
-        pZoneUnknown->field_E = a10;
+        pZoneInfo->field_E_carthief_ratio = carthief_ratio;
     }
 
-    if (a11 != -1)
+    if (elvis_ratio != -1)
     {
-        pZoneUnknown->field_10 = a11;
+        pZoneInfo->field_10_elvis_ratio = elvis_ratio;
     }
 
-    if (a12 != -1)
+    if (gangchar_ratio != -1)
     {
-        pZoneUnknown->field_12 = a12;
+        pZoneInfo->field_12_gangchar_ratio = gangchar_ratio;
     }
 
-    if (a13 != -1)
+    if (policeped_ratio != -1)
     {
-        pZoneUnknown->field_14 = a13;
+        pZoneInfo->field_14_policeped_ratio = policeped_ratio;
     }
 }
 
 MATCH_FUNC(0x4DF9A0)
-gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
+gmp_zone_info* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 {
     return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
 }
@@ -508,67 +508,67 @@ gmp_zone_unknown* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 MATCH_FUNC(0x4DF9D0)
 void Map_0x370::set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_0_density = a3;
+    get_zone_unknown_4DF9A0(a2)->field_0_car_density = a3;
 }
 
 MATCH_FUNC(0x4DF9F0)
 void Map_0x370::set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_2 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_2_goodcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA10)
 void Map_0x370::set_nav_unknown_f4_4DFA10(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_4 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_4_badcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA30)
 void Map_0x370::set_nav_unknown_f6_4DFA30(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_6 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_6_policecar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA50)
 void Map_0x370::set_nav_unknown_f8_4DFA50(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_8 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_8_gangcar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFA70)
 void Map_0x370::set_nav_unknown_fA_4DFA70(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_A = a3;
+    get_zone_unknown_4DF9A0(a2)->field_A_ped_density = a3;
 }
 
 MATCH_FUNC(0x4DFA90)
 void Map_0x370::set_nav_unknown_fC_4DFA90(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_C = a3;
+    get_zone_unknown_4DF9A0(a2)->field_C_mugger_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAB0)
 void Map_0x370::set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_E = a3;
+    get_zone_unknown_4DF9A0(a2)->field_E_carthief_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAD0)
 void Map_0x370::set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_10 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_10_elvis_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFAF0)
 void Map_0x370::set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_12 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_12_gangchar_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFB10)
 void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 {
-    get_zone_unknown_4DF9A0(a2)->field_14 = a3;
+    get_zone_unknown_4DF9A0(a2)->field_14_policeped_ratio = a3;
 }
 
 MATCH_FUNC(0x4DFB30)

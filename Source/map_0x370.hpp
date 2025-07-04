@@ -104,19 +104,19 @@ class gmp_map_zone
     EXPORT s8 sub_4DEF40();
 };
 
-struct gmp_zone_unknown
+struct gmp_zone_info
 {
-    u16 field_0_density;
-    s16 field_2;
-    s16 field_4;
-    s16 field_6;
-    s16 field_8;
-    s16 field_A;
-    s16 field_C;
-    s16 field_E;
-    s16 field_10;
-    s16 field_12;
-    s16 field_14;
+    u16 field_0_car_density;
+    s16 field_2_goodcar_ratio;
+    s16 field_4_badcar_ratio;
+    s16 field_6_policecar_ratio;
+    s16 field_8_gangcar_ratio;
+    s16 field_A_ped_density;
+    s16 field_C_mugger_ratio;
+    s16 field_E_carthief_ratio;
+    s16 field_10_elvis_ratio;
+    s16 field_12_gangchar_ratio;
+    s16 field_14_policeped_ratio;
 };
 
 struct gmp_map_object
@@ -205,24 +205,24 @@ class Map_0x370
 
     EXPORT gmp_map_zone* next_zone_4DF770();
 
-    EXPORT gmp_zone_unknown* cur_zone_4DF840();
+    EXPORT gmp_zone_info* cur_zone_4DF840();
 
-    EXPORT gmp_zone_unknown* get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y);
+    EXPORT gmp_zone_info* get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y);
 
     EXPORT void set_nav_unknown_data_4DF8C0(s32 zone_idx,
-                                            s16 a3,
-                                            s16 a4,
-                                            s16 a5,
-                                            s16 a6,
-                                            s16 a7,
-                                            s16 a8,
-                                            s16 a9,
-                                            s16 a10,
-                                            s16 a11,
-                                            s16 a12,
-                                            s16 a13);
+                                            s16 car_density,
+                                            s16 goodcar_ratio,
+                                            s16 badcar_ratio,
+                                            s16 policecar_ratio,
+                                            s16 gangcar_ratio,
+                                            s16 ped_density,
+                                            s16 mugger_ratio,
+                                            s16 carthief_ratio,
+                                            s16 elvis_ratio,
+                                            s16 gangchar_ratio,
+                                            s16 policeped_ratio);
 
-    EXPORT gmp_zone_unknown* get_zone_unknown_4DF9A0(u16 zone_idx);
+    EXPORT gmp_zone_info* get_zone_unknown_4DF9A0(u16 zone_idx);
 
     EXPORT void set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3);
 
@@ -383,7 +383,7 @@ class Map_0x370
     gmp_map_zone* field_328_pZoneData;
     gmp_map_zone** field_32C_pZones;
     BYTE* field_330_pZoneArray;
-    gmp_zone_unknown* field_334_pUnknownZoneData;
+    gmp_zone_info* field_334_pUnknownZoneData;
     gmp_map_object* field_338_pMapObjects;
     gmp_map_light* field_33C_pLightData;
     gmp_tile_animation* field_340_pTileAnimData;
