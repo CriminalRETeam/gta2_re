@@ -861,7 +861,7 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
                     }
                 }
             }
-            
+
             if (y_pos < y_max)
             {
                 pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
@@ -972,11 +972,41 @@ char_type Map_0x370::sub_4E4630(Fix16 a2)
     return 0;
 }
 
-STUB_FUNC(0x4E4770)
-char_type Map_0x370::sub_4E4770(s32 a2)
+MATCH_FUNC(0x4E4770)
+bool Map_0x370::sub_4E4770(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 z = a2.ToInt();
+    bool flag2 = false;
+    bool flag1 = false;
+
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    {
+        for (s32 x_pos = gPurple_left_6F5FD4; x_pos <= gPurple_right_6F5B80; x_pos++)
+        {
+            gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos, y_pos, z);
+
+            if (gBlockInfo0_6F5EB0 != NULL)
+            {
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                    && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+                {
+                    if (flag1)
+                    {
+                        return true;
+                    }
+                    flag2 = true;
+                    continue;
+                }
+            }
+
+            if (flag2)
+            {
+                return true;
+            }
+            flag1 = true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E4820)
