@@ -18,11 +18,11 @@ struct gmp_col_info
 
 struct gmp_block_info
 {
-    s16 field_0_left;
-    s16 field_2_right;
-    s16 field_4_top;
-    s16 field_6_bottom;
-    s16 field_8_lid;
+    u16 field_0_left;
+    u16 field_2_right;
+    u16 field_4_top;
+    u16 field_6_bottom;
+    u16 field_8_lid;
     u8 field_A_arrows;
     u8 field_B_slope_type;
 };
@@ -268,7 +268,7 @@ class Map_0x370
     EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
     EXPORT char_type sub_4E11E0(s32* a2);
     EXPORT char_type sub_4E1520(s32 a2);
-    EXPORT char_type sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
+    EXPORT bool sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     EXPORT char_type sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6);
     EXPORT char_type sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8);
     EXPORT char_type sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6);

@@ -126,7 +126,7 @@ static inline bool is_diagonal_block(s32& slope)
     return slope >= 0xC4 && slope <= 0xD0;
 }
 
-static inline u16 get_tile_idx(s16& side_word)
+static inline u16 get_tile_idx(u16& side_word)
 {
     return side_word & 1023;
 }
@@ -778,7 +778,7 @@ s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
             gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
             if (pBlock)
             {
-                s16 lid = pBlock->field_8_lid;
+                u16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
                     s32 spec = gGtx_0x106C_703DD4->field_6C_spec[get_tile_idx(lid)];
@@ -833,11 +833,57 @@ char_type Map_0x370::sub_4E1520(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x4E18A0)
-char_type Map_0x370::sub_4E18A0(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
+MATCH_FUNC(0x4E18A0)
+bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* pBlock;
+
+    for (s32 y_pos = y_min; y_pos <= y_max; y_pos++)
+    {
+        for (s32 x_pos = x_min; x_pos <= x_max; x_pos++)
+        {
+            if (x_pos < x_max)
+            {
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_2_right & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+                pBlock = Map_0x370::sub_4DFE60(x_pos + 1, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_0_left & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+            }
+            
+            if (y_pos < y_max)
+            {
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_6_bottom & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+                pBlock = Map_0x370::sub_4DFE60(x_pos, y_pos + 1, z);
+                if (pBlock)
+                {
+                    if ((pBlock->field_4_top & 0x400) != 0) // is wall tile
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E1A30)
