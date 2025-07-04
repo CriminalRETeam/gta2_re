@@ -1224,11 +1224,41 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* a2, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     return a2;
 }
 
-STUB_FUNC(0x4E4F40)
-s32* Map_0x370::sub_4E4F40(s32* a2, s32 a3, s32 a4, s32 a5)
+MATCH_FUNC(0x4E4F40)
+Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gmp_block_info* block_4DFE10;
+    Fix16 new_z;
+
+    if (z.GetFracValue() == dword_6F610C 
+        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt())) == NULL 
+        || !is_gradient_slope(block_4DFE10->field_B_slope_type) 
+        || is_air_type(block_4DFE10->field_B_slope_type) 
+        || (new_z = z.GetRoundValue(), 
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), 
+            new_z > z))
+    {
+        s32 int_z = z.ToInt() - 1;
+        gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), int_z);
+
+        if (!gBlockInfo0_6F5EB0)
+        {
+            *found_z = dword_6F610C;
+            return found_z;
+        }
+        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
+            && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            new_z = Fix16(int_z);
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
+        }
+        else
+        {
+            new_z = Fix16(int_z + 1);
+        }
+    }
+    *found_z = new_z;
+    return found_z;
 }
 
 STUB_FUNC(0x4E5050)
