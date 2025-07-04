@@ -288,7 +288,7 @@ class Map_0x370
     EXPORT bool sub_4E5170(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_4E52A0(Fix16 a2, Fix16 a3, Fix16 a4);
     EXPORT char_type sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5);
-    EXPORT char_type sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6);
+    EXPORT bool sub_4E5480(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5, Fix16* a6);
     EXPORT char_type sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
     EXPORT Fix16* FindGroundZForCoord_4E5B60(Fix16* a2, Fix16 a3, Fix16 a4);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 a2, Fix16 a3, Fix16& a4);

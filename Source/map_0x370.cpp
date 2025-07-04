@@ -1299,11 +1299,69 @@ char_type Map_0x370::sub_4E5300(s32 a2, s32 a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x4E5480)
-char_type Map_0x370::sub_4E5480(s32 a2, s32 a3, s32 a4, s32 a5, s32* a6)
+MATCH_FUNC(0x4E5480)
+bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 z_floor = z.GetRoundValue();
+    Fix16 unk_z_floor = unk_z_coord.GetRoundValue();
+
+    if (z_floor == unk_z_floor)
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                *found_z = z_floor;
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+                if (unk_z_coord >= *found_z && z <= *found_z)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    else
+    {
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), unk_z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
+            && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+        {
+            *found_z = unk_z_floor;
+            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+            if (unk_z_coord >= *found_z)
+            {
+                return true;
+            }
+        }
+
+        gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+
+        if (gBlockInfo0_6F5EB0)
+        {
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            {
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+                {
+                    *found_z = z_floor;
+                    Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
+                    if (z <= *found_z)
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    *found_z = z_floor + dword_6F6110;
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x4E5640)
