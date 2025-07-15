@@ -636,11 +636,21 @@ s32 Object_5C::sub_5298E0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x529950)
-Object_2C* Object_5C::sub_529950(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, Fix16 a7, Fix16 a8, Fix16 a9)
+MATCH_FUNC(0x529950)
+Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = sub_529C00(object_type, x, y, z, rot, 0);
+    if (pNewObj)
+    {
+        Sprite* pSprite = pNewObj->field_4;
+        Sprite_4C* sprite_4c_ptr = pSprite->field_C_sprite_4c_ptr;
+        sprite_4c_ptr->field_0_width = w;
+        sprite_4c_ptr->field_4_height = h;
+        sprite_4c_ptr->field_8 = a9;
+        pSprite->sub_59E7B0();
+        pNewObj->sub_527AE0();
+    }
+    return pNewObj;
 }
 
 MATCH_FUNC(0x5299b0)
