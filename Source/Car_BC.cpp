@@ -138,7 +138,6 @@ GLOBAL(word_6F771E, 0x6F771E);
 EXPORT_VAR Ang16 word_67791C;
 GLOBAL(word_67791C, 0x67791C);
 
-
 extern EXPORT_VAR Fix16 dword_7035C4;
 
 MATCH_FUNC(0x5639c0)
@@ -1360,10 +1359,43 @@ Car_6C::Car_6C()
     field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
 
+// Some SEH stuff, prob needs some dtors moving to or from another file
 STUB_FUNC(0x446dc0)
 Car_6C::~Car_6C()
 {
     NOT_IMPLEMENTED;
+
+    if (gCar_E0C4_67792C)
+    {
+        GTA2_DELETE_AND_NULL(gCar_E0C4_67792C);
+    }
+
+    if (gCar_D264_6FE3E0)
+    {
+        GTA2_DELETE_AND_NULL(gCar_D264_6FE3E0);
+    }
+
+    if (gCar_14_677934)
+    {
+        GTA2_DELETE_AND_NULL(gCar_14_677934);
+    }
+
+    if (gCar_8F74_677CF8)
+    {
+        GTA2_DELETE_AND_NULL(gCar_8F74_677CF8);
+    }
+
+    if (gCar_A4_66AC80)
+    {
+        GTA2_DELETE_AND_NULL(gCar_A4_66AC80);
+    }
+
+    if (gSprite_Unused_677938)
+    {
+        GTA2_DELETE_AND_NULL(gSprite_Unused_677938);
+    }
+
+    field_4 = 0;
 }
 
 MATCH_FUNC(0x439ec0)
@@ -3297,12 +3329,6 @@ bool Car_BC::sub_564300()
         return result;
     }
     return false;
-}
-
-Car_E0C4::~Car_E0C4()
-{
-    field_0 = NULL;
-    field_4_firstCar = NULL;
 }
 
 /*

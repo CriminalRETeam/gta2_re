@@ -179,8 +179,6 @@ class Car_B0
     char_type field_AF;
 };
 
-
-
 struct Car_D264
 {
     //Inlined in Car_6C constructor 9.6f -> 0x420f80
@@ -195,6 +193,12 @@ struct Car_D264
 
         field_4[0x131].field_C_pNext = NULL;
         field_0 = field_4;
+    }
+
+    ~Car_D264()
+    {
+        field_4;
+        field_0 = 0;
     }
 
     Car_B0* field_0;

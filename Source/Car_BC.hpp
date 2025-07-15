@@ -131,6 +131,11 @@ class Car_8F74
         field_0 = field_4;
     }
 
+    ~Car_8F74()
+    {
+        field_0 = 0;
+    }
+
     // TODO: get 9.6f inline addr
     void Remove(Car_78* p78)
     {
@@ -791,7 +796,12 @@ struct Car_E0C4
         field_4_firstCar = NULL;
         field_E0C0_cars_count = 0;
     }
-    EXPORT ~Car_E0C4();
+
+    ~Car_E0C4()
+    {
+        field_0 = NULL;
+        field_4_firstCar = NULL;
+    }
 
     // TODO: 9.6f addr/check
     void Remove(Car_BC* pCar)
@@ -844,6 +854,11 @@ class Car_A4
         }
         field_4[9].field_4 = NULL;
         field_0 = field_4;
+    }
+
+    ~Car_A4()
+    {
+        field_0 = 0;
     }
 
     Car_A4_10* field_0;
