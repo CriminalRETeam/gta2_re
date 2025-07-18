@@ -98,7 +98,7 @@ jobs:
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
-        sudo apt-get install -y xvfb wine32
+        sudo apt-get install -y xvfb wine64 wine32
 
     - name: Build on Linux
       if: matrix.name == 'Linux_wine_VC6'
