@@ -278,22 +278,29 @@ add_library(HookLoader SHARED
 target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT IMGUI_DLL)
 
 add_executable (ExePatcher Source/ExePatcher.cpp)
-target_link_libraries(ExePatcher PRIVATE libcmt.lib libcpmt.lib)
-set_target_properties(ExePatcher PROPERTIES COMPILE_FLAGS "/ML")
-set_target_properties(ExePatcher PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+if (${MSVC_VERSION} EQUAL 1200)
+    target_link_libraries(ExePatcher libcmt.lib libcpmt.lib)
+    set_target_properties(ExePatcher PROPERTIES COMPILE_FLAGS "/ML")
+    set_target_properties(ExePatcher PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+endif()
 
 add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
     resources.rc)
-target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui libc.lib libcp.lib)
-target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
-set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui)
+if (${MSVC_VERSION} EQUAL 1200)
+    target_link_libraries(decomp_main libc.lib libcp.lib)
+    target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
+    set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+endif()
 
 add_executable (cl_proxy Source/cl_proxy.cpp)
-set_target_properties(cl_proxy PROPERTIES COMPILE_FLAGS "/ML")
-set_target_properties(cl_proxy PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
-target_link_libraries(cl_proxy  libcmt.lib libcpmt.lib)
+if (${MSVC_VERSION} EQUAL 1200)
+    set_target_properties(cl_proxy PROPERTIES COMPILE_FLAGS "/ML")
+    set_target_properties(cl_proxy PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+    target_link_libraries(cl_proxy  libcmt.lib libcpmt.lib)
+endif()
 
 if(${MSVC})
     include(cmake/vc6.cmake)
