@@ -5,8 +5,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 
-//DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
-DEFINE_GLOBAL(Fix16, dword_67A370, 0x67A370);
+DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()

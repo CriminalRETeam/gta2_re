@@ -18,15 +18,13 @@ DEFINE_GLOBAL(Fix16, DAT_006fce10, 0x6FCE10);
 DEFINE_GLOBAL(Fix16, DAT_006F8FF0, 0x6F8FF0);
 DEFINE_GLOBAL(Fix16, DAT_006FCED0, 0x6FCED0);
 
-//DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
-DEFINE_GLOBAL(s32, Phi_54_array_lenght_00623EEC, 0x623EEC);
+DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
 
 // This array is initialized by FUN_005323b0 (likely a static constructor).
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533360.
 DEFINE_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24, 0x6FC5F8);
 
-//DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126, 0x623EF0);
-DEFINE_GLOBAL(s32, Phi_6C_array_lenght_623EF0, 0x623EF0);
+DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126, 0x623EF0);
 
 // This array is initialized by FUN_0052cde0 (likely a static constructor).
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533B30.
