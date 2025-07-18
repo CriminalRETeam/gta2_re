@@ -109,6 +109,13 @@ jobs:
         python3 vc6_setup.py
         python3 build.py
 
+    - name: Upload full build_vc6 directory on failure
+      if: matrix.name == 'Linux_wine_VC6' && always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: linux_vc6_full_dump
+        path: build_vc6/
+
     - name: Upload artifacts on Linux
       if: matrix.name == 'Linux_wine_VC6'
       uses: actions/upload-artifact@v4
