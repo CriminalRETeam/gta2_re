@@ -288,6 +288,7 @@ add_executable (decomp_main WIN32
     resources.rc)
 target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui libc.lib libcp.lib)
 target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
+set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:LIBC")
 
 add_executable (cl_proxy Source/cl_proxy.cpp)
 set_target_properties(cl_proxy PROPERTIES COMPILE_FLAGS "/ML")
