@@ -1,6 +1,8 @@
 #include "types.hpp"
 
+#if defined(__clang__) || (_MSC_VER <= 1200)
 #define _Lockit MyStubLockit
+#endif
 
 #include <fstream>
 #include <sstream>
@@ -9,11 +11,12 @@
 #include <vector>
 #include <windows.h>
 
+#if defined(__clang__) || (_MSC_VER <= 1200)
 namespace std
 {
     MyStubLockit::MyStubLockit()
     {
-        
+
     }
 
     MyStubLockit::~MyStubLockit()
@@ -21,6 +24,7 @@ namespace std
 
     }
 } // namespace std
+#endif
 
 void __declspec(naked) WinMain_Hooked_Start()
 {
