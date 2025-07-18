@@ -1,4 +1,14 @@
 cmake_minimum_required (VERSION 3.5)
+
+if(USE_VC6_CI_WORKAROUND)
+    message(STATUS "CI Wine VC6 workaround active")
+
+    set(CMAKE_C_COMPILER_WORKS TRUE CACHE INTERNAL "")
+    set(CMAKE_CXX_COMPILER_WORKS TRUE CACHE INTERNAL "")
+    set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+endif()
+
+
 project (decomp)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake")

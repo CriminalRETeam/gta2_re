@@ -107,7 +107,7 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
         python3 vc6_setup.py
-        python3 build.py
+        python3 build.py --extra-cmake-flags="-DUSE_VC6_CI_WORKAROUND=ON"
 
     - name: Upload full build_vc6 directory on failure
       if: matrix.name == 'Linux_wine_VC6' && always()
