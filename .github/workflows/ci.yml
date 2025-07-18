@@ -107,28 +107,7 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
         python3 vc6_setup.py
-        echo "===== PATH ====="
-        echo "$PATH"
-        
-        echo "===== Native clang-cl Check ====="
-        which clang-cl || echo "clang-cl not found in \$PATH"
-        clang-cl --version || echo "clang-cl --version failed"
-
-        echo "===== Wine Version Check ====="
-        wine --version || echo "Wine is not installed"
-
-        echo "===== Windows clang-cl.exe via Wine ====="
-        find . -iname "clang-cl.exe" || echo "No clang-cl.exe found in repo"
-        wine ./clang-cl.exe --version || echo "Failed to launch clang-cl.exe via Wine"
-
-        python3 build.py --extra-cmake-flags="-DUSE_VC6_CI_WORKAROUND=ON"
-
-    - name: Upload full build_vc6 directory on failure
-      if: matrix.name == 'Linux_wine_VC6' && always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: linux_vc6_full_dump
-        path: build_vc6/
+        python3 build.py
 
     - name: Upload artifacts on Linux
       if: matrix.name == 'Linux_wine_VC6'

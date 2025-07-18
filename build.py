@@ -16,8 +16,7 @@ BUILD_FOLDER_NAME = "build_vc6"
 BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
-#CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release {args.extra_cmake_flags} .. -G\"NMake Makefiles JOM\""
-CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
+CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
 
 CMAKE_BUILD_CMD = "cmake --build . --target all" #  -- -j 1
 
@@ -85,7 +84,6 @@ class CompileErrorCollection:
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--extra-cmake-flags', default="", help="Additional flags to pass to CMake")
     parser.add_argument("--run_standalone", help="Run the standalone gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--ignore_no_match", help="Ignore any errors related to non matching functions", action="store_true")
