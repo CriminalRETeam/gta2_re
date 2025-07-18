@@ -11,4 +11,4 @@ class Object_226C
 };
 
 
-EXPORT_VAR extern Object_226C* gObject_226C_6F8F78;
+EXTERN_GLOBAL(Object_226C*, gObject_226C_6F8F78);

@@ -23,10 +23,9 @@
 #include "zealous_borg.hpp"
 #include <DINPUT.H>
 
-EXPORT_VAR extern bool gCheatUnlimitedElectroGun_67D4F7;
-EXPORT_VAR extern bool gCheatUnlimitedFlameThrower_67D6CC;
-EXPORT_VAR extern bool gCheatInvisibility_67D539;
-EXPORT_VAR extern bool gCheatUnlimitedDoubleDamage_67D57C;
+EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
+EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
+EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()

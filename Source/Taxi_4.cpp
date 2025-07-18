@@ -3,8 +3,7 @@
 #include "error.hpp"
 #include "Car_BC.hpp"
 
-EXPORT_VAR Taxi_324* gTaxi_324_6783F8;
-GLOBAL(gTaxi_324_6783F8, 0x6783F8);
+DEFINE_GLOBAL(Taxi_324*, gTaxi_324_6783F8, 0x6783F8);
 
 MATCH_FUNC(0x457ba0)
 void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)

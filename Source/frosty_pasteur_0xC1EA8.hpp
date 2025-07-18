@@ -582,4 +582,4 @@ class frosty_pasteur_0xC1EA8
     s16 field_C1EA6;
 };
 
-EXPORT_VAR extern frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
+EXTERN_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060);

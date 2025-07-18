@@ -9,9 +9,12 @@ class Car_BC;
 class Car_8;
 class Ped;
 
-EXPORT_VAR extern Fix16 dword_676840;
-EXPORT_VAR extern Fix16 dword_676818;
-EXPORT_VAR extern Fix16 dword_67681C;
+EXTERN_GLOBAL(Fix16, dword_676840);
+
+EXTERN_GLOBAL(Fix16, dword_676818);
+
+EXTERN_GLOBAL(Fix16, dword_67681C);
+
 
 struct CameraPos
 {
@@ -144,4 +147,4 @@ class DrawUnk_0xBC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
 
-EXPORT_VAR extern DrawUnk_0xBC* gViewCamera_676978;
+EXTERN_GLOBAL(DrawUnk_0xBC*, gViewCamera_676978);

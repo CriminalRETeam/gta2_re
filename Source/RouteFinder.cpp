@@ -5,11 +5,8 @@
 #include "file.hpp"
 #include <cstdio>
 
-EXPORT_VAR RouteFinder* gRouteFinder_6FFDC8;
-GLOBAL(gRouteFinder_6FFDC8, 0x6FFDC8);
-
-EXPORT_VAR u8 DAT_6ffdcc;
-GLOBAL(DAT_6ffdcc, 0x6ffdcc);
+DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
+DEFINE_GLOBAL(u8, DAT_6ffdcc, 0x6ffdcc);
 
 MATCH_FUNC(0x588580)
 char_type Junction_10::sub_588580(s32 a2)

@@ -157,4 +157,4 @@ class Zheal_D9C
     s32 field_D98_count;
 };
 
-EXPORT_VAR extern Zheal_D9C* gZheal_D9C_679FD4;
+EXTERN_GLOBAL(Zheal_D9C*, gZheal_D9C_679FD4);

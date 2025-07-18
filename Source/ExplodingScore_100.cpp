@@ -2,8 +2,7 @@
 #include "Globals.hpp"
 #include <memory.h>
 
-EXPORT_VAR ExplodingScore_100* gExplodingScore_100_702F34;
-GLOBAL(gExplodingScore_100_702F34, 0x702F34);
+DEFINE_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34, 0x702F34);
 
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()

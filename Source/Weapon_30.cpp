@@ -11,7 +11,8 @@
 #include "sprite.hpp"
 
 // TODO: move
-EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
+EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+
 
 u8 max_ammo_capacity_5FF75C[28] = {99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
                                                 99u, 1u,  99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u};

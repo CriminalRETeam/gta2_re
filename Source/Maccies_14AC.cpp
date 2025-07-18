@@ -2,8 +2,7 @@
 #include "Globals.hpp"
 #include "rng.hpp"
 
-EXPORT_VAR Maccies_14AC* gMaccies_14AC_67E5D0;
-GLOBAL(gMaccies_14AC_67E5D0, 0x67E5D0);
+DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0, 0x67E5D0);
 
 STUB_FUNC(0x4c1c50)
 void Generator_2C::sub_4C1C50()

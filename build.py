@@ -16,8 +16,9 @@ BUILD_FOLDER_NAME = "build_vc6"
 BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
-CMAKE_GENERATE_JOM_CMD = "cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
-CMAKE_BUILD_CMD = "cmake --build . --target all"
+CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
+
+CMAKE_BUILD_CMD = "cmake --build . --target all" #  -- -j 1
 
 BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
               CMAKE_BUILD_CMD]
@@ -172,12 +173,33 @@ def build():
     include = vc6_env[1]
     path = vc6_env[2]
 
-    if platform.system() == "Linux" or platform.system() == "Darwin":
+    if platform.system() in ("Linux", "Darwin"):
         build_dir = as_wine_path(BUILD_DIRECTORY)
-        command = f"WINEDEBUG=-all export WINEPATH={path} export LIB={lib} export INCLUDE={include} wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
-        p1 = subprocess.Popen(command, cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, shell=True)
+        command = (
+            f"WINEDEBUG=-all "
+            f"export WINEPATH={path} "
+            f"export LIB={lib} "
+            f"export INCLUDE={include} "
+            f"wine cmd /c \"cd {build_dir} && {CMAKE_GENERATE_JOM_CMD} && {CMAKE_BUILD_CMD}\""
+        )
+        p1 = subprocess.Popen(
+            command,
+            cwd=BUILD_DIRECTORY,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,  # ✅ Merge stderr into stdout
+            text=True,
+            shell=True
+        )
     elif platform.system() == "Windows":
-        p1 = subprocess.Popen("cmd", cwd=BUILD_DIRECTORY, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        p1 = subprocess.Popen(
+            "cmd",
+            cwd=BUILD_DIRECTORY,
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT,  # ✅ Merge stderr into stdout
+            text=True
+        )
 
         p1.stdin.write(f"set LIB={lib}\n")
         p1.stdin.write(f"set INCLUDE={include}\n")
@@ -186,12 +208,18 @@ def build():
         for build_cmd in BUILD_CMDS:
             p1.stdin.write(f"{build_cmd}\n")
 
-    p1.stdin.write("exit /b %errorlevel%\n")
-    p1.stdin.close()
-    
-    pattern = re.compile(r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)\((?P<line_number>\d+)\)\s*:\s*(?:fatal\s+)?(?P<log_type>error|warning)\s+(?P<code>[A-Z]\d+):\s*(?P<message>.+)')
+        p1.stdin.write("exit /b %errorlevel%\n")
+        p1.stdin.close()
+
+    # Regex for MSVC-style error/warning messages
+    pattern = re.compile(
+        r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)'
+        r'\((?P<line_number>\d+)\)\s*:\s*(?:fatal\s+)?(?P<log_type>error|warning)\s+'
+        r'(?P<code>[A-Z]\d+):\s*(?P<message>.+)'
+    )
 
     error_collection = CompileErrorCollection()
+
     while True:
         output = p1.stdout.readline()
         if output == "" and p1.poll() is not None:
@@ -204,12 +232,19 @@ def build():
             match = pattern.match(output)
             if match:
                 strPath = convert_path(match.group("file_path"))
-                entry = CompileErrorEntry(strPath, int(match.group("line_number")), match.group("log_type"), match.group("code"), match.group("message"))
+                entry = CompileErrorEntry(
+                    strPath,
+                    int(match.group("line_number")),
+                    match.group("log_type"),
+                    match.group("code"),
+                    match.group("message")
+                )
                 error_collection.add(entry)
 
     error_collection.save_json()
 
     return p1.poll()
+
 
 def verify():
     download_exe("10.5.exe")

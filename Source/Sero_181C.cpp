@@ -4,8 +4,7 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 
-EXPORT_VAR Sero_181C* gSero_181C_6FF1D4;
-GLOBAL(gSero_181C_6FF1D4, 0x6FF1D4);
+DEFINE_GLOBAL(Sero_181C*, gSero_181C_6FF1D4, 0x6FF1D4);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)

@@ -374,4 +374,4 @@ class sound_obj
     EXPORT void sub_426E10(s32 arg0, u32 a2);
 };
 
-EXPORT_VAR extern sound_obj gSound_obj_66F680;
+EXTERN_GLOBAL(sound_obj, gSound_obj_66F680);

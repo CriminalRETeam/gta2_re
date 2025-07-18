@@ -33,117 +33,44 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 void Start_GTA2Manager_5E4DE0();
 
-EXPORT_VAR Frontend* gFrontend_67DC84;
-GLOBAL(gFrontend_67DC84, 0x67DC84);
-
-EXPORT_VAR u32 counter_706C4C;
-GLOBAL(counter_706C4C, 0x706C4C);
-
-EXPORT_VAR s32 dword_67D930;
-GLOBAL(dword_67D930, 0x67D930);
-
+DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
+DEFINE_GLOBAL(u32, counter_706C4C, 0x706C4C);
+DEFINE_GLOBAL(s32, dword_67D930, 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
-
-EXPORT_VAR extern wchar_t word_67DC8C[50];
-
-EXPORT_VAR DWORD dword_67D9FC;
-GLOBAL(dword_67D9FC, 0x67D9FC);
-
-EXPORT_VAR short font_type_703C14;
-GLOBAL(font_type_703C14, 0x703C14);
-
-EXPORT_VAR s16 word_703C3C;
-GLOBAL(word_703C3C, 0x703C3C);
-
-EXPORT_VAR s16 word_703D0C;
-GLOBAL(word_703D0C, 0x703D0C);
-
-EXPORT_VAR s16 word_703C16;
-GLOBAL(word_703C16, 0x703C16);
-
-EXPORT_VAR s16 word_703C8C;
-GLOBAL(word_703C8C, 0x703C8C);
-
-EXPORT_VAR s16 word_703C8A;
-GLOBAL(word_703C8A, 0x703C8A);
-
-EXPORT_VAR s16 word_703BE2;
-GLOBAL(word_703BE2, 0x703BE2);
-
-EXPORT_VAR s16 word_703B88;
-GLOBAL(word_703B88, 0x703B88);
-
-EXPORT_VAR s16 word_703DAC;
-GLOBAL(word_703DAC, 0x703DAC);
-
-EXPORT_VAR s16 word_703B9C;
-GLOBAL(word_703B9C, 0x703B9C);
-
-EXPORT_VAR wchar_t tmpBuff_67BD9C[640];
-GLOBAL(tmpBuff_67BD9C, 0x67BD9C);
-
-EXPORT_VAR BYTE byte_67DA80;
-GLOBAL(byte_67DA80, 0x67DA80);
-
-EXPORT_VAR char_type byte_67DC88[4]; // todo: prob bigger
-GLOBAL(byte_67DC88, 0x67DC88);
-
-EXPORT_VAR wchar_t word_67C7D8[640];
-GLOBAL(word_67C7D8, 0x67C7D8);
-
-EXPORT_VAR bool gCheatOnlyMuggerPeds_67D5A4;
-GLOBAL(gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
-
-EXPORT_VAR bool gCheatUnlimitedElectroGun_67D4F7;
-GLOBAL(gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
-
-EXPORT_VAR bool gCheatAllGangMaxRespect_67D587;
-GLOBAL(gCheatAllGangMaxRespect_67D587, 0x67D587);
-
-EXPORT_VAR bool gCheatOnlyElvisPeds_67D4ED;
-GLOBAL(gCheatOnlyElvisPeds_67D4ED, 0x67D4ED);
-
-EXPORT_VAR bool gCheatNakedPeds_67D5E8;
-GLOBAL(gCheatNakedPeds_67D5E8, 0x67D5E8);
-
-EXPORT_VAR bool gCheatGetBasicWeaponsMaxAmmo_67D545;
-GLOBAL(gCheatGetBasicWeaponsMaxAmmo_67D545, 0x67D545);
-
-EXPORT_VAR bool gCheatGet99Lives_67D4F1;
-GLOBAL(gCheatGet99Lives_67D4F1, 0x67D4F1);
-
-EXPORT_VAR bool gCheatGetPlayerPoints_67D4C8;
-GLOBAL(gCheatGetPlayerPoints_67D4C8, 0x67D4C8);
-
-EXPORT_VAR bool gCheatUnlimitedFlameThrower_67D6CC;
-GLOBAL(gCheatUnlimitedFlameThrower_67D6CC, 0x67D6CC);
-
-EXPORT_VAR bool gCheatUnknown_67D4F6;
-GLOBAL(gCheatUnknown_67D4F6, 0x67D4F6);
-
-EXPORT_VAR bool gCheatGet10MillionMoney_67D6CE;
-GLOBAL(gCheatGet10MillionMoney_67D6CE, 0x67D6CE);
-
-EXPORT_VAR bool gCheat10xMultiplier_67D589;
-GLOBAL(gCheat10xMultiplier_67D589, 0x67D589);
-
-EXPORT_VAR bool gCheatUnlockThreeLevels_67D6CB;
-GLOBAL(gCheatUnlockThreeLevels_67D6CB, 0x67D6CB);
-
-EXPORT_VAR bool gCheatUnlockLevelsOneAndTwo_67D584;
-GLOBAL(gCheatUnlockLevelsOneAndTwo_67D584, 0x67D584);
-
-EXPORT_VAR bool gCheatUnlockAllLevels_67D538;
-GLOBAL(gCheatUnlockAllLevels_67D538, 0x67D538);
-
-EXPORT_VAR bool gCheatUnlimitedDoubleDamage_67D57C;
-GLOBAL(gCheatUnlimitedDoubleDamage_67D57C, 0x67D57C);
-
-EXPORT_VAR bool gCheatInvisibility_67D539;
-GLOBAL(gCheatInvisibility_67D539, 0x67D539);
-
-EXPORT_VAR bool gCheatMiniCars_67D6C8;
-GLOBAL(gCheatMiniCars_67D6C8, 0x67D6C8);
+DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32, 0x67DC8C); // 67DCCC
+DEFINE_GLOBAL(DWORD, dword_67D9FC, 0x67D9FC);
+DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
+DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
+DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
+DEFINE_GLOBAL(s16, word_703C16, 0x703C16);
+DEFINE_GLOBAL(s16, word_703C8C, 0x703C8C);
+DEFINE_GLOBAL(s16, word_703C8A, 0x703C8A);
+DEFINE_GLOBAL(s16, word_703BE2, 0x703BE2);
+DEFINE_GLOBAL(s16, word_703B88, 0x703B88);
+DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
+DEFINE_GLOBAL(s16, word_703B9C, 0x703B9C);
+DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
+DEFINE_GLOBAL(BYTE, byte_67DA80, 0x67DA80);
+DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4, 0x67DC88); // todo: prob, bigger, 0xUNKNOWN);
+DEFINE_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640, 0x67C7D8);
+DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
+DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
+DEFINE_GLOBAL(bool, gCheatAllGangMaxRespect_67D587, 0x67D587);
+DEFINE_GLOBAL(bool, gCheatOnlyElvisPeds_67D4ED, 0x67D4ED);
+DEFINE_GLOBAL(bool, gCheatNakedPeds_67D5E8, 0x67D5E8);
+DEFINE_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545, 0x67D545);
+DEFINE_GLOBAL(bool, gCheatGet99Lives_67D4F1, 0x67D4F1);
+DEFINE_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8, 0x67D4C8);
+DEFINE_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC, 0x67D6CC);
+DEFINE_GLOBAL(bool, gCheatUnknown_67D4F6, 0x67D4F6);
+DEFINE_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE, 0x67D6CE);
+DEFINE_GLOBAL(bool, gCheat10xMultiplier_67D589, 0x67D589);
+DEFINE_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB, 0x67D6CB);
+DEFINE_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo_67D584, 0x67D584);
+DEFINE_GLOBAL(bool, gCheatUnlockAllLevels_67D538, 0x67D538);
+DEFINE_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C, 0x67D57C);
+DEFINE_GLOBAL(bool, gCheatInvisibility_67D539, 0x67D539);
+DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
@@ -284,14 +211,12 @@ DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, s
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
 
-EXPORT_VAR DWORD dword_70675C;
-GLOBAL(dword_70675C, 0x70675C);
+DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
+DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
 
-EXPORT_VAR DWORD dword_70679C;
-GLOBAL(dword_70679C, 0x70679C);
+EXTERN_GLOBAL(s32, window_width_706630);
 
-EXPORT_VAR extern s32 window_width_706630;
-EXPORT_VAR extern s32 window_height_706B50;
+EXTERN_GLOBAL(s32, window_height_706B50);
 
 struct TgaInfo
 {
@@ -300,50 +225,64 @@ struct TgaInfo
     s32 field_84_img;
 };
 
-#if defined(EXPORT_VARS) || defined(IMPORT_VARS)
-EXPORT_VAR TgaInfo tgaArray_61F0C8[25];
-GLOBAL(tgaArray_61F0C8, 0x61F0C8);
-#else
-TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0},
-                               {"data\\frontend\\1_Options.tga", 266924, 0},
-                               {"data\\frontend\\1_Play.tga", 266924, 0},
-                               {"data\\frontend\\1_Quit.tga", 266924, 0},
-                               {"data\\frontend\\2.tga", 347564, 0},
-                               {"data\\frontend\\2_Bonus1.tga", 266924, 0},
-                               {"data\\frontend\\2_Bonus2.tga", 266924, 0},
-                               {"data\\frontend\\2_Bonus3.tga", 266924, 0},
-                               {"data\\frontend\\2_League.tga", 266924, 0},
-                               {"data\\frontend\\2_Level1.tga", 266924, 0},
-                               {"data\\frontend\\2_Level2.tga", 266924, 0},
-                               {"data\\frontend\\2_Level3.tga", 266924, 0},
-                               {"data\\frontend\\2_Name.tga", 266924, 0},
-                               {"data\\frontend\\2_Restart.tga", 266924, 0},
-                               {"data\\frontend\\3.tga", 347564, 0},
-                               {"data\\frontend\\3_Tables.tga", 614444, 0},
-                               {"data\\frontend\\GameComplete.tga", 614444, 0},
-                               {"data\\frontend\\LevelComplete.tga", 614444, 0},
-                               {"data\\frontend\\MPLose.tga", 614444, 0},
-                               {"data\\frontend\\PlayerDead.tga", 614444, 0},
-                               {"data\\frontend\\Mask.tga", 104300, 0},
-                               {"data\\frontend\\Mask2.tga", 53594, 0},
-                               {"data\\frontend\\Credits.tga", 614444, 0},
-                               {"data\\frontend\\Mask3.tga", 130427, 0},
-                               {"data\\frontend\\DemoInfo.tga", 614939, 0}};
-#endif
+/*
+TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\frontend\\1_Options.tga", 266924, 0},
+        {"data\\frontend\\1_Play.tga", 266924, 0}, {"data\\frontend\\1_Quit.tga", 266924, 0}, {"data\\frontend\\2.tga", 347564, 0},
+        {"data\\frontend\\2_Bonus1.tga", 266924, 0}, {"data\\frontend\\2_Bonus2.tga", 266924, 0},
+        {"data\\frontend\\2_Bonus3.tga", 266924, 0}, {"data\\frontend\\2_League.tga", 266924, 0},
+        {"data\\frontend\\2_Level1.tga", 266924, 0}, {"data\\frontend\\2_Level2.tga", 266924, 0},
+        {"data\\frontend\\2_Level3.tga", 266924, 0}, {"data\\frontend\\2_Name.tga", 266924, 0},
+        {"data\\frontend\\2_Restart.tga", 266924, 0}, {"data\\frontend\\3.tga", 347564, 0}, {"data\\frontend\\3_Tables.tga", 614444, 0},
+        {"data\\frontend\\GameComplete.tga", 614444, 0}, {"data\\frontend\\LevelComplete.tga", 614444, 0},
+        {"data\\frontend\\MPLose.tga", 614444, 0}, {"data\\frontend\\PlayerDead.tga", 614444, 0}, {"data\\frontend\\Mask.tga", 104300, 0},
+        {"data\\frontend\\Mask2.tga ", 53594, 0}, {"data\\frontend\\Credits.tga", 614444, 0}, {"data\\frontend\\Mask3.tga", 130427, 0},
+        {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
+*/
+
+
+
+DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
+                         tgaArray_61F0C8,
+                         25,
+                         0x61F0C8,
+                         {"data\\frontend\\1.tga", 347564, 0},
+                         {"data\\frontend\\1_Options.tga", 266924, 0},
+                         {"data\\frontend\\1_Play.tga", 266924, 0},
+                         {"data\\frontend\\1_Quit.tga", 266924, 0},
+                         {"data\\frontend\\2.tga", 347564, 0},
+                         {"data\\frontend\\2_Bonus1.tga", 266924, 0},
+                         {"data\\frontend\\2_Bonus2.tga", 266924, 0},
+                         {"data\\frontend\\2_Bonus3.tga", 266924, 0},
+                         {"data\\frontend\\2_League.tga", 266924, 0},
+                         {"data\\frontend\\2_Level1.tga", 266924, 0},
+                         {"data\\frontend\\2_Level2.tga", 266924, 0},
+                         {"data\\frontend\\2_Level3.tga", 266924, 0},
+                         {"data\\frontend\\2_Name.tga", 266924, 0},
+                         {"data\\frontend\\2_Restart.tga", 266924, 0},
+                         {"data\\frontend\\3.tga", 347564, 0},
+                         {"data\\frontend\\3_Tables.tga", 614444, 0},
+                         {"data\\frontend\\GameComplete.tga", 614444, 0},
+                         {"data\\frontend\\LevelComplete.tga", 614444, 0},
+                         {"data\\frontend\\MPLose.tga", 614444, 0},
+                         {"data\\frontend\\PlayerDead.tga", 614444, 0},
+                         {"data\\frontend\\Mask.tga", 104300, 0},
+                         {"data\\frontend\\Mask2.tga", 53594, 0},
+                         {"data\\frontend\\Credits.tga", 614444, 0},
+                         {"data\\frontend\\Mask3.tga", 130427, 0},
+                         {"data\\frontend\\DemoInfo.tga", 614939, 0});
+
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     NOT_IMPLEMENTED;
     // todo
+
     return 0;
 }
 
-EXPORT_VAR infallible_turing snd1_67D818;
-GLOBAL(snd1_67D818, 0x67D818);
-
-EXPORT_VAR infallible_turing snd2_67D6F8;
-GLOBAL(snd2_67D6F8, 0x67D6F8);
+DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
+DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
 void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
@@ -1090,8 +1029,9 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
 }
 
 // todo: add to header
-EXPORT_VAR extern s32 gGTA2VersionMajor_708280;
-EXPORT_VAR extern s32 gGTA2VersionMajor_708284;
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
+
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
 STUB_FUNC(0x4AD140)
@@ -4319,7 +4259,7 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
     return result;
 }
 
-EXPORT_VAR extern bool bDoFrontEnd_626B68;
+EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
 MATCH_FUNC(0x5E53C0)
 void __stdcall Frontend::sub_5E53C0(BYTE* a1)
@@ -5103,10 +5043,8 @@ struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 {
     Vert field_0_verts[4];
 };
-EXPORT_VAR QuadVerts gQuadVerts_706B88;
-GLOBAL(gQuadVerts_706B88, 0x706B88);
-
-EXPORT_VAR extern u32 gLightingDrawFlag_7068F4;
+DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
+EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
 MATCH_FUNC(0x5D83E0);
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
@@ -5132,8 +5070,7 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
     }
 }
 
-EXPORT_VAR Fix16 dword_706A6C;
-GLOBAL(dword_706A6C, 0x706A6C);
+DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,

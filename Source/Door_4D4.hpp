@@ -113,4 +113,4 @@ class Door_4D4
     s16 field_4D2;
 };
 
-EXPORT_VAR extern Door_4D4* gDoor_4D4_67BD2C;
+EXTERN_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C);

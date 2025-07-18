@@ -1,10 +1,31 @@
 #include "types.hpp"
+
+#if defined(__clang__) || (_MSC_VER <= 1200)
+#define _Lockit MyStubLockit
+#endif
+
 #include <fstream>
 #include <sstream>
 #include <stdio.h>
 #include <string>
 #include <vector>
 #include <windows.h>
+
+
+#if defined(__clang__)
+namespace std
+{
+    MyStubLockit::MyStubLockit()
+    {
+
+    }
+
+    MyStubLockit::~MyStubLockit()
+    {
+
+    }
+} // namespace std
+#endif
 
 void __declspec(naked) WinMain_Hooked_Start()
 {
@@ -114,7 +135,6 @@ static const u32 kJmpOpCodeLen = 5;
 static const u32 kJmpOpCode = 0xE9;
 static const u32 kOgWinMainVA = 0x5E53F0;
 static const u32 kOgWinMainFA = 0x1E53F0;
-
 
 static void WinMainFwdJmpHookFunc(std::vector<u8>& exeData, u32 destinationFunctionVA, u32 sourceFunctionOffset)
 {

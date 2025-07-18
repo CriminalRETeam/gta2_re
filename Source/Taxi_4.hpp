@@ -75,4 +75,4 @@ class Taxi_4
     Taxi_8* field_0;
 };
 
-extern EXPORT_VAR Taxi_4* gTaxi_4_704130;
+EXTERN_GLOBAL(Taxi_4*, gTaxi_4_704130);

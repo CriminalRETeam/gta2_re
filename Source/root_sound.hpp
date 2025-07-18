@@ -83,4 +83,4 @@ class root_sound
     EXPORT ~root_sound();
 };
 
-EXPORT_VAR extern root_sound gRoot_sound_66B038;
+EXTERN_GLOBAL(root_sound, gRoot_sound_66B038);

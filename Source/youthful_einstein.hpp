@@ -19,4 +19,4 @@ class youthful_einstein
     u8 field_20[6];
 };
 
-EXPORT_VAR extern youthful_einstein gYouthful_einstein_6F8450;
+EXTERN_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450);

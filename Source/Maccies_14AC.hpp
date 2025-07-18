@@ -47,4 +47,4 @@ class Maccies_14AC
     char_type field_14AB;
 };
 
-EXPORT_VAR extern Maccies_14AC* gMaccies_14AC_67E5D0;
+EXTERN_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0);

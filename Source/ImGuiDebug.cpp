@@ -22,10 +22,10 @@
 #include "gtx_0x106C.hpp"
 #include <stdarg.h>
 
-extern EXPORT_VAR Ambulance_110* gAmbulance_110_6F70A8;
-extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
-extern EXPORT_VAR Tango_54* gTango_54_67D4C0;
-extern EXPORT_VAR Orca_2FD4* gOrca_2FD4_6FDEF0;
+EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
+EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
+EXTERN_GLOBAL(Tango_54*, gTango_54_67D4C0);
+EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
@@ -105,7 +105,8 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 } // namespace ImGui
 
-EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
+EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
+
 
 void CC ImGuiDebugDraw()
 {

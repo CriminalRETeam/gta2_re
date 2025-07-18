@@ -4,7 +4,8 @@
 #include <windows.h>
 
 // TODO
-EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+
 
 MATCH_FUNC(0x5BEC30)
 void sharp_bose_0x54::ShowFps_5BEC30()

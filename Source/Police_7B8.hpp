@@ -67,4 +67,4 @@ class Police_7B8
     char_type field_7B7;
 };
 
-EXPORT_VAR extern class Police_7B8* gPolice_7B8_6FEE40;
+EXTERN_GLOBAL(class Police_7B8*, gPolice_7B8_6FEE40);

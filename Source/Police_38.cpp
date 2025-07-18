@@ -7,14 +7,9 @@
 #include "Game_0x40.hpp"
 #include "Player.hpp"
 
-EXPORT_VAR s32 dword_6FECE8;
-GLOBAL(dword_6FECE8, 0x6FECE8);
-
-EXPORT_VAR Fix16 dword_6FED54;
-GLOBAL(dword_6FED54, 0x6FED54);
-
-EXPORT_VAR Ped* pPed_6FEDDC;
-GLOBAL(pPed_6FEDDC, 0x6FEDDC);
+DEFINE_GLOBAL(s32, dword_6FECE8, 0x6FECE8);
+DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
+DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()

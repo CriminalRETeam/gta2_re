@@ -22,4 +22,4 @@ class Object_29178
     s16 field_29176;
 };
 
-EXPORT_VAR extern Object_29178* gObject_29178_6F8F80;
+EXTERN_GLOBAL(Object_29178*, gObject_29178_6F8F80);

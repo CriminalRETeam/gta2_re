@@ -6,14 +6,9 @@
 #include "sprite.hpp"
 
 // TODO: Init to correct values
-EXPORT_VAR Fix16 dword_6F8BF0;
-GLOBAL(dword_6F8BF0, 0x6F8BF0);
-
-EXPORT_VAR Ang16 word_6F8F68;
-GLOBAL(word_6F8F68, 0x6F8F68);
-
-EXPORT_VAR Object_3C stru_67727C;
-GLOBAL(stru_67727C, 0x67727C);
+DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
+DEFINE_GLOBAL(Ang16, word_6F8F68, 0x6F8F68);
+DEFINE_GLOBAL(Object_3C, stru_67727C, 0x67727C);
 
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()

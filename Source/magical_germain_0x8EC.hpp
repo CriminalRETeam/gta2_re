@@ -64,4 +64,4 @@ class magical_germain_0x8EC
     EXPORT ~magical_germain_0x8EC();
 };
 
-EXPORT_VAR extern magical_germain_0x8EC* gMagical_germain_0x8EC_6F5168;
+EXTERN_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168);

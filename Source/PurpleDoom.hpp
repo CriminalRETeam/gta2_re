@@ -51,8 +51,12 @@ class PurpleDoom
     PurpleDoom_C* field_0[256]; // y cols with links to x rows, x is sparse to save mem? (whole map is 256x265)
 };
 
-EXPORT_VAR extern PurpleDoom* gPurpleDoom_1_679208;
-EXPORT_VAR extern PurpleDoom* gPurpleDoom_2_67920C;
-EXPORT_VAR extern PurpleDoom* gPurpleDoom_3_679210;
-EXPORT_VAR extern s32 gPurple_top_6F6108;
-EXPORT_VAR extern s32 gPurple_bottom_6F5F38;
+EXTERN_GLOBAL(PurpleDoom*, gPurpleDoom_1_679208);
+
+EXTERN_GLOBAL(PurpleDoom*, gPurpleDoom_2_67920C);
+
+EXTERN_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210);
+
+EXTERN_GLOBAL(s32, gPurple_top_6F6108);
+
+EXTERN_GLOBAL(s32, gPurple_bottom_6F5F38);

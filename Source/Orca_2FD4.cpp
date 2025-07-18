@@ -3,8 +3,7 @@
 #include "map_0x370.hpp"
 #include <string.h>
 
-EXPORT_VAR u8 byte_6FDEEC;
-GLOBAL(byte_6FDEEC, 0x6FDEEC);
+DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
 
 MATCH_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)

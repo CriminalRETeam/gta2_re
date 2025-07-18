@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Globals.hpp"
 #include "types.hpp"
 
 #if _MSC_VER > 1200
@@ -27,31 +28,71 @@
         #define EXPORT
     #endif
 
-    #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
-        #if defined(EXPORT_VARS)
-            #define EXPORT_VAR __declspec(dllexport)
-        #elif defined(IMPORT_VARS)
-            #define EXPORT_VAR __declspec(dllimport)
-        #endif
-    #else
-        #define EXPORT_VAR
+    #if defined(EXPORT_VARS) && defined(IMPORT_VARS)
+        #error "EXPORT_VARS and IMPORT_VARS should not be defined together!"
     #endif
 
-    #if _MSC_VER > 1200
-        #define NOT_IMPLEMENTED                               \
-            static bool done___ = false;                      \
-            if (!done___)                                     \
-            {                                                 \
-                done___ = true;                               \
-                printf("NOT IMPLEMENTED %s\n", __FUNCTION__); \
-            }
+    #if defined(EXPORT_VARS) || defined(IMPORT_VARS)
+        #if defined(EXPORT_VARS)
+            #define DEFINE_GLOBAL(type, name, addr) \
+                __declspec(dllexport) type name;    \
+                GLOBAL(name, addr)
+
+            #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
+                __declspec(dllexport) type name = value;        \
+                GLOBAL(name, addr)
+
+            #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) \
+                __declspec(dllexport) type name[size];          \
+                GLOBAL(name, addr)
+
+            #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) \
+                __declspec(dllexport) type name[size] = {__VA_ARGS__};    \
+                GLOBAL(name, addr)
+
+            #define EXTERN_GLOBAL(type, name) __declspec(dllexport) extern type name
+            #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllexport) extern type name[size]
+
+        #elif defined(IMPORT_VARS)
+            // define
+            #define DEFINE_GLOBAL(type, name, addr) __declspec(dllimport) type name
+            #define DEFINE_GLOBAL_INIT(type, name, value, addr) __declspec(dllimport) type name;
+
+            #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) __declspec(dllimport) type name[size]
+            #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) __declspec(dllimport) type name[size];
+            // extern
+            #define EXTERN_GLOBAL(type, name) __declspec(dllimport) extern type name
+            #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllimport) extern type name[size]
+        #endif
     #else
+        // Static build
+        #define DEFINE_GLOBAL(type, name, addr) \
+            type name;                          \
+            GLOBAL(name, addr)
+
+        #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
+            type name = value;                              \
+            GLOBAL(name, addr)
+
+        #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) \
+            type name[size];                                \
+            GLOBAL(name, addr)
+
+        #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) \
+            type name[size] = {__VA_ARGS__};                          \
+            GLOBAL(name, addr)
+
+        #define EXTERN_GLOBAL(type, name) extern type name
+        #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
+    #endif
+
+    #if defined(__clang__) || (_MSC_VER <= 1200)
 void __stdcall LogNotImplemented(u32 codeAddr);
 
-        // Call the lable next: to get the ip
         #define GET_IP(var)   \
             __asm call $ + 5; \
             __asm pop var;
+
         #define NOT_IMPLEMENTED                                                                                                       \
             do                                                                                                                        \
             {                                                                                                                         \
@@ -64,23 +105,40 @@ void __stdcall LogNotImplemented(u32 codeAddr);
                     logged = true;                                                                                                    \
                 }                                                                                                                     \
             } while (0)
+    #else
+        #define NOT_IMPLEMENTED                               \
+            static bool done___ = false;                      \
+            if (!done___)                                     \
+            {                                                 \
+                done___ = true;                               \
+                printf("NOT IMPLEMENTED %s\n", __FUNCTION__); \
+            }
     #endif
+
 #else
     #define MATCH_FUNC(addr)
     #define STUB_FUNC(addr)
     #define EXPORT
-    #define EXPORT_VAR
     #define NOT_IMPLEMENTED
     #define __stdcall
+
+    #define DEFINE_GLOBAL(type, name, addr) type name
+    #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
+
+    #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
+//#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...)  type name[size] = { __VA_ARGS__ }
+
+    #define EXTERN_GLOBAL(type, name) extern type name
+    #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
 #endif
 
 #if defined(_MSC_VER)
-    #if _MSC_VER > 1200
-        #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
-            static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize);
-    #else
+    #if defined(__clang__) || (_MSC_VER <= 1200)
         #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
             typedef int static_assert_##structureName[sizeof(structureName) == expectedSize ? 1 : -1];
+    #else
+        #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \
+            static_assert(sizeof(structureName) == expectedSize, "sizeof(" #structureName ") must be " #expectedSize);
     #endif
 #else
     #define GTA2_ASSERT_SIZEOF_ALWAYS(structureName, expectedSize) \

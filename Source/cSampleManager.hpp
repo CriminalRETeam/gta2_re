@@ -182,4 +182,4 @@ class cSampleManager
     char_type field_2717_pad;
 };
 
-EXPORT_VAR extern cSampleManager gSampManager_6FFF00;
+EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);

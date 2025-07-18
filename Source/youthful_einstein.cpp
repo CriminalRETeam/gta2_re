@@ -6,8 +6,7 @@
 #include "lucid_hamilton.hpp"
 #include <string>
 
-EXPORT_VAR youthful_einstein gYouthful_einstein_6F8450;
-GLOBAL(gYouthful_einstein_6F8450, 0x6F8450);
+DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
 
 MATCH_FUNC(0x516560)
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor

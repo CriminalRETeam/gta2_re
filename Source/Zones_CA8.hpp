@@ -140,4 +140,4 @@ class Zones_CA8
     Gang_144 field_0[10];
 };
 
-EXPORT_VAR extern Zones_CA8* gZones_CA8_67E274;
+EXTERN_GLOBAL(Zones_CA8*, gZones_CA8_67E274);

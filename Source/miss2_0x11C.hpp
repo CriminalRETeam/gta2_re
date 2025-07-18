@@ -548,8 +548,8 @@ enum
 };
 } // namespace SCR_BONUSES
 
-EXPORT_VAR extern Fix16 dword_6F77C0;
-EXPORT_VAR extern Fix16 dword_6F77C4;
+EXTERN_GLOBAL(Fix16, dword_6F77C0);
+EXTERN_GLOBAL(Fix16, dword_6F77C4);
 
 class miss2_0x11C
 {
@@ -859,4 +859,5 @@ class Miss2_8EC
     s16 field_8E8;
     s16 field_8EA;
 };
-EXPORT_VAR extern Miss2_8EC* gMiss2_8EC_6F8064;
+
+EXTERN_GLOBAL(Miss2_8EC*, gMiss2_8EC_6F8064);

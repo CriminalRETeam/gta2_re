@@ -2,11 +2,8 @@
 #include "Globals.hpp"
 #include "text_0x14.hpp"
 
-EXPORT_VAR UINT_PTR gTimerId_6F8A18;
-GLOBAL(gTimerId_6F8A18, 0x6F8A18);
-
-EXPORT_VAR char_type Dest_6F88A4[256];
-GLOBAL(Dest_6F88A4, 0x6F88A4);
+DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
+DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
 
 STUB_FUNC(0x519960)
 u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)

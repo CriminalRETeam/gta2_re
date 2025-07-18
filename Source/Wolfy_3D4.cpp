@@ -1,14 +1,9 @@
 #include "Wolfy_3D4.hpp"
 #include "Globals.hpp"
 
-EXPORT_VAR s16 gParticleInstCount_6FD5F4;
-GLOBAL(gParticleInstCount_6FD5F4, 0x6FD5F4);
-
-EXPORT_VAR s32 dword_6FD49C;
-GLOBAL(dword_6FD49C, 0x6FD49C);
-
-EXPORT_VAR s16 word_6FD5D4;
-GLOBAL(word_6FD5D4, 0x6FD5D4);
+DEFINE_GLOBAL(s16, gParticleInstCount_6FD5F4, 0x6FD5F4);
+DEFINE_GLOBAL(s32, dword_6FD49C, 0x6FD49C);
+DEFINE_GLOBAL(s16, word_6FD5D4, 0x6FD5D4);
 
 STUB_FUNC(0x543690)
 s32 Wolfy_7A8::sub_543690()

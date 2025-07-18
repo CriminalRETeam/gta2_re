@@ -217,8 +217,12 @@ class Sprite_49B28
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
 
-EXPORT_VAR extern Sprite_8* gSprite_8_703820;
-EXPORT_VAR extern Sprite_49B28* gSprite_49B28_703818;
-EXPORT_VAR extern Sprite_5D598* gSprite_5D598_70381C;
-EXPORT_VAR extern Sprite_3CC* gSprite_3CC_67AF1C;
-EXPORT_VAR extern Sprite_1C24* gSprite_1C24_703B80;
+EXTERN_GLOBAL(Sprite_8*, gSprite_8_703820);
+
+EXTERN_GLOBAL(Sprite_49B28*, gSprite_49B28_703818);
+
+EXTERN_GLOBAL(Sprite_5D598*, gSprite_5D598_70381C);
+
+EXTERN_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C);
+
+EXTERN_GLOBAL(Sprite_1C24*, gSprite_1C24_703B80);

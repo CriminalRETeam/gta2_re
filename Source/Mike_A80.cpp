@@ -1,8 +1,7 @@
 #include "Mike_A80.hpp"
 #include "Globals.hpp"
 
-EXPORT_VAR Mike_A80* gMike_A80_6F7328;
-GLOBAL(gMike_A80_6F7328, 0x6F7328);
+DEFINE_GLOBAL(Mike_A80*, gMike_A80_6F7328, 0x6F7328);
 
 MATCH_FUNC(0x4ff1b0)
 void Mike_A80::sub_4FF1B0()

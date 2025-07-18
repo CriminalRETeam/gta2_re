@@ -68,4 +68,4 @@ class Object_3C
     char_type field_3B;
 };
 
-EXPORT_VAR extern Object_3C stru_67727C;
+EXTERN_GLOBAL(Object_3C, stru_67727C);

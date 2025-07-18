@@ -5,11 +5,9 @@
 #include "Player.hpp"
 #include "registry.hpp"
 
-EXPORT_VAR lucid_hamilton gLucid_hamilton_67E8E0;
-GLOBAL(gLucid_hamilton_67E8E0, 0x67E8E0);
-
-EXPORT_VAR extern char_type byte_67DC88[4]; // TODO
-EXPORT_VAR extern wchar_t word_67DC8C[1]; // TODO
+DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0, 0x67E8E0);
+EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4); //, TODO, 0xUNKNOWN);
+EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 MATCH_FUNC(0x4C53D0)
 void lucid_hamilton::sub_4C53D0()

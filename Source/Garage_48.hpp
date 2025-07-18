@@ -52,4 +52,4 @@ class Garage_48
     s32 field_44;
 };
 
-EXPORT_VAR extern Garage_48* gGarage_48_6FD26C;
+EXTERN_GLOBAL(Garage_48*, gGarage_48_6FD26C);
