@@ -16,7 +16,9 @@ BUILD_FOLDER_NAME = "build_vc6"
 BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
-CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release {args.extra_cmake_flags} .. -G\"NMake Makefiles JOM\""
+#CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release {args.extra_cmake_flags} .. -G\"NMake Makefiles JOM\""
+CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
+
 CMAKE_BUILD_CMD = "cmake --build . --target all" #  -- -j 1
 
 BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
