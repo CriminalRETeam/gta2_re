@@ -107,6 +107,9 @@ jobs:
         source venv/bin/activate
         pip install -r requirements.txt
         python3 vc6_setup.py
+        which clang-cl
+        clang-cl --version
+        wine clang-cl.exe --version
         python3 build.py --extra-cmake-flags="-DUSE_VC6_CI_WORKAROUND=ON"
 
     - name: Upload full build_vc6 directory on failure
