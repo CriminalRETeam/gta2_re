@@ -82,7 +82,7 @@ class CompileErrorCollection:
 
 
 def main():
-     parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser()
     parser.add_argument('--extra-cmake-flags', default="", help="Additional flags to pass to CMake")
     parser.add_argument("--run_standalone", help="Run the standalone gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
