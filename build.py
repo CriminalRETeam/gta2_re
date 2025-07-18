@@ -17,7 +17,7 @@ BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
 CMAKE_GENERATE_JOM_CMD = "cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
-CMAKE_BUILD_CMD = "cmake --build . --target all" #  -- -j 1
+CMAKE_BUILD_CMD = "cmake --build . --target ExePatcher" #  -- -j 1
 
 BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
               CMAKE_BUILD_CMD]
