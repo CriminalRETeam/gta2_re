@@ -11,7 +11,8 @@
 #include <vector>
 #include <windows.h>
 
-#if defined(__clang__) || (_MSC_VER <= 1200)
+
+#if defined(__clang__)
 namespace std
 {
     MyStubLockit::MyStubLockit()

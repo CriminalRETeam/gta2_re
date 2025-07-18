@@ -1,3 +1,7 @@
+#if defined(__clang__) || (_MSC_VER <= 1200)
+#define _Lockit MyStubLockit
+#endif
+
 #include <algorithm>
 #include <direct.h>
 #include <fstream>
@@ -6,6 +10,21 @@
 #include <string>
 #include <vector>
 #include <windows.h>
+
+#if defined(__clang__)
+namespace std
+{
+    MyStubLockit::MyStubLockit()
+    {
+
+    }
+
+    MyStubLockit::~MyStubLockit()
+    {
+
+    }
+} // namespace std
+#endif
 
 #define DEBUG_ENABLED
 
