@@ -6,8 +6,7 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-EXPORT_VAR s32 dword_6F6DD4;
-GLOBAL(dword_6F6DD4, 0x6F6DD4);
+DEFINE_GLOBAL(s32, dword_6F6DD4, 0x6F6DD4);
 
 MATCH_FUNC(0x4beab0)
 Ambulance_20::Ambulance_20()

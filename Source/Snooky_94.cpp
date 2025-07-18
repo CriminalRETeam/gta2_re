@@ -6,8 +6,7 @@
 #include "root_sound.hpp"
 #include <stdio.h>
 
-EXPORT_VAR Snooky_94* gSnooky_94_67A830;
-GLOBAL(gSnooky_94_67A830, 0x67A830);
+DEFINE_GLOBAL(Snooky_94*, gSnooky_94_67A830, 0x67A830);
 
 MATCH_FUNC(0x4882d0)
 Crusher_30::Crusher_30()

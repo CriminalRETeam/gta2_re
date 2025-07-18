@@ -26,4 +26,4 @@ class sharp_bose_0x54
     distracted_einstein_0xC field_48;
 };
 
-extern EXPORT_VAR sharp_bose_0x54* gsharp_bose_0x54_7055D4;
+EXTERN_GLOBAL(sharp_bose_0x54*, gsharp_bose_0x54_7055D4);

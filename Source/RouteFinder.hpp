@@ -106,4 +106,4 @@ class RouteFinder
     u16 field_CC66_545_count;
 };
 
-EXPORT_VAR extern RouteFinder* gRouteFinder_6FFDC8;
+EXTERN_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8);

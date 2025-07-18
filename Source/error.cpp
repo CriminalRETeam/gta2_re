@@ -6,11 +6,8 @@
 #include <stdio.h>
 #include <windows.h>
 
-EXPORT_VAR char_type bDestroyed_6F5B70;
-GLOBAL(bDestroyed_6F5B70, 0x6F5B70);
-
-EXPORT_VAR HWND gHwnd_707F04;
-GLOBAL(gHwnd_707F04, 0x707F04);
+DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
+DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
 STUB_FUNC(0x4D9620)
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
@@ -18,24 +15,14 @@ ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
     NOT_IMPLEMENTED;
     return *this;
 }
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
 
-EXPORT_VAR ErrorLog gErrorLog_67C530;
-GLOBAL(gErrorLog_67C530, 0x67C530);
+DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
+DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
+DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256, 0x67C3A8);
+DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
 
-EXPORT_VAR ErrorLog gErrorLog_67CF58;
-GLOBAL(gErrorLog_67CF58, 0x67CF58);
-
-EXPORT_VAR char_type gTmpBuffer_67C598[256]; // TODO: Check
-GLOBAL(gTmpBuffer_67C598, 0x67C598);
-
-EXPORT_VAR char_type gErrStr_67C29C[256];
-GLOBAL(gErrStr_67C29C, 0x67C29C);
-
-EXPORT_VAR char_type byte_67C3A8[256];
-GLOBAL(byte_67C3A8, 0x67C3A8);
-
-EXPORT_VAR char_type gGlobalFileName_67C6AC[256];
-GLOBAL(gGlobalFileName_67C6AC, 0x67C6AC);
 
 const char_type* gListTypes_61AB70[30] = {"objects",
                                           "corner_space",

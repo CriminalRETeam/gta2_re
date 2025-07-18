@@ -29,6 +29,7 @@ set(CompilerFlags
 if (${MSVC_VERSION} EQUAL 1200)
     foreach(CompilerFlag ${CompilerFlags})
       string(REPLACE "/MD" "/ML /W3 /GX" ${CompilerFlag} "${${CompilerFlag}}")
+      set(${flag} "${${flag}}" CACHE STRING "Force /ML for VC6" FORCE)
     endforeach()
 
     foreach(CompilerFlag ${CompilerFlags})
@@ -42,6 +43,10 @@ if (${MSVC_VERSION} EQUAL 1200)
     foreach(CompilerFlag ${CompilerFlags})
       string(REPLACE "/GR" "/EHsc" ${CompilerFlag} "${${CompilerFlag}}")
     endforeach()
+
+    # Remove default CRT libs
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:libcmt.lib")
+
 endif()
 
 if (${MSVC_VERSION} GREATER 1200)

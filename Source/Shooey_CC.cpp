@@ -5,9 +5,8 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 
-EXPORT_VAR extern Fix16 dword_67A370;
-Fix16 dword_67A370(0);
-GLOBAL(dword_67A370, 0x67A370);
+//DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
+DEFINE_GLOBAL(Fix16, dword_67A370, 0x67A370);
 
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()
@@ -43,6 +42,7 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
         field_8_pos.z = pPed->get_cam_z();
     }
 }
+
 
 MATCH_FUNC(0x484d50)
 void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
@@ -123,6 +123,7 @@ Shooey_CC* Shooey_CC::ctor_484FC0()
     NOT_IMPLEMENTED;
     return 0;
 }
+
 
 STUB_FUNC(0x484fd0)
 void Shooey_CC::dtor_484FD0()

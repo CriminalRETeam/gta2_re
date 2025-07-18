@@ -8,39 +8,19 @@
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 
-EXPORT_VAR PurpleDoom* gPurpleDoom_1_679208;
-GLOBAL(gPurpleDoom_1_679208, 0x679208);
-
-EXPORT_VAR PurpleDoom* gPurpleDoom_2_67920C;
-GLOBAL(gPurpleDoom_2_67920C, 0x67920C);
-
-EXPORT_VAR PurpleDoom* gPurpleDoom_3_679210;
-GLOBAL(gPurpleDoom_3_679210, 0x679210);
-
-EXPORT_VAR s32 gPurple_bottom_6F5F38;
-GLOBAL(gPurple_bottom_6F5F38, 0x6F5F38);
-
-EXPORT_VAR s32 gPurple_top_6F6108;
-GLOBAL(gPurple_top_6F6108, 0x6F6108);
-
-EXPORT_VAR s32 dword_678FA8;
-GLOBAL(dword_678FA8, 0x678FA8);
-
-EXPORT_VAR s32 dword_678F60;
-GLOBAL(dword_678F60, 0x678F60);
-
-EXPORT_VAR Sprite* dword_678E40;
-GLOBAL(dword_678E40, 0x678E40);
-
-EXPORT_VAR s32 gPurpleDoom_679090;
-GLOBAL(gPurpleDoom_679090, 0x679090);
-
-EXPORT_VAR s32 gPurpleDoom_start_y_679098;
-GLOBAL(gPurpleDoom_start_y_679098, 0x679098);
-
-extern EXPORT_VAR Collide_C* gCollide_C_6791FC;
-extern EXPORT_VAR Collide_11944* gCollide_11944_679204;
-extern EXPORT_VAR Collide_8004* gCollide_8004_679200;
+DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_1_679208, 0x679208);
+DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_2_67920C, 0x67920C);
+DEFINE_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210, 0x679210);
+DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
+DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
+DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
+DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
+DEFINE_GLOBAL(Sprite*, dword_678E40, 0x678E40);
+DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
+DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
+EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
+EXTERN_GLOBAL(Collide_11944*, gCollide_11944_679204);
+EXTERN_GLOBAL(Collide_8004*, gCollide_8004_679200);
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);

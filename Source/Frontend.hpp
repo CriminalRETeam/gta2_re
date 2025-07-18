@@ -481,8 +481,10 @@ struct Frontend
 
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
-EXPORT_VAR extern Frontend* gFrontend_67DC84;
-EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
+
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+
 
 EXPORT void __stdcall sub_5D7D30();
 EXPORT void __cdecl FreeSurface_5D7DC0();
@@ -498,13 +500,22 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       s32 unknown2,
                                       s32 flags);
 
-EXPORT_VAR extern short font_type_703C14;
-EXPORT_VAR extern s16 word_703C3C;
-EXPORT_VAR extern s16 word_703D0C;
-EXPORT_VAR extern s16 word_703C16;
-EXPORT_VAR extern s16 word_703C8C;
-EXPORT_VAR extern s16 word_703C8A;
-EXPORT_VAR extern s16 word_703BE2;
-EXPORT_VAR extern s16 word_703B88;
-EXPORT_VAR extern s16 word_703DAC;
-EXPORT_VAR extern s16 word_703B9C;
+EXTERN_GLOBAL(short, font_type_703C14);
+
+EXTERN_GLOBAL(s16, word_703C3C);
+
+EXTERN_GLOBAL(s16, word_703D0C);
+
+EXTERN_GLOBAL(s16, word_703C16);
+
+EXTERN_GLOBAL(s16, word_703C8C);
+
+EXTERN_GLOBAL(s16, word_703C8A);
+
+EXTERN_GLOBAL(s16, word_703BE2);
+
+EXTERN_GLOBAL(s16, word_703B88);
+
+EXTERN_GLOBAL(s16, word_703DAC);
+
+EXTERN_GLOBAL(s16, word_703B9C);

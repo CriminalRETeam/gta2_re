@@ -76,4 +76,4 @@ class TileAnim_4BC
     s16 field_4BA;
 };
 
-EXPORT_VAR extern TileAnim_2* gTileAnim_2_7052C4;
+EXTERN_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4);

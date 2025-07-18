@@ -6,54 +6,32 @@
 #include "sprite.hpp"
 #include <memory.h>
 
-EXPORT_VAR Fix16 DAT_006f8fac;
-GLOBAL(DAT_006f8fac, 0x6f8fac);
+DEFINE_GLOBAL(Fix16, DAT_006f8fac, 0x6f8fac);
+DEFINE_GLOBAL(Fix16, DAT_006f8fd8, 0x6F8FD8);
+DEFINE_GLOBAL(Fix16, DAT_006fc578, 0x6fc578);
+DEFINE_GLOBAL(Fix16, DAT_006fc584, 0x6fc584);
+DEFINE_GLOBAL(Fix16, DAT_006fce08, 0x6fce08);
+DEFINE_GLOBAL(Fix16, DAT_006fceb0, 0x6fceb0);
+DEFINE_GLOBAL(Fix16, DAT_006fcde0, 0x6fcde0);
+DEFINE_GLOBAL(Fix16, DAT_006fcdd8, 0x6FCDD8);
+DEFINE_GLOBAL(Fix16, DAT_006fce10, 0x6FCE10);
+DEFINE_GLOBAL(Fix16, DAT_006F8FF0, 0x6F8FF0);
+DEFINE_GLOBAL(Fix16, DAT_006FCED0, 0x6FCED0);
 
-EXPORT_VAR Fix16 DAT_006f8fd8;
-GLOBAL(DAT_006f8fd8, 0x6F8FD8);
+//DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
+DEFINE_GLOBAL(s32, Phi_54_array_lenght_00623EEC, 0x623EEC);
 
-EXPORT_VAR Fix16 DAT_006fc578;
-GLOBAL(DAT_006fc578, 0x6fc578);
+// This array is initialized by FUN_005323b0 (likely a static constructor).
+// Must remain a fixed array — pointer would break Phi_8CA8::sub_533360.
+DEFINE_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24, 0x6FC5F8);
 
-EXPORT_VAR Fix16 DAT_006fc584;
-GLOBAL(DAT_006fc584, 0x6fc584);
+//DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126, 0x623EF0);
+DEFINE_GLOBAL(s32, Phi_6C_array_lenght_623EF0, 0x623EF0);
 
-EXPORT_VAR Fix16 DAT_006fce08;
-GLOBAL(DAT_006fce08, 0x6fce08);
+// This array is initialized by FUN_0052cde0 (likely a static constructor).
+// Must remain a fixed array — pointer would break Phi_8CA8::sub_533B30.
+DEFINE_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126, 0x6F9038);
 
-EXPORT_VAR Fix16 DAT_006fceb0;
-GLOBAL(DAT_006fceb0, 0x6fceb0);
-
-EXPORT_VAR Fix16 DAT_006fcde0;
-GLOBAL(DAT_006fcde0, 0x6fcde0);
-
-EXPORT_VAR Fix16 DAT_006fcdd8;
-GLOBAL(DAT_006fcdd8, 0x6FCDD8);
-
-EXPORT_VAR Fix16 DAT_006fce10;
-GLOBAL(DAT_006fce10, 0x6FCE10);
-
-EXPORT_VAR Fix16 DAT_006F8FF0;
-GLOBAL(DAT_006F8FF0, 0x6F8FF0);
-
-EXPORT_VAR Fix16 DAT_006FCED0;
-GLOBAL(DAT_006FCED0, 0x6FCED0);
-
-EXPORT_VAR s32 Phi_54_array_lenght_00623EEC; // = 24
-GLOBAL(Phi_54_array_lenght_00623EEC, 0x623EEC);
-
-// This array is initialized FUN_005323b0, which I think it's a static constructor.
-// It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533360 doesn't match
-EXPORT_VAR Phi_54 Phi_54_array_006FC5F8[24];
-GLOBAL(Phi_54_array_006FC5F8, 0x6FC5F8);
-
-EXPORT_VAR s32 Phi_6C_array_lenght_623EF0;
-GLOBAL(Phi_6C_array_lenght_623EF0, 0x623EF0);
-
-// This array is initialized by FUN_0052cde0, which I think it's a static constructor.
-// It also needs to be defined as an array and not a pointer otherwise Phi_8CA8::sub_533B30 doesn't match
-EXPORT_VAR Phi_6C Phi_6C_array_6F9038[126];
-GLOBAL(Phi_6C_array_6F9038, 0x6F9038);
 
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,

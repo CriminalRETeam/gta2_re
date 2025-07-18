@@ -1,8 +1,7 @@
 #include "Garage_48.hpp"
 #include "Globals.hpp"
 
-EXPORT_VAR Garage_48* gGarage_48_6FD26C;
-GLOBAL(gGarage_48_6FD26C, 0x6FD26C);
+DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
 MATCH_FUNC(0x4bbc60)
 Garage_48::~Garage_48()

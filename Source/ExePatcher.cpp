@@ -6,6 +6,13 @@
 #include <vector>
 #include <windows.h>
 
+
+namespace std {
+    _Lockit::_Lockit() {}
+    _Lockit::~_Lockit() {}
+
+}
+
 void __declspec(naked) WinMain_Hooked_Start()
 {
 }

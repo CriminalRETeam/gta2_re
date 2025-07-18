@@ -190,4 +190,4 @@ class Object_5C
     Sprite* field_58;
 };
 
-EXPORT_VAR extern Object_5C* gObject_5C_6F8F84;
+EXTERN_GLOBAL(Object_5C*, gObject_5C_6F8F84);

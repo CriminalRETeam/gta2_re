@@ -549,8 +549,10 @@ class Hud_2B00
     u32 field_13C4_text_speed;
 };
 
-EXPORT_VAR extern Hud_2B00* gGarox_2B00_706620;
+EXTERN_GLOBAL(Hud_2B00*, gGarox_2B00_706620);
 
-EXPORT_VAR extern s16 word_706600;
 
-EXPORT_VAR extern char byte_67CE50[];
+EXTERN_GLOBAL(s16, word_706600);
+
+
+EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);

@@ -4,8 +4,7 @@
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 
-EXPORT_VAR Miss2_25C* gMiss2_25C_6F805C;
-GLOBAL(gMiss2_25C_6F805C, 0x6F805C);
+DEFINE_GLOBAL(Miss2_25C*, gMiss2_25C_6F805C, 0x6F805C);
 
 MATCH_FUNC(0x502d90)
 Miss2_25C::Miss2_25C()

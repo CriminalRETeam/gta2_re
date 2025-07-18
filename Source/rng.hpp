@@ -23,5 +23,6 @@ class rng
     s32 field_4_rnd;
 };
 
-EXPORT_VAR extern rng* rng_dword_67AB34;
-EXPORT_VAR extern rng stru_6F6784;
+EXTERN_GLOBAL(rng*, rng_dword_67AB34);
+
+EXTERN_GLOBAL(rng, stru_6F6784);

@@ -34,4 +34,4 @@ class TrafficLights_194
     u8 field_193_timer;
 };
 
-EXPORT_VAR extern TrafficLights_194* gTrafficLights_194_705958;
+EXTERN_GLOBAL(TrafficLights_194*, gTrafficLights_194_705958);

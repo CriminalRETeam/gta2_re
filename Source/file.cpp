@@ -7,11 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-EXPORT_VAR s32 gbGlobalFileOpen_67D160;
-GLOBAL(gbGlobalFileOpen_67D160, 0x67D160);
-
-EXPORT_VAR FILE* ghFile_67CFEC;
-GLOBAL(ghFile_67CFEC, 0x67CFEC);
+DEFINE_GLOBAL(s32, gbGlobalFileOpen_67D160, 0x67D160);
+DEFINE_GLOBAL(FILE*, ghFile_67CFEC, 0x67CFEC);
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)

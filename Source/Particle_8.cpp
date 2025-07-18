@@ -2,8 +2,7 @@
 #include "Globals.hpp"
 #include "error.hpp"
 
-EXPORT_VAR Particle_947C* gParticle_947C_6FD5E4;
-GLOBAL(gParticle_947C_6FD5E4, 0x6FD5E4);
+DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4, 0x6FD5E4);
 
 STUB_FUNC(0x53e320)
 void Particle_8::sub_53E320()

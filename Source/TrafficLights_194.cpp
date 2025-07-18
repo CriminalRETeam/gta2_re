@@ -3,11 +3,9 @@
 #include "Globals.hpp"
 #include "map_0x370.hpp"
 
-// TODO
-EXPORT_VAR extern wchar_t tmpBuff_67BD9C[640];
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-EXPORT_VAR TrafficLights_194* gTrafficLights_194_705958;
-GLOBAL(gTrafficLights_194_705958, 0x705958);
+DEFINE_GLOBAL(TrafficLights_194*, gTrafficLights_194_705958, 0x705958);
 
 u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x18, 0x96, 0x50, 0x00, 0x00, 0x00};
 

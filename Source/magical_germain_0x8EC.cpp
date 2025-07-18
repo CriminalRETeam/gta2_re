@@ -7,8 +7,7 @@
 #include "gtx_0x106C.hpp"
 #include "Game_0x40.hpp"
 
-EXPORT_VAR magical_germain_0x8EC* gMagical_germain_0x8EC_6F5168;
-GLOBAL(gMagical_germain_0x8EC_6F5168, 0x6F5168);
+DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
 MATCH_FUNC(0x4D1FC0)
 void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len)

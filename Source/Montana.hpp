@@ -13,7 +13,8 @@ class Montana_C
     Montana_C* field_8;
 };
 
-EXPORT_VAR extern class Montana_FA4* gMontana_FA4_705BC0;
+EXTERN_GLOBAL(class Montana_FA4*, gMontana_FA4_705BC0);
+
 
 // Something to do with the order that sprites are drawn? Not sure almost seems redundant
 // SpriteLayerSorter ?
@@ -89,5 +90,6 @@ class Montana
     Montana_4* field_0_cols[7];
 };
 
-EXPORT_VAR extern Montana* gMontana_67B580;
-EXPORT_VAR extern Montana_2EE4* gMontana_2EE4_705BBC;
+EXTERN_GLOBAL(Montana*, gMontana_67B580);
+
+EXTERN_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC);

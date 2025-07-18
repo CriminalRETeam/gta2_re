@@ -8,8 +8,7 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-EXPORT_VAR Door_2C4* gDoor_2C4_67BD28;
-GLOBAL(gDoor_2C4_67BD28, 0x67BD28);
+DEFINE_GLOBAL(Door_2C4*, gDoor_2C4_67BD28, 0x67BD28);
 
 MATCH_FUNC(0x49cf10)
 Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6)

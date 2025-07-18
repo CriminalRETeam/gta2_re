@@ -5,8 +5,7 @@
 #include <stdlib.h>
 #include <windows.h>
 
-EXPORT_VAR keybrd_0x204* gKeybrd_0x204_6F52F4;
-GLOBAL(gKeybrd_0x204_6F52F4, 0x6F52F4);
+DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4, 0x6F52F4);
 
 char dword_620D2C[] = {' ', ' ', 0};
 

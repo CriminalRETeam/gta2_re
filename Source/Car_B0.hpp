@@ -205,4 +205,4 @@ struct Car_D264
     Car_B0 field_4[306];
 };
 
-EXPORT_VAR extern Car_D264* gCar_D264_6FE3E0;
+EXTERN_GLOBAL(Car_D264*, gCar_D264_6FE3E0);

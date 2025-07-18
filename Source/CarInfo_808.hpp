@@ -93,4 +93,4 @@ class CarInfo_808
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
 
-extern EXPORT_VAR CarInfo_808* gCarInfo_808_678098;
+EXTERN_GLOBAL(CarInfo_808*, gCarInfo_808_678098);

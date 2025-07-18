@@ -8,8 +8,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 
-EXPORT_VAR frosty_pasteur_0xC1EA8* gfrosty_pasteur_6F8060;
-GLOBAL(gfrosty_pasteur_6F8060, 0x6F8060);
+DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 
 MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)

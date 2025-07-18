@@ -15,14 +15,20 @@ class Nanobotz_8  // Maybe Fix16_2
     s32 field_4;  // y?
 };
 
-EXPORT_VAR extern Fix16 gXCoord_6F63AC;
-EXPORT_VAR extern Fix16 gYCoord_6F63B8;
-EXPORT_VAR extern s32 gZCoord_6F63E0;
+EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
 
-EXPORT_VAR extern gmp_map_slope dword_6F646C;
+EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
 
-EXPORT_VAR extern u32 dword_6F6480;
-EXPORT_VAR extern u32 dword_6F647C;
+EXTERN_GLOBAL(s32, gZCoord_6F63E0);
+
+
+EXTERN_GLOBAL(gmp_map_slope, dword_6F646C);
+
+
+EXTERN_GLOBAL(u32, dword_6F6480);
+
+EXTERN_GLOBAL(u32, dword_6F647C);
+
 
 class MapRenderer
 {
@@ -112,4 +118,4 @@ class MapRenderer
     s32 field_2F00_drawn_tile_count;
 };
 
-EXPORT_VAR extern MapRenderer* gpMapRenderer_6F66E4;
+EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);

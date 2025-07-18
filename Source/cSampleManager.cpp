@@ -3,8 +3,7 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-EXPORT_VAR cSampleManager gSampManager_6FFF00;
-GLOBAL(gSampManager_6FFF00, 0x6FFF00);
+DEFINE_GLOBAL(cSampleManager, gSampManager_6FFF00, 0x6FFF00);
 
 struct voc_name
 {

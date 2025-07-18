@@ -229,4 +229,4 @@ struct NetPlay
     s32 field_CB8_count;
 };
 
-EXPORT_VAR extern NetPlay gNetPlay_7071E8;
+EXTERN_GLOBAL(NetPlay, gNetPlay_7071E8);

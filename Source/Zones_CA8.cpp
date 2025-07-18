@@ -6,14 +6,11 @@
 #include "text_0x14.hpp"
 #include <string.h>
 
-EXPORT_VAR Zones_CA8* gZones_CA8_67E274;
-GLOBAL(gZones_CA8_67E274, 0x67E274)
+DEFINE_GLOBAL(Zones_CA8*, gZones_CA8_67E274, 0x67E274);
+//DEFINE_GLOBAL_INIT(s32, gZoneIdx_6206B8, -1, 0x6206B8);
+DEFINE_GLOBAL(s32, gZoneIdx_6206B8, 0x6206B8);
 
-EXPORT_VAR s32 gZoneIdx_6206B8; // = -1 // TODO
-GLOBAL(gZoneIdx_6206B8, 0x6206B8)
-
-EXPORT_VAR wchar_t gZoneNameWide_67E030[4];
-GLOBAL(gZoneNameWide_67E030, 0x67E030)
+DEFINE_GLOBAL_ARRAY(wchar_t, gZoneNameWide_67E030, 4, 0x67E030);
 
 MATCH_FUNC(0x4BE4E0);
 Gang_144::Gang_144()

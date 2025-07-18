@@ -19,11 +19,11 @@
 #include <string.h>
 
 // TODO: move
-EXPORT_VAR extern s32 bStartNetworkGame_7081F0;
-EXPORT_VAR extern Shooey_CC* gShooey_CC_67A4B8;
+EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
-EXPORT_VAR Fix16 dword_7028BC;
-GLOBAL(dword_7028BC, 0x7028BC);
+DEFINE_GLOBAL(Fix16, dword_7028BC, 0x7028BC);
+
 
 MATCH_FUNC(0x591bd0)
 eager_benz::eager_benz()

@@ -28,4 +28,4 @@ class keybrd_0x204
     s32 field_200_keyBoardLayout;
 };
 
-EXPORT_VAR extern keybrd_0x204* gKeybrd_0x204_6F52F4;
+EXTERN_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4);

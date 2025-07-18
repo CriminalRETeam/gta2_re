@@ -4,19 +4,15 @@
 
 #include "error.hpp"
 
-#if _MSC_VER <= 1200
+// Can't use this cos clang has a higher MSC VER
+//#if _MSC_VER <= 1200
     #pragma comment(lib, "DInput.lib")
-#endif
+//#endif
 //#pragma comment(lib, "DInput8.lib")
 
-EXPORT_VAR LPDIRECTINPUTA gpDInput_67B804;
-GLOBAL(gpDInput_67B804, 0x67B804);
-
-EXPORT_VAR LPDIRECTINPUTDEVICEA gKeyboardDevice_67B5C0;
-GLOBAL(gKeyboardDevice_67B5C0, 0x67B5C0);
-
-EXPORT_VAR LPDIRECTINPUTDEVICEA gGamePadDevice_67B6C0;
-GLOBAL(gGamePadDevice_67B6C0, 0x67B6C0);
+DEFINE_GLOBAL(LPDIRECTINPUTA, gpDInput_67B804, 0x67B804);
+DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gKeyboardDevice_67B5C0, 0x67B5C0);
+DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gGamePadDevice_67B6C0, 0x67B6C0);
 
 #if _MSC_VER > 1200
 HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
@@ -25,13 +21,14 @@ HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINP
 MATCH_FUNC(0x4986D0)
 void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 {
-#if _MSC_VER <= 1200
-    // todo
+    #if defined(__clang__) || (_MSC_VER <= 1200)
+    // VC6-compatible path
     if (DirectInputCreateA(hInstance, 1792, &gpDInput_67B804, 0) < 0)
     {
         FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
 #else
+    // Runtime dynamic loading path
     HMODULE hDx = LoadLibrary("DInput.dll");
     if (!hDx)
     {
@@ -47,8 +44,8 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
     {
         FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
-
 #endif
+
 }
 
 MATCH_FUNC(0x498710)

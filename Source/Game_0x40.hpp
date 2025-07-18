@@ -75,8 +75,10 @@ class Game_0x40
 };
 
 
-EXPORT_VAR extern Game_0x40* gGame_0x40_67E008;
+EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);
 
-EXPORT_VAR extern Fix16 dword_67DCCC;
 
-EXPORT_VAR extern class Hamburger_500* gHamburger_500_678E30;
+EXTERN_GLOBAL(Fix16, dword_67DCCC);
+
+
+EXTERN_GLOBAL(class Hamburger_500*, gHamburger_500_678E30);

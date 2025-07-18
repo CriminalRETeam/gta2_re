@@ -3,11 +3,8 @@
 #include "Globals.hpp"
 #include <cmath>
 
-EXPORT_VAR Fix16 gSin_table_667A80[1440];
-GLOBAL(gSin_table_667A80, 0x667A80);
-
-EXPORT_VAR Fix16 gCos_table_669260[1440];
-GLOBAL(gCos_table_669260, 0x669260);
+DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440, 0x667A80);
+DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 
 MATCH_FUNC(0x4369F0)
 Fix16& Fix16::FromInt_4369F0(s32 a2)

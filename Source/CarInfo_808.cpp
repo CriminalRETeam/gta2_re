@@ -8,44 +8,19 @@
 #include <cstring>
 #include "crt_stubs.hpp"
 
-EXPORT_VAR CarInfo_808* gCarInfo_808_678098;
-GLOBAL(gCarInfo_808_678098, 0x678098);
-
-EXPORT_VAR char file_name_677EC4[64];
-GLOBAL(file_name_677EC4, 0x677EC4);
-
-EXPORT_VAR u32 processed_input_676260;
-GLOBAL(processed_input_676260, 0x676260);
-
-EXPORT_VAR u32 input_size_675F94;
-GLOBAL(input_size_675F94, 0x675F94);
-
-EXPORT_VAR u8* input_data_676170;
-GLOBAL(input_data_676170, 0x676170);
-
-EXPORT_VAR u32 found_open_brackets_67626C;
-GLOBAL(found_open_brackets_67626C, 0x67626C);
-
-EXPORT_VAR s32 line_number_676258;
-GLOBAL(line_number_676258, 0x676258);
-
-EXPORT_VAR u32 processed_output_676250;
-GLOBAL(processed_output_676250, 0x676250);
-
-EXPORT_VAR s32 output_size_675F90;
-GLOBAL(output_size_675F90, 0x675F90);
-
-EXPORT_VAR u8* output_ptr_675F98;
-GLOBAL(output_ptr_675F98, 0x675F98);
-
-EXPORT_VAR Fix16 dword_677F54;
-GLOBAL(dword_677F54, 0x677F54);
-
-EXPORT_VAR Fix16 dword_677D74;
-GLOBAL(dword_677D74, 0x677D74);
-
-EXPORT_VAR Fix16 DAT_6761A4;
-GLOBAL(DAT_6761A4, 0x6761a4);
+DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
+DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
+DEFINE_GLOBAL(u32, processed_input_676260, 0x676260);
+DEFINE_GLOBAL(u32, input_size_675F94, 0x675F94);
+DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
+DEFINE_GLOBAL(u32, found_open_brackets_67626C, 0x67626C);
+DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
+DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
+DEFINE_GLOBAL(s32, output_size_675F90, 0x675F90);
+DEFINE_GLOBAL(u8*, output_ptr_675F98, 0x675F98);
+DEFINE_GLOBAL(Fix16, dword_677F54, 0x677F54);
+DEFINE_GLOBAL(Fix16, dword_677D74, 0x677D74);
+DEFINE_GLOBAL(Fix16, DAT_6761A4, 0x6761a4);
 
 MATCH_FUNC(0x454680)
 void CarInfo_48::sub_454680()

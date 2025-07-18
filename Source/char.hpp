@@ -216,7 +216,10 @@ class Char_203AC
     s16 field_203AA;
 };
 
-EXPORT_VAR extern Char_C* gChar_C_6787BC;
-EXPORT_VAR extern Char_203AC* gChar_203AC_6787B8;
-EXPORT_VAR extern Char_11944* gChar_11944_6FDB44;
-EXPORT_VAR extern Char_324* gChar_324_678b50;
+EXTERN_GLOBAL(Char_C*, gChar_C_6787BC);
+
+EXTERN_GLOBAL(Char_203AC*, gChar_203AC_6787B8);
+
+EXTERN_GLOBAL(Char_11944*, gChar_11944_6FDB44);
+
+EXTERN_GLOBAL(Char_324*, gChar_324_678b50);

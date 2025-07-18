@@ -96,4 +96,4 @@ struct sharp_pare_0x15D8
     EXPORT ~sharp_pare_0x15D8();
 };
 
-EXPORT_VAR extern sharp_pare_0x15D8* gSharp_pare_0x15D8_705064;
+EXTERN_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064);

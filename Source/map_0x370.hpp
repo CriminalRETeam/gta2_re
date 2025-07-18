@@ -176,11 +176,16 @@ enum gmp_gradient_slope_size
     SIZE_8 = 8,
 };
 
-EXPORT_VAR extern gmp_map_slope byte_6F5BA8[64];
-EXPORT_VAR extern Fix16 dword_6F5ED8;
-EXPORT_VAR extern Fix16 dword_6F5FA8;
-EXPORT_VAR extern Fix16 dword_6F6214;
-EXPORT_VAR extern Fix16 dword_6F610C;
+EXTERN_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
+
+EXTERN_GLOBAL(Fix16, dword_6F5ED8);
+
+EXTERN_GLOBAL(Fix16, dword_6F5FA8);
+
+EXTERN_GLOBAL(Fix16, dword_6F6214);
+
+EXTERN_GLOBAL(Fix16, dword_6F610C);
+
 
 class Map_0x370
 {
@@ -407,7 +412,9 @@ class Map_0x370
     char_type field_36F;
 };
 
-EXPORT_VAR extern Map_0x370* gMap_0x370_6F6268;
+EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
 
-EXPORT_VAR extern s32 gPurple_left_6F5FD4;
-EXPORT_VAR extern s32 gPurple_right_6F5B80;
+
+EXTERN_GLOBAL(s32, gPurple_left_6F5FD4);
+
+EXTERN_GLOBAL(s32, gPurple_right_6F5B80);

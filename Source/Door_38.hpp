@@ -144,4 +144,4 @@ class Door_38
     Fix16 field_34;
 };
 
-extern EXPORT_VAR Door_A word_67BB38[5];
+EXTERN_GLOBAL_ARRAY(Door_A, word_67BB38, 5);

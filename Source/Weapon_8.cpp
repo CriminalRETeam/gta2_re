@@ -7,11 +7,8 @@
 #include "error.hpp"
 #include "root_sound.hpp"
 
-EXPORT_VAR Weapon_2FDC* gWeapon_2FDC_707014;
-GLOBAL(gWeapon_2FDC_707014, 0x707014);
-
-EXPORT_VAR Weapon_8* gWeapon_8_707018;
-GLOBAL(gWeapon_8_707018, 0x707018);
+DEFINE_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014, 0x707014);
+DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018, 0x707018);
 
 u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
                       50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};

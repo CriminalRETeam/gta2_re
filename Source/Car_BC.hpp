@@ -9,8 +9,10 @@
 #include "miss2_0x11C.hpp"
 #include <wchar.h>
 
-EXPORT_VAR extern Ang16 gAng16_703804;
-EXPORT_VAR extern Fix16 gFix16_7035C0;
+EXTERN_GLOBAL(Ang16, gAng16_703804);
+
+EXTERN_GLOBAL(Fix16, gFix16_7035C0);
+
 
 struct gmp_zone_info;
 class DrawUnk_0xBC;
@@ -323,7 +325,8 @@ class Car_214
     s16 field_212;
 };
 
-EXPORT_VAR extern Car_214* gCar_214_705F20;
+EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
+
 
 class Car_2
 {
@@ -333,10 +336,14 @@ class Car_2
     u16 field_0;
 };
 
-EXPORT_VAR extern Fix16 dword_6F7690;
-EXPORT_VAR extern Fix16 dword_6F77D4;
-EXPORT_VAR extern Ang16 dword_6F804C;
-EXPORT_VAR extern Ang16 word_6F771E;
+EXTERN_GLOBAL(Fix16, dword_6F7690);
+
+EXTERN_GLOBAL(Fix16, dword_6F77D4);
+
+EXTERN_GLOBAL(Ang16, dword_6F804C);
+
+EXTERN_GLOBAL(Ang16, word_6F771E);
+
 
 class Car_6C
 {
@@ -423,7 +430,8 @@ class Car_6C
     char_type field_6B;
 };
 
-EXPORT_VAR extern Car_6C* gCar_6C_677930;
+EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
+
 
 class Car_A4_10
 {
@@ -881,9 +889,14 @@ struct Car_14
     gmp_zone_info* field_10;
 };
 
-EXPORT_VAR extern Car_E0C4* gCar_E0C4_67792C;
-EXPORT_VAR extern Sprite* gSprite_6F61E8;
-EXPORT_VAR extern Car_8F74* gCar_8F74_677CF8;
-EXPORT_VAR extern Car_A4* gCar_A4_66AC80;
-EXPORT_VAR extern Car_14* gCar_14_677934;
-EXPORT_VAR extern char_type byte_679C0A;
+EXTERN_GLOBAL(Car_E0C4*, gCar_E0C4_67792C);
+
+EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
+
+EXTERN_GLOBAL(Car_8F74*, gCar_8F74_677CF8);
+
+EXTERN_GLOBAL(Car_A4*, gCar_A4_66AC80);
+
+EXTERN_GLOBAL(Car_14*, gCar_14_677934);
+
+EXTERN_GLOBAL(char_type, byte_679C0A);
