@@ -1,5 +1,6 @@
 #include "Varrok_7F8.hpp"
 
+// https://decomp.me/scratch/lOnoC
 STUB_FUNC(0x59b060)
 u8 Varrok_7F8::sub_59B060(s32 a2)
 {
