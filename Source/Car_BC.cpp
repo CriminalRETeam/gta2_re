@@ -326,10 +326,15 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 }
 
-STUB_FUNC(0x54EC80)
-void Sprite::sub_54EC80(s32 xpos, s32 ypos)
+MATCH_FUNC(0x54EC80)
+void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
+    if (this->field_14_xpos != xpos || this->field_18_ypos != ypos)
+    {
+        this->field_14_xpos = xpos;
+        this->field_18_ypos = ypos;
+        sub_59E7B0();
+    }
 }
 
 STUB_FUNC(0x59E170)
