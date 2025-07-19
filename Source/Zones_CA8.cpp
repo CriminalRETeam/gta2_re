@@ -111,11 +111,13 @@ char_type Gang_144::sub_4BEEF0(u8 a2)
     return field_11C[a2];
 }
 
-STUB_FUNC(0x4BEF10)
+MATCH_FUNC(0x4BEF10)
 bool Gang_144::sub_4BEF10(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return (field_11C[a2] < 237) ? true : false;
+    if (field_11C[a2] < -19) {
+        return true;
+    } 
+    return false;
 }
 
 MATCH_FUNC(0x4BEF50)
