@@ -35,7 +35,7 @@ struct font_base
 struct sprite_index
 {
     EXPORT void sub_5ABAA0(u8 a2);
-    EXPORT void sub_5ABB00(s32 a2);
+    EXPORT void sub_5ABB00(u8* dst_x);
 
     BYTE* field_0_pData;
     u8 field_4_width;
