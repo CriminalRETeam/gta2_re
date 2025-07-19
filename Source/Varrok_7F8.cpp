@@ -1,14 +1,14 @@
 #include "Varrok_7F8.hpp"
 
-STUB_FUNC(0x59b060)
-u8 Varrok_7F8::sub_59B060(s32 a2)
+MATCH_FUNC(0x59b060)
+u8 Varrok_7F8::sub_59B060(s32 ped_id)
 {
-    NOT_IMPLEMENTED;
-    for (s32 i = 1; i < GTA2_COUNTOF(field_0); i++)
+    Varrok_8* pIter = &this->field_0[1];
+    for (u8 i = 1; i < 255; pIter++, i++)
     {
-        if (field_0[i].field_0 == 0 && field_0[i].field_4 == 0)
+        if (!pIter->field_0_ped_id && !pIter->field_4)
         {
-            field_0[i].field_0 = a2;
+            field_0[i].field_0_ped_id = ped_id;
             return i;
         }
     }
@@ -35,7 +35,7 @@ Varrok_7F8::Varrok_7F8()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
-        field_0[i].field_0 = 0;
+        field_0[i].field_0_ped_id = 0;
         field_0[i].field_4 = 0;
     }
 }

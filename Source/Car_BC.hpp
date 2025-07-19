@@ -155,7 +155,7 @@ class Sprite
   public:
     EXPORT s32* get_x_y_443580(s32* a2);
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void sub_54EC80(s32 xpos, s32 ypos);
+    EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool sub_59E170();
     EXPORT Ped* sub_59E1B0();
     EXPORT s32 sub_59E1D0();

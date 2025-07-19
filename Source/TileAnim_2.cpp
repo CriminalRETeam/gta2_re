@@ -9,17 +9,23 @@
 DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
 DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8, 0x7052C8);
 
-STUB_FUNC(0x5bc260)
-s32 TileAnim_2::sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5)
+MATCH_FUNC(0x5bc260)
+void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    TileAnim_18* p18 = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
+    p18->field_10_base = base;
+    p18->field_0 = f0;
+    p18->field_2_anim_length = length;
+    p18->field_4_frame_rate = frame_rate;
+    p18->field_6_repeat = repeat;
+    p18->field_C_ptr = 0;
+    p18->sub_5BC1D0();
 }
 
 MATCH_FUNC(0x5bc2c0)
 void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
 {
-    TileAnim_18 *tmp = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
+    TileAnim_18* tmp = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
     tmp->sub_5BC190(a1);
     tmp->sub_5BC1D0();
 }
@@ -110,7 +116,7 @@ char_type TileAnim_18::sub_5BC1F0()
         else
         {
             field_8++;
-            bVar3 = field_8 > field_2_anim_length ;
+            bVar3 = field_8 > field_2_anim_length;
         }
         if (bVar3)
         {

@@ -43,10 +43,16 @@ void sprite_index::sub_5ABAA0(u8 clear_target)
     }
 }
 
+// https://decomp.me/scratch/eBZLh
 STUB_FUNC(0x5abb00)
-void sprite_index::sub_5ABB00(s32 a2)
+void sprite_index::sub_5ABB00(u8* dst_x)
 {
     NOT_IMPLEMENTED;
+
+    for (s32 xpos = 0; xpos < field_5_height; xpos++)
+    {
+        memcpy(&dst_x[256 * xpos], &field_0_pData[256 * xpos], field_4_width * 4);
+    }
 }
 
 MATCH_FUNC(0x5AA3B0)
@@ -474,7 +480,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
         }
 
         pCarInfoIter->sprite = total_sprite;
-        
+
         u8* doorCount = ((u8*)&pCarInfoIter->remap + pCarInfoIter->num_remaps);
         if (*doorCount > 5u) // num_doors
         {
@@ -482,7 +488,8 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
         }
 
         // 0xE = remap
-        u32 curr_item_len = *doorCount*sizeof(door_info) + 0xE + pCarInfoIter->num_remaps + 1; //doorCount + 0xE + pCarInfoIter->num_remaps;
+        u32 curr_item_len =
+            *doorCount * sizeof(door_info) + 0xE + pCarInfoIter->num_remaps + 1; //doorCount + 0xE + pCarInfoIter->num_remaps;
 
         total_len += curr_item_len;
 

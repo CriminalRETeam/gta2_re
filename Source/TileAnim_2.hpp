@@ -8,7 +8,7 @@ struct gmp_tile_animation;
 class TileAnim_2
 {
   public:
-    EXPORT s32 sub_5BC260(s16 a1, s16 a2, s16 a3, s16 a4, s16 a5);
+    EXPORT void sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat);
     EXPORT void sub_5BC2C0(gmp_tile_animation* a1);
     EXPORT void Empty_5BC300();
     EXPORT void sub_5BC310();

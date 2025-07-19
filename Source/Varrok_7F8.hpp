@@ -5,7 +5,7 @@
 class Varrok_8
 {
   public:
-    s32 field_0;
+    s32 field_0_ped_id;
     u8 field_4;
     char_type field_5;
     char_type field_6;

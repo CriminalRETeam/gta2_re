@@ -3,16 +3,18 @@
 #include "Function.hpp"
 
 class nostalgic_ellis_0x28;
+class Object_2C;
 
 class TrafficLight_20
 {
   public:
     EXPORT void sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5);
+    EXPORT void sub_5C27A0(u8 phase);
 
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
+    Object_2C* field_0;
+    Object_2C* field_4;
+    Object_2C* field_8;
+    Object_2C* field_C;
     nostalgic_ellis_0x28* field_10;
     nostalgic_ellis_0x28* field_14;
     nostalgic_ellis_0x28* field_18;

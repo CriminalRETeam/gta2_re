@@ -366,11 +366,10 @@ void PedGroup::sub_4C9F00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ca3e0)
+MATCH_FUNC(0x4ca3e0)
 u32 PedGroup::sub_4CA3E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_2C_ped_leader->field_21C_bf.b2;
 }
 
 STUB_FUNC(0x4ca3f0)
