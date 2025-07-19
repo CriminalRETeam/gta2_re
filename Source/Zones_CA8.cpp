@@ -11,6 +11,8 @@ DEFINE_GLOBAL_INIT(s32, gZoneIdx_6206B8, -1, 0x6206B8);
 
 DEFINE_GLOBAL_ARRAY(wchar_t, gZoneNameWide_67E030, 4, 0x67E030);
 
+EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
+
 MATCH_FUNC(0x4BE4E0);
 Gang_144::Gang_144()
 {
@@ -99,10 +101,23 @@ void Gang_144::sub_4BEE50(u8 idx, char_type a3)
     }
 }
 
-STUB_FUNC(0x4BEEA0)
-void Gang_144::sub_4BEEA0(u8 a2, char_type a3)
+MATCH_FUNC(0x4BEEA0)
+void Gang_144::sub_4BEEA0(u8 idx, char_type a3)
 {
-    NOT_IMPLEMENTED;
+    s8 diff = field_11C[idx] - a3;
+    if (diff > field_11C[idx] || (field_11C[idx] = diff) < -100)
+    {
+        field_11C[idx] = -100;
+    }
+
+    if (field_11C[idx] >= 80)
+    {
+        this->field_110 = true;
+    }
+    else
+    {
+        this->field_110 = false;
+    }
 }
 
 MATCH_FUNC(0x4BEEF0)
@@ -114,9 +129,10 @@ char_type Gang_144::sub_4BEEF0(u8 a2)
 MATCH_FUNC(0x4BEF10)
 bool Gang_144::sub_4BEF10(u8 a2)
 {
-    if (field_11C[a2] < -19) {
+    if (field_11C[a2] < -19)
+    {
         return true;
-    } 
+    }
     return false;
 }
 
@@ -158,10 +174,33 @@ void Gang_144::sub_4BF000(u8 a2, char_type idx)
                 }
                 else
                 {
-                    pZoneFromIdx->sub_4BEE50(a2, abs(idx) );
+                    pZoneFromIdx->sub_4BEE50(a2, abs(idx));
                 }
             }
         }
+    }
+}
+
+MATCH_FUNC(0x4BF0C0);
+s32 Gang_144::sub_4BF0C0()
+{
+    if (bStartNetworkGame_7081F0 || this->field_141)
+    {
+        return this->field_104_basic_weapon;
+    }
+
+    if (field_11C[0] == -100)
+    {
+        return this->field_10C_hate_weapon;
+    }
+
+    if (field_11C[0] > -60)
+    {
+        return this->field_104_basic_weapon;
+    }
+    else
+    {
+        return this->field_108_angry_weapon;
     }
 }
 

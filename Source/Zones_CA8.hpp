@@ -23,6 +23,7 @@ class Gang_144
     EXPORT void sub_4BEF50(u8 zone_idx, char_type a3);
     EXPORT char_type sub_4BEF70(u8 a2, u8 a3);
     EXPORT void sub_4BF000(u8 a2, char_type a3);
+    EXPORT s32 sub_4BF0C0();
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);
     EXPORT wchar_t* sub_4BF340();
 
