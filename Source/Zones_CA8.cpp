@@ -178,6 +178,12 @@ void Gang_144::sub_4BF000(u8 a2, char_type idx)
     }
 }
 
+STUB_FUNC(0x4BF0C0);
+s32 Gang_144::sub_4BF0C0()
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x4BF090);
 void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 {
