@@ -99,10 +99,23 @@ void Gang_144::sub_4BEE50(u8 idx, char_type a3)
     }
 }
 
-STUB_FUNC(0x4BEEA0)
-void Gang_144::sub_4BEEA0(u8 a2, char_type a3)
+MATCH_FUNC(0x4BEEA0)
+void Gang_144::sub_4BEEA0(u8 idx, char_type a3)
 {
-    NOT_IMPLEMENTED;
+    s8 diff = field_11C[idx] - a3;
+    if (diff > field_11C[idx] || (field_11C[idx] = diff) < -100)
+    {
+        field_11C[idx] = -100;
+    }
+
+    if (field_11C[idx] >= 80)
+    {
+        this->field_110 = true;
+    }
+    else
+    {
+        this->field_110 = false;
+    }
 }
 
 MATCH_FUNC(0x4BEEF0)
