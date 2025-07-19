@@ -133,18 +133,16 @@ char_type Gang_144::sub_4BEF70(u8 a2, u8 a3)
     return 0;
 }
 
-// https://decomp.me/scratch/pXGoj
-STUB_FUNC(0x4BF000)
+MATCH_FUNC(0x4BF000)
 void Gang_144::sub_4BF000(u8 a2, char_type idx)
 {
-    NOT_IMPLEMENTED;
-    if (idx <= 0)
+    if (idx > 0)
     {
-        sub_4BEEA0(a2, -idx);
+        sub_4BEE50(a2, idx);
     }
     else
     {
-        sub_4BEE50(a2, idx);
+        sub_4BEEA0(a2, abs(idx));
     }
 
     for (u8 i = 0; i < 10; ++i)
@@ -154,13 +152,13 @@ void Gang_144::sub_4BF000(u8 a2, char_type idx)
         {
             if (pZoneFromIdx->field_122[field_1_zone_idx])
             {
-                if (idx <= 0)
+                if (idx > 0)
                 {
-                    pZoneFromIdx->sub_4BEE50(a2, -idx);
+                    pZoneFromIdx->sub_4BEEA0(a2, idx);
                 }
                 else
                 {
-                    pZoneFromIdx->sub_4BEEA0(a2, idx);
+                    pZoneFromIdx->sub_4BEE50(a2, abs(idx) );
                 }
             }
         }
