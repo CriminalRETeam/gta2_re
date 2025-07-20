@@ -228,8 +228,7 @@ char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
 MATCH_FUNC(0x5e06b0)
 void Weapon_30::shocker_5E06B0()
 {
-    // TODO: Fix types
-    ((Object_3C*)&gWeapon_8_707018->field_0.field_0)->sub_5A6E10();
+    gWeapon_8_707018->field_0.sub_5A6E10();
 
     sub_5DFB60(0,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,

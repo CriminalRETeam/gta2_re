@@ -7,6 +7,7 @@
 #include "Ped_Unknown_4.hpp"
 #include "ang16.hpp"
 #include "miss2_0x11C.hpp"
+#include "Object_3C.hpp"
 #include <wchar.h>
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
@@ -465,23 +466,6 @@ class Car_A4_10
     Car_BC* field_C;
 };
 
-class Unknown_Ptr_4
-{
-  public:
-    // 0x424620
-    Unknown_Ptr_4()
-    {
-        sub_4207E0();
-    }
-
-    // 0x4207E0
-    void sub_4207E0()
-    {
-        field_0 = 0;
-    }
-    void* field_0;
-};
-
 class Car_BC
 {
   public:
@@ -732,7 +716,7 @@ class Car_BC
                field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
     }
     
-    Unknown_Ptr_4 field_0_qq;
+    struct_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];

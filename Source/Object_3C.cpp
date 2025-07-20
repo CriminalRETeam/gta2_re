@@ -8,7 +8,7 @@
 // TODO: Init to correct values
 DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, word_6F8F68, 0x6F8F68);
-DEFINE_GLOBAL(Object_3C, stru_67727C, 0x67727C);
+DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
 
 MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
@@ -260,25 +260,25 @@ Sprite* Object_3C::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 }
 
 MATCH_FUNC(0x5a6cd0)
-void Object_3C::sub_5A6CD0(Sprite* pSprite)
+void struct_4::sub_5A6CD0(Sprite* pSprite)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite;
-    p18->field_4_next = this->field_0;
+    p18->field_4_next = this->field_0_p18;
     p18->field_8.Clear();
-    this->field_0 = p18;
+    field_0_p18 = p18;
 }
 
 MATCH_FUNC(0x5a6d00)
-void Object_3C::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5)
+void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite1;
-    p18->field_4_next = field_0;
+    p18->field_4_next = field_0_p18;
     p18->field_8.x = a3;
     p18->field_8.y = pSprite2;
     p18->field_10 = a5;
-    field_0 = p18;
+    field_0_p18 = p18;
 }
 
 MATCH_FUNC(0x5a6d40)
@@ -356,16 +356,16 @@ Sprite* Object_3C::sub_5A6DC0()
 }
 
 MATCH_FUNC(0x5a6e10)
-Sprite_18* Object_3C::sub_5A6E10()
+Sprite_18* struct_4::sub_5A6E10()
 {
-    Sprite_18* pIter = this->field_0;
+    Sprite_18* pIter = this->field_0_p18;
     while (pIter)
     {
         Sprite_18* pLast = pIter;
         pIter = pIter->field_4_next;
         gSprite_1C24_703B80->DeAlloc(pLast);
     }
-    this->field_0 = 0;
+    this->field_0_p18 = 0;
     return pIter;
 }
 
@@ -410,9 +410,9 @@ void Object_3C::sub_5A6F70(Sprite* a2)
 }
 
 MATCH_FUNC(0x5a7010)
-void Object_3C::sub_5A7010()
+void struct_4::sub_5A7010()
 {
-    Sprite_18* p18Iter = this->field_0;
+    Sprite_18* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
         Sprite* pSprite = p18Iter->field_0;
@@ -599,13 +599,13 @@ void Object_3C::sub_5A7240(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a72b0)
-void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
+void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
     char start_val = pSprite->sub_5A1BD0();
     char max_val = start_val;
 
     Sprite_18* p18Iter;
-    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
     {
         if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
         {
@@ -622,7 +622,7 @@ void Object_3C::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
         pSprite->field_39_z_col = max_val;
     }
 
-    for (p18Iter = this->field_0; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
     {
         p18Iter->field_0->field_39_z_col = max_val;
     }

@@ -1,12 +1,41 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 
 class Sprite;
 class Sprite_18;
 class Object_2C;
+
+class struct_4
+{
+  public:
+    struct_4() // 424620 inline
+    {
+        sub_4207E0();
+    }
+
+    void sub_4207E0() // inline
+    {
+      field_0_p18 = 0;
+    }
+
+    EXPORT void sub_5A6CD0(Sprite* pSprite);
+    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
+
+    // gap
+
+    EXPORT Sprite_18* sub_5A6E10();
+
+    EXPORT void sub_5A7010();
+    
+    // gap
+
+    EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
+  public:
+    Sprite_18* field_0_p18;
+};
 
 class Object_3C
 {
@@ -25,23 +54,30 @@ class Object_3C
     EXPORT char_type sub_5A6C10(Sprite* a2);
     EXPORT void sub_5A6C40(s32 a2);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
-    EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
+
+    // TODO: Moved methods to struct_4 from here
+
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();
     EXPORT Sprite* sub_5A6DC0();
-    EXPORT Sprite_18* sub_5A6E10();
+    
+    // TODO: moved method
+
     EXPORT Sprite* sub_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT s32 sub_5A6EA0(s32 a2, s32 a3);
     EXPORT void sub_5A6F70(Sprite* a2);
-    EXPORT void sub_5A7010();
+
+    // TODO: Moved method
+
     EXPORT void sub_5A7080();
     EXPORT void sub_5A7110();
     EXPORT s32 sub_5A71A0();
     EXPORT void sub_5A71F0();
     EXPORT void sub_5A7240(Sprite* a2);
-    EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
+   
+    // TODO: Moved method
+
     EXPORT char_type sub_5A7310();
 
     Sprite_18* field_0;
@@ -68,4 +104,4 @@ class Object_3C
     char_type field_3B;
 };
 
-EXTERN_GLOBAL(Object_3C, stru_67727C);
+EXTERN_GLOBAL(struct_4, stru_67727C);
