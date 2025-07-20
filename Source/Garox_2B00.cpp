@@ -217,7 +217,7 @@ void Garox_12EC_sub::sub_5D1430()
 }
 
 MATCH_FUNC(0x5d15a0)
-s32 Garox_12EC_sub::sub_5D15A0(s32 a1)
+bool Garox_12EC_sub::sub_5D15A0(s32 a1)
 {
     return gGame_0x40_67E008->field_38_orf1->field_78A && (a1 == 28 || a1 == 1);
 }
@@ -1464,16 +1464,14 @@ s32 Hud_2B00::sub_5D6C20(s32 action, Player* pPlayer)
     return field_12EC_sub.sub_5D13C0(action, pPlayer) || field_2A25_sub.sub_5D15E0(action, pPlayer);
 }
 
-STUB_FUNC(0x5d6c70)
+MATCH_FUNC(0x5d6c70)
 s32 Hud_2B00::sub_5D6C70(s32 a1)
 {
-    NOT_IMPLEMENTED;
-    // TODO EAX vs AL reg
     return field_12EC_sub.sub_5D15A0(a1) || field_2A25_sub.sub_5D17D0(a1);
 }
 
 MATCH_FUNC(0x5d6cb0)
-s32 Hud_2B00::sub_5D6CB0(s32 a1)
+bool Hud_2B00::sub_5D6CB0(s32 a1)
 {
     return field_12EC_sub.sub_5D15A0(a1);
 }
