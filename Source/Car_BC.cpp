@@ -33,6 +33,9 @@ DEFINE_GLOBAL(Sprite*, gSprite_6791A8, 0x6791A8);
 DEFINE_GLOBAL(Car_8F74*, gCar_8F74_677CF8, 0x677CF8);
 DEFINE_GLOBAL(Car_A4*, gCar_A4_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
+DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
+
+
 
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
@@ -45,7 +48,7 @@ DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_66AB78, 0x66AB78);
 DEFINE_GLOBAL(CarInfo_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
-DEFINE_GLOBAL(Object_3C, stru_67737C, 0x67737c);
+DEFINE_GLOBAL(struct_4, stru_67737C, 0x67737c);
 
 // Indicates if Car_2 is initialised
 // It can probably turned into a static variable inside Car_2
@@ -1264,10 +1267,9 @@ Car_6C::Car_6C()
     field_3C_mission_cars = 0;
     field_44 = 0;
 
-    // On version 9.6f this is call to a class method
-    stru_67727C.field_0 = 0;
-    // On version 9.6f this is call to a class method
-    stru_67737C.field_0 = 0;
+    stru_67727C.sub_4207E0();
+    stru_67737C.sub_4207E0();
+
     sub_5639C0();
     sub_447640();
 
@@ -2719,10 +2721,10 @@ char_type Car_BC::sub_443170()
         stru_67737C.sub_5A6E10();
     }
 
-    if (this->field_0_qq.field_0)
+    if (this->field_0_qq.field_0_p18)
     {
-        ((Object_3C*)this)->sub_5A6F70(this->field_50_car_sprite);
-        ((Object_3C*)this)->sub_5A72B0(this->field_50_car_sprite, 0);
+        this->field_0_qq.sub_5A6F70(this->field_50_car_sprite);
+        this->field_0_qq.sub_5A72B0(this->field_50_car_sprite, 0);
     }
 
     if (this->field_58_uni_Car78_or_Car_B0)
@@ -2887,7 +2889,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
         if (remap != 0xFD) // respray
         {
             SetCarRemap(remap);
-            ((Object_3C*)this)->sub_5A7110();
+            field_0_qq.sub_5A7110();
             this->field_B4 = 1;
         }
 
@@ -3038,7 +3040,7 @@ void Car_BC::sub_443EE0(s32 a2)
 MATCH_FUNC(0x443f30)
 void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
-    Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, stru_67727C.field_30, 200);
+    Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->sub_527990();
     field_50_car_sprite->sub_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
 }
@@ -3126,7 +3128,8 @@ void Car_BC::sub_444490()
     this->field_78_flags = 0;
     //clear();
 
-    ((Object_3C*)this)->sub_5A7010(); // base?
+    this->field_0_qq.sub_5A7010();
+
     this->field_A7_horn = 0;
     IncrementCarStats_443D70(0);
     this->field_8D = 0;
@@ -3164,7 +3167,7 @@ void Car_BC::sub_4446E0()
 MATCH_FUNC(0x4447d0)
 void Car_BC::sub_4447D0()
 {
-    ((Object_3C*)this)->sub_5A7010();
+    this->field_0_qq.sub_5A7010();
 
     sub_441A10();
 
@@ -3212,8 +3215,7 @@ Car_BC::Car_BC()
     field_6C_maybe_id = 0xFFFF;
     field_64_pTrailer = 0;
     field_78_flags = 0;
-    // TODO
-    ((Object_3C*)this)->sub_5A7010();
+    this->field_0_qq.sub_5A7010();
     field_A7_horn = 0;
     field_80 = 0;
     field_A0_car_kind = 0;

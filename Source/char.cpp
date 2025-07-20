@@ -35,7 +35,7 @@ MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
     field_b0 = -1;
-    ((Object_3C*)&field_88_obj_2c)->sub_5A7080();
+    field_88_obj_2c.sub_5A7080();
 }
 
 STUB_FUNC(0x5454d0)

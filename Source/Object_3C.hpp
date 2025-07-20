@@ -1,23 +1,33 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 
 class Sprite;
 class Sprite_18;
 class Object_2C;
 
-class Object_3C
+class struct_4
 {
   public:
-    EXPORT Object_3C();
-    EXPORT ~Object_3C();
-    EXPORT u32* sub_52ADF0(u32* a2);
+    struct_4() // 424620 inline
+    {
+        sub_4207E0();
+    }
+
+    void sub_4207E0() // inline
+    {
+        field_0_p18 = 0;
+    }
+
     EXPORT Sprite_18* sub_5A6A50(s32 a2);
     EXPORT Object_2C* sub_5A6A90(s32 obj_type);
     EXPORT Sprite_18* sub_5A6AD0();
+
+   
     EXPORT void sub_5A6B10(Sprite* a2);
+
     EXPORT void sub_5A6B60(Sprite* a2);
     EXPORT void sub_5A6BB0();
     EXPORT void sub_5A6BD0();
@@ -25,8 +35,9 @@ class Object_3C
     EXPORT char_type sub_5A6C10(Sprite* a2);
     EXPORT void sub_5A6C40(s32 a2);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
+
     EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5);
+    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();
@@ -44,7 +55,20 @@ class Object_3C
     EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();
 
-    Sprite_18* field_0;
+  public:
+    Sprite_18* field_0_p18;
+};
+
+class Object_3C
+{
+  public:
+    EXPORT Object_3C(); // 0x52ad80
+    EXPORT ~Object_3C(); // 0x52ade0
+
+    // ?? not sure if this is O3C either :skull:
+    EXPORT u32* sub_52ADF0(u32* a2);
+
+    struct_4 field_0;
     Ang16 field_4;
     s16 field_6;
     Object_3C* field_8;
@@ -68,4 +92,4 @@ class Object_3C
     char_type field_3B;
 };
 
-EXTERN_GLOBAL(Object_3C, stru_67727C);
+EXTERN_GLOBAL(struct_4, stru_67727C);

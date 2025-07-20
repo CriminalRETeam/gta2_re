@@ -2,28 +2,11 @@
 
 #include "Function.hpp"
 #include "Weapon_30.hpp"
+#include "Object_3C.hpp"
 
 class Ped;
 class Car_BC;
 class infallible_turing;
-
-// TODO: Move this
-class struct_4
-{
-  public:
-    struct_4() // 424620 inline
-    {
-        sub_4207E0();
-    }
-
-    void sub_4207E0() // inline
-    {
-        field_0 = 0;
-    }
-
-  public:
-    s32 field_0;
-};
 
 class Weapon_8
 {

@@ -76,8 +76,7 @@ class Sprite_18
 
     Sprite* field_0;
     Sprite_18* field_4_next;
-    s32 field_8;
-    s32 field_C;
+    Fix16_Point field_8;
     s16 field_10;
     s16 field_12;
     s32 field_14_rng;
@@ -100,6 +99,7 @@ class Sprite_1C24
         field_0 = field_4;
     }
 
+    // 0x4BEC40
     Sprite_18* Alloc()
     {
         Sprite_18* p18 = field_0;

@@ -274,6 +274,12 @@ class Fix16
 
 struct Fix16_Point
 {
+    // 0x41E1E0
+    void Clear()
+    {
+        x = Fix16(0);
+        y = Fix16(0);
+    }
     Fix16 x;
     Fix16 y;
 };
