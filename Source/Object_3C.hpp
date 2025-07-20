@@ -84,7 +84,9 @@ class Object_3C
     s16 field_2C;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30;
+    u8 field_30;
+    u8 field_31;
+    u16 field_32;
     s32 field_34;
     char_type field_38;
     char_type field_39;

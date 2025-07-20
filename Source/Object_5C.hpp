@@ -76,6 +76,7 @@ class Object_2C
     EXPORT void sub_5291E0(char_type a2);
     EXPORT bool sub_529200();
     EXPORT ~Object_2C();
+    EXPORT void sub_52A650();
     EXPORT void sub_52A6D0(Sprite* a2);
     EXPORT u32* sub_52AE70(u32* a2);
     EXPORT u32* sub_52AE90(u32* a2);
@@ -158,7 +159,6 @@ class Object_5C
     EXPORT void sub_52A500(int pUnknownObj);
     EXPORT void sub_52A590(int pUnknownObj);
     EXPORT void sub_52A610(Object_2C *p2C);
-    EXPORT void sub_52A650();
 
     Object_2C* field_0; // Object_2C* ?
     Object_2C* field_4;

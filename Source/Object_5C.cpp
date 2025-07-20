@@ -17,6 +17,7 @@ EXTERN_GLOBAL(Ang16, word_6F8F68);
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
 DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
+DEFINE_GLOBAL(Fix16, dword_6F8E10, 0x6F8E10);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
@@ -802,10 +803,32 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     gObject_29178_6F8F80->Remove(p2C);
 }
 
-STUB_FUNC(0x52A650)
-void Object_5C::sub_52A650()
+MATCH_FUNC(0x52A650)
+void Object_2C::sub_52A650()
 {
-    NOT_IMPLEMENTED;
+    if (!field_10)
+    {
+        Object_3C* p3C = gObject_5A40_6F8F7C->field_0;
+        gObject_5A40_6F8F7C->field_0 = gObject_5A40_6F8F7C->field_0->field_8;
+        ++dword_6F8E54;
+        p3C->field_C = 0;
+
+        Ang16 v2 = word_6F8F68;
+        p3C->field_18 = 0;
+        p3C->field_4 = v2;
+
+        p3C->field_28 = 0;
+        p3C->field_38 = 0;
+        p3C->field_34 = 2;
+        p3C->field_24 = 0;
+        p3C->field_2F = 0;
+        p3C->field_30 = 0;
+        field_10 = p3C;
+        p3C->field_20 = field_14;
+        field_10->field_C = dword_6F8E10;
+        field_10->field_10 = dword_6F8E10;
+    }
+    Object_2C::sub_522340();
 }
 
 MATCH_FUNC(0x52a6d0)
