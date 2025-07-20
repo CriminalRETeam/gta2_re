@@ -442,6 +442,26 @@ void CC ImGuiDebugDraw()
                                               pPlayerSprite->field_1C_zpos,
                                               0);
             }
+
+            if (ImGui::TreeNode("Object_5C debug"))
+            {
+                ImGui::Value("field_1C", gObject_5C_6F8F84->field_1C);
+                ImGui::Value("field_20", gObject_5C_6F8F84->field_20);
+                ImGui::Value("field_24", gObject_5C_6F8F84->field_24);
+                ImGui::Value("field_28", gObject_5C_6F8F84->field_28);
+                ImGui::Value("field_2C", gObject_5C_6F8F84->field_2C);
+                ImGui::Value("field_30", gObject_5C_6F8F84->field_30);
+                ImGui::Value("field_34", gObject_5C_6F8F84->field_34);
+                ImGui::Value("field_38", gObject_5C_6F8F84->field_38);
+                ImGui::Value("field_3C", gObject_5C_6F8F84->field_3C);
+                ImGui::Value("field_40", gObject_5C_6F8F84->field_40);
+                ImGui::Value("field_44", gObject_5C_6F8F84->field_44);
+                ImGui::Value("field_48", gObject_5C_6F8F84->field_48);
+                ImGui::Value("field_4C", gObject_5C_6F8F84->field_4C);
+                ImGui::Value("field_50", gObject_5C_6F8F84->field_50);
+                ImGui::Value("field_54", gObject_5C_6F8F84->field_54);
+                ImGui::TreePop();
+            }
         }
         if (spawned_obj != NULL)
         {
