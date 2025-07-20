@@ -76,6 +76,7 @@ class Object_2C
     EXPORT void sub_5291E0(char_type a2);
     EXPORT bool sub_529200();
     EXPORT ~Object_2C();
+    EXPORT void sub_52A6D0(Sprite* a2);
     EXPORT u32* sub_52AE70(u32* a2);
     EXPORT u32* sub_52AE90(u32* a2);
 
@@ -159,13 +160,10 @@ class Object_5C
     EXPORT void sub_52A610(Object_2C *p2C);
     EXPORT void sub_52A650();
 
-    // TODO: order ?
-    EXPORT void sub_52A6D0(Sprite* a2);
-
-    s32 field_0; // Object_2C* ?
-    Sprite* field_4;
-    s32 field_8;
-    s32 field_C;
+    Object_2C* field_0; // Object_2C* ?
+    Object_2C* field_4;
+    Object_2C* field_8;
+    Object_2C* field_C;
     Object_3C* field_10;
     s32 field_14;
     s32 field_18;

@@ -27,6 +27,11 @@ DEFINE_GLOBAL(u32, dword_6F8DC0, 0x6F8DC0);
 DEFINE_GLOBAL(u32, dword_6F8F0C, 0x6F8F0C);
 DEFINE_GLOBAL(u8, byte_6F8EDC, 0x6F8EDC);
 
+DEFINE_GLOBAL(Ang16, word_6F8D8C, 0x6F8D8C);
+DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
+DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
+DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
+
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
@@ -628,10 +633,20 @@ Object_5C::~Object_5C()
     this->field_4 = 0;
 }
 
-STUB_FUNC(0x5297f0)
+MATCH_FUNC(0x5297f0)
 void Object_5C::sub_5297F0()
 {
-    NOT_IMPLEMENTED;
+    field_0 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
+    field_0->field_26_varrok_idx = 45;
+
+    field_4 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
+    field_4->field_26_varrok_idx = 48;
+
+    field_8 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D54);
+    field_8->field_26_varrok_idx = 46;
+
+    field_C = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
+    field_C->field_26_varrok_idx = 47;
 }
 
 STUB_FUNC(0x5298e0)
@@ -794,25 +809,23 @@ void Object_5C::sub_52A650()
 }
 
 MATCH_FUNC(0x52a6d0)
-void Object_5C::sub_52A6D0(Sprite* pSprite)
+void Object_2C::sub_52A6D0(Sprite* pSprite)
 {
-    // TODO: field_0 or inheritance ???
-    ((Object_2C*)this)->sub_527D00();
+    sub_527D00();
 
-    // TODO
-    if (*(u32*)(this->field_8 + 52) != 11)
+    if (field_8->field_34 != 11)
     {
-        gPurpleDoom_3_679210->Add_477AE0(this->field_4);
+        gPurpleDoom_3_679210->Add_477AE0(field_4);
     }
 
-    ((Object_2C*)this)->sub_522360();
+    sub_522360();
 
     if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
     {
         Car_BC* pObj = pSprite->field_8_car_bc_ptr;
         if (pObj)
         {
-            this->field_4->field_28_num = pObj->sub_4435B0();
+            field_4->field_28_num = pObj->sub_4435B0();
         }
     }
 }
