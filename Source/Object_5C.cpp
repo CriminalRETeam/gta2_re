@@ -441,16 +441,16 @@ void Object_2C::sub_528E50(Sprite* a3)
 }
 
 MATCH_FUNC(0x529000)
-void Object_2C::sub_529000(Sprite* pSprite)
+void Object_2C::sub_529000(Object_2C* pObj)
 {
-    switch (pSprite->field_18_ypos.mValue)
+    switch (pObj->field_18_model)
     {
         case 139:
-            sub_529070(pSprite);
+            sub_529070(pObj);
             break;
 
         case 141:
-            if (this->field_8->field_60)
+            if (field_8->field_60)
             {
                 sub_5291B0();
             }
@@ -465,9 +465,9 @@ void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 }
 
 MATCH_FUNC(0x529070)
-void Object_2C::sub_529070(Sprite* pSprite)
+void Object_2C::sub_529070(Object_2C* pObj)
 {
-    sub_5226A0(pSprite->field_26_pad);
+    sub_5226A0(pObj->field_26_varrok_idx);
 }
 
 MATCH_FUNC(0x5292D0)

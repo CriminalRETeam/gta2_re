@@ -517,9 +517,9 @@ void Sprite::sub_59E8C0(Sprite* pSprite)
         s32 type = pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
         {
-            if (pSprite->field_8_pSprite)
+            if (pSprite->field_8_object_2C_ptr)
             {
-                field_8_object_2C_ptr->sub_529000(pSprite->field_8_pSprite);
+                field_8_object_2C_ptr->sub_529000(pSprite->field_8_object_2C_ptr);
             }
         }
     }
