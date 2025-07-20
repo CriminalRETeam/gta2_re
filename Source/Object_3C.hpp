@@ -26,7 +26,7 @@ class Object_3C
     EXPORT void sub_5A6C40(s32 a2);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5);
+    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();

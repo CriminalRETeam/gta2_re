@@ -265,19 +265,18 @@ void Object_3C::sub_5A6CD0(Sprite* pSprite)
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite;
     p18->field_4_next = this->field_0;
-    p18->field_8 = 0;
-    p18->field_C = 0;
+    p18->field_8.Clear();
     this->field_0 = p18;
 }
 
 MATCH_FUNC(0x5a6d00)
-void Object_3C::sub_5A6D00(Sprite* pSprite1, s32 a3, s32 pSprite2, s16 a5)
+void Object_3C::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite1;
     p18->field_4_next = field_0;
-    p18->field_8 = a3;
-    p18->field_C = pSprite2;
+    p18->field_8.x = a3;
+    p18->field_8.y = pSprite2;
     p18->field_10 = a5;
     field_0 = p18;
 }
