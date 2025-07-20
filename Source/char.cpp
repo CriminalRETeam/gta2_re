@@ -436,25 +436,17 @@ void Char_C::DoIanTest_471060(s16 a1)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4710c0)
+MATCH_FUNC(0x4710c0)
 Ped* Char_C::PedById(s32 pedId)
 {
-    NOT_IMPLEMENTED;
-    Ped* pPedIter = gChar_203AC_6787B8->field_4;
-    if (!pPedIter)
+    for (Ped* pPedIter = gChar_203AC_6787B8->field_4; pPedIter; pPedIter = pPedIter->field_160_next_ped)
     {
-        return 0;
-    }
-
-    while (pPedIter->field_200_id != pedId)
-    {
-        pPedIter = pPedIter->field_160_next_ped;
-        if (!pPedIter)
+        if (pPedIter->field_200_id == pedId)
         {
-            return 0;
+            return pPedIter;
         }
     }
-    return pPedIter;
+    return NULL;
 }
 
 MATCH_FUNC(0x471110)
