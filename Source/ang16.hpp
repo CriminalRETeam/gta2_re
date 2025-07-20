@@ -27,6 +27,11 @@ class Ang16
         return rValue <= other.rValue;
     }
 
+    bool operator!=(const Ang16& other)
+    {
+        return rValue != other.rValue;
+    }
+
     Ang16 operator-=(const Ang16& other)
     {
         rValue -= other.rValue;
