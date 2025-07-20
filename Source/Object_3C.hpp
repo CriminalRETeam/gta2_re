@@ -18,35 +18,16 @@ class struct_4
 
     void sub_4207E0() // inline
     {
-      field_0_p18 = 0;
+        field_0_p18 = 0;
     }
 
-    EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
-
-    // gap
-
-    EXPORT Sprite_18* sub_5A6E10();
-
-    EXPORT void sub_5A7010();
-    
-    // gap
-
-    EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
-  public:
-    Sprite_18* field_0_p18;
-};
-
-class Object_3C
-{
-  public:
-    EXPORT Object_3C();
-    EXPORT ~Object_3C();
-    EXPORT u32* sub_52ADF0(u32* a2);
     EXPORT Sprite_18* sub_5A6A50(s32 a2);
     EXPORT Object_2C* sub_5A6A90(s32 obj_type);
     EXPORT Sprite_18* sub_5A6AD0();
+
+   
     EXPORT void sub_5A6B10(Sprite* a2);
+
     EXPORT void sub_5A6B60(Sprite* a2);
     EXPORT void sub_5A6BB0();
     EXPORT void sub_5A6BD0();
@@ -55,32 +36,39 @@ class Object_3C
     EXPORT void sub_5A6C40(s32 a2);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
 
-    // TODO: Moved methods to struct_4 from here
-
+    EXPORT void sub_5A6CD0(Sprite* pSprite);
+    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();
     EXPORT Sprite* sub_5A6DC0();
-    
-    // TODO: moved method
-
+    EXPORT Sprite_18* sub_5A6E10();
     EXPORT Sprite* sub_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT s32 sub_5A6EA0(s32 a2, s32 a3);
     EXPORT void sub_5A6F70(Sprite* a2);
-
-    // TODO: Moved method
-
+    EXPORT void sub_5A7010();
     EXPORT void sub_5A7080();
     EXPORT void sub_5A7110();
     EXPORT s32 sub_5A71A0();
     EXPORT void sub_5A71F0();
     EXPORT void sub_5A7240(Sprite* a2);
-   
-    // TODO: Moved method
-
+    EXPORT void sub_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();
 
-    Sprite_18* field_0;
+  public:
+    Sprite_18* field_0_p18;
+};
+
+class Object_3C
+{
+  public:
+    EXPORT Object_3C(); // 0x52ad80
+    EXPORT ~Object_3C(); // 0x52ade0
+
+    // ?? not sure if this is O3C either :skull:
+    EXPORT u32* sub_52ADF0(u32* a2);
+
+    struct_4 field_0;
     Ang16 field_4;
     s16 field_6;
     Object_3C* field_8;

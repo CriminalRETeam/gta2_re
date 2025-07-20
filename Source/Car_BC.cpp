@@ -2723,7 +2723,7 @@ char_type Car_BC::sub_443170()
 
     if (this->field_0_qq.field_0_p18)
     {
-        ((Object_3C*)this)->sub_5A6F70(this->field_50_car_sprite);
+        this->field_0_qq.sub_5A6F70(this->field_50_car_sprite);
         this->field_0_qq.sub_5A72B0(this->field_50_car_sprite, 0);
     }
 
@@ -2889,7 +2889,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
         if (remap != 0xFD) // respray
         {
             SetCarRemap(remap);
-            ((Object_3C*)this)->sub_5A7110();
+            field_0_qq.sub_5A7110();
             this->field_B4 = 1;
         }
 

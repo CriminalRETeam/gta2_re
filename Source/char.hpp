@@ -4,6 +4,7 @@
 #include "Ped.hpp"
 #include "angle.hpp"
 #include "ang16.hpp"
+#include "Object_3C.hpp"
 
 class Sprite_3C;
 class Ped;
@@ -76,7 +77,7 @@ class Char_B4
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84;
-    Car_BC* field_88_obj_2c;
+    struct_4 field_88_obj_2c;
     Fix16 field_8c;
     Fix16 field_90;
     Fix16 field_94;
