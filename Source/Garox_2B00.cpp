@@ -1333,10 +1333,14 @@ void Hud_2B00::sub_5D5190()
     }
 }
 
-STUB_FUNC(0x5d5240)
+MATCH_FUNC(0x5d5240)
 void Hud_2B00::sub_5D5240(wchar_t* Source)
 {
-    NOT_IMPLEMENTED;
+    field_0.field_0_display_time = 120;
+    wcscpy(field_0.field_2_car_name, Source);
+    gText_0x14_704DFC->sub_5B5B80(field_0.field_2_car_name);
+    Hud_2B00::sub_5D5190();
+    field_0.field_48 = -17;
 }
 
 MATCH_FUNC(0x5d5350)
