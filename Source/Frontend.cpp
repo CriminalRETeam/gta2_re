@@ -34,12 +34,12 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 void Start_GTA2Manager_5E4DE0();
 
 DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
-DEFINE_GLOBAL(u32, counter_706C4C, 0x706C4C);
-DEFINE_GLOBAL(s32, dword_67D930, 0x67D930);
+DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
+DEFINE_GLOBAL_INIT(s32, dword_67D930, 0, 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32, 0x67DC8C); // 67DCCC
-DEFINE_GLOBAL(DWORD, dword_67D9FC, 0x67D9FC);
-DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
+DEFINE_GLOBAL_INIT(DWORD, dword_67D9FC, 16384, 0x67D9FC);
+DEFINE_GLOBAL_INIT(short, font_type_703C14, 7, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
 DEFINE_GLOBAL(s16, word_703C16, 0x703C16);
@@ -2658,23 +2658,13 @@ void Frontend::sub_4B4280()
             9u);
 }
 
-STUB_FUNC(0x4B8530)
+MATCH_FUNC(0x4B8530)
 void Frontend::sub_4B8530()
 {
-    NOT_IMPLEMENTED;
-    short total = field_C9CA;
-    if (total < 9)
+    u16 total = field_C9CA;
+    for (u16 i = total; i < 9; i++)
     {
-        s32 remainder = 9 - total;
-        //remainder &= 0xFFFF;
-        wchar_t* pStart = &field_C9B8[total];
-        while (remainder)
-        {
-            *pStart = 0;
-            pStart++;
-            remainder--;
-        }
-        //        wmemset(&field_C9B8[total], 0, remainder);
+        field_C9B8[i] = 0;
     }
 }
 
