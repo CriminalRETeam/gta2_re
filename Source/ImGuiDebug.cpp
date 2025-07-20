@@ -780,8 +780,8 @@ void CC ImGuiDebugDraw()
     {
         if (ImGui::Button("Init Phi_54 array"))
         {
-            Improvised_Init_Phi_54_array();
-            Improvised_Init_Phi_6C_array();
+            //Improvised_Init_Phi_54_array();
+            //Improvised_Init_Phi_6C_array();
         }
         if (ImGui::TreeNode("Global Vars"))
         {
