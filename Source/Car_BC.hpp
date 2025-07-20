@@ -662,7 +662,6 @@ class Car_BC
     ~Car_BC(); // 0x444960
 
     EXPORT void sub_447360();
-  
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0

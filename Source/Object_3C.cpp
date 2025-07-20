@@ -269,14 +269,14 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6d00)
-void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5)
+void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite1;
     p18->field_4_next = field_0_p18;
     p18->field_8.x = a3;
     p18->field_8.y = pSprite2;
-    p18->field_10 = a5;
+    p18->field_10 = angle;
     field_0_p18 = p18;
 }
 
