@@ -77,7 +77,7 @@ class Sprite_18
     Sprite* field_0;
     Sprite_18* field_4_next;
     Fix16_Point field_8;
-    s16 field_10;
+    Ang16 field_10;
     s16 field_12;
     s32 field_14_rng;
 };

@@ -50,7 +50,7 @@ class Garox_12EC_sub
   public:
     EXPORT char_type sub_5D13C0(s32 a2, Player *pPlayer);
     EXPORT void sub_5D1430();
-    EXPORT s32 sub_5D15A0(s32 a1);
+    EXPORT bool sub_5D15A0(s32 a1);
     EXPORT void sub_5D15D0(Player* pPlayer);
     char_type field_12EC_sub;
 };
@@ -517,7 +517,7 @@ class Hud_2B00
     EXPORT void sub_5D6BE0();
     EXPORT s32 sub_5D6C20(s32 action, Player *pPlayer);
     EXPORT s32 sub_5D6C70(s32 a1);
-    EXPORT s32 sub_5D6CB0(s32 a1);
+    EXPORT bool sub_5D6CB0(s32 a1);
     EXPORT Hud_2B00();
 
     Hud_CarName_4C field_0; // ok

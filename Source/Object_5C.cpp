@@ -1,3 +1,4 @@
+#include "error.hpp"
 #include "Object_5C.hpp"
 #include "Globals.hpp"
 #include "Object_226C.hpp"
@@ -16,6 +17,21 @@ EXTERN_GLOBAL(Ang16, word_6F8F68);
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
 DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
+DEFINE_GLOBAL(Fix16, dword_6F8E10, 0x6F8E10);
+
+DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
+DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
+DEFINE_GLOBAL(u8, byte_6F8F40, 0x6F8F40);
+DEFINE_GLOBAL(u32, dword_6F8E54, 0x6F8E54);
+DEFINE_GLOBAL(u32, dword_6F8F18, 0x6F8F18);
+DEFINE_GLOBAL(u32, dword_6F8DC0, 0x6F8DC0);
+DEFINE_GLOBAL(u32, dword_6F8F0C, 0x6F8F0C);
+DEFINE_GLOBAL(u8, byte_6F8EDC, 0x6F8EDC);
+
+DEFINE_GLOBAL(Ang16, word_6F8D8C, 0x6F8D8C);
+DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
+DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
+DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
@@ -425,16 +441,16 @@ void Object_2C::sub_528E50(Sprite* a3)
 }
 
 MATCH_FUNC(0x529000)
-void Object_2C::sub_529000(Sprite* pSprite)
+void Object_2C::sub_529000(Object_2C* pObj)
 {
-    switch (pSprite->field_18_ypos.mValue)
+    switch (pObj->field_18_model)
     {
         case 139:
-            sub_529070(pSprite);
+            sub_529070(pObj);
             break;
 
         case 141:
-            if (this->field_8->field_60)
+            if (field_8->field_60)
             {
                 sub_5291B0();
             }
@@ -449,9 +465,9 @@ void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 }
 
 MATCH_FUNC(0x529070)
-void Object_2C::sub_529070(Sprite* pSprite)
+void Object_2C::sub_529070(Object_2C* pObj)
 {
-    sub_5226A0(pSprite->field_26_pad);
+    sub_5226A0(pObj->field_26_varrok_idx);
 }
 
 MATCH_FUNC(0x5292D0)
@@ -618,10 +634,20 @@ Object_5C::~Object_5C()
     this->field_4 = 0;
 }
 
-STUB_FUNC(0x5297f0)
+MATCH_FUNC(0x5297f0)
 void Object_5C::sub_5297F0()
 {
-    NOT_IMPLEMENTED;
+    field_0 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
+    field_0->field_26_varrok_idx = 45;
+
+    field_4 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
+    field_4->field_26_varrok_idx = 48;
+
+    field_8 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D54);
+    field_8->field_26_varrok_idx = 46;
+
+    field_C = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
+    field_C->field_26_varrok_idx = 47;
 }
 
 STUB_FUNC(0x5298e0)
@@ -777,32 +803,52 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     gObject_29178_6F8F80->Remove(p2C);
 }
 
-STUB_FUNC(0x52A650)
-void Object_5C::sub_52A650()
+MATCH_FUNC(0x52A650)
+void Object_2C::sub_52A650()
 {
-    NOT_IMPLEMENTED;
+    if (!field_10)
+    {
+        Object_3C* p3C = gObject_5A40_6F8F7C->field_0;
+        gObject_5A40_6F8F7C->field_0 = gObject_5A40_6F8F7C->field_0->field_8;
+        ++dword_6F8E54;
+        p3C->field_C = 0;
+
+        Ang16 v2 = word_6F8F68;
+        p3C->field_18 = 0;
+        p3C->field_4 = v2;
+
+        p3C->field_28 = 0;
+        p3C->field_38 = 0;
+        p3C->field_34 = 2;
+        p3C->field_24 = 0;
+        p3C->field_2F = 0;
+        p3C->field_30 = 0;
+        field_10 = p3C;
+        p3C->field_20 = field_14;
+        field_10->field_C = dword_6F8E10;
+        field_10->field_10 = dword_6F8E10;
+    }
+    Object_2C::sub_522340();
 }
 
 MATCH_FUNC(0x52a6d0)
-void Object_5C::sub_52A6D0(Sprite* pSprite)
+void Object_2C::sub_52A6D0(Sprite* pSprite)
 {
-    // TODO: field_0 or inheritance ???
-    ((Object_2C*)this)->sub_527D00();
+    sub_527D00();
 
-    // TODO
-    if (*(u32*)(this->field_8 + 52) != 11)
+    if (field_8->field_34 != 11)
     {
-        gPurpleDoom_3_679210->Add_477AE0(this->field_4);
+        gPurpleDoom_3_679210->Add_477AE0(field_4);
     }
 
-    ((Object_2C*)this)->sub_522360();
+    sub_522360();
 
     if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
     {
         Car_BC* pObj = pSprite->field_8_car_bc_ptr;
         if (pObj)
         {
-            this->field_4->field_28_num = pObj->sub_4435B0();
+            field_4->field_28_num = pObj->sub_4435B0();
         }
     }
 }

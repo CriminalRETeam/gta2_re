@@ -37,7 +37,7 @@ class struct_4
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
 
     EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, s16 a5);
+    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();
@@ -84,7 +84,9 @@ class Object_3C
     s16 field_2C;
     char_type field_2E;
     char_type field_2F;
-    s32 field_30;
+    u8 field_30;
+    u8 field_31;
+    u16 field_32;
     s32 field_34;
     char_type field_38;
     char_type field_39;

@@ -266,6 +266,16 @@ class Sprite
     };
     infallible_turing* field_10_sound;
 
+    // 9.6f inline 0x420690
+    inline void sub_420690(Ang16 a1)
+    {
+        if (a1 != field_0)
+        {
+            field_0 = a1;
+            sub_59E7B0();
+        }
+    }
+
     inline Fix16 GetXPos()
     {
         return field_14_xpos;
@@ -652,7 +662,6 @@ class Car_BC
     ~Car_BC(); // 0x444960
 
     EXPORT void sub_447360();
-  
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0
