@@ -169,9 +169,9 @@ void eager_benz::sub_591C70()
     if (field_2C4_player_ped->get_wanted_points_433DC0() > 3000 && (field_2C4_player_ped->has_car_403B80()) &&
         field_2C4_player_ped->not_enter_car_as_passenger_4A5040() &&
         (tmp3 = field_2C4_player_ped->get_car_416B60()) != 0 && // null check optimized away ??
-        (tmp3->field_58_uni_Car78_or_Car_B0) != 0 &&
+        (tmp3->field_58_physics) != 0 &&
 
-        tmp3->field_58_uni_Car78_or_Car_B0->is_backward_gas_on_411810())
+        tmp3->field_58_physics->is_backward_gas_on_411810())
     {
         this->field_19C_reverse_count += gGame_0x40_67E008->sub_4B8BB0();
     }
@@ -192,8 +192,8 @@ void eager_benz::sub_591C70()
     }
 
     Car_BC* v24 = field_2C4_player_ped->get_car_416B60();
-    if (v24 && field_2C4_player_ped->not_enter_car_as_passenger_4A5040() && (v24->field_58_uni_Car78_or_Car_B0) != 0 &&
-        v24->field_58_uni_Car78_or_Car_B0->sub_55A0B0() // TODO: Wrong stack
+    if (v24 && field_2C4_player_ped->not_enter_car_as_passenger_4A5040() && (v24->field_58_physics) != 0 &&
+        v24->field_58_physics->sub_55A0B0() // TODO: Wrong stack
         && v24->sub_43A4C0() > dword_7028BC)
     {
         this->field_190_fly_car_count += gGame_0x40_67E008->sub_4B8BB0();

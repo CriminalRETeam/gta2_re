@@ -462,7 +462,7 @@ class Car_A4_10
     {
         field_4 = NULL;
         field_8 = NULL;
-        field_C = NULL;
+        field_C_car = NULL;
         field_0 = NULL;
         0;
     }
@@ -473,7 +473,7 @@ class Car_A4_10
     char_type field_3;
     Car_A4_10* field_4;
     Car_BC* field_8;
-    Car_BC* field_C;
+    Car_BC* field_C_car;
 };
 
 class Car_BC
@@ -677,7 +677,7 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C_car == this;
     }
 
     // Inlined 0x41E460
@@ -689,7 +689,7 @@ class Car_BC
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C_car == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
@@ -732,7 +732,7 @@ class Car_BC
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    Car_B0* field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_physics;
     Car_78* field_5C;
     Hamburger_40* field_60;
     Car_A4_10* field_64_pTrailer;

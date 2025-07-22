@@ -1456,7 +1456,7 @@ bool Car_BC::sub_43A3C0()
     NOT_IMPLEMENTED;
     Car_B0* pObj; // eax
 
-    pObj = this->field_58_uni_Car78_or_Car_B0;
+    pObj = this->field_58_physics;
     if (!pObj)
     {
         return false;
@@ -1507,7 +1507,7 @@ void Car_BC::RemoveAllDamage()
     Car_A4_10* v2 = this->field_64_pTrailer;
     if (v2)
     {
-        v2->field_C->sub_43D400();
+        v2->field_C_car->sub_43D400();
     }
 }
 
@@ -1547,7 +1547,7 @@ bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
     if (field_64_pTrailer)
     {
         // Check trailer car
-        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C->IsNotCurrentRemap(remap);
+        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C_car->IsNotCurrentRemap(remap);
     }
     return IsNotCurrentRemap(remap);
 }
@@ -1563,9 +1563,9 @@ void Car_BC::SetCarRemap(u8 remap)
     // trailer ?
     if (field_64_pTrailer)
     {
-        if (field_64_pTrailer->field_C->IsNotCurrentRemap(remap))
+        if (field_64_pTrailer->field_C_car->IsNotCurrentRemap(remap))
         {
-            field_64_pTrailer->field_C->field_50_car_sprite->SetRemap(remap);
+            field_64_pTrailer->field_C_car->field_50_car_sprite->SetRemap(remap);
         }
     }
 }
@@ -1586,7 +1586,7 @@ char_type Car_BC::sub_43A850()
 MATCH_FUNC(0x43a950)
 void Car_BC::sub_43A950()
 {
-    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
+    Car_B0* pB0 = field_58_physics;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1596,8 +1596,8 @@ void Car_BC::sub_43A950()
 MATCH_FUNC(0x43a970)
 void Car_BC::sub_43A970()
 {
-    field_58_uni_Car78_or_Car_B0->field_92_is_hand_brake_on = 1;
-    Car_B0* pB0 = field_58_uni_Car78_or_Car_B0;
+    field_58_physics->field_92_is_hand_brake_on = 1;
+    Car_B0* pB0 = field_58_physics;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -1610,7 +1610,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
     char hand_brake_on; // [esp+Ch] [ebp+4h]
     if (!pNewDriver)
     {
-        Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
+        Car_B0* pB0 = this->field_58_physics;
         if (pB0)
         {
             Ped* pOldDriver = this->field_54_driver;
@@ -1804,17 +1804,17 @@ char_type Car_BC::sub_43BBC0()
 MATCH_FUNC(0x43bc30)
 void Car_BC::sub_43BC30()
 {
-    if (!field_58_uni_Car78_or_Car_B0)
+    if (!field_58_physics)
     {
         sub_4419E0();
-        field_58_uni_Car78_or_Car_B0->sub_5638C0(this);
-        field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
+        field_58_physics->sub_5638C0(this);
+        field_58_physics->sub_563560(this->field_50_car_sprite);
     }
     else
     {
         if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
         {
-            field_58_uni_Car78_or_Car_B0->sub_563560(this->field_50_car_sprite);
+            field_58_physics->sub_563560(this->field_50_car_sprite);
         }
     }
 }
@@ -2338,7 +2338,7 @@ void Car_BC::sub_441520()
     switch (this->field_9C)
     {
         case 1:
-            pB0 = this->field_58_uni_Car78_or_Car_B0;
+            pB0 = this->field_58_physics;
             if (pB0)
             {
                 if (pB0->sub_55A180())
@@ -2370,7 +2370,7 @@ void Car_BC::sub_441520()
 MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
-    Car_B0* pB0 = this->field_58_uni_Car78_or_Car_B0;
+    Car_B0* pB0 = this->field_58_physics;
     if (pB0 && pB0->IsFootBrakeOn_55A150())
     {
         sub_43BF10();
@@ -2566,7 +2566,7 @@ bool Car_BC::sub_442170()
 MATCH_FUNC(0x442190)
 void Car_BC::sub_442190()
 {
-    if (field_58_uni_Car78_or_Car_B0->sub_562FE0())
+    if (field_58_physics->sub_562FE0())
     {
         if (!this->field_54_driver)
         {
@@ -2732,7 +2732,7 @@ char_type Car_BC::sub_443170()
         return 1;
     }
 
-    if (this->field_58_uni_Car78_or_Car_B0)
+    if (this->field_58_physics)
     {
         Car_78* v4 = this->field_5C;
         if (v4)
@@ -2763,7 +2763,7 @@ char_type Car_BC::sub_443170()
         this->field_0_qq.sub_5A72B0(this->field_50_car_sprite, 0);
     }
 
-    if (this->field_58_uni_Car78_or_Car_B0)
+    if (this->field_58_physics)
     {
         sub_43E560();
     }
@@ -2977,7 +2977,7 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }
-    Car_B0* field_58_uni = field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_uni = field_58_physics;
     if (field_58_uni)
     {
         field_58_uni->sub_563560(field_50_car_sprite);
@@ -2994,7 +2994,7 @@ void Car_BC::IncrementCarStats_443D70(s32 a2)
     {
         if (field_64_pTrailer->field_8 == this)
         {
-            field_64_pTrailer->field_C->IncrementAllocatedCarType_443DA0(a2);
+            field_64_pTrailer->field_C_car->IncrementAllocatedCarType_443DA0(a2);
         }
     }
 }
@@ -3152,7 +3152,7 @@ void Car_BC::sub_444490()
     this->field_4.field_0_pOwner = 0;
     this->field_54_driver = 0;
     this->field_98 = 3;
-    this->field_58_uni_Car78_or_Car_B0 = 0;
+    this->field_58_physics = 0;
     this->field_A4 = 0;
     this->field_A5 = 0;
     this->field_76 = 0;
@@ -3245,7 +3245,7 @@ Car_BC::Car_BC()
     field_4C_next = 0;
     field_84_car_info_idx = 87;
     field_50_car_sprite = 0;
-    field_58_uni_Car78_or_Car_B0 = 0;
+    field_58_physics = 0;
     field_5C = 0;
     field_88 = 0;
     field_6C_maybe_id = 0xFFFF;
@@ -3317,7 +3317,7 @@ Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
 {
     if (a2 == field_8)
     {
-        return field_C;
+        return field_C_car;
     }
     return field_8;
 }
@@ -3326,9 +3326,9 @@ MATCH_FUNC(0x407bb0)
 void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
     this->field_8 = a2;
-    this->field_C = a3;
+    this->field_C_car = a3;
     a2->field_64_pTrailer = this;
-    this->field_C->field_64_pTrailer = this;
+    this->field_C_car->field_64_pTrailer = this;
     this->field_0 = 0;
 }
 
@@ -3349,14 +3349,14 @@ s32* Car_A4_10::sub_407CE0()
 MATCH_FUNC(0x408140)
 char_type Car_A4_10::sub_408140()
 {
-    if (!this->field_8->field_58_uni_Car78_or_Car_B0 && !this->field_C->field_58_uni_Car78_or_Car_B0)
+    if (!this->field_8->field_58_physics && !this->field_C_car->field_58_physics)
     {
         return 0;
     }
 
     sub_408190();
 
-    if (!this->field_8->field_58_uni_Car78_or_Car_B0->sub_562FE0() || this->field_8->field_54_driver)
+    if (!this->field_8->field_58_physics->sub_562FE0() || this->field_8->field_54_driver)
     {
         return this->field_8->sub_43E560();
     }
@@ -3368,14 +3368,14 @@ MATCH_FUNC(0x408190)
 void Car_A4_10::sub_408190()
 {
     field_8->sub_43BC30();
-    field_C->sub_43BC30();
+    field_C_car->sub_43BC30();
 }
 
 MATCH_FUNC(0x4081b0)
 void Car_A4_10::sub_4081B0()
 {
     field_8->sub_441A10();
-    field_C->sub_441A10();
+    field_C_car->sub_441A10();
 }
 
 MATCH_FUNC(0x4081d0)
@@ -3383,14 +3383,14 @@ char_type Car_A4_10::sub_4081D0()
 {
     if (field_8->field_74_damage == 32001)
     {
-        if (field_C->field_74_damage != 32001)
+        if (field_C_car->field_74_damage != 32001)
         {
-            field_C->field_74_damage = 32000;
-            field_C->sub_43D840(18);
+            field_C_car->field_74_damage = 32000;
+            field_C_car->sub_43D840(18);
         }
         return 1;
     }
-    else if (this->field_C->field_74_damage == 32001)
+    else if (this->field_C_car->field_74_damage == 32001)
     {
         field_8->field_74_damage = 32000;
         field_8->sub_43D840(18);

@@ -17,7 +17,6 @@ s16* Car_B0::sub_4403A0(s16* a2)
 MATCH_FUNC(0x446ee0)
 Car_B0::~Car_B0()
 {
-
 }
 
 STUB_FUNC(0x559430)
@@ -146,8 +145,15 @@ u32* Car_B0::sub_55A050(u32* a2)
 STUB_FUNC(0x55a0b0)
 u8 Car_B0::sub_55A0B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_A4_10* pTrailer; // eax
+
+    pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (!pTrailer)
+    {
+        return this->field_98_surface_type == 6;
+    }
+    return pTrailer->field_8->field_58_physics->field_98_surface_type == 6 &&
+        pTrailer->field_C_car->field_58_physics->field_98_surface_type == 6;
 }
 
 STUB_FUNC(0x55a100)
@@ -165,7 +171,7 @@ char_type Car_B0::IsFootBrakeOn_55A150()
     Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        Car_B0* pPhysics = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        Car_B0* pPhysics = pTrailer->field_8->field_58_physics;
         if (pPhysics)
         {
             bFootBrakeOn = pPhysics->field_91_is_foot_brake_on;
@@ -192,7 +198,7 @@ char_type Car_B0::sub_55A180()
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        pB0 = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        pB0 = pTrailer->field_8->field_58_physics;
         if (!pB0)
         {
             return 0;
@@ -788,7 +794,7 @@ void Car_B0::sub_5636C0()
     Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
-        p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
+        p10->field_C_car->field_58_physics->sub_563670();
     }
 }
 

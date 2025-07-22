@@ -2068,7 +2068,7 @@ void Ped::sub_470300()
         {
             pCar->field_7C_uni_num = 3;
             pCar->field_76 = 0;
-            Car_B0* pB0 = pCar->field_58_uni_Car78_or_Car_B0;
+            Car_B0* pB0 = pCar->field_58_physics;
             if (pB0)
             {
                 pB0->field_8C = 1;
