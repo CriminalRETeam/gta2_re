@@ -1,5 +1,8 @@
 #include "Tango_28.hpp"
 #include "debug.hpp"
+#include "Hamburger_500.hpp"
+#include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 
 MATCH_FUNC(0x4a85f0)
 void Tango_54::sub_4A85F0()
@@ -52,10 +55,31 @@ char_type Tango_28::sub_4A7FC0()
     return 0;
 }
 
-STUB_FUNC(0x4a81a0)
-void Tango_28::sub_4A81A0()
+MATCH_FUNC(0x4a81a0)
+void Tango_28::deinit_4A81A0()
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar = this->field_1C_car;
+    if (pCar)
+    {
+        Hamburger_40* pRoute = pCar->field_60;
+        if (pRoute)
+        {
+            gHamburger_500_678E30->sub_474CC0(pRoute);
+            this->field_1C_car->field_60 = 0;
+        }
+    }
+    Ped* pPed = this->field_20_ped;
+    if (pPed)
+    {
+        pPed->SetObjective(0, 9999);
+    }
+
+    Car_BC* pCar2 = this->field_C_target_car;
+    this->field_8_state = 5;
+    if (pCar2)
+    {
+        pCar2->field_0_qq.sub_5A7080();
+    }
 }
 
 STUB_FUNC(0x4a81f0)
