@@ -47,7 +47,7 @@ void Car_B0::sub_559A40()
 MATCH_FUNC(0x559b40)
 void Car_B0::sub_559B40()
 {
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->sub_407CE0();
@@ -57,7 +57,7 @@ void Car_B0::sub_559B40()
 MATCH_FUNC(0x559b50)
 void Car_B0::sub_559B50()
 {
-    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
         if (pTrailer->field_0)
@@ -145,7 +145,7 @@ u32* Car_B0::sub_55A050(u32* a2)
 STUB_FUNC(0x55a0b0)
 u8 Car_B0::sub_55A0B0()
 {
-    Car_A4_10* pTrailer; // eax
+    Trailer* pTrailer; // eax
 
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (!pTrailer)
@@ -168,7 +168,7 @@ char_type Car_B0::IsFootBrakeOn_55A150()
 {
     char_type bFootBrakeOn;
 
-    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
         Car_B0* pPhysics = pTrailer->field_8->field_58_physics;
@@ -192,7 +192,7 @@ STUB_FUNC(0x55a180)
 char_type Car_B0::sub_55A180()
 {
     NOT_IMPLEMENTED;
-    Car_A4_10* pTrailer; // eax
+    Trailer* pTrailer; // eax
     Car_B0* pB0; // eax
 
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
@@ -791,7 +791,7 @@ void Car_B0::sub_5636C0()
 {
     sub_563670();
 
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->field_C_car->field_58_physics->sub_563670();

@@ -165,12 +165,12 @@
         "v105_address": "0x406c20"
     },
     {
-        "name": "Car_A4_10::sub_407B90",
+        "name": "Trailer::sub_407B90",
         "v96f_address": null,
         "v105_address": "0x407b90"
     },
     {
-        "name": "Car_A4_10::sub_407BB0",
+        "name": "Trailer::sub_407BB0",
         "v96f_address": null,
         "v105_address": "0x407bb0"
     },
@@ -180,32 +180,32 @@
         "v105_address": "0x407bd0"
     },
     {
-        "name": "Car_A4_10::sub_407CE0",
+        "name": "Trailer::sub_407CE0",
         "v96f_address": null,
         "v105_address": "0x407ce0"
     },
     {
-        "name": "Car_A4_10::sub_408140",
+        "name": "Trailer::sub_408140",
         "v96f_address": null,
         "v105_address": "0x408140"
     },
     {
-        "name": "Car_A4_10::sub_408190",
+        "name": "Trailer::sub_408190",
         "v96f_address": null,
         "v105_address": "0x408190"
     },
     {
-        "name": "Car_A4_10::sub_4081B0",
+        "name": "Trailer::sub_4081B0",
         "v96f_address": null,
         "v105_address": "0x4081b0"
     },
     {
-        "name": "Car_A4_10::sub_4081D0",
+        "name": "Trailer::sub_4081D0",
         "v96f_address": null,
         "v105_address": "0x4081d0"
     },
     {
-        "name": "Car_A4_10::sub_408220",
+        "name": "Trailer::sub_408220",
         "v96f_address": null,
         "v105_address": "0x408220"
     },

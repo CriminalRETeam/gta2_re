@@ -1175,7 +1175,7 @@ Car_BC* Car_6C::sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s
 }
 
 STUB_FUNC(0x446530)
-Car_A4_10* Car_6C::sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx)
+Trailer* Car_6C::sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1504,7 +1504,7 @@ MATCH_FUNC(0x43a600)
 void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
-    Car_A4_10* v2 = this->field_64_pTrailer;
+    Trailer* v2 = this->field_64_pTrailer;
     if (v2)
     {
         v2->field_C_car->sub_43D400();
@@ -2660,7 +2660,7 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-Car_A4_10* Car_BC::sub_442760()
+Trailer* Car_BC::sub_442760()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -3313,7 +3313,7 @@ Car_8::~Car_8()
 */
 
 MATCH_FUNC(0x407b90)
-Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
+Car_BC* Trailer::sub_407B90(Car_BC* a2)
 {
     if (a2 == field_8)
     {
@@ -3323,7 +3323,7 @@ Car_BC* Car_A4_10::sub_407B90(Car_BC* a2)
 }
 
 MATCH_FUNC(0x407bb0)
-void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
+void Trailer::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
     this->field_8 = a2;
     this->field_C_car = a3;
@@ -3333,21 +3333,21 @@ void Car_A4_10::sub_407BB0(Car_BC* a2, Car_BC* a3)
 }
 
 STUB_FUNC(0x407bd0)
-s32* Car_A4_10::sub_407BD0(s32* a2)
+s32* Trailer::sub_407BD0(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x407ce0)
-s32* Car_A4_10::sub_407CE0()
+s32* Trailer::sub_407CE0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x408140)
-char_type Car_A4_10::sub_408140()
+char_type Trailer::sub_408140()
 {
     if (!this->field_8->field_58_physics && !this->field_C_car->field_58_physics)
     {
@@ -3365,21 +3365,21 @@ char_type Car_A4_10::sub_408140()
 }
 
 MATCH_FUNC(0x408190)
-void Car_A4_10::sub_408190()
+void Trailer::sub_408190()
 {
     field_8->sub_43BC30();
     field_C_car->sub_43BC30();
 }
 
 MATCH_FUNC(0x4081b0)
-void Car_A4_10::sub_4081B0()
+void Trailer::sub_4081B0()
 {
     field_8->sub_441A10();
     field_C_car->sub_441A10();
 }
 
 MATCH_FUNC(0x4081d0)
-char_type Car_A4_10::sub_4081D0()
+char_type Trailer::sub_4081D0()
 {
     if (field_8->field_74_damage == 32001)
     {
@@ -3403,7 +3403,7 @@ char_type Car_A4_10::sub_4081D0()
 }
 
 STUB_FUNC(0x408220)
-s32 Car_A4_10::sub_408220()
+s32 Trailer::sub_408220()
 {
     NOT_IMPLEMENTED;
     return 0;

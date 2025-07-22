@@ -5,7 +5,7 @@
 
 class Sprite;
 class Car_BC;
-class Car_A4_10;
+class Trailer;
 class Sprite_4C;
 class Ped;
 class CarInfo_48;

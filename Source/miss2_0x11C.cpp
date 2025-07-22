@@ -348,7 +348,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            Car_A4_10* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
+            Trailer* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
                                                         pCmd->field_C_pos.field_4_y,
                                                         rotation,
                                                         pCmd->field_1C_car_id,
