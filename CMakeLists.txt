@@ -294,6 +294,16 @@ if (${MSVC_VERSION} EQUAL 1200)
     target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
     set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
 endif()
+if (${MSVC_VERSION} GREATER 1200)
+    set_target_properties(decomp_main PROPERTIES
+        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF /SAFESEH:NO"
+    )
+else()
+    set_target_properties(decomp_main PROPERTIES
+        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF"
+    )
+endif()
+
 
 add_executable (cl_proxy Source/cl_proxy.cpp)
 if (${MSVC_VERSION} EQUAL 1200)
