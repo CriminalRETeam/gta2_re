@@ -13,7 +13,7 @@ class Tango_28
     {
         field_C_target_car = 0;
         field_8_state = 0;
-        field_4 = 0;
+        field_4_bActive = 0;
         field_1C_car = 0;
         field_20_ped = 0;
         field_24 = 0;
@@ -27,7 +27,7 @@ class Tango_28
 
     s16 field_0;
     s16 field_2;
-    s32 field_4;
+    s32 field_4_bActive;
     s32 field_8_state;
     Car_BC* field_C_target_car;
     s32 field_10;
@@ -58,7 +58,7 @@ class Tango_54
 
     EXPORT void sub_4A85F0();
     EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
-    EXPORT Tango_28* sub_4A8800();
+    EXPORT Tango_28* New28_4A8800();
     EXPORT char_type sub_4A8820(Car_BC* a2);
     EXPORT void sub_4A88D0();
 

@@ -1,8 +1,8 @@
 #include "Tango_28.hpp"
-#include "debug.hpp"
-#include "Hamburger_500.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
+#include "Hamburger_500.hpp"
+#include "debug.hpp"
 
 MATCH_FUNC(0x4a85f0)
 void Tango_54::sub_4A85F0()
@@ -12,7 +12,7 @@ void Tango_54::sub_4A85F0()
     {
         for (u32 i = 0; i < 2; i++)
         {
-            if (p->field_4)
+            if (p->field_4_bActive)
             {
                 p->sub_4A81F0();
             }
@@ -28,10 +28,18 @@ Tango_28* Tango_54::sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5)
     return 0;
 }
 
-STUB_FUNC(0x4a8800)
-Tango_28* Tango_54::sub_4A8800()
+MATCH_FUNC(0x4a8800)
+Tango_28* Tango_54::New28_4A8800()
 {
-    NOT_IMPLEMENTED;
+    Tango_28* p = field_0;
+    for (s32 i = 0; i < 2; i++)
+    {
+        if (!p->field_4_bActive)
+        {
+            return p;
+        }
+        p++;
+    }
     return 0;
 }
 
