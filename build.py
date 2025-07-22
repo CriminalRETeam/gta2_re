@@ -240,7 +240,9 @@ def build():
 
     error_collection.save_json()
 
-    return p1.poll()
+    exit_code = p1.wait()
+    return exit_code
+
 
 
 def verify():
