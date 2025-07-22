@@ -10,11 +10,6 @@ set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/O
 
 # NOICF is required because skip_ovly_5AAE20 and skip_psxt_5AAE30 have identical bodies and the linker will make them one and the same
 # however the real binary does have 2 copies. NOREF keeps functions that are not yet called so we can diff the content against the original.
-if (${MSVC_VERSION} GREATER 1200)
-    set (CMAKE_EXE_LINKER_FLAGS "/MAP:output.map /OPT:NOICF,NOREF /SAFESEH:NO" )
-else()
-    set (CMAKE_EXE_LINKER_FLAGS "/MAP:output.map /OPT:NOICF,NOREF" )
-endif()
 set (CMAKE_SHARED_LINKER_FLAGS "/OPT:NOICF,NOREF")
 
 set(CompilerFlags

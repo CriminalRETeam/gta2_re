@@ -165,13 +165,14 @@ def convert_path(strPath):
             return strPath
     return strPath
 
+# bin annoying clang-cl spam under some wine versions
+GUID_FILTER = "177f0c4a-1cd3-4de7-a32c-71dbbb9fa36d"
+
 def build():
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
 
     vc6_env = get_vc6_env()
-    lib = vc6_env[0]
-    include = vc6_env[1]
-    path = vc6_env[2]
+    lib, include, path = vc6_env
 
     if platform.system() in ("Linux", "Darwin"):
         build_dir = as_wine_path(BUILD_DIRECTORY)
@@ -185,61 +186,57 @@ def build():
         p1 = subprocess.Popen(
             command,
             cwd=BUILD_DIRECTORY,
-            stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,  # ✅ Merge stderr into stdout
+            stderr=subprocess.STDOUT,
             text=True,
             shell=True
         )
-    elif platform.system() == "Windows":
+    else:  # Windows
         p1 = subprocess.Popen(
             "cmd",
             cwd=BUILD_DIRECTORY,
             stdin=subprocess.PIPE,
             stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,  # ✅ Merge stderr into stdout
+            stderr=subprocess.STDOUT,
             text=True
         )
-
         p1.stdin.write(f"set LIB={lib}\n")
         p1.stdin.write(f"set INCLUDE={include}\n")
         p1.stdin.write(f"set PATH={path};%PATH%\n")
-
         for build_cmd in BUILD_CMDS:
             p1.stdin.write(f"{build_cmd}\n")
-
         p1.stdin.write("exit /b %errorlevel%\n")
         p1.stdin.close()
 
-    # Regex for MSVC-style error/warning messages
+    error_collection = CompileErrorCollection()
+
+    # MSVC-style error/warning detection
     pattern = re.compile(
         r'(?P<file_path>[A-Z]:\\(?:[^\\/:*?"<>|\r\n]+\\)*[^\\/:*?"<>|\r\n]+)'
         r'\((?P<line_number>\d+)\)\s*:\s*(?:fatal\s+)?(?P<log_type>error|warning)\s+'
         r'(?P<code>[A-Z]\d+):\s*(?P<message>.+)'
     )
 
-    error_collection = CompileErrorCollection()
-
-    while True:
-        output = p1.stdout.readline()
-        if output == "" and p1.poll() is not None:
+    for line in iter(p1.stdout.readline, ""):
+        if not line or p1.poll() is not None:
             break
 
-        if output:
-            print(output.strip())
-            sys.stdout.flush()
+        if GUID_FILTER in line:
+            continue
 
-            match = pattern.match(output)
-            if match:
-                strPath = convert_path(match.group("file_path"))
-                entry = CompileErrorEntry(
-                    strPath,
-                    int(match.group("line_number")),
-                    match.group("log_type"),
-                    match.group("code"),
-                    match.group("message")
-                )
-                error_collection.add(entry)
+        print(line.strip())
+        sys.stdout.flush()
+
+        match = pattern.match(line)
+        if match:
+            entry = CompileErrorEntry(
+                convert_path(match.group("file_path")),
+                int(match.group("line_number")),
+                match.group("log_type"),
+                match.group("code"),
+                match.group("message")
+            )
+            error_collection.add(entry)
 
     error_collection.save_json()
 

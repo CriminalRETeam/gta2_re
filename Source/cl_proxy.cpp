@@ -1,5 +1,5 @@
 #if defined(__clang__) || (_MSC_VER <= 1200)
-#define _Lockit MyStubLockit
+    #define _Lockit MyStubLockit
 #endif
 
 #include <algorithm>
@@ -14,19 +14,17 @@
 #if defined(__clang__)
 namespace std
 {
-    MyStubLockit::MyStubLockit()
-    {
+MyStubLockit::MyStubLockit()
+{
+}
 
-    }
-
-    MyStubLockit::~MyStubLockit()
-    {
-
-    }
+MyStubLockit::~MyStubLockit()
+{
+}
 } // namespace std
 #endif
 
-#define DEBUG_ENABLED
+//#define DEBUG_ENABLED
 
 #ifndef INVALID_FILE_ATTRIBUTES
     #define INVALID_FILE_ATTRIBUTES ((DWORD) - 1)
@@ -159,13 +157,15 @@ std::vector<std::string> tokenize(const std::string& line)
     return tokens;
 }
 
-enum CrtMode {
-    CRT_ML,  // Single-threaded static
-    CRT_MT,  // Multi-threaded static
-    CRT_MD   // Multi-threaded DLL
+enum CrtMode
+{
+    CRT_ML, // Single-threaded static
+    CRT_MT, // Multi-threaded static
+    CRT_MD // Multi-threaded DLL
 };
 
-CrtMode detectCrtMode(const std::string& compilerFlags) {
+CrtMode detectCrtMode(const std::string& compilerFlags)
+{
     if (compilerFlags.find("/MD") != std::string::npos)
         return CRT_MD;
     if (compilerFlags.find("/MT") != std::string::npos)
@@ -177,9 +177,11 @@ CrtMode detectCrtMode(const std::string& compilerFlags) {
     return CRT_ML;
 }
 
-std::string getCrtDefines(CrtMode mode) {
+std::string getCrtDefines(CrtMode mode)
+{
     std::string flags = "-D_X86_ -DWIN32 -D_WINDOWS -fms-compatibility -fms-extensions -m32 ";
-    switch (mode) {
+    switch (mode)
+    {
         case CRT_MT:
             flags += "-D_MT ";
             break;
@@ -270,7 +272,6 @@ bool sanitizeFlags(const std::string& rawLine, std::string& cleanFlags, std::str
     std::string defines = getCrtDefines(mode);
     cleanFlags += defines;
 
-
     return !sourcePath.empty();
 }
 
@@ -281,6 +282,82 @@ std::string quoteIfNeeded(const std::string& path)
     return path;
 }
 
+// Jenkins One-at-a-Time hash (C++98 safe)
+unsigned int jenkins_hash_string(const std::string& input)
+{
+    unsigned int hash = 0;
+    for (std::string::const_iterator it = input.begin(); it != input.end(); ++it)
+    {
+        hash += static_cast<unsigned char>(*it);
+        hash += (hash << 10);
+        hash ^= (hash >> 6);
+    }
+    hash += (hash << 3);
+    hash ^= (hash >> 11);
+    hash += (hash << 15);
+    return hash;
+}
+
+std::string jenkins_hash_hex(const std::string& input)
+{
+    unsigned int hash = jenkins_hash_string(input);
+
+    char buffer[16];
+    sprintf(buffer, "%08X", hash);
+
+    return std::string(buffer);
+}
+
+
+class NamedMutex
+{
+public:
+    NamedMutex(const std::string& name)
+        : hMutex_(NULL), acquired_(false)
+    {
+        hMutex_ = CreateMutexA(NULL, FALSE, name.c_str());
+        if (hMutex_ != NULL)
+        {
+            DWORD waitResult = WaitForSingleObject(hMutex_, INFINITE);
+            acquired_ = (waitResult == WAIT_OBJECT_0 || waitResult == WAIT_ABANDONED);
+        }
+    }
+
+    ~NamedMutex()
+    {
+        if (acquired_ && hMutex_ != NULL)
+            ReleaseMutex(hMutex_);
+
+        if (hMutex_ != NULL)
+            CloseHandle(hMutex_);
+    }
+
+    // Optional: check if we successfully acquired the mutex
+    bool is_acquired() const
+    {
+        return acquired_;
+    }
+
+private:
+    HANDLE hMutex_;
+    bool acquired_;
+
+    // Disable copy semantics to avoid multiple releases
+    NamedMutex(const NamedMutex&);
+    NamedMutex& operator=(const NamedMutex&);
+};
+
+std::string to_lowercase(const std::string& input)
+{
+    std::string result = input;
+    for (std::string::size_type i = 0; i < result.length(); ++i)
+    {
+        result[i] = static_cast<char>(tolower(result[i]));
+    }
+    return result;
+}
+
+
 class Preprocessor
 {
   public:
@@ -288,26 +365,41 @@ class Preprocessor
     {
     }
 
-    bool preprocess(const std::string& sourcePath, const std::string& cleanFlags, std::string& outPath)
+    bool preprocess(const std::string& sourcePath, const std::string& cleanFlags, std::string& fullPathToUniqueFile)
     {
         char cwd[MAX_PATH];
         GetCurrentDirectoryA(MAX_PATH, cwd);
-        std::string strCwd(cwd);
+        const std::string strCwd(cwd);
 
-        std::string iName = extractBaseName(sourcePath);
-        std::string iPath = iName + ".i";
-        outPath = strCwd + "\\" + iName + ".pre.c";
+        const std::string sourceFileNameNoPathOrExt = extractBaseName(sourcePath);
+        const std::string mutexName = "Global\\" + to_lowercase(sourceFileNameNoPathOrExt);
+        NamedMutex mutex(sourceFileNameNoPathOrExt);
+        if (!mutex.is_acquired())
+        {
+            // Well now the build is fucked, good luck
+            mLogger.debug("Failed to get mutex");
+        }
 
-        std::string cmd = "clang-cl -E -P " + cleanFlags + " " + quoteIfNeeded(sourcePath) + " -o " + quoteIfNeeded(iPath);
+        // My god why? clang-cl will just use input.cpp and produce output.i, so when input.cpp is compiled twice
+        // with diff arguments it is totally fucked, take the base name and use it as mutex to prevent this.
+        // Is it clang? Are we passing bad arguments? Is it wine? Who knows, mutex works, sigh.
+        const std::string outputClangCLWillUse = sourceFileNameNoPathOrExt + ".i";
+        const std::string fullPathToOutputClangCLWillUse = strCwd + "\\" + outputClangCLWillUse;
+
+        const std::string tmpUniqueFile = sourceFileNameNoPathOrExt + "_" + jenkins_hash_hex(sourceFileNameNoPathOrExt + cleanFlags);
+        fullPathToUniqueFile = strCwd + "\\" + tmpUniqueFile + ".pre.c";
+
+        std::string cmd = "clang-cl -E -P " + cleanFlags + " " + quoteIfNeeded(sourcePath) + " -o " + quoteIfNeeded(outputClangCLWillUse);
 
         mLogger.debug("Running:");
         mLogger.debug(cmd.c_str());
-
-        std::string cmdLog = iName + ".cmd.txt";
+/*
+        // Warning: output names may clash, careful when using for debugging
+        std::string cmdLog = sourceFileNameNoPathOrExt + ".cmd.txt";
         std::ofstream log(cmdLog.c_str());
         log << cmd << "\n";
         log.close();
-
+*/
         STARTUPINFOA si = {sizeof(si)};
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
@@ -325,11 +417,10 @@ class Preprocessor
         CloseHandle(pi.hProcess);
         CloseHandle(pi.hThread);
 
-        std::string fulliPath = strCwd + "\\" + iName + ".i";
-        if (fileExists(fulliPath))
+        if (fileExists(fullPathToOutputClangCLWillUse))
         {
-            MoveFileExA(fulliPath.c_str(), outPath.c_str(), MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING);
-            std::string s = "Moved " + fulliPath + " to " + outPath;
+            MoveFileExA(fullPathToOutputClangCLWillUse.c_str(), fullPathToUniqueFile.c_str(), MOVEFILE_COPY_ALLOWED | MOVEFILE_REPLACE_EXISTING);
+            std::string s = "Moved " + fullPathToOutputClangCLWillUse + " to " + fullPathToUniqueFile;
             mLogger.debugStr(s);
         }
         else
@@ -388,7 +479,7 @@ class ClInvoker
 
 class ClangArtifactFixer
 {
-public:
+  public:
     bool clean(const std::string& path)
     {
         std::vector<std::string> lines;
@@ -430,7 +521,7 @@ public:
         return true;
     }
 
-private:
+  private:
     void stripNewline(std::string& line)
     {
         size_t pos = line.find_last_not_of("\r\n");
@@ -502,7 +593,7 @@ private:
         std::vector<std::string> result;
         std::string buffer;
         bool merging = false;
-    
+
         for (size_t i = 0; i < lines.size(); ++i)
         {
             const std::string& line = lines[i];
@@ -510,7 +601,7 @@ private:
             size_t first = trimmed.find_first_not_of(" \t");
             if (first != std::string::npos)
                 trimmed = trimmed.substr(first);
-    
+
             // Check if line is a pure string literal
             if (isPureStringLiteral(trimmed))
             {
@@ -536,13 +627,13 @@ private:
                 result.push_back(line);
             }
         }
-    
+
         if (merging && !buffer.empty())
             result.push_back(buffer);
-    
+
         return result;
     }
-    
+
     bool isPureStringLiteral(const std::string& line)
     {
         if (line.length() < 2)
@@ -556,10 +647,7 @@ private:
         }
         return true;
     }
-    
 };
-
-
 
 class ToolchainEngine
 {
@@ -681,6 +769,8 @@ class ToolchainEngine
         std::vector<std::string> rewrittenLines;
         std::string outPreCFile;
         std::string rspName;
+
+        mLogger.debug("Checking for RSP response file...");
         for (i = 1; i < argc; ++i)
         {
             std::string arg = argv[i];
@@ -701,10 +791,12 @@ class ToolchainEngine
 
         if (hadRspFile && runClang)
         {
+            mLogger.debug("Apply fixes to preprocessed file...");
             ClangArtifactFixer fixer;
             fixer.clean(outPreCFile);
 
             // Write new response file
+            mLogger.debug("Rewrite response file to new preprocessed file location...");
             std::string rewrittenRsp = rspName + "rewritten.rsp";
             if (!writeResponseFile(rewrittenRsp, rewrittenLines))
                 return 1;
@@ -719,6 +811,8 @@ class ToolchainEngine
         }
         else
         {
+            mLogger.debug("No response file, call real CL as pass through");
+
             std::string cmd = "cl_real.exe";
             for (int i = 1; i < argc; ++i)
             {
