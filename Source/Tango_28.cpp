@@ -32,7 +32,7 @@ MATCH_FUNC(0x4a8800)
 Tango_28* Tango_54::New28_4A8800()
 {
     Tango_28* p = field_0;
-    for (s32 i = 0; i < 2; i++)
+    for (s16 i = 0; i < 2; i++)
     {
         if (!p->field_4_bActive)
         {
@@ -102,9 +102,11 @@ void Tango_28::init_4A85C0()
     sub_450C10();
 }
 
-STUB_FUNC(0x4a85e0)
-s32 Tango_28::sub_4A85E0()
+MATCH_FUNC(0x4a85e0)
+void Tango_28::Reset_4A85E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_C_target_car = 0;
+    this->field_8_state = 0;
+    this->field_4_bActive = 0;
+    this->field_1C_car = 0;
 }
