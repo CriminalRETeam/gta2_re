@@ -22,7 +22,7 @@ void Tango_54::sub_4A85F0()
 }
 
 STUB_FUNC(0x4a8620)
-Tango_28* Tango_54::sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5)
+Tango_28* Tango_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -43,11 +43,33 @@ Tango_28* Tango_54::New28_4A8800()
     return 0;
 }
 
-STUB_FUNC(0x4a8820)
-char_type Tango_54::sub_4A8820(Car_BC* a2)
+MATCH_FUNC(0x4a8820)
+char_type Tango_54::sub_4A8820(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!pCar)
+    {
+        return 0;
+    }
+    const s32 f88 = pCar->field_88;
+    if (f88 == 6 || f88 == 7 || f88 == 5)
+    {
+        return 0;
+    }
+
+    if (pCar->is_train_model())
+    {
+        return 0;
+    }
+
+    Tango_28* pFoundCar =
+        sub_4A8620(pCar, pCar->field_50_car_sprite->GetXPos(), pCar->field_50_car_sprite->GetYPos(), pCar->field_50_car_sprite->GetZPos());
+
+    if (!pFoundCar)
+    {
+        return 0;
+    }
+    pFoundCar->field_C_target_car = pCar;
+    return 1;
 }
 
 MATCH_FUNC(0x4a88d0)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Car_BC;
 class Ped;
@@ -57,7 +58,7 @@ class Tango_54
     }
 
     EXPORT void sub_4A85F0();
-    EXPORT Tango_28* sub_4A8620(Car_BC* a2, s32 a3, s32 a4, s32 a5);
+    EXPORT Tango_28* sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Tango_28* New28_4A8800();
     EXPORT char_type sub_4A8820(Car_BC* a2);
     EXPORT void sub_4A88D0();
