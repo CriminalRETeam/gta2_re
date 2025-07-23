@@ -49,12 +49,27 @@ void Car_Door_10::sub_439D40(u32* a3)
     }
 }
 
-STUB_FUNC(0x439DA0)
+MATCH_FUNC(0x439DA0)
 void Car_Door_10::sub_439DA0(u32* a3a)
 {
-    NOT_IMPLEMENTED;
     switch (field_4_state)
     {
+        case 2:
+            sub_439CD0(a3a);
+            break;
+
+        case 3:
+            sub_439D40(a3a);
+            break;
+
+        case 5:
+            field_4_state = 4;
+            break;
+
+        case 4:
+            field_4_state = 3;
+            break;
+
         case 1:
             if (field_C > 0)
             {
@@ -64,18 +79,6 @@ void Car_Door_10::sub_439DA0(u32* a3a)
             {
                 sub_439EA0();
             }
-            break;
-        case 2:
-            sub_439CD0(a3a);
-            break;
-        case 3:
-            sub_439D40(a3a);
-            break;
-        case 4:
-            field_4_state = 3;
-            break;
-        case 5:
-            field_4_state = 4;
             break;
         default:
             break;

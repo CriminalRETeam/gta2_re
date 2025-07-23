@@ -22,7 +22,7 @@ class Car_Door_10
     s8 field_3;
     s32 field_4_state;
     Ped* field_8_pObj;
-    s8 field_C;
+    u8 field_C;
     s8 field_D;
     s8 field_E;
     s8 field_F;
