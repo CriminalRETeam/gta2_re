@@ -48,6 +48,10 @@ DEFINE_GLOBAL(CarInfo_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
 DEFINE_GLOBAL(struct_4, stru_67737C, 0x67737c);
 
+DEFINE_GLOBAL(Fix16, dword_6771F0, 0x6771F0);
+DEFINE_GLOBAL(Ang16, word_677326, 0x677326);
+
+
 // Indicates if Car_2 is initialised
 // It can probably turned into a static variable inside Car_2
 DEFINE_GLOBAL(char_type, byte_679C0A, 0x679C0A);
@@ -2262,11 +2266,11 @@ Sprite* Car_BC::sub_440840()
     return 0;
 }
 
-STUB_FUNC(0x440ac0)
-s32 Car_BC::sub_440AC0()
+MATCH_FUNC(0x440ac0)
+void Car_BC::sub_440AC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, dword_6771F0, word_677326);
 }
 
 STUB_FUNC(0x440b10)
