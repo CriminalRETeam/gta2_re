@@ -30,10 +30,10 @@ class Fix16_Rect
     EXPORT bool sub_59DF20(u8 a2);
     EXPORT bool sub_59DFB0(s32 a2);
 
-    inline bool inline_sub_4B9FD0(Car_8* a2)
+    inline bool inline_sub_4B9FD0(Fix16_Point* a2)
     {
-        return Fix16::inline_is_between(field_0_left, field_4_right, a2->field_0) &&
-            Fix16::inline_is_between(field_8_top, field_C_bottom, a2->field_4);
+        return Fix16::inline_is_between(field_0_left, field_4_right, a2->x) &&
+            Fix16::inline_is_between(field_8_top, field_C_bottom, a2->y);
     }
 
     // TODO: Ordering

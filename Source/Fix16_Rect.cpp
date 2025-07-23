@@ -15,7 +15,7 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
 MATCH_FUNC(0x59ddf0)
 u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
 {
-    Car_8* v3 = a2->field_C_sprite_4c_ptr->field_C_b_box;
+    Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_b_box;
 
     if (inline_sub_4B9FD0(&v3[0]) || inline_sub_4B9FD0(&v3[1]) 
         || inline_sub_4B9FD0(&v3[2]) || inline_sub_4B9FD0(&v3[3]))

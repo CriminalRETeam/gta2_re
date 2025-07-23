@@ -737,12 +737,12 @@ MATCH_FUNC(0x5a0320)
 char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2)
 {
     u8 overlapCount = 0;
-    const Car_8* pBoundingBox = &field_C_sprite_4c_ptr->field_C_b_box[0];
+    const Fix16_Point* pBoundingBox = &field_C_sprite_4c_ptr->field_C_b_box[0];
 
     for (u8 i = 0; i < 4; i++)
     {
-        if ((pBoundingBox[i].field_0 > pXY1[0] && pBoundingBox[i].field_4 > pXY1[1]) &&
-            (pBoundingBox[i].field_0 < pXY2[0] && pBoundingBox[i].field_4 < pXY2[1]))
+        if ((pBoundingBox[i].x > pXY1[0] && pBoundingBox[i].y > pXY1[1]) &&
+            (pBoundingBox[i].x < pXY2[0] && pBoundingBox[i].y < pXY2[1]))
         {
             // If we find the first valid match, store index in pCollisionIdx1
             overlapCount++;
@@ -3304,13 +3304,6 @@ bool Car_BC::sub_564300()
     }
     return false;
 }
-
-/*
-MATCH_FUNC(0x40ac40)
-Car_8::~Car_8()
-{
-}
-*/
 
 MATCH_FUNC(0x407b90)
 Car_BC* Trailer::sub_407B90(Car_BC* a2)

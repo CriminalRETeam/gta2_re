@@ -130,7 +130,7 @@ class Sprite_4C
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8;
-    Car_8 field_C_b_box[4];
+    Fix16_Point field_C_b_box[4];
     Sprite_4C* field_2C_pNext;
     Fix16_Rect field_30;
     char_type field_48;

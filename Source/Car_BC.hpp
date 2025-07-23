@@ -819,28 +819,6 @@ struct Car_E0C4
     s16 field_E0C2;
 };
 
-class Car_8
-{
-  public:
-    // Both inlined and exists as a function... some strange array init behaviour??
-     ~Car_8() {}
-
-    // It needs to be in the header
-    // MATCH_FUNC(0x563970)
-    Car_8()
-    {
-    }
-
-    // Inlined, on version 9.6f 0x41E1E0
-    void reset()
-    {
-        field_0 = Fix16(0);
-        field_4 = Fix16(0);
-    }
-    Fix16 field_0;
-    Fix16 field_4;
-};
-
 class Car_A4
 {
   public:

@@ -128,13 +128,13 @@ class Car_B0
         return field_94_is_backward_gas_on;
     }
 
-    Car_8 field_0_vel_read_only;
+    Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
     Car_B0* field_C_pNext;
-    Car_8 field_10[4];
-    Car_8 field_30_cm1;
-    Car_8 field_38_cp1;
-    Car_8 field_40_linvel_1;
+    Fix16_Point field_10[4];
+    Fix16_Point field_30_cm1;
+    Fix16_Point field_38_cp1;
+    Fix16_Point field_40_linvel_1;
     s32 field_48;
     s32 field_4C;
     s32 field_50;

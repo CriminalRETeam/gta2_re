@@ -765,8 +765,8 @@ s32* Car_B0::sub_563460()
 MATCH_FUNC(0x563560)
 void Car_B0::sub_563560(Sprite* a2)
 {
-    this->field_38_cp1.field_0 = a2->field_14_xpos;
-    this->field_38_cp1.field_4 = a2->field_18_ypos;
+    this->field_38_cp1.x = a2->field_14_xpos;
+    this->field_38_cp1.y = a2->field_18_ypos;
     this->field_6C_cp3 = a2->field_1C_zpos;
     this->field_58_theta = a2->field_0;
     this->field_78_pointing_ang_rad = 0;
@@ -821,7 +821,7 @@ void Car_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(0);
+    sub_559B90(Fix16(0));
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;
