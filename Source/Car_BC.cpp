@@ -35,8 +35,6 @@ DEFINE_GLOBAL(Car_A4*, gCar_A4_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 
-
-
 // This is not used outside this file.
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
@@ -741,8 +739,7 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 
     for (u8 i = 0; i < 4; i++)
     {
-        if ((pBoundingBox[i].x > pXY1[0] && pBoundingBox[i].y > pXY1[1]) &&
-            (pBoundingBox[i].x < pXY2[0] && pBoundingBox[i].y < pXY2[1]))
+        if ((pBoundingBox[i].x > pXY1[0] && pBoundingBox[i].y > pXY1[1]) && (pBoundingBox[i].x < pXY2[0] && pBoundingBox[i].y < pXY2[1]))
         {
             // If we find the first valid match, store index in pCollisionIdx1
             overlapCount++;
@@ -1188,11 +1185,48 @@ void Car_6C::sub_446730(Car_BC* pCar)
     gCar_E0C4_67792C->Remove(pCar);
 }
 
-STUB_FUNC(0x4466c0)
-s32 Car_6C::sub_4466C0(s32 a2)
+MATCH_FUNC(0x4466c0)
+void Car_6C::sub_4466C0(s32 car_kind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (car_kind)
+    {
+        case 1:
+            --this->field_28_recycled_cars;
+            break;
+
+        case 2:
+            --this->field_40_proto_recycled_cars;
+            break;
+            
+        case 10:
+            --this->field_48;
+            break;
+
+        case 4:
+            --this->field_2C;
+            break;
+
+        case 5:
+            --this->field_30;
+            break;
+
+        case 6:
+            --this->field_34_unit_cars;
+            break;
+
+        case 7:
+            --this->field_38;
+            break;
+
+        case 8:
+            --this->field_3C_mission_cars;
+            break;
+        case 9:
+            --this->field_44;
+            break;
+        default:
+            return;
+    }
 }
 
 MATCH_FUNC(0x446760)

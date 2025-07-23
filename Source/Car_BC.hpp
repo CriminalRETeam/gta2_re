@@ -369,7 +369,7 @@ class Car_6C
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void sub_446730(Car_BC *pCar);
 
-    EXPORT s32 sub_4466C0(s32 a2);
+    EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
     EXPORT void sub_446790();
     EXPORT bool sub_446870(s32 a2);
