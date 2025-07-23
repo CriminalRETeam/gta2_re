@@ -312,20 +312,20 @@ Car_78::Car_78()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x443580)
-s32* Sprite::get_x_y_443580(s32* a2)
+MATCH_FUNC(0x443580)
+Fix16_Point Sprite::get_x_y_443580()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // TODO: HACK fix me - cast to derived object else no match - but using non POD field_14 breaks Sprite::dtor match
+    return *(Fix16_Point*)&field_14_xpos;
 }
 
 MATCH_FUNC(0x451950)
 void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    if (field_14_xpos != xpos || field_18_ypos != ypos || field_1C_zpos != zpos)
+    if (field_14_xpos.x != xpos || field_14_xpos.y != ypos || field_1C_zpos != zpos)
     {
-        field_14_xpos = xpos;
-        field_18_ypos = ypos;
+        field_14_xpos.x = xpos;
+        field_14_xpos.y = ypos;
         field_1C_zpos = zpos;
         sub_59E7B0();
     }
@@ -334,10 +334,10 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 MATCH_FUNC(0x54EC80)
 void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
 {
-    if (this->field_14_xpos != xpos || this->field_18_ypos != ypos)
+    if (this->field_14_xpos.x != xpos || this->field_14_xpos.y != ypos)
     {
-        this->field_14_xpos = xpos;
-        this->field_18_ypos = ypos;
+        this->field_14_xpos.x = xpos;
+        this->field_14_xpos.y = ypos;
         sub_59E7B0();
     }
 }
@@ -370,11 +370,11 @@ s32 Sprite::sub_59E1D0() // IsWater?
     const Fix16 zpos = this->field_1C_zpos;
     if (zpos > gFix16_7035C0)
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.ToInt(), field_18_ypos.ToInt(), (zpos - dword_7035C4).ToInt());
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), (zpos - dword_7035C4).ToInt());
     }
     else
     {
-        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.ToInt(), field_18_ypos.ToInt(), zpos.ToInt());
+        pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), zpos.ToInt());
     }
 
     if (pBlock)
@@ -822,7 +822,7 @@ char Sprite::sub_5A1A60()
 
     if (!p4C->field_48)
     {
-        p4C->sub_5A3550(this->field_14_xpos, this->field_18_ypos, this->field_1C_zpos, this->field_0);
+        p4C->sub_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
     }
 
     field_4_0x4C_len->SetCurrentRect_5A4D90();
@@ -964,8 +964,8 @@ void Sprite::Init_5A2CF0()
     this->field_2C = 0;
     this->field_28_num = 0;
     this->field_8_car_bc_ptr = 0;
-    this->field_14_xpos = gFix16_7035C0;
-    this->field_18_ypos = gFix16_7035C0;
+    this->field_14_xpos.x = gFix16_7035C0;
+    this->field_14_xpos.y = gFix16_7035C0;
     this->field_1C_zpos = gFix16_7035C0;
     this->field_39_z_col = -1;
     this->field_0 = gAng16_703804;
@@ -3007,10 +3007,10 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gPurpleDoom_1_679208->sub_477B60(field_50_car_sprite);
     Sprite* pCarSprite = field_50_car_sprite;
-    if (pCarSprite->field_14_xpos != xpos || pCarSprite->field_18_ypos != ypos || pCarSprite->field_1C_zpos != zpos)
+    if (pCarSprite->field_14_xpos.x != xpos || pCarSprite->field_14_xpos.y != ypos || pCarSprite->field_1C_zpos != zpos)
     {
-        pCarSprite->field_14_xpos = xpos;
-        pCarSprite->field_18_ypos = ypos;
+        pCarSprite->field_14_xpos.x = xpos;
+        pCarSprite->field_14_xpos.y = ypos;
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }

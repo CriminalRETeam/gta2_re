@@ -358,7 +358,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_28->field_14 == field_58)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_28->field_4->field_14_xpos, field_28->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_28->field_4->field_14_xpos.x, field_28->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -369,7 +369,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_2C->field_14 == field_5C)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_2C->field_4->field_14_xpos, field_2C->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_2C->field_4->field_14_xpos.x, field_2C->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -380,7 +380,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_30->field_14 == field_60)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_30->field_4->field_14_xpos, field_30->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_30->field_4->field_14_xpos.x, field_30->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -391,7 +391,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_34->field_14 == field_64)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_34->field_4->field_14_xpos, field_34->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_34->field_4->field_14_xpos.x, field_34->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -402,7 +402,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_38->field_14 == field_68)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_38->field_4->field_14_xpos, field_38->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_38->field_4->field_14_xpos.x, field_38->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -413,7 +413,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_3C->field_14 == field_6C)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_3C->field_4->field_14_xpos, field_3C->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_3C->field_4->field_14_xpos.x, field_3C->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -424,7 +424,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_40->field_14 == field_70)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_40->field_4->field_14_xpos, field_40->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_40->field_4->field_14_xpos.x, field_40->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -435,7 +435,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_44->field_14 == field_74)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_44->field_4->field_14_xpos, field_44->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_44->field_4->field_14_xpos.x, field_44->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -446,7 +446,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_48->field_14 == field_78)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_48->field_4->field_14_xpos, field_48->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_48->field_4->field_14_xpos.x, field_48->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -457,7 +457,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_4C->field_14 == field_7C)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_4C->field_4->field_14_xpos, field_4C->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_4C->field_4->field_14_xpos.x, field_4C->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -468,7 +468,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_50->field_14 == field_80)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_50->field_4->field_14_xpos, field_50->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_50->field_4->field_14_xpos.x, field_50->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }
@@ -479,7 +479,7 @@ void Police_A4::sub_5757B0()
             {
                 if (field_54->field_14 == field_84)
                 {
-                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_54->field_4->field_14_xpos, field_54->field_4->field_18_ypos))
+                    if (gGame_0x40_67E008->is_point_on_screen_4B9A80(field_54->field_4->field_14_xpos.x, field_54->field_4->field_14_xpos.y))
                     {
                         v31 = 0;
                     }

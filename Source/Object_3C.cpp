@@ -376,8 +376,8 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
     Sprite* new_ret = 0;
     for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->field_4_next)
     {
-        Fix16 xd = pIter->field_0->field_14_xpos - xOff;
-        Fix16 yd = pIter->field_0->field_18_ypos - yOff;
+        Fix16 xd = pIter->field_0->field_14_xpos.x - xOff;
+        Fix16 yd = pIter->field_0->field_14_xpos.y - yOff;
         Fix16 yDelta = yDelta.inline_abs_403840(yd);
         Fix16 xDelta = xDelta.inline_abs_403840(xd);
 

@@ -416,8 +416,8 @@ void Ped::sub_45C4B0()
     // TODO: Needs Sprite stubs
     /*
     Car_BC* pBc = field_16C_car;
-    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos;
-    field_1AC_cam.y = pBc->field_50_car_sprite->field_18_ypos;
+    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos.x;
+    field_1AC_cam.y = pBc->field_50_car_sprite->field_14_xpos.y;
     field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
     */
 }
