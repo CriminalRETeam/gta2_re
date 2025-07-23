@@ -17,7 +17,6 @@ s16* Car_B0::sub_4403A0(s16* a2)
 MATCH_FUNC(0x446ee0)
 Car_B0::~Car_B0()
 {
-
 }
 
 STUB_FUNC(0x559430)
@@ -48,7 +47,7 @@ void Car_B0::sub_559A40()
 MATCH_FUNC(0x559b40)
 void Car_B0::sub_559B40()
 {
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
         p10->sub_407CE0();
@@ -58,7 +57,7 @@ void Car_B0::sub_559B40()
 MATCH_FUNC(0x559b50)
 void Car_B0::sub_559B50()
 {
-    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
         if (pTrailer->field_0)
@@ -146,8 +145,15 @@ u32* Car_B0::sub_55A050(u32* a2)
 STUB_FUNC(0x55a0b0)
 u8 Car_B0::sub_55A0B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* pTrailer; // eax
+
+    pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    if (!pTrailer)
+    {
+        return this->field_98_surface_type == 6;
+    }
+    return pTrailer->field_8->field_58_physics->field_98_surface_type == 6 &&
+        pTrailer->field_C_car->field_58_physics->field_98_surface_type == 6;
 }
 
 STUB_FUNC(0x55a100)
@@ -162,10 +168,10 @@ char_type Car_B0::IsFootBrakeOn_55A150()
 {
     char_type bFootBrakeOn;
 
-    Car_A4_10* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        Car_B0* pPhysics = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        Car_B0* pPhysics = pTrailer->field_8->field_58_physics;
         if (pPhysics)
         {
             bFootBrakeOn = pPhysics->field_91_is_foot_brake_on;
@@ -186,13 +192,13 @@ STUB_FUNC(0x55a180)
 char_type Car_B0::sub_55A180()
 {
     NOT_IMPLEMENTED;
-    Car_A4_10* pTrailer; // eax
+    Trailer* pTrailer; // eax
     Car_B0* pB0; // eax
 
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        pB0 = pTrailer->field_8->field_58_uni_Car78_or_Car_B0;
+        pB0 = pTrailer->field_8->field_58_physics;
         if (!pB0)
         {
             return 0;
@@ -759,8 +765,8 @@ s32* Car_B0::sub_563460()
 MATCH_FUNC(0x563560)
 void Car_B0::sub_563560(Sprite* a2)
 {
-    this->field_38_cp1.field_0 = a2->field_14_xpos;
-    this->field_38_cp1.field_4 = a2->field_18_ypos;
+    this->field_38_cp1.x = a2->field_14_xpos;
+    this->field_38_cp1.y = a2->field_18_ypos;
     this->field_6C_cp3 = a2->field_1C_zpos;
     this->field_58_theta = a2->field_0;
     this->field_78_pointing_ang_rad = 0;
@@ -785,10 +791,10 @@ void Car_B0::sub_5636C0()
 {
     sub_563670();
 
-    Car_A4_10* p10 = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
-        p10->field_C->field_58_uni_Car78_or_Car_B0->sub_563670();
+        p10->field_C_car->field_58_physics->sub_563670();
     }
 }
 
@@ -815,7 +821,7 @@ void Car_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(0);
+    sub_559B90(Fix16(0));
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;

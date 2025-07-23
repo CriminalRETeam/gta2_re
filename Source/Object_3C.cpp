@@ -264,7 +264,7 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
     p18->field_0 = pSprite;
     p18->field_4_next = this->field_0_p18;
-    p18->field_8.Clear();
+    p18->field_8.reset();
     field_0_p18 = p18;
 }
 

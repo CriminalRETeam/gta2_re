@@ -6,7 +6,6 @@
 
 class Sprite;
 class Car_BC;
-class Car_8;
 class Ped;
 
 EXTERN_GLOBAL(Fix16, dword_676840);
@@ -71,14 +70,14 @@ class DrawUnk_0xBC
         field_3C_followed_ped_id = 1;
     }
 
-    Fix16_Point sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
+    inline Fix16_Point_POD sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
-        Fix16_Point tmp;
+        Fix16_Point_POD tmp;
         Fix16 u = field_98_cam_pos2.field_8_z - z;
         Fix16 t(dword_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
 
-        tmp.x = (((x - field_98_cam_pos2.field_0_x) * field_60.field_4) * t) + Fix16(320);
-        tmp.y = (((y - field_98_cam_pos2.field_4_y) * field_60.field_4) * t) + Fix16(240);
+        tmp.x = (((x - field_98_cam_pos2.field_0_x) * field_60.y) * t) + Fix16(320);
+        tmp.y = (((y - field_98_cam_pos2.field_4_y) * field_60.y) * t) + Fix16(240);
 
         return tmp;
     }
@@ -103,8 +102,8 @@ class DrawUnk_0xBC
     inline void ctor_inline(s32 x, s32 y)
     {
         sub_41E410();
-        field_60.field_0 = Fix16(-1);
-        field_60.field_4 = Fix16(-1);
+        field_60.x = Fix16(-1);
+        field_60.y = Fix16(-1);
         field_AC_cam_velocity.field_0_x = dword_676818;
         field_AC_cam_velocity.field_4_y = dword_676818;
         field_AC_cam_velocity.field_8_z = dword_676818;
@@ -134,7 +133,7 @@ class DrawUnk_0xBC
     Fix16 field_54;
     Fix16 field_58;
     Fix16 field_5C;
-    Car_8 field_60;
+    Fix16_Point field_60;
     s32 field_68_screen_px_width;
     s32 field_6C_screen_px_height;
     s32 field_70_screen_px_center_x;

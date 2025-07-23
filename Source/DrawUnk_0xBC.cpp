@@ -125,7 +125,7 @@ Fix16 DrawUnk_0xBC::sub_435A20()
 MATCH_FUNC(0x435A70)
 s32 DrawUnk_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
-    Fix16_Point pos = sub_40CFC0(x, y, z);
+    Fix16_Point_POD pos = sub_40CFC0(x, y, z);
     if (pos.x >= dword_676818 && pos.x < Fix16(640) && pos.y >= dword_676818 && pos.y < Fix16(480))
     {
         return 1;
@@ -245,8 +245,8 @@ void DrawUnk_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
     field_70_screen_px_center_x = x_pos / 2;
     field_74_screen_px_center_y = y_pos / 2;
 
-    field_60.field_0 = Fix16(-1);
-    field_60.field_4 = Fix16(-1);
+    field_60.x = Fix16(-1);
+    field_60.y = Fix16(-1);
 
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
@@ -364,7 +364,7 @@ void DrawUnk_0xBC::sub_436830()
 MATCH_FUNC(0x436860)
 void DrawUnk_0xBC::sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.field_4;
+    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.y;
     x_pos += field_48 * v5;
     y_pos += field_4C * v5;
 }

@@ -21,7 +21,7 @@ class Object_2C;
 class Fix16_Rect;
 class Car_78;
 class Car_B0;
-class Car_A4_10;
+class Trailer;
 class Sprite;
 class Ped;
 class Char_8;
@@ -366,7 +366,7 @@ class Car_6C
     EXPORT Car_BC* sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
-    EXPORT Car_A4_10* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
+    EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void sub_446730(Car_BC *pCar);
 
     EXPORT s32 sub_4466C0(s32 a2);
@@ -444,7 +444,7 @@ class Car_6C
 EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
 
 
-class Car_A4_10
+class Trailer
 {
   public:
     EXPORT Car_BC* sub_407B90(Car_BC* a2);
@@ -458,11 +458,11 @@ class Car_A4_10
     EXPORT s32 sub_408220();
 
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
-    Car_A4_10()
+    Trailer()
     {
         field_4 = NULL;
         field_8 = NULL;
-        field_C = NULL;
+        field_C_car = NULL;
         field_0 = NULL;
         0;
     }
@@ -471,9 +471,9 @@ class Car_A4_10
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Car_A4_10* field_4;
+    Trailer* field_4;
     Car_BC* field_8;
-    Car_BC* field_C;
+    Car_BC* field_C_car;
 };
 
 class Car_BC
@@ -625,7 +625,7 @@ class Car_BC
     EXPORT s16* sub_442520(s16* a2);
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
-    EXPORT Car_A4_10* sub_442760();
+    EXPORT Trailer* sub_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
     EXPORT s32* sub_442D10();
@@ -677,7 +677,7 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C_car == this;
     }
 
     // Inlined 0x41E460
@@ -689,7 +689,7 @@ class Car_BC
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C_car == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
@@ -732,10 +732,10 @@ class Car_BC
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    Car_B0* field_58_uni_Car78_or_Car_B0;
+    Car_B0* field_58_physics;
     Car_78* field_5C;
     Hamburger_40* field_60;
-    Car_A4_10* field_64_pTrailer;
+    Trailer* field_64_pTrailer;
     Fix16 field_68;
     s32 field_6C_maybe_id;
     s32 field_70;
@@ -819,35 +819,13 @@ struct Car_E0C4
     s16 field_E0C2;
 };
 
-class Car_8
-{
-  public:
-    // Both inlined and exists as a function... some strange array init behaviour??
-     ~Car_8() {}
-
-    // It needs to be in the header
-    // MATCH_FUNC(0x563970)
-    Car_8()
-    {
-    }
-
-    // Inlined, on version 9.6f 0x41E1E0
-    void reset()
-    {
-        field_0 = Fix16(0);
-        field_4 = Fix16(0);
-    }
-    Fix16 field_0;
-    Fix16 field_4;
-};
-
 class Car_A4
 {
   public:
     //Inlined in Car_6C constructor 9.6f -> 0x425500
     EXPORT Car_A4()
     {
-        Car_A4_10* it = field_4;
+        Trailer* it = field_4;
         for (u32 i = 0; i < 9; i++)
         {
             it->field_4 = it + 1;
@@ -862,8 +840,8 @@ class Car_A4
         field_0 = 0;
     }
 
-    Car_A4_10* field_0;
-    Car_A4_10 field_4[10];
+    Trailer* field_0;
+    Trailer field_4[10];
 };
 
 struct Car_14
