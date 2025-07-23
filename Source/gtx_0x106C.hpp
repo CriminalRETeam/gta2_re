@@ -92,6 +92,8 @@ class car_info
     BYTE remap[1]; // [variable � see num_remaps];
     BYTE num_doors;
     door_info doors[1]; // [variable � see num_doors];
+
+    bool has_remaps() const { return num_remaps > 1; }
 };
 
 struct car_info_container

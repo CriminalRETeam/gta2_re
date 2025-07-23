@@ -345,10 +345,10 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     }
 
     Sprite* pSprite = this->field_4;
-    if (pSprite->field_14_xpos != xpos || pSprite->field_18_ypos != ypos || pSprite->field_1C_zpos != zpos)
+    if (pSprite->field_14_xpos.x != xpos || pSprite->field_14_xpos.y != ypos || pSprite->field_1C_zpos != zpos)
     {
-        pSprite->field_14_xpos = xpos;
-        pSprite->field_18_ypos = ypos;
+        pSprite->field_14_xpos.x = xpos;
+        pSprite->field_14_xpos.y = ypos;
         pSprite->field_1C_zpos = zpos;
         pSprite->sub_59E7B0();
     }

@@ -53,13 +53,13 @@ void PurpleDoom::DrawSpritesClipped_477A40()
 MATCH_FUNC(0x477ae0)
 void PurpleDoom::Add_477AE0(Sprite* a1)
 {
-    DoAdd_478440(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
+    DoAdd_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b00)
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
-    DoRemove_4782C0(a1->field_14_xpos.ToInt(), a1->field_18_ypos.ToInt(), a1);
+    DoRemove_4782C0(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
 MATCH_FUNC(0x477b20)

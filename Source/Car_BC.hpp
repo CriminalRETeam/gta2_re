@@ -154,7 +154,7 @@ class Car_8F74
 class Sprite
 {
   public:
-    EXPORT s32* get_x_y_443580(s32* a2);
+    EXPORT Fix16_Point get_x_y_443580();
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
     EXPORT bool sub_59E170();
@@ -222,8 +222,8 @@ class Sprite
     EXPORT Sprite() : field_0(gAng16_703804)
     {
         field_4_0x4C_len = NULL;
-        field_14_xpos = gFix16_7035C0;
-        field_18_ypos = gFix16_7035C0;
+        field_14_xpos.x = gFix16_7035C0;
+        field_14_xpos.y = gFix16_7035C0;
         field_1C_zpos = gFix16_7035C0;
         field_20_id = 0;
         field_22_sprite_id = 0;
@@ -278,12 +278,12 @@ class Sprite
 
     inline Fix16 GetXPos()
     {
-        return field_14_xpos;
+        return field_14_xpos.x;
     }
 
     inline Fix16 GetYPos()
     {
-        return field_18_ypos;
+        return field_14_xpos.y;
     }
 
     inline Fix16 GetZPos()
@@ -291,8 +291,7 @@ class Sprite
         return field_1C_zpos;
     }
 
-    Fix16 field_14_xpos;
-    Fix16 field_18_ypos;
+    Fix16_Point_POD field_14_xpos;
     Fix16 field_1C_zpos;
     s16 field_20_id;
     s16 field_22_sprite_id;
@@ -369,7 +368,7 @@ class Car_6C
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void sub_446730(Car_BC *pCar);
 
-    EXPORT s32 sub_4466C0(s32 a2);
+    EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
     EXPORT void sub_446790();
     EXPORT bool sub_446870(s32 a2);
@@ -581,8 +580,8 @@ class Car_BC
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void sub_4407F0();
     EXPORT Sprite* sub_440840();
-    EXPORT s32 sub_440AC0();
-    EXPORT s32 sub_440B10();
+    EXPORT void sub_440AC0();
+    EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
     EXPORT s32 sub_440BB0();
     EXPORT char_type sub_440C10(char_type a2);
@@ -694,17 +693,17 @@ class Car_BC
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
     {
-        Fix16 x_pos = field_50_car_sprite->field_14_xpos;
+        Fix16 x_pos = field_50_car_sprite->field_14_xpos.x;
         Fix16 width = rect->field_C_size.field_0_x;
         Fix16 y_pos, z_pos;
         Fix16 height;
         Fix16 z_target;
         return (
             x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
-            (y_pos = field_50_car_sprite->field_18_ypos,
+            (y_pos = field_50_car_sprite->field_14_xpos.y,
              height = rect->field_C_size.field_4_y,
              y_pos >= rect->field_0_pos.field_4_y - height) &&
-            field_50_car_sprite->field_18_ypos <= rect->field_0_pos.field_4_y + height &&
+            field_50_car_sprite->field_14_xpos.y <= rect->field_0_pos.field_4_y + height &&
             (z_pos = field_50_car_sprite->field_1C_zpos, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
 
@@ -712,9 +711,9 @@ class Car_BC
     {
         Sprite* pSprite = field_50_car_sprite;
         Fix16 car_z_pos;
-        return (pSprite->field_14_xpos >= pos->field_0_x.ToUInt8() && pSprite->field_14_xpos < (pos->field_0_x.ToUInt8() + 1)
+        return (pSprite->field_14_xpos.x >= pos->field_0_x.ToUInt8() && pSprite->field_14_xpos.x < (pos->field_0_x.ToUInt8() + 1)
 
-                && pSprite->field_18_ypos >= pos->field_4_y.ToUInt8() && pSprite->field_18_ypos < (pos->field_4_y.ToUInt8() + 1)
+                && pSprite->field_14_xpos.y >= pos->field_4_y.ToUInt8() && pSprite->field_14_xpos.y < (pos->field_4_y.ToUInt8() + 1)
 
                 && (car_z_pos = pSprite->field_1C_zpos, car_z_pos.ToUInt8() == pos->field_8_z.ToUInt8()));
     }

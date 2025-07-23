@@ -235,8 +235,8 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos + xOff,
-                                                             pPlayerSprite->field_18_ypos,
+                pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos.x + xOff,
+                                                             pPlayerSprite->field_14_xpos.y,
                                                              pPlayerSprite->field_1C_zpos,
                                                              0,
                                                              currentCarModelIndex,
@@ -254,8 +254,8 @@ void CC ImGuiDebugDraw()
 
                 //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
-                Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
-                                                          pPlayerSprite->field_18_ypos,
+                Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
+                                                          pPlayerSprite->field_14_xpos.y,
                                                           pPlayerSprite->field_1C_zpos,
                                                           pPlayerChar->field_5_remap,
                                                           pPlayerPed->field_134);
@@ -437,8 +437,8 @@ void CC ImGuiDebugDraw()
                 Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                 Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
                 spawned_obj = gObject_5C_6F8F84->sub_5299B0(currentObjectIndex,
-                                              pPlayerSprite->field_14_xpos,
-                                              pPlayerSprite->field_18_ypos,
+                                              pPlayerSprite->field_14_xpos.x,
+                                              pPlayerSprite->field_14_xpos.y,
                                               pPlayerSprite->field_1C_zpos,
                                               0);
             }
@@ -707,8 +707,8 @@ void CC ImGuiDebugDraw()
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos,
-                                               pPlayerSprite->field_18_ypos,
+                    gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
+                                               pPlayerSprite->field_14_xpos.y,
                                                pPlayerSprite->field_1C_zpos,
                                                pPlayerChar->field_5_remap,
                                                pPlayerPed->field_134);

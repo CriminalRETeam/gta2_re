@@ -109,8 +109,8 @@ s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
     field_6C = a4;
     field_70 = a5;
     field_108 = Ang16::Ang16_to_Fix16(a4->field_0);
-    field_FC = a4->field_14_xpos;
-    field_100 = a4->field_18_ypos;
+    field_FC = a4->field_14_xpos.x;
+    field_100 = a4->field_14_xpos.y;
     s32 result = a4->field_1C_zpos.mValue;
     field_104.mValue = result;
     field_10C = field_80.mValue - result;
@@ -124,8 +124,8 @@ void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
     field_C0 = a3;
     field_64 = a4;
     field_D0 = Ang16::Ang16_to_Fix16(a4->field_0);
-    field_C4 = a4->field_14_xpos;
-    field_C8 = a4->field_18_ypos;
+    field_C4 = a4->field_14_xpos.x;
+    field_C8 = a4->field_14_xpos.y;
     field_CC = a4->field_1C_zpos;
     field_D4 = field_80 - field_CC;
 }
@@ -137,8 +137,8 @@ void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
     field_DC = a3;
     field_68 = a4;
     field_EC = Ang16::Ang16_to_Fix16(a4->field_0);
-    field_E0 = a4->field_14_xpos;
-    field_E4 = a4->field_18_ypos;
+    field_E0 = a4->field_14_xpos.x;
+    field_E4 = a4->field_14_xpos.y;
     Fix16 field_1C_zpos = a4->field_1C_zpos;
     field_E8 = field_1C_zpos;
     field_F0 = field_80.mValue - field_1C_zpos.mValue;
@@ -166,8 +166,8 @@ bool Crane_15C::sub_47F350()
         Sprite* v3 = field_6C;
         Car_BC* v4 = v3->field_30_sprite_type_enum == 2 ? v3->field_8_car_bc_ptr : 0;
         if (v4->field_88 != 5 
-            && field_FC == v3->field_14_xpos 
-            && field_100 == v3->field_18_ypos 
+            && field_FC == v3->field_14_xpos.x 
+            && field_100 == v3->field_14_xpos.y 
             && field_104 == v3->field_1C_zpos
             && field_108 == Ang16::Ang16_to_Fix16(v3->field_0))
         {
