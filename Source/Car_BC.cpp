@@ -1197,7 +1197,7 @@ void Car_6C::sub_4466C0(s32 car_kind)
         case 2:
             --this->field_40_proto_recycled_cars;
             break;
-            
+
         case 10:
             --this->field_48;
             break;
@@ -1567,12 +1567,10 @@ bool Car_BC::AllowResprayOrPlates()
     return false;
 }
 
-STUB_FUNC(0x43a6f0)
+MATCH_FUNC(0x43a6f0)
 bool Car_BC::IsNotCurrentRemap(u8 remap)
 {
-    NOT_IMPLEMENTED;
-    // Does this car info have remaps and is it not the current remap?
-    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->num_remaps > 1u && field_50_car_sprite->field_24_remap != remap;
+    return gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->has_remaps() && field_50_car_sprite->field_24_remap != remap;
 }
 
 MATCH_FUNC(0x43a730)
