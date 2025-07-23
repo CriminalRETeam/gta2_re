@@ -582,7 +582,7 @@ class Car_BC
     EXPORT void sub_4407F0();
     EXPORT Sprite* sub_440840();
     EXPORT void sub_440AC0();
-    EXPORT s32 sub_440B10();
+    EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
     EXPORT s32 sub_440BB0();
     EXPORT char_type sub_440C10(char_type a2);
