@@ -30,7 +30,7 @@ class Weapon_30
     EXPORT char_type pistol_5DD860();
     EXPORT u8 dual_pistol_5DDA70();
     EXPORT u8 smg_5DDD20();
-    EXPORT void throwable_5DDFC0(Fix16* a2, char_type* a3, s32 a4);
+    EXPORT void throwable_5DDFC0(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_5DE4F0();
     EXPORT char_type sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4);
     EXPORT void shocker_5E06B0();
