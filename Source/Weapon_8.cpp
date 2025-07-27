@@ -10,6 +10,12 @@
 DEFINE_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014, 0x707014);
 DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018, 0x707018);
 
+DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
+                                                                      99u, 99u, 99u, 99u, 99u, 1u,  99u, 99u, 99u, 99u,
+                                                                      99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u);
+
+                                                                      
+
 u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
                       50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
 
@@ -78,7 +84,6 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     if (pWeapon)
     {
         bAddedAmmo = pWeapon->add_ammo_capped_5DCE40(ammo);
-        
     }
     else
     {
@@ -93,7 +98,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
             pCar->field_54_driver->field_15C_player->sub_564910(pWeapon);
             return bAddedAmmo;
         }
-    }  
+    }
 
     if (bAddedAmmo)
     {
@@ -103,7 +108,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
             pCar->field_54_driver->field_178->field_14_car = pCar;
         }
     }
-    
+
     return bAddedAmmo;
 }
 
@@ -113,11 +118,10 @@ void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* a1)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5e3e70)
-char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 a2)
+MATCH_FUNC(0x5e3e70)
+char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
