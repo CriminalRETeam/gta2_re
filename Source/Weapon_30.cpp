@@ -13,10 +13,6 @@
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
-
-u8 max_ammo_capacity_5FF75C[28] = {99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
-                                                99u, 1u,  99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u};
-
 MATCH_FUNC(0x5DCD10)
 Weapon_30::Weapon_30()
 {
@@ -105,7 +101,7 @@ char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
     {
         return 0;
     }
-    
+
     s32 new_amount = cur_amount + (to_add * 10);
     if (new_amount <= cap_total)
     {
@@ -206,7 +202,7 @@ u8 Weapon_30::smg_5DDD20()
 }
 
 STUB_FUNC(0x5ddfc0)
-void Weapon_30::throwable_5DDFC0(Fix16* a2, char_type* a3, s32 a4)
+void Weapon_30::throwable_5DDFC0(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -329,10 +325,115 @@ char_type Weapon_30::sub_5E34B0()
     return 0;
 }
 
-STUB_FUNC(0x5e3670)
+MATCH_FUNC(0x5e3670)
 void Weapon_30::pull_trigger_5E3670()
 {
-    NOT_IMPLEMENTED;
+    switch (field_1C_idx)
+    {
+        case weapon_type::pistol:
+            pistol_5DD860();
+            break;
+
+        case weapon_type::smg:
+        case weapon_type::silence_smg:
+            smg_5DDD20();
+            break;
+
+        case weapon_type::rocket:
+            rocket_5E3850();
+            break;
+
+        case weapon_type::car_bomb:
+            car_bomb_5E0AB0(0);
+            break;
+
+        case weapon_type::oil_stain:
+            oil_stain_5E1DC0();
+            break;
+
+        case weapon_type::car_mines:
+            car_mine_5E2550();
+            break;
+
+        case weapon_type::tank_main_gun:
+            tank_main_gun_5E10E0();
+            break;
+
+        case weapon_type::army_gun_jeep:
+            army_gun_jeep_5E13E0();
+            break;
+
+        case weapon_type::electro_batton:
+            electro_batton_5E0740();
+            break;
+
+        case weapon_type::shocker:
+            shocker_5E06B0();
+            break;
+
+        case weapon_type::molotov:
+            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            {
+                field_24_pPed->field_15C_player->sub_4CCAB0();
+            }
+            else
+            {
+                throwable_5DDFC0(138, 0x1E, 45);
+            }
+            break;
+
+        case weapon_type::grenade:
+            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            {
+                Player* p = field_24_pPed->field_15C_player;
+                p->sub_4CCAB0();
+
+                // This is really whacky, using p results in most of these inlines being optimized out
+                Player* pp = field_24_pPed->field_15C_player;
+
+                if (pp->Get_Field_50() == 0x60)
+                {
+                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->sub_4CCAD0(), pp->Get_Field_50());
+                    this->field_24_pPed->field_15C_player->field_50 = -1;
+                }
+            }
+            else
+            {
+                throwable_5DDFC0(183, 0x1E, 45);
+            }
+            break;
+
+        case weapon_type::dual_pistol:
+            dual_pistol_5DDA70();
+            break;
+
+        case weapon_type::shotgun:
+            shotgun_5DD290();
+            break;
+
+        case weapon_type::car_smg:
+            car_smg_5E2940();
+            break;
+
+        case weapon_type::flamethrower:
+            flamethrower_5DD0F0();
+            break;
+
+        case weapon_type::fire_truck_gun:
+            fire_truck_gun_5E0E70();
+            break;
+
+        case weapon_type::fire_truck_flamethrower:
+            fire_truck_flamethrower_5E0B10();
+            break;
+
+        case weapon_type::weapon_0x17:
+            car_bomb_5E0AB0(1);
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x5e3850)

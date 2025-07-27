@@ -2,11 +2,11 @@
 
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
+#include "ang16.hpp"
 #include "eager_benz.hpp"
+#include "fix16.hpp"
 #include "sad_mirzakhani.hpp"
 #include "zealous_borg.hpp"
-#include "ang16.hpp"
-#include "fix16.hpp"
 #include <windows.h>
 
 class infallible_turing;
@@ -29,6 +29,40 @@ class Player
     inline Ped* Get_Field_68_Ped()
     {
         return field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
+    }
+
+    // 0x4CCAE0
+    s32 Get_Field_50()
+    {
+        return field_50;
+    }
+
+    // 0x4CCAB0
+    void sub_4CCAB0()
+    {
+        s32 t = field_50;
+        if (t >= 0)
+        {
+            this->field_50 = t + 1;
+        }
+
+        if (this->field_50 > 270)
+        {
+            this->field_50 = 270;
+        }
+    }
+
+    s32 sub_4CCAD0()
+    {
+        s32 f50_or_k60 = this->field_50;
+        if (f50_or_k60 <= 0x3C)
+        {
+            return f50_or_k60;
+        }
+        else
+        {
+            return 0x3C;
+        }
     }
 
     EXPORT u8 GetIdx_4881E0();

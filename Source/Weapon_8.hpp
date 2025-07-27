@@ -66,3 +66,5 @@ class Weapon_2FDC
 EXTERN_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014);
 
 EXTERN_GLOBAL(Weapon_8*, gWeapon_8_707018);
+
+EXTERN_GLOBAL_ARRAY(u8, max_ammo_capacity_5FF75C, 28);
