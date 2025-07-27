@@ -112,6 +112,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     return bAddedAmmo;
 }
 
+// https://decomp.me/scratch/DUDJc
 STUB_FUNC(0x5e3df0)
 void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* a1)
 {
