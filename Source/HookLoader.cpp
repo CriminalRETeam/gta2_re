@@ -13,55 +13,9 @@
 // - jmp hooks 10.5.exe functions to call matched functions (via exports enumeration) (TODO: How to get function table?)
 // - jmp hooks exported functions that are stubbed to jmp to 10.5.exe (via exports enumeration) (TODO: How to get function table?)
 
-HMODULE hFake = (HMODULE)0xdeadbabe;
 
-class GTA2LoaderCallBacks : public ILoaderCallBacks
-{
-  public:
-    GTA2LoaderCallBacks(const std::map<std::string, u32>& funcMap) : mFuncMap(funcMap)
-    {
-    }
-
-    virtual HMODULE VLoadLibraryA(const char* pDll)
-    {
-        if (stricmp(pDll, "gta2_dll_exports.dll") == 0)
-        {
-            return hFake;
-        }
-        else
-        {
-            return ::LoadLibraryA(pDll);
-        }
-    }
-
-    virtual FARPROC VGetProcAddress(HMODULE hModule, const char* pFuncName)
-    {
-        if (hModule == hFake)
-        {
-            std::map<std::string, u32>::const_iterator it = mFuncMap.find(pFuncName);
-            if (it == mFuncMap.end())
-            {
-                printf("Function not found %s!!\n", pFuncName);
-                return 0;
-            }
-            else
-            {
-                printf("Resolved %s to %X\n", pFuncName, it->second);
-                return (FARPROC)it->second;
-            }
-        }
-        else
-        {
-            return ::GetProcAddress(hModule, pFuncName);
-        }
-    }
-
-  private:
-    const std::map<std::string, u32>& mFuncMap;
-};
-
-typedef bool (*TExportCb)(LPVOID, LPVOID, const char*);
-static void EnumExports(LPVOID pContext, LPVOID dllAlloc, TExportCb cb)
+typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
+static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
 {
     PIMAGE_NT_HEADERS header = (PIMAGE_NT_HEADERS)((BYTE*)dllAlloc + ((PIMAGE_DOS_HEADER)dllAlloc)->e_lfanew);
     //assert(header->Signature == IMAGE_NT_SIGNATURE);
@@ -80,6 +34,86 @@ static void EnumExports(LPVOID pContext, LPVOID dllAlloc, TExportCb cb)
     }
 }
 
+template<class T, class Y>
+static void SetFuncField(T& toSet, Y value)
+{
+    memcpy(&toSet, &value, 4);
+}
+
+static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
+{
+    const PIMAGE_DOS_HEADER lpImageDOSHeader = (PIMAGE_DOS_HEADER)hImports;
+    const PIMAGE_NT_HEADERS lpImageNTHeader = (PIMAGE_NT_HEADERS)((DWORD_PTR)lpImageDOSHeader + lpImageDOSHeader->e_lfanew);
+    const PIMAGE_SECTION_HEADER lpImageSectionHeader = (PIMAGE_SECTION_HEADER)((DWORD_PTR)lpImageNTHeader + 4 + sizeof(IMAGE_FILE_HEADER) +
+                                                                               lpImageNTHeader->FileHeader.SizeOfOptionalHeader);
+
+    PIMAGE_IMPORT_DESCRIPTOR lpImageImportDescriptor =
+        (PIMAGE_IMPORT_DESCRIPTOR)((DWORD_PTR)hImports +
+                                   lpImageNTHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
+    if (lpImageImportDescriptor == NULL)
+    {
+        printf("[-] An error is occured when tying to get the import descriptor !\n");
+        return;
+    }
+
+    while (lpImageImportDescriptor->Name != 0)
+    {
+        const LPSTR lpLibraryName = (LPSTR)((DWORD_PTR)hImports + lpImageImportDescriptor->Name);
+
+        printf("[+] Loading %s\n", lpLibraryName);
+
+        if (stricmp(lpLibraryName, "gta2_dll_exports.dll") == 0)
+        {
+            PIMAGE_THUNK_DATA lpThunkData = (PIMAGE_THUNK_DATA)((DWORD_PTR)hImports + lpImageImportDescriptor->FirstThunk);
+            while (lpThunkData->u1.AddressOfData != 0)
+            {
+                if (IMAGE_SNAP_BY_ORDINAL(lpThunkData->u1.Ordinal))
+                {
+                    //const UINT functionOrdinal = (UINT)IMAGE_ORDINAL(lpThunkData->u1.Ordinal);
+                    //lpThunkData->u1.Function = (DWORD)callBacks.VGetProcAddress(hModule, MAKEINTRESOURCEA(functionOrdinal));
+                    //printf("[+]\tFunction Ordinal %u\n", functionOrdinal);
+                }
+                else
+                {
+                    // Because lpThunkData->u1.XYZ no longer points to a PIMAGE_IMPORT_BY_NAME we can't use it.
+                    // Instead it points to a resolved var in our exports dll, so we can get the function name
+                    // that way.
+
+                    //const PIMAGE_IMPORT_BY_NAME lpData =
+                    //    (PIMAGE_IMPORT_BY_NAME)((unsigned char*)hMod + (unsigned int)lpThunkData->u1.AddressOfData);
+
+                    bool replaced = false;
+                    for (size_t i = 0; i < pGlobals->mGlobals.size(); i++)
+                    {
+                        if ((void*)lpThunkData->u1.Function == pGlobals->mGlobals[i]->mVar)
+                        {
+                            DWORD functionAddress = pGlobals->mGlobals[i]->mOgAddr;
+                            //(unsigned long*)callBacks.VGetProcAddress(hModule, (const char*)lpData->Name);
+                            DWORD dwOld = 0;
+                            VirtualProtect(&lpThunkData->u1.Function, 4, PAGE_EXECUTE_READWRITE, &dwOld);
+                            SetFuncField(lpThunkData->u1.Function, functionAddress);
+                            replaced = true;
+                            break;
+                        }
+                    }
+
+                    if (!replaced)
+                    {
+                        printf("Var couldn't be found, I guess we die now\n");
+                        abort();
+                    }
+
+                   
+                    //printf("[+]\tFunction %s\n", (LPSTR)lpData->Name);
+                }
+
+                lpThunkData++;
+            }
+        }
+        lpImageImportDescriptor++;
+    }
+}
+
 class HookLoader
 {
     struct FuncMeta
@@ -89,7 +123,7 @@ class HookLoader
     };
 
   private:
-    static bool OnExportsExport(LPVOID pContext, LPVOID hDll, const char* pName)
+    static bool OnExportsExport(LPVOID pContext, HMODULE hDll, const char* pName)
     {
         if (stricmp(pName, "GetGlobalsRegistry") == 0)
         {
@@ -115,9 +149,9 @@ class HookLoader
         return true;
     }
 
-    static bool GetFuncMeta(FuncMeta& meta, LPVOID hDll, const char* pName)
+    static bool GetFuncMeta(FuncMeta& meta, HMODULE hDll, const char* pName)
     {
-        u8* pFun = reinterpret_cast<u8*>(MemoryLoader::GetFunctionAddress(hDll, pName));
+        u8* pFun = reinterpret_cast<u8*>(::GetProcAddress(hDll, pName));
         if (!pFun)
         {
             return false;
@@ -157,7 +191,7 @@ class HookLoader
         return false;
     }
 
-    static bool OnImportsExport(LPVOID pContext, LPVOID hDll, const char* pName)
+    static bool OnImportsExport(LPVOID pContext, HMODULE hDll, const char* pName)
     {
         FuncMeta meta;
         if (GetFuncMeta(meta, hDll, pName))
@@ -171,13 +205,10 @@ class HookLoader
         return true;
     }
 
-    void MapImportedVarsToOgAddrs()
+    void MapExportedVarsToOgAddrs(HMODULE hMod)
     {
-        printf("Load imports dll\n");
-        HMODULE hMod2 = LoadLibraryA("gta2_dll_exports.dll");
         printf("Enumerating exports..\n");
-        EnumExports(this, (LPVOID)hMod2, OnExportsExport);
-        FreeLibrary(hMod2);
+        EnumExports(this, hMod, OnExportsExport);
     }
 
     typedef int(__cdecl* PT1)(int);
@@ -220,10 +251,16 @@ class HookLoader
   public:
     void LoadHooks()
     {
-        printf("Load exports dll\n");
-        HMODULE hMod = LoadLibraryA("gta2_dll_exports.dll");
-        printf("Get globals registry %X\n", hMod);
-        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hMod, "GetGlobalsRegistry");
+        // Both DLL export functions, only exports dll exports vars and only imports dll imports var
+        printf("Load dll\n");
+        HMODULE hImports = LoadLibraryA("gta2_dll_imports.dll");
+
+        // Implicitly loaded as imports links to exports
+        HMODULE hExports = GetModuleHandle("gta2_dll_exports.dll");
+
+        // Build a map of exported var records and their OG executable address
+        printf("Get globals registry %X\n", hExports);
+        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hExports, "GetGlobalsRegistry");
         printf("Collect export entries %X\n", pFnGlobalsRegistry);
         GlobalsRegistry* pGlobalsRegistry = pFnGlobalsRegistry();
 
@@ -234,7 +271,17 @@ class HookLoader
             mGlobalEntryToOgAddrMap[pGlobalsRegistry->mGlobals[i]->mVar] = pGlobalsRegistry->mGlobals[i]->mOgAddr;
         }
 
-        MapImportedVarsToOgAddrs();
+
+        // Get the actual exported vars and link it to an OG addr
+        MapExportedVarsToOgAddrs(hExports);
+
+        // TODO: rewrite the address of imports addr of the exported var to the OG executable addr
+        RewriteImports(hImports, pGlobalsRegistry);
+
+
+        // mExportNameToOgAddrMap
+
+        /*
         printf("Unload exports dll\n");
         FreeLibrary(hMod);
 
@@ -245,12 +292,13 @@ class HookLoader
         {
             printf("Loading gta2_dll_imports.dll failed\n");
         }
+        */
 
         // Replicate what start() does enough to make things work
         printf("crt inits\n");
         crt_inits();
 
-        EnumExports(this, lpModule, OnImportsExport);
+        EnumExports(this, hImports, OnImportsExport);
 
         LONG err = DetourTransactionBegin();
         if (err != NO_ERROR)
@@ -269,7 +317,7 @@ class HookLoader
         {
             {
                 printf("Look up %s\n", it->first.c_str());
-                LPVOID addr = MemoryLoader::GetFunctionAddress(lpModule, it->first.c_str());
+                LPVOID addr = ::GetProcAddress(hImports, it->first.c_str());
                 const FuncMeta& meta = it->second;
                 printf("Doing %s\n", it->first.c_str());
                 if (meta.mStatus == 0)
@@ -315,7 +363,7 @@ class HookLoader
         }
 
         printf("Look up GameMain...\n");
-        LPVOID pGameMain = MemoryLoader::GetFunctionAddress(lpModule, "GameMain");
+        LPVOID pGameMain = ::GetProcAddress(hImports, "GameMain");
         typedef void(__cdecl * TGameMain)();
 
         printf("GameMain = %X\n", pGameMain);
@@ -336,6 +384,12 @@ extern "C"
 {
     void __declspec(dllexport) __cdecl HookMain()
     {
+            AllocConsole();
+            freopen("CONOUT$", "w", stdout);
+            SetConsoleTitleA("GTA2 debug console");
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
+        
+
         HookLoader hl;
         hl.LoadHooks();
     }

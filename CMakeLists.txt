@@ -289,11 +289,13 @@ add_executable (decomp_main WIN32
     StdAfx.cpp
     resources.rc)
 target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui)
+
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(decomp_main libc.lib libcp.lib)
     target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
     set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
 endif()
+
 if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(decomp_main PROPERTIES
         LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF /SAFESEH:NO"
@@ -302,6 +304,19 @@ else()
     set_target_properties(decomp_main PROPERTIES
         LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF"
     )
+endif()
+
+if (${MSVC_VERSION} GREATER 1200)
+    set_target_properties(gta2_dll_exports PROPERTIES COMPILE_FLAGS "/Gy")
+    set_target_properties(gta2_dll_imports PROPERTIES COMPILE_FLAGS "/Gy")
+
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
+    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF /SAFESEH:NO")
+else()
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
+    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF")
 endif()
 
 

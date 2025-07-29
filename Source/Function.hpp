@@ -12,12 +12,12 @@
 
 #if defined(_MSC_VER)
     #define MATCH_FUNC(addr)                   \
-        __declspec(naked) void Marker_##addr() \
+        __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                      \
             FUNC_MARKER_ASM(addr, 1)           \
         }
     #define STUB_FUNC(addr)                    \
-        __declspec(naked) void Marker_##addr() \
+        __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                      \
             FUNC_MARKER_ASM(addr, 0)           \
         }
