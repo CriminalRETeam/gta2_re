@@ -1525,7 +1525,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
-STUB_FUNC(0x5E53F0)
+//STUB_FUNC(0x5E53F0)
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     NOT_IMPLEMENTED;

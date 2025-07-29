@@ -112,10 +112,23 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     return bAddedAmmo;
 }
 
-STUB_FUNC(0x5e3df0)
-void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* a1)
+MATCH_FUNC(0x5e3df0)
+void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    Weapon_30* pIter = gWeapon_2FDC_707014->get_next_4CC9B0();
+    while (pIter)
+    {
+        if ( pIter->field_14_car == pCar )
+        {
+          Weapon_30* pOldIter = pIter;
+          pIter = pIter->field_18_pNext;
+          gWeapon_2FDC_707014->sub_4A4F20(pOldIter);
+        }
+        else
+        {
+          pIter = pIter->field_18_pNext;
+        }
+    }
 }
 
 MATCH_FUNC(0x5e3e70)

@@ -54,6 +54,41 @@ class Weapon_2FDC
         return pWeapon;
     }
 
+    // Remove/dealloc?
+    void sub_4A4F20(Weapon_30* pW30)
+    {
+        Weapon_30* pIter = this->field_4;
+        Weapon_30* pLastIter = 0;
+        while (pIter)
+        {
+            if (pIter == pW30)
+            {
+                pIter->clear_5DCDE0();
+                if (pLastIter)
+                {
+                    pLastIter->field_18_pNext = pIter->field_18_pNext;
+                }
+                else
+                {
+                    this->field_4 = pIter->field_18_pNext;
+                }
+                pIter->field_18_pNext = this->field_0;
+                this->field_0 = pIter;
+                break;
+            }
+            else
+            {
+                pLastIter = pIter;
+                pIter = pIter->field_18_pNext;
+            }
+        }
+    }    
+
+    Weapon_30* get_next_4CC9B0()
+    {
+        return this->field_4;
+    }
+  
     EXPORT ~Weapon_2FDC();
 
     Weapon_30* field_0;
