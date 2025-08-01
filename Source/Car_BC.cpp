@@ -1361,8 +1361,9 @@ Car_6C::Car_6C()
 
     // On version 9.6f this is call to a class method
     // that initialises the next two fields
-    field_4C = 0;
-    field_50_tv_van_dir = 0;
+    //field_4C = 0;
+    //field_50_tv_van_dir = 0;
+    field_4C_tv_van_dir = Fix16_Point(Fix16(0), Fix16(0));
     field_54 = 0;
     field_55 = 0;
     field_58 = 0x57;

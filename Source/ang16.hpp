@@ -159,6 +159,16 @@ class Ang16
     EXPORT Ang16* sub_482740(Ang16* a1, s32* a2);
     EXPORT Ang16* sub_4516B0(s32* a2, s32 a3);
 
+    inline static Fix16 __stdcall cosine_40F520(Ang16& angle)
+    {
+        return gCos_table_669260[angle.rValue];
+    }
+
+    inline static Fix16 __stdcall sine_40F500(Ang16& angle)
+    {
+        return gSin_table_667A80[angle.rValue];
+    }
+
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
     EXPORT static Fix16 Ang16_to_Fix16(const Ang16 &v)

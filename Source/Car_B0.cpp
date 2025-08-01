@@ -672,11 +672,16 @@ void Car_B0::sub_562910()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x562c20)
-__int64 Car_B0::sub_562C20(s16* a2)
+MATCH_FUNC(0x562c20)
+void Car_B0::sub_562C20(Ang16& angle)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 sin = Ang16::sine_40F500(angle);
+    Fix16 cos = Ang16::cosine_40F520(angle);
+
+    Fix16 x_old = field_0_vel_read_only.x;
+
+    field_0_vel_read_only.x = (sin * field_0_vel_read_only.y) + (cos * field_0_vel_read_only.x);
+    field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);
 }
 
 STUB_FUNC(0x562d00)

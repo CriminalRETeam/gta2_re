@@ -421,8 +421,7 @@ class Car_6C
     s32 field_40_proto_recycled_cars;
     s32 field_44;
     s32 field_48;
-    s32 field_4C;
-    s32 field_50_tv_van_dir;
+    Fix16_Point field_4C_tv_van_dir;
     char_type field_54;
     char_type field_55;
     char_type field_56;
