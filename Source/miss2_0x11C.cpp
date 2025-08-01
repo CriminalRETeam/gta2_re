@@ -3205,10 +3205,16 @@ void miss2_0x11C::sub_50DD00()
     NOT_IMPLEMENTED;
 }
 
+// matches on decompme: https://decomp.me/scratch/y8gtV
 STUB_FUNC(0x50dd90)
 void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_DIR_OF_TVVAN* pCmd = (SCR_SET_DIR_OF_TVVAN*)gBasePtr_6F8070;
+
+    Fix16_Point point(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y);
+    gCar_6C_677930->field_4C_tv_van_dir = point;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50de00)

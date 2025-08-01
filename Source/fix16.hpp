@@ -300,6 +300,12 @@ public:
         y = (rhs.y);
     }
 
+    Fix16_Point(Fix16& a1, Fix16& a2)
+    {
+        x = a1;
+        y = a2;
+    }
+
     // Inlined, on version 9.6f 0x41E1E0
     void reset()
     {

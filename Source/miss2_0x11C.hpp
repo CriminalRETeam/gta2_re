@@ -471,6 +471,11 @@ struct SCR_SET_STATE : SCR_CMD_HEADER
     u8 field_A_status;
 };
 
+struct SCR_SET_DIR_OF_TVVAN : SCR_CMD_HEADER
+{
+    SCR_XY_f field_8_pos;
+};
+
 struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 {
     union
