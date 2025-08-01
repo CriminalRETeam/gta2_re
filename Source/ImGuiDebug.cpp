@@ -791,6 +791,44 @@ void CC ImGuiDebugDraw()
             ImGui::Value("DAT_006fc584", DAT_006fc584.mValue);
             ImGui::Value("Phi_54_array_lenght_00623EEC", Phi_54_array_lenght_00623EEC);
             ImGui::Value("Phi_6C_array_lenght_623EF0", Phi_6C_array_lenght_623EF0);
+
+            if (ImGui::TreeNode("Phi_54_array_006FC5F8"))
+            {
+                static s32 Phi_54_idx = 0;
+                ImGui::SliderInt("Phi_54 idx", &Phi_54_idx, 0, 23);
+                
+                if (Phi_54_array_006FC5F8)
+                {
+                    Phi_54* phi_54 = &Phi_54_array_006FC5F8[Phi_54_idx];
+                    if (phi_54)
+                    {
+                        ImGui::Value("field_0", phi_54->field_0);
+                        ImGui::Value("field_4", phi_54->field_4);
+                        ImGui::Value("field_8", phi_54->field_8);
+                        ImGui::Value("field_C", phi_54->field_C);
+                        ImGui::Value("field_10", phi_54->field_10);
+                        ImGui::Value("field_14", phi_54->field_14);
+                        ImGui::Value("field_18", phi_54->field_18);
+                        ImGui::Value("field_1C", phi_54->field_1C);
+                        ImGui::Value("field_20", phi_54->field_20);
+                        ImGui::Value("field_24", phi_54->field_24);
+                        ImGui::Value("field_28", phi_54->field_28);
+                        ImGui::Value("field_2C", phi_54->field_2C);
+                        ImGui::Value("field_30", phi_54->field_30);
+                        ImGui::Value("field_34", phi_54->field_34);
+                        ImGui::Value("field_38", phi_54->field_38);
+                        ImGui::Value("field_3C", phi_54->field_3C);
+                        ImGui::Value("field_40", phi_54->field_40);
+                        ImGui::Value("field_44", phi_54->field_44);
+                        ImGui::Value("field_48", phi_54->field_48);
+                        ImGui::Value("field_4C", phi_54->field_4C);
+                        ImGui::Value("field_50", phi_54->field_50);
+                    }
+                }
+                
+                ImGui::TreePop();
+            }
+
             ImGui::TreePop();
         }
         if (gPhi_8CA8_6FCF00)
@@ -803,62 +841,66 @@ void CC ImGuiDebugDraw()
             //static s32 phi_74_id = 0;
             //ImGui::SliderInt("Phi_74 id", &phi_74_id, 0, 299);
             //Phi_74* phi = gPhi_8CA8_6FCF00->field_87F4[phi_74_id];
-            if (spawned_obj)
+            if (ImGui::TreeNode("Spawned object"))
             {
-                Phi_74* phi = spawned_obj->field_8;
-            
-                ImGui::InputInt("field_0", &phi->field_0.mValue, 1, 1);
-                ImGui::InputInt("field_4", &phi->field_4.mValue, 1, 1);
-                ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
-                ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
-                ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
-                ImGui::InputInt("field_14", &phi->field_14.mValue, 1, 1);
-                ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
-                ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
-                ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
-                ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);
-                ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
-                ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
-                ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
-                ImGui::InputInt("field_28", &phi->field_28, 1, 1);
-
-                if (ImGui::TreeNode("another vars"))
+                if (spawned_obj)
                 {
-                    ImGui::InputInt("field_2C", &phi->field_2C, 1, 1);
-                    ImGui::InputInt("field_30", &phi->field_30, 1, 1);
-                    ImGui::InputInt("field_34", &phi->field_34, 1, 1);
-                    ImGui::InputInt("field_38", &phi->field_38, 1, 1);
-                    ImGui::InputInt("field_3C", &phi->field_3C, 1, 1);
-                    ImGui::InputInt("field_40", &phi->field_40, 1, 1);
-                    ImGui::InputInt("field_44", &phi->field_44, 1, 1);
-                    ImGui::InputInt("field_48", &phi->field_48, 1, 1);
-                    ImGui::InputInt("field_4C", &phi->field_4C, 1, 1);
-                    ImGui::InputInt("field_50", &phi->field_50, 1, 1);
-                    ImGui::InputInt("field_54", &phi->field_54, 1, 1);
-                    ImGui::InputInt("field_58", &phi->field_58, 1, 1);
-                    ImGui::InputInt("field_5C", &phi->field_5C, 1, 1);
+                    Phi_74* phi = spawned_obj->field_8;
+                
+                    ImGui::InputInt("field_0", &phi->field_0.mValue, 1, 1);
+                    ImGui::InputInt("field_4", &phi->field_4.mValue, 1, 1);
+                    ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
+                    ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
+                    ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
+                    ImGui::InputInt("field_14", &phi->field_14.mValue, 1, 1);
+                    ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
+                    ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
+                    ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);
+                    ImGui::Input_char_type("field_21", &phi->field_21, 1, 1);
+                    ImGui::Input_char_type("field_22", &phi->field_22, 1, 1);
+                    ImGui::Input_char_type("field_23", &phi->field_23, 1, 1);
+                    ImGui::InputInt("field_24_idx", &phi->field_24_idx, 1, 1);
+                    ImGui::InputInt("field_28", &phi->field_28, 1, 1);
 
-                    ImGui::Input_char_type("field_60", &phi->field_60, 1, 1);
-                    ImGui::Input_char_type("field_61", &phi->field_61, 1, 1);
-                    ImGui::Input_char_type("field_62", &phi->field_62, 1, 1);
-                    ImGui::Input_char_type("field_63", &phi->field_63, 1, 1);
-                    ImGui::Input_char_type("field_64", &phi->field_64, 1, 1);
-                    ImGui::Input_char_type("field_65", &phi->field_65, 1, 1);
-                    ImGui::Input_char_type("field_66", &phi->field_66, 1, 1);
-                    ImGui::Input_char_type("field_67", &phi->field_67, 1, 1);
+                    if (ImGui::TreeNode("another vars"))
+                    {
+                        ImGui::InputInt("field_2C", &phi->field_2C, 1, 1);
+                        ImGui::InputInt("field_30", &phi->field_30, 1, 1);
+                        ImGui::InputInt("field_34", &phi->field_34, 1, 1);
+                        ImGui::InputInt("field_38", &phi->field_38, 1, 1);
+                        ImGui::InputInt("field_3C", &phi->field_3C, 1, 1);
+                        ImGui::InputInt("field_40", &phi->field_40, 1, 1);
+                        ImGui::InputInt("field_44", &phi->field_44, 1, 1);
+                        ImGui::InputInt("field_48", &phi->field_48, 1, 1);
+                        ImGui::InputInt("field_4C", &phi->field_4C, 1, 1);
+                        ImGui::InputInt("field_50", &phi->field_50, 1, 1);
+                        ImGui::InputInt("field_54", &phi->field_54, 1, 1);
+                        ImGui::InputInt("field_58", &phi->field_58, 1, 1);
+                        ImGui::InputInt("field_5C", &phi->field_5C, 1, 1);
 
-                    ImGui::InputInt("field_68", &phi->field_68, 1, 1);
+                        ImGui::Input_char_type("field_60", &phi->field_60, 1, 1);
+                        ImGui::Input_char_type("field_61", &phi->field_61, 1, 1);
+                        ImGui::Input_char_type("field_62", &phi->field_62, 1, 1);
+                        ImGui::Input_char_type("field_63", &phi->field_63, 1, 1);
+                        ImGui::Input_char_type("field_64", &phi->field_64, 1, 1);
+                        ImGui::Input_char_type("field_65", &phi->field_65, 1, 1);
+                        ImGui::Input_char_type("field_66", &phi->field_66, 1, 1);
+                        ImGui::Input_char_type("field_67", &phi->field_67, 1, 1);
+
+                        ImGui::InputInt("field_68", &phi->field_68, 1, 1);
+                        
+
+                        ImGui::TreePop();
+                    }
                     
 
-                    ImGui::TreePop();
+                    ImGui::SliderU8("field_6C", &phi->field_6C, 0, 32);
+                    ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
+                    ImGui::Input_char_type("field_6E", &phi->field_6E, 1, 1);
+                    ImGui::Input_char_type("field_6F", &phi->field_6F, 1, 1);
+                    ImGui::InputInt("field_70", &phi->field_70, 1, 1);
                 }
-                
-
-                ImGui::SliderU8("field_6C", &phi->field_6C, 0, 32);
-                ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
-                ImGui::Input_char_type("field_6E", &phi->field_6E, 1, 1);
-                ImGui::Input_char_type("field_6F", &phi->field_6F, 1, 1);
-                ImGui::InputInt("field_70", &phi->field_70, 1, 1);
+                ImGui::TreePop();
             }
         }
         ImGui::TreePop();
