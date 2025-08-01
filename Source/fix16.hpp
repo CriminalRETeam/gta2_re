@@ -306,6 +306,12 @@ public:
         y = a2;
     }
 
+    // MATCH_FUNC(0x40AC50)
+    Fix16_Point operator+(const Fix16_Point& in)
+    {
+        return Fix16_Point(x + in.x, y + in.y);
+    }
+
     // Inlined, on version 9.6f 0x41E1E0
     void reset()
     {
