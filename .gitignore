@@ -26,3 +26,5 @@ cmake-build-debug
 GTA2_data
 venv
 .vscode/c_cpp_properties.json
+reccmp-user.yml
+reccmp-build.yml

@@ -27,9 +27,9 @@ if (${MSVC_VERSION} EQUAL 1200)
       set(${flag} "${${flag}}" CACHE STRING "Force /ML for VC6" FORCE)
     endforeach()
 
-    foreach(CompilerFlag ${CompilerFlags})
-      string(REPLACE "/Zi" "/Z7" ${CompilerFlag} "${${CompilerFlag}}")
-    endforeach()
+    #foreach(CompilerFlag ${CompilerFlags})
+    #  string(REPLACE "/Zi" "/Z7" ${CompilerFlag} "${${CompilerFlag}}")
+    #endforeach()
 
     foreach(CompilerFlag ${CompilerFlags})
       string(REPLACE "/Ob2" "" ${CompilerFlag} "${${CompilerFlag}}")

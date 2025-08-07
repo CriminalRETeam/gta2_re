@@ -298,11 +298,11 @@ endif()
 
 if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF /SAFESEH:NO"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /SAFESEH:NO /debug:full"
     )
 else()
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /debug:full"
     )
 endif()
 
@@ -310,12 +310,12 @@ if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(gta2_dll_exports PROPERTIES COMPILE_FLAGS "/Gy")
     set_target_properties(gta2_dll_imports PROPERTIES COMPILE_FLAGS "/Gy")
 
-    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
-    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO /MAP:gta2_dll_exports.map /DEBUG" )
+    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO /MAP:gta2_dll_imports.map /DEBUG" )
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF /SAFESEH:NO")
 else()
-    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
-    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /MAP:gta2_dll_exports.map /DEBUG" )
+    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /MAP:gta2_dll_imports.map /DEBUG" )
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF")
 endif()
 
