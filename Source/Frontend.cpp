@@ -225,7 +225,7 @@ struct TgaInfo
     s32 field_84_img;
 };
 
-/*
+
 TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\frontend\\1_Options.tga", 266924, 0},
         {"data\\frontend\\1_Play.tga", 266924, 0}, {"data\\frontend\\1_Quit.tga", 266924, 0}, {"data\\frontend\\2.tga", 347564, 0},
         {"data\\frontend\\2_Bonus1.tga", 266924, 0}, {"data\\frontend\\2_Bonus2.tga", 266924, 0},
@@ -237,10 +237,10 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\fro
         {"data\\frontend\\MPLose.tga", 614444, 0}, {"data\\frontend\\PlayerDead.tga", 614444, 0}, {"data\\frontend\\Mask.tga", 104300, 0},
         {"data\\frontend\\Mask2.tga ", 53594, 0}, {"data\\frontend\\Credits.tga", 614444, 0}, {"data\\frontend\\Mask3.tga", 130427, 0},
         {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
-*/
 
 
 
+/*
 DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          tgaArray_61F0C8,
                          25,
@@ -270,7 +270,7 @@ DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          {"data\\frontend\\Credits.tga", 614444, 0},
                          {"data\\frontend\\Mask3.tga", 130427, 0},
                          {"data\\frontend\\DemoInfo.tga", 614939, 0});
-
+*/
 
 STUB_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
