@@ -1,7 +1,7 @@
 targets:
   '105':
     filename: 10.5.exe
-    source_root: .
+    source_root: Source
     hash:
       sha256: 399910c8d46f37192b7c05bfb10c0d52313077ee7320f7d8f89d324fea823643
     ghidra:
