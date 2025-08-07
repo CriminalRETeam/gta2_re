@@ -17,7 +17,7 @@ class Weapon_30
   public:
     EXPORT Weapon_30();
     EXPORT ~Weapon_30();
-    EXPORT void init_5DCD90();
+    __declspec(dllexport) void init_5DCD90();
     EXPORT void clear_5DCDE0();
     EXPORT void add_ammo_5DCE20(u8 a2);
     EXPORT char_type add_ammo_capped_5DCE40(u8 a2);

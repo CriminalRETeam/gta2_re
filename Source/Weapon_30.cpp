@@ -46,7 +46,8 @@ Weapon_30::~Weapon_30()
     }
 }
 
-MATCH_FUNC(0x5DCD90)
+//MATCH_FUNC(0x5DCD90)
+// FUNCTION: 10.5 0x5DCD90
 void Weapon_30::init_5DCD90()
 {
     field_24_pPed = 0;
