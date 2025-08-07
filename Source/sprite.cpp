@@ -33,7 +33,7 @@ s16* Sprite_3CC::sub_48F6E0(u16* a2)
     return 0;
 }
 
-MATCH_FUNC(0x48f710)
+// FUNCTION: 105 0x48f710
 void Sprite_3CC::sub_48F710()
 {
     Sprite_14* psVar1 = field_0;
@@ -46,7 +46,7 @@ void Sprite_3CC::sub_48F710()
     } while (iVar2 != 0);
 }
 
-MATCH_FUNC(0x48f730)
+// FUNCTION: 105 0x48f730
 Sprite_3CC::Sprite_3CC()
 {
     u32 iVar4;
@@ -85,7 +85,7 @@ Sprite_3CC::Sprite_3CC()
     }
 }
 
-MATCH_FUNC(0x48F7F0)
+// FUNCTION: 105 0x48F7F0
 Sprite_3CC::~Sprite_3CC()
 {
     if (this->field_3C8)
@@ -96,20 +96,20 @@ Sprite_3CC::~Sprite_3CC()
     this->field_3C8 = 0;
 }
 
-MATCH_FUNC(0x5a5860)
+// FUNCTION: 105 0x5a5860
 void Sprite_8::sub_5A5860()
 {
     field_0 = 0;
 }
 
-MATCH_FUNC(0x5a5870)
+// FUNCTION: 105 0x5a5870
 void Sprite_8::sub_5A5870()
 {
     gSprite_703814 = gSprite_49B28_703818->get_new_sprite();
     gSprite_703814->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
-MATCH_FUNC(0x5a58a0)
+// FUNCTION: 105 0x5a58a0
 Sprite_8::Sprite_8()
 {
     gSprite_49B28_703818 = new Sprite_49B28();
@@ -140,7 +140,7 @@ Sprite_8::Sprite_8()
     field_4_id_base = 1;
 }
 
-MATCH_FUNC(0x5a5b50)
+// FUNCTION: 105 0x5a5b50
 Sprite_8::~Sprite_8()
 {
     GTA2_DELETE_AND_NULL(gSprite_49B28_703818);
@@ -150,24 +150,24 @@ Sprite_8::~Sprite_8()
     gSprite_703814 = 0;
 }
 
-MATCH_FUNC(0x5a5c40)
+// FUNCTION: 105 0x5a5c40
 Sprite_18::~Sprite_18()
 {
 }
 
-MATCH_FUNC(0x5a5c50)
+// FUNCTION: 105 0x5a5c50
 Sprite_18::Sprite_18()
 {
     field_10 = 0;
 }
 
-MATCH_FUNC(0x5a5c20)
+// FUNCTION: 105 0x5a5c20
 Sprite_1C24::~Sprite_1C24()
 {
     field_0 = 0;
 }
 
-MATCH_FUNC(0x5a57a0)
+// FUNCTION: 105 0x5a57a0
 s32 Sprite_4C::sub_5A57A0()
 {
     field_2C_pNext = NULL;
@@ -175,30 +175,30 @@ s32 Sprite_4C::sub_5A57A0()
     return 0;
 }
 
-MATCH_FUNC(0x5a57b0)
+// FUNCTION: 105 0x5a57b0
 Sprite_4C::Sprite_4C()
 {
     sub_5A57A0();
 }
 
-MATCH_FUNC(0x5a5840)
+// FUNCTION: 105 0x5a5840
 Sprite_4C::~Sprite_4C()
 {
 }
 
-MATCH_FUNC(0x5a5be0)
+// FUNCTION: 105 0x5a5be0
 Sprite_5D598::~Sprite_5D598()
 {
     field_0_pFree = 0;
 }
 
-MATCH_FUNC(0x5A5C00)
+// FUNCTION: 105 0x5A5C00
 Sprite_49B28::~Sprite_49B28()
 {
     field_0_first_free = 0;
 }
 
-MATCH_FUNC(0x5A6ca0)
+// FUNCTION: 105 0x5A6ca0
 Sprite* Sprite_18::sub_5A6CA0(s32 a2)
 {
     if (field_0 != NULL)
@@ -214,7 +214,7 @@ Sprite* Sprite_18::sub_5A6CA0(s32 a2)
     return NULL;
 }
 
-MATCH_FUNC(0x5A6A20)
+// FUNCTION: 105 0x5A6A20
 void Sprite_18::sub_5A6A20()
 {
     if (this->field_0->field_30_sprite_type_enum == sprite_types_enum::car)

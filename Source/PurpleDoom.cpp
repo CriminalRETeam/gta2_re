@@ -39,7 +39,7 @@ static inline s32 Clamp(s32 value, s32 min, s32 max)
     return value;
 }
 
-MATCH_FUNC(0x477a40)
+// FUNCTION: 105 0x477a40
 void PurpleDoom::DrawSpritesClipped_477A40()
 {
     const s32 left = Clamp((gViewCamera_676978->field_78_boundaries_non_neg.field_0_left - dword_679084).ToInt(), 0, 255);
@@ -50,19 +50,19 @@ void PurpleDoom::DrawSpritesClipped_477A40()
     AddToDrawList_478240(left, right_val, top_val, bottom_val);
 }
 
-MATCH_FUNC(0x477ae0)
+// FUNCTION: 105 0x477ae0
 void PurpleDoom::Add_477AE0(Sprite* a1)
 {
     DoAdd_478440(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
-MATCH_FUNC(0x477b00)
+// FUNCTION: 105 0x477b00
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
     DoRemove_4782C0(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
-MATCH_FUNC(0x477b20)
+// FUNCTION: 105 0x477b20
 void PurpleDoom::sub_477B20(Sprite* pSprite)
 {
     pSprite->sub_59E9C0();
@@ -73,7 +73,7 @@ void PurpleDoom::sub_477B20(Sprite* pSprite)
     }
 }
 
-MATCH_FUNC(0x477b60)
+// FUNCTION: 105 0x477b60
 void PurpleDoom::sub_477B60(Sprite* pSprite)
 {
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
@@ -83,7 +83,7 @@ void PurpleDoom::sub_477B60(Sprite* pSprite)
     }
 }
 
-MATCH_FUNC(0x477ba0)
+// FUNCTION: 105 0x477ba0
 void PurpleDoom::DebugLogAll_477BA0()
 {
     for (s32 i = 0; i < 256; ++i)
@@ -95,7 +95,7 @@ void PurpleDoom::DebugLogAll_477BA0()
     }
 }
 
-MATCH_FUNC(0x477bd0)
+// FUNCTION: 105 0x477bd0
 char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
     char_type bUnknown = 0;
@@ -126,7 +126,7 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
     return 0;
 }
 
-MATCH_FUNC(0x477e60)
+// FUNCTION: 105 0x477e60
 Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
     dword_678F60 = sprite_type_enum;
@@ -163,7 +163,7 @@ char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
     return 0;
 }
 
-MATCH_FUNC(0x478040)
+// FUNCTION: 105 0x478040
 PurpleDoom::PurpleDoom()
 {
     Clear_4789F0();
@@ -206,7 +206,7 @@ void PurpleDoom::sub_4781E0(u8 width)
     }
 }
 
-MATCH_FUNC(0x478240)
+// FUNCTION: 105 0x478240
 void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 {
     PurpleDoom_C** pYItem = &this->field_0[top]; // y_start?
@@ -239,7 +239,7 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
     }
 }
 
-MATCH_FUNC(0x4782c0)
+// FUNCTION: 105 0x4782c0
 void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 {
     PurpleDoom_C* pFound = 0;
@@ -288,7 +288,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
     }
 }
 
-MATCH_FUNC(0x478370)
+// FUNCTION: 105 0x478370
 void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gPurple_left_6F5FD4;
@@ -352,7 +352,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
     }
 }
 
-MATCH_FUNC(0x478440)
+// FUNCTION: 105 0x478440
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
     Collide_8* pNewCollide = gCollide_8004_679200->Allocate();
@@ -393,7 +393,7 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
     pNewCollide->field_4_pNext = 0;
 }
 
-MATCH_FUNC(0x4784d0)
+// FUNCTION: 105 0x4784d0
 void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gPurple_left_6F5FD4;
@@ -446,7 +446,7 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
 }
 
 // Get first XItem at y_pos
-MATCH_FUNC(0x478590)
+// FUNCTION: 105 0x478590
 PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 {
     PurpleDoom_C* pIter;
@@ -586,7 +586,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
     return 0;
 }
 
-MATCH_FUNC(0x478750)
+// FUNCTION: 105 0x478750
 char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
@@ -618,7 +618,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
     return bRet;
 }
 
-MATCH_FUNC(0x4787e0)
+// FUNCTION: 105 0x4787e0
 bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 {
     bool bRet;
@@ -669,7 +669,7 @@ void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4789f0)
+// FUNCTION: 105 0x4789f0
 PurpleDoom_C** PurpleDoom::Clear_4789F0()
 {
     for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)

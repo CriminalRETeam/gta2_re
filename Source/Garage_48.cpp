@@ -3,7 +3,7 @@
 
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
-MATCH_FUNC(0x4bbc60)
+// FUNCTION: 105 0x4bbc60
 Garage_48::~Garage_48()
 {
 }
@@ -27,7 +27,7 @@ void Garage_48::sub_5349D0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x534e80)
+// FUNCTION: 105 0x534e80
 Garage_48::Garage_48()
 {
     field_0 = 0;

@@ -14,7 +14,7 @@ s16* Car_B0::sub_4403A0(s16* a2)
     return 0;
 }
 
-MATCH_FUNC(0x446ee0)
+// FUNCTION: 105 0x446ee0
 Car_B0::~Car_B0()
 {
 }
@@ -44,7 +44,7 @@ void Car_B0::sub_559A40()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x559b40)
+// FUNCTION: 105 0x559b40
 void Car_B0::sub_559B40()
 {
     Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
@@ -54,7 +54,7 @@ void Car_B0::sub_559B40()
     }
 }
 
-MATCH_FUNC(0x559b50)
+// FUNCTION: 105 0x559b50
 void Car_B0::sub_559B50()
 {
     Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
@@ -75,7 +75,7 @@ void Car_B0::sub_559B50()
     }
 }
 
-MATCH_FUNC(0x559b90)
+// FUNCTION: 105 0x559b90
 void Car_B0::sub_559B90(const Fix16& a2)
 {
     field_A0 = a2;
@@ -94,7 +94,7 @@ void Car_B0::sub_559C30()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x559dd0)
+// FUNCTION: 105 0x559dd0
 void Car_B0::sub_559DD0()
 {
     if (this->field_5C_pPrev->field_54_driver)
@@ -163,7 +163,7 @@ u32* Car_B0::sub_55A100(u32* a2)
     return 0;
 }
 
-MATCH_FUNC(0x55a150)
+// FUNCTION: 105 0x55a150
 char_type Car_B0::IsFootBrakeOn_55A150()
 {
     char_type bFootBrakeOn;
@@ -253,7 +253,7 @@ u32* Car_B0::sub_55A6A0(u32* a2)
     return 0;
 }
 
-MATCH_FUNC(0x55a840)
+// FUNCTION: 105 0x55a840
 void Car_B0::sub_55A840()
 {
     this->field_48 = 0;
@@ -718,7 +718,7 @@ s32 Car_B0::sub_562F30()
     return 0;
 }
 
-MATCH_FUNC(0x562fa0)
+// FUNCTION: 105 0x562fa0
 char_type Car_B0::sub_562FA0()
 {
     if (sub_5599D0())
@@ -767,7 +767,7 @@ s32* Car_B0::sub_563460()
     return 0;
 }
 
-MATCH_FUNC(0x563560)
+// FUNCTION: 105 0x563560
 void Car_B0::sub_563560(Sprite* a2)
 {
     this->field_38_cp1.x = a2->field_14_xpos.x;
@@ -791,7 +791,7 @@ s32 Car_B0::sub_563670()
     return 0;
 }
 
-MATCH_FUNC(0x5636c0)
+// FUNCTION: 105 0x5636c0
 void Car_B0::sub_5636C0()
 {
     sub_563670();
@@ -810,7 +810,7 @@ bool Car_B0::sub_5636E0()
     return 0;
 }
 
-MATCH_FUNC(0x5637a0)
+// FUNCTION: 105 0x5637a0
 void Car_B0::Init_5637A0()
 {
     field_40_linvel_1.reset();
@@ -848,7 +848,7 @@ void Car_B0::Init_5637A0()
     field_AB_tpa = 0;
 }
 
-MATCH_FUNC(0x563890)
+// FUNCTION: 105 0x563890
 void Car_B0::Reset_563890()
 {
     field_30_cm1.reset();
@@ -859,7 +859,7 @@ void Car_B0::Reset_563890()
     field_0_vel_read_only.reset();
 }
 
-MATCH_FUNC(0x5638c0)
+// FUNCTION: 105 0x5638c0
 void Car_B0::sub_5638C0(Car_BC* pCar)
 {
     this->field_5C_pPrev = pCar;
@@ -874,7 +874,7 @@ void Car_B0::sub_5638C0(Car_BC* pCar)
     }
 }
 
-MATCH_FUNC(0x563900)
+// FUNCTION: 105 0x563900
 Car_B0::Car_B0()
 {
     field_C_pNext = NULL;

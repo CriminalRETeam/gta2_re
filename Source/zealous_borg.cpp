@@ -1,19 +1,19 @@
 #include "zealous_borg.hpp"
 #include "Function.hpp"
 
-MATCH_FUNC(0x484ED0)
+// FUNCTION: 105 0x484ED0
 zealous_borg::zealous_borg() // 0x484ED0
 {
     sub_484EF0();
 }
 
-MATCH_FUNC(0x484EE0)
+// FUNCTION: 105 0x484EE0
 zealous_borg::~zealous_borg() // 0x484EE0
 {
     // Empty
 }
 
-MATCH_FUNC(0x484EF0)
+// FUNCTION: 105 0x484EF0
 void zealous_borg::sub_484EF0()
 {
     u8* pByteIter = field_28;
@@ -29,13 +29,13 @@ void zealous_borg::sub_484EF0()
     field_38 = 0;
 }
 
-MATCH_FUNC(0x484F20)
+// FUNCTION: 105 0x484F20
 void zealous_borg::sub_484F20()
 {
     sub_484F30();
 }
 
-MATCH_FUNC(0x484F30)
+// FUNCTION: 105 0x484F30
 void zealous_borg::sub_484F30()
 {
     for (u8 i = 1; i < 10; i++)
@@ -44,7 +44,7 @@ void zealous_borg::sub_484F30()
     }
 }
 
-MATCH_FUNC(0x484F50)
+// FUNCTION: 105 0x484F50
 void zealous_borg::report_crime(int crime_type)
 {
     switch (crime_type)
@@ -72,13 +72,13 @@ void zealous_borg::report_crime(int crime_type)
     }
 }
 
-MATCH_FUNC(0x484FA0)
+// FUNCTION: 105 0x484FA0
 void zealous_borg::sub_484FA0(int a2)
 {
     field_34 += a2;
 }
 
-MATCH_FUNC(0x484FB0)
+// FUNCTION: 105 0x484FB0
 void zealous_borg::sub_484FB0(int amount)
 {
     field_38 += amount;

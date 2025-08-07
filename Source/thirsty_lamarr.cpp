@@ -2,7 +2,7 @@
 #include "gtx_0x106C.hpp"
 #include "sharp_pare_0x15D8.hpp"
 
-MATCH_FUNC(0x4f7660)
+// FUNCTION: 105 0x4f7660
 s32 __stdcall sub_4F7660(s32 &a1)
 {
     s32 iVar1 = 1;
@@ -17,7 +17,7 @@ s32 __stdcall sub_4F7660(s32 &a1)
     return iVar1;
 }
 
-MATCH_FUNC(0x4920b0)
+// FUNCTION: 105 0x4920b0
 thirsty_lamarr::thirsty_lamarr()
 {
     for (s32 iVar2 = 0; iVar2 < 9; iVar2++)
@@ -41,7 +41,7 @@ thirsty_lamarr::thirsty_lamarr()
     field_36 = 0;
 }
 
-MATCH_FUNC(0x492110)
+// FUNCTION: 105 0x492110
 void thirsty_lamarr::sub_492110(s16 a1, s32 a2, s16 a3)
 {
     field_36 = a3;
@@ -53,7 +53,7 @@ void thirsty_lamarr::sub_492110(s16 a1, s32 a2, s16 a3)
     field_2E_idx = tmp;
 }
 
-MATCH_FUNC(0x492150)
+// FUNCTION: 105 0x492150
 void thirsty_lamarr::sub_492150()
 {
     u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, field_36);
@@ -63,7 +63,7 @@ void thirsty_lamarr::sub_492150()
     field_34 = gSharp_pare_0x15D8_705064->sub_5B9220(field_2A, field_36);
 }
 
-MATCH_FUNC(0x4921b0)
+// FUNCTION: 105 0x4921b0
 void thirsty_lamarr::sub_4921B0(s32 amount)
 {
     if (amount > 0)
@@ -98,7 +98,7 @@ void thirsty_lamarr::sub_4921B0(s32 amount)
     }
 }
 
-MATCH_FUNC(0x4921f0)
+// FUNCTION: 105 0x4921f0
 void thirsty_lamarr::sub_4921F0(s32 a2, s16 a3)
 {
     u16 a;
@@ -135,7 +135,7 @@ s32 thirsty_lamarr::sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-MATCH_FUNC(0x4925c0)
+// FUNCTION: 105 0x4925c0
 char_type thirsty_lamarr::sub_4925C0()
 {
     s32 uVar1 = field_2E_idx;

@@ -56,13 +56,13 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "audio_info_space"};
 
 
-MATCH_FUNC(0x4A0770)
+// FUNCTION: 105 0x4A0770
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
 {
     strcpy(gGlobalFileName_67C6AC, pFileName);
 }
 
-MATCH_FUNC(0x4A07A0)
+// FUNCTION: 105 0x4A07A0
 EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
 {
     // ecx was swapped with edx without using the local pIter
@@ -2181,7 +2181,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
     gErrorLog_67CF58.Write_4D9620(gTmpBuffer_67C598);
 }
 
-MATCH_FUNC(0x4A38C0)
+// FUNCTION: 105 0x4A38C0
 EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
     if (Code == 16)

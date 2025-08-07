@@ -32,13 +32,13 @@ DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8, 0x7085E8);
 DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600, 0x708600);
 
 
-MATCH_FUNC(0x5EB810)
+// FUNCTION: 105 0x5EB810
 EXPORT void __stdcall DMA_Video_Stub_5EB810()
 {
     MessageBoxA(0, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
 }
 
-MATCH_FUNC(0x5EB8C0)
+// FUNCTION: 105 0x5EB8C0
 EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 {
     if (pVid_ShutDown_SYS != (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810)

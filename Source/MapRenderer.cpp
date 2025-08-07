@@ -21,7 +21,7 @@ DEFINE_GLOBAL(gmp_block_info*, gpBlock_6F6478, 0x6F6478);
 DEFINE_GLOBAL(gmp_map_slope, dword_6F646C, 0x6F646C);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8, 0x6F65A8);
 
-MATCH_FUNC(0x4e9d50)
+// FUNCTION: 105 0x4e9d50
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
 {
     field_4 = Fix16(target_level, 0);
@@ -44,7 +44,7 @@ char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
     return 0;
 }
 
-MATCH_FUNC(0x4e9ea0)
+// FUNCTION: 105 0x4e9ea0
 void MapRenderer::ambient_light_tick_4E9EA0()
 {
     field_0_ambient = field_8 + field_0_ambient;
@@ -73,7 +73,7 @@ void MapRenderer::sub_4EA390(u16* a2)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4ead90)
+// FUNCTION: 105 0x4ead90
 void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
     DrawUnk_0xBC* pCam = gViewCamera_676978;
@@ -216,7 +216,7 @@ void MapRenderer::sub_4F0420()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4f0bd0)
+// FUNCTION: 105 0x4f0bd0
 char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
 {
     switch (lid_type)
@@ -294,7 +294,7 @@ void MapRenderer::draw_slope_4F6580()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4f6630)
+// FUNCTION: 105 0x4f6630
 void MapRenderer::draw_slope_4F6630()
 {
     u32 slope_idx = (gpBlock_6F6478->field_B_slope_type >> 2);
@@ -392,7 +392,7 @@ void MapRenderer::sub_4F66C0()
     }
 }
 
-MATCH_FUNC(0x4f6880)
+// FUNCTION: 105 0x4f6880
 void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
 {
     gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
@@ -467,7 +467,7 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
     }
 }
 
-MATCH_FUNC(0x4f6a10)
+// FUNCTION: 105 0x4f6a10
 void MapRenderer::ClearDrawnTileCount_4F6A10()
 {
     field_2F00_drawn_tile_count = 0;

@@ -19,7 +19,7 @@ Wolfy_30* Wolfy_7A8::sub_543800()
     return 0;
 }
 
-MATCH_FUNC(0x5438b0)
+// FUNCTION: 105 0x5438b0
 Wolfy_7A8::Wolfy_7A8()
 {
     for (u8 i = 0; i < 40; i++)
@@ -31,12 +31,12 @@ Wolfy_7A8::Wolfy_7A8()
     gParticleInstCount_6FD5F4 = 0;
 }
 
-MATCH_FUNC(0x5438f0)
+// FUNCTION: 105 0x5438f0
 Wolfy_7A8::~Wolfy_7A8()
 {
 }
 
-MATCH_FUNC(0x5408f0)
+// FUNCTION: 105 0x5408f0
 Wolfy_30::Wolfy_30()
 {
     this->field_C = 0;
@@ -58,7 +58,7 @@ Wolfy_30::Wolfy_30()
     this->field_2C_ped_id = 0;
 }
 
-MATCH_FUNC(0x540a10)
+// FUNCTION: 105 0x540a10
 Wolfy_30::~Wolfy_30()
 {
     field_14 = 0;
@@ -182,13 +182,13 @@ void Wolfy_30::sub_543650()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x543680)
+// FUNCTION: 105 0x543680
 void Wolfy_30::sub_543680(Object_2C* a2)
 {
     this->field_14 = a2;
 }
 
-MATCH_FUNC(0x543980)
+// FUNCTION: 105 0x543980
 Wolfy_3D4::Wolfy_3D4()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_3C0); i++)
@@ -199,7 +199,7 @@ Wolfy_3D4::Wolfy_3D4()
     gParticleInstCount_6FD5F4 = 0;
 }
 
-MATCH_FUNC(0x5439c0)
+// FUNCTION: 105 0x5439c0
 Wolfy_3D4::~Wolfy_3D4()
 {
 }

@@ -18,7 +18,7 @@ void PedGroup::sub_4C8E80()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4c8e90)
+// FUNCTION: 105 0x4c8e90
 void PedGroup::sub_4C8E90()
 {
     field_40_in_use = false;
@@ -46,7 +46,7 @@ void PedGroup::sub_4C8E90()
     }
 }
 
-MATCH_FUNC(0x4c8ef0)
+// FUNCTION: 105 0x4c8ef0
 void PedGroup::sub_4C8EF0()
 {
     field_40_in_use = 0;
@@ -64,7 +64,7 @@ void PedGroup::sub_4C8EF0()
     }
 }
 
-MATCH_FUNC(0x4c8f20)
+// FUNCTION: 105 0x4c8f20
 void PedGroup::sub_4C8F20()
 {
     field_2C_ped_leader->SetObjective(0, 9999);
@@ -80,7 +80,7 @@ void PedGroup::sub_4C8F20()
     }
 }
 
-MATCH_FUNC(0x4c8f90)
+// FUNCTION: 105 0x4c8f90
 void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 {
     pPed->sub_463830(0, 9999);
@@ -90,7 +90,7 @@ void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
     ++field_36_count;
 }
 
-MATCH_FUNC(0x4c8fe0)
+// FUNCTION: 105 0x4c8fe0
 void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
 {
     add_ped_to_end_of_list_4C8F90(field_2C_ped_leader);
@@ -103,7 +103,7 @@ void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
     }
 }
 
-MATCH_FUNC(0x4c9040)
+// FUNCTION: 105 0x4c9040
 bool PedGroup::sub_4C9040()
 {
     field_36_count = field_34_count;
@@ -153,7 +153,7 @@ bool PedGroup::sub_4C9040()
     return 1;
 }
 
-MATCH_FUNC(0x4c9150)
+// FUNCTION: 105 0x4c9150
 char_type PedGroup::sub_4C9150()
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->get_field_20e() < 0x28)
@@ -172,7 +172,7 @@ char_type PedGroup::sub_4C9150()
     return true;
 }
 
-MATCH_FUNC(0x4c91b0)
+// FUNCTION: 105 0x4c91b0
 void PedGroup::sub_4C91B0()
 {
     for (u8 i = 0; i < field_34_count; i++)
@@ -183,7 +183,7 @@ void PedGroup::sub_4C91B0()
     }
 }
 
-MATCH_FUNC(0x4c9210)
+// FUNCTION: 105 0x4c9210
 bool PedGroup::sub_4C9210()
 {
     if (field_2C_ped_leader->field_16C_car != NULL)
@@ -196,7 +196,7 @@ bool PedGroup::sub_4C9210()
     }
 }
 
-MATCH_FUNC(0x4c9220)
+// FUNCTION: 105 0x4c9220
 bool PedGroup::sub_4C9220()
 {
     if (field_2C_ped_leader->get_ped_state1() != ped_state1_enum::ped_entering_a_car)
@@ -215,7 +215,7 @@ void PedGroup::sub_4C9240()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4c92a0)
+// FUNCTION: 105 0x4c92a0
 void PedGroup::sub_4C92A0()
 {
     if (field_40_in_use == false)
@@ -255,7 +255,7 @@ void PedGroup::sub_4C92A0()
     sub_4C8E90();
 }
 
-MATCH_FUNC(0x4c93a0)
+// FUNCTION: 105 0x4c93a0
 void PedGroup::sub_4C93A0()
 {
     if (field_40_in_use == false)
@@ -323,7 +323,7 @@ void PedGroup::sub_4C9970(Ped* a2)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4c9b10)
+// FUNCTION: 105 0x4c9b10
 void PedGroup::add_ped_leader_4C9B10(Ped* ptr)
 {
     field_2C_ped_leader = ptr;
@@ -331,7 +331,7 @@ void PedGroup::add_ped_leader_4C9B10(Ped* ptr)
     field_2C_ped_leader->set_ped_group_id(99);
 }
 
-MATCH_FUNC(0x4c9b30)
+// FUNCTION: 105 0x4c9b30
 void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 {
     field_4_ped_list[idx & 0xff] = ptr;
@@ -346,7 +346,7 @@ char_type PedGroup::sub_4C9B60(Ped* a2)
     return 0;
 }
 
-MATCH_FUNC(0x4c9ed0)
+// FUNCTION: 105 0x4c9ed0
 Ped* PedGroup::sub_4C9ED0()
 {
     for (s8 i = this->field_34_count - 1; i >= 0; i--)
@@ -366,7 +366,7 @@ void PedGroup::sub_4C9F00()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4ca3e0)
+// FUNCTION: 105 0x4ca3e0
 u32 PedGroup::sub_4CA3E0()
 {
     return field_2C_ped_leader->field_21C_bf.b2;
@@ -379,7 +379,7 @@ Ped* PedGroup::sub_4CA3F0(u32* a2)
     return 0;
 }
 
-MATCH_FUNC(0x4ca4b0)
+// FUNCTION: 105 0x4ca4b0
 void PedGroup::sub_4CA4B0()
 {
     if (!field_2C_ped_leader->field_16C_car && (field_2C_ped_leader->field_21C_bf.b27) == 0)
@@ -570,7 +570,7 @@ void PedGroup::sub_4CA820(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4caa20)
+// FUNCTION: 105 0x4caa20
 bool PedGroup::sub_4CAA20()
 {
     if (field_34_count == 0)
@@ -588,7 +588,7 @@ bool PedGroup::sub_4CAA20()
     return true;
 }
 
-MATCH_FUNC(0x4caae0)
+// FUNCTION: 105 0x4caae0
 char_type PedGroup::sub_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
@@ -601,7 +601,7 @@ char_type PedGroup::sub_4CAAE0()
     return true;
 }
 
-MATCH_FUNC(0x4cab80)
+// FUNCTION: 105 0x4cab80
 char_type PedGroup::sub_4CAB80()
 {
     for (u8 i = 0; i < field_34_count; i++)
@@ -637,7 +637,7 @@ Ped* PedGroup::sub_4CAE80(u8 idx)
     return 0;
 }
 
-MATCH_FUNC(0x4cb080)
+// FUNCTION: 105 0x4cb080
 void PedGroup::sub_4CB080()
 {
     sub_4C8E80();
@@ -657,13 +657,13 @@ PedGroup* PedGroup::sub_4CB0D0()
     return 0;
 }
 
-MATCH_FUNC(0x4cb860)
+// FUNCTION: 105 0x4cb860
 PedGroup::PedGroup()
 {
     sub_4C8EF0();
 }
 
-MATCH_FUNC(0x4cb870)
+// FUNCTION: 105 0x4cb870
 PedGroup::~PedGroup()
 {
 }

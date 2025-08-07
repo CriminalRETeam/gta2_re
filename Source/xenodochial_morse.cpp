@@ -1,18 +1,18 @@
 #include "xenodochial_morse.hpp"
 #include "text_0x14.hpp"
 
-MATCH_FUNC(0x483E70)
+// FUNCTION: 105 0x483E70
 xenodochial_morse::xenodochial_morse() // 483E70
 {
     field_0 = 0;
 }
 
-MATCH_FUNC(0x483EA0)
+// FUNCTION: 105 0x483EA0
 xenodochial_morse::~xenodochial_morse() // 483EA0
 {
 }
 
-MATCH_FUNC(0x483EC0)
+// FUNCTION: 105 0x483EC0
 wchar_t xenodochial_morse::sub_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace)
 {
     wchar_t cur_wchar = pStr[(*pStartPos)++];
@@ -23,7 +23,7 @@ wchar_t xenodochial_morse::sub_483EC0(const wchar_t* pStr, u16* pStartPos, bool 
     return cur_wchar;
 }
 
-MATCH_FUNC(0x483F20)
+// FUNCTION: 105 0x483F20
 void xenodochial_morse::sub_483F20()
 {
     s16 v2 = 0;

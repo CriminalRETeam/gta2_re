@@ -25,7 +25,7 @@ EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 DEFINE_GLOBAL_INIT(Fix16, dword_7028BC, 1638, 0x7028BC);
 
 
-MATCH_FUNC(0x591bd0)
+// FUNCTION: 105 0x591bd0
 eager_benz::eager_benz()
 {
     field_368_pObj = 0;
@@ -55,7 +55,7 @@ eager_benz::eager_benz()
     }
 }
 
-MATCH_FUNC(0x591c70)
+// FUNCTION: 105 0x591c70
 void eager_benz::sub_591C70()
 {
     field_1A8_unk.sub_431E30();
@@ -262,7 +262,7 @@ void eager_benz::sub_591C70()
     }
 }
 
-MATCH_FUNC(0x5922f0)
+// FUNCTION: 105 0x5922f0
 void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
 {
     field_368_pObj = a2;
@@ -270,7 +270,7 @@ void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
     field_38_unk.sub_492110(a3, a6, a5);
 }
 
-MATCH_FUNC(0x592330)
+// FUNCTION: 105 0x592330
 void eager_benz::sub_592330()
 {
     field_0_unk.sub_492150();
@@ -279,19 +279,19 @@ void eager_benz::sub_592330()
     sub_592380(3);
 }
 
-MATCH_FUNC(0x592360)
+// FUNCTION: 105 0x592360
 thirsty_lamarr* eager_benz::sub_592360()
 {
     return &field_0_unk;
 }
 
-MATCH_FUNC(0x592370)
+// FUNCTION: 105 0x592370
 s32 eager_benz::sub_592370()
 {
     return field_0_unk.field_0;
 }
 
-MATCH_FUNC(0x592380)
+// FUNCTION: 105 0x592380
 void eager_benz::sub_592380(char_type bits)
 {
     if ((bits & 1) != 0)
@@ -334,7 +334,7 @@ void eager_benz::sub_592380(char_type bits)
     }
 }
 
-MATCH_FUNC(0x592430)
+// FUNCTION: 105 0x592430
 void eager_benz::sub_592430(char_type bits)
 {
     u16 i;
@@ -377,14 +377,14 @@ void eager_benz::sub_592430(char_type bits)
     }
 }
 
-MATCH_FUNC(0x592570)
+// FUNCTION: 105 0x592570
 void eager_benz::sub_592570(char_type a2, s32 a3)
 {
     field_8C[a3] |= a2;
     sub_592430(a2);
 }
 
-MATCH_FUNC(0x5925b0)
+// FUNCTION: 105 0x5925b0
 s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 {
     u32 result = gCarInfo_808_678098->sub_4546B0(car_info_idx)->field_2_value;
@@ -402,7 +402,7 @@ s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
     }
 }
 
-MATCH_FUNC(0x592620)
+// FUNCTION: 105 0x592620
 void eager_benz::AddCash_592620(s32 cash)
 {
     field_0_unk.sub_4921B0(cash);
@@ -419,7 +419,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x592dd0)
+// FUNCTION: 105 0x592dd0
 void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 {
     const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
@@ -517,7 +517,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     sub_592570(2, pCar->field_84_car_info_idx);
 }
 
-MATCH_FUNC(0x593030)
+// FUNCTION: 105 0x593030
 void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 {
     bool bAddScore = true;
@@ -571,7 +571,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
     }
 }
 
-MATCH_FUNC(0x593150)
+// FUNCTION: 105 0x593150
 void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
     if (pCar->field_74_damage != 32001)
@@ -600,13 +600,13 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
     }
 }
 
-MATCH_FUNC(0x593220)
+// FUNCTION: 105 0x593220
 void eager_benz::sub_593220()
 {
     field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_multpliers.field_0 * 20);
 }
 
-MATCH_FUNC(0x593240)
+// FUNCTION: 105 0x593240
 void eager_benz::sub_593240(Car_BC* pCar)
 {
     const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
@@ -632,7 +632,7 @@ void eager_benz::sub_593240(Car_BC* pCar)
     sub_592570(1, pCar->field_84_car_info_idx);
 }
 
-MATCH_FUNC(0x593370)
+// FUNCTION: 105 0x593370
 void eager_benz::sub_593370(Car_BC* pCar)
 {
     if (!bExplodingOff_67D4FB && field_368_pObj->field_0)
@@ -647,7 +647,7 @@ void eager_benz::sub_593370(Car_BC* pCar)
     gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_pObj->Get_Field_68_Ped());
 }
 
-MATCH_FUNC(0x593410)
+// FUNCTION: 105 0x593410
 void eager_benz::sub_593410(Car_BC* pCar)
 {
     const s32 multpliers = field_368_pObj->field_6BC_multpliers.field_0;
@@ -671,7 +671,7 @@ void eager_benz::sub_593410(Car_BC* pCar)
     }
 }
 
-MATCH_FUNC(0x5934f0)
+// FUNCTION: 105 0x5934f0
 void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 {
     field_194 = a2;
@@ -707,19 +707,19 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
     }
 }
 
-MATCH_FUNC(0x5935b0)
+// FUNCTION: 105 0x5935b0
 thirsty_lamarr* eager_benz::sub_5935B0()
 {
     return &field_38_unk;
 }
 
-MATCH_FUNC(0x5935c0)
+// FUNCTION: 105 0x5935c0
 s32 eager_benz::sub_5935C0()
 {
     return field_38_unk.field_0;
 }
 
-MATCH_FUNC(0x5935d0)
+// FUNCTION: 105 0x5935d0
 void eager_benz::sub_5935D0(s32 a2)
 {
     field_38_unk.sub_4921B0(a2);

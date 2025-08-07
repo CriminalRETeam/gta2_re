@@ -24,7 +24,7 @@ Crane_15C::~Crane_15C()
     }
 }
 
-MATCH_FUNC(0x47e610)
+// FUNCTION: 105 0x47e610
 Crane_15C::Crane_15C()
 {
     field_28 = 0;
@@ -101,7 +101,7 @@ s32 Crane_15C::sub_47F170()
     return 0;
 }
 
-MATCH_FUNC(0x47f220)
+// FUNCTION: 105 0x47f220
 s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
 {
     field_F4 = a2;
@@ -117,7 +117,7 @@ s32 Crane_15C::sub_47F220(s32 a2, s32 a3, Sprite* a4, Sprite* a5)
     return result;
 }
 
-MATCH_FUNC(0x47f290)
+// FUNCTION: 105 0x47f290
 void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
 {
     field_BC = a2;
@@ -130,7 +130,7 @@ void Crane_15C::sub_47F290(Fix16 a2, Fix16 a3, Sprite* a4)
     field_D4 = field_80 - field_CC;
 }
 
-MATCH_FUNC(0x47f2f0)
+// FUNCTION: 105 0x47f2f0
 void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
 {
     field_D8 = a2;
@@ -144,7 +144,7 @@ void Crane_15C::sub_47F2F0(s32 a2, s32 a3, Sprite* a4)
     field_F0 = field_80.mValue - field_1C_zpos.mValue;
 }
 
-MATCH_FUNC(0x47f350)
+// FUNCTION: 105 0x47f350
 bool Crane_15C::sub_47F350()
 {
     Car_BC* v2;
@@ -257,7 +257,7 @@ void Crane_15C::sub_480310()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4803b0)
+// FUNCTION: 105 0x4803b0
 infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
     infallible_turing* result;
@@ -382,7 +382,7 @@ s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-MATCH_FUNC(0x480da0)
+// FUNCTION: 105 0x480da0
 Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 {
     Sprite* v1 = field_74;
@@ -397,13 +397,13 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
     }
 }
 
-MATCH_FUNC(0x480e00)
+// FUNCTION: 105 0x480e00
 void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
     field_0[a3].sub_47F930(a2);
 }
 
-MATCH_FUNC(0x480e50)
+// FUNCTION: 105 0x480e50
 void Zheal_D9C::sub_480E50()
 {
     s32 i = 0;
@@ -416,7 +416,7 @@ void Zheal_D9C::sub_480E50()
     }
 }
 
-MATCH_FUNC(0x480ec0)
+// FUNCTION: 105 0x480ec0
 Crane_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
 {
     Crane_15C* v4 = &field_0[field_D98_count];
@@ -425,13 +425,13 @@ Crane_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
     return v4;
 }
 
-MATCH_FUNC(0x480f50)
+// FUNCTION: 105 0x480f50
 Zheal_D9C::Zheal_D9C()
 {
     field_D98_count = 0;
 }
 
-MATCH_FUNC(0x4bbbf0)
+// FUNCTION: 105 0x4bbbf0
 Zheal_D9C::~Zheal_D9C()
 {
 }

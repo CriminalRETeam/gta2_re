@@ -5,7 +5,7 @@
 
 DEFINE_GLOBAL(nostalgic_ellis_0x28**, g4096_alloc_6F5400, 0x6F5400) ;
 
-MATCH_FUNC(0x4D6D20)
+// FUNCTION: 105 0x4D6D20
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
     field_0 = 0x2A2A2A2A;
@@ -23,7 +23,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_18_intensity = 0;
 }
 
-MATCH_FUNC(0x4D6D60)
+// FUNCTION: 105 0x4D6D60
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
     field_1C = 0;
@@ -79,7 +79,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     return result;
 }
 
-MATCH_FUNC(0x4D6E00)
+// FUNCTION: 105 0x4D6E00
 void __stdcall Light::sub_4D6E00()
 {
     g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)crt::malloc(0x4000u);
@@ -89,7 +89,7 @@ void __stdcall Light::sub_4D6E00()
     }
 }
 
-MATCH_FUNC(0x4D6E30)
+// FUNCTION: 105 0x4D6E30
 void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)

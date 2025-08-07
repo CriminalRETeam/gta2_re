@@ -284,7 +284,7 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
 
-MATCH_FUNC(0x4B4C60)
+// FUNCTION: 105 0x4B4C60
 void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
     strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);
@@ -292,7 +292,7 @@ void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr,
     strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200);
 }
 
-MATCH_FUNC(0x4B4BC0)
+// FUNCTION: 105 0x4B4BC0
 void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
 {
     strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0, pDebugStr);
@@ -300,7 +300,7 @@ void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDeb
     strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200, pStyName);
 }
 
-MATCH_FUNC(0x4ACFA0)
+// FUNCTION: 105 0x4ACFA0
 void __stdcall Frontend::create_4ACFA0()
 {
     if (!gFrontend_67DC84)
@@ -323,7 +323,7 @@ void __stdcall Frontend::create_4ACFA0()
     Bink::Reset_513210();
 }
 
-MATCH_FUNC(0x4AD070)
+// FUNCTION: 105 0x4AD070
 void __stdcall Frontend::destroy_4AD070()
 {
     if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
@@ -799,7 +799,7 @@ LABEL_116:
     sub_4B6780();
 }
 
-MATCH_FUNC(0x4B3AF0)
+// FUNCTION: 105 0x4B3AF0
 void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
     MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
@@ -838,7 +838,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
     *w_buffer = (wchar_t*)&word_67C7D8;
 }
 
-MATCH_FUNC(0x4B8680)
+// FUNCTION: 105 0x4B8680
 void Frontend::sub_4B8680()
 {
     if (!bSkip_audio_67D6BE)
@@ -852,7 +852,7 @@ void Frontend::sub_4B8680()
     }
 }
 
-MATCH_FUNC(0x4AEDB0)
+// FUNCTION: 105 0x4AEDB0
 s32 Frontend::sub_4AEDB0()
 {
     u32 Time; // eax
@@ -1609,7 +1609,7 @@ void Frontend::sub_4B7AE0()
     }
 }
 
-MATCH_FUNC(0x4B8650)
+// FUNCTION: 105 0x4B8650
 void Frontend::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
@@ -1654,7 +1654,7 @@ const char_type* Frontend::intro_bik_4B5E50()
     return "meh.dat";
 }
 
-MATCH_FUNC(0x4B5FF0)
+// FUNCTION: 105 0x4B5FF0
 bool Frontend::intro_bik_exists_4B5FF0()
 {
     // note: ecx wasn't first due to global being an object instead of a pointer
@@ -1688,7 +1688,7 @@ void sub_SetGamma()
     }
 }
 
-MATCH_FUNC(0x4AEC00)
+// FUNCTION: 105 0x4AEC00
 void Frontend::sub_4AEC00()
 {
     read_menu_input_4AFEB0();
@@ -1742,7 +1742,7 @@ void Frontend::sub_4AEC00()
     }
 }
 
-MATCH_FUNC(0x4AFEB0)
+// FUNCTION: 105 0x4AFEB0
 void Frontend::read_menu_input_4AFEB0()
 {
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
@@ -1787,7 +1787,7 @@ void Frontend::read_menu_input_4AFEB0()
     }
 }
 
-MATCH_FUNC(0x4B6780)
+// FUNCTION: 105 0x4B6780
 void Frontend::sub_4B6780()
 {
     MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
@@ -2221,7 +2221,7 @@ LABEL_60:
     }
 }
 
-MATCH_FUNC(0x4AE990)
+// FUNCTION: 105 0x4AE990
 void Frontend::sub_4AE990()
 {
     field_108 = 3;
@@ -2345,7 +2345,7 @@ LABEL_29:
     }
 }
 
-MATCH_FUNC(0x4AE9A0)
+// FUNCTION: 105 0x4AE9A0
 void Frontend::sub_4AE9A0()
 {
     u16 v2;
@@ -2429,7 +2429,7 @@ void Frontend::sub_4B8280()
     // todo
 }
 
-MATCH_FUNC(0x4B4410)
+// FUNCTION: 105 0x4B4410
 void Frontend::sub_4B4410()
 {
     sub_4B43E0()->sub_56B630();
@@ -2437,7 +2437,7 @@ void Frontend::sub_4B4410()
     sub_4B42E0();
 }
 
-MATCH_FUNC(0x4B43E0)
+// FUNCTION: 105 0x4B43E0
 player_stats_0xA4* Frontend::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
@@ -2452,7 +2452,7 @@ void Frontend::sub_4B42E0()
     // todo
 }
 
-MATCH_FUNC(0x4B4230)
+// FUNCTION: 105 0x4B4230
 void Frontend::sub_4B4230()
 {
     u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx;
@@ -2462,7 +2462,7 @@ void Frontend::sub_4B4230()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
 
-MATCH_FUNC(0x4B3CC0)
+// FUNCTION: 105 0x4B3CC0
 void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
 {
     menu_element_0x6E* temp = &field_136_menu_pages_array[a2].field_518_elements_array[a3];
@@ -2486,7 +2486,7 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     *a4 = (wchar_t*)&word_67C7D8;
 }
 
-MATCH_FUNC(0x4B3DD0)
+// FUNCTION: 105 0x4B3DD0
 void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
     const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
@@ -2648,7 +2648,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
 }
 
-MATCH_FUNC(0x4B4280)
+// FUNCTION: 105 0x4B4280
 void Frontend::sub_4B4280()
 {
     wcsncpy(field_C9A0_curr_plyr_name,
@@ -2658,7 +2658,7 @@ void Frontend::sub_4B4280()
             9u);
 }
 
-MATCH_FUNC(0x4B8530)
+// FUNCTION: 105 0x4B8530
 void Frontend::sub_4B8530()
 {
     u16 total = field_C9CA;
@@ -2668,7 +2668,7 @@ void Frontend::sub_4B8530()
     }
 }
 
-MATCH_FUNC(0x4B8560)
+// FUNCTION: 105 0x4B8560
 void Frontend::sub_4B8560()
 {
     if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
@@ -2707,7 +2707,7 @@ void Frontend::sub_4B8560()
     }
 }
 
-MATCH_FUNC(0x4B8020)
+// FUNCTION: 105 0x4B8020
 void Frontend::sub_4B8020()
 {
     player_stats_0xA4* pClarke = sub_4B43E0();
@@ -2744,7 +2744,7 @@ EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 tex
     return 0;
 }
 
-MATCH_FUNC(0x4B7FB0)
+// FUNCTION: 105 0x4B7FB0
 char_type Frontend::sub_4B7FB0()
 {
     player_stats_0xA4* v2 = sub_4B43E0();
@@ -2766,7 +2766,7 @@ char_type Frontend::sub_4B7FB0()
     return true;
 }
 
-MATCH_FUNC(0x4B4D00)
+// FUNCTION: 105 0x4B4D00
 void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
@@ -2954,13 +2954,13 @@ EXPORT void __stdcall sub_5D7D30()
     pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
-MATCH_FUNC(0x5D7DC0)
+// FUNCTION: 105 0x5D7DC0
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     pVid_FreeSurface(gVidSys_7071D0);
 }
 
-MATCH_FUNC(0x4ADFB0)
+// FUNCTION: 105 0x4ADFB0
 void Frontend::sub_4ADFB0()
 {
     sub_5D7D30();
@@ -3024,7 +3024,7 @@ void Frontend::DrawBackground_4B6E10()
     }
 }
 
-MATCH_FUNC(0x4B6B00)
+// FUNCTION: 105 0x4B6B00
 void Frontend::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
 {
     switch (a1)
@@ -3124,7 +3124,7 @@ void Frontend::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
     }
 }
 
-MATCH_FUNC(0x4B6520)
+// FUNCTION: 105 0x4B6520
 void Frontend::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
@@ -3288,7 +3288,7 @@ Frontend::Frontend()
     }
 }
 
-MATCH_FUNC(0x4AF970)
+// FUNCTION: 105 0x4AF970
 Frontend::~Frontend()
 {
     FreeKeyBoardDevice_4AFD00();
@@ -3316,7 +3316,7 @@ Frontend::~Frontend()
     FreeImageTable_4B6750();
 }
 
-MATCH_FUNC(0x4AFD70)
+// FUNCTION: 105 0x4AFD70
 void Frontend::AcquireKeyBoard_4AFD70()
 {
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
@@ -3325,7 +3325,7 @@ void Frontend::AcquireKeyBoard_4AFD70()
     }
 }
 
-MATCH_FUNC(0x4AFD00)
+// FUNCTION: 105 0x4AFD00
 void Frontend::FreeKeyBoardDevice_4AFD00()
 {
     if (field_4_pKeyboardDevice)
@@ -3336,13 +3336,13 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
     }
 }
 
-MATCH_FUNC(0x4B6750)
+// FUNCTION: 105 0x4B6750
 void Frontend::FreeImageTable_4B6750()
 {
     pgbh_FreeImageTable();
 }
 
-MATCH_FUNC(0x4AFDD0)
+// FUNCTION: 105 0x4AFDD0
 char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
@@ -3363,7 +3363,7 @@ char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
     return 1;
 }
 
-MATCH_FUNC(0x4AFBE0)
+// FUNCTION: 105 0x4AFBE0
 void Frontend::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
@@ -3387,7 +3387,7 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
     AcquireKeyBoard_4AFD70();
 }
 
-MATCH_FUNC(0x4AF0E0)
+// FUNCTION: 105 0x4AF0E0
 void Frontend::sub_4AF0E0()
 {
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
@@ -4086,7 +4086,7 @@ void Frontend::sub_4B4440()
     crt::fclose(hSeqFile);
 }
 
-MATCH_FUNC(0x4B48D0)
+// FUNCTION: 105 0x4B48D0
 void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
@@ -4174,7 +4174,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
     }
 }
 
-MATCH_FUNC(0x4B53C0)
+// FUNCTION: 105 0x4B53C0
 void Frontend::LoadPlySlotSvgs_4B53C0()
 {
     char_type FileName[256];
@@ -4195,7 +4195,7 @@ void Frontend::LoadPlySlotSvgs_4B53C0()
     }
 }
 
-MATCH_FUNC(0x4B66B0)
+// FUNCTION: 105 0x4B66B0
 void Frontend::Load_tgas_4B66B0()
 {
     if (pgbh_InitImageTable(gTableSize_61FF20) != -1)
@@ -4207,7 +4207,7 @@ void Frontend::Load_tgas_4B66B0()
     }
 }
 
-MATCH_FUNC(0x4B51D0)
+// FUNCTION: 105 0x4B51D0
 void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
@@ -4217,7 +4217,7 @@ void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
     strcat(pStr, ".svg");
 }
 
-MATCH_FUNC(0x4B5370)
+// FUNCTION: 105 0x4B5370
 char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
@@ -4234,7 +4234,7 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
     return 1;
 }
 
-MATCH_FUNC(0x4B77B0)
+// FUNCTION: 105 0x4B77B0
 u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
 {
     u8 result;
@@ -4251,7 +4251,7 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
-MATCH_FUNC(0x5E53C0)
+// FUNCTION: 105 0x5E53C0
 void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
@@ -4267,7 +4267,7 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
     }
 }
 
-MATCH_FUNC(0x5D8990)
+// FUNCTION: 105 0x5D8990
 s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
 {
     wchar_t* pStrIter = pStr;
@@ -4306,7 +4306,7 @@ s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
-MATCH_FUNC(0x4B78B0)
+// FUNCTION: 105 0x4B78B0
 void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr)
 {
     u16 text_xbase;
@@ -4345,7 +4345,7 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
     }
 }
 
-MATCH_FUNC(0x4B55F0)
+// FUNCTION: 105 0x4B55F0
 void Frontend::sub_4B55F0()
 {
     s8 game_mode = gLucid_hamilton_67E8E0.sub_4C5BC0();
@@ -4397,7 +4397,7 @@ void Frontend::sub_4B55F0()
     }
 }
 
-MATCH_FUNC(0x4B57B0)
+// FUNCTION: 105 0x4B57B0
 void Frontend::sub_4B57B0(u16 a3, u16 a5)
 {
     u16 font_type = field_12A;
@@ -4519,7 +4519,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 }
 
-MATCH_FUNC(0x4B0190)
+// FUNCTION: 105 0x4B0190
 u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
     u16 v4;
@@ -4534,7 +4534,7 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     return width - v4;
 }
 
-MATCH_FUNC(0x4B7060)
+// FUNCTION: 105 0x4B7060
 u8 Frontend::sub_4B7060(u8 a2)
 {
     player_stats_0xA4* v2 = sub_4B43E0();
@@ -4595,7 +4595,7 @@ u8 Frontend::sub_4B7270(char_type a2)
     return result;
 }
 
-MATCH_FUNC(0x4B7490)
+// FUNCTION: 105 0x4B7490
 bool Frontend::sub_4B7490()
 {
     u8 v2 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4603,7 +4603,7 @@ bool Frontend::sub_4B7490()
     return result;
 }
 
-MATCH_FUNC(0x4B74C0)
+// FUNCTION: 105 0x4B74C0
 bool Frontend::sub_4B74C0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4611,7 +4611,7 @@ bool Frontend::sub_4B74C0()
     return result;
 }
 
-MATCH_FUNC(0x4B7550)
+// FUNCTION: 105 0x4B7550
 void Frontend::sub_4B7550()
 {
     MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
@@ -4642,7 +4642,7 @@ void Frontend::sub_4B7550()
     }
 }
 
-MATCH_FUNC(0x4B6FF0)
+// FUNCTION: 105 0x4B6FF0
 bool Frontend::sub_4B6FF0()
 {
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4655,7 +4655,7 @@ bool Frontend::sub_4B6FF0()
     return result;
 }
 
-MATCH_FUNC(0x4B42B0)
+// FUNCTION: 105 0x4B42B0
 void Frontend::sub_4B42B0()
 {
     u16 name_length = field_C9B2_curr_plyr_name_length;
@@ -4673,7 +4673,7 @@ char_type Frontend::sub_4B7120(char_type a2)
     return 0;
 }
 
-MATCH_FUNC(0x4B7610)
+// FUNCTION: 105 0x4B7610
 void Frontend::sub_4B7610()
 {
     MenuPage_0xBCA* pItem = &field_136_menu_pages_array[field_132_f136_idx];
@@ -4724,7 +4724,7 @@ void Frontend::sub_4B7610()
     }
 }
 
-MATCH_FUNC(0x4B70B0)
+// FUNCTION: 105 0x4B70B0
 bool Frontend::sub_4B70B0()
 {
     s8 v3 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4737,7 +4737,7 @@ bool Frontend::sub_4B70B0()
     return result;
 }
 
-MATCH_FUNC(0x4B74F0)
+// FUNCTION: 105 0x4B74F0
 bool Frontend::sub_4B74F0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4753,7 +4753,7 @@ char_type Frontend::sub_4B7360(char_type a2)
     return 0;
 }
 
-MATCH_FUNC(0x4B7520)
+// FUNCTION: 105 0x4B7520
 bool Frontend::sub_4B7520()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4761,7 +4761,7 @@ bool Frontend::sub_4B7520()
     return result;
 }
 
-MATCH_FUNC(0x4B72F0)
+// FUNCTION: 105 0x4B72F0
 bool Frontend::sub_4B72F0()
 {
     char_type v3 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4774,7 +4774,7 @@ bool Frontend::sub_4B72F0()
     return result;
 }
 
-MATCH_FUNC(0x4B7200)
+// FUNCTION: 105 0x4B7200
 bool Frontend::sub_4B7200()
 {
     char_type v3 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4794,7 +4794,7 @@ void Frontend::sub_4B4EC0()
     // todo
 }
 
-MATCH_FUNC(0x4B6070)
+// FUNCTION: 105 0x4B6070
 MenuPage_0xBCA::MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
@@ -4803,7 +4803,7 @@ MenuPage_0xBCA::MenuPage_0xBCA()
     field_BC8 = 0;
 }
 
-MATCH_FUNC(0x4B6110)
+// FUNCTION: 105 0x4B6110
 MenuPage_0xBCA::~MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
@@ -4812,7 +4812,7 @@ MenuPage_0xBCA::~MenuPage_0xBCA()
     field_BC8 = 0;
 }
 
-MATCH_FUNC(0x4B61B0)
+// FUNCTION: 105 0x4B61B0
 bool MenuPage_0xBCA::sub_4B61B0()
 {
     u16 oldIdx = field_BC6_current_option_idx;
@@ -4830,7 +4830,7 @@ bool MenuPage_0xBCA::sub_4B61B0()
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
-MATCH_FUNC(0x4B6200)
+// FUNCTION: 105 0x4B6200
 bool MenuPage_0xBCA::sub_4B6200()
 {
     u16 oldIdx = field_BC6_current_option_idx;
@@ -4848,7 +4848,7 @@ bool MenuPage_0xBCA::sub_4B6200()
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
-MATCH_FUNC(0x4B63E0)
+// FUNCTION: 105 0x4B63E0
 menu_element_0x6E::menu_element_0x6E()
 {
     field_0_element_type = NULL_TYPE_0;
@@ -4860,7 +4860,7 @@ menu_element_0x6E::menu_element_0x6E()
     field_6C_font_variant = -1;
 }
 
-MATCH_FUNC(0x4B6420)
+// FUNCTION: 105 0x4B6420
 menu_element_0x6E::~menu_element_0x6E()
 {
     field_1_is_it_displayed = 1;
@@ -4871,7 +4871,7 @@ menu_element_0x6E::~menu_element_0x6E()
     field_6C_font_variant = -1;
 }
 
-MATCH_FUNC(0x4B6290)
+// FUNCTION: 105 0x4B6290
 menu_option_0x82::menu_option_0x82()
 {
     field_6A = -1;
@@ -4893,7 +4893,7 @@ menu_option_0x82::menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-MATCH_FUNC(0x4B62F0)
+// FUNCTION: 105 0x4B62F0
 menu_option_0x82::~menu_option_0x82()
 {
     field_0_option_type = NULL_TYPE_0;
@@ -4978,7 +4978,7 @@ bool menu_option_0x82::sub_4B6390()
     return oldCount != new_count ? true : false;
 }
 
-MATCH_FUNC(0x4B6260)
+// FUNCTION: 105 0x4B6260
 kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
@@ -4986,7 +4986,7 @@ kind_beaver_6::kind_beaver_6()
     field_4_is_option_unlocked = 1;
 }
 
-MATCH_FUNC(0x4B6280)
+// FUNCTION: 105 0x4B6280
 kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
@@ -4994,7 +4994,7 @@ kind_beaver_6::~kind_beaver_6()
     field_4_is_option_unlocked = 1;
 }
 
-MATCH_FUNC(0x4B6440)
+// FUNCTION: 105 0x4B6440
 admiring_euler_4::admiring_euler_4()
 {
     field_0_save_exists = false;
@@ -5003,7 +5003,7 @@ admiring_euler_4::admiring_euler_4()
     field_3 = 0;
 }
 
-MATCH_FUNC(0x4B6450)
+// FUNCTION: 105 0x4B6450
 admiring_euler_4::~admiring_euler_4()
 {
     field_0_save_exists = false;
@@ -5012,7 +5012,7 @@ admiring_euler_4::~admiring_euler_4()
     field_3 = 0;
 }
 
-MATCH_FUNC(0x4B6480)
+// FUNCTION: 105 0x4B6480
 void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 {
     File::Global_Open_4A7060(FileName);
@@ -5036,7 +5036,7 @@ struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
-MATCH_FUNC(0x5D83E0);
+// FUNCTION: 105 0x5D83E0;
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
     switch (mode)
@@ -5233,7 +5233,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     }
 }
 
-MATCH_FUNC(0x4B87A0)
+// FUNCTION: 105 0x4B87A0
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
     s32 local; // [esp+0h] [ebp-4h] BYREF

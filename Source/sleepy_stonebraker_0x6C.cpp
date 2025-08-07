@@ -1,7 +1,7 @@
 #include "sleepy_stonebraker_0x6C.hpp"
 #include <string.h>
 
-MATCH_FUNC(0x483E30)
+// FUNCTION: 105 0x483E30
 sleepy_stonebraker_0x6C::sleepy_stonebraker_0x6C() // 483E30
 {
     field_0 = 0;
@@ -11,7 +11,7 @@ sleepy_stonebraker_0x6C::sleepy_stonebraker_0x6C() // 483E30
     memset(field_8_strBuf, 0, sizeof(field_8_strBuf));
 }
 
-MATCH_FUNC(0x483E60)
+// FUNCTION: 105 0x483E60
 sleepy_stonebraker_0x6C::~sleepy_stonebraker_0x6C() // 483E60
 {
 }

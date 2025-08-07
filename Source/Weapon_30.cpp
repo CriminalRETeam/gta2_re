@@ -13,7 +13,7 @@
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
-MATCH_FUNC(0x5DCD10)
+// FUNCTION: 105 0x5DCD10
 Weapon_30::Weapon_30()
 {
     field_0_ammo = 0;
@@ -32,7 +32,7 @@ Weapon_30::Weapon_30()
     field_28_pSound = 0;
 }
 
-MATCH_FUNC(0x5DCD50)
+// FUNCTION: 105 0x5DCD50
 Weapon_30::~Weapon_30()
 {
     field_24_pPed = 0;
@@ -46,7 +46,7 @@ Weapon_30::~Weapon_30()
     }
 }
 
-//MATCH_FUNC(0x5DCD90)
+//// FUNCTION: 105 0x5DCD90
 
 // FUNCTION: 105 0x5DCD90
 void Weapon_30::init_5DCD90()
@@ -68,7 +68,7 @@ void Weapon_30::init_5DCD90()
     }
 }
 
-MATCH_FUNC(0x5DCDE0)
+// FUNCTION: 105 0x5DCDE0
 void Weapon_30::clear_5DCDE0()
 {
     init_5DCD90();
@@ -82,7 +82,7 @@ void Weapon_30::clear_5DCDE0()
     }
 }
 
-MATCH_FUNC(0x5dce20)
+// FUNCTION: 105 0x5dce20
 void Weapon_30::add_ammo_5DCE20(u8 a2)
 {
     field_0_ammo = a2 * 10;
@@ -123,7 +123,7 @@ bool Weapon_30::is_max_capacity_5DCEA0()
     return 0;
 }
 
-MATCH_FUNC(0x5dcef0)
+// FUNCTION: 105 0x5dcef0
 bool Weapon_30::sub_5DCEF0()
 {
     bool result;
@@ -149,7 +149,7 @@ bool Weapon_30::sub_5DCEF0()
     return result;
 }
 
-MATCH_FUNC(0x5dcf40)
+// FUNCTION: 105 0x5dcf40
 void Weapon_30::sub_5DCF40()
 {
     Player* pPlayer = this->field_24_pPed->field_15C_player;
@@ -223,7 +223,7 @@ char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
     return 0;
 }
 
-MATCH_FUNC(0x5e06b0)
+// FUNCTION: 105 0x5e06b0
 void Weapon_30::shocker_5E06B0()
 {
     gWeapon_8_707018->field_0.sub_5A6E10();
@@ -300,7 +300,7 @@ u8 Weapon_30::car_smg_5E2940()
     return 0;
 }
 
-MATCH_FUNC(0x5e33c0)
+// FUNCTION: 105 0x5e33c0
 char_type Weapon_30::sub_5E33C0()
 {
     char result;
@@ -327,7 +327,7 @@ char_type Weapon_30::sub_5E34B0()
     return 0;
 }
 
-MATCH_FUNC(0x5e3670)
+// FUNCTION: 105 0x5e3670
 void Weapon_30::pull_trigger_5E3670()
 {
     switch (field_1C_idx)
@@ -444,7 +444,7 @@ void Weapon_30::rocket_5E3850()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5e3bd0)
+// FUNCTION: 105 0x5e3bd0
 char_type Weapon_30::sub_5E3BD0()
 {
     char result;

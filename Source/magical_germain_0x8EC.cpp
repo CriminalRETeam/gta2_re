@@ -9,7 +9,7 @@
 
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
-MATCH_FUNC(0x4D1FC0)
+// FUNCTION: 105 0x4D1FC0
 void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len)
 {
     if (!strncmp(pChunkId, "KIDX", 4u))
@@ -37,7 +37,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
     }
 }
 
-MATCH_FUNC(0x4D2090)
+// FUNCTION: 105 0x4D2090
 void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 {
     File::Global_Open_4A7060("data\\kanji.dat");
@@ -93,7 +93,7 @@ s32 magical_germain_0x8EC::sub_4D2690(u16 a2)
     return 0;
 }
 
-MATCH_FUNC(0x4D2710)
+// FUNCTION: 105 0x4D2710
 STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
 {
     kanji_0x10* pFound;
@@ -129,7 +129,7 @@ STexture* magical_germain_0x8EC::sub_4D2710(wchar_t text_char)
     return field_8D8_pTexture;
 }
 
-MATCH_FUNC(0x4D27D0)
+// FUNCTION: 105 0x4D27D0
 STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
 {
     kanji_0x10* pFound;
@@ -165,7 +165,7 @@ STexture* magical_germain_0x8EC::sub_4D27D0(wchar_t text_char)
     return field_8E4_pTexture;
 }
 
-MATCH_FUNC(0x4D28A0)
+// FUNCTION: 105 0x4D28A0
 void magical_germain_0x8EC::sub_4D28A0(u16 font_type)
 {
     switch (font_type)
@@ -301,7 +301,7 @@ void magical_germain_0x8EC::sub_4D2B40()
     // todo
 }
 
-MATCH_FUNC(0x4D2C80)
+// FUNCTION: 105 0x4D2C80
 magical_germain_0x8EC::magical_germain_0x8EC()
 {
     field_8E8_v1 = -2;
@@ -313,7 +313,7 @@ magical_germain_0x8EC::magical_germain_0x8EC()
     Load_kanji_dat_4D2090();
 }
 
-MATCH_FUNC(0x4D2CC0)
+// FUNCTION: 105 0x4D2CC0
 magical_germain_0x8EC::~magical_germain_0x8EC()
 {
     if (field_8C8_pKBIT)

@@ -5,14 +5,14 @@
 // TODO: move
 DEFINE_GLOBAL(Frismo_25C*, gFrismo_25C_6F8068, 0x6F8068);
 
-MATCH_FUNC(0x503120)
+// FUNCTION: 105 0x503120
 miss2_8::miss2_8() // 503120
 {
     field_0_current = 0;
     field_4_count = 0;
 }
 
-MATCH_FUNC(0x503130)
+// FUNCTION: 105 0x503130
 miss2_8::~miss2_8() // 503130
 {
     Frismo_25C* pGlobal;
@@ -27,7 +27,7 @@ miss2_8::~miss2_8() // 503130
     }
 }
 
-MATCH_FUNC(0x503160)
+// FUNCTION: 105 0x503160
 void miss2_8::add_503160(Frismo_C* a2)
 {
     a2->field_8_next = field_0_current;
@@ -35,7 +35,7 @@ void miss2_8::add_503160(Frismo_C* a2)
     field_4_count++;
 }
 
-MATCH_FUNC(0x503180)
+// FUNCTION: 105 0x503180
 Frismo_C* miss2_8::remove_503180()
 {
     Frismo_C* pOld = field_0_current;
@@ -49,7 +49,7 @@ Frismo_C* miss2_8::remove_503180()
     return pOld;
 }
 
-MATCH_FUNC(0x5031A0)
+// FUNCTION: 105 0x5031A0
 Frismo_C* miss2_8::sub_5031A0()
 {
     Frismo_C* v1 = gFrismo_25C_6F8068->field_0;
@@ -58,7 +58,7 @@ Frismo_C* miss2_8::sub_5031A0()
     return v1;
 }
 
-MATCH_FUNC(0x5031C0)
+// FUNCTION: 105 0x5031C0
 void miss2_8::sub_5031C0(Frismo_C* a2)
 {
     Frismo_25C* pFrismo = gFrismo_25C_6F8068;
@@ -66,7 +66,7 @@ void miss2_8::sub_5031C0(Frismo_C* a2)
     pFrismo->field_0 = a2;
 }
 
-MATCH_FUNC(0x5031E0)
+// FUNCTION: 105 0x5031E0
 void miss2_8::remove_5031E0(u8 count)
 {
     while (field_4_count > count)

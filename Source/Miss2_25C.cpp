@@ -6,7 +6,7 @@
 
 DEFINE_GLOBAL(Miss2_25C*, gMiss2_25C_6F805C, 0x6F805C);
 
-MATCH_FUNC(0x502d90)
+// FUNCTION: 105 0x502d90
 Miss2_25C::Miss2_25C()
 {
     field_258_count = 0;
@@ -24,7 +24,7 @@ void Miss2_25C::sub_502DC0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x502f60)
+// FUNCTION: 105 0x502f60
 Miss2_C* Miss2_25C::allocate_next_502F60()
 {
     Miss2_C* pIter = field_0;
@@ -39,7 +39,7 @@ Miss2_C* Miss2_25C::allocate_next_502F60()
     return NULL;
 }
 
-MATCH_FUNC(0x502f80)
+// FUNCTION: 105 0x502f80
 void Miss2_25C::push_type_1_car_502F80(Car_BC* pCar)
 {
     Miss2_C* pFree = allocate_next_502F60();
@@ -53,7 +53,7 @@ void Miss2_25C::push_type_1_car_502F80(Car_BC* pCar)
     }
 }
 
-MATCH_FUNC(0x502fb0)
+// FUNCTION: 105 0x502fb0
 void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
 {
     Miss2_C* pFree = allocate_next_502F60();
@@ -67,7 +67,7 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
     }
 }
 
-MATCH_FUNC(0x502ff0)
+// FUNCTION: 105 0x502ff0
 void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
 {
     if (bUnknown || pObj && ((pObj->field_18_model < 64) || pObj->field_18_model > 108) && (pObj->field_18_model < 200 || pObj->field_18_model > 244))
@@ -83,7 +83,7 @@ void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
     }
 }
 
-MATCH_FUNC(0x503050)
+// FUNCTION: 105 0x503050
 void Miss2_25C::push_type_2_503050(Object_2C* pObj)
 {
     Miss2_C* pC = allocate_next_502F60();

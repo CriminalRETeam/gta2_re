@@ -16,7 +16,7 @@ DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
-MATCH_FUNC(0x4987A0)
+// FUNCTION: 105 0x4987A0
 void BurgerKing_1::sub_4987A0()
 {
     if (gpDInput_67B804)
@@ -45,19 +45,19 @@ void BurgerKing_67F8B0::sub_4CDCD0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4cdce0)
+// FUNCTION: 105 0x4cdce0
 void BurgerKing_67F8B0::sub_4CDCE0()
 {
     field_4_input_bits &= ~0xFFFFF000;
 }
 
-MATCH_FUNC(0x4cdcf0)
+// FUNCTION: 105 0x4cdcf0
 void BurgerKing_67F8B0::sub_4CDCF0(s32 a2)
 {
     field_4_input_bits |= field_8[a2];
 }
 
-MATCH_FUNC(0x4cdd10)
+// FUNCTION: 105 0x4cdd10
 void BurgerKing_67F8B0::sub_4CDD10(s32 a2)
 {
     field_4_input_bits &= ~field_8[a2];
@@ -84,7 +84,7 @@ void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4cded0)
+// FUNCTION: 105 0x4cded0
 void BurgerKing_67F8B0::SaveReplay_4CDED0()
 {
     if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != 2 && field_75340_rec_len > 0 &&
@@ -114,7 +114,7 @@ char_type BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
     return 0;
 }
 
-MATCH_FUNC(0x4ce650)
+// FUNCTION: 105 0x4ce650
 void BurgerKing_67F8B0::sub_4CE650()
 {
     const AttractFile* attr1FilePath = &attractFiles_62083C[0];
@@ -158,7 +158,7 @@ void BurgerKing_67F8B0::sub_4CE880(HINSTANCE a2)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4cea00)
+// FUNCTION: 105 0x4cea00
 void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
 {
     if (!field_0)
@@ -189,7 +189,7 @@ void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4ced90)
+// FUNCTION: 105 0x4ced90
 void BurgerKing_67F8B0::sub_4CED90()
 {
     s8 i = 0;
@@ -206,7 +206,7 @@ void BurgerKing_67F8B0::sub_4CED90()
     } while (i < 12);
 }
 
-MATCH_FUNC(0x4cedf0)
+// FUNCTION: 105 0x4cedf0
 bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
 {
     if (field_38_replay_state == 1 || field_38_replay_state == 3)
@@ -216,7 +216,7 @@ bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
     return false;
 }
 
-MATCH_FUNC(0x4cee10)
+// FUNCTION: 105 0x4cee10
 void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())

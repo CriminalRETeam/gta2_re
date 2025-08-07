@@ -54,7 +54,7 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    //MATCH_FUNC(0x4086A0)
+    //// FUNCTION: 105 0x4086A0
     Fix16 operator-()
     {
         return Fix16(-mValue, 0);
@@ -85,13 +85,13 @@ class Fix16
         return mValue <= other.mValue;
     }
 
-    // MATCH_FUNC(0x509990)
+    // // FUNCTION: 105 0x509990
     bool operator>=(const s32 value) const
     {
         return mValue >= value << 14;
     }
 
-    // MATCH_FUNC(0x509990)
+    // // FUNCTION: 105 0x509990
     bool operator<(const s32 value) const
     {
         return mValue < value << 14;
@@ -252,7 +252,7 @@ class Fix16
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
-    //MATCH_FUNC(0x436A20)
+    //// FUNCTION: 105 0x436A20
     Fix16 operator/(const Fix16& in)
     {
         s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
@@ -287,7 +287,7 @@ public:
     ~Fix16_Point() {}
 
     // It needs to be in the header
-    // MATCH_FUNC(0x563970)
+    // // FUNCTION: 105 0x563970
     
     Fix16_Point()
     {

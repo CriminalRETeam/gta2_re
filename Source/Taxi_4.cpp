@@ -5,7 +5,7 @@
 
 DEFINE_GLOBAL(Taxi_324*, gTaxi_324_6783F8, 0x6783F8);
 
-MATCH_FUNC(0x457ba0)
+// FUNCTION: 105 0x457ba0
 void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
     Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
@@ -14,7 +14,7 @@ void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
     this->field_0 = pFirst;
 }
 
-MATCH_FUNC(0x457bc0)
+// FUNCTION: 105 0x457bc0
 void Taxi_4::PopAll_457BC0()
 {
     Taxi_8* pIter = this->field_0;
@@ -76,7 +76,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     return pCarRet;
 }
 
-MATCH_FUNC(0x5ae060)
+// FUNCTION: 105 0x5ae060
 Taxi_4::Taxi_4()
 {
     sub_4C09B0();
@@ -91,7 +91,7 @@ Taxi_4::Taxi_4()
     }
 }
 
-MATCH_FUNC(0x5ae0d0)
+// FUNCTION: 105 0x5ae0d0
 Taxi_4::~Taxi_4()
 {
     if (gTaxi_324_6783F8)

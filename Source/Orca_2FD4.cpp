@@ -5,7 +5,7 @@
 
 DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
 
-MATCH_FUNC(0x554080)
+// FUNCTION: 105 0x554080
 bool Orca_2FD4::sub_554080(s32 a2)
 {
     if (field_25 > 1u && field_25 < 254u && field_26 > 1u && field_26 < 254u)
@@ -16,7 +16,7 @@ bool Orca_2FD4::sub_554080(s32 a2)
     return false;
 }
 
-MATCH_FUNC(0x5540e0)
+// FUNCTION: 105 0x5540e0
 char_type Orca_2FD4::sub_5540E0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6)
 {
     this->field_25 = a2;
@@ -32,13 +32,13 @@ char_type Orca_2FD4::sub_554110(char_type a2, char_type a3)
     return 0;
 }
 
-MATCH_FUNC(0x5545c0)
+// FUNCTION: 105 0x5545c0
 void Orca_2FD4::sub_5545C0()
 {
     memset(this->field_40, 0, sizeof(this->field_40));
 }
 
-MATCH_FUNC(0x5545e0)
+// FUNCTION: 105 0x5545e0
 void Orca_2FD4::init_5545E0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_40); i++)
@@ -53,7 +53,7 @@ void Orca_2FD4::init_5545E0()
     field_2FD1 = 0;
 }
 
-MATCH_FUNC(0x554620)
+// FUNCTION: 105 0x554620
 void Orca_2FD4::sub_554620(s32 a2)
 {
     if (a2 == field_0)
@@ -91,7 +91,7 @@ char_type Orca_2FD4::sub_554920()
     return 0;
 }
 
-MATCH_FUNC(0x554a90)
+// FUNCTION: 105 0x554a90
 s32 Orca_2FD4::sub_554A90(Ped* a2)
 {
     return field_3C.field_0_pOwner->field_0_char_ped == a2;

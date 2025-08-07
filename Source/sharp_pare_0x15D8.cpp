@@ -11,7 +11,7 @@ DEFINE_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064, 0x705064);
 DEFINE_GLOBAL(u32, dword_704ED0, 0x704ED0);
 DEFINE_GLOBAL(u32, dword_704F28, 0x704F28);
 
-MATCH_FUNC(0x5B90F0)
+// FUNCTION: 105 0x5B90F0
 void sharp_pare_0x15D8::LoadPals_5B90F0()
 {
     field_15D6_pal_count = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
@@ -22,7 +22,7 @@ void sharp_pare_0x15D8::LoadPals_5B90F0()
     }
 }
 
-MATCH_FUNC(0x5B9140)
+// FUNCTION: 105 0x5B9140
 void sharp_pare_0x15D8::FreePals_5B9140()
 {
     for (u16 i = 0; i < field_15D6_pal_count; ++i)
@@ -32,7 +32,7 @@ void sharp_pare_0x15D8::FreePals_5B9140()
     field_15D6_pal_count = 0;
 }
 
-MATCH_FUNC(0x5B9180)
+// FUNCTION: 105 0x5B9180
 void sharp_pare_0x15D8::LoadTextures2_5B9180()
 {
     u16 width_height = 64;
@@ -59,7 +59,7 @@ void sharp_pare_0x15D8::LoadTextures2_5B9180()
     }
 }
 
-MATCH_FUNC(0x5B9220)
+// FUNCTION: 105 0x5B9220
 s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
 {
     const u16 og_idx = field_15D4_idx;
@@ -79,7 +79,7 @@ s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
     return og_idx;
 }
 
-MATCH_FUNC(0x5B92E0)
+// FUNCTION: 105 0x5B92E0
 void sharp_pare_0x15D8::ReadTextures_5B92E0()
 {
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
@@ -97,7 +97,7 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
     }
 }
 
-MATCH_FUNC(0x5B9350)
+// FUNCTION: 105 0x5B9350
 void sharp_pare_0x15D8::sub_5B9350()
 {
     LoadPals_5B90F0();
@@ -129,7 +129,7 @@ void sharp_pare_0x15D8::sub_5B9350()
     field_1544_pTexture = pgbh_RegisterTexture(128, 128, 0, 0, 0);
 }
 
-MATCH_FUNC(0x5B94F0)
+// FUNCTION: 105 0x5B94F0
 STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
 {
     STexture* result;
@@ -164,13 +164,13 @@ STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
     return result;
 }
 
-MATCH_FUNC(0x5B95D0)
+// FUNCTION: 105 0x5B95D0
 STexture* sharp_pare_0x15D8::GetTexture2_5B95D0(u16 textureIdx)
 {
     return field_1004_textures2[textureIdx];
 }
 
-MATCH_FUNC(0x5B95F0)
+// FUNCTION: 105 0x5B95F0
 STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
 {
     optimistic_moser* pMoser = &field_10C4[idx];
@@ -189,7 +189,7 @@ STexture* sharp_pare_0x15D8::sub_5B95F0(u16 idx, u16 width, u16 height)
     return pTexture;
 }
 
-MATCH_FUNC(0x5B9660)
+// FUNCTION: 105 0x5B9660
 void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
 {
     STexture* pTexture = field_10C4[texture_idx].field_4_pTexture;
@@ -199,7 +199,7 @@ void sharp_pare_0x15D8::sub_5B9660(u16 texture_idx, u16 pal_idx)
     pgbh_UnlockTexture(pTexture);
 }
 
-MATCH_FUNC(0x5B96B0)
+// FUNCTION: 105 0x5B96B0
 void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pal)
 {
     u16 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
@@ -211,7 +211,7 @@ void sharp_pare_0x15D8::sub_5B96B0(u16 a4, u16 new_width, u16 new_height, u16 pa
     pgbh_UnlockTexture(pTexture);
 }
 
-MATCH_FUNC(0x5B9710)
+// FUNCTION: 105 0x5B9710
 STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
 {
     u16 phys_pal_5AA6F0; // di
@@ -226,7 +226,7 @@ STexture* sharp_pare_0x15D8::sub_5B9710(s16 a2, s16 a4, u8* a3, u16 a5)
     return field_1544_pTexture;
 }
 
-MATCH_FUNC(0x5B9050)
+// FUNCTION: 105 0x5B9050
 festive_hopper::~festive_hopper()
 {
     if (field_10_bDoFree && field_0_pAlloc)
@@ -241,7 +241,7 @@ festive_hopper::~festive_hopper()
     }
 }
 
-MATCH_FUNC(0x5B8E90)
+// FUNCTION: 105 0x5B8E90
 void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_type2)
 {
     if (!field_0_pAlloc)
@@ -263,7 +263,7 @@ void festive_hopper::Alloc_5B8E90(s16 size, s16 count, s32 pal_type1, s32 pal_ty
     }
 }
 
-MATCH_FUNC(0x5B8F70)
+// FUNCTION: 105 0x5B8F70
 void festive_hopper::sub_5B8F70()
 {
     if (field_10_bDoFree)
@@ -289,7 +289,7 @@ void festive_hopper::sub_5B8F70()
     }
 }
 
-MATCH_FUNC(0x5B8F00)
+// FUNCTION: 105 0x5B8F00
 void festive_hopper::LoadTextures_5B8F00()
 {
     if (field_10_bDoFree)
@@ -315,19 +315,19 @@ void festive_hopper::LoadTextures_5B8F00()
     }
 }
 
-MATCH_FUNC(0x5B90A0)
+// FUNCTION: 105 0x5B90A0
 STexture* festive_hopper::get_texture_5B90A0(s32 type, s16 sprite_pal)
 {
     return field_0_pAlloc[gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, sprite_pal)];
 }
 
-MATCH_FUNC(0x5B90D0)
+// FUNCTION: 105 0x5B90D0
 STexture* festive_hopper::sub_5B90D0(s16 a2, s16 a3)
 {
     return field_0_pAlloc[(u16)(a3 + (a2 * field_6_count))];
 }
 
-MATCH_FUNC(0x5B9790)
+// FUNCTION: 105 0x5B9790
 sharp_pare_0x15D8::sharp_pare_0x15D8()
 {
 
@@ -349,7 +349,7 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
     field_1544_pTexture = 0;
 }
 
-MATCH_FUNC(0x5B9900)
+// FUNCTION: 105 0x5B9900
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {
     if (field_1001_bFreeTextures1)

@@ -59,7 +59,7 @@ u16 text_0x14::sub_5B58D0(u16 a2)
     return 0;
 }
 
-MATCH_FUNC(0x5B5910)
+// FUNCTION: 105 0x5B5910
 void text_0x14::sub_5B5910(u16* a2)
 {
     if (field_10_lang_code != 'j')
@@ -68,7 +68,7 @@ void text_0x14::sub_5B5910(u16* a2)
     }
 }
 
-MATCH_FUNC(0x5B5930)
+// FUNCTION: 105 0x5B5930
 void text_0x14::sub_5B5930(u16* pStr)
 {
     for (u16* pStrIter = pStr; *pStrIter; ++pStrIter)
@@ -77,7 +77,7 @@ void text_0x14::sub_5B5930(u16* pStr)
     }
 }
 
-MATCH_FUNC(0x5B5960)
+// FUNCTION: 105 0x5B5960
 void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
 {
     // TODO: probably an inline
@@ -91,7 +91,7 @@ void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
     File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunkSize);
 }
 
-MATCH_FUNC(0x5B59B0)
+// FUNCTION: 105 0x5B59B0
 void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
 {
     text_0xC* ptKeyIter = field_0_tKey.field_0_tKey;
@@ -105,7 +105,7 @@ void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
     }
 }
 
-MATCH_FUNC(0x5B59E0)
+// FUNCTION: 105 0x5B59E0
 bool text_0x14::TKeyFind_5B59E0(const char_type* pIdStr)
 {
     return bsearch(pIdStr, // search key
@@ -117,7 +117,7 @@ bool text_0x14::TKeyFind_5B59E0(const char_type* pIdStr)
         false;
 }
 
-MATCH_FUNC(0x5B5A10)
+// FUNCTION: 105 0x5B5A10
 s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
 {
     const char_type* pIdStr = (const char_type*)a;
@@ -125,7 +125,7 @@ s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
     return strcmp(pIdStr, (const char_type*)&a2->field_4_pKey); // TODO: ???
 }
 
-MATCH_FUNC(0x5B5A50)
+// FUNCTION: 105 0x5B5A50
 wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
 {
     text_0xC* pFound = (text_0xC*)bsearch(pIdStr, // key
@@ -143,7 +143,7 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
     }
 }
 
-MATCH_FUNC(0x5B5A80)
+// FUNCTION: 105 0x5B5A80
 void text_tdat::TDAT_Load_5B5A80(u32 size)
 {
     field_4_len = size / sizeof(wchar_t);
@@ -212,7 +212,7 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
     return result;
 }
 
-MATCH_FUNC(0x5B5B80)
+// FUNCTION: 105 0x5B5B80
 wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
 {
     for (wchar_t* pStrIter = pWideStr; *pStrIter; ++pStrIter)
@@ -230,7 +230,7 @@ s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-MATCH_FUNC(0x5B5D10)
+// FUNCTION: 105 0x5B5D10
 char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
 {
     const wchar_t* pSrc = a1;
@@ -263,7 +263,7 @@ char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
     return tmpWide2AsciiStr_70462C;
 }
 
-MATCH_FUNC(0x5B5DF0)
+// FUNCTION: 105 0x5B5DF0
 wchar_t* text_0x14::Ascii2Wide_5B5DF0(char_type* pStr)
 {
     // movsx vs movzx caused by unsigned vs s8
@@ -280,7 +280,7 @@ wchar_t* text_0x14::Ascii2Wide_5B5DF0(char_type* pStr)
     return tmpAscii2WideStr_70488C;
 }
 
-MATCH_FUNC(0x5B5E20)
+// FUNCTION: 105 0x5B5E20
 void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
 {
     if (!strncmp(chunk_type, "TKEY", 4u))
@@ -297,7 +297,7 @@ void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
 }
 
-MATCH_FUNC(0x5B5E90)
+// FUNCTION: 105 0x5B5E90
 void text_0x14::Load_5B5E90()
 {
     char_type expected_code[5];
@@ -328,19 +328,19 @@ void text_0x14::Load_5B5E90()
     TDAT_Offsets2Strings_5B59B0(field_8_tDat.field_0_data);
 }
 
-MATCH_FUNC(0x5B5F90)
+// FUNCTION: 105 0x5B5F90
 wchar_t* text_0x14::Find_5B5F90(const char_type* pIdStr)
 {
     return TKeyFind_5B5A50(pIdStr);
 }
 
-MATCH_FUNC(0x5B5FA0)
+// FUNCTION: 105 0x5B5FA0
 bool text_0x14::sub_5B5FA0(const char_type* pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);
 }
 
-MATCH_FUNC(0x5B5FB0)
+// FUNCTION: 105 0x5B5FB0
 text_0x14::text_0x14()
 {
     gRegistry_6FF968.Get_Option_586F00("language", reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));

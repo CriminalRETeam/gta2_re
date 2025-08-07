@@ -1,6 +1,6 @@
 #include "Object_8.hpp"
 
-MATCH_FUNC(0x52ad50)
+// FUNCTION: 105 0x52ad50
 Object_8::Object_8()
 {
     this->field_0 = 0;
@@ -9,7 +9,7 @@ Object_8::Object_8()
     this->field_4 = 99;
 }
 
-MATCH_FUNC(0x52ad70)
+// FUNCTION: 105 0x52ad70
 Object_8::~Object_8()
 {
     field_0 = 0;

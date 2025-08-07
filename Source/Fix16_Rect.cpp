@@ -3,7 +3,7 @@
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
 
-MATCH_FUNC(0x59dd60)
+// FUNCTION: 105 0x59dd60
 void Fix16_Rect::DoSetCurrentRect_59DD60()
 {
     gPurple_left_6F5FD4 = field_0_left.ToInt();
@@ -12,7 +12,7 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
     gPurple_bottom_6F5F38 = field_C_bottom.ToInt();
 }
 
-MATCH_FUNC(0x59ddf0)
+// FUNCTION: 105 0x59ddf0
 u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
 {
     Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_b_box;
@@ -41,7 +41,7 @@ char_type Fix16_Rect::sub_59DE80()
              1024);
 }
 
-MATCH_FUNC(0x59dee0)
+// FUNCTION: 105 0x59dee0
 void Fix16_Rect::sub_59DEE0(Fix16 a2, Fix16 a3)
 {
     if (a2 < field_0_left)
@@ -69,7 +69,7 @@ void Fix16_Rect::sub_59DEE0(Fix16 a2, Fix16 a3)
     }
 }
 
-MATCH_FUNC(0x59df20)
+// FUNCTION: 105 0x59df20
 bool Fix16_Rect::sub_59DF20(u8 zone_type)
 {
     u8 zone_y = field_8_top.ToUInt8();
@@ -91,7 +91,7 @@ bool Fix16_Rect::sub_59DF20(u8 zone_type)
     return false;
 }
 
-MATCH_FUNC(0x59dfb0)
+// FUNCTION: 105 0x59dfb0
 bool Fix16_Rect::sub_59DFB0(s32 a2)
 {
     u8 y_pos = field_8_top.ToUInt8();
@@ -142,7 +142,7 @@ bool Fix16_Rect::sub_59DFB0(s32 a2)
     return true;
 }
 
-MATCH_FUNC(0x5A5E30)
+// FUNCTION: 105 0x5A5E30
 void Fix16_Rect::sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
 {
     this->field_0_left = left;

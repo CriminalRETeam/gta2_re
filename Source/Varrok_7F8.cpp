@@ -1,6 +1,6 @@
 #include "Varrok_7F8.hpp"
 
-MATCH_FUNC(0x59b060)
+// FUNCTION: 105 0x59b060
 u8 Varrok_7F8::sub_59B060(s32 ped_id)
 {
     Varrok_8* pIter = &this->field_0[1];
@@ -15,13 +15,13 @@ u8 Varrok_7F8::sub_59B060(s32 ped_id)
     return 0;
 }
 
-MATCH_FUNC(0x59b0b0)
+// FUNCTION: 105 0x59b0b0
 void Varrok_7F8::sub_59B0B0(u8 a2)
 {
     field_0[a2].field_4++;
 }
 
-MATCH_FUNC(0x59b0d0)
+// FUNCTION: 105 0x59b0d0
 void Varrok_7F8::sub_59B0D0(u8 idx)
 {
     if (field_0[idx].field_4 > 0)
@@ -30,7 +30,7 @@ void Varrok_7F8::sub_59B0D0(u8 idx)
     }
 }
 
-MATCH_FUNC(0x59b0f0)
+// FUNCTION: 105 0x59b0f0
 Varrok_7F8::Varrok_7F8()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -40,7 +40,7 @@ Varrok_7F8::Varrok_7F8()
     }
 }
 
-MATCH_FUNC(0x59b110)
+// FUNCTION: 105 0x59b110
 Varrok_7F8::~Varrok_7F8()
 {
 }

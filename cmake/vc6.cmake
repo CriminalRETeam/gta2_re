@@ -2,11 +2,11 @@
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
 # else static methods don't match (and I doubt they manually annotated them with __stdcall)
-set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
-
-set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
-set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
-set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/Od /ZI")
+#set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
+#
+#set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+#set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+#set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/Od /ZI")
 
 # NOICF is required because skip_ovly_5AAE20 and skip_psxt_5AAE30 have identical bodies and the linker will make them one and the same
 # however the real binary does have 2 copies. NOREF keeps functions that are not yet called so we can diff the content against the original.

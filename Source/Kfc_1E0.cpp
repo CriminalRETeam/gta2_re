@@ -2,18 +2,18 @@
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
-MATCH_FUNC(0x4beb00)
+// FUNCTION: 105 0x4beb00
 Kfc_30::Kfc_30()
 {
     sub_5CBC00();
 }
 
-MATCH_FUNC(0x4beb10)
+// FUNCTION: 105 0x4beb10
 Kfc_30::~Kfc_30()
 {
 }
 
-MATCH_FUNC(0x5cbc00)
+// FUNCTION: 105 0x5cbc00
 void Kfc_30::sub_5CBC00()
 {
     field_1A = 150;
@@ -28,13 +28,13 @@ void Kfc_30::sub_5CBC00()
     field_1C = 0;
 }
 
-MATCH_FUNC(0x5cbc30)
+// FUNCTION: 105 0x5cbc30
 void Kfc_30::sub_5CBC30()
 {
     sub_5CBC00();
 }
 
-MATCH_FUNC(0x5cbc40)
+// FUNCTION: 105 0x5cbc40
 void Kfc_30::sub_5CBC40(Ped* a2)
 {
     field_8->sub_4C9970(a2);
@@ -82,17 +82,17 @@ char_type Kfc_30::sub_5CC480()
     return 0;
 }
 
-MATCH_FUNC(0x4beb20)
+// FUNCTION: 105 0x4beb20
 Kfc_1E0::~Kfc_1E0()
 {
 }
 
-MATCH_FUNC(0x5cbb70)
+// FUNCTION: 105 0x5cbb70
 void Kfc_1E0::init_5CBB70()
 {
 }
 
-MATCH_FUNC(0x5cbb80)
+// FUNCTION: 105 0x5cbb80
 Kfc_30* Kfc_1E0::sub_5CBB80()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -105,7 +105,7 @@ Kfc_30* Kfc_1E0::sub_5CBB80()
     return 0;
 }
 
-MATCH_FUNC(0x5cbbd0)
+// FUNCTION: 105 0x5cbbd0
 void Kfc_1E0::sub_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)

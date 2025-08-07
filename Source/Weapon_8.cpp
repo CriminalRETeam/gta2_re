@@ -21,7 +21,7 @@ DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u, 99u, 9
 u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
                       50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
 
-MATCH_FUNC(0x5e3c10)
+// FUNCTION: 105 0x5e3c10
 Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
     Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
@@ -35,7 +35,7 @@ Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
     return pNewWeap;
 }
 
-MATCH_FUNC(0x5e3cb0)
+// FUNCTION: 105 0x5e3cb0
 void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
 {
     Weapon_2FDC* pRoot = gWeapon_2FDC_707014;
@@ -45,7 +45,7 @@ void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
     field_4_ref_count--;
 }
 
-MATCH_FUNC(0x5e3ce0)
+// FUNCTION: 105 0x5e3ce0
 Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
     Weapon_30* pWeapon = gWeapon_2FDC_707014->Allocate();
@@ -56,7 +56,7 @@ Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
     return pWeapon;
 }
 
-MATCH_FUNC(0x5e3d20)
+// FUNCTION: 105 0x5e3d20
 Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 {
     Weapon_30* result = gWeapon_2FDC_707014->field_4;
@@ -77,7 +77,7 @@ Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
     return result;
 }
 
-MATCH_FUNC(0x5e3d50)
+// FUNCTION: 105 0x5e3d50
 char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 {
     char_type bAddedAmmo;
@@ -114,7 +114,7 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
     return bAddedAmmo;
 }
 
-MATCH_FUNC(0x5e3df0)
+// FUNCTION: 105 0x5e3df0
 void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
 {
     Weapon_30* pIter = gWeapon_2FDC_707014->get_next_4CC9B0();
@@ -133,19 +133,19 @@ void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
     }
 }
 
-MATCH_FUNC(0x5e3e70)
+// FUNCTION: 105 0x5e3e70
 char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
 {
     return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
-MATCH_FUNC(0x5e3e80)
+// FUNCTION: 105 0x5e3e80
 char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 {
     return byte_5FF778[weapon_kind];
 }
 
-MATCH_FUNC(0x5e3e90)
+// FUNCTION: 105 0x5e3e90
 Weapon_8::Weapon_8()
 {
     if (!gWeapon_2FDC_707014)
@@ -160,7 +160,7 @@ Weapon_8::Weapon_8()
     field_0.sub_4207E0();
 }
 
-MATCH_FUNC(0x5e3f60)
+// FUNCTION: 105 0x5e3f60
 Weapon_8::~Weapon_8()
 {
     if (gWeapon_2FDC_707014)
@@ -169,7 +169,7 @@ Weapon_8::~Weapon_8()
     }
 }
 
-MATCH_FUNC(0x5E4090)
+// FUNCTION: 105 0x5E4090
 Weapon_2FDC::~Weapon_2FDC()
 {
     field_0 = 0;

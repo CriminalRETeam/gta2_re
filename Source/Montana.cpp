@@ -11,7 +11,7 @@ DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL(Fix16, dword_67B434, 0x67B434); // = 0x4000, TODO, 0xUNKNOWN);
 
 
-MATCH_FUNC(0x5c5f60)
+// FUNCTION: 105 0x5c5f60
 Montana_2EE4::Montana_2EE4()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -21,7 +21,7 @@ Montana_2EE4::Montana_2EE4()
     field_2EE0_free_indx = 0;
 }
 
-MATCH_FUNC(0x5c5f90)
+// FUNCTION: 105 0x5c5f90
 Montana_2EE4::~Montana_2EE4()
 {
 }
@@ -32,7 +32,7 @@ void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5C5DF0)
+// FUNCTION: 105 0x5C5DF0
 void Montana_4::Draw_5C5DF0()
 {
     Montana_C* pIter = this->field_0_pFirst;
@@ -54,7 +54,7 @@ void Montana_4::Draw_5C5DF0()
     }
 }
 
-MATCH_FUNC(0x5c5e50)
+// FUNCTION: 105 0x5c5e50
 void Montana_4::Reset_5C5E50()
 {
     gMontana_2EE4_705BBC->field_2EE0_free_indx = 0;
@@ -86,7 +86,7 @@ Montana_4::~Montana_4()
     GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
 }
 
-MATCH_FUNC(0x4954f0)
+// FUNCTION: 105 0x4954f0
 void Montana::ResetAll_4954F0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
@@ -103,7 +103,7 @@ EXPORT unsigned __int64 get_rdtsc_5BEE90()
     return 0;
 }
 
-MATCH_FUNC(0x495510)
+// FUNCTION: 105 0x495510
 void Montana::DisplayAdd_495510(Sprite* pSprite)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
@@ -114,7 +114,7 @@ void Montana::DisplayAdd_495510(Sprite* pSprite)
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }
 
-MATCH_FUNC(0x495560)
+// FUNCTION: 105 0x495560
 void Montana::Draw_495560(s32 col_idx)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
@@ -122,7 +122,7 @@ void Montana::Draw_495560(s32 col_idx)
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
 
-MATCH_FUNC(0x4955a0)
+// FUNCTION: 105 0x4955a0
 Montana::Montana()
 {
     for (s32 i = 0; i < 7; i++)
@@ -135,7 +135,7 @@ Montana::Montana()
     }
 }
 
-MATCH_FUNC(0x495630)
+// FUNCTION: 105 0x495630
 Montana::~Montana()
 {
     for (s32 i = 0; i < 7; i++)

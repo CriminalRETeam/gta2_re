@@ -7,7 +7,7 @@
 #include "Player.hpp"
 #include "Ped.hpp"
 
-MATCH_FUNC(0x4BEB50)
+// FUNCTION: 105 0x4BEB50
 Police_7B8::~Police_7B8()
 {
 

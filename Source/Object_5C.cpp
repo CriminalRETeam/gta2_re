@@ -33,7 +33,7 @@ DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
 DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
 DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 
-MATCH_FUNC(0x522140)
+// FUNCTION: 105 0x522140
 Object_2C::Object_2C()
 {
     field_0 = 0;
@@ -79,7 +79,7 @@ s32 Object_2C::sub_5222D0()
     return 0;
 }
 
-MATCH_FUNC(0x522340)
+// FUNCTION: 105 0x522340
 void Object_2C::sub_522340()
 {
     if (field_20 == 2)
@@ -97,7 +97,7 @@ void Object_2C::sub_522360()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5223c0)
+// FUNCTION: 105 0x5223c0
 char Object_2C::sub_5223C0(Sprite* pSprite)
 {
     s32 sprite_type;
@@ -327,7 +327,7 @@ char_type Object_2C::sub_527070(s16* a2, s32 a3, s16* a4, s32 a5)
     return 0;
 }
 
-MATCH_FUNC(0x527630)
+// FUNCTION: 105 0x527630
 void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
@@ -368,7 +368,7 @@ void Object_2C::sub_527990()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x527ae0)
+// FUNCTION: 105 0x527ae0
 void Object_2C::sub_527AE0()
 {
     switch (field_8->field_40)
@@ -440,7 +440,7 @@ void Object_2C::sub_528E50(Sprite* a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x529000)
+// FUNCTION: 105 0x529000
 void Object_2C::sub_529000(Object_2C* pObj)
 {
     switch (pObj->field_18_model)
@@ -458,19 +458,19 @@ void Object_2C::sub_529000(Object_2C* pObj)
     }
 }
 
-MATCH_FUNC(0x529030)
+// FUNCTION: 105 0x529030
 void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 {
     field_26_varrok_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
-MATCH_FUNC(0x529070)
+// FUNCTION: 105 0x529070
 void Object_2C::sub_529070(Object_2C* pObj)
 {
     sub_5226A0(pObj->field_26_varrok_idx);
 }
 
-MATCH_FUNC(0x5292D0)
+// FUNCTION: 105 0x5292D0
 void Object_2C::sub_5292D0()
 {
     s32 wepon_kind;
@@ -489,53 +489,53 @@ void Object_2C::sub_5292D0()
     }
 }
 
-MATCH_FUNC(0x529080)
+// FUNCTION: 105 0x529080
 void Object_2C::sub_529080(u8 idx)
 {
     this->field_26_varrok_idx = idx;
     gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
-MATCH_FUNC(0x5290a0)
+// FUNCTION: 105 0x5290a0
 void Object_2C::sub_5290A0()
 {
     field_25 = 1;
 }
 
-MATCH_FUNC(0x5290B0)
+// FUNCTION: 105 0x5290B0
 void Object_2C::sub_5290B0()
 {
     field_25 = 2;
 }
 
-MATCH_FUNC(0x5291b0)
+// FUNCTION: 105 0x5291b0
 void Object_2C::sub_5291B0()
 {
     sub_522340();
     sub_5290A0();
 }
 
-MATCH_FUNC(0x5291d0)
+// FUNCTION: 105 0x5291d0
 void Object_2C::sub_5291D0()
 {
     sub_522340();
     field_24 = 1;
 }
 
-MATCH_FUNC(0x5291E0)
+// FUNCTION: 105 0x5291E0
 void Object_2C::sub_5291E0(char_type a2)
 {
     sub_522340();
     field_24 = a2;
 }
 
-MATCH_FUNC(0x529200)
+// FUNCTION: 105 0x529200
 bool Object_2C::sub_529200()
 {
     return (field_18_model != 174) ? true : false;
 }
 
-MATCH_FUNC(0x52ae60)
+// FUNCTION: 105 0x52ae60
 Object_2C::~Object_2C()
 {
     this->field_0 = 0;
@@ -573,7 +573,7 @@ void Object_2C::sub_5290C0(u8 id_base)
     }
 }
 
-MATCH_FUNC(0x525AC0)
+// FUNCTION: 105 0x525AC0
 char Object_2C::sub_525AC0()
 {
     if (this->field_18_model == 113)
@@ -604,7 +604,7 @@ Object_5C::Object_5C()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x529750)
+// FUNCTION: 105 0x529750
 Object_5C::~Object_5C()
 {
     if (field_58)
@@ -634,7 +634,7 @@ Object_5C::~Object_5C()
     this->field_4 = 0;
 }
 
-MATCH_FUNC(0x5297f0)
+// FUNCTION: 105 0x5297f0
 void Object_5C::sub_5297F0()
 {
     field_0 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
@@ -657,7 +657,7 @@ s32 Object_5C::sub_5298E0(s32 a2)
     return 0;
 }
 
-MATCH_FUNC(0x529950)
+// FUNCTION: 105 0x529950
 Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
 {
     Object_2C* pNewObj = sub_529C00(object_type, x, y, z, rot, 0);
@@ -674,7 +674,7 @@ Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang
     return pNewObj;
 }
 
-MATCH_FUNC(0x5299b0)
+// FUNCTION: 105 0x5299b0
 Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
 {
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
@@ -685,7 +685,7 @@ Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
     return pNewObj;
 }
 
-MATCH_FUNC(0x5299f0)
+// FUNCTION: 105 0x5299f0
 Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, word_6F8F68, 0);
@@ -729,7 +729,7 @@ Object_2C* Object_5C::sub_529B20(s32 obj_type,
     return 0;
 }
 
-MATCH_FUNC(0x529bc0)
+// FUNCTION: 105 0x529bc0
 Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
 {
     Object_2C* tmp = sub_529C00(a2, a3, a4, a5, a6, 1);
@@ -747,7 +747,7 @@ Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, 
     return 0;
 }
 
-MATCH_FUNC(0x52a210)
+// FUNCTION: 105 0x52a210
 char_type Object_5C::sub_52A210(char_type a2)
 {
     // TODO: Why is it a byte here? enum ??
@@ -755,13 +755,13 @@ char_type Object_5C::sub_52A210(char_type a2)
     return a2;
 }
 
-MATCH_FUNC(0x52a240)
+// FUNCTION: 105 0x52a240
 s32* Object_5C::sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10)
 {
     return Object_5C::sub_52A2C0(a2, maybe_x, maybe_y, maybe_z, pCarBC, maybe_ang, a8, a9, a10, 0);
 }
 
-MATCH_FUNC(0x52a280)
+// FUNCTION: 105 0x52a280
 s32* Object_5C::sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
 {
     return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 1);
@@ -793,7 +793,7 @@ void Object_5C::sub_52A590(int pUnknownObj)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x52A610)
+// FUNCTION: 105 0x52A610
 void Object_5C::sub_52A610(Object_2C* p2C)
 {
     if (p2C->field_8->field_34 != 11)
@@ -803,7 +803,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     gObject_29178_6F8F80->Remove(p2C);
 }
 
-MATCH_FUNC(0x52A650)
+// FUNCTION: 105 0x52A650
 void Object_2C::sub_52A650()
 {
     if (!field_10)
@@ -831,7 +831,7 @@ void Object_2C::sub_52A650()
     Object_2C::sub_522340();
 }
 
-MATCH_FUNC(0x52a6d0)
+// FUNCTION: 105 0x52a6d0
 void Object_2C::sub_52A6D0(Sprite* pSprite)
 {
     sub_527D00();

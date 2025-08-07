@@ -8,7 +8,7 @@
 
 DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
 
-MATCH_FUNC(0x516560)
+// FUNCTION: 105 0x516560
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
 {
     field_0_fugitive = NULL;
@@ -30,7 +30,7 @@ s16 youthful_einstein::sub_516660()
     return 0;
 }
 
-MATCH_FUNC(0x516740)
+// FUNCTION: 105 0x516740
 void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Player* Player_4B9D10;

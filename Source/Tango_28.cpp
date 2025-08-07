@@ -4,7 +4,7 @@
 #include "Hamburger_500.hpp"
 #include "debug.hpp"
 
-MATCH_FUNC(0x4a85f0)
+// FUNCTION: 105 0x4a85f0
 void Tango_54::sub_4A85F0()
 {
     Tango_28* p = field_0;
@@ -28,7 +28,7 @@ Tango_28* Tango_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
     return 0;
 }
 
-MATCH_FUNC(0x4a8800)
+// FUNCTION: 105 0x4a8800
 Tango_28* Tango_54::New28_4A8800()
 {
     Tango_28* p = field_0;
@@ -43,7 +43,7 @@ Tango_28* Tango_54::New28_4A8800()
     return 0;
 }
 
-MATCH_FUNC(0x4a8820)
+// FUNCTION: 105 0x4a8820
 char_type Tango_54::sub_4A8820(Car_BC* pCar)
 {
     if (!pCar)
@@ -72,7 +72,7 @@ char_type Tango_54::sub_4A8820(Car_BC* pCar)
     return 1;
 }
 
-MATCH_FUNC(0x4a88d0)
+// FUNCTION: 105 0x4a88d0
 void Tango_54::sub_4A88D0()
 {
     field_50 = 0;
@@ -85,7 +85,7 @@ char_type Tango_28::sub_4A7FC0()
     return 0;
 }
 
-MATCH_FUNC(0x4a81a0)
+// FUNCTION: 105 0x4a81a0
 void Tango_28::deinit_4A81A0()
 {
     Car_BC* pCar = this->field_1C_car;
@@ -118,13 +118,13 @@ void Tango_28::sub_4A81F0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4a85c0)
+// FUNCTION: 105 0x4a85c0
 void Tango_28::init_4A85C0()
 {
     sub_450C10();
 }
 
-MATCH_FUNC(0x4a85e0)
+// FUNCTION: 105 0x4a85e0
 void Tango_28::Reset_4A85E0()
 {
     this->field_C_target_car = 0;

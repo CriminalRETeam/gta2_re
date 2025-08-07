@@ -14,7 +14,7 @@ Char_B4::Char_B4()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5451A0)
+// FUNCTION: 105 0x5451A0
 Char_B4::~Char_B4()
 {
     this->field_18 = 0;
@@ -31,7 +31,7 @@ void Char_B4::sub_5453D0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5454B0)
+// FUNCTION: 105 0x5454B0
 void Char_B4::sub_5454B0()
 {
     field_b0 = -1;
@@ -50,7 +50,7 @@ void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x545570)
+// FUNCTION: 105 0x545570
 s32 Char_B4::sub_545570()
 {
     return field_80_sprite_ptr->sub_59E1D0();
@@ -301,7 +301,7 @@ Char_11944::Char_11944()
     field_0_next = &field_4_array[0];
 }
 
-MATCH_FUNC(0x4710F0)
+// FUNCTION: 105 0x4710F0
 Char_11944::~Char_11944()
 {
     field_0_next = 0;
@@ -347,7 +347,7 @@ Char_C::~Char_C()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x470a50)
+// FUNCTION: 105 0x470a50
 Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
@@ -436,7 +436,7 @@ void Char_C::DoIanTest_471060(s16 a1)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4710c0)
+// FUNCTION: 105 0x4710c0
 Ped* Char_C::PedById(s32 pedId)
 {
     for (Ped* pPedIter = gChar_203AC_6787B8->field_4; pPedIter; pPedIter = pPedIter->field_160_next_ped)
@@ -449,7 +449,7 @@ Ped* Char_C::PedById(s32 pedId)
     return NULL;
 }
 
-MATCH_FUNC(0x471110)
+// FUNCTION: 105 0x471110
 Char_203AC::~Char_203AC()
 {
     this->field_0 = 0;

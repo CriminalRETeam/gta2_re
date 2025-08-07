@@ -34,7 +34,7 @@ void Particle_8::sub_5406B0(s32 a2, char_type a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5439d0)
+// FUNCTION: 105 0x5439d0
 Particle_8::Particle_8()
 {
     if (!gParticle_947C_6FD5E4)
@@ -49,7 +49,7 @@ Particle_8::Particle_8()
     field_4 = 0;
 }
 
-MATCH_FUNC(0x543a60)
+// FUNCTION: 105 0x543a60
 Particle_8::~Particle_8()
 {
     if (gParticle_947C_6FD5E4)

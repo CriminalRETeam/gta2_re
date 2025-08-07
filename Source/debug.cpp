@@ -85,7 +85,7 @@ DEFINE_GLOBAL(bool, gDo_show_counter_67D6E6, 0x67D6E6);
 DEFINE_GLOBAL(bool, bShow_all_arrows_67D6E7, 0x67D6E7);
 DEFINE_GLOBAL(bool, bDo_kill_phones_on_answer_67D6E8, 0x67D6E8);
 
-MATCH_FUNC(0x4ABBD0)
+// FUNCTION: 105 0x4ABBD0
 void Debug::Init_4ABBD0()
 {
     bPlay_replay_67D4F4 = gRegistry_6FF968.Get_Debug_Setting_586E20("play_replay");
@@ -169,7 +169,7 @@ void Debug::Init_4ABBD0()
     bShow_player_names_67D54C = gRegistry_6FF968.Set_Network_Setting_587690("show_player_names", 1) != 0;
 }
 
-MATCH_FUNC(0x4AC200)
+// FUNCTION: 105 0x4AC200
 bool Debug::HaveOnlyFrenchGtx_4AC200()
 {
     bool bEGtxExists = false;

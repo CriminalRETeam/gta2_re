@@ -7,7 +7,7 @@
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
-MATCH_FUNC(0x484cb0)
+// FUNCTION: 105 0x484cb0
 Shooey_14::Shooey_14()
 {
     field_0_crime_type = 0;
@@ -17,12 +17,12 @@ Shooey_14::Shooey_14()
     field_8_pos.z = dword_67A370;
 }
 
-MATCH_FUNC(0x484ce0)
+// FUNCTION: 105 0x484ce0
 Shooey_14::~Shooey_14()
 {
 }
 
-MATCH_FUNC(0x484cf0)
+// FUNCTION: 105 0x484cf0
 void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
 {
     field_0_crime_type = crime_type;
@@ -43,7 +43,7 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
 }
 
 
-MATCH_FUNC(0x484d50)
+// FUNCTION: 105 0x484d50
 void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
 {
     *pCrimeType = field_0_crime_type;
@@ -52,19 +52,19 @@ void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yP
     *zPos = field_8_pos.z;
 }
 
-MATCH_FUNC(0x484d80)
+// FUNCTION: 105 0x484d80
 Shooey_CC::Shooey_CC()
 {
     field_0 = 0;
     field_2 = 0;
 }
 
-MATCH_FUNC(0x484db0)
+// FUNCTION: 105 0x484db0
 Shooey_CC::~Shooey_CC()
 {
 }
 
-MATCH_FUNC(0x484dd0)
+// FUNCTION: 105 0x484dd0
 void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
 {
     field_4[field_0].ReportCrimeForPedAtLocation(crime_type, ped_id);
@@ -192,7 +192,7 @@ char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
     return 0;
 }
 
-MATCH_FUNC(0x485140)
+// FUNCTION: 105 0x485140
 char_type Shooey_CC::sub_485140(Ped* pPed, Player* pPlayer)
 {
     Char_B4* pB4 = pPed->field_168_game_object;

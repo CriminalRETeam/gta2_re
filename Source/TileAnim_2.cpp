@@ -9,7 +9,7 @@
 DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
 DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8, 0x7052C8);
 
-MATCH_FUNC(0x5bc260)
+// FUNCTION: 105 0x5bc260
 void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
     TileAnim_18* p18 = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
@@ -22,7 +22,7 @@ void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 re
     p18->sub_5BC1D0();
 }
 
-MATCH_FUNC(0x5bc2c0)
+// FUNCTION: 105 0x5bc2c0
 void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
 {
     TileAnim_18* tmp = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
@@ -30,7 +30,7 @@ void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
     tmp->sub_5BC1D0();
 }
 
-MATCH_FUNC(0x5bc300)
+// FUNCTION: 105 0x5bc300
 void TileAnim_2::Empty_5BC300()
 {
 }
@@ -41,7 +41,7 @@ void TileAnim_2::sub_5BC310()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5bc3a0)
+// FUNCTION: 105 0x5bc3a0
 TileAnim_2::TileAnim_2()
 {
     if (gTileAnim_4BC_7052C8 == NULL)
@@ -55,7 +55,7 @@ TileAnim_2::TileAnim_2()
     field_0_count = 1;
 }
 
-MATCH_FUNC(0x5bc470)
+// FUNCTION: 105 0x5bc470
 TileAnim_2::~TileAnim_2()
 {
     if (gTileAnim_4BC_7052C8)
@@ -64,13 +64,13 @@ TileAnim_2::~TileAnim_2()
     }
 }
 
-MATCH_FUNC(0x5bc130)
+// FUNCTION: 105 0x5bc130
 void TileAnim_18::sub_5BC130()
 {
     field_12_idx = gTileAnim_2_7052C4->field_0_count++;
 }
 
-MATCH_FUNC(0x5bc150)
+// FUNCTION: 105 0x5bc150
 void TileAnim_18::sub_5BC150()
 {
     if (field_C_ptr != NULL)
@@ -81,7 +81,7 @@ void TileAnim_18::sub_5BC150()
     gGtx_0x106C_703DD4->sub_5AA930(field_10_base, field_8);
 }
 
-MATCH_FUNC(0x5bc190)
+// FUNCTION: 105 0x5bc190
 void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
 {
     field_C_ptr = pStru;
@@ -92,7 +92,7 @@ void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
     field_0 = 0;
 }
 
-MATCH_FUNC(0x5bc1d0)
+// FUNCTION: 105 0x5bc1d0
 void TileAnim_18::sub_5BC1D0()
 {
     field_A = field_4_frame_rate;
@@ -100,7 +100,7 @@ void TileAnim_18::sub_5BC1D0()
     sub_5BC150();
 }
 
-MATCH_FUNC(0x5bc1f0)
+// FUNCTION: 105 0x5bc1f0
 char_type TileAnim_18::sub_5BC1F0()
 {
     u8 bVar3;
@@ -132,7 +132,7 @@ char_type TileAnim_18::sub_5BC1F0()
     return 0;
 }
 
-MATCH_FUNC(0x5beba0)
+// FUNCTION: 105 0x5beba0
 TileAnim_18::TileAnim_18()
 {
     field_0 = 0;
@@ -147,14 +147,14 @@ TileAnim_18::TileAnim_18()
     field_14_next_ptr = 0;
 }
 
-MATCH_FUNC(0x5bebd0)
+// FUNCTION: 105 0x5bebd0
 TileAnim_18::~TileAnim_18()
 {
     field_C_ptr = NULL;
     field_14_next_ptr = NULL;
 }
 
-MATCH_FUNC(0x5bc4a0)
+// FUNCTION: 105 0x5bc4a0
 TileAnim_4BC::~TileAnim_4BC()
 {
     field_0_pStart = NULL;

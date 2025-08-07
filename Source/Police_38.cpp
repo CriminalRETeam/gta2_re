@@ -11,13 +11,13 @@ DEFINE_GLOBAL(s32, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
 
-MATCH_FUNC(0x4beb30)
+// FUNCTION: 105 0x4beb30
 Police_38::Police_38()
 {
     sub_5709C0();
 }
 
-MATCH_FUNC(0x4beb40)
+// FUNCTION: 105 0x4beb40
 Police_38::~Police_38()
 {
 }
@@ -29,7 +29,7 @@ char_type Police_38::sub_570790(Police_38* a1, s32 a2)
     return 0;
 }
 
-MATCH_FUNC(0x5709c0)
+// FUNCTION: 105 0x5709c0
 void Police_38::sub_5709C0()
 {
     field_2_targ_x = 0;
@@ -204,7 +204,7 @@ s32 Police_38::sub_575650()
     return 0;
 }
 
-MATCH_FUNC(0x575710)
+// FUNCTION: 105 0x575710
 void Police_A4::sub_575710()
 {
     field_0 = 0;
@@ -251,7 +251,7 @@ void Police_A4::sub_575710()
     field_9C = 0;
 }
 
-MATCH_FUNC(0x5757b0)
+// FUNCTION: 105 0x5757b0
 void Police_A4::sub_5757B0()
 {
     u8 v31 = 1;
@@ -608,7 +608,7 @@ void Police_A4::sub_5757B0()
     }
 }
 
-MATCH_FUNC(0x575ca0)
+// FUNCTION: 105 0x575ca0
 void Police_A4::sub_575CA0()
 {
     if (field_10)
@@ -883,14 +883,14 @@ char_type Police_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
     return 0;
 }
 
-MATCH_FUNC(0x577480)
+// FUNCTION: 105 0x577480
 Police_A4::Police_A4()
 {
     sub_575710();
     field_A0_pMem = new u8[0x18u]; // TODO: A class/struct?
 }
 
-MATCH_FUNC(0x5774a0)
+// FUNCTION: 105 0x5774a0
 Police_A4::~Police_A4()
 {
     delete[] field_A0_pMem;

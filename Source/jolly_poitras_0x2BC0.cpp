@@ -17,7 +17,7 @@ DEFINE_GLOBAL_ARRAY(score_table_line, stru_6243A0, 120, 0x6243A0); //, , 3][4][1
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 
-MATCH_FUNC(0x56B6E0)
+// FUNCTION: 105 0x56B6E0
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
     for (s32 i = 0; i < 3; i++)
@@ -98,7 +98,7 @@ void jolly_poitras_0x2BC0::sub_56C010()
     // todo
 }
 
-MATCH_FUNC(0x56B8A0)
+// FUNCTION: 105 0x56B8A0
 void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
 {
     char_type Buffer[8];
@@ -108,7 +108,7 @@ void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
     strcat(a2, ".dat");
 }
 
-MATCH_FUNC(0x56B940)
+// FUNCTION: 105 0x56B940
 char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
 {
     char_type FileName[356];
@@ -124,13 +124,13 @@ char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
     return 1;
 }
 
-MATCH_FUNC(0x56BCF0)
+// FUNCTION: 105 0x56BCF0
 void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type* pName)
 {
     strcpy(pName, "player\\hiscores.hsc");
 }
 
-MATCH_FUNC(0x56BCA0)
+// FUNCTION: 105 0x56BCA0
 char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 {
     char_type FileName[356];
@@ -146,7 +146,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     return 1;
 }
 
-MATCH_FUNC(0x56B990)
+// FUNCTION: 105 0x56B990
 void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 {
     char_type FileName[356];
@@ -220,7 +220,7 @@ s32 len;
     File::Global_Close_4A70C0();
 */
 
-MATCH_FUNC(0x56BE50)
+// FUNCTION: 105 0x56BE50
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
     char_type FileName[256];
@@ -246,7 +246,7 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     File::Global_Close_4A70C0();
 }
 
-MATCH_FUNC(0x56C1D0)
+// FUNCTION: 105 0x56C1D0
 void jolly_poitras_0x2BC0::sub_56C1D0()
 {
     field_23D0.Init_56B520();
@@ -279,7 +279,7 @@ void jolly_poitras_0x2BC0::sub_56BF20()
     // todo
 }
 
-MATCH_FUNC(0x56BD20)
+// FUNCTION: 105 0x56BD20
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
     wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, L"ALAN", 9u);
@@ -304,7 +304,7 @@ void jolly_poitras_0x2BC0::sub_56BD20()
     field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
-MATCH_FUNC(0x56BC40)
+// FUNCTION: 105 0x56BC40
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
@@ -323,7 +323,7 @@ void jolly_poitras_0x2BC0::sub_56BC40()
     }
 }
 
-MATCH_FUNC(0x56BBD0)
+// FUNCTION: 105 0x56BBD0
 void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
@@ -334,7 +334,7 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
     }
 }
 
-MATCH_FUNC(0x56C250)
+// FUNCTION: 105 0x56C250
 void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
 {
     if (!bStartNetworkGame_7081F0)
@@ -348,7 +348,7 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
     }
 }
 
-MATCH_FUNC(0x56C2C0)
+// FUNCTION: 105 0x56C2C0
 void jolly_poitras_0x2BC0::create_56C2C0()
 {
     if (!gJolly_poitras_0x2BC0_6FEAC0)
@@ -361,7 +361,7 @@ void jolly_poitras_0x2BC0::create_56C2C0()
     }
 }
 
-MATCH_FUNC(0x56C340)
+// FUNCTION: 105 0x56C340
 void jolly_poitras_0x2BC0::destroy_56C340()
 {
     if (gJolly_poitras_0x2BC0_6FEAC0)
@@ -373,18 +373,18 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 
 // =====================================================================
 
-MATCH_FUNC(0x56B500)
+// FUNCTION: 105 0x56B500
 high_score_table_0xF0::high_score_table_0xF0()
 {
     Init_56B520();
 }
 
-MATCH_FUNC(0x56B510)
+// FUNCTION: 105 0x56B510
 high_score_table_0xF0::~high_score_table_0xF0()
 {
 }
 
-MATCH_FUNC(0x56B520)
+// FUNCTION: 105 0x56B520
 void high_score_table_0xF0::Init_56B520()
 {
     for (s32 i = 0; i < 10; i++)
@@ -443,18 +443,18 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
     return 0;
 }
 
-MATCH_FUNC(0x56B610)
+// FUNCTION: 105 0x56B610
 player_stats_0xA4::player_stats_0xA4()
 {
     sub_56B630();
 }
 
-MATCH_FUNC(0x56B620)
+// FUNCTION: 105 0x56B620
 player_stats_0xA4::~player_stats_0xA4()
 {
 }
 
-MATCH_FUNC(0x56B630)
+// FUNCTION: 105 0x56B630
 void player_stats_0xA4::sub_56B630()
 {
     for (u16 k = 0; k < 9; k++)
@@ -474,7 +474,7 @@ void player_stats_0xA4::sub_56B630()
     field_0_plyr_stage_stats[0][0].field_0_is_stage_unlocked = true;
 }
 
-MATCH_FUNC(0x56B680)
+// FUNCTION: 105 0x56B680
 s32 player_stats_0xA4::sub_56B680()
 {
     s32 result = 0;
@@ -489,7 +489,7 @@ s32 player_stats_0xA4::sub_56B680()
     return result;
 }
 
-MATCH_FUNC(0x56B6B0)
+// FUNCTION: 105 0x56B6B0
 s32 player_stats_0xA4::sub_56B6B0()
 {
     s32 result = 0;

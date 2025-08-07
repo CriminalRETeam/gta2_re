@@ -51,7 +51,7 @@ Char_8** Ped_Unknown_4::sub_4715E0()
     return 0;
 }
 
-MATCH_FUNC(0x471630)
+// FUNCTION: 105 0x471630
 void Ped_Unknown_4::sub_471630()
 {
     for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
@@ -65,7 +65,7 @@ void Ped_Unknown_4::sub_471630()
     }
 }
 
-MATCH_FUNC(0x471680)
+// FUNCTION: 105 0x471680
 void Ped_Unknown_4::sub_471680()
 {
     Char_8* pIter; // eax
@@ -79,7 +79,7 @@ void Ped_Unknown_4::sub_471680()
     }
 }
 
-MATCH_FUNC(0x4716b0)
+// FUNCTION: 105 0x4716b0
 s32 Ped_Unknown_4::sub_4716B0()
 {
     s32 pIter;
@@ -91,7 +91,7 @@ s32 Ped_Unknown_4::sub_4716B0()
     return pIter;
 }
 
-MATCH_FUNC(0x4716d0)
+// FUNCTION: 105 0x4716d0
 void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 {
     for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
@@ -102,7 +102,7 @@ void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
     }
 }
 
-MATCH_FUNC(0x471710)
+// FUNCTION: 105 0x471710
 char_type Ped_Unknown_4::sub_471710()
 {
     Char_8* pOwner = this->field_0_pOwner;

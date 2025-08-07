@@ -2,7 +2,7 @@
 #include "debug.hpp"
 #include "root_sound.hpp"
 
-MATCH_FUNC(0x40bb90)
+// FUNCTION: 105 0x40bb90
 void Rozza_C88::Reset_40BB90()
 {
     field_C84_count = 0;
@@ -32,7 +32,7 @@ void Rozza_C88::sub_40BDD0(Sprite* a2, Sprite* a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x40be00)
+// FUNCTION: 105 0x40be00
 Rozza_C88::Rozza_C88()
 {
     if (bSkip_audio_67D6BE)
@@ -46,7 +46,7 @@ Rozza_C88::Rozza_C88()
     Reset_40BB90();
 }
 
-MATCH_FUNC(0x40be40)
+// FUNCTION: 105 0x40be40
 Rozza_C88::~Rozza_C88()
 {
     if (field_0_pSoundObj)

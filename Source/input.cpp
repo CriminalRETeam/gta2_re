@@ -12,7 +12,7 @@ DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gGamePadDevice_67B6C0, 0x67B6C0);
 HRESULT WINAPI Fn_DirectInputCreateA(HINSTANCE hinst, u32 dwVersion, LPDIRECTINPUTA* ppDI, LPUNKNOWN punkOuter);
 #endif
 
-MATCH_FUNC(0x4986D0)
+// FUNCTION: 105 0x4986D0
 void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 {
     #if defined(__clang__) || (_MSC_VER <= 1200)
@@ -44,7 +44,7 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
 
 }
 
-MATCH_FUNC(0x498710)
+// FUNCTION: 105 0x498710
 void __stdcall Input::DInputRelease_498710()
 {
     if (gpDInput_67B804)

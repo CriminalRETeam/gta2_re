@@ -8,7 +8,7 @@
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
 DEFINE_GLOBAL(u8, DAT_6ffdcc, 0x6ffdcc);
 
-MATCH_FUNC(0x588580)
+// FUNCTION: 105 0x588580
 char_type Junction_10::sub_588580(s32 a2)
 {
     if (a2 == 2)
@@ -32,7 +32,7 @@ char_type Junction_10::sub_588580(s32 a2)
     return 0;
 }
 
-MATCH_FUNC(0x5885c0)
+// FUNCTION: 105 0x5885c0
 u16 Junction_10::sub_5885C0(u16 a2)
 {
     if (a2 != 0)
@@ -60,7 +60,7 @@ u16 Junction_10::sub_5885C0(u16 a2)
     }
 }
 
-MATCH_FUNC(0x5892d0)
+// FUNCTION: 105 0x5892d0
 RouteFinder_10::RouteFinder_10()
 {
     field_0_idx = 0;
@@ -97,7 +97,7 @@ u16 RouteFinder::sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
     return 0;
 }
 
-MATCH_FUNC(0x588b30)
+// FUNCTION: 105 0x588b30
 void RouteFinder::Load_RGEN_588B30()
 {
     File::Global_Read_4A71C0(field_8, 0x2210);
@@ -135,7 +135,7 @@ void RouteFinder::Load_RGEN_588B30()
     }
 }
 
-MATCH_FUNC(0x588c60)
+// FUNCTION: 105 0x588c60
 void RouteFinder::Reset_588C60()
 {
     memset(this->field_CA40, 0, sizeof(this->field_CA40));
@@ -233,7 +233,7 @@ s16 RouteFinder::sub_589930(s16 idx)
     return 0;
 }
 
-MATCH_FUNC(0x589960)
+// FUNCTION: 105 0x589960
 s16 RouteFinder::sub_589960()
 {
     s16 sVar1 = 1;
@@ -250,7 +250,7 @@ s16 RouteFinder::sub_589960()
     return -1;
 }
 
-MATCH_FUNC(0x589990)
+// FUNCTION: 105 0x589990
 u16 RouteFinder::sub_589990(RouteFinder_10* a2, u16 a3, s16 a4)
 {
     RouteFinder_10* puVar1 = sub_5892F0(a2, a3, a4);
@@ -272,7 +272,7 @@ char_type RouteFinder::sub_589BB0(RouteFinder_10* a2, s32 a3)
     return 0;
 }
 
-MATCH_FUNC(0x589e00)
+// FUNCTION: 105 0x589e00
 RouteFinder_10* RouteFinder::sub_589E00()
 {
     RouteFinder_10* pjVar1;
@@ -289,7 +289,7 @@ char_type RouteFinder::sub_589E20(s32 a2)
     return 0;
 }
 
-MATCH_FUNC(0x589e70)
+// FUNCTION: 105 0x589e70
 char_type RouteFinder::sub_589E70(s32 a2)
 {
     char cVar1;
@@ -384,7 +384,7 @@ s16 RouteFinder::sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
     return 0;
 }
 
-MATCH_FUNC(0x58a130)
+// FUNCTION: 105 0x58a130
 s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 {
     if (sub_5895C0(a1, a2, a3, a5, a6))
@@ -399,13 +399,13 @@ s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
     return -1;
 }
 
-MATCH_FUNC(0x58a190)
+// FUNCTION: 105 0x58a190
 void RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 {
     sub_58A0D0(a2, a3, a4, a5, a6, a7, a8);
 }
 
-MATCH_FUNC(0x58a1c0)
+// FUNCTION: 105 0x58a1c0
 RouteFinder::RouteFinder()
 {
     field_0 = 0;

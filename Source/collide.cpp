@@ -7,13 +7,13 @@ DEFINE_GLOBAL(Collide_8004*, gCollide_8004_679200, 0x679200);
 DEFINE_GLOBAL(Collide_11944*, gCollide_11944_679204, 0x679204);
 DEFINE_GLOBAL(s32, dword_678F84, 0x678F84);
 
-MATCH_FUNC(0x478a20)
+// FUNCTION: 105 0x478a20
 void Collide_C::sub_478A20()
 {
     field_0_count = 0;
 }
 
-MATCH_FUNC(0x478a30)
+// FUNCTION: 105 0x478a30
 Collide_C::Collide_C()
 {
     field_0_count = 0;
@@ -54,7 +54,7 @@ Collide_C::Collide_C()
     dword_678F84 = 0;
 }
 
-MATCH_FUNC(0x478bf0)
+// FUNCTION: 105 0x478bf0
 Collide_C::~Collide_C()
 {
     GTA2_DELETE_AND_NULL(gPurpleDoom_1_679208);

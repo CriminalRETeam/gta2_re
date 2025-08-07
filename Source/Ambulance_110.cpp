@@ -8,19 +8,19 @@
 
 DEFINE_GLOBAL(s32, dword_6F6DD4, 0x6F6DD4);
 
-MATCH_FUNC(0x4beab0)
+// FUNCTION: 105 0x4beab0
 Ambulance_20::Ambulance_20()
 {
     field_10.field_0_pOwner = NULL;
     sub_4FA7D0();
 }
 
-MATCH_FUNC(0x4bead0)
+// FUNCTION: 105 0x4bead0
 Ambulance_20::~Ambulance_20()
 {
 }
 
-MATCH_FUNC(0x4fa7d0)
+// FUNCTION: 105 0x4fa7d0
 void Ambulance_20::sub_4FA7D0()
 {
     field_10.field_0_pOwner = NULL;
@@ -37,14 +37,14 @@ void Ambulance_20::sub_4FA7D0()
     field_1D = 0;
 }
 
-MATCH_FUNC(0x4fa800)
+// FUNCTION: 105 0x4fa800
 void Ambulance_20::sub_4FA800(Ped* pPed)
 {
     field_10.sub_471140(pPed);
     field_14_count++;
 }
 
-MATCH_FUNC(0x4fa820)
+// FUNCTION: 105 0x4fa820
 bool Ambulance_20::sub_4FA820()
 {
     PedGroup* pGroup = PedGroup::sub_4CB0D0();
@@ -132,12 +132,12 @@ void Ambulance_20::sub_4FB330()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4beae0)
+// FUNCTION: 105 0x4beae0
 Ambulance_110::~Ambulance_110()
 {
 }
 
-MATCH_FUNC(0x4fa310)
+// FUNCTION: 105 0x4fa310
 void Ambulance_110::init_4FA310()
 {
     field_0 = 1;
@@ -158,7 +158,7 @@ char_type Ambulance_110::sub_4FA330(Ped* a2)
     return 0;
 }
 
-MATCH_FUNC(0x4fa470)
+// FUNCTION: 105 0x4fa470
 char_type Ambulance_110::sub_4FA470(Ped* a2)
 {
     if (a2->sub_45EDE0(2) || field_1_f8_idx >= 25u)
@@ -172,7 +172,7 @@ char_type Ambulance_110::sub_4FA470(Ped* a2)
     return 1;
 }
 
-MATCH_FUNC(0x4fa4b0)
+// FUNCTION: 105 0x4fa4b0
 Ambulance_20* Ambulance_110::sub_4FA4B0()
 {
     for (u8 i = 0; i < 2; i++)
@@ -191,7 +191,7 @@ void Ambulance_110::sub_4FA500()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4fa790)
+// FUNCTION: 105 0x4fa790
 void Ambulance_110::sub_4FA790()
 {
     if (field_1_f8_idx > 0)

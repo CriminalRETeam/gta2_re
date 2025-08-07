@@ -94,7 +94,7 @@ DEFINE_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520, 0x6F5520);
 // TODO: move
 void sub_SetGamma();
 
-MATCH_FUNC(0x4B8BB0)
+// FUNCTION: 105 0x4B8BB0
 s32 Game_0x40::sub_4B8BB0()
 {
     if (bStartNetworkGame_7081F0 == false)
@@ -104,7 +104,7 @@ s32 Game_0x40::sub_4B8BB0()
     return field_34;
 }
 
-MATCH_FUNC(0x4B8BD0)
+// FUNCTION: 105 0x4B8BD0
 void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
 {
     int timer = field_28_timer;
@@ -116,13 +116,13 @@ void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
     }
 }
 
-MATCH_FUNC(0x4B8C00)
+// FUNCTION: 105 0x4B8C00
 void Game_0x40::sub_4B8C00(s32 a1, s32 a2)
 {
     sub_4B8BD0(a1, a2, 0);
 }
 
-MATCH_FUNC(0x4B8C20)
+// FUNCTION: 105 0x4B8C20
 s8 Game_0x40::sub_4B8C20()
 {
     if (field_28_timer == 0)
@@ -138,7 +138,7 @@ s8 Game_0x40::sub_4B8C20()
     return 0;
 }
 
-MATCH_FUNC(0x4B8C40)
+// FUNCTION: 105 0x4B8C40
 void Game_0x40::sub_4B8C40()
 {
     char_type tmp_array[256];
@@ -194,7 +194,7 @@ void Game_0x40::sub_4B8C40()
     }
 }
 
-MATCH_FUNC(0x4B8E00)
+// FUNCTION: 105 0x4B8E00
 void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
 {
     field_38_orf1->field_90_game_camera.sub_4361B0(a1, a2);
@@ -203,7 +203,7 @@ void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
     gGarox_2B00_706620->sub_5D6AB0();
 }
 
-MATCH_FUNC(0x4B8E50)
+// FUNCTION: 105 0x4B8E50
 void Game_0x40::sub_4B8E50()
 {
     switch (dword_7071A0)
@@ -249,7 +249,7 @@ EXPORT void sub_5D8E00()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4B8EB0)
+// FUNCTION: 105 0x4B8EB0
 void Game_0x40::sub_4B8EB0()
 {
 
@@ -298,7 +298,7 @@ void Game_0x40::sub_4B8EB0()
     gJolly_poitras_0x2BC0_6FEAC0->DoMuchCashCheat_56C250();
 }
 
-MATCH_FUNC(0x4B8FF0)
+// FUNCTION: 105 0x4B8FF0
 void Game_0x40::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
@@ -339,7 +339,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     }
 }
 
-MATCH_FUNC(0x4B9270)
+// FUNCTION: 105 0x4B9270
 void Game_0x40::sub_4B9270()
 {
     if (gDo_show_counter_67D6E6)
@@ -355,7 +355,7 @@ void Game_0x40::sub_4B9270()
     }
 }
 
-MATCH_FUNC(0x4B92D0)
+// FUNCTION: 105 0x4B92D0
 void Game_0x40::Draw_4B92D0()
 {
     gViewCamera_676978 = &field_1C_unk->field_14C_view_camera;
@@ -390,7 +390,7 @@ void Game_0x40::Draw_4B92D0()
     FreeSurface_5D7DC0();
 }
 
-MATCH_FUNC(0x4B9380)
+// FUNCTION: 105 0x4B9380
 void Game_0x40::sub_4B9380()
 {
     Player** ppPlayersIterator = field_4_players;
@@ -406,7 +406,7 @@ void Game_0x40::sub_4B9380()
     }
 }
 
-//MATCH_FUNC(0x5D9970)
+//// FUNCTION: 105 0x5D9970
 static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0x4B9410 - probably move elsewhere
 {
     const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10u);
@@ -423,7 +423,7 @@ static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0
     }
 }
 
-MATCH_FUNC(0x4B93C0)
+// FUNCTION: 105 0x4B93C0
 void Game_0x40::sub_4B93C0()
 {
     Player** pIter = field_4_players;
@@ -585,7 +585,7 @@ void Game_0x40::sub_4B9410()
     }
 }
 
-MATCH_FUNC(0x4B9640)
+// FUNCTION: 105 0x4B9640
 s8 Game_0x40::sub_4B9640()
 {
     sub_4B9380();
@@ -630,7 +630,7 @@ void Game_0x40::sub_4B9700()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4B9710)
+// FUNCTION: 105 0x4B9710
 void Game_0x40::sub_4B9710()
 {
     if (field_23_max_idx == 1)
@@ -639,7 +639,7 @@ void Game_0x40::sub_4B9710()
     }
 }
 
-MATCH_FUNC(0x4B9720)
+// FUNCTION: 105 0x4B9720
 void Game_0x40::sub_4B9720()
 {
     if (field_38_orf1)
@@ -655,7 +655,7 @@ void Game_0x40::sub_4B9720()
     }
 }
 
-MATCH_FUNC(0x4B9750)
+// FUNCTION: 105 0x4B9750
 Player* Game_0x40::sub_4B9750()
 {
     for (s32 i = 0; i < field_23_max_idx; i++)
@@ -668,7 +668,7 @@ Player* Game_0x40::sub_4B9750()
     return NULL;
 }
 
-MATCH_FUNC(0x4B9790)
+// FUNCTION: 105 0x4B9790
 void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
@@ -685,7 +685,7 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
     }
 }
 
-MATCH_FUNC(0x4B97E0)
+// FUNCTION: 105 0x4B97E0
 s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
@@ -698,7 +698,7 @@ s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
     return 0;
 }
 
-MATCH_FUNC(0x4B9830)
+// FUNCTION: 105 0x4B9830
 s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
@@ -711,7 +711,7 @@ s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, s32 a3)
     return 0;
 }
 
-MATCH_FUNC(0x4B9890)
+// FUNCTION: 105 0x4B9890
 s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
@@ -724,7 +724,7 @@ s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
     return 0;
 }
 
-MATCH_FUNC(0x4B98E0)
+// FUNCTION: 105 0x4B98E0
 bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
@@ -747,7 +747,7 @@ s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
     return 0;
 }
 
-MATCH_FUNC(0x4B9A10)
+// FUNCTION: 105 0x4B9A10
 bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 {
     if (field_4_players[playerIdx]->field_8E_bInUse)
@@ -814,7 +814,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
     return 0;
 }
 
-MATCH_FUNC(0x4B9BC0)
+// FUNCTION: 105 0x4B9BC0
 DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 {
     for (field_21_player_camera_idx = 0; field_21_player_camera_idx < field_23_max_idx; field_21_player_camera_idx++)
@@ -828,7 +828,7 @@ DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
     return NULL;
 }
 
-MATCH_FUNC(0x4B9C10)
+// FUNCTION: 105 0x4B9C10
 s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 {
     Player* pPlayer = sub_4B9CD0();
@@ -843,7 +843,7 @@ s8 Game_0x40::sub_4B9C10(Car_BC* a2)
     return 0;
 }
 
-MATCH_FUNC(0x4B9C50)
+// FUNCTION: 105 0x4B9C50
 DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 {
     if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
@@ -865,7 +865,7 @@ DrawUnk_0xBC* Game_0x40::sub_4B9C50()
     }
 }
 
-MATCH_FUNC(0x4B9CD0)
+// FUNCTION: 105 0x4B9CD0
 Player* Game_0x40::sub_4B9CD0()
 {
     for (field_20_idx = 0; field_20_idx < field_23_max_idx; field_20_idx++)
@@ -878,7 +878,7 @@ Player* Game_0x40::sub_4B9CD0()
     return 0;
 }
 
-MATCH_FUNC(0x4B9D10)
+// FUNCTION: 105 0x4B9D10
 Player* Game_0x40::IterateNextPlayer_4B9D10()
 {
     while (++field_20_idx < field_23_max_idx)
@@ -891,7 +891,7 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
     return 0;
 }
 
-MATCH_FUNC(0x4B9D60)
+// FUNCTION: 105 0x4B9D60
 void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
@@ -916,7 +916,7 @@ void Game_0x40::sub_4B9D60(Sprite* a2, Player* pExclude)
 
 DEFINE_GLOBAL(Fix16, dword_67DCCC, 0x67DCCC); // not sure if it's, fix16, 0xUNKNOWN);
 
-MATCH_FUNC(0x4B9DE0)
+// FUNCTION: 105 0x4B9DE0
 Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 {
     stru_6F6784.srand_4F7A40(); // srand?
@@ -1252,7 +1252,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     }
 }
 
-MATCH_FUNC(0x4BAE30)
+// FUNCTION: 105 0x4BAE30
 Game_0x40::~Game_0x40()
 {
     bSkip_police_67D4F9 = field_3C_bSkipPolice;

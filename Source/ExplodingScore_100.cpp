@@ -4,7 +4,7 @@
 
 DEFINE_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34, 0x702F34);
 
-MATCH_FUNC(0x596a00)
+// FUNCTION: 105 0x596a00
 ExplodingScore_50::ExplodingScore_50()
 {
     field_0 = 0;
@@ -22,23 +22,23 @@ ExplodingScore_50::ExplodingScore_50()
     field_34 = 9;
 }
 
-MATCH_FUNC(0x596a40)
+// FUNCTION: 105 0x596a40
 ExplodingScore_50::~ExplodingScore_50()
 {
     field_44 = 0;
 }
 
-MATCH_FUNC(0x596a50)
+// FUNCTION: 105 0x596a50
 void ExplodingScore_50::Empty_596A50()
 {
 }
 
-MATCH_FUNC(0x596a60)
+// FUNCTION: 105 0x596a60
 void ExplodingScore_50::Empty_596A60()
 {
 }
 
-MATCH_FUNC(0x596a70)
+// FUNCTION: 105 0x596a70
 void ExplodingScore_50::sub_596A70(s32 a2)
 {
     for (u32 i = a2; i > 0; i--)
@@ -47,7 +47,7 @@ void ExplodingScore_50::sub_596A70(s32 a2)
     }
 }
 
-MATCH_FUNC(0x596a90)
+// FUNCTION: 105 0x596a90
 void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
 {
     u32 tmpScore = score;
@@ -175,7 +175,7 @@ void ExplodingScore_50::sub_597100(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5967e0)
+// FUNCTION: 105 0x5967e0
 ExplodingScore_100::ExplodingScore_100()
 {
     ExplodingScore_50* pIter = field_C;
@@ -194,14 +194,14 @@ ExplodingScore_100::ExplodingScore_100()
     field_2 = 3;
 }
 
-MATCH_FUNC(0x596840)
+// FUNCTION: 105 0x596840
 ExplodingScore_100::~ExplodingScore_100()
 {
     field_4 = 0;
     field_8 = 0;
 }
 
-MATCH_FUNC(0x596860)
+// FUNCTION: 105 0x596860
 s16 ExplodingScore_100::sub_596860()
 {
     field_0++;
@@ -212,7 +212,7 @@ s16 ExplodingScore_100::sub_596860()
     return field_0;
 }
 
-MATCH_FUNC(0x596880)
+// FUNCTION: 105 0x596880
 void ExplodingScore_100::sub_596880()
 {
     field_2++;
@@ -230,7 +230,7 @@ void ExplodingScore_100::sub_596940()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5969e0)
+// FUNCTION: 105 0x5969e0
 void ExplodingScore_100::DrawExploding_5969E0()
 {
     ExplodingScore_50* pIter = field_8;

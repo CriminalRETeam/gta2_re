@@ -356,7 +356,7 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 }
 
 // todo: move
-MATCH_FUNC(0x5D7C60)
+// FUNCTION: 105 0x5D7C60
 EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 {
     if (gMouseDevice_706C60)
@@ -366,7 +366,7 @@ EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 }
 
 // todo: move
-MATCH_FUNC(0x5D7C70)
+// FUNCTION: 105 0x5D7C70
 EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 {
     if (gMouseDevice_706C60)
@@ -378,7 +378,7 @@ EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 }
 
 // todo: move
-MATCH_FUNC(0x5D94F0)
+// FUNCTION: 105 0x5D94F0
 EXPORT void __stdcall HideCursor_5D94F0()
 {
     do
@@ -388,7 +388,7 @@ EXPORT void __stdcall HideCursor_5D94F0()
 }
 
 // todo: move
-MATCH_FUNC(0x5D7BF0)
+// FUNCTION: 105 0x5D7BF0
 EXPORT char_type Input_InitMouse_5D7BF0()
 {
     // TODO: using the HR error checking macros doesn't match here, what did they do??
@@ -457,13 +457,13 @@ EXPORT void __stdcall sub_5D93A0()
 }
 
 // todo: move
-MATCH_FUNC(0x5D92C0)
+// FUNCTION: 105 0x5D92C0
 EXPORT char_type sub_5D92C0()
 {
     return byte_706C5C;
 }
 
-MATCH_FUNC(0x5D9660)
+// FUNCTION: 105 0x5D9660
 EXPORT void __stdcall ShowCursor_5D9660()
 {
     s32 refCount;
@@ -528,7 +528,7 @@ EXPORT char_type sub_5D9510()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D8F70)
+// FUNCTION: 105 0x5D8F70
 EXPORT s32 ReadScreenSettings_5D8F70()
 {
     const u32 full_width_old = full_width_706B5C;
@@ -638,13 +638,13 @@ EXPORT void __stdcall sub_5D92D0()
     SetSavedGamma_5D98E0();
 }
 
-MATCH_FUNC(0x5D9860)
+// FUNCTION: 105 0x5D9860
 EXPORT s32 jGBH_Graphics_Free_5D9860()
 {
     return GBH_Graphics_Free_5EA640();
 }
 
-MATCH_FUNC(0x5D9830)
+// FUNCTION: 105 0x5D9830
 EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 {
     jGBH_Graphics_Free_5D9860();
@@ -657,7 +657,7 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 }
 
 // todo: move
-MATCH_FUNC(0x5D9290)
+// FUNCTION: 105 0x5D9290
 EXPORT bool Vid_FindDevice_5D9290()
 {
     SDevice* pDevice = pVid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
@@ -665,7 +665,7 @@ EXPORT bool Vid_FindDevice_5D9290()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D9800)
+// FUNCTION: 105 0x5D9800
 EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 {
     HDC hdc = GetDC(gHwnd_707F04);
@@ -675,7 +675,7 @@ EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D97C0)
+// FUNCTION: 105 0x5D97C0
 EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
@@ -685,7 +685,7 @@ EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D96C0)
+// FUNCTION: 105 0x5D96C0
 EXPORT void sub_5D96C0()
 {
     s32 v1 = 0;
@@ -738,7 +738,7 @@ EXPORT void sub_5D96C0()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA440)
+// FUNCTION: 105 0x4DA440
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
@@ -839,7 +839,7 @@ GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 2
 GUID IDD_IDirectMusic = {1698042202u, 31533u, 4562u, {186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u}};
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4A0650)
+// FUNCTION: 105 0x4A0650
 EXPORT void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
@@ -1058,7 +1058,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 const char_type* off_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D90E0)
+// FUNCTION: 105 0x5D90E0
 EXPORT void __stdcall Video_Render_Inits_5D90E0()
 {
     gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
@@ -1086,14 +1086,14 @@ EXPORT void __stdcall Video_Render_Inits_5D90E0()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D9280)
+// FUNCTION: 105 0x5D9280
 EXPORT bool IsFullScreen_5D9280()
 {
     return gStartMode_626A0C == 1;
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D8E70)
+// FUNCTION: 105 0x5D8E70
 EXPORT void __stdcall UpdateWinXY_5D8E70()
 {
     if (!IsFullScreen_5D9280())
@@ -1106,14 +1106,14 @@ EXPORT void __stdcall UpdateWinXY_5D8E70()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D7CA0)
+// FUNCTION: 105 0x5D7CA0
 EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
     pgbh_Init(0);
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA700)
+// FUNCTION: 105 0x4DA700
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
     gBurgerKing_67F8B0.Shutdown_4CEA00();
@@ -1125,7 +1125,7 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA390)
+// FUNCTION: 105 0x4DA390
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
     char* v1 = pStr;
@@ -1182,7 +1182,7 @@ EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA320)
+// FUNCTION: 105 0x4DA320
 EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 {
     char* pIter = pCommandLine;
@@ -1217,7 +1217,7 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
     }
 }
 
-MATCH_FUNC(0x5E4DE0)
+// FUNCTION: 105 0x5E4DE0
 EXPORT void Start_GTA2Manager_5E4DE0()
 {
     ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
@@ -1250,7 +1250,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     }
 }
 
-MATCH_FUNC(0x5E4EC0)
+// FUNCTION: 105 0x5E4EC0
 EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
     MessageBoxA(gHwnd_707F04, lpText, "Error!", MB_OK);
@@ -1811,7 +1811,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 }
 
 // TODO: order
-MATCH_FUNC(0x4DA780)
+// FUNCTION: 105 0x4DA780
 EXPORT char sub_4DA780()
 {
     char v0 = gGame_0x40_67E008->sub_4B9640();
@@ -1877,7 +1877,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
 #pragma comment(lib, "Version.lib")
 
-MATCH_FUNC(0x5E5D60)
+// FUNCTION: 105 0x5E5D60
 EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
 {
     DWORD dwHandle;
