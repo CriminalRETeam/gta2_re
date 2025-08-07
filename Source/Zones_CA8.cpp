@@ -142,7 +142,7 @@ void Gang_144::sub_4BEF50(u8 zone_idx, char_type a3)
     field_122[zone_idx] = a3;
 }
 
-STUB_FUNC(0x4BEF70)
+// STUB: 105 0x4BEF70
 char_type Gang_144::sub_4BEF70(u8 a2, u8 a3)
 {
     NOT_IMPLEMENTED;
@@ -310,7 +310,7 @@ u8 Zones_CA8::get_zone_idx_4BF210(const char* zoneName)
     }
 }
 
-STUB_FUNC(0x4BF230);
+// STUB: 105 0x4BF230;
 void Zones_CA8::sub_4BF230(Gang_144* pZone, u8 zone_idx)
 {
     NOT_IMPLEMENTED;

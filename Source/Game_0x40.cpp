@@ -228,7 +228,7 @@ void Game_0x40::sub_4B8E50()
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 // TODO: move
-STUB_FUNC(0x46E370)
+// STUB: 105 0x46E370
 EXPORT s32 IanTest_46E370()
 {
     NOT_IMPLEMENTED;
@@ -236,14 +236,14 @@ EXPORT s32 IanTest_46E370()
 }
 
 // TODO: move
-STUB_FUNC(0x5D8DF0)
+// STUB: 105 0x5D8DF0
 EXPORT void sub_5D8DF0()
 {
     NOT_IMPLEMENTED;
 }
 
 // TODO: move
-STUB_FUNC(0x5D8E00)
+// STUB: 105 0x5D8E00
 EXPORT void sub_5D8E00()
 {
     NOT_IMPLEMENTED;
@@ -447,7 +447,7 @@ void Game_0x40::sub_4B93C0()
 }
 
 // https://decomp.me/scratch/vQmiC - asm differ bug, needs objdiff
-STUB_FUNC(0x4B9410)
+// STUB: 105 0x4B9410
 void Game_0x40::sub_4B9410()
 {
     NOT_IMPLEMENTED;
@@ -624,7 +624,7 @@ s8 Game_0x40::sub_4B9640()
     return sub_4B8C20();
 }
 
-STUB_FUNC(0x4B9700)
+// STUB: 105 0x4B9700
 void Game_0x40::sub_4B9700()
 {
     NOT_IMPLEMENTED;
@@ -739,7 +739,7 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
     return false;
 }
 
-STUB_FUNC(0x4B9950)
+// STUB: 105 0x4B9950
 s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
 {
     NOT_IMPLEMENTED;
@@ -762,7 +762,7 @@ bool Game_0x40::sub_4B9A10(Sprite* a2, u8 playerIdx)
 }
 
 // https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
-STUB_FUNC(0x4B9A80)
+// STUB: 105 0x4B9A80
 bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 {
     NOT_IMPLEMENTED;
@@ -784,7 +784,7 @@ bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
     return false;
 }
 
-STUB_FUNC(0x4B9B10)
+// STUB: 105 0x4B9B10
 s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
 {
     NOT_IMPLEMENTED;

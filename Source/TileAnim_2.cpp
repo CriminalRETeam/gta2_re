@@ -35,7 +35,7 @@ void TileAnim_2::Empty_5BC300()
 {
 }
 
-STUB_FUNC(0x5bc310)
+// STUB: 105 0x5bc310
 void TileAnim_2::sub_5BC310()
 {
     NOT_IMPLEMENTED;

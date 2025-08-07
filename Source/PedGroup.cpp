@@ -6,13 +6,13 @@
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
 
-STUB_FUNC(0x4c8e60)
+// STUB: 105 0x4c8e60
 void PedGroup::sub_4C8E60()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4c8e80)
+// STUB: 105 0x4c8e80
 void PedGroup::sub_4C8E80()
 {
     NOT_IMPLEMENTED;
@@ -209,7 +209,7 @@ bool PedGroup::sub_4C9220()
     return true;
 }
 
-STUB_FUNC(0x4c9240)
+// STUB: 105 0x4c9240
 void PedGroup::sub_4C9240()
 {
     NOT_IMPLEMENTED;
@@ -305,19 +305,19 @@ void PedGroup::sub_4C93A0()
     return;
 }
 
-STUB_FUNC(0x4c94e0)
+// STUB: 105 0x4c94e0
 void PedGroup::sub_4C94E0(Ped* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4c9680)
+// STUB: 105 0x4c9680
 void PedGroup::sub_4C9680(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4c9970)
+// STUB: 105 0x4c9970
 void PedGroup::sub_4C9970(Ped* a2)
 {
     NOT_IMPLEMENTED;
@@ -339,7 +339,7 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
     ptr->set_ped_group_id(idx);
 }
 
-STUB_FUNC(0x4c9b60)
+// STUB: 105 0x4c9b60
 char_type PedGroup::sub_4C9B60(Ped* a2)
 {
     NOT_IMPLEMENTED;
@@ -360,7 +360,7 @@ Ped* PedGroup::sub_4C9ED0()
     return 0;
 }
 
-STUB_FUNC(0x4c9f00)
+// STUB: 105 0x4c9f00
 void PedGroup::sub_4C9F00()
 {
     NOT_IMPLEMENTED;
@@ -372,7 +372,7 @@ u32 PedGroup::sub_4CA3E0()
     return field_2C_ped_leader->field_21C_bf.b2;
 }
 
-STUB_FUNC(0x4ca3f0)
+// STUB: 105 0x4ca3f0
 Ped* PedGroup::sub_4CA3F0(u32* a2)
 {
     NOT_IMPLEMENTED;
@@ -441,7 +441,7 @@ void PedGroup::sub_4CA4B0()
     }
 }
 
-STUB_FUNC(0x4ca5e0)
+// STUB: 105 0x4ca5e0
 void PedGroup::sub_4CA5E0(u8 idx)
 {
     NOT_IMPLEMENTED;
@@ -564,7 +564,7 @@ void PedGroup::sub_4CA5E0(u8 idx)
     }*/
 }
 
-STUB_FUNC(0x4ca820)
+// STUB: 105 0x4ca820
 void PedGroup::sub_4CA820(s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -615,7 +615,7 @@ char_type PedGroup::sub_4CAB80()
 }
 
 // https://decomp.me/scratch/p3Ujn
-STUB_FUNC(0x4cac20)
+// STUB: 105 0x4cac20
 bool PedGroup::sub_4CAC20(s32 idx)
 {
     NOT_IMPLEMENTED;
@@ -623,14 +623,14 @@ bool PedGroup::sub_4CAC20(s32 idx)
 }
 
 // https://decomp.me/scratch/MrO9e
-STUB_FUNC(0x4cad40)
+// STUB: 105 0x4cad40
 bool PedGroup::sub_4CAD40()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4cae80)
+// STUB: 105 0x4cae80
 Ped* PedGroup::sub_4CAE80(u8 idx)
 {
     NOT_IMPLEMENTED;
@@ -650,7 +650,7 @@ void PedGroup::sub_4CB080()
     }
 }
 
-STUB_FUNC(0x4cb0d0)
+// STUB: 105 0x4cb0d0
 PedGroup* PedGroup::sub_4CB0D0()
 {
     NOT_IMPLEMENTED;

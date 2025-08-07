@@ -316,7 +316,7 @@ DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60, 0x706C60);
 DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84, 0x601A84);
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D8EB0)
+// STUB: 105 0x5D8EB0
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
     NOT_IMPLEMENTED;
@@ -402,7 +402,7 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 }
 
 // todo: move
-STUB_FUNC(0x5D93A0)
+// STUB: 105 0x5D93A0
 EXPORT void __stdcall sub_5D93A0()
 {
     NOT_IMPLEMENTED;
@@ -474,7 +474,7 @@ EXPORT void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-STUB_FUNC(0x5D9510)
+// STUB: 105 0x5D9510
 EXPORT char_type sub_5D9510()
 {
     NOT_IMPLEMENTED;
@@ -583,7 +583,7 @@ EXPORT s32 ReadScreenSettings_5D8F70()
 }
 
 // todo: move
-STUB_FUNC(0x5D98E0)
+// STUB: 105 0x5D98E0
 EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
     NOT_IMPLEMENTED;
@@ -591,7 +591,7 @@ EXPORT void __stdcall SetSavedGamma_5D98E0()
 }
 
 // todo: move
-STUB_FUNC(0x5D92D0)
+// STUB: 105 0x5D92D0
 EXPORT void __stdcall sub_5D92D0()
 {
     NOT_IMPLEMENTED;
@@ -754,20 +754,20 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
-STUB_FUNC(0x4DB170)
+// STUB: 105 0x4DB170
 void __stdcall sub_4DB170()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4DB0D0)
+// STUB: 105 0x4DB0D0
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA4D0)
+// STUB: 105 0x4DA4D0
 EXPORT void __stdcall sub_4DA4D0()
 {
     NOT_IMPLEMENTED;
@@ -812,7 +812,7 @@ EXPORT void __stdcall sub_4DA4D0()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D9690)
+// STUB: 105 0x5D9690
 EXPORT void __stdcall sub_5D9690()
 {
     NOT_IMPLEMENTED;
@@ -820,7 +820,7 @@ EXPORT void __stdcall sub_5D9690()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA850)
+// STUB: 105 0x4DA850
 EXPORT char_type sub_4DA850()
 {
     NOT_IMPLEMENTED;
@@ -829,7 +829,7 @@ EXPORT char_type sub_4DA850()
 }
 
 // TODO: Other missing stubs here
-STUB_FUNC(0x4DA830)
+// STUB: 105 0x4DA830
 EXPORT void __stdcall sub_4DA830()
 {
     NOT_IMPLEMENTED;
@@ -862,7 +862,7 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
 GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B};
 
 // todo move to another file for ordering
-STUB_FUNC(0x4C4EC0)
+// STUB: 105 0x4C4EC0
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
     NOT_IMPLEMENTED;
@@ -1173,7 +1173,7 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA3F0)
+// STUB: 105 0x4DA3F0
 EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 {
     NOT_IMPLEMENTED;
@@ -1257,7 +1257,7 @@ EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 }
 
 // todo: move
-STUB_FUNC(0x5D9230)
+// STUB: 105 0x5D9230
 EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
     NOT_IMPLEMENTED;
@@ -1266,7 +1266,7 @@ EXPORT void __stdcall sub_5D9230(s32 startMode)
 }
 
 // todo: move
-STUB_FUNC(0x5D9680)
+// STUB: 105 0x5D9680
 EXPORT void sub_5D9680()
 {
     NOT_IMPLEMENTED;
@@ -1274,7 +1274,7 @@ EXPORT void sub_5D9680()
 }
 
 // todo: move
-STUB_FUNC(0x498D10)
+// STUB: 105 0x498D10
 EXPORT void Input_Read_498D10()
 {
     NOT_IMPLEMENTED;
@@ -1282,14 +1282,14 @@ EXPORT void Input_Read_498D10()
 }
 
 // todo: move
-STUB_FUNC(0x5D9250)
+// STUB: 105 0x5D9250
 EXPORT void __stdcall sub_5D9250()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-STUB_FUNC(0x5E4EE0)
+// STUB: 105 0x5E4EE0
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     NOT_IMPLEMENTED;
@@ -1525,7 +1525,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
-//STUB_FUNC(0x5E53F0)
+//// STUB: 105 0x5E53F0
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     NOT_IMPLEMENTED;
@@ -1823,7 +1823,7 @@ EXPORT char sub_4DA780()
 }
 
 // TODO: order
-STUB_FUNC(0x4DA740)
+// STUB: 105 0x4DA740
 EXPORT void __stdcall sub_4DA740()
 {
     if (!bDestroyed_6F5B70)
@@ -1868,7 +1868,7 @@ EXPORT void __stdcall sub_4DA740()
     }
 }
 
-STUB_FUNC(0x5E5A30)
+// STUB: 105 0x5E5A30
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     NOT_IMPLEMENTED;

@@ -253,7 +253,7 @@ void sound_obj::Set15Val_4271B0(u32 val)
     }
 }
 
-STUB_FUNC(0x427220)
+// STUB: 105 0x427220
 void sound_obj::sub_427220()
 {
     NOT_IMPLEMENTED;
@@ -414,7 +414,7 @@ void sound_obj::ServiceSoundEffects_41A3A0()
 }
 
 // https://decomp.me/scratch/i3zcW
-STUB_FUNC(0x41A730)
+// STUB: 105 0x41A730
 void sound_obj::InterrogateAudioEntities_41A730()
 {
     NOT_IMPLEMENTED;
@@ -464,13 +464,13 @@ void sound_obj::InterrogateAudioEntities_41A730()
     }
 }
 
-STUB_FUNC(0x41A9D0)
+// STUB: 105 0x41A9D0
 void sound_obj::AddReleasingSounds_41A9D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x41AB80)
+// STUB: 105 0x41AB80
 void sound_obj::ProcessActiveQueues_41AB80()
 {
     NOT_IMPLEMENTED;
@@ -488,7 +488,7 @@ void sound_obj::sub_41A6F0()
     }
 }
 
-STUB_FUNC(0x41A3F0)
+// STUB: 105 0x41A3F0
 char_type sound_obj::CalcVolume_41A3F0(u8 a1, s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
@@ -748,7 +748,7 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
 
 DEFINE_GLOBAL_ARRAY(char_type, byte_674E28, 80, 0x674E28);
 
-STUB_FUNC(0x41A1E0)
+// STUB: 105 0x41A1E0
 const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
 {
     NOT_IMPLEMENTED;
@@ -973,7 +973,7 @@ u8 sound_obj::GetCDVol_41A280()
     return field_25_cdVol;
 }
 
-STUB_FUNC(0x57EA10)
+// STUB: 105 0x57EA10
 void sound_obj::sub_57EA10()
 {
     NOT_IMPLEMENTED;
@@ -1069,37 +1069,37 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
     }
 }
 
-STUB_FUNC(0x57DD50)
+// STUB: 105 0x57DD50
 void sound_obj::ProcessType3_57DD50()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412740)
+// STUB: 105 0x412740
 void sound_obj::ProcessType1_412740(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x413760)
+// STUB: 105 0x413760
 void sound_obj::ProcessType6_413760(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x42A500)
+// STUB: 105 0x42A500
 void sound_obj::ProcessType7_42A500(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412820)
+// STUB: 105 0x412820
 void sound_obj::ProcessType8_412820(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x412A60)
+// STUB: 105 0x412A60
 void sound_obj::ProcessType9_412A60(s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -1540,49 +1540,49 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
     return gFrontend_67DC84 && pObj->field_58_type == 20 ? true : false;
 }
 
-STUB_FUNC(0x416260)
+// STUB: 105 0x416260
 char_type sound_obj::sub_416260(sound_0x68* a1)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4174C0)
+// STUB: 105 0x4174C0
 char_type sound_obj::sub_4174C0(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x417A00)
+// STUB: 105 0x417A00
 char_type sound_obj::sub_417A00(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x415730)
+// STUB: 105 0x415730
 char_type sound_obj::sub_415730(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x418940)
+// STUB: 105 0x418940
 char_type sound_obj::sub_418940(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x414EE0)
+// STUB: 105 0x414EE0
 char_type sound_obj::sub_414EE0(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x414C90)
+// STUB: 105 0x414C90
 char_type sound_obj::sub_414C90(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
@@ -1628,7 +1628,7 @@ char_type sound_obj::sub_414690(sound_0x68* pObj)
     return 1;
 }
 
-STUB_FUNC(0x4149D0)
+// STUB: 105 0x4149D0
 char_type sound_obj::sub_4149D0(sound_0x68* a2)
 {
     NOT_IMPLEMENTED;
@@ -1705,7 +1705,7 @@ void sound_obj::sub_427340(s32 a4, s32 a5, s32 a6)
     }
 }
 
-STUB_FUNC(0x426E10)
+// STUB: 105 0x426E10
 void sound_obj::sub_426E10(s32 arg0, u32 a2)
 {
     NOT_IMPLEMENTED;

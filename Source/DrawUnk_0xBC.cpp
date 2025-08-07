@@ -19,14 +19,14 @@ DEFINE_GLOBAL(Fix16, dword_676910, 0x676910);
 DEFINE_GLOBAL(Fix16, dword_676608, 0x676608);
 DEFINE_GLOBAL(Fix16, dword_6768C0, 0x6768C0);
 
-STUB_FUNC(0x4355D0)
+// STUB: 105 0x4355D0
 char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x435630)
+// STUB: 105 0x435630
 char_type DrawUnk_0xBC::sub_435630(s16* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
@@ -95,7 +95,7 @@ void DrawUnk_0xBC::sub_435860(DrawUnk_0xBC* a2)
     sub_435840();
 }
 
-STUB_FUNC(0x4358D0)
+// STUB: 105 0x4358D0
 s16* DrawUnk_0xBC::sub_4358D0(s16* a2)
 {
     NOT_IMPLEMENTED;
@@ -133,7 +133,7 @@ s32 DrawUnk_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
     return 0;
 }
 
-STUB_FUNC(0x435B90)
+// STUB: 105 0x435B90
 s32 DrawUnk_0xBC::sub_435B90()
 {
     NOT_IMPLEMENTED;
@@ -211,7 +211,7 @@ void DrawUnk_0xBC::sub_435F90(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x435FF0)
+// STUB: 105 0x435FF0
 s32 DrawUnk_0xBC::sub_435FF0()
 {
     NOT_IMPLEMENTED;
@@ -224,13 +224,13 @@ s32 DrawUnk_0xBC::sub_436110()
     return sub_435B90();
 }
 
-STUB_FUNC(0x436120)
+// STUB: 105 0x436120
 void DrawUnk_0xBC::sub_436120(Fix16 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x436140)
+// STUB: 105 0x436140
 void DrawUnk_0xBC::sub_436140()
 {
     NOT_IMPLEMENTED;
@@ -251,20 +251,20 @@ void DrawUnk_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
     field_A8_ui_scale = Fix16(x_pos) / 640;
 }
 
-STUB_FUNC(0x436200)
+// STUB: 105 0x436200
 s32 DrawUnk_0xBC::sub_436200(s32 a2, s32* a3, s32* a4, s32* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4364A0)
+// STUB: 105 0x4364A0
 void DrawUnk_0xBC::sub_4364A0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x436540)
+// STUB: 105 0x436540
 void DrawUnk_0xBC::sub_436540(Ped* a2)
 {
     NOT_IMPLEMENTED;
@@ -382,7 +382,7 @@ DrawUnk_0xBC::DrawUnk_0xBC()
     sub_436830();
 }
 
-STUB_FUNC(0x4369E0)
+// STUB: 105 0x4369E0
 DrawUnk_0xBC::~DrawUnk_0xBC() // empty 4369E0    Why doesn't it match anymore?
 {
 }

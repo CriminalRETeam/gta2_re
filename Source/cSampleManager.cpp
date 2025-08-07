@@ -109,7 +109,7 @@ const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},
                                        {"laughc.wav"},
                                        {"laughd.wav"}};
 
-STUB_FUNC(0x58D400)
+// STUB: 105 0x58D400
 cSampleManager::cSampleManager()
 {
     NOT_IMPLEMENTED;
@@ -180,7 +180,7 @@ cSampleManager::cSampleManager()
     }
 }
 
-STUB_FUNC(0x58D620)
+// STUB: 105 0x58D620
 char_type cSampleManager::sub_58D620()
 {
     NOT_IMPLEMENTED;
@@ -739,7 +739,7 @@ void cSampleManager::ReleaseSample_58DAC0()
     }
 }
 
-STUB_FUNC(0x58E8C0)
+// STUB: 105 0x58E8C0
 void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
 {
     NOT_IMPLEMENTED;

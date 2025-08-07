@@ -7,7 +7,7 @@ DEFINE_GLOBAL(Fix16, DAT_006FE20C, 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
 DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 
-STUB_FUNC(0x4403a0)
+// STUB: 105 0x4403a0
 s16* Car_B0::sub_4403A0(s16* a2)
 {
     NOT_IMPLEMENTED;
@@ -19,26 +19,26 @@ Car_B0::~Car_B0()
 {
 }
 
-STUB_FUNC(0x559430)
+// STUB: 105 0x559430
 void Car_B0::sub_559430()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5597b0)
+// STUB: 105 0x5597b0
 void Car_B0::sub_5597B0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5599d0)
+// STUB: 105 0x5599d0
 bool Car_B0::sub_5599D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x559a40)
+// STUB: 105 0x559a40
 void Car_B0::sub_559A40()
 {
     NOT_IMPLEMENTED;
@@ -81,14 +81,14 @@ void Car_B0::sub_559B90(const Fix16& a2)
     field_A0 = a2;
 }
 
-STUB_FUNC(0x559ba0)
+// STUB: 105 0x559ba0
 u32 Car_B0::sub_559BA0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x559c30)
+// STUB: 105 0x559c30
 void Car_B0::sub_559C30()
 {
     NOT_IMPLEMENTED;
@@ -114,35 +114,35 @@ void Car_B0::sub_559DD0()
     }
 }
 
-STUB_FUNC(0x559e20)
+// STUB: 105 0x559e20
 u32 Car_B0::sub_559E20(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x559ec0)
+// STUB: 105 0x559ec0
 s32* Car_B0::sub_559EC0(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x559ff0)
+// STUB: 105 0x559ff0
 u32* Car_B0::sub_559FF0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55a050)
+// STUB: 105 0x55a050
 u32* Car_B0::sub_55A050(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55a0b0)
+// STUB: 105 0x55a0b0
 u8 Car_B0::sub_55A0B0()
 {
     Trailer* pTrailer; // eax
@@ -156,7 +156,7 @@ u8 Car_B0::sub_55A0B0()
         pTrailer->field_C_car->field_58_physics->field_98_surface_type == 6;
 }
 
-STUB_FUNC(0x55a100)
+// STUB: 105 0x55a100
 u32* Car_B0::sub_55A100(u32* a2)
 {
     NOT_IMPLEMENTED;
@@ -188,7 +188,7 @@ char_type Car_B0::IsFootBrakeOn_55A150()
     return bFootBrakeOn;
 }
 
-STUB_FUNC(0x55a180)
+// STUB: 105 0x55a180
 char_type Car_B0::sub_55A180()
 {
     NOT_IMPLEMENTED;
@@ -215,38 +215,38 @@ char_type Car_B0::sub_55A180()
     return 1;
 }
 
-STUB_FUNC(0x55a1d0)
+// STUB: 105 0x55a1d0
 s32 Car_B0::sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55a400)
+// STUB: 105 0x55a400
 void Car_B0::sub_55A400()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55a4b0)
+// STUB: 105 0x55a4b0
 void Car_B0::sub_55A4B0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55a550)
+// STUB: 105 0x55a550
 void Car_B0::sub_55A550()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55a600)
+// STUB: 105 0x55a600
 void Car_B0::sub_55A600()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55a6a0)
+// STUB: 105 0x55a6a0
 u32* Car_B0::sub_55A6A0(u32* a2)
 {
     NOT_IMPLEMENTED;
@@ -264,416 +264,416 @@ void Car_B0::sub_55A840()
     this->field_80 = 0;
 }
 
-STUB_FUNC(0x55a860)
+// STUB: 105 0x55a860
 char_type Car_B0::sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55aa00)
+// STUB: 105 0x55aa00
 void Car_B0::sub_55AA00()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55ab50)
+// STUB: 105 0x55ab50
 s32* Car_B0::sub_55AB50(s32* a2, Sprite_4C** a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55ad90)
+// STUB: 105 0x55ad90
 s32 Car_B0::sub_55AD90(Sprite_4C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55b3f0)
+// STUB: 105 0x55b3f0
 s32 Car_B0::sub_55B3F0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55b4f0)
+// STUB: 105 0x55b4f0
 s32 Car_B0::sub_55B4F0(Sprite_4C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55b970)
+// STUB: 105 0x55b970
 char_type Car_B0::sub_55B970(char_type* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55bfe0)
+// STUB: 105 0x55bfe0
 void Car_B0::sub_55BFE0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55c150)
+// STUB: 105 0x55c150
 char_type Car_B0::sub_55C150()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55c3b0)
+// STUB: 105 0x55c3b0
 char_type Car_B0::sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55c560)
+// STUB: 105 0x55c560
 s32 Car_B0::sub_55C560(s32* a2, s32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55c5c0)
+// STUB: 105 0x55c5c0
 s32 Car_B0::sub_55C5C0(u32* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55c820)
+// STUB: 105 0x55c820
 s32 Car_B0::sub_55C820(u32* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55ca70)
+// STUB: 105 0x55ca70
 void Car_B0::sub_55CA70(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55cbb0)
+// STUB: 105 0x55cbb0
 void Car_B0::sub_55CBB0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55d200)
+// STUB: 105 0x55d200
 void Car_B0::sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55dc00)
+// STUB: 105 0x55dc00
 char_type Car_B0::sub_55DC00()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55e260)
+// STUB: 105 0x55e260
 void Car_B0::sub_55E260()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55e470)
+// STUB: 105 0x55e470
 char_type Car_B0::sub_55E470()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55eb80)
+// STUB: 105 0x55eb80
 char_type Car_B0::sub_55EB80()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55ec30)
+// STUB: 105 0x55ec30
 s32 Car_B0::sub_55EC30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55ef20)
+// STUB: 105 0x55ef20
 s32 Car_B0::sub_55EF20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f020)
+// STUB: 105 0x55f020
 s32 Car_B0::sub_55F020()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f240)
+// STUB: 105 0x55f240
 char_type Car_B0::sub_55F240()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f280)
+// STUB: 105 0x55f280
 s32 Car_B0::sub_55F280()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f330)
+// STUB: 105 0x55f330
 void Car_B0::sub_55F330()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55f360)
+// STUB: 105 0x55f360
 char_type Car_B0::sub_55F360()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f740)
+// STUB: 105 0x55f740
 s32 Car_B0::sub_55F740(s32* a2, s32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f7a0)
+// STUB: 105 0x55f7a0
 s32 Car_B0::sub_55F7A0(s32* a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f800)
+// STUB: 105 0x55f800
 s32 Car_B0::sub_55F800(s32* a2, s32* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f930)
+// STUB: 105 0x55f930
 s32 Car_B0::sub_55F930(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f970)
+// STUB: 105 0x55f970
 __int64 Car_B0::sub_55F970(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f9a0)
+// STUB: 105 0x55f9a0
 s32 Car_B0::sub_55F9A0(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55fa10)
+// STUB: 105 0x55fa10
 s32 Car_B0::sub_55FA10(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55fa60)
+// STUB: 105 0x55fa60
 u32* Car_B0::sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55fc30)
+// STUB: 105 0x55fc30
 Ped* Car_B0::sub_55FC30(s32* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55fd00)
+// STUB: 105 0x55fd00
 s32 Car_B0::sub_55FD00(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55ff20)
+// STUB: 105 0x55ff20
 Car_78* Car_B0::sub_55FF20(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5606c0)
+// STUB: 105 0x5606c0
 void Car_B0::sub_5606C0(s32 a2, char_type a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x560b40)
+// STUB: 105 0x560b40
 void Car_B0::sub_560B40(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x560eb0)
+// STUB: 105 0x560eb0
 __int64 Car_B0::sub_560EB0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x560f20)
+// STUB: 105 0x560f20
 void Car_B0::sub_560F20(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5610b0)
+// STUB: 105 0x5610b0
 s32 Car_B0::sub_5610B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561130)
+// STUB: 105 0x561130
 u32* Car_B0::sub_561130(u32* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561350)
+// STUB: 105 0x561350
 u32* Car_B0::sub_561350(u32* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561380)
+// STUB: 105 0x561380
 u32* Car_B0::sub_561380(u32* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5615d0)
+// STUB: 105 0x5615d0
 s32* Car_B0::sub_5615D0(s32* a2, s32* a3, s32 a4, u32* a5, s32 a6)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561940)
+// STUB: 105 0x561940
 s32 Car_B0::get_revs_561940()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561970)
+// STUB: 105 0x561970
 u32* Car_B0::sub_561970(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561dd0)
+// STUB: 105 0x561dd0
 u32* Car_B0::sub_561DD0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x561e50)
+// STUB: 105 0x561e50
 Sprite_4C** Car_B0::sub_561E50(Sprite_4C** a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5620d0)
+// STUB: 105 0x5620d0
 u32* Car_B0::sub_5620D0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562450)
+// STUB: 105 0x562450
 u32* Car_B0::sub_562450(u32* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562480)
+// STUB: 105 0x562480
 s32 Car_B0::sub_562480()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5624f0)
+// STUB: 105 0x5624f0
 void Car_B0::sub_5624F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x562560)
+// STUB: 105 0x562560
 s32 Car_B0::sub_562560()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5626a0)
+// STUB: 105 0x5626a0
 s32 Car_B0::sub_5626A0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5626c0)
+// STUB: 105 0x5626c0
 u32* Car_B0::sub_5626C0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5626f0)
+// STUB: 105 0x5626f0
 char_type Car_B0::sub_5626F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562910)
+// STUB: 105 0x562910
 void Car_B0::sub_562910()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x562c20)
-void Car_B0::sub_562C20(Ang16& angle)
+// STUB: 105 0x562c20
+void Car_B0::sub_562C20(s16* a2)
 {
     Fix16 sin = Ang16::sine_40F500(angle);
     Fix16 cos = Ang16::cosine_40F520(angle);
@@ -684,34 +684,34 @@ void Car_B0::sub_562C20(Ang16& angle)
     field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);
 }
 
-STUB_FUNC(0x562d00)
+// STUB: 105 0x562d00
 void Car_B0::sub_562D00()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x562eb0)
+// STUB: 105 0x562eb0
 CarInfo_48* Car_B0::sub_562EB0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562ed0)
+// STUB: 105 0x562ed0
 CarInfo_2C* Car_B0::sub_562ED0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562ef0)
+// STUB: 105 0x562ef0
 s32 Car_B0::sub_562EF0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x562f30)
+// STUB: 105 0x562f30
 s32 Car_B0::sub_562F30()
 {
     NOT_IMPLEMENTED;
@@ -739,28 +739,28 @@ char_type Car_B0::sub_562FA0()
     return 0;
 }
 
-STUB_FUNC(0x562fe0)
+// STUB: 105 0x562fe0
 bool Car_B0::sub_562FE0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x563280)
+// STUB: 105 0x563280
 s32* Car_B0::sub_563280()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x563350)
+// STUB: 105 0x563350
 s32* Car_B0::sub_563350()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x563460)
+// STUB: 105 0x563460
 s32* Car_B0::sub_563460()
 {
     NOT_IMPLEMENTED;
@@ -778,13 +778,13 @@ void Car_B0::sub_563560(Sprite* a2)
     sub_563350();
 }
 
-STUB_FUNC(0x563590)
+// STUB: 105 0x563590
 void Car_B0::sub_563590(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x563670)
+// STUB: 105 0x563670
 s32 Car_B0::sub_563670()
 {
     NOT_IMPLEMENTED;
@@ -803,7 +803,7 @@ void Car_B0::sub_5636C0()
     }
 }
 
-STUB_FUNC(0x5636e0)
+// STUB: 105 0x5636e0
 bool Car_B0::sub_5636E0()
 {
     NOT_IMPLEMENTED;

@@ -121,14 +121,14 @@ void thirsty_lamarr::sub_4921F0(s32 a2, s16 a3)
     }
 }
 
-STUB_FUNC(0x492260)
+// STUB: 105 0x492260
 s32 thirsty_lamarr::sub_492260(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x492430)
+// STUB: 105 0x492430
 s32 thirsty_lamarr::sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
@@ -151,7 +151,7 @@ char_type thirsty_lamarr::sub_4925C0()
     return 0;
 }
 
-STUB_FUNC(0x4925e0)
+// STUB: 105 0x4925e0
 s16 thirsty_lamarr::sub_4925E0()
 {
     NOT_IMPLEMENTED;

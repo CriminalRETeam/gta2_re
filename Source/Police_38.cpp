@@ -22,7 +22,7 @@ Police_38::~Police_38()
 {
 }
 
-STUB_FUNC(0x570790)
+// STUB: 105 0x570790
 char_type Police_38::sub_570790(Police_38* a1, s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -52,107 +52,107 @@ void Police_38::sub_5709C0()
     field_34 = 0;
 }
 
-STUB_FUNC(0x570a10)
+// STUB: 105 0x570a10
 void Police_38::sub_570A10()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x570ab0)
+// STUB: 105 0x570ab0
 void Police_38::sub_570AB0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x570bf0)
+// STUB: 105 0x570bf0
 Kfc_30* Police_38::sub_570BF0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x570e30)
+// STUB: 105 0x570e30
 s32 Police_38::sub_570E30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x571150)
+// STUB: 105 0x571150
 s32 Police_38::sub_571150()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x571350)
+// STUB: 105 0x571350
 u32* Police_38::sub_571350()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x571540)
+// STUB: 105 0x571540
 char_type Police_38::sub_571540()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x571a30)
+// STUB: 105 0x571a30
 char_type Police_38::sub_571A30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5720c0)
+// STUB: 105 0x5720c0
 char_type Police_38::sub_5720C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x572210)
+// STUB: 105 0x572210
 bool Police_38::sub_572210()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x572340)
+// STUB: 105 0x572340
 char_type Police_38::sub_572340()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x572920)
+// STUB: 105 0x572920
 void Police_38::sub_572920()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x574720)
+// STUB: 105 0x574720
 void Police_38::sub_574720()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x574f10)
+// STUB: 105 0x574f10
 char_type Police_38::sub_574F10()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x575200)
+// STUB: 105 0x575200
 void Police_38::sub_575200()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575210)
+// STUB: 105 0x575210
 void Police_38::sub_575210()
 {
     NOT_IMPLEMENTED;
@@ -168,7 +168,7 @@ void Police_38::sub_575210()
     }
 }
 
-STUB_FUNC(0x575270)
+// STUB: 105 0x575270
 void Police_38::sub_575270()
 {
     NOT_IMPLEMENTED;
@@ -179,25 +179,25 @@ void Police_38::sub_575270()
     }
 }
 
-STUB_FUNC(0x5752c0)
+// STUB: 105 0x5752c0
 void Police_38::sub_5752C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575310)
+// STUB: 105 0x575310
 void Police_38::sub_575310()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575590)
+// STUB: 105 0x575590
 void Police_38::sub_575590()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575650)
+// STUB: 105 0x575650
 s32 Police_38::sub_575650()
 {
     NOT_IMPLEMENTED;
@@ -876,7 +876,7 @@ void Police_A4::sub_575CA0()
     field_0 = 0;
 }
 
-STUB_FUNC(0x575ff0)
+// STUB: 105 0x575ff0
 char_type Police_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
 {
     NOT_IMPLEMENTED;

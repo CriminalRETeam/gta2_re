@@ -112,14 +112,14 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
     return bUnknown;
 }
 
-STUB_FUNC(0x477c30)
+// STUB: 105 0x477c30
 char_type PurpleDoom::sub_477C30(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x477c90)
+// STUB: 105 0x477c90
 s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
 {
     NOT_IMPLEMENTED;
@@ -149,14 +149,14 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
     return dword_678E40;
 }
 
-STUB_FUNC(0x477f30)
+// STUB: 105 0x477f30
 char_type PurpleDoom::sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x477f60)
+// STUB: 105 0x477f60
 char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
 {
     NOT_IMPLEMENTED;
@@ -169,26 +169,26 @@ PurpleDoom::PurpleDoom()
     Clear_4789F0();
 }
 
-STUB_FUNC(0x478050)
+// STUB: 105 0x478050
 PurpleDoom::~PurpleDoom()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x478160)
+// STUB: 105 0x478160
 u32 PurpleDoom::sub_478160(u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x478060)
+// STUB: 105 0x478060
 void __stdcall PurpleDoom::sub_478060(Collide_8 *a1)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4781E0)
+// STUB: 105 0x4781E0
 void PurpleDoom::sub_4781E0(u8 width)
 {
     NOT_IMPLEMENTED;
@@ -472,7 +472,7 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
 }
 
 // https://decomp.me/scratch/me1ge
-STUB_FUNC(0x4785d0)
+// STUB: 105 0x4785d0
 char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     NOT_IMPLEMENTED;
@@ -656,14 +656,14 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
     return bRet;
 }
 
-STUB_FUNC(0x478880)
+// STUB: 105 0x478880
 Sprite* PurpleDoom::sub_478880(u32 a2, Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x478950)
+// STUB: 105 0x478950
 void PurpleDoom::DebugLog_478950(s32 xpos, s32 ypos)
 {
     NOT_IMPLEMENTED;

@@ -13,7 +13,7 @@ DEFINE_GLOBAL(Ang16, dword_679FC4, 0x679FC4);
 DEFINE_GLOBAL(Zheal_D9C*, gZheal_D9C_679FD4, 0x679FD4);
 
 // TODO: Should match but doesn't
-STUB_FUNC(0x47e5b0)
+// STUB: 105 0x47e5b0
 Crane_15C::~Crane_15C()
 {
     NOT_IMPLEMENTED;
@@ -31,70 +31,70 @@ Crane_15C::Crane_15C()
     field_7C = 0;
 }
 
-STUB_FUNC(0x47e620)
+// STUB: 105 0x47e620
 s32 Crane_15C::sub_47E620(s32 a2, s32 a3, s32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47e730)
+// STUB: 105 0x47e730
 s32 Crane_15C::sub_47E730(s32 a2, s32 a3, u32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47e840)
+// STUB: 105 0x47e840
 s32 Crane_15C::sub_47E840(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47e920)
+// STUB: 105 0x47e920
 bool Crane_15C::sub_47E920()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47eb00)
+// STUB: 105 0x47eb00
 bool Crane_15C::sub_47EB00()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47ecc0)
+// STUB: 105 0x47ecc0
 s32 Crane_15C::sub_47ECC0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47ed60)
+// STUB: 105 0x47ed60
 s32 Crane_15C::sub_47ED60()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47edf0)
+// STUB: 105 0x47edf0
 s32 Crane_15C::sub_47EDF0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47ef80)
+// STUB: 105 0x47ef80
 s32 Crane_15C::sub_47EF80()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47f170)
+// STUB: 105 0x47f170
 s32 Crane_15C::sub_47F170()
 {
     NOT_IMPLEMENTED;
@@ -177,81 +177,81 @@ bool Crane_15C::sub_47F350()
     return result;
 }
 
-STUB_FUNC(0x47f3d0)
+// STUB: 105 0x47f3d0
 bool Crane_15C::sub_47F3D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47f450)
+// STUB: 105 0x47f450
 bool Crane_15C::sub_47F450()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47f4c0)
+// STUB: 105 0x47f4c0
 void Crane_15C::sub_47F4C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x47f6c0)
+// STUB: 105 0x47f6c0
 char_type Crane_15C::sub_47F6C0(u32* a2, s32* a3, u32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47f7f0)
+// STUB: 105 0x47f7f0
 char_type Crane_15C::sub_47F7F0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47f930)
+// STUB: 105 0x47f930
 void Crane_15C::sub_47F930(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x47fb40)
+// STUB: 105 0x47fb40
 s32 Crane_15C::sub_47FB40()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47fba0)
+// STUB: 105 0x47fba0
 s32 Crane_15C::sub_47FBA0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47fd10)
+// STUB: 105 0x47fd10
 s32 Crane_15C::sub_47FD10()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47fd50)
+// STUB: 105 0x47fd50
 char_type Crane_15C::sub_47FD50()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x47fe10)
+// STUB: 105 0x47fe10
 void Crane_15C::sub_47FE10()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x480310)
+// STUB: 105 0x480310
 void Crane_15C::sub_480310()
 {
     NOT_IMPLEMENTED;
@@ -368,14 +368,14 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     return result;
 }
 
-STUB_FUNC(0x480900)
+// STUB: 105 0x480900
 s32* Crane_15C::sub_480900(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x480b60)
+// STUB: 105 0x480b60
 s32* Crane_15C::sub_480B60(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;

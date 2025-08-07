@@ -36,7 +36,7 @@ Object_3C::~Object_3C()
     field_8 = 0;
 }
 
-STUB_FUNC(0x52adf0)
+// STUB: 105 0x52adf0
 u32* Object_3C::sub_52ADF0(u32* a2)
 {
     NOT_IMPLEMENTED;
@@ -395,14 +395,14 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-STUB_FUNC(0x5a6ea0)
+// STUB: 105 0x5a6ea0
 s32 struct_4::sub_5A6EA0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5a6f70)
+// STUB: 105 0x5a6f70
 void struct_4::sub_5A6F70(Sprite* a2)
 {
     NOT_IMPLEMENTED;
@@ -434,7 +434,7 @@ void struct_4::sub_5A7010()
 }
 
 // https://decomp.me/scratch/hQof2
-STUB_FUNC(0x5a7080)
+// STUB: 105 0x5a7080
 void struct_4::sub_5A7080()
 {
     NOT_IMPLEMENTED;

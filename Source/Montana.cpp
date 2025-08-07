@@ -26,7 +26,7 @@ Montana_2EE4::~Montana_2EE4()
 {
 }
 
-STUB_FUNC(0x5c5cf0)
+// STUB: 105 0x5c5cf0
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
@@ -62,7 +62,7 @@ void Montana_4::Reset_5C5E50()
 }
 
 // TODO: Doesn't match due to SEH stuff
-STUB_FUNC(0x5c5e70)
+// STUB: 105 0x5c5e70
 Montana_4::Montana_4()
 {
     NOT_IMPLEMENTED;
@@ -78,7 +78,7 @@ Montana_4::Montana_4()
     Reset_5C5E50();
 }
 
-STUB_FUNC(0x5c5f10)
+// STUB: 105 0x5c5f10
 Montana_4::~Montana_4()
 {
     NOT_IMPLEMENTED;
@@ -96,7 +96,7 @@ void Montana::ResetAll_4954F0()
 }
 
 // TODO: move
-STUB_FUNC(0x5BEE90)
+// STUB: 105 0x5BEE90
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
     NOT_IMPLEMENTED;

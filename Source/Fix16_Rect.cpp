@@ -28,7 +28,7 @@ u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
     }
 }
 
-STUB_FUNC(0x59de80)
+// STUB: 105 0x59de80
 char_type Fix16_Rect::sub_59DE80()
 {
     NOT_IMPLEMENTED;

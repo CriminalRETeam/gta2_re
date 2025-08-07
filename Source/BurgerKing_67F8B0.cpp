@@ -39,7 +39,7 @@ void BurgerKing_1::sub_4987A0()
 
 // ================================================
 
-STUB_FUNC(0x4cdcd0)
+// STUB: 105 0x4cdcd0
 void BurgerKing_67F8B0::sub_4CDCD0()
 {
     NOT_IMPLEMENTED;
@@ -63,7 +63,7 @@ void BurgerKing_67F8B0::sub_4CDD10(s32 a2)
     field_4_input_bits &= ~field_8[a2];
 }
 
-STUB_FUNC(0x4cdd80)
+// STUB: 105 0x4cdd80
 s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
 {
     NOT_IMPLEMENTED;
@@ -71,14 +71,14 @@ s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
         a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gGarox_2B00_706620->sub_5D6CB0(a1);
 }
 
-STUB_FUNC(0x4cddf0)
+// STUB: 105 0x4cddf0
 s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
 {
     NOT_IMPLEMENTED;
     return !sub_4CDD80(a1) && a1 != 78;
 }
 
-STUB_FUNC(0x4cde20)
+// STUB: 105 0x4cde20
 void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
 {
     NOT_IMPLEMENTED;
@@ -95,19 +95,19 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
     }
 }
 
-STUB_FUNC(0x4cdf30)
+// STUB: 105 0x4cdf30
 void BurgerKing_67F8B0::sub_4CDF30(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4cdf70)
+// STUB: 105 0x4cdf70
 void BurgerKing_67F8B0::AppendReplayHeader_4CDF70()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ce380)
+// STUB: 105 0x4ce380
 char_type BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 {
     NOT_IMPLEMENTED;
@@ -133,7 +133,7 @@ void BurgerKing_67F8B0::sub_4CE650()
 }
 
 // match but the post processor is bugged
-STUB_FUNC(0x4ce6e0)
+// STUB: 105 0x4ce6e0
 void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
     NOT_IMPLEMENTED;
@@ -145,14 +145,14 @@ void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
     }
 }
 
-STUB_FUNC(0x4ce740)
+// STUB: 105 0x4ce740
 s32 BurgerKing_67F8B0::sub_4CE740(HINSTANCE a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4ce880)
+// STUB: 105 0x4ce880
 void BurgerKing_67F8B0::sub_4CE880(HINSTANCE a2)
 {
     NOT_IMPLEMENTED;
@@ -170,20 +170,20 @@ void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
     }
 }
 
-STUB_FUNC(0x4cea40)
+// STUB: 105 0x4cea40
 void BurgerKing_67F8B0::sub_4CEA40(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ceac0)
+// STUB: 105 0x4ceac0
 u32 BurgerKing_67F8B0::sub_4CEAC0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4ced00)
+// STUB: 105 0x4ced00
 void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;

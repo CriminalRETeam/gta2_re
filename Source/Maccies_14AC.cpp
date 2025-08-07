@@ -4,7 +4,7 @@
 
 DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0, 0x67E5D0);
 
-STUB_FUNC(0x4c1c50)
+// STUB: 105 0x4c1c50
 void Generator_2C::sub_4C1C50()
 {
     NOT_IMPLEMENTED;
@@ -29,7 +29,7 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
     field_21 = 1;
 }
 
-STUB_FUNC(0x4c1cd0)
+// STUB: 105 0x4c1cd0
 void Maccies_14AC::sub_4C1CD0(Maccies_14AC* a1)
 {
     NOT_IMPLEMENTED;

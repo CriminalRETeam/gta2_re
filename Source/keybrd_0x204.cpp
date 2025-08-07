@@ -167,7 +167,7 @@ void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
     }
 }
 
-STUB_FUNC(0x4D6000)
+// STUB: 105 0x4D6000
 s32 keybrd_0x204::GetLayout_4D6000()
 {
     NOT_IMPLEMENTED;

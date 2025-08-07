@@ -32,7 +32,7 @@ const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
                         185, 186, 189, 191, 207, 200, 209, 201, 226, 241, 225, 217, 231, 215, 232, 220, 238, 211, 214, 230, 237, 216,
                         229, 227, 228, 236, 239, 213, 223, 221, 212, 235, 218, 219, 222, 224, 240, 233, 242, 234};
 
-STUB_FUNC(0x5B58D0)
+// STUB: 105 0x5B58D0
 u16 text_0x14::sub_5B58D0(u16 a2)
 {
     NOT_IMPLEMENTED;
@@ -157,7 +157,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
     File::Global_Read_4A71C0(field_0_data, size);
 }
 
-STUB_FUNC(0x5B5AD0)
+// STUB: 105 0x5B5AD0
 u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
     NOT_IMPLEMENTED;
@@ -222,7 +222,7 @@ wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
     return pWideStr;
 }
 
-STUB_FUNC(0x5B5BC0)
+// STUB: 105 0x5B5BC0
 s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
@@ -359,7 +359,7 @@ text_0x14::text_0x14()
 // https://decomp.me/scratch/ZNzsG
 // TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
 // seems like the new func we dism is the wrong addr or something
-STUB_FUNC(0x5B6050)
+// STUB: 105 0x5B6050
 text_0x14::~text_0x14()
 {
     NOT_IMPLEMENTED;

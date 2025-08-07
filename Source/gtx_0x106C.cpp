@@ -44,7 +44,7 @@ void sprite_index::sub_5ABAA0(u8 clear_target)
 }
 
 // https://decomp.me/scratch/eBZLh
-STUB_FUNC(0x5abb00)
+// STUB: 105 0x5abb00
 void sprite_index::sub_5ABB00(u8* dst_x)
 {
     NOT_IMPLEMENTED;
@@ -68,14 +68,14 @@ BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
-STUB_FUNC(0x5AA3F0)
+// STUB: 105 0x5AA3F0
 s32 sub_5AA3F0(u16 a2, u8 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5AA460)
+// STUB: 105 0x5AA460
 u16 gtx_0x106C::convert_sprite_pal_5AA460(s32 type, s16 sprite_pal)
 {
     NOT_IMPLEMENTED;
@@ -436,7 +436,7 @@ void gtx_0x106C::create_tile_num_array_5AA950()
 */
 
 // https://decomp.me/scratch/IKsR3
-STUB_FUNC(0x5AA9A0)
+// STUB: 105 0x5AA9A0
 void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
 {
     NOT_IMPLEMENTED;
@@ -498,7 +498,7 @@ void gtx_0x106C::sub_5AA9A0(s32 chunk_size)
     field_5C_cari->field_400_count = idx;
 }
 
-STUB_FUNC(0x5AAB30)
+// STUB: 105 0x5AAB30
 void gtx_0x106C::sub_5AAB30(u32 delx_chunk_size)
 {
     NOT_IMPLEMENTED;
@@ -513,7 +513,7 @@ sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
     return &field_20_sprite_index[idx];
 }
 
-STUB_FUNC(0x5AABF0)
+// STUB: 105 0x5AABF0
 void gtx_0x106C::sub_5AABF0()
 {
     NOT_IMPLEMENTED;
@@ -535,7 +535,7 @@ void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
     }
 }
 
-STUB_FUNC(0x5AAC70)
+// STUB: 105 0x5AAC70
 void gtx_0x106C::sub_5AAC70()
 {
     NOT_IMPLEMENTED;

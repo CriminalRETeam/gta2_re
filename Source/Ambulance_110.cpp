@@ -112,21 +112,21 @@ bool Ambulance_20::sub_4FA820()
     return true;
 }
 
-STUB_FUNC(0x4fa9d0)
+// STUB: 105 0x4fa9d0
 char_type Ambulance_20::sub_4FA9D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4faac0)
+// STUB: 105 0x4faac0
 u32* Ambulance_20::sub_4FAAC0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4fb330)
+// STUB: 105 0x4fb330
 void Ambulance_20::sub_4FB330()
 {
     NOT_IMPLEMENTED;
@@ -151,7 +151,7 @@ void Ambulance_110::init_4FA310()
     }
 }
 
-STUB_FUNC(0x4fa330)
+// STUB: 105 0x4fa330
 char_type Ambulance_110::sub_4FA330(Ped* a2)
 {
     NOT_IMPLEMENTED;
@@ -185,7 +185,7 @@ Ambulance_20* Ambulance_110::sub_4FA4B0()
     return 0;
 }
 
-STUB_FUNC(0x4fa500)
+// STUB: 105 0x4fa500
 void Ambulance_110::sub_4FA500()
 {
     NOT_IMPLEMENTED;

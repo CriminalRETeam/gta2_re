@@ -52,7 +52,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     sub_56BD20();
 }
 
-STUB_FUNC(0x56B810)
+// STUB: 105 0x56B810
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
     NOT_IMPLEMENTED;
@@ -61,7 +61,7 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 }
 
 // https://decomp.me/scratch/oIJET
-STUB_FUNC(0x56BB10)
+// STUB: 105 0x56BB10
 void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
 {
     NOT_IMPLEMENTED;
@@ -91,7 +91,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     sub_56BA60(slot_idx);
 }
 
-STUB_FUNC(0x56C010)
+// STUB: 105 0x56C010
 void jolly_poitras_0x2BC0::sub_56C010()
 {
     NOT_IMPLEMENTED;
@@ -179,7 +179,7 @@ void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x56BA60)
+// STUB: 105 0x56BA60
 void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
 {
     NOT_IMPLEMENTED;
@@ -272,7 +272,7 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
     }
 }
 
-STUB_FUNC(0x56BF20)
+// STUB: 105 0x56BF20
 void jolly_poitras_0x2BC0::sub_56BF20()
 {
     NOT_IMPLEMENTED;
@@ -394,7 +394,7 @@ void high_score_table_0xF0::Init_56B520()
     }
 }
 
-STUB_FUNC(0x56B550)
+// STUB: 105 0x56B550
 char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     NOT_IMPLEMENTED;

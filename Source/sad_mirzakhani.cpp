@@ -106,14 +106,14 @@ u16 sad_mirzakhani::next_free_idx_431E90()
     return GTA2_COUNTOF(field_0);
 }
 
-STUB_FUNC(0x431EC0);
+// STUB: 105 0x431EC0;
 u16 sad_mirzakhani::find_431EC0(u16 idx, s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x431FE0);
+// STUB: 105 0x431FE0;
 u16 sad_mirzakhani::alloc_next_431FE0(s16 f_4,
                                       s32 f_8,
                                       s32 f_c,
@@ -181,7 +181,7 @@ s16 sad_mirzakhani::sub_432080(u16 idx)
     }
 }
 
-STUB_FUNC(0x4320D0);
+// STUB: 105 0x4320D0;
 void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s32 f_14, s32 f_18, gmp_map_zone* pZone)
 {
     NOT_IMPLEMENTED;
@@ -205,21 +205,21 @@ void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s
     }
 }
 
-STUB_FUNC(0x432170);
+// STUB: 105 0x432170;
 s8 sad_mirzakhani::sub_432170(int a2, int a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x432240);
+// STUB: 105 0x432240;
 s8 sad_mirzakhani::sub_432240(int a2, int a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x432300);
+// STUB: 105 0x432300;
 bool sad_mirzakhani::sub_432300(int a2, int a3)
 {
     NOT_IMPLEMENTED;

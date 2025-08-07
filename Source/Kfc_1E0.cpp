@@ -41,7 +41,7 @@ void Kfc_30::sub_5CBC40(Ped* a2)
     field_4 = field_8->field_2C_ped_leader;
 }
 
-STUB_FUNC(0x5cbc60)
+// STUB: 105 0x5cbc60
 bool Kfc_30::sub_5CBC60()
 {
     NOT_IMPLEMENTED;
@@ -56,26 +56,26 @@ bool Kfc_30::sub_5CBC60()
     return true;
 }
 
-STUB_FUNC(0x5cbc90)
+// STUB: 105 0x5cbc90
 char_type Kfc_30::sub_5CBC90()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5cbd50)
+// STUB: 105 0x5cbd50
 void Kfc_30::sub_5CBD50()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5cc1c0)
+// STUB: 105 0x5cc1c0
 void Kfc_30::sub_5CC1C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5cc480)
+// STUB: 105 0x5cc480
 char_type Kfc_30::sub_5CC480()
 {
     NOT_IMPLEMENTED;

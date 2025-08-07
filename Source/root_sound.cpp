@@ -37,7 +37,7 @@ char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
 
-STUB_FUNC(0x40F010)
+// STUB: 105 0x40F010
 void root_sound::sub_40F010()
 {
     NOT_IMPLEMENTED;
@@ -51,7 +51,7 @@ void root_sound::sub_40F020()
     gSound_obj_66F680.sub_57EA10();
 }
 
-STUB_FUNC(0x40F030)
+// STUB: 105 0x40F030
 char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
@@ -60,7 +60,7 @@ char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
     return 0;
 }
 
-STUB_FUNC(0x40F050)
+// STUB: 105 0x40F050
 char_type root_sound::sub_40F050(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -69,7 +69,7 @@ char_type root_sound::sub_40F050(s32 a1, s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x40F070)
+// STUB: 105 0x40F070
 void root_sound::sub_40F070(char_type a1)
 {
     NOT_IMPLEMENTED;

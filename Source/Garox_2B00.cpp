@@ -43,7 +43,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 
-STUB_FUNC(0x5cfe40)
+// STUB: 105 0x5cfe40
 void Garox_13C0_sub::sub_5CFE40()
 {
     NOT_IMPLEMENTED;
@@ -60,7 +60,7 @@ void Garox_1_v2::sub_5D56B0()
     }
 }
 
-STUB_FUNC(0x5d56d0)
+// STUB: 105 0x5d56d0
 void Garox_1_v2::sub_5D56D0()
 {
     NOT_IMPLEMENTED;
@@ -83,7 +83,7 @@ void Garox_1_v2::sub_5D5760()
     }
 }
 
-STUB_FUNC(0x5d5770)
+// STUB: 105 0x5d5770
 void Garox_1_v2::sub_5D5770(u8* a2, u8* a3)
 {
     NOT_IMPLEMENTED;
@@ -144,7 +144,7 @@ char_type Garox_2A25_sub::sub_5D15E0(s32 action, Player* pPlayer)
     return 0;
 }
 
-STUB_FUNC(0x5d16b0)
+// STUB: 105 0x5d16b0
 void Garox_2A25_sub::sub_5D16B0()
 {
     NOT_IMPLEMENTED;
@@ -210,7 +210,7 @@ char_type Garox_12EC_sub::sub_5D13C0(s32 action, Player* pPlayer)
     return 0;
 }
 
-STUB_FUNC(0x5d1430)
+// STUB: 105 0x5d1430
 void Garox_12EC_sub::sub_5D1430()
 {
     NOT_IMPLEMENTED;
@@ -266,7 +266,7 @@ void Garox_4::sub_5CF6B0()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d63b0)
+// STUB: 105 0x5d63b0
 void Garox_12E4_sub::sub_5D63B0()
 {
     NOT_IMPLEMENTED;
@@ -274,19 +274,19 @@ void Garox_12E4_sub::sub_5D63B0()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1850)
+// STUB: 105 0x5d1850
 void Hud_Message_1C8::sub_5D1850()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1860)
+// STUB: 105 0x5d1860
 void Hud_Message_1C8::sub_5D1860()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1940)
+// STUB: 105 0x5d1940
 void Hud_Message_1C8::sub_5D1940()
 {
     NOT_IMPLEMENTED;
@@ -323,7 +323,7 @@ Hud_Message_1C8::Hud_Message_1C8()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d5c80)
+// STUB: 105 0x5d5c80
 void Garox_1118_sub::sub_5D5C80()
 {
     NOT_IMPLEMENTED;
@@ -348,13 +348,13 @@ void Garox_1118_sub::sub_5D6290()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5cf730)
+// STUB: 105 0x5cf730
 void Garox_110C_sub::sub_5CF730()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5cf910)
+// STUB: 105 0x5cf910
 void Garox_110C_sub::sub_5CF910()
 {
     NOT_IMPLEMENTED;
@@ -362,7 +362,7 @@ void Garox_110C_sub::sub_5CF910()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0260)
+// STUB: 105 0x5d0260
 void Garox_1108_sub::sub_5D0260()
 {
     NOT_IMPLEMENTED;
@@ -379,7 +379,7 @@ void Garox_1::sub_5D53E0()
     }
 }
 
-STUB_FUNC(0x5d5420)
+// STUB: 105 0x5d5420
 void Garox_1::sub_5D5420()
 {
     NOT_IMPLEMENTED;
@@ -413,7 +413,7 @@ Garox_1::Garox_1()
 // ----------------------------------------------------
 
 // https://decomp.me/scratch/vYRH9
-STUB_FUNC(0x5cf970)
+// STUB: 105 0x5cf970
 void Garox_27B5_sub::sub_5CF970()
 {
     NOT_IMPLEMENTED;
@@ -468,7 +468,7 @@ void Garox_27B5_sub::sub_5CF970()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5cfa70)
+// STUB: 105 0x5cfa70
 void Garox_107C_sub::sub_5CFA70()
 {
     NOT_IMPLEMENTED;
@@ -486,7 +486,7 @@ void Garox_107C_sub::Empty_5CFE30()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0050)
+// STUB: 105 0x5d0050
 void Hud_CopHead_C::sub_5D0050(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -521,7 +521,7 @@ void Hud_CopHead_C_Array::sub_5D00B0()
     }
 }
 
-STUB_FUNC(0x5d0110)
+// STUB: 105 0x5d0110
 void Hud_CopHead_C_Array::sub_5D0110()
 {
     NOT_IMPLEMENTED;
@@ -545,13 +545,13 @@ void Hud_CopHead_C_Array::sub_5D0210()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1b10)
+// STUB: 105 0x5d1b10
 void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displayTime)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1d00)
+// STUB: 105 0x5d1d00
 void Garox_C4::sub_5D1D00()
 {
     NOT_IMPLEMENTED;
@@ -652,7 +652,7 @@ void Garox_1700_L::sub_5D2050()
     }
 }
 
-STUB_FUNC(0x5d2280)
+// STUB: 105 0x5d2280
 Garox_1700_L::Garox_1700_L()
 {
     NOT_IMPLEMENTED;
@@ -688,27 +688,27 @@ void Hud_Pager_C::sub_5D2320()
     }
 }
 
-STUB_FUNC(0x5d2380)
+// STUB: 105 0x5d2380
 void Hud_Pager_C::sub_5D2380(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d2680)
+// STUB: 105 0x5d2680
 s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d2ab0)
+// STUB: 105 0x5d2ab0
 s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3040)
+// STUB: 105 0x5d3040
 void Hud_Pager_C_Array::sub_5D3040()
 {
     NOT_IMPLEMENTED;
@@ -739,14 +739,14 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
     return -1;
 }
 
-STUB_FUNC(0x5d3220)
+// STUB: 105 0x5d3220
 s32 Hud_Pager_C_Array::sub_5D3220(u32& a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3280)
+// STUB: 105 0x5d3280
 s32 Hud_Pager_C_Array::sub_5D3280(s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -793,21 +793,21 @@ void Hud_Arrow_7C::sub_5D0510(s32 a2)
     field_18.field_28 = a2;
 }
 
-STUB_FUNC(0x5d0530)
+// STUB: 105 0x5d0530
 char_type Hud_Arrow_7C::sub_5D0530()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d0620)
+// STUB: 105 0x5d0620
 char_type Hud_Arrow_7C::sub_5D0620()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d0850)
+// STUB: 105 0x5d0850
 s32 Hud_Arrow_7C::sub_5D0850()
 {
     NOT_IMPLEMENTED;
@@ -828,13 +828,13 @@ void Hud_Arrow_7C::sub_5D0C60()
     }
 }
 
-STUB_FUNC(0x5d0c90)
+// STUB: 105 0x5d0c90
 void Hud_Arrow_7C::sub_5D0C90()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d0dc0)
+// STUB: 105 0x5d0dc0
 void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
 {
     NOT_IMPLEMENTED;
@@ -911,20 +911,20 @@ Hud_Arrow_7C::Hud_Arrow_7C()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0e40)
+// STUB: 105 0x5d0e40
 char_type Hud_Arrow_7C_Array::sub_5D0E40(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d0e90)
+// STUB: 105 0x5d0e90
 void Hud_Arrow_7C_Array::sub_5D0E90()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d0ef0)
+// STUB: 105 0x5d0ef0
 Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
 {
     NOT_IMPLEMENTED;
@@ -1017,7 +1017,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
     return pRet;
 }
 
-STUB_FUNC(0x5d10b0)
+// STUB: 105 0x5d10b0
 char_type* Hud_Arrow_7C_Array::sub_5D10B0()
 {
     NOT_IMPLEMENTED;
@@ -1042,7 +1042,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     return 0;
 }
 
-STUB_FUNC(0x5d1110)
+// STUB: 105 0x5d1110
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
     NOT_IMPLEMENTED;
@@ -1070,14 +1070,14 @@ void Garox_1E34_L::sub_5D3330()
     field_6F8_prev_brief = pGarox_18;
 }
 
-STUB_FUNC(0x5d3350)
+// STUB: 105 0x5d3350
 char_type* Garox_1E34_L::sub_5D3350()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3370)
+// STUB: 105 0x5d3370
 s32 Garox_1E34_L::sub_5D3370()
 {
     NOT_IMPLEMENTED;
@@ -1098,21 +1098,21 @@ void Garox_1E34_L::sub_5D33A0()
     pBrief->field_C->field_C = 0;
 }
 
-STUB_FUNC(0x5d33f0)
+// STUB: 105 0x5d33f0
 s32 Garox_1E34_L::sub_5D33F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3470)
+// STUB: 105 0x5d3470
 size_t Garox_1E34_L::sub_5D3470()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3680)
+// STUB: 105 0x5d3680
 char_type Garox_1E34_L::sub_5D3680(s16 a1)
 {
     NOT_IMPLEMENTED;
@@ -1129,20 +1129,20 @@ void Garox_1E34_L::sub_5D39D0()
     field_6F8_prev_brief->field_10 = 0;
 }
 
-STUB_FUNC(0x5d3b80)
+// STUB: 105 0x5d3b80
 void Garox_1E34_L::sub_5D3B80()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d3f10)
+// STUB: 105 0x5d3f10
 s32 Garox_1E34_L::sub_5D3F10(s32 a2, const char_type* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d4400)
+// STUB: 105 0x5d4400
 s32 Garox_1E34_L::sub_5D4400(s32 a2, const char_type* a3)
 {
     NOT_IMPLEMENTED;
@@ -1206,7 +1206,7 @@ void Garox_1E34_L::sub_5D4850()
     }
 }
 
-STUB_FUNC(0x5d4890)
+// STUB: 105 0x5d4890
 s32 Garox_1E34_L::sub_5D4890(s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -1235,7 +1235,7 @@ Garox_1E34_L::Garox_1E34_L()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d5900)
+// STUB: 105 0x5d5900
 void Hud_MapZone_98::sub_5D5900()
 {
     NOT_IMPLEMENTED;
@@ -1251,7 +1251,7 @@ void Hud_MapZone_98::sub_5D5AD0()
 }
 
 // TODO: Thiscall and part of gmp_map_zone?
-STUB_FUNC(0x4DEF00)
+// STUB: 105 0x4DEF00
 EXPORT wchar_t* __fastcall sub_4DEF00(gmp_map_zone* pZone)
 {
     NOT_IMPLEMENTED;
@@ -1281,7 +1281,7 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
     }
 }
 
-STUB_FUNC(0x5d5b60)
+// STUB: 105 0x5d5b60
 void Hud_MapZone_98::sub_5D5B60()
 {
     NOT_IMPLEMENTED;
@@ -1317,7 +1317,7 @@ Hud_2B00::~Hud_2B00()
 {
 }
 
-STUB_FUNC(0x5d4a10)
+// STUB: 105 0x5d4a10
 void Hud_2B00::sub_5D4A10()
 {
     NOT_IMPLEMENTED;
@@ -1388,7 +1388,7 @@ void Hud_2B00::DrawGui_5D6860()
     }
 }
 
-STUB_FUNC(0x5d69c0)
+// STUB: 105 0x5d69c0
 void Hud_2B00::sub_5D69C0()
 {
     NOT_IMPLEMENTED;
@@ -1440,7 +1440,7 @@ void Hud_2B00::sub_5D6AB0()
     field_1080.sub_5D53E0();
 }
 
-STUB_FUNC(0x5d6b00)
+// STUB: 105 0x5d6b00
 s16 Hud_2B00::sub_5D6B00()
 {
     NOT_IMPLEMENTED;
@@ -1476,7 +1476,7 @@ bool Hud_2B00::sub_5D6CB0(s32 a1)
     return field_12EC_sub.sub_5D15A0(a1);
 }
 
-STUB_FUNC(0x5d6cd0)
+// STUB: 105 0x5d6cd0
 Hud_2B00::Hud_2B00()
 {
     NOT_IMPLEMENTED;

@@ -55,13 +55,13 @@ static inline bool is_car_weapon(s32& weapon_idx)
     return weapon_idx >= 15 && weapon_idx <= 27;
 }
 
-STUB_FUNC(0x503200)
+// STUB: 105 0x503200
 void miss2_0x11C::sub_503200()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x503410)
+// STUB: 105 0x503410
 char_type miss2_0x11C::sub_503410(u32 a1)
 {
     NOT_IMPLEMENTED;
@@ -75,7 +75,7 @@ void miss2_0x11C::sub_5035B0()
     field_11A = word_6212EE++;
 }
 
-STUB_FUNC(0x5035d0)
+// STUB: 105 0x5035d0
 void miss2_0x11C::sub_5035D0()
 {
     NOT_IMPLEMENTED;
@@ -476,7 +476,7 @@ void miss2_0x11C::SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd)
     pCmd->field_8_u32 = 0;
 }
 
-STUB_FUNC(0x5041c0)
+// STUB: 105 0x5041c0
 s32 miss2_0x11C::SCRCMD_CRANE_5041C0(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -559,26 +559,26 @@ void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER
     a2->field_8_crusher = gSnooky_94_67A830->sub_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
 }
 
-STUB_FUNC(0x5045d0)
+// STUB: 105 0x5045d0
 s32 miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x504660)
+// STUB: 105 0x504660
 void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x504710)
+// STUB: 105 0x504710
 void miss2_0x11C::sub_504710(s32 a1)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5047c0)
+// STUB: 105 0x5047c0
 s32* miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0(s32 a1, s16* a2)
 {
     NOT_IMPLEMENTED;
@@ -917,7 +917,7 @@ void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1)
     }
 }
 
-STUB_FUNC(0x504ee0)
+// STUB: 105 0x504ee0
 void miss2_0x11C::sub_504EE0(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
@@ -1083,20 +1083,20 @@ void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
     gfrosty_pasteur_6F8060->field_340_car_list = &pCmd->field_8_u32;
 }
 
-STUB_FUNC(0x505790)
+// STUB: 105 0x505790
 s32 miss2_0x11C::sub_505790(u16 a1)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x505b10)
+// STUB: 105 0x505b10
 void miss2_0x11C::sub_505B10(u16 idx)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x505ea0)
+// STUB: 105 0x505ea0
 u16 miss2_0x11C::sub_505EA0(u16 idx)
 {
     NOT_IMPLEMENTED;
@@ -1156,7 +1156,7 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_506140(u16* a1)
     }
 }
 
-STUB_FUNC(0x5061c0)
+// STUB: 105 0x5061c0
 void miss2_0x11C::ExecOpCode_5061C0()
 {
     NOT_IMPLEMENTED;
@@ -1318,19 +1318,19 @@ char miss2_0x11C::sub_506BC0(u32 a1)
     }
 }
 
-STUB_FUNC(0x506d60)
+// STUB: 105 0x506d60
 void miss2_0x11C::sub_506D60()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x506ed0)
+// STUB: 105 0x506ed0
 void miss2_0x11C::sub_506ED0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x507110)
+// STUB: 105 0x507110
 void miss2_0x11C::sub_507110()
 {
     NOT_IMPLEMENTED;
@@ -1468,7 +1468,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x508280)
+// STUB: 105 0x508280
 void miss2_0x11C::sub_508280()
 {
     NOT_IMPLEMENTED;
@@ -1497,7 +1497,7 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x5086f0)
+// STUB: 105 0x5086f0
 void miss2_0x11C::sub_5086F0()
 {
     NOT_IMPLEMENTED;
@@ -1567,7 +1567,7 @@ void miss2_0x11C::SCRCMD_CHECK_HEALTH_509030()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509180)
+// STUB: 105 0x509180
 void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 {
     NOT_IMPLEMENTED;
@@ -1861,7 +1861,7 @@ void miss2_0x11C::sub_509990()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509a70)
+// STUB: 105 0x509a70
 void miss2_0x11C::SCRCMD_CAR_IN_AREA_509A70()
 {
     NOT_IMPLEMENTED;
@@ -2072,7 +2072,7 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x509fd0)
+// STUB: 105 0x509fd0
 void miss2_0x11C::sub_509FD0()
 {
     NOT_IMPLEMENTED;
@@ -2287,7 +2287,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_BOTH_50A6E0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a760)
+// STUB: 105 0x50a760
 void miss2_0x11C::sub_50A760()
 {
     NOT_IMPLEMENTED;
@@ -2340,7 +2340,7 @@ void miss2_0x11C::sub_50A980() //  DELAY
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50a9e0)
+// STUB: 105 0x50a9e0
 void miss2_0x11C::sub_50A9E0(u16 idx)
 {
     NOT_IMPLEMENTED;
@@ -2421,13 +2421,13 @@ void miss2_0x11C::sub_50ACF0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50aef0)
+// STUB: 105 0x50aef0
 void miss2_0x11C::sub_50AEF0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b0e0)
+// STUB: 105 0x50b0e0
 void miss2_0x11C::sub_50B0E0()
 {
     NOT_IMPLEMENTED;
@@ -2441,37 +2441,37 @@ void miss2_0x11C::SCRCMD_SET_AMBIENT_50B150()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b180)
+// STUB: 105 0x50b180
 void miss2_0x11C::sub_50B180()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b230)
+// STUB: 105 0x50b230
 void miss2_0x11C::SCRCMD_CHECK_PHONE_50B230()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b2c0)
+// STUB: 105 0x50b2c0
 void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b360)
+// STUB: 105 0x50b360
 void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b3d0)
+// STUB: 105 0x50b3d0
 void miss2_0x11C::sub_50B3D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b440)
+// STUB: 105 0x50b440
 void miss2_0x11C::SCRCMD_CAR_DRIVE_AWAY_50B440()
 {
     NOT_IMPLEMENTED;
@@ -2505,31 +2505,31 @@ void miss2_0x11C::SCRCMD_GET_CAR_FROM_CRANE_50B470()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b4f0)
+// STUB: 105 0x50b4f0
 void miss2_0x11C::sub_50B4F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b5a0)
+// STUB: 105 0x50b5a0
 void miss2_0x11C::sub_50B5A0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b600)
+// STUB: 105 0x50b600
 void miss2_0x11C::sub_50B600()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b670)
+// STUB: 105 0x50b670
 void miss2_0x11C::SCRCMD_SET_GANG_INFO1_50B670()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b690)
+// STUB: 105 0x50b690
 void miss2_0x11C::sub_50B690()
 {
     NOT_IMPLEMENTED;
@@ -2557,19 +2557,19 @@ void miss2_0x11C::SCRCMD_CHECK_SCORE_50B6F0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b760)
+// STUB: 105 0x50b760
 void miss2_0x11C::SCRCMD_GET_SCORE_50B760()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b7d0)
+// STUB: 105 0x50b7d0
 void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b8b0)
+// STUB: 105 0x50b8b0
 void miss2_0x11C::sub_50B8B0()
 {
     NOT_IMPLEMENTED;
@@ -2615,13 +2615,13 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ba30)
+// STUB: 105 0x50ba30
 void miss2_0x11C::sub_50BA30()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ba70)
+// STUB: 105 0x50ba70
 void miss2_0x11C::sub_50BA70()
 {
     NOT_IMPLEMENTED;
@@ -2645,37 +2645,37 @@ void miss2_0x11C::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bb80)
+// STUB: 105 0x50bb80
 void miss2_0x11C::sub_50BB80()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bbd0)
+// STUB: 105 0x50bbd0
 void miss2_0x11C::sub_50BBD0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bc60)
+// STUB: 105 0x50bc60
 void miss2_0x11C::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bcd0)
+// STUB: 105 0x50bcd0
 void miss2_0x11C::SCRCMD_SET_MIN_ALIVE_50BCD0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bd10)
+// STUB: 105 0x50bd10
 void miss2_0x11C::sub_50BD10()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50bdc0)
+// STUB: 105 0x50bdc0
 void miss2_0x11C::sub_50BDC0()
 {
     NOT_IMPLEMENTED;
@@ -2735,13 +2735,13 @@ void miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50bf40)
+// STUB: 105 0x50bf40
 void miss2_0x11C::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50c040)
+// STUB: 105 0x50c040
 void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
 {
     NOT_IMPLEMENTED;
@@ -2955,7 +2955,7 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c5a0)
+// STUB: 105 0x50c5a0
 void miss2_0x11C::sub_50C5A0()
 {
     NOT_IMPLEMENTED;
@@ -2994,13 +2994,13 @@ void miss2_0x11C::SCRCMD_BEEN_PUNCHED_BY_50C760()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c7d0)
+// STUB: 105 0x50c7d0
 void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50c8a0)
+// STUB: 105 0x50c8a0
 void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
     NOT_IMPLEMENTED;
@@ -3057,31 +3057,31 @@ void miss2_0x11C::sub_50CA70()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50cab0)
+// STUB: 105 0x50cab0
 void miss2_0x11C::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50cb20)
+// STUB: 105 0x50cb20
 void miss2_0x11C::SCRCMD_ROAD_ON_OFF_50CB20()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50cb70)
+// STUB: 105 0x50cb70
 void miss2_0x11C::sub_50CB70()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ccb0)
+// STUB: 105 0x50ccb0
 void miss2_0x11C::sub_50CCB0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50cd30)
+// STUB: 105 0x50cd30
 void miss2_0x11C::sub_50CD30()
 {
     NOT_IMPLEMENTED;
@@ -3121,50 +3121,50 @@ void miss2_0x11C::SCRCMD_PARK_FINISHED_50CE10()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50ce50)
+// STUB: 105 0x50ce50
 void miss2_0x11C::sub_50CE50(s32 a2, u16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50ce90)
+// STUB: 105 0x50ce90
 void miss2_0x11C::SCRCMD_PHONE_TEMPLATE_50CE90()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d200)
+// STUB: 105 0x50d200
 void miss2_0x11C::SCRCMD_REMOTE_CONTROL_50D200()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d2e0)
+// STUB: 105 0x50d2e0
 s32 miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x50d340)
+// STUB: 105 0x50d340
 void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d3c0)
+// STUB: 105 0x50d3c0
 void miss2_0x11C::sub_50D3C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d680)
+// STUB: 105 0x50d680
 void miss2_0x11C::SCRCMD_CHANGE_CAR_LOCK_50D680()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50d870)
+// STUB: 105 0x50d870
 void miss2_0x11C::SCRCMD_CHANGE_INTENSITY_50D870()
 {
     NOT_IMPLEMENTED;
@@ -3181,32 +3181,32 @@ void miss2_0x11C::SCRCMD_CHANGE_COLOUR_50D900()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50d9a0)
+// STUB: 105 0x50d9a0
 void miss2_0x11C::SCRCMD_CHANGE_RADIUS_50D9A0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50da50)
+// STUB: 105 0x50da50
 void miss2_0x11C::sub_50DA50()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50db70)
+// STUB: 105 0x50db70
 void miss2_0x11C::sub_50DB70()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50dd00)
+// STUB: 105 0x50dd00
 void miss2_0x11C::sub_50DD00()
 {
     NOT_IMPLEMENTED;
 }
 
 // matches on decompme: https://decomp.me/scratch/y8gtV
-STUB_FUNC(0x50dd90)
+// STUB: 105 0x50dd90
 void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 {
     SCR_SET_DIR_OF_TVVAN* pCmd = (SCR_SET_DIR_OF_TVVAN*)gBasePtr_6F8070;
@@ -3217,7 +3217,7 @@ void miss2_0x11C::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50de00)
+// STUB: 105 0x50de00
 void miss2_0x11C::SCRCMD_POINT_ONSCREEN_50DE00()
 {
     NOT_IMPLEMENTED;
@@ -3257,37 +3257,37 @@ void miss2_0x11C::SCRCMD_CHAR_SUNK_50DEB0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50df10)
+// STUB: 105 0x50df10
 void miss2_0x11C::sub_50DF10()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e0b0)
+// STUB: 105 0x50e0b0
 void miss2_0x11C::sub_50E0B0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e120)
+// STUB: 105 0x50e120
 void miss2_0x11C::sub_50E120()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e150)
+// STUB: 105 0x50e150
 void miss2_0x11C::sub_50E150()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e190)
+// STUB: 105 0x50e190
 void miss2_0x11C::sub_50E190()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e360)
+// STUB: 105 0x50e360
 void miss2_0x11C::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
     NOT_IMPLEMENTED;
@@ -3318,43 +3318,43 @@ void miss2_0x11C::SCRCMD_CHAR_ARRESTED_50E4A0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e4f0)
+// STUB: 105 0x50e4f0
 void miss2_0x11C::sub_50E4F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e610)
+// STUB: 105 0x50e610
 void miss2_0x11C::sub_50E610()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e730)
+// STUB: 105 0x50e730
 void miss2_0x11C::sub_50E730()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e780)
+// STUB: 105 0x50e780
 void miss2_0x11C::sub_50E780()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e7f0)
+// STUB: 105 0x50e7f0
 void miss2_0x11C::sub_50E7F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e820)
+// STUB: 105 0x50e820
 void miss2_0x11C::sub_50E820()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e900)
+// STUB: 105 0x50e900
 void miss2_0x11C::sub_50E900()
 {
     NOT_IMPLEMENTED;
@@ -3636,13 +3636,13 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
 }
 
-STUB_FUNC(0x50f060)
+// STUB: 105 0x50f060
 void miss2_0x11C::SCRCMD_CHAR_INTO_CAR_50F060()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f150)
+// STUB: 105 0x50f150
 void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
 {
     NOT_IMPLEMENTED;
@@ -3776,7 +3776,7 @@ void miss2_0x11C::SCRCMD_PED_GRAPHIC_50F550()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f5e0)
+// STUB: 105 0x50f5e0
 void miss2_0x11C::sub_50F5E0()
 {
     NOT_IMPLEMENTED;
@@ -3797,19 +3797,19 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50f7b0)
+// STUB: 105 0x50f7b0
 void miss2_0x11C::sub_50F7B0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f900)
+// STUB: 105 0x50f900
 void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f940)
+// STUB: 105 0x50f940
 void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 {
     NOT_IMPLEMENTED;
@@ -3843,13 +3843,13 @@ void miss2_0x11C::sub_50FA00() // SCRCMD_KILL_char_type
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fa40)
+// STUB: 105 0x50fa40
 void miss2_0x11C::SCRCMD_SET_SHADING_LEV_50FA40()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fa70)
+// STUB: 105 0x50fa70
 void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
 {
     NOT_IMPLEMENTED;
@@ -3925,7 +3925,7 @@ void miss2_0x11C::sub_50FC20() // SCRCMD_SET_FAV_CAR
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fc60)
+// STUB: 105 0x50fc60
 void miss2_0x11C::sub_50FC60()
 {
     NOT_IMPLEMENTED;
@@ -4031,13 +4031,13 @@ void miss2_0x11C::sub_510090()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x510100)
+// STUB: 105 0x510100
 void miss2_0x11C::sub_510100()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x510280)
+// STUB: 105 0x510280
 void miss2_0x11C::sub_510280()
 {
     NOT_IMPLEMENTED;
@@ -4954,7 +4954,7 @@ miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
     return v4;
 }
 
-STUB_FUNC(0x5119a0)
+// STUB: 105 0x5119a0
 s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
 {
     NOT_IMPLEMENTED;
@@ -4980,7 +4980,7 @@ miss2_0x11C::miss2_0x11C()
     field_118 = 0;
 }
 
-STUB_FUNC(0x511cd0)
+// STUB: 105 0x511cd0
 void miss2_0x11C::sub_511CD0()
 {
     NOT_IMPLEMENTED;
@@ -4996,7 +4996,7 @@ miss2_0x11C::~miss2_0x11C()
     field_0 = 0;
 }
 
-STUB_FUNC(0x5131C0)
+// STUB: 105 0x5131C0
 Miss2_8EC::~Miss2_8EC()
 {
     this->field_0 = 0;

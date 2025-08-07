@@ -9,7 +9,7 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
-STUB_FUNC(0x4D9620)
+// STUB: 105 0x4D9620
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     NOT_IMPLEMENTED;
@@ -94,7 +94,7 @@ struct Coord2
 
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
 
-STUB_FUNC(0x4A07C0)
+// STUB: 105 0x4A07C0
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
     NOT_IMPLEMENTED;

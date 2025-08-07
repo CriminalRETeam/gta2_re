@@ -18,7 +18,7 @@ Miss2_25C::Miss2_25C()
     }
 }
 
-STUB_FUNC(0x502dc0)
+// STUB: 105 0x502dc0
 void Miss2_25C::sub_502DC0()
 {
     NOT_IMPLEMENTED;

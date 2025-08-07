@@ -25,7 +25,7 @@ char_type Orca_2FD4::sub_5540E0(char_type a2, char_type a3, char_type a4, char_t
     return sub_554110(a5, a6);
 }
 
-STUB_FUNC(0x554110)
+// STUB: 105 0x554110
 char_type Orca_2FD4::sub_554110(char_type a2, char_type a3)
 {
     NOT_IMPLEMENTED;
@@ -63,28 +63,28 @@ void Orca_2FD4::sub_554620(s32 a2)
     }
 }
 
-STUB_FUNC(0x554640)
+// STUB: 105 0x554640
 char_type Orca_2FD4::sub_554640()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x554710)
+// STUB: 105 0x554710
 char_type Orca_2FD4::sub_554710()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5548c0)
+// STUB: 105 0x5548c0
 char_type Orca_2FD4::sub_5548C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x554920)
+// STUB: 105 0x554920
 char_type Orca_2FD4::sub_554920()
 {
     NOT_IMPLEMENTED;
@@ -97,14 +97,14 @@ s32 Orca_2FD4::sub_554A90(Ped* a2)
     return field_3C.field_0_pOwner->field_0_char_ped == a2;
 }
 
-STUB_FUNC(0x554ab0)
+// STUB: 105 0x554ab0
 char_type Orca_2FD4::sub_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a8, u8 a9, s32 a10, u8* a11)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5552b0)
+// STUB: 105 0x5552b0
 char_type Orca_2FD4::sub_5552B0(char_type a2, char_type* a3, char_type* a4, char_type* a5, char_type a6)
 {
     NOT_IMPLEMENTED;

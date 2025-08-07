@@ -24,7 +24,7 @@ char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
     }
 }
 
-STUB_FUNC(0x578030)
+// STUB: 105 0x578030
 void Train_58::sub_578030()
 {
     NOT_IMPLEMENTED;
@@ -197,13 +197,13 @@ void Train_58::sub_578360()
     }
 }
 
-STUB_FUNC(0x578390)
+// STUB: 105 0x578390
 void Train_58::sub_578390()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x578670)
+// STUB: 105 0x578670
 u8 Train_58::sub_578670()
 {
     NOT_IMPLEMENTED;
@@ -292,7 +292,7 @@ TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 }
 
 // NOTE: Declared out of order
-STUB_FUNC(0x578820)
+// STUB: 105 0x578820
 void TrainStation_34::sub_578820(u8* a2)
 {
     NOT_IMPLEMENTED;
@@ -314,41 +314,41 @@ void TrainStation_34::sub_578820(u8* a2)
     }
 }
 
-STUB_FUNC(0x578860)
+// STUB: 105 0x578860
 void Sero_181C::sub_578860()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5793e0)
+// STUB: 105 0x5793e0
 char_type Sero_181C::sub_5793E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579440)
+// STUB: 105 0x579440
 gmp_map_zone* Sero_181C::sub_579440()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5794b0)
+// STUB: 105 0x5794b0
 gmp_map_zone* Sero_181C::sub_5794B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5799b0)
+// STUB: 105 0x5799b0
 char_type* Sero_181C::sub_5799B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579a30)
+// STUB: 105 0x579a30
 void Sero_181C::sub_579A30(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
@@ -437,20 +437,20 @@ Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
     return NULL;
 }
 
-STUB_FUNC(0x579b90)
+// STUB: 105 0x579b90
 bool Sero_181C::sub_579B90(Car_BC* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579ca0)
+// STUB: 105 0x579ca0
 void Sero_181C::sub_579CA0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57a7a0)
+// STUB: 105 0x57a7a0
 void Sero_181C::sub_57A7A0()
 {
     NOT_IMPLEMENTED;
@@ -486,14 +486,14 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x57b5c0)
+// STUB: 105 0x57b5c0
 Train_58* Sero_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x57b6a0)
+// STUB: 105 0x57b6a0
 Train_58* Sero_181C::sub_57B6A0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;

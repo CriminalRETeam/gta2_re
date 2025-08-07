@@ -109,7 +109,7 @@ s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
     return -5;
 }
 
-STUB_FUNC(0x430a30)
+// STUB: 105 0x430a30
 char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
                                                    size_t input_size,
                                                    CarInfo_48* output,
@@ -285,7 +285,7 @@ CarInfo_2C::~CarInfo_2C()
 {
 }
 
-STUB_FUNC(0x4542A0)
+// STUB: 105 0x4542A0
 void CarInfo_2C::sub_4542A0(s32 idx)
 {
     NOT_IMPLEMENTED;
@@ -344,7 +344,7 @@ CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
 
 // This function has a full match, but it's waiting until sub_4542A0 has matched.
 // Or moved to a different file. While it's empty, this match will fail because of a single intruction
-STUB_FUNC(0x454850)
+// STUB: 105 0x454850
 void CarInfo_808::sub_454850()
 {
     NOT_IMPLEMENTED;

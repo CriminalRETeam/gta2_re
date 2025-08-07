@@ -28,7 +28,7 @@ void Taxi_4::PopAll_457BC0()
 }
 
 // https://decomp.me/scratch/7fYdj
-STUB_FUNC(0x457bf0)
+// STUB: 105 0x457bf0
 Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
 {
     NOT_IMPLEMENTED;

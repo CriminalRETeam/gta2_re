@@ -21,7 +21,7 @@ void Tango_54::sub_4A85F0()
     }
 }
 
-STUB_FUNC(0x4a8620)
+// STUB: 105 0x4a8620
 Tango_28* Tango_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
 {
     NOT_IMPLEMENTED;
@@ -78,7 +78,7 @@ void Tango_54::sub_4A88D0()
     field_50 = 0;
 }
 
-STUB_FUNC(0x4a7fc0)
+// STUB: 105 0x4a7fc0
 char_type Tango_28::sub_4A7FC0()
 {
     NOT_IMPLEMENTED;
@@ -112,7 +112,7 @@ void Tango_28::deinit_4A81A0()
     }
 }
 
-STUB_FUNC(0x4a81f0)
+// STUB: 105 0x4a81f0
 void Tango_28::sub_4A81F0()
 {
     NOT_IMPLEMENTED;

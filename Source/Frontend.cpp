@@ -80,7 +80,7 @@ class FreeLoader
     EXPORT static char_type sub_4AE1F0(u8 a1);
 };
 
-STUB_FUNC(0x4AE1F0)
+// STUB: 105 0x4AE1F0
 EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
     NOT_IMPLEMENTED;
@@ -272,7 +272,7 @@ DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          {"data\\frontend\\DemoInfo.tga", 614939, 0});
 */
 
-STUB_FUNC(0x5D9910)
+// STUB: 105 0x5D9910
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     NOT_IMPLEMENTED;
@@ -341,7 +341,7 @@ void __stdcall Frontend::destroy_4AD070()
     Bink::Close2_513390();
 }
 
-STUB_FUNC(0x4B3170)
+// STUB: 105 0x4B3170
 void Frontend::sub_4B3170(u16 menu_page_idx)
 {
     NOT_IMPLEMENTED;
@@ -960,7 +960,7 @@ s32 Frontend::sub_4AEDB0()
 }
 
 // https://decomp.me/scratch/ci11a
-STUB_FUNC(0x4B5430)
+// STUB: 105 0x4B5430
 void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
@@ -1034,7 +1034,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
-STUB_FUNC(0x4AD140)
+// STUB: 105 0x4AD140
 void Frontend::sub_4AD140()
 {
     NOT_IMPLEMENTED;
@@ -1594,7 +1594,7 @@ for (s32 i=0; i<3; i++)
     }
 }
 
-STUB_FUNC(0x4B7AE0)
+// STUB: 105 0x4B7AE0
 void Frontend::sub_4B7AE0()
 {
     NOT_IMPLEMENTED;
@@ -1622,7 +1622,7 @@ void Frontend::sub_4B8650()
     }
 }
 
-STUB_FUNC(0x4B6030)
+// STUB: 105 0x4B6030
 char_type Frontend::pre_intro_bik_exists_4B6030()
 {
     NOT_IMPLEMENTED;
@@ -1638,7 +1638,7 @@ char_type Frontend::pre_intro_bik_exists_4B6030()
     return 1;
 }
 
-STUB_FUNC(0x4B5F20)
+// STUB: 105 0x4B5F20
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
     NOT_IMPLEMENTED;
@@ -1646,7 +1646,7 @@ char_type* Frontend::pre_intro_bik_4B5F20()
     return "";
 }
 
-STUB_FUNC(0x4B5E50)
+// STUB: 105 0x4B5E50
 const char_type* Frontend::intro_bik_4B5E50()
 {
     NOT_IMPLEMENTED;
@@ -1862,7 +1862,7 @@ void Frontend::sub_4B6780()
     }
 }
 
-STUB_FUNC(0x4B7A10)
+// STUB: 105 0x4B7A10
 void Frontend::sub_4B7A10()
 {
     NOT_IMPLEMENTED;
@@ -1917,7 +1917,7 @@ void Frontend::sub_4B7A10()
     }
 }
 
-STUB_FUNC(0x4AE2D0)
+// STUB: 105 0x4AE2D0
 void Frontend::sub_4AE2D0()
 {
     NOT_IMPLEMENTED;
@@ -2229,7 +2229,7 @@ void Frontend::sub_4AE990()
 
 // It matches, but we need to get rid of goto's
 // https://decomp.me/scratch/LYZij
-STUB_FUNC(0x4B2F60)
+// STUB: 105 0x4B2F60
 void Frontend::sub_4B2F60()
 {
     //NOT_IMPLEMENTED;
@@ -2422,7 +2422,7 @@ void Frontend::sub_4AE9A0()
     }
 }
 
-STUB_FUNC(0x4B8280)
+// STUB: 105 0x4B8280
 void Frontend::sub_4B8280()
 {
     NOT_IMPLEMENTED;
@@ -2445,7 +2445,7 @@ player_stats_0xA4* Frontend::sub_4B43E0()
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx];
 }
 
-STUB_FUNC(0x4B42E0)
+// STUB: 105 0x4B42E0
 void Frontend::sub_4B42E0()
 {
     NOT_IMPLEMENTED;
@@ -2737,7 +2737,7 @@ void Frontend::sub_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7E10)
+// STUB: 105 0x4B7E10
 EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
 {
     NOT_IMPLEMENTED;
@@ -2797,7 +2797,7 @@ void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     }
 }
 
-STUB_FUNC(0x4ADF50)
+// STUB: 105 0x4ADF50
 void Frontend::sub_4ADF50()
 {
     NOT_IMPLEMENTED;
@@ -2931,7 +2931,7 @@ void Frontend::sub_4ADF50()
     }
 }
 
-STUB_FUNC(0x5D7D30)
+// STUB: 105 0x5D7D30
 EXPORT void __stdcall sub_5D7D30()
 {
     NOT_IMPLEMENTED;
@@ -2979,7 +2979,7 @@ void Frontend::sub_4ADFB0()
 
 // https://decomp.me/scratch/IOmk7
 // TODO: stop the tail merge... somehow
-STUB_FUNC(0x4B6E10)
+// STUB: 105 0x4B6E10
 void Frontend::DrawBackground_4B6E10()
 {
     NOT_IMPLEMENTED;
@@ -3152,7 +3152,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
     free(pAlloc);
 }
 
-STUB_FUNC(0x5D7CB0)
+// STUB: 105 0x5D7CB0
 EXPORT void __stdcall sub_5D7CB0()
 {
     NOT_IMPLEMENTED;
@@ -3160,7 +3160,7 @@ EXPORT void __stdcall sub_5D7CB0()
 }
 
 // https://decomp.me/scratch/MuqZh
-STUB_FUNC(0x4AF2A0)
+// STUB: 105 0x4AF2A0
 Frontend::Frontend()
 {
     NOT_IMPLEMENTED;
@@ -3420,7 +3420,7 @@ void Frontend::sub_4AF0E0()
     }
 }
 
-STUB_FUNC(0x4B0220)
+// STUB: 105 0x4B0220
 void Frontend::sub_4B0220()
 {
     NOT_IMPLEMENTED;
@@ -3998,7 +3998,7 @@ void Frontend::sub_4B0220()
     field_EE0E_unk.sub_483F20();
 }
 
-STUB_FUNC(0x4B4440)
+// STUB: 105 0x4B4440
 void Frontend::sub_4B4440()
 {
     NOT_IMPLEMENTED;
@@ -4558,7 +4558,7 @@ u8 Frontend::sub_4B7060(u8 a2)
     }
 }
 
-STUB_FUNC(0x4B7270)
+// STUB: 105 0x4B7270
 u8 Frontend::sub_4B7270(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4665,7 +4665,7 @@ void Frontend::sub_4B42B0()
     }
 }
 
-STUB_FUNC(0x4B7120)
+// STUB: 105 0x4B7120
 char_type Frontend::sub_4B7120(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4745,7 +4745,7 @@ bool Frontend::sub_4B74F0()
     return result;
 }
 
-STUB_FUNC(0x4B7360)
+// STUB: 105 0x4B7360
 char_type Frontend::sub_4B7360(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4787,7 +4787,7 @@ bool Frontend::sub_4B7200()
     return result;
 }
 
-STUB_FUNC(0x4B4EC0)
+// STUB: 105 0x4B4EC0
 void Frontend::sub_4B4EC0()
 {
     NOT_IMPLEMENTED;
@@ -4908,7 +4908,7 @@ menu_option_0x82::~menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-STUB_FUNC(0x4B6330)
+// STUB: 105 0x4B6330
 bool menu_option_0x82::sub_4B6330()
 {
     NOT_IMPLEMENTED;
@@ -4943,7 +4943,7 @@ bool menu_option_0x82::sub_4B6330()
     return old_count != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6390)
+// STUB: 105 0x4B6390
 bool menu_option_0x82::sub_4B6390()
 {
     NOT_IMPLEMENTED;
@@ -5062,7 +5062,7 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 
 DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
 
-STUB_FUNC(0x5D8A10)
+// STUB: 105 0x5D8A10
 void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,

@@ -155,21 +155,21 @@ void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
     this->field_40 = 1;
 }
 
-STUB_FUNC(0x596c90)
+// STUB: 105 0x596c90
 s32 ExplodingScore_50::sub_596C90()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5970c0)
+// STUB: 105 0x5970c0
 char_type ExplodingScore_50::sub_5970C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x597100)
+// STUB: 105 0x597100
 void ExplodingScore_50::sub_597100(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
@@ -218,13 +218,13 @@ void ExplodingScore_100::sub_596880()
     field_2++;
 }
 
-STUB_FUNC(0x596890)
+// STUB: 105 0x596890
 void ExplodingScore_100::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x596940)
+// STUB: 105 0x596940
 void ExplodingScore_100::sub_596940()
 {
     NOT_IMPLEMENTED;
