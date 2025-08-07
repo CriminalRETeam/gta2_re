@@ -3,7 +3,8 @@
 #include "Globals.hpp"
 
 // TODO: move
-DEFINE_GLOBAL(Frismo_25C*, gFrismo_25C_6F8068, 0x6F8068);
+// GLOBAL: 105 0x6F8068
+DEFINE_GLOBAL(Frismo_25C*, gFrismo_25C_6F8068);
 
 // FUNCTION: 105 0x503120
 miss2_8::miss2_8() // 503120

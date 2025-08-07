@@ -6,8 +6,10 @@
 #include "registry.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC, 0x704DFC);
-DEFINE_GLOBAL(text_0x14*, gtext_0x14_6F87F0, 0x6F87F0);
+// GLOBAL: 105 0x704DFC
+DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC);
+// GLOBAL: 105 0x6F87F0
+DEFINE_GLOBAL(text_0x14*, gtext_0x14_6F87F0);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
 DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
 

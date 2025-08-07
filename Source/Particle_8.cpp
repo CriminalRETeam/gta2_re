@@ -2,7 +2,8 @@
 #include "Globals.hpp"
 #include "error.hpp"
 
-DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4, 0x6FD5E4);
+// GLOBAL: 105 0x6FD5E4
+DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4);
 
 // STUB: 105 0x53e320
 void Particle_8::sub_53E320()

@@ -6,9 +6,12 @@
 #include "sprite.hpp"
 
 // TODO: Init to correct values
-DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
-DEFINE_GLOBAL(Ang16, word_6F8F68, 0x6F8F68);
-DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
+// GLOBAL: 105 0x6F8BF0
+DEFINE_GLOBAL(Fix16, dword_6F8BF0);
+// GLOBAL: 105 0x6F8F68
+DEFINE_GLOBAL(Ang16, word_6F8F68);
+// GLOBAL: 105 0x67727C
+DEFINE_GLOBAL(struct_4, stru_67727C);
 
 // FUNCTION: 105 0x52ad80
 Object_3C::Object_3C()

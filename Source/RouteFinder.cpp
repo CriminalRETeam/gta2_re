@@ -5,8 +5,10 @@
 #include "file.hpp"
 #include <cstdio>
 
-DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
-DEFINE_GLOBAL(u8, DAT_6ffdcc, 0x6ffdcc);
+// GLOBAL: 105 0x6FFDC8
+DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8);
+// GLOBAL: 105 0x6ffdcc
+DEFINE_GLOBAL(u8, DAT_6ffdcc);
 
 // FUNCTION: 105 0x588580
 char_type Junction_10::sub_588580(s32 a2)

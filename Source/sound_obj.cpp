@@ -9,9 +9,12 @@
 #include "Car_BC.hpp"
 #include <math.h>
 
-DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
-DEFINE_GLOBAL(s32, dword_674CD8, 0x674CD8);
-DEFINE_GLOBAL(s32, dword_66F3F0, 0x66F3F0);
+// GLOBAL: 105 0x66F680
+DEFINE_GLOBAL(sound_obj, gSound_obj_66F680);
+// GLOBAL: 105 0x674CD8
+DEFINE_GLOBAL(s32, dword_674CD8);
+// GLOBAL: 105 0x66F3F0
+DEFINE_GLOBAL(s32, dword_66F3F0);
 
 // FUNCTION: 105 0x419DF0
 serene_brattain* serene_brattain::sub_419DF0()

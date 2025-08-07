@@ -11,8 +11,10 @@
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
-DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
+// GLOBAL: 105 0x67F8B0
+DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0);
+// GLOBAL: 105 0x67B990
+DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990);
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 

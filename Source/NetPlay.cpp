@@ -2,7 +2,8 @@
 #include "Globals.hpp"
 #include "crt_stubs.hpp"
 
-DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
+// GLOBAL: 105 0x7071E8
+DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8);
 
 // STUB: 105 0x51d6b0
 NetPlay* NetPlay::ctor_51D6B0()

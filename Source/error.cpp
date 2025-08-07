@@ -6,8 +6,10 @@
 #include <stdio.h>
 #include <windows.h>
 
-DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
-DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
+// GLOBAL: 105 0x6F5B70
+DEFINE_GLOBAL(char_type, bDestroyed_6F5B70);
+// GLOBAL: 105 0x707F04
+DEFINE_GLOBAL(HWND, gHwnd_707F04);
 
 // STUB: 105 0x4D9620
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
@@ -15,8 +17,10 @@ ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
     NOT_IMPLEMENTED;
     return *this;
 }
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
+// GLOBAL: 105 0x67C530
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530);
+// GLOBAL: 105 0x67CF58
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58);
 
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);

@@ -2,7 +2,8 @@
 #include "Globals.hpp"
 #include <memory.h>
 
-DEFINE_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34, 0x702F34);
+// GLOBAL: 105 0x702F34
+DEFINE_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34);
 
 // FUNCTION: 105 0x596a00
 ExplodingScore_50::ExplodingScore_50()

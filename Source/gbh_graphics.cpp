@@ -3,49 +3,92 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(T_gbh_InitDLL, pgbh_InitDLL, 0x626C54);
-DEFINE_GLOBAL(T_gbh_Init, pgbh_Init, 0x626C58);
-DEFINE_GLOBAL(T_gbh_CloseDLL, pgbh_CloseDLL, 0x626C5C);
-DEFINE_GLOBAL(T_gbh_SetWindow, pgbh_SetWindow, 0x626C60);
-DEFINE_GLOBAL(T_gbh_GetGlobals, pgbh_GetGlobals, 0x626C64);
-DEFINE_GLOBAL(T_gbh_DrawTile, pgbh_DrawTile, 0x626C68);
-DEFINE_GLOBAL(T_gbh_DrawTilePart, pgbh_DrawTilePart, 0x626C6C);
-DEFINE_GLOBAL(T_gbh_DrawQuad, pgbh_DrawQuad, 0x626C70);
-DEFINE_GLOBAL(T_gbh_DrawQuadClipped, pgbh_DrawQuadClipped, 0x626C74);
-DEFINE_GLOBAL(T_gbh_DrawFlatRect, pgbh_DrawFlatRect, 0x626C78);
-DEFINE_GLOBAL(T_gbh_DrawTriangle, pgbh_DrawTriangle, 0x626C7C);
-DEFINE_GLOBAL(T_gbh_PrintBitmap, pgbh_PrintBitmap, 0x626C80);
-DEFINE_GLOBAL(T_gbh_SetColourDepth, pgbh_SetColourDepth, 0x626C84);
-DEFINE_GLOBAL(T_gbh_Plot, pgbh_Plot, 0x626C88);
-DEFINE_GLOBAL(T_gbh_ConvertColour, pgbh_ConvertColour, 0x626C8C);
-DEFINE_GLOBAL(T_gbh_RegisterTexture, pgbh_RegisterTexture, 0x626C90);
-DEFINE_GLOBAL(T_gbh_SetCamera, pgbh_SetCamera, 0x626C94);
-DEFINE_GLOBAL(T_gbh_ResetLights, pgbh_ResetLights, 0x626C98);
-DEFINE_GLOBAL(T_gbh_AddLight, pgbh_AddLight, 0x626C9C);
-DEFINE_GLOBAL(T_gbh_SetAmbient, pgbh_SetAmbient, 0x626CA0);
-DEFINE_GLOBAL(T_gbh_GetUsedCache, pgbh_GetUsedCache, 0x626CA4);
-DEFINE_GLOBAL(T_gbh_FreeTexture, pgbh_FreeTexture, 0x626CA8);
-DEFINE_GLOBAL(T_gbh_RegisterPalette, pgbh_RegisterPalette, 0x626CAC);
-DEFINE_GLOBAL(T_gbh_FreePalette, pgbh_FreePalette, 0x626CB0);
-DEFINE_GLOBAL(T_gbh_AssignPalette, pgbh_AssignPalette, 0x626CB4);
-DEFINE_GLOBAL(T_gbh_LockTexture, pgbh_LockTexture, 0x626CB8);
-DEFINE_GLOBAL(T_gbh_UnlockTexture, pgbh_UnlockTexture, 0x626CBC);
-DEFINE_GLOBAL(T_gbh_BeginScene, pgbh_BeginScene, 0x626CC0);
-DEFINE_GLOBAL(T_gbh_EndScene, pgbh_EndScene, 0x626CC4);
-DEFINE_GLOBAL(T_gbh_BeginLevel, pgbh_BeginLevel, 0x626CC8);
-DEFINE_GLOBAL(T_gbh_EndLevel, pgbh_EndLevel, 0x626CCC);
-DEFINE_GLOBAL(T_MakeScreenTable, pMakeScreenTable, 0x626CD0);
-DEFINE_GLOBAL(T_ConvertColourBank, pConvertColourBank, 0x626CD4);
-DEFINE_GLOBAL(T_SetShadeTableA, pSetShadeTableA, 0x626CD8);
-DEFINE_GLOBAL(T_gbh_InitImageTable, pgbh_InitImageTable, 0x626CDC);
-DEFINE_GLOBAL(T_gbh_FreeImageTable, pgbh_FreeImageTable, 0x626CE0);
-DEFINE_GLOBAL(T_gbh_LoadImage, pgbh_LoadImage, 0x626CE4);
-DEFINE_GLOBAL(T_gbh_BlitImage, pgbh_BlitImage, 0x626CE8);
-DEFINE_GLOBAL(T_gbh_BlitBuffer, pgbh_BlitBuffer, 0x626CEC);
-DEFINE_GLOBAL(HMODULE, gGbhDllHandle_7085D8, 0x7085D8);
-DEFINE_GLOBAL(FARPROC, pDrawLine, 0x7085DC);
-DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0, 0x7085E0);
-DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4, 0x7085E4);
+// GLOBAL: 105 0x626C54
+DEFINE_GLOBAL(T_gbh_InitDLL, pgbh_InitDLL);
+// GLOBAL: 105 0x626C58
+DEFINE_GLOBAL(T_gbh_Init, pgbh_Init);
+// GLOBAL: 105 0x626C5C
+DEFINE_GLOBAL(T_gbh_CloseDLL, pgbh_CloseDLL);
+// GLOBAL: 105 0x626C60
+DEFINE_GLOBAL(T_gbh_SetWindow, pgbh_SetWindow);
+// GLOBAL: 105 0x626C64
+DEFINE_GLOBAL(T_gbh_GetGlobals, pgbh_GetGlobals);
+// GLOBAL: 105 0x626C68
+DEFINE_GLOBAL(T_gbh_DrawTile, pgbh_DrawTile);
+// GLOBAL: 105 0x626C6C
+DEFINE_GLOBAL(T_gbh_DrawTilePart, pgbh_DrawTilePart);
+// GLOBAL: 105 0x626C70
+DEFINE_GLOBAL(T_gbh_DrawQuad, pgbh_DrawQuad);
+// GLOBAL: 105 0x626C74
+DEFINE_GLOBAL(T_gbh_DrawQuadClipped, pgbh_DrawQuadClipped);
+// GLOBAL: 105 0x626C78
+DEFINE_GLOBAL(T_gbh_DrawFlatRect, pgbh_DrawFlatRect);
+// GLOBAL: 105 0x626C7C
+DEFINE_GLOBAL(T_gbh_DrawTriangle, pgbh_DrawTriangle);
+// GLOBAL: 105 0x626C80
+DEFINE_GLOBAL(T_gbh_PrintBitmap, pgbh_PrintBitmap);
+// GLOBAL: 105 0x626C84
+DEFINE_GLOBAL(T_gbh_SetColourDepth, pgbh_SetColourDepth);
+// GLOBAL: 105 0x626C88
+DEFINE_GLOBAL(T_gbh_Plot, pgbh_Plot);
+// GLOBAL: 105 0x626C8C
+DEFINE_GLOBAL(T_gbh_ConvertColour, pgbh_ConvertColour);
+// GLOBAL: 105 0x626C90
+DEFINE_GLOBAL(T_gbh_RegisterTexture, pgbh_RegisterTexture);
+// GLOBAL: 105 0x626C94
+DEFINE_GLOBAL(T_gbh_SetCamera, pgbh_SetCamera);
+// GLOBAL: 105 0x626C98
+DEFINE_GLOBAL(T_gbh_ResetLights, pgbh_ResetLights);
+// GLOBAL: 105 0x626C9C
+DEFINE_GLOBAL(T_gbh_AddLight, pgbh_AddLight);
+// GLOBAL: 105 0x626CA0
+DEFINE_GLOBAL(T_gbh_SetAmbient, pgbh_SetAmbient);
+// GLOBAL: 105 0x626CA4
+DEFINE_GLOBAL(T_gbh_GetUsedCache, pgbh_GetUsedCache);
+// GLOBAL: 105 0x626CA8
+DEFINE_GLOBAL(T_gbh_FreeTexture, pgbh_FreeTexture);
+// GLOBAL: 105 0x626CAC
+DEFINE_GLOBAL(T_gbh_RegisterPalette, pgbh_RegisterPalette);
+// GLOBAL: 105 0x626CB0
+DEFINE_GLOBAL(T_gbh_FreePalette, pgbh_FreePalette);
+// GLOBAL: 105 0x626CB4
+DEFINE_GLOBAL(T_gbh_AssignPalette, pgbh_AssignPalette);
+// GLOBAL: 105 0x626CB8
+DEFINE_GLOBAL(T_gbh_LockTexture, pgbh_LockTexture);
+// GLOBAL: 105 0x626CBC
+DEFINE_GLOBAL(T_gbh_UnlockTexture, pgbh_UnlockTexture);
+// GLOBAL: 105 0x626CC0
+DEFINE_GLOBAL(T_gbh_BeginScene, pgbh_BeginScene);
+// GLOBAL: 105 0x626CC4
+DEFINE_GLOBAL(T_gbh_EndScene, pgbh_EndScene);
+// GLOBAL: 105 0x626CC8
+DEFINE_GLOBAL(T_gbh_BeginLevel, pgbh_BeginLevel);
+// GLOBAL: 105 0x626CCC
+DEFINE_GLOBAL(T_gbh_EndLevel, pgbh_EndLevel);
+// GLOBAL: 105 0x626CD0
+DEFINE_GLOBAL(T_MakeScreenTable, pMakeScreenTable);
+// GLOBAL: 105 0x626CD4
+DEFINE_GLOBAL(T_ConvertColourBank, pConvertColourBank);
+// GLOBAL: 105 0x626CD8
+DEFINE_GLOBAL(T_SetShadeTableA, pSetShadeTableA);
+// GLOBAL: 105 0x626CDC
+DEFINE_GLOBAL(T_gbh_InitImageTable, pgbh_InitImageTable);
+// GLOBAL: 105 0x626CE0
+DEFINE_GLOBAL(T_gbh_FreeImageTable, pgbh_FreeImageTable);
+// GLOBAL: 105 0x626CE4
+DEFINE_GLOBAL(T_gbh_LoadImage, pgbh_LoadImage);
+// GLOBAL: 105 0x626CE8
+DEFINE_GLOBAL(T_gbh_BlitImage, pgbh_BlitImage);
+// GLOBAL: 105 0x626CEC
+DEFINE_GLOBAL(T_gbh_BlitBuffer, pgbh_BlitBuffer);
+// GLOBAL: 105 0x7085D8
+DEFINE_GLOBAL(HMODULE, gGbhDllHandle_7085D8);
+// GLOBAL: 105 0x7085DC
+DEFINE_GLOBAL(FARPROC, pDrawLine);
+// GLOBAL: 105 0x7085E0
+DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0);
+// GLOBAL: 105 0x7085E4
+DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4);
 
 // FUNCTION: 105 0x5EA4D0
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()

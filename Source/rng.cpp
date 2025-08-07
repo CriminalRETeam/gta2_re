@@ -2,8 +2,10 @@
 #include "Globals.hpp"
 #include <stdlib.h>
 
-DEFINE_GLOBAL(rng*, rng_dword_67AB34, 0x67AB34);
-DEFINE_GLOBAL(rng, stru_6F6784, 0x6F6784);
+// GLOBAL: 105 0x67AB34
+DEFINE_GLOBAL(rng*, rng_dword_67AB34);
+// GLOBAL: 105 0x6F6784
+DEFINE_GLOBAL(rng, stru_6F6784);
 
 // FUNCTION: 105 0x48B900
 void rng::sub_48B900()

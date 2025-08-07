@@ -7,9 +7,12 @@
 #include "sprite.hpp"
 #include "memory.hpp"
 
-DEFINE_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064, 0x705064);
-DEFINE_GLOBAL(u32, dword_704ED0, 0x704ED0);
-DEFINE_GLOBAL(u32, dword_704F28, 0x704F28);
+// GLOBAL: 105 0x705064
+DEFINE_GLOBAL(sharp_pare_0x15D8*, gSharp_pare_0x15D8_705064);
+// GLOBAL: 105 0x704ED0
+DEFINE_GLOBAL(u32, dword_704ED0);
+// GLOBAL: 105 0x704F28
+DEFINE_GLOBAL(u32, dword_704F28);
 
 // FUNCTION: 105 0x5B90F0
 void sharp_pare_0x15D8::LoadPals_5B90F0()

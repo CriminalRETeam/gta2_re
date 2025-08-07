@@ -4,7 +4,8 @@
 #include "enums.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
-DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+// GLOBAL: 105 0x67F610
+DEFINE_GLOBAL(Fix16, dword_67F610);
 
 // STUB: 105 0x4c8e60
 void PedGroup::sub_4C8E60()

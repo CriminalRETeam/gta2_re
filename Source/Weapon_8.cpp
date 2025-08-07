@@ -7,8 +7,10 @@
 #include "error.hpp"
 #include "root_sound.hpp"
 
-DEFINE_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014, 0x707014);
-DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018, 0x707018);
+// GLOBAL: 105 0x707014
+DEFINE_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014);
+// GLOBAL: 105 0x707018
+DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018);
 
 u8 max_ammo_capacity_5FF75C[28];
 /*

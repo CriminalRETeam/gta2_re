@@ -8,7 +8,8 @@
 
 HKEY dword_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
 
-DEFINE_GLOBAL(Registry, gRegistry_6FF968, 0x6FF968);
+// GLOBAL: 105 0x6FF968
+DEFINE_GLOBAL(Registry, gRegistry_6FF968);
 
 // FUNCTION: 105 0x586A00
 bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)

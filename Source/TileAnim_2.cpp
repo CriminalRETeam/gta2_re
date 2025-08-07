@@ -6,8 +6,10 @@
 #include "map_0x370.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
-DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8, 0x7052C8);
+// GLOBAL: 105 0x7052C4
+DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4);
+// GLOBAL: 105 0x7052C8
+DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8);
 
 // FUNCTION: 105 0x5bc260
 void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)

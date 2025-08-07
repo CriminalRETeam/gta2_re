@@ -3,33 +3,58 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(SVideo*, gVidSys_7071D0, 0x7071D0);
+// GLOBAL: 105 0x7071D0
+DEFINE_GLOBAL(SVideo*, gVidSys_7071D0);
 
-DEFINE_GLOBAL(T_Vid_GetVersion,     pVid_GetVersion,     0x626CF0);
-DEFINE_GLOBAL(T_Vid_Init_SYS,       pVid_Init_SYS,       0x626CF4);
-DEFINE_GLOBAL(T_Vid_CheckMode,      pVid_CheckMode,      0x626CF8);
-DEFINE_GLOBAL(T_Vid_FindMode,       pVid_FindMode,       0x626CFC);
-DEFINE_GLOBAL(T_Vid_FindFirstMode,  pVid_FindFirstMode,  0x626D00);
-DEFINE_GLOBAL(T_Vid_FindNextMode,   pVid_FindNextMode,   0x626D04);
-DEFINE_GLOBAL(T_Vid_FindDevice,     pVid_FindDevice,     0x626D08);
-DEFINE_GLOBAL(T_Vid_SetDevice,      pVid_SetDevice,      0x626D0C);
-DEFINE_GLOBAL(T_Vid_CloseScreen,    pVid_CloseScreen,    0x626D10);
-DEFINE_GLOBAL(T_Vid_SetMode,        pVid_SetMode,        0x626D14);
-DEFINE_GLOBAL(T_Vid_FlipBuffers,    pVid_FlipBuffers,    0x626D18);
-DEFINE_GLOBAL(T_Vid_ReleaseSurface, pVid_ReleaseSurface, 0x626D1C);
-DEFINE_GLOBAL(T_Vid_GrabSurface,    pVid_GrabSurface,    0x626D20);
-DEFINE_GLOBAL(T_Vid_ShutDown_SYS,   pVid_ShutDown_SYS,   0x626D24);
-DEFINE_GLOBAL(T_Vid_EnableWrites,   pVid_EnableWrites,   0x626D28);
-DEFINE_GLOBAL(T_Vid_DisableWrites,  pVid_DisableWrites,  0x626D2C);
-DEFINE_GLOBAL(T_Vid_GetSurface,     pVid_GetSurface,     0x626D30);
-DEFINE_GLOBAL(T_Vid_FreeSurface,    pVid_FreeSurface,    0x626D34);
-DEFINE_GLOBAL(T_Vid_ClearScreen,    pVid_ClearScreen,    0x626D38);
-DEFINE_GLOBAL(T_Vid_WindowProc,     pVid_WindowProc,     0x626D3C);
-DEFINE_GLOBAL(T_Vid_InitDLL,        pVid_InitDLL,        0x626D40);
-DEFINE_GLOBAL(T_Vid_SetGamma,       pVid_SetGamma,       0x626D44);
+// GLOBAL: 105 0x626CF0
+DEFINE_GLOBAL(T_Vid_GetVersion, pVid_GetVersion);
+// GLOBAL: 105 0x626CF4
+DEFINE_GLOBAL(T_Vid_Init_SYS, pVid_Init_SYS);
+// GLOBAL: 105 0x626CF8
+DEFINE_GLOBAL(T_Vid_CheckMode, pVid_CheckMode);
+// GLOBAL: 105 0x626CFC
+DEFINE_GLOBAL(T_Vid_FindMode, pVid_FindMode);
+// GLOBAL: 105 0x626D00
+DEFINE_GLOBAL(T_Vid_FindFirstMode, pVid_FindFirstMode);
+// GLOBAL: 105 0x626D04
+DEFINE_GLOBAL(T_Vid_FindNextMode, pVid_FindNextMode);
+// GLOBAL: 105 0x626D08
+DEFINE_GLOBAL(T_Vid_FindDevice, pVid_FindDevice);
+// GLOBAL: 105 0x626D0C
+DEFINE_GLOBAL(T_Vid_SetDevice, pVid_SetDevice);
+// GLOBAL: 105 0x626D10
+DEFINE_GLOBAL(T_Vid_CloseScreen, pVid_CloseScreen);
+// GLOBAL: 105 0x626D14
+DEFINE_GLOBAL(T_Vid_SetMode, pVid_SetMode);
+// GLOBAL: 105 0x626D18
+DEFINE_GLOBAL(T_Vid_FlipBuffers, pVid_FlipBuffers);
+// GLOBAL: 105 0x626D1C
+DEFINE_GLOBAL(T_Vid_ReleaseSurface, pVid_ReleaseSurface);
+// GLOBAL: 105 0x626D20
+DEFINE_GLOBAL(T_Vid_GrabSurface, pVid_GrabSurface);
+// GLOBAL: 105 0x626D24
+DEFINE_GLOBAL(T_Vid_ShutDown_SYS, pVid_ShutDown_SYS);
+// GLOBAL: 105 0x626D28
+DEFINE_GLOBAL(T_Vid_EnableWrites, pVid_EnableWrites);
+// GLOBAL: 105 0x626D2C
+DEFINE_GLOBAL(T_Vid_DisableWrites, pVid_DisableWrites);
+// GLOBAL: 105 0x626D30
+DEFINE_GLOBAL(T_Vid_GetSurface, pVid_GetSurface);
+// GLOBAL: 105 0x626D34
+DEFINE_GLOBAL(T_Vid_FreeSurface, pVid_FreeSurface);
+// GLOBAL: 105 0x626D38
+DEFINE_GLOBAL(T_Vid_ClearScreen, pVid_ClearScreen);
+// GLOBAL: 105 0x626D3C
+DEFINE_GLOBAL(T_Vid_WindowProc, pVid_WindowProc);
+// GLOBAL: 105 0x626D40
+DEFINE_GLOBAL(T_Vid_InitDLL, pVid_InitDLL);
+// GLOBAL: 105 0x626D44
+DEFINE_GLOBAL(T_Vid_SetGamma, pVid_SetGamma);
 
-DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8, 0x7085E8);
-DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600, 0x708600);
+// GLOBAL: 105 0x7085E8
+DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8);
+// GLOBAL: 105 0x708600
+DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600);
 
 
 // FUNCTION: 105 0x5EB810

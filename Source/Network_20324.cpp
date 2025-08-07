@@ -2,7 +2,8 @@
 #include "Globals.hpp"
 #include "text_0x14.hpp"
 
-DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
+// GLOBAL: 105 0x6F8A18
+DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
 
 // STUB: 105 0x519960

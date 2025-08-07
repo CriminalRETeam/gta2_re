@@ -2,7 +2,8 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 
-DEFINE_GLOBAL(s32, dword_678D0C, 0x678D0C);
+// GLOBAL: 105 0x678D0C
+DEFINE_GLOBAL(s32, dword_678D0C);
 
 // FUNCTION: 105 0x4747b0
 void Hamburger_40::sub_4747B0()

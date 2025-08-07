@@ -3,9 +3,12 @@
 #include "error.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(Collide_8004*, gCollide_8004_679200, 0x679200);
-DEFINE_GLOBAL(Collide_11944*, gCollide_11944_679204, 0x679204);
-DEFINE_GLOBAL(s32, dword_678F84, 0x678F84);
+// GLOBAL: 105 0x679200
+DEFINE_GLOBAL(Collide_8004*, gCollide_8004_679200);
+// GLOBAL: 105 0x679204
+DEFINE_GLOBAL(Collide_11944*, gCollide_11944_679204);
+// GLOBAL: 105 0x678F84
+DEFINE_GLOBAL(s32, dword_678F84);
 
 // FUNCTION: 105 0x478a20
 void Collide_C::sub_478A20()

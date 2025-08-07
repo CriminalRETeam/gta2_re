@@ -6,7 +6,8 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(s32, dword_6F6DD4, 0x6F6DD4);
+// GLOBAL: 105 0x6F6DD4
+DEFINE_GLOBAL(s32, dword_6F6DD4);
 
 // FUNCTION: 105 0x4beab0
 Ambulance_20::Ambulance_20()

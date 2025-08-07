@@ -8,7 +8,8 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 
-DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
+// GLOBAL: 105 0x6F8060
+DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060);
 
 // FUNCTION: 105 0x503080
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)

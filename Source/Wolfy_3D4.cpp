@@ -1,9 +1,12 @@
 #include "Wolfy_3D4.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(s16, gParticleInstCount_6FD5F4, 0x6FD5F4);
-DEFINE_GLOBAL(s32, dword_6FD49C, 0x6FD49C);
-DEFINE_GLOBAL(s16, word_6FD5D4, 0x6FD5D4);
+// GLOBAL: 105 0x6FD5F4
+DEFINE_GLOBAL(s16, gParticleInstCount_6FD5F4);
+// GLOBAL: 105 0x6FD49C
+DEFINE_GLOBAL(s32, dword_6FD49C);
+// GLOBAL: 105 0x6FD5D4
+DEFINE_GLOBAL(s16, word_6FD5D4);
 
 // STUB: 105 0x543690
 s32 Wolfy_7A8::sub_543690()

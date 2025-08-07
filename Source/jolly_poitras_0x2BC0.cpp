@@ -8,7 +8,8 @@
 #include "lucid_hamilton.hpp"
 #include <io.h>
 
-DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
+// GLOBAL: 105 0x6FEAC0
+DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 DEFINE_GLOBAL_ARRAY(score_table_line, stru_6242B0, 10, 0x6242B0);
 DEFINE_GLOBAL_ARRAY(score_table_line, stru_6243A0, 120, 0x6243A0); //, , 3][4][10, 0xUNKNOWN);
