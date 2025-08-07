@@ -16,7 +16,7 @@ BUILD_FOLDER_NAME = "build_vc6"
 BUILD_DIRECTORY = os.path.join(CURRENT_DIRECTORY, BUILD_FOLDER_NAME)
 BIN_COMP_DIRECTORY = os.path.join(CURRENT_DIRECTORY, "Scripts", "bin_comp")
 
-CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=Release .. -G\"NMake Makefiles JOM\""
+CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo .. -G\"NMake Makefiles JOM\""
 
 CMAKE_BUILD_CMD = "cmake --build . --target all  -- -j 1"
 
@@ -97,7 +97,9 @@ def main():
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)
-    
+ 
+    copy_files()
+   
     ok = verify()
     if not ok and not args.ignore_no_match:
         print(f"Function verification failed!")
@@ -109,8 +111,6 @@ def main():
         if os.environ.get("CI") is None:
             print("Warning: GTA2_ROOT environment variable is not set. Some optional QoF features will not be available.")
         sys.exit(0)
-
-    copy_files()
 
     if args.run_standalone:
         run_exe(ExeType.standalone)
@@ -249,21 +249,13 @@ def verify():
     download_exe("10.5.exe")
     download_exe("9.6f.exe")
 
-    python = sys.executable # should be the python venv
+    detect_result = subprocess.run(f"reccmp-project detect --what recompiled", cwd=".", shell=True)
+    if detect_result.returncode != 0:
+        print(f"reccmp-project failed with code: {detect_result.stderr}")
+        return False
 
-    dump_result = subprocess.run(f"{python} msvc_dump_new_data.py", cwd=BIN_COMP_DIRECTORY, shell=True)
-    compare_result = subprocess.run(f"{python} compare_all_functions.py", cwd=BIN_COMP_DIRECTORY, shell=True, capture_output=True, text=True)
-
-    error_collection = CompileErrorCollection()
-    for line in compare_result.stdout.splitlines():
-        print(line)
-        if line.endswith(" FAIL!"):
-            entry = CompileErrorEntry("", 0, "function_verification", "", line[:-6])
-            error_collection.add(entry)
-
-    error_collection.save_json()
-
-    return dump_result.returncode == 0 and compare_result.returncode == 0
+    compare_result = subprocess.run(f"reccmp-reccmp --target 105 --html report.html", cwd=".", shell=True)
+    return compare_result.returncode == 0
 
 def download_exe(exe: str):
     if exe == "10.5.exe":
@@ -290,16 +282,25 @@ def download_exe(exe: str):
 
     print(f"Successfully downloaded {exe} to: {exe_path}")
 
-def copy_files():
-    files = ["../Scripts/bin_comp/new_data.json", "gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
+def copy_files_impl(files: list[str], target_dir: str):
     for file in files:
         file_src = os.path.join(BUILD_DIRECTORY, file)
-        file_dst = os.path.join(GTA2_ROOT, os.path.basename(file))
+        file_dst = os.path.join(target_dir, os.path.basename(file))
         if not os.path.exists(file_src):
             print(f"Could not find/copy {file_src}")
         
         print(f"Copy {file_src} to {file_dst}")
         shutil.copy2(file_src, file_dst)
+
+def copy_files():
+    files = ["../Scripts/bin_comp/new_data.json", "gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
+    copy_files_impl(files, GTA2_ROOT)
+
+    reccmp_files = ["decomp_main.exe", "decomp_main.pdb"]
+    copy_files_impl(reccmp_files, ".")
+
+    os.replace("decomp_main.exe", "10.5.exe")
+    os.replace("decomp_main.pdb", "10.5.pdb")
 
 def run_exe(exe: ExeType):
     exe_name = "10.5.new.exe" if exe == ExeType.patched else "decomp_main.exe"

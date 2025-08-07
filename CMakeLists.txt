@@ -287,9 +287,8 @@ endif()
 add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
-    $<TARGET_OBJECTS:gta2_lib>
     resources.rc)
-target_link_libraries(decomp_main mss32  ${dplay_libs} dear_imgui)
+target_link_libraries(decomp_main mss32  ${dplay_libs} dear_imgui gta2_lib)
 
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(decomp_main )#libc.lib libcp.lib)
