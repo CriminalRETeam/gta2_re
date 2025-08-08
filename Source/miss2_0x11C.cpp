@@ -363,10 +363,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.Normalize();
 
             Trailer* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
-                                                        pCmd->field_C_pos.field_4_y,
-                                                        rotation,
-                                                        pCmd->field_1C_car_id,
-                                                        pCmd->field_1E_trailer_id);
+                                                      pCmd->field_C_pos.field_4_y,
+                                                      rotation,
+                                                      pCmd->field_1C_car_id,
+                                                      pCmd->field_1E_trailer_id);
             if (v11 != NULL)
             {
                 pPointer->field_8_car = v11->field_8;
@@ -4881,9 +4881,13 @@ void miss2_0x11C::PreExecOpCode_5108D0()
     }
 }
 
+// STRING: 105 0x62136c
+#define STR_MISS2_NONEXISTANT_MISSION_LINE "Miss2: accessing nonexistant mission line. Current uid: %d"
+
 // FUNCTION: 105 0x511840
 char_type miss2_0x11C::sub_511840()
-{ //  return boolean: true if it has reached LEVELEND, false otherwise
+{ 
+    //  return boolean: true if it has reached LEVELEND, false otherwise
     SCR_CMD_HEADER* BasePointer_512770;
     bool v4;
     SCR_CMD_HEADER* v5;
@@ -4900,7 +4904,7 @@ char_type miss2_0x11C::sub_511840()
 
     if (!BasePointer_512770)
     {
-        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_level_start);
+        sprintf(gTmpBuffer_67C598, STR_MISS2_NONEXISTANT_MISSION_LINE, field_4_level_start);
     }
 
     miss2_0x11C::sub_503200();

@@ -510,6 +510,7 @@ bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
     return field_30_sQueueSample.field_24_nVolume != 0 ? true : false;
 }
 
+
 // FUNCTION: 105 0x419020
 char_type sound_obj::sub_419020(s32 a2)
 {
@@ -749,7 +750,8 @@ char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
     return 0;
 }
 
-DEFINE_GLOBAL_ARRAY(char_type, byte_674E28, 80, 0x674E28);
+// GLOBAL: 105 0x674E28
+DEFINE_GLOBAL_ARRAY(char_type, byte_674E28, 80);
 
 // STUB: 105 0x41A1E0
 const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)

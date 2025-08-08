@@ -437,7 +437,7 @@ void Game_0x40::sub_4B9380()
     }
 }
 
-//// FUNCTION: 105 0x5D9970
+// FUNCTION: 105 0x5D9970
 static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0x4B9410 - probably move elsewhere
 {
     const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10u);

@@ -38,7 +38,7 @@ DEFINE_GLOBAL(Fix16, DAT_6761A4);
 // FUNCTION: 105 0x454680
 void CarInfo_48::sub_454680()
 {
-    field_4_mass = field_4_mass * (dword_677D74 + dword_677F54);
+    field_4_mass = field_4_mass * (dword_677F54 + dword_677D74);
 }
 
 // FUNCTION: 105 0x430b10

@@ -337,13 +337,16 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
     }
 }
 
+// STRING: 105 0x624f84
+#define MUCH_CASH_CHEAT_STR L"MUCHCASH"
+
 // FUNCTION: 105 0x56C250
 void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
 {
     if (!bStartNetworkGame_7081F0)
     {
         player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
-        if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
+        if (wcscmp(pStats->field_90_strPlayerName, MUCH_CASH_CHEAT_STR) == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             pPlayer->field_2D4_unk.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);

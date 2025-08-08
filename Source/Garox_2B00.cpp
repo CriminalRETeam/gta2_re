@@ -1433,10 +1433,13 @@ void Hud_2B00::sub_5D6A70()
     }
 }
 
+// STRING: 105 0x6269f4
+#define TEXT_SPEED_STRING "text_speed"
+
 // FUNCTION: 105 0x5d6a90
 void Hud_2B00::sub_5D6A90()
 {
-    field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
+    field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70(TEXT_SPEED_STRING, 3);
 }
 
 // FUNCTION: 105 0x5d6ab0

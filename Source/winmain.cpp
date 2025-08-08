@@ -82,8 +82,135 @@
 // LIBRARY: 105 0x5EFC96
 // _bsearch
 
+// LIBRARY: 105 0x5EEB69
+// _wcscmp
+
+// LIBRARY: 105 0x5EE738
+// _wcscpy
+
+// LIBRARY: 105 0x5EE75D
+// _wcsncpy
+
+// LIBRARY: 105 0x5EDEFF
+// _sprintf
+
+// LIBRARY: 105 0x5EE79A
+// _wcslen
+
+// LIBRARY: 105 0x5EE46E
+// _fclose
+
+// LIBRARY: 105 0x5EE4F7
+// _fread
+
+// LIBRARY: 105 0x5EE4E4
+// _fopen
+
+// LIBRARY: 105 0x5EDEE1
+// _rand
+
+// LIBRARY: 105 0x5F3CA2
+// __output
+
+// LIBRARY: 105 0x5F3B8D
+// __flsbuf
+
+// LIBRARY: 105 0x5F44B4
+// __except_handler3
+
+// LIBRARY: 105 0x5EE4C4
+// __fsopen
+
+// LIBRARY: 105 0x5F59CC
+// __getstream
+
+// LIBRARY: 105 0x5F585C
+// __openfile
+
+// LIBRARY: 105 0x5F0952
+// __sopen
+
+// LIBRARY: 105 0x5F70D4
+// __alloc_osfhnd
+
+// LIBRARY: 105 0x5EF5E3
+// _wcstombs
+
+// LIBRARY: 105 0x5EDEB0
+// _strrchr
+
+// LIBRARY: 105 0x5ED950
+// __allshr
+
+// LIBRARY: 105 0x5EE7B7
+// __findfirst
+
+// LIBRARY: 105 0x5EE946
+// __findclose
+
+// LIBRARY: 105 0x5EA458
+// VERSION.dll::GetFileVersionInfoA
+
+// LIBRARY: 105 0x5EA45E
+// VERSION.dll::GetFileVersionInfoSizeA
+
+// LIBRARY: 105 0x5EA452
+// VERSION.dll::VerQueryValueA
+
+// LIBRARY: 105 0x5EDB70
+// _memcpy
+
+// LIBRARY: 105 0x5F0297
+// __read
+
+// LIBRARY: 105 0x5F5A44
+// __filbuf
+
+// LIBRARY: 105 0x5F829D
+// __getbuf
+
+// LIBRARY: 105 0x5ED3BB
+// _malloc
+
+// GLOBAL: 105 0x708304
+// __cflush
+
+// LIBRARY: 105 0x5EE0C7
+// _swprintf
+
+// LIBRARY: 105 0x5F458C
+// __woutput
+
+// LIBRARY: 105 0x5F4D63
+// _get_int_arg_0
+
+// LIBRARY: 105 0x5EDA70
+// __allshl
+
+// LIBRARY: 105 0x5ED9C0
+// __alldiv
+
+// LIBRARY: 105 0x5ED980
+// __allmul
+
+// LIBRARY: 105 0x5EEF50
+// _strncmp 
+
+// GLOBAL: 105 0x627010
+// ___badioinfo
+
+// GLOBAL: 105 0x7098e0
+// ___pioinfo
+
+// LIBRARY: 105 0x5EDB40
+// __ftol
+
 // GLOBAL: 105 0x6009a4
 // GUID_SysMouse
+
+// STRING: 105 0x626b90
+#define WINMAIN_CPP_STRING "C:\\Splitting\\Gta2\\Source\\winmain.cpp"
+
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -1280,43 +1407,55 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
     }
 }
 
+// STRING: 105 0x626bb8
+#define GBH_BOB_MUTEX "GBH_BOB_MUTEX"
+
+// STRING: 105 0x626b80
+#define GTA2_MANAGER_STRING "GTA2 Manager"
+
+// STRING: 105 0x626b6c
+#define GTA2_MANAGER_EXE "GTA2 Manager.EXE"
+
 // FUNCTION: 105 0x5E4DE0
 EXPORT void Start_GTA2Manager_5E4DE0()
 {
     ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
-    HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, 0, "GBH_BOB_MUTEX");
+    HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, 0, GBH_BOB_MUTEX);
     if (hMutex)
     {
         if (!CloseHandle(hMutex))
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
+            FatalError_4A38C0(126, WINMAIN_CPP_STRING, 118);
         }
 
-        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
+        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, GTA2_MANAGER_STRING);
         if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, (LPARAM)hwndGta2Manager);
+            PostMessageA(gHwnd_707F04, 6, 0, (LPARAM)hwndGta2Manager);
             if (!SetForegroundWindow(hwndGta2Manager))
             {
-                FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
+                FatalError_4A38C0(126, WINMAIN_CPP_STRING, 125);
             }
         }
     }
     else
     {
         LPARAM lParam; // [esp+4h] [ebp-4h]
-        PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, lParam);
-        if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
+        PostMessageA(gHwnd_707F04, 6, 0, lParam);
+        if ((u32)ShellExecuteA(0, 0, GTA2_MANAGER_EXE, 0, gWorkingDir_707F64, 1) <= 0x20)
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
+            FatalError_4A38C0(126, WINMAIN_CPP_STRING, 136);
         }
     }
 }
 
+// STRING: 105 0x626bc8
+#define ERROR_STRING "Error!"
+
 // FUNCTION: 105 0x5E4EC0
 EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
-    MessageBoxA(gHwnd_707F04, lpText, "Error!", MB_OK);
+    MessageBoxA(gHwnd_707F04, lpText, ERROR_STRING, MB_OK);
 }
 
 // todo: move
@@ -1679,7 +1818,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, v8, v9, 0x314u))
     {
-        FatalError_4A38C0(7, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
+        FatalError_4A38C0(7, WINMAIN_CPP_STRING, 661);
     }
 
     Input::DirectInputCreate_4986D0(gHInstance_708220);
@@ -1940,17 +2079,23 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
 #pragma comment(lib, "Version.lib")
 
+// STRING: 105 0x626c48
+#define GTA2_EXE_STRING "GTA2.EXE"
+
+// STRING: 105 0x626c44
+#define BACKSLASH_STRING "\\"
+
 // FUNCTION: 105 0x5E5D60
 EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
 {
     DWORD dwHandle;
-    DWORD dwSize = GetFileVersionInfoSizeA("GTA2.EXE", &dwHandle);
+    DWORD dwSize = GetFileVersionInfoSizeA(GTA2_EXE_STRING, &dwHandle);
     BYTE* pAlloc = new BYTE[dwSize];
 
     VS_FIXEDFILEINFO* pFileInfo;
     u32 puLen;
-    if (pAlloc && GetFileVersionInfoA("GTA2.EXE", 0, dwSize, pAlloc) &&
-        VerQueryValueA(pAlloc, "\\", reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
+    if (pAlloc && GetFileVersionInfoA(GTA2_EXE_STRING, 0, dwSize, pAlloc) &&
+        VerQueryValueA(pAlloc, BACKSLASH_STRING, reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
     {
         *pVerMinor = (pFileInfo->dwProductVersionMS >> 16);
         *pVerMajor = pFileInfo->dwProductVersionMS & 0xFFFF;

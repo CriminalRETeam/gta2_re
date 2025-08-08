@@ -7,6 +7,12 @@ ENABLE_LANGUAGE(ASM_MASM)
 
 SET(CMAKE_WARN_VS6 CACHE BOOL OFF)
 
+if(${MSVC})
+    include(cmake/vc6.cmake)
+endif ()
+
+
+
 add_subdirectory(3rdParty/GTA2Hax)
 
 add_library (mss32 SHARED
@@ -326,8 +332,4 @@ if (${MSVC_VERSION} EQUAL 1200)
     set_target_properties(cl_proxy PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
     target_link_libraries(cl_proxy  libcmt.lib libcpmt.lib)
 endif()
-
-if(${MSVC})
-    include(cmake/vc6.cmake)
-endif ()
 

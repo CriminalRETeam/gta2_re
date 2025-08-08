@@ -56,11 +56,16 @@ DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8);
 // GLOBAL: 105 0x708600
 DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600);
 
+// STRING: 105 0x626D48
+#define DMA_ERROR_MSG "Error: A DMA Video Function was called without the DLL being loaded"
+
+// STRING: 105 0x626d8c
+#define DMA_ERROR_MSG_TITLE "DMA Video Error"
 
 // FUNCTION: 105 0x5EB810
 EXPORT void __stdcall DMA_Video_Stub_5EB810()
 {
-    MessageBoxA(0, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
+    MessageBoxA(0, DMA_ERROR_MSG, DMA_ERROR_MSG_TITLE, MB_OK);
 }
 
 // FUNCTION: 105 0x5EB8C0
