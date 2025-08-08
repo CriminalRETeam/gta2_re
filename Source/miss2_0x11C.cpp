@@ -34,7 +34,8 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 
-DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
+// GLOBAL: 105 0x6212EE
+DEFINE_GLOBAL_INIT(s16, word_6212EE, 1);
 
 // GLOBAL: 105 0x6F8064
 DEFINE_GLOBAL(Miss2_8EC*, gMiss2_8EC_6F8064);

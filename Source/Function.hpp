@@ -37,15 +37,14 @@
             #define DEFINE_GLOBAL(type, name) \
                 __declspec(dllexport) type name;    
 
-            #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
+            #define DEFINE_GLOBAL_INIT(type, name, value) \
                 __declspec(dllexport) type name = value;        
 
-            #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) \
+            #define DEFINE_GLOBAL_ARRAY(type, name, size) \
                 __declspec(dllexport) type name[size];          
 
-            //#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) \
-            //   __declspec(dllexport) type name[size] = {__VA_ARGS__};    \
-            //    GLOBAL(name, addr)
+            //#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, ...) \
+            //   __declspec(dllexport) type name[size] = {__VA_ARGS__};
 
             #define EXTERN_GLOBAL(type, name) __declspec(dllexport) extern type name
             #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllexport) extern type name[size]
@@ -53,10 +52,10 @@
         #elif defined(IMPORT_VARS)
             // define
             #define DEFINE_GLOBAL(type, name) __declspec(dllimport) type name
-            #define DEFINE_GLOBAL_INIT(type, name, value, addr) __declspec(dllimport) type name;
+            #define DEFINE_GLOBAL_INIT(type, name, value) __declspec(dllimport) type name;
 
-            #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) __declspec(dllimport) type name[size]
-           // #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) __declspec(dllimport) type name[size];
+            #define DEFINE_GLOBAL_ARRAY(type, name, size) __declspec(dllimport) type name[size]
+           // #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, ...) __declspec(dllimport) type name[size];
             // extern
             #define EXTERN_GLOBAL(type, name) __declspec(dllimport) extern type name
             #define EXTERN_GLOBAL_ARRAY(type, name, size) __declspec(dllimport) extern type name[size]
@@ -66,17 +65,14 @@
         #define DEFINE_GLOBAL(type, name) \
             type name;                          
 
-        #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
-            type name = value;                              \
-            GLOBAL(name, addr)
+        #define DEFINE_GLOBAL_INIT(type, name, value) \
+            type name = value;                              
 
-        #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) \
-            type name[size];                                \
-            GLOBAL(name, addr)
+        #define DEFINE_GLOBAL_ARRAY(type, name, size) \
+            type name[size];                                
 
-        //#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...) \
-        //    type name[size] = {__VA_ARGS__};                          \
-         //   GLOBAL(name, addr)
+        //#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, ...) \
+        //    type name[size] = {__VA_ARGS__};                          
 
         #define EXTERN_GLOBAL(type, name) extern type name
         #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]
@@ -119,10 +115,10 @@ void __stdcall LogNotImplemented(u32 codeAddr);
     #define __stdcall
 
     #define DEFINE_GLOBAL(type, name) type name
-    #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
+    #define DEFINE_GLOBAL_INIT(type, name, value) type name = value
 
-    #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
-//#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...)  type name[size] = { __VA_ARGS__ }
+    #define DEFINE_GLOBAL_ARRAY(type, name, size) type name[size]
+//#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, ...)  type name[size] = { __VA_ARGS__ }
 
     #define EXTERN_GLOBAL(type, name) extern type name
     #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]

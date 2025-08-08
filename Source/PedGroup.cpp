@@ -3,7 +3,8 @@
 #include "Ped.hpp"
 #include "enums.hpp"
 
-DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
+// GLOBAL: 105 0x67EF20
+DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20);
 // GLOBAL: 105 0x67F610
 DEFINE_GLOBAL(Fix16, dword_67F610);
 

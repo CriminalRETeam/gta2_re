@@ -4,7 +4,8 @@
 
 // GLOBAL: 105 0x6F8A18
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18);
-DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
+// GLOBAL: 105 0x6F88A4
+DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256);
 
 // STUB: 105 0x519960
 u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)

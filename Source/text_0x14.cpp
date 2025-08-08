@@ -10,8 +10,10 @@
 DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC);
 // GLOBAL: 105 0x6F87F0
 DEFINE_GLOBAL(text_0x14*, gtext_0x14_6F87F0);
-DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
-DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
+// GLOBAL: 105 0x70488C
+DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640);
+// GLOBAL: 105 0x70462C
+DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80);
 
 const wchar_t word_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,

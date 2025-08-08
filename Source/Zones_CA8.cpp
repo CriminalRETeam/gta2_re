@@ -8,19 +8,21 @@
 
 // GLOBAL: 105 0x67E274
 DEFINE_GLOBAL(Zones_CA8*, gZones_CA8_67E274);
-DEFINE_GLOBAL_INIT(s32, gZoneIdx_6206B8, -1, 0x6206B8);
+// GLOBAL: 105 0x6206B8
+DEFINE_GLOBAL_INIT(s32, gZoneIdx_6206B8, -1);
 
-DEFINE_GLOBAL_ARRAY(wchar_t, gZoneNameWide_67E030, 4, 0x67E030);
+// GLOBAL: 105 0x67E030
+DEFINE_GLOBAL_ARRAY(wchar_t, gZoneNameWide_67E030, 4);
 
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-// FUNCTION: 105 0x4BE4E0;
+// FUNCTION: 105 0x4BE4E0
 Gang_144::Gang_144()
 {
     init_4BED70();
 }
 
-// FUNCTION: 105 0x4BE4F0;
+// FUNCTION: 105 0x4BE4F0
 Gang_144::~Gang_144()
 {
 }
@@ -35,7 +37,7 @@ wchar_t* Gang_144::get_name_wide_4BED30()
     return gZoneNameWide_67E030;
 }
 
-// FUNCTION: 105 0x4BED70;
+// FUNCTION: 105 0x4BED70
 void Gang_144::init_4BED70()
 {
     field_1_zone_idx = 0;
@@ -265,7 +267,7 @@ Gang_144* Zones_CA8::zone_by_name_4BF100(const char* pZoneName)
     return 0;
 }
 
-// FUNCTION: 105 0x4BF170;
+// FUNCTION: 105 0x4BF170
 Gang_144* Zones_CA8::next_free_zone_4BF170()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -281,13 +283,13 @@ Gang_144* Zones_CA8::next_free_zone_4BF170()
     return NULL;
 }
 
-// FUNCTION: 105 0x4BF1C0;
+// FUNCTION: 105 0x4BF1C0
 Gang_144* Zones_CA8::ZoneByIdx_4BF1C0(u8 zone_idx)
 {
     return &field_0[zone_idx];
 }
 
-// FUNCTION: 105 0x4BF1E0;
+// FUNCTION: 105 0x4BF1E0
 void Zones_CA8::alloc_map_zone_4BF1E0(gmp_map_zone* pMapZone)
 {
     if (!zone_by_name_4BF100(pMapZone->field_6_name))
@@ -297,7 +299,7 @@ void Zones_CA8::alloc_map_zone_4BF1E0(gmp_map_zone* pMapZone)
     }
 }
 
-// FUNCTION: 105 0x4BF210;
+// FUNCTION: 105 0x4BF210
 u8 Zones_CA8::get_zone_idx_4BF210(const char* zoneName)
 {
     Gang_144* pZone = zone_by_name_4BF100(zoneName);
@@ -311,7 +313,7 @@ u8 Zones_CA8::get_zone_idx_4BF210(const char* zoneName)
     }
 }
 
-// STUB: 105 0x4BF230;
+// STUB: 105 0x4BF230
 void Zones_CA8::sub_4BF230(Gang_144* pZone, u8 zone_idx)
 {
     NOT_IMPLEMENTED;
@@ -338,7 +340,7 @@ void Zones_CA8::sub_4BF230(Gang_144* pZone, u8 zone_idx)
     }
 }
 
-// FUNCTION: 105 0x4BF2F0;
+// FUNCTION: 105 0x4BF2F0
 s8 Zones_CA8::sub_4BF2F0(s32 arg0)
 {
     for (u8 i = 0; i < 10; i++)

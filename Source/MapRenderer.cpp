@@ -33,7 +33,8 @@ DEFINE_GLOBAL(u32, dword_6F647C);
 DEFINE_GLOBAL(gmp_block_info*, gpBlock_6F6478);
 // GLOBAL: 105 0x6F646C
 DEFINE_GLOBAL(gmp_map_slope, dword_6F646C);
-DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8, 0x6F65A8);
+// GLOBAL: 105 0x6F65A8
+DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8);
 
 // FUNCTION: 105 0x4e9d50
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)

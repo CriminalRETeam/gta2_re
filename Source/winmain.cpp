@@ -52,7 +52,7 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "sound_obj.hpp"
 #include "cSampleManager.hpp"
-
+#include "Particle_4C.hpp"
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -279,6 +279,9 @@ void force_link()
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
+
+    Particle_4C p4c;
+    p4c.sub_538060();
 }
 
 // GLOBAL: 105 0x708220
@@ -289,8 +292,10 @@ DEFINE_GLOBAL(HANDLE, gMutex_707078);
 DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280);
 // GLOBAL: 105 0x708284
 DEFINE_GLOBAL(s32, gGTA2VersionMajor_708284);
-DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652, 0x707F64);
-DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true, 0x626B68);
+// GLOBAL: 105 0x707F64
+DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652);
+// GLOBAL: 105 0x626B68
+DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true);
 
 // GLOBAL: 105 0x706630
 DEFINE_GLOBAL(s32, window_width_706630);
@@ -312,7 +317,8 @@ DEFINE_GLOBAL(BYTE, byte_70827C);
 DEFINE_GLOBAL(BYTE, byte_706C5D);
 // GLOBAL: 105 0x6F5B71
 DEFINE_GLOBAL(BYTE, byte_6F5B71);
-DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2, 0x626A0C);
+// GLOBAL: 105 0x626A0C
+DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2);
 
 // GLOBAL: 105 0x706C54
 DEFINE_GLOBAL(s32, bTrippleBuffer_706C54);
@@ -320,16 +326,18 @@ DEFINE_GLOBAL(s32, bTrippleBuffer_706C54);
 DEFINE_GLOBAL(char_type, byte_706C5C);
 // GLOBAL: 105 0x706B34
 DEFINE_GLOBAL(u32, gBufferMode_706B34);
-DEFINE_GLOBAL_ARRAY(char_type, gRenderDllName_7067F0, 256, 0x7067F0);
-DEFINE_GLOBAL_ARRAY(char_type, gVideoDllName_706654, 256, 0x706654);
+// GLOBAL: 105 0x7067F0
+DEFINE_GLOBAL_ARRAY(char_type, gRenderDllName_7067F0, 256);
+// GLOBAL: 105 0x706654
+DEFINE_GLOBAL_ARRAY(char_type, gVideoDllName_706654, 256);
 // GLOBAL: 105 0x70694C
 DEFINE_GLOBAL(s32, gVideodevice_70694C);
 // GLOBAL: 105 0x706998
 DEFINE_GLOBAL(s32, gRenderdevice_706998);
 // GLOBAL: 105 0x67BD32
 DEFINE_GLOBAL(u16, gDMusicVer_67BD32);
-
-DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1, 0x626A09);
+// GLOBAL: 105 0x626A09
+DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1);
 
 // GLOBAL: 105 0x7068F4
 DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4);

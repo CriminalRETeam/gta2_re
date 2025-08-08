@@ -50,7 +50,8 @@ DEFINE_GLOBAL(s32, dword_6772AC);
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938);
 // GLOBAL: 105 0x679188
 DEFINE_GLOBAL(s32, dword_679188);
-DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
+// GLOBAL: 105 0x6F6850
+DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256);
 // GLOBAL: 105 0x703804
 DEFINE_GLOBAL(Ang16, gAng16_703804);
 // GLOBAL: 105 0x6777CC
@@ -80,7 +81,8 @@ DEFINE_GLOBAL(char_type, byte_679C0A);
 
 // Array of values used by Car_2.
 // It can probably turned into a static variable inside Car_2
-DEFINE_GLOBAL_ARRAY(s16, DAT_00679320, 1000, 0x679320);
+// GLOBAL: 105 0x679320
+DEFINE_GLOBAL_ARRAY(s16, DAT_00679320, 1000);
 // GLOBAL: 105 0x6777D0
 DEFINE_GLOBAL(Fix16, dword_6777D0);
 // GLOBAL: 105 0x677888
@@ -1310,10 +1312,11 @@ u32 Car_6C::sub_446930(s32 a2)
 }
 
 // STUB: 105 0x4469f0
-// There are still something missing here.
-// But the structure it seems to be complete
 Car_6C::Car_6C()
 {
+    // There are still something missing here.
+    // But the structure it seems to be complete
+
     NOT_IMPLEMENTED;
     if (!gCar_E0C4_67792C)
     {

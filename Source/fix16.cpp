@@ -3,8 +3,10 @@
 #include "Globals.hpp"
 #include <cmath>
 
-DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440, 0x667A80);
-DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
+// GLOBAL: 105 0x667A80
+DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
+// GLOBAL: 105 0x669260
+DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 
 // FUNCTION: 105 0x4369F0
 Fix16& Fix16::FromInt_4369F0(s32 a2)
@@ -50,7 +52,7 @@ Fix16 Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
 }
 
 /*
-// FUNCTION: 105 0x436A20
+// 105 0x436A20
 Fix16 Fix16::operator/(const Fix16& in)
 {
     s32 value = ((__int64)mValue << 14) / in.mValue;

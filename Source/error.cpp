@@ -22,10 +22,14 @@ DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530);
 // GLOBAL: 105 0x67CF58
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58);
 
-DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
-DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
-DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256, 0x67C3A8);
-DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
+// GLOBAL: 105 0x67C598
+DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256); // TODO: Check
+// GLOBAL: 105 0x67C29C
+DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256);
+// GLOBAL: 105 0x67C3A8
+DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256);
+// GLOBAL: 105 0x67C6AC
+DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256);
 
 
 const char_type* gListTypes_61AB70[30] = {"objects",

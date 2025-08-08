@@ -23,7 +23,8 @@ DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40);
 // GLOBAL: 105 0x6F6028
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028);
-DEFINE_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64, 0x6F5BA8);
+// GLOBAL: 105 0x6F5BA8
+DEFINE_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
 // GLOBAL: 105 0x6F5EC8
 DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8);
 // GLOBAL: 105 0x6F6002
