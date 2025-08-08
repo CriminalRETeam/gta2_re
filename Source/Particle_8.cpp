@@ -5,6 +5,9 @@
 // GLOBAL: 105 0x6FD5E4
 DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4);
 
+// STRING: 105 0x623f1c
+#define FILE_CPP_PARTICLE "C:\\Splitting\\Gta2\\Source\\particle.cpp"
+
 // STUB: 105 0x53e320
 void Particle_8::sub_53E320()
 {
@@ -43,7 +46,7 @@ Particle_8::Particle_8()
         gParticle_947C_6FD5E4 = new Particle_947C();
         if (!gParticle_947C_6FD5E4)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
+            FatalError_4A38C0(0x20, FILE_CPP_PARTICLE, 4167);
         }
     }
     field_0 = 0;

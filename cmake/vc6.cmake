@@ -40,7 +40,7 @@ if (${MSVC_VERSION} EQUAL 1200)
     endforeach()
 
     # Remove default CRT libs
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:libcmt.lib")
+    #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:libcmt.lib")
 
 endif()
 

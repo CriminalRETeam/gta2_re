@@ -3,8 +3,8 @@
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "input.hpp"
 #include "file.hpp"
+#include "input.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -86,6 +86,9 @@ void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
     NOT_IMPLEMENTED;
 }
 
+// STRING: 105 0x620b3c
+#define REPLAY_STRING "data\\replay.rep"
+
 // FUNCTION: 105 0x4cded0
 void BurgerKing_67F8B0::SaveReplay_4CDED0()
 {
@@ -93,7 +96,7 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
         !RecOrPlayBackState_4CEDF0())
     {
         size_t len = 12 * field_75340_rec_len;
-        File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
+        File::AppendBufferToFile_4A6F50(REPLAY_STRING, field_3C_rec_buff, &len);
     }
 }
 

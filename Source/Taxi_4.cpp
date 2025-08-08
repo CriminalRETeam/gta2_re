@@ -77,6 +77,9 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     return pCarRet;
 }
 
+// STRING: 105 0x626348
+#define TAXI_CPP_STRING "C:\\Splitting\\Gta2\\Source\\taxi.cpp"
+
 // FUNCTION: 105 0x5ae060
 Taxi_4::Taxi_4()
 {
@@ -87,7 +90,7 @@ Taxi_4::Taxi_4()
         gTaxi_324_6783F8 = new Taxi_324();
         if (!gTaxi_324_6783F8)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
+            FatalError_4A38C0(32, TAXI_CPP_STRING, 29);
         }
     }
 }

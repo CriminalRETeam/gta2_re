@@ -54,6 +54,37 @@
 #include "cSampleManager.hpp"
 #include "Particle_4C.hpp"
 
+// aka `operator new`
+// LIBRARY: 105 0x5ED4E1
+// ??2@YAPAXI@Z
+
+// aka eh vector constructor iterator
+// LIBRARY: 105 0x5EDF51
+// ??_L@YGXPAXIHP6EX0@Z1@Z
+
+// aka eh vector destructor iterator
+// LIBRARY: 105 0x5EDFD3
+// ??_M@YGXPAXIHP6EX0@Z@Z
+
+// aka operator delete(void *)
+// LIBRARY: 105 0x5ED46D
+// ??3@YAXPAX@Z
+
+// LIBRARY: 105 0x5F44B4
+// __except_handler3
+
+// LIBRARY: 105 0x5ED3CD
+// __nh_malloc
+
+// LIBRARY: 105 0x5EE053
+// ?__ArrayUnwind@@YGXPAXIHP6EX0@Z@Z
+
+// LIBRARY: 105 0x5EFC96
+// _bsearch
+
+// GLOBAL: 105 0x6009a4
+// GUID_SysMouse
+
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
 class DllRaii
@@ -417,6 +448,7 @@ EXPORT void __stdcall HideCursor_5D94F0()
 
     } while (ShowCursor(0) >= 0);
 }
+
 
 // todo: move
 // FUNCTION: 105 0x5D7BF0
@@ -1556,7 +1588,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
-//// STUB: 105 0x5E53F0
+// STUB: 105 0x5E53F0
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     NOT_IMPLEMENTED;

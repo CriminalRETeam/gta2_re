@@ -96,6 +96,7 @@ Snooky_94::Snooky_94()
     field_90_count = 0;
 }
 
+
 // FUNCTION: 105 0x4bbc30
 Snooky_94::~Snooky_94()
 {

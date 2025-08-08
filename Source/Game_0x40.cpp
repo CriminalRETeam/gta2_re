@@ -160,6 +160,15 @@ s8 Game_0x40::sub_4B8C20()
     return 0;
 }
 
+// STRING: 105 0x62038c 
+#define DATA_PATH_STRING "data\\"
+
+// STRING: 105 0x620544 
+#define CARNAME_STRING "carname"
+
+// STRING: 105 0x620534 
+#define NYC_GCI_PATH_STRING "data\\nyc.gci"
+
 // FUNCTION: 105 0x4B8C40
 void Game_0x40::sub_4B8C40()
 {
@@ -193,19 +202,19 @@ void Game_0x40::sub_4B8C40()
         gfrosty_pasteur_6F8060->sub_511F80(debug_str);
     }
 
-    strcpy(tmp_array, "data\\");
+    strcpy(tmp_array, DATA_PATH_STRING);
     memset(gTmpBuffer_67C598, 0, sizeof(gTmpBuffer_67C598));
-    gRegistry_6FF968.Get_Debug_Setting_586E90("carname", (LPBYTE)gTmpBuffer_67C598, 0x100);
+    gRegistry_6FF968.Get_Debug_Setting_586E90(CARNAME_STRING, (LPBYTE)gTmpBuffer_67C598, 0x100);
 
     strcat(tmp_array, gTmpBuffer_67C598);
 
-    if (strcmp(tmp_array, "data\\"))
+    if (strcmp(tmp_array, DATA_PATH_STRING))
     {
         gCarInfo_808_678098->sub_454A00(tmp_array);
     }
     else
     {
-        gCarInfo_808_678098->sub_454A00("data\\nyc.gci");
+        gCarInfo_808_678098->sub_454A00(NYC_GCI_PATH_STRING);
     }
 
     gCar_6C_677930->sub_444980();

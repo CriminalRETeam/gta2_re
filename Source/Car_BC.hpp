@@ -218,7 +218,7 @@ class Sprite
 
     // This function matches, but the marker doesn't seem to work on header files.
     // Leave it here commented for future reference
-    //// FUNCTION: 105 0x5a5e50
+    // FUNCTION: 105 0x5a5e50
     EXPORT Sprite() : field_0(gAng16_703804)
     {
         field_4_0x4C_len = NULL;

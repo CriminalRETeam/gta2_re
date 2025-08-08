@@ -1,6 +1,7 @@
 #include "Car_10.hpp"
 #include "Ped.hpp"
 
+// GLOBAL: 105 0x61A808
 const u8 byte_61A808[] = {7, 24, 11, 28};
 
 // FUNCTION: 105 0x439CD0

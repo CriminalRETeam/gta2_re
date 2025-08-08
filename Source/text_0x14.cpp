@@ -15,6 +15,9 @@ DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640);
 // GLOBAL: 105 0x70462C
 DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80);
 
+// STRING: 105 0x626790
+#define TEXT_CPP_STRING "C:\\Splitting\\Gta2\\Source\\text.cpp"
+
 const wchar_t word_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
     150u, 128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u,
@@ -89,7 +92,7 @@ void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
     field_0_tKey.field_0_tKey = new text_0xC[field_0_tKey.field_4_tKey_count];
     if (!field_0_tKey.field_0_tKey)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
+        FatalError_4A38C0(32, TEXT_CPP_STRING, 218);
     }
 
     File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunkSize);
@@ -129,6 +132,9 @@ s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
     return strcmp(pIdStr, (const char_type*)&a2->field_4_pKey); // TODO: ???
 }
 
+// STRING: 105 0x6267b4
+#define SPACE_WIDE_STRING L" "
+
 // FUNCTION: 105 0x5B5A50
 wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
 {
@@ -139,7 +145,7 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
                                           TKeySearch_5B5A10);
     if (!pFound)
     {
-        return L" ";
+        return SPACE_WIDE_STRING;
     }
     else
     {
@@ -155,7 +161,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 
     if (!field_0_data)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
+        FatalError_4A38C0(32, TEXT_CPP_STRING, 378);
     }
 
     File::Global_Read_4A71C0(field_0_data, size);

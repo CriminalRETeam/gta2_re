@@ -23,12 +23,15 @@ wchar_t xenodochial_morse::sub_483EC0(const wchar_t* pStr, u16* pStartPos, bool 
     return cur_wchar;
 }
 
+// STRING: 105 0x61a984
+#define STRING_CREDITS "credits"
+
 // FUNCTION: 105 0x483F20
 void xenodochial_morse::sub_483F20()
 {
     s16 v2 = 0;
     u16 a4 = 0;
-    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("credits");
+    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90(STRING_CREDITS);
     wchar_t v4 = xenodochial_morse::sub_483EC0(_5B5F90, &a4, 1);
     u16 v12 = 0;
 

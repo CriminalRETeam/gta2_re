@@ -293,7 +293,7 @@ target_link_libraries(decomp_main mss32  ${dplay_libs} dear_imgui gta2_lib)
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(decomp_main )#libc.lib libcp.lib)
     target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
-    set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+    #set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
 endif()
 
 if (${MSVC_VERSION} GREATER 1200)

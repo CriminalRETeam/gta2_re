@@ -60,6 +60,9 @@ DEFINE_GLOBAL(s32, dword_6F6148);
 // GLOBAL: 105 0x6F613C
 DEFINE_GLOBAL(s32, dword_6F613C);
 
+// STRING: 105 0x620ecc
+#define MAP_CPP_STRING "C:\\Splitting\\Gta2\\Source\\map.cpp"
+
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
     return x >= pZone->field_1_x && y >= pZone->field_2_y && x < pZone->field_1_x + pZone->field_3_w &&
@@ -694,7 +697,8 @@ gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
     return NULL;
 }
 
-Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
+// GLOBAL: 105 0x6F6110
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6110, Fix16(1));  // = 0x4000; // todo
 
 // FUNCTION: 105 0x4DFF60
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
@@ -2060,7 +2064,7 @@ void Map_0x370::load_mobj_4E91A0(size_t len)
     field_344_map_object_count = len / 6;
     if (6 * field_344_map_object_count != len)
     {
-        FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
+        FatalError_4A38C0(40, MAP_CPP_STRING, 6024);
     }
 }
 
@@ -2073,7 +2077,7 @@ void Map_0x370::load_lght_4E9200(size_t a2)
     field_348_num_lights = a2 >> 4;
     if (16 * field_348_num_lights != a2)
     {
-        FatalError_4A38C0(51, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
+        FatalError_4A38C0(51, MAP_CPP_STRING, 6046);
     }
 }
 
@@ -2101,7 +2105,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
     field_0_pDmap = new gmp_compressed_map_32();
     if (field_0_pDmap == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
+        FatalError_4A38C0(32, MAP_CPP_STRING, 6147);
     }
 
     File::Global_Read_4A71C0(&field_0_pDmap->field_0_base[0][0], 0x40000);
@@ -2109,7 +2113,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000u)
     {
-        FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
+        FatalError_4A38C0(1127, MAP_CPP_STRING, 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
     }
 
     field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
@@ -2128,7 +2132,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000u)
     {
-        FatalError_4A38C0(1129, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6161, field_0_pDmap->field_40004_num_blocks - 130872);
+        FatalError_4A38C0(1129, MAP_CPP_STRING, 6161, field_0_pDmap->field_40004_num_blocks - 130872);
     }
     field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
 
@@ -2144,7 +2148,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if (len != block_info_size + column_data_size + 0x40008)
     {
-        FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
+        FatalError_4A38C0(1033, MAP_CPP_STRING, 6170, len);
     }
 }
 
@@ -2218,7 +2222,7 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 
     if (!field_0_pDmap)
     {
-        FatalError_4A38C0(132, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329); // error map not compressed
+        FatalError_4A38C0(132, MAP_CPP_STRING, 6329); // error map not compressed
     }
 }
 
