@@ -250,15 +250,43 @@ def verify():
     download_exe("9.6f.exe")
 
     if not os.path.exists("reccmp-user.yml"):
-        detect_result = subprocess.run(f"reccmp-project detect --search-path {BIN_COMP_DIRECTORY}", cwd=".", shell=True)
+        detect_result = subprocess.run(
+            f"reccmp-project detect --search-path {BIN_COMP_DIRECTORY}",
+            cwd=".",
+            shell=True,
+            capture_output=True,
+            text=True
+        )
+        print(detect_result.stdout)
+        print(detect_result.stderr)
 
-    detect_result = subprocess.run(f"reccmp-project detect --what recompiled", cwd=".", shell=True)
+    detect_result = subprocess.run(
+        f"reccmp-project detect --what recompiled",
+        cwd=".",
+        shell=True,
+        capture_output=True,
+        text=True
+    )
+
     if detect_result.returncode != 0:
-        print(f"reccmp-project failed with code: {detect_result.stderr}")
+        print(f"reccmp-project failed with code: {detect_result.returncode}")
+        print(f"stderr: {detect_result.stderr}")
         return False
 
-    compare_result = subprocess.run(f"reccmp-reccmp --target 105 --html report.html", cwd=".", shell=True)
+    compare_result = subprocess.run(
+        f"reccmp-reccmp --target 105 --html report.html",
+        cwd=".",
+        shell=True,
+        capture_output=True,
+        text=True
+    )
+
+    if compare_result.returncode != 0:
+        print(f"reccmp-reccmp failed with code: {compare_result.returncode}")
+        print(f"stderr: {compare_result.stderr}")
+
     return compare_result.returncode == 0
+
 
 def download_exe(exe: str):
     if exe == "10.5.exe":
