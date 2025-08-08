@@ -294,7 +294,8 @@ def copy_files_impl(files: list[str], target_dir: str):
 
 def copy_files():
     files = ["../Scripts/bin_comp/new_data.json", "gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
-    copy_files_impl(files, GTA2_ROOT)
+    if GTA2_ROOT is not None:   
+        copy_files_impl(files, GTA2_ROOT)
 
     reccmp_files = ["decomp_main.exe", "decomp_main.pdb"]
     copy_files_impl(reccmp_files, ".")
