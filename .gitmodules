@@ -10,3 +10,6 @@
 [submodule "3rdParty/GTA2Hax"]
 	path = 3rdParty/GTA2Hax
 	url = https://github.com/CriminalRETeam/GTA2Hax.git
+[submodule "3rdParty/reccmp"]
+	path = 3rdParty/reccmp
+	url = https://github.com/CriminalRETeam/reccmp
