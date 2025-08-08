@@ -53,8 +53,8 @@ jobs:
     - name: Build on Windows (Windows_VC6)
       if: matrix.name == 'Windows_VC6'
       run: |
-        python3 -m venv venv
-        source venv/bin/activate
+        python -m venv venv
+        venv/bin/activate.bat
         pip install -r requirements.txt
         pip install -e 3rdParty/reccmp/
         python vc6_setup.py
