@@ -397,10 +397,13 @@ void Garox_1::sub_5D5420()
     NOT_IMPLEMENTED;
 }
 
+// STRING: 105 0x626974
+#define MSG_FORMAT_STRING "c%02d"
+
 // FUNCTION: 105 0x5d5600
 void Garox_1::sub_5D5600(u8 a2)
 {
-    sprintf(byte_67CE50, "c%02d", a2);
+    sprintf(byte_67CE50, MSG_FORMAT_STRING, a2);
     field_0_timer = 90;
     wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
     wcscpy(field_2_str, pStr);

@@ -99,6 +99,11 @@ u16 RouteFinder::sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
     return 0;
 }
 
+// STRING: 105 0x625130
+#define JUNCTION_DEBUG_STRING "Junc: %d (%d, %d) n %d s %d w %d e %d"
+// STRING: 105 0x625128
+#define SPACER_STRING "     "
+
 // FUNCTION: 105 0x588b30
 void RouteFinder::Load_RGEN_588B30()
 {
@@ -116,7 +121,7 @@ void RouteFinder::Load_RGEN_588B30()
         do
         {
             sprintf(gTmpBuffer_67C598,
-                    "Junc: %d (%d, %d) n %d s %d w %d e %d",
+                    JUNCTION_DEBUG_STRING,
                     iVar2,
                     field_8[iVar2].field_C_min_x,
                     field_8[iVar2].field_D_min_y,
@@ -133,7 +138,7 @@ void RouteFinder::Load_RGEN_588B30()
             iVar2++;
         } while (iVar2 < 0x221);
 
-        gErrorLog_67C530.Write_4D9620("     ");
+        gErrorLog_67C530.Write_4D9620(SPACER_STRING);
     }
 }
 

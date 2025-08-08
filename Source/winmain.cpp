@@ -223,6 +223,12 @@
 // LIBRARY: 105 0x5ED478 SYMBOL
 // _free 
 
+// LIBRARY: 105 0x5EF7C0 SYMBOL
+// _mbstowcs 
+
+// LIBRARY: 105 0x70830C SYMBOL
+// ?_pnhHeap@@3P6AHI@ZA 
+
 // GLOBAL: 105 0x627010
 // ___badioinfo
 

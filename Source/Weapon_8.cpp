@@ -148,7 +148,7 @@ char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 }
 
 // STRING: 105 0x626b44
-#define WEAPON_CPP_STRING "weapon.cpp"
+#define WEAPON_CPP_STRING "C:\\Splitting\\Gta2\\Source\\weapon.cpp"
 
 // FUNCTION: 105 0x5FCF1B SYMBOL
 // SEH_5FCF1B

@@ -87,7 +87,7 @@ void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
 }
 
 // STRING: 105 0x620b3c
-#define REPLAY_STRING "data\\replay.rep"
+#define REPLAY_STRING "test\\replay.rep"
 
 // FUNCTION: 105 0x4cded0
 void BurgerKing_67F8B0::SaveReplay_4CDED0()
@@ -119,6 +119,9 @@ char_type BurgerKing_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
     return 0;
 }
 
+// STRING: 105 0x620b54
+#define INPUT_CPP_STRING "C:\\Splitting\\Gta2\\Source\\input.cpp"
+
 // FUNCTION: 105 0x4ce650
 void BurgerKing_67F8B0::sub_4CE650()
 {
@@ -130,7 +133,7 @@ void BurgerKing_67F8B0::sub_4CE650()
         if (hFind == -1)
         {
             strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
-            FatalError_4A38C0(0x1BE5, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
+            FatalError_4A38C0(0x1BE5, INPUT_CPP_STRING, 524);
         }
         _findclose(hFind);
         ++attr1FilePath;
@@ -194,6 +197,9 @@ void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
+// STRING: 105 0x620b90
+#define CONTROL_FORMAT_STRING L"Control %d"
+
 // FUNCTION: 105 0x4ced90
 void BurgerKing_67F8B0::sub_4CED90()
 {
@@ -203,7 +209,7 @@ void BurgerKing_67F8B0::sub_4CED90()
     {
         if (((1 << bit_idx) & field_4_input_bits) != 0)
         {
-            swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
+            swprintf(tmpBuff_67BD9C, CONTROL_FORMAT_STRING, bit_idx);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
         }
         ++i;
@@ -221,16 +227,21 @@ bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
     return false;
 }
 
+// STRING: 105 0x620bbc
+#define PLAYBACK_STRING L"PLAYBACK"
+// STRING: 105 0x620ba8
+#define RECORDING_STRING L"RECORDING"
+
 // FUNCTION: 105 0x4cee10
 void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(PLAYBACK_STRING, -1, 0, word_706600, 1);
     }
     else
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(RECORDING_STRING, -1, 0, word_706600, 1);
     }
     sub_4CED90();
 }

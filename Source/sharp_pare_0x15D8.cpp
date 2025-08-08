@@ -351,6 +351,9 @@ sharp_pare_0x15D8::sharp_pare_0x15D8()
     field_1544_pTexture = 0;
 }
 
+// FUNCTION: 105 0x5fca82 SYMBOL
+// SEH_5fca82
+
 // FUNCTION: 105 0x5B9900
 sharp_pare_0x15D8::~sharp_pare_0x15D8()
 {

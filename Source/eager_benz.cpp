@@ -83,7 +83,7 @@ eager_benz::eager_benz()
 #define G_OVER_STRING "g_over"
 
 // STRING: 105 0x6252A0
-#define CARJACKA_STRING "carjacka"
+#define CARJAKA_STRING "carjaka"
 
 // FUNCTION: 105 0x591c70
 void eager_benz::sub_591C70()
@@ -178,7 +178,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(CARJACKA_STRING), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(CARJAKA_STRING), 1);
             gRoot_sound_66B038.sub_40F090(7);
         }
     }

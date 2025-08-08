@@ -271,9 +271,8 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
     }
 }
 
-// fix16?
-s32 dword_6F8FA4 = 0x3FC000;
-s32 dword_6FCE08 = 0;
+// GLOBAL: 105 0x6F8FA4
+DEFINE_GLOBAL_INIT(s32, dword_6F8FA4, 0x3FC000); // fix 16?
 
 // FUNCTION: 105 0x533220
 Phi_74::Phi_74()
@@ -304,7 +303,7 @@ Phi_74::Phi_74()
     field_65 = 99;
     field_1E = 99;
     field_6C = 99;
-    s32 v1 = dword_6FCE08;
+    Fix16 v1 = DAT_006fce08;
     field_68 = 0;
     field_18 = v1;
     field_20 = 0;

@@ -290,14 +290,19 @@ wchar_t* text_0x14::Ascii2Wide_5B5DF0(char_type* pStr)
     return tmpAscii2WideStr_70488C;
 }
 
+// STRING: 105 0x6267c0
+#define TKEY_STRING "TKEY"
+// STRING: 105 0x6267b8
+#define TDAT_STRING "TDAT"
+
 // FUNCTION: 105 0x5B5E20
 void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
 {
-    if (!strncmp(chunk_type, "TKEY", 4u))
+    if (!strncmp(chunk_type, TKEY_STRING, 4u))
     {
         TKEY_Load_5B5960(chunk_len);
     }
-    else if (!strncmp(chunk_type, "TDAT", 4u))
+    else if (!strncmp(chunk_type, TDAT_STRING, 4u))
     {
         field_8_tDat.TDAT_Load_5B5A80(chunk_len);
     }

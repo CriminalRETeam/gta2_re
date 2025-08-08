@@ -954,6 +954,9 @@ void gtx_0x106C::sub_5AB720()
     }
 }
 
+// STRING: 105 0x626340
+#define GBST_STRING "GBST"
+
 // FUNCTION: 105 0x5AB750
 void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
 {
@@ -963,7 +966,7 @@ void gtx_0x106C::LoadSty_5AB750(const char_type* pStyFileName)
     u32 len = sizeof(file_header);
     File::Global_Read_4A71C0(styHeader.field_0_type, len);
 
-    styHeader.verify_type("GBST");
+    styHeader.verify_type(GBST_STRING);
     styHeader.verify_version(700);
 
     chunk_header chunkHeader;
