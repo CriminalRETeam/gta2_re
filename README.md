@@ -18,6 +18,7 @@ git clone --recursive https://github.com/CriminalRETeam/gta2_re.git
 
 ```
 pip install -r requirements.txt
+pip install -e 3rdParty/reccmp/
 python vc6_setup.py
 python build.py
 ```
@@ -28,6 +29,7 @@ python build.py
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
+pip install -e 3rdParty/reccmp/
 python3 vc6_setup.py
 python3 build.py
 ```
