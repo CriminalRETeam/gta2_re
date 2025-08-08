@@ -54,6 +54,7 @@ jobs:
       if: matrix.name == 'Windows_VC6'
       run: |
         pip install -r requirements.txt
+        pip install -e 3rdParty/reccmp/
         python vc6_setup.py
         python build.py
 
@@ -105,6 +106,7 @@ jobs:
         python3 -m venv venv
         source venv/bin/activate
         pip install -r requirements.txt
+        pip install -e 3rdParty/reccmp/
         python3 vc6_setup.py
         python3 build.py
 
