@@ -2382,13 +2382,13 @@ void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20() // SET_GANG_KILL_REACTION
     gang_1_str = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
     if (gang_1_str == NULL)
     {
-        FatalError_4A38C0(0x474, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
+        FatalError_4A38C0(0x474, MISS2_CPP_STRING, 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_1 = gZones_CA8_67E274->zone_by_name_4BF100(gang_1_str->get_name());
     str_table_entry* gang_2_str = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_C_unsigned_3);
     if (gang_2_str == NULL)
     {
-        FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
+        FatalError_4A38C0(0x475, MISS2_CPP_STRING, 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_2 = gZones_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
     pGang_1->sub_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);

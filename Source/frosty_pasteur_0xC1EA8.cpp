@@ -115,7 +115,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
-            FatalError_4A38C0(0x41, "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+            FatalError_4A38C0(0x41, MISS2_CPP_STRING,
                               12774); // No LEVELSTART declaration in scriptfile
             return;
         }

@@ -2974,12 +2974,15 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
     }
 }
 
+// STRING: 105 0x61a84c
+#define NSPRAYA_STRING "nspraya"
+
 // FUNCTION: 105 0x443AB0
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
     if (pPlayer->field_0)
     {
-        gGarox_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
+        gGarox_2B00_706620->field_DC.sub_5D3F10(1, NSPRAYA_STRING, weapon_cost);
     }
 }
 
@@ -3020,6 +3023,9 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
     this->field_B4 = 8;
 }
 
+// STRING: 105 0x61a864
+#define NESPRAY_STRING "nespray"
+
 // FUNCTION: 105 0x443bd0
 void Car_BC::ResprayOrCleanPlates(s32 remap)
 {
@@ -3037,7 +3043,7 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
     else if (field_54_driver->field_15C_player->field_0)
     {
         // I ain't touching that get outta here!
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
+        gGarox_2B00_706620->field_DC.sub_5D4400(1, NESPRAY_STRING);
     }
 }
 
@@ -3311,6 +3317,9 @@ void Car_BC::sub_4447D0()
     field_6C_maybe_id = 0;
 }
 
+// FUNCTION: 105 0x5fb196 SYMBOL
+// SEH_5fb196
+
 // FUNCTION: 105 0x444860
 Car_BC::Car_BC()
 {
@@ -3345,6 +3354,9 @@ Car_BC::Car_BC()
     field_68.mValue = 0x4000;
     field_8E = 0;
 }
+
+// FUNCTION: 105 0x5fb248 SYMBOL
+// SEH_5fb248
 
 // FUNCTION: 105 0x444960
 Car_BC::~Car_BC()

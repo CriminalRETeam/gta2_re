@@ -20,6 +20,9 @@ DEFINE_GLOBAL_ARRAY(score_table_line, stru_6243A0, 120); // [3][4][10]
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 
+// FUNCTION: 105 0x5fc800 SYMBOL
+// SEH_5fc800
+
 // FUNCTION: 105 0x56B6E0
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {

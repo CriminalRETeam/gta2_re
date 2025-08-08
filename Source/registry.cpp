@@ -209,14 +209,17 @@ char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
     return 1;
 }
 
+// STRING: 105 0x6250d8
+#define REGISTRY_KEY_SCREEN_STRING "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen"
+
 // FUNCTION: 105 0x586DB0
 char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 {
     DWORD dwDisposition;
-    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, REGISTRY_KEY_SCREEN_STRING, 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
-                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen",
+                            REGISTRY_KEY_SCREEN_STRING,
                             0,
                             byte_67DC88,
                             0,
@@ -377,13 +380,16 @@ void Registry::sub_587290()
 {
 }
 
+// STRING: 105 0x625100
+#define S_APPEND_FORMAT_STRING "%ss"
+
 // FUNCTION: 105 0x5872A0
 char_type Registry::sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
     char_type ret = 0;
 
-    sprintf(Buffer, "%ss", a2);
+    sprintf(Buffer, S_APPEND_FORMAT_STRING, a2);
     if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
     {
         sprintf(Buffer, "%sd", a2);
@@ -401,7 +407,7 @@ bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE
     char_type ValueName[260]; // [esp+14h] [ebp-104h] BYREF
     bool ret = false;
 
-    sprintf(ValueName, "%ss", keyPath);
+    sprintf(ValueName, S_APPEND_FORMAT_STRING, keyPath);
     DWORD v = Get_Int_Setting_5874E0(hKey, ValueName);
     if (v == static_cast<DWORD>(value))
     {
@@ -415,7 +421,7 @@ bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE
 s32 Registry::Get_Int_5873E0(HKEY hKey, const char_type* subKey)
 {
     char_type keyPath[260];
-    sprintf(keyPath, "%ss", subKey);
+    sprintf(keyPath, S_APPEND_FORMAT_STRING, subKey);
     return Get_Int_Setting_5874E0(hKey, keyPath);
 }
 

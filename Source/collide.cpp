@@ -10,11 +10,17 @@ DEFINE_GLOBAL(Collide_11944*, gCollide_11944_679204);
 // GLOBAL: 105 0x678F84
 DEFINE_GLOBAL(s32, dword_678F84);
 
+// STRING: 105 0x61a95c
+#define COLLIDE_CPP_STRING "C:\\Splitting\\Gta2\\Source\\collide.cpp"
+
 // FUNCTION: 105 0x478a20
 void Collide_C::sub_478A20()
 {
     field_0_count = 0;
 }
+
+// FUNCTION: 105 0x5fb301 SYMBOL
+// SEH_5fb301
 
 // FUNCTION: 105 0x478a30
 Collide_C::Collide_C()
@@ -27,31 +33,31 @@ Collide_C::Collide_C()
     gCollide_8004_679200 = new Collide_8004();
     if (!gCollide_8004_679200)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
+        FatalError_4A38C0(32, COLLIDE_CPP_STRING, 1416);
     }
 
     gCollide_11944_679204 = new Collide_11944();
     if (!gCollide_11944_679204)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);
+        FatalError_4A38C0(32, COLLIDE_CPP_STRING, 1418);
     }
 
     gPurpleDoom_1_679208 = new PurpleDoom();
     if (!gPurpleDoom_1_679208)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1420);
+        FatalError_4A38C0(32, COLLIDE_CPP_STRING, 1420);
     }
 
     gPurpleDoom_2_67920C = new PurpleDoom();
     if (!gPurpleDoom_2_67920C)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1422);
+        FatalError_4A38C0(32, COLLIDE_CPP_STRING, 1422);
     }
 
     gPurpleDoom_3_679210 = new PurpleDoom();
     if (!gPurpleDoom_3_679210)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
+        FatalError_4A38C0(32, COLLIDE_CPP_STRING, 1424);
     }
 
     dword_678F84 = 0;

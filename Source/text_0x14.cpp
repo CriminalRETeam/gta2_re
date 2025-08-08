@@ -307,6 +307,12 @@ void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
 }
 
+// STRING: 105 0x6267d0
+#define DATA_GTX_FORMAT_STRING "data\\%c.gxt"
+
+// STRING: 105 0x6267c8
+#define GBL_FORMAT_STRING "GBL%c"
+
 // FUNCTION: 105 0x5B5E90
 void text_0x14::Load_5B5E90()
 {
@@ -314,9 +320,9 @@ void text_0x14::Load_5B5E90()
 
     chunk_header chunkHeader;
     char_type gxtFileName[20];
-    sprintf(gxtFileName, "data\\%c.gxt", field_10_lang_code);
+    sprintf(gxtFileName, DATA_GTX_FORMAT_STRING, field_10_lang_code);
 
-    sprintf(expected_code, "GBL%c", field_10_lang_code - ' ');
+    sprintf(expected_code, GBL_FORMAT_STRING, field_10_lang_code - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 
@@ -350,10 +356,16 @@ bool text_0x14::sub_5B5FA0(const char_type* pIdStr)
     return TKeyFind_5B59E0(pIdStr);
 }
 
+// STRING: 105 0x6267dc
+#define LANGUAGE_STRING "language"
+
+// FUNCTION: 105 0x5fc9f3 SYMBOL
+// SEH_5fc9f3
+
 // FUNCTION: 105 0x5B5FB0
 text_0x14::text_0x14()
 {
-    gRegistry_6FF968.Get_Option_586F00("language", reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
+    gRegistry_6FF968.Get_Option_586F00(LANGUAGE_STRING, reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
 
     if (gTmpBuffer_67C598[0] == 'e' || gTmpBuffer_67C598[0] == 'f' || gTmpBuffer_67C598[0] == 'g' || gTmpBuffer_67C598[0] == 'i' ||
         gTmpBuffer_67C598[0] == 's' || gTmpBuffer_67C598[0] == 'j' || gTmpBuffer_67C598[0] == 'r')

@@ -7,6 +7,9 @@
 #include "Player.hpp"
 #include "Ped.hpp"
 
+// FUNCTION: 105 0x5fb924 SYMBOL
+// SEH_5fb924
+
 // FUNCTION: 105 0x4BEB50
 Police_7B8::~Police_7B8()
 {

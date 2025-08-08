@@ -164,6 +164,9 @@ void Door_4D4::sub_49D460()
 // STRING: 105 0x61ab40
 #define DOOR_CPP_STRING "C:\\Splitting\\Gta2\\Source\\door.cpp"
 
+// FUNCTION: 105 0x5fb4c3 SYMBOL
+// SEH_5fb4c3
+
 // FUNCTION: 105 0x49d4a0
 Door_4D4::Door_4D4()
 {

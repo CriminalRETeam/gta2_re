@@ -147,6 +147,12 @@ char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
     return byte_5FF778[weapon_kind];
 }
 
+// STRING: 105 0x626b44
+#define WEAPON_CPP_STRING "weapon.cpp"
+
+// FUNCTION: 105 0x5E3E90
+// SEH_5E3E90
+
 // FUNCTION: 105 0x5e3e90
 Weapon_8::Weapon_8()
 {
@@ -155,7 +161,7 @@ Weapon_8::Weapon_8()
         gWeapon_2FDC_707014 = new Weapon_2FDC();
         if (!gWeapon_2FDC_707014)
         {
-            FatalError_4A38C0(0x20, "weapon.cpp", 2428);
+            FatalError_4A38C0(0x20, WEAPON_CPP_STRING, 2428);
         }
     }
     field_4_ref_count = 0;

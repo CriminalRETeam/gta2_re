@@ -1021,6 +1021,18 @@ void Player::sub_569E70()
     NOT_IMPLEMENTED;
 }
 
+// STRING: 105 0x6242a4
+#define WASTED_STRING "wasted"
+
+// STRING: 105 0x62429c
+#define FRIED_STRING "fried"
+
+// STRING: 105 0x624294
+#define NICKED_STRING "nicked"
+
+// STRING: 105 0x62428c
+#define SHOCKED_STRING "shocked"
+
 // FUNCTION: 105 0x569F00
 char* Player::GetDeathText_569F00()
 {
@@ -1028,16 +1040,16 @@ char* Player::GetDeathText_569F00()
     {
         case 0:
         case 1:
-            return "wasted";
+            return WASTED_STRING;
             break;
         case 2:
-            return "fried";
+            return FRIED_STRING;
             break;
         case 3:
-            return "nicked";
+            return NICKED_STRING;
             break;
         case 4:
-            return "shocked";
+            return SHOCKED_STRING;
             break;
         default:
             return 0;

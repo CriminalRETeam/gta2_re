@@ -1,5 +1,8 @@
 #include "Light_1D4CC.hpp"
 
+// FUNCTION: 105 0x5fb938 SYMBOL
+// SEH_5fb938
+
 // FUNCTION: 105 0x4bebc0
 Light_1D4CC::~Light_1D4CC()
 {

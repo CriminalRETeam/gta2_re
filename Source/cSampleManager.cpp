@@ -1086,6 +1086,12 @@ void cSampleManager::Release_58E290()
     }
 }
 
+// STRING: 105 0x6251d4
+#define DIRECT_SOUND_HARDWARE_SUPPORT_STRING "Microsoft DirectSound3D hardware support"
+
+// STRING: 105 0x6251b8
+#define MAX_SUPPORTED_SAMEPLES_STRING "Maximum supported samples"
+
 // FUNCTION: 105 0x58D820
 char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
 {
@@ -1110,7 +1116,7 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
     {
         if (field_22B4_str[i])
         {
-            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && sub_58E140(i))
+            if (strncmp(field_22B4_str[i], DIRECT_SOUND_HARDWARE_SUPPORT_STRING, 0x1Eu) == 0 && sub_58E140(i))
             {
                 break;
             }
@@ -1124,7 +1130,7 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
             *pMaxSamples = 0;
 
             field_1EB2_3d_samp_count = 0;
-            AIL_3D_provider_attribute(field_26C0_3d_provider, "Maximum supported samples", pMaxSamples);
+            AIL_3D_provider_attribute(field_26C0_3d_provider, MAX_SUPPORTED_SAMEPLES_STRING, pMaxSamples);
 
             if (*pMaxSamples > 16u)
             {

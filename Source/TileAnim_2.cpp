@@ -11,6 +11,9 @@ DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4);
 // GLOBAL: 105 0x7052C8
 DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8);
 
+// STRING: 105 0x6267e8
+#define TILEANIM_CPP_STRING "C:\\Splitting\\Gta2\\Source\\tileanim.cpp"
+
 // FUNCTION: 105 0x5bc260
 void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
@@ -43,6 +46,9 @@ void TileAnim_2::sub_5BC310()
     NOT_IMPLEMENTED;
 }
 
+// FUNCTION: 105 0x5BC3A0
+// SEH_5BC3A0
+
 // FUNCTION: 105 0x5bc3a0
 TileAnim_2::TileAnim_2()
 {
@@ -51,7 +57,7 @@ TileAnim_2::TileAnim_2()
         gTileAnim_4BC_7052C8 = new TileAnim_4BC();
         if (gTileAnim_4BC_7052C8 == NULL)
         {
-            FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+            FatalError_4A38C0(0x20, TILEANIM_CPP_STRING, 220);
         }
     }
     field_0_count = 1;
