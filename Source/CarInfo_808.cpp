@@ -6,7 +6,6 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "crt_stubs.hpp"
 
 // GLOBAL: 105 0x678098
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098);
@@ -34,6 +33,9 @@ DEFINE_GLOBAL(Fix16, dword_677F54);
 DEFINE_GLOBAL(Fix16, dword_677D74);
 // GLOBAL: 105 0x6761a4
 DEFINE_GLOBAL(Fix16, DAT_6761A4);
+
+// STRING: 105 0x61a870
+#define CARINFO_CPP_STRING "C:\\Splitting\\Gta2\\Source\\carinfo.cpp"
 
 // FUNCTION: 105 0x454680
 void CarInfo_48::sub_454680()
@@ -322,24 +324,24 @@ void CarInfo_808::sub_4546D0()
 
     char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
 
-    crt::free(file_content);
+    ::free(file_content);
 
     if (pcVar3 != NULL)
     {
         strcpy(gErrStr_67C29C, file_name_677EC4);
         strcpy(byte_67C3A8, pcVar3);
 
-        FatalError_4A38C0(0x7de, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
+        FatalError_4A38C0(0x7de, CARINFO_CPP_STRING, 0xbc, gErrStr_67C29C, byte_67C3A8);
     }
 
     if (local_1c % 0x48)
     {
-        FatalError_4A38C0(0x7e2, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
+        FatalError_4A38C0(0x7e2, CARINFO_CPP_STRING, 0xbd, file_name_677EC4, local_1c);
     }
 
     if (local_1c != number_of_cars * 0x48)
     {
-        FatalError_4A38C0(0xbc5, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbe, local_1c / 0x48, file_name_677EC4, number_of_cars);
+        FatalError_4A38C0(0xbc5, CARINFO_CPP_STRING, 0xbe, local_1c / 0x48, file_name_677EC4, number_of_cars);
     }
 
     for (u32 i = 0; i < number_of_cars; i++)

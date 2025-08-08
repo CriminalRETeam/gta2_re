@@ -161,6 +161,9 @@ void Door_4D4::sub_49D460()
     }
 }
 
+// STRING: 105 0x61ab40
+#define DOOR_CPP_STRING "C:\\Splitting\\Gta2\\Source\\door.cpp"
+
 // FUNCTION: 105 0x49d4a0
 Door_4D4::Door_4D4()
 {
@@ -169,7 +172,7 @@ Door_4D4::Door_4D4()
         gDoor_2C4_67BD28 = new Door_2C4();
         if (!gDoor_2C4_67BD28)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
+            FatalError_4A38C0(0x20, DOOR_CPP_STRING, 1194);
         }
     }
     memset(word_67BB38, 0, sizeof(word_67BB38));

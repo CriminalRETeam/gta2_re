@@ -6,6 +6,9 @@
 #include "map_0x370.hpp"
 #include <wchar.h>
 
+// STRING: 105 0x61A98C
+#define PERCENT_D_STRING_WIDE L"%d"
+
 class Ped;
 class Player;
 class Gang_144;

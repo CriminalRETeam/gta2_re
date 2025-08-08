@@ -8,6 +8,8 @@
 
 HKEY dword_625018 = HKEY_LOCAL_MACHINE; // Note: should be const, but can't be
 
+EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4);
+
 // GLOBAL: 105 0x6FF968
 DEFINE_GLOBAL(Registry, gRegistry_6FF968);
 
@@ -26,9 +28,6 @@ DEFINE_GLOBAL(Registry, gRegistry_6FF968);
 // STRING: 105 0x6250b0
 #define REG_PATH_CONTROL_STRING "SOFTWARE\\DMA Design Ltd\\GTA2\\Control"
 
-// STRING: 105 0x67DC88
-#define BLANK_STRING ""
-
 // FUNCTION: 105 0x586A00
 bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
 {
@@ -39,7 +38,7 @@ bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
         if (::RegCreateKeyExA(HKEY_LOCAL_MACHINE,
                               REG_PATH_SOUND_STRING,
                               0,
-                              BLANK_STRING,
+                              byte_67DC88,
                               0,
                               KEY_ALL_ACCESS,
                               NULL,
@@ -150,7 +149,7 @@ char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
                             REG_PATH_DEBUG_STRING,
                             0,
-                            BLANK_STRING,
+                            byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
                             0,
@@ -173,7 +172,7 @@ char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
                             REG_PATH_OPTION_STRING,
                             0,
-                            BLANK_STRING,
+                            byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
                             0,
@@ -196,7 +195,7 @@ char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
                             REG_PATH_CONTROL_STRING,
                             0,
-                            BLANK_STRING,
+                            byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
                             0,
@@ -219,7 +218,7 @@ char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
                             "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen",
                             0,
-                            BLANK_STRING,
+                            byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
                             0,

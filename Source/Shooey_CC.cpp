@@ -54,14 +54,14 @@ void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yP
 }
 
 // FUNCTION: 105 0x484d80
-Shooey_CC::Shooey_CC()
+Shooey_CC_Base::Shooey_CC_Base()
 {
     field_0 = 0;
     field_2 = 0;
 }
 
 // FUNCTION: 105 0x484db0
-Shooey_CC::~Shooey_CC()
+Shooey_CC_Base::~Shooey_CC_Base()
 {
 }
 
@@ -118,17 +118,15 @@ char_type Shooey_CC::CanReportCrime(s32 crime_type)
 }
 
 // STUB: 105 0x484fc0
-Shooey_CC* Shooey_CC::ctor_484FC0()
+Shooey_CC::Shooey_CC()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+
 }
 
 
-// STUB: 105 0x484fd0
-void Shooey_CC::dtor_484FD0()
+// FUNCTION: 105 0x484fd0
+Shooey_CC::~Shooey_CC()
 {
-    NOT_IMPLEMENTED;
 }
 
 // TODO: Just wrong case order I think

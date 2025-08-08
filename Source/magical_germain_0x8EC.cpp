@@ -10,25 +10,34 @@
 // GLOBAL: 105 0x6F5168
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168);
 
+// STRING: 105 0x620bd8
+#define KANJI_CPP_STRING "C:\\Splitting\\Gta2\\Source\\kanji.cpp"
+
+// STRING: 105 0x620bfc
+#define KIDX_STRING "KIDX"
+
+// STRING: 105 0x620bd0
+#define KBIT_STRING "KBIT"
+
 // FUNCTION: 105 0x4D1FC0
 void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chunk_len)
 {
-    if (!strncmp(pChunkId, "KIDX", 4u))
+    if (!strncmp(pChunkId, KIDX_STRING, 4u))
     {
         field_8CC_kidx_size_words = chunk_len >> 1;
         field_8C4_pKidX = new WORD[field_8CC_kidx_size_words];
         if (!field_8C4_pKidX)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
+            FatalError_4A38C0(32, KANJI_CPP_STRING, 142);
         }
         File::Global_Read_4A71C0(field_8C4_pKidX, chunk_len);
     }
-    else if (!strncmp(pChunkId, "KBIT", 4u))
+    else if (!strncmp(pChunkId, KBIT_STRING, 4u))
     {
         field_8C8_pKBIT = new BYTE[chunk_len];
         if (!field_8C8_pKBIT)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
+            FatalError_4A38C0(32, KANJI_CPP_STRING, 148);
         }
         File::Global_Read_4A71C0(field_8C8_pKBIT, chunk_len);
     }
@@ -38,19 +47,25 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
     }
 }
 
+// STRING: 105 0x620c30
+#define KANJI_DAT_STRING "data\\kanji.dat"
+
+// STRING: 105 0x620c28
+#define KANJI_STRING "KANJ"
+
 // FUNCTION: 105 0x4D2090
 void magical_germain_0x8EC::Load_kanji_dat_4D2090()
 {
-    File::Global_Open_4A7060("data\\kanji.dat");
+    File::Global_Open_4A7060(KANJI_DAT_STRING);
 
     file_header header;
     u32 readSize = sizeof(file_header);
     File::Global_Read_4A71C0(&header, readSize);
 
-    header.verify_type("KANJ");
+    header.verify_type(KANJI_STRING);
     header.verify_version(100);
 
-    chunk_header chunkHeader; // [esp+10h] [ebp-8h] BYREF
+    chunk_header chunkHeader;
     for (readSize = sizeof(chunkHeader); File::Global_Read_4A7210(&chunkHeader, &readSize); readSize = sizeof(chunkHeader))
     {
         if (chunkHeader.field_4_size)

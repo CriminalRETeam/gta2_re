@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <windows.h>
 
+// STRING: 105 0x61EB44
+#define WRITE_BINARY_STRING "wb"
+
+// STRING: 105 0x61EB48
+#define READ_BINARY_STRING "rb"
+
 class File
 {
   public:

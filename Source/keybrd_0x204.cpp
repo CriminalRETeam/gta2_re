@@ -8,6 +8,9 @@
 // GLOBAL: 105 0x6F52F4
 DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4);
 
+// STRING: 105 0x620c40
+#define KEYBRD_CPP_STRING "C:\\Splitting\\Gta2\\Source\\keybrd.cpp"
+
 char dword_620D2C[] = {' ', ' ', 0};
 
 // FUNCTION: 105 0x4D5D70
@@ -44,6 +47,24 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
     }
 }
 
+// STRING: 105 0x620c64
+#define ENG_KEY_CFG_STRING "data\\keyboard\\eng_kb.cfg"
+// STRING: 105 0x620d0c
+#define FRE_KEY_CFG_STRING "data\\keyboard\\fre_kb.cfg"
+// STRING: 105 0x620cf0
+#define GER_KEY_CFG_STRING "data\\keyboard\\ger_kb.cfg"
+// STRING: 105 0x620cd4
+#define ITA_KEY_CFG_STRING "data\\keyboard\\ita_kb.cfg"
+// STRING: 105 0x620cb8
+#define SPA_KEY_CFG_STRING "data\\keyboard\\spa_kb.cfg"
+// STRING: 105 0x620c9c
+#define POR_KEY_CFG_STRING "data\\keyboard\\por_kb.cfg"
+// STRING: 105 0x620c80
+#define RUS_KEY_CFG_STRING "data\\keyboard\\rus_kb.cfg"
+
+// STRING: 105 0x620388
+#define RT_STRING "rt"
+
 
 // FUNCTION: 105 0x4D5E00
 void keybrd_0x204::LoadKbCfg_4D5E00()
@@ -56,44 +77,44 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     switch (field_200_keyBoardLayout)
     {
         case 0:
-            pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
+            pKeyboardCfgFile = ENG_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile); // note: compiler de-dups this to the end for all cases
             break;
         case 1:
-            pKeyboardCfgFile = "data\\keyboard\\fre_kb.cfg";
+            pKeyboardCfgFile = FRE_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 2:
-            pKeyboardCfgFile = "data\\keyboard\\ger_kb.cfg";
+            pKeyboardCfgFile = GER_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 3:
-            pKeyboardCfgFile = "data\\keyboard\\ita_kb.cfg";
+            pKeyboardCfgFile = ITA_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 4:
-            pKeyboardCfgFile = "data\\keyboard\\spa_kb.cfg";
+            pKeyboardCfgFile = SPA_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 5:
-            pKeyboardCfgFile = "data\\keyboard\\por_kb.cfg";
+            pKeyboardCfgFile = POR_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 6:
-            pKeyboardCfgFile = "data\\keyboard\\rus_kb.cfg";
+            pKeyboardCfgFile = RUS_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
 
         default:
-            pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
+            pKeyboardCfgFile = ENG_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
     }
 
-    FILE* hConfigFile = fopen(FileName, "rt");
+    FILE* hConfigFile = fopen(FileName, RT_STRING);
     if (!hConfigFile)
     {
-        FatalError_4A38C0(151, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
+        FatalError_4A38C0(151, KEYBRD_CPP_STRING, 187);
     }
 
     for (s32 i = 0; i < 256; i++)
@@ -132,7 +153,7 @@ void __stdcall keybrd_0x204::create_4D5F50()
         gKeybrd_0x204_6F52F4 = new keybrd_0x204();
         if (!gKeybrd_0x204_6F52F4)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
+            FatalError_4A38C0(32, KEYBRD_CPP_STRING, 244);
         }
     }
     gKeybrd_0x204_6F52F4->LoadKbCfg_4D5E00();

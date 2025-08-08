@@ -7,7 +7,7 @@
 
 // GLOBAL: 105 0x67E8E0
 DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0);
-EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4); //, TODO, 0xUNKNOWN);
+EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 // FUNCTION: 105 0x4C53D0

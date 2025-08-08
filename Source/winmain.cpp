@@ -157,8 +157,11 @@
 // LIBRARY: 105 0x5EA452
 // VERSION.dll::VerQueryValueA
 
-// LIBRARY: 105 0x5EDB70
+// LIBRARY: 105 0x5F0C90
 // _memcpy
+
+// LIBRARY: 105 0x5EDB70
+// _memmove
 
 // LIBRARY: 105 0x5F0297
 // __read
@@ -194,7 +197,31 @@
 // __allmul
 
 // LIBRARY: 105 0x5EEF50
-// _strncmp 
+// _strncmp
+
+// LIBRARY: 105 0x5EE6E9
+// _fgetc 
+
+// LIBRARY: 105 0x5EE197
+// _exit
+
+// LIBRARY: 105 0x5EE1D7
+// _doexit
+
+// LIBRARY: 105 0x5EE316
+// _ftell
+
+// LIBRARY: 105 0x5EE28A
+// _fseek
+
+// LIBRARY: 105 0x5EE5DF
+// _fwrite
+
+// LIBRARY: 105 0x5EEDA0
+// __strnicmp 
+
+// LIBRARY: 105 0x5ED478
+// _free 
 
 // GLOBAL: 105 0x627010
 // ___badioinfo
@@ -208,9 +235,14 @@
 // GLOBAL: 105 0x6009a4
 // GUID_SysMouse
 
+// GLOBAL: 105 0x7084C0
+// __commode
+
 // STRING: 105 0x626b90
 #define WINMAIN_CPP_STRING "C:\\Splitting\\Gta2\\Source\\winmain.cpp"
 
+// STRING: 105 0x626b08
+#define VIDEO_CPP_STRING "C:\\Splitting\\Gta2\\Source\\video.cpp"
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -611,7 +643,7 @@ EXPORT void __stdcall sub_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
+            FatalError_4A38C0(3003, VIDEO_CPP_STRING, 1359, full_width_706B5C, full_height_706798, 16);
         }
     }
 
@@ -627,7 +659,7 @@ EXPORT void __stdcall sub_5D93A0()
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        FatalError_4A38C0(1037, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        FatalError_4A38C0(1037, VIDEO_CPP_STRING, 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
@@ -870,7 +902,7 @@ EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer_67C598);
+        FatalError_4A38C0(1011, VIDEO_CPP_STRING, 206, gTmpBuffer_67C598);
     }
 }
 
@@ -881,7 +913,7 @@ EXPORT void sub_5D96C0()
     s32 v1 = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
+        FatalError_4A38C0(1011, VIDEO_CPP_STRING, 1647, gVideoDllName_706654);
     }
 
     gVidSys_7071D0 = pVid_Init_SYS(gHInstance_708220, 0); // flags param ??
@@ -890,7 +922,7 @@ EXPORT void sub_5D96C0()
 
     if (!gVidSys_7071D0)
     {
-        FatalError_4A38C0(2, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
+        FatalError_4A38C0(2, VIDEO_CPP_STRING, 1656);
     }
 
     if (gBufferMode_706B34 == 1)
@@ -1025,8 +1057,13 @@ EXPORT void __stdcall sub_4DA830()
     NOT_IMPLEMENTED;
 }
 
+// GLOBAL: 105 0x600084
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
+// GLOBAL: 105 0x6000b4
 GUID IDD_IDirectMusic = {1698042202u, 31533u, 4562u, {186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u}};
+
+// STRING: 105 0x61ab64
+#define DMUSIC_DLLNAME_STRING "DMUSIC.DLL"
 
 // todo move to another file for ordering
 // FUNCTION: 105 0x4A0650
@@ -1037,7 +1074,7 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
     IUnknown* pDMusic; // [esp+4h] [ebp-4h] BYREF
 
     gDMusicVer_67BD32 = 0;
-    hDMusic = LoadLibraryA("DMUSIC.DLL");
+    hDMusic = LoadLibraryA(DMUSIC_DLLNAME_STRING);
     if (hDMusic)
     {
         if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, (LPVOID*)&pDMusic) >= 0)

@@ -1,7 +1,6 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
-#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "memory.hpp"
 
@@ -96,7 +95,7 @@ Sprite_3CC::~Sprite_3CC()
 {
     if (this->field_3C8)
     {
-        crt::free(this->field_3C8);
+        ::free(this->field_3C8);
     }
     this->field_3C4 = 0;
     this->field_3C8 = 0;

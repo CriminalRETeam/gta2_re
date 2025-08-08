@@ -2,6 +2,7 @@
 #include "Function.hpp"
 #include "registry.hpp"
 #include "Globals.hpp"
+#include "file.hpp"
 #include <stdio.h>
 
 // GLOBAL: 105 0x67D4C9
@@ -249,6 +250,19 @@ void Debug::Init_4ABBD0()
     bShow_player_names_67D54C = gRegistry_6FF968.Set_Network_Setting_587690("show_player_names", 1) != 0;
 }
 
+// STRING: 105 0x61f09c
+#define E_GTX_STRING "data\\e.gxt"
+// STRING: 105 0x61f090
+#define F_GTX_STRING "data\\f.gxt"
+// STRING: 105 0x61f084
+#define G_GTX_STRING "data\\g.gxt"
+// STRING: 105 0x61f078
+#define I_GTX_STRING "data\\i.gxt"
+// STRING: 105 0x61f06c
+#define J_GTX_STRING "data\\j.gxt"
+// STRING: 105 0x61f060
+#define S_GTX_STRING "data\\s.gxt" 
+
 // FUNCTION: 105 0x4AC200
 bool Debug::HaveOnlyFrenchGtx_4AC200()
 {
@@ -259,42 +273,42 @@ bool Debug::HaveOnlyFrenchGtx_4AC200()
     bool bJGtxExists = false;
     bool bSGtxExists = false;
 
-    FILE* v2 = fopen("data\\e.gxt", "rb");
+    FILE* v2 = fopen(E_GTX_STRING, READ_BINARY_STRING);
     if (v2)
     {
         fclose(v2);
         bEGtxExists = true;
     }
 
-    FILE* v3 = fopen("data\\f.gxt", "rb");
+    FILE* v3 = fopen(F_GTX_STRING, READ_BINARY_STRING);
     if (v3)
     {
         fclose(v3);
         bFgxtExists = true;
     }
 
-    FILE* v4 = fopen("data\\g.gxt", "rb");
+    FILE* v4 = fopen(G_GTX_STRING, READ_BINARY_STRING);
     if (v4)
     {
         fclose(v4);
         bGGtxExists = true;
     }
 
-    FILE* v5 = fopen("data\\i.gxt", "rb");
+    FILE* v5 = fopen(I_GTX_STRING, READ_BINARY_STRING);
     if (v5)
     {
         fclose(v5);
         bIGtxExists = true;
     }
 
-    FILE* v6 = fopen("data\\j.gxt", "rb");
+    FILE* v6 = fopen(J_GTX_STRING, READ_BINARY_STRING);
     if (v6)
     {
         fclose(v6);
         bJGtxExists = true;
     }
 
-    FILE* v7 = fopen("data\\s.gxt", "rb");
+    FILE* v7 = fopen(S_GTX_STRING, READ_BINARY_STRING);
     if (v7)
     {
         fclose(v7);

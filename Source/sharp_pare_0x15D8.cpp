@@ -1,7 +1,6 @@
 #include "sharp_pare_0x15D8.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
-#include "crt_stubs.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
@@ -239,7 +238,7 @@ festive_hopper::~festive_hopper()
             pgbh_FreeTexture(field_0_pAlloc[i]);
         }
 
-        crt::free(field_0_pAlloc);
+        ::free(field_0_pAlloc);
         field_0_pAlloc = 0;
     }
 }

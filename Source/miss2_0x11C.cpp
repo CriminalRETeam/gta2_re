@@ -648,14 +648,13 @@ void miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1)
     gDoor_4D4_67BD2C->sub_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
 }
 
-Fix16 DAT_006F77C0;
 
 // FUNCTION: 105 0x504970
 void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
 {
     if (a1->field_2_type == SCRCMD_DOOR_DECLARE_S1)
     {
-        if (a1->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a1->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a1->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
@@ -683,7 +682,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     }
     else
     {
-        if (a1->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a1->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a1->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
@@ -784,7 +783,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
 {
     if (a3->field_2_type == SCRCMD_DOOR_DECLARE_S2)
     {
-        if (a3->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a3->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a3->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
@@ -812,7 +811,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
     }
     else
     {
-        if (a3->field_14_check.field_C_size.field_0_x == DAT_006F77C0 && a3->field_14_check.field_C_size.field_4_y == DAT_006F77C0)
+        if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
             a3->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,

@@ -1473,10 +1473,13 @@ u32* Car_BC::sub_439F30(u32* a2)
     return 0;
 }
 
+// STRING: 105 0x61a80c
+#define CAR_STR_STRING "car%d%c%c"
+
 // FUNCTION: 105 0x439f80
 wchar_t* Car_BC::GetCarStr_439F80()
 {
-    sprintf(byte_67CE50, "car%d%c%c", field_84_car_info_idx, 0, 0);
+    sprintf(byte_67CE50, CAR_STR_STRING, field_84_car_info_idx, 0, 0);
     return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
 }
 

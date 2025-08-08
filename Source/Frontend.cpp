@@ -4,7 +4,6 @@
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "cSampleManager.hpp"
-#include "crt_stubs.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
@@ -3170,7 +3169,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
 
-    FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
+    FILE* hFile = ::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
         FatalError_4A38C0(16, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
@@ -3182,14 +3181,14 @@ void Frontend::Load_tga_4B6520(u16 idx)
         FatalError_4A38C0(174, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
     }
 
-    if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
+    if (::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
     {
         FatalError_4A38C0(187, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
 
     tgaArray_61F0C8[idx].field_84_img = pgbh_LoadImage((SImage*)pAlloc);
 
-    crt::fclose(hFile);
+    ::fclose(hFile);
     free(pAlloc);
 }
 
@@ -4074,7 +4073,7 @@ void Frontend::sub_4B4440()
 
     u16 block_idx = 0;
 
-    FILE* hSeqFile = crt::fopen(seqFileName, "rt");
+    FILE* hSeqFile = ::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
         FatalError_4A38C0(0x9A, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906); // SeqFileOpenError
@@ -4082,7 +4081,7 @@ void Frontend::sub_4B4440()
 
     GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
 
-    while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
+    while (strcmp(mainOrBonus, byte_67DC88) != 0) 
     {
         if (strcmp(mainOrBonus, "MAIN") == 0)
         {
@@ -4124,7 +4123,7 @@ void Frontend::sub_4B4440()
     }
 
     this->field_1EB50_idx = block_idx + 1;
-    crt::fclose(hSeqFile);
+    ::fclose(hSeqFile);
 }
 
 // FUNCTION: 105 0x4B48D0

@@ -1,6 +1,5 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "Globals.hpp"
-#include "crt_stubs.hpp"
 #include <stdlib.h>
 
 DEFINE_GLOBAL(nostalgic_ellis_0x28**, g4096_alloc_6F5400, 0x6F5400) ;
@@ -82,7 +81,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 // FUNCTION: 105 0x4D6E00
 void __stdcall Light::sub_4D6E00()
 {
-    g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)crt::malloc(0x4000u);
+    g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)::malloc(0x4000u);
     for (s32 i = 0; i < 4096; i++)
     {
         g4096_alloc_6F5400[i] = 0;
@@ -94,7 +93,7 @@ void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)
     {
-        crt::free(g4096_alloc_6F5400);
+        ::free(g4096_alloc_6F5400);
         g4096_alloc_6F5400 = 0;
     }
 }

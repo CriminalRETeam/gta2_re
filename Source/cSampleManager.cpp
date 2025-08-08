@@ -851,8 +851,6 @@ char_type cSampleManager::MusicFileExists_58E500()
     return field_55_bMusicLoaded;
 }
 
-// STRING: 105 0x61a9b8
-#define PERCENT_D_STRING "%d"
 
 // FUNCTION: 105 0x58E510
 void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA)

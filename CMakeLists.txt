@@ -36,8 +36,6 @@ target_compile_definitions(mss32 PRIVATE BUILD_MSS)
 set(gta2_lib_src
   Source/angle.cpp
   Source/angle.hpp
-  Source/crt_stubs.cpp
-  Source/crt_stubs.hpp
   Source/Globals.cpp
   Source/Globals.hpp
   Source/3rdParty/mss.h

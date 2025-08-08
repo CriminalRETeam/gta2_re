@@ -16,6 +16,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "cSampleManager.hpp"
 
 // GLOBAL: 105 0x706620
 DEFINE_GLOBAL(Hud_2B00*, gGarox_2B00_706620);
@@ -251,10 +252,10 @@ void Garox_4::sub_5CF620()
         {
             field_0_value = 0;
         }
-        sprintf(gTmpBuffer_67C598, "%d", field_0_value);
+        sprintf(gTmpBuffer_67C598, PERCENT_D_STRING, field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
     gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
-    swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
+    swprintf(tmpBuff_67BD9C, PERCENT_D_STRING_WIDE, field_0_value);
     gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
 }
 

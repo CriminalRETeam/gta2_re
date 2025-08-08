@@ -9,7 +9,6 @@
 #include "RouteFinder.hpp"
 #include "Zones_CA8.hpp"
 #include "chunk.hpp"
-#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
@@ -217,11 +216,12 @@ s32 Map_0x370::zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_nam
     return -1;
 }
 
+// GLOBAL: 105 0x6F626C
+DEFINE_GLOBAL(s16, sLastIdx_6F626C);
+
 // FUNCTION: 105 0x4DF0F0
 gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
 {
-    static short sLastIdx_6F626C;
-
     s16 local_array[40];
 
     if (field_328_pZoneData)
@@ -2279,25 +2279,25 @@ Map_0x370::~Map_0x370()
 {
     if (field_33C_pLightData)
     {
-        crt::free(field_33C_pLightData);
+        ::free(field_33C_pLightData);
     }
     field_33C_pLightData = 0;
 
     if (field_328_pZoneData)
     {
-        crt::free(field_328_pZoneData);
+        ::free(field_328_pZoneData);
     }
     field_328_pZoneData = 0;
 
     if (field_32C_pZones)
     {
-        crt::free(field_32C_pZones);
+        ::free(field_32C_pZones);
     }
     field_32C_pZones = 0;
 
     if (field_338_pMapObjects)
     {
-        crt::free(field_338_pMapObjects);
+        ::free(field_338_pMapObjects);
     }
     field_338_pMapObjects = 0;
 
@@ -2305,13 +2305,13 @@ Map_0x370::~Map_0x370()
     {
         if (field_0_pDmap->field_40008_pColumn)
         {
-            crt::free(field_0_pDmap->field_40008_pColumn);
+            ::free(field_0_pDmap->field_40008_pColumn);
         }
         field_0_pDmap->field_40008_pColumn = 0;
 
         if (field_0_pDmap->field_4000C_block)
         {
-            crt::free(field_0_pDmap->field_4000C_block);
+            ::free(field_0_pDmap->field_4000C_block);
         }
         field_0_pDmap->field_4000C_block = 0;
 
@@ -2320,19 +2320,19 @@ Map_0x370::~Map_0x370()
 
     if (field_330_pZoneArray)
     {
-        crt::free(field_330_pZoneArray);
+        ::free(field_330_pZoneArray);
     }
     field_330_pZoneArray = 0;
 
     if (field_334_pUnknownZoneData)
     {
-        crt::free(field_334_pUnknownZoneData);
+        ::free(field_334_pUnknownZoneData);
     }
     field_334_pUnknownZoneData = 0;
 
     if (field_340_pTileAnimData)
     {
-        crt::free(field_340_pTileAnimData);
+        ::free(field_340_pTileAnimData);
     }
     field_340_pTileAnimData = 0;
 }
