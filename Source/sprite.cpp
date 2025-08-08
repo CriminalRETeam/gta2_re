@@ -204,22 +204,6 @@ Sprite_49B28::~Sprite_49B28()
     field_0_first_free = 0;
 }
 
-// FUNCTION: 105 0x5A6ca0
-Sprite* Sprite_18::sub_5A6CA0(s32 a2)
-{
-    if (field_0 != NULL)
-    {
-        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->field_4_next)
-        {
-            if (pNext->field_0->field_30_sprite_type_enum == a2)
-            {
-                return pNext->field_0;
-            }
-        }
-    }
-    return NULL;
-}
-
 // FUNCTION: 105 0x5A6A20
 void Sprite_18::sub_5A6A20()
 {
