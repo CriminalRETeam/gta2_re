@@ -249,6 +249,10 @@ def verify():
     download_exe("10.5.exe")
     download_exe("9.6f.exe")
 
+    if not os.path.exists("reccmp-user.yml"):
+        exe_path = os.path.join(BIN_COMP_DIRECTORY, "10.5.exe")
+        detect_result = subprocess.run(f"reccmp-project detect --search-path {exe_path}", cwd=".", shell=True)
+
     detect_result = subprocess.run(f"reccmp-project detect --what recompiled", cwd=".", shell=True)
     if detect_result.returncode != 0:
         print(f"reccmp-project failed with code: {detect_result.stderr}")
