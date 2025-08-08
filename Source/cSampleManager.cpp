@@ -672,13 +672,16 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
     }
 }
 
+// STRING: 105 0x625200
+#define EAX_ENV_SELECT_STRING "EAX environment selection"
+
 // FUNCTION: 105 0x58E010
 void cSampleManager::sub_58E010(s32 a2)
 {
     if (field_26C0_3d_provider && field_26B8_bEaxSupported && a2 < 26)
     {
         field_26BC_k17 = a2;
-        AIL_set_3D_provider_preference(field_26C0_3d_provider, "EAX environment selection", &a2);
+        AIL_set_3D_provider_preference(field_26C0_3d_provider, EAX_ENV_SELECT_STRING, &a2);
     }
 }
 
@@ -697,7 +700,7 @@ char_type cSampleManager::sub_58E140(s32 envIdx)
 
         field_26C0_3d_provider = field_1EB4_h3dProvider[envIdx];
         // using another local for envIdx2 doesn't match here, meh
-        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &envIdx2);
+        AIL_3D_provider_attribute(field_26C0_3d_provider, EAX_ENV_SELECT_STRING, &envIdx2);
         if (envIdx2 != -1)
         {
             field_26B8_bEaxSupported = 1;

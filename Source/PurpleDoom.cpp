@@ -32,8 +32,11 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(Collide_11944*, gCollide_11944_679204);
 EXTERN_GLOBAL(Collide_8004*, gCollide_8004_679200);
 
-Fix16 dword_678F80(0x6000); // 1.5
-Fix16 dword_679084(0x4000);
+// GLOBAL: 105 0x678F80
+DEFINE_GLOBAL_INIT(Fix16, dword_678F80, 0x6000); // TODO correct?? 1.5
+// GLOBAL: 105 0x679084
+DEFINE_GLOBAL_INIT(Fix16, dword_679084, 0x4000);  // TODO correct??
+
 
 // TODO: might be used elsewhere too or have been a macro
 static inline s32 Clamp(s32 value, s32 min, s32 max)

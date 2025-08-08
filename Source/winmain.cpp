@@ -1000,6 +1000,14 @@ EXPORT void sub_5D96C0()
     pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
+// STRING: 105 0x620d58
+#define CDVOL_STRING "CDVol"
+// STRING: 105 0x620d50
+#define SFXVOL_STRING "SFXVol"
+// STRING: 105 0x61eb64
+#define DO_3D_SOUND_STRING "do_3d_sound"
+
+
 // todo move to another file for ordering
 // FUNCTION: 105 0x4DA440
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
@@ -1325,22 +1333,35 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 
 const char_type* off_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 
+// STRING: 105 0x626af8
+#define RENDER_DEVICE_STRING "renderdevice"
+// STRING: 105 0x626AEC
+#define VIDEO_DEVICE_STRING "videodevice"
+// STRING: 105 0x626ae0
+#define RENDER_NAME_STRING "rendername"
+// STRING: 105 0x626ad4
+#define VIDEO_NAME_STRING "videoname"
+// STRING: 105 0x626AC8
+#define SOFTDLL_STRING "softdll.dll"
+// STRING: 105 0x626ABC
+#define THREEDFXDLL_STRING "3dfx.dll"
+
 // todo move to another file for ordering
 // FUNCTION: 105 0x5D90E0
 EXPORT void __stdcall Video_Render_Inits_5D90E0()
 {
-    gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
-    gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
+    gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0(RENDER_DEVICE_STRING, 1);
+    gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0(VIDEO_DEVICE_STRING, 1);
     strcpy(gRenderDllName_7067F0, off_626A00[0]);
     strcpy(gVideoDllName_706654, off_626A00[1]);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0(RENDER_NAME_STRING, (BYTE*)gRenderDllName_7067F0, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0(VIDEO_NAME_STRING, (BYTE*)gVideoDllName_706654, 0xFFu);
 
-    if (strcmp(gRenderDllName_7067F0, "softdll.dll") == 0)
+    if (strcmp(gRenderDllName_7067F0, SOFTDLL_STRING) == 0)
     {
         gBufferMode_706B34 = 0;
     }
-    else if (strcmp(gRenderDllName_7067F0, "3dfx.dll") == 0)
+    else if (strcmp(gRenderDllName_7067F0, THREEDFXDLL_STRING) == 0)
     {
         gBufferMode_706B34 = 2;
     }

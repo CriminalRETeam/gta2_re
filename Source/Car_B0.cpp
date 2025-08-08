@@ -3,8 +3,8 @@
 
 // GLOBAL: 105 0x6FE3E0
 DEFINE_GLOBAL(Car_D264*, gCar_D264_6FE3E0);
-// GLOBAL: 105 0x66AC08
-DEFINE_GLOBAL(Ang16, DAT_0066AC08);
+// GLOBAL: 105 0x6FE3C0
+DEFINE_GLOBAL(Ang16, DAT_6FE3C0);
 // GLOBAL: 105 0x6FE20C
 DEFINE_GLOBAL(Fix16, DAT_006FE20C);
 // GLOBAL: 105 0x6FE290
@@ -857,7 +857,7 @@ void Car_B0::Init_5637A0()
 void Car_B0::Reset_563890()
 {
     field_30_cm1.reset();
-    field_58_theta = DAT_0066AC08;
+    field_58_theta = DAT_6FE3C0;
     field_38_cp1.reset();
     field_5C_pPrev = NULL;
     Init_5637A0();

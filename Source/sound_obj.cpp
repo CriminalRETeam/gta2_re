@@ -1,12 +1,12 @@
 #include "sound_obj.hpp"
+#include "Car_BC.hpp"
+#include "DrawUnk_0xBC.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "cSampleManager.hpp"
-#include "DrawUnk_0xBC.hpp"
 #include "Ped.hpp"
-#include "Car_BC.hpp"
+#include "cSampleManager.hpp"
 #include <math.h>
 
 // GLOBAL: 105 0x66F680
@@ -510,7 +510,6 @@ bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
     return field_30_sQueueSample.field_24_nVolume != 0 ? true : false;
 }
 
-
 // FUNCTION: 105 0x419020
 char_type sound_obj::sub_419020(s32 a2)
 {
@@ -698,7 +697,6 @@ void sound_obj::null_412240()
 // FUNCTION: 105 0x412250
 void sound_obj::null_412250()
 {
-
 }
 
 // FUNCTION: 105 0x418C20
@@ -1503,19 +1501,26 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
     {
         switch (pObj->field_58_type)
         {
+            case 2:
+                return sub_4182A0(pObj);
             case 1:
             case 6:
                 return sub_416260(pObj);
-            case 2:
-                return sub_4182A0(pObj);
+
             case 3:
                 return sub_4174C0(pObj);
             case 4:
                 return sub_417A00(pObj);
             case 5:
                 return sub_415730(pObj);
-            case 7:
-                return sub_417EF0(pObj);
+
+            case 16:
+                return sub_414320(pObj);
+            case 17:
+                return sub_414690(pObj);
+            case 19:
+                return sub_4149D0(pObj);
+
             case 8:
                 return sub_418130(pObj);
             case 9:
@@ -1528,14 +1533,10 @@ char_type sound_obj::sub_412260(sound_0x68* pObj)
                 return sub_414C90(pObj);
             case 13:
                 return sub_4153F0(pObj);
+            case 7:
+                return sub_417EF0(pObj);
             case 15:
                 return sub_415100(pObj);
-            case 16:
-                return sub_414320(pObj);
-            case 17:
-                return sub_414690(pObj);
-            case 19:
-                return sub_4149D0(pObj);
             case 20:
                 return 1;
             default:

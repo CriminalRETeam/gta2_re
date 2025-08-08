@@ -130,10 +130,13 @@ char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
     return 1;
 }
 
+// STRING: 105 0x624ee8
+#define HISCORES_HSC_STRING "player\\hiscores.hsc"
+
 // FUNCTION: 105 0x56BCF0
 void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type* pName)
 {
-    strcpy(pName, "player\\hiscores.hsc");
+    strcpy(pName, HISCORES_HSC_STRING);
 }
 
 // FUNCTION: 105 0x56BCA0
