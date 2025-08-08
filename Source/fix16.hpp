@@ -284,10 +284,14 @@ class Fix16_Point : public Fix16_Point_POD
 {
 public:
     // Both inlined and exists as a function... some strange array init behaviour??
+    // SYNTHETIC: 105 0x40ac40
+    // Fix16_Point::~Fix16_Point
     ~Fix16_Point() {}
 
     // It needs to be in the header
     // Inlined from 9.6f from 0x563970
+    // SYNTHETIC: 105 0x563970
+    // Fix16_Point::Fix16_Point
     Fix16_Point()
     {
     }

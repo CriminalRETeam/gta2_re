@@ -17,6 +17,9 @@ DEFINE_GLOBAL(Sprite_1C24*, gSprite_1C24_703B80);
 // GLOBAL: 105 0x703814
 DEFINE_GLOBAL(Sprite*, gSprite_703814);
 
+// STRING: 105 0x626278
+#define SPRITE_CPP_STRING "C:\\Splitting\\Gta2\\Source\\sprite.cpp"
+
 // STUB: 105 0x48f600
 char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
@@ -114,31 +117,35 @@ void Sprite_8::sub_5A5870()
     gSprite_703814->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
+
+// FUNCTION: 105 0x5fc9cc SYMBOL
+// SEH_5fc9cc
+
 // FUNCTION: 105 0x5a58a0
 Sprite_8::Sprite_8()
 {
     gSprite_49B28_703818 = new Sprite_49B28();
     if (gSprite_49B28_703818 == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5039);
+        FatalError_4A38C0(32, SPRITE_CPP_STRING, 3239);
     }
 
     gSprite_5D598_70381C = new Sprite_5D598();
     if (gSprite_5D598_70381C == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5041);
+        FatalError_4A38C0(32, SPRITE_CPP_STRING, 3241);
     }
 
     gSprite_3CC_67AF1C = new Sprite_3CC();
     if (gSprite_3CC_67AF1C == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5043);
+        FatalError_4A38C0(32, SPRITE_CPP_STRING, 3243);
     }
 
     gSprite_1C24_703B80 = new Sprite_1C24();
     if (gSprite_1C24_703B80 == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
+        FatalError_4A38C0(32, SPRITE_CPP_STRING, 3246);
     }
 
     field_0 = 0;

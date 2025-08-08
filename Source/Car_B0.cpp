@@ -879,6 +879,9 @@ void Car_B0::sub_5638C0(Car_BC* pCar)
     }
 }
 
+// FUNCTION: 105 0x5fc6e8 SYMBOL
+// SEH_5fc6e8
+
 // FUNCTION: 105 0x563900
 Car_B0::Car_B0()
 {

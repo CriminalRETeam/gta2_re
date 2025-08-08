@@ -344,6 +344,12 @@ void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDeb
     strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200, pStyName);
 }
 
+// STRING: 105 0x62015c
+#define DATA_FSYLE_PATH_STRING "data\\fstyle.sty"
+
+// FUNCTION: 105 0x5fb51b SYMBOL
+// SEH_5fb51b
+
 // FUNCTION: 105 0x4ACFA0
 void __stdcall Frontend::create_4ACFA0()
 {
@@ -360,7 +366,7 @@ void __stdcall Frontend::create_4ACFA0()
         snd2_67D6F8.field_C_pAny = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
-        gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
+        gRoot_sound_66B038.LoadStyle_40EFF0(DATA_FSYLE_PATH_STRING);
         gRoot_sound_66B038.Set3DSound_40F160(0);
     }
 
@@ -4133,6 +4139,17 @@ void Frontend::sub_4B4440()
     ::fclose(hSeqFile);
 }
 
+// STRING: 105 0x6203c4
+#define MAIN_OR_BONUS_STRING "MainOrBonus"
+// STRING: 105 0x6203bc
+#define GMP_FILE_STRING "GMPFile"
+// STRING: 105 0x6203b4
+#define STY_FILE_STRING "STYFile"
+// STRING: 105 0x6203ac
+#define SCR_FILE_STRING "SCRFile"
+// STRING: 105 0x6203a0
+#define DESCRIPTION_STRING "Description"
+
 // FUNCTION: 105 0x4B48D0
 void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
 {
@@ -4176,19 +4193,19 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         switch (type & 0xff) // TODO: Wrong type ??
         {
             case 0:
-                strcpy(type_buf, "MainOrBonus");
+                strcpy(type_buf, MAIN_OR_BONUS_STRING);
                 break;
             case 1:
-                strcpy(type_buf, "GMPFile");
+                strcpy(type_buf, GMP_FILE_STRING);
                 break;
             case 2:
-                strcpy(type_buf, "STYFile");
+                strcpy(type_buf, STY_FILE_STRING);
                 break;
             case 3:
-                strcpy(type_buf, "SCRFile");
+                strcpy(type_buf, SCR_FILE_STRING);
                 break;
             case 4:
-                strcpy(type_buf, "Description");
+                strcpy(type_buf, DESCRIPTION_STRING);
                 break;
             default:
                 FatalError_4A38C0(0xA2, FRONTEND2_CPP_STRING, 5056); // UndefinedLabel

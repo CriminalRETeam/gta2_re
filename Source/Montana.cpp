@@ -128,6 +128,12 @@ void Montana::Draw_495560(s32 col_idx)
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
 
+// STRING: 105 0x61a9bc
+#define DISPLAY_CPP_STRING "C:\\Splitting\\Gta2\\Source\\display.cpp"
+
+// FUNCTION: 105 0x5fb49b SYMBOL
+// SEH_5fb49b
+
 // FUNCTION: 105 0x4955a0
 Montana::Montana()
 {
@@ -136,7 +142,7 @@ Montana::Montana()
         field_0_cols[i] = new Montana_4();
         if (!field_0_cols[i])
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+            FatalError_4A38C0(0x20, DISPLAY_CPP_STRING, 121);
         }
     }
 }

@@ -199,7 +199,7 @@
 // LIBRARY: 105 0x5EE6E9 SYMBOL
 // fgetc 
 
-// LIBRARY: 105 0x5EE197
+// LIBRARY: 105 0x5EE197 SYMBOL
 // _exit
 
 // LIBRARY: 105 0x5EE1D7 SYMBOL
@@ -221,7 +221,7 @@
 // __strnicmp 
 
 // LIBRARY: 105 0x5ED478 SYMBOL
-// free 
+// _free 
 
 // GLOBAL: 105 0x627010
 // ___badioinfo
@@ -238,8 +238,29 @@
 // LIBRARY: 105 0x5EDED7
 // _srand
 
+// LIBRARY: 105 0x5F0730 SYMBOL
+// __flush
+
+// LIBRARY: 105 0x5F00EA SYMBOL
+// __write
+
+// LIBRARY: 105 0x5F048D SYMBOL
+// __lseek
+
+// LIBRARY: 105 0x5F725A
+// _get_osfhandle
+
 // LIBRARY: 105 0x5EEF88 SYMBOL
 // __strupr
+
+// LIBRARY: 105 0x5ED3F9 SYMBOL
+// __heap_alloc
+
+// LIBRARY: 105 0x5F0FDB SYMBOL
+// __callnewh
+
+// LIBRARY: 105 0x5F16DE SYMBOL
+// __sbh_alloc_block
 
 // GLOBAL: 105 0x6009a4
 // GUID_SysMouse
@@ -249,6 +270,8 @@
 
 // GLOBAL: 105 0x708294
 // _errno
+
+
 
 // STRING: 105 0x626b90
 #define WINMAIN_CPP_STRING "C:\\Splitting\\Gta2\\Source\\winmain.cpp"
