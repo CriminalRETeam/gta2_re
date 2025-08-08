@@ -2,42 +2,55 @@
 
 # turn off intrinsic functions so we actually get a call to strcpy, enable stdcall calling convention
 # else static methods don't match (and I doubt they manually annotated them with __stdcall)
-#set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
+set_source_files_properties(Source/Network_20324.cpp PROPERTIES COMPILE_FLAGS "/Oi- /Gz")
 #
-#set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
-#set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
-#set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/Od /ZI")
+set_source_files_properties(Source/miss2_0x11C.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+set_source_files_properties(Source/sharp_bose_0x54.cpp PROPERTIES COMPILE_FLAGS "/GX-")
+#set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES COMPILE_FLAGS "/Obd /Od /ZI")
+set_source_files_properties(Source/gbh_graphics.cpp PROPERTIES
+    COMPILE_OPTIONS "/Od" "/Ob0" "/ZI"
+    COMPILE_FLAGS ""
+)
 
 # NOICF is required because skip_ovly_5AAE20 and skip_psxt_5AAE30 have identical bodies and the linker will make them one and the same
 # however the real binary does have 2 copies. NOREF keeps functions that are not yet called so we can diff the content against the original.
 set (CMAKE_SHARED_LINKER_FLAGS "/OPT:NOICF,NOREF")
 
 set(CompilerFlags
-        CMAKE_CXX_FLAGS
-        CMAKE_CXX_FLAGS_DEBUG
-        CMAKE_CXX_FLAGS_RELEASE
-        CMAKE_C_FLAGS
-        CMAKE_C_FLAGS_DEBUG
-        CMAKE_C_FLAGS_RELEASE
+    CMAKE_C_FLAGS
+    CMAKE_C_FLAGS_DEBUG
+    CMAKE_C_FLAGS_RELEASE
+    CMAKE_C_FLAGS_RELWITHDEBINFO
+    CMAKE_C_FLAGS_MINSIZEREL
+    CMAKE_CXX_FLAGS
+    CMAKE_CXX_FLAGS_DEBUG
+    CMAKE_CXX_FLAGS_RELEASE
+    CMAKE_CXX_FLAGS_RELWITHDEBINFO
+    CMAKE_CXX_FLAGS_MINSIZEREL
 )
 
+foreach(flag ${CompilerFlags})
+    string(REPLACE "/MD" "/ML" ${flag} "${${flag}}")
+    string(REPLACE "/MDd" "/MLd" ${flag} "${${flag}}")
+    set(${flag} "${${flag}}" CACHE STRING "Use static runtime" FORCE)
+endforeach()
+
+
+
 if (${MSVC_VERSION} EQUAL 1200)
-    foreach(CompilerFlag ${CompilerFlags})
-      string(REPLACE "/MD" "/ML /W3 /GX" ${CompilerFlag} "${${CompilerFlag}}")
-      set(${flag} "${${flag}}" CACHE STRING "Force /ML for VC6" FORCE)
-    endforeach()
+
 
     #foreach(CompilerFlag ${CompilerFlags})
     #  string(REPLACE "/Zi" "/Z7" ${CompilerFlag} "${${CompilerFlag}}")
     #endforeach()
 
-    foreach(CompilerFlag ${CompilerFlags})
-      string(REPLACE "/Ob2" "" ${CompilerFlag} "${${CompilerFlag}}")
-    endforeach()
+    #foreach(CompilerFlag ${CompilerFlags})
+    #  string(REPLACE "/Ob2" "" ${CompilerFlag} "${${CompilerFlag}}")
+    #endforeach()
 
-    foreach(CompilerFlag ${CompilerFlags})
-      string(REPLACE "/GR" "/EHsc" ${CompilerFlag} "${${CompilerFlag}}")
-    endforeach()
+    # foreach(CompilerFlag ${CompilerFlags})
+    #   string(REPLACE "/GR" "/EHsc" ${CompilerFlag} "${${CompilerFlag}}")
+    #endforeach()
 
     # Remove default CRT libs
     #set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcpmt.lib /NODEFAULTLIB:libcmt.lib")
