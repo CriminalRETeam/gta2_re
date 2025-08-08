@@ -522,8 +522,8 @@ bool Sero_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
     return 0;
 }
 
-// FUNCTION: 105 0x57B7B0
-// SEH_57B7B0
+// FUNCTION: 105 0x5FC893 SYMBOL
+// SEH_5FC893
 
 // FUNCTION: 105 0x57b7b0
 Sero_181C::Sero_181C()

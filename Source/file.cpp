@@ -60,7 +60,7 @@ bool __stdcall File::IsCdRomDrive_4A6BB0(char_type driveLetter)
 // STRING: 105 0x61eb64
 #define RB_FOPEN_STRING "rb"
 
-// FUNCTION: 105 0x61eb48
+// FUNCTION: 105 0x4A6C80
 void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t* pAllocatedBufferSize)
 {
     Error_SetName_4A0770(FileName);

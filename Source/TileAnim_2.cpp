@@ -46,8 +46,8 @@ void TileAnim_2::sub_5BC310()
     NOT_IMPLEMENTED;
 }
 
-// FUNCTION: 105 0x5BC3A0
-// SEH_5BC3A0
+// FUNCTION: 105 0x5FCA9B SYMBOL
+// SEH_5FCA9B
 
 // FUNCTION: 105 0x5bc3a0
 TileAnim_2::TileAnim_2()

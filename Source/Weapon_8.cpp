@@ -150,8 +150,8 @@ char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 // STRING: 105 0x626b44
 #define WEAPON_CPP_STRING "weapon.cpp"
 
-// FUNCTION: 105 0x5E3E90
-// SEH_5E3E90
+// FUNCTION: 105 0x5FCF1B SYMBOL
+// SEH_5FCF1B
 
 // FUNCTION: 105 0x5e3e90
 Weapon_8::Weapon_8()

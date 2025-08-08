@@ -115,9 +115,6 @@
 // LIBRARY: 105 0x5F3B8D
 // __flsbuf
 
-// LIBRARY: 105 0x5F44B4
-// __except_handler3
-
 // LIBRARY: 105 0x5EE4C4
 // __fsopen
 

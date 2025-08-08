@@ -63,7 +63,7 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 #define RUS_KEY_CFG_STRING "data\\keyboard\\rus_kb.cfg"
 
 // STRING: 105 0x620388
-#define RT_STRING "rt"
+#define READ_TEXT_STRING "rt"
 
 
 // FUNCTION: 105 0x4D5E00
@@ -111,7 +111,7 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
             break;
     }
 
-    FILE* hConfigFile = fopen(FileName, RT_STRING);
+    FILE* hConfigFile = fopen(FileName, READ_TEXT_STRING);
     if (!hConfigFile)
     {
         FatalError_4A38C0(151, KEYBRD_CPP_STRING, 187);
