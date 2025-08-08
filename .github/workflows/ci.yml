@@ -55,9 +55,8 @@ jobs:
       run: |
         python -m venv venv
         dir venv
-        dir venv/bin
         dir venv/Scripts
-        venv/bin/activate.bat
+        venv/Scripts/activate.bat
         pip install -r requirements.txt
         pip install -e 3rdParty/reccmp/
         python vc6_setup.py
