@@ -245,47 +245,29 @@ def build():
 
 
 
+def run_and_wait(cmd):
+    process = subprocess.Popen(cmd, cwd=".", shell=True)
+    process.communicate()  # Waits for command to finish
+    return process.returncode
+
 def verify():
     download_exe("10.5.exe")
     download_exe("9.6f.exe")
 
     if not os.path.exists("reccmp-user.yml"):
-        detect_result = subprocess.run(
-            f"reccmp-project detect --search-path {BIN_COMP_DIRECTORY}",
-            cwd=".",
-            shell=True,
-            capture_output=True,
-            text=True
-        )
-        print(detect_result.stdout)
-        print(detect_result.stderr)
+        if run_and_wait(f"reccmp-project detect --search-path {BIN_COMP_DIRECTORY}") != 0:
+            print("Initial detect failed.")
+            return False
 
-    detect_result = subprocess.run(
-        f"reccmp-project detect --what recompiled",
-        cwd=".",
-        shell=True,
-        capture_output=True,
-        text=True
-    )
-
-    if detect_result.returncode != 0:
-        print(f"reccmp-project failed with code: {detect_result.returncode}")
-        print(f"stderr: {detect_result.stderr}")
+    if run_and_wait("reccmp-project detect --what recompiled") != 0:
+        print("Recompiled detect failed.")
         return False
 
-    compare_result = subprocess.run(
-        f"reccmp-reccmp --target 105 --html report.html",
-        cwd=".",
-        shell=True,
-        capture_output=True,
-        text=True
-    )
+    if run_and_wait("reccmp-reccmp --target 105 --html report.html") != 0:
+        print("Comparison failed.")
+        return False
 
-    if compare_result.returncode != 0:
-        print(f"reccmp-reccmp failed with code: {compare_result.returncode}")
-        print(f"stderr: {compare_result.stderr}")
-
-    return compare_result.returncode == 0
+    return True
 
 
 def download_exe(exe: str):
