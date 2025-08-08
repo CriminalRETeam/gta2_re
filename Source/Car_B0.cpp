@@ -678,7 +678,7 @@ void Car_B0::sub_562910()
 }
 
 // STUB: 105 0x562c20
-void Car_B0::sub_562C20(s16* a2)
+void Car_B0::sub_562C20(Ang16& angle)
 {
     Fix16 sin = Ang16::sine_40F500(angle);
     Fix16 cos = Ang16::cosine_40F520(angle);
