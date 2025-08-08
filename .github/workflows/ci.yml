@@ -49,10 +49,10 @@ jobs:
     # ======================================
     #      Windows vc6
     # ======================================
-    - name: Set up Python 3.9
+    - name: Set up Python 3.10
       uses: actions/setup-python@v5
       with:
-        python-version: 3.9
+        python-version: 3.10
 
     - name: Build on Windows (Windows_VC6)
       if: matrix.name == 'Windows_VC6'
