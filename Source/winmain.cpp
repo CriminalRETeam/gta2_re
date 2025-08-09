@@ -277,6 +277,8 @@
 // GLOBAL: 105 0x708294
 // _errno
 
+// LIBRARY: 105 0x5E9106 SYMBOL
+// DINPUT.dll::DirectInputCreateA
 
 
 // STRING: 105 0x626b90

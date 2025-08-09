@@ -17,6 +17,8 @@ class Fix16
         return *this;
     }
 
+    // SYNTHETIC: 105 0x436A00
+    // Fix16::operator-
     Fix16 operator-(const Fix16& in) const
     {
         s32 value = mValue - in.mValue;
@@ -41,6 +43,8 @@ class Fix16
         return *this;
     }
 
+    // SYNTHETIC: 105 0x408680
+    // Fix16::operator*
     Fix16 operator*(const Fix16& in) const
     {
         s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
@@ -54,7 +58,6 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    // Inlined from 9.6f from 0x4086A0
     Fix16 operator-()
     {
         return Fix16(-mValue, 0);
@@ -165,6 +168,8 @@ class Fix16
         mValue = value << 14;
     }
 
+    // SYNTHETIC: 105 0x4369F0
+    // Fix16::Fix16(int)
     Fix16(s32 value)
     {
         mValue = value << 14;
@@ -252,7 +257,8 @@ class Fix16
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
-    // Inlined from 9.6f from 0x436A20
+    // SYNTHETIC: 105 0x436A20
+    // Fix16::operator/
     Fix16 operator/(const Fix16& in)
     {
         s32 value = (s32)(((__int64)mValue << 14) / in.mValue);

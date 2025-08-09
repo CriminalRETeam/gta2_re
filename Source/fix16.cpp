@@ -8,9 +8,10 @@ DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 // GLOBAL: 105 0x669260
 DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 
-// FUNCTION: 105 0x4369F0
+
 Fix16& Fix16::FromInt_4369F0(s32 a2)
 {
+    // 0x4369F0 - TODO: remove me-  its the int ctor
     mValue = a2 << 14;
     return *this;
 }

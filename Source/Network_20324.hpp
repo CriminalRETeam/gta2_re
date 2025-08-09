@@ -6,6 +6,8 @@
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
 EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
 
+// VTABLE: 105 0x5fe924
+// SIZE 0x4
 class Network_20324
 {
   public:

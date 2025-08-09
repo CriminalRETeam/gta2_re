@@ -429,7 +429,7 @@ void NetPlay::sub_520DE0(Network_Unknown* pStru)
 
     if (pStru->field_120_session_desc.lpszSessionName)
     {
-        ::free(pStru->field_120_session_desc.lpszSessionName);
+        delete (pStru->field_120_session_desc.lpszSessionName);
     }
 
     memset(&pStru->field_120_session_desc, 0, sizeof(pStru->field_120_session_desc));
