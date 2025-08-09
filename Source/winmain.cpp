@@ -790,6 +790,19 @@ EXPORT char_type sub_5D9510()
     }
 }
 
+// STRING: 105 0x626aac
+#define WINDOW_WIDTH_STRING "window_width"
+// STRING: 105 0x626a9c
+#define WINDOW_HEIGHT_STRING "window_height"
+// STRING: 105 0x626a90
+#define FULL_WIDTH_STRING "full_width"
+// STRING: 105 0x626a84
+#define FULL_HEIGHT_STRING "full_height"
+// STRING: 105 0x626a78
+#define START_MODE_STRING "start_mode"
+// STRING: 105 0x626a68
+#define TRIPPLE_BUFFER_STRING "tripple_buffer"
+
 // todo move to another file for ordering
 // FUNCTION: 105 0x5D8F70
 EXPORT s32 ReadScreenSettings_5D8F70()
@@ -810,13 +823,13 @@ EXPORT s32 ReadScreenSettings_5D8F70()
     }
     else
     {
-        window_width_706630 = gRegistry_6FF968.Get_Screen_Setting_5870D0("window_width", 640);
-        window_height_706B50 = gRegistry_6FF968.Get_Screen_Setting_5870D0("window_height", 480);
-        full_width_706B5C = gRegistry_6FF968.Get_Screen_Setting_5870D0("full_width", 640);
-        full_height_706798 = gRegistry_6FF968.Get_Screen_Setting_5870D0("full_height", 480);
+        window_width_706630 = gRegistry_6FF968.Get_Screen_Setting_5870D0(WINDOW_WIDTH_STRING, 640);
+        window_height_706B50 = gRegistry_6FF968.Get_Screen_Setting_5870D0(WINDOW_HEIGHT_STRING, 480);
+        full_width_706B5C = gRegistry_6FF968.Get_Screen_Setting_5870D0(FULL_WIDTH_STRING, 640);
+        full_height_706798 = gRegistry_6FF968.Get_Screen_Setting_5870D0(FULL_HEIGHT_STRING, 480);
     }
 
-    gStartMode_626A0C = gRegistry_6FF968.Get_Screen_Setting_5870D0("start_mode", 1);
+    gStartMode_626A0C = gRegistry_6FF968.Get_Screen_Setting_5870D0(START_MODE_STRING, 1);
 
     if (gBufferMode_706B34 == 0)
     {
@@ -824,7 +837,7 @@ EXPORT s32 ReadScreenSettings_5D8F70()
     }
     else
     {
-        bTrippleBuffer_706C54 = gRegistry_6FF968.Get_Screen_Setting_5870D0("tripple_buffer", 0);
+        bTrippleBuffer_706C54 = gRegistry_6FF968.Get_Screen_Setting_5870D0(TRIPPLE_BUFFER_STRING, 0);
     }
 
     if (gStartMode_626A0C == startMode_old && bTrippleBuffer_706C54 == trippleBuffer_old)
