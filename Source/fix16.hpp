@@ -148,6 +148,8 @@ class Fix16
     {
     }
 
+    // SYNTHETIC: 105 0x45C4E0
+    // Fix16::Fix16(unsigned char)
     Fix16(u8 value)
     {
         mValue = value << 14;

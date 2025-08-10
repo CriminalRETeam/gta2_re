@@ -360,6 +360,12 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
     }
 }
 
+// FUNCTION: 105 0x5fc86b SYMBOL
+// SEH_5fc86b
+
+// STRING: 105 0x624f98
+#define PLYDAT_CPP_STRING "C:\\Splitting\\Gta2\\Source\\plydat.cpp"
+
 // FUNCTION: 105 0x56C2C0
 void jolly_poitras_0x2BC0::create_56C2C0()
 {
@@ -368,7 +374,7 @@ void jolly_poitras_0x2BC0::create_56C2C0()
         gJolly_poitras_0x2BC0_6FEAC0 = new jolly_poitras_0x2BC0();
         if (!gJolly_poitras_0x2BC0_6FEAC0)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
+            FatalError_4A38C0(32, PLYDAT_CPP_STRING, 1269);
         }
     }
 }

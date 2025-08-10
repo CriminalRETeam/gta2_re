@@ -151,6 +151,9 @@
 // LIBRARY: 105 0x5EA45E
 // VERSION.dll::GetFileVersionInfoSizeA
 
+// LIBRARY: 105 0x5E9106
+// DINPUT.dll::DirectInputCreateA
+
 // LIBRARY: 105 0x5EA452
 // VERSION.dll::VerQueryValueA
 
@@ -196,9 +199,6 @@
 // LIBRARY: 105 0x5EEF50 SYMBOL
 // _strncmp
 
-// LIBRARY: 105 0x5EE6E9 SYMBOL
-// fgetc 
-
 // LIBRARY: 105 0x5EE197 SYMBOL
 // _exit
 
@@ -217,11 +217,14 @@
 // LIBRARY: 105 0x5EE5DF
 // _fwrite
 
-// LIBRARY: 105 0x5EEDA0 SYMBOL
+// SYNTHETIC: 105 0x5EEDA0
 // __strnicmp 
 
-// LIBRARY: 105 0x5ED478 SYMBOL
-// _free 
+// SYNTHETIC: 105 0x5ED478
+// _free
+
+// SYNTHETIC: 105 0x05F5B20
+// _strcpy
 
 // LIBRARY: 105 0x5EF7C0 SYMBOL
 // _mbstowcs 
@@ -277,9 +280,35 @@
 // GLOBAL: 105 0x708294
 // _errno
 
-// LIBRARY: 105 0x5E9106 SYMBOL
-// DINPUT.dll::DirectInputCreateA
+// GLOBAL: 105 0x600084
+// IDD_IDirectMusic
 
+// GLOBAL: 105 0x6000b4
+// IID_DirectMusic
+
+// LIBRARY: 105 0x5EE9C9 SYMBOL
+// __itoa
+
+// GLOBAL: 105 0x6007d4
+// IID_IDirectPlay3
+
+// GLOBAL: 105 0x600754
+// DPSPGUID_MODEM
+
+// SYNTHETIC: 105 0x5EA44C
+// DPLAYX.dll::Ordinal_1
+
+// GLOBAL: 105 0x600794
+// CLSID_DirectPlay
+
+// GLOBAL: 105 0x600714
+// IID_IDirectPlayLobby2
+
+// SYNTHETIC: 105 0x5EA446
+// DPLAYX.dll::Ordinal_5
+
+// SYNTHETIC: 105 0x5EE6E9
+// _fgetc
 
 // STRING: 105 0x626b90
 #define WINMAIN_CPP_STRING "C:\\Splitting\\Gta2\\Source\\winmain.cpp"

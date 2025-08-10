@@ -4271,14 +4271,20 @@ void Frontend::Load_tgas_4B66B0()
     }
 }
 
+// STRING: 105 0x6203d8
+#define PLAYER_PLYSLOT_PATH_STRING "player\\plyslot"
+
+// STRING: 105 0x6203D0
+#define SVG_EXT_STRING ".svg"
+
 // FUNCTION: 105 0x4B51D0
 void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
     _itoa(idx, Buffer, 10);
-    strcpy(pStr, "player\\plyslot");
+    strcpy(pStr, PLAYER_PLYSLOT_PATH_STRING);
     strcat(pStr, Buffer);
-    strcat(pStr, ".svg");
+    strcat(pStr, SVG_EXT_STRING);
 }
 
 // FUNCTION: 105 0x4B5370

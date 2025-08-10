@@ -383,6 +383,10 @@ void DrawUnk_0xBC::sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
     y_pos += field_4C * v5;
 }
 
+
+// FUNCTION: 105 0x5faf1b SYMBOL
+// SEH_5faf1b
+
 // FUNCTION: 105 0x4368E0
 DrawUnk_0xBC::DrawUnk_0xBC()
 {
