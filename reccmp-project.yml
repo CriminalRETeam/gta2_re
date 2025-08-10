@@ -8,4 +8,28 @@ targets:
       ignore_types: []
       ignore_functions: []
     report:
-      ignore_functions: []
+      ignore_functions: [
+        '__except_handler3',
+        '__alloc_osfhnd',
+        '__getstream',
+        '__woutput',
+        '__output',
+        '__flsbuf',
+        '__callnewh',
+        '__sopen',
+        '__lseek',
+        '__read',
+        '__write',
+        '_WinMainCRTStartup',
+        '_mbstowcs',
+        '_wcstombs',
+        '__strupr',
+        '__strnicmp',
+        '__findfirst',
+        '_fclose',
+        '?__ArrayUnwind@@YGXPAXIHP6EX0@Z@Z',
+        '??_M@YGXPAXIHP6EX0@Z@Z',
+        '??_L@YGXPAXIHP6EX0@Z1@Z',
+        '_free',
+        '__heap_alloc'
+      ]

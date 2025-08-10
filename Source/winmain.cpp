@@ -218,16 +218,16 @@
 // _fwrite
 
 // SYNTHETIC: 105 0x5EEDA0
-// __strnicmp 
+// __strnicmp
 
 // SYNTHETIC: 105 0x5ED478
 // _free
 
-// SYNTHETIC: 105 0x05F5B20
+// SYNTHETIC: 105 0x5EF8F0
 // _strcpy
 
-// LIBRARY: 105 0x5EF7C0 SYMBOL
-// _mbstowcs 
+// SYNTHETIC: 105 0x5EF7C0
+// _mbstowcs
 
 // LIBRARY: 105 0x70830C SYMBOL
 // ?_pnhHeap@@3P6AHI@ZA 

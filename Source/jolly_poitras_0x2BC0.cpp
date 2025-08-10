@@ -104,6 +104,9 @@ void jolly_poitras_0x2BC0::sub_56C010()
     // todo
 }
 
+// STRING: 105 0x624EE0
+#define DAT_EXT_STRING ".dat"
+
 // FUNCTION: 105 0x56B8A0
 void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
 {
@@ -111,7 +114,7 @@ void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
     _itoa(a1, Buffer, 10);
     strcpy(a2, "player\\plyslot");
     strcat(a2, Buffer);
-    strcat(a2, ".dat");
+    strcat(a2, DAT_EXT_STRING);
 }
 
 // FUNCTION: 105 0x56B940

@@ -401,6 +401,9 @@ char_type Registry::sub_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32
     return ret;
 }
 
+// STRING: 105 0x6250FC
+#define STRING_D_FORMAT_STRING "%sd"
+
 // FUNCTION: 105 0x587340
 bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
 {
@@ -411,7 +414,7 @@ bool Registry::sub_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE
     DWORD v = Get_Int_Setting_5874E0(hKey, ValueName);
     if (v == static_cast<DWORD>(value))
     {
-        sprintf(ValueName, "%sd", keyPath);
+        sprintf(ValueName, STRING_D_FORMAT_STRING, keyPath);
         ret = RegQueryValueExA(hKey, ValueName, 0, 0, lpData, &v) == ERROR_SUCCESS;
     }
     return ret;

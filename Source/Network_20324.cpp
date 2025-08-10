@@ -330,6 +330,12 @@ s32 Network_20324::sub_51BC80()
     return field_1FD68;
 }
 
+// STRING: 105 0x5fe8ac
+#define REGISTRY_KEY_NETWORK_STRING "Software\\DMA Design Ltd\\GTA2\\Network"
+
+// STRING: 105 0x5fe8d4
+#define PLAYER_NAME_STRING "PlayerName"
+
 // FUNCTION: 105 0x51bc90
 void Network_20324::sub_51BC90()
 {
@@ -342,7 +348,7 @@ void Network_20324::sub_51BC90()
     DWORD dwDisposition;
 
     if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
-                        "Software\\DMA Design Ltd\\GTA2\\Network",
+                        REGISTRY_KEY_NETWORK_STRING,
                         0,
                         0,
                         0,
@@ -352,7 +358,7 @@ void Network_20324::sub_51BC90()
                         &dwDisposition) == ERROR_SUCCESS)
     {
 
-        if (RegQueryValueExA(phkResult, "PlayerName", 0, &Type, Data, &cbData) == ERROR_SUCCESS)
+        if (RegQueryValueExA(phkResult, PLAYER_NAME_STRING, 0, &Type, Data, &cbData) == ERROR_SUCCESS)
         {
             strcpy(field_1FF80_player_name, reinterpret_cast<char*>(Data));
             GetString_519A50(field_1FD78_player_name_2, reinterpret_cast<char*>(Data), GTA2_COUNTOF(field_1FD78_player_name_2));
@@ -449,12 +455,18 @@ void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
     MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
 }
 
+// STRING: 105 0x623e34
+#define NETUI13_STRING "netui13"
+
+// STRING: 105 0x623e2c
+#define STRING_NUMBER_FORMAT_STRING "%s %d"
+
 // FUNCTION: 105 0x51cb30
 s32 Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 {
     char String[260];
-    char* pStr = GetString_519A00("netui13");
-    sprintf(String, "%s %d", pStr, a1);
+    char* pStr = GetString_519A00(NETUI13_STRING);
+    sprintf(String, STRING_NUMBER_FORMAT_STRING, pStr, a1);
     return SetDlgItemTextA(hDlg, 1033, String);
 }
 
