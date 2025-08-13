@@ -133,7 +133,7 @@ void BurgerKing_67F8B0::sub_4CE650()
         if (hFind == -1)
         {
             strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
-            FatalError_4A38C0(0x1BE5, INPUT_CPP_STRING, 524);
+            FatalError_4A38C0(0x1b5e, INPUT_CPP_STRING, 524);
         }
         _findclose(hFind);
         ++attr1FilePath;

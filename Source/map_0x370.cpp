@@ -2158,37 +2158,50 @@ void Map_0x370::load_rgen_4E94A0()
     gRouteFinder_6FFDC8->Load_RGEN_588B30();
 }
 
+// STRING: 105 0x620f18
+#define DMAP_STRING "DMAP"
+// STRING: 105 0x620f10
+#define ZONE_STRING "ZONE"
+// STRING: 105 0x620f08
+#define MOBJ_STRING "MOBJ"
+// STRING: 105 0x620f00
+#define ANIM_STRING "ANIM"
+// STRING: 105 0x620ef8
+#define LGHT_STRING "LGHT"
+// STRING: 105 0x620ef0
+#define RGEN_STRING "RGEN"
+
 // FUNCTION: 105 0x4E94B0
 void Map_0x370::load_chunk_4E94B0(const char_type* pChunkType, size_t chunkLen)
 {
-    if (!strncmp(pChunkType, "DMAP", 4u))
+    if (!strncmp(pChunkType, DMAP_STRING, 4u))
     {
         load_dmap_4E92B0(chunkLen);
     }
-    else if (!strncmp(pChunkType, "ZONE", 4u))
+    else if (!strncmp(pChunkType, ZONE_STRING, 4u))
     {
         load_zone_4E9250(chunkLen);
     }
-    else if (!strncmp(pChunkType, "MOBJ", 4u))
+    else if (!strncmp(pChunkType, MOBJ_STRING, 4u))
     {
         load_mobj_4E91A0(chunkLen);
     }
-    else if (!strncmp(pChunkType, "ANIM", 4u))
+    else if (!strncmp(pChunkType, ANIM_STRING, 4u))
     {
         load_anim_4E9280(chunkLen);
     }
-    else if (!strncmp(pChunkType, "LGHT", 4u))
+    else if (!strncmp(pChunkType, LGHT_STRING, 4u))
     {
         load_lght_4E9200(chunkLen);
     }
-    else if (!strncmp(pChunkType, "RGEN", 4u))
+    else if (!strncmp(pChunkType, RGEN_STRING, 4u))
     {
         load_rgen_4E94A0();
     }
     else
     {
         File::Global_Seek_4A7140(&chunkLen);
-    }
+    }    
 }
 
 // FUNCTION: 105 0x4E95A0

@@ -11,7 +11,7 @@ DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 
 Fix16& Fix16::FromInt_4369F0(s32 a2)
 {
-    // 0x4369F0 - TODO: remove me-  its the int ctor
+    // 0x4369F0 - TODO: remove me? -  its the int ctor
     mValue = a2 << 14;
     return *this;
 }
@@ -23,9 +23,9 @@ Fix16& Fix16::FromInt_45C4E0(u8 a2)
     return *this;
 }
 
-// FUNCTION: 105 0x4AE970
 Fix16& Fix16::FromU16_4AE970(u16 a2)
 {
+    // 0x4AE970 - TODO: remove me? -  its the u16 ctor
     mValue = a2 << 14;
     return *this;
 }

@@ -867,70 +867,103 @@ void gtx_0x106C::load_spec_5AB450()
     read_spec_5AB3F0(10);
 }
 
+// STRING: 105 0x626338
+#define PALB_STRING "PALB"
+// STRING: 105 0x626330
+#define SPRB_STRING "SPRB"
+// STRING: 105 0x626328
+#define FONB_STRING "FONB"
+// STRING: 105 0x626320
+#define SPRX_STRING "SPRX"
+// STRING: 105 0x626318
+#define OBJI_STRING "OBJI"
+// STRING: 105 0x626310
+#define PALX_STRING "PALX"
+// STRING: 105 0x626308
+#define PPAL_STRING "PPAL"
+// STRING: 105 0x626300
+#define SPRG_STRING "SPRG"
+// STRING: 105 0x6262f8
+#define TILE_STRING "TILE"
+// STRING: 105 0x6262f0
+#define DELS_STRING "DELS"
+// STRING: 105 0x6262e8
+#define DELX_STRING "DELX"
+// STRING: 105 0x6262e0
+#define CARI_STRING "CARI"
+// STRING: 105 0x6262d8
+#define PSXT_STRING "PSXT"
+// STRING: 105 0x6262d0
+#define OVLY_STRING "OVLY"
+// STRING: 105 0x6262c8
+#define SPEC_STRING "SPEC"
+// STRING: 105 0x6262c0
+#define RECY_STRING "RECY"
+
 // FUNCTION: 105 0x5AB4B0
 void gtx_0x106C::LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len)
 {
-    if (!strncmp(Str1, "PALB", 4u))
+    if (!strncmp(Str1, PALB_STRING, 4u))
     {
         load_palete_base_5AB2C0(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRB", 4u))
+    else if (!strncmp(Str1, SPRB_STRING, 4u))
     {
         load_sprite_base_5AB210(chunk_len);
     }
-    else if (!strncmp(Str1, "FONB", 4u))
+    else if (!strncmp(Str1, FONB_STRING, 4u))
     {
         load_font_base_5AB0F0(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRX", 4u))
+    else if (!strncmp(Str1, SPRX_STRING, 4u))
     {
         load_sprite_index_5AAF80(chunk_len);
     }
-    else if (!strncmp(Str1, "OBJI", 4u))
+    else if (!strncmp(Str1, OBJI_STRING, 4u))
     {
         load_map_object_info_5AAF00(chunk_len);
     }
-    else if (!strncmp(Str1, "PALX", 4u))
+    else if (!strncmp(Str1, PALX_STRING, 4u))
     {
         load_palette_index_5AAEA0(chunk_len);
     }
-    else if (!strncmp(Str1, "PPAL", 4u))
+    else if (!strncmp(Str1, PPAL_STRING, 4u))
     {
         load_physical_palettes_5AAE70(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRG", 4u))
+    else if (!strncmp(Str1, SPRG_STRING, 4u))
     {
         load_sprite_graphics_5AAE40(chunk_len);
     }
-    else if (!strncmp(Str1, "TILE", 4u))
+    else if (!strncmp(Str1, TILE_STRING, 4u))
     {
         load_tiles_5AADF0(chunk_len);
     }
-    else if (!strncmp(Str1, "DELS", 4u))
+    else if (!strncmp(Str1, DELS_STRING, 4u))
     {
         load_delta_store_5AADD0(chunk_len);
     }
-    else if (!strncmp(Str1, "DELX", 4u))
+    else if (!strncmp(Str1, DELX_STRING, 4u))
     {
         load_delta_index_5AAD80(chunk_len);
     }
-    else if (!strncmp(Str1, "CARI", 4u))
+    else if (!strncmp(Str1, CARI_STRING, 4u))
     {
         load_car_info_5AAD50(chunk_len);
     }
-    else if (!strncmp(Str1, "PSXT", 4u))
+    else if (!strncmp(Str1, PSXT_STRING, 4u))
     {
         skip_psxt_5AAE30(chunk_len);
     }
-    else if (!strncmp(Str1, "OVLY", 4u))
+    else if (!strncmp(Str1, OVLY_STRING, 4u))
     {
         skip_ovly_5AAE20(chunk_len);
     }
-    else if (!strncmp(Str1, "SPEC", 4u))
+    else if (!strncmp(Str1, SPEC_STRING, 4u))
     {
         load_spec_5AB450();
     }
-    else if (!strncmp(Str1, "RECY", 4u))
+    else if (!strncmp(Str1, RECY_STRING, 4u))
     {
         load_car_recycling_info_5AB3C0(chunk_len);
     }

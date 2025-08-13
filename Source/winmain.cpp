@@ -289,6 +289,15 @@
 // LIBRARY: 105 0x5EE9C9 SYMBOL
 // __itoa
 
+// LIBRARY: 105 0x5EEB9E SYMBOL
+// __itow
+
+// LIBRARY: 105 0x5EF8C0 SYMBOL
+// __chkstk
+
+// LIBRARY: 105 0x5EFC42 SYMBOL
+// _rewind
+
 // GLOBAL: 105 0x6007d4
 // IID_IDirectPlay3
 

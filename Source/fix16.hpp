@@ -155,6 +155,8 @@ class Fix16
         mValue = value << 14;
     }
 
+    // SYNTHETIC: 105 0x4AE970
+    // Fix16::Fix16(unsigned short)
     Fix16(u16 value)
     {
         mValue = value << 14;

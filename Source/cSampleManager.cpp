@@ -1026,6 +1026,13 @@ void cSampleManager::EndSample_58E960()
     }
 }
 
+// STRING: 105 0x62527c
+#define DATA_AUDIO_PATH_STRING "data\\audio\\"
+// STRING: 105 0x625274
+#define DOT_RAW_EXT_STRING ".RAW"
+// STRING: 105 0x62526c
+#define DOT_SDT_EXT_STRING ".SDT"
+
 // FUNCTION: 105 0x58E980
 char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
@@ -1037,12 +1044,12 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     char_type sdtName[80]; // [esp+60h] [ebp-50h] BYREF
 
     field_A4_bLoaded = 0;
-    strcpy(rawName, "data\\audio\\");
+    strcpy(rawName, DATA_AUDIO_PATH_STRING);
     strcat(rawName, pRawOrSdtName);
-    strcat(rawName, ".RAW");
-    strcpy(sdtName, "data\\audio\\");
+    strcat(rawName, DOT_RAW_EXT_STRING);
+    strcpy(sdtName, DATA_AUDIO_PATH_STRING);
     strcat(sdtName, pRawOrSdtName);
-    strcat(sdtName, ".SDT");
+    strcat(sdtName, DOT_SDT_EXT_STRING);
     hRawFile = fopen(rawName, "rb");
     hRawFile_ = hRawFile;
     if (!hRawFile)

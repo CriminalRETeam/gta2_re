@@ -7,6 +7,8 @@ DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18);
 // GLOBAL: 105 0x6F88A4
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256);
 
+EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4);
+
 // STUB: 105 0x519960
 u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
 {
@@ -447,12 +449,15 @@ char_type* Network_20324::sub_51CA90()
     return &this->field_4[this->field_2018C_f4_idx][520];
 }
 
+// STRING: 105 0x623e04
+#define UNABLE_TO_OPEN_SUB_MMP_FILE "Unable to open file: %s in mmpfile: %s"
+
 // FUNCTION: 105 0x51cad0
 void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 {
     char Text[256];
-    sprintf(Text, "Unable to open file: %s in mmpfile: %s", a2, a1);
-    MessageBoxA(0, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
+    sprintf(Text, UNABLE_TO_OPEN_SUB_MMP_FILE, a2, a1);
+    MessageBoxA(0, Text, byte_67DC88, MB_ICONEXCLAMATION);
 }
 
 // STRING: 105 0x623e34

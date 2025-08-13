@@ -428,16 +428,21 @@ s32 Registry::Get_Int_5873E0(HKEY hKey, const char_type* subKey)
     return Get_Int_Setting_5874E0(hKey, keyPath);
 }
 
+// STRING: 105 0x5fea14
+#define REGISTRY_GTA2_PATH_STRING "SOFTWARE\\DMA Design Ltd\\GTA2"
+// STRING: 105 0x5fea34
+#define NETWORK_PATH_STRING "\\Network"
+
 // FUNCTION: 105 0x587420
 char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
 {
     DWORD dwDisposition;
     char_type SubKey[260];
 
-    strcpy(SubKey, "SOFTWARE\\DMA Design Ltd\\GTA2");
-    strcat(SubKey, "\\Network");
+    strcpy(SubKey, REGISTRY_GTA2_PATH_STRING);
+    strcat(SubKey, NETWORK_PATH_STRING);
 
-    if (RegCreateKeyExA(dword_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, 0, phkResult, &dwDisposition) != ERROR_SUCCESS)
+    if (RegCreateKeyExA(dword_625018, SubKey, 0, byte_67DC88, 0, KEY_ALL_ACCESS, 0, phkResult, &dwDisposition) != ERROR_SUCCESS)
     {
         FatalError_4A38C0(43, REGISTRY_CPP_STRING, 910);
     }
@@ -514,16 +519,19 @@ void Registry::Set_Network_Setting_587730(const char_type* lpValueName, BYTE Dat
     }
 }
 
+// STRING: 105 0x625104
+#define REGISTRY_PLAYER_PATH_STRING "SOFTWARE\\DMA Design Ltd\\GTA2\\Player"
+
 // FUNCTION: 105 0x5877A0
 char_type Registry::Open_Player_Root_5877A0(PHKEY phkResult)
 {
-    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Player", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
+    if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, REGISTRY_PLAYER_PATH_STRING, 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {
         DWORD dwDisposition;
         if (RegCreateKeyExA(HKEY_LOCAL_MACHINE,
-                            "SOFTWARE\\DMA Design Ltd\\GTA2\\Player",
+                            REGISTRY_PLAYER_PATH_STRING,
                             0,
-                            "",
+                            byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
                             0,

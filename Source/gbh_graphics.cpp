@@ -90,13 +90,18 @@ DEFINE_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0);
 // GLOBAL: 105 0x7085E4
 DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4);
 
+// clang-format off
+// STRING: 105 0x601A9C
+#define GBH_GRAPHICS_ERROR_MSG_STRING "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up."
+// clang-format on
+
+// STRING: 105 0x601B0C
+#define GBH_GRAPHICS_ERROR_TITLE_STRING "GBH Graphics Error"
+
 // FUNCTION: 105 0x5EA4D0
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
-    MessageBoxA(0,
-                "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
-                "GBH Graphics Error",
-                MB_OK);
+    MessageBoxA(0, GBH_GRAPHICS_ERROR_MSG_STRING, GBH_GRAPHICS_ERROR_TITLE_STRING, MB_OK);
 }
 
 // FUNCTION: 105 0x5EA500
@@ -159,6 +164,87 @@ EXPORT s32 GBH_Graphics_Free_5EA640()
         return -1;                                                     \
     }
 
+// STRING: 105 0x601e2c
+#define GBH_INITDLL_STRING "gbh_InitDLL"
+// STRING: 105 0x601de0
+#define GBH_CLOSEDLL_STRING "gbh_CloseDLL"
+// STRING: 105 0x601dd4
+#define GBH_INIT_STRING "gbh_Init"
+// STRING: 105 0x601dc4
+#define GBH_DRAWTILE_STRING "gbh_DrawTile"
+// STRING: 105 0x601db0
+#define GBH_DRAWTILEPART_STRING "gbh_DrawTilePart"
+// STRING: 105 0x601da0
+#define GBH_DRAWQUAD_STRING "gbh_DrawQuad"
+// STRING: 105 0x601d8c
+#define GBH_DRAWQUADCLIPPED_STRING "gbh_DrawQuadClipped"
+// STRING: 105 0x601d78
+#define GBH_DRAWTRIANGLE_STRING "gbh_DrawTriangle"
+// STRING: 105 0x601d6c
+#define GBH_PLOT_STRING "gbh_Plot"
+// STRING: 105 0x601d5c
+#define GBH_SETWINDOW_STRING "gbh_SetWindow"
+// STRING: 105 0x601d4c
+#define GBH_PRINTBITMAP_STRING "gbh_PrintBitmap"
+// STRING: 105 0x601d38
+#define GBH_SETCOLOURDEPTH_STRING "gbh_SetColourDepth"
+// STRING: 105 0x601d28
+#define GBH_GETGLOBALS_STRING "gbh_GetGlobals"
+// STRING: 105 0x601d14
+#define GBH_CONVERTCOLOUR_STRING "gbh_ConvertColour"
+// STRING: 105 0x601d00
+#define GBH_REGISTERTEXTURE_STRING "gbh_RegisterTexture"
+// STRING: 105 0x601cf0
+#define GBH_BEGINSCENE_STRING "gbh_BeginScene"
+// STRING: 105 0x601ce0
+#define GBH_ENDSCENE_STRING "gbh_EndScene"
+// STRING: 105 0x601cd0
+#define GBH_BEGINLEVEL_STRING "gbh_BeginLevel"
+// STRING: 105 0x601cc0
+#define GBH_ENDLEVEL_STRING "gbh_EndLevel"
+// STRING: 105 0x601cac
+#define CONVERTCOLOURBANK_STRING "ConvertColourBank"
+// STRING: 105 0x601ca0
+#define DRAWLINE_STRING "DrawLine"
+// STRING: 105 0x601c90
+#define MAKESCREENTABLE_STRING "MakeScreenTable"
+// STRING: 105 0x601c80
+#define SETSHADETABLEA_STRING "SetShadeTableA"
+// STRING: 105 0x601c6c
+#define GBH_UNLOCKTEXTURE_STRING "gbh_UnlockTexture"
+// STRING: 105 0x601c58
+#define GBH_REGISTERPALETTE_STRING "gbh_RegisterPalette"
+// STRING: 105 0x601c48
+#define GBH_FREEPALETTE_STRING "gbh_FreePalette"
+// STRING: 105 0x601c38
+#define GBH_FREETEXTURE_STRING "gbh_FreeTexture"
+// STRING: 105 0x601c24
+#define GBH_ASSIGNPALETTE_STRING "gbh_AssignPalette"
+// STRING: 105 0x601c14
+#define GBH_LOCKTEXTURE_STRING "gbh_LockTexture"
+// STRING: 105 0x601c00
+#define GBH_GETUSEDCACHE_STRING "gbh_GetUsedCache"
+// STRING: 105 0x601bf0
+#define GBH_SETCAMERA_STRING "gbh_SetCamera"
+// STRING: 105 0x601be0
+#define GBH_RESETLIGHTS_STRING "gbh_ResetLights"
+// STRING: 105 0x601bd0
+#define GBH_ADDLIGHT_STRING "gbh_AddLight"
+// STRING: 105 0x601bc0
+#define GBH_SETAMBIENT_STRING "gbh_SetAmbient"
+// STRING: 105 0x601bac
+#define GBH_INITIMAGETABLE_STRING "gbh_InitImageTable"
+// STRING: 105 0x601b98
+#define GBH_FREEIMAGETABLE_STRING "gbh_FreeImageTable"
+// STRING: 105 0x601b88
+#define GBH_LOADIMAGE_STRING "gbh_LoadImage"
+// STRING: 105 0x601b78
+#define GBH_BLITIMAGE_STRING "gbh_BlitImage"
+// STRING: 105 0x601b68
+#define GBH_BLITBUFFER_STRING "gbh_BlitBuffer"
+// STRING: 105 0x601b54
+#define GBH_DRAWFLATRECT_STRING "gbh_DrawFlatRect"
+
 // FUNCTION: 105 0x5EA680
 EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
@@ -171,46 +257,46 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
     gGbhDllHandle_7085D8 = LoadLibraryA(lpLibFileName);
     if (gGbhDllHandle_7085D8)
     {
-        load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, "gbh_InitDLL");
-        load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, "gbh_CloseDLL");
-        load_gbh_func(pgbh_Init, T_gbh_Init, "gbh_Init");
-        load_gbh_func(pgbh_DrawTile, T_gbh_DrawTile, "gbh_DrawTile");
-        load_gbh_func(pgbh_DrawTilePart, T_gbh_DrawTilePart, "gbh_DrawTilePart");
-        load_gbh_func(pgbh_DrawQuad, T_gbh_DrawQuad, "gbh_DrawQuad");
-        load_gbh_func(pgbh_DrawQuadClipped, T_gbh_DrawQuadClipped, "gbh_DrawQuadClipped");
-        load_gbh_func(pgbh_DrawTriangle, T_gbh_DrawTriangle, "gbh_DrawTriangle");
-        load_gbh_func(pgbh_Plot, T_gbh_Plot, "gbh_Plot");
-        load_gbh_func(pgbh_SetWindow, T_gbh_SetWindow, "gbh_SetWindow");
-        load_gbh_func(pgbh_PrintBitmap, T_gbh_PrintBitmap, "gbh_PrintBitmap");
-        load_gbh_func(pgbh_SetColourDepth, T_gbh_SetColourDepth, "gbh_SetColourDepth");
-        load_gbh_func(pgbh_GetGlobals, T_gbh_GetGlobals, "gbh_GetGlobals");
-        load_gbh_func(pgbh_ConvertColour, T_gbh_ConvertColour, "gbh_ConvertColour");
-        load_gbh_func(pgbh_RegisterTexture, T_gbh_RegisterTexture, "gbh_RegisterTexture");
-        load_gbh_func(pgbh_BeginScene, T_gbh_BeginScene, "gbh_BeginScene");
-        load_gbh_func(pgbh_EndScene, T_gbh_EndScene, "gbh_EndScene");
-        load_gbh_func(pgbh_BeginLevel, T_gbh_BeginLevel, "gbh_BeginLevel");
-        load_gbh_func(pgbh_EndLevel, T_gbh_EndLevel, "gbh_EndLevel");
-        load_gbh_func(pConvertColourBank, T_ConvertColourBank, "ConvertColourBank");
-        load_gbh_func(pDrawLine, FARPROC, "DrawLine");
-        load_gbh_func(pMakeScreenTable, T_MakeScreenTable, "MakeScreenTable");
-        load_gbh_func(pSetShadeTableA, T_SetShadeTableA, "SetShadeTableA");
-        load_gbh_func(pgbh_UnlockTexture, T_gbh_UnlockTexture, "gbh_UnlockTexture");
-        load_gbh_func(pgbh_RegisterPalette, T_gbh_RegisterPalette, "gbh_RegisterPalette");
-        load_gbh_func(pgbh_FreePalette, T_gbh_FreePalette, "gbh_FreePalette");
-        load_gbh_func(pgbh_FreeTexture, T_gbh_FreeTexture, "gbh_FreeTexture");
-        load_gbh_func(pgbh_AssignPalette, T_gbh_AssignPalette, "gbh_AssignPalette");
-        load_gbh_func(pgbh_LockTexture, T_gbh_LockTexture, "gbh_LockTexture");
-        load_gbh_func(pgbh_GetUsedCache, T_gbh_GetUsedCache, "gbh_GetUsedCache");
-        load_gbh_func(pgbh_SetCamera, T_gbh_SetCamera, "gbh_SetCamera");
-        load_gbh_func(pgbh_ResetLights, T_gbh_ResetLights, "gbh_ResetLights");
-        load_gbh_func(pgbh_AddLight, T_gbh_AddLight, "gbh_AddLight");
-        load_gbh_func(pgbh_SetAmbient, T_gbh_SetAmbient, "gbh_SetAmbient");
-        load_gbh_func(pgbh_InitImageTable, T_gbh_InitImageTable, "gbh_InitImageTable");
-        load_gbh_func(pgbh_FreeImageTable, T_gbh_FreeImageTable, "gbh_FreeImageTable");
-        load_gbh_func(pgbh_LoadImage, T_gbh_LoadImage, "gbh_LoadImage");
-        load_gbh_func(pgbh_BlitImage, T_gbh_BlitImage, "gbh_BlitImage");
-        load_gbh_func(pgbh_BlitBuffer, T_gbh_BlitBuffer, "gbh_BlitBuffer");
-        load_gbh_func(pgbh_DrawFlatRect, T_gbh_DrawFlatRect, "gbh_DrawFlatRect");
+        load_gbh_func(pgbh_InitDLL, T_gbh_InitDLL, GBH_INITDLL_STRING);
+        load_gbh_func(pgbh_CloseDLL, T_gbh_CloseDLL, GBH_CLOSEDLL_STRING);
+        load_gbh_func(pgbh_Init, T_gbh_Init, GBH_INIT_STRING);
+        load_gbh_func(pgbh_DrawTile, T_gbh_DrawTile, GBH_DRAWTILE_STRING);
+        load_gbh_func(pgbh_DrawTilePart, T_gbh_DrawTilePart, GBH_DRAWTILEPART_STRING);
+        load_gbh_func(pgbh_DrawQuad, T_gbh_DrawQuad, GBH_DRAWQUAD_STRING);
+        load_gbh_func(pgbh_DrawQuadClipped, T_gbh_DrawQuadClipped, GBH_DRAWQUADCLIPPED_STRING);
+        load_gbh_func(pgbh_DrawTriangle, T_gbh_DrawTriangle, GBH_DRAWTRIANGLE_STRING);
+        load_gbh_func(pgbh_Plot, T_gbh_Plot, GBH_PLOT_STRING);
+        load_gbh_func(pgbh_SetWindow, T_gbh_SetWindow, GBH_SETWINDOW_STRING);
+        load_gbh_func(pgbh_PrintBitmap, T_gbh_PrintBitmap, GBH_PRINTBITMAP_STRING);
+        load_gbh_func(pgbh_SetColourDepth, T_gbh_SetColourDepth, GBH_SETCOLOURDEPTH_STRING);
+        load_gbh_func(pgbh_GetGlobals, T_gbh_GetGlobals, GBH_GETGLOBALS_STRING);
+        load_gbh_func(pgbh_ConvertColour, T_gbh_ConvertColour, GBH_CONVERTCOLOUR_STRING);
+        load_gbh_func(pgbh_RegisterTexture, T_gbh_RegisterTexture, GBH_REGISTERTEXTURE_STRING);
+        load_gbh_func(pgbh_BeginScene, T_gbh_BeginScene, GBH_BEGINSCENE_STRING);
+        load_gbh_func(pgbh_EndScene, T_gbh_EndScene, GBH_ENDSCENE_STRING);
+        load_gbh_func(pgbh_BeginLevel, T_gbh_BeginLevel, GBH_BEGINLEVEL_STRING);
+        load_gbh_func(pgbh_EndLevel, T_gbh_EndLevel, GBH_ENDLEVEL_STRING);
+        load_gbh_func(pConvertColourBank, T_ConvertColourBank, CONVERTCOLOURBANK_STRING);
+        load_gbh_func(pDrawLine, FARPROC, DRAWLINE_STRING);
+        load_gbh_func(pMakeScreenTable, T_MakeScreenTable, MAKESCREENTABLE_STRING);
+        load_gbh_func(pSetShadeTableA, T_SetShadeTableA, SETSHADETABLEA_STRING);
+        load_gbh_func(pgbh_UnlockTexture, T_gbh_UnlockTexture, GBH_UNLOCKTEXTURE_STRING);
+        load_gbh_func(pgbh_RegisterPalette, T_gbh_RegisterPalette, GBH_REGISTERPALETTE_STRING);
+        load_gbh_func(pgbh_FreePalette, T_gbh_FreePalette, GBH_FREEPALETTE_STRING);
+        load_gbh_func(pgbh_FreeTexture, T_gbh_FreeTexture, GBH_FREETEXTURE_STRING);
+        load_gbh_func(pgbh_AssignPalette, T_gbh_AssignPalette, GBH_ASSIGNPALETTE_STRING);
+        load_gbh_func(pgbh_LockTexture, T_gbh_LockTexture, GBH_LOCKTEXTURE_STRING);
+        load_gbh_func(pgbh_GetUsedCache, T_gbh_GetUsedCache, GBH_GETUSEDCACHE_STRING);
+        load_gbh_func(pgbh_SetCamera, T_gbh_SetCamera, GBH_SETCAMERA_STRING);
+        load_gbh_func(pgbh_ResetLights, T_gbh_ResetLights, GBH_RESETLIGHTS_STRING);
+        load_gbh_func(pgbh_AddLight, T_gbh_AddLight, GBH_ADDLIGHT_STRING);
+        load_gbh_func(pgbh_SetAmbient, T_gbh_SetAmbient, GBH_SETAMBIENT_STRING);
+        load_gbh_func(pgbh_InitImageTable, T_gbh_InitImageTable, GBH_INITIMAGETABLE_STRING);
+        load_gbh_func(pgbh_FreeImageTable, T_gbh_FreeImageTable, GBH_FREEIMAGETABLE_STRING);
+        load_gbh_func(pgbh_LoadImage, T_gbh_LoadImage, GBH_LOADIMAGE_STRING);
+        load_gbh_func(pgbh_BlitImage, T_gbh_BlitImage, GBH_BLITIMAGE_STRING);
+        load_gbh_func(pgbh_BlitBuffer, T_gbh_BlitBuffer, GBH_BLITBUFFER_STRING);
+        load_gbh_func(pgbh_DrawFlatRect, T_gbh_DrawFlatRect, GBH_DRAWFLATRECT_STRING);
     }
     else
     {
