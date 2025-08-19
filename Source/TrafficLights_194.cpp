@@ -126,18 +126,25 @@ void TrafficLights_194::sub_5C2950()
     NOT_IMPLEMENTED;
 }
 
+// STRING: 105 0x626888
+#define TIMER_FORMAT_STRING L"timer: %d"
+// STRING: 105 0x626874
+#define PHASE_FORMAT_STRING L"phase: %d"
+// STRING: 105 0x62684c
+#define PEDS_CROSSING_NOW_STRING L"peds crossing now!"
+
 // FUNCTION: 105 0x5c2a10
 void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 {
-    swprintf(tmpBuff_67BD9C, L"timer: %d", field_193_timer);
+    swprintf(tmpBuff_67BD9C, TIMER_FORMAT_STRING, field_193_timer);
     gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 0, word_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"phase: %d", field_192_phase);
+    swprintf(tmpBuff_67BD9C, PHASE_FORMAT_STRING, field_192_phase);
     gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_706600, 1);
 
     if (field_192_phase == 7)
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"peds crossing now!", -1, 32, word_706600, 1);
+        gGarox_2B00_706620->field_650.sub_5D1F50(PEDS_CROSSING_NOW_STRING, -1, 32, word_706600, 1);
     }
 }
 

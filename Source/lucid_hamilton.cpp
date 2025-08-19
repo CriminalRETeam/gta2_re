@@ -10,6 +10,17 @@ DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0);
 EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
+// STRING: 105 0x620830
+#define MAPNAME_STRING "mapname"
+// STRING: 105 0x62081c
+#define JOINTMAP_STRING "data\\jointmap.gmp"
+// STRING: 105 0x620810
+#define STYLENAME_STRING "stylename"
+
+// STRING: 105 0x6207f4
+#define SCRIPTNAME_STRING "scriptname"
+
+
 // FUNCTION: 105 0x4C53D0
 void lucid_hamilton::sub_4C53D0()
 {
@@ -18,7 +29,7 @@ void lucid_hamilton::sub_4C53D0()
 
     strcpy(tmp, byte_67DC88);
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    gRegistry_6FF968.Get_Debug_Setting_586E90(MAPNAME_STRING, (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
     if (strcmp(path, "data\\") == 0)
     {
@@ -28,7 +39,7 @@ void lucid_hamilton::sub_4C53D0()
 
     strcpy(tmp, byte_67DC88);
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    gRegistry_6FF968.Get_Debug_Setting_586E90(STYLENAME_STRING, (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
     if (strcmp(path, "data\\") == 0)
     {
@@ -48,7 +59,7 @@ void lucid_hamilton::sub_4C53D0()
 
     strcpy(tmp, byte_67DC88);
     strcpy(path, "player\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
+    gRegistry_6FF968.Get_Debug_Setting_586E90(SCRIPTNAME_STRING, (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
     if (strcmp(path, "player\\") == 0)
     {

@@ -562,6 +562,13 @@ char_type Player::sub_566C80(u32* a2)
     return 'a';
 }
 
+// STRING: 105 0x624224
+#define GAME_CAMERA_FORMAT_STRING L"game camera: (%3.3f,%3.3f,%3.3f)"
+// STRING: 105 0x6241d8
+#define AUX_CAMERA_FORMAT_STRING L"aux game camera: (%3.3f,%3.3f,%3.3f)"
+// STRING: 105 0x624194
+#define VIEW_CAMERA_FORMAT_STRING  L"view camera: (%3.3f,%3.3f,%3.3f)"
+
 // FUNCTION: 105 0x566EE0
 void Player::sub_566EE0(char_type bDoNothing)
 {
@@ -586,18 +593,18 @@ void Player::sub_566EE0(char_type bDoNothing)
             double x = this->field_90_game_camera.field_98_cam_pos2.field_0_x.AsDouble();
             double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
-            swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
+            swprintf(tmpBuff_67BD9C, GAME_CAMERA_FORMAT_STRING, x, y, z);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
-                     L"aux game camera: (%3.3f,%3.3f,%3.3f)",
+                     AUX_CAMERA_FORMAT_STRING,
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
-                     L"view camera: (%3.3f,%3.3f,%3.3f)",
+                     VIEW_CAMERA_FORMAT_STRING,
                      this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());

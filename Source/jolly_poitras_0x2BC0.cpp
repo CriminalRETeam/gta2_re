@@ -291,28 +291,49 @@ void jolly_poitras_0x2BC0::sub_56BF20()
     // todo
 }
 
+// STRING: 105 0x624f78
+#define ALAN_STRING L"ALAN"
+// STRING: 105 0x624f6c
+#define BRAIN_STRING L"BRIAN"
+// STRING: 105 0x624f60
+#define COLIN_STRING L"COLIN"
+// STRING: 105 0x624f54
+#define DAVE_STRING L"DAVE"
+// STRING: 105 0x624f48
+#define ERIC_STRING L"ERIC"
+// STRING: 105 0x624f3c
+#define FRANK_STRING L"FRANK"
+// STRING: 105 0x624f2c
+#define GRAEME_STRING L"GRAEME"
+// STRING: 105 0x624f1c
+#define HECTOR_STRING L"HECTOR"
+// STRING: 105 0x624f0c
+#define IMOGEN_STRING L"IMOGEN"
+// STRING: 105 0x624EFC
+#define JACKSON_STRING L"JACKSON"
+
 // FUNCTION: 105 0x56BD20
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
-    wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, L"ALAN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, ALAN_STRING, 9u);
     field_24C0.field_0_score_table_line[0].field_14_score = 1000000;
-    wcsncpy(field_24C0.field_0_score_table_line[1].field_0_player_name, L"BRIAN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[1].field_0_player_name, BRAIN_STRING, 9u);
     field_24C0.field_0_score_table_line[1].field_14_score = 500000;
-    wcsncpy(field_24C0.field_0_score_table_line[2].field_0_player_name, L"COLIN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[2].field_0_player_name, COLIN_STRING, 9u);
     field_24C0.field_0_score_table_line[2].field_14_score = 400000;
-    wcsncpy(field_24C0.field_0_score_table_line[3].field_0_player_name, L"DAVE", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[3].field_0_player_name, DAVE_STRING, 9u);
     field_24C0.field_0_score_table_line[3].field_14_score = 300000;
-    wcsncpy(field_24C0.field_0_score_table_line[4].field_0_player_name, L"ERIC", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[4].field_0_player_name, ERIC_STRING, 9u);
     field_24C0.field_0_score_table_line[4].field_14_score = 250000;
-    wcsncpy(field_24C0.field_0_score_table_line[5].field_0_player_name, L"FRANK", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[5].field_0_player_name, FRANK_STRING, 9u);
     field_24C0.field_0_score_table_line[5].field_14_score = 200000;
-    wcsncpy(field_24C0.field_0_score_table_line[6].field_0_player_name, L"GRAEME", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[6].field_0_player_name, GRAEME_STRING, 9u);
     field_24C0.field_0_score_table_line[6].field_14_score = 100000;
-    wcsncpy(field_24C0.field_0_score_table_line[7].field_0_player_name, L"HECTOR", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[7].field_0_player_name, HECTOR_STRING, 9u);
     field_24C0.field_0_score_table_line[7].field_14_score = 50000;
-    wcsncpy(field_24C0.field_0_score_table_line[8].field_0_player_name, L"IMOGEN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[8].field_0_player_name, IMOGEN_STRING, 9u);
     field_24C0.field_0_score_table_line[8].field_14_score = 25000;
-    wcsncpy(field_24C0.field_0_score_table_line[9].field_0_player_name, L"JACKSON", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[9].field_0_player_name, JACKSON_STRING, 9u);
     field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
