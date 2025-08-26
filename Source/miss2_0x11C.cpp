@@ -4145,7 +4145,8 @@ void miss2_0x11C::sub_510780()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-// FUNCTION: 105 0x5108d0
+// TODO: Fix jump table
+// STUB: 105 0x5108d0
 void miss2_0x11C::PreExecOpCode_5108D0()
 {
     if (field_10 != 1)

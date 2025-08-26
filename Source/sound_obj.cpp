@@ -22,7 +22,8 @@ serene_brattain* serene_brattain::sub_419DF0()
     return this;
 }
 
-// FUNCTION: 105 0x419CD0
+// TODO: Fake match before reccmp ??
+// STUB: 105 0x419CD0
 sound_obj::sound_obj()
 {
     sound_0x68* pIter = &field_9C_asSamples[0][0];

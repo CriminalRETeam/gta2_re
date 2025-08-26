@@ -267,6 +267,9 @@ def verify():
         print("Comparison failed.")
         return False
 
+    if run_and_wait("python dump_data.py --target 105") != 0:
+        print("Dump failed.")
+        return False
     return True
 
 
@@ -306,7 +309,7 @@ def copy_files_impl(files: list[str], target_dir: str):
         shutil.copy2(file_src, file_dst)
 
 def copy_files():
-    files = ["../Scripts/bin_comp/new_data.json", "gta2_dll_exports.dll", "gta2_dll_imports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
+    files = ["../Scripts/bin_comp/new_data.json", "../symbols.csv", "gta2_dll_exports.dll", "HookLoader.dll", "decomp_main.exe", "3rdParty/GTA2Hax/dear_imgui.dll", "3rdParty/GTA2Hax/d3ddll.dll", "3rdParty/GTA2Hax/DmaVideo.dll"]
     if GTA2_ROOT is not None:   
         copy_files_impl(files, GTA2_ROOT)
 

@@ -849,6 +849,12 @@ LABEL_116:
     sub_4B6780();
 }
 
+// STRING: 105 0x620364
+#define DOUBLE_FORMAT_STRING L"%s %s"
+
+// STRING: 105 0x620354
+#define STRING_HI_FOR "hi_for"
+
 // FUNCTION: 105 0x4B3AF0
 void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
@@ -868,7 +874,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         {
             // player 1, 2, 3 etc.
             swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);
-            swprintf(word_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+            swprintf(word_67C7D8, DOUBLE_FORMAT_STRING, pOption->field_6_option_name_str, tmpBuff_67BD9C);
         }
         else
         {
@@ -878,7 +884,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
     }
     else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
     {
-        swprintf(word_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+        swprintf(word_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90(STRING_HI_FOR));
     }
     else
     {
@@ -2512,6 +2518,12 @@ void Frontend::sub_4B4230()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
 
+// STRING: 105 0x620370
+#define WIDE_CHAR_FORMAT_STRING L"%c"
+
+// STRING: 105 0x62035c
+#define WIDE_STRING_FORMAT_STRING L"%s"
+
 // FUNCTION: 105 0x4B3CC0
 void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
 {
@@ -2523,7 +2535,7 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     }
     else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
     {
-        swprintf(word_67C7D8, L"%s", temp->field_6_element_name_str);
+        swprintf(word_67C7D8, WIDE_STRING_FORMAT_STRING, temp->field_6_element_name_str);
     }
     else if (field_EE0D < 3)
     {
@@ -2531,7 +2543,7 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     }
     else
     {
-        swprintf(word_67C7D8, L"%c", field_EE0D + 62);
+        swprintf(word_67C7D8, WIDE_CHAR_FORMAT_STRING, field_EE0D + 62);
     }
     *a4 = (wchar_t*)&word_67C7D8;
 }
@@ -2718,12 +2730,23 @@ void Frontend::sub_4B8530()
     }
 }
 
+// STRING: 105 0x62051c
+#define STRING_WFUSDFCF L"WFUSDFCF"
+// STRING: 105 0x62050c
+#define STRING_DO_PLAY_MOVIE "do_play_movie"
+// STRING: 105 0x620504
+#define STRING_FR_RNT1 "fr_rnt1"
+// STRING: 105 0x6204fc
+#define STRING_FR_RNT2 "fr_rnt2"
+// STRING: 105 0x6204f4
+#define STRING_FR_RNT3 "fr_rnt3"
+
 // FUNCTION: 105 0x4B8560
 void Frontend::sub_4B8560()
 {
-    if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
+    if (!wcscmp(field_C9B8, STRING_WFUSDFCF)) // french bonus mission unlocks?
     {
-        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) == 1)
+        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0(STRING_DO_PLAY_MOVIE, 1) == 1)
         {
             sub_4B3170(8u);
         }
@@ -2744,13 +2767,13 @@ void Frontend::sub_4B8560()
         field_C9B6 = 5;
 
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt1"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT1),
                 0x32u);
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt2"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT2),
                 0x32u);
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt3"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT3),
                 0x32u);
 
         field_C9CB = 1;
@@ -4415,6 +4438,9 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
     }
 }
 
+// STRING: 105 0x6203f0
+#define TAG_TIMER_FORMAT_STRING L"%2d:%02d"
+
 // FUNCTION: 105 0x4B55F0
 void Frontend::sub_4B55F0()
 {
@@ -4447,7 +4473,7 @@ void Frontend::sub_4B55F0()
         else // tag game
         {
             s32 player_time = gYouthful_einstein_6F8450.field_4_time[player_idx];
-            swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
+            swprintf(Buffer, TAG_TIMER_FORMAT_STRING, player_time / 60, player_time % 60);
             x_pos = 500;
             y_pos = 20 * player_idx + 170;
         }

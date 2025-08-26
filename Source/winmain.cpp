@@ -310,6 +310,9 @@
 // GLOBAL: 105 0x600794
 // CLSID_DirectPlay
 
+// GLOBAL: 105 0x600994
+// GUID_SysKeyboard
+
 // GLOBAL: 105 0x600714
 // IID_IDirectPlayLobby2
 
