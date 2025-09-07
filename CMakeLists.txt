@@ -303,11 +303,11 @@ endif()
 
 if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /SAFESEH:NO /debug:full"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /SAFESEH:NO /debug:full /FIXED:NO /BASE:0x500000"
     )
 else()
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /debug:full"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /debug:full /FIXED:NO /BASE:0x500000"
     )
 endif()
 
