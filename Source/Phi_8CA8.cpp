@@ -6,33 +6,47 @@
 #include "sprite.hpp"
 #include <memory.h>
 
-DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fac, Fix16(4096, 0), 0x6f8fac);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fd8, Fix16(1638, 0), 0x6F8FD8);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fc578, Fix16(3276, 0), 0x6fc578);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fc584, Fix16(8192, 0), 0x6fc584);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fce08, Fix16(0, 0), 0x6fce08);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fceb0, Fix16(256, 0), 0x6fceb0);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fcde0, Fix16(327, 0), 0x6fcde0);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fcdd8, Fix16(163, 0), 0x6FCDD8);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006fce10, Fix16(32768, 0), 0x6FCE10);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006F8FF0, Fix16(9830, 0), 0x6F8FF0);
-DEFINE_GLOBAL_INIT(Fix16, DAT_006FCED0, Fix16(4096, 0), 0x6FCED0);
+// GLOBAL: 105 0x6f8fac
+DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fac, Fix16(4096, 0));
+// GLOBAL: 105 0x6F8FD8
+DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fd8, Fix16(1638, 0));
+// GLOBAL: 105 0x6fc578
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fc578, Fix16(3276, 0));
+// GLOBAL: 105 0x6fc584
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fc584, Fix16(8192, 0));
+// GLOBAL: 105 0x6fce08
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fce08, Fix16(0, 0));
+// GLOBAL: 105 0x6fceb0
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fceb0, Fix16(256, 0));
+// GLOBAL: 105 0x6fcde0
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fcde0, Fix16(327, 0));
+// GLOBAL: 105 0x6FCDD8
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fcdd8, Fix16(163, 0));
+// GLOBAL: 105 0x6FCE10
+DEFINE_GLOBAL_INIT(Fix16, DAT_006fce10, Fix16(32768, 0));
+// GLOBAL: 105 0x6F8FF0
+DEFINE_GLOBAL_INIT(Fix16, DAT_006F8FF0, Fix16(9830, 0));
+// GLOBAL: 105 0x6FCED0
+DEFINE_GLOBAL_INIT(Fix16, DAT_006FCED0, Fix16(4096, 0));
 
-
-DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
+// GLOBAL: 105 0x623EEC
+DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24);
 
 // This array is initialized by FUN_005323b0 (likely a static constructor).
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533360.
-DEFINE_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24, 0x6FC5F8);
+// GLOBAL: 105 0x6FC5F8
+DEFINE_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24);
 
-DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126, 0x623EF0);
+// GLOBAL: 105 0x623EF0
+DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126);
 
 // This array is initialized by FUN_0052cde0 (likely a static constructor).
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533B30.
-DEFINE_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126, 0x6F9038);
+// GLOBAL: 105 0x6F9038
+DEFINE_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126);
 
 
-MATCH_FUNC(0x532fb0)
+// FUNCTION: 105 0x532fb0
 Phi_54::Phi_54(s32 param_1,
                s32& param_2,
                s32 param_3,
@@ -78,7 +92,7 @@ Phi_54::Phi_54(s32 param_1,
     field_50 = param_21;
 }
 
-MATCH_FUNC(0x531860)
+// FUNCTION: 105 0x531860
 Phi_6C::Phi_6C(u32 param_1,
                u8 param_2,
                u32& param_3,
@@ -140,12 +154,12 @@ Phi_6C::Phi_6C(u32 param_1,
     field_69 = param_29;
 }
 
-MATCH_FUNC(0x4bdf60)
+// FUNCTION: 105 0x4bdf60
 Phi_74::~Phi_74()
 {
 }
 
-MATCH_FUNC(0x533060)
+// FUNCTION: 105 0x533060
 void Phi_74::sub_533060(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     field_0 = a2;
@@ -161,7 +175,7 @@ void Phi_74::sub_533060(Fix16 a2, Fix16 a3, Fix16 a4)
     }
 }
 
-MATCH_FUNC(0x533090)
+// FUNCTION: 105 0x533090
 void Phi_74::sub_533090()
 {
     if (this->field_28 != sprite_types_enum::unknown_1)
@@ -189,7 +203,7 @@ void Phi_74::sub_533090()
     }
 }
 
-MATCH_FUNC(0x533110)
+// FUNCTION: 105 0x533110
 void Phi_74::sub_533110(s16 remap)
 {
     switch (field_28)
@@ -204,14 +218,14 @@ void Phi_74::sub_533110(s16 remap)
     field_1C_remap = remap;
 }
 
-MATCH_FUNC(0x533150)
+// FUNCTION: 105 0x533150
 void Phi_74::sub_533150(s16 a2, s16 a3)
 {
     field_1E += a2;
     field_6C = a3;
 }
 
-MATCH_FUNC(0x533170)
+// FUNCTION: 105 0x533170
 Sprite* Phi_74::sub_533170()
 {
     Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
@@ -221,7 +235,7 @@ Sprite* Phi_74::sub_533170()
     return pFreeSprite;
 }
 
-MATCH_FUNC(0x5331a0)
+// FUNCTION: 105 0x5331a0
 void Phi_74::sub_5331A0(Sprite* pSprite)
 {
     s16 f1E; // ax
@@ -257,11 +271,10 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
     }
 }
 
-// fix16?
-s32 dword_6F8FA4 = 0x3FC000;
-s32 dword_6FCE08 = 0;
+// GLOBAL: 105 0x6F8FA4
+DEFINE_GLOBAL_INIT(s32, dword_6F8FA4, 0x3FC000); // fix 16?
 
-MATCH_FUNC(0x533220)
+// FUNCTION: 105 0x533220
 Phi_74::Phi_74()
 {
     field_0 = dword_6F8FA4;
@@ -290,7 +303,7 @@ Phi_74::Phi_74()
     field_65 = 99;
     field_1E = 99;
     field_6C = 99;
-    s32 v1 = dword_6FCE08;
+    Fix16 v1 = DAT_006fce08;
     field_68 = 0;
     field_18 = v1;
     field_20 = 0;
@@ -299,12 +312,12 @@ Phi_74::Phi_74()
     field_70 = 0;
 }
 
-MATCH_FUNC(0x4bdf40)
+// FUNCTION: 105 0x4bdf40
 Phi_8CA8::~Phi_8CA8()
 {
 }
 
-MATCH_FUNC(0x5332d0)
+// FUNCTION: 105 0x5332d0
 Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
 {
     Phi_74* result = sub_5343C0(idx);
@@ -315,7 +328,7 @@ Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
     return result;
 }
 
-MATCH_FUNC(0x533300)
+// FUNCTION: 105 0x533300
 void Phi_8CA8::sub_533300()
 {
     s16 sprites = 0;
@@ -330,7 +343,7 @@ void Phi_8CA8::sub_533300()
     }
 }
 
-MATCH_FUNC(0x533360)
+// FUNCTION: 105 0x533360
 void Phi_8CA8::sub_533360()
 {
     int iVar4 = Phi_54_array_lenght_00623EEC;
@@ -369,7 +382,7 @@ void Phi_8CA8::sub_533360()
     }
 }
 
-MATCH_FUNC(0x533420)
+// FUNCTION: 105 0x533420
 void Phi_8CA8::sub_533420()
 {
     Phi_74* pAVar1;
@@ -667,7 +680,7 @@ void Phi_8CA8::sub_533420()
     return;
 }
 
-MATCH_FUNC(0x533b30)
+// FUNCTION: 105 0x533b30
 void Phi_8CA8::sub_533B30()
 {
     u16 sprite_base = 0;
@@ -717,7 +730,7 @@ void Phi_8CA8::sub_533B30()
     }
 }
 
-MATCH_FUNC(0x533c90)
+// FUNCTION: 105 0x533c90
 void Phi_8CA8::sub_533C90()
 {
     Phi_74* tmp;
@@ -932,7 +945,7 @@ void Phi_8CA8::sub_533C90()
     sub_534270();
 }
 
-MATCH_FUNC(0x534270)
+// FUNCTION: 105 0x534270
 void Phi_8CA8::sub_534270()
 {
     sub_5342F0(287);
@@ -944,13 +957,13 @@ void Phi_8CA8::sub_534270()
     sub_5342F0(293);
 }
 
-MATCH_FUNC(0x5342d0)
+// FUNCTION: 105 0x5342d0
 void Phi_8CA8::sub_5342D0()
 {
     field_8CA4 = sub_534360(112)->field_1E;
 }
 
-MATCH_FUNC(0x5342f0)
+// FUNCTION: 105 0x5342f0
 void Phi_8CA8::sub_5342F0(s32 idx)
 {
     Phi_74* v2 = sub_534360(idx);
@@ -959,7 +972,7 @@ void Phi_8CA8::sub_5342F0(s32 idx)
     psprite_index->sub_5ABAA0(1);
 }
 
-MATCH_FUNC(0x534330)
+// FUNCTION: 105 0x534330
 void Phi_8CA8::sub_534330()
 {
     sub_533300();
@@ -970,13 +983,13 @@ void Phi_8CA8::sub_534330()
     sub_5342D0();
 }
 
-MATCH_FUNC(0x534360)
+// FUNCTION: 105 0x534360
 Phi_74* Phi_8CA8::sub_534360(s32 idx)
 {
     return field_87F4[idx];
 }
 
-MATCH_FUNC(0x534370)
+// FUNCTION: 105 0x534370
 Phi_74* Phi_8CA8::sub_534370(s32 idx1, s32 idx2)
 {
     Phi_74* result = &field_4[field_0_next_idx];
@@ -987,7 +1000,7 @@ Phi_74* Phi_8CA8::sub_534370(s32 idx1, s32 idx2)
     return result;
 }
 
-MATCH_FUNC(0x5343c0)
+// FUNCTION: 105 0x5343c0
 Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
 {
     Phi_74* result = &field_4[field_0_next_idx];
@@ -997,7 +1010,7 @@ Phi_74* Phi_8CA8::sub_5343C0(s32 idx)
     return result;
 }
 
-MATCH_FUNC(0x5343f0)
+// FUNCTION: 105 0x5343f0
 Phi_8CA8::Phi_8CA8()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_87F4); i++)

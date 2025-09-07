@@ -5,18 +5,22 @@
 #include <stdlib.h>
 #include <windows.h>
 
-DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4, 0x6F52F4);
+// GLOBAL: 105 0x6F52F4
+DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4);
+
+// STRING: 105 0x620c40
+#define KEYBRD_CPP_STRING "C:\\Splitting\\Gta2\\Source\\keybrd.cpp"
 
 char dword_620D2C[] = {' ', ' ', 0};
 
-MATCH_FUNC(0x4D5D70)
+// FUNCTION: 105 0x4D5D70
 keybrd_0x204::keybrd_0x204()
 {
     field_200_keyBoardLayout = 0;
     memset(field_0_keys, 0, sizeof(field_0_keys));
 }
 
-MATCH_FUNC(0x4D5D90)
+// FUNCTION: 105 0x4D5D90
 keybrd_0x204::~keybrd_0x204()
 {
 }
@@ -27,7 +31,7 @@ static inline bool is_line_break_or_space(wchar_t letter)
     return letter == '\n' || letter == ' ';
 }
 
-MATCH_FUNC(0x4D5DA0)
+// FUNCTION: 105 0x4D5DA0
 void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 {
     u8 i = 0;
@@ -43,8 +47,26 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
     }
 }
 
+// STRING: 105 0x620c64
+#define ENG_KEY_CFG_STRING "data\\keyboard\\eng_kb.cfg"
+// STRING: 105 0x620d0c
+#define FRE_KEY_CFG_STRING "data\\keyboard\\fre_kb.cfg"
+// STRING: 105 0x620cf0
+#define GER_KEY_CFG_STRING "data\\keyboard\\ger_kb.cfg"
+// STRING: 105 0x620cd4
+#define ITA_KEY_CFG_STRING "data\\keyboard\\ita_kb.cfg"
+// STRING: 105 0x620cb8
+#define SPA_KEY_CFG_STRING "data\\keyboard\\spa_kb.cfg"
+// STRING: 105 0x620c9c
+#define POR_KEY_CFG_STRING "data\\keyboard\\por_kb.cfg"
+// STRING: 105 0x620c80
+#define RUS_KEY_CFG_STRING "data\\keyboard\\rus_kb.cfg"
 
-MATCH_FUNC(0x4D5E00)
+// STRING: 105 0x620388
+#define READ_TEXT_STRING "rt"
+
+
+// FUNCTION: 105 0x4D5E00
 void keybrd_0x204::LoadKbCfg_4D5E00()
 {
     field_200_keyBoardLayout = 0;
@@ -55,44 +77,44 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     switch (field_200_keyBoardLayout)
     {
         case 0:
-            pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
+            pKeyboardCfgFile = ENG_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile); // note: compiler de-dups this to the end for all cases
             break;
         case 1:
-            pKeyboardCfgFile = "data\\keyboard\\fre_kb.cfg";
+            pKeyboardCfgFile = FRE_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 2:
-            pKeyboardCfgFile = "data\\keyboard\\ger_kb.cfg";
+            pKeyboardCfgFile = GER_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 3:
-            pKeyboardCfgFile = "data\\keyboard\\ita_kb.cfg";
+            pKeyboardCfgFile = ITA_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 4:
-            pKeyboardCfgFile = "data\\keyboard\\spa_kb.cfg";
+            pKeyboardCfgFile = SPA_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 5:
-            pKeyboardCfgFile = "data\\keyboard\\por_kb.cfg";
+            pKeyboardCfgFile = POR_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
         case 6:
-            pKeyboardCfgFile = "data\\keyboard\\rus_kb.cfg";
+            pKeyboardCfgFile = RUS_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
 
         default:
-            pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
+            pKeyboardCfgFile = ENG_KEY_CFG_STRING;
             strcpy(FileName, pKeyboardCfgFile);
             break;
     }
 
-    FILE* hConfigFile = fopen(FileName, "rt");
+    FILE* hConfigFile = fopen(FileName, READ_TEXT_STRING);
     if (!hConfigFile)
     {
-        FatalError_4A38C0(151, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
+        FatalError_4A38C0(151, KEYBRD_CPP_STRING, 187);
     }
 
     for (s32 i = 0; i < 256; i++)
@@ -116,14 +138,14 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     fclose(hConfigFile);
 }
 
-MATCH_FUNC(0x4D5F40)
+// FUNCTION: 105 0x4D5F40
 wchar_t keybrd_0x204::GetKey_4D5F40(u16 key_idx)
 {
     return field_0_keys[key_idx];
 }
 
 
-MATCH_FUNC(0x4D5F50)
+// FUNCTION: 105 0x4D5F50
 void __stdcall keybrd_0x204::create_4D5F50()
 {
     if (!gKeybrd_0x204_6F52F4)
@@ -131,13 +153,13 @@ void __stdcall keybrd_0x204::create_4D5F50()
         gKeybrd_0x204_6F52F4 = new keybrd_0x204();
         if (!gKeybrd_0x204_6F52F4)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
+            FatalError_4A38C0(32, KEYBRD_CPP_STRING, 244);
         }
     }
     gKeybrd_0x204_6F52F4->LoadKbCfg_4D5E00();
 }
 
-MATCH_FUNC(0x4D5FA0)
+// FUNCTION: 105 0x4D5FA0
 void keybrd_0x204::destroy_4D5FA0()
 {
     if (gKeybrd_0x204_6F52F4)
@@ -148,7 +170,7 @@ void keybrd_0x204::destroy_4D5FA0()
 }
 
 
-MATCH_FUNC(0x4D5FD0)
+// FUNCTION: 105 0x4D5FD0
 void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
 {
     if (gKeybrd_0x204_6F52F4)
@@ -167,7 +189,7 @@ void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
     }
 }
 
-STUB_FUNC(0x4D6000)
+// STUB: 105 0x4D6000
 s32 keybrd_0x204::GetLayout_4D6000()
 {
     NOT_IMPLEMENTED;

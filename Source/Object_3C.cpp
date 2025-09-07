@@ -6,11 +6,14 @@
 #include "sprite.hpp"
 
 // TODO: Init to correct values
-DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
-DEFINE_GLOBAL(Ang16, word_6F8F68, 0x6F8F68);
-DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
+// GLOBAL: 105 0x6F8BF0
+DEFINE_GLOBAL(Fix16, dword_6F8BF0);
+// GLOBAL: 105 0x6F8F68
+DEFINE_GLOBAL(Ang16, word_6F8F68);
+// GLOBAL: 105 0x67727C
+DEFINE_GLOBAL(struct_4, stru_67727C);
 
-MATCH_FUNC(0x52ad80)
+// FUNCTION: 105 0x52ad80
 Object_3C::Object_3C()
 {
     this->field_4 = 0;
@@ -30,20 +33,20 @@ Object_3C::Object_3C()
     this->field_2F = 0;
 }
 
-MATCH_FUNC(0x52ade0)
+// FUNCTION: 105 0x52ade0
 Object_3C::~Object_3C()
 {
     field_8 = 0;
 }
 
-STUB_FUNC(0x52adf0)
+// STUB: 105 0x52adf0
 u32* Object_3C::sub_52ADF0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5a6a50)
+// FUNCTION: 105 0x5a6a50
 Sprite_18* struct_4::sub_5A6A50(s32 obj_type)
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -67,7 +70,7 @@ Sprite_18* struct_4::sub_5A6A50(s32 obj_type)
     return 0;
 }
 
-MATCH_FUNC(0x5a6a90)
+// FUNCTION: 105 0x5a6a90
 Object_2C* struct_4::sub_5A6A90(s32 obj_type)
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -91,7 +94,7 @@ Object_2C* struct_4::sub_5A6A90(s32 obj_type)
     return 0;
 }
 
-MATCH_FUNC(0x5a6ad0)
+// FUNCTION: 105 0x5a6ad0
 Sprite_18* struct_4::sub_5A6AD0()
 {
     Sprite_18* pObjIter = this->field_0_p18;
@@ -114,7 +117,7 @@ Sprite_18* struct_4::sub_5A6AD0()
     return 0;
 }
 
-MATCH_FUNC(0x5a6b10)
+// FUNCTION: 105 0x5a6b10
 void struct_4::sub_5A6B10(Sprite* toFind)
 {
     Sprite_18* pLast = 0;
@@ -140,7 +143,7 @@ void struct_4::sub_5A6B10(Sprite* toFind)
     }
 }
 
-MATCH_FUNC(0x5a6b60)
+// FUNCTION: 105 0x5a6b60
 void struct_4::sub_5A6B60(Sprite* toFind)
 {
     Sprite_18* pLast = 0;
@@ -166,7 +169,7 @@ void struct_4::sub_5A6B60(Sprite* toFind)
     }
 }
 
-MATCH_FUNC(0x5a6bb0)
+// FUNCTION: 105 0x5a6bb0
 void struct_4::sub_5A6BB0()
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
@@ -175,7 +178,7 @@ void struct_4::sub_5A6BB0()
     }
 }
 
-MATCH_FUNC(0x5a6bd0)
+// FUNCTION: 105 0x5a6bd0
 void struct_4::sub_5A6BD0()
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
@@ -184,7 +187,7 @@ void struct_4::sub_5A6BD0()
     }
 }
 
-MATCH_FUNC(0x5a6bf0)
+// FUNCTION: 105 0x5a6bf0
 void struct_4::sub_5A6BF0(Sprite* pSprite)
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
@@ -193,7 +196,7 @@ void struct_4::sub_5A6BF0(Sprite* pSprite)
     }
 }
 
-MATCH_FUNC(0x5a6c10)
+// FUNCTION: 105 0x5a6c10
 char_type struct_4::sub_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
@@ -210,7 +213,7 @@ char_type struct_4::sub_5A6C10(Sprite* toFind)
     return 0;
 }
 
-MATCH_FUNC(0x5a6c40)
+// FUNCTION: 105 0x5a6c40
 void struct_4::sub_5A6C40(s32 toFind)
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -242,7 +245,7 @@ void struct_4::sub_5A6C40(s32 toFind)
     }
 }
 
-MATCH_FUNC(0x5a6ca0)
+// FUNCTION: 105 0x5a6ca0
 Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 {
     if (field_0_p18 != NULL)
@@ -258,7 +261,7 @@ Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
     return NULL;
 }
 
-MATCH_FUNC(0x5a6cd0)
+// FUNCTION: 105 0x5a6cd0
 void struct_4::sub_5A6CD0(Sprite* pSprite)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
@@ -268,7 +271,7 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
     field_0_p18 = p18;
 }
 
-MATCH_FUNC(0x5a6d00)
+// FUNCTION: 105 0x5a6d00
 void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle)
 {
     Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
@@ -280,7 +283,7 @@ void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angl
     field_0_p18 = p18;
 }
 
-MATCH_FUNC(0x5a6d40)
+// FUNCTION: 105 0x5a6d40
 void struct_4::PushSprite_5A6D40(Sprite* pToFind)
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -300,7 +303,7 @@ void struct_4::PushSprite_5A6D40(Sprite* pToFind)
     this->field_0_p18 = pNew;
 }
 
-MATCH_FUNC(0x5a6d80)
+// FUNCTION: 105 0x5a6d80
 char_type struct_4::SpriteExists_5A6D80(Sprite* pToFind)
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -315,7 +318,7 @@ char_type struct_4::SpriteExists_5A6D80(Sprite* pToFind)
     return 0;
 }
 
-MATCH_FUNC(0x5a6da0)
+// FUNCTION: 105 0x5a6da0
 Sprite* struct_4::sub_5A6DA0()
 {
     Sprite_18* p18 = this->field_0_p18;
@@ -329,7 +332,7 @@ Sprite* struct_4::sub_5A6DA0()
     return pOld;
 }
 
-MATCH_FUNC(0x5a6dc0)
+// FUNCTION: 105 0x5a6dc0
 Sprite* struct_4::sub_5A6DC0()
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -354,7 +357,7 @@ Sprite* struct_4::sub_5A6DC0()
     return result;
 }
 
-MATCH_FUNC(0x5a6e10)
+// FUNCTION: 105 0x5a6e10
 Sprite_18* struct_4::sub_5A6E10()
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -368,7 +371,7 @@ Sprite_18* struct_4::sub_5A6E10()
     return pIter;
 }
 
-MATCH_FUNC(0x5a6e40)
+// FUNCTION: 105 0x5a6e40
 Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
 {
     Fix16 smallest(99999);
@@ -395,20 +398,20 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
     return new_ret;
 }
 
-STUB_FUNC(0x5a6ea0)
+// STUB: 105 0x5a6ea0
 s32 struct_4::sub_5A6EA0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5a6f70)
+// STUB: 105 0x5a6f70
 void struct_4::sub_5A6F70(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5a7010)
+// FUNCTION: 105 0x5a7010
 void struct_4::sub_5A7010()
 {
     Sprite_18* p18Iter = this->field_0_p18;
@@ -417,14 +420,15 @@ void struct_4::sub_5A7010()
         Sprite* pSprite = p18Iter->field_0;
         switch (p18Iter->field_0->field_30_sprite_type_enum)
         {
+            case sprite_types_enum::car:
+                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
+                break;
             case sprite_types_enum::unknown_1:
             case sprite_types_enum::code_obj1:
             case sprite_types_enum::map_obj:
                 gObject_5C_6F8F84->sub_52A610(pSprite->field_8_object_2C_ptr);
                 break;
-            case sprite_types_enum::car:
-                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
-                break;
+
             default:
                 break;
         }
@@ -434,7 +438,7 @@ void struct_4::sub_5A7010()
 }
 
 // https://decomp.me/scratch/hQof2
-STUB_FUNC(0x5a7080)
+// STUB: 105 0x5a7080
 void struct_4::sub_5A7080()
 {
     NOT_IMPLEMENTED;
@@ -476,7 +480,7 @@ void struct_4::sub_5A7080()
     }
 }
 
-MATCH_FUNC(0x5a7110)
+// FUNCTION: 105 0x5a7110
 void struct_4::sub_5A7110()
 {
     Sprite_18* pIter = this->field_0_p18;
@@ -522,7 +526,7 @@ void struct_4::sub_5A7110()
     }
 }
 
-MATCH_FUNC(0x5a71a0)
+// FUNCTION: 105 0x5a71a0
 s32 struct_4::sub_5A71A0()
 {
     Sprite_18* p18Iter = this->field_0_p18;
@@ -549,7 +553,7 @@ s32 struct_4::sub_5A71A0()
     return 0;
 }
 
-MATCH_FUNC(0x5a71f0)
+// FUNCTION: 105 0x5a71f0
 void struct_4::sub_5A71F0()
 {
     for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
@@ -566,7 +570,7 @@ void struct_4::sub_5A71F0()
     }
 }
 
-MATCH_FUNC(0x5a7240)
+// FUNCTION: 105 0x5a7240
 void struct_4::sub_5A7240(Sprite* pSprite)
 {
     Sprite_18* pNext = this->field_0_p18;
@@ -597,7 +601,7 @@ void struct_4::sub_5A7240(Sprite* pSprite)
     }
 }
 
-MATCH_FUNC(0x5a72b0)
+// FUNCTION: 105 0x5a72b0
 void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
     char start_val = pSprite->sub_5A1BD0();
@@ -627,7 +631,7 @@ void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     }
 }
 
-MATCH_FUNC(0x5a7310)
+// FUNCTION: 105 0x5a7310
 char_type struct_4::sub_5A7310()
 {
     Sprite_18* p18Iter;

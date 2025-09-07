@@ -9,34 +9,58 @@
 #include "RouteFinder.hpp"
 #include "Zones_CA8.hpp"
 #include "chunk.hpp"
-#include "crt_stubs.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 
-DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
-DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
-DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
-DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
-DEFINE_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64, 0x6F5BA8);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
-DEFINE_GLOBAL(s16, word_6F6002, 0x6F6002);
-DEFINE_GLOBAL(s32, gPurple_right_6F5B80, 0x6F5B80);
-DEFINE_GLOBAL(s32, gPurple_left_6F5FD4, 0x6F5FD4);
-DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
-DEFINE_GLOBAL(s32, dword_6F5BA0, 0x6F5BA0);
-DEFINE_GLOBAL(s32, dword_6F6248, 0x6F6248);
-DEFINE_GLOBAL(s32, dword_6F5FAC, 0x6F5FAC);
-DEFINE_GLOBAL(Fix16, dword_6F610C, 0x6F610C);
-DEFINE_GLOBAL(Fix16, dword_6F6130, 0x6F6130);
-DEFINE_GLOBAL(Fix16, dword_6F60C0, 0x6F60C0);
-DEFINE_GLOBAL(Fix16, dword_6F5ED8, 0x6F5ED8);
-DEFINE_GLOBAL(Fix16, dword_6F5FA8, 0x6F5FA8);
-DEFINE_GLOBAL(Fix16, dword_6F6214, 0x6F6214);
-DEFINE_GLOBAL(s32, dword_6F6164, 0x6F6164);
-DEFINE_GLOBAL(s32, dword_6F6148, 0x6F6148);
-DEFINE_GLOBAL(s32, dword_6F613C, 0x6F613C);
+// GLOBAL: 105 0x6F6268
+DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
+// GLOBAL: 105 0x6F5EB0
+DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0);
+// GLOBAL: 105 0x6F5F40
+DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40);
+// GLOBAL: 105 0x6F6028
+DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028);
+// GLOBAL: 105 0x6F5BA8
+DEFINE_GLOBAL_ARRAY(gmp_map_slope, byte_6F5BA8, 64);
+// GLOBAL: 105 0x6F5EC8
+DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8);
+// GLOBAL: 105 0x6F6002
+DEFINE_GLOBAL(s16, word_6F6002);
+// GLOBAL: 105 0x6F5B80
+DEFINE_GLOBAL(s32, gPurple_right_6F5B80);
+// GLOBAL: 105 0x6F5FD4
+DEFINE_GLOBAL(s32, gPurple_left_6F5FD4);
+// GLOBAL: 105 0x6F620C
+DEFINE_GLOBAL(s32, dword_6F620C);
+// GLOBAL: 105 0x6F5BA0
+DEFINE_GLOBAL(s32, dword_6F5BA0);
+// GLOBAL: 105 0x6F6248
+DEFINE_GLOBAL(s32, dword_6F6248);
+// GLOBAL: 105 0x6F5FAC
+DEFINE_GLOBAL(s32, dword_6F5FAC);
+// GLOBAL: 105 0x6F610C
+DEFINE_GLOBAL(Fix16, dword_6F610C);
+// GLOBAL: 105 0x6F6130
+DEFINE_GLOBAL(Fix16, dword_6F6130);
+// GLOBAL: 105 0x6F60C0
+DEFINE_GLOBAL(Fix16, dword_6F60C0);
+// GLOBAL: 105 0x6F5ED8
+DEFINE_GLOBAL(Fix16, dword_6F5ED8);
+// GLOBAL: 105 0x6F5FA8
+DEFINE_GLOBAL(Fix16, dword_6F5FA8);
+// GLOBAL: 105 0x6F6214
+DEFINE_GLOBAL(Fix16, dword_6F6214);
+// GLOBAL: 105 0x6F6164
+DEFINE_GLOBAL(s32, dword_6F6164);
+// GLOBAL: 105 0x6F6148
+DEFINE_GLOBAL(s32, dword_6F6148);
+// GLOBAL: 105 0x6F613C
+DEFINE_GLOBAL(s32, dword_6F613C);
+
+// STRING: 105 0x620ecc
+#define MAP_CPP_STRING "C:\\Splitting\\Gta2\\Source\\map.cpp"
 
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
@@ -132,7 +156,7 @@ static inline bool has_top(gmp_block_info* pBlock)
     return pBlock->field_4_top != 0;
 }
 
-MATCH_FUNC(0x452980)
+// FUNCTION: 105 0x452980
 gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
 {
     gmp_col_info* pColData =
@@ -147,14 +171,14 @@ gmp_block_info* Map_0x370::get_block_452980(u8 x_coord, u8 y_coord, u8 z_coord)
     }
 }
 
-MATCH_FUNC(0x4DEF40)
+// FUNCTION: 105 0x4DEF40
 s8 gmp_map_zone::sub_4DEF40()
 {
     Fix16_Rect zoneBounds(field_1_x, field_2_y, field_3_w, field_4_h);
     return gGame_0x40_67E008->sub_4B9B10(&zoneBounds);
 }
 
-MATCH_FUNC(0x4DEFD0)
+// FUNCTION: 105 0x4DEFD0
 gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char_type* pZoneName)
 {
     u32 name_len = strlen(pZoneName);
@@ -172,7 +196,7 @@ gmp_map_zone* Map_0x370::zone_by_name_4DEFD0(const char_type* pZoneName)
     return NULL;
 }
 
-MATCH_FUNC(0x4DF050)
+// FUNCTION: 105 0x4DF050
 s32 Map_0x370::zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_name_len)
 {
     if (!field_328_pZoneData)
@@ -192,11 +216,12 @@ s32 Map_0x370::zone_idx_by_name_4DF050(const char_type* pZoneName, BYTE zone_nam
     return -1;
 }
 
-MATCH_FUNC(0x4DF0F0)
+// GLOBAL: 105 0x6F626C
+DEFINE_GLOBAL(s16, sLastIdx_6F626C);
+
+// FUNCTION: 105 0x4DF0F0
 gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
 {
-    static short sLastIdx_6F626C;
-
     s16 local_array[40];
 
     if (field_328_pZoneData)
@@ -232,7 +257,7 @@ gmp_map_zone* Map_0x370::zone_by_type_bounded_4DF0F0(u8 zone_type)
     return NULL;
 }
 
-MATCH_FUNC(0x4DF1D0)
+// FUNCTION: 105 0x4DF1D0
 gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 {
     if (field_328_pZoneData)
@@ -253,21 +278,21 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
     return NULL;
 }
 
-STUB_FUNC(0x4DF240)
+// STUB: 105 0x4DF240
 gmp_map_zone* Map_0x370::sub_4DF240(u8 a2, u8 a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4DF3E0)
+// STUB: 105 0x4DF3E0
 u8* Map_0x370::sub_4DF3E0(u8 a2, u8 a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4DF4D0)
+// FUNCTION: 105 0x4DF4D0
 gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type)
 {
     if (field_328_pZoneData)
@@ -289,7 +314,7 @@ gmp_map_zone* Map_0x370::zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zo
     return NULL;
 }
 
-MATCH_FUNC(0x4DF5C0)
+// FUNCTION: 105 0x4DF5C0
 gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
 {
     if (field_328_pZoneData)
@@ -310,7 +335,7 @@ gmp_map_zone* Map_0x370::nav_zone_by_pos_4DF5C0(u8 zone_x, u8 zone_y)
     return NULL;
 }
 
-MATCH_FUNC(0x4DF6A0)
+// FUNCTION: 105 0x4DF6A0
 gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
 {
     gmp_map_zone* pZone;
@@ -333,7 +358,7 @@ gmp_map_zone* Map_0x370::sub_4DF6A0(u8 zone_x, u8 zone_y)
     return NULL;
 }
 
-MATCH_FUNC(0x4DF770)
+// FUNCTION: 105 0x4DF770
 gmp_map_zone* Map_0x370::next_zone_4DF770()
 {
     gmp_map_zone* pZoneIter;
@@ -357,7 +382,7 @@ gmp_map_zone* Map_0x370::next_zone_4DF770()
     return NULL;
 }
 
-MATCH_FUNC(0x4DF840)
+// FUNCTION: 105 0x4DF840
 gmp_zone_info* Map_0x370::cur_zone_4DF840()
 {
     if (field_328_pZoneData)
@@ -371,7 +396,7 @@ gmp_zone_info* Map_0x370::cur_zone_4DF840()
     return 0;
 }
 
-MATCH_FUNC(0x4DF890)
+// FUNCTION: 105 0x4DF890
 gmp_zone_info* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
 {
     if (nav_zone_by_pos_4DF5C0(zone_x, zone_y))
@@ -384,7 +409,7 @@ gmp_zone_info* Map_0x370::get_nav_zone_unknown_4DF890(s32 zone_x, s32 zone_y)
     }
 }
 
-MATCH_FUNC(0x4DF8C0)
+// FUNCTION: 105 0x4DF8C0
 void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx,
                                             s16 car_density,
                                             s16 goodcar_ratio,
@@ -456,85 +481,85 @@ void Map_0x370::set_nav_unknown_data_4DF8C0(s32 zone_idx,
     }
 }
 
-MATCH_FUNC(0x4DF9A0)
+// FUNCTION: 105 0x4DF9A0
 gmp_zone_info* Map_0x370::get_zone_unknown_4DF9A0(u16 zone_idx)
 {
     return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
 }
 
-MATCH_FUNC(0x4DF9D0)
+// FUNCTION: 105 0x4DF9D0
 void Map_0x370::set_nav_unknown_f0_4DF9D0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_0_car_density = a3;
 }
 
-MATCH_FUNC(0x4DF9F0)
+// FUNCTION: 105 0x4DF9F0
 void Map_0x370::set_nav_unknown_f2_4DF9F0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_2_goodcar_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFA10)
+// FUNCTION: 105 0x4DFA10
 void Map_0x370::set_nav_unknown_f4_4DFA10(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_4_badcar_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFA30)
+// FUNCTION: 105 0x4DFA30
 void Map_0x370::set_nav_unknown_f6_4DFA30(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_6_policecar_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFA50)
+// FUNCTION: 105 0x4DFA50
 void Map_0x370::set_nav_unknown_f8_4DFA50(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_8_gangcar_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFA70)
+// FUNCTION: 105 0x4DFA70
 void Map_0x370::set_nav_unknown_fA_4DFA70(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_A_ped_density = a3;
 }
 
-MATCH_FUNC(0x4DFA90)
+// FUNCTION: 105 0x4DFA90
 void Map_0x370::set_nav_unknown_fC_4DFA90(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_C_mugger_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFAB0)
+// FUNCTION: 105 0x4DFAB0
 void Map_0x370::set_nav_unknown_fE_4DFAB0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_E_carthief_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFAD0)
+// FUNCTION: 105 0x4DFAD0
 void Map_0x370::set_nav_unknown_f10_4DFAD0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_10_elvis_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFAF0)
+// FUNCTION: 105 0x4DFAF0
 void Map_0x370::set_nav_unknown_f12_4DFAF0(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_12_gangchar_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFB10)
+// FUNCTION: 105 0x4DFB10
 void Map_0x370::set_nav_unknown_f14_4DFB10(u16 a2, s16 a3)
 {
     get_zone_unknown_4DF9A0(a2)->field_14_policeped_ratio = a3;
 }
 
-MATCH_FUNC(0x4DFB30)
+// FUNCTION: 105 0x4DFB30
 gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 {
     return field_32C_pZones[zone_idx + 1];
 }
 
-MATCH_FUNC(0x4DFB50)
+// FUNCTION: 105 0x4DFB50
 Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
 {
     gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), 0xEu);
@@ -548,7 +573,7 @@ Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
     }
 }
 
-MATCH_FUNC(0x4DFB90)
+// FUNCTION: 105 0x4DFB90
 void Map_0x370::sub_4DFB90()
 {
     gmp_map_object* pMapObjects = field_338_pMapObjects;
@@ -570,7 +595,7 @@ void Map_0x370::sub_4DFB90()
     }
 }
 
-MATCH_FUNC(0x4DFCA0)
+// FUNCTION: 105 0x4DFCA0
 void Map_0x370::alloc_zones_4DFCA0()
 {
     gmp_map_zone* pZoneIter = first_zone_by_type_4DF1D0(14);
@@ -581,13 +606,13 @@ void Map_0x370::alloc_zones_4DFCA0()
     }
 }
 
-STUB_FUNC(0x4DFCD0)
+// STUB: 105 0x4DFCD0
 void Map_0x370::update_lights_4DFCD0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4DFE10)
+// FUNCTION: 105 0x4DFE10
 gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
 {
     gmp_col_info* pCol =
@@ -603,7 +628,7 @@ gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coor
     return 0;
 }
 
-MATCH_FUNC(0x4DFE60)
+// FUNCTION: 105 0x4DFE60
 gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
 {
     gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
@@ -627,7 +652,7 @@ gmp_block_info* Map_0x370::sub_4DFE60(s32 x, s32 y, s32 z)
     return NULL;
 }
 
-MATCH_FUNC(0x4DFEE0)
+// FUNCTION: 105 0x4DFEE0
 gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
 {
     gmp_compressed_map_32* field_0_pDmap;
@@ -672,9 +697,10 @@ gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
     return NULL;
 }
 
-Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
+// GLOBAL: 105 0x6F6110
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6110, Fix16(1));  // = 0x4000; // todo
 
-MATCH_FUNC(0x4DFF60)
+// FUNCTION: 105 0x4DFF60
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
 {
     gmp_block_info* pBlock1 = get_block_4DFE10((x_coord - dword_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
@@ -702,7 +728,7 @@ DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
     return 0;
 }
 
-MATCH_FUNC(0x4E0000)
+// FUNCTION: 105 0x4E0000
 s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     s32 spec;
@@ -734,7 +760,7 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     return spec;
 }
 
-MATCH_FUNC(0x4E00A0)
+// FUNCTION: 105 0x4E00A0
 s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
 {
     if (z >= dword_6F610C)
@@ -760,7 +786,7 @@ s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
     return 0;
 }
 
-MATCH_FUNC(0x4E0110)
+// FUNCTION: 105 0x4E0110
 char_type Map_0x370::sub_4E0110()
 {
     char result;
@@ -769,7 +795,7 @@ char_type Map_0x370::sub_4E0110()
     return result;
 }
 
-MATCH_FUNC(0x4E0120)
+// FUNCTION: 105 0x4E0120
 char_type Map_0x370::sub_4E0120()
 {
     char result;
@@ -778,28 +804,28 @@ char_type Map_0x370::sub_4E0120()
     return result;
 }
 
-STUB_FUNC(0x4E0130)
+// STUB: 105 0x4E0130
 char_type Map_0x370::sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E11E0)
+// STUB: 105 0x4E11E0
 char_type Map_0x370::sub_4E11E0(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E1520)
+// STUB: 105 0x4E1520
 char_type Map_0x370::sub_4E1520(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E18A0)
+// FUNCTION: 105 0x4E18A0
 bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
 {
     gmp_block_info* pBlock;
@@ -852,21 +878,21 @@ bool Map_0x370::sub_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z)
     return false;
 }
 
-STUB_FUNC(0x4E1A30)
+// STUB: 105 0x4E1A30
 char_type Map_0x370::sub_4E1A30(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E1E00)
+// STUB: 105 0x4E1E00
 char_type Map_0x370::sub_4E1E00(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E4460)
+// FUNCTION: 105 0x4E4460
 char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
 {
     gSprite_6F61E8 = a5;
@@ -931,14 +957,14 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
     }
 }
 
-STUB_FUNC(0x4E4630)
+// STUB: 105 0x4E4630
 char_type Map_0x370::sub_4E4630(Fix16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E4770)
+// FUNCTION: 105 0x4E4770
 bool Map_0x370::sub_4E4770(Fix16 z_pos)
 {
     s32 z = z_pos.ToInt();
@@ -975,21 +1001,21 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
     return false;
 }
 
-STUB_FUNC(0x4E4820)
+// STUB: 105 0x4E4820
 char_type Map_0x370::sub_4E4820(u32* a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E4930)
+// STUB: 105 0x4E4930
 char_type Map_0x370::sub_4E4930(u8* a1, u8* a2, u8* a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E4AC0)
+// FUNCTION: 105 0x4E4AC0
 bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
 {
     if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
@@ -1009,7 +1035,7 @@ bool Map_0x370::sub_4E4AC0(char_type block_type) // __stdcall ?
     return false;
 }
 
-MATCH_FUNC(0x4E4B40)
+// FUNCTION: 105 0x4E4B40
 bool Map_0x370::CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock)
 {
     switch (direction)
@@ -1032,7 +1058,7 @@ bool Map_0x370::CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* p
     }
 }
 
-MATCH_FUNC(0x4E4BB0)
+// FUNCTION: 105 0x4E4BB0
 gmp_block_info* Map_0x370::FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
@@ -1054,7 +1080,7 @@ gmp_block_info* Map_0x370::FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z
     return NULL;
 }
 
-MATCH_FUNC(0x4E4C30)
+// FUNCTION: 105 0x4E4C30
 gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* found_z)
 {
     gmp_col_info* v4 = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
@@ -1072,7 +1098,7 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* fo
     return 0;
 }
 
-MATCH_FUNC(0x4E4CB0)
+// FUNCTION: 105 0x4E4CB0
 gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_0_base[y][x]];
@@ -1096,7 +1122,7 @@ gmp_block_info* Map_0x370::sub_4E4CB0(s32 x, s32 y, s32& z)
     return NULL;
 }
 
-MATCH_FUNC(0x4E4D40)
+// FUNCTION: 105 0x4E4D40
 Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
@@ -1136,7 +1162,7 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
     return found_z;
 }
 
-MATCH_FUNC(0x4E4E50)
+// FUNCTION: 105 0x4E4E50
 Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     for (Fix16 curr_z = z_pos; curr_z < z_pos + dword_6F6110; curr_z = dword_6F6110 + curr_z.GetRoundValue())
@@ -1181,7 +1207,7 @@ Fix16* Map_0x370::sub_4E4E50(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
     return found_z;
 }
 
-MATCH_FUNC(0x4E4F40)
+// FUNCTION: 105 0x4E4F40
 Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
 {
     gmp_block_info* block_4DFE10;
@@ -1218,7 +1244,7 @@ Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
     return found_z;
 }
 
-MATCH_FUNC(0x4E5050)
+// FUNCTION: 105 0x4E5050
 Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bFound)
 {
     Fix16 new_z;
@@ -1264,7 +1290,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
     return found_z;
 }
 
-MATCH_FUNC(0x4E5170)
+// FUNCTION: 105 0x4E5170
 bool Map_0x370::sub_4E5170(Fix16 x, Fix16 y, Fix16 z)
 {
     if (z.GetFracValue() != dword_6F610C)
@@ -1299,7 +1325,7 @@ bool Map_0x370::sub_4E5170(Fix16 x, Fix16 y, Fix16 z)
     return false;
 }
 
-MATCH_FUNC(0x4E52A0)
+// FUNCTION: 105 0x4E52A0
 char_type Map_0x370::sub_4E52A0(Fix16 x, Fix16 y, Fix16 z)
 {
     gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (z - dword_6F6110).ToInt());
@@ -1318,7 +1344,7 @@ char_type Map_0x370::sub_4E52A0(Fix16 x, Fix16 y, Fix16 z)
     return 5;
 }
 
-MATCH_FUNC(0x4E5300)
+// FUNCTION: 105 0x4E5300
 bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
 {
     Fix16 new_z;
@@ -1382,7 +1408,7 @@ bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
     return false;
 }
 
-MATCH_FUNC(0x4E5480)
+// FUNCTION: 105 0x4E5480
 bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z)
 {
     Fix16 z_floor = z.GetRoundValue();
@@ -1447,14 +1473,14 @@ bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* 
     return false;
 }
 
-STUB_FUNC(0x4E5640)
+// STUB: 105 0x4E5640
 char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E5B60)
+// FUNCTION: 105 0x4E5B60
 Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 y_pos)
 {
     s32 z_pos_int;
@@ -1485,7 +1511,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 
     }
 }
 
-MATCH_FUNC(0x4E5BF0)
+// FUNCTION: 105 0x4E5BF0
 u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
 {
     gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
@@ -1534,7 +1560,7 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
     return 0;
 }
 
-MATCH_FUNC(0x4E5FC0)
+// FUNCTION: 105 0x4E5FC0
 s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
 {
     s32 result = 0;
@@ -1585,21 +1611,21 @@ s32 Map_0x370::sub_4E5FC0(gmp_block_info* pBlock, char_type a2)
     return result;
 }
 
-STUB_FUNC(0x4E6190)
+// STUB: 105 0x4E6190
 s16 Map_0x370::sub_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 a5, char_type a6)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E62B0)
+// FUNCTION: 105 0x4E62B0
 Fix16* Map_0x370::sub_4E62B0(Fix16* a1, Fix16 a2)
 {
     *a1 = dword_6F6110 + a2.GetRoundValue();
     return a1;
 }
 
-MATCH_FUNC(0x4E62D0)
+// FUNCTION: 105 0x4E62D0
 gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
@@ -1617,7 +1643,7 @@ gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
     return 0;
 }
 
-MATCH_FUNC(0x4E6360)
+// FUNCTION: 105 0x4E6360
 gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
 {
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[field_0_pDmap->field_0_base[y][x]];
@@ -1642,7 +1668,7 @@ gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
     return NULL;
 }
 
-MATCH_FUNC(0x4E6400)
+// FUNCTION: 105 0x4E6400
 Fix16* Map_0x370::sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
     gmp_block_info* block_4DFE10;
@@ -1680,7 +1706,7 @@ Fix16* Map_0x370::sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
     return found_z;
 }
 
-MATCH_FUNC(0x4E6510)
+// FUNCTION: 105 0x4E6510
 Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
 {
     s32 rail_z_coord;
@@ -1709,7 +1735,7 @@ Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
     }
 }
 
-MATCH_FUNC(0x4E65A0)
+// FUNCTION: 105 0x4E65A0
 void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_type a6)
 {
     gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), (*z_pos - dword_6F6110).ToInt());
@@ -1728,35 +1754,35 @@ void Map_0x370::sub_4E65A0(Fix16 x, Fix16 y, Fix16* z_pos, char_type a5, char_ty
     }
 }
 
-STUB_FUNC(0x4E6660)
+// STUB: 105 0x4E6660
 s32 Map_0x370::sub_4E6660(s32* a2, s32* a3, s32* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E7190)
+// STUB: 105 0x4E7190
 s32 Map_0x370::sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E7E90)
+// STUB: 105 0x4E7E90
 char_type Map_0x370::sub_4E7E90(u8* a2, char_type* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E7FC0)
+// STUB: 105 0x4E7FC0
 char_type Map_0x370::sub_4E7FC0(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E80A0)
+// FUNCTION: 105 0x4E80A0
 void gmp_compressed_map_32::sub_4E80A0(Map_sub* a2)
 {
     u32 j = 0;
@@ -1768,7 +1794,7 @@ void gmp_compressed_map_32::sub_4E80A0(Map_sub* a2)
     }
 }
 
-MATCH_FUNC(0x4E80E0)
+// FUNCTION: 105 0x4E80E0
 void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
 {
     u32 local_max_idx = field_320_max_idx;
@@ -1787,7 +1813,7 @@ void Map_sub::sub_4E80E0(u8 x, u8 y, u32 column_idx)
     ++field_320_max_idx;
 }
 
-MATCH_FUNC(0x4E8140)
+// FUNCTION: 105 0x4E8140
 s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
 {
     s32 num_blocks = this->field_354_num_blocks;
@@ -1796,7 +1822,7 @@ s32 Map_0x370::sub_4E8140(gmp_block_info* pBlockInfo)
     return num_blocks;
 }
 
-MATCH_FUNC(0x4E8180)
+// FUNCTION: 105 0x4E8180
 s32 Map_0x370::sub_4E8180(u32 read_block_idx)
 {
     if (read_block_idx < this->field_34C_num_blocks)
@@ -1809,7 +1835,7 @@ s32 Map_0x370::sub_4E8180(u32 read_block_idx)
     return read_block_idx;
 }
 
-MATCH_FUNC(0x4E81D0)
+// FUNCTION: 105 0x4E81D0
 s32 Map_0x370::sub_4E81D0(u32 column_idx)
 {
     s32 idx = column_idx;
@@ -1825,7 +1851,7 @@ s32 Map_0x370::sub_4E81D0(u32 column_idx)
     return idx;
 }
 
-MATCH_FUNC(0x4E8220)
+// FUNCTION: 105 0x4E8220
 s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
 {
     gmp_col_info* v5 = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
@@ -1874,14 +1900,14 @@ s32 Map_0x370::sub_4E8220(u32 column_idx, s32 z)
     return local_column_words;
 }
 
-STUB_FUNC(0x4E8370)
+// STUB: 105 0x4E8370
 u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4E8620)
+// FUNCTION: 105 0x4E8620
 void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
     s32 column_idx = Map_0x370::sub_4E81D0(field_0_pDmap->field_0_base[y][x]);
@@ -1923,7 +1949,7 @@ void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_v
     }
 }
 
-MATCH_FUNC(0x4E87C0)
+// FUNCTION: 105 0x4E87C0
 void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
     s32 column_idx = Map_0x370::sub_4E8220(field_0_pDmap->field_0_base[y][x], z);
@@ -1942,7 +1968,7 @@ void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
     }
 }
 
-MATCH_FUNC(0x4E8940)
+// FUNCTION: 105 0x4E8940
 void Map_0x370::sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
     const s32 column_idx = sub_4E8370(field_0_pDmap->field_0_base[y_pos][x_pos], offset, do_drop);
@@ -1953,13 +1979,13 @@ void Map_0x370::sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
     }
 }
 
-STUB_FUNC(0x4E8A10)
+// STUB: 105 0x4E8A10
 void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4E8B70)
+// FUNCTION: 105 0x4E8B70
 void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
 {
     for (s32 column_y = y_min; column_y <= y_max; ++column_y)
@@ -1971,26 +1997,26 @@ void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
     }
 }
 
-STUB_FUNC(0x4E8C00)
+// STUB: 105 0x4E8C00
 void Map_0x370::sub_4E8C00(u32 a2, u32 a3, u32 a4)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4E8CF0)
+// STUB: 105 0x4E8CF0
 s32 Map_0x370::sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4E8E30)
+// STUB: 105 0x4E8E30
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4E90E0)
+// FUNCTION: 105 0x4E90E0
 void Map_0x370::sub_4E90E0(u32 chunk_size)
 {
     u32 in_use_size = 0;
@@ -2023,13 +2049,13 @@ void Map_0x370::sub_4E90E0(u32 chunk_size)
     }
 }
 
-STUB_FUNC(0x4E9160)
+// STUB: 105 0x4E9160
 void Map_0x370::sub_4E9160(s32 size)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4E91A0)
+// FUNCTION: 105 0x4E91A0
 void Map_0x370::load_mobj_4E91A0(size_t len)
 {
     gmp_map_object* v3 = (gmp_map_object*)Memory::malloc_4FE4D0(len);
@@ -2038,11 +2064,11 @@ void Map_0x370::load_mobj_4E91A0(size_t len)
     field_344_map_object_count = len / 6;
     if (6 * field_344_map_object_count != len)
     {
-        FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
+        FatalError_4A38C0(40, MAP_CPP_STRING, 6024);
     }
 }
 
-MATCH_FUNC(0x4E9200)
+// FUNCTION: 105 0x4E9200
 void Map_0x370::load_lght_4E9200(size_t a2)
 {
     gmp_map_light* v3 = (gmp_map_light*)Memory::malloc_4FE4D0(a2);
@@ -2051,11 +2077,11 @@ void Map_0x370::load_lght_4E9200(size_t a2)
     field_348_num_lights = a2 >> 4;
     if (16 * field_348_num_lights != a2)
     {
-        FatalError_4A38C0(51, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
+        FatalError_4A38C0(51, MAP_CPP_STRING, 6046);
     }
 }
 
-MATCH_FUNC(0x4E9250)
+// FUNCTION: 105 0x4E9250
 void Map_0x370::load_zone_4E9250(size_t a2)
 {
     gmp_map_zone* v3 = (gmp_map_zone*)Memory::malloc_4FE4D0(a2);
@@ -2064,7 +2090,7 @@ void Map_0x370::load_zone_4E9250(size_t a2)
     sub_4E90E0(a2);
 }
 
-MATCH_FUNC(0x4E9280)
+// FUNCTION: 105 0x4E9280
 void Map_0x370::load_anim_4E9280(size_t size)
 {
     gmp_tile_animation* pAlloc = static_cast<gmp_tile_animation*>(Memory::malloc_4FE4D0(size));
@@ -2073,13 +2099,13 @@ void Map_0x370::load_anim_4E9280(size_t size)
     sub_4E9160(size);
 }
 
-MATCH_FUNC(0x4E92B0)
+// FUNCTION: 105 0x4E92B0
 void Map_0x370::load_dmap_4E92B0(u32 len)
 {
     field_0_pDmap = new gmp_compressed_map_32();
     if (field_0_pDmap == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
+        FatalError_4A38C0(32, MAP_CPP_STRING, 6147);
     }
 
     File::Global_Read_4A71C0(&field_0_pDmap->field_0_base[0][0], 0x40000);
@@ -2087,7 +2113,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000u)
     {
-        FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
+        FatalError_4A38C0(1127, MAP_CPP_STRING, 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
     }
 
     field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
@@ -2106,7 +2132,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000u)
     {
-        FatalError_4A38C0(1129, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6161, field_0_pDmap->field_40004_num_blocks - 130872);
+        FatalError_4A38C0(1129, MAP_CPP_STRING, 6161, field_0_pDmap->field_40004_num_blocks - 130872);
     }
     field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
 
@@ -2122,56 +2148,69 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if (len != block_info_size + column_data_size + 0x40008)
     {
-        FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
+        FatalError_4A38C0(1033, MAP_CPP_STRING, 6170, len);
     }
 }
 
-MATCH_FUNC(0x4E94A0)
+// FUNCTION: 105 0x4E94A0
 void Map_0x370::load_rgen_4E94A0()
 {
     gRouteFinder_6FFDC8->Load_RGEN_588B30();
 }
 
-MATCH_FUNC(0x4E94B0)
+// STRING: 105 0x620f18
+#define DMAP_STRING "DMAP"
+// STRING: 105 0x620f10
+#define ZONE_STRING "ZONE"
+// STRING: 105 0x620f08
+#define MOBJ_STRING "MOBJ"
+// STRING: 105 0x620f00
+#define ANIM_STRING "ANIM"
+// STRING: 105 0x620ef8
+#define LGHT_STRING "LGHT"
+// STRING: 105 0x620ef0
+#define RGEN_STRING "RGEN"
+
+// FUNCTION: 105 0x4E94B0
 void Map_0x370::load_chunk_4E94B0(const char_type* pChunkType, size_t chunkLen)
 {
-    if (!strncmp(pChunkType, "DMAP", 4u))
+    if (!strncmp(pChunkType, DMAP_STRING, 4u))
     {
         load_dmap_4E92B0(chunkLen);
     }
-    else if (!strncmp(pChunkType, "ZONE", 4u))
+    else if (!strncmp(pChunkType, ZONE_STRING, 4u))
     {
         load_zone_4E9250(chunkLen);
     }
-    else if (!strncmp(pChunkType, "MOBJ", 4u))
+    else if (!strncmp(pChunkType, MOBJ_STRING, 4u))
     {
         load_mobj_4E91A0(chunkLen);
     }
-    else if (!strncmp(pChunkType, "ANIM", 4u))
+    else if (!strncmp(pChunkType, ANIM_STRING, 4u))
     {
         load_anim_4E9280(chunkLen);
     }
-    else if (!strncmp(pChunkType, "LGHT", 4u))
+    else if (!strncmp(pChunkType, LGHT_STRING, 4u))
     {
         load_lght_4E9200(chunkLen);
     }
-    else if (!strncmp(pChunkType, "RGEN", 4u))
+    else if (!strncmp(pChunkType, RGEN_STRING, 4u))
     {
         load_rgen_4E94A0();
     }
     else
     {
         File::Global_Seek_4A7140(&chunkLen);
-    }
+    }    
 }
 
-MATCH_FUNC(0x4E95A0)
+// FUNCTION: 105 0x4E95A0
 void Map_0x370::process_loaded_zone_data_4E95A0()
 {
     do_process_loaded_zone_data_4E8E30();
 }
 
-MATCH_FUNC(0x4E95B0)
+// FUNCTION: 105 0x4E95B0
 void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 {
     gmp_header header;
@@ -2196,11 +2235,11 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 
     if (!field_0_pDmap)
     {
-        FatalError_4A38C0(132, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329); // error map not compressed
+        FatalError_4A38C0(132, MAP_CPP_STRING, 6329); // error map not compressed
     }
 }
 
-MATCH_FUNC(0x4E9660)
+// FUNCTION: 105 0x4E9660
 Map_0x370::Map_0x370()
 {
     field_4_obj.field_320_max_idx = 0;
@@ -2248,30 +2287,30 @@ Map_0x370::Map_0x370()
     gBlockInfo2_6F6028.field_B_slope_type = 3;
 }
 
-MATCH_FUNC(0x4E9770)
+// FUNCTION: 105 0x4E9770
 Map_0x370::~Map_0x370()
 {
     if (field_33C_pLightData)
     {
-        crt::free(field_33C_pLightData);
+        ::free(field_33C_pLightData);
     }
     field_33C_pLightData = 0;
 
     if (field_328_pZoneData)
     {
-        crt::free(field_328_pZoneData);
+        ::free(field_328_pZoneData);
     }
     field_328_pZoneData = 0;
 
     if (field_32C_pZones)
     {
-        crt::free(field_32C_pZones);
+        ::free(field_32C_pZones);
     }
     field_32C_pZones = 0;
 
     if (field_338_pMapObjects)
     {
-        crt::free(field_338_pMapObjects);
+        ::free(field_338_pMapObjects);
     }
     field_338_pMapObjects = 0;
 
@@ -2279,13 +2318,13 @@ Map_0x370::~Map_0x370()
     {
         if (field_0_pDmap->field_40008_pColumn)
         {
-            crt::free(field_0_pDmap->field_40008_pColumn);
+            ::free(field_0_pDmap->field_40008_pColumn);
         }
         field_0_pDmap->field_40008_pColumn = 0;
 
         if (field_0_pDmap->field_4000C_block)
         {
-            crt::free(field_0_pDmap->field_4000C_block);
+            ::free(field_0_pDmap->field_4000C_block);
         }
         field_0_pDmap->field_4000C_block = 0;
 
@@ -2294,19 +2333,19 @@ Map_0x370::~Map_0x370()
 
     if (field_330_pZoneArray)
     {
-        crt::free(field_330_pZoneArray);
+        ::free(field_330_pZoneArray);
     }
     field_330_pZoneArray = 0;
 
     if (field_334_pUnknownZoneData)
     {
-        crt::free(field_334_pUnknownZoneData);
+        ::free(field_334_pUnknownZoneData);
     }
     field_334_pUnknownZoneData = 0;
 
     if (field_340_pTileAnimData)
     {
-        crt::free(field_340_pTileAnimData);
+        ::free(field_340_pTileAnimData);
     }
     field_340_pTileAnimData = 0;
 }

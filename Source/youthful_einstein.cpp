@@ -6,9 +6,10 @@
 #include "lucid_hamilton.hpp"
 #include <string>
 
-DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
+// GLOBAL: 105 0x6F8450
+DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450);
 
-MATCH_FUNC(0x516560)
+// FUNCTION: 105 0x516560
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
 {
     field_0_fugitive = NULL;
@@ -17,20 +18,20 @@ void youthful_einstein::ctor_516560() // For some reason, it's a function instea
     memset(field_20, 0, sizeof(field_20));
 }
 
-STUB_FUNC(0x516590)
+// STUB: 105 0x516590
 void youthful_einstein::sub_516590(Player* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x516660)
+// STUB: 105 0x516660
 s16 youthful_einstein::sub_516660()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x516740)
+// FUNCTION: 105 0x516740
 void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Player* Player_4B9D10;

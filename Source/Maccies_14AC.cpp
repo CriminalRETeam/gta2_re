@@ -2,15 +2,16 @@
 #include "Globals.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0, 0x67E5D0);
+// GLOBAL: 105 0x67E5D0
+DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0);
 
-STUB_FUNC(0x4c1c50)
+// STUB: 105 0x4c1c50
 void Generator_2C::sub_4C1C50()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4c1c70)
+// FUNCTION: 105 0x4c1c70
 void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay)
 {
     field_4_x = x.mValue;
@@ -29,13 +30,13 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
     field_21 = 1;
 }
 
-STUB_FUNC(0x4c1cd0)
+// STUB: 105 0x4c1cd0
 void Maccies_14AC::sub_4C1CD0(Maccies_14AC* a1)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4c1d70)
+// FUNCTION: 105 0x4c1d70
 void Maccies_14AC::sub_4C1D70()
 {
     s32 start_idx = field_14A8 * (rng_dword_67AB34->field_0_rng & 3);
@@ -53,7 +54,7 @@ void Maccies_14AC::sub_4C1D70()
     }
 }
 
-MATCH_FUNC(0x4c1dc0)
+// FUNCTION: 105 0x4c1dc0
 Generator_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Generator_2C* pMaccies = &field_0[field_14A0];
@@ -62,7 +63,7 @@ Generator_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32
     return pMaccies;
 }
 
-MATCH_FUNC(0x4c1e20)
+// FUNCTION: 105 0x4c1e20
 Maccies_14AC::Maccies_14AC()
 {
     for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)

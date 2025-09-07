@@ -6,22 +6,30 @@
 #include <stdio.h>
 #include <windows.h>
 
-DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
-DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
+// GLOBAL: 105 0x6F5B70
+DEFINE_GLOBAL(char_type, bDestroyed_6F5B70);
+// GLOBAL: 105 0x707F04
+DEFINE_GLOBAL(HWND, gHwnd_707F04);
 
-STUB_FUNC(0x4D9620)
+// STUB: 105 0x4D9620
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
     NOT_IMPLEMENTED;
     return *this;
 }
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
+// GLOBAL: 105 0x67C530
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530);
+// GLOBAL: 105 0x67CF58
+DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58);
 
-DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
-DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
-DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256, 0x67C3A8);
-DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
+// GLOBAL: 105 0x67C598
+DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256); // TODO: Check
+// GLOBAL: 105 0x67C29C
+DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256);
+// GLOBAL: 105 0x67C3A8
+DEFINE_GLOBAL_ARRAY(char_type, byte_67C3A8, 256);
+// GLOBAL: 105 0x67C6AC
+DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256);
 
 
 const char_type* gListTypes_61AB70[30] = {"objects",
@@ -56,13 +64,13 @@ const char_type* gListTypes_61AB70[30] = {"objects",
                                           "audio_info_space"};
 
 
-MATCH_FUNC(0x4A0770)
+// FUNCTION: 105 0x4A0770
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName)
 {
     strcpy(gGlobalFileName_67C6AC, pFileName);
 }
 
-MATCH_FUNC(0x4A07A0)
+// FUNCTION: 105 0x4A07A0
 EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
 {
     // ecx was swapped with edx without using the local pIter
@@ -94,7 +102,7 @@ struct Coord2
 
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
 
-STUB_FUNC(0x4A07C0)
+// STUB: 105 0x4A07C0
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
     NOT_IMPLEMENTED;
@@ -2181,7 +2189,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
     gErrorLog_67CF58.Write_4D9620(gTmpBuffer_67C598);
 }
 
-MATCH_FUNC(0x4A38C0)
+// FUNCTION: 105 0x4A38C0
 EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
     if (Code == 16)

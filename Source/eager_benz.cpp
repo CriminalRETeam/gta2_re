@@ -6,6 +6,7 @@
 #include "Game_0x40.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
+#include "Ped.inl"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
 #include "Zones_CA8.hpp"
@@ -15,17 +16,16 @@
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "Ped.inl"
 #include <string.h>
 
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_7028BC, 1638, 0x7028BC);
+// GLOBAL: 105 0x7028BC
+DEFINE_GLOBAL_INIT(Fix16, dword_7028BC, 1638);
 
-
-MATCH_FUNC(0x591bd0)
+// FUNCTION: 105 0x591bd0
 eager_benz::eager_benz()
 {
     field_368_pObj = 0;
@@ -55,7 +55,37 @@ eager_benz::eager_benz()
     }
 }
 
-MATCH_FUNC(0x591c70)
+// STRING: 105 0x6252c8
+#define EXCUTIN_STRING "excutin"
+
+// STRING: 105 0x6252C0
+#define ELVIS_D_STRING "elvis_d"
+
+// STRING: 105 0x6252b8
+#define EM_DEST_STRING "em_dest"
+
+// STRING: 105 0x6252b0
+#define GENCIDE_STRING "gencide"
+
+// STRING: 105 0x6252a8
+#define COPKILL_STRING "copkill"
+
+// STRING: 105 0x625298
+#define ACCURCY_STRING "accurcy"
+
+// STRING: 105 0x625290
+#define WRNGWAY_STRING "wrngway"
+
+// STRING: 105 0x625288
+#define FLY_CAR_STRING "fly_car"
+
+// STRING: 105 0x620d84
+#define G_OVER_STRING "g_over"
+
+// STRING: 105 0x6252A0
+#define CARJAKA_STRING "carjaka"
+
+// FUNCTION: 105 0x591c70
 void eager_benz::sub_591C70()
 {
     field_1A8_unk.sub_431E30();
@@ -93,7 +123,7 @@ void eager_benz::sub_591C70()
 
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(EXCUTIN_STRING), 1);
             gRoot_sound_66B038.sub_40F090(4);
         }
     }
@@ -104,7 +134,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(ELVIS_D_STRING), 1);
             gRoot_sound_66B038.sub_40F090(8);
         }
     }
@@ -115,7 +145,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(EM_DEST_STRING), 1);
             gRoot_sound_66B038.sub_40F090(11);
         }
     }
@@ -126,7 +156,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(GENCIDE_STRING), 1);
             gRoot_sound_66B038.sub_40F090(5);
         }
     }
@@ -137,7 +167,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(COPKILL_STRING), 1);
             gRoot_sound_66B038.sub_40F090(6);
         }
     }
@@ -148,7 +178,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(CARJAKA_STRING), 1);
             gRoot_sound_66B038.sub_40F090(7);
         }
     }
@@ -159,7 +189,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(ACCURCY_STRING), 1);
             gRoot_sound_66B038.sub_40F090(9);
         }
     }
@@ -186,7 +216,7 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(1000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(WRNGWAY_STRING), 1);
             gRoot_sound_66B038.sub_40F090(10);
         }
     }
@@ -210,7 +240,7 @@ void eager_benz::sub_591C70()
         this->field_190_fly_car_count = 2250;
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(FLY_CAR_STRING), 1);
             gRoot_sound_66B038.sub_40F090(1);
         }
     }
@@ -241,7 +271,7 @@ void eager_benz::sub_591C70()
                 gLucid_hamilton_67E8E0.sub_4C5C00(a2);
                 if (gGame_0x40_67E008->field_28_timer == -1)
                 {
-                    gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(G_OVER_STRING), 3);
                 }
                 gGame_0x40_67E008->sub_4B8C00(2, 5);
             }
@@ -262,7 +292,7 @@ void eager_benz::sub_591C70()
     }
 }
 
-MATCH_FUNC(0x5922f0)
+// FUNCTION: 105 0x5922f0
 void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
 {
     field_368_pObj = a2;
@@ -270,7 +300,7 @@ void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
     field_38_unk.sub_492110(a3, a6, a5);
 }
 
-MATCH_FUNC(0x592330)
+// FUNCTION: 105 0x592330
 void eager_benz::sub_592330()
 {
     field_0_unk.sub_492150();
@@ -279,19 +309,19 @@ void eager_benz::sub_592330()
     sub_592380(3);
 }
 
-MATCH_FUNC(0x592360)
+// FUNCTION: 105 0x592360
 thirsty_lamarr* eager_benz::sub_592360()
 {
     return &field_0_unk;
 }
 
-MATCH_FUNC(0x592370)
+// FUNCTION: 105 0x592370
 s32 eager_benz::sub_592370()
 {
     return field_0_unk.field_0;
 }
 
-MATCH_FUNC(0x592380)
+// FUNCTION: 105 0x592380
 void eager_benz::sub_592380(char_type bits)
 {
     if ((bits & 1) != 0)
@@ -333,8 +363,13 @@ void eager_benz::sub_592380(char_type bits)
         }
     }
 }
+// STRING: 105 0x6252d8
+#define STL_ALL_STRING "stl_all"
 
-MATCH_FUNC(0x592430)
+// STRING: 105 0x6252D0
+#define DST_ALL_STRING "dst_all"
+
+// FUNCTION: 105 0x592430
 void eager_benz::sub_592430(char_type bits)
 {
     u16 i;
@@ -352,7 +387,7 @@ void eager_benz::sub_592430(char_type bits)
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(STL_ALL_STRING), 1);
             gRoot_sound_66B038.sub_40F090(2);
         }
         sub_592380(1);
@@ -370,21 +405,21 @@ void eager_benz::sub_592430(char_type bits)
         field_368_pObj->field_2D4_unk.AddCash_592620(50000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
+            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(DST_ALL_STRING), 1);
             gRoot_sound_66B038.sub_40F090(3);
         }
         sub_592380(2);
     }
 }
 
-MATCH_FUNC(0x592570)
+// FUNCTION: 105 0x592570
 void eager_benz::sub_592570(char_type a2, s32 a3)
 {
     field_8C[a3] |= a2;
     sub_592430(a2);
 }
 
-MATCH_FUNC(0x5925b0)
+// FUNCTION: 105 0x5925b0
 s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 {
     u32 result = gCarInfo_808_678098->sub_4546B0(car_info_idx)->field_2_value;
@@ -402,7 +437,7 @@ s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
     }
 }
 
-MATCH_FUNC(0x592620)
+// FUNCTION: 105 0x592620
 void eager_benz::AddCash_592620(s32 cash)
 {
     field_0_unk.sub_4921B0(cash);
@@ -413,13 +448,13 @@ void eager_benz::AddCash_592620(s32 cash)
     }
 }
 
-STUB_FUNC(0x592660)
+// STUB: 105 0x592660
 void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x592dd0)
+// FUNCTION: 105 0x592dd0
 void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 {
     const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
@@ -517,7 +552,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     sub_592570(2, pCar->field_84_car_info_idx);
 }
 
-MATCH_FUNC(0x593030)
+// FUNCTION: 105 0x593030
 void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 {
     bool bAddScore = true;
@@ -571,7 +606,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
     }
 }
 
-MATCH_FUNC(0x593150)
+// FUNCTION: 105 0x593150
 void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
     if (pCar->field_74_damage != 32001)
@@ -600,13 +635,13 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
     }
 }
 
-MATCH_FUNC(0x593220)
+// FUNCTION: 105 0x593220
 void eager_benz::sub_593220()
 {
     field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_multpliers.field_0 * 20);
 }
 
-MATCH_FUNC(0x593240)
+// FUNCTION: 105 0x593240
 void eager_benz::sub_593240(Car_BC* pCar)
 {
     const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
@@ -632,7 +667,7 @@ void eager_benz::sub_593240(Car_BC* pCar)
     sub_592570(1, pCar->field_84_car_info_idx);
 }
 
-MATCH_FUNC(0x593370)
+// FUNCTION: 105 0x593370
 void eager_benz::sub_593370(Car_BC* pCar)
 {
     if (!bExplodingOff_67D4FB && field_368_pObj->field_0)
@@ -647,7 +682,7 @@ void eager_benz::sub_593370(Car_BC* pCar)
     gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_pObj->Get_Field_68_Ped());
 }
 
-MATCH_FUNC(0x593410)
+// FUNCTION: 105 0x593410
 void eager_benz::sub_593410(Car_BC* pCar)
 {
     const s32 multpliers = field_368_pObj->field_6BC_multpliers.field_0;
@@ -671,7 +706,7 @@ void eager_benz::sub_593410(Car_BC* pCar)
     }
 }
 
-MATCH_FUNC(0x5934f0)
+// FUNCTION: 105 0x5934f0
 void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 {
     field_194 = a2;
@@ -707,19 +742,19 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
     }
 }
 
-MATCH_FUNC(0x5935b0)
+// FUNCTION: 105 0x5935b0
 thirsty_lamarr* eager_benz::sub_5935B0()
 {
     return &field_38_unk;
 }
 
-MATCH_FUNC(0x5935c0)
+// FUNCTION: 105 0x5935c0
 s32 eager_benz::sub_5935C0()
 {
     return field_38_unk.field_0;
 }
 
-MATCH_FUNC(0x5935d0)
+// FUNCTION: 105 0x5935d0
 void eager_benz::sub_5935D0(s32 a2)
 {
     field_38_unk.sub_4921B0(a2);

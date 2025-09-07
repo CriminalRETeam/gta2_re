@@ -8,9 +8,10 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 
-DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
+// GLOBAL: 105 0x6F8060
+DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060);
 
-MATCH_FUNC(0x503080)
+// FUNCTION: 105 0x503080
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
 {
     u16 idx = 0;
@@ -27,7 +28,7 @@ str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
     return 0;
 }
 
-MATCH_FUNC(0x5030b0)
+// FUNCTION: 105 0x5030b0
 str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strToFind)
 {
     u16 idx = 0;
@@ -44,45 +45,45 @@ str_table_entry* frosty_pasteur_0xC1EA8::StrEntryByString_5030B0(char_type* strT
     return 0;
 }
 
-STUB_FUNC(0x511b10)
+// STUB: 105 0x511b10
 char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x511b90)
+// STUB: 105 0x511b90
 void frosty_pasteur_0xC1EA8::sub_511B90()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x511c30)
+// STUB: 105 0x511c30
 void frosty_pasteur_0xC1EA8::sub_511C30()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x511d40)
+// STUB: 105 0x511d40
 void frosty_pasteur_0xC1EA8::sub_511D40()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x511f80)
+// STUB: 105 0x511f80
 s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x511e10)
+// STUB: 105 0x511e10
 void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x512100)
+// FUNCTION: 105 0x512100
 SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
 {
     u16 idx;
@@ -105,7 +106,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
     return 0;
 }
 
-MATCH_FUNC(0x512160)
+// FUNCTION: 105 0x512160
 void frosty_pasteur_0xC1EA8::Update_512160()
 {
     if (!bSkip_mission_67D4E5)
@@ -114,7 +115,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
-            FatalError_4A38C0(0x41, "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+            FatalError_4A38C0(0x41, MISS2_CPP_STRING,
                               12774); // No LEVELSTART declaration in scriptfile
             return;
         }
@@ -124,7 +125,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
     }
 }
 
-MATCH_FUNC(0x512330)
+// FUNCTION: 105 0x512330
 void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
 {
     if (!bSkip_mission_67D4E5)
@@ -148,13 +149,13 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
     }
 }
 
-STUB_FUNC(0x512400)
+// STUB: 105 0x512400
 void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5121E0)
+// STUB: 105 0x5121E0
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
     NOT_IMPLEMENTED;
@@ -199,7 +200,7 @@ void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
     }
 }
 
-MATCH_FUNC(0x5122D0)
+// FUNCTION: 105 0x5122D0
 void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
 {
     const char_type* pSlashPos = strrchr(field_35C_full_scr_file_name, '\\');
@@ -222,13 +223,13 @@ void frosty_pasteur_0xC1EA8::GetScrFileName_5122D0()
     }
 }
 
-STUB_FUNC(0x5125F0)
+// STUB: 105 0x5125F0
 void frosty_pasteur_0xC1EA8::LoadSubScripts_5125F0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x512770)
+// FUNCTION: 105 0x512770
 SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 {
     if (!field_46C_base_pointers[idx])
@@ -238,110 +239,110 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
     return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
 }
 
-STUB_FUNC(0x5127a0)
+// STUB: 105 0x5127a0
 void frosty_pasteur_0xC1EA8::sub_5127A0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5128a0)
+// STUB: 105 0x5128a0
 s32* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5128d0)
+// STUB: 105 0x5128d0
 s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512910)
+// STUB: 105 0x512910
 char_type frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512980)
+// STUB: 105 0x512980
 s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5129b0)
+// STUB: 105 0x5129b0
 s32* frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 a3, s16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5129f0)
+// STUB: 105 0x5129f0
 char_type frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512a70)
+// STUB: 105 0x512a70
 s32* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512aa0)
+// STUB: 105 0x512aa0
 char_type* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512ad0)
+// STUB: 105 0x512ad0
 char_type* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512af0)
+// STUB: 105 0x512af0
 char_type frosty_pasteur_0xC1EA8::sub_512AF0(s32 a2, char_type a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512ba0)
+// STUB: 105 0x512ba0
 char_type* frosty_pasteur_0xC1EA8::sub_512BA0(s32 a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512c00)
+// STUB: 105 0x512c00
 s32 frosty_pasteur_0xC1EA8::sub_512C00(s32 a2, s32 a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512c70)
+// STUB: 105 0x512c70
 bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x512ce0)
+// STUB: 105 0x512ce0
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5130e0)
+// STUB: 105 0x5130e0
 frosty_pasteur_0xC1EA8::~frosty_pasteur_0xC1EA8()
 {
     NOT_IMPLEMENTED;

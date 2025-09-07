@@ -21,22 +21,31 @@ class Shooey_14
     Fix16_Vec field_8_pos;
 };
 
-class Shooey_CC
+class Shooey_CC_Base
 {
   public:
-    EXPORT Shooey_CC();
-    EXPORT ~Shooey_CC();
+  EXPORT Shooey_CC_Base();
+  EXPORT ~Shooey_CC_Base();
+
+  u16 field_0;
+  u16 field_2;
+  Shooey_14 field_4[10];
+};
+
+
+class Shooey_CC : public Shooey_CC_Base
+{
+  public:
+
     EXPORT void ReportCrime(s32 crime_type, s32 ped_id);
     EXPORT bool GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos);
     EXPORT char_type CanReportCrime(s32 crime_type);
-    EXPORT Shooey_CC* ctor_484FC0();
-    EXPORT void dtor_484FD0();
+    EXPORT Shooey_CC();
+    EXPORT ~Shooey_CC();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
     EXPORT bool sub_485090(Car_BC* a2, Player* a3);
     EXPORT char_type sub_4850F0(Char_B4* a2, Player* a3);
     EXPORT char_type sub_485140(Ped* a2, Player* a3);
 
-    u16 field_0;
-    u16 field_2;
-    Shooey_14 field_4[10];
+
 };

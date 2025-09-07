@@ -1,30 +1,30 @@
 #include "NetPlay.hpp"
 #include "Globals.hpp"
-#include "crt_stubs.hpp"
 
-DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
+// GLOBAL: 105 0x7071E8
+DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8);
 
-STUB_FUNC(0x51d6b0)
+// STUB: 105 0x51d6b0
 NetPlay* NetPlay::ctor_51D6B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51d7b0)
+// STUB: 105 0x51d7b0
 void* NetPlay::vdtor_51D7B0(char_type flags)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51d7d0)
+// STUB: 105 0x51d7d0
 NetPlay::~NetPlay()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x51d930)
+// FUNCTION: 105 0x51d930
 void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo)
 {
     const u32 connection_idx = this->field_30_enumed_connections.field_8_connections_count;
@@ -57,7 +57,7 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
     }
 }
 
-MATCH_FUNC(0x51da30)
+// FUNCTION: 105 0x51da30
 s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
                                        const void* lpConnection,
                                        u32 dwConnectionSize,
@@ -80,14 +80,14 @@ s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
     return 1;
 }
 
-STUB_FUNC(0x51dae0)
+// STUB: 105 0x51dae0
 s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseThisConnection)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x51dc90)
+// FUNCTION: 105 0x51dc90
 void NetPlay::DirectPlayDestroy_51DC90()
 {
     if (field_5E4_pDPlay3)
@@ -103,7 +103,7 @@ void NetPlay::DirectPlayDestroy_51DC90()
     }
 }
 
-MATCH_FUNC(0x51dcd0)
+// FUNCTION: 105 0x51dcd0
 s32 NetPlay::DirectPlayCreate_51DCD0()
 {
     IDirectPlayLobby* pIDirectPlayLobby;
@@ -120,7 +120,7 @@ s32 NetPlay::DirectPlayCreate_51DCD0()
     return 1;
 }
 
-MATCH_FUNC(0x51ded0)
+// FUNCTION: 105 0x51ded0
 s32 NetPlay::DirectPlayCreate_51DED0()
 {
     GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
@@ -176,70 +176,70 @@ s32 NetPlay::DirectPlayCreate_51DED0()
     return 1;
 }
 
-STUB_FUNC(0x51e030)
+// STUB: 105 0x51e030
 BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e0e0)
+// STUB: 105 0x51e0e0
 s32 NetPlay::sub_51E0E0(wchar_t* Source)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e140)
+// STUB: 105 0x51e140
 s32 NetPlay::NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e2b0)
+// STUB: 105 0x51e2b0
 s32 NetPlay::NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e450)
+// STUB: 105 0x51e450
 s32 NetPlay::NoRefs_51E450(s32 a2, u32* a3, size_t* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e5c0)
+// STUB: 105 0x51e5c0
 s32 NetPlay::sub_51E5C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e650)
+// STUB: 105 0x51e650
 s32 NetPlay::sub_51E650()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e7a0)
+// STUB: 105 0x51e7a0
 s32 NetPlay::sub_51E7A0(wchar_t* Source, wchar_t* a3, s32 a4, s32* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51e9c0)
+// STUB: 105 0x51e9c0
 u32 NetPlay::sub_51E9C0(s32 a1, s32 a2, s32 a3, s32 a4, wchar_t* Source, s32 a6, s32 a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x51eae0)
+// FUNCTION: 105 0x51eae0
 s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext)
 {
     if ((dwFlags & 1) != 0)
@@ -252,7 +252,7 @@ s32 NetPlay::EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, c
     }
 }
 
-MATCH_FUNC(0x51eb00)
+// FUNCTION: 105 0x51eb00
 s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 {
     //NOT_IMPLEMENTED;
@@ -285,7 +285,7 @@ s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
     return 0;
 }
 
-MATCH_FUNC(0x51ecd0)
+// FUNCTION: 105 0x51ecd0
 void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
 {
     this->field_4C_func_ptrs_and_params[15] = pFunc;
@@ -293,91 +293,91 @@ void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
     this->field_4C_func_ptrs_and_params[17] = 5;
 }
 
-STUB_FUNC(0x51ed00)
+// STUB: 105 0x51ed00
 void NetPlay::sub_51ED00()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51ef60)
+// STUB: 105 0x51ef60
 s32 NetPlay::Send_51EF60()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51f010)
+// STUB: 105 0x51f010
 char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, s32* recvId, u32* senderId)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51f0d0)
+// STUB: 105 0x51f0d0
 void NetPlay::sub_51F0D0(char_type* a2, s32 a3, s32 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51f110)
+// STUB: 105 0x51f110
 void NetPlay::sub_51F110(s32 a2, s32 a3, s32 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51f210)
+// STUB: 105 0x51f210
 s32 NetPlay::CalcPacketLen_51F210(u32 pPacket)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x51f420)
+// STUB: 105 0x51f420
 void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51f870)
+// STUB: 105 0x51f870
 void NetPlay::sub_51F870(char_type* pPacket, s32 packetLen, s32 recvId, s32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520040)
+// STUB: 105 0x520040
 s32 NetPlay::sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5201a0)
+// STUB: 105 0x5201a0
 void NetPlay::sub_5201A0(s32 idx, Network_Unknown* pStru)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520230)
+// STUB: 105 0x520230
 s32 NetPlay::sub_520230(s32 a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x520530)
+// STUB: 105 0x520530
 void NetPlay::sub_520530(s32 pFunc, s32 pParam)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520570)
+// STUB: 105 0x520570
 s32 NetPlay::sub_520570(int session_idx, wchar_t* a3, int* a4, s32* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x520c20)
+// FUNCTION: 105 0x520c20
 s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext)
 {
     if ((a4 & 1) != 0)
@@ -399,26 +399,26 @@ s32 NetPlay::EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay*
     return 1;
 }
 
-STUB_FUNC(0x520ca0)
+// STUB: 105 0x520ca0
 s32 NetPlay::sub_520CA0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x520d00)
+// FUNCTION: 105 0x520d00
 void NetPlay::sub_520D00(s32 a2)
 {
     field_758_n2.field_0_group_id = a2;
 }
 
-STUB_FUNC(0x520d10)
+// STUB: 105 0x520d10
 void NetPlay::sub_520D10()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x520de0)
+// FUNCTION: 105 0x520de0
 void NetPlay::sub_520DE0(Network_Unknown* pStru)
 {
     u32 count = pStru->field_4_count;
@@ -429,13 +429,13 @@ void NetPlay::sub_520DE0(Network_Unknown* pStru)
 
     if (pStru->field_120_session_desc.lpszSessionName)
     {
-        crt::free(pStru->field_120_session_desc.lpszSessionName);
+        delete (pStru->field_120_session_desc.lpszSessionName);
     }
 
     memset(&pStru->field_120_session_desc, 0, sizeof(pStru->field_120_session_desc));
 }
 
-MATCH_FUNC(0x520e30)
+// FUNCTION: 105 0x520e30
 u32 NetPlay::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 {
     u32 i = 0;
@@ -454,7 +454,7 @@ u32 NetPlay::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
     return 0xEEEEEEEE;
 }
 
-MATCH_FUNC(0x520e60)
+// FUNCTION: 105 0x520e60
 void NetPlay::sub_520E60(s32 pFunc, s32 pParam)
 {
     field_4C_func_ptrs_and_params[9] = pFunc;
@@ -462,7 +462,7 @@ void NetPlay::sub_520E60(s32 pFunc, s32 pParam)
     field_4C_func_ptrs_and_params[11] = 3;
 }
 
-MATCH_FUNC(0x520e80)
+// FUNCTION: 105 0x520e80
 void NetPlay::sub_520E80(s32 a2, s32 a3)
 {
     field_4C_func_ptrs_and_params[3] = a2;
@@ -470,20 +470,20 @@ void NetPlay::sub_520E80(s32 a2, s32 a3)
     field_4C_func_ptrs_and_params[5] = 1;
 }
 
-STUB_FUNC(0x520ea0)
+// STUB: 105 0x520ea0
 void NetPlay::NoRefs_null_520EA0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520eb0)
+// STUB: 105 0x520eb0
 s32 NetPlay::sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x520f50)
+// FUNCTION: 105 0x520f50
 void NetPlay::sub_520F50(s32 a2, s32 a3)
 {
     field_4C_func_ptrs_and_params[18] = a2;
@@ -491,7 +491,7 @@ void NetPlay::sub_520F50(s32 a2, s32 a3)
     field_4C_func_ptrs_and_params[20] = 6;
 }
 
-STUB_FUNC(0x520f80)
+// STUB: 105 0x520f80
 s32 NetPlay::sub_520F80(wchar_t* String2)
 {
     NOT_IMPLEMENTED;
@@ -507,7 +507,7 @@ s32 NetPlay::sub_520F80(wchar_t* String2)
     return 0;
 }
 
-STUB_FUNC(0x521000)
+// STUB: 105 0x521000
 s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 {
     NOT_IMPLEMENTED;
@@ -529,7 +529,7 @@ s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
     return 1;
 }
 
-MATCH_FUNC(0x521060)
+// FUNCTION: 105 0x521060
 s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 {
     s32 id_to; // edx
@@ -549,7 +549,7 @@ s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
     return field_5E4_pDPlay3->SendChatMessage(field_5D8_player_id, id_to, 0, &chatMsg);
 }
 
-MATCH_FUNC(0x5210d0)
+// FUNCTION: 105 0x5210d0
 void NetPlay::sub_5210D0(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[21] = a2;
@@ -557,7 +557,7 @@ void NetPlay::sub_5210D0(s32 a2, s32 a3)
     this->field_4C_func_ptrs_and_params[23] = 7;
 }
 
-MATCH_FUNC(0x521100)
+// FUNCTION: 105 0x521100
 void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 {
     u32 playerIdx = idx;
@@ -572,7 +572,7 @@ void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
     wcscpy(Destination, field_758_n2.field_10[playerIdx].field_1C);
 }
 
-MATCH_FUNC(0x521140)
+// FUNCTION: 105 0x521140
 void NetPlay::sub_521140(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[24] = a2;
@@ -580,7 +580,7 @@ void NetPlay::sub_521140(s32 a2, s32 a3)
     this->field_4C_func_ptrs_and_params[26] = 8;
 }
 
-MATCH_FUNC(0x521170)
+// FUNCTION: 105 0x521170
 s32 NetPlay::sub_521170(Network_8* pObj)
 {
 
@@ -598,7 +598,7 @@ s32 NetPlay::sub_521170(Network_8* pObj)
     return field_5E4_pDPlay3->SetGroupData(field_758_n2.field_0_group_id, field_758_n2.field_118, field_758_n2.field_11C, 2);
 }
 
-MATCH_FUNC(0x5211f0)
+// FUNCTION: 105 0x5211f0
 void NetPlay::sub_5211F0(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[27] = a2;
@@ -606,13 +606,13 @@ void NetPlay::sub_5211F0(s32 a2, s32 a3)
     this->field_4C_func_ptrs_and_params[29] = 9;
 }
 
-STUB_FUNC(0x521220)
+// STUB: 105 0x521220
 void NetPlay::sub_521220()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x521330)
+// FUNCTION: 105 0x521330
 void NetPlay::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
 {
     // TODO: fix meme types
@@ -621,7 +621,7 @@ void NetPlay::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
     this->field_4C_func_ptrs_and_params[14] = 4;
 }
 
-MATCH_FUNC(0x521350)
+// FUNCTION: 105 0x521350
 s32 NetPlay::GetMaxPlayers_521350()
 {
     s32 maxPlayers = 0;
@@ -636,110 +636,110 @@ s32 NetPlay::GetMaxPlayers_521350()
 }
 
 // https://decomp.me/scratch/tpDuw
-STUB_FUNC(0x521370)
+// STUB: 105 0x521370
 s32 NetPlay::Send_521370()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5213e0)
+// STUB: 105 0x5213e0
 bool NetPlay::sub_5213E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5215b0)
+// STUB: 105 0x5215b0
 s32 NetPlay::NoRefs_5215B0(u32 a2, u32* a3, size_t* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521630)
+// STUB: 105 0x521630
 s32 NetPlay::Send_521630(s32 pData, s32 idx, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5216e0)
+// STUB: 105 0x5216e0
 void NetPlay::Add_5216E0(s32 a2, s32** a3, s32 a4, char_type a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x521770)
+// STUB: 105 0x521770
 u32 NetPlay::sub_521770(u32* a2, char_type* a3, u32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521820)
+// STUB: 105 0x521820
 s32 NetPlay::sub_521820(s32** a2, s32 idx)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x521870)
+// FUNCTION: 105 0x521870
 void NetPlay::Remove_521870(s32 idx)
 {
     field_CB8_count--;
     field_900_208_start[idx].field_8 = 0;
 }
 
-STUB_FUNC(0x521890)
+// STUB: 105 0x521890
 char_type NetPlay::sub_521890(s32** a3, s32* arg4, u32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521b20)
+// STUB: 105 0x521b20
 void NetPlay::Send_521B20(s32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x521be0)
+// STUB: 105 0x521be0
 s32 NetPlay::NoRefs_Send_521BE0(s32* a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521c80)
+// STUB: 105 0x521c80
 s32 NetPlay::NoRefs_Send_521C80(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521d20)
+// STUB: 105 0x521d20
 s32 NetPlay::Send_521D20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521db0)
+// STUB: 105 0x521db0
 s32 NetPlay::Send_521DB0(s32 dataLen)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x521e40)
+// STUB: 105 0x521e40
 s32 NetPlay::Send_521E40(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e4dd0)
+// STUB: 105 0x5e4dd0
 void NetPlay::static_dtor_5E4DD0()
 {
     NOT_IMPLEMENTED;

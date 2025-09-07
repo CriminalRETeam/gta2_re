@@ -4,6 +4,9 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
+// STRING: 105 0x621318
+#define MISS2_CPP_STRING "C:\\Splitting\\Gta2\\Source\\miss2.cpp"
+
 class Ped;
 class Generator_2C;
 class Crusher_30;

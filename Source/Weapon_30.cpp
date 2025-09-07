@@ -13,7 +13,7 @@
 // TODO: move
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
-MATCH_FUNC(0x5DCD10)
+// FUNCTION: 105 0x5DCD10
 Weapon_30::Weapon_30()
 {
     field_0_ammo = 0;
@@ -32,7 +32,7 @@ Weapon_30::Weapon_30()
     field_28_pSound = 0;
 }
 
-MATCH_FUNC(0x5DCD50)
+// FUNCTION: 105 0x5DCD50
 Weapon_30::~Weapon_30()
 {
     field_24_pPed = 0;
@@ -46,7 +46,9 @@ Weapon_30::~Weapon_30()
     }
 }
 
-MATCH_FUNC(0x5DCD90)
+//// FUNCTION: 105 0x5DCD90
+
+// FUNCTION: 105 0x5DCD90
 void Weapon_30::init_5DCD90()
 {
     field_24_pPed = 0;
@@ -66,7 +68,7 @@ void Weapon_30::init_5DCD90()
     }
 }
 
-MATCH_FUNC(0x5DCDE0)
+// FUNCTION: 105 0x5DCDE0
 void Weapon_30::clear_5DCDE0()
 {
     init_5DCD90();
@@ -80,13 +82,13 @@ void Weapon_30::clear_5DCDE0()
     }
 }
 
-MATCH_FUNC(0x5dce20)
+// FUNCTION: 105 0x5dce20
 void Weapon_30::add_ammo_5DCE20(u8 a2)
 {
     field_0_ammo = a2 * 10;
 }
 
-STUB_FUNC(0x5dce40)
+// STUB: 105 0x5dce40
 char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
 {
     NOT_IMPLEMENTED;
@@ -114,14 +116,14 @@ char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
     return 1;
 }
 
-STUB_FUNC(0x5dcea0)
+// STUB: 105 0x5dcea0
 bool Weapon_30::is_max_capacity_5DCEA0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5dcef0)
+// FUNCTION: 105 0x5dcef0
 bool Weapon_30::sub_5DCEF0()
 {
     bool result;
@@ -147,7 +149,7 @@ bool Weapon_30::sub_5DCEF0()
     return result;
 }
 
-MATCH_FUNC(0x5dcf40)
+// FUNCTION: 105 0x5dcf40
 void Weapon_30::sub_5DCF40()
 {
     Player* pPlayer = this->field_24_pPed->field_15C_player;
@@ -160,68 +162,68 @@ void Weapon_30::sub_5DCF40()
     }
 }
 
-STUB_FUNC(0x5dcf60)
+// STUB: 105 0x5dcf60
 Object_2C* Weapon_30::sub_5DCF60(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s32* a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5dd0f0)
+// STUB: 105 0x5dd0f0
 void Weapon_30::flamethrower_5DD0F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5dd290)
+// STUB: 105 0x5dd290
 u8 Weapon_30::shotgun_5DD290()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5dd860)
+// STUB: 105 0x5dd860
 char_type Weapon_30::pistol_5DD860()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5dda70)
+// STUB: 105 0x5dda70
 u8 Weapon_30::dual_pistol_5DDA70()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5ddd20)
+// STUB: 105 0x5ddd20
 u8 Weapon_30::smg_5DDD20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5ddfc0)
+// STUB: 105 0x5ddfc0
 void Weapon_30::throwable_5DDFC0(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5de4f0)
+// STUB: 105 0x5de4f0
 s32 Weapon_30::sub_5DE4F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5dfb60)
+// STUB: 105 0x5dfb60
 char_type Weapon_30::sub_5DFB60(char_type a2, Sprite* a3, Ang16 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5e06b0)
+// FUNCTION: 105 0x5e06b0
 void Weapon_30::shocker_5E06B0()
 {
     gWeapon_8_707018->field_0.sub_5A6E10();
@@ -236,69 +238,69 @@ void Weapon_30::shocker_5E06B0()
     }
 }
 
-STUB_FUNC(0x5e0740)
+// STUB: 105 0x5e0740
 char_type Weapon_30::electro_batton_5E0740()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e0ab0)
+// STUB: 105 0x5e0ab0
 void Weapon_30::car_bomb_5E0AB0(char_type a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5e0b10)
+// STUB: 105 0x5e0b10
 char_type Weapon_30::fire_truck_flamethrower_5E0B10()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e0e70)
+// STUB: 105 0x5e0e70
 s32* Weapon_30::fire_truck_gun_5E0E70()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e10e0)
+// STUB: 105 0x5e10e0
 u8 Weapon_30::tank_main_gun_5E10E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e13e0)
+// STUB: 105 0x5e13e0
 u8 Weapon_30::army_gun_jeep_5E13E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e1dc0)
+// STUB: 105 0x5e1dc0
 char_type Weapon_30::oil_stain_5E1DC0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e2550)
+// STUB: 105 0x5e2550
 char_type Weapon_30::car_mine_5E2550()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5e2940)
+// STUB: 105 0x5e2940
 u8 Weapon_30::car_smg_5E2940()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5e33c0)
+// FUNCTION: 105 0x5e33c0
 char_type Weapon_30::sub_5E33C0()
 {
     char result;
@@ -318,14 +320,14 @@ char_type Weapon_30::sub_5E33C0()
     return result;
 }
 
-STUB_FUNC(0x5e34b0)
+// STUB: 105 0x5e34b0
 char_type Weapon_30::sub_5E34B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5e3670)
+// FUNCTION: 105 0x5e3670
 void Weapon_30::pull_trigger_5E3670()
 {
     switch (field_1C_idx)
@@ -436,13 +438,13 @@ void Weapon_30::pull_trigger_5E3670()
     }
 }
 
-STUB_FUNC(0x5e3850)
+// STUB: 105 0x5e3850
 void Weapon_30::rocket_5E3850()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5e3bd0)
+// FUNCTION: 105 0x5e3bd0
 char_type Weapon_30::sub_5E3BD0()
 {
     char result;

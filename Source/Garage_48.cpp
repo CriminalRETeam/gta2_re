@@ -1,33 +1,34 @@
 #include "Garage_48.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
+// GLOBAL: 105 0x6FD26C
+DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C);
 
-MATCH_FUNC(0x4bbc60)
+// FUNCTION: 105 0x4bbc60
 Garage_48::~Garage_48()
 {
 }
 
-STUB_FUNC(0x534650)
+// STUB: 105 0x534650
 char_type Garage_48::sub_534650()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x534700)
+// STUB: 105 0x534700
 void Garage_48::sub_534700(Car_BC* a2, void* a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5349d0)
+// STUB: 105 0x5349d0
 void Garage_48::sub_5349D0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x534e80)
+// FUNCTION: 105 0x534e80
 Garage_48::Garage_48()
 {
     field_0 = 0;

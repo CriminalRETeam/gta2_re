@@ -3,15 +3,21 @@
 #include "Globals.hpp"
 #include "error.hpp"
 
-DEFINE_GLOBAL(Montana*, gMontana_67B580, 0x67B580);
-DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC, 0x705BBC);
-DEFINE_GLOBAL(Montana_FA4*, gMontana_FA4_705BC0, 0x705BC0);
-DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
-DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
-DEFINE_GLOBAL(Fix16, dword_67B434, 0x67B434); // = 0x4000, TODO, 0xUNKNOWN);
+// GLOBAL: 105 0x67B580
+DEFINE_GLOBAL(Montana*, gMontana_67B580);
+// GLOBAL: 105 0x705BBC
+DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC);
+// GLOBAL: 105 0x705BC0
+DEFINE_GLOBAL(Montana_FA4*, gMontana_FA4_705BC0);
+// GLOBAL: 105 0x67B57C
+DEFINE_GLOBAL(s32, gDisplayDraw_67B57C);
+// GLOBAL: 105 0x67B578
+DEFINE_GLOBAL(s32, gDisplayAdd_67B578);
+// GLOBAL: 105 0x67B434
+DEFINE_GLOBAL(Fix16, dword_67B434); // = 0x4000, TODO, 0xUNKNOWN);
 
 
-MATCH_FUNC(0x5c5f60)
+// FUNCTION: 105 0x5c5f60
 Montana_2EE4::Montana_2EE4()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -21,18 +27,18 @@ Montana_2EE4::Montana_2EE4()
     field_2EE0_free_indx = 0;
 }
 
-MATCH_FUNC(0x5c5f90)
+// FUNCTION: 105 0x5c5f90
 Montana_2EE4::~Montana_2EE4()
 {
 }
 
-STUB_FUNC(0x5c5cf0)
+// STUB: 105 0x5c5cf0
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5C5DF0)
+// FUNCTION: 105 0x5C5DF0
 void Montana_4::Draw_5C5DF0()
 {
     Montana_C* pIter = this->field_0_pFirst;
@@ -54,7 +60,7 @@ void Montana_4::Draw_5C5DF0()
     }
 }
 
-MATCH_FUNC(0x5c5e50)
+// FUNCTION: 105 0x5c5e50
 void Montana_4::Reset_5C5E50()
 {
     gMontana_2EE4_705BBC->field_2EE0_free_indx = 0;
@@ -62,7 +68,7 @@ void Montana_4::Reset_5C5E50()
 }
 
 // TODO: Doesn't match due to SEH stuff
-STUB_FUNC(0x5c5e70)
+// STUB: 105 0x5c5e70
 Montana_4::Montana_4()
 {
     NOT_IMPLEMENTED;
@@ -78,7 +84,7 @@ Montana_4::Montana_4()
     Reset_5C5E50();
 }
 
-STUB_FUNC(0x5c5f10)
+// STUB: 105 0x5c5f10
 Montana_4::~Montana_4()
 {
     NOT_IMPLEMENTED;
@@ -86,7 +92,7 @@ Montana_4::~Montana_4()
     GTA2_DELETE_AND_NULL(gMontana_FA4_705BC0);
 }
 
-MATCH_FUNC(0x4954f0)
+// FUNCTION: 105 0x4954f0
 void Montana::ResetAll_4954F0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_cols); i++)
@@ -96,14 +102,14 @@ void Montana::ResetAll_4954F0()
 }
 
 // TODO: move
-STUB_FUNC(0x5BEE90)
+// STUB: 105 0x5BEE90
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x495510)
+// FUNCTION: 105 0x495510
 void Montana::DisplayAdd_495510(Sprite* pSprite)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
@@ -114,7 +120,7 @@ void Montana::DisplayAdd_495510(Sprite* pSprite)
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }
 
-MATCH_FUNC(0x495560)
+// FUNCTION: 105 0x495560
 void Montana::Draw_495560(s32 col_idx)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
@@ -122,7 +128,13 @@ void Montana::Draw_495560(s32 col_idx)
     gDisplayDraw_67B57C += get_rdtsc_5BEE90() - rdtsc;
 }
 
-MATCH_FUNC(0x4955a0)
+// STRING: 105 0x61a9bc
+#define DISPLAY_CPP_STRING "C:\\Splitting\\Gta2\\Source\\display.cpp"
+
+// FUNCTION: 105 0x5fb49b SYMBOL
+// SEH_5fb49b
+
+// FUNCTION: 105 0x4955a0
 Montana::Montana()
 {
     for (s32 i = 0; i < 7; i++)
@@ -130,12 +142,12 @@ Montana::Montana()
         field_0_cols[i] = new Montana_4();
         if (!field_0_cols[i])
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+            FatalError_4A38C0(0x20, DISPLAY_CPP_STRING, 121);
         }
     }
 }
 
-MATCH_FUNC(0x495630)
+// FUNCTION: 105 0x495630
 Montana::~Montana()
 {
     for (s32 i = 0; i < 7; i++)

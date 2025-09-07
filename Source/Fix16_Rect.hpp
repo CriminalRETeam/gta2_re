@@ -14,7 +14,8 @@ class Fix16_Rect
     {
     }
 
-    // TODO: Get inline addr
+    // SYNTHETIC: 105 0x4E6280
+    // Fix16_Rect::Fix16_Rect
     Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
     {
         field_0_left = x;

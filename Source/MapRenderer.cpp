@@ -5,23 +5,38 @@
 #include "fix16.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
-DEFINE_GLOBAL(Fix16_Point, stru_6F6484, 0x6F6484);
-DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
-DEFINE_GLOBAL(u16, gBlockTop_6F62F4, 0x6F62F4);
-DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
-DEFINE_GLOBAL(u16, gBlockBottom_6F6468, 0x6F6468);
-DEFINE_GLOBAL(u16, gLidType_6F6274, 0x6F6274);
-DEFINE_GLOBAL(Fix16, gXCoord_6F63AC, 0x6F63AC);
-DEFINE_GLOBAL(Fix16, gYCoord_6F63B8, 0x6F63B8);
-DEFINE_GLOBAL(s32, gZCoord_6F63E0, 0x6F63E0);
-DEFINE_GLOBAL(u32, dword_6F6480, 0x6F6480);
-DEFINE_GLOBAL(u32, dword_6F647C, 0x6F647C);
-DEFINE_GLOBAL(gmp_block_info*, gpBlock_6F6478, 0x6F6478);
-DEFINE_GLOBAL(gmp_map_slope, dword_6F646C, 0x6F646C);
-DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8, 0x6F65A8);
+// GLOBAL: 105 0x6F66E4
+DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
+// GLOBAL: 105 0x6F6484
+DEFINE_GLOBAL(Fix16_Point, stru_6F6484);
+// GLOBAL: 105 0x6F62F6
+DEFINE_GLOBAL(u16, gBlockLeft_6F62F6);
+// GLOBAL: 105 0x6F62F4
+DEFINE_GLOBAL(u16, gBlockTop_6F62F4);
+// GLOBAL: 105 0x6F63C6
+DEFINE_GLOBAL(u16, gBlockRight_6F63C6);
+// GLOBAL: 105 0x6F6468
+DEFINE_GLOBAL(u16, gBlockBottom_6F6468);
+// GLOBAL: 105 0x6F6274
+DEFINE_GLOBAL(u16, gLidType_6F6274);
+// GLOBAL: 105 0x6F63AC
+DEFINE_GLOBAL(Fix16, gXCoord_6F63AC);
+// GLOBAL: 105 0x6F63B8
+DEFINE_GLOBAL(Fix16, gYCoord_6F63B8);
+// GLOBAL: 105 0x6F63E0
+DEFINE_GLOBAL(s32, gZCoord_6F63E0);
+// GLOBAL: 105 0x6F6480
+DEFINE_GLOBAL(u32, dword_6F6480);
+// GLOBAL: 105 0x6F647C
+DEFINE_GLOBAL(u32, dword_6F647C);
+// GLOBAL: 105 0x6F6478
+DEFINE_GLOBAL(gmp_block_info*, gpBlock_6F6478);
+// GLOBAL: 105 0x6F646C
+DEFINE_GLOBAL(gmp_map_slope, dword_6F646C);
+// GLOBAL: 105 0x6F65A8
+DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8);
 
-MATCH_FUNC(0x4e9d50)
+// FUNCTION: 105 0x4e9d50
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
 {
     field_4 = Fix16(target_level, 0);
@@ -37,14 +52,14 @@ void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
     }
 }
 
-STUB_FUNC(0x4e9db0)
+// STUB: 105 0x4e9db0
 char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4e9ea0)
+// FUNCTION: 105 0x4e9ea0
 void MapRenderer::ambient_light_tick_4E9EA0()
 {
     field_0_ambient = field_8 + field_0_ambient;
@@ -67,13 +82,13 @@ void MapRenderer::ambient_light_tick_4E9EA0()
     }
 }
 
-STUB_FUNC(0x4ea390)
+// STUB: 105 0x4ea390
 void MapRenderer::sub_4EA390(u16* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4ead90)
+// FUNCTION: 105 0x4ead90
 void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
     DrawUnk_0xBC* pCam = gViewCamera_676978;
@@ -85,138 +100,138 @@ void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
-STUB_FUNC(0x4eae00)
+// STUB: 105 0x4eae00
 s32 MapRenderer::sub_4EAE00(s32* a2, s32* a3, Vert* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4eaea0)
+// STUB: 105 0x4eaea0
 s32 MapRenderer::sub_4EAEA0(s32* a2, s32* a3, Vert* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4eaf40)
+// STUB: 105 0x4eaf40
 void MapRenderer::sub_4EAF40(u16* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4eba60)
+// STUB: 105 0x4eba60
 void MapRenderer::sub_4EBA60(u16* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ec450)
+// STUB: 105 0x4ec450
 s16 MapRenderer::sub_4EC450(u16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4ec7a0)
+// STUB: 105 0x4ec7a0
 void MapRenderer::sub_4EC7A0(u16* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ecaf0)
+// STUB: 105 0x4ecaf0
 s16 MapRenderer::sub_4ECAF0(u16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4ece40)
+// STUB: 105 0x4ece40
 s16 MapRenderer::sub_4ECE40(u16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x4ed290)
+// STUB: 105 0x4ed290
 void MapRenderer::draw_bottom_4ED290(u16* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ee130)
+// STUB: 105 0x4ee130
 void MapRenderer::draw_lid_4EE130()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4eeaf0)
+// STUB: 105 0x4eeaf0
 void MapRenderer::sub_4EEAF0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4eee60)
+// STUB: 105 0x4eee60
 void MapRenderer::sub_4EEE60()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ef1c0)
+// STUB: 105 0x4ef1c0
 void MapRenderer::sub_4EF1C0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ef520)
+// STUB: 105 0x4ef520
 void MapRenderer::sub_4EF520()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4ef880)
+// STUB: 105 0x4ef880
 void MapRenderer::sub_4EF880()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4efb20)
+// STUB: 105 0x4efb20
 void MapRenderer::sub_4EFB20()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4efdb0)
+// STUB: 105 0x4efdb0
 void MapRenderer::sub_4EFDB0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0030)
+// STUB: 105 0x4f0030
 void MapRenderer::sub_4F0030()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f02d0)
+// STUB: 105 0x4f02d0
 void MapRenderer::sub_4F02D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0340)
+// STUB: 105 0x4f0340
 void MapRenderer::sub_4F0340()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0420)
+// STUB: 105 0x4f0420
 void MapRenderer::sub_4F0420()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4f0bd0)
+// FUNCTION: 105 0x4f0bd0
 char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
 {
     switch (lid_type)
@@ -234,67 +249,67 @@ char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
     }
 }
 
-STUB_FUNC(0x4f1660)
+// STUB: 105 0x4f1660
 void MapRenderer::sub_4F1660()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f22f0)
+// STUB: 105 0x4f22f0
 void MapRenderer::sub_4F22F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f33b0)
+// STUB: 105 0x4f33b0
 void MapRenderer::sub_4F33B0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f3c00)
+// STUB: 105 0x4f3c00
 void MapRenderer::draw_left_4F3C00(u16* arg0, s32* pVertIdx, s32 a2, Fix16_Point* a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f4190)
+// STUB: 105 0x4f4190
 void MapRenderer::Set_UV_4F4190(Fix16_Point* a1, Fix16_Point* a2, u32* pVertIdx)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f4250)
+// STUB: 105 0x4f4250
 void MapRenderer::sub_4F4250(u16* arg0, s32* pVertIdx, s32 a2, Fix16_Point* a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f4600)
+// STUB: 105 0x4f4600
 void MapRenderer::sub_4F4600(u16* a2, s32 a3, Fix16_Point* a4, u32* a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f49b0)
+// STUB: 105 0x4f49b0
 void MapRenderer::sub_4F49B0(u16* a2, s32 a1, Fix16_Point* a4, u32* pVertIdx)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f4d60)
+// STUB: 105 0x4f4d60
 void MapRenderer::draw_lid_4F4D60(Fix16_Point* xpos, Fix16_Point* diffuse_colour, s32 arg_8, u32* a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f6580)
+// STUB: 105 0x4f6580
 void MapRenderer::draw_slope_4F6580()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4f6630)
+// FUNCTION: 105 0x4f6630
 void MapRenderer::draw_slope_4F6630()
 {
     u32 slope_idx = (gpBlock_6F6478->field_B_slope_type >> 2);
@@ -324,7 +339,7 @@ void MapRenderer::draw_slope_4F6630()
 }
 
 // https://decomp.me/scratch/8po7Q  instruction swap at lines (0xbc vs 0xc2) and (0x125 vs 0x12b)
-STUB_FUNC(0x4f66c0)
+// STUB: 105 0x4f66c0
 void MapRenderer::sub_4F66C0()
 {
     NOT_IMPLEMENTED;
@@ -392,7 +407,7 @@ void MapRenderer::sub_4F66C0()
     }
 }
 
-MATCH_FUNC(0x4f6880)
+// FUNCTION: 105 0x4f6880
 void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
 {
     gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
@@ -467,13 +482,13 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
     }
 }
 
-MATCH_FUNC(0x4f6a10)
+// FUNCTION: 105 0x4f6a10
 void MapRenderer::ClearDrawnTileCount_4F6A10()
 {
     field_2F00_drawn_tile_count = 0;
 }
 
-STUB_FUNC(0x4f6a20)
+// STUB: 105 0x4f6a20
 void MapRenderer::Draw_4F6A20()
 {
     NOT_IMPLEMENTED;

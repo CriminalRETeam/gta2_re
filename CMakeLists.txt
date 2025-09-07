@@ -7,6 +7,12 @@ ENABLE_LANGUAGE(ASM_MASM)
 
 SET(CMAKE_WARN_VS6 CACHE BOOL OFF)
 
+if(${MSVC})
+    include(cmake/vc6.cmake)
+endif ()
+
+
+
 add_subdirectory(3rdParty/GTA2Hax)
 
 add_library (mss32 SHARED
@@ -30,8 +36,6 @@ target_compile_definitions(mss32 PRIVATE BUILD_MSS)
 set(gta2_lib_src
   Source/angle.cpp
   Source/angle.hpp
-  Source/crt_stubs.cpp
-  Source/crt_stubs.hpp
   Source/Globals.cpp
   Source/Globals.hpp
   Source/3rdParty/mss.h
@@ -261,13 +265,14 @@ target_link_libraries(gta2_lib)
 
 message(STATUS "${CMAKE_BINARY_DIR}=${${CMAKE_BINARY_DIR}}")
 
-add_library (gta2_dll_exports SHARED ${gta2_lib_src})
-target_compile_definitions(gta2_dll_exports PRIVATE EXPORT_VARS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
-target_link_libraries(gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui)
+add_library (gta2_dll_exports SHARED Source/dllmain.cpp)
+set_target_properties(gta2_dll_exports PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS TRUE)
+#target_compile_definitions(gta2_dll_exports PRIVATE _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
+target_link_libraries(gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui gta2_lib)
 
-add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
-target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
-target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui)
+#add_library (gta2_dll_imports SHARED ${gta2_lib_src} Source/WinMainProxy.cpp)
+#target_compile_definitions(gta2_dll_imports PRIVATE IMPORT_VARS EXPORT_FUNCS _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
+#target_link_libraries(gta2_dll_imports gta2_dll_exports mss32 Winmm ${dplay_libs} dear_imgui)
 
 add_library(HookLoader SHARED 
     Source/HookLoader.cpp
@@ -288,34 +293,34 @@ add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
     resources.rc)
-target_link_libraries(decomp_main mss32 gta2_lib ${dplay_libs} dear_imgui)
+target_link_libraries(decomp_main mss32  ${dplay_libs} dear_imgui gta2_lib)
 
 if (${MSVC_VERSION} EQUAL 1200)
-    target_link_libraries(decomp_main libc.lib libcp.lib)
+    target_link_libraries(decomp_main )#libc.lib libcp.lib)
     target_compile_definitions(decomp_main PRIVATE IMGUI_DLL)
-    set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+    #set_target_properties(decomp_main PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
 endif()
 
 if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF /SAFESEH:NO"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /SAFESEH:NO /debug:full /FIXED:NO /BASE:0x500000"
     )
 else()
     set_target_properties(decomp_main PROPERTIES
-        LINK_FLAGS "/MAP:output.map /OPT:NOICF,NOREF"
+        LINK_FLAGS "/MAP:decomp_main.map /OPT:NOICF,NOREF /debug:full /FIXED:NO /BASE:0x500000"
     )
 endif()
 
 if (${MSVC_VERSION} GREATER 1200)
     set_target_properties(gta2_dll_exports PROPERTIES COMPILE_FLAGS "/Gy")
-    set_target_properties(gta2_dll_imports PROPERTIES COMPILE_FLAGS "/Gy")
+    #set_target_properties(gta2_dll_imports PROPERTIES COMPILE_FLAGS "/Gy")
 
-    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
-    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO" )
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO /MAP:gta2_dll_exports.map /DEBUG" )
+    #set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /SAFESEH:NO /INCREMENTAL:NO /MAP:gta2_dll_imports.map /DEBUG" )
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF /SAFESEH:NO")
 else()
-    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
-    set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF" )
+    set_target_properties(gta2_dll_exports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /MAP:gta2_dll_exports.map /DEBUG" )
+    #set_target_properties(gta2_dll_imports PROPERTIES LINK_FLAGS "/OPT:NOICF,NOREF /MAP:gta2_dll_imports.map /DEBUG" )
     set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} /OPT:NOICF,NOREF")
 endif()
 
@@ -326,8 +331,4 @@ if (${MSVC_VERSION} EQUAL 1200)
     set_target_properties(cl_proxy PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
     target_link_libraries(cl_proxy  libcmt.lib libcpmt.lib)
 endif()
-
-if(${MSVC})
-    include(cmake/vc6.cmake)
-endif ()
 

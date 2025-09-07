@@ -1,11 +1,11 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "Globals.hpp"
-#include "crt_stubs.hpp"
 #include <stdlib.h>
 
-DEFINE_GLOBAL(nostalgic_ellis_0x28**, g4096_alloc_6F5400, 0x6F5400) ;
+// GLOBAL: 105 0x6F5400
+DEFINE_GLOBAL(nostalgic_ellis_0x28**, g4096_alloc_6F5400);
 
-MATCH_FUNC(0x4D6D20)
+// FUNCTION: 105 0x4D6D20
 nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 {
     field_0 = 0x2A2A2A2A;
@@ -23,7 +23,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_18_intensity = 0;
 }
 
-MATCH_FUNC(0x4D6D60)
+// FUNCTION: 105 0x4D6D60
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
     field_1C = 0;
@@ -31,7 +31,7 @@ nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
     field_20 = 0;
 }
 
-STUB_FUNC(0x4D6D70)
+// STUB: 105 0x4D6D70
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
     NOT_IMPLEMENTED;
@@ -54,7 +54,7 @@ void nostalgic_ellis_0x28::sub_4D6D70()
     }
 }
 
-STUB_FUNC(0x4D6DC0)
+// STUB: 105 0x4D6DC0
 nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
 {
     NOT_IMPLEMENTED;
@@ -79,27 +79,27 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     return result;
 }
 
-MATCH_FUNC(0x4D6E00)
+// FUNCTION: 105 0x4D6E00
 void __stdcall Light::sub_4D6E00()
 {
-    g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)crt::malloc(0x4000u);
+    g4096_alloc_6F5400 = (nostalgic_ellis_0x28**)::malloc(0x4000u);
     for (s32 i = 0; i < 4096; i++)
     {
         g4096_alloc_6F5400[i] = 0;
     }
 }
 
-MATCH_FUNC(0x4D6E30)
+// FUNCTION: 105 0x4D6E30
 void Light::sub_4D6E30()
 {
     if (g4096_alloc_6F5400)
     {
-        crt::free(g4096_alloc_6F5400);
+        ::free(g4096_alloc_6F5400);
         g4096_alloc_6F5400 = 0;
     }
 }
 
-STUB_FUNC(0x4D6E50)
+// STUB: 105 0x4D6E50
 s32 __stdcall Light::sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;

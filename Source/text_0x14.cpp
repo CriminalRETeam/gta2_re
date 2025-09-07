@@ -6,10 +6,17 @@
 #include "registry.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC, 0x704DFC);
-DEFINE_GLOBAL(text_0x14*, gtext_0x14_6F87F0, 0x6F87F0);
-DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
-DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
+// GLOBAL: 105 0x704DFC
+DEFINE_GLOBAL(text_0x14*, gText_0x14_704DFC);
+// GLOBAL: 105 0x6F87F0
+DEFINE_GLOBAL(text_0x14*, gtext_0x14_6F87F0);
+// GLOBAL: 105 0x70488C
+DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640);
+// GLOBAL: 105 0x70462C
+DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80);
+
+// STRING: 105 0x626790
+#define TEXT_CPP_STRING "C:\\Splitting\\Gta2\\Source\\text.cpp"
 
 const wchar_t word_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
@@ -32,7 +39,7 @@ const s16 word_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   
                         185, 186, 189, 191, 207, 200, 209, 201, 226, 241, 225, 217, 231, 215, 232, 220, 238, 211, 214, 230, 237, 216,
                         229, 227, 228, 236, 239, 213, 223, 221, 212, 235, 218, 219, 222, 224, 240, 233, 242, 234};
 
-STUB_FUNC(0x5B58D0)
+// STUB: 105 0x5B58D0
 u16 text_0x14::sub_5B58D0(u16 a2)
 {
     NOT_IMPLEMENTED;
@@ -59,7 +66,7 @@ u16 text_0x14::sub_5B58D0(u16 a2)
     return 0;
 }
 
-MATCH_FUNC(0x5B5910)
+// FUNCTION: 105 0x5B5910
 void text_0x14::sub_5B5910(u16* a2)
 {
     if (field_10_lang_code != 'j')
@@ -68,7 +75,7 @@ void text_0x14::sub_5B5910(u16* a2)
     }
 }
 
-MATCH_FUNC(0x5B5930)
+// FUNCTION: 105 0x5B5930
 void text_0x14::sub_5B5930(u16* pStr)
 {
     for (u16* pStrIter = pStr; *pStrIter; ++pStrIter)
@@ -77,7 +84,7 @@ void text_0x14::sub_5B5930(u16* pStr)
     }
 }
 
-MATCH_FUNC(0x5B5960)
+// FUNCTION: 105 0x5B5960
 void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
 {
     // TODO: probably an inline
@@ -85,13 +92,13 @@ void text_0x14::TKEY_Load_5B5960(u32 chunkSize)
     field_0_tKey.field_0_tKey = new text_0xC[field_0_tKey.field_4_tKey_count];
     if (!field_0_tKey.field_0_tKey)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
+        FatalError_4A38C0(32, TEXT_CPP_STRING, 218);
     }
 
     File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunkSize);
 }
 
-MATCH_FUNC(0x5B59B0)
+// FUNCTION: 105 0x5B59B0
 void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
 {
     text_0xC* ptKeyIter = field_0_tKey.field_0_tKey;
@@ -105,7 +112,7 @@ void text_0x14::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
     }
 }
 
-MATCH_FUNC(0x5B59E0)
+// FUNCTION: 105 0x5B59E0
 bool text_0x14::TKeyFind_5B59E0(const char_type* pIdStr)
 {
     return bsearch(pIdStr, // search key
@@ -117,7 +124,7 @@ bool text_0x14::TKeyFind_5B59E0(const char_type* pIdStr)
         false;
 }
 
-MATCH_FUNC(0x5B5A10)
+// FUNCTION: 105 0x5B5A10
 s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
 {
     const char_type* pIdStr = (const char_type*)a;
@@ -125,7 +132,10 @@ s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
     return strcmp(pIdStr, (const char_type*)&a2->field_4_pKey); // TODO: ???
 }
 
-MATCH_FUNC(0x5B5A50)
+// STRING: 105 0x6267b4
+#define SPACE_WIDE_STRING L" "
+
+// FUNCTION: 105 0x5B5A50
 wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
 {
     text_0xC* pFound = (text_0xC*)bsearch(pIdStr, // key
@@ -135,7 +145,7 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
                                           TKeySearch_5B5A10);
     if (!pFound)
     {
-        return L" ";
+        return SPACE_WIDE_STRING;
     }
     else
     {
@@ -143,7 +153,7 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
     }
 }
 
-MATCH_FUNC(0x5B5A80)
+// FUNCTION: 105 0x5B5A80
 void text_tdat::TDAT_Load_5B5A80(u32 size)
 {
     field_4_len = size / sizeof(wchar_t);
@@ -151,13 +161,13 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 
     if (!field_0_data)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\text.cpp", 378);
+        FatalError_4A38C0(32, TEXT_CPP_STRING, 378);
     }
 
     File::Global_Read_4A71C0(field_0_data, size);
 }
 
-STUB_FUNC(0x5B5AD0)
+// STUB: 105 0x5B5AD0
 u16 text_0x14::sub_5B5AD0(wchar_t a2)
 {
     NOT_IMPLEMENTED;
@@ -212,7 +222,7 @@ u16 text_0x14::sub_5B5AD0(wchar_t a2)
     return result;
 }
 
-MATCH_FUNC(0x5B5B80)
+// FUNCTION: 105 0x5B5B80
 wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
 {
     for (wchar_t* pStrIter = pWideStr; *pStrIter; ++pStrIter)
@@ -222,7 +232,7 @@ wchar_t* text_0x14::sub_5B5B80(wchar_t* pWideStr)
     return pWideStr;
 }
 
-STUB_FUNC(0x5B5BC0)
+// STUB: 105 0x5B5BC0
 s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
@@ -230,7 +240,7 @@ s32 __stdcall text_0x14::sub_5B5BC0(u16* a1, s32 a2, s32 a3, s32 a4)
     return 0;
 }
 
-MATCH_FUNC(0x5B5D10)
+// FUNCTION: 105 0x5B5D10
 char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
 {
     const wchar_t* pSrc = a1;
@@ -263,7 +273,7 @@ char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
     return tmpWide2AsciiStr_70462C;
 }
 
-MATCH_FUNC(0x5B5DF0)
+// FUNCTION: 105 0x5B5DF0
 wchar_t* text_0x14::Ascii2Wide_5B5DF0(char_type* pStr)
 {
     // movsx vs movzx caused by unsigned vs s8
@@ -280,14 +290,19 @@ wchar_t* text_0x14::Ascii2Wide_5B5DF0(char_type* pStr)
     return tmpAscii2WideStr_70488C;
 }
 
-MATCH_FUNC(0x5B5E20)
+// STRING: 105 0x6267c0
+#define TKEY_STRING "TKEY"
+// STRING: 105 0x6267b8
+#define TDAT_STRING "TDAT"
+
+// FUNCTION: 105 0x5B5E20
 void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
 {
-    if (!strncmp(chunk_type, "TKEY", 4u))
+    if (!strncmp(chunk_type, TKEY_STRING, 4u))
     {
         TKEY_Load_5B5960(chunk_len);
     }
-    else if (!strncmp(chunk_type, "TDAT", 4u))
+    else if (!strncmp(chunk_type, TDAT_STRING, 4u))
     {
         field_8_tDat.TDAT_Load_5B5A80(chunk_len);
     }
@@ -297,16 +312,22 @@ void text_0x14::load_chunk_5B5E20(const char_type* chunk_type, u32 chunk_len)
     }
 }
 
-MATCH_FUNC(0x5B5E90)
+// STRING: 105 0x6267d0
+#define DATA_GTX_FORMAT_STRING "data\\%c.gxt"
+
+// STRING: 105 0x6267c8
+#define GBL_FORMAT_STRING "GBL%c"
+
+// FUNCTION: 105 0x5B5E90
 void text_0x14::Load_5B5E90()
 {
     char_type expected_code[5];
 
     chunk_header chunkHeader;
     char_type gxtFileName[20];
-    sprintf(gxtFileName, "data\\%c.gxt", field_10_lang_code);
+    sprintf(gxtFileName, DATA_GTX_FORMAT_STRING, field_10_lang_code);
 
-    sprintf(expected_code, "GBL%c", field_10_lang_code - ' ');
+    sprintf(expected_code, GBL_FORMAT_STRING, field_10_lang_code - ' ');
 
     File::Global_Open_4A7060(gxtFileName);
 
@@ -328,22 +349,28 @@ void text_0x14::Load_5B5E90()
     TDAT_Offsets2Strings_5B59B0(field_8_tDat.field_0_data);
 }
 
-MATCH_FUNC(0x5B5F90)
+// FUNCTION: 105 0x5B5F90
 wchar_t* text_0x14::Find_5B5F90(const char_type* pIdStr)
 {
     return TKeyFind_5B5A50(pIdStr);
 }
 
-MATCH_FUNC(0x5B5FA0)
+// FUNCTION: 105 0x5B5FA0
 bool text_0x14::sub_5B5FA0(const char_type* pIdStr)
 {
     return TKeyFind_5B59E0(pIdStr);
 }
 
-MATCH_FUNC(0x5B5FB0)
+// STRING: 105 0x6267dc
+#define LANGUAGE_STRING "language"
+
+// FUNCTION: 105 0x5fc9f3 SYMBOL
+// SEH_5fc9f3
+
+// FUNCTION: 105 0x5B5FB0
 text_0x14::text_0x14()
 {
-    gRegistry_6FF968.Get_Option_586F00("language", reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
+    gRegistry_6FF968.Get_Option_586F00(LANGUAGE_STRING, reinterpret_cast<BYTE*>(gTmpBuffer_67C598), sizeof(gTmpBuffer_67C598));
 
     if (gTmpBuffer_67C598[0] == 'e' || gTmpBuffer_67C598[0] == 'f' || gTmpBuffer_67C598[0] == 'g' || gTmpBuffer_67C598[0] == 'i' ||
         gTmpBuffer_67C598[0] == 's' || gTmpBuffer_67C598[0] == 'j' || gTmpBuffer_67C598[0] == 'r')
@@ -359,7 +386,7 @@ text_0x14::text_0x14()
 // https://decomp.me/scratch/ZNzsG
 // TODO: This should match but doesn't, maybe a problem in the comparison scripts ??
 // seems like the new func we dism is the wrong addr or something
-STUB_FUNC(0x5B6050)
+// STUB: 105 0x5B6050
 text_0x14::~text_0x14()
 {
     NOT_IMPLEMENTED;

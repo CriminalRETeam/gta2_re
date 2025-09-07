@@ -4,7 +4,6 @@
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "cSampleManager.hpp"
-#include "crt_stubs.hpp"
 #include "debug.hpp"
 #include "dma_video.hpp"
 #include "error.hpp"
@@ -23,6 +22,7 @@
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
 #include "youthful_einstein.hpp"
+#include "Garox_2B00.hpp"
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
@@ -31,46 +31,86 @@
 
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
 
+// STRING: 105 0x6201c4
+#define FRONTEND2_CPP_STRING "C:\\Splitting\\GTA2\\Source\\frontend2.cpp"
+
 void Start_GTA2Manager_5E4DE0();
 
-DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
-DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
-DEFINE_GLOBAL_INIT(s32, dword_67D930, 0, 0x67D930);
+// GLOBAL: 105 0x67DC84
+DEFINE_GLOBAL(Frontend*, gFrontend_67DC84);
+// GLOBAL: 105 0x706C4C
+DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0);
+// GLOBAL: 105 0x67D930
+DEFINE_GLOBAL_INIT(s32, dword_67D930, 0);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
-DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32, 0x67DC8C); // 67DCCC
-DEFINE_GLOBAL_INIT(DWORD, dword_67D9FC, 16384, 0x67D9FC);
-DEFINE_GLOBAL_INIT(short, font_type_703C14, 7, 0x703C14);
-DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
-DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
-DEFINE_GLOBAL(s16, word_703C16, 0x703C16);
-DEFINE_GLOBAL(s16, word_703C8C, 0x703C8C);
-DEFINE_GLOBAL(s16, word_703C8A, 0x703C8A);
-DEFINE_GLOBAL(s16, word_703BE2, 0x703BE2);
-DEFINE_GLOBAL(s16, word_703B88, 0x703B88);
-DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
-DEFINE_GLOBAL(s16, word_703B9C, 0x703B9C);
-DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
-DEFINE_GLOBAL(BYTE, byte_67DA80, 0x67DA80);
-DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4, 0x67DC88); // todo: prob, bigger, 0xUNKNOWN);
-DEFINE_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640, 0x67C7D8);
-DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
-DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
-DEFINE_GLOBAL(bool, gCheatAllGangMaxRespect_67D587, 0x67D587);
-DEFINE_GLOBAL(bool, gCheatOnlyElvisPeds_67D4ED, 0x67D4ED);
-DEFINE_GLOBAL(bool, gCheatNakedPeds_67D5E8, 0x67D5E8);
-DEFINE_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545, 0x67D545);
-DEFINE_GLOBAL(bool, gCheatGet99Lives_67D4F1, 0x67D4F1);
-DEFINE_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8, 0x67D4C8);
-DEFINE_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC, 0x67D6CC);
-DEFINE_GLOBAL(bool, gCheatUnknown_67D4F6, 0x67D4F6);
-DEFINE_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE, 0x67D6CE);
-DEFINE_GLOBAL(bool, gCheat10xMultiplier_67D589, 0x67D589);
-DEFINE_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB, 0x67D6CB);
-DEFINE_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo_67D584, 0x67D584);
-DEFINE_GLOBAL(bool, gCheatUnlockAllLevels_67D538, 0x67D538);
-DEFINE_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C, 0x67D57C);
-DEFINE_GLOBAL(bool, gCheatInvisibility_67D539, 0x67D539);
-DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
+// GLOBAL: 105 0x67DC8C
+DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
+// GLOBAL: 105 0x67D9FC
+DEFINE_GLOBAL_INIT(DWORD, dword_67D9FC, 16384);
+// GLOBAL: 105 0x703C14
+DEFINE_GLOBAL_INIT(short, font_type_703C14, 7);
+// GLOBAL: 105 0x703C3C
+DEFINE_GLOBAL(s16, word_703C3C);
+// GLOBAL: 105 0x703D0C
+DEFINE_GLOBAL(s16, word_703D0C);
+// GLOBAL: 105 0x703C16
+DEFINE_GLOBAL(s16, word_703C16);
+// GLOBAL: 105 0x703C8C
+DEFINE_GLOBAL(s16, word_703C8C);
+// GLOBAL: 105 0x703C8A
+DEFINE_GLOBAL(s16, word_703C8A);
+// GLOBAL: 105 0x703BE2
+DEFINE_GLOBAL(s16, word_703BE2);
+// GLOBAL: 105 0x703B88
+DEFINE_GLOBAL(s16, word_703B88);
+// GLOBAL: 105 0x703DAC
+DEFINE_GLOBAL(s16, word_703DAC);
+// GLOBAL: 105 0x703B9C
+DEFINE_GLOBAL(s16, word_703B9C);
+// GLOBAL: 105 0x67BD9C
+DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+// GLOBAL: 105 0x67DA80
+DEFINE_GLOBAL(BYTE, byte_67DA80);
+// GLOBAL: 105 0x67DC88
+DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4); // todo: prob, bigger
+// GLOBAL: 105 0x67C7D8
+DEFINE_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640);
+// GLOBAL: 105 0x67D5A4
+DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4);
+// GLOBAL: 105 0x67D4F7
+DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7);
+// GLOBAL: 105 0x67D587
+DEFINE_GLOBAL(bool, gCheatAllGangMaxRespect_67D587);
+// GLOBAL: 105 0x67D4ED
+DEFINE_GLOBAL(bool, gCheatOnlyElvisPeds_67D4ED);
+// GLOBAL: 105 0x67D5E8
+DEFINE_GLOBAL(bool, gCheatNakedPeds_67D5E8);
+// GLOBAL: 105 0x67D545
+DEFINE_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545);
+// GLOBAL: 105 0x67D4F1
+DEFINE_GLOBAL(bool, gCheatGet99Lives_67D4F1);
+// GLOBAL: 105 0x67D4C8
+DEFINE_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8);
+// GLOBAL: 105 0x67D6CC
+DEFINE_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
+// GLOBAL: 105 0x67D4F6
+DEFINE_GLOBAL(bool, gCheatUnknown_67D4F6);
+// GLOBAL: 105 0x67D6CE
+DEFINE_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE);
+// GLOBAL: 105 0x67D589
+DEFINE_GLOBAL(bool, gCheat10xMultiplier_67D589);
+// GLOBAL: 105 0x67D6CB
+DEFINE_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB);
+// GLOBAL: 105 0x67D584
+DEFINE_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo_67D584);
+// GLOBAL: 105 0x67D538
+DEFINE_GLOBAL(bool, gCheatUnlockAllLevels_67D538);
+// GLOBAL: 105 0x67D57C
+DEFINE_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
+// GLOBAL: 105 0x67D539
+DEFINE_GLOBAL(bool, gCheatInvisibility_67D539);
+// GLOBAL: 105 0x67D6C8
+DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
@@ -80,7 +120,7 @@ class FreeLoader
     EXPORT static char_type sub_4AE1F0(u8 a1);
 };
 
-STUB_FUNC(0x4AE1F0)
+// STUB: 105 0x4AE1F0
 EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
 {
     NOT_IMPLEMENTED;
@@ -211,8 +251,10 @@ DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, s
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
 
-DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
-DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
+// GLOBAL: 105 0x70675C
+DEFINE_GLOBAL(DWORD, dword_70675C);
+// GLOBAL: 105 0x70679C
+DEFINE_GLOBAL(DWORD, dword_70679C);
 
 EXTERN_GLOBAL(s32, window_width_706630);
 
@@ -225,7 +267,7 @@ struct TgaInfo
     s32 field_84_img;
 };
 
-/*
+
 TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\frontend\\1_Options.tga", 266924, 0},
         {"data\\frontend\\1_Play.tga", 266924, 0}, {"data\\frontend\\1_Quit.tga", 266924, 0}, {"data\\frontend\\2.tga", 347564, 0},
         {"data\\frontend\\2_Bonus1.tga", 266924, 0}, {"data\\frontend\\2_Bonus2.tga", 266924, 0},
@@ -237,10 +279,10 @@ TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\fro
         {"data\\frontend\\MPLose.tga", 614444, 0}, {"data\\frontend\\PlayerDead.tga", 614444, 0}, {"data\\frontend\\Mask.tga", 104300, 0},
         {"data\\frontend\\Mask2.tga ", 53594, 0}, {"data\\frontend\\Credits.tga", 614444, 0}, {"data\\frontend\\Mask3.tga", 130427, 0},
         {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
-*/
 
 
 
+/*
 DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          tgaArray_61F0C8,
                          25,
@@ -270,9 +312,9 @@ DEFINE_GLOBAL_ARRAY_INIT(TgaInfo,
                          {"data\\frontend\\Credits.tga", 614444, 0},
                          {"data\\frontend\\Mask3.tga", 130427, 0},
                          {"data\\frontend\\DemoInfo.tga", 614939, 0});
+*/
 
-
-STUB_FUNC(0x5D9910)
+// STUB: 105 0x5D9910
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     NOT_IMPLEMENTED;
@@ -281,10 +323,12 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     return 0;
 }
 
-DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
-DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
+// GLOBAL: 105 0x67D818
+DEFINE_GLOBAL(infallible_turing, snd1_67D818);
+// GLOBAL: 105 0x67D6F8
+DEFINE_GLOBAL(infallible_turing, snd2_67D6F8);
 
-MATCH_FUNC(0x4B4C60)
+// FUNCTION: 105 0x4B4C60
 void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
     strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);
@@ -292,7 +336,7 @@ void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr,
     strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200);
 }
 
-MATCH_FUNC(0x4B4BC0)
+// FUNCTION: 105 0x4B4BC0
 void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
 {
     strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0, pDebugStr);
@@ -300,7 +344,13 @@ void Frontend::sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDeb
     strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200, pStyName);
 }
 
-MATCH_FUNC(0x4ACFA0)
+// STRING: 105 0x62015c
+#define DATA_FSYLE_PATH_STRING "data\\fstyle.sty"
+
+// FUNCTION: 105 0x5fb51b SYMBOL
+// SEH_5fb51b
+
+// FUNCTION: 105 0x4ACFA0
 void __stdcall Frontend::create_4ACFA0()
 {
     if (!gFrontend_67DC84)
@@ -316,14 +366,14 @@ void __stdcall Frontend::create_4ACFA0()
         snd2_67D6F8.field_C_pAny = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
-        gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
+        gRoot_sound_66B038.LoadStyle_40EFF0(DATA_FSYLE_PATH_STRING);
         gRoot_sound_66B038.Set3DSound_40F160(0);
     }
 
     Bink::Reset_513210();
 }
 
-MATCH_FUNC(0x4AD070)
+// FUNCTION: 105 0x4AD070
 void __stdcall Frontend::destroy_4AD070()
 {
     if (!bSkip_audio_67D6BE && snd2_67D6F8.field_8)
@@ -341,7 +391,7 @@ void __stdcall Frontend::destroy_4AD070()
     Bink::Close2_513390();
 }
 
-STUB_FUNC(0x4B3170)
+// STUB: 105 0x4B3170
 void Frontend::sub_4B3170(u16 menu_page_idx)
 {
     NOT_IMPLEMENTED;
@@ -599,7 +649,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                     break;
                 default:
                     FatalError_4A38C0(189,
-                                      "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                                      FRONTEND2_CPP_STRING,
                                       4079); // Multiplayer game type should be frag, tag or score (but isn't)
             }
 
@@ -792,14 +842,20 @@ LABEL_116:
         v47->sub_4B6200();
         if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1_is_unlocked)
         {
-            FatalError_4A38C0(165, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
+            FatalError_4A38C0(165, FRONTEND2_CPP_STRING, 4269); // the menu contains no valid options
         }
     }
 
     sub_4B6780();
 }
 
-MATCH_FUNC(0x4B3AF0)
+// STRING: 105 0x620364
+#define DOUBLE_FORMAT_STRING L"%s %s"
+
+// STRING: 105 0x620354
+#define STRING_HI_FOR "hi_for"
+
+// FUNCTION: 105 0x4B3AF0
 void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
     MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
@@ -818,7 +874,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
         {
             // player 1, 2, 3 etc.
             swprintf(tmpBuff_67BD9C, L"%d", plyr_idx);
-            swprintf(word_67C7D8, L"%s %s", pOption->field_6_option_name_str, tmpBuff_67BD9C);
+            swprintf(word_67C7D8, DOUBLE_FORMAT_STRING, pOption->field_6_option_name_str, tmpBuff_67BD9C);
         }
         else
         {
@@ -828,7 +884,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
     }
     else if (menu_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 0)
     {
-        swprintf(word_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90("hi_for"));
+        swprintf(word_67C7D8, L"%s", gText_0x14_704DFC->Find_5B5F90(STRING_HI_FOR));
     }
     else
     {
@@ -838,7 +894,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
     *w_buffer = (wchar_t*)&word_67C7D8;
 }
 
-MATCH_FUNC(0x4B8680)
+// FUNCTION: 105 0x4B8680
 void Frontend::sub_4B8680()
 {
     if (!bSkip_audio_67D6BE)
@@ -852,7 +908,7 @@ void Frontend::sub_4B8680()
     }
 }
 
-MATCH_FUNC(0x4AEDB0)
+// FUNCTION: 105 0x4AEDB0
 s32 Frontend::sub_4AEDB0()
 {
     u32 Time; // eax
@@ -960,7 +1016,7 @@ s32 Frontend::sub_4AEDB0()
 }
 
 // https://decomp.me/scratch/ci11a
-STUB_FUNC(0x4B5430)
+// STUB: 105 0x4B5430
 void Frontend::sub_4B5430(score_table_line* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
@@ -1034,7 +1090,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
-STUB_FUNC(0x4AD140)
+// STUB: 105 0x4AD140
 void Frontend::sub_4AD140()
 {
     NOT_IMPLEMENTED;
@@ -1594,7 +1650,7 @@ for (s32 i=0; i<3; i++)
     }
 }
 
-STUB_FUNC(0x4B7AE0)
+// STUB: 105 0x4B7AE0
 void Frontend::sub_4B7AE0()
 {
     NOT_IMPLEMENTED;
@@ -1609,7 +1665,7 @@ void Frontend::sub_4B7AE0()
     }
 }
 
-MATCH_FUNC(0x4B8650)
+// FUNCTION: 105 0x4B8650
 void Frontend::sub_4B8650()
 {
     if (!bSkip_audio_67D6BE)
@@ -1622,7 +1678,7 @@ void Frontend::sub_4B8650()
     }
 }
 
-STUB_FUNC(0x4B6030)
+// STUB: 105 0x4B6030
 char_type Frontend::pre_intro_bik_exists_4B6030()
 {
     NOT_IMPLEMENTED;
@@ -1638,7 +1694,7 @@ char_type Frontend::pre_intro_bik_exists_4B6030()
     return 1;
 }
 
-STUB_FUNC(0x4B5F20)
+// STUB: 105 0x4B5F20
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
     NOT_IMPLEMENTED;
@@ -1646,7 +1702,7 @@ char_type* Frontend::pre_intro_bik_4B5F20()
     return "";
 }
 
-STUB_FUNC(0x4B5E50)
+// STUB: 105 0x4B5E50
 const char_type* Frontend::intro_bik_4B5E50()
 {
     NOT_IMPLEMENTED;
@@ -1654,7 +1710,7 @@ const char_type* Frontend::intro_bik_4B5E50()
     return "meh.dat";
 }
 
-MATCH_FUNC(0x4B5FF0)
+// FUNCTION: 105 0x4B5FF0
 bool Frontend::intro_bik_exists_4B5FF0()
 {
     // note: ecx wasn't first due to global being an object instead of a pointer
@@ -1688,7 +1744,7 @@ void sub_SetGamma()
     }
 }
 
-MATCH_FUNC(0x4AEC00)
+// FUNCTION: 105 0x4AEC00
 void Frontend::sub_4AEC00()
 {
     read_menu_input_4AFEB0();
@@ -1728,7 +1784,7 @@ void Frontend::sub_4AEC00()
             break;
 
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, field_110_state);
+            FatalError_4A38C0(1006, FRONTEND2_CPP_STRING, 2059, field_110_state);
     }
 
     if (!bSkip_audio_67D6BE)
@@ -1742,7 +1798,7 @@ void Frontend::sub_4AEC00()
     }
 }
 
-MATCH_FUNC(0x4AFEB0)
+// FUNCTION: 105 0x4AFEB0
 void Frontend::read_menu_input_4AFEB0()
 {
     if (field_10D && KeyBoard_GetKeyStates_4AFDD0())
@@ -1787,7 +1843,7 @@ void Frontend::read_menu_input_4AFEB0()
     }
 }
 
-MATCH_FUNC(0x4B6780)
+// FUNCTION: 105 0x4B6780
 void Frontend::sub_4B6780()
 {
     MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
@@ -1862,7 +1918,7 @@ void Frontend::sub_4B6780()
     }
 }
 
-STUB_FUNC(0x4B7A10)
+// STUB: 105 0x4B7A10
 void Frontend::sub_4B7A10()
 {
     NOT_IMPLEMENTED;
@@ -1917,7 +1973,7 @@ void Frontend::sub_4B7A10()
     }
 }
 
-STUB_FUNC(0x4AE2D0)
+// STUB: 105 0x4AE2D0
 void Frontend::sub_4AE2D0()
 {
     NOT_IMPLEMENTED;
@@ -1992,12 +2048,12 @@ void Frontend::sub_4AE2D0()
 
                     if (v7 >= (u32)field_1EB50_idx)
                     {
-                        FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                        FatalError_4A38C0(185, FRONTEND2_CPP_STRING, 1543);
                     }
 
                     if (!v3->field_0_plyr_stage_stats[v7][0].field_0_is_stage_unlocked)
                     {
-                        FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                        FatalError_4A38C0(186, FRONTEND2_CPP_STRING, 1548);
                     }
                     sub_4B4D00(v7, 0);
                     goto LABEL_9;
@@ -2221,7 +2277,7 @@ LABEL_60:
     }
 }
 
-MATCH_FUNC(0x4AE990)
+// FUNCTION: 105 0x4AE990
 void Frontend::sub_4AE990()
 {
     field_108 = 3;
@@ -2229,7 +2285,7 @@ void Frontend::sub_4AE990()
 
 // It matches, but we need to get rid of goto's
 // https://decomp.me/scratch/LYZij
-STUB_FUNC(0x4B2F60)
+// STUB: 105 0x4B2F60
 void Frontend::sub_4B2F60()
 {
     //NOT_IMPLEMENTED;
@@ -2345,7 +2401,7 @@ LABEL_29:
     }
 }
 
-MATCH_FUNC(0x4AE9A0)
+// FUNCTION: 105 0x4AE9A0
 void Frontend::sub_4AE9A0()
 {
     u16 v2;
@@ -2362,7 +2418,7 @@ void Frontend::sub_4AE9A0()
                     field_110_state = 1;
                     break;
                 default:
-                    FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
+                    FatalError_4A38C0(0x3EE, FRONTEND2_CPP_STRING, 1934);
             }
         }
         if (v2 == 230)
@@ -2389,7 +2445,7 @@ void Frontend::sub_4AE9A0()
                 field_EE0A = 210;
                 break;
             default:
-                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
+                FatalError_4A38C0(0x3EE, FRONTEND2_CPP_STRING, 1968);
                 break;
         }
         snd1_67D818.field_0_object_type = 1;
@@ -2409,7 +2465,7 @@ void Frontend::sub_4AE9A0()
                 field_EE0A = 210;
                 break;
             default:
-                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
+                FatalError_4A38C0(0x3EE, FRONTEND2_CPP_STRING, 1991);
                 break;
         }
         snd1_67D818.field_0_object_type = 2;
@@ -2422,14 +2478,14 @@ void Frontend::sub_4AE9A0()
     }
 }
 
-STUB_FUNC(0x4B8280)
+// STUB: 105 0x4B8280
 void Frontend::sub_4B8280()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-MATCH_FUNC(0x4B4410)
+// FUNCTION: 105 0x4B4410
 void Frontend::sub_4B4410()
 {
     sub_4B43E0()->sub_56B630();
@@ -2437,7 +2493,7 @@ void Frontend::sub_4B4410()
     sub_4B42E0();
 }
 
-MATCH_FUNC(0x4B43E0)
+// FUNCTION: 105 0x4B43E0
 player_stats_0xA4* Frontend::sub_4B43E0()
 {
     // note: movsx vs movzx due to signedness
@@ -2445,14 +2501,14 @@ player_stats_0xA4* Frontend::sub_4B43E0()
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx];
 }
 
-STUB_FUNC(0x4B42E0)
+// STUB: 105 0x4B42E0
 void Frontend::sub_4B42E0()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-MATCH_FUNC(0x4B4230)
+// FUNCTION: 105 0x4B4230
 void Frontend::sub_4B4230()
 {
     u16 count = field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx;
@@ -2462,7 +2518,13 @@ void Frontend::sub_4B4230()
     gJolly_poitras_0x2BC0_6FEAC0->sub_56BA60(count);
 }
 
-MATCH_FUNC(0x4B3CC0)
+// STRING: 105 0x620370
+#define WIDE_CHAR_FORMAT_STRING L"%c"
+
+// STRING: 105 0x62035c
+#define WIDE_STRING_FORMAT_STRING L"%s"
+
+// FUNCTION: 105 0x4B3CC0
 void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
 {
     menu_element_0x6E* temp = &field_136_menu_pages_array[a2].field_518_elements_array[a3];
@@ -2473,7 +2535,7 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     }
     else if ((a2 == 14 && a3 != 4) || a2 != 5 || a3 != 1)
     {
-        swprintf(word_67C7D8, L"%s", temp->field_6_element_name_str);
+        swprintf(word_67C7D8, WIDE_STRING_FORMAT_STRING, temp->field_6_element_name_str);
     }
     else if (field_EE0D < 3)
     {
@@ -2481,12 +2543,12 @@ void Frontend::sub_4B3CC0(u16 a2, u16 a3, wchar_t** a4)
     }
     else
     {
-        swprintf(word_67C7D8, L"%c", field_EE0D + 62);
+        swprintf(word_67C7D8, WIDE_CHAR_FORMAT_STRING, field_EE0D + 62);
     }
     *a4 = (wchar_t*)&word_67C7D8;
 }
 
-MATCH_FUNC(0x4B3DD0)
+// FUNCTION: 105 0x4B3DD0
 void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
     const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
@@ -2648,7 +2710,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
 }
 
-MATCH_FUNC(0x4B4280)
+// FUNCTION: 105 0x4B4280
 void Frontend::sub_4B4280()
 {
     wcsncpy(field_C9A0_curr_plyr_name,
@@ -2658,7 +2720,7 @@ void Frontend::sub_4B4280()
             9u);
 }
 
-MATCH_FUNC(0x4B8530)
+// FUNCTION: 105 0x4B8530
 void Frontend::sub_4B8530()
 {
     u16 total = field_C9CA;
@@ -2668,12 +2730,23 @@ void Frontend::sub_4B8530()
     }
 }
 
-MATCH_FUNC(0x4B8560)
+// STRING: 105 0x62051c
+#define STRING_WFUSDFCF L"WFUSDFCF"
+// STRING: 105 0x62050c
+#define STRING_DO_PLAY_MOVIE "do_play_movie"
+// STRING: 105 0x620504
+#define STRING_FR_RNT1 "fr_rnt1"
+// STRING: 105 0x6204fc
+#define STRING_FR_RNT2 "fr_rnt2"
+// STRING: 105 0x6204f4
+#define STRING_FR_RNT3 "fr_rnt3"
+
+// FUNCTION: 105 0x4B8560
 void Frontend::sub_4B8560()
 {
-    if (!wcscmp(field_C9B8, L"WFUSDFCF")) // french bonus mission unlocks?
+    if (!wcscmp(field_C9B8, STRING_WFUSDFCF)) // french bonus mission unlocks?
     {
-        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) == 1)
+        if (intro_bik_exists_4B5FF0() && gRegistry_6FF968.Get_Screen_Setting_5870D0(STRING_DO_PLAY_MOVIE, 1) == 1)
         {
             sub_4B3170(8u);
         }
@@ -2694,20 +2767,20 @@ void Frontend::sub_4B8560()
         field_C9B6 = 5;
 
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt1"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT1),
                 0x32u);
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt2"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT2),
                 0x32u);
         wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str,
-                gText_0x14_704DFC->Find_5B5F90("fr_rnt3"),
+                gText_0x14_704DFC->Find_5B5F90(STRING_FR_RNT3),
                 0x32u);
 
         field_C9CB = 1;
     }
 }
 
-MATCH_FUNC(0x4B8020)
+// FUNCTION: 105 0x4B8020
 void Frontend::sub_4B8020()
 {
     player_stats_0xA4* pClarke = sub_4B43E0();
@@ -2737,14 +2810,14 @@ void Frontend::sub_4B8020()
     }
 }
 
-STUB_FUNC(0x4B7E10)
+// STUB: 105 0x4B7E10
 EXPORT int __stdcall Frontend::sub_4B7E10(s32 str_id_idx, u16 text_xpos, u16 text_ypos, s32 fontType, s32 draw_kind)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x4B7FB0)
+// FUNCTION: 105 0x4B7FB0
 char_type Frontend::sub_4B7FB0()
 {
     player_stats_0xA4* v2 = sub_4B43E0();
@@ -2766,7 +2839,7 @@ char_type Frontend::sub_4B7FB0()
     return true;
 }
 
-MATCH_FUNC(0x4B4D00)
+// FUNCTION: 105 0x4B4D00
 void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
@@ -2797,7 +2870,7 @@ void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     }
 }
 
-STUB_FUNC(0x4ADF50)
+// STUB: 105 0x4ADF50
 void Frontend::sub_4ADF50()
 {
     NOT_IMPLEMENTED;
@@ -2926,12 +2999,12 @@ void Frontend::sub_4ADF50()
         }
 
         default:
-            FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            FatalError_4A38C0(0x3EE, FRONTEND2_CPP_STRING, 1217, field_110_state);
             break;
     }
 }
 
-STUB_FUNC(0x5D7D30)
+// STUB: 105 0x5D7D30
 EXPORT void __stdcall sub_5D7D30()
 {
     NOT_IMPLEMENTED;
@@ -2954,13 +3027,13 @@ EXPORT void __stdcall sub_5D7D30()
     pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
-MATCH_FUNC(0x5D7DC0)
+// FUNCTION: 105 0x5D7DC0
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
     pVid_FreeSurface(gVidSys_7071D0);
 }
 
-MATCH_FUNC(0x4ADFB0)
+// FUNCTION: 105 0x4ADFB0
 void Frontend::sub_4ADFB0()
 {
     sub_5D7D30();
@@ -2979,7 +3052,7 @@ void Frontend::sub_4ADFB0()
 
 // https://decomp.me/scratch/IOmk7
 // TODO: stop the tail merge... somehow
-STUB_FUNC(0x4B6E10)
+// STUB: 105 0x4B6E10
 void Frontend::DrawBackground_4B6E10()
 {
     NOT_IMPLEMENTED;
@@ -3024,7 +3097,7 @@ void Frontend::DrawBackground_4B6E10()
     }
 }
 
-MATCH_FUNC(0x4B6B00)
+// FUNCTION: 105 0x4B6B00
 void Frontend::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
 {
     switch (a1)
@@ -3124,35 +3197,35 @@ void Frontend::sub_4B6B00(u8 a1, BYTE* pTgaIdx, BYTE* a3)
     }
 }
 
-MATCH_FUNC(0x4B6520)
+// FUNCTION: 105 0x4B6520
 void Frontend::Load_tga_4B6520(u16 idx)
 {
     Error_SetName_4A0770(tgaArray_61F0C8[idx].field_0_tga_name);
 
-    FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
+    FILE* hFile = ::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(16, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
+        FatalError_4A38C0(16, FRONTEND2_CPP_STRING, 6516);
     }
 
     void* pAlloc = malloc(tgaArray_61F0C8[idx].field_80_len);
     if (!pAlloc)
     {
-        FatalError_4A38C0(174, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
+        FatalError_4A38C0(174, FRONTEND2_CPP_STRING, 6523);
     }
 
-    if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
+    if (::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
     {
-        FatalError_4A38C0(187, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
+        FatalError_4A38C0(187, FRONTEND2_CPP_STRING, 6529);
     }
 
     tgaArray_61F0C8[idx].field_84_img = pgbh_LoadImage((SImage*)pAlloc);
 
-    crt::fclose(hFile);
+    ::fclose(hFile);
     free(pAlloc);
 }
 
-STUB_FUNC(0x5D7CB0)
+// STUB: 105 0x5D7CB0
 EXPORT void __stdcall sub_5D7CB0()
 {
     NOT_IMPLEMENTED;
@@ -3160,7 +3233,7 @@ EXPORT void __stdcall sub_5D7CB0()
 }
 
 // https://decomp.me/scratch/MuqZh
-STUB_FUNC(0x4AF2A0)
+// STUB: 105 0x4AF2A0
 Frontend::Frontend()
 {
     NOT_IMPLEMENTED;
@@ -3169,19 +3242,19 @@ Frontend::Frontend()
     gText_0x14_704DFC = new text_0x14();
     if (!gText_0x14_704DFC)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
+        FatalError_4A38C0(32, FRONTEND2_CPP_STRING, 2288);
     }
 
     gGtx_0x106C_703DD4 = new gtx_0x106C();
     if (!gGtx_0x106C_703DD4)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
+        FatalError_4A38C0(32, FRONTEND2_CPP_STRING, 2290);
     }
 
     gSharp_pare_0x15D8_705064 = new sharp_pare_0x15D8();
     if (!gSharp_pare_0x15D8_705064)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
+        FatalError_4A38C0(32, FRONTEND2_CPP_STRING, 2292);
     }
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
@@ -3190,7 +3263,7 @@ Frontend::Frontend()
         gMagical_germain_0x8EC_6F5168 = new magical_germain_0x8EC();
         if (!gMagical_germain_0x8EC_6F5168)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
+            FatalError_4A38C0(32, FRONTEND2_CPP_STRING, 2297);
         }
     }
     InitKeyBoardDevice_4AFBE0();
@@ -3288,7 +3361,10 @@ Frontend::Frontend()
     }
 }
 
-MATCH_FUNC(0x4AF970)
+// FUNCTION: 105 0x5fb5f1 SYMBOL
+// SEH_5fb5f1
+
+// FUNCTION: 105 0x4AF970
 Frontend::~Frontend()
 {
     FreeKeyBoardDevice_4AFD00();
@@ -3316,7 +3392,7 @@ Frontend::~Frontend()
     FreeImageTable_4B6750();
 }
 
-MATCH_FUNC(0x4AFD70)
+// FUNCTION: 105 0x4AFD70
 void Frontend::AcquireKeyBoard_4AFD70()
 {
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
@@ -3325,7 +3401,7 @@ void Frontend::AcquireKeyBoard_4AFD70()
     }
 }
 
-MATCH_FUNC(0x4AFD00)
+// FUNCTION: 105 0x4AFD00
 void Frontend::FreeKeyBoardDevice_4AFD00()
 {
     if (field_4_pKeyboardDevice)
@@ -3336,13 +3412,13 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
     }
 }
 
-MATCH_FUNC(0x4B6750)
+// FUNCTION: 105 0x4B6750
 void Frontend::FreeImageTable_4B6750()
 {
     pgbh_FreeImageTable();
 }
 
-MATCH_FUNC(0x4AFDD0)
+// FUNCTION: 105 0x4AFDD0
 char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
@@ -3363,7 +3439,7 @@ char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
     return 1;
 }
 
-MATCH_FUNC(0x4AFBE0)
+// FUNCTION: 105 0x4AFBE0
 void Frontend::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
@@ -3371,23 +3447,23 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
 
     if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, 0) < 0)
     {
-        FatalError_4A38C0(31, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
+        FatalError_4A38C0(31, FRONTEND2_CPP_STRING, 2469);
     }
 
     if (field_4_pKeyboardDevice->SetDataFormat(&gKeyboardDataFormat_601A54) < 0)
     {
-        FatalError_4A38C0(9, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2480);
+        FatalError_4A38C0(9, FRONTEND2_CPP_STRING, 2480);
     }
 
     if (field_4_pKeyboardDevice->SetCooperativeLevel(gHwnd_707F04, 6) < 0)
     {
-        FatalError_4A38C0(10, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
+        FatalError_4A38C0(10, FRONTEND2_CPP_STRING, 2487);
     }
 
     AcquireKeyBoard_4AFD70();
 }
 
-MATCH_FUNC(0x4AF0E0)
+// FUNCTION: 105 0x4AF0E0
 void Frontend::sub_4AF0E0()
 {
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
@@ -3420,7 +3496,7 @@ void Frontend::sub_4AF0E0()
     }
 }
 
-STUB_FUNC(0x4B0220)
+// STUB: 105 0x4B0220
 void Frontend::sub_4B0220()
 {
     NOT_IMPLEMENTED;
@@ -3998,7 +4074,7 @@ void Frontend::sub_4B0220()
     field_EE0E_unk.sub_483F20();
 }
 
-STUB_FUNC(0x4B4440)
+// STUB: 105 0x4B4440
 void Frontend::sub_4B4440()
 {
     NOT_IMPLEMENTED;
@@ -4015,12 +4091,12 @@ void Frontend::sub_4B4440()
     long hFind = _findfirst("data\\*.seq", &findInfo);
     if (hFind == -1)
     {
-        FatalError_4A38C0(0x98, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876); // SeqFileNotFound
+        FatalError_4A38C0(0x98, FRONTEND2_CPP_STRING, 4876); // SeqFileNotFound
     }
 
     if (!_findnext(hFind, &findInfo))
     {
-        FatalError_4A38C0(0x99, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883); // MultipleSeqFilesFound
+        FatalError_4A38C0(0x99, FRONTEND2_CPP_STRING, 4883); // MultipleSeqFilesFound
     }
 
     strcpy(seqFileName, "data\\");
@@ -4033,15 +4109,15 @@ void Frontend::sub_4B4440()
 
     u16 block_idx = 0;
 
-    FILE* hSeqFile = crt::fopen(seqFileName, "rt");
+    FILE* hSeqFile = ::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
-        FatalError_4A38C0(0x9A, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906); // SeqFileOpenError
+        FatalError_4A38C0(0x9A, FRONTEND2_CPP_STRING, 4906); // SeqFileOpenError
     }
 
     GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
 
-    while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
+    while (strcmp(mainOrBonus, byte_67DC88) != 0) 
     {
         if (strcmp(mainOrBonus, "MAIN") == 0)
         {
@@ -4049,7 +4125,7 @@ void Frontend::sub_4B4440()
             {
                 if (++block_idx > 2u)
                 {
-                    FatalError_4A38C0(0x9B, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922); // TooManyMainBlocks
+                    FatalError_4A38C0(0x9B, FRONTEND2_CPP_STRING, 4922); // TooManyMainBlocks
                 }
             }
             bIncBlock = 1;
@@ -4060,16 +4136,16 @@ void Frontend::sub_4B4440()
         {
             if (strcmp(mainOrBonus, "BONUS"))
             {
-                FatalError_4A38C0(0x9E, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959); // InvalidBlockType
+                FatalError_4A38C0(0x9E, FRONTEND2_CPP_STRING, 4959); // InvalidBlockType
             }
             if (!bIncBlock)
             {
-                FatalError_4A38C0(0x9C, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940); // MainBlockMustPrecedeBonus
+                FatalError_4A38C0(0x9C, FRONTEND2_CPP_STRING, 4940); // MainBlockMustPrecedeBonus
             }
             pBlock = &this->field_1EB51_blocks[block_idx];
             if (*pBlock > 3u)
             {
-                FatalError_4A38C0(0x9D, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945); // TooManyBonusBlocks
+                FatalError_4A38C0(0x9D, FRONTEND2_CPP_STRING, 4945); // TooManyBonusBlocks
             }
         }
 
@@ -4083,10 +4159,21 @@ void Frontend::sub_4B4440()
     }
 
     this->field_1EB50_idx = block_idx + 1;
-    crt::fclose(hSeqFile);
+    ::fclose(hSeqFile);
 }
 
-MATCH_FUNC(0x4B48D0)
+// STRING: 105 0x6203c4
+#define MAIN_OR_BONUS_STRING "MainOrBonus"
+// STRING: 105 0x6203bc
+#define GMP_FILE_STRING "GMPFile"
+// STRING: 105 0x6203b4
+#define STY_FILE_STRING "STYFile"
+// STRING: 105 0x6203ac
+#define SCR_FILE_STRING "SCRFile"
+// STRING: 105 0x6203a0
+#define DESCRIPTION_STRING "Description"
+
+// FUNCTION: 105 0x4B48D0
 void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
@@ -4108,7 +4195,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
     {
         if ((letter < 'a' || letter > 'z') && (letter < 'A' || letter > 'Z'))
         {
-            FatalError_4A38C0(0x9F, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014); // InvalidFirstLineCharacter
+            FatalError_4A38C0(0x9F, FRONTEND2_CPP_STRING, 5014); // InvalidFirstLineCharacter
         }
 
         while (letter != '=')
@@ -4117,11 +4204,11 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
             letter = File::SkipWhitespace_4A7340(hSeqFile);
             if (!letter)
             {
-                FatalError_4A38C0(0xA0, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026); // LineInterruptedByNewline
+                FatalError_4A38C0(0xA0, FRONTEND2_CPP_STRING, 5026); // LineInterruptedByNewline
             }
             if (pos > 0xFFu)
             {
-                FatalError_4A38C0(0xA1, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031); // LabelTooLong
+                FatalError_4A38C0(0xA1, FRONTEND2_CPP_STRING, 5031); // LabelTooLong
             }
         } // 0x3d
         output_buf[pos] = 0;
@@ -4129,22 +4216,22 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         switch (type & 0xff) // TODO: Wrong type ??
         {
             case 0:
-                strcpy(type_buf, "MainOrBonus");
+                strcpy(type_buf, MAIN_OR_BONUS_STRING);
                 break;
             case 1:
-                strcpy(type_buf, "GMPFile");
+                strcpy(type_buf, GMP_FILE_STRING);
                 break;
             case 2:
-                strcpy(type_buf, "STYFile");
+                strcpy(type_buf, STY_FILE_STRING);
                 break;
             case 3:
-                strcpy(type_buf, "SCRFile");
+                strcpy(type_buf, SCR_FILE_STRING);
                 break;
             case 4:
-                strcpy(type_buf, "Description");
+                strcpy(type_buf, DESCRIPTION_STRING);
                 break;
             default:
-                FatalError_4A38C0(0xA2, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056); // UndefinedLabel
+                FatalError_4A38C0(0xA2, FRONTEND2_CPP_STRING, 5056); // UndefinedLabel
                 break;
         }
 
@@ -4160,7 +4247,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
                     letter = File::SkipWhitespace_4A7340(hSeqFile);
                     if (pos > 255u)
                     {
-                        FatalError_4A38C0(0xA3, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074); // LineDataTooLong
+                        FatalError_4A38C0(0xA3, FRONTEND2_CPP_STRING, 5074); // LineDataTooLong
                     }
                 } while (letter);
             }
@@ -4169,12 +4256,12 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         }
         else
         {
-            FatalError_4A38C0(0xA4, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086); // UnexpectedLabel
+            FatalError_4A38C0(0xA4, FRONTEND2_CPP_STRING, 5086); // UnexpectedLabel
         }
     }
 }
 
-MATCH_FUNC(0x4B53C0)
+// FUNCTION: 105 0x4B53C0
 void Frontend::LoadPlySlotSvgs_4B53C0()
 {
     char_type FileName[256];
@@ -4195,7 +4282,7 @@ void Frontend::LoadPlySlotSvgs_4B53C0()
     }
 }
 
-MATCH_FUNC(0x4B66B0)
+// FUNCTION: 105 0x4B66B0
 void Frontend::Load_tgas_4B66B0()
 {
     if (pgbh_InitImageTable(gTableSize_61FF20) != -1)
@@ -4207,17 +4294,23 @@ void Frontend::Load_tgas_4B66B0()
     }
 }
 
-MATCH_FUNC(0x4B51D0)
+// STRING: 105 0x6203d8
+#define PLAYER_PLYSLOT_PATH_STRING "player\\plyslot"
+
+// STRING: 105 0x6203D0
+#define SVG_EXT_STRING ".svg"
+
+// FUNCTION: 105 0x4B51D0
 void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
 {
     char_type Buffer[8];
     _itoa(idx, Buffer, 10);
-    strcpy(pStr, "player\\plyslot");
+    strcpy(pStr, PLAYER_PLYSLOT_PATH_STRING);
     strcat(pStr, Buffer);
-    strcat(pStr, ".svg");
+    strcat(pStr, SVG_EXT_STRING);
 }
 
-MATCH_FUNC(0x4B5370)
+// FUNCTION: 105 0x4B5370
 char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
@@ -4234,7 +4327,7 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
     return 1;
 }
 
-MATCH_FUNC(0x4B77B0)
+// FUNCTION: 105 0x4B77B0
 u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
 {
     u8 result;
@@ -4251,7 +4344,7 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
-MATCH_FUNC(0x5E53C0)
+// FUNCTION: 105 0x5E53C0
 void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 {
     if (bDoFrontEnd_626B68)
@@ -4267,7 +4360,7 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
     }
 }
 
-MATCH_FUNC(0x5D8990)
+// FUNCTION: 105 0x5D8990
 s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
 {
     wchar_t* pStrIter = pStr;
@@ -4306,7 +4399,7 @@ s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
     return biggestLine;
 }
 
-MATCH_FUNC(0x4B78B0)
+// FUNCTION: 105 0x4B78B0
 void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 arg_C, s32 a2, u16 a6, u16 a7, u8 pStr)
 {
     u16 text_xbase;
@@ -4345,7 +4438,10 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
     }
 }
 
-MATCH_FUNC(0x4B55F0)
+// STRING: 105 0x6203f0
+#define TAG_TIMER_FORMAT_STRING L"%2d:%02d"
+
+// FUNCTION: 105 0x4B55F0
 void Frontend::sub_4B55F0()
 {
     s8 game_mode = gLucid_hamilton_67E8E0.sub_4C5BC0();
@@ -4377,7 +4473,7 @@ void Frontend::sub_4B55F0()
         else // tag game
         {
             s32 player_time = gYouthful_einstein_6F8450.field_4_time[player_idx];
-            swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
+            swprintf(Buffer, TAG_TIMER_FORMAT_STRING, player_time / 60, player_time % 60);
             x_pos = 500;
             y_pos = 20 * player_idx + 170;
         }
@@ -4397,7 +4493,7 @@ void Frontend::sub_4B55F0()
     }
 }
 
-MATCH_FUNC(0x4B57B0)
+// FUNCTION: 105 0x4B57B0
 void Frontend::sub_4B57B0(u16 a3, u16 a5)
 {
     u16 font_type = field_12A;
@@ -4519,7 +4615,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     Frontend::sub_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, v4, 1);
 }
 
-MATCH_FUNC(0x4B0190)
+// FUNCTION: 105 0x4B0190
 u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
 {
     u16 v4;
@@ -4534,7 +4630,7 @@ u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
     return width - v4;
 }
 
-MATCH_FUNC(0x4B7060)
+// FUNCTION: 105 0x4B7060
 u8 Frontend::sub_4B7060(u8 a2)
 {
     player_stats_0xA4* v2 = sub_4B43E0();
@@ -4558,7 +4654,7 @@ u8 Frontend::sub_4B7060(u8 a2)
     }
 }
 
-STUB_FUNC(0x4B7270)
+// STUB: 105 0x4B7270
 u8 Frontend::sub_4B7270(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4595,7 +4691,7 @@ u8 Frontend::sub_4B7270(char_type a2)
     return result;
 }
 
-MATCH_FUNC(0x4B7490)
+// FUNCTION: 105 0x4B7490
 bool Frontend::sub_4B7490()
 {
     u8 v2 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4603,7 +4699,7 @@ bool Frontend::sub_4B7490()
     return result;
 }
 
-MATCH_FUNC(0x4B74C0)
+// FUNCTION: 105 0x4B74C0
 bool Frontend::sub_4B74C0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4611,12 +4707,12 @@ bool Frontend::sub_4B74C0()
     return result;
 }
 
-MATCH_FUNC(0x4B7550)
+// FUNCTION: 105 0x4B7550
 void Frontend::sub_4B7550()
 {
     MenuPage_0xBCA* pBorg = &field_136_menu_pages_array[field_132_f136_idx];
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
-    swprintf(tmpBuff_67BD9C, L"%d", v3 + 1);
+    swprintf(tmpBuff_67BD9C, PERCENT_D_STRING_WIDE, v3 + 1);
     wcsncpy(pBorg->field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
 
     if (sub_4B7490())
@@ -4642,7 +4738,7 @@ void Frontend::sub_4B7550()
     }
 }
 
-MATCH_FUNC(0x4B6FF0)
+// FUNCTION: 105 0x4B6FF0
 bool Frontend::sub_4B6FF0()
 {
     u8 v3 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4655,7 +4751,7 @@ bool Frontend::sub_4B6FF0()
     return result;
 }
 
-MATCH_FUNC(0x4B42B0)
+// FUNCTION: 105 0x4B42B0
 void Frontend::sub_4B42B0()
 {
     u16 name_length = field_C9B2_curr_plyr_name_length;
@@ -4665,7 +4761,7 @@ void Frontend::sub_4B42B0()
     }
 }
 
-STUB_FUNC(0x4B7120)
+// STUB: 105 0x4B7120
 char_type Frontend::sub_4B7120(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4673,7 +4769,7 @@ char_type Frontend::sub_4B7120(char_type a2)
     return 0;
 }
 
-MATCH_FUNC(0x4B7610)
+// FUNCTION: 105 0x4B7610
 void Frontend::sub_4B7610()
 {
     MenuPage_0xBCA* pItem = &field_136_menu_pages_array[field_132_f136_idx];
@@ -4724,7 +4820,7 @@ void Frontend::sub_4B7610()
     }
 }
 
-MATCH_FUNC(0x4B70B0)
+// FUNCTION: 105 0x4B70B0
 bool Frontend::sub_4B70B0()
 {
     s8 v3 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4737,7 +4833,7 @@ bool Frontend::sub_4B70B0()
     return result;
 }
 
-MATCH_FUNC(0x4B74F0)
+// FUNCTION: 105 0x4B74F0
 bool Frontend::sub_4B74F0()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4745,7 +4841,7 @@ bool Frontend::sub_4B74F0()
     return result;
 }
 
-STUB_FUNC(0x4B7360)
+// STUB: 105 0x4B7360
 char_type Frontend::sub_4B7360(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -4753,7 +4849,7 @@ char_type Frontend::sub_4B7360(char_type a2)
     return 0;
 }
 
-MATCH_FUNC(0x4B7520)
+// FUNCTION: 105 0x4B7520
 bool Frontend::sub_4B7520()
 {
     char_type v2 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4761,7 +4857,7 @@ bool Frontend::sub_4B7520()
     return result;
 }
 
-MATCH_FUNC(0x4B72F0)
+// FUNCTION: 105 0x4B72F0
 bool Frontend::sub_4B72F0()
 {
     char_type v3 = gLucid_hamilton_67E8E0.sub_4C5990();
@@ -4774,7 +4870,7 @@ bool Frontend::sub_4B72F0()
     return result;
 }
 
-MATCH_FUNC(0x4B7200)
+// FUNCTION: 105 0x4B7200
 bool Frontend::sub_4B7200()
 {
     char_type v3 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -4787,14 +4883,17 @@ bool Frontend::sub_4B7200()
     return result;
 }
 
-STUB_FUNC(0x4B4EC0)
+// STUB: 105 0x4B4EC0
 void Frontend::sub_4B4EC0()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-MATCH_FUNC(0x4B6070)
+// FUNCTION: 105 0x5fb631 SYMBOL
+// SEH_5fb631
+
+// FUNCTION: 105 0x4B6070
 MenuPage_0xBCA::MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
@@ -4803,7 +4902,10 @@ MenuPage_0xBCA::MenuPage_0xBCA()
     field_BC8 = 0;
 }
 
-MATCH_FUNC(0x4B6110)
+// FUNCTION: 105 0x5fb671 SYMBOL
+// SEH_5fb671
+
+// FUNCTION: 105 0x4B6110
 MenuPage_0xBCA::~MenuPage_0xBCA()
 {
     field_0_number_of_options = 0;
@@ -4812,7 +4914,7 @@ MenuPage_0xBCA::~MenuPage_0xBCA()
     field_BC8 = 0;
 }
 
-MATCH_FUNC(0x4B61B0)
+// FUNCTION: 105 0x4B61B0
 bool MenuPage_0xBCA::sub_4B61B0()
 {
     u16 oldIdx = field_BC6_current_option_idx;
@@ -4830,7 +4932,7 @@ bool MenuPage_0xBCA::sub_4B61B0()
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
-MATCH_FUNC(0x4B6200)
+// FUNCTION: 105 0x4B6200
 bool MenuPage_0xBCA::sub_4B6200()
 {
     u16 oldIdx = field_BC6_current_option_idx;
@@ -4848,7 +4950,7 @@ bool MenuPage_0xBCA::sub_4B6200()
     return oldIdx != field_BC6_current_option_idx ? true : false;
 }
 
-MATCH_FUNC(0x4B63E0)
+// FUNCTION: 105 0x4B63E0
 menu_element_0x6E::menu_element_0x6E()
 {
     field_0_element_type = NULL_TYPE_0;
@@ -4860,7 +4962,7 @@ menu_element_0x6E::menu_element_0x6E()
     field_6C_font_variant = -1;
 }
 
-MATCH_FUNC(0x4B6420)
+// FUNCTION: 105 0x4B6420
 menu_element_0x6E::~menu_element_0x6E()
 {
     field_1_is_it_displayed = 1;
@@ -4871,7 +4973,7 @@ menu_element_0x6E::~menu_element_0x6E()
     field_6C_font_variant = -1;
 }
 
-MATCH_FUNC(0x4B6290)
+// FUNCTION: 105 0x4B6290
 menu_option_0x82::menu_option_0x82()
 {
     field_6A = -1;
@@ -4893,7 +4995,7 @@ menu_option_0x82::menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-MATCH_FUNC(0x4B62F0)
+// FUNCTION: 105 0x4B62F0
 menu_option_0x82::~menu_option_0x82()
 {
     field_0_option_type = NULL_TYPE_0;
@@ -4908,7 +5010,7 @@ menu_option_0x82::~menu_option_0x82()
     field_80_menu_page_target = 0;
 }
 
-STUB_FUNC(0x4B6330)
+// STUB: 105 0x4B6330
 bool menu_option_0x82::sub_4B6330()
 {
     NOT_IMPLEMENTED;
@@ -4943,7 +5045,7 @@ bool menu_option_0x82::sub_4B6330()
     return old_count != new_count ? true : false;
 }
 
-STUB_FUNC(0x4B6390)
+// STUB: 105 0x4B6390
 bool menu_option_0x82::sub_4B6390()
 {
     NOT_IMPLEMENTED;
@@ -4978,7 +5080,7 @@ bool menu_option_0x82::sub_4B6390()
     return oldCount != new_count ? true : false;
 }
 
-MATCH_FUNC(0x4B6260)
+// FUNCTION: 105 0x4B6260
 kind_beaver_6::kind_beaver_6()
 {
     field_0 = 0;
@@ -4986,7 +5088,7 @@ kind_beaver_6::kind_beaver_6()
     field_4_is_option_unlocked = 1;
 }
 
-MATCH_FUNC(0x4B6280)
+// FUNCTION: 105 0x4B6280
 kind_beaver_6::~kind_beaver_6()
 {
     field_0 = 0;
@@ -4994,7 +5096,7 @@ kind_beaver_6::~kind_beaver_6()
     field_4_is_option_unlocked = 1;
 }
 
-MATCH_FUNC(0x4B6440)
+// FUNCTION: 105 0x4B6440
 admiring_euler_4::admiring_euler_4()
 {
     field_0_save_exists = false;
@@ -5003,7 +5105,7 @@ admiring_euler_4::admiring_euler_4()
     field_3 = 0;
 }
 
-MATCH_FUNC(0x4B6450)
+// FUNCTION: 105 0x4B6450
 admiring_euler_4::~admiring_euler_4()
 {
     field_0_save_exists = false;
@@ -5012,7 +5114,7 @@ admiring_euler_4::~admiring_euler_4()
     field_3 = 0;
 }
 
-MATCH_FUNC(0x4B6480)
+// FUNCTION: 105 0x4B6480
 void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
 {
     File::Global_Open_4A7060(FileName);
@@ -5033,10 +5135,11 @@ struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 {
     Vert field_0_verts[4];
 };
-DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
+// GLOBAL: 105 0x706B88
+DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
-MATCH_FUNC(0x5D83E0);
+// FUNCTION: 105 0x5D83E0;
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 {
     switch (mode)
@@ -5060,9 +5163,10 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
     }
 }
 
-DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
+// GLOBAL: 105 0x706A6C
+DEFINE_GLOBAL(Fix16, dword_706A6C);
 
-STUB_FUNC(0x5D8A10)
+// STUB: 105 0x5D8A10
 void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 xpos_fp,
                                Fix16 ypos_fp,
@@ -5233,7 +5337,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     }
 }
 
-MATCH_FUNC(0x4B87A0)
+// FUNCTION: 105 0x4B87A0
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
     s32 local; // [esp+0h] [ebp-4h] BYREF

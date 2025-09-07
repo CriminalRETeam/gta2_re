@@ -4,9 +4,10 @@
 #include "debug.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(Sero_181C*, gSero_181C_6FF1D4, 0x6FF1D4);
+// GLOBAL: 105 0x6FF1D4
+DEFINE_GLOBAL(Sero_181C*, gSero_181C_6FF1D4);
 
-MATCH_FUNC(0x577E20)
+// FUNCTION: 105 0x577E20
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
 {
     switch (param_1)
@@ -24,13 +25,13 @@ char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
     }
 }
 
-STUB_FUNC(0x578030)
+// STUB: 105 0x578030
 void Train_58::sub_578030()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x578180)
+// FUNCTION: 105 0x578180
 void Train_58::sub_578180()
 {
     if (!bSkip_trains_67D550)
@@ -59,7 +60,7 @@ void Train_58::sub_578180()
     }
 }
 
-MATCH_FUNC(0x5781f0)
+// FUNCTION: 105 0x5781f0
 void Train_58::sub_5781F0()
 {
     if (!bSkip_trains_67D550)
@@ -88,7 +89,7 @@ void Train_58::sub_5781F0()
     }
 }
 
-MATCH_FUNC(0x578260)
+// FUNCTION: 105 0x578260
 Train_58::Train_58()
 {
     Car_BC** ppCVar1;
@@ -124,14 +125,14 @@ Train_58::Train_58()
     field_1 = 0;
 }
 
-MATCH_FUNC(0x5782c0)
+// FUNCTION: 105 0x5782c0
 Train_58::~Train_58()
 {
     this->field_C_first_carriage = 0;
     this->field_4C = 0;
 }
 
-MATCH_FUNC(0x5782d0)
+// FUNCTION: 105 0x5782d0
 void Train_58::sub_5782D0()
 {
     if (!bSkip_trains_67D550)
@@ -147,7 +148,7 @@ void Train_58::sub_5782D0()
     }
 }
 
-MATCH_FUNC(0x578300)
+// FUNCTION: 105 0x578300
 void Train_58::sub_578300()
 {
     if (!bSkip_trains_67D550)
@@ -161,7 +162,7 @@ void Train_58::sub_578300()
     }
 }
 
-MATCH_FUNC(0x578330)
+// FUNCTION: 105 0x578330
 void Train_58::sub_578330()
 {
     if (!bSkip_trains_67D550)
@@ -179,7 +180,7 @@ void Train_58::sub_578330()
     }
 }
 
-MATCH_FUNC(0x578360)
+// FUNCTION: 105 0x578360
 void Train_58::sub_578360()
 {
     if (!bSkip_trains_67D550)
@@ -197,20 +198,20 @@ void Train_58::sub_578360()
     }
 }
 
-STUB_FUNC(0x578390)
+// STUB: 105 0x578390
 void Train_58::sub_578390()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x578670)
+// STUB: 105 0x578670
 u8 Train_58::sub_578670()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x577f80)
+// FUNCTION: 105 0x577f80
 s32 TrainStation_34::GetWagonType_577f80(u8 idx)
 {
     if (field_24_train_wagons[0] != 0)
@@ -228,7 +229,7 @@ s32 TrainStation_34::GetWagonType_577f80(u8 idx)
     return car_model_enum::none;
 }
 
-MATCH_FUNC(0x577fd0)
+// FUNCTION: 105 0x577fd0
 TrainStation_34::TrainStation_34()
 {
     field_0_bus_or_train = 0;
@@ -249,7 +250,7 @@ TrainStation_34::TrainStation_34()
     }
 }
 
-MATCH_FUNC(0x578010)
+// FUNCTION: 105 0x578010
 TrainStation_34::~TrainStation_34()
 {
     field_18 = 0;
@@ -260,7 +261,7 @@ TrainStation_34::~TrainStation_34()
     field_20_next_station = NULL;
 }
 
-MATCH_FUNC(0x578790)
+// FUNCTION: 105 0x578790
 Train_58* Sero_181C::AllocateTrain_578790()
 {
     if (bSkip_trains_67D550)
@@ -278,7 +279,7 @@ Train_58* Sero_181C::AllocateTrain_578790()
     return 0;
 }
 
-MATCH_FUNC(0x5787e0)
+// FUNCTION: 105 0x5787e0
 TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 {
     for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
@@ -292,7 +293,7 @@ TrainStation_34* Sero_181C::AllocateTrainStation_5787E0()
 }
 
 // NOTE: Declared out of order
-STUB_FUNC(0x578820)
+// STUB: 105 0x578820
 void TrainStation_34::sub_578820(u8* a2)
 {
     NOT_IMPLEMENTED;
@@ -314,47 +315,47 @@ void TrainStation_34::sub_578820(u8* a2)
     }
 }
 
-STUB_FUNC(0x578860)
+// STUB: 105 0x578860
 void Sero_181C::sub_578860()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5793e0)
+// STUB: 105 0x5793e0
 char_type Sero_181C::sub_5793E0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579440)
+// STUB: 105 0x579440
 gmp_map_zone* Sero_181C::sub_579440()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5794b0)
+// STUB: 105 0x5794b0
 gmp_map_zone* Sero_181C::sub_5794B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5799b0)
+// STUB: 105 0x5799b0
 char_type* Sero_181C::sub_5799B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579a30)
+// STUB: 105 0x579a30
 void Sero_181C::sub_579A30(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x579aa0)
+// FUNCTION: 105 0x579aa0
 bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
 {
     if (!bSkip_buses_67D558)
@@ -372,7 +373,7 @@ bool Sero_181C::is_bus_579AA0(Car_BC* pCar)
     return false;
 }
 
-MATCH_FUNC(0x579ad0)
+// FUNCTION: 105 0x579ad0
 Car_BC* Sero_181C::sub_579AD0()
 {
     if (bSkip_buses_67D558)
@@ -388,7 +389,7 @@ Car_BC* Sero_181C::sub_579AD0()
     return result;
 }
 
-MATCH_FUNC(0x579af0)
+// FUNCTION: 105 0x579af0
 bool Sero_181C::is_bus_full_579AF0()
 {
     if (bSkip_buses_67D558)
@@ -404,7 +405,7 @@ bool Sero_181C::is_bus_full_579AF0()
     return false;
 }
 
-MATCH_FUNC(0x579b10)
+// FUNCTION: 105 0x579b10
 void Sero_181C::sub_579B10()
 {
     if (!bSkip_buses_67D558)
@@ -413,7 +414,7 @@ void Sero_181C::sub_579B10()
     }
 }
 
-MATCH_FUNC(0x579b20)
+// FUNCTION: 105 0x579b20
 void Sero_181C::sub_579B20()
 {
     if (!bSkip_buses_67D558)
@@ -423,7 +424,7 @@ void Sero_181C::sub_579B20()
     }
 }
 
-MATCH_FUNC(0x579b40)
+// FUNCTION: 105 0x579b40
 Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_1450); i++)
@@ -437,26 +438,26 @@ Car_BC** Sero_181C::sub_579B40(Car_BC* toFind)
     return NULL;
 }
 
-STUB_FUNC(0x579b90)
+// STUB: 105 0x579b90
 bool Sero_181C::sub_579B90(Car_BC* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x579ca0)
+// STUB: 105 0x579ca0
 void Sero_181C::sub_579CA0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x57a7a0)
+// STUB: 105 0x57a7a0
 void Sero_181C::sub_57A7A0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x57b4b0)
+// FUNCTION: 105 0x57b4b0
 TrainStation_34* Sero_181C::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
 {
     TrainStation_34* pIter = &field_0[0];
@@ -471,7 +472,7 @@ TrainStation_34* Sero_181C::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
     return 0;
 }
 
-MATCH_FUNC(0x57b540)
+// FUNCTION: 105 0x57b540
 Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
 {
     if (!bSkip_trains_67D550 &&
@@ -486,14 +487,14 @@ Car_BC* Sero_181C::sub_57B540(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x57b5c0)
+// STUB: 105 0x57b5c0
 Train_58* Sero_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x57b6a0)
+// STUB: 105 0x57b6a0
 Train_58* Sero_181C::sub_57B6A0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
@@ -506,7 +507,7 @@ static inline bool IsTrainModel(s32 idx1)
         idx1 == car_model_enum::boxcar;
 }
 
-MATCH_FUNC(0x57b740)
+// FUNCTION: 105 0x57b740
 bool Sero_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
     if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
@@ -521,12 +522,18 @@ bool Sero_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
     return 0;
 }
 
-MATCH_FUNC(0x57b7b0)
+// FUNCTION: 105 0x5FC893 SYMBOL
+// SEH_5FC893
+
+// FUNCTION: 105 0x57b7b0
 Sero_181C::Sero_181C()
 {
 }
 
-MATCH_FUNC(0x57b820)
+// FUNCTION: 105 0x5FC8B3 SYMBOL
+// SEH_5FC8B3
+
+// FUNCTION: 105 0x57B820
 Sero_181C::~Sero_181C()
 {
 }

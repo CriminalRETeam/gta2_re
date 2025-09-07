@@ -3,7 +3,8 @@
 #include "Globals.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(cSampleManager, gSampManager_6FFF00, 0x6FFF00);
+// GLOBAL: 105 0x6FFF00
+DEFINE_GLOBAL(cSampleManager, gSampManager_6FFF00);
 
 struct voc_name
 {
@@ -109,7 +110,7 @@ const voc_name gVocNames_5FEA5C[98] = {{"accuracyb.wav"},
                                        {"laughc.wav"},
                                        {"laughd.wav"}};
 
-STUB_FUNC(0x58D400)
+// STUB: 105 0x58D400
 cSampleManager::cSampleManager()
 {
     NOT_IMPLEMENTED;
@@ -180,7 +181,7 @@ cSampleManager::cSampleManager()
     }
 }
 
-STUB_FUNC(0x58D620)
+// STUB: 105 0x58D620
 char_type cSampleManager::sub_58D620()
 {
     NOT_IMPLEMENTED;
@@ -208,7 +209,7 @@ char_type cSampleManager::sub_58D620()
     */
 }
 
-MATCH_FUNC(0x58D6C0)
+// FUNCTION: 105 0x58D6C0
 char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
@@ -231,7 +232,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
     return 1;
 }
 
-MATCH_FUNC(0x58D720)
+// FUNCTION: 105 0x58D720
 char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
 {
     struct lol
@@ -293,7 +294,7 @@ char_type cSampleManager::sub_58D720(char_type a2, char_type a3, s32 sampleRate)
     return 1;
 }
 
-MATCH_FUNC(0x58E1F0)
+// FUNCTION: 105 0x58E1F0
 void cSampleManager::Enum3DProviders_58E1F0()
 {
     HPROENUM hEnum = 0;
@@ -314,7 +315,7 @@ void cSampleManager::Enum3DProviders_58E1F0()
     field_2710_3d_provider_count = prov_counter;
 }
 
-MATCH_FUNC(0x58E2C0)
+// FUNCTION: 105 0x58E2C0
 bool cSampleManager::StreamStatus_58E2C0()
 {
     if (field_55_bMusicLoaded)
@@ -335,7 +336,7 @@ bool cSampleManager::StreamStatus_58E2C0()
     return 0;
 }
 
-MATCH_FUNC(0x58D9F0)
+// FUNCTION: 105 0x58D9F0
 char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
 {
     Terminate_58DAE0();
@@ -361,7 +362,7 @@ char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
     return 1;
 }
 
-MATCH_FUNC(0x58DAE0)
+// FUNCTION: 105 0x58DAE0
 void cSampleManager::Terminate_58DAE0()
 {
     for (u8 i = 0; i < field_1EB0_count_samples; i++)
@@ -371,7 +372,7 @@ void cSampleManager::Terminate_58DAE0()
     }
 }
 
-MATCH_FUNC(0x58DB30)
+// FUNCTION: 105 0x58DB30
 void cSampleManager::Shutdown_58DB30()
 {
     for (u32 i = 0; i < 2; ++i)
@@ -417,7 +418,7 @@ void cSampleManager::Shutdown_58DB30()
     AIL_shutdown();
 }
 
-MATCH_FUNC(0x58DBF0)
+// FUNCTION: 105 0x58DBF0
 s32 cSampleManager::GetPlayBackRateIdx_58DBF0(s32 idx)
 {
     const s32 playBackRate = field_A8_sdt_entries[idx].field_8_playBackRate;
@@ -428,13 +429,13 @@ s32 cSampleManager::GetPlayBackRateIdx_58DBF0(s32 idx)
     return playBackRate;
 }
 
-MATCH_FUNC(0x58DC10)
+// FUNCTION: 105 0x58DC10
 s32 cSampleManager::sub_58DC10(s32 idx)
 {
     return field_A8_sdt_entries[idx].field_C;
 }
 
-MATCH_FUNC(0x58D960)
+// FUNCTION: 105 0x58D960
 void cSampleManager::Reset3DSamples_58D960()
 {
     for (u32 i = 0; i < field_1EB2_3d_samp_count; i++)
@@ -459,25 +460,25 @@ void cSampleManager::Reset3DSamples_58D960()
     field_26BC_k17 = 0;
 }
 
-MATCH_FUNC(0x58DC30)
+// FUNCTION: 105 0x58DC30
 s32 cSampleManager::sub_58DC30(s32 a2)
 {
     return field_A8_sdt_entries[a2].field_10;
 }
 
-MATCH_FUNC(0x58DC50)
+// FUNCTION: 105 0x58DC50
 s32 cSampleManager::sub_58DC50(s32 a2)
 {
     return field_A8_sdt_entries[a2].field_14;
 }
 
-MATCH_FUNC(0x58DC70)
+// FUNCTION: 105 0x58DC70
 s32 cSampleManager::GetSampleLength_maybe_58DC70(s32 a2)
 {
     return field_A8_sdt_entries[a2].field_4_sample_length;
 }
 
-MATCH_FUNC(0x58DC90)
+// FUNCTION: 105 0x58DC90
 void cSampleManager::sub_58DC90(s32 channel, s32 a3)
 {
     if (field_58_hSamples[channel])
@@ -491,7 +492,7 @@ void cSampleManager::sub_58DC90(s32 channel, s32 a3)
     }
 }
 
-MATCH_FUNC(0x58DCE0)
+// FUNCTION: 105 0x58DCE0
 void cSampleManager::SetChannelVolume_58DCE0(s32 channel, s32 volume)
 {
     if (field_58_hSamples[channel])
@@ -500,7 +501,7 @@ void cSampleManager::SetChannelVolume_58DCE0(s32 channel, s32 volume)
     }
 }
 
-MATCH_FUNC(0x58DD00)
+// FUNCTION: 105 0x58DD00
 void cSampleManager::SetChannelPan_58DD00(s32 channel, s32 pan)
 {
     if (field_58_hSamples[channel])
@@ -509,7 +510,7 @@ void cSampleManager::SetChannelPan_58DD00(s32 channel, s32 pan)
     }
 }
 
-MATCH_FUNC(0x58DD20)
+// FUNCTION: 105 0x58DD20
 void cSampleManager::SetChannelFrequency_58DD20(s32 channel, s32 frequency)
 {
     if (field_58_hSamples[channel])
@@ -518,7 +519,7 @@ void cSampleManager::SetChannelFrequency_58DD20(s32 channel, s32 frequency)
     }
 }
 
-MATCH_FUNC(0x58DD40)
+// FUNCTION: 105 0x58DD40
 void cSampleManager::SetChannelLoopPoints_58DD40(s32 channel, s32 startOffset, s32 endOffset)
 {
     if (field_58_hSamples[channel])
@@ -527,7 +528,7 @@ void cSampleManager::SetChannelLoopPoints_58DD40(s32 channel, s32 startOffset, s
     }
 }
 
-MATCH_FUNC(0x58DD60)
+// FUNCTION: 105 0x58DD60
 void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
 {
     if (field_58_hSamples[channel])
@@ -536,7 +537,7 @@ void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
     }
 }
 
-MATCH_FUNC(0x58DD80)
+// FUNCTION: 105 0x58DD80
 bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel)
 {
     if (field_58_hSamples[channel])
@@ -547,7 +548,7 @@ bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel)
     return false;
 }
 
-MATCH_FUNC(0x58DDB0)
+// FUNCTION: 105 0x58DDB0
 void cSampleManager::StartChannel_58DDB0(s32 channel)
 {
     if (field_58_hSamples[channel])
@@ -556,7 +557,7 @@ void cSampleManager::StartChannel_58DDB0(s32 channel)
     }
 }
 
-MATCH_FUNC(0x58DDD0)
+// FUNCTION: 105 0x58DDD0
 void cSampleManager::StopChannel_58DDD0(s32 channel)
 {
     if (field_58_hSamples[channel])
@@ -565,7 +566,7 @@ void cSampleManager::StopChannel_58DDD0(s32 channel)
     }
 }
 
-MATCH_FUNC(0x58DDF0)
+// FUNCTION: 105 0x58DDF0
 bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
 {
     if (field_26C4_3d_sample[channel] && field_A4_bLoaded)
@@ -585,7 +586,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
     return 0;
 }
 
-MATCH_FUNC(0x58DE80)
+// FUNCTION: 105 0x58DE80
 void cSampleManager::SetChannel3DVolume_58DE80(s32 idx, s32 vol)
 {
     if (field_26C4_3d_sample[idx])
@@ -594,7 +595,7 @@ void cSampleManager::SetChannel3DVolume_58DE80(s32 idx, s32 vol)
     }
 }
 
-MATCH_FUNC(0x58DEA0)
+// FUNCTION: 105 0x58DEA0
 void cSampleManager::SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 z)
 {
     if (field_26C4_3d_sample[channel])
@@ -603,7 +604,7 @@ void cSampleManager::SetChannel3DPosition_58DEA0(s32 channel, f32 x, f32 y, f32 
     }
 }
 
-MATCH_FUNC(0x58DED0)
+// FUNCTION: 105 0x58DED0
 void cSampleManager::SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 minDist)
 {
     if (field_26C4_3d_sample[channel])
@@ -612,7 +613,7 @@ void cSampleManager::SetChannel3DDistances_58DED0(s32 channel, f32 maxDist, f32 
     }
 }
 
-MATCH_FUNC(0x58DF00)
+// FUNCTION: 105 0x58DF00
 void cSampleManager::SetChannel3DFrequency_58DF00(s32 channel, s32 freq)
 {
     if (field_26C4_3d_sample[channel])
@@ -621,7 +622,7 @@ void cSampleManager::SetChannel3DFrequency_58DF00(s32 channel, s32 freq)
     }
 }
 
-MATCH_FUNC(0x58DF20)
+// FUNCTION: 105 0x58DF20
 void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 a3, s32 a4)
 {
     if (field_26C4_3d_sample[channel])
@@ -630,7 +631,7 @@ void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 a3, s32 a4)
     }
 }
 
-MATCH_FUNC(0x58DF50)
+// FUNCTION: 105 0x58DF50
 void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 a3)
 {
     if (field_26C4_3d_sample[channel])
@@ -639,7 +640,7 @@ void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 a3)
     }
 }
 
-MATCH_FUNC(0x58DF70)
+// FUNCTION: 105 0x58DF70
 bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 a2)
 {
     if (field_26C4_3d_sample[a2])
@@ -650,7 +651,7 @@ bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 a2)
     return false;
 }
 
-MATCH_FUNC(0x58DFA0)
+// FUNCTION: 105 0x58DFA0
 void cSampleManager::StartChannel3D_58DFA0(s32 samp_idx)
 {
     if (field_26C4_3d_sample[samp_idx])
@@ -659,7 +660,7 @@ void cSampleManager::StartChannel3D_58DFA0(s32 samp_idx)
     }
 }
 
-MATCH_FUNC(0x58DFC0)
+// FUNCTION: 105 0x58DFC0
 void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 {
     if (field_26C4_3d_sample[samp_idx])
@@ -671,17 +672,20 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
     }
 }
 
-MATCH_FUNC(0x58E010)
+// STRING: 105 0x625200
+#define EAX_ENV_SELECT_STRING "EAX environment selection"
+
+// FUNCTION: 105 0x58E010
 void cSampleManager::sub_58E010(s32 a2)
 {
     if (field_26C0_3d_provider && field_26B8_bEaxSupported && a2 < 26)
     {
         field_26BC_k17 = a2;
-        AIL_set_3D_provider_preference(field_26C0_3d_provider, "EAX environment selection", &a2);
+        AIL_set_3D_provider_preference(field_26C0_3d_provider, EAX_ENV_SELECT_STRING, &a2);
     }
 }
 
-MATCH_FUNC(0x58E140)
+// FUNCTION: 105 0x58E140
 char_type cSampleManager::sub_58E140(s32 envIdx)
 {
     field_26B4_env_idx = envIdx;
@@ -696,7 +700,7 @@ char_type cSampleManager::sub_58E140(s32 envIdx)
 
         field_26C0_3d_provider = field_1EB4_h3dProvider[envIdx];
         // using another local for envIdx2 doesn't match here, meh
-        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &envIdx2);
+        AIL_3D_provider_attribute(field_26C0_3d_provider, EAX_ENV_SELECT_STRING, &envIdx2);
         if (envIdx2 != -1)
         {
             field_26B8_bEaxSupported = 1;
@@ -707,7 +711,7 @@ char_type cSampleManager::sub_58E140(s32 envIdx)
     return 0;
 }
 
-MATCH_FUNC(0x58E1C0)
+// FUNCTION: 105 0x58E1C0
 void cSampleManager::Close3DProvider_58E1C0()
 {
     if (field_26C0_3d_provider)
@@ -718,7 +722,7 @@ void cSampleManager::Close3DProvider_58E1C0()
     }
 }
 
-MATCH_FUNC(0x58DA80)
+// FUNCTION: 105 0x58DA80
 void cSampleManager::AllocSample_58DA80()
 {
     if (!field_98_hSample)
@@ -729,7 +733,7 @@ void cSampleManager::AllocSample_58DA80()
     }
 }
 
-MATCH_FUNC(0x58DAC0)
+// FUNCTION: 105 0x58DAC0
 void cSampleManager::ReleaseSample_58DAC0()
 {
     if (field_98_hSample)
@@ -739,7 +743,7 @@ void cSampleManager::ReleaseSample_58DAC0()
     }
 }
 
-STUB_FUNC(0x58E8C0)
+// STUB: 105 0x58E8C0
 void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
 {
     NOT_IMPLEMENTED;
@@ -762,7 +766,7 @@ void cSampleManager::sub_58E8C0(u32 idx, u32 a3)
     }
 }
 
-MATCH_FUNC(0x58E2F0)
+// FUNCTION: 105 0x58E2F0
 void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
 {
     if (field_55_bMusicLoaded)
@@ -776,7 +780,7 @@ void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
 
 const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
-MATCH_FUNC(0x58E320)
+// FUNCTION: 105 0x58E320
 void cSampleManager::OpenStream_58E320(u32 a2)
 {
     char_type wavPath[80];
@@ -808,7 +812,7 @@ void cSampleManager::OpenStream_58E320(u32 a2)
     }
 }
 
-MATCH_FUNC(0x58E460)
+// FUNCTION: 105 0x58E460
 void cSampleManager::CloseStream_58E460()
 {
     if (field_55_bMusicLoaded)
@@ -821,7 +825,7 @@ void cSampleManager::CloseStream_58E460()
     }
 }
 
-MATCH_FUNC(0x58E490)
+// FUNCTION: 105 0x58E490
 void cSampleManager::FadeOut_58E490()
 {
     if (field_55_bMusicLoaded && field_9C_hStreams[0])
@@ -844,13 +848,14 @@ void cSampleManager::FadeOut_58E490()
     }
 }
 
-MATCH_FUNC(0x58E500)
+// FUNCTION: 105 0x58E500
 char_type cSampleManager::MusicFileExists_58E500()
 {
     return field_55_bMusicLoaded;
 }
 
-MATCH_FUNC(0x58E510)
+
+// FUNCTION: 105 0x58E510
 void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA)
 {
     if (stream_idx || field_55_bMusicLoaded)
@@ -866,7 +871,7 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAp
             strcpy(fileName, field_5_str);
 
             char_type Buffer[12];
-            sprintf(Buffer, "%d", voc_idx);
+            sprintf(Buffer, PERCENT_D_STRING, voc_idx);
             strcat(fileName, Buffer);
             if (!bAppendA)
             {
@@ -898,7 +903,7 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAp
     }
 }
 
-MATCH_FUNC(0x58E6A0)
+// FUNCTION: 105 0x58E6A0
 void cSampleManager::CloseVocalStream_58E6A0(s32 stream_idx)
 {
     if (field_9C_hStreams[stream_idx])
@@ -908,7 +913,7 @@ void cSampleManager::CloseVocalStream_58E6A0(s32 stream_idx)
     }
 }
 
-MATCH_FUNC(0x58E6D0)
+// FUNCTION: 105 0x58E6D0
 void cSampleManager::SetVocalVolume_58E6D0(s32 stream_idx, u8 vol)
 {
     if (field_9C_hStreams[stream_idx])
@@ -917,7 +922,7 @@ void cSampleManager::SetVocalVolume_58E6D0(s32 stream_idx, u8 vol)
     }
 }
 
-MATCH_FUNC(0x58E700)
+// FUNCTION: 105 0x58E700
 void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
 {
     if (field_9C_hStreams[stream_idx])
@@ -926,7 +931,7 @@ void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
     }
 }
 
-MATCH_FUNC(0x58E720)
+// FUNCTION: 105 0x58E720
 s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx)
 {
     if (field_9C_hStreams[stream_idx])
@@ -939,7 +944,7 @@ s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx)
     }
 }
 
-MATCH_FUNC(0x58E750)
+// FUNCTION: 105 0x58E750
 void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
 {
     if (field_9C_hStreams[stream_idx])
@@ -948,7 +953,7 @@ void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
     }
 }
 
-MATCH_FUNC(0x58E770)
+// FUNCTION: 105 0x58E770
 s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
 {
     if (field_9C_hStreams[stream_idx])
@@ -959,7 +964,7 @@ s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
     return 0;
 }
 
-MATCH_FUNC(0x58E7A0)
+// FUNCTION: 105 0x58E7A0
 s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx)
 {
     if (field_9C_hStreams[stream_idx])
@@ -970,7 +975,7 @@ s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx)
     return 0;
 }
 
-MATCH_FUNC(0x58E7D0)
+// FUNCTION: 105 0x58E7D0
 void cSampleManager::SetSampleVol_58E7D0(u8 vol)
 {
     if (field_98_hSample)
@@ -979,7 +984,7 @@ void cSampleManager::SetSampleVol_58E7D0(u8 vol)
     }
 }
 
-MATCH_FUNC(0x58E7F0)
+// FUNCTION: 105 0x58E7F0
 void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
 {
     if (field_98_hSample)
@@ -997,13 +1002,13 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
     }
 }
 
-MATCH_FUNC(0x58E880)
+// FUNCTION: 105 0x58E880
 bool cSampleManager::SampleNotDone_58E880()
 {
     return AIL_sample_status(field_98_hSample) != SMP_DONE ? true : false;
 }
 
-MATCH_FUNC(0x58E8A0)
+// FUNCTION: 105 0x58E8A0
 void cSampleManager::sub_58E8A0()
 {
     if (field_98_hSample)
@@ -1012,7 +1017,7 @@ void cSampleManager::sub_58E8A0()
     }
 }
 
-MATCH_FUNC(0x58E960)
+// FUNCTION: 105 0x58E960
 void cSampleManager::EndSample_58E960()
 {
     if (field_98_hSample)
@@ -1021,7 +1026,14 @@ void cSampleManager::EndSample_58E960()
     }
 }
 
-MATCH_FUNC(0x58E980)
+// STRING: 105 0x62527c
+#define DATA_AUDIO_PATH_STRING "data\\audio\\"
+// STRING: 105 0x625274
+#define DOT_RAW_EXT_STRING ".RAW"
+// STRING: 105 0x62526c
+#define DOT_SDT_EXT_STRING ".SDT"
+
+// FUNCTION: 105 0x58E980
 char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
     FILE* hRawFile; // eax
@@ -1032,12 +1044,12 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     char_type sdtName[80]; // [esp+60h] [ebp-50h] BYREF
 
     field_A4_bLoaded = 0;
-    strcpy(rawName, "data\\audio\\");
+    strcpy(rawName, DATA_AUDIO_PATH_STRING);
     strcat(rawName, pRawOrSdtName);
-    strcat(rawName, ".RAW");
-    strcpy(sdtName, "data\\audio\\");
+    strcat(rawName, DOT_RAW_EXT_STRING);
+    strcpy(sdtName, DATA_AUDIO_PATH_STRING);
     strcat(sdtName, pRawOrSdtName);
-    strcat(sdtName, ".SDT");
+    strcat(sdtName, DOT_SDT_EXT_STRING);
     hRawFile = fopen(rawName, "rb");
     hRawFile_ = hRawFile;
     if (!hRawFile)
@@ -1068,14 +1080,14 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     return 1;
 }
 
-MATCH_FUNC(0x58E2A0)
+// FUNCTION: 105 0x58E2A0
 BYTE cSampleManager::sub_58E2A0()
 {
     BYTE ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? 1 : 0;
     return ret;
 }
 
-MATCH_FUNC(0x58E290)
+// FUNCTION: 105 0x58E290
 void cSampleManager::Release_58E290()
 {
     if (field_0_hDriver)
@@ -1084,7 +1096,13 @@ void cSampleManager::Release_58E290()
     }
 }
 
-MATCH_FUNC(0x58D820)
+// STRING: 105 0x6251d4
+#define DIRECT_SOUND_HARDWARE_SUPPORT_STRING "Microsoft DirectSound3D hardware support"
+
+// STRING: 105 0x6251b8
+#define MAX_SUPPORTED_SAMEPLES_STRING "Maximum supported samples"
+
+// FUNCTION: 105 0x58D820
 char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
 {
     Terminate_58DAE0();
@@ -1108,7 +1126,7 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
     {
         if (field_22B4_str[i])
         {
-            if (strncmp(field_22B4_str[i], "Microsoft DirectSound3D hardware support", 0x1Eu) == 0 && sub_58E140(i))
+            if (strncmp(field_22B4_str[i], DIRECT_SOUND_HARDWARE_SUPPORT_STRING, 0x1Eu) == 0 && sub_58E140(i))
             {
                 break;
             }
@@ -1122,7 +1140,7 @@ char_type cSampleManager::sub_58D820(BYTE* pMaxSamples)
             *pMaxSamples = 0;
 
             field_1EB2_3d_samp_count = 0;
-            AIL_3D_provider_attribute(field_26C0_3d_provider, "Maximum supported samples", pMaxSamples);
+            AIL_3D_provider_attribute(field_26C0_3d_provider, MAX_SUPPORTED_SAMEPLES_STRING, pMaxSamples);
 
             if (*pMaxSamples > 16u)
             {

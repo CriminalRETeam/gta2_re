@@ -67,8 +67,6 @@ class Sprite_18
     EXPORT ~Sprite_18();
     EXPORT Sprite_18();
 
-    // TODO: ordering ?
-    EXPORT Sprite* sub_5A6CA0(s32 a2);
 
     EXPORT void sub_5A6A20();
 

@@ -14,26 +14,42 @@
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, word_6F8F68);
 
-DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
-DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
-DEFINE_GLOBAL(Fix16, dword_6F8E10, 0x6F8E10);
+// GLOBAL: 105 0x6F8F84
+DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84);
+// GLOBAL: 105 0x6f8f88
+DEFINE_GLOBAL(s32, DAT_006f8f88);
+// GLOBAL: 105 0x6F8EF0
+DEFINE_GLOBAL(Fix16, stru_6F8EF0);
+// GLOBAL: 105 0x6F8E10
+DEFINE_GLOBAL(Fix16, dword_6F8E10);
 
-DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
-DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
-DEFINE_GLOBAL(u8, byte_6F8F40, 0x6F8F40);
-DEFINE_GLOBAL(u32, dword_6F8E54, 0x6F8E54);
-DEFINE_GLOBAL(u32, dword_6F8F18, 0x6F8F18);
-DEFINE_GLOBAL(u32, dword_6F8DC0, 0x6F8DC0);
-DEFINE_GLOBAL(u32, dword_6F8F0C, 0x6F8F0C);
-DEFINE_GLOBAL(u8, byte_6F8EDC, 0x6F8EDC);
+// GLOBAL: 105 0x6F8C68
+DEFINE_GLOBAL(u8, byte_6F8C68);
+// GLOBAL: 105 0x6F8C4C
+DEFINE_GLOBAL(u8, byte_6F8C4C);
+// GLOBAL: 105 0x6F8F40
+DEFINE_GLOBAL(u8, byte_6F8F40);
+// GLOBAL: 105 0x6F8E54
+DEFINE_GLOBAL(u32, dword_6F8E54);
+// GLOBAL: 105 0x6F8F18
+DEFINE_GLOBAL(u32, dword_6F8F18);
+// GLOBAL: 105 0x6F8DC0
+DEFINE_GLOBAL(u32, dword_6F8DC0);
+// GLOBAL: 105 0x6F8F0C
+DEFINE_GLOBAL(u32, dword_6F8F0C);
+// GLOBAL: 105 0x6F8EDC
+DEFINE_GLOBAL(u8, byte_6F8EDC);
 
-DEFINE_GLOBAL(Ang16, word_6F8D8C, 0x6F8D8C);
-DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
-DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
-DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
+// GLOBAL: 105 0x6F8D8C
+DEFINE_GLOBAL(Ang16, word_6F8D8C);
+// GLOBAL: 105 0x6F8D80
+DEFINE_GLOBAL(Ang16, dword_6F8D80);
+// GLOBAL: 105 0x6F8D54
+DEFINE_GLOBAL(Ang16, word_6F8D54);
+// GLOBAL: 105 0x6F8CD0
+DEFINE_GLOBAL(Ang16, dword_6F8CD0);
 
-MATCH_FUNC(0x522140)
+// FUNCTION: 105 0x522140
 Object_2C::Object_2C()
 {
     field_0 = 0;
@@ -52,34 +68,34 @@ Object_2C::Object_2C()
     field_1C = 0;
 }
 
-STUB_FUNC(0x522180)
+// STUB: 105 0x522180
 void Object_2C::sub_522180()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522250)
+// STUB: 105 0x522250
 bool Object_2C::sub_522250(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5222b0)
+// STUB: 105 0x5222b0
 s32 Object_2C::sub_5222B0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5222d0)
+// STUB: 105 0x5222d0
 s32 Object_2C::sub_5222D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x522340)
+// FUNCTION: 105 0x522340
 void Object_2C::sub_522340()
 {
     if (field_20 == 2)
@@ -91,13 +107,13 @@ void Object_2C::sub_522340()
     }
 }
 
-STUB_FUNC(0x522360)
+// STUB: 105 0x522360
 void Object_2C::sub_522360()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5223c0)
+// FUNCTION: 105 0x5223c0
 char Object_2C::sub_5223C0(Sprite* pSprite)
 {
     s32 sprite_type;
@@ -144,35 +160,35 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
     return true;
 }
 
-STUB_FUNC(0x522430)
+// STUB: 105 0x522430
 bool Object_2C::sub_522430(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x522460)
+// STUB: 105 0x522460
 char_type Object_2C::sub_522460(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5224e0)
+// STUB: 105 0x5224e0
 s16* Object_2C::sub_5224E0(s32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x522640)
+// STUB: 105 0x522640
 s16 Object_2C::sub_522640(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5226a0)
+// STUB: 105 0x5226a0
 void Object_2C::sub_5226A0(char_type a2)
 {
     NOT_IMPLEMENTED;
@@ -188,146 +204,146 @@ void Object_2C::sub_5226A0(char_type a2)
     }
 }
 
-STUB_FUNC(0x522710)
+// STUB: 105 0x522710
 void Object_2C::sub_522710(Object_2C* a2, u32* a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5229b0)
+// STUB: 105 0x5229b0
 void Object_2C::sub_5229B0(s32 a2, u32* a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522b20)
+// STUB: 105 0x522b20
 void Object_2C::sub_522B20(s32 a2, s32 a3, s32* a4)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522be0)
+// STUB: 105 0x522be0
 void Object_2C::sub_522BE0(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522d00)
+// STUB: 105 0x522d00
 void Object_2C::sub_522D00(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522e10)
+// STUB: 105 0x522e10
 void Object_2C::sub_522E10(s32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5233a0)
+// STUB: 105 0x5233a0
 char_type Object_2C::sub_5233A0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x523440)
+// STUB: 105 0x523440
 void Object_2C::sub_523440(s32 a2, s32 a3, char_type a4, char_type a5)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5235b0)
+// STUB: 105 0x5235b0
 char_type Object_2C::sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x524630)
+// STUB: 105 0x524630
 void Object_2C::sub_524630(s32 a2, s16 a3)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525190)
+// STUB: 105 0x525190
 void Object_2C::sub_525190(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5257d0)
+// STUB: 105 0x5257d0
 void Object_2C::sub_5257D0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525910)
+// STUB: 105 0x525910
 char_type Object_2C::sub_525910()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x525b40)
+// STUB: 105 0x525b40
 void Object_2C::sub_525B40()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525b80)
+// STUB: 105 0x525b80
 void Object_2C::sub_525B80()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525d90)
+// STUB: 105 0x525d90
 void Object_2C::sub_525D90()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525f30)
+// STUB: 105 0x525f30
 void Object_2C::sub_525F30()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5263d0)
+// STUB: 105 0x5263d0
 char_type Object_2C::sub_5263D0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x526790)
+// STUB: 105 0x526790
 void Object_2C::sub_526790(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x526830)
+// STUB: 105 0x526830
 s32 Object_2C::sub_526830(s32 a1)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x526b40)
+// STUB: 105 0x526b40
 s16 Object_2C::sub_526B40(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x527070)
+// STUB: 105 0x527070
 char_type Object_2C::sub_527070(s16* a2, s32 a3, s16* a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x527630)
+// FUNCTION: 105 0x527630
 void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
@@ -362,13 +378,13 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     this->field_4->field_8_object_2C_ptr = this;
 }
 
-STUB_FUNC(0x527990)
+// STUB: 105 0x527990
 void Object_2C::sub_527990()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x527ae0)
+// FUNCTION: 105 0x527ae0
 void Object_2C::sub_527AE0()
 {
     switch (field_8->field_40)
@@ -389,58 +405,58 @@ void Object_2C::sub_527AE0()
     }
 }
 
-STUB_FUNC(0x527d00)
+// STUB: 105 0x527d00
 void Object_2C::sub_527D00()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x527f10)
+// STUB: 105 0x527f10
 void Object_2C::sub_527F10()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528130)
+// STUB: 105 0x528130
 s16* Object_2C::sub_528130(Fix16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x528240)
+// STUB: 105 0x528240
 char_type Object_2C::sub_528240(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5283c0)
+// STUB: 105 0x5283c0
 void Object_2C::sub_5283C0(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528990)
+// STUB: 105 0x528990
 char_type Object_2C::sub_528990(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x528ba0)
+// STUB: 105 0x528ba0
 void Object_2C::sub_528BA0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x528e50)
+// STUB: 105 0x528e50
 void Object_2C::sub_528E50(Sprite* a3)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x529000)
+// FUNCTION: 105 0x529000
 void Object_2C::sub_529000(Object_2C* pObj)
 {
     switch (pObj->field_18_model)
@@ -458,19 +474,19 @@ void Object_2C::sub_529000(Object_2C* pObj)
     }
 }
 
-MATCH_FUNC(0x529030)
+// FUNCTION: 105 0x529030
 void Object_2C::sub_529030(s8 speed_x, s8 speed_y)
 {
     field_26_varrok_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
 }
 
-MATCH_FUNC(0x529070)
+// FUNCTION: 105 0x529070
 void Object_2C::sub_529070(Object_2C* pObj)
 {
     sub_5226A0(pObj->field_26_varrok_idx);
 }
 
-MATCH_FUNC(0x5292D0)
+// FUNCTION: 105 0x5292D0
 void Object_2C::sub_5292D0()
 {
     s32 wepon_kind;
@@ -489,53 +505,53 @@ void Object_2C::sub_5292D0()
     }
 }
 
-MATCH_FUNC(0x529080)
+// FUNCTION: 105 0x529080
 void Object_2C::sub_529080(u8 idx)
 {
     this->field_26_varrok_idx = idx;
     gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
-MATCH_FUNC(0x5290a0)
+// FUNCTION: 105 0x5290a0
 void Object_2C::sub_5290A0()
 {
     field_25 = 1;
 }
 
-MATCH_FUNC(0x5290B0)
+// FUNCTION: 105 0x5290B0
 void Object_2C::sub_5290B0()
 {
     field_25 = 2;
 }
 
-MATCH_FUNC(0x5291b0)
+// FUNCTION: 105 0x5291b0
 void Object_2C::sub_5291B0()
 {
     sub_522340();
     sub_5290A0();
 }
 
-MATCH_FUNC(0x5291d0)
+// FUNCTION: 105 0x5291d0
 void Object_2C::sub_5291D0()
 {
     sub_522340();
     field_24 = 1;
 }
 
-MATCH_FUNC(0x5291E0)
+// FUNCTION: 105 0x5291E0
 void Object_2C::sub_5291E0(char_type a2)
 {
     sub_522340();
     field_24 = a2;
 }
 
-MATCH_FUNC(0x529200)
+// FUNCTION: 105 0x529200
 bool Object_2C::sub_529200()
 {
     return (field_18_model != 174) ? true : false;
 }
 
-MATCH_FUNC(0x52ae60)
+// FUNCTION: 105 0x52ae60
 Object_2C::~Object_2C()
 {
     this->field_0 = 0;
@@ -544,21 +560,21 @@ Object_2C::~Object_2C()
     this->field_10 = 0;
 }
 
-STUB_FUNC(0x52ae70)
+// STUB: 105 0x52ae70
 u32* Object_2C::sub_52AE70(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x52ae90)
+// STUB: 105 0x52ae90
 u32* Object_2C::sub_52AE90(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5290C0)
+// STUB: 105 0x5290C0
 void Object_2C::sub_5290C0(u8 id_base)
 {
     NOT_IMPLEMENTED;
@@ -573,7 +589,7 @@ void Object_2C::sub_5290C0(u8 id_base)
     }
 }
 
-MATCH_FUNC(0x525AC0)
+// FUNCTION: 105 0x525AC0
 char Object_2C::sub_525AC0()
 {
     if (this->field_18_model == 113)
@@ -586,25 +602,25 @@ char Object_2C::sub_525AC0()
     }
 }
 
-STUB_FUNC(0x529300)
+// STUB: 105 0x529300
 void Object_5C::sub_529300()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5293a0)
+// STUB: 105 0x5293a0
 void Object_5C::sub_5293A0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x529430)
+// STUB: 105 0x529430
 Object_5C::Object_5C()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x529750)
+// FUNCTION: 105 0x529750
 Object_5C::~Object_5C()
 {
     if (field_58)
@@ -634,7 +650,7 @@ Object_5C::~Object_5C()
     this->field_4 = 0;
 }
 
-MATCH_FUNC(0x5297f0)
+// FUNCTION: 105 0x5297f0
 void Object_5C::sub_5297F0()
 {
     field_0 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
@@ -650,14 +666,14 @@ void Object_5C::sub_5297F0()
     field_C->field_26_varrok_idx = 47;
 }
 
-STUB_FUNC(0x5298e0)
+// STUB: 105 0x5298e0
 s32 Object_5C::sub_5298E0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x529950)
+// FUNCTION: 105 0x529950
 Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
 {
     Object_2C* pNewObj = sub_529C00(object_type, x, y, z, rot, 0);
@@ -674,7 +690,7 @@ Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang
     return pNewObj;
 }
 
-MATCH_FUNC(0x5299b0)
+// FUNCTION: 105 0x5299b0
 Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
 {
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
@@ -685,7 +701,7 @@ Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
     return pNewObj;
 }
 
-MATCH_FUNC(0x5299f0)
+// FUNCTION: 105 0x5299f0
 Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, word_6F8F68, 0);
@@ -700,21 +716,21 @@ Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fi
     return pNewObj;
 }
 
-STUB_FUNC(0x529a40)
+// STUB: 105 0x529a40
 Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x529ab0)
+// STUB: 105 0x529ab0
 Object_2C* Object_5C::sub_529AB0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, s32 a6, s32 a7, u8 a8)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x529b20)
+// STUB: 105 0x529b20
 Object_2C* Object_5C::sub_529B20(s32 obj_type,
                                  s32 a3,
                                  s32 a4,
@@ -729,7 +745,7 @@ Object_2C* Object_5C::sub_529B20(s32 obj_type,
     return 0;
 }
 
-MATCH_FUNC(0x529bc0)
+// FUNCTION: 105 0x529bc0
 Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
 {
     Object_2C* tmp = sub_529C00(a2, a3, a4, a5, a6, 1);
@@ -740,14 +756,14 @@ Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
     return tmp;
 }
 
-STUB_FUNC(0x529c00)
+// STUB: 105 0x529c00
 Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x52a210)
+// FUNCTION: 105 0x52a210
 char_type Object_5C::sub_52A210(char_type a2)
 {
     // TODO: Why is it a byte here? enum ??
@@ -755,45 +771,45 @@ char_type Object_5C::sub_52A210(char_type a2)
     return a2;
 }
 
-MATCH_FUNC(0x52a240)
+// FUNCTION: 105 0x52a240
 s32* Object_5C::sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10)
 {
     return Object_5C::sub_52A2C0(a2, maybe_x, maybe_y, maybe_z, pCarBC, maybe_ang, a8, a9, a10, 0);
 }
 
-MATCH_FUNC(0x52a280)
+// FUNCTION: 105 0x52a280
 s32* Object_5C::sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10)
 {
     return Object_5C::sub_52A2C0(a2, a3, a4, a5, a6, a7, a8, a9, a10, 1);
 }
 
-STUB_FUNC(0x52a2c0)
+// STUB: 105 0x52a2c0
 s32* Object_5C::sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10, char_type a11)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x52a3d0)
+// STUB: 105 0x52a3d0
 s32* Object_5C::sub_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x52A500)
+// STUB: 105 0x52A500
 void Object_5C::sub_52A500(int pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x52A590)
+// STUB: 105 0x52A590
 void Object_5C::sub_52A590(int pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x52A610)
+// FUNCTION: 105 0x52A610
 void Object_5C::sub_52A610(Object_2C* p2C)
 {
     if (p2C->field_8->field_34 != 11)
@@ -803,7 +819,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     gObject_29178_6F8F80->Remove(p2C);
 }
 
-MATCH_FUNC(0x52A650)
+// FUNCTION: 105 0x52A650
 void Object_2C::sub_52A650()
 {
     if (!field_10)
@@ -831,7 +847,7 @@ void Object_2C::sub_52A650()
     Object_2C::sub_522340();
 }
 
-MATCH_FUNC(0x52a6d0)
+// FUNCTION: 105 0x52a6d0
 void Object_2C::sub_52A6D0(Sprite* pSprite)
 {
     sub_527D00();

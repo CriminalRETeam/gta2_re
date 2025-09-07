@@ -3,6 +3,9 @@
 #include "3rdParty/mss.h"
 #include "Function.hpp"
 
+// STRING: 105 0x61a9b8
+#define PERCENT_D_STRING "%d"
+
 struct sdt_entry_0x18
 {
     s32 field_0_offset;

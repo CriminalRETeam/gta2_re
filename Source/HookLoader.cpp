@@ -3,8 +3,12 @@
 #include "3rdParty/Detours/include/detours.h"
 #include "3rdParty/Manual-DLL-Loader/Source/Manual Loader/Loader.h"
 #include "Globals.hpp"
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <sstream>
 #include <string>
+#include <vector>
 
 // patch 10.5.exe -> imports to load HookLoader.dll
 // HookLoader.dll -> manual load of gta2_dll_imports.dll via DllMain which will never return - hooked at executable entry that does CRT
@@ -12,7 +16,6 @@
 // - redirects imported vars to resolve to locations within 10.5.exe (TODO: How to get vars table?)
 // - jmp hooks 10.5.exe functions to call matched functions (via exports enumeration) (TODO: How to get function table?)
 // - jmp hooks exported functions that are stubbed to jmp to 10.5.exe (via exports enumeration) (TODO: How to get function table?)
-
 
 typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
 static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
@@ -103,7 +106,6 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals)
                         abort();
                     }
 
-                   
                     //printf("[+]\tFunction %s\n", (LPSTR)lpData->Name);
                 }
 
@@ -249,50 +251,115 @@ class HookLoader
     }
 
   public:
+    struct SymbolEntry
+    {
+        u32 mOgAddr;
+        bool mMatching;
+        bool mIsStub;
+        bool mIsFunction; // TRUE if DATA
+        std::string mSymbolName;
+        std::string mMangledSymbolName;
+    };
+
+    bool parseBool(const std::string& s)
+    {
+        return s == "True" || s == "true" || s == "1";
+    }
+
+    std::vector<SymbolEntry> parseSymbolFile(const std::string& filename)
+    {
+        std::vector<SymbolEntry> symbols;
+        std::ifstream file(filename.c_str());
+
+        if (!file.is_open())
+        {
+            std::cerr << "Failed to open file: " << filename << std::endl;
+            return symbols;
+        }
+
+        std::string line;
+        while (std::getline(file, line))
+        {
+            if (line.size() == 0) 
+            {
+                break;
+            }
+
+            std::istringstream ss(line);
+            std::string token;
+            SymbolEntry entry;
+
+            // Parse fields separated by ','
+            std::getline(ss, token, ',');
+            entry.mOgAddr = strtoul(token.c_str(), NULL, 16);
+            
+            std::getline(ss, token, ',');
+            entry.mMatching = parseBool(token);
+
+            std::getline(ss, token, ',');
+            entry.mIsStub = parseBool(token);
+
+            std::getline(ss, token, ',');
+            entry.mIsFunction = (token == "FUNCTION");
+
+            std::getline(ss, token, ',');
+            entry.mSymbolName = token;
+
+            std::getline(ss, token, ',');
+            entry.mMangledSymbolName = token;
+
+            symbols.push_back(entry);
+        }
+
+        return symbols;
+    }
+
     void LoadHooks()
     {
         // Both DLL export functions, only exports dll exports vars and only imports dll imports var
         printf("Load dll\n");
-        HMODULE hImports = LoadLibraryA("gta2_dll_imports.dll");
 
-        // Implicitly loaded as imports links to exports
-        HMODULE hExports = GetModuleHandle("gta2_dll_exports.dll");
-
-        // Build a map of exported var records and their OG executable address
-        printf("Get globals registry %X\n", hExports);
-        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hExports, "GetGlobalsRegistry");
-        printf("Collect export entries %X\n", pFnGlobalsRegistry);
-        GlobalsRegistry* pGlobalsRegistry = pFnGlobalsRegistry();
-
-        printf("Enumerate entries %X count %d\n", pGlobalsRegistry, pGlobalsRegistry->mGlobals.size());
-
-        for (size_t i = 0; i < pGlobalsRegistry->mGlobals.size(); i++)
+        const std::vector<SymbolEntry> syms = parseSymbolFile("symbols.csv");
+        printf("Loaded %d symbol entries\n", syms.size());
+        /*
+        for (u32 ii = 0; ii < syms.size(); ++ii)
         {
-            mGlobalEntryToOgAddrMap[pGlobalsRegistry->mGlobals[i]->mVar] = pGlobalsRegistry->mGlobals[i]->mOgAddr;
+            const SymbolEntry& sym = syms[ii];
+            printf("Entry %d:\n", ii);
+            printf("  Addr: 0x%08X\n", sym.mOgAddr);
+            printf("  Matching: %s\n", sym.mMatching ? "true" : "false");
+            printf("  Stub: %s\n", sym.mIsStub ? "true" : "false");
+            printf("  IsFunction: %s\n", sym.mIsFunction ? "true" : "false");
+            printf("  SymbolName: %s\n", sym.mSymbolName.c_str());
+            printf("  MangledName: %s\n\n", sym.mMangledSymbolName.c_str());
+        }*/
+
+        HMODULE hExports = GetModuleHandle("gta2_dll_exports.dll");
+        if (!hExports)
+        {
+            printf("gta2_dll_exports.dll load failed\n");
         }
 
+        for (u32 ii = 0; ii < syms.size(); ++ii)
+        {
+            const SymbolEntry& sym = syms[ii];
+            if (!sym.mIsFunction)
+            {
+                FARPROC pVar = GetProcAddress(hExports, sym.mMangledSymbolName.c_str());
+                if (!pVar)
+                {
+                    printf("%s is missing or not exported\n", sym.mMangledSymbolName.c_str());
+                    //abort();
+                }
+            }
+        }
 
+        /*
         // Get the actual exported vars and link it to an OG addr
         MapExportedVarsToOgAddrs(hExports);
 
         // TODO: rewrite the address of imports addr of the exported var to the OG executable addr
         RewriteImports(hImports, pGlobalsRegistry);
-
-
-        // mExportNameToOgAddrMap
-
-        /*
-        printf("Unload exports dll\n");
-        FreeLibrary(hMod);
-
-        printf("Load imports dll\n");
-        GTA2LoaderCallBacks cb(mExportNameToOgAddrMap);
-        LPVOID lpModule = MemoryLoader::LoadDLL("gta2_dll_imports.dll", cb);
-        if (lpModule == NULL)
-        {
-            printf("Loading gta2_dll_imports.dll failed\n");
-        }
-        */
 
         // Replicate what start() does enough to make things work
         printf("crt inits\n");
@@ -361,9 +428,10 @@ class HookLoader
         {
             printf("DetourUpdateThread failed\n");
         }
+        */
 
         printf("Look up GameMain...\n");
-        LPVOID pGameMain = ::GetProcAddress(hImports, "GameMain");
+        LPVOID pGameMain = ::GetProcAddress(hExports, "GameMain");
         typedef void(__cdecl * TGameMain)();
 
         printf("GameMain = %X\n", pGameMain);
@@ -384,11 +452,10 @@ extern "C"
 {
     void __declspec(dllexport) __cdecl HookMain()
     {
-            AllocConsole();
-            freopen("CONOUT$", "w", stdout);
-            SetConsoleTitleA("GTA2 debug console");
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
-        
+        AllocConsole();
+        freopen("CONOUT$", "w", stdout);
+        SetConsoleTitleA("GTA2 debug console");
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_BLUE | FOREGROUND_RED);
 
         HookLoader hl;
         hl.LoadHooks();

@@ -52,7 +52,281 @@
 #include "nostalgic_ellis_0x28.hpp"
 #include "sound_obj.hpp"
 #include "cSampleManager.hpp"
+#include "Particle_4C.hpp"
 
+// aka `operator new`
+// LIBRARY: 105 0x5ED4E1
+// ??2@YAPAXI@Z
+
+// aka eh vector constructor iterator
+// LIBRARY: 105 0x5EDF51
+// ??_L@YGXPAXIHP6EX0@Z1@Z
+
+// aka eh vector destructor iterator
+// LIBRARY: 105 0x5EDFD3
+// ??_M@YGXPAXIHP6EX0@Z@Z
+
+// aka operator delete(void *)
+// LIBRARY: 105 0x5ED46D
+// ??3@YAXPAX@Z
+
+// LIBRARY: 105 0x5F44B4
+// __except_handler3
+
+// LIBRARY: 105 0x5ED3CD
+// __nh_malloc
+
+// LIBRARY: 105 0x5EE053
+// ?__ArrayUnwind@@YGXPAXIHP6EX0@Z@Z
+
+// LIBRARY: 105 0x5EFC96
+// _bsearch
+
+// LIBRARY: 105 0x5EEB69
+// _wcscmp
+
+// LIBRARY: 105 0x5EE738
+// _wcscpy
+
+// LIBRARY: 105 0x5EE75D
+// _wcsncpy
+
+// LIBRARY: 105 0x5EDEFF
+// _sprintf
+
+// LIBRARY: 105 0x5EE79A
+// _wcslen
+
+// LIBRARY: 105 0x5EE46E
+// _fclose
+
+// LIBRARY: 105 0x5EE4F7
+// _fread
+
+// LIBRARY: 105 0x5EE4E4
+// _fopen
+
+// LIBRARY: 105 0x5EDEE1
+// _rand
+
+// LIBRARY: 105 0x5F3CA2
+// __output
+
+// LIBRARY: 105 0x5F3B8D
+// __flsbuf
+
+// LIBRARY: 105 0x5EE4C4
+// __fsopen
+
+// LIBRARY: 105 0x5F59CC
+// __getstream
+
+// LIBRARY: 105 0x5F585C
+// __openfile
+
+// LIBRARY: 105 0x5F0952
+// __sopen
+
+// LIBRARY: 105 0x5F70D4
+// __alloc_osfhnd
+
+// LIBRARY: 105 0x5EF5E3
+// _wcstombs
+
+// LIBRARY: 105 0x5EDEB0
+// _strrchr
+
+// LIBRARY: 105 0x5ED950
+// __allshr
+
+// LIBRARY: 105 0x5EE7B7
+// __findfirst
+
+// LIBRARY: 105 0x5EE946
+// __findclose
+
+// LIBRARY: 105 0x5EA458
+// VERSION.dll::GetFileVersionInfoA
+
+// LIBRARY: 105 0x5EA45E
+// VERSION.dll::GetFileVersionInfoSizeA
+
+// LIBRARY: 105 0x5E9106
+// DINPUT.dll::DirectInputCreateA
+
+// LIBRARY: 105 0x5EA452
+// VERSION.dll::VerQueryValueA
+
+// LIBRARY: 105 0x5F0C90
+// _memcpy
+
+// LIBRARY: 105 0x5EDB70
+// _memmove
+
+// LIBRARY: 105 0x5F0297
+// __read
+
+// LIBRARY: 105 0x5F5A44
+// __filbuf
+
+// LIBRARY: 105 0x5F829D
+// __getbuf
+
+// LIBRARY: 105 0x5ED3BB
+// _malloc
+
+// GLOBAL: 105 0x708304
+// __cflush
+
+// LIBRARY: 105 0x5EE0C7
+// _swprintf
+
+// LIBRARY: 105 0x5F458C
+// __woutput
+
+// LIBRARY: 105 0x5F4D63
+// _get_int_arg_0
+
+// LIBRARY: 105 0x5EDA70
+// __allshl
+
+// LIBRARY: 105 0x5ED9C0
+// __alldiv
+
+// LIBRARY: 105 0x5ED980
+// __allmul
+
+// LIBRARY: 105 0x5EEF50 SYMBOL
+// _strncmp
+
+// LIBRARY: 105 0x5EE197 SYMBOL
+// _exit
+
+// LIBRARY: 105 0x5EE1D7 SYMBOL
+// _doexit
+
+// LIBRARY: 105 0x708308
+// __newmode
+
+// LIBRARY: 105 0x5EE316
+// _ftell
+
+// LIBRARY: 105 0x5EE28A
+// _fseek
+
+// LIBRARY: 105 0x5EE5DF
+// _fwrite
+
+// SYNTHETIC: 105 0x5EEDA0
+// __strnicmp
+
+// SYNTHETIC: 105 0x5ED478
+// _free
+
+// SYNTHETIC: 105 0x5EF8F0
+// _strcpy
+
+// SYNTHETIC: 105 0x5EF7C0
+// _mbstowcs
+
+// LIBRARY: 105 0x70830C SYMBOL
+// ?_pnhHeap@@3P6AHI@ZA 
+
+// GLOBAL: 105 0x627010
+// ___badioinfo
+
+// GLOBAL: 105 0x7098e0
+// ___pioinfo
+
+// LIBRARY: 105 0x5EDB40
+// __ftol
+
+// LIBRARY: 105 0x5EECA0 SYMBOL
+// _strncpy
+
+// LIBRARY: 105 0x5EDED7
+// _srand
+
+// LIBRARY: 105 0x5F0730 SYMBOL
+// __flush
+
+// LIBRARY: 105 0x5F00EA SYMBOL
+// __write
+
+// LIBRARY: 105 0x5F048D SYMBOL
+// __lseek
+
+// LIBRARY: 105 0x5F725A
+// _get_osfhandle
+
+// LIBRARY: 105 0x5EEF88 SYMBOL
+// __strupr
+
+// LIBRARY: 105 0x5ED3F9 SYMBOL
+// __heap_alloc
+
+// LIBRARY: 105 0x5F0FDB SYMBOL
+// __callnewh
+
+// LIBRARY: 105 0x5F16DE SYMBOL
+// __sbh_alloc_block
+
+// GLOBAL: 105 0x6009a4
+// GUID_SysMouse
+
+// GLOBAL: 105 0x7084C0
+// __commode
+
+// GLOBAL: 105 0x708294
+// _errno
+
+// GLOBAL: 105 0x600084
+// IDD_IDirectMusic
+
+// GLOBAL: 105 0x6000b4
+// IID_DirectMusic
+
+// LIBRARY: 105 0x5EE9C9 SYMBOL
+// __itoa
+
+// LIBRARY: 105 0x5EEB9E SYMBOL
+// __itow
+
+// LIBRARY: 105 0x5EF8C0 SYMBOL
+// __chkstk
+
+// LIBRARY: 105 0x5EFC42 SYMBOL
+// _rewind
+
+// GLOBAL: 105 0x6007d4
+// IID_IDirectPlay3
+
+// GLOBAL: 105 0x600754
+// DPSPGUID_MODEM
+
+// SYNTHETIC: 105 0x5EA44C
+// DPLAYX.dll::Ordinal_1
+
+// GLOBAL: 105 0x600794
+// CLSID_DirectPlay
+
+// GLOBAL: 105 0x600994
+// GUID_SysKeyboard
+
+// GLOBAL: 105 0x600714
+// IID_IDirectPlayLobby2
+
+// SYNTHETIC: 105 0x5EA446
+// DPLAYX.dll::Ordinal_5
+
+// SYNTHETIC: 105 0x5EE6E9
+// _fgetc
+
+// STRING: 105 0x626b90
+#define WINMAIN_CPP_STRING "C:\\Splitting\\Gta2\\Source\\winmain.cpp"
+
+// STRING: 105 0x626b08
+#define VIDEO_CPP_STRING "C:\\Splitting\\Gta2\\Source\\video.cpp"
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -279,44 +553,75 @@ void force_link()
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
+
+    Particle_4C p4c;
+    p4c.sub_538060();
 }
 
-DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);
-DEFINE_GLOBAL(HANDLE, gMutex_707078, 0x707078);
-DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280, 0x708280);
-DEFINE_GLOBAL(s32, gGTA2VersionMajor_708284, 0x708284);
-DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652, 0x707F64);
-DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true, 0x626B68);
+// GLOBAL: 105 0x708220
+DEFINE_GLOBAL(HINSTANCE, gHInstance_708220);
+// GLOBAL: 105 0x707078
+DEFINE_GLOBAL(HANDLE, gMutex_707078);
+// GLOBAL: 105 0x708280
+DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280);
+// GLOBAL: 105 0x708284
+DEFINE_GLOBAL(s32, gGTA2VersionMajor_708284);
+// GLOBAL: 105 0x707F64
+DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652);
+// GLOBAL: 105 0x626B68
+DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true);
 
-DEFINE_GLOBAL(s32, window_width_706630, 0x706630);
-DEFINE_GLOBAL(s32, window_height_706B50, 0x706B50);
-DEFINE_GLOBAL(s32, full_width_706B5C, 0x706B5C);
-DEFINE_GLOBAL(s32, full_height_706798, 0x706798);
-DEFINE_GLOBAL(s32, gWindowX_706B60, 0x706B60);
-DEFINE_GLOBAL(s32, gWindowY_706B64, 0x706B64);
-DEFINE_GLOBAL(s32, bStartNetworkGame_7081F0, 0x7081F0);
-DEFINE_GLOBAL(BYTE, byte_70827C, 0x70827C);
-DEFINE_GLOBAL(BYTE, byte_706C5D, 0x706C5D);
-DEFINE_GLOBAL(BYTE, byte_6F5B71, 0x6F5B71);
-DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2, 0x626A0C);
+// GLOBAL: 105 0x706630
+DEFINE_GLOBAL(s32, window_width_706630);
+// GLOBAL: 105 0x706B50
+DEFINE_GLOBAL(s32, window_height_706B50);
+// GLOBAL: 105 0x706B5C
+DEFINE_GLOBAL(s32, full_width_706B5C);
+// GLOBAL: 105 0x706798
+DEFINE_GLOBAL(s32, full_height_706798);
+// GLOBAL: 105 0x706B60
+DEFINE_GLOBAL(s32, gWindowX_706B60);
+// GLOBAL: 105 0x706B64
+DEFINE_GLOBAL(s32, gWindowY_706B64);
+// GLOBAL: 105 0x7081F0
+DEFINE_GLOBAL(s32, bStartNetworkGame_7081F0);
+// GLOBAL: 105 0x70827C
+DEFINE_GLOBAL(BYTE, byte_70827C);
+// GLOBAL: 105 0x706C5D
+DEFINE_GLOBAL(BYTE, byte_706C5D);
+// GLOBAL: 105 0x6F5B71
+DEFINE_GLOBAL(BYTE, byte_6F5B71);
+// GLOBAL: 105 0x626A0C
+DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2);
 
-DEFINE_GLOBAL(s32, bTrippleBuffer_706C54, 0x706C54);
-DEFINE_GLOBAL(char_type, byte_706C5C, 0x706C5C);
-DEFINE_GLOBAL(u32, gBufferMode_706B34, 0x706B34);
-DEFINE_GLOBAL_ARRAY(char_type, gRenderDllName_7067F0, 256, 0x7067F0);
-DEFINE_GLOBAL_ARRAY(char_type, gVideoDllName_706654, 256, 0x706654);
-DEFINE_GLOBAL(s32, gVideodevice_70694C, 0x70694C);
-DEFINE_GLOBAL(s32, gRenderdevice_706998, 0x706998);
-DEFINE_GLOBAL(u16, gDMusicVer_67BD32, 0x67BD32);
+// GLOBAL: 105 0x706C54
+DEFINE_GLOBAL(s32, bTrippleBuffer_706C54);
+// GLOBAL: 105 0x706C5C
+DEFINE_GLOBAL(char_type, byte_706C5C);
+// GLOBAL: 105 0x706B34
+DEFINE_GLOBAL(u32, gBufferMode_706B34);
+// GLOBAL: 105 0x7067F0
+DEFINE_GLOBAL_ARRAY(char_type, gRenderDllName_7067F0, 256);
+// GLOBAL: 105 0x706654
+DEFINE_GLOBAL_ARRAY(char_type, gVideoDllName_706654, 256);
+// GLOBAL: 105 0x70694C
+DEFINE_GLOBAL(s32, gVideodevice_70694C);
+// GLOBAL: 105 0x706998
+DEFINE_GLOBAL(s32, gRenderdevice_706998);
+// GLOBAL: 105 0x67BD32
+DEFINE_GLOBAL(u16, gDMusicVer_67BD32);
+// GLOBAL: 105 0x626A09
+DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1);
 
-DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1, 0x626A09);
-
-DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4, 0x7068F4);
-DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60, 0x706C60);
-DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84, 0x601A84);
+// GLOBAL: 105 0x7068F4
+DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4);
+// GLOBAL: 105 0x706C60
+DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60);
+// GLOBAL: 105 0x601A84
+DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84);
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D8EB0)
+// STUB: 105 0x5D8EB0
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
     NOT_IMPLEMENTED;
@@ -356,7 +661,7 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 }
 
 // todo: move
-MATCH_FUNC(0x5D7C60)
+// FUNCTION: 105 0x5D7C60
 EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 {
     if (gMouseDevice_706C60)
@@ -366,7 +671,7 @@ EXPORT void __stdcall Input_MouseAcquire_5D7C60()
 }
 
 // todo: move
-MATCH_FUNC(0x5D7C70)
+// FUNCTION: 105 0x5D7C70
 EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 {
     if (gMouseDevice_706C60)
@@ -378,7 +683,7 @@ EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
 }
 
 // todo: move
-MATCH_FUNC(0x5D94F0)
+// FUNCTION: 105 0x5D94F0
 EXPORT void __stdcall HideCursor_5D94F0()
 {
     do
@@ -387,8 +692,9 @@ EXPORT void __stdcall HideCursor_5D94F0()
     } while (ShowCursor(0) >= 0);
 }
 
+
 // todo: move
-MATCH_FUNC(0x5D7BF0)
+// FUNCTION: 105 0x5D7BF0
 EXPORT char_type Input_InitMouse_5D7BF0()
 {
     // TODO: using the HR error checking macros doesn't match here, what did they do??
@@ -402,7 +708,7 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 }
 
 // todo: move
-STUB_FUNC(0x5D93A0)
+// STUB: 105 0x5D93A0
 EXPORT void __stdcall sub_5D93A0()
 {
     NOT_IMPLEMENTED;
@@ -421,7 +727,7 @@ EXPORT void __stdcall sub_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
+            FatalError_4A38C0(3003, VIDEO_CPP_STRING, 1359, full_width_706B5C, full_height_706798, 16);
         }
     }
 
@@ -437,7 +743,7 @@ EXPORT void __stdcall sub_5D93A0()
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        FatalError_4A38C0(1037, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        FatalError_4A38C0(1037, VIDEO_CPP_STRING, 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
@@ -457,13 +763,13 @@ EXPORT void __stdcall sub_5D93A0()
 }
 
 // todo: move
-MATCH_FUNC(0x5D92C0)
+// FUNCTION: 105 0x5D92C0
 EXPORT char_type sub_5D92C0()
 {
     return byte_706C5C;
 }
 
-MATCH_FUNC(0x5D9660)
+// FUNCTION: 105 0x5D9660
 EXPORT void __stdcall ShowCursor_5D9660()
 {
     s32 refCount;
@@ -474,7 +780,7 @@ EXPORT void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-STUB_FUNC(0x5D9510)
+// STUB: 105 0x5D9510
 EXPORT char_type sub_5D9510()
 {
     NOT_IMPLEMENTED;
@@ -527,8 +833,21 @@ EXPORT char_type sub_5D9510()
     }
 }
 
+// STRING: 105 0x626aac
+#define WINDOW_WIDTH_STRING "window_width"
+// STRING: 105 0x626a9c
+#define WINDOW_HEIGHT_STRING "window_height"
+// STRING: 105 0x626a90
+#define FULL_WIDTH_STRING "full_width"
+// STRING: 105 0x626a84
+#define FULL_HEIGHT_STRING "full_height"
+// STRING: 105 0x626a78
+#define START_MODE_STRING "start_mode"
+// STRING: 105 0x626a68
+#define TRIPPLE_BUFFER_STRING "tripple_buffer"
+
 // todo move to another file for ordering
-MATCH_FUNC(0x5D8F70)
+// FUNCTION: 105 0x5D8F70
 EXPORT s32 ReadScreenSettings_5D8F70()
 {
     const u32 full_width_old = full_width_706B5C;
@@ -547,13 +866,13 @@ EXPORT s32 ReadScreenSettings_5D8F70()
     }
     else
     {
-        window_width_706630 = gRegistry_6FF968.Get_Screen_Setting_5870D0("window_width", 640);
-        window_height_706B50 = gRegistry_6FF968.Get_Screen_Setting_5870D0("window_height", 480);
-        full_width_706B5C = gRegistry_6FF968.Get_Screen_Setting_5870D0("full_width", 640);
-        full_height_706798 = gRegistry_6FF968.Get_Screen_Setting_5870D0("full_height", 480);
+        window_width_706630 = gRegistry_6FF968.Get_Screen_Setting_5870D0(WINDOW_WIDTH_STRING, 640);
+        window_height_706B50 = gRegistry_6FF968.Get_Screen_Setting_5870D0(WINDOW_HEIGHT_STRING, 480);
+        full_width_706B5C = gRegistry_6FF968.Get_Screen_Setting_5870D0(FULL_WIDTH_STRING, 640);
+        full_height_706798 = gRegistry_6FF968.Get_Screen_Setting_5870D0(FULL_HEIGHT_STRING, 480);
     }
 
-    gStartMode_626A0C = gRegistry_6FF968.Get_Screen_Setting_5870D0("start_mode", 1);
+    gStartMode_626A0C = gRegistry_6FF968.Get_Screen_Setting_5870D0(START_MODE_STRING, 1);
 
     if (gBufferMode_706B34 == 0)
     {
@@ -561,7 +880,7 @@ EXPORT s32 ReadScreenSettings_5D8F70()
     }
     else
     {
-        bTrippleBuffer_706C54 = gRegistry_6FF968.Get_Screen_Setting_5870D0("tripple_buffer", 0);
+        bTrippleBuffer_706C54 = gRegistry_6FF968.Get_Screen_Setting_5870D0(TRIPPLE_BUFFER_STRING, 0);
     }
 
     if (gStartMode_626A0C == startMode_old && bTrippleBuffer_706C54 == trippleBuffer_old)
@@ -583,7 +902,7 @@ EXPORT s32 ReadScreenSettings_5D8F70()
 }
 
 // todo: move
-STUB_FUNC(0x5D98E0)
+// STUB: 105 0x5D98E0
 EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
     NOT_IMPLEMENTED;
@@ -591,7 +910,7 @@ EXPORT void __stdcall SetSavedGamma_5D98E0()
 }
 
 // todo: move
-STUB_FUNC(0x5D92D0)
+// STUB: 105 0x5D92D0
 EXPORT void __stdcall sub_5D92D0()
 {
     NOT_IMPLEMENTED;
@@ -638,13 +957,13 @@ EXPORT void __stdcall sub_5D92D0()
     SetSavedGamma_5D98E0();
 }
 
-MATCH_FUNC(0x5D9860)
+// FUNCTION: 105 0x5D9860
 EXPORT s32 jGBH_Graphics_Free_5D9860()
 {
     return GBH_Graphics_Free_5EA640();
 }
 
-MATCH_FUNC(0x5D9830)
+// FUNCTION: 105 0x5D9830
 EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 {
     jGBH_Graphics_Free_5D9860();
@@ -657,7 +976,7 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
 }
 
 // todo: move
-MATCH_FUNC(0x5D9290)
+// FUNCTION: 105 0x5D9290
 EXPORT bool Vid_FindDevice_5D9290()
 {
     SDevice* pDevice = pVid_FindDevice(gVidSys_7071D0, gVideodevice_70694C);
@@ -665,7 +984,7 @@ EXPORT bool Vid_FindDevice_5D9290()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D9800)
+// FUNCTION: 105 0x5D9800
 EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 {
     HDC hdc = GetDC(gHwnd_707F04);
@@ -675,23 +994,23 @@ EXPORT s32 GetHwndDCDeviceCaps_5D9800()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D97C0)
+// FUNCTION: 105 0x5D97C0
 EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer_67C598);
+        FatalError_4A38C0(1011, VIDEO_CPP_STRING, 206, gTmpBuffer_67C598);
     }
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D96C0)
+// FUNCTION: 105 0x5D96C0
 EXPORT void sub_5D96C0()
 {
     s32 v1 = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
+        FatalError_4A38C0(1011, VIDEO_CPP_STRING, 1647, gVideoDllName_706654);
     }
 
     gVidSys_7071D0 = pVid_Init_SYS(gHInstance_708220, 0); // flags param ??
@@ -700,7 +1019,7 @@ EXPORT void sub_5D96C0()
 
     if (!gVidSys_7071D0)
     {
-        FatalError_4A38C0(2, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
+        FatalError_4A38C0(2, VIDEO_CPP_STRING, 1656);
     }
 
     if (gBufferMode_706B34 == 1)
@@ -737,8 +1056,16 @@ EXPORT void sub_5D96C0()
     pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
 }
 
+// STRING: 105 0x620d58
+#define CDVOL_STRING "CDVol"
+// STRING: 105 0x620d50
+#define SFXVOL_STRING "SFXVol"
+// STRING: 105 0x61eb64
+#define DO_3D_SOUND_STRING "do_3d_sound"
+
+
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA440)
+// FUNCTION: 105 0x4DA440
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
@@ -754,20 +1081,20 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
-STUB_FUNC(0x4DB170)
+// STUB: 105 0x4DB170
 void __stdcall sub_4DB170()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4DB0D0)
+// STUB: 105 0x4DB0D0
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA4D0)
+// STUB: 105 0x4DA4D0
 EXPORT void __stdcall sub_4DA4D0()
 {
     NOT_IMPLEMENTED;
@@ -812,7 +1139,7 @@ EXPORT void __stdcall sub_4DA4D0()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x5D9690)
+// STUB: 105 0x5D9690
 EXPORT void __stdcall sub_5D9690()
 {
     NOT_IMPLEMENTED;
@@ -820,7 +1147,7 @@ EXPORT void __stdcall sub_5D9690()
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA850)
+// STUB: 105 0x4DA850
 EXPORT char_type sub_4DA850()
 {
     NOT_IMPLEMENTED;
@@ -829,17 +1156,22 @@ EXPORT char_type sub_4DA850()
 }
 
 // TODO: Other missing stubs here
-STUB_FUNC(0x4DA830)
+// STUB: 105 0x4DA830
 EXPORT void __stdcall sub_4DA830()
 {
     NOT_IMPLEMENTED;
 }
 
+// GLOBAL: 105 0x600084
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
+// GLOBAL: 105 0x6000b4
 GUID IDD_IDirectMusic = {1698042202u, 31533u, 4562u, {186u, 24u, 0u, 0u, 248u, 117u, 172u, 18u}};
 
+// STRING: 105 0x61ab64
+#define DMUSIC_DLLNAME_STRING "DMUSIC.DLL"
+
 // todo move to another file for ordering
-MATCH_FUNC(0x4A0650)
+// FUNCTION: 105 0x4A0650
 EXPORT void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
@@ -847,7 +1179,7 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
     IUnknown* pDMusic; // [esp+4h] [ebp-4h] BYREF
 
     gDMusicVer_67BD32 = 0;
-    hDMusic = LoadLibraryA("DMUSIC.DLL");
+    hDMusic = LoadLibraryA(DMUSIC_DLLNAME_STRING);
     if (hDMusic)
     {
         if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, (LPVOID*)&pDMusic) >= 0)
@@ -862,7 +1194,7 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
 GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B};
 
 // todo move to another file for ordering
-STUB_FUNC(0x4C4EC0)
+// STUB: 105 0x4C4EC0
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
     NOT_IMPLEMENTED;
@@ -1057,22 +1389,35 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 
 const char_type* off_626A00[2] = {"d3ddll.dll", "dmavideo.dll"};
 
+// STRING: 105 0x626af8
+#define RENDER_DEVICE_STRING "renderdevice"
+// STRING: 105 0x626AEC
+#define VIDEO_DEVICE_STRING "videodevice"
+// STRING: 105 0x626ae0
+#define RENDER_NAME_STRING "rendername"
+// STRING: 105 0x626ad4
+#define VIDEO_NAME_STRING "videoname"
+// STRING: 105 0x626AC8
+#define SOFTDLL_STRING "softdll.dll"
+// STRING: 105 0x626ABC
+#define THREEDFXDLL_STRING "3dfx.dll"
+
 // todo move to another file for ordering
-MATCH_FUNC(0x5D90E0)
+// FUNCTION: 105 0x5D90E0
 EXPORT void __stdcall Video_Render_Inits_5D90E0()
 {
-    gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0("renderdevice", 1);
-    gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
+    gRenderdevice_706998 = gRegistry_6FF968.Get_Screen_Setting_5870D0(RENDER_DEVICE_STRING, 1);
+    gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0(VIDEO_DEVICE_STRING, 1);
     strcpy(gRenderDllName_7067F0, off_626A00[0]);
     strcpy(gVideoDllName_706654, off_626A00[1]);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0(RENDER_NAME_STRING, (BYTE*)gRenderDllName_7067F0, 0xFFu);
+    gRegistry_6FF968.Set_Screen_Setting_5871E0(VIDEO_NAME_STRING, (BYTE*)gVideoDllName_706654, 0xFFu);
 
-    if (strcmp(gRenderDllName_7067F0, "softdll.dll") == 0)
+    if (strcmp(gRenderDllName_7067F0, SOFTDLL_STRING) == 0)
     {
         gBufferMode_706B34 = 0;
     }
-    else if (strcmp(gRenderDllName_7067F0, "3dfx.dll") == 0)
+    else if (strcmp(gRenderDllName_7067F0, THREEDFXDLL_STRING) == 0)
     {
         gBufferMode_706B34 = 2;
     }
@@ -1086,14 +1431,14 @@ EXPORT void __stdcall Video_Render_Inits_5D90E0()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D9280)
+// FUNCTION: 105 0x5D9280
 EXPORT bool IsFullScreen_5D9280()
 {
     return gStartMode_626A0C == 1;
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D8E70)
+// FUNCTION: 105 0x5D8E70
 EXPORT void __stdcall UpdateWinXY_5D8E70()
 {
     if (!IsFullScreen_5D9280())
@@ -1106,14 +1451,14 @@ EXPORT void __stdcall UpdateWinXY_5D8E70()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x5D7CA0)
+// FUNCTION: 105 0x5D7CA0
 EXPORT void __stdcall j_gbh_init_5D7CA0()
 {
     pgbh_Init(0);
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA700)
+// FUNCTION: 105 0x4DA700
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
     gBurgerKing_67F8B0.Shutdown_4CEA00();
@@ -1125,7 +1470,7 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA390)
+// FUNCTION: 105 0x4DA390
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
     char* v1 = pStr;
@@ -1173,7 +1518,7 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA3F0)
+// STUB: 105 0x4DA3F0
 EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 {
     NOT_IMPLEMENTED;
@@ -1182,7 +1527,7 @@ EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
 }
 
 // todo move to another file for ordering
-MATCH_FUNC(0x4DA320)
+// FUNCTION: 105 0x4DA320
 EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 {
     char* pIter = pCommandLine;
@@ -1217,47 +1562,59 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
     }
 }
 
-MATCH_FUNC(0x5E4DE0)
+// STRING: 105 0x626bb8
+#define GBH_BOB_MUTEX "GBH_BOB_MUTEX"
+
+// STRING: 105 0x626b80
+#define GTA2_MANAGER_STRING "GTA2 Manager"
+
+// STRING: 105 0x626b6c
+#define GTA2_MANAGER_EXE "GTA2 Manager.EXE"
+
+// FUNCTION: 105 0x5E4DE0
 EXPORT void Start_GTA2Manager_5E4DE0()
 {
     ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
-    HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, 0, "GBH_BOB_MUTEX");
+    HANDLE hMutex = OpenMutexA(MUTEX_ALL_ACCESS, 0, GBH_BOB_MUTEX);
     if (hMutex)
     {
         if (!CloseHandle(hMutex))
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
+            FatalError_4A38C0(126, WINMAIN_CPP_STRING, 118);
         }
 
-        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
+        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, GTA2_MANAGER_STRING);
         if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, (LPARAM)hwndGta2Manager);
+            PostMessageA(gHwnd_707F04, 6, 0, (LPARAM)hwndGta2Manager);
             if (!SetForegroundWindow(hwndGta2Manager))
             {
-                FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
+                FatalError_4A38C0(126, WINMAIN_CPP_STRING, 125);
             }
         }
     }
     else
     {
         LPARAM lParam; // [esp+4h] [ebp-4h]
-        PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, lParam);
-        if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
+        PostMessageA(gHwnd_707F04, 6, 0, lParam);
+        if ((u32)ShellExecuteA(0, 0, GTA2_MANAGER_EXE, 0, gWorkingDir_707F64, 1) <= 0x20)
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
+            FatalError_4A38C0(126, WINMAIN_CPP_STRING, 136);
         }
     }
 }
 
-MATCH_FUNC(0x5E4EC0)
+// STRING: 105 0x626bc8
+#define ERROR_STRING "Error!"
+
+// FUNCTION: 105 0x5E4EC0
 EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 {
-    MessageBoxA(gHwnd_707F04, lpText, "Error!", MB_OK);
+    MessageBoxA(gHwnd_707F04, lpText, ERROR_STRING, MB_OK);
 }
 
 // todo: move
-STUB_FUNC(0x5D9230)
+// STUB: 105 0x5D9230
 EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
     NOT_IMPLEMENTED;
@@ -1266,7 +1623,7 @@ EXPORT void __stdcall sub_5D9230(s32 startMode)
 }
 
 // todo: move
-STUB_FUNC(0x5D9680)
+// STUB: 105 0x5D9680
 EXPORT void sub_5D9680()
 {
     NOT_IMPLEMENTED;
@@ -1274,7 +1631,7 @@ EXPORT void sub_5D9680()
 }
 
 // todo: move
-STUB_FUNC(0x498D10)
+// STUB: 105 0x498D10
 EXPORT void Input_Read_498D10()
 {
     NOT_IMPLEMENTED;
@@ -1282,14 +1639,14 @@ EXPORT void Input_Read_498D10()
 }
 
 // todo: move
-STUB_FUNC(0x5D9250)
+// STUB: 105 0x5D9250
 EXPORT void __stdcall sub_5D9250()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-STUB_FUNC(0x5E4EE0)
+// STUB: 105 0x5E4EE0
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     NOT_IMPLEMENTED;
@@ -1525,7 +1882,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
     return DefWindowProcA(hWnd, Msg, wParam, lParam);
 }
 
-//STUB_FUNC(0x5E53F0)
+// STUB: 105 0x5E53F0
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     NOT_IMPLEMENTED;
@@ -1616,7 +1973,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, v8, v9, 0x314u))
     {
-        FatalError_4A38C0(7, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
+        FatalError_4A38C0(7, WINMAIN_CPP_STRING, 661);
     }
 
     Input::DirectInputCreate_4986D0(gHInstance_708220);
@@ -1811,7 +2168,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 }
 
 // TODO: order
-MATCH_FUNC(0x4DA780)
+// FUNCTION: 105 0x4DA780
 EXPORT char sub_4DA780()
 {
     char v0 = gGame_0x40_67E008->sub_4B9640();
@@ -1823,7 +2180,7 @@ EXPORT char sub_4DA780()
 }
 
 // TODO: order
-STUB_FUNC(0x4DA740)
+// STUB: 105 0x4DA740
 EXPORT void __stdcall sub_4DA740()
 {
     if (!bDestroyed_6F5B70)
@@ -1868,7 +2225,7 @@ EXPORT void __stdcall sub_4DA740()
     }
 }
 
-STUB_FUNC(0x5E5A30)
+// STUB: 105 0x5E5A30
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     NOT_IMPLEMENTED;
@@ -1877,17 +2234,23 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
 #pragma comment(lib, "Version.lib")
 
-MATCH_FUNC(0x5E5D60)
+// STRING: 105 0x626c48
+#define GTA2_EXE_STRING "GTA2.EXE"
+
+// STRING: 105 0x626c44
+#define BACKSLASH_STRING "\\"
+
+// FUNCTION: 105 0x5E5D60
 EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor)
 {
     DWORD dwHandle;
-    DWORD dwSize = GetFileVersionInfoSizeA("GTA2.EXE", &dwHandle);
+    DWORD dwSize = GetFileVersionInfoSizeA(GTA2_EXE_STRING, &dwHandle);
     BYTE* pAlloc = new BYTE[dwSize];
 
     VS_FIXEDFILEINFO* pFileInfo;
     u32 puLen;
-    if (pAlloc && GetFileVersionInfoA("GTA2.EXE", 0, dwSize, pAlloc) &&
-        VerQueryValueA(pAlloc, "\\", reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
+    if (pAlloc && GetFileVersionInfoA(GTA2_EXE_STRING, 0, dwSize, pAlloc) &&
+        VerQueryValueA(pAlloc, BACKSLASH_STRING, reinterpret_cast<LPVOID*>(&pFileInfo), &puLen))
     {
         *pVerMinor = (pFileInfo->dwProductVersionMS >> 16);
         *pVerMajor = pFileInfo->dwProductVersionMS & 0xFFFF;

@@ -6,29 +6,44 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
-#include "crt_stubs.hpp"
 
-DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
-DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
-DEFINE_GLOBAL(u32, processed_input_676260, 0x676260);
-DEFINE_GLOBAL(u32, input_size_675F94, 0x675F94);
-DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
-DEFINE_GLOBAL(u32, found_open_brackets_67626C, 0x67626C);
-DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
-DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
-DEFINE_GLOBAL(s32, output_size_675F90, 0x675F90);
-DEFINE_GLOBAL(u8*, output_ptr_675F98, 0x675F98);
-DEFINE_GLOBAL(Fix16, dword_677F54, 0x677F54);
-DEFINE_GLOBAL(Fix16, dword_677D74, 0x677D74);
-DEFINE_GLOBAL(Fix16, DAT_6761A4, 0x6761a4);
+// GLOBAL: 105 0x678098
+DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098);
+// GLOBAL: 105 0x677EC4
+DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64);
+// GLOBAL: 105 0x676260
+DEFINE_GLOBAL(u32, processed_input_676260);
+// GLOBAL: 105 0x675F94
+DEFINE_GLOBAL(u32, input_size_675F94);
+// GLOBAL: 105 0x676170
+DEFINE_GLOBAL(u8*, input_data_676170);
+// GLOBAL: 105 0x67626C
+DEFINE_GLOBAL(u32, found_open_brackets_67626C);
+// GLOBAL: 105 0x676258
+DEFINE_GLOBAL(s32, line_number_676258);
+// GLOBAL: 105 0x676250
+DEFINE_GLOBAL(u32, processed_output_676250);
+// GLOBAL: 105 0x675F90
+DEFINE_GLOBAL(s32, output_size_675F90);
+// GLOBAL: 105 0x675F98
+DEFINE_GLOBAL(u8*, output_ptr_675F98);
+// GLOBAL: 105 0x677F54
+DEFINE_GLOBAL(Fix16, dword_677F54);
+// GLOBAL: 105 0x677D74
+DEFINE_GLOBAL(Fix16, dword_677D74);
+// GLOBAL: 105 0x6761a4
+DEFINE_GLOBAL(Fix16, DAT_6761A4);
 
-MATCH_FUNC(0x454680)
+// STRING: 105 0x61a870
+#define CARINFO_CPP_STRING "C:\\Splitting\\Gta2\\Source\\carinfo.cpp"
+
+// FUNCTION: 105 0x454680
 void CarInfo_48::sub_454680()
 {
-    field_4_mass = field_4_mass * (dword_677D74 + dword_677F54);
+    field_4_mass = field_4_mass * (dword_677F54 + dword_677D74);
 }
 
-MATCH_FUNC(0x430b10)
+// FUNCTION: 105 0x430b10
 s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
 {
     s32 iVar2 = 0;
@@ -109,7 +124,7 @@ s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
     return -5;
 }
 
-STUB_FUNC(0x430a30)
+// STUB: 105 0x430a30
 char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
                                                    size_t input_size,
                                                    CarInfo_48* output,
@@ -120,7 +135,7 @@ char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
     return NULL;
 }
 
-MATCH_FUNC(0x430e60)
+// FUNCTION: 105 0x430e60
 s32 __stdcall CarInfo_808::sub_430E60(void* param_1, u32 param_2)
 {
     processed_output_676250 += param_2;
@@ -135,7 +150,7 @@ s32 __stdcall CarInfo_808::sub_430E60(void* param_1, u32 param_2)
     return 0;
 }
 
-MATCH_FUNC(0x430EC0)
+// FUNCTION: 105 0x430EC0
 s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
@@ -167,7 +182,7 @@ s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
     return 0;
 }
 
-MATCH_FUNC(0x430f30)
+// FUNCTION: 105 0x430f30
 s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
@@ -199,7 +214,7 @@ s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
     return 0;
 }
 
-MATCH_FUNC(0x430fa0)
+// FUNCTION: 105 0x430fa0
 s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* param_1, s32* param_2)
 {
     *param_2 = 0;
@@ -222,7 +237,7 @@ s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* param_1, s32* param_2)
     return 0;
 }
 
-MATCH_FUNC(0x431000)
+// FUNCTION: 105 0x431000
 s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* param_1, Fix16& param_2)
 {
     param_2 = DAT_6761A4;
@@ -252,7 +267,7 @@ s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* param_1, Fix16& param_2)
     return 0;
 }
 
-MATCH_FUNC(0x431080)
+// FUNCTION: 105 0x431080
 s32 __stdcall CarInfo_808::StrToInt_431080(const char* param_1, s16* param_2)
 {
     *param_2 = 0;
@@ -275,29 +290,29 @@ s32 __stdcall CarInfo_808::StrToInt_431080(const char* param_1, s16* param_2)
     return 0;
 }
 
-MATCH_FUNC(0x4549A0)
+// FUNCTION: 105 0x4549A0
 CarInfo_2C::CarInfo_2C()
 {
 }
 
-MATCH_FUNC(0x4549B0)
+// FUNCTION: 105 0x4549B0
 CarInfo_2C::~CarInfo_2C()
 {
 }
 
-STUB_FUNC(0x4542A0)
+// STUB: 105 0x4542A0
 void CarInfo_2C::sub_4542A0(s32 idx)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x4546b0)
+// FUNCTION: 105 0x4546b0
 CarInfo_48* CarInfo_808::sub_4546B0(u8 a2)
 {
     return field_404_ptr_array[a2];
 }
 
-MATCH_FUNC(0x4546d0)
+// FUNCTION: 105 0x4546d0
 void CarInfo_808::sub_4546D0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
@@ -309,24 +324,24 @@ void CarInfo_808::sub_4546D0()
 
     char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
 
-    crt::free(file_content);
+    ::free(file_content);
 
     if (pcVar3 != NULL)
     {
         strcpy(gErrStr_67C29C, file_name_677EC4);
         strcpy(byte_67C3A8, pcVar3);
 
-        FatalError_4A38C0(0x7de, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
+        FatalError_4A38C0(0x7de, CARINFO_CPP_STRING, 0xbc, gErrStr_67C29C, byte_67C3A8);
     }
 
     if (local_1c % 0x48)
     {
-        FatalError_4A38C0(0x7e2, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
+        FatalError_4A38C0(0x7e2, CARINFO_CPP_STRING, 0xbd, file_name_677EC4, local_1c);
     }
 
     if (local_1c != number_of_cars * 0x48)
     {
-        FatalError_4A38C0(0xbc5, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbe, local_1c / 0x48, file_name_677EC4, number_of_cars);
+        FatalError_4A38C0(0xbc5, CARINFO_CPP_STRING, 0xbe, local_1c / 0x48, file_name_677EC4, number_of_cars);
     }
 
     for (u32 i = 0; i < number_of_cars; i++)
@@ -336,7 +351,7 @@ void CarInfo_808::sub_4546D0()
     }
 }
 
-MATCH_FUNC(0x454840)
+// FUNCTION: 105 0x454840
 CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
 {
     return field_0_ptr_array[idx];
@@ -344,7 +359,7 @@ CarInfo_2C* CarInfo_808::sub_454840(u8 idx)
 
 // This function has a full match, but it's waiting until sub_4542A0 has matched.
 // Or moved to a different file. While it's empty, this match will fail because of a single intruction
-STUB_FUNC(0x454850)
+// STUB: 105 0x454850
 void CarInfo_808::sub_454850()
 {
     NOT_IMPLEMENTED;
@@ -362,7 +377,7 @@ void CarInfo_808::sub_454850()
     }
 }
 
-MATCH_FUNC(0x4549c0)
+// FUNCTION: 105 0x4549c0
 void CarInfo_808::sub_4549C0()
 {
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
@@ -372,7 +387,7 @@ void CarInfo_808::sub_4549C0()
     }
 }
 
-MATCH_FUNC(0x454a00)
+// FUNCTION: 105 0x454a00
 void CarInfo_808::sub_454A00(const char_type* pGciFilePath)
 {
     strcpy(&file_name_677EC4[0], pGciFilePath);
@@ -382,7 +397,7 @@ void CarInfo_808::sub_454A00(const char_type* pGciFilePath)
     sub_454850();
 }
 
-MATCH_FUNC(0x454a50)
+// FUNCTION: 105 0x454a50
 void CarInfo_808::sub_454A50()
 {
     sub_454AA0();
@@ -392,7 +407,7 @@ void CarInfo_808::sub_454A50()
     sub_454850();
 }
 
-MATCH_FUNC(0x454a80)
+// FUNCTION: 105 0x454a80
 void CarInfo_808::sub_454A80()
 {
     for (int i = 0; i < 0x100; i++)
@@ -402,7 +417,7 @@ void CarInfo_808::sub_454A80()
     }
 }
 
-MATCH_FUNC(0x454aa0)
+// FUNCTION: 105 0x454aa0
 void CarInfo_808::sub_454AA0()
 {
     delete[] field_400_raw_data;
@@ -415,7 +430,7 @@ void CarInfo_808::sub_454AA0()
     field_804_raw_data = 0;
 }
 
-MATCH_FUNC(0x454b00)
+// FUNCTION: 105 0x454b00
 CarInfo_808::CarInfo_808()
 {
     field_400_raw_data = NULL;
@@ -423,7 +438,7 @@ CarInfo_808::CarInfo_808()
     sub_454A80();
 }
 
-MATCH_FUNC(0x454b20)
+// FUNCTION: 105 0x454b20
 CarInfo_808::~CarInfo_808()
 {
     sub_454AA0();

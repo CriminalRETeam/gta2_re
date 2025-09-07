@@ -27,33 +27,33 @@ EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
 EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
 
-MATCH_FUNC(0x4881E0)
+// FUNCTION: 105 0x4881E0
 u8 Player::GetIdx_4881E0()
 {
     return field_2E_idx;
 }
 
-STUB_FUNC(0x5645B0)
+// STUB: 105 0x5645B0
 void Player::sub_5645B0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x564610)
+// STUB: 105 0x564610
 char_type Player::sub_564610(Car_BC* a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-STUB_FUNC(0x564680)
+// STUB: 105 0x564680
 u32* Player::sub_564680(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x564710)
+// FUNCTION: 105 0x564710
 void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 {
     this->field_18 = this->field_788_idx;
@@ -86,7 +86,7 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
     }
 }
 
-MATCH_FUNC(0x564790)
+// FUNCTION: 105 0x564790
 void Player::sub_564790(s32 idx)
 {
     this->field_18 = this->field_788_idx;
@@ -97,19 +97,19 @@ void Player::sub_564790(s32 idx)
     sub_56A010();
 }
 
-STUB_FUNC(0x5647D0)
+// STUB: 105 0x5647D0
 void Player::sub_5647D0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5648F0)
+// FUNCTION: 105 0x5648F0
 Weapon_30* Player::sub_5648F0()
 {
     return field_788_idx == -1 ? NULL : field_718[field_788_idx];
 }
 
-MATCH_FUNC(0x564910)
+// FUNCTION: 105 0x564910
 void Player::sub_564910(Weapon_30* a2)
 {
     s16 idx = a2->field_1C_idx;
@@ -120,7 +120,7 @@ void Player::sub_564910(Weapon_30* a2)
     }
 }
 
-MATCH_FUNC(0x564940)
+// FUNCTION: 105 0x564940
 char_type Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
@@ -133,7 +133,7 @@ char_type Player::HasAnyAmmo_564940()
     return 0;
 }
 
-MATCH_FUNC(0x564960)
+// FUNCTION: 105 0x564960
 char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
 {
     Ped* pPed;
@@ -173,20 +173,20 @@ char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
     return bAmmoAdded;
 }
 
-STUB_FUNC(0x5649D0)
+// STUB: 105 0x5649D0
 u16 Player::sub_5649D0(char_type a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x564AD0)
+// STUB: 105 0x564AD0
 void Player::sub_564AD0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x564B60)
+// FUNCTION: 105 0x564B60
 void Player::sub_564B60()
 {
     for (u32 i = 15; i < 28; i++)
@@ -195,14 +195,14 @@ void Player::sub_564B60()
     }
 }
 
-STUB_FUNC(0x564B80)
+// STUB: 105 0x564B80
 s32 Player::sub_564B80()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x564C00)
+// FUNCTION: 105 0x564C00
 void Player::sub_564C00()
 {
     sub_564B80();
@@ -222,7 +222,7 @@ void Player::sub_564C00()
     sub_5649D0(0, 0);
 }
 
-MATCH_FUNC(0x564C50)
+// FUNCTION: 105 0x564C50
 void Player::RemovePlayerWeapons_564C50()
 {
     s32 i = 15;
@@ -250,7 +250,7 @@ void Player::RemovePlayerWeapons_564C50()
     sub_5649D0(0, 0);
 }
 
-MATCH_FUNC(0x564CC0)
+// FUNCTION: 105 0x564CC0
 void Player::sub_564CC0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4); i++)
@@ -269,7 +269,7 @@ void Player::sub_564CC0()
     }
 }
 
-MATCH_FUNC(0x564CF0)
+// FUNCTION: 105 0x564CF0
 void Player::sub_564CF0()
 {
     u16 v2 = this->field_6F4[4];
@@ -292,14 +292,14 @@ void Player::sub_564CF0()
     this->field_6F4[4] = v2;
 }
 
-STUB_FUNC(0x564D60)
+// STUB: 105 0x564D60
 char_type Player::sub_564D60(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-MATCH_FUNC(0x565070)
+// FUNCTION: 105 0x565070
 void Player::tick_down_powerups_565070()
 {
     // invulnerability
@@ -350,20 +350,20 @@ void Player::tick_down_powerups_565070()
     }
 }
 
-STUB_FUNC(0x5651F0)
+// STUB: 105 0x5651F0
 s32 Player::sub_5651F0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x565310)
+// STUB: 105 0x565310
 void Player::sub_565310()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x5653E0)
+// FUNCTION: 105 0x5653E0
 void Player::sub_5653E0()
 {
     Car_BC* pCar = gCar_6C_677930->sub_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
@@ -377,32 +377,32 @@ void Player::sub_5653E0()
     }
 }
 
-MATCH_FUNC(0x565460)
+// FUNCTION: 105 0x565460
 void Player::sub_565460()
 {
     // Empty
 }
 
-STUB_FUNC(0x565490)
+// STUB: 105 0x565490
 s32 Player::sub_565490(Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x565740)
+// FUNCTION: 105 0x565740
 void Player::SetInputs_565740(u32 input)
 {
     field_4_inputs = input;
 }
 
-STUB_FUNC(0x565770)
+// STUB: 105 0x565770
 void Player::sub_565770(u8 count)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x565860)
+// STUB: 105 0x565860
 void Player::sub_565860()
 {
     NOT_IMPLEMENTED;
@@ -440,13 +440,13 @@ void Player::sub_565860()
     }
 }
 
-STUB_FUNC(0x565890)
+// STUB: 105 0x565890
 void Player::sub_565890(u16 action)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x566380)
+// FUNCTION: 105 0x566380
 void Player::sub_566380(u16 key)
 {
     switch (key)
@@ -493,14 +493,14 @@ void Player::sub_566380(u16 key)
     }
 }
 
-STUB_FUNC(0x566520)
+// STUB: 105 0x566520
 char_type Player::sub_566520()
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-STUB_FUNC(0x566820)
+// STUB: 105 0x566820
 void Player::sub_566820()
 {
     NOT_IMPLEMENTED;
@@ -525,13 +525,13 @@ void Player::sub_566820()
     }
 }
 
-STUB_FUNC(0x5668D0)
+// STUB: 105 0x5668D0
 void Player::sub_5668D0(Ped* a2)
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x566C30)
+// FUNCTION: 105 0x566C30
 void Player::sub_566C30(Car_BC* pCar)
 {
     char bUnknown;
@@ -555,14 +555,21 @@ void Player::sub_566C30(Car_BC* pCar)
                      bUnknown);
 }
 
-STUB_FUNC(0x566C80)
+// STUB: 105 0x566C80
 char_type Player::sub_566C80(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-MATCH_FUNC(0x566EE0)
+// STRING: 105 0x624224
+#define GAME_CAMERA_FORMAT_STRING L"game camera: (%3.3f,%3.3f,%3.3f)"
+// STRING: 105 0x6241d8
+#define AUX_CAMERA_FORMAT_STRING L"aux game camera: (%3.3f,%3.3f,%3.3f)"
+// STRING: 105 0x624194
+#define VIEW_CAMERA_FORMAT_STRING  L"view camera: (%3.3f,%3.3f,%3.3f)"
+
+// FUNCTION: 105 0x566EE0
 void Player::sub_566EE0(char_type bDoNothing)
 {
     if (!bDoNothing)
@@ -586,18 +593,18 @@ void Player::sub_566EE0(char_type bDoNothing)
             double x = this->field_90_game_camera.field_98_cam_pos2.field_0_x.AsDouble();
             double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
-            swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
+            swprintf(tmpBuff_67BD9C, GAME_CAMERA_FORMAT_STRING, x, y, z);
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
-                     L"aux game camera: (%3.3f,%3.3f,%3.3f)",
+                     AUX_CAMERA_FORMAT_STRING,
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
             gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
-                     L"view camera: (%3.3f,%3.3f,%3.3f)",
+                     VIEW_CAMERA_FORMAT_STRING,
                      this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
@@ -618,7 +625,7 @@ void Player::sub_566EE0(char_type bDoNothing)
     }
 }
 
-MATCH_FUNC(0x5670B0)
+// FUNCTION: 105 0x5670B0
 void Player::sub_5670B0()
 {
     const char_type restart_zone_type = 16;
@@ -644,7 +651,7 @@ void Player::sub_5670B0()
     }
 }
 
-MATCH_FUNC(0x567130)
+// FUNCTION: 105 0x567130
 void Player::sub_567130()
 {
     Ped* pPed_killer;
@@ -758,7 +765,7 @@ void Player::sub_567130()
     }
 }
 
-MATCH_FUNC(0x567850)
+// FUNCTION: 105 0x567850
 void Player::sub_567850()
 {
     if (field_29 == 0)
@@ -775,13 +782,13 @@ void Player::sub_567850()
     }
 }
 
-STUB_FUNC(0x5679E0)
+// STUB: 105 0x5679E0
 void Player::sub_5679E0()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x568520)
+// FUNCTION: 105 0x568520
 void Player::sub_568520()
 {
     const Ped* pPed = field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
@@ -793,7 +800,7 @@ void Player::sub_568520()
     field_34_pObj = gMap_0x370_6F6268->sub_4DFB50(cam_x_fp, cam_y_fp);
 }
 
-MATCH_FUNC(0x568630)
+// FUNCTION: 105 0x568630
 void Player::sub_568630()
 {
     infallible_turing* pCam = field_4C_pUnk;
@@ -803,14 +810,14 @@ void Player::sub_568630()
     }
 }
 
-STUB_FUNC(0x568670)
+// STUB: 105 0x568670
 char_type Player::sub_568670()
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-MATCH_FUNC(0x5686D0)
+// FUNCTION: 105 0x5686D0
 void Player::sub_5686D0(DrawUnk_0xBC* pCam)
 {
     if (this->field_82)
@@ -829,7 +836,7 @@ void Player::sub_5686D0(DrawUnk_0xBC* pCam)
     }
 }
 
-MATCH_FUNC(0x568730)
+// FUNCTION: 105 0x568730
 void Player::sub_568730()
 {
     Ped* pPlayerPed = field_2C4_player_ped;
@@ -845,20 +852,20 @@ void Player::sub_568730()
     field_8E_bInUse = 0;
 }
 
-STUB_FUNC(0x5687F0)
+// STUB: 105 0x5687F0
 void Player::sub_5687F0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x569410)
+// STUB: 105 0x569410
 s32 Player::sub_569410()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x569530)
+// FUNCTION: 105 0x569530
 void Player::sub_569530()
 {
     Car_BC* pCar = field_2C8_unkq->field_16C_car;
@@ -883,7 +890,7 @@ void Player::sub_569530()
     }
 }
 
-MATCH_FUNC(0x5695A0)
+// FUNCTION: 105 0x5695A0
 void Player::sub_5695A0()
 {
     if (!field_28)
@@ -907,14 +914,14 @@ void Player::sub_5695A0()
     }
 }
 
-STUB_FUNC(0x569600)
+// STUB: 105 0x569600
 char_type Player::sub_569600(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
-STUB_FUNC(0x5696D0)
+// STUB: 105 0x5696D0
 void Player::sub_5696D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
@@ -929,14 +936,14 @@ void Player::sub_5696D0(Car_BC* pCar)
     }
 }
 
-STUB_FUNC(0x569840)
+// STUB: 105 0x569840
 s32 Player::sub_569840(u8* a2, u8* a3, u8* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5698E0)
+// FUNCTION: 105 0x5698E0
 Car_BC* Player::sub_5698E0()
 {
     Ped* pPed;
@@ -961,14 +968,14 @@ Car_BC* Player::sub_5698E0()
     return 0;
 }
 
-STUB_FUNC(0x569920)
+// STUB: 105 0x569920
 s32 Player::sub_569920(u32* a2, s32* a3, s32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x5699F0)
+// FUNCTION: 105 0x5699F0
 void Player::sub_5699F0(s32 a2)
 {
     if (!gDo_infinite_lives_67D4C9 || a2 > 0)
@@ -977,13 +984,13 @@ void Player::sub_5699F0(s32 a2)
     }
 }
 
-STUB_FUNC(0x569A10)
+// STUB: 105 0x569A10
 void Player::sub_569A10()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x569C20)
+// FUNCTION: 105 0x569C20
 void Player::sub_569C20()
 {
     if (bStartNetworkGame_7081F0 == false && gfrosty_pasteur_6F8060 != NULL)
@@ -1009,35 +1016,47 @@ void Player::sub_569C20()
     }
 }
 
-STUB_FUNC(0x569CB0)
+// STUB: 105 0x569CB0
 void Player::sub_569CB0()
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x569E70)
+// STUB: 105 0x569E70
 void Player::sub_569E70()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x569F00)
+// STRING: 105 0x6242a4
+#define WASTED_STRING "wasted"
+
+// STRING: 105 0x62429c
+#define FRIED_STRING "fried"
+
+// STRING: 105 0x624294
+#define NICKED_STRING "nicked"
+
+// STRING: 105 0x62428c
+#define SHOCKED_STRING "shocked"
+
+// FUNCTION: 105 0x569F00
 char* Player::GetDeathText_569F00()
 {
     switch (field_44_death_type)
     {
         case 0:
         case 1:
-            return "wasted";
+            return WASTED_STRING;
             break;
         case 2:
-            return "fried";
+            return FRIED_STRING;
             break;
         case 3:
-            return "nicked";
+            return NICKED_STRING;
             break;
         case 4:
-            return "shocked";
+            return SHOCKED_STRING;
             break;
         default:
             return 0;
@@ -1045,77 +1064,77 @@ char* Player::GetDeathText_569F00()
     }
 }
 
-STUB_FUNC(0x569F40)
+// STUB: 105 0x569F40
 s32 Player::sub_569F40()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-MATCH_FUNC(0x569FF0)
+// FUNCTION: 105 0x569FF0
 s32 Player::sub_569FF0()
 {
     field_2F = 1;
     return sub_569F40();
 }
 
-MATCH_FUNC(0x56A000)
+// FUNCTION: 105 0x56A000
 void Player::SetUnknown_56A000()
 {
     field_2F = 0;
 }
 
-MATCH_FUNC(0x56A010)
+// FUNCTION: 105 0x56A010
 void Player::sub_56A010()
 {
     field_31 = 1;
 }
 
-MATCH_FUNC(0x56A020)
+// FUNCTION: 105 0x56A020
 void Player::sub_56A020()
 {
     field_31 = 0;
 }
 
-MATCH_FUNC(0x56A030)
+// FUNCTION: 105 0x56A030
 void Player::sub_56A030()
 {
     field_30 = 1;
 }
 
-MATCH_FUNC(0x56A040)
+// FUNCTION: 105 0x56A040
 void Player::sub_56A040()
 {
     field_30 = 0;
 }
 
-STUB_FUNC(0x56A0F0)
+// STUB: 105 0x56A0F0
 s32 Player::sub_56A0F0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x56A1A0)
+// STUB: 105 0x56A1A0
 zealous_borg* Player::sub_56A1A0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x56A310)
+// STUB: 105 0x56A310
 void Player::sub_56A310(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56A490)
+// STUB: 105 0x56A490
 void Player::sub_56A490()
 {
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x56A6D0)
+// FUNCTION: 105 0x56A6D0
 void Player::sub_56A6D0()
 {
     // sets some car info to 0
@@ -1141,13 +1160,13 @@ void Player::sub_56A6D0()
     field_8C = 0;
 }
 
-STUB_FUNC(0x56A740)
+// STUB: 105 0x56A740
 Player::Player(u8 a2)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56A940)
+// STUB: 105 0x56A940
 Player::~Player()
 {
     NOT_IMPLEMENTED;

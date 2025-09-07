@@ -17,6 +17,8 @@ class Fix16
         return *this;
     }
 
+    // SYNTHETIC: 105 0x436A00
+    // Fix16::operator-
     Fix16 operator-(const Fix16& in) const
     {
         s32 value = mValue - in.mValue;
@@ -41,6 +43,8 @@ class Fix16
         return *this;
     }
 
+    // SYNTHETIC: 105 0x408680
+    // Fix16::operator*
     Fix16 operator*(const Fix16& in) const
     {
         s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
@@ -54,7 +58,6 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    //MATCH_FUNC(0x4086A0)
     Fix16 operator-()
     {
         return Fix16(-mValue, 0);
@@ -85,13 +88,13 @@ class Fix16
         return mValue <= other.mValue;
     }
 
-    // MATCH_FUNC(0x509990)
+    // Inlined from 9.6f from 0x509990
     bool operator>=(const s32 value) const
     {
         return mValue >= value << 14;
     }
 
-    // MATCH_FUNC(0x509990)
+    // Inlined from 9.6f from 0x509990
     bool operator<(const s32 value) const
     {
         return mValue < value << 14;
@@ -145,11 +148,15 @@ class Fix16
     {
     }
 
+    // SYNTHETIC: 105 0x45C4E0
+    // Fix16::Fix16(unsigned char)
     Fix16(u8 value)
     {
         mValue = value << 14;
     }
 
+    // SYNTHETIC: 105 0x4AE970
+    // Fix16::Fix16(unsigned short)
     Fix16(u16 value)
     {
         mValue = value << 14;
@@ -165,6 +172,8 @@ class Fix16
         mValue = value << 14;
     }
 
+    // SYNTHETIC: 105 0x4369F0
+    // Fix16::Fix16(int)
     Fix16(s32 value)
     {
         mValue = value << 14;
@@ -252,7 +261,8 @@ class Fix16
     EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
-    //MATCH_FUNC(0x436A20)
+    // SYNTHETIC: 105 0x436A20
+    // Fix16::operator/
     Fix16 operator/(const Fix16& in)
     {
         s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
@@ -284,11 +294,14 @@ class Fix16_Point : public Fix16_Point_POD
 {
 public:
     // Both inlined and exists as a function... some strange array init behaviour??
+    // SYNTHETIC: 105 0x40ac40
+    // Fix16_Point::~Fix16_Point
     ~Fix16_Point() {}
 
     // It needs to be in the header
-    // MATCH_FUNC(0x563970)
-    
+    // Inlined from 9.6f from 0x563970
+    // SYNTHETIC: 105 0x563970
+    // Fix16_Point::Fix16_Point
     Fix16_Point()
     {
     }

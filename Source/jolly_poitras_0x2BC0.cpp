@@ -8,16 +8,22 @@
 #include "lucid_hamilton.hpp"
 #include <io.h>
 
-DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0, 0x6FEAC0);
+// GLOBAL: 105 0x6FEAC0
+DEFINE_GLOBAL(jolly_poitras_0x2BC0*, gJolly_poitras_0x2BC0_6FEAC0);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
-DEFINE_GLOBAL_ARRAY(score_table_line, stru_6242B0, 10, 0x6242B0);
-DEFINE_GLOBAL_ARRAY(score_table_line, stru_6243A0, 120, 0x6243A0); //, , 3][4][10, 0xUNKNOWN);
+// GLOBAL: 105 0x6242B0
+DEFINE_GLOBAL_ARRAY(score_table_line, stru_6242B0, 10);
+// GLOBAL: 105 0x6243A0
+DEFINE_GLOBAL_ARRAY(score_table_line, stru_6243A0, 120); // [3][4][10]
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 
-MATCH_FUNC(0x56B6E0)
+// FUNCTION: 105 0x5fc800 SYMBOL
+// SEH_5fc800
+
+// FUNCTION: 105 0x56B6E0
 jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
 {
     for (s32 i = 0; i < 3; i++)
@@ -52,7 +58,7 @@ jolly_poitras_0x2BC0::jolly_poitras_0x2BC0()
     sub_56BD20();
 }
 
-STUB_FUNC(0x56B810)
+// STUB: 105 0x56B810
 jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 {
     NOT_IMPLEMENTED;
@@ -61,7 +67,7 @@ jolly_poitras_0x2BC0::~jolly_poitras_0x2BC0()
 }
 
 // https://decomp.me/scratch/oIJET
-STUB_FUNC(0x56BB10)
+// STUB: 105 0x56BB10
 void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
 {
     NOT_IMPLEMENTED;
@@ -91,24 +97,27 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     sub_56BA60(slot_idx);
 }
 
-STUB_FUNC(0x56C010)
+// STUB: 105 0x56C010
 void jolly_poitras_0x2BC0::sub_56C010()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-MATCH_FUNC(0x56B8A0)
+// STRING: 105 0x624EE0
+#define DAT_EXT_STRING ".dat"
+
+// FUNCTION: 105 0x56B8A0
 void jolly_poitras_0x2BC0::GetPlySlotDatName_56B8A0(u16 a1, char_type* a2)
 {
     char_type Buffer[8];
     _itoa(a1, Buffer, 10);
     strcpy(a2, "player\\plyslot");
     strcat(a2, Buffer);
-    strcat(a2, ".dat");
+    strcat(a2, DAT_EXT_STRING);
 }
 
-MATCH_FUNC(0x56B940)
+// FUNCTION: 105 0x56B940
 char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
 {
     char_type FileName[356];
@@ -124,13 +133,16 @@ char_type jolly_poitras_0x2BC0::PlySlotDatExists_56B940(s32 a1)
     return 1;
 }
 
-MATCH_FUNC(0x56BCF0)
+// STRING: 105 0x624ee8
+#define HISCORES_HSC_STRING "player\\hiscores.hsc"
+
+// FUNCTION: 105 0x56BCF0
 void jolly_poitras_0x2BC0::GetHiScoreHscFileName_56BCF0(char_type* pName)
 {
-    strcpy(pName, "player\\hiscores.hsc");
+    strcpy(pName, HISCORES_HSC_STRING);
 }
 
-MATCH_FUNC(0x56BCA0)
+// FUNCTION: 105 0x56BCA0
 char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
 {
     char_type FileName[356];
@@ -146,7 +158,7 @@ char_type jolly_poitras_0x2BC0::HiScoreHscExists_56BCA0()
     return 1;
 }
 
-MATCH_FUNC(0x56B990)
+// FUNCTION: 105 0x56B990
 void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
 {
     char_type FileName[356];
@@ -179,7 +191,7 @@ void jolly_poitras_0x2BC0::sub_56B990(u16 slotIdx)
     File::Global_Close_4A70C0();
 }
 
-STUB_FUNC(0x56BA60)
+// STUB: 105 0x56BA60
 void jolly_poitras_0x2BC0::sub_56BA60(s16 a2)
 {
     NOT_IMPLEMENTED;
@@ -220,7 +232,7 @@ s32 len;
     File::Global_Close_4A70C0();
 */
 
-MATCH_FUNC(0x56BE50)
+// FUNCTION: 105 0x56BE50
 void jolly_poitras_0x2BC0::sub_56BE50()
 {
     char_type FileName[256];
@@ -246,7 +258,7 @@ void jolly_poitras_0x2BC0::sub_56BE50()
     File::Global_Close_4A70C0();
 }
 
-MATCH_FUNC(0x56C1D0)
+// FUNCTION: 105 0x56C1D0
 void jolly_poitras_0x2BC0::sub_56C1D0()
 {
     field_23D0.Init_56B520();
@@ -272,39 +284,60 @@ void jolly_poitras_0x2BC0::sub_56C1D0()
     }
 }
 
-STUB_FUNC(0x56BF20)
+// STUB: 105 0x56BF20
 void jolly_poitras_0x2BC0::sub_56BF20()
 {
     NOT_IMPLEMENTED;
     // todo
 }
 
-MATCH_FUNC(0x56BD20)
+// STRING: 105 0x624f78
+#define ALAN_STRING L"ALAN"
+// STRING: 105 0x624f6c
+#define BRAIN_STRING L"BRIAN"
+// STRING: 105 0x624f60
+#define COLIN_STRING L"COLIN"
+// STRING: 105 0x624f54
+#define DAVE_STRING L"DAVE"
+// STRING: 105 0x624f48
+#define ERIC_STRING L"ERIC"
+// STRING: 105 0x624f3c
+#define FRANK_STRING L"FRANK"
+// STRING: 105 0x624f2c
+#define GRAEME_STRING L"GRAEME"
+// STRING: 105 0x624f1c
+#define HECTOR_STRING L"HECTOR"
+// STRING: 105 0x624f0c
+#define IMOGEN_STRING L"IMOGEN"
+// STRING: 105 0x624EFC
+#define JACKSON_STRING L"JACKSON"
+
+// FUNCTION: 105 0x56BD20
 void jolly_poitras_0x2BC0::sub_56BD20()
 {
-    wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, L"ALAN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[0].field_0_player_name, ALAN_STRING, 9u);
     field_24C0.field_0_score_table_line[0].field_14_score = 1000000;
-    wcsncpy(field_24C0.field_0_score_table_line[1].field_0_player_name, L"BRIAN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[1].field_0_player_name, BRAIN_STRING, 9u);
     field_24C0.field_0_score_table_line[1].field_14_score = 500000;
-    wcsncpy(field_24C0.field_0_score_table_line[2].field_0_player_name, L"COLIN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[2].field_0_player_name, COLIN_STRING, 9u);
     field_24C0.field_0_score_table_line[2].field_14_score = 400000;
-    wcsncpy(field_24C0.field_0_score_table_line[3].field_0_player_name, L"DAVE", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[3].field_0_player_name, DAVE_STRING, 9u);
     field_24C0.field_0_score_table_line[3].field_14_score = 300000;
-    wcsncpy(field_24C0.field_0_score_table_line[4].field_0_player_name, L"ERIC", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[4].field_0_player_name, ERIC_STRING, 9u);
     field_24C0.field_0_score_table_line[4].field_14_score = 250000;
-    wcsncpy(field_24C0.field_0_score_table_line[5].field_0_player_name, L"FRANK", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[5].field_0_player_name, FRANK_STRING, 9u);
     field_24C0.field_0_score_table_line[5].field_14_score = 200000;
-    wcsncpy(field_24C0.field_0_score_table_line[6].field_0_player_name, L"GRAEME", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[6].field_0_player_name, GRAEME_STRING, 9u);
     field_24C0.field_0_score_table_line[6].field_14_score = 100000;
-    wcsncpy(field_24C0.field_0_score_table_line[7].field_0_player_name, L"HECTOR", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[7].field_0_player_name, HECTOR_STRING, 9u);
     field_24C0.field_0_score_table_line[7].field_14_score = 50000;
-    wcsncpy(field_24C0.field_0_score_table_line[8].field_0_player_name, L"IMOGEN", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[8].field_0_player_name, IMOGEN_STRING, 9u);
     field_24C0.field_0_score_table_line[8].field_14_score = 25000;
-    wcsncpy(field_24C0.field_0_score_table_line[9].field_0_player_name, L"JACKSON", 9u);
+    wcsncpy(field_24C0.field_0_score_table_line[9].field_0_player_name, JACKSON_STRING, 9u);
     field_24C0.field_0_score_table_line[9].field_14_score = 10000;
 }
 
-MATCH_FUNC(0x56BC40)
+// FUNCTION: 105 0x56BC40
 void jolly_poitras_0x2BC0::sub_56BC40()
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
@@ -323,7 +356,7 @@ void jolly_poitras_0x2BC0::sub_56BC40()
     }
 }
 
-MATCH_FUNC(0x56BBD0)
+// FUNCTION: 105 0x56BBD0
 void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
 {
     const u8 slot_idx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
@@ -334,13 +367,16 @@ void jolly_poitras_0x2BC0::sub_56BBD0(u8 map_num, u8 bonus_num)
     }
 }
 
-MATCH_FUNC(0x56C250)
+// STRING: 105 0x624f84
+#define MUCH_CASH_CHEAT_STR L"MUCHCASH"
+
+// FUNCTION: 105 0x56C250
 void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
 {
     if (!bStartNetworkGame_7081F0)
     {
         player_stats_0xA4* pStats = &this->field_26A0_plyr_stats[gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0()];
-        if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
+        if (wcscmp(pStats->field_90_strPlayerName, MUCH_CASH_CHEAT_STR) == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
             pPlayer->field_2D4_unk.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
@@ -348,7 +384,13 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
     }
 }
 
-MATCH_FUNC(0x56C2C0)
+// FUNCTION: 105 0x5fc86b SYMBOL
+// SEH_5fc86b
+
+// STRING: 105 0x624f98
+#define PLYDAT_CPP_STRING "C:\\Splitting\\Gta2\\Source\\plydat.cpp"
+
+// FUNCTION: 105 0x56C2C0
 void jolly_poitras_0x2BC0::create_56C2C0()
 {
     if (!gJolly_poitras_0x2BC0_6FEAC0)
@@ -356,12 +398,12 @@ void jolly_poitras_0x2BC0::create_56C2C0()
         gJolly_poitras_0x2BC0_6FEAC0 = new jolly_poitras_0x2BC0();
         if (!gJolly_poitras_0x2BC0_6FEAC0)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
+            FatalError_4A38C0(32, PLYDAT_CPP_STRING, 1269);
         }
     }
 }
 
-MATCH_FUNC(0x56C340)
+// FUNCTION: 105 0x56C340
 void jolly_poitras_0x2BC0::destroy_56C340()
 {
     if (gJolly_poitras_0x2BC0_6FEAC0)
@@ -373,18 +415,18 @@ void jolly_poitras_0x2BC0::destroy_56C340()
 
 // =====================================================================
 
-MATCH_FUNC(0x56B500)
+// FUNCTION: 105 0x56B500
 high_score_table_0xF0::high_score_table_0xF0()
 {
     Init_56B520();
 }
 
-MATCH_FUNC(0x56B510)
+// FUNCTION: 105 0x56B510
 high_score_table_0xF0::~high_score_table_0xF0()
 {
 }
 
-MATCH_FUNC(0x56B520)
+// FUNCTION: 105 0x56B520
 void high_score_table_0xF0::Init_56B520()
 {
     for (s32 i = 0; i < 10; i++)
@@ -394,7 +436,7 @@ void high_score_table_0xF0::Init_56B520()
     }
 }
 
-STUB_FUNC(0x56B550)
+// STUB: 105 0x56B550
 char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     NOT_IMPLEMENTED;
@@ -443,18 +485,18 @@ char_type high_score_table_0xF0::sub_56B550(const wchar_t* pFindStr, s32 findSco
     return 0;
 }
 
-MATCH_FUNC(0x56B610)
+// FUNCTION: 105 0x56B610
 player_stats_0xA4::player_stats_0xA4()
 {
     sub_56B630();
 }
 
-MATCH_FUNC(0x56B620)
+// FUNCTION: 105 0x56B620
 player_stats_0xA4::~player_stats_0xA4()
 {
 }
 
-MATCH_FUNC(0x56B630)
+// FUNCTION: 105 0x56B630
 void player_stats_0xA4::sub_56B630()
 {
     for (u16 k = 0; k < 9; k++)
@@ -474,7 +516,7 @@ void player_stats_0xA4::sub_56B630()
     field_0_plyr_stage_stats[0][0].field_0_is_stage_unlocked = true;
 }
 
-MATCH_FUNC(0x56B680)
+// FUNCTION: 105 0x56B680
 s32 player_stats_0xA4::sub_56B680()
 {
     s32 result = 0;
@@ -489,7 +531,7 @@ s32 player_stats_0xA4::sub_56B680()
     return result;
 }
 
-MATCH_FUNC(0x56B6B0)
+// FUNCTION: 105 0x56B6B0
 s32 player_stats_0xA4::sub_56B6B0()
 {
     s32 result = 0;

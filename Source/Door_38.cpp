@@ -9,17 +9,26 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(s32, dword_67BBE0, 0x67BBE0);
-DEFINE_GLOBAL_ARRAY(Door_A, word_67BB38, 5, 0x67BB38);
-DEFINE_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C, 0x67BD2C);
-DEFINE_GLOBAL(Fix16, DAT_0067BA20, 0x67BA20);
-DEFINE_GLOBAL(Fix16, DAT_0067BBE4, 0x67BBE4);
-DEFINE_GLOBAL(Fix16, DAT_0067BBE8, 0x67BBE8);
-DEFINE_GLOBAL(Ang16, DAT_0067BA38, 0x67BA38);
-DEFINE_GLOBAL(Ang16, DAT_0067BB2C, 0x67BB2C);
-DEFINE_GLOBAL(Ang16, DAT_0067BD18, 0x67BD18);
+// GLOBAL: 105 0x67BBE0
+DEFINE_GLOBAL(s32, dword_67BBE0);
+// GLOBAL: 105 0x67BB38
+DEFINE_GLOBAL_ARRAY(Door_A, word_67BB38, 5);
+// GLOBAL: 105 0x67BD2C
+DEFINE_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C);
+// GLOBAL: 105 0x67BA20
+DEFINE_GLOBAL(Fix16, DAT_0067BA20);
+// GLOBAL: 105 0x67BBE4
+DEFINE_GLOBAL(Fix16, DAT_0067BBE4);
+// GLOBAL: 105 0x67BBE8
+DEFINE_GLOBAL(Fix16, DAT_0067BBE8);
+// GLOBAL: 105 0x67BA38
+DEFINE_GLOBAL(Ang16, DAT_0067BA38);
+// GLOBAL: 105 0x67BB2C
+DEFINE_GLOBAL(Ang16, DAT_0067BB2C);
+// GLOBAL: 105 0x67BD18
+DEFINE_GLOBAL(Ang16, DAT_0067BD18);
 
-MATCH_FUNC(0x49c640)
+// FUNCTION: 105 0x49c640
 Door_38::Door_38()
 {
     field_0 = 0;
@@ -43,7 +52,7 @@ Door_38::Door_38()
     field_2D = 0;
 }
 
-MATCH_FUNC(0x49c690)
+// FUNCTION: 105 0x49c690
 Door_38::~Door_38()
 {
     field_0 = 0;
@@ -52,7 +61,7 @@ Door_38::~Door_38()
     field_C = 0;
 }
 
-MATCH_FUNC(0x49c6a0)
+// FUNCTION: 105 0x49c6a0
 bool Door_38::sub_49C6A0(Sprite* a1)
 {
     if (a1)
@@ -62,7 +71,7 @@ bool Door_38::sub_49C6A0(Sprite* a1)
     return true;
 }
 
-MATCH_FUNC(0x49c6d0)
+// FUNCTION: 105 0x49c6d0
 bool Door_38::sub_49C6D0(Car_BC* a2)
 {
     bool ret = false;
@@ -129,7 +138,7 @@ bool Door_38::sub_49C6D0(Car_BC* a2)
     return ret;
 }
 
-MATCH_FUNC(0x49c7f0)
+// FUNCTION: 105 0x49c7f0
 bool Door_38::sub_49C7F0(Ped* a2)
 {
     bool ret = false;
@@ -158,7 +167,7 @@ bool Door_38::sub_49C7F0(Ped* a2)
     return ret;
 }
 
-MATCH_FUNC(0x49c840)
+// FUNCTION: 105 0x49c840
 void Door_38::sub_49C840()
 {
     Door_10* this_00 = this->field_0;
@@ -177,7 +186,7 @@ void Door_38::sub_49C840()
     this->field_28 = 0;
 }
 
-MATCH_FUNC(0x49c870)
+// FUNCTION: 105 0x49c870
 void Door_38::sub_49C870(Car_BC* a2)
 {
     if (field_29)
@@ -192,7 +201,7 @@ void Door_38::sub_49C870(Car_BC* a2)
     }
 }
 
-MATCH_FUNC(0x49c8a0)
+// FUNCTION: 105 0x49c8a0
 void Door_38::sub_49C8A0(Ped* a2)
 {
     if (field_29)
@@ -207,7 +216,7 @@ void Door_38::sub_49C8A0(Ped* a2)
     }
 }
 
-MATCH_FUNC(0x49c8d0)
+// FUNCTION: 105 0x49c8d0
 void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
 {
     Fix16 iVar5;
@@ -268,7 +277,7 @@ void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
     field_34 = iVar6;
 }
 
-MATCH_FUNC(0x49ca50)
+// FUNCTION: 105 0x49ca50
 void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5)
 {
     if (!field_0)
@@ -283,7 +292,7 @@ void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5
     }
 }
 
-MATCH_FUNC(0x49cac0)
+// FUNCTION: 105 0x49cac0
 void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
     Fix16 z(a1->field_6_z);
@@ -331,7 +340,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     field_34 = y;
 }
 
-MATCH_FUNC(0x49cc00)
+// FUNCTION: 105 0x49cc00
 void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
     Ang16 local_c;
@@ -389,7 +398,7 @@ void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     field_34 = y;
 }
 
-MATCH_FUNC(0x49cd90)
+// FUNCTION: 105 0x49cd90
 void Door_38::sub_49CD90()
 {
     if (field_29 != 0)
@@ -432,7 +441,7 @@ void Door_38::sub_49CD90()
     }
 }
 
-MATCH_FUNC(0x49ce90)
+// FUNCTION: 105 0x49ce90
 char_type Door_38::sub_49CE90()
 {
     if (field_2D)

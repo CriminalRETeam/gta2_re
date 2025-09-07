@@ -49,14 +49,22 @@ jobs:
     # ======================================
     #      Windows vc6
     # ======================================
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v5
+      with:
+        python-version: pypy3.10
 
     - name: Build on Windows (Windows_VC6)
       if: matrix.name == 'Windows_VC6'
       run: |
+        python -m venv venv
+        dir venv
+        dir venv/Scripts
+        venv/Scripts/activate.bat
         pip install -r requirements.txt
+        pip install -e 3rdParty/reccmp/
         python vc6_setup.py
         python build.py
-        build_vc6/decomp_main.exe --check_vars_only
 
     - name: Upload artifacts on Windows (Windows_VC6)
       if: matrix.name == 'Windows_VC6'
@@ -106,6 +114,7 @@ jobs:
         python3 -m venv venv
         source venv/bin/activate
         pip install -r requirements.txt
+        pip install -e 3rdParty/reccmp/
         python3 vc6_setup.py
         python3 build.py
 
