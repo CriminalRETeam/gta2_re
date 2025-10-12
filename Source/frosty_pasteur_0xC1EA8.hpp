@@ -481,6 +481,15 @@ enum SCRCMD
     SCRCMD_RESTORE_RESPECT = 446, // BE01
 };
 
+class thread_C
+{
+  public:
+    s32 field_0_unk;
+    s32 field_4_obj_f14;
+    u16 field_8_cmd_line;
+    u16 field_A;
+};
+
 class frosty_pasteur_0xC1EA8
 {
   public:
@@ -505,7 +514,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT s32* sub_5128D0(s32 a2, s32 a3, s16 a4);
     EXPORT char_type sub_512910(s32 a2, s32 a3);
     EXPORT s32* sub_512980(s32 a2, s32 a3);
-    EXPORT s32* sub_5129B0(s32 a2, s32 a3, s16 a4);
+    EXPORT void sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
     EXPORT char_type sub_5129F0(s32 a2, s32 a3);
     EXPORT s32* sub_512A70(s32 a2, s32 a3);
     EXPORT char_type* sub_512AA0(s32 a2);
@@ -520,9 +529,9 @@ class frosty_pasteur_0xC1EA8
     s16 field_0;
     s16 field_2;
     s32 field_4[96];
-    s16 field_184;
+    s16 field_184_count;
     s16 field_186;
-    s32 field_188[60];
+    thread_C field_188_thrds[20];
     s16 field_278;
     s16 field_27A;
     BYTE field_27C[120];
