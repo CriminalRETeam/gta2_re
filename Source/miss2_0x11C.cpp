@@ -2994,10 +2994,36 @@ void miss2_0x11C::SCRCMD_BEEN_PUNCHED_BY_50C760()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50c7d0)
+MATCH_FUNC(0x50c7d0)
 void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
 {
-    NOT_IMPLEMENTED;
+    SCR_UPDATE_DOOR* pCmd = (SCR_UPDATE_DOOR*)gBasePtr_6F8070;
+    SCR_POINTER* pDoorPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_door_idx);
+
+    SCR_POINTER* pTarget;
+
+    switch (pDoorPointer->field_8_door->field_20_state)
+    {
+        case 5:
+            pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+
+            pDoorPointer->field_8_door->set_open_details_ped(5, pTarget->field_8_char);
+            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_char->field_200_id);
+            break;
+        case 3:
+            pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+
+            pDoorPointer->field_8_door->set_open_details_car_bc(3, pTarget->field_8_car);
+            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_car->field_6C_maybe_id);
+            break;
+        case 6:
+            pTarget = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+
+            pDoorPointer->field_8_door->set_open_details_car_bc(6, pTarget->field_8_car);
+            pDoorPointer->field_8_door->set_field_14_id(pTarget->field_8_car->field_6C_maybe_id);
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50c8a0)

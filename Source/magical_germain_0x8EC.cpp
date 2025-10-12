@@ -96,8 +96,8 @@ void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
         v6 = field_8C4_pKidX[8448];
     }
     pgbh_LockTexture(field_8D8_pTexture);
-    magical_germain_0x8EC::sub_4D2240((char_type*)&this->field_8C8_pKBIT[32 * v6]);
-    magical_germain_0x8EC::sub_4D2150((s32)this->field_8D0_pSprtData, 16, 17);
+    magical_germain_0x8EC::sub_4D2240((char_type*)&field_8C8_pKBIT[32 * v6]); // OBS: probably a pointer
+    magical_germain_0x8EC::sub_4D2150((s32)field_8D0_pSprtData, 16, 17);
     pgbh_UnlockTexture(field_8D8_pTexture);
 }
 
@@ -116,8 +116,8 @@ void magical_germain_0x8EC::sub_4D2690(wchar_t text_char)
         v6 = field_8C4_pKidX[8448];
     }
     pgbh_LockTexture(field_8E4_pTexture);
-    magical_germain_0x8EC::sub_4D23B0((char*)&this->field_8C8_pKBIT[32 * v6]);
-    magical_germain_0x8EC::sub_4D2150((int)this->field_8DC_pSprtData, 32, 34);
+    magical_germain_0x8EC::sub_4D23B0((char_type*)&field_8C8_pKBIT[32 * v6]); // OBS: probably a pointer
+    magical_germain_0x8EC::sub_4D2150((s32)field_8DC_pSprtData, 32, 34);
     pgbh_UnlockTexture(field_8E4_pTexture);
 }
 
