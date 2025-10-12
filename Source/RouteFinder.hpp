@@ -28,7 +28,24 @@ class Junction_10
     u8 field_C_min_x;
     u8 field_D_min_y;
     u8 field_E_max_x;
-    u8 field_F_min_y;
+    u8 field_F_max_y;
+};
+
+struct JunctionSegment_0x8
+{
+    inline bool sub_40CF20(s16 x, s16 y)
+    {
+        return x >= field_4_min_x 
+               && x <= field_6_max_x 
+               && y >= field_5_min_y 
+               && y <= field_7_min_y;
+    }
+    u16 field_0_junction_num1;
+    u16 field_2_junction_num2;
+    u8 field_4_min_x;
+    u8 field_5_min_y;
+    u8 field_6_max_x;
+    u8 field_7_min_y;
 };
 
 class RouteFinder_10
@@ -58,12 +75,12 @@ class RouteFinder
     EXPORT u16 sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5); // ret _BOOL2
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
-    EXPORT char_type sub_588CA0(gmp_block_info* a1, s32 a2, char_type a3);
+    EXPORT bool sub_588CA0(gmp_block_info* block, s32 a2, u8 a3);
     EXPORT char_type sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4);
-    EXPORT u16 sub_588E60(u8 a2, u8 a3, u8 a4, char_type a5, s32 a6);
+    EXPORT u16 sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6);
     EXPORT u16 sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
     EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
-    EXPORT u8 sub_5890D0(u16 a2, s32 a3, u8* a4, u8* a5);
+    EXPORT void sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
     EXPORT s32 sub_589210(char_type a2, char_type a3, s32 a4, char_type a5, s32 a6, u16 a7);
     EXPORT RouteFinder_10* sub_5892F0(RouteFinder_10* a2, u16 a3, s16 a4);
     EXPORT RouteFinder_10* sub_589390(u16 a2);
@@ -98,10 +115,10 @@ class RouteFinder
     u16 field_861A;
     RouteFinder_10 field_861C[545];
     RouteFinder_10* field_A82C;
-    char_type field_A830[4360];
-    char_type field_B938[4360];
+    JunctionSegment_0x8 field_A830[545];
+    JunctionSegment_0x8 field_B938[545];
     char_type field_CA40[545];
-    s16 field_CC62;
+    u16 field_CC62;
     u16 field_CC64;
     u16 field_CC66_545_count;
 };

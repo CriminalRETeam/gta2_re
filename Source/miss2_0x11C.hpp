@@ -379,6 +379,12 @@ struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
     u16 field_30_somename; // id of car/model/char or integer value (int is not supported by gta2 according to docs)
 };
 
+struct SCR_UPDATE_DOOR : SCR_CMD_HEADER
+{
+    u16 field_8_door_idx;
+    u16 field_A_target_idx;
+};
+
 struct SCR_SET_CHAR_GRAPHIC_TYPE : SCR_CMD_HEADER
 {
     u16 field_8_varname;

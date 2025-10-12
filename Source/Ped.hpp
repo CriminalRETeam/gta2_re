@@ -265,6 +265,11 @@ class Ped
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 sub_470F00();
 
+    EXPORT void nullsub_9();
+    EXPORT void nullsub_10();
+    EXPORT void nullsub_11();
+    EXPORT void nullsub_12();
+
     inline s32 sub_420B70()
     {
         return field_238;
@@ -430,18 +435,18 @@ class Ped
     Object_2C* field_1A4;
     Ped* field_1A8_elvis_leader;
     Fix16_Vec field_1AC_cam;
-    s32 field_1B8_target_x;
-    s32 field_1BC_target_y;
-    s32 field_1C0_target_z;
+    Fix16 field_1B8_target_x;
+    Fix16 field_1BC_target_y;
+    Fix16 field_1C0_target_z;
     s32 field_1C4_x;
     s32 field_1C8_y;
     s32 field_1CC_z;
     Fix16 field_1D0;
     Fix16 field_1D4;
     Fix16 field_1D8;
-    s32 field_1DC_objective_target_x;
-    s32 field_1E0_objective_target_y;
-    s32 field_1E4_objective_target_z;
+    Fix16 field_1DC_objective_target_x;
+    Fix16 field_1E0_objective_target_y;
+    Fix16 field_1E4_objective_target_z;
     s32 field_1E8;
     s32 field_1EC;
     Fix16 field_1F0;
@@ -494,7 +499,7 @@ class Ped
     char_type field_246;
     char_type field_247;
     s32 field_248_enter_car_as_passenger;
-    char_type field_24C_target_car_door;
+    u8 field_24C_target_car_door;
     char_type field_24D;
     char_type field_24E;
     char_type field_24F;

@@ -1,4 +1,5 @@
 #include "Frontend.hpp"
+#include "ang16.hpp"
 #include "Bink.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Function.hpp"
@@ -49,6 +50,10 @@ DEFINE_GLOBAL(s16, word_703BE2, 0x703BE2);
 DEFINE_GLOBAL(s16, word_703B88, 0x703B88);
 DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
 DEFINE_GLOBAL(s16, word_703B9C, 0x703B9C);
+DEFINE_GLOBAL(Ang16, word_706C3C, 0x706C3C);
+DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
+DEFINE_GLOBAL(Ang16, word_67DA70, 0x67DA70);
+DEFINE_GLOBAL(Fix16, dword_67D934, 0x67D934);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
 DEFINE_GLOBAL(BYTE, byte_67DA80, 0x67DA80);
 DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4, 0x67DC88); // todo: prob, bigger, 0xUNKNOWN);
@@ -990,7 +995,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             else
             {
-                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter);
+                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
             }
             if (draw_kind == 0xFFFFu)
             {
@@ -1037,560 +1042,443 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 STUB_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
-    NOT_IMPLEMENTED;
-    __int32 v1; // edx
-    int v2; // ebx
-    __int16 v12; // ax
-    int v13; // edx
-    int v14; // eax
-    __int16 v15; // ax
-    int v16; // ecx
-    u16 v18;
-    score_table_line* v20; // ecx
-    u16 v21; // ax
-    u8 v23; // al
-    u8 v24; // bl
-    u8 v25; // bp
-    wchar_t* _5B5F90; // eax
-    u16 v27; // ax
-    __int32 v30; // eax
-    int field_6_wstr_buf; // edx
-    u16 v35; // eax
-    __int16 v37; // ax
-    int v38; // ecx
-    int v39; // edx
-    __int16 v40; // ax
-    u16 v44; // ax
-    Fix16* v46; // eax
-    score_table_line* v47; // ecx
-    int v48; // ecx
-    int v49; // edx
-    score_table_line* v50; // ecx
-    int v51; // ecx
-    u16 v54; // ax
-    menu_element_0x6E* v56; // ebp
-    u16 field_2_xpos; // bx
-    u16 v58; // dx
-    int* v59; // eax
-    u16* v60; // ecx
-    u16 field_4_ypos; // ax
-    u16 v63; // ax
-    score_table_line* v66; // ecx
-    high_score_table_0xF0* v85;
-    int a5;
-    int a6;
-
-    const u16 local_field_132_f136_idx = field_132_f136_idx;
     const s32 v98 = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
-    const s32 v5 = field_132_f136_idx;
-    s32 v6 = 1509 * field_132_f136_idx;
-    MenuPage_0xBCA* v7 = &field_136_menu_pages_array[local_field_132_f136_idx];
+    
+    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
-    u16 temp_unk1;
-
-    /*
-for (s32 i=0; i<3; i++)
-{
-    wprintf(L"%S\n", field_136[i].field_4[0].field_6_element_name_str);
-}*/
-    //printf("field_132_f136_idx %d\n", field_132_f136_idx);
-
+    u16 selected_option_idx;
+    u16 last_xpos;
+    
     if (field_132_f136_idx == MENUPAGE_START_MENU)
     {
         swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
         DrawText_4B87A0(tmpBuff_67BD9C, 300, 460, font_type_703C14, 1);
-
-        // Testing...
-        //  buffer, x, y, font_type, palette, scale, lang={14,16,21}, count line
-        //Frontend::sub_4B78B0(L"ABCDE", 300, 400, 4, 10, 1, 16, true);
-        //DrawText_4B87A0(L"ABCDEFGHIJKLM\nNOPQRSTUVW\nXYZ 0123456789", (s32)300, (s32)370, 4, 1);
-        //s32 local = 2;
-        //DrawText_5D8A10(L"ABCDEFGHIJKLM\nNOPQRSTUVW\nXYZ 0123456789", (s32)300, (s32)370, 4, 1, &local, 0, 0, 0);
     }
-
+    
     if (field_132_f136_idx == MENUPAGE_PLAY)
     {
         if (field_110_state == 3)
         {
-            v7->field_518_elements_array[8].field_1_is_it_displayed = 0;
-            v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
-
+            pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
+            pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
+            
             // NOTE: field_124_font_type is u16
             // NOTE: sub_4B7E10 is not static
 
-            v12 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
-            v14 = sub_4B7E10(11, v12 + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
+            last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
+            last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
 
-            v15 = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
-            sub_4B7E10(10, v15 + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
+            last_xpos = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
+            sub_4B7E10(10, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
         }
         else
         {
-            u16 idx = v7->field_4_options_array[0].field_6E_horizontal_selected_idx;
-            temp_unk1 = idx;
-            v18 = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
-
-            if (v18 == 10)
+            u16 idx = pMenuPage->field_4_options_array[0].field_6E_horizontal_selected_idx;
+            selected_option_idx = idx;
+            u16 unk_xpos = Frontend::sub_5D8990(gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C) + 10;
+            
+            if (unk_xpos == 10)
             {
-                v18 = Frontend::sub_5D8990(v7->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
+                unk_xpos = Frontend::sub_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C) + 40;
             }
-            v7->field_518_elements_array[9].field_2_xpos = v18 + v7->field_4_options_array[0].field_2_x_pos;
+            pMenuPage->field_518_elements_array[9].field_2_xpos = unk_xpos + pMenuPage->field_4_options_array[0].field_2_x_pos;
         }
     }
 
+    high_score_table_0xF0* pHighScoreTable;
+    
     if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
     {
-        if (field_EE0D < 3)
+        if (field_EE0D < 3)    //  line 1b8
         {
-            v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
-            Frontend::sub_4B5430((score_table_line*)&v85->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D][0];    // main district score
+            Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
-        else if (field_EE0D < 6u)
+        else if (field_EE0D < 6)
         {
-            //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_16B0[field_EE0D].field_0; // TODO: struct at field_16B0
-            //Frontend::sub_4B5430((score_table_line*)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+            pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][field_EE0D-2];
+            Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
         }
         else
         {
-            if (field_EE0D < 9u)
+            if (field_EE0D < 9)
             {
-                // TODO: struct at field_17A0
-                //v85 = gJolly_poitras_0x2BC0_6FEAC0->field_17A0[field_EE0D].field_0; // (high_score_table_0xF0*)(& + 60 * v19);
-                //Frontend::sub_4B5430((score_table_line*)&v85->field_0, 300, 250, 5, field_12A, 0xFFFF, 2);
+                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[1][field_EE0D-5];
+                Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
             else
             {
-                v85 = gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[field_EE0D];
-                Frontend::sub_4B5430((score_table_line*)&v85->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
+                pHighScoreTable = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[2][field_EE0D-8];
+                Frontend::sub_4B5430((score_table_line *)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A, 0xFFFF, 2);
             }
         }
-
+        
         if (!byte_67DA80)
         {
-            if (!field_EE0D)
+            // left triangle
+            if (field_EE0D == 0) // first option
             {
-                v7->field_518_elements_array[2].field_1_is_it_displayed = false;
+                pMenuPage->field_518_elements_array[2].field_1_is_it_displayed = false;
             }
             else
             {
-                v7->field_518_elements_array[2].field_1_is_it_displayed = true;
+                pMenuPage->field_518_elements_array[2].field_1_is_it_displayed = true;
             }
-            if (field_EE0D == 11)
+            // right triangle
+            if (field_EE0D == 11) // last option
             {
-                v7->field_518_elements_array[3].field_1_is_it_displayed = false;
+                pMenuPage->field_518_elements_array[3].field_1_is_it_displayed = false;
             }
             else
             {
-                v7->field_518_elements_array[3].field_1_is_it_displayed = true;
+                pMenuPage->field_518_elements_array[3].field_1_is_it_displayed = true;
             }
         }
     }
-
-    v21 = field_132_f136_idx;
-    u8 temp1;
-    u8 temp2;
-    if (v21 == MENUPAGE_DEAD || v21 == MENUPAGE_AREA_COMPLETE || v21 == MENUPAGE_BONUS_AREA || v21 == MENUPAGE_RESULTS_PLAYER_QUIT)
+    
+    u8 main_level_idx;
+    u8 bonus_stage_idx;
+    u8 codified_stages;
+    
+    if (field_132_f136_idx == MENUPAGE_DEAD 
+        || field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
+        || field_132_f136_idx == MENUPAGE_BONUS_AREA 
+        || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
         if (!gLucid_hamilton_67E8E0.sub_4C59A0())
         {
-            temp1 = gLucid_hamilton_67E8E0.sub_4C5980();
-            temp2 = 0;
+            main_level_idx = gLucid_hamilton_67E8E0.sub_4C5980();
+            bonus_stage_idx = 0;
         }
         else
         {
-            v23 = gLucid_hamilton_67E8E0.sub_4C5990();
-            temp1 = v23 >> 4;
-            temp2 = v23 & 0xF;
+            codified_stages = gLucid_hamilton_67E8E0.sub_4C5990();
+            main_level_idx = codified_stages >> 4;
+            bonus_stage_idx = codified_stages & 0xF;
         }
-        v24 = temp1;
-        v25 = temp2;
         if (field_132_f136_idx == MENUPAGE_BONUS_AREA)
         {
-            // TODO: remove volatile
-            volatile s32 scale_unk = 3 * temp1 + temp2 + 64;
-            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"));
-            wcsncpy(v7->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
-
-            // TODO: STUB
+            s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
+            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
+            wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
             //Frontend::sub_4B7D60();
         }
-        /*
-        LOWORD(v22) = field_12A;
-        v2 = v25 + 4 * v24;
-        */
-        v2 = v25 + 4 * v24;
-        Frontend::sub_4B5430(gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[0][v2].field_0_score_table_line,
-                             0xAAu,
-                             155,
-                             3,
-                             field_12A,
-                             0xFFFF,
-                             2);
-
-        // TODO: STUB
-
-        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[v24][v25].field_0_score_table_line,
-                             0xAAu,
-                             155,
-                             3,
-                             field_12A,
-                             0xFFFF,
-                             2);
-
-        v27 = field_132_f136_idx;
-        if (v27 == MENUPAGE_DEAD || v27 == MENUPAGE_AREA_COMPLETE || v27 == MENUPAGE_RESULTS_PLAYER_QUIT)
+        
+        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx].field_0_score_table_line, 0xAAu, 155, 3, field_12A, 0xFFFF, 2);
+        
+        if (field_132_f136_idx == MENUPAGE_DEAD 
+            || field_132_f136_idx == MENUPAGE_AREA_COMPLETE 
+            || field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
         {
             Frontend::sub_4B57B0(10, 0xE1);
         }
     }
-
+    
     if (field_132_f136_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        Frontend::sub_4B55F0(); // multiplayer results
+        Frontend::sub_4B55F0();    // line 41d
     }
+    
+    u32 chosen_option_idx = -1;
+    u16 option_idx = 0;
+    
+    wchar_t* wstr_array;
+    
+    u16 x_pos;
+    u16 y_pos;
 
-    u32 temp3 = -1;
-    u16 temp4 = 0;
-
-    menu_option_0x82* v31;
-
-    u16 v53;
-    u8 v53_u8;
-
-    u8 unk_idx;
-
-    wchar_t* a4_unk;
-
-    s32 v29;
-
-    u16 v2_u16;
-    u16 v93_a;
-
-    //  note: probably 'for' structure
-    if (v7->field_0_number_of_options > 0)
+    for (option_idx = 0; option_idx < pMenuPage->field_0_number_of_options; option_idx++)
     {
-        for (temp4 = 0; (u16)(temp4) < v7->field_0_number_of_options; temp4++)
+        menu_option_0x82* pMenuOption = &pMenuPage->field_4_options_array[option_idx];
+        
+        if (pMenuOption->field_1_is_unlocked)
         {
-            v29 = temp4;
-            v30 = temp4;
-            v31 = &v7->field_4_options_array[(u16)temp4];
-
-            if (v7->field_4_options_array[temp4].field_1_is_unlocked)
+            if (pMenuOption->field_0_option_type == STRING_TEXT_2)
             {
-                if (v31->field_0_option_type == STRING_TEXT_2)
-                {
-                    sub_4B3AF0(field_132_f136_idx, temp4, &a4_unk);
-                }
-                else
-                {
-                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_option_name_str;
-                }
-                u16 v29_u16 = temp4;
-                v2_u16 = v31->field_2_x_pos;
-                v93_a = v31->field_4_y_pos;
-                if (temp4 == v7->field_BC6_current_option_idx)
-                {
-                    DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_120, 1);
-
-                    if (field_132_f136_idx == MENUPAGE_PLAY)
-                    {
-                        v35 = temp4;
-                        v7->field_518_elements_array[4].field_1_is_it_displayed = 0;
-                        v7->field_518_elements_array[5].field_1_is_it_displayed = 0;
-                        v7->field_518_elements_array[6].field_1_is_it_displayed = 0;
-                        v7->field_518_elements_array[7].field_1_is_it_displayed = 0;
-                        v7->field_518_elements_array[8].field_1_is_it_displayed = 0;
-                        v7->field_518_elements_array[9].field_1_is_it_displayed = 0;
-                        if ((u16)temp4 == 3) //
-                        {
-                            temp3 = 3;
-                            v7->field_518_elements_array[4].field_6_geometric_shape_type = 1;
-                            v7->field_518_elements_array[5].field_6_geometric_shape_type = 2;
-                            v7->field_518_elements_array[4].field_1_is_it_displayed = field_1EB4C != 0;
-                            v7->field_518_elements_array[5].field_1_is_it_displayed = field_1EB4D != 0;
-                        }
-                        else if (v35 == 4)
-                        {
-                            temp3 = 4;
-                            v7->field_518_elements_array[6].field_6_geometric_shape_type = 1;
-                            v7->field_518_elements_array[7].field_6_geometric_shape_type = 2;
-                            v7->field_518_elements_array[6].field_1_is_it_displayed = field_1EB4E != 0;
-                            v7->field_518_elements_array[7].field_1_is_it_displayed = field_1EB4F != 0;
-                        }
-                        else if (v35 == 0) // change player/name option
-                        {
-                            v7->field_518_elements_array[8].field_6_geometric_shape_type = 1;
-                            v7->field_518_elements_array[9].field_6_geometric_shape_type = 2;
-                            if (field_110_state != 3)
-                            {
-                                v7->field_518_elements_array[8].field_1_is_it_displayed = 1;
-                                v7->field_518_elements_array[9].field_1_is_it_displayed = 1;
-                                field_1EB4A = 1;
-                                field_1EB4B = 1;
-                                if (!byte_67DA80)
-                                {
-                                    v35 = temp_unk1;
-                                    if (temp_unk1 == 0) // first player
-                                    {
-                                        v7->field_518_elements_array[8].field_1_is_it_displayed = false; // remove left triangle
-                                        field_1EB4A = v35;
-                                    }
-                                    else
-                                    {
-                                        if (temp_unk1 == v7->field_4_options_array[0].field_7E_horizontal_max_idx) // last player
-                                        {
-                                            v7->field_518_elements_array[9].field_1_is_it_displayed = false; // remove right triangle
-                                            field_1EB4B = 0;
-                                        }
-                                    }
-                                }
-
-                                v37 = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
-                                sub_4B7E10(8, v37 + 300, 0x1B8u, field_124_font_type, 0xFFFF);
-                                v40 = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
-                                sub_4B7E10(9, v40 + 300, 0x1CCu, field_124_font_type, 0xFFFF);
-                            }
-                        }
-                    }
-                    else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
-                    {
-                        v7->field_518_elements_array[2].field_6_element_name_str[0] = 3;
-                        v7->field_518_elements_array[3].field_6_element_name_str[0] = 4;
-                        if ((u16)temp4 == 0)
-                        {
-                            v7->field_518_elements_array[2].field_6_element_name_str[0] = 1;
-                            v7->field_518_elements_array[3].field_6_element_name_str[0] = 2;
-                        }
-                    }
-                }
-                else
-                {
-                    if (v31->field_6A != 0xFFFF)
-                    {
-                        if (v31->field_6C == 0xFFFF)
-                        {
-                            DrawText_4B87A0(a4_unk, v2_u16, v93_a, v31->field_6A, 1);
-                        }
-                        else
-                        {
-                            s32 eight_6 = 8;
-                            DrawText_5D8A10(a4_unk, v2_u16, v93_a, v31->field_6A, (s32)1, &eight_6, v31->field_6C, false, 0);
-                        }
-                    }
-                    else
-                    {
-                        if (v31->field_6C == 0xFFFF)
-                        {
-                            DrawText_4B87A0(a4_unk, v2_u16, v93_a, field_11C, 1);
-                        }
-                        else
-                        {
-                            s32 eight_unk_8 = 8;
-                            DrawText_5D8A10(a4_unk, v2_u16, v93_a, field_11C, (s32)1, &eight_unk_8, v31->field_6C, false, 0);
-                        }
-                    }
-                }
+                Frontend::sub_4B3AF0(field_132_f136_idx, option_idx, &wstr_array);
             }
             else
             {
-                v44 = field_132_f136_idx;
-                bool v45 = false;
-                if ((v44 == MENUPAGE_PLAY || v44 == MENUPAGE_AREA_COMPLETE) && temp4 == 1)
-                {
-                    v45 = true;
-                }
-                if (v44 != MENUPAGE_RESULTS_PLAYER_QUIT && v44 != MENUPAGE_DEAD || temp4 != 0)
-                {
-                    if (!v45)
-                    {
-                        continue;
-                    }
-                    v29 = temp4;
-                }
-                if (v31->field_0_option_type == STRING_TEXT_2)
-                {
-                    sub_4B3AF0(v44, v29, &a4_unk);
-                }
-                else
-                {
-                    a4_unk = (wchar_t*)&v7->field_4_options_array[temp4].field_6_option_name_str;
-                }
-                v29 = v31->field_4_y_pos;
-                v2_u16 = v31->field_2_x_pos;
-                u16 v93_a = v29;
-
-                if (v31->field_6A != 0xFFFF)
-                {
-                    s32 eight_unk = 8;
-                    DrawText_5D8A10(a4_unk, v2_u16, v93_a, v31->field_6A, (s32)1, &eight_unk, 8, false, 0);
-                }
-                else
-                {
-                    s32 eight_unk_2 = 8;
-                    DrawText_5D8A10(a4_unk, v2_u16, v93_a, field_11C, (s32)1, &eight_unk_2, 8, false, 0);
-                }
+                wstr_array = (wchar_t*)&pMenuOption->field_6_option_name_str;
             }
-        } //  end FOR
 
-        if (temp3 != 3)
-        {
-            if (temp3 == 4)
+            x_pos = pMenuOption->field_2_x_pos;
+            y_pos = pMenuOption->field_4_y_pos;
+            
+            if (option_idx == pMenuPage->field_BC6_current_option_idx)
             {
-                v53_u8 = gLucid_hamilton_67E8E0.sub_4C5990();
-                unk_idx = v53_u8 >> 4;
-                u8 a5_idx = v53_u8 & 0xF;
-                Frontend::sub_4B5430(
-                    (score_table_line*)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0_score_table_line,
-                    0x12Cu,
-                    v98,
-                    1,
-                    field_128,
-                    0xFFFF,
-                    2);
+                DrawText_4B87A0(wstr_array, x_pos, y_pos, field_120, 1);
+                
+                if (field_132_f136_idx == MENUPAGE_PLAY)
+                {
+                    pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = false;
+                    pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = false;
+                    pMenuPage->field_518_elements_array[6].field_1_is_it_displayed = false;
+                    pMenuPage->field_518_elements_array[7].field_1_is_it_displayed = false;
+                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
+                    pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
+                    if (option_idx == 3)    //  START PLAY IN AREA
+                    {
+                        chosen_option_idx = 3;
+                        pMenuPage->field_518_elements_array[4].field_6_geometric_shape_type = 1;
+                        pMenuPage->field_518_elements_array[5].field_6_geometric_shape_type = 2;
+                        pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = field_1EB4C != 0;
+                        pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = field_1EB4D != 0;
+                    }
+                    else if (option_idx == 4) // BONUS STAGE
+                    {
+                        chosen_option_idx = 4;
+                        pMenuPage->field_518_elements_array[6].field_6_geometric_shape_type = 1;
+                        pMenuPage->field_518_elements_array[7].field_6_geometric_shape_type = 2;
+                        pMenuPage->field_518_elements_array[6].field_1_is_it_displayed = field_1EB4E != 0;
+                        pMenuPage->field_518_elements_array[7].field_1_is_it_displayed = field_1EB4F != 0;
+                    }
+                    else if (option_idx == 0)
+                    {
+                        pMenuPage->field_518_elements_array[8].field_6_geometric_shape_type = 1;
+                        pMenuPage->field_518_elements_array[9].field_6_geometric_shape_type = 2;
+                        if (field_110_state != 3)
+                        {
+                            pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = true;
+                            pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = true;
+                            field_1EB4A = 1;
+                            field_1EB4B = 1;
+                            if (!byte_67DA80)
+                            {
+                                if (selected_option_idx == 0)
+                                {
+                                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = selected_option_idx;
+                                    field_1EB4A = selected_option_idx;
+                                }
+                                else if (selected_option_idx == pMenuPage->field_4_options_array[0].field_7E_horizontal_max_idx)
+                                {
+                                    pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
+                                    field_1EB4B = 0;
+                                }
+                            }
+            
+                            last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
+                            sub_4B7E10(8, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF);
+                            last_xpos = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
+                            sub_4B7E10(9, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF);
+                        }
+                    }
+                }
+                else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
+                {
+                    pMenuPage->field_518_elements_array[2].field_6_geometric_shape_type = 3;
+                    pMenuPage->field_518_elements_array[3].field_6_geometric_shape_type = 4;
+                    if (option_idx == 0)
+                    {
+                        pMenuPage->field_518_elements_array[2].field_6_geometric_shape_type = 1;
+                        pMenuPage->field_518_elements_array[3].field_6_geometric_shape_type = 2;
+                    }
+                }
+                // ....
+            }
+            else
+            {
+                if (pMenuOption->field_6A != 0xFFFF)
+                {
+                    if (pMenuOption->field_6C == 0xFFFF)
+                    {
+                        DrawText_4B87A0(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1);
+                    }
+                    else
+                    {
+                        s32 eight_6 = 8;
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, &eight_6, pMenuOption->field_6C, false, 0);
+                    }
+                }
+                else
+                {
+                    if (pMenuOption->field_6C == 0xFFFF)
+                    {
+                        DrawText_4B87A0(wstr_array, x_pos, y_pos, field_11C, 1);
+                    }
+                    else
+                    {
+                        s32 eight_unk_8 = 8;
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, &eight_unk_8, pMenuOption->field_6C, false, 0);
+                    }
+                }
             }
         }
         else
         {
-            unk_idx = gLucid_hamilton_67E8E0.sub_4C5980();
-            Frontend::sub_4B5430(
-                (score_table_line*)gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[unk_idx][0].field_0_score_table_line,
-                0x12Cu,
-                v98,
-                1,
-                field_128,
-                0xFFFF,
-                2);
+            bool v45 = false;
+            if ((field_132_f136_idx == MENUPAGE_PLAY // 0x1
+                 || field_132_f136_idx == MENUPAGE_AREA_COMPLETE) // 0x3
+                && option_idx == 1)
+            {
+                v45 = true;
+            }
+            
+            if (((field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT
+                || field_132_f136_idx == MENUPAGE_DEAD)
+                && option_idx == 0) || v45)
+            {
+                if (pMenuOption->field_0_option_type == STRING_TEXT_2)
+                {
+                    Frontend::sub_4B3AF0(field_132_f136_idx, option_idx, &wstr_array);
+                }
+                else
+                {
+                    wstr_array = (wchar_t*)&pMenuOption->field_6_option_name_str;
+                }
+                
+                x_pos = pMenuOption->field_2_x_pos;
+                y_pos = pMenuOption->field_4_y_pos;
+                
+                if (pMenuOption->field_6A != 0xFFFF)
+                {
+                    s32 eight_unk = 8;
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, &eight_unk, 8, false, 0);
+                }
+                else
+                {
+                    s32 eight_unk_2 = 8;
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, &eight_unk_2, 8, false, 0);
+                }
+            }
+            
+        } // end else
+    }    //  end FOR
+
+    u8 bonus_level_idx;
+
+    if (chosen_option_idx == 3 || chosen_option_idx == 4)
+    {
+        if (chosen_option_idx == 3)  //  START PLAY IN AREA
+        {
+            main_level_idx = gLucid_hamilton_67E8E0.sub_4C5980();
+            bonus_level_idx = 0;
         }
+        else if (chosen_option_idx == 4)  // BONUS STAGE
+        {
+            u8 codified_stages = gLucid_hamilton_67E8E0.sub_4C5990();
+            main_level_idx = codified_stages >> 4;
+            bonus_level_idx = codified_stages & 0xF;
+        }
+        Frontend::sub_4B5430((score_table_line*)&gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx].field_0_score_table_line,
+                             0x12Cu,
+                             v98,
+                             1,
+                             field_128,
+                             0xFFFF,
+                             2);  
     }
 
-    v54 = 0;
-    temp4 = 0;
-
-    s32 v55 = 0;
-
-    if (v7->field_2 > 0)
+    for (option_idx = 0; option_idx < pMenuPage->field_2; option_idx++)
     {
-        for (temp4 = 0; (u16)(temp4) < (u16)v7->field_2; temp4++)
+        menu_element_0x6E* pMenuElement = &pMenuPage->field_518_elements_array[option_idx];
+
+        if (pMenuElement->field_1_is_it_displayed)
         {
-            v56 = &v7->field_518_elements_array[(u16)temp4];
+            s32 two;
+            u16 font_type;
+            s32 shape_type;
 
-            if (v7->field_518_elements_array[(u16)temp4].field_1_is_it_displayed)
+            switch (pMenuElement->field_0_element_type)
             {
-                if (v56->field_0_element_type == GEOMETRIC_SHAPE_3)
-                {
-                    field_2_xpos = v7->field_518_elements_array[(u16)temp4].field_2_xpos;
-                    v58 = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
-
-                    switch (v7->field_518_elements_array[v55].field_6_geometric_shape_type)
+                case GEOMETRIC_SHAPE_3:
+                    x_pos = pMenuElement->field_2_xpos;
+                    y_pos = pMenuElement->field_4_ypos;
+                    
+                    switch (pMenuElement->field_6_geometric_shape_type)
                     {
                         case 0u:
-                            a5 = 2;
+                            shape_type = 2;
                             break;
                         case 1u:
-                            a5 = 37;
+                            shape_type = 37;
                             break;
                         case 2u:
-                            a5 = 38;
+                            shape_type = 38;
                             break;
                         case 3u:
-                            a5 = 40;
+                            shape_type = 40;
                             break;
                         case 4u:
-                            a5 = 41;
+                            shape_type = 41;
                             break;
                         default:
                             break;
                     }
-
-                    /*
-                    scale = 0;
-                    font_type = 0;
-                    ypos.mValue = 0;
-                    v59 = &v98;
-                    v98 = 2;
-                    xpos.mValue = 0;
-                    v87.mValue = (__int32)&v98;
-                    LOWORD(v59) = HIWORD(dword_67DA6E);
-                    v86 = dword_67D934;
-                    v85 = (high_score_table_0xF0*)v59;
-                    v84 = dword_67D934;
-                    Fix16::FromU16_4AE970(&v84, v58);
-                    v83 = v60;
-                    Fix16::FromU16_4AE970(&v83, field_2_xpos);
-                    sub_5D7EC0(6, a5, (int)v83, v84, (int)v85, v86, (int*)v87.mValue, xpos.mValue, ypos.mValue, font_type, scale);
-                    */
-                    //  11 params
-                    s32 two = 2;
-                    //sub_5D7EC0(6, a5, field_2_xpos, dword_67D934, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
-                }
-                else if (v56->field_0_element_type == STRING_TEXT_1)
-                {
-                    v2_u16 = v7->field_518_elements_array[(u16)temp4].field_6A_font_type;
-                    field_4_ypos = v7->field_518_elements_array[(u16)temp4].field_4_ypos;
-                    u16 v96_u16 = v56->field_2_xpos;
-                    u16 v93_u16 = field_4_ypos;
-                    if (v2_u16 == 0xFFFF)
+                    
+                    two = 2;
+                    //sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
+                    break;
+                
+                case STRING_TEXT_1:
+                    font_type = pMenuElement->field_6A_font_type;
+                
+                    x_pos = pMenuElement->field_2_xpos;
+                    y_pos = pMenuElement->field_4_ypos;
+                    
+                    if (font_type == 0xFFFF)
                     {
-                        v2_u16 = field_11C;
+                        font_type = field_11C;
                     }
-                    Frontend::sub_4B3CC0(field_132_f136_idx, temp4, &a4_unk);
-                    v63 = field_132_f136_idx;
-                    u16 v64_u16;
-                    if (v63 == MENUPAGE_PLAY && ((u16)temp4 == 2 || (u16)temp4 == 3))
+                    Frontend::sub_4B3CC0(field_132_f136_idx, option_idx, &wstr_array);
+                    
+                    if (field_132_f136_idx == MENUPAGE_PLAY 
+                        && (option_idx == 2 || option_idx == 3)) 
                     {
-                        v64_u16 = v56->field_6C_font_variant;
-                        Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v64_u16, 1u, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
                     }
-                    else if (v63 == MENUPAGE_VIEW_HIGH_SCORE && (u16)temp4 == 1)
+                    else if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE 
+                             && option_idx == 1)
                     {
-                        u16 v62_u16 = v56->field_6C_font_variant;
-                        Frontend::sub_4B78B0(a4_unk, v96_u16, v93_u16, v2_u16, v62_u16, 1u, 0x15u, 1);
+                        Frontend::sub_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_variant, 1, 0x15u, 1);
                     }
                     else
                     {
-                        u16 v56_u16 = v56->field_6C_font_variant;
-                        if (v56_u16 == 0xFFFF)
+                        if (pMenuElement->field_6C_font_variant == 0xFFFF)
                         {
-                            DrawText_4B87A0(a4_unk, v96_u16, v93_u16, v2_u16, 1);
+                            DrawText_4B87A0(wstr_array, x_pos, y_pos, font_type, 1);
                         }
                         else
                         {
                             s32 eight_again = 8;
-                            DrawText_5D8A10(a4_unk, v96_u16, v93_u16, v2_u16, (s32)1, &eight_again, v56_u16, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, &eight_again, pMenuElement->field_6C_font_variant, false, 0);
                         }
                     }
-                }
+                    break;
+                default:
+                    break;
             }
         }
     }
 
-    u16 x_pos;
-    u16 y_pos;
-
-    if (field_110_state == 3) //  enter new player name?
+    if (field_110_state == 3)    //  enter new player name
     {
         if (field_114)
         {
-            x_pos = v7->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0_curr_plyr_name, field_11C);
-            y_pos = v7->field_4_options_array[0].field_4_y_pos;
+            x_pos = pMenuPage->field_4_options_array[0].field_2_x_pos + Frontend::sub_5D8990(field_C9A0_curr_plyr_name, field_11C);
+            y_pos = pMenuPage->field_4_options_array[0].field_4_y_pos;
             swprintf(tmpBuff_67BD9C, L"_");
-            DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
+            DrawText_4B87A0(tmpBuff_67BD9C, 
+                x_pos, 
+                y_pos, 
+                field_11C, 
+                1);
         }
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
-        u16 v74_u8 = gText_0x14_704DFC->field_10_lang_code != 106 ? 22 : 11;
         x_pos = 0x15Eu;
-        y_pos = v74_u8 + 16;
+        y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
     }
-    if (field_110_state == 5) //  change current player name?
+    if (field_110_state == 5 && field_114)    //  change current player name
     {
-        if (field_114)
-        {
-            x_pos = v7->field_518_elements_array[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
-            y_pos = v7->field_518_elements_array[4].field_4_ypos;
-            swprintf(tmpBuff_67BD9C, L"_");
-            DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_11C, 1);
-        }
+        x_pos = pMenuPage->field_518_elements_array[4].field_2_xpos + Frontend::sub_5D8990(field_C9B8, field_11C);
+        y_pos = pMenuPage->field_518_elements_array[4].field_4_ypos;
+        swprintf(tmpBuff_67BD9C, L"_");
+        DrawText_4B87A0(tmpBuff_67BD9C, 
+            x_pos, 
+            y_pos, 
+            field_11C, 
+            1);
     }
 }
 
@@ -4217,6 +4105,32 @@ void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
     strcat(pStr, ".svg");
 }
 
+MATCH_FUNC(0x4B5270)
+void Frontend::sub_4B5270()
+{
+    u8 plySlotIdx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    u8 codified_stages = field_EDE8_plySlots[plySlotIdx].field_2;
+
+    u8 main_stage;
+    u8 bonus_stage;
+
+    if (!field_EDE8_plySlots[plySlotIdx].field_3)
+    {
+        bonus_stage = 0;
+        main_stage = field_EDE8_plySlots[plySlotIdx].field_1_last_saved_stage;
+    }
+    else
+    {
+        main_stage = codified_stages >> 4;
+        bonus_stage = codified_stages & 0xF;
+    }
+    swprintf(tmpBuff_67BD9C, L"%d", main_stage);
+    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)90, field_11C, 1);
+
+    swprintf(tmpBuff_67BD9C, L"%d", bonus_stage);
+    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)110, field_11C, 1);
+}
+
 MATCH_FUNC(0x4B5370)
 char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
@@ -5059,8 +4973,6 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
             return 0;
     }
 }
-
-DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
 
 STUB_FUNC(0x5D8A10)
 void __stdcall DrawText_5D8A10(const wchar_t* pText,

@@ -185,6 +185,21 @@ class Fix16
         return *this;
     }
 
+    inline Fix16 Abs() const
+    {
+        Fix16 result;
+        if (mValue <= 0)
+        {
+            result.mValue = -mValue;
+        }
+        else
+        {
+            result.mValue = mValue;
+        }
+        return result;
+    }
+
+    // TODO: remove this function & replace by Abs()
     inline Fix16& inline_abs_403840(Fix16& input)
     {
         if (input.mValue <= 0)
@@ -241,6 +256,11 @@ class Fix16
     static Fix16 ctor_462ED0(s16 a1)
     {
         return Fix16(a1 << 7, 0);
+    }
+
+    inline static Fix16 Max(const Fix16& diff_x, const Fix16& diff_y)
+    {
+        return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);

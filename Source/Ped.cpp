@@ -31,6 +31,14 @@ DEFINE_GLOBAL(Fix16, dword_678660, 0x678660);
 DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
 
+// TODO: move
+STUB_FUNC(0x545AF0)
+EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
+{
+    NOT_IMPLEMENTED;
+}
+
+
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
 {
@@ -952,10 +960,199 @@ void Ped::sub_463830(s32 a2, s16 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x463aa0)
+MATCH_FUNC(0x463aa0)
 void Ped::sub_463AA0()
 {
-    NOT_IMPLEMENTED;
+    Ang16 angle = 0;
+    if (field_258_objective && !field_225)
+    {
+        if (field_148_objective_target_ped)
+        {
+            field_1B8_target_x = field_148_objective_target_ped->get_cam_x();
+            field_1BC_target_y = field_148_objective_target_ped->get_cam_y();
+            field_1C0_target_z = field_148_objective_target_ped->get_cam_z();
+        }
+        else if (field_150_target_objective_car)
+        {
+            u8 Remap = field_150_target_objective_car->GetRemap();
+            if (field_24C_target_car_door >= Remap)
+            {
+                field_24C_target_car_door = Remap - 1;
+            }
+            if (field_150_target_objective_car->field_88 == 5)
+            {
+                field_1B8_target_x = field_1AC_cam.x;
+                field_1BC_target_y = field_1AC_cam.y;
+                field_1C0_target_z = field_1AC_cam.z;
+            }
+            else if (field_258_objective != objectives_enum::objective_18 &&
+                     (field_258_objective <= objectives_enum::objective_34 || field_258_objective > objectives_enum::objective_38))
+            {
+                field_1B8_target_x = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.x;
+                field_1BC_target_y = field_150_target_objective_car->field_50_car_sprite->field_14_xpos.y;
+                field_1C0_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
+            }
+            else
+            {
+                sub_545AF0(0, field_150_target_objective_car, field_24C_target_car_door, field_1B8_target_x, field_1BC_target_y, angle);
+                field_1C0_target_z = field_150_target_objective_car->field_50_car_sprite->field_1C_zpos;
+            }
+        }
+        else
+        {
+            if (field_1A0_objective_target_object)
+            {
+                field_1B8_target_x = field_1A0_objective_target_object->field_4->GetXPos();
+                field_1BC_target_y = field_1A0_objective_target_object->field_4->GetYPos();
+                field_1C0_target_z = field_1A0_objective_target_object->field_4->GetZPos();
+            }
+            else if (field_1DC_objective_target_x != dword_678660 && field_1E0_objective_target_y != dword_678660)
+            {
+                field_1BC_target_y = field_1E0_objective_target_y;
+                field_1B8_target_x = field_1DC_objective_target_x;
+                field_1C0_target_z = field_1E4_objective_target_z;
+            }
+        }
+
+        Fix16 diff_x = field_1B8_target_x - field_1AC_cam.x;
+        Fix16 diff_y = field_1BC_target_y - field_1AC_cam.y;
+        diff_x = diff_x.Abs();
+        diff_y = diff_y.Abs();
+        dword_678750 = Fix16::Max(diff_x, diff_y);
+
+        switch (field_258_objective)
+        {
+            case objectives_enum::flee_on_foot_till_safe_1:
+                Ped::sub_4678E0();
+                break;
+            case objectives_enum::flee_char_on_foot_till_safe_2:
+                Ped::sub_467960();
+                break;
+            case objectives_enum::flee_char_on_foot_always_3:
+                Ped::sub_467A20();
+                break;
+            case objectives_enum::objective_4:
+                nullsub_9();
+                break;
+            case objectives_enum::objective_5:
+                nullsub_10();
+                break;
+            case objectives_enum::objective_6:
+                Ped::sub_467AD0();
+                break;
+
+            case objectives_enum::objective_34:
+                Ped::sub_467BD0();
+                break;
+            case objectives_enum::kill_char_on_foot_20:
+                Ped::sub_467CA0();
+                break;
+            case objectives_enum::kill_char_any_means_19:
+                Ped::sub_467E20();
+                break;
+            case objectives_enum::objective_21:
+                nullsub_11();
+                break;
+            case objectives_enum::objective_22:
+                Ped::sub_467FB0();
+                break;
+            case objectives_enum::objective_23:
+                Ped::sub_467FD0();
+                break;
+            case objectives_enum::wait_on_foot_26:
+                Ped::sub_468040();
+                break;
+            case objectives_enum::guard_spot_24:
+                Ped::sub_469BF0();
+                break;
+            case objectives_enum::guard_area_25:
+                Ped::sub_469D60();
+                break;
+            case objectives_enum::objective_31:
+                Ped::sub_4682A0();
+                break;
+            case objectives_enum::goto_area_in_car_14:
+                Ped::sub_468310();
+                break;
+            case objectives_enum::enter_car_as_driver_35:
+                Ped::sub_4686C0();
+                break;
+            case objectives_enum::leave_car_36:
+                Ped::sub_468820();
+                break;
+            case objectives_enum::objective_42:
+                Ped::sub_468C70();
+                break;
+            case objectives_enum::goto_char_on_foot_16:
+                Ped::sub_468E80();
+                break;
+            case objectives_enum::goto_area_on_foot_12:
+                Ped::sub_468DE0();
+                break;
+            case objectives_enum::objective_13:
+                Ped::sub_469060();
+                break;
+            case objectives_enum::follow_car_on_foot_with_offset_51:
+                Ped::sub_469E10();
+                break;
+            case objectives_enum::objective_8:
+                Ped::sub_469BD0();
+                break;
+            case objectives_enum::objective_37:
+                Ped::sub_468930();
+                break;
+            case objectives_enum::objective_38:
+                Ped::sub_468A00();
+                break;
+            case objectives_enum::objective_33:
+                Ped::sub_468BD0();
+                break;
+            case objectives_enum::follow_car_in_car_50:
+                nullsub_12();
+                break;
+            case objectives_enum::objective_43:
+                Ped::sub_469E30();
+                break;
+            case objectives_enum::fire_at_object_from_vehicle_52:
+                Ped::sub_469E50();
+                break;
+            case objectives_enum::wait_in_car_27:
+                Ped::sub_469FC0();
+                break;
+            case objectives_enum::objective_10:
+                Ped::sub_469F30();
+                break;
+            case objectives_enum::destroy_car_54:
+                Ped::sub_469FE0();
+                break;
+            case objectives_enum::objective_32:
+                Ped::sub_46A1F0();
+                break;
+            case 0x37: //objectives_enum::flee_on_foot_till_safe_1:
+                Ped::sub_46A290();
+                break;
+            case 0x38: //objectives_enum::objective_48:
+                Ped::sub_46A350();
+                break;
+            case 0x39: //objectives_enum::objective_49:
+                Ped::sub_46A530();
+                break;
+            case 0x3B: //objectives_enum::follow_car_on_foot_with_offset_51:
+                Ped::sub_46A850();
+                break;
+            case 0x3A: //objectives_enum::follow_car_in_car_50:
+                Ped::sub_46A7C0();
+                break;
+            case 0x3C: //objectives_enum::fire_at_object_from_vehicle_52:
+                Ped::sub_46A6D0();
+                break;
+            case 0x3D: //objectives_enum::destroy_object_53:
+                Ped::sub_46A5E0();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x463fb0)
@@ -2106,4 +2303,24 @@ s32 Ped::sub_470F00()
         }
     }
     return 0;
+}
+
+EXPORT void Ped::nullsub_9()
+{
+    ;
+}
+
+EXPORT void Ped::nullsub_10()
+{
+    ;
+}
+
+EXPORT void Ped::nullsub_11()
+{
+    ;
+}
+
+EXPORT void Ped::nullsub_12()
+{
+    ;
 }
