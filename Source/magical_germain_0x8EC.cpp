@@ -6,6 +6,7 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "Game_0x40.hpp"
+#include "gbh_graphics.hpp"
 
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
@@ -80,10 +81,24 @@ u8* magical_germain_0x8EC::sub_4D23B0(char_type* a2)
     return 0;
 }
 
-STUB_FUNC(0x4D2610)
+MATCH_FUNC(0x4D2610)
 void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
 {
-    NOT_IMPLEMENTED;
+    u16 v2 = text_char;
+    if (text_char < 0x100u)
+    {
+        v2 = text_char << 8;
+    }
+
+    u16 v6 = field_8C4_pKidX[v2];
+    if (v6 == 0xFFFF)
+    {
+        v6 = field_8C4_pKidX[8448];
+    }
+    pgbh_LockTexture(field_8D8_pTexture);
+    magical_germain_0x8EC::sub_4D2240((char_type*)&this->field_8C8_pKBIT[32 * v6]);
+    magical_germain_0x8EC::sub_4D2150((s32)this->field_8D0_pSprtData, 16, 17);
+    pgbh_UnlockTexture(field_8D8_pTexture);
 }
 
 STUB_FUNC(0x4D2690)
