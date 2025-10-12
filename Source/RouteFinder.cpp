@@ -297,10 +297,44 @@ u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
     return 0;
 }
 
-STUB_FUNC(0x588f30)
-u16 RouteFinder::sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6)
+MATCH_FUNC(0x588f30)
+u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 {
-    NOT_IMPLEMENTED;
+    JunctionSegment_0x8* v7 = field_B938;
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+
+    if (block_4DFE10 != NULL)
+    {
+        s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 1);
+        for (s16 junc_idx = 0; junc_idx < field_CC64; v7++, junc_idx++)
+        {
+            if (v7->sub_40CF20(x, y))
+            {
+                if (a5 == 1)
+                {
+                    if (v9 == 1)
+                    {
+                        return v7->field_0_junction_num1;
+                    }
+                    else
+                    {
+                        return v7->field_2_junction_num2;
+                    }
+                }
+                else
+                {
+                    if (v9 == 1)
+                    {
+                        return v7->field_2_junction_num2;
+                    }
+                    else
+                    {
+                        return v7->field_0_junction_num1;
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 
