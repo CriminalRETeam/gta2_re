@@ -4105,6 +4105,32 @@ void Frontend::GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr)
     strcat(pStr, ".svg");
 }
 
+MATCH_FUNC(0x4B5270)
+void Frontend::sub_4B5270()
+{
+    u8 plySlotIdx = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    u8 codified_stages = field_EDE8_plySlots[plySlotIdx].field_2;
+
+    u8 main_stage;
+    u8 bonus_stage;
+    
+    if (!field_EDE8_plySlots[plySlotIdx].field_3)
+    {
+        bonus_stage = 0;
+        main_stage = field_EDE8_plySlots[plySlotIdx].field_1_last_saved_stage;
+    }
+    else
+    {
+        main_stage = codified_stages >> 4;
+        bonus_stage = codified_stages & 0xF;
+    }
+    swprintf(tmpBuff_67BD9C, L"%d", main_stage);
+    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)90, field_11C, 1);
+    
+    swprintf(tmpBuff_67BD9C, L"%d", bonus_stage);
+    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)110, field_11C, 1);
+}
+
 MATCH_FUNC(0x4B5370)
 char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
