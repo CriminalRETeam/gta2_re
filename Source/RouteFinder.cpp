@@ -357,11 +357,38 @@ u16 RouteFinder::sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s3
     return 0;
 }
 
-STUB_FUNC(0x5890d0)
-u8 RouteFinder::sub_5890D0(u16 a2, s32 a3, u8* a4, u8* a5)
+MATCH_FUNC(0x5890d0)
+void RouteFinder::sub_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 y = field_8[junction_idx].field_D_min_y; y <= field_8[junction_idx].field_F_max_y; y++)
+    {
+        for (u8 x = field_8[junction_idx].field_C_min_x; x <= field_8[junction_idx].field_E_max_x; x++)
+        {
+            s32 z;
+            gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
+            if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(direction, block))
+            {
+                *xpos = x;
+                *ypos = y;
+                return;
+            }
+        }
+    }
+
+    for (u8 y_pos = field_8[junction_idx].field_D_min_y; y_pos <= field_8[junction_idx].field_F_max_y; y_pos++)
+    {
+        for (u8 x_pos = field_8[junction_idx].field_C_min_x; x_pos <= field_8[junction_idx].field_E_max_x; x_pos++)
+        {
+            s32 z;
+            gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
+            if (gMap_0x370_6F6268->sub_4E5FC0(block, 0))
+            {
+                *xpos = x_pos;
+                *ypos = y_pos;
+                return;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x589210)
