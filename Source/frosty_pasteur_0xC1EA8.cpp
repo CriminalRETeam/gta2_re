@@ -272,11 +272,18 @@ s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5129b0)
-s32* frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 a3, s16 a4)
+MATCH_FUNC(0x5129b0)
+void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* thread = &field_188_thrds[0];
+    for (u16 i = 0; i < 20 && thread->field_8_cmd_line != 0; i++)
+    {
+        thread++;
+    }
+    thread->field_0_unk = a2;
+    thread->field_4_obj_f14 = obj_f14;
+    thread->field_8_cmd_line = cmd_line;
+    field_184_count++;
 }
 
 STUB_FUNC(0x5129f0)
