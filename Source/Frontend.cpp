@@ -995,7 +995,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             else
             {
-                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter);
+                swprintf(tmpBuff_67BD9C, L"%s", pSmallStringIter->field_0_player_name);
             }
             if (draw_kind == 0xFFFFu)
             {
