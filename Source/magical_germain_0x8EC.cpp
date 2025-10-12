@@ -101,11 +101,24 @@ void magical_germain_0x8EC::sub_4D2610(wchar_t text_char)
     pgbh_UnlockTexture(field_8D8_pTexture);
 }
 
-STUB_FUNC(0x4D2690)
-s32 magical_germain_0x8EC::sub_4D2690(u16 a2)
+MATCH_FUNC(0x4D2690)
+void magical_germain_0x8EC::sub_4D2690(wchar_t text_char)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u16 v2 = text_char;
+    if (text_char < 0x100u)
+    {
+        v2 = text_char << 8;
+    }
+
+    u16 v6 = field_8C4_pKidX[v2];
+    if (v6 == 0xFFFF)
+    {
+        v6 = field_8C4_pKidX[8448];
+    }
+    pgbh_LockTexture(field_8E4_pTexture);
+    magical_germain_0x8EC::sub_4D23B0((char*)&this->field_8C8_pKBIT[32 * v6]);
+    magical_germain_0x8EC::sub_4D2150((int)this->field_8DC_pSprtData, 32, 34);
+    pgbh_UnlockTexture(field_8E4_pTexture);
 }
 
 MATCH_FUNC(0x4D2710)
