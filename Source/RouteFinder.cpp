@@ -259,36 +259,36 @@ char_type RouteFinder::sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4)
 MATCH_FUNC(0x588e60)
 u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 {
-    JunctionSegment_0x8* v7 = field_A830;
+    JunctionSegment_0x8* pSegment = field_A830;
     gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
 
     if (block_4DFE10 != NULL)
     {
         s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 3);
-        for (s16 junc_idx = 0; junc_idx < field_CC62; v7++, junc_idx++)
+        for (s16 junc_idx = 0; junc_idx < field_CC62; pSegment++, junc_idx++)
         {
-            if (v7->sub_40CF20(x, y))
+            if (pSegment->sub_40CF20(x, y))
             {
                 if (a5 == 1)
                 {
                     if (v9 == 1)
                     {
-                        return v7->field_0_junction_num1;
+                        return pSegment->field_0_junction_num1;
                     }
                     else
                     {
-                        return v7->field_2_junction_num2;
+                        return pSegment->field_2_junction_num2;
                     }
                 }
                 else
                 {
                     if (v9 == 1)
                     {
-                        return v7->field_2_junction_num2;
+                        return pSegment->field_2_junction_num2;
                     }
                     else
                     {
-                        return v7->field_0_junction_num1;
+                        return pSegment->field_0_junction_num1;
                     }
                 }
             }
@@ -300,36 +300,36 @@ u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 MATCH_FUNC(0x588f30)
 u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 {
-    JunctionSegment_0x8* v7 = field_B938;
+    JunctionSegment_0x8* pSegment = field_B938;
     gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
 
     if (block_4DFE10 != NULL)
     {
         s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 1);
-        for (s16 junc_idx = 0; junc_idx < field_CC64; v7++, junc_idx++)
+        for (s16 junc_idx = 0; junc_idx < field_CC64; pSegment++, junc_idx++)
         {
-            if (v7->sub_40CF20(x, y))
+            if (pSegment->sub_40CF20(x, y))
             {
                 if (a5 == 1)
                 {
                     if (v9 == 1)
                     {
-                        return v7->field_0_junction_num1;
+                        return pSegment->field_0_junction_num1;
                     }
                     else
                     {
-                        return v7->field_2_junction_num2;
+                        return pSegment->field_2_junction_num2;
                     }
                 }
                 else
                 {
                     if (v9 == 1)
                     {
-                        return v7->field_2_junction_num2;
+                        return pSegment->field_2_junction_num2;
                     }
                     else
                     {
-                        return v7->field_0_junction_num1;
+                        return pSegment->field_0_junction_num1;
                     }
                 }
             }
@@ -338,10 +338,22 @@ u16 RouteFinder::sub_588F30(u8 x, u8 y, u8 z, char_type a5, s32 a6)
     return 0;
 }
 
-STUB_FUNC(0x589000)
+MATCH_FUNC(0x589000)
 u16 RouteFinder::sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6)
 {
-    NOT_IMPLEMENTED;
+    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord);
+
+    if (pBlock)
+    {
+        if (RouteFinder::sub_588CA0(pBlock, a6, 1) || RouteFinder::sub_588CA0(pBlock, a6, 2))
+        {
+            return RouteFinder::sub_588F30(x_coord, y_coord, z_coord, a5, a6);
+        }
+        if (RouteFinder::sub_588CA0(pBlock, a6, 3) || RouteFinder::sub_588CA0(pBlock, a6, 4))
+        {
+            return RouteFinder::sub_588E60(x_coord, y_coord, z_coord, a5, a6);
+        }
+    }
     return 0;
 }
 
