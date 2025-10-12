@@ -4113,7 +4113,7 @@ void Frontend::sub_4B5270()
 
     u8 main_stage;
     u8 bonus_stage;
-    
+
     if (!field_EDE8_plySlots[plySlotIdx].field_3)
     {
         bonus_stage = 0;
@@ -4126,7 +4126,7 @@ void Frontend::sub_4B5270()
     }
     swprintf(tmpBuff_67BD9C, L"%d", main_stage);
     DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)90, field_11C, 1);
-    
+
     swprintf(tmpBuff_67BD9C, L"%d", bonus_stage);
     DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)110, field_11C, 1);
 }

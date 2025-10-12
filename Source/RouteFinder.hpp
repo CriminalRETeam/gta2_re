@@ -31,6 +31,23 @@ class Junction_10
     u8 field_F_min_y;
 };
 
+struct JunctionSegment_0x8
+{
+    inline bool sub_40CF20(s16 x, s16 y)
+    {
+        return x >= field_4_min_x 
+               && x <= field_6_max_x 
+               && y >= field_5_min_y 
+               && y <= field_7_min_y;
+    }
+    u16 field_0_junction_num1;
+    u16 field_2_junction_num2;
+    u8 field_4_min_x;
+    u8 field_5_min_y;
+    u8 field_6_max_x;
+    u8 field_7_min_y;
+};
+
 class RouteFinder_10
 {
   public:
@@ -98,10 +115,10 @@ class RouteFinder
     u16 field_861A;
     RouteFinder_10 field_861C[545];
     RouteFinder_10* field_A82C;
-    char_type field_A830[4360];
-    char_type field_B938[4360];
+    JunctionSegment_0x8 field_A830[545];
+    JunctionSegment_0x8 field_B938[545];
     char_type field_CA40[545];
-    s16 field_CC62;
+    u16 field_CC62;
     u16 field_CC64;
     u16 field_CC66_545_count;
 };
