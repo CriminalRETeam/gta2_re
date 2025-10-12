@@ -3,6 +3,7 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "file.hpp"
+#include "map_0x370.hpp"
 #include <cstdio>
 
 DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
@@ -157,10 +158,44 @@ char_type RouteFinder::sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4)
     return 0;
 }
 
-STUB_FUNC(0x588e60)
-u16 RouteFinder::sub_588E60(u8 a2, u8 a3, u8 a4, char_type a5, s32 a6)
+MATCH_FUNC(0x588e60)
+u16 RouteFinder::sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6)
 {
-    NOT_IMPLEMENTED;
+    JunctionSegment_0x8* v7 = field_A830;
+    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+
+    if (block_4DFE10 != NULL)
+    {
+        s8 v9 = RouteFinder::sub_588CA0(block_4DFE10, a6, 3);
+        for (s16 junc_idx = 0; junc_idx < field_CC62; v7++, junc_idx++)
+        {
+            if (v7->sub_40CF20(x, y))
+            {
+                if (a5 == 1)
+                {
+                    if (v9 == 1)
+                    {
+                        return v7->field_0_junction_num1;
+                    }
+                    else
+                    {
+                        return v7->field_2_junction_num2;
+                    }
+                }
+                else
+                {
+                    if (v9 == 1)
+                    {
+                        return v7->field_2_junction_num2;
+                    }
+                    else
+                    {
+                        return v7->field_0_junction_num1;
+                    }
+                }
+            }
+        }
+    }
     return 0;
 }
 

@@ -77,7 +77,7 @@ class RouteFinder
     EXPORT void Reset_588C60();
     EXPORT char_type sub_588CA0(gmp_block_info* a1, s32 a2, char_type a3);
     EXPORT char_type sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4);
-    EXPORT u16 sub_588E60(u8 a2, u8 a3, u8 a4, char_type a5, s32 a6);
+    EXPORT u16 sub_588E60(u8 x, u8 y, u8 z, char_type a5, s32 a6);
     EXPORT u16 sub_588F30(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
     EXPORT u16 sub_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type a5, s32 a6);
     EXPORT u8 sub_5890D0(u16 a2, s32 a3, u8* a4, u8* a5);
