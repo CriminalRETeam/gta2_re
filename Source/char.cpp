@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
 DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);

@@ -7,6 +7,7 @@
 #include "DrawUnk_0xBC.hpp"
 #include "Ped.hpp"
 #include "Car_BC.hpp"
+#include "sprite.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);

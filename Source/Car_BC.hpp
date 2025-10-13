@@ -6,14 +6,10 @@
 #include "Function.hpp"
 #include "Ped_Unknown_4.hpp"
 #include "ang16.hpp"
+#include "sprite.hpp"
 #include "miss2_0x11C.hpp"
 #include "Object_3C.hpp"
 #include <wchar.h>
-
-EXTERN_GLOBAL(Ang16, gAng16_703804);
-
-EXTERN_GLOBAL(Fix16, gFix16_7035C0);
-
 
 struct gmp_zone_info;
 class DrawUnk_0xBC;
@@ -22,15 +18,15 @@ class Fix16_Rect;
 class Car_78;
 class Car_B0;
 class Trailer;
-class Sprite;
+//class Sprite;
 class Ped;
 class Char_8;
 class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
 class infallible_turing;
-class Sprite_4C;
-class Sprite_18;
+//class Sprite_4C;
+//class Sprite_18;
 
 // TODO: Move
 class Car_78
@@ -149,166 +145,6 @@ class Car_8F74
 
     Car_78* field_0;
     Car_78 field_4[306];
-};
-
-class Sprite
-{
-  public:
-    EXPORT Fix16_Point get_x_y_443580();
-    EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
-    EXPORT bool sub_59E170();
-    EXPORT Ped* sub_59E1B0();
-    EXPORT s32 sub_59E1D0();
-    EXPORT char_type sub_59E250();
-    EXPORT void sub_59E2E0();
-    EXPORT void sub_59E300();
-    EXPORT void sub_59E320(char_type a2);
-    EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
-    EXPORT char_type sub_59E590(Sprite* a2);
-    EXPORT char_type sub_59E680(s32 a2, s16* a3);
-    EXPORT void sub_59E7B0();
-    EXPORT Sprite* sub_59E7D0(s32 a2);
-    EXPORT char_type sub_59E830(Sprite* a1, Ped* a2);
-    EXPORT char_type sub_59E850(Sprite* pSprite);
-    EXPORT void sub_59E8C0(Sprite* pSprite);
-    EXPORT void sub_59E910(Sprite* a2);
-    EXPORT void sub_59E960();
-    EXPORT Sprite* sub_59E9C0();
-    EXPORT void SetRemap(s16 remap);
-    EXPORT s16 sub_59EAA0();
-    EXPORT char_type sub_59EAE0();
-    EXPORT void sub_59EB30(s32 a2, f32* a3);
-    EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
-    EXPORT void sub_59EFF0();
-    EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
-    EXPORT void sub_59F990();
-    EXPORT void sub_59FA40();
-    EXPORT void sub_59FAD0();
-    EXPORT bool sub_59FB10(s32* a2);
-    EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
-    EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
-    EXPORT bool sub_5A0380(Sprite* a2);
-    EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
-    EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
-    EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);
-    EXPORT char_type sub_5A1030(Sprite* a2, Sprite** a3, u8* a4);
-    EXPORT bool sub_5A1490(s32 a2, s32 a3);
-    EXPORT char_type sub_5A19C0();
-    EXPORT char sub_5A1A60();
-    EXPORT char_type sub_5A1B30(Sprite* a2);
-    EXPORT char_type sub_5A1BD0();
-    EXPORT char_type sub_5A1CA0(u32* a2);
-    EXPORT char_type sub_5A1EB0();
-    EXPORT char_type sub_5A21F0();
-    EXPORT u32* sub_5A22B0(u32* a2, Sprite* a3);
-    EXPORT char_type sub_5A2440();
-    EXPORT char_type sub_5A2500();
-    EXPORT s16* sub_5A26E0(s16* a2);
-    EXPORT s32* sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
-    EXPORT void CreateSoundObj_5A29D0();
-    EXPORT void FreeSound_5A2A00();
-    EXPORT void sub_5A2A30();
-    EXPORT void Init_5A2CF0();
-    EXPORT void sub_5A3030();
-    EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
-
-    EXPORT ~Sprite(); // 0x5a3540
-
-    // This function matches, but the marker doesn't seem to work on header files.
-    // Leave it here commented for future reference
-    //MATCH_FUNC(0x5a5e50)
-    EXPORT Sprite() : field_0(gAng16_703804)
-    {
-        field_4_0x4C_len = NULL;
-        field_14_xpos.x = gFix16_7035C0;
-        field_14_xpos.y = gFix16_7035C0;
-        field_1C_zpos = gFix16_7035C0;
-        field_20_id = 0;
-        field_22_sprite_id = 0;
-        field_24_remap = 0;
-        field_28_num = NULL;
-        field_2C = 0;
-        field_30_sprite_type_enum = 0;
-        field_34 = 0;
-        field_38 = 0;
-        field_39_z_col = -1;
-        field_8_car_bc_ptr = NULL;
-        field_C_sprite_next_ptr = NULL;
-        field_10_sound = NULL;
-    }
-
-    Ang16 field_0;
-    s8 field_2_pad;
-    s8 field_3_pad;
-    Sprite_4C* field_4_0x4C_len;
-    // Only one field is enable at the same time.
-    // The field that is enabled is decided by field_30_sprite_type_enum
-    // The following list may not be complete.
-    // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
-    union
-    {
-        Car_BC* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
-        Char_B4* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object_2C* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
-        Sprite* field_8_pSprite;
-        class Object_5C* field_8_o5C;
-    };
-    // Only one field is enable at the same time.
-    // As far as I understand, the field_C_sprite_next_ptr is only enabled while the instance is being handled by Sprite_49B28.
-    // Otherwise, the field_C_sprite_4c_ptr is active. i.e. the instance belongs to another object.
-    union
-    {
-        Sprite* field_C_sprite_next_ptr;
-        Sprite_4C* field_C_sprite_4c_ptr;
-        class Object_5C* field_C_o5c;
-    };
-    infallible_turing* field_10_sound;
-
-    // 9.6f inline 0x420690
-    inline void sub_420690(Ang16 a1)
-    {
-        if (a1 != field_0)
-        {
-            field_0 = a1;
-            sub_59E7B0();
-        }
-    }
-
-    inline Fix16 GetXPos()
-    {
-        return field_14_xpos.x;
-    }
-
-    inline Fix16 GetYPos()
-    {
-        return field_14_xpos.y;
-    }
-
-    inline Fix16 GetZPos()
-    {
-        return field_1C_zpos;
-    }
-
-    Fix16_Point_POD field_14_xpos;
-    Fix16 field_1C_zpos;
-    s16 field_20_id;
-    s16 field_22_sprite_id;
-    s16 field_24_remap;
-    char_type field_26_pad;
-    char_type field_27_pad;
-    s32 field_28_num;
-    char_type field_2C;
-    char_type field_2D_pad;
-    char_type field_2E_pad;
-    char_type field_2F_pad;
-    s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
-    s32 field_34;
-    char_type field_38;
-    u8 field_39_z_col;
-    char_type field_3A;
-    char_type field_3B;
 };
 
 class Car_18

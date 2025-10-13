@@ -29,6 +29,7 @@
 #include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
+#include "sprite.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Fix16_Rect.hpp"
 #include "Garox_2B00.hpp"

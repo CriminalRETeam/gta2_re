@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Car_BC.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "Door_38.hpp"
@@ -9,7 +8,7 @@ class Object_2C;
 class Door_10;
 class Sprite_4C;
 class Ped;
-
+class Car_BC;
 
 class Door_10
 {

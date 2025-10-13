@@ -20,6 +20,7 @@
 #include "MapRenderer.hpp"
 #include "map_0x370.hpp"
 #include "gtx_0x106C.hpp"
+#include "sprite.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);

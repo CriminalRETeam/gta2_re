@@ -1,5 +1,7 @@
 #include "Object_3C.hpp"
 #include "Globals.hpp"
+#include "Car_BC.hpp"
+#include "enums.hpp"
 #include "Object_5C.hpp"
 #include "Wolfy_3D4.hpp"
 #include "rng.hpp"

@@ -1,6 +1,8 @@
 #include "error.hpp"
 #include "Object_5C.hpp"
 #include "Globals.hpp"
+#include "Car_BC.hpp"
+#include "enums.hpp"
 #include "Object_226C.hpp"
 #include "Object_29178.hpp"
 #include "Object_5A40.hpp"
