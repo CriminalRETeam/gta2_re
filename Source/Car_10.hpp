@@ -16,6 +16,12 @@ class Car_Door_10
     EXPORT Car_Door_10(); // 447330
     EXPORT ~Car_Door_10(); // 447350
 
+    // 9.6f inline 0x421380
+    inline void set_ped_421380(Ped* pPed)
+    {
+        field_8_pObj = pPed;
+    }
+
     s8 field_0_animation_frame;
     s8 field_1;
     s8 field_2;

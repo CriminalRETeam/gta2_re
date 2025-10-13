@@ -83,7 +83,7 @@ s32 Char_B4::sub_545700()
 }
 
 STUB_FUNC(0x545720)
-char_type Char_B4::sub_545720(s32 a2)
+char_type Char_B4::sub_545720(Fix16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
