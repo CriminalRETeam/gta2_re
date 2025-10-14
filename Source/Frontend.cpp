@@ -11,6 +11,7 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "infallible_turing.hpp"
@@ -1407,7 +1408,7 @@ void Frontend::sub_4AD140()
                     }
                     
                     two = 2;
-                    //sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
+                    sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
                     break;
                 
                 case STRING_TEXT_1:
@@ -4943,12 +4944,13 @@ void admiring_euler_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
     field_3 = svg.field_4D;
 }
 
+EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+
 struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 {
     Vert field_0_verts[4];
 };
 DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
-EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
 MATCH_FUNC(0x5D83E0);
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
@@ -4972,6 +4974,94 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
         default:
             return 0;
     }
+}
+
+// TODO: move this
+STUB_FUNC(0x5D7EC0)
+void __stdcall sub_5D7EC0(s32 type,
+                          s16 pal,
+                          Fix16 x_pos,
+                          Fix16 y_pos,
+                          Ang16 rotation,
+                          Fix16 scale,
+                          s32* a7,
+                          s16 a8,
+                          s32 a9,
+                          u8 a10,
+                          char_type a11)
+{
+
+    u16 v11 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(type, pal);
+    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v11);
+
+    Fix16 v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
+    Fix16 v13 = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
+
+    s32 flags;
+
+    if (scale != dword_706A6C || (flags = 0x10000, rotation != word_706C3C))
+    {
+        flags = 0;
+    }
+    if (!a11)
+    {
+        flags |= 0x20000u;
+    }
+
+    Fix16_Point point(-v12, -v13);
+    point.RotateByAngle_40F6B0(rotation);
+    point.x += x_pos;
+    point.y += y_pos;
+
+    gQuadVerts_706B88.field_0_verts[0].x = point.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].y = point.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997;
+
+    Fix16_Point point2(v12, -v13);
+    point2.RotateByAngle_40F6B0(rotation);
+    point2.x += x_pos;
+    point2.y += y_pos;
+
+    gQuadVerts_706B88.field_0_verts[1].x = point2.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].y = point2.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997;
+
+    Fix16_Point point3(v12, v13);
+    point3.RotateByAngle_40F6B0(rotation);
+    point3.x += x_pos;
+    point3.y += y_pos;
+
+    gQuadVerts_706B88.field_0_verts[2].x = point3.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].y = point3.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997;
+
+    Fix16_Point point4(-v12, v13);
+    point4.RotateByAngle_40F6B0(rotation);
+    point4.x += x_pos;
+    point4.y += y_pos;
+
+    gQuadVerts_706B88.field_0_verts[3].x = point4.x.ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].y = point4.y.ToFloat();
+    gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997;
+
+    //  u & v
+
+    u32 field_5_height = sprite_index_5AA440->field_5_height;
+    u32 field_4_width = sprite_index_5AA440->field_4_width;
+
+    gQuadVerts_706B88.field_0_verts[0].u = 0.0;
+    gQuadVerts_706B88.field_0_verts[0].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[1].v = 0.0;
+    gQuadVerts_706B88.field_0_verts[3].u = 0.0;
+
+    gQuadVerts_706B88.field_0_verts[1].u = field_4_width - 0.000099999997;
+    gQuadVerts_706B88.field_0_verts[2].u = field_4_width - 0.000099999997;
+    gQuadVerts_706B88.field_0_verts[2].v = field_5_height - 0.000099999997;
+    gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997;
+
+    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, *a7, a8);
+    s32 v44 = CalcQuadFlags_5D83E0(a9, a10);
+    pgbh_DrawQuad(flags | v44, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 }
 
 STUB_FUNC(0x5D8A10)

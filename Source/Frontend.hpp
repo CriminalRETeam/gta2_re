@@ -13,6 +13,7 @@
 #include <Dinput.h>
 
 class Player;
+class Ang16;
 struct score_table_line;
 
 #pragma pack(push)
@@ -500,6 +501,18 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       s32 unknown1,
                                       s32 unknown2,
                                       s32 flags);
+
+EXPORT void __stdcall sub_5D7EC0(s32 type,
+                          s16 pal,
+                          Fix16 x_pos,
+                          Fix16 y_pos,
+                          Ang16 rotation,
+                          Fix16 scale,
+                          s32* a7,
+                          s16 a8,
+                          s32 a9,
+                          u8 a10,
+                          char_type a11);
 
 EXTERN_GLOBAL(short, font_type_703C14);
 
