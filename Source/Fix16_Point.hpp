@@ -44,6 +44,18 @@ public:
         return Fix16_Point(x + in.x, y + in.y);
     }
 
+    // 9.6f inline 0x40F6B0
+    inline void RotateByAngle_40F6B0(Ang16& angle)
+    {
+        Fix16 sin = Ang16::sine_40F500(angle);
+        Fix16 cos = Ang16::cosine_40F520(angle);
+        
+        Fix16 x_old = x;
+        
+        x = (x * cos) + (y * sin);
+        y = ((-x_old) * sin) + (y * cos);
+    }
+
     // Inlined, on version 9.6f 0x41E1E0
     void reset()
     {
