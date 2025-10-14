@@ -7,7 +7,7 @@
 #include "Ped_Unknown_4.hpp"
 #include "ang16.hpp"
 #include "sprite.hpp"
-#include "miss2_0x11C.hpp"
+#include "miss2_xyz.hpp"
 #include "Object_3C.hpp"
 #include <wchar.h>
 
