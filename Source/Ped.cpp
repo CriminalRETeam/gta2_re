@@ -10,6 +10,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "sprite.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"

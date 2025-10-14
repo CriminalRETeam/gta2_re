@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
 DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
@@ -83,7 +84,7 @@ s32 Char_B4::sub_545700()
 }
 
 STUB_FUNC(0x545720)
-char_type Char_B4::sub_545720(s32 a2)
+char_type Char_B4::sub_545720(Fix16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

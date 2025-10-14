@@ -104,7 +104,7 @@ class Char_B4
     EXPORT s16 sub_545600();
     EXPORT void sub_5456A0();
     EXPORT s32 sub_545700();
-    EXPORT char_type sub_545720(s32 a2);
+    EXPORT char_type sub_545720(Fix16 a2);
     EXPORT char_type sub_5459C0();
     EXPORT void sub_5459E0();
     EXPORT void sub_546360();

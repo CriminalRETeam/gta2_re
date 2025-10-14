@@ -3,10 +3,10 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "ang16.hpp"
-#include "Car_BC.hpp"
 #include <windows.h>
 
 class Gang_144;
+class Sprite;
 
 struct gmp_col_info
 {

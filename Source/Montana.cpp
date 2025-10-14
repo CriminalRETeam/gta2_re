@@ -1,5 +1,5 @@
 #include "Montana.hpp"
-#include "Car_BC.hpp"
+#include "sprite.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
 

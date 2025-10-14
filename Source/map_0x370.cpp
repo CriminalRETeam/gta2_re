@@ -1,5 +1,5 @@
 #include "map_0x370.hpp"
-#include "Car_BC.hpp"
+#include "sprite.hpp"
 #include "Fix16_Rect.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"

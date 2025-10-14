@@ -6,6 +6,7 @@
 #include "Hamburger_500.hpp"
 #include "Police_7B8.hpp"
 #include "Ped.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL(DrawUnk_0xBC*, gViewCamera_676978, 0x676978);
 DEFINE_GLOBAL(Fix16, dword_676840, 0x676840);
