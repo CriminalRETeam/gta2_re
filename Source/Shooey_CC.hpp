@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 
 class Ped;
 class Player;

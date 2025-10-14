@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 #include "miss2_xyz.hpp"
 
 class Ped;
