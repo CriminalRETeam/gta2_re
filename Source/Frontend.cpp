@@ -1483,13 +1483,71 @@ void Frontend::sub_4AD140()
     }
 }
 
+// https://decomp.me/scratch/qV1ie switch "goto" issue
 STUB_FUNC(0x4B7AE0)
 void Frontend::sub_4B7AE0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    u16 font_type;
+    s32 palette;
+    s32 draw_kind;
 
-    // TEST
+    u16 credit_idx = field_1EB38;
+    for (Fix16 y = field_1EB34; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2[credit_idx].field_4)
+    {
+        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2[credit_idx];
+        switch (sleepy->field_6)
+        {
+            case 0:
+                font_type = field_11E;
+                draw_kind = 2;
+                palette = 0;
+                break;
+            case 1:
+                font_type = field_120;
+                draw_kind = 2;
+                palette = 0;
+                break;
+            case 2:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 13;
+                break;
+            case 3:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 14;
+                break;
+            case 4:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 15;
+                break;
+            default:
+                // InvalidCreditTextColor
+                FatalError_4A38C0(0xBC, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
+        }
+        wchar_t* pStrBuf = sleepy->field_8_strBuf;
+        if (wcscmp(pStrBuf, word_67DC8C))
+        {
+
+            if (!wcscmp(pStrBuf, L"BINKLOGO"))
+            {
+                s32 temp = 2;
+                sub_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+            }
+            else if (!wcscmp(pStrBuf, L"MILESLOGO"))
+            {
+                s32 temp = 2;
+                sub_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+            }
+            else
+            {
+                s32 v7 = Frontend::sub_5D8990(pStrBuf, font_type);
+                u32 draw_x = (640 - v7) / 2;
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, &draw_kind, palette, 0, 0);
+            }
+        }
+    }
 
     if (pgbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0) == -10)
     {
