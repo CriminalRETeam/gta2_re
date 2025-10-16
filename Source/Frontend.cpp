@@ -2334,11 +2334,48 @@ player_stats_0xA4* Frontend::sub_4B43E0()
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx];
 }
 
-STUB_FUNC(0x4B42E0)
+MATCH_FUNC(0x4B42E0)
 void Frontend::sub_4B42E0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    player_stats_0xA4* pPlayerStats = Frontend::sub_4B43E0();
+    u8 PlySlotIdx_4C59B0 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+
+    u8 v4 = Frontend::sub_4B77B0(pPlayerStats);
+    u8 v8 = Frontend::sub_4B7800(pPlayerStats);
+
+    if (v4 < field_1EB3A[PlySlotIdx_4C59B0])
+    {
+        field_1EB3A[PlySlotIdx_4C59B0] = v4;
+        gLucid_hamilton_67E8E0.sub_4C58F0(v4);
+    }
+    else
+    {
+        gLucid_hamilton_67E8E0.sub_4C58F0(field_1EB3A[PlySlotIdx_4C59B0]);
+    }
+
+    if (v8 < field_1EB42[PlySlotIdx_4C59B0] || v8 == 0xFF)
+    {
+        field_1EB42[PlySlotIdx_4C59B0] = v8;
+        gLucid_hamilton_67E8E0.sub_4C5900(v8);
+    }
+    else
+    {
+        gLucid_hamilton_67E8E0.sub_4C5900(field_1EB42[PlySlotIdx_4C59B0]);
+    }
+
+    Frontend::sub_4B7610();
+    Frontend::sub_4B7550();
+    if (Frontend::PlySlotSvgExists_4B5370(PlySlotIdx_4C59B0))
+    {
+        pMenuPage->field_4_options_array[1].field_1_is_unlocked = 1;
+        pMenuPage->field_B8A[1].field_4_is_option_unlocked = 1;
+    }
+    else
+    {
+        pMenuPage->field_4_options_array[1].field_1_is_unlocked = 0;
+        pMenuPage->field_B8A[1].field_4_is_option_unlocked = 0;
+    }
 }
 
 MATCH_FUNC(0x4B4230)
@@ -4162,6 +4199,13 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
         }
     }
     return result;
+}
+
+STUB_FUNC(0x4B7800)
+u8 Frontend::sub_4B7800(player_stats_0xA4* pPlayerStats)
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
