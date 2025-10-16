@@ -297,7 +297,7 @@ struct Frontend
     xenodochial_morse field_EE0E_unk;
     s16 field_1EB30;
     s16 field_1EB32;
-    s32 field_1EB34;
+    Fix16 field_1EB34;
     s16 field_1EB38; // -11 bytes ?
     u8 field_1EB3A[8];
     u8 field_1EB42[8];

@@ -40,7 +40,7 @@ DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(s32, dword_67D930, 0, 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32, 0x67DC8C); // 67DCCC
-DEFINE_GLOBAL_INIT(DWORD, dword_67D9FC, 16384, 0x67D9FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D9FC, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL_INIT(short, font_type_703C14, 7, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
@@ -1487,6 +1487,7 @@ void Frontend::sub_4AD140()
 STUB_FUNC(0x4B7AE0)
 void Frontend::sub_4B7AE0()
 {
+    NOT_IMPLEMENTED;
     u16 font_type;
     s32 palette;
     s32 draw_kind;
@@ -1809,33 +1810,29 @@ void Frontend::sub_4B6780()
     }
 }
 
+// https://decomp.me/scratch/3NE2J
 STUB_FUNC(0x4B7A10)
 void Frontend::sub_4B7A10()
 {
     NOT_IMPLEMENTED;
-    char_type v2; // cl
-    char_type* local_field_8_keys; // eax
-    s32 v4; // edx
-    s32 v5; // eax
-    s32 v6; // eax
-
     timeGetTime();
-    read_menu_input_4AFEB0();
-    v2 = 0;
-    local_field_8_keys = field_8_keys;
-    v4 = 256;
-    do
+    Frontend::read_menu_input_4AFEB0();
+    bool bKeyPressed = false;
+    char_type* pKeyIter = &field_8_keys[0];
+
+    for (s32 i = 256; i; i--)
     {
-        if (*local_field_8_keys < 0)
-            v2 = 1;
-        ++local_field_8_keys;
-        --v4;
-    } while (v4);
-    if (v2)
+        if ((*pKeyIter & 0x80u) != 0)
+        {
+            bKeyPressed = true;
+        }
+        ++pKeyIter;
+    }
+
+    if (bKeyPressed)
     {
         if (!field_C9B3)
         {
-        LABEL_7:
             field_108 = 1;
             return;
         }
@@ -1844,23 +1841,29 @@ void Frontend::sub_4B7A10()
     {
         field_C9B3 = 0;
     }
-    if (++field_1EB30)
+
+    if (++field_1EB30 > 0)
     {
-        v5 = field_1EB34;
         field_1EB30 = 0;
-        if (v5 <= -327680)
+
+        if (field_1EB34 <= 262124)
         {
             while (++field_1EB38 != 600)
             {
-                v6 = ((u16)field_EE0E_unk.field_2[(u16)field_1EB38].field_4 << 14) + field_1EB34;
-                field_1EB34 = v6;
-                if (v6 > -327680)
-                    goto LABEL_13;
+                field_1EB34 = Fix16(field_EE0E_unk.field_2[field_1EB38].field_4) + field_1EB34;
+
+                if (field_1EB34 > 262124)
+                {
+                    field_1EB34 -= dword_67D9FC;
+                    return;
+                }
             }
-            goto LABEL_7;
+            field_108 = 1;
         }
-    LABEL_13:
-        field_1EB34 -= dword_67D9FC;
+        else
+        {
+            field_1EB34 -= dword_67D9FC;
+        }
     }
 }
 
