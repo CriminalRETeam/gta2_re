@@ -5082,6 +5082,7 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 }
 
 // TODO: move this
+// https://decomp.me/scratch/Zmms7
 STUB_FUNC(0x5D7EC0)
 void __stdcall sub_5D7EC0(s32 type,
                           s16 pal,
