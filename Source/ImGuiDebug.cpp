@@ -21,6 +21,8 @@
 #include "map_0x370.hpp"
 #include "gtx_0x106C.hpp"
 #include "sprite.hpp"
+#include "registry.hpp"
+#include "lucid_hamilton.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
@@ -779,10 +781,10 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("gPhi_8CA8_6FCF00"))
     {
-        if (ImGui::Button("Init Phi_54 array"))
+        if (ImGui::Button("Init Phi arrays"))
         {
-            //Improvised_Init_Phi_54_array();
-            //Improvised_Init_Phi_6C_array();
+            Init_Phi_54_array();
+            Init_Phi_6C_array();
         }
         if (ImGui::TreeNode("Global Vars"))
         {
@@ -810,14 +812,14 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_10", phi_54->field_10);
                         ImGui::Value("field_14", phi_54->field_14);
                         ImGui::Value("field_18", phi_54->field_18);
-                        ImGui::Value("field_1C", phi_54->field_1C);
-                        ImGui::Value("field_20", phi_54->field_20);
+                        ImGui::Value("field_1C", phi_54->field_1C.mValue);
+                        ImGui::Value("field_20", phi_54->field_20.mValue);
                         ImGui::Value("field_24", phi_54->field_24);
                         ImGui::Value("field_28", phi_54->field_28);
                         ImGui::Value("field_2C", phi_54->field_2C);
                         ImGui::Value("field_30", phi_54->field_30);
                         ImGui::Value("field_34", phi_54->field_34);
-                        ImGui::Value("field_38", phi_54->field_38);
+                        ImGui::Value("field_38", phi_54->field_38.mValue);
                         ImGui::Value("field_3C", phi_54->field_3C);
                         ImGui::Value("field_40", phi_54->field_40);
                         ImGui::Value("field_44", phi_54->field_44);
@@ -1052,6 +1054,53 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_1", admiring_euler->field_1_last_saved_stage);
                 ImGui::Value("field_2", admiring_euler->field_2);
                 ImGui::Value("field_3", admiring_euler->field_3);
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("Debug Frontend"))
+        {
+            if (gFrontend_67DC84)
+            {
+                if (ImGui::TreeNode("Player settings"))
+                {
+                    static s32 player_idx;
+                    ImGui::SliderInt("Player idx", &player_idx, 0, 7);
+
+                    // fix softlock crashes after trying to change player name in standalone
+                    if (ImGui::Button("Set Player"))
+                    {
+                        gLucid_hamilton_67E8E0.sub_4C5920(player_idx);
+                        gFrontend_67DC84->sub_4B42E0();
+                        gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
+                    }
+                    ImGui::TreePop();
+                }
+
+                if (ImGui::TreeNode("Credits"))
+                {
+
+                    xenodochial_morse* pCreditsStruct = &gFrontend_67DC84->field_EE0E_unk;
+                    if (pCreditsStruct)
+                    {
+                        ImGui::InputS16("Xeno field_0", &pCreditsStruct->field_0, 1, 1);
+
+                        static s32 credit_line;
+                        ImGui::InputInt("Credit line", &credit_line, 1, 1);
+
+                        sleepy_stonebraker_0x6C* pCreditLine = &pCreditsStruct->field_2[credit_line];
+                        if (pCreditLine)
+                        {
+                            ImGui::SliderS8("Sleepy field_0", &pCreditLine->field_0, -127, 127);
+                            ImGui::SliderS8("Sleepy field_1", &pCreditLine->field_1, -127, 127);
+                            ImGui::InputS16("Sleepy field_2", &pCreditLine->field_2, 1, 1);
+                            ImGui::InputU16("Sleepy field_4", &pCreditLine->field_4, 1, 1);
+                            ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6, 1, 1);
+                        }
+                    }
+                    
+                }
+                
             }
             ImGui::TreePop();
         }

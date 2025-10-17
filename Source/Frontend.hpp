@@ -297,7 +297,7 @@ struct Frontend
     xenodochial_morse field_EE0E_unk;
     s16 field_1EB30;
     s16 field_1EB32;
-    s32 field_1EB34;
+    Fix16 field_1EB34;
     s16 field_1EB38; // -11 bytes ?
     u8 field_1EB3A[8];
     u8 field_1EB42[8];
@@ -361,6 +361,8 @@ struct Frontend
     EXPORT void sub_4B4280();
 
     EXPORT u8 sub_4B77B0(player_stats_0xA4* a2);
+
+    EXPORT u8 sub_4B7800(player_stats_0xA4* a2);
 
     EXPORT void sub_4B8530();
 
@@ -460,7 +462,7 @@ struct Frontend
 
     EXPORT void sub_4B8650();
 
-    EXPORT char_type pre_intro_bik_exists_4B6030();
+    EXPORT bool pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 

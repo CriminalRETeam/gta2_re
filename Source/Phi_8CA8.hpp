@@ -21,14 +21,36 @@ class Phi_54
                   s32& param_5,
                   s32& param_6,
                   s32& param_7,
-                  s32 param_8,
-                  s32 param_9,
+                  Fix16 param_8,
+                  Fix16 param_9,
                   s8 param_10,
                   s32& param_11,
                   s32& param_12,
                   s8 param_13,
                   s32& param_14,
-                  s32 param_15,
+                  Fix16 param_15,
+                  s32 param_16,
+                  s32 param_17,
+                  s32 param_18,
+                  s8 param_19,
+                  s32 param_20,
+                  s8 param_21);
+    
+    EXPORT Phi_54(s32 param_1,
+                  s32 param_2,
+                  s32 param_3,
+                  s8 param_4,
+                  s32 param_5,
+                  s32 param_6,
+                  s32 param_7,
+                  Fix16 param_8,
+                  Fix16 param_9,
+                  s8 param_10,
+                  s32 param_11,
+                  s32 param_12,
+                  s8 param_13,
+                  s32 param_14,
+                  Fix16 param_15,
                   s32 param_16,
                   s32 param_17,
                   s32 param_18,
@@ -46,8 +68,8 @@ class Phi_54
     s32 field_10;
     s32 field_14;
     s32 field_18;
-    s32 field_1C;
-    s32 field_20;
+    Fix16 field_1C;
+    Fix16 field_20;
     s8 field_24;
     s8 field_25;
     s8 field_26;
@@ -59,7 +81,7 @@ class Phi_54
     s8 field_32;
     s8 field_33;
     s32 field_34;
-    s32 field_38;
+    Fix16 field_38;
     s32 field_3C;
     s8 field_40;
     s8 field_41;
@@ -110,6 +132,36 @@ class Phi_6C
                   u32 param_23,
                   u8 param_24,
                   u32& param_25,
+                  u32 param_26,
+                  u32 param_27,
+                  u8 param_28,
+                  u8 param_29);
+
+    EXPORT Phi_6C(u32 param_1,
+                  u8 param_2,
+                  u32 param_3,
+                  u32 param_4,
+                  u32 param_5,
+                  u8 param_6,
+                  u32 param_7,
+                  u32 param_8,
+                  u32 param_9,
+                  Fix16 param_10,
+                  Fix16 param_11,
+                  u8 param_12,
+                  u32 param_13,
+                  u32 param_14,
+                  u32 param_15,
+                  u32 param_16,
+                  u32 param_17,
+                  Fix16 param_18,
+                  Fix16 param_19,
+                  Fix16 param_20,
+                  Fix16 param_21,
+                  u32 param_22,
+                  u32 param_23,
+                  u8 param_24,
+                  u32 param_25,
                   u32 param_26,
                   u32 param_27,
                   u8 param_28,
@@ -257,3 +309,6 @@ EXTERN_GLOBAL(s32, Phi_6C_array_lenght_623EF0);
 
 EXTERN_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24);
 EXTERN_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126);
+
+EXPORT void Init_Phi_54_array();
+EXPORT void Init_Phi_6C_array();

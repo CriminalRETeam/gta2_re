@@ -40,7 +40,7 @@ DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(s32, dword_67D930, 0, 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32, 0x67DC8C); // 67DCCC
-DEFINE_GLOBAL_INIT(DWORD, dword_67D9FC, 16384, 0x67D9FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D9FC, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL_INIT(short, font_type_703C14, 7, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
@@ -51,10 +51,10 @@ DEFINE_GLOBAL(s16, word_703BE2, 0x703BE2);
 DEFINE_GLOBAL(s16, word_703B88, 0x703B88);
 DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
 DEFINE_GLOBAL(s16, word_703B9C, 0x703B9C);
-DEFINE_GLOBAL(Ang16, word_706C3C, 0x706C3C);
-DEFINE_GLOBAL(Fix16, dword_706A6C, 0x706A6C);
-DEFINE_GLOBAL(Ang16, word_67DA70, 0x67DA70);
-DEFINE_GLOBAL(Fix16, dword_67D934, 0x67D934);
+DEFINE_GLOBAL_INIT(Ang16, word_706C3C, Ang16(0), 0x706C3C);
+DEFINE_GLOBAL_INIT(Fix16, dword_706A6C, Fix16(1), 0x706A6C);
+DEFINE_GLOBAL_INIT(Ang16, word_67DA70, Ang16(0), 0x67DA70);
+DEFINE_GLOBAL_INIT(Fix16, dword_67D934, Fix16(1), 0x67D934);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
 DEFINE_GLOBAL(BYTE, byte_67DA80, 0x67DA80);
 DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4, 0x67DC88); // todo: prob, bigger, 0xUNKNOWN);
@@ -1040,6 +1040,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
+// https://decomp.me/scratch/jchxT
 STUB_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
@@ -1248,8 +1249,8 @@ void Frontend::sub_4AD140()
                             {
                                 if (selected_option_idx == 0)
                                 {
-                                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = selected_option_idx;
-                                    field_1EB4A = selected_option_idx;
+                                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
+                                    field_1EB4A = 0;
                                 }
                                 else if (selected_option_idx == pMenuPage->field_4_options_array[0].field_7E_horizontal_max_idx)
                                 {
@@ -1483,13 +1484,72 @@ void Frontend::sub_4AD140()
     }
 }
 
+// https://decomp.me/scratch/qV1ie switch "goto" issue
 STUB_FUNC(0x4B7AE0)
 void Frontend::sub_4B7AE0()
 {
     NOT_IMPLEMENTED;
-    // todo
+    u16 font_type;
+    s32 palette;
+    s32 draw_kind;
 
-    // TEST
+    u16 credit_idx = field_1EB38;
+    for (Fix16 y = field_1EB34; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_unk.field_2[credit_idx].field_4)
+    {
+        sleepy_stonebraker_0x6C* sleepy = &field_EE0E_unk.field_2[credit_idx];
+        switch (sleepy->field_6)
+        {
+            case 0:
+                font_type = field_11E;
+                draw_kind = 2;
+                palette = 0;
+                break;
+            case 1:
+                font_type = field_120;
+                draw_kind = 2;
+                palette = 0;
+                break;
+            case 2:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 13;
+                break;
+            case 3:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 14;
+                break;
+            case 4:
+                font_type = field_120;
+                draw_kind = 8;
+                palette = 15;
+                break;
+            default:
+                // InvalidCreditTextColor
+                FatalError_4A38C0(0xBC, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
+        }
+        wchar_t* pStrBuf = sleepy->field_8_strBuf;
+        if (wcscmp(pStrBuf, word_67DC8C))
+        {
+
+            if (!wcscmp(pStrBuf, L"BINKLOGO"))
+            {
+                s32 temp = 2;
+                sub_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+            }
+            else if (!wcscmp(pStrBuf, L"MILESLOGO"))
+            {
+                s32 temp = 2;
+                sub_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+            }
+            else
+            {
+                s32 v7 = Frontend::sub_5D8990(pStrBuf, font_type);
+                u32 draw_x = (640 - v7) / 2;
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, &draw_kind, palette, 0, 0);
+            }
+        }
+    }
 
     if (pgbh_BlitImage(tgaArray_61F0C8[23].field_84_img, 0, 0, 451, 144, 85, 0) == -10)
     {
@@ -1511,20 +1571,20 @@ void Frontend::sub_4B8650()
     }
 }
 
-STUB_FUNC(0x4B6030)
-char_type Frontend::pre_intro_bik_exists_4B6030()
+MATCH_FUNC(0x4B6030)
+bool Frontend::pre_intro_bik_exists_4B6030()
 {
-    NOT_IMPLEMENTED;
-    char_type* v0; // eax
-    long v1; // eax
-    _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
-
-    v0 = gFrontend_67DC84->pre_intro_bik_4B5F20();
-    v1 = _findfirst(v0, &v3);
+    _finddata_t v3;
+    long v1 = _findfirst(gFrontend_67DC84->pre_intro_bik_4B5F20(), &v3);
     if (v1 == -1)
-        return 0;
-    _findclose(v1);
-    return 1;
+    {
+        return false;
+    }
+    else
+    {
+        _findclose(v1);
+        return true;
+    }
 }
 
 STUB_FUNC(0x4B5F20)
@@ -1751,33 +1811,29 @@ void Frontend::sub_4B6780()
     }
 }
 
+// https://decomp.me/scratch/3NE2J
 STUB_FUNC(0x4B7A10)
 void Frontend::sub_4B7A10()
 {
     NOT_IMPLEMENTED;
-    char_type v2; // cl
-    char_type* local_field_8_keys; // eax
-    s32 v4; // edx
-    s32 v5; // eax
-    s32 v6; // eax
-
     timeGetTime();
-    read_menu_input_4AFEB0();
-    v2 = 0;
-    local_field_8_keys = field_8_keys;
-    v4 = 256;
-    do
+    Frontend::read_menu_input_4AFEB0();
+    bool bKeyPressed = false;
+    char_type* pKeyIter = &field_8_keys[0];
+
+    for (s32 i = 256; i; i--)
     {
-        if (*local_field_8_keys < 0)
-            v2 = 1;
-        ++local_field_8_keys;
-        --v4;
-    } while (v4);
-    if (v2)
+        if ((*pKeyIter & 0x80u) != 0)
+        {
+            bKeyPressed = true;
+        }
+        ++pKeyIter;
+    }
+
+    if (bKeyPressed)
     {
         if (!field_C9B3)
         {
-        LABEL_7:
             field_108 = 1;
             return;
         }
@@ -1786,23 +1842,29 @@ void Frontend::sub_4B7A10()
     {
         field_C9B3 = 0;
     }
-    if (++field_1EB30)
+
+    if (++field_1EB30 > 0)
     {
-        v5 = field_1EB34;
         field_1EB30 = 0;
-        if (v5 <= -327680)
+
+        if (field_1EB34 <= 262124)
         {
             while (++field_1EB38 != 600)
             {
-                v6 = ((u16)field_EE0E_unk.field_2[(u16)field_1EB38].field_4 << 14) + field_1EB34;
-                field_1EB34 = v6;
-                if (v6 > -327680)
-                    goto LABEL_13;
+                field_1EB34 = Fix16(field_EE0E_unk.field_2[field_1EB38].field_4) + field_1EB34;
+
+                if (field_1EB34 > 262124)
+                {
+                    field_1EB34 -= dword_67D9FC;
+                    return;
+                }
             }
-            goto LABEL_7;
+            field_108 = 1;
         }
-    LABEL_13:
-        field_1EB34 -= dword_67D9FC;
+        else
+        {
+            field_1EB34 -= dword_67D9FC;
+        }
     }
 }
 
@@ -2334,11 +2396,48 @@ player_stats_0xA4* Frontend::sub_4B43E0()
     return &gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[idx];
 }
 
-STUB_FUNC(0x4B42E0)
+MATCH_FUNC(0x4B42E0)
 void Frontend::sub_4B42E0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    player_stats_0xA4* pPlayerStats = Frontend::sub_4B43E0();
+    u8 PlySlotIdx_4C59B0 = gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0();
+    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+
+    u8 v4 = Frontend::sub_4B77B0(pPlayerStats);
+    u8 v8 = Frontend::sub_4B7800(pPlayerStats);
+
+    if (v4 < field_1EB3A[PlySlotIdx_4C59B0])
+    {
+        field_1EB3A[PlySlotIdx_4C59B0] = v4;
+        gLucid_hamilton_67E8E0.sub_4C58F0(v4);
+    }
+    else
+    {
+        gLucid_hamilton_67E8E0.sub_4C58F0(field_1EB3A[PlySlotIdx_4C59B0]);
+    }
+
+    if (v8 < field_1EB42[PlySlotIdx_4C59B0] || v8 == 0xFF)
+    {
+        field_1EB42[PlySlotIdx_4C59B0] = v8;
+        gLucid_hamilton_67E8E0.sub_4C5900(v8);
+    }
+    else
+    {
+        gLucid_hamilton_67E8E0.sub_4C5900(field_1EB42[PlySlotIdx_4C59B0]);
+    }
+
+    Frontend::sub_4B7610();
+    Frontend::sub_4B7550();
+    if (Frontend::PlySlotSvgExists_4B5370(PlySlotIdx_4C59B0))
+    {
+        pMenuPage->field_4_options_array[1].field_1_is_unlocked = 1;
+        pMenuPage->field_B8A[1].field_4_is_option_unlocked = 1;
+    }
+    else
+    {
+        pMenuPage->field_4_options_array[1].field_1_is_unlocked = 0;
+        pMenuPage->field_B8A[1].field_4_is_option_unlocked = 0;
+    }
 }
 
 MATCH_FUNC(0x4B4230)
@@ -2707,18 +2806,9 @@ void Frontend::sub_4ADF50()
 
         case 2:
         {
-            const s32 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+            const u16 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
 
-            Fix16 scale;
-            scale.mValue = 0x4000;
-
-            Fix16 ypos;
-            ypos.FromInt_4369F0(260);
-
-            Fix16 xpos;
-            xpos.FromU16_4AE970(x);
-
-            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), xpos, ypos, field_11C, scale);
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), x, 260, field_11C, 1);
             break;
         }
 
@@ -2728,9 +2818,6 @@ void Frontend::sub_4ADF50()
             {
                 const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
 
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 // TODO: Fix this part
                 u8 v13 = -(v12 != 0);
                 v13 = v13 & 0xFC;
@@ -2738,15 +2825,10 @@ void Frontend::sub_4ADF50()
                 Fix16 ypos;
                 ypos.FromU16_4AE970(v13 + 16);
 
-                Fix16 xpos;
-                xpos.FromU16_4AE970(275);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), xpos, ypos, field_126, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
 
                 u16 fontType;
                 if (field_EE0A == 190)
@@ -2758,18 +2840,10 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(190);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, fontType, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 u16 fontType;
                 if (field_EE0A == 210)
                 {
@@ -2780,19 +2854,10 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(210);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, fontType, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 u16 fontType;
                 if (field_EE0A == 230)
                 {
@@ -2803,13 +2868,7 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(230);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, fontType, 1);
             }
             break;
         }
@@ -4164,6 +4223,13 @@ u8 Frontend::sub_4B77B0(player_stats_0xA4* a2)
     return result;
 }
 
+STUB_FUNC(0x4B7800)
+u8 Frontend::sub_4B7800(player_stats_0xA4* pPlayerStats)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
 MATCH_FUNC(0x5E53C0)
@@ -4977,6 +5043,7 @@ EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
 }
 
 // TODO: move this
+// https://decomp.me/scratch/Zmms7
 STUB_FUNC(0x5D7EC0)
 void __stdcall sub_5D7EC0(s32 type,
                           s16 pal,
