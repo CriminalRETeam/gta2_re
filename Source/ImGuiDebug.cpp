@@ -783,7 +783,7 @@ void CC ImGuiDebugDraw()
     {
         if (ImGui::Button("Init Phi_54 array"))
         {
-            //Improvised_Init_Phi_54_array();
+            Init_Phi_54_array();
             //Improvised_Init_Phi_6C_array();
         }
         if (ImGui::TreeNode("Global Vars"))
@@ -812,14 +812,14 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_10", phi_54->field_10);
                         ImGui::Value("field_14", phi_54->field_14);
                         ImGui::Value("field_18", phi_54->field_18);
-                        ImGui::Value("field_1C", phi_54->field_1C);
-                        ImGui::Value("field_20", phi_54->field_20);
+                        ImGui::Value("field_1C", phi_54->field_1C.mValue);
+                        ImGui::Value("field_20", phi_54->field_20.mValue);
                         ImGui::Value("field_24", phi_54->field_24);
                         ImGui::Value("field_28", phi_54->field_28);
                         ImGui::Value("field_2C", phi_54->field_2C);
                         ImGui::Value("field_30", phi_54->field_30);
                         ImGui::Value("field_34", phi_54->field_34);
-                        ImGui::Value("field_38", phi_54->field_38);
+                        ImGui::Value("field_38", phi_54->field_38.mValue);
                         ImGui::Value("field_3C", phi_54->field_3C);
                         ImGui::Value("field_40", phi_54->field_40);
                         ImGui::Value("field_44", phi_54->field_44);

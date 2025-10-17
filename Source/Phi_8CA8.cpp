@@ -18,6 +18,12 @@ DEFINE_GLOBAL_INIT(Fix16, DAT_006fce10, Fix16(32768, 0), 0x6FCE10);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006F8FF0, Fix16(9830, 0), 0x6F8FF0);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006FCED0, Fix16(4096, 0), 0x6FCED0);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCE0C, Fix16(4096, 0), 0x6FCE0C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCE14, Fix16(49152, 0), 0x6FCE14);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8FE0, Fix16(3276, 0), 0x6F8FE0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCE1C, Fix16(81920, 0), 0x6FCE1C);
+
+Fix16 dword_6FCE08 = 0;
 
 DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
 
@@ -25,12 +31,249 @@ DEFINE_GLOBAL_INIT(s32, Phi_54_array_lenght_00623EEC, 24, 0x623EEC);
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533360.
 DEFINE_GLOBAL_ARRAY(Phi_54, Phi_54_array_006FC5F8, 24, 0x6FC5F8);
 
+/*
+DEFINE_GLOBAL_ARRAY_INIT(Phi_54,
+Phi_54_array_006FC5F8,
+24,
+0x6FC5F8,
+Phi_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,dword_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,1 ,dword_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,1 ,dword_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1),
+Phi_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,1 ,0 ,1 ,1),
+Phi_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+Phi_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+Phi_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,dword_6FCE08 ,-DAT_006fcdd8 ,-1 ,1 ,1 ,4 ,0 ,dword_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0),
+Phi_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,dword_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1),
+Phi_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0),
+Phi_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,dword_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+Phi_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+Phi_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1));
+*/
+
 DEFINE_GLOBAL_INIT(s32, Phi_6C_array_lenght_623EF0, 126, 0x623EF0);
 
 // This array is initialized by FUN_0052cde0 (likely a static constructor).
 // Must remain a fixed array — pointer would break Phi_8CA8::sub_533B30.
 DEFINE_GLOBAL_ARRAY(Phi_6C, Phi_6C_array_6F9038, 126, 0x6F9038);
 
+/* TODO: fix pass constants by ref, solve Fix16 operations and Phi_6C id 225 variables
+DEFINE_GLOBAL_ARRAY_INIT(Phi_6C,
+Phi_6C_array_6F9038,
+126,
+0x6F9038,
+{149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1},
+{247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,dword_6F8FE0 ,dword_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1},
+{129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FF0 ,dword_6F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,2 * dword_6FCEB0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0},
+{200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,v16 ,v17 ,0 ,1 ,1 ,4 ,0 ,0 ,v18 ,v19 ,v20 ,v21 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE28 ,dword_6FCE28 ,dword_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FF0 ,dword_6F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCEB0 ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1},
+{114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1},
+{183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,dword_6F8FD8 ,-dword_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,dword_6F8FD8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
+{199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE14 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
+{285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FEC ,dword_6F8FEC ,dword_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCEB0 ,dword_6FC5A4 ,dword_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,dword_6F8FD8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
+{164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
+{281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&dword_6FCEB0, &v27, &v2->mValue) ,*Fix16::Multiply_408680(&dword_6FCEB0, &v25, &v1->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
+{282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&dword_6FCEB0, &v24, &v5->mValue) ,*Fix16::Multiply_408680(&dword_6FCEB0, &v26, &v4->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
+{144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
+{121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
+{118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
+{295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
+{128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,dword_6F8FE8 ,dword_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1},
+{192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,dword_6F8FE8 ,dword_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1},
+{148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
+{170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1},
+{294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
+{278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1},
+{279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1},
+{198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1});
+*/
+
+// Temporary workaround: create overload without pulling params by ref
+Phi_54::Phi_54(s32 param_1,
+               s32 param_2,
+               s32 param_3,
+               s8 param_4,
+               s32 param_5,
+               s32 param_6,
+               s32 param_7,
+               Fix16 param_8,
+               Fix16 param_9,
+               s8 param_10,
+               s32 param_11,
+               s32 param_12,
+               s8 param_13,
+               s32 param_14,
+               Fix16 param_15,
+               s32 param_16,
+               s32 param_17,
+               s32 param_18,
+               s8 param_19,
+               s32 param_20,
+               s8 param_21)
+{
+    field_0 = param_1;
+    field_4 = param_2;
+    field_8 = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18 = param_7;
+    field_1C = param_8;
+    field_20 = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30 = param_13;
+    field_34 = param_14;
+    field_38 = param_15;
+    field_3C = param_16;
+    field_40 = param_17;
+    field_44 = param_18;
+    field_48 = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
+}
+
+void Init_Phi_54_array()
+{
+    Phi_54_array_006FC5F8[0] = Phi_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,dword_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[1] = Phi_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,1 ,dword_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[2] = Phi_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,1 ,dword_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[3] = Phi_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,1 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[4] = Phi_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[5] = Phi_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[6] = Phi_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[7] = Phi_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[8] = Phi_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[9] = Phi_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[10] = Phi_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[11] = Phi_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[12] = Phi_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[13] = Phi_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,-DAT_006fcdd8 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[14] = Phi_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,dword_6FCE08 ,-DAT_006fcdd8 ,-1 ,1 ,1 ,4 ,0 ,dword_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0);
+    Phi_54_array_006FC5F8[15] = Phi_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[16] = Phi_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,dword_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[17] = Phi_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0);
+    Phi_54_array_006FC5F8[18] = Phi_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[19] = Phi_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[20] = Phi_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,dword_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[21] = Phi_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[22] = Phi_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    Phi_54_array_006FC5F8[23] = Phi_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+}
 
 MATCH_FUNC(0x532fb0)
 Phi_54::Phi_54(s32 param_1,
@@ -40,14 +283,14 @@ Phi_54::Phi_54(s32 param_1,
                s32& param_5,
                s32& param_6,
                s32& param_7,
-               s32 param_8,
-               s32 param_9,
+               Fix16 param_8,
+               Fix16 param_9,
                s8 param_10,
                s32& param_11,
                s32& param_12,
                s8 param_13,
                s32& param_14,
-               s32 param_15,
+               Fix16 param_15,
                s32 param_16,
                s32 param_17,
                s32 param_18,
@@ -259,7 +502,6 @@ void Phi_74::sub_5331A0(Sprite* pSprite)
 
 // fix16?
 s32 dword_6F8FA4 = 0x3FC000;
-s32 dword_6FCE08 = 0;
 
 MATCH_FUNC(0x533220)
 Phi_74::Phi_74()
@@ -290,7 +532,7 @@ Phi_74::Phi_74()
     field_65 = 99;
     field_1E = 99;
     field_6C = 99;
-    s32 v1 = dword_6FCE08;
+    Fix16 v1 = dword_6FCE08;
     field_68 = 0;
     field_18 = v1;
     field_20 = 0;
