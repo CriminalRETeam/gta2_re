@@ -462,7 +462,7 @@ struct Frontend
 
     EXPORT void sub_4B8650();
 
-    EXPORT char_type pre_intro_bik_exists_4B6030();
+    EXPORT bool pre_intro_bik_exists_4B6030();
 
     EXPORT char_type* pre_intro_bik_4B5F20();
 

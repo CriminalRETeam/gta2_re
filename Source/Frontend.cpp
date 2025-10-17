@@ -1040,6 +1040,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 // sub_457920 in 9.6f
+// https://decomp.me/scratch/jchxT
 STUB_FUNC(0x4AD140)
 void Frontend::sub_4AD140()
 {
@@ -1570,20 +1571,20 @@ void Frontend::sub_4B8650()
     }
 }
 
-STUB_FUNC(0x4B6030)
-char_type Frontend::pre_intro_bik_exists_4B6030()
+MATCH_FUNC(0x4B6030)
+bool Frontend::pre_intro_bik_exists_4B6030()
 {
-    NOT_IMPLEMENTED;
-    char_type* v0; // eax
-    long v1; // eax
-    _finddata_t v3; // [esp+0h] [ebp-118h] BYREF
-
-    v0 = gFrontend_67DC84->pre_intro_bik_4B5F20();
-    v1 = _findfirst(v0, &v3);
+    _finddata_t v3;
+    long v1 = _findfirst(gFrontend_67DC84->pre_intro_bik_4B5F20(), &v3);
     if (v1 == -1)
-        return 0;
-    _findclose(v1);
-    return 1;
+    {
+        return false;
+    }
+    else
+    {
+        _findclose(v1);
+        return true;
+    }
 }
 
 STUB_FUNC(0x4B5F20)
@@ -2805,18 +2806,9 @@ void Frontend::sub_4ADF50()
 
         case 2:
         {
-            const s32 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+            const u16 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
 
-            Fix16 scale;
-            scale.mValue = 0x4000;
-
-            Fix16 ypos;
-            ypos.FromInt_4369F0(260);
-
-            Fix16 xpos;
-            xpos.FromU16_4AE970(x);
-
-            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), xpos, ypos, field_11C, scale);
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), x, 260, field_11C, 1);
             break;
         }
 
@@ -2826,9 +2818,6 @@ void Frontend::sub_4ADF50()
             {
                 const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
 
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 // TODO: Fix this part
                 u8 v13 = -(v12 != 0);
                 v13 = v13 & 0xFC;
@@ -2836,15 +2825,10 @@ void Frontend::sub_4ADF50()
                 Fix16 ypos;
                 ypos.FromU16_4AE970(v13 + 16);
 
-                Fix16 xpos;
-                xpos.FromU16_4AE970(275);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), xpos, ypos, field_126, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
 
                 u16 fontType;
                 if (field_EE0A == 190)
@@ -2856,18 +2840,10 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(190);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, fontType, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 u16 fontType;
                 if (field_EE0A == 210)
                 {
@@ -2878,19 +2854,10 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(210);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, fontType, 1);
             }
 
             {
-                Fix16 scale;
-                scale.mValue = 0x4000;
-
                 u16 fontType;
                 if (field_EE0A == 230)
                 {
@@ -2901,13 +2868,7 @@ void Frontend::sub_4ADF50()
                     fontType = field_11C;
                 }
 
-                Fix16 ypos;
-                ypos.FromInt_4369F0(230);
-
-                Fix16 xpos;
-                xpos.FromInt_4369F0(300);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), xpos, ypos, fontType, scale);
+                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, fontType, 1);
             }
             break;
         }
