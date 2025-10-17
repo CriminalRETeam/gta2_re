@@ -1249,8 +1249,8 @@ void Frontend::sub_4AD140()
                             {
                                 if (selected_option_idx == 0)
                                 {
-                                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = selected_option_idx;
-                                    field_1EB4A = selected_option_idx;
+                                    pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
+                                    field_1EB4A = 0;
                                 }
                                 else if (selected_option_idx == pMenuPage->field_4_options_array[0].field_7E_horizontal_max_idx)
                                 {
