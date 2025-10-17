@@ -22,6 +22,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FCE0C, Fix16(4096, 0), 0x6FCE0C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FCE14, Fix16(49152, 0), 0x6FCE14);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8FE0, Fix16(3276, 0), 0x6F8FE0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FCE1C, Fix16(81920, 0), 0x6FCE1C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8FDC, Fix16(4092, 0), 0x6F8FDC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCE28, Fix16(0x20000, 0), 0x6FCE28);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FCE60, Fix16(4096, 0), 0x6FCE60);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8FEC, Fix16(0x2000, 0), 0x6F8FEC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FC5A4, Fix16(23170, 0), 0x6FC5A4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8FE8, Fix16(6553, 0), 0x6F8FE8);
 
 Fix16 dword_6FCE08 = 0;
 
@@ -81,9 +87,9 @@ Phi_6C_array_6F9038,
 {266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
 {254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,dword_6F8FE0 ,dword_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1},
-{129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FF0 ,dword_6F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006F8FF0 ,DAT_006F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,2 * dword_6FCEB0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,2 * DAT_006fceb0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0},
@@ -141,25 +147,25 @@ Phi_6C_array_6F9038,
 {136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE28 ,dword_6FCE28 ,dword_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FF0 ,dword_6F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE28 ,dword_6FCE28 ,DAT_006fce10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006F8FF0 ,DAT_006F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCEB0 ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
+{168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006fceb0 ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
 {169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1},
 {114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
 {194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
 {284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1},
-{183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,dword_6F8FD8 ,-dword_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,dword_6F8FD8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,DAT_006f8fd8 ,-DAT_006fcdd8 ,12 ,3 ,3 ,4 ,2 ,1 ,DAT_006f8fd8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
 {195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
 {199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE14 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
 {285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FEC ,dword_6F8FEC ,dword_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCEB0 ,dword_6FC5A4 ,dword_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006fceb0 ,dword_6FC5A4 ,DAT_006fce10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
 {286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
@@ -175,12 +181,12 @@ Phi_6C_array_6F9038,
 {292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
 {293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
 {161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,dword_6F8FD8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
+{138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,DAT_006f8fd8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
 {112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
 {164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&dword_6FCEB0, &v27, &v2->mValue) ,*Fix16::Multiply_408680(&dword_6FCEB0, &v25, &v1->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&dword_6FCEB0, &v24, &v5->mValue) ,*Fix16::Multiply_408680(&dword_6FCEB0, &v26, &v4->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
+{281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&DAT_006fceb0, &v27, &v2->mValue) ,*Fix16::Multiply_408680(&DAT_006fceb0, &v25, &v1->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
+{282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,Fix16::Multiply_408680(&DAT_006fceb0, &v24, &v5->mValue) ,*Fix16::Multiply_408680(&DAT_006fceb0, &v26, &v4->mValue) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
 {253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
 {144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
@@ -247,6 +253,68 @@ Phi_54::Phi_54(s32 param_1,
     field_50 = param_21;
 }
 
+// Temporary workaround: create overload without pulling params by ref
+Phi_6C::Phi_6C(u32 param_1,
+               u8 param_2,
+               u32 param_3,
+               u32 param_4,
+               u32 param_5,
+               u8 param_6,
+               u32 param_7,
+               u32 param_8,
+               u32 param_9,
+               Fix16 param_10,
+               Fix16 param_11,
+               u8 param_12,
+               u32 param_13,
+               u32 param_14,
+               u32 param_15,
+               u32 param_16,
+               u32 param_17,
+               Fix16 param_18,
+               Fix16 param_19,
+               Fix16 param_20,
+               Fix16 param_21,
+               u32 param_22,
+               u32 param_23,
+               u8 param_24,
+               u32 param_25,
+               u32 param_26,
+               u32 param_27,
+               u8 param_28,
+               u8 param_29)
+{
+    field_0 = param_1;
+    field_4 = param_2;
+    field_8 = param_3;
+    field_C = param_4;
+    field_10 = param_5;
+    field_14 = param_6;
+    field_18 = param_7;
+    field_1C = param_8;
+    field_20 = param_9;
+    field_24 = param_10;
+    field_28 = param_11;
+    field_2C = param_12;
+    field_30 = param_13;
+    field_34 = param_14;
+    field_38 = param_15;
+    field_3C = param_16;
+    field_40 = param_17;
+    field_44 = param_18;
+    field_48 = param_19;
+    field_4C = param_20;
+    field_50 = param_21;
+    field_54 = param_22;
+    field_58 = param_23;
+    field_59 = param_24;
+    field_5C = param_25;
+    field_60 = param_26;
+    field_64 = param_27;
+    field_68 = param_28;
+    field_69 = param_29;
+}
+
 void Init_Phi_54_array()
 {
     Phi_54_array_006FC5F8[0] = Phi_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,dword_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1);
@@ -273,6 +341,136 @@ void Init_Phi_54_array()
     Phi_54_array_006FC5F8[21] = Phi_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
     Phi_54_array_006FC5F8[22] = Phi_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
     Phi_54_array_006FC5F8[23] = Phi_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,0 ,1 ,DAT_006f8fd8 ,10 ,0 ,0 ,0 ,1 ,1);
+}
+
+void Init_Phi_6C_array()
+{
+    Phi_6C_array_6F9038[0] = Phi_6C(149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[1] = Phi_6C(109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[2] = Phi_6C(257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[3] = Phi_6C(111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[4] = Phi_6C(247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[5] = Phi_6C(266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[6] = Phi_6C(175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[7] = Phi_6C(254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,dword_6F8FE0 ,dword_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[8] = Phi_6C(129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006F8FF0 ,DAT_006F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[9] = Phi_6C(132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[10] = Phi_6C(122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C , DAT_006fceb0 * 2 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[11] = Phi_6C(130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[12] = Phi_6C(131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[13] = Phi_6C(139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0);
+    Phi_6C_array_6F9038[14] = Phi_6C(200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[15] = Phi_6C(201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[16] = Phi_6C(202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[17] = Phi_6C(203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[18] = Phi_6C(204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[19] = Phi_6C(205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[20] = Phi_6C(206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[21] = Phi_6C(207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[22] = Phi_6C(208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[23] = Phi_6C(209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[24] = Phi_6C(210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[25] = Phi_6C(211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[26] = Phi_6C(212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[27] = Phi_6C(213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[28] = Phi_6C(214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[29] = Phi_6C(215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[30] = Phi_6C(216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[31] = Phi_6C(217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[32] = Phi_6C(218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[33] = Phi_6C(219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[34] = Phi_6C(220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[35] = Phi_6C(221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[36] = Phi_6C(222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[37] = Phi_6C(223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[38] = Phi_6C(224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[39] = Phi_6C(225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[40] = Phi_6C(226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[41] = Phi_6C(227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[42] = Phi_6C(228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[43] = Phi_6C(229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[44] = Phi_6C(230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[45] = Phi_6C(231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[46] = Phi_6C(232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[47] = Phi_6C(233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[48] = Phi_6C(234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[49] = Phi_6C(235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[50] = Phi_6C(236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[51] = Phi_6C(237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[52] = Phi_6C(238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[53] = Phi_6C(239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[54] = Phi_6C(240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[55] = Phi_6C(241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[56] = Phi_6C(242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[57] = Phi_6C(243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[58] = Phi_6C(244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[59] = Phi_6C(134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[60] = Phi_6C(252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[61] = Phi_6C(260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[62] = Phi_6C(261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[63] = Phi_6C(262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[64] = Phi_6C(135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[65] = Phi_6C(136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[66] = Phi_6C(140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[67] = Phi_6C(263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[68] = Phi_6C(137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE28 ,dword_6FCE28 ,DAT_006fce10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[69] = Phi_6C(258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006F8FF0 ,DAT_006F8FF0 ,dword_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[70] = Phi_6C(142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[71] = Phi_6C(150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[72] = Phi_6C(143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[73] = Phi_6C(141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[74] = Phi_6C(167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[75] = Phi_6C(168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006fceb0 ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[76] = Phi_6C(169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[77] = Phi_6C(197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[78] = Phi_6C(114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[79] = Phi_6C(194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[80] = Phi_6C(284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[81] = Phi_6C(183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,DAT_006f8fd8 ,-DAT_006fcdd8 ,12 ,3 ,3 ,4 ,2 ,1 ,DAT_006f8fd8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[82] = Phi_6C(195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[83] = Phi_6C(199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,dword_6FCE14 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[84] = Phi_6C(285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[85] = Phi_6C(283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6F8FEC ,dword_6F8FEC ,dword_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[86] = Phi_6C(166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,DAT_006fceb0 ,dword_6FC5A4 ,DAT_006fce10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[87] = Phi_6C(280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[88] = Phi_6C(248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[89] = Phi_6C(286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[90] = Phi_6C(165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[91] = Phi_6C(171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[92] = Phi_6C(172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[93] = Phi_6C(173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[94] = Phi_6C(287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[95] = Phi_6C(288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[96] = Phi_6C(289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[97] = Phi_6C(290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[98] = Phi_6C(291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[99] = Phi_6C(292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[100] = Phi_6C(293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[101] = Phi_6C(161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    Phi_6C_array_6F9038[102] = Phi_6C(138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,DAT_006f8fd8 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[103] = Phi_6C(112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[104] = Phi_6C(163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[105] = Phi_6C(164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[106] = Phi_6C(281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 , DAT_006fceb0 * Fix16(48) , DAT_006fceb0 * Fix16(52) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[107] = Phi_6C(282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 , DAT_006fceb0 * Fix16(48) ,DAT_006fceb0 * Fix16(52) ,dword_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[108] = Phi_6C(256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[109] = Phi_6C(253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[110] = Phi_6C(144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[111] = Phi_6C(121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[112] = Phi_6C(118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[113] = Phi_6C(295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    Phi_6C_array_6F9038[114] = Phi_6C(128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,dword_6F8FE8 ,dword_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[115] = Phi_6C(192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,dword_6F8FE8 ,dword_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[116] = Phi_6C(259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[117] = Phi_6C(148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE0C ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[118] = Phi_6C(170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[119] = Phi_6C(255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[120] = Phi_6C(294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE0C ,dword_6FCE0C ,dword_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[121] = Phi_6C(113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[122] = Phi_6C(278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[123] = Phi_6C(279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,dword_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
+    Phi_6C_array_6F9038[124] = Phi_6C(198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,dword_6FCE0C ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    Phi_6C_array_6F9038[125] = Phi_6C(251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,dword_6FCE08 ,dword_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,dword_6FCE08 ,dword_6FCE60 ,dword_6FCE60 ,dword_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
 }
 
 MATCH_FUNC(0x532fb0)
