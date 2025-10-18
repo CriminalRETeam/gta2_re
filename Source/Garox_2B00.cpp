@@ -1078,10 +1078,28 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
     return false;
 }
 
-STUB_FUNC(0x5d0e90)
+MATCH_FUNC(0x5d0e90)
 void Hud_Arrow_7C_Array::sub_5D0E90()
 {
-    NOT_IMPLEMENTED;
+    if ((u8)bStartNetworkGame_7081F0)
+    {
+        for (s32 i = 0; i < 17; i++)
+        {
+            if (field_0_array[i].field_18.field_18.field_C == NULL ||
+                field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped == NULL ||
+                field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped->field_21C_bf.b25 == 0)
+            {
+                field_0_array[i].sub_5D0C90();
+            }
+        }
+    }
+    else
+    {
+        for (s32 i = 0; i < 17; i++)
+        {
+            field_0_array[i].sub_5D0C90();
+        }
+    }
 }
 
 STUB_FUNC(0x5d0ef0)
