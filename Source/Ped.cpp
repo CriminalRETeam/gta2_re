@@ -10,6 +10,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "Sero_181C.hpp"
 #include "sprite.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
@@ -914,10 +915,65 @@ char_type Ped::sub_4626B0()
     return 0;
 }
 
-STUB_FUNC(0x462b80)
+MATCH_FUNC(0x462b80)
 void Ped::sub_462B80()
 {
-    NOT_IMPLEMENTED;
+    field_168_game_object->field_8_ped_state_1 = field_278;
+    field_168_game_object->field_C_ped_state_2 = field_27C;
+    field_168_game_object->sub_545720(dword_678750);
+    if (field_168_game_object)
+    {
+        field_1AC_cam.x = field_168_game_object->get_sprite_xpos();
+        field_1AC_cam.y = field_168_game_object->get_sprite_ypos();
+        field_1AC_cam.z = field_168_game_object->get_sprite_zpos();
+        Char_B4* pB4 = field_168_game_object;
+        field_12C = pB4->get_rotation_433A40();
+
+        if (field_278 == 10)
+        {
+            field_16C_car = pB4->field_84;
+            if (pB4->field_88_obj_2c.field_0_p18)
+            {
+                pB4->field_88_obj_2c.sub_5A7010();
+            }
+            gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+
+            field_168_game_object = NULL;
+            if (!field_248_enter_car_as_passenger)
+            {
+                field_16C_car->sub_4406E0(this);
+            }
+            else
+            {
+                field_16C_car->ShowCarName_4406B0(this);
+                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4.sub_471140(this), field_238 == 3))
+                {
+                    if (field_25C_car_state == 37)
+                    {
+                        Train_58* pTrain = gSero_181C_6FF1D4->sub_57B6A0(field_16C_car);
+                        ++pTrain->field_56_passenger_count;
+                    }
+                }
+            }
+            if ((field_25C_car_state == 35 || field_25C_car_state == 37) &&
+                (field_226 = 1, field_25C_car_state == 37))
+            {
+                if (field_238 == 3)
+                {
+                    Ped::sub_45EB60();
+                }
+            }
+            else
+            {
+                Car_Door_10* Door = field_16C_car->GetDoor(field_24C_target_car_door);
+                if (field_240_occupation != ped_ocupation_enum::unknown_5 && field_240_occupation != ped_ocupation_enum::unknown_6)
+                {
+                    Door->sub_439EA0();
+                }
+                Door->set_ped_421380(NULL);
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x462e70)

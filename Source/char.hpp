@@ -5,6 +5,7 @@
 #include "angle.hpp"
 #include "ang16.hpp"
 #include "Object_3C.hpp"
+#include "sprite.hpp"
 
 class Sprite_3C;
 class Ped;
@@ -91,6 +92,26 @@ class Char_B4
     Fix16 field_a8_y;
     Fix16 field_ac_z;
     s32 field_b0;
+
+    inline Ang16 get_rotation_433A40()
+    {
+        return field_40_rotation;
+    }
+
+    inline Fix16 get_sprite_xpos()
+    {
+        return field_80_sprite_ptr->field_14_xpos.x;
+    }
+
+    inline Fix16 get_sprite_ypos()
+    {
+        return field_80_sprite_ptr->field_14_xpos.y;
+    }
+
+    inline Fix16 get_sprite_zpos()
+    {
+        return field_80_sprite_ptr->field_1C_zpos;
+    }
 
     Char_B4();
     ~Char_B4();
