@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "Car_BC.hpp"
 #include "enums.hpp"
+#include "Game_0x40.hpp"
 #include "Object_226C.hpp"
 #include "Object_29178.hpp"
 #include "Object_5A40.hpp"
@@ -295,11 +296,25 @@ void Object_2C::sub_525F30()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5263d0)
-char_type Object_2C::sub_5263D0()
+MATCH_FUNC(0x5263d0)
+bool Object_2C::sub_5263D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6F8C4C = 0;
+    byte_6F8F40 = 0;
+    if (field_25 != 1)
+    {
+        Object_2C::sub_525F30();
+    }
+
+    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, dword_6F8E10)))
+    {
+        return false;
+    }
+    else
+    {
+        Object_2C::sub_527D00();
+        return true;
+    }
 }
 
 STUB_FUNC(0x526790)
