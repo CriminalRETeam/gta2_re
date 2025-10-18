@@ -7,8 +7,16 @@
 #include "file.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
+#include "Miss2_25C.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
+//DEFINE_GLOBAL(frosty_nobel_748, gMapName_6F78C8, 0x6F78C8);
+frosty_nobel_748 gMapName_6F78C8;
+DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
+DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
+
+//Car_BC* gStoredCar_6F7560;
+//s32 gStoredCarId_6F78B4;
 
 MATCH_FUNC(0x503080)
 str_table_entry* frosty_pasteur_0xC1EA8::FindStringById_503080(s16 stringId)
@@ -275,7 +283,7 @@ s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 MATCH_FUNC(0x5129b0)
 void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 {
-    thread_C* thread = &field_188_thrds[0];
+    thread_C* thread = &field_188_thrds_4[0];
     for (u16 i = 0; i < 20 && thread->field_8_cmd_line != 0; i++)
     {
         thread++;
@@ -342,10 +350,85 @@ bool frosty_pasteur_0xC1EA8::sub_512C70(s32 a2, char_type a3, char_type a4)
     return 0;
 }
 
+// https://decomp.me/scratch/qh4EW
 STUB_FUNC(0x512ce0)
 frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
 {
     NOT_IMPLEMENTED;
+    field_13350_pStringTbl = 0;
+    if (!bSkip_mission_67D4E5)
+    {
+        memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
+        if (!gMiss2_8EC_6F8064)
+        {
+            gMiss2_8EC_6F8064 = new Miss2_8EC();
+        }
+    }
+    field_1334C_strings = (str_table_entry*)Memory::malloc_4FE4D0(0x1400u);
+    memset(field_35C_full_scr_file_name, 0, sizeof(field_35C_full_scr_file_name));
+    memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
+    memset(field_46C_base_pointers, 0, sizeof(field_46C_base_pointers));
+    memset(field_1334C_strings, 0, 0x1400u);
+    field_0 = 0;
+    memset(field_4_thrds_2, 0, sizeof(field_4_thrds_2));
+    field_184_count = 0;
+    memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
+    field_278 = 0;
+    memset(field_27C, 0, sizeof(field_27C));
+    memset(&gMapName_6F78C8, 0, sizeof(gMapName_6F78C8));
+
+    gMiss2_25C_6F805C = new Miss2_25C();
+    if (!gMiss2_25C_6F805C)
+    {
+        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
+    }
+
+    memset(field_13354, 0, sizeof(field_13354));
+    memset(field_AA934, 0, sizeof(field_AA934));
+    memset(field_C1D34, 0, sizeof(field_C1D34));
+    memset(field_C1D72, 0, sizeof(field_C1D72));
+    memset(field_C1DB0, 0, sizeof(field_C1DB0));
+    field_344_mission_flag = 0;
+    field_2F4 = 1;
+    field_C1E2C = 0;
+    field_310_finish_score = 0;
+    field_314_total_missions = 0;
+    field_318_total_secrets = 0;
+    field_31C_gang_1_missions_total = 0;
+    field_320_gang_2_missions_total = 0;
+    field_324_gang_3_missions_total = 0;
+    field_328_passed_flag = 0;
+    field_32C_1_passed_flag = 0;
+    field_330_2_passed_flag = 0;
+    field_334_3_passed_flag = 0;
+    field_338_secrets_passed = 0;
+    field_33C_secrets_failed = 0;
+    field_340_car_list = 0;
+    field_348_gang_1_mission_flag = 0;
+    field_34C_gang_2_mission_flag = 0;
+    field_350_gang_3_mission_flag = 0;
+    field_354 = 0;
+    field_C1E70 = 87;
+    field_356 = 0;
+    field_358 = 0;
+    field_35A = 0;
+    field_355 = 0;
+    field_C1E2E_death_arrest_flag = 0;
+    field_C1E2D = 0;
+    field_468 = 0;
+
+    if (gDo_miss_logging_67D6BC)
+    {
+        //gMiss2Log_6F7698.sub_4D9470("test\\MISS_LOG.TXT", 1);
+    }
+
+    memset(field_45C_scr_file_name, 0, sizeof(field_45C_scr_file_name));
+    memset(field_C1E32, 0, sizeof(field_C1E32));
+    memset(field_C1E2F, 0, sizeof(field_C1E2F));
+    memset(field_C1E74_basic_kf, 0, sizeof(field_C1E74_basic_kf));
+
+    gStoredCar_6F7560 = NULL;
+    gStoredCarId_6F78B4 = 0;
 }
 
 STUB_FUNC(0x5130e0)

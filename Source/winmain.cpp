@@ -1654,6 +1654,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     while (1)
     {
+        bQuit = 0;
+        
         if (bDoFrontEnd_626B68)
         {
             Frontend::create_4ACFA0();

@@ -832,6 +832,19 @@ class Miss2_8EC
         return pf_0; // ??
     }
 
+    // 9.6f inlined ctor 0x481310
+    Miss2_8EC::Miss2_8EC()
+    {
+        for (u8 i = 0; i < 7; i++)
+        {
+            field_8[i].field_0 = &field_8[i+1];
+        }
+        field_0 = &field_8[0];
+        field_8[7].field_0 = NULL;
+        field_4 = NULL;
+        field_8E8 = 0;
+    }
+
     EXPORT ~Miss2_8EC();
 
     miss2_0x11C* field_0;

@@ -490,6 +490,54 @@ class thread_C
     u16 field_A;
 };
 
+struct save_stats_0x90
+{
+    Fix16 field_0_x;
+    Fix16 field_4_y;
+    Fix16 field_8_z;
+    Ang16 field_C_rotation;
+    u16 field_E_pad;
+    s32 field_10_money;
+    s32 field_14_multipliers;
+    s16 field_18_health;
+    u8 field_1A_pad[22];
+    s32 field_3C_crime_unk[10];
+    u16 field_64_pad;
+    u8 field_66_unk[15];
+    u8 field_75_gang_unk[10];
+    u8 field_7F_player_ped_remap;
+    u8 field_80_lives;
+    u8 field_81_pad;
+    u16 field_82_player_idx;
+    s32 field_84_zealous_f34;
+    s32 field_88_zealous_f38;
+    u16 field_8C_wanted_level;
+};
+
+struct frosty_nobel_748
+{
+    char_type field_0_map_name[25];
+    char_type field_19_sty_name[25];
+    char_type field_32_scr_name[25];
+    char_type field_4B_main_stage;
+    char_type field_4C;
+    char_type field_4D_bonus_stage;
+    u32 field_4E;
+    u16 field_52;
+    save_stats_0x90* field_54_save;
+    s32 field_58[53];
+    s32 field_12C_phone_dead_flags;
+    s32 field_130;
+    s32 field_134[300];
+    s32 field_5E4;
+    s32 field_5E8[74];
+    u8 field_710_obj_5c_f20[50];
+    u16 field_742_pad;
+};
+
+//EXTERN_GLOBAL(frosty_nobel_748, gMapName_6F78C8);
+extern frosty_nobel_748 gMapName_6F78C8;
+
 class frosty_pasteur_0xC1EA8
 {
   public:
@@ -528,10 +576,10 @@ class frosty_pasteur_0xC1EA8
 
     s16 field_0;
     s16 field_2;
-    s32 field_4[96];
+    thread_C field_4_thrds_2[32];
     s16 field_184_count;
     s16 field_186;
-    thread_C field_188_thrds[20];
+    thread_C field_188_thrds_4[20];
     s16 field_278;
     s16 field_27A;
     BYTE field_27C[120];
@@ -576,10 +624,8 @@ class frosty_pasteur_0xC1EA8
     str_table_normalized* field_13350_pStringTbl;
     BYTE field_13354[620000];
     BYTE field_AA934[95232];
-    s16 field_C1D34[30];
-    s16 field_C1D70;
-    s16 field_C1D72[30];
-    s16 field_C1DAE;
+    s16 field_C1D34[31];
+    s16 field_C1D72[31];
     s32 field_C1DB0[31];
     char_type field_C1E2C;
     char_type field_C1E2D;
