@@ -821,11 +821,17 @@ Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
     return pSprt;
 }
 
-STUB_FUNC(0x48f6e0)
-s16* Sprite_3CC::sub_48F6E0(u16* a2)
+MATCH_FUNC(0x48f6e0)
+void Sprite_3CC::sub_48F6E0(u16* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 count = 0;
+    for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
+    {
+        if (pIter->field_4 == *a2)
+        {
+            pIter->field_4 = -1;
+        }
+    }
 }
 
 MATCH_FUNC(0x48f710)
