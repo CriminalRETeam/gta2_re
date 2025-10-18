@@ -1223,6 +1223,21 @@ s32 __stdcall sub_5D1260(s32 a1)
     }
 }
 
+MATCH_FUNC(0x5D12E0)
+u8 __stdcall sub_5D12E0(s32 phone_type)
+{
+    switch (phone_type)
+    {
+        case 1:
+            return 40;
+        case 2:
+            return 80;
+        case 3:
+            return 237;
+    }
+    return 0;
+}
+
 MATCH_FUNC(0x5d1310)
 void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 {

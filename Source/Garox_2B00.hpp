@@ -586,3 +586,4 @@ EXTERN_GLOBAL(s16, word_706600);
 EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 
 EXPORT s32 __stdcall sub_5D1260(s32 a1);
+EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
