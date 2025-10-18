@@ -160,7 +160,7 @@ class Ped
     EXPORT s32 sub_466FB0();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
-    EXPORT char_type sub_4672E0(s32 a2, s32 a3);
+    EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
     EXPORT char_type sub_4678E0();
     EXPORT char_type sub_467960();
     EXPORT char_type sub_467A20();
@@ -215,7 +215,7 @@ class Ped
     EXPORT void sub_46C250();
     EXPORT char_type sub_46C770();
     EXPORT s32 sub_46C7E0();
-    EXPORT s32 sub_46C8A0();
+    EXPORT void sub_46C8A0();
     EXPORT void sub_46C910();
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();

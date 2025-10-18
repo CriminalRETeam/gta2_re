@@ -38,6 +38,10 @@ DEFINE_GLOBAL(u8, byte_61A8A0, 0x61A8A0);
 DEFINE_GLOBAL(Fix16, dword_678660, 0x678660);
 DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
+DEFINE_GLOBAL_INIT(Fix16, dword_678670, Fix16(4), 0x678670);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784C4, Fix16(256, 0), 0x6784C4);
+DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670 * dword_6784C4, 0x678448);
+DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -1463,7 +1467,7 @@ Sprite* Ped::sub_467280()
 }
 
 STUB_FUNC(0x4672e0)
-char_type Ped::sub_4672E0(s32 a2, s32 a3)
+char_type Ped::sub_4672E0(Fix16 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1947,11 +1951,25 @@ s32 Ped::sub_46C7E0()
     return 0;
 }
 
-STUB_FUNC(0x46c8a0)
-s32 Ped::sub_46C8A0()
+MATCH_FUNC(0x46c8a0)
+void Ped::sub_46C8A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_278 != 8)
+    {
+        field_168_game_object->field_38 = dword_678448;
+        if (dword_678750 < dword_678790)
+        {
+            Ped::sub_45C500(7);
+            Ped::sub_45C540(14);
+            field_226 = 1;
+        }
+        else
+        {
+            field_230 = 2;
+            Ped::sub_4672E0(dword_678750, 2);
+            field_168_game_object->field_38 = dword_678448;
+        }
+    }
 }
 
 STUB_FUNC(0x46c910)
