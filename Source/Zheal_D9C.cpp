@@ -238,11 +238,36 @@ s32 Crane_15C::sub_47FD10()
     return 0;
 }
 
-STUB_FUNC(0x47fd50)
-char_type Crane_15C::sub_47FD50()
+MATCH_FUNC(0x47fd50)
+void Crane_15C::sub_47FD50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 old_crane_angle = field_8C_crane_angle;
+    Fix16 old_hook_radius = field_90_hook_radius;
+    Fix16 old_hook_axial_angle = field_A0_hook_axial_angle;
+    Fix16 old_hook_depth = field_84_hook_depth;
+
+    u8 v6 = Crane_15C::sub_47FBA0();
+
+    if (old_crane_angle != field_8C_crane_angle || old_hook_radius != field_90_hook_radius ||
+        old_hook_axial_angle != field_A0_hook_axial_angle || old_hook_depth != field_84_hook_depth)
+    {
+        Crane_15C::sub_47FE10();
+    }
+    if (v6 != 0)
+    {
+        if (field_6C)
+        {
+            Crane_15C::sub_47EDF0();
+        }
+        else if (field_68 && (field_64 || (field_144 == 1) || field_144 == 2 || field_144 == 3))
+        {
+            Crane_15C::sub_47EF80();
+        }
+        else
+        {
+            Crane_15C::sub_47FD10();
+        }
+    }
 }
 
 STUB_FUNC(0x47fe10)

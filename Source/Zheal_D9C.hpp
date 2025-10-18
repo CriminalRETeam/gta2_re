@@ -37,7 +37,7 @@ class Crane_15C
     EXPORT s32 sub_47FB40();
     EXPORT s32 sub_47FBA0();
     EXPORT s32 sub_47FD10();
-    EXPORT char_type sub_47FD50();
+    EXPORT void sub_47FD50();
     EXPORT void sub_47FE10();
     EXPORT void sub_480310();
     EXPORT infallible_turing* sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
