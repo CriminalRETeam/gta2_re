@@ -881,11 +881,67 @@ void Hud_Arrow_7C::sub_5D0510(s32 a2)
     field_18.field_28 = a2;
 }
 
-STUB_FUNC(0x5d0530)
-char_type Hud_Arrow_7C::sub_5D0530()
+MATCH_FUNC(0x5d0530)
+bool Hud_Arrow_7C::sub_5D0530()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Gang_144* field_30 = field_18.field_10.field_30;
+
+    if (field_30)
+    {
+        if (!gGarox_2B00_706620->field_1F18.field_83C)
+        {
+            return false;
+        }
+        if (!bShow_all_arrows_67D6E7)
+        {
+            u32* pMission_flag = gfrosty_pasteur_6F8060->field_344_mission_flag;
+            if (pMission_flag && *pMission_flag)
+            {
+                return false;
+            }
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            Gang_144* pZone144 = pPlayer->field_34_pObj;
+            if (pZone144)
+            {
+                if (pPlayer->field_40)
+                {
+                    pZone144 = 0;
+                }
+            }
+            if (field_18.field_60->field_10_type == 5)
+            {
+                if (pZone144 == field_30)
+                {
+                    if (gGarox_2B00_706620->field_1F18.sub_5D0E40(this))
+                    {
+                        return false;
+                    }
+                }
+                else if (pZone144 && gGarox_2B00_706620->field_1F18.sub_5D0F40(pZone144))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (pZone144 != field_30)
+                {
+                    return false;
+                }
+                u8 player_idx = pPlayer->field_2E_idx;
+                if (field_30->sub_4BEEF0(player_idx) < field_18.field_10.field_34)
+                {
+                    return false;
+                }
+                Hud_Arrow_7C* v7 = gGarox_2B00_706620->field_1F18.field_840;
+                if (v7 && v7 != this)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x5d0620)
