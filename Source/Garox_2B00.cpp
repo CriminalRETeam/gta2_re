@@ -1,6 +1,7 @@
 #include "Garox_2B00.hpp"
 #include "Car_BC.hpp"
 #include "Frontend.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
@@ -998,11 +999,23 @@ Hud_Arrow_7C::Hud_Arrow_7C()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0e40)
-char_type Hud_Arrow_7C_Array::sub_5D0E40(s32* a2)
+MATCH_FUNC(0x5d0e40)
+bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Gang_144* pGang = a2->field_18.field_10.field_30;
+
+    for (s32 i = 0; i < 17; i++)
+    {
+        Hud_Arrow_7C* pArrow = &field_0_array[i];
+        if (pArrow != a2 
+            && !pArrow->sub_4C6F80() 
+            && pArrow->sub_4C7050() 
+            && pArrow->field_18.field_10.field_30 == pGang)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x5d0e90)
