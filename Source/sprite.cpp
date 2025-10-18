@@ -759,21 +759,21 @@ Sprite::~Sprite()
 MATCH_FUNC(0x48f600)
 Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
-    s32 v6;
-    s32 v5 = 0;
-    Sprite_14* v11 = NULL;
+    s32 final_idx;
+    s32 start_idx = 0;
+    Sprite_14* pSprt = NULL;
     if (!*a3)
     {
-        v6 = 32;
+        final_idx = 32;
     }
     else
     {
-        v5 = 32;
-        v6 = 48;
+        start_idx = 32;
+        final_idx = 48;
     }
 
-    s32 count = v5;
-    for (Sprite_14* pIter = &this->field_0[v5]; count < v6; count++, ++pIter)
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &this->field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 unk = *a2;
         if (pIter->field_4 == unk && pIter->field_12 == *a5)
@@ -784,18 +784,41 @@ Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
             }
             if (pIter->field_8 < *a4 && (pIter->field_8 | (*a4 - pIter->field_8)) == *a4)
             {
-                v11 = pIter;
+                pSprt = pIter;
             }
         }
     }
-    return v11;
+    return pSprt;
 }
 
-STUB_FUNC(0x48f690)
-char_type* Sprite_3CC::sub_48F690(u32* a2)
+MATCH_FUNC(0x48f690)
+Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 min_value = -1;
+    s32 start_idx;
+    s32 final_idx;
+    Sprite_14* pSprt = NULL;
+    if (!*a2)
+    {
+        start_idx = 0;
+        final_idx = 32;
+    }
+    else
+    {
+        start_idx = 32;
+        final_idx = 48;
+    }
+
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &this->field_0[start_idx]; count < final_idx; count++, ++pIter)
+    {
+        if (pIter->field_C < min_value)
+        {
+            min_value = pIter->field_C;
+            pSprt = pIter;
+        }
+    }
+    return pSprt;
 }
 
 STUB_FUNC(0x48f6e0)
