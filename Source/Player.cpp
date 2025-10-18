@@ -27,6 +27,8 @@ EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
 EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
+
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
 {
@@ -929,11 +931,40 @@ void Player::sub_5696D0(Car_BC* pCar)
     }
 }
 
-STUB_FUNC(0x569840)
-s32 Player::sub_569840(u8* a2, u8* a3, u8* a4)
+MATCH_FUNC(0x569840)
+void Player::sub_569840(u8& x, u8& y, u8& z)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed;
+
+    if (field_68 == 2 || field_68 == 3)
+    {
+        pPed = field_2C8_unkq;
+    }
+    else
+    {
+        pPed = field_2C4_player_ped;
+    }
+    if (pPed)
+    {
+        x = pPed->get_cam_x().ToUInt8();
+        y = pPed->get_cam_y().ToUInt8();
+        z = pPed->get_cam_z().ToUInt8();
+    }
+    else
+    {
+        DrawUnk_0xBC* pCam;
+        if (field_68 == 2 || field_68 == 3)
+        {
+            pCam = &field_208_aux_game_camera;
+        }
+        else
+        {
+            pCam = &field_90_game_camera;
+        }
+        x = pCam->field_98_cam_pos2.field_0_x.ToUInt8();
+        y = pCam->field_98_cam_pos2.field_4_y.ToUInt8();
+        z = (dword_6FE618 + pCam->field_98_cam_pos2.field_8_z).ToUInt8();
+    }
 }
 
 MATCH_FUNC(0x5698E0)

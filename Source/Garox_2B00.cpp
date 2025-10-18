@@ -1564,7 +1564,7 @@ void Hud_MapZone_98::sub_5D5B60()
     u8 y;
     u8 z;
 
-    gGame_0x40_67E008->field_38_orf1->sub_569840(&x, &y, &z);
+    gGame_0x40_67E008->field_38_orf1->sub_569840(x, y, z);
     gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1); // navigation zone
     gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15); // local navigation zone
 
