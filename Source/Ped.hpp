@@ -517,7 +517,7 @@ class Ped
     u8 field_264;
     char_type field_265;
     char_type field_266;
-    u8 field_267;
+    u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;
     char_type field_26A;

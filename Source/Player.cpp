@@ -852,7 +852,7 @@ void Player::sub_567130()
             field_2C8_unkq->field_170_selected_weapon = 0;
             field_2C8_unkq->field_200_id = 0;
             field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32
-            field_2C8_unkq->field_267 = 0;
+            field_2C8_unkq->field_267_varrok_idx = 0;
             field_68 = 2;
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0 = 1;

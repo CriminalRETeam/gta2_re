@@ -12,6 +12,7 @@
 #include "PurpleDoom.hpp"
 #include "Sero_181C.hpp"
 #include "sprite.hpp"
+#include "Varrok_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
@@ -2123,10 +2124,64 @@ void Ped::sub_46F1E0(Weapon_30* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46f390)
+MATCH_FUNC(0x46f390)
 void Ped::sub_46F390()
 {
-    NOT_IMPLEMENTED;
+    Weapon_30* pWeapon = Ped::sub_46F110();
+    if (Ped::sub_45EDE0(2))
+    {
+        if (field_168_game_object)
+        {
+            field_12E = field_168_game_object->field_80_sprite_ptr->field_0;
+        }
+    }
+    if (field_21C_bf.b11 == true)
+    {
+        if (pWeapon)
+        {
+            if (!field_267_varrok_idx)
+            {
+                field_267_varrok_idx = gVarrok_7F8_703398->sub_59B060(field_200_id);
+            }
+            if (!field_21C_bf.b7)
+            {
+                if (field_168_game_object)
+                {
+                    if (!Ped::sub_45EDE0(2))
+                    {
+                        Ped::sub_46F1E0(pWeapon);
+                    }
+                    pWeapon->pull_trigger_5E3670();
+                }
+            }
+            else if (field_16C_car)
+            {
+                if (field_258_objective == objectives_enum::kill_char_any_means_19)
+                {
+                    Ped::sub_470050();
+                }
+                if (field_21C_bf.b11)
+                {
+                    pWeapon->pull_trigger_5E3670();
+                }
+            }
+            else
+            {
+                pWeapon->pull_trigger_5E3670();
+            }
+        }
+        else if (field_168_game_object)
+        {
+            if (field_238 == 2)
+            {
+                Ped::sub_45CAA0();
+            }
+        }
+    }
+    else if (pWeapon)
+    {
+        pWeapon->sub_5E34B0();
+    }
 }
 
 STUB_FUNC(0x46f490)
