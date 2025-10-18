@@ -464,7 +464,7 @@ class Ped
     s16 field_214;
     s16 field_216_health;
     s16 field_218_objective_timer;
-    s16 field_21A;
+    s16 field_21A_car_state_timer;
 
     union 
     {

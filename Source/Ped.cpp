@@ -14,6 +14,7 @@
 #include "Sero_181C.hpp"
 #include "sprite.hpp"
 #include "Taxi_4.hpp"
+#include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
@@ -35,6 +36,7 @@ DEFINE_GLOBAL(u8, byte_6787CC, 0x6787CC);
 DEFINE_GLOBAL(u8, byte_6787CD, 0x6787CD);
 DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
 DEFINE_GLOBAL(u8, byte_61A8A0, 0x61A8A0);
+DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
 DEFINE_GLOBAL(Fix16, dword_678660, 0x678660);
 DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
@@ -42,6 +44,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678670, Fix16(4), 0x678670);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784C4, Fix16(256, 0), 0x6784C4);
 DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670 * dword_6784C4, 0x678448);
 DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
+DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -1912,9 +1917,9 @@ void Ped::sub_46B670()
 MATCH_FUNC(0x46bd30)
 void Ped::sub_46BD30()
 {
-    if (!this->field_21A)
+    if (field_21A_car_state_timer == 0)
     {
-        this->field_226 = 1;
+        field_226 = 1;
     }
 }
 
@@ -1978,10 +1983,45 @@ void Ped::sub_46C910()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46c9b0)
+MATCH_FUNC(0x46c9b0)
 void Ped::sub_46C9B0()
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 8)
+    {
+        if (dword_678750 < dword_6784E8)
+        {
+            Ped::sub_45C500(0);
+            Ped::sub_45C540(0);
+            field_226 = 0;
+            Ped::sub_463830(49, 100);
+            if (--word_6787D0 < 0)
+            {
+                word_6787D0 = 0;
+            }
+        }
+        else
+        {
+            if (field_21A_car_state_timer == 0)
+            {
+                field_226 = 1;
+            }
+            if (gTrafficLights_194_705958->field_192_phase == 7)
+            {
+                field_168_game_object->field_38 = dword_678434;
+            }
+            else
+            {
+                if (field_168_game_object->field_44 == 1)
+                {
+                    field_168_game_object->field_38 = dword_678448;
+                }
+                else
+                {
+                    field_168_game_object->field_38 = dword_678434;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x46ca60)
@@ -2057,9 +2097,9 @@ void Ped::sub_46D030()
 MATCH_FUNC(0x46d0b0)
 void Ped::sub_46D0B0()
 {
-    if (!this->field_21A)
+    if (field_21A_car_state_timer == 0)
     {
-        this->field_226 = 1;
+        field_226 = 1;
     }
 }
 
