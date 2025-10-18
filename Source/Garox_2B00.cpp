@@ -1204,6 +1204,25 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
     NOT_IMPLEMENTED;
 }
 
+MATCH_FUNC(0x5D1260)
+s32 __stdcall sub_5D1260(s32 a1)
+{
+    switch (a1)
+    {
+        case 176:
+        case 177:
+            return 2;
+        case 180:
+        case 181:
+            return 3;
+        case 178:
+        case 179:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
 MATCH_FUNC(0x5d1310)
 void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
 {
