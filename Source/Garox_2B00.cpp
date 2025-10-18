@@ -1557,10 +1557,56 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
     }
 }
 
-STUB_FUNC(0x5d5b60)
+MATCH_FUNC(0x5d5b60)
 void Hud_MapZone_98::sub_5D5B60()
 {
-    NOT_IMPLEMENTED;
+    u8 x;
+    u8 y;
+    u8 z;
+
+    gGame_0x40_67E008->field_38_orf1->sub_569840(&x, &y, &z);
+    gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1); // navigation zone
+    gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15); // local navigation zone
+
+    if (navigation_zone || local_navigation_zone)
+    {
+        if (local_navigation_zone == field_8C_local_nav_zone && (local_navigation_zone || navigation_zone == field_88_nav_zone))
+        {
+            if (field_0_timer)
+            {
+                field_0_timer--;
+                if (field_0_timer > 0x39u)
+                {
+                    field_94_transparency++;
+                    if (field_94_transparency > 0x1Fu)
+                    {
+                        field_90 = 0;
+                        field_94_transparency = 31;
+                    }
+                }
+                else
+                {
+                    if (field_0_timer < 0x1Fu)
+                    {
+                        field_90 = 1;
+                        if (field_94_transparency > 0)
+                        {
+                            field_94_transparency--;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            Hud_MapZone_98::sub_5D5AF0(navigation_zone, local_navigation_zone);
+        }
+    }
+    else
+    {
+        field_0_timer = 0;
+        field_88_nav_zone = 0;
+    }
 }
 
 MATCH_FUNC(0x5d5c50)
