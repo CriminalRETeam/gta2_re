@@ -27,7 +27,17 @@ EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
 EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
+
+static bool inline is_car_model_train(int car_model) 
+{
+    return car_model == car_model_enum::TRAIN 
+        || car_model == car_model_enum::TRAINCAB 
+        || car_model == car_model_enum::TRAINFB
+        || car_model == car_model_enum::boxcar;
+}
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -527,10 +537,142 @@ void Player::sub_566820()
     }
 }
 
-STUB_FUNC(0x5668D0)
-void Player::sub_5668D0(Ped* a2)
+MATCH_FUNC(0x5668D0)
+void Player::sub_5668D0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    bool bNoPed = (pPed == NULL);
+    Car_BC* pPedCar = pPed->field_16C_car;
+
+    if (bNoPed)
+    {
+        return;
+    }
+    if (pPed->field_278 == 9)
+    {
+        return;
+    }
+    if (field_7D && field_89)
+    {
+        if (!pPedCar)
+        {
+            if (pPed->field_258_objective != objectives_enum::leave_car_36)
+            {
+                Car_BC* pCar = gCar_6C_677930->sub_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
+                if (pCar)
+                {
+                    pPed->sub_463830(0, 9999);
+                    s32 car_model = pCar->field_84_car_info_idx;
+
+                    if (is_car_model_train(car_model))
+                    {
+                        pPed->SetObjective(objectives_enum::objective_37, 9999);
+                    }
+                    else
+                    {
+                        pPed->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                    }
+
+                    pPed->field_150_target_objective_car = pCar;
+                    pPed->field_248_enter_car_as_passenger = 0;
+                    pPed->field_24C_target_car_door = 0;
+                }
+            }
+        }
+        else
+        {
+            if (pPedCar->sub_43AF10())
+            {
+                pPed->sub_463830(0, 9999);
+                if (pPed->field_16C_car->field_84_car_info_idx == car_model_enum::TRAIN)
+                {
+                    pPed->SetObjective(objectives_enum::objective_38, 9999);
+                }
+                else
+                {
+                    pPed->SetObjective(objectives_enum::leave_car_36, 9999);
+                }
+                pPed->field_150_target_objective_car = pPed->field_16C_car;
+            }
+        }
+    }
+    else
+    {
+        s32 objective = pPed->field_258_objective;
+        if (objective == objectives_enum::enter_car_as_driver_35 || objective == objectives_enum::objective_37)
+        {
+            if (pPed->field_278 != 10)
+            {
+                if (pPed->field_225 == 2 || !pPed->field_150_target_objective_car)
+                {
+                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
+                    pPed->sub_463830(0, 9999);
+                    pPed->field_168_game_object->field_38 = dword_6FE41C;
+                }
+            }
+            else
+            {
+                if (pPed->field_225)
+                {
+                    pPed->SetObjective(objectives_enum::no_obj_0, 9999);
+                    pPed->sub_463830(0, 9999);
+                    pPed->sub_45C500(10);
+                    pPed->sub_45C540(10);
+                }
+            }
+        }
+    }
+
+    if (field_7C != 1 || field_28)
+    {
+        pPed->field_21C_bf.b11 = 0;
+    }
+    else
+    {
+        if (!field_8D)
+        {
+            if (field_788_idx == -1)
+            {
+                pPed->field_21C_bf.b11 = 1;
+            }
+            else
+            {
+                bNoPed = field_718[field_788_idx]->sub_5E33C0() == 0;
+                if (!bNoPed)
+                {
+                    pPed->field_21C_bf.b11 = 1;
+                }
+                else
+                {
+                    pPed->field_21C_bf.b11 = 0;
+                }
+            }
+        }
+        else
+        {
+            pPed->field_21C_bf.b11 = 1;
+        }
+    }
+
+    if (pPedCar)
+    {
+        if (pPed->field_248_enter_car_as_passenger != 1)
+        {
+            s32 car_model_2 = pPedCar->field_84_car_info_idx;
+            if (car_model_2 == car_model_enum::TRAIN || car_model_2 == car_model_enum::TRAINCAB || car_model_2 == car_model_enum::TRAINFB ||
+                car_model_2 == car_model_enum::boxcar)
+            {
+                Player::sub_566C80(pPed);
+            }
+            else
+            {
+                Player::sub_566C30(pPedCar);
+            }
+        }
+    }
+    else
+    {
+        Player::sub_566C80(pPed);
+    }
 }
 
 MATCH_FUNC(0x566C30)
@@ -558,7 +700,7 @@ void Player::sub_566C30(Car_BC* pCar)
 }
 
 STUB_FUNC(0x566C80)
-char_type Player::sub_566C80(u32* a2)
+char_type Player::sub_566C80(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 'a';

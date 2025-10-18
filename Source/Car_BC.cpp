@@ -425,6 +425,13 @@ Car_BC* Car_6C::sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
     return 0;
 }
 
+STUB_FUNC(0x445210)
+Car_BC* Car_6C::sub_445210(Sprite *a1, u8 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 STUB_FUNC(0x4458b0)
 Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
 {
