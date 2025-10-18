@@ -423,7 +423,7 @@ class Ped
     Weapon_30* field_174_pWeapon;
     Weapon_30* field_178;
     Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
-    s32 field_180;
+    Ped* field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
     Ped* field_18C;

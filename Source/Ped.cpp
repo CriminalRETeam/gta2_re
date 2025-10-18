@@ -10,14 +10,17 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "rng.hpp"
 #include "Sero_181C.hpp"
 #include "sprite.hpp"
+#include "Taxi_4.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "map_0x370.hpp"
+#include "Zones_CA8.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -30,6 +33,8 @@ DEFINE_GLOBAL(u8, byte_6787CA, 0x6787CA);
 DEFINE_GLOBAL(u8, byte_6787CB, 0x6787CB);
 DEFINE_GLOBAL(u8, byte_6787CC, 0x6787CC);
 DEFINE_GLOBAL(u8, byte_6787CD, 0x6787CD);
+DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
+DEFINE_GLOBAL(u8, byte_61A8A0, 0x61A8A0);
 DEFINE_GLOBAL(Fix16, dword_678660, 0x678660);
 DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
@@ -852,10 +857,143 @@ s16 Ped::sub_461A60()
     return 0;
 }
 
-STUB_FUNC(0x461f20)
+MATCH_FUNC(0x461f20)
 void Ped::sub_461F20()
 {
-    NOT_IMPLEMENTED;
+    switch (field_240_occupation)
+    {
+        case ped_ocupation_enum::dummy:
+            if ((field_21C & 4) == 0 && field_258_objective == objectives_enum::no_obj_0 && !field_164_ped_group)
+            {
+                if (field_168_game_object)
+                {
+                    s16 v10;
+                    if (field_20e || byte_6787D2 || (v10 = 1000, stru_6F6784.get_int_4F7AE0(&v10) >= 2))
+                    {
+                        Ped::sub_45EE70();
+                    }
+                    else if (gTaxi_4_704130->field_0)
+                    {
+                        field_240_occupation = ped_ocupation_enum::unknown_4;
+                        if (field_238 == 3)
+                        {
+                            field_238 = 6;
+                        }
+                        Ped::SetObjective(objectives_enum::no_obj_0, 40);
+                        ++byte_6787D2;
+                    }
+                }
+            }
+            break;
+        case ped_ocupation_enum::unknown_6:
+            Ped::sub_461530();
+            break;
+        case ped_ocupation_enum::unknown_5:
+            Ped::sub_461290();
+            break;
+        case ped_ocupation_enum::unknown_2:
+            byte_61A8A0 = 0;
+            break;
+        case ped_ocupation_enum::driver:
+            byte_61A8A0 = 0;
+            if (field_16C_car)
+            {
+                if (field_16C_car->field_88 == 5)
+                {
+                    Ped::sub_46F9D0();
+                }
+            }
+            else
+            {
+                field_240_occupation = ped_ocupation_enum::dummy;
+            }
+            break;
+        case ped_ocupation_enum::unknown_4:
+            Ped::sub_460820();
+            break;
+
+        case ped_ocupation_enum::mugger:
+            Ped::sub_45F360();
+            break;
+        case ped_ocupation_enum::car_thief:
+            Ped::sub_45FF60();
+            break;
+        case ped_ocupation_enum::driver_2:
+        case ped_ocupation_enum::unknown_8:
+        case ped_ocupation_enum::unknown_9:
+            Ped::sub_461630();
+            break;
+        case ped_ocupation_enum::unknown_7:
+            if (field_225)
+            {
+                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                Ped::sub_463830(0, 9999);
+                field_21C_bf.b2 = 0;
+            }
+            break;
+        case ped_ocupation_enum::road_block_tank_man:
+            Ped::sub_4619F0();
+            break;
+        case ped_ocupation_enum::unknown_18:
+            if (!gChar_C_6787BC->field_7_make_all_muggers)
+            {
+                field_240_occupation = ped_ocupation_enum::dummy;
+                field_238 = 3;
+                Ped::sub_462590();
+            }
+            break;
+        case ped_ocupation_enum::unknown_10:
+            if (field_25C_car_state == 20 && field_17C_pZone != NULL && field_14C->field_15C_player != NULL)
+            {
+                u8 idx = field_14C->field_15C_player->field_2E_idx;
+                if (!field_17C_pZone->sub_4BEF10(idx))
+                {
+                    Ped::sub_463830(0, 9999);
+                }
+            }
+            break;
+        case ped_ocupation_enum::driver_3:
+            if (field_258_objective > objectives_enum::no_obj_0)
+            {
+                if (field_258_objective > objectives_enum::flee_char_on_foot_till_safe_2)
+                {
+                    if (field_258_objective == objectives_enum::leave_car_36)
+                    {
+                        if (field_150_target_objective_car->field_88 == 5)
+                        {
+                            Ped::sub_46F9D0();
+                        }
+                        else if (field_225 == 1)
+                        {
+                            if (field_180)
+                            {
+                                Ped::SetObjective(objectives_enum::flee_char_on_foot_till_safe_2, 9999);
+                                field_148_objective_target_ped = field_180;
+                            }
+                            else
+                            {
+                                Ped::SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                                field_1DC_objective_target_x = field_1AC_cam.x;
+                                field_1E0_objective_target_y = field_1AC_cam.y;
+                                field_1E4_objective_target_z = field_1AC_cam.z;
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    if (field_225 == 1)
+                    {
+                        field_240_occupation = ped_ocupation_enum::dummy;
+                        Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                        Ped::sub_463830(0, 9999);
+                    }
+                }
+            }
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x462280)
