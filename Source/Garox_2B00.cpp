@@ -1223,6 +1223,21 @@ s32 __stdcall sub_5D1260(s32 a1)
     }
 }
 
+MATCH_FUNC(0x5D12B0)
+char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type)
+{
+    switch (phone_type)
+    {
+        case 1:
+            return "yellow";
+        case 2:
+            return "red";
+        case 3:
+            return "green";
+    }
+    return "unknown";
+}
+
 MATCH_FUNC(0x5D12E0)
 u8 __stdcall sub_5D12E0(s32 phone_type)
 {
