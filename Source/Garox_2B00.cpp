@@ -1195,11 +1195,19 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
     return pRet;
 }
 
-STUB_FUNC(0x5d10b0)
-char_type* Hud_Arrow_7C_Array::sub_5D10B0()
+MATCH_FUNC(0x5d10b0)
+void Hud_Arrow_7C_Array::sub_5D10B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s32 i = 0; i < 17; i++)
+    {
+        if (field_0_array[i].field_18.field_10.field_6)
+        {
+            field_0_array[i].field_18.field_18.field_10_type = 0;
+            field_0_array[i].field_18.field_3C.field_10_type = 0;
+
+            field_0_array[i].field_18.field_10.field_6 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d10d0)

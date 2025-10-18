@@ -418,7 +418,7 @@ class Hud_Arrow_7C_Array
     EXPORT void sub_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
     EXPORT Hud_Arrow_7C* sub_5D1050();
-    EXPORT char_type* sub_5D10B0();
+    EXPORT void sub_5D10B0();
     EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void sub_5D1310(Gang_144* pZone);
