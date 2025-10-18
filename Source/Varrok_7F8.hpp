@@ -22,3 +22,5 @@ class Varrok_7F8
     EXPORT ~Varrok_7F8();
     Varrok_8 field_0[255];
 };
+
+EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);

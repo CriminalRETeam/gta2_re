@@ -12,6 +12,7 @@ class Gang_144;
 class infallible_turing;
 class Gang_144;
 class Object_2C;
+class Car_BC;
 
 class Garox_13C0_sub
 {
@@ -298,6 +299,7 @@ class ArrowTrace_24
 {
   public:
     EXPORT void sub_5D03C0(Gang_144* pZone);
+    EXPORT void sub_5D03F0();
 
     // inline 0x4C6F00
     void init()
@@ -317,8 +319,14 @@ class ArrowTrace_24
         field_1C_aim_z = z;
     }
 
-    s32 field_0;
-    Player* field_4;
+    // 9.6f inline 0x4C6F20
+    inline bool sub_4C6F20()
+    {
+        return field_10_type == 0;
+    }
+
+    Ped* field_0;
+    Car_BC* field_4;
     Object_2C* field_8;
     Player* field_C;
     s32 field_10_type;
@@ -352,12 +360,32 @@ class Hud_Arrow_7C
 {
   public:
     EXPORT void sub_5D0510(s32 a2);
-    EXPORT char_type sub_5D0530();
+    EXPORT bool sub_5D0530();
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
     EXPORT void sub_5D0C60();
     EXPORT void sub_5D0C90();
     EXPORT void sub_5D0DC0(Ped* a2);
+
+    // 9.6f inline 0x4C6F80
+    inline bool sub_4C6F80()
+    {
+        if (field_18.field_18.sub_4C6F20() && field_18.field_3C.sub_4C6F20())
+        {
+            return true;
+        }
+        return false;
+    }
+
+    // 9.6f inline 0x4C7050
+    inline bool sub_4C7050()
+    {
+        if (field_18.field_10.field_5)
+        {
+            return true;
+        }
+        return false;
+    }
 
     EXPORT Hud_Arrow_7C();
     Fix16 field_0_screen_pos_x; // x and y are not independent from field_10_radius_pos
@@ -382,7 +410,7 @@ class Hud_Arrow_7C_Array
     }
 
     EXPORT void sub_5D1350();
-    EXPORT char_type sub_5D0E40(s32* a2);
+    EXPORT bool sub_5D0E40(Hud_Arrow_7C* a2);
     EXPORT void sub_5D0E90();
     EXPORT Hud_Arrow_7C* sub_5D0EF0();
     EXPORT char_type sub_5D0F40(Gang_144* a2);
@@ -390,7 +418,7 @@ class Hud_Arrow_7C_Array
     EXPORT void sub_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
     EXPORT Hud_Arrow_7C* sub_5D1050();
-    EXPORT char_type* sub_5D10B0();
+    EXPORT void sub_5D10B0();
     EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
     EXPORT void sub_5D1310(Gang_144* pZone);
@@ -475,14 +503,14 @@ class Hud_MapZone_98
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
     EXPORT Hud_MapZone_98();
-    char_type field_0_timer;
+    u8 field_0_timer;
     char_type field_1;
     wchar_t field_2_wstr[65];
     s32 field_84;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
-    char_type field_94_transparency;  // range from 0 to 31
+    u8 field_94_transparency;  // range from 0 to 31
     char_type field_95;
     char_type field_96;
     char_type field_97;
@@ -556,3 +584,7 @@ EXTERN_GLOBAL(s16, word_706600);
 
 
 EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
+
+EXPORT s32 __stdcall sub_5D1260(s32 a1);
+EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
+EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);

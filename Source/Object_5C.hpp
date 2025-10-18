@@ -48,7 +48,7 @@ class Object_2C
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
     EXPORT void sub_525F30();
-    EXPORT char_type sub_5263D0();
+    EXPORT bool sub_5263D0();
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);
     EXPORT s16 sub_526B40(s32 a2);
@@ -116,7 +116,7 @@ class Object_2C
     char_type field_1F;
     s32 field_20;
     char_type field_24;
-    char_type field_25;
+    u8 field_25;
     u8 field_26_varrok_idx;
     char_type field_27;
     char_type field_28;

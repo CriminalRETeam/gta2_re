@@ -160,7 +160,7 @@ class Ped
     EXPORT s32 sub_466FB0();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
-    EXPORT char_type sub_4672E0(s32 a2, s32 a3);
+    EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
     EXPORT char_type sub_4678E0();
     EXPORT char_type sub_467960();
     EXPORT char_type sub_467A20();
@@ -215,7 +215,7 @@ class Ped
     EXPORT void sub_46C250();
     EXPORT char_type sub_46C770();
     EXPORT s32 sub_46C7E0();
-    EXPORT s32 sub_46C8A0();
+    EXPORT void sub_46C8A0();
     EXPORT void sub_46C910();
     EXPORT void sub_46C9B0();
     EXPORT void sub_46CA60();
@@ -423,7 +423,7 @@ class Ped
     Weapon_30* field_174_pWeapon;
     Weapon_30* field_178;
     Gang_144* field_17C_pZone; //  Maybe it's the zone of the gang the ped belongs to;
-    s32 field_180;
+    Ped* field_180;
     s32 field_184;
     Ped* field_188_last_char_punched;
     Ped* field_18C;
@@ -464,7 +464,7 @@ class Ped
     s16 field_214;
     s16 field_216_health;
     s16 field_218_objective_timer;
-    s16 field_21A;
+    s16 field_21A_car_state_timer;
 
     union 
     {
@@ -517,7 +517,7 @@ class Ped
     u8 field_264;
     char_type field_265;
     char_type field_266;
-    u8 field_267;
+    u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;
     char_type field_26A;

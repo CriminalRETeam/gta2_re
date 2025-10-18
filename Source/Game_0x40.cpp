@@ -62,7 +62,7 @@
 #include "winmain.hpp"
 #include "Fix16_Rect.hpp"
 
-DEFINE_GLOBAL(s32, dword_67DFB4, 0x67DFB4); //, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL(Fix16, dword_67DFB4, 0x67DFB4); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s32, dword_7071A0, 0x7071A0);
 DEFINE_GLOBAL(s32, dword_7071B0, 0x7071B0);
 
@@ -85,7 +85,6 @@ DEFINE_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0, 0x6FDEF0);
 DEFINE_GLOBAL(Marz_1D7E*, gMarz_1D7E_6FD784, 0x6FD784);
 DEFINE_GLOBAL(Taxi_4*, gTaxi_4_704130, 0x704130);
 DEFINE_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8, 0x6F70A8);
-DEFINE_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398, 0x703398);
 DEFINE_GLOBAL(Phi_8CA8*, gPhi_8CA8_6FCF00, 0x6FCF00);
 DEFINE_GLOBAL(Collide_C*, gCollide_C_6791FC, 0x6791FC);
 DEFINE_GLOBAL(sharp_bose_0x54*, gsharp_bose_0x54_7055D4, 0x7055D4);
@@ -686,7 +685,7 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 }
 
 MATCH_FUNC(0x4B97E0)
-s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
+s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -699,7 +698,7 @@ s8 Game_0x40::sub_4B97E0(Sprite* a2, s32 a3)
 }
 
 MATCH_FUNC(0x4B9830)
-s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, s32 a3)
+s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, Fix16 a3)
 {
     for (u8 i = 0; i < field_23_max_idx; i++)
     {
@@ -740,7 +739,7 @@ bool Game_0x40::sub_4B98E0(s16* a2, u8 playerIdx, s32 a4)
 }
 
 STUB_FUNC(0x4B9950)
-s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, s32 a4)
+s8 Game_0x40::sub_4B9950(Sprite* pCarSprite, u8 idx, Fix16 a4)
 {
     NOT_IMPLEMENTED;
     // TODO: Requires Sprite stubs

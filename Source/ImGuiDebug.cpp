@@ -917,9 +917,17 @@ void CC ImGuiDebugDraw()
         ImGui::Checkbox("Do Test", &bDo_test_67D4F8);
         ImGui::Checkbox("Do Mike", &bDo_mike_67D5CC);
         ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Garox_4 stuff)
-        ImGui::Checkbox("Skip Missions", &bSkip_mission_67D4E5);
-        ImGui::Checkbox("Skip Particles", &bSkip_particles_67D64D);
         ImGui::Checkbox("3D Sound", &bDo_3d_sound_67D6C2); // seems to not work
+
+        if (ImGui::TreeNode("Skip stuff"))
+        {
+            ImGui::Checkbox("Skip Missions", &bSkip_mission_67D4E5);
+            ImGui::Checkbox("Skip Particles", &bSkip_particles_67D64D);
+            ImGui::Checkbox("Skip Ambulance", &bSkip_ambulance_67D6C9);
+            ImGui::Checkbox("Skip Explosions", &bExplodingOff_67D4FB);
+            ImGui::Checkbox("Skip Police", &bSkip_police_67D4F9);
+            ImGui::TreePop();
+        }
 
         if (ImGui::TreeNode("Show things"))
         {

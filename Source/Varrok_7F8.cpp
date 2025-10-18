@@ -1,5 +1,7 @@
 #include "Varrok_7F8.hpp"
 
+DEFINE_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398, 0x703398);
+
 MATCH_FUNC(0x59b060)
 u8 Varrok_7F8::sub_59B060(s32 ped_id)
 {

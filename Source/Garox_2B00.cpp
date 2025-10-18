@@ -1,6 +1,7 @@
 #include "Garox_2B00.hpp"
 #include "Car_BC.hpp"
 #include "Frontend.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
@@ -13,6 +14,7 @@
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
+#include "Object_5C.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
@@ -28,6 +30,10 @@ DEFINE_GLOBAL(s32, dword_7064C0, 0x7064C0);
 DEFINE_GLOBAL(s32, dword_7063B0, 0x7063B0);
 DEFINE_GLOBAL(s32, dword_7065B4, 0x7065B4);
 DEFINE_GLOBAL(s32, dword_706338, 0x706338);
+
+DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
+DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
+DEFINE_GLOBAL(Fix16, dword_67CD10, 0x67CD10);
 
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
@@ -787,17 +793,159 @@ void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
     field_10_type = 5;
 }
 
+MATCH_FUNC(0x5D03F0)
+void ArrowTrace_24::sub_5D03F0()
+{
+    Ped* pPed;
+    Player* pPlayer;
+    Car_BC* pCar;
+    Sprite* pSprite;
+    DrawUnk_0xBC* pCam;
+
+    switch (field_10_type)
+    {
+        case 0:
+            return;
+        case 6:
+            pPlayer = field_C;
+            if (pPlayer->field_8E_bInUse)
+            {
+                field_14_aim_x = pPlayer->field_2C4_player_ped->get_cam_x();
+                field_18_aim_y = pPlayer->field_2C4_player_ped->get_cam_y();
+                field_1C_aim_z = pPlayer->field_2C4_player_ped->get_cam_z();
+            }
+            else
+            {
+                field_10_type = 0;
+            }
+            break;
+        case 2:
+            pPed = field_0;
+            if (pPed->field_21C_bf.b0)
+            {
+                field_14_aim_x = pPed->get_cam_x();
+                field_18_aim_y = pPed->get_cam_y();
+                field_1C_aim_z = pPed->get_cam_z();
+            }
+            else
+            {
+                field_10_type = 0;
+            }
+            break;
+        case 3:
+            pCar = field_4;
+            if (pCar->field_88 == 5)
+            {
+                field_10_type = 0;
+            }
+            else
+            {
+                pSprite = pCar->field_50_car_sprite;
+                field_14_aim_x = pSprite->field_14_xpos.x;
+                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_1C_aim_z = pSprite->field_1C_zpos;
+            }
+            break;
+        case 4:
+            if (!field_8->sub_529200())
+            {
+                gGarox_2B00_706620->field_1F18.field_844 = 1;
+                field_10_type = 0;
+            }
+            else
+            {
+                pSprite = field_8->field_4;
+                field_14_aim_x = pSprite->field_14_xpos.x;
+                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_1C_aim_z = pSprite->field_1C_zpos;
+            }
+            break;
+        default:
+            break;
+    }
+
+    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+    s32 v8 = field_38_orf1->field_68;
+
+    if (v8 == 2 || v8 == 3)
+    {
+        pCam = &field_38_orf1->field_208_aux_game_camera;
+    }
+    else
+    {
+        pCam = &field_38_orf1->field_90_game_camera;
+    }
+
+    field_20 = pCam->sub_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
+}
+
 MATCH_FUNC(0x5d0510)
 void Hud_Arrow_7C::sub_5D0510(s32 a2)
 {
     field_18.field_28 = a2;
 }
 
-STUB_FUNC(0x5d0530)
-char_type Hud_Arrow_7C::sub_5D0530()
+MATCH_FUNC(0x5d0530)
+bool Hud_Arrow_7C::sub_5D0530()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Gang_144* field_30 = field_18.field_10.field_30;
+
+    if (field_30)
+    {
+        if (!gGarox_2B00_706620->field_1F18.field_83C)
+        {
+            return false;
+        }
+        if (!bShow_all_arrows_67D6E7)
+        {
+            u32* pMission_flag = gfrosty_pasteur_6F8060->field_344_mission_flag;
+            if (pMission_flag && *pMission_flag)
+            {
+                return false;
+            }
+            Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+            Gang_144* pZone144 = pPlayer->field_34_pObj;
+            if (pZone144)
+            {
+                if (pPlayer->field_40)
+                {
+                    pZone144 = 0;
+                }
+            }
+            if (field_18.field_60->field_10_type == 5)
+            {
+                if (pZone144 == field_30)
+                {
+                    if (gGarox_2B00_706620->field_1F18.sub_5D0E40(this))
+                    {
+                        return false;
+                    }
+                }
+                else if (pZone144 && gGarox_2B00_706620->field_1F18.sub_5D0F40(pZone144))
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                if (pZone144 != field_30)
+                {
+                    return false;
+                }
+                u8 player_idx = pPlayer->field_2E_idx;
+                if (field_30->sub_4BEEF0(player_idx) < field_18.field_10.field_34)
+                {
+                    return false;
+                }
+                Hud_Arrow_7C* v7 = gGarox_2B00_706620->field_1F18.field_840;
+                if (v7 && v7 != this)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x5d0620)
@@ -911,17 +1059,47 @@ Hud_Arrow_7C::Hud_Arrow_7C()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0e40)
-char_type Hud_Arrow_7C_Array::sub_5D0E40(s32* a2)
+MATCH_FUNC(0x5d0e40)
+bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Gang_144* pGang = a2->field_18.field_10.field_30;
+
+    for (s32 i = 0; i < 17; i++)
+    {
+        Hud_Arrow_7C* pArrow = &field_0_array[i];
+        if (pArrow != a2 
+            && !pArrow->sub_4C6F80() 
+            && pArrow->sub_4C7050() 
+            && pArrow->field_18.field_10.field_30 == pGang)
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
-STUB_FUNC(0x5d0e90)
+MATCH_FUNC(0x5d0e90)
 void Hud_Arrow_7C_Array::sub_5D0E90()
 {
-    NOT_IMPLEMENTED;
+    if ((u8)bStartNetworkGame_7081F0)
+    {
+        for (s32 i = 0; i < 17; i++)
+        {
+            if (field_0_array[i].field_18.field_18.field_C == NULL ||
+                field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped == NULL ||
+                field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped->field_21C_bf.b25 == 0)
+            {
+                field_0_array[i].sub_5D0C90();
+            }
+        }
+    }
+    else
+    {
+        for (s32 i = 0; i < 17; i++)
+        {
+            field_0_array[i].sub_5D0C90();
+        }
+    }
 }
 
 STUB_FUNC(0x5d0ef0)
@@ -1017,11 +1195,19 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
     return pRet;
 }
 
-STUB_FUNC(0x5d10b0)
-char_type* Hud_Arrow_7C_Array::sub_5D10B0()
+MATCH_FUNC(0x5d10b0)
+void Hud_Arrow_7C_Array::sub_5D10B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s32 i = 0; i < 17; i++)
+    {
+        if (field_0_array[i].field_18.field_10.field_6)
+        {
+            field_0_array[i].field_18.field_18.field_10_type = 0;
+            field_0_array[i].field_18.field_3C.field_10_type = 0;
+
+            field_0_array[i].field_18.field_10.field_6 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x5d10d0)
@@ -1042,10 +1228,100 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     return 0;
 }
 
-STUB_FUNC(0x5d1110)
+MATCH_FUNC(0x5d1110)
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
-    NOT_IMPLEMENTED;
+    s32 phone_type = sub_5D1260(pPhoneInfo->field_18_model);
+    Gang_144* pZone = gMap_0x370_6F6268->sub_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
+
+    if (!pZone)
+    {
+        phone_x_67CD14 = pPhoneInfo->field_4->GetXPos();
+        phone_y_67CD0C = pPhoneInfo->field_4->GetYPos();
+        dword_67CD10 = 0;
+        FatalError_4A38C0(0xFA7, // Placing gang phone when no gang at: (%.4f, %.4f)
+                          "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                          1509,
+                          0,
+                          &phone_x_67CD14,
+                          &phone_y_67CD0C,
+                          &dword_67CD10);
+    }
+    Hud_Arrow_7C* v6 = Hud_Arrow_7C_Array::sub_5D10D0(pZone, phone_type);
+    if (v6)
+    {
+        if (v6->field_18.field_3C.field_10_type)
+        {
+            strcpy(gErrStr_67C29C, get_phone_colour_5D12B0(phone_type));
+            strcpy(byte_67C3A8, pZone->field_2_name);
+            FatalError_4A38C0(0x1F41, // Too many %s phones for %s gang
+                              "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                              1513,
+                              gErrStr_67C29C,
+                              byte_67C3A8);
+        }
+        v6->field_18.field_3C.field_8 = pPhoneInfo;
+        v6->field_18.field_3C.field_10_type = 4;
+    }
+    else
+    {
+        Hud_Arrow_7C* v7 = Hud_Arrow_7C_Array::sub_5D1050();
+        v7->field_18.field_18.field_8 = pPhoneInfo;
+        v7->field_18.field_18.field_10_type = 4;
+        v7->sub_5D0510(phone_type);
+        v7->field_18.field_10.field_30 = pZone;
+        v7->field_18.field_10.field_34 = sub_5D12E0(phone_type);
+        v7->field_18.field_2C = pZone->field_138_arrow_colour;
+    }
+}
+
+MATCH_FUNC(0x5D1260)
+s32 __stdcall sub_5D1260(s32 a1)
+{
+    switch (a1)
+    {
+        case 176:
+        case 177:
+            return 2;
+        case 180:
+        case 181:
+            return 3;
+        case 178:
+        case 179:
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+MATCH_FUNC(0x5D12B0)
+char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type)
+{
+    switch (phone_type)
+    {
+        case 1:
+            return "yellow";
+        case 2:
+            return "red";
+        case 3:
+            return "green";
+    }
+    return "unknown";
+}
+
+MATCH_FUNC(0x5D12E0)
+u8 __stdcall sub_5D12E0(s32 phone_type)
+{
+    switch (phone_type)
+    {
+        case 1:
+            return 40;
+        case 2:
+            return 80;
+        case 3:
+            return 237;
+    }
+    return 0;
 }
 
 MATCH_FUNC(0x5d1310)
@@ -1281,10 +1557,56 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
     }
 }
 
-STUB_FUNC(0x5d5b60)
+MATCH_FUNC(0x5d5b60)
 void Hud_MapZone_98::sub_5D5B60()
 {
-    NOT_IMPLEMENTED;
+    u8 x;
+    u8 y;
+    u8 z;
+
+    gGame_0x40_67E008->field_38_orf1->sub_569840(x, y, z);
+    gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1); // navigation zone
+    gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15); // local navigation zone
+
+    if (navigation_zone || local_navigation_zone)
+    {
+        if (local_navigation_zone == field_8C_local_nav_zone && (local_navigation_zone || navigation_zone == field_88_nav_zone))
+        {
+            if (field_0_timer)
+            {
+                field_0_timer--;
+                if (field_0_timer > 0x39u)
+                {
+                    field_94_transparency++;
+                    if (field_94_transparency > 0x1Fu)
+                    {
+                        field_90 = 0;
+                        field_94_transparency = 31;
+                    }
+                }
+                else
+                {
+                    if (field_0_timer < 0x1Fu)
+                    {
+                        field_90 = 1;
+                        if (field_94_transparency > 0)
+                        {
+                            field_94_transparency--;
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            Hud_MapZone_98::sub_5D5AF0(navigation_zone, local_navigation_zone);
+        }
+    }
+    else
+    {
+        field_0_timer = 0;
+        field_88_nav_zone = 0;
+    }
 }
 
 MATCH_FUNC(0x5d5c50)

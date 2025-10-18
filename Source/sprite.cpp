@@ -756,25 +756,90 @@ Sprite::~Sprite()
     FreeSound_5A2A00();
 }
 
-STUB_FUNC(0x48f600)
-char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
+MATCH_FUNC(0x48F5A0)
+void Sprite_14::sub_48F5A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
+    s32 new_idx = ++pSprt->field_3C0;
+    field_C = new_idx;
 }
 
-STUB_FUNC(0x48f690)
-char_type* Sprite_3CC::sub_48F690(u32* a2)
+MATCH_FUNC(0x48f600)
+Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 final_idx;
+    s32 start_idx = 0;
+    Sprite_14* pSprt = NULL;
+    if (!*a3)
+    {
+        final_idx = 32;
+    }
+    else
+    {
+        start_idx = 32;
+        final_idx = 48;
+    }
+
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    {
+        s32 unk = *a2;
+        if (pIter->field_4 == unk && pIter->field_12 == *a5)
+        {
+            if (pIter->field_8 == *a4)
+            {
+                return pIter;
+            }
+            if (pIter->field_8 < *a4 && (pIter->field_8 | (*a4 - pIter->field_8)) == *a4)
+            {
+                pSprt = pIter;
+            }
+        }
+    }
+    return pSprt;
 }
 
-STUB_FUNC(0x48f6e0)
-s16* Sprite_3CC::sub_48F6E0(u16* a2)
+MATCH_FUNC(0x48f690)
+Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 min_value = -1;
+    s32 start_idx;
+    s32 final_idx;
+    Sprite_14* pSprt = NULL;
+    if (!*a2)
+    {
+        start_idx = 0;
+        final_idx = 32;
+    }
+    else
+    {
+        start_idx = 32;
+        final_idx = 48;
+    }
+
+    s32 count = start_idx;
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
+    {
+        if (pIter->field_C < min_value)
+        {
+            min_value = pIter->field_C;
+            pSprt = pIter;
+        }
+    }
+    return pSprt;
+}
+
+MATCH_FUNC(0x48f6e0)
+void Sprite_3CC::sub_48F6E0(u16* a2)
+{
+    s32 count = 0;
+    for (Sprite_14* pIter = &this->field_0[0]; count < 48; count++, ++pIter)
+    {
+        if (pIter->field_4 == *a2)
+        {
+            pIter->field_4 = -1;
+        }
+    }
 }
 
 MATCH_FUNC(0x48f710)

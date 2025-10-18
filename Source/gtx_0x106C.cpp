@@ -43,15 +43,13 @@ void sprite_index::sub_5ABAA0(u8 clear_target)
     }
 }
 
-// https://decomp.me/scratch/eBZLh
-STUB_FUNC(0x5abb00)
-void sprite_index::sub_5ABB00(u8* dst_x)
+MATCH_FUNC(0x5abb00)
+void sprite_index::sub_5ABB00(u8* src)
 {
-    NOT_IMPLEMENTED;
-
-    for (s32 xpos = 0; xpos < field_5_height; xpos++)
+    for (s32 ypos = 0; ypos < field_5_height; ypos++)
     {
-        memcpy(&dst_x[256 * xpos], &field_0_pData[256 * xpos], field_4_width * 4);
+        s32 idx = ypos << 8;
+        memcpy(&src[idx], &field_0_pData[idx], field_4_width);
     }
 }
 

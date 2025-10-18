@@ -100,7 +100,7 @@ class Player
     EXPORT void sub_566820();
     EXPORT void sub_5668D0(Ped* a2);
     EXPORT void sub_566C30(Car_BC* pCar);
-    EXPORT char_type sub_566C80(u32* a2);
+    EXPORT char_type sub_566C80(Ped* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void sub_5670B0();
     EXPORT void sub_567130();
@@ -117,7 +117,7 @@ class Player
     EXPORT void sub_5695A0();
     EXPORT char_type sub_569600(Car_BC* a2);
     EXPORT void sub_5696D0(Car_BC* pCar);
-    EXPORT s32 sub_569840(u8* a2, u8* a3, u8* a4);
+    EXPORT void sub_569840(u8& a2, u8& a3, u8& a4);
     EXPORT Car_BC* sub_5698E0();
     EXPORT s32 sub_569920(u32* a2, int* a3, int* a4);
     EXPORT void sub_5699F0(s32 a2);

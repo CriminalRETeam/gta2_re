@@ -133,6 +133,7 @@ void force_link()
     char_c.DoIanTest_471060(0);
 
     Player lewin(1);
+    u8 zero_u8 = 0;
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
     lewin.sub_564610(0, 0);
@@ -184,7 +185,7 @@ void force_link()
     lewin.sub_5695A0();
     lewin.sub_569600(0);
     lewin.sub_5696D0(0);
-    lewin.sub_569840(0, 0, 0);
+    lewin.sub_569840(zero_u8, zero_u8, zero_u8);
     lewin.sub_5698E0();
     lewin.sub_569920(0, 0, 0);
     lewin.sub_5699F0(0);
@@ -1654,6 +1655,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     while (1)
     {
+        bQuit = 0;
+        
         if (bDoFrontEnd_626B68)
         {
             Frontend::create_4ACFA0();
