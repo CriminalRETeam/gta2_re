@@ -13,6 +13,7 @@
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
+#include "Object_5C.hpp"
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
@@ -785,6 +786,92 @@ void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
 {
     set_arrow_aim_from_pos_4767C0(pZone->field_12C_info_phone_x, pZone->field_130_info_phone_y, pZone->field_134_info_phone_z);
     field_10_type = 5;
+}
+
+MATCH_FUNC(0x5D03F0)
+void ArrowTrace_24::sub_5D03F0()
+{
+    Ped* pPed;
+    Player* pPlayer;
+    Car_BC* pCar;
+    Sprite* pSprite;
+    DrawUnk_0xBC* pCam;
+
+    switch (field_10_type)
+    {
+        case 0:
+            return;
+        case 6:
+            pPlayer = field_C;
+            if (pPlayer->field_8E_bInUse)
+            {
+                field_14_aim_x = pPlayer->field_2C4_player_ped->get_cam_x();
+                field_18_aim_y = pPlayer->field_2C4_player_ped->get_cam_y();
+                field_1C_aim_z = pPlayer->field_2C4_player_ped->get_cam_z();
+            }
+            else
+            {
+                field_10_type = 0;
+            }
+            break;
+        case 2:
+            pPed = field_0;
+            if (pPed->field_21C_bf.b0)
+            {
+                field_14_aim_x = pPed->get_cam_x();
+                field_18_aim_y = pPed->get_cam_y();
+                field_1C_aim_z = pPed->get_cam_z();
+            }
+            else
+            {
+                field_10_type = 0;
+            }
+            break;
+        case 3:
+            pCar = field_4;
+            if (pCar->field_88 == 5)
+            {
+                field_10_type = 0;
+            }
+            else
+            {
+                pSprite = pCar->field_50_car_sprite;
+                field_14_aim_x = pSprite->field_14_xpos.x;
+                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_1C_aim_z = pSprite->field_1C_zpos;
+            }
+            break;
+        case 4:
+            if (!field_8->sub_529200())
+            {
+                gGarox_2B00_706620->field_1F18.field_844 = 1;
+                field_10_type = 0;
+            }
+            else
+            {
+                pSprite = field_8->field_4;
+                field_14_aim_x = pSprite->field_14_xpos.x;
+                field_18_aim_y = pSprite->field_14_xpos.y;
+                field_1C_aim_z = pSprite->field_1C_zpos;
+            }
+            break;
+        default:
+            break;
+    }
+
+    Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+    s32 v8 = field_38_orf1->field_68;
+
+    if (v8 == 2 || v8 == 3)
+    {
+        pCam = &field_38_orf1->field_208_aux_game_camera;
+    }
+    else
+    {
+        pCam = &field_38_orf1->field_90_game_camera;
+    }
+
+    field_20 = pCam->sub_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
 }
 
 MATCH_FUNC(0x5d0510)

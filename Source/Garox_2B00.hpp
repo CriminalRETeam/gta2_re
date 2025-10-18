@@ -12,6 +12,7 @@ class Gang_144;
 class infallible_turing;
 class Gang_144;
 class Object_2C;
+class Car_BC;
 
 class Garox_13C0_sub
 {
@@ -298,6 +299,7 @@ class ArrowTrace_24
 {
   public:
     EXPORT void sub_5D03C0(Gang_144* pZone);
+    EXPORT void sub_5D03F0();
 
     // inline 0x4C6F00
     void init()
@@ -317,8 +319,8 @@ class ArrowTrace_24
         field_1C_aim_z = z;
     }
 
-    s32 field_0;
-    Player* field_4;
+    Ped* field_0;
+    Car_BC* field_4;
     Object_2C* field_8;
     Player* field_C;
     s32 field_10_type;

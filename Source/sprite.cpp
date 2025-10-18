@@ -761,7 +761,7 @@ void Sprite_14::sub_48F5A0()
 {
     Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
     s32 new_idx = ++pSprt->field_3C0;
-    this->field_C = new_idx;
+    field_C = new_idx;
 }
 
 MATCH_FUNC(0x48f600)
@@ -781,7 +781,7 @@ Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
     }
 
     s32 count = start_idx;
-    for (Sprite_14* pIter = &this->field_0[start_idx]; count < final_idx; count++, ++pIter)
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 unk = *a2;
         if (pIter->field_4 == unk && pIter->field_12 == *a5)
@@ -818,7 +818,7 @@ Sprite_14* Sprite_3CC::sub_48F690(u32* a2)
     }
 
     s32 count = start_idx;
-    for (Sprite_14* pIter = &this->field_0[start_idx]; count < final_idx; count++, ++pIter)
+    for (Sprite_14* pIter = &field_0[start_idx]; count < final_idx; count++, ++pIter)
     {
         if (pIter->field_C < min_value)
         {
