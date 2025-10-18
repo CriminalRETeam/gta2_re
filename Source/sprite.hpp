@@ -214,13 +214,13 @@ class Sprite_14
     s32 field_8;
     s32 field_C;
     u16 field_10;
-    s16 field_12;
+    u16 field_12;
 };
 
 class Sprite_3CC
 {
   public:
-    EXPORT char_type* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
+    EXPORT Sprite_14* sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5);
     EXPORT char_type* sub_48F690(u32* a2);
     EXPORT s16* sub_48F6E0(u16* a2);
     EXPORT void sub_48F710();

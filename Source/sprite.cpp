@@ -756,11 +756,39 @@ Sprite::~Sprite()
     FreeSound_5A2A00();
 }
 
-STUB_FUNC(0x48f600)
-char_type* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
+MATCH_FUNC(0x48f600)
+Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 v6;
+    s32 v5 = 0;
+    Sprite_14* v11 = NULL;
+    if (!*a3)
+    {
+        v6 = 32;
+    }
+    else
+    {
+        v5 = 32;
+        v6 = 48;
+    }
+
+    s32 count = v5;
+    for (Sprite_14* pIter = &this->field_0[v5]; count < v6; count++, ++pIter)
+    {
+        s32 unk = *a2;
+        if (pIter->field_4 == unk && pIter->field_12 == *a5)
+        {
+            if (pIter->field_8 == *a4)
+            {
+                return pIter;
+            }
+            if (pIter->field_8 < *a4 && (pIter->field_8 | (*a4 - pIter->field_8)) == *a4)
+            {
+                v11 = pIter;
+            }
+        }
+    }
+    return v11;
 }
 
 STUB_FUNC(0x48f690)
