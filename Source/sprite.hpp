@@ -198,6 +198,9 @@ class Sprite
 class Sprite_14
 {
   public:
+
+    EXPORT void sub_48F5A0();
+
     // Inlined, from 9.6f at 0x44af30
     EXPORT Sprite_14()
     {

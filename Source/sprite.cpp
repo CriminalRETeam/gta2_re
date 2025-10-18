@@ -756,6 +756,14 @@ Sprite::~Sprite()
     FreeSound_5A2A00();
 }
 
+MATCH_FUNC(0x48F5A0)
+void Sprite_14::sub_48F5A0()
+{
+    Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
+    s32 new_idx = ++pSprt->field_3C0;
+    this->field_C = new_idx;
+}
+
 MATCH_FUNC(0x48f600)
 Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
