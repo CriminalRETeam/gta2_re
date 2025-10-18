@@ -31,6 +31,10 @@ DEFINE_GLOBAL(s32, dword_7063B0, 0x7063B0);
 DEFINE_GLOBAL(s32, dword_7065B4, 0x7065B4);
 DEFINE_GLOBAL(s32, dword_706338, 0x706338);
 
+DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
+DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
+DEFINE_GLOBAL(Fix16, dword_67CD10, 0x67CD10);
+
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -1198,10 +1202,51 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     return 0;
 }
 
-STUB_FUNC(0x5d1110)
+MATCH_FUNC(0x5d1110)
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
-    NOT_IMPLEMENTED;
+    s32 phone_type = sub_5D1260(pPhoneInfo->field_18_model);
+    Gang_144* pZone = gMap_0x370_6F6268->sub_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
+
+    if (!pZone)
+    {
+        phone_x_67CD14 = pPhoneInfo->field_4->GetXPos();
+        phone_y_67CD0C = pPhoneInfo->field_4->GetYPos();
+        dword_67CD10 = 0;
+        FatalError_4A38C0(0xFA7, // Placing gang phone when no gang at: (%.4f, %.4f)
+                          "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                          1509,
+                          0,
+                          &phone_x_67CD14,
+                          &phone_y_67CD0C,
+                          &dword_67CD10);
+    }
+    Hud_Arrow_7C* v6 = Hud_Arrow_7C_Array::sub_5D10D0(pZone, phone_type);
+    if (v6)
+    {
+        if (v6->field_18.field_3C.field_10_type)
+        {
+            strcpy(gErrStr_67C29C, get_phone_colour_5D12B0(phone_type));
+            strcpy(byte_67C3A8, pZone->field_2_name);
+            FatalError_4A38C0(0x1F41, // Too many %s phones for %s gang
+                              "C:\\Splitting\\Gta2\\Source\\user.cpp",
+                              1513,
+                              gErrStr_67C29C,
+                              byte_67C3A8);
+        }
+        v6->field_18.field_3C.field_8 = pPhoneInfo;
+        v6->field_18.field_3C.field_10_type = 4;
+    }
+    else
+    {
+        Hud_Arrow_7C* v7 = Hud_Arrow_7C_Array::sub_5D1050();
+        v7->field_18.field_18.field_8 = pPhoneInfo;
+        v7->field_18.field_18.field_10_type = 4;
+        v7->sub_5D0510(phone_type);
+        v7->field_18.field_10.field_30 = pZone;
+        v7->field_18.field_10.field_34 = sub_5D12E0(phone_type);
+        v7->field_18.field_2C = pZone->field_138_arrow_colour;
+    }
 }
 
 MATCH_FUNC(0x5D1260)
