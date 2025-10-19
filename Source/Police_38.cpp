@@ -274,11 +274,30 @@ void Police_38::sub_570E30()
     field_10_subObj->field_8 = pSwatGroup;
 }
 
-STUB_FUNC(0x571150)
-s32 Police_38::sub_571150()
+MATCH_FUNC(0x571150)
+void Police_38::sub_571150()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pFBI = gChar_C_6787BC->sub_470F30();
+    pFBI->field_238 = 4;
+    pFBI->field_240_occupation = ped_ocupation_enum::fbi;
+    pFBI->sub_45C730(field_10_subObj->field_0);
+    pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
+    pFBI->field_1DC_objective_target_x = Fix16(field_2_targ_x);
+    pFBI->field_1E0_objective_target_y = Fix16(field_3_targ_y);
+    pFBI->field_1E4_objective_target_z = Fix16(field_4_targ_z);
+    pFBI->field_244_remap = 0;
+    pFBI->ForceWeapon_46F600(weapon_type::smg);
+    pFBI->field_216_health = 200;
+    pFBI->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pFBI->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pFBI->field_26C_graphic_type = 1;
+    field_10_subObj->field_4 = pFBI;
+    field_10_subObj->field_28 = 6;
+    field_10_subObj->field_0->sub_421560(5);
+    field_10_subObj->field_0->sub_440590();
+    field_10_subObj->field_0->sub_43AF40();
+    field_10_subObj->field_0->sub_43C920();
+    field_10_subObj->field_8 = 0;
 }
 
 STUB_FUNC(0x571350)
