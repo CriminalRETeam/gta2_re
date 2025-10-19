@@ -53,7 +53,7 @@ class Police_38
     s16 field_18;
     char_type field_1A;
     char_type field_1B;
-    s32 field_1C;
+    s32 field_1C_used;
     s32 field_20;
     s32 field_24_state;
     char_type field_28;

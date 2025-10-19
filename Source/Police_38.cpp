@@ -38,7 +38,7 @@ void Police_38::sub_5709C0()
     field_3_targ_y = 0;
     field_4_targ_z = 0;
     field_18 = 0;
-    field_1C = 0;
+    field_1C_used = 0;
     field_1A = 0;
     field_10_subObj = 0;
     field_24_state = 0;
@@ -88,10 +88,52 @@ void Police_38::sub_570A10()
     }
 }
 
-STUB_FUNC(0x570ab0)
+MATCH_FUNC(0x570ab0)
 void Police_38::sub_570AB0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_1C_used || (field_24_state != 0 && field_24_state != 1 && field_24_state != 6))
+    {
+        u8 last_idx = field_14_pObj->field_75_count - 1;
+        Police_38* pPolice38_last = field_14_pObj->field_20[last_idx];
+        if (pPolice38_last == this)
+        {
+            field_14_pObj->field_20[last_idx] = NULL;
+        }
+        else
+        {
+            for (u8 i = 0; i < last_idx; i++)
+            {
+                if (field_14_pObj->field_20[i] == this)
+                {
+                    field_14_pObj->field_20[i] = pPolice38_last;
+                    field_14_pObj->field_20[last_idx] = NULL;
+                    break;
+                }
+            }
+        }
+        if (field_1C_used)
+        {
+            switch (field_20)
+            {
+                case 1:
+                    --field_14_pObj->field_70;
+                    break;
+                case 2:
+                    --field_14_pObj->field_72;
+                    break;
+                case 3:
+                    --field_14_pObj->field_73;
+                    break;
+                case 4:
+                    --field_14_pObj->field_74;
+                    break;
+                default:
+                    break;
+            }
+        }
+        --field_14_pObj->field_75_count;
+        field_24_state = 6;
+    }
 }
 
 STUB_FUNC(0x570bf0)
