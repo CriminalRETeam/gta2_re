@@ -29,11 +29,19 @@ char_type Police_7B8::sub_56F4D0(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x56f560)
+MATCH_FUNC(0x56f560)
 Police_38* Police_7B8::sub_56F560()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 20; i++)
+    {
+        if (!field_4[i].field_1C_used)
+        {
+            Police_38* pNew = &field_4[i];
+            pNew->sub_5709C0();
+            return pNew;
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x56f5c0)
