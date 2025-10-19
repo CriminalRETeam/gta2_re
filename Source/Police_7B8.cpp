@@ -61,11 +61,17 @@ bool Police_7B8::sub_56F880(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x56f8e0)
-s32 Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
+MATCH_FUNC(0x56f8e0)
+void Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (this->field_464[i].field_0 == a2)
+        {
+            this->field_464[i].field_0 = a2;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x56f940)
