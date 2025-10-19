@@ -8,6 +8,7 @@ class Ped;
 class Car_BC;
 class Object_2C;
 class Police_7C;
+class Fix16_Rect;
 
 class Police_38
 {
@@ -172,5 +173,5 @@ class PoliceRoadblock_A4
     Ped* field_94_guard_4;
     Ped* field_98_guard_5;
     Ped* field_9C_guard_6;
-    u8* field_A0_pMem;
+    Fix16_Rect* field_A0_rect;
 };

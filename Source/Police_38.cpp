@@ -1,5 +1,6 @@
 #include "Police_38.hpp"
 #include "Globals.hpp"
+#include "Fix16_Rect.hpp"
 #include "Kfc_1E0.hpp"
 #include "Ped.hpp"
 #include "Object_5C.hpp"
@@ -1102,11 +1103,11 @@ MATCH_FUNC(0x577480)
 PoliceRoadblock_A4::PoliceRoadblock_A4()
 {
     sub_575710();
-    field_A0_pMem = new u8[0x18u]; // TODO: A class/struct?
+    field_A0_rect = new Fix16_Rect();
 }
 
 MATCH_FUNC(0x5774a0)
 PoliceRoadblock_A4::~PoliceRoadblock_A4()
 {
-    delete[] field_A0_pMem;
+    delete[] field_A0_rect;
 }
