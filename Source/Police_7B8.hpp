@@ -20,7 +20,7 @@ class Police_7B8
     }
 
     EXPORT ~Police_7B8();
-    EXPORT s32 sub_56F400();
+    EXPORT void sub_56F400();
     EXPORT char_type sub_56F4D0(Ped* a2);
     EXPORT Police_38* New_56F560();
     EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
@@ -41,7 +41,10 @@ class Police_7B8
     EXPORT char_type sub_577320();
     EXPORT void sub_577370(u8 a2, s32 a3, s32 a4);
 
-    s32 field_0;
+    u8 field_0;
+    u8 field_1;
+    u8 field_2;
+    u8 field_3;
     Police_38 field_4[20];
     Police_7C field_464[4];
     s32 field_654_wanted_level;
