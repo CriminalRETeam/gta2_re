@@ -22,11 +22,13 @@ Police_38::~Police_38()
 {
 }
 
-STUB_FUNC(0x570790)
-char_type Police_38::sub_570790(Police_38* a1, s32 a2)
+MATCH_FUNC(0x570790)
+bool Police_38::sub_570790(Police_38* a1, Police_7C* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    a1->field_14_pObj = a2;
+    a1->field_24_state = 5;
+    a1->sub_570A10();
+    return true;
 }
 
 MATCH_FUNC(0x5709c0)
