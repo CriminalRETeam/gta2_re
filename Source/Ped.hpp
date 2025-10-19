@@ -395,6 +395,18 @@ class Ped
         return field_1F0;
     }
 
+    // 9.6f inline 0x433B90
+    void set_remap_433B90(u8 remap)
+    {
+        field_244_remap = remap;
+    }
+
+    // 9.6f inline 0x4039A0
+    void set_health_4039A0(s16 health)
+    {
+        field_216_health = health;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 

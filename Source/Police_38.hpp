@@ -18,7 +18,7 @@ class Police_38
     EXPORT void sub_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
-    EXPORT Kfc_30* sub_570BF0();
+    EXPORT void sub_570BF0();
     EXPORT s32 sub_570E30();
     EXPORT s32 sub_571150();
     EXPORT u32* sub_571350();
@@ -40,9 +40,9 @@ class Police_38
 
     char_type field_0;
     char_type field_1;
-    char_type field_2_targ_x;
-    char_type field_3_targ_y;
-    char_type field_4_targ_z;
+    u8 field_2_targ_x;
+    u8 field_3_targ_y;
+    u8 field_4_targ_z;
     char_type field_5;
     char_type field_6;
     char_type field_7;

@@ -5,11 +5,19 @@
 #include "Object_5C.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
+#include "Police_7B8.hpp"
 
 DEFINE_GLOBAL(s32, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
+
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB68, Fix16(13107, 0), 0x6FEB68);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECA0, Fix16(256, 0), 0x6FECA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB88, dword_6FECA0, 0x6FEB88);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECF8, Fix16(4), 0x6FECF8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8 * dword_6FEB88, 0x6FEB0C);
 
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
@@ -136,11 +144,87 @@ void Police_38::sub_570AB0()
     }
 }
 
-STUB_FUNC(0x570bf0)
-Kfc_30* Police_38::sub_570BF0()
+MATCH_FUNC(0x570bf0)
+void Police_38::sub_570BF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    PedGroup* pGroup = PedGroup::sub_4CB0D0();
+    Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
+    pCopLeader->field_238 = 4;
+    pCopLeader->field_240_occupation = ped_ocupation_enum::police;
+    pCopLeader->sub_45C730(field_10_subObj->field_0);
+    pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
+    pCopLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
+    pCopLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
+    pCopLeader->field_1E4_objective_target_z = Fix16(field_4_targ_z);
+    pCopLeader->set_remap_433B90(0);
+    pCopLeader->field_26C_graphic_type = 2;
+
+    s32 wanted_level = gPolice_7B8_6FEE40->field_654_wanted_level;
+
+    switch (wanted_level)
+    {
+        case 0:
+        case 1:
+            pCopLeader->field_170_selected_weapon = 0;
+            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->set_health_4039A0(50);
+            pCopLeader->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            break;
+        case 2:
+            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->set_health_4039A0(100);
+            pCopLeader->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            break;
+        default:
+            pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
+            pCopLeader->set_health_4039A0(100);
+            break;
+    }
+
+    pCopLeader->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pCopLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+
+    Ped* pCopSupporter = gChar_C_6787BC->sub_470F30();
+    pCopSupporter->sub_45C7F0(field_10_subObj->field_0);
+    pCopSupporter->field_238 = 4;
+    pCopSupporter->field_240_occupation = ped_ocupation_enum::police;
+    pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
+    pCopSupporter->field_244_remap = 0;
+
+    switch (field_14_pObj->field_4)
+    {
+        case 1:
+            pCopSupporter->field_170_selected_weapon = 0;
+            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->field_216_health = 50;
+            pCopSupporter->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            break;
+        case 2:
+            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->field_216_health = 100;
+            pCopSupporter->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            break;
+        default:
+            pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
+            pCopSupporter->field_216_health = 100;
+            break;
+    }
+
+    pCopSupporter->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pCopSupporter->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pCopSupporter->field_26C_graphic_type = 2;
+    pGroup->add_ped_leader_4C9B10(pCopLeader);
+    pGroup->field_36_count = 1;
+    pGroup->field_34_count = 1;
+    pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
+    pGroup->field_0 = 0;
+    field_10_subObj->field_4 = pCopLeader;
+    field_10_subObj->field_28 = 6;
+    field_10_subObj->field_0->sub_421560(5);
+    field_10_subObj->field_0->sub_440590();
+    field_10_subObj->field_0->sub_43AF40();
+    field_10_subObj->field_0->sub_43C920();
+    field_10_subObj->field_8 = pGroup;
 }
 
 STUB_FUNC(0x570e30)
