@@ -15,7 +15,7 @@ class Police_38
     EXPORT Police_38();
     EXPORT ~Police_38();
     EXPORT bool sub_570790(Police_38* a1, Police_7C* a2);
-    EXPORT void sub_5709C0();
+    EXPORT void Init_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
     EXPORT void SpawnPoliceInCar_570BF0();

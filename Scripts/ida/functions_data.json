@@ -13120,12 +13120,12 @@
         "v105_address": "0x56f4d0"
     },
     {
-        "name": "Police_7B8::sub_56F560",
+        "name": "Police_7B8::New_56F560",
         "v96f_address": null,
         "v105_address": "0x56f560"
     },
     {
-        "name": "Police_7B8::sub_56F5C0",
+        "name": "Police_7B8::SpawnRoadblockGuard_56F5C0",
         "v96f_address": null,
         "v105_address": "0x56f5c0"
     },
@@ -13205,7 +13205,7 @@
         "v105_address": "0x570940"
     },
     {
-        "name": "Police_38::sub_5709C0",
+        "name": "Police_38::Init_5709C0",
         "v96f_address": null,
         "v105_address": "0x5709c0"
     },

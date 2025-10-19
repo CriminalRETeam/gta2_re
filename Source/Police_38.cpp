@@ -22,7 +22,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8 * dword_6FEB88, 0x6FEB0C);
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
 {
-    sub_5709C0();
+    Init_5709C0();
 }
 
 MATCH_FUNC(0x4beb40)
@@ -40,7 +40,7 @@ bool Police_38::sub_570790(Police_38* a1, Police_7C* a2)
 }
 
 MATCH_FUNC(0x5709c0)
-void Police_38::sub_5709C0()
+void Police_38::Init_5709C0()
 {
     field_2_targ_x = 0;
     field_3_targ_y = 0;

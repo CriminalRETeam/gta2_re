@@ -30,22 +30,22 @@ char_type Police_7B8::sub_56F4D0(Ped* a2)
 }
 
 MATCH_FUNC(0x56f560)
-Police_38* Police_7B8::sub_56F560()
+Police_38* Police_7B8::New_56F560()
 {
     for (u8 i = 0; i < 20; i++)
     {
         if (!field_4[i].field_1C_used)
         {
             Police_38* pNew = &field_4[i];
-            pNew->sub_5709C0();
+            pNew->Init_5709C0();
             return pNew;
         }
     }
     return NULL;
 }
 
-STUB_FUNC(0x56f5c0)
-Ped* Police_7B8::sub_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
+MATCH_FUNC(0x56f5c0)
+Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     Ped* pCop = NULL;
 
