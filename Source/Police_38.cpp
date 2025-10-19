@@ -877,7 +877,7 @@ void PoliceRoadblock_A4::sub_575CA0()
 }
 
 STUB_FUNC(0x575ff0)
-char_type PoliceRoadblock_A4::sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
+char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 a2, s32 a3, u8 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -122,7 +122,7 @@ class PoliceRoadblock_A4
     EXPORT void sub_575710();
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
-    EXPORT char_type sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
+    EXPORT char_type CreateRoadblock_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
     EXPORT PoliceRoadblock_A4();
     EXPORT ~PoliceRoadblock_A4();
     char_type field_0;
