@@ -98,7 +98,7 @@ class Ped
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar);
-    EXPORT s32 sub_45C730(Car_BC* a2);
+    EXPORT s32 SpawnPedInCar_45C730(Car_BC* a2);
     EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);

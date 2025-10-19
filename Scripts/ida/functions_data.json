@@ -3025,7 +3025,7 @@
         "v105_address": "0x45c650"
     },
     {
-        "name": "Ped::sub_45C730",
+        "name": "Ped::SpawnPedInCar_45C730",
         "v96f_address": null,
         "v105_address": "0x45c730"
     },
@@ -13220,17 +13220,17 @@
         "v105_address": "0x570ab0"
     },
     {
-        "name": "Police_38::sub_570BF0",
+        "name": "Police_38::SpawnPoliceInCar_570BF0",
         "v96f_address": null,
         "v105_address": "0x570bf0"
     },
     {
-        "name": "Police_38::sub_570E30",
+        "name": "Police_38::SpawnSWAT_570E30",
         "v96f_address": null,
         "v105_address": "0x570e30"
     },
     {
-        "name": "Police_38::sub_571150",
+        "name": "Police_38::SpawnFBI_nonused_571150",
         "v96f_address": null,
         "v105_address": "0x571150"
     },

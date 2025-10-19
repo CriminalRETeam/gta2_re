@@ -18,9 +18,9 @@ class Police_38
     EXPORT void sub_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
-    EXPORT void sub_570BF0();
-    EXPORT void sub_570E30();
-    EXPORT void sub_571150();
+    EXPORT void SpawnPoliceInCar_570BF0();
+    EXPORT void SpawnSWAT_570E30();
+    EXPORT void SpawnFBI_nonused_571150();
     EXPORT u32* sub_571350();
     EXPORT char_type sub_571540();
     EXPORT char_type sub_571A30();

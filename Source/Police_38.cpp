@@ -145,13 +145,13 @@ void Police_38::sub_570AB0()
 }
 
 MATCH_FUNC(0x570bf0)
-void Police_38::sub_570BF0()
+void Police_38::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::sub_4CB0D0();
     Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
     pCopLeader->field_238 = 4;
     pCopLeader->field_240_occupation = ped_ocupation_enum::police;
-    pCopLeader->sub_45C730(field_10_subObj->field_0);
+    pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0);
     pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pCopLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pCopLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
@@ -228,13 +228,13 @@ void Police_38::sub_570BF0()
 }
 
 MATCH_FUNC(0x570e30)
-void Police_38::sub_570E30()
+void Police_38::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::sub_4CB0D0();
     Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
     pSwatLeader->field_238 = 4;
     pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;
-    pSwatLeader->sub_45C730(field_10_subObj->field_0);
+    pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0);
     pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pSwatLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pSwatLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
@@ -275,12 +275,12 @@ void Police_38::sub_570E30()
 }
 
 MATCH_FUNC(0x571150)
-void Police_38::sub_571150()
+void Police_38::SpawnFBI_nonused_571150()
 {
     Ped* pFBI = gChar_C_6787BC->sub_470F30();
     pFBI->field_238 = 4;
     pFBI->field_240_occupation = ped_ocupation_enum::fbi;
-    pFBI->sub_45C730(field_10_subObj->field_0);
+    pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0);
     pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pFBI->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pFBI->field_1E0_objective_target_y = Fix16(field_3_targ_y);
