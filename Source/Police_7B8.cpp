@@ -7,6 +7,8 @@
 #include "Player.hpp"
 #include "Ped.hpp"
 
+DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
+
 MATCH_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
 {
@@ -35,10 +37,44 @@ Police_38* Police_7B8::sub_56F560()
 }
 
 STUB_FUNC(0x56f5c0)
-Ped* Police_7B8::sub_56F5C0(s32 a2, s32 a3, s16 a4)
+Ped* Police_7B8::sub_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pCop = NULL;
+
+    if (gChar_C_6787BC->field_5 >= 30)
+    {
+        return NULL;
+    }
+
+    switch (gRoadblockGuardType_6FEDB8)
+    {
+        case 3:
+            pCop = gChar_C_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop->field_238 = 4;
+            pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
+            pCop->SetObjective(objectives_enum::guard_spot_24, 0);
+            pCop->field_244_remap = 8;
+            pCop->field_26C_graphic_type = 1;
+            pCop->ForceWeapon_46F600(weapon_type::silence_smg);
+            pCop->field_216_health = 200;
+            pCop->field_288_threat_search = threat_search_enum::area_2;
+            pCop->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+            break;
+        case 1:
+            pCop = gChar_C_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop->field_238 = 4;
+            pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
+            pCop->SetObjective(objectives_enum::guard_spot_24, 0);
+            pCop->field_244_remap = 0;
+            pCop->field_26C_graphic_type = 2;
+            pCop->field_170_selected_weapon = 0;
+            pCop->GiveWeapon_46F650(weapon_type::pistol);
+            pCop->field_216_health = 200;
+            pCop->field_288_threat_search = threat_search_enum::area_2;
+            pCop->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+            break;
+    }
+    return pCop;
 }
 
 STUB_FUNC(0x56f6d0)

@@ -99,6 +99,14 @@ bool Input_char_type(const char* label, char_type* v, int step, int step_fast, I
     return ret;
 }
 
+bool InputU8(const char* label, u8* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+{
+    int tmp = *v;
+    bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
+    *v = static_cast<u8>(tmp);
+    return ret;
+}
+
 bool InputS16(const char* label, s16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
     int tmp = *v;
@@ -689,7 +697,7 @@ void CC ImGuiDebugDraw()
             ImGui::Input_char_type("field_2", &gChar_C_6787BC->field_2, 1, 1); // total spawned ?
             ImGui::Input_char_type("field_3", &gChar_C_6787BC->field_3, 1, 1); // something to do with total ped count also
             ImGui::Input_char_type("field_4", &gChar_C_6787BC->field_4, 1, 1); // ??
-            ImGui::Input_char_type("field_5", &gChar_C_6787BC->field_5, 1, 1); // ??
+            ImGui::InputU8("field_5", &gChar_C_6787BC->field_5, 1, 1); // ??
             ImGui::Text("Num peds on screen %d", gChar_C_6787BC->field_6_num_peds_on_screen);
             ImGui::Input_char_type("field_7_make_all_muggers", &gChar_C_6787BC->field_7_make_all_muggers, 1, 1);
         }

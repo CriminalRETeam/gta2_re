@@ -9,7 +9,7 @@ class Car_BC;
 class Kfc_30;
 class Object_2C;
 class Police_7C;
-
+class Ang16;
 
 class Police_7B8
 {
@@ -23,7 +23,7 @@ class Police_7B8
     EXPORT s32 sub_56F400();
     EXPORT char_type sub_56F4D0(Ped* a2);
     EXPORT Police_38* sub_56F560();
-    EXPORT Ped* sub_56F5C0(s32 a2, s32 a3, s16 a4);
+    EXPORT Ped* sub_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void sub_56F6D0(Car_BC* a2);
     EXPORT bool sub_56F800(Ped* a2);
     EXPORT bool sub_56F880(Ped* a2);
@@ -68,3 +68,5 @@ class Police_7B8
 };
 
 EXTERN_GLOBAL(class Police_7B8*, gPolice_7B8_6FEE40);
+
+EXTERN_GLOBAL(s32, gRoadblockGuardType_6FEDB8);
