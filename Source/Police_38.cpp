@@ -227,11 +227,51 @@ void Police_38::sub_570BF0()
     field_10_subObj->field_8 = pGroup;
 }
 
-STUB_FUNC(0x570e30)
-s32 Police_38::sub_570E30()
+MATCH_FUNC(0x570e30)
+void Police_38::sub_570E30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    PedGroup* pSwatGroup = PedGroup::sub_4CB0D0();
+    Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
+    pSwatLeader->field_238 = 4;
+    pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;
+    pSwatLeader->sub_45C730(field_10_subObj->field_0);
+    pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
+    pSwatLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
+    pSwatLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
+    pSwatLeader->field_1E4_objective_target_z = Fix16(field_4_targ_z);
+    pSwatLeader->field_244_remap = -1;
+    pSwatLeader->ForceWeapon_46F600(weapon_type::pistol);
+    pSwatLeader->field_216_health = 400;
+    pSwatLeader->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pSwatLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pSwatLeader->field_26C_graphic_type = 2;
+    pSwatGroup->add_ped_leader_4C9B10(pSwatLeader);
+    pSwatGroup->field_36_count = 3;
+    pSwatGroup->field_34_count = 3;
+    for (u8 i = 0; i < 3; ++i)
+    {
+        Ped* pSwatMember = gChar_C_6787BC->sub_470F30();
+        pSwatMember->sub_45C7F0(field_10_subObj->field_0);
+        pSwatMember->field_238 = 4;
+        pSwatMember->field_240_occupation = ped_ocupation_enum::swat;
+        pSwatMember->SetObjective(objectives_enum::no_obj_0, 9999);
+        pSwatMember->field_244_remap = -1;
+        pSwatMember->ForceWeapon_46F600(weapon_type::pistol);
+        pSwatMember->field_216_health = 400;
+        pSwatMember->field_288_threat_search = threat_search_enum::line_of_sight_1;
+        pSwatMember->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+        pSwatMember->field_26C_graphic_type = 2;
+
+        pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
+    }
+    pSwatGroup->field_0 = 0;
+    field_10_subObj->field_4 = pSwatLeader;
+    field_10_subObj->field_28 = 6;
+    field_10_subObj->field_0->sub_421560(5);
+    field_10_subObj->field_0->sub_440590();
+    field_10_subObj->field_0->sub_43AF40();
+    field_10_subObj->field_0->sub_43C920();
+    field_10_subObj->field_8 = pSwatGroup;
 }
 
 STUB_FUNC(0x571150)
