@@ -13315,22 +13315,22 @@
         "v105_address": "0x575650"
     },
     {
-        "name": "Police_A4::sub_575710",
+        "name": "PoliceRoadblock_A4::sub_575710",
         "v96f_address": null,
         "v105_address": "0x575710"
     },
     {
-        "name": "Police_A4::sub_5757B0",
+        "name": "PoliceRoadblock_A4::sub_5757B0",
         "v96f_address": null,
         "v105_address": "0x5757b0"
     },
     {
-        "name": "Police_A4::sub_575CA0",
+        "name": "PoliceRoadblock_A4::sub_575CA0",
         "v96f_address": null,
         "v105_address": "0x575ca0"
     },
     {
-        "name": "Police_A4::sub_575FF0",
+        "name": "PoliceRoadblock_A4::sub_575FF0",
         "v96f_address": null,
         "v105_address": "0x575ff0"
     },
@@ -13345,12 +13345,12 @@
         "v105_address": "0x577370"
     },
     {
-        "name": "Police_A4::ctor",
+        "name": "PoliceRoadblock_A4::ctor",
         "v96f_address": null,
         "v105_address": "0x577480"
     },
     {
-        "name": "Police_A4::dtor",
+        "name": "PoliceRoadblock_A4::dtor",
         "v96f_address": null,
         "v105_address": "0x5774a0"
     },

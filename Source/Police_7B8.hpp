@@ -54,8 +54,8 @@ class Police_7B8
     char_type field_661;
     char_type field_662;
     char_type field_663;
-    Police_A4 field_664_obj;
-    Police_A4 field_708_obj;
+    PoliceRoadblock_A4 field_664_obj;
+    PoliceRoadblock_A4 field_708_obj;
     char_type field_7AC;
     char_type field_7AD_police_peds_in_range_screen;
     char_type field_7AE;

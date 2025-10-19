@@ -116,15 +116,15 @@ class Police_7C
     s16 field_7A_kMax900;
 };
 
-class Police_A4
+class PoliceRoadblock_A4
 {
   public:
     EXPORT void sub_575710();
     EXPORT void sub_5757B0();
     EXPORT void sub_575CA0();
     EXPORT char_type sub_575FF0(u8 a2, s32 a3, u8 a4, s32 a5);
-    EXPORT Police_A4();
-    EXPORT ~Police_A4();
+    EXPORT PoliceRoadblock_A4();
+    EXPORT ~PoliceRoadblock_A4();
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -136,24 +136,24 @@ class Police_A4
     char_type field_B;
     u16 field_C;
     s16 field_E;
-    Car_BC* field_10;
-    Car_BC* field_14;
-    Car_BC* field_18;
-    Car_BC* field_1C;
-    Car_BC* field_20;
-    Car_BC* field_24;
-    Object_2C* field_28;
-    Object_2C* field_2C;
-    Object_2C* field_30;
-    Object_2C* field_34;
-    Object_2C* field_38;
-    Object_2C* field_3C;
-    Object_2C* field_40;
-    Object_2C* field_44;
-    Object_2C* field_48;
-    Object_2C* field_4C;
-    Object_2C* field_50;
-    Object_2C* field_54;
+    Car_BC* field_10_car_1;
+    Car_BC* field_14_car_2;
+    Car_BC* field_18_car_3;
+    Car_BC* field_1C_car_4;
+    Car_BC* field_20_car_5;
+    Car_BC* field_24_car_6;
+    Object_2C* field_28_barrier_1;
+    Object_2C* field_2C_barrier_2;
+    Object_2C* field_30_barrier_3;
+    Object_2C* field_34_barrier_4;
+    Object_2C* field_38_barrier_5;
+    Object_2C* field_3C_barrier_6;
+    Object_2C* field_40_barrier_7;
+    Object_2C* field_44_barrier_8;
+    Object_2C* field_48_barrier_9;
+    Object_2C* field_4C_barrier_10;
+    Object_2C* field_50_barrier_11;
+    Object_2C* field_54_barrier_12;
     s32 field_58;
     s32 field_5C;
     s32 field_60;
@@ -166,11 +166,11 @@ class Police_A4
     s32 field_7C;
     s32 field_80;
     s32 field_84;
-    Ped* field_88;
-    Ped* field_8C;
-    Ped* field_90;
-    Ped* field_94;
-    Ped* field_98;
-    Ped* field_9C;
+    Ped* field_88_guard_1;
+    Ped* field_8C_guard_2;
+    Ped* field_90_guard_3;
+    Ped* field_94_guard_4;
+    Ped* field_98_guard_5;
+    Ped* field_9C_guard_6;
     u8* field_A0_pMem;
 };
