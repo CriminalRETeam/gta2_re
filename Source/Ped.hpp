@@ -98,7 +98,7 @@ class Ped
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar);
-    EXPORT s32 sub_45C730(Car_BC* a2);
+    EXPORT s32 SpawnPedInCar_45C730(Car_BC* a2);
     EXPORT void EnterCarAsDriver(Car_BC* a2);
     EXPORT Char_8* sub_45C7F0(Car_BC* a2);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -393,6 +393,18 @@ class Ped
     inline Fix16 get_field_1F0()
     {
         return field_1F0;
+    }
+
+    // 9.6f inline 0x433B90
+    void set_remap_433B90(u8 remap)
+    {
+        field_244_remap = remap;
+    }
+
+    // 9.6f inline 0x4039A0
+    void set_health_4039A0(s16 health)
+    {
+        field_216_health = health;
     }
 
     // TODO: to use this inline we need to fix a circular dependency issue

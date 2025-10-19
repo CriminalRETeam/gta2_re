@@ -3025,7 +3025,7 @@
         "v105_address": "0x45c650"
     },
     {
-        "name": "Ped::sub_45C730",
+        "name": "Ped::SpawnPedInCar_45C730",
         "v96f_address": null,
         "v105_address": "0x45c730"
     },
@@ -13120,12 +13120,12 @@
         "v105_address": "0x56f4d0"
     },
     {
-        "name": "Police_7B8::sub_56F560",
+        "name": "Police_7B8::New_56F560",
         "v96f_address": null,
         "v105_address": "0x56f560"
     },
     {
-        "name": "Police_7B8::sub_56F5C0",
+        "name": "Police_7B8::SpawnRoadblockGuard_56F5C0",
         "v96f_address": null,
         "v105_address": "0x56f5c0"
     },
@@ -13205,7 +13205,7 @@
         "v105_address": "0x570940"
     },
     {
-        "name": "Police_38::sub_5709C0",
+        "name": "Police_38::Init_5709C0",
         "v96f_address": null,
         "v105_address": "0x5709c0"
     },
@@ -13220,17 +13220,17 @@
         "v105_address": "0x570ab0"
     },
     {
-        "name": "Police_38::sub_570BF0",
+        "name": "Police_38::SpawnPoliceInCar_570BF0",
         "v96f_address": null,
         "v105_address": "0x570bf0"
     },
     {
-        "name": "Police_38::sub_570E30",
+        "name": "Police_38::SpawnSWAT_570E30",
         "v96f_address": null,
         "v105_address": "0x570e30"
     },
     {
-        "name": "Police_38::sub_571150",
+        "name": "Police_38::SpawnFBI_nonused_571150",
         "v96f_address": null,
         "v105_address": "0x571150"
     },
@@ -13315,22 +13315,22 @@
         "v105_address": "0x575650"
     },
     {
-        "name": "Police_A4::sub_575710",
+        "name": "PoliceRoadblock_A4::sub_575710",
         "v96f_address": null,
         "v105_address": "0x575710"
     },
     {
-        "name": "Police_A4::sub_5757B0",
+        "name": "PoliceRoadblock_A4::sub_5757B0",
         "v96f_address": null,
         "v105_address": "0x5757b0"
     },
     {
-        "name": "Police_A4::sub_575CA0",
+        "name": "PoliceRoadblock_A4::sub_575CA0",
         "v96f_address": null,
         "v105_address": "0x575ca0"
     },
     {
-        "name": "Police_A4::sub_575FF0",
+        "name": "PoliceRoadblock_A4::CreateRoadblock_575FF0",
         "v96f_address": null,
         "v105_address": "0x575ff0"
     },
@@ -13345,12 +13345,12 @@
         "v105_address": "0x577370"
     },
     {
-        "name": "Police_A4::ctor",
+        "name": "PoliceRoadblock_A4::ctor",
         "v96f_address": null,
         "v105_address": "0x577480"
     },
     {
-        "name": "Police_A4::dtor",
+        "name": "PoliceRoadblock_A4::dtor",
         "v96f_address": null,
         "v105_address": "0x5774a0"
     },

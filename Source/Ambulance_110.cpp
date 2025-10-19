@@ -66,7 +66,7 @@ bool Ambulance_20::sub_4FA820()
     pPed1->field_238 = 4;
     pPed1->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed1->field_230 = 2;
-    pPed1->sub_45C730(field_4->field_0);
+    pPed1->SpawnPedInCar_45C730(field_4->field_0);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
     pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;

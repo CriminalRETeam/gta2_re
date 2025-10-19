@@ -559,6 +559,13 @@ class Car_BC
         return field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
                field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
     }
+
+    // 9.6f inline 0x421560
+    void sub_421560(s32 a1)
+    {
+        field_7C_uni_num = a1;
+        field_76 = 0;
+    }
     
     struct_4 field_0_qq;
     Ped_Unknown_4 field_4;
