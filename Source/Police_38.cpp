@@ -54,10 +54,38 @@ void Police_38::sub_5709C0()
     field_34 = 0;
 }
 
-STUB_FUNC(0x570a10)
+MATCH_FUNC(0x570a10)
 void Police_38::sub_570A10()
 {
-    NOT_IMPLEMENTED;
+    if (field_14_pObj->field_75_count < 6)
+    {
+        for (u8 v2 = 0; v2 < 6; v2++)
+        {
+            if (field_14_pObj->field_20[v2] == this)
+            {
+                return;
+            }
+        }
+        field_14_pObj->field_20[field_14_pObj->field_75_count] = this;
+        ++field_14_pObj->field_75_count;
+        switch (field_10_subObj->field_20)
+        {
+            case 3:
+                ++field_14_pObj->field_70;
+                break;
+            case 5:
+                ++field_14_pObj->field_72;
+                break;
+            case 4:
+                ++field_14_pObj->field_73;
+                break;
+            case 6:
+                ++field_14_pObj->field_74;
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x570ab0)

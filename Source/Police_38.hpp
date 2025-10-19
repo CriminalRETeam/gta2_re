@@ -109,7 +109,7 @@ class Police_7C
     char_type field_72;
     char_type field_73;
     char_type field_74;
-    char_type field_75_count;
+    u8 field_75_count;
     s16 field_76;
     char_type field_78;
     char_type field_79;
