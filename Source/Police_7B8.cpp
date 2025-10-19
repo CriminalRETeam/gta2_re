@@ -9,8 +9,9 @@
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECE8, Fix16(0), 0x6FECE8);
 DEFINE_GLOBAL(u8, byte_6FEE44, 0x6FEE44);
+
+Fix16 dword_6FECE8 = 0;
 
 MATCH_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
