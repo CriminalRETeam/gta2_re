@@ -68,9 +68,9 @@ void Police_38::sub_570A10()
 {
     if (field_14_pObj->field_75_count < 6)
     {
-        for (u8 v2 = 0; v2 < 6; v2++)
+        for (u8 i = 0; i < 6; i++)
         {
-            if (field_14_pObj->field_20[v2] == this)
+            if (field_14_pObj->field_20[i] == this)
             {
                 return;
             }

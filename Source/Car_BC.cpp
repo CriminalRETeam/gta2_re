@@ -1855,10 +1855,68 @@ s16 Car_BC::sub_441D40()
     return 0;
 }
 
-STUB_FUNC(0x441e70)
+MATCH_FUNC(0x441e70)
 void Car_BC::sub_441E70()
 {
-    NOT_IMPLEMENTED;
+    if ((field_A4 & 4) != 0)
+    {
+        Car_BC::sub_441B50();
+    }
+    else if ((field_A4 & 8) != 0)
+    {
+        field_A5--;
+        if (field_A5 == 0)
+        {
+            field_8E--;
+            if (field_8E == 0)
+            {
+                Car_BC::sub_43CBE0();
+            }
+            else
+            {
+                sub_425590();
+                sub_4213D0();
+                field_A5 = 12;
+            }
+        }
+        else
+        {
+            if (field_A5 == 6)
+            {
+                sub_425650();
+                sub_421430();
+            }
+        }
+    }
+    else if ((field_A4 & 0x10) != 0)
+    {
+        field_A5--;
+        if (field_A5 == 0)
+        {
+            if ((field_A4 & 2) != 0)
+            {
+                sub_425590();
+            }
+            else
+            {
+                Car_BC::sub_447360();
+            }
+            field_A4 &= ~0x10u;
+        }
+    }
+
+    if (sub_421700())
+    {
+        Car_BC::sub_441C00();
+    }
+    if (sub_4216C0())
+    {
+        Car_BC::sub_441B20();
+    }
+    if (field_84_car_info_idx == car_model_enum::EDSELFBI)
+    {
+        Car_BC::sub_441D40();
+    }
 }
 
 MATCH_FUNC(0x442170)
