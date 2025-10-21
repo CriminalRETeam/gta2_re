@@ -20,11 +20,35 @@ DEFINE_GLOBAL(Fix16, dword_676910, 0x676910);
 DEFINE_GLOBAL(Fix16, dword_676608, 0x676608);
 DEFINE_GLOBAL(Fix16, dword_6768C0, 0x6768C0);
 
-STUB_FUNC(0x4355D0)
-char_type DrawUnk_0xBC::sub_4355D0(Sprite* a2)
+MATCH_FUNC(0x4355D0)
+bool DrawUnk_0xBC::sub_4355D0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car && pSprite->field_8_car_bc_ptr != 0)
+    {
+        if (field_38_car == pSprite->field_8_car_bc_ptr)
+        {
+            return true;
+        }
+        if (field_34_ped && field_34_ped->field_16C_car == pSprite->field_8_car_bc_ptr)
+        {
+            return true;
+        }
+    }
+    else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
+    {
+        Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
+        if (pB4)
+        {
+            if (field_34_ped)
+            {
+                if (field_34_ped->field_168_game_object == pB4)
+                {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x435630)
@@ -106,13 +130,13 @@ s16* DrawUnk_0xBC::sub_4358D0(s16* a2)
 MATCH_FUNC(0x435A20)
 Fix16 DrawUnk_0xBC::sub_435A20()
 {
-    Ped* pPed = this->field_34_ped;
+    Ped* pPed = field_34_ped;
     if (pPed)
     {
         return pPed->sub_45C920();
     }
 
-    Car_BC* pCar = this->field_38_car;
+    Car_BC* pCar = field_38_car;
     if (pCar)
     {
         return pCar->sub_43A240();
