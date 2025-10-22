@@ -1123,6 +1123,17 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
     gRoot_sound_66B038.Set3DSound_40F160(0);
 }
 
+MATCH_FUNC(0x4DA7B0)
+void __stdcall Draw_4DA7B0()
+{
+    gGame_0x40_67E008->Draw_4B92D0();
+    pVid_FlipBuffers(gVidSys_7071D0);
+    if (bSkip_lid_67D546 || bSkip_top_67D574 || bSkip_bottom_67D4E7 || bSkip_left_67D6BF || bSkip_right_67D4E4)
+    {
+        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    }
+}
+
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA390)
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
