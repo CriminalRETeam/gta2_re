@@ -18,6 +18,7 @@ DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, dword_678E40, 0x678E40);
 DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
+DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(Collide_11944*, gCollide_11944_679204);
 EXTERN_GLOBAL(Collide_8004*, gCollide_8004_679200);
@@ -149,15 +150,17 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
     return dword_678E40;
 }
 
-STUB_FUNC(0x477f30)
-char_type PurpleDoom::sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
+MATCH_FUNC(0x477f30)
+bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_679214 = a6;
+    bool bRet = PurpleDoom::sub_477F60(union_type, a3, a4, a5);
+    dword_679214 = 0;
+    return bRet;
 }
 
 STUB_FUNC(0x477f60)
-char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
+bool PurpleDoom::sub_477F60(Fix16_Rect* a2, char_type a3, s32 a4, Sprite* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
