@@ -1134,6 +1134,75 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
+STUB_FUNC(0x4DAF30)
+EXPORT void __stdcall sub_4DAF30()
+{
+    if (bStartNetworkGame_7081F0)
+    {
+        /*
+        sub_4DADA0();
+        gYouthful_einstein_6F8450->sub_516660();
+        if (gGame_0x40_67E008->sub_4B8C20())
+        {
+            gGoofy_thompson_7071E8->Send_521D20();
+        }
+        else
+        {
+            if (byte_6F56B8)
+            {
+                u32 v0 = 0;
+                do
+                {
+                    if ((byte_6F56B8 & 1) != 0)
+                    {
+                        Player* v1 = gGame_0x40_67E008->field_4_players[(u8)v0];
+                        if (v1)
+                        {
+                            if (v1->field_8E_bInUse)
+                            {
+                                gGoofy_thompson_7071E8->DeletePlayerFromGroup_521000(v0);
+                                sub_4DB070(v0);
+                                if (!v0 || v0 == dword_6F56C8)
+                                {
+                                    dword_6F5AEC = 1;
+                                }
+                            }
+                        }
+                    }
+                    ++v0;
+                    byte_6F56B8 = (unsigned __int8)byte_6F56B8 >> 1;
+                } while (byte_6F56B8);
+            }
+            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::sub_4CEAC0(&gBurgerKing_67F8B0);
+            void* v2;
+            //sub_4DACB0(v2); // thiscall: unknown class
+            Draw_4DA7B0();
+            sub_4DA9F0();
+            qmemcpy(dword_6F5B28, dword_6F57D8, sizeof(dword_6F5B28));
+        }
+        if (byte_6F593C)
+        {
+            dword_6F5A28 = timeGetTime();
+            byte_6F593C = 0;
+        }
+        if (dword_6F5AEC)
+        {
+            gGame_0x40_67E008->sub_4B8C00(0, 2);
+        }
+        else
+        {
+            sub_4DAD50();
+        }
+        ++dword_6F5868;
+        */
+    }
+    else
+    {
+        u32 v3 = gBurgerKing_67F8B0.sub_4CEAC0();
+        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(v3);
+    }
+}
+
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA390)
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
