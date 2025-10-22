@@ -320,6 +320,11 @@ DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84, 0x601A84);
 DEFINE_GLOBAL(u8, max_frame_rate_626A08, 0x626A08);
 DEFINE_GLOBAL(u8, min_frame_rate_706C50, 0x706C50);
 
+DEFINE_GLOBAL(u8, byte_6F58D8, 0x6F58D8);
+DEFINE_GLOBAL(u8, byte_6F5760, 0x6F5760);
+DEFINE_GLOBAL(u8, byte_6F5880, 0x6F5880);
+DEFINE_GLOBAL(s32, dword_6F5A28, 0x6F5A28);
+
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
@@ -818,13 +823,171 @@ EXPORT void __stdcall sub_5D9690()
     // todo
 }
 
-// todo move to another file for ordering
-STUB_FUNC(0x4DA850)
-EXPORT char_type sub_4DA850()
+// TODO: order
+MATCH_FUNC(0x4DA780)
+EXPORT char sub_4DA780()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    char v0 = gGame_0x40_67E008->sub_4B9640();
+    if (gsharp_bose_0x54_7055D4)
+    {
+        gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
+    }
+    return v0;
+}
+
+MATCH_FUNC(0x4DA7B0)
+void __stdcall Draw_4DA7B0()
+{
+    gGame_0x40_67E008->Draw_4B92D0();
+    pVid_FlipBuffers(gVidSys_7071D0);
+    if (bSkip_lid_67D546 || bSkip_top_67D574 || bSkip_bottom_67D4E7 || bSkip_left_67D6BF || bSkip_right_67D4E4)
+    {
+        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+    }
+}
+
+STUB_FUNC(0x4DAF30)
+EXPORT void __stdcall sub_4DAF30()
+{
+    if (bStartNetworkGame_7081F0)
+    {
+        /*
+        sub_4DADA0();
+        gYouthful_einstein_6F8450->sub_516660();
+        if (gGame_0x40_67E008->sub_4B8C20())
+        {
+            gGoofy_thompson_7071E8->Send_521D20();
+        }
+        else
+        {
+            if (byte_6F56B8)
+            {
+                u32 v0 = 0;
+                do
+                {
+                    if ((byte_6F56B8 & 1) != 0)
+                    {
+                        Player* v1 = gGame_0x40_67E008->field_4_players[(u8)v0];
+                        if (v1)
+                        {
+                            if (v1->field_8E_bInUse)
+                            {
+                                gGoofy_thompson_7071E8->DeletePlayerFromGroup_521000(v0);
+                                sub_4DB070(v0);
+                                if (!v0 || v0 == dword_6F56C8)
+                                {
+                                    dword_6F5AEC = 1;
+                                }
+                            }
+                        }
+                    }
+                    ++v0;
+                    byte_6F56B8 = (unsigned __int8)byte_6F56B8 >> 1;
+                } while (byte_6F56B8);
+            }
+            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::sub_4CEAC0(&gBurgerKing_67F8B0);
+            void* v2;
+            //sub_4DACB0(v2); // thiscall: unknown class
+            Draw_4DA7B0();
+            sub_4DA9F0();
+            qmemcpy(dword_6F5B28, dword_6F57D8, sizeof(dword_6F5B28));
+        }
+        if (byte_6F593C)
+        {
+            dword_6F5A28 = timeGetTime();
+            byte_6F593C = 0;
+        }
+        if (dword_6F5AEC)
+        {
+            gGame_0x40_67E008->sub_4B8C00(0, 2);
+        }
+        else
+        {
+            sub_4DAD50();
+        }
+        ++dword_6F5868;
+        */
+    }
+    else
+    {
+        u32 v3 = gBurgerKing_67F8B0.sub_4CEAC0();
+        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(v3);
+    }
+}
+
+// todo move to another file for ordering
+MATCH_FUNC(0x4DA850)
+EXPORT u8 sub_4DA850()
+{
+    u8 unk_bl = 0;
+    u8 bContinue = false;
+    u8 a2 = 0;
+    u8 unk_0xc = 0;
+    DWORD Time = timeGetTime();
+
+    if (bStartNetworkGame_7081F0)
+    {
+        if (Time >= dword_6F5A28)
+        {
+            bContinue = sub_4DA780();
+            sub_4DAF30();
+            dword_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
+        }
+    }
+    else
+    {
+        if (!max_frame_rate_626A08 && !byte_6F58D8 || Time >= dword_6F5A28)
+        {
+            unk_bl = 1;
+            unk_0xc = 1;
+        }
+        if (byte_6F58D8 >= 8u || !min_frame_rate_706C50 && byte_6F58D8)
+        {
+            unk_bl = 0;
+            unk_0xc = 0;
+        }
+
+        if (byte_6F5880 || bSkip_draw_67D4EA)
+        {
+            unk_0xc = 1;
+        }
+
+        if (unk_0xc)
+        {
+            if (!min_frame_rate_706C50)
+            {
+                dword_6F5A28 = Time;
+            }
+            if (byte_6F5760)
+            {
+                sub_4DAF30();
+                byte_6F5760 = 0;
+            }
+            bContinue = sub_4DA780();
+            s32 v2 = gGame_0x40_67E008->sub_4B8BB0();
+            byte_6F5880 = 0;
+            dword_6F5A28 += v2;
+            ++byte_6F58D8;
+            byte_6F5760 = 1;
+        }
+        else if (byte_6F58D8)
+        {
+            Draw_4DA7B0();
+            byte_6F58D8 = 0;
+            a2 = 1;
+        }
+        else if (byte_6F5760)
+        {
+            sub_4DAF30();
+            byte_6F5760 = 0;
+        }
+    }
+
+    if (gsharp_bose_0x54_7055D4)
+    {
+        gsharp_bose_0x54_7055D4->sub_5BECF0(a2, unk_0xc);
+    }
+    return bContinue;
 }
 
 // TODO: Other missing stubs here
@@ -1121,86 +1284,6 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
         GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
     }
     gRoot_sound_66B038.Set3DSound_40F160(0);
-}
-
-MATCH_FUNC(0x4DA7B0)
-void __stdcall Draw_4DA7B0()
-{
-    gGame_0x40_67E008->Draw_4B92D0();
-    pVid_FlipBuffers(gVidSys_7071D0);
-    if (bSkip_lid_67D546 || bSkip_top_67D574 || bSkip_bottom_67D4E7 || bSkip_left_67D6BF || bSkip_right_67D4E4)
-    {
-        pVid_ClearScreen(gVidSys_7071D0, 0, 0, 0, 0, 0, gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
-    }
-}
-
-STUB_FUNC(0x4DAF30)
-EXPORT void __stdcall sub_4DAF30()
-{
-    if (bStartNetworkGame_7081F0)
-    {
-        /*
-        sub_4DADA0();
-        gYouthful_einstein_6F8450->sub_516660();
-        if (gGame_0x40_67E008->sub_4B8C20())
-        {
-            gGoofy_thompson_7071E8->Send_521D20();
-        }
-        else
-        {
-            if (byte_6F56B8)
-            {
-                u32 v0 = 0;
-                do
-                {
-                    if ((byte_6F56B8 & 1) != 0)
-                    {
-                        Player* v1 = gGame_0x40_67E008->field_4_players[(u8)v0];
-                        if (v1)
-                        {
-                            if (v1->field_8E_bInUse)
-                            {
-                                gGoofy_thompson_7071E8->DeletePlayerFromGroup_521000(v0);
-                                sub_4DB070(v0);
-                                if (!v0 || v0 == dword_6F56C8)
-                                {
-                                    dword_6F5AEC = 1;
-                                }
-                            }
-                        }
-                    }
-                    ++v0;
-                    byte_6F56B8 = (unsigned __int8)byte_6F56B8 >> 1;
-                } while (byte_6F56B8);
-            }
-            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::sub_4CEAC0(&gBurgerKing_67F8B0);
-            void* v2;
-            //sub_4DACB0(v2); // thiscall: unknown class
-            Draw_4DA7B0();
-            sub_4DA9F0();
-            qmemcpy(dword_6F5B28, dword_6F57D8, sizeof(dword_6F5B28));
-        }
-        if (byte_6F593C)
-        {
-            dword_6F5A28 = timeGetTime();
-            byte_6F593C = 0;
-        }
-        if (dword_6F5AEC)
-        {
-            gGame_0x40_67E008->sub_4B8C00(0, 2);
-        }
-        else
-        {
-            sub_4DAD50();
-        }
-        ++dword_6F5868;
-        */
-    }
-    else
-    {
-        u32 v3 = gBurgerKing_67F8B0.sub_4CEAC0();
-        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(v3);
-    }
 }
 
 // todo move to another file for ordering
@@ -1889,18 +1972,6 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         //  nothing here
     }
     return 0;
-}
-
-// TODO: order
-MATCH_FUNC(0x4DA780)
-EXPORT char sub_4DA780()
-{
-    char v0 = gGame_0x40_67E008->sub_4B9640();
-    if (gsharp_bose_0x54_7055D4)
-    {
-        gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
-    }
-    return v0;
 }
 
 // TODO: order
