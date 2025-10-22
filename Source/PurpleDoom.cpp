@@ -117,11 +117,19 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
     return bUnknown;
 }
 
-STUB_FUNC(0x477c30)
-char_type PurpleDoom::sub_477C30(Sprite* a2)
+MATCH_FUNC(0x477c30)
+bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_678FA8 = a3;
+    bool v3 = 0;
+    ++gCollide_C_6791FC->field_4_count;
+    pSprt->sub_59E9C0();
+    pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
+    {
+        v3 |= PurpleDoom::sub_4787E0(i, pSprt);
+    }
+    return v3;
 }
 
 STUB_FUNC(0x477c90)
