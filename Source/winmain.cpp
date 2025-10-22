@@ -317,13 +317,13 @@ DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4, 0x7068F4);
 DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60, 0x706C60);
 DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84, 0x601A84);
 
+DEFINE_GLOBAL(u8, max_frame_rate_626A08, 0x626A08);
+DEFINE_GLOBAL(u8, min_frame_rate_706C50, 0x706C50);
+
 // todo move to another file for ordering
-STUB_FUNC(0x5D8EB0)
+MATCH_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
 {
-    NOT_IMPLEMENTED;
-    // todo
-    /*
     if (bStartNetworkGame_7081F0)
     {
         max_frame_rate_626A08 = 1;
@@ -334,7 +334,6 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
         max_frame_rate_626A08 = gRegistry_6FF968.Get_Screen_Setting_5870D0("max_frame_rate", 1) != 0;
         min_frame_rate_706C50 = gRegistry_6FF968.Get_Screen_Setting_5870D0("min_frame_rate", 0) != 0;
     }
-    */
 
     if (gRegistry_6FF968.Get_Screen_Setting_5870D0("lighting", 1))
     {
@@ -347,14 +346,12 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
         gLightingDrawFlag_7068F4 = 0;
     }
 
-    /*
-    if (gKind_khorana_0x3CC_67AF1C)
+    if (gSprite_3CC_67AF1C)
     {
-        gKind_khorana_0x3CC_67AF1C->sub_48F710();
+        gSprite_3CC_67AF1C->sub_48F710();
     }
 
     bExplodingOff_67D4FB = gRegistry_6FF968.Get_Screen_Setting_5870D0("exploding_on", 1) != 1;
-    */
 }
 
 // todo: move
