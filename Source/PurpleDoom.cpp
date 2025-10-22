@@ -131,7 +131,7 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
     return 0;
 }
 
-STUB_FUNC(0x477E50)
+MATCH_FUNC(0x477E50)
 void PurpleDoom::sub_477E50(Sprite* pSprite)
 {
     gPurpleDoom_sprite_678F84 = pSprite;
