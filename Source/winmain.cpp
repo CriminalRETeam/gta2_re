@@ -808,11 +808,10 @@ EXPORT void __stdcall sub_4DA4D0()
     gGame_0x40_67E008->sub_4B8C40();
     gGame_0x40_67E008->sub_4B8EB0();
 
-    // TODO
-    //byte_6F58D8 = 0;
-    //byte_6F5880 = 0;
-    //dword_6F5A28 = timeGetTime();
-    //byte_6F5760 = 1;
+    byte_6F58D8 = 0;
+    byte_6F5880 = 0;
+    dword_6F5A28 = timeGetTime();
+    byte_6F5760 = 1;
 }
 
 // todo move to another file for ordering

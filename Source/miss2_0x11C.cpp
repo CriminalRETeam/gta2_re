@@ -3301,10 +3301,18 @@ void miss2_0x11C::sub_50E120()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e150)
-void miss2_0x11C::sub_50E150()
+MATCH_FUNC(0x50e150)
+void miss2_0x11C::sub_50E150() // SCRCMD_MODEL_CHECK
 {
-    NOT_IMPLEMENTED;
+    if (gCar_6C_677930->field_5C)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50e190)
