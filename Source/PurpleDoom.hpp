@@ -25,11 +25,12 @@ class PurpleDoom
     EXPORT void sub_477B60(Sprite* a1);
     EXPORT void DebugLogAll_477BA0();
     EXPORT char_type sub_477BD0(Sprite* a2);
-    EXPORT char_type sub_477C30(Sprite* a2);
+    EXPORT bool sub_477C30(Sprite* pSprt, s32 a3);
     EXPORT s32 sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6);
+    EXPORT void sub_477E50(Sprite* pSprite);
     EXPORT Sprite* sub_477E60(Sprite* a2, s32 a3);
-    EXPORT char_type sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6);
-    EXPORT char_type sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5);
+    EXPORT bool sub_477F30(Fix16_Rect* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6);
+    EXPORT bool sub_477F60(Fix16_Rect* a2, char_type a3, s32 a4, Sprite* a5);
     EXPORT PurpleDoom();
     EXPORT ~PurpleDoom();
     EXPORT u32 sub_478160(u8 a2);

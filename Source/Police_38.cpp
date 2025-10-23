@@ -1,5 +1,6 @@
 #include "Police_38.hpp"
 #include "Globals.hpp"
+#include "Fix16_Rect.hpp"
 #include "Kfc_1E0.hpp"
 #include "Ped.hpp"
 #include "Object_5C.hpp"
@@ -67,9 +68,9 @@ void Police_38::sub_570A10()
 {
     if (field_14_pObj->field_75_count < 6)
     {
-        for (u8 v2 = 0; v2 < 6; v2++)
+        for (u8 i = 0; i < 6; i++)
         {
-            if (field_14_pObj->field_20[v2] == this)
+            if (field_14_pObj->field_20[i] == this)
             {
                 return;
             }
@@ -1102,11 +1103,11 @@ MATCH_FUNC(0x577480)
 PoliceRoadblock_A4::PoliceRoadblock_A4()
 {
     sub_575710();
-    field_A0_pMem = new u8[0x18u]; // TODO: A class/struct?
+    field_A0_rect = new Fix16_Rect();
 }
 
 MATCH_FUNC(0x5774a0)
 PoliceRoadblock_A4::~PoliceRoadblock_A4()
 {
-    delete[] field_A0_pMem;
+    delete[] field_A0_rect;
 }

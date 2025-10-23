@@ -16,11 +16,16 @@ DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
 DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, dword_678E40, 0x678E40);
+DEFINE_GLOBAL(u8, byte_679006, 0x679006);
+DEFINE_GLOBAL(s32, dword_678F88, 0x678F88);
 DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
+DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(Collide_11944*, gCollide_11944_679204);
 EXTERN_GLOBAL(Collide_8004*, gCollide_8004_679200);
+
+Sprite* gPurpleDoom_sprite_678F84;
 
 Fix16 dword_678F80(0x6000); // 1.5
 Fix16 dword_679084(0x4000);
@@ -100,7 +105,7 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 {
     char_type bUnknown = 0;
 
-    gCollide_C_6791FC->field_4_count.mValue++; // TODO: Prob an inline
+    gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
 
     pSprite->sub_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
@@ -112,11 +117,19 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
     return bUnknown;
 }
 
-STUB_FUNC(0x477c30)
-char_type PurpleDoom::sub_477C30(Sprite* a2)
+MATCH_FUNC(0x477c30)
+bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_678FA8 = a3;
+    bool v3 = 0;
+    ++gCollide_C_6791FC->field_4_count;
+    pSprt->sub_59E9C0();
+    pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
+    {
+        v3 |= PurpleDoom::sub_4787E0(i, pSprt);
+    }
+    return v3;
 }
 
 STUB_FUNC(0x477c90)
@@ -126,13 +139,19 @@ s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
     return 0;
 }
 
+MATCH_FUNC(0x477E50)
+void PurpleDoom::sub_477E50(Sprite* pSprite)
+{
+    gPurpleDoom_sprite_678F84 = pSprite;
+}
+
 MATCH_FUNC(0x477e60)
 Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
     dword_678F60 = sprite_type_enum;
     dword_678E40 = 0;
 
-    gCollide_C_6791FC->field_4_count.mValue++;
+    gCollide_C_6791FC->field_4_count++;
 
     pSprite->sub_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
@@ -149,18 +168,42 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
     return dword_678E40;
 }
 
-STUB_FUNC(0x477f30)
-char_type PurpleDoom::sub_477F30(s32* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
+MATCH_FUNC(0x477f30)
+bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, Object_3C* a6)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_679214 = a6;
+    bool bRet = PurpleDoom::sub_477F60(union_type, a3, a4, a5);
+    dword_679214 = 0;
+    return bRet;
 }
 
-STUB_FUNC(0x477f60)
-char_type PurpleDoom::sub_477F60(s32* a2, char_type a3, s32 a4, Sprite* a5)
+MATCH_FUNC(0x477f60)
+bool PurpleDoom::sub_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bRet = false;
+    ++gCollide_C_6791FC->field_4_count;
+    pRect->DoSetCurrentRect_59DD60();
+    byte_679006 = a3;
+    dword_678F88 = a4;
+    sub_477E50(pSprite);
+
+    for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
+    {
+        if (PurpleDoom::sub_4785D0(y_pos, pRect))
+        {
+            if (dword_679214)
+            {
+                bRet = true;
+            }
+            else
+            {
+                sub_477E50(0);
+                return true;
+            }
+        }
+    }
+    sub_477E50(0);
+    return bRet;
 }
 
 MATCH_FUNC(0x478040)
@@ -601,7 +644,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
         Collide_8* pC8Iter = pIter->field_4_p8;
         while (pC8Iter)
         {
-            if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count.mValue)
+            if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
                 if (pSprite->sub_59E590(pC8Iter->field_0_sprt))
@@ -609,7 +652,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
                     bRet = 1;
                     pC8Iter->field_0_sprt->sub_59E8C0(pSprite);
                 }
-                pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count.mValue;
+                pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
             pC8Iter = pC8Iter->field_4_pNext;
         }
@@ -637,7 +680,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
         for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
         {
             if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
-                p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count.mValue)
+                p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
 
@@ -647,7 +690,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
                     p8Iter->field_0_sprt->sub_59E910(pSprite);
                 }
 
-                p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count.mValue;
+                p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
         }
         pXItemIter = pXItemIter->field_8_pNext;

@@ -20,7 +20,7 @@ class Collide_C
     EXPORT Collide_C();
     EXPORT ~Collide_C();
     Fix16 field_0_count;
-    Fix16 field_4_count;
+    s32 field_4_count;
     s32 field_8_bUnknown;
 };
 

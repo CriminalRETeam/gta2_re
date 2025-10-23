@@ -4,6 +4,7 @@
 #include "Car_10.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
+#include "gtx_0x106C.hpp"
 #include "Ped_Unknown_4.hpp"
 #include "ang16.hpp"
 #include "sprite.hpp"
@@ -565,6 +566,100 @@ class Car_BC
     {
         field_7C_uni_num = a1;
         field_76 = 0;
+    }
+
+    // 9.6f inline 0x421700
+    inline bool sub_421700()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2;
+    }
+
+    // 9.6f inline 0x421660
+    inline bool sub_421660()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4;
+    }
+
+    // 9.6f inline 0x4216C0
+    inline bool sub_4216C0()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20;
+    }
+    
+    // 9.6f inline 0x425650
+    inline void sub_425650()
+    {
+        if (sub_421700())
+        {
+            // clear left and right rear door frames
+            field_8_damaged_areas.clear_bit(11);
+            field_8_damaged_areas.clear_bit(12);
+            field_8_damaged_areas.clear_bit(13);
+            field_8_damaged_areas.clear_bit(14);
+
+            field_8_damaged_areas.clear_bit(28);
+            field_8_damaged_areas.clear_bit(29);
+            field_8_damaged_areas.clear_bit(30);
+            field_8_damaged_areas.clear_bit(31);
+        }
+        field_8_damaged_areas.clear_bit(6); // clear left front headlight
+        field_8_damaged_areas.clear_bit(23); // clear right front headlight
+        if (sub_421660())
+        {
+            field_8_damaged_areas.clear_bit(15); // clear right siren light or roof light
+        }
+    }
+
+    // 9.6f inline 0x421430
+    inline void sub_421430()
+    {
+        field_8_damaged_areas.clear_bit(5); // clear left rear brake light
+        field_8_damaged_areas.clear_bit(22); // clear right rear brake light
+    }
+
+    // 9.6f inline 0x4213D0
+    inline void sub_4213D0()
+    {
+        if (!field_8_damaged_areas.mask_bit(1)) // if not rear left damage
+        {
+            field_8_damaged_areas.set_bit(5); // set left rear brake light
+        }
+        if (!field_8_damaged_areas.mask_bit(0)) // if not rear right damage
+        {
+            field_8_damaged_areas.set_bit(22); // set right rear brake light
+        }
+    }
+
+    // 9.6f inline 0x425590
+    inline void sub_425590()
+    {
+        if (!field_8_damaged_areas.mask_bit(2)) // if not front left damage
+        {
+            if (sub_421700())
+            {
+                field_8_damaged_areas.set_bit(11); // set left rear door open/close frame 1 ????
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(6); // set left front headlight
+            }
+        }
+
+        if (!field_8_damaged_areas.mask_bit(3)) // if not front right damage
+        {
+            if (sub_421700())
+            {
+                field_8_damaged_areas.set_bit(28); // set right rear door open/close frame 1 ????
+            }
+            else
+            {
+                field_8_damaged_areas.set_bit(23); // set right front headlight
+            }
+        }
+        if (sub_421660())
+        {
+            field_8_damaged_areas.set_bit(15); // set right siren light or roof light
+        }
     }
     
     struct_4 field_0_qq;
