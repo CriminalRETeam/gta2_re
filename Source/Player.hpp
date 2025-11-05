@@ -66,6 +66,12 @@ class Player
         }
     }
 
+    // 9.6f inline 0x41D020
+    inline Ped* GetPlayerPed_41D020()
+    {
+        return field_2C4_player_ped;
+    }
+
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);

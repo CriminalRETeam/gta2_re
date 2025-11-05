@@ -483,10 +483,44 @@ void Garox_110C_sub::sub_5CF910()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0260)
+MATCH_FUNC(0x5d0260)
 void Garox_1108_sub::sub_5D0260()
 {
-    NOT_IMPLEMENTED;
+    s32 half_hearts;
+    s32 xpos = 551;
+    s32 health = gGame_0x40_67E008->field_38_orf1->GetPlayerPed_41D020()->get_health_433B70();
+
+    if (health == 100)
+    {
+        half_hearts = 10;
+    }
+    else
+    {
+        half_hearts = health / 10 + 1;
+    }
+
+    // Draw complete hearts
+    for (s32 complete_hearts = half_hearts / 2; complete_hearts > 0; complete_hearts--, xpos += 20)
+    {
+        sub_5D7670(6, 113, xpos, (u32)34, word_706610, DrawKind(2), 0, 0, 0);
+    }
+
+    // Draw half heart
+    if (half_hearts % 2 == 1)
+    {
+        if (half_hearts > 0)
+        {
+            xpos -= 2;
+        }
+        sub_5D7670(6, 114, xpos, (u32)34, word_706610, DrawKind(2), 0, 0, 0);
+    }
+
+    // Draw debug stuff
+    if (bDo_show_instruments_67D64C)
+    {
+        swprintf(tmpBuff_67BD9C, L"%d%%", health);
+        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, word_706600, DrawKind(2), 0, 0, 0);
+    }
 }
 
 // ----------------------------------------------------

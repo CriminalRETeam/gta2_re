@@ -407,6 +407,12 @@ class Ped
         field_216_health = health;
     }
 
+    // 9.6f inline 0x433B70
+    inline s32 get_health_433B70()
+    {
+        return field_216_health;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
