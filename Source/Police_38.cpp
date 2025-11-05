@@ -558,10 +558,16 @@ void Police_38::sub_575270()
     }
 }
 
-STUB_FUNC(0x5752c0)
+MATCH_FUNC(0x5752c0)
 void Police_38::sub_5752C0()
 {
-    NOT_IMPLEMENTED;
+    if (pPed_6FEDDC->field_225)
+    {
+        field_10_subObj->field_28 = 6;
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+    }
+    byte_6FEB48 = 1;
 }
 
 STUB_FUNC(0x575310)
