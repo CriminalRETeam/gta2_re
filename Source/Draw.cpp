@@ -43,8 +43,7 @@ void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rot
                0);
 }
 
-// https://decomp.me/scratch/WTcl7
-STUB_FUNC(0x5D7700)
+MATCH_FUNC(0x5D7700)
 s32 __stdcall sub_5D7700(u16 a1)
 {
     return (u16)gGtx_0x106C_703DD4->sub_5AA800(&a1);
