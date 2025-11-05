@@ -475,10 +475,26 @@ void Garox_110C_sub::sub_5CF730()
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/HnVlm it matches on decompme
 STUB_FUNC(0x5cf910)
 void Garox_110C_sub::sub_5CF910()
 {
-    NOT_IMPLEMENTED;
+    if (field_284E)
+    {
+        DrawKind drawtype(2);
+        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+        DrawUnk_0xBC* pCam;
+        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+        {
+            pCam = &pPlayer->field_208_aux_game_camera;
+        }
+        else
+        {
+            pCam = &pPlayer->field_90_game_camera;
+        }
+
+        sub_5D7EC0(6, 0, field_110C, field_1110, field_1114, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
+    }
 }
 
 // ----------------------------------------------------
