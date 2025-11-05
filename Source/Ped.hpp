@@ -281,6 +281,11 @@ class Ped
         field_21C_bf.b11 = 0;
     }
 
+    bool check_bit_0()
+    {
+        return field_21C_bf.b0 != 0;
+    }
+
     void reset_ped_group()
     {
         field_164_ped_group = NULL;

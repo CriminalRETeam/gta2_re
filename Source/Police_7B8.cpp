@@ -204,10 +204,53 @@ void Police_7B8::sub_56FBD0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x570270)
+MATCH_FUNC(0x570270)
 void Police_7B8::sub_570270()
 {
-    NOT_IMPLEMENTED;
+    field_7B4 = 0;
+    field_654_wanted_level = 0;
+
+    if (byte_6FEE44 == 1)
+    {
+        Police_7B8::sub_56FBD0();
+    }
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
+    {
+        if (field_4[i].field_1C_used == 1)
+        {
+            field_4[i].sub_575590();
+        }
+    }
+
+    if (byte_6FEE44 == 1)
+    {
+        Police_7B8::sub_56FA40();
+    }
+
+    field_664_obj.sub_5757B0();
+    field_708_obj.sub_5757B0();
+
+    if (field_7AC > 0) // TODO: -> u8
+    {
+        field_7AC--;
+    }
+
+    if (field_7B0 != NULL)
+    {
+        if (field_7B0->get_ped_state1() == 9)
+        {
+            field_7B0 = NULL;
+        }
+        else if (!field_7B0->check_bit_0())
+        {
+            field_7B0 = NULL;
+        }
+        else if (field_7B0->field_21C_bf.b11 == 0)
+        {
+            field_7B0 = NULL;
+        }
+    }
 }
 
 STUB_FUNC(0x570320)
