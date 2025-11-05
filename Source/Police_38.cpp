@@ -406,19 +406,25 @@ void Police_38::sub_575200()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575210)
+MATCH_FUNC(0x575210)
 void Police_38::sub_575210()
 {
-    NOT_IMPLEMENTED;
-    Kfc_30* pKfc30 = this->field_10_subObj;
-    if (!pKfc30->field_24 || pPed_6FEDDC->field_225)
+    if (field_10_subObj->field_24)
     {
-        pPed_6FEDDC->sub_463830(0, 9999);
-        pPed_6FEDDC->SetObjective(0, 9999);
+        if (pPed_6FEDDC->sub_450CB0())
+        {
+            pPed_6FEDDC->sub_463830(0, 9999);
+            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+        }
+        else
+        {
+            field_10_subObj->field_0->field_A6 |= 0x20u;
+        }
     }
     else
     {
-        pKfc30->field_0->field_A6 |= 0x20u;
+        pPed_6FEDDC->sub_463830(0, 9999);
+        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }
 }
 

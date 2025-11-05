@@ -286,6 +286,12 @@ class Ped
         return field_21C_bf.b0 != 0;
     }
 
+    // 9.6f inline 0x450CB0
+    inline u8 sub_450CB0()
+    {
+        return field_225;
+    }
+
     void reset_ped_group()
     {
         field_164_ped_group = NULL;
