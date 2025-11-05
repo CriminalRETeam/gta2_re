@@ -334,7 +334,7 @@ Hud_Message_1C8::Hud_Message_1C8()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d5c80)
-void Garox_1118_sub::sub_5D5C80()
+void Garox_1118_sub::DrawPlayerStats_5D5C80()
 {
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
@@ -500,7 +500,7 @@ void Garox_110C_sub::sub_5CF910()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0260)
-void Garox_1108_sub::sub_5D0260()
+void Garox_1108_sub::DrawHealth_5D0260()
 {
     s32 half_hearts;
     s32 xpos = 551;
@@ -1680,7 +1680,7 @@ Garox_1E34_L::Garox_1E34_L()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d5900)
-void Hud_MapZone_98::sub_5D5900()
+void Hud_MapZone_98::DrawZoneName_5D5900()
 {
     if (field_0_timer)
     {
@@ -1879,13 +1879,13 @@ void Hud_2B00::DrawGui_5D6860()
     if (!bSkip_user_67D506)
     {
         sub_5D6A70();
-        field_1118_sub.sub_5D5C80();
+        field_1118_sub.DrawPlayerStats_5D5C80();
         field_110C_sub.sub_5CF910();
         field_13C0_sub.sub_5CFE40();
         field_1028.sub_5D0110();
         field_107C_sub.sub_5CFA70();
-        field_1108_sub.sub_5D0260();
-        field_4C.sub_5D5900();
+        field_1108_sub.DrawHealth_5D0260();
+        field_4C.DrawZoneName_5D5900();
         sub_5D4A10();
         field_1080.sub_5D5420();
         field_DC.sub_5D3B80();

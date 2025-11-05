@@ -786,8 +786,8 @@ struct Car_14
     EXPORT Car_14();
     EXPORT ~Car_14();
     EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
-    EXPORT void sub_5832C0();
-    EXPORT void sub_583670();
+    EXPORT void MakeTrafficForCurrCamera_5832C0();
+    EXPORT void GenerateTraffic_583670();
 
     DrawUnk_0xBC* field_0_cam;
     Fix16_Rect* field_4_rect;

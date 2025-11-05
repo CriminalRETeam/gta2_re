@@ -103,7 +103,7 @@ class Hud_Message_1C8
 class Garox_1118_sub
 {
   public:
-    EXPORT void sub_5D5C80();
+    EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void sub_5D6290();
     s32 field_1118;
 };
@@ -128,7 +128,7 @@ class Garox_110C_sub
 class Garox_1108_sub
 {
   public:
-    EXPORT void sub_5D0260();
+    EXPORT void DrawHealth_5D0260();
     s32 field_1108;
 };
 
@@ -497,7 +497,7 @@ class gmp_map_zone;
 class Hud_MapZone_98
 {
   public:
-    EXPORT void sub_5D5900();
+    EXPORT void DrawZoneName_5D5900();
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void sub_5D5B60();

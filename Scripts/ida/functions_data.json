@@ -13175,7 +13175,7 @@
         "v105_address": "0x570270"
     },
     {
-        "name": "Police_7B8::sub_570320",
+        "name": "Police_7B8::SpawnWalkingGuard_570320",
         "v96f_address": null,
         "v105_address": "0x570320"
     },
@@ -13680,12 +13680,12 @@
         "v105_address": "0x583260"
     },
     {
-        "name": "Car_14::sub_5832C0",
+        "name": "Car_14::MakeTrafficForCurrCamera_5832C0",
         "v96f_address": null,
         "v105_address": "0x5832c0"
     },
     {
-        "name": "Car_14::sub_583670",
+        "name": "Car_14::GenerateTraffic_583670",
         "v96f_address": null,
         "v105_address": "0x583670"
     },
@@ -16020,7 +16020,7 @@
         "v105_address": "0x5d0210"
     },
     {
-        "name": "Garox_1108_sub::sub_5D0260",
+        "name": "Garox_1108_sub::DrawHealth_5D0260",
         "v96f_address": null,
         "v105_address": "0x5d0260"
     },
@@ -16480,7 +16480,7 @@
         "v105_address": "0x5d58f0"
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5900",
+        "name": "Hud_MapZone_98::DrawZoneName_5D5900",
         "v96f_address": null,
         "v105_address": "0x5d5900"
     },
@@ -16510,7 +16510,7 @@
         "v105_address": "0x5d5c60"
     },
     {
-        "name": "Garox_1118_sub::sub_5D5C80",
+        "name": "Garox_1118_sub::DrawPlayerStats_5D5C80",
         "v96f_address": null,
         "v105_address": "0x5d5c80"
     },

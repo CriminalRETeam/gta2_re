@@ -267,7 +267,7 @@ void Police_7B8::sub_570270()
 }
 
 STUB_FUNC(0x570320)
-s32 Police_7B8::sub_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
+s32 Police_7B8::SpawnWalkingGuard_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
 {
     NOT_IMPLEMENTED;
     return 0;

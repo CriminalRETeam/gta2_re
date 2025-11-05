@@ -2845,13 +2845,13 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
 }
 
 STUB_FUNC(0x5832C0)
-void Car_14::sub_5832C0()
+void Car_14::MakeTrafficForCurrCamera_5832C0()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x583670)
-void Car_14::sub_583670()
+void Car_14::GenerateTraffic_583670()
 {
     if (!bSkip_recycling_67D575)
     {
@@ -2867,7 +2867,7 @@ void Car_14::sub_583670()
         {
             if (field_0_cam->has_camera_car_or_ped_433E90())
             {
-                Car_14::sub_5832C0();
+                Car_14::MakeTrafficForCurrCamera_5832C0();
             }
             field_0_cam = gGame_0x40_67E008->sub_4B9C50();
 
