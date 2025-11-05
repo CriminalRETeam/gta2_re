@@ -12,28 +12,45 @@ DEFINE_GLOBAL_INIT(Ang16, word_706C3C, Ang16(0), 0x706C3C);
 DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 
-MATCH_FUNC(0x5D83E0);
-s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
+EXTERN_GLOBAL(s32, window_width_706630);
+EXTERN_GLOBAL(s32, window_height_706B50);
+
+DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
+DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
+
+MATCH_FUNC(0x4B87A0)
+void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    switch (mode)
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, DrawKind(2), 0, 0, 0);
+}
+
+STUB_FUNC(0x5D7CB0)
+void __stdcall sub_5D7CB0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x5D7D30)
+void __stdcall sub_5D7D30()
+{
+    NOT_IMPLEMENTED;
+    pVid_GetSurface(gVidSys_7071D0);
+    pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
+                     gVidSys_7071D0->field_54_surface_pixels_pitch,
+                     gVidSys_7071D0->field_4C_rect_bottom);
+
+    if (gVidSys_7071D0->field_40_full_screen == -2)
     {
-        case 0:
-            return gLightingDrawFlag_7068F4 | 0x80;
-        case 1:
-            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
-            return gLightingDrawFlag_7068F4 | 0x2180;
-        case 2:
-            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
-            return gLightingDrawFlag_7068F4 | 0x2280;
-        default:
-            return 0;
+        dword_70679C = window_height_706B50 - 1;
+        dword_70675C = window_width_706630 - 1;
     }
+    else
+    {
+        dword_70675C = gVidSys_7071D0->field_48_rect_right - 1;
+        dword_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
+    }
+
+    pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
 }
 
 // https://decomp.me/scratch/Zmms7
@@ -44,7 +61,7 @@ void __stdcall sub_5D7EC0(s32 type,
                           Fix16 y_pos,
                           Ang16 rotation,
                           Fix16 scale,
-                          s32* a7,
+                          DrawKind& drawkind,
                           s16 a8,
                           s32 a9,
                           u8 a10,
@@ -119,9 +136,33 @@ void __stdcall sub_5D7EC0(s32 type,
     gQuadVerts_706B88.field_0_verts[2].v = field_5_height - 0.000099999997;
     gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997;
 
-    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, *a7, a8);
+    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, drawkind.value, a8);
     s32 v44 = CalcQuadFlags_5D83E0(a9, a10);
     pgbh_DrawQuad(flags | v44, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+}
+
+MATCH_FUNC(0x5D83E0);
+s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
+{
+    switch (mode)
+    {
+        case 0:
+            return gLightingDrawFlag_7068F4 | 0x80;
+        case 1:
+            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
+            return gLightingDrawFlag_7068F4 | 0x2180;
+        case 2:
+            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
+            return gLightingDrawFlag_7068F4 | 0x2280;
+        default:
+            return 0;
+    }
 }
 
 STUB_FUNC(0x5D8A10)
@@ -130,7 +171,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 ypos_fp,
                                u16 font_type,
                                Fix16 scale_fp,
-                               s32* pUnknown,
+                               DrawKind& drawkind,
                                s32 unknown1, // seems to be related with palette
                                s32 unknown2, // alpha_value
                                s32 flags) // bool use_alpha
@@ -146,7 +187,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     unknown2 = unknown1;
 
-    u32 kind = *pUnknown;
+    u32 kind = drawkind.value;
     if (scale_fp == dword_706A6C)
     {
         new_Flags = new_Flags | 0x10000;
@@ -188,7 +229,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
         else if (text_char == L'#')
         {
-            if (kind == *pUnknown && (WORD)unknown2 == (WORD)unknown1)
+            if (kind == drawkind.value && (WORD)unknown2 == (WORD)unknown1)
             {
                 kind = 8;
                 /*
@@ -201,7 +242,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             }
             else
             {
-                kind = *pUnknown;
+                kind = drawkind.value;
                 unknown2 = unknown1;
             }
 
@@ -293,13 +334,4 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
         pText++;
     }
-}
-
-MATCH_FUNC(0x4B87A0)
-void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
-{
-    s32 local; // [esp+0h] [ebp-4h] BYREF
-
-    local = 2;
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, &local, 0, 0, 0);
 }

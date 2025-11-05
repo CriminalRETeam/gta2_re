@@ -23,7 +23,11 @@ struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
     Vert field_0_verts[4];
 };
 
-EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2);
+EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale);
+
+EXPORT void __stdcall sub_5D7CB0();
+
+EXPORT void __stdcall sub_5D7D30();
 
 EXPORT void __stdcall sub_5D7EC0(s32 type,
                                  s16 pal,
@@ -31,20 +35,20 @@ EXPORT void __stdcall sub_5D7EC0(s32 type,
                                  Fix16 y_pos,
                                  Ang16 rotation,
                                  Fix16 scale,
-                                 s32* a7,
+                                 DrawKind& drawkind,
                                  s16 a8,
                                  s32 a9,
                                  u8 a10,
                                  char_type a11);
+
+EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2);
 
 EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       Fix16 xpos_fp,
                                       Fix16 ypos_fp,
                                       u16 font_type,
                                       Fix16 scale_fp,
-                                      s32* pUnknown,
+                                      DrawKind& drawkind,
                                       s32 unknown1,
                                       s32 unknown2,
                                       s32 flags);
-
-EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale);

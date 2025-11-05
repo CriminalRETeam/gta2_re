@@ -32,8 +32,6 @@
 
 #pragma comment(lib, "dxguid.lib")
 
-EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 spaceWidth, Fix16 fp4);
-
 void Start_GTA2Manager_5E4DE0();
 
 DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
@@ -215,13 +213,6 @@ DIOBJECTDATAFORMAT stru_5EA3D0[7] = {{&GUID_XAxis, 0u, 16776963u, 0u},
 DIDATAFORMAT gKeyboardDataFormat_601A54 = {24u, 16u, DIDF_RELAXIS, 256u, 256u, stru_5E9110};
 DIDATAFORMAT gInputDeviceFormat_601A6C = {24u, 16u, DIDF_ABSAXIS, 80u, 44u, stru_5EA110};
 DIDATAFORMAT stru_601A84 = {24u, 16u, DIDF_RELAXIS, 16u, 7u, stru_5EA3D0};
-
-DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
-DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
-
-EXTERN_GLOBAL(s32, window_width_706630);
-
-EXTERN_GLOBAL(s32, window_height_706B50);
 
 struct TgaInfo
 {
@@ -1003,8 +994,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             else
             {
-                s32 eight = 8;
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, &eight, draw_kind, false, 0);
+                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, DrawKind(8), draw_kind, false, 0);
             }
             if (spacing_type == 0)
             {
@@ -1287,8 +1277,7 @@ void Frontend::sub_4AD140()
                     }
                     else
                     {
-                        s32 eight_6 = 8;
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, &eight_6, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, DrawKind(8), pMenuOption->field_6C, false, 0);
                     }
                 }
                 else
@@ -1299,8 +1288,7 @@ void Frontend::sub_4AD140()
                     }
                     else
                     {
-                        s32 eight_unk_8 = 8;
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, &eight_unk_8, pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, DrawKind(8), pMenuOption->field_6C, false, 0);
                     }
                 }
             }
@@ -1333,13 +1321,11 @@ void Frontend::sub_4AD140()
                 
                 if (pMenuOption->field_6A != 0xFFFF)
                 {
-                    s32 eight_unk = 8;
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, &eight_unk, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, DrawKind(8), 8, false, 0);
                 }
                 else
                 {
-                    s32 eight_unk_2 = 8;
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, &eight_unk_2, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, DrawKind(8), 8, false, 0);
                 }
             }
             
@@ -1407,8 +1393,7 @@ void Frontend::sub_4AD140()
                             break;
                     }
                     
-                    two = 2;
-                    sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, &two, 0, 0, false, 0);
+                    sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, DrawKind(2), 0, 0, false, 0);
                     break;
                 
                 case STRING_TEXT_1:
@@ -1441,8 +1426,7 @@ void Frontend::sub_4AD140()
                         }
                         else
                         {
-                            s32 eight_again = 8;
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, &eight_again, pMenuElement->field_6C_font_variant, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, DrawKind(8), pMenuElement->field_6C_font_variant, false, 0);
                         }
                     }
                     break;
@@ -1533,19 +1517,17 @@ void Frontend::sub_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                s32 temp = 2;
-                sub_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+                sub_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                s32 temp = 2;
-                sub_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, &temp, 0, 0, 0, 0);
+                sub_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
             }
             else
             {
                 s32 v7 = Frontend::sub_5D8990(pStrBuf, font_type);
                 u32 draw_x = (640 - v7) / 2;
-                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, &draw_kind, palette, 0, 0);
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, DrawKind(draw_kind), palette, 0, 0);
             }
         }
     }
@@ -2878,29 +2860,6 @@ void Frontend::sub_4ADF50()
     }
 }
 
-STUB_FUNC(0x5D7D30)
-EXPORT void __stdcall sub_5D7D30()
-{
-    NOT_IMPLEMENTED;
-    pVid_GetSurface(gVidSys_7071D0);
-    pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
-                     gVidSys_7071D0->field_54_surface_pixels_pitch,
-                     gVidSys_7071D0->field_4C_rect_bottom);
-
-    if (gVidSys_7071D0->field_40_full_screen == -2)
-    {
-        dword_70679C = window_height_706B50 - 1;
-        dword_70675C = window_width_706630 - 1;
-    }
-    else
-    {
-        dword_70675C = gVidSys_7071D0->field_48_rect_right - 1;
-        dword_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
-    }
-
-    pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
-}
-
 MATCH_FUNC(0x5D7DC0)
 EXPORT void __cdecl FreeSurface_5D7DC0()
 {
@@ -3097,13 +3056,6 @@ void Frontend::Load_tga_4B6520(u16 idx)
 
     crt::fclose(hFile);
     free(pAlloc);
-}
-
-STUB_FUNC(0x5D7CB0)
-EXPORT void __stdcall sub_5D7CB0()
-{
-    NOT_IMPLEMENTED;
-    // todo: move me
 }
 
 // https://decomp.me/scratch/MuqZh
@@ -4318,8 +4270,7 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
         }
         else
         {
-            s32 eight = 8;
-            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, &eight, a2, false, false);
+            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, DrawKind(8), a2, false, false);
         }
         text_xbase += a7;
     }
