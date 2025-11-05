@@ -550,10 +550,13 @@ void Garox_1::sub_5D53E0()
     }
 }
 
-STUB_FUNC(0x5d5420)
+MATCH_FUNC(0x5d5420)
 void Garox_1::sub_5D5420()
 {
-    NOT_IMPLEMENTED;
+    if (field_0_timer)
+    {
+        DrawText_5D7720(field_2_str, (640 - field_84) / 2, 32, word_7064B8, DrawKind(8), 5, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d5600)
