@@ -449,6 +449,7 @@ STUB_FUNC(0x5D61A0)
 s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3)
 {
     NOT_IMPLEMENTED;
+    return 0;
 }
 
 MATCH_FUNC(0x5d6290)
