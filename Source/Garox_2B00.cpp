@@ -24,7 +24,7 @@
 DEFINE_GLOBAL(Hud_2B00*, gGarox_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
-DEFINE_GLOBAL(s16, word_706618, 0x706618); //, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL(u16, word_706618, 0x706618); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_706508, 0x706508); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
@@ -1626,10 +1626,32 @@ Garox_1E34_L::Garox_1E34_L()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d5900)
+MATCH_FUNC(0x5d5900)
 void Hud_MapZone_98::sub_5D5900()
 {
-    NOT_IMPLEMENTED;
+    if (field_0_timer)
+    {
+        sprite_index* sprite_index_5AA440 =
+            gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 159));
+        s32 width = sprite_index_5AA440->field_4_width;
+
+        sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+
+        sub_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+
+        sub_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+
+        sub_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+
+        DrawText_5D7720(field_2_wstr,
+                        (640 - field_84) / 2,
+                        27 - (sub_5D7700(word_706618) / 2),
+                        word_706618,
+                        DrawKind(2),
+                        0,
+                        field_90,
+                        field_94_transparency);
+    }
 }
 
 MATCH_FUNC(0x5d5ad0)
