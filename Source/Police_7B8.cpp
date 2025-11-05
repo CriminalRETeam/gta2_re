@@ -140,11 +140,24 @@ void Police_7B8::sub_56F6D0(Car_BC* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56f800)
+MATCH_FUNC(0x56f800)
 bool Police_7B8::sub_56F800(Ped* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == a2)
+        {
+            if (field_464[i].field_75_count > 0 && (field_464[i].field_8 == 3 || field_464[i].field_C != 0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x56f880)
