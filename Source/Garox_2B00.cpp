@@ -643,10 +643,84 @@ void Garox_27B5_sub::sub_5CF970()
 
 // ----------------------------------------------------
 
+// https://decomp.me/scratch/bd2MO
 STUB_FUNC(0x5cfa70)
 void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
-    NOT_IMPLEMENTED;
+    u32 random_num = rng_dword_67AB34->field_0_rng & 0xF;
+    u8 PlayerIdx = gGame_0x40_67E008->field_38_orf1->field_2E_idx;
+    bool bPlusSignDark = random_num > 7u;
+
+    s32 ypos = 11;
+
+    for (Gang_144* pGang = gZones_CA8_67E274->sub_4BECA0(); pGang; pGang = gZones_CA8_67E274->sub_4BECE0(), ypos += 27)
+    {
+        s8 respect = pGang->sub_4BEEF0(PlayerIdx);
+
+        s32 arrow_colour = pGang->field_138_arrow_colour - 1;
+        sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+
+        sub_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+
+        sub_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+
+        // Draw positive respect
+        s32 curr_bar_respect = 20;
+        for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
+        {
+            sub_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            curr_bar_respect += 20;
+        }
+
+        // Draw negative respect
+        curr_bar_respect = -20;
+        for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
+        {
+            sub_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            curr_bar_respect -= 20;
+        }
+
+        if (respect < -19)
+        {
+            if (respect <= -100 && !bPlusSignDark)
+            {
+                sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            }
+        }
+        else
+        {
+            if (respect >= 100 && !bPlusSignDark)
+            {
+                sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            }
+        }
+
+        // green mission respect
+        if (respect >= -19)
+        {
+            sub_5D7670(6, 46, 64, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+        }
+
+        // yellow mission respect
+        if (respect >= 40)
+        {
+            sub_5D7670(6, 47, 74, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+        }
+
+        // red mission respect
+        if (respect >= 80)
+        {
+            sub_5D7670(6, 48, 84, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+        }
+
+        // debug stuff
+        if (bDo_show_instruments_67D64C)
+        {
+            s32 v32 = (respect >= 0) + 5;
+            swprintf(tmpBuff_67BD9C, L"%d", respect);
+            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, word_706600, DrawKind(8), v32, 0, 0);
+        }
+    }
 }
 
 MATCH_FUNC(0x5cfe20)
