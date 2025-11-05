@@ -33,8 +33,9 @@ class Police_7B8
     EXPORT char_type sub_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
     EXPORT void sub_570270();
-    EXPORT s32 sub_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6);
+    EXPORT s32 SpawnWalkingGuard_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6);
     EXPORT char_type sub_5703E0(Car_BC* a2);
+    EXPORT bool sub_570790(Police_38* a1, Police_7C* a2);
     EXPORT char_type sub_5707B0(s32 a2, s32 a3);
     EXPORT s32 sub_5708C0(Police_7B8* a1, s32 a2, u32* a3);
     EXPORT void sub_570940(Ped* a3);
@@ -48,7 +49,7 @@ class Police_7B8
     Police_38 field_4[20];
     Police_7C field_464[4];
     s32 field_654_wanted_level;
-    char_type field_658;
+    u8 field_658;
     char_type field_659;
     char_type field_65A;
     char_type field_65B;
@@ -59,7 +60,7 @@ class Police_7B8
     char_type field_663;
     PoliceRoadblock_A4 field_664_obj;
     PoliceRoadblock_A4 field_708_obj;
-    char_type field_7AC;
+    u8 field_7AC;
     char_type field_7AD_police_peds_in_range_screen;
     char_type field_7AE;
     char_type field_7AF;

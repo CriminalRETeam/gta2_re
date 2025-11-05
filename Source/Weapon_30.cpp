@@ -86,30 +86,29 @@ void Weapon_30::add_ammo_5DCE20(u8 a2)
     field_0_ammo = a2 * 10;
 }
 
-STUB_FUNC(0x5dce40)
+MATCH_FUNC(0x5dce40)
 char_type Weapon_30::add_ammo_capped_5DCE40(u8 to_add)
 {
-    NOT_IMPLEMENTED;
-    s32 cap_total = max_ammo_capacity_5FF75C[this->field_1C_idx] * 10;
-    if (this->field_0_ammo == 0xFFFF)
+    s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
+    if (field_0_ammo == 0xFFFF)
     {
         return 0;
     }
 
-    s32 cur_amount = this->field_0_ammo;
+    u16 cur_amount = field_0_ammo;
     if (cur_amount == cap_total)
     {
         return 0;
     }
 
     s32 new_amount = cur_amount + (to_add * 10);
-    if (new_amount <= cap_total)
+    if (new_amount > cap_total)
     {
-        this->field_0_ammo = new_amount;
+        field_0_ammo = cap_total;
     }
     else
     {
-        this->field_0_ammo = cap_total;
+        field_0_ammo = new_amount;
     }
     return 1;
 }

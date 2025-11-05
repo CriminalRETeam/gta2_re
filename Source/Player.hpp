@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Draw.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
@@ -63,6 +64,12 @@ class Player
         {
             return 0x3C;
         }
+    }
+
+    // 9.6f inline 0x41D020
+    inline Ped* GetPlayerPed_41D020()
+    {
+        return field_2C4_player_ped;
     }
 
     EXPORT u8 GetIdx_4881E0();
@@ -249,8 +256,8 @@ class Player
     s16 field_788_idx;
     char_type field_78A;
     char_type field_78B;
-    s32 field_78C;
-    s16 field_790;
+    DrawKind field_78C;
+    u16 field_790;
     s16 field_792;
     char_type field_794;
     char_type field_795;

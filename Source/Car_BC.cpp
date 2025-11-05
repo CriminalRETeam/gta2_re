@@ -2784,21 +2784,21 @@ Car_14::Car_14()
     field_9 = 0;
     field_A = 0;
     field_8 = 0;
-    field_0 = NULL;
-    field_C = NULL;
-    field_10 = NULL;
-    field_4 = new Fix16_Rect();
+    field_0_cam = NULL;
+    field_C_player = NULL;
+    field_10_zone = NULL;
+    field_4_rect = new Fix16_Rect();
     sub_5822E0();
 }
 
 MATCH_FUNC(0x582340)
 Car_14::~Car_14()
 {
-    delete field_4;
-    field_4 = NULL;
-    field_0 = NULL;
-    field_C = NULL;
-    field_10 = NULL;
+    delete field_4_rect;
+    field_4_rect = NULL;
+    field_0_cam = NULL;
+    field_C_player = NULL;
+    field_10_zone = NULL;
 }
 
 MATCH_FUNC(0x582360)
@@ -2810,14 +2810,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 2:
             if (field_8 == 0)
             {
-                if (param_2 < (field_0->field_78_boundaries_non_neg.field_4_right - DAT_006FF778))
+                if (param_2 < (field_0_cam->field_78_boundaries_non_neg.field_4_right - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_2 > (field_0->field_78_boundaries_non_neg.field_0_left + DAT_006FF778))
+                if (param_2 > (field_0_cam->field_78_boundaries_non_neg.field_0_left + DAT_006FF778))
                 {
                     return 1;
                 }
@@ -2827,14 +2827,14 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
         case 4:
             if (field_8 == 0)
             {
-                if (param_3 < (field_0->field_78_boundaries_non_neg.field_C_bottom - DAT_006FF778))
+                if (param_3 < (field_0_cam->field_78_boundaries_non_neg.field_C_bottom - DAT_006FF778))
                 {
                     return 1;
                 }
             }
             else
             {
-                if (param_3 > (field_0->field_78_boundaries_non_neg.field_8_top + DAT_006FF778))
+                if (param_3 > (field_0_cam->field_78_boundaries_non_neg.field_8_top + DAT_006FF778))
                 {
                     return 1;
                 }
@@ -2842,4 +2842,56 @@ char Car_14::sub_582360(int param_1, Fix16 param_2, Fix16 param_3)
             break;
     }
     return 0;
+}
+
+STUB_FUNC(0x5832C0)
+void Car_14::MakeTrafficForCurrCamera_5832C0()
+{
+    NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x583670)
+void Car_14::GenerateTraffic_583670()
+{
+    if (!bSkip_recycling_67D575)
+    {
+        field_0_cam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0();
+        field_C_player = gGame_0x40_67E008->sub_4B9CD0();
+        if (field_C_player)
+        {
+            field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(field_C_player->field_2C4_player_ped->get_cam_x().ToInt(),
+                                                                           field_C_player->field_2C4_player_ped->field_1AC_cam.y.ToInt());
+        }
+
+        for (; field_0_cam;)
+        {
+            if (field_0_cam->has_camera_car_or_ped_433E90())
+            {
+                Car_14::MakeTrafficForCurrCamera_5832C0();
+            }
+            field_0_cam = gGame_0x40_67E008->sub_4B9C50();
+
+            Ped* pPed;
+            if (field_0_cam == &field_C_player->field_208_aux_game_camera)
+            {
+                pPed = field_C_player->field_2C8_unkq;
+            }
+            else
+            {
+                field_C_player = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
+                if (field_C_player)
+                {
+                    pPed = field_C_player->field_2C4_player_ped;
+                }
+                else
+                {
+                    continue;
+                }
+            }
+            if (pPed)
+            {
+                field_10_zone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(pPed->get_cam_x().ToInt(), pPed->field_1AC_cam.y.ToInt());
+            }
+        }
+    }
 }

@@ -304,7 +304,7 @@ void* gtx_0x106C::GetTiles_5AA8C0()
 }
 
 MATCH_FUNC(0x5AA900)
-s16 gtx_0x106C::get_physical_palettes_len_5AA900()
+u16 gtx_0x106C::get_physical_palettes_len_5AA900()
 {
     return field_8_physical_palettes_len;
 }

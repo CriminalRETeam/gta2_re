@@ -17,7 +17,7 @@ class Car_BC;
 class Garox_13C0_sub
 {
   public:
-    EXPORT void sub_5CFE40();
+    EXPORT void DrawPlayerNames_5CFE40();
     s32 field_13C0;
 };
 
@@ -50,7 +50,7 @@ class Garox_12EC_sub
 {
   public:
     EXPORT char_type sub_5D13C0(s32 a2, Player *pPlayer);
-    EXPORT void sub_5D1430();
+    EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool sub_5D15A0(s32 a1);
     EXPORT void sub_5D15D0(Player* pPlayer);
     char_type field_12EC_sub;
@@ -78,7 +78,7 @@ class Garox_12E4_sub
         field_12E4 = 0;
         field_1 = 45;
     }
-    EXPORT void sub_5D63B0();
+    EXPORT void DrawPause_5D63B0();
     char_type field_12E4;
     char_type field_1;
 };
@@ -88,7 +88,7 @@ class Hud_Message_1C8
   public:
     EXPORT void sub_5D1850();
     EXPORT void sub_5D1860();
-    EXPORT void sub_5D1940();
+    EXPORT void DrawMessage_5D1940();
     EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
     EXPORT Hud_Message_1C8();
@@ -103,7 +103,7 @@ class Hud_Message_1C8
 class Garox_1118_sub
 {
   public:
-    EXPORT void sub_5D5C80();
+    EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void sub_5D6290();
     s32 field_1118;
 };
@@ -128,7 +128,7 @@ class Garox_110C_sub
 class Garox_1108_sub
 {
   public:
-    EXPORT void sub_5D0260();
+    EXPORT void DrawHealth_5D0260();
     s32 field_1108;
 };
 
@@ -161,7 +161,7 @@ class Garox_27B5_sub
 class Garox_107C_sub
 {
   public:
-    EXPORT void sub_5CFA70();
+    EXPORT void DrawGangRespectBars_5CFA70();
     EXPORT void sub_5CFE20();
     EXPORT void Empty_5CFE30();
     char_type field_107C_sub;
@@ -189,7 +189,7 @@ class Hud_CopHead_C_Array
         field_48_cop_level = 0;
     }
     EXPORT void sub_5D00B0();
-    EXPORT void sub_5D0110();
+    EXPORT void DrawWantedLevel_5D0110();
     EXPORT void sub_5D0210();
     Hud_CopHead_C field_1028[6];
     s32 field_48_cop_level;
@@ -261,7 +261,7 @@ class Hud_Pager_C_Array
     EXPORT s32 sub_5D3220(u32& a2);
     EXPORT s32 sub_5D3280(s32 a2);
 
-    EXPORT void sub_5D3040();
+    EXPORT void DrawPagers_5D3040();
     EXPORT void sub_5D31B0();
     EXPORT s32 CreateTimer_5D31F0(s32 a2);
     EXPORT void sub_5D32D0(s32 a2);
@@ -463,7 +463,7 @@ class Garox_1E34_L  // size 0x704
     EXPORT size_t sub_5D3470();
     EXPORT char_type sub_5D3680(s16 a1);
     EXPORT void sub_5D39D0();
-    EXPORT void sub_5D3B80();
+    EXPORT void DrawBrief_5D3B80();
     EXPORT s32 sub_5D3F10(s32 a2, const char_type* a3, s32 a4);
     EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
     EXPORT void sub_5D44D0();
@@ -497,7 +497,7 @@ class gmp_map_zone;
 class Hud_MapZone_98
 {
   public:
-    EXPORT void sub_5D5900();
+    EXPORT void DrawZoneName_5D5900();
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void sub_5D5B60();
@@ -588,3 +588,6 @@ EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 EXPORT s32 __stdcall sub_5D1260(s32 a1);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
 EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
+
+EXPORT void __stdcall sub_5D6060(s16 a1, u8 a2);
+EXPORT s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3);

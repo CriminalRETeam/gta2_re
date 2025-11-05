@@ -186,7 +186,7 @@ class gtx_0x106C
 
     EXPORT void* GetTiles_5AA8C0();
 
-    EXPORT s16 get_physical_palettes_len_5AA900();
+    EXPORT u16 get_physical_palettes_len_5AA900();
 
     EXPORT object_info* get_map_object_info_5AA910(u16 idx);
 
@@ -265,9 +265,9 @@ class gtx_0x106C
     }
 
     // inlined v9.6f, 0x420200
-    u8 does_car_exist(u8 iParm1)  const
+    bool does_car_exist(u8 iParm1)  const
     {
-        return this->field_5C_cari->field_0[iParm1] != NULL;
+        return field_5C_cari->field_0[iParm1] != NULL;
     }
 
     s16 field_0_totalPalBase;

@@ -281,6 +281,17 @@ class Ped
         field_21C_bf.b11 = 0;
     }
 
+    bool check_bit_0()
+    {
+        return field_21C_bf.b0 != 0;
+    }
+
+    // 9.6f inline 0x450CB0
+    inline u8 sub_450CB0()
+    {
+        return field_225;
+    }
+
     void reset_ped_group()
     {
         field_164_ped_group = NULL;
@@ -405,6 +416,12 @@ class Ped
     void set_health_4039A0(s16 health)
     {
         field_216_health = health;
+    }
+
+    // 9.6f inline 0x433B70
+    inline s32 get_health_433B70()
+    {
+        return field_216_health;
     }
 
     // TODO: to use this inline we need to fix a circular dependency issue

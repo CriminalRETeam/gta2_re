@@ -140,11 +140,24 @@ void Police_7B8::sub_56F6D0(Car_BC* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56f800)
+MATCH_FUNC(0x56f800)
 bool Police_7B8::sub_56F800(Ped* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == a2)
+        {
+            if (field_464[i].field_75_count > 0 && (field_464[i].field_8 == 3 || field_464[i].field_C != 0))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x56f880)
@@ -204,14 +217,57 @@ void Police_7B8::sub_56FBD0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x570270)
+MATCH_FUNC(0x570270)
 void Police_7B8::sub_570270()
 {
-    NOT_IMPLEMENTED;
+    field_7B4 = 0;
+    field_654_wanted_level = 0;
+
+    if (byte_6FEE44 == 1)
+    {
+        Police_7B8::sub_56FBD0();
+    }
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
+    {
+        if (field_4[i].field_1C_used == 1)
+        {
+            field_4[i].sub_575590();
+        }
+    }
+
+    if (byte_6FEE44 == 1)
+    {
+        Police_7B8::sub_56FA40();
+    }
+
+    field_664_obj.sub_5757B0();
+    field_708_obj.sub_5757B0();
+
+    if (field_7AC > 0)
+    {
+        field_7AC--;
+    }
+
+    if (field_7B0 != NULL)
+    {
+        if (field_7B0->get_ped_state1() == 9)
+        {
+            field_7B0 = NULL;
+        }
+        else if (!field_7B0->check_bit_0())
+        {
+            field_7B0 = NULL;
+        }
+        else if (field_7B0->field_21C_bf.b11 == 0)
+        {
+            field_7B0 = NULL;
+        }
+    }
 }
 
 STUB_FUNC(0x570320)
-s32 Police_7B8::sub_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
+s32 Police_7B8::SpawnWalkingGuard_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -222,6 +278,15 @@ char_type Police_7B8::sub_5703E0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+MATCH_FUNC(0x570790)
+bool Police_7B8::sub_570790(Police_38* a1, Police_7C* a2)
+{
+    a1->field_14_pObj = a2;
+    a1->field_24_state = 5;
+    a1->sub_570A10();
+    return true;
 }
 
 STUB_FUNC(0x5707b0)

@@ -786,15 +786,17 @@ struct Car_14
     EXPORT Car_14();
     EXPORT ~Car_14();
     EXPORT char sub_582360(int param_1, Fix16 param_2, Fix16 param_3);
+    EXPORT void MakeTrafficForCurrCamera_5832C0();
+    EXPORT void GenerateTraffic_583670();
 
-    DrawUnk_0xBC* field_0;
-    Fix16_Rect* field_4;
+    DrawUnk_0xBC* field_0_cam;
+    Fix16_Rect* field_4_rect;
     s8 field_8;
     s8 field_9;
     s8 field_A;
     s8 field_B;
-    Player* field_C;
-    gmp_zone_info* field_10;
+    Player* field_C_player;
+    gmp_zone_info* field_10_zone;
 };
 
 EXTERN_GLOBAL(Car_E0C4*, gCar_E0C4_67792C);

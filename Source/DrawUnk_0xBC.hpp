@@ -115,6 +115,12 @@ class DrawUnk_0xBC
         sub_4361B0(x, y);
     }
 
+    // 9.6f inline 0x433E90
+    inline bool has_camera_car_or_ped_433E90()
+    {
+        return field_34_ped || field_38_car;
+    }
+
     CameraPos field_0_cam_pos_tgt1;
     CameraPos field_10_cam_pos_tgt2;
     WorldRect field_20_boundaries;
