@@ -85,14 +85,11 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
     {
         field_1001_bFreeTextures1 = 1;
-        STexture** pIter = field_0_textures1;
-        u16 i = 0;
-        while (i < GTA2_COUNTOF(field_0_textures1))
+        STexture** p = field_0_textures1;
+        for (u16 i = 0; i < GTA2_COUNTOF(field_0_textures1); i++, p++)
         {
             // 64 256x256 pages of 64x64 8 bit tiles
-            *pIter = pgbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
-            i++;
-            pIter++;
+            *p = pgbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
         }
     }
 }

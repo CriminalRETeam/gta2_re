@@ -67,6 +67,8 @@ set(gta2_lib_src
   Source/magical_germain_0x8EC.cpp
   Source/sharp_pare_0x15D8.hpp
   Source/sharp_pare_0x15D8.cpp
+  Source/Draw.hpp
+  Source/Draw.cpp
   Source/Bink.hpp
   Source/Bink.cpp
   Source/gbh_graphics.hpp
