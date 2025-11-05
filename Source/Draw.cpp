@@ -1,4 +1,5 @@
 #include "Draw.hpp"
+#include "DrawUnk_0xBC.hpp"
 #include "dma_video.hpp"
 #include "Fix16_Point.hpp"
 #include "Function.hpp"
@@ -30,6 +31,20 @@ s32 __stdcall sub_5D7700(u16* a1)
 {
     NOT_IMPLEMENTED;
     return (u16)gGtx_0x106C_703DD4->sub_5AA800(a1);
+}
+
+MATCH_FUNC(0x5D77A0)
+void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
+{
+    DrawText_5D8A10(pText,
+                    xpos * gViewCamera_676978->field_A8_ui_scale,
+                    ypos * gViewCamera_676978->field_A8_ui_scale,
+                    font_type,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    DrawKind(2),
+                    0,
+                    0,
+                    0);
 }
 
 STUB_FUNC(0x5D7CB0)
