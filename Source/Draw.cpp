@@ -33,6 +33,20 @@ s32 __stdcall sub_5D7700(u16* a1)
     return (u16)gGtx_0x106C_703DD4->sub_5AA800(a1);
 }
 
+MATCH_FUNC(0x5D7720)
+void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, s32 a6, s32 a7, s32 a8)
+{
+    DrawText_5D8A10(pStr,
+                    xoff * gViewCamera_676978->field_A8_ui_scale,
+                    yoff * gViewCamera_676978->field_A8_ui_scale,
+                    fontType,
+                    gViewCamera_676978->field_A8_ui_scale,
+                    a5,
+                    a6,
+                    a7,
+                    a8);
+}
+
 MATCH_FUNC(0x5D77A0)
 void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {

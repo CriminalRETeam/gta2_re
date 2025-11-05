@@ -27,6 +27,8 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 EXPORT s32 __stdcall sub_5D7700(u16* a1);
 
+EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, s32 a6, s32 a7, s32 a8);
+
 EXPORT void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 
 EXPORT void __stdcall sub_5D7CB0();
