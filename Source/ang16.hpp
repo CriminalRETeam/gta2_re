@@ -169,6 +169,8 @@ class Ang16
         return gSin_table_667A80[angle.rValue];
     }
 
+    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1);
+
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
     EXPORT static Fix16 Ang16_to_Fix16(const Ang16 &v)

@@ -2,6 +2,12 @@
 #include "ang16.hpp"
 #include <cmath>
 
+// TODO: init these angles
+DEFINE_GLOBAL(Ang16, dword_6F677C, 0x6F677C);
+DEFINE_GLOBAL(Ang16, word_6F680C, 0x6F680C);
+DEFINE_GLOBAL(Ang16, dword_6F6800, 0x6F6800);
+DEFINE_GLOBAL(Ang16, word_6F67DC, 0x6F67DC);
+
 MATCH_FUNC(0x406C20)
 void Ang16::sub_406C20()
 {
@@ -38,4 +44,18 @@ Ang16* Ang16::sub_482740(Ang16* a1, s32* a2)
     a1->rValue = (s32)*a2 / 71;
     a1->Normalize();
     return a1;
+}
+
+MATCH_FUNC(0x4F78F0)
+s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1)
+{
+    if (a1 <= dword_6F677C || a1 > word_6F680C) //  45° and 315°
+    {
+        return 2; //  North
+    }
+    if (a1 < dword_6F6800) // dword_6F6800 = 135°
+    {
+        return 3; //  East
+    }
+    return a1 < word_6F67DC ? 1 : 4; // word_6F67DC = 225°  ,  1 = South, 4 = West
 }
