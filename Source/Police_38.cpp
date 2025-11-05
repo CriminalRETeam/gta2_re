@@ -301,11 +301,49 @@ void Police_38::SpawnFBI_nonused_571150()
     field_10_subObj->field_8 = 0;
 }
 
-STUB_FUNC(0x571350)
-u32* Police_38::sub_571350()
+MATCH_FUNC(0x571350)
+void Police_38::sub_571350()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_24_state = 2;
+    PedGroup* pGroup = field_10_subObj->field_8;
+    if (pGroup)
+    {
+        if (pGroup->sub_4C9150())
+        {
+            u8 v7 = 0;
+            for (Ped* pPedIter = field_10_subObj->field_4; pPedIter; pPedIter = field_10_subObj->field_8->field_4_ped_list[v7++])
+            {
+                pPedIter->field_164_ped_group = 0;
+                pPedIter->field_23C = 0;
+                pPedIter->sub_45EB60();
+                if (!field_10_subObj->field_8)
+                {
+                    break;
+                }
+            }
+            field_10_subObj->field_8->sub_4C8E90();
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
+    else
+    {
+        Ped* v6 = field_10_subObj->field_4;
+        if (v6)
+        {
+            if (v6->field_20e >= 0x1Eu)
+            {
+                v6->sub_45EB60();
+                field_10_subObj->field_28 = 5;
+                field_10_subObj->field_2C = 1;
+            }
+        }
+        else
+        {
+            field_10_subObj->field_28 = 5;
+            field_10_subObj->field_2C = 1;
+        }
+    }
 }
 
 STUB_FUNC(0x571540)

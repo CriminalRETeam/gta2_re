@@ -231,7 +231,7 @@ void Police_7B8::sub_570270()
     field_664_obj.sub_5757B0();
     field_708_obj.sub_5757B0();
 
-    if (field_7AC > 0) // TODO: -> u8
+    if (field_7AC > 0)
     {
         field_7AC--;
     }
