@@ -547,14 +547,21 @@ void Police_38::sub_575210()
     }
 }
 
-STUB_FUNC(0x575270)
+MATCH_FUNC(0x575270)
 void Police_38::sub_575270()
 {
-    NOT_IMPLEMENTED;
-    if (!this->field_10_subObj->field_24 || pPed_6FEDDC->field_225)
+    if (field_10_subObj->field_24)
+    {
+        if (pPed_6FEDDC->sub_450CB0())
+        {
+            pPed_6FEDDC->sub_463830(0, 9999);
+            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+        }
+    }
+    else
     {
         pPed_6FEDDC->sub_463830(0, 9999);
-        pPed_6FEDDC->SetObjective(0, 9999);
+        pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
     }
 }
 
