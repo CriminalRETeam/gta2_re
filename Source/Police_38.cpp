@@ -570,10 +570,54 @@ void Police_38::sub_575310()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x575590)
+MATCH_FUNC(0x575590)
 void Police_38::sub_575590()
 {
-    NOT_IMPLEMENTED;
+    if (field_10_subObj)
+    {
+        Ped* pPed = field_10_subObj->field_4;
+        if (pPed)
+        {
+            if (!pPed->field_20e && pPed->field_278 != 9 && (pPed->field_21C & 1) != 0)
+            {
+                gPolice_7B8_6FEE40->field_7B4 = 1;
+            }
+        }
+        else
+        {
+            PedGroup* pGroup = field_10_subObj->field_8;
+            if (pGroup)
+            {
+                Ped* pUnkPed = pGroup->field_4_ped_list[0];
+                if (pUnkPed)
+                {
+                    pGroup->sub_4C9970(pUnkPed);
+                    field_10_subObj->field_8->add_ped_leader_4C9B10(pUnkPed);
+                    field_10_subObj->field_4 = pUnkPed;
+                }
+            }
+        }
+    }
+    switch (field_24_state)
+    {
+        case 3:
+            Police_38::sub_572340();
+            break;
+        case 5:
+            Police_38::sub_572920();
+            break;
+        case 6:
+            Police_38::sub_574720();
+            break;
+        case 1:
+            Police_38::sub_574F10();
+            break;
+        case 2:
+            Police_38::sub_575200();
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x575650)
