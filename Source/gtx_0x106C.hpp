@@ -186,7 +186,7 @@ class gtx_0x106C
 
     EXPORT void* GetTiles_5AA8C0();
 
-    EXPORT s16 get_physical_palettes_len_5AA900();
+    EXPORT u16 get_physical_palettes_len_5AA900();
 
     EXPORT object_info* get_map_object_info_5AA910(u16 idx);
 
