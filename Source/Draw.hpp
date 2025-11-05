@@ -37,7 +37,7 @@ EXPORT void __stdcall sub_5D7CB0();
 
 EXPORT void __stdcall sub_5D7D30();
 
-EXPORT void __stdcall sub_5D7EC0(s32 type,
+EXPORT void __stdcall DrawFigure_5D7EC0(s32 type,
                                  s16 pal,
                                  Fix16 x_pos,
                                  Fix16 y_pos,

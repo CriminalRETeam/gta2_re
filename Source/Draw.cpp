@@ -30,7 +30,7 @@ void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos
 MATCH_FUNC(0x5D7670)
 void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, DrawKind& drawkind, s16 a8, s32 a9, u8 a10)
 {
-    sub_5D7EC0(type,
+    DrawFigure_5D7EC0(type,
                pal,
                x_pos * gViewCamera_676978->field_A8_ui_scale,
                y_pos * gViewCamera_676978->field_A8_ui_scale,
@@ -126,7 +126,7 @@ void __stdcall sub_5D7D30()
 
 // https://decomp.me/scratch/Zmms7
 STUB_FUNC(0x5D7EC0)
-void __stdcall sub_5D7EC0(s32 type,
+void __stdcall DrawFigure_5D7EC0(s32 type,
                           s16 pal,
                           Fix16 x_pos,
                           Fix16 y_pos,

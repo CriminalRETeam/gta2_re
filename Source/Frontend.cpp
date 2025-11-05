@@ -1393,7 +1393,7 @@ void Frontend::sub_4AD140()
                             break;
                     }
                     
-                    sub_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, DrawKind(2), 0, 0, false, 0);
+                    DrawFigure_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, DrawKind(2), 0, 0, false, 0);
                     break;
                 
                 case STRING_TEXT_1:
@@ -1517,11 +1517,11 @@ void Frontend::sub_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                sub_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
+                DrawFigure_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                sub_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
+                DrawFigure_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
             }
             else
             {

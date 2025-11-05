@@ -17,6 +17,7 @@
 #include "lucid_hamilton.hpp"
 #include "Object_5C.hpp"
 #include "registry.hpp"
+#include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
 #include "Weapon_30.hpp"
@@ -54,7 +55,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 
 STUB_FUNC(0x5cfe40)
-void Garox_13C0_sub::sub_5CFE40()
+void Garox_13C0_sub::DrawPlayerNames_5CFE40()
 {
     NOT_IMPLEMENTED;
 }
@@ -221,7 +222,7 @@ char_type Garox_12EC_sub::sub_5D13C0(s32 action, Player* pPlayer)
 }
 
 STUB_FUNC(0x5d1430)
-void Garox_12EC_sub::sub_5D1430()
+void Garox_12EC_sub::DrawQuitMessage_5D1430()
 {
     NOT_IMPLEMENTED;
 }
@@ -277,7 +278,7 @@ void Garox_4::sub_5CF6B0()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5d63b0)
-void Garox_12E4_sub::sub_5D63B0()
+void Garox_12E4_sub::DrawPause_5D63B0()
 {
     NOT_IMPLEMENTED;
 }
@@ -297,7 +298,7 @@ void Hud_Message_1C8::sub_5D1860()
 }
 
 STUB_FUNC(0x5d1940)
-void Hud_Message_1C8::sub_5D1940()
+void Hud_Message_1C8::DrawMessage_5D1940()
 {
     NOT_IMPLEMENTED;
 }
@@ -493,7 +494,7 @@ void Garox_110C_sub::sub_5CF910()
             pCam = &pPlayer->field_90_game_camera;
         }
 
-        sub_5D7EC0(6, 0, field_110C, field_1110, field_1114, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
+        DrawFigure_5D7EC0(6, 0, field_110C, field_1110, field_1114, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
     }
 }
 
@@ -643,7 +644,7 @@ void Garox_27B5_sub::sub_5CF970()
 // ----------------------------------------------------
 
 STUB_FUNC(0x5cfa70)
-void Garox_107C_sub::sub_5CFA70()
+void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 {
     NOT_IMPLEMENTED;
 }
@@ -696,7 +697,7 @@ void Hud_CopHead_C_Array::sub_5D00B0()
 }
 
 STUB_FUNC(0x5d0110)
-void Hud_CopHead_C_Array::sub_5D0110()
+void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
 {
     NOT_IMPLEMENTED;
 }
@@ -883,7 +884,7 @@ s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d3040)
-void Hud_Pager_C_Array::sub_5D3040()
+void Hud_Pager_C_Array::DrawPagers_5D3040()
 {
     NOT_IMPLEMENTED;
 }
@@ -1574,7 +1575,7 @@ void Garox_1E34_L::sub_5D39D0()
 }
 
 STUB_FUNC(0x5d3b80)
-void Garox_1E34_L::sub_5D3B80()
+void Garox_1E34_L::DrawBrief_5D3B80()
 {
     NOT_IMPLEMENTED;
 }
@@ -1881,22 +1882,22 @@ void Hud_2B00::DrawGui_5D6860()
         sub_5D6A70();
         field_1118_sub.DrawPlayerStats_5D5C80();
         field_110C_sub.sub_5CF910();
-        field_13C0_sub.sub_5CFE40();
-        field_1028.sub_5D0110();
-        field_107C_sub.sub_5CFA70();
+        field_13C0_sub.DrawPlayerNames_5CFE40();
+        field_1028.DrawWantedLevel_5D0110();
+        field_107C_sub.DrawGangRespectBars_5CFA70();
         field_1108_sub.DrawHealth_5D0260();
         field_4C.DrawZoneName_5D5900();
         sub_5D4A10();
         field_1080.sub_5D5420();
-        field_DC.sub_5D3B80();
-        field_620.sub_5D3040();
+        field_DC.DrawBrief_5D3B80();
+        field_620.DrawPagers_5D3040();
         field_650.Service_5D2010();
         field_1F18.sub_5D0E90();
         field_12F0.sub_5D56D0();
-        field_111C.sub_5D1940();
-        field_12E4_sub.sub_5D63B0();
+        field_111C.DrawMessage_5D1940();
+        field_12E4_sub.DrawPause_5D63B0();
         field_2A25_sub.sub_5D16B0();
-        field_12EC_sub.sub_5D1430();
+        field_12EC_sub.DrawQuitMessage_5D1430();
     }
 }
 
