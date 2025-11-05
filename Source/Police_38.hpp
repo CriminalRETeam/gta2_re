@@ -15,7 +15,6 @@ class Police_38
   public:
     EXPORT Police_38();
     EXPORT ~Police_38();
-    EXPORT bool sub_570790(Police_38* a1, Police_7C* a2);
     EXPORT void Init_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
@@ -30,7 +29,7 @@ class Police_38
     EXPORT char_type sub_572340();
     EXPORT void sub_572920();
     EXPORT void sub_574720();
-    EXPORT char_type sub_574F10();
+    EXPORT void sub_574F10();
     EXPORT void sub_575200();
     EXPORT void sub_575210();
     EXPORT void sub_575270();

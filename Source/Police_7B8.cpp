@@ -267,6 +267,15 @@ char_type Police_7B8::sub_5703E0(Car_BC* a2)
     return 0;
 }
 
+MATCH_FUNC(0x570790)
+bool Police_7B8::sub_570790(Police_38* a1, Police_7C* a2)
+{
+    a1->field_14_pObj = a2;
+    a1->field_24_state = 5;
+    a1->sub_570A10();
+    return true;
+}
+
 STUB_FUNC(0x5707b0)
 char_type Police_7B8::sub_5707B0(s32 a2, s32 a3)
 {

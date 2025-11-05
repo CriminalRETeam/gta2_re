@@ -1,6 +1,7 @@
 #include "Police_38.hpp"
 #include "Globals.hpp"
 #include "Fix16_Rect.hpp"
+#include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Ped.hpp"
 #include "Object_5C.hpp"
@@ -9,6 +10,7 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "RouteFinder.hpp"
 
 DEFINE_GLOBAL(s32, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
@@ -20,6 +22,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FEB88, dword_6FECA0, 0x6FEB88);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECF8, Fix16(4), 0x6FECF8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8 * dword_6FEB88, 0x6FEB0C);
 
+DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
+
 MATCH_FUNC(0x4beb30)
 Police_38::Police_38()
 {
@@ -29,15 +33,6 @@ Police_38::Police_38()
 MATCH_FUNC(0x4beb40)
 Police_38::~Police_38()
 {
-}
-
-MATCH_FUNC(0x570790)
-bool Police_38::sub_570790(Police_38* a1, Police_7C* a2)
-{
-    a1->field_14_pObj = a2;
-    a1->field_24_state = 5;
-    a1->sub_570A10();
-    return true;
 }
 
 MATCH_FUNC(0x5709c0)
@@ -393,11 +388,135 @@ void Police_38::sub_574720()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x574f10)
-char_type Police_38::sub_574F10()
+MATCH_FUNC(0x574f10)
+void Police_38::sub_574F10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCarUnk;
+
+    byte_6FEB48 = 1;
+    u8 idx = 0;
+
+    if (field_10_subObj->field_24 == 2 || !field_10_subObj->field_24 || (pCarUnk = field_10_subObj->field_0, pCarUnk->field_76 > 80))
+    {
+        field_24_state = 6;
+    }
+    else
+    {
+        pCarUnk->field_A6 &= ~0x20u;
+        if (field_10_subObj->field_28 == 6)
+        {
+            Police_38::sub_5720C0();
+        }
+
+        if (field_10_subObj->field_28 == 5)
+        {
+            Car_BC* pCar = field_10_subObj->field_0;
+            if (pCar)
+            {
+                Car_78* v7 = pCar->field_5C;
+                if (v7)
+                {
+                    char field_28_junc_idx = v7->field_28_junc_idx;
+                    if (field_28_junc_idx > 0)
+                    {
+                        gRouteFinder_6FFDC8->sub_589930(field_28_junc_idx);
+                        field_10_subObj->field_0->field_5C->field_28_junc_idx = -1;
+                    }
+                }
+            }
+            Police_38::sub_575650();
+            if (field_29)
+            {
+                if (gPolice_7B8_6FEE40->field_658 > 0)
+                {
+                    gPolice_7B8_6FEE40->field_658--;
+                }
+            }
+            field_10_subObj->field_28 = 0;
+            field_10_subObj->sub_5CBC30();
+            Police_38::Init_5709C0();
+        }
+        else
+        {
+            if (field_14_pObj && field_14_pObj->field_0 && Police_38::sub_572210() &&
+                (field_10_subObj->field_20 == 6 || field_14_pObj->field_4 != 6))
+            {
+                field_14_pObj->field_10_x = field_14_pObj->field_0->get_cam_x();
+                field_14_pObj->field_14_y = field_14_pObj->field_0->get_cam_y();
+                field_14_pObj->field_18_z = field_14_pObj->field_0->get_cam_z();
+                gPolice_7B8_6FEE40->sub_570790(this, field_14_pObj);
+            }
+            else
+            {
+                pPed_6FEDDC = field_10_subObj->field_4;
+                pPed_6FEDDC->field_21C_bf.b11 = 0;
+                Hamburger_40* v13;
+                for (Ped* pPedIter = pPed_6FEDDC; pPedIter; ++idx)
+                {
+                    switch (pPedIter->field_258_objective)
+                    {
+                        case objectives_enum::goto_area_in_car_14:
+                        case objectives_enum::fire_at_object_from_vehicle_52:
+                            byte_6FEB48 = 0;
+                            v13 = field_10_subObj->field_0->field_60;
+                            if (v13)
+                            {
+                                gHamburger_500_678E30->sub_474CC0(v13);
+                                field_10_subObj->field_0->field_60 = 0;
+                            }
+                            break;
+                        case objectives_enum::no_obj_0:
+                            if (pPedIter == field_10_subObj->field_4)
+                            {
+                                if (pPedIter->field_16C_car)
+                                {
+                                    byte_6FEB48 = 0;
+                                }
+                                else if ((pPedIter->field_21C & 0x8000000) == 0)
+                                {
+                                    pPedIter->sub_463830(0, 9999);
+                                    pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                                    pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0;
+                                    pPed_6FEDDC->field_21C &= ~4u;
+                                }
+                            }
+                            break;
+                        case objectives_enum::leave_car_36:
+                            Police_38::sub_575270();
+                            break;
+                        case objectives_enum::enter_car_as_driver_35:
+                            Police_38::sub_575210();
+                            break;
+                        case objectives_enum::flee_char_on_foot_till_safe_2:
+                        case objectives_enum::goto_area_on_foot_12:
+                        case objectives_enum::kill_char_on_foot_20:
+                            pPedIter->sub_463830(0, 9999);
+                            pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                            break;
+                        case objectives_enum::objective_28:
+                            if (pPedIter->field_225)
+                            {
+                                pPedIter->sub_463830(0, 9999);
+                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                    PedGroup* pGroup = field_10_subObj->field_8;
+                    if (pGroup)
+                    {
+                        pPedIter = pGroup->field_4_ped_list[idx];
+                    }
+                    else
+                    {
+                        pPedIter = 0;
+                    }
+                    pPed_6FEDDC = pPedIter;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x575200)
