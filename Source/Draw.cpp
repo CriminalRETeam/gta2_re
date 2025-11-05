@@ -25,6 +25,22 @@ void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos
     DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, DrawKind(2), 0, 0, 0);
 }
 
+MATCH_FUNC(0x5D7670)
+void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, DrawKind& drawkind, s16 a8, s32 a9, u8 a10)
+{
+    sub_5D7EC0(type,
+               pal,
+               x_pos * gViewCamera_676978->field_A8_ui_scale,
+               y_pos * gViewCamera_676978->field_A8_ui_scale,
+               rotation,
+               gViewCamera_676978->field_A8_ui_scale,
+               drawkind,
+               a8,
+               a9,
+               a10,
+               0);
+}
+
 // https://decomp.me/scratch/WTcl7
 STUB_FUNC(0x5D7700)
 s32 __stdcall sub_5D7700(u16* a1)
