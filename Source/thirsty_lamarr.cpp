@@ -129,7 +129,7 @@ s32 thirsty_lamarr::sub_492260(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x492430)
-s32 thirsty_lamarr::sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4)
+s32 thirsty_lamarr::sub_492430(s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;

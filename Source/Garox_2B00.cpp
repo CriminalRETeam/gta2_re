@@ -1,5 +1,6 @@
 #include "Garox_2B00.hpp"
 #include "Car_BC.hpp"
+#include "Draw.hpp"
 #include "Frontend.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
@@ -18,6 +19,7 @@
 #include "registry.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
+#include "Weapon_30.hpp"
 
 DEFINE_GLOBAL(Hud_2B00*, gGarox_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
@@ -34,6 +36,8 @@ DEFINE_GLOBAL(s32, dword_706338, 0x706338);
 DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
 DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
 DEFINE_GLOBAL(Fix16, dword_67CD10, 0x67CD10);
+
+DEFINE_GLOBAL(Ang16, word_706610, 0x706610);
 
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
@@ -329,8 +333,119 @@ Hud_Message_1C8::Hud_Message_1C8()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d5c80)
+MATCH_FUNC(0x5d5c80)
 void Garox_1118_sub::sub_5D5C80()
+{
+    Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
+
+    s16 ammo_idx = pPlayer->field_788_idx;
+    if (ammo_idx == -1)
+    {
+        sub_5D6060(-1, 0);
+    }
+    else
+    {
+        u8 unk = pPlayer->field_718[ammo_idx]->sub_4A4FB0();
+        sub_5D6060(ammo_idx, unk);
+    }
+
+    s32 v2 = 639;
+    for (s32 i = 0; i < 17; i++)
+    {
+        u16 unknown = pPlayer->field_6F4[i];
+        if (unknown)
+        {
+            v2 = sub_5D61A0(i, v2, unknown);
+        }
+    }
+
+    thirsty_lamarr* v5 = pPlayer->field_2D4_unk.sub_592360();
+    s32 v8 = v5->sub_492260(639, 4);
+
+    if (bStartNetworkGame_7081F0)
+    {
+        sub_5D7670(6, 16, v8 - 8, 14, word_706610, pPlayer->field_78C, pPlayer->field_790, 0, 0);
+    }
+    else
+    {
+        if (pPlayer->field_60 == 0)
+        {
+            sub_5D7670(6, 16, v8 - 8, 14, word_706610, DrawKind(2), 0, 0, 0);
+        }
+        else
+        {
+            sub_5D7670(6, 16, v8 - 8, 14, word_706610, DrawKind(7), 6, 0, 0);
+        }
+    }
+
+    wchar_t Buffer[16];
+
+    if (bStartNetworkGame_7081F0)
+    {
+        if (gLucid_hamilton_67E8E0.sub_4C5BC0() == TAG_GAME_3)
+        {
+            swprintf(Buffer,
+                     L"%2d:%02d",
+                     gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] / 60,
+                     gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
+
+            s32 unknownn = (pPlayer->field_78C.value != 7) ? 2 : 8;
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, DrawKind(unknownn), pPlayer->field_790 - 1, 0, 0);
+        }
+        else
+        {
+            thirsty_lamarr* v16 = pPlayer->field_2D4_unk.sub_5935B0();
+            v16->sub_492260(490, 4);
+        }
+
+        s32 ypos = 8;
+        for (Player* pMultiPlayer = gGame_0x40_67E008->sub_4B9CD0(); pMultiPlayer != NULL;
+             pMultiPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+        {
+            if (pMultiPlayer->field_0 == 0)
+            {
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_unk.sub_592360();
+                s32 v21 = v19->sub_492430(16, ypos);
+
+                sub_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
+
+                if (gLucid_hamilton_67E8E0.sub_4C5BC0() == TAG_GAME_3)
+                {
+                    swprintf(Buffer,
+                             L"%2d:%02d",
+                             gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] / 60,
+                             gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
+
+                    s32 very_unknown = (pMultiPlayer->field_78C.value != 7) ? 2 : 8;
+                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, DrawKind(very_unknown), pMultiPlayer->field_790 - 1, 0, 0);
+                }
+                else
+                {
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_unk.sub_5935B0();
+                    v29->sub_492430(v21 + 20, ypos);
+                }
+                ypos += 27;
+            }
+        }
+    }
+    else
+    {
+        s32 lives_xpos = pPlayer->field_684_lives.sub_492260(523, 28);
+        sub_5D7670(6, 17, lives_xpos - 7, 32, word_706610, DrawKind(2), 0, 0, 0);
+
+        s32 multiplier_xpos = pPlayer->field_6BC_multpliers.sub_492260(523, 11);
+        sub_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, DrawKind(2), 0, 0, 0);
+    }
+}
+
+STUB_FUNC(0x5D6060)
+void __stdcall sub_5D6060(s16 a1, u8 a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x5D61A0)
+s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3)
 {
     NOT_IMPLEMENTED;
 }

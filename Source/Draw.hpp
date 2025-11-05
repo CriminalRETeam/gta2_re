@@ -29,7 +29,7 @@ EXPORT void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, An
 
 EXPORT s32 __stdcall sub_5D7700(u16* a1);
 
-EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, s32 a6, s32 a7, s32 a8);
+EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, u16 a6, s32 alpha, u8 alpha_flag);
 
 EXPORT void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 
@@ -57,6 +57,8 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       u16 font_type,
                                       Fix16 scale_fp,
                                       DrawKind& drawkind,
-                                      s32 unknown1,
+                                      u16 unknown1,
                                       s32 unknown2,
-                                      s32 flags);
+                                      u8 flags);
+
+extern u16 word_703BAA; //EXTERN_GLOBAL(u16, word_703BAA);

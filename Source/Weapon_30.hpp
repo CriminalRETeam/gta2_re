@@ -49,6 +49,25 @@ class Weapon_30
     EXPORT void rocket_5E3850();
     EXPORT char_type sub_5E3BD0();
 
+    // 9.6f inline 0x4A4FA0
+    bool sub_4A4FA0()
+    {
+        return field_0_ammo == 0xFFFF;
+    }
+    
+    // 9.6f inline 0x4A4FB0
+    u8 sub_4A4FB0()
+    {
+        if (sub_4A4FA0())
+        {
+            return -1;
+        }
+        else
+        {
+            return (field_0_ammo + 9) / 10;
+        }
+    }
+
     u16 field_0_ammo;
     u8 field_2_reload_speed;
     s8 field_3;

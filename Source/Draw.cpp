@@ -19,6 +19,8 @@ EXTERN_GLOBAL(s32, window_height_706B50);
 DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
 DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
 
+u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
+
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
@@ -50,7 +52,7 @@ s32 __stdcall sub_5D7700(u16* a1)
 }
 
 MATCH_FUNC(0x5D7720)
-void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, s32 a6, s32 a7, s32 a8)
+void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, u16 a6, s32 alpha, u8 alpha_flag)
 {
     DrawText_5D8A10(pStr,
                     xoff * gViewCamera_676978->field_A8_ui_scale,
@@ -59,8 +61,8 @@ void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 
                     gViewCamera_676978->field_A8_ui_scale,
                     a5,
                     a6,
-                    a7,
-                    a8);
+                    alpha,
+                    alpha_flag);
 }
 
 MATCH_FUNC(0x5D77A0)
@@ -225,9 +227,9 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                u16 font_type,
                                Fix16 scale_fp,
                                DrawKind& drawkind,
-                               s32 unknown1, // seems to be related with palette
+                               u16 unknown1, // seems to be related with palette
                                s32 unknown2, // alpha_value
-                               s32 flags) // bool use_alpha
+                               u8 flags) // bool use_alpha
 {
     NOT_IMPLEMENTED;
 

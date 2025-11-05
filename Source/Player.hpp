@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Draw.hpp"
 #include "DrawUnk_0xBC.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
@@ -249,8 +250,8 @@ class Player
     s16 field_788_idx;
     char_type field_78A;
     char_type field_78B;
-    s32 field_78C;
-    s16 field_790;
+    DrawKind field_78C;
+    u16 field_790;
     s16 field_792;
     char_type field_794;
     char_type field_795;

@@ -588,3 +588,6 @@ EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 EXPORT s32 __stdcall sub_5D1260(s32 a1);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);
 EXPORT u8 __stdcall sub_5D12E0(s32 phone_type);
+
+EXPORT void __stdcall sub_5D6060(s16 a1, u8 a2);
+EXPORT s32 __stdcall sub_5D61A0(s32 a1, s32 a2, u16 a3);

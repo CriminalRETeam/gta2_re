@@ -11,7 +11,7 @@ class thirsty_lamarr
     EXPORT void sub_4921B0(s32 amount);
     EXPORT void sub_4921F0(s32 a2, s16 a3);
     EXPORT s32 sub_492260(s32 a2, s32 a3);
-    EXPORT s32 sub_492430(thirsty_lamarr* a1, s32 a2, s32 a3, s32 a4);
+    EXPORT s32 sub_492430(s32 a3, s32 a4);
     EXPORT char_type sub_4925C0();
     EXPORT s16 sub_4925E0();
 
