@@ -83,10 +83,9 @@ void __stdcall sub_5D7CB0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5D7D30)
+MATCH_FUNC(0x5D7D30)
 void __stdcall sub_5D7D30()
 {
-    NOT_IMPLEMENTED;
     pVid_GetSurface(gVidSys_7071D0);
     pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
                      gVidSys_7071D0->field_54_surface_pixels_pitch,
@@ -94,8 +93,8 @@ void __stdcall sub_5D7D30()
 
     if (gVidSys_7071D0->field_40_full_screen == -2)
     {
-        dword_70679C = window_height_706B50 - 1;
         dword_70675C = window_width_706630 - 1;
+        dword_70679C = window_height_706B50 - 1;
     }
     else
     {
@@ -103,7 +102,7 @@ void __stdcall sub_5D7D30()
         dword_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
     }
 
-    pgbh_SetWindow(0, 0, dword_70675C, dword_70679C);
+    pgbh_SetWindow(0, 0, (f32)dword_70675C, (f32)dword_70679C);
 }
 
 // https://decomp.me/scratch/Zmms7

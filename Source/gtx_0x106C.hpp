@@ -265,9 +265,9 @@ class gtx_0x106C
     }
 
     // inlined v9.6f, 0x420200
-    u8 does_car_exist(u8 iParm1)  const
+    bool does_car_exist(u8 iParm1)  const
     {
-        return this->field_5C_cari->field_0[iParm1] != NULL;
+        return field_5C_cari->field_0[iParm1] != NULL;
     }
 
     s16 field_0_totalPalBase;
