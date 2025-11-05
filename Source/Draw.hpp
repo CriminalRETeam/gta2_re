@@ -25,6 +25,8 @@ struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
 
 EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale);
 
+EXPORT s32 __stdcall sub_5D7700(u16* a1);
+
 EXPORT void __stdcall sub_5D7CB0();
 
 EXPORT void __stdcall sub_5D7D30();
