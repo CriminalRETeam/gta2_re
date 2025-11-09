@@ -341,7 +341,7 @@ void Ped::DrawFlamesAndStartScreamTimer()
             // Spawn fire
             Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
             pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
-            pB4->field_b0 = 10; // Start screaming timer
+            pB4->field_B0 = 10; // Start screaming timer
         }
     }
 }
@@ -1314,7 +1314,7 @@ bool Ped::Update_462E70()
             if (field_168_game_object)
             {
                 Fix16 zpos = get_cam_z();
-                if ((field_168_game_object->field_58_flags & 1) == 0 && zpos != dword_678660)
+                if (field_168_game_object->field_58_flags_bf.b0 == 0 && zpos != dword_678660)
                 {
                     zpos -= dword_678664;
                 }
@@ -1689,7 +1689,7 @@ Sprite* Ped::sub_467280()
     this->field_168_game_object->field_10 = 1;
 
     Char_B4* pB4 = this->field_168_game_object;
-    pB4->field_6c = 0;
+    pB4->field_6C = 0;
     pB4->field_68 = 0;
 
     this->field_216_health = 50;

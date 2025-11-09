@@ -2,12 +2,31 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "PurpleDoom.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
 DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_11944*, gChar_11944_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_324*, gChar_324_678b50, 0x678b50);
+
+DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
+DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
+
+DEFINE_GLOBAL(Fix16, dword_6FD7F8, 0x6FD7F8);
+DEFINE_GLOBAL(Fix16, dword_6FD800, 0x6FD800);
+DEFINE_GLOBAL(Fix16, dword_6FD7FC, 0x6FD7FC);
+DEFINE_GLOBAL(Fix16, dword_6FD7B0, 0x6FD7B0);
+
+DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
+DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
+
+
+STUB_FUNC(0x544F70)
+void __stdcall sub_544F70()
+{
+    NOT_IMPLEMENTED;
+}
 
 STUB_FUNC(0x544ff0)
 Char_B4::Char_B4()
@@ -35,7 +54,7 @@ void Char_B4::sub_5453D0()
 MATCH_FUNC(0x5454B0)
 void Char_B4::sub_5454B0()
 {
-    field_b0 = -1;
+    field_B0 = -1;
     field_88_obj_2c.sub_5A7080();
 }
 
@@ -83,11 +102,117 @@ s32 Char_B4::sub_545700()
     return 0;
 }
 
-STUB_FUNC(0x545720)
-char_type Char_B4::sub_545720(Fix16 a2)
+MATCH_FUNC(0x545720)
+void Char_B4::sub_545720(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (++byte_6FDB48 > 20)
+    {
+        byte_6FDB48 = 0;
+    }
+    if (field_4A > 0)
+    {
+        field_4A--;
+    }
+    dword_6FD80C = a2;
+
+    if (field_5C > 0)
+    {
+        field_5C--;
+    }
+    sub_544F70();
+    dword_6FD7F8 = field_80_sprite_ptr->field_14_xpos.x;
+    dword_6FD800 = field_80_sprite_ptr->field_14_xpos.y;
+    dword_6FD7FC = field_80_sprite_ptr->field_1C_zpos;
+    dword_6FD7B0 = Fix16(field_45);
+    byte_6FDB55 = 0;
+    byte_6FDB58 = 0;
+
+    gPurpleDoom_1_679208->sub_477B60(field_80_sprite_ptr);
+
+    if (field_58_flags_bf.b5)
+    {
+        field_80_sprite_ptr->sub_420600(field_A4_xpos, field_A8_ypos, field_AC_zpos);
+        field_58_flags_bf.b5 = 0;
+    }
+    else
+    {
+        switch (field_8_ped_state_1)
+        {
+            case 0:
+                Char_B4::state_0_54DDF0();
+                break;
+            case 1:
+                Char_B4::state_1_5504F0();
+                break;
+            case 2:
+                Char_B4::state_1_5519F0();
+                break;
+            case 3:
+                Char_B4::state_3_551A00();
+                break;
+            case 4:
+                Char_B4::state_4_551B30();
+                break;
+            case 5:
+                Char_B4::state_5_551BB0();
+                break;
+            case 6:
+                nullsub_28();
+                break;
+            case 7:
+                Char_B4::state_7_551CB0();
+                break;
+            case 8:
+                Char_B4::state_8_5520A0();
+                break;
+            case 9:
+                Char_B4::state_9_552E90();
+                break;
+            default:
+                break;
+        }
+        if (field_A0)
+        {
+            if (field_8_ped_state_1 != 9)
+            {
+                field_80_sprite_ptr->field_28_num = 34;
+            }
+        }
+        if (field_10 == 15)
+        {
+            if (field_6C != 5 && field_8_ped_state_1 != 9)
+            {
+                Char_B4::sub_5454D0();
+            }
+        }
+        else
+        {
+            field_A0 = 0;
+        }
+        Char_B4::sub_546360();
+
+        field_80_sprite_ptr->sub_420690(field_40_rotation);
+
+        if (field_58_flags_bf.b3)
+        {
+            // clockwise?
+            field_98.sub_41E210(-field_38, field_40_rotation);
+        }
+        else
+        {
+            // anti-clockwise?
+            field_98.sub_41E210(field_38, field_40_rotation);
+        }
+    }
+    gPurpleDoom_1_679208->sub_477B20(field_80_sprite_ptr);
+    if (field_88_obj_2c.field_0_p18)
+    {
+        field_88_obj_2c.sub_5A6F70(field_80_sprite_ptr);
+    }
+    if (field_6A > 0)
+    {
+        field_6A--;
+    }
 }
 
 STUB_FUNC(0x5459c0)
@@ -279,6 +404,53 @@ char_type Char_B4::sub_5516F0()
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+STUB_FUNC(0x5519F0)
+void Char_B4::state_1_5519F0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x551A00)
+void Char_B4::state_3_551A00()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x551B30)
+void Char_B4::state_4_551B30()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x551BB0)
+void Char_B4::state_5_551BB0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x551CB0)
+void Char_B4::state_7_551CB0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x5520A0)
+void Char_B4::state_8_5520A0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x552E90)
+void Char_B4::state_9_552E90()
+{
+    NOT_IMPLEMENTED;
+}
+
+EXPORT void Char_B4::nullsub_28()
+{
+    NOT_IMPLEMENTED;
 }
 
 //STUB_FUNC(0x5519f0)

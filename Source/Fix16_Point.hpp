@@ -8,6 +8,11 @@
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 struct Fix16_Point_POD
 {
+    inline void sub_41E210(Fix16& unk, Ang16& angle)
+    {
+        x = Ang16::sine_40F500(angle) * unk;
+        y = Ang16::cosine_40F520(angle) * unk;
+    }
     Fix16 x;
     Fix16 y;
 }; 

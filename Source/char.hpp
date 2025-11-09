@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "BitSet32.hpp"
 #include "Ped.hpp"
 #include "angle.hpp"
 #include "ang16.hpp"
@@ -31,42 +32,42 @@ class Char_B4
     s32 field_20;
     s32 field_24;
     angle field_28;
-    angle field_2a;
-    angle field_2c;
-    s8 field_2e;
-    s8 field_2f;
+    angle field_2A;
+    angle field_2C;
+    s8 field_2E;
+    s8 field_2F;
     s32 field_30;
     s16 field_34;
     s8 field_36;
     s8 field_37;
     Fix16 field_38;
-    Fix16 field_3c;
+    Fix16 field_3C;
     Ang16 field_40_rotation;
     angle field_42;
     s8 field_44;
-    s8 field_45;
+    u8 field_45;
     s16 field_46;
     s8 field_48;
     s8 field_49;
-    s16 field_4a;
-    Fix16 field_4c;
+    u16 field_4A;
+    Fix16 field_4C;
     Fix16 field_50;
     s8 field_54;
     s8 field_55;
     s8 field_56;
     s8 field_57;
-    s32 field_58_flags;
-    s8 field_5c;
-    s8 field_5d;
-    s8 field_5e;
-    s8 field_5f;
+    CompilerBitField32 field_58_flags_bf;
+    u8 field_5C;
+    s8 field_5D;
+    s8 field_5E;
+    s8 field_5F;
     s32 field_60;
     s32 field_64;
     u8 field_68;
     s8 field_69;
-    s8 field_6a;
+    u8 field_6A;
     s8 field_6b;
-    s32 field_6c;
+    s32 field_6C;
     s8 field_70;
     s8 field_71;
     s8 field_72;
@@ -79,19 +80,19 @@ class Char_B4
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84;
     struct_4 field_88_obj_2c;
-    Fix16 field_8c;
+    Fix16 field_8C;
     Fix16 field_90;
     Fix16 field_94;
-    Fix16 field_98;
-    Fix16 field_9c;
-    s8 field_a0;
-    s8 field_a1;
-    s8 field_a2;
-    s8 field_a3;
-    Fix16 field_a4_x;
-    Fix16 field_a8_y;
-    Fix16 field_ac_z;
-    s32 field_b0;
+    Fix16_Point_POD field_98;
+    //Fix16 field_9C;
+    s8 field_A0;
+    s8 field_A1;
+    s8 field_A2;
+    s8 field_A3;
+    Fix16 field_A4_xpos;
+    Fix16 field_A8_ypos;
+    Fix16 field_AC_zpos;
+    s32 field_B0;
 
     inline Ang16 get_rotation_433A40()
     {
@@ -125,7 +126,7 @@ class Char_B4
     EXPORT s16 sub_545600();
     EXPORT void sub_5456A0();
     EXPORT s32 sub_545700();
-    EXPORT char_type sub_545720(Fix16 a2);
+    EXPORT void sub_545720(Fix16 a2);
     EXPORT char_type sub_5459C0();
     EXPORT void sub_5459E0();
     EXPORT void sub_546360();
@@ -156,6 +157,14 @@ class Char_B4
     EXPORT char_type sub_551400();
     EXPORT char_type sub_5516F0();
     //EXPORT void state_1_5504F0();
+    EXPORT void state_1_5519F0();
+    EXPORT void state_3_551A00();
+    EXPORT void state_4_551B30();
+    EXPORT void state_5_551BB0();
+    EXPORT void state_7_551CB0();
+    EXPORT void state_8_5520A0();
+    EXPORT void state_9_552E90();
+    EXPORT void nullsub_28();
 };
 
 class Char_11944
@@ -245,3 +254,5 @@ EXTERN_GLOBAL(Char_203AC*, gChar_203AC_6787B8);
 EXTERN_GLOBAL(Char_11944*, gChar_11944_6FDB44);
 
 EXTERN_GLOBAL(Char_324*, gChar_324_678b50);
+
+EXPORT void __stdcall sub_544F70();
