@@ -21,7 +21,7 @@ class Police_7B8
 
     EXPORT ~Police_7B8();
     EXPORT void sub_56F400();
-    EXPORT char_type sub_56F4D0(Ped* a2);
+    EXPORT bool sub_56F4D0(Ped* a2);
     EXPORT Police_38* New_56F560();
     EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void sub_56F6D0(Car_BC* a2);

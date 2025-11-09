@@ -66,7 +66,7 @@ bool Ambulance_20::sub_4FA820()
     pPed1->field_238 = 4;
     pPed1->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed1->field_230 = 2;
-    pPed1->SpawnPedInCar_45C730(field_4->field_0);
+    pPed1->SpawnPedInCar_45C730(field_4->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
     pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;
@@ -83,7 +83,7 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    pPed2->sub_45C7F0(field_4->field_0);
+    pPed2->sub_45C7F0(field_4->field_0_car);
     pPed2->field_238 = 4;
     pPed2->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed2->field_230 = 2;
@@ -97,18 +97,18 @@ bool Ambulance_20::sub_4FA820()
     pGroup->field_34_count = 1;
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
     pGroup->field_0 = 0;
-    field_4->field_4 = pPed1;
+    field_4->field_4_ped = pPed1;
     field_4->field_28 = 6;
 
-    Car_BC* pCar = field_4->field_0;
+    Car_BC* pCar = field_4->field_0_car;
 
     pCar->field_7C_uni_num = 4;
     pCar->field_76 = 0;
 
-    field_4->field_0->sub_43BCA0();
-    field_4->field_0->sub_440590();
-    field_4->field_0->sub_43AF40();
-    field_4->field_8 = pGroup;
+    field_4->field_0_car->sub_43BCA0();
+    field_4->field_0_car->sub_440590();
+    field_4->field_0_car->sub_43AF40();
+    field_4->field_8_group = pGroup;
     return true;
 }
 

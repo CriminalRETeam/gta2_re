@@ -147,7 +147,7 @@ void Police_38::SpawnPoliceInCar_570BF0()
     Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
     pCopLeader->field_238 = 4;
     pCopLeader->field_240_occupation = ped_ocupation_enum::police;
-    pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0);
+    pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pCopLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pCopLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pCopLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
@@ -181,7 +181,7 @@ void Police_38::SpawnPoliceInCar_570BF0()
     pCopLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
 
     Ped* pCopSupporter = gChar_C_6787BC->sub_470F30();
-    pCopSupporter->sub_45C7F0(field_10_subObj->field_0);
+    pCopSupporter->sub_45C7F0(field_10_subObj->field_0_car);
     pCopSupporter->field_238 = 4;
     pCopSupporter->field_240_occupation = ped_ocupation_enum::police;
     pCopSupporter->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -214,13 +214,13 @@ void Police_38::SpawnPoliceInCar_570BF0()
     pGroup->field_34_count = 1;
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
     pGroup->field_0 = 0;
-    field_10_subObj->field_4 = pCopLeader;
+    field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0->sub_421560(5);
-    field_10_subObj->field_0->sub_440590();
-    field_10_subObj->field_0->sub_43AF40();
-    field_10_subObj->field_0->ActivateEmergencyLights_43C920();
-    field_10_subObj->field_8 = pGroup;
+    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+    field_10_subObj->field_8_group = pGroup;
 }
 
 MATCH_FUNC(0x570e30)
@@ -230,7 +230,7 @@ void Police_38::SpawnSWAT_570E30()
     Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
     pSwatLeader->field_238 = 4;
     pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;
-    pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0);
+    pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pSwatLeader->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pSwatLeader->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pSwatLeader->field_1E0_objective_target_y = Fix16(field_3_targ_y);
@@ -247,7 +247,7 @@ void Police_38::SpawnSWAT_570E30()
     for (u8 i = 0; i < 3; ++i)
     {
         Ped* pSwatMember = gChar_C_6787BC->sub_470F30();
-        pSwatMember->sub_45C7F0(field_10_subObj->field_0);
+        pSwatMember->sub_45C7F0(field_10_subObj->field_0_car);
         pSwatMember->field_238 = 4;
         pSwatMember->field_240_occupation = ped_ocupation_enum::swat;
         pSwatMember->SetObjective(objectives_enum::no_obj_0, 9999);
@@ -261,13 +261,13 @@ void Police_38::SpawnSWAT_570E30()
         pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
     }
     pSwatGroup->field_0 = 0;
-    field_10_subObj->field_4 = pSwatLeader;
+    field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0->sub_421560(5);
-    field_10_subObj->field_0->sub_440590();
-    field_10_subObj->field_0->sub_43AF40();
-    field_10_subObj->field_0->ActivateEmergencyLights_43C920();
-    field_10_subObj->field_8 = pSwatGroup;
+    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+    field_10_subObj->field_8_group = pSwatGroup;
 }
 
 MATCH_FUNC(0x571150)
@@ -276,7 +276,7 @@ void Police_38::SpawnFBI_nonused_571150()
     Ped* pFBI = gChar_C_6787BC->sub_470F30();
     pFBI->field_238 = 4;
     pFBI->field_240_occupation = ped_ocupation_enum::fbi;
-    pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0);
+    pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
     pFBI->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pFBI->field_1DC_objective_target_x = Fix16(field_2_targ_x);
     pFBI->field_1E0_objective_target_y = Fix16(field_3_targ_y);
@@ -287,43 +287,43 @@ void Police_38::SpawnFBI_nonused_571150()
     pFBI->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pFBI->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pFBI->field_26C_graphic_type = 1;
-    field_10_subObj->field_4 = pFBI;
+    field_10_subObj->field_4_ped = pFBI;
     field_10_subObj->field_28 = 6;
-    field_10_subObj->field_0->sub_421560(5);
-    field_10_subObj->field_0->sub_440590();
-    field_10_subObj->field_0->sub_43AF40();
-    field_10_subObj->field_0->ActivateEmergencyLights_43C920();
-    field_10_subObj->field_8 = 0;
+    field_10_subObj->field_0_car->sub_421560(5);
+    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->sub_43AF40();
+    field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
+    field_10_subObj->field_8_group = 0;
 }
 
 MATCH_FUNC(0x571350)
 void Police_38::sub_571350()
 {
     field_24_state = 2;
-    PedGroup* pGroup = field_10_subObj->field_8;
+    PedGroup* pGroup = field_10_subObj->field_8_group;
     if (pGroup)
     {
         if (pGroup->sub_4C9150())
         {
             u8 v7 = 0;
-            for (Ped* pPedIter = field_10_subObj->field_4; pPedIter; pPedIter = field_10_subObj->field_8->field_4_ped_list[v7++])
+            for (Ped* pPedIter = field_10_subObj->field_4_ped; pPedIter; pPedIter = field_10_subObj->field_8_group->field_4_ped_list[v7++])
             {
                 pPedIter->field_164_ped_group = 0;
                 pPedIter->field_23C = 0;
                 pPedIter->Deallocate_45EB60();
-                if (!field_10_subObj->field_8)
+                if (!field_10_subObj->field_8_group)
                 {
                     break;
                 }
             }
-            field_10_subObj->field_8->sub_4C8E90();
+            field_10_subObj->field_8_group->sub_4C8E90();
             field_10_subObj->field_28 = 5;
             field_10_subObj->field_2C = 1;
         }
     }
     else
     {
-        Ped* v6 = field_10_subObj->field_4;
+        Ped* v6 = field_10_subObj->field_4_ped;
         if (v6)
         {
             if (v6->field_20e >= 0x1Eu)
@@ -396,7 +396,7 @@ void Police_38::sub_574F10()
     byte_6FEB48 = 1;
     u8 idx = 0;
 
-    if (field_10_subObj->field_24 == 2 || !field_10_subObj->field_24 || (pCarUnk = field_10_subObj->field_0, pCarUnk->field_76 > 80))
+    if (field_10_subObj->field_24 == 2 || !field_10_subObj->field_24 || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76 > 80))
     {
         field_24_state = 6;
     }
@@ -410,7 +410,7 @@ void Police_38::sub_574F10()
 
         if (field_10_subObj->field_28 == 5)
         {
-            Car_BC* pCar = field_10_subObj->field_0;
+            Car_BC* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
                 Car_78* v7 = pCar->field_5C;
@@ -420,7 +420,7 @@ void Police_38::sub_574F10()
                     if (field_28_junc_idx > 0)
                     {
                         gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
-                        field_10_subObj->field_0->field_5C->field_28_junc_idx = -1;
+                        field_10_subObj->field_0_car->field_5C->field_28_junc_idx = -1;
                     }
                 }
             }
@@ -448,7 +448,7 @@ void Police_38::sub_574F10()
             }
             else
             {
-                pPed_6FEDDC = field_10_subObj->field_4;
+                pPed_6FEDDC = field_10_subObj->field_4_ped;
                 pPed_6FEDDC->field_21C_bf.b11 = 0;
                 Hamburger_40* v13;
                 for (Ped* pPedIter = pPed_6FEDDC; pPedIter; ++idx)
@@ -458,15 +458,15 @@ void Police_38::sub_574F10()
                         case objectives_enum::goto_area_in_car_14:
                         case objectives_enum::fire_at_object_from_vehicle_52:
                             byte_6FEB48 = 0;
-                            v13 = field_10_subObj->field_0->field_60;
+                            v13 = field_10_subObj->field_0_car->field_60;
                             if (v13)
                             {
                                 gHamburger_500_678E30->sub_474CC0(v13);
-                                field_10_subObj->field_0->field_60 = 0;
+                                field_10_subObj->field_0_car->field_60 = 0;
                             }
                             break;
                         case objectives_enum::no_obj_0:
-                            if (pPedIter == field_10_subObj->field_4)
+                            if (pPedIter == field_10_subObj->field_4_ped)
                             {
                                 if (pPedIter->field_16C_car)
                                 {
@@ -476,7 +476,7 @@ void Police_38::sub_574F10()
                                 {
                                     pPedIter->sub_463830(0, 9999);
                                     pPed_6FEDDC->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
-                                    pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0;
+                                    pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
                                     pPed_6FEDDC->field_21C &= ~4u;
                                 }
                             }
@@ -503,7 +503,7 @@ void Police_38::sub_574F10()
                         default:
                             break;
                     }
-                    PedGroup* pGroup = field_10_subObj->field_8;
+                    PedGroup* pGroup = field_10_subObj->field_8_group;
                     if (pGroup)
                     {
                         pPedIter = pGroup->field_4_ped_list[idx];
@@ -537,7 +537,7 @@ void Police_38::sub_575210()
         }
         else
         {
-            field_10_subObj->field_0->field_A6 |= 0x20u;
+            field_10_subObj->field_0_car->field_A6 |= 0x20u;
         }
     }
     else
@@ -588,7 +588,7 @@ void Police_38::sub_575590()
 {
     if (field_10_subObj)
     {
-        Ped* pPed = field_10_subObj->field_4;
+        Ped* pPed = field_10_subObj->field_4_ped;
         if (pPed)
         {
             if (!pPed->field_20e && pPed->field_278 != 9 && (pPed->field_21C & 1) != 0)
@@ -598,15 +598,15 @@ void Police_38::sub_575590()
         }
         else
         {
-            PedGroup* pGroup = field_10_subObj->field_8;
+            PedGroup* pGroup = field_10_subObj->field_8_group;
             if (pGroup)
             {
                 Ped* pUnkPed = pGroup->field_4_ped_list[0];
                 if (pUnkPed)
                 {
                     pGroup->sub_4C9970(pUnkPed);
-                    field_10_subObj->field_8->add_ped_leader_4C9B10(pUnkPed);
-                    field_10_subObj->field_4 = pUnkPed;
+                    field_10_subObj->field_8_group->add_ped_leader_4C9B10(pUnkPed);
+                    field_10_subObj->field_4_ped = pUnkPed;
                 }
             }
         }

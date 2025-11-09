@@ -4,6 +4,7 @@
 #include "Kfc_1E0.hpp"
 #include "Object_5C.hpp"
 #include "Game_0x40.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Ped.hpp"
 #include "winmain.hpp"
@@ -71,11 +72,43 @@ void Police_7B8::sub_56F400()
     field_7B4 = 0;
 }
 
-STUB_FUNC(0x56f4d0)
-char_type Police_7B8::sub_56F4D0(Ped* a2)
+MATCH_FUNC(0x56f4d0)
+bool Police_7B8::sub_56F4D0(Ped* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 v10 = 0; v10 < 20; v10++)
+    {
+        Police_38* v3 = &this->field_4[v10];
+        if (v3->field_1C_used)
+        {
+            if (v3->field_10_subObj->field_4_ped == a2)
+            {
+                char_type v6 = v3->field_10_subObj->sub_5CBC90();
+                Kfc_30* v7 = v3->field_10_subObj;
+                if (v3->field_10_subObj->field_8_group)
+                {
+                    v7->field_4_ped = v7->field_8_group->field_2C_ped_leader;
+                }
+                if (v6 != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    v3->field_10_subObj->field_4_ped = NULL;
+                    return false;
+                }
+            }
+            else
+            {
+                if (a2->field_164_ped_group)
+                {
+                    a2->field_164_ped_group->sub_4C9970(a2);
+                }
+                return false;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x56f560)

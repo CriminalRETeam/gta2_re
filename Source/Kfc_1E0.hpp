@@ -20,9 +20,9 @@ class Kfc_30
     EXPORT void sub_5CBD50();
     EXPORT void sub_5CC1C0();
     EXPORT char_type sub_5CC480();
-    Car_BC* field_0;
-    Ped* field_4;
-    PedGroup* field_8;
+    Car_BC* field_0_car;
+    Ped* field_4_ped;
+    PedGroup* field_8_group;
     Fix16 field_C_x;
     Fix16 field_10_y;
     Fix16 field_14_z;
