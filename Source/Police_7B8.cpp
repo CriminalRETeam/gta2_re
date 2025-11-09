@@ -369,10 +369,19 @@ void Police_7B8::sub_5708C0(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x570940)
-void Police_7B8::sub_570940(Ped* a3)
+MATCH_FUNC(0x570940)
+void Police_7B8::sub_570940(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == pPed)
+        {
+            field_464[i].field_10_x = pPed->get_cam_x();
+            field_464[i].field_14_y = pPed->get_cam_y();
+            field_464[i].field_18_z = pPed->get_cam_z();
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x577320)
