@@ -386,6 +386,16 @@ class Ped
         return field_216_health;
     }
 
+    void set_occupation_403970(s32 occupation)
+    {
+        field_240_occupation = occupation;
+    }
+
+    void sub_403920(s32 unk)
+    {
+        field_238 = unk;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 

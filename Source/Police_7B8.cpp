@@ -266,11 +266,35 @@ void Police_7B8::sub_570270()
     }
 }
 
-STUB_FUNC(0x570320)
-s32 Police_7B8::SpawnWalkingGuard_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
+MATCH_FUNC(0x570320)
+void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_65C == 6)
+    {
+        pPed->set_occupation_403970(ped_ocupation_enum::unknown_16);
+        pPed->sub_403920(3);
+        pPed->set_remap_433B90(4);
+    }
+    else
+    {
+        pPed->set_occupation_403970(ped_ocupation_enum::unknown_14);
+        pPed->sub_403920(3);
+        pPed->set_remap_433B90(0);
+    }
+    pPed->field_26C_graphic_type = 2;
+    pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pPed->sub_45C830(xpos, ypos, zpos);
+
+    Char_B4* pCharObj = pPed->field_168_game_object;
+    u8 remap = pPed->field_244_remap;
+    pCharObj->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        pCharObj->field_80_sprite_ptr->SetRemap(remap);
+    }
+    pPed->field_168_game_object->field_40_rotation = rotation;
+    pPed->sub_467280();
 }
 
 STUB_FUNC(0x5703e0)
