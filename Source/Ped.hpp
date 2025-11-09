@@ -92,7 +92,7 @@ class Ped
     EXPORT char_type RoadBlockTank_AI_4619F0();
     EXPORT s16 sub_461A60();
     EXPORT void Occupation_AI_461F20();
-    EXPORT s16 sub_462280();
+    EXPORT void sub_462280();
     EXPORT s32 sub_4624A0();
     EXPORT void RemovePedWeapons_462510();
     EXPORT void sub_462550();
@@ -454,8 +454,8 @@ class Ped
     s16 field_212;
     s16 field_214;
     s16 field_216_health;
-    s16 field_218_objective_timer;
-    s16 field_21A_car_state_timer;
+    u16 field_218_objective_timer;
+    u16 field_21A_car_state_timer;
 
     union 
     {

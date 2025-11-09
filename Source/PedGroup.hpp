@@ -46,6 +46,11 @@ class PedGroup
     EXPORT PedGroup();
     EXPORT ~PedGroup();
 
+    inline s32 sub_433370()
+    {
+        return field_3C;
+    }
+
     char_type field_0;
     char_type field_1;
     char_type field_2; // padding

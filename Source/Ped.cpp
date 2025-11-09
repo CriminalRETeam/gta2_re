@@ -47,6 +47,7 @@ DEFINE_GLOBAL(u8, byte_678554, 0x678554);
 DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
 DEFINE_GLOBAL(u8, byte_6787D9, 0x6787D9);
 DEFINE_GLOBAL(u8, byte_61A8A4, 0x61A8A4);
+DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
@@ -1022,11 +1023,98 @@ void Ped::Occupation_AI_461F20()
     }
 }
 
-STUB_FUNC(0x462280)
-s16 Ped::sub_462280()
+MATCH_FUNC(0x462280)
+void Ped::sub_462280()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_61A8A0 = 1;
+    Ped::Occupation_AI_461F20();
+    byte_61A8A3 = 0;
+    if (byte_61A8A0)
+    {
+        if (field_164_ped_group)
+        {
+            if (field_23C != 99)
+            {
+                if (field_21C_bf.b2 == 0)
+                {
+                    field_164_ped_group->sub_4CA5E0(field_23C);
+                    byte_61A8A3 = 1;
+                    byte_6787C4 = field_164_ped_group->field_38_group_type != 1;
+                }
+                else
+                {
+                    byte_61A8A3 = 0;
+                    byte_6787C4 = 0;
+                }
+            }
+            else if (field_21C_bf.b2 == 0)
+            {
+                byte_61A8A3 = field_164_ped_group->sub_433370() != 1;
+                field_164_ped_group->sub_4C9F00();
+                byte_6787C4 = 1;
+            }
+            else
+            {
+                byte_61A8A3 = 0;
+                byte_6787C4 = 0;
+            }
+        }
+        else if (field_21C_bf.b2 == 0)
+        {
+            byte_61A8A3 = 1;
+            byte_6787C4 = 1;
+        }
+        else
+        {
+            byte_6787C4 = 0;
+        }
+
+        field_21C_bf.b27 = 0;
+        Ped::sub_463AA0();
+        Ped::sub_463FB0();
+        if (field_278 > 0 && field_278 <= 7)
+        {
+            Ped::sub_461A60();
+        }
+        if (field_238 != 2)
+        {
+            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::objective_6)
+            {
+                if (field_25C_car_state != 3 && field_25C_car_state != 7)
+                {
+                    Ped::Threat_Reaction_AI_465270();
+                    if (field_144)
+                    {
+                        if ((field_21C & 4) == 0)
+                        {
+                            Ped::sub_465B20();
+                        }
+                        field_144 = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_21A_car_state_timer != 9999)
+    {
+        if (field_21A_car_state_timer > 0)
+        {
+            field_21A_car_state_timer--;
+        }
+    }
+
+    if (field_218_objective_timer != 9999)
+    {
+        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::objective_13 &&
+            field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
+        {
+            if (field_218_objective_timer > 0)
+            {
+                field_218_objective_timer = field_218_objective_timer - 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4624a0)
