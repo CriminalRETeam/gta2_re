@@ -353,11 +353,20 @@ char_type Police_7B8::sub_5707B0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5708c0)
-s32 Police_7B8::sub_5708C0(Police_7B8* a1, s32 a2, u32* a3)
+MATCH_FUNC(0x5708c0)
+void Police_7B8::sub_5708C0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == pPed)
+        {
+            field_464[i].field_10_x = pPed->get_cam_x();
+            field_464[i].field_14_y = pPed->get_cam_y();
+            field_464[i].field_18_z = pPed->get_cam_z();
+            field_464[i].field_C = 250;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x570940)
