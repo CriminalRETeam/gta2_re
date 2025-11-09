@@ -99,6 +99,11 @@ class Char_B4
         return field_40_rotation;
     }
 
+    void set_rotation_433A30(Ang16 rotation)
+    {
+        field_40_rotation = rotation;
+    }
+
     inline Fix16 get_sprite_xpos()
     {
         return field_80_sprite_ptr->field_14_xpos.x;
@@ -240,8 +245,19 @@ class Char_203AC
 {
   public:
     EXPORT ~Char_203AC();
-    Ped* field_0;
-    Ped* field_4;
+
+    Ped* sub_403890()
+    {
+        Ped* pOld = field_0_pFirst;
+        field_0_pFirst = field_0_pFirst->field_160_next_ped;
+        pOld->field_160_next_ped = field_4_pNext;
+        field_4_pNext = pOld;
+        pOld->sub_45B440();
+        return pOld;
+    }
+
+    Ped* field_0_pFirst;
+    Ped* field_4_pNext;
     Ped field_8[200];
     s16 field_203A8;
     s16 field_203AA;

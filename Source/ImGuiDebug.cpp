@@ -726,7 +726,7 @@ void CC ImGuiDebugDraw()
                 }
             }
 
-            Ped* pPedIter = gChar_203AC_6787B8->field_4;
+            Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext;
             while (pPedIter)
             {
                 char buffer[128];

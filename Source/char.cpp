@@ -524,12 +524,12 @@ MATCH_FUNC(0x470a50)
 Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Char_203AC* v6 = gChar_203AC_6787B8;
-    Ped* pPed = gChar_203AC_6787B8->field_0;
-    v6->field_0 = pPed->field_160_next_ped;
+    Ped* pPed = gChar_203AC_6787B8->field_0_pFirst;
+    v6->field_0_pFirst = pPed->field_160_next_ped;
 
-    pPed->field_160_next_ped = v6->field_4;
+    pPed->field_160_next_ped = v6->field_4_pNext;
 
-    v6->field_4 = pPed;
+    v6->field_4_pNext = pPed;
 
     pPed->sub_45B440();
 
@@ -596,11 +596,29 @@ Ped* Char_C::sub_470F30()
     return 0;
 }
 
-STUB_FUNC(0x470f90)
+MATCH_FUNC(0x470f90)
 Ped* Char_C::sub_470F90(Ped* pSrc)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pDst = gChar_203AC_6787B8->sub_403890();
+    Ped* pNext = pDst->field_160_next_ped;
+    memcpy(pDst, pSrc, sizeof(Ped));
+    pDst->field_160_next_ped = pNext;
+
+    if (pSrc->field_168_game_object)
+    {
+        pDst->sub_45C830(pSrc->field_1AC_cam.x, pSrc->field_1AC_cam.y, pSrc->field_1AC_cam.z);
+        Char_B4* pCharObj = pDst->field_168_game_object;
+        u8 remap = pSrc->field_244_remap;
+        pCharObj->field_5_remap = remap;
+        if (remap != 0xFF)
+        {
+            pCharObj->field_80_sprite_ptr->SetRemap(remap);
+        }
+        pDst->field_168_game_object->set_rotation_433A30(pSrc->GetRotation());
+        pDst->field_168_game_object->field_16 = 1;
+        pDst->field_168_game_object->field_84 = pSrc->field_168_game_object->field_84;
+    }
+    return pDst;
 }
 
 STUB_FUNC(0x471060)
@@ -612,7 +630,7 @@ void Char_C::DoIanTest_471060(s16 a1)
 MATCH_FUNC(0x4710c0)
 Ped* Char_C::PedById(s32 pedId)
 {
-    for (Ped* pPedIter = gChar_203AC_6787B8->field_4; pPedIter; pPedIter = pPedIter->field_160_next_ped)
+    for (Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext; pPedIter; pPedIter = pPedIter->field_160_next_ped)
     {
         if (pPedIter->field_200_id == pedId)
         {
@@ -625,6 +643,6 @@ Ped* Char_C::PedById(s32 pedId)
 MATCH_FUNC(0x471110)
 Char_203AC::~Char_203AC()
 {
-    this->field_0 = 0;
-    this->field_4 = 0;
+    field_0_pFirst = 0;
+    field_4_pNext = 0;
 }
