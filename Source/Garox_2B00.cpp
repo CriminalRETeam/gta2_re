@@ -1031,7 +1031,7 @@ Hud_Pager_C::Hud_Pager_C()
 }
 
 MATCH_FUNC(0x5d03c0)
-void ArrowTrace_24::sub_5D03C0(Gang_144* pZone)
+void ArrowTrace_24::PointToInfoPhone_5D03C0(Gang_144* pZone)
 {
     set_arrow_aim_from_pos_4767C0(pZone->field_12C_info_phone_x, pZone->field_130_info_phone_y, pZone->field_134_info_phone_z);
     field_10_type = 5;
@@ -1124,9 +1124,9 @@ void ArrowTrace_24::sub_5D03F0()
 }
 
 MATCH_FUNC(0x5d0510)
-void Hud_Arrow_7C::sub_5D0510(s32 a2)
+void Hud_Arrow_7C::SetArrowColour_5D0510(s32 a2)
 {
-    field_18.field_28 = a2;
+    field_18.field_28_arrow_colour = a2;
 }
 
 MATCH_FUNC(0x5d0530)
@@ -1272,7 +1272,7 @@ void Hud_Arrow_7C_Array::sub_5D1350()
             {
                 if (!pPlayerIter->field_0)
                 {
-                    Hud_Arrow_7C* p7C = sub_5D1050();
+                    Hud_Arrow_7C* p7C = AllocArrow_5D1050();
                     p7C->field_18.field_18.field_C = pPlayerIter;
                     p7C->field_18.field_18.field_10_type = 6;
                     Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
@@ -1424,13 +1424,13 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1020(s32* a2)
 }
 
 MATCH_FUNC(0x5d1050)
-Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D1050()
+Hud_Arrow_7C* Hud_Arrow_7C_Array::AllocArrow_5D1050()
 {
     s32 idx;
     Hud_Arrow_7C* pRet = sub_5D1020(&idx);
     pRet->field_10_radius_pos = dword_7064C0;
     pRet->field_14_reposition_speed = dword_7063B0;
-    pRet->sub_5D0510(4);
+    pRet->SetArrowColour_5D0510(4);
     pRet->field_18.field_10.field_5 = 1;
     pRet->field_18.field_2C = 0;
     pRet->field_18.field_10.field_30 = 0;
@@ -1462,7 +1462,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D10D0(Gang_144* pZone, s32 phone_type)
     while (i < GTA2_COUNTOF_S(field_0_array))
     {
         if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
-            (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28 == phone_type))
+            (pIter->field_18.field_10.field_30 == pZone && pIter->field_18.field_28_arrow_colour == phone_type))
         {
             return pIter;
         }
@@ -1509,10 +1509,10 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
     }
     else
     {
-        Hud_Arrow_7C* v7 = Hud_Arrow_7C_Array::sub_5D1050();
+        Hud_Arrow_7C* v7 = Hud_Arrow_7C_Array::AllocArrow_5D1050();
         v7->field_18.field_18.field_8 = pPhoneInfo;
         v7->field_18.field_18.field_10_type = 4;
-        v7->sub_5D0510(phone_type);
+        v7->SetArrowColour_5D0510(phone_type);
         v7->field_18.field_10.field_30 = pZone;
         v7->field_18.field_10.field_34 = sub_5D12E0(phone_type);
         v7->field_18.field_2C = pZone->field_138_arrow_colour;
@@ -1569,14 +1569,14 @@ u8 __stdcall sub_5D12E0(s32 phone_type)
 }
 
 MATCH_FUNC(0x5d1310)
-void Hud_Arrow_7C_Array::sub_5D1310(Gang_144* pZone)
+void Hud_Arrow_7C_Array::SetNewGangArrow_5D1310(Gang_144* pZone)
 {
-    Hud_Arrow_7C* p7C = sub_5D1050();
-    p7C->sub_5D0510(4);
+    Hud_Arrow_7C* p7C = AllocArrow_5D1050();
+    p7C->SetArrowColour_5D0510(4);
     p7C->field_18.field_10.field_30 = pZone;
     p7C->field_18.field_2C = pZone->field_138_arrow_colour;
     p7C->field_18.field_10.field_34 = 0;
-    p7C->field_18.field_18.sub_5D03C0(pZone);
+    p7C->field_18.field_18.PointToInfoPhone_5D03C0(pZone);
 }
 
 // ----------------------------------------------------
@@ -1727,7 +1727,7 @@ void Garox_1E34_L::sub_5D4850()
 }
 
 STUB_FUNC(0x5d4890)
-s32 Garox_1E34_L::sub_5D4890(s32 a2)
+s32 Garox_1E34_L::ClearAllBriefsWithPriority_5D4890(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

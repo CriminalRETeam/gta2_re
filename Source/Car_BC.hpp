@@ -383,8 +383,8 @@ class Car_BC
     EXPORT s32 sub_43C650();
     EXPORT s32 sub_43C700();
     EXPORT void sub_43C840();
-    EXPORT s32 sub_43C920();
-    EXPORT s16 sub_43C9D0();
+    EXPORT s32 ActivateEmergencyLights_43C920();
+    EXPORT s16 DeactivateEmergencyLights_43C9D0();
     EXPORT s16 sub_43CA80();
     EXPORT s32 sub_43CBE0();
     EXPORT Car_BC* sub_43CDF0(char_type a2);

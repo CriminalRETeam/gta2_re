@@ -80,7 +80,7 @@ void Ped_Unknown_4::sub_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-s32 Ped_Unknown_4::sub_4716B0()
+s32 Ped_Unknown_4::GetPassengerNum_4716B0()
 {
     s32 pIter;
     Char_8* pOwner = this->field_0_pOwner;

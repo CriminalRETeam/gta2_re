@@ -82,7 +82,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     }
 
     stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
-    const u32 latest_score = pPlayer->field_2D4_unk.sub_592370();
+    const u32 latest_score = pPlayer->field_2D4_unk.GetScore_592370();
     if (latest_score > pStageStats->field_4_stage_best_score)
     {
         pStageStats->field_4_stage_best_score = latest_score;

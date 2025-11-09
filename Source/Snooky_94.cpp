@@ -81,7 +81,7 @@ void Snooky_94::sub_4887F0()
 }
 
 MATCH_FUNC(0x488820)
-Crusher_30* Snooky_94::sub_488820(Fix16 a2, Fix16 a3)
+Crusher_30* Snooky_94::CreateCrusher_488820(Fix16 a2, Fix16 a3)
 {
     Crusher_30* pNew = &field_0[field_90_count];
     pNew->sub_4885A0(a2, a3, field_90_count);

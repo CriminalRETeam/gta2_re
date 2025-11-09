@@ -324,7 +324,7 @@ void Car_214::sub_5C8680(u8 idx)
     field_0[idx].field_C = 0;
     field_0[idx].field_0 = 0;
     field_0[idx].field_14 = 2;
-    field_0[idx].field_4_O2C->sub_5291B0();
+    field_0[idx].field_4_O2C->Dealloc_5291B0();
     field_0[idx].field_4_O2C = 0;
 }
 
@@ -1269,14 +1269,14 @@ void Car_BC::sub_43C840()
 }
 
 STUB_FUNC(0x43c920)
-s32 Car_BC::sub_43C920()
+s32 Car_BC::ActivateEmergencyLights_43C920()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43c9d0)
-s16 Car_BC::sub_43C9D0()
+s16 Car_BC::DeactivateEmergencyLights_43C9D0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2274,7 +2274,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
     NOT_IMPLEMENTED;
     Player* pPlayer = this->field_54_driver->field_15C_player;
     s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
-    if (cost <= pPlayer->field_2D4_unk.sub_592370())
+    if (cost <= pPlayer->field_2D4_unk.GetScore_592370())
     {
         if (pPlayer->field_0)
         {
@@ -2559,7 +2559,7 @@ void Car_BC::sub_4446E0()
     {
         if (field_5C->field_28_junc_idx > 0)
         {
-            gRouteFinder_6FFDC8->sub_589930(field_5C->field_28_junc_idx);
+            gRouteFinder_6FFDC8->CancelRoute_589930(field_5C->field_28_junc_idx);
         }
 
         gCar_8F74_677CF8->Remove(field_5C);

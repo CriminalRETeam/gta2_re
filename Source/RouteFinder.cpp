@@ -433,7 +433,7 @@ char_type RouteFinder::sub_5895C0(u8 a2, s16 a3, u8 a4, s32 a5, s32 a6)
 }
 
 STUB_FUNC(0x589930)
-s16 RouteFinder::sub_589930(s16 idx)
+s16 RouteFinder::CancelRoute_589930(s16 idx)
 {
     NOT_IMPLEMENTED;
     return 0;

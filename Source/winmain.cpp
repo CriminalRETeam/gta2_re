@@ -140,8 +140,8 @@ void force_link()
     lewin.sub_564680(0);
     lewin.sub_564710(0, 0);
     lewin.sub_564790(0);
-    lewin.sub_5647D0();
-    lewin.sub_5648F0();
+    lewin.ClearKFWeapon_5647D0();
+    lewin.GetCurrPlayerWeapon_5648F0();
     lewin.sub_564910(0);
     lewin.HasAnyAmmo_564940();
     lewin.sub_564960(0, 0);

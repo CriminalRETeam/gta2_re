@@ -69,13 +69,13 @@ char_type Gang_144::sub_4BEDF0(u8 a2)
 }
 
 MATCH_FUNC(0x4BEE30)
-void Gang_144::sub_4BEE30(u8 idx, char_type value)
+void Gang_144::SetRespect_4BEE30(u8 idx, char_type value)
 {
     field_11C[idx] = value;
 }
 
 MATCH_FUNC(0x4BEE50)
-void Gang_144::sub_4BEE50(u8 idx, char_type a3)
+void Gang_144::IncrementRespect_4BEE50(u8 idx, char_type a3)
 {
     const s8 new_attr = field_11C[idx] + a3;
     if (new_attr < field_11C[idx])
@@ -102,7 +102,7 @@ void Gang_144::sub_4BEE50(u8 idx, char_type a3)
 }
 
 MATCH_FUNC(0x4BEEA0)
-void Gang_144::sub_4BEEA0(u8 idx, char_type a3)
+void Gang_144::DecrementRespect_4BEEA0(u8 idx, char_type a3)
 {
     s8 diff = field_11C[idx] - a3;
     if (diff > field_11C[idx] || (field_11C[idx] = diff) < -100)
@@ -137,7 +137,7 @@ bool Gang_144::sub_4BEF10(u8 a2)
 }
 
 MATCH_FUNC(0x4BEF50)
-void Gang_144::sub_4BEF50(u8 zone_idx, char_type a3)
+void Gang_144::SetGangKillReaction_4BEF50(u8 zone_idx, char_type a3)
 {
     field_122[zone_idx] = a3;
 }
@@ -150,15 +150,15 @@ char_type Gang_144::sub_4BEF70(u8 a2, u8 a3)
 }
 
 MATCH_FUNC(0x4BF000)
-void Gang_144::sub_4BF000(u8 a2, char_type idx)
+void Gang_144::ChangeRespectAndUpdate_4BF000(u8 a2, char_type idx)
 {
     if (idx > 0)
     {
-        sub_4BEE50(a2, idx);
+        IncrementRespect_4BEE50(a2, idx);
     }
     else
     {
-        sub_4BEEA0(a2, abs(idx));
+        DecrementRespect_4BEEA0(a2, abs(idx));
     }
 
     for (u8 i = 0; i < 10; ++i)
@@ -170,11 +170,11 @@ void Gang_144::sub_4BF000(u8 a2, char_type idx)
             {
                 if (idx > 0)
                 {
-                    pZoneFromIdx->sub_4BEEA0(a2, idx);
+                    pZoneFromIdx->DecrementRespect_4BEEA0(a2, idx);
                 }
                 else
                 {
-                    pZoneFromIdx->sub_4BEE50(a2, abs(idx));
+                    pZoneFromIdx->IncrementRespect_4BEE50(a2, abs(idx));
                 }
             }
         }

@@ -54,7 +54,7 @@ void Maccies_14AC::sub_4C1D70()
 }
 
 MATCH_FUNC(0x4c1dc0)
-Generator_2C* Maccies_14AC::sub_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
+Generator_2C* Maccies_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Generator_2C* pMaccies = &field_0[field_14A0];
     pMaccies->sub_4C1C70(x, y, z, rot, type, min_delay, max_delay);

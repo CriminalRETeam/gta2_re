@@ -94,33 +94,33 @@ void miss2_0x11C::Next_503620(SCR_CMD_HEADER* a2)
 {
     if ((u16)a2->field_4_cmd_next != 0xFFFF)
     { // FF FF (low endian) is the script terminator
-        dword_6F806C = field_4_level_start;
-        field_4_level_start = a2->field_4_cmd_next;
+        dword_6F806C = field_4_next_cmd;
+        field_4_next_cmd = a2->field_4_cmd_next;
         field_C = 0;
     }
     else
     {
-        miss2_0x11C::sub_503670();
+        miss2_0x11C::EndCmd_503670();
     }
 }
 
 MATCH_FUNC(0x503650)
-void miss2_0x11C::sub_503650(u16 a2)
+void miss2_0x11C::JumpToCmd_503650(u16 a2)
 {
     if (a2 != 0xFFFF)
     {
-        field_4_level_start = a2;
+        field_4_next_cmd = a2;
     }
     else
     {
-        miss2_0x11C::sub_503670();
+        miss2_0x11C::EndCmd_503670();
     }
 }
 
 MATCH_FUNC(0x503670)
-void miss2_0x11C::sub_503670()
+void miss2_0x11C::EndCmd_503670()
 {
-    field_4_level_start = 0xFFFFu;
+    field_4_next_cmd = 0xFFFFu;
 }
 
 MATCH_FUNC(0x503680)
@@ -519,7 +519,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
-    a2->field_8_generator = gMaccies_14AC_67E5D0->sub_4C1DC0(pCmd->field_C_pos.field_0_x,
+    a2->field_8_generator = gMaccies_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
                                                              pCmd->field_C_pos.field_4_y,
                                                              pCmd->field_C_pos.field_8_z,
                                                              rotation,
@@ -556,7 +556,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
 MATCH_FUNC(0x5045a0)
 void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2)
 {
-    a2->field_8_crusher = gSnooky_94_67A830->sub_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
+    a2->field_8_crusher = gSnooky_94_67A830->CreateCrusher_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
 }
 
 STUB_FUNC(0x5045d0)
@@ -624,7 +624,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     Gang_144* v7 = gZones_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
     if ((u8)pCmd->field_F_kill_respect_change > 0)
     {
-        gGarox_2B00_706620->field_1F18.sub_5D1310(v7);
+        gGarox_2B00_706620->field_1F18.SetNewGangArrow_5D1310(v7);
     }
 }
 
@@ -918,7 +918,7 @@ void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1)
 }
 
 STUB_FUNC(0x504ee0)
-void miss2_0x11C::sub_504EE0(s32 a1, s32 a2)
+void miss2_0x11C::CreateLight_504EE0(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -985,7 +985,7 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 }
 
 MATCH_FUNC(0x5052c0)
-void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0(SCR_DECLARE_POLICELEVEL* pCmd) // OBS: Actually this is SCRCMD_DECLARE_POLICE_5052C0
+void miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
 {
     u8 max_wanted_level = pCmd->field_A_wanted_level;
     if (max_wanted_level == 0)
@@ -1084,14 +1084,14 @@ void miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* pCmd)
 }
 
 STUB_FUNC(0x505790)
-s32 miss2_0x11C::sub_505790(u16 a1)
+s32 miss2_0x11C::DisableThread_505790(u16 a1)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x505b10)
-void miss2_0x11C::sub_505B10(u16 idx)
+void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
 {
     NOT_IMPLEMENTED;
 }
@@ -1174,7 +1174,7 @@ MATCH_FUNC(0x5069f0)
 void miss2_0x11C::SCRCMD_LEVELEND_5069F0()
 {
     field_118 = 0;
-    miss2_0x11C::sub_503670();
+    miss2_0x11C::EndCmd_503670();
 }
 
 MATCH_FUNC(0x506a00)
@@ -1237,7 +1237,7 @@ void miss2_0x11C::SCRCMD_IF_JUMP_506AF0()
     if ((base_pointer->is_or == 1 && field_8) || (!base_pointer->is_or && !field_8))
     {
 
-        sub_503650(base_pointer->else_endif_pointer); //  Jump to the last IF_JUMP or go to ELSE section
+        JumpToCmd_503650(base_pointer->else_endif_pointer); //  Jump to the last IF_JUMP or go to ELSE section
         return;
     }
 
@@ -1252,7 +1252,7 @@ void miss2_0x11C::sub_506B30() // GOSUB
     v3->field_0 = field_8;
     v3->field_4 = gBasePtr_6F8070->field_4_cmd_next;
     field_114->add_503160(v3);
-    miss2_0x11C::sub_503650(v2->field_8_unsigned_1);
+    miss2_0x11C::JumpToCmd_503650(v2->field_8_unsigned_1);
 }
 
 MATCH_FUNC(0x506b80)
@@ -1262,11 +1262,11 @@ void miss2_0x11C::sub_506B80() // MISSIONEND
 
     if (v2 == NULL)
     {
-        miss2_0x11C::sub_503670();
+        miss2_0x11C::EndCmd_503670();
     }
     else
     {
-        miss2_0x11C::sub_503650(v2->field_4);
+        miss2_0x11C::JumpToCmd_503650(v2->field_4);
         field_8 = v2->field_0;
         field_114->sub_5031C0(v2);
     }
@@ -1481,7 +1481,7 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[2].field_4_cmd_next);
     if (pPointer->field_8_arrow == NULL)
     {
-        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
+        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
     ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
@@ -1492,7 +1492,7 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
     {
-        pPointer->field_8_arrow->sub_5D0510(5);
+        pPointer->field_8_arrow->SetArrowColour_5D0510(5);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1510,9 +1510,9 @@ void miss2_0x11C::SCRCMD_ARROW_COLOUR_508DC0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (pPointer->field_8_arrow == NULL)
     {
-        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.sub_5D1050();
+        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
-    pPointer->field_8_arrow->sub_5D0510(v1->field_A_unsigned_2);
+    pPointer->field_8_arrow->SetArrowColour_5D0510(v1->field_A_unsigned_2);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -1821,11 +1821,11 @@ void miss2_0x11C::sub_5098E0()
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_GIVE_WEAPON1)
         {
-            pPointer->field_8_char->sub_45DD30(v1->field_A_signed_2, 100);
+            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(v1->field_A_signed_2, 100);
         }
         else
         {
-            pPointer->field_8_char->sub_45DD30(v2->field_A_signed_2, v2->field_C_signed_3);
+            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(v2->field_A_signed_2, v2->field_C_signed_3);
         }
     }
     else
@@ -1949,7 +1949,7 @@ void miss2_0x11C::sub_509D00()
 MATCH_FUNC(0x509d60)
 void miss2_0x11C::sub_509D60()
 {
-    miss2_0x11C::sub_505B10(gBasePtr_6F8070[1].field_0_cmd_this); //  delete item
+    miss2_0x11C::DeallocOrDeleteItem_505B10(gBasePtr_6F8070[1].field_0_cmd_this); //  delete item
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -2026,19 +2026,19 @@ void miss2_0x11C::sub_509ED0()
     {
         case 406:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 32, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 32, 0);
             break;
         case 404:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 18, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 18, 0);
             break;
         case 142:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 19, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 19, 0);
             break;
         case 399:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 20, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 20, 0);
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2052,19 +2052,19 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
     {
         case 1:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 23, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 23, 0);
             break;
         case 2:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 22, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 22, 0);
             break;
         case 3:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 24, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 24, 0);
             break;
         case 4:
             gObject_5C_6F8F84
-                ->sub_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 25, 0);
+                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 25, 0);
             break;
         default:
             break;
@@ -2341,7 +2341,7 @@ void miss2_0x11C::sub_50A980() //  DELAY
 }
 
 STUB_FUNC(0x50a9e0)
-void miss2_0x11C::sub_50A9E0(u16 idx)
+void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 {
     NOT_IMPLEMENTED;
 }
@@ -2349,19 +2349,19 @@ void miss2_0x11C::sub_50A9E0(u16 idx)
 MATCH_FUNC(0x50abc0)
 void miss2_0x11C::SCRCMD_DISABLE_THREAD_50ABC0()
 {
-    miss2_0x11C::sub_505790(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::DisableThread_505790(gBasePtr_6F8070[1].field_0_cmd_this);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50abf0)
 void miss2_0x11C::SCRCMD_ENABLE_THREAD_50ABF0()
 {
-    miss2_0x11C::sub_50A9E0(gBasePtr_6F8070[1].field_0_cmd_this);
+    miss2_0x11C::EnableThread_50A9E0(gBasePtr_6F8070[1].field_0_cmd_this);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50ac20)
-void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20() // SET_GANG_KILL_REACTION
+void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20() // SET_GANG_KILL_REACTION
 {
     str_table_entry* gang_1_str;
 
@@ -2378,7 +2378,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_RESPECT_50AC20() // SET_GANG_KILL_REACTION
         FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_2 = gZones_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
-    pGang_1->sub_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);
+    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);
     pGang_1->field_111 = 1;
     pGang_2->field_111 = 1;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2401,21 +2401,21 @@ void miss2_0x11C::sub_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            v4->sub_4BEE30(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             v4->field_111 = 1;
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (v1->field_A_signed_2 > 0)
             {
-                v4->sub_4BEE50(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * (v1->field_A_signed_2));
+                v4->IncrementRespect_4BEE50(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * (v1->field_A_signed_2));
             }
             else
             {
-                v4->sub_4BEEA0(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * abs(v1->field_A_signed_2));
+                v4->DecrementRespect_4BEEA0(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * abs(v1->field_A_signed_2));
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            v4->sub_4BF000(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
+            v4->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->field_2E_idx, 20 * ((u8)v1->field_A_signed_2));
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2545,7 +2545,7 @@ void miss2_0x11C::SCRCMD_CHECK_SCORE_50B6F0()
     if (pPed != NULL)
     {
         Player* pPlayer = pPed->field_15C_player;
-        if (pPlayer != NULL && pPlayer->field_2D4_unk.sub_592370() > pCmd->field_C_target_score)
+        if (pPlayer != NULL && pPlayer->field_2D4_unk.GetScore_592370() > pCmd->field_C_target_score)
         {
             field_8 = true;
         }
@@ -2604,7 +2604,7 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 
     Car_BC* pCar = pPointer->field_8_car;
 
-    if (pCar != NULL && (u16)pCar->field_4.sub_4716B0() >= v1->field_A_signed_2)
+    if (pCar != NULL && (u16)pCar->field_4.GetPassengerNum_4716B0() >= v1->field_A_signed_2)
     {
         field_8 = true;
     }
@@ -2894,7 +2894,7 @@ void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
 
     if (gSero_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
     {
-        gSero_181C_6FF1D4->sub_579B20();
+        gSero_181C_6FF1D4->KillAllPassengers_579B20();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2909,7 +2909,7 @@ void miss2_0x11C::SCRCMD_IS_GROUP_IN_CAR_50C470()
     bool v1;
     if (pGroup != NULL)
     {
-        v1 = pGroup->sub_4CAA20();
+        v1 = pGroup->IsAllMembersInSomeCar_4CAA20();
     }
     else
     {
@@ -2968,10 +2968,10 @@ void miss2_0x11C::sub_50C6F0() // PARK and PARK_NO_RESPAWN
     SCR_POINTER* pParam1 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pParam2 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
 
-    gGarage_48_6FD26C->sub_534700(pParam1->field_8_car, pParam2->field_8_door);
+    gGarage_48_6FD26C->ParkCarAtDoor_534700(pParam1->field_8_car, pParam2->field_8_door);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
     {
-        gGarage_48_6FD26C->field_3F = 1;
+        gGarage_48_6FD26C->field_3F_no_respawn = true;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3056,7 +3056,7 @@ void miss2_0x11C::SCRCMD_REMOVE_BLOCK_50C9F0()
 {
     SCR_REMOVE_BLOCK* pCmd = (SCR_REMOVE_BLOCK*)gBasePtr_6F8070;
 
-    gMap_0x370_6F6268->sub_4E8940(pCmd->field_8_pos.field_0_x,
+    gMap_0x370_6F6268->RemoveBlock_4E8940(pCmd->field_8_pos.field_0_x,
                                   pCmd->field_8_pos.field_1_y,
                                   pCmd->field_8_pos.field_2_z,
                                   pCmd->field_B_do_drop);
@@ -3068,7 +3068,7 @@ void miss2_0x11C::SCRCMD_LOWER_LEVEL_50CA30()
 {
     SCR_LOWER_LEVEL* pCmd = (SCR_LOWER_LEVEL*)gBasePtr_6F8070;
 
-    gMap_0x370_6F6268->sub_4E8B70(pCmd->field_8_min_pos.field_0_x,
+    gMap_0x370_6F6268->LowerLevel_4E8B70(pCmd->field_8_min_pos.field_0_x,
                                   pCmd->field_A_max_pos.field_0_x,
                                   pCmd->field_8_min_pos.field_1_y,
                                   pCmd->field_A_max_pos.field_1_y);
@@ -3079,7 +3079,7 @@ MATCH_FUNC(0x50ca70)
 void miss2_0x11C::sub_50CA70()
 {
     SCR_CHANGE_BLOCK* pCmd = (SCR_CHANGE_BLOCK*)gBasePtr_6F8070;
-    gMap_0x370_6F6268->sub_4E8620(pCmd->field_8_x, pCmd->field_9_y, pCmd->field_A_z, pCmd->field_B_change_type, pCmd->field_C_info_word);
+    gMap_0x370_6F6268->ChangeBlock_4E8620(pCmd->field_8_x, pCmd->field_9_y, pCmd->field_A_z, pCmd->field_B_change_type, pCmd->field_C_info_word);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3397,8 +3397,8 @@ void miss2_0x11C::sub_50E900()
 MATCH_FUNC(0x50e9a0)
 void miss2_0x11C::sub_50E9A0()
 {
-    gGarox_2B00_706620->field_DC.sub_5D4890(1); // clear lowest brief priority
-    gGarox_2B00_706620->field_DC.sub_5D4890(3); // clear highest brief priority
+    gGarox_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(1); // clear lowest brief priority
+    gGarox_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(3); // clear highest brief priority
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3750,7 +3750,7 @@ void miss2_0x11C::SCRCMD_CHAR_DO_NOTHING_50F410()
 
     if (pPed != NULL)
     {
-        pPed->sub_462590();
+        pPed->ForceDoNothing_462590();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3766,11 +3766,11 @@ void miss2_0x11C::SCRCMD_EMERG_LIGHTS_50F450()
     {
         if ((u8)v1->field_A_unsigned_2 == 1)
         {
-            pPointer->field_8_car->sub_43C920(); //  activate sirens
+            pPointer->field_8_car->ActivateEmergencyLights_43C920(); //  activate sirens
         }
         else
         {
-            pPointer->field_8_car->sub_43C9D0(); //  deactivate sirens
+            pPointer->field_8_car->DeactivateEmergencyLights_43C9D0(); //  deactivate sirens
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -3872,7 +3872,7 @@ void miss2_0x11C::sub_50FA00() // SCRCMD_KILL_char_type
 
     if (pPed != NULL)
     {
-        pPed->sub_46F9D0(); // kill ped
+        pPed->Kill_46F9D0(); // kill ped
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3990,7 +3990,7 @@ void miss2_0x11C::sub_50FED0() // SCRCMD_CLEAR_KF_WEAPON
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     Player* pPlayer = pPointer->field_8_char->field_15C_player;
 
-    pPlayer->sub_5647D0(); // clear kill frenzy weapon
+    pPlayer->ClearKFWeapon_5647D0(); // clear kill frenzy weapon
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4028,7 +4028,7 @@ void miss2_0x11C::sub_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ON
 MATCH_FUNC(0x510030)
 void miss2_0x11C::sub_510030() // SCRCMD_CHANGE_POLICE
 {
-    miss2_0x11C::SCRCMD_OBJ_DECSET_2D_STR_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
+    miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4041,7 +4041,7 @@ void miss2_0x11C::sub_510050() // SCRCMD_DESTROY_GROUP
 
     if (pGroup)
     {
-        pGroup->sub_4C93A0(); // destroy group
+        pGroup->DestroyGroup_4C93A0(); // destroy group
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4052,7 +4052,7 @@ void miss2_0x11C::sub_510090()
     SCR_CHECK_CURRENT_WEAPON* pCmd = (SCR_CHECK_CURRENT_WEAPON*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    Weapon_30* pWeapon = pPointer->field_8_char->field_15C_player->sub_5648F0();
+    Weapon_30* pWeapon = pPointer->field_8_char->field_15C_player->GetCurrPlayerWeapon_5648F0();
 
     if (pWeapon != NULL && pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
     {
@@ -4158,7 +4158,7 @@ void miss2_0x11C::sub_510780()
     {
         for (; v2 != NULL; v2 = gZones_CA8_67E274->sub_4BECE0())
         {
-            v2->sub_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[v4++]);
+            v2->SetRespect_4BEE30(0, gfrosty_pasteur_6F8060->field_C1E2F[v4++]);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4169,7 +4169,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
 {
     if (field_10 != 1)
     {
-        SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
+        SCR_CMD_HEADER* pCmd = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_next_cmd);
         gBasePtr_6F8070 = pCmd;
         switch (pCmd->field_2_type)
         {
@@ -4547,7 +4547,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
                 SCRCMD_SET_GANG_INFO1_50B670();
                 break;
             case 224:
-                SCRCMD_SET_GANG_RESPECT_50AC20();
+                SCRCMD_SET_GANG_KILL_REACTION_50AC20();
                 break;
             case SCRCMD_SET_CHAR_RESPECT:
             case SCRCMD_CHANGE_RESPECT:
@@ -4916,11 +4916,11 @@ char_type miss2_0x11C::sub_511840()
         return true;
     }
 
-    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
+    BasePointer_512770 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_next_cmd);
 
     if (!BasePointer_512770)
     {
-        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_level_start);
+        sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_next_cmd);
     }
 
     miss2_0x11C::sub_503200();
@@ -4930,7 +4930,7 @@ char_type miss2_0x11C::sub_511840()
         do
         {
             miss2_0x11C::PreExecOpCode_5108D0();
-            gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
+            gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_next_cmd);
         } while (field_12 > 0); //  execute opcodes in the same frame until an ENDEXEC
     }
     else //  It isn't an EXEC opcode
@@ -4940,11 +4940,11 @@ char_type miss2_0x11C::sub_511840()
         {
             while (1) // execute commands in the same frame
             {
-                v5 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_level_start);
+                v5 = gfrosty_pasteur_6F8060->GetBasePointer_512770(field_4_next_cmd);
                 miss2_0x11C::PreExecOpCode_5108D0();
 
                 //  If the script has reached a command out of the WHILE_EXEC block, or if it reaches LEVELEND
-                if (v5->field_6_return_value != 1 || field_4_level_start == 0xFFFF)
+                if (v5->field_6_return_value != 1 || field_4_next_cmd == 0xFFFF)
                 {
                     break;
                 }
@@ -4963,7 +4963,7 @@ char_type miss2_0x11C::sub_511840()
         }
     }
 
-    v4 = field_4_level_start == 0xFFFF; // Did it reached the LEVELEND?
+    v4 = field_4_next_cmd == 0xFFFF; // Did it reached the LEVELEND?
     field_12 = 0; // Clear EXEC flag?
     return v4;
 }
@@ -4971,7 +4971,7 @@ char_type miss2_0x11C::sub_511840()
 MATCH_FUNC(0x511930)
 void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
 {
-    field_4_level_start = levelStart;
+    field_4_next_cmd = levelStart;
     field_6 = a2;
     field_E = 0;
     field_C = 0;
@@ -5000,7 +5000,7 @@ miss2_0x11C::miss2_0x11C()
 {
     field_0 = 0;
     field_114 = new miss2_8();
-    field_4_level_start = 0;
+    field_4_next_cmd = 0;
     field_6 = 0;
     field_8 = false;
     field_C = 0;

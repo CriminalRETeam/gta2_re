@@ -228,8 +228,8 @@ void Door_10::sub_49C4E0(u8 a1)
         {
             uVar3 |= 0x2000;
         }
-        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
-        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_6);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_6);
         gTileAnim_2_7052C4->sub_5BC260(tmp->field_6, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
     }
 }
@@ -246,8 +246,8 @@ void Door_10::sub_49C590(u8 a1)
         {
             uVar3 |= 0x2000;
         }
-        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
-        gMap_0x370_6F6268->sub_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_4);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, uVar3);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, sub_4DEEB0(field_8_face), tmp->field_4);
         gTileAnim_2_7052C4->sub_5BC260(tmp->field_4, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
     }
 }

@@ -34,7 +34,7 @@ class Snooky_94
     EXPORT bool sub_4887A0(Car_BC* toFind);
     EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
     EXPORT void sub_4887F0();
-    EXPORT Crusher_30* sub_488820(Fix16 a2, Fix16 a3);
+    EXPORT Crusher_30* CreateCrusher_488820(Fix16 a2, Fix16 a3);
     EXPORT Snooky_94();
     EXPORT ~Snooky_94();
 

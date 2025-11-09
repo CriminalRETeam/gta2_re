@@ -570,7 +570,7 @@ void CC ImGuiDebugDraw()
                 if (ImGui::Button("Add player weapon"))
                 {
                     //gWeapon_8_707018->allocate_5E3C10(currentWeaponIndex, pPlayerPed, 20);
-                    // pPlayerPed->sub_45DD30(currentWeaponIndex, 20);
+                    // pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 20);
 
                     pPlayerPed->ForceWeapon_46F600(currentWeaponIndex);
 
