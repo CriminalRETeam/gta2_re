@@ -414,7 +414,7 @@ void Sero_181C::sub_579B10()
 }
 
 MATCH_FUNC(0x579b20)
-void Sero_181C::sub_579B20()
+void Sero_181C::KillAllPassengers_579B20()
 {
     if (!bSkip_buses_67D558)
     {

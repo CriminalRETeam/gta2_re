@@ -281,7 +281,7 @@ class Map_0x370
     EXPORT DWORD sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord);
 
     EXPORT s32 sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
-    EXPORT s32 sub_4E00A0(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type sub_4E0110();
     EXPORT char_type sub_4E0120();
     EXPORT char_type sub_4E0130(s32 a2, s32 a3, s32 a4, s32 a5, u8* a6, char_type a7);
@@ -328,11 +328,11 @@ class Map_0x370
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
     EXPORT u32 sub_4E8370(u32 a2, s32 a3, char_type a4);
-    EXPORT void sub_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
-    EXPORT void sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
-    EXPORT void sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
+    EXPORT void ChangeBlock_4E8620(s32 a2, s32 a3, s32 a4, s32 info_type_to_set, u16 info_value);
+    EXPORT void AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData);
+    EXPORT void RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop);
     EXPORT void sub_4E8A10(s32 a2, s32 a3);
-    EXPORT void sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
+    EXPORT void LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
     EXPORT void sub_4E8C00(u32 a2, u32 a3, u32 a4);
     EXPORT s32 sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7);
 

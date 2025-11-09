@@ -109,7 +109,7 @@ bool PedGroup::sub_4C9040()
     field_36_count = field_34_count;
     if (field_2C_ped_leader->field_16C_car != NULL)
     {
-        field_2C_ped_leader->sub_46F9D0();
+        field_2C_ped_leader->Kill_46F9D0();
         field_2C_ped_leader = NULL;
     }
 
@@ -118,7 +118,7 @@ bool PedGroup::sub_4C9040()
     {
         if (field_4_ped_list[bVar2]->field_16C_car != NULL)
         {
-            field_4_ped_list[bVar2]->sub_46F9D0();
+            field_4_ped_list[bVar2]->Kill_46F9D0();
             field_4_ped_list[bVar2] = NULL;
         }
     }
@@ -256,7 +256,7 @@ void PedGroup::sub_4C92A0()
 }
 
 MATCH_FUNC(0x4c93a0)
-void PedGroup::sub_4C93A0()
+void PedGroup::DestroyGroup_4C93A0()
 {
     if (field_40_in_use == false)
     {
@@ -571,7 +571,7 @@ void PedGroup::sub_4CA820(s32 a2)
 }
 
 MATCH_FUNC(0x4caa20)
-bool PedGroup::sub_4CAA20()
+bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 {
     if (field_34_count == 0)
     {

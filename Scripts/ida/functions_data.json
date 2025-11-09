@@ -1760,12 +1760,12 @@
         "v105_address": "0x43c840"
     },
     {
-        "name": "Car_BC::sub_43C920",
+        "name": "Car_BC::ActivateEmergencyLights_43C920",
         "v96f_address": null,
         "v105_address": "0x43c920"
     },
     {
-        "name": "Car_BC::sub_43C9D0",
+        "name": "Car_BC::DeactivateEmergencyLights_43C9D0",
         "v96f_address": null,
         "v105_address": "0x43c9d0"
     },
@@ -2925,7 +2925,7 @@
         "v105_address": "0x45be90"
     },
     {
-        "name": "Ped::sub_45BEC0",
+        "name": "Ped::ManageBurning_45BEC0",
         "v96f_address": null,
         "v105_address": "0x45bec0"
     },
@@ -3095,7 +3095,7 @@
         "v105_address": "0x45d000"
     },
     {
-        "name": "Ped::sub_45DD30",
+        "name": "Ped::AddWeaponWithAmmo_45DD30",
         "v96f_address": null,
         "v105_address": "0x45dd30"
     },
@@ -3120,7 +3120,7 @@
         "v105_address": "0x45ea00"
     },
     {
-        "name": "Ped::sub_45EB60",
+        "name": "Ped::Deallocate_45EB60",
         "v96f_address": null,
         "v105_address": "0x45eb60"
     },
@@ -3145,12 +3145,12 @@
         "v105_address": "0x45ee70"
     },
     {
-        "name": "Ped::sub_45F360",
+        "name": "Ped::Mugger_AI_45F360",
         "v96f_address": null,
         "v105_address": "0x45f360"
     },
     {
-        "name": "Ped::sub_45FF60",
+        "name": "Ped::CarThief_AI_45FF60",
         "v96f_address": null,
         "v105_address": "0x45ff60"
     },
@@ -3180,7 +3180,7 @@
         "v105_address": "0x461630"
     },
     {
-        "name": "Ped::sub_4619F0",
+        "name": "Ped::RoadBlockTank_AI_4619F0",
         "v96f_address": null,
         "v105_address": "0x4619f0"
     },
@@ -3190,7 +3190,7 @@
         "v105_address": "0x461a60"
     },
     {
-        "name": "Ped::sub_461F20",
+        "name": "Ped::Occupation_AI_461F20",
         "v96f_address": null,
         "v105_address": "0x461f20"
     },
@@ -3215,7 +3215,7 @@
         "v105_address": "0x462550"
     },
     {
-        "name": "Ped::sub_462590",
+        "name": "Ped::ForceDoNothing_462590",
         "v96f_address": null,
         "v105_address": "0x462590"
     },
@@ -3235,7 +3235,7 @@
         "v105_address": "0x462b80"
     },
     {
-        "name": "Ped::sub_462E70",
+        "name": "Ped::Update_462E70",
         "v96f_address": "0x4454E0",
         "v105_address": "0x462e70"
     },
@@ -3290,7 +3290,7 @@
         "v105_address": "0x4645b0"
     },
     {
-        "name": "Ped::sub_465270",
+        "name": "Ped::Threat_Reaction_AI_465270",
         "v96f_address": null,
         "v105_address": "0x465270"
     },
@@ -3810,7 +3810,7 @@
         "v105_address": "0x46f100"
     },
     {
-        "name": "Ped::sub_46F110",
+        "name": "Ped::GetWeaponFromPed_46F110",
         "v96f_address": null,
         "v105_address": "0x46f110"
     },
@@ -3820,7 +3820,7 @@
         "v105_address": "0x46f1e0"
     },
     {
-        "name": "Ped::sub_46F390",
+        "name": "Ped::ManageWeapon_46F390",
         "v96f_address": null,
         "v105_address": "0x46f390"
     },
@@ -3850,7 +3850,7 @@
         "v105_address": "0x46f720"
     },
     {
-        "name": "Ped::sub_46F9D0",
+        "name": "Ped::Kill_46F9D0",
         "v96f_address": null,
         "v105_address": "0x46f9d0"
     },
@@ -4070,7 +4070,7 @@
         "v105_address": "0x471680"
     },
     {
-        "name": "Ped_Unknown_4::sub_4716B0",
+        "name": "Ped_Unknown_4::GetPassengerNum_4716B0",
         "v96f_address": null,
         "v105_address": "0x4716b0"
     },
@@ -4735,7 +4735,7 @@
         "v105_address": "0x4887f0"
     },
     {
-        "name": "Snooky_94::sub_488820",
+        "name": "Snooky_94::CreateCrusher_488820",
         "v96f_address": null,
         "v105_address": "0x488820"
     },
@@ -6205,17 +6205,17 @@
         "v105_address": "0x4bedf0"
     },
     {
-        "name": "Gang_144::sub_4BEE30",
+        "name": "Gang_144::SetRespect_4BEE30",
         "v96f_address": null,
         "v105_address": "0x4bee30"
     },
     {
-        "name": "Gang_144::sub_4BEE50",
+        "name": "Gang_144::IncrementRespect_4BEE50",
         "v96f_address": null,
         "v105_address": "0x4bee50"
     },
     {
-        "name": "Gang_144::sub_4BEEA0",
+        "name": "Gang_144::DecrementRespect_4BEEA0",
         "v96f_address": null,
         "v105_address": "0x4beea0"
     },
@@ -6230,7 +6230,7 @@
         "v105_address": "0x4bef10"
     },
     {
-        "name": "Gang_144::sub_4BEF50",
+        "name": "Gang_144::SetGangKillReaction_4BEF50",
         "v96f_address": null,
         "v105_address": "0x4bef50"
     },
@@ -6240,7 +6240,7 @@
         "v105_address": "0x4bef70"
     },
     {
-        "name": "Gang_144::sub_4BF000",
+        "name": "Gang_144::ChangeRespectAndUpdate_4BF000",
         "v96f_address": null,
         "v105_address": "0x4bf000"
     },
@@ -6325,7 +6325,7 @@
         "v105_address": "0x4c1d70"
     },
     {
-        "name": "Maccies_14AC::sub_4C1DC0",
+        "name": "Maccies_14AC::CreateGenerator_4C1DC0",
         "v96f_address": null,
         "v105_address": "0x4c1dc0"
     },
@@ -6635,7 +6635,7 @@
         "v105_address": "0x4c92a0"
     },
     {
-        "name": "PedGroup::sub_4C93A0",
+        "name": "PedGroup::DestroyGroup_4C93A0",
         "v96f_address": null,
         "v105_address": "0x4c93a0"
     },
@@ -7375,7 +7375,7 @@
         "v105_address": "0x4e0000"
     },
     {
-        "name": "Map_0x370::sub_4E00A0",
+        "name": "Map_0x370::GetBlockSpec_4E00A0",
         "v96f_address": null,
         "v105_address": "0x4e00a0"
     },
@@ -7650,17 +7650,17 @@
         "v105_address": "0x4e8370"
     },
     {
-        "name": "Map_0x370::sub_4E8620",
+        "name": "Map_0x370::ChangeBlock_4E8620",
         "v96f_address": null,
         "v105_address": "0x4e8620"
     },
     {
-        "name": "Map_0x370::sub_4E87C0",
+        "name": "Map_0x370::AddNewBlock_4E87C0",
         "v96f_address": null,
         "v105_address": "0x4e87c0"
     },
     {
-        "name": "Map_0x370::sub_4E8940",
+        "name": "Map_0x370::RemoveBlock_4E8940",
         "v96f_address": null,
         "v105_address": "0x4e8940"
     },
@@ -7670,7 +7670,7 @@
         "v105_address": "0x4e8a10"
     },
     {
-        "name": "Map_0x370::sub_4E8B70",
+        "name": "Map_0x370::LowerLevel_4E8B70",
         "v96f_address": null,
         "v105_address": "0x4e8b70"
     },
@@ -8285,12 +8285,12 @@
         "v105_address": "0x503620"
     },
     {
-        "name": "miss2_0x11C::sub_503650",
+        "name": "miss2_0x11C::JumpToCmd_503650",
         "v96f_address": null,
         "v105_address": "0x503650"
     },
     {
-        "name": "miss2_0x11C::sub_503670",
+        "name": "miss2_0x11C::EndCmd_503670",
         "v96f_address": null,
         "v105_address": "0x503670"
     },
@@ -8410,7 +8410,7 @@
         "v105_address": "0x504dd0"
     },
     {
-        "name": "miss2_0x11C::sub_504EE0",
+        "name": "miss2_0x11C::CreateLight_504EE0",
         "v96f_address": null,
         "v105_address": "0x504ee0"
     },
@@ -8460,12 +8460,12 @@
         "v105_address": "0x505750"
     },
     {
-        "name": "miss2_0x11C::sub_505790",
+        "name": "miss2_0x11C::DisableThread_505790",
         "v96f_address": null,
         "v105_address": "0x505790"
     },
     {
-        "name": "miss2_0x11C::sub_505B10",
+        "name": "miss2_0x11C::DeallocOrDeleteItem_505B10",
         "v96f_address": null,
         "v105_address": "0x505b10"
     },
@@ -8795,7 +8795,7 @@
         "v105_address": "0x50a980"
     },
     {
-        "name": "miss2_0x11C::sub_50A9E0",
+        "name": "miss2_0x11C::EnableThread_50A9E0",
         "v96f_address": null,
         "v105_address": "0x50a9e0"
     },
@@ -8810,7 +8810,7 @@
         "v105_address": "0x50abf0"
     },
     {
-        "name": "miss2_0x11C::SCRCMD_SET_GANG_RESPECT",
+        "name": "miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20",
         "v96f_address": null,
         "v105_address": "0x50ac20"
     },
@@ -9590,7 +9590,7 @@
         "v105_address": "0x511d40"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511E10",
+        "name": "frosty_pasteur_0xC1EA8::SaveGame_511E10",
         "v96f_address": null,
         "v105_address": "0x511e10"
     },
@@ -10850,7 +10850,7 @@
         "v105_address": "0x5290f0"
     },
     {
-        "name": "Object_2C::sub_5291B0",
+        "name": "Object_2C::Dealloc_5291B0",
         "v96f_address": null,
         "v105_address": "0x5291b0"
     },
@@ -10975,7 +10975,7 @@
         "v105_address": "0x52a2c0"
     },
     {
-        "name": "Object_5C::sub_52A3D0",
+        "name": "Object_5C::CreateExplosion_52A3D0",
         "v96f_address": null,
         "v105_address": "0x52a3d0"
     },
@@ -11195,7 +11195,7 @@
         "v105_address": "0x534650"
     },
     {
-        "name": "Garage_48::sub_534700",
+        "name": "Garage_48::ParkCarAtDoor_534700",
         "v96f_address": null,
         "v105_address": "0x534700"
     },
@@ -12620,12 +12620,12 @@
         "v105_address": "0x564790"
     },
     {
-        "name": "Player::sub_5647D0",
+        "name": "Player::ClearKFWeapon_5647D0",
         "v96f_address": null,
         "v105_address": "0x5647d0"
     },
     {
-        "name": "Player::sub_5648F0",
+        "name": "Player::GetCurrPlayerWeapon_5648F0",
         "v96f_address": null,
         "v105_address": "0x5648f0"
     },
@@ -13505,7 +13505,7 @@
         "v105_address": "0x579b10"
     },
     {
-        "name": "Sero_181C::sub_579B20",
+        "name": "Sero_181C::KillAllPassengers_579B20",
         "v96f_address": null,
         "v105_address": "0x579b20"
     },
@@ -13975,7 +13975,7 @@
         "v105_address": "0x5895c0"
     },
     {
-        "name": "RouteFinder::sub_589930",
+        "name": "RouteFinder::CancelRoute_589930",
         "v96f_address": null,
         "v105_address": "0x589930"
     },
@@ -14390,7 +14390,7 @@
         "v105_address": "0x592360"
     },
     {
-        "name": "eager_benz::sub_592370",
+        "name": "eager_benz::GetScore_592370",
         "v96f_address": null,
         "v105_address": "0x592370"
     },
@@ -16025,7 +16025,7 @@
         "v105_address": "0x5d0260"
     },
     {
-        "name": "Garox_30_Sub::sub_5D03C0",
+        "name": "ArrowTrace_24::PointToInfoPhone_5D03C0",
         "v96f_address": null,
         "v105_address": "0x5d03c0"
     },
@@ -16035,7 +16035,7 @@
         "v105_address": "0x5d03f0"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0510",
+        "name": "Hud_Arrow_7C::SetArrowColour_5D0510",
         "v96f_address": null,
         "v105_address": "0x5d0510"
     },
@@ -16105,7 +16105,7 @@
         "v105_address": "0x5d1020"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D1050",
+        "name": "Hud_Arrow_7C_Array::AllocArrow_5D1050",
         "v96f_address": null,
         "v105_address": "0x5d1050"
     },
@@ -16140,7 +16140,7 @@
         "v105_address": "0x5d12e0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D1310",
+        "name": "Hud_Arrow_7C_Array::SetNewGangArrow_5D1310",
         "v96f_address": null,
         "v105_address": "0x5d1310"
     },
@@ -16390,7 +16390,7 @@
         "v105_address": "0x5d4850"
     },
     {
-        "name": "Garox_1E34_L::sub_5D4890",
+        "name": "Garox_1E34_L::ClearAllBriefsWithPriority_5D4890",
         "v96f_address": null,
         "v105_address": "0x5d4890"
     },

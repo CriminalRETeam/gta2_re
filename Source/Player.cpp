@@ -110,13 +110,13 @@ void Player::sub_564790(s32 idx)
 }
 
 STUB_FUNC(0x5647D0)
-void Player::sub_5647D0()
+void Player::ClearKFWeapon_5647D0()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5648F0)
-Weapon_30* Player::sub_5648F0()
+Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
 {
     return field_788_idx == -1 ? NULL : field_718[field_788_idx];
 }
@@ -870,7 +870,7 @@ void Player::sub_567130()
         {
             if (field_684_lives.field_0 > 0 || bStartNetworkGame_7081F0)
             {
-                Player::sub_5647D0();
+                Player::ClearKFWeapon_5647D0();
                 if (!bKeep_weapons_after_death_67D54D)
                 {
                     Player::sub_564C00();
@@ -883,7 +883,7 @@ void Player::sub_567130()
 
                 if (field_2C8_unkq != NULL)
                 {
-                    field_2C8_unkq->sub_45EB60();
+                    field_2C8_unkq->Deallocate_45EB60();
                     field_2C8_unkq = NULL;
                     field_2D0 = 0;
                 }
@@ -1016,7 +1016,7 @@ void Player::sub_569530()
         pCar->field_98 = 3;
     }
 
-    field_2C8_unkq->sub_46F9D0();
+    field_2C8_unkq->Kill_46F9D0();
     field_2C8_unkq = 0;
 
     sub_564C00();
@@ -1163,7 +1163,7 @@ void Player::sub_569C20()
     {
         if (field_60 == 0)
         {
-            u32 score = field_2D4_unk.sub_592370();
+            u32 score = field_2D4_unk.GetScore_592370();
             if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60 = 1;
@@ -1172,7 +1172,7 @@ void Player::sub_569C20()
         }
         else
         {
-            u32 score = field_2D4_unk.sub_592370();
+            u32 score = field_2D4_unk.GetScore_592370();
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60 = 0;

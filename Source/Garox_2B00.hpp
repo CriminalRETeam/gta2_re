@@ -298,7 +298,7 @@ class Garox_30_Sub
 class ArrowTrace_24
 {
   public:
-    EXPORT void sub_5D03C0(Gang_144* pZone);
+    EXPORT void PointToInfoPhone_5D03C0(Gang_144* pZone);
     EXPORT void sub_5D03F0();
 
     // inline 0x4C6F00
@@ -346,7 +346,7 @@ class Garox_20_Sub
     s16 field_24;
     char_type field_26;
     char_type field_27;
-    s32 field_28;
+    s32 field_28_arrow_colour;
     s16 field_2C;
     char_type field_2E;
     char_type field_2F;
@@ -359,7 +359,7 @@ class Garox_20_Sub
 class Hud_Arrow_7C
 {
   public:
-    EXPORT void sub_5D0510(s32 a2);
+    EXPORT void SetArrowColour_5D0510(s32 a2);
     EXPORT bool sub_5D0530();
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
@@ -417,11 +417,11 @@ class Hud_Arrow_7C_Array
     EXPORT void sub_5D0F80();
     EXPORT void sub_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
-    EXPORT Hud_Arrow_7C* sub_5D1050();
+    EXPORT Hud_Arrow_7C* AllocArrow_5D1050();
     EXPORT void sub_5D10B0();
     EXPORT Hud_Arrow_7C* sub_5D10D0(Gang_144* pZone, s32 phone_type);
     EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
-    EXPORT void sub_5D1310(Gang_144* pZone);
+    EXPORT void SetNewGangArrow_5D1310(Gang_144* pZone);
     Hud_Arrow_7C field_0_array[17];
     char_type field_83C;
     char_type field_83D;
@@ -468,7 +468,7 @@ class Garox_1E34_L  // size 0x704
     EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
     EXPORT void sub_5D44D0();
     EXPORT void sub_5D4850();
-    EXPORT s32 sub_5D4890(s32 a2);
+    EXPORT s32 ClearAllBriefsWithPriority_5D4890(s32 a2);
     EXPORT Garox_1E34_L();
 
     wchar_t field_0_str[640];

@@ -547,7 +547,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT void sub_511B90();
     EXPORT void sub_511C30();
     EXPORT void sub_511D40();
-    EXPORT void sub_511E10(char_type* FileName);
+    EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT s32 sub_511F80(char_type* FileName);
     EXPORT SCR_CMD_HEADER* sub_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();

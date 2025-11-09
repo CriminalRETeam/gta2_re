@@ -16,7 +16,7 @@ char_type Garage_48::sub_534650()
 }
 
 STUB_FUNC(0x534700)
-void Garage_48::sub_534700(Car_BC* a2, void* a3)
+void Garage_48::ParkCarAtDoor_534700(Car_BC* a2, void* a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -46,7 +46,7 @@ Garage_48::Garage_48()
     field_3C = 30;
     field_3D = 0;
     field_3E = 0;
-    field_3F = 0;
+    field_3F_no_respawn = 0;
     field_40 = 0;
     field_4 = 0;
     field_8 = 0;

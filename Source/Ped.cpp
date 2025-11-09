@@ -263,7 +263,7 @@ void Ped::PutOutFire()
 }
 
 MATCH_FUNC(0x45bec0)
-void Ped::sub_45BEC0()
+void Ped::ManageBurning_45BEC0()
 {
     if ((this->field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
@@ -628,7 +628,7 @@ void Ped::TakeDamage(s16 damage)
             if (field_278 != 8)
             {
                 field_216_health = 0;
-                sub_46F9D0();
+                Kill_46F9D0();
             }
             else
             {
@@ -655,7 +655,7 @@ char_type Ped::sub_45D000(s32 a2)
 }
 
 STUB_FUNC(0x45dd30)
-char_type Ped::sub_45DD30(s32 a2, char_type a3)
+char_type Ped::AddWeaponWithAmmo_45DD30(s32 a2, char_type a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -783,7 +783,7 @@ void Ped::sub_45EA00()
 }
 
 STUB_FUNC(0x45eb60)
-void Ped::sub_45EB60()
+void Ped::Deallocate_45EB60()
 {
     NOT_IMPLEMENTED;
 }
@@ -816,13 +816,13 @@ gmp_map_zone* Ped::sub_45EE70()
 }
 
 STUB_FUNC(0x45f360)
-void Ped::sub_45F360()
+void Ped::Mugger_AI_45F360()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x45ff60)
-void Ped::sub_45FF60()
+void Ped::CarThief_AI_45FF60()
 {
     NOT_IMPLEMENTED;
 }
@@ -853,7 +853,7 @@ void Ped::sub_461630()
 }
 
 STUB_FUNC(0x4619f0)
-char_type Ped::sub_4619F0()
+char_type Ped::RoadBlockTank_AI_4619F0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -867,7 +867,7 @@ s16 Ped::sub_461A60()
 }
 
 MATCH_FUNC(0x461f20)
-void Ped::sub_461F20()
+void Ped::Occupation_AI_461F20()
 {
     switch (field_240_occupation)
     {
@@ -909,7 +909,7 @@ void Ped::sub_461F20()
             {
                 if (field_16C_car->field_88 == 5)
                 {
-                    Ped::sub_46F9D0();
+                    Ped::Kill_46F9D0();
                 }
             }
             else
@@ -922,10 +922,10 @@ void Ped::sub_461F20()
             break;
 
         case ped_ocupation_enum::mugger:
-            Ped::sub_45F360();
+            Ped::Mugger_AI_45F360();
             break;
         case ped_ocupation_enum::car_thief:
-            Ped::sub_45FF60();
+            Ped::CarThief_AI_45FF60();
             break;
         case ped_ocupation_enum::driver_2:
         case ped_ocupation_enum::unknown_8:
@@ -941,14 +941,14 @@ void Ped::sub_461F20()
             }
             break;
         case ped_ocupation_enum::road_block_tank_man:
-            Ped::sub_4619F0();
+            Ped::RoadBlockTank_AI_4619F0();
             break;
         case ped_ocupation_enum::unknown_18:
             if (!gChar_C_6787BC->field_7_make_all_muggers)
             {
                 field_240_occupation = ped_ocupation_enum::dummy;
                 field_238 = 3;
-                Ped::sub_462590();
+                Ped::ForceDoNothing_462590();
             }
             break;
         case ped_ocupation_enum::unknown_10:
@@ -970,7 +970,7 @@ void Ped::sub_461F20()
                     {
                         if (field_150_target_objective_car->field_88 == 5)
                         {
-                            Ped::sub_46F9D0();
+                            Ped::Kill_46F9D0();
                         }
                         else if (field_225 == 1)
                         {
@@ -1044,7 +1044,7 @@ void Ped::sub_462550()
 }
 
 STUB_FUNC(0x462590)
-void Ped::sub_462590()
+void Ped::ForceDoNothing_462590()
 {
     NOT_IMPLEMENTED;
 }
@@ -1108,7 +1108,7 @@ void Ped::sub_462B80()
             {
                 if (field_238 == 3)
                 {
-                    Ped::sub_45EB60();
+                    Ped::Deallocate_45EB60();
                 }
             }
             else
@@ -1125,7 +1125,7 @@ void Ped::sub_462B80()
 }
 
 STUB_FUNC(0x462e70)
-char_type Ped::sub_462E70()
+char_type Ped::Update_462E70()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1374,7 +1374,7 @@ s16* Ped::sub_4645B0()
 }
 
 STUB_FUNC(0x465270)
-void Ped::sub_465270()
+void Ped::Threat_Reaction_AI_465270()
 {
     NOT_IMPLEMENTED;
 }
@@ -2308,7 +2308,7 @@ s32 Ped::sub_46F100(u8 a2)
 }
 
 STUB_FUNC(0x46f110)
-Weapon_30* Ped::sub_46F110()
+Weapon_30* Ped::GetWeaponFromPed_46F110()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2321,9 +2321,9 @@ void Ped::sub_46F1E0(Weapon_30* a2)
 }
 
 MATCH_FUNC(0x46f390)
-void Ped::sub_46F390()
+void Ped::ManageWeapon_46F390()
 {
-    Weapon_30* pWeapon = Ped::sub_46F110();
+    Weapon_30* pWeapon = Ped::GetWeaponFromPed_46F110();
     if (Ped::sub_45EDE0(2))
     {
         if (field_168_game_object)
@@ -2425,7 +2425,7 @@ void Ped::sub_46F720()
 }
 
 STUB_FUNC(0x46f9d0)
-void Ped::sub_46F9D0()
+void Ped::Kill_46F9D0()
 {
     NOT_IMPLEMENTED;
 }

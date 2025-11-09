@@ -12,7 +12,7 @@ class Garage_48
   public:
     EXPORT ~Garage_48();
     EXPORT char_type sub_534650();
-    EXPORT void sub_534700(Car_BC* a2, void* a3);
+    EXPORT void ParkCarAtDoor_534700(Car_BC* a2, void* a3);
     EXPORT void sub_5349D0();
     EXPORT Garage_48();
 
@@ -44,7 +44,7 @@ class Garage_48
     char_type field_3C;
     char_type field_3D;
     u8 field_3E;
-    char_type field_3F;
+    char_type field_3F_no_respawn;
     char_type field_40;
     char_type field_41;
     char_type field_42;

@@ -735,7 +735,7 @@ s32 Map_0x370::sub_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 }
 
 MATCH_FUNC(0x4E00A0)
-s32 Map_0x370::sub_4E00A0(Fix16 x, Fix16 y, Fix16 z)
+s32 Map_0x370::GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z)
 {
     if (z >= dword_6F610C)
     {
@@ -1882,7 +1882,7 @@ u32 Map_0x370::sub_4E8370(u32 a2, s32 a3, char_type a4)
 }
 
 MATCH_FUNC(0x4E8620)
-void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
+void Map_0x370::ChangeBlock_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_value)
 {
     s32 column_idx = Map_0x370::sub_4E81D0(field_0_pDmap->field_0_base[y][x]);
     field_0_pDmap->field_0_base[y][x] = column_idx;
@@ -1924,7 +1924,7 @@ void Map_0x370::sub_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u16 info_v
 }
 
 MATCH_FUNC(0x4E87C0)
-void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
+void Map_0x370::AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 {
     s32 column_idx = Map_0x370::sub_4E8220(field_0_pDmap->field_0_base[y][x], z);
     field_0_pDmap->field_0_base[y][x] = column_idx;
@@ -1943,7 +1943,7 @@ void Map_0x370::sub_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockData)
 }
 
 MATCH_FUNC(0x4E8940)
-void Map_0x370::sub_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
+void Map_0x370::RemoveBlock_4E8940(s32 x_pos, s32 y_pos, s32 offset, char_type do_drop)
 {
     const s32 column_idx = sub_4E8370(field_0_pDmap->field_0_base[y_pos][x_pos], offset, do_drop);
     if (column_idx != -1)
@@ -1960,7 +1960,7 @@ void Map_0x370::sub_4E8A10(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x4E8B70)
-void Map_0x370::sub_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
+void Map_0x370::LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max)
 {
     for (s32 column_y = y_min; column_y <= y_max; ++column_y)
     {

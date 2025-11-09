@@ -231,7 +231,7 @@ void eager_benz::sub_591C70()
         else if (v29 == 2)
         {
             v30 = gLucid_hamilton_67E8E0.sub_4C5CB0(a2);
-            sub_592370();
+            GetScore_592370();
         }
 
         if (v29 != 3)
@@ -286,7 +286,7 @@ thirsty_lamarr* eager_benz::sub_592360()
 }
 
 MATCH_FUNC(0x592370)
-s32 eager_benz::sub_592370()
+s32 eager_benz::GetScore_592370()
 {
     return field_0_unk.field_0;
 }

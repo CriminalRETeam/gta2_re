@@ -85,7 +85,7 @@ s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
 }
 
 STUB_FUNC(0x511e10)
-void frosty_pasteur_0xC1EA8::sub_511E10(char_type* FileName)
+void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* FileName)
 {
     NOT_IMPLEMENTED;
 }
