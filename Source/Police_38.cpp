@@ -7,6 +7,7 @@
 #include "Object_5C.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
+#include "Orca_2FD4.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -369,11 +370,183 @@ bool Police_38::sub_572210()
     return 0;
 }
 
-STUB_FUNC(0x572340)
-char_type Police_38::sub_572340()
+MATCH_FUNC(0x572340)
+void Police_38::sub_572340()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8 bUnk = true;
+    u8 idx = 0;
+    byte_6FEB48 = 1;
+
+    if (field_10_subObj->field_28 != 3)
+    {
+        if (field_10_subObj->field_28 == 6)
+        {
+            Police_38::sub_5720C0();
+        }
+    }
+    else if (field_10_subObj->field_2C)
+    {
+        if (gChar_C_6787BC->field_5 < 0x1Au)
+        {
+            switch (field_10_subObj->field_20)
+            {
+                case 3:
+                    Police_38::SpawnPoliceInCar_570BF0();
+                    break;
+                case 5:
+                    Police_38::SpawnSWAT_570E30();
+                default:
+                    break;
+            }
+            pPed_6FEDDC = field_10_subObj->field_4_ped;
+            field_1A = 0;
+        }
+        else
+        {
+            Car_BC* pCar = field_10_subObj->field_0_car;
+            if (pCar)
+            {
+                s32 v7 = pCar->field_88;
+                if (v7 != 5 && v7 != 2 && v7 != 3)
+                {
+                    pCar->field_88 = 4;
+                }
+                field_10_subObj->field_0_car = 0;
+                field_24_state = 6;
+                Police_38::sub_575650();
+            }
+        }
+    }
+    else
+    {
+        bUnk = false;
+        if (field_10_subObj->field_18 == -80)
+        {
+            field_24_state = 6;
+            Police_38::sub_575650();
+        }
+    }
+
+    if (field_24_state != 6)
+    {
+        if (bUnk)
+        {
+            Ped* pPed = field_10_subObj->field_4_ped;
+            pPed_6FEDDC = pPed;
+            if (field_14_pObj->field_C == 250)
+            {
+                field_24_state = 5;
+            }
+            else
+            {
+                for (; pPed; ++idx)
+                {
+                    if (pPed->field_278 != 9 && pPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+                    {
+                        Fix16 xpos_f;
+                        switch (pPed->field_258_objective)
+                        {
+                            case objectives_enum::fire_at_object_from_vehicle_52:
+                                pPed->SetObjective(objectives_enum::goto_area_in_car_14, 9999);
+                                pPed_6FEDDC->field_1DC_objective_target_x = Fix16(field_14_pObj->field_10_x.ToUInt8());
+                                pPed_6FEDDC->field_1E0_objective_target_y = Fix16(field_14_pObj->field_14_y.ToUInt8());
+                                pPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pObj->field_18_z.ToUInt8());
+                                break;
+                            case objectives_enum::goto_area_in_car_14:
+                                Police_38::sub_5752C0();
+                                xpos_f = field_14_pObj->field_10_x;
+                                if (pPed_6FEDDC->field_1DC_objective_target_x != field_14_pObj->field_10_x ||
+                                    pPed_6FEDDC->field_1E0_objective_target_y != field_14_pObj->field_14_y)
+                                {
+                                    u8 xpos = xpos_f.ToInt();
+                                    u8 ypos = field_14_pObj->field_14_y.ToInt();
+                                    u8 zpos = field_14_pObj->field_18_z.ToInt();
+                                    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &xpos, &ypos, &zpos, 0))
+                                    {
+                                        pPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
+                                        field_14_pObj->field_10_x = pPed_6FEDDC->field_1DC_objective_target_x;
+                                        pPed_6FEDDC->field_1E0_objective_target_y = Fix16(ypos);
+                                        field_14_pObj->field_14_y = pPed_6FEDDC->field_1E0_objective_target_y;
+                                        pPed_6FEDDC->field_1E4_objective_target_z = Fix16(zpos);
+                                        field_14_pObj->field_18_z = pPed_6FEDDC->field_1E4_objective_target_z;
+                                    }
+                                }
+                                field_28 = 1;
+                                break;
+                            case objectives_enum::no_obj_0:
+                                if (pPed->field_23C == 99)
+                                {
+                                    if (pPed->field_16C_car)
+                                    {
+                                        pPed->sub_463830(0, 9999);
+                                        pPed_6FEDDC->SetObjective(objectives_enum::leave_car_36, 9999);
+                                        pPed_6FEDDC->field_150_target_objective_car = field_10_subObj->field_0_car;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        pPed->sub_463830(0, 9999);
+                                        pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
+                                        pPed_6FEDDC->field_1DC_objective_target_x = field_14_pObj->field_10_x;
+                                        pPed_6FEDDC->field_1E0_objective_target_y = field_14_pObj->field_14_y;
+                                        pPed_6FEDDC->field_1E4_objective_target_z = field_14_pObj->field_18_z;
+                                    }
+                                }
+                                break;
+                            case objectives_enum::leave_car_36:
+                                Police_38::sub_575270();
+                                break;
+                            case objectives_enum::enter_car_as_driver_35:
+                                Police_38::sub_575210();
+                                break;
+                            case objectives_enum::follow_car_on_foot_with_offset_51:
+                                if (pPed->field_225 == 2)
+                                {
+                                    field_24_state = 6;
+                                    field_14_pObj->field_1C = 1;
+                                }
+                                break;
+                            case objectives_enum::objective_32:
+                            LABEL_44:
+                                pPed->sub_463830(0, 9999);
+                                pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
+                                pPed_6FEDDC->field_1DC_objective_target_x = field_14_pObj->field_10_x;
+                                pPed_6FEDDC->field_1E0_objective_target_y = field_14_pObj->field_14_y;
+                                pPed_6FEDDC->field_1E4_objective_target_z = field_14_pObj->field_18_z;
+                                break;
+                            case objectives_enum::goto_area_on_foot_12:
+                                field_28 = 0;
+                                if (pPed_6FEDDC->field_225 == 1)
+                                {
+                                    pPed_6FEDDC->sub_463830(0, 9999);
+                                    pPed_6FEDDC->SetObjective(objectives_enum::follow_car_on_foot_with_offset_51, 200);
+                                }
+                                break;
+                            case objectives_enum::objective_28:
+                                if (pPed->field_225)
+                                {
+                                    pPed->sub_463830(0, 9999);
+                                    pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    PedGroup* pGroup = field_10_subObj->field_8_group;
+                    if (pGroup)
+                    {
+                        pPed = pGroup->field_4_ped_list[idx];
+                    }
+                    else
+                    {
+                        pPed = 0;
+                    }
+                    pPed_6FEDDC = pPed;
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x572920)
