@@ -4,6 +4,7 @@
 #include "Kfc_1E0.hpp"
 #include "Object_5C.hpp"
 #include "Game_0x40.hpp"
+#include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Ped.hpp"
 #include "winmain.hpp"
@@ -71,11 +72,43 @@ void Police_7B8::sub_56F400()
     field_7B4 = 0;
 }
 
-STUB_FUNC(0x56f4d0)
-char_type Police_7B8::sub_56F4D0(Ped* a2)
+MATCH_FUNC(0x56f4d0)
+bool Police_7B8::sub_56F4D0(Ped* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 v10 = 0; v10 < 20; v10++)
+    {
+        Police_38* v3 = &this->field_4[v10];
+        if (v3->field_1C_used)
+        {
+            if (v3->field_10_subObj->field_4_ped == a2)
+            {
+                char_type v6 = v3->field_10_subObj->sub_5CBC90();
+                Kfc_30* v7 = v3->field_10_subObj;
+                if (v3->field_10_subObj->field_8_group)
+                {
+                    v7->field_4_ped = v7->field_8_group->field_2C_ped_leader;
+                }
+                if (v6 != 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    v3->field_10_subObj->field_4_ped = NULL;
+                    return false;
+                }
+            }
+            else
+            {
+                if (a2->field_164_ped_group)
+                {
+                    a2->field_164_ped_group->sub_4C9970(a2);
+                }
+                return false;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x56f560)
@@ -191,7 +224,7 @@ void Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
 }
 
 STUB_FUNC(0x56f940)
-s32 Police_7B8::sub_56F940(u32* a2)
+s32 Police_7B8::sub_56F940(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -266,11 +299,35 @@ void Police_7B8::sub_570270()
     }
 }
 
-STUB_FUNC(0x570320)
-s32 Police_7B8::SpawnWalkingGuard_570320(Ped* a2, s32 a3, s32 a4, s32 a5, s16 a6)
+MATCH_FUNC(0x570320)
+void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_65C == 6)
+    {
+        pPed->set_occupation_403970(ped_ocupation_enum::unknown_16);
+        pPed->sub_403920(3);
+        pPed->set_remap_433B90(4);
+    }
+    else
+    {
+        pPed->set_occupation_403970(ped_ocupation_enum::unknown_14);
+        pPed->sub_403920(3);
+        pPed->set_remap_433B90(0);
+    }
+    pPed->field_26C_graphic_type = 2;
+    pPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pPed->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    pPed->sub_45C830(xpos, ypos, zpos);
+
+    Char_B4* pCharObj = pPed->field_168_game_object;
+    u8 remap = pPed->field_244_remap;
+    pCharObj->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        pCharObj->field_80_sprite_ptr->SetRemap(remap);
+    }
+    pPed->field_168_game_object->field_40_rotation = rotation;
+    pPed->sub_467280();
 }
 
 STUB_FUNC(0x5703e0)
@@ -296,17 +353,35 @@ char_type Police_7B8::sub_5707B0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5708c0)
-s32 Police_7B8::sub_5708C0(Police_7B8* a1, s32 a2, u32* a3)
+MATCH_FUNC(0x5708c0)
+void Police_7B8::sub_5708C0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == pPed)
+        {
+            field_464[i].field_10_x = pPed->get_cam_x();
+            field_464[i].field_14_y = pPed->get_cam_y();
+            field_464[i].field_18_z = pPed->get_cam_z();
+            field_464[i].field_C = 250;
+            return;
+        }
+    }
 }
 
-STUB_FUNC(0x570940)
-void Police_7B8::sub_570940(Ped* a3)
+MATCH_FUNC(0x570940)
+void Police_7B8::sub_570940(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    for (u8 i = 0; i < 4; i++)
+    {
+        if (field_464[i].field_0 == pPed)
+        {
+            field_464[i].field_10_x = pPed->get_cam_x();
+            field_464[i].field_14_y = pPed->get_cam_y();
+            field_464[i].field_18_z = pPed->get_cam_z();
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x577320)

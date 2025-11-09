@@ -1,11 +1,13 @@
 #include "Ped.hpp"
 #include "Car_B0.hpp"
 #include "Car_BC.hpp"
+#include "debug.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Marz_1D7E.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -36,7 +38,20 @@ DEFINE_GLOBAL(u8, byte_6787CC, 0x6787CC);
 DEFINE_GLOBAL(u8, byte_6787CD, 0x6787CD);
 DEFINE_GLOBAL(u8, byte_6787D2, 0x6787D2);
 DEFINE_GLOBAL(u8, byte_61A8A0, 0x61A8A0);
+DEFINE_GLOBAL(u8, byte_6787E2, 0x6787E2);
+DEFINE_GLOBAL(u8, byte_6787E3, 0x6787E3);
+DEFINE_GLOBAL(u8, byte_6787E4, 0x6787E4);
+DEFINE_GLOBAL(u8, byte_6787D7, 0x6787D7);
+DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
+DEFINE_GLOBAL(u8, byte_678554, 0x678554);
+DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
+DEFINE_GLOBAL(u8, byte_6787D9, 0x6787D9);
+DEFINE_GLOBAL(u8, byte_61A8A4, 0x61A8A4);
+DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
+DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
+DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
+DEFINE_GLOBAL(u32, dword_6787DC, 0x6787DC);
 DEFINE_GLOBAL(Fix16, dword_678660, 0x678660);
 DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
@@ -47,6 +62,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
+DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
+DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
+
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -73,7 +91,7 @@ Ped::~Ped()
     this->field_148_objective_target_ped = 0;
     this->field_14C = 0;
     this->field_150_target_objective_car = 0;
-    this->field_158 = 0;
+    this->field_158_unk_car = 0;
     this->field_154_target_to_enter = 0;
     this->field_160_next_ped = 0;
     this->field_164_ped_group = 0;
@@ -324,7 +342,7 @@ void Ped::DrawFlamesAndStartScreamTimer()
             // Spawn fire
             Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
             pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
-            pB4->field_b0 = 10; // Start screaming timer
+            pB4->field_B0 = 10; // Start screaming timer
         }
     }
 }
@@ -1005,11 +1023,98 @@ void Ped::Occupation_AI_461F20()
     }
 }
 
-STUB_FUNC(0x462280)
-s16 Ped::sub_462280()
+MATCH_FUNC(0x462280)
+void Ped::sub_462280()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_61A8A0 = 1;
+    Ped::Occupation_AI_461F20();
+    byte_61A8A3 = 0;
+    if (byte_61A8A0)
+    {
+        if (field_164_ped_group)
+        {
+            if (field_23C != 99)
+            {
+                if (field_21C_bf.b2 == 0)
+                {
+                    field_164_ped_group->sub_4CA5E0(field_23C);
+                    byte_61A8A3 = 1;
+                    byte_6787C4 = field_164_ped_group->field_38_group_type != 1;
+                }
+                else
+                {
+                    byte_61A8A3 = 0;
+                    byte_6787C4 = 0;
+                }
+            }
+            else if (field_21C_bf.b2 == 0)
+            {
+                byte_61A8A3 = field_164_ped_group->sub_433370() != 1;
+                field_164_ped_group->sub_4C9F00();
+                byte_6787C4 = 1;
+            }
+            else
+            {
+                byte_61A8A3 = 0;
+                byte_6787C4 = 0;
+            }
+        }
+        else if (field_21C_bf.b2 == 0)
+        {
+            byte_61A8A3 = 1;
+            byte_6787C4 = 1;
+        }
+        else
+        {
+            byte_6787C4 = 0;
+        }
+
+        field_21C_bf.b27 = 0;
+        Ped::sub_463AA0();
+        Ped::sub_463FB0();
+        if (field_278 > 0 && field_278 <= 7)
+        {
+            Ped::sub_461A60();
+        }
+        if (field_238 != 2)
+        {
+            if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 && field_258_objective != objectives_enum::objective_6)
+            {
+                if (field_25C_car_state != 3 && field_25C_car_state != 7)
+                {
+                    Ped::Threat_Reaction_AI_465270();
+                    if (field_144)
+                    {
+                        if ((field_21C & 4) == 0)
+                        {
+                            Ped::sub_465B20();
+                        }
+                        field_144 = 0;
+                    }
+                }
+            }
+        }
+    }
+
+    if (field_21A_car_state_timer != 9999)
+    {
+        if (field_21A_car_state_timer > 0)
+        {
+            field_21A_car_state_timer--;
+        }
+    }
+
+    if (field_218_objective_timer != 9999)
+    {
+        if (field_258_objective != objectives_enum::objective_31 && field_258_objective != objectives_enum::objective_13 &&
+            field_258_objective != objectives_enum::kill_char_any_means_19 && field_258_objective != objectives_enum::goto_area_in_car_14)
+        {
+            if (field_218_objective_timer > 0)
+            {
+                field_218_objective_timer = field_218_objective_timer - 1;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x4624a0)
@@ -1124,11 +1229,219 @@ void Ped::sub_462B80()
     }
 }
 
-STUB_FUNC(0x462e70)
-char_type Ped::Update_462E70()
+MATCH_FUNC(0x462e70)
+bool Ped::Update_462E70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_240_occupation == ped_ocupation_enum::elvis)
+    {
+        if (word_6787F2 > 0)
+        {
+            --word_6787F2;
+        }
+        else
+        {
+            if (field_21C_bf.b24 == 0)
+            {
+                field_250 = 23;
+            }
+            s16 v18 = 300;
+            word_6787F2 = stru_6F6784.get_int_4F7AE0(&v18) + 450;
+        }
+    }
+
+    if (field_158_unk_car)
+    {
+        if (field_158_unk_car->field_88 == 5)
+        {
+            field_158_unk_car = 0;
+        }
+    }
+
+    switch (field_238)
+    {
+        case 3:
+            ++byte_6787E2;
+            break;
+        case 4:
+        case 6:
+            field_230 = 2;
+            if (field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
+            {
+                field_230 = 1;
+                ++byte_6787E4;
+            }
+            else
+            {
+                ++byte_6787E2;
+            }
+            break;
+        case 5:
+            ++byte_6787E3;
+            break;
+        default:
+            break;
+    }
+    if (field_21C_bf.b10)
+    {
+        Ped::sub_45EA00();
+    }
+    Ped::sub_469030();
+    Ped::ManageBurning_45BEC0();
+    Ped::sub_45BC70();
+    if (!field_234)
+    {
+        Ped::sub_4624A0();
+        return true;
+    }
+    if (field_26A > 0)
+    {
+        field_26A--;
+    }
+    ++word_6787E0;
+    byte_6787D7 = 0;
+    dword_6787DC = 0;
+    byte_6787D4 = 0;
+    byte_678554 = 0;
+    field_263 = field_262;
+    field_262 = 0;
+    field_21C_bf.b23 = 0;
+    if (field_21C_bf.b5 != 0 && field_278 != 8)
+    {
+        Ped::sub_45C500(8);
+        Ped::sub_45C540(22);
+        field_168_game_object->field_16 = 1;
+    }
+
+    if ((u32)field_210 > field_212)
+    {
+        field_210 = field_212;
+    }
+    if (field_210 == field_212 && field_278 != 8 && field_27C != 27)
+    {
+        Ped::sub_45C500(8);
+        Ped::sub_45C540(27);
+        field_168_game_object->field_16 = 1;
+    }
+    if (byte_6787D8 == 1)
+    {
+        field_21C_bf.b16 = 0;
+    }
+    if (byte_6787D9 == 1)
+    {
+        field_21C_bf.b19 = 0;
+    }
+    if (field_21C_bf.b0 == 1)
+    {
+        byte_61A8A4 = 1;
+        if (Ped::sub_4626B0())
+        {
+            if (byte_61A8A4)
+            {
+                Ped::sub_462280();
+                dword_6787C0 = this;
+                Ped::ManageWeapon_46F390();
+                if (field_20A_wanted_points)
+                {
+                    if (bSkip_police_67D4F9 || field_240_occupation == ped_ocupation_enum::empty)
+                    {
+                        field_20A_wanted_points = 0;
+                    }
+                    else if (field_238 == 2 && field_200_id)
+                    {
+                        if (field_27C == 29)
+                        {
+                            field_20A_wanted_points = 0;
+                        }
+                        else
+                        {
+                            gPolice_7B8_6FEE40->sub_56F940(this);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                if (field_278 == 9)
+                {
+                    if ((!field_164_ped_group || field_23C != 99) && field_258_objective != objectives_enum::objective_28)
+                    {
+                        Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                        Ped::sub_463830(0, 9999);
+                        field_278 = 9;
+                        field_27C = 15;
+                    }
+                    if (field_20e > 0xC8u && field_240_occupation != ped_ocupation_enum::unknown_13 && field_238 != 5)
+                    {
+                        Ped::Deallocate_45EB60();
+                    }
+                }
+                else
+                {
+                    Ped::Occupation_AI_461F20();
+                    if (field_258_objective || field_25C_car_state)
+                    {
+                        byte_61A8A3 = 0;
+                        Ped::sub_4632E0();
+                    }
+                    if (field_168_game_object->field_10 == 15)
+                    {
+                        if (field_278 > 0 && field_278 <= 7)
+                        {
+                            Ped::sub_461A60();
+                        }
+                    }
+                }
+            }
+
+            if (!byte_678554 && field_21C_bf.b14)
+            {
+                gOrca_2FD4_6FDEF0->field_3C.sub_471240(this);
+                field_21C_bf.b14 = 0;
+            }
+
+            if (field_168_game_object)
+            {
+                Fix16 zpos = get_cam_z();
+                if (field_168_game_object->field_58_flags_bf.b0 == 0 && zpos != dword_678660)
+                {
+                    zpos -= dword_678664;
+                }
+                field_254 = gMap_0x370_6F6268->GetBlockSpec_4E00A0(get_cam_x(), get_cam_y(), zpos);
+                Ped::sub_462B80();
+
+                field_21C_bf.b8 = 0;
+                field_21C_bf.b9 = 0;
+            }
+            else
+            {
+                field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xpos.x;
+                field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+                field_1AC_cam.z = field_16C_car->field_50_car_sprite->field_1C_zpos;
+            }
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else if (field_234 != 99)
+    {
+        --field_234;
+
+        if (field_234 == 0)
+        {
+            field_234 = 0; // ????????????????
+        }
+    }
+
+    if (field_208_invulnerability)
+    {
+        if (field_208_invulnerability != 9999)
+        {
+            field_208_invulnerability--;
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4632e0)
@@ -1464,7 +1777,7 @@ Sprite* Ped::sub_467280()
     this->field_168_game_object->field_10 = 1;
 
     Char_B4* pB4 = this->field_168_game_object;
-    pB4->field_6c = 0;
+    pB4->field_6C = 0;
     pB4->field_68 = 0;
 
     this->field_216_health = 50;

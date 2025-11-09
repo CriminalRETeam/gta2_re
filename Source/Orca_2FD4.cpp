@@ -5,6 +5,8 @@
 
 DEFINE_GLOBAL(u8, byte_6FDEEC, 0x6FDEEC);
 
+DEFINE_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0, 0x6FDEF0);
+
 MATCH_FUNC(0x554080)
 bool Orca_2FD4::sub_554080(s32 a2)
 {
@@ -105,7 +107,7 @@ char_type Orca_2FD4::sub_554AB0(s32 a2, s32 a3, u8 a4, u8 a5, u8 a6, u8 a7, u8 a
 }
 
 STUB_FUNC(0x5552b0)
-char_type Orca_2FD4::sub_5552B0(char_type a2, char_type* a3, char_type* a4, char_type* a5, char_type a6)
+char_type Orca_2FD4::sub_5552B0(char_type a2, u8* xpos, u8* ypos, u8* zpos, char_type a6)
 {
     NOT_IMPLEMENTED;
     return 0;

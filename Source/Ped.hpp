@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "BitSet32.hpp"
 #include "Marz_1D7E.hpp"
 #include "ang16.hpp"
 #include "enums.hpp"
@@ -19,45 +20,6 @@ class Char_8;
 class Char_B4;
 class Marz_96;
 class Object_2C;
-
-
-// Dumb name to avoid conflict with BitField32
-struct CompilerBitField32
-{
-    u32 b0 : 1;
-    u32 b1 : 1;
-    u32 b2 : 1;
-    u32 b3 : 1;
-    u32 b4 : 1;
-    u32 b5 : 1;
-    u32 b6 : 1;
-    u32 b7 : 1;
-    u32 b8 : 1;
-    u32 b9 : 1;
-    u32 b10 : 1;
-    u32 b11 : 1;
-    u32 b12 : 1;
-    u32 b13 : 1;
-    u32 b14 : 1;
-    u32 b15 : 1;
-    u32 b16 : 1;
-    u32 b17 : 1;
-    u32 b18 : 1;
-    u32 b19 : 1;
-    u32 b20 : 1;
-    u32 b21 : 1;
-    u32 b22 : 1;
-    u32 b23 : 1;
-    u32 b24 : 1;
-    u32 b25 : 1;
-    u32 b26 : 1;
-    u32 b27 : 1;
-    u32 b28 : 1;
-    u32 b29 : 1;
-    u32 b30 : 1;
-    u32 b31 : 1;
-};
-
 
 class Ped
 {
@@ -130,7 +92,7 @@ class Ped
     EXPORT char_type RoadBlockTank_AI_4619F0();
     EXPORT s16 sub_461A60();
     EXPORT void Occupation_AI_461F20();
-    EXPORT s16 sub_462280();
+    EXPORT void sub_462280();
     EXPORT s32 sub_4624A0();
     EXPORT void RemovePedWeapons_462510();
     EXPORT void sub_462550();
@@ -138,7 +100,7 @@ class Ped
     EXPORT s32 sub_462620();
     EXPORT char_type sub_4626B0();
     EXPORT void sub_462B80();
-    EXPORT char_type Update_462E70();
+    EXPORT bool Update_462E70();
     EXPORT void sub_4632E0();
     EXPORT s32 sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
@@ -424,6 +386,16 @@ class Ped
         return field_216_health;
     }
 
+    void set_occupation_403970(s32 occupation)
+    {
+        field_240_occupation = occupation;
+    }
+
+    void sub_403920(s32 unk)
+    {
+        field_238 = unk;
+    }
+
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
@@ -442,7 +414,7 @@ class Ped
     Ped* field_14C;
     Car_BC* field_150_target_objective_car;
     Car_BC* field_154_target_to_enter;
-    s32 field_158;
+    Car_BC* field_158_unk_car;
     Player* field_15C_player;
     Ped* field_160_next_ped;
     PedGroup* field_164_ped_group;
@@ -492,8 +464,8 @@ class Ped
     s16 field_212;
     s16 field_214;
     s16 field_216_health;
-    s16 field_218_objective_timer;
-    s16 field_21A_car_state_timer;
+    u16 field_218_objective_timer;
+    u16 field_21A_car_state_timer;
 
     union 
     {
@@ -533,10 +505,10 @@ class Ped
     char_type field_24E;
     char_type field_24F;
     s32 field_250;
-    char_type field_254;
-    char_type field_255;
-    char_type field_256;
-    char_type field_257;
+    s32 field_254;
+    //char_type field_255;
+    //char_type field_256;
+    //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_car_state;
     char_type field_260;
@@ -549,7 +521,7 @@ class Ped
     u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;
-    char_type field_26A;
+    u8 field_26A;
     char_type field_26B;
     s32 field_26C_graphic_type;
     s32 field_270;

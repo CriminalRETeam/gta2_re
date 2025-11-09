@@ -20,10 +20,10 @@ void Kfc_30::sub_5CBC00()
     field_1E = 0;
     field_20 = 0;
     field_24 = 0;
-    field_0 = 0;
-    field_4 = 0;
+    field_0_car = 0;
+    field_4_ped = 0;
     field_28 = 0;
-    field_8 = 0;
+    field_8_group = 0;
     field_2C = 0;
     field_1C = 0;
 }
@@ -37,15 +37,15 @@ void Kfc_30::sub_5CBC30()
 MATCH_FUNC(0x5cbc40)
 void Kfc_30::sub_5CBC40(Ped* a2)
 {
-    field_8->sub_4C9970(a2);
-    field_4 = field_8->field_2C_ped_leader;
+    field_8_group->sub_4C9970(a2);
+    field_4_ped = field_8_group->field_2C_ped_leader;
 }
 
 STUB_FUNC(0x5cbc60)
 bool Kfc_30::sub_5CBC60()
 {
     NOT_IMPLEMENTED;
-    Ped* pPed = this->field_4;
+    Ped* pPed = this->field_4_ped;
     if (pPed && pPed->field_278 == 9)
     {
         return false;
