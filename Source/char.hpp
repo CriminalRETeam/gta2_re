@@ -55,7 +55,7 @@ class Char_B4
     s8 field_55;
     s8 field_56;
     s8 field_57;
-    s32 field_58;
+    s32 field_58_flags;
     s8 field_5c;
     s8 field_5d;
     s8 field_5e;

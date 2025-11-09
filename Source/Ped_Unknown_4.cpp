@@ -23,6 +23,12 @@ Char_8* Ped_Unknown_4::sub_4711F0(Ped* a2)
     return 0;
 }
 
+STUB_FUNC(0x471240)
+void Ped_Unknown_4::sub_471240(Ped* a1)
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x471290)
 char_type Ped_Unknown_4::sub_471290()
 {

@@ -191,7 +191,7 @@ void Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
 }
 
 STUB_FUNC(0x56f940)
-s32 Police_7B8::sub_56F940(u32* a2)
+s32 Police_7B8::sub_56F940(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

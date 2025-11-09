@@ -881,3 +881,5 @@ class Orca_2FD4
     char_type field_2FD2;
     char_type field_2FD3;
 };
+
+EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);

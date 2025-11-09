@@ -17,6 +17,7 @@ class Ped_Unknown_4
     EXPORT Char_8* sub_471140(Ped* pPed);
     EXPORT Char_8* sub_471160(Ped* a2);
     EXPORT Char_8* sub_4711F0(Ped* a2);
+    EXPORT void sub_471240(Ped* a1);
     EXPORT char_type sub_471290();
     EXPORT Ped* sub_471320();
     EXPORT Char_8** sub_4715A0();

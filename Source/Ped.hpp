@@ -138,7 +138,7 @@ class Ped
     EXPORT s32 sub_462620();
     EXPORT char_type sub_4626B0();
     EXPORT void sub_462B80();
-    EXPORT char_type Update_462E70();
+    EXPORT bool Update_462E70();
     EXPORT void sub_4632E0();
     EXPORT s32 sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
@@ -442,7 +442,7 @@ class Ped
     Ped* field_14C;
     Car_BC* field_150_target_objective_car;
     Car_BC* field_154_target_to_enter;
-    s32 field_158;
+    Car_BC* field_158_unk_car;
     Player* field_15C_player;
     Ped* field_160_next_ped;
     PedGroup* field_164_ped_group;
@@ -533,10 +533,10 @@ class Ped
     char_type field_24E;
     char_type field_24F;
     s32 field_250;
-    char_type field_254;
-    char_type field_255;
-    char_type field_256;
-    char_type field_257;
+    s32 field_254;
+    //char_type field_255;
+    //char_type field_256;
+    //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_car_state;
     char_type field_260;
@@ -549,7 +549,7 @@ class Ped
     u8 field_267_varrok_idx;
     char_type field_268;
     char_type field_269;
-    char_type field_26A;
+    u8 field_26A;
     char_type field_26B;
     s32 field_26C_graphic_type;
     s32 field_270;
