@@ -32,8 +32,8 @@ class Fix16_Rect
 
     inline bool inline_sub_4B9FD0(Fix16_Point* a2)
     {
-        return Fix16::inline_is_between(field_0_left, field_4_right, a2->x) &&
-            Fix16::inline_is_between(field_8_top, field_C_bottom, a2->y);
+        return Fix16::IsBetween(field_0_left, field_4_right, a2->x) &&
+            Fix16::IsBetween(field_8_top, field_C_bottom, a2->y);
     }
 
     // TODO: Ordering

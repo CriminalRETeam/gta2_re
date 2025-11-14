@@ -220,17 +220,10 @@ class Fix16
         return (s32)t;
     }
 
-    //  inline div_401B90
-    inline Fix16& inline_divide_by(Fix16& a1) 
-    {
-        mValue = (s32)(((__int64)mValue << 14) / a1.mValue);
-        return *this;
-    }
-
     //  inline sub_4B9E10 in 9.6f
-    inline static bool inline_is_between(Fix16& a1, Fix16& a2, Fix16& a3)
+    inline static bool IsBetween(Fix16& min, Fix16& max, Fix16& input)
     {
-        return a3 >= a1 && a3 <= a2;
+        return input >= min && input <= max;
     }
 
     //  inline sub_462ED0 in 9.6f
