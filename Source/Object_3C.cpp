@@ -380,8 +380,8 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
     {
         Fix16 xd = pIter->field_0->field_14_xpos.x - xOff;
         Fix16 yd = pIter->field_0->field_14_xpos.y - yOff;
-        Fix16 yDelta = yDelta.inline_abs_403840(yd);
-        Fix16 xDelta = xDelta.inline_abs_403840(xd);
+        Fix16 yDelta = Fix16::Abs(yd);
+        Fix16 xDelta = Fix16::Abs(xd);
 
         if (xDelta > yDelta)
         {

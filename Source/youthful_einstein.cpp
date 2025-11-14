@@ -69,12 +69,12 @@ void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlaye
                     y1 = Player_4B9D10->field_2C4_player_ped->field_1AC_cam.y;
                     y2 = fugitive_y;
                     y_diff = y1 - y2;
-                    x_abs.inline_abs_403840(y_diff);
+                    x_abs = Fix16::Abs(y_diff);
 
                     x1 = Player_4B9D10->field_2C4_player_ped->field_1AC_cam.x;
                     x2 = fugitive_x;
                     x_diff = x1 - x2;
-                    y_abs.inline_abs_403840(x_diff);
+                    y_abs = Fix16::Abs(x_diff);
 
                     taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)

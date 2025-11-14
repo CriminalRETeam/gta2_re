@@ -189,32 +189,16 @@ class Fix16
         return *this;
     }
 
-    inline Fix16 Abs() const
+    inline static Fix16 __stdcall Abs(Fix16& input)
     {
-        Fix16 result;
-        if (mValue <= 0)
+        if (input.mValue > 0)
         {
-            result.mValue = -mValue;
+            return input;
         }
         else
         {
-            result.mValue = mValue;
+            return -input;
         }
-        return result;
-    }
-
-    // TODO: remove this function & replace by Abs()
-    inline Fix16& inline_abs_403840(Fix16& input)
-    {
-        if (input.mValue <= 0)
-        {
-            *this = input.Negate();
-        }
-        else
-        {
-            *this = input;
-        }
-        return *this;
     }
 
     // OBS: obsolete, I will remove it soon
