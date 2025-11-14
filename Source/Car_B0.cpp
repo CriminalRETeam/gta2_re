@@ -1,4 +1,5 @@
 #include "Car_B0.hpp"
+#include "CarInfo_808.hpp"
 #include "Globals.hpp"
 
 DEFINE_GLOBAL(Car_D264*, gCar_D264_6FE3E0, 0x6FE3E0);
@@ -6,6 +7,8 @@ DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
 DEFINE_GLOBAL(Fix16, DAT_006FE20C, 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
 DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
+DEFINE_GLOBAL(CarInfo_48*, dword_6FE258, 0x6FE258);
+DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 
 STUB_FUNC(0x4403a0)
 s16* Car_B0::sub_4403A0(s16* a2)
@@ -152,15 +155,22 @@ u8 Car_B0::sub_55A0B0()
     {
         return this->field_98_surface_type == 6;
     }
-    return pTrailer->field_8->field_58_physics->field_98_surface_type == 6 &&
-        pTrailer->field_C_car->field_58_physics->field_98_surface_type == 6;
+    return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
+        pTrailer->field_C_trailer_carObj->field_58_physics->field_98_surface_type == 6;
 }
 
-STUB_FUNC(0x55a100)
-u32* Car_B0::sub_55A100(u32* a2)
+MATCH_FUNC(0x55a100)
+Fix16 Car_B0::sub_55A100()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_5C_pPrev->field_64_pTrailer != NULL
+        && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
+    {
+        return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;
+    }
+    else
+    {
+        return dword_6FE258->field_18_turn_ratio;
+    }
 }
 
 MATCH_FUNC(0x55a150)
@@ -171,7 +181,7 @@ char_type Car_B0::IsFootBrakeOn_55A150()
     Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        Car_B0* pPhysics = pTrailer->field_8->field_58_physics;
+        Car_B0* pPhysics = pTrailer->field_8_truck_cab->field_58_physics;
         if (pPhysics)
         {
             bFootBrakeOn = pPhysics->field_91_is_foot_brake_on;
@@ -198,7 +208,7 @@ char_type Car_B0::sub_55A180()
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        pB0 = pTrailer->field_8->field_58_physics;
+        pB0 = pTrailer->field_8_truck_cab->field_58_physics;
         if (!pB0)
         {
             return 0;
@@ -799,7 +809,7 @@ void Car_B0::sub_5636C0()
     Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
     if (p10)
     {
-        p10->field_C_car->field_58_physics->sub_563670();
+        p10->field_C_trailer_carObj->field_58_physics->sub_563670();
     }
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <math.h>
 #include <windows.h>
 
 class Fix16
@@ -35,10 +36,9 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    Fix16 operator+=(const Fix16& other)
+    void operator+=(const Fix16& other)
     {
         mValue += other.mValue;
-        return *this;
     }
 
     Fix16 operator*(const Fix16& in) const
@@ -174,6 +174,10 @@ class Fix16
     {
     }
 
+    explicit Fix16(f64 v) : mValue(static_cast<s32>(v * 16384.0))
+    {
+    }
+
     void FromU8(u8 v)
     {
         mValue = v << 14;
@@ -185,40 +189,16 @@ class Fix16
         return *this;
     }
 
-    inline Fix16 Abs() const
+    inline static Fix16 __stdcall Abs(Fix16& input)
     {
-        Fix16 result;
-        if (mValue <= 0)
+        if (input.mValue > 0)
         {
-            result.mValue = -mValue;
+            return input;
         }
         else
         {
-            result.mValue = mValue;
+            return -input;
         }
-        return result;
-    }
-
-    // TODO: remove this function & replace by Abs()
-    inline Fix16& inline_abs_403840(Fix16& input)
-    {
-        if (input.mValue <= 0)
-        {
-            *this = input.Negate();
-        }
-        else
-        {
-            *this = input;
-        }
-        return *this;
-    }
-
-    // OBS: obsolete, I will remove it soon
-    inline Fix16 ConcatenateWord(Fix16 a2)
-    {
-        Fix16 result;
-        result.mValue = mValue + (a2.mValue & 0xFFFFC000);
-        return result;
     }
 
     inline Fix16 GetRoundValue()
@@ -239,17 +219,10 @@ class Fix16
         return (s32)t;
     }
 
-    //  inline div_401B90
-    inline Fix16& inline_divide_by(Fix16& a1) 
-    {
-        mValue = (s32)(((__int64)mValue << 14) / a1.mValue);
-        return *this;
-    }
-
     //  inline sub_4B9E10 in 9.6f
-    inline static bool inline_is_between(Fix16& a1, Fix16& a2, Fix16& a3)
+    inline static bool IsBetween(Fix16& min, Fix16& max, Fix16& input)
     {
-        return a3 >= a1 && a3 <= a2;
+        return input >= min && input <= max;
     }
 
     //  inline sub_462ED0 in 9.6f
@@ -263,13 +236,18 @@ class Fix16
         return (diff_x > diff_y) ? diff_x : diff_y;
     }
 
+    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    {
+        return Fix16(sqrt(input.AsDouble()));
+    }
+
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16& FromU16_4AE970(u16 a2);
    
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
-    EXPORT Fix16 Abs_436A50(Fix16& a2);
-    EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
+    EXPORT inline static Fix16 __stdcall Abs_436A50(Fix16& a2);
+    EXPORT inline static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
     //MATCH_FUNC(0x436A20)

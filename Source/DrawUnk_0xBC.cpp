@@ -12,13 +12,26 @@ DEFINE_GLOBAL(DrawUnk_0xBC*, gViewCamera_676978, 0x676978);
 DEFINE_GLOBAL(Fix16, dword_676840, 0x676840);
 DEFINE_GLOBAL(Fix16, dword_67671C, 0x67671C);
 DEFINE_GLOBAL(Fix16, dword_676818, 0x676818);
-DEFINE_GLOBAL(Fix16, dword_67681C, 0x67681C);
+DEFINE_GLOBAL_INIT(Fix16, dword_67681C, Fix16(1), 0x67681C);
 DEFINE_GLOBAL(Fix16, dword_6766D4, 0x6766D4);
 DEFINE_GLOBAL(Fix16, dword_6766E4, 0x6766E4);
 DEFINE_GLOBAL(Fix16, dword_6768F0, 0x6768F0);
 DEFINE_GLOBAL(Fix16, dword_676910, 0x676910);
 DEFINE_GLOBAL(Fix16, dword_676608, 0x676608);
+DEFINE_GLOBAL(Fix16, dword_676894, 0x676894);
 DEFINE_GLOBAL(Fix16, dword_6768C0, 0x6768C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6767D0, Fix16(256, 0), 0x6767D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_676664, Fix16(1638, 0), 0x676664);
+DEFINE_GLOBAL_INIT(Fix16, dword_676678, Fix16(2000, 0), 0x676678);
+DEFINE_GLOBAL_INIT(Fix16, dword_6768D8, dword_6767D0, 0x6768D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_676918, dword_6768D8 * 12, 0x676918);
+DEFINE_GLOBAL_INIT(Fix16, dword_6767B8, dword_6768D8 * dword_676678, 0x6767B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_676638, dword_6768D8 * 40, 0x676638);
+DEFINE_GLOBAL_INIT(Fix16, dword_676834, dword_6768D8 * dword_676664, 0x676834);
+DEFINE_GLOBAL_INIT(Fix16, dword_6765FC, dword_6768D8 * 5, 0x6765FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6766FC, dword_6768D8, 0x6766FC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6766A4, dword_6768D8 * 4, 0x6766A4);
+DEFINE_GLOBAL_INIT(Fix16, dword_676740, dword_6768D8 * dword_67681C, 0x676740);
 
 MATCH_FUNC(0x4355D0)
 bool DrawUnk_0xBC::sub_4355D0(Sprite* pSprite)
@@ -66,9 +79,6 @@ void DrawUnk_0xBC::sub_4357B0()
     field_88_cam_pos1.field_8_z = field_98_cam_pos2.field_8_z;
     field_88_cam_pos1.field_C_zoom = field_98_cam_pos2.field_C_zoom;
 }
-
-DEFINE_GLOBAL(Fix16, dword_676894, 0x676894);
-DEFINE_GLOBAL(Fix16, dword_676678, 0x676678);
 
 MATCH_FUNC(0x4357F0)
 void DrawUnk_0xBC::sub_4357F0()
@@ -236,11 +246,57 @@ void DrawUnk_0xBC::sub_435F90(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x435FF0)
-s32 DrawUnk_0xBC::sub_435FF0()
+// TODO: move
+STUB_FUNC(0x4F7540)
+EXPORT void __stdcall sub_4F7540(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
     NOT_IMPLEMENTED;
-    return 0;
+}
+
+// TODO: move
+STUB_FUNC(0x4F75D0)
+EXPORT void __stdcall sub_4F75D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5, Fix16* a6, Fix16* a7)
+{
+    NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x435FF0)
+void DrawUnk_0xBC::sub_435FF0()
+{
+    DrawUnk_0xBC::sub_4357B0();
+    Fix16 v5 = field_98_cam_pos2.field_8_z * dword_676918;
+
+    switch (field_3C_followed_ped_id)
+    {
+        case 1:
+            sub_4F7540(&field_0_cam_pos_tgt1.field_0_x, &field_AC_cam_velocity.field_0_x, &field_98_cam_pos2.field_0_x, &dword_676740, &v5);
+            sub_4F7540(&field_0_cam_pos_tgt1.field_4_y, &field_AC_cam_velocity.field_4_y, &field_98_cam_pos2.field_4_y, &dword_676740, &v5);
+            sub_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
+                       &field_AC_cam_velocity.field_8_z,
+                       &field_98_cam_pos2.field_8_z,
+                       &dword_6767B8,
+                       &dword_676638,
+                       &dword_676834,
+                       &dword_6765FC);
+            sub_4F7540(&field_0_cam_pos_tgt1.field_C_zoom,
+                       &field_AC_cam_velocity.field_C_zoom,
+                       &field_98_cam_pos2.field_C_zoom,
+                       &dword_6766FC,
+                       &dword_6766A4);
+            break;
+        case 2:
+            field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
+            field_98_cam_pos2.field_4_y = field_0_cam_pos_tgt1.field_4_y;
+            field_98_cam_pos2.field_8_z = field_0_cam_pos_tgt1.field_8_z;
+            field_98_cam_pos2.field_C_zoom = field_0_cam_pos_tgt1.field_C_zoom;
+            break;
+    }
+    if (field_30 != dword_676818)
+    {
+        DrawUnk_0xBC::sub_436140();
+    }
+    DrawUnk_0xBC::sub_435B90();
+    field_0_cam_pos_tgt1 = field_10_cam_pos_tgt2;
 }
 
 MATCH_FUNC(0x436110)

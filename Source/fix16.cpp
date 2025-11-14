@@ -59,19 +59,20 @@ Fix16 Fix16::operator/(const Fix16& in)
 */
 
 MATCH_FUNC(0x436A50)
-Fix16 Fix16::Abs_436A50(Fix16& a2)
+inline Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
 {
-    s32 value = a2.mValue;
-    if (a2.mValue <= 0)
+    if (input.mValue > 0)
     {
-        value = -a2.mValue;
+        return input;
     }
-    return Fix16(value, 0);
+    else
+    {
+        return -input;
+    }
 }
 
 MATCH_FUNC(0x436A70)
-Fix16 Fix16::SquareRoot_436A70(Fix16& a2)
+inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 {
-    s32 value = sqrt(a2.AsDouble()) * 16384.0f;
-    return Fix16(value, 0);
+    return Fix16(sqrt(input.AsDouble()));
 }

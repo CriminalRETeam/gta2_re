@@ -244,8 +244,8 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         Ped* pPed;
         if (gfrosty_pasteur_6F8060->field_C1E2C)
         {
-            Fix16 weird_y = dword_6F76DC.ConcatenateWord(dword_6F7920);
-            Fix16 weird_x = dword_6F75F0.ConcatenateWord(dword_6F791C);
+            Fix16 weird_y = dword_6F76DC + dword_6F7920.GetRoundValue();
+            Fix16 weird_x = dword_6F75F0 + dword_6F791C.GetRoundValue();
 
             pPed = gChar_C_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
         }
@@ -348,14 +348,14 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            Trailer* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
+            Trailer* pTrailer = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
                                                         pCmd->field_C_pos.field_4_y,
                                                         rotation,
                                                         pCmd->field_1C_car_id,
                                                         pCmd->field_1E_trailer_id);
-            if (v11 != NULL)
+            if (pTrailer != NULL)
             {
-                pPointer->field_8_car = v11->field_8;
+                pPointer->field_8_car = pTrailer->field_8_truck_cab;
             }
             else
             {

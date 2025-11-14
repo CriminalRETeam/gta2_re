@@ -114,6 +114,7 @@ set(gta2_lib_src
   Source/Fix16_Rect.hpp
   Source/Fix16_Rect.cpp
   Source/Fix16_Point.hpp
+  Source/Fix16_Point.cpp
   Source/Ped_Unknown_4.hpp
   Source/Ped_Unknown_4.cpp
   Source/zealous_borg.hpp

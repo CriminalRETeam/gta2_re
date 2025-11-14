@@ -1534,8 +1534,8 @@ void Ped::sub_463AA0()
 
         Fix16 diff_x = field_1B8_target_x - field_1AC_cam.x;
         Fix16 diff_y = field_1BC_target_y - field_1AC_cam.y;
-        diff_x = diff_x.Abs();
-        diff_y = diff_y.Abs();
+        diff_x = Fix16::Abs(diff_x);
+        diff_y = Fix16::Abs(diff_y);
         dword_678750 = Fix16::Max(diff_x, diff_y);
 
         switch (field_258_objective)

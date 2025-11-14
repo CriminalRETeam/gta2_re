@@ -507,7 +507,6 @@ void Police_38::sub_572340()
                                 }
                                 break;
                             case objectives_enum::objective_32:
-                            LABEL_44:
                                 pPed->sub_463830(0, 9999);
                                 pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
                                 pPed_6FEDDC->field_1DC_objective_target_x = field_14_pObj->field_10_x;
@@ -1199,8 +1198,8 @@ void PoliceRoadblock_A4::sub_5757B0()
                 Fix16 v29 = Fix16(field_8) - fix_x;
                 Fix16 v30 = Fix16(field_9) - fix_y;
 
-                v30.inline_abs_403840(v30);
-                v29.inline_abs_403840(v29);
+                v30 = Fix16::Abs(v30);
+                v29 = Fix16::Abs(v29);
 
                 if (v29 <= v30)
                 {
