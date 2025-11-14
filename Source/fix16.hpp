@@ -202,14 +202,6 @@ class Fix16
         }
     }
 
-    // OBS: obsolete, I will remove it soon
-    inline Fix16 ConcatenateWord(Fix16 a2)
-    {
-        Fix16 result;
-        result.mValue = mValue + (a2.mValue & 0xFFFFC000);
-        return result;
-    }
-
     inline Fix16 GetRoundValue()
     {
         // get the "integer part" of Fix16, since everything less than 0x3FFF is decimal in float

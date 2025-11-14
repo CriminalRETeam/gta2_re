@@ -244,8 +244,8 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         Ped* pPed;
         if (gfrosty_pasteur_6F8060->field_C1E2C)
         {
-            Fix16 weird_y = dword_6F76DC.ConcatenateWord(dword_6F7920);
-            Fix16 weird_x = dword_6F75F0.ConcatenateWord(dword_6F791C);
+            Fix16 weird_y = dword_6F76DC + dword_6F7920.GetRoundValue();
+            Fix16 weird_x = dword_6F75F0 + dword_6F791C.GetRoundValue();
 
             pPed = gChar_C_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
         }
