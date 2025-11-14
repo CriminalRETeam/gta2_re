@@ -814,10 +814,10 @@ MATCH_FUNC(0x43a600)
 void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
-    Trailer* v2 = this->field_64_pTrailer;
-    if (v2)
+    //Trailer* v2 = field_64_pTrailer;
+    if (field_64_pTrailer)
     {
-        v2->field_C_car->sub_43D400();
+        field_64_pTrailer->field_C_trailer_carObj->sub_43D400();
     }
 }
 
@@ -855,7 +855,7 @@ bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
     if (field_64_pTrailer)
     {
         // Check trailer car
-        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C_car->IsNotCurrentRemap(remap);
+        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C_trailer_carObj->IsNotCurrentRemap(remap);
     }
     return IsNotCurrentRemap(remap);
 }
@@ -871,9 +871,9 @@ void Car_BC::SetCarRemap(u8 remap)
     // trailer ?
     if (field_64_pTrailer)
     {
-        if (field_64_pTrailer->field_C_car->IsNotCurrentRemap(remap))
+        if (field_64_pTrailer->field_C_trailer_carObj->IsNotCurrentRemap(remap))
         {
-            field_64_pTrailer->field_C_car->field_50_car_sprite->SetRemap(remap);
+            field_64_pTrailer->field_C_trailer_carObj->field_50_car_sprite->SetRemap(remap);
         }
     }
 }
@@ -2359,9 +2359,9 @@ void Car_BC::IncrementCarStats_443D70(s32 a2)
 
     if (field_64_pTrailer)
     {
-        if (field_64_pTrailer->field_8 == this)
+        if (field_64_pTrailer->field_8_truck_cab == this)
         {
-            field_64_pTrailer->field_C_car->IncrementAllocatedCarType_443DA0(a2);
+            field_64_pTrailer->field_C_trailer_carObj->IncrementAllocatedCarType_443DA0(a2);
         }
     }
 }
@@ -2675,20 +2675,20 @@ bool Car_BC::sub_564300()
 MATCH_FUNC(0x407b90)
 Car_BC* Trailer::sub_407B90(Car_BC* a2)
 {
-    if (a2 == field_8)
+    if (a2 == field_8_truck_cab)
     {
-        return field_C_car;
+        return field_C_trailer_carObj;
     }
-    return field_8;
+    return field_8_truck_cab;
 }
 
 MATCH_FUNC(0x407bb0)
 void Trailer::sub_407BB0(Car_BC* a2, Car_BC* a3)
 {
-    this->field_8 = a2;
-    this->field_C_car = a3;
+    this->field_8_truck_cab = a2;
+    this->field_C_trailer_carObj = a3;
     a2->field_64_pTrailer = this;
-    this->field_C_car->field_64_pTrailer = this;
+    this->field_C_trailer_carObj->field_64_pTrailer = this;
     this->field_0 = 0;
 }
 
@@ -2709,16 +2709,16 @@ s32* Trailer::sub_407CE0()
 MATCH_FUNC(0x408140)
 char_type Trailer::sub_408140()
 {
-    if (!this->field_8->field_58_physics && !this->field_C_car->field_58_physics)
+    if (!field_8_truck_cab->field_58_physics && !field_C_trailer_carObj->field_58_physics)
     {
         return 0;
     }
 
     sub_408190();
 
-    if (!this->field_8->field_58_physics->sub_562FE0() || this->field_8->field_54_driver)
+    if (!field_8_truck_cab->field_58_physics->sub_562FE0() || field_8_truck_cab->field_54_driver)
     {
-        return this->field_8->sub_43E560();
+        return field_8_truck_cab->sub_43E560();
     }
     sub_4081B0();
     return 0;
@@ -2727,33 +2727,33 @@ char_type Trailer::sub_408140()
 MATCH_FUNC(0x408190)
 void Trailer::sub_408190()
 {
-    field_8->sub_43BC30();
-    field_C_car->sub_43BC30();
+    field_8_truck_cab->sub_43BC30();
+    field_C_trailer_carObj->sub_43BC30();
 }
 
 MATCH_FUNC(0x4081b0)
 void Trailer::sub_4081B0()
 {
-    field_8->sub_441A10();
-    field_C_car->sub_441A10();
+    field_8_truck_cab->sub_441A10();
+    field_C_trailer_carObj->sub_441A10();
 }
 
 MATCH_FUNC(0x4081d0)
 char_type Trailer::sub_4081D0()
 {
-    if (field_8->field_74_damage == 32001)
+    if (field_8_truck_cab->field_74_damage == 32001)
     {
-        if (field_C_car->field_74_damage != 32001)
+        if (field_C_trailer_carObj->field_74_damage != 32001)
         {
-            field_C_car->field_74_damage = 32000;
-            field_C_car->sub_43D840(18);
+            field_C_trailer_carObj->field_74_damage = 32000;
+            field_C_trailer_carObj->sub_43D840(18);
         }
         return 1;
     }
-    else if (this->field_C_car->field_74_damage == 32001)
+    else if (field_C_trailer_carObj->field_74_damage == 32001)
     {
-        field_8->field_74_damage = 32000;
-        field_8->sub_43D840(18);
+        field_8_truck_cab->field_74_damage = 32000;
+        field_8_truck_cab->sub_43D840(18);
         return 1;
     }
     else

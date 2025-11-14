@@ -297,8 +297,8 @@ class Trailer
     Trailer()
     {
         field_4 = NULL;
-        field_8 = NULL;
-        field_C_car = NULL;
+        field_8_truck_cab = NULL;
+        field_C_trailer_carObj = NULL;
         field_0 = NULL;
         0;
     }
@@ -308,8 +308,8 @@ class Trailer
     char_type field_2;
     char_type field_3;
     Trailer* field_4;
-    Car_BC* field_8;
-    Car_BC* field_C_car;
+    Car_BC* field_8_truck_cab;
+    Car_BC* field_C_trailer_carObj;
 };
 
 class Car_BC
@@ -513,19 +513,19 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C_car == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_carObj == this;
     }
 
     // Inlined 0x41E460
     bool sub_41E460()
     {
-        return field_64_pTrailer && field_64_pTrailer->field_8 == this;
+        return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == this;
     }
 
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C_car == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_carObj == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)

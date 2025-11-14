@@ -348,14 +348,14 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            Trailer* v11 = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
+            Trailer* pTrailer = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
                                                         pCmd->field_C_pos.field_4_y,
                                                         rotation,
                                                         pCmd->field_1C_car_id,
                                                         pCmd->field_1E_trailer_id);
-            if (v11 != NULL)
+            if (pTrailer != NULL)
             {
-                pPointer->field_8_car = v11->field_8;
+                pPointer->field_8_car = pTrailer->field_8_truck_cab;
             }
             else
             {
