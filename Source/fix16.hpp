@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include <math.h>
 #include <windows.h>
 
 class Fix16
@@ -249,6 +250,11 @@ class Fix16
     inline static Fix16 Max(const Fix16& diff_x, const Fix16& diff_y)
     {
         return (diff_x > diff_y) ? diff_x : diff_y;
+    }
+
+    inline static Fix16 __stdcall SquareRoot(Fix16& input)
+    {
+        return Fix16(sqrt(input.AsDouble()));
     }
 
     EXPORT Fix16& FromInt_4369F0(s32 a2);
