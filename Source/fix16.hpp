@@ -174,6 +174,10 @@ class Fix16
     {
     }
 
+    explicit Fix16(f64 v) : mValue(static_cast<s32>(v * 16384.0))
+    {
+    }
+
     void FromU8(u8 v)
     {
         mValue = v << 14;
@@ -269,7 +273,7 @@ class Fix16
    
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT Fix16 Abs_436A50(Fix16& a2);
-    EXPORT Fix16 SquareRoot_436A70(Fix16& a2);
+    EXPORT inline static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
     //MATCH_FUNC(0x436A20)

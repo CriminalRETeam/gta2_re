@@ -70,8 +70,7 @@ Fix16 Fix16::Abs_436A50(Fix16& a2)
 }
 
 MATCH_FUNC(0x436A70)
-Fix16 Fix16::SquareRoot_436A70(Fix16& a2)
+inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 {
-    s32 value = sqrt(a2.AsDouble()) * 16384.0f;
-    return Fix16(value, 0);
+    return Fix16(sqrt(input.AsDouble()));
 }
