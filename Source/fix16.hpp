@@ -272,7 +272,7 @@ class Fix16
     EXPORT Fix16& FromU16_4AE970(u16 a2);
    
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
-    EXPORT Fix16 Abs_436A50(Fix16& a2);
+    EXPORT inline static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT inline static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
     EXPORT Fix16 operator+(const Fix16& rhs) const;
 
