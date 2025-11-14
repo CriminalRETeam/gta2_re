@@ -36,10 +36,9 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    Fix16 operator+=(const Fix16& other)
+    void operator+=(const Fix16& other)
     {
         mValue += other.mValue;
-        return *this;
     }
 
     Fix16 operator*(const Fix16& in) const
