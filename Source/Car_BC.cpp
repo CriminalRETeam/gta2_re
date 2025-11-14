@@ -789,11 +789,17 @@ u32* Car_BC::sub_43A450(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a4c0)
+MATCH_FUNC(0x43a4c0)
 Fix16 Car_BC::sub_43A4C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_58_physics)
+    {
+        return 0;
+    }
+    else
+    {
+        return field_58_physics->field_0_vel_read_only.GetLength();
+    }
 }
 
 STUB_FUNC(0x43a590)

@@ -162,7 +162,8 @@ u8 Car_B0::sub_55A0B0()
 MATCH_FUNC(0x55a100)
 Fix16 Car_B0::sub_55A100()
 {
-    if (field_5C_pPrev->field_64_pTrailer && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
+    if (field_5C_pPrev->field_64_pTrailer != NULL
+        && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
     {
         return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;
     }
