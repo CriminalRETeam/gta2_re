@@ -49,7 +49,7 @@ class DrawUnk_0xBC
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void sub_435DD0();
     EXPORT void sub_435F90(Car_BC* a2);
-    EXPORT s32 sub_435FF0();
+    EXPORT void sub_435FF0();
     EXPORT s32 sub_436110();
     EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
