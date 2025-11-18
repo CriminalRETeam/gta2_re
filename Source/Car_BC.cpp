@@ -760,19 +760,14 @@ Fix16 Car_BC::sub_43A240()
     return 0;
 }
 
-STUB_FUNC(0x43a3c0) // ??? stupidly easy function that doesn't match :)
+MATCH_FUNC(0x43a3c0)
 bool Car_BC::sub_43A3C0()
 {
-    NOT_IMPLEMENTED;
-    Car_B0* pObj; // eax
-
-    pObj = this->field_58_physics;
-    if (!pObj)
+    if (!field_58_physics)
     {
         return false;
     }
-    s32 type = pObj->field_98_surface_type;
-    return (type == 6) ? true : false;
+    return field_58_physics->field_98_surface_type == 6; // 6 = air surface (or no surface)
 }
 
 STUB_FUNC(0x43a3e0)
@@ -1274,25 +1269,52 @@ void Car_BC::sub_43C840()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x43c920)
-s32 Car_BC::ActivateEmergencyLights_43C920()
+MATCH_FUNC(0x43c920)
+void Car_BC::ActivateEmergencyLights_43C920()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_A4 & 0x1C) == 0)
+    {
+        if (is_FBI_car_411920())
+        {
+            field_8_damaged_areas.set_bit(11);
+        }
+        field_A4 |= 4u;
+        if (is_FBI_car_411920())
+        {
+            field_A5 = 8;
+        }
+        else
+        {
+            field_A5 = 15;
+        }
+    }
 }
 
-STUB_FUNC(0x43c9d0)
-s16 Car_BC::DeactivateEmergencyLights_43C9D0()
+MATCH_FUNC(0x43c9d0)
+void Car_BC::DeactivateEmergencyLights_43C9D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC::sub_43C650();
+    Car_BC::sub_43C840();
+    Car_BC::sub_43C310();
+    Car_BC::sub_43C470();
+    field_A4 &= ~4u;
+    if (is_FBI_car_411920() && field_74_damage != 32001)
+    {
+        field_8_damaged_areas.set_bit(14);
+    }
 }
 
-STUB_FUNC(0x43ca80)
-s16 Car_BC::sub_43CA80()
+MATCH_FUNC(0x43ca80)
+void Car_BC::sub_43CA80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_A4 & 0x1C) != 0)
+    {
+        Car_BC::DeactivateEmergencyLights_43C9D0();
+    }
+    else
+    {
+        Car_BC::ActivateEmergencyLights_43C920();
+    }
 }
 
 STUB_FUNC(0x43cbe0)

@@ -114,11 +114,11 @@ void sound_obj::ClearActivateSamples_41B7A0()
         field_DC0[i].field_20_rate = 22050;
         field_DC0[i].field_58_type = 0;
         field_DC0[i].field_24_nVolume = 0;
-        field_DC0[i].field_60 = 0;
+        field_DC0[i].field_60_nEmittingVolume = 0;
         field_DC0[i].field_64 = 10;
         field_DC0[i].field_28 = 0;
         field_DC0[i].field_2C = 0;
-        field_DC0[i].field_2D = 0;
+        field_DC0[i].field_2D_bIsPlayingFinished = 0;
         field_DC0[i].field_30 = 1;
         field_DC0[i].field_34 = 0;
         field_DC0[i].field_38 = -1;
@@ -301,7 +301,7 @@ void sound_obj::sub_41B540()
             {
                 f32 f28_conv;
                 sub_41B520(pIter->field_28, &f28_conv);
-                pIter->field_60 = ComputeEmittingVolume_41B660(pIter->field_60, pIter->field_64, (u32)f28_conv);
+                pIter->field_60_nEmittingVolume = ComputeEmittingVolume_41B660(pIter->field_60_nEmittingVolume, pIter->field_64, (u32)f28_conv);
             }
         }
     }
@@ -367,7 +367,7 @@ void sound_obj::AddSampleToRequestedQueue_41A850()
     }
 
     field_30_sQueueSample.field_48_nCalculatedVolume = newVol;
-    field_30_sQueueSample.field_2D = 0;
+    field_30_sQueueSample.field_2D_bIsPlayingFinished = 0;
 
     memcpy(&field_9C_asSamples[field_98_nActiveSampleQueue][new_requested_count], &field_30_sQueueSample, sizeof(sound_0x68));
 
@@ -465,10 +465,83 @@ void sound_obj::InterrogateAudioEntities_41A730()
     }
 }
 
-STUB_FUNC(0x41A9D0)
+MATCH_FUNC(0x41A9D0)
 void sound_obj::AddReleasingSounds_41A9D0()
 {
-    NOT_IMPLEMENTED;
+    bool toProcess[16];
+
+    const u8 queue = field_98_nActiveSampleQueue == 0 ? 1 : 0;
+
+    for (u8 idx = 0; idx < field_DBC_SampleRequestQueuesStatus[queue]; idx++)
+    {
+        const u32 v2 = field_D9C_abSampleQueueIndexTable[queue][idx];
+        sound_0x68& pSound = field_9C_asSamples[queue][v2];
+        if (!pSound.field_2D_bIsPlayingFinished) // m_bIsPlayingFinished ?
+        {
+            toProcess[idx] = false;
+            for (u8 i = 0; i < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; i++)
+            {
+                sound_0x68& t =
+                    field_9C_asSamples[field_98_nActiveSampleQueue][field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][i]];
+
+                if (pSound.field_0 == t.field_0 && pSound.field_4 == t.field_4)
+                {
+                    toProcess[idx] = true;
+                    break;
+                }
+            }
+
+            if (!toProcess[idx])
+            {
+                if (pSound.field_4C > 0)
+                {
+                    if (pSound.field_30 == 0)
+                    {
+                        u8* pEmittingVolume = &pSound.field_60_nEmittingVolume;
+                        if (!field_1D_b3d_sound)
+                        {
+                            pEmittingVolume = &pSound.field_24_nVolume;
+                        }
+
+                        if (pSound.field_50 == 0xFF)
+                        {
+                            pSound.field_50 = *pEmittingVolume / pSound.field_4C;
+                            if ((s8)pSound.field_50 <= 0)
+                            {
+                                pSound.field_50 = 1;
+                            }
+                        }
+
+                        if (*pEmittingVolume > pSound.field_50)
+                        {
+                            *pEmittingVolume -= pSound.field_50;
+                        }
+                        else
+                        {
+                            pSound.field_4C = 0;
+                            continue;
+                        }
+                    }
+
+                    --pSound.field_4C;
+                    if (field_544C[0].field_0)
+                    {
+                        if (pSound.field_1C_ReleasingVolumeModificator < 20)
+                        {
+                            ++pSound.field_1C_ReleasingVolumeModificator;
+                        }
+                    }
+                    pSound.field_41 = 0;
+                    if (!pSound.field_5C)
+                    {
+                        pSound.field_5C = &pSound;
+                    }
+                    memcpy(&field_30_sQueueSample, &pSound, sizeof(field_30_sQueueSample));
+                    sound_obj::AddSampleToRequestedQueue_41A850();
+                }
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x41AB80)
@@ -1341,7 +1414,7 @@ void sound_obj::ProcessType11_418B60(s32 a2)
             field_30_sQueueSample.field_0 = a2;
             field_30_sQueueSample.field_5C = 0;
             field_30_sQueueSample.field_24_nVolume = v4;
-            field_30_sQueueSample.field_60 = v4;
+            field_30_sQueueSample.field_60_nEmittingVolume = v4;
             field_30_sQueueSample.field_64 = 100;
             field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_54 = 1638400;
@@ -1468,7 +1541,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
     field_30_sQueueSample.field_41 = 1;
     field_30_sQueueSample.field_54 = 81920;
     field_30_sQueueSample.field_58_type = 20;
-    field_30_sQueueSample.field_60 = 127;
+    field_30_sQueueSample.field_60_nEmittingVolume = 127;
     field_30_sQueueSample.field_64 = 10;
     field_30_sQueueSample.field_14_samp_idx = sampIdx1;
     field_30_sQueueSample.field_40_pan = 0;

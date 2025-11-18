@@ -266,6 +266,11 @@ class Fix16
         return Fix16(value, 0);
     }
 
+    inline s32 get_value_4754D0()
+    {
+        return mValue;
+    }
+
   public:
     s32 mValue;
 };

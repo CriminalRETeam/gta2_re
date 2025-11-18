@@ -491,6 +491,12 @@ struct SCR_CHANGE_BLOCK : SCR_CMD_HEADER
     u16 field_C_info_word;
 };
 
+struct SCR_CHECK_CAR_SPEED : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    s32 field_A_value;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
