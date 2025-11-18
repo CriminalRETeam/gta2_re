@@ -63,7 +63,7 @@ struct sound_0x68
     char_type field_19;
     char_type field_1A;
     char_type field_1B;
-    s32 field_1C_ReleasingVolumeModificator;
+    u32 field_1C_ReleasingVolumeModificator;
     s32 field_20_rate;
     u8 field_24_nVolume;
     char_type field_25;
@@ -71,7 +71,7 @@ struct sound_0x68
     char_type field_27;
     s32 field_28;
     char_type field_2C;
-    char_type field_2D;
+    char_type field_2D_bIsPlayingFinished;
     char_type field_2E;
     char_type field_2F;
     s32 field_30;
@@ -84,15 +84,15 @@ struct sound_0x68
     char_type field_43;
     s32 field_44;
     u32 field_48_nCalculatedVolume;
-    s32 field_4C;
-    char_type field_50;
+    u32 field_4C;
+    u8 field_50;
     char_type field_51;
     char_type field_52;
     char_type field_53;
     s32 field_54;
     s32 field_58_type;
     sound_0x68* field_5C;
-    u8 field_60;
+    u8 field_60_nEmittingVolume;
     char_type field_61;
     char_type field_62;
     char_type field_63;
