@@ -130,6 +130,11 @@ class Car_B0
         return field_94_is_backward_gas_on;
     }
 
+    inline Fix16 get_car_velocity_4754D0()
+    {
+        return field_0_vel_read_only.GetLength();
+    }
+
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
     Car_B0* field_C_pNext;
