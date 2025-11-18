@@ -1283,11 +1283,17 @@ s16 Car_BC::DeactivateEmergencyLights_43C9D0()
     return 0;
 }
 
-STUB_FUNC(0x43ca80)
-s16 Car_BC::sub_43CA80()
+MATCH_FUNC(0x43ca80)
+void Car_BC::sub_43CA80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_A4 & 0x1C) != 0)
+    {
+        Car_BC::DeactivateEmergencyLights_43C9D0();
+    }
+    else
+    {
+        Car_BC::ActivateEmergencyLights_43C920();
+    }
 }
 
 STUB_FUNC(0x43cbe0)
