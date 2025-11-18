@@ -760,19 +760,14 @@ Fix16 Car_BC::sub_43A240()
     return 0;
 }
 
-STUB_FUNC(0x43a3c0) // ??? stupidly easy function that doesn't match :)
+MATCH_FUNC(0x43a3c0)
 bool Car_BC::sub_43A3C0()
 {
-    NOT_IMPLEMENTED;
-    Car_B0* pObj; // eax
-
-    pObj = this->field_58_physics;
-    if (!pObj)
+    if (!field_58_physics)
     {
         return false;
     }
-    s32 type = pObj->field_98_surface_type;
-    return (type == 6) ? true : false;
+    return field_58_physics->field_98_surface_type == 6; // 6 = air surface (or no surface)
 }
 
 STUB_FUNC(0x43a3e0)
