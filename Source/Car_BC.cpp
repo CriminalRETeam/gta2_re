@@ -1270,17 +1270,23 @@ void Car_BC::sub_43C840()
 }
 
 STUB_FUNC(0x43c920)
-s32 Car_BC::ActivateEmergencyLights_43C920()
+void Car_BC::ActivateEmergencyLights_43C920()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x43c9d0)
-s16 Car_BC::DeactivateEmergencyLights_43C9D0()
+MATCH_FUNC(0x43c9d0)
+void Car_BC::DeactivateEmergencyLights_43C9D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC::sub_43C650();
+    Car_BC::sub_43C840();
+    Car_BC::sub_43C310();
+    Car_BC::sub_43C470();
+    field_A4 &= ~4u;
+    if (is_FBI_car_411920() && field_74_damage != 32001)
+    {
+        field_8_damaged_areas.set_bit(14);
+    }
 }
 
 MATCH_FUNC(0x43ca80)

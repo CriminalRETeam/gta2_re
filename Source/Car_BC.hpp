@@ -383,8 +383,8 @@ class Car_BC
     EXPORT s32 sub_43C650();
     EXPORT s32 sub_43C700();
     EXPORT void sub_43C840();
-    EXPORT s32 ActivateEmergencyLights_43C920();
-    EXPORT s16 DeactivateEmergencyLights_43C9D0();
+    EXPORT void ActivateEmergencyLights_43C920();
+    EXPORT void DeactivateEmergencyLights_43C9D0();
     EXPORT void sub_43CA80();
     EXPORT s32 sub_43CBE0();
     EXPORT Car_BC* sub_43CDF0(char_type a2);
@@ -660,6 +660,11 @@ class Car_BC
         {
             field_8_damaged_areas.set_bit(15); // set right siren light or roof light
         }
+    }
+
+    bool is_FBI_car_411920()
+    {
+        return field_84_car_info_idx == car_model_enum::EDSELFBI;
     }
     
     struct_4 field_0_qq;
