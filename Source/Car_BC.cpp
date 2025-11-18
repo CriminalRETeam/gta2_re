@@ -1269,10 +1269,25 @@ void Car_BC::sub_43C840()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x43c920)
+MATCH_FUNC(0x43c920)
 void Car_BC::ActivateEmergencyLights_43C920()
 {
-    NOT_IMPLEMENTED;
+    if ((field_A4 & 0x1C) == 0)
+    {
+        if (is_FBI_car_411920())
+        {
+            field_8_damaged_areas.set_bit(11);
+        }
+        field_A4 |= 4u;
+        if (is_FBI_car_411920())
+        {
+            field_A5 = 8;
+        }
+        else
+        {
+            field_A5 = 15;
+        }
+    }
 }
 
 MATCH_FUNC(0x43c9d0)
