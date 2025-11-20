@@ -238,6 +238,10 @@ class sound_obj
 
     EXPORT char_type Get3dSound_41A390();
 
+    EXPORT u8 sub_41A4A0(s32 a1, s32 a2);
+
+    EXPORT s32 sub_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
+
     EXPORT void Init_15_Array_427180();
 
     EXPORT void Set15Val_4271B0(u32 val);

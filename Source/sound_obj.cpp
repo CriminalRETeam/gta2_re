@@ -236,6 +236,20 @@ char_type sound_obj::Get3dSound_41A390()
     }
 }
 
+STUB_FUNC(0x41A4A0)
+u8 sound_obj::sub_41A4A0(s32 a1, s32 a2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x41A580)
+s32 sound_obj::sub_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 MATCH_FUNC(0x427180)
 void sound_obj::Init_15_Array_427180()
 {
