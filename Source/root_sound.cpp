@@ -52,7 +52,7 @@ void root_sound::sub_40F020()
 }
 
 STUB_FUNC(0x40F030)
-char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
+char* root_sound::DeclareRadioStation_40F030(s32 a1, Fix16 a2, Fix16 a3)
 {
     NOT_IMPLEMENTED;
     //return gSound_obj_66F680.sub_57ECB0(a1, a2, a3);
@@ -61,7 +61,7 @@ char* root_sound::sub_40F030(s32 a1, Fix16 a2, Fix16 a3)
 }
 
 STUB_FUNC(0x40F050)
-char_type root_sound::sub_40F050(s32 a1, s32 a2)
+char_type root_sound::RemoveSound_40F050(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
     //return gSound_obj_66F680.sub_57EE30(a1, a2);
@@ -78,7 +78,7 @@ void root_sound::sub_40F070(char_type a1)
 }
 
 MATCH_FUNC(0x40F090)
-void root_sound::sub_40F090(s32 state)
+void root_sound::PlayVoice_40F090(s32 state)
 {
     gSound_obj_66F680.sub_418C80(state);
 }

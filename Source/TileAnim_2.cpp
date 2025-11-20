@@ -36,7 +36,7 @@ void TileAnim_2::Empty_5BC300()
 }
 
 STUB_FUNC(0x5bc310)
-void TileAnim_2::sub_5BC310()
+void TileAnim_2::UpdateTileAnimations_5BC310()
 {
     NOT_IMPLEMENTED;
 }
@@ -101,7 +101,7 @@ void TileAnim_18::sub_5BC1D0()
 }
 
 MATCH_FUNC(0x5bc1f0)
-char_type TileAnim_18::sub_5BC1F0()
+char_type TileAnim_18::Update_5BC1F0()
 {
     u8 bVar3;
 

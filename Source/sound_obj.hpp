@@ -52,8 +52,8 @@ struct sound_7
 
 struct sound_0x68
 {
-    s32 field_0;
-    char_type field_4;
+    s32 field_0_EntityIndex;
+    char_type field_4_SampleIndex;
     char_type field_5;
     char_type field_6;
     char_type field_7;
@@ -69,8 +69,8 @@ struct sound_0x68
     char_type field_25;
     char_type field_26;
     char_type field_27;
-    s32 field_28;
-    char_type field_2C;
+    s32 field_28_distance;
+    char_type field_2C_bIsBeingPlayed;
     char_type field_2D_bIsPlayingFinished;
     char_type field_2E;
     char_type field_2F;
@@ -96,7 +96,7 @@ struct sound_0x68
     char_type field_61;
     char_type field_62;
     char_type field_63;
-    s32 field_64;
+    s32 field_64_max_distance;
 };
 
 class sound_obj
@@ -119,7 +119,7 @@ class sound_obj
     s32 field_14_sample_rate;
     char_type field_18;
     char_type field_19;
-    char_type field_1A;
+    char_type field_1A_bDoubleVolume;
     char_type field_1B;
     u8 field_1C_samp_count;
     char_type field_1D_b3d_sound;
@@ -144,7 +144,7 @@ class sound_obj
     u8 field_D9C_abSampleQueueIndexTable[2][16];
     u8 field_DBC_SampleRequestQueuesStatus[2];
     s16 field_DBE;
-    sound_0x68 field_DC0[16];
+    sound_0x68 field_DC0_ActiveSamples[16];
     s32 field_1440;
     char_type field_1444;
     char_type field_1445;
@@ -237,6 +237,10 @@ class sound_obj
     EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
 
     EXPORT char_type Get3dSound_41A390();
+
+    EXPORT u8 sub_41A4A0(s32 a1, s32 a2);
+
+    EXPORT s32 sub_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
     EXPORT void Init_15_Array_427180();
 

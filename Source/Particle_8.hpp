@@ -43,7 +43,7 @@ class Particle_947C
 class Particle_8
 {
   public:
-    EXPORT void sub_53E320();
+    EXPORT void ParticlesService_53E320();
     EXPORT void sub_53E880(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_53E970(Fix16* a2);
     EXPORT void sub_53F060(s32 a1, s32 a2, s32 a3, s16 a4, char_type a5);

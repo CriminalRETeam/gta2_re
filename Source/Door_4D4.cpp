@@ -152,11 +152,11 @@ char_type Door_4D4::sub_49D3C0(s32 a2, u8 a3)
 }
 
 MATCH_FUNC(0x49d460)
-void Door_4D4::sub_49D460()
+void Door_4D4::DoorsService_49D460()
 {
     for (u16 i = 0; i < field_4D0_count; ++i)
     {
-        field_0[i].sub_49CE90();
+        field_0[i].Service_49CE90();
     }
 }
 

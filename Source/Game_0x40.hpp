@@ -6,7 +6,7 @@
 class Player;
 class Sprite;
 class Car_BC;
-class DrawUnk_0xBC;
+class Camera_0xBC;
 class Fix16_Rect;
 
 class Game_0x40
@@ -16,17 +16,17 @@ class Game_0x40
     EXPORT void sub_4B8BD0(s32 arg0, s32 main_state, s8 a2);
     EXPORT void sub_4B8C00(s32 a1, s32 a2);
     EXPORT s8 sub_4B8C20();
-    EXPORT void sub_4B8C40();
+    EXPORT void LoadGameFiles_4B8C40();
     EXPORT void sub_4B8E00(u32 a1, u32 a2);
     EXPORT void sub_4B8E50();
-    EXPORT void sub_4B8EB0();
+    EXPORT void BootGame_4B8EB0();
     EXPORT void ShowCounters_4B8FF0();
     EXPORT void sub_4B9270();
     EXPORT void Draw_4B92D0();
-    EXPORT void sub_4B9380();
+    EXPORT void UpdateAllPlayersControls_4B9380();
     EXPORT void sub_4B93C0();
-    EXPORT void sub_4B9410();
-    EXPORT s8 sub_4B9640();
+    EXPORT void UpdateGame_4B9410();
+    EXPORT s8 ExecuteGame_4B9640();
     EXPORT void sub_4B9700();
     EXPORT void sub_4B9710();
     EXPORT void sub_4B9720();
@@ -40,9 +40,9 @@ class Game_0x40
     EXPORT bool sub_4B9A10(Sprite* a2, u8 playerIdx);
     EXPORT bool is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp);
     EXPORT s8 sub_4B9B10(Fix16_Rect* pBounds);
-    EXPORT DrawUnk_0xBC* IteratePlayerCamera_4B9BC0();
+    EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
     EXPORT s8 sub_4B9C10(Car_BC* a2);
-    EXPORT DrawUnk_0xBC* sub_4B9C50();
+    EXPORT Camera_0xBC* sub_4B9C50();
     EXPORT Player* sub_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();
     EXPORT void sub_4B9D60(Sprite* a2, Player* pExclude);
@@ -55,14 +55,14 @@ class Game_0x40
     u8 field_20_idx;
     u8 field_21_player_camera_idx;
     char_type field_22;
-    u8 field_23_max_idx;
+    u8 field_23_num_players;
     u8 field_24_cur_idx;
     char_type field_25;
     char_type field_26;
     char_type field_27;
     s32 field_28_timer;
     s32 field_2C_main_state;
-    char_type field_30;
+    char_type field_30_bLimitFramerate;
     char_type field_31;
     char_type field_32;
     char_type field_33;

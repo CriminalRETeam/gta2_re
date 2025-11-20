@@ -281,7 +281,7 @@ DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
-void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
+void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
     strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);
     strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100);
@@ -805,7 +805,7 @@ void Frontend::sub_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
     {
         u16 plyr_idx = pOption->field_6E_horizontal_selected_idx;
         wchar_t* p_wName = (wchar_t*)&gJolly_poitras_0x2BC0_6FEAC0->field_26A0_plyr_stats[plyr_idx].field_90_strPlayerName;
-        if (field_110_state == 3)
+        if (field_110_state == User_Typing_New_Player_Name_3)
         {
             // player typing a name
             wcscpy(word_67C7D8, field_C9A0_curr_plyr_name);
@@ -864,7 +864,7 @@ s32 Frontend::sub_4AEDB0()
 
     Time = timeGetTime();
     local_field_132_f136_idx = field_132_f136_idx;
-    if (local_field_132_f136_idx == 8)
+    if (local_field_132_f136_idx == MENUPAGE_PLAY_INTRO)
     {
         if (Bink::sub_513240())
         {
@@ -910,11 +910,11 @@ s32 Frontend::sub_4AEDB0()
             --v7;
         } while (v7);
 
-        return field_108;
+        return field_108_winmain_next_state;
     }
     else
     {
-        if (!local_field_132_f136_idx)
+        if (local_field_132_f136_idx == MENUPAGE_START_MENU)
         {
             v9 = field_8_keys;
             v10 = 256;
@@ -947,11 +947,11 @@ s32 Frontend::sub_4AEDB0()
         else if (field_C9E0)
         {
             sub_4ADFB0(); // bQuit ??
-            result = field_108;
+            result = field_108_winmain_next_state;
             field_C9E0 = 0;
             return result;
         }
-        return field_108;
+        return field_108_winmain_next_state;
     }
 }
 
@@ -1048,7 +1048,7 @@ void Frontend::sub_4AD140()
     
     if (field_132_f136_idx == MENUPAGE_PLAY)
     {
-        if (field_110_state == 3)
+        if (field_110_state == User_Typing_New_Player_Name_3)
         {
             pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
@@ -1436,7 +1436,7 @@ void Frontend::sub_4AD140()
         }
     }
 
-    if (field_110_state == 3)    //  enter new player name
+    if (field_110_state == User_Typing_New_Player_Name_3)    //  enter new player name
     {
         if (field_114)
         {
@@ -1628,15 +1628,15 @@ void Frontend::sub_4AEC00()
 
     switch (field_110_state)
     {
-        case 3:
+        case User_Typing_New_Player_Name_3:
             sub_4B2F60();
             break;
 
-        case 5:
+        case Unknown_5:
             sub_4B8280();
             break;
 
-        case 1:
+        case Unknown_1:
             if (field_132_f136_idx == MENUPAGE_CREDITS)
             {
                 snd1_67D818.field_4_bStatus = 1;
@@ -1645,15 +1645,15 @@ void Frontend::sub_4AEC00()
             else
             {
                 snd1_67D818.field_4_bStatus = 0;
-                sub_4AE2D0();
+                UpdatePageFromUserInput_4AE2D0();
             }
             break;
 
-        case 2:
-            sub_4AE990();
+        case Booting_Map_2:
+            SetWinMainStateToBootMap_4AE990();
             break;
 
-        case 4:
+        case Unknown_4:
             sub_4AE9A0();
             break;
 
@@ -1815,7 +1815,7 @@ void Frontend::sub_4B7A10()
     {
         if (!field_C9B3)
         {
-            field_108 = 1;
+            field_108_winmain_next_state = Quit_1;
             return;
         }
     }
@@ -1840,7 +1840,7 @@ void Frontend::sub_4B7A10()
                     return;
                 }
             }
-            field_108 = 1;
+            field_108_winmain_next_state = Quit_1;
         }
         else
         {
@@ -1850,7 +1850,7 @@ void Frontend::sub_4B7A10()
 }
 
 STUB_FUNC(0x4AE2D0)
-void Frontend::sub_4AE2D0()
+void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
     NOT_IMPLEMENTED;
     MenuPage_0xBCA* pBorg; // ebx
@@ -1889,7 +1889,7 @@ void Frontend::sub_4AE2D0()
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_QUIT: // 258
-                    field_108 = 1;
+                    field_108_winmain_next_state = Quit_1;
                     snd1_67D818.field_0_object_type = 5;
                     break;
                 case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
@@ -1931,7 +1931,7 @@ void Frontend::sub_4AE2D0()
                     {
                         FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                     }
-                    sub_4B4D00(v7, 0);
+                    LoadMapFilenames_4B4D00(v7, 0);
                     goto LABEL_9;
                 case 263u:
                     v19 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -1940,32 +1940,32 @@ void Frontend::sub_4AE2D0()
                     {
                         --v5;
                     }
-                    sub_4B4D00(v19, i);
+                    LoadMapFilenames_4B4D00(v19, i);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(0);
                     goto LABEL_9;
-                case MENUPAGE_READY_TO_PLAY: // 264
+                case MENUPAGE_GET_READY_TO_PLAY: // 264
                     v8 = gLucid_hamilton_67E8E0.sub_4C5980();
                     if (!FreeLoader::sub_4AE1F0(v8))
                     {
                         goto LABEL_11;
                     }
-                    sub_4B4D00(v8, 0);
+                    LoadMapFilenames_4B4D00(v8, 0);
                 LABEL_28:
                     field_EE08 = RedBar_16;
-                    field_110_state = 2;
+                    field_110_state = Booting_Map_2;
                     snd1_67D818.field_0_object_type = 5;
                     break;
-                case MENUPAGE_READY_TO_PLAY_BONUS: // 265
+                case MENUPAGE_GET_READY_TO_PLAY_BONUS: // 265
                     v9 = gLucid_hamilton_67E8E0.sub_4C5990();
                     if (!FreeLoader::sub_4AE1F0(v9 >> 4))
                     {
                         goto LABEL_10;
                     }
-                    sub_4B4D00(v9 >> 4, v9 & 0xF);
+                    LoadMapFilenames_4B4D00(v9 >> 4, v9 & 0xF);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(1);
                 LABEL_9:
                     field_EE08 = RedBar_16;
-                    field_110_state = 2;
+                    field_110_state = Booting_Map_2;
                 LABEL_10:
                     pBorg = v18;
                 LABEL_11:
@@ -1985,7 +1985,7 @@ void Frontend::sub_4AE2D0()
         }
         else if (field_132_f136_idx == MENUPAGE_PLAY && pBorg->field_BC6_current_option_idx == 0) // player
         {
-            field_110_state = 3;
+            field_110_state = User_Typing_New_Player_Name_3;
             sub_4B4280();
             field_C9B2_curr_plyr_name_length = wcslen(field_C9A0_curr_plyr_name);
             sub_4B42B0();
@@ -2017,7 +2017,7 @@ void Frontend::sub_4AE2D0()
                 sub_4B3170(1u);
                 break;
             default:
-                field_108 = 1;
+                field_108_winmain_next_state = Quit_1;
                 break;
         }
         snd1_67D818.field_0_object_type = 6;
@@ -2154,9 +2154,9 @@ LABEL_60:
 }
 
 MATCH_FUNC(0x4AE990)
-void Frontend::sub_4AE990()
+void Frontend::SetWinMainStateToBootMap_4AE990()
 {
-    field_108 = 3;
+    field_108_winmain_next_state = Start_Game_3;
 }
 
 // It matches, but we need to get rid of goto's
@@ -2699,10 +2699,10 @@ void Frontend::sub_4B8020()
             i--;
         }
 
-        sub_4B4D00(idx, i);
+        LoadMapFilenames_4B4D00(idx, i);
         gLucid_hamilton_67E8E0.sub_4C5AD0(0);
         field_EE08 = RedBar_16;
-        field_110_state = 2;
+        field_110_state = Booting_Map_2;
     }
 }
 
@@ -2736,14 +2736,14 @@ char_type Frontend::sub_4B7FB0()
 }
 
 MATCH_FUNC(0x4B4D00)
-void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
+void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
     char debugStr[256]; // [esp+110h] [ebp-300h] BYREF
     char mapName[256]; // [esp+210h] [ebp-200h] BYREF
     char styName[256]; // [esp+310h] [ebp-100h] BYREF
 
-    sub_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
+    LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
     gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
     strcpy(fullPath, "data\\");
     strcat(fullPath, debugStr);
@@ -3119,7 +3119,7 @@ Frontend::Frontend()
     field_C9D8_escape_key_down = 0;
     field_C9D9_delete_key_down = 0;
     field_10C_bKeyboardAcquired = 0;
-    field_108 = 2;
+    field_108_winmain_next_state = Run_Frontend_2;
     field_C9E1_bCheatsEnabled = 0;
 
     sub_4AF0E0();

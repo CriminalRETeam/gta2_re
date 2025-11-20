@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Draw.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "eager_benz.hpp"
@@ -94,31 +94,31 @@ class Player
     EXPORT char_type sub_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
     EXPORT s32 sub_5651F0(s32 a2);
-    EXPORT void sub_565310();
+    EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
     EXPORT s32 sub_565490(Ped* pPed);
     EXPORT void SetInputs_565740(u32 input);
-    EXPORT void sub_565770(u8 count);
-    EXPORT void sub_565860();
-    EXPORT void sub_565890(u16 action);
+    EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);
+    EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
+    EXPORT void Hud_Controls_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
-    EXPORT char_type sub_566520();
-    EXPORT void sub_566820();
+    EXPORT char_type CharacterControls_566520();
+    EXPORT void ControlInputs_566820();
     EXPORT void sub_5668D0(Ped* a2);
     EXPORT void sub_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(Ped* a2);
     EXPORT void sub_566EE0(char_type a2);
-    EXPORT void sub_5670B0();
-    EXPORT void sub_567130();
+    EXPORT void RespawnPlayer_5670B0();
+    EXPORT void Wasted_567130();
     EXPORT void sub_567850();
-    EXPORT void sub_5679E0();
-    EXPORT void sub_568520();
+    EXPORT void Busted_5679E0();
+    EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
-    EXPORT void sub_5686D0(DrawUnk_0xBC* pCam);
+    EXPORT void sub_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
-    EXPORT void sub_5687F0();
+    EXPORT void Service_5687F0();
     EXPORT s32 sub_569410();
     EXPORT void sub_569530();
     EXPORT void sub_5695A0();
@@ -127,22 +127,22 @@ class Player
     EXPORT void sub_569840(u8& a2, u8& a3, u8& a4);
     EXPORT Car_BC* sub_5698E0();
     EXPORT s32 sub_569920(u32* a2, int* a3, int* a4);
-    EXPORT void sub_5699F0(s32 a2);
+    EXPORT void ChangeLifeCountByAmount_5699F0(s32 a2);
     EXPORT void sub_569A10();
     EXPORT void sub_569C20();
     EXPORT void sub_569CB0();
     EXPORT void sub_569E70();
     EXPORT char* GetDeathText_569F00();
     EXPORT s32 sub_569F40();
-    EXPORT s32 sub_569FF0();
-    EXPORT void SetUnknown_56A000();
-    EXPORT void sub_56A010();
-    EXPORT void sub_56A020();
-    EXPORT void sub_56A030();
-    EXPORT void sub_56A040();
+    EXPORT s32 DisableAllControls_569FF0();
+    EXPORT void EnableAllControls_56A000();
+    EXPORT void EnableKFMode_56A010();
+    EXPORT void DisableKFMode_56A020();
+    EXPORT void DisableEnterVehicles_56A030();
+    EXPORT void EnableEnterVehicles_56A040();
     EXPORT s32 sub_56A0F0();
-    EXPORT zealous_borg* sub_56A1A0(s32 a2);
-    EXPORT void sub_56A310(s32 a2);
+    EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
+    EXPORT void UpdateGameFromSave_56A310(s32 a2);
     EXPORT void sub_56A490();
     EXPORT void sub_56A6D0();
 
@@ -174,17 +174,17 @@ class Player
     char_type field_2B;
     s16 field_2C;
     u8 field_2E_idx;
-    char_type field_2F;
-    char_type field_30;
-    char_type field_31;
+    char_type field_2F_disable_all_controls;
+    char_type field_30_disable_enter_vehicles;
+    char_type field_31_kf_weapon_mode;
     char_type field_32;
     char_type field_33;
-    Gang_144* field_34_pObj;
-    gmp_map_zone* field_38;
-    gmp_map_zone* field_3C;
-    gmp_map_zone* field_40;
+    Gang_144* field_34_gang_curr_location;
+    gmp_map_zone* field_38_local_navigation_zone;
+    gmp_map_zone* field_3C_navigation_zone;
+    gmp_map_zone* field_40_arrow_blocker_zone;
     s32 field_44_death_type;
-    char_type field_48;
+    char_type field_48_bDbg_cam_follow_player;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
@@ -197,13 +197,13 @@ class Player
     char_type field_66;
     char_type field_67;
     s32 field_68;
-    s32 field_6C;
-    char_type field_70;
+    s32 field_6C_bIn_debug_cam_mode;
+    char_type field_70_dbg_cam_north;
     char_type field_71;
     char_type field_72;
     char_type field_73;
-    char_type field_74;
-    char_type field_75;
+    char_type field_74_dbg_cam_zooming_out;
+    char_type field_75_dbg_cam_zooming_in;
     char_type field_76;
     char_type field_77;
     char_type field_78_bForwardGasOn;
@@ -230,9 +230,9 @@ class Player
     char_type field_8D;
     char_type field_8E_bInUse;
     char_type field_8F;
-    DrawUnk_0xBC field_90_game_camera;
-    DrawUnk_0xBC field_14C_view_camera;
-    DrawUnk_0xBC field_208_aux_game_camera;
+    Camera_0xBC field_90_game_camera;
+    Camera_0xBC field_14C_view_camera;
+    Camera_0xBC field_208_aux_game_camera;
     Ped* field_2C4_player_ped;
     Ped* field_2C8_unkq;
     Car_BC* field_2CC;
@@ -252,16 +252,16 @@ class Player
     thirsty_lamarr field_6BC_multpliers;
     u16 field_6F4[17];
     s16 field_716;
-    Weapon_30* field_718[28];
-    s16 field_788_idx;
-    char_type field_78A;
+    Weapon_30* field_718_weapons[28];
+    s16 field_788_curr_weapon_idx;
+    char_type field_78A_show_quit_message;
     char_type field_78B;
     DrawKind field_78C;
     u16 field_790;
     s16 field_792;
-    char_type field_794;
+    char_type field_794_is_chatting;
     char_type field_795;
-    s16 field_796[79];
+    s16 field_796_chat_text[79];
     s32 field_834;
     s32 field_838_f796_idx;
     wchar_t field_83C_player_name;

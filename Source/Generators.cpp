@@ -1,11 +1,11 @@
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "Globals.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0, 0x67E5D0);
+DEFINE_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0, 0x67E5D0);
 
 STUB_FUNC(0x4c1c50)
-void Generator_2C::sub_4C1C50()
+void Generator_2C::Service_4C1C50()
 {
     NOT_IMPLEMENTED;
 }
@@ -30,13 +30,13 @@ void Generator_2C::sub_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generato
 }
 
 STUB_FUNC(0x4c1cd0)
-void Maccies_14AC::sub_4C1CD0(Maccies_14AC* a1)
+void GeneratorPool_14AC::sub_4C1CD0(GeneratorPool_14AC* a1)
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4c1d70)
-void Maccies_14AC::sub_4C1D70()
+void GeneratorPool_14AC::GeneratorsService_4C1D70()
 {
     s32 start_idx = field_14A8 * (rng_dword_67AB34->field_0_rng & 3);
     s32 end_idx = start_idx + field_14A8;
@@ -48,13 +48,13 @@ void Maccies_14AC::sub_4C1D70()
     Generator_2C* pIter = &field_0[start_idx];
     for (s32 i = start_idx; i < end_idx; i++)
     {
-        pIter->sub_4C1C50();
+        pIter->Service_4C1C50();
         pIter++;
     }
 }
 
 MATCH_FUNC(0x4c1dc0)
-Generator_2C* Maccies_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
+Generator_2C* GeneratorPool_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
     Generator_2C* pMaccies = &field_0[field_14A0];
     pMaccies->sub_4C1C70(x, y, z, rot, type, min_delay, max_delay);
@@ -63,7 +63,7 @@ Generator_2C* Maccies_14AC::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, An
 }
 
 MATCH_FUNC(0x4c1e20)
-Maccies_14AC::Maccies_14AC()
+GeneratorPool_14AC::GeneratorPool_14AC()
 {
     for (u32 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {

@@ -11,7 +11,7 @@ class TileAnim_2
     EXPORT void sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat);
     EXPORT void sub_5BC2C0(gmp_tile_animation* a1);
     EXPORT void Empty_5BC300();
-    EXPORT void sub_5BC310();
+    EXPORT void UpdateTileAnimations_5BC310();
     EXPORT TileAnim_2();
     EXPORT ~TileAnim_2();
     s16 field_0_count;
@@ -24,7 +24,7 @@ class TileAnim_18
     EXPORT void sub_5BC150();
     EXPORT void sub_5BC190(gmp_tile_animation* pStru);
     EXPORT void sub_5BC1D0();
-    EXPORT char_type sub_5BC1F0();
+    EXPORT char_type Update_5BC1F0();
     EXPORT TileAnim_18();
     EXPORT ~TileAnim_18();
 

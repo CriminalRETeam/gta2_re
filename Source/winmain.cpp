@@ -30,12 +30,12 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
 #include "sprite.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Fix16_Rect.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "ImGuiDebug.hpp"
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
@@ -45,8 +45,8 @@
 #include "Player.hpp"
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
-#include "Snooky_94.hpp"
-#include "Tango_28.hpp"
+#include "Crushers.hpp"
+#include "Firefighters.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
@@ -114,13 +114,13 @@ void force_link()
     Rozza_C88 rozza;
     rozza.field_0_pSoundObj = 0;
 
-    Maccies_14AC maccies;
+    GeneratorPool_14AC maccies;
     maccies.sub_4C1CD0(0);
 
     Sprite car_3c;
     car_3c.field_20_id = 5;
 
-    Snooky_94 snooky;
+    CrusherPool_94 snooky;
     snooky.sub_4887A0(0);
 
     Network_20324 network;
@@ -156,30 +156,30 @@ void force_link()
     lewin.sub_564D60(0);
     lewin.tick_down_powerups_565070();
     lewin.sub_5651F0(0);
-    lewin.sub_565310();
+    lewin.TeleportToDebugCam_565310();
     lewin.sub_5653E0();
     lewin.sub_565490(0);
     lewin.SetInputs_565740(0);
-    lewin.sub_565770(0);
-    lewin.sub_565860();
-    lewin.sub_565890(0);
+    lewin.IncrementGangRespectFromDebugKeys_565770(0);
+    lewin.IncreaseWantedLevelFromDebugKeys_565860();
+    lewin.Hud_Controls_565890(0);
     lewin.sub_566380(0);
-    lewin.sub_566520();
-    lewin.sub_566820();
+    lewin.CharacterControls_566520();
+    lewin.ControlInputs_566820();
     lewin.sub_5668D0(0);
     lewin.sub_566C30(0);
     lewin.sub_566C80(0);
     lewin.sub_566EE0(0);
-    lewin.sub_5670B0();
-    lewin.sub_567130();
+    lewin.RespawnPlayer_5670B0();
+    lewin.Wasted_567130();
     lewin.sub_567850();
-    lewin.sub_5679E0();
-    lewin.sub_568520();
+    lewin.Busted_5679E0();
+    lewin.UpdateCurrentZones_568520();
     lewin.sub_568630();
     lewin.sub_568670();
     lewin.sub_5686D0(0);
     lewin.sub_568730();
-    lewin.sub_5687F0();
+    lewin.Service_5687F0();
     lewin.sub_569410();
     lewin.sub_569530();
     lewin.sub_5695A0();
@@ -188,30 +188,30 @@ void force_link()
     lewin.sub_569840(zero_u8, zero_u8, zero_u8);
     lewin.sub_5698E0();
     lewin.sub_569920(0, 0, 0);
-    lewin.sub_5699F0(0);
+    lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.sub_569A10();
     lewin.sub_569C20();
     lewin.sub_569CB0();
     lewin.sub_569E70();
     lewin.GetDeathText_569F00();
     lewin.sub_569F40();
-    lewin.sub_569FF0();
-    lewin.SetUnknown_56A000();
-    lewin.sub_56A010();
-    lewin.sub_56A020();
-    lewin.sub_56A030();
-    lewin.sub_56A040();
+    lewin.DisableAllControls_569FF0();
+    lewin.EnableAllControls_56A000();
+    lewin.EnableKFMode_56A010();
+    lewin.DisableKFMode_56A020();
+    lewin.DisableEnterVehicles_56A030();
+    lewin.EnableEnterVehicles_56A040();
     lewin.sub_56A0F0();
-    lewin.sub_56A1A0(0);
-    lewin.sub_56A310(0);
+    lewin.CopyPlayerDataToSave_56A1A0(0);
+    lewin.UpdateGameFromSave_56A310(0);
     lewin.sub_56A490();
     lewin.sub_56A6D0();
 
-    DrawUnk_0xBC drawUnk;
+    Camera_0xBC drawUnk;
     drawUnk.sub_4357B0();
     drawUnk.sub_4357F0();
     drawUnk.sub_435810();
-    drawUnk.sub_435830();
+    drawUnk.ReturnToDefaultZoom_435830();
     drawUnk.sub_435840();
     drawUnk.sub_435860(0);
     drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);
@@ -269,10 +269,10 @@ void force_link()
     Shooey_14 shooey_14;
     Shooey_CC shooey_CC;
 
-    Tango_28 tango_28;
+    Firefighter_28 tango_28;
     tango_28.sub_450C10();
 
-    Tango_54 tango_54;
+    FirefighterPool_54 tango_54;
 
     Hamburger_500 hamburger_500;
     hamburger_500.sub_474CC0(0);
@@ -299,7 +299,7 @@ DEFINE_GLOBAL(s32, gWindowY_706B64, 0x706B64);
 DEFINE_GLOBAL(s32, bStartNetworkGame_7081F0, 0x7081F0);
 DEFINE_GLOBAL(BYTE, byte_70827C, 0x70827C);
 DEFINE_GLOBAL(BYTE, byte_706C5D, 0x706C5D);
-DEFINE_GLOBAL(BYTE, byte_6F5B71, 0x6F5B71);
+DEFINE_GLOBAL(BYTE, bReplayMode_6F5B71, 0x6F5B71);
 DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2, 0x626A0C);
 
 DEFINE_GLOBAL(s32, bTrippleBuffer_706C54, 0x706C54);
@@ -772,11 +772,11 @@ void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA4D0)
-EXPORT void __stdcall sub_4DA4D0()
+EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     NOT_IMPLEMENTED;
 
-    if (byte_6F5B71)
+    if (bReplayMode_6F5B71)
     {
         gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
     }
@@ -805,8 +805,8 @@ EXPORT void __stdcall sub_4DA4D0()
         gGame_0x40_67E008 = new Game_0x40(1, 0);
     }
 
-    gGame_0x40_67E008->sub_4B8C40();
-    gGame_0x40_67E008->sub_4B8EB0();
+    gGame_0x40_67E008->LoadGameFiles_4B8C40();
+    gGame_0x40_67E008->BootGame_4B8EB0();
 
     byte_6F58D8 = 0;
     byte_6F5880 = 0;
@@ -824,9 +824,9 @@ EXPORT void __stdcall sub_5D9690()
 
 // TODO: order
 MATCH_FUNC(0x4DA780)
-EXPORT char sub_4DA780()
+EXPORT char ExecuteGame_4DA780()
 {
-    char v0 = gGame_0x40_67E008->sub_4B9640();
+    char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
     if (gsharp_bose_0x54_7055D4)
     {
         gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
@@ -928,7 +928,7 @@ EXPORT u8 sub_4DA850()
     {
         if (Time >= dword_6F5A28)
         {
-            bContinue = sub_4DA780();
+            bContinue = ExecuteGame_4DA780();
             sub_4DAF30();
             dword_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
         }
@@ -962,7 +962,7 @@ EXPORT u8 sub_4DA850()
                 sub_4DAF30();
                 byte_6F5760 = 0;
             }
-            bContinue = sub_4DA780();
+            bContinue = ExecuteGame_4DA780();
             s32 v2 = gGame_0x40_67E008->sub_4B8BB0();
             byte_6F5880 = 0;
             dword_6F5A28 += v2;
@@ -1823,7 +1823,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         }
         else
         {
-            sub_4DA4D0();
+            InitializeGame_4DA4D0();
             if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.sub_5213E0())
             {
                 CoUninitialize();
@@ -1855,24 +1855,24 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                     {
                         s32 t = gFrontend_67DC84->sub_4AEDB0();
 
-                        if (t == 1)
+                        if (t == Quit_1)
                         {
-                            bQuit = 1;
+                            bQuit = Quit_1;
                             Frontend::destroy_4AD070();
                             DestroyWindow(gHwnd_707F04);
                             continue; // go to PeekMessageA
                         }
-                        else if (t == 3)
+                        else if (t == Start_Game_3)
                         {
                             Frontend::destroy_4AD070();
-                            bDoFrontEnd_626B68 = 0;
+                            bDoFrontEnd_626B68 = false;
                             break; // go to the beginning
                         }
-                        else if (t == 4)
+                        else if (t == Start_Replay_4)
                         {
                             Frontend::destroy_4AD070();
-                            bDoFrontEnd_626B68 = 0;
-                            byte_6F5B71 = 1;
+                            bDoFrontEnd_626B68 = false;
+                            bReplayMode_6F5B71 = true;
                             break; // go to the beginning
                         }
                         else

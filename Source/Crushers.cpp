@@ -1,12 +1,12 @@
-#include "Snooky_94.hpp"
+#include "Crushers.hpp"
 #include "Car_BC.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Globals.hpp"
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(Snooky_94*, gSnooky_94_67A830, 0x67A830);
+DEFINE_GLOBAL(CrusherPool_94*, gCrusherPool_94_67A830, 0x67A830);
 
 MATCH_FUNC(0x4882d0)
 Crusher_30::Crusher_30()
@@ -36,7 +36,7 @@ void Crusher_30::sub_488310(Car_BC* pCar)
 }
 
 STUB_FUNC(0x488350)
-void Crusher_30::sub_488350()
+void Crusher_30::Service_488350()
 {
     NOT_IMPLEMENTED;
 }
@@ -49,7 +49,7 @@ infallible_turing* Crusher_30::sub_4885A0(Fix16 a2, Fix16 a3, char_type a4)
 }
 
 MATCH_FUNC(0x4887a0)
-bool Snooky_94::sub_4887A0(Car_BC* toFind)
+bool CrusherPool_94::sub_4887A0(Car_BC* toFind)
 {
     for (s32 i=0; i < field_90_count; i++)
     {
@@ -62,26 +62,26 @@ bool Snooky_94::sub_4887A0(Car_BC* toFind)
 }
 
 MATCH_FUNC(0x4887d0)
-void Snooky_94::sub_4887D0(Car_BC* a2, u8 idx)
+void CrusherPool_94::sub_4887D0(Car_BC* a2, u8 idx)
 {
     field_0[idx].sub_488310(a2);
 }
 
 MATCH_FUNC(0x4887f0)
-void Snooky_94::sub_4887F0()
+void CrusherPool_94::CrushersService_4887F0()
 {
     s32 idx = 0;
     Crusher_30* pIter = &field_0[0];
     while (idx < field_90_count)
     {
-        pIter->sub_488350();
+        pIter->Service_488350();
         idx++;
         pIter++;
     }
 }
 
 MATCH_FUNC(0x488820)
-Crusher_30* Snooky_94::CreateCrusher_488820(Fix16 a2, Fix16 a3)
+Crusher_30* CrusherPool_94::CreateCrusher_488820(Fix16 a2, Fix16 a3)
 {
     Crusher_30* pNew = &field_0[field_90_count];
     pNew->sub_4885A0(a2, a3, field_90_count);
@@ -90,12 +90,12 @@ Crusher_30* Snooky_94::CreateCrusher_488820(Fix16 a2, Fix16 a3)
 }
 
 MATCH_FUNC(0x488860)
-Snooky_94::Snooky_94()
+CrusherPool_94::CrusherPool_94()
 {
     field_90_count = 0;
 }
 
 MATCH_FUNC(0x4bbc30)
-Snooky_94::~Snooky_94()
+CrusherPool_94::~CrusherPool_94()
 {
 }

@@ -5,7 +5,7 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
@@ -68,7 +68,7 @@ u32* Player::sub_564680(s32 a2)
 MATCH_FUNC(0x564710)
 void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 {
-    this->field_18 = this->field_788_idx;
+    this->field_18 = this->field_788_curr_weapon_idx;
 
     Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
@@ -92,8 +92,8 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
     {
         if (pDriver->field_15C_player == this)
         {
-            this->field_718[weapon_kind] = pWeapon;
-            this->field_788_idx = this->field_1C_weapon_kind;
+            this->field_718_weapons[weapon_kind] = pWeapon;
+            this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
         }
     }
 }
@@ -101,12 +101,12 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 MATCH_FUNC(0x564790)
 void Player::sub_564790(s32 idx)
 {
-    this->field_18 = this->field_788_idx;
+    this->field_18 = this->field_788_curr_weapon_idx;
     this->field_1C_weapon_kind = idx;
-    this->field_1A_ammo = this->field_718[idx]->field_0_ammo;
-    this->field_718[idx]->field_0_ammo = -1;
-    this->field_788_idx = this->field_1C_weapon_kind;
-    sub_56A010();
+    this->field_1A_ammo = this->field_718_weapons[idx]->field_0_ammo;
+    this->field_718_weapons[idx]->field_0_ammo = -1;
+    this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
+    EnableKFMode_56A010();
 }
 
 STUB_FUNC(0x5647D0)
@@ -118,17 +118,17 @@ void Player::ClearKFWeapon_5647D0()
 MATCH_FUNC(0x5648F0)
 Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
 {
-    return field_788_idx == -1 ? NULL : field_718[field_788_idx];
+    return field_788_curr_weapon_idx == -1 ? NULL : field_718_weapons[field_788_curr_weapon_idx];
 }
 
 MATCH_FUNC(0x564910)
 void Player::sub_564910(Weapon_30* a2)
 {
     s16 idx = a2->field_1C_idx;
-    this->field_718[idx] = a2;
-    if (!this->field_31)
+    this->field_718_weapons[idx] = a2;
+    if (!this->field_31_kf_weapon_mode)
     {
-        this->field_788_idx = idx;
+        this->field_788_curr_weapon_idx = idx;
     }
 }
 
@@ -137,7 +137,7 @@ char_type Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {
-        if (field_718[i]->field_0_ammo)
+        if (field_718_weapons[i]->field_0_ammo)
         {
             return 1;
         }
@@ -170,14 +170,14 @@ char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
         bHasAnyAmmo = HasAnyAmmo_564940() == 0;
     }
 
-    bAmmoAdded = field_718[weapon_kind]->add_ammo_capped_5DCE40(ammo);
-    if (!this->field_31)
+    bAmmoAdded = field_718_weapons[weapon_kind]->add_ammo_capped_5DCE40(ammo);
+    if (!this->field_31_kf_weapon_mode)
     {
         if (bAmmoAdded)
         {
             if (bHasAnyAmmo)
             {
-                this->field_788_idx = weapon_kind;
+                this->field_788_curr_weapon_idx = weapon_kind;
             }
         }
     }
@@ -203,7 +203,7 @@ void Player::sub_564B60()
 {
     for (u32 i = 15; i < 28; i++)
     {
-        field_718[i] = 0;
+        field_718_weapons[i] = 0;
     }
 }
 
@@ -219,10 +219,10 @@ void Player::sub_564C00()
 {
     sub_564B80();
 
-    if (field_788_idx >= 15)
+    if (field_788_curr_weapon_idx >= 15)
     {
-        field_16 = field_788_idx;
-        field_788_idx = field_14;
+        field_16 = field_788_curr_weapon_idx;
+        field_788_curr_weapon_idx = field_14;
     }
 
     if (field_18 >= 15)
@@ -238,7 +238,7 @@ MATCH_FUNC(0x564C50)
 void Player::RemovePlayerWeapons_564C50()
 {
     s32 i = 15;
-    Weapon_30* pWeapon = this->field_718[0];
+    Weapon_30* pWeapon = this->field_718_weapons[0];
     do
     {
         if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
@@ -253,11 +253,11 @@ void Player::RemovePlayerWeapons_564C50()
         --i;
     } while (i);
 
-    s16 idx = this->field_788_idx;
+    s16 idx = this->field_788_curr_weapon_idx;
     if (idx < 15)
     {
         this->field_14 = idx;
-        this->field_788_idx = 0;
+        this->field_788_curr_weapon_idx = 0;
     }
     sub_5649D0(0, 0);
 }
@@ -370,7 +370,7 @@ s32 Player::sub_5651F0(s32 a2)
 }
 
 STUB_FUNC(0x565310)
-void Player::sub_565310()
+void Player::TeleportToDebugCam_565310()
 {
     NOT_IMPLEMENTED;
 }
@@ -378,7 +378,7 @@ void Player::sub_565310()
 MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
-    Car_BC* pCar = gCar_6C_677930->sub_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
+    Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
                                               field_14C_view_camera.field_98_cam_pos2.field_4_y,
                                               field_14C_view_camera.field_98_cam_pos2.field_8_z,
                                               0);
@@ -409,13 +409,13 @@ void Player::SetInputs_565740(u32 input)
 }
 
 STUB_FUNC(0x565770)
-void Player::sub_565770(u8 count)
+void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x565860)
-void Player::sub_565860()
+void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
     NOT_IMPLEMENTED;
     Ped* pPed = this->field_2C4_player_ped;
@@ -453,7 +453,7 @@ void Player::sub_565860()
 }
 
 STUB_FUNC(0x565890)
-void Player::sub_565890(u16 action)
+void Player::Hud_Controls_565890(u16 action)
 {
     NOT_IMPLEMENTED;
 }
@@ -481,7 +481,7 @@ void Player::sub_566380(u16 key)
             break;
 
         case DIK_NUMPAD8:
-            this->field_70 = 0;
+            this->field_70_dbg_cam_north = 0;
             break;
 
         case DIK_NUMPAD4:
@@ -493,11 +493,11 @@ void Player::sub_566380(u16 key)
             break;
 
         case DIK_NUMPAD7:
-            this->field_74 = 0;
+            this->field_74_dbg_cam_zooming_out = 0;
             break;
 
         case DIK_NUMPAD9:
-            this->field_75 = 0;
+            this->field_75_dbg_cam_zooming_in = 0;
             break;
 
         default:
@@ -506,18 +506,18 @@ void Player::sub_566380(u16 key)
 }
 
 STUB_FUNC(0x566520)
-char_type Player::sub_566520()
+char_type Player::CharacterControls_566520()
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
 STUB_FUNC(0x566820)
-void Player::sub_566820()
+void Player::ControlInputs_566820()
 {
     NOT_IMPLEMENTED;
 
-    sub_566520();
+    CharacterControls_566520();
 
     const u32 inputs = this->field_4_inputs;
     if (inputs)
@@ -527,7 +527,7 @@ void Player::sub_566820()
             const s32 dx_key = (inputs >> 12) & 0x1FF;
             if ((inputs & 0x200000) != 0)
             {
-                sub_565890(dx_key);
+                Hud_Controls_565890(dx_key);
                 field_4_inputs = 0;
                 return;
             }
@@ -630,13 +630,13 @@ void Player::sub_5668D0(Ped* pPed)
     {
         if (!field_8D)
         {
-            if (field_788_idx == -1)
+            if (field_788_curr_weapon_idx == -1)
             {
                 pPed->field_21C_bf.b11 = 1;
             }
             else
             {
-                bNoPed = field_718[field_788_idx]->sub_5E33C0() == 0;
+                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
                 if (!bNoPed)
                 {
                     pPed->field_21C_bf.b11 = 1;
@@ -680,7 +680,7 @@ void Player::sub_566C30(Car_BC* pCar)
 {
     char bUnknown;
 
-    if (this->field_788_idx >= 15)
+    if (this->field_788_curr_weapon_idx >= 15)
     {
         bUnknown = 0;
     }
@@ -716,7 +716,7 @@ void Player::sub_566EE0(char_type bDoNothing)
 
         if (pCar)
         {
-            Car_B0* pPhysics = pCar->field_58_physics;
+            CarPhysics_B0* pPhysics = pCar->field_58_physics;
             if (pPhysics)
             {
                 pPhysics->sub_559430();
@@ -731,21 +731,21 @@ void Player::sub_566EE0(char_type bDoNothing)
             double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
         if (gShow_cycle_67D6BD)
@@ -763,13 +763,11 @@ void Player::sub_566EE0(char_type bDoNothing)
 }
 
 MATCH_FUNC(0x5670B0)
-void Player::sub_5670B0()
+void Player::RespawnPlayer_5670B0()
 {
-    const char_type restart_zone_type = 16;
-
     if (!(u8)bStartNetworkGame_7081F0 && !field_640)
     {
-        Player::sub_5699F0(-1);
+        Player::ChangeLifeCountByAmount_5699F0(-1);
     }
     if (field_684_lives.field_0 > 0)
     {
@@ -782,14 +780,14 @@ void Player::sub_5670B0()
         {
             s32 y_pos = field_2C4_player_ped->field_1AC_cam.y.ToInt();
             s32 x_pos = field_2C4_player_ped->field_1AC_cam.x.ToInt();
-            pZone = gMap_0x370_6F6268->sub_4DF240(x_pos, y_pos, restart_zone_type);
+            pZone = gMap_0x370_6F6268->GetNearestZoneOfType_4DF240(x_pos, y_pos, Restart_16);
         }
-        field_2C4_player_ped->sub_45C350(pZone);
+        field_2C4_player_ped->RespawnPed_45C350(pZone);
     }
 }
 
 MATCH_FUNC(0x567130)
-void Player::sub_567130()
+void Player::Wasted_567130()
 {
     Ped* pPed_killer;
     Player* player_killer; //  this function seems to handle the player death
@@ -828,15 +826,15 @@ void Player::sub_567130()
         {
             if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
             {
-                gGarox_2B00_706620->field_111C.sub_5D1A00( //  It's really ugly, it's probably inlined
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
-                gRoot_sound_66B038.sub_40F090(29);
+                gRoot_sound_66B038.PlayVoice_40F090(29);
             }
             else
             {
-                gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
-                gRoot_sound_66B038.sub_40F090(21);
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }
         field_44_death_type = 0;
@@ -857,7 +855,7 @@ void Player::sub_567130()
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0 = 1;
         }
-        Player::sub_5670B0();
+        Player::RespawnPlayer_5670B0();
     }
     else
     {
@@ -920,21 +918,21 @@ void Player::sub_567850()
 }
 
 STUB_FUNC(0x5679E0)
-void Player::sub_5679E0()
+void Player::Busted_5679E0()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x568520)
-void Player::sub_568520()
+void Player::UpdateCurrentZones_568520()
 {
     const Ped* pPed = field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
-    field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
-    field_3C = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 1u);
-    field_40 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 5u);
-    field_34_pObj = gMap_0x370_6F6268->sub_4DFB50(cam_x_fp, cam_y_fp);
+    field_38_local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
+    field_3C_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
+    field_40_arrow_blocker_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
+    field_34_gang_curr_location = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
 }
 
 MATCH_FUNC(0x568630)
@@ -955,7 +953,7 @@ char_type Player::sub_568670()
 }
 
 MATCH_FUNC(0x5686D0)
-void Player::sub_5686D0(DrawUnk_0xBC* pCam)
+void Player::sub_5686D0(Camera_0xBC* pCam)
 {
     if (this->field_82)
     {
@@ -990,7 +988,7 @@ void Player::sub_568730()
 }
 
 STUB_FUNC(0x5687F0)
-void Player::sub_5687F0()
+void Player::Service_5687F0()
 {
     NOT_IMPLEMENTED;
 }
@@ -1094,7 +1092,7 @@ void Player::sub_569840(u8& x, u8& y, u8& z)
     }
     else
     {
-        DrawUnk_0xBC* pCam;
+        Camera_0xBC* pCam;
         if (field_68 == 2 || field_68 == 3)
         {
             pCam = &field_208_aux_game_camera;
@@ -1142,11 +1140,11 @@ s32 Player::sub_569920(u32* a2, s32* a3, s32* a4)
 }
 
 MATCH_FUNC(0x5699F0)
-void Player::sub_5699F0(s32 a2)
+void Player::ChangeLifeCountByAmount_5699F0(s32 amount)
 {
-    if (!gDo_infinite_lives_67D4C9 || a2 > 0)
+    if (!gDo_infinite_lives_67D4C9 || amount > 0)
     {
-        field_684_lives.sub_4921B0(a2);
+        field_684_lives.ChangeStatByAmount_4921B0(amount);
     }
 }
 
@@ -1226,40 +1224,40 @@ s32 Player::sub_569F40()
 }
 
 MATCH_FUNC(0x569FF0)
-s32 Player::sub_569FF0()
+s32 Player::DisableAllControls_569FF0()
 {
-    field_2F = 1;
+    field_2F_disable_all_controls = 1;
     return sub_569F40();
 }
 
 MATCH_FUNC(0x56A000)
-void Player::SetUnknown_56A000()
+void Player::EnableAllControls_56A000()
 {
-    field_2F = 0;
+    field_2F_disable_all_controls = 0;
 }
 
 MATCH_FUNC(0x56A010)
-void Player::sub_56A010()
+void Player::EnableKFMode_56A010()
 {
-    field_31 = 1;
+    field_31_kf_weapon_mode = 1;
 }
 
 MATCH_FUNC(0x56A020)
-void Player::sub_56A020()
+void Player::DisableKFMode_56A020()
 {
-    field_31 = 0;
+    field_31_kf_weapon_mode = 0;
 }
 
 MATCH_FUNC(0x56A030)
-void Player::sub_56A030()
+void Player::DisableEnterVehicles_56A030()
 {
-    field_30 = 1;
+    field_30_disable_enter_vehicles = 1;
 }
 
 MATCH_FUNC(0x56A040)
-void Player::sub_56A040()
+void Player::EnableEnterVehicles_56A040()
 {
-    field_30 = 0;
+    field_30_disable_enter_vehicles = 0;
 }
 
 STUB_FUNC(0x56A0F0)
@@ -1270,14 +1268,14 @@ s32 Player::sub_56A0F0()
 }
 
 STUB_FUNC(0x56A1A0)
-zealous_borg* Player::sub_56A1A0(s32 a2)
+zealous_borg* Player::CopyPlayerDataToSave_56A1A0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x56A310)
-void Player::sub_56A310(s32 a2)
+void Player::UpdateGameFromSave_56A310(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -1330,9 +1328,9 @@ Player::~Player()
     field_2C4_player_ped = 0;
     field_2C8_unkq = 0;
     field_2CC = 0;
-    field_34_pObj = 0;
-    field_38 = 0;
-    field_3C = 0;
+    field_34_gang_curr_location = 0;
+    field_38_local_navigation_zone = 0;
+    field_3C_navigation_zone = 0;
     local_field_54_unk[0] = 0;
     local_field_54_unk[1] = 0;
     local_field_54_unk[2] = 0;
@@ -1346,8 +1344,8 @@ Player::~Player()
     /*
 	zealous_borg::dtor_484EE0(&field_644_unk);
 	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_unk);
-	DrawUnk_0xBC::dtor_4369E0(&field_208_aux_game_camera);
-	DrawUnk_0xBC::dtor_4369E0(&field_14C_view_camera);
-	DrawUnk_0xBC::dtor_4369E0(&field_90_game_camera);
+	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
+	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
+	Camera_0xBC::dtor_4369E0(&field_90_game_camera);
 	*/
 }

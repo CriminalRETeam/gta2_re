@@ -48,7 +48,7 @@ class Object_2C
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
     EXPORT void sub_525F30();
-    EXPORT bool sub_5263D0();
+    EXPORT bool Service_5263D0();
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);
     EXPORT s16 sub_526B40(s32 a2);
@@ -129,7 +129,7 @@ class Object_5C
 {
   public:
     EXPORT void sub_529300();
-    EXPORT void sub_5293A0();
+    EXPORT void ObjectsService_5293A0();
     EXPORT Object_5C();
     EXPORT ~Object_5C();
     EXPORT void sub_5297F0();

@@ -192,7 +192,7 @@ void Ambulance_110::sub_4FA500()
 }
 
 MATCH_FUNC(0x4fa790)
-void Ambulance_110::sub_4FA790()
+void Ambulance_110::AmbulancesService_4FA790()
 {
     if (field_1_f8_idx > 0)
     {

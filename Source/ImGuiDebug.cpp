@@ -3,13 +3,13 @@
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -27,7 +27,7 @@
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
-EXTERN_GLOBAL(Tango_54*, gTango_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
 Object_2C* spawned_obj = NULL;
@@ -134,11 +134,11 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("gTango_54_67D4C0"))
     {
-        if (gTango_54_67D4C0)
+        if (gFirefighterPool_54_67D4C0)
         {
             if (ImGui::Button("sub_4A8820"))
             {
-                gTango_54_67D4C0->sub_4A8820(0);
+                gFirefighterPool_54_67D4C0->sub_4A8820(0);
             }
         }
         ImGui::TreePop();
@@ -193,9 +193,9 @@ void CC ImGuiDebugDraw()
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                 if (pPlayer)
                 {
-                    DrawUnk_0xBC* game_camera = &pPlayer->field_90_game_camera;
-                    //DrawUnk_0xBC* view_camera = &pPlayer->field_14C_view_camera;
-                    //DrawUnk_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
+                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
+                    //Camera_0xBC* view_camera = &pPlayer->field_14C_view_camera;
+                    //Camera_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
                     if (game_camera)
                     {
                         ImGui::SliderInt("field_A4", &game_camera->field_98_cam_pos2.field_C_zoom.mValue, 0, 25000);
@@ -246,7 +246,7 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos.x + xOff,
+                pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
                                                              pPlayerSprite->field_14_xpos.y,
                                                              pPlayerSprite->field_1C_zpos,
                                                              0,
@@ -273,7 +273,7 @@ void CC ImGuiDebugDraw()
 */
                 //gChar_C_6787BC->sub_470E30();
 
-                gTango_54_67D4C0->sub_4A8820(pNewCar);
+                gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }
@@ -620,39 +620,39 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("HUD"))
     {
-        if (gGarox_2B00_706620)
+        if (gHud_2B00_706620)
         {
             if (ImGui::TreeNode("Timer"))
             {
                 if (ImGui::Button("CreateTimer_5D31F0"))
                 {
-                    gGarox_2B00_706620->field_620.CreateTimer_5D31F0(40);
+                    gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
                 }
 
                 static u32 v = 0;
                 ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                 if (ImGui::Button("Stop timer") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D32D0(v);
+                    gHud_2B00_706620->field_620.sub_5D32D0(v);
                 }
 
                 if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D3280(v);
+                    gHud_2B00_706620->field_620.sub_5D3280(v);
                 }
 
                 if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D3220(v);
+                    gHud_2B00_706620->field_620.sub_5D3220(v);
                 }
 
-                ImGui::InputInt("timer f4", &gGarox_2B00_706620->field_620.field_620[1].field_4, 1, 100);
+                ImGui::InputInt("timer f4", &gHud_2B00_706620->field_620.field_620[1].field_4, 1, 100);
                 ImGui::TreePop();
             }
 
             if (ImGui::TreeNode("Garox_1E34_L"))
             {
-                Garox_1E34_L* pGarox_1E34_L = &gGarox_2B00_706620->field_DC;
+                Garox_1E34_L* pGarox_1E34_L = &gHud_2B00_706620->field_DC;
                 
                 if (pGarox_1E34_L)
                 {

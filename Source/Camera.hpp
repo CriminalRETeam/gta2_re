@@ -31,7 +31,7 @@ struct WorldRect
     Fix16 field_C_bottom;
 };
 
-class DrawUnk_0xBC
+class Camera_0xBC
 {
   public:
     EXPORT bool sub_4355D0(Sprite* pSprite);
@@ -39,9 +39,9 @@ class DrawUnk_0xBC
     EXPORT void sub_4357B0();
     EXPORT void sub_4357F0();
     EXPORT void sub_435810();
-    EXPORT void sub_435830();
+    EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void sub_435840();
-    EXPORT void sub_435860(DrawUnk_0xBC* a2);
+    EXPORT void sub_435860(Camera_0xBC* a2);
     EXPORT s16* sub_4358D0(s16* a2);
     EXPORT Fix16 sub_435A20();
     EXPORT s32 sub_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
@@ -60,8 +60,8 @@ class DrawUnk_0xBC
     EXPORT void sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
     EXPORT void sub_436830();
     EXPORT void sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
-    EXPORT DrawUnk_0xBC(); // 4368E0
-    EXPORT ~DrawUnk_0xBC(); // empty 4369E0
+    EXPORT Camera_0xBC(); // 4368E0
+    EXPORT ~Camera_0xBC(); // empty 4369E0
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
 
@@ -150,6 +150,6 @@ class DrawUnk_0xBC
     Fix16 field_A8_ui_scale;
     CameraPos field_AC_cam_velocity;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(DrawUnk_0xBC, 0xBC)
+GTA2_ASSERT_SIZEOF_ALWAYS(Camera_0xBC, 0xBC)
 
-EXTERN_GLOBAL(DrawUnk_0xBC*, gViewCamera_676978);
+EXTERN_GLOBAL(Camera_0xBC*, gViewCamera_676978);

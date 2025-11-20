@@ -35,6 +35,31 @@ enum gmp_slope_type
     FIELD = 3,
 };
 
+enum gmp_zone_type
+{
+    General_Purpose_0 = 0,
+    Navigation_1 = 1,
+    Traffic_light_2 = 2,
+    Unused_3 = 3,
+    Unused_4 = 4,
+    Arrow_Blocker_5 = 5,
+    Railway_Station_Platform_6 = 6,
+    Bus_Stop_7 = 7,
+    General_Trigger_8 = 8,
+    Unused_9 = 9,
+    Information_10 = 10,
+    Railway_Station_Entry_Point_11 = 11,
+    Railway_Station_Exit_Point_12 = 12,
+    Railway_Station_Stop_Point_13 = 13,
+    Gang_14 = 14,
+    Local_Navigation_15 = 15,
+    Restart_16 = 16,
+    Unused_17 = 17,
+    Unused_18 = 18,
+    Unused_19 = 19,
+    Arrest_Restart_20 = 20,
+};
+
 struct gmp_header
 {
     char_type field_0_file_type[4];
@@ -214,7 +239,7 @@ class Map_0x370
 
     EXPORT gmp_map_zone* first_zone_by_type_4DF1D0(u8 zone_type);
 
-    EXPORT gmp_map_zone* sub_4DF240(u8 a2, u8 a3, char_type a4);
+    EXPORT gmp_map_zone* GetNearestZoneOfType_4DF240(u8 a2, u8 a3, char_type a4);
     EXPORT u8* sub_4DF3E0(u8 a2, u8 a3, char_type a4);
 
     EXPORT gmp_map_zone* zone_by_pos_and_type_4DF4D0(u8 zone_x, u8 zone_y, u8 zone_type);
@@ -267,7 +292,7 @@ class Map_0x370
 
     EXPORT gmp_map_zone* get_zone_4DFB30(u16 zone_idx);
 
-    EXPORT Gang_144* sub_4DFB50(Fix16 x, Fix16 y);
+    EXPORT Gang_144* GetGangAtCoords_4DFB50(Fix16 x, Fix16 y);
 
     EXPORT void sub_4DFB90();
     EXPORT void alloc_zones_4DFCA0();

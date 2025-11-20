@@ -22,7 +22,7 @@ void Garage_48::ParkCarAtDoor_534700(Car_BC* a2, void* a3)
 }
 
 STUB_FUNC(0x5349d0)
-void Garage_48::sub_5349D0()
+void Garage_48::GaragesService_5349D0()
 {
     NOT_IMPLEMENTED;
 }

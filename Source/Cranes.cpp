@@ -1,4 +1,4 @@
-#include "Zheal_D9C.hpp"
+#include "Cranes.hpp"
 #include "Globals.hpp"
 #include "root_sound.hpp"
 #include "map_0x370.hpp"
@@ -10,7 +10,7 @@ DEFINE_GLOBAL(s32, dword_679E58, 0x679E58);
 DEFINE_GLOBAL(Fix16, dword_679E70, 0x679E70);
 DEFINE_GLOBAL(Fix16, dword_679C78, 0x679C78);
 DEFINE_GLOBAL(Ang16, dword_679FC4, 0x679FC4);
-DEFINE_GLOBAL(Zheal_D9C*, gZheal_D9C_679FD4, 0x679FD4);
+DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
 
 // TODO: Should match but doesn't
 STUB_FUNC(0x47e5b0)
@@ -277,7 +277,7 @@ void Crane_15C::sub_47FE10()
 }
 
 STUB_FUNC(0x480310)
-void Crane_15C::sub_480310()
+void Crane_15C::Service_480310()
 {
     NOT_IMPLEMENTED;
 }
@@ -423,26 +423,26 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 }
 
 MATCH_FUNC(0x480e00)
-void Zheal_D9C::sub_480E00(Car_BC* a2, u8 a3)
+void CranePool_D9C::sub_480E00(Car_BC* a2, u8 a3)
 {
     field_0[a3].sub_47F930(a2);
 }
 
 MATCH_FUNC(0x480e50)
-void Zheal_D9C::sub_480E50()
+void CranePool_D9C::CranesService_480E50()
 {
     s32 i = 0;
     Crane_15C* pIter = field_0;
     while (i < field_D98_count)
     {
-        pIter->sub_480310();
+        pIter->Service_480310();
         i++;
         pIter++;
     }
 }
 
 MATCH_FUNC(0x480ec0)
-Crane_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
+Crane_15C* CranePool_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
 {
     Crane_15C* v4 = &field_0[field_D98_count];
     v4->sub_4803B0(x_pos, y_pos, field_D98_count);
@@ -451,12 +451,12 @@ Crane_15C* Zheal_D9C::sub_480EC0(Fix16 x_pos, Fix16 y_pos)
 }
 
 MATCH_FUNC(0x480f50)
-Zheal_D9C::Zheal_D9C()
+CranePool_D9C::CranePool_D9C()
 {
     field_D98_count = 0;
 }
 
 MATCH_FUNC(0x4bbbf0)
-Zheal_D9C::~Zheal_D9C()
+CranePool_D9C::~CranePool_D9C()
 {
 }

@@ -13,7 +13,7 @@
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "rng.hpp"
-#include "Sero_181C.hpp"
+#include "PublicTransport.hpp"
 #include "sprite.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
@@ -23,7 +23,7 @@
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
 #include "map_0x370.hpp"
-#include "Zones_CA8.hpp"
+#include "Gang.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -201,7 +201,7 @@ bool Ped::sub_45B590()
 }
 
 STUB_FUNC(0x45b5b0)
-s32 Ped::sub_45B5B0(s32 a2)
+s32 Ped::CopyStatsFromPed_45B5B0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -221,11 +221,11 @@ Car_BC* Ped::sub_45BBF0()
 }
 
 MATCH_FUNC(0x45bc10)
-void Ped::sub_45BC10(Fix16 xpos, Fix16 ypos)
+void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
 {
     Fix16 tempZ;
     gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&tempZ, xpos, ypos);
-    Car_BC* pCar = this->field_16C_car;
+    Car_BC* pCar = field_16C_car;
     if (pCar)
     {
         pCar->sub_443D00(xpos, ypos, tempZ);
@@ -440,7 +440,7 @@ void Ped::sub_45C310()
 }
 
 STUB_FUNC(0x45c350)
-void Ped::sub_45C350(gmp_map_zone* a2)
+void Ped::RespawnPed_45C350(gmp_map_zone* a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -973,7 +973,7 @@ void Ped::Occupation_AI_461F20()
             if (field_25C_car_state == 20 && field_17C_pZone != NULL && field_14C->field_15C_player != NULL)
             {
                 u8 idx = field_14C->field_15C_player->field_2E_idx;
-                if (!field_17C_pZone->sub_4BEF10(idx))
+                if (!field_17C_pZone->IsRespectNegativeForPlayer_4BEF10(idx))
                 {
                     Ped::sub_463830(0, 9999);
                 }
@@ -1203,7 +1203,7 @@ void Ped::sub_462B80()
                 {
                     if (field_25C_car_state == 37)
                     {
-                        Train_58* pTrain = gSero_181C_6FF1D4->sub_57B6A0(field_16C_car);
+                        Train_58* pTrain = gPublicTransport_181C_6FF1D4->sub_57B6A0(field_16C_car);
                         ++pTrain->field_56_passenger_count;
                     }
                 }
@@ -2886,7 +2886,7 @@ void Ped::sub_470300()
         {
             pCar->field_7C_uni_num = 3;
             pCar->field_76 = 0;
-            Car_B0* pB0 = pCar->field_58_physics;
+            CarPhysics_B0* pB0 = pCar->field_58_physics;
             if (pB0)
             {
                 pB0->field_8C = 1;

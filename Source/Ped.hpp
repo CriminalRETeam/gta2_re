@@ -33,9 +33,9 @@ class Ped
     EXPORT void sub_45B550();
     EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();
-    EXPORT s32 sub_45B5B0(s32 a2);
+    EXPORT s32 CopyStatsFromPed_45B5B0(s32 a2);
     EXPORT Car_BC* sub_45BBF0();
-    EXPORT void sub_45BC10(Fix16 xpos, Fix16 ypos);
+    EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void sub_45BC70();
     EXPORT char_type sub_45BD20(Car_BC* a2);
     EXPORT s32 sub_45BE30();
@@ -52,7 +52,7 @@ class Ped
     EXPORT void RestoreCarOrPedHealth();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT void sub_45C310();
-    EXPORT void sub_45C350(gmp_map_zone* a2);
+    EXPORT void RespawnPed_45C350(gmp_map_zone* a2);
     EXPORT s32 sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);

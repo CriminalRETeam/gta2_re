@@ -103,7 +103,7 @@ class Door_4D4
     EXPORT void sub_49D370(Ped* a2, u8 idx);
     EXPORT Door_38* sub_49D3A0();
     EXPORT char_type sub_49D3C0(s32 a2, u8 a3);
-    EXPORT void sub_49D460();
+    EXPORT void DoorsService_49D460();
     EXPORT Door_4D4();
     EXPORT ~Door_4D4();
 

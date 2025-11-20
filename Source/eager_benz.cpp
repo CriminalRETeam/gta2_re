@@ -4,11 +4,11 @@
 #include "Car_BC.hpp"
 #include "ExplodingScore_100.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
-#include "Zones_CA8.hpp"
+#include "Gang.hpp"
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
 #include "lucid_hamilton.hpp"
@@ -93,8 +93,8 @@ void eager_benz::sub_591C70()
 
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
-            gRoot_sound_66B038.sub_40F090(4);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(4);
         }
     }
 
@@ -104,8 +104,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
-            gRoot_sound_66B038.sub_40F090(8);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(8);
         }
     }
 
@@ -115,8 +115,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
-            gRoot_sound_66B038.sub_40F090(11);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(11);
         }
     }
 
@@ -126,8 +126,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
-            gRoot_sound_66B038.sub_40F090(5);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(5);
         }
     }
 
@@ -137,8 +137,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
-            gRoot_sound_66B038.sub_40F090(6);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(6);
         }
     }
 
@@ -148,8 +148,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
-            gRoot_sound_66B038.sub_40F090(7);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(7);
         }
     }
 
@@ -159,8 +159,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
-            gRoot_sound_66B038.sub_40F090(9);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(9);
         }
     }
 
@@ -186,8 +186,8 @@ void eager_benz::sub_591C70()
         field_368_pObj->field_2D4_unk.AddCash_592620(1000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (this->field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
-            gRoot_sound_66B038.sub_40F090(10);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(10);
         }
     }
 
@@ -210,8 +210,8 @@ void eager_benz::sub_591C70()
         this->field_190_fly_car_count = 2250;
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
-            gRoot_sound_66B038.sub_40F090(1);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(1);
         }
     }
 
@@ -241,7 +241,7 @@ void eager_benz::sub_591C70()
                 gLucid_hamilton_67E8E0.sub_4C5C00(a2);
                 if (gGame_0x40_67E008->field_28_timer == -1)
                 {
-                    gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
                 }
                 gGame_0x40_67E008->sub_4B8C00(2, 5);
             }
@@ -352,8 +352,8 @@ void eager_benz::sub_592430(char_type bits)
         field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
-            gRoot_sound_66B038.sub_40F090(2);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(2);
         }
         sub_592380(1);
     }
@@ -370,8 +370,8 @@ void eager_benz::sub_592430(char_type bits)
         field_368_pObj->field_2D4_unk.AddCash_592620(50000 * field_368_pObj->field_6BC_multpliers.field_0);
         if (field_368_pObj->field_0)
         {
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
-            gRoot_sound_66B038.sub_40F090(3);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
+            gRoot_sound_66B038.PlayVoice_40F090(3);
         }
         sub_592380(2);
     }
@@ -387,7 +387,7 @@ void eager_benz::sub_592570(char_type a2, s32 a3)
 MATCH_FUNC(0x5925b0)
 s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 {
-    u32 result = gCarInfo_808_678098->sub_4546B0(car_info_idx)->field_2_value;
+    u32 result = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(car_info_idx)->field_2_value;
 
     switch (arg4)
     {
@@ -405,7 +405,7 @@ s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 MATCH_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
-    field_0_unk.sub_4921B0(cash);
+    field_0_unk.ChangeStatByAmount_4921B0(cash);
 
     if (bStartNetworkGame_7081F0)
     {
@@ -427,7 +427,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
     u32 car_info_idx = pPed->get_car_model();
 
-    u16 bIsGangCar = gZones_CA8_67E274->sub_4BF2F0(pCar->field_84_car_info_idx);
+    u16 bIsGangCar = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
 
     field_1A8_unk.sub_4320D0(1,
                              pCar->field_84_car_info_idx,
@@ -441,7 +441,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     u8 bCopSwatOrFbiCar = 1;
     if (bIsFrench_67D53C)
     {
-        if (pCar->sub_439EC0())
+        if (pCar->IsPoliceCar_439EC0())
         {
             bCopSwatOrFbiCar = 0;
         }
@@ -525,7 +525,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 
     if (bIsFrench_67D53C)
     {
-        if (pCar->sub_439EC0())
+        if (pCar->IsPoliceCar_439EC0())
         {
             bAddScore = false;
         }
@@ -589,7 +589,7 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
             {
                 base_score = t < 400 ? 10 : 100;
             }
-            if (!bIsFrench_67D53C || !pCar->sub_439EC0())
+            if (!bIsFrench_67D53C || !pCar->IsPoliceCar_439EC0())
             {
                 field_368_pObj->field_2D4_unk.AddCash_592620(base_score * field_368_pObj->field_6BC_multpliers.field_0);
             }
@@ -613,7 +613,7 @@ void eager_benz::sub_593240(Car_BC* pCar)
     gmp_map_zone* pMapZone = gMap_0x370_6F6268->sub_4DF6A0(field_368_pObj->field_2C4_player_ped->get_cam_x().ToInt(),
                                                            field_368_pObj->field_2C4_player_ped->get_cam_y().ToInt());
 
-    const u16 zone_ret = gZones_CA8_67E274->sub_4BF2F0(pCar->field_84_car_info_idx);
+    const u16 zone_ret = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
     field_1A8_unk.sub_4320D0(2, pCar->field_84_car_info_idx, 51, zone_ret, pCar->field_50_car_sprite->field_24_remap, 23, 87, pMapZone);
 
     field_8A_cars_stolen_count++;
@@ -722,5 +722,5 @@ s32 eager_benz::sub_5935C0()
 MATCH_FUNC(0x5935d0)
 void eager_benz::sub_5935D0(s32 a2)
 {
-    field_38_unk.sub_4921B0(a2);
+    field_38_unk.ChangeStatByAmount_4921B0(a2);
 }

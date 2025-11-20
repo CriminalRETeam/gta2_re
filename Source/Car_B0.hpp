@@ -10,15 +10,15 @@ class Car_BC;
 class Trailer;
 class Sprite_4C;
 class Ped;
-class CarInfo_48;
+class ModelPhysics_48;
 class CarInfo_2C;
 class Car_78;
 
-class Car_B0
+class CarPhysics_B0
 {
   public:
     EXPORT s16* sub_4403A0(s16* a2);
-    EXPORT ~Car_B0();
+    EXPORT ~CarPhysics_B0();
     EXPORT void sub_559430();
     EXPORT void sub_5597B0();
     EXPORT bool sub_5599D0();
@@ -106,7 +106,7 @@ class Car_B0
     EXPORT void sub_562910();
     EXPORT void sub_562C20(Ang16& a2);
     EXPORT void sub_562D00();
-    EXPORT CarInfo_48* sub_562EB0();
+    EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();
@@ -123,7 +123,7 @@ class Car_B0
     EXPORT void Init_5637A0();
     EXPORT void Reset_563890();
     EXPORT void sub_5638C0(Car_BC* pBC);
-    EXPORT Car_B0();
+    EXPORT CarPhysics_B0();
 
     inline char_type is_backward_gas_on_411810()
     {
@@ -137,7 +137,7 @@ class Car_B0
 
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
-    Car_B0* field_C_pNext;
+    CarPhysics_B0* field_C_pNext;
     Fix16_Point field_10[4];
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
@@ -191,7 +191,7 @@ struct Car_D264
     //Inlined in Car_6C constructor 9.6f -> 0x420f80
     EXPORT Car_D264()
     {
-        Car_B0* pIter = &field_4[0];
+        CarPhysics_B0* pIter = &field_4[0];
         for (s32 i = 0; i < 305; i++)
         {
             pIter->field_C_pNext = pIter + 1;
@@ -208,8 +208,8 @@ struct Car_D264
         field_0 = 0;
     }
 
-    Car_B0* field_0;
-    Car_B0 field_4[306];
+    CarPhysics_B0* field_0;
+    CarPhysics_B0 field_4[306];
 };
 
 EXTERN_GLOBAL(Car_D264*, gCar_D264_6FE3E0);

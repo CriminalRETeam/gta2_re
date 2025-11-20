@@ -26,18 +26,18 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8 * dword_6FEB88, 0x6FEB0C);
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
 
 MATCH_FUNC(0x4beb30)
-Police_38::Police_38()
+PoliceCrew_38::PoliceCrew_38()
 {
     Init_5709C0();
 }
 
 MATCH_FUNC(0x4beb40)
-Police_38::~Police_38()
+PoliceCrew_38::~PoliceCrew_38()
 {
 }
 
 MATCH_FUNC(0x5709c0)
-void Police_38::Init_5709C0()
+void PoliceCrew_38::Init_5709C0()
 {
     field_2_targ_x = 0;
     field_3_targ_y = 0;
@@ -60,7 +60,7 @@ void Police_38::Init_5709C0()
 }
 
 MATCH_FUNC(0x570a10)
-void Police_38::sub_570A10()
+void PoliceCrew_38::sub_570A10()
 {
     if (field_14_pObj->field_75_count < 6)
     {
@@ -94,12 +94,12 @@ void Police_38::sub_570A10()
 }
 
 MATCH_FUNC(0x570ab0)
-void Police_38::sub_570AB0()
+void PoliceCrew_38::sub_570AB0()
 {
     if (!field_1C_used || (field_24_state != 0 && field_24_state != 1 && field_24_state != 6))
     {
         u8 last_idx = field_14_pObj->field_75_count - 1;
-        Police_38* pPolice38_last = field_14_pObj->field_20[last_idx];
+        PoliceCrew_38* pPolice38_last = field_14_pObj->field_20[last_idx];
         if (pPolice38_last == this)
         {
             field_14_pObj->field_20[last_idx] = NULL;
@@ -142,7 +142,7 @@ void Police_38::sub_570AB0()
 }
 
 MATCH_FUNC(0x570bf0)
-void Police_38::SpawnPoliceInCar_570BF0()
+void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::sub_4CB0D0();
     Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
@@ -225,7 +225,7 @@ void Police_38::SpawnPoliceInCar_570BF0()
 }
 
 MATCH_FUNC(0x570e30)
-void Police_38::SpawnSWAT_570E30()
+void PoliceCrew_38::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::sub_4CB0D0();
     Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
@@ -272,7 +272,7 @@ void Police_38::SpawnSWAT_570E30()
 }
 
 MATCH_FUNC(0x571150)
-void Police_38::SpawnFBI_nonused_571150()
+void PoliceCrew_38::SpawnFBI_nonused_571150()
 {
     Ped* pFBI = gChar_C_6787BC->sub_470F30();
     pFBI->field_238 = 4;
@@ -298,7 +298,7 @@ void Police_38::SpawnFBI_nonused_571150()
 }
 
 MATCH_FUNC(0x571350)
-void Police_38::sub_571350()
+void PoliceCrew_38::sub_571350()
 {
     field_24_state = 2;
     PedGroup* pGroup = field_10_subObj->field_8_group;
@@ -343,35 +343,35 @@ void Police_38::sub_571350()
 }
 
 STUB_FUNC(0x571540)
-char_type Police_38::sub_571540()
+char_type PoliceCrew_38::sub_571540()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x571a30)
-char_type Police_38::sub_571A30()
+char_type PoliceCrew_38::sub_571A30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5720c0)
-char_type Police_38::sub_5720C0()
+char_type PoliceCrew_38::sub_5720C0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x572210)
-bool Police_38::sub_572210()
+bool PoliceCrew_38::sub_572210()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x572340)
-void Police_38::sub_572340()
+void PoliceCrew_38::sub_572340()
 {
     u8 bUnk = true;
     u8 idx = 0;
@@ -381,7 +381,7 @@ void Police_38::sub_572340()
     {
         if (field_10_subObj->field_28 == 6)
         {
-            Police_38::sub_5720C0();
+            PoliceCrew_38::sub_5720C0();
         }
     }
     else if (field_10_subObj->field_2C)
@@ -391,10 +391,10 @@ void Police_38::sub_572340()
             switch (field_10_subObj->field_20)
             {
                 case 3:
-                    Police_38::SpawnPoliceInCar_570BF0();
+                    PoliceCrew_38::SpawnPoliceInCar_570BF0();
                     break;
                 case 5:
-                    Police_38::SpawnSWAT_570E30();
+                    PoliceCrew_38::SpawnSWAT_570E30();
                 default:
                     break;
             }
@@ -413,7 +413,7 @@ void Police_38::sub_572340()
                 }
                 field_10_subObj->field_0_car = 0;
                 field_24_state = 6;
-                Police_38::sub_575650();
+                PoliceCrew_38::sub_575650();
             }
         }
     }
@@ -423,7 +423,7 @@ void Police_38::sub_572340()
         if (field_10_subObj->field_18 == -80)
         {
             field_24_state = 6;
-            Police_38::sub_575650();
+            PoliceCrew_38::sub_575650();
         }
     }
 
@@ -453,7 +453,7 @@ void Police_38::sub_572340()
                                 pPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pObj->field_18_z.ToUInt8());
                                 break;
                             case objectives_enum::goto_area_in_car_14:
-                                Police_38::sub_5752C0();
+                                PoliceCrew_38::sub_5752C0();
                                 xpos_f = field_14_pObj->field_10_x;
                                 if (pPed_6FEDDC->field_1DC_objective_target_x != field_14_pObj->field_10_x ||
                                     pPed_6FEDDC->field_1E0_objective_target_y != field_14_pObj->field_14_y)
@@ -494,10 +494,10 @@ void Police_38::sub_572340()
                                 }
                                 break;
                             case objectives_enum::leave_car_36:
-                                Police_38::sub_575270();
+                                PoliceCrew_38::sub_575270();
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                Police_38::sub_575210();
+                                PoliceCrew_38::sub_575210();
                                 break;
                             case objectives_enum::follow_car_on_foot_with_offset_51:
                                 if (pPed->field_225 == 2)
@@ -549,19 +549,19 @@ void Police_38::sub_572340()
 }
 
 STUB_FUNC(0x572920)
-void Police_38::sub_572920()
+void PoliceCrew_38::sub_572920()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x574720)
-void Police_38::sub_574720()
+void PoliceCrew_38::sub_574720()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x574f10)
-void Police_38::sub_574F10()
+void PoliceCrew_38::sub_574F10()
 {
     Car_BC* pCarUnk;
 
@@ -577,7 +577,7 @@ void Police_38::sub_574F10()
         pCarUnk->field_A6 &= ~0x20u;
         if (field_10_subObj->field_28 == 6)
         {
-            Police_38::sub_5720C0();
+            PoliceCrew_38::sub_5720C0();
         }
 
         if (field_10_subObj->field_28 == 5)
@@ -596,7 +596,7 @@ void Police_38::sub_574F10()
                     }
                 }
             }
-            Police_38::sub_575650();
+            PoliceCrew_38::sub_575650();
             if (field_29)
             {
                 if (gPolice_7B8_6FEE40->field_658 > 0)
@@ -606,16 +606,16 @@ void Police_38::sub_574F10()
             }
             field_10_subObj->field_28 = 0;
             field_10_subObj->sub_5CBC30();
-            Police_38::Init_5709C0();
+            PoliceCrew_38::Init_5709C0();
         }
         else
         {
-            if (field_14_pObj && field_14_pObj->field_0 && Police_38::sub_572210() &&
+            if (field_14_pObj && field_14_pObj->field_0_criminal_ped && PoliceCrew_38::sub_572210() &&
                 (field_10_subObj->field_20 == 6 || field_14_pObj->field_4 != 6))
             {
-                field_14_pObj->field_10_x = field_14_pObj->field_0->get_cam_x();
-                field_14_pObj->field_14_y = field_14_pObj->field_0->get_cam_y();
-                field_14_pObj->field_18_z = field_14_pObj->field_0->get_cam_z();
+                field_14_pObj->field_10_x = field_14_pObj->field_0_criminal_ped->get_cam_x();
+                field_14_pObj->field_14_y = field_14_pObj->field_0_criminal_ped->get_cam_y();
+                field_14_pObj->field_18_z = field_14_pObj->field_0_criminal_ped->get_cam_z();
                 gPolice_7B8_6FEE40->sub_570790(this, field_14_pObj);
             }
             else
@@ -654,10 +654,10 @@ void Police_38::sub_574F10()
                             }
                             break;
                         case objectives_enum::leave_car_36:
-                            Police_38::sub_575270();
+                            PoliceCrew_38::sub_575270();
                             break;
                         case objectives_enum::enter_car_as_driver_35:
-                            Police_38::sub_575210();
+                            PoliceCrew_38::sub_575210();
                             break;
                         case objectives_enum::flee_char_on_foot_till_safe_2:
                         case objectives_enum::goto_area_on_foot_12:
@@ -692,13 +692,13 @@ void Police_38::sub_574F10()
 }
 
 STUB_FUNC(0x575200)
-void Police_38::sub_575200()
+void PoliceCrew_38::sub_575200()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x575210)
-void Police_38::sub_575210()
+void PoliceCrew_38::sub_575210()
 {
     if (field_10_subObj->field_24)
     {
@@ -720,7 +720,7 @@ void Police_38::sub_575210()
 }
 
 MATCH_FUNC(0x575270)
-void Police_38::sub_575270()
+void PoliceCrew_38::sub_575270()
 {
     if (field_10_subObj->field_24)
     {
@@ -738,7 +738,7 @@ void Police_38::sub_575270()
 }
 
 MATCH_FUNC(0x5752c0)
-void Police_38::sub_5752C0()
+void PoliceCrew_38::sub_5752C0()
 {
     if (pPed_6FEDDC->field_225)
     {
@@ -750,13 +750,13 @@ void Police_38::sub_5752C0()
 }
 
 STUB_FUNC(0x575310)
-void Police_38::sub_575310()
+void PoliceCrew_38::sub_575310()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x575590)
-void Police_38::sub_575590()
+void PoliceCrew_38::Service_575590()
 {
     if (field_10_subObj)
     {
@@ -786,19 +786,19 @@ void Police_38::sub_575590()
     switch (field_24_state)
     {
         case 3:
-            Police_38::sub_572340();
+            PoliceCrew_38::sub_572340();
             break;
         case 5:
-            Police_38::sub_572920();
+            PoliceCrew_38::sub_572920();
             break;
         case 6:
-            Police_38::sub_574720();
+            PoliceCrew_38::sub_574720();
             break;
         case 1:
-            Police_38::sub_574F10();
+            PoliceCrew_38::sub_574F10();
             break;
         case 2:
-            Police_38::sub_575200();
+            PoliceCrew_38::sub_575200();
             break;
         default:
             return;
@@ -806,7 +806,7 @@ void Police_38::sub_575590()
 }
 
 STUB_FUNC(0x575650)
-s32 Police_38::sub_575650()
+s32 PoliceCrew_38::sub_575650()
 {
     NOT_IMPLEMENTED;
     return 0;

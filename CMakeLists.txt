@@ -103,8 +103,8 @@ set(gta2_lib_src
   Source/gtx_0x106C.cpp
   Source/Function.hpp
   Source/Function.cpp
-  Source/DrawUnk_0xBC.hpp
-  Source/DrawUnk_0xBC.cpp
+  Source/Camera.hpp
+  Source/Camera.cpp
   Source/Ped.hpp
   Source/Ped.cpp
   Source/Car_BC.hpp
@@ -123,8 +123,8 @@ set(gta2_lib_src
   Source/infallible_turing.cpp
   Source/sad_mirzakhani.hpp
   Source/sad_mirzakhani.cpp
-  Source/Zones_CA8.hpp
-  Source/Zones_CA8.cpp
+  Source/Gang.hpp
+  Source/Gang.cpp
   Source/youthful_einstein.hpp
   Source/youthful_einstein.cpp
   Source/xenodochial_morse.hpp
@@ -138,8 +138,8 @@ set(gta2_lib_src
   Source/miss2_xyz.hpp
   Source/BurgerKing_67F8B0.hpp
   Source/BurgerKing_67F8B0.cpp
-  Source/Garox_2B00.hpp
-  Source/Garox_2B00.cpp
+  Source/Hud.hpp
+  Source/Hud.cpp
   Source/MapRenderer.hpp
   Source/MapRenderer.cpp
   Source/Montana.hpp
@@ -168,8 +168,8 @@ set(gta2_lib_src
   Source/Door_4D4.cpp
   Source/Ambulance_110.hpp
   Source/Ambulance_110.cpp
-  Source/Sero_181C.hpp
-  Source/Sero_181C.cpp
+  Source/PublicTransport.hpp
+  Source/PublicTransport.cpp
   Source/Taxi_4.hpp
   Source/Taxi_4.cpp
   Source/TrafficLights_194.hpp
@@ -186,12 +186,12 @@ set(gta2_lib_src
   Source/Particle_8.cpp
   Source/Wolfy_3D4.hpp
   Source/Wolfy_3D4.cpp
-  Source/Zheal_D9C.hpp
-  Source/Zheal_D9C.cpp
-  Source/Snooky_94.hpp
-  Source/Snooky_94.cpp
-  Source/Maccies_14AC.hpp
-  Source/Maccies_14AC.cpp
+  Source/Cranes.hpp
+  Source/Cranes.cpp
+  Source/Crushers.hpp
+  Source/Crushers.cpp
+  Source/Generators.hpp
+  Source/Generators.cpp
   Source/Kfc_1E0.hpp
   Source/Kfc_1E0.cpp
   Source/Police_7B8.hpp
@@ -206,8 +206,8 @@ set(gta2_lib_src
   Source/ExplodingScore_100.cpp
   Source/Shooey_CC.hpp
   Source/Shooey_CC.cpp
-  Source/Tango_28.hpp
-  Source/Tango_28.cpp
+  Source/Firefighters.hpp
+  Source/Firefighters.cpp
   Source/Rozza_C88.hpp
   Source/Rozza_C88.cpp
   Source/PurpleDoom.hpp

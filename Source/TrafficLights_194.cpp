@@ -1,5 +1,5 @@
 #include "TrafficLights_194.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
 #include "Object_5C.hpp"
@@ -18,7 +18,7 @@ void TrafficLight_20::sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5)
 }
 
 MATCH_FUNC(0x5C27A0)
-void TrafficLight_20::sub_5C27A0(u8 phase)
+void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
 {
     switch (phase)
     {
@@ -120,7 +120,7 @@ void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
 }
 
 STUB_FUNC(0x5c2950)
-void TrafficLights_194::sub_5C2950()
+void TrafficLights_194::TrafficLightsService_5C2950()
 {
     NOT_IMPLEMENTED;
 }
@@ -129,21 +129,21 @@ MATCH_FUNC(0x5c2a10)
 void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 {
     swprintf(tmpBuff_67BD9C, L"timer: %d", field_193_timer);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 0, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 0, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"phase: %d", field_192_phase);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_706600, 1);
 
     if (field_192_phase == 7)
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"peds crossing now!", -1, 32, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(L"peds crossing now!", -1, 32, word_706600, 1);
     }
 }
 
 MATCH_FUNC(0x5c2ac0)
 void TrafficLights_194::sub_5C2AC0()
 {
-    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(2u);
+    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(Traffic_light_2);
     while (pZoneIter)
     {
         sub_5C2910(pZoneIter->field_1_x, pZoneIter->field_2_y, pZoneIter->field_3_w, pZoneIter->field_4_h);

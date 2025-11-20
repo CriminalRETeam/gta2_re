@@ -22,7 +22,7 @@ class root_sound
     sound obj types
 
     type 1 Sprite
-    type 5 DrawUnk_0xBC
+    type 5 Camera_0xBC
     type 6 Rozza_C88
     type 7 Weapon_30
     type 8 Crane_15C
@@ -54,13 +54,13 @@ class root_sound
 
     EXPORT void sub_40F020();
 
-    EXPORT char* sub_40F030(s32 a1, Fix16 a2, Fix16 a3);
+    EXPORT char* DeclareRadioStation_40F030(s32 a1, Fix16 a2, Fix16 a3);
 
-    EXPORT char_type sub_40F050(s32 a1, s32 a2);
+    EXPORT char_type RemoveSound_40F050(s32 a1, s32 a2);
 
     EXPORT void sub_40F070(char_type a1);
 
-    EXPORT void sub_40F090(s32 state);
+    EXPORT void PlayVoice_40F090(s32 state);
 
     EXPORT void SetSfxVol_40F0B0(u8 sfxVol);
 

@@ -152,6 +152,23 @@ struct MenuPage_0xBCA
 
 struct player_stats_0xA4;
 
+enum WinMainState
+{
+    Quit_1 = 1,
+    Run_Frontend_2 = 2,
+    Start_Game_3 = 3,
+    Start_Replay_4 = 4,
+};
+
+enum FrontendState
+{
+    Unknown_1 = 1,
+    Booting_Map_2 = 2,
+    User_Typing_New_Player_Name_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+};
+
 enum MenuScreen
 {
     Options_0 = 0,
@@ -201,8 +218,8 @@ enum MenuPages // enum for field_132_f136_idx
     MENUPAGE_REPLAY_PREVIOUS_AREA = 259,
     MENUPAGE_LOADING_SAVE = 260,
     MENUPAGE_PLAY_NEXT_AREA = 261,
-    MENUPAGE_READY_TO_PLAY = 264,
-    MENUPAGE_READY_TO_PLAY_BONUS = 265,
+    MENUPAGE_GET_READY_TO_PLAY = 264,
+    MENUPAGE_GET_READY_TO_PLAY_BONUS = 265,
     MENUPAGE_CONTINUE_NEXT_STAGE = 266,
 };
 
@@ -233,7 +250,7 @@ struct Frontend
     LPDIRECTINPUTA field_0_pDInput;
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
-    s32 field_108;
+    s32 field_108_winmain_next_state;
     char_type field_10C_bKeyboardAcquired;
     char_type field_10D;
     char_type field_10E;
@@ -311,7 +328,7 @@ struct Frontend
     u8 field_1EB51_blocks[3];
 
     // todo: ordering
-    EXPORT void sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
+    EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
     EXPORT void sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
     EXPORT void sub_4B5270();
 
@@ -338,9 +355,9 @@ struct Frontend
 
     EXPORT void sub_4B7A10();
 
-    EXPORT void sub_4AE2D0();
+    EXPORT void UpdatePageFromUserInput_4AE2D0();
 
-    EXPORT void sub_4AE990();
+    EXPORT void SetWinMainStateToBootMap_4AE990();
 
     EXPORT void sub_4B2F60();
 
@@ -374,7 +391,7 @@ struct Frontend
 
     EXPORT char_type sub_4B7FB0();
 
-    EXPORT void sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
+    EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
     EXPORT void sub_4ADF50();
 

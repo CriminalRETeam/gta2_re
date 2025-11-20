@@ -64,7 +64,7 @@ void thirsty_lamarr::sub_492150()
 }
 
 MATCH_FUNC(0x4921b0)
-void thirsty_lamarr::sub_4921B0(s32 amount)
+void thirsty_lamarr::ChangeStatByAmount_4921B0(s32 amount)
 {
     if (amount > 0)
     {

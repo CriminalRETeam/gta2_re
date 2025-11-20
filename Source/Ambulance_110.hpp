@@ -57,7 +57,7 @@ class Ambulance_110
     EXPORT char_type sub_4FA470(Ped* a2);
     EXPORT Ambulance_20* sub_4FA4B0();
     EXPORT void sub_4FA500();
-    EXPORT void sub_4FA790();
+    EXPORT void AmbulancesService_4FA790();
 
     char_type field_0;
     u8 field_1_f8_idx;

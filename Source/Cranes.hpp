@@ -39,7 +39,7 @@ class Crane_15C
     EXPORT s32 sub_47FD10();
     EXPORT void sub_47FD50();
     EXPORT void sub_47FE10();
-    EXPORT void sub_480310();
+    EXPORT void Service_480310();
     EXPORT infallible_turing* sub_4803B0(Fix16 a2, Fix16 a3, char_type a4);
     EXPORT s32* sub_480900(s32 a2, s32 a3, s32 a4);
     EXPORT s32* sub_480B60(s32 a2, s32 a3, s32 a4);
@@ -144,17 +144,17 @@ class Crane_15C
     char_type field_15B;
 };
 
-class Zheal_D9C
+class CranePool_D9C
 {
   public:
     EXPORT void sub_480E00(Car_BC* a2, u8 a3);
-    EXPORT void sub_480E50();
+    EXPORT void CranesService_480E50();
     EXPORT Crane_15C* sub_480EC0(Fix16 a2, Fix16 a3);
-    EXPORT Zheal_D9C();
-    EXPORT ~Zheal_D9C();
+    EXPORT CranePool_D9C();
+    EXPORT ~CranePool_D9C();
 
     Crane_15C field_0[10];
     s32 field_D98_count;
 };
 
-EXTERN_GLOBAL(Zheal_D9C*, gZheal_D9C_679FD4);
+EXTERN_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4);

@@ -10,11 +10,11 @@ class Object_2C;
 class Police_7C;
 class Fix16_Rect;
 
-class Police_38
+class PoliceCrew_38
 {
   public:
-    EXPORT Police_38();
-    EXPORT ~Police_38();
+    EXPORT PoliceCrew_38();
+    EXPORT ~PoliceCrew_38();
     EXPORT void Init_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
@@ -35,7 +35,7 @@ class Police_38
     EXPORT void sub_575270();
     EXPORT void sub_5752C0();
     EXPORT void sub_575310();
-    EXPORT void sub_575590();
+    EXPORT void Service_575590();
     EXPORT s32 sub_575650();
 
     char_type field_0;
@@ -72,7 +72,7 @@ class Police_38
 class Police_7C
 {
   public:
-    Ped* field_0;
+    Ped* field_0_criminal_ped;
     s32 field_4;
     s32 field_8;
     s16 field_C;
@@ -85,7 +85,7 @@ class Police_7C
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    Police_38* field_20[2];
+    PoliceCrew_38* field_20[2];
     s32 field_28;
     s32 field_2C;
     s32 field_30;
@@ -113,7 +113,7 @@ class Police_7C
     s16 field_76;
     char_type field_78;
     char_type field_79;
-    s16 field_7A_kMax900;
+    s16 field_7A_wanted_timer;
 };
 
 class PoliceRoadblock_A4

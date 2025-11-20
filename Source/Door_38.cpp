@@ -433,7 +433,7 @@ void Door_38::sub_49CD90()
 }
 
 MATCH_FUNC(0x49ce90)
-char_type Door_38::sub_49CE90()
+char_type Door_38::Service_49CE90()
 {
     if (field_2D)
     {

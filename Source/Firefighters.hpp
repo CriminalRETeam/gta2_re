@@ -6,7 +6,7 @@
 class Car_BC;
 class Ped;
 
-class Tango_28
+class Firefighter_28
 {
   public:
     // inline
@@ -40,10 +40,10 @@ class Tango_28
     s16 field_26;
 };
 
-class Tango_54
+class FirefighterPool_54
 {
   public:
-    Tango_54()
+    FirefighterPool_54()
     {
         for (s32 i = 0; i < 2; i++)
         {
@@ -52,18 +52,18 @@ class Tango_54
         sub_4A88D0();
     }
 
-    ~Tango_54()
+    ~FirefighterPool_54()
     {
         // TODO: Should this be empty?
     }
 
     EXPORT void sub_4A85F0();
-    EXPORT Tango_28* sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z);
-    EXPORT Tango_28* New28_4A8800();
+    EXPORT Firefighter_28* sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Firefighter_28* New28_4A8800();
     EXPORT char_type sub_4A8820(Car_BC* a2);
     EXPORT void sub_4A88D0();
 
-    Tango_28 field_0[2];
+    Firefighter_28 field_0[2];
     s16 field_50;
     s16 field_52;
 };
