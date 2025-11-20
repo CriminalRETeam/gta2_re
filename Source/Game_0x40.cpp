@@ -39,7 +39,7 @@
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
-#include "Zheal_D9C.hpp"
+#include "Cranes.hpp"
 #include "Gang.hpp"
 #include "char.hpp"
 #include "collide.hpp"
@@ -1145,7 +1145,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1883);
     }
 
-    gZheal_D9C_679FD4 = new Zheal_D9C(); // ctor call
+    gZheal_D9C_679FD4 = new CranePool_D9C(); // ctor call
     if (!gZheal_D9C_679FD4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1885);

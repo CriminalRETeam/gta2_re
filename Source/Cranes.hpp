@@ -144,17 +144,17 @@ class Crane_15C
     char_type field_15B;
 };
 
-class Zheal_D9C
+class CranePool_D9C
 {
   public:
     EXPORT void sub_480E00(Car_BC* a2, u8 a3);
     EXPORT void CranesService_480E50();
     EXPORT Crane_15C* sub_480EC0(Fix16 a2, Fix16 a3);
-    EXPORT Zheal_D9C();
-    EXPORT ~Zheal_D9C();
+    EXPORT CranePool_D9C();
+    EXPORT ~CranePool_D9C();
 
     Crane_15C field_0[10];
     s32 field_D98_count;
 };
 
-EXTERN_GLOBAL(Zheal_D9C*, gZheal_D9C_679FD4);
+EXTERN_GLOBAL(CranePool_D9C*, gZheal_D9C_679FD4);

@@ -40,7 +40,7 @@
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
-#include "Zheal_D9C.hpp"
+#include "Cranes.hpp"
 #include "Zones_CA8.hpp"
 #include "angry_lewin_0x85C.hpp"
 #include "cSampleManager.hpp"

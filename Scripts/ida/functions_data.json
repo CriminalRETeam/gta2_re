@@ -4515,22 +4515,22 @@
         "v105_address": "0x480da0"
     },
     {
-        "name": "Zheal_D9C::sub_480E00",
+        "name": "CranePool_D9C::sub_480E00",
         "v96f_address": null,
         "v105_address": "0x480e00"
     },
     {
-        "name": "Zheal_D9C::CranesService_480E50",
+        "name": "CranePool_D9C::CranesService_480E50",
         "v96f_address": null,
         "v105_address": "0x480e50"
     },
     {
-        "name": "Zheal_D9C::sub_480EC0",
+        "name": "CranePool_D9C::sub_480EC0",
         "v96f_address": null,
         "v105_address": "0x480ec0"
     },
     {
-        "name": "Zheal_D9C::ctor",
+        "name": "CranePool_D9C::ctor",
         "v96f_address": "0x449c70",
         "v105_address": "0x480f50"
     },
@@ -6050,7 +6050,7 @@
         "v105_address": "0x4bbbb0"
     },
     {
-        "name": "Zheal_D9C::dtor",
+        "name": "CranePool_D9C::dtor",
         "v96f_address": null,
         "v105_address": "0x4bbbf0"
     },
@@ -6160,12 +6160,12 @@
         "v105_address": "0x4beb20"
     },
     {
-        "name": "Police_38::ctor",
+        "name": "PoliceCrew_38::ctor",
         "v96f_address": null,
         "v105_address": "0x4beb30"
     },
     {
-        "name": "Police_38::dtor",
+        "name": "PoliceCrew_38::dtor",
         "v96f_address": null,
         "v105_address": "0x4beb40"
     },
@@ -6315,22 +6315,22 @@
         "v105_address": "0x4c1c70"
     },
     {
-        "name": "Maccies_14AC::sub_4C1CD0",
+        "name": "GeneratorPool_14AC::sub_4C1CD0",
         "v96f_address": null,
         "v105_address": "0x4c1cd0"
     },
     {
-        "name": "Maccies_14AC::GeneratorsService_4C1D70",
+        "name": "GeneratorPool_14AC::GeneratorsService_4C1D70",
         "v96f_address": null,
         "v105_address": "0x4c1d70"
     },
     {
-        "name": "Maccies_14AC::CreateGenerator_4C1DC0",
+        "name": "GeneratorPool_14AC::CreateGenerator_4C1DC0",
         "v96f_address": null,
         "v105_address": "0x4c1dc0"
     },
     {
-        "name": "Maccies_14AC::ctor",
+        "name": "GeneratorPool_14AC::ctor",
         "v96f_address": "0x45e3e0",
         "v105_address": "0x4c1e20"
     },
@@ -13185,7 +13185,7 @@
         "v105_address": "0x5703e0"
     },
     {
-        "name": "Police_38::sub_570790",
+        "name": "PoliceCrew_38::sub_570790",
         "v96f_address": null,
         "v105_address": "0x570790"
     },
@@ -13205,112 +13205,112 @@
         "v105_address": "0x570940"
     },
     {
-        "name": "Police_38::Init_5709C0",
+        "name": "PoliceCrew_38::Init_5709C0",
         "v96f_address": null,
         "v105_address": "0x5709c0"
     },
     {
-        "name": "Police_38::sub_570A10",
+        "name": "PoliceCrew_38::sub_570A10",
         "v96f_address": null,
         "v105_address": "0x570a10"
     },
     {
-        "name": "Police_38::sub_570AB0",
+        "name": "PoliceCrew_38::sub_570AB0",
         "v96f_address": null,
         "v105_address": "0x570ab0"
     },
     {
-        "name": "Police_38::SpawnPoliceInCar_570BF0",
+        "name": "PoliceCrew_38::SpawnPoliceInCar_570BF0",
         "v96f_address": null,
         "v105_address": "0x570bf0"
     },
     {
-        "name": "Police_38::SpawnSWAT_570E30",
+        "name": "PoliceCrew_38::SpawnSWAT_570E30",
         "v96f_address": null,
         "v105_address": "0x570e30"
     },
     {
-        "name": "Police_38::SpawnFBI_nonused_571150",
+        "name": "PoliceCrew_38::SpawnFBI_nonused_571150",
         "v96f_address": null,
         "v105_address": "0x571150"
     },
     {
-        "name": "Police_38::sub_571350",
+        "name": "PoliceCrew_38::sub_571350",
         "v96f_address": null,
         "v105_address": "0x571350"
     },
     {
-        "name": "Police_38::sub_571540",
+        "name": "PoliceCrew_38::sub_571540",
         "v96f_address": null,
         "v105_address": "0x571540"
     },
     {
-        "name": "Police_38::sub_571A30",
+        "name": "PoliceCrew_38::sub_571A30",
         "v96f_address": null,
         "v105_address": "0x571a30"
     },
     {
-        "name": "Police_38::sub_5720C0",
+        "name": "PoliceCrew_38::sub_5720C0",
         "v96f_address": null,
         "v105_address": "0x5720c0"
     },
     {
-        "name": "Police_38::sub_572210",
+        "name": "PoliceCrew_38::sub_572210",
         "v96f_address": null,
         "v105_address": "0x572210"
     },
     {
-        "name": "Police_38::sub_572340",
+        "name": "PoliceCrew_38::sub_572340",
         "v96f_address": null,
         "v105_address": "0x572340"
     },
     {
-        "name": "Police_38::sub_572920",
+        "name": "PoliceCrew_38::sub_572920",
         "v96f_address": null,
         "v105_address": "0x572920"
     },
     {
-        "name": "Police_38::sub_574720",
+        "name": "PoliceCrew_38::sub_574720",
         "v96f_address": null,
         "v105_address": "0x574720"
     },
     {
-        "name": "Police_38::sub_574F10",
+        "name": "PoliceCrew_38::sub_574F10",
         "v96f_address": null,
         "v105_address": "0x574f10"
     },
     {
-        "name": "Police_38::sub_575200",
+        "name": "PoliceCrew_38::sub_575200",
         "v96f_address": null,
         "v105_address": "0x575200"
     },
     {
-        "name": "Police_38::sub_575210",
+        "name": "PoliceCrew_38::sub_575210",
         "v96f_address": null,
         "v105_address": "0x575210"
     },
     {
-        "name": "Police_38::sub_575270",
+        "name": "PoliceCrew_38::sub_575270",
         "v96f_address": null,
         "v105_address": "0x575270"
     },
     {
-        "name": "Police_38::sub_5752C0",
+        "name": "PoliceCrew_38::sub_5752C0",
         "v96f_address": null,
         "v105_address": "0x5752c0"
     },
     {
-        "name": "Police_38::sub_575310",
+        "name": "PoliceCrew_38::sub_575310",
         "v96f_address": null,
         "v105_address": "0x575310"
     },
     {
-        "name": "Police_38::Service_575590",
+        "name": "PoliceCrew_38::Service_575590",
         "v96f_address": null,
         "v105_address": "0x575590"
     },
     {
-        "name": "Police_38::sub_575650",
+        "name": "PoliceCrew_38::sub_575650",
         "v96f_address": null,
         "v105_address": "0x575650"
     },
