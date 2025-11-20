@@ -897,7 +897,7 @@ char_type Car_BC::sub_43A850()
 MATCH_FUNC(0x43a950)
 void Car_BC::sub_43A950()
 {
-    Car_B0* pB0 = field_58_physics;
+    CarPhysics_B0* pB0 = field_58_physics;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -908,7 +908,7 @@ MATCH_FUNC(0x43a970)
 void Car_BC::sub_43A970()
 {
     field_58_physics->field_92_is_hand_brake_on = 1;
-    Car_B0* pB0 = field_58_physics;
+    CarPhysics_B0* pB0 = field_58_physics;
     pB0->field_91_is_foot_brake_on = 1;
     pB0->field_93_is_forward_gas_on = 0;
     pB0->field_94_is_backward_gas_on = 0;
@@ -921,7 +921,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
     char hand_brake_on; // [esp+Ch] [ebp+4h]
     if (!pNewDriver)
     {
-        Car_B0* pB0 = this->field_58_physics;
+        CarPhysics_B0* pB0 = this->field_58_physics;
         if (pB0)
         {
             Ped* pOldDriver = this->field_54_driver;
@@ -1673,7 +1673,7 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x441520)
 void Car_BC::sub_441520()
 {
-    Car_B0* pB0;
+    CarPhysics_B0* pB0;
     switch (this->field_9C)
     {
         case 1:
@@ -1709,7 +1709,7 @@ void Car_BC::sub_441520()
 MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
-    Car_B0* pB0 = this->field_58_physics;
+    CarPhysics_B0* pB0 = this->field_58_physics;
     if (pB0 && pB0->IsFootBrakeOn_55A150())
     {
         sub_43BF10();
@@ -1792,7 +1792,7 @@ void Car_BC::sub_4419E0()
 }
 
 STUB_FUNC(0x441a10)
-Car_B0* Car_BC::sub_441A10()
+CarPhysics_B0* Car_BC::sub_441A10()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2374,7 +2374,7 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pCarSprite->field_1C_zpos = zpos;
         pCarSprite->sub_59E7B0();
     }
-    Car_B0* field_58_uni = field_58_physics;
+    CarPhysics_B0* field_58_uni = field_58_physics;
     if (field_58_uni)
     {
         field_58_uni->sub_563560(field_50_car_sprite);

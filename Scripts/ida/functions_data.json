@@ -1885,7 +1885,7 @@
         "v105_address": "0x43f130"
     },
     {
-        "name": "Car_B0::sub_4403A0",
+        "name": "CarPhysics_B0::sub_4403A0",
         "v96f_address": null,
         "v105_address": "0x4403a0"
     },
@@ -2480,7 +2480,7 @@
         "v105_address": "0x446dc0"
     },
     {
-        "name": "Car_B0::dtor",
+        "name": "CarPhysics_B0::dtor",
         "v96f_address": null,
         "v105_address": "0x446ee0"
     },
@@ -11995,57 +11995,57 @@
         "v105_address": "0x5593f0"
     },
     {
-        "name": "Car_B0::sub_559430",
+        "name": "CarPhysics_B0::sub_559430",
         "v96f_address": null,
         "v105_address": "0x559430"
     },
     {
-        "name": "Car_B0::sub_5597B0",
+        "name": "CarPhysics_B0::sub_5597B0",
         "v96f_address": null,
         "v105_address": "0x5597b0"
     },
     {
-        "name": "Car_B0::sub_5599D0",
+        "name": "CarPhysics_B0::sub_5599D0",
         "v96f_address": null,
         "v105_address": "0x5599d0"
     },
     {
-        "name": "Car_B0::sub_559A40",
+        "name": "CarPhysics_B0::sub_559A40",
         "v96f_address": null,
         "v105_address": "0x559a40"
     },
     {
-        "name": "Car_B0::sub_559B40",
+        "name": "CarPhysics_B0::sub_559B40",
         "v96f_address": null,
         "v105_address": "0x559b40"
     },
     {
-        "name": "Car_B0::sub_559B50",
+        "name": "CarPhysics_B0::sub_559B50",
         "v96f_address": null,
         "v105_address": "0x559b50"
     },
     {
-        "name": "Car_B0::sub_559B90",
+        "name": "CarPhysics_B0::sub_559B90",
         "v96f_address": null,
         "v105_address": "0x559b90"
     },
     {
-        "name": "Car_B0::sub_559BA0",
+        "name": "CarPhysics_B0::sub_559BA0",
         "v96f_address": null,
         "v105_address": "0x559ba0"
     },
     {
-        "name": "Car_B0::sub_559C30",
+        "name": "CarPhysics_B0::sub_559C30",
         "v96f_address": null,
         "v105_address": "0x559c30"
     },
     {
-        "name": "Car_B0::sub_559DD0",
+        "name": "CarPhysics_B0::sub_559DD0",
         "v96f_address": null,
         "v105_address": "0x559dd0"
     },
     {
-        "name": "Car_B0::sub_559E20",
+        "name": "CarPhysics_B0::sub_559E20",
         "v96f_address": null,
         "v105_address": "0x559e20"
     },
@@ -12055,102 +12055,102 @@
         "v105_address": "0x559e90"
     },
     {
-        "name": "Car_B0::sub_559EC0",
+        "name": "CarPhysics_B0::sub_559EC0",
         "v96f_address": null,
         "v105_address": "0x559ec0"
     },
     {
-        "name": "Car_B0::sub_559FF0",
+        "name": "CarPhysics_B0::sub_559FF0",
         "v96f_address": null,
         "v105_address": "0x559ff0"
     },
     {
-        "name": "Car_B0::sub_55A050",
+        "name": "CarPhysics_B0::sub_55A050",
         "v96f_address": null,
         "v105_address": "0x55a050"
     },
     {
-        "name": "Car_B0::sub_55A0B0",
+        "name": "CarPhysics_B0::sub_55A0B0",
         "v96f_address": null,
         "v105_address": "0x55a0b0"
     },
     {
-        "name": "Car_B0::sub_55A100",
+        "name": "CarPhysics_B0::sub_55A100",
         "v96f_address": null,
         "v105_address": "0x55a100"
     },
     {
-        "name": "Car_B0::IsFootBrakeOn_55A150",
+        "name": "CarPhysics_B0::IsFootBrakeOn_55A150",
         "v96f_address": null,
         "v105_address": "0x55a150"
     },
     {
-        "name": "Car_B0::sub_55A180",
+        "name": "CarPhysics_B0::sub_55A180",
         "v96f_address": null,
         "v105_address": "0x55a180"
     },
     {
-        "name": "Car_B0::sub_55A1D0",
+        "name": "CarPhysics_B0::sub_55A1D0",
         "v96f_address": null,
         "v105_address": "0x55a1d0"
     },
     {
-        "name": "Car_B0::sub_55A400",
+        "name": "CarPhysics_B0::sub_55A400",
         "v96f_address": null,
         "v105_address": "0x55a400"
     },
     {
-        "name": "Car_B0::sub_55A4B0",
+        "name": "CarPhysics_B0::sub_55A4B0",
         "v96f_address": null,
         "v105_address": "0x55a4b0"
     },
     {
-        "name": "Car_B0::sub_55A550",
+        "name": "CarPhysics_B0::sub_55A550",
         "v96f_address": null,
         "v105_address": "0x55a550"
     },
     {
-        "name": "Car_B0::sub_55A600",
+        "name": "CarPhysics_B0::sub_55A600",
         "v96f_address": null,
         "v105_address": "0x55a600"
     },
     {
-        "name": "Car_B0::sub_55A6A0",
+        "name": "CarPhysics_B0::sub_55A6A0",
         "v96f_address": null,
         "v105_address": "0x55a6a0"
     },
     {
-        "name": "Car_B0::sub_55A840",
+        "name": "CarPhysics_B0::sub_55A840",
         "v96f_address": null,
         "v105_address": "0x55a840"
     },
     {
-        "name": "Car_B0::sub_55A860",
+        "name": "CarPhysics_B0::sub_55A860",
         "v96f_address": null,
         "v105_address": "0x55a860"
     },
     {
-        "name": "Car_B0::sub_55AA00",
+        "name": "CarPhysics_B0::sub_55AA00",
         "v96f_address": null,
         "v105_address": "0x55aa00"
     },
     {
-        "name": "Car_B0::sub_55AB50",
+        "name": "CarPhysics_B0::sub_55AB50",
         "v96f_address": null,
         "v105_address": "0x55ab50"
     },
     {
-        "name": "Car_B0::sub_55AD90",
+        "name": "CarPhysics_B0::sub_55AD90",
         "v96f_address": null,
         "v105_address": "0x55ad90"
     },
     {
-        "name": "Car_B0::sub_55B3F0",
+        "name": "CarPhysics_B0::sub_55B3F0",
         "v96f_address": null,
         "v105_address": "0x55b3f0"
     },
     {
-        "name": "Car_B0::sub_55B4F0",
+        "name": "CarPhysics_B0::sub_55B4F0",
         "v96f_address": null,
         "v105_address": "0x55b4f0"
     },
@@ -12165,52 +12165,52 @@
         "v105_address": "0x55b7e0"
     },
     {
-        "name": "Car_B0::sub_55B970",
+        "name": "CarPhysics_B0::sub_55B970",
         "v96f_address": null,
         "v105_address": "0x55b970"
     },
     {
-        "name": "Car_B0::sub_55BFE0",
+        "name": "CarPhysics_B0::sub_55BFE0",
         "v96f_address": null,
         "v105_address": "0x55bfe0"
     },
     {
-        "name": "Car_B0::sub_55C150",
+        "name": "CarPhysics_B0::sub_55C150",
         "v96f_address": null,
         "v105_address": "0x55c150"
     },
     {
-        "name": "Car_B0::sub_55C3B0",
+        "name": "CarPhysics_B0::sub_55C3B0",
         "v96f_address": null,
         "v105_address": "0x55c3b0"
     },
     {
-        "name": "Car_B0::sub_55C560",
+        "name": "CarPhysics_B0::sub_55C560",
         "v96f_address": null,
         "v105_address": "0x55c560"
     },
     {
-        "name": "Car_B0::sub_55C5C0",
+        "name": "CarPhysics_B0::sub_55C5C0",
         "v96f_address": null,
         "v105_address": "0x55c5c0"
     },
     {
-        "name": "Car_B0::sub_55C820",
+        "name": "CarPhysics_B0::sub_55C820",
         "v96f_address": null,
         "v105_address": "0x55c820"
     },
     {
-        "name": "Car_B0::sub_55CA70",
+        "name": "CarPhysics_B0::sub_55CA70",
         "v96f_address": null,
         "v105_address": "0x55ca70"
     },
     {
-        "name": "Car_B0::sub_55CBB0",
+        "name": "CarPhysics_B0::sub_55CBB0",
         "v96f_address": null,
         "v105_address": "0x55cbb0"
     },
     {
-        "name": "Car_B0::sub_55D200",
+        "name": "CarPhysics_B0::sub_55D200",
         "v96f_address": null,
         "v105_address": "0x55d200"
     },
@@ -12220,27 +12220,27 @@
         "v105_address": "0x55d490"
     },
     {
-        "name": "Car_B0::sub_55DC00",
+        "name": "CarPhysics_B0::sub_55DC00",
         "v96f_address": null,
         "v105_address": "0x55dc00"
     },
     {
-        "name": "Car_B0::sub_55E260",
+        "name": "CarPhysics_B0::sub_55E260",
         "v96f_address": null,
         "v105_address": "0x55e260"
     },
     {
-        "name": "Car_B0::sub_55E470",
+        "name": "CarPhysics_B0::sub_55E470",
         "v96f_address": null,
         "v105_address": "0x55e470"
     },
     {
-        "name": "Car_B0::sub_55EB80",
+        "name": "CarPhysics_B0::sub_55EB80",
         "v96f_address": null,
         "v105_address": "0x55eb80"
     },
     {
-        "name": "Car_B0::sub_55EC30",
+        "name": "CarPhysics_B0::sub_55EC30",
         "v96f_address": null,
         "v105_address": "0x55ec30"
     },
@@ -12250,32 +12250,32 @@
         "v105_address": "0x55eee0"
     },
     {
-        "name": "Car_B0::sub_55EF20",
+        "name": "CarPhysics_B0::sub_55EF20",
         "v96f_address": null,
         "v105_address": "0x55ef20"
     },
     {
-        "name": "Car_B0::sub_55F020",
+        "name": "CarPhysics_B0::sub_55F020",
         "v96f_address": null,
         "v105_address": "0x55f020"
     },
     {
-        "name": "Car_B0::sub_55F240",
+        "name": "CarPhysics_B0::sub_55F240",
         "v96f_address": null,
         "v105_address": "0x55f240"
     },
     {
-        "name": "Car_B0::sub_55F280",
+        "name": "CarPhysics_B0::sub_55F280",
         "v96f_address": null,
         "v105_address": "0x55f280"
     },
     {
-        "name": "Car_B0::sub_55F330",
+        "name": "CarPhysics_B0::sub_55F330",
         "v96f_address": null,
         "v105_address": "0x55f330"
     },
     {
-        "name": "Car_B0::sub_55F360",
+        "name": "CarPhysics_B0::sub_55F360",
         "v96f_address": null,
         "v105_address": "0x55f360"
     },
@@ -12285,32 +12285,32 @@
         "v105_address": "0x55f3b0"
     },
     {
-        "name": "Car_B0::sub_55F740",
+        "name": "CarPhysics_B0::sub_55F740",
         "v96f_address": null,
         "v105_address": "0x55f740"
     },
     {
-        "name": "Car_B0::sub_55F7A0",
+        "name": "CarPhysics_B0::sub_55F7A0",
         "v96f_address": null,
         "v105_address": "0x55f7a0"
     },
     {
-        "name": "Car_B0::sub_55F800",
+        "name": "CarPhysics_B0::sub_55F800",
         "v96f_address": null,
         "v105_address": "0x55f800"
     },
     {
-        "name": "Car_B0::sub_55F930",
+        "name": "CarPhysics_B0::sub_55F930",
         "v96f_address": null,
         "v105_address": "0x55f930"
     },
     {
-        "name": "Car_B0::sub_55F970",
+        "name": "CarPhysics_B0::sub_55F970",
         "v96f_address": null,
         "v105_address": "0x55f970"
     },
     {
-        "name": "Car_B0::sub_55F9A0",
+        "name": "CarPhysics_B0::sub_55F9A0",
         "v96f_address": null,
         "v105_address": "0x55f9a0"
     },
@@ -12320,27 +12320,27 @@
         "v105_address": "0x55f9e0"
     },
     {
-        "name": "Car_B0::sub_55FA10",
+        "name": "CarPhysics_B0::sub_55FA10",
         "v96f_address": null,
         "v105_address": "0x55fa10"
     },
     {
-        "name": "Car_B0::sub_55FA60",
+        "name": "CarPhysics_B0::sub_55FA60",
         "v96f_address": null,
         "v105_address": "0x55fa60"
     },
     {
-        "name": "Car_B0::sub_55FC30",
+        "name": "CarPhysics_B0::sub_55FC30",
         "v96f_address": null,
         "v105_address": "0x55fc30"
     },
     {
-        "name": "Car_B0::sub_55FD00",
+        "name": "CarPhysics_B0::sub_55FD00",
         "v96f_address": null,
         "v105_address": "0x55fd00"
     },
     {
-        "name": "Car_B0::sub_55FF20",
+        "name": "CarPhysics_B0::sub_55FF20",
         "v96f_address": null,
         "v105_address": "0x55ff20"
     },
@@ -12355,47 +12355,47 @@
         "v105_address": "0x560680"
     },
     {
-        "name": "Car_B0::sub_5606C0",
+        "name": "CarPhysics_B0::sub_5606C0",
         "v96f_address": null,
         "v105_address": "0x5606c0"
     },
     {
-        "name": "Car_B0::sub_560B40",
+        "name": "CarPhysics_B0::sub_560B40",
         "v96f_address": null,
         "v105_address": "0x560b40"
     },
     {
-        "name": "Car_B0::sub_560EB0",
+        "name": "CarPhysics_B0::sub_560EB0",
         "v96f_address": null,
         "v105_address": "0x560eb0"
     },
     {
-        "name": "Car_B0::sub_560F20",
+        "name": "CarPhysics_B0::sub_560F20",
         "v96f_address": null,
         "v105_address": "0x560f20"
     },
     {
-        "name": "Car_B0::sub_5610B0",
+        "name": "CarPhysics_B0::sub_5610B0",
         "v96f_address": null,
         "v105_address": "0x5610b0"
     },
     {
-        "name": "Car_B0::sub_561130",
+        "name": "CarPhysics_B0::sub_561130",
         "v96f_address": null,
         "v105_address": "0x561130"
     },
     {
-        "name": "Car_B0::sub_561350",
+        "name": "CarPhysics_B0::sub_561350",
         "v96f_address": null,
         "v105_address": "0x561350"
     },
     {
-        "name": "Car_B0::sub_561380",
+        "name": "CarPhysics_B0::sub_561380",
         "v96f_address": null,
         "v105_address": "0x561380"
     },
     {
-        "name": "Car_B0::sub_5615D0",
+        "name": "CarPhysics_B0::sub_5615D0",
         "v96f_address": null,
         "v105_address": "0x5615d0"
     },
@@ -12405,12 +12405,12 @@
         "v105_address": "0x5618f0"
     },
     {
-        "name": "Car_B0::get_revs",
+        "name": "CarPhysics_B0::get_revs",
         "v96f_address": null,
         "v105_address": "0x561940"
     },
     {
-        "name": "Car_B0::sub_561970",
+        "name": "CarPhysics_B0::sub_561970",
         "v96f_address": null,
         "v105_address": "0x561970"
     },
@@ -12420,17 +12420,17 @@
         "v105_address": "0x561db0"
     },
     {
-        "name": "Car_B0::sub_561DD0",
+        "name": "CarPhysics_B0::sub_561DD0",
         "v96f_address": null,
         "v105_address": "0x561dd0"
     },
     {
-        "name": "Car_B0::sub_561E50",
+        "name": "CarPhysics_B0::sub_561E50",
         "v96f_address": null,
         "v105_address": "0x561e50"
     },
     {
-        "name": "Car_B0::sub_5620D0",
+        "name": "CarPhysics_B0::sub_5620D0",
         "v96f_address": null,
         "v105_address": "0x5620d0"
     },
@@ -12440,142 +12440,142 @@
         "v105_address": "0x562430"
     },
     {
-        "name": "Car_B0::sub_562450",
+        "name": "CarPhysics_B0::sub_562450",
         "v96f_address": null,
         "v105_address": "0x562450"
     },
     {
-        "name": "Car_B0::sub_562480",
+        "name": "CarPhysics_B0::sub_562480",
         "v96f_address": null,
         "v105_address": "0x562480"
     },
     {
-        "name": "Car_B0::sub_5624F0",
+        "name": "CarPhysics_B0::sub_5624F0",
         "v96f_address": null,
         "v105_address": "0x5624f0"
     },
     {
-        "name": "Car_B0::sub_562560",
+        "name": "CarPhysics_B0::sub_562560",
         "v96f_address": null,
         "v105_address": "0x562560"
     },
     {
-        "name": "Car_B0::sub_5626A0",
+        "name": "CarPhysics_B0::sub_5626A0",
         "v96f_address": null,
         "v105_address": "0x5626a0"
     },
     {
-        "name": "Car_B0::sub_5626C0",
+        "name": "CarPhysics_B0::sub_5626C0",
         "v96f_address": null,
         "v105_address": "0x5626c0"
     },
     {
-        "name": "Car_B0::sub_5626F0",
+        "name": "CarPhysics_B0::sub_5626F0",
         "v96f_address": null,
         "v105_address": "0x5626f0"
     },
     {
-        "name": "Car_B0::sub_562910",
+        "name": "CarPhysics_B0::sub_562910",
         "v96f_address": null,
         "v105_address": "0x562910"
     },
     {
-        "name": "Car_B0::sub_562C20",
+        "name": "CarPhysics_B0::sub_562C20",
         "v96f_address": null,
         "v105_address": "0x562c20"
     },
     {
-        "name": "Car_B0::sub_562D00",
+        "name": "CarPhysics_B0::sub_562D00",
         "v96f_address": null,
         "v105_address": "0x562d00"
     },
     {
-        "name": "Car_B0::sub_562EB0",
+        "name": "CarPhysics_B0::sub_562EB0",
         "v96f_address": null,
         "v105_address": "0x562eb0"
     },
     {
-        "name": "Car_B0::sub_562ED0",
+        "name": "CarPhysics_B0::sub_562ED0",
         "v96f_address": null,
         "v105_address": "0x562ed0"
     },
     {
-        "name": "Car_B0::sub_562EF0",
+        "name": "CarPhysics_B0::sub_562EF0",
         "v96f_address": null,
         "v105_address": "0x562ef0"
     },
     {
-        "name": "Car_B0::sub_562F30",
+        "name": "CarPhysics_B0::sub_562F30",
         "v96f_address": null,
         "v105_address": "0x562f30"
     },
     {
-        "name": "Car_B0::sub_562FA0",
+        "name": "CarPhysics_B0::sub_562FA0",
         "v96f_address": null,
         "v105_address": "0x562fa0"
     },
     {
-        "name": "Car_B0::sub_562FE0",
+        "name": "CarPhysics_B0::sub_562FE0",
         "v96f_address": null,
         "v105_address": "0x562fe0"
     },
     {
-        "name": "Car_B0::sub_563280",
+        "name": "CarPhysics_B0::sub_563280",
         "v96f_address": null,
         "v105_address": "0x563280"
     },
     {
-        "name": "Car_B0::sub_563350",
+        "name": "CarPhysics_B0::sub_563350",
         "v96f_address": null,
         "v105_address": "0x563350"
     },
     {
-        "name": "Car_B0::sub_563460",
+        "name": "CarPhysics_B0::sub_563460",
         "v96f_address": null,
         "v105_address": "0x563460"
     },
     {
-        "name": "Car_B0::sub_563560",
+        "name": "CarPhysics_B0::sub_563560",
         "v96f_address": null,
         "v105_address": "0x563560"
     },
     {
-        "name": "Car_B0::sub_563590",
+        "name": "CarPhysics_B0::sub_563590",
         "v96f_address": null,
         "v105_address": "0x563590"
     },
     {
-        "name": "Car_B0::sub_563670",
+        "name": "CarPhysics_B0::sub_563670",
         "v96f_address": null,
         "v105_address": "0x563670"
     },
     {
-        "name": "Car_B0::sub_5636C0",
+        "name": "CarPhysics_B0::sub_5636C0",
         "v96f_address": null,
         "v105_address": "0x5636c0"
     },
     {
-        "name": "Car_B0::sub_5636E0",
+        "name": "CarPhysics_B0::sub_5636E0",
         "v96f_address": null,
         "v105_address": "0x5636e0"
     },
     {
-        "name": "Car_B0::Init_5637A0",
+        "name": "CarPhysics_B0::Init_5637A0",
         "v96f_address": null,
         "v105_address": "0x5637a0"
     },
     {
-        "name": "Car_B0::Reset_563890",
+        "name": "CarPhysics_B0::Reset_563890",
         "v96f_address": null,
         "v105_address": "0x563890"
     },
     {
-        "name": "Car_B0::sub_5638C0",
+        "name": "CarPhysics_B0::sub_5638C0",
         "v96f_address": null,
         "v105_address": "0x5638c0"
     },
     {
-        "name": "Car_B0::ctor",
+        "name": "CarPhysics_B0::ctor",
         "v96f_address": null,
         "v105_address": "0x563900"
     },

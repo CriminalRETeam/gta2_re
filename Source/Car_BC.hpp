@@ -17,7 +17,7 @@ class Camera_0xBC;
 class Object_2C;
 class Fix16_Rect;
 class Car_78;
-class Car_B0;
+class CarPhysics_B0;
 class Trailer;
 //class Sprite;
 class Ped;
@@ -443,7 +443,7 @@ class Car_BC
     EXPORT char_type
     sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void sub_4419E0();
-    EXPORT Car_B0* sub_441A10();
+    EXPORT CarPhysics_B0* sub_441A10();
     EXPORT char_type sub_441A40();
     EXPORT void sub_441A70();
     EXPORT void sub_441B00();
@@ -674,7 +674,7 @@ class Car_BC
     Car_BC* field_4C_next;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    Car_B0* field_58_physics;
+    CarPhysics_B0* field_58_physics;
     Car_78* field_5C;
     Hamburger_40* field_60;
     Trailer* field_64_pTrailer;
