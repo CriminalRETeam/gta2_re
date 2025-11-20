@@ -378,7 +378,7 @@ void Player::sub_565310()
 MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
-    Car_BC* pCar = gCar_6C_677930->sub_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
+    Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
                                               field_14C_view_camera.field_98_cam_pos2.field_4_y,
                                               field_14C_view_camera.field_98_cam_pos2.field_8_z,
                                               0);
@@ -765,8 +765,6 @@ void Player::sub_566EE0(char_type bDoNothing)
 MATCH_FUNC(0x5670B0)
 void Player::RespawnPlayer_5670B0()
 {
-    const char_type restart_zone_type = 16;
-
     if (!(u8)bStartNetworkGame_7081F0 && !field_640)
     {
         Player::ChangeLifeCountByAmount_5699F0(-1);
@@ -782,9 +780,9 @@ void Player::RespawnPlayer_5670B0()
         {
             s32 y_pos = field_2C4_player_ped->field_1AC_cam.y.ToInt();
             s32 x_pos = field_2C4_player_ped->field_1AC_cam.x.ToInt();
-            pZone = gMap_0x370_6F6268->GetNearestZoneOfType_4DF240(x_pos, y_pos, restart_zone_type);
+            pZone = gMap_0x370_6F6268->GetNearestZoneOfType_4DF240(x_pos, y_pos, Restart_16);
         }
-        field_2C4_player_ped->sub_45C350(pZone);
+        field_2C4_player_ped->RespawnPed_45C350(pZone);
     }
 }
 
@@ -828,14 +826,14 @@ void Player::Wasted_567130()
         {
             if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
             {
-                gGarox_2B00_706620->field_111C.sub_5D1A00( //  It's really ugly, it's probably inlined
+                gGarox_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
                 gRoot_sound_66B038.PlayVoice_40F090(29);
             }
             else
             {
-                gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
                 gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }
@@ -926,15 +924,15 @@ void Player::Busted_5679E0()
 }
 
 MATCH_FUNC(0x568520)
-void Player::sub_568520()
+void Player::UpdateCurrentZones_568520()
 {
     const Ped* pPed = field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
-    field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
-    field_3C = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 1u);
-    field_40 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 5u);
-    field_34_pObj = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
+    field_38_local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
+    field_3C_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
+    field_40_arrow_blocker_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
+    field_34_gang_curr_location = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
 }
 
 MATCH_FUNC(0x568630)
@@ -1330,9 +1328,9 @@ Player::~Player()
     field_2C4_player_ped = 0;
     field_2C8_unkq = 0;
     field_2CC = 0;
-    field_34_pObj = 0;
-    field_38 = 0;
-    field_3C = 0;
+    field_34_gang_curr_location = 0;
+    field_38_local_navigation_zone = 0;
+    field_3C_navigation_zone = 0;
     local_field_54_unk[0] = 0;
     local_field_54_unk[1] = 0;
     local_field_54_unk[2] = 0;

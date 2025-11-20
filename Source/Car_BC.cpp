@@ -38,7 +38,7 @@ DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_66AB78, 0x66AB78);
-DEFINE_GLOBAL(CarInfo_48*, gCarInfo_48_66AB70, 0x66AB70);
+DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
 DEFINE_GLOBAL(struct_4, stru_67737C, 0x67737c);
 
@@ -419,7 +419,7 @@ Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
 }
 
 STUB_FUNC(0x444fa0)
-Car_BC* Car_6C::sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+Car_BC* Car_6C::GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -440,7 +440,7 @@ Car_BC* Car_6C::sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2)
 }
 
 STUB_FUNC(0x446230)
-Car_BC* Car_6C::sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
+Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -683,21 +683,23 @@ Car_6C::~Car_6C()
 }
 
 MATCH_FUNC(0x439ec0)
-bool Car_BC::sub_439EC0()
+bool Car_BC::IsPoliceCar_439EC0()
 {
-    bool b = field_84_car_info_idx == 12 || field_84_car_info_idx == 52 || field_84_car_info_idx == 84;
+    bool b = field_84_car_info_idx == car_model_enum::COPCAR 
+        || field_84_car_info_idx == car_model_enum::SWATVAN 
+        || field_84_car_info_idx == car_model_enum::EDSELFBI;
     return b;
 }
 
 STUB_FUNC(0x439ee0)
-u32* Car_BC::sub_439EE0(u32* a2)
+u32* Car_BC::GetDamageFactorOnSpeed_439EE0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x439f30)
-u32* Car_BC::sub_439F30(u32* a2)
+u32* Car_BC::GetMaxSpeed_439F30(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -734,7 +736,7 @@ u32* Car_BC::sub_43A120(u32* a2)
 MATCH_FUNC(0x43a1d0)
 Fix16 Car_BC::get_anti_strngth_43A1D0()
 {
-    return gCarInfo_808_678098->sub_4546B0(field_84_car_info_idx)->field_2C_anti_strngth;
+    return gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_84_car_info_idx)->field_2C_anti_strngth;
 }
 
 MATCH_FUNC(0x43a1f0)
@@ -761,7 +763,7 @@ Fix16 Car_BC::sub_43A240()
 }
 
 MATCH_FUNC(0x43a3c0)
-bool Car_BC::sub_43A3C0()
+bool Car_BC::IsCarInAir_43A3C0()
 {
     if (!field_58_physics)
     {

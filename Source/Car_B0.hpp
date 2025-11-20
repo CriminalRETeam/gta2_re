@@ -10,7 +10,7 @@ class Car_BC;
 class Trailer;
 class Sprite_4C;
 class Ped;
-class CarInfo_48;
+class ModelPhysics_48;
 class CarInfo_2C;
 class Car_78;
 
@@ -106,7 +106,7 @@ class Car_B0
     EXPORT void sub_562910();
     EXPORT void sub_562C20(Ang16& a2);
     EXPORT void sub_562D00();
-    EXPORT CarInfo_48* sub_562EB0();
+    EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();
     EXPORT s32 sub_562EF0();
     EXPORT s32 sub_562F30();

@@ -199,10 +199,10 @@ class Car_6C
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
     EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
-    EXPORT Car_BC* sub_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
+    EXPORT Car_BC* GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_445210(Sprite *a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
-    EXPORT Car_BC* sub_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
+    EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
     EXPORT void sub_446730(Car_BC *pCar);
 
@@ -217,19 +217,19 @@ class Car_6C
     // 9.6f inlined
     inline Car_BC* sub_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
-        return sub_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F77C4);
     }
 
     // 9.6f inlined
     inline Car_BC* sub_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
-        return sub_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F7690);
+        return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, dword_6F7690);
     }
 
     // unknown inlined function
     inline Car_BC* sub_446230_shortened(s32 car_info_idx)
     {
-        return sub_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
+        return SpawnCarAt_446230(dword_6F77D4, dword_6F77D4, dword_6F77C0, dword_6F804C, car_info_idx, dword_6F77C4);
     }
 
     Car_2 field_0;
@@ -315,9 +315,9 @@ class Trailer
 class Car_BC
 {
   public:
-    EXPORT bool sub_439EC0();
-    EXPORT u32* sub_439EE0(u32* a2);
-    EXPORT u32* sub_439F30(u32* a2);
+    EXPORT bool IsPoliceCar_439EC0();
+    EXPORT u32* GetDamageFactorOnSpeed_439EE0(u32* a2);
+    EXPORT u32* GetMaxSpeed_439F30(u32* a2);
     EXPORT wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
     EXPORT u32* sub_43A0E0(u32* a2);
@@ -326,7 +326,7 @@ class Car_BC
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
     EXPORT Fix16 sub_43A240();
-    EXPORT bool sub_43A3C0();
+    EXPORT bool IsCarInAir_43A3C0();
     EXPORT s16* sub_43A3E0(s16* a2);
     EXPORT u32* sub_43A450(u32* a2);
     EXPORT Fix16 sub_43A4C0();

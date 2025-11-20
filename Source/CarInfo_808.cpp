@@ -23,7 +23,7 @@ DEFINE_GLOBAL(Fix16, dword_677D74, 0x677D74);
 DEFINE_GLOBAL(Fix16, DAT_6761A4, 0x6761a4);
 
 MATCH_FUNC(0x454680)
-void CarInfo_48::sub_454680()
+void ModelPhysics_48::sub_454680()
 {
     field_4_mass = field_4_mass * (dword_677D74 + dword_677F54);
 }
@@ -112,7 +112,7 @@ s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
 STUB_FUNC(0x430a30)
 char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
                                                    size_t input_size,
-                                                   CarInfo_48* output,
+                                                   ModelPhysics_48* output,
                                                    size_t output_size,
                                                    u32* next_position)
 {
@@ -292,9 +292,9 @@ void CarInfo_2C::sub_4542A0(s32 idx)
 }
 
 MATCH_FUNC(0x4546b0)
-CarInfo_48* CarInfo_808::sub_4546B0(u8 a2)
+ModelPhysics_48* CarInfo_808::GetModelPhysicsFromIdx_4546B0(u8 model_idx)
 {
-    return field_404_ptr_array[a2];
+    return field_404_model_physics_array[model_idx];
 }
 
 MATCH_FUNC(0x4546d0)
@@ -305,7 +305,7 @@ void CarInfo_808::sub_4546D0()
     size_t file_size;
     void* file_content = File::ReadFileToBuffer_4A6C80(file_name_677EC4, &file_size);
 
-    field_804_raw_data = new CarInfo_48[number_of_cars];
+    field_804_raw_data = new ModelPhysics_48[number_of_cars];
 
     char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
 
@@ -331,8 +331,8 @@ void CarInfo_808::sub_4546D0()
 
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        CarInfo_48* pMVar5 = field_804_raw_data + i;
-        field_404_ptr_array[pMVar5->field_0_model] = pMVar5;
+        ModelPhysics_48* pMVar5 = field_804_raw_data + i;
+        field_404_model_physics_array[pMVar5->field_0_model] = pMVar5;
     }
 }
 
@@ -397,7 +397,7 @@ void CarInfo_808::sub_454A80()
 {
     for (int i = 0; i < 0x100; i++)
     {
-        field_404_ptr_array[i] = NULL;
+        field_404_model_physics_array[i] = NULL;
         field_0_ptr_array[i] = NULL;
     }
 }

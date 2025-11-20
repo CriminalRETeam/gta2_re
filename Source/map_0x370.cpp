@@ -537,7 +537,7 @@ gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 MATCH_FUNC(0x4DFB50)
 Gang_144* Map_0x370::GetGangAtCoords_4DFB50(Fix16 x, Fix16 y)
 {
-    gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), 0xEu);
+    gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), Gang_14);
     if (pZone)
     {
         return gGangPool_CA8_67E274->gang_by_name_4BF100(pZone->field_6_name);
@@ -573,7 +573,7 @@ void Map_0x370::sub_4DFB90()
 MATCH_FUNC(0x4DFCA0)
 void Map_0x370::alloc_zones_4DFCA0()
 {
-    gmp_map_zone* pZoneIter = first_zone_by_type_4DF1D0(14);
+    gmp_map_zone* pZoneIter = first_zone_by_type_4DF1D0(Gang_14);
     while (pZoneIter)
     {
         gGangPool_CA8_67E274->alloc_gang_for_map_zone_4BF1E0(pZoneIter);

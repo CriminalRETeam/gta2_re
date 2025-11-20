@@ -255,7 +255,7 @@ void Garox_4::sub_5CF620()
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
     gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
+    gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
 
 MATCH_FUNC(0x5cf6b0)
@@ -272,7 +272,7 @@ void Garox_4::sub_5CF6B0()
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
     gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gGarox_2B00_706620->field_111C.sub_5D1A00(tmpBuff_67BD9C, 3);
+    gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
 
 // ----------------------------------------------------
@@ -304,11 +304,11 @@ void Hud_Message_1C8::DrawMessage_5D1940()
 }
 
 MATCH_FUNC(0x5d1a00)
-void Hud_Message_1C8::sub_5D1A00(wchar_t* pStr, s32 a3)
+void Hud_Message_1C8::ShowMessage_5D1A00(wchar_t* pStr, s32 type)
 {
-    if (field_0_time_to_show <= 0 || a3 >= field_1C4_type)
+    if (field_0_time_to_show <= 0 || type >= field_1C4_type)
     {
-        field_1C4_type = a3;
+        field_1C4_type = type;
         wcscpy(field_2_str, pStr);
         gText_0x14_704DFC->sub_5B5B80(field_2_str);
         field_0_time_to_show = 90;
@@ -607,7 +607,7 @@ void Garox_27B5_sub::sub_5CF970()
             pPed = field_38_orf1->field_2C4_player_ped;
         }
 
-        Gang_144* pZone = field_38_orf1->field_34_pObj;
+        Gang_144* pZone = field_38_orf1->field_34_gang_curr_location;
         wchar_t* pZoneName;
         if (pZone)
         {
@@ -1171,10 +1171,10 @@ bool Hud_Arrow_7C::sub_5D0530()
                 return false;
             }
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            Gang_144* pZone144 = pPlayer->field_34_pObj;
+            Gang_144* pZone144 = pPlayer->field_34_gang_curr_location;
             if (pZone144)
             {
-                if (pPlayer->field_40)
+                if (pPlayer->field_40_arrow_blocker_zone)
                 {
                     pZone144 = 0;
                 }
@@ -1854,8 +1854,8 @@ void Hud_MapZone_98::sub_5D5B60()
     u8 z;
 
     gGame_0x40_67E008->field_38_orf1->sub_569840(x, y, z);
-    gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1); // navigation zone
-    gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15); // local navigation zone
+    gmp_map_zone* navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Navigation_1);
+    gmp_map_zone* local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, Local_Navigation_15);
 
     if (navigation_zone || local_navigation_zone)
     {

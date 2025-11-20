@@ -174,7 +174,7 @@ void force_link()
     lewin.Wasted_567130();
     lewin.sub_567850();
     lewin.Busted_5679E0();
-    lewin.sub_568520();
+    lewin.UpdateCurrentZones_568520();
     lewin.sub_568630();
     lewin.sub_568670();
     lewin.sub_5686D0(0);

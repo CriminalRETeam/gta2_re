@@ -247,7 +247,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
 }
 
 STUB_FUNC(0x5127a0)
-void frosty_pasteur_0xC1EA8::sub_5127A0()
+void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {
     NOT_IMPLEMENTED;
 }

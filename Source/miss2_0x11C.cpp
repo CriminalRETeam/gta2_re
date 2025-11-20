@@ -967,7 +967,7 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
 MATCH_FUNC(0x5051d0)
 void miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1)
 {
-    gRoot_sound_66B038.sub_40F030(a1->field_10_station_type, a1->field_8_pos.field_0_x, a1->field_8_pos.field_4_y);
+    gRoot_sound_66B038.DeclareRadioStation_40F030(a1->field_10_station_type, a1->field_8_pos.field_0_x, a1->field_8_pos.field_4_y);
 }
 
 MATCH_FUNC(0x505210)
@@ -1706,7 +1706,7 @@ void miss2_0x11C::sub_5093C0()
     switch (v1->field_2_type)
     {
         case SCRCMD_DISPLAY_MESSAGE:
-            gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
+            gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
             gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
@@ -4915,7 +4915,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
 }
 
 MATCH_FUNC(0x511840)
-char_type miss2_0x11C::sub_511840()
+char_type miss2_0x11C::Service_511840()
 { //  return boolean: true if it has reached LEVELEND, false otherwise
     SCR_CMD_HEADER* BasePointer_512770;
     bool v4;

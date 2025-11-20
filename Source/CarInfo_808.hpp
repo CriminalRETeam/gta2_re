@@ -3,7 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class CarInfo_48
+class ModelPhysics_48
 {
   public:
     u8 field_0_model;
@@ -35,7 +35,7 @@ class CarInfo_48
 
     EXPORT void sub_454680();
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_48, 0x48);
+GTA2_ASSERT_SIZEOF_ALWAYS(ModelPhysics_48, 0x48);
 
 class CarInfo_2C
 {
@@ -61,7 +61,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 class CarInfo_808
 {
   public:
-    EXPORT CarInfo_48* sub_4546B0(u8 a2);
+    EXPORT ModelPhysics_48* GetModelPhysicsFromIdx_4546B0(u8 model_idx);
     EXPORT void sub_4546D0();
     EXPORT CarInfo_2C* sub_454840(u8 idx);
     EXPORT void sub_454850();
@@ -75,7 +75,7 @@ class CarInfo_808
 
     EXPORT static char* __stdcall parse_gci_file_430A30(void* input,
                                                         size_t input_size,
-                                                        CarInfo_48* output,
+                                                        ModelPhysics_48* output,
                                                         size_t output_size,
                                                         u32* next_position);
     EXPORT static s32 __stdcall sub_430b10(char* param_1);
@@ -88,8 +88,8 @@ class CarInfo_808
 
     CarInfo_2C* field_0_ptr_array[256];
     CarInfo_2C* field_400_raw_data;
-    CarInfo_48* field_404_ptr_array[256];
-    CarInfo_48* field_804_raw_data;
+    ModelPhysics_48* field_404_model_physics_array[256];
+    ModelPhysics_48* field_804_raw_data;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
 

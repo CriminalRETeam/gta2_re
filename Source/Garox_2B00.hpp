@@ -89,7 +89,7 @@ class Hud_Message_1C8
     EXPORT void sub_5D1850();
     EXPORT void sub_5D1860();
     EXPORT void DrawMessage_5D1940();
-    EXPORT void sub_5D1A00(wchar_t* pStr, s32 a3);
+    EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 a3);
     EXPORT void sub_5D1AB0();
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;

@@ -557,7 +557,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT void sub_512400(s32 String1, u16* a3);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
-    EXPORT void sub_5127A0();
+    EXPORT void ExecuteScriptThreads_5127A0();
     EXPORT s32* sub_5128A0(s32 a2, s32 a3);
     EXPORT s32* sub_5128D0(s32 a2, s32 a3, s16 a4);
     EXPORT char_type sub_512910(s32 a2, s32 a3);

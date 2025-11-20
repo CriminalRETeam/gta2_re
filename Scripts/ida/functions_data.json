@@ -375,12 +375,12 @@
         "v105_address": "0x40f020"
     },
     {
-        "name": "root_sound::sub_40F030",
+        "name": "root_sound::DeclareRadioStation_40F030",
         "v96f_address": null,
         "v105_address": "0x40f030"
     },
     {
-        "name": "root_sound::sub_40F050",
+        "name": "root_sound::RemoveSound_40F050",
         "v96f_address": null,
         "v105_address": "0x40f050"
     },
@@ -1415,17 +1415,17 @@
         "v105_address": "0x439ea0"
     },
     {
-        "name": "Car_BC::sub_439EC0",
+        "name": "Car_BC::IsPoliceCar_439EC0",
         "v96f_address": null,
         "v105_address": "0x439ec0"
     },
     {
-        "name": "Car_BC::sub_439EE0",
+        "name": "Car_BC::GetDamageFactorOnSpeed_439EE0",
         "v96f_address": null,
         "v105_address": "0x439ee0"
     },
     {
-        "name": "Car_BC::sub_439F30",
+        "name": "Car_BC::GetMaxSpeed_439F30",
         "v96f_address": null,
         "v105_address": "0x439f30"
     },
@@ -1470,7 +1470,7 @@
         "v105_address": "0x43a240"
     },
     {
-        "name": "Car_BC::sub_43A3C0",
+        "name": "Car_BC::IsCarInAir_43A3C0",
         "v96f_address": null,
         "v105_address": "0x43a3c0"
     },
@@ -2390,7 +2390,7 @@
         "v105_address": "0x444f80"
     },
     {
-        "name": "Car_6C::sub_444FA0",
+        "name": "Car_6C::GetNearestCarFromCoord_444FA0",
         "v96f_address": null,
         "v105_address": "0x444fa0"
     },
@@ -2430,7 +2430,7 @@
         "v105_address": "0x445ec0"
     },
     {
-        "name": "Car_6C::sub_446230",
+        "name": "Car_6C::SpawnCarAt_446230",
         "v96f_address": null,
         "v105_address": "0x446230"
     },
@@ -2750,7 +2750,7 @@
         "v105_address": "0x454680"
     },
     {
-        "name": "CarInfo_808::sub_4546B0",
+        "name": "CarInfo_808::GetModelPhysicsFromIdx_4546B0",
         "v96f_address": null,
         "v105_address": "0x4546b0"
     },
@@ -2980,7 +2980,7 @@
         "v105_address": "0x45c310"
     },
     {
-        "name": "Ped::sub_45C350",
+        "name": "Ped::RespawnPed_45C350",
         "v96f_address": null,
         "v105_address": "0x45c350"
     },
@@ -9530,7 +9530,7 @@
         "v105_address": "0x5108d0"
     },
     {
-        "name": "miss2_0x11C::sub_511840",
+        "name": "miss2_0x11C::Service_511840",
         "v96f_address": null,
         "v105_address": "0x511840"
     },
@@ -9645,7 +9645,7 @@
         "v105_address": "0x512770"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_5127A0",
+        "name": "frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0",
         "v96f_address": null,
         "v105_address": "0x5127a0"
     },
@@ -12795,7 +12795,7 @@
         "v105_address": "0x5679e0"
     },
     {
-        "name": "Player::sub_568520",
+        "name": "Player::UpdateCurrentZones_568520",
         "v96f_address": null,
         "v105_address": "0x568520"
     },
@@ -16205,7 +16205,7 @@
         "v105_address": "0x5d1940"
     },
     {
-        "name": "Garox_1C8::sub_5D1A00",
+        "name": "Hud_Message_1C8::ShowMessage_5D1A00",
         "v96f_address": null,
         "v105_address": "0x5d1a00"
     },

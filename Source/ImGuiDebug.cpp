@@ -246,7 +246,7 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                pNewCar = gCar_6C_677930->sub_446230(pPlayerSprite->field_14_xpos.x + xOff,
+                pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
                                                              pPlayerSprite->field_14_xpos.y,
                                                              pPlayerSprite->field_1C_zpos,
                                                              0,

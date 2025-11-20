@@ -535,7 +535,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (!bSkip_mission_67D4E5)
     {
-        gfrosty_pasteur_6F8060->sub_5127A0(); // missions
+        gfrosty_pasteur_6F8060->ExecuteScriptThreads_5127A0(); // missions
     }
 
     gKfc_1E0_706280->sub_5CBBD0();

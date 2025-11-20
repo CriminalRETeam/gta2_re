@@ -113,7 +113,7 @@ class Player
     EXPORT void Wasted_567130();
     EXPORT void sub_567850();
     EXPORT void Busted_5679E0();
-    EXPORT void sub_568520();
+    EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
     EXPORT void sub_5686D0(Camera_0xBC* pCam);
@@ -179,10 +179,10 @@ class Player
     char_type field_31_kf_weapon_mode;
     char_type field_32;
     char_type field_33;
-    Gang_144* field_34_pObj;
-    gmp_map_zone* field_38;
-    gmp_map_zone* field_3C;
-    gmp_map_zone* field_40;
+    Gang_144* field_34_gang_curr_location;
+    gmp_map_zone* field_38_local_navigation_zone;
+    gmp_map_zone* field_3C_navigation_zone;
+    gmp_map_zone* field_40_arrow_blocker_zone;
     s32 field_44_death_type;
     char_type field_48_bDbg_cam_follow_player;
     char_type field_49;

@@ -440,7 +440,7 @@ void Ped::sub_45C310()
 }
 
 STUB_FUNC(0x45c350)
-void Ped::sub_45C350(gmp_map_zone* a2)
+void Ped::RespawnPed_45C350(gmp_map_zone* a2)
 {
     NOT_IMPLEMENTED;
 }
