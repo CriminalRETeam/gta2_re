@@ -75,7 +75,7 @@ class TrainStation_34
     char_type field_33;
 };
 
-class Sero_181C
+class PublicTransport_181C
 {
   public:
     EXPORT Train_58* AllocateTrain_578790();
@@ -100,16 +100,16 @@ class Sero_181C
     EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* a2);
     EXPORT Train_58* sub_57B6A0(Car_BC* a2);
     EXPORT bool sub_57B740(Car_BC* a2, Car_BC* a3);
-    EXPORT Sero_181C();
-    EXPORT ~Sero_181C();
+    EXPORT PublicTransport_181C();
+    EXPORT ~PublicTransport_181C();
 
     TrainStation_34 field_0[100];
-    Train_58 field_1450[10];
-    Train_58 field_17C0;
+    Train_58 field_1450_train_array[10];
+    Train_58 field_17C0_bus;
     char_type field_1818_stop_getting_off_bus;
     char_type field_1819;
     char_type field_181A;
     char_type field_181B;
 };
 
-EXTERN_GLOBAL(Sero_181C*, gSero_181C_6FF1D4);
+EXTERN_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4);

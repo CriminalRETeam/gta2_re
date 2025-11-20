@@ -27,7 +27,7 @@
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
-EXTERN_GLOBAL(FirefighterPool_54*, gTango_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
 Object_2C* spawned_obj = NULL;
@@ -134,11 +134,11 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("gTango_54_67D4C0"))
     {
-        if (gTango_54_67D4C0)
+        if (gFirefighterPool_54_67D4C0)
         {
             if (ImGui::Button("sub_4A8820"))
             {
-                gTango_54_67D4C0->sub_4A8820(0);
+                gFirefighterPool_54_67D4C0->sub_4A8820(0);
             }
         }
         ImGui::TreePop();
@@ -273,7 +273,7 @@ void CC ImGuiDebugDraw()
 */
                 //gChar_C_6787BC->sub_470E30();
 
-                gTango_54_67D4C0->sub_4A8820(pNewCar);
+                gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
             }

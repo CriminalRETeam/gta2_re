@@ -15,7 +15,7 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Sero_181C.hpp"
+#include "PublicTransport.hpp"
 #include "Crushers.hpp"
 #include "Weapon_8.hpp"
 #include "Cranes.hpp"
@@ -934,7 +934,7 @@ void miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd)
     {
         str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_platform);
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0((const char*)&StringById_503080[1]);
-        TrainStation_34* pStation = gSero_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
+        TrainStation_34* pStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
         {
@@ -980,7 +980,7 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
         StringById = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
         const char* station_zone_name = (const char*)&StringById[1];
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0(station_zone_name);
-        TrainStation_34* pTrainStation = gSero_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
+        TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
         pTrainStation->sub_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
     }
 }
@@ -2893,9 +2893,9 @@ void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     pPointer->field_8_car->field_4.sub_4715A0();
 
-    if (gSero_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
+    if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
     {
-        gSero_181C_6FF1D4->KillAllPassengers_579B20();
+        gPublicTransport_181C_6FF1D4->KillAllPassengers_579B20();
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3868,11 +3868,11 @@ void miss2_0x11C::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
     SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
     if (pCmd->field_A_status == 1)
     {
-        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
+        gPublicTransport_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
     }
     else
     {
-        gSero_181C_6FF1D4->field_1818_stop_getting_off_bus = false;
+        gPublicTransport_181C_6FF1D4->field_1818_stop_getting_off_bus = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

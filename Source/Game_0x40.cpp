@@ -29,7 +29,7 @@
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Rozza_C88.hpp"
-#include "Sero_181C.hpp"
+#include "PublicTransport.hpp"
 #include "Shooey_CC.hpp"
 #include "Crushers.hpp"
 #include "Firefighters.hpp"
@@ -73,7 +73,7 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 DEFINE_GLOBAL(Game_0x40*, gGame_0x40_67E008, 0x67E008);
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
-DEFINE_GLOBAL(FirefighterPool_54*, gTango_54_67D4C0, 0x67D4C0);
+DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8, 0x67A4B8);
 DEFINE_GLOBAL(Hamburger_500*, gHamburger_500_678E30, 0x678E30);
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
@@ -262,7 +262,7 @@ void Game_0x40::BootGame_4B8EB0()
     sub_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
-    gSero_181C_6FF1D4->sub_5794B0();
+    gPublicTransport_181C_6FF1D4->sub_5794B0();
     gObject_5C_6F8F84->sub_5297F0();
     PedGroup::sub_4CB080();
     if (bDo_mike_67D5CC)
@@ -286,7 +286,7 @@ void Game_0x40::BootGame_4B8EB0()
     {
         gTrafficLights_194_705958->sub_5C2AC0();
     }
-    gSero_181C_6FF1D4->sub_578860(); // trains?
+    gPublicTransport_181C_6FF1D4->sub_578860(); // trains?
 
     for (s32 i = 0; i < field_23_num_players; i++)
     {
@@ -517,7 +517,7 @@ void Game_0x40::UpdateGame_4B9410()
     gCrusherPool_94_67A830->CrushersService_4887F0();
     gGeneratorPool_14AC_67E5D0->GeneratorsService_4C1D70();
     gChar_C_6787BC->PedsService_4703F0(); // ped stuff? has arg??
-    gSero_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
+    gPublicTransport_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
     gGarage_48_6FD26C->GaragesService_5349D0();
     gCar_6C_677930->CarsService_446790();
 
@@ -565,7 +565,7 @@ void Game_0x40::UpdateGame_4B9410()
     gGarox_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->sub_48B900(); // rng
     gDoor_4D4_67BD2C->DoorsService_49D460();
-    gTango_54_67D4C0->sub_4A85F0(); // fire engines
+    gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
 
     if (!bExplodingOff_67D4FB)
     {
@@ -1073,8 +1073,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
     }
 
-    gSero_181C_6FF1D4 = new Sero_181C(); // ctor call
-    if (!gSero_181C_6FF1D4)
+    gPublicTransport_181C_6FF1D4 = new PublicTransport_181C(); // ctor call
+    if (!gPublicTransport_181C_6FF1D4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1860);
     }
@@ -1214,8 +1214,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
     }
 
-    gTango_54_67D4C0 = new FirefighterPool_54(); // multi level inline 4A88D0 func only
-    if (!gTango_54_67D4C0)
+    gFirefighterPool_54_67D4C0 = new FirefighterPool_54(); // multi level inline 4A88D0 func only
+    if (!gFirefighterPool_54_67D4C0)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1915);
     }
@@ -1289,7 +1289,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gSprite_8_703820);
     GTA2_DELETE_AND_NULL(gCollide_C_6791FC);
     GTA2_DELETE_AND_NULL(gVarrok_7F8_703398);
-    GTA2_DELETE_AND_NULL(gSero_181C_6FF1D4);
+    GTA2_DELETE_AND_NULL(gPublicTransport_181C_6FF1D4);
     GTA2_DELETE_AND_NULL(gTaxi_4_704130);
     GTA2_DELETE_AND_NULL(gTileAnim_2_7052C4);
     GTA2_DELETE_AND_NULL(gWeapon_8_707018);
@@ -1327,7 +1327,7 @@ Game_0x40::~Game_0x40()
     }
 
     GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);
-    GTA2_DELETE_AND_NULL(gTango_54_67D4C0);
+    GTA2_DELETE_AND_NULL(gFirefighterPool_54_67D4C0);
     GTA2_DELETE_AND_NULL(gRozza_C88_66AFE0);
 
     if (gMagical_germain_0x8EC_6F5168)

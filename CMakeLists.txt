@@ -168,8 +168,8 @@ set(gta2_lib_src
   Source/Door_4D4.cpp
   Source/Ambulance_110.hpp
   Source/Ambulance_110.cpp
-  Source/Sero_181C.hpp
-  Source/Sero_181C.cpp
+  Source/PublicTransport.hpp
+  Source/PublicTransport.cpp
   Source/Taxi_4.hpp
   Source/Taxi_4.cpp
   Source/TrafficLights_194.hpp

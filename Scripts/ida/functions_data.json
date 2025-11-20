@@ -13440,127 +13440,127 @@
         "v105_address": "0x578670"
     },
     {
-        "name": "Sero_181C::AllocateTrain_578790",
+        "name": "PublicTransport_181C::AllocateTrain_578790",
         "v96f_address": null,
         "v105_address": "0x578790"
     },
     {
-        "name": "Sero_181C::AllocateTrainStation_5787E0",
+        "name": "PublicTransport_181C::AllocateTrainStation_5787E0",
         "v96f_address": null,
         "v105_address": "0x5787e0"
     },
     {
-        "name": "Sero_181C::sub_578820",
+        "name": "PublicTransport_181C::sub_578820",
         "v96f_address": null,
         "v105_address": "0x578820"
     },
     {
-        "name": "Sero_181C::sub_578860",
+        "name": "PublicTransport_181C::sub_578860",
         "v96f_address": null,
         "v105_address": "0x578860"
     },
     {
-        "name": "Sero_181C::sub_5793E0",
+        "name": "PublicTransport_181C::sub_5793E0",
         "v96f_address": null,
         "v105_address": "0x5793e0"
     },
     {
-        "name": "Sero_181C::sub_579440",
+        "name": "PublicTransport_181C::sub_579440",
         "v96f_address": null,
         "v105_address": "0x579440"
     },
     {
-        "name": "Sero_181C::sub_5794B0",
+        "name": "PublicTransport_181C::sub_5794B0",
         "v96f_address": null,
         "v105_address": "0x5794b0"
     },
     {
-        "name": "Sero_181C::sub_5799B0",
+        "name": "PublicTransport_181C::sub_5799B0",
         "v96f_address": null,
         "v105_address": "0x5799b0"
     },
     {
-        "name": "Sero_181C::sub_579A30",
+        "name": "PublicTransport_181C::sub_579A30",
         "v96f_address": null,
         "v105_address": "0x579a30"
     },
     {
-        "name": "Sero_181C::is_bus",
+        "name": "PublicTransport_181C::is_bus",
         "v96f_address": null,
         "v105_address": "0x579aa0"
     },
     {
-        "name": "Sero_181C::sub_579AD0",
+        "name": "PublicTransport_181C::sub_579AD0",
         "v96f_address": null,
         "v105_address": "0x579ad0"
     },
     {
-        "name": "Sero_181C::is_bus_full",
+        "name": "PublicTransport_181C::is_bus_full",
         "v96f_address": null,
         "v105_address": "0x579af0"
     },
     {
-        "name": "Sero_181C::sub_579B10",
+        "name": "PublicTransport_181C::sub_579B10",
         "v96f_address": null,
         "v105_address": "0x579b10"
     },
     {
-        "name": "Sero_181C::KillAllPassengers_579B20",
+        "name": "PublicTransport_181C::KillAllPassengers_579B20",
         "v96f_address": null,
         "v105_address": "0x579b20"
     },
     {
-        "name": "Sero_181C::sub_579B40",
+        "name": "PublicTransport_181C::sub_579B40",
         "v96f_address": null,
         "v105_address": "0x579b40"
     },
     {
-        "name": "Sero_181C::sub_579B90",
+        "name": "PublicTransport_181C::sub_579B90",
         "v96f_address": null,
         "v105_address": "0x579b90"
     },
     {
-        "name": "Sero_181C::BusesService_579CA0",
+        "name": "PublicTransport_181C::BusesService_579CA0",
         "v96f_address": null,
         "v105_address": "0x579ca0"
     },
     {
-        "name": "Sero_181C::PublicTransportService_57A7A0",
+        "name": "PublicTransport_181C::PublicTransportService_57A7A0",
         "v96f_address": null,
         "v105_address": "0x57a7a0"
     },
     {
-        "name": "Sero_181C::TrainStationForZone_57B4B0",
+        "name": "PublicTransport_181C::TrainStationForZone_57B4B0",
         "v96f_address": null,
         "v105_address": "0x57b4b0"
     },
     {
-        "name": "Sero_181C::sub_57B540",
+        "name": "PublicTransport_181C::sub_57B540",
         "v96f_address": null,
         "v105_address": "0x57b540"
     },
     {
-        "name": "Sero_181C::GetTrainFromCar_57B5C0",
+        "name": "PublicTransport_181C::GetTrainFromCar_57B5C0",
         "v96f_address": null,
         "v105_address": "0x57b5c0"
     },
     {
-        "name": "Sero_181C::sub_57B6A0",
+        "name": "PublicTransport_181C::sub_57B6A0",
         "v96f_address": null,
         "v105_address": "0x57b6a0"
     },
     {
-        "name": "Sero_181C::sub_57B740",
+        "name": "PublicTransport_181C::sub_57B740",
         "v96f_address": null,
         "v105_address": "0x57b740"
     },
     {
-        "name": "Sero_181C::ctor",
+        "name": "PublicTransport_181C::ctor",
         "v96f_address": null,
         "v105_address": "0x57b7b0"
     },
     {
-        "name": "Sero_181C::dtor",
+        "name": "PublicTransport_181C::dtor",
         "v96f_address": null,
         "v105_address": "0x57b820"
     },

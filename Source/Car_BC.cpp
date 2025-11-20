@@ -12,7 +12,7 @@
 #include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Sero_181C.hpp"
+#include "PublicTransport.hpp"
 #include "Taxi_4.hpp"
 #include "Weapon_8.hpp"
 #include "debug.hpp"
@@ -742,7 +742,7 @@ Fix16 Car_BC::get_anti_strngth_43A1D0()
 MATCH_FUNC(0x43a1f0)
 bool Car_BC::is_bus_43A1F0()
 {
-    if (gSero_181C_6FF1D4->is_bus_579AA0(this))
+    if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this))
     {
         return true;
     }
