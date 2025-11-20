@@ -3,7 +3,7 @@
 #include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
 #include "Door_4D4.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "ExplodingScore_100.hpp"
 #include "Frismo_25C.hpp"
 #include "Frontend.hpp"
@@ -669,7 +669,7 @@ Player* Game_0x40::sub_4B9750()
 MATCH_FUNC(0x4B9790)
 void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 {
-    DrawUnk_0xBC* pCam = IteratePlayerCamera_4B9BC0();
+    Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
         if (a3 >= pCam->field_78_boundaries_non_neg.field_0_left 
@@ -813,7 +813,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
 }
 
 MATCH_FUNC(0x4B9BC0)
-DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
+Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 {
     for (field_21_player_camera_idx = 0; field_21_player_camera_idx < field_23_num_players; field_21_player_camera_idx++)
     {
@@ -842,7 +842,7 @@ s8 Game_0x40::sub_4B9C10(Car_BC* a2)
 }
 
 MATCH_FUNC(0x4B9C50)
-DrawUnk_0xBC* Game_0x40::sub_4B9C50()
+Camera_0xBC* Game_0x40::sub_4B9C50()
 {
     if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
     {

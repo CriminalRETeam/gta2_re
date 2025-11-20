@@ -955,7 +955,7 @@ char_type Player::sub_568670()
 }
 
 MATCH_FUNC(0x5686D0)
-void Player::sub_5686D0(DrawUnk_0xBC* pCam)
+void Player::sub_5686D0(Camera_0xBC* pCam)
 {
     if (this->field_82)
     {
@@ -1094,7 +1094,7 @@ void Player::sub_569840(u8& x, u8& y, u8& z)
     }
     else
     {
-        DrawUnk_0xBC* pCam;
+        Camera_0xBC* pCam;
         if (field_68 == 2 || field_68 == 3)
         {
             pCam = &field_208_aux_game_camera;
@@ -1346,8 +1346,8 @@ Player::~Player()
     /*
 	zealous_borg::dtor_484EE0(&field_644_unk);
 	sad_mirzakhani::dtor_431DF0(&field_2D4_unk.field_1A8_unk);
-	DrawUnk_0xBC::dtor_4369E0(&field_208_aux_game_camera);
-	DrawUnk_0xBC::dtor_4369E0(&field_14C_view_camera);
-	DrawUnk_0xBC::dtor_4369E0(&field_90_game_camera);
+	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
+	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
+	Camera_0xBC::dtor_4369E0(&field_90_game_camera);
 	*/
 }

@@ -485,7 +485,7 @@ void Garox_110C_sub::sub_5CF910()
     {
         DrawKind drawtype(2);
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-        DrawUnk_0xBC* pCam;
+        Camera_0xBC* pCam;
         if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
         {
             pCam = &pPlayer->field_208_aux_game_camera;
@@ -1067,7 +1067,7 @@ void ArrowTrace_24::sub_5D03F0()
     Player* pPlayer;
     Car_BC* pCar;
     Sprite* pSprite;
-    DrawUnk_0xBC* pCam;
+    Camera_0xBC* pCam;
 
     switch (field_10_type)
     {

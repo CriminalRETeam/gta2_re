@@ -13,7 +13,7 @@
 #include <wchar.h>
 
 struct gmp_zone_info;
-class DrawUnk_0xBC;
+class Camera_0xBC;
 class Object_2C;
 class Fix16_Rect;
 class Car_78;
@@ -794,7 +794,7 @@ struct Car_14
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT void GenerateTraffic_583670();
 
-    DrawUnk_0xBC* field_0_cam;
+    Camera_0xBC* field_0_cam;
     Fix16_Rect* field_4_rect;
     s8 field_8;
     s8 field_9;

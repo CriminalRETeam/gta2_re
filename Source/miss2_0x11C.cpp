@@ -3730,7 +3730,7 @@ void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
         gGame_0x40_67E008->field_38_orf1->sub_569F40();
         gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_436540(pPointer->field_8_char);
 
-        DrawUnk_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);
+        Camera_0xBC* p_game_camera = &(gGame_0x40_67E008->field_38_orf1->field_90_game_camera);
 
         p_game_camera->sub_41E410();
 

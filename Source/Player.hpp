@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Draw.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "eager_benz.hpp"
@@ -116,7 +116,7 @@ class Player
     EXPORT void sub_568520();
     EXPORT void sub_568630();
     EXPORT char_type sub_568670();
-    EXPORT void sub_5686D0(DrawUnk_0xBC* pCam);
+    EXPORT void sub_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void sub_5687F0();
     EXPORT s32 sub_569410();
@@ -230,9 +230,9 @@ class Player
     char_type field_8D;
     char_type field_8E_bInUse;
     char_type field_8F;
-    DrawUnk_0xBC field_90_game_camera;
-    DrawUnk_0xBC field_14C_view_camera;
-    DrawUnk_0xBC field_208_aux_game_camera;
+    Camera_0xBC field_90_game_camera;
+    Camera_0xBC field_14C_view_camera;
+    Camera_0xBC field_208_aux_game_camera;
     Ped* field_2C4_player_ped;
     Ped* field_2C8_unkq;
     Car_BC* field_2CC;

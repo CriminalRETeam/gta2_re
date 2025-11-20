@@ -1,5 +1,5 @@
 #include "MapRenderer.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "fix16.hpp"
@@ -76,7 +76,7 @@ void MapRenderer::sub_4EA390(u16* a2)
 MATCH_FUNC(0x4ead90)
 void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
-    DrawUnk_0xBC* pCam = gViewCamera_676978;
+    Camera_0xBC* pCam = gViewCamera_676978;
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 

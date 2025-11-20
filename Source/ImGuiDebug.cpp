@@ -193,9 +193,9 @@ void CC ImGuiDebugDraw()
                 Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                 if (pPlayer)
                 {
-                    DrawUnk_0xBC* game_camera = &pPlayer->field_90_game_camera;
-                    //DrawUnk_0xBC* view_camera = &pPlayer->field_14C_view_camera;
-                    //DrawUnk_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
+                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
+                    //Camera_0xBC* view_camera = &pPlayer->field_14C_view_camera;
+                    //Camera_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
                     if (game_camera)
                     {
                         ImGui::SliderInt("field_A4", &game_camera->field_98_cam_pos2.field_C_zoom.mValue, 0, 25000);

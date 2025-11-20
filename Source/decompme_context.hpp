@@ -8,7 +8,7 @@
 #include "ChickenLegend_48.hpp"
 #include "CokeZero_100.hpp"
 #include "Door_4D4.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Frismo_25C.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"

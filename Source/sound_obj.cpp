@@ -4,7 +4,7 @@
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "cSampleManager.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Ped.hpp"
 #include "Car_BC.hpp"
 #include "sprite.hpp"
@@ -448,9 +448,9 @@ STUB_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
     NOT_IMPLEMENTED;
-    DrawUnk_0xBC* field_C_pAny;
+    Camera_0xBC* field_C_pAny;
 
-    if (field_1478_type5Idx != 0 && (field_C_pAny = (DrawUnk_0xBC*)field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny) != NULL)
+    if (field_1478_type5Idx != 0 && (field_C_pAny = (Camera_0xBC*)field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny) != NULL)
     {
         Ped* v4 = field_C_pAny->field_34_ped;
 

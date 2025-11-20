@@ -30,7 +30,7 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "Car_BC.hpp"
 #include "sprite.hpp"
-#include "DrawUnk_0xBC.hpp"
+#include "Camera.hpp"
 #include "Fix16_Rect.hpp"
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
@@ -207,7 +207,7 @@ void force_link()
     lewin.sub_56A490();
     lewin.sub_56A6D0();
 
-    DrawUnk_0xBC drawUnk;
+    Camera_0xBC drawUnk;
     drawUnk.sub_4357B0();
     drawUnk.sub_4357F0();
     drawUnk.sub_435810();
