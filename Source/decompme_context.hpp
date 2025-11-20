@@ -16,7 +16,7 @@
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "Marz_1D7E.hpp"
 #include "Mike_A80.hpp"
 #include "Monster_808.hpp"

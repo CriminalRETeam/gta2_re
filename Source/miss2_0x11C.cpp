@@ -7,7 +7,7 @@
 #include "Garage_48.hpp"
 #include "Garox_2B00.hpp"
 #include "Globals.hpp"
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "MapRenderer.hpp"
 #include "Miss2_25C.hpp"
 #include "Object_5C.hpp"
@@ -520,7 +520,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
-    a2->field_8_generator = gMaccies_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
+    a2->field_8_generator = gGeneratorPool_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
                                                              pCmd->field_C_pos.field_4_y,
                                                              pCmd->field_C_pos.field_8_z,
                                                              rotation,

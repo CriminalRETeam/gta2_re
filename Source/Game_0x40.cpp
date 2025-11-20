@@ -14,7 +14,7 @@
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
@@ -515,7 +515,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     gZheal_D9C_679FD4->CranesService_480E50();
     gCrusherPool_94_67A830->CrushersService_4887F0();
-    gMaccies_14AC_67E5D0->GeneratorsService_4C1D70();
+    gGeneratorPool_14AC_67E5D0->GeneratorsService_4C1D70();
     gChar_C_6787BC->PedsService_4703F0(); // ped stuff? has arg??
     gSero_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
     gGarage_48_6FD26C->GaragesService_5349D0();
@@ -1157,8 +1157,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1887);
     }
 
-    gMaccies_14AC_67E5D0 = new Maccies_14AC(); // ctor call
-    if (!gMaccies_14AC_67E5D0)
+    gGeneratorPool_14AC_67E5D0 = new GeneratorPool_14AC(); // ctor call
+    if (!gGeneratorPool_14AC_67E5D0)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1889);
     }
@@ -1312,7 +1312,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gWolfy_7A8_6FD5F0);
     GTA2_DELETE_AND_NULL(gZheal_D9C_679FD4);
     GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
-    GTA2_DELETE_AND_NULL(gMaccies_14AC_67E5D0);
+    GTA2_DELETE_AND_NULL(gGeneratorPool_14AC_67E5D0);
 
     GTA2_DELETE_AND_NULL(gKfc_1E0_706280);
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);

@@ -190,8 +190,8 @@ set(gta2_lib_src
   Source/Zheal_D9C.cpp
   Source/Crushers.hpp
   Source/Crushers.cpp
-  Source/Maccies_14AC.hpp
-  Source/Maccies_14AC.cpp
+  Source/Generators.hpp
+  Source/Generators.cpp
   Source/Kfc_1E0.hpp
   Source/Kfc_1E0.cpp
   Source/Police_7B8.hpp

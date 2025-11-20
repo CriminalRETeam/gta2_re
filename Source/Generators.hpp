@@ -31,13 +31,13 @@ class Generator_2C
     s32 field_28;
 };
 
-class Maccies_14AC
+class GeneratorPool_14AC
 {
   public:
-    EXPORT void sub_4C1CD0(Maccies_14AC* a1);
+    EXPORT void sub_4C1CD0(GeneratorPool_14AC* a1);
     EXPORT void GeneratorsService_4C1D70();
     EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
-    EXPORT Maccies_14AC();
+    EXPORT GeneratorPool_14AC();
     Generator_2C field_0[120];
     s32 field_14A0;
     s32 field_14A4;
@@ -47,4 +47,4 @@ class Maccies_14AC
     char_type field_14AB;
 };
 
-EXTERN_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0);
+EXTERN_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0);

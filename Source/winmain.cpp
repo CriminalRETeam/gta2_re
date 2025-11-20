@@ -35,7 +35,7 @@
 #include "Garox_2B00.hpp"
 #include "Hamburger_500.hpp"
 #include "ImGuiDebug.hpp"
-#include "Maccies_14AC.hpp"
+#include "Generators.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
@@ -114,7 +114,7 @@ void force_link()
     Rozza_C88 rozza;
     rozza.field_0_pSoundObj = 0;
 
-    Maccies_14AC maccies;
+    GeneratorPool_14AC maccies;
     maccies.sub_4C1CD0(0);
 
     Sprite car_3c;
