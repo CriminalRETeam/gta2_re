@@ -198,7 +198,7 @@ void Game_0x40::sub_4B8E00(u32 a1, u32 a2)
     field_38_orf1->field_90_game_camera.sub_4361B0(a1, a2);
     field_38_orf1->field_208_aux_game_camera.sub_4361B0(a1, a2);
     field_38_orf1->field_14C_view_camera.sub_4361B0(a1, a2);
-    gGarox_2B00_706620->sub_5D6AB0();
+    gHud_2B00_706620->sub_5D6AB0();
 }
 
 MATCH_FUNC(0x4B8E50)
@@ -271,7 +271,7 @@ void Game_0x40::BootGame_4B8EB0()
     }
     gCar_214_705F20->sub_5C8750();
     gMap_0x370_6F6268->alloc_zones_4DFCA0();
-    gGarox_2B00_706620->sub_5D6BE0();
+    gHud_2B00_706620->sub_5D6BE0();
     gfrosty_pasteur_6F8060->Update_512160(); // script
     gGame_0x40_67E008->field_38_orf1->sub_56A490();
     if (bDo_iain_test_67D4E9)
@@ -279,7 +279,7 @@ void Game_0x40::BootGame_4B8EB0()
         IanTest_46E370();
     }
     gRouteFinder_6FFDC8->Reset_588C60();
-    gGarox_2B00_706620->sub_5D6BE0();
+    gHud_2B00_706620->sub_5D6BE0();
     gMap_0x370_6F6268->sub_4DFB90(); // map objects
     gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
     if (!bSkip_traffic_lights_67D4EC)
@@ -300,31 +300,31 @@ MATCH_FUNC(0x4B8FF0)
 void Game_0x40::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCar_6C_677930->field_28_recycled_cars);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 32, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"prot. recycled cars : %d", gCar_6C_677930->field_40_proto_recycled_cars);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 48, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"mission cars : %d", gCar_6C_677930->field_3C_mission_cars);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCar_6C_677930->field_34_unit_cars);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_E0C4_67792C->field_E0C0_cars_count);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
-    gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
+    gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
     if (field_38_orf1)
     {
         swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)field_38_orf1->field_2D4_unk.field_198_accuracy_count);
-        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 128, word_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", field_38_orf1->field_2D4_unk.field_19C_reverse_count);
-        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 144, word_706600, 1);
 
         // TODO: Seems strange, converted to a local integer point or something ??
         const u32 x = field_38_orf1->field_2C4_player_ped->field_1AC_cam.x.ToInt();
@@ -333,7 +333,7 @@ void Game_0x40::ShowCounters_4B8FF0()
         gmp_zone_info* pNavZone = gMap_0x370_6F6268->get_nav_zone_unknown_4DF890(x, y);
 
         swprintf(tmpBuff_67BD9C, L"density:%d", pNavZone->field_0_car_density);
-        gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 160, word_706600, 1);
     }
 }
 
@@ -347,7 +347,7 @@ void Game_0x40::sub_4B9270()
 
     if (field_30_bLimitFramerate)
     {
-        Garox_C4* pC4 = gGarox_2B00_706620->field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
+        Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
         pC4->field_B0 = 8;
         pC4->field_B4 = 6;
     }
@@ -377,7 +377,7 @@ void Game_0x40::Draw_4B92D0()
         gExplodingScore_100_702F34->DrawExploding_5969E0();
     }
 
-    gGarox_2B00_706620->DrawGui_5D6860(); // user
+    gHud_2B00_706620->DrawGui_5D6860(); // user
 
     if (bDo_mike_67D5CC)
     {
@@ -436,7 +436,7 @@ void Game_0x40::sub_4B93C0()
         ++pIter;
     }
 
-    gGarox_2B00_706620->sub_5D69C0();
+    gHud_2B00_706620->sub_5D69C0();
 
     if (counter_706C4C > 0)
     {
@@ -444,17 +444,19 @@ void Game_0x40::sub_4B93C0()
     }
 }
 
-// https://decomp.me/scratch/vQmiC - asm differ bug, needs objdiff
-STUB_FUNC(0x4B9410)
+MATCH_FUNC(0x4B9410)
 void Game_0x40::UpdateGame_4B9410()
 {
-    NOT_IMPLEMENTED;
-    for (s32 i = 0; i < field_23_num_players; i++)
+    Player** ppPlayerIter = field_4_players;
+    u32 i = 0;
+    while (i < field_23_num_players)
     {
-        if (field_4_players[i]->field_8E_bInUse)
+        if ((*ppPlayerIter)->field_8E_bInUse)
         {
-            field_4_players[i]->Service_5687F0();
+            (*ppPlayerIter)->Service_5687F0();
         }
+        i++;
+        ppPlayerIter++;
     }
 
     gRozza_C88_66AFE0->Reset_40BB90();
@@ -462,62 +464,14 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (gLighting_626A09)
     {
-        Light_1D4CC* pgLight_1D4CC = gLight_1D4CC_6F5520;
-        nostalgic_ellis_0x28* pCurLight = gLight_1D4CC_6F5520->field_4;
-        gLight_1D4CC_6F5520->field_1D4C8 = 0;
-        if (pCurLight)
-        {
-            nostalgic_ellis_0x28* pNext;
-            do
-            {
-                ++pgLight_1D4CC->field_1D4C8;
-                pNext = pCurLight->field_1C;
-                char new_off_time = pCurLight->field_17_off_time - 1;
-                pCurLight->field_17_off_time = new_off_time;
-                if (!new_off_time)
-                {
-                    // if (LOBYTE(pCurLight->field_0))
-                    if (pCurLight->field_0)
-                    {
-                        int v8 = pCurLight->field_0;
-                        u8* p_field_16_shape = &pCurLight->field_16_shape;
-                        pCurLight->field_17_off_time = pCurLight->field_15_off_time;
-                        //LOBYTE(v8) = 0;
-                        u8 local_field_16_shape = pCurLight->field_16_shape;
-                        pCurLight->field_0 = v8;
-                        if (local_field_16_shape)
-                        {
-                            // goto LABEL_12;
-                            pCurLight->field_17_off_time += stru_6F6784.get_uint8_4F7B70(p_field_16_shape);
-                        }
-                    }
-                    else
-                    {
-                        int v11 = pCurLight->field_0;
-                        // LOBYTE(v11) = 0;
-                        int local_field_18_intensity = pCurLight->field_18_intensity;
-                        pCurLight->field_17_off_time = pCurLight->field_14_on_time;
-                        u8 shape = pCurLight->field_16_shape;
-                        int v14 = v11 | local_field_18_intensity;
-                        u8* p_field_16_shape = &pCurLight->field_16_shape;
-                        pCurLight->field_0 = v14;
-                        if (shape)
-                        {
-                            //LABEL_12:
-                            pCurLight->field_17_off_time += stru_6F6784.get_uint8_4F7B70(p_field_16_shape);
-                        }
-                    }
-                }
-                pCurLight = pNext;
-            } while (pNext);
-        }
+        gLight_1D4CC_6F5520->sub_45C1E0();
     }
 
-    gZheal_D9C_679FD4->CranesService_480E50();
+    gCranePool_D9C_679FD4->CranesService_480E50();
     gCrusherPool_94_67A830->CrushersService_4887F0();
     gGeneratorPool_14AC_67E5D0->GeneratorsService_4C1D70();
-    gChar_C_6787BC->PedsService_4703F0(); // ped stuff? has arg??
-    gPublicTransport_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
+    gChar_C_6787BC->PedsService_4703F0();
+    gPublicTransport_181C_6FF1D4->PublicTransportService_57A7A0(); // trains & buses
     gGarage_48_6FD26C->GaragesService_5349D0();
     gCar_6C_677930->CarsService_446790();
 
@@ -562,7 +516,7 @@ void Game_0x40::UpdateGame_4B9410()
         gsharp_bose_0x54_7055D4->ShowFps_5BEC30();
     }
 
-    gGarox_2B00_706620->UpdateHUD_5D69D0();
+    gHud_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->sub_48B900(); // rng
     gDoor_4D4_67BD2C->DoorsService_49D460();
     gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
@@ -577,7 +531,7 @@ void Game_0x40::UpdateGame_4B9410()
         gRouteFinder_6FFDC8->ShowJunctionIds_588620();
     }
 
-    if (counter_706C4C)
+    if (counter_706C4C > 0)
     {
         sub_SetGamma();
     }
@@ -647,9 +601,9 @@ void Game_0x40::sub_4B9720()
 
     sub_4DA830();
 
-    if (gGarox_2B00_706620)
+    if (gHud_2B00_706620)
     {
-        gGarox_2B00_706620->sub_5D6A90();
+        gHud_2B00_706620->sub_5D6A90();
     }
 }
 
@@ -1085,8 +1039,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1863);
     }
 
-    gGarox_2B00_706620 = new Hud_2B00(); // ctor call
-    if (!gGarox_2B00_706620)
+    gHud_2B00_706620 = new Hud_2B00(); // ctor call
+    if (!gHud_2B00_706620)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1865);
     }
@@ -1145,8 +1099,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1883);
     }
 
-    gZheal_D9C_679FD4 = new CranePool_D9C(); // ctor call
-    if (!gZheal_D9C_679FD4)
+    gCranePool_D9C_679FD4 = new CranePool_D9C(); // ctor call
+    if (!gCranePool_D9C_679FD4)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1885);
     }
@@ -1295,7 +1249,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gWeapon_8_707018);
     GTA2_DELETE_AND_NULL(gDoor_4D4_67BD2C);
     GTA2_DELETE_AND_NULL(gAmbulance_110_6F70A8);
-    GTA2_DELETE_AND_NULL(gGarox_2B00_706620);
+    GTA2_DELETE_AND_NULL(gHud_2B00_706620);
     GTA2_DELETE_AND_NULL(gSharp_pare_0x15D8_705064);
 
     GTA2_DELETE_AND_NULL(gTrafficLights_194_705958);
@@ -1310,7 +1264,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gParticle_8_6FD5E8);
     GTA2_DELETE_AND_NULL(gWolfy_3D4_6FD5EC);
     GTA2_DELETE_AND_NULL(gWolfy_7A8_6FD5F0);
-    GTA2_DELETE_AND_NULL(gZheal_D9C_679FD4);
+    GTA2_DELETE_AND_NULL(gCranePool_D9C_679FD4);
     GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
     GTA2_DELETE_AND_NULL(gGeneratorPool_14AC_67E5D0);
 

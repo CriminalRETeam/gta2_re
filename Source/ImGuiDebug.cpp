@@ -620,39 +620,39 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("HUD"))
     {
-        if (gGarox_2B00_706620)
+        if (gHud_2B00_706620)
         {
             if (ImGui::TreeNode("Timer"))
             {
                 if (ImGui::Button("CreateTimer_5D31F0"))
                 {
-                    gGarox_2B00_706620->field_620.CreateTimer_5D31F0(40);
+                    gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
                 }
 
                 static u32 v = 0;
                 ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                 if (ImGui::Button("Stop timer") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D32D0(v);
+                    gHud_2B00_706620->field_620.sub_5D32D0(v);
                 }
 
                 if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D3280(v);
+                    gHud_2B00_706620->field_620.sub_5D3280(v);
                 }
 
                 if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                 {
-                    gGarox_2B00_706620->field_620.sub_5D3220(v);
+                    gHud_2B00_706620->field_620.sub_5D3220(v);
                 }
 
-                ImGui::InputInt("timer f4", &gGarox_2B00_706620->field_620.field_620[1].field_4, 1, 100);
+                ImGui::InputInt("timer f4", &gHud_2B00_706620->field_620.field_620[1].field_4, 1, 100);
                 ImGui::TreePop();
             }
 
             if (ImGui::TreeNode("Garox_1E34_L"))
             {
-                Garox_1E34_L* pGarox_1E34_L = &gGarox_2B00_706620->field_DC;
+                Garox_1E34_L* pGarox_1E34_L = &gHud_2B00_706620->field_DC;
                 
                 if (pGarox_1E34_L)
                 {

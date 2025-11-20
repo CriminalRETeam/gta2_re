@@ -164,7 +164,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
         s32 v8 = a2->field_8_obj->field_18_model;
         if (v8 == 176 || v8 == 177 || v8 == 178 || v8 == 179 || v8 == 180 || v8 == 181)
         {
-            gGarox_2B00_706620->field_1F18.place_gang_phone_5D1110(a2->field_8_obj);
+            gHud_2B00_706620->field_1F18.place_gang_phone_5D1110(a2->field_8_obj);
             for (u8 v9 = 0; v9 < 0x1Fu; v9++)
             {
                 if (gfrosty_pasteur_6F8060->field_C1E32[v9] == 0)
@@ -625,7 +625,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     Gang_144* v7 = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
     if ((u8)pCmd->field_F_kill_respect_change > 0)
     {
-        gGarox_2B00_706620->field_1F18.SetNewGangArrow_5D1310(v7);
+        gHud_2B00_706620->field_1F18.SetNewGangArrow_5D1310(v7);
     }
 }
 
@@ -1482,7 +1482,7 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[2].field_4_cmd_next);
     if (pPointer->field_8_arrow == NULL)
     {
-        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.AllocArrow_5D1050();
+        pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
     ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
@@ -1511,7 +1511,7 @@ void miss2_0x11C::SCRCMD_ARROW_COLOUR_508DC0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (pPointer->field_8_arrow == NULL)
     {
-        pPointer->field_8_arrow = gGarox_2B00_706620->field_1F18.AllocArrow_5D1050();
+        pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
     pPointer->field_8_arrow->SetArrowColour_5D0510(v1->field_A_unsigned_2);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -1706,16 +1706,16 @@ void miss2_0x11C::sub_5093C0()
     switch (v1->field_2_type)
     {
         case SCRCMD_DISPLAY_MESSAGE:
-            gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), 3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
-            gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_NOW:
-            gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_SOON:
-            gGarox_2B00_706620->field_DC.sub_5D4400(2, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC.sub_5D4400(2, gTmpBuffer_67C598);
             break;
         default:
             break;
@@ -1729,7 +1729,7 @@ void miss2_0x11C::SCRCMD_DISPLAY_TIMER_5096E0()
     SCR_TWO_PARAMS* v1 = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    pPointer->field_8_index = gGarox_2B00_706620->field_620.CreateTimer_5D31F0(v1->field_A_signed_2);
+    pPointer->field_8_index = gHud_2B00_706620->field_620.CreateTimer_5D31F0(v1->field_A_signed_2);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3410,8 +3410,8 @@ void miss2_0x11C::sub_50E900()
 MATCH_FUNC(0x50e9a0)
 void miss2_0x11C::sub_50E9A0()
 {
-    gGarox_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(1); // clear lowest brief priority
-    gGarox_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(3); // clear highest brief priority
+    gHud_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(1); // clear lowest brief priority
+    gHud_2B00_706620->field_DC.ClearAllBriefsWithPriority_5D4890(3); // clear highest brief priority
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3564,7 +3564,7 @@ void miss2_0x11C::sub_50ECE0() //  SCRCMD_IS_CHAR_ON_FIRE
 MATCH_FUNC(0x50ed40)
 void miss2_0x11C::sub_50ED40() //  SCRCMD_BRIEF_ONSCREEN
 {
-    Garox_18* field_6F8_prev_brief = gGarox_2B00_706620->field_DC.field_6F8_prev_brief;
+    Garox_18* field_6F8_prev_brief = gHud_2B00_706620->field_DC.field_6F8_prev_brief;
     if (field_6F8_prev_brief != NULL && field_6F8_prev_brief->field_8_brief_priority != 0)
     {
         field_8 = true;
@@ -3607,7 +3607,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 5;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3615,7 +3615,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 2;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3623,7 +3623,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 1;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3632,7 +3632,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in original levels, since phones are disabled after finishing mission
         s32 v9 = v1->field_8_brief_id;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3641,7 +3641,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in the game as you can repeat a failed mission in GTA2
         s32 v9 = v1->field_8_brief_id + 1;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3660,7 +3660,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -3670,7 +3670,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 v9 = v1->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
     }
     else
@@ -3678,7 +3678,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
         //  In this case, the player has positive respect but not enough to launch the mission
         s32 v9 = v1->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", v9);
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC.sub_5D4400(1, gTmpBuffer_67C598);
         miss2_0x11C::Next_503620(gBasePtr_6F8070);
     }
 }
@@ -4014,7 +4014,7 @@ void miss2_0x11C::sub_50FF50() // SCRCMD_ADD_ONSCREEN_COUNTER
     SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
 
-    pOnScreenCounter->field_8_index = gGarox_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4028,11 +4028,11 @@ void miss2_0x11C::sub_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ON
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_COUNTER)
         {
-            gGarox_2B00_706620->field_620.sub_5D3310(idx);
+            gHud_2B00_706620->field_620.sub_5D3310(idx);
         }
         else // == SCRCMD_CLEAR_CLOCK_ONLY
         {
-            gGarox_2B00_706620->field_620.sub_5D32D0(idx);
+            gHud_2B00_706620->field_620.sub_5D32D0(idx);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4103,7 +4103,7 @@ void miss2_0x11C::sub_510560()
     SCR_FOUR_PARAMS* v1 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
 
-    gGarox_2B00_706620->field_620.AddTime_5D32F0(pPointer->field_8_index, 30 * v1->field_C_u32);
+    gHud_2B00_706620->field_620.AddTime_5D32F0(pPointer->field_8_index, 30 * v1->field_C_u32);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 

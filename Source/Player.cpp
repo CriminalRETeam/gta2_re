@@ -731,21 +731,21 @@ void Player::sub_566EE0(char_type bDoNothing)
             double y = this->field_90_game_camera.field_98_cam_pos2.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cam_pos2.field_8_z.AsDouble();
             swprintf(tmpBuff_67BD9C, L"game camera: (%3.3f,%3.3f,%3.3f)", x, y, z);
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"aux game camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_208_aux_game_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
             swprintf(tmpBuff_67BD9C,
                      L"view camera: (%3.3f,%3.3f,%3.3f)",
                      this->field_14C_view_camera.field_98_cam_pos2.field_0_x.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_4_y.AsDouble(),
                      this->field_14C_view_camera.field_98_cam_pos2.field_8_z.AsDouble());
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
         }
 
         if (gShow_cycle_67D6BD)
@@ -826,14 +826,14 @@ void Player::Wasted_567130()
         {
             if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
             {
-                gGarox_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
                 gRoot_sound_66B038.PlayVoice_40F090(29);
             }
             else
             {
-                gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
                 gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }

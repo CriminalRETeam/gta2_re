@@ -157,4 +157,4 @@ class CranePool_D9C
     s32 field_D98_count;
 };
 
-EXTERN_GLOBAL(CranePool_D9C*, gZheal_D9C_679FD4);
+EXTERN_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4);

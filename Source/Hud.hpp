@@ -577,7 +577,7 @@ class Hud_2B00
     u32 field_13C4_text_speed;
 };
 
-EXTERN_GLOBAL(Hud_2B00*, gGarox_2B00_706620);
+EXTERN_GLOBAL(Hud_2B00*, gHud_2B00_706620);
 
 
 EXTERN_GLOBAL(s16, word_706600);

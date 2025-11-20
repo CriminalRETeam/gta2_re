@@ -1544,7 +1544,7 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
     {
         if (pPlayer->field_0)
         {
-            gGarox_2B00_706620->sub_5D5240(GetCarStr_439F80());
+            gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
         }
     }
 }
@@ -2294,7 +2294,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
     if (pPlayer->field_0)
     {
-        gGarox_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
+        gHud_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
     }
 }
 
@@ -2310,12 +2310,12 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
         {
             if (remap == 0xFD) // clean plates only
             {
-                gGarox_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
+                gHud_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
                 this->field_B4 = 2;
             }
             else
             {
-                gGarox_2B00_706620->field_DC.sub_5D3F10(1, "sdone", cost);
+                gHud_2B00_706620->field_DC.sub_5D3F10(1, "sdone", cost);
             }
         }
 
@@ -2352,7 +2352,7 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
     else if (field_54_driver->field_15C_player->field_0)
     {
         // I ain't touching that get outta here!
-        gGarox_2B00_706620->field_DC.sub_5D4400(1, "nespray");
+        gHud_2B00_706620->field_DC.sub_5D4400(1, "nespray");
     }
 }
 

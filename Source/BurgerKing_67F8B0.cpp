@@ -68,7 +68,7 @@ s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
 {
     NOT_IMPLEMENTED;
     return a1 == 79 || a1 == 80 || a1 == 81 || a1 == 75 || a1 == 76 || a1 == 77 || a1 == 71 || a1 == 72 || a1 == 73 || a1 == 55 ||
-        a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gGarox_2B00_706620->sub_5D6CB0(a1);
+        a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gHud_2B00_706620->sub_5D6CB0(a1);
 }
 
 STUB_FUNC(0x4cddf0)
@@ -199,7 +199,7 @@ void BurgerKing_67F8B0::sub_4CED90()
         if (((1 << bit_idx) & field_4_input_bits) != 0)
         {
             swprintf(tmpBuff_67BD9C, L"Control %d", bit_idx);
-            gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 10, 16 * (i + 1), word_706600, 1);
         }
         ++i;
         ++bit_idx;
@@ -221,11 +221,11 @@ void BurgerKing_67F8B0::ShowInput_4CEE10()
 {
     if (RecOrPlayBackState_4CEDF0())
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(L"PLAYBACK", -1, 0, word_706600, 1);
     }
     else
     {
-        gGarox_2B00_706620->field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
+        gHud_2B00_706620->field_650.sub_5D1F50(L"RECORDING", -1, 0, word_706600, 1);
     }
     sub_4CED90();
 }

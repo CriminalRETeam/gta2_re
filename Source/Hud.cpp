@@ -22,7 +22,7 @@
 #include "text_0x14.hpp"
 #include "Weapon_30.hpp"
 
-DEFINE_GLOBAL(Hud_2B00*, gGarox_2B00_706620, 0x706620);
+DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(u16, word_706618, 0x706618); //, TODO, 0xUNKNOWN);
@@ -253,9 +253,9 @@ void Garox_4::sub_5CF620()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
+    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
 
 MATCH_FUNC(0x5cf6b0)
@@ -270,9 +270,9 @@ void Garox_4::sub_5CF6B0()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->sub_5B5FA0(gTmpBuffer_67C598));
-    gGarox_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC.sub_5D4400(3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
-    gGarox_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
+    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(tmpBuff_67BD9C, 3);
 }
 
 // ----------------------------------------------------
@@ -636,7 +636,7 @@ void Garox_27B5_sub::sub_5CF970()
                  pPed->field_1AC_cam.z.ToFloat() * 0.00006103515625,
                  pZoneName);
 
-        Garox_C4* pC4 = gGarox_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
         pC4->field_B0 = 8;
         pC4->field_B4 = 0;
     }
@@ -1116,7 +1116,7 @@ void ArrowTrace_24::sub_5D03F0()
         case 4:
             if (!field_8->sub_529200())
             {
-                gGarox_2B00_706620->field_1F18.field_844 = 1;
+                gHud_2B00_706620->field_1F18.field_844 = 1;
                 field_10_type = 0;
             }
             else
@@ -1159,7 +1159,7 @@ bool Hud_Arrow_7C::sub_5D0530()
 
     if (field_30)
     {
-        if (!gGarox_2B00_706620->field_1F18.field_83C)
+        if (!gHud_2B00_706620->field_1F18.field_83C)
         {
             return false;
         }
@@ -1183,12 +1183,12 @@ bool Hud_Arrow_7C::sub_5D0530()
             {
                 if (pZone144 == field_30)
                 {
-                    if (gGarox_2B00_706620->field_1F18.sub_5D0E40(this))
+                    if (gHud_2B00_706620->field_1F18.sub_5D0E40(this))
                     {
                         return false;
                     }
                 }
-                else if (pZone144 && gGarox_2B00_706620->field_1F18.sub_5D0F40(pZone144))
+                else if (pZone144 && gHud_2B00_706620->field_1F18.sub_5D0F40(pZone144))
                 {
                     return false;
                 }
@@ -1204,7 +1204,7 @@ bool Hud_Arrow_7C::sub_5D0530()
                 {
                     return false;
                 }
-                Hud_Arrow_7C* v7 = gGarox_2B00_706620->field_1F18.field_840;
+                Hud_Arrow_7C* v7 = gHud_2B00_706620->field_1F18.field_840;
                 if (v7 && v7 != this)
                 {
                     return false;
@@ -1666,7 +1666,7 @@ MATCH_FUNC(0x5d39d0)
 void Garox_1E34_L::sub_5D39D0()
 {
     field_510_time_to_show = Garox_1E34_L::sub_5D3470();
-    field_504_tick_timer = field_510_time_to_show * gGarox_2B00_706620->field_13C4_text_speed;
+    field_504_tick_timer = field_510_time_to_show * gHud_2B00_706620->field_13C4_text_speed;
     field_50C = 0;
     field_514_upward_timer = 0;
     field_6F8_prev_brief->field_10 = 0;
