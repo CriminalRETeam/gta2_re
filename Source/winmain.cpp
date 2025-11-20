@@ -32,7 +32,7 @@
 #include "sprite.hpp"
 #include "Camera.hpp"
 #include "Fix16_Rect.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "ImGuiDebug.hpp"
 #include "Generators.hpp"

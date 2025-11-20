@@ -1,5 +1,5 @@
 #include "BurgerKing_67F8B0.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"

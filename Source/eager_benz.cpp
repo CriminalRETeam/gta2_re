@@ -4,7 +4,7 @@
 #include "Car_BC.hpp"
 #include "ExplodingScore_100.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"

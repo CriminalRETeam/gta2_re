@@ -12,7 +12,7 @@
 #include "Frismo_25C.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"

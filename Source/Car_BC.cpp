@@ -3,7 +3,7 @@
 #include "Car_B0.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_3C.hpp"

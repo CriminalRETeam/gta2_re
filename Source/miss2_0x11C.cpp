@@ -5,7 +5,7 @@
 #include "Frismo_25C.hpp"
 #include "Game_0x40.hpp"
 #include "Garage_48.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Generators.hpp"
 #include "MapRenderer.hpp"

@@ -5,7 +5,7 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"

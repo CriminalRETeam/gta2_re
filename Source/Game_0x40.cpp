@@ -9,7 +9,7 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Garage_48.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Kfc_1E0.hpp"

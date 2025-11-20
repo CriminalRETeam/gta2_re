@@ -1,5 +1,5 @@
 #include "TrafficLights_194.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Globals.hpp"
 #include "map_0x370.hpp"
 #include "Object_5C.hpp"

@@ -3,7 +3,7 @@
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
-#include "Garox_2B00.hpp"
+#include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
