@@ -5280,47 +5280,47 @@
         "v105_address": "0x4a7340"
     },
     {
-        "name": "Tango_28::sub_4A7FC0",
+        "name": "Firefighter_28::sub_4A7FC0",
         "v96f_address": null,
         "v105_address": "0x4a7fc0"
     },
     {
-        "name": "Tango_28::sub_4A81A0",
+        "name": "Firefighter_28::sub_4A81A0",
         "v96f_address": null,
         "v105_address": "0x4a81a0"
     },
     {
-        "name": "Tango_28::sub_4A81F0",
+        "name": "Firefighter_28::sub_4A81F0",
         "v96f_address": null,
         "v105_address": "0x4a81f0"
     },
     {
-        "name": "Tango_28::ctor",
+        "name": "Firefighter_28::ctor",
         "v96f_address": null,
         "v105_address": "0x4a85c0"
     },
     {
-        "name": "Tango_28::sub_4A85E0",
+        "name": "Firefighter_28::sub_4A85E0",
         "v96f_address": null,
         "v105_address": "0x4a85e0"
     },
     {
-        "name": "Tango_54::sub_4A85F0",
+        "name": "FirefighterPool_54::sub_4A85F0",
         "v96f_address": null,
         "v105_address": "0x4a85f0"
     },
     {
-        "name": "Tango_54::sub_4A8620",
+        "name": "FirefighterPool_54::sub_4A8620",
         "v96f_address": null,
         "v105_address": "0x4a8620"
     },
     {
-        "name": "Tango_54::sub_4A8800",
+        "name": "FirefighterPool_54::sub_4A8800",
         "v96f_address": null,
         "v105_address": "0x4a8800"
     },
     {
-        "name": "Tango_54::sub_4A8820",
+        "name": "FirefighterPool_54::sub_4A8820",
         "v96f_address": null,
         "v105_address": "0x4a8820"
     },
@@ -5330,7 +5330,7 @@
         "v105_address": "0x4a8890"
     },
     {
-        "name": "Tango_54::ctor",
+        "name": "FirefighterPool_54::ctor",
         "v96f_address": null,
         "v105_address": "0x4a88d0"
     },

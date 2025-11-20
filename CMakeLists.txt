@@ -206,8 +206,8 @@ set(gta2_lib_src
   Source/ExplodingScore_100.cpp
   Source/Shooey_CC.hpp
   Source/Shooey_CC.cpp
-  Source/Tango_28.hpp
-  Source/Tango_28.cpp
+  Source/Firefighters.hpp
+  Source/Firefighters.cpp
   Source/Rozza_C88.hpp
   Source/Rozza_C88.cpp
   Source/PurpleDoom.hpp

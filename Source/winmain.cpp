@@ -46,7 +46,7 @@
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
 #include "Crushers.hpp"
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
@@ -269,10 +269,10 @@ void force_link()
     Shooey_14 shooey_14;
     Shooey_CC shooey_CC;
 
-    Tango_28 tango_28;
+    Firefighter_28 tango_28;
     tango_28.sub_450C10();
 
-    Tango_54 tango_54;
+    FirefighterPool_54 tango_54;
 
     Hamburger_500 hamburger_500;
     hamburger_500.sub_474CC0(0);

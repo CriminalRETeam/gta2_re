@@ -9,7 +9,7 @@
 #include "Orca_2FD4.hpp"
 #include "Player.hpp"
 #include "Shooey_CC.hpp"
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -27,7 +27,7 @@
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
-EXTERN_GLOBAL(Tango_54*, gTango_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool_54*, gTango_54_67D4C0);
 EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 
 Object_2C* spawned_obj = NULL;

@@ -33,7 +33,7 @@
 #include "Shooey_CC.hpp"
 #include "Crushers.hpp"
 #include "Soula_CC68.hpp"
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"

@@ -1,13 +1,13 @@
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Hamburger_500.hpp"
 #include "debug.hpp"
 
 MATCH_FUNC(0x4a85f0)
-void Tango_54::sub_4A85F0()
+void FirefighterPool_54::sub_4A85F0()
 {
-    Tango_28* p = field_0;
+    Firefighter_28* p = field_0;
     if (!bSkip_fire_engines_67D53A)
     {
         for (u32 i = 0; i < 2; i++)
@@ -22,16 +22,16 @@ void Tango_54::sub_4A85F0()
 }
 
 STUB_FUNC(0x4a8620)
-Tango_28* Tango_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
+Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4a8800)
-Tango_28* Tango_54::New28_4A8800()
+Firefighter_28* FirefighterPool_54::New28_4A8800()
 {
-    Tango_28* p = field_0;
+    Firefighter_28* p = field_0;
     for (s16 i = 0; i < 2; i++)
     {
         if (!p->field_4_bActive)
@@ -44,7 +44,7 @@ Tango_28* Tango_54::New28_4A8800()
 }
 
 MATCH_FUNC(0x4a8820)
-char_type Tango_54::sub_4A8820(Car_BC* pCar)
+char_type FirefighterPool_54::sub_4A8820(Car_BC* pCar)
 {
     if (!pCar)
     {
@@ -61,7 +61,7 @@ char_type Tango_54::sub_4A8820(Car_BC* pCar)
         return 0;
     }
 
-    Tango_28* pFoundCar =
+    Firefighter_28* pFoundCar =
         sub_4A8620(pCar, pCar->field_50_car_sprite->GetXPos(), pCar->field_50_car_sprite->GetYPos(), pCar->field_50_car_sprite->GetZPos());
 
     if (!pFoundCar)
@@ -73,20 +73,20 @@ char_type Tango_54::sub_4A8820(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4a88d0)
-void Tango_54::sub_4A88D0()
+void FirefighterPool_54::sub_4A88D0()
 {
     field_50 = 0;
 }
 
 STUB_FUNC(0x4a7fc0)
-char_type Tango_28::sub_4A7FC0()
+char_type Firefighter_28::sub_4A7FC0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4a81a0)
-void Tango_28::deinit_4A81A0()
+void Firefighter_28::deinit_4A81A0()
 {
     Car_BC* pCar = this->field_1C_car;
     if (pCar)
@@ -113,19 +113,19 @@ void Tango_28::deinit_4A81A0()
 }
 
 STUB_FUNC(0x4a81f0)
-void Tango_28::sub_4A81F0()
+void Firefighter_28::sub_4A81F0()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4a85c0)
-void Tango_28::init_4A85C0()
+void Firefighter_28::init_4A85C0()
 {
     sub_450C10();
 }
 
 MATCH_FUNC(0x4a85e0)
-void Tango_28::Reset_4A85E0()
+void Firefighter_28::Reset_4A85E0()
 {
     this->field_C_target_car = 0;
     this->field_8_state = 0;

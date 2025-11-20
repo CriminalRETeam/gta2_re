@@ -32,7 +32,7 @@
 #include "Sero_181C.hpp"
 #include "Shooey_CC.hpp"
 #include "Crushers.hpp"
-#include "Tango_28.hpp"
+#include "Firefighters.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"
@@ -73,7 +73,7 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 DEFINE_GLOBAL(Game_0x40*, gGame_0x40_67E008, 0x67E008);
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
-DEFINE_GLOBAL(Tango_54*, gTango_54_67D4C0, 0x67D4C0);
+DEFINE_GLOBAL(FirefighterPool_54*, gTango_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8, 0x67A4B8);
 DEFINE_GLOBAL(Hamburger_500*, gHamburger_500_678E30, 0x678E30);
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
@@ -1214,7 +1214,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
     }
 
-    gTango_54_67D4C0 = new Tango_54(); // multi level inline 4A88D0 func only
+    gTango_54_67D4C0 = new FirefighterPool_54(); // multi level inline 4A88D0 func only
     if (!gTango_54_67D4C0)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1915);
