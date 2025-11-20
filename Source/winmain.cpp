@@ -170,10 +170,10 @@ void force_link()
     lewin.sub_566C30(0);
     lewin.sub_566C80(0);
     lewin.sub_566EE0(0);
-    lewin.sub_5670B0();
-    lewin.sub_567130();
+    lewin.RespawnPlayer_5670B0();
+    lewin.Wasted_567130();
     lewin.sub_567850();
-    lewin.sub_5679E0();
+    lewin.Busted_5679E0();
     lewin.sub_568520();
     lewin.sub_568630();
     lewin.sub_568670();
@@ -188,7 +188,7 @@ void force_link()
     lewin.sub_569840(zero_u8, zero_u8, zero_u8);
     lewin.sub_5698E0();
     lewin.sub_569920(0, 0, 0);
-    lewin.sub_5699F0(0);
+    lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.sub_569A10();
     lewin.sub_569C20();
     lewin.sub_569CB0();

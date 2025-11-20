@@ -78,7 +78,7 @@ void root_sound::sub_40F070(char_type a1)
 }
 
 MATCH_FUNC(0x40F090)
-void root_sound::sub_40F090(s32 state)
+void root_sound::PlayVoice_40F090(s32 state)
 {
     gSound_obj_66F680.sub_418C80(state);
 }

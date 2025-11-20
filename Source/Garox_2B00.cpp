@@ -1499,7 +1499,7 @@ MATCH_FUNC(0x5d1110)
 void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object_2C* pPhoneInfo)
 {
     s32 phone_type = sub_5D1260(pPhoneInfo->field_18_model);
-    Gang_144* pZone = gMap_0x370_6F6268->sub_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
+    Gang_144* pZone = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(pPhoneInfo->field_4->GetXPos(), pPhoneInfo->field_4->GetYPos());
 
     if (!pZone)
     {
@@ -2070,7 +2070,7 @@ void Hud_2B00::sub_5D6BE0()
 }
 
 MATCH_FUNC(0x5d6c20)
-s32 Hud_2B00::sub_5D6C20(s32 action, Player* pPlayer)
+s32 Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
 {
     return field_12EC_sub.IsOnQuitMessage_5D13C0(action, pPlayer) || field_2A25_sub.IsTypingOnChat_5D15E0(action, pPlayer);
 }

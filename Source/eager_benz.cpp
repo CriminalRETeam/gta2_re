@@ -94,7 +94,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
-            gRoot_sound_66B038.sub_40F090(4);
+            gRoot_sound_66B038.PlayVoice_40F090(4);
         }
     }
 
@@ -105,7 +105,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
-            gRoot_sound_66B038.sub_40F090(8);
+            gRoot_sound_66B038.PlayVoice_40F090(8);
         }
     }
 
@@ -116,7 +116,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
-            gRoot_sound_66B038.sub_40F090(11);
+            gRoot_sound_66B038.PlayVoice_40F090(11);
         }
     }
 
@@ -127,7 +127,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
-            gRoot_sound_66B038.sub_40F090(5);
+            gRoot_sound_66B038.PlayVoice_40F090(5);
         }
     }
 
@@ -138,7 +138,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
-            gRoot_sound_66B038.sub_40F090(6);
+            gRoot_sound_66B038.PlayVoice_40F090(6);
         }
     }
 
@@ -149,7 +149,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
-            gRoot_sound_66B038.sub_40F090(7);
+            gRoot_sound_66B038.PlayVoice_40F090(7);
         }
     }
 
@@ -160,7 +160,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
-            gRoot_sound_66B038.sub_40F090(9);
+            gRoot_sound_66B038.PlayVoice_40F090(9);
         }
     }
 
@@ -187,7 +187,7 @@ void eager_benz::sub_591C70()
         if (this->field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
-            gRoot_sound_66B038.sub_40F090(10);
+            gRoot_sound_66B038.PlayVoice_40F090(10);
         }
     }
 
@@ -211,7 +211,7 @@ void eager_benz::sub_591C70()
         if (field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
-            gRoot_sound_66B038.sub_40F090(1);
+            gRoot_sound_66B038.PlayVoice_40F090(1);
         }
     }
 
@@ -353,7 +353,7 @@ void eager_benz::sub_592430(char_type bits)
         if (field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
-            gRoot_sound_66B038.sub_40F090(2);
+            gRoot_sound_66B038.PlayVoice_40F090(2);
         }
         sub_592380(1);
     }
@@ -371,7 +371,7 @@ void eager_benz::sub_592430(char_type bits)
         if (field_368_pObj->field_0)
         {
             gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
-            gRoot_sound_66B038.sub_40F090(3);
+            gRoot_sound_66B038.PlayVoice_40F090(3);
         }
         sub_592380(2);
     }
@@ -405,7 +405,7 @@ s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 MATCH_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
-    field_0_unk.sub_4921B0(cash);
+    field_0_unk.ChangeStatByAmount_4921B0(cash);
 
     if (bStartNetworkGame_7081F0)
     {
@@ -722,5 +722,5 @@ s32 eager_benz::sub_5935C0()
 MATCH_FUNC(0x5935d0)
 void eager_benz::sub_5935D0(s32 a2)
 {
-    field_38_unk.sub_4921B0(a2);
+    field_38_unk.ChangeStatByAmount_4921B0(a2);
 }

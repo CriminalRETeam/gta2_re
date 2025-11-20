@@ -254,7 +254,7 @@ gmp_map_zone* Map_0x370::first_zone_by_type_4DF1D0(u8 zone_type)
 }
 
 STUB_FUNC(0x4DF240)
-gmp_map_zone* Map_0x370::sub_4DF240(u8 a2, u8 a3, char_type a4)
+gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 a2, u8 a3, char_type a4)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -535,7 +535,7 @@ gmp_map_zone* Map_0x370::get_zone_4DFB30(u16 zone_idx)
 }
 
 MATCH_FUNC(0x4DFB50)
-Gang_144* Map_0x370::sub_4DFB50(Fix16 x, Fix16 y)
+Gang_144* Map_0x370::GetGangAtCoords_4DFB50(Fix16 x, Fix16 y)
 {
     gmp_map_zone* pZone = zone_by_pos_and_type_4DF4D0(x.ToInt(), y.ToInt(), 0xEu);
     if (pZone)

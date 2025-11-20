@@ -1166,7 +1166,7 @@ void miss2_0x11C::ExecOpCode_5061C0()
 MATCH_FUNC(0x5069c0)
 void miss2_0x11C::SCRCMD_LEVELSTART_5069C0()
 {
-    gRoot_sound_66B038.sub_40F090(24); //  "And remember, respect is everything!"
+    gRoot_sound_66B038.PlayVoice_40F090(24); //  "And remember, respect is everything!"
     field_118 = 1;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -1581,124 +1581,124 @@ void miss2_0x11C::sub_5093C0()
     u8 type = ((SCR_TWO_PARAMS*)gBasePtr_6F8070)->field_A_unsigned_2;
     if (type == 1)
     {
-        gRoot_sound_66B038.sub_40F090(22);
+        gRoot_sound_66B038.PlayVoice_40F090(22);
     }
     else if (type == 2)
     {
-        gRoot_sound_66B038.sub_40F090(23);
+        gRoot_sound_66B038.PlayVoice_40F090(23);
     }
 
     if (v1->field_8_unsigned_1 == 5501)
     {
-        gRoot_sound_66B038.sub_40F090(33);
+        gRoot_sound_66B038.PlayVoice_40F090(33);
     }
     else if (v1->field_8_unsigned_1 == 5502)
     {
-        gRoot_sound_66B038.sub_40F090(34);
+        gRoot_sound_66B038.PlayVoice_40F090(34);
     }
     else if (v1->field_8_unsigned_1 == 5503)
     {
-        gRoot_sound_66B038.sub_40F090(35);
+        gRoot_sound_66B038.PlayVoice_40F090(35);
     }
     else if (v1->field_8_unsigned_1 == 5504)
     {
-        gRoot_sound_66B038.sub_40F090(36);
+        gRoot_sound_66B038.PlayVoice_40F090(36);
     }
     else if (v1->field_8_unsigned_1 == 5505)
     {
-        gRoot_sound_66B038.sub_40F090(37);
+        gRoot_sound_66B038.PlayVoice_40F090(37);
     }
     else if (v1->field_8_unsigned_1 == 5506)
     {
-        gRoot_sound_66B038.sub_40F090(38);
+        gRoot_sound_66B038.PlayVoice_40F090(38);
     }
     else if (v1->field_8_unsigned_1 == 5507)
     {
-        gRoot_sound_66B038.sub_40F090(39);
+        gRoot_sound_66B038.PlayVoice_40F090(39);
     }
     else if (v1->field_8_unsigned_1 == 5508)
     {
-        gRoot_sound_66B038.sub_40F090(40);
+        gRoot_sound_66B038.PlayVoice_40F090(40);
     }
     else if (v1->field_8_unsigned_1 == 5509)
     {
-        gRoot_sound_66B038.sub_40F090(41);
+        gRoot_sound_66B038.PlayVoice_40F090(41);
     }
     else if (v1->field_8_unsigned_1 == 5510)
     {
-        gRoot_sound_66B038.sub_40F090(42);
+        gRoot_sound_66B038.PlayVoice_40F090(42);
     }
     else if (v1->field_8_unsigned_1 == 5000)
     {
-        gRoot_sound_66B038.sub_40F090(43);
+        gRoot_sound_66B038.PlayVoice_40F090(43);
     }
     else if (v1->field_8_unsigned_1 == 5015)
     {
-        gRoot_sound_66B038.sub_40F090(44);
+        gRoot_sound_66B038.PlayVoice_40F090(44);
     }
     else if (v1->field_8_unsigned_1 == 5031)
     {
-        gRoot_sound_66B038.sub_40F090(45);
+        gRoot_sound_66B038.PlayVoice_40F090(45);
     }
     else if (v1->field_8_unsigned_1 == 5032)
     {
-        gRoot_sound_66B038.sub_40F090(46);
+        gRoot_sound_66B038.PlayVoice_40F090(46);
     }
     else if (v1->field_8_unsigned_1 == 5050)
     {
-        gRoot_sound_66B038.sub_40F090(47);
+        gRoot_sound_66B038.PlayVoice_40F090(47);
     }
     else if (v1->field_8_unsigned_1 == 5051)
     {
-        gRoot_sound_66B038.sub_40F090(48);
+        gRoot_sound_66B038.PlayVoice_40F090(48);
     }
     else if (v1->field_8_unsigned_1 == 5052)
     {
-        gRoot_sound_66B038.sub_40F090(49);
+        gRoot_sound_66B038.PlayVoice_40F090(49);
     }
     else if (v1->field_8_unsigned_1 == 5053)
     {
-        gRoot_sound_66B038.sub_40F090(50);
+        gRoot_sound_66B038.PlayVoice_40F090(50);
     }
     else if (v1->field_8_unsigned_1 == 5054)
     {
-        gRoot_sound_66B038.sub_40F090(51);
+        gRoot_sound_66B038.PlayVoice_40F090(51);
     }
     else if (v1->field_8_unsigned_1 == 5055)
     {
-        gRoot_sound_66B038.sub_40F090(52);
+        gRoot_sound_66B038.PlayVoice_40F090(52);
     }
     else if (v1->field_8_unsigned_1 == 5056)
     {
-        gRoot_sound_66B038.sub_40F090(53);
+        gRoot_sound_66B038.PlayVoice_40F090(53);
     }
     else if (v1->field_8_unsigned_1 == 5057)
     {
-        gRoot_sound_66B038.sub_40F090(54);
+        gRoot_sound_66B038.PlayVoice_40F090(54);
     }
     else if (v1->field_8_unsigned_1 == 5058)
     {
-        gRoot_sound_66B038.sub_40F090(55);
+        gRoot_sound_66B038.PlayVoice_40F090(55);
     }
     else if (v1->field_8_unsigned_1 == 5059)
     {
-        gRoot_sound_66B038.sub_40F090(56);
+        gRoot_sound_66B038.PlayVoice_40F090(56);
     }
     else if (v1->field_8_unsigned_1 == 5060)
     {
-        gRoot_sound_66B038.sub_40F090(57);
+        gRoot_sound_66B038.PlayVoice_40F090(57);
     }
     else if (v1->field_8_unsigned_1 == 5061)
     {
-        gRoot_sound_66B038.sub_40F090(58);
+        gRoot_sound_66B038.PlayVoice_40F090(58);
     }
     else if (v1->field_8_unsigned_1 == 5062)
     {
-        gRoot_sound_66B038.sub_40F090(59);
+        gRoot_sound_66B038.PlayVoice_40F090(59);
     }
     else if (v1->field_8_unsigned_1 == 5063)
     {
-        gRoot_sound_66B038.sub_40F090(60);
+        gRoot_sound_66B038.PlayVoice_40F090(60);
     }
 
     sprintf(gTmpBuffer_67C598, "%d", v1->field_8_unsigned_1);

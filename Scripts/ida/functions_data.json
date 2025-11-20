@@ -390,7 +390,7 @@
         "v105_address": "0x40f070"
     },
     {
-        "name": "root_sound::sub_40F090",
+        "name": "root_sound::PlayVoice_40F090",
         "v96f_address": null,
         "v105_address": "0x40f090"
     },
@@ -4830,7 +4830,7 @@
         "v105_address": "0x492150"
     },
     {
-        "name": "thirsty_lamarr::sub_4921B0",
+        "name": "thirsty_lamarr::ChangeStatByAmount_4921B0",
         "v96f_address": "0x44b2c0",
         "v105_address": "0x4921b0"
     },
@@ -7220,7 +7220,7 @@
         "v105_address": "0x4df1d0"
     },
     {
-        "name": "Map_0x370::sub_4DF240",
+        "name": "Map_0x370::GetNearestZoneOfType_4DF240",
         "v96f_address": "0x469110",
         "v105_address": "0x4df240"
     },
@@ -7330,7 +7330,7 @@
         "v105_address": "0x4dfb30"
     },
     {
-        "name": "Map_0x370::sub_4DFB50",
+        "name": "Map_0x370::GetGangAtCoords_4DFB50",
         "v96f_address": null,
         "v105_address": "0x4dfb50"
     },
@@ -12775,12 +12775,12 @@
         "v105_address": "0x566ee0"
     },
     {
-        "name": "Player::sub_5670B0",
+        "name": "Player::RespawnPlayer_5670B0",
         "v96f_address": null,
         "v105_address": "0x5670b0"
     },
     {
-        "name": "Player::sub_567130",
+        "name": "Player::Wasted_567130",
         "v96f_address": null,
         "v105_address": "0x567130"
     },
@@ -12790,7 +12790,7 @@
         "v105_address": "0x567850"
     },
     {
-        "name": "Player::sub_5679E0",
+        "name": "Player::Busted_5679E0",
         "v96f_address": null,
         "v105_address": "0x5679e0"
     },
@@ -12865,7 +12865,7 @@
         "v105_address": "0x569920"
     },
     {
-        "name": "Player::sub_5699F0",
+        "name": "Player::ChangeLifeCountByAmount_5699F0",
         "v96f_address": null,
         "v105_address": "0x5699f0"
     },
@@ -16575,7 +16575,7 @@
         "v105_address": "0x5d6be0"
     },
     {
-        "name": "Hud_2B00::sub_5D6C20",
+        "name": "Hud_2B00::IsBusy_5D6C20",
         "v96f_address": null,
         "v105_address": "0x5d6c20"
     },

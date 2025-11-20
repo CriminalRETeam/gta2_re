@@ -60,7 +60,7 @@ class root_sound
 
     EXPORT void sub_40F070(char_type a1);
 
-    EXPORT void sub_40F090(s32 state);
+    EXPORT void PlayVoice_40F090(s32 state);
 
     EXPORT void SetSfxVol_40F0B0(u8 sfxVol);
 

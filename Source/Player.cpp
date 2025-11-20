@@ -763,13 +763,13 @@ void Player::sub_566EE0(char_type bDoNothing)
 }
 
 MATCH_FUNC(0x5670B0)
-void Player::sub_5670B0()
+void Player::RespawnPlayer_5670B0()
 {
     const char_type restart_zone_type = 16;
 
     if (!(u8)bStartNetworkGame_7081F0 && !field_640)
     {
-        Player::sub_5699F0(-1);
+        Player::ChangeLifeCountByAmount_5699F0(-1);
     }
     if (field_684_lives.field_0 > 0)
     {
@@ -782,14 +782,14 @@ void Player::sub_5670B0()
         {
             s32 y_pos = field_2C4_player_ped->field_1AC_cam.y.ToInt();
             s32 x_pos = field_2C4_player_ped->field_1AC_cam.x.ToInt();
-            pZone = gMap_0x370_6F6268->sub_4DF240(x_pos, y_pos, restart_zone_type);
+            pZone = gMap_0x370_6F6268->GetNearestZoneOfType_4DF240(x_pos, y_pos, restart_zone_type);
         }
         field_2C4_player_ped->sub_45C350(pZone);
     }
 }
 
 MATCH_FUNC(0x567130)
-void Player::sub_567130()
+void Player::Wasted_567130()
 {
     Ped* pPed_killer;
     Player* player_killer; //  this function seems to handle the player death
@@ -831,12 +831,12 @@ void Player::sub_567130()
                 gGarox_2B00_706620->field_111C.sub_5D1A00( //  It's really ugly, it's probably inlined
                     gText_0x14_704DFC->Find_5B5F90(GetDeathText_569F00()),
                     1);
-                gRoot_sound_66B038.sub_40F090(29);
+                gRoot_sound_66B038.PlayVoice_40F090(29);
             }
             else
             {
                 gGarox_2B00_706620->field_111C.sub_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
-                gRoot_sound_66B038.sub_40F090(21);
+                gRoot_sound_66B038.PlayVoice_40F090(21);
             }
         }
         field_44_death_type = 0;
@@ -857,7 +857,7 @@ void Player::sub_567130()
             memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(field_208_aux_game_camera));
             field_2D0 = 1;
         }
-        Player::sub_5670B0();
+        Player::RespawnPlayer_5670B0();
     }
     else
     {
@@ -920,7 +920,7 @@ void Player::sub_567850()
 }
 
 STUB_FUNC(0x5679E0)
-void Player::sub_5679E0()
+void Player::Busted_5679E0()
 {
     NOT_IMPLEMENTED;
 }
@@ -934,7 +934,7 @@ void Player::sub_568520()
     field_38 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 0xFu);
     field_3C = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 1u);
     field_40 = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), 5u);
-    field_34_pObj = gMap_0x370_6F6268->sub_4DFB50(cam_x_fp, cam_y_fp);
+    field_34_pObj = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
 }
 
 MATCH_FUNC(0x568630)
@@ -1142,11 +1142,11 @@ s32 Player::sub_569920(u32* a2, s32* a3, s32* a4)
 }
 
 MATCH_FUNC(0x5699F0)
-void Player::sub_5699F0(s32 a2)
+void Player::ChangeLifeCountByAmount_5699F0(s32 amount)
 {
-    if (!gDo_infinite_lives_67D4C9 || a2 > 0)
+    if (!gDo_infinite_lives_67D4C9 || amount > 0)
     {
-        field_684_lives.sub_4921B0(a2);
+        field_684_lives.ChangeStatByAmount_4921B0(amount);
     }
 }
 
