@@ -137,7 +137,7 @@ s8 Game_0x40::sub_4B8C20()
 }
 
 MATCH_FUNC(0x4B8C40)
-void Game_0x40::sub_4B8C40()
+void Game_0x40::LoadGameFiles_4B8C40()
 {
     char_type tmp_array[256];
 
@@ -248,7 +248,7 @@ EXPORT void sub_5D8E00()
 }
 
 MATCH_FUNC(0x4B8EB0)
-void Game_0x40::sub_4B8EB0()
+void Game_0x40::BootGame_4B8EB0()
 {
 
     gLucid_hamilton_67E8E0.sub_4C5AB0(0);
@@ -389,7 +389,7 @@ void Game_0x40::Draw_4B92D0()
 }
 
 MATCH_FUNC(0x4B9380)
-void Game_0x40::sub_4B9380()
+void Game_0x40::UpdateAllPlayersControls_4B9380()
 {
     Player** ppPlayersIterator = field_4_players;
     u32 idx = 0;
@@ -397,7 +397,7 @@ void Game_0x40::sub_4B9380()
     {
         if ((*ppPlayersIterator)->field_8E_bInUse)
         {
-            (*ppPlayersIterator)->sub_566820();
+            (*ppPlayersIterator)->ControlInputs_566820();
         }
         ++idx;
         ++ppPlayersIterator;
@@ -446,7 +446,7 @@ void Game_0x40::sub_4B93C0()
 
 // https://decomp.me/scratch/vQmiC - asm differ bug, needs objdiff
 STUB_FUNC(0x4B9410)
-void Game_0x40::sub_4B9410()
+void Game_0x40::UpdateGame_4B9410()
 {
     NOT_IMPLEMENTED;
     for (s32 i = 0; i < field_23_max_idx; i++)
@@ -562,7 +562,7 @@ void Game_0x40::sub_4B9410()
         gsharp_bose_0x54_7055D4->ShowFps_5BEC30();
     }
 
-    gGarox_2B00_706620->sub_5D69D0();
+    gGarox_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->sub_48B900(); // rng
     gDoor_4D4_67BD2C->sub_49D460();
     gTango_54_67D4C0->sub_4A85F0(); // fire engines
@@ -584,14 +584,14 @@ void Game_0x40::sub_4B9410()
 }
 
 MATCH_FUNC(0x4B9640)
-s8 Game_0x40::sub_4B9640()
+s8 Game_0x40::ExecuteGame_4B9640()
 {
-    sub_4B9380();
+    UpdateAllPlayersControls_4B9380();
 
     switch (field_0_game_state)
     {
         case 0:
-            sub_4B9410();
+            UpdateGame_4B9410();
 
             if (!bSkip_audio_67D6BE)
             {
@@ -601,7 +601,7 @@ s8 Game_0x40::sub_4B9640()
             break;
 
         case 1:
-            sub_4B9410();
+            UpdateGame_4B9410();
             if (!bSkip_audio_67D6BE)
             {
                 gRoot_sound_66B038.Service_40EFA0();

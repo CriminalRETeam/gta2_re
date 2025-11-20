@@ -101,10 +101,10 @@ class Player
     EXPORT void SetInputs_565740(u32 input);
     EXPORT void sub_565770(u8 count);
     EXPORT void sub_565860();
-    EXPORT void sub_565890(u16 action);
+    EXPORT void Hud_Controls_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
-    EXPORT char_type sub_566520();
-    EXPORT void sub_566820();
+    EXPORT char_type CharacterControls_566520();
+    EXPORT void ControlInputs_566820();
     EXPORT void sub_5668D0(Ped* a2);
     EXPORT void sub_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(Ped* a2);
@@ -134,15 +134,15 @@ class Player
     EXPORT void sub_569E70();
     EXPORT char* GetDeathText_569F00();
     EXPORT s32 sub_569F40();
-    EXPORT s32 sub_569FF0();
-    EXPORT void SetUnknown_56A000();
-    EXPORT void sub_56A010();
-    EXPORT void sub_56A020();
-    EXPORT void sub_56A030();
-    EXPORT void sub_56A040();
+    EXPORT s32 DisableAllControls_569FF0();
+    EXPORT void EnableAllControls_56A000();
+    EXPORT void EnableKFMode_56A010();
+    EXPORT void DisableKFMode_56A020();
+    EXPORT void DisableEnterVehicles_56A030();
+    EXPORT void EnableEnterVehicles_56A040();
     EXPORT s32 sub_56A0F0();
-    EXPORT zealous_borg* sub_56A1A0(s32 a2);
-    EXPORT void sub_56A310(s32 a2);
+    EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
+    EXPORT void UpdateGameFromSave_56A310(s32 a2);
     EXPORT void sub_56A490();
     EXPORT void sub_56A6D0();
 

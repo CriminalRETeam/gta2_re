@@ -109,7 +109,7 @@ Garox_1_v2::Garox_1_v2()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d15e0)
-char_type Garox_2A25_sub::sub_5D15E0(s32 action, Player* pPlayer)
+char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 {
     if (bStartNetworkGame_7081F0 && pPlayer->field_794)
     {
@@ -183,7 +183,7 @@ bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
 }
 
 MATCH_FUNC(0x5d1830)
-void Garox_2A25_sub::sub_5D1830(Player* pPlayer)
+void Garox_2A25_sub::StartChatting_5D1830(Player* pPlayer)
 {
     pPlayer->field_794 = 1;
     pPlayer->field_838_f796_idx = 0;
@@ -193,7 +193,7 @@ void Garox_2A25_sub::sub_5D1830(Player* pPlayer)
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d13c0)
-char_type Garox_12EC_sub::sub_5D13C0(s32 action, Player* pPlayer)
+char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 {
     if (pPlayer->field_78A)
     {
@@ -778,17 +778,17 @@ Hud_CopHead_C::Hud_CopHead_C()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d00b0)
-void Hud_CopHead_C_Array::sub_5D00B0()
+void Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0()
 {
     Ped* pPed = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped;
     field_48_cop_level = pPed->get_wanted_star_count_46EF00();
 
-    const bool a2 = gPolice_7B8_6FEE40->sub_56F800(pPed);
+    const bool bShakeHead = gPolice_7B8_6FEE40->HasCriminalBeenFound_56F800(pPed);
     s32 i = 0;
     Hud_CopHead_C* pIter = &field_1028[0];
     while (i < field_48_cop_level)
     {
-        pIter->UpdateHead_5D0050(a2);
+        pIter->UpdateHead_5D0050(bShakeHead);
         i++;
         pIter++;
     }
@@ -947,7 +947,7 @@ Hud_Pager_C::~Hud_Pager_C()
 }
 
 MATCH_FUNC(0x5d2320)
-void Hud_Pager_C::sub_5D2320()
+void Hud_Pager_C::Service_5D2320()
 {
     if (field_0_timer < 0)
     {
@@ -988,11 +988,11 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
 }
 
 MATCH_FUNC(0x5d31b0)
-void Hud_Pager_C_Array::sub_5D31B0()
+void Hud_Pager_C_Array::UpdatePagers_5D31B0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_620); i++)
     {
-        field_620[i].sub_5D2320();
+        field_620[i].Service_5D2320();
     }
 }
 
@@ -1230,7 +1230,7 @@ s32 Hud_Arrow_7C::sub_5D0850()
 }
 
 MATCH_FUNC(0x5d0c60)
-void Hud_Arrow_7C::sub_5D0C60()
+void Hud_Arrow_7C::Service_5D0C60()
 {
     if (!sub_5D0620())
     {
@@ -1411,7 +1411,7 @@ void Hud_Arrow_7C_Array::sub_5D0F80()
 }
 
 MATCH_FUNC(0x5d0fd0)
-void Hud_Arrow_7C_Array::sub_5D0FD0()
+void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
 {
     sub_5D0EF0();
 
@@ -1419,7 +1419,7 @@ void Hud_Arrow_7C_Array::sub_5D0FD0()
     {
         if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
-            field_0_array[i].sub_5D0C60();
+            field_0_array[i].Service_5D0C60();
         }
     }
 
@@ -1732,7 +1732,7 @@ void Garox_1E34_L::sub_5D44D0()
 }
 
 MATCH_FUNC(0x5d4850)
-void Garox_1E34_L::sub_5D4850()
+void Garox_1E34_L::ShowBrief_5D4850()
 {
     if (field_700)
     {
@@ -2006,19 +2006,19 @@ void Hud_2B00::sub_5D69C0()
 }
 
 MATCH_FUNC(0x5d69d0)
-void Hud_2B00::sub_5D69D0()
+void Hud_2B00::UpdateHUD_5D69D0()
 {
     field_1118_sub.sub_5D6290();
     field_110C_sub.sub_5CF730();
     field_27B5_sub.sub_5CF970();
-    field_1028.sub_5D00B0();
+    field_1028.UpdateWantedLevel_5D00B0();
     sub_5D5350();
     field_1080.sub_5D5690();
     field_4C.sub_5D5B60();
     field_DC.sub_5D44D0();
-    field_620.sub_5D31B0();
+    field_620.UpdatePagers_5D31B0();
     field_650.sub_5D2050();
-    field_1F18.sub_5D0FD0();
+    field_1F18.UpdateArrows_5D0FD0();
     field_107C_sub.sub_5CFE20();
     field_111C.sub_5D1AB0();
     field_12F0.sub_5D5760();
@@ -2072,7 +2072,7 @@ void Hud_2B00::sub_5D6BE0()
 MATCH_FUNC(0x5d6c20)
 s32 Hud_2B00::sub_5D6C20(s32 action, Player* pPlayer)
 {
-    return field_12EC_sub.sub_5D13C0(action, pPlayer) || field_2A25_sub.sub_5D15E0(action, pPlayer);
+    return field_12EC_sub.IsOnQuitMessage_5D13C0(action, pPlayer) || field_2A25_sub.IsTypingOnChat_5D15E0(action, pPlayer);
 }
 
 MATCH_FUNC(0x5d6c70)

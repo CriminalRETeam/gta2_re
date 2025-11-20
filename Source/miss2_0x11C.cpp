@@ -3940,20 +3940,20 @@ void miss2_0x11C::sub_50FB60() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CON
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
         {
-            gGame_0x40_67E008->field_38_orf1->sub_56A040(); // SET_ENTER_STATUS = ON
+            gGame_0x40_67E008->field_38_orf1->EnableEnterVehicles_56A040(); // SET_ENTER_STATUS = ON
         }
         else
         {
-            gGame_0x40_67E008->field_38_orf1->SetUnknown_56A000(); // SET_ALL_CONTROLS = ON
+            gGame_0x40_67E008->field_38_orf1->EnableAllControls_56A000(); // SET_ALL_CONTROLS = ON
         }
     }
     else if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_ENTER_STATUS)
     {
-        gGame_0x40_67E008->field_38_orf1->sub_56A030(); // SET_ENTER_STATUS = OFF
+        gGame_0x40_67E008->field_38_orf1->DisableEnterVehicles_56A030(); // SET_ENTER_STATUS = OFF
     }
     else
     {
-        gGame_0x40_67E008->field_38_orf1->sub_569FF0(); // SET_ALL_CONTROLS = OFF
+        gGame_0x40_67E008->field_38_orf1->DisableAllControls_569FF0(); // SET_ALL_CONTROLS = OFF
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }

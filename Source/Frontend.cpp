@@ -281,7 +281,7 @@ DEFINE_GLOBAL(infallible_turing, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(infallible_turing, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
-void Frontend::sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
+void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
     strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0);
     strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100);
@@ -1645,12 +1645,12 @@ void Frontend::sub_4AEC00()
             else
             {
                 snd1_67D818.field_4_bStatus = 0;
-                sub_4AE2D0();
+                UpdatePageFromUserInput_4AE2D0();
             }
             break;
 
         case Booting_Map_2:
-            sub_4AE990();
+            SetWinMainStateToBootMap_4AE990();
             break;
 
         case Unknown_4:
@@ -1850,7 +1850,7 @@ void Frontend::sub_4B7A10()
 }
 
 STUB_FUNC(0x4AE2D0)
-void Frontend::sub_4AE2D0()
+void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
     NOT_IMPLEMENTED;
     MenuPage_0xBCA* pBorg; // ebx
@@ -1931,7 +1931,7 @@ void Frontend::sub_4AE2D0()
                     {
                         FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                     }
-                    sub_4B4D00(v7, 0);
+                    LoadMapFilenames_4B4D00(v7, 0);
                     goto LABEL_9;
                 case 263u:
                     v19 = gLucid_hamilton_67E8E0.sub_4C5980();
@@ -1940,7 +1940,7 @@ void Frontend::sub_4AE2D0()
                     {
                         --v5;
                     }
-                    sub_4B4D00(v19, i);
+                    LoadMapFilenames_4B4D00(v19, i);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(0);
                     goto LABEL_9;
                 case MENUPAGE_GET_READY_TO_PLAY: // 264
@@ -1949,7 +1949,7 @@ void Frontend::sub_4AE2D0()
                     {
                         goto LABEL_11;
                     }
-                    sub_4B4D00(v8, 0);
+                    LoadMapFilenames_4B4D00(v8, 0);
                 LABEL_28:
                     field_EE08 = RedBar_16;
                     field_110_state = Booting_Map_2;
@@ -1961,7 +1961,7 @@ void Frontend::sub_4AE2D0()
                     {
                         goto LABEL_10;
                     }
-                    sub_4B4D00(v9 >> 4, v9 & 0xF);
+                    LoadMapFilenames_4B4D00(v9 >> 4, v9 & 0xF);
                     gLucid_hamilton_67E8E0.sub_4C5AD0(1);
                 LABEL_9:
                     field_EE08 = RedBar_16;
@@ -2154,7 +2154,7 @@ LABEL_60:
 }
 
 MATCH_FUNC(0x4AE990)
-void Frontend::sub_4AE990()
+void Frontend::SetWinMainStateToBootMap_4AE990()
 {
     field_108_winmain_next_state = Start_Game_3;
 }
@@ -2699,7 +2699,7 @@ void Frontend::sub_4B8020()
             i--;
         }
 
-        sub_4B4D00(idx, i);
+        LoadMapFilenames_4B4D00(idx, i);
         gLucid_hamilton_67E8E0.sub_4C5AD0(0);
         field_EE08 = RedBar_16;
         field_110_state = Booting_Map_2;
@@ -2736,14 +2736,14 @@ char_type Frontend::sub_4B7FB0()
 }
 
 MATCH_FUNC(0x4B4D00)
-void Frontend::sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
+void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
     char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
     char debugStr[256]; // [esp+110h] [ebp-300h] BYREF
     char mapName[256]; // [esp+210h] [ebp-200h] BYREF
     char styName[256]; // [esp+310h] [ebp-100h] BYREF
 
-    sub_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
+    LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
     gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
     strcpy(fullPath, "data\\");
     strcat(fullPath, debugStr);

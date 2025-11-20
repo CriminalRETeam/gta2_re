@@ -39,17 +39,17 @@ class Garox_1_v2
 class Garox_2A25_sub
 {
   public:
-    EXPORT char_type sub_5D15E0(s32 a1, Player *pPlayer);
+    EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player *pPlayer);
     EXPORT void sub_5D16B0();
     EXPORT bool sub_5D17D0(s32 a2);
-    EXPORT void sub_5D1830(Player* a1);
+    EXPORT void StartChatting_5D1830(Player* a1);
     char_type field_2A25;
 };
 
 class Garox_12EC_sub
 {
   public:
-    EXPORT char_type sub_5D13C0(s32 a2, Player *pPlayer);
+    EXPORT char_type IsOnQuitMessage_5D13C0(s32 a2, Player *pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool sub_5D15A0(s32 a1);
     EXPORT void sub_5D15D0(Player* pPlayer);
@@ -188,7 +188,7 @@ class Hud_CopHead_C_Array
     {
         field_48_cop_level = 0;
     }
-    EXPORT void sub_5D00B0();
+    EXPORT void UpdateWantedLevel_5D00B0();
     EXPORT void DrawWantedLevel_5D0110();
     EXPORT void sub_5D0210();
     Hud_CopHead_C field_1028[6];
@@ -238,7 +238,7 @@ class Hud_Pager_C
 {
   public:
     EXPORT ~Hud_Pager_C();
-    EXPORT void sub_5D2320();
+    EXPORT void Service_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
     EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
@@ -262,7 +262,7 @@ class Hud_Pager_C_Array
     EXPORT s32 sub_5D3280(s32 a2);
 
     EXPORT void DrawPagers_5D3040();
-    EXPORT void sub_5D31B0();
+    EXPORT void UpdatePagers_5D31B0();
     EXPORT s32 CreateTimer_5D31F0(s32 a2);
     EXPORT void sub_5D32D0(s32 a2);
     EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
@@ -363,7 +363,7 @@ class Hud_Arrow_7C
     EXPORT bool sub_5D0530();
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
-    EXPORT void sub_5D0C60();
+    EXPORT void Service_5D0C60();
     EXPORT void sub_5D0C90();
     EXPORT void sub_5D0DC0(Ped* a2);
 
@@ -415,7 +415,7 @@ class Hud_Arrow_7C_Array
     EXPORT Hud_Arrow_7C* sub_5D0EF0();
     EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
-    EXPORT void sub_5D0FD0();
+    EXPORT void UpdateArrows_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
     EXPORT Hud_Arrow_7C* AllocArrow_5D1050();
     EXPORT void sub_5D10B0();
@@ -467,7 +467,7 @@ class Garox_1E34_L  // size 0x704
     EXPORT s32 sub_5D3F10(s32 a2, const char_type* a3, s32 a4);
     EXPORT s32 sub_5D4400(s32 a2, const char_type* a3);
     EXPORT void sub_5D44D0();
-    EXPORT void sub_5D4850();
+    EXPORT void ShowBrief_5D4850();
     EXPORT s32 ClearAllBriefsWithPriority_5D4890(s32 a2);
     EXPORT Garox_1E34_L();
 
@@ -537,7 +537,7 @@ class Hud_2B00
     EXPORT void sub_5D5350();
     EXPORT void DrawGui_5D6860();
     EXPORT void sub_5D69C0();
-    EXPORT void sub_5D69D0();
+    EXPORT void UpdateHUD_5D69D0();
     EXPORT void sub_5D6A70();
     EXPORT void sub_5D6A90();
     EXPORT void sub_5D6AB0();

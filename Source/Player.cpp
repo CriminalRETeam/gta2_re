@@ -106,7 +106,7 @@ void Player::sub_564790(s32 idx)
     this->field_1A_ammo = this->field_718[idx]->field_0_ammo;
     this->field_718[idx]->field_0_ammo = -1;
     this->field_788_idx = this->field_1C_weapon_kind;
-    sub_56A010();
+    EnableKFMode_56A010();
 }
 
 STUB_FUNC(0x5647D0)
@@ -453,7 +453,7 @@ void Player::sub_565860()
 }
 
 STUB_FUNC(0x565890)
-void Player::sub_565890(u16 action)
+void Player::Hud_Controls_565890(u16 action)
 {
     NOT_IMPLEMENTED;
 }
@@ -506,18 +506,18 @@ void Player::sub_566380(u16 key)
 }
 
 STUB_FUNC(0x566520)
-char_type Player::sub_566520()
+char_type Player::CharacterControls_566520()
 {
     NOT_IMPLEMENTED;
     return 'a';
 }
 
 STUB_FUNC(0x566820)
-void Player::sub_566820()
+void Player::ControlInputs_566820()
 {
     NOT_IMPLEMENTED;
 
-    sub_566520();
+    CharacterControls_566520();
 
     const u32 inputs = this->field_4_inputs;
     if (inputs)
@@ -527,7 +527,7 @@ void Player::sub_566820()
             const s32 dx_key = (inputs >> 12) & 0x1FF;
             if ((inputs & 0x200000) != 0)
             {
-                sub_565890(dx_key);
+                Hud_Controls_565890(dx_key);
                 field_4_inputs = 0;
                 return;
             }
@@ -1226,38 +1226,38 @@ s32 Player::sub_569F40()
 }
 
 MATCH_FUNC(0x569FF0)
-s32 Player::sub_569FF0()
+s32 Player::DisableAllControls_569FF0()
 {
     field_2F = 1;
     return sub_569F40();
 }
 
 MATCH_FUNC(0x56A000)
-void Player::SetUnknown_56A000()
+void Player::EnableAllControls_56A000()
 {
     field_2F = 0;
 }
 
 MATCH_FUNC(0x56A010)
-void Player::sub_56A010()
+void Player::EnableKFMode_56A010()
 {
     field_31 = 1;
 }
 
 MATCH_FUNC(0x56A020)
-void Player::sub_56A020()
+void Player::DisableKFMode_56A020()
 {
     field_31 = 0;
 }
 
 MATCH_FUNC(0x56A030)
-void Player::sub_56A030()
+void Player::DisableEnterVehicles_56A030()
 {
     field_30 = 1;
 }
 
 MATCH_FUNC(0x56A040)
-void Player::sub_56A040()
+void Player::EnableEnterVehicles_56A040()
 {
     field_30 = 0;
 }
@@ -1270,14 +1270,14 @@ s32 Player::sub_56A0F0()
 }
 
 STUB_FUNC(0x56A1A0)
-zealous_borg* Player::sub_56A1A0(s32 a2)
+zealous_borg* Player::CopyPlayerDataToSave_56A1A0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x56A310)
-void Player::sub_56A310(s32 a2)
+void Player::UpdateGameFromSave_56A310(s32 a2)
 {
     NOT_IMPLEMENTED;
 }

@@ -5390,7 +5390,7 @@
         "v105_address": "0x4ae1f0"
     },
     {
-        "name": "Frontend::sub_4AE2D0",
+        "name": "Frontend::UpdatePageFromUserInput_4AE2D0",
         "v96f_address": "0x4597C0",
         "v105_address": "0x4ae2d0"
     },
@@ -5400,7 +5400,7 @@
         "v105_address": "0x4ae970"
     },
     {
-        "name": "Frontend::sub_4AE990",
+        "name": "Frontend::SetWinMainStateToBootMap_4AE990",
         "v96f_address": null,
         "v105_address": "0x4ae990"
     },
@@ -5540,12 +5540,12 @@
         "v105_address": "0x4b4bc0"
     },
     {
-        "name": "Frontend::sub_4B4C60",
+        "name": "Frontend::LoadStringsFromStage_4B4C60",
         "v96f_address": null,
         "v105_address": "0x4b4c60"
     },
     {
-        "name": "Frontend::sub_4B4D00",
+        "name": "Frontend::LoadMapFilenames_4B4D00",
         "v96f_address": null,
         "v105_address": "0x4b4d00"
     },
@@ -5885,7 +5885,7 @@
         "v105_address": "0x4b8c20"
     },
     {
-        "name": "Game_0x40::sub_4B8C40",
+        "name": "Game_0x40::LoadGameFiles_4B8C40",
         "v96f_address": "0x45B470",
         "v105_address": "0x4b8c40"
     },
@@ -5900,7 +5900,7 @@
         "v105_address": "0x4b8e50"
     },
     {
-        "name": "Game_0x40::sub_4B8EB0",
+        "name": "Game_0x40::BootGame_4B8EB0",
         "v96f_address": null,
         "v105_address": "0x4b8eb0"
     },
@@ -5920,7 +5920,7 @@
         "v105_address": "0x4b92d0"
     },
     {
-        "name": "Game_0x40::sub_4B9380",
+        "name": "Game_0x40::UpdateAllPlayersControls_4B9380",
         "v96f_address": null,
         "v105_address": "0x4b9380"
     },
@@ -5930,12 +5930,12 @@
         "v105_address": "0x4b93c0"
     },
     {
-        "name": "Game_0x40::sub_4B9410",
+        "name": "Game_0x40::UpdateGame_4B9410",
         "v96f_address": null,
         "v105_address": "0x4b9410"
     },
     {
-        "name": "Game_0x40::sub_4B9640",
+        "name": "Game_0x40::ExecuteGame_4B9640",
         "v96f_address": null,
         "v105_address": "0x4b9640"
     },
@@ -7080,7 +7080,7 @@
         "v105_address": "0x4da440"
     },
     {
-        "name": "sub_4DA4D0",
+        "name": "InitializeGame_4DA4D0",
         "v96f_address": null,
         "v105_address": "0x4da4d0"
     },
@@ -7095,7 +7095,7 @@
         "v105_address": "0x4da740"
     },
     {
-        "name": "sub_4DA780",
+        "name": "ExecuteGame_4DA780",
         "v96f_address": null,
         "v105_address": "0x4da780"
     },
@@ -12735,7 +12735,7 @@
         "v105_address": "0x565860"
     },
     {
-        "name": "Player::sub_565890",
+        "name": "Player::Hud_Controls_565890",
         "v96f_address": null,
         "v105_address": "0x565890"
     },
@@ -12745,12 +12745,12 @@
         "v105_address": "0x566380"
     },
     {
-        "name": "Player::sub_566520",
+        "name": "Player::CharacterControls_566520",
         "v96f_address": null,
         "v105_address": "0x566520"
     },
     {
-        "name": "Player::sub_566820",
+        "name": "Player::ControlInputs_566820",
         "v96f_address": null,
         "v105_address": "0x566820"
     },
@@ -12900,32 +12900,32 @@
         "v105_address": "0x569f40"
     },
     {
-        "name": "Player::sub_569FF0",
+        "name": "Player::DisableAllControls_569FF0",
         "v96f_address": null,
         "v105_address": "0x569ff0"
     },
     {
-        "name": "Player::SetUnknown",
+        "name": "Player::EnableAllControls_56A000",
         "v96f_address": null,
         "v105_address": "0x56a000"
     },
     {
-        "name": "Player::sub_56A010",
+        "name": "Player::EnableKFMode_56A010",
         "v96f_address": null,
         "v105_address": "0x56a010"
     },
     {
-        "name": "Player::sub_56A020",
+        "name": "Player::DisableKFMode_56A020",
         "v96f_address": null,
         "v105_address": "0x56a020"
     },
     {
-        "name": "Player::sub_56A030",
+        "name": "Player::DisableEnterVehicles_56A030",
         "v96f_address": null,
         "v105_address": "0x56a030"
     },
     {
-        "name": "Player::sub_56A040",
+        "name": "Player::EnableEnterVehicles_56A040",
         "v96f_address": null,
         "v105_address": "0x56a040"
     },
@@ -12935,12 +12935,12 @@
         "v105_address": "0x56a0f0"
     },
     {
-        "name": "Player::sub_56A1A0",
+        "name": "Player::CopyPlayerDataToSave_56A1A0",
         "v96f_address": null,
         "v105_address": "0x56a1a0"
     },
     {
-        "name": "Player::sub_56A310",
+        "name": "Player::UpdateGameFromSave_56A310",
         "v96f_address": null,
         "v105_address": "0x56a310"
     },
@@ -13135,7 +13135,7 @@
         "v105_address": "0x56f6d0"
     },
     {
-        "name": "Police_7B8::sub_56F800",
+        "name": "Police_7B8::HasCriminalBeenFound_56F800",
         "v96f_address": null,
         "v105_address": "0x56f800"
     },
@@ -16005,7 +16005,7 @@
         "v105_address": "0x5d0050"
     },
     {
-        "name": "Hud_CopHead_C_Array::sub_5D00B0",
+        "name": "Hud_CopHead_C_Array::UpdateWantedLevel_5D00B0",
         "v96f_address": null,
         "v105_address": "0x5d00b0"
     },
@@ -16055,7 +16055,7 @@
         "v105_address": "0x5d0850"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0C60",
+        "name": "Hud_Arrow_7C::Service_5D0C60",
         "v96f_address": null,
         "v105_address": "0x5d0c60"
     },
@@ -16095,7 +16095,7 @@
         "v105_address": "0x5d0f80"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0FD0",
+        "name": "Hud_Arrow_7C_Array::UpdateArrows_5D0FD0",
         "v96f_address": null,
         "v105_address": "0x5d0fd0"
     },
@@ -16150,7 +16150,7 @@
         "v105_address": "0x5d1350"
     },
     {
-        "name": "Garox_12EC_sub::sub_5D13C0",
+        "name": "Garox_12EC_sub::IsOnQuitMessage_5D13C0",
         "v96f_address": null,
         "v105_address": "0x5d13c0"
     },
@@ -16170,7 +16170,7 @@
         "v105_address": "0x5d15d0"
     },
     {
-        "name": "Garox_2A25_sub::sub_5D15E0",
+        "name": "Garox_2A25_sub::IsTypingOnChat_5D15E0",
         "v96f_address": null,
         "v105_address": "0x5d15e0"
     },
@@ -16185,7 +16185,7 @@
         "v105_address": "0x5d17d0"
     },
     {
-        "name": "Garox_2A25_sub::sub_5D1830",
+        "name": "Garox_2A25_sub::StartChatting_5D1830",
         "v96f_address": null,
         "v105_address": "0x5d1830"
     },
@@ -16265,7 +16265,7 @@
         "v105_address": "0x5d2280"
     },
     {
-        "name": "Hud_Pager_C::sub_5D2320",
+        "name": "Hud_Pager_C::Service_5D2320",
         "v96f_address": null,
         "v105_address": "0x5d2320"
     },
@@ -16290,7 +16290,7 @@
         "v105_address": "0x5d3040"
     },
     {
-        "name": "Hud_Pager_C::sub_5D31B0",
+        "name": "Hud_Pager_C_Array::UpdatePagers_5D31B0",
         "v96f_address": null,
         "v105_address": "0x5d31b0"
     },
@@ -16385,7 +16385,7 @@
         "v105_address": "0x5d44d0"
     },
     {
-        "name": "Garox_1E34_L::sub_5D4850",
+        "name": "Garox_1E34_L::ShowBrief_5D4850",
         "v96f_address": null,
         "v105_address": "0x5d4850"
     },
@@ -16545,7 +16545,7 @@
         "v105_address": "0x5d69c0"
     },
     {
-        "name": "Hud_2B00::sub_5D69D0",
+        "name": "Hud_2B00::UpdateHUD_5D69D0",
         "v96f_address": null,
         "v105_address": "0x5d69d0"
     },

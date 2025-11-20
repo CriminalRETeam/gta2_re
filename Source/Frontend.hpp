@@ -328,7 +328,7 @@ struct Frontend
     u8 field_1EB51_blocks[3];
 
     // todo: ordering
-    EXPORT void sub_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
+    EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
     EXPORT void sub_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
     EXPORT void sub_4B5270();
 
@@ -355,9 +355,9 @@ struct Frontend
 
     EXPORT void sub_4B7A10();
 
-    EXPORT void sub_4AE2D0();
+    EXPORT void UpdatePageFromUserInput_4AE2D0();
 
-    EXPORT void sub_4AE990();
+    EXPORT void SetWinMainStateToBootMap_4AE990();
 
     EXPORT void sub_4B2F60();
 
@@ -391,7 +391,7 @@ struct Frontend
 
     EXPORT char_type sub_4B7FB0();
 
-    EXPORT void sub_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
+    EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
     EXPORT void sub_4ADF50();
 

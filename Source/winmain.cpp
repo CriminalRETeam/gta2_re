@@ -162,10 +162,10 @@ void force_link()
     lewin.SetInputs_565740(0);
     lewin.sub_565770(0);
     lewin.sub_565860();
-    lewin.sub_565890(0);
+    lewin.Hud_Controls_565890(0);
     lewin.sub_566380(0);
-    lewin.sub_566520();
-    lewin.sub_566820();
+    lewin.CharacterControls_566520();
+    lewin.ControlInputs_566820();
     lewin.sub_5668D0(0);
     lewin.sub_566C30(0);
     lewin.sub_566C80(0);
@@ -195,15 +195,15 @@ void force_link()
     lewin.sub_569E70();
     lewin.GetDeathText_569F00();
     lewin.sub_569F40();
-    lewin.sub_569FF0();
-    lewin.SetUnknown_56A000();
-    lewin.sub_56A010();
-    lewin.sub_56A020();
-    lewin.sub_56A030();
-    lewin.sub_56A040();
+    lewin.DisableAllControls_569FF0();
+    lewin.EnableAllControls_56A000();
+    lewin.EnableKFMode_56A010();
+    lewin.DisableKFMode_56A020();
+    lewin.DisableEnterVehicles_56A030();
+    lewin.EnableEnterVehicles_56A040();
     lewin.sub_56A0F0();
-    lewin.sub_56A1A0(0);
-    lewin.sub_56A310(0);
+    lewin.CopyPlayerDataToSave_56A1A0(0);
+    lewin.UpdateGameFromSave_56A310(0);
     lewin.sub_56A490();
     lewin.sub_56A6D0();
 
@@ -772,7 +772,7 @@ void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 
 // todo move to another file for ordering
 STUB_FUNC(0x4DA4D0)
-EXPORT void __stdcall sub_4DA4D0()
+EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     NOT_IMPLEMENTED;
 
@@ -805,8 +805,8 @@ EXPORT void __stdcall sub_4DA4D0()
         gGame_0x40_67E008 = new Game_0x40(1, 0);
     }
 
-    gGame_0x40_67E008->sub_4B8C40();
-    gGame_0x40_67E008->sub_4B8EB0();
+    gGame_0x40_67E008->LoadGameFiles_4B8C40();
+    gGame_0x40_67E008->BootGame_4B8EB0();
 
     byte_6F58D8 = 0;
     byte_6F5880 = 0;
@@ -824,9 +824,9 @@ EXPORT void __stdcall sub_5D9690()
 
 // TODO: order
 MATCH_FUNC(0x4DA780)
-EXPORT char sub_4DA780()
+EXPORT char ExecuteGame_4DA780()
 {
-    char v0 = gGame_0x40_67E008->sub_4B9640();
+    char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
     if (gsharp_bose_0x54_7055D4)
     {
         gsharp_bose_0x54_7055D4->field_18.sub_5BEBF0();
@@ -928,7 +928,7 @@ EXPORT u8 sub_4DA850()
     {
         if (Time >= dword_6F5A28)
         {
-            bContinue = sub_4DA780();
+            bContinue = ExecuteGame_4DA780();
             sub_4DAF30();
             dword_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
         }
@@ -962,7 +962,7 @@ EXPORT u8 sub_4DA850()
                 sub_4DAF30();
                 byte_6F5760 = 0;
             }
-            bContinue = sub_4DA780();
+            bContinue = ExecuteGame_4DA780();
             s32 v2 = gGame_0x40_67E008->sub_4B8BB0();
             byte_6F5880 = 0;
             dword_6F5A28 += v2;
@@ -1823,7 +1823,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         }
         else
         {
-            sub_4DA4D0();
+            InitializeGame_4DA4D0();
             if (bStartNetworkGame_7081F0 && !gNetPlay_7071E8.sub_5213E0())
             {
                 CoUninitialize();
