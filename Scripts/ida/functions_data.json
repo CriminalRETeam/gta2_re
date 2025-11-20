@@ -6110,7 +6110,7 @@
         "v105_address": "0x4be4f0"
     },
     {
-        "name": "Zones_CA8::dtor",
+        "name": "GangPool_CA8::dtor",
         "v96f_address": "0x45ae80",
         "v105_address": "0x4be500"
     },
@@ -6180,12 +6180,12 @@
         "v105_address": "0x4bebc0"
     },
     {
-        "name": "Zones_CA8::sub_4BECA0",
+        "name": "GangPool_CA8::sub_4BECA0",
         "v96f_address": null,
         "v105_address": "0x4beca0"
     },
     {
-        "name": "Zones_CA8::sub_4BECE0",
+        "name": "GangPool_CA8::sub_4BECE0",
         "v96f_address": null,
         "v105_address": "0x4bece0"
     },
@@ -6220,12 +6220,12 @@
         "v105_address": "0x4beea0"
     },
     {
-        "name": "Gang_144::sub_4BEEF0",
+        "name": "Gang_144::GetRespectForPlayer_4BEEF0",
         "v96f_address": null,
         "v105_address": "0x4beef0"
     },
     {
-        "name": "Gang_144::sub_4BEF10",
+        "name": "Gang_144::IsRespectNegativeForPlayer_4BEF10",
         "v96f_address": null,
         "v105_address": "0x4bef10"
     },
@@ -6250,42 +6250,42 @@
         "v105_address": "0x4bf090"
     },
     {
-        "name": "sub_4BF0C0",
+        "name": "Gang_144::GetGangCurrWeapon_4BF0C0",
         "v96f_address": null,
         "v105_address": "0x4bf0c0"
     },
     {
-        "name": "Zones_CA8::zone_by_name",
+        "name": "GangPool_CA8::gang_by_name_4BF100",
         "v96f_address": null,
         "v105_address": "0x4bf100"
     },
     {
-        "name": "Zones_CA8::next_free_zone",
+        "name": "GangPool_CA8::next_free_gang_slot_4BF170",
         "v96f_address": null,
         "v105_address": "0x4bf170"
     },
     {
-        "name": "Zones_CA8::ZoneByIdx",
+        "name": "GangPool_CA8::GangByIdx_4BF1C0",
         "v96f_address": null,
         "v105_address": "0x4bf1c0"
     },
     {
-        "name": "Zones_CA8::alloc_map_zone",
+        "name": "GangPool_CA8::alloc_gang_for_map_zone_4BF1E0",
         "v96f_address": null,
         "v105_address": "0x4bf1e0"
     },
     {
-        "name": "Zones_CA8::get_zone_idx",
+        "name": "GangPool_CA8::get_gang_idx_by_name_4BF210",
         "v96f_address": null,
         "v105_address": "0x4bf210"
     },
     {
-        "name": "Zones_CA8::sub_4BF230",
+        "name": "GangPool_CA8::sub_4BF230",
         "v96f_address": null,
         "v105_address": "0x4bf230"
     },
     {
-        "name": "Zones_CA8::sub_4BF2F0",
+        "name": "GangPool_CA8::FindGangByCarModel_4BF2F0",
         "v96f_address": null,
         "v105_address": "0x4bf2f0"
     },

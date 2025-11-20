@@ -427,7 +427,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
     u32 car_info_idx = pPed->get_car_model();
 
-    u16 bIsGangCar = gGangPool_CA8_67E274->sub_4BF2F0(pCar->field_84_car_info_idx);
+    u16 bIsGangCar = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
 
     field_1A8_unk.sub_4320D0(1,
                              pCar->field_84_car_info_idx,
@@ -613,7 +613,7 @@ void eager_benz::sub_593240(Car_BC* pCar)
     gmp_map_zone* pMapZone = gMap_0x370_6F6268->sub_4DF6A0(field_368_pObj->field_2C4_player_ped->get_cam_x().ToInt(),
                                                            field_368_pObj->field_2C4_player_ped->get_cam_y().ToInt());
 
-    const u16 zone_ret = gGangPool_CA8_67E274->sub_4BF2F0(pCar->field_84_car_info_idx);
+    const u16 zone_ret = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
     field_1A8_unk.sub_4320D0(2, pCar->field_84_car_info_idx, 51, zone_ret, pCar->field_50_car_sprite->field_24_remap, 23, 87, pMapZone);
 
     field_8A_cars_stolen_count++;

@@ -656,7 +656,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
     for (Gang_144* pGang = gGangPool_CA8_67E274->sub_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->sub_4BECE0(), ypos += 27)
     {
-        s8 respect = pGang->sub_4BEEF0(PlayerIdx);
+        s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
         sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
@@ -1200,7 +1200,7 @@ bool Hud_Arrow_7C::sub_5D0530()
                     return false;
                 }
                 u8 player_idx = pPlayer->field_2E_idx;
-                if (field_30->sub_4BEEF0(player_idx) < field_18.field_10.field_34)
+                if (field_30->GetRespectForPlayer_4BEEF0(player_idx) < field_18.field_10.field_34)
                 {
                     return false;
                 }

@@ -63,9 +63,9 @@ void Gang_144::init_4BED70()
 }
 
 MATCH_FUNC(0x4BEDF0)
-char_type Gang_144::sub_4BEDF0(u8 a2)
+char_type Gang_144::sub_4BEDF0(u8 gang_idx)
 {
-    return field_112[a2];
+    return field_112[gang_idx];
 }
 
 MATCH_FUNC(0x4BEE30)
@@ -121,13 +121,13 @@ void Gang_144::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 }
 
 MATCH_FUNC(0x4BEEF0)
-char_type Gang_144::sub_4BEEF0(u8 player_idx)
+char_type Gang_144::GetRespectForPlayer_4BEEF0(u8 player_idx)
 {
     return field_11C_respect[player_idx];
 }
 
 MATCH_FUNC(0x4BEF10)
-bool Gang_144::sub_4BEF10(u8 player_idx)
+bool Gang_144::IsRespectNegativeForPlayer_4BEF10(u8 player_idx)
 {
     if (field_11C_respect[player_idx] < -19)
     {
@@ -137,9 +137,9 @@ bool Gang_144::sub_4BEF10(u8 player_idx)
 }
 
 MATCH_FUNC(0x4BEF50)
-void Gang_144::SetGangKillReaction_4BEF50(u8 zone_idx, char_type a3)
+void Gang_144::SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_value)
 {
-    field_122_gang_kill_reaction[zone_idx] = a3;
+    field_122_gang_kill_reaction[gang_idx] = kill_reaction_value;
 }
 
 STUB_FUNC(0x4BEF70)
@@ -163,7 +163,7 @@ void Gang_144::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
 
     for (u8 i = 0; i < 10; ++i)
     {
-        Gang_144* pGangFromIdx = gGangPool_CA8_67E274->ZoneByIdx_4BF1C0(i);
+        Gang_144* pGangFromIdx = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
         if (field_1_gang_idx != pGangFromIdx->field_1_gang_idx)
         {
             if (pGangFromIdx->field_122_gang_kill_reaction[field_1_gang_idx])
@@ -182,7 +182,7 @@ void Gang_144::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
 }
 
 MATCH_FUNC(0x4BF0C0);
-s32 Gang_144::sub_4BF0C0()
+s32 Gang_144::GetGangCurrWeapon_4BF0C0()
 {
     if (bStartNetworkGame_7081F0 || field_141)
     {
@@ -252,11 +252,11 @@ Gang_144* GangPool_CA8::sub_4BECE0()
 }
 
 MATCH_FUNC(0x4BF100);
-Gang_144* GangPool_CA8::zone_by_name_4BF100(const char* pZoneName)
+Gang_144* GangPool_CA8::gang_by_name_4BF100(const char* pGangName)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        if (_strnicmp(pZoneName, field_0_gang_list[i].field_2_name, 4u) == 0)
+        if (_strnicmp(pGangName, field_0_gang_list[i].field_2_name, 4u) == 0)
         {
             return &field_0_gang_list[i];
         }
@@ -265,7 +265,7 @@ Gang_144* GangPool_CA8::zone_by_name_4BF100(const char* pZoneName)
 }
 
 MATCH_FUNC(0x4BF170);
-Gang_144* GangPool_CA8::next_free_zone_4BF170()
+Gang_144* GangPool_CA8::next_free_gang_slot_4BF170()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_gang_list); i++)
     {
@@ -281,25 +281,25 @@ Gang_144* GangPool_CA8::next_free_zone_4BF170()
 }
 
 MATCH_FUNC(0x4BF1C0);
-Gang_144* GangPool_CA8::ZoneByIdx_4BF1C0(u8 zone_idx)
+Gang_144* GangPool_CA8::GangByIdx_4BF1C0(u8 zone_idx)
 {
     return &field_0_gang_list[zone_idx];
 }
 
 MATCH_FUNC(0x4BF1E0);
-void GangPool_CA8::alloc_map_zone_4BF1E0(gmp_map_zone* pMapZone)
+void GangPool_CA8::alloc_gang_for_map_zone_4BF1E0(gmp_map_zone* pMapZone)
 {
-    if (!zone_by_name_4BF100(pMapZone->field_6_name))
+    if (!gang_by_name_4BF100(pMapZone->field_6_name))
     {
-        Gang_144* pFreeZone = next_free_zone_4BF170();
+        Gang_144* pFreeZone = next_free_gang_slot_4BF170();
         pFreeZone->set_name_4BF090(pMapZone->field_6_name, pMapZone->field_5_name_length);
     }
 }
 
 MATCH_FUNC(0x4BF210);
-u8 GangPool_CA8::get_zone_idx_4BF210(const char* zoneName)
+u8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
 {
-    Gang_144* pZone = zone_by_name_4BF100(zoneName);
+    Gang_144* pZone = gang_by_name_4BF100(gangName);
     if (pZone)
     {
         return pZone->field_1_gang_idx;
@@ -311,14 +311,14 @@ u8 GangPool_CA8::get_zone_idx_4BF210(const char* zoneName)
 }
 
 STUB_FUNC(0x4BF230);
-void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 zone_idx)
+void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 gang_idx)
 {
     NOT_IMPLEMENTED;
     Gang_144 zone;
     zone.init_4BED70();
-    if (pGang->field_1_gang_idx != zone_idx)
+    if (pGang->field_1_gang_idx != gang_idx)
     {
-        Gang_144* pZoneByIdx = ZoneByIdx_4BF1C0(zone_idx);
+        Gang_144* pZoneByIdx = GangByIdx_4BF1C0(gang_idx);
         if (pZoneByIdx->field_0_used)
         {
             if (pZoneByIdx->field_138_arrow_colour != pGang->field_138_arrow_colour)
@@ -331,18 +331,18 @@ void GangPool_CA8::sub_4BF230(Gang_144* pGang, u8 zone_idx)
                        &zone,
                        sizeof(gGangPool_CA8_67E274->field_0_gang_list[pGang->field_1_gang_idx]));
                 pGang->field_1_gang_idx = pZoneByIdx->field_1_gang_idx;
-                gGangPool_CA8_67E274->field_0_gang_list[zone_idx].field_1_gang_idx = zone_idx;
+                gGangPool_CA8_67E274->field_0_gang_list[gang_idx].field_1_gang_idx = gang_idx;
             }
         }
     }
 }
 
 MATCH_FUNC(0x4BF2F0);
-s8 GangPool_CA8::sub_4BF2F0(s32 car_model)
+s8 GangPool_CA8::FindGangByCarModel_4BF2F0(s32 car_model)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        if (ZoneByIdx_4BF1C0(i)->field_13C_gang_car_model == car_model)
+        if (GangByIdx_4BF1C0(i)->field_13C_gang_car_model == car_model)
         {
             return i;
         }

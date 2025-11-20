@@ -973,7 +973,7 @@ void Ped::Occupation_AI_461F20()
             if (field_25C_car_state == 20 && field_17C_pZone != NULL && field_14C->field_15C_player != NULL)
             {
                 u8 idx = field_14C->field_15C_player->field_2E_idx;
-                if (!field_17C_pZone->sub_4BEF10(idx))
+                if (!field_17C_pZone->IsRespectNegativeForPlayer_4BEF10(idx))
                 {
                     Ped::sub_463830(0, 9999);
                 }

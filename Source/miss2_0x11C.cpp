@@ -385,10 +385,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         if (pCmd->field_2_type >= 0x18Au //  create gang car
             && pCmd->field_2_type <= 0x18Du)
         {
-            s8 zone_idx = gGangPool_CA8_67E274->sub_4BF2F0(pPointer->field_8_car->field_84_car_info_idx);
+            s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pPointer->field_8_car->field_84_car_info_idx);
             if (zone_idx > -1)
             {
-                Gang_144* pZone = gGangPool_CA8_67E274->ZoneByIdx_4BF1C0(zone_idx);
+                Gang_144* pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
                 pPointer->field_8_car->sub_440660(pZone->field_138_arrow_colour);
             }
         }
@@ -593,7 +593,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     string_entry = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
-    Gang_144* pZone = gGangPool_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    Gang_144* pZone = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
     pZone->field_101 = pCmd->field_A_remap;
 
     pZone->field_104_basic_weapon = pCmd->field_B_weapon1;
@@ -622,7 +622,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->field_139_kill_respect_change = pCmd->field_F_kill_respect_change;
     gGangPool_CA8_67E274->sub_4BF230(pZone, gfrosty_pasteur_6F8060->field_354);
     ++gfrosty_pasteur_6F8060->field_354;
-    Gang_144* v7 = gGangPool_CA8_67E274->zone_by_name_4BF100((char*)&string_entry[1]);
+    Gang_144* v7 = gGangPool_CA8_67E274->gang_by_name_4BF100((char*)&string_entry[1]);
     if ((u8)pCmd->field_F_kill_respect_change > 0)
     {
         gGarox_2B00_706620->field_1F18.SetNewGangArrow_5D1310(v7);
@@ -2372,13 +2372,13 @@ void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20() // SET_GANG_KILL_REACTI
     {
         FatalError_4A38C0(0x474, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
-    Gang_144* pGang_1 = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_1_str->get_name());
+    Gang_144* pGang_1 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_1_str->get_name());
     str_table_entry* gang_2_str = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_C_unsigned_3);
     if (gang_2_str == NULL)
     {
         FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
-    Gang_144* pGang_2 = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
+    Gang_144* pGang_2 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_2_str->get_name());
     pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, v1->field_A_unsigned_2);
     pGang_1->field_111 = 1;
     pGang_2->field_111 = 1;
@@ -2393,7 +2393,7 @@ void miss2_0x11C::sub_50ACF0()
     str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
 
     char* gang_zone_name = (char*)&StringById_503080[1];
-    Gang_144* v4 = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_zone_name);
+    Gang_144* v4 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_C_unsigned_3);
 
     // v1->field_A_signed_2 = respect parameter
@@ -2951,7 +2951,7 @@ void miss2_0x11C::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 
     char* gang_zone_name = (char*)&StringById_503080[1];
 
-    pPointer->field_8_char->field_17C_pZone = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_zone_name);
+    pPointer->field_8_char->field_17C_pZone = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_zone_name);
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3602,7 +3602,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     pParam5 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_16_counter5);
     str_table_entry* StringById = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_18_gangname);
     char_type* gang_name = (char_type*)&StringById[1];
-    Gang_144* pGang_zone = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_name);
+    Gang_144* pGang_zone = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_name);
     if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
     {
         s32 v9 = v1->field_8_brief_id - 5;
@@ -3647,7 +3647,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx1;
     //  Check if the player has respect enough to launch the mission
-    if ((idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->sub_4BEEF0(idx1) / 20 >= v1->field_1A_respect))
+    if ((idx1 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->GetRespectForPlayer_4BEEF0(idx1) / 20 >= v1->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_1C_mission1);
         char_type* mission1_name = (char_type*)&mission1_str_table[1];
@@ -3656,7 +3656,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx2;
     //  Check if the player has respect = 0
-    if ((idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang_zone->sub_4BEEF0(idx2) / 20) == 0))
+    if ((idx2 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
     {
         s32 v9 = v1->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", v9);
@@ -3666,7 +3666,7 @@ void miss2_0x11C::sub_50EDC0() //  EASY_PHONE_TEMPLATE
     }
     s8 idx3;
     //  Check if the player has negative respect
-    if ((idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->sub_4BEEF0(idx3) / 20 < 0))
+    if ((idx3 = gGame_0x40_67E008->field_38_orf1->field_2E_idx, pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
     {
         s32 v9 = v1->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", v9);
@@ -4164,7 +4164,7 @@ void miss2_0x11C::sub_510780()
     {
         for (; v2 != NULL; v2 = gGangPool_CA8_67E274->sub_4BECE0())
         {
-            gfrosty_pasteur_6F8060->field_C1E2F[v4++] = v2->sub_4BEEF0(0);
+            gfrosty_pasteur_6F8060->field_C1E2F[v4++] = v2->GetRespectForPlayer_4BEEF0(0);
         }
     }
     else
