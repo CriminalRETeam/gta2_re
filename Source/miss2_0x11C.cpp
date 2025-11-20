@@ -16,7 +16,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "Sero_181C.hpp"
-#include "Snooky_94.hpp"
+#include "Crushers.hpp"
 #include "Weapon_8.hpp"
 #include "Zheal_D9C.hpp"
 #include "Gang.hpp"
@@ -557,7 +557,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
 MATCH_FUNC(0x5045a0)
 void miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* a1, SCR_POINTER* a2)
 {
-    a2->field_8_crusher = gSnooky_94_67A830->CreateCrusher_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
+    a2->field_8_crusher = gCrusherPool_94_67A830->CreateCrusher_488820(a1->field_C_pos.field_0_x, a1->field_C_pos.field_4_y);
 }
 
 STUB_FUNC(0x5045d0)

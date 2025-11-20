@@ -28,17 +28,17 @@ class Crusher_30
     s32 field_2C;
 };
 
-class Snooky_94
+class CrusherPool_94
 {
   public:
     EXPORT bool sub_4887A0(Car_BC* toFind);
     EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
     EXPORT void CrushersService_4887F0();
     EXPORT Crusher_30* CreateCrusher_488820(Fix16 a2, Fix16 a3);
-    EXPORT Snooky_94();
-    EXPORT ~Snooky_94();
+    EXPORT CrusherPool_94();
+    EXPORT ~CrusherPool_94();
 
     Crusher_30 field_0[3];
     s32 field_90_count;
 };
-EXTERN_GLOBAL(Snooky_94*, gSnooky_94_67A830);
+EXTERN_GLOBAL(CrusherPool_94*, gCrusherPool_94_67A830);

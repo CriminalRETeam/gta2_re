@@ -4720,27 +4720,27 @@
         "v105_address": "0x4885a0"
     },
     {
-        "name": "Snooky_94::sub_4887A0",
+        "name": "CrusherPool_94::sub_4887A0",
         "v96f_address": null,
         "v105_address": "0x4887a0"
     },
     {
-        "name": "Snooky_94::sub_4887D0",
+        "name": "CrusherPool_94::sub_4887D0",
         "v96f_address": null,
         "v105_address": "0x4887d0"
     },
     {
-        "name": "Snooky_94::CrushersService_4887F0",
+        "name": "CrusherPool_94::CrushersService_4887F0",
         "v96f_address": null,
         "v105_address": "0x4887f0"
     },
     {
-        "name": "Snooky_94::CreateCrusher_488820",
+        "name": "CrusherPool_94::CreateCrusher_488820",
         "v96f_address": null,
         "v105_address": "0x488820"
     },
     {
-        "name": "Snooky_94::ctor",
+        "name": "CrusherPool_94::ctor",
         "v96f_address": "0x44aa00",
         "v105_address": "0x488860"
     },
@@ -6055,7 +6055,7 @@
         "v105_address": "0x4bbbf0"
     },
     {
-        "name": "Snooky_94::dtor",
+        "name": "CrusherPool_94::dtor",
         "v96f_address": null,
         "v105_address": "0x4bbc30"
     },

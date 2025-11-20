@@ -45,7 +45,7 @@
 #include "Player.hpp"
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
-#include "Snooky_94.hpp"
+#include "Crushers.hpp"
 #include "Tango_28.hpp"
 #include "char.hpp"
 #include "collide.hpp"
@@ -120,7 +120,7 @@ void force_link()
     Sprite car_3c;
     car_3c.field_20_id = 5;
 
-    Snooky_94 snooky;
+    CrusherPool_94 snooky;
     snooky.sub_4887A0(0);
 
     Network_20324 network;

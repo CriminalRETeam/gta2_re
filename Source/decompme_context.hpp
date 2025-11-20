@@ -31,7 +31,7 @@
 #include "Rozza_C88.hpp"
 #include "Sero_181C.hpp"
 #include "Shooey_CC.hpp"
-#include "Snooky_94.hpp"
+#include "Crushers.hpp"
 #include "Soula_CC68.hpp"
 #include "Tango_28.hpp"
 #include "Taxi_4.hpp"

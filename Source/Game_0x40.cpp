@@ -31,7 +31,7 @@
 #include "Rozza_C88.hpp"
 #include "Sero_181C.hpp"
 #include "Shooey_CC.hpp"
-#include "Snooky_94.hpp"
+#include "Crushers.hpp"
 #include "Tango_28.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
@@ -514,7 +514,7 @@ void Game_0x40::UpdateGame_4B9410()
     }
 
     gZheal_D9C_679FD4->CranesService_480E50();
-    gSnooky_94_67A830->CrushersService_4887F0();
+    gCrusherPool_94_67A830->CrushersService_4887F0();
     gMaccies_14AC_67E5D0->GeneratorsService_4C1D70();
     gChar_C_6787BC->PedsService_4703F0(); // ped stuff? has arg??
     gSero_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
@@ -1151,8 +1151,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1885);
     }
 
-    gSnooky_94_67A830 = new Snooky_94(); // ctor call
-    if (!gSnooky_94_67A830)
+    gCrusherPool_94_67A830 = new CrusherPool_94(); // ctor call
+    if (!gCrusherPool_94_67A830)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1887);
     }
@@ -1311,7 +1311,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gWolfy_3D4_6FD5EC);
     GTA2_DELETE_AND_NULL(gWolfy_7A8_6FD5F0);
     GTA2_DELETE_AND_NULL(gZheal_D9C_679FD4);
-    GTA2_DELETE_AND_NULL(gSnooky_94_67A830);
+    GTA2_DELETE_AND_NULL(gCrusherPool_94_67A830);
     GTA2_DELETE_AND_NULL(gMaccies_14AC_67E5D0);
 
     GTA2_DELETE_AND_NULL(gKfc_1E0_706280);

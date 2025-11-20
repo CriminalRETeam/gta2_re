@@ -188,8 +188,8 @@ set(gta2_lib_src
   Source/Wolfy_3D4.cpp
   Source/Zheal_D9C.hpp
   Source/Zheal_D9C.cpp
-  Source/Snooky_94.hpp
-  Source/Snooky_94.cpp
+  Source/Crushers.hpp
+  Source/Crushers.cpp
   Source/Maccies_14AC.hpp
   Source/Maccies_14AC.cpp
   Source/Kfc_1E0.hpp
