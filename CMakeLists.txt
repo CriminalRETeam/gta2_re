@@ -123,8 +123,8 @@ set(gta2_lib_src
   Source/infallible_turing.cpp
   Source/sad_mirzakhani.hpp
   Source/sad_mirzakhani.cpp
-  Source/Zones_CA8.hpp
-  Source/Zones_CA8.cpp
+  Source/Gang.hpp
+  Source/Gang.cpp
   Source/youthful_einstein.hpp
   Source/youthful_einstein.cpp
   Source/xenodochial_morse.hpp

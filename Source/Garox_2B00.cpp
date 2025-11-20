@@ -8,7 +8,7 @@
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Zones_CA8.hpp"
+#include "Gang.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "gbh_graphics.hpp"
@@ -654,7 +654,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
 
     s32 ypos = 11;
 
-    for (Gang_144* pGang = gZones_CA8_67E274->sub_4BECA0(); pGang; pGang = gZones_CA8_67E274->sub_4BECE0(), ypos += 27)
+    for (Gang_144* pGang = gGangPool_CA8_67E274->sub_4BECA0(); pGang; pGang = gGangPool_CA8_67E274->sub_4BECE0(), ypos += 27)
     {
         s8 respect = pGang->sub_4BEEF0(PlayerIdx);
 

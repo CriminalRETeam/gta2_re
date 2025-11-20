@@ -40,7 +40,7 @@
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "Zheal_D9C.hpp"
-#include "Zones_CA8.hpp"
+#include "Gang.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -1181,8 +1181,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1896);
     }
 
-    gZones_CA8_67E274 = new Zones_CA8(); // multi level inline
-    if (!gZones_CA8_67E274)
+    gGangPool_CA8_67E274 = new GangPool_CA8(); // multi level inline
+    if (!gGangPool_CA8_67E274)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
     }
@@ -1317,7 +1317,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gKfc_1E0_706280);
     GTA2_DELETE_AND_NULL(gPolice_7B8_6FEE40);
     GTA2_DELETE_AND_NULL(gLight_1D4CC_6F5520);
-    GTA2_DELETE_AND_NULL(gZones_CA8_67E274);
+    GTA2_DELETE_AND_NULL(gGangPool_CA8_67E274);
     GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
     GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
 

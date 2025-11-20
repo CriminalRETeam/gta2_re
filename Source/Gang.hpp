@@ -120,14 +120,14 @@ class Gang_144
     char field_143;
 };
 
-class Zones_CA8
+class GangPool_CA8
 {
   public:
-    Zones_CA8()
+    GangPool_CA8()
     {
     }
 
-    EXPORT ~Zones_CA8();
+    EXPORT ~GangPool_CA8();
     EXPORT Gang_144* sub_4BECA0();
     EXPORT Gang_144* sub_4BECE0();
     EXPORT Gang_144* zone_by_name_4BF100(const char* pZoneName);
@@ -138,7 +138,7 @@ class Zones_CA8
     EXPORT void sub_4BF230(Gang_144* pZone, u8 zone_idx);
     EXPORT s8 sub_4BF2F0(s32 arg0);
 
-    Gang_144 field_0[10];
+    Gang_144 field_0_gang_list[10];
 };
 
-EXTERN_GLOBAL(Zones_CA8*, gZones_CA8_67E274);
+EXTERN_GLOBAL(GangPool_CA8*, gGangPool_CA8_67E274);
