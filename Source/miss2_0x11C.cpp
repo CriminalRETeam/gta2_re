@@ -2379,7 +2379,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20() // SET_GANG_KILL_REACTI
         FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_2 = gGangPool_CA8_67E274->zone_by_name_4BF100(gang_2_str->get_name());
-    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_zone_idx, v1->field_A_unsigned_2);
+    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, v1->field_A_unsigned_2);
     pGang_1->field_111 = 1;
     pGang_2->field_111 = 1;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

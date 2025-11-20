@@ -28,7 +28,7 @@ class Gang_144
     EXPORT wchar_t* sub_4BF340();
 
     u8 field_0_used;
-    u8 field_1_zone_idx;
+    u8 field_1_gang_idx;
     char field_2_name[4];
     char field_6;
     char field_7;
@@ -104,8 +104,8 @@ class Gang_144
     char field_110;
     char field_111;
     char field_112[10];
-    s8 field_11C[6];
-    char field_122[10];
+    s8 field_11C_respect[6];
+    char field_122_gang_kill_reaction[10];
     Fix16 field_12C_info_phone_x;
     Fix16 field_130_info_phone_y;
     Fix16 field_134_info_phone_z;
