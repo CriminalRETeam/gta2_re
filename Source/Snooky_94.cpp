@@ -36,7 +36,7 @@ void Crusher_30::sub_488310(Car_BC* pCar)
 }
 
 STUB_FUNC(0x488350)
-void Crusher_30::sub_488350()
+void Crusher_30::Service_488350()
 {
     NOT_IMPLEMENTED;
 }
@@ -68,13 +68,13 @@ void Snooky_94::sub_4887D0(Car_BC* a2, u8 idx)
 }
 
 MATCH_FUNC(0x4887f0)
-void Snooky_94::sub_4887F0()
+void Snooky_94::CrushersService_4887F0()
 {
     s32 idx = 0;
     Crusher_30* pIter = &field_0[0];
     while (idx < field_90_count)
     {
-        pIter->sub_488350();
+        pIter->Service_488350();
         idx++;
         pIter++;
     }

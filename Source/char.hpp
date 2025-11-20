@@ -217,7 +217,7 @@ class Char_C
 {
   public:
     EXPORT void sub_46EB60(u32* a2);
-    EXPORT void sub_4703F0();
+    EXPORT void PedsService_4703F0();
     EXPORT Char_C();
     EXPORT ~Char_C();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);

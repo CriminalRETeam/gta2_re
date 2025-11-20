@@ -5,7 +5,7 @@
 DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4, 0x6FD5E4);
 
 STUB_FUNC(0x53e320)
-void Particle_8::sub_53E320()
+void Particle_8::ParticlesService_53E320()
 {
     NOT_IMPLEMENTED;
 }

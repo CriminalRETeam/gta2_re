@@ -297,7 +297,7 @@ void Object_2C::sub_525F30()
 }
 
 MATCH_FUNC(0x5263d0)
-bool Object_2C::sub_5263D0()
+bool Object_2C::Service_5263D0()
 {
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
@@ -610,7 +610,7 @@ void Object_5C::sub_529300()
 }
 
 STUB_FUNC(0x5293a0)
-void Object_5C::sub_5293A0()
+void Object_5C::ObjectsService_5293A0()
 {
     NOT_IMPLEMENTED;
 }

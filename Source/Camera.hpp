@@ -39,7 +39,7 @@ class Camera_0xBC
     EXPORT void sub_4357B0();
     EXPORT void sub_4357F0();
     EXPORT void sub_435810();
-    EXPORT void sub_435830();
+    EXPORT void ReturnToDefaultZoom_435830();
     EXPORT void sub_435840();
     EXPORT void sub_435860(Camera_0xBC* a2);
     EXPORT s16* sub_4358D0(s16* a2);

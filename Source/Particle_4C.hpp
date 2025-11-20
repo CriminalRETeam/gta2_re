@@ -26,7 +26,7 @@ class Particle_4C
     EXPORT char_type sub_53B670();
     EXPORT char_type sub_53B9F0();
     EXPORT char_type sub_53BAC0();
-    EXPORT char_type sub_53D260();
+    EXPORT char_type Service_53D260();
     EXPORT char_type sub_53E2C0();
     EXPORT void sub_53E2E0();
 

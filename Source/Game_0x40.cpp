@@ -453,7 +453,7 @@ void Game_0x40::UpdateGame_4B9410()
     {
         if (field_4_players[i]->field_8E_bInUse)
         {
-            field_4_players[i]->sub_5687F0();
+            field_4_players[i]->Service_5687F0();
         }
     }
 
@@ -513,13 +513,13 @@ void Game_0x40::UpdateGame_4B9410()
         }
     }
 
-    gZheal_D9C_679FD4->sub_480E50();
-    gSnooky_94_67A830->sub_4887F0();
-    gMaccies_14AC_67E5D0->sub_4C1D70();
-    gChar_C_6787BC->sub_4703F0(); // ped stuff? has arg??
-    gSero_181C_6FF1D4->sub_57A7A0(); // trains
-    gGarage_48_6FD26C->sub_5349D0();
-    gCar_6C_677930->sub_446790();
+    gZheal_D9C_679FD4->CranesService_480E50();
+    gSnooky_94_67A830->CrushersService_4887F0();
+    gMaccies_14AC_67E5D0->GeneratorsService_4C1D70();
+    gChar_C_6787BC->PedsService_4703F0(); // ped stuff? has arg??
+    gSero_181C_6FF1D4->PublicTransportService_57A7A0(); // trains
+    gGarage_48_6FD26C->GaragesService_5349D0();
+    gCar_6C_677930->CarsService_446790();
 
     if (bDo_mike_67D5CC)
     {
@@ -528,10 +528,10 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (!bSkip_traffic_lights_67D4EC)
     {
-        gTrafficLights_194_705958->sub_5C2950(); // traffic lights
+        gTrafficLights_194_705958->TrafficLightsService_5C2950(); // traffic lights
     }
 
-    gObject_5C_6F8F84->sub_5293A0();
+    gObject_5C_6F8F84->ObjectsService_5293A0();
 
     if (!bSkip_mission_67D4E5)
     {
@@ -542,20 +542,20 @@ void Game_0x40::UpdateGame_4B9410()
 
     if (!bSkip_ambulance_67D6C9)
     {
-        gAmbulance_110_6F70A8->sub_4FA790(); // ambulance
+        gAmbulance_110_6F70A8->AmbulancesService_4FA790(); // ambulance
     }
 
     if (!bSkip_police_67D4F9)
     {
-        gPolice_7B8_6FEE40->sub_570270();
+        gPolice_7B8_6FEE40->Service_570270();
     }
 
     if (!bSkip_particles_67D64D)
     {
-        gParticle_8_6FD5E8->sub_53E320();
+        gParticle_8_6FD5E8->ParticlesService_53E320();
     }
 
-    gTileAnim_2_7052C4->sub_5BC310();
+    gTileAnim_2_7052C4->UpdateTileAnimations_5BC310();
 
     if (bDo_show_timing_67D6DC)
     {
@@ -564,7 +564,7 @@ void Game_0x40::UpdateGame_4B9410()
 
     gGarox_2B00_706620->UpdateHUD_5D69D0();
     rng_dword_67AB34->sub_48B900(); // rng
-    gDoor_4D4_67BD2C->sub_49D460();
+    gDoor_4D4_67BD2C->DoorsService_49D460();
     gTango_54_67D4C0->sub_4A85F0(); // fire engines
 
     if (!bExplodingOff_67D4FB)

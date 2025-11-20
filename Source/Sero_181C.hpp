@@ -93,8 +93,8 @@ class Sero_181C
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car_BC** sub_579B40(Car_BC* toFind);
     EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
-    EXPORT void sub_579CA0();
-    EXPORT void sub_57A7A0();
+    EXPORT void BusesService_579CA0();
+    EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
     EXPORT Car_BC* sub_57B540(Car_BC* a2);
     EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* a2);

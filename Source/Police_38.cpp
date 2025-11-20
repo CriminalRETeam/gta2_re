@@ -756,7 +756,7 @@ void Police_38::sub_575310()
 }
 
 MATCH_FUNC(0x575590)
-void Police_38::sub_575590()
+void Police_38::Service_575590()
 {
     if (field_10_subObj)
     {

@@ -76,7 +76,7 @@ void Kfc_30::sub_5CC1C0()
 }
 
 STUB_FUNC(0x5cc480)
-char_type Kfc_30::sub_5CC480()
+char_type Kfc_30::Service_5CC480()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -93,7 +93,7 @@ void Kfc_1E0::init_5CBB70()
 }
 
 MATCH_FUNC(0x5cbb80)
-Kfc_30* Kfc_1E0::sub_5CBB80()
+Kfc_30* Kfc_1E0::New_5CBB80()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
@@ -112,7 +112,7 @@ void Kfc_1E0::sub_5CBBD0()
     {
         if (field_0[i].field_1E_is_used)
         {
-            if (field_0[i].sub_5CC480())
+            if (field_0[i].Service_5CC480())
             {
                 field_0[i].field_1E_is_used = 0;
             }

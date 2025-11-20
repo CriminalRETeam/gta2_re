@@ -523,7 +523,7 @@ void Car_6C::sub_446760()
 }
 
 STUB_FUNC(0x446790)
-void Car_6C::sub_446790()
+void Car_6C::CarsService_446790()
 {
     NOT_IMPLEMENTED;
 }
@@ -1530,7 +1530,7 @@ void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 }
 
 STUB_FUNC(0x440660)
-s32 Car_BC::sub_440660(u8 a2)
+s32 Car_BC::AttachGangIcon_440660(u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

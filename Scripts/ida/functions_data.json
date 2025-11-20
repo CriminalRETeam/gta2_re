@@ -1230,7 +1230,7 @@
         "v105_address": "0x435810"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435830",
+        "name": "DrawUnk_0xBC::ReturnToDefaultZoom_435830",
         "v96f_address": null,
         "v105_address": "0x435830"
     },
@@ -1915,7 +1915,7 @@
         "v105_address": "0x440630"
     },
     {
-        "name": "Car_BC::sub_440660",
+        "name": "Car_BC::AttachGangIcon_440660",
         "v96f_address": null,
         "v105_address": "0x440660"
     },
@@ -2455,7 +2455,7 @@
         "v105_address": "0x446760"
     },
     {
-        "name": "Car_6C::sub_446790",
+        "name": "Car_6C::CarsService_446790",
         "v96f_address": null,
         "v105_address": "0x446790"
     },
@@ -2885,7 +2885,7 @@
         "v105_address": "0x45b590"
     },
     {
-        "name": "Ped::sub_45B5B0",
+        "name": "Ped::CopyStatsFromPed_45B5B0",
         "v96f_address": null,
         "v105_address": "0x45b5b0"
     },
@@ -2895,7 +2895,7 @@
         "v105_address": "0x45bbf0"
     },
     {
-        "name": "Ped::sub_45BC10",
+        "name": "Ped::TeleportToCoord_45BC10",
         "v96f_address": null,
         "v105_address": "0x45bc10"
     },
@@ -3920,7 +3920,7 @@
         "v105_address": "0x470330"
     },
     {
-        "name": "Char_C::sub_4703F0",
+        "name": "Char_C::PedsService_4703F0",
         "v96f_address": null,
         "v105_address": "0x4703f0"
     },
@@ -4490,7 +4490,7 @@
         "v105_address": "0x47fe10"
     },
     {
-        "name": "Crane_15C::sub_480310",
+        "name": "Crane_15C::Service_480310",
         "v96f_address": null,
         "v105_address": "0x480310"
     },
@@ -4520,7 +4520,7 @@
         "v105_address": "0x480e00"
     },
     {
-        "name": "Zheal_D9C::sub_480E50",
+        "name": "Zheal_D9C::CranesService_480E50",
         "v96f_address": null,
         "v105_address": "0x480e50"
     },
@@ -4695,27 +4695,27 @@
         "v105_address": "0x4881e0"
     },
     {
-        "name": "Snooky_30::ctor",
+        "name": "Crusher_30::ctor",
         "v96f_address": null,
         "v105_address": "0x4882d0"
     },
     {
-        "name": "Snooky_30::dtor",
+        "name": "Crusher_30::dtor",
         "v96f_address": null,
         "v105_address": "0x4882e0"
     },
     {
-        "name": "Snooky_30::sub_488310",
+        "name": "Crusher_30::sub_488310",
         "v96f_address": null,
         "v105_address": "0x488310"
     },
     {
-        "name": "Snooky_30::sub_488350",
+        "name": "Crusher_30::Service_488350",
         "v96f_address": null,
         "v105_address": "0x488350"
     },
     {
-        "name": "Snooky_30::sub_4885A0",
+        "name": "Crusher_30::sub_4885A0",
         "v96f_address": null,
         "v105_address": "0x4885a0"
     },
@@ -4730,7 +4730,7 @@
         "v105_address": "0x4887d0"
     },
     {
-        "name": "Snooky_94::sub_4887F0",
+        "name": "Snooky_94::CrushersService_4887F0",
         "v96f_address": null,
         "v105_address": "0x4887f0"
     },
@@ -5060,7 +5060,7 @@
         "v105_address": "0x49cd90"
     },
     {
-        "name": "Door_38::sub_49CE90",
+        "name": "Door_38::Service_49CE90",
         "v96f_address": null,
         "v105_address": "0x49ce90"
     },
@@ -5120,7 +5120,7 @@
         "v105_address": "0x49d3c0"
     },
     {
-        "name": "Door_4D4::sub_49D460",
+        "name": "Door_4D4::DoorsService_49D460",
         "v96f_address": null,
         "v105_address": "0x49d460"
     },
@@ -6305,7 +6305,7 @@
         "v105_address": "0x4c1ab0"
     },
     {
-        "name": "Generator_2C::sub_4C1C50",
+        "name": "Generator_2C::Service_4C1C50",
         "v96f_address": null,
         "v105_address": "0x4c1c50"
     },
@@ -6320,7 +6320,7 @@
         "v105_address": "0x4c1cd0"
     },
     {
-        "name": "Maccies_14AC::sub_4C1D70",
+        "name": "Maccies_14AC::GeneratorsService_4C1D70",
         "v96f_address": null,
         "v105_address": "0x4c1d70"
     },
@@ -8065,7 +8065,7 @@
         "v105_address": "0x4fa500"
     },
     {
-        "name": "Ambulance_110::sub_4FA790",
+        "name": "Ambulance_110::AmbulancesService_4FA790",
         "v96f_address": null,
         "v105_address": "0x4fa790"
     },
@@ -10695,7 +10695,7 @@
         "v105_address": "0x525f30"
     },
     {
-        "name": "Object_2C::sub_5263D0",
+        "name": "Object_2C::Service_5263D0",
         "v96f_address": null,
         "v105_address": "0x5263d0"
     },
@@ -10890,7 +10890,7 @@
         "v105_address": "0x529300"
     },
     {
-        "name": "Object_5C::sub_5293A0",
+        "name": "Object_5C::ObjectsService_5293A0",
         "v96f_address": null,
         "v105_address": "0x5293a0"
     },
@@ -11200,7 +11200,7 @@
         "v105_address": "0x534700"
     },
     {
-        "name": "Garage_48::sub_5349D0",
+        "name": "Garage_48::GaragesService_5349D0",
         "v96f_address": null,
         "v105_address": "0x5349d0"
     },
@@ -11305,7 +11305,7 @@
         "v105_address": "0x53bac0"
     },
     {
-        "name": "Particle_4C::sub_53D260",
+        "name": "Particle_4C::Service_53D260",
         "v96f_address": null,
         "v105_address": "0x53d260"
     },
@@ -11320,7 +11320,7 @@
         "v105_address": "0x53e2e0"
     },
     {
-        "name": "Particle_8::sub_53E320",
+        "name": "Particle_8::ParticlesService_53E320",
         "v96f_address": null,
         "v105_address": "0x53e320"
     },
@@ -12700,7 +12700,7 @@
         "v105_address": "0x5651f0"
     },
     {
-        "name": "Player::sub_565310",
+        "name": "Player::TeleportToDebugCam_565310",
         "v96f_address": null,
         "v105_address": "0x565310"
     },
@@ -12725,12 +12725,12 @@
         "v105_address": "0x565740"
     },
     {
-        "name": "Player::sub_565770",
+        "name": "Player::IncrementGangRespectFromDebugKeys_565770",
         "v96f_address": null,
         "v105_address": "0x565770"
     },
     {
-        "name": "Player::sub_565860",
+        "name": "Player::IncreaseWantedLevelFromDebugKeys_565860",
         "v96f_address": null,
         "v105_address": "0x565860"
     },
@@ -12820,7 +12820,7 @@
         "v105_address": "0x568730"
     },
     {
-        "name": "Player::sub_5687F0",
+        "name": "Player::Service_5687F0",
         "v96f_address": null,
         "v105_address": "0x5687f0"
     },
@@ -13145,7 +13145,7 @@
         "v105_address": "0x56f880"
     },
     {
-        "name": "Police_7B8::sub_56F8E0",
+        "name": "Police_7B8::SetArrestedPed_56F8E0",
         "v96f_address": null,
         "v105_address": "0x56f8e0"
     },
@@ -13170,7 +13170,7 @@
         "v105_address": "0x56fbd0"
     },
     {
-        "name": "Police_7B8::sub_570270",
+        "name": "Police_7B8::Service_570270",
         "v96f_address": null,
         "v105_address": "0x570270"
     },
@@ -13305,7 +13305,7 @@
         "v105_address": "0x575310"
     },
     {
-        "name": "Police_38::sub_575590",
+        "name": "Police_38::Service_575590",
         "v96f_address": null,
         "v105_address": "0x575590"
     },
@@ -13520,12 +13520,12 @@
         "v105_address": "0x579b90"
     },
     {
-        "name": "Sero_181C::sub_579CA0",
+        "name": "Sero_181C::BusesService_579CA0",
         "v96f_address": null,
         "v105_address": "0x579ca0"
     },
     {
-        "name": "Sero_181C::sub_57A7A0",
+        "name": "Sero_181C::PublicTransportService_57A7A0",
         "v96f_address": null,
         "v105_address": "0x57a7a0"
     },
@@ -15700,7 +15700,7 @@
         "v105_address": "0x5bc1d0"
     },
     {
-        "name": "TileAnim_18::sub_5BC1F0",
+        "name": "TileAnim_18::Update_5BC1F0",
         "v96f_address": "0x4c3300",
         "v105_address": "0x5bc1f0"
     },
@@ -15720,7 +15720,7 @@
         "v105_address": "0x5bc300"
     },
     {
-        "name": "TileAnim_2::sub_5BC310",
+        "name": "TileAnim_2::UpdateTileAnimations_5BC310",
         "v96f_address": null,
         "v105_address": "0x5bc310"
     },
@@ -15800,7 +15800,7 @@
         "v105_address": "0x5c1d00"
     },
     {
-        "name": "TrafficLight_20::sub_5C27A0",
+        "name": "TrafficLight_20::UpdateLightsFromPhase_5C27A0",
         "v96f_address": null,
         "v105_address": "0x5c27a0"
     },
@@ -15810,7 +15810,7 @@
         "v105_address": "0x5c2910"
     },
     {
-        "name": "TrafficLights_194::sub_5C2950",
+        "name": "TrafficLights_194::TrafficLightsService_5C2950",
         "v96f_address": null,
         "v105_address": "0x5c2950"
     },
@@ -15905,7 +15905,7 @@
         "v105_address": "0x5cbb70"
     },
     {
-        "name": "Kfc_1E0::sub_5CBB80",
+        "name": "Kfc_1E0::New_5CBB80",
         "v96f_address": null,
         "v105_address": "0x5cbb80"
     },
@@ -15950,7 +15950,7 @@
         "v105_address": "0x5cc1c0"
     },
     {
-        "name": "Kfc_30::sub_5CC480",
+        "name": "Kfc_30::Service_5CC480",
         "v96f_address": null,
         "v105_address": "0x5cc480"
     },

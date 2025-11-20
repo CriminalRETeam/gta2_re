@@ -156,12 +156,12 @@ void force_link()
     lewin.sub_564D60(0);
     lewin.tick_down_powerups_565070();
     lewin.sub_5651F0(0);
-    lewin.sub_565310();
+    lewin.TeleportToDebugCam_565310();
     lewin.sub_5653E0();
     lewin.sub_565490(0);
     lewin.SetInputs_565740(0);
-    lewin.sub_565770(0);
-    lewin.sub_565860();
+    lewin.IncrementGangRespectFromDebugKeys_565770(0);
+    lewin.IncreaseWantedLevelFromDebugKeys_565860();
     lewin.Hud_Controls_565890(0);
     lewin.sub_566380(0);
     lewin.CharacterControls_566520();
@@ -179,7 +179,7 @@ void force_link()
     lewin.sub_568670();
     lewin.sub_5686D0(0);
     lewin.sub_568730();
-    lewin.sub_5687F0();
+    lewin.Service_5687F0();
     lewin.sub_569410();
     lewin.sub_569530();
     lewin.sub_5695A0();
@@ -211,7 +211,7 @@ void force_link()
     drawUnk.sub_4357B0();
     drawUnk.sub_4357F0();
     drawUnk.sub_435810();
-    drawUnk.sub_435830();
+    drawUnk.ReturnToDefaultZoom_435830();
     drawUnk.sub_435840();
     drawUnk.sub_435860(0);
     drawUnk.sub_435D20(1, 1, 1, 1, 1, 1);

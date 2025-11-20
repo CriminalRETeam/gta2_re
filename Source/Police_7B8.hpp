@@ -27,12 +27,12 @@ class Police_7B8
     EXPORT void sub_56F6D0(Car_BC* a2);
     EXPORT bool HasCriminalBeenFound_56F800(Ped* a2);
     EXPORT bool sub_56F880(Ped* a2);
-    EXPORT void sub_56F8E0(Ped* a2, Ped* a3);
+    EXPORT void SetArrestedPed_56F8E0(Ped* a2, Ped* a3);
     EXPORT s32 sub_56F940(Ped* a2);
     EXPORT s16 sub_56FA40();
     EXPORT char_type sub_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
-    EXPORT void sub_570270();
+    EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT char_type sub_5703E0(Car_BC* a2);
     EXPORT bool sub_570790(Police_38* a1, Police_7C* a2);

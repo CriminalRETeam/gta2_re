@@ -127,7 +127,7 @@ char_type Particle_4C::sub_53BAC0()
 }
 
 STUB_FUNC(0x53d260)
-char_type Particle_4C::sub_53D260()
+char_type Particle_4C::Service_53D260()
 {
     NOT_IMPLEMENTED;
     return 0;

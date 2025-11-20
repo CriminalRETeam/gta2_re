@@ -94,13 +94,13 @@ class Player
     EXPORT char_type sub_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
     EXPORT s32 sub_5651F0(s32 a2);
-    EXPORT void sub_565310();
+    EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
     EXPORT s32 sub_565490(Ped* pPed);
     EXPORT void SetInputs_565740(u32 input);
-    EXPORT void sub_565770(u8 count);
-    EXPORT void sub_565860();
+    EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);
+    EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
     EXPORT void Hud_Controls_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
     EXPORT char_type CharacterControls_566520();
@@ -118,7 +118,7 @@ class Player
     EXPORT char_type sub_568670();
     EXPORT void sub_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
-    EXPORT void sub_5687F0();
+    EXPORT void Service_5687F0();
     EXPORT s32 sub_569410();
     EXPORT void sub_569530();
     EXPORT void sub_5695A0();

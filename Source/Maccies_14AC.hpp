@@ -9,7 +9,7 @@ class Object_2C;
 class Generator_2C
 {
   public:
-    EXPORT void sub_4C1C50();
+    EXPORT void Service_4C1C50();
     EXPORT void sub_4C1C70(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
 
     s32 field_0_gen_type;
@@ -35,7 +35,7 @@ class Maccies_14AC
 {
   public:
     EXPORT void sub_4C1CD0(Maccies_14AC* a1);
-    EXPORT void sub_4C1D70();
+    EXPORT void GeneratorsService_4C1D70();
     EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
     EXPORT Maccies_14AC();
     Generator_2C field_0[120];

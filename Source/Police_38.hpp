@@ -35,7 +35,7 @@ class Police_38
     EXPORT void sub_575270();
     EXPORT void sub_5752C0();
     EXPORT void sub_575310();
-    EXPORT void sub_575590();
+    EXPORT void Service_575590();
     EXPORT s32 sub_575650();
 
     char_type field_0;

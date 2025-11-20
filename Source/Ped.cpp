@@ -201,7 +201,7 @@ bool Ped::sub_45B590()
 }
 
 STUB_FUNC(0x45b5b0)
-s32 Ped::sub_45B5B0(s32 a2)
+s32 Ped::CopyStatsFromPed_45B5B0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -221,11 +221,11 @@ Car_BC* Ped::sub_45BBF0()
 }
 
 MATCH_FUNC(0x45bc10)
-void Ped::sub_45BC10(Fix16 xpos, Fix16 ypos)
+void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
 {
     Fix16 tempZ;
     gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&tempZ, xpos, ypos);
-    Car_BC* pCar = this->field_16C_car;
+    Car_BC* pCar = field_16C_car;
     if (pCar)
     {
         pCar->sub_443D00(xpos, ypos, tempZ);

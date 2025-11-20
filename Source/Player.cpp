@@ -370,7 +370,7 @@ s32 Player::sub_5651F0(s32 a2)
 }
 
 STUB_FUNC(0x565310)
-void Player::sub_565310()
+void Player::TeleportToDebugCam_565310()
 {
     NOT_IMPLEMENTED;
 }
@@ -409,13 +409,13 @@ void Player::SetInputs_565740(u32 input)
 }
 
 STUB_FUNC(0x565770)
-void Player::sub_565770(u8 count)
+void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x565860)
-void Player::sub_565860()
+void Player::IncreaseWantedLevelFromDebugKeys_565860()
 {
     NOT_IMPLEMENTED;
     Ped* pPed = this->field_2C4_player_ped;
@@ -988,7 +988,7 @@ void Player::sub_568730()
 }
 
 STUB_FUNC(0x5687F0)
-void Player::sub_5687F0()
+void Player::Service_5687F0()
 {
     NOT_IMPLEMENTED;
 }

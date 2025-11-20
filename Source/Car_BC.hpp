@@ -208,7 +208,7 @@ class Car_6C
 
     EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
-    EXPORT void sub_446790();
+    EXPORT void CarsService_446790();
     EXPORT bool sub_446870(s32 a2);
     EXPORT u32 sub_446930(s32 a2);
     EXPORT Car_6C();
@@ -412,7 +412,7 @@ class Car_BC
     EXPORT void sub_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
-    EXPORT s32 sub_440660(u8 a2);
+    EXPORT s32 AttachGangIcon_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void sub_4407F0();

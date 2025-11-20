@@ -99,7 +99,7 @@ void Camera_0xBC::sub_435810()
 }
 
 MATCH_FUNC(0x435830)
-void Camera_0xBC::sub_435830()
+void Camera_0xBC::ReturnToDefaultZoom_435830()
 {
     field_40_tgt_elevation = dword_676818;
 }
@@ -455,7 +455,7 @@ Camera_0xBC::Camera_0xBC()
 {
     field_68_screen_px_width = 0;
     field_6C_screen_px_height = 0;
-    sub_435830();
+    ReturnToDefaultZoom_435830();
     field_98_cam_pos2.field_C_zoom = dword_6766D4;
     sub_4397D0(-1, -1, -1, dword_6766D4);
     ctor_inline(640, 480);

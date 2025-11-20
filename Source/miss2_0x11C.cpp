@@ -389,7 +389,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             if (zone_idx > -1)
             {
                 Gang_144* pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                pPointer->field_8_car->sub_440660(pZone->field_138_arrow_colour);
+                pPointer->field_8_car->AttachGangIcon_440660(pZone->field_138_arrow_colour);
             }
         }
     }

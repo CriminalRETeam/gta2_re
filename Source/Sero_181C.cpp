@@ -445,13 +445,13 @@ bool Sero_181C::sub_579B90(Car_BC* a2, u32* a3)
 }
 
 STUB_FUNC(0x579ca0)
-void Sero_181C::sub_579CA0()
+void Sero_181C::BusesService_579CA0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x57a7a0)
-void Sero_181C::sub_57A7A0()
+void Sero_181C::PublicTransportService_57A7A0()
 {
     NOT_IMPLEMENTED;
 }

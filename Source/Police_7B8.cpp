@@ -211,7 +211,7 @@ bool Police_7B8::sub_56F880(Ped* a2)
 }
 
 MATCH_FUNC(0x56f8e0)
-void Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
+void Police_7B8::SetArrestedPed_56F8E0(Ped* a2, Ped* a3)
 {
     for (u8 i = 0; i < 4; i++)
     {
@@ -251,7 +251,7 @@ void Police_7B8::sub_56FBD0()
 }
 
 MATCH_FUNC(0x570270)
-void Police_7B8::sub_570270()
+void Police_7B8::Service_570270()
 {
     field_7B4 = 0;
     field_654_wanted_level = 0;
@@ -265,7 +265,7 @@ void Police_7B8::sub_570270()
     {
         if (field_4_cop_crew[i].field_1C_used == 1)
         {
-            field_4_cop_crew[i].sub_575590();
+            field_4_cop_crew[i].Service_575590();
         }
     }
 

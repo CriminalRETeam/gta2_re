@@ -64,7 +64,7 @@ class Door_38
     EXPORT void sub_49CAC0(Door_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
     EXPORT void sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
     EXPORT void sub_49CD90();
-    EXPORT char_type sub_49CE90();
+    EXPORT char_type Service_49CE90();
 
     // inlined in 0x476990
     inline void set_field_20(u32 v)

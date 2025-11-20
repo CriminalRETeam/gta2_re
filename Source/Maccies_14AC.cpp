@@ -5,7 +5,7 @@
 DEFINE_GLOBAL(Maccies_14AC*, gMaccies_14AC_67E5D0, 0x67E5D0);
 
 STUB_FUNC(0x4c1c50)
-void Generator_2C::sub_4C1C50()
+void Generator_2C::Service_4C1C50()
 {
     NOT_IMPLEMENTED;
 }
@@ -36,7 +36,7 @@ void Maccies_14AC::sub_4C1CD0(Maccies_14AC* a1)
 }
 
 MATCH_FUNC(0x4c1d70)
-void Maccies_14AC::sub_4C1D70()
+void Maccies_14AC::GeneratorsService_4C1D70()
 {
     s32 start_idx = field_14A8 * (rng_dword_67AB34->field_0_rng & 3);
     s32 end_idx = start_idx + field_14A8;
@@ -48,7 +48,7 @@ void Maccies_14AC::sub_4C1D70()
     Generator_2C* pIter = &field_0[start_idx];
     for (s32 i = start_idx; i < end_idx; i++)
     {
-        pIter->sub_4C1C50();
+        pIter->Service_4C1C50();
         pIter++;
     }
 }

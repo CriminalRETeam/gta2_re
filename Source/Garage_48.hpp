@@ -13,7 +13,7 @@ class Garage_48
     EXPORT ~Garage_48();
     EXPORT char_type sub_534650();
     EXPORT void ParkCarAtDoor_534700(Car_BC* a2, void* a3);
-    EXPORT void sub_5349D0();
+    EXPORT void GaragesService_5349D0();
     EXPORT Garage_48();
 
     // inlined 0x44C870

@@ -18,7 +18,7 @@ void TrafficLight_20::sub_5C1D00(u8 a2, u8 a3, u8 a4, u8 a5)
 }
 
 MATCH_FUNC(0x5C27A0)
-void TrafficLight_20::sub_5C27A0(u8 phase)
+void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
 {
     switch (phase)
     {
@@ -120,7 +120,7 @@ void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
 }
 
 STUB_FUNC(0x5c2950)
-void TrafficLights_194::sub_5C2950()
+void TrafficLights_194::TrafficLightsService_5C2950()
 {
     NOT_IMPLEMENTED;
 }
