@@ -77,7 +77,7 @@ bool Police_7B8::sub_56F4D0(Ped* a2)
 {
     for (u8 v10 = 0; v10 < 20; v10++)
     {
-        Police_38* v3 = &this->field_4_cop_crew[v10];
+        PoliceCrew_38* v3 = &this->field_4_cop_crew[v10];
         if (v3->field_1C_used)
         {
             if (v3->field_10_subObj->field_4_ped == a2)
@@ -112,13 +112,13 @@ bool Police_7B8::sub_56F4D0(Ped* a2)
 }
 
 MATCH_FUNC(0x56f560)
-Police_38* Police_7B8::New_56F560()
+PoliceCrew_38* Police_7B8::New_56F560()
 {
     for (u8 i = 0; i < 20; i++)
     {
         if (!field_4_cop_crew[i].field_1C_used)
         {
-            Police_38* pNew = &field_4_cop_crew[i];
+            PoliceCrew_38* pNew = &field_4_cop_crew[i];
             pNew->Init_5709C0();
             return pNew;
         }
@@ -338,7 +338,7 @@ char_type Police_7B8::sub_5703E0(Car_BC* a2)
 }
 
 MATCH_FUNC(0x570790)
-bool Police_7B8::sub_570790(Police_38* a1, Police_7C* a2)
+bool Police_7B8::sub_570790(PoliceCrew_38* a1, Police_7C* a2)
 {
     a1->field_14_pObj = a2;
     a1->field_24_state = 5;

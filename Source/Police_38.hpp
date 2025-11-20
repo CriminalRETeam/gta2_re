@@ -10,11 +10,11 @@ class Object_2C;
 class Police_7C;
 class Fix16_Rect;
 
-class Police_38
+class PoliceCrew_38
 {
   public:
-    EXPORT Police_38();
-    EXPORT ~Police_38();
+    EXPORT PoliceCrew_38();
+    EXPORT ~PoliceCrew_38();
     EXPORT void Init_5709C0();
     EXPORT void sub_570A10();
     EXPORT void sub_570AB0();
@@ -85,7 +85,7 @@ class Police_7C
     char_type field_1D;
     char_type field_1E;
     char_type field_1F;
-    Police_38* field_20[2];
+    PoliceCrew_38* field_20[2];
     s32 field_28;
     s32 field_2C;
     s32 field_30;
