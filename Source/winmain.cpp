@@ -299,7 +299,7 @@ DEFINE_GLOBAL(s32, gWindowY_706B64, 0x706B64);
 DEFINE_GLOBAL(s32, bStartNetworkGame_7081F0, 0x7081F0);
 DEFINE_GLOBAL(BYTE, byte_70827C, 0x70827C);
 DEFINE_GLOBAL(BYTE, byte_706C5D, 0x706C5D);
-DEFINE_GLOBAL(BYTE, byte_6F5B71, 0x6F5B71);
+DEFINE_GLOBAL(BYTE, bReplayMode_6F5B71, 0x6F5B71);
 DEFINE_GLOBAL_INIT(s32, gStartMode_626A0C, 2, 0x626A0C);
 
 DEFINE_GLOBAL(s32, bTrippleBuffer_706C54, 0x706C54);
@@ -776,7 +776,7 @@ EXPORT void __stdcall sub_4DA4D0()
 {
     NOT_IMPLEMENTED;
 
-    if (byte_6F5B71)
+    if (bReplayMode_6F5B71)
     {
         gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
     }
@@ -1855,24 +1855,24 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                     {
                         s32 t = gFrontend_67DC84->sub_4AEDB0();
 
-                        if (t == 1)
+                        if (t == Quit_1)
                         {
-                            bQuit = 1;
+                            bQuit = Quit_1;
                             Frontend::destroy_4AD070();
                             DestroyWindow(gHwnd_707F04);
                             continue; // go to PeekMessageA
                         }
-                        else if (t == 3)
+                        else if (t == Start_Game_3)
                         {
                             Frontend::destroy_4AD070();
-                            bDoFrontEnd_626B68 = 0;
+                            bDoFrontEnd_626B68 = false;
                             break; // go to the beginning
                         }
-                        else if (t == 4)
+                        else if (t == Start_Replay_4)
                         {
                             Frontend::destroy_4AD070();
-                            bDoFrontEnd_626B68 = 0;
-                            byte_6F5B71 = 1;
+                            bDoFrontEnd_626B68 = false;
+                            bReplayMode_6F5B71 = true;
                             break; // go to the beginning
                         }
                         else

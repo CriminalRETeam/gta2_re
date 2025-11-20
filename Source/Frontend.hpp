@@ -152,6 +152,23 @@ struct MenuPage_0xBCA
 
 struct player_stats_0xA4;
 
+enum WinMainState
+{
+    Quit_1 = 1,
+    Run_Frontend_2 = 2,
+    Start_Game_3 = 3,
+    Start_Replay_4 = 4,
+};
+
+enum FrontendState
+{
+    Unknown_1 = 1,
+    Booting_Map_2 = 2,
+    User_Typing_New_Player_Name_3 = 3,
+    Unknown_4 = 4,
+    Unknown_5 = 5,
+};
+
 enum MenuScreen
 {
     Options_0 = 0,
@@ -201,8 +218,8 @@ enum MenuPages // enum for field_132_f136_idx
     MENUPAGE_REPLAY_PREVIOUS_AREA = 259,
     MENUPAGE_LOADING_SAVE = 260,
     MENUPAGE_PLAY_NEXT_AREA = 261,
-    MENUPAGE_READY_TO_PLAY = 264,
-    MENUPAGE_READY_TO_PLAY_BONUS = 265,
+    MENUPAGE_GET_READY_TO_PLAY = 264,
+    MENUPAGE_GET_READY_TO_PLAY_BONUS = 265,
     MENUPAGE_CONTINUE_NEXT_STAGE = 266,
 };
 
@@ -233,7 +250,7 @@ struct Frontend
     LPDIRECTINPUTA field_0_pDInput;
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
-    s32 field_108;
+    s32 field_108_winmain_next_state;
     char_type field_10C_bKeyboardAcquired;
     char_type field_10D;
     char_type field_10E;
