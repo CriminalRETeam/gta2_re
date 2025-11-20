@@ -736,10 +736,33 @@ void Garox_107C_sub::Empty_5CFE30()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d0050)
-void Hud_CopHead_C::sub_5D0050(char_type a2)
+MATCH_FUNC(0x5d0050)
+void Hud_CopHead_C::UpdateHead_5D0050(bool bShakeHead)
 {
-    NOT_IMPLEMENTED;
+    if (!bShakeHead)
+    {
+        field_4_height = 0;
+    }
+
+    field_1--;
+
+    if (field_1 == 0)
+    {
+        field_1 = field_2;
+        field_0 = field_0 == 0;
+        if (bShakeHead)
+        {
+            field_4_height += field_8_velocity;
+            if (field_4_height == -4)
+            {
+                field_8_velocity = 1;
+            }
+            else if (field_4_height == 4)
+            {
+                field_8_velocity = -1;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x5d7510)
@@ -748,8 +771,8 @@ Hud_CopHead_C::Hud_CopHead_C()
     field_0 = 0;
     field_2 = 0;
     field_1 = 0;
-    field_4 = 0;
-    field_8 = -1;
+    field_4_height = 0;
+    field_8_velocity = -1;
 }
 
 // ----------------------------------------------------
@@ -765,7 +788,7 @@ void Hud_CopHead_C_Array::sub_5D00B0()
     Hud_CopHead_C* pIter = &field_1028[0];
     while (i < field_48_cop_level)
     {
-        pIter->sub_5D0050(a2);
+        pIter->UpdateHead_5D0050(a2);
         i++;
         pIter++;
     }

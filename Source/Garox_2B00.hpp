@@ -170,14 +170,14 @@ class Garox_107C_sub
 class Hud_CopHead_C
 {
   public:
-    EXPORT void sub_5D0050(char_type a2);
+    EXPORT void UpdateHead_5D0050(bool bShakeHead);
     EXPORT Hud_CopHead_C();
     u8 field_0;
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4;
-    s32 field_8;
+    s32 field_4_height;
+    s32 field_8_velocity;
 };
 
 class Hud_CopHead_C_Array
