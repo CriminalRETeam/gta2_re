@@ -26,7 +26,7 @@ void Police_7B8::sub_56F400()
     field_0 = 1;
     for (s32 i = 0; i < 4; i++)
     {
-        field_464[i].field_0 = 0;
+        field_464[i].field_0_criminal_ped = 0;
         field_464[i].field_C = 0;
         field_464[i].field_1C = 0;
 
@@ -49,7 +49,7 @@ void Police_7B8::sub_56F400()
 
         field_464[i].field_75_count = 0;
         field_464[i].field_78 = 0;
-        field_464[i].field_7A_kMax900 = 0;
+        field_464[i].field_7A_wanted_timer = 0;
 
         memset(field_464[i].field_20, 0, 0x18);
     }
@@ -77,7 +77,7 @@ bool Police_7B8::sub_56F4D0(Ped* a2)
 {
     for (u8 v10 = 0; v10 < 20; v10++)
     {
-        Police_38* v3 = &this->field_4[v10];
+        Police_38* v3 = &this->field_4_cop_crew[v10];
         if (v3->field_1C_used)
         {
             if (v3->field_10_subObj->field_4_ped == a2)
@@ -116,9 +116,9 @@ Police_38* Police_7B8::New_56F560()
 {
     for (u8 i = 0; i < 20; i++)
     {
-        if (!field_4[i].field_1C_used)
+        if (!field_4_cop_crew[i].field_1C_used)
         {
-            Police_38* pNew = &field_4[i];
+            Police_38* pNew = &field_4_cop_crew[i];
             pNew->Init_5709C0();
             return pNew;
         }
@@ -178,7 +178,7 @@ bool Police_7B8::HasCriminalBeenFound_56F800(Ped* a2)
 {
     for (u8 i = 0; i < 4; i++)
     {
-        if (field_464[i].field_0 == a2)
+        if (field_464[i].field_0_criminal_ped == a2)
         {
             if (field_464[i].field_75_count > 0 && (field_464[i].field_8 == 3 || field_464[i].field_C != 0))
             {
@@ -198,7 +198,7 @@ bool Police_7B8::sub_56F880(Ped* a2)
 {
     for (u8 i = 0; i < 4; i++)
     {
-        if (field_464[i].field_0 == a2)
+        if (field_464[i].field_0_criminal_ped == a2)
         {
             if (field_464[i].field_78)
             {
@@ -215,9 +215,9 @@ void Police_7B8::sub_56F8E0(Ped* a2, Ped* a3)
 {
     for (u8 i = 0; i < 4; i++)
     {
-        if (field_464[i].field_0 == a2)
+        if (field_464[i].field_0_criminal_ped == a2)
         {
-            field_464[i].field_0 = a2;
+            field_464[i].field_0_criminal_ped = a2;
             return;
         }
     }
@@ -261,11 +261,11 @@ void Police_7B8::sub_570270()
         Police_7B8::sub_56FBD0();
     }
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_4_cop_crew); i++)
     {
-        if (field_4[i].field_1C_used == 1)
+        if (field_4_cop_crew[i].field_1C_used == 1)
         {
-            field_4[i].sub_575590();
+            field_4_cop_crew[i].sub_575590();
         }
     }
 
@@ -358,7 +358,7 @@ void Police_7B8::sub_5708C0(Ped* pPed)
 {
     for (u8 i = 0; i < 4; i++)
     {
-        if (field_464[i].field_0 == pPed)
+        if (field_464[i].field_0_criminal_ped == pPed)
         {
             field_464[i].field_10_x = pPed->get_cam_x();
             field_464[i].field_14_y = pPed->get_cam_y();
@@ -374,7 +374,7 @@ void Police_7B8::sub_570940(Ped* pPed)
 {
     for (u8 i = 0; i < 4; i++)
     {
-        if (field_464[i].field_0 == pPed)
+        if (field_464[i].field_0_criminal_ped == pPed)
         {
             field_464[i].field_10_x = pPed->get_cam_x();
             field_464[i].field_14_y = pPed->get_cam_y();

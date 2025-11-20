@@ -610,12 +610,12 @@ void Police_38::sub_574F10()
         }
         else
         {
-            if (field_14_pObj && field_14_pObj->field_0 && Police_38::sub_572210() &&
+            if (field_14_pObj && field_14_pObj->field_0_criminal_ped && Police_38::sub_572210() &&
                 (field_10_subObj->field_20 == 6 || field_14_pObj->field_4 != 6))
             {
-                field_14_pObj->field_10_x = field_14_pObj->field_0->get_cam_x();
-                field_14_pObj->field_14_y = field_14_pObj->field_0->get_cam_y();
-                field_14_pObj->field_18_z = field_14_pObj->field_0->get_cam_z();
+                field_14_pObj->field_10_x = field_14_pObj->field_0_criminal_ped->get_cam_x();
+                field_14_pObj->field_14_y = field_14_pObj->field_0_criminal_ped->get_cam_y();
+                field_14_pObj->field_18_z = field_14_pObj->field_0_criminal_ped->get_cam_z();
                 gPolice_7B8_6FEE40->sub_570790(this, field_14_pObj);
             }
             else

@@ -17,7 +17,7 @@ MATCH_FUNC(0x5cbc00)
 void Kfc_30::sub_5CBC00()
 {
     field_1A = 150;
-    field_1E = 0;
+    field_1E_is_used = 0;
     field_20 = 0;
     field_24 = 0;
     field_0_car = 0;
@@ -97,7 +97,7 @@ Kfc_30* Kfc_1E0::sub_5CBB80()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
-        if (!field_0[i].field_1E)
+        if (!field_0[i].field_1E_is_used)
         {
             return &field_0[i];
         }
@@ -110,11 +110,11 @@ void Kfc_1E0::sub_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
-        if (field_0[i].field_1E)
+        if (field_0[i].field_1E_is_used)
         {
             if (field_0[i].sub_5CC480())
             {
-                field_0[i].field_1E = 0;
+                field_0[i].field_1E_is_used = 0;
             }
         }
     }

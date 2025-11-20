@@ -29,7 +29,7 @@ class Kfc_30
     s16 field_18;
     s16 field_1A;
     s16 field_1C;
-    char_type field_1E;
+    char_type field_1E_is_used;
     char_type field_1F;
     s32 field_20;
     s32 field_24;

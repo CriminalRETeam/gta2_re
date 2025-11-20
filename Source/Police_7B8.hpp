@@ -46,7 +46,7 @@ class Police_7B8
     u8 field_1;
     u8 field_2;
     u8 field_3;
-    Police_38 field_4[20];
+    Police_38 field_4_cop_crew[20];
     Police_7C field_464[4];
     s32 field_654_wanted_level;
     u8 field_658;

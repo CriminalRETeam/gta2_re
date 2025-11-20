@@ -72,7 +72,7 @@ class Police_38
 class Police_7C
 {
   public:
-    Ped* field_0;
+    Ped* field_0_criminal_ped;
     s32 field_4;
     s32 field_8;
     s16 field_C;
@@ -113,7 +113,7 @@ class Police_7C
     s16 field_76;
     char_type field_78;
     char_type field_79;
-    s16 field_7A_kMax900;
+    s16 field_7A_wanted_timer;
 };
 
 class PoliceRoadblock_A4

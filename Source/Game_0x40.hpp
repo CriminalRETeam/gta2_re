@@ -55,14 +55,14 @@ class Game_0x40
     u8 field_20_idx;
     u8 field_21_player_camera_idx;
     char_type field_22;
-    u8 field_23_max_idx;
+    u8 field_23_num_players;
     u8 field_24_cur_idx;
     char_type field_25;
     char_type field_26;
     char_type field_27;
     s32 field_28_timer;
     s32 field_2C_main_state;
-    char_type field_30;
+    char_type field_30_bLimitFramerate;
     char_type field_31;
     char_type field_32;
     char_type field_33;

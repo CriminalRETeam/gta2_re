@@ -111,11 +111,11 @@ Garox_1_v2::Garox_1_v2()
 MATCH_FUNC(0x5d15e0)
 char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
 {
-    if (bStartNetworkGame_7081F0 && pPlayer->field_794)
+    if (bStartNetworkGame_7081F0 && pPlayer->field_794_is_chatting)
     {
         if (action == DIK_RETURN)
         {
-            pPlayer->field_794 = 0;
+            pPlayer->field_794_is_chatting = 0;
             return 1;
         }
         else if (action == DIK_BACK)
@@ -123,7 +123,7 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
             if (pPlayer->field_838_f796_idx > 0)
             {
                 pPlayer->field_838_f796_idx--;
-                pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
             }
             return 1;
         }
@@ -131,9 +131,9 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
         {
             if (pPlayer->field_838_f796_idx < 79)
             {
-                pPlayer->field_796[pPlayer->field_838_f796_idx] = ' ';
+                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = ' ';
                 pPlayer->field_838_f796_idx++;
-                pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+                pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
             }
             return 1;
         }
@@ -144,9 +144,9 @@ char_type Garox_2A25_sub::IsTypingOnChat_5D15E0(s32 action, Player* pPlayer)
             {
                 if (pPlayer->field_838_f796_idx < 79)
                 {
-                    pPlayer->field_796[pPlayer->field_838_f796_idx] = char_value;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = char_value;
                     pPlayer->field_838_f796_idx++;
-                    pPlayer->field_796[pPlayer->field_838_f796_idx] = 0;
+                    pPlayer->field_796_chat_text[pPlayer->field_838_f796_idx] = 0;
                 }
                 return 1;
             }
@@ -166,7 +166,7 @@ bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
 {
     if (bStartNetworkGame_7081F0)
     {
-        if (gGame_0x40_67E008->field_38_orf1->field_794)
+        if (gGame_0x40_67E008->field_38_orf1->field_794_is_chatting)
         {
             if (key_idx == DIK_RETURN || key_idx == DIK_BACK || key_idx == DIK_SPACE)
             {
@@ -185,9 +185,9 @@ bool Garox_2A25_sub::sub_5D17D0(s32 key_idx)
 MATCH_FUNC(0x5d1830)
 void Garox_2A25_sub::StartChatting_5D1830(Player* pPlayer)
 {
-    pPlayer->field_794 = 1;
+    pPlayer->field_794_is_chatting = true;
     pPlayer->field_838_f796_idx = 0;
-    pPlayer->field_796[0] = 0;
+    pPlayer->field_796_chat_text[0] = 0;
 }
 
 // ----------------------------------------------------
@@ -195,11 +195,11 @@ void Garox_2A25_sub::StartChatting_5D1830(Player* pPlayer)
 MATCH_FUNC(0x5d13c0)
 char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
 {
-    if (pPlayer->field_78A)
+    if (pPlayer->field_78A_show_quit_message)
     {
         if (action == DIK_RETURN)
         {
-            pPlayer->field_78A = 0;
+            pPlayer->field_78A_show_quit_message = false;
             if (pPlayer->field_0)
             {
                 gGame_0x40_67E008->sub_4B8C00(1, 2);
@@ -210,15 +210,15 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
                 gYouthful_einstein_6F8450.field_20[pPlayer->field_2E_idx] = 1;
             }
 
-            return 1;
+            return true;
         }
         else if (action == DIK_ESCAPE)
         {
-            pPlayer->field_78A = 0;
-            return 1;
+            pPlayer->field_78A_show_quit_message = false;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 STUB_FUNC(0x5d1430)
@@ -230,13 +230,13 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
 MATCH_FUNC(0x5d15a0)
 bool Garox_12EC_sub::sub_5D15A0(s32 a1)
 {
-    return gGame_0x40_67E008->field_38_orf1->field_78A && (a1 == 28 || a1 == 1);
+    return gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message && (a1 == 28 || a1 == 1);
 }
 
 MATCH_FUNC(0x5d15d0)
 void Garox_12EC_sub::sub_5D15D0(Player* pPlayer)
 {
-    pPlayer->field_78A = 1;
+    pPlayer->field_78A_show_quit_message = 1;
 }
 
 // ----------------------------------------------------
@@ -339,14 +339,14 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
 {
     Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
-    s16 ammo_idx = pPlayer->field_788_idx;
+    s16 ammo_idx = pPlayer->field_788_curr_weapon_idx;
     if (ammo_idx == -1)
     {
         sub_5D6060(-1, 0);
     }
     else
     {
-        u8 unk = pPlayer->field_718[ammo_idx]->sub_4A4FB0();
+        u8 unk = pPlayer->field_718_weapons[ammo_idx]->sub_4A4FB0();
         sub_5D6060(ammo_idx, unk);
     }
 

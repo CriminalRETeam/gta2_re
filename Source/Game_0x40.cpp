@@ -97,7 +97,7 @@ s32 Game_0x40::sub_4B8BB0()
 {
     if (bStartNetworkGame_7081F0 == false)
     {
-        return field_30 == false ? 33 : 11;
+        return field_30_bLimitFramerate == false ? 33 : 11;
     }
     return field_34;
 }
@@ -288,7 +288,7 @@ void Game_0x40::BootGame_4B8EB0()
     }
     gSero_181C_6FF1D4->sub_578860(); // trains?
 
-    for (s32 i = 0; i < field_23_max_idx; i++)
+    for (s32 i = 0; i < field_23_num_players; i++)
     {
         field_4_players[i]->sub_569CB0(); // respawn dead players?
     }
@@ -345,7 +345,7 @@ void Game_0x40::sub_4B9270()
         ShowCounters_4B8FF0();
     }
 
-    if (field_30)
+    if (field_30_bLimitFramerate)
     {
         Garox_C4* pC4 = gGarox_2B00_706620->field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
         pC4->field_B0 = 8;
@@ -393,7 +393,7 @@ void Game_0x40::UpdateAllPlayersControls_4B9380()
 {
     Player** ppPlayersIterator = field_4_players;
     u32 idx = 0;
-    while (idx < field_23_max_idx)
+    while (idx < field_23_num_players)
     {
         if ((*ppPlayersIterator)->field_8E_bInUse)
         {
@@ -426,7 +426,7 @@ void Game_0x40::sub_4B93C0()
 {
     Player** pIter = field_4_players;
     u32 i = 0;
-    while (i < field_23_max_idx)
+    while (i < field_23_num_players)
     {
         if ((*pIter)->field_8E_bInUse)
         {
@@ -449,7 +449,7 @@ STUB_FUNC(0x4B9410)
 void Game_0x40::UpdateGame_4B9410()
 {
     NOT_IMPLEMENTED;
-    for (s32 i = 0; i < field_23_max_idx; i++)
+    for (s32 i = 0; i < field_23_num_players; i++)
     {
         if (field_4_players[i]->field_8E_bInUse)
         {
@@ -631,7 +631,7 @@ void Game_0x40::sub_4B9700()
 MATCH_FUNC(0x4B9710)
 void Game_0x40::sub_4B9710()
 {
-    if (field_23_max_idx == 1)
+    if (field_23_num_players == 1)
     {
         field_0_game_state = 0;
     }
@@ -656,7 +656,7 @@ void Game_0x40::sub_4B9720()
 MATCH_FUNC(0x4B9750)
 Player* Game_0x40::sub_4B9750()
 {
-    for (s32 i = 0; i < field_23_max_idx; i++)
+    for (s32 i = 0; i < field_23_num_players; i++)
     {
         if (field_4_players[i]->field_8E_bInUse && !field_4_players[i]->field_2C4_player_ped)
         {
@@ -686,7 +686,7 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
 MATCH_FUNC(0x4B97E0)
 s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
 {
-    for (u8 i = 0; i < field_23_max_idx; i++)
+    for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (sub_4B9950(a2, i, a3))
         {
@@ -699,7 +699,7 @@ s8 Game_0x40::sub_4B97E0(Sprite* a2, Fix16 a3)
 MATCH_FUNC(0x4B9830)
 s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, Fix16 a3)
 {
-    for (u8 i = 0; i < field_23_max_idx; i++)
+    for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (sub_4B9950(pCarSprite, i, a3) || sub_4B9A10(pCarSprite, i))
         {
@@ -712,7 +712,7 @@ s8 Game_0x40::sub_4B9830(Sprite* pCarSprite, Fix16 a3)
 MATCH_FUNC(0x4B9890)
 s8 Game_0x40::sub_4B9890(s16* a2, s32 a3)
 {
-    for (u8 i = 0; i < field_23_max_idx; i++)
+    for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (sub_4B98E0(a2, i, a3))
         {
@@ -764,7 +764,7 @@ STUB_FUNC(0x4B9A80)
 bool Game_0x40::is_point_on_screen_4B9A80(Fix16 a2_fp, Fix16 a3_fp)
 {
     NOT_IMPLEMENTED;
-    for (s32 i = 0; i < field_23_max_idx; i++)
+    for (s32 i = 0; i < field_23_num_players; i++)
     {
         Player* pPlayer = field_4_players[i];
         if (pPlayer->field_8E_bInUse)
@@ -787,7 +787,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
 {
     NOT_IMPLEMENTED;
     // wip
-    for (u8 i = 0; i < field_23_max_idx; i++)
+    for (u8 i = 0; i < field_23_num_players; i++)
     {
         Player* pCurPlayer = field_4_players[i];
         if (pCurPlayer->field_8E_bInUse)
@@ -815,7 +815,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
 MATCH_FUNC(0x4B9BC0)
 DrawUnk_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 {
-    for (field_21_player_camera_idx = 0; field_21_player_camera_idx < field_23_max_idx; field_21_player_camera_idx++)
+    for (field_21_player_camera_idx = 0; field_21_player_camera_idx < field_23_num_players; field_21_player_camera_idx++)
     {
         if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
         {
@@ -846,7 +846,7 @@ DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 {
     if (!field_4_players[field_21_player_camera_idx]->field_2D0 || field_22)
     {
-        while (++field_21_player_camera_idx < field_23_max_idx)
+        while (++field_21_player_camera_idx < field_23_num_players)
         {
             if (field_4_players[field_21_player_camera_idx]->field_8E_bInUse)
             {
@@ -866,7 +866,7 @@ DrawUnk_0xBC* Game_0x40::sub_4B9C50()
 MATCH_FUNC(0x4B9CD0)
 Player* Game_0x40::sub_4B9CD0()
 {
-    for (field_20_idx = 0; field_20_idx < field_23_max_idx; field_20_idx++)
+    for (field_20_idx = 0; field_20_idx < field_23_num_players; field_20_idx++)
     {
         if (field_4_players[field_20_idx]->field_8E_bInUse)
         {
@@ -879,7 +879,7 @@ Player* Game_0x40::sub_4B9CD0()
 MATCH_FUNC(0x4B9D10)
 Player* Game_0x40::IterateNextPlayer_4B9D10()
 {
-    while (++field_20_idx < field_23_max_idx)
+    while (++field_20_idx < field_23_num_players)
     {
         if (field_4_players[field_20_idx]->field_8E_bInUse)
         {
@@ -926,9 +926,9 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         field_4_players[ii] = 0;
     }
 
-    field_23_max_idx = max_players;
+    field_23_num_players = max_players;
     field_24_cur_idx = player_idx;
-    for (u32 i = 0; i < field_23_max_idx; i++)
+    for (u32 i = 0; i < field_23_num_players; i++)
     {
         field_4_players[i] = new Player(i); // ctor call
         if (!field_4_players[i])
@@ -1241,7 +1241,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     byte_679C0A = 0;
     field_20_idx = 0;
     field_28_timer = -1;
-    field_30 = 0;
+    field_30_bLimitFramerate = 0;
     field_2C_main_state = 0;
     field_34 = 0;
     if (!bSkip_audio_67D6BE)
@@ -1260,7 +1260,7 @@ Game_0x40::~Game_0x40()
         gRoot_sound_66B038.sub_40F020();
     }
 
-    for (u32 i = 0; i < field_23_max_idx; i++)
+    for (u32 i = 0; i < field_23_num_players; i++)
     {
         GTA2_DELETE_AND_NULL(field_4_players[i]);
     }

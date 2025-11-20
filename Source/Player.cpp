@@ -68,7 +68,7 @@ u32* Player::sub_564680(s32 a2)
 MATCH_FUNC(0x564710)
 void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 {
-    this->field_18 = this->field_788_idx;
+    this->field_18 = this->field_788_curr_weapon_idx;
 
     Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
@@ -92,8 +92,8 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
     {
         if (pDriver->field_15C_player == this)
         {
-            this->field_718[weapon_kind] = pWeapon;
-            this->field_788_idx = this->field_1C_weapon_kind;
+            this->field_718_weapons[weapon_kind] = pWeapon;
+            this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
         }
     }
 }
@@ -101,11 +101,11 @@ void Player::sub_564710(Car_BC* pCar, s32 weapon_kind)
 MATCH_FUNC(0x564790)
 void Player::sub_564790(s32 idx)
 {
-    this->field_18 = this->field_788_idx;
+    this->field_18 = this->field_788_curr_weapon_idx;
     this->field_1C_weapon_kind = idx;
-    this->field_1A_ammo = this->field_718[idx]->field_0_ammo;
-    this->field_718[idx]->field_0_ammo = -1;
-    this->field_788_idx = this->field_1C_weapon_kind;
+    this->field_1A_ammo = this->field_718_weapons[idx]->field_0_ammo;
+    this->field_718_weapons[idx]->field_0_ammo = -1;
+    this->field_788_curr_weapon_idx = this->field_1C_weapon_kind;
     EnableKFMode_56A010();
 }
 
@@ -118,17 +118,17 @@ void Player::ClearKFWeapon_5647D0()
 MATCH_FUNC(0x5648F0)
 Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
 {
-    return field_788_idx == -1 ? NULL : field_718[field_788_idx];
+    return field_788_curr_weapon_idx == -1 ? NULL : field_718_weapons[field_788_curr_weapon_idx];
 }
 
 MATCH_FUNC(0x564910)
 void Player::sub_564910(Weapon_30* a2)
 {
     s16 idx = a2->field_1C_idx;
-    this->field_718[idx] = a2;
-    if (!this->field_31)
+    this->field_718_weapons[idx] = a2;
+    if (!this->field_31_kf_weapon_mode)
     {
-        this->field_788_idx = idx;
+        this->field_788_curr_weapon_idx = idx;
     }
 }
 
@@ -137,7 +137,7 @@ char_type Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {
-        if (field_718[i]->field_0_ammo)
+        if (field_718_weapons[i]->field_0_ammo)
         {
             return 1;
         }
@@ -170,14 +170,14 @@ char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
         bHasAnyAmmo = HasAnyAmmo_564940() == 0;
     }
 
-    bAmmoAdded = field_718[weapon_kind]->add_ammo_capped_5DCE40(ammo);
-    if (!this->field_31)
+    bAmmoAdded = field_718_weapons[weapon_kind]->add_ammo_capped_5DCE40(ammo);
+    if (!this->field_31_kf_weapon_mode)
     {
         if (bAmmoAdded)
         {
             if (bHasAnyAmmo)
             {
-                this->field_788_idx = weapon_kind;
+                this->field_788_curr_weapon_idx = weapon_kind;
             }
         }
     }
@@ -203,7 +203,7 @@ void Player::sub_564B60()
 {
     for (u32 i = 15; i < 28; i++)
     {
-        field_718[i] = 0;
+        field_718_weapons[i] = 0;
     }
 }
 
@@ -219,10 +219,10 @@ void Player::sub_564C00()
 {
     sub_564B80();
 
-    if (field_788_idx >= 15)
+    if (field_788_curr_weapon_idx >= 15)
     {
-        field_16 = field_788_idx;
-        field_788_idx = field_14;
+        field_16 = field_788_curr_weapon_idx;
+        field_788_curr_weapon_idx = field_14;
     }
 
     if (field_18 >= 15)
@@ -238,7 +238,7 @@ MATCH_FUNC(0x564C50)
 void Player::RemovePlayerWeapons_564C50()
 {
     s32 i = 15;
-    Weapon_30* pWeapon = this->field_718[0];
+    Weapon_30* pWeapon = this->field_718_weapons[0];
     do
     {
         if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
@@ -253,11 +253,11 @@ void Player::RemovePlayerWeapons_564C50()
         --i;
     } while (i);
 
-    s16 idx = this->field_788_idx;
+    s16 idx = this->field_788_curr_weapon_idx;
     if (idx < 15)
     {
         this->field_14 = idx;
-        this->field_788_idx = 0;
+        this->field_788_curr_weapon_idx = 0;
     }
     sub_5649D0(0, 0);
 }
@@ -481,7 +481,7 @@ void Player::sub_566380(u16 key)
             break;
 
         case DIK_NUMPAD8:
-            this->field_70 = 0;
+            this->field_70_dbg_cam_north = 0;
             break;
 
         case DIK_NUMPAD4:
@@ -493,11 +493,11 @@ void Player::sub_566380(u16 key)
             break;
 
         case DIK_NUMPAD7:
-            this->field_74 = 0;
+            this->field_74_dbg_cam_zooming_out = 0;
             break;
 
         case DIK_NUMPAD9:
-            this->field_75 = 0;
+            this->field_75_dbg_cam_zooming_in = 0;
             break;
 
         default:
@@ -630,13 +630,13 @@ void Player::sub_5668D0(Ped* pPed)
     {
         if (!field_8D)
         {
-            if (field_788_idx == -1)
+            if (field_788_curr_weapon_idx == -1)
             {
                 pPed->field_21C_bf.b11 = 1;
             }
             else
             {
-                bNoPed = field_718[field_788_idx]->sub_5E33C0() == 0;
+                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
                 if (!bNoPed)
                 {
                     pPed->field_21C_bf.b11 = 1;
@@ -680,7 +680,7 @@ void Player::sub_566C30(Car_BC* pCar)
 {
     char bUnknown;
 
-    if (this->field_788_idx >= 15)
+    if (this->field_788_curr_weapon_idx >= 15)
     {
         bUnknown = 0;
     }
@@ -1228,38 +1228,38 @@ s32 Player::sub_569F40()
 MATCH_FUNC(0x569FF0)
 s32 Player::DisableAllControls_569FF0()
 {
-    field_2F = 1;
+    field_2F_disable_all_controls = 1;
     return sub_569F40();
 }
 
 MATCH_FUNC(0x56A000)
 void Player::EnableAllControls_56A000()
 {
-    field_2F = 0;
+    field_2F_disable_all_controls = 0;
 }
 
 MATCH_FUNC(0x56A010)
 void Player::EnableKFMode_56A010()
 {
-    field_31 = 1;
+    field_31_kf_weapon_mode = 1;
 }
 
 MATCH_FUNC(0x56A020)
 void Player::DisableKFMode_56A020()
 {
-    field_31 = 0;
+    field_31_kf_weapon_mode = 0;
 }
 
 MATCH_FUNC(0x56A030)
 void Player::DisableEnterVehicles_56A030()
 {
-    field_30 = 1;
+    field_30_disable_enter_vehicles = 1;
 }
 
 MATCH_FUNC(0x56A040)
 void Player::EnableEnterVehicles_56A040()
 {
-    field_30 = 0;
+    field_30_disable_enter_vehicles = 0;
 }
 
 STUB_FUNC(0x56A0F0)
