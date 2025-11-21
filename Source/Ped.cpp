@@ -1,8 +1,8 @@
 #include "Ped.hpp"
 #include "Car_B0.hpp"
 #include "Car_BC.hpp"
-#include "debug.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Marz_1D7E.hpp"
@@ -11,10 +11,8 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "PurpleDoom.hpp"
-#include "rng.hpp"
 #include "PublicTransport.hpp"
-#include "sprite.hpp"
+#include "PurpleDoom.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -22,8 +20,10 @@
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
+#include "debug.hpp"
 #include "map_0x370.hpp"
-#include "Gang.hpp"
+#include "rng.hpp"
+#include "sprite.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -57,7 +57,7 @@ DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
 DEFINE_GLOBAL_INIT(Fix16, dword_678670, Fix16(4), 0x678670);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784C4, Fix16(256, 0), 0x6784C4);
-DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670 * dword_6784C4, 0x678448);
+DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670* dword_6784C4, 0x678448);
 DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
@@ -65,14 +65,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 
-
 // TODO: move
 STUB_FUNC(0x545AF0)
 EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
 {
     NOT_IMPLEMENTED;
 }
-
 
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
@@ -672,11 +670,37 @@ char_type Ped::sub_45D000(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45dd30)
-char_type Ped::AddWeaponWithAmmo_45DD30(s32 a2, char_type a3)
+MATCH_FUNC(0x45dd30)
+char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (ammo == 100) // max is 99, 100 means get default count
+    {
+        ammo = gWeapon_8_707018->get_ammo_5E3E80(weapon_kind);
+    }
+
+    if (weapon_kind >= 0xf) // car_bomb
+    {
+        if (field_16C_car)
+        {
+            return gWeapon_8_707018->allocate_5E3D50(weapon_kind, ammo, field_16C_car);
+        }
+        return 0;
+    }
+
+    if (field_15C_player)
+    {
+        return field_15C_player->sub_564960(weapon_kind, ammo);
+    }
+
+    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx == weapon_kind)
+    {
+        return 0;
+    }
+
+    RemovePedWeapons_462510();
+    ForceWeapon_46F600(weapon_kind);
+
+    return 1;
 }
 
 STUB_FUNC(0x45de80)
@@ -1208,8 +1232,7 @@ void Ped::sub_462B80()
                     }
                 }
             }
-            if ((field_25C_car_state == 35 || field_25C_car_state == 37) &&
-                (field_226 = 1, field_25C_car_state == 37))
+            if ((field_25C_car_state == 35 || field_25C_car_state == 37) && (field_226 = 1, field_25C_car_state == 37))
             {
                 if (field_238 == 3)
                 {
