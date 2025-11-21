@@ -3,6 +3,7 @@
 #include "error.hpp"
 
 DEFINE_GLOBAL(Particle_947C*, gParticle_947C_6FD5E4, 0x6FD5E4);
+DEFINE_GLOBAL(Particle_8*, gParticle_8_6FD5E8, 0x6FD5E8);
 
 STUB_FUNC(0x53e320)
 void Particle_8::ParticlesService_53E320()
@@ -23,7 +24,7 @@ void Particle_8::sub_53E970(Fix16* a2)
 }
 
 STUB_FUNC(0x53f060)
-void Particle_8::sub_53F060(s32 a1, s32 a2, s32 a3, s16 a4, char_type a5)
+void Particle_8::sub_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type a5)
 {
     NOT_IMPLEMENTED;
 }

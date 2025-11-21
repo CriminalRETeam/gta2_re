@@ -519,7 +519,7 @@ void CC ImGuiDebugDraw()
 
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
                 ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
-                ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 999999);
+                ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 32767);
 
                 ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
 
@@ -734,7 +734,7 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode(buffer))
                 {
                     ImGui::SliderS16("wanted points", &pPedIter->field_20A_wanted_points, 0, 12000);
-                    ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 999999);
+                    ImGui::SliderS16("health", &pPedIter->field_216_health, 0, 32767);
                     ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                     ImGui::TreePop();
                 }
