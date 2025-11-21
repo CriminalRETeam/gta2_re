@@ -566,6 +566,12 @@ struct SCR_OPERATE_COUNTER_AND_COUNTER : SCR_CMD_HEADER
     u16 field_C_second_operand_counter_idx;
 };
 
+struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_trailer_car_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -653,7 +659,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* a1);
     EXPORT s32 DisableThread_505790(u16 a1);
     EXPORT void DeallocOrDeleteItem_505B10(u16 idx);
-    EXPORT u16 sub_505EA0(u16 idx);
+    EXPORT s16 sub_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* a1);
     EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* a1);

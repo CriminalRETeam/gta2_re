@@ -1097,11 +1097,20 @@ void miss2_0x11C::DeallocOrDeleteItem_505B10(u16 idx)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x505ea0)
-u16 miss2_0x11C::sub_505EA0(u16 idx)
+MATCH_FUNC(0x505ea0)
+s16 miss2_0x11C::sub_505EA0(u16 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(idx);
+    s16 result = pPointer->field_8_counter;
+    if (result != -3 && result != -4)
+    {
+        result = gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.sub_432080(result);
+        if (result == -3 || result == -4)
+        {
+            pPointer->field_8_counter = result;
+        }
+    }
+    return result;
 }
 
 MATCH_FUNC(0x505f50)
@@ -4287,7 +4296,7 @@ void miss2_0x11C::sub_510280()
     }
     else
     {
-        if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == 0xFFFE)
+        if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -2)
         {
             SCR_POINTER* pBonusType =
                 (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
@@ -4314,7 +4323,7 @@ void miss2_0x11C::sub_510280()
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             gfrosty_pasteur_6F8060->field_C1E2D = 0;
-            if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == 0xFFFD)
+            if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
                 pPlayerPedCmdPointer->field_8_char->field_20A_wanted_points = 0;
