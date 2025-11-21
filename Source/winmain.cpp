@@ -275,7 +275,7 @@ void force_link()
     FirefighterPool_54 tango_54;
 
     Hamburger_500 hamburger_500;
-    hamburger_500.sub_474CC0(0);
+    hamburger_500.Cancel_474CC0(0);
 
     Collide_C collide_C;
 

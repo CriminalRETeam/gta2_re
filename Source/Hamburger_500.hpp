@@ -64,7 +64,7 @@ class Hamburger_500
     EXPORT char_type sub_474B50(Ped* a1);
     EXPORT char_type sub_474BC0(Ped* a1);
     EXPORT char_type sub_474C30(Ped* a1);
-    EXPORT void sub_474CC0(Hamburger_40* a2);
+    EXPORT void Cancel_474CC0(Hamburger_40* a2);
     EXPORT Hamburger_500();
     EXPORT ~Hamburger_500();
 

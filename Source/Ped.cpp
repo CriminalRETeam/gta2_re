@@ -24,6 +24,7 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
+#include "RouteFinder.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -1254,10 +1255,33 @@ void Ped::sub_462550()
     }
 }
 
-STUB_FUNC(0x462590)
+MATCH_FUNC(0x462590)
 void Ped::ForceDoNothing_462590()
 {
-    NOT_IMPLEMENTED;
+    SetObjective(0, 9999);
+    sub_463830(0, 9999);
+
+    field_21C &= ~4u;
+
+    if (field_16C_car)
+    {
+        field_278 = 10;
+        field_27C = 10;
+
+        if (field_16C_car->field_5C)
+        {
+            if (field_16C_car->field_5C->field_28_junc_idx > 0)
+            {
+                gRouteFinder_6FFDC8->CancelRoute_589930(field_16C_car->field_5C->field_28_junc_idx);
+            }
+        }
+
+        if (field_16C_car->field_60)
+        {
+            gHamburger_500_678E30->Cancel_474CC0(field_16C_car->field_60);
+            field_16C_car->field_60 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x462620)

@@ -2614,7 +2614,7 @@ void Car_BC::sub_4447D0()
 
     if (field_60)
     {
-        gHamburger_500_678E30->sub_474CC0(field_60);
+        gHamburger_500_678E30->Cancel_474CC0(field_60);
         field_60 = 0;
     }
 
