@@ -3890,10 +3890,17 @@ void miss2_0x11C::sub_50F7B0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f900)
+MATCH_FUNC(0x50f900)
 void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Car_BC* pCar = pPointer->field_8_char->field_16C_car;
+
+    if (pCar)
+    {
+        pCar->field_A6 |= 0x20u;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f940)
