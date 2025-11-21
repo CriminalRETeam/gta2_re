@@ -508,7 +508,7 @@ MATCH_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
     // Enable free shopping once all KF's are passed
-    u32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
+    s32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
     if (pSecretsPassed)
     {
         const u32 total_secrets = gfrosty_pasteur_6F8060->field_318_total_secrets;

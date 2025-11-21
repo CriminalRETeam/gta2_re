@@ -629,7 +629,7 @@ void CC ImGuiDebugDraw()
                     gHud_2B00_706620->field_620.CreateTimer_5D31F0(40);
                 }
 
-                static u32 v = 0;
+                static s32 v = 0;
                 ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                 if (ImGui::Button("Stop timer") && v <= 3)
                 {

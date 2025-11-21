@@ -3455,7 +3455,7 @@ void miss2_0x11C::sub_50EA40() //  SCRCMD_FINISH_LEVEL
             break;
     }
 
-    u32* num_passed_flag = gfrosty_pasteur_6F8060->field_328_passed_flag;
+    s32* num_passed_flag = gfrosty_pasteur_6F8060->field_328_passed_flag;
     if (num_passed_flag != NULL && gfrosty_pasteur_6F8060->field_314_total_missions == *num_passed_flag)
     {
         bonus_type = 2;
