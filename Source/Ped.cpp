@@ -536,11 +536,23 @@ void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x45c730)
-s32 Ped::SpawnPedInCar_45C730(Car_BC* a2)
+MATCH_FUNC(0x45c730)
+void Ped::SpawnPedInCar_45C730(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_16C_car = pCar;
+    this->field_248_enter_car_as_passenger = 0;
+    this->field_24C_target_car_door = 0;
+    this->field_278 = 10;
+
+    pCar->SetDriver(this);
+    pCar->field_7C_uni_num = field_238;
+    pCar->field_76 = 0;
+
+    // TODO: inline ??
+    if (pCar->field_88 == 2 || pCar->field_88 == 4 || pCar->field_88 == 3)
+    {
+        pCar->field_88 = 1;
+    }
 }
 
 MATCH_FUNC(0x45c7a0)
