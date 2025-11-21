@@ -4124,10 +4124,88 @@ void miss2_0x11C::sub_510100()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x510280)
+MATCH_FUNC(0x510280)
 void miss2_0x11C::sub_510280()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pTimerIDPointer;
+
+    SCR_DO_BASIC_KF_TEMPLATE* pCmd = (SCR_DO_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
+    SCR_POINTER* pPlayerPedCmdPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_18_playername);
+
+    if (field_C == 0)
+    {
+        pTimerIDPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
+        pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620.CreateTimer_5D31F0(pCmd->field_C_time_limit);
+        SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname);
+        SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
+        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+        ++field_C;
+    }
+    else
+    {
+        if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == 0xFFFE)
+        {
+            SCR_POINTER* pBonusType =
+                (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
+            SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                pCmd->field_12_countername);
+            pCounter->field_8_counter = pCmd->field_14_target_total -
+                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pBonusType->field_8_index].field_26;
+
+            Ped* pPed = pPlayerPedCmdPointer->field_8_char;
+
+            if (pPed->field_278 == 9 || pPed->field_21C_bf.b5 != 0)
+            {
+                gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
+                pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
+            }
+        }
+        else
+        {
+            pTimerIDPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
+            if (pTimerIDPointer->field_8_index != 0xFFFF)
+            {
+                gHud_2B00_706620->field_620.sub_5D3280(pTimerIDPointer->field_8_index);
+            }
+            pTimerIDPointer->field_8_index = 0;
+            pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
+            gfrosty_pasteur_6F8060->field_C1E2D = 0;
+            if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == 0xFFFD)
+            {
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), 3);
+                pPlayerPedCmdPointer->field_8_char->field_20A_wanted_points = 0;
+                ++*gfrosty_pasteur_6F8060->field_338_secrets_passed;
+
+                if (pCmd->field_1A_rewardtype == 1)
+                {
+                    pPlayerPedCmdPointer->field_8_char->field_15C_player->Add_2D4(pCmd->field_1C_rewardvalue);
+                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                }
+                else if (pCmd->field_1A_rewardtype == 2)
+                {
+                    pPlayerPedCmdPointer->field_8_char->field_15C_player->field_6BC_multpliers.ChangeStatByAmount_4921B0(
+                        pCmd->field_1C_rewardvalue);
+                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                }
+                else
+                {
+                    if (pCmd->field_1A_rewardtype == 3)
+                    {
+                        pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeLifeCountByAmount_5699F0(
+                            pCmd->field_1C_rewardvalue);
+                    }
+                    gRoot_sound_66B038.PlayVoice_40F090(19);
+                }
+            }
+            else
+            {
+                gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kffail"), 3);
+                ++*gfrosty_pasteur_6F8060->field_33C_secrets_failed;
+                gRoot_sound_66B038.PlayVoice_40F090(18);
+            }
+            miss2_0x11C::Next_503620(gBasePtr_6F8070);
+        }
+    }
 }
 
 MATCH_FUNC(0x510530)

@@ -1020,7 +1020,7 @@ s32 Hud_Pager_C_Array::sub_5D3220(s32& a2)
 }
 
 STUB_FUNC(0x5d3280)
-s32 Hud_Pager_C_Array::sub_5D3280(s32 a2)
+s32 Hud_Pager_C_Array::sub_5D3280(u32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
