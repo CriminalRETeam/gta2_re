@@ -3877,11 +3877,11 @@ void miss2_0x11C::SCRCMD_SUPPRESS_MODEL_50F220()
 {
     if ((u16)gBasePtr_6F8070[1].field_0_cmd_this == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
     {
-        gCar_6C_677930->field_C = 87; //  No model suppressed
+        gCar_6C_677930->field_C_model_unk = car_model_enum::none; //  No model suppressed
     }
     else
     {
-        gCar_6C_677930->field_C = (u16)gBasePtr_6F8070[1].field_0_cmd_this;
+        gCar_6C_677930->field_C_model_unk = (u16)gBasePtr_6F8070[1].field_0_cmd_this;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4409,7 +4409,7 @@ void miss2_0x11C::sub_5105B0()
 
     if (model_idx == -1)
     {
-        gfrosty_pasteur_6F8060->field_C1E70 = 87;
+        gfrosty_pasteur_6F8060->field_C1E70 = car_model_enum::none;
     }
     else
     {
