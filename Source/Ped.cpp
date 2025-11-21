@@ -124,7 +124,7 @@ void Ped::sub_45B440()
     Ped::sub_45AFC0();
     field_200_id = gPedId_61A89C++;
     field_21C |= 1;
-    field_234 = 99;
+    field_234_timer = 99;
 
     switch (field_240_occupation)
     {
@@ -443,11 +443,30 @@ void Ped::RespawnPed_45C350(gmp_map_zone* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x45c410)
-s32 Ped::sub_45C410()
+MATCH_FUNC(0x45c410)
+void Ped::sub_45C410()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_B4* pB4 = this->field_168_game_object;
+    Player* pPlayer = this->field_15C_player;
+
+    PutOutFire();
+    const u8 remap = this->field_244_remap;
+    sub_45AFC0();
+
+    this->field_244_remap = remap;
+    this->field_168_game_object = pB4;
+
+    this->field_21C |= 1;
+
+    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xpos.x;
+    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xpos.y;
+    this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
+
+    this->field_216_health = 100;
+    this->field_238 = 2;
+    this->field_208_invulnerability = 50;
+    this->field_234_timer = 99;
+    this->field_15C_player = pPlayer;
 }
 
 MATCH_FUNC(0x45c4b0)
@@ -1345,7 +1364,7 @@ bool Ped::Update_462E70()
     Ped::sub_469030();
     Ped::ManageBurning_45BEC0();
     Ped::sub_45BC70();
-    if (!field_234)
+    if (!field_234_timer)
     {
         Ped::sub_4624A0();
         return true;
@@ -1481,13 +1500,13 @@ bool Ped::Update_462E70()
             return false;
         }
     }
-    else if (field_234 != 99)
+    else if (field_234_timer != 99)
     {
-        --field_234;
+        --field_234_timer;
 
-        if (field_234 == 0)
+        if (field_234_timer == 0)
         {
-            field_234 = 0; // ????????????????
+            field_234_timer = 0; // ????????????????
         }
     }
 

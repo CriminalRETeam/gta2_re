@@ -53,7 +53,7 @@ class Ped
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT void sub_45C310();
     EXPORT void RespawnPed_45C350(gmp_map_zone* a2);
-    EXPORT s32 sub_45C410();
+    EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);
     EXPORT void sub_45C540(s32 a2);
@@ -485,7 +485,7 @@ class Ped
     char_type field_22B;
     s32 field_22C;
     s32 field_230;
-    char_type field_234;
+    char_type field_234_timer;
     char_type field_235;
     char_type field_236;
     char_type field_237;
