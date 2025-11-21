@@ -135,7 +135,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         nostalgic_ellis_0x28* field_8_light;
         Door_38* field_8_door;
         Crusher_30* field_8_crusher;
-        u32 field_8_counter;
+        s32 field_8_counter;
         u16 field_8_index;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
@@ -497,6 +497,81 @@ struct SCR_CHECK_CAR_SPEED : SCR_CMD_HEADER
     s32 field_A_value;
 };
 
+struct SCR_MAP_SET_ZONE_INFO : SCR_CMD_HEADER
+{
+    u16 field_8_zone_idx;
+    u16 field_A_unknown;
+    u16 field_C_value;
+};
+
+struct SCR_START_BASIC_KF_TEMPLATE
+{
+    u16 field_8_triggername;
+    u16 field_A_brief_id;
+    u16 field_C_objname;
+    u16 field_E_playername;
+    u16 field_10_weapon;
+    u16 field_12_unk2;
+};
+
+struct SCR_DO_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
+{
+    u16 field_8_bonusname;
+    u16 field_A_timername;
+    u32 field_C_time_limit;
+    u16 field_10_onscreenname;
+    u16 field_12_countername;
+    u16 field_14_target_total;
+    u16 field_16_brief_id;
+    u16 field_18_playername;
+    u16 field_1A_rewardtype;
+    u32 field_1C_rewardvalue;
+};
+
+struct SCR_SET_CAR_JAMMED : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u8 field_A_status;
+};
+
+struct SCR_SET_CAR_DAMAGE_PROOF : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u8 field_A_status;
+};
+
+struct SCR_SET_RUN_SPEED : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    Fix16 field_A_value;
+};
+
+struct SCR_SET_CHAR_DRIVE_AGGR : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u8 field_A_status;
+};
+
+struct SCR_OPERATE_COUNTER_AND_INT : SCR_CMD_HEADER
+{
+    u16 field_8_destination_counter_idx;
+    u16 field_A_operand_counter_idx;
+    s16 field_C_value;
+};
+
+struct SCR_OPERATE_COUNTER_AND_COUNTER : SCR_CMD_HEADER
+{
+    u16 field_8_destination_counter_idx;
+    u16 field_A_first_operand_counter_idx;
+    u16 field_C_second_operand_counter_idx;
+};
+
+struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_trailer_car_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -584,7 +659,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DECLARE_CARLIST_505750(SCR_TWO_PARAMS* a1);
     EXPORT s32 DisableThread_505790(u16 a1);
     EXPORT void DeallocOrDeleteItem_505B10(u16 idx);
-    EXPORT u16 sub_505EA0(u16 idx);
+    EXPORT s16 sub_505EA0(u16 idx);
     EXPORT void SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* a1);
     EXPORT void SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* a1);
     EXPORT void SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* a1);
@@ -597,7 +672,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_IF_JUMP_506AF0();
     EXPORT void sub_506B30();
     EXPORT void sub_506B80();
-    EXPORT char_type sub_506BC0(u32 a1);
+    EXPORT u8 sub_506BC0(u32 a1);
     EXPORT void sub_506D60();
     EXPORT void sub_506ED0();
     EXPORT void sub_507110();

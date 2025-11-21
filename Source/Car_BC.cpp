@@ -508,7 +508,7 @@ MATCH_FUNC(0x446760)
 void Car_6C::sub_446760()
 {
     // Enable free shopping once all KF's are passed
-    u32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
+    s32* pSecretsPassed = gfrosty_pasteur_6F8060->field_338_secrets_passed;
     if (pSecretsPassed)
     {
         const u32 total_secrets = gfrosty_pasteur_6F8060->field_318_total_secrets;
@@ -637,9 +637,9 @@ Car_6C::Car_6C()
     field_4C_tv_van_dir = Fix16_Point(Fix16(0), Fix16(0));
     field_54 = 0;
     field_55 = 0;
-    field_58 = 0x57;
+    field_58_model_to_check_destroy = car_model_enum::none;
     field_5C = 0;
-    field_C = 87;
+    field_C_model_unk = car_model_enum::none;
     field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
 
@@ -2640,7 +2640,7 @@ Car_BC::Car_BC()
     field_A5 = 0;
     field_A6 = 0;
     field_4C_next = 0;
-    field_84_car_info_idx = 87;
+    field_84_car_info_idx = car_model_enum::none;
     field_50_car_sprite = 0;
     field_58_physics = 0;
     field_5C = 0;

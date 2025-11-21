@@ -55,6 +55,13 @@ class Ang16
         return Ang16((Fix16(rValue) * Fix16(other.rValue)).ToInt());
     }
 
+    Ang16 operator+(const Ang16& other)
+    {
+        Ang16 result(rValue + other.rValue);
+        result.Normalize();
+        return result;
+    }
+
     //   Ang16  and  const int
 
     bool operator>(const s32 other)

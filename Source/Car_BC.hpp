@@ -239,7 +239,7 @@ class Car_6C
     u8 field_9;
     u8 field_A;
     u8 field_B;
-    s32 field_C;
+    s32 field_C_model_unk;
     Car_2 field_10_idx;
     Car_2 field_12;
     s32 field_14;
@@ -264,7 +264,7 @@ class Car_6C
     char_type field_55;
     char_type field_56;
     char_type field_57;
-    s32 field_58;
+    s32 field_58_model_to_check_destroy;
     char_type field_5C;
     char_type field_5D;
     char_type field_5E;

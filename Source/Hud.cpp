@@ -1013,14 +1013,14 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
 }
 
 STUB_FUNC(0x5d3220)
-s32 Hud_Pager_C_Array::sub_5D3220(u32& a2)
+s32 Hud_Pager_C_Array::sub_5D3220(s32& a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5d3280)
-s32 Hud_Pager_C_Array::sub_5D3280(s32 a2)
+s32 Hud_Pager_C_Array::sub_5D3280(u32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1165,7 +1165,7 @@ bool Hud_Arrow_7C::sub_5D0530()
         }
         if (!bShow_all_arrows_67D6E7)
         {
-            u32* pMission_flag = gfrosty_pasteur_6F8060->field_344_mission_flag;
+            s32* pMission_flag = gfrosty_pasteur_6F8060->field_344_mission_flag;
             if (pMission_flag && *pMission_flag)
             {
                 return false;

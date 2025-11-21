@@ -65,7 +65,7 @@ MATCH_FUNC(0x5892d0)
 RouteFinder_10::RouteFinder_10()
 {
     field_0_idx = 0;
-    field_2 = 0xffff;
+    field_2 = -1;
     field_4 = 0;
     field_8 = 0;
     field_C = 0;
