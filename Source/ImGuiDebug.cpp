@@ -256,10 +256,7 @@ void CC ImGuiDebugDraw()
                 if (!pNewCar->field_5C)
                 {
                     printf("Alloc physics\n");
-                    Car_78* v18 = gCar_8F74_677CF8->field_0;
-                    gCar_8F74_677CF8->field_0 = gCar_8F74_677CF8->field_0->field_C;
-                    v18->sub_453D80();
-                    pNewCar->field_5C = v18;
+                    pNewCar->field_5C = gCar_78_Pool_677CF8->Allocate();
                 }
                 pNewCar->field_5C->sub_453BF0(pNewCar);
 

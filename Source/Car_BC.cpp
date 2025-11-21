@@ -28,7 +28,7 @@
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
-DEFINE_GLOBAL(Car_8F74*, gCar_8F74_677CF8, 0x677CF8);
+DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
 DEFINE_GLOBAL(Car_A4*, gCar_A4_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
@@ -293,7 +293,7 @@ u8* Car_78::sub_453C00()
 }
 
 STUB_FUNC(0x453d80)
-s32 Car_78::sub_453D80()
+s32 Car_78::PoolAllocate()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -575,10 +575,10 @@ Car_6C::Car_6C()
         }
     }
 
-    if (!gCar_8F74_677CF8)
+    if (!gCar_78_Pool_677CF8)
     {
-        gCar_8F74_677CF8 = new Car_8F74();
-        if (!gCar_8F74_677CF8)
+        gCar_78_Pool_677CF8 = new Car_78_Pool();
+        if (!gCar_78_Pool_677CF8)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
         }
@@ -664,9 +664,9 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gCar_14_677934);
     }
 
-    if (gCar_8F74_677CF8)
+    if (gCar_78_Pool_677CF8)
     {
-        GTA2_DELETE_AND_NULL(gCar_8F74_677CF8);
+        GTA2_DELETE_AND_NULL(gCar_78_Pool_677CF8);
     }
 
     if (gCar_A4_66AC80)
@@ -2592,7 +2592,7 @@ void Car_BC::sub_4446E0()
             gRouteFinder_6FFDC8->CancelRoute_589930(field_5C->field_28_junc_idx);
         }
 
-        gCar_8F74_677CF8->Remove(field_5C);
+        gCar_78_Pool_677CF8->DeAllocate(field_5C);
         field_5C = 0;
     }
 }

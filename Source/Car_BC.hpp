@@ -65,8 +65,13 @@ class Car_78
     EXPORT s16 sub_453BB0();
     EXPORT void sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
-    EXPORT s32 sub_453D80();
+    EXPORT s32 PoolAllocate();
     EXPORT Car_78();
+
+    void PoolDeallocate()
+    {
+        field_0 = 0;
+    }
 
     Car_BC* field_0;
     s32 field_4;
@@ -74,7 +79,7 @@ class Car_78
     char_type field_9;
     char_type field_A;
     char_type field_B;
-    Car_78* field_C;
+    Car_78* mpNext;
     s16 field_10;
     s16 field_12;
     s32 field_14;
@@ -115,38 +120,32 @@ class Car_78
     s32 field_74;
 };
 
-class Car_8F74
+class Car_78_Pool
 {
   public:
     //Inlined in Car_6C constructor 9.6f -> 0x420eb0
-    EXPORT Car_8F74()
+    Car_78_Pool()
     {
-        Car_78* pIter = &field_4[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_C = pIter + 1;
-            pIter++;
-        }
 
-        field_4[305].field_C = NULL;
-        field_0 = field_4;
     }
 
-    ~Car_8F74()
+    ~Car_78_Pool()
     {
-        field_0 = 0;
+
+    }
+
+    Car_78* Allocate()
+    {
+        return field_0_pool.Allocate();
     }
 
     // TODO: get 9.6f inline addr
-    void Remove(Car_78* p78)
+    void DeAllocate(Car_78* p78)
     {
-        p78->field_0 = 0;
-        p78->field_C = field_0;
-        field_0 = p78;
+        field_0_pool.DeAllocate(p78);
     }
 
-    Car_78* field_0;
-    Car_78 field_4[306];
+    PoolBasic<Car_78, 306> field_0_pool;
 };
 
 class Car_18
@@ -792,7 +791,7 @@ EXTERN_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
-EXTERN_GLOBAL(Car_8F74*, gCar_8F74_677CF8);
+EXTERN_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8);
 
 EXTERN_GLOBAL(Car_A4*, gCar_A4_66AC80);
 

@@ -1,6 +1,48 @@
 #pragma once
 #include "types.hpp"
 
+// TODO: name these better, this "basic" pool has O(1) allocate
+// and deallocate.
+template<typename PoolType, s32 PoolSize>
+class PoolBasic
+{
+  public:
+    PoolBasic()
+    {
+        PoolType* pIter = &field_4_pool[0];
+        for (s32 i = 0; i < PoolSize - 1; i++)
+        {
+            pIter->mpNext = pIter + 1;
+            pIter++;
+        }
+
+        field_4_pool[PoolSize - 1].mpNext = NULL;
+        field_0_pHead = field_4_pool;
+    }
+
+    ~PoolBasic()
+    {
+        field_0_pHead = 0;
+    }
+
+    PoolType* Allocate()
+    {
+        PoolType* pNew = field_0_pHead;
+        field_0_pHead = field_0_pHead->mpNext;
+        pNew->PoolAllocate();
+    }
+
+    void DeAllocate(PoolType* pItem)
+    {
+        pItem->PoolDeallocate();
+        pItem->mpNext = field_0_pHead;
+        field_0_pHead = pItem;
+    }
+
+    PoolType* field_0_pHead;
+    PoolType field_4_pool[PoolSize];
+};
+
 template<typename PoolType, s32 PoolSize>
 class Pool
 {
