@@ -3345,10 +3345,11 @@ void miss2_0x11C::sub_50E0B0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e120)
+MATCH_FUNC(0x50e120)
 void miss2_0x11C::sub_50E120()
 {
-    NOT_IMPLEMENTED;
+    gCar_6C_677930->field_58_model_to_check_destroy = (u16)gBasePtr_6F8070[1].field_0_cmd_this;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e150)
