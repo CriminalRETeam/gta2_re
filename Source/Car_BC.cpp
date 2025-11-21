@@ -27,7 +27,7 @@
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
-DEFINE_GLOBAL(Car_E0C4*, gCar_E0C4_67792C, 0x67792C);
+DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(Car_8F74*, gCar_8F74_677CF8, 0x677CF8);
 DEFINE_GLOBAL(Car_A4*, gCar_A4_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
@@ -457,7 +457,7 @@ MATCH_FUNC(0x446730)
 void Car_6C::sub_446730(Car_BC* pCar)
 {
     gPurpleDoom_3_679210->Remove_477B00(pCar->field_50_car_sprite);
-    gCar_E0C4_67792C->Remove(pCar);
+    gCar_BC_Pool_67792C->Remove(pCar);
 }
 
 MATCH_FUNC(0x4466c0)
@@ -548,10 +548,10 @@ STUB_FUNC(0x4469f0)
 Car_6C::Car_6C()
 {
     NOT_IMPLEMENTED;
-    if (!gCar_E0C4_67792C)
+    if (!gCar_BC_Pool_67792C)
     {
-        gCar_E0C4_67792C = new Car_E0C4();
-        if (!gCar_E0C4_67792C)
+        gCar_BC_Pool_67792C = new Car_BC_Pool();
+        if (!gCar_BC_Pool_67792C)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
         }
@@ -649,9 +649,9 @@ Car_6C::~Car_6C()
 {
     NOT_IMPLEMENTED;
 
-    if (gCar_E0C4_67792C)
+    if (gCar_BC_Pool_67792C)
     {
-        GTA2_DELETE_AND_NULL(gCar_E0C4_67792C);
+        GTA2_DELETE_AND_NULL(gCar_BC_Pool_67792C);
     }
 
     if (gCar_D264_6FE3E0)
@@ -2639,7 +2639,7 @@ Car_BC::Car_BC()
     field_A4 = 0;
     field_A5 = 0;
     field_A6 = 0;
-    field_4C_next = 0;
+    mpNext = 0;
     field_84_car_info_idx = car_model_enum::none;
     field_50_car_sprite = 0;
     field_58_physics = 0;
@@ -2664,7 +2664,7 @@ Car_BC::Car_BC()
 MATCH_FUNC(0x444960)
 Car_BC::~Car_BC()
 {
-    field_4C_next = 0;
+    mpNext = 0;
     field_50_car_sprite = 0;
     field_5C = 0;
 }

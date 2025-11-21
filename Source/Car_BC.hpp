@@ -10,6 +10,7 @@
 #include "sprite.hpp"
 #include "miss2_xyz.hpp"
 #include "Object_3C.hpp"
+#include "Pool.hpp"
 #include <wchar.h>
 
 struct gmp_zone_info;
@@ -671,7 +672,7 @@ class Car_BC
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
-    Car_BC* field_4C_next;
+    Car_BC* mpNext;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
@@ -722,43 +723,28 @@ class Car_BC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
-struct Car_E0C4
+struct Car_BC_Pool
 {
     //Inlined in Car_6C constructor 9.6f -> 0x426db0
-    EXPORT Car_E0C4()
+    Car_BC_Pool()
     {
-        Car_BC* pIter = &field_8_cars[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_4C_next = pIter + 1;
-            pIter++;
-        }
 
-        field_0 = field_8_cars;
-        field_8_cars[0x131].field_4C_next = NULL;
-        field_4_firstCar = NULL;
-        field_E0C0_cars_count = 0;
     }
 
-    ~Car_E0C4()
+    ~Car_BC_Pool()
     {
-        field_0 = NULL;
-        field_4_firstCar = NULL;
+
     }
 
     // TODO: 9.6f addr/check
     void Remove(Car_BC* pCar)
     {
         pCar->sub_4447D0();
-        pCar->field_4C_next = field_0;
-        field_0 = pCar;
+        pCar->mpNext = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pCar;
     }
 
-    Car_BC* field_0;
-    Car_BC* field_4_firstCar;
-    Car_BC field_8_cars[306];
-    s16 field_E0C0_cars_count;
-    s16 field_E0C2;
+    Pool<Car_BC, 306> field_0_pool;
 };
 
 class Car_A4
@@ -804,7 +790,7 @@ struct Car_14
     gmp_zone_info* field_10_zone;
 };
 
-EXTERN_GLOBAL(Car_E0C4*, gCar_E0C4_67792C);
+EXTERN_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
