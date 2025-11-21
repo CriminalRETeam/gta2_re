@@ -1469,10 +1469,50 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x508280)
+MATCH_FUNC(0x508280)
 void miss2_0x11C::sub_508280()
 {
-    NOT_IMPLEMENTED;
+    SCR_MAP_SET_ZONE_INFO* pCmd = (SCR_MAP_SET_ZONE_INFO*)gBasePtr_6F8070;
+    str_table_entry* pStrTable = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_8_zone_idx);
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_SET_CAR_DENSITY:
+            gMap_0x370_6F6268->set_nav_unknown_f0_4DF9D0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_GOOD_CAR:
+            gMap_0x370_6F6268->set_nav_unknown_f2_4DF9F0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_BAD_CAR:
+            gMap_0x370_6F6268->set_nav_unknown_f4_4DFA10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_POLICE_CAR:
+            gMap_0x370_6F6268->set_nav_unknown_f6_4DFA30(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_PED_DENSITY:
+            gMap_0x370_6F6268->set_nav_unknown_fA_4DFA70(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_MUGGER:
+            gMap_0x370_6F6268->set_nav_unknown_fC_4DFA90(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_CARTHIEF:
+            gMap_0x370_6F6268->set_nav_unknown_fE_4DFAB0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_ELVIS:
+            gMap_0x370_6F6268->set_nav_unknown_f10_4DFAD0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_GANG:
+            gMap_0x370_6F6268->set_nav_unknown_f12_4DFAF0(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_POLICE_PED:
+            gMap_0x370_6F6268->set_nav_unknown_f14_4DFB10(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+            break;
+        case SCRCMD_SET_GANGCARRATIO:
+            gMap_0x370_6F6268->set_nav_unknown_f8_4DFA50(pStrTable->field_2_zone_idx, pCmd->field_C_value);
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x508550)
