@@ -553,17 +553,15 @@ void Ped::EnterCarAsDriver(Car_BC* pCar)
     field_24C_target_car_door = pCar->GetRemap() - 1;
 }
 
-STUB_FUNC(0x45c7f0)
-Char_8* Ped::sub_45C7F0(Car_BC* pCar)
+MATCH_FUNC(0x45c7f0)
+void Ped::sub_45C7F0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    // TODO: ordering
-    field_248_enter_car_as_passenger = 1;
-    field_24C_target_car_door = 1;
-    field_16C_car = pCar;
-    field_278 = 10;
-    field_27C = 10;
-    return pCar->field_4.sub_471140(this);
+    this->field_248_enter_car_as_passenger = 1;
+    this->field_16C_car = pCar;
+    this->field_24C_target_car_door = 1;
+    this->field_278 = 10;
+    this->field_27C = 10;
+    pCar->field_4.sub_471140(this);
 }
 
 STUB_FUNC(0x45c830)
