@@ -275,7 +275,7 @@ void CC ImGuiDebugDraw()
 
                 gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 
-                //pNewPed->SpawnDriverRunAway_45C650(pNewCar);
+                //pNewPed->SpawnDriverRunAway_45C650(pNewCar, 0);
             }
 
             if (pNewCar)

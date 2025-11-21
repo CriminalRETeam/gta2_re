@@ -94,7 +94,7 @@ void Firefighter_28::deinit_4A81A0()
         Hamburger_40* pRoute = pCar->field_60;
         if (pRoute)
         {
-            gHamburger_500_678E30->sub_474CC0(pRoute);
+            gHamburger_500_678E30->Cancel_474CC0(pRoute);
             this->field_1C_car->field_60 = 0;
         }
     }

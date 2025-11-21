@@ -1,8 +1,8 @@
 #include "Ped.hpp"
 #include "Car_B0.hpp"
 #include "Car_BC.hpp"
-#include "debug.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
 #include "Marz_1D7E.hpp"
@@ -11,10 +11,8 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "PurpleDoom.hpp"
-#include "rng.hpp"
 #include "PublicTransport.hpp"
-#include "sprite.hpp"
+#include "PurpleDoom.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -22,8 +20,11 @@
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
 #include "char.hpp"
+#include "debug.hpp"
 #include "map_0x370.hpp"
-#include "Gang.hpp"
+#include "rng.hpp"
+#include "sprite.hpp"
+#include "RouteFinder.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -57,7 +58,7 @@ DEFINE_GLOBAL(Fix16, dword_678750, 0x678750);
 DEFINE_GLOBAL(Fix16, dword_678520, 0x678520);
 DEFINE_GLOBAL_INIT(Fix16, dword_678670, Fix16(4), 0x678670);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784C4, Fix16(256, 0), 0x6784C4);
-DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670 * dword_6784C4, 0x678448);
+DEFINE_GLOBAL_INIT(Fix16, dword_678448, dword_678670* dword_6784C4, 0x678448);
 DEFINE_GLOBAL_INIT(Fix16, dword_678790, dword_6784C4 * 32, 0x678790);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
@@ -65,14 +66,12 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 
-
 // TODO: move
 STUB_FUNC(0x545AF0)
 EXPORT void __stdcall sub_545AF0(s32 a1, Car_BC* a2, s8 a3, Fix16& a4, Fix16& a5, Ang16& a6)
 {
     NOT_IMPLEMENTED;
 }
-
 
 MATCH_FUNC(0x45ae70)
 Ped::Ped()
@@ -126,7 +125,7 @@ void Ped::sub_45B440()
     Ped::sub_45AFC0();
     field_200_id = gPedId_61A89C++;
     field_21C |= 1;
-    field_234 = 99;
+    field_234_timer = 99;
 
     switch (field_240_occupation)
     {
@@ -439,30 +438,73 @@ void Ped::sub_45C310()
     }
 }
 
-STUB_FUNC(0x45c350)
-void Ped::RespawnPed_45C350(gmp_map_zone* a2)
+MATCH_FUNC(0x45c350)
+void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+    }
+    field_168_game_object = 0;
+
+    field_16C_car = 0;
+
+    if (field_164_ped_group)
+    {
+        field_164_ped_group->DestroyGroup_4C93A0();
+    }
+
+    sub_45C0C0(pZone);
+
+    // TODO: missing inlines here, temp var shouldn't be needed
+    Char_B4* pTmp = field_168_game_object;
+    const u8 remap = get_remap_433BA0();
+    pTmp->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        pTmp->field_80_sprite_ptr->SetRemap(remap);
+    }
+
+    field_27C = 29;
+    field_216_health = 100;
+    field_208_invulnerability = 50;
+
+    SetObjective(0, 9999);
+    sub_463830(0, 9999);
 }
 
-STUB_FUNC(0x45c410)
-s32 Ped::sub_45C410()
+MATCH_FUNC(0x45c410)
+void Ped::sub_45C410()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_B4* pB4 = this->field_168_game_object;
+    Player* pPlayer = this->field_15C_player;
+
+    PutOutFire();
+    const u8 remap = this->field_244_remap;
+    sub_45AFC0();
+
+    this->field_244_remap = remap;
+    this->field_168_game_object = pB4;
+
+    this->field_21C |= 1;
+
+    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xpos.x;
+    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xpos.y;
+    this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
+
+    this->field_216_health = 100;
+    this->field_238 = 2;
+    this->field_208_invulnerability = 50;
+    this->field_234_timer = 99;
+    this->field_15C_player = pPlayer;
 }
 
-STUB_FUNC(0x45c4b0)
+MATCH_FUNC(0x45c4b0)
 void Ped::sub_45C4B0()
 {
-    NOT_IMPLEMENTED;
-    // TODO: Needs Sprite stubs
-    /*
-    Car_BC* pBc = field_16C_car;
-    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos.x;
-    field_1AC_cam.y = pBc->field_50_car_sprite->field_14_xpos.y;
-    field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
-    */
+    field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xpos.x;
+    field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+    field_1AC_cam.z = field_16C_car->field_50_car_sprite->field_1C_zpos;
 }
 
 MATCH_FUNC(0x45c500)
@@ -532,17 +574,58 @@ void Ped::sub_45C5C0()
     }
 }
 
-STUB_FUNC(0x45C650)
-void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
+MATCH_FUNC(0x45C650)
+void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
 {
-    NOT_IMPLEMENTED;
+    switch (pCar->field_84_car_info_idx)
+    {
+        case 3:
+        case 4:
+        case 6:
+        case 7:
+        case 17:
+        case 22:
+        case 30:
+        case 54:
+        case 59:
+        case 60:
+        case 61:
+            return;
+        default:
+            if (pCar->GetRemap())
+            {
+                Ped* pPed = gChar_C_6787BC->sub_470D60();
+                pPed->field_240_occupation = 0x32;
+                pCar->field_54_driver = pPed;
+                pPed->field_16C_car = pCar;
+                pPed->field_24C_target_car_door = 0;
+                pPed->field_248_enter_car_as_passenger = 0;
+                pPed->SetObjective(36, 9999);
+                pPed->field_150_target_objective_car = pPed->field_16C_car;
+                pPed->field_180 = pOther;
+                pPed->field_28C_threat_reaction = 3;
+            }
+            break;
+    }
 }
 
-STUB_FUNC(0x45c730)
-s32 Ped::SpawnPedInCar_45C730(Car_BC* a2)
+MATCH_FUNC(0x45c730)
+void Ped::SpawnPedInCar_45C730(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_16C_car = pCar;
+    this->field_248_enter_car_as_passenger = 0;
+    this->field_24C_target_car_door = 0;
+    this->field_278 = 10;
+
+    pCar->SetDriver(this);
+    pCar->field_7C_uni_num = field_238;
+    pCar->field_76 = 0;
+
+    // TODO: inline ??
+    if (pCar->field_88 == 2 || pCar->field_88 == 4 || pCar->field_88 == 3)
+    {
+        pCar->field_88 = 1;
+    }
 }
 
 MATCH_FUNC(0x45c7a0)
@@ -555,17 +638,15 @@ void Ped::EnterCarAsDriver(Car_BC* pCar)
     field_24C_target_car_door = pCar->GetRemap() - 1;
 }
 
-STUB_FUNC(0x45c7f0)
-Char_8* Ped::sub_45C7F0(Car_BC* pCar)
+MATCH_FUNC(0x45c7f0)
+void Ped::sub_45C7F0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    // TODO: ordering
-    field_248_enter_car_as_passenger = 1;
-    field_24C_target_car_door = 1;
-    field_16C_car = pCar;
-    field_278 = 10;
-    field_27C = 10;
-    return pCar->field_4.sub_471140(this);
+    this->field_248_enter_car_as_passenger = 1;
+    this->field_16C_car = pCar;
+    this->field_24C_target_car_door = 1;
+    this->field_278 = 10;
+    this->field_27C = 10;
+    pCar->field_4.sub_471140(this);
 }
 
 STUB_FUNC(0x45c830)
@@ -672,11 +753,37 @@ char_type Ped::sub_45D000(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x45dd30)
-char_type Ped::AddWeaponWithAmmo_45DD30(s32 a2, char_type a3)
+MATCH_FUNC(0x45dd30)
+char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (ammo == 100) // max is 99, 100 means get default count
+    {
+        ammo = gWeapon_8_707018->get_ammo_5E3E80(weapon_kind);
+    }
+
+    if (weapon_kind >= 0xf) // car_bomb
+    {
+        if (field_16C_car)
+        {
+            return gWeapon_8_707018->allocate_5E3D50(weapon_kind, ammo, field_16C_car);
+        }
+        return 0;
+    }
+
+    if (field_15C_player)
+    {
+        return field_15C_player->sub_564960(weapon_kind, ammo);
+    }
+
+    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx == weapon_kind)
+    {
+        return 0;
+    }
+
+    RemovePedWeapons_462510();
+    ForceWeapon_46F600(weapon_kind);
+
+    return 1;
 }
 
 STUB_FUNC(0x45de80)
@@ -1148,10 +1255,33 @@ void Ped::sub_462550()
     }
 }
 
-STUB_FUNC(0x462590)
+MATCH_FUNC(0x462590)
 void Ped::ForceDoNothing_462590()
 {
-    NOT_IMPLEMENTED;
+    SetObjective(0, 9999);
+    sub_463830(0, 9999);
+
+    field_21C &= ~4u;
+
+    if (field_16C_car)
+    {
+        field_278 = 10;
+        field_27C = 10;
+
+        if (field_16C_car->field_5C)
+        {
+            if (field_16C_car->field_5C->field_28_junc_idx > 0)
+            {
+                gRouteFinder_6FFDC8->CancelRoute_589930(field_16C_car->field_5C->field_28_junc_idx);
+            }
+        }
+
+        if (field_16C_car->field_60)
+        {
+            gHamburger_500_678E30->Cancel_474CC0(field_16C_car->field_60);
+            field_16C_car->field_60 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x462620)
@@ -1208,8 +1338,7 @@ void Ped::sub_462B80()
                     }
                 }
             }
-            if ((field_25C_car_state == 35 || field_25C_car_state == 37) &&
-                (field_226 = 1, field_25C_car_state == 37))
+            if ((field_25C_car_state == 35 || field_25C_car_state == 37) && (field_226 = 1, field_25C_car_state == 37))
             {
                 if (field_238 == 3)
                 {
@@ -1288,7 +1417,7 @@ bool Ped::Update_462E70()
     Ped::sub_469030();
     Ped::ManageBurning_45BEC0();
     Ped::sub_45BC70();
-    if (!field_234)
+    if (!field_234_timer)
     {
         Ped::sub_4624A0();
         return true;
@@ -1424,13 +1553,13 @@ bool Ped::Update_462E70()
             return false;
         }
     }
-    else if (field_234 != 99)
+    else if (field_234_timer != 99)
     {
-        --field_234;
+        --field_234_timer;
 
-        if (field_234 == 0)
+        if (field_234_timer == 0)
         {
-            field_234 = 0; // ????????????????
+            field_234_timer = 0; // ????????????????
         }
     }
 

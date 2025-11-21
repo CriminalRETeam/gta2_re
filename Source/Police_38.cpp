@@ -633,7 +633,7 @@ void PoliceCrew_38::sub_574F10()
                             v13 = field_10_subObj->field_0_car->field_60;
                             if (v13)
                             {
-                                gHamburger_500_678E30->sub_474CC0(v13);
+                                gHamburger_500_678E30->Cancel_474CC0(v13);
                                 field_10_subObj->field_0_car->field_60 = 0;
                             }
                             break;

@@ -52,17 +52,17 @@ class Ped
     EXPORT void RestoreCarOrPedHealth();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT void sub_45C310();
-    EXPORT void RespawnPed_45C350(gmp_map_zone* a2);
-    EXPORT s32 sub_45C410();
+    EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
+    EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);
     EXPORT void sub_45C540(s32 a2);
     EXPORT void sub_45C5A0();
     EXPORT void sub_45C5C0();
-    EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar);
-    EXPORT s32 SpawnPedInCar_45C730(Car_BC* a2);
+    EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
+    EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
     EXPORT void EnterCarAsDriver(Car_BC* a2);
-    EXPORT Char_8* sub_45C7F0(Car_BC* a2);
+    EXPORT void sub_45C7F0(Car_BC* pCar);
     EXPORT char_type sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16& sub_45C900(Ang16& a2);
     EXPORT Fix16 sub_45C920();
@@ -73,7 +73,7 @@ class Ped
     EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(s32 a2);
     EXPORT char_type sub_45D000(s32 a2);
-    EXPORT char_type AddWeaponWithAmmo_45DD30(s32 a2, char_type a3);
+    EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
     EXPORT char_type sub_45DE80(s32 a2);
     EXPORT void sub_45E080();
     EXPORT void sub_45E4A0();
@@ -367,6 +367,11 @@ class Ped
     {
         return field_1F0;
     }
+    
+    inline u8 get_remap_433BA0()
+    {
+        return field_244_remap;
+    }
 
     // 9.6f inline 0x433B90
     void set_remap_433B90(u8 remap)
@@ -485,7 +490,7 @@ class Ped
     char_type field_22B;
     s32 field_22C;
     s32 field_230;
-    char_type field_234;
+    char_type field_234_timer;
     char_type field_235;
     char_type field_236;
     char_type field_237;
