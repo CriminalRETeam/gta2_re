@@ -3555,10 +3555,32 @@ void miss2_0x11C::sub_50E820()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50e900)
+MATCH_FUNC(0x50e900)
 void miss2_0x11C::sub_50E900()
 {
-    NOT_IMPLEMENTED;
+    SCR_PUT_CAR_ON_TRAILER* pCmd = (SCR_PUT_CAR_ON_TRAILER*)gBasePtr_6F8070;
+    SCR_POINTER* pCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pDstCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_trailer_car_idx);
+
+    Car_BC* pDstCar = pDstCarPointer->field_8_car;
+    if (pDstCar->field_88 != 6)
+    {
+        Trailer* pTrailer = pDstCar->field_64_pTrailer;
+        if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
+        {
+            // put car on the trailer attached to the truck cab
+            pDstCar->sub_440840()->sub_5A3100(pCarPointer->field_8_car->field_50_car_sprite, dword_6F77C0, dword_6F77C0, word_6F771E);
+        }
+        else
+        {
+            // put car directly on the trailer
+            pDstCar->field_50_car_sprite->sub_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
+                                                     dword_6F77C0,
+                                                     dword_6F77C0,
+                                                     word_6F771E);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e9a0)
