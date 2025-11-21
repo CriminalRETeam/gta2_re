@@ -3936,10 +3936,25 @@ void miss2_0x11C::SCRCMD_SET_SHADING_LEV_50FA40()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50fa70)
+MATCH_FUNC(0x50fa70)
 void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_CAR_JAMMED* pCmd = (SCR_SET_CAR_JAMMED*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Car_BC* pCar = pPointer->field_8_car;
+
+    if (pCar)
+    {
+        if (pCmd->field_A_status == 1)
+        {
+            pCar->field_78_flags |= 0x1000;
+        }
+        else
+        {
+            pCar->field_78_flags &= ~0x1000u;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fad0)
