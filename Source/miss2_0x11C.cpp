@@ -3896,10 +3896,26 @@ void miss2_0x11C::SCRCMD_STOP_CAR_DRIVE_50F900()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50f940)
+MATCH_FUNC(0x50f940)
 void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    field_8 = false;
+    Ped* pPed = pPointer->field_8_char;
+
+    if (pPed)
+    {
+        Car_BC* pCar = pPed->field_16C_car;
+        if (pCar)
+        {
+            if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pCar) 
+                && gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
+            {
+                field_8 = true;
+            }
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f9b0)
