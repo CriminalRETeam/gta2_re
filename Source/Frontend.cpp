@@ -2555,7 +2555,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
     else if (cheat_str_hash == 0x478A9)
     { // COCKTART Skip exploding scores
-        bExplodingOff_67D4FB = bExplodingOff_67D4FB == 0;
+        bExplodingScoresOff_67D4FB = bExplodingScoresOff_67D4FB == 0;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45EC2)

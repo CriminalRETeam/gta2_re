@@ -371,9 +371,9 @@ void Game_0x40::Draw_4B92D0()
 
     gpMapRenderer_6F66E4->Draw_4F6A20(); // Note: Also seems to draw sprites
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34->DrawExploding_5969E0();
+        gExplodingScorePool->DrawExplodingScores_5969E0();
     }
 
     gHud_2B00_706620->DrawGui_5D6860(); // user
@@ -520,9 +520,9 @@ void Game_0x40::UpdateGame_4B9410()
     gDoor_4D4_67BD2C->DoorsService_49D460();
     gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34->sub_596940();
+        gExplodingScorePool->sub_596940();
     }
 
     if (bDo_show_junc_ids_67D5B0)
@@ -1152,10 +1152,10 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1903);
     }
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34 = new ExplodingScore_100(); // ctor call
-        if (!gExplodingScore_100_702F34)
+        gExplodingScorePool = new ExplodingScorePool(); // ctor call
+        if (!gExplodingScorePool)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);
         }
@@ -1274,9 +1274,9 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
     GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        GTA2_DELETE_AND_NULL(gExplodingScore_100_702F34);
+        GTA2_DELETE_AND_NULL(gExplodingScorePool);
     }
 
     GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);

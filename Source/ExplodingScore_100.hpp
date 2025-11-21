@@ -2,6 +2,7 @@
 
 #include "Fix16.hpp"
 #include "Function.hpp"
+#include "Pool.hpp"
 
 class ExplodingScore_50
 {
@@ -27,30 +28,38 @@ class ExplodingScore_50
     s32 field_38;
     s32 field_3C;
     s32 field_40;
-    ExplodingScore_50* field_44;
+    // NOTE: Used by a template so the name maters
+    ExplodingScore_50* mpNext;
     s16 field_48;
     s16 field_4A;
     s32 field_4C;
 };
 
-class ExplodingScore_100
+class ExplodingScorePool
 {
   public:
-    EXPORT ExplodingScore_100();
-    EXPORT ~ExplodingScore_100();
+    EXPORT ExplodingScorePool();
+    EXPORT ~ExplodingScorePool();
     EXPORT s16 sub_596860();
     EXPORT void sub_596880();
     EXPORT void sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5);
     EXPORT void sub_596940();
-    EXPORT void DrawExploding_5969E0();
+    EXPORT void DrawExplodingScores_5969E0();
 
     s16 field_0;
     s16 field_2;
+
+    // NOTE: Nearly all other pools start at offset 0, this object is some 
+    // suggestion its composition and not inheritance unless this object 
+    // has an additional unknown base that been melted by the compiler :']
+    Pool<ExplodingScore_50, 3> field_4_pool;
+    /*
     ExplodingScore_50* field_4;
     ExplodingScore_50* field_8;
     ExplodingScore_50 field_C[3];
     s16 field_FC_count;
     s16 field_FE;
+    */
 };
 
-EXTERN_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34);
+EXTERN_GLOBAL(ExplodingScorePool*, gExplodingScorePool);

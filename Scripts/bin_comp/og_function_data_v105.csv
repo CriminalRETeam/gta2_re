@@ -3163,7 +3163,7 @@ ExplodingScore_100::sub_596860,0x596860,0x196860,0x12
 ExplodingScore_100::sub_596880,0x596880,0x196880,0x5
 ExplodingScore_100::sub_596890,0x596890,0x196890,0xaa
 ExplodingScore_100::sub_596940,0x596940,0x196940,0x96
-ExplodingScore_100::DrawExploding_5969E0,0x5969e0,0x1969e0,0x18
+ExplodingScore_100::DrawExplodingScores_5969E0,0x5969e0,0x1969e0,0x18
 ExplodingScore_50::ctor_596A00,0x596a00,0x196a00,0x35
 ExplodingScore_50::dtor_596A40,0x596a40,0x196a40,0x8
 ExplodingScore_50::Empty_596A50,0x596a50,0x196a50,0x1

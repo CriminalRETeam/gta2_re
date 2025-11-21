@@ -27,7 +27,7 @@ DEFINE_GLOBAL(bool, bDont_get_car_back_67D4F5, 0x67D4F5);
 DEFINE_GLOBAL(bool, bDo_test_67D4F8, 0x67D4F8);
 DEFINE_GLOBAL(bool, bSkip_police_67D4F9, 0x67D4F9);
 DEFINE_GLOBAL(bool, bDo_show_traffic_lights_info_67D4FA, 0x67D4FA);
-DEFINE_GLOBAL(bool, bExplodingOff_67D4FB, 0x67D4FB);
+DEFINE_GLOBAL(bool, bExplodingScoresOff_67D4FB, 0x67D4FB);
 DEFINE_GLOBAL(bool, bShow_brief_number_67D504, 0x67D504);
 DEFINE_GLOBAL(bool, bSkip_slopes_67D505, 0x67D505);
 DEFINE_GLOBAL(bool, bSkip_user_67D506, 0x67D506);

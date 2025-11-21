@@ -28,6 +28,7 @@ target_compile_definitions(mss32 PRIVATE BUILD_MSS)
 # this is so that for the hook dll we can redirect importing the vars from the 2nd copy of the dll
 # to the actual executable data/vars
 set(gta2_lib_src
+  Source/Pool.hpp
   Source/angle.cpp
   Source/angle.hpp
   Source/crt_stubs.cpp

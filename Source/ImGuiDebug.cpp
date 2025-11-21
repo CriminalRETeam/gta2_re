@@ -932,7 +932,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Skip Missions", &bSkip_mission_67D4E5);
             ImGui::Checkbox("Skip Particles", &bSkip_particles_67D64D);
             ImGui::Checkbox("Skip Ambulance", &bSkip_ambulance_67D6C9);
-            ImGui::Checkbox("Skip Explosions", &bExplodingOff_67D4FB);
+            ImGui::Checkbox("Skip Explosions", &bExplodingScoresOff_67D4FB);
             ImGui::Checkbox("Skip Police", &bSkip_police_67D4F9);
             ImGui::TreePop();
         }
