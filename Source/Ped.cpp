@@ -13,6 +13,7 @@
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -24,7 +25,6 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "RouteFinder.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -1224,11 +1224,34 @@ void Ped::sub_462280()
     }
 }
 
-STUB_FUNC(0x4624a0)
-s32 Ped::sub_4624A0()
+MATCH_FUNC(0x4624a0)
+void Ped::sub_4624A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_164_ped_group)
+    {
+        field_164_ped_group->DestroyGroup_4C93A0();
+    }
+
+    if (field_168_game_object)
+    {
+        if (field_168_game_object->field_88_obj_2c.field_0_p18)
+        {
+            field_168_game_object->field_88_obj_2c.sub_5A7010();
+        }
+    }
+
+    if (field_200_id)
+    {
+        if (field_170_selected_weapon)
+        {
+            RemovePedWeapons_462510();
+        }
+        if (field_174_pWeapon)
+        {
+            sub_462550();
+        }
+        field_178 = 0;
+    }
 }
 
 STUB_FUNC(0x462510)
