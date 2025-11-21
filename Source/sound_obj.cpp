@@ -1,12 +1,12 @@
 #include "sound_obj.hpp"
+#include "Camera.hpp"
+#include "Car_BC.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "cSampleManager.hpp"
-#include "Camera.hpp"
 #include "Ped.hpp"
-#include "Car_BC.hpp"
+#include "cSampleManager.hpp"
 #include "sprite.hpp"
 #include <math.h>
 
@@ -330,7 +330,8 @@ void sound_obj::sub_41B540()
             {
                 f32 f28_conv;
                 sub_41B520(pIter->field_28_distance, &f28_conv);
-                pIter->field_60_nEmittingVolume = ComputeEmittingVolume_41B660(pIter->field_60_nEmittingVolume, pIter->field_64_max_distance, (u32)f28_conv);
+                pIter->field_60_nEmittingVolume =
+                    ComputeEmittingVolume_41B660(pIter->field_60_nEmittingVolume, pIter->field_64_max_distance, (u32)f28_conv);
             }
         }
     }
@@ -513,8 +514,7 @@ void sound_obj::AddReleasingSounds_41A9D0()
                 sound_0x68& t =
                     field_9C_asSamples[field_98_nActiveSampleQueue][field_D9C_abSampleQueueIndexTable[field_98_nActiveSampleQueue][i]];
 
-                if (pSound.field_0_EntityIndex == t.field_0_EntityIndex 
-                    && pSound.field_4_SampleIndex == t.field_4_SampleIndex)
+                if (pSound.field_0_EntityIndex == t.field_0_EntityIndex && pSound.field_4_SampleIndex == t.field_4_SampleIndex)
                 {
                     toProcess[idx] = true;
                     break;
@@ -798,7 +798,6 @@ void sound_obj::null_412240()
 MATCH_FUNC(0x412250)
 void sound_obj::null_412250()
 {
-
 }
 
 MATCH_FUNC(0x418C20)
@@ -1083,6 +1082,54 @@ void sound_obj::sub_57EA10()
     NOT_IMPLEMENTED;
 }
 
+STUB_FUNC(0x57EA90)
+void sound_obj::sub_57EA90()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57EB90)
+char_type sound_obj::sub_57EB90(s32 a2, s32 a3)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57EE30)
+void sound_obj::sub_57EE30(s32 a2, s32 a3)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57EEE0)
+void sound_obj::sub_57EEE0(char_type a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57EF60)
+void sound_obj::sub_57EF60()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57F050)
+u8 sound_obj::sub_57F050(s32 a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57F090)
+bool sound_obj::sub_57F090(Car_BC* pCar)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57F120)
+bool sound_obj::sub_57F120(Car_BC* pCar)
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x419EF0)
 void sound_obj::Service_419EF0()
 {
@@ -1187,6 +1234,12 @@ void sound_obj::ProcessType1_412740(s32 a2)
 
 STUB_FUNC(0x413760)
 void sound_obj::ProcessType6_413760(s32 a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4273B0)
+void sound_obj::sub_4273B0()
 {
     NOT_IMPLEMENTED;
 }
@@ -1811,6 +1864,18 @@ void sound_obj::sub_427340(s32 a4, s32 a5, s32 a6)
 
 STUB_FUNC(0x426E10)
 void sound_obj::sub_426E10(s32 arg0, u32 a2)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57ECB0)
+void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x57EDB0)
+void sound_obj::sub_57EDB0(s32 a1, s32 a2)
 {
     NOT_IMPLEMENTED;
 }

@@ -54,7 +54,7 @@ class root_sound
 
     EXPORT void sub_40F020();
 
-    EXPORT char* DeclareRadioStation_40F030(s32 a1, Fix16 a2, Fix16 a3);
+    EXPORT void DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 ypos);
 
     EXPORT char_type RemoveSound_40F050(s32 a1, s32 a2);
 
