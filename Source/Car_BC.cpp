@@ -29,7 +29,7 @@ DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8, 0x677CF8);
-DEFINE_GLOBAL(Car_A4*, gCar_A4_66AC80, 0x66AC80);
+DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
 DEFINE_GLOBAL(Car_14*, gCar_14_677934, 0x677934);
 DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 
@@ -584,10 +584,10 @@ Car_6C::Car_6C()
         }
     }
 
-    if (!gCar_A4_66AC80)
+    if (!gTrailerPool_66AC80)
     {
-        gCar_A4_66AC80 = new Car_A4();
-        if (!gCar_A4_66AC80)
+        gTrailerPool_66AC80 = new TrailerPool();
+        if (!gTrailerPool_66AC80)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
         }
@@ -669,9 +669,9 @@ Car_6C::~Car_6C()
         GTA2_DELETE_AND_NULL(gCar_78_Pool_677CF8);
     }
 
-    if (gCar_A4_66AC80)
+    if (gTrailerPool_66AC80)
     {
-        GTA2_DELETE_AND_NULL(gCar_A4_66AC80);
+        GTA2_DELETE_AND_NULL(gTrailerPool_66AC80);
     }
 
     if (gSprite_Unused_677938)

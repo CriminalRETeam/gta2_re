@@ -20,15 +20,12 @@ class Fix16_Rect;
 class Car_78;
 class CarPhysics_B0;
 class Trailer;
-//class Sprite;
 class Ped;
 class Char_8;
 class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
 class infallible_turing;
-//class Sprite_4C;
-//class Sprite_18;
 
 // TODO: Move
 class Car_78
@@ -296,7 +293,7 @@ class Trailer
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
     Trailer()
     {
-        field_4 = NULL;
+        mpNext = NULL;
         field_8_truck_cab = NULL;
         field_C_trailer_carObj = NULL;
         field_0 = NULL;
@@ -307,7 +304,7 @@ class Trailer
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Trailer* field_4;
+    Trailer* mpNext;
     Car_BC* field_8_truck_cab;
     Car_BC* field_C_trailer_carObj;
 };
@@ -744,29 +741,21 @@ struct Car_BC_Pool
     Pool<Car_BC, 306> field_0_pool;
 };
 
-class Car_A4
+class TrailerPool
 {
   public:
     //Inlined in Car_6C constructor 9.6f -> 0x425500
-    EXPORT Car_A4()
+    TrailerPool()
     {
-        Trailer* it = field_4;
-        for (u32 i = 0; i < 9; i++)
-        {
-            it->field_4 = it + 1;
-            it++;
-        }
-        field_4[9].field_4 = NULL;
-        field_0 = field_4;
+
     }
 
-    ~Car_A4()
+    ~TrailerPool()
     {
-        field_0 = 0;
+
     }
 
-    Trailer* field_0;
-    Trailer field_4[10];
+    PoolBasic<Trailer, 10> field_0_pool;
 };
 
 struct Car_14
@@ -793,7 +782,7 @@ EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
 EXTERN_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8);
 
-EXTERN_GLOBAL(Car_A4*, gCar_A4_66AC80);
+EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 
