@@ -2579,10 +2579,17 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_50B670()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50b690)
-void miss2_0x11C::sub_50B690()
+MATCH_FUNC(0x50b690)
+void miss2_0x11C::sub_50B690() // SCRCMD_CLEAR_TIMERS
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    if (pPointer->field_8_index != 0xFFFF)
+    {
+        gHud_2B00_706620->field_620.sub_5D3280(pPointer->field_8_index);
+    }
+    pPointer->field_8_index = 0;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b6f0)
