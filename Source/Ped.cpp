@@ -450,17 +450,12 @@ s32 Ped::sub_45C410()
     return 0;
 }
 
-STUB_FUNC(0x45c4b0)
+MATCH_FUNC(0x45c4b0)
 void Ped::sub_45C4B0()
 {
-    NOT_IMPLEMENTED;
-    // TODO: Needs Sprite stubs
-    /*
-    Car_BC* pBc = field_16C_car;
-    field_1AC_cam.x = pBc->field_50_car_sprite->field_14_xpos.x;
-    field_1AC_cam.y = pBc->field_50_car_sprite->field_14_xpos.y;
-    field_1AC_cam.z = pBc->field_50_car_sprite->field_1C_zpos;
-    */
+    field_1AC_cam.x = field_16C_car->field_50_car_sprite->field_14_xpos.x;
+    field_1AC_cam.y = field_16C_car->field_50_car_sprite->field_14_xpos.y;
+    field_1AC_cam.z = field_16C_car->field_50_car_sprite->field_1C_zpos;
 }
 
 MATCH_FUNC(0x45c500)
