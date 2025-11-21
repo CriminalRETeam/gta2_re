@@ -530,10 +530,39 @@ void Ped::sub_45C5C0()
     }
 }
 
-STUB_FUNC(0x45C650)
-void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar)
+MATCH_FUNC(0x45C650)
+void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
 {
-    NOT_IMPLEMENTED;
+    switch (pCar->field_84_car_info_idx)
+    {
+        case 3:
+        case 4:
+        case 6:
+        case 7:
+        case 17:
+        case 22:
+        case 30:
+        case 54:
+        case 59:
+        case 60:
+        case 61:
+            return;
+        default:
+            if (pCar->GetRemap())
+            {
+                Ped* pPed = gChar_C_6787BC->sub_470D60();
+                pPed->field_240_occupation = 0x32;
+                pCar->field_54_driver = pPed;
+                pPed->field_16C_car = pCar;
+                pPed->field_24C_target_car_door = 0;
+                pPed->field_248_enter_car_as_passenger = 0;
+                pPed->SetObjective(36, 9999);
+                pPed->field_150_target_objective_car = pPed->field_16C_car;
+                pPed->field_180 = pOther;
+                pPed->field_28C_threat_reaction = 3;
+            }
+            break;
+    }
 }
 
 MATCH_FUNC(0x45c730)
