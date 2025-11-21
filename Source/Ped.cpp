@@ -437,10 +437,39 @@ void Ped::sub_45C310()
     }
 }
 
-STUB_FUNC(0x45c350)
-void Ped::RespawnPed_45C350(gmp_map_zone* a2)
+MATCH_FUNC(0x45c350)
+void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+    }
+    field_168_game_object = 0;
+
+    field_16C_car = 0;
+
+    if (field_164_ped_group)
+    {
+        field_164_ped_group->DestroyGroup_4C93A0();
+    }
+
+    sub_45C0C0(pZone);
+
+    // TODO: missing inlines here, temp var shouldn't be needed
+    Char_B4* pTmp = field_168_game_object;
+    const u8 remap = get_remap_433BA0();
+    pTmp->field_5_remap = remap;
+    if (remap != 0xFF)
+    {
+        pTmp->field_80_sprite_ptr->SetRemap(remap);
+    }
+
+    field_27C = 29;
+    field_216_health = 100;
+    field_208_invulnerability = 50;
+
+    SetObjective(0, 9999);
+    sub_463830(0, 9999);
 }
 
 MATCH_FUNC(0x45c410)

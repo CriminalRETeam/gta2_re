@@ -52,7 +52,7 @@ class Ped
     EXPORT void RestoreCarOrPedHealth();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
     EXPORT void sub_45C310();
-    EXPORT void RespawnPed_45C350(gmp_map_zone* a2);
+    EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
     EXPORT void sub_45C500(s32 a2);
@@ -366,6 +366,11 @@ class Ped
     inline Fix16 get_field_1F0()
     {
         return field_1F0;
+    }
+    
+    inline u8 get_remap_433BA0()
+    {
+        return field_244_remap;
     }
 
     // 9.6f inline 0x433B90
