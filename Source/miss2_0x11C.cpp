@@ -1274,7 +1274,7 @@ void miss2_0x11C::sub_506B80() // MISSIONEND
 }
 
 MATCH_FUNC(0x506bc0)
-char miss2_0x11C::sub_506BC0(u32 a1)
+u8 miss2_0x11C::sub_506BC0(u32 a1)
 {
     switch (a1)
     {
@@ -3411,10 +3411,34 @@ void miss2_0x11C::sub_50E4F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e610)
+MATCH_FUNC(0x50e610)
 void miss2_0x11C::sub_50E610()
 {
-    NOT_IMPLEMENTED;
+    SCR_OPERATE_COUNTER_AND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_INT*)gBasePtr_6F8070;
+    SCR_POINTER* pDestCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx);
+    SCR_POINTER* pOperandCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_operand_counter_idx);
+
+    switch (miss2_0x11C::sub_506BC0(gBasePtr_6F8070->field_2_type))
+    {
+        case 0:
+            pDestCounter->field_8_counter = pOperandCounter->field_8_counter + pCmd->field_C_value;
+            break;
+        case 1:
+            pDestCounter->field_8_counter = pOperandCounter->field_8_counter - pCmd->field_C_value;
+            break;
+        case 8:
+            pDestCounter->field_8_counter = pOperandCounter->field_8_counter * pCmd->field_C_value;
+            break;
+        case 7:
+            pDestCounter->field_8_counter = pOperandCounter->field_8_counter / pCmd->field_C_value;
+            break;
+        case 9:
+            pDestCounter->field_8_counter = pOperandCounter->field_8_counter % pCmd->field_C_value;
+            break;
+        default:
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e730)

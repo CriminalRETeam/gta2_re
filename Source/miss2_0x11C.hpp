@@ -666,7 +666,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_IF_JUMP_506AF0();
     EXPORT void sub_506B30();
     EXPORT void sub_506B80();
-    EXPORT char_type sub_506BC0(u32 a1);
+    EXPORT u8 sub_506BC0(u32 a1);
     EXPORT void sub_506D60();
     EXPORT void sub_506ED0();
     EXPORT void sub_507110();
