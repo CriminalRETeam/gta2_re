@@ -53,13 +53,6 @@ class ExplodingScorePool
     // suggestion its composition and not inheritance unless this object 
     // has an additional unknown base that been melted by the compiler :']
     Pool<ExplodingScore_50, 3> field_4_pool;
-    /*
-    ExplodingScore_50* field_4;
-    ExplodingScore_50* field_8;
-    ExplodingScore_50 field_C[3];
-    s16 field_FC_count;
-    s16 field_FE;
-    */
 };
 
 EXTERN_GLOBAL(ExplodingScorePool*, gExplodingScorePool);

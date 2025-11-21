@@ -27,6 +27,16 @@ class Pool
         field_4_pPrev = 0;
     }
 
+    PoolType* New()
+    {
+        PoolType* tmp = field_0_pStart;
+        field_0_pStart = tmp->mpNext;
+        tmp->mpNext = field_4_pPrev;
+        field_4_pPrev = tmp;
+        tmp->PoolInit();
+        return tmp;
+    }
+
     PoolType* field_0_pStart;
     PoolType* field_4_pPrev;
     PoolType field_8_pool[PoolSize];
