@@ -1601,11 +1601,42 @@ void Ped::sub_4632E0()
     sub_463FB0();
 }
 
-STUB_FUNC(0x463300)
-s32 Ped::sub_463300(u8 a1)
+MATCH_FUNC(0x463300)
+void Ped::sub_463300(u8 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (a1)
+    {
+        case 1u:
+            Ped::sub_45C500(0);
+            Ped::sub_45C540(0);
+            break;
+        case 2u:
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(3);
+            break;
+        case 3u:
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(2);
+            break;
+        case 4u:
+            Ped::sub_45C500(7);
+            Ped::sub_45C540(14);
+            break;
+        case 5u:
+            Ped::sub_45C500(10);
+            Ped::sub_45C540(10);
+            break;
+        case 6u:
+            Ped::sub_45C500(3);
+            Ped::sub_45C540(4);
+            break;
+        case 7u:
+            Ped::sub_45C500(4);
+            Ped::sub_45C540(10);
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x4633e0)

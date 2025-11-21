@@ -102,7 +102,7 @@ class Ped
     EXPORT void sub_462B80();
     EXPORT bool Update_462E70();
     EXPORT void sub_4632E0();
-    EXPORT s32 sub_463300(u8 a1);
+    EXPORT void sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
     EXPORT char_type SetObjective(s32 a2, s16 a3);
     EXPORT void sub_463830(s32 a2, s16 a3);
