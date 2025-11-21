@@ -3417,10 +3417,14 @@ void miss2_0x11C::sub_50E610()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e730)
+MATCH_FUNC(0x50e730)
 void miss2_0x11C::sub_50E730()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_CHAR_DRIVE_AGGR* pCmd = (SCR_SET_CHAR_DRIVE_AGGR*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    pPointer->field_8_char->field_21C_bf.b3 = pCmd->field_A_status;
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e780)
