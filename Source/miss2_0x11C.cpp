@@ -3435,10 +3435,51 @@ void miss2_0x11C::sub_50E7F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e820)
+MATCH_FUNC(0x50e820)
 void miss2_0x11C::sub_50E820()
 {
-    NOT_IMPLEMENTED;
+    SCR_SET_CAR_DAMAGE_PROOF* pCmd = (SCR_SET_CAR_DAMAGE_PROOF*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+
+    Car_BC* pCar;
+
+    switch (pCmd->field_2_type)
+    {
+        case SCRCMD_CAR_BULLETPROOF:
+            pCar = pPointer->field_8_car;
+            if (pCmd->field_A_status == 1)
+            {
+                pCar->field_78_flags |= 0x100;
+            }
+            else
+            {
+                pCar->field_78_flags &= ~0x100;
+            }
+            break;
+        case SCRCMD_CAR_ROCKETPROOF:
+            pCar = pPointer->field_8_car;
+            if (pCmd->field_A_status == 1)
+            {
+                pCar->field_78_flags |= 0x200;
+            }
+            else
+            {
+                pCar->field_78_flags &= ~0x200;
+            }
+            break;
+        case SCRCMD_CAR_FLAMEPROOF:
+            pCar = pPointer->field_8_car;
+            if (pCmd->field_A_status == 1)
+            {
+                pCar->field_78_flags |= 0x400;
+            }
+            else
+            {
+                pCar->field_78_flags &= ~0x400;
+            }
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50e900)
