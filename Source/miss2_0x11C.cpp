@@ -3930,10 +3930,11 @@ void miss2_0x11C::sub_50FA00() // SCRCMD_KILL_char_type
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50fa40)
+MATCH_FUNC(0x50fa40)
 void miss2_0x11C::SCRCMD_SET_SHADING_LEV_50FA40()
 {
-    NOT_IMPLEMENTED;
+    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(gBasePtr_6F8070[1].field_2_type);
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fa70)
