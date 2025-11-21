@@ -457,7 +457,7 @@ class Ped
     s32 field_1EC;
     Fix16 field_1F0;
     s32 field_1F4;
-    s32 field_1F8;
+    Fix16 field_1F8;
     s32 field_1FC;
     s32 field_200_id;
     s32 field_204;
