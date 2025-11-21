@@ -13,6 +13,7 @@
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
+#include "RouteFinder.hpp"
 #include "Taxi_4.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
@@ -24,7 +25,6 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
-#include "RouteFinder.hpp"
 
 // =================
 DEFINE_GLOBAL(s8, byte_61A8A3, 0x61A8A3);
@@ -1224,34 +1224,55 @@ void Ped::sub_462280()
     }
 }
 
-STUB_FUNC(0x4624a0)
-s32 Ped::sub_4624A0()
+MATCH_FUNC(0x4624a0)
+void Ped::sub_4624A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
-}
-
-STUB_FUNC(0x462510)
-void Ped::RemovePedWeapons_462510()
-{
-    NOT_IMPLEMENTED;
-    if (this->field_170_selected_weapon)
+    if (field_164_ped_group)
     {
-        this->field_21C &= ~800000u; // TODO: Wrong
-        gWeapon_8_707018->deallocate_5E3CB0(field_170_selected_weapon);
-        this->field_170_selected_weapon = 0;
+        field_164_ped_group->DestroyGroup_4C93A0();
+    }
+
+    if (field_168_game_object)
+    {
+        if (field_168_game_object->field_88_obj_2c.field_0_p18)
+        {
+            field_168_game_object->field_88_obj_2c.sub_5A7010();
+        }
+    }
+
+    if (field_200_id)
+    {
+        if (field_170_selected_weapon)
+        {
+            RemovePedWeapons_462510();
+        }
+        if (field_174_pWeapon)
+        {
+            sub_462550();
+        }
+        field_178 = 0;
     }
 }
 
-STUB_FUNC(0x462550)
+MATCH_FUNC(0x462510)
+void Ped::RemovePedWeapons_462510()
+{
+    if (field_170_selected_weapon)
+    {
+        field_21C_bf.b11 = 0;
+        gWeapon_8_707018->deallocate_5E3CB0(field_170_selected_weapon);
+        field_170_selected_weapon = 0;
+    }
+}
+
+MATCH_FUNC(0x462550)
 void Ped::sub_462550()
 {
-    NOT_IMPLEMENTED;
-    if (this->field_174_pWeapon)
+    if (field_174_pWeapon)
     {
-        this->field_21C &= ~800000u; // TODO: Wrong
+        field_21C_bf.b11 = 0;
         gWeapon_8_707018->deallocate_5E3CB0(field_174_pWeapon);
-        this->field_174_pWeapon = 0;
+        field_174_pWeapon = 0;
     }
 }
 
@@ -1580,11 +1601,42 @@ void Ped::sub_4632E0()
     sub_463FB0();
 }
 
-STUB_FUNC(0x463300)
-s32 Ped::sub_463300(u8 a1)
+MATCH_FUNC(0x463300)
+void Ped::sub_463300(u8 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (a1)
+    {
+        case 1u:
+            Ped::sub_45C500(0);
+            Ped::sub_45C540(0);
+            break;
+        case 2u:
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(3);
+            break;
+        case 3u:
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(2);
+            break;
+        case 4u:
+            Ped::sub_45C500(7);
+            Ped::sub_45C540(14);
+            break;
+        case 5u:
+            Ped::sub_45C500(10);
+            Ped::sub_45C540(10);
+            break;
+        case 6u:
+            Ped::sub_45C500(3);
+            Ped::sub_45C540(4);
+            break;
+        case 7u:
+            Ped::sub_45C500(4);
+            Ped::sub_45C540(10);
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x4633e0)
