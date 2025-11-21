@@ -3339,10 +3339,34 @@ void miss2_0x11C::sub_50DF10()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x50e0b0)
+MATCH_FUNC(0x50e0b0)
 void miss2_0x11C::sub_50E0B0()
 {
-    NOT_IMPLEMENTED;
+    s16 result = miss2_0x11C::sub_505EA0(gBasePtr_6F8070[1].field_0_cmd_this);
+    field_8 = false;
+
+    switch (gBasePtr_6F8070->field_2_type)
+    {
+        case SCRCMD_CHECK_BONUS1:
+            if (result == -3)
+            {
+                field_8 = true;
+            }
+            break;
+        case SCRCMD_CHECK_BONUS2:
+            if (result == -4)
+            {
+                field_8 = true;
+            }
+            break;
+        case SCRCMD_CHECK_BONUS3:
+            if (result != -2)
+            {
+                field_8 = true;
+            }
+            break;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e120)
