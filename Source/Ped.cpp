@@ -1266,13 +1266,12 @@ void Ped::RemovePedWeapons_462510()
     }
 }
 
-STUB_FUNC(0x462550)
+MATCH_FUNC(0x462550)
 void Ped::sub_462550()
 {
-    NOT_IMPLEMENTED;
     if (this->field_174_pWeapon)
     {
-        this->field_21C &= ~800000u; // TODO: Wrong
+        field_21C_bf.b11 = 0;
         gWeapon_8_707018->deallocate_5E3CB0(field_174_pWeapon);
         this->field_174_pWeapon = 0;
     }
