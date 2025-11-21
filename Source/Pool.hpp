@@ -27,14 +27,21 @@ class Pool
         field_4_pPrev = 0;
     }
 
-    PoolType* New()
+    PoolType* Allocate()
     {
         PoolType* tmp = field_0_pStart;
         field_0_pStart = tmp->mpNext;
         tmp->mpNext = field_4_pPrev;
         field_4_pPrev = tmp;
-        tmp->PoolInit();
+        tmp->PoolAllocate();
         return tmp;
+    }
+
+    void DeAllocate(PoolType* pItem)
+    {
+        pItem->PoolDeallocate();
+        pItem->mpNext = field_0_pStart;
+        field_0_pStart = pItem;
     }
 
     PoolType* field_0_pStart;

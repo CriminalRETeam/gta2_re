@@ -12,7 +12,7 @@ DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
 MATCH_FUNC(0x5bc260)
 void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
-    TileAnim_18* p18 = gTileAnimPool_7052C8->New();
+    TileAnim_18* p18 = gTileAnimPool_7052C8->Allocate();
     p18->field_10_base = base;
     p18->field_0 = f0;
     p18->field_2_anim_length = length;
@@ -25,7 +25,7 @@ void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 re
 MATCH_FUNC(0x5bc2c0)
 void TileAnim_2::sub_5BC2C0(gmp_tile_animation* pTileAnimation)
 {
-    TileAnim_18* tmp = gTileAnimPool_7052C8->New();
+    TileAnim_18* tmp = gTileAnimPool_7052C8->Allocate();
     tmp->sub_5BC190(pTileAnimation);
     tmp->sub_5BC1D0();
 }
@@ -65,7 +65,7 @@ TileAnim_2::~TileAnim_2()
 }
 
 MATCH_FUNC(0x5bc130)
-void TileAnim_18::PoolInit()
+void TileAnim_18::PoolAllocate()
 {
     field_12_idx = gTileAnim_2_7052C4->field_0_count++;
 }

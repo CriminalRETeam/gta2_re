@@ -2345,7 +2345,7 @@
         "v105_address": "0x4446e0"
     },
     {
-        "name": "Car_BC::sub_4447D0",
+        "name": "Car_BC::PoolDeallocate",
         "v96f_address": null,
         "v105_address": "0x4447d0"
     },
@@ -15680,7 +15680,7 @@
         "v105_address": "0x5b9900"
     },
     {
-        "name": "TileAnim_18::PoolInit",
+        "name": "TileAnim_18::PoolAllocate",
         "v96f_address": null,
         "v105_address": "0x5bc130"
     },

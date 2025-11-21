@@ -21,7 +21,7 @@ class TileAnim_2
 class TileAnim_18
 {
   public:
-    EXPORT void PoolInit();
+    EXPORT void PoolAllocate();
     EXPORT void sub_5BC150();
     EXPORT void sub_5BC190(gmp_tile_animation* pStru);
     EXPORT void sub_5BC1D0();
@@ -51,9 +51,9 @@ class TileAnimPool
 
     EXPORT ~TileAnimPool();
 
-    TileAnim_18* New()
+    TileAnim_18* Allocate()
     {
-        return field_0_pool.New();
+        return field_0_pool.Allocate();
     }
 
     Pool<TileAnim_18, 50> field_0_pool;

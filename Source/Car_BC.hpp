@@ -493,7 +493,7 @@ class Car_BC
     EXPORT void sub_4441B0();
     EXPORT void sub_444490();
     EXPORT void sub_4446E0();
-    EXPORT void sub_4447D0();
+    EXPORT void PoolDeallocate();
 
     Car_BC(); // 0x444860
     ~Car_BC(); // 0x444960
@@ -739,9 +739,7 @@ struct Car_BC_Pool
     // TODO: 9.6f addr/check
     void Remove(Car_BC* pCar)
     {
-        pCar->sub_4447D0();
-        pCar->mpNext = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pCar;
+        field_0_pool.DeAllocate(pCar);
     }
 
     Pool<Car_BC, 306> field_0_pool;

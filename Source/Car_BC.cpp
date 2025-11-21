@@ -2598,7 +2598,7 @@ void Car_BC::sub_4446E0()
 }
 
 MATCH_FUNC(0x4447d0)
-void Car_BC::sub_4447D0()
+void Car_BC::PoolDeallocate()
 {
     this->field_0_qq.sub_5A7010();
 
