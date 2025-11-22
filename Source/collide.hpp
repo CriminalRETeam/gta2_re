@@ -30,38 +30,38 @@ class Collide_8004
   public:
     Collide_8004()
     {
-        Collide_8* pOff = &field_4[0];
+        Collide_8* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 4096 - 1; i++)
         {
             pOff->field_4_pNext = pOff + 1;
             ++pOff;
         }
 
-        field_4[4096-1].field_4_pNext = 0;
-        field_0 = field_4;
+        field_4_pool[4096-1].field_4_pNext = 0;
+        field_0_pHead = field_4_pool;
     }
 
     // 0x4468A0
     ~Collide_8004()
     {
-        field_0 = 0;
+        field_0_pHead = 0;
     }
 
     void Remove(Collide_8* pToRemove)
     {
-        pToRemove->field_4_pNext = this->field_0;
-        this->field_0 = pToRemove;
+        pToRemove->field_4_pNext = this->field_0_pHead;
+        this->field_0_pHead = pToRemove;
     }
 
     Collide_8* Allocate()
     {
-        Collide_8* pNewCollide = this->field_0;
-        this->field_0 = this->field_0->field_4_pNext;
+        Collide_8* pNewCollide = this->field_0_pHead;
+        this->field_0_pHead = this->field_0_pHead->field_4_pNext;
         return pNewCollide;
     }
 
-    Collide_8* field_0;
-    Collide_8 field_4[4096];
+    Collide_8* field_0_pHead;
+    Collide_8 field_4_pool[4096];
 };
 
 class Collide_11944
@@ -69,15 +69,15 @@ class Collide_11944
   public:
     Collide_11944()
     {
-        PurpleDoom_C* pOff = &field_4[0];
+        PurpleDoom_C* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 6000 - 1; i++)
         {
             pOff->field_8_pNext = pOff + 1;
             ++pOff;
         }
 
-        field_4[6000-1].field_8_pNext = 0;
-        field_0_pHead = field_4;
+        field_4_pool[6000-1].field_8_pNext = 0;
+        field_0_pHead = field_4_pool;
     }
 
     // 0x4468B0
@@ -108,5 +108,5 @@ class Collide_11944
     }
 
     PurpleDoom_C* field_0_pHead;
-    PurpleDoom_C field_4[6000];
+    PurpleDoom_C field_4_pool[6000];
 };
