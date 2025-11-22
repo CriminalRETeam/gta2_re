@@ -287,7 +287,7 @@ add_executable (ExePatcher Source/ExePatcher.cpp)
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(ExePatcher libcmt.lib libcpmt.lib)
     set_target_properties(ExePatcher PROPERTIES COMPILE_FLAGS "/ML")
-    set_target_properties(ExePatcher PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib")
+    set_target_properties(ExePatcher PROPERTIES LINK_FLAGS "/NODEFAULTLIB:libc.lib /OPT:NOICF,NOREF")
 endif()
 
 add_executable (decomp_main WIN32

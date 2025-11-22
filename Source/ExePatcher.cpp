@@ -42,7 +42,7 @@ BOOL WINAPI FreeLibrary_Proxy(HMODULE hLibModule);
 // function must be PiC (position independant code) and not depend on the CRT (c-run-time)
 s32 APIENTRY WinMain_Hooked(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
-    char dllName[256] = {'H', 'o', 'o', 'k', 'l', 'o', 'a', 'd', 'e', 'r', '.', 'd', 'l', 'l'};
+    char dllName[256] = {'H', 'o', 'o', 'k', 'L', 'o', 'a', 'd', 'e', 'r', '.', 'd', 'l', 'l'};
     char msgBoxCaption[256] = {'G', 'T', 'A', '2', ' ', 'h', 'o', 'o', 'k', 's', ' ',
                                'f', 'a', 't', 'a', 'l', ' ', 'e', 'r', 'r', 'o', 'r'};
     const HMODULE hLib = LoadLibraryA_Proxy(dllName);
@@ -143,7 +143,7 @@ static void WinMainFwdJmpHookFunc(std::vector<u8>& exeData, u32 destinationFunct
     memcpy(&exeData[kOgWinMainFA + sourceFunctionOffset + 1], &jmpAddr2, sizeof(u32));
 }
 
-static void PatchOgExecutableToLoadHooks()
+static int PatchOgExecutableToLoadHooks()
 {
     // Load the executable into a buffer
     printf("Read exe...\n");
@@ -151,7 +151,7 @@ static void PatchOgExecutableToLoadHooks()
     if (exeData.size() == 0)
     {
         printf("Reading exe failed\n");
-        return;
+        return 1;
     }
 
     const u32 kOgStartFuncVA = 0x5EFE3D;
@@ -166,27 +166,44 @@ static void PatchOgExecutableToLoadHooks()
     std::vector<u8> functionInstructions = CopyHookEntryPointCode();
     printf("Copying instructions\n");
     memcpy(&exeData[kOgWinMainFA], &functionInstructions[0], functionInstructions.size());
+    
+    const u32 LoadLibraryA_offset = (const u8*)LoadLibraryA_Proxy - (const u8*)WinMain_Hooked_Start;
+    const u32 GetProcAddress_offset = (const u8*)GetProcAddress_Proxy - (const u8*)WinMain_Hooked_Start;
+    const u32 MessageBoxA_offset = (const u8*)MessageBoxA_Proxy - (const u8*)WinMain_Hooked_Start;
+    const u32 FreeLibrary_offset = (const u8*)FreeLibrary_Proxy - (const u8*)WinMain_Hooked_Start;
+
+    // Check for conflicting offsets
+    if (LoadLibraryA_offset == GetProcAddress_offset 
+        || GetProcAddress_offset == MessageBoxA_offset
+        || MessageBoxA_offset == FreeLibrary_offset
+        || FreeLibrary_offset == LoadLibraryA_offset
+        || LoadLibraryA_offset == MessageBoxA_offset
+        || GetProcAddress_offset == FreeLibrary_offset)
+    {
+        printf("Failed to differentiate proxy functions.\n");
+        return 2;
+    }
 
     // Patch the proxy funcs to call ones that'll actually work
     const u32 kOgLoadLibVA = 0x5E8F2C;
-    WinMainFwdJmpHookFunc(exeData, kOgLoadLibVA, (const u8*)LoadLibraryA_Proxy - (const u8*)WinMain_Hooked_Start);
+    WinMainFwdJmpHookFunc(exeData, kOgLoadLibVA, LoadLibraryA_offset);
 
     const u32 kOgGetProcAddressVA = 0x5E8F62;
-    WinMainFwdJmpHookFunc(exeData, kOgGetProcAddressVA, (const u8*)GetProcAddress_Proxy - (const u8*)WinMain_Hooked_Start);
+    WinMainFwdJmpHookFunc(exeData, kOgGetProcAddressVA, GetProcAddress_offset);
 
     const u32 kOgMessageBoxAVA = 0x5E8FBC;
-    WinMainFwdJmpHookFunc(exeData, kOgMessageBoxAVA, (const u8*)MessageBoxA_Proxy - (const u8*)WinMain_Hooked_Start);
+    WinMainFwdJmpHookFunc(exeData, kOgMessageBoxAVA, MessageBoxA_offset);
 
     const u32 kFreeLibraryVA = 0x5E8F26;
-    WinMainFwdJmpHookFunc(exeData, kFreeLibraryVA, (const u8*)FreeLibrary_Proxy - (const u8*)WinMain_Hooked_Start);
+    WinMainFwdJmpHookFunc(exeData, kFreeLibraryVA, FreeLibrary_offset);
 
     printf("Save back new exe\n");
     SaveVectorToFile(exeData, "10.5.new.exe");
     printf("Done\n");
+    return 0;
 }
 
 int main(int argc, const char* argv[])
 {
-    PatchOgExecutableToLoadHooks();
-    return 0;
+    return PatchOgExecutableToLoadHooks();
 }
