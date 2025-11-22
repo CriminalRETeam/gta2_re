@@ -899,7 +899,7 @@ class miss2_0x11C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
 
-class Miss2_8EC
+class miss2_0x11C_Pool
 {
   public:
     // inlined
@@ -914,7 +914,7 @@ class Miss2_8EC
     }
 
     // 9.6f inlined ctor 0x481310
-    Miss2_8EC::Miss2_8EC()
+    miss2_0x11C_Pool()
     {
         for (u8 i = 0; i < 7; i++)
         {
@@ -926,7 +926,7 @@ class Miss2_8EC
         field_8E8 = 0;
     }
 
-    EXPORT ~Miss2_8EC();
+    EXPORT ~miss2_0x11C_Pool();
 
     miss2_0x11C* field_0;
     miss2_0x11C* field_4;
@@ -935,4 +935,4 @@ class Miss2_8EC
     s16 field_8EA;
 };
 
-EXTERN_GLOBAL(Miss2_8EC*, gMiss2_8EC_6F8064);
+EXTERN_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064);

@@ -37,7 +37,7 @@
 
 DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
 
-DEFINE_GLOBAL(Miss2_8EC*, gMiss2_8EC_6F8064, 0x6F8064);
+DEFINE_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064, 0x6F8064);
 DEFINE_GLOBAL(SCR_CMD_HEADER*, gBasePtr_6F8070, 0x6F8070);
 DEFINE_GLOBAL(Fix16, dword_6F7920, 0x6F7920);
 DEFINE_GLOBAL(Fix16, dword_6F76DC, 0x6F76DC);
@@ -5321,7 +5321,7 @@ void miss2_0x11C::sub_511930(char_type a2, u16 levelStart)
 MATCH_FUNC(0x511960)
 miss2_0x11C* miss2_0x11C::sub_511960(u16 levelStart)
 {
-    miss2_0x11C* v4 = gMiss2_8EC_6F8064->sub_4767A0();
+    miss2_0x11C* v4 = miss2_0x11C_Pool_6F8064->sub_4767A0();
     v4->sub_511930(field_6, levelStart);
     return v4;
 }
@@ -5369,7 +5369,7 @@ miss2_0x11C::~miss2_0x11C()
 }
 
 STUB_FUNC(0x5131C0)
-Miss2_8EC::~Miss2_8EC()
+miss2_0x11C_Pool::~miss2_0x11C_Pool()
 {
     this->field_0 = 0;
     this->field_4 = 0;
