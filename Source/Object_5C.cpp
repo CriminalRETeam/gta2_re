@@ -626,7 +626,7 @@ Object_5C::~Object_5C()
 {
     if (field_58)
     {
-        gSprite_49B28_703818->remove(field_58);
+        gSprite_Pool_703818->remove(field_58);
         field_58 = 0;
     }
 

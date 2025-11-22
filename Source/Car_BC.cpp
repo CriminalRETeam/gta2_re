@@ -2606,7 +2606,7 @@ void Car_BC::PoolDeallocate()
 
     if (field_50_car_sprite)
     {
-        gSprite_49B28_703818->remove(field_50_car_sprite);
+        gSprite_Pool_703818->remove(field_50_car_sprite);
         field_50_car_sprite = 0;
     }
 

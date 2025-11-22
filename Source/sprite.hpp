@@ -2,9 +2,9 @@
 
 #include "Fix16_Rect.hpp"
 #include "Function.hpp"
+#include "Pool.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "Pool.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
@@ -19,10 +19,9 @@ class Sprite_4C
 {
   public:
     EXPORT s32 PoolAllocate();
-    
+
     void PoolDeallocate()
     {
-
     }
 
     EXPORT void SetCurrentRect_5A4D90();
@@ -101,8 +100,8 @@ class Sprite
     EXPORT void CreateSoundObj_5A29D0();
     EXPORT void FreeSound_5A2A00();
     EXPORT void sub_5A2A30();
-    EXPORT void Init_5A2CF0();
-    EXPORT void sub_5A3030();
+    EXPORT void PoolAllocate();
+    EXPORT void PoolDeallocate();
     EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
 
     EXPORT ~Sprite(); // 0x5a3540
@@ -126,7 +125,7 @@ class Sprite
         field_38 = 0;
         field_39_z_col = -1;
         field_8_car_bc_ptr = NULL;
-        field_C_sprite_next_ptr = NULL;
+        mpNext = NULL;
         field_10_sound = NULL;
     }
 
@@ -147,11 +146,11 @@ class Sprite
         class Object_5C* field_8_o5C;
     };
     // Only one field is enable at the same time.
-    // As far as I understand, the field_C_sprite_next_ptr is only enabled while the instance is being handled by Sprite_49B28.
+    // As far as I understand, the mpNext is only enabled while the instance is being handled by Sprite_Pool.
     // Otherwise, the field_C_sprite_4c_ptr is active. i.e. the instance belongs to another object.
     union
     {
-        Sprite* field_C_sprite_next_ptr;
+        Sprite* mpNext;
         Sprite_4C* field_C_sprite_4c_ptr;
         class Object_5C* field_C_o5c;
     };
@@ -170,9 +169,7 @@ class Sprite
     // 9.6f inline 0x420600
     inline void sub_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
-        if (field_14_xpos.x != xpos 
-            || field_14_xpos.y != ypos 
-            || field_1C_zpos != zpos)
+        if (field_14_xpos.x != xpos || field_14_xpos.y != ypos || field_1C_zpos != zpos)
         {
             field_14_xpos.x = xpos;
             field_14_xpos.y = ypos;
@@ -219,7 +216,6 @@ class Sprite
 class Sprite_14
 {
   public:
-
     EXPORT void sub_48F5A0();
 
     // Inlined, from 9.6f at 0x44af30
@@ -282,12 +278,10 @@ class Sprite_18
 
     void PoolAllocate()
     {
-
     }
 
     void PoolDeallocate()
     {
-
     }
 
     // TODO: ordering ?
@@ -311,7 +305,6 @@ class Sprite_18_Pool
     // Inlined, from 9.6f at 0x4bdcf0
     EXPORT Sprite_18_Pool()
     {
-
     }
 
     EXPORT ~Sprite_18_Pool();
@@ -335,9 +328,8 @@ class Sprite_4C_Pool
     // Inlined, from 9.6f at 0x4bc9a0
     Sprite_4C_Pool()
     {
-
     }
-    
+
     ~Sprite_4C_Pool();
 
     // TODO: Get 9.6f inline addr
@@ -355,49 +347,35 @@ class Sprite_4C_Pool
     PoolBasic<Sprite_4C, 5031> field_0_pool;
 };
 
-class Sprite_49B28
+class Sprite_Pool
 {
   public:
     // Inlined, from 9.6f at 0x4bca20
-    EXPORT Sprite_49B28()
+    Sprite_Pool()
     {
-        Sprite* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
-        {
-            pIter->field_C_sprite_next_ptr = pIter + 1;
-            pIter++;
-        }
-
-        field_4[0x13a6].field_C_sprite_next_ptr = NULL;
-        field_0_first_free = field_4;
     }
-    EXPORT ~Sprite_49B28();
+
+    EXPORT ~Sprite_Pool();
 
     // Inlined, from 9.6f at 0x421000
     Sprite* get_new_sprite()
     {
-        Sprite* this_00 = this->field_0_first_free;
-        this->field_0_first_free = this_00->field_C_sprite_next_ptr;
-        this_00->Init_5A2CF0();
-        return this_00;
+        return field_0_pool.Allocate();
     }
 
     // TODO: get 9.6f addr
     void remove(Sprite* pSprite)
     {
-        pSprite->sub_5A3030();
-        pSprite->field_C_sprite_next_ptr = field_0_first_free;
-        field_0_first_free = pSprite;
+        field_0_pool.DeAllocate(pSprite);
     }
 
-    Sprite* field_0_first_free;
-    Sprite field_4[5031];
+    PoolBasic<Sprite, 5031> field_0_pool;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_49B28, 0x49B28)
+GTA2_ASSERT_SIZEOF_ALWAYS(Sprite_Pool, 0x49B28)
 
 EXTERN_GLOBAL(Sprite_8*, gSprite_8_703820);
 
-EXTERN_GLOBAL(Sprite_49B28*, gSprite_49B28_703818);
+EXTERN_GLOBAL(Sprite_Pool*, gSprite_Pool_703818);
 
 EXTERN_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C);
 

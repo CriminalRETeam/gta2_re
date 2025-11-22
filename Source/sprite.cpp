@@ -15,7 +15,7 @@
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
-DEFINE_GLOBAL(Sprite_49B28*, gSprite_49B28_703818, 0x703818);
+DEFINE_GLOBAL(Sprite_Pool*, gSprite_Pool_703818, 0x703818);
 DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
 DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
@@ -674,7 +674,7 @@ void Sprite::sub_5A2A30()
 }
 
 MATCH_FUNC(0x5a2cf0)
-void Sprite::Init_5A2CF0()
+void Sprite::PoolAllocate()
 {
     this->field_2C = 0;
     this->field_28_num = 0;
@@ -701,7 +701,7 @@ void Sprite::Init_5A2CF0()
 }
 
 MATCH_FUNC(0x5a3030)
-void Sprite::sub_5A3030()
+void Sprite::PoolDeallocate()
 {
     sub_59FAD0();
     this->field_20_id = 0;
@@ -914,15 +914,15 @@ void Sprite_8::sub_5A5860()
 MATCH_FUNC(0x5a5870)
 void Sprite_8::sub_5A5870()
 {
-    gSprite_703814 = gSprite_49B28_703818->get_new_sprite();
+    gSprite_703814 = gSprite_Pool_703818->get_new_sprite();
     gSprite_703814->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
 Sprite_8::Sprite_8()
 {
-    gSprite_49B28_703818 = new Sprite_49B28();
-    if (gSprite_49B28_703818 == NULL)
+    gSprite_Pool_703818 = new Sprite_Pool();
+    if (gSprite_Pool_703818 == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5039);
     }
@@ -952,7 +952,7 @@ Sprite_8::Sprite_8()
 MATCH_FUNC(0x5a5b50)
 Sprite_8::~Sprite_8()
 {
-    GTA2_DELETE_AND_NULL(gSprite_49B28_703818);
+    GTA2_DELETE_AND_NULL(gSprite_Pool_703818);
     GTA2_DELETE_AND_NULL(gSprite_4C_Pool_70381C);
     GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
     GTA2_DELETE_AND_NULL(gSprite_18_Pool_703B80);
@@ -1002,9 +1002,9 @@ Sprite_4C_Pool::~Sprite_4C_Pool()
 }
 
 MATCH_FUNC(0x5A5C00)
-Sprite_49B28::~Sprite_49B28()
+Sprite_Pool::~Sprite_Pool()
 {
-    field_0_first_free = 0;
+
 }
 
 MATCH_FUNC(0x5A6ca0)
