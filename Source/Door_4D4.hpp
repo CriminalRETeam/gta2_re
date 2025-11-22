@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "Door_38.hpp"
+#include "Pool.hpp"
 
 class Object_2C;
 class Door_10;
@@ -28,40 +29,38 @@ class Door_10
     Door_10* mpNext;
 };
 
-class Door_2C4
+class Door_10_Pool
 {
   public:
     // inlined 0x44c830
-    Door_10* get_new_door_10()
+    Door_10* Allocate()
     {
-        Door_10* tmp = field_0;
-        field_0 = tmp->mpNext;
+        Door_10* tmp = field_0_pool.field_0_pHead;
+        field_0_pool.field_0_pHead = tmp->mpNext;
         tmp->PoolAllocate();
-
         return tmp;
     }
 
-    // inlined 0x44C800
-    Door_2C4()
+    // TODO: Pools - figure out why this won't match (probably doesn't get inlined??)
+    /*
+    Door_10* Allocate()
     {
-        Door_10* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4)-1; i++)
-        {
-            pIter->mpNext = pIter + 1;
-            pIter++;
-        }
-        field_0 = field_4;
-        field_4[44-1].mpNext = 0;
+        return field_0_pool.Allocate();
+    }*/
+
+    // inlined 0x44C800
+    Door_10_Pool()
+    {
+
     }
 
     // 0x44C7F0
-    ~Door_2C4()
+    ~Door_10_Pool()
     {
-        field_0 = 0;
+
     }
 
-    Door_10* field_0;
-    Door_10 field_4[44];
+    PoolBasic<Door_10, 44> field_0_pool;
 };
 
 class Door_4D4

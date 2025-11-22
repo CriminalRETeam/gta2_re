@@ -8,12 +8,12 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(Door_2C4*, gDoor_2C4_67BD28, 0x67BD28);
+DEFINE_GLOBAL(Door_10_Pool*, gDoor_10_Pool_67BD28, 0x67BD28);
 
 MATCH_FUNC(0x49cf10)
 Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6)
 {
-    Door_10* tmp = gDoor_2C4_67BD28->get_new_door_10();
+    Door_10* tmp = gDoor_10_Pool_67BD28->Allocate();
     tmp->sub_49c340(a1, a2, a3, a4, a5, a6);
     return tmp;
 }
@@ -163,10 +163,10 @@ void Door_4D4::DoorsService_49D460()
 MATCH_FUNC(0x49d4a0)
 Door_4D4::Door_4D4()
 {
-    if (!gDoor_2C4_67BD28)
+    if (!gDoor_10_Pool_67BD28)
     {
-        gDoor_2C4_67BD28 = new Door_2C4();
-        if (!gDoor_2C4_67BD28)
+        gDoor_10_Pool_67BD28 = new Door_10_Pool();
+        if (!gDoor_10_Pool_67BD28)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
         }
@@ -180,9 +180,9 @@ Door_4D4::Door_4D4()
 STUB_FUNC(0x49d570)
 Door_4D4::~Door_4D4()
 {
-    if (gDoor_2C4_67BD28)
+    if (gDoor_10_Pool_67BD28)
     {
-        GTA2_DELETE_AND_NULL(gDoor_2C4_67BD28);
+        GTA2_DELETE_AND_NULL(gDoor_10_Pool_67BD28);
     }
 }
 

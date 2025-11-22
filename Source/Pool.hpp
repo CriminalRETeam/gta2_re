@@ -28,7 +28,7 @@ class PoolBasic
     PoolType* Allocate()
     {
         PoolType* pNew = field_0_pHead;
-        field_0_pHead = field_0_pHead->mpNext;
+        field_0_pHead = pNew->mpNext;
         pNew->PoolAllocate();
     }
 
