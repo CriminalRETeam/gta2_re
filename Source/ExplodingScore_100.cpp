@@ -2,7 +2,7 @@
 #include "Globals.hpp"
 #include <memory.h>
 
-DEFINE_GLOBAL(ExplodingScore_100*, gExplodingScore_100_702F34, 0x702F34);
+DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
@@ -18,14 +18,14 @@ ExplodingScore_50::ExplodingScore_50()
     field_40 = 0;
     field_4C = 0;
     field_48 = 0;
-    field_44 = 0;
+    mpNext = 0;
     field_34 = 9;
 }
 
 MATCH_FUNC(0x596a40)
 ExplodingScore_50::~ExplodingScore_50()
 {
-    field_44 = 0;
+    mpNext = 0;
 }
 
 MATCH_FUNC(0x596a50)
@@ -147,7 +147,7 @@ void ExplodingScore_50::sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score)
     this->field_2C = ypos;
     this->field_30 = zpos;
 
-    this->field_34 = gExplodingScore_100_702F34->sub_596860();
+    this->field_34 = gExplodingScorePool->sub_596860();
 
     this->field_36 = 25;
     this->field_38 = 2;
@@ -176,33 +176,20 @@ void ExplodingScore_50::sub_597100(s32 a2, s32 a3)
 }
 
 MATCH_FUNC(0x5967e0)
-ExplodingScore_100::ExplodingScore_100()
+ExplodingScorePool::ExplodingScorePool()
 {
-    ExplodingScore_50* pIter = field_C;
-    for (s32 i = 0; i < 3 - 1; i++)
-    {
-        pIter->field_44 = pIter + 1;
-        pIter++;
-    }
-
-    field_C[3 - 1].field_44 = 0;
-    field_4 = field_C;
-
-    field_8 = 0;
-    field_FC_count = 0;
     field_0 = 9;
     field_2 = 3;
 }
 
 MATCH_FUNC(0x596840)
-ExplodingScore_100::~ExplodingScore_100()
+ExplodingScorePool::~ExplodingScorePool()
 {
-    field_4 = 0;
-    field_8 = 0;
+
 }
 
 MATCH_FUNC(0x596860)
-s16 ExplodingScore_100::sub_596860()
+s16 ExplodingScorePool::sub_596860()
 {
     field_0++;
     if (field_0 > 13u)
@@ -213,30 +200,31 @@ s16 ExplodingScore_100::sub_596860()
 }
 
 MATCH_FUNC(0x596880)
-void ExplodingScore_100::sub_596880()
+void ExplodingScorePool::sub_596880()
 {
     field_2++;
 }
 
 STUB_FUNC(0x596890)
-void ExplodingScore_100::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
+void ExplodingScorePool::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x596940)
-void ExplodingScore_100::sub_596940()
+void ExplodingScorePool::sub_596940()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x5969e0)
-void ExplodingScore_100::DrawExploding_5969E0()
+void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
-    ExplodingScore_50* pIter = field_8;
+    // TODO: Would there have been an iterator object ??
+    ExplodingScore_50* pIter = field_4_pool.field_4_pPrev;
     while (pIter)
     {
         pIter->sub_596C90();
-        pIter = pIter->field_44;
+        pIter = pIter->mpNext;
     }
 }

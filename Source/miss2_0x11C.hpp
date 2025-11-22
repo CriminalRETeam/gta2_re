@@ -5,6 +5,7 @@
 #include "fix16.hpp"
 #include "Fix16_Point.hpp"
 #include "miss2_xyz.hpp"
+#include "Pool.hpp"
 
 class Ped;
 class Generator_2C;
@@ -879,7 +880,7 @@ class miss2_0x11C
     EXPORT void sub_511CD0();
     EXPORT ~miss2_0x11C();
 
-    miss2_0x11C* field_0;
+    miss2_0x11C* mpNext;
     u16 field_4_next_cmd;
     char_type field_6;
     char_type field_7;
@@ -899,40 +900,30 @@ class miss2_0x11C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
 
-class Miss2_8EC
+class miss2_0x11C_Pool
 {
   public:
+  // TODO: Pools Use pool method
     // inlined
     miss2_0x11C* sub_4767A0()
     {
-        miss2_0x11C* pf_0 = field_0;
-        field_0 = pf_0->field_0;
-        pf_0->field_0 = field_4;
-        field_4 = pf_0;
+        miss2_0x11C* pf_0 = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pf_0->mpNext;
+        pf_0->mpNext = field_0_pool.field_4_pPrev;
+        field_0_pool.field_4_pPrev = pf_0;
         pf_0->sub_5035B0();
         return pf_0; // ??
     }
 
     // 9.6f inlined ctor 0x481310
-    Miss2_8EC::Miss2_8EC()
+    miss2_0x11C_Pool()
     {
-        for (u8 i = 0; i < 7; i++)
-        {
-            field_8[i].field_0 = &field_8[i+1];
-        }
-        field_0 = &field_8[0];
-        field_8[7].field_0 = NULL;
-        field_4 = NULL;
-        field_8E8 = 0;
+
     }
 
-    EXPORT ~Miss2_8EC();
+    EXPORT ~miss2_0x11C_Pool();
 
-    miss2_0x11C* field_0;
-    miss2_0x11C* field_4;
-    miss2_0x11C field_8[8];
-    s16 field_8E8;
-    s16 field_8EA;
+    Pool<miss2_0x11C, 8> field_0_pool;
 };
 
-EXTERN_GLOBAL(Miss2_8EC*, gMiss2_8EC_6F8064);
+EXTERN_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064);

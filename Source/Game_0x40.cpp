@@ -310,7 +310,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"unit cars : %d", gCar_6C_677930->field_34_unit_cars);
     gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_E0C4_67792C->field_E0C0_cars_count);
+    swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->field_0_pool.field_X_count);
     gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
     swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
@@ -371,9 +371,9 @@ void Game_0x40::Draw_4B92D0()
 
     gpMapRenderer_6F66E4->Draw_4F6A20(); // Note: Also seems to draw sprites
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34->DrawExploding_5969E0();
+        gExplodingScorePool->DrawExplodingScores_5969E0();
     }
 
     gHud_2B00_706620->DrawGui_5D6860(); // user
@@ -520,9 +520,9 @@ void Game_0x40::UpdateGame_4B9410()
     gDoor_4D4_67BD2C->DoorsService_49D460();
     gFirefighterPool_54_67D4C0->sub_4A85F0(); // fire engines
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34->sub_596940();
+        gExplodingScorePool->sub_596940();
     }
 
     if (bDo_show_junc_ids_67D5B0)
@@ -954,8 +954,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
 
-    gFrismo_25C_6F8068 = new Frismo_25C(); // multi level inlines
-    if (!gFrismo_25C_6F8068)
+    gFrismo_C_Pool_6F8068 = new Frismo_C_Pool(); // multi level inlines
+    if (!gFrismo_C_Pool_6F8068)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
@@ -1152,10 +1152,10 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1903);
     }
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        gExplodingScore_100_702F34 = new ExplodingScore_100(); // ctor call
-        if (!gExplodingScore_100_702F34)
+        gExplodingScorePool = new ExplodingScorePool(); // ctor call
+        if (!gExplodingScorePool)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1909);
         }
@@ -1224,12 +1224,12 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gMap_0x370_6F6268);
     GTA2_DELETE_AND_NULL(gpMapRenderer_6F66E4);
     GTA2_DELETE_AND_NULL(gMontana_67B580);
-    GTA2_DELETE_AND_NULL(gChar_203AC_6787B8);
+    GTA2_DELETE_AND_NULL(gPedPool_6787B8);
 
     GTA2_DELETE_AND_NULL(gCar_6C_677930);
     GTA2_DELETE_AND_NULL(gCar_214_705F20);
     GTA2_DELETE_AND_NULL(gfrosty_pasteur_6F8060);
-    GTA2_DELETE_AND_NULL(gFrismo_25C_6F8068);
+    GTA2_DELETE_AND_NULL(gFrismo_C_Pool_6F8068);
 
     GTA2_DELETE_AND_NULL(gPhi_8CA8_6FCF00);
     GTA2_DELETE_AND_NULL(gObject_5C_6F8F84);
@@ -1274,9 +1274,9 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gGarage_48_6FD26C);
     GTA2_DELETE_AND_NULL(gHamburger_500_678E30);
 
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
-        GTA2_DELETE_AND_NULL(gExplodingScore_100_702F34);
+        GTA2_DELETE_AND_NULL(gExplodingScorePool);
     }
 
     GTA2_DELETE_AND_NULL(gShooey_CC_67A4B8);

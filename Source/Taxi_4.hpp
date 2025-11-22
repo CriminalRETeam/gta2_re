@@ -1,56 +1,27 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Pool.hpp"
 #include "fix16.hpp"
 
 class Car_BC;
 
 struct Taxi_8
 {
+
+    void PoolAllocate()
+    {
+    }
+
+    void PoolDeallocate()
+    {
+    }
+
     Car_BC* field_0;
-    Taxi_8* field_4_pNext;
+    Taxi_8* mpNext;
 };
 
-class Taxi_324
-{
-  public:
-    // inlined 0x4C0950
-    Taxi_324()
-    {
-        Taxi_8* pIter = &field_4_array[0];
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4_array); i++)
-        {
-            pIter->field_4_pNext = pIter + 1;
-            pIter++;
-        }
-        field_0_pFirst = &field_4_array[0];
-        field_320_count = 0;
-    }
-
-    // inlined 0x4C0940
-    ~Taxi_324()
-    {
-        field_0_pFirst = 0;
-    }
-
-    Taxi_8* Alloc()
-    {
-        Taxi_8* pFirst = field_0_pFirst;
-        field_0_pFirst = pFirst->field_4_pNext;
-        return pFirst;
-    }
-
-    void DeAlloc(Taxi_8* pItem)
-    {
-        pItem->field_4_pNext = field_0_pFirst;
-        field_0_pFirst = pItem;
-    }
-
-    Taxi_8* field_0_pFirst;
-    Taxi_8 field_4_array[99];
-    u32 field_31C;
-    u32 field_320_count;
-};
+typedef PoolBasic<Taxi_8, 100> T_Taxi_4_Pool;
 
 class Taxi_4
 {

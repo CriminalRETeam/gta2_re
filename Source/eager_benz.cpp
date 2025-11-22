@@ -484,13 +484,13 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     u8 t = field_74;
 
     u32 kill_car_score = tt * t;
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
         if (bCopSwatOrFbiCar)
         {
             if (field_368_pObj->field_0)
             {
-                gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+                gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                        pCar->field_50_car_sprite->GetYPos(),
                                                        pCar->field_50_car_sprite->GetZPos(),
                                                        multipler * kill_car_score);
@@ -544,13 +544,13 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
             base_score = score_default_2 < 400 ? 10 : 100;
         }
 
-        if (!bExplodingOff_67D4FB)
+        if (!bExplodingScoresOff_67D4FB)
         {
             if (bAddScore)
             {
                 if (this->field_368_pObj->field_0)
                 {
-                    gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+                    gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                            pCar->field_50_car_sprite->GetYPos(),
                                                            pCar->field_50_car_sprite->GetZPos(),
                                                            mutipler * base_score);
@@ -619,9 +619,9 @@ void eager_benz::sub_593240(Car_BC* pCar)
     field_8A_cars_stolen_count++;
 
     const s32 base_score = sub_5925B0(pCar->field_84_car_info_idx, 0);
-    if (!bExplodingOff_67D4FB && field_368_pObj->field_0)
+    if (!bExplodingScoresOff_67D4FB && field_368_pObj->field_0)
     {
-        gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+        gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
                                                multipler * base_score);
@@ -635,9 +635,9 @@ void eager_benz::sub_593240(Car_BC* pCar)
 MATCH_FUNC(0x593370)
 void eager_benz::sub_593370(Car_BC* pCar)
 {
-    if (!bExplodingOff_67D4FB && field_368_pObj->field_0)
+    if (!bExplodingScoresOff_67D4FB && field_368_pObj->field_0)
     {
-        gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+        gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
                                                field_368_pObj->field_6BC_multpliers.field_0 * 10);
@@ -651,11 +651,11 @@ MATCH_FUNC(0x593410)
 void eager_benz::sub_593410(Car_BC* pCar)
 {
     const s32 multpliers = field_368_pObj->field_6BC_multpliers.field_0;
-    if (!bExplodingOff_67D4FB)
+    if (!bExplodingScoresOff_67D4FB)
     {
         if (field_368_pObj->field_0)
         {
-            gExplodingScore_100_702F34->sub_596890(pCar->field_50_car_sprite->GetXPos(),
+            gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                    pCar->field_50_car_sprite->GetYPos(),
                                                    pCar->field_50_car_sprite->GetZPos(),
                                                    100 * multpliers);

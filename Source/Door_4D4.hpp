@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 #include "Door_38.hpp"
+#include "Pool.hpp"
 
 class Object_2C;
 class Door_10;
@@ -13,7 +14,7 @@ class Car_BC;
 class Door_10
 {
   public:
-    EXPORT void sub_49C320();
+    EXPORT void PoolAllocate();
     EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
     EXPORT void sub_49C4E0(u8 a1);
     EXPORT void sub_49C590(u8 a1);
@@ -25,47 +26,41 @@ class Door_10
     u8 field_6_z;
     u8 field_7_gr_id;
     s32 field_8_face;
-    Door_10* field_C;
+    Door_10* mpNext;
 };
 
-class Door_2C4
+class Door_10_Pool
 {
   public:
     // inlined 0x44c830
-    Door_10* get_new_door_10()
+    Door_10* Allocate()
     {
-        Door_10* tmp = field_0;
-        field_0 = tmp->field_C;
-        tmp->sub_49C320();
-
+        Door_10* tmp = field_0_pool.field_0_pHead;
+        field_0_pool.field_0_pHead = tmp->mpNext;
+        tmp->PoolAllocate();
         return tmp;
     }
 
-    // inlined 0x44C800
-    Door_2C4()
+    // TODO: Pools - figure out why this won't match (probably doesn't get inlined??)
+    /*
+    Door_10* Allocate()
     {
-        Door_10* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
-        {
-            pIter->field_C = pIter + 1;
-            pIter++;
-        }
-        field_0 = field_4;
-        field_2C0 = 0;
+        return field_0_pool.Allocate();
+    }*/
+
+    // inlined 0x44C800
+    Door_10_Pool()
+    {
+
     }
 
     // 0x44C7F0
-    ~Door_2C4()
+    ~Door_10_Pool()
     {
-        field_0 = 0;
+
     }
 
-    Door_10* field_0;
-    Door_10 field_4[43];
-    s32 field_2B4;
-    s32 field_2B8;
-    s32 field_2BC;
-    s32 field_2C0;
+    PoolBasic<Door_10, 44> field_0_pool;
 };
 
 class Door_4D4

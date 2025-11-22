@@ -256,10 +256,7 @@ void CC ImGuiDebugDraw()
                 if (!pNewCar->field_5C)
                 {
                     printf("Alloc physics\n");
-                    Car_78* v18 = gCar_8F74_677CF8->field_0;
-                    gCar_8F74_677CF8->field_0 = gCar_8F74_677CF8->field_0->field_C;
-                    v18->sub_453D80();
-                    pNewCar->field_5C = v18;
+                    pNewCar->field_5C = gCar_78_Pool_677CF8->Allocate();
                 }
                 pNewCar->field_5C->sub_453BF0(pNewCar);
 
@@ -704,9 +701,9 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gChar_203AC_6787B8"))
+    if (ImGui::TreeNode("gPedPool_6787B8"))
     {
-        if (gChar_203AC_6787B8)
+        if (gPedPool_6787B8)
         {
             Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
@@ -726,7 +723,7 @@ void CC ImGuiDebugDraw()
                 }
             }
 
-            Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext;
+            Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
             while (pPedIter)
             {
                 char buffer[128];
@@ -738,7 +735,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                     ImGui::TreePop();
                 }
-                pPedIter = pPedIter->field_160_next_ped;
+                pPedIter = pPedIter->mpNext;
             }
         }
         ImGui::TreePop();
@@ -932,7 +929,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Skip Missions", &bSkip_mission_67D4E5);
             ImGui::Checkbox("Skip Particles", &bSkip_particles_67D64D);
             ImGui::Checkbox("Skip Ambulance", &bSkip_ambulance_67D6C9);
-            ImGui::Checkbox("Skip Explosions", &bExplodingOff_67D4FB);
+            ImGui::Checkbox("Skip Explosions", &bExplodingScoresOff_67D4FB);
             ImGui::Checkbox("Skip Police", &bSkip_police_67D4F9);
             ImGui::TreePop();
         }

@@ -22,8 +22,8 @@ DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
 DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
-EXTERN_GLOBAL(Collide_11944*, gCollide_11944_679204);
-EXTERN_GLOBAL(Collide_8004*, gCollide_8004_679200);
+EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
+EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 
 Sprite* gPurpleDoom_sprite_678F84;
 
@@ -239,7 +239,7 @@ void PurpleDoom::sub_4781E0(u8 width)
     gPurple_left_6F5FD4 = gPurpleDoom_679090;
     gPurple_right_6F5B80 = width + gPurpleDoom_679090 - 1;
 
-    for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->field_8_pNext)
+    for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x_len > gPurple_right_6F5B80)
         {
@@ -258,7 +258,7 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
         s32 y_total = bottom - top + 1;
         do
         {
-            for (PurpleDoom_C* pXItem = *pYItem; pXItem; pXItem = pXItem->field_8_pNext)
+            for (PurpleDoom_C* pXItem = *pYItem; pXItem; pXItem = pXItem->mpNext)
             {
                 const s32 x_cell = pXItem->field_0_x_len;
                 if (x_cell > right)
@@ -267,7 +267,7 @@ void PurpleDoom::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
                 }
                 if (x_cell >= left)
                 {
-                    for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+                    for (Collide_8* p8Iter = pXItem->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
                     {
                         if (p8Iter->field_0_sprt->field_30_sprite_type_enum > sprite_types_enum::unknown_1)
                         {
@@ -288,7 +288,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
     PurpleDoom_C* pFound = 0;
     Collide_8* pFoundCollideForX = 0;
 
-    for (PurpleDoom_C* pXIter = this->field_0[y_pos]; pXIter; pXIter = pXIter->field_8_pNext)
+    for (PurpleDoom_C* pXIter = this->field_0[y_pos]; pXIter; pXIter = pXIter->mpNext)
     {
         if (pXIter->field_0_x_len == x_pos)
         {
@@ -299,32 +299,32 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
                 {
                     if (!pFoundCollideForX)
                     {
-                        pXIter->field_4_p8 = pCollideForX->field_4_pNext;
+                        pXIter->field_4_p8 = pCollideForX->mpNext;
                     }
                     else
                     {
-                        pFoundCollideForX->field_4_pNext = pCollideForX->field_4_pNext;
+                        pFoundCollideForX->mpNext = pCollideForX->mpNext;
                     }
 
-                    gCollide_8004_679200->Remove(pCollideForX);
+                    gCollide_8_Pool_679200->DeAllocate(pCollideForX);
 
                     if (!pXIter->field_4_p8)
                     {
                         if (!pFound)
                         {
-                            this->field_0[y_pos] = pXIter->field_8_pNext;
+                            this->field_0[y_pos] = pXIter->mpNext;
                         }
                         else
                         {
-                            pFound->field_8_pNext = pXIter->field_8_pNext;
+                            pFound->mpNext = pXIter->mpNext;
                         }
-                        gCollide_11944_679204->Remove(pXIter);
+                        gPurpleDoom_C_Pool_679204->DeAllocate(pXIter);
                     }
                     return;
                 }
 
                 pFoundCollideForX = pCollideForX;
-                pCollideForX = pCollideForX->field_4_pNext;
+                pCollideForX = pCollideForX->mpNext;
             }
         }
         pFound = pXIter;
@@ -336,7 +336,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gPurple_left_6F5FD4;
     PurpleDoom_C* pLastXIter = 0;
-    for (PurpleDoom_C* pXItemIter = this->field_0[y_pos]; pXItemIter; pXItemIter = pXItemIter->field_8_pNext)
+    for (PurpleDoom_C* pXItemIter = this->field_0[y_pos]; pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x_len == x_pos)
         {
@@ -348,32 +348,32 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
                 {
                     if (!pLast)
                     {
-                        pXItemIter->field_4_p8 = pObj->field_4_pNext;
+                        pXItemIter->field_4_p8 = pObj->mpNext;
                     }
                     else
                     {
-                        pLast->field_4_pNext = pObj->field_4_pNext;
+                        pLast->mpNext = pObj->mpNext;
                     }
 
-                    gCollide_8004_679200->Remove(pObj);
+                    gCollide_8_Pool_679200->DeAllocate(pObj);
 
                     if (!pXItemIter->field_4_p8)
                     {
-                        PurpleDoom_C* pNext = pXItemIter->field_8_pNext;
+                        PurpleDoom_C* pNext = pXItemIter->mpNext;
                         if (!pLastXIter)
                         {
                             this->field_0[y_pos] = pNext;
                         }
                         else
                         {
-                            pLastXIter->field_8_pNext = pNext;
+                            pLastXIter->mpNext = pNext;
                         }
-                        pXItemIter = gCollide_11944_679204->Allocate(pXItemIter);
+                        pXItemIter = gPurpleDoom_C_Pool_679204->UnlinkAndReturnNext(pXItemIter);
                     }
                     else
                     {
                         pLastXIter = pXItemIter;
-                        pXItemIter = pXItemIter->field_8_pNext;
+                        pXItemIter = pXItemIter->mpNext;
                     }
                     ++x_pos;
 
@@ -387,7 +387,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
                 else
                 {
                     pLast = pObj;
-                    pObj = pObj->field_4_pNext;
+                    pObj = pObj->mpNext;
                 }
             }
         }
@@ -398,12 +398,13 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
 MATCH_FUNC(0x478440)
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
-    Collide_8* pNewCollide = gCollide_8004_679200->Allocate();
+    Collide_8* pNewCollide = gCollide_8_Pool_679200->Allocate();
+
     pNewCollide->field_0_sprt = pSprite;
 
     PurpleDoom_C* pAddedTo = 0;
     PurpleDoom_C* pIter;
-    for (pIter = this->field_0[ypos]; pIter; pIter = pIter->field_8_pNext)
+    for (pIter = this->field_0[ypos]; pIter; pIter = pIter->mpNext)
     {
         const s32 x_len = pIter->field_0_x_len;
         if (x_len > xpos)
@@ -412,14 +413,14 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
         }
         if (x_len == xpos)
         {
-            pNewCollide->field_4_pNext = pIter->field_4_p8;
+            pNewCollide->mpNext = pIter->field_4_p8;
             pIter->field_4_p8 = pNewCollide;
             return;
         }
         pAddedTo = pIter;
     }
 
-    PurpleDoom_C* pNewItem = gCollide_11944_679204->Allocate2();
+    PurpleDoom_C* pNewItem = gPurpleDoom_C_Pool_679204->Allocate();
 
     if (!pAddedTo)
     {
@@ -427,13 +428,13 @@ void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
     }
     else
     {
-        pAddedTo->field_8_pNext = pNewItem;
+        pAddedTo->mpNext = pNewItem;
     }
 
-    pNewItem->field_8_pNext = pIter;
+    pNewItem->mpNext = pIter;
     pNewItem->field_4_p8 = pNewCollide;
     pNewItem->field_0_x_len = xpos;
-    pNewCollide->field_4_pNext = 0;
+    pNewCollide->mpNext = 0;
 }
 
 MATCH_FUNC(0x4784d0)
@@ -453,9 +454,9 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
             if (pNewNext->field_0_x_len == purple_left)
             {
                 ++purple_left;
-                Collide_8* v7 = gCollide_8004_679200->Allocate2();
+                Collide_8* v7 = gCollide_8_Pool_679200->Allocate();
                 v7->field_0_sprt = pSprite;
-                v7->field_4_pNext = pNewNext->field_4_p8;
+                v7->mpNext = pNewNext->field_4_p8;
                 pNewNext->field_4_p8 = v7;
                 if (purple_left > gPurple_right_6F5B80)
                 {
@@ -463,12 +464,12 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
                 }
             }
             purple_x = pNewNext;
-            pNewNext = pNewNext->field_8_pNext;
+            pNewNext = pNewNext->mpNext;
         }
 
-        Collide_8* v8 = gCollide_8004_679200->Allocate2();
+        Collide_8* v8 = gCollide_8_Pool_679200->Allocate();
         v8->field_0_sprt = pSprite;
-        PurpleDoom_C* pCIter = gCollide_11944_679204->Allocate2();
+        PurpleDoom_C* pCIter = gPurpleDoom_C_Pool_679204->Allocate();
 
         if (!purple_x)
         {
@@ -476,13 +477,13 @@ void PurpleDoom::sub_4784D0(s32 y_pos, Sprite* pSprite)
         }
         else
         {
-            purple_x->field_8_pNext = pCIter;
+            purple_x->mpNext = pCIter;
         }
-        pCIter->field_8_pNext = pNewNext;
+        pCIter->mpNext = pNewNext;
         pCIter->field_4_p8 = v8;
         pCIter->field_0_x_len = purple_left;
-        v8->field_4_pNext = 0;
-        pNewNext = pCIter->field_8_pNext;
+        v8->mpNext = 0;
+        pNewNext = pCIter->mpNext;
         ++purple_left;
         purple_x = pCIter;
     }
@@ -499,7 +500,7 @@ PurpleDoom_C* PurpleDoom::sub_478590(s32 start_idx)
     {
         return 0;
     }
-    for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->field_8_pNext)
+    for (pIter = this->field_0[start_idx]; pIter; pIter = pIter->mpNext)
     {
         f0 = (u8)pIter->field_0_x_len;
         if (f0 >= gPurple_left_6F5FD4)
@@ -617,12 +618,12 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
                 pObj->field_0_sprt->field_C_o5c->field_1C.field_10.mValue = gCollide_C_6791FC->field_4_count;
             }
 
-            pObj = pObj->field_4_pNext;
+            pObj = pObj->mpNext;
 
         } // end while
 
         //    LABEL_30:
-        v3 = v3->field_8_pNext;
+        v3 = v3->mpNext;
     } // end while
     return bRet;
 */
@@ -654,9 +655,9 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
                 }
                 pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
-            pC8Iter = pC8Iter->field_4_pNext;
+            pC8Iter = pC8Iter->mpNext;
         }
-        pIter = pIter->field_8_pNext;
+        pIter = pIter->mpNext;
     }
     return bRet;
 }
@@ -677,7 +678,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
             break;
         }
 
-        for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->field_4_pNext)
+        for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
         {
             if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
                 p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
@@ -693,7 +694,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
                 p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
         }
-        pXItemIter = pXItemIter->field_8_pNext;
+        pXItemIter = pXItemIter->mpNext;
     }
 
     return bRet;

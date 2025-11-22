@@ -7,12 +7,12 @@
 #include <stdio.h>
 
 DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
-DEFINE_GLOBAL(TileAnim_4BC*, gTileAnim_4BC_7052C8, 0x7052C8);
+DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
 
 MATCH_FUNC(0x5bc260)
 void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
-    TileAnim_18* p18 = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
+    TileAnim_18* p18 = gTileAnimPool_7052C8->Allocate();
     p18->field_10_base = base;
     p18->field_0 = f0;
     p18->field_2_anim_length = length;
@@ -23,10 +23,10 @@ void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 re
 }
 
 MATCH_FUNC(0x5bc2c0)
-void TileAnim_2::sub_5BC2C0(gmp_tile_animation* a1)
+void TileAnim_2::sub_5BC2C0(gmp_tile_animation* pTileAnimation)
 {
-    TileAnim_18* tmp = gTileAnim_4BC_7052C8->get_new_TileAnim_18();
-    tmp->sub_5BC190(a1);
+    TileAnim_18* tmp = gTileAnimPool_7052C8->Allocate();
+    tmp->sub_5BC190(pTileAnimation);
     tmp->sub_5BC1D0();
 }
 
@@ -44,10 +44,10 @@ void TileAnim_2::UpdateTileAnimations_5BC310()
 MATCH_FUNC(0x5bc3a0)
 TileAnim_2::TileAnim_2()
 {
-    if (gTileAnim_4BC_7052C8 == NULL)
+    if (gTileAnimPool_7052C8 == NULL)
     {
-        gTileAnim_4BC_7052C8 = new TileAnim_4BC();
-        if (gTileAnim_4BC_7052C8 == NULL)
+        gTileAnimPool_7052C8 = new TileAnimPool();
+        if (gTileAnimPool_7052C8 == NULL)
         {
             FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
@@ -58,14 +58,14 @@ TileAnim_2::TileAnim_2()
 MATCH_FUNC(0x5bc470)
 TileAnim_2::~TileAnim_2()
 {
-    if (gTileAnim_4BC_7052C8)
+    if (gTileAnimPool_7052C8)
     {
-        GTA2_DELETE_AND_NULL(gTileAnim_4BC_7052C8);
+        GTA2_DELETE_AND_NULL(gTileAnimPool_7052C8);
     }
 }
 
 MATCH_FUNC(0x5bc130)
-void TileAnim_18::sub_5BC130()
+void TileAnim_18::PoolAllocate()
 {
     field_12_idx = gTileAnim_2_7052C4->field_0_count++;
 }
@@ -144,19 +144,19 @@ TileAnim_18::TileAnim_18()
     field_C_ptr = 0;
     field_10_base = 0;
     field_12_idx = 0;
-    field_14_next_ptr = 0;
+    mpNext = 0;
 }
 
 MATCH_FUNC(0x5bebd0)
 TileAnim_18::~TileAnim_18()
 {
     field_C_ptr = NULL;
-    field_14_next_ptr = NULL;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x5bc4a0)
-TileAnim_4BC::~TileAnim_4BC()
+TileAnimPool::~TileAnimPool()
 {
-    field_0_pStart = NULL;
-    field_4_pPrev = NULL;
+    //field_0_pStart = NULL;
+    //field_4_pPrev = NULL;
 }

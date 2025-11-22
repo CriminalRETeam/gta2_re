@@ -9,7 +9,7 @@ class Montana_C
 {
   public:
     Sprite* field_0;
-    Montana_C* field_4_pNext;
+    Montana_C* mpNext;
     Montana_C* field_8;
 };
 

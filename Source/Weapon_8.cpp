@@ -7,7 +7,7 @@
 #include "error.hpp"
 #include "root_sound.hpp"
 
-DEFINE_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014, 0x707014);
+DEFINE_GLOBAL(Weapon_30_Pool*, gWeapon_30_Pool_707014, 0x707014);
 DEFINE_GLOBAL(Weapon_8*, gWeapon_8_707018, 0x707018);
 
 DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u, 99u,
@@ -22,9 +22,9 @@ u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0
 MATCH_FUNC(0x5e3c10)
 Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 {
-    Weapon_30* pNewWeap = gWeapon_2FDC_707014->field_0;
-    gWeapon_2FDC_707014->field_0 = gWeapon_2FDC_707014->field_0->field_18_pNext;
-    pNewWeap->field_18_pNext = 0;
+    Weapon_30* pNewWeap = gWeapon_30_Pool_707014->field_0_pool.field_0_pStart;
+    gWeapon_30_Pool_707014->field_0_pool.field_0_pStart = gWeapon_30_Pool_707014->field_0_pool.field_0_pStart->mpNext;
+    pNewWeap->mpNext = 0;
     pNewWeap->init_5DCD90();
     field_4_ref_count++;
     pNewWeap->field_1C_idx = weapon_kind;
@@ -36,17 +36,17 @@ Weapon_30* Weapon_8::allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo)
 MATCH_FUNC(0x5e3cb0)
 void Weapon_8::deallocate_5E3CB0(Weapon_30* pWeapon)
 {
-    Weapon_2FDC* pRoot = gWeapon_2FDC_707014;
+    Weapon_30_Pool* pRoot = gWeapon_30_Pool_707014;
     pWeapon->clear_5DCDE0();
-    pWeapon->field_18_pNext = pRoot->field_0;
-    pRoot->field_0 = pWeapon;
+    pWeapon->mpNext = pRoot->field_0_pool.field_0_pStart;
+    pRoot->field_0_pool.field_0_pStart = pWeapon;
     field_4_ref_count--;
 }
 
 MATCH_FUNC(0x5e3ce0)
 Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 {
-    Weapon_30* pWeapon = gWeapon_2FDC_707014->Allocate();
+    Weapon_30* pWeapon = gWeapon_30_Pool_707014->Allocate();
     pWeapon->init_5DCD90();
     pWeapon->field_1C_idx = weapon_kind;
     pWeapon->field_14_car = pCar;
@@ -57,7 +57,7 @@ Weapon_30* Weapon_8::allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo)
 MATCH_FUNC(0x5e3d20)
 Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
 {
-    Weapon_30* result = gWeapon_2FDC_707014->field_4;
+    Weapon_30* result = gWeapon_30_Pool_707014->field_0_pool.field_4_pPrev;
     if (!result)
     {
         return 0;
@@ -66,7 +66,7 @@ Weapon_30* Weapon_8::find_5E3D20(Car_BC* pCar, s32 weapon_kind)
     // TODO: Can probably invert this
     while (result->field_14_car != pCar || result->field_1C_idx != weapon_kind)
     {
-        result = result->field_18_pNext;
+        result = result->mpNext;
         if (!result)
         {
             return 0;
@@ -115,18 +115,18 @@ char_type Weapon_8::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar)
 MATCH_FUNC(0x5e3df0)
 void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
 {
-    Weapon_30* pIter = gWeapon_2FDC_707014->get_next_4CC9B0();
+    Weapon_30* pIter = gWeapon_30_Pool_707014->get_next_4CC9B0();
     while (pIter)
     {
         if ( pIter->field_14_car == pCar )
         {
           Weapon_30* pOldIter = pIter;
-          pIter = pIter->field_18_pNext;
-          gWeapon_2FDC_707014->sub_4A4F20(pOldIter);
+          pIter = pIter->mpNext;
+          gWeapon_30_Pool_707014->sub_4A4F20(pOldIter);
         }
         else
         {
-          pIter = pIter->field_18_pNext;
+          pIter = pIter->mpNext;
         }
     }
 }
@@ -146,10 +146,10 @@ char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 MATCH_FUNC(0x5e3e90)
 Weapon_8::Weapon_8()
 {
-    if (!gWeapon_2FDC_707014)
+    if (!gWeapon_30_Pool_707014)
     {
-        gWeapon_2FDC_707014 = new Weapon_2FDC();
-        if (!gWeapon_2FDC_707014)
+        gWeapon_30_Pool_707014 = new Weapon_30_Pool();
+        if (!gWeapon_30_Pool_707014)
         {
             FatalError_4A38C0(0x20, "weapon.cpp", 2428);
         }
@@ -161,15 +161,14 @@ Weapon_8::Weapon_8()
 MATCH_FUNC(0x5e3f60)
 Weapon_8::~Weapon_8()
 {
-    if (gWeapon_2FDC_707014)
+    if (gWeapon_30_Pool_707014)
     {
-        GTA2_DELETE_AND_NULL(gWeapon_2FDC_707014);
+        GTA2_DELETE_AND_NULL(gWeapon_30_Pool_707014);
     }
 }
 
 MATCH_FUNC(0x5E4090)
-Weapon_2FDC::~Weapon_2FDC()
+Weapon_30_Pool::~Weapon_30_Pool()
 {
-    field_0 = 0;
-    field_4 = 0;
+
 }

@@ -21,7 +21,7 @@ Weapon_30::Weapon_30()
     field_14_car = 0;
     field_2_reload_speed = 0;
     field_4 = 0;
-    field_18_pNext = 0;
+    mpNext = 0;
     field_1C_idx = 0;
     field_10 = 0;
     field_8 = 0;
@@ -36,7 +36,7 @@ MATCH_FUNC(0x5DCD50)
 Weapon_30::~Weapon_30()
 {
     field_24_pPed = 0;
-    field_18_pNext = 0;
+    mpNext = 0;
     field_14_car = 0;
     field_8 = 0;
     if (field_28_pSound)

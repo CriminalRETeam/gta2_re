@@ -60,7 +60,7 @@ Char_8** Ped_Unknown_4::sub_4715E0()
 MATCH_FUNC(0x471630)
 void Ped_Unknown_4::sub_471630()
 {
-    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 8)
         {
@@ -76,7 +76,7 @@ void Ped_Unknown_4::sub_471680()
 {
     Char_8* pIter; // eax
 
-    for (pIter = field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    for (pIter = field_0_pOwner; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {
@@ -92,7 +92,7 @@ s32 Ped_Unknown_4::GetPassengerNum_4716B0()
     Char_8* pOwner = this->field_0_pOwner;
     for (pIter = 0; pOwner; ++pIter)
     {
-        pOwner = pOwner->field_4_pOwner;
+        pOwner = pOwner->mpNext;
     }
     return pIter;
 }
@@ -100,7 +100,7 @@ s32 Ped_Unknown_4::GetPassengerNum_4716B0()
 MATCH_FUNC(0x4716d0)
 void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 {
-    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->field_4_pOwner)
+    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->mpNext)
     {
         pIter->field_0_char_ped->field_204 = a2->field_70;
         pIter->field_0_char_ped->field_290 = a2->field_90;
@@ -118,7 +118,7 @@ char_type Ped_Unknown_4::sub_471710()
         {
             return 1;
         }
-        pOwner = pOwner->field_4_pOwner;
+        pOwner = pOwner->mpNext;
     }
     return 0;
 }
