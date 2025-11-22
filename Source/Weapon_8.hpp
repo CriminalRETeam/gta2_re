@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "Weapon_30.hpp"
 #include "Object_3C.hpp"
+#include "Pool.hpp"
 
 class Ped;
 class Car_BC;
@@ -26,38 +27,28 @@ class Weapon_8
     s16 field_6;
 };
 
-class Weapon_2FDC
+class Weapon_30_Pool
 {
   public:
-    Weapon_2FDC() // 4CDA20 inline
+    Weapon_30_Pool() // 4CDA20 inline
     {
-        Weapon_30* pF8 = field_8;
-        Weapon_30* pIter = field_8;
 
-        for (s32 i = 0; i < 254; i++)
-        {
-            pIter->field_18_pNext = pIter + 1;
-            pIter++;
-        }
-        field_0 = pF8;
-        field_8[254].field_18_pNext = 0;
-        field_4 = 0;
-        field_2FD8 = 0;
     }
 
     Weapon_30* Allocate()
     {
-        Weapon_30* pWeapon = field_0;
-        field_0 = pWeapon->field_18_pNext;
-        pWeapon->field_18_pNext = field_4;
-        field_4 = pWeapon;
+        Weapon_30* pWeapon = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pWeapon->mpNext;
+        pWeapon->mpNext = field_0_pool.field_4_pPrev;
+        field_0_pool.field_4_pPrev = pWeapon;
         return pWeapon;
     }
 
+    // TODO: This is probably a heavily inlined common iteration func
     // Remove/dealloc?
     void sub_4A4F20(Weapon_30* pW30)
     {
-        Weapon_30* pIter = this->field_4;
+        Weapon_30* pIter = this->field_0_pool.field_4_pPrev;
         Weapon_30* pLastIter = 0;
         while (pIter)
         {
@@ -66,39 +57,35 @@ class Weapon_2FDC
                 pIter->clear_5DCDE0();
                 if (pLastIter)
                 {
-                    pLastIter->field_18_pNext = pIter->field_18_pNext;
+                    pLastIter->mpNext = pIter->mpNext;
                 }
                 else
                 {
-                    this->field_4 = pIter->field_18_pNext;
+                    this->field_0_pool.field_4_pPrev = pIter->mpNext;
                 }
-                pIter->field_18_pNext = this->field_0;
-                this->field_0 = pIter;
+                pIter->mpNext = this->field_0_pool.field_0_pStart;
+                this->field_0_pool.field_0_pStart = pIter;
                 break;
             }
             else
             {
                 pLastIter = pIter;
-                pIter = pIter->field_18_pNext;
+                pIter = pIter->mpNext;
             }
         }
     }    
 
     Weapon_30* get_next_4CC9B0()
     {
-        return this->field_4;
+        return this->field_0_pool.field_4_pPrev;
     }
   
-    EXPORT ~Weapon_2FDC();
+    EXPORT ~Weapon_30_Pool();
 
-    Weapon_30* field_0;
-    Weapon_30* field_4;
-    Weapon_30 field_8[255];
-    s16 field_2FD8;
-    s16 field_2FDA;
+    Pool<Weapon_30, 255> field_0_pool;
 };
 
-EXTERN_GLOBAL(Weapon_2FDC*, gWeapon_2FDC_707014);
+EXTERN_GLOBAL(Weapon_30_Pool*, gWeapon_30_Pool_707014);
 
 EXTERN_GLOBAL(Weapon_8*, gWeapon_8_707018);
 
