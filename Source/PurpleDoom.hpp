@@ -12,7 +12,7 @@ struct PurpleDoom_C
     u8 field_0_x_len;
     char pad[3];
     Collide_8* field_4_p8;
-    PurpleDoom_C *field_8_pNext;
+    PurpleDoom_C *mpNext;
 };
 
 class PurpleDoom

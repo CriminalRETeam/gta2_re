@@ -72,11 +72,11 @@ class Collide_11944
         PurpleDoom_C* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 6000 - 1; i++)
         {
-            pOff->field_8_pNext = pOff + 1;
+            pOff->mpNext = pOff + 1;
             ++pOff;
         }
 
-        field_4_pool[6000-1].field_8_pNext = 0;
+        field_4_pool[6000-1].mpNext = 0;
         field_0_pHead = field_4_pool;
     }
 
@@ -88,14 +88,14 @@ class Collide_11944
 
     void Remove(PurpleDoom_C* pToRemove)
     {
-        pToRemove->field_8_pNext = this->field_0_pHead;
+        pToRemove->mpNext = this->field_0_pHead;
         this->field_0_pHead = pToRemove;
     }
 
     PurpleDoom_C* UnlinkAndReturnNext(PurpleDoom_C* pOldItem)
     {
-        PurpleDoom_C* pNewItem = pOldItem->field_8_pNext;
-        pOldItem->field_8_pNext = this->field_0_pHead;
+        PurpleDoom_C* pNewItem = pOldItem->mpNext;
+        pOldItem->mpNext = this->field_0_pHead;
         this->field_0_pHead = pOldItem;
         return pNewItem;
     }
@@ -103,7 +103,7 @@ class Collide_11944
     PurpleDoom_C* Allocate()
     {
         PurpleDoom_C* pNewItem = this->field_0_pHead;
-        this->field_0_pHead = this->field_0_pHead->field_8_pNext;
+        this->field_0_pHead = this->field_0_pHead->mpNext;
         return pNewItem;
     }
 
