@@ -701,9 +701,9 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gChar_203AC_6787B8"))
+    if (ImGui::TreeNode("gPedPool_6787B8"))
     {
-        if (gChar_203AC_6787B8)
+        if (gPedPool_6787B8)
         {
             Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
@@ -723,7 +723,7 @@ void CC ImGuiDebugDraw()
                 }
             }
 
-            Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext;
+            Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
             while (pPedIter)
             {
                 char buffer[128];
@@ -735,7 +735,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("occupation", &pPedIter->field_240_occupation, 0, 500);
                     ImGui::TreePop();
                 }
-                pPedIter = pPedIter->field_160_next_ped;
+                pPedIter = pPedIter->mpNext;
             }
         }
         ImGui::TreePop();

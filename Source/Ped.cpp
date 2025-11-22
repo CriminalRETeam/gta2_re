@@ -78,7 +78,7 @@ Ped::Ped()
 {
     field_200_id = 0;
     sub_45AFC0();
-    field_160_next_ped = 0;
+    mpNext = 0;
 }
 
 MATCH_FUNC(0x45af00)
@@ -92,7 +92,7 @@ Ped::~Ped()
     this->field_150_target_objective_car = 0;
     this->field_158_unk_car = 0;
     this->field_154_target_to_enter = 0;
-    this->field_160_next_ped = 0;
+    this->mpNext = 0;
     this->field_164_ped_group = 0;
     this->field_168_game_object = 0;
     this->field_16C_car = 0;
@@ -120,7 +120,7 @@ char_type Ped::sub_45AFC0()
 }
 
 MATCH_FUNC(0x45b440)
-void Ped::sub_45B440()
+void Ped::PoolAllocate()
 {
     Ped::sub_45AFC0();
     field_200_id = gPedId_61A89C++;

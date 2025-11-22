@@ -245,31 +245,22 @@ class Char_C
     Sprite* field_8;
 };
 
-class Char_203AC
+class PedPool
 {
   public:
-    EXPORT ~Char_203AC();
+    EXPORT ~PedPool();
 
-    Ped* sub_403890()
+    Ped* Allocate()
     {
-        Ped* pOld = field_0_pFirst;
-        field_0_pFirst = field_0_pFirst->field_160_next_ped;
-        pOld->field_160_next_ped = field_4_pNext;
-        field_4_pNext = pOld;
-        pOld->sub_45B440();
-        return pOld;
+        return field_0_pool.Allocate();
     }
 
-    Ped* field_0_pFirst;
-    Ped* field_4_pNext;
-    Ped field_8[200];
-    s16 field_203A8;
-    s16 field_203AA;
+    Pool<Ped, 200> field_0_pool;
 };
 
 EXTERN_GLOBAL(Char_C*, gChar_C_6787BC);
 
-EXTERN_GLOBAL(Char_203AC*, gChar_203AC_6787B8);
+EXTERN_GLOBAL(PedPool*, gPedPool_6787B8);
 
 EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
 

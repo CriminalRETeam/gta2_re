@@ -7,7 +7,7 @@
 #include "sprite.hpp"
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
-DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
+DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
@@ -514,15 +514,7 @@ Char_C::~Char_C()
 MATCH_FUNC(0x470a50)
 Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
-    Char_203AC* v6 = gChar_203AC_6787B8;
-    Ped* pPed = gChar_203AC_6787B8->field_0_pFirst;
-    v6->field_0_pFirst = pPed->field_160_next_ped;
-
-    pPed->field_160_next_ped = v6->field_4_pNext;
-
-    v6->field_4_pNext = pPed;
-
-    pPed->sub_45B440();
+    Ped* pPed = gPedPool_6787B8->Allocate();
 
     if (!pPed->sub_45C830(xpos, ypos, zpos))
     {
@@ -590,10 +582,10 @@ Ped* Char_C::sub_470F30()
 MATCH_FUNC(0x470f90)
 Ped* Char_C::sub_470F90(Ped* pSrc)
 {
-    Ped* pDst = gChar_203AC_6787B8->sub_403890();
-    Ped* pNext = pDst->field_160_next_ped;
+    Ped* pDst = gPedPool_6787B8->Allocate();
+    Ped* pNext = pDst->mpNext;
     memcpy(pDst, pSrc, sizeof(Ped));
-    pDst->field_160_next_ped = pNext;
+    pDst->mpNext = pNext;
 
     if (pSrc->field_168_game_object)
     {
@@ -621,7 +613,7 @@ void Char_C::DoIanTest_471060(s16 a1)
 MATCH_FUNC(0x4710c0)
 Ped* Char_C::PedById(s32 pedId)
 {
-    for (Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext; pPedIter; pPedIter = pPedIter->field_160_next_ped)
+    for (Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev; pPedIter; pPedIter = pPedIter->mpNext)
     {
         if (pPedIter->field_200_id == pedId)
         {
@@ -632,8 +624,7 @@ Ped* Char_C::PedById(s32 pedId)
 }
 
 MATCH_FUNC(0x471110)
-Char_203AC::~Char_203AC()
+PedPool::~PedPool()
 {
-    field_0_pFirst = 0;
-    field_4_pNext = 0;
+
 }

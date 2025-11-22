@@ -2855,7 +2855,7 @@
         "v105_address": "0x45afc0"
     },
     {
-        "name": "Ped::sub_45B440",
+        "name": "Ped::PoolAllocate",
         "v96f_address": null,
         "v105_address": "0x45b440"
     },
@@ -3995,7 +3995,7 @@
         "v105_address": "0x4710f0"
     },
     {
-        "name": "Char_203AC::dtor",
+        "name": "PedPool::dtor",
         "v96f_address": null,
         "v105_address": "0x471110"
     },
