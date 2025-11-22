@@ -443,7 +443,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 {
     if (field_168_game_object)
     {
-        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+        gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
     }
     field_168_game_object = 0;
 
