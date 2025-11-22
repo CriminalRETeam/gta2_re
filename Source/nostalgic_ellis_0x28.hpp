@@ -26,7 +26,7 @@ class nostalgic_ellis_0x28
     char_type field_18_intensity;
     char_type field_19;
     s16 field_1A;
-    nostalgic_ellis_0x28* field_1C;
+    nostalgic_ellis_0x28* mpNext;
     nostalgic_ellis_0x28* field_20;
     nostalgic_ellis_0x28* field_24;
 };
