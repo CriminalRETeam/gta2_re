@@ -23,7 +23,7 @@ DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
 DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
-EXTERN_GLOBAL(Collide_8_Pool*, gCollide_8_Pool_679200);
+EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 
 Sprite* gPurpleDoom_sprite_678F84;
 
@@ -306,7 +306,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
                         pFoundCollideForX->mpNext = pCollideForX->mpNext;
                     }
 
-                    gCollide_8_Pool_679200->Remove(pCollideForX);
+                    gCollide_8_Pool_679200->DeAllocate(pCollideForX);
 
                     if (!pXIter->field_4_p8)
                     {
@@ -355,7 +355,7 @@ void PurpleDoom::sub_478370(s32 y_pos, Sprite* pSprite)
                         pLast->mpNext = pObj->mpNext;
                     }
 
-                    gCollide_8_Pool_679200->Remove(pObj);
+                    gCollide_8_Pool_679200->DeAllocate(pObj);
 
                     if (!pXItemIter->field_4_p8)
                     {
@@ -399,6 +399,7 @@ MATCH_FUNC(0x478440)
 void PurpleDoom::DoAdd_478440(s32 xpos, s32 ypos, Sprite* pSprite)
 {
     Collide_8* pNewCollide = gCollide_8_Pool_679200->Allocate();
+
     pNewCollide->field_0_sprt = pSprite;
 
     PurpleDoom_C* pAddedTo = 0;

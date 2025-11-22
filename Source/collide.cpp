@@ -3,7 +3,7 @@
 #include "error.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
+DEFINE_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
 DEFINE_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
 DEFINE_GLOBAL(s32, dword_678F84, 0x678F84);
 
@@ -21,7 +21,7 @@ Collide_C::Collide_C()
     
     field_8_bUnknown = 0;
 
-    gCollide_8_Pool_679200 = new Collide_8_Pool();
+    gCollide_8_Pool_679200 = new T_Collide_8_Pool();
     if (!gCollide_8_Pool_679200)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);

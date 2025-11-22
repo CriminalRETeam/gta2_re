@@ -30,6 +30,7 @@ class PoolBasic
         PoolType* pNew = field_0_pHead;
         field_0_pHead = pNew->mpNext;
         pNew->PoolAllocate();
+        return pNew;
     }
 
     void DeAllocate(PoolType* pItem)
@@ -79,12 +80,13 @@ class Pool
         return tmp;
     }
 
-    void DeAllocate(PoolType* pItem)
+     void DeAllocate(PoolType* pItem)
     {
         pItem->PoolDeallocate();
         pItem->mpNext = field_0_pStart;
         field_0_pStart = pItem;
     }
+
 
     PoolType* field_0_pStart;
     PoolType* field_4_pPrev;
