@@ -236,8 +236,8 @@ set(gta2_lib_src
   Source/Object_3C_Pool.cpp
   Source/Object_3C.hpp
   Source/Object_3C.cpp
-  Source/Object_29178.hpp
-  Source/Object_29178.cpp
+  Source/Object_2C_Pool.hpp
+  Source/Object_2C_Pool.cpp
   Source/Particle_4C.hpp
   Source/Particle_4C.cpp
   Source/Police_38.hpp
