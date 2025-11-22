@@ -37,7 +37,7 @@ class Collide_8004
             ++pOff;
         }
 
-        field_8000 = 0;
+        field_4[4096-1].field_4_pNext = 0;
         field_0 = field_4;
     }
 
@@ -61,9 +61,7 @@ class Collide_8004
     }
 
     Collide_8* field_0;
-    Collide_8 field_4[4095];
-    s32 field_7FFC;
-    s32 field_8000;
+    Collide_8 field_4[4096];
 };
 
 class Collide_11944
