@@ -64,7 +64,7 @@ Sprite_18* struct_4::sub_5A6A50(s32 obj_type)
                 }
             }
         }
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
     return 0;
 }
@@ -88,7 +88,7 @@ Object_2C* struct_4::sub_5A6A90(s32 obj_type)
                 }
             }
         }
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
     return 0;
 }
@@ -111,7 +111,7 @@ Sprite_18* struct_4::sub_5A6AD0()
                 }
             }
         }
-        pObjIter = pObjIter->field_4_next;
+        pObjIter = pObjIter->mpNext;
     }
     return 0;
 }
@@ -127,18 +127,18 @@ void struct_4::sub_5A6B10(Sprite* toFind)
         {
             if (pLast)
             {
-                pLast->field_4_next = pIter->field_4_next;
-                gSprite_1C24_703B80->DeAlloc(pIter);
+                pLast->mpNext = pIter->mpNext;
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
             }
             else
             {
-                this->field_0_p18 = pIter->field_4_next;
-                gSprite_1C24_703B80->DeAlloc(pIter);
+                this->field_0_p18 = pIter->mpNext;
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
             }
             return;
         }
         pLast = pIter;
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
 }
 
@@ -153,25 +153,25 @@ void struct_4::sub_5A6B60(Sprite* toFind)
         {
             if (pLast)
             {
-                pLast->field_4_next = pIter->field_4_next;
+                pLast->mpNext = pIter->mpNext;
             }
             else
             {
-                this->field_0_p18 = pIter->field_4_next;
+                this->field_0_p18 = pIter->mpNext;
             }
 
-            gSprite_1C24_703B80->DeAlloc(pIter);
+            gSprite_18_Pool_703B80->DeAllocate(pIter);
             return;
         }
         pLast = pIter;
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
 }
 
 MATCH_FUNC(0x5a6bb0)
 void struct_4::sub_5A6BB0()
 {
-    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->sub_5A69E0();
     }
@@ -180,7 +180,7 @@ void struct_4::sub_5A6BB0()
 MATCH_FUNC(0x5a6bd0)
 void struct_4::sub_5A6BD0()
 {
-    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->sub_5A6A20();
     }
@@ -189,7 +189,7 @@ void struct_4::sub_5A6BD0()
 MATCH_FUNC(0x5a6bf0)
 void struct_4::sub_5A6BF0(Sprite* pSprite)
 {
-    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->field_0->sub_59E910(pSprite);
     }
@@ -200,7 +200,7 @@ char_type struct_4::sub_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
     {
-        for (Sprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->field_4_next)
+        for (Sprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0 == toFind)
             {
@@ -223,20 +223,20 @@ void struct_4::sub_5A6C40(s32 toFind)
         if (pIter->field_14_rng == toFind)
         {
             pLast = pIter;
-            pIter = pIter->field_4_next;
+            pIter = pIter->mpNext;
         }
         else
         {
-            Sprite_18* pSavedNext = pIter->field_4_next;
+            Sprite_18* pSavedNext = pIter->mpNext;
             if (pLast)
             {
-                pLast->field_4_next = pSavedNext;
-                gSprite_1C24_703B80->DeAlloc(pIter);
-                pIter = pLast->field_4_next;
+                pLast->mpNext = pSavedNext;
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
+                pIter = pLast->mpNext;
             }
             else
             {
-                gSprite_1C24_703B80->DeAlloc(pIter);
+                gSprite_18_Pool_703B80->DeAllocate(pIter);
                 pIter = pSavedNext;
                 this->field_0_p18 = pSavedNext;
             }
@@ -249,7 +249,7 @@ Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 {
     if (field_0_p18 != NULL)
     {
-        for (Sprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->field_4_next)
+        for (Sprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0->field_30_sprite_type_enum == sprite_type)
             {
@@ -263,9 +263,9 @@ Sprite* struct_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 MATCH_FUNC(0x5a6cd0)
 void struct_4::sub_5A6CD0(Sprite* pSprite)
 {
-    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
+    Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite;
-    p18->field_4_next = this->field_0_p18;
+    p18->mpNext = this->field_0_p18;
     p18->field_8.reset();
     field_0_p18 = p18;
 }
@@ -273,9 +273,9 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
 MATCH_FUNC(0x5a6d00)
 void struct_4::sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle)
 {
-    Sprite_18* p18 = gSprite_1C24_703B80->Alloc();
+    Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite1;
-    p18->field_4_next = field_0_p18;
+    p18->mpNext = field_0_p18;
     p18->field_8.x = a3;
     p18->field_8.y = pSprite2;
     p18->field_10 = angle;
@@ -292,13 +292,13 @@ void struct_4::PushSprite_5A6D40(Sprite* pToFind)
         {
             return;
         }
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
 
-    Sprite_18* pNew = gSprite_1C24_703B80->Alloc();
+    Sprite_18* pNew = gSprite_18_Pool_703B80->Allocate();
     pNew->field_0 = pToFind;
 
-    pNew->field_4_next = this->field_0_p18;
+    pNew->mpNext = this->field_0_p18;
     this->field_0_p18 = pNew;
 }
 
@@ -312,7 +312,7 @@ char_type struct_4::SpriteExists_5A6D80(Sprite* pToFind)
         {
             return 1;
         }
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
     return 0;
 }
@@ -326,8 +326,8 @@ Sprite* struct_4::sub_5A6DA0()
         return 0;
     }
     Sprite* pOld = p18->field_0;
-    this->field_0_p18 = p18->field_4_next;
-    gSprite_1C24_703B80->DeAlloc(p18);
+    this->field_0_p18 = p18->mpNext;
+    gSprite_18_Pool_703B80->DeAllocate(p18);
     return pOld;
 }
 
@@ -336,22 +336,22 @@ Sprite* struct_4::sub_5A6DC0()
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
-    while (pIter->field_4_next)
+    while (pIter->mpNext)
     {
         pLast = pIter;
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
 
     Sprite* result = pIter->field_0;
     if (pLast)
     {
-        pLast->field_4_next = 0;
+        pLast->mpNext = 0;
     }
     else
     {
         this->field_0_p18 = 0;
     }
-    gSprite_1C24_703B80->DeAlloc(pIter);
+    gSprite_18_Pool_703B80->DeAllocate(pIter);
 
     return result;
 }
@@ -363,8 +363,8 @@ Sprite_18* struct_4::sub_5A6E10()
     while (pIter)
     {
         Sprite_18* pLast = pIter;
-        pIter = pIter->field_4_next;
-        gSprite_1C24_703B80->DeAlloc(pLast);
+        pIter = pIter->mpNext;
+        gSprite_18_Pool_703B80->DeAllocate(pLast);
     }
     this->field_0_p18 = 0;
     return pIter;
@@ -376,7 +376,7 @@ Sprite* struct_4::sub_5A6E40(Fix16 xOff, Fix16 yOff)
     Fix16 smallest(99999);
 
     Sprite* new_ret = 0;
-    for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->field_4_next)
+    for (Sprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
         Fix16 xd = pIter->field_0->field_14_xpos.x - xOff;
         Fix16 yd = pIter->field_0->field_14_xpos.y - yOff;
@@ -430,7 +430,7 @@ void struct_4::sub_5A7010()
             default:
                 break;
         }
-        p18Iter = p18Iter->field_4_next;
+        p18Iter = p18Iter->mpNext;
     }
     sub_5A6E10();
 }
@@ -445,7 +445,7 @@ void struct_4::sub_5A7080()
     Sprite_18* pLastOfType; // edi
     int type; // eax
     Object_2C* o2c; // ecx
-    //Sprite_1C24* pRoot_; // eax
+    //Sprite_18_Pool* pRoot_; // eax
 
     pIter = this->field_0_p18;
     pLastOfType = 0;
@@ -460,21 +460,21 @@ void struct_4::sub_5A7080()
                 gObject_5C_6F8F84->sub_52A610((Object_2C*)o2c); // ??
                 if (pLastOfType)
                 {
-                    pLastOfType->field_4_next = pIter->field_4_next;
-                    gSprite_1C24_703B80->DeAlloc(pIter);
-                    pIter = pLastOfType->field_4_next;
+                    pLastOfType->mpNext = pIter->mpNext;
+                    gSprite_18_Pool_703B80->DeAllocate(pIter);
+                    pIter = pLastOfType->mpNext;
                 }
                 else
                 {
-                    Sprite_18* pOldNext = pIter->field_4_next;
-                    gSprite_1C24_703B80->DeAlloc(pIter);
+                    Sprite_18* pOldNext = pIter->mpNext;
+                    gSprite_18_Pool_703B80->DeAllocate(pIter);
                     pIter = pOldNext;
                     this->field_0_p18 = pOldNext;
                 }
             }
         }
         pLastOfType = pIter;
-        pIter = pIter->field_4_next;
+        pIter = pIter->mpNext;
     }
 }
 
@@ -502,7 +502,7 @@ void struct_4::sub_5A7110()
                 }
             }
             pLast = pIter;
-            pIter = pIter->field_4_next;
+            pIter = pIter->mpNext;
             if (!pIter)
             {
                 return;
@@ -514,13 +514,13 @@ void struct_4::sub_5A7110()
 
         if (pLast)
         {
-            pLast->field_4_next = pIter->field_4_next;
+            pLast->mpNext = pIter->mpNext;
         }
         else
         {
-            this->field_0_p18 = pIter->field_4_next;
+            this->field_0_p18 = pIter->mpNext;
         }
-        gSprite_1C24_703B80->DeAlloc(pIter);
+        gSprite_18_Pool_703B80->DeAllocate(pIter);
     }
 }
 
@@ -542,7 +542,7 @@ s32 struct_4::sub_5A71A0()
                 }
             }
         }
-        p18Iter = p18Iter->field_4_next;
+        p18Iter = p18Iter->mpNext;
         if (!p18Iter)
         {
             return 0;
@@ -554,7 +554,7 @@ s32 struct_4::sub_5A71A0()
 MATCH_FUNC(0x5a71f0)
 void struct_4::sub_5A71F0()
 {
-    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (Sprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
         if (type == 1 || type > 3 && type <= 5)
@@ -581,18 +581,18 @@ void struct_4::sub_5A7240(Sprite* pSprite)
         if (pSprite->sub_59E590(pNext->field_0))
         {
             pLast = pNext;
-            pNext = pNext->field_4_next;
+            pNext = pNext->mpNext;
         }
         else if (pLast)
         {
-            pLast->field_4_next = pNext->field_4_next;
-            gSprite_1C24_703B80->DeAlloc(pNext);
-            pNext = pLast->field_4_next;
+            pLast->mpNext = pNext->mpNext;
+            gSprite_18_Pool_703B80->DeAllocate(pNext);
+            pNext = pLast->mpNext;
         }
         else
         {
-            Sprite_18* pSaveNext = pNext->field_4_next;
-            gSprite_1C24_703B80->DeAlloc(pNext);
+            Sprite_18* pSaveNext = pNext->mpNext;
+            gSprite_18_Pool_703B80->DeAllocate(pNext);
             pNext = pSaveNext;
             this->field_0_p18 = pSaveNext;
         }
@@ -606,7 +606,7 @@ void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     char max_val = start_val;
 
     Sprite_18* p18Iter;
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
         {
@@ -623,7 +623,7 @@ void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
         pSprite->field_39_z_col = max_val;
     }
 
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->field_0->field_39_z_col = max_val;
     }
@@ -633,7 +633,7 @@ MATCH_FUNC(0x5a7310)
 char_type struct_4::sub_5A7310()
 {
     Sprite_18* p18Iter;
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->field_4_next)
+    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         if (p18Iter->field_0->sub_5A1A60())
         {

@@ -17,7 +17,7 @@ DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_5D598*, gSprite_5D598_70381C, 0x70381C);
 DEFINE_GLOBAL(Sprite_49B28*, gSprite_49B28_703818, 0x703818);
 DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
-DEFINE_GLOBAL(Sprite_1C24*, gSprite_1C24_703B80, 0x703B80);
+DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL(Sprite*, gSprite_6791A8, 0x6791A8);
@@ -939,8 +939,8 @@ Sprite_8::Sprite_8()
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5043);
     }
 
-    gSprite_1C24_703B80 = new Sprite_1C24();
-    if (gSprite_1C24_703B80 == NULL)
+    gSprite_18_Pool_703B80 = new Sprite_18_Pool();
+    if (gSprite_18_Pool_703B80 == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
     }
@@ -955,7 +955,7 @@ Sprite_8::~Sprite_8()
     GTA2_DELETE_AND_NULL(gSprite_49B28_703818);
     GTA2_DELETE_AND_NULL(gSprite_5D598_70381C);
     GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
-    GTA2_DELETE_AND_NULL(gSprite_1C24_703B80);
+    GTA2_DELETE_AND_NULL(gSprite_18_Pool_703B80);
     gSprite_703814 = 0;
 }
 
@@ -971,9 +971,9 @@ Sprite_18::Sprite_18()
 }
 
 MATCH_FUNC(0x5a5c20)
-Sprite_1C24::~Sprite_1C24()
+Sprite_18_Pool::~Sprite_18_Pool()
 {
-    field_0 = 0;
+
 }
 
 MATCH_FUNC(0x5a57a0)
@@ -1012,7 +1012,7 @@ Sprite* Sprite_18::sub_5A6CA0(s32 a2)
 {
     if (field_0 != NULL)
     {
-        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->field_4_next)
+        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0->field_30_sprite_type_enum == a2)
             {

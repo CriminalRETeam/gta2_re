@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Pool.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
@@ -273,6 +274,16 @@ class Sprite_18
     EXPORT ~Sprite_18();
     EXPORT Sprite_18();
 
+    void PoolAllocate()
+    {
+
+    }
+
+    void PoolDeallocate()
+    {
+
+    }
+
     // TODO: ordering ?
     EXPORT Sprite* sub_5A6CA0(s32 a2);
 
@@ -281,47 +292,35 @@ class Sprite_18
     EXPORT void sub_5A69E0();
 
     Sprite* field_0;
-    Sprite_18* field_4_next;
+    Sprite_18* mpNext;
     Fix16_Point field_8;
     Ang16 field_10;
     s16 field_12;
     s32 field_14_rng;
 };
 
-class Sprite_1C24
+class Sprite_18_Pool
 {
   public:
     // Inlined, from 9.6f at 0x4bdcf0
-    EXPORT Sprite_1C24()
+    EXPORT Sprite_18_Pool()
     {
-        Sprite_18* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
-        {
-            pIter->field_4_next = pIter + 1;
-            pIter++;
-        }
 
-        field_4[299].field_4_next = NULL;
-        field_0 = field_4;
     }
 
-    // 0x4BEC40
-    Sprite_18* Alloc()
+    EXPORT ~Sprite_18_Pool();
+
+    Sprite_18* Allocate()
     {
-        Sprite_18* p18 = field_0;
-        field_0 = field_0->field_4_next;
-        return p18;
+        return field_0_pool.Allocate();
     }
 
-    void DeAlloc(Sprite_18* pNext)
+    void DeAllocate(Sprite_18* pItem)
     {
-        pNext->field_4_next = field_0;
-        field_0 = pNext;
+        field_0_pool.DeAllocate(pItem);
     }
 
-    EXPORT ~Sprite_1C24();
-    Sprite_18* field_0;
-    Sprite_18 field_4[300];
+    PoolBasic<Sprite_18, 300> field_0_pool;
 };
 
 class Sprite_5D598
@@ -410,6 +409,6 @@ EXTERN_GLOBAL(Sprite_5D598*, gSprite_5D598_70381C);
 
 EXTERN_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C);
 
-EXTERN_GLOBAL(Sprite_1C24*, gSprite_1C24_703B80);
+EXTERN_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
