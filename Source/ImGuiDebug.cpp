@@ -3,6 +3,7 @@
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Hud.hpp"
 #include "Hamburger_500.hpp"
 #include "Object_5C.hpp"
@@ -20,6 +21,7 @@
 #include "MapRenderer.hpp"
 #include "map_0x370.hpp"
 #include "gtx_0x106C.hpp"
+#include "Police_7B8.hpp"
 #include "sprite.hpp"
 #include "registry.hpp"
 #include "lucid_hamilton.hpp"
@@ -525,12 +527,26 @@ void CC ImGuiDebugDraw()
                 if (pPlayerCar)
                 {
                     ImGui::Text("trailer? 0x%X", pPlayerCar->field_64_pTrailer);
-
                     if (ImGui::Button("ResprayOrCleanPlates"))
                     {
                         pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
                     }
-
+                    
+                    if (gGangPool_CA8_67E274)
+                    {
+                        static char_type gang_idx = 0;
+                        ImGui::SliderS8("Gang idx", &gang_idx, 0, 2);
+                        
+                        Gang_144* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
+                        if (pGang)
+                        {
+                            if (ImGui::Button("Attach gang icon"))
+                            {
+                                pPlayerCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
+                            }
+                        }
+                    }
+                    
                     /* Crash, for some reason
                     if (ImGui::Button("Add TV Aerial"))
                     {
