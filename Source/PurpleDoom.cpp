@@ -22,7 +22,7 @@ DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
 DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
-EXTERN_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
+EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 
 Sprite* gPurpleDoom_sprite_678F84;
@@ -318,7 +318,7 @@ void PurpleDoom::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
                         {
                             pFound->mpNext = pXIter->mpNext;
                         }
-                        gPurpleDoom_C_Pool_679204->Remove(pXIter);
+                        gPurpleDoom_C_Pool_679204->DeAllocate(pXIter);
                     }
                     return;
                 }

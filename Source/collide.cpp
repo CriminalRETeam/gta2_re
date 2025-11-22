@@ -4,7 +4,7 @@
 #include "Globals.hpp"
 
 DEFINE_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
-DEFINE_GLOBAL(PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
+DEFINE_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
 DEFINE_GLOBAL(s32, dword_678F84, 0x678F84);
 
 MATCH_FUNC(0x478a20)
@@ -27,7 +27,7 @@ Collide_C::Collide_C()
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
     }
 
-    gPurpleDoom_C_Pool_679204 = new PurpleDoom_C_Pool();
+    gPurpleDoom_C_Pool_679204 = new T_PurpleDoom_C_Pool();
     if (!gPurpleDoom_C_Pool_679204)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);

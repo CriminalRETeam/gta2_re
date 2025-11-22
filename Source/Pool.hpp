@@ -40,6 +40,14 @@ class PoolBasic
         field_0_pHead = pItem;
     }
 
+    PoolType* UnlinkAndReturnNext(PoolType* pOldItem)
+    {
+        PoolType* pNewItem = pOldItem->mpNext;
+        pOldItem->mpNext = this->field_0_pHead;
+        this->field_0_pHead = pOldItem;
+        return pNewItem;
+    }
+
     PoolType* field_0_pHead;
     PoolType field_4_pool[PoolSize];
 };
@@ -80,13 +88,12 @@ class Pool
         return tmp;
     }
 
-     void DeAllocate(PoolType* pItem)
+    void DeAllocate(PoolType* pItem)
     {
         pItem->PoolDeallocate();
         pItem->mpNext = field_0_pStart;
         field_0_pStart = pItem;
     }
-
 
     PoolType* field_0_pStart;
     PoolType* field_4_pPrev;
