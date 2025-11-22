@@ -76,7 +76,7 @@ class Collide_11944
             ++pOff;
         }
 
-        field_11940 = 0;
+        field_4[6000-1].field_8_pNext = 0;
         field_0_pHead = field_4;
     }
 
@@ -108,8 +108,5 @@ class Collide_11944
     }
 
     PurpleDoom_C* field_0_pHead;
-    PurpleDoom_C field_4[5999];
-    s32 field_11938;
-    s32 field_1193C;
-    s32 field_11940;
+    PurpleDoom_C field_4[6000];
 };
