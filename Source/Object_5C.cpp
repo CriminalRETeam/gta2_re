@@ -4,7 +4,7 @@
 #include "Car_BC.hpp"
 #include "enums.hpp"
 #include "Game_0x40.hpp"
-#include "Object_226C.hpp"
+#include "Object_8_Pool.hpp"
 #include "Object_29178.hpp"
 #include "Object_3C_Pool.hpp"
 #include "Phi_8CA8.hpp"
@@ -635,9 +635,9 @@ Object_5C::~Object_5C()
         GTA2_DELETE_AND_NULL(gObject_29178_6F8F80);
     }
 
-    if (gObject_226C_6F8F78)
+    if (gObject_8_Pool_6F8F78)
     {
-        GTA2_DELETE_AND_NULL(gObject_226C_6F8F78);
+        GTA2_DELETE_AND_NULL(gObject_8_Pool_6F8F78);
     }
 
     if (gObject_3C_Pool_6F8F7C)

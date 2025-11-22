@@ -230,8 +230,8 @@ set(gta2_lib_src
   Source/Miss2_25C.cpp
   Source/Object_8.hpp
   Source/Object_8.cpp
-  Source/Object_226C.hpp
-  Source/Object_226C.cpp
+  Source/Object_8_Pool.hpp
+  Source/Object_8_Pool.cpp
   Source/Object_3C_Pool.hpp
   Source/Object_3C_Pool.cpp
   Source/Object_3C.hpp
