@@ -65,6 +65,12 @@ class Object_3C
     EXPORT Object_3C(); // 0x52ad80
     EXPORT ~Object_3C(); // 0x52ade0
 
+    void PoolAllocate()
+    {
+      // TODO: This probably should have some code - once we have all call sites 
+      // check and move common stuff in here
+    }
+
     // ?? not sure if this is O3C either :skull:
     EXPORT u32* sub_52ADF0(u32* a2);
 

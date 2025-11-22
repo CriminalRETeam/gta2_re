@@ -825,8 +825,15 @@ void Object_2C::sub_52A650()
 {
     if (!field_10)
     {
-        Object_3C* p3C = gObject_3C_Pool_6F8F7C->field_0;
-        gObject_3C_Pool_6F8F7C->field_0 = gObject_3C_Pool_6F8F7C->field_0->mpNext;
+        Object_3C* p3C =  gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead;
+        gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead->mpNext;
+
+        
+        // TODO: This should match
+        //gObject_3C_Pool_6F8F7C->field_0_pool.Allocate(); 
+
+        // TODO: some of this is probably part of PoolAllocate for Object_3C
+
         ++dword_6F8E54;
         p3C->field_C = 0;
 
