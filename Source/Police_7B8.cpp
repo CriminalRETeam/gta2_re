@@ -9,6 +9,7 @@
 #include "Ped.hpp"
 #include "winmain.hpp"
 
+DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
 DEFINE_GLOBAL(u8, byte_6FEE44, 0x6FEE44);
 
