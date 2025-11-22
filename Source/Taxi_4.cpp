@@ -10,7 +10,7 @@ void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
     Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
     pFirst->field_0 = pCar;
-    pFirst->field_4_pNext = this->field_0;
+    pFirst->mpNext = this->field_0;
     this->field_0 = pFirst;
 }
 
@@ -21,7 +21,7 @@ void Taxi_4::PopAll_457BC0()
     while (pIter)
     {
         Taxi_8* pOldIter = pIter;
-        pIter = pIter->field_4_pNext;
+        pIter = pIter->mpNext;
         gTaxi_324_6783F8->DeAlloc(pOldIter);
     }
     this->field_0 = 0;
@@ -36,7 +36,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     Car_BC* pCarRet = 0;
     Fix16 smallest(99999);
 
-    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->field_4_pNext)
+    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->mpNext)
     {
         Sprite* pCarSprite = pIter->field_0->field_50_car_sprite;
 

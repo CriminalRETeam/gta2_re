@@ -8,7 +8,7 @@ class Car_BC;
 struct Taxi_8
 {
     Car_BC* field_0;
-    Taxi_8* field_4_pNext;
+    Taxi_8* mpNext;
 };
 
 class Taxi_324
@@ -20,7 +20,7 @@ class Taxi_324
         Taxi_8* pIter = &field_4_array[0];
         for (s32 i = 0; i < GTA2_COUNTOF(field_4_array); i++)
         {
-            pIter->field_4_pNext = pIter + 1;
+            pIter->mpNext = pIter + 1;
             pIter++;
         }
         field_0_pFirst = &field_4_array[0];
@@ -36,13 +36,13 @@ class Taxi_324
     Taxi_8* Alloc()
     {
         Taxi_8* pFirst = field_0_pFirst;
-        field_0_pFirst = pFirst->field_4_pNext;
+        field_0_pFirst = pFirst->mpNext;
         return pFirst;
     }
 
     void DeAlloc(Taxi_8* pItem)
     {
-        pItem->field_4_pNext = field_0_pFirst;
+        pItem->mpNext = field_0_pFirst;
         field_0_pFirst = pItem;
     }
 

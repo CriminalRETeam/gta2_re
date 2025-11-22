@@ -41,7 +41,7 @@ void Montana_4::Draw_5C5DF0()
         while (pIter)
         {
             gMontana_FA4_705BC0->Push_4C4B80(pIter);
-            pIter = pIter->field_4_pNext;
+            pIter = pIter->mpNext;
         }
         if (gMontana_FA4_705BC0->IsEnd_4C4BC0())
         {

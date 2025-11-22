@@ -11,7 +11,7 @@ class Collide_8
 {
   public:
     Sprite* field_0_sprt;
-    Collide_8* field_4_pNext;
+    Collide_8* mpNext;
 };
 
 class Collide_C
@@ -33,11 +33,11 @@ class Collide_8004
         Collide_8* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 4096 - 1; i++)
         {
-            pOff->field_4_pNext = pOff + 1;
+            pOff->mpNext = pOff + 1;
             ++pOff;
         }
 
-        field_4_pool[4096-1].field_4_pNext = 0;
+        field_4_pool[4096-1].mpNext = 0;
         field_0_pHead = field_4_pool;
     }
 
@@ -49,14 +49,14 @@ class Collide_8004
 
     void Remove(Collide_8* pToRemove)
     {
-        pToRemove->field_4_pNext = this->field_0_pHead;
+        pToRemove->mpNext = this->field_0_pHead;
         this->field_0_pHead = pToRemove;
     }
 
     Collide_8* Allocate()
     {
         Collide_8* pNewCollide = this->field_0_pHead;
-        this->field_0_pHead = this->field_0_pHead->field_4_pNext;
+        this->field_0_pHead = this->field_0_pHead->mpNext;
         return pNewCollide;
     }
 
