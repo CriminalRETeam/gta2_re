@@ -197,21 +197,24 @@ class Char_8
 {
   public:
     Ped* field_0_char_ped;
-    Char_8* field_4_pOwner;
+    Char_8* mpNext;
 };
 
-class Char_324
+class Char_8_Pool
 {
   public:
-    Char_8* field_0_next;
-    Char_8 field_4_array[99];
+    PoolBasic<Char_8, 99> field_0_pool;
+
     s8 field_31c;
     s8 field_31d;
     s8 field_31e;
     s8 field_31f;
     s32 field_320_in_use;
 
-    Char_324();
+    Char_8_Pool()
+    {
+        field_320_in_use = 0;
+    }
 };
 
 class Char_C
@@ -270,6 +273,6 @@ EXTERN_GLOBAL(Char_203AC*, gChar_203AC_6787B8);
 
 EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
 
-EXTERN_GLOBAL(Char_324*, gChar_324_678b50);
+EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
 
 EXPORT void __stdcall sub_544F70();

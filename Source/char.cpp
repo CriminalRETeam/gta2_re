@@ -9,7 +9,7 @@
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
 DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
-DEFINE_GLOBAL(Char_324*, gChar_324_678b50, 0x678b50);
+DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
@@ -486,22 +486,6 @@ EXPORT void Char_B4::nullsub_28()
 //{
 //    NOT_IMPLEMENTED;
 //}
-
-// This constructor doesn't exist.
-// It's inlined in Char_C::Char_C
-Char_324::Char_324()
-{
-    Char_8* pIter = &field_4_array[0];
-    for (s32 i = 0; i < 99; i++)
-    {
-        pIter->field_4_pOwner = pIter + 1;
-        pIter++;
-    }
-
-    field_4_array[99].field_4_pOwner = NULL;
-    field_0_next = &field_4_array[0];
-    field_320_in_use = 0;
-}
 
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
