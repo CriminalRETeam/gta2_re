@@ -433,7 +433,7 @@ void Ped::sub_45C310()
 {
     if (field_168_game_object)
     {
-        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+        gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
         field_168_game_object = 0;
     }
 }
@@ -1340,7 +1340,7 @@ void Ped::sub_462B80()
             {
                 pB4->field_88_obj_2c.sub_5A7010();
             }
-            gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+            gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
 
             field_168_game_object = NULL;
             if (!field_248_enter_car_as_passenger)

@@ -8,7 +8,7 @@
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
 DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
-DEFINE_GLOBAL(Char_11944*, gChar_11944_6FDB44, 0x6FDB44);
+DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_324*, gChar_324_678b50, 0x678b50);
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
@@ -42,14 +42,14 @@ Char_B4::~Char_B4()
 {
     this->field_18 = 0;
     this->field_1C = 0;
-    this->field_78_next = 0;
+    this->mpNext = 0;
     this->field_7C_pPed = 0;
     this->field_80_sprite_ptr = 0;
     this->field_84 = 0;
 }
 
 STUB_FUNC(0x5453d0)
-void Char_B4::sub_5453D0()
+void Char_B4::PoolDeallocate()
 {
     NOT_IMPLEMENTED;
 }
@@ -486,27 +486,6 @@ EXPORT void Char_B4::nullsub_28()
 //{
 //    NOT_IMPLEMENTED;
 //}
-
-// This constructor doesn't exist.
-// It's inlined in Char_C::Char_C
-Char_11944::Char_11944()
-{
-    Char_B4* pIter = &field_4_array[0];
-    for (s32 i = 0; i < 399; i++)
-    {
-        pIter->field_78_next = pIter + 1;
-        pIter++;
-    }
-
-    field_4_array[399].field_78_next = NULL;
-    field_0_next = &field_4_array[0];
-}
-
-MATCH_FUNC(0x4710F0)
-Char_11944::~Char_11944()
-{
-    field_0_next = 0;
-}
 
 // This constructor doesn't exist.
 // It's inlined in Char_C::Char_C

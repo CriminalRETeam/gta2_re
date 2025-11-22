@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Function.hpp"
 #include "BitSet32.hpp"
-#include "Ped.hpp"
-#include "angle.hpp"
-#include "ang16.hpp"
+#include "Function.hpp"
 #include "Object_3C.hpp"
+#include "Ped.hpp"
+#include "Pool.hpp"
+#include "ang16.hpp"
+#include "angle.hpp"
 #include "sprite.hpp"
 
 class Sprite_3C;
@@ -75,7 +76,7 @@ class Char_B4
     angle field_74;
     s8 field_76;
     s8 field_77;
-    Char_B4* field_78_next;
+    Char_B4* mpNext;
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
     Car_BC* field_84;
@@ -122,7 +123,7 @@ class Char_B4
     Char_B4();
     ~Char_B4();
 
-    EXPORT void sub_5453D0();
+    EXPORT void PoolDeallocate();
     EXPORT void sub_5454B0();
     EXPORT void sub_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -172,24 +173,24 @@ class Char_B4
     EXPORT void nullsub_28();
 };
 
-class Char_11944
+class Char_B4_Pool
 {
   public:
-    Char_B4* field_0_next;
-    Char_B4 field_4_array[400];
-
-    Char_11944();
-    ~Char_11944();
-
-    // inline 0x4355C0
-    void sub_4355C0(Char_B4* pB4)
+    Char_B4_Pool()
     {
-        pB4->sub_5453D0();
-        pB4->field_78_next = field_0_next;
-        field_0_next = pB4;
     }
 
-    EXPORT void sub_5453D0();
+    ~Char_B4_Pool()
+    {
+    }
+
+    // inline 0x4355C0
+    void DeAllocate(Char_B4* pB4)
+    {
+        field_0_pool.DeAllocate(pB4);
+    }
+
+    PoolBasic<Char_B4, 400> field_0_pool;
 };
 
 class Char_8
@@ -267,7 +268,7 @@ EXTERN_GLOBAL(Char_C*, gChar_C_6787BC);
 
 EXTERN_GLOBAL(Char_203AC*, gChar_203AC_6787B8);
 
-EXTERN_GLOBAL(Char_11944*, gChar_11944_6FDB44);
+EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
 
 EXTERN_GLOBAL(Char_324*, gChar_324_678b50);
 
