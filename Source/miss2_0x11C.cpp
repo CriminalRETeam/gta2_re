@@ -5336,7 +5336,7 @@ s32 miss2_0x11C::launch_mission_5119A0(s32 a2, char_type* String1)
 MATCH_FUNC(0x511a00)
 miss2_0x11C::miss2_0x11C()
 {
-    field_0 = 0;
+    mpNext = 0;
     field_114 = new miss2_8();
     field_4_next_cmd = 0;
     field_6 = 0;
@@ -5365,12 +5365,11 @@ miss2_0x11C::~miss2_0x11C()
     {
         GTA2_DELETE_AND_NULL(field_114);
     }
-    field_0 = 0;
+    mpNext = 0;
 }
 
 STUB_FUNC(0x5131C0)
 miss2_0x11C_Pool::~miss2_0x11C_Pool()
 {
-    this->field_0 = 0;
-    this->field_4 = 0;
+
 }
