@@ -47,7 +47,7 @@ class Particle_4C
     Sprite* field_30;
     s32 field_34;
     s32 field_38;
-    Particle_4C* field_3C;
+    Particle_4C* mpNext;
     s32 field_40;
     char_type field_44;
     char_type field_45;
