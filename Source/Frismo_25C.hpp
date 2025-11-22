@@ -11,30 +11,30 @@ class Frismo_C
     s32 field_0;
     s16 field_4;
     s16 field_6;
-    Frismo_C* field_8_next;
+    Frismo_C* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_C, 0xC)
 
-class Frismo_25C
+class Frismo_C_Pool
 {
   public:
-    Frismo_25C()
+    Frismo_C_Pool()
     {
         Frismo_C* pIter = &field_4[0];
         for (s32 i = 0; i < 50 - 1; i++)
         {
-            pIter->field_8_next = pIter + 1;
+            pIter->mpNext = pIter + 1;
             pIter++;
         }
 
-        field_4[49].field_8_next = 0;
+        field_4[49].mpNext = 0;
         field_0 = field_4;
     }
 
-    EXPORT ~Frismo_25C();
+    EXPORT ~Frismo_C_Pool();
     Frismo_C* field_0;
     Frismo_C field_4[50];
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_25C, 0x25C)
+GTA2_ASSERT_SIZEOF_ALWAYS(Frismo_C_Pool, 0x25C)
 
-EXTERN_GLOBAL(Frismo_25C*, gFrismo_25C_6F8068);
+EXTERN_GLOBAL(Frismo_C_Pool*, gFrismo_C_Pool_6F8068);

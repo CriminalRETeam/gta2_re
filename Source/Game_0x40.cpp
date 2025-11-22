@@ -954,8 +954,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
 
-    gFrismo_25C_6F8068 = new Frismo_25C(); // multi level inlines
-    if (!gFrismo_25C_6F8068)
+    gFrismo_C_Pool_6F8068 = new Frismo_C_Pool(); // multi level inlines
+    if (!gFrismo_C_Pool_6F8068)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
@@ -1229,7 +1229,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gCar_6C_677930);
     GTA2_DELETE_AND_NULL(gCar_214_705F20);
     GTA2_DELETE_AND_NULL(gfrosty_pasteur_6F8060);
-    GTA2_DELETE_AND_NULL(gFrismo_25C_6F8068);
+    GTA2_DELETE_AND_NULL(gFrismo_C_Pool_6F8068);
 
     GTA2_DELETE_AND_NULL(gPhi_8CA8_6FCF00);
     GTA2_DELETE_AND_NULL(gObject_5C_6F8F84);
