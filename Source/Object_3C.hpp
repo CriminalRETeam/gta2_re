@@ -71,7 +71,7 @@ class Object_3C
     struct_4 field_0;
     Ang16 field_4;
     s16 field_6;
-    Object_3C* field_8;
+    Object_3C* mpNext;
     Fix16 field_C;
     Fix16 field_10;
     s32 field_14;

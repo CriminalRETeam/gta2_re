@@ -16,7 +16,7 @@ MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
     this->field_4 = 0;
-    this->field_8 = 0;
+    this->mpNext = 0;
     this->field_1C = dword_6F8BF0;
     this->field_18 = dword_6F8BF0;
     this->field_10 = dword_6F8BF0;
@@ -35,7 +35,7 @@ Object_3C::Object_3C()
 MATCH_FUNC(0x52ade0)
 Object_3C::~Object_3C()
 {
-    field_8 = 0;
+    mpNext = 0;
 }
 
 STUB_FUNC(0x52adf0)

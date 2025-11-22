@@ -6,7 +6,7 @@
 #include "Game_0x40.hpp"
 #include "Object_226C.hpp"
 #include "Object_29178.hpp"
-#include "Object_5A40.hpp"
+#include "Object_3C_Pool.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
@@ -640,9 +640,9 @@ Object_5C::~Object_5C()
         GTA2_DELETE_AND_NULL(gObject_226C_6F8F78);
     }
 
-    if (gObject_5A40_6F8F7C)
+    if (gObject_3C_Pool_6F8F7C)
     {
-        GTA2_DELETE_AND_NULL(gObject_5A40_6F8F7C);
+        GTA2_DELETE_AND_NULL(gObject_3C_Pool_6F8F7C);
     }
 
     this->field_0 = 0;
@@ -825,8 +825,8 @@ void Object_2C::sub_52A650()
 {
     if (!field_10)
     {
-        Object_3C* p3C = gObject_5A40_6F8F7C->field_0;
-        gObject_5A40_6F8F7C->field_0 = gObject_5A40_6F8F7C->field_0->field_8;
+        Object_3C* p3C = gObject_3C_Pool_6F8F7C->field_0;
+        gObject_3C_Pool_6F8F7C->field_0 = gObject_3C_Pool_6F8F7C->field_0->mpNext;
         ++dword_6F8E54;
         p3C->field_C = 0;
 
