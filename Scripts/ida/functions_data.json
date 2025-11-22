@@ -4975,7 +4975,7 @@
         "v105_address": "0x498da0"
     },
     {
-        "name": "Door_10::sub_49C320",
+        "name": "Door_10::PoolAllocate",
         "v96f_address": "0x44c540",
         "v105_address": "0x49c320"
     },

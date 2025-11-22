@@ -13,7 +13,7 @@ class Car_BC;
 class Door_10
 {
   public:
-    EXPORT void sub_49C320();
+    EXPORT void PoolAllocate();
     EXPORT void sub_49c340(u8 a1, u8 a2, u8 a3, u8 a4, u32 a5, u8 a6);
     EXPORT void sub_49C4E0(u8 a1);
     EXPORT void sub_49C590(u8 a1);
@@ -25,7 +25,7 @@ class Door_10
     u8 field_6_z;
     u8 field_7_gr_id;
     s32 field_8_face;
-    Door_10* field_C;
+    Door_10* mpNext;
 };
 
 class Door_2C4
@@ -35,8 +35,8 @@ class Door_2C4
     Door_10* get_new_door_10()
     {
         Door_10* tmp = field_0;
-        field_0 = tmp->field_C;
-        tmp->sub_49C320();
+        field_0 = tmp->mpNext;
+        tmp->PoolAllocate();
 
         return tmp;
     }
@@ -47,11 +47,11 @@ class Door_2C4
         Door_10* pIter = field_4;
         for (s32 i = 0; i < GTA2_COUNTOF(field_4)-1; i++)
         {
-            pIter->field_C = pIter + 1;
+            pIter->mpNext = pIter + 1;
             pIter++;
         }
         field_0 = field_4;
-        field_4[44-1].field_C = 0;
+        field_4[44-1].mpNext = 0;
     }
 
     // 0x44C7F0

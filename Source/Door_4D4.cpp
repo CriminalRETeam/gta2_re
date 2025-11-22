@@ -187,7 +187,7 @@ Door_4D4::~Door_4D4()
 }
 
 MATCH_FUNC(0x49c320)
-void Door_10::sub_49C320()
+void Door_10::PoolAllocate()
 {
     field_0 = 0;
 }
