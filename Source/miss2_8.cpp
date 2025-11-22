@@ -16,13 +16,12 @@ MATCH_FUNC(0x503130)
 miss2_8::~miss2_8() // 503130
 {
     Frismo_C_Pool* pGlobal;
-
     for (Frismo_C* pOld = field_0_current; field_0_current; pOld = field_0_current)
     {
         field_0_current = pOld->mpNext;
         pGlobal = gFrismo_C_Pool_6F8068;
-        pOld->mpNext = pGlobal->field_0;
-        pGlobal->field_0 = pOld;
+        pOld->mpNext = pGlobal->field_0_pool.field_0_pHead;
+        pGlobal->field_0_pool.field_0_pHead = pOld;
         field_4_count--;
     }
 }
@@ -52,18 +51,19 @@ Frismo_C* miss2_8::remove_503180()
 MATCH_FUNC(0x5031A0)
 Frismo_C* miss2_8::sub_5031A0()
 {
-    Frismo_C* v1 = gFrismo_C_Pool_6F8068->field_0;
-    gFrismo_C_Pool_6F8068->field_0 = gFrismo_C_Pool_6F8068->field_0->mpNext;
-    v1->sub_503110();
+    Frismo_C* v1 = gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead;
+    gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead = gFrismo_C_Pool_6F8068->field_0_pool.field_0_pHead->mpNext;
+    v1->PoolAllocate();
     return v1;
+
+    // TOOD: Pools - this should match but doesn't ??
+//    return gFrismo_C_Pool_6F8068->field_0_pool.Allocate();
 }
 
 MATCH_FUNC(0x5031C0)
 void miss2_8::sub_5031C0(Frismo_C* a2)
 {
-    Frismo_C_Pool* pFrismo = gFrismo_C_Pool_6F8068;
-    a2->mpNext = gFrismo_C_Pool_6F8068->field_0;
-    pFrismo->field_0 = a2;
+    gFrismo_C_Pool_6F8068->field_0_pool.DeAllocate(a2);
 }
 
 MATCH_FUNC(0x5031E0)

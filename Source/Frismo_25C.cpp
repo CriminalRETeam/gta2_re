@@ -15,7 +15,7 @@ Frismo_C::~Frismo_C()
 }
 
 MATCH_FUNC(0x503110)
-void Frismo_C::sub_503110()
+void Frismo_C::PoolAllocate()
 {
     field_0 = 0;
     field_4 = 0;
@@ -25,5 +25,5 @@ void Frismo_C::sub_503110()
 MATCH_FUNC(0x4bc300)
 Frismo_C_Pool::~Frismo_C_Pool()
 {
-    field_0 = 0;
+
 }
