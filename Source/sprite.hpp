@@ -18,7 +18,13 @@ class Ped;
 class Sprite_4C
 {
   public:
-    EXPORT s32 sub_5A57A0();
+    EXPORT s32 PoolAllocate();
+    
+    void PoolDeallocate()
+    {
+
+    }
+
     EXPORT void SetCurrentRect_5A4D90();
     EXPORT void sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
@@ -28,7 +34,7 @@ class Sprite_4C
     Fix16 field_4_height;
     Fix16 field_8;
     Fix16_Point field_C_b_box[4];
-    Sprite_4C* field_2C_pNext;
+    Sprite_4C* mpNext;
     Fix16_Rect field_30;
     char_type field_48;
     char_type field_49;
@@ -323,42 +329,30 @@ class Sprite_18_Pool
     PoolBasic<Sprite_18, 300> field_0_pool;
 };
 
-class Sprite_5D598
+class Sprite_4C_Pool
 {
   public:
     // Inlined, from 9.6f at 0x4bc9a0
-    EXPORT Sprite_5D598()
+    Sprite_4C_Pool()
     {
-        Sprite_4C* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4) - 1; i++)
-        {
-            pIter->field_2C_pNext = pIter + 1;
-            pIter++;
-        }
 
-        field_4[0x13a6].field_2C_pNext = NULL;
-        field_0_pFree = field_4;
     }
-    EXPORT ~Sprite_5D598();
+    
+    ~Sprite_4C_Pool();
 
     // TODO: Get 9.6f inline addr
     void Remove(Sprite_4C* pToRemove)
     {
-        pToRemove->field_2C_pNext = field_0_pFree;
-        field_0_pFree = pToRemove;
+        field_0_pool.DeAllocate(pToRemove);
     }
 
     // TODO: Get 9.6f inline addr
     Sprite_4C* Allocate()
     {
-        Sprite_4C* pSprite4C = field_0_pFree;
-        field_0_pFree = field_0_pFree->field_2C_pNext;
-        pSprite4C->sub_5A57A0();
-        return pSprite4C;
+        return field_0_pool.Allocate();
     }
 
-    Sprite_4C* field_0_pFree;
-    Sprite_4C field_4[5031];
+    PoolBasic<Sprite_4C, 5031> field_0_pool;
 };
 
 class Sprite_49B28
@@ -405,7 +399,7 @@ EXTERN_GLOBAL(Sprite_8*, gSprite_8_703820);
 
 EXTERN_GLOBAL(Sprite_49B28*, gSprite_49B28_703818);
 
-EXTERN_GLOBAL(Sprite_5D598*, gSprite_5D598_70381C);
+EXTERN_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C);
 
 EXTERN_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C);
 
