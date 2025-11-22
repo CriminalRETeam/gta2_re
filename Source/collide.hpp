@@ -25,10 +25,10 @@ class Collide_C
     s32 field_8_bUnknown;
 };
 
-class Collide_8004
+class Collide_8_Pool
 {
   public:
-    Collide_8004()
+    Collide_8_Pool()
     {
         Collide_8* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 4096 - 1; i++)
@@ -42,7 +42,7 @@ class Collide_8004
     }
 
     // 0x4468A0
-    ~Collide_8004()
+    ~Collide_8_Pool()
     {
         field_0_pHead = 0;
     }
@@ -64,10 +64,10 @@ class Collide_8004
     Collide_8 field_4_pool[4096];
 };
 
-class Collide_11944
+class PurpleDoom_C_Pool
 {
   public:
-    Collide_11944()
+    PurpleDoom_C_Pool()
     {
         PurpleDoom_C* pOff = &field_4_pool[0];
         for (s32 i = 0; i < 6000 - 1; i++)
@@ -81,7 +81,7 @@ class Collide_11944
     }
 
     // 0x4468B0
-    ~Collide_11944()
+    ~PurpleDoom_C_Pool()
     {
         field_0_pHead = 0;
     }
