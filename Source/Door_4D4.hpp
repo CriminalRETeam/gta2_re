@@ -45,13 +45,13 @@ class Door_2C4
     Door_2C4()
     {
         Door_10* pIter = field_4;
-        for (s32 i = 0; i < GTA2_COUNTOF(field_4); i++)
+        for (s32 i = 0; i < GTA2_COUNTOF(field_4)-1; i++)
         {
             pIter->field_C = pIter + 1;
             pIter++;
         }
         field_0 = field_4;
-        field_2C0 = 0;
+        field_4[44-1].field_C = 0;
     }
 
     // 0x44C7F0
@@ -61,11 +61,7 @@ class Door_2C4
     }
 
     Door_10* field_0;
-    Door_10 field_4[43];
-    s32 field_2B4;
-    s32 field_2B8;
-    s32 field_2BC;
-    s32 field_2C0;
+    Door_10 field_4[44];
 };
 
 class Door_4D4
