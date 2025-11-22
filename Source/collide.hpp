@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "PurpleDoom.hpp"
 #include "fix16.hpp"
+#include "Pool.hpp"
 
 class Sprite;
 
@@ -59,13 +60,6 @@ class Collide_8004
         return pNewCollide;
     }
 
-    Collide_8* Allocate2()
-    {
-        Collide_8* v8 = this->field_0;
-        this->field_0 = this->field_0->field_4_pNext;
-        return v8;
-    }
-    
     Collide_8* field_0;
     Collide_8 field_4[4095];
     s32 field_7FFC;
@@ -85,38 +79,37 @@ class Collide_11944
         }
 
         field_11940 = 0;
-        field_0 = field_4;
+        field_0_pHead = field_4;
     }
 
     // 0x4468B0
     ~Collide_11944()
     {
-        field_0 = 0;
+        field_0_pHead = 0;
     }
 
     void Remove(PurpleDoom_C* pToRemove)
     {
-        pToRemove->field_8_pNext = this->field_0;
-        this->field_0 = pToRemove;
+        pToRemove->field_8_pNext = this->field_0_pHead;
+        this->field_0_pHead = pToRemove;
     }
 
-    // TODO: bad name, and maybe not the correct code for the inline, perhaps its Remove() mixed with something else
-    PurpleDoom_C* Allocate(PurpleDoom_C* pXItemIter)
+    PurpleDoom_C* UnlinkAndReturnNext(PurpleDoom_C* pOldItem)
     {
-        PurpleDoom_C* field_8_pNext = pXItemIter->field_8_pNext;
-        pXItemIter->field_8_pNext = this->field_0;
-        this->field_0 = pXItemIter;
-        return field_8_pNext;
-    }
-
-    PurpleDoom_C* Allocate2()
-    {
-        PurpleDoom_C* pNewItem = this->field_0;
-        this->field_0 = this->field_0->field_8_pNext;
+        PurpleDoom_C* pNewItem = pOldItem->field_8_pNext;
+        pOldItem->field_8_pNext = this->field_0_pHead;
+        this->field_0_pHead = pOldItem;
         return pNewItem;
     }
 
-    PurpleDoom_C* field_0;
+    PurpleDoom_C* Allocate()
+    {
+        PurpleDoom_C* pNewItem = this->field_0_pHead;
+        this->field_0_pHead = this->field_0_pHead->field_8_pNext;
+        return pNewItem;
+    }
+
+    PurpleDoom_C* field_0_pHead;
     PurpleDoom_C field_4[5999];
     s32 field_11938;
     s32 field_1193C;
