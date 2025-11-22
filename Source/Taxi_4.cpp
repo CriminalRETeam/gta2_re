@@ -3,14 +3,14 @@
 #include "error.hpp"
 #include "Car_BC.hpp"
 
-DEFINE_GLOBAL(Taxi_324*, gTaxi_324_6783F8, 0x6783F8);
+DEFINE_GLOBAL(T_Taxi_4_Pool*, gTaxi_4_Pool_6783F8, 0x6783F8);
 
 MATCH_FUNC(0x457ba0)
 void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)
 {
-    Taxi_8* pFirst = gTaxi_324_6783F8->Alloc();
+    Taxi_8* pFirst = gTaxi_4_Pool_6783F8->Allocate();
     pFirst->field_0 = pCar;
-    pFirst->field_4_pNext = this->field_0;
+    pFirst->mpNext = this->field_0;
     this->field_0 = pFirst;
 }
 
@@ -21,8 +21,8 @@ void Taxi_4::PopAll_457BC0()
     while (pIter)
     {
         Taxi_8* pOldIter = pIter;
-        pIter = pIter->field_4_pNext;
-        gTaxi_324_6783F8->DeAlloc(pOldIter);
+        pIter = pIter->mpNext;
+        gTaxi_4_Pool_6783F8->DeAllocate(pOldIter);
     }
     this->field_0 = 0;
 }
@@ -36,7 +36,7 @@ Car_BC* Taxi_4::GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos)
     Car_BC* pCarRet = 0;
     Fix16 smallest(99999);
 
-    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->field_4_pNext)
+    for (Taxi_8* pIter = field_0; pIter; pIter = pIter->mpNext)
     {
         Sprite* pCarSprite = pIter->field_0->field_50_car_sprite;
 
@@ -81,10 +81,10 @@ Taxi_4::Taxi_4()
 {
     sub_4C09B0();
 
-    if (!gTaxi_324_6783F8)
+    if (!gTaxi_4_Pool_6783F8)
     {
-        gTaxi_324_6783F8 = new Taxi_324();
-        if (!gTaxi_324_6783F8)
+        gTaxi_4_Pool_6783F8 = new T_Taxi_4_Pool();
+        if (!gTaxi_4_Pool_6783F8)
         {
             FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
         }
@@ -94,8 +94,8 @@ Taxi_4::Taxi_4()
 MATCH_FUNC(0x5ae0d0)
 Taxi_4::~Taxi_4()
 {
-    if (gTaxi_324_6783F8)
+    if (gTaxi_4_Pool_6783F8)
     {
-        GTA2_DELETE_AND_NULL(gTaxi_324_6783F8);
+        GTA2_DELETE_AND_NULL(gTaxi_4_Pool_6783F8);
     }
 }

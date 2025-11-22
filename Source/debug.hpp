@@ -38,7 +38,7 @@ EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7);
 EXTERN_GLOBAL(bool, bDo_test_67D4F8);
 EXTERN_GLOBAL(bool, bSkip_police_67D4F9);
 EXTERN_GLOBAL(bool, bDo_show_traffic_lights_info_67D4FA);
-EXTERN_GLOBAL(bool, bExplodingOff_67D4FB);
+EXTERN_GLOBAL(bool, bExplodingScoresOff_67D4FB);
 EXTERN_GLOBAL(bool, bShow_brief_number_67D504);
 EXTERN_GLOBAL(bool, bSkip_slopes_67D505);
 EXTERN_GLOBAL(bool, bSkip_user_67D506);

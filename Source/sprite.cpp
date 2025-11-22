@@ -14,10 +14,10 @@
 #include "root_sound.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
-DEFINE_GLOBAL(Sprite_5D598*, gSprite_5D598_70381C, 0x70381C);
-DEFINE_GLOBAL(Sprite_49B28*, gSprite_49B28_703818, 0x703818);
+DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
+DEFINE_GLOBAL(Sprite_Pool*, gSprite_Pool_703818, 0x703818);
 DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
-DEFINE_GLOBAL(Sprite_1C24*, gSprite_1C24_703B80, 0x703B80);
+DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL(Sprite*, gSprite_6791A8, 0x6791A8);
@@ -364,7 +364,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     if (field_C_sprite_4c_ptr == NULL)
     {
-        field_C_sprite_4c_ptr = gSprite_5D598_70381C->Allocate();
+        field_C_sprite_4c_ptr = gSprite_4C_Pool_70381C->Allocate();
     }
 
     Sprite_4C* pSprite4C = field_C_sprite_4c_ptr;
@@ -379,7 +379,7 @@ void Sprite::sub_59F990()
     NOT_IMPLEMENTED;
     if (this->field_4_0x4C_len == NULL)
     {
-        this->field_4_0x4C_len = gSprite_5D598_70381C->Allocate();
+        this->field_4_0x4C_len = gSprite_4C_Pool_70381C->Allocate();
 
         const u16 sprite_pal = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(field_30_sprite_type_enum, field_22_sprite_id);
         const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_pal);
@@ -425,13 +425,13 @@ void Sprite::sub_59FAD0()
 {
     if (field_C_sprite_4c_ptr)
     {
-        gSprite_5D598_70381C->Remove(field_C_sprite_4c_ptr);
+        gSprite_4C_Pool_70381C->Remove(field_C_sprite_4c_ptr);
         field_C_sprite_4c_ptr = 0;
     }
 
     if (field_4_0x4C_len)
     {
-        gSprite_5D598_70381C->Remove(field_4_0x4C_len);
+        gSprite_4C_Pool_70381C->Remove(field_4_0x4C_len);
         field_4_0x4C_len = 0;
     }
 }
@@ -674,7 +674,7 @@ void Sprite::sub_5A2A30()
 }
 
 MATCH_FUNC(0x5a2cf0)
-void Sprite::Init_5A2CF0()
+void Sprite::PoolAllocate()
 {
     this->field_2C = 0;
     this->field_28_num = 0;
@@ -701,7 +701,7 @@ void Sprite::Init_5A2CF0()
 }
 
 MATCH_FUNC(0x5a3030)
-void Sprite::sub_5A3030()
+void Sprite::PoolDeallocate()
 {
     sub_59FAD0();
     this->field_20_id = 0;
@@ -914,21 +914,21 @@ void Sprite_8::sub_5A5860()
 MATCH_FUNC(0x5a5870)
 void Sprite_8::sub_5A5870()
 {
-    gSprite_703814 = gSprite_49B28_703818->get_new_sprite();
+    gSprite_703814 = gSprite_Pool_703818->get_new_sprite();
     gSprite_703814->AllocInternal_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
 Sprite_8::Sprite_8()
 {
-    gSprite_49B28_703818 = new Sprite_49B28();
-    if (gSprite_49B28_703818 == NULL)
+    gSprite_Pool_703818 = new Sprite_Pool();
+    if (gSprite_Pool_703818 == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5039);
     }
 
-    gSprite_5D598_70381C = new Sprite_5D598();
-    if (gSprite_5D598_70381C == NULL)
+    gSprite_4C_Pool_70381C = new Sprite_4C_Pool();
+    if (gSprite_4C_Pool_70381C == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5041);
     }
@@ -939,8 +939,8 @@ Sprite_8::Sprite_8()
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5043);
     }
 
-    gSprite_1C24_703B80 = new Sprite_1C24();
-    if (gSprite_1C24_703B80 == NULL)
+    gSprite_18_Pool_703B80 = new Sprite_18_Pool();
+    if (gSprite_18_Pool_703B80 == NULL)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\sprite.cpp", 5046);
     }
@@ -952,10 +952,10 @@ Sprite_8::Sprite_8()
 MATCH_FUNC(0x5a5b50)
 Sprite_8::~Sprite_8()
 {
-    GTA2_DELETE_AND_NULL(gSprite_49B28_703818);
-    GTA2_DELETE_AND_NULL(gSprite_5D598_70381C);
+    GTA2_DELETE_AND_NULL(gSprite_Pool_703818);
+    GTA2_DELETE_AND_NULL(gSprite_4C_Pool_70381C);
     GTA2_DELETE_AND_NULL(gSprite_3CC_67AF1C);
-    GTA2_DELETE_AND_NULL(gSprite_1C24_703B80);
+    GTA2_DELETE_AND_NULL(gSprite_18_Pool_703B80);
     gSprite_703814 = 0;
 }
 
@@ -971,15 +971,15 @@ Sprite_18::Sprite_18()
 }
 
 MATCH_FUNC(0x5a5c20)
-Sprite_1C24::~Sprite_1C24()
+Sprite_18_Pool::~Sprite_18_Pool()
 {
-    field_0 = 0;
+
 }
 
 MATCH_FUNC(0x5a57a0)
-s32 Sprite_4C::sub_5A57A0()
+s32 Sprite_4C::PoolAllocate()
 {
-    field_2C_pNext = NULL;
+    mpNext = NULL;
     field_48 = 0;
     return 0;
 }
@@ -987,7 +987,7 @@ s32 Sprite_4C::sub_5A57A0()
 MATCH_FUNC(0x5a57b0)
 Sprite_4C::Sprite_4C()
 {
-    sub_5A57A0();
+    PoolAllocate();
 }
 
 MATCH_FUNC(0x5a5840)
@@ -996,15 +996,15 @@ Sprite_4C::~Sprite_4C()
 }
 
 MATCH_FUNC(0x5a5be0)
-Sprite_5D598::~Sprite_5D598()
+Sprite_4C_Pool::~Sprite_4C_Pool()
 {
-    field_0_pFree = 0;
+
 }
 
 MATCH_FUNC(0x5A5C00)
-Sprite_49B28::~Sprite_49B28()
+Sprite_Pool::~Sprite_Pool()
 {
-    field_0_first_free = 0;
+
 }
 
 MATCH_FUNC(0x5A6ca0)
@@ -1012,7 +1012,7 @@ Sprite* Sprite_18::sub_5A6CA0(s32 a2)
 {
     if (field_0 != NULL)
     {
-        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->field_4_next)
+        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0->field_30_sprite_type_enum == a2)
             {

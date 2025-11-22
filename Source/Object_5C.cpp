@@ -4,9 +4,9 @@
 #include "Car_BC.hpp"
 #include "enums.hpp"
 #include "Game_0x40.hpp"
-#include "Object_226C.hpp"
-#include "Object_29178.hpp"
-#include "Object_5A40.hpp"
+#include "Object_8_Pool.hpp"
+#include "Object_2C_Pool.hpp"
+#include "Object_3C_Pool.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
@@ -39,7 +39,7 @@ DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
-    field_0 = 0;
+    mpNext = 0;
     field_4 = 0;
     field_18_model = 0;
     field_8 = 0;
@@ -87,9 +87,9 @@ void Object_2C::sub_522340()
 {
     if (field_20 == 2)
     {
-        Object_29178* pRoot = gObject_29178_6F8F80;
-        field_0 = pRoot->field_4;
-        pRoot->field_4 = this;
+        Object_2C_Pool* pRoot = gObject_2C_Pool_6F8F80;
+        mpNext = pRoot->field_0_pool.field_4_pPrev;
+        pRoot->field_0_pool.field_4_pPrev = this;
         field_20 = 1;
     }
 }
@@ -555,7 +555,7 @@ bool Object_2C::sub_529200()
 MATCH_FUNC(0x52ae60)
 Object_2C::~Object_2C()
 {
-    this->field_0 = 0;
+    this->mpNext = 0;
     this->field_4 = 0;
     this->field_8 = 0;
     this->field_10 = 0;
@@ -626,23 +626,23 @@ Object_5C::~Object_5C()
 {
     if (field_58)
     {
-        gSprite_49B28_703818->remove(field_58);
+        gSprite_Pool_703818->remove(field_58);
         field_58 = 0;
     }
 
-    if (gObject_29178_6F8F80)
+    if (gObject_2C_Pool_6F8F80)
     {
-        GTA2_DELETE_AND_NULL(gObject_29178_6F8F80);
+        GTA2_DELETE_AND_NULL(gObject_2C_Pool_6F8F80);
     }
 
-    if (gObject_226C_6F8F78)
+    if (gObject_8_Pool_6F8F78)
     {
-        GTA2_DELETE_AND_NULL(gObject_226C_6F8F78);
+        GTA2_DELETE_AND_NULL(gObject_8_Pool_6F8F78);
     }
 
-    if (gObject_5A40_6F8F7C)
+    if (gObject_3C_Pool_6F8F7C)
     {
-        GTA2_DELETE_AND_NULL(gObject_5A40_6F8F7C);
+        GTA2_DELETE_AND_NULL(gObject_3C_Pool_6F8F7C);
     }
 
     this->field_0 = 0;
@@ -817,7 +817,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     {
         gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
     }
-    gObject_29178_6F8F80->Remove(p2C);
+    gObject_2C_Pool_6F8F80->Remove(p2C);
 }
 
 MATCH_FUNC(0x52A650)
@@ -825,8 +825,15 @@ void Object_2C::sub_52A650()
 {
     if (!field_10)
     {
-        Object_3C* p3C = gObject_5A40_6F8F7C->field_0;
-        gObject_5A40_6F8F7C->field_0 = gObject_5A40_6F8F7C->field_0->field_8;
+        Object_3C* p3C =  gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead;
+        gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead->mpNext;
+
+        
+        // TODO: This should match
+        //gObject_3C_Pool_6F8F7C->field_0_pool.Allocate(); 
+
+        // TODO: some of this is probably part of PoolAllocate for Object_3C
+
         ++dword_6F8E54;
         p3C->field_C = 0;
 

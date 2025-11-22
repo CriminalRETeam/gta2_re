@@ -7,9 +7,9 @@
 #include "sprite.hpp"
 
 DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
-DEFINE_GLOBAL(Char_203AC*, gChar_203AC_6787B8, 0x6787B8);
-DEFINE_GLOBAL(Char_11944*, gChar_11944_6FDB44, 0x6FDB44);
-DEFINE_GLOBAL(Char_324*, gChar_324_678b50, 0x678b50);
+DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
+DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
+DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
@@ -42,14 +42,14 @@ Char_B4::~Char_B4()
 {
     this->field_18 = 0;
     this->field_1C = 0;
-    this->field_78_next = 0;
+    this->mpNext = 0;
     this->field_7C_pPed = 0;
     this->field_80_sprite_ptr = 0;
     this->field_84 = 0;
 }
 
 STUB_FUNC(0x5453d0)
-void Char_B4::sub_5453D0()
+void Char_B4::PoolDeallocate()
 {
     NOT_IMPLEMENTED;
 }
@@ -487,43 +487,6 @@ EXPORT void Char_B4::nullsub_28()
 //    NOT_IMPLEMENTED;
 //}
 
-// This constructor doesn't exist.
-// It's inlined in Char_C::Char_C
-Char_11944::Char_11944()
-{
-    Char_B4* pIter = &field_4_array[0];
-    for (s32 i = 0; i < 399; i++)
-    {
-        pIter->field_78_next = pIter + 1;
-        pIter++;
-    }
-
-    field_4_array[399].field_78_next = NULL;
-    field_0_next = &field_4_array[0];
-}
-
-MATCH_FUNC(0x4710F0)
-Char_11944::~Char_11944()
-{
-    field_0_next = 0;
-}
-
-// This constructor doesn't exist.
-// It's inlined in Char_C::Char_C
-Char_324::Char_324()
-{
-    Char_8* pIter = &field_4_array[0];
-    for (s32 i = 0; i < 99; i++)
-    {
-        pIter->field_4_pOwner = pIter + 1;
-        pIter++;
-    }
-
-    field_4_array[99].field_4_pOwner = NULL;
-    field_0_next = &field_4_array[0];
-    field_320_in_use = 0;
-}
-
 STUB_FUNC(0x46eb60)
 void Char_C::sub_46EB60(u32* a2)
 {
@@ -551,15 +514,7 @@ Char_C::~Char_C()
 MATCH_FUNC(0x470a50)
 Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
-    Char_203AC* v6 = gChar_203AC_6787B8;
-    Ped* pPed = gChar_203AC_6787B8->field_0_pFirst;
-    v6->field_0_pFirst = pPed->field_160_next_ped;
-
-    pPed->field_160_next_ped = v6->field_4_pNext;
-
-    v6->field_4_pNext = pPed;
-
-    pPed->sub_45B440();
+    Ped* pPed = gPedPool_6787B8->Allocate();
 
     if (!pPed->sub_45C830(xpos, ypos, zpos))
     {
@@ -627,10 +582,10 @@ Ped* Char_C::sub_470F30()
 MATCH_FUNC(0x470f90)
 Ped* Char_C::sub_470F90(Ped* pSrc)
 {
-    Ped* pDst = gChar_203AC_6787B8->sub_403890();
-    Ped* pNext = pDst->field_160_next_ped;
+    Ped* pDst = gPedPool_6787B8->Allocate();
+    Ped* pNext = pDst->mpNext;
     memcpy(pDst, pSrc, sizeof(Ped));
-    pDst->field_160_next_ped = pNext;
+    pDst->mpNext = pNext;
 
     if (pSrc->field_168_game_object)
     {
@@ -658,7 +613,7 @@ void Char_C::DoIanTest_471060(s16 a1)
 MATCH_FUNC(0x4710c0)
 Ped* Char_C::PedById(s32 pedId)
 {
-    for (Ped* pPedIter = gChar_203AC_6787B8->field_4_pNext; pPedIter; pPedIter = pPedIter->field_160_next_ped)
+    for (Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev; pPedIter; pPedIter = pPedIter->mpNext)
     {
         if (pPedIter->field_200_id == pedId)
         {
@@ -669,8 +624,7 @@ Ped* Char_C::PedById(s32 pedId)
 }
 
 MATCH_FUNC(0x471110)
-Char_203AC::~Char_203AC()
+PedPool::~PedPool()
 {
-    field_0_pFirst = 0;
-    field_4_pNext = 0;
+
 }

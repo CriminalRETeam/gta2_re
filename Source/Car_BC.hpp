@@ -10,6 +10,7 @@
 #include "sprite.hpp"
 #include "miss2_xyz.hpp"
 #include "Object_3C.hpp"
+#include "Pool.hpp"
 #include <wchar.h>
 
 struct gmp_zone_info;
@@ -19,15 +20,12 @@ class Fix16_Rect;
 class Car_78;
 class CarPhysics_B0;
 class Trailer;
-//class Sprite;
 class Ped;
 class Char_8;
 class Hamburger_40;
 class Ped_Unknown_4;
 class car_info;
 class infallible_turing;
-//class Sprite_4C;
-//class Sprite_18;
 
 // TODO: Move
 class Car_78
@@ -64,8 +62,13 @@ class Car_78
     EXPORT s16 sub_453BB0();
     EXPORT void sub_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
-    EXPORT s32 sub_453D80();
+    EXPORT s32 PoolAllocate();
     EXPORT Car_78();
+
+    void PoolDeallocate()
+    {
+        field_0 = 0;
+    }
 
     Car_BC* field_0;
     s32 field_4;
@@ -73,7 +76,7 @@ class Car_78
     char_type field_9;
     char_type field_A;
     char_type field_B;
-    Car_78* field_C;
+    Car_78* mpNext;
     s16 field_10;
     s16 field_12;
     s32 field_14;
@@ -114,38 +117,32 @@ class Car_78
     s32 field_74;
 };
 
-class Car_8F74
+class Car_78_Pool
 {
   public:
     //Inlined in Car_6C constructor 9.6f -> 0x420eb0
-    EXPORT Car_8F74()
+    Car_78_Pool()
     {
-        Car_78* pIter = &field_4[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_C = pIter + 1;
-            pIter++;
-        }
 
-        field_4[305].field_C = NULL;
-        field_0 = field_4;
     }
 
-    ~Car_8F74()
+    ~Car_78_Pool()
     {
-        field_0 = 0;
+
+    }
+
+    Car_78* Allocate()
+    {
+        return field_0_pool.Allocate();
     }
 
     // TODO: get 9.6f inline addr
-    void Remove(Car_78* p78)
+    void DeAllocate(Car_78* p78)
     {
-        p78->field_0 = 0;
-        p78->field_C = field_0;
-        field_0 = p78;
+        field_0_pool.DeAllocate(p78);
     }
 
-    Car_78* field_0;
-    Car_78 field_4[306];
+    PoolBasic<Car_78, 306> field_0_pool;
 };
 
 class Car_18
@@ -296,7 +293,7 @@ class Trailer
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
     Trailer()
     {
-        field_4 = NULL;
+        mpNext = NULL;
         field_8_truck_cab = NULL;
         field_C_trailer_carObj = NULL;
         field_0 = NULL;
@@ -307,7 +304,7 @@ class Trailer
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Trailer* field_4;
+    Trailer* mpNext;
     Car_BC* field_8_truck_cab;
     Car_BC* field_C_trailer_carObj;
 };
@@ -492,7 +489,7 @@ class Car_BC
     EXPORT void sub_4441B0();
     EXPORT void sub_444490();
     EXPORT void sub_4446E0();
-    EXPORT void sub_4447D0();
+    EXPORT void PoolDeallocate();
 
     Car_BC(); // 0x444860
     ~Car_BC(); // 0x444960
@@ -671,7 +668,7 @@ class Car_BC
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
-    Car_BC* field_4C_next;
+    Car_BC* mpNext;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
     CarPhysics_B0* field_58_physics;
@@ -722,68 +719,43 @@ class Car_BC
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
 
-struct Car_E0C4
+struct Car_BC_Pool
 {
     //Inlined in Car_6C constructor 9.6f -> 0x426db0
-    EXPORT Car_E0C4()
+    Car_BC_Pool()
     {
-        Car_BC* pIter = &field_8_cars[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_4C_next = pIter + 1;
-            pIter++;
-        }
 
-        field_0 = field_8_cars;
-        field_8_cars[0x131].field_4C_next = NULL;
-        field_4_firstCar = NULL;
-        field_E0C0_cars_count = 0;
     }
 
-    ~Car_E0C4()
+    ~Car_BC_Pool()
     {
-        field_0 = NULL;
-        field_4_firstCar = NULL;
+
     }
 
     // TODO: 9.6f addr/check
     void Remove(Car_BC* pCar)
     {
-        pCar->sub_4447D0();
-        pCar->field_4C_next = field_0;
-        field_0 = pCar;
+        field_0_pool.DeAllocate(pCar);
     }
 
-    Car_BC* field_0;
-    Car_BC* field_4_firstCar;
-    Car_BC field_8_cars[306];
-    s16 field_E0C0_cars_count;
-    s16 field_E0C2;
+    Pool<Car_BC, 306> field_0_pool;
 };
 
-class Car_A4
+class TrailerPool
 {
   public:
     //Inlined in Car_6C constructor 9.6f -> 0x425500
-    EXPORT Car_A4()
+    TrailerPool()
     {
-        Trailer* it = field_4;
-        for (u32 i = 0; i < 9; i++)
-        {
-            it->field_4 = it + 1;
-            it++;
-        }
-        field_4[9].field_4 = NULL;
-        field_0 = field_4;
+
     }
 
-    ~Car_A4()
+    ~TrailerPool()
     {
-        field_0 = 0;
+
     }
 
-    Trailer* field_0;
-    Trailer field_4[10];
+    PoolBasic<Trailer, 10> field_0_pool;
 };
 
 struct Car_14
@@ -804,13 +776,13 @@ struct Car_14
     gmp_zone_info* field_10_zone;
 };
 
-EXTERN_GLOBAL(Car_E0C4*, gCar_E0C4_67792C);
+EXTERN_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
-EXTERN_GLOBAL(Car_8F74*, gCar_8F74_677CF8);
+EXTERN_GLOBAL(Car_78_Pool*, gCar_78_Pool_677CF8);
 
-EXTERN_GLOBAL(Car_A4*, gCar_A4_66AC80);
+EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 

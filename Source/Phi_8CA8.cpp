@@ -657,9 +657,7 @@ void Phi_74::sub_533150(s16 a2, s16 a3)
 MATCH_FUNC(0x533170)
 Sprite* Phi_74::sub_533170()
 {
-    Sprite* pFreeSprite = gSprite_49B28_703818->field_0_first_free;
-    gSprite_49B28_703818->field_0_first_free = gSprite_49B28_703818->field_0_first_free->field_C_sprite_next_ptr;
-    pFreeSprite->Init_5A2CF0();
+    Sprite* pFreeSprite = gSprite_Pool_703818->get_new_sprite();
     sub_5331A0(pFreeSprite);
     return pFreeSprite;
 }

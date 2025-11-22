@@ -27,7 +27,7 @@ class Ped
     EXPORT Ped(); // 45AE70
     EXPORT ~Ped(); // 45AF00
     EXPORT char_type sub_45AFC0();
-    EXPORT void sub_45B440();
+    EXPORT void PoolAllocate();
     EXPORT char_type sub_45B4E0();
     EXPORT u32* sub_45B520(u32* a2);
     EXPORT void sub_45B550();
@@ -421,7 +421,7 @@ class Ped
     Car_BC* field_154_target_to_enter;
     Car_BC* field_158_unk_car;
     Player* field_15C_player;
-    Ped* field_160_next_ped;
+    Ped* mpNext;
     PedGroup* field_164_ped_group;
     Char_B4* field_168_game_object;
     Car_BC* field_16C_car;

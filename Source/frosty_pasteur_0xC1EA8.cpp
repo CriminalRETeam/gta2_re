@@ -118,7 +118,7 @@ void frosty_pasteur_0xC1EA8::Update_512160()
 {
     if (!bSkip_mission_67D4E5)
     {
-        miss2_0x11C* pf_0 = gMiss2_8EC_6F8064->sub_4767A0();
+        miss2_0x11C* pf_0 = miss2_0x11C_Pool_6F8064->sub_4767A0();
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
@@ -359,9 +359,9 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     if (!bSkip_mission_67D4E5)
     {
         memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
-        if (!gMiss2_8EC_6F8064)
+        if (!miss2_0x11C_Pool_6F8064)
         {
-            gMiss2_8EC_6F8064 = new Miss2_8EC();
+            miss2_0x11C_Pool_6F8064 = new miss2_0x11C_Pool();
         }
     }
     field_1334C_strings = (str_table_entry*)Memory::malloc_4FE4D0(0x1400u);

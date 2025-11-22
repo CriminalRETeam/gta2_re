@@ -13,7 +13,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
     field_8_light_y = 0;
     field_C_light_z = 0;
     field_10_argb = 0xFFFFFF;
-    field_1C = 0;
+    mpNext = 0;
     field_24 = 0;
     field_20 = 0;
     field_14_on_time = 0;
@@ -26,7 +26,7 @@ nostalgic_ellis_0x28::nostalgic_ellis_0x28()
 MATCH_FUNC(0x4D6D60)
 nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
 {
-    field_1C = 0;
+    mpNext = 0;
     field_24 = 0;
     field_20 = 0;
 }

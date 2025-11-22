@@ -79,7 +79,7 @@ Ped::Ped()
 {
     field_200_id = 0;
     sub_45AFC0();
-    field_160_next_ped = 0;
+    mpNext = 0;
 }
 
 MATCH_FUNC(0x45af00)
@@ -93,7 +93,7 @@ Ped::~Ped()
     this->field_150_target_objective_car = 0;
     this->field_158_unk_car = 0;
     this->field_154_target_to_enter = 0;
-    this->field_160_next_ped = 0;
+    this->mpNext = 0;
     this->field_164_ped_group = 0;
     this->field_168_game_object = 0;
     this->field_16C_car = 0;
@@ -121,7 +121,7 @@ char_type Ped::sub_45AFC0()
 }
 
 MATCH_FUNC(0x45b440)
-void Ped::sub_45B440()
+void Ped::PoolAllocate()
 {
     Ped::sub_45AFC0();
     field_200_id = gPedId_61A89C++;
@@ -434,7 +434,7 @@ void Ped::sub_45C310()
 {
     if (field_168_game_object)
     {
-        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+        gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
         field_168_game_object = 0;
     }
 }
@@ -444,7 +444,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 {
     if (field_168_game_object)
     {
-        gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+        gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
     }
     field_168_game_object = 0;
 
@@ -1341,7 +1341,7 @@ void Ped::sub_462B80()
             {
                 pB4->field_88_obj_2c.sub_5A7010();
             }
-            gChar_11944_6FDB44->sub_4355C0(field_168_game_object);
+            gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
 
             field_168_game_object = NULL;
             if (!field_248_enter_car_as_passenger)

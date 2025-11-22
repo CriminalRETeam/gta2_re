@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class Frismo_25C;
+class Frismo_C_Pool;
 class Frismo_C;
 
 class miss2_8
