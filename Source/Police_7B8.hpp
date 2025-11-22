@@ -74,3 +74,5 @@ class Police_7B8
 EXTERN_GLOBAL(class Police_7B8*, gPolice_7B8_6FEE40);
 
 EXTERN_GLOBAL(s32, gRoadblockGuardType_6FEDB8);
+
+EXTERN_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40);
