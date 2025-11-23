@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Function.hpp"
-#include "root_sound.hpp" // for infallible_turing
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
+#include "root_sound.hpp" // for infallible_turing
 #include <windows.h>
+
+class Car_BC;
 
 class infallible_turing;
 
@@ -317,6 +319,21 @@ class sound_obj
     EXPORT u8 GetCDVol_41A280();
 
     EXPORT void sub_57EA10();
+
+    EXPORT void sub_57EA90();
+    EXPORT char_type sub_57EB90(s32 a2, s32 a3);
+
+    EXPORT void sub_57EE30(s32 a2, s32 a3);
+    EXPORT void sub_57EEE0(char_type a2);
+    EXPORT void sub_57EF60();
+    EXPORT u8 sub_57F050(s32 a2);
+
+    // TODO: Is static ??
+    EXPORT bool sub_57F090(Car_BC* pCar);
+
+    // TODO: Is static ??
+    EXPORT bool sub_57F120(Car_BC* pCar);
+
     EXPORT void Service_419EF0();
 
     EXPORT void ProcessEntity_4123A0(s32 id);
@@ -326,6 +343,8 @@ class sound_obj
     EXPORT void ProcessType1_412740(s32 a2);
 
     EXPORT void ProcessType6_413760(s32 a2);
+
+    EXPORT void sub_4273B0();
 
     EXPORT void ProcessType7_42A500(s32 a2);
 
@@ -375,7 +394,12 @@ class sound_obj
 
     EXPORT void sub_427340(s32 a4, s32 a5, s32 a6);
 
+    // TODO: Function ordering is wrong
+
     EXPORT void sub_426E10(s32 arg0, u32 a2);
+
+    EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
+    EXPORT void sub_57EDB0(s32 a1, s32 a2);
 };
 
 EXTERN_GLOBAL(sound_obj, gSound_obj_66F680);

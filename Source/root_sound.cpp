@@ -1,9 +1,9 @@
 #include "root_sound.hpp"
 #include "Function.hpp"
+#include "Globals.hpp"
 #include "cSampleManager.hpp"
 #include "debug.hpp"
 #include "sound_obj.hpp"
-#include "Globals.hpp"
 
 DEFINE_GLOBAL(root_sound, gRoot_sound_66B038, 0x66B038);
 
@@ -51,13 +51,10 @@ void root_sound::sub_40F020()
     gSound_obj_66F680.sub_57EA10();
 }
 
-STUB_FUNC(0x40F030)
-char* root_sound::DeclareRadioStation_40F030(s32 a1, Fix16 a2, Fix16 a3)
+MATCH_FUNC(0x40F030)
+void root_sound::DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 ypos)
 {
-    NOT_IMPLEMENTED;
-    //return gSound_obj_66F680.sub_57ECB0(a1, a2, a3);
-    // todo
-    return 0;
+    gSound_obj_66F680.DeclareRadioStation_57ECB0(station_idx, xpos, ypos);
 }
 
 STUB_FUNC(0x40F050)
