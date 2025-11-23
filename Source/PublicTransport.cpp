@@ -500,12 +500,6 @@ Train_58* PublicTransport_181C::sub_57B6A0(Car_BC* a2)
     return 0;
 }
 
-static inline bool IsTrainModel(s32 idx1)
-{
-    return idx1 == car_model_enum::TRAIN || idx1 == car_model_enum::TRAINCAB || idx1 == car_model_enum::TRAINFB ||
-        idx1 == car_model_enum::boxcar;
-}
-
 MATCH_FUNC(0x57b740)
 bool PublicTransport_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {

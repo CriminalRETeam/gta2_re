@@ -309,6 +309,17 @@ class Trailer
     Car_BC* field_C_trailer_carObj;
 };
 
+static inline bool IsTrainModel(s32 idx1)
+{
+    return idx1 == car_model_enum::TRAIN || idx1 == car_model_enum::TRAINCAB || idx1 == car_model_enum::TRAINFB ||
+        idx1 == car_model_enum::boxcar;
+}
+
+static inline bool IsArmyModel(s32 idx1)
+{
+    return idx1 == car_model_enum::TANK || idx1 == 22 || idx1 == 30 || idx1 == 3;
+}
+
 class Car_BC
 {
   public:

@@ -186,6 +186,7 @@ class CarPhysics_B0
     char_type field_AF;
 };
 
+// TODO: Use PoolBasic<T>
 struct Car_D264
 {
     //Inlined in Car_6C constructor 9.6f -> 0x420f80

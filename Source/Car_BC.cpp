@@ -3,16 +3,16 @@
 #include "Car_B0.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
-#include "Hud.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Hud.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
+#include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "PublicTransport.hpp"
 #include "Taxi_4.hpp"
 #include "Weapon_8.hpp"
 #include "debug.hpp"
@@ -426,7 +426,7 @@ Car_BC* Car_6C::GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pP
 }
 
 STUB_FUNC(0x445210)
-Car_BC* Car_6C::sub_445210(Sprite *a1, u8 a2)
+Car_BC* Car_6C::sub_445210(Sprite* a1, u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -685,9 +685,8 @@ Car_6C::~Car_6C()
 MATCH_FUNC(0x439ec0)
 bool Car_BC::IsPoliceCar_439EC0()
 {
-    bool b = field_84_car_info_idx == car_model_enum::COPCAR 
-        || field_84_car_info_idx == car_model_enum::SWATVAN 
-        || field_84_car_info_idx == car_model_enum::EDSELFBI;
+    bool b = field_84_car_info_idx == car_model_enum::COPCAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
+        field_84_car_info_idx == car_model_enum::EDSELFBI;
     return b;
 }
 
@@ -824,26 +823,11 @@ void Car_BC::RemoveAllDamage()
     }
 }
 
-STUB_FUNC(0x43a680)
+MATCH_FUNC(0x43a680)
 bool Car_BC::AllowResprayOrPlates()
 {
-    NOT_IMPLEMENTED;
-    // TODO: which object is sub_5A71A0 part of?
-    s32 info_idx; // eax
-    s32 info_idx_; // esi
-
-    info_idx = this->field_84_car_info_idx;
-
-    if (info_idx != 59 && info_idx != 60 && info_idx != 61 && info_idx != 6 &&
-        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(info_idx)->info_flags & 2) != 2 && this->field_84_car_info_idx != 84 /*&& !sub_5A71A0()*/)
-    {
-        info_idx_ = this->field_84_car_info_idx;
-        if (info_idx_ != 54 && info_idx_ != 22 && info_idx_ != 30 && info_idx_ != 3)
-        {
-            return true;
-        }
-    }
-    return false;
+    return (!IsTrainModel(field_84_car_info_idx) && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
+            !is_FBI_car_411920() && !field_0_qq.sub_5A71A0() && !IsArmyModel(field_84_car_info_idx));
 }
 
 MATCH_FUNC(0x43a6f0)
