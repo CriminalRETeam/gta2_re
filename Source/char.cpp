@@ -24,7 +24,6 @@ DEFINE_GLOBAL_INIT(Ang16, dword_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 
-
 STUB_FUNC(0x544F70)
 void __stdcall sub_544F70()
 {
@@ -537,11 +536,24 @@ Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
     return pPed;
 }
 
-STUB_FUNC(0x470b00)
-Ped* Char_C::sub_470B00(Car_BC* a2)
+MATCH_FUNC(0x470b00)
+Ped* Char_C::SpawnDriver_470B00(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pNewPed = gPedPool_6787B8->Allocate();
+    pNewPed->field_238 = 3;
+    pNewPed->field_240_occupation = 4; //unknown_2;
+    pNewPed->field_16C_car = pCar;
+    pNewPed->field_168_game_object = 0;
+    pNewPed->sub_45C500(10);
+    pNewPed->sub_45C540(10);
+    pNewPed->field_248_enter_car_as_passenger = 0;
+    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->field_288_threat_search = 2; //area_2;
+    pNewPed->field_28C_threat_reaction = 3; //run_away_3;
+    pNewPed->field_216_health = 100;
+    pNewPed->field_26C_graphic_type = 0;
+    pCar->SetDriver(pNewPed);
+    return pNewPed;
 }
 
 STUB_FUNC(0x470ba0)
@@ -551,11 +563,24 @@ Ped* Char_C::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
     return 0;
 }
 
-STUB_FUNC(0x470cc0)
-Ped* Char_C::sub_470CC0(Car_BC* a2)
+MATCH_FUNC(0x470cc0)
+Ped* Char_C::sub_470CC0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pNewPed = gPedPool_6787B8->Allocate();
+    pNewPed->field_244_remap = -1;
+    pNewPed->field_26C_graphic_type = 0;
+    pNewPed->field_238 = 3;
+    pNewPed->field_240_occupation = 4; //unknown_2;
+    pNewPed->field_16C_car = pCar;
+    pNewPed->field_168_game_object = 0;
+    pNewPed->sub_45C500(10);
+    pNewPed->sub_45C540(10);
+    pNewPed->field_24C_target_car_door = 0;
+    pNewPed->field_288_threat_search = 2; //area_2;
+    pNewPed->field_28C_threat_reaction = 3; //run_away_3;
+    pNewPed->field_216_health = 100;
+    pNewPed->field_26C_graphic_type = 0;
+    return pNewPed;
 }
 
 STUB_FUNC(0x470d60)
@@ -572,11 +597,12 @@ Ped* Char_C::sub_470E30()
     return 0;
 }
 
-STUB_FUNC(0x470f30)
+MATCH_FUNC(0x470f30)
 Ped* Char_C::sub_470F30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pNewPed = gPedPool_6787B8->Allocate();
+    pNewPed->field_216_health = 100;
+    return pNewPed;
 }
 
 MATCH_FUNC(0x470f90)
@@ -626,5 +652,4 @@ Ped* Char_C::PedById(s32 pedId)
 MATCH_FUNC(0x471110)
 PedPool::~PedPool()
 {
-
 }
