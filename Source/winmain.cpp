@@ -121,7 +121,7 @@ void force_link()
     car_3c.field_20_id = 5;
 
     CrusherPool_94 snooky;
-    snooky.sub_4887A0(0);
+    snooky.IsCarBeingCrushed_4887A0(0);
 
     Network_20324 network;
     network.cb_sub_519D30(0, 0);

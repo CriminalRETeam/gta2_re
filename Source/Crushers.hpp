@@ -5,39 +5,65 @@
 
 class Car_BC;
 class infallible_turing;
+class Object_2C;
 
 class Crusher_30
 {
   public:
-    EXPORT Crusher_30(); // 4882D0
-    EXPORT ~Crusher_30(); // 4882E0
-    EXPORT void sub_488310(Car_BC* a2);
+    enum CrusherStates
+    {
+        Idle_0 = 0,
+        CrushW_1 = 1,
+        UnCrushW_2 = 2,
+        CrushH_3 = 3,
+        UnCrushH_4 = 4,
+    };
+
+    EXPORT Crusher_30();
+    EXPORT ~Crusher_30();
+    EXPORT void CrushCar_488310(Car_BC* pCar);
     EXPORT void Service_488350();
-    EXPORT infallible_turing* sub_4885A0(Fix16 a2, Fix16 a3, char_type a4);
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
-    s32 field_C;
-    s32 field_10;
-    Car_BC* field_14_pObj;
-    infallible_turing* field_18;
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
+    EXPORT void InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx);
+
+    Car_BC* GetCarBeingCrushed() const 
+    {
+      return field_14_pCarBeingCrushed;
+    }
+
+  private:
+    // Each side of the crusher walls and some unknown object
+    Object_2C* field_0;
+    Object_2C* field_4;
+    Object_2C* field_8;
+    Object_2C* field_C;
+    Object_2C* field_10;
+
+    Car_BC* field_14_pCarBeingCrushed;
+
+    infallible_turing* field_18_sound;
+
+    // Target of crusher walls
+    Fix16 field_1C_w;
+    Fix16 field_20_h;
+
+    // Location of the crusher
+    Fix16 field_24_xpos;
+    Fix16 field_28_ypos;
+
+    s32 field_2C_state;
 };
 
 class CrusherPool_94
 {
   public:
-    EXPORT bool sub_4887A0(Car_BC* toFind);
-    EXPORT void sub_4887D0(Car_BC* a2, u8 idx);
+    EXPORT bool IsCarBeingCrushed_4887A0(Car_BC* pCar);
+    EXPORT void CrushCarWithCrusher_4887D0(Car_BC* pCar, u8 crusher_idx);
     EXPORT void CrushersService_4887F0();
-    EXPORT Crusher_30* CreateCrusher_488820(Fix16 a2, Fix16 a3);
+    EXPORT Crusher_30* CreateCrusher_488820(Fix16 xpos, Fix16 ypos);
     EXPORT CrusherPool_94();
     EXPORT ~CrusherPool_94();
 
+  private:
     Crusher_30 field_0[3];
     s32 field_90_count;
 };
