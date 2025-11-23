@@ -45,10 +45,10 @@ Crusher_30::~Crusher_30()
 MATCH_FUNC(0x488310)
 void Crusher_30::CrushCar_488310(Car_BC* pCar)
 {
-    if (field_2C_state == 0 && pCar->field_88 != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
+    if (field_2C_state == CrusherStates::Idle_0 && pCar->field_88 != 5 && !pCar->sub_43DC00() && pCar->field_9C != 7)
     {
-        field_14_pObj = pCar;
-        field_2C_state = 1;
+        field_14_pCarBeingCrushed = pCar;
+        field_2C_state = CrusherStates::CrushW_1;
         pCar->field_78_flags |= 2u;
     }
 }
@@ -56,65 +56,65 @@ void Crusher_30::CrushCar_488310(Car_BC* pCar)
 MATCH_FUNC(0x488350)
 void Crusher_30::Service_488350()
 {
-    if (field_2C_state != 0)
+    if (field_2C_state != CrusherStates::Idle_0)
     {
-        if (field_14_pObj->field_88 == 2 || field_14_pObj->field_88 == 4 || field_14_pObj->field_88 == 3)
+        if (field_14_pCarBeingCrushed->field_88 == 2 || field_14_pCarBeingCrushed->field_88 == 4 || field_14_pCarBeingCrushed->field_88 == 3)
         {
-            field_14_pObj->field_88 = 1;
+            field_14_pCarBeingCrushed->field_88 = 1;
         }
 
         switch (field_2C_state)
         {
-            case 1:
+            case CrusherStates::CrushW_1:
                 field_1C_w -= kCrusherSpeed_67A5F4;
                 if (field_1C_w == kCrusherTargetH_67A4E4)
                 {
-                    field_2C_state = 2;
+                    field_2C_state = CrusherStates::UnCrushW_2;
                     if (!bStartNetworkGame_7081F0)
                     {
-                        field_14_pObj->field_70 = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
-                        field_14_pObj->field_90 = 4;
-                        field_14_pObj->field_94 = 50;
+                        field_14_pCarBeingCrushed->field_70 = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
+                        field_14_pCarBeingCrushed->field_90 = 4;
+                        field_14_pCarBeingCrushed->field_94 = 50;
                     }
-                    field_14_pObj->ExplodeCar_Unknown_43D840(19);
-                    field_14_pObj->field_0_qq.sub_5A7080();
+                    field_14_pCarBeingCrushed->ExplodeCar_Unknown_43D840(19);
+                    field_14_pCarBeingCrushed->field_0_qq.sub_5A7080();
                 }
-                if (field_1C_w - kCrusher_67A810 <= field_14_pObj->get_car_width() / 2)
+                if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
                 {
-                    field_14_pObj->sub_43DC80(2, 0);
+                    field_14_pCarBeingCrushed->sub_43DC80(2, 0);
                 }
                 break;
 
-            case 2:
+            case CrusherStates::UnCrushW_2:
                 field_1C_w += kCrusherSpeed_67A5F4;
                 if (field_1C_w == kCrusherTargetW_67A7D0)
                 {
-                    field_2C_state = 3;
+                    field_2C_state = CrusherStates::CrushH_3;
                 }
                 break;
 
-            case 3:
+            case CrusherStates::CrushH_3:
             {
                 field_20_h -= kCrusherSpeed_67A5F4;
                 if (field_20_h == kCrusherTargetH_67A4E4)
                 {
-                    field_14_pObj->field_9C = 7;
-                    field_2C_state = 4;
+                    field_14_pCarBeingCrushed->field_9C = 7;
+                    field_2C_state = CrusherStates::UnCrushH_4;
                 }
 
-                if (field_20_h - kCrusher_67A810 <= (field_14_pObj->get_car_height() / 2))
+                if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->get_car_height() / 2))
                 {
-                    field_14_pObj->sub_43DC80(0, 2);
+                    field_14_pCarBeingCrushed->sub_43DC80(0, 2);
                 }
             }
             break;
 
-            case 4:
+            case CrusherStates::UnCrushH_4:
                 field_20_h += kCrusherSpeed_67A5F4;
                 if (field_20_h == kCrusherTargetW_67A7D0)
                 {
-                    field_14_pObj = 0;
-                    field_2C_state = 0;
+                    field_14_pCarBeingCrushed = NULL;
+                    field_2C_state = CrusherStates::Idle_0;
                 }
                 break;
 
@@ -169,8 +169,8 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
     field_1C_w = kCrusherTargetW_67A7D0;
     field_20_h = kCrusherTargetW_67A7D0;
 
-    field_2C_state = 0;
-    field_14_pObj = 0;
+    field_2C_state = CrusherStates::Idle_0;
+    field_14_pCarBeingCrushed = NULL;
 
     if (!field_18_sound && !bSkip_audio_67D6BE)
     {
@@ -183,7 +183,7 @@ bool CrusherPool_94::IsCarBeingCrushed_4887A0(Car_BC* pCar)
 {
     for (s32 i = 0; i < field_90_count; i++)
     {
-        if (field_0[i].field_14_pObj == pCar)
+        if (field_0[i].GetCarBeingCrushed() == pCar)
         {
             return true;
         }
