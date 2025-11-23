@@ -538,7 +538,7 @@ Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
 }
 
 STUB_FUNC(0x470b00)
-Ped* Char_C::sub_470B00(Car_BC* a2)
+Ped* Char_C::SpawnDriver_470B00(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
     return 0;
