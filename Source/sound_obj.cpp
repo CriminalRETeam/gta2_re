@@ -1092,6 +1092,7 @@ STUB_FUNC(0x57EB90)
 char_type sound_obj::sub_57EB90(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
+    return 0;
 }
 
 STUB_FUNC(0x57EE30)
@@ -1116,18 +1117,21 @@ STUB_FUNC(0x57F050)
 u8 sound_obj::sub_57F050(s32 a2)
 {
     NOT_IMPLEMENTED;
+    return 0;
 }
 
 STUB_FUNC(0x57F090)
 bool sound_obj::sub_57F090(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
+    return false;
 }
 
 STUB_FUNC(0x57F120)
 bool sound_obj::sub_57F120(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
+    return false;
 }
 
 MATCH_FUNC(0x419EF0)
