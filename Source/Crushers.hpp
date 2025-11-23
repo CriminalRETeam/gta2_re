@@ -10,8 +10,17 @@ class Object_2C;
 class Crusher_30
 {
   public:
-    EXPORT Crusher_30(); // 4882D0
-    EXPORT ~Crusher_30(); // 4882E0
+    enum CrusherStates
+    {
+        Idle_0 = 0,
+        CrushW_1 = 1,
+        UnCrushW_2 = 2,
+        CrushH_3 = 3,
+        UnCrushH_4 = 4,
+    };
+
+    EXPORT Crusher_30();
+    EXPORT ~Crusher_30();
     EXPORT void CrushCar_488310(Car_BC* pCar);
     EXPORT void Service_488350();
     EXPORT void InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx);
@@ -22,15 +31,15 @@ class Crusher_30
     Object_2C* field_8;
     Object_2C* field_C;
 
-    s32 field_10;
+    Object_2C* field_10;
 
     // Car getting crunched?
     Car_BC* field_14_pObj;
 
     infallible_turing* field_18_sound;
 
-    s32 field_1C;
-    s32 field_20;
+    s32 field_1C_w;
+    s32 field_20_h;
 
     s32 field_24_xpos;
     s32 field_28_ypos;
