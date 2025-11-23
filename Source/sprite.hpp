@@ -29,6 +29,7 @@ class Sprite_4C
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
+
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8;
@@ -174,6 +175,17 @@ class Sprite
             field_14_xpos.x = xpos;
             field_14_xpos.y = ypos;
             field_1C_zpos = zpos;
+            sub_59E7B0();
+        }
+    }
+
+    // 9.6f inline 0x447E20
+    void sub_447E20(Fix16 x_target, Fix16 y_target)
+    {
+        if (field_14_xpos.x != x_target || field_14_xpos.y != y_target)
+        {
+            field_14_xpos.x = x_target;
+            field_14_xpos.y = y_target;
             sub_59E7B0();
         }
     }

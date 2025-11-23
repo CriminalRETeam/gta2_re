@@ -4,9 +4,27 @@
 #include "Globals.hpp"
 #include "infallible_turing.hpp"
 #include "root_sound.hpp"
+#include "Object_5C.hpp"
+#include "debug.hpp"
+#include "map_0x370.hpp"
+#include "winmain.hpp"
+#include "Game_0x40.hpp"
+#include "Player.hpp"
 #include <stdio.h>
 
 DEFINE_GLOBAL(CrusherPool_94*, gCrusherPool_94_67A830, 0x67A830);
+
+// TODO: Name and init these to the correct values
+DEFINE_GLOBAL(Fix16, kCrusherTargetW_67A7D0, 0x67A7D0);
+DEFINE_GLOBAL(Fix16, kCrusherTargetH_67A4E4, 0x67A4E4);
+DEFINE_GLOBAL(Fix16, dword_67A664, 0x67A664);
+DEFINE_GLOBAL(Fix16, kCrusherSpeed_67A5F4, 0x67A5F4);
+DEFINE_GLOBAL(Fix16, kCrusher_67A810, 0x67A810);
+
+DEFINE_GLOBAL(Ang16, word_67A820, 0x67A820);
+DEFINE_GLOBAL(Ang16, word_67A660, 0x67A660);
+DEFINE_GLOBAL(Ang16, word_67A63A, 0x67A63A);
+DEFINE_GLOBAL(Ang16, dword_67A568, 0x67A568);
 
 MATCH_FUNC(0x4882d0)
 Crusher_30::Crusher_30()
@@ -35,16 +53,129 @@ void Crusher_30::CrushCar_488310(Car_BC* pCar)
     }
 }
 
-STUB_FUNC(0x488350)
+MATCH_FUNC(0x488350)
 void Crusher_30::Service_488350()
 {
-    NOT_IMPLEMENTED;
+    if (field_2C_state != 0)
+    {
+        if (field_14_pObj->field_88 == 2 || field_14_pObj->field_88 == 4 || field_14_pObj->field_88 == 3)
+        {
+            field_14_pObj->field_88 = 1;
+        }
+
+        switch (field_2C_state)
+        {
+            case 1:
+                field_1C_w -= kCrusherSpeed_67A5F4;
+                if (field_1C_w == kCrusherTargetH_67A4E4)
+                {
+                    field_2C_state = 2;
+                    if (!bStartNetworkGame_7081F0)
+                    {
+                        field_14_pObj->field_70 = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
+                        field_14_pObj->field_90 = 4;
+                        field_14_pObj->field_94 = 50;
+                    }
+                    field_14_pObj->ExplodeCar_Unknown_43D840(19);
+                    field_14_pObj->field_0_qq.sub_5A7080();
+                }
+                if (field_1C_w - kCrusher_67A810 <= field_14_pObj->get_car_width() / 2)
+                {
+                    field_14_pObj->sub_43DC80(2, 0);
+                }
+                break;
+
+            case 2:
+                field_1C_w += kCrusherSpeed_67A5F4;
+                if (field_1C_w == kCrusherTargetW_67A7D0)
+                {
+                    field_2C_state = 3;
+                }
+                break;
+
+            case 3:
+            {
+                field_20_h -= kCrusherSpeed_67A5F4;
+                if (field_20_h == kCrusherTargetH_67A4E4)
+                {
+                    field_14_pObj->field_9C = 7;
+                    field_2C_state = 4;
+                }
+
+                if (field_20_h - kCrusher_67A810 <= (field_14_pObj->get_car_height() / 2))
+                {
+                    field_14_pObj->sub_43DC80(0, 2);
+                }
+            }
+            break;
+
+            case 4:
+                field_20_h += kCrusherSpeed_67A5F4;
+                if (field_20_h == kCrusherTargetW_67A7D0)
+                {
+                    field_14_pObj = 0;
+                    field_2C_state = 0;
+                }
+                break;
+
+            default:
+                break;
+        }
+
+        Object_2C* Obj_0 = field_0;
+        Obj_0->sub_527D00();
+        Obj_0->field_4->sub_447E20(field_24_xpos, field_28_ypos - field_20_h);
+        Obj_0->sub_527AE0();
+
+        Object_2C* Obj_4 = field_4;
+        Obj_4->sub_527D00();
+        Obj_4->field_4->sub_447E20(field_24_xpos + field_1C_w, field_28_ypos);
+        Obj_4->sub_527AE0();
+
+        Object_2C* Obj_8 = field_8;
+        Obj_8->sub_527D00();
+        Obj_8->field_4->sub_447E20(field_24_xpos, field_20_h + field_28_ypos);
+        Obj_8->sub_527AE0();
+
+        Object_2C* Obj_C = field_C;
+        Obj_C->sub_527D00();
+        Obj_C->field_4->sub_447E20(field_24_xpos - field_1C_w, field_28_ypos);
+        Obj_C->sub_527AE0();
+    }
 }
 
-STUB_FUNC(0x4885a0)
+MATCH_FUNC(0x4885a0)
 void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 {
-    NOT_IMPLEMENTED;
+    Fix16 temp_z;
+    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, xpos, ypos);
+
+    field_24_xpos = xpos;
+    field_28_ypos = ypos;
+
+    field_10 = gObject_5C_6F8F84->sub_5299B0(143, xpos, ypos, temp_z, word_67A820);
+    field_10->field_26_varrok_idx = crusher_idx;
+
+    field_0 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, temp_z, word_67A820);
+    field_4 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, temp_z, word_67A660);
+    field_8 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos, kCrusherTargetW_67A7D0 + field_28_ypos, temp_z, word_67A63A);
+    field_C = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos - kCrusherTargetW_67A7D0, field_28_ypos, temp_z, dword_67A568);
+
+    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos, field_28_ypos - dword_67A664, temp_z, word_67A820);
+    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos + dword_67A664, field_28_ypos, temp_z, word_67A660);
+    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos, dword_67A664 + field_28_ypos, temp_z, word_67A63A);
+    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos - dword_67A664, field_28_ypos, temp_z, dword_67A568);
+
+    field_1C_w = kCrusherTargetW_67A7D0;
+    field_20_h = kCrusherTargetW_67A7D0;
+
+    field_2C_state = 0;
+    field_14_pObj = 0;
+
+    if (!field_18_sound && !bSkip_audio_67D6BE)
+    {
+        field_18_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 9);
+    }
 }
 
 MATCH_FUNC(0x4887a0)

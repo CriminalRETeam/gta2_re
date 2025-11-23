@@ -391,7 +391,7 @@ class Car_BC
     EXPORT s32 sub_43D400();
     EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
     EXPORT void sub_43D7B0(s32 a2);
-    EXPORT void sub_43D840(s32 a2);
+    EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, s32 a3);
     EXPORT Char_8** sub_43DB80();
     EXPORT void sub_43DBD0();
@@ -657,6 +657,16 @@ class Car_BC
         {
             field_8_damaged_areas.set_bit(15); // set right siren light or roof light
         }
+    }
+    
+    Fix16 get_car_width()
+    {
+        return field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width;
+    }
+    
+    Fix16 get_car_height()
+    {
+        return field_50_car_sprite->field_C_sprite_4c_ptr->field_4_height;
     }
 
     bool is_FBI_car_411920()

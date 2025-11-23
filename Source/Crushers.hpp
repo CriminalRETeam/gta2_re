@@ -38,11 +38,11 @@ class Crusher_30
 
     infallible_turing* field_18_sound;
 
-    s32 field_1C_w;
-    s32 field_20_h;
+    Fix16 field_1C_w;
+    Fix16 field_20_h;
 
-    s32 field_24_xpos;
-    s32 field_28_ypos;
+    Fix16 field_24_xpos;
+    Fix16 field_28_ypos;
 
     s32 field_2C_state;
 };

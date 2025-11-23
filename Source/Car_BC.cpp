@@ -1395,7 +1395,7 @@ void Car_BC::sub_43D7B0(s32 a2)
 }
 
 STUB_FUNC(0x43d840)
-void Car_BC::sub_43D840(s32 a2)
+void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -2776,14 +2776,14 @@ char_type Trailer::sub_4081D0()
         if (field_C_trailer_carObj->field_74_damage != 32001)
         {
             field_C_trailer_carObj->field_74_damage = 32000;
-            field_C_trailer_carObj->sub_43D840(18);
+            field_C_trailer_carObj->ExplodeCar_Unknown_43D840(18);
         }
         return 1;
     }
     else if (field_C_trailer_carObj->field_74_damage == 32001)
     {
         field_8_truck_cab->field_74_damage = 32000;
-        field_8_truck_cab->sub_43D840(18);
+        field_8_truck_cab->ExplodeCar_Unknown_43D840(18);
         return 1;
     }
     else
