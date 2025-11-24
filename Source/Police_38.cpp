@@ -13,7 +13,7 @@
 #include "Police_7B8.hpp"
 #include "RouteFinder.hpp"
 
-DEFINE_GLOBAL(s32, dword_6FECE8, 0x6FECE8);
+DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
 

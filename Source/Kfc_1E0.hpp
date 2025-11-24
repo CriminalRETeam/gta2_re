@@ -53,3 +53,5 @@ class Kfc_1E0
     EXPORT void sub_5CBBD0();
     Kfc_30 field_0[10];
 };
+
+EXTERN_GLOBAL(Kfc_1E0*, gKfc_1E0_706280);
