@@ -1988,7 +1988,7 @@ EXPORT void __stdcall sub_4DA740()
         // TODO: Function chunk
         if (!bSkip_audio_67D6BE)
         {
-            if (gSound_obj_66F680.field_0)
+            if (gSound_obj_66F680.field_0_bSoundInitialized)
             {
                 gSound_obj_66F680.sub_57EA10();
                 gSound_obj_66F680.sub_418C60();
@@ -2013,7 +2013,7 @@ EXPORT void __stdcall sub_4DA740()
 
                 gSound_obj_66F680.null_412250();
                 gSampManager_6FFF00.Shutdown_58DB30();
-                gSound_obj_66F680.field_0 = 0;
+                gSound_obj_66F680.field_0_bSoundInitialized = 0;
             }
         }
     }
