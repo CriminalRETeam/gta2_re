@@ -405,7 +405,7 @@ u32 Car_6C::sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5)
 }
 
 STUB_FUNC(0x444cf0)
-Car_BC* Car_6C::sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4)
+Car_BC* Car_6C::sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     NOT_IMPLEMENTED;
     return 0;

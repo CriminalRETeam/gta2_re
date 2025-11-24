@@ -194,7 +194,7 @@ class Car_6C
   public:
     EXPORT void sub_444980();
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
-    EXPORT Car_BC* sub_444CF0(s32 a1, s32 a2, s32 a3, s32 a4);
+    EXPORT Car_BC* sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
     EXPORT Car_BC* GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_445210(Sprite *a1, u8 a2);
