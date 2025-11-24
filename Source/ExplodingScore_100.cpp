@@ -34,7 +34,7 @@ void ExplodingScore_50::Empty_596A50()
 }
 
 MATCH_FUNC(0x596a60)
-void ExplodingScore_50::Empty_596A60()
+void ExplodingScore_50::PoolDeallocate()
 {
 }
 
@@ -163,7 +163,7 @@ s32 ExplodingScore_50::sub_596C90()
 }
 
 STUB_FUNC(0x5970c0)
-char_type ExplodingScore_50::sub_5970C0()
+char_type ExplodingScore_50::PoolUpdate()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -211,10 +211,10 @@ void ExplodingScorePool::sub_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x596940)
+MATCH_FUNC(0x596940)
 void ExplodingScorePool::sub_596940()
 {
-    NOT_IMPLEMENTED;
+    field_4_pool.UpdatePool();
 }
 
 MATCH_FUNC(0x5969e0)
