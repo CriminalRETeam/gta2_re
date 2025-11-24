@@ -168,8 +168,9 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     return pCop;
 }
 
-STUB_FUNC(0x56f6d0)
-void Police_7B8::sub_56F6D0(Car_BC* a2)
+// https://decomp.me/scratch/1NK2I
+MATCH_FUNC(0x56f6d0)
+void Police_7B8::sub_56F6D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
 }
