@@ -95,6 +95,61 @@ class Pool
         field_0_pStart = pItem;
     }
 
+    void UpdatePool()
+    {
+        field_X_count = 0;
+
+        PoolType* pPreviousItem = NULL;
+        PoolType* pCurrItem = field_4_pPrev;
+
+        while (pCurrItem)
+        {
+            ++field_X_count;
+
+            PoolType* pNext = pCurrItem->mpNext;
+
+            if (pCurrItem->PoolUpdate())
+            {
+                pCurrItem->PoolDeallocate();
+
+                if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
+                {
+                    pPreviousItem = NULL;
+                }
+
+                if (pPreviousItem)
+                {
+                    pPreviousItem->mpNext = pCurrItem->mpNext;
+                }
+                else
+                {
+                    if (field_4_pPrev == pCurrItem)
+                    {
+                        field_4_pPrev = pCurrItem->mpNext;
+                    }
+                    else
+                    {
+                        pPreviousItem = field_4_pPrev;
+                        while (pPreviousItem->mpNext != pCurrItem)
+                        {
+                            pPreviousItem = pPreviousItem->mpNext;
+                        }
+                        pPreviousItem->mpNext = pCurrItem->mpNext;
+                    }
+                }
+
+                pCurrItem->mpNext = field_0_pStart;
+                field_0_pStart = pCurrItem;
+            }
+            else
+            {
+                pPreviousItem = pCurrItem;
+            }
+
+            pCurrItem = pNext;
+        }
+    }
+
     PoolType* field_0_pStart;
     PoolType* field_4_pPrev;
     PoolType field_8_pool[PoolSize];

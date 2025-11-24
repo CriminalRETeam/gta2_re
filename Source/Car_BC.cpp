@@ -522,10 +522,23 @@ void Car_6C::sub_446760()
     }
 }
 
-STUB_FUNC(0x446790)
+MATCH_FUNC(0x446790)
 void Car_6C::CarsService_446790()
 {
-    NOT_IMPLEMENTED;
+    sub_446760();
+    
+    gTaxi_4_704130->PopAll_457BC0();
+    
+    field_55 = 0;
+
+    gCar_BC_Pool_67792C->field_0_pool.UpdatePool();
+
+    gCar_14_677934->GenerateTraffic_583670();
+
+    if (field_54 > 0)
+    {
+        field_54--;
+    }
 }
 
 STUB_FUNC(0x446870)
@@ -2083,7 +2096,7 @@ char_type Car_BC::sub_443130()
 }
 
 MATCH_FUNC(0x443170)
-char_type Car_BC::sub_443170()
+char_type Car_BC::PoolUpdate()
 {
     if (!this->field_76)
     {

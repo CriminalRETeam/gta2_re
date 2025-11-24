@@ -257,7 +257,7 @@ class Car_6C
     s32 field_44;
     s32 field_48;
     Fix16_Point field_4C_tv_van_dir;
-    char_type field_54;
+    u8 field_54;
     char_type field_55;
     char_type field_56;
     char_type field_57;
@@ -475,7 +475,7 @@ class Car_BC
     EXPORT s32* sub_442D10();
     EXPORT char_type sub_442D70();
     EXPORT char_type sub_443130();
-    EXPORT char_type sub_443170();
+    EXPORT char_type PoolUpdate();
     EXPORT char_type sub_443330(s32 a2);
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
     EXPORT void sub_4435A0();
