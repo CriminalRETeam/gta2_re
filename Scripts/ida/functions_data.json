@@ -15700,7 +15700,7 @@
         "v105_address": "0x5bc1d0"
     },
     {
-        "name": "TileAnim_18::Update_5BC1F0",
+        "name": "TileAnim_18::PoolUpdate",
         "v96f_address": "0x4c3300",
         "v105_address": "0x5bc1f0"
     },
