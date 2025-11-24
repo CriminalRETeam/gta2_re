@@ -144,7 +144,7 @@ void PoliceCrew_38::sub_570AB0()
 MATCH_FUNC(0x570bf0)
 void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 {
-    PedGroup* pGroup = PedGroup::sub_4CB0D0();
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
     Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
     pCopLeader->field_238 = 4;
     pCopLeader->field_240_occupation = ped_ocupation_enum::police;
@@ -227,7 +227,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 MATCH_FUNC(0x570e30)
 void PoliceCrew_38::SpawnSWAT_570E30()
 {
-    PedGroup* pSwatGroup = PedGroup::sub_4CB0D0();
+    PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
     Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
     pSwatLeader->field_238 = 4;
     pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;

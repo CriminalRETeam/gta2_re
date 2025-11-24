@@ -651,7 +651,7 @@ void PedGroup::sub_4CB080()
 }
 
 STUB_FUNC(0x4cb0d0)
-PedGroup* PedGroup::sub_4CB0D0()
+PedGroup* PedGroup::New_4CB0D0()
 {
     NOT_IMPLEMENTED;
     return 0;
