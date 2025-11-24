@@ -1,24 +1,28 @@
 #include "Police_7B8.hpp"
 #include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Kfc_1E0.hpp"
 #include "Object_5C.hpp"
-#include "Game_0x40.hpp"
+#include "Orca_2FD4.hpp"
+#include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
-#include "Ped.hpp"
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
 DEFINE_GLOBAL(u8, byte_6FEE44, 0x6FEE44);
+DEFINE_GLOBAL(u16, id_counter_6FEE46, 0x6FEE46);
+DEFINE_GLOBAL(s32, dword_6FEDCC, 0x6FEDCC);
+DEFINE_GLOBAL(u32, dword_6FEE18, 0x6FEE18);
+DEFINE_GLOBAL(s16, word_6FEAC8, 0x6FEAC8);
 
-Fix16 dword_6FECE8 = 0;
+EXTERN_GLOBAL(Fix16, dword_6FECE8);
 
 MATCH_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
 {
-
 }
 
 MATCH_FUNC(0x56f400)
@@ -168,8 +172,9 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     return pCop;
 }
 
+// https://decomp.me/scratch/1NK2I
 STUB_FUNC(0x56f6d0)
-void Police_7B8::sub_56F6D0(Car_BC* a2)
+void Police_7B8::sub_56F6D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
 }
@@ -231,17 +236,67 @@ s32 Police_7B8::sub_56F940(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x56fa40)
-s16 Police_7B8::sub_56FA40()
+MATCH_FUNC(0x56fa40)
+void Police_7B8::sub_56FA40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_464[0].field_0_criminal_ped)
+    {
+        if ((field_464[0].field_0_criminal_ped->field_21C & 1) == 0 || field_464[0].field_0_criminal_ped->field_278 == 9)
+        {
+            field_464[0].field_8 = 4;
+        }
+        else
+        {
+            if (field_464[0].field_C > 0)
+            {
+                field_464[0].field_C--;
+            }
+
+            if (field_464[0].field_8 == 3 && field_464[0].field_C == 0)
+            {
+                field_464[0].field_8 = 5;
+            }
+        }
+    }
 }
 
-STUB_FUNC(0x56faa0)
-char_type Police_7B8::sub_56FAA0(Police_7C* a2)
+MATCH_FUNC(0x56faa0)
+char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
 {
-    NOT_IMPLEMENTED;
+    u8 xval = p7C->field_10_x.ToInt();
+    u8 yval = p7C->field_14_y.ToInt();
+    u8 zval = p7C->field_18_z.ToInt();
+
+    if (gOrca_2FD4_6FDEF0->sub_5552B0(1, &xval, &yval, &zval, 0))
+    {
+        PoliceCrew_38* pNewPoliceCrew = Police_7B8::New_56F560();
+        pNewPoliceCrew->field_1C_used = 1;
+        pNewPoliceCrew->field_2_targ_x = xval;
+        pNewPoliceCrew->field_3_targ_y = yval;
+        pNewPoliceCrew->field_4_targ_z = zval;
+        Kfc_30* pNewKfc = gKfc_1E0_706280->New_5CBB80();
+        pNewPoliceCrew->field_10_subObj = pNewKfc;
+        if (!pNewPoliceCrew->field_10_subObj)
+        {
+            pNewPoliceCrew->Init_5709C0();
+            return 0;
+        }
+        pNewPoliceCrew->field_0_id = id_counter_6FEE46++; // TODO: types
+        Kfc_30* pKfc = pNewPoliceCrew->field_10_subObj;
+        pNewPoliceCrew->field_14_pObj = p7C;
+        pNewPoliceCrew->field_24_state = dword_6FEDCC;
+        pNewPoliceCrew->field_20 = gRoadblockGuardType_6FEDB8;
+        pKfc->field_1E_is_used = 1;
+        pKfc->field_20 = dword_6FEE18; // field_20_maybe_type
+        pKfc->field_24 = 1;
+        pKfc->field_28 = 3;
+        pKfc->field_18 = word_6FEAC8;
+        pKfc->field_C_x = Fix16(xval);
+        pKfc->field_10_y = Fix16(yval);
+        pKfc->field_14_z = Fix16(zval);
+        pNewPoliceCrew->sub_570A10();
+        return 1;
+    }
     return 0;
 }
 
@@ -385,11 +440,15 @@ void Police_7B8::sub_570940(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x577320)
+MATCH_FUNC(0x577320)
 char_type Police_7B8::sub_577320()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_654_wanted_level < 3 || this->field_664_obj.field_0 || this->field_7AC)
+    {
+        return 0;
+    }
+    this->field_7AC = 40;
+    return 1;
 }
 
 STUB_FUNC(0x577370)

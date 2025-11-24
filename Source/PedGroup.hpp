@@ -42,7 +42,7 @@ class PedGroup
     EXPORT bool sub_4CAD40();
     EXPORT Ped* sub_4CAE80(u8 idx);
     EXPORT static void sub_4CB080();
-    EXPORT static PedGroup* sub_4CB0D0();
+    EXPORT static PedGroup* New_4CB0D0();
     EXPORT PedGroup();
     EXPORT ~PedGroup();
 

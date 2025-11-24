@@ -10,6 +10,7 @@ extern Fix16 dword_6777CC;
 // but 9.6f leads me to believe both the POD and non-POD type are the same
 struct Fix16_Point_POD
 {
+    // None inline exists in 10.5 at 0x453590
     inline Fix16 GetLength()
     {
         if (x == dword_6777CC)

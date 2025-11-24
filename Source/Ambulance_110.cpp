@@ -47,7 +47,7 @@ void Ambulance_20::sub_4FA800(Ped* pPed)
 MATCH_FUNC(0x4fa820)
 bool Ambulance_20::sub_4FA820()
 {
-    PedGroup* pGroup = PedGroup::sub_4CB0D0();
+    PedGroup* pGroup = PedGroup::New_4CB0D0();
     if (!pGroup)
     {
         return false;

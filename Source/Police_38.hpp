@@ -24,7 +24,7 @@ class PoliceCrew_38
     EXPORT void sub_571350();
     EXPORT char_type sub_571540();
     EXPORT char_type sub_571A30();
-    EXPORT char_type sub_5720C0();
+    EXPORT void sub_5720C0();
     EXPORT bool sub_572210();
     EXPORT void sub_572340();
     EXPORT void sub_572920();
@@ -38,16 +38,15 @@ class PoliceCrew_38
     EXPORT void Service_575590();
     EXPORT s32 sub_575650();
 
-    char_type field_0;
-    char_type field_1;
+    s16 field_0_id;
     u8 field_2_targ_x;
     u8 field_3_targ_y;
     u8 field_4_targ_z;
     char_type field_5;
     char_type field_6;
     char_type field_7;
-    s32 field_8;
-    s32 field_C;
+    Fix16 field_8;
+    Fix16 field_C;
     Kfc_30* field_10_subObj;
     Police_7C* field_14_pObj;
     s16 field_18;
@@ -75,7 +74,7 @@ class Police_7C
     Ped* field_0_criminal_ped;
     s32 field_4;
     s32 field_8;
-    s16 field_C;
+    u16 field_C;
     char_type field_E;
     char_type field_F;
     Fix16 field_10_x;
