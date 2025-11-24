@@ -14,9 +14,9 @@ class serene_brattain
 {
   public:
     EXPORT serene_brattain* sub_419DF0();
-    s32 field_0;
-    s32 field_4;
-    s32 field_8;
+    Fix16 field_0;
+    Fix16 field_4;
+    Fix16 field_8;
 };
 
 struct sound_unknown_0xC
@@ -71,7 +71,7 @@ struct sound_0x68
     char_type field_25;
     char_type field_26;
     char_type field_27;
-    s32 field_28_distance;
+    Fix16 field_28_distance;
     char_type field_2C_bIsBeingPlayed;
     char_type field_2D_bIsPlayingFinished;
     char_type field_2E;
@@ -91,7 +91,7 @@ struct sound_0x68
     char_type field_51;
     char_type field_52;
     char_type field_53;
-    s32 field_54;
+    Fix16 field_54;
     s32 field_58_type;
     sound_0x68* field_5C;
     u8 field_60_nEmittingVolume;
@@ -104,7 +104,7 @@ struct sound_0x68
 class sound_obj
 {
   public:
-    char_type field_0;
+    char_type field_0_bSoundInitialized;
     char_type field_1_isPaused;
     char_type field_2_service_enabled;
     char_type field_3;
@@ -240,7 +240,7 @@ class sound_obj
 
     EXPORT char_type Get3dSound_41A390();
 
-    EXPORT u8 sub_41A4A0(s32 a1, s32 a2);
+    EXPORT s32 sub_41A4A0(Fix16 a1, Fix16 a2);
 
     EXPORT s32 sub_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -254,7 +254,7 @@ class sound_obj
 
     EXPORT void sub_41B540();
 
-    EXPORT void sub_41B520(s32 a1, f32* a2);
+    EXPORT void sub_41B520(Fix16 a1, f32* a2);
 
     EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
 
@@ -274,7 +274,7 @@ class sound_obj
 
     EXPORT void sub_41A6F0();
 
-    EXPORT char_type CalcVolume_41A3F0(u8 a1, s32 a2, s32 a3);
+    EXPORT char_type CalcVolume_41A3F0(u8 a1, s32 a2, Fix16 a3);
 
     EXPORT bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
 
@@ -388,7 +388,7 @@ class sound_obj
 
     EXPORT void sub_41B490(sound_0x68* pObj);
 
-    EXPORT u32* sub_4190B0(u32* a2);
+    EXPORT Fix16* sub_4190B0(Fix16* a2);
 
     EXPORT BYTE sub_427310();
 
