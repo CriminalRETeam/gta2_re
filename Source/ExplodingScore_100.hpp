@@ -10,11 +10,11 @@ class ExplodingScore_50
     EXPORT ExplodingScore_50();
     EXPORT ~ExplodingScore_50();
     EXPORT void Empty_596A50();
-    EXPORT void Empty_596A60();
+    EXPORT void PoolDeallocate();
     EXPORT void sub_596A70(s32 a2);
     EXPORT void sub_596A90(s32 xpos, s32 ypos, s32 zpos, u32 score);
     EXPORT s32 sub_596C90();
-    EXPORT char_type sub_5970C0();
+    EXPORT char_type PoolUpdate();
     EXPORT void sub_597100(s32 a2, s32 a3);
 
     s32 field_0;

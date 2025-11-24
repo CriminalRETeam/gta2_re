@@ -22,10 +22,14 @@ class TileAnim_18
 {
   public:
     EXPORT void PoolAllocate();
+    void PoolDeallocate()
+    {
+      
+    }
     EXPORT void sub_5BC150();
     EXPORT void sub_5BC190(gmp_tile_animation* pStru);
     EXPORT void sub_5BC1D0();
-    EXPORT char_type Update_5BC1F0();
+    EXPORT char_type PoolUpdate();
     EXPORT TileAnim_18();
     EXPORT ~TileAnim_18();
 

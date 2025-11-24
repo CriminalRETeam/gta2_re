@@ -14550,7 +14550,7 @@
         "v105_address": "0x596c90"
     },
     {
-        "name": "ExplodingScore_50::sub_5970C0",
+        "name": "ExplodingScore_50::PoolUpdate",
         "v96f_address": null,
         "v105_address": "0x5970c0"
     },
@@ -15700,7 +15700,7 @@
         "v105_address": "0x5bc1d0"
     },
     {
-        "name": "TileAnim_18::Update_5BC1F0",
+        "name": "TileAnim_18::PoolUpdate",
         "v96f_address": "0x4c3300",
         "v105_address": "0x5bc1f0"
     },
