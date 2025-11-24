@@ -10,6 +10,9 @@ DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 
+// TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
+GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
+
 STUB_FUNC(0x4403a0)
 s16* CarPhysics_B0::sub_4403A0(s16* a2)
 {
@@ -162,8 +165,7 @@ u8 CarPhysics_B0::sub_55A0B0()
 MATCH_FUNC(0x55a100)
 Fix16 CarPhysics_B0::sub_55A100()
 {
-    if (field_5C_pPrev->field_64_pTrailer != NULL
-        && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
+    if (field_5C_pPrev->field_64_pTrailer != NULL && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
     {
         return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;
     }
@@ -328,11 +330,28 @@ void CarPhysics_B0::sub_55BFE0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55c150)
+MATCH_FUNC(0x55c150)
 char_type CarPhysics_B0::sub_55C150()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite* pCarSprite = this->field_5C_pPrev->field_50_car_sprite;
+    if (!pCarSprite->sub_5A2500() && !pCarSprite->sub_59E7D0(0))
+    {
+        Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+        if (pTrailer)
+        {
+            pCarSprite = pTrailer->field_C_trailer_carObj->field_50_car_sprite;
+            if (!pCarSprite->sub_5A2500() && !pCarSprite->sub_59E7D0(0))
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            return 0;
+        }
+    }
+    dword_6791AC = pCarSprite;
+    return 1;
 }
 
 STUB_FUNC(0x55c3b0)
