@@ -21,7 +21,7 @@ class serene_brattain
 
 struct sound_unknown_0xC
 {
-    s32 field_0;
+    Fix16 field_0;
     char_type field_4;
     char_type field_5;
     char_type field_6;
@@ -132,7 +132,7 @@ class sound_obj
     u8 field_25_cdVol;
     char_type field_26;
     char_type field_27;
-    s32 field_28_dist_related;
+    Fix16 field_28_dist_related;
     char_type field_2C_distCalculated;
     char_type field_2D;
     char_type field_2E;
@@ -240,7 +240,7 @@ class sound_obj
 
     EXPORT char_type Get3dSound_41A390();
 
-    EXPORT s32 sub_41A4A0(Fix16 a1, Fix16 a2);
+    EXPORT u8 sub_41A4A0(Fix16 a1, Fix16 a2);
 
     EXPORT s32 sub_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -278,7 +278,7 @@ class sound_obj
 
     EXPORT bool VolCalc_419070(s32 a2, s32 a3, char_type a4);
 
-    EXPORT char_type sub_419020(s32 a2);
+    EXPORT char_type sub_419020(Fix16 a2);
 
     EXPORT char_type sub_4186D0(sound_0x68* pObj);
 

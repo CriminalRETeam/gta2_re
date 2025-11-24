@@ -11,7 +11,7 @@
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
-DEFINE_GLOBAL(s32, dword_674CD8, 0x674CD8);
+DEFINE_GLOBAL(Fix16, dword_674CD8, 0x674CD8);
 DEFINE_GLOBAL_INIT(Fix16, dword_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, byte_61A688, 64, 0x61A688);
@@ -238,11 +238,45 @@ char_type sound_obj::Get3dSound_41A390()
     }
 }
 
-STUB_FUNC(0x41A4A0)
-s32 sound_obj::sub_41A4A0(Fix16 a1, Fix16 a2)
+MATCH_FUNC(0x41A4A0)
+u8 sound_obj::sub_41A4A0(Fix16 a1, Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16 v2 = a1 / dword_674DA8;
+    if (v2 == dword_674CD8)
+    {
+        return 63;
+    }
+    else
+    {
+        Fix16 v4 = a2;
+        if (a2 <= 0)
+        {
+            v4 = -a2;
+        }
+        s32 v5 = (v4 / v2 + Fix16(0x2000, 0)).ToInt();
+        if (v5 > 63)
+        {
+            v5 = 63;
+        }
+        s32 v3;
+        if (a2 > dword_674CD8)
+        {
+            v3 = byte_61A688[v5] + 63;
+            if (v3 >= 117)
+            {
+                v3 = 117;
+            }
+        }
+        else
+        {
+            v3 = 63 - byte_61A688[v5];
+            if (v3 <= 10)
+            {
+                v3 = 10;
+            }
+        }
+        return v3;
+    }
 }
 
 STUB_FUNC(0x41A580)
@@ -614,14 +648,14 @@ bool sound_obj::VolCalc_419070(s32 a2, s32 a3, char_type a4)
 }
 
 MATCH_FUNC(0x419020)
-char_type sound_obj::sub_419020(s32 a2)
+char_type sound_obj::sub_419020(Fix16 a2)
 {
     if (field_28_dist_related < a2)
     {
         if (!field_2C_distCalculated)
         {
             field_2C_distCalculated = 1;
-            field_30_sQueueSample.field_28_distance = static_cast<int>(sqrt(field_28_dist_related / 16384.0) * 16384.0);
+            field_30_sQueueSample.field_28_distance = Fix16::SquareRoot(field_28_dist_related);
         }
         return 1;
     }
