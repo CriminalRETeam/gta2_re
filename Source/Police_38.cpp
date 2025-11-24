@@ -369,7 +369,7 @@ void PoliceCrew_38::sub_5720C0()
             }
             field_29 = 0;
         }
-        
+
         if (field_24_state != 6)
         {
             sub_575650();
@@ -724,10 +724,11 @@ void PoliceCrew_38::sub_574F10()
     }
 }
 
-STUB_FUNC(0x575200)
+MATCH_FUNC(0x575200)
 void PoliceCrew_38::sub_575200()
 {
-    NOT_IMPLEMENTED;
+    byte_6FEB48 = 1;
+    field_24_state = 6;
 }
 
 MATCH_FUNC(0x575210)

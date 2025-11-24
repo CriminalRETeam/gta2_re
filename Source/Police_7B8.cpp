@@ -1,12 +1,12 @@
 #include "Police_7B8.hpp"
 #include "Car_BC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Kfc_1E0.hpp"
 #include "Object_5C.hpp"
-#include "Game_0x40.hpp"
+#include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
-#include "Ped.hpp"
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
@@ -18,7 +18,6 @@ Fix16 dword_6FECE8 = 0;
 MATCH_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
 {
-
 }
 
 MATCH_FUNC(0x56f400)
@@ -169,7 +168,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 }
 
 // https://decomp.me/scratch/1NK2I
-MATCH_FUNC(0x56f6d0)
+STUB_FUNC(0x56f6d0)
 void Police_7B8::sub_56F6D0(Car_BC* pCar)
 {
     NOT_IMPLEMENTED;
@@ -386,11 +385,15 @@ void Police_7B8::sub_570940(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x577320)
+MATCH_FUNC(0x577320)
 char_type Police_7B8::sub_577320()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_654_wanted_level < 3 || this->field_664_obj.field_0 || this->field_7AC)
+    {
+        return 0;
+    }
+    this->field_7AC = 40;
+    return 1;
 }
 
 STUB_FUNC(0x577370)
