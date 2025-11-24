@@ -1,6 +1,6 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -881,22 +881,22 @@ char_type Car_BC::sub_43A850()
 MATCH_FUNC(0x43a950)
 void Car_BC::sub_43A950()
 {
-    CarPhysics_B0* pB0 = field_58_physics;
-    pB0->field_91_is_foot_brake_on = 1;
-    pB0->field_93_is_forward_gas_on = 0;
-    pB0->field_94_is_backward_gas_on = 0;
-    pB0->field_95 = 0;
+    CarPhysics_B0* pCarPhysics = field_58_physics;
+    pCarPhysics->field_91_is_foot_brake_on = 1;
+    pCarPhysics->field_93_is_forward_gas_on = 0;
+    pCarPhysics->field_94_is_backward_gas_on = 0;
+    pCarPhysics->field_95 = 0;
 }
 
 MATCH_FUNC(0x43a970)
 void Car_BC::sub_43A970()
 {
     field_58_physics->field_92_is_hand_brake_on = 1;
-    CarPhysics_B0* pB0 = field_58_physics;
-    pB0->field_91_is_foot_brake_on = 1;
-    pB0->field_93_is_forward_gas_on = 0;
-    pB0->field_94_is_backward_gas_on = 0;
-    pB0->field_95 = 0;
+    CarPhysics_B0* pCarPhysics = field_58_physics;
+    pCarPhysics->field_91_is_foot_brake_on = 1;
+    pCarPhysics->field_93_is_forward_gas_on = 0;
+    pCarPhysics->field_94_is_backward_gas_on = 0;
+    pCarPhysics->field_95 = 0;
 }
 
 MATCH_FUNC(0x43a9a0)
@@ -905,19 +905,19 @@ void Car_BC::SetDriver(Ped* pNewDriver)
     char hand_brake_on; // [esp+Ch] [ebp+4h]
     if (!pNewDriver)
     {
-        CarPhysics_B0* pB0 = this->field_58_physics;
-        if (pB0)
+        CarPhysics_B0* pCarPhysics = this->field_58_physics;
+        if (pCarPhysics)
         {
             Ped* pOldDriver = this->field_54_driver;
             if (pOldDriver && pOldDriver->field_15C_player)
             {
-                hand_brake_on = pB0->field_92_is_hand_brake_on;
+                hand_brake_on = pCarPhysics->field_92_is_hand_brake_on;
             }
             else
             {
                 hand_brake_on = 1;
             }
-            pB0->sub_55A860(0, 0, 0, 0, hand_brake_on);
+            pCarPhysics->sub_55A860(0, 0, 0, 0, hand_brake_on);
         }
     }
     this->field_54_driver = pNewDriver;
@@ -1657,14 +1657,14 @@ char_type Car_BC::sub_4413B0(s32 a2, s32 a3, s32 a4)
 MATCH_FUNC(0x441520)
 void Car_BC::sub_441520()
 {
-    CarPhysics_B0* pB0;
+    CarPhysics_B0* pCarPhysics;
     switch (this->field_9C)
     {
         case 1:
-            pB0 = this->field_58_physics;
-            if (pB0)
+            pCarPhysics = this->field_58_physics;
+            if (pCarPhysics)
             {
-                if (pB0->sub_55A180())
+                if (pCarPhysics->sub_55A180())
                 {
                     this->field_9C = 4;
                 }
@@ -1693,8 +1693,8 @@ void Car_BC::sub_441520()
 MATCH_FUNC(0x4415c0)
 void Car_BC::sub_4415C0()
 {
-    CarPhysics_B0* pB0 = this->field_58_physics;
-    if (pB0 && pB0->IsFootBrakeOn_55A150())
+    CarPhysics_B0* pCarPhysics = this->field_58_physics;
+    if (pCarPhysics && pCarPhysics->IsFootBrakeOn_55A150())
     {
         sub_43BF10();
     }

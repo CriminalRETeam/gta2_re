@@ -1,5 +1,5 @@
 #include "miss2_0x11c.hpp"
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Door_4D4.hpp"
 #include "Frismo_25C.hpp"
@@ -3597,7 +3597,7 @@ void miss2_0x11C::sub_50E900()
     Car_BC* pDstCar = pDstCarPointer->field_8_car;
     if (pDstCar->field_88 != 6)
     {
-        Trailer* pTrailer = pDstCar->field_64_pTrailer;
+        GLOBAL(Sprite*, dword_6791AC, 0x6791AC);* pTrailer = pDstCar->field_64_pTrailer;
         if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
         {
             // put car on the trailer attached to the truck cab

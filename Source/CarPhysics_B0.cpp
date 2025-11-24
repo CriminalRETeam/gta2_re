@@ -1,4 +1,4 @@
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
 
@@ -11,7 +11,7 @@ DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
-GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
+DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
 
 STUB_FUNC(0x4403a0)
 s16* CarPhysics_B0::sub_4403A0(s16* a2)
@@ -205,17 +205,17 @@ char_type CarPhysics_B0::sub_55A180()
 {
     NOT_IMPLEMENTED;
     Trailer* pTrailer; // eax
-    CarPhysics_B0* pB0; // eax
+    CarPhysics_B0* pCarPhysics; // eax
 
     pTrailer = this->field_5C_pPrev->field_64_pTrailer;
     if (pTrailer)
     {
-        pB0 = pTrailer->field_8_truck_cab->field_58_physics;
-        if (!pB0)
+        pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
+        if (!pCarPhysics)
         {
             return 0;
         }
-        if (!pB0->field_93_is_forward_gas_on && !pB0->field_94_is_backward_gas_on)
+        if (!pCarPhysics->field_93_is_forward_gas_on && !pCarPhysics->field_94_is_backward_gas_on)
         {
             return 0;
         }

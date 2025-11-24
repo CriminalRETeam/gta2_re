@@ -1,5 +1,5 @@
 #include "Ped.hpp"
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
@@ -3112,10 +3112,10 @@ void Ped::sub_470300()
         {
             pCar->field_7C_uni_num = 3;
             pCar->field_76 = 0;
-            CarPhysics_B0* pB0 = pCar->field_58_physics;
-            if (pB0)
+            CarPhysics_B0* pCarPhysics = pCar->field_58_physics;
+            if (pCarPhysics)
             {
-                pB0->field_8C = 1;
+                pCarPhysics->field_8C = 1;
             }
         }
     }
