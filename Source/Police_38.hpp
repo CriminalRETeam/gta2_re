@@ -24,7 +24,7 @@ class PoliceCrew_38
     EXPORT void sub_571350();
     EXPORT char_type sub_571540();
     EXPORT char_type sub_571A30();
-    EXPORT char_type sub_5720C0();
+    EXPORT void sub_5720C0();
     EXPORT bool sub_572210();
     EXPORT void sub_572340();
     EXPORT void sub_572920();
