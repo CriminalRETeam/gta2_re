@@ -74,7 +74,7 @@ class Police_7C
     Ped* field_0_criminal_ped;
     s32 field_4;
     s32 field_8;
-    s16 field_C;
+    u16 field_C;
     char_type field_E;
     char_type field_F;
     Fix16 field_10_x;

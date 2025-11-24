@@ -29,7 +29,7 @@ class Police_7B8
     EXPORT bool sub_56F880(Ped* a2);
     EXPORT void SetArrestedPed_56F8E0(Ped* a2, Ped* a3);
     EXPORT s32 sub_56F940(Ped* a2);
-    EXPORT s16 sub_56FA40();
+    EXPORT void sub_56FA40();
     EXPORT char_type sub_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
     EXPORT void Service_570270();

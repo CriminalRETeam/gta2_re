@@ -4,11 +4,11 @@
 #include "Globals.hpp"
 #include "Kfc_1E0.hpp"
 #include "Object_5C.hpp"
+#include "Orca_2FD4.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "Player.hpp"
 #include "winmain.hpp"
-#include "Orca_2FD4.hpp"
 
 DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gRoadblockGuardType_6FEDB8, 0x6FEDB8);
@@ -236,11 +236,28 @@ s32 Police_7B8::sub_56F940(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x56fa40)
-s16 Police_7B8::sub_56FA40()
+MATCH_FUNC(0x56fa40)
+void Police_7B8::sub_56FA40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_464[0].field_0_criminal_ped)
+    {
+        if ((field_464[0].field_0_criminal_ped->field_21C & 1) == 0 || field_464[0].field_0_criminal_ped->field_278 == 9)
+        {
+            field_464[0].field_8 = 4;
+        }
+        else
+        {
+            if (field_464[0].field_C > 0)
+            {
+                field_464[0].field_C--;
+            }
+
+            if (field_464[0].field_8 == 3 && field_464[0].field_C == 0)
+            {
+                field_464[0].field_8 = 5;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x56faa0)
