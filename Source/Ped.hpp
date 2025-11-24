@@ -465,8 +465,8 @@ class Ped
     s16 field_20A_wanted_points;
     s16 field_20C;
     s16 field_20e;
-    s16 field_210;
-    s16 field_212;
+    u16 field_210;
+    u16 field_212;
     s16 field_214;
     s16 field_216_health;
     u16 field_218_objective_timer;

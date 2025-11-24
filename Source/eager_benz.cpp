@@ -1,6 +1,6 @@
 #include "eager_benz.hpp"
 #include "CarInfo_808.hpp"
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "ExplodingScore_100.hpp"
 #include "Game_0x40.hpp"
@@ -164,7 +164,7 @@ void eager_benz::sub_591C70()
         }
     }
 
-    //Car_B0* tmp4;
+    //CarPhysics_B0* tmp4;
     Car_BC* tmp3;
     if (field_2C4_player_ped->get_wanted_points_433DC0() > 3000 && (field_2C4_player_ped->has_car_403B80()) &&
         field_2C4_player_ped->not_enter_car_as_passenger_4A5040() &&

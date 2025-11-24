@@ -224,8 +224,8 @@ set(gta2_lib_src
   Source/thirsty_lamarr.hpp
   Source/thirsty_lamarr.cpp
   Source/enums.hpp
-  Source/Car_B0.hpp
-  Source/Car_B0.cpp
+  Source/CarPhysics_B0.hpp
+  Source/CarPhysics_B0.cpp
   Source/Miss2_25C.hpp
   Source/Miss2_25C.cpp
   Source/Object_8.hpp

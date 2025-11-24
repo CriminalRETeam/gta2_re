@@ -1,5 +1,5 @@
 #include "Ped.hpp"
-#include "Car_B0.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
@@ -66,6 +66,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
+DEFINE_GLOBAL(s32, dword_67853C, 0x67853C);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -236,10 +237,53 @@ void Ped::TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos)
     }
 }
 
-STUB_FUNC(0x45bc70)
+STUB_FUNC(0x5DF270);
+EXPORT int __stdcall sub_5DF270(Sprite* a1, s32 a2, char_type a3, char_type a4, Ped* a5, s32* a6)
+{
+    // TODO: Is this actually a class method ?? also location is wrong in respect to address ordering
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+MATCH_FUNC(0x45bc70)
 void Ped::sub_45BC70()
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 9)
+    {
+        if (field_210 >= field_212)
+        {
+            if (field_168_game_object)
+            {
+                if (field_168_game_object->field_10 != 15 && field_278 != 8)
+                {
+                    sub_45C500(8);
+                    sub_45C540(27);
+                    field_168_game_object->field_16 = 1;
+                }
+
+                if (field_210 > 0)
+                {
+                    --field_210;
+                }
+            }
+            else
+            {
+                field_210 = 0;
+            }
+        }
+        else if (field_210 > 0)
+        {
+            --field_210;
+        }
+
+        if (field_168_game_object)
+        {
+            if ((field_21C & 0x4000000) != 0)
+            {
+                sub_5DF270(field_168_game_object->field_80_sprite_ptr, dword_67853C, 0, 1, this, 0);
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x45bd20)
@@ -3068,10 +3112,10 @@ void Ped::sub_470300()
         {
             pCar->field_7C_uni_num = 3;
             pCar->field_76 = 0;
-            CarPhysics_B0* pB0 = pCar->field_58_physics;
-            if (pB0)
+            CarPhysics_B0* pCarPhysics = pCar->field_58_physics;
+            if (pCarPhysics)
             {
-                pB0->field_8C = 1;
+                pCarPhysics->field_8C = 1;
             }
         }
     }
