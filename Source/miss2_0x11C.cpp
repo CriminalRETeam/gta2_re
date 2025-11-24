@@ -3597,7 +3597,7 @@ void miss2_0x11C::sub_50E900()
     Car_BC* pDstCar = pDstCarPointer->field_8_car;
     if (pDstCar->field_88 != 6)
     {
-        GLOBAL(Sprite*, dword_6791AC, 0x6791AC);* pTrailer = pDstCar->field_64_pTrailer;
+        Trailer* pTrailer = pDstCar->field_64_pTrailer;
         if (pTrailer != NULL && pTrailer->field_8_truck_cab == pDstCar)
         {
             // put car on the trailer attached to the truck cab
