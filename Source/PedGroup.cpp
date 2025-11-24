@@ -650,11 +650,19 @@ void PedGroup::sub_4CB080()
     }
 }
 
-STUB_FUNC(0x4cb0d0)
+MATCH_FUNC(0x4cb0d0)
 PedGroup* PedGroup::New_4CB0D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s32 i = 0; i < 20; i++)
+    {
+        if (!pedGroups_67EF20[i].field_40_in_use)
+        {
+            pedGroups_67EF20[i].sub_4C8EF0();
+            pedGroups_67EF20[i].field_40_in_use = 1;
+            return &pedGroups_67EF20[i];
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x4cb860)
