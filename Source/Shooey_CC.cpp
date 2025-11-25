@@ -141,7 +141,7 @@ void Shooey_CC::dtor_484FD0()
     NOT_IMPLEMENTED;
 }
 
-// TODO: Just wrong case order I think
+// https://decomp.me/scratch/0XcCw
 STUB_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
@@ -189,6 +189,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
     }
 }
 
+// https://decomp.me/scratch/xN2BK
 STUB_FUNC(0x485090)
 bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
 {
@@ -196,6 +197,7 @@ bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
     return 0;
 }
 
+// https://decomp.me/scratch/KvTvv
 STUB_FUNC(0x4850f0)
 char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
 {
