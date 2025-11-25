@@ -136,7 +136,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 {
     Ped* pCop = NULL;
 
-    if (gChar_C_6787BC->field_5 >= 30)
+    if (gPedManager_6787BC->field_5 >= 30)
     {
         return NULL;
     }
@@ -144,7 +144,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     switch (gRoadblockGuardType_6FEDB8)
     {
         case 3:
-            pCop = gChar_C_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->field_238 = 4;
             pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
@@ -156,7 +156,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
             pCop->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
             break;
         case 1:
-            pCop = gChar_C_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
+            pCop = gPedManager_6787BC->SpawnPedAt(xpos, ypos, zpos, 0, rotation);
             pCop->field_238 = 4;
             pCop->field_240_occupation = ped_ocupation_enum::unknown_17;
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);

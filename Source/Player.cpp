@@ -799,7 +799,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if ((pPed_killer = gChar_C_6787BC->PedById(field_2C4_player_ped->field_204)) == 0)
+        else if ((pPed_killer = gPedManager_6787BC->PedById(field_2C4_player_ped->field_204)) == 0)
         {
             player_killer = NULL;
         }
@@ -846,7 +846,7 @@ void Player::Wasted_567130()
         field_2C = 70;
         if (field_684_lives.field_0 > 1)
         {
-            field_2C8_unkq = gChar_C_6787BC->sub_470F90(field_2C4_player_ped);
+            field_2C8_unkq = gPedManager_6787BC->sub_470F90(field_2C4_player_ped);
             field_2C8_unkq->field_170_selected_weapon = 0;
             field_2C8_unkq->field_200_id = 0;
             field_2C8_unkq->field_21C &= ~0x800u; //  TODO: BitSet32

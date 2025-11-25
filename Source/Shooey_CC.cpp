@@ -35,7 +35,7 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
     }
     else
     {
-        Ped* pPed = gChar_C_6787BC->PedById(ped_id);
+        Ped* pPed = gPedManager_6787BC->PedById(ped_id);
         field_8_pos.x = pPed->get_cam_x();
         field_8_pos.y = pPed->get_cam_y();
         field_8_pos.z = pPed->get_cam_z();

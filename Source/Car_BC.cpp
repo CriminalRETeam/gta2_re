@@ -1530,7 +1530,7 @@ void Car_BC::SpawnDriverPed()
     Ped* pNextPed = gCar_6C_677930->field_4;
     if (!pNextPed)
     {
-        pNextPed = gChar_C_6787BC->sub_470CC0(this);
+        pNextPed = gPedManager_6787BC->sub_470CC0(this);
         gCar_6C_677930->field_4 = pNextPed;
     }
     SetDriver(pNextPed);
@@ -1540,7 +1540,7 @@ void Car_BC::SpawnDriverPed()
 MATCH_FUNC(0x440630)
 void Car_BC::AddGangDriver_440630(Gang_144* pGang)
 {
-    Ped* pNewPed = gChar_C_6787BC->SpawnGangDriver_470BA0(this, pGang);
+    Ped* pNewPed = gPedManager_6787BC->SpawnGangDriver_470BA0(this, pGang);
     SetDriver(pNewPed);
     field_7C_uni_num = 3;
 }

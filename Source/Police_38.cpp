@@ -145,7 +145,7 @@ MATCH_FUNC(0x570bf0)
 void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::New_4CB0D0();
-    Ped* pCopLeader = gChar_C_6787BC->sub_470F30();
+    Ped* pCopLeader = gPedManager_6787BC->sub_470F30();
     pCopLeader->field_238 = 4;
     pCopLeader->field_240_occupation = ped_ocupation_enum::police;
     pCopLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
@@ -181,7 +181,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     pCopLeader->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pCopLeader->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
 
-    Ped* pCopSupporter = gChar_C_6787BC->sub_470F30();
+    Ped* pCopSupporter = gPedManager_6787BC->sub_470F30();
     pCopSupporter->sub_45C7F0(field_10_subObj->field_0_car);
     pCopSupporter->field_238 = 4;
     pCopSupporter->field_240_occupation = ped_ocupation_enum::police;
@@ -228,7 +228,7 @@ MATCH_FUNC(0x570e30)
 void PoliceCrew_38::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
-    Ped* pSwatLeader = gChar_C_6787BC->sub_470F30();
+    Ped* pSwatLeader = gPedManager_6787BC->sub_470F30();
     pSwatLeader->field_238 = 4;
     pSwatLeader->field_240_occupation = ped_ocupation_enum::swat;
     pSwatLeader->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
@@ -247,7 +247,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     pSwatGroup->field_34_count = 3;
     for (u8 i = 0; i < 3; ++i)
     {
-        Ped* pSwatMember = gChar_C_6787BC->sub_470F30();
+        Ped* pSwatMember = gPedManager_6787BC->sub_470F30();
         pSwatMember->sub_45C7F0(field_10_subObj->field_0_car);
         pSwatMember->field_238 = 4;
         pSwatMember->field_240_occupation = ped_ocupation_enum::swat;
@@ -274,7 +274,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
 MATCH_FUNC(0x571150)
 void PoliceCrew_38::SpawnFBI_nonused_571150()
 {
-    Ped* pFBI = gChar_C_6787BC->sub_470F30();
+    Ped* pFBI = gPedManager_6787BC->sub_470F30();
     pFBI->field_238 = 4;
     pFBI->field_240_occupation = ped_ocupation_enum::fbi;
     pFBI->SpawnPedInCar_45C730(field_10_subObj->field_0_car);
@@ -419,7 +419,7 @@ void PoliceCrew_38::sub_572340()
     }
     else if (field_10_subObj->field_2C)
     {
-        if (gChar_C_6787BC->field_5 < 0x1Au)
+        if (gPedManager_6787BC->field_5 < 0x1Au)
         {
             switch (field_10_subObj->field_20)
             {

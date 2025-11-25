@@ -3785,7 +3785,7 @@
         "v105_address": "0x46e380"
     },
     {
-        "name": "Char_C::sub_46EB60",
+        "name": "PedManager::sub_46EB60",
         "v96f_address": null,
         "v105_address": "0x46eb60"
     },
@@ -3920,47 +3920,47 @@
         "v105_address": "0x470330"
     },
     {
-        "name": "Char_C::PedsService_4703F0",
+        "name": "PedManager::PedsService_4703F0",
         "v96f_address": null,
         "v105_address": "0x4703f0"
     },
     {
-        "name": "Char_C::ctor",
+        "name": "PedManager::ctor",
         "v96f_address": null,
         "v105_address": "0x470650"
     },
     {
-        "name": "Char_C::dtor",
+        "name": "PedManager::dtor",
         "v96f_address": null,
         "v105_address": "0x4709b0"
     },
     {
-        "name": "Char_C::SpawnPedAt",
+        "name": "PedManager::SpawnPedAt",
         "v96f_address": null,
         "v105_address": "0x470a50"
     },
     {
-        "name": "Char_C::SpawnDriver_470B00",
+        "name": "PedManager::SpawnDriver_470B00",
         "v96f_address": null,
         "v105_address": "0x470b00"
     },
     {
-        "name": "Char_C::SpawnGangDriver_470BA0",
+        "name": "PedManager::SpawnGangDriver_470BA0",
         "v96f_address": null,
         "v105_address": "0x470ba0"
     },
     {
-        "name": "Char_C::sub_470CC0",
+        "name": "PedManager::sub_470CC0",
         "v96f_address": null,
         "v105_address": "0x470cc0"
     },
     {
-        "name": "Char_C::sub_470D60",
+        "name": "PedManager::sub_470D60",
         "v96f_address": null,
         "v105_address": "0x470d60"
     },
     {
-        "name": "Char_C::sub_470E30",
+        "name": "PedManager::sub_470E30",
         "v96f_address": null,
         "v105_address": "0x470e30"
     },
@@ -3970,7 +3970,7 @@
         "v105_address": "0x470f00"
     },
     {
-        "name": "Char_C::sub_470F30",
+        "name": "PedManager::sub_470F30",
         "v96f_address": null,
         "v105_address": "0x470f30"
     },
@@ -3980,12 +3980,12 @@
         "v105_address": "0x470f90"
     },
     {
-        "name": "Char_C::DoIanTest",
+        "name": "PedManager::DoIanTest",
         "v96f_address": null,
         "v105_address": "0x471060"
     },
     {
-        "name": "Char_C::PedById",
+        "name": "PedManager::PedById",
         "v96f_address": null,
         "v105_address": "0x4710c0"
     },

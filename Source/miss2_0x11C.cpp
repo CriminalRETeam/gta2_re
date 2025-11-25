@@ -248,7 +248,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             Fix16 weird_y = dword_6F76DC + dword_6F7920.GetRoundValue();
             Fix16 weird_x = dword_6F75F0 + dword_6F791C.GetRoundValue();
 
-            pPed = gChar_C_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
+            pPed = gPedManager_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
         }
         else
         {
@@ -264,7 +264,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            pPed = gChar_C_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
+            pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                               pCmd->field_C_pos.field_4_y,
                                               pCmd->field_C_pos.field_8_z,
                                               pCmd->field_1A_remap,
@@ -421,7 +421,7 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
-    pPed = gChar_C_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
+    pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                       pCmd->field_C_pos.field_4_y,
                                       pCmd->field_C_pos.field_8_z,
                                       (u8)pCmd->field_1A_remap,
@@ -4043,11 +4043,11 @@ void miss2_0x11C::SCRCMD_MAKE_MUGGERS_50F770()
     SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
     if (pCmd->field_A_status == 1)
     {
-        gChar_C_6787BC->field_7_make_all_muggers = true;
+        gPedManager_6787BC->field_7_make_all_muggers = true;
     }
     else
     {
-        gChar_C_6787BC->field_7_make_all_muggers = false;
+        gPedManager_6787BC->field_7_make_all_muggers = false;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
