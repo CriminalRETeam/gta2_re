@@ -6,7 +6,7 @@
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
 
-DEFINE_GLOBAL(Char_C*, gChar_C_6787BC, 0x6787BC);
+DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
@@ -247,7 +247,7 @@ void Char_B4::sub_5459E0()
 
     if (field_7C_pPed->field_204)
     {
-        if (gChar_C_6787BC->PedById(field_7C_pPed->field_204))
+        if (gPedManager_6787BC->PedById(field_7C_pPed->field_204))
         {
             field_7C_pPed->field_290 = 5;
             field_7C_pPed->field_264 = 50;
@@ -487,31 +487,31 @@ EXPORT void Char_B4::nullsub_28()
 //}
 
 STUB_FUNC(0x46eb60)
-void Char_C::sub_46EB60(u32* a2)
+void PedManager::sub_46EB60(u32* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4703f0)
-void Char_C::PedsService_4703F0()
+void PedManager::PedsService_4703F0()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x470650)
-Char_C::Char_C()
+PedManager::PedManager()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4709b0)
-Char_C::~Char_C()
+PedManager::~PedManager()
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x470a50)
-Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
+Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation)
 {
     Ped* pPed = gPedPool_6787B8->Allocate();
 
@@ -537,7 +537,7 @@ Ped* Char_C::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rota
 }
 
 MATCH_FUNC(0x470b00)
-Ped* Char_C::SpawnDriver_470B00(Car_BC* pCar)
+Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_238 = 3;
@@ -557,14 +557,14 @@ Ped* Char_C::SpawnDriver_470B00(Car_BC* pCar)
 }
 
 STUB_FUNC(0x470ba0)
-Ped* Char_C::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
+Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x470cc0)
-Ped* Char_C::sub_470CC0(Car_BC* pCar)
+Ped* PedManager::sub_470CC0(Car_BC* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_244_remap = -1;
@@ -584,21 +584,21 @@ Ped* Char_C::sub_470CC0(Car_BC* pCar)
 }
 
 STUB_FUNC(0x470d60)
-Ped* Char_C::sub_470D60()
+Ped* PedManager::sub_470D60()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x470e30)
-Ped* Char_C::sub_470E30()
+Ped* PedManager::sub_470E30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x470f30)
-Ped* Char_C::sub_470F30()
+Ped* PedManager::sub_470F30()
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->field_216_health = 100;
@@ -606,7 +606,7 @@ Ped* Char_C::sub_470F30()
 }
 
 MATCH_FUNC(0x470f90)
-Ped* Char_C::sub_470F90(Ped* pSrc)
+Ped* PedManager::sub_470F90(Ped* pSrc)
 {
     Ped* pDst = gPedPool_6787B8->Allocate();
     Ped* pNext = pDst->mpNext;
@@ -631,13 +631,13 @@ Ped* Char_C::sub_470F90(Ped* pSrc)
 }
 
 STUB_FUNC(0x471060)
-void Char_C::DoIanTest_471060(s16 a1)
+void PedManager::DoIanTest_471060(s16 a1)
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x4710c0)
-Ped* Char_C::PedById(s32 pedId)
+Ped* PedManager::PedById(s32 pedId)
 {
     for (Ped* pPedIter = gPedPool_6787B8->field_0_pool.field_4_pPrev; pPedIter; pPedIter = pPedIter->mpNext)
     {

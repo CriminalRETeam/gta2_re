@@ -639,7 +639,7 @@ void Ped::SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pOther)
         default:
             if (pCar->GetRemap())
             {
-                Ped* pPed = gChar_C_6787BC->sub_470D60();
+                Ped* pPed = gPedManager_6787BC->sub_470D60();
                 pPed->field_240_occupation = 0x32;
                 pCar->field_54_driver = pPed;
                 pPed->field_16C_car = pCar;
@@ -1114,7 +1114,7 @@ void Ped::Occupation_AI_461F20()
             Ped::RoadBlockTank_AI_4619F0();
             break;
         case ped_ocupation_enum::unknown_18:
-            if (!gChar_C_6787BC->field_7_make_all_muggers)
+            if (!gPedManager_6787BC->field_7_make_all_muggers)
             {
                 field_240_occupation = ped_ocupation_enum::dummy;
                 field_238 = 3;

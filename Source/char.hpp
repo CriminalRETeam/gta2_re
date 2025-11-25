@@ -217,17 +217,17 @@ class Char_8_Pool
     }
 };
 
-class Char_C
+class PedManager
 {
   public:
     EXPORT void sub_46EB60(u32* a2);
     EXPORT void PedsService_4703F0();
-    EXPORT Char_C();
-    EXPORT ~Char_C();
+    EXPORT PedManager();
+    EXPORT ~PedManager();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
-    EXPORT Ped* SpawnDriver_470B00(Car_BC* a2);
+    EXPORT Ped* SpawnDriver_470B00(Car_BC* pCar);
     EXPORT Ped* SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang);
-    EXPORT Ped* sub_470CC0(Car_BC* a2);
+    EXPORT Ped* sub_470CC0(Car_BC* pCar);
     EXPORT Ped* sub_470D60();
     EXPORT Ped* sub_470E30();
     EXPORT Ped* sub_470F30();
@@ -258,7 +258,7 @@ class PedPool
     Pool<Ped, 200> field_0_pool;
 };
 
-EXTERN_GLOBAL(Char_C*, gChar_C_6787BC);
+EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);
 
 EXTERN_GLOBAL(PedPool*, gPedPool_6787B8);
 

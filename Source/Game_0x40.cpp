@@ -312,7 +312,7 @@ void Game_0x40::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->field_0_pool.field_X_count);
     gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 96, word_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gChar_C_6787BC->field_2);
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2);
     gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 112, word_706600, 1);
 
     Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
@@ -468,7 +468,7 @@ void Game_0x40::UpdateGame_4B9410()
     gCranePool_D9C_679FD4->CranesService_480E50();
     gCrusherPool_94_67A830->CrushersService_4887F0();
     gGeneratorPool_14AC_67E5D0->GeneratorsService_4C1D70();
-    gChar_C_6787BC->PedsService_4703F0();
+    gPedManager_6787BC->PedsService_4703F0();
     gPublicTransport_181C_6FF1D4->PublicTransportService_57A7A0(); // trains & buses
     gGarage_48_6FD26C->GaragesService_5349D0();
     gCar_6C_677930->CarsService_446790();
@@ -971,8 +971,8 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1839);
     }
 
-    gChar_C_6787BC = new Char_C(); // ctor call
-    if (!gChar_C_6787BC)
+    gPedManager_6787BC = new PedManager(); // ctor call
+    if (!gPedManager_6787BC)
     {
         FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1841);
     }
@@ -1233,7 +1233,7 @@ Game_0x40::~Game_0x40()
     GTA2_DELETE_AND_NULL(gPhi_8CA8_6FCF00);
     GTA2_DELETE_AND_NULL(gObject_5C_6F8F84);
 
-    GTA2_DELETE_AND_NULL(gChar_C_6787BC);
+    GTA2_DELETE_AND_NULL(gPedManager_6787BC);
     GTA2_DELETE_AND_NULL(gMike_A80_6F7328);
 
     GTA2_DELETE_AND_NULL(gsharp_bose_0x54_7055D4);

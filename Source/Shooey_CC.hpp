@@ -28,7 +28,7 @@ class Shooey_CC
     EXPORT Shooey_CC();
     EXPORT ~Shooey_CC();
     EXPORT void ReportCrime(s32 crime_type, s32 ped_id);
-    EXPORT bool GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos);
+    EXPORT bool GetLatestReportedCrime(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
     EXPORT char_type CanReportCrime(s32 crime_type);
     EXPORT Shooey_CC* ctor_484FC0();
     EXPORT void dtor_484FD0();
@@ -37,7 +37,7 @@ class Shooey_CC
     EXPORT char_type sub_4850F0(Char_B4* a2, Player* a3);
     EXPORT char_type sub_485140(Ped* a2, Player* a3);
 
-    u16 field_0;
-    u16 field_2;
-    Shooey_14 field_4[10];
+    u16 field_0_idx;
+    u16 field_2_report_count;
+    Shooey_14 field_4_crimes[10];
 };

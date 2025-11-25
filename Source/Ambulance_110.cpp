@@ -53,12 +53,12 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    if (gChar_C_6787BC->field_5 >= 30u)
+    if (gPedManager_6787BC->field_5 >= 30u)
     {
         return false;
     }
 
-    Ped* pPed1 = gChar_C_6787BC->sub_470F30();
+    Ped* pPed1 = gPedManager_6787BC->sub_470F30();
     if (!pPed1)
     {
         return false;
@@ -77,7 +77,7 @@ bool Ambulance_20::sub_4FA820()
     pPed1->field_26C_graphic_type = 0;
     pPed1->field_1F8 = dword_6F6DD4;
 
-    Ped* pPed2 = gChar_C_6787BC->sub_470F30();
+    Ped* pPed2 = gPedManager_6787BC->sub_470F30();
     if (!pPed2)
     {
         return false;

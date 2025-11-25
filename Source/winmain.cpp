@@ -129,8 +129,8 @@ void force_link()
     nostalgic_ellis_0x28 nostalgic;
     nostalgic.sub_4D6D70();
 
-    Char_C char_c;
-    char_c.DoIanTest_471060(0);
+    PedManager PedManager;
+    PedManager.DoIanTest_471060(0);
 
     Player lewin(1);
     u8 zero_u8 = 0;

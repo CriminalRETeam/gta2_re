@@ -1,9 +1,9 @@
 #include "Shooey_CC.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
-#include "char.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "char.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
@@ -35,13 +35,12 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
     }
     else
     {
-        Ped* pPed = gChar_C_6787BC->PedById(ped_id);
+        Ped* pPed = gPedManager_6787BC->PedById(ped_id);
         field_8_pos.x = pPed->get_cam_x();
         field_8_pos.y = pPed->get_cam_y();
         field_8_pos.z = pPed->get_cam_z();
     }
 }
-
 
 MATCH_FUNC(0x484d50)
 void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
@@ -55,8 +54,8 @@ void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yP
 MATCH_FUNC(0x484d80)
 Shooey_CC::Shooey_CC()
 {
-    field_0 = 0;
-    field_2 = 0;
+    field_0_idx = 0;
+    field_2_report_count = 0;
 }
 
 MATCH_FUNC(0x484db0)
@@ -67,53 +66,66 @@ Shooey_CC::~Shooey_CC()
 MATCH_FUNC(0x484dd0)
 void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
 {
-    field_4[field_0].ReportCrimeForPedAtLocation(crime_type, ped_id);
+    field_4_crimes[field_0_idx].ReportCrimeForPedAtLocation(crime_type, ped_id);
 
-    field_0++;
+    field_0_idx++;
 
-    if (field_0 >= GTA2_COUNTOF(field_4))
+    if (field_0_idx >= GTA2_COUNTOF(field_4_crimes))
     {
-        field_0 = 0;
+        field_0_idx = 0;
     }
 
-    if (field_0 == field_2)
+    if (field_0_idx == field_2_report_count)
     {
-        field_2++;
-        if (field_2 >= GTA2_COUNTOF(field_4))
+        field_2_report_count++;
+        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
         {
-            field_2 = 0;
+            field_2_report_count = 0;
         }
     }
 }
 
-STUB_FUNC(0x484e20)
-bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos)
+MATCH_FUNC(0x484e20)
+bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Get it
+    field_4_crimes[field_2_report_count].GetCrimeTypeAndLocation(pCrimeType, pXPos, pYPos, pZPos);
+
+    // But then also clear it?
+    field_4_crimes[field_2_report_count].ReportCrimeForPedAtLocation(0, 0);
+
+    // Tick the count
+    if (field_2_report_count != field_0_idx)
+    {
+        field_2_report_count++;
+        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
+        {
+            field_2_report_count = 0;
+        }
+    }
+
+    // Did we fill in the info?
+    return *pCrimeType != 0 ? true : false;
 }
 
-STUB_FUNC(0x484e90)
+MATCH_FUNC(0x484e90)
 char_type Shooey_CC::CanReportCrime(s32 crime_type)
 {
-    NOT_IMPLEMENTED;
-    u16 idx = this->field_2;
-    if (idx == this->field_0)
+    // Circular loop around
+    u16 idx = field_2_report_count;
+    while (idx != field_0_idx)
     {
-        return 0;
-    }
-    while (this->field_4[idx].field_0_crime_type != crime_type)
-    {
-        if (++idx >= 10u)
+        if (field_4_crimes[idx].field_0_crime_type == crime_type)
+        {
+            return 1;
+        }
+
+        if (++idx >= GTA2_COUNTOF(field_4_crimes))
         {
             idx = 0;
         }
-        if (idx == this->field_0)
-        {
-            return 0;
-        }
     }
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x484fc0)
@@ -123,14 +135,13 @@ Shooey_CC* Shooey_CC::ctor_484FC0()
     return 0;
 }
 
-
 STUB_FUNC(0x484fd0)
 void Shooey_CC::dtor_484FD0()
 {
     NOT_IMPLEMENTED;
 }
 
-// TODO: Just wrong case order I think
+// https://decomp.me/scratch/0XcCw
 STUB_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
@@ -178,6 +189,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
     }
 }
 
+// https://decomp.me/scratch/xN2BK
 STUB_FUNC(0x485090)
 bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
 {
@@ -185,6 +197,7 @@ bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
     return 0;
 }
 
+// https://decomp.me/scratch/KvTvv
 STUB_FUNC(0x4850f0)
 char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
 {

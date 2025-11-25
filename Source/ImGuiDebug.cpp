@@ -264,13 +264,13 @@ void CC ImGuiDebugDraw()
 
                 //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
-                Ped* pNewPed = gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
+                Ped* pNewPed = gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
                                                           pPlayerSprite->field_14_xpos.y,
                                                           pPlayerSprite->field_1C_zpos,
                                                           pPlayerChar->field_5_remap,
                                                           pPlayerPed->field_134);
 */
-                //gChar_C_6787BC->sub_470E30();
+                //gPedManager_6787BC->sub_470E30();
 
                 gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 
@@ -689,30 +689,30 @@ void CC ImGuiDebugDraw()
         ImGui::TreePop();
     }
 
-    if (ImGui::TreeNode("gChar_C_6787BC"))
+    if (ImGui::TreeNode("gPedManager_6787BC"))
     {
-        if (gChar_C_6787BC)
+        if (gPedManager_6787BC)
         {
             if (ImGui::Button("Player invisible Ian Test 8"))
             {
-                gChar_C_6787BC->DoIanTest_471060(8);
+                gPedManager_6787BC->DoIanTest_471060(8);
             }
             if (ImGui::Button("Player visible Ian Test 9"))
             {
-                gChar_C_6787BC->DoIanTest_471060(9);
+                gPedManager_6787BC->DoIanTest_471060(9);
             }
             if (ImGui::Button("Set player on fire PIan Test 10"))
             {
-                gChar_C_6787BC->DoIanTest_471060(10);
+                gPedManager_6787BC->DoIanTest_471060(10);
             }
 
-            ImGui::Text("field_0 %d", gChar_C_6787BC->field_0); // spawn rate ?
-            ImGui::Input_char_type("field_2", &gChar_C_6787BC->field_2, 1, 1); // total spawned ?
-            ImGui::Input_char_type("field_3", &gChar_C_6787BC->field_3, 1, 1); // something to do with total ped count also
-            ImGui::Input_char_type("field_4", &gChar_C_6787BC->field_4, 1, 1); // ??
-            ImGui::InputU8("field_5", &gChar_C_6787BC->field_5, 1, 1); // ??
-            ImGui::Text("Num peds on screen %d", gChar_C_6787BC->field_6_num_peds_on_screen);
-            ImGui::Input_char_type("field_7_make_all_muggers", &gChar_C_6787BC->field_7_make_all_muggers, 1, 1);
+            ImGui::Text("field_0 %d", gPedManager_6787BC->field_0); // spawn rate ?
+            ImGui::Input_char_type("field_2", &gPedManager_6787BC->field_2, 1, 1); // total spawned ?
+            ImGui::Input_char_type("field_3", &gPedManager_6787BC->field_3, 1, 1); // something to do with total ped count also
+            ImGui::Input_char_type("field_4", &gPedManager_6787BC->field_4, 1, 1); // ??
+            ImGui::InputU8("field_5", &gPedManager_6787BC->field_5, 1, 1); // ??
+            ImGui::Text("Num peds on screen %d", gPedManager_6787BC->field_6_num_peds_on_screen);
+            ImGui::Input_char_type("field_7_make_all_muggers", &gPedManager_6787BC->field_7_make_all_muggers, 1, 1);
         }
         ImGui::TreePop();
     }
@@ -731,7 +731,7 @@ void CC ImGuiDebugDraw()
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    gChar_C_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
+                    gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
                                                pPlayerSprite->field_14_xpos.y,
                                                pPlayerSprite->field_1C_zpos,
                                                pPlayerChar->field_5_remap,
