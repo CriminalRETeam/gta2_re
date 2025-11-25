@@ -54,8 +54,8 @@ void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yP
 MATCH_FUNC(0x484d80)
 Shooey_CC::Shooey_CC()
 {
-    field_0 = 0;
-    field_2 = 0;
+    field_0_idx = 0;
+    field_2_report_count = 0;
 }
 
 MATCH_FUNC(0x484db0)
@@ -66,45 +66,61 @@ Shooey_CC::~Shooey_CC()
 MATCH_FUNC(0x484dd0)
 void Shooey_CC::ReportCrime(s32 crime_type, s32 ped_id)
 {
-    field_4[field_0].ReportCrimeForPedAtLocation(crime_type, ped_id);
+    field_4_crimes[field_0_idx].ReportCrimeForPedAtLocation(crime_type, ped_id);
 
-    field_0++;
+    field_0_idx++;
 
-    if (field_0 >= GTA2_COUNTOF(field_4))
+    if (field_0_idx >= GTA2_COUNTOF(field_4_crimes))
     {
-        field_0 = 0;
+        field_0_idx = 0;
     }
 
-    if (field_0 == field_2)
+    if (field_0_idx == field_2_report_count)
     {
-        field_2++;
-        if (field_2 >= GTA2_COUNTOF(field_4))
+        field_2_report_count++;
+        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
         {
-            field_2 = 0;
+            field_2_report_count = 0;
         }
     }
 }
 
-STUB_FUNC(0x484e20)
-bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, u32* pZPos)
+MATCH_FUNC(0x484e20)
+bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Get it
+    field_4_crimes[field_2_report_count].GetCrimeTypeAndLocation(pCrimeType, pXPos, pYPos, pZPos);
+
+    // But then also clear it?
+    field_4_crimes[field_2_report_count].ReportCrimeForPedAtLocation(0, 0);
+
+    // Tick the count
+    if (field_2_report_count != field_0_idx)
+    {
+        field_2_report_count++;
+        if (field_2_report_count >= GTA2_COUNTOF(field_4_crimes))
+        {
+            field_2_report_count = 0;
+        }
+    }
+
+    // Did we fill in the info?
+    return *pCrimeType != 0 ? true : false;
 }
 
 MATCH_FUNC(0x484e90)
 char_type Shooey_CC::CanReportCrime(s32 crime_type)
 {
     // Circular loop around
-    u16 idx = field_2;
-    while (idx != field_0)
+    u16 idx = field_2_report_count;
+    while (idx != field_0_idx)
     {
-        if (field_4[idx].field_0_crime_type == crime_type)
+        if (field_4_crimes[idx].field_0_crime_type == crime_type)
         {
             return 1;
         }
 
-        if (++idx >= 10u)
+        if (++idx >= GTA2_COUNTOF(field_4_crimes))
         {
             idx = 0;
         }
