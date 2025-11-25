@@ -526,9 +526,9 @@ MATCH_FUNC(0x446790)
 void Car_6C::CarsService_446790()
 {
     sub_446760();
-    
+
     gTaxi_4_704130->PopAll_457BC0();
-    
+
     field_55 = 0;
 
     gCar_BC_Pool_67792C->field_0_pool.UpdatePool();
@@ -1404,11 +1404,30 @@ s16 Car_BC::sub_43DA90(s16 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x43db80)
-Char_8** Car_BC::sub_43DB80()
+MATCH_FUNC(0x43db80)
+void Car_BC::sub_43DB80()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pDriver; // eax
+    CarPhysics_B0* pPhysics; // eax
+
+    pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        if (pDriver->field_240_occupation != 4)
+        {
+            if (pDriver->field_15C_player)
+            {
+                pPhysics = this->field_58_physics;
+                if (pPhysics)
+                {
+                    pPhysics->field_8C = 1;
+                }
+            }
+            field_54_driver->Kill_46F9D0();
+        }
+        this->field_54_driver = 0;
+    }
+    field_4.sub_4715E0();
 }
 
 STUB_FUNC(0x43dbd0)

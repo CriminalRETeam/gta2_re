@@ -1,9 +1,9 @@
 #include "Shooey_CC.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
-#include "char.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "char.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
@@ -41,7 +41,6 @@ void Shooey_14::ReportCrimeForPedAtLocation(s32 crime_type, s32 ped_id)
         field_8_pos.z = pPed->get_cam_z();
     }
 }
-
 
 MATCH_FUNC(0x484d50)
 void Shooey_14::GetCrimeTypeAndLocation(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
@@ -93,27 +92,24 @@ bool Shooey_CC::GetLatestReportedCrime(s32* pCrimeType, s32* pXPos, s32* pYPos, 
     return 0;
 }
 
-STUB_FUNC(0x484e90)
+MATCH_FUNC(0x484e90)
 char_type Shooey_CC::CanReportCrime(s32 crime_type)
 {
-    NOT_IMPLEMENTED;
-    u16 idx = this->field_2;
-    if (idx == this->field_0)
+    // Circular loop around
+    u16 idx = field_2;
+    while (idx != field_0)
     {
-        return 0;
-    }
-    while (this->field_4[idx].field_0_crime_type != crime_type)
-    {
+        if (field_4[idx].field_0_crime_type == crime_type)
+        {
+            return 1;
+        }
+
         if (++idx >= 10u)
         {
             idx = 0;
         }
-        if (idx == this->field_0)
-        {
-            return 0;
-        }
     }
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x484fc0)
@@ -122,7 +118,6 @@ Shooey_CC* Shooey_CC::ctor_484FC0()
     NOT_IMPLEMENTED;
     return 0;
 }
-
 
 STUB_FUNC(0x484fd0)
 void Shooey_CC::dtor_484FD0()
