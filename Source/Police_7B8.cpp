@@ -172,11 +172,89 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     return pCop;
 }
 
-// https://decomp.me/scratch/1NK2I
-STUB_FUNC(0x56f6d0)
+MATCH_FUNC(0x56f6d0)
 void Police_7B8::sub_56F6D0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
+    u8 bUnknown = 0;
+
+    for (u8 idx = 0; idx < 20; idx++)
+    {
+        if (field_4_cop_crew[idx].field_1C_used)
+        {
+            PoliceCrew_38* pCrew = &field_4_cop_crew[idx];
+            if (field_4_cop_crew[idx].field_10_subObj && field_4_cop_crew[idx].field_10_subObj->field_0_car == pCar)
+            {
+                PedGroup* pPedGroup = pCrew->field_10_subObj->field_8_group;
+
+                if (!pPedGroup || pPedGroup->IsAllMembersInSomeCar_4CAA20())
+                {
+                    switch (pCrew->field_14_pObj->field_4)
+                    {
+                        case 6:
+
+                            if (pCrew->field_20 == 1)
+                            {
+                                bUnknown = 1;
+                            }
+                            if (pCrew->field_20 == 2)
+                            {
+                                bUnknown = 1;
+                            }
+                            if (pCrew->field_20 == 3)
+                            {
+                                bUnknown = 1;
+                            }
+
+                            break;
+
+                        case 5:
+
+                            if (pCrew->field_20 == 1)
+                            {
+                                bUnknown = 1;
+                            }
+                            if (pCrew->field_20 == 2)
+                            {
+                                bUnknown = 1;
+                            }
+                            break;
+
+                        default:
+                            return;
+                    }
+                    if (!bUnknown)
+                    {
+                        return;
+                    }
+                }
+
+                idx = 0;
+                if (pCrew->field_10_subObj->field_8_group)
+                {
+                    for (Ped* pPedIter = pCrew->field_10_subObj->field_8_group->field_4_ped_list[idx]; pPedIter;
+                         pPedIter = pCrew->field_10_subObj->field_8_group->field_4_ped_list[++idx])
+                    {
+                        if (pPedIter->field_168_game_object)
+                        {
+                            pPedIter->Deallocate_45EB60();
+                        }
+                    }
+                }
+
+                pCrew->sub_570AB0();
+                Car_BC* pCrewCar = pCrew->field_10_subObj->field_0_car;
+
+                if (pCrewCar->field_88 != 5 && pCrewCar->field_88 != 2 && pCrewCar->field_88 != 3)
+                {
+                    pCrewCar->field_88 = 4;
+                }
+                pCrew->field_10_subObj->field_28 = 5;
+                pCrew->field_10_subObj->field_2C = 1;
+                pCrew->field_24_state = 6;
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x56f800)
