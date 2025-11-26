@@ -475,6 +475,53 @@ void Char_B4::state_9_552E90()
     NOT_IMPLEMENTED;
 }
 
+STUB_FUNC(0x5532C0)
+bool Char_B4::sub_5532C0()
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
+
+STUB_FUNC(0x553340)
+bool Char_B4::sub_553340(Sprite* pSprite)
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
+
+STUB_FUNC(0x5535B0)
+char_type Char_B4::sub_5535B0(Object_2C* p2c)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x553640)
+char_type Char_B4::sub_553640(Object_2C* p2c)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x5537F0)
+char_type Char_B4::sub_5537F0(Object_2C* p2c)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x5538A0)
+void Char_B4::sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x553E00)
+void Char_B4::sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5)
+{
+    NOT_IMPLEMENTED;
+}
+
 EXPORT void Char_B4::nullsub_28()
 {
     NOT_IMPLEMENTED;
