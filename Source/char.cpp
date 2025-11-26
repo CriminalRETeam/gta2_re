@@ -2,11 +2,12 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
+#include "Object_5C.hpp"
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
-#include "sprite.hpp"
-#include "Object_5C.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
+#include "sprite.hpp"
+#include "Varrok_7F8.hpp"
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
@@ -24,7 +25,11 @@ DEFINE_GLOBAL(Fix16, dword_6FD7B0, 0x6FD7B0);
 DEFINE_GLOBAL_INIT(Ang16, dword_6FD936, Ang16(720), 0x6FD936);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
+
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
+DEFINE_GLOBAL(u8, byte_6FDB59, 0x6FDB59);
+
+EXTERN_GLOBAL(Ang16, word_6FDB34);
 
 STUB_FUNC(0x544F70)
 void __stdcall sub_544F70()
@@ -512,11 +517,36 @@ char_type Char_B4::sub_553640(Object_2C* p2c)
     return 0;
 }
 
+// https://decomp.me/scratch/UYcej
 STUB_FUNC(0x5537F0)
 char_type Char_B4::sub_5537F0(Object_2C* p2c)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    
+    const s32 l_18 = p2c->field_18_model;
+    if (l_18 == 128 || l_18 == 138 || l_18 == 10 && !byte_6FDB59)
+    {
+        gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->GetXPos(),
+                                                  field_80_sprite_ptr->GetYPos(),
+                                                  field_80_sprite_ptr->GetZPos(),
+                                                  word_6FDB34,
+                                                  18,
+                                                  gVarrok_7F8_703398->field_0[p2c->field_26_varrok_idx].field_0_ped_id);
+        if (p2c->field_18_model == 10)
+        {
+            byte_6FDB59 = 1;
+        }
+    }
+
+    Ped* pPed = field_7C_pPed;
+    if (p2c->field_26_varrok_idx == pPed->field_267_varrok_idx)
+    {
+        return 0;
+    }
+    else
+    {
+        return pPed->sub_45D000(p2c);
+    }
 }
 
 STUB_FUNC(0x5538A0)
