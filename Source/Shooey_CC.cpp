@@ -4,6 +4,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "char.hpp"
+#include "Game_0x40.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
@@ -200,11 +201,24 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 }
 
 // https://decomp.me/scratch/xN2BK
-STUB_FUNC(0x485090)
-bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
+MATCH_FUNC(0x485090)
+bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bInRange = true;
+    if (gCar_6C_677930->field_68)
+    {
+        if (gGame_0x40_67E008->sub_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
+        {
+            bInRange = false;
+        }
+    }
+
+    if (pCar->sub_43DD50())
+    {
+        bInRange = false;
+    }
+
+    return bInRange;
 }
 
 // https://decomp.me/scratch/KvTvv
