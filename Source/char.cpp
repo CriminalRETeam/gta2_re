@@ -5,6 +5,8 @@
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
+#include "Object_5C.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
@@ -489,11 +491,18 @@ bool Char_B4::sub_553340(Sprite* pSprite)
     return false;
 }
 
-STUB_FUNC(0x5535B0)
+MATCH_FUNC(0x5535B0)
 char_type Char_B4::sub_5535B0(Object_2C* p2c)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = field_7C_pPed;
+    if (pPed->field_15C_player)
+    {
+        return gfrosty_pasteur_6F8060->sub_5129F0(pPed->field_200_id, p2c->field_14);
+    }
+    else
+    {
+        return 0;
+    }
 }
 
 STUB_FUNC(0x553640)
