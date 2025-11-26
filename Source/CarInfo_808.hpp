@@ -78,7 +78,9 @@ class CarInfo_808
                                                         ModelPhysics_48* output,
                                                         size_t output_size,
                                                         u32* next_position);
+    EXPORT static char* __stdcall SetErr_430AC0(s32 a1);
     EXPORT static s32 __stdcall sub_430b10(char* param_1);
+    EXPORT static s32 __stdcall sub_430C70(const char* a1);
     EXPORT static s32 __stdcall sub_430E60(void* param_1, u32 param_2);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
