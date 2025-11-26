@@ -1,4 +1,5 @@
 #include "Shooey_CC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
@@ -6,6 +7,9 @@
 #include "char.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
+
+EXTERN_GLOBAL(u8, byte_6FDB59);
+
 
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()
@@ -142,10 +146,9 @@ void Shooey_CC::dtor_484FD0()
 }
 
 // https://decomp.me/scratch/0XcCw
-STUB_FUNC(0x484fe0)
+MATCH_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
-    NOT_IMPLEMENTED;
     switch (pPed->field_240_occupation)
     {
         case ped_ocupation_enum::police:
@@ -161,20 +164,31 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
         default:
         {
-            if (crime_type <= 2)
+            bool doit = false;
+            switch (crime_type)
+            {
+
+                case 0:
+                case 1:
+                case 2:
+                    doit = true;
+                    break;
+
+                default:
+                    pPed->sub_45B550();
+                    ReportCrime(crime_type, pPed->field_200_id);
+                    if (pPed->field_15C_player)
+                    {
+                        gPolice_7B8_6FEE40->sub_570940(pPed);
+                    }
+                    break;
+            }
+
+            if (doit)
             {
                 if (!CanReportCrime(crime_type))
                 {
                     ReportCrime(crime_type, pPed->field_200_id);
-                }
-            }
-            else
-            {
-                pPed->sub_45B550();
-                ReportCrime(crime_type, pPed->field_200_id);
-                if (pPed->field_15C_player)
-                {
-                    gPolice_7B8_6FEE40->sub_570940(pPed);
                 }
             }
 
@@ -190,19 +204,39 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 }
 
 // https://decomp.me/scratch/xN2BK
-STUB_FUNC(0x485090)
-bool Shooey_CC::sub_485090(Car_BC* a2, Player* a3)
+MATCH_FUNC(0x485090)
+bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool bInRange = true;
+    if (gCar_6C_677930->field_68)
+    {
+        if (gGame_0x40_67E008->sub_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
+        {
+            bInRange = false;
+        }
+    }
+
+    if (pCar->sub_43DD50())
+    {
+        bInRange = false;
+    }
+
+    return bInRange;
 }
 
 // https://decomp.me/scratch/KvTvv
-STUB_FUNC(0x4850f0)
-char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
+MATCH_FUNC(0x4850f0)
+char_type Shooey_CC::sub_4850F0(Char_B4* pB4, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool result = true;
+    if (byte_6FDB59)
+    {
+        if (gGame_0x40_67E008->sub_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
+        {
+            result = false;
+        }
+    }
+    return result;
 }
 
 MATCH_FUNC(0x485140)

@@ -72,7 +72,7 @@ class Ped
     EXPORT void sub_45CAA0();
     EXPORT void TakeDamage(s16 damage);
     EXPORT void sub_45CF20(s32 a2);
-    EXPORT char_type sub_45D000(s32 a2);
+    EXPORT char_type sub_45D000(Object_2C* a2);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
     EXPORT char_type sub_45DE80(s32 a2);
     EXPORT void sub_45E080();

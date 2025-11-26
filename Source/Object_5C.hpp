@@ -84,6 +84,7 @@ class Object_2C
     // TODO: ordering
     EXPORT void sub_5290C0(u8 id_base);
     EXPORT char sub_525AC0();
+    EXPORT void sub_525B20();
 
     inline bool check_is_shop()
     {
@@ -128,6 +129,8 @@ class Object_2C
 class Object_5C
 {
   public:
+
+
     EXPORT void sub_529300();
     EXPORT void ObjectsService_5293A0();
     EXPORT Object_5C();

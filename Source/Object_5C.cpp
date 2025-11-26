@@ -1,17 +1,17 @@
-#include "error.hpp"
 #include "Object_5C.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
-#include "enums.hpp"
 #include "Game_0x40.hpp"
-#include "Object_8_Pool.hpp"
+#include "Globals.hpp"
 #include "Object_2C_Pool.hpp"
 #include "Object_3C_Pool.hpp"
+#include "Object_8_Pool.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
+#include "enums.hpp"
+#include "error.hpp"
 #include "sprite.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
@@ -379,10 +379,10 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     this->field_4->field_8_object_2C_ptr = this;
 }
 
-STUB_FUNC(0x527990)
+MATCH_FUNC(0x527990)
 void Object_2C::sub_527990()
 {
-    NOT_IMPLEMENTED;
+    field_C->field_0 &= ~0xFF;
 }
 
 MATCH_FUNC(0x527ae0)
@@ -600,6 +600,18 @@ char Object_2C::sub_525AC0()
     else
     {
         return 0;
+    }
+}
+
+MATCH_FUNC(0x525B20)
+void Object_2C::sub_525B20()
+{
+    if (field_10)
+    {
+        if (field_10->field_0.field_0_p18)
+        {
+            field_10->field_0.sub_5A6F70(field_4);
+        }
     }
 }
 
@@ -825,12 +837,11 @@ void Object_2C::sub_52A650()
 {
     if (!field_10)
     {
-        Object_3C* p3C =  gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead;
+        Object_3C* p3C = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead;
         gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead->mpNext;
 
-        
         // TODO: This should match
-        //gObject_3C_Pool_6F8F7C->field_0_pool.Allocate(); 
+        //gObject_3C_Pool_6F8F7C->field_0_pool.Allocate();
 
         // TODO: some of this is probably part of PoolAllocate for Object_3C
 

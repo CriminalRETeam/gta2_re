@@ -291,6 +291,7 @@ TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
     return 0;
 }
 
+// https://decomp.me/scratch/i6zXB
 // NOTE: Declared out of order
 STUB_FUNC(0x578820)
 void TrainStation_34::sub_578820(u8* a2)
