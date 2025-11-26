@@ -10,17 +10,36 @@
 
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
 DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
-DEFINE_GLOBAL(u32, processed_input_676260, 0x676260);
-DEFINE_GLOBAL(u32, input_size_675F94, 0x675F94);
+DEFINE_GLOBAL(u32, processedGciData_676260, 0x676260);
+DEFINE_GLOBAL(u32, gciDataLen_675F94, 0x675F94);
 DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
 DEFINE_GLOBAL(u32, found_open_brackets_67626C, 0x67626C);
 DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
 DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
-DEFINE_GLOBAL(s32, output_size_675F90, 0x675F90);
-DEFINE_GLOBAL(u8*, output_ptr_675F98, 0x675F98);
+DEFINE_GLOBAL(s32, modelPhyArrLen_675F90, 0x675F90);
+DEFINE_GLOBAL(u8*, modelPhyArrPtr_675F98, 0x675F98);
 DEFINE_GLOBAL(Fix16, dword_677F54, 0x677F54);
 DEFINE_GLOBAL(Fix16, dword_677D74, 0x677D74);
 DEFINE_GLOBAL(Fix16, DAT_6761A4, 0x6761a4);
+DEFINE_GLOBAL_ARRAY(char, Buffer_675FD4, 80, 0x675FD4);
+DEFINE_GLOBAL_ARRAY(char, byte_676024, 256, 0x676024);
+DEFINE_GLOBAL_ARRAY_INIT(char*, 
+                         error_table_61A6D4, 
+                         13, 
+                         0x61A6D4, 
+                         "Invalid integer",
+                         "Number too big",
+                         "Write error",
+                         "EOF in comment",
+                         "Token too big",
+                         "Input file not found",
+                         "Can't open output file",
+                         "Invalid long integer",
+                         "Invalid hex integer",
+                         "Invalid hex long integer",
+                         "Invalid f32",
+                         "Output too big",
+                         "Unknown error");
 
 MATCH_FUNC(0x454680)
 void ModelPhysics_48::sub_454680()
@@ -29,26 +48,26 @@ void ModelPhysics_48::sub_454680()
 }
 
 MATCH_FUNC(0x430b10)
-s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
+s32 __stdcall CarInfo_808::sub_430b10(char* pOut)
 {
-    s32 iVar2 = 0;
+    s32 i = 0;
 
-    *param_1 = 0;
-    while (255 > iVar2)
+    *pOut = 0;
+    while (255 > i)
     {
-        u32 uVar1 = 0;
+        u32 currentChar = 0;
 
         // Get the next character
-        if (processed_input_676260 == input_size_675F94)
+        if (processedGciData_676260 == gciDataLen_675F94)
         {
-            uVar1 = -1;
+            currentChar = -1;
         }
         else
         {
-            uVar1 = *input_data_676170;
+            currentChar = *input_data_676170;
             input_data_676170++;
-            processed_input_676260++;
-            if (uVar1 == '\n')
+            processedGciData_676260++;
+            if (currentChar == '\n')
             {
                 line_number_676258++;
             }
@@ -57,51 +76,51 @@ s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
         switch (found_open_brackets_67626C)
         {
             case 0:
-                if (uVar1 == -1)
+                if (currentChar == -1)
                 {
                     return 1;
                 }
-                if (uVar1 == '{')
+                if (currentChar == '{')
                 {
                     found_open_brackets_67626C = 1;
                 }
-                else if (uVar1 != ' ' && uVar1 != '\t' && uVar1 != '\n' && uVar1 != ')' && uVar1 != '(' && uVar1 != '\r')
+                else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' && currentChar != '\r')
                 {
                     found_open_brackets_67626C = 2;
-                    param_1[iVar2] = (char)uVar1;
-                    iVar2++;
+                    pOut[i] = (char)currentChar;
+                    i++;
                 }
                 break;
             case 1:
-                if (uVar1 == -1)
+                if (currentChar == -1)
                 {
                     return -4;
                 }
-                if (uVar1 == '}')
+                if (currentChar == '}')
                 {
                     found_open_brackets_67626C = 0;
                 }
                 break;
             case 2:
-                if (uVar1 == -1)
+                if (currentChar == -1)
                 {
-                    param_1[iVar2] = 0;
+                    pOut[i] = 0;
                     return 1;
                 }
-                if (uVar1 == '{')
+                if (currentChar == '{')
                 {
-                    param_1[iVar2] = 0;
+                    pOut[i] = 0;
                     found_open_brackets_67626C = 1;
                     return 0;
                 }
-                if (uVar1 == ' ' || uVar1 == '\t' || uVar1 == '\n' || uVar1 == ')' || uVar1 == '(' || uVar1 == '\r')
+                if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' || currentChar == '\r')
                 {
-                    param_1[iVar2] = 0;
+                    pOut[i] = 0;
                     found_open_brackets_67626C = 0;
                     return 0;
                 }
-                param_1[iVar2] = (char)uVar1;
-                iVar2++;
+                pOut[i] = (char)currentChar;
+                i++;
 
                 break;
         }
@@ -109,58 +128,102 @@ s32 __stdcall CarInfo_808::sub_430b10(char* param_1)
     return -5;
 }
 
-STUB_FUNC(0x430a30)
-char* __stdcall CarInfo_808::parse_gci_file_430A30(void* input,
-                                                   size_t input_size,
-                                                   ModelPhysics_48* output,
-                                                   size_t output_size,
-                                                   u32* next_position)
+STUB_FUNC(0x430C70)
+s32 __stdcall CarInfo_808::sub_430C70(const char* a1)
 {
     NOT_IMPLEMENTED;
+    return 0;
+}
+
+MATCH_FUNC(0x430a30)
+char* __stdcall CarInfo_808::parse_gci_file_430A30(void* pGciData,
+                                                   size_t gciDataLen,
+                                                   ModelPhysics_48* pModelPhyArr,
+                                                   size_t modelPhyArrLen,
+                                                   u32* next_position)
+{
+    input_data_676170 = (u8*)pGciData;
+    line_number_676258 = 1;
+    processedGciData_676260 = 0;
+    gciDataLen_675F94 = gciDataLen;
+    modelPhyArrPtr_675F98 = (u8*)pModelPhyArr;
+    processed_output_676250 = 0;
+    modelPhyArrLen_675F90 = modelPhyArrLen;
+
+    s32 v6;
+    s32 v5 = 0;
+    while (v5 == 0)
+    {
+        v5 = sub_430b10(byte_676024);
+        if (v5 < 0)
+        {
+            return SetErr_430AC0(v5);
+        }
+
+        v6 = sub_430C70(byte_676024);
+        if (v6 < 0)
+        {
+            return SetErr_430AC0(v6);
+        }
+    }
+
+    *next_position = processed_output_676250;
     return NULL;
 }
 
-MATCH_FUNC(0x430e60)
-s32 __stdcall CarInfo_808::sub_430E60(void* param_1, u32 param_2)
+MATCH_FUNC(0x430AC0)
+char* __stdcall CarInfo_808::SetErr_430AC0(s32 a1)
 {
-    processed_output_676250 += param_2;
-    if (processed_output_676250 > output_size_675F90)
+    if (a1 > 0 || a1 < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
+    {
+        a1 = -GTA2_COUNTOF(error_table_61A6D4);
+    }
+
+    sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-a1], line_number_676258);
+    return Buffer_675FD4;
+}
+
+MATCH_FUNC(0x430e60)
+s32 __stdcall CarInfo_808::sub_430E60(void* pSrc, u32 size)
+{
+    processed_output_676250 += size;
+    if (processed_output_676250 > modelPhyArrLen_675F90)
     {
         return -12;
     }
 
-    memcpy(output_ptr_675F98, param_1, param_2);
+    memcpy(modelPhyArrPtr_675F98, pSrc, size);
 
-    output_ptr_675F98 = output_ptr_675F98 + param_2;
+    modelPhyArrPtr_675F98 = modelPhyArrPtr_675F98 + size;
     return 0;
 }
 
 MATCH_FUNC(0x430EC0)
-s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
+s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* pStr, s32* pOut)
 {
-    *param_2 = 0;
+    *pOut = 0;
     s32 iVar5 = 1;
-    s32 iVar4 = strlen(param_1);
+    s32 strLen = strlen(pStr);
 
-    while (--iVar4 >= 0)
+    while (--strLen >= 0)
     {
-        s8 cVar1 = param_1[iVar4];
-        if ((cVar1 < '0' || '9' < cVar1) && (cVar1 < 'A' || 'F' < cVar1))
+        s8 currentChar = pStr[strLen];
+        if ((currentChar < '0' || '9' < currentChar) && (currentChar < 'A' || 'F' < currentChar))
         {
             return 0xfffffff6;
         }
 
         s32 sVar2;
-        if (cVar1 < '0' || '9' < cVar1)
+        if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (cVar1 - 0x37) * iVar5;
+            sVar2 = (currentChar - 0x37) * iVar5;
         }
         else
         {
-            sVar2 = (cVar1 - 0x30) * iVar5;
+            sVar2 = (currentChar - 0x30) * iVar5;
         }
 
-        *param_2 += sVar2;
+        *pOut += sVar2;
         iVar5 = iVar5 << 4;
     }
 
@@ -168,31 +231,31 @@ s32 __stdcall CarInfo_808::HexStr2Int_430EC0(const char* param_1, s32* param_2)
 }
 
 MATCH_FUNC(0x430f30)
-s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
+s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* pStr, s16* pOut)
 {
-    *param_2 = 0;
+    *pOut = 0;
     s32 iVar5 = 1;
-    s32 iVar4 = strlen(param_1);
+    s32 strLen = strlen(pStr);
 
-    while (--iVar4 >= 0)
+    while (--strLen >= 0)
     {
-        s8 cVar1 = param_1[iVar4];
-        if ((cVar1 < '0' || '9' < cVar1) && (cVar1 < 'A' || 'F' < cVar1))
+        s8 currentChar = pStr[strLen];
+        if ((currentChar < '0' || '9' < currentChar) && (currentChar < 'A' || 'F' < currentChar))
         {
             return 0xfffffff7;
         }
 
         s32 sVar2;
-        if (cVar1 < '0' || '9' < cVar1)
+        if (currentChar < '0' || '9' < currentChar)
         {
-            sVar2 = (cVar1 - 0x37) * iVar5;
+            sVar2 = (currentChar - 0x37) * iVar5;
         }
         else
         {
-            sVar2 = (cVar1 - 0x30) * iVar5;
+            sVar2 = (currentChar - 0x30) * iVar5;
         }
 
-        *param_2 += sVar2;
+        *pOut += sVar2;
         iVar5 = iVar5 << 4;
     }
 
@@ -200,22 +263,22 @@ s32 __stdcall CarInfo_808::HexStr2Int_430F30(const char* param_1, s16* param_2)
 }
 
 MATCH_FUNC(0x430fa0)
-s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* param_1, s32* param_2)
+s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* pStr, s32* pOut)
 {
-    *param_2 = 0;
+    *pOut = 0;
     s32 iVar5 = 1;
-    s32 iVar4 = strlen(param_1);
+    s32 strLen = strlen(pStr);
 
-    while (--iVar4 >= 0)
+    while (--strLen >= 0)
     {
-        s8 cVar1 = param_1[iVar4];
-        if (cVar1 < '0' || '9' < cVar1)
+        s8 currentChar = pStr[strLen];
+        if (currentChar < '0' || '9' < currentChar)
         {
             return 0xfffffff8;
         }
 
-        s32 sVar2 = (cVar1 - 0x30) * iVar5;
-        *param_2 += sVar2;
+        s32 sVar2 = (currentChar - 0x30) * iVar5;
+        *pOut += sVar2;
         iVar5 = iVar5 * 10;
     }
 
@@ -223,29 +286,29 @@ s32 __stdcall CarInfo_808::StrToInt_430FA0(const char* param_1, s32* param_2)
 }
 
 MATCH_FUNC(0x431000)
-s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* param_1, Fix16& param_2)
+s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
 {
-    param_2 = DAT_6761A4;
+    pOut = DAT_6761A4;
     bool bVar2 = false;
     s32 iVar6 = 1;
-    s32 iVar5 = strlen(param_1);
+    s32 strLen = strlen(pStr);
 
-    while (--iVar5 >= 0)
+    while (--strLen >= 0)
     {
-        char cVar1 = param_1[iVar5];
-        if (cVar1 < '0' || '9' < cVar1)
+        char currentChar = pStr[strLen];
+        if (currentChar < '0' || '9' < currentChar)
         {
-            if (cVar1 != '.' || bVar2)
+            if (currentChar != '.' || bVar2)
             {
                 return -11;
             }
-            param_2.mValue /= iVar6;
+            pOut.mValue /= iVar6;
             iVar6 = 1;
             bVar2 = true;
         }
         else
         {
-            param_2.mValue += (cVar1 - 0x30) * iVar6 * 0x4000;
+            pOut.mValue += (currentChar - 0x30) * iVar6 * 0x4000;
             iVar6 = iVar6 * 10;
         }
     }
@@ -253,22 +316,22 @@ s32 __stdcall CarInfo_808::FloatStrToFix16_431000(char* param_1, Fix16& param_2)
 }
 
 MATCH_FUNC(0x431080)
-s32 __stdcall CarInfo_808::StrToInt_431080(const char* param_1, s16* param_2)
+s32 __stdcall CarInfo_808::StrToInt_431080(const char* pStr, s16* pOut)
 {
-    *param_2 = 0;
+    *pOut = 0;
     s32 iVar5 = 1;
-    s32 iVar4 = strlen(param_1);
+    s32 strLen = strlen(pStr);
 
-    while (--iVar4 >= 0)
+    while (--strLen >= 0)
     {
-        s8 cVar1 = param_1[iVar4];
-        if (cVar1 < '0' || '9' < cVar1)
+        s8 currentChar = pStr[strLen];
+        if (currentChar < '0' || '9' < currentChar)
         {
             return 0xffffffff;
         }
 
-        s32 sVar2 = (cVar1 - 0x30) * iVar5;
-        *param_2 += sVar2;
+        s32 sVar2 = (currentChar - 0x30) * iVar5;
+        *pOut += sVar2;
         iVar5 = iVar5 * 10;
     }
 
@@ -307,31 +370,40 @@ void CarInfo_808::sub_4546D0()
 
     field_804_raw_data = new ModelPhysics_48[number_of_cars];
 
-    char* pcVar3 = CarInfo_808::parse_gci_file_430A30(file_content, file_size, field_804_raw_data, number_of_cars * 0x48, &local_1c);
+    char* pErrorMsg = CarInfo_808::parse_gci_file_430A30(file_content,
+                                                      file_size,
+                                                      field_804_raw_data,
+                                                      number_of_cars * sizeof(ModelPhysics_48),
+                                                      &local_1c);
 
     crt::free(file_content);
 
-    if (pcVar3 != NULL)
+    if (pErrorMsg != NULL)
     {
         strcpy(gErrStr_67C29C, file_name_677EC4);
-        strcpy(byte_67C3A8, pcVar3);
+        strcpy(byte_67C3A8, pErrorMsg);
 
         FatalError_4A38C0(0x7de, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
     }
 
-    if (local_1c % 0x48)
+    if (local_1c % sizeof(ModelPhysics_48))
     {
         FatalError_4A38C0(0x7e2, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
     }
 
-    if (local_1c != number_of_cars * 0x48)
+    if (local_1c != number_of_cars * sizeof(ModelPhysics_48))
     {
-        FatalError_4A38C0(0xbc5, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbe, local_1c / 0x48, file_name_677EC4, number_of_cars);
+        FatalError_4A38C0(0xbc5,
+                          "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
+                          0xbe,
+                          local_1c / sizeof(ModelPhysics_48),
+                          file_name_677EC4,
+                          number_of_cars);
     }
 
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        ModelPhysics_48* pMVar5 = field_804_raw_data + i;
+        ModelPhysics_48* pMVar5 = &field_804_raw_data[i];
         field_404_model_physics_array[pMVar5->field_0_model] = pMVar5;
     }
 }
