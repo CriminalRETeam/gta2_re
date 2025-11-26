@@ -85,6 +85,8 @@ class Object_2C
     EXPORT void sub_5290C0(u8 id_base);
     EXPORT char sub_525AC0();
 
+    
+
     inline bool check_is_shop()
     {
         s32 v1 = field_8->field_34;
