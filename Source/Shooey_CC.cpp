@@ -142,10 +142,9 @@ void Shooey_CC::dtor_484FD0()
 }
 
 // https://decomp.me/scratch/0XcCw
-STUB_FUNC(0x484fe0)
+MATCH_FUNC(0x484fe0)
 void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
-    NOT_IMPLEMENTED;
     switch (pPed->field_240_occupation)
     {
         case ped_ocupation_enum::police:
@@ -161,20 +160,31 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
         default:
         {
-            if (crime_type <= 2)
+            bool doit = false;
+            switch (crime_type)
+            {
+
+                case 0:
+                case 1:
+                case 2:
+                    doit = true;
+                    break;
+
+                default:
+                    pPed->sub_45B550();
+                    ReportCrime(crime_type, pPed->field_200_id);
+                    if (pPed->field_15C_player)
+                    {
+                        gPolice_7B8_6FEE40->sub_570940(pPed);
+                    }
+                    break;
+            }
+
+            if (doit)
             {
                 if (!CanReportCrime(crime_type))
                 {
                     ReportCrime(crime_type, pPed->field_200_id);
-                }
-            }
-            else
-            {
-                pPed->sub_45B550();
-                ReportCrime(crime_type, pPed->field_200_id);
-                if (pPed->field_15C_player)
-                {
-                    gPolice_7B8_6FEE40->sub_570940(pPed);
                 }
             }
 
