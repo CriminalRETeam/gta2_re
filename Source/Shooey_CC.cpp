@@ -1,12 +1,15 @@
 #include "Shooey_CC.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "char.hpp"
-#include "Game_0x40.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
+
+EXTERN_GLOBAL(u8, byte_6FDB59);
+
 
 MATCH_FUNC(0x484cb0)
 Shooey_14::Shooey_14()
@@ -222,11 +225,18 @@ bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
 }
 
 // https://decomp.me/scratch/KvTvv
-STUB_FUNC(0x4850f0)
-char_type Shooey_CC::sub_4850F0(Char_B4* a2, Player* a3)
+MATCH_FUNC(0x4850f0)
+char_type Shooey_CC::sub_4850F0(Char_B4* pB4, Player* pPlayer)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    bool result = true;
+    if (byte_6FDB59)
+    {
+        if (gGame_0x40_67E008->sub_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
+        {
+            result = false;
+        }
+    }
+    return result;
 }
 
 MATCH_FUNC(0x485140)
