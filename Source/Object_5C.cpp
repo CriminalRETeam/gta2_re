@@ -603,6 +603,18 @@ char Object_2C::sub_525AC0()
     }
 }
 
+MATCH_FUNC(0x525B20)
+void Object_2C::sub_525B20()
+{
+    if (field_10)
+    {
+        if (field_10->field_0.field_0_p18)
+        {
+            field_10->field_0.sub_5A6F70(field_4);
+        }
+    }
+}
+
 STUB_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
