@@ -2,6 +2,7 @@
 #include "sprite.hpp"
 #include "Globals.hpp"
 #include "error.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(Montana*, gMontana_67B580, 0x67B580);
 DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC, 0x705BBC);
@@ -130,7 +131,7 @@ Montana::Montana()
         field_0_cols[i] = new Montana_4();
         if (!field_0_cols[i])
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
         }
     }
 }

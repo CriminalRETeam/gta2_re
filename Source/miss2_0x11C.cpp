@@ -1121,7 +1121,7 @@ void miss2_0x11C::SCRCMD_DISPLAY_MESSAGES_505F50(SCR_TWO_PARAMS* a1)
         sprintf(gTmpBuffer_67C598, "%d", a1->field_8_unsigned_1);
         if (!gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598))
         {
-            FatalError_4A38C0(0x47C,
+            FatalError_4A38C0(Gta2Error::MissionScriptIsReferringToTextIdThatDoesNotExist,
                               "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                               2460,
                               a1->field_8_unsigned_1); // Mission script is referring to a 'text id' that doesn't exist. ID
@@ -2419,13 +2419,19 @@ void miss2_0x11C::SCRCMD_SET_GANG_KILL_REACTION_50AC20() // SET_GANG_KILL_REACTI
     gang_1_str = gfrosty_pasteur_6F8060->FindStringById_503080(gBasePtr_6F8070[1].field_0_cmd_this);
     if (gang_1_str == NULL)
     {
-        FatalError_4A38C0(0x474, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5217, (u16)gBasePtr_6F8070->field_0_cmd_this);
+        FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect,
+                          "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                          5217,
+                          (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_1 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_1_str->get_name());
     str_table_entry* gang_2_str = gfrosty_pasteur_6F8060->FindStringById_503080(v1->field_C_unsigned_3);
     if (gang_2_str == NULL)
     {
-        FatalError_4A38C0(0x475, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 5223, (u16)gBasePtr_6F8070->field_0_cmd_this);
+        FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2,
+                          "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+                          5223,
+                          (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang_144* pGang_2 = gGangPool_CA8_67E274->gang_by_name_4BF100(gang_2_str->get_name());
     pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, v1->field_A_unsigned_2);

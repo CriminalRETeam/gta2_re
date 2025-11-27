@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <cstring>
 #include "crt_stubs.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
 DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
@@ -383,17 +384,17 @@ void CarInfo_808::sub_4546D0()
         strcpy(gErrStr_67C29C, file_name_677EC4);
         strcpy(byte_67C3A8, pErrorMsg);
 
-        FatalError_4A38C0(0x7de, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
+        FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, byte_67C3A8);
     }
 
     if (local_1c % sizeof(ModelPhysics_48))
     {
-        FatalError_4A38C0(0x7e2, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
+        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, local_1c);
     }
 
     if (local_1c != number_of_cars * sizeof(ModelPhysics_48))
     {
-        FatalError_4A38C0(0xbc5,
+        FatalError_4A38C0(Gta2Error::ModelCountMismatchInStyleFile,
                           "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
                           0xbe,
                           local_1c / sizeof(ModelPhysics_48),

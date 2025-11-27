@@ -8,6 +8,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "Miss2_25C.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 //DEFINE_GLOBAL(frosty_nobel_748, gMapName_6F78C8, 0x6F78C8);
@@ -122,7 +123,8 @@ void frosty_pasteur_0xC1EA8::Update_512160()
         SCR_CMD_HEADER* pLevelStart = sub_512100(59, 0);
         if (!pLevelStart)
         {
-            FatalError_4A38C0(0x41, "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
+            FatalError_4A38C0(Gta2Error::ScriptfileNo_LEVELSTART_Declaration,
+                              "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                               12774); // No LEVELSTART declaration in scriptfile
             return;
         }
@@ -380,7 +382,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     gMiss2_25C_6F805C = new Miss2_25C();
     if (!gMiss2_25C_6F805C)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
     }
 
     memset(field_13354, 0, sizeof(field_13354));

@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 
 #include "error.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(LPDIRECTINPUTA, gpDInput_67B804, 0x67B804);
 DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gKeyboardDevice_67B5C0, 0x67B5C0);
@@ -28,17 +29,17 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
     HMODULE hDx = LoadLibrary("DInput.dll");
     if (!hDx)
     {
-        FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
+        FatalError_4A38C0(Gta2Error::DirectInputInitFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
     FARPROC p = GetProcAddress(hDx, "DirectInputCreateA");
     if (!p)
     {
-        FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
+        FatalError_4A38C0(Gta2Error::DirectInputInitFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
 
     if (((decltype(&Fn_DirectInputCreateA))p)(hInstance, 1792, &gpDInput_67B804, 0) < 0)
     {
-        FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
+        FatalError_4A38C0(Gta2Error::DirectInputInitFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
 #endif
 

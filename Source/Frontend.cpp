@@ -29,6 +29,7 @@
 #include <io.h>
 #include <stdio.h>
 #include <wchar.h>
+#include "enums.hpp"
 
 #pragma comment(lib, "dxguid.lib")
 
@@ -594,7 +595,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                                      320);
                     break;
                 default:
-                    FatalError_4A38C0(189,
+                    FatalError_4A38C0(Gta2Error::InvalidMultiplayerGameType,
                                       "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
                                       4079); // Multiplayer game type should be frag, tag or score (but isn't)
             }
@@ -788,7 +789,7 @@ LABEL_116:
         v47->sub_4B6200();
         if (!v47->field_4_options_array[v47->field_BC6_current_option_idx].field_1_is_unlocked)
         {
-            FatalError_4A38C0(165, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
+            FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4269); // the menu contains no valid options
         }
     }
 
@@ -1508,8 +1509,7 @@ void Frontend::sub_4B7AE0()
                 palette = 15;
                 break;
             default:
-                // InvalidCreditTextColor
-                FatalError_4A38C0(0xBC, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
+                FatalError_4A38C0(Gta2Error::InvalidCreditTextColor, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 7966);
         }
         wchar_t* pStrBuf = sleepy->field_8_strBuf;
         if (wcscmp(pStrBuf, word_67DC8C))
@@ -1658,7 +1658,7 @@ void Frontend::sub_4AEC00()
             break;
 
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, field_110_state);
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2059, field_110_state);
     }
 
     if (!bSkip_audio_67D6BE)
@@ -1924,12 +1924,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
 
                     if (v7 >= (u32)field_1EB50_idx)
                     {
-                        FatalError_4A38C0(185, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
+                        FatalError_4A38C0(Gta2Error::InvalidLevelAdvancement, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1543);
                     }
 
                     if (!v3->field_0_plyr_stage_stats[v7][0].field_0_is_stage_unlocked)
                     {
-                        FatalError_4A38C0(186, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
+                        FatalError_4A38C0(Gta2Error::LevelNotOpened, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1548);
                     }
                     LoadMapFilenames_4B4D00(v7, 0);
                     goto LABEL_9;
@@ -2294,7 +2294,7 @@ void Frontend::sub_4AE9A0()
                     field_110_state = 1;
                     break;
                 default:
-                    FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
+                    FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
             }
         }
         if (v2 == 230)
@@ -2321,7 +2321,7 @@ void Frontend::sub_4AE9A0()
                 field_EE0A = 210;
                 break;
             default:
-                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
+                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1968);
                 break;
         }
         snd1_67D818.field_0_object_type = 1;
@@ -2341,7 +2341,7 @@ void Frontend::sub_4AE9A0()
                 field_EE0A = 210;
                 break;
             default:
-                FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
+                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1991);
                 break;
         }
         snd1_67D818.field_0_object_type = 2;
@@ -2855,7 +2855,7 @@ void Frontend::sub_4ADF50()
         }
 
         default:
-            FatalError_4A38C0(0x3EE, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);
             break;
     }
 }
@@ -3038,18 +3038,18 @@ void Frontend::Load_tga_4B6520(u16 idx)
     FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(16, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
+        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
     }
 
     void* pAlloc = malloc(tgaArray_61F0C8[idx].field_80_len);
     if (!pAlloc)
     {
-        FatalError_4A38C0(174, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
+        FatalError_4A38C0(Gta2Error::TargaMemoryAllocationError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
     }
 
     if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
     {
-        FatalError_4A38C0(187, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
+        FatalError_4A38C0(Gta2Error::InvalidBackgroundImageSize, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
 
     tgaArray_61F0C8[idx].field_84_img = pgbh_LoadImage((SImage*)pAlloc);
@@ -3068,19 +3068,19 @@ Frontend::Frontend()
     gText_0x14_704DFC = new text_0x14();
     if (!gText_0x14_704DFC)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
     }
 
     gGtx_0x106C_703DD4 = new gtx_0x106C();
     if (!gGtx_0x106C_703DD4)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
     }
 
     gSharp_pare_0x15D8_705064 = new sharp_pare_0x15D8();
     if (!gSharp_pare_0x15D8_705064)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
@@ -3089,7 +3089,7 @@ Frontend::Frontend()
         gMagical_germain_0x8EC_6F5168 = new magical_germain_0x8EC();
         if (!gMagical_germain_0x8EC_6F5168)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
         }
     }
     InitKeyBoardDevice_4AFBE0();
@@ -3270,17 +3270,17 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
 
     if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, 0) < 0)
     {
-        FatalError_4A38C0(31, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
+        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
     }
 
     if (field_4_pKeyboardDevice->SetDataFormat(&gKeyboardDataFormat_601A54) < 0)
     {
-        FatalError_4A38C0(9, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2480);
+        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2480);
     }
 
     if (field_4_pKeyboardDevice->SetCooperativeLevel(gHwnd_707F04, 6) < 0)
     {
-        FatalError_4A38C0(10, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
+        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2487);
     }
 
     AcquireKeyBoard_4AFD70();
@@ -3914,12 +3914,12 @@ void Frontend::sub_4B4440()
     long hFind = _findfirst("data\\*.seq", &findInfo);
     if (hFind == -1)
     {
-        FatalError_4A38C0(0x98, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876); // SeqFileNotFound
+        FatalError_4A38C0(Gta2Error::SeqFileNotFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876);
     }
 
     if (!_findnext(hFind, &findInfo))
     {
-        FatalError_4A38C0(0x99, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883); // MultipleSeqFilesFound
+        FatalError_4A38C0(Gta2Error::MultipleSeqFilesFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883);
     }
 
     strcpy(seqFileName, "data\\");
@@ -3935,7 +3935,7 @@ void Frontend::sub_4B4440()
     FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
-        FatalError_4A38C0(0x9A, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906); // SeqFileOpenError
+        FatalError_4A38C0(Gta2Error::SeqFileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906);
     }
 
     GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
@@ -3948,7 +3948,7 @@ void Frontend::sub_4B4440()
             {
                 if (++block_idx > 2u)
                 {
-                    FatalError_4A38C0(0x9B, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922); // TooManyMainBlocks
+                    FatalError_4A38C0(Gta2Error::TooManyMainBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922);
                 }
             }
             bIncBlock = 1;
@@ -3959,16 +3959,16 @@ void Frontend::sub_4B4440()
         {
             if (strcmp(mainOrBonus, "BONUS"))
             {
-                FatalError_4A38C0(0x9E, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959); // InvalidBlockType
+                FatalError_4A38C0(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
             }
             if (!bIncBlock)
             {
-                FatalError_4A38C0(0x9C, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940); // MainBlockMustPrecedeBonus
+                FatalError_4A38C0(Gta2Error::MainBlockMustPrecedeBonus, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940);
             }
             pBlock = &this->field_1EB51_blocks[block_idx];
             if (*pBlock > 3u)
             {
-                FatalError_4A38C0(0x9D, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945); // TooManyBonusBlocks
+                FatalError_4A38C0(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
             }
         }
 
@@ -4007,7 +4007,9 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
     {
         if ((letter < 'a' || letter > 'z') && (letter < 'A' || letter > 'Z'))
         {
-            FatalError_4A38C0(0x9F, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5014); // InvalidFirstLineCharacter
+            FatalError_4A38C0(Gta2Error::InvalidFirstLineCharacter,
+                              "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                              5014);
         }
 
         while (letter != '=')
@@ -4016,11 +4018,13 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
             letter = File::SkipWhitespace_4A7340(hSeqFile);
             if (!letter)
             {
-                FatalError_4A38C0(0xA0, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5026); // LineInterruptedByNewline
+                FatalError_4A38C0(Gta2Error::LineInterruptedByNewline,
+                                  "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                                  5026);
             }
             if (pos > 0xFFu)
             {
-                FatalError_4A38C0(0xA1, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031); // LabelTooLong
+                FatalError_4A38C0(Gta2Error::LabelTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031); // LabelTooLong
             }
         } // 0x3d
         output_buf[pos] = 0;
@@ -4043,7 +4047,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
                 strcpy(type_buf, "Description");
                 break;
             default:
-                FatalError_4A38C0(0xA2, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056); // UndefinedLabel
+                FatalError_4A38C0(Gta2Error::UndefinedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5056);
                 break;
         }
 
@@ -4059,7 +4063,9 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
                     letter = File::SkipWhitespace_4A7340(hSeqFile);
                     if (pos > 255u)
                     {
-                        FatalError_4A38C0(0xA3, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5074); // LineDataTooLong
+                        FatalError_4A38C0(Gta2Error::LineDataTooLong,
+                                          "C:\\Splitting\\GTA2\\Source\\frontend2.cpp",
+                                          5074);
                     }
                 } while (letter);
             }
@@ -4068,7 +4074,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         }
         else
         {
-            FatalError_4A38C0(0xA4, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086); // UnexpectedLabel
+            FatalError_4A38C0(Gta2Error::UnexpectedLabel, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5086);
         }
     }
 }

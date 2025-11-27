@@ -566,7 +566,7 @@ Car_6C::Car_6C()
         gCar_BC_Pool_67792C = new Car_BC_Pool();
         if (!gCar_BC_Pool_67792C)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8318);
         }
     }
 
@@ -575,7 +575,7 @@ Car_6C::Car_6C()
         gCar_D264_6FE3E0 = new Car_D264();
         if (!gCar_D264_6FE3E0)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8323);
         }
     }
 
@@ -584,7 +584,7 @@ Car_6C::Car_6C()
         gCar_14_677934 = new Car_14();
         if (!gCar_14_677934)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8329);
         }
     }
 
@@ -593,7 +593,7 @@ Car_6C::Car_6C()
         gCar_78_Pool_677CF8 = new Car_78_Pool();
         if (!gCar_78_Pool_677CF8)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8335);
         }
     }
 
@@ -602,7 +602,7 @@ Car_6C::Car_6C()
         gTrailerPool_66AC80 = new TrailerPool();
         if (!gTrailerPool_66AC80)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8341);
         }
     }
 
@@ -639,7 +639,7 @@ Car_6C::Car_6C()
         gSprite_Unused_677938 = new Sprite();
         if (!gSprite_Unused_677938)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\car.cpp", 8375);
         }
     }
 

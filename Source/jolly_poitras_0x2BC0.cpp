@@ -356,7 +356,7 @@ void jolly_poitras_0x2BC0::create_56C2C0()
         gJolly_poitras_0x2BC0_6FEAC0 = new jolly_poitras_0x2BC0();
         if (!gJolly_poitras_0x2BC0_6FEAC0)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
         }
     }
 }

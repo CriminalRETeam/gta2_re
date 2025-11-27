@@ -7,6 +7,7 @@
 #include "gtx_0x106C.hpp"
 #include "Game_0x40.hpp"
 #include "gbh_graphics.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
@@ -19,7 +20,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
         field_8C4_pKidX = new WORD[field_8CC_kidx_size_words];
         if (!field_8C4_pKidX)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 142);
         }
         File::Global_Read_4A71C0(field_8C4_pKidX, chunk_len);
     }
@@ -28,7 +29,7 @@ void magical_germain_0x8EC::LoadChunks_4D1FC0(const char_type* pChunkId, u32 chu
         field_8C8_pKBIT = new BYTE[chunk_len];
         if (!field_8C8_pKBIT)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\kanji.cpp", 148);
         }
         File::Global_Read_4A71C0(field_8C8_pKBIT, chunk_len);
     }

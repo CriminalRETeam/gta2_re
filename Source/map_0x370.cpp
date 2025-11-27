@@ -14,6 +14,7 @@
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -2038,7 +2039,7 @@ void Map_0x370::load_mobj_4E91A0(size_t len)
     field_344_map_object_count = len / 6;
     if (6 * field_344_map_object_count != len)
     {
-        FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
+        FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
     }
 }
 
@@ -2051,7 +2052,7 @@ void Map_0x370::load_lght_4E9200(size_t a2)
     field_348_num_lights = a2 >> 4;
     if (16 * field_348_num_lights != a2)
     {
-        FatalError_4A38C0(51, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
+        FatalError_4A38C0(Gta2Error::InvalidMapLightData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
     }
 }
 
@@ -2079,7 +2080,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
     field_0_pDmap = new gmp_compressed_map_32();
     if (field_0_pDmap == NULL)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6147);
     }
 
     File::Global_Read_4A71C0(&field_0_pDmap->field_0_base[0][0], 0x40000);
@@ -2087,7 +2088,10 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40000_column_words + 1024) > 0x20000u)
     {
-        FatalError_4A38C0(1127, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6150, field_0_pDmap->field_40000_column_words - 0x1FC00);
+        FatalError_4A38C0(Gta2Error::MapHasTooManyColumns,
+                          "C:\\Splitting\\Gta2\\Source\\map.cpp",
+                          6150,
+                          field_0_pDmap->field_40000_column_words - 0x1FC00);
     }
 
     field_35C_column_word_extra = field_0_pDmap->field_40000_column_words + 1024;
@@ -2106,7 +2110,10 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if ((field_0_pDmap->field_40004_num_blocks + 200) > 0x20000u)
     {
-        FatalError_4A38C0(1129, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6161, field_0_pDmap->field_40004_num_blocks - 130872);
+        FatalError_4A38C0(Gta2Error::MapHasTooManyBlocks,
+                          "C:\\Splitting\\Gta2\\Source\\map.cpp",
+                          6161,
+                          field_0_pDmap->field_40004_num_blocks - 130872);
     }
     field_350_num_blocks_extra = field_0_pDmap->field_40004_num_blocks + 200;
 
@@ -2122,7 +2129,7 @@ void Map_0x370::load_dmap_4E92B0(u32 len)
 
     if (len != block_info_size + column_data_size + 0x40008)
     {
-        FatalError_4A38C0(1033, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
+        FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6170, len);
     }
 }
 
@@ -2196,7 +2203,7 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 
     if (!field_0_pDmap)
     {
-        FatalError_4A38C0(132, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329); // error map not compressed
+        FatalError_4A38C0(Gta2Error::MapNotCompressed, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6329);
     }
 }
 
