@@ -56,7 +56,7 @@ Object_2C::Object_2C()
 }
 
 STUB_FUNC(0x522180)
-void Object_2C::sub_522180()
+void Object_2C::PoolDeallocate()
 {
     NOT_IMPLEMENTED;
 }
@@ -297,7 +297,7 @@ void Object_2C::sub_525F30()
 }
 
 MATCH_FUNC(0x5263d0)
-bool Object_2C::Service_5263D0()
+bool Object_2C::PoolUpdate()
 {
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
@@ -621,10 +621,12 @@ void Object_5C::sub_529300()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5293a0)
+MATCH_FUNC(0x5293a0)
 void Object_5C::ObjectsService_5293A0()
 {
-    NOT_IMPLEMENTED;
+    sub_529300();
+
+    gObject_2C_Pool_6F8F80->field_0_pool.UpdatePool();
 }
 
 STUB_FUNC(0x529430)

@@ -19,7 +19,7 @@ class Object_2C
 {
   public:
     EXPORT Object_2C();
-    EXPORT void sub_522180();
+    EXPORT void PoolDeallocate();
     EXPORT bool sub_522250(Sprite* a2);
     EXPORT s32 sub_5222B0();
     EXPORT s32 sub_5222D0();
@@ -48,7 +48,7 @@ class Object_2C
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
     EXPORT void sub_525F30();
-    EXPORT bool Service_5263D0();
+    EXPORT bool PoolUpdate();
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);
     EXPORT s16 sub_526B40(s32 a2);

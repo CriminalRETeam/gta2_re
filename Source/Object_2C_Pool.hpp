@@ -17,7 +17,7 @@ class Object_2C_Pool
     void Remove(Object_2C* p2C)
     {
         // TODO: Use pool method
-        p2C->sub_522180();
+        p2C->PoolDeallocate();
         p2C->mpNext = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = p2C;
     }
