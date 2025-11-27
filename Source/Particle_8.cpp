@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "error.hpp"
 #include "Pool.hpp"
+#include "enums.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
@@ -46,7 +47,7 @@ Particle_8::Particle_8()
         gParticle_4C_Pool_6FD5E4 = new T_Particle_4C_Pool();
         if (!gParticle_4C_Pool_6FD5E4)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
         }
     }
     field_0 = 0;

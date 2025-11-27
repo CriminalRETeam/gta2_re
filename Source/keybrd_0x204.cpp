@@ -4,6 +4,7 @@
 #include "error.hpp"
 #include <stdlib.h>
 #include <windows.h>
+#include "enums.hpp"
 
 DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4, 0x6F52F4);
 
@@ -92,7 +93,7 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
     FILE* hConfigFile = fopen(FileName, "rt");
     if (!hConfigFile)
     {
-        FatalError_4A38C0(151, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
+        FatalError_4A38C0(Gta2Error::KeyboardTypeFileOpenError, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 187);
     }
 
     for (s32 i = 0; i < 256; i++)
@@ -131,7 +132,7 @@ void __stdcall keybrd_0x204::create_4D5F50()
         gKeybrd_0x204_6F52F4 = new keybrd_0x204();
         if (!gKeybrd_0x204_6F52F4)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
         }
     }
     gKeybrd_0x204_6F52F4->LoadKbCfg_4D5E00();

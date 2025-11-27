@@ -2,6 +2,7 @@
 #include "PurpleDoom.hpp"
 #include "error.hpp"
 #include "Globals.hpp"
+#include "enums.hpp"
 
 DEFINE_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
 DEFINE_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
@@ -24,31 +25,31 @@ Collide_C::Collide_C()
     gCollide_8_Pool_679200 = new T_Collide_8_Pool();
     if (!gCollide_8_Pool_679200)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1416);
     }
 
     gPurpleDoom_C_Pool_679204 = new T_PurpleDoom_C_Pool();
     if (!gPurpleDoom_C_Pool_679204)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1418);
     }
 
     gPurpleDoom_1_679208 = new PurpleDoom();
     if (!gPurpleDoom_1_679208)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1420);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1420);
     }
 
     gPurpleDoom_2_67920C = new PurpleDoom();
     if (!gPurpleDoom_2_67920C)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1422);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1422);
     }
 
     gPurpleDoom_3_679210 = new PurpleDoom();
     if (!gPurpleDoom_3_679210)
     {
-        FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
     }
 
     dword_678F84 = 0;

@@ -5,6 +5,7 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include <stdio.h>
+#include "enums.hpp"
 
 DEFINE_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4, 0x7052C4);
 DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
@@ -49,7 +50,7 @@ TileAnim_2::TileAnim_2()
         gTileAnimPool_7052C8 = new TileAnimPool();
         if (gTileAnimPool_7052C8 == NULL)
         {
-            FatalError_4A38C0(40, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+            FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
     }
     field_0_count = 1;

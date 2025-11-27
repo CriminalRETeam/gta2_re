@@ -86,7 +86,7 @@ Taxi_4::Taxi_4()
         gTaxi_4_Pool_6783F8 = new T_Taxi_4_Pool();
         if (!gTaxi_4_Pool_6783F8)
         {
-            FatalError_4A38C0(32, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\taxi.cpp", 29);
         }
     }
 }

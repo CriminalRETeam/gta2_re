@@ -151,7 +151,7 @@ Weapon_8::Weapon_8()
         gWeapon_30_Pool_707014 = new Weapon_30_Pool();
         if (!gWeapon_30_Pool_707014)
         {
-            FatalError_4A38C0(0x20, "weapon.cpp", 2428);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "weapon.cpp", 2428);
         }
     }
     field_4_ref_count = 0;

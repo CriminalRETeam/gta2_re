@@ -425,7 +425,12 @@ EXPORT void __stdcall sub_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(3003, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1359, full_width_706B5C, full_height_706798, 16);
+            FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
+                              "C:\\Splitting\\Gta2\\Source\\video.cpp",
+                              1359,
+                              full_width_706B5C,
+                              full_height_706798,
+                              16);
         }
     }
 
@@ -441,7 +446,7 @@ EXPORT void __stdcall sub_5D93A0()
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        FatalError_4A38C0(1037, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
@@ -684,7 +689,7 @@ EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 {
     if (GBH_GraphicsLoad_5EB680(gRenderDllName_7067F0, gVidSys_7071D0))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer_67C598);
+        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 206, gTmpBuffer_67C598);
     }
 }
 
@@ -695,7 +700,7 @@ EXPORT void sub_5D96C0()
     s32 v1 = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))
     {
-        FatalError_4A38C0(1011, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
+        FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
     }
 
     gVidSys_7071D0 = pVid_Init_SYS(gHInstance_708220, 0); // flags param ??
@@ -704,7 +709,7 @@ EXPORT void sub_5D96C0()
 
     if (!gVidSys_7071D0)
     {
-        FatalError_4A38C0(2, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
+        FatalError_4A38C0(Gta2Error::DMAVideoInitFail, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1656);
     }
 
     if (gBufferMode_706B34 == 1)
@@ -1387,7 +1392,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     {
         if (!CloseHandle(hMutex))
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
+            FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
         }
 
         HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
@@ -1396,7 +1401,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
             PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, (LPARAM)hwndGta2Manager);
             if (!SetForegroundWindow(hwndGta2Manager))
             {
-                FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
+                FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
             }
         }
     }
@@ -1406,7 +1411,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
         PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, lParam);
         if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
         {
-            FatalError_4A38C0(126, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
+            FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
     }
 }
@@ -1777,7 +1782,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, v8, v9, 0x314u))
     {
-        FatalError_4A38C0(7, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
+        FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }
 
     Input::DirectInputCreate_4986D0(gHInstance_708220);
