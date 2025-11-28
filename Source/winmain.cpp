@@ -603,50 +603,46 @@ EXPORT void __stdcall SetSavedGamma_5D98E0()
 }
 
 // todo: move
-STUB_FUNC(0x5D92D0)
+MATCH_FUNC(0x5D92D0)
 EXPORT void __stdcall sub_5D92D0()
 {
-    NOT_IMPLEMENTED;
-    u32 field_4_flags; // ecx
-    u32 v1; // ecx
-
     Init_FrameRateLightAndUnknown_5D8EB0();
     ReadScreenSettings_5D8F70();
     Input_MouseAcquire_5D7C60();
 
     pVid_CloseScreen(gVidSys_7071D0);
-    field_4_flags = gVidSys_7071D0->field_4_flags;
 
     if (bTrippleBuffer_706C54)
     {
-        v1 = field_4_flags | 0x10;
+        gVidSys_7071D0->field_4_flags |= 0x10;
     }
     else
     {
-        v1 = field_4_flags & ~0x10u;
+        gVidSys_7071D0->field_4_flags &= ~0x10u;
     }
 
-    gVidSys_7071D0->field_4_flags = v1;
-
-    if (gStartMode_626A0C)
+    if (!gStartMode_626A0C)
+    {
+        if (!sub_5D9510())
+        {
+            if (window_width_706630 == 640 
+                || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
+            {
+                sub_5D93A0();
+                gStartMode_626A0C = 1;
+                gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", 1u);
+            }
+            else
+            {
+                gRegistry_6FF968.Set_Screen_Setting_587170("window_width", window_width_706630);
+                gRegistry_6FF968.Set_Screen_Setting_587170("window_height", window_height_706B50);
+            }
+        }
+    }
+    else
     {
         sub_5D93A0();
     }
-    else if (!sub_5D9510())
-    {
-        if (window_width_706630 == 640 || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
-        {
-            sub_5D93A0();
-            gStartMode_626A0C = 1;
-            gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", 1u);
-        }
-        else
-        {
-            gRegistry_6FF968.Set_Screen_Setting_587170("window_width", window_width_706630);
-            gRegistry_6FF968.Set_Screen_Setting_587170("window_height", window_height_706B50);
-        }
-    }
-
     SetSavedGamma_5D98E0();
 }
 
