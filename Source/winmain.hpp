@@ -19,4 +19,6 @@ EXPORT void __stdcall GetGTA2Version_5E5D60(int* pVerMinor, int* pVerMajor);
 
 EXPORT void __stdcall sub_4DA830();
 
+EXPORT void sub_5D8E00();
+
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);

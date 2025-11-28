@@ -239,13 +239,6 @@ EXPORT void sub_5D8DF0()
     dword_706C58 = 0;
 }
 
-// TODO: move
-STUB_FUNC(0x5D8E00)
-EXPORT void sub_5D8E00()
-{
-    NOT_IMPLEMENTED;
-}
-
 MATCH_FUNC(0x4B8EB0)
 void Game_0x40::BootGame_4B8EB0()
 {

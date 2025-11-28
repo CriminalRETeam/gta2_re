@@ -325,6 +325,47 @@ DEFINE_GLOBAL(u8, byte_6F5760, 0x6F5760);
 DEFINE_GLOBAL(u8, byte_6F5880, 0x6F5880);
 DEFINE_GLOBAL(s32, dword_6F5A28, 0x6F5A28);
 
+// TODO: move
+STUB_FUNC(0x4DA820)
+EXPORT void sub_4DA820()
+{
+    byte_6F5880 = 1;
+}
+
+// TODO: Other missing stubs here
+STUB_FUNC(0x4DA830)
+EXPORT void __stdcall sub_4DA830()
+{
+    NOT_IMPLEMENTED;
+}
+
+// TODO: move
+MATCH_FUNC(0x5D8E00)
+void sub_5D8E00()
+{
+    if (gGame_0x40_67E008)
+    {
+        if (gVidSys_7071D0->field_40_full_screen == -2)
+        {
+            if (dword_706C58 != window_width_706630)
+            {
+                gGame_0x40_67E008->sub_4B8E00(window_width_706630, window_height_706B50);
+            }
+            dword_706C58 = window_width_706630;
+        }
+        else
+        {
+            if (dword_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
+            {
+                gGame_0x40_67E008->sub_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+            }
+            dword_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
+        }
+        sub_4DA820();
+        sub_4DA830();
+    }
+}
+
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
@@ -991,13 +1032,6 @@ EXPORT u8 sub_4DA850()
         gsharp_bose_0x54_7055D4->sub_5BECF0(a2, unk_0xc);
     }
     return bContinue;
-}
-
-// TODO: Other missing stubs here
-STUB_FUNC(0x4DA830)
-EXPORT void __stdcall sub_4DA830()
-{
-    NOT_IMPLEMENTED;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
