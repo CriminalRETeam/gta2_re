@@ -333,10 +333,11 @@ EXPORT void sub_4DA820()
 }
 
 // TODO: Other missing stubs here
-STUB_FUNC(0x4DA830)
+MATCH_FUNC(0x4DA830)
 EXPORT void __stdcall sub_4DA830()
 {
-    NOT_IMPLEMENTED;
+    dword_6F5A28 = timeGetTime();
+    byte_6F58D8 = 0;
 }
 
 // TODO: move
