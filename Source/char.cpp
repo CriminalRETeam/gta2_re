@@ -54,6 +54,12 @@ Char_B4::~Char_B4()
     this->field_84 = 0;
 }
 
+STUB_FUNC(0x545200)
+void Char_B4::PoolAllocate()
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x5453d0)
 void Char_B4::PoolDeallocate()
 {

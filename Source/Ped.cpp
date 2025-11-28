@@ -67,6 +67,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(s32, dword_67853C, 0x67853C);
+DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
+DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -694,11 +696,34 @@ void Ped::sub_45C7F0(Car_BC* pCar)
     pCar->field_4.sub_471140(this);
 }
 
-STUB_FUNC(0x45c830)
+MATCH_FUNC(0x45c830)
 char_type Ped::sub_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_B4* pChar = gChar_B4_Pool_6FDB44->field_0_pool.Allocate();
+
+    field_168_game_object = pChar;
+    if (!pChar)
+    {
+        return 0;
+    }
+
+    Sprite* pSprite = pSprite = pChar->field_80_sprite_ptr;
+    pSprite->sub_420600(xpos, ypos, zpos);
+
+    pChar->field_80_sprite_ptr->AllocInternal_59F950(dword_678530, dword_678530, dword_67841C);
+
+    gPurpleDoom_1_679208->sub_477B20(pChar->field_80_sprite_ptr);
+    field_168_game_object->field_7C_pPed = this;
+
+    field_1AC_cam.y = ypos;
+    field_1AC_cam.x = xpos;
+    field_1AC_cam.z = zpos;
+
+    DrawFlamesAndStartScreamTimer();
+    SetSpriteSemiTransIfInvisible();
+    sub_45C070();
+
+    return 1;
 }
 
 MATCH_FUNC(0x45c900)
