@@ -592,11 +592,14 @@ EXPORT s32 ReadScreenSettings_5D8F70()
 }
 
 // todo: move
-STUB_FUNC(0x5D98E0)
+MATCH_FUNC(0x5D98E0)
 EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    DWORD Screen_Setting_5870D0 = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 0xAu);
+    if (SetGamma_5D9910(Screen_Setting_5870D0))
+    {
+        counter_706C4C = 30;
+    }
 }
 
 // todo: move
