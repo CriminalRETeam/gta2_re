@@ -28,6 +28,11 @@ DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(u16, word_706618, 0x706618); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_706508, 0x706508); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(u16, word_70646C, 0x70646C); //, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL(u16, word_7065C4, 0x7065C4);
+DEFINE_GLOBAL(u16, word_7062F0, 0x7062F0);
+DEFINE_GLOBAL(u16, word_7063F8, 0x7063F8);
+DEFINE_GLOBAL(u16, word_7062DC, 0x7062DC);
+DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL(s32, dword_7064C0, 0x7064C0);
@@ -2073,11 +2078,37 @@ void Hud_2B00::sub_5D6AB0()
     field_1080.sub_5D53E0();
 }
 
-STUB_FUNC(0x5d6b00)
-s16 Hud_2B00::sub_5D6B00()
+MATCH_FUNC(0x5d6b00)
+void Hud_2B00::sub_5D6B00()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (gText_0x14_704DFC->field_10_lang_code == 106)
+    {
+        word_7064B8 = 103;
+        word_706508 = 104;
+        word_706618 = 105;
+        word_7065C4 = 107;
+        word_70646C = word_703BAA;
+        word_7062F0 = 203;
+        word_706600 = 103;
+        word_7063F8 = 201;
+        word_7064D8 = 103;
+        word_7062DC = 103;
+        word_70643E = 103;
+    }
+    else
+    {
+        word_706508 = word_703D98;
+        word_7064B8 = word_703BAA;
+        word_706618 = word_703C9C;
+        word_7065C4 = word_703BAA;
+        word_70646C = word_703BAA;
+        word_7062F0 = word_703D9C;
+        word_706600 = word_703BAA;
+        word_7064D8 = word_703BAA;
+        word_7063F8 = word_703DA4;
+        word_7062DC = word_703BAA;
+        word_70643E = word_703BAA;
+    }
 }
 
 MATCH_FUNC(0x5d6be0)

@@ -19,7 +19,7 @@ EXTERN_GLOBAL(s32, window_height_706B50);
 DEFINE_GLOBAL(DWORD, dword_70675C, 0x70675C);
 DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
 
-u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
+//u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
 
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
