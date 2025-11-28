@@ -860,12 +860,26 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     byte_6F5760 = 1;
 }
 
-// todo move to another file for ordering
-STUB_FUNC(0x5D9690)
-EXPORT void __stdcall sub_5D9690()
+// todo: move
+STUB_FUNC(0x5D9680)
+EXPORT void sub_5D9680()
 {
     NOT_IMPLEMENTED;
     // todo
+}
+
+// todo move to another file for ordering
+MATCH_FUNC(0x5D9690)
+EXPORT void __stdcall sub_5D9690()
+{
+    Init_FrameRateLightAndUnknown_5D8EB0();
+    if ((u8)ReadScreenSettings_5D8F70() || byte_706C5D)
+    {
+        sub_5D92D0();
+        sub_5D9680();
+        byte_706C5D = 0;
+    }
+    Input_MouseAcquire_5D7C60();
 }
 
 // TODO: order
@@ -1463,14 +1477,6 @@ EXPORT void __stdcall sub_5D9230(s32 startMode)
     NOT_IMPLEMENTED;
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
-}
-
-// todo: move
-STUB_FUNC(0x5D9680)
-EXPORT void sub_5D9680()
-{
-    NOT_IMPLEMENTED;
-    // todo
 }
 
 // todo: move
