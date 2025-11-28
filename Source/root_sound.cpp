@@ -165,3 +165,35 @@ root_sound::~root_sound()
 {
     field_0 = 0;
 }
+
+// Somehow this function is inlined on sub_4DA740, but in assembly it's a standalone function
+void root_sound::unknown_inlined_function()
+{
+    if (gSound_obj_66F680.field_0_bSoundInitialized)
+    {
+        gSound_obj_66F680.sub_57EA10();
+        gSound_obj_66F680.sub_418C60();
+        for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
+        {
+            if (gSound_obj_66F680.field_1D_b3d_sound)
+            {
+                gSampManager_6FFF00.StopChannel3D_58DFC0(i);
+            }
+            else
+            {
+                gSampManager_6FFF00.StopChannel_58DDD0(i);
+            }
+        }
+
+        for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
+        {
+            gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+            gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
+        }
+        gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
+
+        gSound_obj_66F680.null_412250();
+        gSampManager_6FFF00.Shutdown_58DB30();
+        gSound_obj_66F680.field_0_bSoundInitialized = 0;
+    }
+}

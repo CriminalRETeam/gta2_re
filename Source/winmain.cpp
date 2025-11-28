@@ -2013,7 +2013,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 }
 
 // TODO: order
-STUB_FUNC(0x4DA740)
+MATCH_FUNC(0x4DA740)
 EXPORT void __stdcall sub_4DA740()
 {
     if (!bDestroyed_6F5B70)
@@ -2024,36 +2024,9 @@ EXPORT void __stdcall sub_4DA740()
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 
-        // TODO: Function chunk
         if (!bSkip_audio_67D6BE)
         {
-            if (gSound_obj_66F680.field_0_bSoundInitialized)
-            {
-                gSound_obj_66F680.sub_57EA10();
-                gSound_obj_66F680.sub_418C60();
-                for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
-                {
-                    if (gSound_obj_66F680.field_1D_b3d_sound)
-                    {
-                        gSampManager_6FFF00.StopChannel3D_58DFC0(i);
-                    }
-                    else
-                    {
-                        gSampManager_6FFF00.StopChannel_58DDD0(i);
-                    }
-                }
-
-                for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
-                {
-                    gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
-                    gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
-                }
-                gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
-
-                gSound_obj_66F680.null_412250();
-                gSampManager_6FFF00.Shutdown_58DB30();
-                gSound_obj_66F680.field_0_bSoundInitialized = 0;
-            }
+            gRoot_sound_66B038.unknown_inlined_function();
         }
     }
 }
