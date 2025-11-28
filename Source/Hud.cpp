@@ -27,6 +27,7 @@ DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(u16, word_706618, 0x706618); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_706508, 0x706508); //, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL(u16, word_70646C, 0x70646C); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL_ARRAY(char, byte_67CE50, 264, 0x67CE50); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL(s32, dword_7064C0, 0x7064C0);
@@ -439,10 +440,31 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
 }
 
-STUB_FUNC(0x5D6060)
-void __stdcall sub_5D6060(s16 a1, u8 a2)
+MATCH_FUNC(0x5D6060)
+void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
 {
-    NOT_IMPLEMENTED;
+    if (ammo_idx != -1)
+    {
+        u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
+        s32 width = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3)->field_4_width;
+        u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
+        s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v5)->field_5_height;
+
+        sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, DrawKind(2), 0, 0, 0);
+
+        if (ammo_idx != 21 && ammo_idx != 20)
+        {
+            if (ammo_count == 0xFF)
+            {
+                swprintf(tmpBuff_67BD9C, L"K.F.");
+            }
+            else
+            {
+                swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
+            }
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, DrawKind(8), 6, 0, 0);
+        }
+    }
 }
 
 STUB_FUNC(0x5D61A0)
