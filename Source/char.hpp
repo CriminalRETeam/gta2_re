@@ -123,6 +123,7 @@ class Char_B4
     Char_B4();
     ~Char_B4();
 
+    EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     EXPORT void sub_5454B0();
     EXPORT void sub_5454D0();
