@@ -2140,6 +2140,7 @@ bool Hud_2B00::sub_5D6CB0(s32 a1)
     return field_12EC_sub.sub_5D15A0(a1);
 }
 
+// https://decomp.me/scratch/Y4V1E it matches on decompme
 STUB_FUNC(0x5d6cd0)
 Hud_2B00::Hud_2B00()
 {
