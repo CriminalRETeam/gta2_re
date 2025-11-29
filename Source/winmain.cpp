@@ -872,6 +872,7 @@ STUB_FUNC(0x4DB0D0)
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
+    pGame->sub_4B8C00(0, 1);
 }
 
 // todo move to another file for ordering
@@ -1445,12 +1446,37 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA3F0)
-EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
+MATCH_FUNC(0x4DA3F0)
+EXPORT char_type* __stdcall sub_4DA3F0(char_type* a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    char_type* result = a1;
+    for (char_type i = *a1; i; i = *++result)
+    {
+        if (i == ' ')
+        {
+            break;
+        }
+        if (i == '\n')
+        {
+            break;
+        }
+        if (i == '\r')
+        {
+            break;
+        }
+        if (i == '\t')
+        {
+            break;
+        }
+    }
+    for (char_type j = *result; j; j = *++result)
+    {
+        if (j != ' ' && j != '\n' && j != '\r' && j != '\t')
+        {
+            break;
+        }
+    }
+    return result;
 }
 
 // todo move to another file for ordering
