@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "rng.hpp"
 
 class nostalgic_ellis_0x28
 {
@@ -13,7 +14,42 @@ class nostalgic_ellis_0x28
 
     EXPORT nostalgic_ellis_0x28* sub_4D6DC0();
 
-   // nostalgic_ellis_0x28* field_0;
+    // 0x45B330
+    s32 PoolUpdate()
+    {
+        field_17_off_time--;
+        if (!field_17_off_time)
+        {
+            if (field_0 & 0xff)
+            {
+                field_0 &= ~0xff;
+                field_17_off_time = field_15_off_time;
+                if (field_16_shape)
+                {
+                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(&field_16_shape);
+                }
+            }
+            else
+            {
+                field_0 &= ~0xff;
+                u8 t = field_18_intensity;
+                field_0 |= t;
+                field_17_off_time = field_14_on_time;
+                if (field_16_shape)
+                {
+                    field_17_off_time += stru_6F6784.get_uint8_4F7B70(&field_16_shape);
+                }
+            }
+        }
+        return 0;
+    }
+
+    void PoolDeallocate()
+    {
+        field_0 = 0x2A2A2A2A;
+    }
+
+    // nostalgic_ellis_0x28* field_0;
     s32 field_0; // todo ??
     s32 field_4_light_x;
     s32 field_8_light_y;
