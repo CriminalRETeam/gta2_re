@@ -79,11 +79,18 @@ DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
-STUB_FUNC(0x4AE010)
-LPCSTR __stdcall FreeLoader::sub_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3)
+MATCH_FUNC(0x4AE010)
+LPCSTR __stdcall FreeLoader::sub_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    DWORD Type = 4;
+    if (!RegQueryValueExA(hKey, lpValueName, 0, &Type, (LPBYTE)&lpValueName, &Type) == 0)
+    {
+        return a3;
+    }
+    else
+    {
+        return lpValueName;
+    }
 }
 
 MATCH_FUNC(0x4AE0F0)
