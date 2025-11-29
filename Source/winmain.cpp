@@ -861,11 +861,11 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 }
 
 // todo: move
-STUB_FUNC(0x5D9680)
+MATCH_FUNC(0x5D9680)
 EXPORT void sub_5D9680()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    sub_5D7CB0();
+    sub_5D8E00();
 }
 
 // todo move to another file for ordering
