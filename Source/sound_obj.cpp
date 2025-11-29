@@ -631,15 +631,15 @@ void sound_obj::ProcessActiveQueues_41AB80()
             sound_0x68& t = field_DC0_ActiveSamples[j];
 
             if (Sample.field_0_EntityIndex != t.field_0_EntityIndex || Sample.field_4_SampleIndex != t.field_4_SampleIndex ||
-                Sample.field_41 == 2 || (Sample.field_5C != 0 && t.field_5C == 0))
+                Sample.field_41 == 2 || (t.field_5C != 0 && Sample.field_5C == 0))
             {
-                break;
+                continue;
             }
 
             // OBS: field_14_samp_idx = u32
             if (!sub_412260(&Sample) || Sample.field_14_samp_idx >= 0x141 || Sample.field_14_samp_idx != t.field_14_samp_idx)
             {
-                break;
+                continue;
             }
 
             sub_41B490(&Sample);
@@ -687,7 +687,7 @@ void sound_obj::ProcessActiveQueues_41AB80()
             {
                 Sample.field_2C_bIsBeingPlayed = false;
                 t.field_2C_bIsBeingPlayed = false;
-                break;
+                continue;
             }
 
             if (Sample.field_18) // is2D
