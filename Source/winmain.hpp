@@ -24,3 +24,6 @@ EXPORT void sub_5D8E00();
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652);
+
+EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
+

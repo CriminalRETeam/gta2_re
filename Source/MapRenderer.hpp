@@ -47,7 +47,6 @@ class MapRenderer
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void sub_4EA390(u16* a2);
-    EXPORT void set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
     EXPORT s32 sub_4EAE00(s32* a2, s32* a3, Vert* a4);
     EXPORT s32 sub_4EAEA0(s32* a2, s32* a3, Vert* a4);
     EXPORT void sub_4EAF40(u16* a2);
@@ -94,6 +93,30 @@ class MapRenderer
         return dword_6F646C.field_0_gradient_direction;
     }
 
+    inline u8 sub_46B5E0(s32 a1)
+    {
+        //u8 diffuseColour;
+        switch (a1)
+        {
+            case 0u:
+                return -1;
+                break;
+            case 1u:
+                return field_C_colour_t1;
+                break;
+            case 2u:
+                return field_E_colour_t2;
+                break;
+            case 3u:
+                return field_F_colour_t3;
+                break;
+            default:
+                return 0;
+                break;
+        }
+        //return diffuseColour;
+    }
+
     Fix16 field_0_ambient;
     Fix16 field_4;
     Fix16 field_8;
@@ -117,5 +140,7 @@ class MapRenderer
     s32 field_2EFC_count;
     s32 field_2F00_drawn_tile_count;
 };
+
+EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);

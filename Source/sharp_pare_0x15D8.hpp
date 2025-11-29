@@ -80,6 +80,11 @@ struct sharp_pare_0x15D8
     s16 field_15D4_idx;
     u16 field_15D6_pal_count;
 
+    inline STexture* sub_46BB50(u16& a1)
+    {
+        return field_0_textures1[a1];
+    }
+
     EXPORT void LoadPals_5B90F0();
     EXPORT void FreePals_5B9140();
     EXPORT void LoadTextures2_5B9180();

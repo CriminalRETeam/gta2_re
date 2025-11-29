@@ -1,9 +1,12 @@
 #include "MapRenderer.hpp"
 #include "Camera.hpp"
+#include "winmain.hpp"
+#include "gbh_graphics.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "fix16.hpp"
 #include "map_0x370.hpp"
+#include "sharp_pare_0x15D8.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6484, 0x6F6484);
@@ -20,6 +23,24 @@ DEFINE_GLOBAL(u32, dword_6F647C, 0x6F647C);
 DEFINE_GLOBAL(gmp_block_info*, gpBlock_6F6478, 0x6F6478);
 DEFINE_GLOBAL(gmp_map_slope, dword_6F646C, 0x6F646C);
 DEFINE_GLOBAL_ARRAY(Vert, gTileVerts_6F65A8, 8, 0x6F65A8);
+
+DEFINE_GLOBAL(s32, dword_6F62B0, 0x6F62B0);
+DEFINE_GLOBAL(u32, dword_6F6560, 0x6F6560);
+DEFINE_GLOBAL(Fix16, dword_6F628C, 0x6F628C);
+DEFINE_GLOBAL(Fix16, dword_6F656C, 0x6F656C);
+DEFINE_GLOBAL(s8, byte_620F20, 0x620F20);
+DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FA4, 8, 0x620FA4, 0, 8, 0x20, 0x28, 0x40, 0x48, 0x60, 0x68);
+DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621004, 8, 0x621004, 0x65, 0x75, 5, 0x15, 0x25, 0x35, 0x45, 0x55);
+DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621024, 8, 0x621024, 5, 0x0D, 0x25, 0x2D, 0x45, 0x4D, 0x65, 0x6D);
+DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FE4, 8, 0x620FE4, 0x25, 0x35, 0x45, 0x55, 0x65, 0x75, 5, 0x15);
+
+static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
+{
+    set_vert_xyz_relative_to_cam_4EAD90(x, y, dword_6F62B0, pVert);
+    pVert->x = (x.ToFloat()) * (dword_6F628C.ToFloat()) + gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = (y.ToFloat()) * (dword_6F628C.ToFloat()) + gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->z = dword_6F656C.ToFloat();
+}
 
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
@@ -74,7 +95,7 @@ void MapRenderer::sub_4EA390(u16* a2)
 }
 
 MATCH_FUNC(0x4ead90)
-void MapRenderer::set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
+void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
     Camera_0xBC* pCam = gViewCamera_676978;
 
@@ -144,10 +165,71 @@ void MapRenderer::draw_bottom_4ED290(u16* a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/pJOfC
 STUB_FUNC(0x4ee130)
 void MapRenderer::draw_lid_4EE130()
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_lid_67D546)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+
+        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF); // tile idx
+
+        if (texture_idx)
+        {
+            switch (byte_620F20)
+            {
+                case -1:
+                    dword_6F6560 = dword_620FA4[(u16)gLidType_6F6274 >> 13];
+                    break;
+                case 0:
+                    memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[1], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[4], &gTileVerts_6F65A8[5], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[2], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[5], &gTileVerts_6F65A8[6], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[2], &gTileVerts_6F65A8[3], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[6], &gTileVerts_6F65A8[7], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[0], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[7], &gTileVerts_6F65A8[4], sizeof(Vert));
+                    dword_6F6560 = dword_621004[(u16)gLidType_6F6274 >> 13];
+                    break;
+                case 1:
+                    memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[2], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[5], &gTileVerts_6F65A8[6], sizeof(Vert));
+                    dword_6F6560 = dword_621024[(u16)gLidType_6F6274 >> 13];
+                    break;
+                case 2:
+                    memcpy(&gTileVerts_6F65A8[2], &gTileVerts_6F65A8[1], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[6], &gTileVerts_6F65A8[5], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[0], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[5], &gTileVerts_6F65A8[4], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[3], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[4], &gTileVerts_6F65A8[7], sizeof(Vert));
+                    dword_6F6560 = dword_620FE4[(u16)gLidType_6F6274 >> 13];
+                    break;
+                case 3:
+                    memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[0], sizeof(Vert));
+                    memcpy(&gTileVerts_6F65A8[7], &gTileVerts_6F65A8[4], sizeof(Vert));
+                    dword_6F6560 = dword_621024[(u16)gLidType_6F6274 >> 13];
+                    break;
+                default:
+                    break;
+            }
+            if ((gLidType_6F6274 & 0x1000) != 0)
+            {
+                dword_6F6560 |= 0x80;
+            }
+            //u8 diffuseColour = sub_46B5E0((gLidType_6F6274 >> 10) & 3);
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->sub_46BB50(texture_idx),
+                          gTileVerts_6F65A8,
+                          sub_46B5E0((gLidType_6F6274 >> 10) & 3));
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
 
 STUB_FUNC(0x4eeaf0)
