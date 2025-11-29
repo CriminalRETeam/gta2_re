@@ -87,9 +87,10 @@ void Object_2C::sub_522340()
 {
     if (field_20 == 2)
     {
-        Object_2C_Pool* pRoot = gObject_2C_Pool_6F8F80;
-        mpNext = pRoot->field_0_pool.field_4_pPrev;
-        pRoot->field_0_pool.field_4_pPrev = this;
+        // TODO: Missing inline here
+        TObject_2C_Pool* pRoot = gObject_2C_Pool_6F8F80;
+        mpNext = pRoot->field_4_pPrev;
+        pRoot->field_4_pPrev = this;
         field_20 = 1;
     }
 }
@@ -626,14 +627,12 @@ void Object_5C::ObjectsService_5293A0()
 {
     sub_529300();
 
-    gObject_2C_Pool_6F8F80->field_0_pool.UpdatePool();
+    gObject_2C_Pool_6F8F80->UpdatePool();
 }
 
-// https://decomp.me/scratch/4cQaY matches on decompme
-STUB_FUNC(0x529430)
+MATCH_FUNC(0x529430)
 Object_5C::Object_5C()
 {
-    NOT_IMPLEMENTED;
     field_1C = NULL;
     for (u8 i = 0; i < 50; i++)
     {
@@ -656,20 +655,20 @@ Object_5C::Object_5C()
 
     if (!gObject_2C_Pool_6F8F80)
     {
-        gObject_2C_Pool_6F8F80 = new Object_2C_Pool();
+        gObject_2C_Pool_6F8F80 = new TObject_2C_Pool();
         if (!gObject_2C_Pool_6F8F80)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
         }
     }
 
-    gObject_8_Pool_6F8F78 = new Object_8_Pool();
+    gObject_8_Pool_6F8F78 = new TObject_8_Pool();
     if (!gObject_8_Pool_6F8F78)
     {
         FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
     }
 
-    gObject_3C_Pool_6F8F7C = new Object_3C_Pool();
+    gObject_3C_Pool_6F8F7C = new TObject_3C_Pool();
     if (!gObject_3C_Pool_6F8F7C)
     {
         FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
@@ -883,7 +882,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
     {
         gPurpleDoom_3_679210->Remove_477B00(p2C->field_4);
     }
-    gObject_2C_Pool_6F8F80->Remove(p2C);
+    gObject_2C_Pool_6F8F80->DeAllocate(p2C);
 }
 
 MATCH_FUNC(0x52A650)
@@ -891,11 +890,7 @@ void Object_2C::sub_52A650()
 {
     if (!field_10)
     {
-        Object_3C* p3C = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead;
-        gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead = gObject_3C_Pool_6F8F7C->field_0_pool.field_0_pHead->mpNext;
-
-        // TODO: This should match
-        //gObject_3C_Pool_6F8F7C->field_0_pool.Allocate();
+        Object_3C* p3C = gObject_3C_Pool_6F8F7C->Allocate();
 
         // TODO: some of this is probably part of PoolAllocate for Object_3C
 
