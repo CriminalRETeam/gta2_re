@@ -84,6 +84,8 @@ DEFINE_GLOBAL(bool, bDo_show_collision_box_67D6E5, 0x67D6E5);
 DEFINE_GLOBAL(bool, gDo_show_counter_67D6E6, 0x67D6E6);
 DEFINE_GLOBAL(bool, bShow_all_arrows_67D6E7, 0x67D6E7);
 DEFINE_GLOBAL(bool, bDo_kill_phones_on_answer_67D6E8, 0x67D6E8);
+DEFINE_GLOBAL(bool, byte_67D654, 0x67D654);
+DEFINE_GLOBAL(bool, byte_67D56B, 0x67D56B);
 
 MATCH_FUNC(0x4ABBD0)
 void Debug::Init_4ABBD0()

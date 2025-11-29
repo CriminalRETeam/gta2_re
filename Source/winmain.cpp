@@ -792,10 +792,80 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
-STUB_FUNC(0x4DB170)
+MATCH_FUNC(0x4DB170)
 void __stdcall sub_4DB170()
 {
-    NOT_IMPLEMENTED;
+    bShow_all_arrows_67D6E7 = 0;
+    bDo_kill_phones_on_answer_67D6E8 = 0;
+    bSkip_dummies_67D4EF = 0;
+    bSkip_tiles_67D655 = 0;
+    bDo_test_67D4F8 = 0;
+    bSkip_mission_67D4E5 = 0;
+    bDo_brian_test_67D544 = 0;
+    bDo_iain_test_67D4E9 = 0;
+    bSkip_user_67D506 = 0;
+    bSkip_traffic_lights_67D4EC = 0;
+    bSkip_recycling_67D575 = 0;
+    bLog_collisions_67D4E6 = 0;
+    bDo_show_traffic_lights_info_67D4FA = 0;
+    bLimit_recycling_67D4CA = 0;
+    bNo_annoying_chars_67D586 = 0;
+    bSkip_slopes_67D505 = 0;
+    bSkip_left_67D6BF = 0;
+    bSkip_right_67D4E4 = 0;
+    bSkip_top_67D574 = 0;
+    bSkip_bottom_67D4E7 = 0;
+    bSkip_lid_67D546 = 0;
+    bLog_routefinder_67D6D1 = 0;
+    bDo_mike_67D5CC = 0;
+    bSkip_particles_67D64D = 0;
+    bShow_hidden_faces_67D5CD = 0;
+    bGet_all_weapons_67D684 = 0;
+    bDo_exit_after_replay_67D6E4 = 0;
+    bDont_get_car_back_67D4F5 = 0;
+    bSkip_ambulance_67D6C9 = 0;
+    bSkip_frontend_67D53B = 0;
+    bDo_invulnerable_67D4CB = 0;
+    bKeep_weapons_after_death_67D54D = 0;
+    bSkip_skidmarks_67D585 = 0;
+    gDo_infinite_lives_67D4C9 = 0;
+    bDo_load_savegame_67D4F0 = 0;
+    bSkip_audio_67D6BE = 0;
+    bDo_debug_keys_67D6CF = 0;
+    bLog_input_67D4CC = 0;
+    bLog_directinput_67D6C0 = 0;
+    bIgnore_replay_header_67D4F3 = 0;
+    bSkip_trains_67D550 = 0;
+    bSkip_buses_67D558 = 0;
+    bSkip_quit_confirm_67D4E8 = 0;
+    bSkip_fire_engines_67D53A = 0;
+    bSkip_window_check_67D54E = 0;
+    gDo_miss_logging_67D6BC = 0;
+    byte_67D654 = 0;
+    bDo_police_1_67D568 = 0;
+    bDo_police_2_67D569 = 0;
+    bDo_police_3_67D56A = 0;
+    bSkip_draw_67D4EA = 0;
+    bDo_free_shopping_67D6CD = 0;
+    gCheatMiniCars_67D6C8 = 0;
+    gCheatGetPlayerPoints_67D4C8 = 0;
+    gCheatGet10MillionMoney_67D6CE = 0;
+    gCheatUnlimitedElectroGun_67D4F7 = 0;
+    gCheatAllGangMaxRespect_67D587 = 0;
+    gCheatGet99Lives_67D4F1 = 0;
+    gCheat10xMultiplier_67D589 = 0;
+    gCheatUnlockThreeLevels_67D6CB = 0;
+    gCheatUnlockLevelsOneAndTwo_67D584 = 0;
+    gCheatUnlockAllLevels_67D538 = 0;
+    gCheatGetBasicWeaponsMaxAmmo_67D545 = 0;
+    gCheatOnlyElvisPeds_67D4ED = 0;
+    gCheatOnlyMuggerPeds_67D5A4 = 0;
+    gCheatNakedPeds_67D5E8 = 0;
+    gCheatUnknown_67D4F6 = 0;
+    gCheatInvisibility_67D539 = 0;
+    gCheatUnlimitedDoubleDamage_67D57C = 0;
+    byte_67D56B = 0;
+    gCheatUnlimitedFlameThrower_67D6CC = 0;
 }
 
 STUB_FUNC(0x4DB0D0)
