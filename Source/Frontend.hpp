@@ -500,6 +500,14 @@ struct Frontend
                            u8 spacing_type);
 };
 
+class FreeLoader
+{
+  public:
+    EXPORT static s32 __stdcall sub_4AE0F0();
+    EXPORT static s32 __stdcall sub_4AE1F0(u8 a1);
+    EXPORT static s32 __stdcall sub_4AE010(HKEY a1, const char_type* a2, s32 a3);
+};
+
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
 EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);

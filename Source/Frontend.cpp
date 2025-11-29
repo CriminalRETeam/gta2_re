@@ -78,14 +78,25 @@ DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
-class FreeLoader
+STUB_FUNC(0x4AE010)
+s32 __stdcall FreeLoader::sub_4AE010(HKEY a1, const char_type* a2, s32 a3)
 {
-  public:
-    EXPORT static char_type sub_4AE1F0(u8 a1);
-};
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+MATCH_FUNC(0x4AE0F0)
+s32 __stdcall FreeLoader::sub_4AE0F0()
+{
+    HKEY phkResult;
+    RegOpenKeyA(HKEY_LOCAL_MACHINE, "Software\\freeloader.com\\GTA2", &phkResult);
+    s32 v0 = FreeLoader::sub_4AE010(phkResult, "CityInstalled", -1);
+    RegCloseKey(phkResult);
+    return v0;
+}
 
 STUB_FUNC(0x4AE1F0)
-EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
+EXPORT s32 __stdcall FreeLoader::sub_4AE1F0(u8 a1)
 {
     NOT_IMPLEMENTED;
     // todo
