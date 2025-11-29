@@ -541,9 +541,9 @@ EXPORT char_type sub_5D9510()
                       0,
                       gWindowX_706B60,
                       gWindowY_706B64,
-                      windowRect.right + clientRect.left + window_width_706630 - clientRect.right - windowRect.left,
-                      windowRect.bottom + clientRect.top + window_height_706B50 - clientRect.bottom - windowRect.top,
-                      0x316u))
+                      windowRect.right + clientRect.left + window_width_706630 - windowRect.left - clientRect.right,
+                      windowRect.bottom + clientRect.top + window_height_706B50 - windowRect.top - clientRect.bottom,
+                      0x316))
     {
         return 0;
     }
@@ -552,9 +552,7 @@ EXPORT char_type sub_5D9510()
     ShowWindow(gHwnd_707F04, 5);
     if (gVidSys_7071D0)
     {
-        //BYTE field_4_flags = gVidSys_7071D0->field_4_flags;
-        //field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags |= 1u;
+        gVidSys_7071D0->field_4_flags |= 0x100;
     }
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
