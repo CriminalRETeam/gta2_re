@@ -1992,11 +1992,11 @@ Ped* Ped::sub_466BF0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x466f40)
+MATCH_FUNC(0x466f40)
 s32 Ped::sub_466F40(u8 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6787D7 = 4;
+    return Ped::sub_466F60(a2);
 }
 
 STUB_FUNC(0x466f60)

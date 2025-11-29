@@ -72,6 +72,16 @@ class Player
         return field_2C4_player_ped;
     }
 
+    inline void sub_4A5180()
+    {
+        field_50 = 0;
+    }
+
+    inline void set_death_type_434950(s32 type)
+    {
+        field_44_death_type = type;
+    }
+
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);
@@ -241,7 +251,7 @@ class Player
     char_type field_2D2;
     char_type field_2D3;
     eager_benz field_2D4_unk;
-    char_type field_640;
+    char_type field_640_busted;
     char_type field_641;
     char_type field_642;
     char_type field_643;
