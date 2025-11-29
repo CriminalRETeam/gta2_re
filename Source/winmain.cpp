@@ -448,17 +448,11 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 }
 
 // todo: move
-STUB_FUNC(0x5D93A0)
+MATCH_FUNC(0x5D93A0)
 EXPORT void __stdcall sub_5D93A0()
 {
-    NOT_IMPLEMENTED;
-    char_type v0; // bl
-    s32 bcheckModeRet; // esi
-    // SVideo *v2; // eax
-    BYTE local_field_4_flags; // ecx
-
-    v0 = 0;
-    bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
+    bool v0 = 0;
+    s32 bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
@@ -467,7 +461,7 @@ EXPORT void __stdcall sub_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
+            FatalError_4A38C0(0xBBB, // Gta2Error::VideomodeNotAvailable
                               "C:\\Splitting\\Gta2\\Source\\video.cpp",
                               1359,
                               full_width_706B5C,
@@ -476,19 +470,15 @@ EXPORT void __stdcall sub_5D93A0()
         }
     }
 
-    //v2 = gVidSys_7071D0;
     if (gVidSys_7071D0)
     {
-        local_field_4_flags = gVidSys_7071D0->field_4_flags;
-        //BYTE1(local_field_4_flags) |= 1u;
-        local_field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags = local_field_4_flags;
-        // v2 = gVidSys_7071D0;
+        gVidSys_7071D0->field_4_flags |= 0x100;
     }
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        // Gta2Error::FailedToSetFullscreenVideomode
+        FatalError_4A38C0(0x40D, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
