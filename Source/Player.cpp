@@ -30,6 +30,7 @@ EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
 
 static bool inline is_car_model_train(int car_model) 
 {
@@ -765,7 +766,7 @@ void Player::sub_566EE0(char_type bDoNothing)
 MATCH_FUNC(0x5670B0)
 void Player::RespawnPlayer_5670B0()
 {
-    if (!(u8)bStartNetworkGame_7081F0 && !field_640)
+    if (!(u8)bStartNetworkGame_7081F0 && !field_640_busted)
     {
         Player::ChangeLifeCountByAmount_5699F0(-1);
     }
@@ -1312,10 +1313,72 @@ void Player::sub_56A6D0()
     field_8C = 0;
 }
 
+// https://decomp.me/scratch/OMzHk early %ecx load
 STUB_FUNC(0x56A740)
-Player::Player(u8 a2)
+Player::Player(u8 player_idx)
 {
-    NOT_IMPLEMENTED;
+    field_794_is_chatting = 0;
+    field_838_f796_idx = 0;
+    field_796_chat_text[0] = 0;
+    field_2E_idx = player_idx;
+    field_28 = 0;
+    field_640_busted = 0;
+    field_680 = 0;
+    field_682 = 1000;
+    field_29 = 0;
+    field_4_inputs = 0;
+    field_8E_bInUse = 1;
+
+    // early %ecx load here
+
+    field_2C4_player_ped = 0;
+    field_2C8_unkq = 0;
+    field_2CC = 0;
+    field_34_gang_curr_location = 0;
+    field_38_local_navigation_zone = 0;
+    field_3C_navigation_zone = 0;
+
+    Player::sub_56A6D0();
+    field_8 = word_6FE754;
+    field_A = word_6FE754;
+    field_C = dword_6FE610;
+    field_10 = 0;
+    field_788_curr_weapon_idx = 0;
+    field_68 = 1;
+    field_6C_bIn_debug_cam_mode = 0;
+    field_48_bDbg_cam_follow_player = 0;
+    field_8F = 0;
+    field_2F_disable_all_controls = 0;
+    field_30_disable_enter_vehicles = 0;
+    field_31_kf_weapon_mode = 0;
+    field_70_dbg_cam_north = 0;
+    field_71 = 0;
+    field_72 = 0;
+    field_73 = 0;
+    field_75_dbg_cam_zooming_in = 0;
+    field_74_dbg_cam_zooming_out = 0;
+    field_77 = 0;
+    field_76 = 0;
+    memset(field_718_weapons, 0, sizeof(field_718_weapons));
+
+    for (s32 i = 0; i < 3; i++)
+    {
+        field_54_unk[i] = NULL;
+    }
+
+    field_0 = 0;
+    field_2D0 = 0;
+    field_2C = 0;
+    field_4C_pUnk = 0;
+    field_2E_idx = player_idx;
+    field_2D4_unk.sub_5922F0(this, 2, 999999999, 158, 999u);
+    field_684_lives.sub_492110(1, 99, 115);
+    field_6BC_multpliers.sub_492110(1, 99, 116);
+    Player::sub_564CC0();
+    sub_4A5180();
+    set_death_type_434950(0);
+    field_83C_player_name = 0;
+    field_78A_show_quit_message = 0;
 }
 
 STUB_FUNC(0x56A940)
