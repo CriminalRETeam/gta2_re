@@ -41,3 +41,5 @@ class Shooey_CC
     u16 field_2_report_count;
     Shooey_14 field_4_crimes[10];
 };
+
+EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);

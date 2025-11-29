@@ -1,5 +1,7 @@
 #include "Marz_1D7E.hpp"
 
+DEFINE_GLOBAL(Marz_1D7E*, gMarz_1D7E_6FD784, 0x6FD784);
+
 MATCH_FUNC(0x463F90)
 Marz_3::Marz_3()
 {

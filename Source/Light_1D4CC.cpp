@@ -1,5 +1,7 @@
 #include "Light_1D4CC.hpp"
 
+DEFINE_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520, 0x6F5520);
+
 MATCH_FUNC(0x4bebc0)
 Light_1D4CC::~Light_1D4CC()
 {

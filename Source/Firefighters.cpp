@@ -4,6 +4,8 @@
 #include "Hamburger_500.hpp"
 #include "debug.hpp"
 
+DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
+
 MATCH_FUNC(0x4a85f0)
 void FirefighterPool_54::sub_4A85F0()
 {

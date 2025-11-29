@@ -70,3 +70,5 @@ class Hamburger_500
 
     Hamburger_40 field_0[20];
 };
+
+EXTERN_GLOBAL(Hamburger_500*, gHamburger_500_678E30);

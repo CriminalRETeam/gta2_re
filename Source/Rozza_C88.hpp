@@ -36,3 +36,5 @@ class Rozza_C88
     Rozza_A field_4[80];
     s32 field_C84_count;
 };
+
+EXTERN_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0);

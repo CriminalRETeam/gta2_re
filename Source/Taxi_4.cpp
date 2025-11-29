@@ -4,6 +4,7 @@
 #include "Car_BC.hpp"
 
 DEFINE_GLOBAL(T_Taxi_4_Pool*, gTaxi_4_Pool_6783F8, 0x6783F8);
+DEFINE_GLOBAL(Taxi_4*, gTaxi_4_704130, 0x704130);
 
 MATCH_FUNC(0x457ba0)
 void Taxi_4::PushTaxi_457BA0(Car_BC* pCar)

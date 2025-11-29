@@ -4,6 +4,7 @@
 #include "Globals.hpp"
 #include "enums.hpp"
 
+DEFINE_GLOBAL(Collide_C*, gCollide_C_6791FC, 0x6791FC);
 DEFINE_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200, 0x679200);
 DEFINE_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204, 0x679204);
 DEFINE_GLOBAL(s32, dword_678F84, 0x678F84);

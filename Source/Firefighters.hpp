@@ -67,3 +67,5 @@ class FirefighterPool_54
     s16 field_50;
     s16 field_52;
 };
+
+EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);

@@ -6,6 +6,8 @@
 #include "Police_7B8.hpp"
 #include "char.hpp"
 
+DEFINE_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8, 0x67A4B8);
+
 DEFINE_GLOBAL_INIT(Fix16, dword_67A370, Fix16(0), 0x67A370);
 
 EXTERN_GLOBAL(u8, byte_6FDB59);

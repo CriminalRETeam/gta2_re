@@ -35,3 +35,5 @@ class Collide_C
     s32 field_4_count;
     s32 field_8_bUnknown;
 };
+
+EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);

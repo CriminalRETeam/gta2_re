@@ -67,3 +67,6 @@ class Wolfy_3D4
     Wolfy_30 field_0[20];
     char_type field_3C0[20];
 };
+
+EXTERN_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0);
+EXTERN_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC);
