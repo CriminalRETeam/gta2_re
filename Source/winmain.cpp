@@ -1555,10 +1555,9 @@ EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 }
 
 // todo: move
-STUB_FUNC(0x5D9230)
+MATCH_FUNC(0x5D9230)
 EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
-    NOT_IMPLEMENTED;
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
 }
