@@ -1571,11 +1571,11 @@ EXPORT void Input_Read_498D10()
 }
 
 // todo: move
-STUB_FUNC(0x5D9250)
+MATCH_FUNC(0x5D9250)
 EXPORT void __stdcall sub_5D9250()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    gStartMode_626A0C = (gStartMode_626A0C != 1);
+    gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", gStartMode_626A0C);
 }
 
 STUB_FUNC(0x5E4EE0)
