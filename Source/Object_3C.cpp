@@ -55,10 +55,10 @@ Sprite_18* struct_4::sub_5A6A50(s32 obj_type)
         if (sprite_type_enum == sprite_types_enum::code_obj1 || sprite_type_enum == sprite_types_enum::map_obj ||
             sprite_type_enum == sprite_types_enum::unknown_1)
         {
-            Object_5C* o5c = pIter->field_0->field_8_o5C;
+            Object_2C* o5c = pIter->field_0->field_8_object_2C_ptr;
             if (o5c)
             {
-                if (o5c->field_18 == obj_type)
+                if (o5c->field_18_model == obj_type)
                 {
                     return pIter;
                 }
@@ -483,7 +483,7 @@ void struct_4::sub_5A7110()
 {
     Sprite_18* pIter = this->field_0_p18;
     Sprite_18* pLast = 0;
-    Object_5C* p5C;
+    Object_2C* p5C;
     if (pIter)
     {
         while (pIter)
@@ -491,10 +491,10 @@ void struct_4::sub_5A7110()
             const s32 type = pIter->field_0->field_30_sprite_type_enum;
             if (type == 4 || type == 5 || type == 1)
             {
-                p5C = pIter->field_0->field_8_o5C;
+                p5C = pIter->field_0->field_8_object_2C_ptr;
                 if (p5C)
                 {
-                    if (p5C->field_18 >= 287 && p5C->field_18 <= 293)
+                    if (p5C->field_18_model >= 287 && p5C->field_18_model <= 293)
                     {
 
                         break;
@@ -509,8 +509,7 @@ void struct_4::sub_5A7110()
             }
         }
 
-        // ??? TODO: Need to check this - seems wrong, unless 5C inherits 2C ??
-        gObject_5C_6F8F84->sub_52A610((Object_2C*)p5C);
+        gObject_5C_6F8F84->sub_52A610(p5C);
 
         if (pLast)
         {
@@ -533,12 +532,12 @@ s32 struct_4::sub_5A71A0()
         const s32 type = p18Iter->field_0->field_30_sprite_type_enum;
         if (type == 4 || type == 5 || type == 1)
         {
-            Object_5C* o5c = p18Iter->field_0->field_8_o5C;
+            Object_2C* o5c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o5c)
             {
-                if (o5c->field_18 >= 287 && o5c->field_18 <= 293)
+                if (o5c->field_18_model >= 287 && o5c->field_18_model <= 293)
                 {
-                    return o5c->field_18 - 286;
+                    return o5c->field_18_model - 286;
                 }
             }
         }

@@ -2,6 +2,8 @@
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
+DEFINE_GLOBAL(Kfc_1E0*, gKfc_1E0_706280, 0x706280);
+
 MATCH_FUNC(0x4beb00)
 Kfc_30::Kfc_30()
 {

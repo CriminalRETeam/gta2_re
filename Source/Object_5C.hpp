@@ -169,25 +169,13 @@ class Object_5C
     Object_2C* field_C;
     Object_3C* field_10;
     s32 field_14;
-    s32 field_18;
-
-    // !! not object_3c here
-    s32 field_1C;
-    s32 field_20;
-    s32 field_24;
-    s32 field_28;
-    s32 field_2C;
-    s32 field_30;
-    s32 field_34;
-    s32 field_38;
-    s32 field_3C;
-    s32 field_40;
-    s32 field_44;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
+    u8 field_18;
+    u8 field_19;
+    u16 field_1A;
+    Object_3C* field_1C;
+    u8 field_20[50];
+    u16 field_52;
     s32 field_54;
-
     Sprite* field_58;
 };
 

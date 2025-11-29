@@ -36,3 +36,5 @@ class Marz_1D7E
     Marz_96 field_0[50];
     u8 field_1D4C[50];
 };
+
+EXTERN_GLOBAL(Marz_1D7E*, gMarz_1D7E_6FD784);

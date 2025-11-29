@@ -500,6 +500,14 @@ struct Frontend
                            u8 spacing_type);
 };
 
+class FreeLoader
+{
+  public:
+    EXPORT static s32 __stdcall sub_4AE0F0();
+    EXPORT static char_type __stdcall sub_4AE1F0(u8 a1);
+    EXPORT static LPCSTR __stdcall sub_4AE010(HKEY a1, LPCSTR a2, LPCSTR a3);
+};
+
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma);
 
 EXTERN_GLOBAL(Frontend*, gFrontend_67DC84);
@@ -530,3 +538,24 @@ EXTERN_GLOBAL(s16, word_703B88);
 EXTERN_GLOBAL(s16, word_703DAC);
 
 EXTERN_GLOBAL(s16, word_703B9C);
+
+EXTERN_GLOBAL(u32, counter_706C4C);
+
+EXTERN_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4);
+EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7);
+EXTERN_GLOBAL(bool, gCheatAllGangMaxRespect_67D587);
+EXTERN_GLOBAL(bool, gCheatOnlyElvisPeds_67D4ED);
+EXTERN_GLOBAL(bool, gCheatNakedPeds_67D5E8);
+EXTERN_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545);
+EXTERN_GLOBAL(bool, gCheatGet99Lives_67D4F1);
+EXTERN_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8);
+EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
+EXTERN_GLOBAL(bool, gCheatUnknown_67D4F6);
+EXTERN_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE);
+EXTERN_GLOBAL(bool, gCheat10xMultiplier_67D589);
+EXTERN_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB);
+EXTERN_GLOBAL(bool, gCheatUnlockLevelsOneAndTwo_67D584);
+EXTERN_GLOBAL(bool, gCheatUnlockAllLevels_67D538);
+EXTERN_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C);
+EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
+EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);

@@ -114,6 +114,7 @@ class Garox_110C_sub
     // inline 0x4C6E50
     Garox_110C_sub()
     {
+        field_1114 = 0;
         field_284E = 0;
     }
     EXPORT void sub_5CF730();
@@ -152,7 +153,7 @@ class Garox_27B5_sub
     // inline 0x4C6E70
     Garox_27B5_sub()
     {
-        field_27B5_sub = 0;
+        field_27B5_sub = false;
     }
     EXPORT void sub_5CF970();
     char_type field_27B5_sub;
@@ -407,7 +408,7 @@ class Hud_Arrow_7C_Array
     Hud_Arrow_7C_Array()
     {
         field_83C = 1;
-        field_840 = 0;
+        field_840 = NULL;
         field_844 = 0;
     }
 
@@ -543,7 +544,7 @@ class Hud_2B00
     EXPORT void sub_5D6A70();
     EXPORT void sub_5D6A90();
     EXPORT void sub_5D6AB0();
-    EXPORT s16 sub_5D6B00();
+    EXPORT void sub_5D6B00();
     EXPORT void sub_5D6BE0();
     EXPORT s32 IsBusy_5D6C20(s32 action, Player *pPlayer);
     EXPORT s32 sub_5D6C70(s32 a1);

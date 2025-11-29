@@ -71,3 +71,5 @@ class Light_1D4CC : public LightBase
     EXPORT ~Light_1D4CC();
     EXPORT nostalgic_ellis_0x28* sub_5C2B70();
 };
+
+EXTERN_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520);

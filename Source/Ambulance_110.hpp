@@ -67,3 +67,5 @@ class Ambulance_110
     jawwie_8 field_8[25];
     Ambulance_20 field_D0[2];
 };
+
+EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);

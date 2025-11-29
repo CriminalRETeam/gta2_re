@@ -1,6 +1,9 @@
 #include "Wolfy_3D4.hpp"
 #include "Globals.hpp"
 
+DEFINE_GLOBAL(Wolfy_7A8*, gWolfy_7A8_6FD5F0, 0x6FD5F0);
+DEFINE_GLOBAL(Wolfy_3D4*, gWolfy_3D4_6FD5EC, 0x6FD5EC);
+
 DEFINE_GLOBAL(s16, gParticleInstCount_6FD5F4, 0x6FD5F4);
 DEFINE_GLOBAL(s32, dword_6FD49C, 0x6FD49C);
 DEFINE_GLOBAL(s16, word_6FD5D4, 0x6FD5D4);

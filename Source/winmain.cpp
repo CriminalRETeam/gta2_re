@@ -325,6 +325,48 @@ DEFINE_GLOBAL(u8, byte_6F5760, 0x6F5760);
 DEFINE_GLOBAL(u8, byte_6F5880, 0x6F5880);
 DEFINE_GLOBAL(s32, dword_6F5A28, 0x6F5A28);
 
+// TODO: move
+MATCH_FUNC(0x4DA820)
+EXPORT void sub_4DA820()
+{
+    byte_6F5880 = 1;
+}
+
+// TODO: Other missing stubs here
+MATCH_FUNC(0x4DA830)
+EXPORT void __stdcall sub_4DA830()
+{
+    dword_6F5A28 = timeGetTime();
+    byte_6F58D8 = 0;
+}
+
+// TODO: move
+MATCH_FUNC(0x5D8E00)
+void sub_5D8E00()
+{
+    if (gGame_0x40_67E008)
+    {
+        if (gVidSys_7071D0->field_40_full_screen == -2)
+        {
+            if (dword_706C58 != window_width_706630)
+            {
+                gGame_0x40_67E008->sub_4B8E00(window_width_706630, window_height_706B50);
+            }
+            dword_706C58 = window_width_706630;
+        }
+        else
+        {
+            if (dword_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
+            {
+                gGame_0x40_67E008->sub_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
+            }
+            dword_706C58 = gVidSys_7071D0->field_4C_rect_bottom;
+        }
+        sub_4DA820();
+        sub_4DA830();
+    }
+}
+
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8EB0)
 EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
@@ -406,17 +448,11 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 }
 
 // todo: move
-STUB_FUNC(0x5D93A0)
+MATCH_FUNC(0x5D93A0)
 EXPORT void __stdcall sub_5D93A0()
 {
-    NOT_IMPLEMENTED;
-    char_type v0; // bl
-    s32 bcheckModeRet; // esi
-    // SVideo *v2; // eax
-    BYTE local_field_4_flags; // ecx
-
-    v0 = 0;
-    bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
+    bool v0 = 0;
+    s32 bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
@@ -425,7 +461,7 @@ EXPORT void __stdcall sub_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
+            FatalError_4A38C0(0xBBB, // Gta2Error::VideomodeNotAvailable
                               "C:\\Splitting\\Gta2\\Source\\video.cpp",
                               1359,
                               full_width_706B5C,
@@ -434,19 +470,15 @@ EXPORT void __stdcall sub_5D93A0()
         }
     }
 
-    //v2 = gVidSys_7071D0;
     if (gVidSys_7071D0)
     {
-        local_field_4_flags = gVidSys_7071D0->field_4_flags;
-        //BYTE1(local_field_4_flags) |= 1u;
-        local_field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags = local_field_4_flags;
-        // v2 = gVidSys_7071D0;
+        gVidSys_7071D0->field_4_flags |= 0x100;
     }
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        // Gta2Error::FailedToSetFullscreenVideomode
+        FatalError_4A38C0(0x40D, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
@@ -509,9 +541,9 @@ EXPORT char_type sub_5D9510()
                       0,
                       gWindowX_706B60,
                       gWindowY_706B64,
-                      windowRect.right + clientRect.left + window_width_706630 - clientRect.right - windowRect.left,
-                      windowRect.bottom + clientRect.top + window_height_706B50 - clientRect.bottom - windowRect.top,
-                      0x316u))
+                      windowRect.right + clientRect.left + window_width_706630 - windowRect.left - clientRect.right,
+                      windowRect.bottom + clientRect.top + window_height_706B50 - windowRect.top - clientRect.bottom,
+                      0x316))
     {
         return 0;
     }
@@ -520,9 +552,7 @@ EXPORT char_type sub_5D9510()
     ShowWindow(gHwnd_707F04, 5);
     if (gVidSys_7071D0)
     {
-        //BYTE field_4_flags = gVidSys_7071D0->field_4_flags;
-        //field_4_flags |= 1u;
-        gVidSys_7071D0->field_4_flags |= 1u;
+        gVidSys_7071D0->field_4_flags |= 0x100;
     }
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
@@ -592,58 +622,57 @@ EXPORT s32 ReadScreenSettings_5D8F70()
 }
 
 // todo: move
-STUB_FUNC(0x5D98E0)
+MATCH_FUNC(0x5D98E0)
 EXPORT void __stdcall SetSavedGamma_5D98E0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    DWORD Screen_Setting_5870D0 = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 0xAu);
+    if (SetGamma_5D9910(Screen_Setting_5870D0))
+    {
+        counter_706C4C = 30;
+    }
 }
 
 // todo: move
-STUB_FUNC(0x5D92D0)
+MATCH_FUNC(0x5D92D0)
 EXPORT void __stdcall sub_5D92D0()
 {
-    NOT_IMPLEMENTED;
-    u32 field_4_flags; // ecx
-    u32 v1; // ecx
-
     Init_FrameRateLightAndUnknown_5D8EB0();
     ReadScreenSettings_5D8F70();
     Input_MouseAcquire_5D7C60();
 
     pVid_CloseScreen(gVidSys_7071D0);
-    field_4_flags = gVidSys_7071D0->field_4_flags;
 
     if (bTrippleBuffer_706C54)
     {
-        v1 = field_4_flags | 0x10;
+        gVidSys_7071D0->field_4_flags |= 0x10;
     }
     else
     {
-        v1 = field_4_flags & ~0x10u;
+        gVidSys_7071D0->field_4_flags &= ~0x10u;
     }
 
-    gVidSys_7071D0->field_4_flags = v1;
-
-    if (gStartMode_626A0C)
+    if (!gStartMode_626A0C)
+    {
+        if (!sub_5D9510())
+        {
+            if (window_width_706630 == 640 
+                || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
+            {
+                sub_5D93A0();
+                gStartMode_626A0C = 1;
+                gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", 1u);
+            }
+            else
+            {
+                gRegistry_6FF968.Set_Screen_Setting_587170("window_width", window_width_706630);
+                gRegistry_6FF968.Set_Screen_Setting_587170("window_height", window_height_706B50);
+            }
+        }
+    }
+    else
     {
         sub_5D93A0();
     }
-    else if (!sub_5D9510())
-    {
-        if (window_width_706630 == 640 || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
-        {
-            sub_5D93A0();
-            gStartMode_626A0C = 1;
-            gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", 1u);
-        }
-        else
-        {
-            gRegistry_6FF968.Set_Screen_Setting_587170("window_width", window_width_706630);
-            gRegistry_6FF968.Set_Screen_Setting_587170("window_height", window_height_706B50);
-        }
-    }
-
     SetSavedGamma_5D98E0();
 }
 
@@ -763,16 +792,87 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     }
 }
 
-STUB_FUNC(0x4DB170)
+MATCH_FUNC(0x4DB170)
 void __stdcall sub_4DB170()
 {
-    NOT_IMPLEMENTED;
+    bShow_all_arrows_67D6E7 = 0;
+    bDo_kill_phones_on_answer_67D6E8 = 0;
+    bSkip_dummies_67D4EF = 0;
+    bSkip_tiles_67D655 = 0;
+    bDo_test_67D4F8 = 0;
+    bSkip_mission_67D4E5 = 0;
+    bDo_brian_test_67D544 = 0;
+    bDo_iain_test_67D4E9 = 0;
+    bSkip_user_67D506 = 0;
+    bSkip_traffic_lights_67D4EC = 0;
+    bSkip_recycling_67D575 = 0;
+    bLog_collisions_67D4E6 = 0;
+    bDo_show_traffic_lights_info_67D4FA = 0;
+    bLimit_recycling_67D4CA = 0;
+    bNo_annoying_chars_67D586 = 0;
+    bSkip_slopes_67D505 = 0;
+    bSkip_left_67D6BF = 0;
+    bSkip_right_67D4E4 = 0;
+    bSkip_top_67D574 = 0;
+    bSkip_bottom_67D4E7 = 0;
+    bSkip_lid_67D546 = 0;
+    bLog_routefinder_67D6D1 = 0;
+    bDo_mike_67D5CC = 0;
+    bSkip_particles_67D64D = 0;
+    bShow_hidden_faces_67D5CD = 0;
+    bGet_all_weapons_67D684 = 0;
+    bDo_exit_after_replay_67D6E4 = 0;
+    bDont_get_car_back_67D4F5 = 0;
+    bSkip_ambulance_67D6C9 = 0;
+    bSkip_frontend_67D53B = 0;
+    bDo_invulnerable_67D4CB = 0;
+    bKeep_weapons_after_death_67D54D = 0;
+    bSkip_skidmarks_67D585 = 0;
+    gDo_infinite_lives_67D4C9 = 0;
+    bDo_load_savegame_67D4F0 = 0;
+    bSkip_audio_67D6BE = 0;
+    bDo_debug_keys_67D6CF = 0;
+    bLog_input_67D4CC = 0;
+    bLog_directinput_67D6C0 = 0;
+    bIgnore_replay_header_67D4F3 = 0;
+    bSkip_trains_67D550 = 0;
+    bSkip_buses_67D558 = 0;
+    bSkip_quit_confirm_67D4E8 = 0;
+    bSkip_fire_engines_67D53A = 0;
+    bSkip_window_check_67D54E = 0;
+    gDo_miss_logging_67D6BC = 0;
+    byte_67D654 = 0;
+    bDo_police_1_67D568 = 0;
+    bDo_police_2_67D569 = 0;
+    bDo_police_3_67D56A = 0;
+    bSkip_draw_67D4EA = 0;
+    bDo_free_shopping_67D6CD = 0;
+    gCheatMiniCars_67D6C8 = 0;
+    gCheatGetPlayerPoints_67D4C8 = 0;
+    gCheatGet10MillionMoney_67D6CE = 0;
+    gCheatUnlimitedElectroGun_67D4F7 = 0;
+    gCheatAllGangMaxRespect_67D587 = 0;
+    gCheatGet99Lives_67D4F1 = 0;
+    gCheat10xMultiplier_67D589 = 0;
+    gCheatUnlockThreeLevels_67D6CB = 0;
+    gCheatUnlockLevelsOneAndTwo_67D584 = 0;
+    gCheatUnlockAllLevels_67D538 = 0;
+    gCheatGetBasicWeaponsMaxAmmo_67D545 = 0;
+    gCheatOnlyElvisPeds_67D4ED = 0;
+    gCheatOnlyMuggerPeds_67D5A4 = 0;
+    gCheatNakedPeds_67D5E8 = 0;
+    gCheatUnknown_67D4F6 = 0;
+    gCheatInvisibility_67D539 = 0;
+    gCheatUnlimitedDoubleDamage_67D57C = 0;
+    byte_67D56B = 0;
+    gCheatUnlimitedFlameThrower_67D6CC = 0;
 }
 
 STUB_FUNC(0x4DB0D0)
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
+    pGame->sub_4B8C00(0, 1);
 }
 
 // todo move to another file for ordering
@@ -819,12 +919,26 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     byte_6F5760 = 1;
 }
 
+// todo: move
+MATCH_FUNC(0x5D9680)
+EXPORT void sub_5D9680()
+{
+    sub_5D7CB0();
+    sub_5D8E00();
+}
+
 // todo move to another file for ordering
-STUB_FUNC(0x5D9690)
+MATCH_FUNC(0x5D9690)
 EXPORT void __stdcall sub_5D9690()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    Init_FrameRateLightAndUnknown_5D8EB0();
+    if ((u8)ReadScreenSettings_5D8F70() || byte_706C5D)
+    {
+        sub_5D92D0();
+        sub_5D9680();
+        byte_706C5D = 0;
+    }
+    Input_MouseAcquire_5D7C60();
 }
 
 // TODO: order
@@ -992,13 +1106,6 @@ EXPORT u8 sub_4DA850()
         gsharp_bose_0x54_7055D4->sub_5BECF0(a2, unk_0xc);
     }
     return bContinue;
-}
-
-// TODO: Other missing stubs here
-STUB_FUNC(0x4DA830)
-EXPORT void __stdcall sub_4DA830()
-{
-    NOT_IMPLEMENTED;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
@@ -1339,12 +1446,37 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 }
 
 // todo move to another file for ordering
-STUB_FUNC(0x4DA3F0)
-EXPORT char_type* __stdcall sub_4DA3F0(char_type* pStr)
+MATCH_FUNC(0x4DA3F0)
+EXPORT char_type* __stdcall sub_4DA3F0(char_type* a1)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    char_type* result = a1;
+    for (char_type i = *a1; i; i = *++result)
+    {
+        if (i == ' ')
+        {
+            break;
+        }
+        if (i == '\n')
+        {
+            break;
+        }
+        if (i == '\r')
+        {
+            break;
+        }
+        if (i == '\t')
+        {
+            break;
+        }
+    }
+    for (char_type j = *result; j; j = *++result)
+    {
+        if (j != ' ' && j != '\n' && j != '\r' && j != '\t')
+        {
+            break;
+        }
+    }
+    return result;
 }
 
 // todo move to another file for ordering
@@ -1423,20 +1555,11 @@ EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText)
 }
 
 // todo: move
-STUB_FUNC(0x5D9230)
+MATCH_FUNC(0x5D9230)
 EXPORT void __stdcall sub_5D9230(s32 startMode)
 {
-    NOT_IMPLEMENTED;
     gStartMode_626A0C = startMode;
     gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", startMode);
-}
-
-// todo: move
-STUB_FUNC(0x5D9680)
-EXPORT void sub_5D9680()
-{
-    NOT_IMPLEMENTED;
-    // todo
 }
 
 // todo: move
@@ -1448,11 +1571,11 @@ EXPORT void Input_Read_498D10()
 }
 
 // todo: move
-STUB_FUNC(0x5D9250)
+MATCH_FUNC(0x5D9250)
 EXPORT void __stdcall sub_5D9250()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    gStartMode_626A0C = (gStartMode_626A0C != 1);
+    gRegistry_6FF968.Set_Screen_Setting_587170("start_mode", gStartMode_626A0C);
 }
 
 STUB_FUNC(0x5E4EE0)
@@ -1979,7 +2102,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 }
 
 // TODO: order
-STUB_FUNC(0x4DA740)
+MATCH_FUNC(0x4DA740)
 EXPORT void __stdcall sub_4DA740()
 {
     if (!bDestroyed_6F5B70)
@@ -1990,36 +2113,9 @@ EXPORT void __stdcall sub_4DA740()
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 
-        // TODO: Function chunk
         if (!bSkip_audio_67D6BE)
         {
-            if (gSound_obj_66F680.field_0_bSoundInitialized)
-            {
-                gSound_obj_66F680.sub_57EA10();
-                gSound_obj_66F680.sub_418C60();
-                for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
-                {
-                    if (gSound_obj_66F680.field_1D_b3d_sound)
-                    {
-                        gSampManager_6FFF00.StopChannel3D_58DFC0(i);
-                    }
-                    else
-                    {
-                        gSampManager_6FFF00.StopChannel_58DDD0(i);
-                    }
-                }
-
-                for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
-                {
-                    gSound_obj_66F680.field_147C[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
-                    gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
-                }
-                gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
-
-                gSound_obj_66F680.null_412250();
-                gSampManager_6FFF00.Shutdown_58DB30();
-                gSound_obj_66F680.field_0_bSoundInitialized = 0;
-            }
+            gRoot_sound_66B038.unknown_inlined_function();
         }
     }
 }

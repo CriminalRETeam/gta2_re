@@ -452,7 +452,7 @@ void CC ImGuiDebugDraw()
                                               pPlayerSprite->field_1C_zpos,
                                               0);
             }
-
+            /*
             if (ImGui::TreeNode("Object_5C debug"))
             {
                 ImGui::Value("field_1C", gObject_5C_6F8F84->field_1C);
@@ -472,6 +472,7 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_54", gObject_5C_6F8F84->field_54);
                 ImGui::TreePop();
             }
+            */
         }
         if (spawned_obj != NULL)
         {

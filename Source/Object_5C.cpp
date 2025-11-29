@@ -629,10 +629,62 @@ void Object_5C::ObjectsService_5293A0()
     gObject_2C_Pool_6F8F80->field_0_pool.UpdatePool();
 }
 
+// https://decomp.me/scratch/4cQaY matches on decompme
 STUB_FUNC(0x529430)
 Object_5C::Object_5C()
 {
     NOT_IMPLEMENTED;
+    field_1C = NULL;
+    for (u8 i = 0; i < 50; i++)
+    {
+        field_20[i] = 1;
+    }
+
+    field_54 = 0;
+    byte_6F8C68 = 0;
+    byte_6F8C4C = 0;
+    byte_6F8F40 = 0;
+    field_10 = 0;
+    field_14 = 0;
+    dword_6F8E54 = 0;
+    dword_6F8F18 = 0;
+    dword_6F8DC0 = 0;
+    dword_6F8F0C = 0;
+    field_58 = 0;
+    field_18 = 0;
+    byte_6F8EDC = 0;
+
+    if (!gObject_2C_Pool_6F8F80)
+    {
+        gObject_2C_Pool_6F8F80 = new Object_2C_Pool();
+        if (!gObject_2C_Pool_6F8F80)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
+        }
+    }
+
+    gObject_8_Pool_6F8F78 = new Object_8_Pool();
+    if (!gObject_8_Pool_6F8F78)
+    {
+        FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
+    }
+
+    gObject_3C_Pool_6F8F7C = new Object_3C_Pool();
+    if (!gObject_3C_Pool_6F8F7C)
+    {
+        FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
+    }
+
+    field_58 = gSprite_Pool_703818->get_new_sprite();
+    field_58->sub_451950(0, 0, 0);
+
+    field_58->sub_420690(word_6F8F68);
+    field_58->AllocInternal_59F950(0, 0, 0);
+
+    field_0 = 0;
+    field_C = 0;
+    field_8 = 0;
+    field_4 = 0;
 }
 
 MATCH_FUNC(0x529750)

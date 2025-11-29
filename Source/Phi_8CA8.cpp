@@ -6,6 +6,8 @@
 #include "sprite.hpp"
 #include <memory.h>
 
+DEFINE_GLOBAL(Phi_8CA8*, gPhi_8CA8_6FCF00, 0x6FCF00);
+
 DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fac, Fix16(4096, 0), 0x6f8fac);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006f8fd8, Fix16(1638, 0), 0x6F8FD8);
 DEFINE_GLOBAL_INIT(Fix16, DAT_006fc578, Fix16(3276, 0), 0x6fc578);

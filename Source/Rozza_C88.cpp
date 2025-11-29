@@ -2,6 +2,8 @@
 #include "debug.hpp"
 #include "root_sound.hpp"
 
+DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
+
 MATCH_FUNC(0x40bb90)
 void Rozza_C88::Reset_40BB90()
 {

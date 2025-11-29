@@ -64,3 +64,5 @@ EXTERN_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0);
 
 // TODO: size does not match
 //GTA2_ASSERT_SIZEOF_ALWAYS(BurgerKing_67F8B0, 0x67F8B0)
+
+EXTERN_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990);

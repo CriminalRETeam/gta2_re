@@ -80,5 +80,7 @@ EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);
 
 EXTERN_GLOBAL(Fix16, dword_67DCCC);
 
+EXTERN_GLOBAL(s32, dword_706C58);
+
 
 EXTERN_GLOBAL(class Hamburger_500*, gHamburger_500_678E30);

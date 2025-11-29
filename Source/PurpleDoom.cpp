@@ -631,7 +631,8 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
     return 0;
 }
 
-MATCH_FUNC(0x478750)
+// TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
+STUB_FUNC(0x478750)
 char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
@@ -646,6 +647,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
         Collide_8* pC8Iter = pIter->field_4_p8;
         while (pC8Iter)
         {
+            /*
             if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
@@ -656,6 +658,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
                 }
                 pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
+            */
             pC8Iter = pC8Iter->mpNext;
         }
         pIter = pIter->mpNext;
@@ -663,7 +666,8 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
     return bRet;
 }
 
-MATCH_FUNC(0x4787e0)
+// TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
+STUB_FUNC(0x4787e0)
 bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 {
     bool bRet;
@@ -681,6 +685,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 
         for (p8Iter = pXItemIter->field_4_p8; p8Iter; p8Iter = p8Iter->mpNext)
         {
+            /*
             if (p8Iter->field_0_sprt->field_30_sprite_type_enum == dword_678FA8 &&
                 p8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
             {
@@ -694,6 +699,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
 
                 p8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
+            */
         }
         pXItemIter = pXItemIter->mpNext;
     }

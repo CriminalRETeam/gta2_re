@@ -25,6 +25,7 @@
 #include "root_sound.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "text_0x14.hpp"
+#include "winmain.hpp"
 #include "youthful_einstein.hpp"
 #include <io.h>
 #include <stdio.h>
@@ -78,17 +79,57 @@ DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 
 int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
-class FreeLoader
+MATCH_FUNC(0x4AE010)
+LPCSTR __stdcall FreeLoader::sub_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR a3)
 {
-  public:
-    EXPORT static char_type sub_4AE1F0(u8 a1);
-};
+    DWORD Type = 4;
+    if (!RegQueryValueExA(hKey, lpValueName, 0, &Type, (LPBYTE)&lpValueName, &Type) == 0)
+    {
+        return a3;
+    }
+    else
+    {
+        return lpValueName;
+    }
+}
 
-STUB_FUNC(0x4AE1F0)
-EXPORT char_type FreeLoader::sub_4AE1F0(u8 a1)
+MATCH_FUNC(0x4AE0F0)
+s32 __stdcall FreeLoader::sub_4AE0F0()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    HKEY phkResult;
+    RegOpenKeyA(HKEY_LOCAL_MACHINE, "Software\\freeloader.com\\GTA2", &phkResult);
+    s32 v0 = (s32)FreeLoader::sub_4AE010(phkResult, "CityInstalled", reinterpret_cast<LPCSTR>(-1));
+    RegCloseKey(phkResult);
+    return v0;
+}
+
+MATCH_FUNC(0x4AE1F0)
+EXPORT char_type __stdcall FreeLoader::sub_4AE1F0(u8 a1)
+{
+    if (a1 > FreeLoader::sub_4AE0F0())
+    {
+        ShowWindow(gHwnd_707F04, 7);
+        PostMessageA(gHwnd_707F04, 6u, 0, 0);
+        tagMSG Msg;
+
+        while (PeekMessageA(&Msg, 0, 0, 0, 1u))
+        {
+            TranslateMessage(&Msg);
+            DispatchMessageA(&Msg);
+            Sleep(0xAu);
+        }
+        HANDLE v1 = OpenMutexA(0x1F0001u, 0, "WEBL_COOP_MUTEX");
+        if (!v1)
+        {
+            ShellExecuteA(0, 0, "WebLaunch.exe", 0, gWorkingDir_707F64, 1);
+        }
+        else
+        {
+            CloseHandle(v1);
+        }
+
+        return 0;
+    }
     return 1;
 }
 
