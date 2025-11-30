@@ -1133,10 +1133,9 @@ Car_BC* Player::sub_5698E0()
 }
 
 STUB_FUNC(0x569920)
-s32 Player::sub_569920(u32* a2, s32* a3, s32* a4)
+void Player::get_pos_569920(Fix16* a2, Fix16* a3, Fix16* a4)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x5699F0)
