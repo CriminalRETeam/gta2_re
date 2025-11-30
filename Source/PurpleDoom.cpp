@@ -1,6 +1,6 @@
 #include "PurpleDoom.hpp"
-#include "Car_BC.hpp"
 #include "Camera.hpp"
+#include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Montana.hpp"
 #include "Object_5C.hpp"
@@ -227,18 +227,16 @@ u32 PurpleDoom::sub_478160(u8 a2)
 }
 
 STUB_FUNC(0x478060)
-void __stdcall PurpleDoom::sub_478060(Collide_8 *a1)
+void PurpleDoom::sub_478060(Collide_8* a1)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4781E0)
+MATCH_FUNC(0x4781E0)
 void PurpleDoom::sub_4781E0(u8 width)
 {
-    NOT_IMPLEMENTED;
-
     gPurple_left_6F5FD4 = gPurpleDoom_679090;
-    gPurple_right_6F5B80 = width + gPurpleDoom_679090 - 1;
+    gPurple_right_6F5B80 = gPurpleDoom_679090 + width - 1;
 
     for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
