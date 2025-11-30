@@ -44,6 +44,7 @@ class nostalgic_ellis_0x28
         return 0;
     }
 
+    // 0x45B320
     void PoolDeallocate()
     {
         field_0 = 0x2A2A2A2A;

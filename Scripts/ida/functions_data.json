@@ -12860,7 +12860,7 @@
         "v105_address": "0x5698e0"
     },
     {
-        "name": "Player::sub_569920",
+        "name": "Player::get_pos_569920",
         "v96f_address": null,
         "v105_address": "0x569920"
     },

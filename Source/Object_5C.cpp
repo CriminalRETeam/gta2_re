@@ -407,10 +407,25 @@ void Object_2C::sub_527AE0()
     }
 }
 
-STUB_FUNC(0x527d00)
+MATCH_FUNC(0x527d00)
 void Object_2C::sub_527D00()
 {
-    NOT_IMPLEMENTED;
+    switch (this->field_8->field_40)
+    {
+        case 0:
+        case 1:
+            gPurpleDoom_3_679210->Remove_477B00(field_4);
+            break;
+        case 3:
+            --DAT_006f8f88;
+            gPurpleDoom_2_67920C->sub_477B60(field_4);
+            break;
+        case 4:
+            gPurpleDoom_1_679208->sub_477B60(field_4);
+            break;
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x527f10)

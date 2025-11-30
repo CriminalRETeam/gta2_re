@@ -5,8 +5,8 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
-#include "Hud.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
@@ -32,12 +32,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
 
-static bool inline is_car_model_train(int car_model) 
+static bool inline is_car_model_train(int car_model)
 {
-    return car_model == car_model_enum::TRAIN 
-        || car_model == car_model_enum::TRAINCAB 
-        || car_model == car_model_enum::TRAINFB
-        || car_model == car_model_enum::boxcar;
+    return car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
+        car_model == car_model_enum::boxcar;
 }
 
 MATCH_FUNC(0x4881E0)
@@ -380,9 +378,9 @@ MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
     Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
-                                              field_14C_view_camera.field_98_cam_pos2.field_4_y,
-                                              field_14C_view_camera.field_98_cam_pos2.field_8_z,
-                                              0);
+                                                                 field_14C_view_camera.field_98_cam_pos2.field_4_y,
+                                                                 field_14C_view_camera.field_98_cam_pos2.field_8_z,
+                                                                 0);
     if (pCar)
     {
         sub_5695A0();
@@ -930,7 +928,8 @@ void Player::UpdateCurrentZones_568520()
     const Ped* pPed = field_68 == 2 ? field_2C8_unkq : field_2C4_player_ped;
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
-    field_38_local_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
+    field_38_local_navigation_zone =
+        gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
     field_3C_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
     field_40_arrow_blocker_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
     field_34_gang_curr_location = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
@@ -1133,11 +1132,33 @@ Car_BC* Player::sub_5698E0()
     return 0;
 }
 
-STUB_FUNC(0x569920)
-s32 Player::sub_569920(u32* a2, s32* a3, s32* a4)
+MATCH_FUNC(0x569920)
+void Player::get_pos_569920(Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = (field_68 == 2 || field_68 == 3) ? field_2C8_unkq : field_2C4_player_ped;
+    if (pPed)
+    {
+        Car_BC* pCar = pPed->sub_45BBF0();
+        if (pCar)
+        {
+            *pXPos = pCar->field_50_car_sprite->GetXPos();
+            *pYPos = pCar->field_50_car_sprite->GetYPos();
+            *pZPos = pCar->field_50_car_sprite->GetZPos();
+        }
+        else
+        {
+            *pXPos = pPed->get_cam_x();
+            *pYPos = pPed->get_cam_y();
+            *pZPos = pPed->get_cam_z();
+        }
+    }
+    else
+    {
+        Camera_0xBC* pCam = (field_68 == 2 || field_68 == 3) ? &field_208_aux_game_camera : &field_90_game_camera;
+        *pXPos = pCam->field_98_cam_pos2.field_0_x;
+        *pYPos = pCam->field_98_cam_pos2.field_4_y;
+        *pZPos = pCam->field_98_cam_pos2.field_8_z + dword_6FE618;
+    }
 }
 
 MATCH_FUNC(0x5699F0)
