@@ -6760,32 +6760,32 @@
         "v105_address": "0x4cdcd0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDCE0",
+        "name": "BurgerKing_67F8B0::clear_inputs_4CDCE0",
         "v96f_address": null,
         "v105_address": "0x4cdce0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDCF0",
+        "name": "BurgerKing_67F8B0::set_input_4CDCF0",
         "v96f_address": null,
         "v105_address": "0x4cdcf0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDD10",
+        "name": "BurgerKing_67F8B0::clear_input_4CDD10",
         "v96f_address": null,
         "v105_address": "0x4cdd10"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDD80",
+        "name": "BurgerKing_67F8B0::should_ignore_input_4CDD80",
         "v96f_address": null,
         "v105_address": "0x4cdd80"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDDF0",
+        "name": "BurgerKing_67F8B0::should_ignore_input_4CDDF0",
         "v96f_address": null,
         "v105_address": "0x4cddf0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDE20",
+        "name": "BurgerKing_67F8B0::save_replay_record_4CDE20",
         "v96f_address": null,
         "v105_address": "0x4cde20"
     },
@@ -6795,7 +6795,7 @@
         "v105_address": "0x4cded0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CDF30",
+        "name": "BurgerKing_67F8B0::modify_inputs_4CDF30",
         "v96f_address": null,
         "v105_address": "0x4cdf30"
     },

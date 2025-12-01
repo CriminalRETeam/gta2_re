@@ -19,18 +19,25 @@ class BurgerKing_1
 };
 #pragma pack(pop)
 
+struct BurgerKingBurger_0xC
+{
+    s32 field_0_rng_idx;
+    s32 field_4_inputs;
+    s32 field_8_rng_rnd;
+};
+
 class BurgerKing_67F8B0
 {
   public:
-    EXPORT void sub_4CDCD0();
-    EXPORT void sub_4CDCE0();
-    EXPORT void sub_4CDCF0(s32 a2);
-    EXPORT void sub_4CDD10(s32 a2);
-    EXPORT s32 sub_4CDD80(s32 a1);
-    EXPORT s32 sub_4CDDF0(s32 a1);
-    EXPORT void sub_4CDE20(size_t a3);
+    EXPORT void sub_4CDCD0(); // static dtor
+    EXPORT void clear_inputs_4CDCE0();
+    EXPORT void set_input_4CDCF0(s32 mask_idx);
+    EXPORT void clear_input_4CDD10(s32 mask_idx);
+    EXPORT bool should_ignore_input_4CDD80(s32 dinput_key);
+    EXPORT bool should_ignore_input_4CDDF0(s32 dinput_key);
+    EXPORT void save_replay_record_4CDE20(u32 inputs);
     EXPORT void SaveReplay_4CDED0();
-    EXPORT void sub_4CDF30(s32 a2);
+    EXPORT void modify_inputs_4CDF30(s32 match_mask);
     EXPORT void AppendReplayHeader_4CDF70();
     EXPORT char_type LoadReplayHeader_4CE380(char_type a1);
     EXPORT void sub_4CE650();
@@ -45,24 +52,22 @@ class BurgerKing_67F8B0
     EXPORT bool RecOrPlayBackState_4CEDF0();
     EXPORT void ShowInput_4CEE10();
 
-    char_type field_0;
+    char_type field_0_bShutDown;
     char_type field_1;
     char_type field_2;
     char_type field_3;
     s32 field_4_input_bits;
-    s32 field_8[12];
+    s32 field_8_input_masks[12];
     s32 field_38_replay_state;
-    char_type field_3C_rec_buff[480000];
-    s32 field_7533C;
-    u32 field_75340_rec_len;
-    char_type field_75344;
+    BurgerKingBurger_0xC field_3C_rec_buff[40000];
+    s32 field_7533C_used_recs_count;
+    u32 field_75340_rec_buf_idx;
+    // front end input on/off ??
+    char_type field_75344_bSomething;
     u8 field_75345_attract_idx;
     s16 field_75346;
 };
 
 EXTERN_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0);
-
-// TODO: size does not match
-//GTA2_ASSERT_SIZEOF_ALWAYS(BurgerKing_67F8B0, 0x67F8B0)
 
 EXTERN_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990);
