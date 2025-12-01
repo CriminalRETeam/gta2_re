@@ -4242,7 +4242,7 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
     }
     else
     {
-        gBurgerKing_67F8B0.field_75344 = *a1;
+        gBurgerKing_67F8B0.field_75344_bSomething = *a1;
     }
 }
 

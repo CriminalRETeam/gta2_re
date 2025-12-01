@@ -1,10 +1,10 @@
 #include "BurgerKing_67F8B0.hpp"
-#include "Hud.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "input.hpp"
 #include "file.hpp"
+#include "input.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -46,36 +46,37 @@ void BurgerKing_67F8B0::sub_4CDCD0()
 }
 
 MATCH_FUNC(0x4cdce0)
-void BurgerKing_67F8B0::sub_4CDCE0()
+void BurgerKing_67F8B0::clear_inputs_4CDCE0()
 {
     field_4_input_bits &= ~0xFFFFF000;
 }
 
 MATCH_FUNC(0x4cdcf0)
-void BurgerKing_67F8B0::sub_4CDCF0(s32 a2)
+void BurgerKing_67F8B0::set_input_4CDCF0(s32 a2)
 {
-    field_4_input_bits |= field_8[a2];
+    field_4_input_bits |= field_8_input_masks[a2];
 }
 
 MATCH_FUNC(0x4cdd10)
-void BurgerKing_67F8B0::sub_4CDD10(s32 a2)
+void BurgerKing_67F8B0::clear_input_4CDD10(s32 a2)
 {
-    field_4_input_bits &= ~field_8[a2];
+    field_4_input_bits &= ~field_8_input_masks[a2];
 }
 
-STUB_FUNC(0x4cdd80)
-s32 BurgerKing_67F8B0::sub_4CDD80(s32 a1)
+MATCH_FUNC(0x4cdd80)
+s32 BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 {
-    NOT_IMPLEMENTED;
-    return a1 == 79 || a1 == 80 || a1 == 81 || a1 == 75 || a1 == 76 || a1 == 77 || a1 == 71 || a1 == 72 || a1 == 73 || a1 == 55 ||
-        a1 == 74 || a1 == 1 || a1 == 64 || a1 == 78 || gHud_2B00_706620->sub_5D6CB0(a1);
+    return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
+        dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
+        dinput_key == DIK_NUMPAD9 || dinput_key == DIK_MULTIPLY || dinput_key == DIK_SUBTRACT || dinput_key == DIK_ESCAPE ||
+        dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->sub_5D6CB0(dinput_key);
 }
 
 STUB_FUNC(0x4cddf0)
 s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
 {
     NOT_IMPLEMENTED;
-    return !sub_4CDD80(a1) && a1 != 78;
+    return !should_ignore_input_4CDD80(a1) && a1 != 78;
 }
 
 STUB_FUNC(0x4cde20)
@@ -87,10 +88,10 @@ void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
 MATCH_FUNC(0x4cded0)
 void BurgerKing_67F8B0::SaveReplay_4CDED0()
 {
-    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != 2 && field_75340_rec_len > 0 &&
+    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != 2 && field_75340_rec_buf_idx > 0 &&
         !RecOrPlayBackState_4CEDF0())
     {
-        size_t len = 12 * field_75340_rec_len;
+        size_t len = 12 * field_75340_rec_buf_idx;
         File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
     }
 }
@@ -161,9 +162,9 @@ void BurgerKing_67F8B0::sub_4CE880(HINSTANCE a2)
 MATCH_FUNC(0x4cea00)
 void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
 {
-    if (!field_0)
+    if (!field_0_bShutDown)
     {
-        field_0 = 1;
+        field_0_bShutDown = 1;
         gBurgerKing_1_67B990->sub_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gBurgerKing_1_67B990);

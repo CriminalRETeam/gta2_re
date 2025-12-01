@@ -234,10 +234,10 @@ void force_link()
 
     BurgerKing_67F8B0 burgerking;
     burgerking.sub_4CDCD0();
-    burgerking.sub_4CDCE0();
-    burgerking.sub_4CDCF0(0);
-    burgerking.sub_4CDD10(0);
-    burgerking.sub_4CDD80(0);
+    burgerking.clear_inputs_4CDCE0();
+    burgerking.set_input_4CDCF0(0);
+    burgerking.clear_input_4CDD10(0);
+    burgerking.should_ignore_input_4CDD80(0);
     burgerking.sub_4CDDF0(0);
     burgerking.sub_4CDE20(0);
     burgerking.SaveReplay_4CDED0();
