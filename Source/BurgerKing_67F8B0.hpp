@@ -31,11 +31,11 @@ class BurgerKing_67F8B0
   public:
     EXPORT void sub_4CDCD0(); // static dtor
     EXPORT void clear_inputs_4CDCE0();
-    EXPORT void set_input_4CDCF0(s32 a2);
-    EXPORT void clear_input_4CDD10(s32 a2);
-    EXPORT s32 should_ignore_input_4CDD80(s32 dinput_key);
-    EXPORT s32 should_ignore_input_4CDDF0(s32 a1);
-    EXPORT void sub_4CDE20(size_t a3);
+    EXPORT void set_input_4CDCF0(s32 mask_idx);
+    EXPORT void clear_input_4CDD10(s32 mask_idx);
+    EXPORT bool should_ignore_input_4CDD80(s32 dinput_key);
+    EXPORT bool should_ignore_input_4CDDF0(s32 dinput_key);
+    EXPORT void save_replay_record_4CDE20(u32 inputs);
     EXPORT void SaveReplay_4CDED0();
     EXPORT void sub_4CDF30(s32 a2);
     EXPORT void AppendReplayHeader_4CDF70();

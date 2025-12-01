@@ -5,6 +5,7 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "input.hpp"
+#include "rng.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -52,19 +53,19 @@ void BurgerKing_67F8B0::clear_inputs_4CDCE0()
 }
 
 MATCH_FUNC(0x4cdcf0)
-void BurgerKing_67F8B0::set_input_4CDCF0(s32 a2)
+void BurgerKing_67F8B0::set_input_4CDCF0(s32 mask_idx)
 {
-    field_4_input_bits |= field_8_input_masks[a2];
+    field_4_input_bits |= field_8_input_masks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd10)
-void BurgerKing_67F8B0::clear_input_4CDD10(s32 a2)
+void BurgerKing_67F8B0::clear_input_4CDD10(s32 mask_idx)
 {
-    field_4_input_bits &= ~field_8_input_masks[a2];
+    field_4_input_bits &= ~field_8_input_masks[mask_idx];
 }
 
 MATCH_FUNC(0x4cdd80)
-s32 BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
+bool BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 {
     return dinput_key == DIK_NUMPAD1 || dinput_key == DIK_NUMPAD2 || dinput_key == DIK_NUMPAD3 || dinput_key == DIK_NUMPAD4 ||
         dinput_key == DIK_NUMPAD5 || dinput_key == DIK_NUMPAD6 || dinput_key == DIK_NUMPAD7 || dinput_key == DIK_NUMPAD8 ||
@@ -73,15 +74,40 @@ s32 BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 }
 
 MATCH_FUNC(0x4cddf0)
-s32 BurgerKing_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
+bool BurgerKing_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
 {
     return !should_ignore_input_4CDD80(dinput_key) && dinput_key != DIK_ADD;
 }
 
-STUB_FUNC(0x4cde20)
-void BurgerKing_67F8B0::sub_4CDE20(size_t a3)
+MATCH_FUNC(0x4cde20)
+void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
 {
-    NOT_IMPLEMENTED;
+    if ((inputs & 0x1FF000) != 0)
+    {
+        if (should_ignore_input_4CDD80((inputs >> 12) & 0x1FF))
+        {
+            inputs &= 0xFFC00FFF;
+        }
+    }
+
+    if (inputs)
+    {
+        if (field_75340_rec_buf_idx < 40000 && !this->field_38_replay_state)
+        {
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = rng_dword_67AB34->field_0_rng;
+            field_3C_rec_buff[field_75340_rec_buf_idx].field_8_rng_rnd = rng_dword_67AB34->field_4_rnd;
+
+            if (bConstant_replay_save_67D5C4 == 1)
+            {
+                const s32 rec_idx = this->field_75340_rec_buf_idx;
+                u32 rec_len = sizeof(BurgerKingBurger_0xC);
+                File::AppendBufferToFile_4A6F50("test\\replay.rep", &field_3C_rec_buff[rec_idx], &rec_len);
+            }
+
+            field_75340_rec_buf_idx++;
+        }
+    }
 }
 
 MATCH_FUNC(0x4cded0)
@@ -90,7 +116,7 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
     if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != 2 && field_75340_rec_buf_idx > 0 &&
         !RecOrPlayBackState_4CEDF0())
     {
-        size_t len = 12 * field_75340_rec_buf_idx;
+        size_t len = sizeof(BurgerKingBurger_0xC) * field_75340_rec_buf_idx;
         File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
     }
 }
