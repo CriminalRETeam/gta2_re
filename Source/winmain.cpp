@@ -241,7 +241,7 @@ void force_link()
     burgerking.should_ignore_input_4CDDF0(0);
     burgerking.save_replay_record_4CDE20(0);
     burgerking.SaveReplay_4CDED0();
-    burgerking.sub_4CDF30(0);
+    burgerking.modify_inputs_4CDF30(0);
     burgerking.AppendReplayHeader_4CDF70();
     burgerking.LoadReplayHeader_4CE380(0);
     burgerking.sub_4CE650();

@@ -121,10 +121,31 @@ void BurgerKing_67F8B0::SaveReplay_4CDED0()
     }
 }
 
+// https://decomp.me/scratch/c6Gy5
 STUB_FUNC(0x4cdf30)
-void BurgerKing_67F8B0::sub_4CDF30(s32 a2)
+void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
     NOT_IMPLEMENTED;
+    
+    for (s32 i = 0; i < 12; i++)
+    {
+        if ((field_8_input_masks[i] & match_mask) != 0)
+        {
+            if ((field_8_input_masks[i] & field_4_input_bits) != 0)
+            {
+                field_4_input_bits &= ~field_8_input_masks[i];
+            }
+            else
+            {
+                field_4_input_bits |= field_8_input_masks[i];
+            }
+        }
+    }
+
+    if ((match_mask & 0xFFFFF000) != 0)
+    {
+        this->field_4_input_bits |= match_mask & 0xFFFFF000;
+    }
 }
 
 STUB_FUNC(0x4cdf70)

@@ -1510,7 +1510,7 @@ BurgerKing_67F8B0::should_ignore_input_4CDD80,0x4cdd80,0xcdd80,0x67
 BurgerKing_67F8B0::should_ignore_input_4CDDF0,0x4cddf0,0xcddf0,0x23
 BurgerKing_67F8B0::save_replay_record_4CDE20,0x4cde20,0xcde20,0xaf
 BurgerKing_67F8B0::SaveReplay_4CDED0,0x4cded0,0xcded0,0x55
-BurgerKing_67F8B0::sub_4CDF30,0x4cdf30,0xcdf30,0x3f
+BurgerKing_67F8B0::modify_inputs_4CDF30,0x4cdf30,0xcdf30,0x3f
 BurgerKing_67F8B0::AppendReplayHeader_4CDF70,0x4cdf70,0xcdf70,0x407
 BurgerKing_67F8B0::LoadReplayHeader_4CE380,0x4ce380,0xce380,0x2cf
 BurgerKing_67F8B0::sub_4CE650,0x4ce650,0xce650,0x89

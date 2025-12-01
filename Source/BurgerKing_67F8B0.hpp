@@ -37,7 +37,7 @@ class BurgerKing_67F8B0
     EXPORT bool should_ignore_input_4CDDF0(s32 dinput_key);
     EXPORT void save_replay_record_4CDE20(u32 inputs);
     EXPORT void SaveReplay_4CDED0();
-    EXPORT void sub_4CDF30(s32 a2);
+    EXPORT void modify_inputs_4CDF30(s32 match_mask);
     EXPORT void AppendReplayHeader_4CDF70();
     EXPORT char_type LoadReplayHeader_4CE380(char_type a1);
     EXPORT void sub_4CE650();
