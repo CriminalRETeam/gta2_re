@@ -34,7 +34,7 @@ class BurgerKing_67F8B0
     EXPORT void set_input_4CDCF0(s32 a2);
     EXPORT void clear_input_4CDD10(s32 a2);
     EXPORT s32 should_ignore_input_4CDD80(s32 dinput_key);
-    EXPORT s32 sub_4CDDF0(s32 a1);
+    EXPORT s32 should_ignore_input_4CDDF0(s32 a1);
     EXPORT void sub_4CDE20(size_t a3);
     EXPORT void SaveReplay_4CDED0();
     EXPORT void sub_4CDF30(s32 a2);

@@ -72,11 +72,10 @@ s32 BurgerKing_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
         dinput_key == DIK_F6 || dinput_key == DIK_ADD || gHud_2B00_706620->sub_5D6CB0(dinput_key);
 }
 
-STUB_FUNC(0x4cddf0)
-s32 BurgerKing_67F8B0::sub_4CDDF0(s32 a1)
+MATCH_FUNC(0x4cddf0)
+s32 BurgerKing_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
 {
-    NOT_IMPLEMENTED;
-    return !should_ignore_input_4CDD80(a1) && a1 != 78;
+    return !should_ignore_input_4CDD80(dinput_key) && dinput_key != DIK_ADD;
 }
 
 STUB_FUNC(0x4cde20)
