@@ -53,17 +53,17 @@ void CarPhysics_B0::sub_559A40()
 MATCH_FUNC(0x559b40)
 void CarPhysics_B0::sub_559B40()
 {
-    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
-    if (p10)
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
     {
-        p10->sub_407CE0();
+        pTrailer->sub_407CE0();
     }
 }
 
 MATCH_FUNC(0x559b50)
 void CarPhysics_B0::sub_559B50()
 {
-    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
         if (pTrailer->field_0)
@@ -103,7 +103,7 @@ void CarPhysics_B0::sub_559C30()
 MATCH_FUNC(0x559dd0)
 void CarPhysics_B0::sub_559DD0()
 {
-    if (this->field_5C_pPrev->field_54_driver)
+    if (this->field_5C_pCar->field_54_driver)
     {
         if (field_A0.mValue == 1)
         {
@@ -151,13 +151,12 @@ u32* CarPhysics_B0::sub_55A050(u32* a2)
 STUB_FUNC(0x55a0b0)
 u8 CarPhysics_B0::sub_55A0B0()
 {
-    Trailer* pTrailer; // eax
-
-    pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (!pTrailer)
     {
-        return this->field_98_surface_type == 6;
+        return field_98_surface_type == 6;
     }
+
     return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
         pTrailer->field_C_trailer_carObj->field_58_physics->field_98_surface_type == 6;
 }
@@ -165,7 +164,7 @@ u8 CarPhysics_B0::sub_55A0B0()
 MATCH_FUNC(0x55a100)
 Fix16 CarPhysics_B0::sub_55A100()
 {
-    if (field_5C_pPrev->field_64_pTrailer != NULL && field_5C_pPrev->field_64_pTrailer->field_8_truck_cab == field_5C_pPrev)
+    if (field_5C_pCar->field_64_pTrailer != NULL && field_5C_pCar->field_64_pTrailer->field_8_truck_cab == field_5C_pCar)
     {
         return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;
     }
@@ -180,7 +179,7 @@ char_type CarPhysics_B0::IsFootBrakeOn_55A150()
 {
     char_type bFootBrakeOn;
 
-    Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
         CarPhysics_B0* pPhysics = pTrailer->field_8_truck_cab->field_58_physics;
@@ -207,7 +206,7 @@ char_type CarPhysics_B0::sub_55A180()
     Trailer* pTrailer; // eax
     CarPhysics_B0* pCarPhysics; // eax
 
-    pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+    pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
         pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
@@ -235,13 +234,13 @@ s32 CarPhysics_B0::sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5)
 }
 
 STUB_FUNC(0x55a400)
-void CarPhysics_B0::sub_55A400()
+void CarPhysics_B0::restore_saved_physics_state_55A400()
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x55a4b0)
-void CarPhysics_B0::sub_55A4B0()
+void CarPhysics_B0::save_physics_state_55A4B0()
 {
     NOT_IMPLEMENTED;
 }
@@ -333,10 +332,10 @@ void CarPhysics_B0::sub_55BFE0()
 MATCH_FUNC(0x55c150)
 char_type CarPhysics_B0::sub_55C150()
 {
-    Sprite* pCarSprite = this->field_5C_pPrev->field_50_car_sprite;
+    Sprite* pCarSprite = this->field_5C_pCar->field_50_car_sprite;
     if (!pCarSprite->sub_5A2500() && !pCarSprite->sub_59E7D0(0))
     {
-        Trailer* pTrailer = this->field_5C_pPrev->field_64_pTrailer;
+        Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
         if (pTrailer)
         {
             pCarSprite = pTrailer->field_C_trailer_carObj->field_50_car_sprite;
@@ -825,10 +824,10 @@ void CarPhysics_B0::sub_5636C0()
 {
     sub_563670();
 
-    Trailer* p10 = this->field_5C_pPrev->field_64_pTrailer;
-    if (p10)
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
     {
-        p10->field_C_trailer_carObj->field_58_physics->sub_563670();
+        pTrailer->field_C_trailer_carObj->field_58_physics->sub_563670();
     }
 }
 
@@ -878,20 +877,20 @@ void CarPhysics_B0::Init_5637A0()
 }
 
 MATCH_FUNC(0x563890)
-void CarPhysics_B0::Reset_563890()
+void CarPhysics_B0::PoolAlloc()
 {
     field_30_cm1.reset();
     field_58_theta = DAT_0066AC08;
     field_38_cp1.reset();
-    field_5C_pPrev = NULL;
+    field_5C_pCar = NULL;
     Init_5637A0();
     field_0_vel_read_only.reset();
 }
 
 MATCH_FUNC(0x5638c0)
-void CarPhysics_B0::sub_5638C0(Car_BC* pCar)
+void CarPhysics_B0::SetCar_5638C0(Car_BC* pCar)
 {
-    this->field_5C_pPrev = pCar;
+    this->field_5C_pCar = pCar;
     Ped* pDriver = pCar->field_54_driver;
     if (pDriver && pDriver->field_15C_player)
     {
@@ -907,5 +906,5 @@ MATCH_FUNC(0x563900)
 CarPhysics_B0::CarPhysics_B0()
 {
     field_C_pNext = NULL;
-    Reset_563890();
+    PoolAlloc();
 }

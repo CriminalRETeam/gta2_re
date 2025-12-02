@@ -1114,8 +1114,8 @@ void Car_BC::sub_43BC30()
 {
     if (!field_58_physics)
     {
-        sub_4419E0();
-        field_58_physics->sub_5638C0(this);
+        AllocCarPhyiscs_4419E0();
+        field_58_physics->SetCar_5638C0(this);
         field_58_physics->sub_563560(this->field_50_car_sprite);
     }
     else
@@ -1802,9 +1802,17 @@ char_type Car_BC::sub_4418D0(char_type a2, char_type a3, char_type a4, char_type
 }
 
 STUB_FUNC(0x4419e0)
-void Car_BC::sub_4419E0()
+void Car_BC::AllocCarPhyiscs_4419E0()
 {
     NOT_IMPLEMENTED;
+    
+    if (!this->field_58_physics)
+    {
+        CarPhysics_B0* pNewB0 = gCar_D264_6FE3E0->field_0;
+        gCar_D264_6FE3E0->field_0 = gCar_D264_6FE3E0->field_0->field_C_pNext;
+        pNewB0->PoolAlloc();
+        this->field_58_physics = pNewB0;
+    }
 }
 
 STUB_FUNC(0x441a10)
