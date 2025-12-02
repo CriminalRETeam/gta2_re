@@ -2,11 +2,17 @@
 #include "Car_BC.hpp"
 #include "Ped.hpp"
 
-STUB_FUNC(0x471140)
+MATCH_FUNC(0x471140)
 Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    
+    // Maybe PoolAlloc() ?
+    pNew->field_0_char_ped = pPed;
+    pNew->mpNext = this->field_0_pOwner;
+    
+    this->field_0_pOwner = pNew;
+    return pNew;
 }
 
 STUB_FUNC(0x471160)
