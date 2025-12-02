@@ -4,13 +4,13 @@
 #include "Car_10.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
-#include "gtx_0x106C.hpp"
-#include "Ped_Unknown_4.hpp"
-#include "ang16.hpp"
-#include "sprite.hpp"
-#include "miss2_xyz.hpp"
 #include "Object_3C.hpp"
+#include "Ped_Unknown_4.hpp"
 #include "Pool.hpp"
+#include "ang16.hpp"
+#include "gtx_0x106C.hpp"
+#include "miss2_xyz.hpp"
+#include "sprite.hpp"
 #include <wchar.h>
 
 struct gmp_zone_info;
@@ -123,12 +123,10 @@ class Car_78_Pool
     //Inlined in Car_6C constructor 9.6f -> 0x420eb0
     Car_78_Pool()
     {
-
     }
 
     ~Car_78_Pool()
     {
-
     }
 
     Car_78* Allocate()
@@ -171,7 +169,6 @@ class Car_214
 
 EXTERN_GLOBAL(Car_214*, gCar_214_705F20);
 
-
 class Car_2
 {
   public:
@@ -188,20 +185,40 @@ EXTERN_GLOBAL(Ang16, dword_6F804C);
 
 EXTERN_GLOBAL(Ang16, word_6F771E);
 
-
 class Car_6C
 {
   public:
+    void sub_4C39F0()
+    {
+        if (field_20 != 4)
+        {
+            field_20 = 4;
+        }
+        else
+        {
+            field_20 = 3;
+        }
+
+        if (field_24 != 1)
+        {
+            field_24 = 1;
+        }
+        else
+        {
+            field_24 = 2;
+        }
+    }
+
     EXPORT void sub_444980();
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
     EXPORT Car_BC* GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
-    EXPORT Car_BC* sub_445210(Sprite *a1, u8 a2);
+    EXPORT Car_BC* sub_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* sub_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
-    EXPORT void sub_446730(Car_BC *pCar);
+    EXPORT void sub_446730(Car_BC* pCar);
 
     EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
@@ -210,7 +227,7 @@ class Car_6C
     EXPORT u32 sub_446930(s32 a2);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
-    
+
     // 9.6f inlined
     inline Car_BC* sub_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
@@ -275,7 +292,6 @@ class Car_6C
 };
 
 EXTERN_GLOBAL(Car_6C*, gCar_6C_677930);
-
 
 class Trailer
 {
@@ -566,7 +582,7 @@ class Car_BC
     bool is_train_model()
     {
         return field_84_car_info_idx == car_model_enum::TRAIN || field_84_car_info_idx == car_model_enum::TRAINCAB ||
-               field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
+            field_84_car_info_idx == car_model_enum::TRAINFB || field_84_car_info_idx == car_model_enum::boxcar;
     }
 
     // 9.6f inline 0x421560
@@ -593,7 +609,7 @@ class Car_BC
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20;
     }
-    
+
     // 9.6f inline 0x425650
     inline void sub_425650()
     {
@@ -669,12 +685,12 @@ class Car_BC
             field_8_damaged_areas.set_bit(15); // set right siren light or roof light
         }
     }
-    
+
     Fix16 get_car_width()
     {
         return field_50_car_sprite->field_C_sprite_4c_ptr->field_0_width;
     }
-    
+
     Fix16 get_car_height()
     {
         return field_50_car_sprite->field_C_sprite_4c_ptr->field_4_height;
@@ -684,7 +700,7 @@ class Car_BC
     {
         return field_84_car_info_idx == car_model_enum::EDSELFBI;
     }
-    
+
     struct_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
@@ -745,12 +761,10 @@ struct Car_BC_Pool
     //Inlined in Car_6C constructor 9.6f -> 0x426db0
     Car_BC_Pool()
     {
-
     }
 
     ~Car_BC_Pool()
     {
-
     }
 
     // TODO: 9.6f addr/check
@@ -768,12 +782,10 @@ class TrailerPool
     //Inlined in Car_6C constructor 9.6f -> 0x425500
     TrailerPool()
     {
-
     }
 
     ~TrailerPool()
     {
-
     }
 
     PoolBasic<Trailer, 10> field_0_pool;
