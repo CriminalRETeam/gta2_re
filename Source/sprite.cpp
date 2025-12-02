@@ -774,6 +774,17 @@ void Sprite_14::sub_48F5A0()
     field_C = new_idx;
 }
 
+MATCH_FUNC(0x48F5C0)
+EXPORT void Sprite_14::sub_48F5C0(u8 xCount, u8 yCount)
+{
+    u8* pData = this->field_0;
+    for (s32 y = 0; y < yCount; y++)
+    {
+        memset(pData, 0, xCount);
+        pData += 256;
+    }
+}
+
 MATCH_FUNC(0x48f600)
 Sprite_14* Sprite_3CC::sub_48F600(u16* a2, u32* a3, u32* a4, u16* a5)
 {
