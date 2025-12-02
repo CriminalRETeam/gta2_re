@@ -6,6 +6,7 @@
 #include "file.hpp"
 #include "input.hpp"
 #include "rng.hpp"
+#include "enums.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -55,6 +56,13 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
         gGamePadDevice_67B6C0->GetDeviceData(16, 0, &dword_67B624, 0);
     }
 }
+
+STUB_FUNC(0x498C40)
+void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+{
+    NOT_IMPLEMENTED;
+}
+
 
 // ================================================
 
@@ -208,11 +216,47 @@ void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
     }
 }
 
-STUB_FUNC(0x4ce740)
-s32 BurgerKing_67F8B0::sub_4CE740(HINSTANCE a2)
+MATCH_FUNC(0x4ce740)
+void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char FileName[256];
+
+    this->field_0_bShutDown = 0;
+    BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
+    this->field_8_input_masks[0] = 1;
+    this->field_8_input_masks[1] = 2;
+    this->field_8_input_masks[2] = 4;
+    this->field_8_input_masks[3] = 8;
+    this->field_8_input_masks[4] = 0x10;
+    this->field_8_input_masks[5] = 0x20;
+    this->field_8_input_masks[6] = 0x40;
+    this->field_8_input_masks[7] = 0x80;
+    this->field_8_input_masks[8] = 0x100;
+    this->field_8_input_masks[9] = 0x200;
+    this->field_8_input_masks[10] = 0x400;
+    this->field_8_input_masks[11] = 0x800;
+    this->field_4_input_bits = 0;
+    this->field_38_replay_state = 3;
+    gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
+    memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
+    this->field_75340_rec_buf_idx = 0;
+    bConstant_replay_save_67D5C4 = 0;
+    File::Global_Open_4A7060(FileName);
+    LoadReplayHeader_4CE380(0);
+
+    u32 bufLen = sizeof(field_3C_rec_buff);
+    const s32 remainderSize = File::GetRemainderSize_4A7250(this->field_3C_rec_buff, &bufLen);
+    File::Global_Close_4A70C0();
+    this->field_7533C_used_recs_count = remainderSize / sizeof(BurgerKingBurger_0xC);
+    if (sizeof(BurgerKingBurger_0xC) * (remainderSize / sizeof(BurgerKingBurger_0xC)) != remainderSize)
+    {
+        FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
+    }
+
+    if (this->field_7533C_used_recs_count == 0)
+    {
+        FatalError_4A38C0(Gta2Error::EmptyReplayFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 621);
+    }
 }
 
 STUB_FUNC(0x4ce880)

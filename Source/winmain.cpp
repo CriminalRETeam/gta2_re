@@ -246,7 +246,7 @@ void force_link()
     burgerking.LoadReplayHeader_4CE380(0);
     burgerking.sub_4CE650();
     burgerking.GetNextAttrReplay_4CE6E0(0);
-    burgerking.sub_4CE740(0);
+    burgerking.input_init_replay_4CE740(0);
     burgerking.sub_4CE880(0);
     burgerking.sub_4CEA40(0);
     burgerking.sub_4CEAC0();
@@ -883,7 +883,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     if (bReplayMode_6F5B71)
     {
-        gBurgerKing_67F8B0.sub_4CE740(gHInstance_708220);
+        gBurgerKing_67F8B0.input_init_replay_4CE740(gHInstance_708220);
     }
     else
     {

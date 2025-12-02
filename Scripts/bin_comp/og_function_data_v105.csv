@@ -1515,7 +1515,7 @@ BurgerKing_67F8B0::AppendReplayHeader_4CDF70,0x4cdf70,0xcdf70,0x407
 BurgerKing_67F8B0::LoadReplayHeader_4CE380,0x4ce380,0xce380,0x2cf
 BurgerKing_67F8B0::sub_4CE650,0x4ce650,0xce650,0x89
 BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0,0x4ce6e0,0xce6e0,0x56
-BurgerKing_67F8B0::sub_4CE740,0x4ce740,0xce740,0x133
+BurgerKing_67F8B0::input_init_replay_4CE740,0x4ce740,0xce740,0x133
 BurgerKing_67F8B0::sub_4CE880,0x4ce880,0xce880,0x17d
 BurgerKing_67F8B0::dtor_4CEA00,0x4cea00,0xcea00,0x38
 BurgerKing_67F8B0::sub_4CEA40,0x4cea40,0xcea40,0x78
