@@ -5,6 +5,7 @@
 #include "Pool.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "enums.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);

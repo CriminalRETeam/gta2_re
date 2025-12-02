@@ -197,11 +197,9 @@ void BurgerKing_67F8B0::sub_4CE650()
     }
 }
 
-// match but the post processor is bugged
-STUB_FUNC(0x4ce6e0)
+MATCH_FUNC(0x4ce6e0)
 void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
-    NOT_IMPLEMENTED;
     strcpy(pAttrPathOut, attractFiles_62083C[field_75345_attract_idx].field_0_path);
 
     if (++field_75345_attract_idx >= ATTRACT_COUNT)

@@ -60,7 +60,7 @@ def get_constant_from_deref_inst_generic(s, in_exe_range):
 
 def extract_constant(s):
     ret = []
-    if s.startswith("movw") or s.startswith("movl") or s.startswith("mov") or s.startswith("cmp") or s.startswith("imul"):
+    if s.startswith("movw") or s.startswith("movl") or s.startswith("mov") or s.startswith("cmp") or s.startswith("imul") or s.startswith("add"):
         ops = s.split(" ")[1].split(",")
         for op in ops:
             tmp = get_constant_from_deref(op, True)
@@ -136,6 +136,9 @@ def post_process_asm(asmstr):
     return "\n".join(lines)
 
 class TestStringMethods(unittest.TestCase):
+
+    def test_add_hex_str(self):
+        self.assertEqual(extract_constant("add $0x482558,%edi"), ["$0x482558"])
 
     def test_movw_hex_str2(self):
         self.assertEqual(extract_constant("movw $1,0x434A18"), ["0x434A18"])
