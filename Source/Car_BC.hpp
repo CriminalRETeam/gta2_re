@@ -306,6 +306,11 @@ class Trailer
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
 
+    void PoolDeallocate()
+    {
+        
+    }
+
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
     Trailer()
     {
@@ -485,7 +490,7 @@ class Car_BC
     EXPORT s16* sub_442520(s16* a2);
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
-    EXPORT Trailer* sub_442760();
+    EXPORT void sub_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
     EXPORT s32* sub_442D10();

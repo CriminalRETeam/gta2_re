@@ -2078,10 +2078,13 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-Trailer* Car_BC::sub_442760()
+void Car_BC::sub_442760()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* p = field_64_pTrailer;
+    gCar_BC_Pool_67792C->Remove(field_64_pTrailer->field_C_pCarOnTrailer);
+    field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;
+    field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = 0;
+    gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
 }
 
 STUB_FUNC(0x4427a0)
