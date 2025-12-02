@@ -21,11 +21,16 @@ def calc_funcs_to_check_match(new_data, old_data):
         if new_rec["func_status"] == "0x1":
             # found a func record that is supposed to be impl'd as matching, find the og data
             # to get the func size
+            found = False
             for og_rec in old_data:
                 if int(og_rec[1], 16) == int(new_rec["og_addr"], 16):
                     # mangled name, new func offset, og func offset, og func size
                     ret.append([og_rec[0], new_rec["func_fo"], og_rec[2], og_rec[3]])
+                    found = True
                     break
+            if not found:
+                print("Can't get function size for " + new_rec["mangled_name"] + " make sure its in the csv file")
+
     return ret
 
 def check_funcs_match(verbose: bool = False):

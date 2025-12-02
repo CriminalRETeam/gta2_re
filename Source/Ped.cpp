@@ -375,20 +375,15 @@ void Ped::ManageBurning_45BEC0()
     }
 }
 
-STUB_FUNC(0x45bfb0)
+MATCH_FUNC(0x45bfb0)
 void Ped::DrawFlamesAndStartScreamTimer()
 {
-    NOT_IMPLEMENTED;
     if ((field_21C & ped_bit_status_enum::k_ped_in_flames) != 0)
     {
-        // TODO: This is actually another function
         Char_B4* pB4 = field_168_game_object;
         if (pB4)
         {
-            // Spawn fire
-            Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
-            pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
-            pB4->field_B0 = 10; // Start screaming timer
+            pB4->sub_545430();
         }
     }
 }

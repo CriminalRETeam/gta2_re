@@ -39,6 +39,7 @@ def dump_function_data(game_version: GameVersion):
 
 def main():
     idb_name = idaapi.get_root_filename()
+    print("Save dir is " + CURRENT_DIRECTORY + " and IDB name is " + idb_name)
     if idb_name == "9.6f.exe":
         dump_function_data(GameVersion.v96f)
     elif idb_name == "10.5.exe":

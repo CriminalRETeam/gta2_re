@@ -5,9 +5,9 @@
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
 #include "PurpleDoom.hpp"
+#include "Varrok_7F8.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "sprite.hpp"
-#include "Varrok_7F8.hpp"
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
@@ -64,6 +64,15 @@ STUB_FUNC(0x5453d0)
 void Char_B4::PoolDeallocate()
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x545430)
+void Char_B4::sub_545430()
+{
+    // Spawn fire
+    Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
+    field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
+    field_B0 = 10; // Start screaming timer
 }
 
 MATCH_FUNC(0x5454B0)
@@ -528,7 +537,7 @@ STUB_FUNC(0x5537F0)
 char_type Char_B4::sub_5537F0(Object_2C* p2c)
 {
     NOT_IMPLEMENTED;
-    
+
     const s32 l_18 = p2c->field_18_model;
     if (l_18 == 128 || l_18 == 138 || l_18 == 10 && !byte_6FDB59)
     {
