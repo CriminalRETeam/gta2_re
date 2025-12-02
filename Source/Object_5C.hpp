@@ -172,7 +172,7 @@ class Object_5C
     u8 field_18;
     u8 field_19;
     u16 field_1A;
-    Object_3C* field_1C;
+    struct_4 field_1C;
     u8 field_20[50];
     u16 field_52;
     s32 field_54;
