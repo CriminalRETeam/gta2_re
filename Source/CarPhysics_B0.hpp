@@ -115,13 +115,19 @@ class CarPhysics_B0
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();
-    EXPORT void sub_563560(Sprite* a2);
+    EXPORT void SetSprite_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
     EXPORT void Init_5637A0();
     EXPORT void PoolAllocate();
+
+    void PoolDeallocate()
+    {
+        
+    }
+
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 

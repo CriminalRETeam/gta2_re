@@ -796,7 +796,7 @@ s32* CarPhysics_B0::sub_563460()
 }
 
 MATCH_FUNC(0x563560)
-void CarPhysics_B0::sub_563560(Sprite* a2)
+void CarPhysics_B0::SetSprite_563560(Sprite* a2)
 {
     this->field_38_cp1.x = a2->field_14_xpos.x;
     this->field_38_cp1.y = a2->field_14_xpos.y;

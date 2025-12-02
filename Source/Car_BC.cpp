@@ -1115,13 +1115,13 @@ void Car_BC::sub_43BC30()
     {
         AllocCarPhysics_4419E0();
         field_58_physics->SetCar_5638C0(this);
-        field_58_physics->sub_563560(this->field_50_car_sprite);
+        field_58_physics->SetSprite_563560(this->field_50_car_sprite);
     }
     else
     {
         if (is_train_model())
         {
-            field_58_physics->sub_563560(this->field_50_car_sprite);
+            field_58_physics->SetSprite_563560(this->field_50_car_sprite);
         }
     }
 }
@@ -1809,11 +1809,14 @@ void Car_BC::AllocCarPhysics_4419E0()
     }
 }
 
-STUB_FUNC(0x441a10)
+MATCH_FUNC(0x441a10)
 void Car_BC::DeAllocateCarPhysics_441A10()
 {
-    NOT_IMPLEMENTED;
-
+    if (field_58_physics)
+    {
+        gCarPhysicsPool_6FE3E0->DeAllocate(field_58_physics);
+    }
+    field_58_physics = NULL;
 }
 
 STUB_FUNC(0x441a40)
@@ -2395,7 +2398,7 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     CarPhysics_B0* field_58_uni = field_58_physics;
     if (field_58_uni)
     {
-        field_58_uni->sub_563560(field_50_car_sprite);
+        field_58_uni->SetSprite_563560(field_50_car_sprite);
     }
     gPurpleDoom_1_679208->sub_477B20(field_50_car_sprite);
 }
