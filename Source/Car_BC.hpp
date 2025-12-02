@@ -450,7 +450,7 @@ class Car_BC
     EXPORT void sub_4418B0();
     EXPORT char_type
     sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
-    EXPORT void AllocCarPhyiscs_4419E0();
+    EXPORT void AllocCarPhysics_4419E0();
     EXPORT CarPhysics_B0* sub_441A10();
     EXPORT char_type sub_441A40();
     EXPORT void sub_441A70();

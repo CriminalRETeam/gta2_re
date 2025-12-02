@@ -121,7 +121,7 @@ class CarPhysics_B0
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
     EXPORT void Init_5637A0();
-    EXPORT void PoolAlloc();
+    EXPORT void PoolAllocate();
     EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 
@@ -137,7 +137,7 @@ class CarPhysics_B0
 
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
-    CarPhysics_B0* field_C_pNext;
+    CarPhysics_B0* mpNext;
     Fix16_Point field_10[4];
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
@@ -186,31 +186,10 @@ class CarPhysics_B0
     char_type field_AF;
 };
 
-// TODO: Use PoolBasic<T>
-struct Car_D264
+class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
 {
+  public:
     //Inlined in Car_6C constructor 9.6f -> 0x420f80
-    EXPORT Car_D264()
-    {
-        CarPhysics_B0* pIter = &field_4[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_C_pNext = pIter + 1;
-            pIter++;
-        }
-
-        field_4[0x131].field_C_pNext = NULL;
-        field_0 = field_4;
-    }
-
-    ~Car_D264()
-    {
-        field_4;
-        field_0 = 0;
-    }
-
-    CarPhysics_B0* field_0;
-    CarPhysics_B0 field_4[306];
 };
 
-EXTERN_GLOBAL(Car_D264*, gCar_D264_6FE3E0);
+EXTERN_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0);

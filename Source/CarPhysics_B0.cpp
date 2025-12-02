@@ -2,7 +2,7 @@
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
 
-DEFINE_GLOBAL(Car_D264*, gCar_D264_6FE3E0, 0x6FE3E0);
+DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
 DEFINE_GLOBAL(Fix16, DAT_006FE20C, 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
@@ -877,7 +877,7 @@ void CarPhysics_B0::Init_5637A0()
 }
 
 MATCH_FUNC(0x563890)
-void CarPhysics_B0::PoolAlloc()
+void CarPhysics_B0::PoolAllocate()
 {
     field_30_cm1.reset();
     field_58_theta = DAT_0066AC08;
@@ -905,6 +905,6 @@ void CarPhysics_B0::SetCar_5638C0(Car_BC* pCar)
 MATCH_FUNC(0x563900)
 CarPhysics_B0::CarPhysics_B0()
 {
-    field_C_pNext = NULL;
-    PoolAlloc();
+    mpNext = NULL;
+    PoolAllocate();
 }
