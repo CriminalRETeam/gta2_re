@@ -1,20 +1,25 @@
 #include "Game_0x40.hpp"
 #include "Ambulance_110.hpp"
+#include "Camera.hpp"
 #include "CarInfo_808.hpp"
 #include "Car_BC.hpp"
+#include "Cranes.hpp"
+#include "Crushers.hpp"
 #include "Door_4D4.hpp"
-#include "Camera.hpp"
 #include "ExplodingScore_100.hpp"
+#include "Firefighters.hpp"
+#include "Fix16_Rect.hpp"
 #include "Frismo_25C.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
+#include "Gang.hpp"
 #include "Garage_48.hpp"
-#include "Hud.hpp"
+#include "Generators.hpp"
 #include "Globals.hpp"
 #include "Hamburger_500.hpp"
+#include "Hud.hpp"
 #include "Kfc_1E0.hpp"
 #include "Light_1D4CC.hpp"
-#include "Generators.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
@@ -26,21 +31,17 @@
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
+#include "PublicTransport.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
 #include "Rozza_C88.hpp"
-#include "PublicTransport.hpp"
 #include "Shooey_CC.hpp"
-#include "Crushers.hpp"
-#include "Firefighters.hpp"
 #include "Taxi_4.hpp"
 #include "TileAnim_2.hpp"
 #include "TrafficLights_194.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
-#include "Cranes.hpp"
-#include "Gang.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
@@ -60,7 +61,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "Fix16_Rect.hpp"
+#include "BurgerKing_67F8B0.hpp"
 
 DEFINE_GLOBAL(Fix16, dword_67DFB4, 0x67DFB4); //, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL(s32, dword_7071A0, 0x7071A0);
@@ -70,7 +71,6 @@ DEFINE_GLOBAL(s32, dword_706C58, 0x706C58);
 // TODO
 EXTERN_GLOBAL(u32, counter_706C4C);
 EXTERN_GLOBAL(char_type, gLighting_626A09);
-
 
 DEFINE_GLOBAL(Game_0x40*, gGame_0x40_67E008, 0x67E008);
 
@@ -133,10 +133,10 @@ void Game_0x40::LoadGameFiles_4B8C40()
         gRoot_sound_66B038.LoadStyle_40EFF0(style_name);
     }
 
-    char_type *style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
+    char_type* style_name = gLucid_hamilton_67E8E0.GetStyleName_4C5950();
     gGtx_0x106C_703DD4->LoadSty_5AB750(style_name);
-    
-    char_type *map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
+
+    char_type* map_name = gLucid_hamilton_67E8E0.GetMapName_4C5940();
     gMap_0x370_6F6268->LoadMap_4E95B0(map_name);
 
     gPhi_8CA8_6FCF00->sub_534330();
@@ -145,12 +145,12 @@ void Game_0x40::LoadGameFiles_4B8C40()
 
     gLucid_hamilton_67E8E0.reset_field_574();
 
-    char_type *script_name = gLucid_hamilton_67E8E0.GetScriptName_4C5960();
+    char_type* script_name = gLucid_hamilton_67E8E0.GetScriptName_4C5960();
     gfrosty_pasteur_6F8060->Load_512330(script_name);
 
     if (strlen(gLucid_hamilton_67E8E0.GetDebugStr_4C5970()) != 0)
     {
-        char_type *debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
+        char_type* debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
         gfrosty_pasteur_6F8060->sub_511F80(debug_str);
     }
 
@@ -554,10 +554,39 @@ s8 Game_0x40::ExecuteGame_4B9640()
     return sub_4B8C20();
 }
 
+// TODO: Werid function chunk stuff
 STUB_FUNC(0x4B9700)
 void Game_0x40::sub_4B9700()
 {
-    NOT_IMPLEMENTED;
+    // Paused?
+    if (field_0_game_state == 1)
+    {
+        // Single player?
+        if (field_23_num_players == 1)
+        {
+            // Then unpause
+            field_0_game_state = 2;
+        }
+    }
+    // Not paused and single player? (don't pause multi player games lol)
+    else if (field_23_num_players == 1)
+    {
+        // Go pause
+        field_0_game_state = 1;
+
+        if (gBurgerKing_1_67B990)
+        {
+            gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+        }
+
+        Player* pPlayer = this->field_38_orf1;
+        if (pPlayer)
+        {
+            pPlayer->sub_569F40();
+            field_38_orf1->sub_56A6D0();
+            gBurgerKing_67F8B0.field_4_input_bits &= ~0xFFFu;
+        }
+    }
 }
 
 MATCH_FUNC(0x4B9710)
@@ -604,10 +633,8 @@ void Game_0x40::sub_4B9790(Fix16 a2, Fix16 a3, Fix16 a4)
     Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
-        if (a3 >= pCam->field_78_boundaries_non_neg.field_0_left 
-            && a3 <= pCam->field_78_boundaries_non_neg.field_4_right 
-            && a4 >= pCam->field_78_boundaries_non_neg.field_8_top 
-            && a4 <= pCam->field_78_boundaries_non_neg.field_C_bottom)
+        if (a3 >= pCam->field_78_boundaries_non_neg.field_0_left && a3 <= pCam->field_78_boundaries_non_neg.field_4_right &&
+            a4 >= pCam->field_78_boundaries_non_neg.field_8_top && a4 <= pCam->field_78_boundaries_non_neg.field_C_bottom)
         {
             pCam->sub_436120(a2);
         }
@@ -731,8 +758,7 @@ s8 Game_0x40::sub_4B9B10(Fix16_Rect* pBounds)
             {
                 return 1;
             }
-            if (pCurPlayer->field_2D0 &&
-                pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
+            if (pCurPlayer->field_2D0 && pBounds->field_8_top <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_C_bottom &&
                 pBounds->field_C_bottom >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_8_top &&
                 pBounds->field_0_left <= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_4_right &&
                 pBounds->field_4_right >= pCurPlayer->field_208_aux_game_camera.field_20_boundaries.field_0_left)

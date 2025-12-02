@@ -13,7 +13,12 @@ struct AttractFile
 class BurgerKing_1
 {
   public:
-    EXPORT void __stdcall sub_4987A0();
+    // TODO: Probably this call
+    EXPORT void __stdcall free_input_devices_4987A0();
+
+    EXPORT void read_keyboard_and_gamepad_498CC0();
+
+    EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
 
     u8 field_0;
 };
@@ -42,10 +47,10 @@ class BurgerKing_67F8B0
     EXPORT char_type LoadReplayHeader_4CE380(char_type a1);
     EXPORT void sub_4CE650();
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
-    EXPORT s32 sub_4CE740(HINSTANCE a2);
+    EXPORT void input_init_replay_4CE740(HINSTANCE a2);
     EXPORT void sub_4CE880(HINSTANCE a2);
     EXPORT void Shutdown_4CEA00();
-    EXPORT void sub_4CEA40(u32* a2);
+    EXPORT void replay_save_4CEA40(u32* input_bits);
     EXPORT u32 sub_4CEAC0();
     EXPORT void sub_4CED00(s32 a2, s32 a3);
     EXPORT void sub_4CED90();

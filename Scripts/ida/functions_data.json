@@ -4910,7 +4910,7 @@
         "v105_address": "0x498730"
     },
     {
-        "name": "sub_4987A0",
+        "name": "free_input_devices_4987A0",
         "v96f_address": null,
         "v105_address": "0x4987a0"
     },
@@ -6820,7 +6820,7 @@
         "v105_address": "0x4ce6e0"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CE740",
+        "name": "BurgerKing_67F8B0::input_init_replay_4CE740",
         "v96f_address": null,
         "v105_address": "0x4ce740"
     },
@@ -6835,7 +6835,7 @@
         "v105_address": "0x4cea00"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CEA40",
+        "name": "BurgerKing_67F8B0::replay_save_4CEA40",
         "v96f_address": null,
         "v105_address": "0x4cea40"
     },

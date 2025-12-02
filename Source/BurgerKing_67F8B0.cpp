@@ -2,6 +2,7 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "debug.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "input.hpp"
@@ -15,10 +16,12 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 
+DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
+
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 MATCH_FUNC(0x4987A0)
-void BurgerKing_1::sub_4987A0()
+void BurgerKing_1::free_input_devices_4987A0()
 {
     if (gpDInput_67B804)
     {
@@ -36,6 +39,28 @@ void BurgerKing_1::sub_4987A0()
             gGamePadDevice_67B6C0 = 0;
         }
     }
+}
+
+MATCH_FUNC(0x498CC0)
+void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
+{
+    dword_67B624 = -1;
+    if (gKeyboardDevice_67B5C0)
+    {
+        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &dword_67B624, 0);
+    }
+
+    dword_67B624 = -1;
+    if (gGamePadDevice_67B6C0)
+    {
+        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &dword_67B624, 0);
+    }
+}
+
+STUB_FUNC(0x498C40)
+void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+{
+    NOT_IMPLEMENTED;
 }
 
 // ================================================
@@ -126,7 +151,7 @@ STUB_FUNC(0x4cdf30)
 void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
     NOT_IMPLEMENTED;
-    
+
     for (s32 i = 0; i < 12; i++)
     {
         if ((field_8_input_masks[i] & match_mask) != 0)
@@ -179,11 +204,9 @@ void BurgerKing_67F8B0::sub_4CE650()
     }
 }
 
-// match but the post processor is bugged
-STUB_FUNC(0x4ce6e0)
+MATCH_FUNC(0x4ce6e0)
 void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 {
-    NOT_IMPLEMENTED;
     strcpy(pAttrPathOut, attractFiles_62083C[field_75345_attract_idx].field_0_path);
 
     if (++field_75345_attract_idx >= ATTRACT_COUNT)
@@ -192,11 +215,47 @@ void BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
     }
 }
 
-STUB_FUNC(0x4ce740)
-s32 BurgerKing_67F8B0::sub_4CE740(HINSTANCE a2)
+MATCH_FUNC(0x4ce740)
+void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char FileName[256];
+
+    this->field_0_bShutDown = 0;
+    BurgerKing_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
+    this->field_8_input_masks[0] = 1;
+    this->field_8_input_masks[1] = 2;
+    this->field_8_input_masks[2] = 4;
+    this->field_8_input_masks[3] = 8;
+    this->field_8_input_masks[4] = 0x10;
+    this->field_8_input_masks[5] = 0x20;
+    this->field_8_input_masks[6] = 0x40;
+    this->field_8_input_masks[7] = 0x80;
+    this->field_8_input_masks[8] = 0x100;
+    this->field_8_input_masks[9] = 0x200;
+    this->field_8_input_masks[10] = 0x400;
+    this->field_8_input_masks[11] = 0x800;
+    this->field_4_input_bits = 0;
+    this->field_38_replay_state = 3;
+    gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
+    memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
+    this->field_75340_rec_buf_idx = 0;
+    bConstant_replay_save_67D5C4 = 0;
+    File::Global_Open_4A7060(FileName);
+    LoadReplayHeader_4CE380(0);
+
+    u32 bufLen = sizeof(field_3C_rec_buff);
+    const s32 remainderSize = File::GetRemainderSize_4A7250(this->field_3C_rec_buff, &bufLen);
+    File::Global_Close_4A70C0();
+    this->field_7533C_used_recs_count = remainderSize / sizeof(BurgerKingBurger_0xC);
+    if (sizeof(BurgerKingBurger_0xC) * (remainderSize / sizeof(BurgerKingBurger_0xC)) != remainderSize)
+    {
+        FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
+    }
+
+    if (this->field_7533C_used_recs_count == 0)
+    {
+        FatalError_4A38C0(Gta2Error::EmptyReplayFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 621);
+    }
 }
 
 STUB_FUNC(0x4ce880)
@@ -211,16 +270,32 @@ void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
     if (!field_0_bShutDown)
     {
         field_0_bShutDown = 1;
-        gBurgerKing_1_67B990->sub_4987A0();
+        gBurgerKing_1_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gBurgerKing_1_67B990);
     }
 }
 
-STUB_FUNC(0x4cea40)
-void BurgerKing_67F8B0::sub_4CEA40(u32* a2)
+MATCH_FUNC(0x4cea40)
+void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 {
-    NOT_IMPLEMENTED;
+    if ((*input_bits & 0xFFFFF000) == 0x37000)
+    {
+        field_38_replay_state = 0;
+        
+        if (bDo_release_replay_67D4EB)
+        {
+            File::CreateFile_4A7000("test\\replay.rep");
+            AppendReplayHeader_4CDF70();
+        }
+
+        // Clear out the unused records
+        memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx], 0, sizeof(BurgerKingBurger_0xC) * ((GTA2_COUNTOF(field_3C_rec_buff)  - field_75340_rec_buf_idx)));
+        if (bConstant_replay_save_67D5C4)
+        {
+            SaveReplay_4CDED0();
+        }
+    }
 }
 
 STUB_FUNC(0x4ceac0)
