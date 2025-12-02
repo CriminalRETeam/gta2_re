@@ -4,8 +4,8 @@
 #include "Function.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
-#include "fix16.hpp"
 #include "enums.hpp"
+#include "fix16.hpp"
 
 EXTERN_GLOBAL(Ang16, gAng16_703804);
 EXTERN_GLOBAL(Fix16, gFix16_7035C0);
@@ -230,6 +230,21 @@ class Sprite
     inline Fix16 GetZPos()
     {
         return field_1C_zpos;
+    }
+
+    inline bool check_sprite_type_40FE80()
+    {
+        return field_30_sprite_type_enum == 4 || field_30_sprite_type_enum == 5 || field_30_sprite_type_enum == 1;
+    }
+
+    inline Object_2C* get_o2c_or_null_40FEC0()
+    {
+        if (check_sprite_type_40FE80())
+        {
+            return field_8_object_2C_ptr;
+        }
+
+        return NULL;
     }
 
     Fix16_Point_POD field_14_xpos;

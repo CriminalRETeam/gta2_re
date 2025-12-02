@@ -631,10 +631,27 @@ void Object_2C::sub_525B20()
     }
 }
 
-STUB_FUNC(0x529300)
+MATCH_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
-    NOT_IMPLEMENTED;
+    for (s32 i = field_14 - 88; i >= 0; i--)
+    {
+        Sprite* pSprite = field_1C.sub_5A6DC0();
+        Object_2C* o2c = pSprite->get_o2c_or_null_40FEC0();
+        if (o2c->field_18_model == 10)
+        {
+            if (gGame_0x40_67E008->sub_4B97E0(pSprite, dword_6F8E10))
+            {
+                Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xpos.x,
+                                                  pSprite->field_14_xpos.y,
+                                                  pSprite->field_1C_zpos,
+                                                  word_6F8F68,
+                                                  18,
+                                                  gVarrok_7F8_703398->field_0[o2c->field_26_varrok_idx].field_0_ped_id);
+            }
+        }
+        o2c->Dealloc_5291B0();
+    }
 }
 
 MATCH_FUNC(0x5293a0)
@@ -648,7 +665,6 @@ void Object_5C::ObjectsService_5293A0()
 MATCH_FUNC(0x529430)
 Object_5C::Object_5C()
 {
-    field_1C = NULL;
     for (u8 i = 0; i < 50; i++)
     {
         field_20[i] = 1;
