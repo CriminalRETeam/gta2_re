@@ -1,9 +1,11 @@
 #include "TrafficLights_194.hpp"
-#include "Hud.hpp"
 #include "Globals.hpp"
-#include "map_0x370.hpp"
+#include "Hud.hpp"
 #include "Object_5C.hpp"
+#include "map_0x370.hpp"
 #include "nostalgic_ellis_0x28.hpp"
+#include "Car_BC.hpp"
+#include "debug.hpp"
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -119,10 +121,37 @@ void TrafficLights_194::sub_5C2910(u8 x, u8 y, u8 w, u8 h)
     pMem->sub_5C1D00(x, y, w, h);
 }
 
-STUB_FUNC(0x5c2950)
+MATCH_FUNC(0x5c2950)
 void TrafficLights_194::TrafficLightsService_5C2950()
 {
-    NOT_IMPLEMENTED;
+    field_193_timer--;
+
+    if (field_193_timer == 0)
+    {
+        if (field_192_phase == 5)
+        {
+            gCar_6C_677930->sub_4C39F0();
+        }
+
+        field_192_phase++;
+
+        if (field_192_phase > GTA2_COUNTOF(traffic_light_phase_timers_626840))
+        {
+            field_192_phase = 1;
+        }
+
+        field_193_timer = traffic_light_phase_timers_626840[field_192_phase];
+
+        for (u32 i = 0; i < field_190_array_used_count; i++)
+        {
+            field_0_traffic_lights[i]->UpdateLightsFromPhase_5C27A0(field_192_phase);
+        }
+    }
+
+    if (bDo_show_traffic_lights_info_67D4FA)
+    {
+        ShowTrafficLightsInfo_5C2A10();
+    }
 }
 
 MATCH_FUNC(0x5c2a10)
