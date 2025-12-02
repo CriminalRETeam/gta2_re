@@ -125,6 +125,10 @@ class Char_B4
 
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
+
+    // Function chunk
+    EXPORT void sub_545430();
+
     EXPORT void sub_5454B0();
     EXPORT void sub_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
