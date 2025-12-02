@@ -23,6 +23,7 @@ void FirefighterPool_54::sub_4A85F0()
     }
 }
 
+// https://decomp.me/scratch/UXYdo
 STUB_FUNC(0x4a8620)
 Firefighter_28* FirefighterPool_54::sub_4A8620(Car_BC* a2, Fix16 x, Fix16 y, Fix16 z)
 {
@@ -115,6 +116,7 @@ void Firefighter_28::deinit_4A81A0()
     }
 }
 
+// https://decomp.me/scratch/ZcdAk
 STUB_FUNC(0x4a81f0)
 void Firefighter_28::sub_4A81F0()
 {
