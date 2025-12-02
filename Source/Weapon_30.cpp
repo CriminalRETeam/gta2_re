@@ -242,10 +242,24 @@ char_type Weapon_30::electro_batton_5E0740()
     return 0;
 }
 
-STUB_FUNC(0x5e0ab0)
-void Weapon_30::car_bomb_5E0AB0(char_type a2)
+MATCH_FUNC(0x5e0ab0)
+void Weapon_30::car_bomb_5E0AB0(char_type instant_bomb)
 {
-    NOT_IMPLEMENTED;
+    field_24_pPed = field_14_car->get_driver_4118B0();
+    
+    set_field_2C_4CCA80(1);
+
+    decrement_ammo_4CCA30();
+
+    if (field_14_car->is_trailer_cab_41E460())
+    {
+        field_14_car->field_64_pTrailer->field_C_pCarOnTrailer->sub_440F90(instant_bomb);
+        field_14_car->sub_4418B0();
+    }
+    else
+    {
+        field_14_car->sub_440F90(instant_bomb);
+    }
 }
 
 STUB_FUNC(0x5e0b10)

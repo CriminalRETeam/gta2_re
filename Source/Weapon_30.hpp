@@ -54,7 +54,7 @@ class Weapon_30
     {
         return field_0_ammo == 0xFFFF;
     }
-    
+
     // 9.6f inline 0x4A4FB0
     u8 sub_4A4FB0()
     {
@@ -66,6 +66,24 @@ class Weapon_30
         {
             return (field_0_ammo + 9) / 10;
         }
+    }
+
+    void decrement_ammo_4CCA30()
+    {
+        s32 new_ammo = field_0_ammo - 10;
+        if (!sub_4A4FA0())
+        {
+            if (new_ammo < 0)
+            {
+                new_ammo = 0;
+            }
+            field_0_ammo = new_ammo;
+        }
+    }
+
+    void set_field_2C_4CCA80(char_type new_value)
+    {
+        field_2C = new_value;
     }
 
     u16 field_0_ammo;

@@ -546,6 +546,16 @@ class Car_BC
         return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == this;
     }
 
+    Ped* get_driver_4118B0()
+    {
+        return field_54_driver;
+    }
+
+    bool is_trailer_cab_41E460()
+    {
+        return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == this;
+    }
+
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
