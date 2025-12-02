@@ -1119,7 +1119,7 @@ void Car_BC::sub_43BC30()
     }
     else
     {
-        if (field_84_car_info_idx == 59 || field_84_car_info_idx == 60 || field_84_car_info_idx == 61 || field_84_car_info_idx == 6)
+        if (is_train_model())
         {
             field_58_physics->sub_563560(this->field_50_car_sprite);
         }
