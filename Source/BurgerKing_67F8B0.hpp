@@ -50,7 +50,7 @@ class BurgerKing_67F8B0
     EXPORT void input_init_replay_4CE740(HINSTANCE a2);
     EXPORT void sub_4CE880(HINSTANCE a2);
     EXPORT void Shutdown_4CEA00();
-    EXPORT void sub_4CEA40(u32* a2);
+    EXPORT void replay_save_4CEA40(u32* input_bits);
     EXPORT u32 sub_4CEAC0();
     EXPORT void sub_4CED00(s32 a2, s32 a3);
     EXPORT void sub_4CED90();

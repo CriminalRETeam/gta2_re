@@ -248,7 +248,7 @@ void force_link()
     burgerking.GetNextAttrReplay_4CE6E0(0);
     burgerking.input_init_replay_4CE740(0);
     burgerking.sub_4CE880(0);
-    burgerking.sub_4CEA40(0);
+    burgerking.replay_save_4CEA40(0);
     burgerking.sub_4CEAC0();
     burgerking.sub_4CED00(0, 0);
     burgerking.sub_4CED90();

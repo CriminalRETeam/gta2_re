@@ -2,11 +2,11 @@
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "debug.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "input.hpp"
 #include "rng.hpp"
-#include "enums.hpp"
 #include <io.h>
 
 #define ATTRACT_COUNT 3
@@ -62,7 +62,6 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
 {
     NOT_IMPLEMENTED;
 }
-
 
 // ================================================
 
@@ -277,10 +276,26 @@ void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
     }
 }
 
-STUB_FUNC(0x4cea40)
-void BurgerKing_67F8B0::sub_4CEA40(u32* a2)
+MATCH_FUNC(0x4cea40)
+void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 {
-    NOT_IMPLEMENTED;
+    if ((*input_bits & 0xFFFFF000) == 0x37000)
+    {
+        field_38_replay_state = 0;
+        
+        if (bDo_release_replay_67D4EB)
+        {
+            File::CreateFile_4A7000("test\\replay.rep");
+            AppendReplayHeader_4CDF70();
+        }
+
+        // Clear out the unused records
+        memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx], 0, sizeof(BurgerKingBurger_0xC) * ((GTA2_COUNTOF(field_3C_rec_buff)  - field_75340_rec_buf_idx)));
+        if (bConstant_replay_save_67D5C4)
+        {
+            SaveReplay_4CDED0();
+        }
+    }
 }
 
 STUB_FUNC(0x4ceac0)
