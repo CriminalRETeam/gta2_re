@@ -4,7 +4,7 @@
 #include "fix16.hpp"
 #include "ang16.hpp"
 
-extern Fix16 dword_6777CC;
+EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -13,11 +13,11 @@ struct Fix16_Point_POD
     // None inline exists in 10.5 at 0x453590
     inline Fix16 GetLength()
     {
-        if (x == dword_6777CC)
+        if (x == gFix16_6777CC)
         {
             return Fix16::Abs(y);
         }
-        else if (y == dword_6777CC)
+        else if (y == gFix16_6777CC)
         {
             return Fix16::Abs(x);
         }
