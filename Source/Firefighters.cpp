@@ -80,6 +80,7 @@ void FirefighterPool_54::sub_4A88D0()
     field_50 = 0;
 }
 
+// https://decomp.me/scratch/X8G5z
 STUB_FUNC(0x4a7fc0)
 char_type Firefighter_28::sub_4A7FC0()
 {
