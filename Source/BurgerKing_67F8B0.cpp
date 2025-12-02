@@ -15,10 +15,12 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 
+DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
+
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 MATCH_FUNC(0x4987A0)
-void BurgerKing_1::sub_4987A0()
+void BurgerKing_1::free_input_devices_4987A0()
 {
     if (gpDInput_67B804)
     {
@@ -35,6 +37,22 @@ void BurgerKing_1::sub_4987A0()
             gGamePadDevice_67B6C0->Release();
             gGamePadDevice_67B6C0 = 0;
         }
+    }
+}
+
+MATCH_FUNC(0x498CC0)
+void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
+{
+    dword_67B624 = -1;
+    if (gKeyboardDevice_67B5C0)
+    {
+        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &dword_67B624, 0);
+    }
+
+    dword_67B624 = -1;
+    if (gGamePadDevice_67B6C0)
+    {
+        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &dword_67B624, 0);
     }
 }
 
@@ -126,7 +144,7 @@ STUB_FUNC(0x4cdf30)
 void BurgerKing_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
     NOT_IMPLEMENTED;
-    
+
     for (s32 i = 0; i < 12; i++)
     {
         if ((field_8_input_masks[i] & match_mask) != 0)
@@ -211,7 +229,7 @@ void BurgerKing_67F8B0::Shutdown_4CEA00() // 4CEA00
     if (!field_0_bShutDown)
     {
         field_0_bShutDown = 1;
-        gBurgerKing_1_67B990->sub_4987A0();
+        gBurgerKing_1_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gBurgerKing_1_67B990);
     }

@@ -13,7 +13,10 @@ struct AttractFile
 class BurgerKing_1
 {
   public:
-    EXPORT void __stdcall sub_4987A0();
+    // TODO: Probably this call
+    EXPORT void __stdcall free_input_devices_4987A0();
+
+    EXPORT void read_keyboard_and_gamepad_498CC0();
 
     u8 field_0;
 };
