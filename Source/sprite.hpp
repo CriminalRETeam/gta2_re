@@ -132,6 +132,30 @@ class Sprite
         field_10_sound = NULL;
     }
 
+    Car_BC* AsCar_40FEB0()
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::car)
+        {
+            return field_8_car_bc_ptr;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    Char_B4* AsCharB4_40FEA0()
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::ped)
+        {
+            return field_8_char_b4_ptr;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
     Ang16 field_0;
     s8 field_2_pad;
     s8 field_3_pad;
@@ -233,7 +257,7 @@ class Sprite_14
     EXPORT void sub_48F5A0();
 
     EXPORT void sub_48F5C0(u8 xCount, u8 yCount);
-    
+
     // Inlined, from 9.6f at 0x44af30
     EXPORT Sprite_14()
     {
