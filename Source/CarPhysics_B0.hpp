@@ -38,8 +38,8 @@ class CarPhysics_B0
     EXPORT char_type IsFootBrakeOn_55A150();
     EXPORT char_type sub_55A180();
     EXPORT s32 sub_55A1D0(s32 a2, s32 a3, s32 a4, u32* a5);
-    EXPORT void sub_55A400();
-    EXPORT void sub_55A4B0();
+    EXPORT void restore_saved_physics_state_55A400();
+    EXPORT void save_physics_state_55A4B0();
     EXPORT void sub_55A550();
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
@@ -115,14 +115,20 @@ class CarPhysics_B0
     EXPORT s32* sub_563280();
     EXPORT s32* sub_563350();
     EXPORT s32* sub_563460();
-    EXPORT void sub_563560(Sprite* a2);
+    EXPORT void SetSprite_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);
     EXPORT s32 sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool sub_5636E0();
     EXPORT void Init_5637A0();
-    EXPORT void Reset_563890();
-    EXPORT void sub_5638C0(Car_BC* pBC);
+    EXPORT void PoolAllocate();
+
+    void PoolDeallocate()
+    {
+        
+    }
+
+    EXPORT void SetCar_5638C0(Car_BC* pBC);
     EXPORT CarPhysics_B0();
 
     inline char_type is_backward_gas_on_411810()
@@ -137,7 +143,7 @@ class CarPhysics_B0
 
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
-    CarPhysics_B0* field_C_pNext;
+    CarPhysics_B0* mpNext;
     Fix16_Point field_10[4];
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
@@ -148,7 +154,7 @@ class CarPhysics_B0
     s32 field_54;
     Ang16 field_58_theta;
     s16 field_5A;
-    Car_BC* field_5C_pPrev;
+    Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
     s32 field_64;
     Fix16 field_68_z_pos;
@@ -186,31 +192,10 @@ class CarPhysics_B0
     char_type field_AF;
 };
 
-// TODO: Use PoolBasic<T>
-struct Car_D264
+class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
 {
+  public:
     //Inlined in Car_6C constructor 9.6f -> 0x420f80
-    EXPORT Car_D264()
-    {
-        CarPhysics_B0* pIter = &field_4[0];
-        for (s32 i = 0; i < 305; i++)
-        {
-            pIter->field_C_pNext = pIter + 1;
-            pIter++;
-        }
-
-        field_4[0x131].field_C_pNext = NULL;
-        field_0 = field_4;
-    }
-
-    ~Car_D264()
-    {
-        field_4;
-        field_0 = 0;
-    }
-
-    CarPhysics_B0* field_0;
-    CarPhysics_B0 field_4[306];
 };
 
-EXTERN_GLOBAL(Car_D264*, gCar_D264_6FE3E0);
+EXTERN_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0);

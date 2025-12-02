@@ -206,6 +206,12 @@ class Char_B4_Pool
 class Char_8
 {
   public:
+
+  void PoolAllocate() 
+  {
+    
+  }
+
     Ped* field_0_char_ped;
     Char_8* mpNext;
 };

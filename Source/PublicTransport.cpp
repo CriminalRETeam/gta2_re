@@ -475,9 +475,7 @@ TrainStation_34* PublicTransport_181C::TrainStationForZone_57B4B0(gmp_map_zone* 
 MATCH_FUNC(0x57b540)
 Car_BC* PublicTransport_181C::sub_57B540(Car_BC* a2)
 {
-    if (!bSkip_trains_67D550 &&
-        (a2->field_84_car_info_idx == 59 || a2->field_84_car_info_idx == 60 || a2->field_84_car_info_idx == 61 ||
-         a2->field_84_car_info_idx == 6))
+    if (!bSkip_trains_67D550 && a2->is_train_model())
     {
         return GetTrainFromCar_57B5C0(a2)->field_C_first_carriage;
     }

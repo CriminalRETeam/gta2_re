@@ -105,6 +105,8 @@ class Sprite
     EXPORT void PoolDeallocate();
     EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
 
+    EXPORT void set_angle_4833B0(Ang16 ang);
+
     EXPORT ~Sprite(); // 0x5a3540
 
     // This function matches, but the marker doesn't seem to work on header files.
@@ -230,6 +232,8 @@ class Sprite_14
   public:
     EXPORT void sub_48F5A0();
 
+    EXPORT void sub_48F5C0(u8 xCount, u8 yCount);
+    
     // Inlined, from 9.6f at 0x44af30
     EXPORT Sprite_14()
     {

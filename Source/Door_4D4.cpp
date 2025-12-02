@@ -144,6 +144,7 @@ Door_38* Door_4D4::sub_49D3A0()
     return &field_0[field_4D0_count];
 }
 
+// https://decomp.me/scratch/dGqMg
 STUB_FUNC(0x49d3c0)
 char_type Door_4D4::sub_49D3C0(s32 a2, u8 a3)
 {

@@ -1,16 +1,16 @@
 #include "sprite.hpp"
 #include "Car_BC.hpp"
-#include "char.hpp"
-#include "enums.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "PurpleDoom.hpp"
+#include "char.hpp"
 #include "crt_stubs.hpp"
 #include "debug.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
-#include "PurpleDoom.hpp"
 #include "root_sound.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
@@ -750,6 +750,16 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
     }
 }
 
+MATCH_FUNC(0x4833B0)
+void Sprite::set_angle_4833B0(Ang16 ang)
+{
+    if (ang != field_0)
+    {
+        field_0 = ang;
+        sub_59E7B0();
+    }
+}
+
 MATCH_FUNC(0x5a3540)
 Sprite::~Sprite()
 {
@@ -762,6 +772,17 @@ void Sprite_14::sub_48F5A0()
     Sprite_3CC* pSprt = gSprite_3CC_67AF1C;
     s32 new_idx = ++pSprt->field_3C0;
     field_C = new_idx;
+}
+
+MATCH_FUNC(0x48F5C0)
+EXPORT void Sprite_14::sub_48F5C0(u8 xCount, u8 yCount)
+{
+    u8* pData = this->field_0;
+    for (s32 y = 0; y < yCount; y++)
+    {
+        memset(pData, 0, xCount);
+        pData += 256;
+    }
 }
 
 MATCH_FUNC(0x48f600)
@@ -973,7 +994,6 @@ Sprite_18::Sprite_18()
 MATCH_FUNC(0x5a5c20)
 Sprite_18_Pool::~Sprite_18_Pool()
 {
-
 }
 
 MATCH_FUNC(0x5a57a0)
@@ -998,13 +1018,11 @@ Sprite_4C::~Sprite_4C()
 MATCH_FUNC(0x5a5be0)
 Sprite_4C_Pool::~Sprite_4C_Pool()
 {
-
 }
 
 MATCH_FUNC(0x5A5C00)
 Sprite_Pool::~Sprite_Pool()
 {
-
 }
 
 MATCH_FUNC(0x5A6ca0)

@@ -133,27 +133,27 @@ MATCH_FUNC(0x49c7f0)
 bool Door_38::sub_49C7F0(Ped* a2)
 {
     bool ret = false;
-    switch(field_20_state)
+    switch (field_20_state)
     {
         case 1:
             if (a2->field_15C_player != 0)
             {
                 ret = true;
             }
-        break;
+            break;
 
         case 5:
             if (field_10_ped)
             {
                 if (a2 == field_10_ped)
                 {
-                    if ( a2->field_200_id == this->field_14)
+                    if (a2->field_200_id == this->field_14)
                     {
                         ret = true;
                     }
                 }
             }
-        break;
+            break;
     }
     return ret;
 }
@@ -447,4 +447,13 @@ char_type Door_38::Service_49CE90()
     }
     field_28 = 1;
     return 0;
+}
+
+MATCH_FUNC(0x49CEE0)
+void Door_38::get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace)
+{
+    *pX = field_0->field_4_x;
+    *pY = field_0->field_5_y;
+    *pZ = field_0->field_6_z;
+    *pFace = field_0->field_8_face;
 }
