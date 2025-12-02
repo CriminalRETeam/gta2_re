@@ -158,7 +158,7 @@ u8 CarPhysics_B0::sub_55A0B0()
     }
 
     return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
-        pTrailer->field_C_trailer_carObj->field_58_physics->field_98_surface_type == 6;
+        pTrailer->field_C_pCarOnTrailer->field_58_physics->field_98_surface_type == 6;
 }
 
 MATCH_FUNC(0x55a100)
@@ -338,7 +338,7 @@ char_type CarPhysics_B0::sub_55C150()
         Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
         if (pTrailer)
         {
-            pCarSprite = pTrailer->field_C_trailer_carObj->field_50_car_sprite;
+            pCarSprite = pTrailer->field_C_pCarOnTrailer->field_50_car_sprite;
             if (!pCarSprite->sub_5A2500() && !pCarSprite->sub_59E7D0(0))
             {
                 return 0;
@@ -827,7 +827,7 @@ void CarPhysics_B0::sub_5636C0()
     Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        pTrailer->field_C_trailer_carObj->field_58_physics->sub_563670();
+        pTrailer->field_C_pCarOnTrailer->field_58_physics->sub_563670();
     }
 }
 

@@ -281,12 +281,12 @@ class Trailer
 {
   public:
     EXPORT Car_BC* sub_407B90(Car_BC* a2);
-    EXPORT void sub_407BB0(Car_BC* a2, Car_BC* a3);
+    EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* a2, Car_BC* a3);
     EXPORT s32* sub_407BD0(s32* a2);
     EXPORT s32* sub_407CE0();
     EXPORT char_type sub_408140();
     EXPORT void sub_408190();
-    EXPORT void sub_4081B0();
+    EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
 
@@ -295,7 +295,7 @@ class Trailer
     {
         mpNext = NULL;
         field_8_truck_cab = NULL;
-        field_C_trailer_carObj = NULL;
+        field_C_pCarOnTrailer = NULL;
         field_0 = NULL;
         0;
     }
@@ -306,7 +306,7 @@ class Trailer
     char_type field_3;
     Trailer* mpNext;
     Car_BC* field_8_truck_cab;
-    Car_BC* field_C_trailer_carObj;
+    Car_BC* field_C_pCarOnTrailer;
 };
 
 static inline bool IsTrainModel(s32 idx1)
@@ -376,7 +376,7 @@ class Car_BC
     EXPORT char_type sub_43BBC0();
     EXPORT void sub_43BC30();
     EXPORT void sub_43BCA0();
-    EXPORT void sub_43BD00();
+    EXPORT void DeAllocateCarPhysics_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT void sub_43BF10();
     EXPORT void sub_43BF70();
@@ -451,7 +451,7 @@ class Car_BC
     EXPORT char_type
     sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void AllocCarPhysics_4419E0();
-    EXPORT CarPhysics_B0* sub_441A10();
+    EXPORT void DeAllocateCarPhysics_441A10();
     EXPORT char_type sub_441A40();
     EXPORT void sub_441A70();
     EXPORT void sub_441B00();
@@ -521,7 +521,7 @@ class Car_BC
     // Inlined 0x421720
     bool sub_421720()
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_carObj == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == this;
     }
 
     // Inlined 0x41E460
@@ -533,7 +533,7 @@ class Car_BC
     // Inlined 0x475E60
     bool sub_475E60(Car_BC* a1)
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_carObj == a1 && this != a1;
+        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == a1 && this != a1;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)

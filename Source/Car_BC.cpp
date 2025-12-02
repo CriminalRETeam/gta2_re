@@ -829,10 +829,9 @@ MATCH_FUNC(0x43a600)
 void Car_BC::RemoveAllDamage()
 {
     sub_43D400();
-    //Trailer* v2 = field_64_pTrailer;
     if (field_64_pTrailer)
     {
-        field_64_pTrailer->field_C_trailer_carObj->sub_43D400();
+        field_64_pTrailer->field_C_pCarOnTrailer->sub_43D400();
     }
 }
 
@@ -855,7 +854,7 @@ bool Car_BC::IsNotCurrentRemapOfCarAndTrailerCar(u8 remap)
     if (field_64_pTrailer)
     {
         // Check trailer car
-        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C_trailer_carObj->IsNotCurrentRemap(remap);
+        return IsNotCurrentRemap(remap) || field_64_pTrailer->field_C_pCarOnTrailer->IsNotCurrentRemap(remap);
     }
     return IsNotCurrentRemap(remap);
 }
@@ -871,9 +870,9 @@ void Car_BC::SetCarRemap(u8 remap)
     // trailer ?
     if (field_64_pTrailer)
     {
-        if (field_64_pTrailer->field_C_trailer_carObj->IsNotCurrentRemap(remap))
+        if (field_64_pTrailer->field_C_pCarOnTrailer->IsNotCurrentRemap(remap))
         {
-            field_64_pTrailer->field_C_trailer_carObj->field_50_car_sprite->SetRemap(remap);
+            field_64_pTrailer->field_C_pCarOnTrailer->field_50_car_sprite->SetRemap(remap);
         }
     }
 }
@@ -1141,15 +1140,15 @@ void Car_BC::sub_43BCA0()
 }
 
 MATCH_FUNC(0x43bd00)
-void Car_BC::sub_43BD00()
+void Car_BC::DeAllocateCarPhysics_43BD00()
 {
     if (field_64_pTrailer)
     {
-        field_64_pTrailer->sub_4081B0();
+        field_64_pTrailer->DeAllocateCarPhysics_4081B0();
     }
     else
     {
-        sub_441A10();
+        DeAllocateCarPhysics_441A10();
     }
 }
 
@@ -1811,10 +1810,10 @@ void Car_BC::AllocCarPhysics_4419E0()
 }
 
 STUB_FUNC(0x441a10)
-CarPhysics_B0* Car_BC::sub_441A10()
+void Car_BC::DeAllocateCarPhysics_441A10()
 {
     NOT_IMPLEMENTED;
-    return 0;
+
 }
 
 STUB_FUNC(0x441a40)
@@ -1986,7 +1985,7 @@ void Car_BC::sub_442190()
     {
         if (!this->field_54_driver)
         {
-            sub_43BD00();
+            DeAllocateCarPhysics_43BD00();
         }
     }
 }
@@ -2410,7 +2409,7 @@ void Car_BC::IncrementCarStats_443D70(s32 a2)
     {
         if (field_64_pTrailer->field_8_truck_cab == this)
         {
-            field_64_pTrailer->field_C_trailer_carObj->IncrementAllocatedCarType_443DA0(a2);
+            field_64_pTrailer->field_C_pCarOnTrailer->IncrementAllocatedCarType_443DA0(a2);
         }
     }
 }
@@ -2621,7 +2620,7 @@ void Car_BC::PoolDeallocate()
 {
     this->field_0_qq.sub_5A7010();
 
-    sub_441A10();
+    DeAllocateCarPhysics_441A10();
 
     if (field_50_car_sprite)
     {
@@ -2726,18 +2725,19 @@ Car_BC* Trailer::sub_407B90(Car_BC* a2)
 {
     if (a2 == field_8_truck_cab)
     {
-        return field_C_trailer_carObj;
+        return field_C_pCarOnTrailer;
     }
     return field_8_truck_cab;
 }
 
 MATCH_FUNC(0x407bb0)
-void Trailer::sub_407BB0(Car_BC* a2, Car_BC* a3)
+void Trailer::SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTrailerCar)
 {
-    this->field_8_truck_cab = a2;
-    this->field_C_trailer_carObj = a3;
-    a2->field_64_pTrailer = this;
-    this->field_C_trailer_carObj->field_64_pTrailer = this;
+    this->field_8_truck_cab = pTruckCab;
+    this->field_C_pCarOnTrailer = pTrailerCar;
+
+    pTruckCab->field_64_pTrailer = this;
+    this->field_C_pCarOnTrailer->field_64_pTrailer = this;
     this->field_0 = 0;
 }
 
@@ -2758,7 +2758,7 @@ s32* Trailer::sub_407CE0()
 MATCH_FUNC(0x408140)
 char_type Trailer::sub_408140()
 {
-    if (!field_8_truck_cab->field_58_physics && !field_C_trailer_carObj->field_58_physics)
+    if (!field_8_truck_cab->field_58_physics && !field_C_pCarOnTrailer->field_58_physics)
     {
         return 0;
     }
@@ -2769,7 +2769,7 @@ char_type Trailer::sub_408140()
     {
         return field_8_truck_cab->sub_43E560();
     }
-    sub_4081B0();
+    DeAllocateCarPhysics_4081B0();
     return 0;
 }
 
@@ -2777,14 +2777,14 @@ MATCH_FUNC(0x408190)
 void Trailer::sub_408190()
 {
     field_8_truck_cab->sub_43BC30();
-    field_C_trailer_carObj->sub_43BC30();
+    field_C_pCarOnTrailer->sub_43BC30();
 }
 
 MATCH_FUNC(0x4081b0)
-void Trailer::sub_4081B0()
+void Trailer::DeAllocateCarPhysics_4081B0()
 {
-    field_8_truck_cab->sub_441A10();
-    field_C_trailer_carObj->sub_441A10();
+    field_8_truck_cab->DeAllocateCarPhysics_441A10();
+    field_C_pCarOnTrailer->DeAllocateCarPhysics_441A10();
 }
 
 MATCH_FUNC(0x4081d0)
@@ -2792,14 +2792,14 @@ char_type Trailer::sub_4081D0()
 {
     if (field_8_truck_cab->field_74_damage == 32001)
     {
-        if (field_C_trailer_carObj->field_74_damage != 32001)
+        if (field_C_pCarOnTrailer->field_74_damage != 32001)
         {
-            field_C_trailer_carObj->field_74_damage = 32000;
-            field_C_trailer_carObj->ExplodeCar_Unknown_43D840(18);
+            field_C_pCarOnTrailer->field_74_damage = 32000;
+            field_C_pCarOnTrailer->ExplodeCar_Unknown_43D840(18);
         }
         return 1;
     }
-    else if (field_C_trailer_carObj->field_74_damage == 32001)
+    else if (field_C_pCarOnTrailer->field_74_damage == 32001)
     {
         field_8_truck_cab->field_74_damage = 32000;
         field_8_truck_cab->ExplodeCar_Unknown_43D840(18);
