@@ -11,6 +11,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 DEFINE_GLOBAL(TrafficLights_194*, gTrafficLights_194_705958, 0x705958);
 
+// TODO: Is this too big?
 u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x18, 0x96, 0x50, 0x00, 0x00, 0x00};
 
 STUB_FUNC(0x5C1D00)
@@ -135,7 +136,7 @@ void TrafficLights_194::TrafficLightsService_5C2950()
 
         field_192_phase++;
 
-        if (field_192_phase > GTA2_COUNTOF(traffic_light_phase_timers_626840))
+        if (field_192_phase > 8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
         {
             field_192_phase = 1;
         }
