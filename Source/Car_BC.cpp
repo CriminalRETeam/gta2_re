@@ -282,7 +282,7 @@ s16 Car_78::sub_453BB0()
 }
 
 MATCH_FUNC(0x453bf0)
-void Car_78::sub_453BF0(Car_BC* a2)
+void Car_78::SetCar_453BF0(Car_BC* a2)
 {
     field_0 = a2;
 }

@@ -60,7 +60,7 @@ class Car_78
     EXPORT u8* sub_4539D0();
     EXPORT s32 sub_453A40();
     EXPORT s16 sub_453BB0();
-    EXPORT void sub_453BF0(Car_BC* a2);
+    EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
     EXPORT s32 PoolAllocate();
     EXPORT Car_78();
