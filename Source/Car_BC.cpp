@@ -52,7 +52,7 @@ DEFINE_GLOBAL(char_type, gbRngRemapTableDone_679C0A, 0x679C0A);
 
 // Array of values used by Car_2.
 // It can probably turned into a static variable inside Car_2
-DEFINE_GLOBAL_ARRAY(s16, gRngRemapTable_679320, 1000, 0x679320);
+DEFINE_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL(Fix16, dword_6777D0, 0x6777D0);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
 DEFINE_GLOBAL(s32, dword_6778D0, 0x6778D0);
