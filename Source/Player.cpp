@@ -718,7 +718,7 @@ void Player::sub_566EE0(char_type bDoNothing)
             CarPhysics_B0* pPhysics = pCar->field_58_physics;
             if (pPhysics)
             {
-                pPhysics->sub_559430();
+                pPhysics->ShowPhysicsDebug_559430();
                 pCar->field_58_physics->sub_5597B0();
             }
         }

@@ -69,6 +69,8 @@ DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
 DEFINE_GLOBAL(Ang16, word_6F771E, 0x6F771E);
 DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
 
+DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -739,7 +741,7 @@ u32* Car_BC::sub_43A0E0(u32* a2)
 }
 
 STUB_FUNC(0x43a120)
-u32* Car_BC::sub_43A120(u32* a2)
+u32* Car_BC::get_mass_43A120(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -791,11 +793,29 @@ s16* Car_BC::sub_43A3E0(s16* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/e2rV3
 STUB_FUNC(0x43a450)
-u32* Car_BC::sub_43A450(u32* a2)
+Fix16_Point Car_BC::get_linvel_43A450()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarPhysics_B0* pPhysics;
+    if (is_train_model())
+    {
+        pPhysics = gPublicTransport_181C_6FF1D4->sub_57B540(this)->field_58_physics;
+        if (!pPhysics)
+        {
+            return stru_6778A8;
+        }
+    }
+    else
+    {
+        pPhysics = field_58_physics;
+        if (!pPhysics)
+        {
+            return stru_6778A8;
+        }
+    }
+
+    return pPhysics->get_linvel_447010();
 }
 
 MATCH_FUNC(0x43a4c0)
@@ -961,11 +981,18 @@ void Car_BC::sub_43ADC0(s32 a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/Tl2Br
 STUB_FUNC(0x43af10)
 bool Car_BC::sub_43AF10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!sub_43A230())
+    {
+        if (field_58_physics && field_58_physics->IsNearlyStopped_5636E0())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x43af40)
@@ -1695,7 +1722,7 @@ void Car_BC::sub_441520()
             pCarPhysics = this->field_58_physics;
             if (pCarPhysics)
             {
-                if (pCarPhysics->sub_55A180())
+                if (pCarPhysics->IsAccelerationOrReverseOn_55A180())
                 {
                     this->field_9C = 4;
                 }
@@ -2078,10 +2105,13 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-Trailer* Car_BC::sub_442760()
+void Car_BC::sub_442760()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* p = field_64_pTrailer;
+    gCar_BC_Pool_67792C->Remove(field_64_pTrailer->field_C_pCarOnTrailer);
+    field_64_pTrailer->field_C_pCarOnTrailer->field_64_pTrailer = 0;
+    field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = 0;
+    gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
 }
 
 STUB_FUNC(0x4427a0)

@@ -4,7 +4,7 @@
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
-DEFINE_GLOBAL(Fix16, DAT_006FE20C, 0x6FE20C);
+DEFINE_GLOBAL(Fix16, kFP16Zero_6FE20C, 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
 DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
@@ -25,8 +25,9 @@ CarPhysics_B0::~CarPhysics_B0()
 {
 }
 
+// https://decomp.me/scratch/xqLh0
 STUB_FUNC(0x559430)
-void CarPhysics_B0::sub_559430()
+void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
     NOT_IMPLEMENTED;
 }
@@ -134,8 +135,9 @@ s32* CarPhysics_B0::sub_559EC0(s32* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/KYfsp
 STUB_FUNC(0x559ff0)
-u32* CarPhysics_B0::sub_559FF0(u32* a2)
+u32* CarPhysics_B0::CalculateMass_559FF0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -148,22 +150,23 @@ u32* CarPhysics_B0::sub_55A050(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x55a0b0)
-u8 CarPhysics_B0::sub_55A0B0()
+MATCH_FUNC(0x55a0b0)
+u8 CarPhysics_B0::IsInAir_55A0B0()
 {
-    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
-    if (!pTrailer)
+    // TODO: The surface checks are likely inlines
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
     {
-        return field_98_surface_type == 6;
+        return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
+            pTrailer->field_C_pCarOnTrailer->field_58_physics->field_98_surface_type == 6;
     }
-
-    return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
-        pTrailer->field_C_pCarOnTrailer->field_58_physics->field_98_surface_type == 6;
+    return field_98_surface_type == 6;
 }
 
 MATCH_FUNC(0x55a100)
-Fix16 CarPhysics_B0::sub_55A100()
+Fix16 CarPhysics_B0::GetTrailerAwareTurnRatio_55A100()
 {
+    // TODO: This check is very likely an inline
     if (field_5C_pCar->field_64_pTrailer != NULL && field_5C_pCar->field_64_pTrailer->field_8_truck_cab == field_5C_pCar)
     {
         return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;
@@ -199,31 +202,23 @@ char_type CarPhysics_B0::IsFootBrakeOn_55A150()
     return bFootBrakeOn;
 }
 
-STUB_FUNC(0x55a180)
-char_type CarPhysics_B0::sub_55A180()
+MATCH_FUNC(0x55a180)
+char_type CarPhysics_B0::IsAccelerationOrReverseOn_55A180()
 {
-    NOT_IMPLEMENTED;
-    Trailer* pTrailer; // eax
-    CarPhysics_B0* pCarPhysics; // eax
-
-    pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
-        if (!pCarPhysics)
+        CarPhysics_B0* pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
+        if (pCarPhysics)
         {
-            return 0;
-        }
-        if (!pCarPhysics->field_93_is_forward_gas_on && !pCarPhysics->field_94_is_backward_gas_on)
-        {
-            return 0;
+            return (pCarPhysics->field_93_is_forward_gas_on || pCarPhysics->field_94_is_backward_gas_on);
         }
     }
-    else if (!this->field_93_is_forward_gas_on && !this->field_94_is_backward_gas_on)
+    else
     {
-        return 0;
+        return (field_93_is_forward_gas_on || field_94_is_backward_gas_on);
     }
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x55a1d0)
@@ -633,14 +628,14 @@ u32* CarPhysics_B0::sub_561DD0(u32* a2)
 }
 
 STUB_FUNC(0x561e50)
-Sprite_4C** CarPhysics_B0::sub_561E50(Sprite_4C** a2)
+Sprite_4C** CarPhysics_B0::CalculateFrontSkid_561E50(Sprite_4C** a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5620d0)
-u32* CarPhysics_B0::sub_5620D0(u32* a2)
+u32* CarPhysics_B0::CalculateRearSkid_5620D0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -700,13 +695,14 @@ void CarPhysics_B0::sub_562910()
     NOT_IMPLEMENTED;
 }
 
+// TODO: Actually Fix16_Point method
 MATCH_FUNC(0x562c20)
-void CarPhysics_B0::sub_562C20(Ang16& angle)
+void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
 {
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
+    const Fix16 sin = Ang16::sine_40F500(angle);
+    const Fix16 cos = Ang16::cosine_40F520(angle);
 
-    Fix16 x_old = field_0_vel_read_only.x;
+    const Fix16 x_old = field_0_vel_read_only.x;
 
     field_0_vel_read_only.x = (sin * field_0_vel_read_only.y) + (cos * field_0_vel_read_only.x);
     field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);
@@ -733,7 +729,7 @@ CarInfo_2C* CarPhysics_B0::sub_562ED0()
 }
 
 STUB_FUNC(0x562ef0)
-s32 CarPhysics_B0::sub_562EF0()
+s32 CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -812,11 +808,12 @@ void CarPhysics_B0::sub_563590(Sprite* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x563670)
-s32 CarPhysics_B0::sub_563670()
+MATCH_FUNC(0x563670)
+void CarPhysics_B0::sub_563670()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite* car_sprite = field_5C_pCar->field_50_car_sprite;
+    car_sprite->sub_420600(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
+    car_sprite->sub_420690(field_58_theta);
 }
 
 MATCH_FUNC(0x5636c0)
@@ -832,7 +829,7 @@ void CarPhysics_B0::sub_5636C0()
 }
 
 STUB_FUNC(0x5636e0)
-bool CarPhysics_B0::sub_5636E0()
+bool CarPhysics_B0::IsNearlyStopped_5636E0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -843,7 +840,7 @@ void CarPhysics_B0::Init_5637A0()
 {
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
-    field_70 = DAT_006FE20C;
+    field_70 = kFP16Zero_6FE20C;
     sub_55A840();
     field_91_is_foot_brake_on = 0;
     field_92_is_hand_brake_on = 0;
@@ -869,9 +866,9 @@ void CarPhysics_B0::Init_5637A0()
     field_60_gas_pedal = DAT_006FE290;
     field_AC_drive_wheels_locked_q = 0;
     field_64 = DAT_006FE200;
-    field_68_z_pos = DAT_006FE20C;
-    field_84_front_skid = DAT_006FE20C;
-    field_88_rear_skid = DAT_006FE20C;
+    field_68_z_pos = kFP16Zero_6FE20C;
+    field_84_front_skid = kFP16Zero_6FE20C;
+    field_88_rear_skid = kFP16Zero_6FE20C;
     field_AA_sbw = 0;
     field_AB_tpa = 0;
 }
@@ -885,6 +882,12 @@ void CarPhysics_B0::PoolAllocate()
     field_5C_pCar = NULL;
     Init_5637A0();
     field_0_vel_read_only.reset();
+}
+
+MATCH_FUNC(0x447010)
+EXPORT Fix16_Point CarPhysics_B0::get_linvel_447010()
+{
+    return field_40_linvel_1;
 }
 
 MATCH_FUNC(0x5638c0)

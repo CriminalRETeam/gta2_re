@@ -2821,7 +2821,7 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     {
         v5 = pParam1->field_8_car;
 
-        if (v5->sub_421720() || pParam1->field_8_car->sub_41E460())
+        if (v5->is_on_trailer_421720() || pParam1->field_8_car->is_trailer_cab_41E460())
         {
             field_8 = true;
         }
@@ -2834,7 +2834,7 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     {
         v5 = pParam2->field_8_car;
 
-        if (pParam1->field_8_car->sub_475E60(v5))
+        if (pParam1->field_8_car->HasOtherCarOnTrailer_475E60(v5))
         {
             field_8 = true;
         }
