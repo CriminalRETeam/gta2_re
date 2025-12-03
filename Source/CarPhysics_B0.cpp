@@ -148,17 +148,16 @@ u32* CarPhysics_B0::sub_55A050(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x55a0b0)
-u8 CarPhysics_B0::sub_55A0B0()
+MATCH_FUNC(0x55a0b0)
+u8 CarPhysics_B0::IsInAir_55A0B0()
 {
-    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
-    if (!pTrailer)
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
     {
-        return field_98_surface_type == 6;
+        return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
+            pTrailer->field_C_pCarOnTrailer->field_58_physics->field_98_surface_type == 6;
     }
-
-    return pTrailer->field_8_truck_cab->field_58_physics->field_98_surface_type == 6 &&
-        pTrailer->field_C_pCarOnTrailer->field_58_physics->field_98_surface_type == 6;
+    return field_98_surface_type == 6;
 }
 
 MATCH_FUNC(0x55a100)
@@ -700,6 +699,7 @@ void CarPhysics_B0::sub_562910()
     NOT_IMPLEMENTED;
 }
 
+// TODO: Actually Fix16_Point method
 MATCH_FUNC(0x562c20)
 void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
 {
