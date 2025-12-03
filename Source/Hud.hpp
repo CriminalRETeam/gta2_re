@@ -87,7 +87,7 @@ class Garox_12E4_sub
 class Hud_Message_1C8
 {
   public:
-    EXPORT void sub_5D1850();
+    EXPORT void ClearTimeToShow_5D1850();
     EXPORT void sub_5D1860();
     EXPORT void DrawMessage_5D1940();
     EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 a3);

@@ -288,10 +288,10 @@ void Garox_12E4_sub::DrawPause_5D63B0()
 
 // ----------------------------------------------------
 
-STUB_FUNC(0x5d1850)
-void Hud_Message_1C8::sub_5D1850()
+MATCH_FUNC(0x5d1850)
+void Hud_Message_1C8::ClearTimeToShow_5D1850()
 {
-    NOT_IMPLEMENTED;
+    field_0_time_to_show = 0;
 }
 
 STUB_FUNC(0x5d1860)
