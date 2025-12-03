@@ -619,9 +619,9 @@ Garox_1::Garox_1()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5cf970)
-void Garox_27B5_sub::sub_5CF970()
+void Garox_27B5_sub::ShowPlayerCoords_5CF970()
 {
-    if (field_27B5_sub)
+    if (field_27B5_show_coords)
     {
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
@@ -2126,7 +2126,7 @@ void Hud_2B00::UpdateHUD_5D69D0()
 {
     field_1118_sub.sub_5D6290();
     field_110C_sub.sub_5CF730();
-    field_27B5_sub.sub_5CF970();
+    field_27B5_show_coords.ShowPlayerCoords_5CF970();
     field_1028.UpdateWantedLevel_5D00B0();
     sub_5D5350();
     field_1080.sub_5D5690();

@@ -154,10 +154,10 @@ class Garox_27B5_sub
     // inline 0x4C6E70
     Garox_27B5_sub()
     {
-        field_27B5_sub = false;
+        field_27B5_show_coords = false;
     }
-    EXPORT void sub_5CF970();
-    char_type field_27B5_sub;
+    EXPORT void ShowPlayerCoords_5CF970();
+    char_type field_27B5_show_coords;
 };
 
 class Garox_107C_sub
@@ -557,7 +557,7 @@ class Hud_2B00
     Hud_Arrow_7C_Array field_1F18; // ok
     Hud_CopHead_C_Array field_1028; // ok
     Garox_107C_sub field_107C_sub; // nothing
-    Garox_27B5_sub field_27B5_sub; // ok
+    Garox_27B5_sub field_27B5_show_coords; // ok
     char_type field_27B6;
     char_type field_27B7;
     Garox_1 field_1080; // ok
