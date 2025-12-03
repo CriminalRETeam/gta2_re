@@ -734,7 +734,7 @@ u32* Car_BC::sub_439FB0(u32* a2)
 }
 
 STUB_FUNC(0x43a0e0)
-u32* Car_BC::sub_43A0E0(u32* a2)
+u32* Car_BC::get_rear_wheel_offset_43A0E0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -787,7 +787,7 @@ bool Car_BC::IsCarInAir_43A3C0()
 }
 
 STUB_FUNC(0x43a3e0)
-s16* Car_BC::sub_43A3E0(s16* a2)
+s16* Car_BC::GetOrientationAngle_43A3E0(s16* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -887,7 +887,6 @@ void Car_BC::SetCarRemap(u8 remap)
         field_50_car_sprite->SetRemap(remap);
     }
 
-    // trailer ?
     if (field_64_pTrailer)
     {
         if (field_64_pTrailer->field_C_pCarOnTrailer->IsNotCurrentRemap(remap))
@@ -898,7 +897,7 @@ void Car_BC::SetCarRemap(u8 remap)
 }
 
 STUB_FUNC(0x43a7d0)
-void Car_BC::sub_43A7D0()
+void Car_BC::AssignRandomRemap_43A7D0()
 {
     NOT_IMPLEMENTED;
 }
