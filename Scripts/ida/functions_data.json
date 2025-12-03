@@ -12645,7 +12645,7 @@
         "v105_address": "0x564960"
     },
     {
-        "name": "Player::sub_5649D0",
+        "name": "Player::SelectNextOrPrevWeapon_5649D0",
         "v96f_address": null,
         "v105_address": "0x5649d0"
     },
@@ -13885,17 +13885,17 @@
         "v105_address": "0x588620"
     },
     {
-        "name": "RouteFinder::sub_588810",
+        "name": "RouteFinder::RoadOff_588810",
         "v96f_address": "0x40E1B0",
         "v105_address": "0x588810"
     },
     {
-        "name": "RouteFinder::sub_588950",
+        "name": "RouteFinder::RoadOn_588950",
         "v96f_address": null,
         "v105_address": "0x588950"
     },
     {
-        "name": "RouteFinder::sub_588AA0",
+        "name": "RouteFinder::IsPointInJunctionBounds_588AA0",
         "v96f_address": null,
         "v105_address": "0x588aa0"
     },
@@ -14030,12 +14030,12 @@
         "v105_address": "0x58a020"
     },
     {
-        "name": "RouteFinder::sub_58A0B0",
+        "name": "RouteFinder::GetJunction_58A0B0",
         "v96f_address": null,
         "v105_address": "0x58a0b0"
     },
     {
-        "name": "RouteFinder::sub_58A0D0",
+        "name": "RouteFinder::DoStartRoute_58A0D0",
         "v96f_address": null,
         "v105_address": "0x58a0d0"
     },
@@ -14045,7 +14045,7 @@
         "v105_address": "0x58a130"
     },
     {
-        "name": "RouteFinder::sub_58A190",
+        "name": "RouteFinder::StartRoute_58A190",
         "v96f_address": "0x40e030",
         "v105_address": "0x58a190"
     },
@@ -14725,7 +14725,7 @@
         "v105_address": "0x59eaa0"
     },
     {
-        "name": "Sprite::sub_59EAE0",
+        "name": "Sprite::has_shadows_59EAE0",
         "v96f_address": null,
         "v105_address": "0x59eae0"
     },
@@ -14740,7 +14740,7 @@
         "v105_address": "0x59ee40"
     },
     {
-        "name": "Sprite::sub_59EFF0",
+        "name": "Sprite::Draw_59EFF0",
         "v96f_address": null,
         "v105_address": "0x59eff0"
     },
@@ -15975,7 +15975,7 @@
         "v105_address": "0x5cf910"
     },
     {
-        "name": "Garox_27B5_sub::sub_5CF970",
+        "name": "Garox_27B5_sub::ShowPlayerCoords_5CF970",
         "v96f_address": null,
         "v105_address": "0x5cf970"
     },
@@ -16190,7 +16190,7 @@
         "v105_address": "0x5d1830"
     },
     {
-        "name": "Garox_1C8::sub_5D1850",
+        "name": "Garox_1C8::ClearTimeToShow_5D1850",
         "v96f_address": null,
         "v105_address": "0x5d1850"
     },

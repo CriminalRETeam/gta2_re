@@ -185,10 +185,9 @@ char_type Player::sub_564960(s32 weapon_kind, u8 ammo)
 }
 
 STUB_FUNC(0x5649D0)
-u16 Player::sub_5649D0(char_type a2, char_type a3)
+void Player::SelectNextOrPrevWeapon_5649D0(char_type bFowards, char_type bBackwards)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x564AD0)
@@ -230,7 +229,7 @@ void Player::sub_564C00()
         field_18 = field_14;
     }
 
-    sub_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(0, 0);
 }
 
 MATCH_FUNC(0x564C50)
@@ -258,7 +257,7 @@ void Player::RemovePlayerWeapons_564C50()
         this->field_14 = idx;
         this->field_788_curr_weapon_idx = 0;
     }
-    sub_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(0, 0);
 }
 
 MATCH_FUNC(0x564CC0)

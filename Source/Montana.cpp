@@ -50,7 +50,7 @@ void Montana_4::Draw_5C5DF0()
         }
 
         pIter = gMontana_FA4_705BC0->Pop_4C4BA0();
-        pIter->field_0->sub_59EFF0();
+        pIter->field_0->Draw_59EFF0();
         pIter = pIter->field_8;
     }
 }
