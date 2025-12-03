@@ -669,7 +669,7 @@ s32 CarPhysics_B0::sub_562560()
 }
 
 STUB_FUNC(0x5626a0)
-s32 CarPhysics_B0::sub_5626A0()
+s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     NOT_IMPLEMENTED;
     return 0;

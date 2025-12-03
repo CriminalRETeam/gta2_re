@@ -100,7 +100,7 @@ class CarPhysics_B0
     EXPORT s32 sub_562480();
     EXPORT void sub_5624F0();
     EXPORT s32 sub_562560();
-    EXPORT s32 sub_5626A0();
+    EXPORT s32 IsGasPedalPressedEnough_5626A0();
     EXPORT u32* sub_5626C0(u32* a2);
     EXPORT char_type sub_5626F0();
     EXPORT void sub_562910();
