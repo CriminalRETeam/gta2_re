@@ -12425,12 +12425,12 @@
         "v105_address": "0x561dd0"
     },
     {
-        "name": "CarPhysics_B0::sub_561E50",
+        "name": "CarPhysics_B0::CalculateFrontSkid_561E50",
         "v96f_address": null,
         "v105_address": "0x561e50"
     },
     {
-        "name": "CarPhysics_B0::sub_5620D0",
+        "name": "CarPhysics_B0::CalculateRearSkid_5620D0",
         "v96f_address": null,
         "v105_address": "0x5620d0"
     },
@@ -12500,7 +12500,7 @@
         "v105_address": "0x562ed0"
     },
     {
-        "name": "CarPhysics_B0::sub_562EF0",
+        "name": "CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0",
         "v96f_address": null,
         "v105_address": "0x562ef0"
     },

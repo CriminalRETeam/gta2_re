@@ -94,8 +94,8 @@ class CarPhysics_B0
     EXPORT s32 get_revs_561940();
     EXPORT u32* sub_561970(u32* a2);
     EXPORT u32* sub_561DD0(u32* a2);
-    EXPORT Sprite_4C** sub_561E50(Sprite_4C** a2);
-    EXPORT u32* sub_5620D0(u32* a2);
+    EXPORT Sprite_4C** CalculateFrontSkid_561E50(Sprite_4C** a2);
+    EXPORT u32* CalculateRearSkid_5620D0(u32* a2);
     EXPORT u32* sub_562450(u32* a2, s32 a3);
     EXPORT s32 sub_562480();
     EXPORT void sub_5624F0();
@@ -108,7 +108,7 @@ class CarPhysics_B0
     EXPORT void sub_562D00();
     EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();
-    EXPORT s32 sub_562EF0();
+    EXPORT s32 SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT s32 sub_562F30();
     EXPORT char_type sub_562FA0();
     EXPORT bool sub_562FE0();
@@ -117,7 +117,7 @@ class CarPhysics_B0
     EXPORT s32* sub_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);
-    EXPORT s32 sub_563670();
+    EXPORT void sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool IsNearlyStopped_5636E0();
     EXPORT void Init_5637A0();

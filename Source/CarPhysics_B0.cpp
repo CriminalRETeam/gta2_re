@@ -4,7 +4,7 @@
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
-DEFINE_GLOBAL(Fix16, DAT_006FE20C, 0x6FE20C);
+DEFINE_GLOBAL(Fix16, kFP16Zero_6FE20C, 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
 DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
@@ -628,14 +628,14 @@ u32* CarPhysics_B0::sub_561DD0(u32* a2)
 }
 
 STUB_FUNC(0x561e50)
-Sprite_4C** CarPhysics_B0::sub_561E50(Sprite_4C** a2)
+Sprite_4C** CarPhysics_B0::CalculateFrontSkid_561E50(Sprite_4C** a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5620d0)
-u32* CarPhysics_B0::sub_5620D0(u32* a2)
+u32* CarPhysics_B0::CalculateRearSkid_5620D0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -729,7 +729,7 @@ CarInfo_2C* CarPhysics_B0::sub_562ED0()
 }
 
 STUB_FUNC(0x562ef0)
-s32 CarPhysics_B0::sub_562EF0()
+s32 CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -808,11 +808,12 @@ void CarPhysics_B0::sub_563590(Sprite* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x563670)
-s32 CarPhysics_B0::sub_563670()
+MATCH_FUNC(0x563670)
+void CarPhysics_B0::sub_563670()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite* car_sprite = field_5C_pCar->field_50_car_sprite;
+    car_sprite->sub_420600(field_38_cp1.x, field_38_cp1.y, field_6C_cp3);
+    car_sprite->sub_420690(field_58_theta);
 }
 
 MATCH_FUNC(0x5636c0)
@@ -839,7 +840,7 @@ void CarPhysics_B0::Init_5637A0()
 {
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
-    field_70 = DAT_006FE20C;
+    field_70 = kFP16Zero_6FE20C;
     sub_55A840();
     field_91_is_foot_brake_on = 0;
     field_92_is_hand_brake_on = 0;
@@ -865,9 +866,9 @@ void CarPhysics_B0::Init_5637A0()
     field_60_gas_pedal = DAT_006FE290;
     field_AC_drive_wheels_locked_q = 0;
     field_64 = DAT_006FE200;
-    field_68_z_pos = DAT_006FE20C;
-    field_84_front_skid = DAT_006FE20C;
-    field_88_rear_skid = DAT_006FE20C;
+    field_68_z_pos = kFP16Zero_6FE20C;
+    field_84_front_skid = kFP16Zero_6FE20C;
+    field_88_rear_skid = kFP16Zero_6FE20C;
     field_AA_sbw = 0;
     field_AB_tpa = 0;
 }
