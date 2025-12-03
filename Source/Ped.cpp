@@ -1419,7 +1419,7 @@ void Ped::sub_462B80()
                 {
                     if (field_25C_car_state == 37)
                     {
-                        Train_58* pTrain = gPublicTransport_181C_6FF1D4->sub_57B6A0(field_16C_car);
+                        Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_16C_car);
                         ++pTrain->field_56_passenger_count;
                     }
                 }

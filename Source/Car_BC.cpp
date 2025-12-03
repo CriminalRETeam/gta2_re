@@ -800,7 +800,7 @@ Fix16_Point Car_BC::get_linvel_43A450()
     CarPhysics_B0* pPhysics;
     if (is_train_model())
     {
-        pPhysics = gPublicTransport_181C_6FF1D4->sub_57B540(this)->field_58_physics;
+        pPhysics = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this)->field_58_physics;
         if (!pPhysics)
         {
             return stru_6778A8;

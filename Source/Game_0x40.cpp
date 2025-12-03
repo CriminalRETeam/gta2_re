@@ -240,7 +240,7 @@ void Game_0x40::BootGame_4B8EB0()
     sub_5D8E00();
     gSprite_8_703820->sub_5A5870();
     gTileAnim_2_7052C4->Empty_5BC300();
-    gPublicTransport_181C_6FF1D4->sub_5794B0();
+    gPublicTransport_181C_6FF1D4->SetupTrainAndBusStops_5794B0();
     gObject_5C_6F8F84->sub_5297F0();
     PedGroup::sub_4CB080();
     if (bDo_mike_67D5CC)
@@ -264,7 +264,7 @@ void Game_0x40::BootGame_4B8EB0()
     {
         gTrafficLights_194_705958->sub_5C2AC0();
     }
-    gPublicTransport_181C_6FF1D4->sub_578860(); // trains?
+    gPublicTransport_181C_6FF1D4->SpawnTrainsFromStations_578860(); // trains?
 
     for (s32 i = 0; i < field_23_num_players; i++)
     {

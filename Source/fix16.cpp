@@ -76,3 +76,16 @@ inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 {
     return Fix16(sqrt(input.AsDouble()));
 }
+
+MATCH_FUNC(0x438FB0)
+EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart, const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax) 
+{
+    if (intervalStart < rangeMin)
+    {
+        return intervalEnd >= rangeMin ? true : false;
+    }
+    else
+    {
+        return intervalStart <= rangeMax ? true : false;
+    }
+}

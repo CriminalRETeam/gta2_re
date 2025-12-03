@@ -31,26 +31,24 @@ nostalgic_ellis_0x28::~nostalgic_ellis_0x28()
     field_20 = 0;
 }
 
-STUB_FUNC(0x4D6D70)
+MATCH_FUNC(0x4D6D70)
 void nostalgic_ellis_0x28::sub_4D6D70()
 {
-    NOT_IMPLEMENTED;
-    s32 idx; // eax
-    nostalgic_ellis_0x28* pOld; // edx
-
-    idx = (field_4_light_x >> 16) + (field_8_light_y >> 16 << 6);
-    pOld = g4096_alloc_6F5400[idx];
-    g4096_alloc_6F5400[idx] = this;
-    if (pOld)
+    u32 v1 = (field_4_light_x.ToInt() >> 2) + ((field_8_light_y.ToInt() >> 2) * 64);
+    nostalgic_ellis_0x28* v2 = g4096_alloc_6F5400[v1];
+    
+    if (!v2)
     {
+        g4096_alloc_6F5400[v1] = this;
+        field_20 = 0;
         field_24 = 0;
-        field_20 = pOld;
-        pOld->field_24 = this;
     }
     else
     {
-        field_20 = 0;
+        g4096_alloc_6F5400[v1] = this;
         field_24 = 0;
+        field_20 = v2;
+        v2->field_24 = this;
     }
 }
 
@@ -68,7 +66,7 @@ nostalgic_ellis_0x28* nostalgic_ellis_0x28::sub_4D6DC0()
     }
     else
     {
-        *(&g4096_alloc_6F5400[64 * (field_8_light_y >> 16)] + (field_4_light_x >> 16)) = field_20;
+        *(&g4096_alloc_6F5400[64 * (field_8_light_y.ToInt())] + (field_4_light_x.ToInt())) = field_20;
     }
 
     result = field_20;

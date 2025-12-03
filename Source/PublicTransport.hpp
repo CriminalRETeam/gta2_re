@@ -19,7 +19,7 @@ class Train_58
     EXPORT void sub_578330();
     EXPORT void sub_578360();
     EXPORT void sub_578390();
-    EXPORT u8 sub_578670();
+    EXPORT u8 ProcessTrainExplosionChain_578670();
     char_type field_0;
     char_type field_1;
     char_type field_2;
@@ -55,7 +55,7 @@ class TrainStation_34
     EXPORT ~TrainStation_34();
 
     // NOTE: This function defined out of order for some reason
-    EXPORT void sub_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
+    EXPORT void CalculateWagonCount_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
 
     s32 field_0_bus_or_train;
     gmp_map_zone* field_4_entry_point;
@@ -80,26 +80,26 @@ class PublicTransport_181C
   public:
     EXPORT Train_58* AllocateTrain_578790();
     EXPORT TrainStation_34* AllocateTrainStation_5787E0();
-    EXPORT void sub_578860();
+    EXPORT void SpawnTrainsFromStations_578860();
     EXPORT char_type sub_5793E0();
-    EXPORT gmp_map_zone* sub_579440();
-    EXPORT gmp_map_zone* sub_5794B0();
+    EXPORT gmp_map_zone* InitTrainStations_579440();
+    EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
     EXPORT char_type* sub_5799B0();
     EXPORT void sub_579A30(Car_BC* a2);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
     EXPORT Car_BC* sub_579AD0();
     EXPORT bool is_bus_full_579AF0();
-    EXPORT void sub_579B10();
+    EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
-    EXPORT Car_BC** sub_579B40(Car_BC* toFind);
+    EXPORT Car_BC** GetCarArrayFromLeadCar_579B40(Car_BC* toFind);
     EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
     EXPORT void BusesService_579CA0();
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
-    EXPORT Car_BC* sub_57B540(Car_BC* a2);
+    EXPORT Car_BC* GetLeadTrainCar_57B540(Car_BC* a2);
     EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* a2);
-    EXPORT Train_58* sub_57B6A0(Car_BC* a2);
-    EXPORT bool sub_57B740(Car_BC* a2, Car_BC* a3);
+    EXPORT Train_58* GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* a2);
+    EXPORT bool AreCarsInDifferentTrains_57B740(Car_BC* a2, Car_BC* a3);
     EXPORT PublicTransport_181C();
     EXPORT ~PublicTransport_181C();
 

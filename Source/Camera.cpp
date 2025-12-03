@@ -249,14 +249,14 @@ void Camera_0xBC::sub_435F90(Car_BC* a2)
 
 // TODO: move
 STUB_FUNC(0x4F7540)
-EXPORT void __stdcall sub_4F7540(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
+EXPORT void __stdcall SmoothApproach_4F7540(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
     NOT_IMPLEMENTED;
 }
 
 // TODO: move
 STUB_FUNC(0x4F75D0)
-EXPORT void __stdcall sub_4F75D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5, Fix16* a6, Fix16* a7)
+EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* a1, Fix16* a2, Fix16* a3, Fix16* a4, Fix16* a5, Fix16* a6, Fix16* a7)
 {
     NOT_IMPLEMENTED;
 }
@@ -270,16 +270,16 @@ void Camera_0xBC::sub_435FF0()
     switch (field_3C_followed_ped_id)
     {
         case 1:
-            sub_4F7540(&field_0_cam_pos_tgt1.field_0_x, &field_AC_cam_velocity.field_0_x, &field_98_cam_pos2.field_0_x, &dword_676740, &v5);
-            sub_4F7540(&field_0_cam_pos_tgt1.field_4_y, &field_AC_cam_velocity.field_4_y, &field_98_cam_pos2.field_4_y, &dword_676740, &v5);
-            sub_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
+            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_0_x, &field_AC_cam_velocity.field_0_x, &field_98_cam_pos2.field_0_x, &dword_676740, &v5);
+            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_4_y, &field_AC_cam_velocity.field_4_y, &field_98_cam_pos2.field_4_y, &dword_676740, &v5);
+            SmoothApproachClamped_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
                        &field_AC_cam_velocity.field_8_z,
                        &field_98_cam_pos2.field_8_z,
                        &dword_6767B8,
                        &dword_676638,
                        &dword_676834,
                        &dword_6765FC);
-            sub_4F7540(&field_0_cam_pos_tgt1.field_C_zoom,
+            SmoothApproach_4F7540(&field_0_cam_pos_tgt1.field_C_zoom,
                        &field_AC_cam_velocity.field_C_zoom,
                        &field_98_cam_pos2.field_C_zoom,
                        &dword_6766FC,

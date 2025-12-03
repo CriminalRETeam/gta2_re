@@ -204,7 +204,7 @@ void Train_58::sub_578390()
 }
 
 STUB_FUNC(0x578670)
-u8 Train_58::sub_578670()
+u8 Train_58::ProcessTrainExplosionChain_578670()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -291,21 +291,14 @@ TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
     return 0;
 }
 
-// https://decomp.me/scratch/i6zXB
-// NOTE: Declared out of order
-STUB_FUNC(0x578820)
-void TrainStation_34::sub_578820(u8* a2)
+MATCH_FUNC(0x578820)
+void TrainStation_34::CalculateWagonCount_578820(u8* a2)
 {
-    NOT_IMPLEMENTED;
     if (!bSkip_trains_67D550)
     {
-        u8 i;
-        for (i = 0; i < 10; i++)
-        {
-            field_24_train_wagons[i] = a2[i];
-        }
+        memcpy(field_24_train_wagons, a2, sizeof(field_24_train_wagons));
 
-        for (i = 0; i < 10; i++)
+        for (u8 i = 0; i < 10; i++)
         {
             if (field_24_train_wagons[i])
             {
@@ -316,7 +309,7 @@ void TrainStation_34::sub_578820(u8* a2)
 }
 
 STUB_FUNC(0x578860)
-void PublicTransport_181C::sub_578860()
+void PublicTransport_181C::SpawnTrainsFromStations_578860()
 {
     NOT_IMPLEMENTED;
 }
@@ -329,14 +322,14 @@ char_type PublicTransport_181C::sub_5793E0()
 }
 
 STUB_FUNC(0x579440)
-gmp_map_zone* PublicTransport_181C::sub_579440()
+gmp_map_zone* PublicTransport_181C::InitTrainStations_579440()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5794b0)
-gmp_map_zone* PublicTransport_181C::sub_5794B0()
+gmp_map_zone* PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -406,7 +399,7 @@ bool PublicTransport_181C::is_bus_full_579AF0()
 }
 
 MATCH_FUNC(0x579b10)
-void PublicTransport_181C::sub_579B10()
+void PublicTransport_181C::IncrementBusPassengerCount_579B10()
 {
     if (!bSkip_buses_67D558)
     {
@@ -425,7 +418,7 @@ void PublicTransport_181C::KillAllPassengers_579B20()
 }
 
 MATCH_FUNC(0x579b40)
-Car_BC** PublicTransport_181C::sub_579B40(Car_BC* toFind)
+Car_BC** PublicTransport_181C::GetCarArrayFromLeadCar_579B40(Car_BC* toFind)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_1450_train_array); i++)
     {
@@ -473,7 +466,7 @@ TrainStation_34* PublicTransport_181C::TrainStationForZone_57B4B0(gmp_map_zone* 
 }
 
 MATCH_FUNC(0x57b540)
-Car_BC* PublicTransport_181C::sub_57B540(Car_BC* a2)
+Car_BC* PublicTransport_181C::GetLeadTrainCar_57B540(Car_BC* a2)
 {
     if (!bSkip_trains_67D550 && a2->is_train_model())
     {
@@ -493,14 +486,14 @@ Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 }
 
 STUB_FUNC(0x57b6a0)
-Train_58* PublicTransport_181C::sub_57B6A0(Car_BC* a2)
+Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x57b740)
-bool PublicTransport_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
+bool PublicTransport_181C::AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
     if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
     {

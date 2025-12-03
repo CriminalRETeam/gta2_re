@@ -979,7 +979,7 @@ void miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
         const char* station_zone_name = (const char*)&StringById[1];
         gmp_map_zone* station_zone = gMap_0x370_6F6268->zone_by_name_4DEFD0(station_zone_name);
         TrainStation_34* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
-        pTrainStation->sub_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
+        pTrainStation->CalculateWagonCount_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
     }
 }
 
