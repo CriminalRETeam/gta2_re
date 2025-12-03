@@ -960,10 +960,19 @@ void Garox_1700_L::sub_5D2050()
     }
 }
 
-STUB_FUNC(0x5d2280)
+MATCH_FUNC(0x5d2280)
 Garox_1700_L::Garox_1700_L()
 {
-    NOT_IMPLEMENTED;
+    Garox_C4* pIter = &field_0_29_ary[0];
+    for (s32 i = 0; i < 30 - 1; i++)
+    {
+        pIter->field_C0_pNext = pIter + 1;
+        pIter++;
+    }
+
+    field_964 = &field_0_29_ary[0];
+    field_0_29_ary[30 - 1].field_C0_pNext = NULL;
+    field_960_pFirst = 0;
 }
 
 // ----------------------------------------------------

@@ -125,7 +125,7 @@ class Player
     EXPORT void Busted_5679E0();
     EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
-    EXPORT char_type sub_568670();
+    EXPORT void sub_568670();
     EXPORT void sub_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void Service_5687F0();
@@ -166,7 +166,7 @@ class Player
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4_inputs;
+    u32 field_4_inputs;
     Ang16 field_8;
     Ang16 field_A;
     Fix16 field_C;
