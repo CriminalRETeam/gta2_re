@@ -701,7 +701,7 @@ void CarPhysics_B0::sub_562910()
 }
 
 MATCH_FUNC(0x562c20)
-void CarPhysics_B0::sub_562C20(const Ang16& angle)
+void CarPhysics_B0::RotateVelocity_562C20(const Ang16& angle)
 {
     const Fix16 sin = Ang16::sine_40F500(angle);
     const Fix16 cos = Ang16::cosine_40F520(angle);
