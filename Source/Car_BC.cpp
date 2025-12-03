@@ -1846,29 +1846,18 @@ void Car_BC::DeAllocateCarPhysics_441A10()
     field_58_physics = NULL;
 }
 
-STUB_FUNC(0x441a40)
+MATCH_FUNC(0x441a40)
 char_type Car_BC::sub_441A40()
 {
-    NOT_IMPLEMENTED;
-    for (s32 i = 0; i < 4; i++)
+    u32 i = 0;
+    do
     {
-        /*
-        if (field_C[i].field_4_state !=0 && field_C[i].field_4_state !=6)
+        if (field_C_doors[i].field_4_state != 0 && field_C_doors[i].field_4_state != 6)
         {
             return 0;
-        }*/
-        switch (field_C_doors[i].field_4_state)
-        {
-            case 1:
-            case 2:
-            case 3:
-            case 4:
-            case 5:
-                return 0;
-            default:
-                break;
         }
-    }
+        i++;
+    } while (i < GTA2_COUNTOF(field_C_doors));
     return 1;
 }
 
