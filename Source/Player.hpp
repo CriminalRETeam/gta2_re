@@ -166,7 +166,7 @@ class Player
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    s32 field_4_inputs;
+    u32 field_4_inputs;
     Ang16 field_8;
     Ang16 field_A;
     Fix16 field_C;

@@ -510,26 +510,24 @@ char_type Player::CharacterControls_566520()
     return 'a';
 }
 
-STUB_FUNC(0x566820)
+MATCH_FUNC(0x566820)
 void Player::ControlInputs_566820()
 {
-    NOT_IMPLEMENTED;
-
     CharacterControls_566520();
 
-    const u32 inputs = this->field_4_inputs;
-    if (inputs)
+    if (field_4_inputs)
     {
-        if (((inputs >> 12) & 0x1FF) != 0)
+        const u16 dxKey = (field_4_inputs >> 12) & 0x1FF;
+        if (dxKey != 0)
         {
-            const s32 dx_key = (inputs >> 12) & 0x1FF;
-            if ((inputs & 0x200000) != 0)
+            if ((field_4_inputs & 0x200000) != 0)
             {
-                Hud_Controls_565890(dx_key);
-                field_4_inputs = 0;
-                return;
+                Hud_Controls_565890(dxKey);
             }
-            sub_566380(dx_key);
+            else
+            {
+                sub_566380(dxKey);
+            }
         }
         field_4_inputs = 0;
     }
