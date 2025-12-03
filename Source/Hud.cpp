@@ -2,25 +2,25 @@
 #include "Car_BC.hpp"
 #include "Draw.hpp"
 #include "Frontend.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Gang.hpp"
+#include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
-#include "Object_5C.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "Weapon_30.hpp"
 
 DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
@@ -49,16 +49,13 @@ DEFINE_GLOBAL(Ang16, word_706610, 0x706610);
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-
 // TODO
 EXTERN_GLOBAL(char_type, gLighting_626A09);
-
 
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
-
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
@@ -467,7 +464,14 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
             {
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, DrawKind(8), 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C,
+                            (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)),
+                            82,
+                            word_70646C,
+                            DrawKind(8),
+                            6,
+                            0,
+                            0);
         }
     }
 }
@@ -504,9 +508,8 @@ void Garox_110C_sub::sub_5CF730()
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/HnVlm it matches on decompme
-STUB_FUNC(0x5cf910)
-void Garox_110C_sub::sub_5CF910()
+MATCH_FUNC(0x5cf910)
+void Garox_110C_sub::Draw_5CF910()
 {
     if (field_284E)
     {
@@ -664,7 +667,7 @@ void Garox_27B5_sub::sub_5CF970()
                  pZoneName);
 
         Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
-        pC4->field_B0 = 8;
+        pC4->field_B0_drawKind.value = 8;
         pC4->field_B4 = 0;
     }
 }
@@ -851,10 +854,17 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displ
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1d00)
+MATCH_FUNC(0x5d1d00)
 void Garox_C4::sub_5D1D00()
 {
-    NOT_IMPLEMENTED;
+    DrawText_5D7720(field_0_str_buf,
+                    field_A8_x,
+                    field_AA_y,
+                    field_AC_fontType,
+                    field_B0_drawKind,
+                    field_B4,
+                    field_B8_alpha,
+                    field_BC_alpha_flag);
 }
 
 MATCH_FUNC(0x5d1db0)
@@ -874,8 +884,8 @@ bool Garox_C4::sub_5D1DB0()
 MATCH_FUNC(0x5d1e10)
 bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
-    return field_A4_display_time > 0 && pOther != this && field_A8 == pOther->field_A8 && field_AA == pOther->field_AA &&
-        field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
+    return field_A4_display_time > 0 && pOther != this && field_A8_x == pOther->field_A8_x && field_AA_y == pOther->field_AA_y &&
+        field_AC_fontType == pOther->field_AC_fontType && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 // ----------------------------------------------------
@@ -1270,18 +1280,109 @@ void Hud_Arrow_7C::Service_5D0C60()
     }
 }
 
-STUB_FUNC(0x5d0c90)
-void Hud_Arrow_7C::sub_5D0C90()
+MATCH_FUNC(0x5d0c90)
+void Hud_Arrow_7C::DrawArrow_5D0C90()
 {
-    NOT_IMPLEMENTED;
+    // TODO: Kinda messy, refactor this
+    Player* pPlayer;
+    Camera_0xBC* pCam;
+    DrawKind drawKind_;
+
+    if (this->field_18.field_18.field_10_type || this->field_18.field_3C.field_10_type)
+    {
+        if (this->field_18.field_10.field_5)
+        {
+            if (this->field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->field_0_rng % 6 >= 3))
+            {
+                drawKind_ = DrawKind(2);
+            }
+            else
+            {
+                drawKind_ = DrawKind(7);
+            }
+            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            DrawFigure_5D7EC0(6,
+                              field_18.field_2C,
+                              field_0_screen_pos_x,
+                              field_4_screen_pos_y,
+                              field_8_rotation,
+                              pCam->field_A8_ui_scale,
+                              drawKind_,
+                              0,
+                              1,
+                              14u,
+                              1);
+
+            s16 colour_related;
+            switch (this->field_18.field_28_arrow_colour)
+            {
+                case 1:
+                    colour_related = 0;
+                    break;
+                case 3:
+                    colour_related = 1;
+                    break;
+                case 2:
+                    colour_related = 2;
+                    break;
+
+                case 4:
+                case 5:
+                    return;
+                default:
+                    // BUG: colour_related - un-inited?
+                    break;
+            }
+
+            DrawKind drawKind(2);
+            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            DrawFigure_5D7EC0(6,
+                              colour_related + 8,
+                              field_0_screen_pos_x,
+                              field_4_screen_pos_y,
+                              field_8_rotation,
+                              pCam->field_A8_ui_scale,
+                              drawKind,
+                              0,
+                              1,
+                              14u,
+                              1);
+        }
+    }
 }
 
-STUB_FUNC(0x5d0dc0)
+MATCH_FUNC(0x5d0dc0)
 void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
 {
-    NOT_IMPLEMENTED;
     switch (a2->field_244_remap)
     {
+        case 11:
+            field_18.field_2C = 1;
+            break;
+        case 13:
+            field_18.field_2C = 2;
+            break;
+        case 8:
+            field_18.field_2C = 3;
+            break;
         case 5:
         case 6:
             field_18.field_2C = 4;
@@ -1289,21 +1390,13 @@ void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
         case 7:
             field_18.field_2C = 5;
             break;
-        case 8:
-            field_18.field_2C = 3;
-            break;
         case 9:
             field_18.field_2C = 6;
             break;
         case 10:
             field_18.field_2C = 7;
             break;
-        case 11:
-            field_18.field_2C = 1;
-            break;
-        case 13:
-            field_18.field_2C = 2;
-            break;
+
         default:
             return;
     }
@@ -1361,10 +1454,7 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
     for (s32 i = 0; i < 17; i++)
     {
         Hud_Arrow_7C* pArrow = &field_0_array[i];
-        if (pArrow != a2 
-            && !pArrow->sub_4C6F80() 
-            && pArrow->sub_4C7050() 
-            && pArrow->field_18.field_10.field_30 == pGang)
+        if (pArrow != a2 && !pArrow->sub_4C6F80() && pArrow->sub_4C7050() && pArrow->field_18.field_10.field_30 == pGang)
         {
             return true;
         }
@@ -1373,17 +1463,18 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
 }
 
 MATCH_FUNC(0x5d0e90)
-void Hud_Arrow_7C_Array::sub_5D0E90()
+void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
+        // Limit drawn arrows in multiplayer
         for (s32 i = 0; i < 17; i++)
         {
             if (field_0_array[i].field_18.field_18.field_C == NULL ||
                 field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped == NULL ||
                 field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped->field_21C_bf.b25 == 0)
             {
-                field_0_array[i].sub_5D0C90();
+                field_0_array[i].DrawArrow_5D0C90();
             }
         }
     }
@@ -1391,7 +1482,7 @@ void Hud_Arrow_7C_Array::sub_5D0E90()
     {
         for (s32 i = 0; i < 17; i++)
         {
-            field_0_array[i].sub_5D0C90();
+            field_0_array[i].DrawArrow_5D0C90();
         }
     }
 }
@@ -2006,7 +2097,7 @@ void Hud_2B00::DrawGui_5D6860()
     {
         sub_5D6A70();
         field_1118_sub.DrawPlayerStats_5D5C80();
-        field_110C_sub.sub_5CF910();
+        field_110C_sub.Draw_5CF910();
         field_13C0_sub.DrawPlayerNames_5CFE40();
         field_1028.DrawWantedLevel_5D0110();
         field_107C_sub.DrawGangRespectBars_5CFA70();
@@ -2017,7 +2108,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_DC.DrawBrief_5D3B80();
         field_620.DrawPagers_5D3040();
         field_650.Service_5D2010();
-        field_1F18.sub_5D0E90();
+        field_1F18.DrawArrows_5D0E90();
         field_12F0.sub_5D56D0();
         field_111C.DrawMessage_5D1940();
         field_12E4_sub.DrawPause_5D63B0();
