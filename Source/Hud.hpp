@@ -1,9 +1,10 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 #include "map_0x370.hpp"
+#include "Draw.hpp"
 #include <wchar.h>
 
 class Ped;
@@ -39,7 +40,7 @@ class Garox_1_v2
 class Garox_2A25_sub
 {
   public:
-    EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player *pPlayer);
+    EXPORT char_type IsTypingOnChat_5D15E0(s32 a1, Player* pPlayer);
     EXPORT void sub_5D16B0();
     EXPORT bool sub_5D17D0(s32 a2);
     EXPORT void StartChatting_5D1830(Player* a1);
@@ -49,7 +50,7 @@ class Garox_2A25_sub
 class Garox_12EC_sub
 {
   public:
-    EXPORT char_type IsOnQuitMessage_5D13C0(s32 a2, Player *pPlayer);
+    EXPORT char_type IsOnQuitMessage_5D13C0(s32 a2, Player* pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool sub_5D15A0(s32 a1);
     EXPORT void sub_5D15D0(Player* pPlayer);
@@ -207,18 +208,15 @@ class Garox_C4
     EXPORT bool operator_equals_5D1E10(Garox_C4* pOther);
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
-    s16 field_A8;
-    s16 field_AA;
-    s16 field_AC;
-    s16 field_AE;
-    s32 field_B0;
-    s16 field_B4;
-    s16 field_B6;
-    s32 field_B8;
-    char_type field_BC;
-    char_type field_BD;
-    char_type field_BE;
-    char_type field_BF;
+    s16 field_A8_x;
+    s16 field_AA_y;
+    s16 field_AC_fontType;
+    s16 field_AE; // could be pad
+    DrawKind field_B0_drawKind;
+    s16 field_B4; // ??
+    s16 field_B6; // could be pad
+    s32 field_B8_alpha;
+    s32 field_BC_alpha_flag;
     Garox_C4* field_C0_pNext;
 };
 
@@ -248,7 +246,7 @@ class Hud_Pager_C
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
-    s32 field_4;  //  counter?
+    s32 field_4; //  counter?
     infallible_turing* field_8_sound;
 };
 
@@ -280,7 +278,7 @@ class Garox_18
     Garox_18** field_0; // prob wrong type
     s32 field_4;
     s32 field_8_brief_priority;
-    Garox_18* field_C;  // prob wrong type
+    Garox_18* field_C; // prob wrong type
     u8 field_10;
     u8 field_11;
     u8 field_12;
@@ -396,8 +394,8 @@ class Hud_Arrow_7C
     Ang16 field_8_rotation;
     s16 field_A;
     s32 field_C_min_radius_pos; // minimum radial distance from the player
-    s32 field_10_radius_pos;  // radial distance from the player
-    s32 field_14_reposition_speed;  // how slower/faster the arrow goes to the aim target, or "get back" to the player
+    s32 field_10_radius_pos; // radial distance from the player
+    s32 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
     Garox_20_Sub field_18;
 };
 
@@ -437,7 +435,7 @@ class Hud_Arrow_7C_Array
     char_type field_847;
 };
 
-class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L, but it has size 0x704
+class Hud_Brief_704 // not sure where to put this, maybe it's Garox_1E34_L, but it has size 0x704
 {
   public:
     wchar_t field_0_str[640];
@@ -448,14 +446,14 @@ class Hud_Brief_704   // not sure where to put this, maybe it's Garox_1E34_L, bu
     Hud_Brief_704* field_6F8_prev;
     int field_6FC;
     char* field_700;
-  /*
+    /*
   public:
     void SetHudBrief(int priority, const char* str);
     void Clear(int priority);
   */
 };
 
-class Garox_1E34_L  // size 0x704
+class Garox_1E34_L // size 0x704
 {
   public:
     EXPORT void sub_5D3330();
@@ -513,7 +511,7 @@ class Hud_MapZone_98
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90;
-    u8 field_94_transparency;  // range from 0 to 31
+    u8 field_94_transparency; // range from 0 to 31
     char_type field_95;
     char_type field_96;
     char_type field_97;
@@ -546,7 +544,7 @@ class Hud_2B00
     EXPORT void sub_5D6AB0();
     EXPORT void sub_5D6B00();
     EXPORT void sub_5D6BE0();
-    EXPORT s32 IsBusy_5D6C20(s32 action, Player *pPlayer);
+    EXPORT s32 IsBusy_5D6C20(s32 action, Player* pPlayer);
     EXPORT s32 sub_5D6C70(s32 a1);
     EXPORT bool sub_5D6CB0(s32 a1);
     EXPORT Hud_2B00();
@@ -582,9 +580,7 @@ class Hud_2B00
 
 EXTERN_GLOBAL(Hud_2B00*, gHud_2B00_706620);
 
-
 EXTERN_GLOBAL(s16, word_706600);
-
 
 EXTERN_GLOBAL_ARRAY(char, byte_67CE50, 264);
 

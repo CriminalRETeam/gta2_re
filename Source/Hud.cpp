@@ -667,7 +667,7 @@ void Garox_27B5_sub::sub_5CF970()
                  pZoneName);
 
         Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
-        pC4->field_B0 = 8;
+        pC4->field_B0_drawKind.value = 8;
         pC4->field_B4 = 0;
     }
 }
@@ -877,8 +877,8 @@ bool Garox_C4::sub_5D1DB0()
 MATCH_FUNC(0x5d1e10)
 bool Garox_C4::operator_equals_5D1E10(Garox_C4* pOther)
 {
-    return field_A4_display_time > 0 && pOther != this && field_A8 == pOther->field_A8 && field_AA == pOther->field_AA &&
-        field_AC == pOther->field_AC && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
+    return field_A4_display_time > 0 && pOther != this && field_A8_x == pOther->field_A8_x && field_AA_y == pOther->field_AA_y &&
+        field_AC_fontType == pOther->field_AC_fontType && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 // ----------------------------------------------------
