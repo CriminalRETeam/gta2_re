@@ -13435,7 +13435,7 @@
         "v105_address": "0x578390"
     },
     {
-        "name": "Train_58::sub_578670",
+        "name": "Train_58::ProcessTrainExplosionChain_578670",
         "v96f_address": null,
         "v105_address": "0x578670"
     },
@@ -13450,7 +13450,7 @@
         "v105_address": "0x5787e0"
     },
     {
-        "name": "PublicTransport_181C::sub_578820",
+        "name": "PublicTransport_181C::CalculateWagonCount_578820",
         "v96f_address": null,
         "v105_address": "0x578820"
     },
@@ -13500,7 +13500,7 @@
         "v105_address": "0x579af0"
     },
     {
-        "name": "PublicTransport_181C::sub_579B10",
+        "name": "PublicTransport_181C::IncrementBusPassengerCount_579B10",
         "v96f_address": null,
         "v105_address": "0x579b10"
     },
@@ -13510,7 +13510,7 @@
         "v105_address": "0x579b20"
     },
     {
-        "name": "PublicTransport_181C::sub_579B40",
+        "name": "PublicTransport_181C::GetCarArrayFromLeadCar_579B40",
         "v96f_address": null,
         "v105_address": "0x579b40"
     },

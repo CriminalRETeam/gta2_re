@@ -204,7 +204,7 @@ void Train_58::sub_578390()
 }
 
 STUB_FUNC(0x578670)
-u8 Train_58::sub_578670()
+u8 Train_58::ProcessTrainExplosionChain_578670()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -291,21 +291,14 @@ TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
     return 0;
 }
 
-// https://decomp.me/scratch/i6zXB
-// NOTE: Declared out of order
-STUB_FUNC(0x578820)
-void TrainStation_34::sub_578820(u8* a2)
+MATCH_FUNC(0x578820)
+void TrainStation_34::CalculateWagonCount_578820(u8* a2)
 {
-    NOT_IMPLEMENTED;
     if (!bSkip_trains_67D550)
     {
-        u8 i;
-        for (i = 0; i < 10; i++)
-        {
-            field_24_train_wagons[i] = a2[i];
-        }
+        memcpy(field_24_train_wagons, a2, sizeof(field_24_train_wagons));
 
-        for (i = 0; i < 10; i++)
+        for (u8 i = 0; i < 10; i++)
         {
             if (field_24_train_wagons[i])
             {
@@ -406,7 +399,7 @@ bool PublicTransport_181C::is_bus_full_579AF0()
 }
 
 MATCH_FUNC(0x579b10)
-void PublicTransport_181C::sub_579B10()
+void PublicTransport_181C::IncrementBusPassengerCount_579B10()
 {
     if (!bSkip_buses_67D558)
     {
@@ -425,7 +418,7 @@ void PublicTransport_181C::KillAllPassengers_579B20()
 }
 
 MATCH_FUNC(0x579b40)
-Car_BC** PublicTransport_181C::sub_579B40(Car_BC* toFind)
+Car_BC** PublicTransport_181C::GetCarArrayFromLeadCar_579B40(Car_BC* toFind)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_1450_train_array); i++)
     {
