@@ -12525,7 +12525,7 @@
         "v105_address": "0x563280"
     },
     {
-        "name": "CarPhysics_B0::sub_563350",
+        "name": "CarPhysics_B0::UpdateCenterOfMassPoint_563350",
         "v96f_address": "0x49ED60",
         "v105_address": "0x563350"
     },

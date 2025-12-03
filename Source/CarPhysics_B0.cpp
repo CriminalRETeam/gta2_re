@@ -778,7 +778,7 @@ s32* CarPhysics_B0::sub_563280()
 }
 
 STUB_FUNC(0x563350)
-s32* CarPhysics_B0::sub_563350()
+s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -799,7 +799,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
     this->field_6C_cp3 = a2->field_1C_zpos;
     this->field_58_theta = a2->field_0;
     this->field_78_pointing_ang_rad = 0;
-    sub_563350();
+    UpdateCenterOfMassPoint_563350();
 }
 
 STUB_FUNC(0x563590)
