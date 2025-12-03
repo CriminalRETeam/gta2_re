@@ -96,7 +96,7 @@ class PublicTransport_181C
     EXPORT void BusesService_579CA0();
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
-    EXPORT Car_BC* sub_57B540(Car_BC* a2);
+    EXPORT Car_BC* GetLeadTrainCar_57B540(Car_BC* a2);
     EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* a2);
     EXPORT Train_58* sub_57B6A0(Car_BC* a2);
     EXPORT bool sub_57B740(Car_BC* a2, Car_BC* a3);
