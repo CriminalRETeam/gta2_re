@@ -618,26 +618,24 @@ Garox_1::Garox_1()
 
 // ----------------------------------------------------
 
-// https://decomp.me/scratch/vYRH9
-STUB_FUNC(0x5cf970)
+MATCH_FUNC(0x5cf970)
 void Garox_27B5_sub::sub_5CF970()
 {
-    NOT_IMPLEMENTED;
     if (field_27B5_sub)
     {
-        Player* field_38_orf1 = gGame_0x40_67E008->field_38_orf1;
+        Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
 
         Ped* pPed;
-        if (field_38_orf1->field_68 == 2 || field_38_orf1->field_68 == 3)
+        if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
         {
-            pPed = field_38_orf1->field_2C8_unkq;
+            pPed = pPlayer->field_2C8_unkq;
         }
         else
         {
-            pPed = field_38_orf1->field_2C4_player_ped;
+            pPed = pPlayer->field_2C4_player_ped;
         }
 
-        Gang_144* pZone = field_38_orf1->field_34_gang_curr_location;
+        Gang_144* pZone = pPlayer->field_34_gang_curr_location;
         wchar_t* pZoneName;
         if (pZone)
         {
@@ -661,9 +659,9 @@ void Garox_27B5_sub::sub_5CF970()
         swprintf(tmpBuff_67BD9C,
                  L"%s at (%3.1f, %3.1f, %3.1f) %s",
                  pCarOrPedStr,
-                 pPed->field_1AC_cam.x.ToFloat() * 0.00006103515625,
-                 pPed->field_1AC_cam.y.ToFloat() * 0.00006103515625,
-                 pPed->field_1AC_cam.z.ToFloat() * 0.00006103515625,
+                 pPed->get_cam_x().AsDouble(),
+                 pPed->get_cam_y().AsDouble(),
+                 pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
         Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
