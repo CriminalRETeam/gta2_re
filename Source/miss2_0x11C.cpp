@@ -1467,7 +1467,7 @@ void miss2_0x11C::SCRCMD_MAKE_CAR_DUMMY_508220()
         {
             pPointer->field_8_car->SpawnDriverPed();
         }
-        pPointer->field_8_car->sub_440590();
+        pPointer->field_8_car->InitCarAIControl_440590();
 
         Car_BC* pCar = pPointer->field_8_car;
         pCar->field_7C_uni_num = 5;

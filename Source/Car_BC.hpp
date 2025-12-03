@@ -438,7 +438,7 @@ class Car_BC
     EXPORT char_type sub_43F130(s32 a2);
     EXPORT u32* sub_440510(u32* a2);
     EXPORT char_type GetPassengersCount_440570();
-    EXPORT void sub_440590();
+    EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
     EXPORT s32 AttachGangIcon_440660(u8 a2);

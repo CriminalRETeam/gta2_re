@@ -218,7 +218,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
     field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28 = 6;
     field_10_subObj->field_0_car->sub_421560(5);
-    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = pGroup;
@@ -265,7 +265,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
     field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28 = 6;
     field_10_subObj->field_0_car->sub_421560(5);
-    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = pSwatGroup;
@@ -291,7 +291,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
     field_10_subObj->field_4_ped = pFBI;
     field_10_subObj->field_28 = 6;
     field_10_subObj->field_0_car->sub_421560(5);
-    field_10_subObj->field_0_car->sub_440590();
+    field_10_subObj->field_0_car->InitCarAIControl_440590();
     field_10_subObj->field_0_car->sub_43AF40();
     field_10_subObj->field_0_car->ActivateEmergencyLights_43C920();
     field_10_subObj->field_8_group = 0;

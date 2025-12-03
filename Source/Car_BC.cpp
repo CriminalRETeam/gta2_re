@@ -1558,7 +1558,7 @@ char_type Car_BC::GetPassengersCount_440570()
 }
 
 STUB_FUNC(0x440590)
-void Car_BC::sub_440590()
+void Car_BC::InitCarAIControl_440590()
 {
     NOT_IMPLEMENTED;
 }

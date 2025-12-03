@@ -108,7 +108,7 @@ bool Ambulance_20::sub_4FA820()
     pCar->field_76 = 0;
 
     field_4->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
-    field_4->field_0_car->sub_440590();
+    field_4->field_0_car->InitCarAIControl_440590();
     field_4->field_0_car->sub_43AF40();
     field_4->field_8_group = pGroup;
     return true;
