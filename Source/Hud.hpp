@@ -367,7 +367,7 @@ class Hud_Arrow_7C
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
     EXPORT void Service_5D0C60();
-    EXPORT void sub_5D0C90();
+    EXPORT void DrawArrow_5D0C90();
     EXPORT void sub_5D0DC0(Ped* a2);
 
     // 9.6f inline 0x4C6F80
@@ -414,7 +414,7 @@ class Hud_Arrow_7C_Array
 
     EXPORT void sub_5D1350();
     EXPORT bool sub_5D0E40(Hud_Arrow_7C* a2);
-    EXPORT void sub_5D0E90();
+    EXPORT void DrawArrows_5D0E90();
     EXPORT Hud_Arrow_7C* sub_5D0EF0();
     EXPORT char_type sub_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();

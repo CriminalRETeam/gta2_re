@@ -1270,7 +1270,7 @@ void Hud_Arrow_7C::Service_5D0C60()
 }
 
 STUB_FUNC(0x5d0c90)
-void Hud_Arrow_7C::sub_5D0C90()
+void Hud_Arrow_7C::DrawArrow_5D0C90()
 {
     NOT_IMPLEMENTED;
 }
@@ -1372,17 +1372,18 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
 }
 
 MATCH_FUNC(0x5d0e90)
-void Hud_Arrow_7C_Array::sub_5D0E90()
+void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
+        // Limit drawn arrows in multiplayer
         for (s32 i = 0; i < 17; i++)
         {
             if (field_0_array[i].field_18.field_18.field_C == NULL ||
                 field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped == NULL ||
                 field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped->field_21C_bf.b25 == 0)
             {
-                field_0_array[i].sub_5D0C90();
+                field_0_array[i].DrawArrow_5D0C90();
             }
         }
     }
@@ -1390,7 +1391,7 @@ void Hud_Arrow_7C_Array::sub_5D0E90()
     {
         for (s32 i = 0; i < 17; i++)
         {
-            field_0_array[i].sub_5D0C90();
+            field_0_array[i].DrawArrow_5D0C90();
         }
     }
 }
@@ -2016,7 +2017,7 @@ void Hud_2B00::DrawGui_5D6860()
         field_DC.DrawBrief_5D3B80();
         field_620.DrawPagers_5D3040();
         field_650.Service_5D2010();
-        field_1F18.sub_5D0E90();
+        field_1F18.DrawArrows_5D0E90();
         field_12F0.sub_5D56D0();
         field_111C.DrawMessage_5D1940();
         field_12E4_sub.DrawPause_5D63B0();
