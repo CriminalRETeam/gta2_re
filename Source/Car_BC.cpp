@@ -801,7 +801,7 @@ Fix16_Point Car_BC::get_linvel_43A450()
     if (is_train_model())
     {
         pPhysics = gPublicTransport_181C_6FF1D4->sub_57B540(this)->field_58_physics;
-          if (!pPhysics)
+        if (!pPhysics)
         {
             return stru_6778A8;
         }
@@ -809,12 +809,12 @@ Fix16_Point Car_BC::get_linvel_43A450()
     else
     {
         pPhysics = field_58_physics;
-          if (!pPhysics)
+        if (!pPhysics)
         {
             return stru_6778A8;
         }
     }
-  
+
     return pPhysics->get_linvel_447010();
 }
 
@@ -981,11 +981,18 @@ void Car_BC::sub_43ADC0(s32 a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/Tl2Br
 STUB_FUNC(0x43af10)
 bool Car_BC::sub_43AF10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!sub_43A230())
+    {
+        if (field_58_physics && field_58_physics->IsNearlyStopped_5636E0())
+        {
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x43af40)

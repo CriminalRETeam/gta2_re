@@ -828,7 +828,7 @@ void CarPhysics_B0::sub_5636C0()
 }
 
 STUB_FUNC(0x5636e0)
-bool CarPhysics_B0::sub_5636E0()
+bool CarPhysics_B0::IsNearlyStopped_5636E0()
 {
     NOT_IMPLEMENTED;
     return 0;
