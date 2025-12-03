@@ -309,7 +309,7 @@ void TrainStation_34::CalculateWagonCount_578820(u8* a2)
 }
 
 STUB_FUNC(0x578860)
-void PublicTransport_181C::sub_578860()
+void PublicTransport_181C::SpawnTrainsFromStations_578860()
 {
     NOT_IMPLEMENTED;
 }
@@ -322,14 +322,14 @@ char_type PublicTransport_181C::sub_5793E0()
 }
 
 STUB_FUNC(0x579440)
-gmp_map_zone* PublicTransport_181C::sub_579440()
+gmp_map_zone* PublicTransport_181C::InitTrainStations_579440()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5794b0)
-gmp_map_zone* PublicTransport_181C::sub_5794B0()
+gmp_map_zone* PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 {
     NOT_IMPLEMENTED;
     return 0;

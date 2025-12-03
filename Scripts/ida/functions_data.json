@@ -13455,7 +13455,7 @@
         "v105_address": "0x578820"
     },
     {
-        "name": "PublicTransport_181C::sub_578860",
+        "name": "PublicTransport_181C::SpawnTrainsFromStations_578860",
         "v96f_address": null,
         "v105_address": "0x578860"
     },
@@ -13465,12 +13465,12 @@
         "v105_address": "0x5793e0"
     },
     {
-        "name": "PublicTransport_181C::sub_579440",
+        "name": "PublicTransport_181C::InitTrainStations_579440",
         "v96f_address": null,
         "v105_address": "0x579440"
     },
     {
-        "name": "PublicTransport_181C::sub_5794B0",
+        "name": "PublicTransport_181C::SetupTrainAndBusStops_5794B0",
         "v96f_address": null,
         "v105_address": "0x5794b0"
     },

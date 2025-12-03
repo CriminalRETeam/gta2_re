@@ -2928,10 +2928,10 @@ Train_58::ProcessTrainExplosionChain_578670,0x578670,0x178670,0x116
 PublicTransport_181C::AllocateTrain_578790,0x578790,0x178790,0x44
 PublicTransport_181C::AllocateTrainStation_5787E0,0x5787e0,0x1787e0,0x34
 PublicTransport_181C::CalculateWagonCount_578820,0x578820,0x178820,0x3c
-PublicTransport_181C::sub_578860,0x578860,0x178860,0xb78
+PublicTransport_181C::SpawnTrainsFromStations_578860,0x578860,0x178860,0xb78
 PublicTransport_181C::sub_5793E0,0x5793e0,0x1793e0,0x5d
-PublicTransport_181C::sub_579440,0x579440,0x179440,0x6a
-PublicTransport_181C::sub_5794B0,0x5794b0,0x1794b0,0x4c5
+PublicTransport_181C::InitTrainStations_579440,0x579440,0x179440,0x6a
+PublicTransport_181C::SetupTrainAndBusStops_5794B0,0x5794b0,0x1794b0,0x4c5
 PublicTransport_181C::sub_5799B0,0x5799b0,0x1799b0,0x79
 PublicTransport_181C::sub_579A30,0x579a30,0x179a30,0x6d
 PublicTransport_181C::is_bus_579AA0,0x579aa0,0x179aa0,0x23
