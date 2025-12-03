@@ -86,7 +86,7 @@ class CarPhysics_B0
     EXPORT void sub_560B40(s32 a2, s32 a3);
     EXPORT __int64 sub_560EB0();
     EXPORT void sub_560F20(s32 a2);
-    EXPORT s32 sub_5610B0();
+    EXPORT s32 IntegrateAndClampVelocities_5610B0();
     EXPORT u32* sub_561130(u32* a2, u32* a3);
     EXPORT u32* sub_561350(u32* a2, u32* a3);
     EXPORT u32* sub_561380(u32* a2, u32* a3);
@@ -97,7 +97,7 @@ class CarPhysics_B0
     EXPORT Sprite_4C** CalculateFrontSkid_561E50(Sprite_4C** a2);
     EXPORT u32* CalculateRearSkid_5620D0(u32* a2);
     EXPORT u32* sub_562450(u32* a2, s32 a3);
-    EXPORT s32 sub_562480();
+    EXPORT s32 ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT s32 sub_562560();
     EXPORT s32 IsGasPedalPressedEnough_5626A0();

@@ -572,7 +572,7 @@ void CarPhysics_B0::sub_560F20(s32 a2)
 }
 
 STUB_FUNC(0x5610b0)
-s32 CarPhysics_B0::sub_5610B0()
+s32 CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -649,7 +649,7 @@ u32* CarPhysics_B0::sub_562450(u32* a2, s32 a3)
 }
 
 STUB_FUNC(0x562480)
-s32 CarPhysics_B0::sub_562480()
+s32 CarPhysics_B0::ApplyThrottleInput_562480()
 {
     NOT_IMPLEMENTED;
     return 0;
