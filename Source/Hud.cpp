@@ -854,10 +854,17 @@ void Garox_C4::sub_5D1B10(const wchar_t* pStr, s16 a3, s16 a4, s16 a5, s32 displ
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5d1d00)
+MATCH_FUNC(0x5d1d00)
 void Garox_C4::sub_5D1D00()
 {
-    NOT_IMPLEMENTED;
+    DrawText_5D7720(field_0_str_buf,
+                    field_A8_x,
+                    field_AA_y,
+                    field_AC_fontType,
+                    field_B0_drawKind,
+                    field_B4,
+                    field_B8_alpha,
+                    field_BC_alpha_flag);
 }
 
 MATCH_FUNC(0x5d1db0)
