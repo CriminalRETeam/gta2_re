@@ -92,7 +92,7 @@ u16 RouteFinder::RoadOn_588950(s32 a2, s32 a3, s32 a4)
 }
 
 STUB_FUNC(0x588aa0)
-u16 RouteFinder::sub_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
+u16 RouteFinder::IsPointInJunctionBounds_588AA0(u8 a2, u8 a3, u16 a4, u16 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
