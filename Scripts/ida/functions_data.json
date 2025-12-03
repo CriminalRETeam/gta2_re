@@ -7980,12 +7980,12 @@
         "v105_address": "0x4f6a20"
     },
     {
-        "name": "sub_4F7540",
+        "name": "SmoothApproach_4F7540",
         "v96f_address": "0x472670",
         "v105_address": "0x4f7540"
     },
     {
-        "name": "sub_4F75D0",
+        "name": "SmoothApproachClamped_4F75D0",
         "v96f_address": null,
         "v105_address": "0x4f75d0"
     },
