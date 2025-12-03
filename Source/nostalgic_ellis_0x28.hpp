@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "rng.hpp"
+#include "fix16.hpp"
 
 class nostalgic_ellis_0x28
 {
@@ -52,9 +53,9 @@ class nostalgic_ellis_0x28
 
     // nostalgic_ellis_0x28* field_0;
     s32 field_0; // todo ??
-    s32 field_4_light_x;
-    s32 field_8_light_y;
-    s32 field_C_light_z;
+    Fix16 field_4_light_x;
+    Fix16 field_8_light_y;
+    Fix16 field_C_light_z;
     s32 field_10_argb;
     char_type field_14_on_time;
     char_type field_15_off_time;
