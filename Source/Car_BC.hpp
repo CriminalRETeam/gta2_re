@@ -150,7 +150,7 @@ class Car_18
     Object_2C* field_4_O2C;
     s32 field_8;
     s32 field_C;
-    u8 field_10_idx;
+    u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
 };
@@ -173,7 +173,7 @@ class Car_2
 {
   public:
     EXPORT Car_2();
-    EXPORT void sub_47BD90();
+    EXPORT void IncNextRngRemapIdx_47BD90();
     u16 field_0;
 };
 
@@ -254,7 +254,7 @@ class Car_6C
     u8 field_A;
     u8 field_B;
     s32 field_C_model_unk;
-    Car_2 field_10_idx;
+    Car_2 field_10_remap_rng;
     Car_2 field_12;
     s32 field_14;
     char_type field_18;
@@ -832,4 +832,4 @@ EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 
-EXTERN_GLOBAL(char_type, byte_679C0A);
+EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);

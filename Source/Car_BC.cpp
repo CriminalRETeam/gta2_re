@@ -48,11 +48,11 @@ DEFINE_GLOBAL(Fix16, unk_6772A4, 0x6772A4);
 
 // Indicates if Car_2 is initialised
 // It can probably turned into a static variable inside Car_2
-DEFINE_GLOBAL(char_type, byte_679C0A, 0x679C0A);
+DEFINE_GLOBAL(char_type, gbRngRemapTableDone_679C0A, 0x679C0A);
 
 // Array of values used by Car_2.
 // It can probably turned into a static variable inside Car_2
-DEFINE_GLOBAL_ARRAY(s16, DAT_00679320, 1000, 0x679320);
+DEFINE_GLOBAL_ARRAY(s16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL(Fix16, dword_6777D0, 0x6777D0);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
 DEFINE_GLOBAL(s32, dword_6778D0, 0x6778D0);
@@ -344,7 +344,7 @@ void Car_214::sub_5C8750()
     Car_18* pOff = &field_0[0];
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
-        pOff->field_10_idx = i;
+        pOff->field_10_remap_rng = i;
         pOff->field_8 = 0;
         pOff->field_C = 0;
         pOff->field_0 = 0;
@@ -363,28 +363,28 @@ u16* Car_214::sub_5C8780(u8 a2, Sprite* pCarSprite)
 MATCH_FUNC(0x47bd00)
 Car_2::Car_2()
 {
-    if (byte_679C0A == false)
+    if (gbRngRemapTableDone_679C0A == false)
     {
-        byte_679C0A = true;
+        gbRngRemapTableDone_679C0A = true;
         for (u16 i = 0; i < 1000; i++)
         {
-            DAT_00679320[i] = i;
+            gRngRemapTable_679320[i] = i;
         }
 
         for (u16 j = 0; j < 1000; j++)
         {
             s16 tmp = 1000;
             u16 idx = stru_6F6784.get_int_4F7AE0(&tmp);
-            s16 next = DAT_00679320[j];
-            DAT_00679320[j] = DAT_00679320[idx];
-            DAT_00679320[idx] = next;
+            s16 next = gRngRemapTable_679320[j];
+            gRngRemapTable_679320[j] = gRngRemapTable_679320[idx];
+            gRngRemapTable_679320[idx] = next;
         }
     }
     field_0 = 0;
 }
 
 MATCH_FUNC(0x47bd90)
-void Car_2::sub_47BD90()
+void Car_2::IncNextRngRemapIdx_47BD90()
 {
     field_0++;
     if (field_0 == 1000)
@@ -896,10 +896,24 @@ void Car_BC::SetCarRemap(u8 remap)
     }
 }
 
-STUB_FUNC(0x43a7d0)
+MATCH_FUNC(0x43a7d0)
 void Car_BC::AssignRandomRemap_43A7D0()
 {
-    NOT_IMPLEMENTED;
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    if (pCarInfo->num_remaps)
+    {
+        const u32 remap_idx = gRngRemapTable_679320[gCar_6C_677930->field_10_remap_rng.field_0] % (pCarInfo->num_remaps + 1);
+        if (remap_idx == pCarInfo->num_remaps)
+        {
+            this->field_50_car_sprite->field_34 = 2;
+        }
+        else
+        {
+            field_50_car_sprite->SetRemap(pCarInfo->remap[remap_idx]);
+        }
+
+        gCar_6C_677930->field_10_remap_rng.IncNextRngRemapIdx_47BD90();
+    }
 }
 
 STUB_FUNC(0x43a850)
