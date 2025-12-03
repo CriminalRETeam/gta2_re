@@ -123,9 +123,10 @@ class CarPhysics_B0
     EXPORT void Init_5637A0();
     EXPORT void PoolAllocate();
 
+    EXPORT Fix16_Point get_linvel_447010();
+
     void PoolDeallocate()
     {
-        
     }
 
     EXPORT void SetCar_5638C0(Car_BC* pBC);

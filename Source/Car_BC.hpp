@@ -308,7 +308,7 @@ class Trailer
 
     void PoolDeallocate()
     {
-        
+
     }
 
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
@@ -357,7 +357,7 @@ class Car_BC
     EXPORT Fix16 sub_43A240();
     EXPORT bool IsCarInAir_43A3C0();
     EXPORT s16* sub_43A3E0(s16* a2);
-    EXPORT u32* sub_43A450(u32* a2);
+    EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 sub_43A4C0();
     EXPORT u32* sub_43A590(u32* a2);
     EXPORT u32* sub_43A5B0(u32* a2);

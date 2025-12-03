@@ -69,6 +69,8 @@ DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
 DEFINE_GLOBAL(Ang16, word_6F771E, 0x6F771E);
 DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
 
+DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -791,11 +793,29 @@ s16* Car_BC::sub_43A3E0(s16* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/e2rV3
 STUB_FUNC(0x43a450)
-u32* Car_BC::sub_43A450(u32* a2)
+Fix16_Point Car_BC::get_linvel_43A450()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarPhysics_B0* pPhysics;
+    if (is_train_model())
+    {
+        pPhysics = gPublicTransport_181C_6FF1D4->sub_57B540(this)->field_58_physics;
+          if (!pPhysics)
+        {
+            return stru_6778A8;
+        }
+    }
+    else
+    {
+        pPhysics = field_58_physics;
+          if (!pPhysics)
+        {
+            return stru_6778A8;
+        }
+    }
+  
+    return pPhysics->get_linvel_447010();
 }
 
 MATCH_FUNC(0x43a4c0)

@@ -887,6 +887,12 @@ void CarPhysics_B0::PoolAllocate()
     field_0_vel_read_only.reset();
 }
 
+MATCH_FUNC(0x447010)
+EXPORT Fix16_Point CarPhysics_B0::get_linvel_447010()
+{
+    return field_40_linvel_1;
+}
+
 MATCH_FUNC(0x5638c0)
 void CarPhysics_B0::SetCar_5638C0(Car_BC* pCar)
 {
