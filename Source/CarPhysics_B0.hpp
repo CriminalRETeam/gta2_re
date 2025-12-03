@@ -104,7 +104,7 @@ class CarPhysics_B0
     EXPORT u32* sub_5626C0(u32* a2);
     EXPORT char_type sub_5626F0();
     EXPORT void sub_562910();
-    EXPORT void sub_562C20(Ang16& a2);
+    EXPORT void sub_562C20(const Ang16& a2);
     EXPORT void sub_562D00();
     EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();

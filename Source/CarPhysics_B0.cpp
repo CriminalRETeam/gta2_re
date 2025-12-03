@@ -701,12 +701,12 @@ void CarPhysics_B0::sub_562910()
 }
 
 MATCH_FUNC(0x562c20)
-void CarPhysics_B0::sub_562C20(Ang16& angle)
+void CarPhysics_B0::sub_562C20(const Ang16& angle)
 {
-    Fix16 sin = Ang16::sine_40F500(angle);
-    Fix16 cos = Ang16::cosine_40F520(angle);
+    const Fix16 sin = Ang16::sine_40F500(angle);
+    const Fix16 cos = Ang16::cosine_40F520(angle);
 
-    Fix16 x_old = field_0_vel_read_only.x;
+    const Fix16 x_old = field_0_vel_read_only.x;
 
     field_0_vel_read_only.x = (sin * field_0_vel_read_only.y) + (cos * field_0_vel_read_only.x);
     field_0_vel_read_only.y = (cos * field_0_vel_read_only.y) + ((-x_old) * sin);

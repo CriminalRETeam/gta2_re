@@ -55,7 +55,7 @@ class Fix16
     }
 
     //MATCH_FUNC(0x4086A0)
-    Fix16 operator-()
+    Fix16 operator-() const
     {
         return Fix16(-mValue, 0);
     }
@@ -201,13 +201,13 @@ class Fix16
         }
     }
 
-    inline Fix16 GetRoundValue()
+    inline Fix16 GetRoundValue() const
     {
         // get the "integer part" of Fix16, since everything less than 0x3FFF is decimal in float
         return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
     }
 
-    inline Fix16 GetFracValue()
+    inline Fix16 GetFracValue() const
     {
         // get the "fractional part" of Fix16
         return Fix16(mValue & 0x3FFF, 0); // 0x4000 = Fix16(1)
@@ -266,7 +266,7 @@ class Fix16
         return Fix16(value, 0);
     }
 
-    inline s32 get_value_4754D0()
+    inline s32 get_value_4754D0() const
     {
         return mValue;
     }
