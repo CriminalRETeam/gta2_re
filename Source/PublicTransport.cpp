@@ -493,14 +493,14 @@ Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
 }
 
 STUB_FUNC(0x57b6a0)
-Train_58* PublicTransport_181C::sub_57B6A0(Car_BC* a2)
+Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x57b740)
-bool PublicTransport_181C::sub_57B740(Car_BC* pCar1, Car_BC* pCar2)
+bool PublicTransport_181C::AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
     if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
     {

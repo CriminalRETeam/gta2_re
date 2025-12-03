@@ -2946,8 +2946,8 @@ PublicTransport_181C::PublicTransportService_57A7A0,0x57a7a0,0x17a7a0,0x567
 PublicTransport_181C::TrainStationForZone_57B4B0,0x57b4b0,0x17b4b0,0x1c
 PublicTransport_181C::GetLeadTrainCar_57B540,0x57b540,0x17b540,0x38
 PublicTransport_181C::GetTrainFromCar_57B5C0,0x57b5c0,0x17b5c0,0x77
-PublicTransport_181C::sub_57B6A0,0x57b6a0,0x17b6a0,0x70
-PublicTransport_181C::sub_57B740,0x57b740,0x17b740,0x6c
+PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0,0x57b6a0,0x17b6a0,0x70
+PublicTransport_181C::AreCarsInDifferentTrains_57B740,0x57b740,0x17b740,0x6c
 PublicTransport_181C::ctor_57B7B0,0x57b7b0,0x17b7b0,0x70
 PublicTransport_181C::dtor_57B820,0x57b820,0x17b820,0x6c
 nullsub_286,0x57d180,0x17d180,0x1
