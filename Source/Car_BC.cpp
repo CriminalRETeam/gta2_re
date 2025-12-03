@@ -741,7 +741,7 @@ u32* Car_BC::sub_43A0E0(u32* a2)
 }
 
 STUB_FUNC(0x43a120)
-u32* Car_BC::sub_43A120(u32* a2)
+u32* Car_BC::get_mass_43A120(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

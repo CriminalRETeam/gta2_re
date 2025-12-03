@@ -135,6 +135,7 @@ s32* CarPhysics_B0::sub_559EC0(s32* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/KYfsp
 STUB_FUNC(0x559ff0)
 u32* CarPhysics_B0::CalculateMass_559FF0(u32* a2)
 {
