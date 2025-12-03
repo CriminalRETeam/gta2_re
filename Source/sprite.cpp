@@ -335,7 +335,7 @@ s16 Sprite::sub_59EAA0()
 }
 
 STUB_FUNC(0x59eae0)
-char_type Sprite::sub_59EAE0()
+char_type Sprite::has_shadows_59EAE0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -354,7 +354,7 @@ void Sprite::ShowHorn_59EE40(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x59eff0)
-void Sprite::sub_59EFF0()
+void Sprite::Draw_59EFF0()
 {
     NOT_IMPLEMENTED;
 }

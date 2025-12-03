@@ -14725,7 +14725,7 @@
         "v105_address": "0x59eaa0"
     },
     {
-        "name": "Sprite::sub_59EAE0",
+        "name": "Sprite::has_shadows_59EAE0",
         "v96f_address": null,
         "v105_address": "0x59eae0"
     },
@@ -14740,7 +14740,7 @@
         "v105_address": "0x59ee40"
     },
     {
-        "name": "Sprite::sub_59EFF0",
+        "name": "Sprite::Draw_59EFF0",
         "v96f_address": null,
         "v105_address": "0x59eff0"
     },
