@@ -1330,7 +1330,7 @@ void Car_BC::DeactivateEmergencyLights_43C9D0()
 }
 
 MATCH_FUNC(0x43ca80)
-void Car_BC::sub_43CA80()
+void Car_BC::SyncEmergencyLightState_43CA80()
 {
     if ((field_A4 & 0x1C) != 0)
     {
