@@ -12120,7 +12120,7 @@
         "v105_address": "0x55a6a0"
     },
     {
-        "name": "CarPhysics_B0::sub_55A840",
+        "name": "CarPhysics_B0::ResetForceAccumulators_55A840",
         "v96f_address": null,
         "v105_address": "0x55a840"
     },
@@ -12365,7 +12365,7 @@
         "v105_address": "0x560b40"
     },
     {
-        "name": "CarPhysics_B0::sub_560EB0",
+        "name": "CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0",
         "v96f_address": null,
         "v105_address": "0x560eb0"
     },

@@ -260,7 +260,7 @@ u32* CarPhysics_B0::sub_55A6A0(u32* a2)
 }
 
 MATCH_FUNC(0x55a840)
-void CarPhysics_B0::sub_55A840()
+void CarPhysics_B0::ResetForceAccumulators_55A840()
 {
     this->field_48 = 0;
     this->field_4C = 0;
@@ -559,7 +559,7 @@ void CarPhysics_B0::sub_560B40(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x560eb0)
-__int64 CarPhysics_B0::sub_560EB0()
+__int64 CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -841,7 +841,7 @@ void CarPhysics_B0::Init_5637A0()
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
     field_70 = kFP16Zero_6FE20C;
-    sub_55A840();
+    ResetForceAccumulators_55A840();
     field_91_is_foot_brake_on = 0;
     field_92_is_hand_brake_on = 0;
     field_93_is_forward_gas_on = 0;
