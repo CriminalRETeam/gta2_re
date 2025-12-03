@@ -78,14 +78,14 @@ void RouteFinder::ShowJunctionIds_588620()
 }
 
 STUB_FUNC(0x588810)
-u16 RouteFinder::sub_588810(u8 a2, u8 a3, u8 a4)
+u16 RouteFinder::RoadOff_588810(u8 a2, u8 a3, u8 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x588950)
-u16 RouteFinder::sub_588950(s32 a2, s32 a3, s32 a4)
+u16 RouteFinder::RoadOn_588950(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -432,11 +432,14 @@ char_type RouteFinder::sub_5895C0(u8 a2, s16 a3, u8 a4, s32 a5, s32 a6)
     return 0;
 }
 
-STUB_FUNC(0x589930)
-s16 RouteFinder::CancelRoute_589930(s16 idx)
+MATCH_FUNC(0x589930)
+void RouteFinder::CancelRoute_589930(s16 junc_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_2218[junc_idx].field_0[0] = 0;
+    if (this->field_0 > 0)
+    {
+        --this->field_0;
+    }
 }
 
 MATCH_FUNC(0x589960)
@@ -576,15 +579,14 @@ void RouteFinder::sub_58A020(char_type a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x58a0b0)
-Junction_10* RouteFinder::sub_58A0B0(u16 jIdx)
+MATCH_FUNC(0x58a0b0)
+Junction_10* RouteFinder::GetJunction_58A0B0(u16 jIdx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return &field_8[jIdx];
 }
 
 STUB_FUNC(0x58a0d0)
-s16 RouteFinder::sub_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
+s16 RouteFinder::DoStartRoute_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -606,9 +608,9 @@ s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 }
 
 MATCH_FUNC(0x58a190)
-void RouteFinder::sub_58A190(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
+void RouteFinder::StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 a8)
 {
-    sub_58A0D0(a2, a3, a4, a5, a6, a7, a8);
+    DoStartRoute_58A0D0(x1, y1, z1, x2, y2, z2, a8);
 }
 
 MATCH_FUNC(0x58a1c0)
