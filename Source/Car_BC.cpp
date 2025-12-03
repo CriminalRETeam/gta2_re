@@ -1136,7 +1136,7 @@ char_type Car_BC::sub_43BBC0()
 }
 
 MATCH_FUNC(0x43bc30)
-void Car_BC::sub_43BC30()
+void Car_BC::SetupCarPhysicsAndSpriteBinding_43BC30()
 {
     if (!field_58_physics)
     {
@@ -1154,15 +1154,15 @@ void Car_BC::sub_43BC30()
 }
 
 MATCH_FUNC(0x43bca0)
-void Car_BC::sub_43BCA0()
+void Car_BC::SetupCarPhysicsAndSpriteBinding_43BCA0()
 {
     if (field_64_pTrailer)
     {
-        field_64_pTrailer->sub_408190();
+        field_64_pTrailer->SetupCarPhysicsAndSpriteBinding_408190();
     }
     else
     {
-        sub_43BC30();
+        SetupCarPhysicsAndSpriteBinding_43BC30();
     }
 }
 
@@ -2785,7 +2785,7 @@ char_type Trailer::sub_408140()
         return 0;
     }
 
-    sub_408190();
+    SetupCarPhysicsAndSpriteBinding_408190();
 
     if (!field_8_truck_cab->field_58_physics->sub_562FE0() || field_8_truck_cab->field_54_driver)
     {
@@ -2796,10 +2796,10 @@ char_type Trailer::sub_408140()
 }
 
 MATCH_FUNC(0x408190)
-void Trailer::sub_408190()
+void Trailer::SetupCarPhysicsAndSpriteBinding_408190()
 {
-    field_8_truck_cab->sub_43BC30();
-    field_C_pCarOnTrailer->sub_43BC30();
+    field_8_truck_cab->SetupCarPhysicsAndSpriteBinding_43BC30();
+    field_C_pCarOnTrailer->SetupCarPhysicsAndSpriteBinding_43BC30();
 }
 
 MATCH_FUNC(0x4081b0)

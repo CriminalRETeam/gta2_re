@@ -301,7 +301,7 @@ class Trailer
     EXPORT s32* sub_407BD0(s32* a2);
     EXPORT s32* sub_407CE0();
     EXPORT char_type sub_408140();
-    EXPORT void sub_408190();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
     EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
@@ -395,8 +395,8 @@ class Car_BC
     EXPORT void sub_43B870(s32 a2, s32 a3);
     EXPORT s32 sub_43BB90(char_type a1);
     EXPORT char_type sub_43BBC0();
-    EXPORT void sub_43BC30();
-    EXPORT void sub_43BCA0();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT void sub_43BF10();

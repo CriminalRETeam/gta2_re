@@ -254,7 +254,7 @@ void CC ImGuiDebugDraw()
                                                              0,
                                                              currentCarModelIndex,
                                                              scale);
-                pNewCar->sub_43BCA0();
+                pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 if (!pNewCar->field_5C)
                 {
                     printf("Alloc physics\n");
