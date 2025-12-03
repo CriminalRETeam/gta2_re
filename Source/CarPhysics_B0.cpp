@@ -151,6 +151,7 @@ u32* CarPhysics_B0::sub_55A050(u32* a2)
 MATCH_FUNC(0x55a0b0)
 u8 CarPhysics_B0::IsInAir_55A0B0()
 {
+    // TODO: The surface checks are likely inlines
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
@@ -163,6 +164,7 @@ u8 CarPhysics_B0::IsInAir_55A0B0()
 MATCH_FUNC(0x55a100)
 Fix16 CarPhysics_B0::GetTrailerAwareTurnRatio_55A100()
 {
+    // TODO: This check is very likely an inline
     if (field_5C_pCar->field_64_pTrailer != NULL && field_5C_pCar->field_64_pTrailer->field_8_truck_cab == field_5C_pCar)
     {
         return dword_6FE1B0 * dword_6FE258->field_18_turn_ratio;

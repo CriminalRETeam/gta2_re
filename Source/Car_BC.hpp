@@ -530,7 +530,7 @@ class Car_BC
     EXPORT bool sub_564300();
 
     // Inlined 0x4118d0
-    EXPORT bool is_driven_by_player() const
+    bool is_driven_by_player() const
     {
         if (field_54_driver != NULL && field_54_driver->field_15C_player != NULL)
         {
@@ -540,31 +540,29 @@ class Car_BC
     }
 
     // Inlined 0x421720
-    bool sub_421720()
+    bool is_on_trailer_421720()
     {
+        // We are on the trailer
         return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == this;
     }
-
-    // Inlined 0x41E460
-    bool sub_41E460()
-    {
-        return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == this;
-    }
-
+    
     Ped* get_driver_4118B0()
     {
         return field_54_driver;
     }
 
+    // Inlined 0x41E460
     bool is_trailer_cab_41E460()
     {
+        // We are the cab of the trailer
         return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == this;
     }
 
     // Inlined 0x475E60
-    bool sub_475E60(Car_BC* a1)
+    bool HasOtherCarOnTrailer_475E60(Car_BC* pExcludeCar)
     {
-        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == a1 && this != a1;
+        // A car is on the trailer but must not be pExcludeCar
+        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == pExcludeCar && this != pExcludeCar;
     }
 
     inline bool IsWithinArea(SCR_Rect_f* rect)
