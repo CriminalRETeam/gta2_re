@@ -1715,7 +1715,7 @@ void Car_BC::sub_441520()
             pCarPhysics = this->field_58_physics;
             if (pCarPhysics)
             {
-                if (pCarPhysics->sub_55A180())
+                if (pCarPhysics->IsAccelerationOrReverseOn_55A180())
                 {
                     this->field_9C = 4;
                 }

@@ -200,31 +200,23 @@ char_type CarPhysics_B0::IsFootBrakeOn_55A150()
     return bFootBrakeOn;
 }
 
-STUB_FUNC(0x55a180)
-char_type CarPhysics_B0::sub_55A180()
+MATCH_FUNC(0x55a180)
+char_type CarPhysics_B0::IsAccelerationOrReverseOn_55A180()
 {
-    NOT_IMPLEMENTED;
-    Trailer* pTrailer; // eax
-    CarPhysics_B0* pCarPhysics; // eax
-
-    pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
-        if (!pCarPhysics)
+        CarPhysics_B0* pCarPhysics = pTrailer->field_8_truck_cab->field_58_physics;
+        if (pCarPhysics)
         {
-            return 0;
-        }
-        if (!pCarPhysics->field_93_is_forward_gas_on && !pCarPhysics->field_94_is_backward_gas_on)
-        {
-            return 0;
+            return (pCarPhysics->field_93_is_forward_gas_on || pCarPhysics->field_94_is_backward_gas_on);
         }
     }
-    else if (!this->field_93_is_forward_gas_on && !this->field_94_is_backward_gas_on)
+    else
     {
-        return 0;
+        return (field_93_is_forward_gas_on || field_94_is_backward_gas_on);
     }
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x55a1d0)

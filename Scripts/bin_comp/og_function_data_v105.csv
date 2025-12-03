@@ -2636,7 +2636,7 @@ CarPhysics_B0::sub_55A050,0x55a050,0x15a050,0x5e
 CarPhysics_B0::IsInAir_55A0B0,0x55a0b0,0x15a0b0,0x47
 CarPhysics_B0::GetTrailerAwareTurnRatio_55A100,0x55a100,0x15a100,0x44
 CarPhysics_B0::IsFootBrakeOn_55A150,0x55a150,0x15a150,0x25
-CarPhysics_B0::sub_55A180,0x55a180,0x15a180,0x4b
+CarPhysics_B0::IsAccelerationOrReverseOn_55A180,0x55a180,0x15a180,0x4b
 CarPhysics_B0::sub_55A1D0,0x55a1d0,0x15a1d0,0x1a5
 CarPhysics_B0::restore_saved_physics_state_55A400,0x55a400,0x15a400,0xa1
 CarPhysics_B0::save_physics_state_55A4B0,0x55a4b0,0x15a4b0,0xa0
