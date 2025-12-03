@@ -1557,10 +1557,27 @@ char_type Car_BC::GetPassengersCount_440570()
     }
 }
 
-STUB_FUNC(0x440590)
+MATCH_FUNC(0x440590)
 void Car_BC::InitCarAIControl_440590()
 {
-    NOT_IMPLEMENTED;
+    SetupCarPhysicsAndSpriteBinding_43BCA0();
+    
+    field_58_physics->field_92_is_hand_brake_on = 0;
+
+    Ped* pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        if (pDriver->field_238 != 2)
+        {
+            if (this->field_5C == 0)
+            {
+                this->field_5C = gCar_78_Pool_677CF8->Allocate();
+            }
+            this->field_5C->SetCar_453BF0(this);
+            this->field_9C = 3;
+            sub_43BFE0();
+        }
+    }
 }
 
 MATCH_FUNC(0x4405f0)
