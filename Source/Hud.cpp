@@ -2,25 +2,25 @@
 #include "Car_BC.hpp"
 #include "Draw.hpp"
 #include "Frontend.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
+#include "Object_5C.hpp"
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
-#include "Gang.hpp"
+#include "Weapon_30.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
 #include "keybrd_0x204.hpp"
 #include "lucid_hamilton.hpp"
-#include "Object_5C.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
-#include "Weapon_30.hpp"
 
 DEFINE_GLOBAL(Hud_2B00*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, word_706600, 0x706600); //, TODO, 0xUNKNOWN);
@@ -49,16 +49,13 @@ DEFINE_GLOBAL(Ang16, word_706610, 0x706610);
 // TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-
 // TODO
 EXTERN_GLOBAL(char_type, gLighting_626A09);
-
 
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
-
 
 STUB_FUNC(0x5cfe40)
 void Garox_13C0_sub::DrawPlayerNames_5CFE40()
@@ -467,7 +464,14 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
             {
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)), 82, word_70646C, DrawKind(8), 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C,
+                            (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)),
+                            82,
+                            word_70646C,
+                            DrawKind(8),
+                            6,
+                            0,
+                            0);
         }
     }
 }
@@ -1269,10 +1273,93 @@ void Hud_Arrow_7C::Service_5D0C60()
     }
 }
 
-STUB_FUNC(0x5d0c90)
+MATCH_FUNC(0x5d0c90)
 void Hud_Arrow_7C::DrawArrow_5D0C90()
 {
-    NOT_IMPLEMENTED;
+    // TODO: Kinda messy, refactor this
+    Player* pPlayer;
+    Camera_0xBC* pCam;
+    DrawKind drawKind_;
+
+    if (this->field_18.field_18.field_10_type || this->field_18.field_3C.field_10_type)
+    {
+        if (this->field_18.field_10.field_5)
+        {
+            if (this->field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->field_0_rng % 6 >= 3))
+            {
+                drawKind_ = DrawKind(2);
+            }
+            else
+            {
+                drawKind_ = DrawKind(7);
+            }
+            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            DrawFigure_5D7EC0(6,
+                              field_18.field_2C,
+                              field_0_screen_pos_x,
+                              field_4_screen_pos_y,
+                              field_8_rotation,
+                              pCam->field_A8_ui_scale,
+                              drawKind_,
+                              0,
+                              1,
+                              14u,
+                              1);
+
+            s16 colour_related;
+            switch (this->field_18.field_28_arrow_colour)
+            {
+                case 1:
+                    colour_related = 0;
+                    break;
+                case 3:
+                    colour_related = 1;
+                    break;
+                case 2:
+                    colour_related = 2;
+                    break;
+
+                case 4:
+                case 5:
+                    return;
+                default:
+                    // BUG: colour_related - un-inited?
+                    break;
+            }
+
+            DrawKind drawKind(2);
+            pPlayer = gGame_0x40_67E008->field_38_orf1;
+            if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
+            {
+                pCam = &pPlayer->field_208_aux_game_camera;
+            }
+            else
+            {
+                pCam = &pPlayer->field_90_game_camera;
+            }
+
+            DrawFigure_5D7EC0(6,
+                              colour_related + 8,
+                              field_0_screen_pos_x,
+                              field_4_screen_pos_y,
+                              field_8_rotation,
+                              pCam->field_A8_ui_scale,
+                              drawKind,
+                              0,
+                              1,
+                              14u,
+                              1);
+        }
+    }
 }
 
 STUB_FUNC(0x5d0dc0)
@@ -1360,10 +1447,7 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
     for (s32 i = 0; i < 17; i++)
     {
         Hud_Arrow_7C* pArrow = &field_0_array[i];
-        if (pArrow != a2 
-            && !pArrow->sub_4C6F80() 
-            && pArrow->sub_4C7050() 
-            && pArrow->field_18.field_10.field_30 == pGang)
+        if (pArrow != a2 && !pArrow->sub_4C6F80() && pArrow->sub_4C7050() && pArrow->field_18.field_10.field_30 == pGang)
         {
             return true;
         }
