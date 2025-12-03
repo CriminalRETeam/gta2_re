@@ -1196,7 +1196,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     field_21_player_camera_idx = 0;
     field_22 = 0;
     field_0_game_state = 1;
-    byte_679C0A = 0;
+    gbRngRemapTableDone_679C0A = 0;
     field_20_idx = 0;
     field_28_timer = -1;
     field_30_bLimitFramerate = 0;

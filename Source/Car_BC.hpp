@@ -60,7 +60,7 @@ class Car_78
     EXPORT u8* sub_4539D0();
     EXPORT s32 sub_453A40();
     EXPORT s16 sub_453BB0();
-    EXPORT void sub_453BF0(Car_BC* a2);
+    EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
     EXPORT s32 PoolAllocate();
     EXPORT Car_78();
@@ -150,7 +150,7 @@ class Car_18
     Object_2C* field_4_O2C;
     s32 field_8;
     s32 field_C;
-    u8 field_10_idx;
+    u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14;
 };
@@ -173,7 +173,7 @@ class Car_2
 {
   public:
     EXPORT Car_2();
-    EXPORT void sub_47BD90();
+    EXPORT void IncNextRngRemapIdx_47BD90();
     u16 field_0;
 };
 
@@ -254,7 +254,7 @@ class Car_6C
     u8 field_A;
     u8 field_B;
     s32 field_C_model_unk;
-    Car_2 field_10_idx;
+    Car_2 field_10_remap_rng;
     Car_2 field_12;
     s32 field_14;
     char_type field_18;
@@ -301,7 +301,7 @@ class Trailer
     EXPORT s32* sub_407BD0(s32* a2);
     EXPORT s32* sub_407CE0();
     EXPORT char_type sub_408140();
-    EXPORT void sub_408190();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
     EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
@@ -349,14 +349,14 @@ class Car_BC
     EXPORT u32* GetMaxSpeed_439F30(u32* a2);
     EXPORT wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
-    EXPORT u32* sub_43A0E0(u32* a2);
+    EXPORT u32* get_rear_wheel_offset_43A0E0(u32* a2);
     EXPORT u32* get_mass_43A120(u32* a2);
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
     EXPORT Fix16 sub_43A240();
     EXPORT bool IsCarInAir_43A3C0();
-    EXPORT s16* sub_43A3E0(s16* a2);
+    EXPORT s16* GetOrientationAngle_43A3E0(s16* a2);
     EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 sub_43A4C0();
     EXPORT u32* sub_43A590(u32* a2);
@@ -366,7 +366,7 @@ class Car_BC
     EXPORT bool IsNotCurrentRemap(u8 remap);
     EXPORT bool IsNotCurrentRemapOfCarAndTrailerCar(u8 remap);
     EXPORT void SetCarRemap(u8 remap);
-    EXPORT void sub_43A7D0();
+    EXPORT void AssignRandomRemap_43A7D0();
     EXPORT char_type sub_43A850();
     EXPORT void sub_43A950();
     EXPORT void sub_43A970();
@@ -395,8 +395,8 @@ class Car_BC
     EXPORT void sub_43B870(s32 a2, s32 a3);
     EXPORT s32 sub_43BB90(char_type a1);
     EXPORT char_type sub_43BBC0();
-    EXPORT void sub_43BC30();
-    EXPORT void sub_43BCA0();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
+    EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
     EXPORT char_type sub_43BD40();
     EXPORT void sub_43BF10();
@@ -414,7 +414,7 @@ class Car_BC
     EXPORT void sub_43C840();
     EXPORT void ActivateEmergencyLights_43C920();
     EXPORT void DeactivateEmergencyLights_43C9D0();
-    EXPORT void sub_43CA80();
+    EXPORT void SyncEmergencyLightState_43CA80();
     EXPORT s32 sub_43CBE0();
     EXPORT Car_BC* sub_43CDF0(char_type a2);
     EXPORT void DamageArea_43CF30(s32 damage_area);
@@ -438,7 +438,7 @@ class Car_BC
     EXPORT char_type sub_43F130(s32 a2);
     EXPORT u32* sub_440510(u32* a2);
     EXPORT char_type GetPassengersCount_440570();
-    EXPORT void sub_440590();
+    EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
     EXPORT s32 AttachGangIcon_440660(u8 a2);
@@ -832,4 +832,4 @@ EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
 EXTERN_GLOBAL(Car_14*, gCar_14_677934);
 
-EXTERN_GLOBAL(char_type, byte_679C0A);
+EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);

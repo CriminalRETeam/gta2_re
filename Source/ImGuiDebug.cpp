@@ -254,13 +254,13 @@ void CC ImGuiDebugDraw()
                                                              0,
                                                              currentCarModelIndex,
                                                              scale);
-                pNewCar->sub_43BCA0();
+                pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 if (!pNewCar->field_5C)
                 {
-                    printf("Alloc physics\n");
+                    printf("Alloc AI (?)\n");
                     pNewCar->field_5C = gCar_78_Pool_677CF8->Allocate();
                 }
-                pNewCar->field_5C->sub_453BF0(pNewCar);
+                pNewCar->field_5C->SetCar_453BF0(pNewCar);
 
                 //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
