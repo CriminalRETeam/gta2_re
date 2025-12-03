@@ -19,7 +19,7 @@ class CarPhysics_B0
   public:
     EXPORT s16* sub_4403A0(s16* a2);
     EXPORT ~CarPhysics_B0();
-    EXPORT void sub_559430();
+    EXPORT void ShowPhysicsDebug_559430();
     EXPORT void sub_5597B0();
     EXPORT bool sub_5599D0();
     EXPORT void sub_559A40();
@@ -31,7 +31,7 @@ class CarPhysics_B0
     EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);
     EXPORT s32* sub_559EC0(s32* a2);
-    EXPORT u32* sub_559FF0(u32* a2);
+    EXPORT u32* CalculateMass_559FF0(u32* a2);
     EXPORT u32* sub_55A050(u32* a2);
     EXPORT u8 IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();

@@ -25,8 +25,9 @@ CarPhysics_B0::~CarPhysics_B0()
 {
 }
 
+// https://decomp.me/scratch/xqLh0
 STUB_FUNC(0x559430)
-void CarPhysics_B0::sub_559430()
+void CarPhysics_B0::ShowPhysicsDebug_559430()
 {
     NOT_IMPLEMENTED;
 }
@@ -135,7 +136,7 @@ s32* CarPhysics_B0::sub_559EC0(s32* a2)
 }
 
 STUB_FUNC(0x559ff0)
-u32* CarPhysics_B0::sub_559FF0(u32* a2)
+u32* CarPhysics_B0::CalculateMass_559FF0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
