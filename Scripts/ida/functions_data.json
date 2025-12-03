@@ -12645,7 +12645,7 @@
         "v105_address": "0x564960"
     },
     {
-        "name": "Player::sub_5649D0",
+        "name": "Player::SelectNextOrPrevWeapon_5649D0",
         "v96f_address": null,
         "v105_address": "0x5649d0"
     },
