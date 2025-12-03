@@ -585,11 +585,17 @@ Junction_10* RouteFinder::GetJunction_58A0B0(u16 jIdx)
     return &field_8[jIdx];
 }
 
-STUB_FUNC(0x58a0d0)
-s16 RouteFinder::DoStartRoute_58A0D0(u8 a2, u8 a3, u8 a4, u8 a5, u8 a6, u8 a7, s32 a8)
+MATCH_FUNC(0x58a0d0)
+s16 RouteFinder::DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 a8)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (sub_589480(x1, y1, z1, x2, y2, z2, a8) && sub_589E20(a8))
+    {
+        return sub_589EB0();
+    }
+    else
+    {
+        return -1;
+    }
 }
 
 MATCH_FUNC(0x58a130)
