@@ -125,7 +125,7 @@ class Player
     EXPORT void Busted_5679E0();
     EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
-    EXPORT char_type sub_568670();
+    EXPORT void sub_568670();
     EXPORT void sub_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void Service_5687F0();

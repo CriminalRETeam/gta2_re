@@ -942,11 +942,20 @@ void Player::sub_568630()
     }
 }
 
-STUB_FUNC(0x568670)
-char_type Player::sub_568670()
+MATCH_FUNC(0x568670)
+void Player::sub_568670()
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    if (this->field_76)
+    {
+        field_90_game_camera.sub_435810();
+        field_208_aux_game_camera.sub_435810();
+    }
+
+    if (this->field_77)
+    {
+        field_90_game_camera.sub_4357F0();
+        field_208_aux_game_camera.sub_4357F0();
+    }
 }
 
 MATCH_FUNC(0x5686D0)
