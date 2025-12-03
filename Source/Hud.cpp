@@ -504,9 +504,8 @@ void Garox_110C_sub::sub_5CF730()
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/HnVlm it matches on decompme
-STUB_FUNC(0x5cf910)
-void Garox_110C_sub::sub_5CF910()
+MATCH_FUNC(0x5cf910)
+void Garox_110C_sub::Draw_5CF910()
 {
     if (field_284E)
     {
@@ -2006,7 +2005,7 @@ void Hud_2B00::DrawGui_5D6860()
     {
         sub_5D6A70();
         field_1118_sub.DrawPlayerStats_5D5C80();
-        field_110C_sub.sub_5CF910();
+        field_110C_sub.Draw_5CF910();
         field_13C0_sub.DrawPlayerNames_5CFE40();
         field_1028.DrawWantedLevel_5D0110();
         field_107C_sub.DrawGangRespectBars_5CFA70();

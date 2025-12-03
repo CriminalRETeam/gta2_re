@@ -118,9 +118,9 @@ class Garox_110C_sub
         field_284E = 0;
     }
     EXPORT void sub_5CF730();
-    EXPORT void sub_5CF910();
-    s32 field_110C;
-    s32 field_1110;
+    EXPORT void Draw_5CF910();
+    Fix16 field_110C;
+    Fix16 field_1110;
     Ang16 field_1114;
     char_type field_284E;
     char_type field_284F;
