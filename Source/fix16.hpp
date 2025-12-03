@@ -4,6 +4,7 @@
 #include <math.h>
 #include <windows.h>
 
+
 class Fix16
 {
   public:
@@ -274,6 +275,8 @@ class Fix16
   public:
     s32 mValue;
 };
+
+EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart, const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax);
 
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
