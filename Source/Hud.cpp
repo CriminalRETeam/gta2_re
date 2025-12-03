@@ -1369,12 +1369,20 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
     }
 }
 
-STUB_FUNC(0x5d0dc0)
+MATCH_FUNC(0x5d0dc0)
 void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
 {
-    NOT_IMPLEMENTED;
     switch (a2->field_244_remap)
     {
+        case 11:
+            field_18.field_2C = 1;
+            break;
+        case 13:
+            field_18.field_2C = 2;
+            break;
+        case 8:
+            field_18.field_2C = 3;
+            break;
         case 5:
         case 6:
             field_18.field_2C = 4;
@@ -1382,21 +1390,13 @@ void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
         case 7:
             field_18.field_2C = 5;
             break;
-        case 8:
-            field_18.field_2C = 3;
-            break;
         case 9:
             field_18.field_2C = 6;
             break;
         case 10:
             field_18.field_2C = 7;
             break;
-        case 11:
-            field_18.field_2C = 1;
-            break;
-        case 13:
-            field_18.field_2C = 2;
-            break;
+
         default:
             return;
     }
