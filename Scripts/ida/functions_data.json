@@ -1570,7 +1570,7 @@
         "v105_address": "0x43adc0"
     },
     {
-        "name": "Car_BC::sub_43AF10",
+        "name": "Car_BC::CanExitCar_43AF10",
         "v96f_address": null,
         "v105_address": "0x43af10"
     },
@@ -1965,12 +1965,12 @@
         "v105_address": "0x440bb0"
     },
     {
-        "name": "Car_BC::sub_440C10",
+        "name": "Car_BC::RotateRoofObjectTowardTarget_440C10",
         "v96f_address": null,
         "v105_address": "0x440c10"
     },
     {
-        "name": "Car_BC::sub_440D90",
+        "name": "Car_BC::HandleRoofTurretRotation_440D90",
         "v96f_address": null,
         "v105_address": "0x440d90"
     },
@@ -1995,7 +1995,7 @@
         "v105_address": "0x4410d0"
     },
     {
-        "name": "sub_441330",
+        "name": "GetZPos_441330",
         "v96f_address": null,
         "v105_address": "0x441330"
     },
@@ -2045,17 +2045,17 @@
         "v105_address": "0x4417f0"
     },
     {
-        "name": "Car_BC::sub_441800",
+        "name": "Car_BC::HandleSpecialInput_441800",
         "v96f_address": null,
         "v105_address": "0x441800"
     },
     {
-        "name": "Car_BC::sub_4418A0",
+        "name": "Car_BC::DoDetachTrailer_4418A0",
         "v96f_address": null,
         "v105_address": "0x4418a0"
     },
     {
-        "name": "Car_BC::sub_4418B0",
+        "name": "Car_BC::DetachTrailerAndUpdateDamage_4418B0",
         "v96f_address": null,
         "v105_address": "0x4418b0"
     },
@@ -2160,7 +2160,7 @@
         "v105_address": "0x4426d0"
     },
     {
-        "name": "Car_BC::sub_442760",
+        "name": "Car_BC::DetachTrailer_442760",
         "v96f_address": null,
         "v105_address": "0x442760"
     },
@@ -12050,7 +12050,7 @@
         "v105_address": "0x559e20"
     },
     {
-        "name": "sub_559E90",
+        "name": "ComputeZPosition_559E90",
         "v96f_address": null,
         "v105_address": "0x559e90"
     },
@@ -12125,7 +12125,7 @@
         "v105_address": "0x55a840"
     },
     {
-        "name": "CarPhysics_B0::sub_55A860",
+        "name": "CarPhysics_B0::HandleUserInputs_55A860",
         "v96f_address": null,
         "v105_address": "0x55a860"
     },
@@ -12755,7 +12755,7 @@
         "v105_address": "0x566820"
     },
     {
-        "name": "Player::sub_5668D0",
+        "name": "Player::HandleControls_5668D0",
         "v96f_address": null,
         "v105_address": "0x5668d0"
     },
@@ -12765,7 +12765,7 @@
         "v105_address": "0x566c30"
     },
     {
-        "name": "Player::sub_566C80",
+        "name": "Player::DoPedControlInputs_566C80",
         "v96f_address": null,
         "v105_address": "0x566c80"
     },

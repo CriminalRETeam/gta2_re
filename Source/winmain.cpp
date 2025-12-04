@@ -166,9 +166,9 @@ void force_link()
     lewin.sub_566380(0);
     lewin.CharacterControls_566520();
     lewin.ControlInputs_566820();
-    lewin.sub_5668D0(0);
+    lewin.HandleControls_5668D0(0);
     lewin.DoCarControlInputs_566C30(0);
-    lewin.sub_566C80(0);
+    lewin.DoPedControlInputs_566C80(0);
     lewin.sub_566EE0(0);
     lewin.RespawnPlayer_5670B0();
     lewin.Wasted_567130();

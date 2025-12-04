@@ -962,7 +962,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
             {
                 hand_brake_on = 1;
             }
-            pCarPhysics->sub_55A860(0, 0, 0, 0, hand_brake_on);
+            pCarPhysics->HandleUserInputs_55A860(0, 0, 0, 0, hand_brake_on);
         }
     }
     this->field_54_driver = pNewDriver;
@@ -996,7 +996,7 @@ void Car_BC::sub_43ADC0(s32 a2)
 
 // https://decomp.me/scratch/Tl2Br
 STUB_FUNC(0x43af10)
-bool Car_BC::sub_43AF10()
+bool Car_BC::CanExitCar_43AF10()
 {
     if (!sub_43A230())
     {
@@ -1561,7 +1561,7 @@ MATCH_FUNC(0x440590)
 void Car_BC::InitCarAIControl_440590()
 {
     SetupCarPhysicsAndSpriteBinding_43BCA0();
-    
+
     field_58_physics->field_92_is_hand_brake_on = 0;
 
     Ped* pDriver = this->field_54_driver;
@@ -1670,14 +1670,14 @@ s32 Car_BC::sub_440BB0()
 }
 
 STUB_FUNC(0x440c10)
-char_type Car_BC::sub_440C10(char_type a2)
+char_type Car_BC::RotateRoofObjectTowardTarget_440C10(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440d90)
-char_type Car_BC::sub_440D90(char_type a2)
+char_type Car_BC::HandleRoofTurretRotation_440D90(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1827,34 +1827,69 @@ void Car_BC::sub_4417F0()
 }
 
 STUB_FUNC(0x441800)
-char_type Car_BC::sub_441800(char_type a2)
+char_type Car_BC::HandleSpecialInput_441800(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4418a0)
-void Car_BC::sub_4418A0()
+void Car_BC::DoDetachTrailer_4418A0()
 {
     if (field_64_pTrailer)
     {
-        sub_4418B0();
+        DetachTrailerAndUpdateDamage_4418B0();
     }
 }
 
 MATCH_FUNC(0x4418b0)
-void Car_BC::sub_4418B0()
+void Car_BC::DetachTrailerAndUpdateDamage_4418B0()
 {
     sub_43BD40();
-    sub_442760();
+    DetachTrailer_442760();
     field_78_flags |= 1;
 }
 
+// https://decomp.me/scratch/KU02C
 STUB_FUNC(0x4418d0)
-char_type Car_BC::HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9)
+void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
+                                    char_type bFootBrakeOn,
+                                    char_type bLeftOn,
+                                    char_type bRightOn,
+                                    char_type bHandBrakeOn,
+                                    char_type bNowSpecialPressed,
+                                    char_type bWasSpecialPressed,
+                                    char_type bAttack)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_B8 = 0;
+
+    if (bNowSpecialPressed && (bLeftOn || bRightOn))
+    {
+        // NB: If left is off then right is on
+        if (Car_BC::HandleRoofTurretRotation_440D90(bLeftOn) == 1)
+        {
+            bLeftOn = 0;
+            bRightOn = 0;
+            bNowSpecialPressed = 0;
+        }
+    }
+
+    if (bWasSpecialPressed)
+    {
+        Car_BC::HandleSpecialInput_441800(bNowSpecialPressed);
+    }
+
+    if (bAttack)
+    {
+        Car_BC::DoDetachTrailer_4418A0();
+    }
+
+    if ((this->field_78_flags & 0x1000) != 0)
+    {
+        bForwardGasOn = 1;
+    }
+
+    field_58_physics->HandleUserInputs_55A860(bForwardGasOn, bFootBrakeOn, bLeftOn, bRightOn, bHandBrakeOn);
 }
 
 MATCH_FUNC(0x4419e0)
@@ -2124,7 +2159,7 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-void Car_BC::sub_442760()
+void Car_BC::DetachTrailer_442760()
 {
     Trailer* p = field_64_pTrailer;
     gCar_BC_Pool_67792C->Remove(field_64_pTrailer->field_C_pCarOnTrailer);

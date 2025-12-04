@@ -308,7 +308,6 @@ class Trailer
 
     void PoolDeallocate()
     {
-
     }
 
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
@@ -375,7 +374,7 @@ class Car_BC
     EXPORT Car_BC* sub_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
     EXPORT void sub_43ADC0(s32 a2);
-    EXPORT bool sub_43AF10();
+    EXPORT bool CanExitCar_43AF10();
     EXPORT char_type sub_43AF40();
     EXPORT void sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
@@ -450,8 +449,8 @@ class Car_BC
     EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
     EXPORT s32 sub_440BB0();
-    EXPORT char_type sub_440C10(char_type a2);
-    EXPORT char_type sub_440D90(char_type a2);
+    EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
+    EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
@@ -466,11 +465,17 @@ class Car_BC
     EXPORT char_type sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
-    EXPORT char_type sub_441800(char_type a2);
-    EXPORT void sub_4418A0();
-    EXPORT void sub_4418B0();
-    EXPORT char_type
-    HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
+    EXPORT char_type HandleSpecialInput_441800(char_type a2);
+    EXPORT void DoDetachTrailer_4418A0();
+    EXPORT void DetachTrailerAndUpdateDamage_4418B0();
+    EXPORT void HandleUserInput_4418D0(char_type bForwardGasOn,
+                                       char_type bFootBrakeOn,
+                                       char_type bLeftOn,
+                                       char_type bRightOn,
+                                       char_type bHandBrakeOn,
+                                       char_type bNowSpecialPressed,
+                                       char_type bWasSpecialPressed,
+                                       char_type bAttack);
     EXPORT void AllocCarPhysics_4419E0();
     EXPORT void DeAllocateCarPhysics_441A10();
     EXPORT char_type sub_441A40();
@@ -490,7 +495,7 @@ class Car_BC
     EXPORT s16* sub_442520(s16* a2);
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
-    EXPORT void sub_442760();
+    EXPORT void DetachTrailer_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
     EXPORT s32* sub_442D10();
@@ -545,7 +550,7 @@ class Car_BC
         // We are on the trailer
         return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == this;
     }
-    
+
     Ped* get_driver_4118B0()
     {
         return field_54_driver;
