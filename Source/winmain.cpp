@@ -1135,23 +1135,15 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
 GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0x60, 0x97, 0x97, 0xEA, 0x5B};
 
 // todo move to another file for ordering
-STUB_FUNC(0x4C4EC0)
+MATCH_FUNC(0x4C4EC0)
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
-    NOT_IMPLEMENTED;
-    u32 dwMajorVersion; // eax
     HMODULE hDInput; // eax
-    HMODULE hDInput_; // esi
     FARPROC pDirectInputCreateA; // ebx
     HMODULE hDDraw; // eax
-    HMODULE hDDraw_; // esi
     HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*); // eax
-    LPDIRECTDRAW pDDraw_; // eax
     HMODULE hDInput2; // eax
-    HMODULE hDInput2_; // ebp
     FARPROC pDirectInputCreateA_; // edi
-    LPDIRECTDRAWSURFACE pDSurface_; // eax
-    LPDIRECTDRAWSURFACE pDSurface__; // eax
     LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
     LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
     LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
@@ -1165,7 +1157,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     pDSurface = 0;
     v18 = 0;
     pDSurface4 = 0;
-    osVersionInfo.dwOSVersionInfoSize = 148;
+    osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
     if (!GetVersionExA(&osVersionInfo))
     {
@@ -1174,157 +1166,144 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (osVersionInfo.dwPlatformId == 2) // VER_PLATFORM_WIN32_NT
+    if (osVersionInfo.dwPlatformId == VER_PLATFORM_WIN32_NT)
     {
-        dwMajorVersion = osVersionInfo.dwMajorVersion;
-        *osKind = 2;
-        if (dwMajorVersion < 4)
+        *osKind = VER_PLATFORM_WIN32_NT;
+        if (osVersionInfo.dwMajorVersion < 4)
         {
             *osKind = 0; // less than NT4
             return;
         }
-        if (dwMajorVersion == 4) // exactly NT4
+        if (osVersionInfo.dwMajorVersion == 4) // exactly NT4
         {
             *pDXVer = 0x200;
             hDInput = LoadLibraryA("DINPUT.DLL");
-            hDInput_ = hDInput;
-            if (hDInput)
-            {
-                pDirectInputCreateA = GetProcAddress(hDInput, "DirectInputCreateA");
-                FreeLibrary(hDInput_);
-                if (pDirectInputCreateA)
-                {
-                    *pDXVer = 0x300;
-                }
-                else
-                {
-                    OutputDebugStringA("Couldn't GetProcAddress DInputCreate\r\n");
-                }
-            }
-            else
+            if (!hDInput)
             {
                 OutputDebugStringA("Couldn't LoadLibrary DInput\r\n");
+                return;
             }
+
+            pDirectInputCreateA = GetProcAddress(hDInput, "DirectInputCreateA");
+            FreeLibrary(hDInput);
+            if (!pDirectInputCreateA)
+            {
+                OutputDebugStringA("Couldn't GetProcAddress DInputCreate\r\n");
+                return;
+            }
+            *pDXVer = 0x300;
             return;
         }
     }
     else
     {
-        *osKind = 1;
+        *osKind = VER_PLATFORM_WIN32_WINDOWS;
     }
 
     hDDraw = LoadLibraryA("DDRAW.DLL");
-    hDDraw_ = hDDraw;
-    if (hDDraw)
-    {
-        pDirectDrawCreate = (HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*))GetProcAddress(hDDraw, "DirectDrawCreate");
-        if (pDirectDrawCreate)
-        {
-            if (pDirectDrawCreate(0, &pDDraw, 0) >= 0)
-            {
-                pDDraw_ = pDDraw;
-                *pDXVer = 0x100;
-                if (pDDraw_->QueryInterface(IID_IDirectDraw2, (LPVOID*)&pDraw2) >= 0)
-                {
-                    pDraw2->Release();
-                    *pDXVer = 0x200;
-                    hDInput2 = LoadLibraryA("DINPUT.DLL");
-                    hDInput2_ = hDInput2;
-                    if (hDInput2)
-                    {
-                        pDirectInputCreateA_ = GetProcAddress(hDInput2, "DirectInputCreateA");
-                        FreeLibrary(hDInput2_);
-                        if (pDirectInputCreateA_)
-                        {
-                            *pDXVer = 0x300;
-                            memset(&surfaceDesc, 0, sizeof(surfaceDesc));
-                            surfaceDesc.dwSize = 108;
-                            surfaceDesc.dwFlags = 1;
-                            surfaceDesc.ddsCaps.dwCaps = 512;
-                            if (pDDraw->SetCooperativeLevel(0, 8) >= 0)
-                            {
-                                if (pDDraw->CreateSurface(&surfaceDesc, &pDSurface, 0) >= 0)
-                                {
-                                    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0 ||
-                                        (pDSurface_ = pDSurface,
-                                         *pDXVer = 0x500,
-                                         pDSurface_->QueryInterface(IID_IDirectDrawSurface4_, (LPVOID*)&pDSurface4) < 0))
-                                    {
-                                        pDDraw->Release();
-                                        FreeLibrary(hDDraw_);
-                                    }
-                                    else
-                                    {
-                                        pDSurface__ = pDSurface;
-                                        *pDXVer = 0x600;
-                                        pDSurface__->Release();
-                                        pDDraw->Release();
-                                        FreeLibrary(hDDraw_);
-                                        GetDirectMusicVer_4A0650();
-                                        if (gDMusicVer_67BD32 == 0x601)
-                                        {
-                                            *pDXVer = 0x601;
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    pDDraw->Release();
-                                    FreeLibrary(hDDraw_);
-                                    *pDXVer = 0;
-                                    OutputDebugStringA("Couldn't CreateSurface\r\n");
-                                }
-                            }
-                            else
-                            {
-                                pDDraw->Release();
-                                FreeLibrary(hDDraw_);
-                                *pDXVer = 0;
-                                OutputDebugStringA("Couldn't Set coop level\r\n");
-                            }
-                        }
-                        else
-                        {
-                            FreeLibrary(hDDraw_);
-                            pDDraw->Release();
-                            OutputDebugStringA("Couldn't GetProcAddress DInputCreate\r\n");
-                        }
-                    }
-                    else
-                    {
-                        OutputDebugStringA("Couldn't LoadLibrary DInput\r\n");
-                        pDDraw->Release();
-                        FreeLibrary(hDDraw_);
-                    }
-                }
-                else
-                {
-                    pDDraw->Release();
-                    FreeLibrary(hDDraw_);
-                    OutputDebugStringA("Couldn't QI DDraw2\r\n");
-                }
-            }
-            else
-            {
-                *pDXVer = 0;
-                *osKind = 0;
-                FreeLibrary(hDDraw_);
-                OutputDebugStringA("Couldn't create DDraw\r\n");
-            }
-        }
-        else
-        {
-            *pDXVer = 0;
-            *osKind = 0;
-            FreeLibrary(hDDraw_);
-            OutputDebugStringA("Couldn't LoadLibrary DDraw\r\n");
-        }
-    }
-    else
+    if (!hDDraw)
     {
         *pDXVer = 0;
         *osKind = 0;
-        FreeLibrary(0);
+        FreeLibrary(hDDraw);
+        return;
+    }
+
+    pDirectDrawCreate = (HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*))GetProcAddress(hDDraw, "DirectDrawCreate");
+    if (!pDirectDrawCreate)
+    {
+        *pDXVer = 0;
+        *osKind = 0;
+        FreeLibrary(hDDraw);
+        OutputDebugStringA("Couldn't LoadLibrary DDraw\r\n");
+        return;
+    }
+
+    if (pDirectDrawCreate(0, &pDDraw, 0) < 0)
+    {
+        *pDXVer = 0;
+        *osKind = 0;
+        FreeLibrary(hDDraw);
+        OutputDebugStringA("Couldn't create DDraw\r\n");
+        return;
+    }
+
+    *pDXVer = 0x100;
+    if (pDDraw->QueryInterface(IID_IDirectDraw2, (LPVOID*)&pDraw2) < 0)
+    {
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        OutputDebugStringA("Couldn't QI DDraw2\r\n");
+        return;
+    }
+
+    pDraw2->Release();
+    *pDXVer = 0x200;
+    hDInput2 = LoadLibraryA("DINPUT.DLL");
+    if (!hDInput2)
+    {
+        OutputDebugStringA("Couldn't LoadLibrary DInput\r\n");
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        return;
+    }
+
+    pDirectInputCreateA_ = GetProcAddress(hDInput2, "DirectInputCreateA");
+    FreeLibrary(hDInput2);
+    if (!pDirectInputCreateA_)
+    {
+        FreeLibrary(hDDraw);
+        pDDraw->Release();
+        OutputDebugStringA("Couldn't GetProcAddress DInputCreate\r\n");
+        return;
+    }
+
+    *pDXVer = 0x300;
+    memset(&surfaceDesc, 0, sizeof(surfaceDesc));
+    surfaceDesc.dwSize = 108;
+    surfaceDesc.dwFlags = 1;
+    surfaceDesc.ddsCaps.dwCaps = 512;
+    if (pDDraw->SetCooperativeLevel(0, 8) < 0)
+    {
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        *pDXVer = 0;
+        OutputDebugStringA("Couldn't Set coop level\r\n");
+        return;
+    }
+
+    if (pDDraw->CreateSurface(&surfaceDesc, &pDSurface, 0) < 0)
+    {
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        *pDXVer = 0;
+        OutputDebugStringA("Couldn't CreateSurface\r\n");
+        return;
+    }
+
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0) {
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        return;
+    }
+
+    *pDXVer = 0x500;
+
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface4_, (LPVOID*)&pDSurface4) < 0)
+    {
+        pDDraw->Release();
+        FreeLibrary(hDDraw);
+        return;
+    }
+
+    *pDXVer = 0x600;
+    pDSurface->Release();
+    pDDraw->Release();
+    FreeLibrary(hDDraw);
+    GetDirectMusicVer_4A0650();
+    if (gDMusicVer_67BD32 == 0x601)
+    {
+        *pDXVer = 0x601;
     }
 }
 
