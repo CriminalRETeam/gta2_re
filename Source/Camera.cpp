@@ -353,7 +353,7 @@ void Camera_0xBC::sub_436540(Ped* a2)
 }
 
 MATCH_FUNC(0x436710)
-void Camera_0xBC::sub_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
+void Camera_0xBC::HandlePanning_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
 {
     if (bForwardGasOn)
     {

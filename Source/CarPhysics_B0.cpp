@@ -260,7 +260,7 @@ u32* CarPhysics_B0::sub_55A6A0(u32* a2)
 }
 
 MATCH_FUNC(0x55a840)
-void CarPhysics_B0::sub_55A840()
+void CarPhysics_B0::ResetForceAccumulators_55A840()
 {
     this->field_48 = 0;
     this->field_4C = 0;
@@ -559,7 +559,7 @@ void CarPhysics_B0::sub_560B40(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x560eb0)
-__int64 CarPhysics_B0::sub_560EB0()
+__int64 CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -572,7 +572,7 @@ void CarPhysics_B0::sub_560F20(s32 a2)
 }
 
 STUB_FUNC(0x5610b0)
-s32 CarPhysics_B0::sub_5610B0()
+s32 CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -649,14 +649,14 @@ u32* CarPhysics_B0::sub_562450(u32* a2, s32 a3)
 }
 
 STUB_FUNC(0x562480)
-s32 CarPhysics_B0::sub_562480()
+s32 CarPhysics_B0::ApplyThrottleInput_562480()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5624f0)
-void CarPhysics_B0::sub_5624F0()
+void CarPhysics_B0::ApplyBrakePhysics_5624F0()
 {
     NOT_IMPLEMENTED;
 }
@@ -669,14 +669,14 @@ s32 CarPhysics_B0::sub_562560()
 }
 
 STUB_FUNC(0x5626a0)
-s32 CarPhysics_B0::sub_5626A0()
+s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x5626c0)
-u32* CarPhysics_B0::sub_5626C0(u32* a2)
+u32* CarPhysics_B0::MinGasPedalPressure_5626C0(u32* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -778,7 +778,7 @@ s32* CarPhysics_B0::sub_563280()
 }
 
 STUB_FUNC(0x563350)
-s32* CarPhysics_B0::sub_563350()
+s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -799,7 +799,7 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
     this->field_6C_cp3 = a2->field_1C_zpos;
     this->field_58_theta = a2->field_0;
     this->field_78_pointing_ang_rad = 0;
-    sub_563350();
+    UpdateCenterOfMassPoint_563350();
 }
 
 STUB_FUNC(0x563590)
@@ -841,7 +841,7 @@ void CarPhysics_B0::Init_5637A0()
     field_40_linvel_1.reset();
     field_74_ang_vel_rad = Fix16(0);
     field_70 = kFP16Zero_6FE20C;
-    sub_55A840();
+    ResetForceAccumulators_55A840();
     field_91_is_foot_brake_on = 0;
     field_92_is_hand_brake_on = 0;
     field_93_is_forward_gas_on = 0;

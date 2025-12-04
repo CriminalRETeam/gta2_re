@@ -1851,7 +1851,7 @@ void Car_BC::sub_4418B0()
 }
 
 STUB_FUNC(0x4418d0)
-char_type Car_BC::sub_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9)
+char_type Car_BC::HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9)
 {
     NOT_IMPLEMENTED;
     return 0;

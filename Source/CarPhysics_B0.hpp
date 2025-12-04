@@ -43,7 +43,7 @@ class CarPhysics_B0
     EXPORT void sub_55A550();
     EXPORT void sub_55A600();
     EXPORT u32* sub_55A6A0(u32* a2);
-    EXPORT void sub_55A840();
+    EXPORT void ResetForceAccumulators_55A840();
     EXPORT char_type sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void sub_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
@@ -84,9 +84,9 @@ class CarPhysics_B0
     EXPORT Car_78* sub_55FF20(Car_BC* a2);
     EXPORT void sub_5606C0(s32 a2, char_type a3);
     EXPORT void sub_560B40(s32 a2, s32 a3);
-    EXPORT __int64 sub_560EB0();
+    EXPORT __int64 UpdateLinearAndAngularAccel_560EB0();
     EXPORT void sub_560F20(s32 a2);
-    EXPORT s32 sub_5610B0();
+    EXPORT s32 IntegrateAndClampVelocities_5610B0();
     EXPORT u32* sub_561130(u32* a2, u32* a3);
     EXPORT u32* sub_561350(u32* a2, u32* a3);
     EXPORT u32* sub_561380(u32* a2, u32* a3);
@@ -97,11 +97,11 @@ class CarPhysics_B0
     EXPORT Sprite_4C** CalculateFrontSkid_561E50(Sprite_4C** a2);
     EXPORT u32* CalculateRearSkid_5620D0(u32* a2);
     EXPORT u32* sub_562450(u32* a2, s32 a3);
-    EXPORT s32 sub_562480();
-    EXPORT void sub_5624F0();
+    EXPORT s32 ApplyThrottleInput_562480();
+    EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT s32 sub_562560();
-    EXPORT s32 sub_5626A0();
-    EXPORT u32* sub_5626C0(u32* a2);
+    EXPORT s32 IsGasPedalPressedEnough_5626A0();
+    EXPORT u32* MinGasPedalPressure_5626C0(u32* a2);
     EXPORT char_type sub_5626F0();
     EXPORT void sub_562910();
     EXPORT void RotateVelocity_562C20(const Ang16& a2);
@@ -113,7 +113,7 @@ class CarPhysics_B0
     EXPORT char_type sub_562FA0();
     EXPORT bool sub_562FE0();
     EXPORT s32* sub_563280();
-    EXPORT s32* sub_563350();
+    EXPORT s32* UpdateCenterOfMassPoint_563350();
     EXPORT s32* sub_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
     EXPORT void sub_563590(Sprite* a2);

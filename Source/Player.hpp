@@ -113,10 +113,10 @@ class Player
     EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
     EXPORT void Hud_Controls_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
-    EXPORT char_type CharacterControls_566520();
+    EXPORT void CharacterControls_566520();
     EXPORT void ControlInputs_566820();
     EXPORT void sub_5668D0(Ped* a2);
-    EXPORT void sub_566C30(Car_BC* pCar);
+    EXPORT void DoCarControlInputs_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(Ped* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void RespawnPlayer_5670B0();
@@ -126,7 +126,7 @@ class Player
     EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
     EXPORT void sub_568670();
-    EXPORT void sub_5686D0(Camera_0xBC* pCam);
+    EXPORT void UpdateCamera_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void Service_5687F0();
     EXPORT s32 sub_569410();
@@ -154,7 +154,7 @@ class Player
     EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
     EXPORT void UpdateGameFromSave_56A310(s32 a2);
     EXPORT void sub_56A490();
-    EXPORT void sub_56A6D0();
+    EXPORT void ClearInputs_56A6D0();
 
     // 0x56A740
     EXPORT Player(u8 a2);
@@ -216,28 +216,33 @@ class Player
     char_type field_75_dbg_cam_zooming_in;
     char_type field_76;
     char_type field_77;
-    char_type field_78_bForwardGasOn;
-    char_type field_79_bFootBrakeOn;
-    char_type field_7A;
-    char_type field_7B;
-    char_type field_7C;
-    char_type field_7D;
-    char_type field_7E_bHandBrakeOn;
-    char_type field_7F;
-    char_type field_80;
-    char_type field_81;
-    char_type field_82;
-    char_type field_83;
-    char_type field_84;
-    char_type field_85;
-    char_type field_86;
-    char_type field_87;
-    char_type field_88;
-    char_type field_89;
-    char_type field_8A;
-    char_type field_8B;
-    char_type field_8C;
-    char_type field_8D;
+
+    // Current inputs state
+    bool field_78_bNowForwardPressed;
+    bool field_79_bNowDownPressed;
+    bool field_7A_bNowLeftPressed;
+    bool field_7B_bNowRightPressed;
+    bool field_7C_bNowAttackPressed;
+    bool field_7D_bNowEnterExitPressed;
+    bool field_7E_bNowHandBrakeOrJumpPressed;
+    bool field_7F_bNowPrevWeaponPressed;
+    bool field_80_bNowNextWeaponPressed;
+    bool field_81_bNowSpecial_1_Pressed;
+    bool field_82_bNowSpecial_2_Pressed;
+    bool field_83_bNowSpecial_3_Pressed;
+
+    // Previous inputs state
+    bool field_84_bWasSpecial_1_Pressed;
+    bool field_85_bWasSpecial_2_Pressed;
+    bool field_86_bWasSpecial_3_Pressed;
+    bool field_87_bWasNextWeaponPressed;
+    bool field_88_bWasPrevWeaponPressed;
+    bool field_89_bWasEnterExitPressed;
+    bool field_8A_bWasHandBrakeOrJumpPressed;
+    bool field_8B_bWasForwardPressed;
+    bool field_8C_bWasDownPressed;
+    bool field_8D_bWasAttackPressed;
+
     char_type field_8E_bInUse;
     char_type field_8F;
     Camera_0xBC field_90_game_camera;

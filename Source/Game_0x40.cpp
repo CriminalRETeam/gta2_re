@@ -583,7 +583,7 @@ void Game_0x40::sub_4B9700()
         if (pPlayer)
         {
             pPlayer->sub_569F40();
-            field_38_orf1->sub_56A6D0();
+            field_38_orf1->ClearInputs_56A6D0();
             gBurgerKing_67F8B0.field_4_input_bits &= ~0xFFFu;
         }
     }
