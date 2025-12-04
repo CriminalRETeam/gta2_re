@@ -308,7 +308,6 @@ class Trailer
 
     void PoolDeallocate()
     {
-
     }
 
     //Inlined in Car_6C constructor 9.6f -> 0x4212d0
@@ -469,8 +468,14 @@ class Car_BC
     EXPORT char_type HandleSpecialInput_441800(char_type a2);
     EXPORT void DoDetachTrailer_4418A0();
     EXPORT void DetachTrailerAndUpdateDamage_4418B0();
-    EXPORT char_type
-    HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
+    EXPORT void HandleUserInput_4418D0(char_type bForwardGasOn,
+                                       char_type bFootBrakeOn,
+                                       char_type bLeftOn,
+                                       char_type bRightOn,
+                                       char_type bHandBrakeOn,
+                                       char_type bNowSpecialPressed,
+                                       char_type bWasSpecialPressed,
+                                       char_type bAttack);
     EXPORT void AllocCarPhysics_4419E0();
     EXPORT void DeAllocateCarPhysics_441A10();
     EXPORT char_type sub_441A40();
@@ -545,7 +550,7 @@ class Car_BC
         // We are on the trailer
         return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == this;
     }
-    
+
     Ped* get_driver_4118B0()
     {
         return field_54_driver;

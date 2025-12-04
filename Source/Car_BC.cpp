@@ -1561,7 +1561,7 @@ MATCH_FUNC(0x440590)
 void Car_BC::InitCarAIControl_440590()
 {
     SetupCarPhysicsAndSpriteBinding_43BCA0();
-    
+
     field_58_physics->field_92_is_hand_brake_on = 0;
 
     Ped* pDriver = this->field_54_driver;
@@ -1850,11 +1850,46 @@ void Car_BC::DetachTrailerAndUpdateDamage_4418B0()
     field_78_flags |= 1;
 }
 
+// https://decomp.me/scratch/KU02C
 STUB_FUNC(0x4418d0)
-char_type Car_BC::HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9)
+void Car_BC::HandleUserInput_4418D0(char_type bForwardGasOn,
+                                    char_type bFootBrakeOn,
+                                    char_type bLeftOn,
+                                    char_type bRightOn,
+                                    char_type bHandBrakeOn,
+                                    char_type bNowSpecialPressed,
+                                    char_type bWasSpecialPressed,
+                                    char_type bAttack)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_B8 = 0;
+
+    if (bNowSpecialPressed && (bLeftOn || bRightOn))
+    {
+        // NB: If left is off then right is on
+        if (Car_BC::HandleRoofTurretRotation_440D90(bLeftOn) == 1)
+        {
+            bLeftOn = 0;
+            bRightOn = 0;
+            bNowSpecialPressed = 0;
+        }
+    }
+
+    if (bWasSpecialPressed)
+    {
+        Car_BC::HandleSpecialInput_441800(bNowSpecialPressed);
+    }
+
+    if (bAttack)
+    {
+        Car_BC::DoDetachTrailer_4418A0();
+    }
+
+    if ((this->field_78_flags & 0x1000) != 0)
+    {
+        bForwardGasOn = 1;
+    }
+
+    field_58_physics->HandleUserInputs_55A860(bForwardGasOn, bFootBrakeOn, bLeftOn, bRightOn, bHandBrakeOn);
 }
 
 MATCH_FUNC(0x4419e0)
