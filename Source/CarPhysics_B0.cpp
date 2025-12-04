@@ -271,7 +271,7 @@ void CarPhysics_B0::ResetForceAccumulators_55A840()
 }
 
 STUB_FUNC(0x55a860)
-char_type CarPhysics_B0::sub_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
+char_type CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
 {
     NOT_IMPLEMENTED;
     return 0;

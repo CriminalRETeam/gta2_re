@@ -962,7 +962,7 @@ void Car_BC::SetDriver(Ped* pNewDriver)
             {
                 hand_brake_on = 1;
             }
-            pCarPhysics->sub_55A860(0, 0, 0, 0, hand_brake_on);
+            pCarPhysics->HandleUserInputs_55A860(0, 0, 0, 0, hand_brake_on);
         }
     }
     this->field_54_driver = pNewDriver;
