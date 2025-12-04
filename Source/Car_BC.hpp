@@ -450,8 +450,8 @@ class Car_BC
     EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
     EXPORT s32 sub_440BB0();
-    EXPORT char_type sub_440C10(char_type a2);
-    EXPORT char_type HandleRoofTurretRotation(char_type a2);
+    EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
+    EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
@@ -466,9 +466,9 @@ class Car_BC
     EXPORT char_type sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
-    EXPORT char_type sub_441800(char_type a2);
-    EXPORT void sub_4418A0();
-    EXPORT void sub_4418B0();
+    EXPORT char_type HandleSpecialInput_441800(char_type a2);
+    EXPORT void DoDetachTrailer_4418A0();
+    EXPORT void DetachTrailerAndUpdateDamage_4418B0();
     EXPORT char_type
     HandleUserInput_4418D0(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7, char_type a8, char_type a9);
     EXPORT void AllocCarPhysics_4419E0();
@@ -490,7 +490,7 @@ class Car_BC
     EXPORT s16* sub_442520(s16* a2);
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
-    EXPORT void sub_442760();
+    EXPORT void DetachTrailer_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
     EXPORT s32* sub_442D10();

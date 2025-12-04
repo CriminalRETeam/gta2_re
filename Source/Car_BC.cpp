@@ -1670,14 +1670,14 @@ s32 Car_BC::sub_440BB0()
 }
 
 STUB_FUNC(0x440c10)
-char_type Car_BC::sub_440C10(char_type a2)
+char_type Car_BC::RotateRoofObjectTowardTarget_440C10(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x440d90)
-char_type Car_BC::HandleRoofTurretRotation(char_type a2)
+char_type Car_BC::HandleRoofTurretRotation_440D90(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1827,26 +1827,26 @@ void Car_BC::sub_4417F0()
 }
 
 STUB_FUNC(0x441800)
-char_type Car_BC::sub_441800(char_type a2)
+char_type Car_BC::HandleSpecialInput_441800(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4418a0)
-void Car_BC::sub_4418A0()
+void Car_BC::DoDetachTrailer_4418A0()
 {
     if (field_64_pTrailer)
     {
-        sub_4418B0();
+        DetachTrailerAndUpdateDamage_4418B0();
     }
 }
 
 MATCH_FUNC(0x4418b0)
-void Car_BC::sub_4418B0()
+void Car_BC::DetachTrailerAndUpdateDamage_4418B0()
 {
     sub_43BD40();
-    sub_442760();
+    DetachTrailer_442760();
     field_78_flags |= 1;
 }
 
@@ -2124,7 +2124,7 @@ void Car_BC::sub_4426D0()
 }
 
 STUB_FUNC(0x442760)
-void Car_BC::sub_442760()
+void Car_BC::DetachTrailer_442760()
 {
     Trailer* p = field_64_pTrailer;
     gCar_BC_Pool_67792C->Remove(field_64_pTrailer->field_C_pCarOnTrailer);
