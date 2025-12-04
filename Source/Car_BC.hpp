@@ -451,7 +451,7 @@ class Car_BC
     EXPORT s32 sub_440B60();
     EXPORT s32 sub_440BB0();
     EXPORT char_type sub_440C10(char_type a2);
-    EXPORT char_type sub_440D90(char_type a2);
+    EXPORT char_type HandleRoofTurretRotation(char_type a2);
     EXPORT void sub_440F90(char_type a2);
     EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);

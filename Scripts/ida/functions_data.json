@@ -1970,7 +1970,7 @@
         "v105_address": "0x440c10"
     },
     {
-        "name": "Car_BC::sub_440D90",
+        "name": "Car_BC::HandleRoofTurretRotation",
         "v96f_address": null,
         "v105_address": "0x440d90"
     },

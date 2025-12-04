@@ -1677,7 +1677,7 @@ char_type Car_BC::sub_440C10(char_type a2)
 }
 
 STUB_FUNC(0x440d90)
-char_type Car_BC::sub_440D90(char_type a2)
+char_type Car_BC::HandleRoofTurretRotation(char_type a2)
 {
     NOT_IMPLEMENTED;
     return 0;
