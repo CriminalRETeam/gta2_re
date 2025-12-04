@@ -591,7 +591,7 @@ void Player::ControlInputs_566820()
 }
 
 MATCH_FUNC(0x5668D0)
-void Player::sub_5668D0(Ped* pPed)
+void Player::HandleControls_5668D0(Ped* pPed)
 {
     bool bNoPed = (pPed == NULL);
     Car_BC* pPedCar = pPed->field_16C_car;
@@ -632,7 +632,7 @@ void Player::sub_5668D0(Ped* pPed)
         }
         else
         {
-            if (pPedCar->sub_43AF10())
+            if (pPedCar->CanExitCar_43AF10())
             {
                 pPed->sub_463830(0, 9999);
                 if (pPed->field_16C_car->field_84_car_info_idx == car_model_enum::TRAIN)
@@ -711,7 +711,7 @@ void Player::sub_5668D0(Ped* pPed)
         {
             if (pPedCar->is_train_model())
             {
-                Player::sub_566C80(pPed);
+                Player::DoPedControlInputs_566C80(pPed);
             }
             else
             {
@@ -721,7 +721,7 @@ void Player::sub_5668D0(Ped* pPed)
     }
     else
     {
-        Player::sub_566C80(pPed);
+        Player::DoPedControlInputs_566C80(pPed);
     }
 }
 
@@ -751,7 +751,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
 }
 
 STUB_FUNC(0x566C80)
-char_type Player::sub_566C80(Ped* a2)
+char_type Player::DoPedControlInputs_566C80(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 'a';

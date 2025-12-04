@@ -996,7 +996,7 @@ void Car_BC::sub_43ADC0(s32 a2)
 
 // https://decomp.me/scratch/Tl2Br
 STUB_FUNC(0x43af10)
-bool Car_BC::sub_43AF10()
+bool Car_BC::CanExitCar_43AF10()
 {
     if (!sub_43A230())
     {
