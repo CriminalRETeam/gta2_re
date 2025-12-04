@@ -116,7 +116,7 @@ class Player
     EXPORT void CharacterControls_566520();
     EXPORT void ControlInputs_566820();
     EXPORT void sub_5668D0(Ped* a2);
-    EXPORT void sub_566C30(Car_BC* pCar);
+    EXPORT void DoCarControlInputs_566C30(Car_BC* pCar);
     EXPORT char_type sub_566C80(Ped* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void RespawnPlayer_5670B0();
@@ -126,7 +126,7 @@ class Player
     EXPORT void UpdateCurrentZones_568520();
     EXPORT void sub_568630();
     EXPORT void sub_568670();
-    EXPORT void sub_5686D0(Camera_0xBC* pCam);
+    EXPORT void UpdateCamera_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void Service_5687F0();
     EXPORT s32 sub_569410();
@@ -154,7 +154,7 @@ class Player
     EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
     EXPORT void UpdateGameFromSave_56A310(s32 a2);
     EXPORT void sub_56A490();
-    EXPORT void sub_56A6D0();
+    EXPORT void ClearInputs_56A6D0();
 
     // 0x56A740
     EXPORT Player(u8 a2);
@@ -232,7 +232,7 @@ class Player
     bool field_83_bNowSpecial_3_Pressed;
 
     // Previous inputs state
-    bool field_84_bWasSpecial_2_Pressed;
+    bool field_84_bWasSpecial_1_Pressed;
     bool field_85_bWasSpecial_2_Pressed;
     bool field_86_bWasSpecial_3_Pressed;
     bool field_87_bWasNextWeaponPressed;

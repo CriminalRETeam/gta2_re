@@ -552,7 +552,7 @@ void Player::CharacterControls_566520()
     const bool prev200 = this->field_81_bNowSpecial_1_Pressed;
     bool ctrl200 = (input & 0x200) == 0x200;
     this->field_81_bNowSpecial_1_Pressed = ctrl200;
-    this->field_84_bWasSpecial_2_Pressed = (ctrl200 != prev200);
+    this->field_84_bWasSpecial_1_Pressed = (ctrl200 != prev200);
 
     // alt 0x400 (special2, hold for camera pan)
     const bool ctrl400 = (input & 0x400) == 0x400;
@@ -715,7 +715,7 @@ void Player::sub_5668D0(Ped* pPed)
             }
             else
             {
-                Player::sub_566C30(pPedCar);
+                Player::DoCarControlInputs_566C30(pPedCar);
             }
         }
     }
@@ -726,27 +726,28 @@ void Player::sub_5668D0(Ped* pPed)
 }
 
 MATCH_FUNC(0x566C30)
-void Player::sub_566C30(Car_BC* pCar)
+void Player::DoCarControlInputs_566C30(Car_BC* pCar)
 {
-    char bUnknown;
+    char bAttackPressed;
 
     if (this->field_788_curr_weapon_idx >= 15)
     {
-        bUnknown = 0;
+        // Not a car weapon
+        bAttackPressed = 0;
     }
     else
     {
-        bUnknown = this->field_7C_bNowAttackPressed;
+        bAttackPressed = this->field_7C_bNowAttackPressed;
     }
 
-    pCar->sub_4418D0(this->field_78_bNowForwardPressed,
+    pCar->HandleUserInput_4418D0(this->field_78_bNowForwardPressed,
                      this->field_79_bNowDownPressed,
                      this->field_7A_bNowLeftPressed,
                      this->field_7B_bNowRightPressed,
                      this->field_7E_bNowHandBrakeOrJumpPressed,
                      this->field_81_bNowSpecial_1_Pressed,
-                     this->field_84_bWasSpecial_2_Pressed,
-                     bUnknown);
+                     this->field_84_bWasSpecial_1_Pressed,
+                     bAttackPressed);
 }
 
 STUB_FUNC(0x566C80)
@@ -1013,12 +1014,12 @@ void Player::sub_568670()
 }
 
 MATCH_FUNC(0x5686D0)
-void Player::sub_5686D0(Camera_0xBC* pCam)
+void Player::UpdateCamera_5686D0(Camera_0xBC* pCam)
 {
     // Camera panning
     if (this->field_82_bNowSpecial_2_Pressed)
     {
-        pCam->sub_436710(this->field_78_bNowForwardPressed, this->field_79_bNowDownPressed, this->field_7A_bNowLeftPressed, this->field_7B_bNowRightPressed);
+        pCam->HandlePanning_436710(this->field_78_bNowForwardPressed, this->field_79_bNowDownPressed, this->field_7A_bNowLeftPressed, this->field_7B_bNowRightPressed);
         this->field_7A_bNowLeftPressed = 0;
         this->field_7B_bNowRightPressed = 0;
         this->field_78_bNowForwardPressed = 0;
@@ -1370,7 +1371,7 @@ void Player::sub_56A490()
 }
 
 MATCH_FUNC(0x56A6D0)
-void Player::sub_56A6D0()
+void Player::ClearInputs_56A6D0()
 {
     field_78_bNowForwardPressed = 0;
     field_79_bNowDownPressed = 0;
@@ -1384,7 +1385,8 @@ void Player::sub_56A6D0()
     field_81_bNowSpecial_1_Pressed = 0;
     field_82_bNowSpecial_2_Pressed = 0;
     field_83_bNowSpecial_3_Pressed = 0;
-    field_84_bWasSpecial_2_Pressed = 0;
+
+    field_84_bWasSpecial_1_Pressed = 0;
     field_88_bWasPrevWeaponPressed = 0;
     field_87_bWasNextWeaponPressed = 0;
     field_89_bWasEnterExitPressed = 0;
@@ -1419,7 +1421,7 @@ Player::Player(u8 player_idx)
     field_38_local_navigation_zone = 0;
     field_3C_navigation_zone = 0;
 
-    Player::sub_56A6D0();
+    Player::ClearInputs_56A6D0();
     field_8 = word_6FE754;
     field_A = word_6FE754;
     field_C = dword_6FE610;

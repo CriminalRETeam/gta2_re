@@ -57,7 +57,7 @@ class Camera_0xBC
     EXPORT s32 sub_436200(s32 a2, s32* a3, s32* a4, s32* a5);
     EXPORT void sub_4364A0(Car_BC* pCar);
     EXPORT void sub_436540(Ped* a2);
-    EXPORT void sub_436710(char_type a2, char_type a3, char_type a4, char_type a5);
+    EXPORT void HandlePanning_436710(char_type a2, char_type a3, char_type a4, char_type a5);
     EXPORT void sub_436830();
     EXPORT void sub_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0

@@ -167,7 +167,7 @@ void force_link()
     lewin.CharacterControls_566520();
     lewin.ControlInputs_566820();
     lewin.sub_5668D0(0);
-    lewin.sub_566C30(0);
+    lewin.DoCarControlInputs_566C30(0);
     lewin.sub_566C80(0);
     lewin.sub_566EE0(0);
     lewin.RespawnPlayer_5670B0();
@@ -177,7 +177,7 @@ void force_link()
     lewin.UpdateCurrentZones_568520();
     lewin.sub_568630();
     lewin.sub_568670();
-    lewin.sub_5686D0(0);
+    lewin.UpdateCamera_5686D0(0);
     lewin.sub_568730();
     lewin.Service_5687F0();
     lewin.sub_569410();
@@ -205,7 +205,7 @@ void force_link()
     lewin.CopyPlayerDataToSave_56A1A0(0);
     lewin.UpdateGameFromSave_56A310(0);
     lewin.sub_56A490();
-    lewin.sub_56A6D0();
+    lewin.ClearInputs_56A6D0();
 
     Camera_0xBC drawUnk;
     drawUnk.sub_4357B0();
