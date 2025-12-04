@@ -217,27 +217,27 @@ class Player
     char_type field_76;
     char_type field_77;
 
-    u8 field_78_bForwardGasOn;
-    u8 field_79_bFootBrakeOn;
-    u8 field_7A;
-    u8 field_7B;
-    u8 field_7C;
-    u8 field_7D;
-    u8 field_7E_bHandBrakeOn;
-    u8 field_7F;
-    u8 field_80;
-    u8 field_81;
-    u8 field_82;
+    bool field_78_bForwardGasOn;
+    bool field_79_bFootBrakeOn;
+    bool field_7A;
+    bool field_7B;
+    bool field_7C;
+    bool field_7D;
+    bool field_7E_bHandBrakeOn;
+    bool field_7F;
+    bool field_80;
+    bool field_81;
+    bool field_82;
 
-    u8 field_83;
-    u8 field_84;
-    u8 field_85;
-    u8 field_86;
-    u8 field_87;
-    u8 field_88;
-    u8 field_89;
-    u8 field_8A;
-    u8 field_8B;
+    bool field_83;
+    bool field_84;
+    bool field_85;
+    bool field_86;
+    bool field_87;
+    bool field_88;
+    bool field_89;
+    bool field_8A;
+    bool field_8B;
 
     char_type field_8C;
     char_type field_8D;
