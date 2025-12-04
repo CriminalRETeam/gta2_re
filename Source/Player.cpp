@@ -32,12 +32,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
 
-static bool inline is_car_model_train(int car_model)
-{
-    return car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
-        car_model == car_model_enum::boxcar;
-}
-
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
 {
@@ -508,68 +502,69 @@ void Player::CharacterControls_566520()
 {
     int input = this->field_4_inputs;
 
-    // Forward gas
+    // up arrow 0x1
     bool forwardGas = (input & 1) == 1;
-    bool same = (forwardGas == this->field_78_bForwardGasOn);
-    this->field_8B = !same;
-    this->field_78_bForwardGasOn = forwardGas;
+    bool same = (forwardGas == this->field_78_bNowForwardPressed);
+    this->field_8B_bWasForwardPressed = !same;
+    this->field_78_bNowForwardPressed = forwardGas;
 
-    // Foot brake
+    // down arrow 0x2
     bool footBrake = (input & 2) == 2;
-    same = (footBrake == this->field_79_bFootBrakeOn);
-    this->field_8C = !same;
-    this->field_79_bFootBrakeOn = footBrake;
+    same = (footBrake == this->field_79_bNowDownPressed);
+    this->field_8C_bWasDownPressed = !same;
+    this->field_79_bNowDownPressed = footBrake;
 
-    // Left / Right
-    this->field_7A = (input & 4) == 4;
-    this->field_7B = (input & 8) == 8;
+    // left arrow 0x4
+    // right arrow 0x8
+    this->field_7A_bNowLeftPressed = (input & 4) == 4;
+    this->field_7B_bNowRightPressed = (input & 8) == 8;
 
-    // Control (0x10)
+    // ctrl 0x10 (attack)
     const bool ctrl10 = (input & 0x10) == 0x10;
-    same = (ctrl10 == this->field_7C);
-    this->field_8D = !same;
-    this->field_7C = ctrl10;
+    same = (ctrl10 == this->field_7C_bNowAttackPressed);
+    this->field_8D_bWasAttackPressed = !same;
+    this->field_7C_bNowAttackPressed = ctrl10;
 
-    // Handbrake (0x40)
-    const bool prevHandBrake = this->field_7E_bHandBrakeOn;
+    // space 0x40 (handbrake, jump)
+    const bool prevHandBrake = this->field_7E_bNowHandBrakeOrJumpPressed;
     const bool handBrake = (input & 0x40) == 0x40;
-    this->field_7E_bHandBrakeOn = handBrake;
-    this->field_8A = (handBrake != prevHandBrake);
+    this->field_7E_bNowHandBrakeOrJumpPressed = handBrake;
+    this->field_8A_bWasHandBrakeOrJumpPressed = (handBrake != prevHandBrake);
 
-    // Control (0x20)
-    const bool prev20 = this->field_7D;
+    // enter 0x20 (enter/exit car)
+    const bool prev20 = this->field_7D_bNowEnterExitPressed;
     const bool ctrl20 = (input & 0x20) == 0x20;
-    this->field_7D = ctrl20;
-    this->field_89 = (ctrl20 != prev20);
+    this->field_7D_bNowEnterExitPressed = ctrl20;
+    this->field_89_bWasEnterExitPressed = (ctrl20 != prev20);
 
-    // Control (0x80)
-    const bool prev80 = this->field_7F;
+    // y 0x80 (prev weapon)
+    const bool prev80 = this->field_7F_bNowPrevWeaponPressed;
     const bool ctrl80 = (input & 0x80) == 0x80;
-    this->field_7F = ctrl80;
-    this->field_88 = (ctrl80 != prev80);
+    this->field_7F_bNowPrevWeaponPressed = ctrl80;
+    this->field_88_bWasPrevWeaponPressed = (ctrl80 != prev80);
 
-    // Control (0x100)
-    const bool prev100 = this->field_80;
-    this->field_80 = (input & 0x100) == 0x100;
-    this->field_87 = (field_80 != prev100);
+    // x 0x100 (next weapon)
+    const bool prev100 = this->field_80_bNowNextWeaponPressed;
+    this->field_80_bNowNextWeaponPressed = (input & 0x100) == 0x100;
+    this->field_87_bWasNextWeaponPressed = (field_80_bNowNextWeaponPressed != prev100);
 
-    // Control (0x200)
-    const bool prev200 = this->field_81;
+    // tab 0x200  (hold for turret movement, horn, siren, burp, fart on press)
+    const bool prev200 = this->field_81_bNowSpecial_1_Pressed;
     bool ctrl200 = (input & 0x200) == 0x200;
-    this->field_81 = ctrl200;
-    this->field_84 = (ctrl200 != prev200);
+    this->field_81_bNowSpecial_1_Pressed = ctrl200;
+    this->field_84_bWasSpecial_2_Pressed = (ctrl200 != prev200);
 
-    // Control (0x400)
+    // alt 0x400 (special2, hold for camera pan)
     const bool ctrl400 = (input & 0x400) == 0x400;
-    same = (ctrl400 == this->field_82);
-    this->field_85 = !same;
-    this->field_82 = ctrl400;
+    same = (ctrl400 == this->field_82_bNowSpecial_2_Pressed);
+    this->field_85_bWasSpecial_2_Pressed = !same;
+    this->field_82_bNowSpecial_2_Pressed = ctrl400;
 
-    // Control (0x800)
-    const bool prev800 = this->field_83;
+    // right shift 0x800 (special 3??)
+    const bool prev800 = this->field_83_bNowSpecial_3_Pressed;
     bool ctrl800 = (input & 0x800) == 0x800;
-    this->field_83 = ctrl800;
-    this->field_86 = (ctrl800 != prev800);
+    this->field_83_bNowSpecial_3_Pressed = ctrl800;
+    this->field_86_bWasSpecial_3_Pressed = (ctrl800 != prev800);
 }
 
 MATCH_FUNC(0x566820)
@@ -609,7 +604,7 @@ void Player::sub_5668D0(Ped* pPed)
     {
         return;
     }
-    if (field_7D && field_89)
+    if (field_7D_bNowEnterExitPressed && field_89_bWasEnterExitPressed)
     {
         if (!pPedCar)
         {
@@ -619,9 +614,8 @@ void Player::sub_5668D0(Ped* pPed)
                 if (pCar)
                 {
                     pPed->sub_463830(0, 9999);
-                    s32 car_model = pCar->field_84_car_info_idx;
 
-                    if (is_car_model_train(car_model))
+                    if (pCar->is_train_model())
                     {
                         pPed->SetObjective(objectives_enum::objective_37, 9999);
                     }
@@ -680,13 +674,13 @@ void Player::sub_5668D0(Ped* pPed)
         }
     }
 
-    if (field_7C != 1 || field_28)
+    if (field_7C_bNowAttackPressed != 1 || field_28)
     {
         pPed->field_21C_bf.b11 = 0;
     }
     else
     {
-        if (!field_8D)
+        if (!field_8D_bWasAttackPressed)
         {
             if (field_788_curr_weapon_idx == -1)
             {
@@ -715,9 +709,7 @@ void Player::sub_5668D0(Ped* pPed)
     {
         if (pPed->field_248_enter_car_as_passenger != 1)
         {
-            s32 car_model_2 = pPedCar->field_84_car_info_idx;
-            if (car_model_2 == car_model_enum::TRAIN || car_model_2 == car_model_enum::TRAINCAB || car_model_2 == car_model_enum::TRAINFB ||
-                car_model_2 == car_model_enum::boxcar)
+            if (pPedCar->is_train_model())
             {
                 Player::sub_566C80(pPed);
             }
@@ -744,16 +736,16 @@ void Player::sub_566C30(Car_BC* pCar)
     }
     else
     {
-        bUnknown = this->field_7C;
+        bUnknown = this->field_7C_bNowAttackPressed;
     }
 
-    pCar->sub_4418D0(this->field_78_bForwardGasOn,
-                     this->field_79_bFootBrakeOn,
-                     this->field_7A,
-                     this->field_7B,
-                     this->field_7E_bHandBrakeOn,
-                     this->field_81,
-                     this->field_84,
+    pCar->sub_4418D0(this->field_78_bNowForwardPressed,
+                     this->field_79_bNowDownPressed,
+                     this->field_7A_bNowLeftPressed,
+                     this->field_7B_bNowRightPressed,
+                     this->field_7E_bNowHandBrakeOrJumpPressed,
+                     this->field_81_bNowSpecial_1_Pressed,
+                     this->field_84_bWasSpecial_2_Pressed,
                      bUnknown);
 }
 
@@ -1023,15 +1015,16 @@ void Player::sub_568670()
 MATCH_FUNC(0x5686D0)
 void Player::sub_5686D0(Camera_0xBC* pCam)
 {
-    if (this->field_82)
+    // Camera panning
+    if (this->field_82_bNowSpecial_2_Pressed)
     {
-        pCam->sub_436710(this->field_78_bForwardGasOn, this->field_79_bFootBrakeOn, this->field_7A, this->field_7B);
-        this->field_7A = 0;
-        this->field_7B = 0;
-        this->field_78_bForwardGasOn = 0;
-        this->field_79_bFootBrakeOn = 0;
-        this->field_8B = 0;
-        this->field_8C = 0;
+        pCam->sub_436710(this->field_78_bNowForwardPressed, this->field_79_bNowDownPressed, this->field_7A_bNowLeftPressed, this->field_7B_bNowRightPressed);
+        this->field_7A_bNowLeftPressed = 0;
+        this->field_7B_bNowRightPressed = 0;
+        this->field_78_bNowForwardPressed = 0;
+        this->field_79_bNowDownPressed = 0;
+        this->field_8B_bWasForwardPressed = 0;
+        this->field_8C_bWasDownPressed = 0;
     }
     else
     {
@@ -1379,27 +1372,26 @@ void Player::sub_56A490()
 MATCH_FUNC(0x56A6D0)
 void Player::sub_56A6D0()
 {
-    // sets some car info to 0
-    field_78_bForwardGasOn = 0;
-    field_79_bFootBrakeOn = 0;
-    field_7A = 0;
-    field_7B = 0;
-    field_7C = 0;
-    field_7D = 0;
-    field_7E_bHandBrakeOn = 0;
-    field_7F = 0;
-    field_80 = 0;
-    field_81 = 0;
-    field_82 = 0;
-    field_83 = 0;
-    field_84 = 0;
-    field_88 = 0;
-    field_87 = 0;
-    field_89 = 0;
-    field_8D = 0;
-    field_8A = 0;
-    field_8B = 0;
-    field_8C = 0;
+    field_78_bNowForwardPressed = 0;
+    field_79_bNowDownPressed = 0;
+    field_7A_bNowLeftPressed = 0;
+    field_7B_bNowRightPressed = 0;
+    field_7C_bNowAttackPressed = 0;
+    field_7D_bNowEnterExitPressed = 0;
+    field_7E_bNowHandBrakeOrJumpPressed = 0;
+    field_7F_bNowPrevWeaponPressed = 0;
+    field_80_bNowNextWeaponPressed = 0;
+    field_81_bNowSpecial_1_Pressed = 0;
+    field_82_bNowSpecial_2_Pressed = 0;
+    field_83_bNowSpecial_3_Pressed = 0;
+    field_84_bWasSpecial_2_Pressed = 0;
+    field_88_bWasPrevWeaponPressed = 0;
+    field_87_bWasNextWeaponPressed = 0;
+    field_89_bWasEnterExitPressed = 0;
+    field_8D_bWasAttackPressed = 0;
+    field_8A_bWasHandBrakeOrJumpPressed = 0;
+    field_8B_bWasForwardPressed = 0;
+    field_8C_bWasDownPressed = 0;
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load

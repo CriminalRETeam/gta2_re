@@ -217,30 +217,32 @@ class Player
     char_type field_76;
     char_type field_77;
 
-    bool field_78_bForwardGasOn;
-    bool field_79_bFootBrakeOn;
-    bool field_7A;
-    bool field_7B;
-    bool field_7C;
-    bool field_7D;
-    bool field_7E_bHandBrakeOn;
-    bool field_7F;
-    bool field_80;
-    bool field_81;
-    bool field_82;
+    // Current inputs state
+    bool field_78_bNowForwardPressed;
+    bool field_79_bNowDownPressed;
+    bool field_7A_bNowLeftPressed;
+    bool field_7B_bNowRightPressed;
+    bool field_7C_bNowAttackPressed;
+    bool field_7D_bNowEnterExitPressed;
+    bool field_7E_bNowHandBrakeOrJumpPressed;
+    bool field_7F_bNowPrevWeaponPressed;
+    bool field_80_bNowNextWeaponPressed;
+    bool field_81_bNowSpecial_1_Pressed;
+    bool field_82_bNowSpecial_2_Pressed;
+    bool field_83_bNowSpecial_3_Pressed;
 
-    bool field_83;
-    bool field_84;
-    bool field_85;
-    bool field_86;
-    bool field_87;
-    bool field_88;
-    bool field_89;
-    bool field_8A;
-    bool field_8B;
+    // Previous inputs state
+    bool field_84_bWasSpecial_2_Pressed;
+    bool field_85_bWasSpecial_2_Pressed;
+    bool field_86_bWasSpecial_3_Pressed;
+    bool field_87_bWasNextWeaponPressed;
+    bool field_88_bWasPrevWeaponPressed;
+    bool field_89_bWasEnterExitPressed;
+    bool field_8A_bWasHandBrakeOrJumpPressed;
+    bool field_8B_bWasForwardPressed;
+    bool field_8C_bWasDownPressed;
+    bool field_8D_bWasAttackPressed;
 
-    char_type field_8C;
-    char_type field_8D;
     char_type field_8E_bInUse;
     char_type field_8F;
     Camera_0xBC field_90_game_camera;
