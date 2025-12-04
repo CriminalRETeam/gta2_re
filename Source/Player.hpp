@@ -113,7 +113,7 @@ class Player
     EXPORT void IncreaseWantedLevelFromDebugKeys_565860();
     EXPORT void Hud_Controls_565890(u16 action);
     EXPORT void sub_566380(u16 a2);
-    EXPORT char_type CharacterControls_566520();
+    EXPORT void CharacterControls_566520();
     EXPORT void ControlInputs_566820();
     EXPORT void sub_5668D0(Ped* a2);
     EXPORT void sub_566C30(Car_BC* pCar);
@@ -216,26 +216,29 @@ class Player
     char_type field_75_dbg_cam_zooming_in;
     char_type field_76;
     char_type field_77;
-    char_type field_78_bForwardGasOn;
-    char_type field_79_bFootBrakeOn;
-    char_type field_7A;
-    char_type field_7B;
-    char_type field_7C;
-    char_type field_7D;
-    char_type field_7E_bHandBrakeOn;
-    char_type field_7F;
-    char_type field_80;
-    char_type field_81;
-    char_type field_82;
-    char_type field_83;
-    char_type field_84;
-    char_type field_85;
-    char_type field_86;
-    char_type field_87;
-    char_type field_88;
-    char_type field_89;
-    char_type field_8A;
-    char_type field_8B;
+
+    u8 field_78_bForwardGasOn;
+    u8 field_79_bFootBrakeOn;
+    u8 field_7A;
+    u8 field_7B;
+    u8 field_7C;
+    u8 field_7D;
+    u8 field_7E_bHandBrakeOn;
+    u8 field_7F;
+    u8 field_80;
+    u8 field_81;
+    u8 field_82;
+
+    u8 field_83;
+    u8 field_84;
+    u8 field_85;
+    u8 field_86;
+    u8 field_87;
+    u8 field_88;
+    u8 field_89;
+    u8 field_8A;
+    u8 field_8B;
+
     char_type field_8C;
     char_type field_8D;
     char_type field_8E_bInUse;

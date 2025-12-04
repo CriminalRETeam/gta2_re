@@ -503,11 +503,73 @@ void Player::sub_566380(u16 key)
     }
 }
 
-STUB_FUNC(0x566520)
-char_type Player::CharacterControls_566520()
+MATCH_FUNC(0x566520)
+void Player::CharacterControls_566520()
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    int input = this->field_4_inputs;
+
+    // Forward gas
+    u8 forwardGas = (input & 1) == 1;
+    bool same = (forwardGas == this->field_78_bForwardGasOn);
+    this->field_8B = !same;
+    this->field_78_bForwardGasOn = forwardGas;
+
+    // Foot brake
+    u8 footBrake = (input & 2) == 2;
+    same = (footBrake == this->field_79_bFootBrakeOn);
+    this->field_8C = !same;
+    this->field_79_bFootBrakeOn = footBrake;
+
+    // Left / Right
+    this->field_7A = (input & 4) == 4;
+    this->field_7B = (input & 8) == 8;
+
+    // Control (0x10)
+    u8 ctrl10 = (input & 0x10) == 0x10;
+    same = (ctrl10 == this->field_7C);
+    this->field_8D = !same;
+    this->field_7C = ctrl10;
+
+    // Handbrake (0x40)
+    u8 prevHandBrake = this->field_7E_bHandBrakeOn;
+    u8 handBrake = (input & 0x40) == 0x40;
+    this->field_7E_bHandBrakeOn = handBrake;
+    this->field_8A = (handBrake != prevHandBrake);
+
+    // Control (0x20)
+    u8 prev20 = this->field_7D;
+    u8 ctrl20 = (input & 0x20) == 0x20;
+    this->field_7D = ctrl20;
+    this->field_89 = (ctrl20 != prev20);
+
+    // Control (0x80)
+    u8 prev80 = this->field_7F;
+    u8 ctrl80 = (input & 0x80) == 0x80;
+    this->field_7F = ctrl80;
+    this->field_88 = (ctrl80 != prev80);
+
+    // Control (0x100)
+    u8 prev100 = this->field_80;
+    this->field_80 = (input & 0x100) == 0x100;
+    this->field_87 = (field_80 != prev100);
+
+    // Control (0x200)
+    u8 prev200 = this->field_81;
+    u8 ctrl200 = (input & 0x200) == 0x200;
+    this->field_81 = ctrl200;
+    this->field_84 = (ctrl200 != prev200);
+
+    // Control (0x400)
+    u8 ctrl400 = (input & 0x400) == 0x400;
+    same = (ctrl400 == this->field_82);
+    this->field_85 = !same;
+    this->field_82 = ctrl400;
+
+    // Control (0x800)
+    u8 prev800 = this->field_83;
+    u8 ctrl800 = (input & 0x800) == 0x800;
+    this->field_83 = ctrl800;
+    this->field_86 = (ctrl800 != prev800);
 }
 
 MATCH_FUNC(0x566820)
