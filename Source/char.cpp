@@ -1,5 +1,6 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
+#include "error.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
@@ -658,10 +659,87 @@ void PedManager::PedsService_4703F0()
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/P1OvR
 STUB_FUNC(0x470650)
 PedManager::PedManager()
 {
-    NOT_IMPLEMENTED;
+    field_8 = 0;
+    if (!gPedPool_6787B8)
+    {
+        gPedPool_6787B8 = new PedPool();
+        if (!gPedPool_6787B8)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15827); // OutOfMemoryNewOperator
+        }
+    }
+
+    if (!gChar_B4_Pool_6FDB44)
+    {
+        gChar_B4_Pool_6FDB44 = new Char_B4_Pool();
+        if (!gChar_B4_Pool_6FDB44)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15834); // OutOfMemoryNewOperator
+        }
+    }
+
+    if (!gChar_8_Pool_678b50)
+    {
+        gChar_8_Pool_678b50 = new Char_8_Pool();
+        if (!gChar_8_Pool_678b50)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15841); // OutOfMemoryNewOperator
+        }
+    }
+
+    field_8 = gSprite_Pool_703818->get_new_sprite();
+
+    field_2 = 0;
+    field_3 = 0;
+    field_4 = 0;
+    field_6_num_peds_on_screen = 0;
+    field_0 = 50;
+    field_7_make_all_muggers = false;
+    /*
+    gPedId_61A89C = 7;
+    dword_6787C0 = 0;
+    word_6787C6 = 0;
+    byte_6787C8 = 0;
+    byte_6787C9 = 0;
+    gNumberMuggersSpawned_6787CA = 0;
+    gNumberCarThiefsSpawned_6787CB = 0;
+    gNumberElvisLeadersSpawned_6787CC = 0;
+    gNumberWalkingCopsSpawned_6787CD = 0;
+    byte_6787CE = 0;
+    word_6787D0 = 0;
+    this->field_5_fbi_army_count = 0;
+    HIWORD(dword_678654) = word_61A898;
+    word_6787F0 = 0;
+    byte_6787D2 = 0;
+    byte_6787D3 = 0;
+    HIWORD(dword_6784EE) = word_6787A8;
+    byte_6787D4 = 0;
+    byte_6787D5 = 0;
+    byte_6787D6 = 0;
+    byte_6787D7 = 0;
+    byte_61A8A0 = 1;
+    byte_61A8A1 = 1;
+    byte_6787D8 = 0;
+    byte_61A8A2 = 1;
+    byte_6787D9 = 0;
+    byte_6787DA = 0;
+    dword_678750 = dword_678660;
+    dword_6787DC = 0;
+    word_678760 = word_6787A8;
+    byte_61A8A3 = 1;
+    byte_61A8A4 = 1;
+    word_6787E0 = 0;
+    byte_6787E2 = 0;
+    byte_6787E3 = 0;
+    gNumPedsOnScreen_6787EC = 0;
+    unk_6787EF = 0;
+    sub_553F90();
+    gHashBrown_678468.field_0 = 0;
+    */
 }
 
 STUB_FUNC(0x4709b0)
