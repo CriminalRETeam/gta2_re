@@ -1,5 +1,6 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
+#include "error.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
@@ -29,6 +30,12 @@ DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
 DEFINE_GLOBAL(u8, byte_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, byte_6FDB59, 0x6FDB59);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9E4, Fix16(0), 0x6FD9E4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
+DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4 * dword_6FD868, 0x6FD7D0);
+
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 
 STUB_FUNC(0x544F70)
@@ -37,10 +44,63 @@ void __stdcall sub_544F70()
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/ZsDjc
 STUB_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
-    NOT_IMPLEMENTED;
+    field_0 = 0; // field_0_id
+    field_4 = 0;
+    field_5_remap = -1;
+    field_6 = 0;
+    field_8_ped_state_1 = 11;
+    field_C_ped_state_2 = 28;
+    field_10 = 36;
+    field_14 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_16 = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_20 = 0;
+    field_24 = 3;
+    field_28 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_2A = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_2C = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_30 = 4;
+    field_34 = 0;
+    field_38 = dword_6FD7C0; // field_38_velocity
+    field_3C = gRunOrJumpSpeed_6FD7D0;
+    field_40_rotation = word_6FDB34;
+    field_42 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_44 = 0;
+    field_45 = 0;
+    field_5C = 0;
+    field_46 = 0; // maybe field_46_shock_counter
+    field_48 = 0;
+    mpNext = 0;
+    field_7C_pPed = 0;
+    field_80_sprite_ptr = 0;
+    field_68 = 0;
+    field_69 = 0;
+    field_58_flags_bf.b0 = 0;
+    field_74 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_6A = 0;
+    field_84 = 0;
+    field_88_obj_2c.sub_5A7010();
+    field_8C = dword_6FD9E4;
+    field_58_flags_bf.b2 = 0;
+    field_6C = 18;
+    field_70 = 0;
+    field_71 = 0;
+    field_90 = dword_6FD9E4;
+    field_94 = dword_6FD9E4;
+    field_58_flags_bf.b1 = 0;
+    field_98.x = dword_6FD9E4;
+    field_98.y = dword_6FD9E4;
+    field_58_flags_bf.b3 = 0;
+    field_58_flags_bf.b5 = 0;
+    field_A4_xpos = dword_6FD9E4;
+    field_A8_ypos = dword_6FD9E4;
+    field_AC_zpos = dword_6FD9E4;
+    field_4A = 0;
 }
 
 MATCH_FUNC(0x5451A0)
@@ -599,10 +659,87 @@ void PedManager::PedsService_4703F0()
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/P1OvR
 STUB_FUNC(0x470650)
 PedManager::PedManager()
 {
-    NOT_IMPLEMENTED;
+    field_8 = 0;
+    if (!gPedPool_6787B8)
+    {
+        gPedPool_6787B8 = new PedPool();
+        if (!gPedPool_6787B8)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15827); // OutOfMemoryNewOperator
+        }
+    }
+
+    if (!gChar_B4_Pool_6FDB44)
+    {
+        gChar_B4_Pool_6FDB44 = new Char_B4_Pool();
+        if (!gChar_B4_Pool_6FDB44)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15834); // OutOfMemoryNewOperator
+        }
+    }
+
+    if (!gChar_8_Pool_678b50)
+    {
+        gChar_8_Pool_678b50 = new Char_8_Pool();
+        if (!gChar_8_Pool_678b50)
+        {
+            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15841); // OutOfMemoryNewOperator
+        }
+    }
+
+    field_8 = gSprite_Pool_703818->get_new_sprite();
+
+    field_2 = 0;
+    field_3 = 0;
+    field_4 = 0;
+    field_6_num_peds_on_screen = 0;
+    field_0 = 50;
+    field_7_make_all_muggers = false;
+    /*
+    gPedId_61A89C = 7;
+    dword_6787C0 = 0;
+    word_6787C6 = 0;
+    byte_6787C8 = 0;
+    byte_6787C9 = 0;
+    gNumberMuggersSpawned_6787CA = 0;
+    gNumberCarThiefsSpawned_6787CB = 0;
+    gNumberElvisLeadersSpawned_6787CC = 0;
+    gNumberWalkingCopsSpawned_6787CD = 0;
+    byte_6787CE = 0;
+    word_6787D0 = 0;
+    this->field_5_fbi_army_count = 0;
+    HIWORD(dword_678654) = word_61A898;
+    word_6787F0 = 0;
+    byte_6787D2 = 0;
+    byte_6787D3 = 0;
+    HIWORD(dword_6784EE) = word_6787A8;
+    byte_6787D4 = 0;
+    byte_6787D5 = 0;
+    byte_6787D6 = 0;
+    byte_6787D7 = 0;
+    byte_61A8A0 = 1;
+    byte_61A8A1 = 1;
+    byte_6787D8 = 0;
+    byte_61A8A2 = 1;
+    byte_6787D9 = 0;
+    byte_6787DA = 0;
+    dword_678750 = dword_678660;
+    dword_6787DC = 0;
+    word_678760 = word_6787A8;
+    byte_61A8A3 = 1;
+    byte_61A8A4 = 1;
+    word_6787E0 = 0;
+    byte_6787E2 = 0;
+    byte_6787E3 = 0;
+    gNumPedsOnScreen_6787EC = 0;
+    unk_6787EF = 0;
+    sub_553F90();
+    gHashBrown_678468.field_0 = 0;
+    */
 }
 
 STUB_FUNC(0x4709b0)

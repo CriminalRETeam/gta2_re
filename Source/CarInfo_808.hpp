@@ -3,6 +3,17 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
+namespace DataType
+{
+enum
+{
+    byte = 0,
+    word = 1,
+    dword = 2,
+    fix16_float = 3,
+};
+};
+
 class ModelPhysics_48
 {
   public:
@@ -80,7 +91,6 @@ class CarInfo_808
                                                         u32* next_position);
     EXPORT static char* __stdcall SetErr_430AC0(s32 a1);
     EXPORT static s32 __stdcall sub_430b10(char* param_1);
-    EXPORT static s32 __stdcall sub_430C70(const char* a1);
     EXPORT static s32 __stdcall sub_430E60(void* param_1, u32 param_2);
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* param_1, s32* param_2);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* param_1, s16* param_2);
@@ -96,3 +106,5 @@ class CarInfo_808
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
 
 EXTERN_GLOBAL(CarInfo_808*, gCarInfo_808_678098);
+
+EXPORT s32 __stdcall sub_430C70(char_type* a1);
