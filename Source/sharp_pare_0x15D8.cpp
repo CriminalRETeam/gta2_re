@@ -127,7 +127,7 @@ void sharp_pare_0x15D8::sub_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, s32 pal, s32 kind, s32 a5)
+STexture* sharp_pare_0x15D8::sub_5B94F0(s32 type, u16 pal, s32 kind, s32 a5)
 {
     STexture* result;
 

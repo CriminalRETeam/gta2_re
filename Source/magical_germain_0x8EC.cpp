@@ -8,6 +8,7 @@
 #include "Game_0x40.hpp"
 #include "gbh_graphics.hpp"
 #include "enums.hpp"
+#include "sharp_pare_0x15D8.hpp"
 
 DEFINE_GLOBAL(magical_germain_0x8EC*, gMagical_germain_0x8EC_6F5168, 0x6F5168);
 
@@ -323,11 +324,45 @@ void magical_germain_0x8EC::sub_4D29D0(u16 a2)
     }
 }
 
-STUB_FUNC(0x4D2B40)
+MATCH_FUNC(0x4D2B40)
 void magical_germain_0x8EC::sub_4D2B40()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    u16 v2 = gGtx_0x106C_703DD4->sub_5AA710(word_703C3E, 0);
+    u16 v3 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, v2);
+    field_8D4_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v3);
+
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0); i++)
+    {
+        kanji_0x10* pKanji = &field_0[i];
+        pKanji->field_2_text_char = 0;
+        pKanji->field_0_v1 = 0;
+        pKanji->field_1_v2 = 0;
+        pKanji->field_C_id = 0;
+
+        u16 v6 = gGtx_0x106C_703DD4->sub_5AA710(word_703C3E, i);
+        u16 v7 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, v6);
+        pKanji->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v7);
+        pKanji->field_4_pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(7, v6, 2, 0);
+    }
+
+    u16 v8 = gGtx_0x106C_703DD4->sub_5AA710(word_703D9A, 0);
+    u16 v9 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, v8);
+
+    field_8E0_sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v9);
+
+    for (s32 j = 0; j < GTA2_COUNTOF_S(field_780); j++)
+    {
+        kanji_0x10* pKanji_2 = &field_780[j];
+        pKanji_2->field_2_text_char = 0;
+        pKanji_2->field_0_v1 = 0;
+        pKanji_2->field_1_v2 = 0;
+        pKanji_2->field_C_id = 0;
+
+        u16 v6 = gGtx_0x106C_703DD4->sub_5AA710(word_703D9A, j);
+        u16 v7 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(7, v6);
+        pKanji_2->field_8_sprt_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v7);
+        pKanji_2->field_4_pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(7, v6, 2, 0);
+    }
 }
 
 MATCH_FUNC(0x4D2C80)
