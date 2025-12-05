@@ -129,10 +129,190 @@ s32 __stdcall CarInfo_808::sub_430b10(char* pOut)
     return -5;
 }
 
+// https://decomp.me/scratch/YniJR
 STUB_FUNC(0x430C70)
-s32 __stdcall CarInfo_808::sub_430C70(const char* a1)
+s32 __stdcall sub_430C70(char_type* pStr)
 {
     NOT_IMPLEMENTED;
+    s32 type;
+    s32 error_ret;
+    s32 v9;
+    Fix16 fix16_num;
+    s32 v11;
+    s16 v8s;
+    s16 tmp;
+
+    char_type* pCurr = pStr;
+    BOOL bHex = false;
+    BOOL bNegate = false;
+
+    if (*pCurr)
+    {
+        if (*pCurr == '-')
+        {
+            bNegate = 1;
+            pCurr++;
+        }
+
+        if (*pCurr)
+        {
+            if (*pCurr == 'b')
+            {
+                type = DataType::byte;
+                ++pCurr;
+            }
+            else if (*pCurr == 'w')
+            {
+                type = DataType::word;
+                ++pCurr;
+            }
+            else if (*pCurr == 'l')
+            {
+                type = DataType::dword;
+                ++pCurr;
+            }
+            else if (*pCurr == 'f')
+            {
+                type = DataType::fix16_float;
+                ++pCurr;
+            }
+            else
+            {
+                type = DataType::byte;
+            }
+
+            if (*pCurr == 'h')
+            {
+                bHex = 1;
+                ++pCurr;
+            }
+            if (*pCurr == '-')
+            {
+                bNegate = !bNegate;
+                ++pCurr;
+            }
+
+            switch (type)
+            {
+                case DataType::byte:
+                {
+
+                    if (bHex == 1)
+                    {
+                        error_ret = CarInfo_808::HexStr2Int_430F30(pCurr, (s16*)&tmp);
+                    }
+                    else
+                    {
+                        error_ret = CarInfo_808::StrToInt_431080(pCurr, (s16*)&tmp);
+                    }
+
+                    if (!error_ret)
+                    {
+                        if (bNegate)
+                        {
+                            s16 v8s = (char)(-(char)tmp);
+                            if ((s16)v8s < -127)
+                            {
+                                return -2;
+                            }
+                            error_ret = CarInfo_808::sub_430E60(&v8s, sizeof(BYTE));
+                        }
+                        else
+                        {
+                            if ((s16)tmp > 0xFFu)
+                            {
+                                return -2;
+                            }
+                            error_ret = CarInfo_808::sub_430E60(&tmp, sizeof(BYTE));
+                        }
+
+                        if (error_ret >= 0)
+                        {
+                            return 0;
+                        }
+                    }
+                    return error_ret;
+                }
+
+                case DataType::word:
+
+                {
+                    if (bHex == 1)
+                    {
+                        error_ret = CarInfo_808::HexStr2Int_430F30(pCurr, &tmp);
+                    }
+                    else
+                    {
+                        error_ret = CarInfo_808::StrToInt_431080(pCurr, &tmp);
+                    }
+                    if (!error_ret)
+                    {
+                        if (bNegate)
+                        {
+                            tmp = -tmp;
+                        }
+                        error_ret = CarInfo_808::sub_430E60(&tmp, sizeof(WORD));
+
+                        if (error_ret >= 0)
+                        {
+                            return 0;
+                        }
+                    }
+                    return error_ret;
+                }
+
+                case DataType::dword:
+                    if (bHex == 1)
+                    {
+                        error_ret = CarInfo_808::HexStr2Int_430EC0(pCurr, (s32*)&v9);
+                    }
+                    else
+                    {
+                        error_ret = CarInfo_808::StrToInt_430FA0(pCurr, &v9);
+                    }
+
+                    if (error_ret == 0)
+                    {
+                        if (bNegate)
+                        {
+                            v11 = -(s16)v9;
+                            error_ret = CarInfo_808::sub_430E60(&v11, sizeof(DWORD));
+                        }
+                        else
+                        {
+                            error_ret = CarInfo_808::sub_430E60(&v9, sizeof(DWORD));
+                        }
+                        if (error_ret >= 0)
+                        {
+                            return 0;
+                        }
+                    }
+                    return error_ret;
+
+                case DataType::fix16_float:
+                    error_ret = CarInfo_808::FloatStrToFix16_431000((char*)pCurr, fix16_num);
+
+                    if (!error_ret)
+                    {
+                        if (bNegate)
+                        {
+                            fix16_num = -fix16_num;
+                        }
+                        error_ret = CarInfo_808::sub_430E60(&fix16_num, sizeof(Fix16));
+                        if (error_ret >= 0)
+                        {
+                            return 0;
+                        }
+                    }
+                    return error_ret;
+
+                default:
+                    return 0;
+
+            } // end switch
+
+        } // end if (*pCurr)
+    }
     return 0;
 }
 
