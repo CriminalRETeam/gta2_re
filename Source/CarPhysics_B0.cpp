@@ -12,8 +12,6 @@ DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 DEFINE_GLOBAL(Fix16, dword_6FE348, 0x6FE348);
 DEFINE_GLOBAL(Fix16, dword_6FDFB0, 0x6FDFB0);
 
-
-
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
 
@@ -676,11 +674,10 @@ s32 CarPhysics_B0::sub_562560()
     return 0;
 }
 
-STUB_FUNC(0x5626a0)
+MATCH_FUNC(0x5626a0)
 s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_60_gas_pedal >= MinGasPedalPressure_5626C0();
 }
 
 MATCH_FUNC(0x5626c0)
