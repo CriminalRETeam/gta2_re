@@ -462,7 +462,7 @@ class Car_BC
     EXPORT void sub_441520();
     EXPORT void sub_4415C0();
     EXPORT u32* sub_441600(u32* a2);
-    EXPORT char_type sub_4416D0(s32 a2);
+    EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
     EXPORT void HandleSpecialInput_441800(char_type a2);
@@ -776,7 +776,7 @@ class Car_BC
     char_type field_A5;
     char_type field_A6;
     u8 field_A7_horn;
-    char_type field_A8;
+    u8 field_A8;
     char_type field_A9;
     char_type field_AA;
     char_type field_AB;

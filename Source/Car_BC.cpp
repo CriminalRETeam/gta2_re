@@ -1822,10 +1822,54 @@ u32* Car_BC::sub_441600(u32* a2)
 }
 
 STUB_FUNC(0x4416d0)
-char_type Car_BC::sub_4416D0(s32 a2)
+void Car_BC::sub_4416D0(s32 a2)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    
+    char bUnknown = 0;
+    if (field_A8)
+    {
+        field_A8--;
+    }
+
+    if (a2 != 0)
+    {
+        if (!this->field_A8)
+        {
+            if (!is_train_model() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_maybe_id & 7) == 0)
+            {
+                if (a2 == 2)
+                {
+                    this->field_AC = 1;
+                }
+                else if (a2 == 1)
+                {
+                    this->field_AC = 2;
+                }
+                bUnknown = 1;
+                this->field_A8 = -1;
+            }
+        }
+    }
+
+    if (!this->field_A7_horn && !sub_40F890())
+    {
+        if (this->field_54_driver->field_15C_player)
+        {
+            this->field_A7_horn = 45;
+        }
+        else if (!this->field_A8 || bUnknown)
+        {
+            if (field_84_car_info_idx == car_model_enum::FIRETRUK || field_84_car_info_idx == car_model_enum::COPCAR ||
+                field_84_car_info_idx == car_model_enum::MEDICAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
+                field_84_car_info_idx == car_model_enum::TANK || is_FBI_car_411920() || is_train_model() ||
+                (this->field_6C_maybe_id & 3) == 0)
+            {
+                this->field_A7_horn = 45;
+                this->field_A8 = -1;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4417d0)
