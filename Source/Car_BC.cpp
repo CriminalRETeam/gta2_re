@@ -721,11 +721,12 @@ Fix16 Car_BC::GetDamageFactorOnSpeed_439EE0()
     }
 }
 
-STUB_FUNC(0x439f30)
-u32* Car_BC::GetMaxSpeed_439F30(u32* a2)
+MATCH_FUNC(0x439f30)
+Fix16 Car_BC::GetMaxSpeed_439F30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    ModelPhysics_48* pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_84_car_info_idx);
+    // Max speed is limited by how smashed up the car is
+    return GetDamageFactorOnSpeed_439EE0() * pModelPhysics->field_28_max_speed;
 }
 
 MATCH_FUNC(0x439f80)

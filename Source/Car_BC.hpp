@@ -345,7 +345,7 @@ class Car_BC
   public:
     EXPORT bool IsPoliceCar_439EC0();
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
-    EXPORT u32* GetMaxSpeed_439F30(u32* a2);
+    EXPORT Fix16 GetMaxSpeed_439F30();
     EXPORT wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
     EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
