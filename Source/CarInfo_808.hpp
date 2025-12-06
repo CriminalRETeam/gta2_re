@@ -46,7 +46,7 @@ class CarInfo_2C
 
     s32 field_0;
     s32 field_4_front_wheel_offset;
-    s32 field_8_rear_wheel_offset;
+    Fix16 field_8_rear_wheel_offset;
     s32 field_C;
     s32 field_10;
     Fix16 field_14;

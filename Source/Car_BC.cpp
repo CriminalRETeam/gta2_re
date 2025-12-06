@@ -733,11 +733,11 @@ u32* Car_BC::sub_439FB0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a0e0)
-u32* Car_BC::get_rear_wheel_offset_43A0E0(u32* a2)
+MATCH_FUNC(0x43a0e0)
+Fix16_Point Car_BC::get_rear_wheel_offset_43A0E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840(field_84_car_info_idx);
+    return Fix16_Point(Fix16(0), pInfo->field_8_rear_wheel_offset);
 }
 
 STUB_FUNC(0x43a120)
