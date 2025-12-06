@@ -677,7 +677,8 @@ s32 CarPhysics_B0::sub_562560()
 MATCH_FUNC(0x5626a0)
 s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
 {
-    return field_60_gas_pedal >= MinGasPedalPressure_5626C0();
+    Fix16 t = MinGasPedalPressure_5626C0();
+    return field_60_gas_pedal >= t;
 }
 
 MATCH_FUNC(0x5626c0)

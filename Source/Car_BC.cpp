@@ -843,11 +843,10 @@ Fix16 Car_BC::sub_43A4C0()
     }
 }
 
-STUB_FUNC(0x43a590)
-u32* Car_BC::sub_43A590(u32* a2)
+MATCH_FUNC(0x43a590)
+Fix16 Car_BC::sub_43A590()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
 }
 
 STUB_FUNC(0x43a5b0)
@@ -928,6 +927,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
     }
 }
 
+// https://decomp.me/scratch/zoRIL
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
