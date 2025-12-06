@@ -1841,11 +1841,28 @@ void Car_BC::sub_4417F0()
     field_A7_horn = 45;
 }
 
-STUB_FUNC(0x441800)
-char_type Car_BC::HandleSpecialInput_441800(char_type a2)
+MATCH_FUNC(0x441800)
+void Car_BC::HandleSpecialInput_441800(char_type bNowSpecialPressed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (sub_414F20() && !bNowSpecialPressed && field_A7_horn > 248u)
+    {
+        SyncEmergencyLightState_43CA80(); // on/off depending on field_A4 flags
+    }
+
+    if (!bNowSpecialPressed || sub_40F890())
+    {
+        field_A7_horn = 0;
+        return;
+    }
+
+    if (sub_414F20())
+    {
+        field_A7_horn = -1;
+    }
+    else
+    {
+        field_A7_horn = -8;
+    }
 }
 
 MATCH_FUNC(0x4418a0)

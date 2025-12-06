@@ -465,7 +465,7 @@ class Car_BC
     EXPORT char_type sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
     EXPORT void sub_4417F0();
-    EXPORT char_type HandleSpecialInput_441800(char_type a2);
+    EXPORT void HandleSpecialInput_441800(char_type a2);
     EXPORT void DoDetachTrailer_4418A0();
     EXPORT void DetachTrailerAndUpdateDamage_4418B0();
     EXPORT void HandleUserInput_4418D0(char_type bForwardGasOn,
@@ -608,6 +608,22 @@ class Car_BC
     {
         field_7C_uni_num = a1;
         field_76 = 0;
+    }
+
+    // TODO: Find 9.6f addr
+    inline bool inline_info_flags_bit2()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) == 2;
+    }
+
+    bool sub_40F890()
+    {
+        return field_74_damage == 32001;
+    }
+
+    bool sub_414F20()
+    {
+        return inline_info_flags_bit2() || is_FBI_car_411920();
     }
 
     // 9.6f inline 0x421700
