@@ -525,7 +525,8 @@ struct frosty_nobel_748
     u32 field_4E;
     u16 field_52;
     save_stats_0x90* field_54_save;
-    s32 field_58[53];
+    s32 field_58[52];
+    s32 field_128_flags;
     s32 field_12C_phone_dead_flags;
     s32 field_130;
     s32 field_134[300];
@@ -546,6 +547,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT char_type sub_511B10(s32 idx);
     EXPORT void sub_511B90();
     EXPORT void sub_511C30();
+    EXPORT void sub_511C60();
     EXPORT void sub_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT s32 sub_511F80(char_type* FileName);

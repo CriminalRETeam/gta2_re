@@ -73,7 +73,7 @@ class Object_2C
     EXPORT void sub_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void sub_5291D0();
-    EXPORT void sub_5291E0(char_type a2);
+    EXPORT void sub_5291E0(u8 a2);
     EXPORT bool sub_529200();
     EXPORT ~Object_2C();
     EXPORT void sub_52A650();
