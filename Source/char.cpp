@@ -586,7 +586,7 @@ char_type Char_B4::sub_5535B0(Object_2C* p2c)
 }
 
 STUB_FUNC(0x553640)
-char_type Char_B4::sub_553640(Object_2C* p2c)
+bool Char_B4::sub_553640(Object_2C* p2c)
 {
     NOT_IMPLEMENTED;
     return 0;

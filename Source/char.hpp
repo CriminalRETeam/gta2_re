@@ -179,7 +179,7 @@ class Char_B4
     EXPORT bool sub_5532C0();
     EXPORT bool sub_553340(Sprite* pSprite);
     EXPORT char_type sub_5535B0(Object_2C* p2c);
-    EXPORT char_type sub_553640(Object_2C* p2c);
+    EXPORT bool sub_553640(Object_2C* p2c);
     EXPORT char_type sub_5537F0(Object_2C* p2c);
     EXPORT void sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5);
     EXPORT void sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5);
