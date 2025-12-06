@@ -1006,18 +1006,20 @@ void Car_BC::sub_43ADC0(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/Tl2Br
-STUB_FUNC(0x43af10)
+MATCH_FUNC(0x43af10)
 bool Car_BC::CanExitCar_43AF10()
 {
-    if (!sub_43A230())
+    if (sub_43A230())
     {
-        if (field_58_physics && field_58_physics->IsNearlyStopped_5636E0())
-        {
-            return true;
-        }
+        return false;
     }
-    return false;
+
+    if (field_58_physics)
+    {
+        return field_58_physics->IsNearlyStopped_5636E0();
+    }
+
+    return true;
 }
 
 STUB_FUNC(0x43af40)
