@@ -17,8 +17,8 @@ class Generator_2C
     s32 field_8_y;
     s32 field_C_z;
     s16 field_10;
-    s16 field_12_min_delay;
-    s16 field_14_max_delay;
+    u16 field_12_min_delay;
+    u16 field_14_max_delay;
     s16 field_16;
     s32 field_18_cycle;
     s16 field_1C_ammo;
@@ -34,14 +34,14 @@ class Generator_2C
 class GeneratorPool_14AC
 {
   public:
-    EXPORT void sub_4C1CD0(GeneratorPool_14AC* a1);
+    EXPORT void sub_4C1CD0();
     EXPORT void GeneratorsService_4C1D70();
     EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s16 a7, s16 a8);
     EXPORT GeneratorPool_14AC();
-    Generator_2C field_0[120];
-    s32 field_14A0;
+    Generator_2C field_0_pool[120];
+    s32 field_14A0_count;
     s32 field_14A4;
-    u8 field_14A8;
+    u8 field_14A8_count_d3;
     char_type field_14A9;
     char_type field_14AA;
     char_type field_14AB;
