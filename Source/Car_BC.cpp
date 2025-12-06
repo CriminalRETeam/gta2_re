@@ -705,11 +705,20 @@ bool Car_BC::IsPoliceCar_439EC0()
     return b;
 }
 
+// https://decomp.me/scratch/I0oG6
 STUB_FUNC(0x439ee0)
-u32* Car_BC::GetDamageFactorOnSpeed_439EE0(u32* a2)
+Fix16 Car_BC::GetDamageFactorOnSpeed_439EE0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    if (field_74_damage < 16000)
+    {
+        return dword_6777D0;
+    }
+    else
+    {
+        return Fix16(32001 - field_74_damage) / Fix16(4000);
+    }
 }
 
 STUB_FUNC(0x439f30)
