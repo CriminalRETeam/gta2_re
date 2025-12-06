@@ -705,18 +705,28 @@ bool Car_BC::IsPoliceCar_439EC0()
     return b;
 }
 
+// https://decomp.me/scratch/I0oG6
 STUB_FUNC(0x439ee0)
-u32* Car_BC::GetDamageFactorOnSpeed_439EE0(u32* a2)
+Fix16 Car_BC::GetDamageFactorOnSpeed_439EE0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    if (field_74_damage < 16000)
+    {
+        return dword_6777D0;
+    }
+    else
+    {
+        return Fix16(32001 - field_74_damage) / Fix16(4000);
+    }
 }
 
-STUB_FUNC(0x439f30)
-u32* Car_BC::GetMaxSpeed_439F30(u32* a2)
+MATCH_FUNC(0x439f30)
+Fix16 Car_BC::GetMaxSpeed_439F30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    ModelPhysics_48* pModelPhysics = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_84_car_info_idx);
+    // Max speed is limited by how smashed up the car is
+    return GetDamageFactorOnSpeed_439EE0() * pModelPhysics->field_28_max_speed;
 }
 
 MATCH_FUNC(0x439f80)
@@ -733,11 +743,11 @@ u32* Car_BC::sub_439FB0(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x43a0e0)
-u32* Car_BC::get_rear_wheel_offset_43A0E0(u32* a2)
+MATCH_FUNC(0x43a0e0)
+Fix16_Point Car_BC::get_rear_wheel_offset_43A0E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    CarInfo_2C* pInfo = gCarInfo_808_678098->sub_454840(field_84_car_info_idx);
+    return Fix16_Point(Fix16(0), pInfo->field_8_rear_wheel_offset);
 }
 
 STUB_FUNC(0x43a120)
@@ -793,29 +803,32 @@ s16* Car_BC::GetOrientationAngle_43A3E0(s16* a2)
     return 0;
 }
 
-// https://decomp.me/scratch/e2rV3
-STUB_FUNC(0x43a450)
+MATCH_FUNC(0x43a450)
 Fix16_Point Car_BC::get_linvel_43A450()
 {
-    CarPhysics_B0* pPhysics;
     if (is_train_model())
     {
-        pPhysics = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this)->field_58_physics;
-        if (!pPhysics)
+        Car_BC* carObj = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this);
+        if (!carObj->field_58_physics)
         {
             return stru_6778A8;
+        }
+        else
+        {
+            return carObj->field_58_physics->get_linvel_447010();
         }
     }
     else
     {
-        pPhysics = field_58_physics;
-        if (!pPhysics)
+        if (!this->field_58_physics)
         {
             return stru_6778A8;
         }
+        else
+        {
+            return this->field_58_physics->get_linvel_447010();
+        }
     }
-
-    return pPhysics->get_linvel_447010();
 }
 
 MATCH_FUNC(0x43a4c0)
@@ -831,11 +844,10 @@ Fix16 Car_BC::sub_43A4C0()
     }
 }
 
-STUB_FUNC(0x43a590)
-u32* Car_BC::sub_43A590(u32* a2)
+MATCH_FUNC(0x43a590)
+Fix16 Car_BC::sub_43A590()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
 }
 
 STUB_FUNC(0x43a5b0)
@@ -916,6 +928,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
     }
 }
 
+// https://decomp.me/scratch/zoRIL
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
@@ -994,18 +1007,20 @@ void Car_BC::sub_43ADC0(s32 a2)
     NOT_IMPLEMENTED;
 }
 
-// https://decomp.me/scratch/Tl2Br
-STUB_FUNC(0x43af10)
+MATCH_FUNC(0x43af10)
 bool Car_BC::CanExitCar_43AF10()
 {
-    if (!sub_43A230())
+    if (sub_43A230())
     {
-        if (field_58_physics && field_58_physics->IsNearlyStopped_5636E0())
-        {
-            return true;
-        }
+        return false;
     }
-    return false;
+
+    if (field_58_physics)
+    {
+        return field_58_physics->IsNearlyStopped_5636E0();
+    }
+
+    return true;
 }
 
 STUB_FUNC(0x43af40)

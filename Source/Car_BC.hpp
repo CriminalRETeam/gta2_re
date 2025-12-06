@@ -344,11 +344,11 @@ class Car_BC
 {
   public:
     EXPORT bool IsPoliceCar_439EC0();
-    EXPORT u32* GetDamageFactorOnSpeed_439EE0(u32* a2);
-    EXPORT u32* GetMaxSpeed_439F30(u32* a2);
+    EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
+    EXPORT Fix16 GetMaxSpeed_439F30();
     EXPORT wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
-    EXPORT u32* get_rear_wheel_offset_43A0E0(u32* a2);
+    EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
     EXPORT u32* get_mass_43A120(u32* a2);
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
@@ -358,7 +358,7 @@ class Car_BC
     EXPORT s16* GetOrientationAngle_43A3E0(s16* a2);
     EXPORT Fix16_Point get_linvel_43A450();
     EXPORT Fix16 sub_43A4C0();
-    EXPORT u32* sub_43A590(u32* a2);
+    EXPORT Fix16 sub_43A590();
     EXPORT u32* sub_43A5B0(u32* a2);
     EXPORT void RemoveAllDamage();
     EXPORT bool AllowResprayOrPlates();
