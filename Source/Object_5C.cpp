@@ -266,11 +266,68 @@ void Object_2C::sub_5257D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x525910)
-char_type Object_2C::sub_525910()
+MATCH_FUNC(0x525910)
+bool Object_2C::sub_525910()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_24)
+    {
+        switch (field_8->field_44)
+        {
+            case 1:
+            case 2:
+            case 5:
+            case 6:
+            case 8:
+            case 11:
+                if (field_24 == 1)
+                {
+                    sub_5283C0(field_8->field_38);
+                }
+                else
+                {
+                    sub_5283C0(field_24);
+                }
+                field_24 = 0;
+                return true;
+            case 4:
+                if (field_24 != 1)
+                {
+                    sub_5283C0(field_24);
+                }
+                field_24 = 0;
+                return true;
+            case 7:
+            case 10:
+                field_24 = 0;
+                sub_5290A0();
+                return true;
+            default:
+                field_24 = 0;
+                return false;
+        }
+    }
+    else if (field_8->field_44 == 3 || field_8->field_44 == 4)
+    {
+        sub_5283C0(field_8->field_38);
+        return true;
+    }
+
+    return false;
+}
+
+MATCH_FUNC(0x525AE0)
+EXPORT void Object_2C::sub_525AE0()
+{
+    switch (field_18_model)
+    {
+        case 139:
+        case 141:
+            gPurpleDoom_1_679208->sub_477BD0(field_4);
+            gPurpleDoom_2_67920C->sub_477BD0(field_4);
+            break;
+        default:
+            break;
+    }
 }
 
 STUB_FUNC(0x525b40)
@@ -452,6 +509,29 @@ STUB_FUNC(0x5283c0)
 void Object_2C::sub_5283C0(s32 a2)
 {
     NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x5288B0)
+bool Object_2C::sub_5288B0(Sprite* a2)
+{
+    if (!a2)
+    {
+        return false;
+    }
+
+    Char_B4* pCharB4 = a2->AsCharB4_40FEA0();
+    if (pCharB4)
+    {
+        return pCharB4->sub_553640(this);
+    }
+
+    Car_BC* pCarBc = a2->AsCar_40FEB0();
+    if (pCarBc)
+    {
+        return pCarBc->sub_43EA60(this);
+    }
+
+    return false;
 }
 
 STUB_FUNC(0x528990)

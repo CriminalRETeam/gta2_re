@@ -1524,7 +1524,7 @@ Ped* Car_BC::sub_43E990()
 }
 
 STUB_FUNC(0x43ea60)
-char_type Car_BC::sub_43EA60(s32 a2)
+bool Car_BC::sub_43EA60(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
