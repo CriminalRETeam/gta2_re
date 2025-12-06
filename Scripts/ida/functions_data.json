@@ -12130,7 +12130,7 @@
         "v105_address": "0x55a860"
     },
     {
-        "name": "CarPhysics_B0::sub_55AA00",
+        "name": "CarPhysics_B0::HandleGravityOnSlope_55AA00",
         "v96f_address": null,
         "v105_address": "0x55aa00"
     },
@@ -12505,7 +12505,7 @@
         "v105_address": "0x562ef0"
     },
     {
-        "name": "CarPhysics_B0::sub_562F30",
+        "name": "CarPhysics_B0::ApplyInputsAndIntegratePhysics_562F30",
         "v96f_address": null,
         "v105_address": "0x562f30"
     },

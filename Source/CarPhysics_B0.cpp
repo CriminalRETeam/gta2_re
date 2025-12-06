@@ -9,6 +9,10 @@ DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
 DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
+DEFINE_GLOBAL(Fix16, dword_6FE348, 0x6FE348);
+
+
+
 
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
@@ -271,14 +275,18 @@ void CarPhysics_B0::ResetForceAccumulators_55A840()
 }
 
 STUB_FUNC(0x55a860)
-char_type CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn)
+char_type CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
+                                                 char_type bFootBrakeOn,
+                                                 char_type a4,
+                                                 char_type a5,
+                                                 char_type bHandBrakeOn)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x55aa00)
-void CarPhysics_B0::sub_55AA00()
+void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
     NOT_IMPLEMENTED;
 }
@@ -628,17 +636,17 @@ u32* CarPhysics_B0::sub_561DD0(u32* a2)
 }
 
 STUB_FUNC(0x561e50)
-Sprite_4C** CarPhysics_B0::CalculateFrontSkid_561E50(Sprite_4C** a2)
+Fix16 CarPhysics_B0::CalculateFrontSkid_561E50()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16(0);
 }
 
 STUB_FUNC(0x5620d0)
-u32* CarPhysics_B0::CalculateRearSkid_5620D0(u32* a2)
+Fix16 CarPhysics_B0::CalculateRearSkid_5620D0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Fix16(0);
 }
 
 STUB_FUNC(0x562450)
@@ -735,11 +743,17 @@ s32 CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
     return 0;
 }
 
-STUB_FUNC(0x562f30)
-s32 CarPhysics_B0::sub_562F30()
+MATCH_FUNC(0x562f30)
+void CarPhysics_B0::ApplyInputsAndIntegratePhysics_562F30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    dword_6FE348 = field_5C_pCar->GetDamageFactorOnSpeed_439EE0();
+    ApplyThrottleInput_562480();
+    ApplyBrakePhysics_5624F0();
+    field_84_front_skid = CalculateFrontSkid_561E50();
+    field_88_rear_skid = CalculateRearSkid_5620D0();
+    HandleGravityOnSlope_55AA00();
+    UpdateLinearAndAngularAccel_560EB0();
+    IntegrateAndClampVelocities_5610B0();
 }
 
 MATCH_FUNC(0x562fa0)
