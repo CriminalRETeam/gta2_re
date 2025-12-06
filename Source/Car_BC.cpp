@@ -1744,10 +1744,17 @@ void Car_BC::sub_4436A0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x441380)
+MATCH_FUNC(0x441380)
 void Car_BC::sub_441380()
 {
-    NOT_IMPLEMENTED;
+    if (this->field_A9 == 0)
+    {
+        if (this->field_9C != 6)
+        {
+            this->field_9C = 5;
+        }
+        this->field_A9 = 50;
+    }
 }
 
 STUB_FUNC(0x4413b0)
