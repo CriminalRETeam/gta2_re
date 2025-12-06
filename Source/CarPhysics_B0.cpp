@@ -10,7 +10,7 @@ DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 DEFINE_GLOBAL(Fix16, dword_6FE348, 0x6FE348);
-
+DEFINE_GLOBAL(Fix16, dword_6FDFB0, 0x6FDFB0);
 
 
 
@@ -683,11 +683,17 @@ s32 CarPhysics_B0::IsGasPedalPressedEnough_5626A0()
     return 0;
 }
 
-STUB_FUNC(0x5626c0)
-u32* CarPhysics_B0::MinGasPedalPressure_5626C0(u32* a2)
+MATCH_FUNC(0x5626c0)
+Fix16 CarPhysics_B0::MinGasPedalPressure_5626C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_5C_pCar->field_7C_uni_num == 2) // ??
+    {
+        return dword_6FDFB0;
+    }
+    else
+    {
+        return kFP16Zero_6FE20C;
+    }
 }
 
 STUB_FUNC(0x5626f0)
