@@ -793,29 +793,32 @@ s16* Car_BC::GetOrientationAngle_43A3E0(s16* a2)
     return 0;
 }
 
-// https://decomp.me/scratch/e2rV3
-STUB_FUNC(0x43a450)
+MATCH_FUNC(0x43a450)
 Fix16_Point Car_BC::get_linvel_43A450()
 {
-    CarPhysics_B0* pPhysics;
     if (is_train_model())
     {
-        pPhysics = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this)->field_58_physics;
-        if (!pPhysics)
+        Car_BC* carObj = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this);
+        if (!carObj->field_58_physics)
         {
             return stru_6778A8;
+        }
+        else
+        {
+            return carObj->field_58_physics->get_linvel_447010();
         }
     }
     else
     {
-        pPhysics = field_58_physics;
-        if (!pPhysics)
+        if (!this->field_58_physics)
         {
             return stru_6778A8;
         }
+        else
+        {
+            return this->field_58_physics->get_linvel_447010();
+        }
     }
-
-    return pPhysics->get_linvel_447010();
 }
 
 MATCH_FUNC(0x43a4c0)
