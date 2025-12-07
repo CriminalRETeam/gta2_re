@@ -16,6 +16,8 @@ DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(s8, byte_6FDB48, 0x6FDB48);
+DEFINE_GLOBAL(s8, byte_6FDB49, 0x6FDB49);
+DEFINE_GLOBAL(u32, gB4_id_6FDB4C, 0x6FDB4C);
 DEFINE_GLOBAL(Fix16, dword_6FD80C, 0x6FD80C);
 
 DEFINE_GLOBAL(Fix16, dword_6FD7F8, 0x6FD7F8);
@@ -114,10 +116,76 @@ Char_B4::~Char_B4()
     this->field_84 = 0;
 }
 
+// https://decomp.me/scratch/pxZcR
 STUB_FUNC(0x545200)
 void Char_B4::PoolAllocate()
 {
-    NOT_IMPLEMENTED;
+    field_0 = gB4_id_6FDB4C++;
+    Char_B4::sub_5456A0();
+    field_4 = 1;
+    field_5_remap = -1;
+    field_6 = 0;
+    field_8_ped_state_1 = 11;
+    field_C_ped_state_2 = 28;
+    field_10 = 36;
+    field_14 = *(angle*)&word_6FDB34;
+    field_16 = 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_20 = 0;
+    field_24 = 3;
+    field_28 = *(angle*)&word_6FDB34;
+    field_2A = *(angle*)&word_6FDB34;
+    field_2C = *(angle*)&word_6FDB34;
+    field_30 = 4;
+    field_34 = 0;
+    field_38 = dword_6FD7C0;
+    field_3C = gRunOrJumpSpeed_6FD7D0;
+    field_40_rotation = word_6FDB34;
+    field_42 = *(angle*)&word_6FDB34;
+    field_44 = 0;
+    field_45 = 0;
+    field_5C = 0;
+    field_46 = 0;
+    field_48 = 0;
+    field_4A = 500;
+    mpNext = 0;
+    field_7C_pPed = 0;
+    field_68 = 0;
+    field_69 = 0;
+    field_74 = *(angle*)&word_6FDB34;
+    field_6A = 0;
+    field_84 = 0;
+    field_58_flags_bf.b0 = 0;
+    field_88_obj_2c.sub_5A7010();
+    field_8C = dword_6FD9E4;
+    field_58_flags_bf.b2 = 0;
+    field_6C = 18;
+    field_70 = 0;
+    field_71 = 0;
+    field_90 = dword_6FD9E4;
+    field_94 = dword_6FD9E4;
+    field_58_flags_bf.b1 = 0;
+    field_98.x = dword_6FD9E4;
+    field_98.y = dword_6FD9E4;
+    field_58_flags_bf.b1 = 0;
+    field_58_flags_bf.b3 = 0;
+    field_58_flags_bf.b5 = 0;
+    field_A4_xpos = dword_6FD9E4;
+    field_A8_ypos = dword_6FD9E4;
+    field_58_flags_bf.b4 = 0;
+    field_AC_zpos = dword_6FD9E4;
+    field_4C = dword_6FD9E4;
+    field_50 = dword_6FD9E4;
+    field_72 = dword_6FD9E4.ToInt();
+    field_58_flags_bf.b6 = 0;
+    field_58_flags_bf.b7 = 0;
+    field_73 = dword_6FD9E4.ToInt();
+    field_60 = 0;
+    field_64 = 0;
+    field_55 = 0;
+    field_A0 = 0;
+    field_B0 = -1;
 }
 
 STUB_FUNC(0x5453d0)
@@ -737,9 +805,9 @@ PedManager::PedManager()
     byte_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
     unk_6787EF = 0;
-    sub_553F90();
-    gHashBrown_678468.field_0 = 0;
     */
+    sub_553F90();
+    //gHashBrown_678468.field_0 = 0;
 }
 
 STUB_FUNC(0x4709b0)
