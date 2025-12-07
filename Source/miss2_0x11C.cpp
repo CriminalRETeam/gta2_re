@@ -568,7 +568,7 @@ s32 miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(s32 a1, s16* a2)
 }
 
 STUB_FUNC(0x504660)
-void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(miss2_0x11C* a1, s32 a2)
+void miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660(s32 a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -1168,6 +1168,172 @@ STUB_FUNC(0x5061c0)
 void miss2_0x11C::ExecOpCode_5061C0()
 {
     NOT_IMPLEMENTED;
+    for (u16 i = 1; i < 6000u; ++i)
+    {
+        SCR_CMD_HEADER* pBasePtr = gfrosty_pasteur_6F8060->GetBasePointer_512770(i);
+        if (pBasePtr)
+        {
+            switch (pBasePtr->field_2_type)
+            {
+                case SCRCMD_PLAYER_PED:
+                    miss2_0x11C::SCRCMD_PLAYER_PED_503A20((SCR_PLAYER_PED*)pBasePtr);
+                    break;
+                case SCRCMD_CAR_DECSET_2D:
+                case SCRCMD_CAR_DECSET_3D:
+                case SCRCMD_CAR_DECSET_2D_STR:
+                case SCRCMD_CAR_DECSET_3D_STR:
+                    miss2_0x11C::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_CHAR_DECSET_2D:
+                case SCRCMD_CHAR_DECSET_3D:
+                    miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0((SCR_CHAR_DATA_DEC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_OBJ_DECSET_2D:
+                case SCRCMD_OBJ_DECSET_3D:
+                    miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680((SCR_OBJ_DATA*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_OBJ_DECSET_2D_s32:
+                case SCRCMD_OBJ_DECSET_3D_s32:
+                case SCRCMD_OBJ_DECSET_2D_STR:
+                case SCRCMD_OBJ_DECSET_3D_STR:
+                    miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0((SCR_OBJ_DATA*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_MAP_ZONE_SET:
+                    miss2_0x11C::SCRCMD_MAP_ZONE_SET_504150((SCR_MAP_ZONE_SET*)pBasePtr);
+                    break;
+                case SCRCMD_ARROW_DEC:
+                    miss2_0x11C::SCRCMD_ARROW_DEC_5041B0((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_CRANE_BASIC_DEC:
+                case SCRCMD_CRANE_TARGET_DEC:
+                case SCRCMD_CRANE2TARGET_DEC:
+                    miss2_0x11C::SCRCMD_CRANE_5041C0((s32)pBasePtr, (s32)pBasePtr); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_CONVEYOR_DECSET1:
+                case SCRCMD_CONVEYOR_DECSET2:
+                    miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0((SCR_CONVEYOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_GENERATOR_DECSET1:
+                case SCRCMD_GENERATOR_DECSET2:
+                case SCRCMD_GENERATOR_DECSET3:
+                case SCRCMD_GENERATOR_DECSET4:
+                    miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420((SCR_GENERATOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_DESTRUCTOR_DECSET1:
+                case SCRCMD_DESTRUCTOR_DECSET2:
+                    miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530((SCR_DESTRUCTOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_THREAD_DECLARE2:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0((s32)pBasePtr, &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_THREAD_DECLARE3:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660((s32)pBasePtr); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_THREAD_DECLARE4:
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0((s32)pBasePtr, &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_SET_GANG_INFO1:
+                    miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)pBasePtr); // SCRCMD_SET_GANG_INFO1
+                    break;
+                case SCRCMD_SET_DOOR_INFO: // SCRCMD_SET_DOOR_INFO
+                    miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950((SCR_FOUR_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_CRUSHER_BASIC: // SCRCMD_CRUSHER_BASIC ??
+                    miss2_0x11C::SCRCMD_CRUSHER_BASIC_5045A0((SCR_CRUSHER_BASIC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_SET_STATION:
+                case SCRCMD_SET_EMPTY_STATION:
+                    miss2_0x11C::SCRCMD_SET_STATION_EMPTY_STATION_505030((SCR_SET_STATION*)pBasePtr);
+                    break;
+                case SCRCMD_RADIOSTATION_DEC:
+                    miss2_0x11C::SCRCMD_RADIOSTATION_DEC_5051D0((SCR_RADIOSTATION_DEC*)pBasePtr);
+                    break;
+                case SCRCMD_SET_STATION_4:
+                case SCRCMD_SET_STATION_3:
+                case SCRCMD_SET_STATION_2:
+                case SCRCMD_SET_STATION_1:
+                    miss2_0x11C::CRCMD_SET_TRAIN_STATIONS_505210((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_CREATE_LIGHT2:
+                case SCRCMD_LIGHT_DEC:
+                    miss2_0x11C::CreateLight_504EE0((s32)pBasePtr, (s32)pBasePtr); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_DECLARE_POLICE:
+                    miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)pBasePtr);
+                    break;
+                case SCRCMD_SOUND_DECSET:
+                    miss2_0x11C::SCRCMD_SOUND_DECSET_505340((SCR_SOUND_DECSET*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_FINISH_SCORE:
+                    miss2_0x11C::SCRCMD_FINISH_SCORE_505710((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_TOTAL_MISSIONS:
+                case SCRCMD_TOTAL_SECRETS:
+                case SCRCMD_GANG_1_MISSION_TOTAL:
+                case SCRCMD_GANG_2_MISSION_TOTAL:
+                case SCRCMD_GANG_3_MISSION_TOTAL:
+                    miss2_0x11C::SCRCMD_SET_MISSIONS_TOTAL_505430((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_PASSED_FLAG:
+                case SCRCMD_1_PASSED_FLAG:
+                case SCRCMD_2_PASSED_FLAG:
+                case SCRCMD_3_PASSED_FLAG:
+                case SCRCMD_SECRETS_PASSED:
+                case SCRCMD_SECRETS_FAILED:
+                    miss2_0x11C::SCRCMD_PASSED_FAILED_FLAGS_505580((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_DOOR_DECLARE_S1:
+                case SCRCMD_DOOR_DECLARE_D1:
+                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    break;
+                case SCRCMD_DOOR_DECLARE_S2:
+                case SCRCMD_DOOR_DECLARE_D2:
+                    miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    break;
+                case SCRCMD_DEC_GANG_1_FLAG:
+                case SCRCMD_DEC_GANG_2_FLAG:
+                case SCRCMD_DEC_GANG_3_FLAG:
+                case SCRCMD_DECLARE_MISSION:
+                    miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_CHAR_AREA_ANY_MEANS:
+                case SCRCMD_THREAD_DECLARE5: // ?????
+                    miss2_0x11C::sub_504710((s32)pBasePtr); // TODO: correct type after matching this func
+                    break;
+                case SCRCMD_DECLARE_CARLIST:
+                    miss2_0x11C::SCRCMD_DECLARE_CARLIST_505750((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_DISPLAY_MESSAGE:
+                case SCRCMD_DISPLAY_BRIEF:
+                case SCRCMD_DISPLAY_BRIEF_NOW:
+                case SCRCMD_DISPLAY_BRIEF_SOON:
+                    miss2_0x11C::SCRCMD_DISPLAY_MESSAGES_505F50((SCR_TWO_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_PARKED_CAR_DECSET_2D:
+                case SCRCMD_PARKED_CAR_DECSET_3D:
+                case SCRCMD_PARKED_CAR_DECSET_2D_STR:
+                case SCRCMD_PARKED_CAR_DECSET_3D_STR:
+                    miss2_0x11C::SCRCMD_PARKED_CAR_DECSET_503F80((SCR_POINTER*)pBasePtr);
+                    break;
+                case SCRCMD_DEC_DEATH_BASE_1:
+                case SCRCMD_DEC_DEATH_BASE_2:
+                case SCRCMD_DEC_DEATH_BASE_3:
+                    miss2_0x11C::SCRCMD_DEC_DEATH_BASE_506010((SCR_FOUR_PARAMS*)pBasePtr);
+                    break;
+                case SCRCMD_DO_CRANE_POWERUP:
+                    miss2_0x11C::SCRCMD_DO_CRANE_POWERUP_5060D0((SCR_DECLARE_CRANE_POWERUP*)pBasePtr);
+                    break;
+                case SCRCMD_START_BASIC_KF:
+                    miss2_0x11C::SCRCMD_START_BASIC_KF_506140((u16*)&pBasePtr->field_0_cmd_this);
+                    break;
+                default:
+                    continue;
+            }
+        }
+    }
+    gfrosty_pasteur_6F8060->sub_511C60();
+    miss2_0x11C::sub_511CD0();
+    gGeneratorPool_14AC_67E5D0->sub_4C1CD0();
 }
 
 MATCH_FUNC(0x5069c0)
