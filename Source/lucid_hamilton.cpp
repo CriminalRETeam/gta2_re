@@ -325,9 +325,9 @@ char_type lucid_hamilton::sub_4C5C20()
 }
 
 MATCH_FUNC(0x4C5C30)
-void lucid_hamilton::sub_4C5C30(s32 a2, wchar_t* Source)
+void lucid_hamilton::sub_4C5C30(u16 a2, wchar_t* Source)
 {
-    wcsncpy(field_4B4[static_cast<u16>(a2)].field_0_str, Source, 16u);
+    wcsncpy(field_4B4[a2].field_0_str, Source, 16u);
 }
 
 MATCH_FUNC(0x4C5C60)

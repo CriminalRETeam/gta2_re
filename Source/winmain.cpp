@@ -115,7 +115,7 @@ void force_link()
     rozza.field_0_pSoundObj = 0;
 
     GeneratorPool_14AC maccies;
-    maccies.sub_4C1CD0(0);
+    maccies.sub_4C1CD0();
 
     Sprite car_3c;
     car_3c.field_20_id = 5;

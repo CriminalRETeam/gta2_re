@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Light_1D4CC.hpp"
 #include "Object_2C_Pool.hpp"
 #include "Object_3C_Pool.hpp"
 #include "Object_8_Pool.hpp"
@@ -19,6 +20,7 @@ EXTERN_GLOBAL(Ang16, word_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
+s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
 DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL(Fix16, dword_6F8E10, 0x6F8E10);
 
@@ -36,6 +38,11 @@ DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
 DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
 DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
+
 MATCH_FUNC(0x522140)
 Object_2C::Object_2C()
 {
@@ -43,9 +50,9 @@ Object_2C::Object_2C()
     field_4 = 0;
     field_18_model = 0;
     field_8 = 0;
-    field_C = 0;
-    field_10 = 0;
-    field_14 = 99;
+    field_C_obj_8 = 0;
+    field_10_obj_3c = 0;
+    field_14_id = 99;
     field_24 = 0;
     field_25 = 0;
     field_26_varrok_idx = 99;
@@ -181,14 +188,14 @@ void Object_2C::sub_5226A0(char_type a2)
 {
     NOT_IMPLEMENTED;
 
-    if (this->field_10)
+    if (field_10_obj_3c)
     {
-        this->field_10->field_38 = a2;
+        field_10_obj_3c->field_38 = a2;
     }
     else
     {
         sub_528130(&stru_6F8EF0);
-        this->field_10->field_38 = a2;
+        field_10_obj_3c->field_38 = a2;
     }
 }
 
@@ -406,9 +413,9 @@ MATCH_FUNC(0x527630)
 void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
     Phi_74* phi74 = gPhi_8CA8_6FCF00->sub_534360(object_type);
-    this->field_8 = phi74;
-    this->field_18_model = object_type;
-    this->field_24 = 0;
+    field_8 = phi74;
+    field_18_model = object_type;
+    field_24 = 0;
 
     if (field_4)
     {
@@ -416,10 +423,10 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
     }
     else
     {
-        this->field_4 = phi74->sub_533170();
+        field_4 = phi74->sub_533170();
     }
 
-    Sprite* pSprite = this->field_4;
+    Sprite* pSprite = field_4;
     if (pSprite->field_14_xpos.x != xpos || pSprite->field_14_xpos.y != ypos || pSprite->field_1C_zpos != zpos)
     {
         pSprite->field_14_xpos.x = xpos;
@@ -428,19 +435,19 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         pSprite->sub_59E7B0();
     }
 
-    Sprite* pSprite_ = this->field_4;
+    Sprite* pSprite_ = field_4;
     if (rotation.rValue != pSprite_->field_0.rValue)
     {
         pSprite_->field_0.rValue = rotation.rValue;
         pSprite_->sub_59E7B0();
     }
-    this->field_4->field_8_object_2C_ptr = this;
+    field_4->field_8_object_2C_ptr = this;
 }
 
 MATCH_FUNC(0x527990)
 void Object_2C::sub_527990()
 {
-    field_C->field_0 &= ~0xFF;
+    field_C_explosion->field_0 &= ~0xFF;
 }
 
 MATCH_FUNC(0x527ae0)
@@ -467,7 +474,7 @@ void Object_2C::sub_527AE0()
 MATCH_FUNC(0x527d00)
 void Object_2C::sub_527D00()
 {
-    switch (this->field_8->field_40)
+    switch (field_8->field_40)
     {
         case 0:
         case 1:
@@ -598,14 +605,14 @@ void Object_2C::sub_5292D0()
 
     if (wepon_kind <= 27)
     {
-        this->field_26_varrok_idx = gWeapon_8_707018->get_ammo_5E3E80(wepon_kind);
+        field_26_varrok_idx = gWeapon_8_707018->get_ammo_5E3E80(wepon_kind);
     }
 }
 
 MATCH_FUNC(0x529080)
 void Object_2C::sub_529080(u8 idx)
 {
-    this->field_26_varrok_idx = idx;
+    field_26_varrok_idx = idx;
     gVarrok_7F8_703398->sub_59B0B0(idx);
 }
 
@@ -636,7 +643,7 @@ void Object_2C::sub_5291D0()
 }
 
 MATCH_FUNC(0x5291E0)
-void Object_2C::sub_5291E0(char_type a2)
+void Object_2C::sub_5291E0(u8 a2)
 {
     sub_522340();
     field_24 = a2;
@@ -651,10 +658,10 @@ bool Object_2C::sub_529200()
 MATCH_FUNC(0x52ae60)
 Object_2C::~Object_2C()
 {
-    this->mpNext = 0;
-    this->field_4 = 0;
-    this->field_8 = 0;
-    this->field_10 = 0;
+    mpNext = 0;
+    field_4 = 0;
+    field_8 = 0;
+    field_10_obj_3c = 0;
 }
 
 STUB_FUNC(0x52ae70)
@@ -676,8 +683,8 @@ void Object_2C::sub_5290C0(u8 id_base)
 {
     NOT_IMPLEMENTED;
 
-    Phi_74* pPhi = this->field_8;
-    Sprite* pSprite = this->field_4;
+    Phi_74* pPhi = field_8;
+    Sprite* pSprite = field_4;
     s16 new_id = id_base + pPhi->field_1E;
     if (pSprite->field_22_sprite_id != new_id)
     {
@@ -689,9 +696,9 @@ void Object_2C::sub_5290C0(u8 id_base)
 MATCH_FUNC(0x525AC0)
 char Object_2C::sub_525AC0()
 {
-    if (this->field_18_model == 113)
+    if (field_18_model == 113)
     {
-        return field_C->sub_5435D0();
+        return field_C_explosion->sub_5435D0();
     }
     else
     {
@@ -702,11 +709,11 @@ char Object_2C::sub_525AC0()
 MATCH_FUNC(0x525B20)
 void Object_2C::sub_525B20()
 {
-    if (field_10)
+    if (field_10_obj_3c)
     {
-        if (field_10->field_0.field_0_p18)
+        if (field_10_obj_3c->field_0.field_0_p18)
         {
-            field_10->field_0.sub_5A6F70(field_4);
+            field_10_obj_3c->field_0.sub_5A6F70(field_4);
         }
     }
 }
@@ -750,7 +757,7 @@ Object_5C::Object_5C()
         field_20[i] = 1;
     }
 
-    field_54 = 0;
+    field_54_f20_idx = 0;
     byte_6F8C68 = 0;
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
@@ -821,10 +828,10 @@ Object_5C::~Object_5C()
         GTA2_DELETE_AND_NULL(gObject_3C_Pool_6F8F7C);
     }
 
-    this->field_0 = 0;
-    this->field_C = 0;
-    this->field_8 = 0;
-    this->field_4 = 0;
+    field_0 = 0;
+    field_C = 0;
+    field_8 = 0;
+    field_4 = 0;
 }
 
 MATCH_FUNC(0x5297f0)
@@ -933,18 +940,181 @@ Object_2C* Object_5C::sub_529BC0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6)
     return tmp;
 }
 
+// https://decomp.me/scratch/dZQWS
 STUB_FUNC(0x529c00)
-Object_2C* Object_5C::sub_529C00(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6, char_type a7)
+Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char bUnknown)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Phi_74* pPhi; // edi
+    Object_2C* pNew2C; // esi
+    Wolfy_30* pNew30; // eax
+    Object_3C* pNew3C; // eax
+    Object_8* pNew8; // eax
+
+    if (object_type == 266)
+    {
+        if (!field_20[field_54_f20_idx]) // 20
+        {
+            field_54_f20_idx++;
+            return 0;
+        }
+    }
+
+    pPhi = gPhi_8CA8_6FCF00->sub_534360(object_type);
+    if (pPhi->field_5C == 2)
+    {
+        if (field_10 == 360)
+        {
+            return 0;
+        }
+        field_10++;
+    }
+
+    if (pPhi->field_61) // 6c
+    {
+        pNew2C = gObject_2C_Pool_6F8F80->Allocate();
+        pNew2C->field_20 = 1;
+    }
+    else
+    {
+        pNew2C = gObject_2C_Pool_6F8F80->AllocateUntracked();
+        pNew2C->field_20 = 2;
+    }
+
+    pNew2C->sub_527630(object_type, xpos, ypos, zpos, rotation);
+    if (field_18)
+    {
+        pNew2C->sub_529080(field_18);
+        field_18 = 0;
+    }
+
+    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->sub_477E60(pNew2C->field_4, 0))))
+    {
+        if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
+        {
+            gObject_2C_Pool_6F8F80->unknown_func(pNew2C);
+            return 0;
+        }
+        else
+        {
+            gObject_2C_Pool_6F8F80->DeAllocate(pNew2C);
+            return 0;
+        }
+    }
+
+    if (pPhi->field_5C == 3) // 1e0
+    {
+        ++field_14;
+        field_1C.sub_5A6CD0(pNew2C->field_4);
+    }
+
+    switch (pPhi->field_34)
+    {
+
+        case 0:
+        case 1:
+        case 6:
+        case 10:
+        case 12:
+            pNew2C->field_C_obj_8 = 0;
+            pNew2C->field_10_obj_3c = 0;
+            break;
+
+        case 5:
+            pNew30 = gWolfy_7A8_6FD5F0->sub_543800();
+            pNew2C->field_C_explosion = pNew30;
+            if (pNew30) // 225
+            {
+                pNew2C->field_1C = 1;
+            }
+            else
+            {
+                return 0;
+            }
+
+            break;
+
+        case 2:
+        case 8:
+            pNew8 = gObject_8_Pool_6F8F78->Allocate();
+            pNew2C->field_C_obj_8 = pNew8;
+            pNew8->field_7 = 0;
+            pNew2C->field_C_obj_8->field_4 = pPhi->field_65;
+            pNew2C->field_C_obj_8->field_6 = 0;
+            break;
+
+        case 3:
+        case 7:
+            pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
+            pNew2C->field_10_obj_3c = pNew3C;
+            pNew3C->field_20 = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C = pNew2C->field_8->field_10;
+            pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+            pNew2C->field_10_obj_3c->field_4 = rotation;
+            pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
+            pNew2C->field_10_obj_3c->field_10 = dword_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C = dword_6F8E10;
+            break;
+
+        case 4:
+        case 9:
+            pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
+            pNew2C->field_10_obj_3c = pNew3C;
+            pNew3C->field_20 = pNew2C->field_14_id;
+            pNew2C->field_10_obj_3c->field_C = pNew2C->field_8->field_10;
+            pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
+            pNew2C->field_10_obj_3c->field_10 = dword_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C = dword_6F8E10;
+            pNew2C->field_10_obj_3c->field_4 = rotation;
+            pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
+
+            pNew8 = gObject_8_Pool_6F8F78->Allocate();
+            pNew2C->field_C_obj_8 = pNew8;
+            pNew8->field_7 = 0; // ??
+            pNew2C->field_C_obj_8->field_4 = pPhi->field_65;
+            pNew2C->field_C_obj_8->field_6 = 0;
+            break;
+
+        case 11:
+            //pNew2C->field_C_obj_8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            break;
+
+        default:
+            break;
+    }
+    ++dword_6F8F88;
+
+    pNew2C->field_18_model = object_type;
+    if (pNew2C->sub_421060())
+    {
+        pNew2C->sub_5292D0();
+    }
+
+    if (pNew2C->field_18_model == 281)
+    {
+        Object_2C* v34 = sub_5299B0(284, dword_6F8E10, dword_6F8E10, dword_6F8E10, word_6F8F68);
+        pNew2C->field_4->sub_5A3100(v34->field_4,
+                                    (dword_6F8CE8 * dword_6F8ECC), // x?
+                                    (dword_6F8CEC * dword_6F8ECC), // y?
+                                    word_6F8F68); // ang?
+        return pNew2C;
+    }
+    else
+    {
+        if (pNew2C->field_18_model == 266)
+        {
+            pNew2C->set_field_26(field_54_f20_idx);
+            field_54_f20_idx++;
+        }
+        return pNew2C;
+    }
+    // return pNew2C;
 }
 
 MATCH_FUNC(0x52a210)
 char_type Object_5C::sub_52A210(char_type a2)
 {
     // TODO: Why is it a byte here? enum ??
-    *(u8*)&this->field_18 = a2;
+    *(u8*)&field_18 = a2;
     return a2;
 }
 
@@ -999,7 +1169,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
 MATCH_FUNC(0x52A650)
 void Object_2C::sub_52A650()
 {
-    if (!field_10)
+    if (!field_10_obj_3c)
     {
         Object_3C* p3C = gObject_3C_Pool_6F8F7C->Allocate();
 
@@ -1018,10 +1188,10 @@ void Object_2C::sub_52A650()
         p3C->field_24 = 0;
         p3C->field_2F = 0;
         p3C->field_30 = 0;
-        field_10 = p3C;
-        p3C->field_20 = field_14;
-        field_10->field_C = dword_6F8E10;
-        field_10->field_10 = dword_6F8E10;
+        field_10_obj_3c = p3C;
+        p3C->field_20 = field_14_id;
+        field_10_obj_3c->field_C = dword_6F8E10;
+        field_10_obj_3c->field_10 = dword_6F8E10;
     }
     Object_2C::sub_522340();
 }

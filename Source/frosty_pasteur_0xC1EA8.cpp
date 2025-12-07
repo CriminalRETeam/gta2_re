@@ -8,6 +8,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "Miss2_25C.hpp"
+#include "Object_5C.hpp"
 #include "enums.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
@@ -70,6 +71,21 @@ STUB_FUNC(0x511c30)
 void frosty_pasteur_0xC1EA8::sub_511C30()
 {
     NOT_IMPLEMENTED;
+}
+
+// This function matches, but since gMapName_6F78C8 can't be defined as global, this func will pick the wrong offset
+STUB_FUNC(0x511C60)
+void frosty_pasteur_0xC1EA8::sub_511C60()
+{
+    for (char_type bit = 0; bit < 32; bit++)
+    {
+        if (((1 << bit) & gMapName_6F78C8.field_128_flags) != 0)
+        {
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32[bit]);
+            pPointer->field_8_obj->sub_5291E0(174);
+            gfrosty_pasteur_6F8060->sub_512AA0(pPointer->field_8_obj->field_14_id);
+        }
+    }
 }
 
 STUB_FUNC(0x511d40)

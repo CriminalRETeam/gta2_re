@@ -76,7 +76,7 @@ void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
         if (pC)
         {
             pC->field_0_uni1 = (int)pObj;
-            pC->field_8_uni2 = pObj->field_14;
+            pC->field_8_uni2 = pObj->field_14_id;
             pC->field_4_type = 2;
             field_258_count++;
         }
@@ -90,7 +90,7 @@ void Miss2_25C::push_type_2_503050(Object_2C* pObj)
     if (pC)
     {
         pC->field_0_uni1 = (int)pObj;
-        const s32 v4 = pObj->field_14;
+        const s32 v4 = pObj->field_14_id;
         pC->field_4_type = 2;
         pC->field_8_uni2 = v4;
         field_258_count++;
