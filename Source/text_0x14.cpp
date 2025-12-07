@@ -61,7 +61,7 @@ u16 text_0x14::sub_5B58D0(u16 a2)
 }
 
 MATCH_FUNC(0x5B5910)
-void text_0x14::sub_5B5910(u16* a2)
+void text_0x14::sub_5B5910(wchar_t* a2)
 {
     if (field_10_lang_code != 'j')
     {
@@ -70,9 +70,9 @@ void text_0x14::sub_5B5910(u16* a2)
 }
 
 MATCH_FUNC(0x5B5930)
-void text_0x14::sub_5B5930(u16* pStr)
+void text_0x14::sub_5B5930(wchar_t* pStr)
 {
-    for (u16* pStrIter = pStr; *pStrIter; ++pStrIter)
+    for (wchar_t* pStrIter = pStr; *pStrIter; ++pStrIter)
     {
         *pStrIter = sub_5B58D0(*pStrIter);
     }

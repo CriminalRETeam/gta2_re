@@ -137,7 +137,7 @@ struct lucid_hamilton
 
     EXPORT char_type sub_4C5C20();
 
-    EXPORT void sub_4C5C30(s32 a2, wchar_t* Source);
+    EXPORT void sub_4C5C30(u16 a2, wchar_t* Source);
 
     EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
 

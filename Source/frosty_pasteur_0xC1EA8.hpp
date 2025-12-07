@@ -524,8 +524,8 @@ struct frosty_nobel_748
     char_type field_4D_bonus_stage;
     u32 field_4E;
     u16 field_52;
-    save_stats_0x90* field_54_save;
-    s32 field_58[52];
+    save_stats_0x90 field_54_save;
+    s32 field_124;
     s32 field_128_flags;
     s32 field_12C_phone_dead_flags;
     s32 field_130;

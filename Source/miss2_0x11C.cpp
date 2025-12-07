@@ -1164,6 +1164,7 @@ void miss2_0x11C::SCRCMD_START_BASIC_KF_506140(u16* a1)
     }
 }
 
+// https://decomp.me/scratch/fuDf2
 STUB_FUNC(0x5061c0)
 void miss2_0x11C::ExecOpCode_5061C0()
 {

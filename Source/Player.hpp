@@ -14,6 +14,7 @@ class infallible_turing;
 class Ped;
 class Weapon_30;
 class Player;
+struct save_stats_0x90;
 
 // TODO: add these later
 class Car_BC;
@@ -152,7 +153,7 @@ class Player
     EXPORT void EnableEnterVehicles_56A040();
     EXPORT s32 sub_56A0F0();
     EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
-    EXPORT void UpdateGameFromSave_56A310(s32 a2);
+    EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
     EXPORT void sub_56A490();
     EXPORT void ClearInputs_56A6D0();
 

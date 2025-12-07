@@ -64,9 +64,9 @@ class text_0x14
 
     EXPORT u16 sub_5B58D0(u16 a2);
 
-    EXPORT void sub_5B5910(u16* a2);
+    EXPORT void sub_5B5910(wchar_t* a2);
 
-    EXPORT void sub_5B5930(u16* a1);
+    EXPORT void sub_5B5930(wchar_t* a1);
 
     EXPORT void TKEY_Load_5B5960(u32 size);
 

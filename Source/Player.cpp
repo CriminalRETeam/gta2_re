@@ -2,11 +2,14 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "error.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
+#include "lucid_hamilton.hpp"
+#include "NetPlay.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
@@ -1264,10 +1267,70 @@ void Player::sub_569C20()
     }
 }
 
-STUB_FUNC(0x569CB0)
+MATCH_FUNC(0x569CB0)
 void Player::sub_569CB0()
 {
-    NOT_IMPLEMENTED;
+    if (!gMap_0x370_6F6268->first_zone_by_type_4DF1D0(Restart_16))
+    {
+        FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
+                          2905); // No Restart Zone
+    }
+    field_60 = 0;
+    field_29 = 0;
+    field_28 = 0;
+    field_640_busted = 0;
+    field_680 = 0;
+    field_682 = 1000;
+    field_2D4_unk.sub_592330();
+    field_684_lives.sub_492150();
+    field_6BC_multpliers.sub_492150();
+    field_64 = 0;
+    field_18 = -2;
+    if (gfrosty_pasteur_6F8060->field_C1E2C)
+    {
+        Player::UpdateGameFromSave_56A310(&gMapName_6F78C8.field_54_save);
+    }
+    else
+    {
+        if (!gLucid_hamilton_67E8E0.sub_4C59A0()) // bonus level?
+        {
+            field_684_lives.ChangeStatByAmount_4921B0(5);
+        }
+        else
+        {
+            field_684_lives.ChangeStatByAmount_4921B0(1);
+        }
+        field_6BC_multpliers.ChangeStatByAmount_4921B0(1);
+    }
+
+    field_90_game_camera.sub_436540(field_2C4_player_ped);
+    field_90_game_camera.inline_sub_475B60();
+    field_90_game_camera.sub_41E410();
+    field_90_game_camera.sub_435DD0();
+
+    field_208_aux_game_camera.sub_436540(field_2C4_player_ped);
+    field_208_aux_game_camera.inline_sub_475B60();
+    field_208_aux_game_camera.sub_41E410();
+    field_208_aux_game_camera.sub_435DD0();
+
+    field_2D0 = 0;
+
+    if (field_0)
+    {
+        if (!bSkip_audio_67D6BE)
+        {
+            field_4C_pUnk = gRoot_sound_66B038.CreateSoundObject_40EF40(&field_90_game_camera, 5);
+        }
+    }
+    field_78C = 2;
+    field_790 = 0;
+    if (bStartNetworkGame_7081F0)
+    {
+        Player::sub_569A10();
+        gNetPlay_7071E8.GetPlayerName_521100(&field_83C_player_name, field_2E_idx);
+        gText_0x14_704DFC->sub_5B5910(&field_83C_player_name);
+        gLucid_hamilton_67E8E0.sub_4C5C30(field_2E_idx, &field_83C_player_name);
+    }
 }
 
 STUB_FUNC(0x569E70)
@@ -1359,7 +1422,7 @@ zealous_borg* Player::CopyPlayerDataToSave_56A1A0(s32 a2)
 }
 
 STUB_FUNC(0x56A310)
-void Player::UpdateGameFromSave_56A310(s32 a2)
+void Player::UpdateGameFromSave_56A310(save_stats_0x90* a2)
 {
     NOT_IMPLEMENTED;
 }
