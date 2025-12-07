@@ -43,7 +43,8 @@ class Object_2C
     EXPORT void sub_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 a2);
     EXPORT void sub_5257D0();
-    EXPORT char_type sub_525910();
+    EXPORT bool sub_525910();
+    EXPORT void sub_525AE0();
     EXPORT void sub_525B40();
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
@@ -61,6 +62,7 @@ class Object_2C
     EXPORT s16* sub_528130(Fix16* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
+    EXPORT bool sub_5288B0(Sprite* a2);
     EXPORT char_type sub_528990(Sprite* a2);
     EXPORT void sub_528BA0();
     EXPORT void sub_528E50(Sprite* a3);
@@ -104,6 +106,12 @@ class Object_2C
       field_26_varrok_idx = v;
     }
 
+    // Inlined on version 9.6f 0x420FF0
+    inline u8 get_field_26_420FF0()
+    {
+        return field_26_varrok_idx;
+    }
+
     Object_2C* mpNext;
     Sprite* field_4;
     Phi_74* field_8;
@@ -116,7 +124,7 @@ class Object_2C
     char_type field_1E;
     char_type field_1F;
     s32 field_20;
-    char_type field_24;
+    u8 field_24;
     u8 field_25;
     u8 field_26_varrok_idx;
     char_type field_27;
