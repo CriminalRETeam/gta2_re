@@ -704,6 +704,14 @@ void Char_B4::sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5)
     NOT_IMPLEMENTED;
 }
 
+MATCH_FUNC(0x553F90)
+void __stdcall sub_553F90()
+{
+    byte_6FDB48 = 0;
+    byte_6FDB49 = 0;
+    gB4_id_6FDB4C = 0;
+}
+
 EXPORT void Char_B4::nullsub_28()
 {
     NOT_IMPLEMENTED;
