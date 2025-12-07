@@ -14,6 +14,7 @@ class Phi_74;
 class Object_3C;
 class Object_2C_Pool;
 class Wolfy_30;
+class Object_8;
 
 class Object_2C
 {
@@ -112,12 +113,34 @@ class Object_2C
         return field_26_varrok_idx;
     }
 
+    bool sub_421060()
+    {
+        return field_8->field_34 == 6 
+        || field_8->field_34 == 7 
+        || field_8->field_34 == 8 
+        || field_8->field_34 == 9;
+    }
+
+    inline void PoolAllocate()
+    {
+        field_26_varrok_idx = 99;
+        field_10_obj_3c = 0;
+        field_C_obj_8 = 0;
+        field_1C = 0;
+        field_4 = 0;
+        field_18_model = 0;
+    }
+
     Object_2C* mpNext;
     Sprite* field_4;
     Phi_74* field_8;
-    Wolfy_30* field_C;
-    Object_3C* field_10;
-    s32 field_14;
+    union
+    {
+        Wolfy_30* field_C_explosion;
+        Object_8* field_C_obj_8;
+    };
+    Object_3C* field_10_obj_3c;
+    s32 field_14_id;
     s32 field_18_model;
     char_type field_1C;
     char_type field_1D;
@@ -175,7 +198,7 @@ class Object_5C
     Object_2C* field_4;
     Object_2C* field_8;
     Object_2C* field_C;
-    Object_3C* field_10;
+    s32 field_10;
     s32 field_14;
     u8 field_18;
     u8 field_19;
@@ -183,7 +206,7 @@ class Object_5C
     struct_4 field_1C;
     u8 field_20[50];
     u16 field_52;
-    s32 field_54;
+    s32 field_54_f20_idx;
     Sprite* field_58;
 };
 

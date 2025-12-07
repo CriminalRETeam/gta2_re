@@ -478,7 +478,7 @@ void CC ImGuiDebugDraw()
         {
             ImGui::Text("Object spawned attributes:");
             ImGui::SliderU8("field_26_varrok_idx", &spawned_obj->field_26_varrok_idx, 0, 25);
-            Object_3C* obj_3c = spawned_obj->field_10;
+            Object_3C* obj_3c = spawned_obj->field_10_obj_3c;
             if (ImGui::TreeNode("Object_3C"))
             {
                 if (obj_3c)
@@ -877,7 +877,7 @@ void CC ImGuiDebugDraw()
                     ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
                     ImGui::InputInt("field_C", &phi->field_C.mValue, 1, 1);
                     ImGui::InputInt("field_10", &phi->field_10.mValue, 1, 1);
-                    ImGui::InputInt("field_14", &phi->field_14.mValue, 1, 1);
+                    ImGui::InputInt("field_14", &phi->field_14_friction.mValue, 1, 1);
                     ImGui::InputInt("field_18", &phi->field_18.mValue, 1, 1);
                     ImGui::SliderS16("field_1C_remap", &phi->field_1C_remap, 0, 50);
                     ImGui::Input_char_type("field_20", &phi->field_20, 1, 1);

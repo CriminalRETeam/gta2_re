@@ -88,6 +88,15 @@ class Pool
         return tmp;
     }
 
+    PoolType* AllocateUntracked()
+    {
+        PoolType* tmp = this->field_0_pStart;
+        this->field_0_pStart = tmp->mpNext;
+        tmp->mpNext = 0;
+        tmp->PoolAllocate();
+        return tmp;
+    }
+
     void DeAllocate(PoolType* pItem)
     {
         pItem->PoolDeallocate();
@@ -148,6 +157,34 @@ class Pool
 
             pCurrItem = pNext;
         }
+    }
+
+    PoolType* unknown_func(PoolType* pObj)
+    {
+        PoolType* v18 = 0;
+
+        for (PoolType* pFirst = field_4_pPrev; pFirst; pFirst = pFirst->mpNext)
+        {
+            if (pFirst == pObj)
+            {
+                pFirst->PoolDeallocate();
+    
+                if (v18)
+                {
+                    v18->mpNext = pFirst->mpNext;
+                   
+                }
+                else
+                {
+                    field_4_pPrev = pFirst->mpNext;
+                }
+                pFirst->mpNext = field_0_pStart;
+                field_0_pStart = pFirst;
+                return pObj;
+            }
+            v18 = pFirst;
+        }
+        return pObj;
     }
 
     PoolType* field_0_pStart;

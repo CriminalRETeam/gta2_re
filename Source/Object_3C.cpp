@@ -561,7 +561,7 @@ void struct_4::sub_5A71F0()
             Object_2C* o2c = p18Iter->field_0->field_8_object_2C_ptr;
             if (o2c->field_18_model == 197 || o2c->sub_525AC0())
             {
-                p18Iter->field_0->field_8_object_2C_ptr->field_C->field_1A = 2;
+                p18Iter->field_0->field_8_object_2C_ptr->field_C_explosion->field_1A = 2;
             }
         }
     }

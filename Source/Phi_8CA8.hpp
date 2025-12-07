@@ -231,7 +231,7 @@ class Phi_74
     Fix16 field_8;
     Fix16 field_C;
     Fix16 field_10;
-    Fix16 field_14;
+    Fix16 field_14_friction;
     Fix16 field_18;
     s16 field_1C_remap;
     s16 field_1E;

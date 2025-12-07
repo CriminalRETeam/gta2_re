@@ -725,7 +725,7 @@ Phi_74::Phi_74()
     field_54 = 0;
     field_C = dword_6F8FA4;
     field_10 = dword_6F8FA4;
-    field_14 = dword_6F8FA4;
+    field_14_friction = dword_6F8FA4;
     field_1C_remap = 9999;
     field_61 = 0;
     field_64 = 99;
@@ -792,7 +792,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_48 = puVar3->field_14;
             pPVar2->field_10 = puVar3->field_1C;
             pPVar2->field_65 = puVar3->field_24;
-            pPVar2->field_14 = puVar3->field_20;
+            pPVar2->field_14_friction = puVar3->field_20;
             pPVar2->field_4C = puVar3->field_28;
             pPVar2->field_64 = puVar3->field_30;
             pPVar2->field_58 = puVar3->field_34;
@@ -876,7 +876,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = 1;
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -895,7 +895,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -914,7 +914,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -933,7 +933,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -949,7 +949,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -968,7 +968,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -987,7 +987,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -1006,7 +1006,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -1022,7 +1022,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -1041,7 +1041,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -1058,7 +1058,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
     pAVar1->field_61 = '\x01';
@@ -1073,7 +1073,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_40 = 4;
     pAVar1->field_44 = 0;
     pAVar1->field_10 = DAT_006f8fd8;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_61 = '\x01';
     pAVar1->field_4C = 3;
     pAVar1->field_50 = 3;
@@ -1086,7 +1086,7 @@ void Phi_8CA8::sub_533420()
     pAVar1 = sub_534370(0x9d, 7);
     pAVar1->field_4C = 2;
     pAVar1->field_34 = 3;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_38 = 7;
     pAVar1->field_3C = 7;
     pAVar1->field_40 = 4;
@@ -1097,7 +1097,7 @@ void Phi_8CA8::sub_533420()
     pAVar1 = sub_534370(0x9e, 1);
     pAVar1->field_34 = 3;
     pAVar1->field_4C = 2;
-    pAVar1->field_14 = -DAT_006fcdd8;
+    pAVar1->field_14_friction = -DAT_006fcdd8;
     pAVar1->field_38 = 1;
     pAVar1->field_3C = 1;
     pAVar1->field_44 = 0;
@@ -1139,7 +1139,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_48 = puVar2->field_1C;
             this_00->field_10 = puVar2->field_24;
             this_00->field_65 = puVar2->field_2C;
-            this_00->field_14 = puVar2->field_28;
+            this_00->field_14_friction = puVar2->field_28;
             this_00->field_4C = puVar2->field_30;
             this_00->field_50 = puVar2->field_34;
             this_00->field_64 = puVar2->field_3C;
@@ -1349,7 +1349,7 @@ void Phi_8CA8::sub_533C90()
     tmp->field_34 = 2;
     tmp->field_44 = 2;
 
-    tmp->field_14 = DAT_006fce08;
+    tmp->field_14_friction = DAT_006fce08;
     tmp->field_10 = DAT_006fce08;
     tmp->field_4C = 0;
     tmp->field_50 = 0;
@@ -1361,7 +1361,7 @@ void Phi_8CA8::sub_533C90()
         tmp = sub_534370(iVar3 - 0x88, iVar3);
         tmp->field_38 = iVar3;
         tmp->field_34 = tmp->field_34 == 6 ? 7 : 9;
-        tmp->field_14 = -DAT_006fcdd8;
+        tmp->field_14_friction = -DAT_006fcdd8;
         tmp->field_4C = 1;
         tmp->field_50 = 1;
         tmp->field_61 = '\x01';

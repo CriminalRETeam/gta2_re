@@ -725,11 +725,11 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
         case 4: // sprite_type_4_Object_5C
         case 5: // sprite_type_5_Object_5C
             o2c = field_8_object_2C_ptr;
-            if (!o2c->field_10)
+            if (!o2c->field_10_obj_3c)
             {
                 o2c->sub_52A650();
             }
-            field_8_object_2C_ptr->field_10->field_0.sub_5A6D00(a2, a3, a4, a5);
+            field_8_object_2C_ptr->field_10_obj_3c->field_0.sub_5A6D00(a2, a3, a4, a5);
             break;
         default:
             break;

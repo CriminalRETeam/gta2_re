@@ -83,7 +83,7 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32[bit]);
             pPointer->field_8_obj->sub_5291E0(174);
-            gfrosty_pasteur_6F8060->sub_512AA0(pPointer->field_8_obj->field_14);
+            gfrosty_pasteur_6F8060->sub_512AA0(pPointer->field_8_obj->field_14_id);
         }
     }
 }

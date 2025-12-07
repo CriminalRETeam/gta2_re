@@ -577,7 +577,7 @@ char_type Char_B4::sub_5535B0(Object_2C* p2c)
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gfrosty_pasteur_6F8060->sub_5129F0(pPed->field_200_id, p2c->field_14);
+        return gfrosty_pasteur_6F8060->sub_5129F0(pPed->field_200_id, p2c->field_14_id);
     }
     else
     {

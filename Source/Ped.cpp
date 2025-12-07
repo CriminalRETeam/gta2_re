@@ -877,7 +877,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -885,7 +885,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -893,7 +893,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -901,7 +901,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -909,7 +909,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -917,7 +917,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -925,7 +925,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -933,7 +933,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -941,7 +941,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
 
@@ -949,7 +949,7 @@ void Ped::sub_45E080()
                         v2 = gObject_5C_6F8F84->sub_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
-                            v2->field_C->field_4_idx = 9;
+                            v2->field_C_explosion->field_4_idx = 9;
                         }
                         break;
                     default:
