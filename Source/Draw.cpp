@@ -21,6 +21,20 @@ DEFINE_GLOBAL(DWORD, dword_70679C, 0x70679C);
 
 //u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
 
+MATCH_FUNC(0x495470)
+void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8)
+{
+    sub_5D8470(pTexture,
+               x_pos * gViewCamera_676978->field_A8_ui_scale,
+               y_pos * gViewCamera_676978->field_A8_ui_scale,
+               width,
+               height,
+               rotation,
+               gViewCamera_676978->field_A8_ui_scale,
+               a7,
+               a8);
+}
+
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {

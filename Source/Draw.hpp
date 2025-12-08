@@ -62,3 +62,15 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       u8 flags);
 
 //extern u16 word_703BAA; //EXTERN_GLOBAL(u16, word_703BAA);
+
+EXPORT void __stdcall sub_5D8470(STexture* pTexture,
+                                 Fix16 x_pos,
+                                 Fix16 y_pos,
+                                 u8 width,
+                                 u8 height,
+                                 Ang16 rotation,
+                                 Fix16 scale,
+                                 s32 a8,
+                                 u8 a9);
+
+EXPORT void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
