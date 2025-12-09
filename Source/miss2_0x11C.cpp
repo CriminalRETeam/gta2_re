@@ -2222,7 +2222,7 @@ void miss2_0x11C::sub_509E70()
 
     Fix16 temp;
 
-    if (pPed != NULL && (temp = pPed->field_168_game_object->field_38, temp == dword_6F77C0))
+    if (pPed != NULL && (temp = pPed->field_168_game_object->field_38_velocity, temp == dword_6F77C0))
     {
         field_8 = true;
     }

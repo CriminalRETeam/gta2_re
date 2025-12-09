@@ -662,7 +662,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
-                    pPed->field_168_game_object->field_38 = dword_6FE41C;
+                    pPed->field_168_game_object->field_38_velocity = dword_6FE41C;
                 }
             }
             else

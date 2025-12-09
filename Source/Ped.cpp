@@ -733,7 +733,7 @@ Fix16 Ped::sub_45C920()
 {
     if (field_168_game_object)
     {
-        return field_168_game_object->field_38; // velocity ??
+        return field_168_game_object->field_38_velocity; // velocity ??
     }
     else
     {
@@ -2411,7 +2411,7 @@ void Ped::sub_46A8F0()
             }
             else
             {
-                pB4->field_38 = get_field_1F0();
+                pB4->field_38_velocity = get_field_1F0();
             }
         }
         else
@@ -2421,7 +2421,7 @@ void Ped::sub_46A8F0()
     }
     else
     {
-        field_168_game_object->field_38 = get_field_1F0();
+        field_168_game_object->field_38_velocity = get_field_1F0();
     }
 }
 
@@ -2520,7 +2520,7 @@ void Ped::sub_46C8A0()
 {
     if (field_278 != 8)
     {
-        field_168_game_object->field_38 = dword_678448;
+        field_168_game_object->field_38_velocity = dword_678448;
         if (dword_678750 < dword_678790)
         {
             Ped::sub_45C500(7);
@@ -2531,7 +2531,7 @@ void Ped::sub_46C8A0()
         {
             field_230 = 2;
             Ped::sub_4672E0(dword_678750, 2);
-            field_168_game_object->field_38 = dword_678448;
+            field_168_game_object->field_38_velocity = dword_678448;
         }
     }
 }
@@ -2566,17 +2566,17 @@ void Ped::sub_46C9B0()
             }
             if (gTrafficLights_194_705958->field_192_phase == 7)
             {
-                field_168_game_object->field_38 = dword_678434;
+                field_168_game_object->field_38_velocity = dword_678434;
             }
             else
             {
                 if (field_168_game_object->field_44 == 1)
                 {
-                    field_168_game_object->field_38 = dword_678448;
+                    field_168_game_object->field_38_velocity = dword_678448;
                 }
                 else
                 {
-                    field_168_game_object->field_38 = dword_678434;
+                    field_168_game_object->field_38_velocity = dword_678434;
                 }
             }
         }
@@ -3098,7 +3098,7 @@ void Ped::sub_470200(Fix16 a2, Fix16 a3, Fix16 a4)
     {
         Ped::sub_45C540(0);
         Ped::sub_45C500(0);
-        field_168_game_object->field_38 = dword_678438;
+        field_168_game_object->field_38_velocity = dword_678438;
     }
     else
     {

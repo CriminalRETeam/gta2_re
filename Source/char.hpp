@@ -17,7 +17,7 @@ class Sprite;
 class Char_B4
 {
   public:
-    s32 field_0;
+    s32 field_0_id;
     s8 field_4;
     u8 field_5_remap;
     s8 field_6;
@@ -34,15 +34,15 @@ class Char_B4
     s32 field_24;
     angle field_28;
     angle field_2A;
-    angle field_2C;
+    angle field_2C_ang;
     s8 field_2E;
     s8 field_2F;
     s32 field_30;
     s16 field_34;
     s8 field_36;
     s8 field_37;
-    Fix16 field_38;
-    Fix16 field_3C;
+    Fix16 field_38_velocity;
+    Fix16 field_3C_run_or_jump_speed;
     Ang16 field_40_rotation;
     angle field_42;
     s8 field_44;
