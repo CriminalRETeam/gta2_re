@@ -37,6 +37,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4 * dword_6FD868, 0x6FD7D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 
@@ -239,10 +241,17 @@ s16 Char_B4::sub_545600()
     return 0;
 }
 
-STUB_FUNC(0x5456a0)
+MATCH_FUNC(0x5456a0)
 void Char_B4::sub_5456A0()
 {
-    NOT_IMPLEMENTED;
+    // TODO: maybe an inline here: temp var not needed
+    Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
+    field_80_sprite_ptr = pFirst;
+    pFirst->field_30_sprite_type_enum = 3;
+    pFirst->sub_59E960();
+    field_80_sprite_ptr->AllocInternal_59F950(dword_6FD8D8, dword_6FD8D8, dword_6FD7A4);
+    field_80_sprite_ptr->field_8_char_b4_ptr = this;
+    field_80_sprite_ptr->CreateSoundObj_5A29D0();
 }
 
 STUB_FUNC(0x545700)
