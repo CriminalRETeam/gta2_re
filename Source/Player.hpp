@@ -108,7 +108,7 @@ class Player
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
-    EXPORT s32 sub_565490(Ped* pPed);
+    EXPORT void InitPlayerPed_565490(Ped* pPed);
     EXPORT void SetInputs_565740(u32 input);
     EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);
     EXPORT void IncreaseWantedLevelFromDebugKeys_565860();

@@ -279,7 +279,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                 pPed->field_216_health = 100;
             }
 
-            v1->sub_565490(pPed);
+            v1->InitPlayerPed_565490(pPed);
             pPed->field_26C_graphic_type = 1;
             pCmd->field_8_ped = pPed;
 

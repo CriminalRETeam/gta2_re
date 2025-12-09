@@ -158,7 +158,7 @@ void force_link()
     lewin.sub_5651F0(0);
     lewin.TeleportToDebugCam_565310();
     lewin.sub_5653E0();
-    lewin.sub_565490(0);
+    lewin.InitPlayerPed_565490(0);
     lewin.SetInputs_565740(0);
     lewin.IncrementGangRespectFromDebugKeys_565770(0);
     lewin.IncreaseWantedLevelFromDebugKeys_565860();

@@ -391,11 +391,44 @@ void Player::sub_565460()
     // Empty
 }
 
+// https://decomp.me/scratch/Jj79b
 STUB_FUNC(0x565490)
-s32 Player::sub_565490(Ped* pPed)
+void Player::InitPlayerPed_565490(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_28 = 0;
+    field_640_busted = false;
+    field_29 = 0;
+    field_2C = 0;
+    field_2C4_player_ped = pPed;
+    field_8 = word_6FE754;
+    field_A = 0; //(dword_6FE750 + dword_6FE74C) + dword_6FE74C;
+    field_C = dword_6FE610;
+    field_10 = 0;
+    field_680 = 0;
+    field_682 = 1000;
+    pPed->sub_45B560(this, 0);
+    field_68 = 0;
+
+    u8 ammo;
+
+    for (s32 weapon_idx = weapon_type::pistol; weapon_idx < weapon_type::car_bomb; ++weapon_idx)
+    {
+        if (!bGet_all_weapons_67D684 || weapon_idx >= weapon_type::weapon_11 || weapon_idx == weapon_type::electro_batton)
+        {
+            ammo = 0;
+        }
+        else
+        {
+            ammo = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_idx);
+        }
+        field_718_weapons[weapon_idx] = gWeapon_8_707018->allocate_5E3C10(weapon_idx, pPed, ammo);
+    }
+
+    Player::sub_564B60();
+    field_788_curr_weapon_idx = -1;
+    field_14 = -1;
+    field_16 = 27;
+    Player::sub_564CC0();
 }
 
 MATCH_FUNC(0x565740)
