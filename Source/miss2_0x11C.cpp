@@ -279,7 +279,7 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                 pPed->field_216_health = 100;
             }
 
-            v1->sub_565490(pPed);
+            v1->InitPlayerPed_565490(pPed);
             pPed->field_26C_graphic_type = 1;
             pCmd->field_8_ped = pPed;
 
@@ -2222,7 +2222,7 @@ void miss2_0x11C::sub_509E70()
 
     Fix16 temp;
 
-    if (pPed != NULL && (temp = pPed->field_168_game_object->field_38, temp == dword_6F77C0))
+    if (pPed != NULL && (temp = pPed->field_168_game_object->field_38_velocity, temp == dword_6F77C0))
     {
         field_8 = true;
     }

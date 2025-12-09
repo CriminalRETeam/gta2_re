@@ -151,9 +151,67 @@ char_type thirsty_lamarr::sub_4925C0()
     return 0;
 }
 
-STUB_FUNC(0x4925e0)
-s16 thirsty_lamarr::sub_4925E0()
+MATCH_FUNC(0x4925e0)
+void thirsty_lamarr::sub_4925E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 v11;
+    sscanf((const char_type*)&field_9, "%d", &v11);
+
+    if (field_4 == -1 || v11 == field_4 && !thirsty_lamarr::sub_4925C0())
+    {
+        if (field_0 == v11)
+        {
+            field_4 = -1;
+            return;
+        }
+        field_4 = field_0;
+        if (field_0 > v11)
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false;
+        }
+        sprintf((char_type*)&field_1D_buf, "%09d", field_0);
+    }
+
+    for (s32 idx = field_2E_idx; idx < 9; idx++)
+    {
+        if (field_9[idx + 20] != field_9[idx] || field_13[idx])
+        {
+            if (field_8)
+            {
+                field_13[idx] = field_2C + field_13[idx];
+                if (field_13[idx] >= field_28_sprite_h_calc)
+                {
+                    if (field_9[idx] < 57)
+                    {
+                        field_9[idx]++;
+                    }
+                    else
+                    {
+                        field_9[idx] = 48;
+                    }
+                    field_13[idx] = 0;
+                }
+            }
+            else
+            {
+                field_13[idx] = field_13[idx] - field_2C;
+                if (field_13[idx] < 0)
+                {
+                    if (field_9[idx] > 48)
+                    {
+                        field_9[idx]--;
+                    }
+                    else
+                    {
+                        field_9[idx] = 57;
+                    }
+                    field_13[idx] = field_28_sprite_h_calc - field_2C;
+                }
+            }
+        }
+    }
 }

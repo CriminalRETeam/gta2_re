@@ -37,6 +37,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4 * dword_6FD868, 0x6FD7D0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 
@@ -50,7 +52,7 @@ void __stdcall sub_544F70()
 STUB_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
-    field_0 = 0; // field_0_id
+    field_0_id = 0; // field_0_id
     field_4 = 0;
     field_5_remap = -1;
     field_6 = 0;
@@ -65,11 +67,11 @@ Char_B4::Char_B4()
     field_24 = 3;
     field_28 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
     field_2A = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
-    field_2C = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_2C_ang = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
     field_30 = 4;
     field_34 = 0;
-    field_38 = dword_6FD7C0; // field_38_velocity
-    field_3C = gRunOrJumpSpeed_6FD7D0;
+    field_38_velocity = dword_6FD7C0; // field_38_velocity
+    field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
     field_42 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
     field_44 = 0;
@@ -116,11 +118,10 @@ Char_B4::~Char_B4()
     this->field_84 = 0;
 }
 
-// https://decomp.me/scratch/pxZcR
-STUB_FUNC(0x545200)
+MATCH_FUNC(0x545200)
 void Char_B4::PoolAllocate()
 {
-    field_0 = gB4_id_6FDB4C++;
+    field_0_id = gB4_id_6FDB4C++;
     Char_B4::sub_5456A0();
     field_4 = 1;
     field_5_remap = -1;
@@ -136,11 +137,11 @@ void Char_B4::PoolAllocate()
     field_24 = 3;
     field_28 = *(angle*)&word_6FDB34;
     field_2A = *(angle*)&word_6FDB34;
-    field_2C = *(angle*)&word_6FDB34;
+    field_2C_ang = *(angle*)&word_6FDB34;
     field_30 = 4;
     field_34 = 0;
-    field_38 = dword_6FD7C0;
-    field_3C = gRunOrJumpSpeed_6FD7D0;
+    field_38_velocity = dword_6FD7C0;
+    field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
     field_42 = *(angle*)&word_6FDB34;
     field_44 = 0;
@@ -168,19 +169,18 @@ void Char_B4::PoolAllocate()
     field_58_flags_bf.b1 = 0;
     field_98.x = dword_6FD9E4;
     field_98.y = dword_6FD9E4;
-    field_58_flags_bf.b1 = 0;
-    field_58_flags_bf.b3 = 0;
     field_58_flags_bf.b5 = 0;
+    field_58_flags_bf.b3 = 0;
     field_A4_xpos = dword_6FD9E4;
     field_A8_ypos = dword_6FD9E4;
-    field_58_flags_bf.b4 = 0;
     field_AC_zpos = dword_6FD9E4;
+    field_58_flags_bf.b4 = 0;
     field_4C = dword_6FD9E4;
     field_50 = dword_6FD9E4;
     field_72 = dword_6FD9E4.ToInt();
+    field_73 = dword_6FD9E4.ToInt();
     field_58_flags_bf.b6 = 0;
     field_58_flags_bf.b7 = 0;
-    field_73 = dword_6FD9E4.ToInt();
     field_60 = 0;
     field_64 = 0;
     field_55 = 0;
@@ -241,10 +241,17 @@ s16 Char_B4::sub_545600()
     return 0;
 }
 
-STUB_FUNC(0x5456a0)
+MATCH_FUNC(0x5456a0)
 void Char_B4::sub_5456A0()
 {
-    NOT_IMPLEMENTED;
+    // TODO: maybe an inline here: temp var not needed
+    Sprite* pFirst = gSprite_Pool_703818->get_new_sprite();
+    field_80_sprite_ptr = pFirst;
+    pFirst->field_30_sprite_type_enum = 3;
+    pFirst->sub_59E960();
+    field_80_sprite_ptr->AllocInternal_59F950(dword_6FD8D8, dword_6FD8D8, dword_6FD7A4);
+    field_80_sprite_ptr->field_8_char_b4_ptr = this;
+    field_80_sprite_ptr->CreateSoundObj_5A29D0();
 }
 
 STUB_FUNC(0x545700)
@@ -348,12 +355,12 @@ void Char_B4::sub_545720(Fix16 a2)
         if (field_58_flags_bf.b3)
         {
             // clockwise?
-            field_98.sub_41E210(-field_38, field_40_rotation);
+            field_98.sub_41E210(-field_38_velocity, field_40_rotation);
         }
         else
         {
             // anti-clockwise?
-            field_98.sub_41E210(field_38, field_40_rotation);
+            field_98.sub_41E210(field_38_velocity, field_40_rotation);
         }
     }
     gPurpleDoom_1_679208->sub_477B20(field_80_sprite_ptr);

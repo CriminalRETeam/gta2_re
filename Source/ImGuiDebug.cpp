@@ -514,7 +514,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
                 ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
-                ImGui::SliderInt("Cash", &pPlayer->field_2D4_unk.field_0_unk.field_0, 0, 999999999 - 50);
+                ImGui::SliderInt("Cash", &pPlayer->field_2D4_unk.field_0_money.field_0, 0, 999999999 - 50);
                 ImGui::SliderInt("??", &pPlayer->field_2D4_unk.field_38_unk.field_0, 0, 99);
 
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;

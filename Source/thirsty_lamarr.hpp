@@ -13,14 +13,14 @@ class thirsty_lamarr
     EXPORT s32 sub_492260(s32 a2, s32 a3);
     EXPORT s32 sub_492430(s32 a3, s32 a4);
     EXPORT char_type sub_4925C0();
-    EXPORT s16 sub_4925E0();
+    EXPORT void sub_4925E0();
 
     s32 field_0;
     s32 field_4;
     char_type field_8;
-    u8 field_9[9];
+    s8 field_9[9];
     u8 field_12;
-    u8 field_13[9];
+    s8 field_13[9];
     char_type field_1C;
     u8 field_1D_buf[9];
     char_type field_26;

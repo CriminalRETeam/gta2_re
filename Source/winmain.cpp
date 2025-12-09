@@ -158,7 +158,7 @@ void force_link()
     lewin.sub_5651F0(0);
     lewin.TeleportToDebugCam_565310();
     lewin.sub_5653E0();
-    lewin.sub_565490(0);
+    lewin.InitPlayerPed_565490(0);
     lewin.SetInputs_565740(0);
     lewin.IncrementGangRespectFromDebugKeys_565770(0);
     lewin.IncreaseWantedLevelFromDebugKeys_565860();
@@ -204,7 +204,7 @@ void force_link()
     lewin.sub_56A0F0();
     lewin.CopyPlayerDataToSave_56A1A0(0);
     lewin.UpdateGameFromSave_56A310(0);
-    lewin.sub_56A490();
+    lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
     Camera_0xBC drawUnk;

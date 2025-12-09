@@ -35,7 +35,7 @@ class eager_benz
     EXPORT s32 sub_5935C0();
     EXPORT void sub_5935D0(s32 a2);
 
-    thirsty_lamarr field_0_unk;
+    thirsty_lamarr field_0_money;
     thirsty_lamarr field_38_unk;
     s32 field_70;
     char_type field_74;

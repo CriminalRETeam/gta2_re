@@ -6,6 +6,7 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "lucid_hamilton.hpp"
@@ -390,11 +391,44 @@ void Player::sub_565460()
     // Empty
 }
 
+// https://decomp.me/scratch/Jj79b
 STUB_FUNC(0x565490)
-s32 Player::sub_565490(Ped* pPed)
+void Player::InitPlayerPed_565490(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_28 = 0;
+    field_640_busted = false;
+    field_29 = 0;
+    field_2C = 0;
+    field_2C4_player_ped = pPed;
+    field_8 = word_6FE754;
+    field_A = 0; //(dword_6FE750 + dword_6FE74C) + dword_6FE74C;
+    field_C = dword_6FE610;
+    field_10 = 0;
+    field_680 = 0;
+    field_682 = 1000;
+    pPed->sub_45B560(this, 0);
+    field_68 = 0;
+
+    u8 ammo;
+
+    for (s32 weapon_idx = weapon_type::pistol; weapon_idx < weapon_type::car_bomb; ++weapon_idx)
+    {
+        if (!bGet_all_weapons_67D684 || weapon_idx >= weapon_type::weapon_11 || weapon_idx == weapon_type::electro_batton)
+        {
+            ammo = 0;
+        }
+        else
+        {
+            ammo = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_idx);
+        }
+        field_718_weapons[weapon_idx] = gWeapon_8_707018->allocate_5E3C10(weapon_idx, pPed, ammo);
+    }
+
+    Player::sub_564B60();
+    field_788_curr_weapon_idx = -1;
+    field_14 = -1;
+    field_16 = 27;
+    Player::sub_564CC0();
 }
 
 MATCH_FUNC(0x565740)
@@ -661,7 +695,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
                 {
                     pPed->SetObjective(objectives_enum::no_obj_0, 9999);
                     pPed->sub_463830(0, 9999);
-                    pPed->field_168_game_object->field_38 = dword_6FE41C;
+                    pPed->field_168_game_object->field_38_velocity = dword_6FE41C;
                 }
             }
             else
@@ -1427,10 +1461,107 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56A490)
-void Player::sub_56A490()
+MATCH_FUNC(0x56A490)
+void Player::ApplyCheats_56A490()
 {
-    NOT_IMPLEMENTED;
+    if (gCheatGetPlayerPoints_67D4C8)
+    {
+        if (-field_2D4_unk.field_0_money.field_30 > 200000)
+        {
+            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+        }
+        else
+        {
+            if (field_2D4_unk.field_0_money.field_30 < 200000)
+            {
+                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+            }
+            else
+            {
+                field_2D4_unk.field_0_money.field_0 = 200000;
+            }
+        }
+    }
+    if (gCheatGet10MillionMoney_67D6CE)
+    {
+        if (-field_2D4_unk.field_0_money.field_30 > 9999999)
+        {
+            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+        }
+        else
+        {
+            if (field_2D4_unk.field_0_money.field_30 < 9999999)
+            {
+                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+            }
+            else
+            {
+                field_2D4_unk.field_0_money.field_0 = 9999999;
+            }
+        }
+    }
+    if (gCheatUnlimitedElectroGun_67D4F7)
+    {
+        field_718_weapons[weapon_type::shocker]->field_0_ammo = -1;
+    }
+    if (gCheatUnlimitedFlameThrower_67D6CC)
+    {
+        field_718_weapons[weapon_type::flamethrower]->field_0_ammo = -1;
+    }
+    if (gCheatAllGangMaxRespect_67D587)
+    {
+        for (Gang_144* pIter = gGangPool_CA8_67E274->sub_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->sub_4BECE0())
+        {
+            pIter->SetRespect_4BEE30(field_2E_idx, 100);
+        }
+    }
+    if (gCheatGet99Lives_67D4F1)
+    {
+        if (-field_684_lives.field_30 > 99)
+        {
+            field_684_lives.field_0 = -field_684_lives.field_30;
+        }
+        else
+        {
+            if (field_684_lives.field_30 < 99)
+            {
+                field_684_lives.field_0 = field_684_lives.field_30;
+            }
+            else
+            {
+                field_684_lives.field_0 = 99;
+            }
+        }
+    }
+    if (gCheat10xMultiplier_67D589)
+    {
+        field_6BC_multpliers.ChangeStatByAmount_4921B0(9);
+    }
+    if (gCheatOnlyMuggerPeds_67D5A4)
+    {
+        gPedManager_6787BC->field_7_make_all_muggers = true;
+    }
+    if (gCheatUnknown_67D4F6)
+    {
+        Player::sub_564D60(4);
+    }
+    if (gCheatInvisibility_67D539)
+    {
+        Player::sub_564D60(11);
+    }
+    if (gCheatUnlimitedDoubleDamage_67D57C)
+    {
+        Player::sub_564D60(7);
+    }
+    if (byte_67D56B)
+    {
+        Player::sub_564D60(4);
+        Player::sub_564960(1, 50u);
+        for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
+        {
+            pIter2->SetRespect_4BEE30(field_2E_idx, 80);
+        }
+    }
 }
 
 MATCH_FUNC(0x56A6D0)
