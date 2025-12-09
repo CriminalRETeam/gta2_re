@@ -11,13 +11,17 @@ class Fix16_Point;
 class Nanobotz_8  // Maybe Fix16_Point
 {
   public:
+    inline s32 IsEqual_46BB60(Nanobotz_8* other)
+    {
+        return field_0 == other->field_0 && field_4 == other->field_4;
+    }
     s32 field_0;  // x?
     s32 field_4;  // y?
 };
 
-EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
+EXTERN_GLOBAL(Fix16, gRelativeXCoord_6F63AC);
 
-EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
+EXTERN_GLOBAL(Fix16, gRelativeYCoord_6F63B8);
 
 EXTERN_GLOBAL(s32, gZCoord_6F63E0);
 
@@ -80,8 +84,8 @@ class MapRenderer
     EXPORT void draw_lid_4F4D60(Fix16_Point* xpos, Fix16_Point* diffuse_colour, s32 arg_8, u32* a5);
     EXPORT void draw_slope_4F6580();
     EXPORT void draw_slope_4F6630();
-    EXPORT void sub_4F66C0();
-    EXPORT void sub_4F6880(s32& pXCoord, s32& pYCoord);
+    EXPORT void RenderFlatBlock_4F66C0();
+    EXPORT void RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord);
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
 
@@ -115,6 +119,28 @@ class MapRenderer
                 break;
         }
         //return diffuseColour;
+    }
+
+    inline void sub_46BB90(s32* maybe_x, s32* maybe_y)
+    {
+        Nanobotz_8* pPos = &field_1C[field_2EFC_count];
+        pPos->field_0 = *maybe_x;
+        pPos->field_4 = *maybe_y;
+        
+        Nanobotz_8* pIter = &field_1C[field_2EFC_count-1];
+        for (s32 i = field_2EFC_count - 1; i >= 0; i--, pIter--)
+        {
+            if (pIter->IsEqual_46BB60(pPos))
+            {
+                return;
+            }
+        }
+        ++field_2EFC_count;
+    }
+
+    inline void ResetCount_45B040()
+    {
+        field_2EFC_count = 0;
     }
 
     Fix16 field_0_ambient;

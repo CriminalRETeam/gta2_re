@@ -6,7 +6,9 @@
 #include "debug.hpp"
 #include "fix16.hpp"
 #include "map_0x370.hpp"
+#include "Montana.hpp"
 #include "sharp_pare_0x15D8.hpp"
+#include "winmain.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
 DEFINE_GLOBAL(Fix16_Point, stru_6F6484, 0x6F6484);
@@ -15,8 +17,8 @@ DEFINE_GLOBAL(u16, gBlockTop_6F62F4, 0x6F62F4);
 DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
 DEFINE_GLOBAL(u16, gBlockBottom_6F6468, 0x6F6468);
 DEFINE_GLOBAL(u16, gLidType_6F6274, 0x6F6274);
-DEFINE_GLOBAL(Fix16, gXCoord_6F63AC, 0x6F63AC);
-DEFINE_GLOBAL(Fix16, gYCoord_6F63B8, 0x6F63B8);
+DEFINE_GLOBAL(Fix16, gRelativeXCoord_6F63AC, 0x6F63AC);
+DEFINE_GLOBAL(Fix16, gRelativeYCoord_6F63B8, 0x6F63B8);
 DEFINE_GLOBAL(s32, gZCoord_6F63E0, 0x6F63E0);
 DEFINE_GLOBAL(u32, dword_6F6480, 0x6F6480);
 DEFINE_GLOBAL(u32, dword_6F647C, 0x6F647C);
@@ -33,6 +35,7 @@ DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FA4, 8, 0x620FA4, 0, 8, 0x20, 0x28, 0x40,
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621004, 8, 0x621004, 0x65, 0x75, 5, 0x15, 0x25, 0x35, 0x45, 0x55);
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621024, 8, 0x621024, 5, 0x0D, 0x25, 0x2D, 0x45, 0x4D, 0x65, 0x6D);
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FE4, 8, 0x620FE4, 0x25, 0x35, 0x45, 0x55, 0x65, 0x75, 5, 0x15);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F638C, Fix16(0x3000,0), 0x6F638C);
 
 static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
 {
@@ -171,10 +174,10 @@ void MapRenderer::draw_lid_4EE130()
 {
     if (!bSkip_lid_67D546)
     {
-        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
-        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
-        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
-        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+        sub_46BD40(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        sub_46BD40(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        sub_46BD40(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        sub_46BD40(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
 
         u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF); // tile idx
 
@@ -407,7 +410,7 @@ void MapRenderer::draw_slope_4F6630()
 
 // https://decomp.me/scratch/8po7Q  instruction swap at lines (0xbc vs 0xc2) and (0x125 vs 0x12b)
 STUB_FUNC(0x4f66c0)
-void MapRenderer::sub_4F66C0()
+void MapRenderer::RenderFlatBlock_4F66C0()
 {
     NOT_IMPLEMENTED;
     u16 v6;
@@ -475,7 +478,7 @@ void MapRenderer::sub_4F66C0()
 }
 
 MATCH_FUNC(0x4f6880)
-void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
+void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
 {
     gmp_block_info* pBlock = gMap_0x370_6F6268->sub_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
     gpBlock_6F6478 = pBlock;
@@ -512,8 +515,8 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
                 gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
-        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
+        gRelativeXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
+        gRelativeYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
 
         u8 v6 = pBlock->field_B_slope_type & 0xFC;
 
@@ -529,7 +532,7 @@ void MapRenderer::sub_4F6880(s32& pXCoord, s32& pYCoord)
                     }
                     else
                     {
-                        MapRenderer::sub_4F66C0(); // !
+                        MapRenderer::RenderFlatBlock_4F66C0(); // !
                     }
                 }
                 else
