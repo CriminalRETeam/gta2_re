@@ -79,7 +79,7 @@ s16 sharp_pare_0x15D8::sub_5B9220(u16 a2, u16 a3)
     return og_idx;
 }
 
-STUB_FUNC(0x5B92E0)
+MATCH_FUNC(0x5B92E0)
 void sharp_pare_0x15D8::ReadTextures_5B92E0()
 {
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
@@ -89,10 +89,6 @@ void sharp_pare_0x15D8::ReadTextures_5B92E0()
         for (u16 i = 0; i < GTA2_COUNTOF(field_0_textures1); i++, p++)
         {
             // 64 256x256 pages of 64x64 8 bit tiles
-            if (i > 600)
-            {
-                return;
-            }
             *p = pgbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
         }
     }
