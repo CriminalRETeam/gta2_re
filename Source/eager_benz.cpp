@@ -266,14 +266,14 @@ MATCH_FUNC(0x5922f0)
 void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
 {
     field_368_pObj = a2;
-    field_0_unk.sub_492110(a3, a4, a5);
+    field_0_money.sub_492110(a3, a4, a5);
     field_38_unk.sub_492110(a3, a6, a5);
 }
 
 MATCH_FUNC(0x592330)
 void eager_benz::sub_592330()
 {
-    field_0_unk.sub_492150();
+    field_0_money.sub_492150();
     field_38_unk.sub_492150();
     field_1A8_unk.sub_431E10(this);
     sub_592380(3);
@@ -282,13 +282,13 @@ void eager_benz::sub_592330()
 MATCH_FUNC(0x592360)
 thirsty_lamarr* eager_benz::sub_592360()
 {
-    return &field_0_unk;
+    return &field_0_money;
 }
 
 MATCH_FUNC(0x592370)
 s32 eager_benz::GetScore_592370()
 {
-    return field_0_unk.field_0;
+    return field_0_money.field_0;
 }
 
 MATCH_FUNC(0x592380)
@@ -405,7 +405,7 @@ s32 eager_benz::sub_5925B0(u32 car_info_idx, u8 arg4)
 MATCH_FUNC(0x592620)
 void eager_benz::AddCash_592620(s32 cash)
 {
-    field_0_unk.ChangeStatByAmount_4921B0(cash);
+    field_0_money.ChangeStatByAmount_4921B0(cash);
 
     if (bStartNetworkGame_7081F0)
     {

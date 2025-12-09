@@ -6,6 +6,7 @@
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "lucid_hamilton.hpp"
@@ -1427,10 +1428,107 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x56A490)
-void Player::sub_56A490()
+MATCH_FUNC(0x56A490)
+void Player::ApplyCheats_56A490()
 {
-    NOT_IMPLEMENTED;
+    if (gCheatGetPlayerPoints_67D4C8)
+    {
+        if (-field_2D4_unk.field_0_money.field_30 > 200000)
+        {
+            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+        }
+        else
+        {
+            if (field_2D4_unk.field_0_money.field_30 < 200000)
+            {
+                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+            }
+            else
+            {
+                field_2D4_unk.field_0_money.field_0 = 200000;
+            }
+        }
+    }
+    if (gCheatGet10MillionMoney_67D6CE)
+    {
+        if (-field_2D4_unk.field_0_money.field_30 > 9999999)
+        {
+            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+        }
+        else
+        {
+            if (field_2D4_unk.field_0_money.field_30 < 9999999)
+            {
+                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+            }
+            else
+            {
+                field_2D4_unk.field_0_money.field_0 = 9999999;
+            }
+        }
+    }
+    if (gCheatUnlimitedElectroGun_67D4F7)
+    {
+        field_718_weapons[weapon_type::shocker]->field_0_ammo = -1;
+    }
+    if (gCheatUnlimitedFlameThrower_67D6CC)
+    {
+        field_718_weapons[weapon_type::flamethrower]->field_0_ammo = -1;
+    }
+    if (gCheatAllGangMaxRespect_67D587)
+    {
+        for (Gang_144* pIter = gGangPool_CA8_67E274->sub_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->sub_4BECE0())
+        {
+            pIter->SetRespect_4BEE30(field_2E_idx, 100);
+        }
+    }
+    if (gCheatGet99Lives_67D4F1)
+    {
+        if (-field_684_lives.field_30 > 99)
+        {
+            field_684_lives.field_0 = -field_684_lives.field_30;
+        }
+        else
+        {
+            if (field_684_lives.field_30 < 99)
+            {
+                field_684_lives.field_0 = field_684_lives.field_30;
+            }
+            else
+            {
+                field_684_lives.field_0 = 99;
+            }
+        }
+    }
+    if (gCheat10xMultiplier_67D589)
+    {
+        field_6BC_multpliers.ChangeStatByAmount_4921B0(9);
+    }
+    if (gCheatOnlyMuggerPeds_67D5A4)
+    {
+        gPedManager_6787BC->field_7_make_all_muggers = true;
+    }
+    if (gCheatUnknown_67D4F6)
+    {
+        Player::sub_564D60(4);
+    }
+    if (gCheatInvisibility_67D539)
+    {
+        Player::sub_564D60(11);
+    }
+    if (gCheatUnlimitedDoubleDamage_67D57C)
+    {
+        Player::sub_564D60(7);
+    }
+    if (byte_67D56B)
+    {
+        Player::sub_564D60(4);
+        Player::sub_564960(1, 50u);
+        for (Gang_144* pIter2 = gGangPool_CA8_67E274->sub_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->sub_4BECE0())
+        {
+            pIter2->SetRespect_4BEE30(field_2E_idx, 80);
+        }
+    }
 }
 
 MATCH_FUNC(0x56A6D0)

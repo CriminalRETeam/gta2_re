@@ -154,7 +154,7 @@ class Player
     EXPORT s32 sub_56A0F0();
     EXPORT zealous_borg* CopyPlayerDataToSave_56A1A0(s32 a2);
     EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
-    EXPORT void sub_56A490();
+    EXPORT void ApplyCheats_56A490();
     EXPORT void ClearInputs_56A6D0();
 
     // 0x56A740

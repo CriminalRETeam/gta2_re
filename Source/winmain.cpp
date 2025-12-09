@@ -204,7 +204,7 @@ void force_link()
     lewin.sub_56A0F0();
     lewin.CopyPlayerDataToSave_56A1A0(0);
     lewin.UpdateGameFromSave_56A310(0);
-    lewin.sub_56A490();
+    lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
     Camera_0xBC drawUnk;
