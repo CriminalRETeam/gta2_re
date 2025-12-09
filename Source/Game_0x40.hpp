@@ -49,6 +49,11 @@ class Game_0x40
     EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game_0x40(); // 4BAE30
 
+    Player* get_player_4219E0(u8 idx)
+    {
+        return field_4_players[idx];
+    }
+
     s32 field_0_game_state;
     Player* field_4_players[6];
     Player* field_1C_unk;
@@ -74,13 +79,10 @@ class Game_0x40
     char_type field_3F;
 };
 
-
 EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);
-
 
 EXTERN_GLOBAL(Fix16, dword_67DCCC);
 
 EXTERN_GLOBAL(s32, dword_706C58);
-
 
 EXTERN_GLOBAL(class Hamburger_500*, gHamburger_500_678E30);
