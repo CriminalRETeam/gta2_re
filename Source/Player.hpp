@@ -171,7 +171,7 @@ class Player
     Ang16 field_8;
     Ang16 field_A;
     Fix16 field_C;
-    s32 field_10;
+    Fix16 field_10;
     s16 field_14;
     s16 field_16;
     s16 field_18;
