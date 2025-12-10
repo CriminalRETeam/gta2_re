@@ -55,7 +55,7 @@ DEFINE_GLOBAL(char_type, gbRngRemapTableDone_679C0A, 0x679C0A);
 DEFINE_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL(Fix16, dword_6777D0, 0x6777D0);
 DEFINE_GLOBAL(s32, dword_677888, 0x677888);
-DEFINE_GLOBAL(s32, dword_6778D0, 0x6778D0);
+DEFINE_GLOBAL(Fix16, dword_6778D0, 0x6778D0);
 DEFINE_GLOBAL(Fix16, DAT_006FF744, 0x006FF744); //, 0x147, 0xUNKNOWN);
 DEFINE_GLOBAL(Fix16, DAT_006FF774, 0x006FF774); //, 0x0, 0xUNKNOWN);
 DEFINE_GLOBAL(Fix16, DAT_006FF570, 0x6FF570);
@@ -1099,10 +1099,9 @@ s32* Car_BC::sub_43B5A0(s32 a2, u32* a3, s32* a4)
     return 0;
 }
 
-STUB_FUNC(0x43b730)
+MATCH_FUNC(0x43b730)
 char_type Car_BC::sub_43B730()
 {
-    NOT_IMPLEMENTED;
     return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
@@ -1825,7 +1824,7 @@ STUB_FUNC(0x4416d0)
 void Car_BC::sub_4416D0(s32 a2)
 {
     NOT_IMPLEMENTED;
-    
+
     char bUnknown = 0;
     if (field_A8)
     {
@@ -2175,10 +2174,65 @@ bool Car_BC::sub_442200()
     return 0;
 }
 
-STUB_FUNC(0x442310)
+MATCH_FUNC(0x442310)
 void Car_BC::sub_442310()
 {
-    NOT_IMPLEMENTED;
+    bool bIntersection = false;
+    bool bCheckMax = true;
+
+    if (bSkip_recycling_67D575 && field_84_car_info_idx != car_model_enum::MEDICAR && field_84_car_info_idx != car_model_enum::COPCAR &&
+        field_84_car_info_idx != car_model_enum::EDSELFBI)
+    {
+        return;
+    }
+
+    if (IsTrainModel(field_84_car_info_idx))
+    {
+        if (sub_43B730())
+        {
+            field_76 = 0;
+            bCheckMax = false;
+        }
+    }
+    else
+    {
+        for (u8 i = 0; i < 6; i++)
+        {
+            if (gGame_0x40_67E008->get_player_4219E0(i))
+            {
+                if (gGame_0x40_67E008->sub_4B9950(field_50_car_sprite, i, dword_6778D0))
+                {
+                    bIntersection = true;
+                }
+            }
+        }
+
+        if (bIntersection)
+        {
+            field_76 = 0;
+            bCheckMax = false;
+        }
+    }
+
+    if (bCheckMax)
+    {
+        field_76++;
+        if (field_76 > 9999)
+        {
+            field_76 = 9999;
+        }
+    }
+
+    if (((IsCopCar_421790() || IsFireTruck_4118F0() || IsSwatVan_4217A0() || IsTank_411900() || IsGunJeep_411910() ||
+          is_FBI_car_411920()) &&
+         field_76 == 300) ||
+        field_76 >= 130)
+    {
+        if (sub_442200() && !sub_4214B0() && field_88 != 5)
+        {
+            sub_421470();
+        }
+    }
 }
 
 MATCH_FUNC(0x4424c0)
