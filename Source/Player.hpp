@@ -104,7 +104,7 @@ class Player
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
-    EXPORT s32 sub_5651F0(s32 a2);
+    EXPORT s32 sub_5651F0(save_stats_0x90* a2);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
