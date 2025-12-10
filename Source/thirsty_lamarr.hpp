@@ -15,6 +15,11 @@ class thirsty_lamarr
     EXPORT char_type sub_4925C0();
     EXPORT void sub_4925E0();
 
+    inline s32 get_value()
+    {
+        return field_0;
+    }
+
     s32 field_0;
     s32 field_4;
     char_type field_8;

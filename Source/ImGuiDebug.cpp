@@ -163,6 +163,8 @@ void CC ImGuiDebugDraw()
         {
             if (gViewCamera_676978)
             {
+                ImGui::InputInt("field_60_full", &gViewCamera_676978->field_60.x.mValue, 1, 1);
+                ImGui::InputInt("field_60_frac", &gViewCamera_676978->field_60.y.mValue, 1, 1);
                 ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToFloat());
                 ImGui::Text("field_7C_right %f", gViewCamera_676978->field_78_boundaries_non_neg.field_4_right.ToFloat());
                 ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToFloat());
@@ -171,8 +173,8 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderInt("screen_px_center_x", &gViewCamera_676978->field_70_screen_px_center_x, 0, 2000);
                 ImGui::SliderInt("screen_px_center_y", &gViewCamera_676978->field_74_screen_px_center_y, 0, 1200);
 
-                ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
-                ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
+                ImGui::SliderInt("gXCoord_6F63AC", &gRelativeXCoord_6F63AC.mValue, 0, 2000);
+                ImGui::SliderInt("gYCoord_6F63B8", &gRelativeYCoord_6F63B8.mValue, 0, 2000);
                 ImGui::SliderInt("gZCoord_6F63E0", &gZCoord_6F63E0, 0, 2000);
             }
 

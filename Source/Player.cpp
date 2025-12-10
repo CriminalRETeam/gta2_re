@@ -359,7 +359,7 @@ void Player::tick_down_powerups_565070()
 }
 
 STUB_FUNC(0x5651F0)
-s32 Player::sub_5651F0(s32 a2)
+s32 Player::sub_5651F0(save_stats_0x90* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1658,17 +1658,120 @@ s32 Player::sub_56A0F0()
     return 0;
 }
 
-STUB_FUNC(0x56A1A0)
-zealous_borg* Player::CopyPlayerDataToSave_56A1A0(s32 a2)
+MATCH_FUNC(0x56A1A0)
+void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    pSave->field_0_x = field_2C4_player_ped->get_cam_x();
+    pSave->field_4_y = field_2C4_player_ped->get_cam_y();
+    pSave->field_8_z = field_2C4_player_ped->get_cam_z();
+    pSave->field_C_rotation = field_2C4_player_ped->GetRotation();
+    pSave->field_10_money = field_2D4_unk.GetScore_592370();
+    pSave->field_14_multipliers = field_6BC_multpliers.field_0;
+    pSave->field_18_health = field_2C4_player_ped->field_216_health;
+    pSave->field_7F_player_ped_remap = field_2C4_player_ped->field_244_remap;
+    pSave->field_80_lives = field_684_lives.get_value();
+    pSave->field_82_curr_weapon_idx = field_788_curr_weapon_idx;
+    pSave->field_8C_wanted_level = field_2C4_player_ped->field_20A_wanted_points;
+
+    for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
+    {
+        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+        pSave->field_75_gang_unk[gang_idx] = pGang->GetRespectForPlayer_4BEEF0(field_2E_idx);
+    }
+
+    for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
+    {
+        pSave->field_66_weapon_ammo[weapon_idx] = field_718_weapons[weapon_idx]->get_ammo_4A4FB0();
+    }
+
+    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    {
+        pSave->field_3C_crime_unk[crime_idx] = field_644_unk.field_0[crime_idx];
+    }
+    pSave->field_84_zealous_f34 = field_644_unk.field_34;
+    pSave->field_88_zealous_f38 = field_644_unk.field_38;
 }
 
-STUB_FUNC(0x56A310)
-void Player::UpdateGameFromSave_56A310(save_stats_0x90* a2)
+MATCH_FUNC(0x56A310)
+void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
 {
-    NOT_IMPLEMENTED;
+    s32 lives = pSave->field_80_lives;
+    if (lives < -field_684_lives.field_30)
+    {
+        this->field_684_lives.field_0 = -field_684_lives.field_30;
+    }
+    else
+    {
+        if (lives > field_684_lives.field_30)
+        {
+            this->field_684_lives.field_0 = field_684_lives.field_30;
+        }
+        else
+        {
+            this->field_684_lives.field_0 = lives;
+        }
+    }
+
+    s32 multipliers = pSave->field_14_multipliers;
+    if (multipliers < -field_6BC_multpliers.field_30)
+    {
+        this->field_6BC_multpliers.field_0 = -field_6BC_multpliers.field_30;
+    }
+    else
+    {
+        if (multipliers > field_6BC_multpliers.field_30)
+        {
+            this->field_6BC_multpliers.field_0 = field_6BC_multpliers.field_30;
+        }
+        else
+        {
+            this->field_6BC_multpliers.field_0 = multipliers;
+        }
+    }
+
+    s32 money = pSave->field_10_money;
+    if (money < -field_2D4_unk.field_0_money.field_30)
+    {
+        this->field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+    }
+    else
+    {
+        if (money > field_2D4_unk.field_0_money.field_30)
+        {
+            this->field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+        }
+        else
+        {
+            this->field_2D4_unk.field_0_money.field_0 = money;
+        }
+    }
+
+    field_788_curr_weapon_idx = pSave->field_82_curr_weapon_idx;
+    field_2C4_player_ped->field_216_health = pSave->field_18_health;
+
+    field_2C4_player_ped->field_20A_wanted_points = 0;
+    field_2C4_player_ped->add_wanted_points_470160(pSave->field_8C_wanted_level);
+
+    for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
+    {
+        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+        pGang->SetRespect_4BEE30(field_2E_idx, pSave->field_75_gang_unk[gang_idx]);
+    }
+
+    for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
+    {
+        field_718_weapons[weapon_idx]->add_ammo_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
+    }
+
+    for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
+    {
+        field_644_unk.field_0[crime_idx] = pSave->field_3C_crime_unk[crime_idx];
+    }
+    field_644_unk.field_34 = pSave->field_84_zealous_f34;
+    field_644_unk.field_38 = pSave->field_88_zealous_f38;
+
+    Player::sub_5651F0(pSave);
+    Player::sub_56A0F0();
 }
 
 MATCH_FUNC(0x56A490)

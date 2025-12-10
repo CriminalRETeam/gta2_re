@@ -1985,10 +1985,72 @@ s32 Map_0x370::sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32*
     return 0;
 }
 
+// https://decomp.me/scratch/eGx1i
 STUB_FUNC(0x4E8E30)
 void Map_0x370::do_process_loaded_zone_data_4E8E30()
 {
     NOT_IMPLEMENTED;
+    u16 v16 = 0;
+    u16 zonesSize = field_328_pZoneData ? *(u16*)field_32C_pZones : 0;
+    if (zonesSize)
+    {
+        field_330_pZoneArray = (u8*)Memory::malloc_4FE4D0(zonesSize);
+    }
+
+    for (u16 zoneIdx = 0; zoneIdx < zonesSize; zoneIdx++)
+    {
+        gmp_map_zone* zone1 = get_zone_4DFB30(zoneIdx);
+        if (zone1->field_0_zone_type != 10 && zone1->field_0_zone_type != 1 && zone1->field_0_zone_type != 15)
+        {
+            field_330_pZoneArray[zoneIdx] = 0;
+            continue;
+        }
+
+        bool done = false;
+        for (u16 v7 = 0; v7 < zoneIdx; v7++)
+        {
+            const char v8 = field_330_pZoneArray[v7];
+            if (v8)
+            {
+                gmp_map_zone* zone2 = get_zone_4DFB30(v7);
+                if (zone1->field_5_name_length == zone2->field_5_name_length &&
+                    !strncmp(zone1->field_6_name, zone2->field_6_name, (u8)zone1->field_5_name_length))
+                {
+                    field_330_pZoneArray[zoneIdx] = v8;
+                    done = true;
+                    break;
+                }
+            }
+        }
+
+        if (!done)
+        {
+            field_330_pZoneArray[zoneIdx] = ++v16;
+        }
+    }
+
+    s32 zoneCount = v16 + 1;
+    gmp_zone_info* pZoneInfo = (gmp_zone_info*)Memory::malloc_4FE4D0(sizeof(gmp_zone_info) * zoneCount);
+    field_334_pUnknownZoneData = pZoneInfo;
+    s32 t = 0;
+    do
+    {
+
+        pZoneInfo = &field_334_pUnknownZoneData[t];
+        pZoneInfo->field_0_car_density = 500;
+        pZoneInfo->field_2_goodcar_ratio = 300;
+        pZoneInfo->field_4_badcar_ratio = 300;
+        pZoneInfo->field_6_policecar_ratio = 100;
+        pZoneInfo->field_8_gangcar_ratio = 0;
+        pZoneInfo->field_A_ped_density = 500;
+        pZoneInfo->field_C_mugger_ratio = 50;
+        pZoneInfo->field_E_carthief_ratio = 40;
+        pZoneInfo->field_10_elvis_ratio = 10;
+        pZoneInfo->field_12_gangchar_ratio = 200;
+        pZoneInfo->field_14_policeped_ratio = 40;
+        t++;
+        zoneCount--;
+    } while (zoneCount != 0);
 }
 
 MATCH_FUNC(0x4E90E0)
