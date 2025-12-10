@@ -37,6 +37,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_676838, Fix16(0x1C000, 0), 0x676838);
 DEFINE_GLOBAL_INIT(Fix16, dword_67668C, Fix16(0x3FFFFF, 0), 0x67668C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6768E0, Fix16(0x3000, 0), 0x6768E0);
 DEFINE_GLOBAL_INIT(Fix16, dword_67691C, dword_6768E0, 0x67691C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6766F4, Fix16(0x3000, 0), 0x6766F4);
 
 MATCH_FUNC(0x4355D0)
 bool Camera_0xBC::sub_4355D0(Sprite* pSprite)
@@ -383,10 +384,18 @@ void Camera_0xBC::sub_436120(Fix16 a2)
     field_30 = a2 * dword_6768D8;
 }
 
-STUB_FUNC(0x436140)
+MATCH_FUNC(0x436140)
 void Camera_0xBC::sub_436140()
 {
-    NOT_IMPLEMENTED;
+    field_98_cam_pos2.field_0_x += field_30;
+    field_98_cam_pos2.field_4_y += field_30;
+    field_98_cam_pos2.field_8_z += field_30;
+    if (field_98_cam_pos2.field_8_z < dword_676818)
+    {
+        field_98_cam_pos2.field_8_z = dword_676818;
+    }
+    field_30 = -field_30;
+    field_30 = dword_6766F4 * field_30;
 }
 
 MATCH_FUNC(0x4361B0)
