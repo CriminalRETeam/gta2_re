@@ -445,7 +445,7 @@ class Car_BC
     EXPORT s32 AttachGangIcon_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
-    EXPORT void sub_4407F0();
+    EXPORT void ClearDriver_4407F0();
     EXPORT Sprite* sub_440840();
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();

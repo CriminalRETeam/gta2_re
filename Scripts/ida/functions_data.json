@@ -1930,7 +1930,7 @@
         "v105_address": "0x4406e0"
     },
     {
-        "name": "Car_BC::sub_4407F0",
+        "name": "Car_BC::ClearDriver_4407F0",
         "v96f_address": null,
         "v105_address": "0x4407f0"
     },

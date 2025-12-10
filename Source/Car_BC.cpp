@@ -1484,7 +1484,7 @@ void Car_BC::sub_43DB80()
                 pPhysics = this->field_58_physics;
                 if (pPhysics)
                 {
-                    pPhysics->field_8C = 1;
+                    pPhysics->field_8C_state = 1;
                 }
             }
             field_54_driver->Kill_46F9D0();
@@ -1652,10 +1652,28 @@ void Car_BC::sub_4406E0(Ped* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4407f0)
-void Car_BC::sub_4407F0()
+MATCH_FUNC(0x4407f0)
+void Car_BC::ClearDriver_4407F0()
 {
-    NOT_IMPLEMENTED;
+    Player* pPlayer = field_54_driver->field_15C_player;
+    if (pPlayer)
+    {
+        if (field_54_driver->field_240_occupation != 1)
+        {
+            if (pPlayer->field_0)
+            {
+                gHud_2B00_706620->field_0.field_0_display_time = 0;
+            }
+            pPlayer->sub_564C00();
+        }
+
+        if (field_58_physics)
+        {
+            field_58_physics->field_8C_state = 1;
+        }
+    }
+    SetDriver(NULL);
+    field_A7_horn = 0;
 }
 
 STUB_FUNC(0x440840)

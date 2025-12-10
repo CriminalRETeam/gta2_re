@@ -1652,7 +1652,7 @@ void Player::sub_569530()
     Car_BC* pCar = field_2C8_unkq->field_16C_car;
     if (pCar->field_54_driver)
     {
-        pCar->sub_4407F0();
+        pCar->ClearDriver_4407F0();
     }
 
     if (pCar->field_98 != 4)

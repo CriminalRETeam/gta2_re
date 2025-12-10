@@ -879,7 +879,7 @@ void CarPhysics_B0::Init_5637A0()
     field_10[1].reset();
     field_10[2].reset();
     field_10[3].reset();
-    field_8C = 1;
+    field_8C_state = 1;
     field_8_total_damage_q = 0;
     field_60_gas_pedal = DAT_006FE290;
     field_AC_drive_wheels_locked_q = 0;
@@ -915,11 +915,11 @@ void CarPhysics_B0::SetCar_5638C0(Car_BC* pCar)
     Ped* pDriver = pCar->field_54_driver;
     if (pDriver && pDriver->field_15C_player)
     {
-        this->field_8C = 2;
+        this->field_8C_state = 2;
     }
     else
     {
-        this->field_8C = 1;
+        this->field_8C_state = 1;
     }
 }
 
