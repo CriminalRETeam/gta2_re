@@ -33,6 +33,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6765FC, dword_6768D8 * 5, 0x6765FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766FC, dword_6768D8, 0x6766FC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766A4, dword_6768D8 * 4, 0x6766A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_676740, dword_6768D8 * dword_67681C, 0x676740);
+DEFINE_GLOBAL_INIT(Fix16, dword_676838, Fix16(0x1C000, 0), 0x676838);
+DEFINE_GLOBAL_INIT(Fix16, dword_67668C, Fix16(0x3FFFFF, 0), 0x67668C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6768E0, Fix16(0x3000, 0), 0x6768E0);
+DEFINE_GLOBAL_INIT(Fix16, dword_67691C, dword_6768E0, 0x67691C);
 
 MATCH_FUNC(0x4355D0)
 bool Camera_0xBC::sub_4355D0(Sprite* pSprite)
@@ -169,11 +173,78 @@ s32 Camera_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
     return 0;
 }
 
+// https://decomp.me/scratch/YoPmg Is field_60 really a Fix16_Point ?
 STUB_FUNC(0x435B90)
-s32 Camera_0xBC::sub_435B90()
+void Camera_0xBC::sub_435B90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_60.x = Fix16(field_68_screen_px_width) * field_98_cam_pos2.field_C_zoom;
+    field_60.y = Fix16(640) * field_98_cam_pos2.field_C_zoom;
+
+    Fix16 v3 = dword_67671C * ((dword_676838 + field_98_cam_pos2.field_8_z) * (dword_67681C / field_98_cam_pos2.field_C_zoom));
+    Fix16 v5 = dword_67671C * ((dword_676838 + field_98_cam_pos2.field_8_z) * (dword_67681C / field_98_cam_pos2.field_C_zoom));
+
+    Fix16 x_pos = field_98_cam_pos2.field_0_x;
+
+    field_78_boundaries_non_neg.field_0_left = x_pos - v3;
+
+    if (field_78_boundaries_non_neg.field_0_left < dword_676818)
+    {
+        field_78_boundaries_non_neg.field_0_left = 0;
+    }
+    else
+    {
+        if (field_78_boundaries_non_neg.field_0_left > dword_67668C)
+        {
+            field_78_boundaries_non_neg.field_0_left = dword_67668C;
+        }
+    }
+
+    field_78_boundaries_non_neg.field_4_right = x_pos + v5;
+    if (x_pos + v5 < dword_676818)
+    {
+        field_78_boundaries_non_neg.field_4_right = 0;
+    }
+    else
+    {
+        if (x_pos + v5 > dword_67668C)
+        {
+            field_78_boundaries_non_neg.field_4_right = dword_67668C;
+        }
+    }
+
+    Fix16 v7 = v5 * dword_6768E0;
+    Fix16 v7_high = field_98_cam_pos2.field_4_y;
+    field_78_boundaries_non_neg.field_8_top = v7_high - v7;
+
+    if (field_78_boundaries_non_neg.field_8_top < dword_676818)
+    {
+        field_78_boundaries_non_neg.field_8_top = 0;
+    }
+    else
+    {
+        if (field_78_boundaries_non_neg.field_8_top > dword_67668C)
+        {
+            field_78_boundaries_non_neg.field_8_top = dword_67668C;
+        }
+    }
+
+    field_78_boundaries_non_neg.field_C_bottom = v7_high + v7;
+    if (field_78_boundaries_non_neg.field_C_bottom < dword_676818)
+    {
+        field_78_boundaries_non_neg.field_C_bottom = 0;
+    }
+    else
+    {
+        if (field_78_boundaries_non_neg.field_C_bottom > dword_67668C)
+        {
+            field_78_boundaries_non_neg.field_C_bottom = dword_67668C;
+        }
+    }
+
+    field_20_boundaries.field_0_left = field_78_boundaries_non_neg.field_0_left - dword_67691C;
+    field_20_boundaries.field_4_right = dword_67691C + field_78_boundaries_non_neg.field_4_right;
+    field_20_boundaries.field_8_top = field_78_boundaries_non_neg.field_8_top - dword_67691C;
+    field_20_boundaries.field_C_bottom = dword_67691C + field_78_boundaries_non_neg.field_C_bottom;
 }
 
 MATCH_FUNC(0x435D20)
@@ -301,9 +372,9 @@ void Camera_0xBC::sub_435FF0()
 }
 
 MATCH_FUNC(0x436110)
-s32 Camera_0xBC::sub_436110()
+void Camera_0xBC::sub_436110()
 {
-    return sub_435B90();
+    sub_435B90();
 }
 
 STUB_FUNC(0x436120)
