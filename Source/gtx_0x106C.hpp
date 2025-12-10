@@ -150,6 +150,16 @@ class gtx_0x106C
         return &field_3C_tiles[(((tile_num & ~3) * 64) + (tile_num & 3)) * 64];
     }
 
+    inline u8 get_sprite_width_420220(u16 a2)
+    {
+        return get_sprite_index_5AA440(a2)->field_4_width;
+    }
+
+    inline u8 get_sprite_height_4C6C90(u16 a2)
+    {
+        return get_sprite_index_5AA440(a2)->field_5_height;
+    }
+
     EXPORT car_info* get_car_info_5AA3B0(u8 idx);
 
     EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
