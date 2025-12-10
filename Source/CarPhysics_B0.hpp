@@ -21,7 +21,7 @@ class CarPhysics_B0
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
     EXPORT void sub_5597B0();
-    EXPORT bool sub_5599D0();
+    EXPORT bool IsNotMoving_5599D0();
     EXPORT void sub_559A40();
     EXPORT void sub_559B40();
     EXPORT void sub_559B50();
@@ -110,7 +110,7 @@ class CarPhysics_B0
     EXPORT CarInfo_2C* sub_562ED0();
     EXPORT s32 SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
-    EXPORT char_type sub_562FA0();
+    EXPORT char_type UpdateLastMovementTimer_562FA0();
     EXPORT bool sub_562FE0();
     EXPORT s32* sub_563280();
     EXPORT s32* UpdateCenterOfMassPoint_563350();

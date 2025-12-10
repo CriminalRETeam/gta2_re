@@ -210,9 +210,9 @@ class Player
     s32 field_68;
     s32 field_6C_bIn_debug_cam_mode;
     char_type field_70_dbg_cam_north;
-    char_type field_71;
-    char_type field_72;
-    char_type field_73;
+    char_type field_71_s;
+    char_type field_72_e;
+    char_type field_73_w;
     char_type field_74_dbg_cam_zooming_out;
     char_type field_75_dbg_cam_zooming_in;
     char_type field_76;
