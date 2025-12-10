@@ -13,10 +13,10 @@ class Nanobotz_8  // Maybe Fix16_Point
   public:
     inline s32 IsEqual_46BB60(Nanobotz_8* other)
     {
-        return field_0 == other->field_0 && field_4 == other->field_4;
+        return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
     }
-    s32 field_0;  // x?
-    s32 field_4;  // y?
+    s32 field_0_x;  // x?
+    s32 field_4_y;  // y?
 };
 
 EXTERN_GLOBAL(Fix16, gRelativeXCoord_6F63AC);
@@ -43,7 +43,7 @@ class MapRenderer
         field_4 = dword_67DCCC;
         field_8.mValue = 0;
         field_2F00_drawn_tile_count = 0;
-        field_2EFC_count = 0;
+        field_2EFC_curr_draw_layer_size = 0;
         set_shading_lev_4E9DB0(15u);
     }
 
@@ -123,24 +123,24 @@ class MapRenderer
 
     inline void sub_46BB90(s32* maybe_x, s32* maybe_y)
     {
-        Nanobotz_8* pPos = &field_1C[field_2EFC_count];
-        pPos->field_0 = *maybe_x;
-        pPos->field_4 = *maybe_y;
+        Nanobotz_8* pPos = &field_1C[field_2EFC_curr_draw_layer_size];
+        pPos->field_0_x = *maybe_x;
+        pPos->field_4_y = *maybe_y;
         
-        Nanobotz_8* pIter = &field_1C[field_2EFC_count-1];
-        for (s32 i = field_2EFC_count - 1; i >= 0; i--, pIter--)
+        Nanobotz_8* pIter = &field_1C[field_2EFC_curr_draw_layer_size-1];
+        for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
         {
             if (pIter->IsEqual_46BB60(pPos))
             {
                 return;
             }
         }
-        ++field_2EFC_count;
+        ++field_2EFC_curr_draw_layer_size;
     }
 
     inline void ResetCount_45B040()
     {
-        field_2EFC_count = 0;
+        field_2EFC_curr_draw_layer_size = 0;
     }
 
     Fix16 field_0_ambient;
@@ -163,7 +163,7 @@ class MapRenderer
     char_type field_1A;
     char_type field_1B;
     Nanobotz_8 field_1C[1500];
-    s32 field_2EFC_count;
+    s32 field_2EFC_curr_draw_layer_size;
     s32 field_2F00_drawn_tile_count;
 };
 

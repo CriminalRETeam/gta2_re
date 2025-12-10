@@ -11,7 +11,7 @@
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
-DEFINE_GLOBAL(Fix16_Point, stru_6F6484, 0x6F6484);
+DEFINE_GLOBAL_INIT(Fix16_Point, stru_6F6484, Fix16_Point(Fix16(0), Fix16(1)), 0x6F6484);
 DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
 DEFINE_GLOBAL(u16, gBlockTop_6F62F4, 0x6F62F4);
 DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
@@ -558,8 +558,106 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
     field_2F00_drawn_tile_count = 0;
 }
 
+// https://decomp.me/scratch/F1VHf
 STUB_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
     NOT_IMPLEMENTED;
+
+    // set ambient level
+    if (gLighting_626A09)
+    {
+        pgbh_SetAmbient(field_0_ambient.ToFloat());
+        MapRenderer::ambient_light_tick_4E9EA0();
+    }
+
+    // render all things
+    for (s32 zLayer = 0; zLayer < 7; zLayer++)
+    {
+        if (zLayer != 0)
+        {
+            gMontana_67B580->Draw_495560(zLayer); // draw all sprites at zLayer
+        }
+
+        // render blocks
+        if (!bSkip_tiles_67D655)
+        {
+            // compute tile rendering boundaries
+            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8) - Fix16(zLayer)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+            
+            // compute x boundary
+            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
+            s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - (layer_row_width / 2)).ToInt();
+            
+            // stretch the y direction because of assymetric monitor resolution
+            Fix16 layer_column_width = layer_row_width * dword_6F638C;  
+            
+            // compute y boundary
+            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
+            s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - (layer_column_width / 2)).ToInt();
+            
+            // update global Z coordinate
+            gZCoord_6F63E0 = zLayer;    // or maybe zLayer + 1 ?
+
+
+            // Not known yet
+            Fix16 unknown_1 = stru_6F6484.x;    // TODO: this is not Fix16
+            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8) - Fix16(zLayer);
+            if (unk_Z_Factor != stru_6F6484.x) //  != 0
+            {
+                unknown_1 = stru_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
+            }
+
+            // Setting some unknown global vars...
+            //dword_6F6318 = unknown_1; // TODO: not used for now
+            //dword_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
+            dword_6F62B0 = zLayer + 1;
+            
+            // Not known yet
+            Fix16 unknown_2 = stru_6F6484.x;
+            if (unk_Z_Factor != stru_6F6484.x) //  != 0
+            {
+                unknown_2 = stru_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
+            }
+
+            dword_6F656C = unknown_2;
+            dword_6F628C = unknown_2 * gViewCamera_676978->field_60.x; // tile scale ?
+            
+
+            // if zLayer = 0, reset lights
+            if (zLayer == 0 && gLighting_626A09)
+            {
+                pgbh_ResetLights();
+
+                f32 float_1, float_2, float_3, float_4;
+                // This function seems to do nothing
+                pgbh_SetCamera(float_1, float_2, float_3, float_4);
+
+                // TODO: lighting
+                //Light::sub_4D6E50(v45, v44, v46, v7);
+            }
+
+            // Reset the size of draw layer size
+            ResetCount_45B040();
+
+            // Now iter over all blocks at zLayer and set up their "Nanobotz" :p
+            // OBS: the OG code doesn't look as this, so it's provisional
+            for (s32 x = min_x; x < max_x; x++)
+            {
+                for (s32 y = min_y; y < max_y; y++)
+                {
+                    sub_46BB90(&x, &y);
+                }
+            }
+
+            // Now draw tiles
+            Nanobotz_8* pIter = &field_1C[field_2EFC_curr_draw_layer_size-1];
+            for (s32 j = field_2EFC_curr_draw_layer_size - 1; j >= 0; j--, pIter--)
+            {
+                MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, 
+                                        pIter->field_4_y);
+            }
+        }
+    }
+    gMontana_67B580->Draw_495560(7);    // draw all sprites on the highest layer
 }
