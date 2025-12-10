@@ -12005,7 +12005,7 @@
         "v105_address": "0x5597b0"
     },
     {
-        "name": "CarPhysics_B0::sub_5599D0",
+        "name": "CarPhysics_B0::IsNotMoving_5599D0",
         "v96f_address": null,
         "v105_address": "0x5599d0"
     },
@@ -12510,7 +12510,7 @@
         "v105_address": "0x562f30"
     },
     {
-        "name": "CarPhysics_B0::sub_562FA0",
+        "name": "CarPhysics_B0::UpdateLastMovementTimer_562FA0",
         "v96f_address": null,
         "v105_address": "0x562fa0"
     },
