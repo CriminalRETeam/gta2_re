@@ -44,12 +44,12 @@ class Camera_0xBC
     EXPORT s16* sub_4358D0(s16* a2);
     EXPORT Fix16 sub_435A20();
     EXPORT s32 sub_435A70(Fix16 a2, Fix16 a3, Fix16 a4);
-    EXPORT s32 sub_435B90();
+    EXPORT void sub_435B90();
     EXPORT void sub_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7);
     EXPORT void sub_435DD0();
     EXPORT void sub_435F90(Car_BC* a2);
     EXPORT void sub_435FF0();
-    EXPORT s32 sub_436110();
+    EXPORT void sub_436110();
     EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
     EXPORT void sub_4361B0(u32 a2, u32 a3);

@@ -2256,7 +2256,7 @@ void Hud_2B00::sub_5D6BE0()
 }
 
 MATCH_FUNC(0x5d6c20)
-s32 Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
+bool Hud_2B00::IsBusy_5D6C20(s32 action, Player* pPlayer)
 {
     return field_12EC_sub.IsOnQuitMessage_5D13C0(action, pPlayer) || field_2A25_sub.IsTypingOnChat_5D15E0(action, pPlayer);
 }

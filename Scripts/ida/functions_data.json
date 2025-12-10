@@ -5940,7 +5940,7 @@
         "v105_address": "0x4b9640"
     },
     {
-        "name": "Game_0x40::sub_4B9700",
+        "name": "Game_0x40::TogglePause_4B9700",
         "v96f_address": null,
         "v105_address": "0x4b9700"
     },

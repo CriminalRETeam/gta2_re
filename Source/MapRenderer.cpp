@@ -30,7 +30,7 @@ DEFINE_GLOBAL(s32, dword_6F62B0, 0x6F62B0);
 DEFINE_GLOBAL(u32, dword_6F6560, 0x6F6560);
 DEFINE_GLOBAL(Fix16, dword_6F628C, 0x6F628C);
 DEFINE_GLOBAL(Fix16, dword_6F656C, 0x6F656C);
-DEFINE_GLOBAL(s8, byte_620F20, 0x620F20);
+DEFINE_GLOBAL_INIT(s8, byte_620F20, -1, 0x620F20);  // OBS: workaround
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FA4, 8, 0x620FA4, 0, 8, 0x20, 0x28, 0x40, 0x48, 0x60, 0x68);
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621004, 8, 0x621004, 0x65, 0x75, 5, 0x15, 0x25, 0x35, 0x45, 0x55);
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621024, 8, 0x621024, 5, 0x0D, 0x25, 0x2D, 0x45, 0x4D, 0x65, 0x6D);
@@ -289,10 +289,54 @@ void MapRenderer::sub_4F02D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0340)
+MATCH_FUNC(0x4f0340)
 void MapRenderer::sub_4F0340()
 {
-    NOT_IMPLEMENTED;
+    u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
+    dword_6F6480 = 1;
+    s32 slope_type = field_B_slope_type & 0xFC;
+    dword_6F647C = 0;
+    if (gLidType_6F6274 == 1023)
+    {
+        switch (slope_type)
+        {
+            case 196:
+                MapRenderer::sub_4EEAF0();
+                break;
+            case 200:
+                MapRenderer::sub_4EEE60();
+                break;
+            case 204:
+                MapRenderer::sub_4EF1C0();
+                break;
+            case 208:
+                MapRenderer::sub_4EF520();
+                break;
+            default:
+                return;
+        }
+    }
+    else
+    {
+        dword_6F646C.field_0_gradient_direction = 0;
+        switch (slope_type)
+        {
+            case 196:
+                MapRenderer::sub_4EF880();
+                break;
+            case 200:
+                MapRenderer::sub_4EFB20();
+                break;
+            case 204:
+                MapRenderer::sub_4EFDB0();
+                break;
+            case 208:
+                MapRenderer::sub_4F0030();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x4f0420)

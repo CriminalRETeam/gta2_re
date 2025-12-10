@@ -130,7 +130,7 @@ class Player
     EXPORT void UpdateCamera_5686D0(Camera_0xBC* pCam);
     EXPORT void sub_568730();
     EXPORT void Service_5687F0();
-    EXPORT s32 sub_569410();
+    EXPORT void sub_569410();
     EXPORT void sub_569530();
     EXPORT void sub_5695A0();
     EXPORT char_type sub_569600(Car_BC* a2);

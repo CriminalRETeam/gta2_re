@@ -27,7 +27,7 @@ class Game_0x40
     EXPORT void sub_4B93C0();
     EXPORT void UpdateGame_4B9410();
     EXPORT s8 ExecuteGame_4B9640();
-    EXPORT void sub_4B9700();
+    EXPORT void TogglePause_4B9700();
     EXPORT void sub_4B9710();
     EXPORT void sub_4B9720();
     EXPORT Player* sub_4B9750();
