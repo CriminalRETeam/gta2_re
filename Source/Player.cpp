@@ -365,10 +365,16 @@ s32 Player::sub_5651F0(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x565310)
+MATCH_FUNC(0x565310)
 void Player::TeleportToDebugCam_565310()
 {
-    NOT_IMPLEMENTED;
+    field_2C4_player_ped->TeleportToCoord_45BC10(this->field_14C_view_camera.field_98_cam_pos2.field_0_x,
+                                                 this->field_14C_view_camera.field_98_cam_pos2.field_4_y);
+    memcpy(&this->field_90_game_camera, &this->field_14C_view_camera, sizeof(this->field_90_game_camera));
+    this->field_6C_bIn_debug_cam_mode = 0;
+    this->field_68 = 0;
+    this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
 }
 
 MATCH_FUNC(0x5653E0)
