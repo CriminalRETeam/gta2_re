@@ -41,7 +41,7 @@ void CarPhysics_B0::sub_5597B0()
 }
 
 STUB_FUNC(0x5599d0)
-bool CarPhysics_B0::sub_5599D0()
+bool CarPhysics_B0::IsNotMoving_5599D0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -761,9 +761,9 @@ void CarPhysics_B0::ApplyInputsAndIntegratePhysics_562F30()
 }
 
 MATCH_FUNC(0x562fa0)
-char_type CarPhysics_B0::sub_562FA0()
+char_type CarPhysics_B0::UpdateLastMovementTimer_562FA0()
 {
-    if (sub_5599D0())
+    if (IsNotMoving_5599D0())
     {
         if (field_90_timer_since_last_move < 255)
         {

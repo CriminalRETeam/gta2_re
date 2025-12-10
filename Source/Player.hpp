@@ -171,7 +171,7 @@ class Player
     Ang16 field_8;
     Ang16 field_A;
     Fix16 field_C;
-    s32 field_10;
+    Fix16 field_10;
     s16 field_14;
     s16 field_16;
     s16 field_18;
@@ -210,9 +210,9 @@ class Player
     s32 field_68;
     s32 field_6C_bIn_debug_cam_mode;
     char_type field_70_dbg_cam_north;
-    char_type field_71;
-    char_type field_72;
-    char_type field_73;
+    char_type field_71_s;
+    char_type field_72_e;
+    char_type field_73_w;
     char_type field_74_dbg_cam_zooming_out;
     char_type field_75_dbg_cam_zooming_in;
     char_type field_76;

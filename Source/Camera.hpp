@@ -14,7 +14,6 @@ EXTERN_GLOBAL(Fix16, dword_676818);
 
 EXTERN_GLOBAL(Fix16, dword_67681C);
 
-
 struct CameraPos
 {
     Fix16 field_0_x;
@@ -65,9 +64,14 @@ class Camera_0xBC
     EXPORT void sub_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5);
     EXPORT bool sub_58CF10(Fix16 a2, Fix16 a3);
 
-    inline void inline_sub_475B60()
+    inline void inline_set_ped_id_to_1_475B60()
     {
         field_3C_followed_ped_id = 1;
+    }
+
+    inline void inline_set_ped_id_to_2()
+    {
+        field_3C_followed_ped_id = 2;
     }
 
     inline Fix16_Point_POD sub_40CFC0(Fix16 x, Fix16 y, Fix16 z)

@@ -2,22 +2,22 @@
 #include "BurgerKing_67F8B0.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
-#include "error.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
-#include "lucid_hamilton.hpp"
 #include "NetPlay.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "infallible_turing.hpp"
+#include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
@@ -365,10 +365,16 @@ s32 Player::sub_5651F0(save_stats_0x90* a2)
     return 0;
 }
 
-STUB_FUNC(0x565310)
+MATCH_FUNC(0x565310)
 void Player::TeleportToDebugCam_565310()
 {
-    NOT_IMPLEMENTED;
+    field_2C4_player_ped->TeleportToCoord_45BC10(this->field_14C_view_camera.field_98_cam_pos2.field_0_x,
+                                                 this->field_14C_view_camera.field_98_cam_pos2.field_4_y);
+    memcpy(&this->field_90_game_camera, &this->field_14C_view_camera, sizeof(this->field_90_game_camera));
+    this->field_6C_bIn_debug_cam_mode = 0;
+    this->field_68 = 0;
+    this->field_90_game_camera.inline_set_ped_id_to_1_475B60();
+    gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("tport"), 3);
 }
 
 MATCH_FUNC(0x5653E0)
@@ -437,10 +443,26 @@ void Player::SetInputs_565740(u32 input)
     field_4_inputs = input;
 }
 
-STUB_FUNC(0x565770)
+MATCH_FUNC(0x565770)
 void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
-    NOT_IMPLEMENTED;
+    Gang_144* pZone = gGangPool_CA8_67E274->sub_4BECA0();
+    for (u8 i = count; i > 0; i--)
+    {
+        pZone = gGangPool_CA8_67E274->sub_4BECE0();
+    }
+
+    if (pZone)
+    {
+        if (pZone->GetRespectForPlayer_4BEEF0(this->field_2E_idx) >= 100)
+        {
+            pZone->SetRespect_4BEE30(this->field_2E_idx, -100);
+        }
+        else
+        {
+            pZone->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+        }
+    }
 }
 
 STUB_FUNC(0x565860)
@@ -506,7 +528,7 @@ void Player::sub_566380(u16 key)
             }
             break;
         case DIK_NUMPAD2:
-            this->field_71 = 0;
+            this->field_71_s = 0;
             break;
 
         case DIK_NUMPAD8:
@@ -514,11 +536,11 @@ void Player::sub_566380(u16 key)
             break;
 
         case DIK_NUMPAD4:
-            this->field_72 = 0;
+            this->field_72_e = 0;
             break;
 
         case DIK_NUMPAD6:
-            this->field_73 = 0;
+            this->field_73_w = 0;
             break;
 
         case DIK_NUMPAD7:
@@ -778,13 +800,13 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
     }
 
     pCar->HandleUserInput_4418D0(this->field_78_bNowForwardPressed,
-                     this->field_79_bNowDownPressed,
-                     this->field_7A_bNowLeftPressed,
-                     this->field_7B_bNowRightPressed,
-                     this->field_7E_bNowHandBrakeOrJumpPressed,
-                     this->field_81_bNowSpecial_1_Pressed,
-                     this->field_84_bWasSpecial_1_Pressed,
-                     bAttackPressed);
+                                 this->field_79_bNowDownPressed,
+                                 this->field_7A_bNowLeftPressed,
+                                 this->field_7B_bNowRightPressed,
+                                 this->field_7E_bNowHandBrakeOrJumpPressed,
+                                 this->field_81_bNowSpecial_1_Pressed,
+                                 this->field_84_bWasSpecial_1_Pressed,
+                                 bAttackPressed);
 }
 
 STUB_FUNC(0x566C80)
@@ -965,7 +987,7 @@ void Player::Wasted_567130()
                 }
                 field_68 = 0;
                 field_90_game_camera.sub_435DD0();
-                field_90_game_camera.inline_sub_475B60();
+                field_90_game_camera.inline_set_ped_id_to_1_475B60();
 
                 if (field_2C8_unkq != NULL)
                 {
@@ -1056,7 +1078,10 @@ void Player::UpdateCamera_5686D0(Camera_0xBC* pCam)
     // Camera panning
     if (this->field_82_bNowSpecial_2_Pressed)
     {
-        pCam->HandlePanning_436710(this->field_78_bNowForwardPressed, this->field_79_bNowDownPressed, this->field_7A_bNowLeftPressed, this->field_7B_bNowRightPressed);
+        pCam->HandlePanning_436710(this->field_78_bNowForwardPressed,
+                                   this->field_79_bNowDownPressed,
+                                   this->field_7A_bNowLeftPressed,
+                                   this->field_7B_bNowRightPressed);
         this->field_7A_bNowLeftPressed = 0;
         this->field_7B_bNowRightPressed = 0;
         this->field_78_bNowForwardPressed = 0;
@@ -1086,10 +1111,195 @@ void Player::sub_568730()
     field_8E_bInUse = 0;
 }
 
-STUB_FUNC(0x5687F0)
+MATCH_FUNC(0x5687F0)
 void Player::Service_5687F0()
 {
-    NOT_IMPLEMENTED;
+    const bool bNowEnterExitPressed = this->field_7D_bNowEnterExitPressed;
+    const bool bWasEnterExitPressed = this->field_89_bWasEnterExitPressed;
+    const bool bNowSpecial_1_Pressed = this->field_81_bNowSpecial_1_Pressed;
+    const bool bWasSpecial_1_Pressed = this->field_84_bWasSpecial_1_Pressed;
+
+    if (field_680 < 100u)
+    {
+        this->field_680++;
+    }
+
+    Player::tick_down_powerups_565070();
+    Player::sub_566EE0(0);
+
+    if (this->field_30_disable_enter_vehicles)
+    {
+        this->field_7D_bNowEnterExitPressed = 0;
+        this->field_89_bWasEnterExitPressed = 0;
+    }
+
+    field_2D4_unk.sub_591C70();
+    field_644_unk.sub_484F20();
+
+    Player::SelectNextOrPrevWeapon_5649D0(this->field_87_bWasNextWeaponPressed && this->field_80_bNowNextWeaponPressed,
+                                          this->field_88_bWasPrevWeaponPressed && this->field_7F_bNowPrevWeaponPressed);
+
+    if (this->field_8F)
+    {
+        if (this->field_7C_bNowAttackPressed)
+        {
+            this->field_7C_bNowAttackPressed = 0;
+        }
+        else
+        {
+            this->field_8F = 0;
+        }
+    }
+
+    if (bDo_debug_keys_67D6CF)
+    {
+        Player::sub_568670();
+    }
+
+    switch (this->field_68)
+    {
+
+        case 1:
+            field_90_game_camera.sub_435D20(this->field_78_bNowForwardPressed,
+                                            this->field_79_bNowDownPressed,
+                                            this->field_7A_bNowLeftPressed,
+                                            this->field_7B_bNowRightPressed,
+                                            this->field_7F_bNowPrevWeaponPressed,
+                                            this->field_80_bNowNextWeaponPressed);
+            field_90_game_camera.sub_435FF0();
+            if (!this->field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&this->field_14C_view_camera, &field_90_game_camera, sizeof(this->field_14C_view_camera));
+            }
+            break;
+
+        case 0:
+            Player::UpdateCamera_5686D0(&this->field_90_game_camera);
+            if (!this->field_2F_disable_all_controls)
+            {
+                Player::HandleControls_5668D0(this->field_2C4_player_ped);
+            }
+
+            field_90_game_camera.sub_436540(this->field_2C4_player_ped);
+            field_90_game_camera.sub_435FF0();
+
+            if (this->field_2D0)
+            {
+                if (this->field_2C8_unkq)
+                {
+                    field_208_aux_game_camera.sub_436540(this->field_2C8_unkq);
+                }
+                else if (this->field_2CC)
+                {
+                    field_208_aux_game_camera.sub_4364A0(this->field_2CC);
+                }
+                field_208_aux_game_camera.sub_435FF0();
+            }
+
+            if (!this->field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&this->field_14C_view_camera, &field_90_game_camera, sizeof(this->field_14C_view_camera));
+            }
+            break;
+
+        case 2:
+            this->field_7D_bNowEnterExitPressed = 0;
+            this->field_89_bWasEnterExitPressed = 0;
+
+            Player::UpdateCamera_5686D0(&this->field_208_aux_game_camera);
+
+            if (this->field_2C8_unkq)
+            {
+                if (!this->field_2F_disable_all_controls)
+                {
+                    Player::HandleControls_5668D0(this->field_2C8_unkq);
+                }
+                field_208_aux_game_camera.sub_436540(this->field_2C8_unkq);
+            }
+            field_90_game_camera.sub_436540(this->field_2C4_player_ped);
+            field_90_game_camera.sub_435FF0();
+            field_208_aux_game_camera.sub_435FF0();
+            if (!this->field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&this->field_14C_view_camera, &field_208_aux_game_camera, sizeof(this->field_14C_view_camera));
+            }
+            break;
+
+        case 3:
+            field_90_game_camera.sub_436540(this->field_2C4_player_ped);
+            if (this->field_2C8_unkq)
+            {
+                field_208_aux_game_camera.sub_436540(this->field_2C8_unkq);
+            }
+            else if (this->field_2CC)
+            {
+                field_208_aux_game_camera.sub_4364A0(this->field_2CC);
+            }
+            field_90_game_camera.sub_435FF0();
+            field_208_aux_game_camera.sub_435FF0();
+            if (!this->field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&this->field_14C_view_camera, &field_208_aux_game_camera, sizeof(this->field_14C_view_camera));
+            }
+            break;
+
+        default:
+            break;
+    }
+
+    Player::UpdateCurrentZones_568520();
+
+    if (this->field_6C_bIn_debug_cam_mode == 1)
+    {
+        this->field_14C_view_camera.inline_set_ped_id_to_2();
+
+        field_14C_view_camera.sub_435D20(this->field_70_dbg_cam_north,
+                                         this->field_71_s,
+                                         this->field_72_e,
+                                         this->field_73_w,
+                                         this->field_74_dbg_cam_zooming_out,
+                                         this->field_75_dbg_cam_zooming_in);
+        if (this->field_48_bDbg_cam_follow_player)
+        {
+            field_14C_view_camera.sub_435860(&this->field_90_game_camera);
+        }
+        field_14C_view_camera.sub_435FF0();
+    }
+
+    Player::sub_568630();
+
+    if (field_2C4_player_ped)
+    {
+        if ((field_2C4_player_ped->field_21C & 0x20) != 0)
+        {
+            this->field_640_busted = 1;
+        }
+
+        if (field_2C4_player_ped->field_278 == 9 && !field_640_busted)
+        {
+            Player::Wasted_567130();
+        }
+        else if (field_640_busted)
+        {
+            Player::Busted_5679E0();
+        }
+    }
+
+    if (this->field_2D0)
+    {
+        if (field_2C8_unkq)
+        {
+            if (field_2C8_unkq->field_278 == 9 && !this->field_28)
+            {
+                Player::sub_567850();
+            }
+        }
+    }
+    this->field_7D_bNowEnterExitPressed = bNowEnterExitPressed;
+    this->field_89_bWasEnterExitPressed = bWasEnterExitPressed;
+    this->field_81_bNowSpecial_1_Pressed = bNowSpecial_1_Pressed;
+    this->field_84_bWasSpecial_1_Pressed = bWasSpecial_1_Pressed;
+    Player::sub_569C20();
 }
 
 STUB_FUNC(0x569410)
@@ -1338,12 +1548,12 @@ void Player::sub_569CB0()
     }
 
     field_90_game_camera.sub_436540(field_2C4_player_ped);
-    field_90_game_camera.inline_sub_475B60();
+    field_90_game_camera.inline_set_ped_id_to_1_475B60();
     field_90_game_camera.sub_41E410();
     field_90_game_camera.sub_435DD0();
 
     field_208_aux_game_camera.sub_436540(field_2C4_player_ped);
-    field_208_aux_game_camera.inline_sub_475B60();
+    field_208_aux_game_camera.inline_set_ped_id_to_1_475B60();
     field_208_aux_game_camera.sub_41E410();
     field_208_aux_game_camera.sub_435DD0();
 
@@ -1732,9 +1942,9 @@ Player::Player(u8 player_idx)
     field_30_disable_enter_vehicles = 0;
     field_31_kf_weapon_mode = 0;
     field_70_dbg_cam_north = 0;
-    field_71 = 0;
-    field_72 = 0;
-    field_73 = 0;
+    field_71_s = 0;
+    field_72_e = 0;
+    field_73_w = 0;
     field_75_dbg_cam_zooming_in = 0;
     field_74_dbg_cam_zooming_out = 0;
     field_77 = 0;

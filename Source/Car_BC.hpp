@@ -730,6 +730,44 @@ class Car_BC
         return field_50_car_sprite->field_C_sprite_4c_ptr->field_4_height;
     }
 
+    bool sub_4214B0()
+    {
+        return field_88 == 2 || field_88 == 4 || field_88 == 3;
+    }
+
+    void sub_421470()
+    {
+        if (field_88 != 5 && field_88 != 2 && field_88 != 3)
+        {
+            field_88 = 4;
+        }
+    }
+
+    bool IsGunJeep_411910()
+    {
+        return field_84_car_info_idx == car_model_enum::GUNJEEP;
+    }
+
+    bool IsTank_411900()
+    {
+        return field_84_car_info_idx == car_model_enum::TANK;
+    }
+
+    bool IsSwatVan_4217A0()
+    {
+        return field_84_car_info_idx == car_model_enum::SWATVAN;
+    }
+
+    bool IsFireTruck_4118F0()
+    {
+        return field_84_car_info_idx == car_model_enum::FIRETRUK;
+    }
+
+    bool IsCopCar_421790()
+    {
+        return field_84_car_info_idx == car_model_enum::COPCAR;
+    }
+
     bool is_FBI_car_411920()
     {
         return field_84_car_info_idx == car_model_enum::EDSELFBI;
