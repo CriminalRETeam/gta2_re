@@ -289,10 +289,54 @@ void MapRenderer::sub_4F02D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4f0340)
+MATCH_FUNC(0x4f0340)
 void MapRenderer::sub_4F0340()
 {
-    NOT_IMPLEMENTED;
+    u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
+    dword_6F6480 = 1;
+    s32 slope_type = field_B_slope_type & 0xFC;
+    dword_6F647C = 0;
+    if (gLidType_6F6274 == 1023)
+    {
+        switch (slope_type)
+        {
+            case 196:
+                MapRenderer::sub_4EEAF0();
+                break;
+            case 200:
+                MapRenderer::sub_4EEE60();
+                break;
+            case 204:
+                MapRenderer::sub_4EF1C0();
+                break;
+            case 208:
+                MapRenderer::sub_4EF520();
+                break;
+            default:
+                return;
+        }
+    }
+    else
+    {
+        dword_6F646C.field_0_gradient_direction = 0;
+        switch (slope_type)
+        {
+            case 196:
+                MapRenderer::sub_4EF880();
+                break;
+            case 200:
+                MapRenderer::sub_4EFB20();
+                break;
+            case 204:
+                MapRenderer::sub_4EFDB0();
+                break;
+            case 208:
+                MapRenderer::sub_4F0030();
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x4f0420)
