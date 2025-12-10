@@ -1034,7 +1034,7 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
     s32 v9 = gLucid_hamilton_67E8E0.sub_4C59A0() ? 36 : 104;
     for (s32 i = 0; i < 4; i++)
     {
-        field_620[i].DrawPager_5D2AB0(width, v9);
+        field_0[i].DrawPager_5D2AB0(width, v9);
         v9 += totalSpriteHeight;
     }
 }
@@ -1042,9 +1042,9 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
 MATCH_FUNC(0x5d31b0)
 void Hud_Pager_C_Array::UpdatePagers_5D31B0()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_620); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
-        field_620[i].Service_5D2320();
+        field_0[i].Service_5D2320();
     }
 }
 
@@ -1053,7 +1053,7 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
 {
     for (s32 id = 0; id < 4; id++)
     {
-        Hud_Pager_C* pPager = &field_620[id];
+        Hud_Pager_C* pPager = &field_0[id];
         if (pPager->field_0_timer >= 0 || pPager->field_4)
         {
             continue;
@@ -1064,37 +1064,64 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
     return -1;
 }
 
-STUB_FUNC(0x5d3220)
-s32 Hud_Pager_C_Array::sub_5D3220(s32& a2)
+MATCH_FUNC(0x5d3220)
+s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 targetIdx = -1;
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0); i++)
+    {
+        Hud_Pager_C* pPager = &field_0[i];
+        if (!pPager->field_4 && (pPager->field_0_timer >= 0 || targetIdx == -1))
+        {
+            targetIdx = i;
+        }
+    }
+
+    Hud_Pager_C* pTargetPager = &field_0[targetIdx];
+    infallible_turing* pSound = pTargetPager->field_8_sound;
+    pTargetPager->field_4 = a2;
+    if (!pSound && !bSkip_audio_67D6BE)
+    {
+        pTargetPager->field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(pTargetPager, 11);
+    }
+
+    return targetIdx;
 }
 
-STUB_FUNC(0x5d3280)
-s32 Hud_Pager_C_Array::sub_5D3280(u32 a2)
+MATCH_FUNC(0x5d3280)
+void Hud_Pager_C_Array::sub_5D3280(s32 idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    infallible_turing* pSound = field_0[idx].field_8_sound;
+    Hud_Pager_C* pPager = &field_0[idx];
+    pPager->field_0_timer = -1;
+    pPager->field_4 = 0;
+
+    if (pSound)
+    {
+        pSound->release_40EF20();
+        pSound->field_C_pAny = gRoot_sound_66B038.field_0;
+        gRoot_sound_66B038.field_0 = pSound;
+        pPager->field_8_sound = 0;
+    }
 }
 
 MATCH_FUNC(0x5d32d0)
 void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 {
-    field_620[a2].field_0_timer = -1;
+    field_0[a2].field_0_timer = -1;
 }
 
 MATCH_FUNC(0x5d32f0)
 void Hud_Pager_C_Array::AddTime_5D32F0(s32 pager_idx, s32 time_to_add)
 {
-    Hud_Pager_C* pPager = &field_620[pager_idx];
+    Hud_Pager_C* pPager = &field_0[pager_idx];
     pPager->field_0_timer += time_to_add;
 }
 
 MATCH_FUNC(0x5d3310)
 void Hud_Pager_C_Array::sub_5D3310(s32 a2)
 {
-    field_620[a2].field_4 = 0;
+    field_0[a2].field_4 = 0;
 }
 
 MATCH_FUNC(0x5d7650)
