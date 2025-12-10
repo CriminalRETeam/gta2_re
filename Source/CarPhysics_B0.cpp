@@ -15,6 +15,12 @@ DEFINE_GLOBAL(Fix16, dword_6FDFB0, 0x6FDFB0);
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
 
+MATCH_FUNC(0x40B560)
+Fix16_Point CarPhysics_B0::get_cp1_40B560()
+{
+    return field_38_cp1;
+}
+
 STUB_FUNC(0x4403a0)
 s16* CarPhysics_B0::sub_4403A0(s16* a2)
 {
