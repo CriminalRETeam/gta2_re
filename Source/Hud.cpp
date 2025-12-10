@@ -1019,16 +1019,24 @@ s32 Hud_Pager_C::sub_5D2680(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x5d2ab0)
-s32 Hud_Pager_C::sub_5D2AB0(s32 a2, s32 a3)
+s32 Hud_Pager_C::DrawPager_5D2AB0(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x5d3040)
+MATCH_FUNC(0x5d3040)
 void Hud_Pager_C_Array::DrawPagers_5D3040()
 {
-    NOT_IMPLEMENTED;
+    s32 totalSpriteHeight = get_sprite_height_4C7250(117) + get_sprite_height_4C7250(118) + get_sprite_height_4C7250(119);
+    s32 width = (get_sprite_width_4C7220(117) / 2) + 3;
+
+    s32 v9 = gLucid_hamilton_67E8E0.sub_4C59A0() ? 36 : 104;
+    for (s32 i = 0; i < 4; i++)
+    {
+        field_620[i].DrawPager_5D2AB0(width, v9);
+        v9 += totalSpriteHeight;
+    }
 }
 
 MATCH_FUNC(0x5d31b0)

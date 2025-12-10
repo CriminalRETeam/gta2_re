@@ -6,6 +6,7 @@
 #include "map_0x370.hpp"
 #include "Draw.hpp"
 #include <wchar.h>
+#include "gtx_0x106C.hpp"
 
 class Ped;
 class Player;
@@ -242,7 +243,7 @@ class Hud_Pager_C
     EXPORT void Service_5D2320();
     EXPORT void sub_5D2380(s32 a2, s32 a3);
     EXPORT s32 sub_5D2680(s32 a2, s32 a3);
-    EXPORT s32 sub_5D2AB0(s32 a2, s32 a3);
+    EXPORT s32 DrawPager_5D2AB0(s32 a2, s32 a3);
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
@@ -268,6 +269,18 @@ class Hud_Pager_C_Array
     EXPORT void sub_5D32D0(s32 a2);
     EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
     EXPORT void sub_5D3310(s32 a2);
+
+    inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
+    {
+        s16 v1 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
+        return gGtx_0x106C_703DD4->get_sprite_width_420220(v1);
+    }
+
+    inline u8 __stdcall get_sprite_height_4C7250(s16 a3)
+    {
+        s16 v1 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, a3);
+        return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(v1);
+    }
 
     Hud_Pager_C field_620[4];
 };
