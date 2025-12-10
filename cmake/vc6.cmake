@@ -44,15 +44,15 @@ if (${MSVC_VERSION} EQUAL 1200)
 
 endif()
 
-if (${MSVC_VERSION} GREATER 1200)
-   SET ( CMAKE_SHARED_LINKER_FLAGS /MANIFEST:NO )
-
-   if (NOT DEFINED ENV{CI})
-       add_custom_command(TARGET decomp_main POST_BUILD
-               COMMAND python build.py
-               WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
-               COMMENT "Running build.py (VC6 build)")
-   endif()
-endif()
+#if (${MSVC_VERSION} GREATER 1200)
+#   SET ( CMAKE_SHARED_LINKER_FLAGS /MANIFEST:NO )
+#
+#   if (NOT DEFINED ENV{CI})
+#       add_custom_command(TARGET decomp_main POST_BUILD
+#               COMMAND python build.py
+#               WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}
+#               COMMENT "Running build.py (VC6 build)")
+#   endif()
+#endif()
 
 message(STATUS "${MSVC_VERSION}=${${MSVC_VERSION}}")
