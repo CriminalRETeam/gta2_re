@@ -1,10 +1,14 @@
 #include "fix16.hpp"
 #include "Function.hpp"
 #include "Globals.hpp"
+#include "ang16.hpp"
 #include <cmath>
 
 DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440, 0x667A80);
 DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
+
+// TODO: hmm, shouldn't this be 360 entries ??
+DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
 
 MATCH_FUNC(0x4369F0)
 Fix16& Fix16::FromInt_4369F0(s32 a2)
@@ -78,7 +82,10 @@ inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 }
 
 MATCH_FUNC(0x438FB0)
-EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart, const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax) 
+EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
+                                                     const Fix16& intervalEnd,
+                                                     const Fix16& rangeMin,
+                                                     const Fix16& rangeMax)
 {
     if (intervalStart < rangeMin)
     {
@@ -87,5 +94,56 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
     else
     {
         return intervalStart <= rangeMax ? true : false;
+    }
+}
+
+// 9.6f: 0x40E810
+MATCH_FUNC(0x405500)
+EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan)
+{
+    s16 low = 0;
+    s16 high = 360 - 1;
+
+    while (true)
+    {
+        s16 mid = (low + high) >> 1;
+        Fix16 tanAtMid = gTanTable_6663C8[mid];
+
+        // Binary search: go left if target < tanAtMid,
+        // go right if target > tanAtMid,
+        // exact match if equal
+        if (targetTan < tanAtMid)
+        {
+            high = mid - 1;
+        }
+        else if (targetTan > tanAtMid)
+        {
+            low = mid + 1;
+        }
+        else
+        {
+            return Ang16(mid, 0);
+        }
+
+        if (low > high)
+        {
+            // Lower bound case
+            if (mid == (0 + 1))
+            {
+                if (targetTan < gTanTable_6663C8[0 + 1])
+                {
+                    mid = 0;
+                }
+            }
+            // Upper bound case
+            else if (mid == (360 - 1))
+            {
+                if (targetTan > gTanTable_6663C8[360 - 1])
+                {
+                    mid = 360;
+                }
+            }
+            return Ang16(mid, 0);
+        }
     }
 }
