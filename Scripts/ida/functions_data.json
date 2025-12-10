@@ -2385,17 +2385,17 @@
         "v105_address": "0x444e40"
     },
     {
-        "name": "Car_6C::sub_444F80",
+        "name": "Car_6C::GetNearestCarFromCoord_444F80",
         "v96f_address": null,
         "v105_address": "0x444f80"
     },
     {
-        "name": "Car_6C::GetNearestCarFromCoord_444FA0",
+        "name": "Car_6C::GetNearestEnterableCarFromCoord_444FA0",
         "v96f_address": null,
         "v105_address": "0x444fa0"
     },
     {
-        "name": "sub_444FC0",
+        "name": "DoGetNearestCarFromCoord_444FC0",
         "v96f_address": null,
         "v105_address": "0x444fc0"
     },
