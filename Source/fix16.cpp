@@ -97,6 +97,17 @@ EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
     }
 }
 
+// TODO: A crt init func, needs adding to the CRT init table
+STUB_FUNC(0x4052D0)
+EXPORT void __stdcall arc_tan_table_init_4052D0()
+{
+    for (s32 i = 0; i < 1440; i++)
+    {
+        // TODO: Probably construct Ang16(i, 0) and then had ToRadians() or something 
+        gTanTable_6663C8[i].mValue = (tan((double)i * 3.141592654 * 0.001388888888888889) * 16384.0);
+    }
+}
+
 // 9.6f: 0x40E810
 MATCH_FUNC(0x405500)
 EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan)
