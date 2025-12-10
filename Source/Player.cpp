@@ -19,6 +19,7 @@
 #include "infallible_turing.hpp"
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
+#include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
 #include "text_0x14.hpp"
@@ -503,10 +504,296 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
     }
 }
 
+// https://decomp.me/scratch/lFslP
 STUB_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
     NOT_IMPLEMENTED;
+    u8 vol;
+    u8 cdVol;
+
+    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
+    {
+        switch (action)
+        {
+            case DIK_ESCAPE:
+                if (bSkip_quit_confirm_67D4E8)
+                {
+                    if (this->field_0)
+                    {
+                        gGame_0x40_67E008->sub_4B8C00(1, 2);
+                    }
+                }
+                else
+                {
+                    gHud_2B00_706620->field_12EC_sub.sub_5D15D0(this);
+                }
+                break;
+            case DIK_HOME:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    field_90_game_camera.ReturnToDefaultZoom_435830();
+                    field_208_aux_game_camera.ReturnToDefaultZoom_435830();
+                }
+                break;
+            case DIK_NEXT:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_76 = 1;
+                }
+                break;
+            case DIK_PRIOR:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_77 = 1;
+                }
+                break;
+            case DIK_F1:
+                gRoot_sound_66B038.sub_40F070(0);
+                break;
+            case DIK_F2:
+                gRoot_sound_66B038.sub_40F070(1);
+                break;
+
+            // ordered above
+
+            // ordered below
+            case DIK_F3:
+                if (gRoot_sound_66B038.GetCDVol_40F120() - 10 > 0)
+                {
+                    vol = gRoot_sound_66B038.GetCDVol_40F120() - 10;
+                }
+                else
+                {
+                    vol = 0;
+                }
+                gRoot_sound_66B038.SetCDVol_40F0F0(vol);
+                cdVol = gRoot_sound_66B038.GetCDVol_40F120();
+                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", cdVol);
+                break;
+            case DIK_F4:
+                if (gRoot_sound_66B038.GetCDVol_40F120() + 10 < 127)
+                {
+                    vol = gRoot_sound_66B038.GetCDVol_40F120() + 10;
+                }
+                else
+                {
+                    vol = 127;
+                }
+            LABEL_18:
+                gRoot_sound_66B038.SetCDVol_40F0F0(vol);
+                cdVol = gRoot_sound_66B038.GetCDVol_40F120();
+                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", cdVol);
+                break;
+            case DIK_F6:
+                gGame_0x40_67E008->TogglePause_4B9700();
+                break;
+            case DIK_F7:
+                if (this->field_0)
+                {
+                    gHud_2B00_706620->field_DC.ShowBrief_5D4850();
+                }
+                break;
+            case DIK_F8:
+                if (this->field_0)
+                {
+                    Start_GTA2Manager_5E4DE0();
+                }
+                break;
+            case DIK_F9:
+                if (this->field_0)
+                {
+                    //gHud_2B00_706620->field_4C.clear_zones();
+                    gHud_2B00_706620->field_4C.field_88_nav_zone = NULL;
+                    gHud_2B00_706620->field_4C.field_8C_local_nav_zone = NULL;
+                }
+                break;
+            case DIK_F10:
+                if (bStartNetworkGame_7081F0)
+                {
+                    gHud_2B00_706620->field_2A25_sub.StartChatting_5D1830(this);
+                }
+                break;
+            case DIK_F11:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_68 = 0;
+                    this->field_90_game_camera.field_3C_followed_ped_id = 1;
+                }
+                break;
+            case DIK_F12:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_68 = 1;
+                    this->field_90_game_camera.field_3C_followed_ped_id = 2;
+                }
+                break;
+            case DIK_ADD:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    gGame_0x40_67E008->sub_4B9710();
+                }
+                break;
+            case DIK_SUBTRACT:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    gGame_0x40_67E008->field_30_bLimitFramerate = !gGame_0x40_67E008->field_30_bLimitFramerate;
+                }
+                break;
+            case DIK_NUMPAD2:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_71_s = 1;
+                }
+                break;
+            case DIK_NUMPAD8:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_70_dbg_cam_north = 1;
+                }
+                break;
+            case DIK_NUMPAD4:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_72_e = 1;
+                }
+                break;
+            case DIK_NUMPAD6:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_73_w = 1;
+                }
+                break;
+            case DIK_NUMPAD7:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_74_dbg_cam_zooming_out = 1;
+                }
+                break;
+            case DIK_NUMPAD9:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 1;
+                    this->field_75_dbg_cam_zooming_in = 1;
+                }
+                break;
+            case DIK_NUMPAD5:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_6C_bIn_debug_cam_mode = 0;
+                }
+                break;
+            case DIK_NUMPAD0:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::TeleportToDebugCam_565310(); // teleport?
+                }
+                break;
+            case DIK_NUMPAD1:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    this->field_48_bDbg_cam_follow_player = !this->field_48_bDbg_cam_follow_player;
+                }
+                break;
+            case DIK_DECIMAL:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    if (field_2C4_player_ped)
+                    {
+                        field_2C4_player_ped->RestoreCarOrPedHealth();
+                    }
+                }
+                break;
+            case DIK_DIVIDE:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::sub_5653E0();
+                }
+                break;
+            case DIK_PERIOD:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    gHud_2B00_706620->field_12E8_sub.sub_5CF620();
+                }
+                break;
+            case DIK_COMMA:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    gHud_2B00_706620->field_12E8_sub.sub_5CF6B0();
+                }
+                break;
+            case DIK_C:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    if (this->field_0)
+                    {
+                        gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords =
+                            gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords == 0;
+                    }
+                }
+                break;
+            case DIK_1:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::IncrementGangRespectFromDebugKeys_565770(0);
+                }
+                break;
+            case DIK_2:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::IncrementGangRespectFromDebugKeys_565770(1);
+                }
+                break;
+            case DIK_3:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::IncrementGangRespectFromDebugKeys_565770(2);
+                }
+                break;
+
+            case DIK_4:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    Player::IncreaseWantedLevelFromDebugKeys_565860();
+                }
+                break;
+            case DIK_5:
+                if (bDo_debug_keys_67D6CF)
+                {
+                    if (field_2C4_player_ped)
+                    {
+                        field_2C4_player_ped->field_20A_wanted_points = 0;
+                    }
+                }
+                break;
+            case DIK_6:
+            case DIK_7:
+            case DIK_8:
+            case DIK_9:
+            case DIK_0:
+                if (bDo_test_67D4F8)
+                {
+                    //dword_7044A0->DoTest_5B2640(action);
+                }
+                if (bDo_brian_test_67D544)
+                {
+                    //dword_7044A0->DoBrianTest_42D870(action);
+                }
+                else if (bDo_iain_test_67D4E9)
+                {
+                    gPedManager_6787BC->DoIanTest_471060(action);
+                }
+                break;
+
+            default:
+                return;
+        }
+    }
 }
 
 MATCH_FUNC(0x566380)

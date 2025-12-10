@@ -556,7 +556,7 @@ s8 Game_0x40::ExecuteGame_4B9640()
 
 // TODO: Werid function chunk stuff
 STUB_FUNC(0x4B9700)
-void Game_0x40::sub_4B9700()
+void Game_0x40::TogglePause_4B9700()
 {
     // Paused?
     if (field_0_game_state == 1)
