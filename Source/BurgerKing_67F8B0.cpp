@@ -282,7 +282,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
     if ((*input_bits & 0xFFFFF000) == 0x37000)
     {
         field_38_replay_state = 0;
-        
+
         if (bDo_release_replay_67D4EB)
         {
             File::CreateFile_4A7000("test\\replay.rep");
@@ -290,7 +290,9 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
         }
 
         // Clear out the unused records
-        memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx], 0, sizeof(BurgerKingBurger_0xC) * ((GTA2_COUNTOF(field_3C_rec_buff)  - field_75340_rec_buf_idx)));
+        memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx],
+               0,
+               sizeof(BurgerKingBurger_0xC) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
         if (bConstant_replay_save_67D5C4)
         {
             SaveReplay_4CDED0();

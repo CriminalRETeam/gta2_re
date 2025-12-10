@@ -21,12 +21,6 @@ Fix16_Point CarPhysics_B0::get_cp1_40B560()
     return field_38_cp1;
 }
 
-STUB_FUNC(0x4403a0)
-s16* CarPhysics_B0::sub_4403A0(s16* a2)
-{
-    NOT_IMPLEMENTED;
-    return 0;
-}
 
 MATCH_FUNC(0x446ee0)
 CarPhysics_B0::~CarPhysics_B0()

@@ -18,7 +18,6 @@ class CarPhysics_B0
 {
   public:
     EXPORT Fix16_Point get_cp1_40B560();
-    EXPORT s16* sub_4403A0(s16* a2);
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
     EXPORT void sub_5597B0();

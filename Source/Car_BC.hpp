@@ -343,6 +343,8 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    EXPORT Ang16 sub_4403A0();
+
     EXPORT bool IsPoliceCar_439EC0();
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
     EXPORT Fix16 GetMaxSpeed_439F30();

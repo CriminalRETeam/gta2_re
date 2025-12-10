@@ -697,6 +697,17 @@ Car_6C::~Car_6C()
     field_4 = 0;
 }
 
+STUB_FUNC(0x4403a0)
+Ang16 Car_BC::sub_4403A0()
+{
+    NOT_IMPLEMENTED;
+    
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    Fix16 w_fp = Fix16(pCarInfo->w) / 2;
+    Fix16 h_fp = Fix16(pCarInfo->h) / 2;
+    return w_fp.atan2_fixed_405320(h_fp, w_fp);
+}
+
 MATCH_FUNC(0x439ec0)
 bool Car_BC::IsPoliceCar_439EC0()
 {
