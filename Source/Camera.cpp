@@ -377,10 +377,10 @@ void Camera_0xBC::sub_436110()
     sub_435B90();
 }
 
-STUB_FUNC(0x436120)
+MATCH_FUNC(0x436120)
 void Camera_0xBC::sub_436120(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
+    field_30 = a2 * dword_6768D8;
 }
 
 STUB_FUNC(0x436140)
