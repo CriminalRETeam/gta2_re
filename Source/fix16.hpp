@@ -278,5 +278,8 @@ class Fix16
 
 EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart, const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax);
 
+class Ang16;
+EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
+
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);

@@ -212,8 +212,8 @@ class Car_6C
     EXPORT void sub_444980();
     EXPORT u32 sub_444AB0(s32 a2, u16* a3, s32 a4, u16* a5);
     EXPORT Car_BC* sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Car_BC* sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4);
-    EXPORT Car_BC* GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
+    EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
+    EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* sub_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
     EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);

@@ -414,14 +414,14 @@ Car_BC* Car_6C::sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpo
 }
 
 STUB_FUNC(0x444f80)
-Car_BC* Car_6C::sub_444F80(s32 a1, s32 a2, s32 a3, Ped* a4)
+Car_BC* Car_6C::GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x444fa0)
-Car_BC* Car_6C::GetNearestCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;

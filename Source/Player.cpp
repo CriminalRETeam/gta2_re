@@ -380,7 +380,7 @@ void Player::TeleportToDebugCam_565310()
 MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
-    Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
+    Car_BC* pCar = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
                                                                  field_14C_view_camera.field_98_cam_pos2.field_4_y,
                                                                  field_14C_view_camera.field_98_cam_pos2.field_8_z,
                                                                  0);
