@@ -163,6 +163,8 @@ void CC ImGuiDebugDraw()
         {
             if (gViewCamera_676978)
             {
+                ImGui::InputInt("field_60_full", &gViewCamera_676978->field_60.x.mValue, 1, 1);
+                ImGui::InputInt("field_60_frac", &gViewCamera_676978->field_60.y.mValue, 1, 1);
                 ImGui::Text("field_78_win_left %f", gViewCamera_676978->field_78_boundaries_non_neg.field_0_left.ToFloat());
                 ImGui::Text("field_7C_right %f", gViewCamera_676978->field_78_boundaries_non_neg.field_4_right.ToFloat());
                 ImGui::Text("field_80_win_top %f", gViewCamera_676978->field_78_boundaries_non_neg.field_8_top.ToFloat());

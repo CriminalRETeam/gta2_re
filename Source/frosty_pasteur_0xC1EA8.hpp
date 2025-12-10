@@ -500,15 +500,15 @@ struct save_stats_0x90
     s32 field_10_money;
     s32 field_14_multipliers;
     s16 field_18_health;
-    u8 field_1A_pad[22];
+    u8 field_1A_pad[34];    // needed
     s32 field_3C_crime_unk[10];
-    u16 field_64_pad;
-    u8 field_66_unk[15];
+    u8 field_65_pad[2];    // needed
+    s8 field_66_weapon_ammo[15];
     u8 field_75_gang_unk[10];
     u8 field_7F_player_ped_remap;
     u8 field_80_lives;
     u8 field_81_pad;
-    u16 field_82_player_idx;
+    u16 field_82_curr_weapon_idx;
     s32 field_84_zealous_f34;
     s32 field_88_zealous_f38;
     u16 field_8C_wanted_level;

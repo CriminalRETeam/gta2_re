@@ -349,7 +349,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     }
     else
     {
-        u8 unk = pPlayer->field_718_weapons[ammo_idx]->sub_4A4FB0();
+        u8 unk = pPlayer->field_718_weapons[ammo_idx]->get_ammo_4A4FB0();
         sub_5D6060(ammo_idx, unk);
     }
 

@@ -50,15 +50,15 @@ class Weapon_30
     EXPORT char_type sub_5E3BD0();
 
     // 9.6f inline 0x4A4FA0
-    bool sub_4A4FA0()
+    bool is_infinite_ammo_4A4FA0()
     {
         return field_0_ammo == 0xFFFF;
     }
 
     // 9.6f inline 0x4A4FB0
-    u8 sub_4A4FB0()
+    u8 get_ammo_4A4FB0()
     {
-        if (sub_4A4FA0())
+        if (is_infinite_ammo_4A4FA0())
         {
             return -1;
         }
@@ -71,7 +71,7 @@ class Weapon_30
     void decrement_ammo_4CCA30()
     {
         s32 new_ammo = field_0_ammo - 10;
-        if (!sub_4A4FA0())
+        if (!is_infinite_ammo_4A4FA0())
         {
             if (new_ammo < 0)
             {
