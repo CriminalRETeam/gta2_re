@@ -1302,11 +1302,61 @@ void Player::Service_5687F0()
     Player::sub_569C20();
 }
 
-STUB_FUNC(0x569410)
-s32 Player::sub_569410()
+MATCH_FUNC(0x569410)
+void Player::sub_569410()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Camera_0xBC* pCam;
+    Camera_0xBC* pCam2;
+
+    Player::sub_566EE0(1);
+    switch (field_68)
+    {
+        case 1:
+            pCam = &field_90_game_camera;
+            pCam->sub_436110();
+            if (!field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&field_14C_view_camera, pCam, sizeof(field_14C_view_camera));
+            }
+            break;
+        case 0:
+            pCam = &field_90_game_camera;
+            pCam->sub_436110();
+            if (field_2D0)
+            {
+                pCam2 = &field_208_aux_game_camera;
+                pCam2->sub_436110();
+            }
+            if (!field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&field_14C_view_camera, pCam, sizeof(field_14C_view_camera));
+            }
+            break;
+
+        case 2:
+        case 3:
+            field_90_game_camera.sub_436110();
+            pCam = &field_208_aux_game_camera;
+            field_208_aux_game_camera.sub_436110();
+            if (!field_6C_bIn_debug_cam_mode)
+            {
+                memcpy(&field_14C_view_camera, pCam, sizeof(field_14C_view_camera));
+            }
+            break;
+        default:
+            break;
+    }
+    if (field_6C_bIn_debug_cam_mode == 1)
+    {
+        field_14C_view_camera.inline_set_ped_id_to_2();
+        field_14C_view_camera.sub_435D20(field_70_dbg_cam_north,
+                                         field_71_s,
+                                         field_72_e,
+                                         field_73_w,
+                                         field_74_dbg_cam_zooming_out,
+                                         field_75_dbg_cam_zooming_in);
+        field_14C_view_camera.sub_435FF0();
+    }
 }
 
 MATCH_FUNC(0x569530)
