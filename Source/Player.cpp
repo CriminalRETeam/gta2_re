@@ -443,10 +443,26 @@ void Player::SetInputs_565740(u32 input)
     field_4_inputs = input;
 }
 
-STUB_FUNC(0x565770)
+MATCH_FUNC(0x565770)
 void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
-    NOT_IMPLEMENTED;
+    Gang_144* pZone = gGangPool_CA8_67E274->sub_4BECA0();
+    for (u8 i = count; i > 0; i--)
+    {
+        pZone = gGangPool_CA8_67E274->sub_4BECE0();
+    }
+
+    if (pZone)
+    {
+        if (pZone->GetRespectForPlayer_4BEEF0(this->field_2E_idx) >= 100)
+        {
+            pZone->SetRespect_4BEE30(this->field_2E_idx, -100);
+        }
+        else
+        {
+            pZone->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+        }
+    }
 }
 
 STUB_FUNC(0x565860)
