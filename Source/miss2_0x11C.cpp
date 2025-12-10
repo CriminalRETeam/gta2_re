@@ -4432,7 +4432,7 @@ void miss2_0x11C::sub_50FF50() // SCRCMD_ADD_ONSCREEN_COUNTER
     SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
 
-    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4516,7 +4516,7 @@ void miss2_0x11C::sub_510280()
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620.CreateTimer_5D31F0(pCmd->field_C_time_limit);
         SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname);
         SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
-        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(pCounter->field_8_counter);
+        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
         ++field_C;
     }
     else

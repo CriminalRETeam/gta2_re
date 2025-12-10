@@ -659,10 +659,10 @@ void CC ImGuiDebugDraw()
 
                 if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                 {
-                    gHud_2B00_706620->field_620.sub_5D3220(v);
+                    gHud_2B00_706620->field_620.sub_5D3220(&v);
                 }
 
-                ImGui::InputInt("timer f4", &gHud_2B00_706620->field_620.field_620[1].field_4, 1, 100);
+                ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0[1].field_4, 1, 100);
                 ImGui::TreePop();
             }
 

@@ -247,7 +247,7 @@ class Hud_Pager_C
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
-    s32 field_4; //  counter?
+    s32* field_4; //  counter?
     infallible_turing* field_8_sound;
 };
 
@@ -260,8 +260,8 @@ class Hud_Pager_C_Array
     }
 
     // TODO: Correct order ?
-    EXPORT s32 sub_5D3220(s32& a2);
-    EXPORT s32 sub_5D3280(u32 a2);
+    EXPORT s32 sub_5D3220(s32* a2);
+    EXPORT void sub_5D3280(s32 idx);
 
     EXPORT void DrawPagers_5D3040();
     EXPORT void UpdatePagers_5D31B0();
@@ -282,7 +282,7 @@ class Hud_Pager_C_Array
         return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(v1);
     }
 
-    Hud_Pager_C field_620[4];
+    Hud_Pager_C field_0[4];
 };
 
 class Garox_18
