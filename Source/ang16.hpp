@@ -55,11 +55,11 @@ class Ang16
         return Ang16((Fix16(rValue) * Fix16(other.rValue)).ToInt());
     }
 
-    Ang16 operator+(const Ang16& other)
+    // 9.6f 0x40E5A0
+    // https://decomp.me/scratch/Rc5ql
+    Ang16 operator+(const Ang16& rhs)
     {
-        Ang16 result(rValue + other.rValue);
-        result.Normalize();
-        return result;
+        return Ang16( rValue + rhs.rValue, 0);
     }
 
     //   Ang16  and  const int
@@ -149,17 +149,20 @@ class Ang16
     }
 
     EXPORT void sub_406C20();
-    inline void Normalize()
+
+    // 9.6f 0x401C10
+    // https://decomp.me/scratch/bB2VJ
+    void Normalize()
     {
-        for (; *this < 0; *this += 1440)
+        for (; rValue < 0; rValue += 1440)
         {
             ;
         }
-        for (; *this >= 1440; *this -= 1440)
+        for (; rValue >= 1440; rValue -= 1440)
         {
             ;
         }
-    };
+    }
 
     EXPORT Ang16* sub_409300(Ang16* a2, s32 a3);
     EXPORT Ang16* sub_409340(Ang16* pRet, Ang16* toSub);
@@ -185,6 +188,15 @@ class Ang16
         s32 value = v.rValue * 71;
         return Fix16(value, 0);
     }
+
+    // 9.6f 0x401C60
+    // https://decomp.me/scratch/0qgcp
+    Ang16(const s16& value, s32 not_used)
+     : rValue(value)
+    {
+        this->Normalize();
+    }
+
 
     // 9.6f 0x40E590
     Ang16() : rValue(0)
