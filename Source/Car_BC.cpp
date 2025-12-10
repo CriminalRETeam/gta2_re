@@ -1714,11 +1714,15 @@ void Car_BC::sub_440F90(char_type a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x441030)
-char_type Car_BC::sub_441030(u8 a2, u8 a3, u8 a4, s32 a5)
+MATCH_FUNC(0x441030)
+void Car_BC::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_5C)
+    {
+        field_5C = gCar_78_Pool_677CF8->Allocate();
+    }
+    field_5C->SetCar_453BF0(this);
+    field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
 MATCH_FUNC(0x441080)

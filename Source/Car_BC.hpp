@@ -454,7 +454,7 @@ class Car_BC
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
-    EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
+    EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
     EXPORT void sub_441360();

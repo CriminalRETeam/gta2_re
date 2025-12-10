@@ -1980,7 +1980,7 @@
         "v105_address": "0x440f90"
     },
     {
-        "name": "Car_BC::sub_441030",
+        "name": "Car_BC::GoToBlockTest_441030",
         "v96f_address": null,
         "v105_address": "0x441030"
     },
