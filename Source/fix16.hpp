@@ -4,7 +4,6 @@
 #include <math.h>
 #include <windows.h>
 
-
 class Fix16
 {
   public:
@@ -245,7 +244,7 @@ class Fix16
     EXPORT Fix16& FromInt_4369F0(s32 a2);
     EXPORT Fix16& FromInt_45C4E0(u8 a2);
     EXPORT Fix16& FromU16_4AE970(u16 a2);
-   
+
     EXPORT Fix16 Max_44E540(Fix16& pLhs, Fix16& pRhs);
     EXPORT inline static Fix16 __stdcall Abs_436A50(Fix16& a2);
     EXPORT inline static Fix16 __stdcall SquareRoot_436A70(Fix16& a2);
@@ -279,10 +278,15 @@ class Fix16
     s32 mValue;
 };
 
-EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart, const Fix16& intervalEnd, const Fix16& rangeMin, const Fix16& rangeMax);
+EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
+                                                     const Fix16& intervalEnd,
+                                                     const Fix16& rangeMin,
+                                                     const Fix16& rangeMax);
 
 class Ang16;
 EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
+
+EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4);
 
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
