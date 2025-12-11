@@ -1,14 +1,17 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
-#include "error.hpp"
+#include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "sprite.hpp"
+#include <DINPUT.H>
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
@@ -36,7 +39,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FD9E4, Fix16(0), 0x6FD9E4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7C0, dword_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD9F4, Fix16(65536, 0), 0x6FD9F4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD868, Fix16(256, 0), 0x6FD868);
-DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4 * dword_6FD868, 0x6FD7D0);
+DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* dword_6FD868, 0x6FD7D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 
@@ -952,9 +955,24 @@ Ped* PedManager::sub_470F90(Ped* pSrc)
 }
 
 STUB_FUNC(0x471060)
-void PedManager::DoIanTest_471060(s16 a1)
+void PedManager::DoIanTest_471060(s16 key)
 {
     NOT_IMPLEMENTED;
+
+    switch (key)
+    {
+
+        case DIK_9:
+            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetOnFire();
+            break;
+        case DIK_8:
+            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetVisible();
+            break;
+
+        case DIK_7:
+            gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->SetInvisible();
+            break;
+    }
 }
 
 MATCH_FUNC(0x4710c0)

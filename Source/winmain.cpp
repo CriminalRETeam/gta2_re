@@ -28,14 +28,15 @@
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Ambulance_110.hpp"
 #include "BurgerKing_67F8B0.hpp"
-#include "Car_BC.hpp"
-#include "sprite.hpp"
 #include "Camera.hpp"
+#include "Car_BC.hpp"
+#include "Crushers.hpp"
+#include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
-#include "Hud.hpp"
-#include "Hamburger_500.hpp"
-#include "ImGuiDebug.hpp"
 #include "Generators.hpp"
+#include "Hamburger_500.hpp"
+#include "Hud.hpp"
+#include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
 #include "Montana.hpp"
@@ -45,15 +46,13 @@
 #include "Player.hpp"
 #include "Rozza_C88.hpp"
 #include "Shooey_CC.hpp"
-#include "Crushers.hpp"
-#include "Firefighters.hpp"
+#include "cSampleManager.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
 #include "nostalgic_ellis_0x28.hpp"
 #include "sound_obj.hpp"
-#include "cSampleManager.hpp"
-
+#include "sprite.hpp"
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -655,8 +654,7 @@ EXPORT void __stdcall sub_5D92D0()
     {
         if (!sub_5D9510())
         {
-            if (window_width_706630 == 640 
-                || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
+            if (window_width_706630 == 640 || (window_width_706630 = 640, window_height_706B50 = 480, !sub_5D9510()))
             {
                 sub_5D93A0();
                 gStartMode_626A0C = 1;
@@ -1281,7 +1279,8 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0) {
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0)
+    {
         pDDraw->Release();
         FreeLibrary(hDDraw);
         return;
@@ -1542,11 +1541,13 @@ EXPORT void __stdcall sub_5D9230(s32 startMode)
 }
 
 // todo: move
-STUB_FUNC(0x498D10)
+MATCH_FUNC(0x498D10)
 EXPORT void Input_Read_498D10()
 {
-    NOT_IMPLEMENTED;
-    // todo
+    if (gBurgerKing_1_67B990)
+    {
+        gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+    }
 }
 
 // todo: move
@@ -1922,7 +1923,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     while (1)
     {
         bQuit = 0;
-        
+
         if (bDoFrontEnd_626B68)
         {
             Frontend::create_4ACFA0();
