@@ -81,6 +81,13 @@ inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
     return Fix16(sqrt(input.AsDouble()));
 }
 
+STUB_FUNC(0x405320)
+Ang16 Fix16::atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16)
+{
+    NOT_IMPLEMENTED;
+    return Ang16(0, 0);
+}
+
 MATCH_FUNC(0x438FB0)
 EXPORT bool __stdcall IntervalIntersectsRange_438FB0(const Fix16& intervalStart,
                                                      const Fix16& intervalEnd,

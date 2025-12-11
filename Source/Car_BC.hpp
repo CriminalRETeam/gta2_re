@@ -34,7 +34,7 @@ class Car_78
     EXPORT void sub_4476F0();
     EXPORT char_type sub_447710();
     EXPORT void sub_447970();
-    EXPORT char_type sub_447CA0(u8 a2, u8 a3, u8 a4, s32 a5);
+    EXPORT char_type GoToBlock_447CA0(u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT char_type sub_447D40(s32 a2);
     EXPORT char_type sub_448270();
     EXPORT char_type sub_4482C0();
@@ -343,6 +343,8 @@ static inline bool IsArmyModel(s32 idx1)
 class Car_BC
 {
   public:
+    EXPORT Ang16 sub_4403A0();
+
     EXPORT bool IsPoliceCar_439EC0();
     EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
     EXPORT Fix16 GetMaxSpeed_439F30();
@@ -443,7 +445,7 @@ class Car_BC
     EXPORT s32 AttachGangIcon_440660(u8 a2);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
-    EXPORT void sub_4407F0();
+    EXPORT void ClearDriver_4407F0();
     EXPORT Sprite* sub_440840();
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
@@ -452,8 +454,8 @@ class Car_BC
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
-    EXPORT char_type sub_441030(u8 a2, u8 a3, u8 a4, s32 a5);
-    EXPORT char_type sub_441080(u8 a2, u8 a3, u8 a4, s32 a5);
+    EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
+    EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
     EXPORT void sub_441360();
     EXPORT void sub_4436A0();

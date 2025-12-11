@@ -104,7 +104,7 @@ void Car_78::sub_447970()
 }
 
 STUB_FUNC(0x447ca0)
-char_type Car_78::sub_447CA0(u8 a2, u8 a3, u8 a4, s32 a5)
+char_type Car_78::GoToBlock_447CA0(u8 a2, u8 a3, u8 a4, s32 a5)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -695,6 +695,17 @@ Car_6C::~Car_6C()
     }
 
     field_4 = 0;
+}
+
+STUB_FUNC(0x4403a0)
+Ang16 Car_BC::sub_4403A0()
+{
+    NOT_IMPLEMENTED;
+
+    car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+    Fix16 w_fp = Fix16(pCarInfo->w) / 2;
+    Fix16 h_fp = Fix16(pCarInfo->h) / 2;
+    return w_fp.atan2_fixed_405320(h_fp, w_fp);
 }
 
 MATCH_FUNC(0x439ec0)
@@ -1473,7 +1484,7 @@ void Car_BC::sub_43DB80()
                 pPhysics = this->field_58_physics;
                 if (pPhysics)
                 {
-                    pPhysics->field_8C = 1;
+                    pPhysics->field_8C_state = 1;
                 }
             }
             field_54_driver->Kill_46F9D0();
@@ -1641,10 +1652,28 @@ void Car_BC::sub_4406E0(Ped* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4407f0)
-void Car_BC::sub_4407F0()
+MATCH_FUNC(0x4407f0)
+void Car_BC::ClearDriver_4407F0()
 {
-    NOT_IMPLEMENTED;
+    Player* pPlayer = field_54_driver->field_15C_player;
+    if (pPlayer)
+    {
+        if (field_54_driver->field_240_occupation != 1)
+        {
+            if (pPlayer->field_0)
+            {
+                gHud_2B00_706620->field_0.field_0_display_time = 0;
+            }
+            pPlayer->sub_564C00();
+        }
+
+        if (field_58_physics)
+        {
+            field_58_physics->field_8C_state = 1;
+        }
+    }
+    SetDriver(NULL);
+    field_A7_horn = 0;
 }
 
 STUB_FUNC(0x440840)
@@ -1703,18 +1732,26 @@ void Car_BC::sub_440F90(char_type a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x441030)
-char_type Car_BC::sub_441030(u8 a2, u8 a3, u8 a4, s32 a5)
+MATCH_FUNC(0x441030)
+void Car_BC::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_5C)
+    {
+        field_5C = gCar_78_Pool_677CF8->Allocate();
+    }
+    field_5C->SetCar_453BF0(this);
+    field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
-STUB_FUNC(0x441080)
-char_type Car_BC::sub_441080(u8 a2, u8 a3, u8 a4, s32 a5)
+MATCH_FUNC(0x441080)
+void Car_BC::GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_5C)
+    {
+        field_5C = gCar_78_Pool_677CF8->Allocate();
+    }
+    field_5C->SetCar_453BF0(this);
+    field_5C->GoToBlock_447CA0(x, y, z, maybe_direction);
 }
 
 STUB_FUNC(0x4410d0)
@@ -3168,4 +3205,3 @@ void Car_14::GenerateTraffic_583670()
         }
     }
 }
-

@@ -15,12 +15,12 @@ DEFINE_GLOBAL(Fix16, dword_6FDFB0, 0x6FDFB0);
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
 
-STUB_FUNC(0x4403a0)
-s16* CarPhysics_B0::sub_4403A0(s16* a2)
+MATCH_FUNC(0x40B560)
+Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_38_cp1;
 }
+
 
 MATCH_FUNC(0x446ee0)
 CarPhysics_B0::~CarPhysics_B0()
@@ -879,7 +879,7 @@ void CarPhysics_B0::Init_5637A0()
     field_10[1].reset();
     field_10[2].reset();
     field_10[3].reset();
-    field_8C = 1;
+    field_8C_state = 1;
     field_8_total_damage_q = 0;
     field_60_gas_pedal = DAT_006FE290;
     field_AC_drive_wheels_locked_q = 0;
@@ -915,11 +915,11 @@ void CarPhysics_B0::SetCar_5638C0(Car_BC* pCar)
     Ped* pDriver = pCar->field_54_driver;
     if (pDriver && pDriver->field_15C_player)
     {
-        this->field_8C = 2;
+        this->field_8C_state = 2;
     }
     else
     {
-        this->field_8C = 1;
+        this->field_8C_state = 1;
     }
 }
 

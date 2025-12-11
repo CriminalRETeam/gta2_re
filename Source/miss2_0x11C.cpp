@@ -4104,7 +4104,7 @@ void miss2_0x11C::sub_50F270() // WARP_FROM_CAR_TO_POINT
         rotation.Normalize();
 
         pPointer->field_8_char->field_168_game_object->field_40_rotation = rotation;
-        pCar->sub_4407F0();
+        pCar->ClearDriver_4407F0();
         pCar->field_54_driver = 0;
         gGame_0x40_67E008->field_38_orf1->sub_569F40();
         gGame_0x40_67E008->field_38_orf1->field_90_game_camera.sub_436540(pPointer->field_8_char);

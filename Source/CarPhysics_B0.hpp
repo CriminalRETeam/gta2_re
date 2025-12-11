@@ -17,7 +17,7 @@ class Car_78;
 class CarPhysics_B0
 {
   public:
-    EXPORT s16* sub_4403A0(s16* a2);
+    EXPORT Fix16_Point get_cp1_40B560();
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
     EXPORT void sub_5597B0();
@@ -167,7 +167,7 @@ class CarPhysics_B0
     s32 field_80;
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
-    s32 field_8C;
+    s32 field_8C_state;
     u8 field_90_timer_since_last_move;
     char_type field_91_is_foot_brake_on;
     char_type field_92_is_hand_brake_on;

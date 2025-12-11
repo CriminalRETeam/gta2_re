@@ -3135,7 +3135,7 @@ void Ped::sub_470300()
             CarPhysics_B0* pCarPhysics = pCar->field_58_physics;
             if (pCarPhysics)
             {
-                pCarPhysics->field_8C = 1;
+                pCarPhysics->field_8C_state = 1;
             }
         }
     }
