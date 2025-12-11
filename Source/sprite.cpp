@@ -373,6 +373,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
     pSprite4C->field_8 = a4;
 }
 
+// https://decomp.me/scratch/ZqbRh
 STUB_FUNC(0x59f990)
 void Sprite::sub_59F990()
 {
