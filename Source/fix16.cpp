@@ -110,7 +110,7 @@ EXPORT void __stdcall arc_tan_table_init_4052D0()
 {
     for (s32 i = 0; i < 1440; i++)
     {
-        // TODO: Probably construct Ang16(i, 0) and then had ToRadians() or something 
+        // TODO: Probably construct Ang16(i, 0) and then had ToRadians() or something
         gTanTable_6663C8[i].mValue = (tan((double)i * 3.141592654 * 0.001388888888888889) * 16384.0);
     }
 }
@@ -163,5 +163,42 @@ EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan)
             }
             return Ang16(mid, 0);
         }
+    }
+}
+
+MATCH_FUNC(0x5A57E0)
+EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4)
+{
+    minOut = v1;
+    maxOut = v1;
+
+    // v2
+    if (v2 < minOut)
+    {
+        minOut = v2;
+    }
+    else if (v2 > maxOut)
+    {
+        maxOut = v2;
+    }
+
+    // v3
+    if (v3 < minOut)
+    {
+        minOut = v3;
+    }
+    else if (v3 > maxOut)
+    {
+        maxOut = v3;
+    }
+
+    // v4
+    if (v4 < minOut)
+    {
+        minOut = v4;
+    }
+    else if (v4 > maxOut)
+    {
+        maxOut = v4;
     }
 }

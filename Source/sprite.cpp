@@ -373,6 +373,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
     pSprite4C->field_8 = a4;
 }
 
+// https://decomp.me/scratch/ZqbRh
 STUB_FUNC(0x59f990)
 void Sprite::sub_59F990()
 {
@@ -764,6 +765,27 @@ MATCH_FUNC(0x5a3540)
 Sprite::~Sprite()
 {
     FreeSound_5A2A00();
+}
+
+MATCH_FUNC(0x5a5e50)
+Sprite::Sprite() : field_0(gAng16_703804)
+{
+    field_4_0x4C_len = NULL;
+    field_14_xpos.x = gFix16_7035C0;
+    field_14_xpos.y = gFix16_7035C0;
+    field_1C_zpos = gFix16_7035C0;
+    field_20_id = 0;
+    field_22_sprite_id = 0;
+    field_24_remap = 0;
+    field_28_num = NULL;
+    field_2C = 0;
+    field_30_sprite_type_enum = 0;
+    field_34 = 0;
+    field_38 = 0;
+    field_39_z_col = -1;
+    field_8_car_bc_ptr = NULL;
+    mpNext = NULL;
+    field_10_sound = NULL;
 }
 
 MATCH_FUNC(0x48F5A0)
