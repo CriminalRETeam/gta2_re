@@ -127,6 +127,8 @@ class gmp_map_zone
     char_type field_6_name[2];
 
     EXPORT s8 sub_4DEF40();
+    EXPORT wchar_t* get_zone_str_4DEF00();
+
 };
 
 struct gmp_zone_info
