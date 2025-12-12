@@ -266,6 +266,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
     return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
 }
 
+// Only waiting gMiss2Log_6F7698 & Write_Log_4D9650 to be defined
 STUB_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {

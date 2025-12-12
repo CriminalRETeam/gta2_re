@@ -224,10 +224,29 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
     return false;
 }
 
-STUB_FUNC(0x5d1430)
+MATCH_FUNC(0x5d1430)
 void Garox_12EC_sub::DrawQuitMessage_5D1430()
 {
-    NOT_IMPLEMENTED;
+    if (gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
+    {
+        wchar_t* pQuitText = gText_0x14_704DFC->Find_5B5F90("quit1");
+
+        s32 v2 = Frontend::sub_5D8990(pQuitText, word_7064D8);
+        s32 v4 = sub_5D8940(pQuitText, word_7064D8);
+        s32 v6 = ((3 * (160 - v4)) / 2);
+
+        DrawText_5D7720(pQuitText, (u32)((640 - v2) / 2), v6 - v4, word_7064D8, DrawKind(2), 0, 0, 0);
+
+        wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
+        s32 v9 = Frontend::sub_5D8990(pQuitText2, word_7064D8);
+
+        DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, DrawKind(2), 0, 0, 0);
+
+        wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
+        s32 v14 = Frontend::sub_5D8990(pQuitText3, word_7064D8);
+
+        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + v4, word_7064D8, DrawKind(2), 0, 0, 0);
+    }
 }
 
 MATCH_FUNC(0x5d15a0)
