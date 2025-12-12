@@ -678,14 +678,11 @@ u32* Object_2C::sub_52AE90(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x5290C0)
+MATCH_FUNC(0x5290C0)
 void Object_2C::sub_5290C0(u8 id_base)
 {
-    NOT_IMPLEMENTED;
-
-    Phi_74* pPhi = field_8;
+    s16 new_id = id_base + field_8->field_1E;
     Sprite* pSprite = field_4;
-    s16 new_id = id_base + pPhi->field_1E;
     if (pSprite->field_22_sprite_id != new_id)
     {
         pSprite->field_22_sprite_id = new_id;
