@@ -3937,9 +3937,11 @@ void Frontend::sub_4B0220()
     field_EE0E_unk.sub_483F20();
 }
 
-MATCH_FUNC(0x4B4440)
+STUB_FUNC(0x4B4440)
 void Frontend::sub_4B4440()
 {
+    NOT_IMPLEMENTED;
+
     u8* pBlock; // esi
     char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
     char styName[256]; // [esp+114h] [ebp-618h] BYREF
