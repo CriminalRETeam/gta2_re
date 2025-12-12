@@ -5411,7 +5411,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
 }
 
 MATCH_FUNC(0x511840)
-char_type miss2_0x11C::Service_511840()
+char_type miss2_0x11C::PoolUpdate()
 { //  return boolean: true if it has reached LEVELEND, false otherwise
     SCR_CMD_HEADER* BasePointer_512770;
     bool v4;

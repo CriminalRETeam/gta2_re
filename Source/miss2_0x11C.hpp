@@ -872,7 +872,7 @@ class miss2_0x11C
     EXPORT void sub_510660();
     EXPORT void sub_510780();
     EXPORT void PreExecOpCode_5108D0();
-    EXPORT char_type Service_511840();
+    EXPORT char_type PoolUpdate();
     EXPORT void sub_511930(char_type a2, u16 levelStart);
     EXPORT miss2_0x11C* sub_511960(u16 a2);
     EXPORT s32 launch_mission_5119A0(s32 a2, char_type* String1);
@@ -919,6 +919,14 @@ class miss2_0x11C_Pool
     miss2_0x11C_Pool()
     {
 
+    }
+
+    void sub_47F4D0()
+    {
+        for (miss2_0x11C* pThread = field_0_pool.field_4_pPrev; pThread; pThread = pThread->mpNext)
+        {
+            pThread->sub_5035D0();
+        }
     }
 
     EXPORT ~miss2_0x11C_Pool();

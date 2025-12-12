@@ -74,3 +74,6 @@ EXPORT void __stdcall sub_5D8470(STexture* pTexture,
                                  u8 a9);
 
 EXPORT void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
+
+EXPORT inline s32 __stdcall sub_5D7700_inlined(u16 a1);
+EXPORT s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2);

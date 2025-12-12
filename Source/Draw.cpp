@@ -63,6 +63,27 @@ s32 __stdcall sub_5D7700(u16 a1)
     return (u16)gGtx_0x106C_703DD4->sub_5AA800(&a1);
 }
 
+inline s32 __stdcall sub_5D7700_inlined(u16 a1)
+{
+    return (u16)gGtx_0x106C_703DD4->sub_5AA800(&a1);
+}
+
+MATCH_FUNC(0x5D8940)
+s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2)
+{
+    s32 v3 = sub_5D7700_inlined(a2);
+
+    s32 result = v3;
+    for (wchar_t* i = a1; *i; ++i)
+    {
+        if (*i == 10)
+        {
+            result += v3;
+        }
+    }
+    return result;
+}
+
 MATCH_FUNC(0x5D7720)
 void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, u16 a6, s32 alpha, u8 alpha_flag)
 {

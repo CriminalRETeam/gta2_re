@@ -159,6 +159,59 @@ class Pool
         }
     }
 
+    void UpdatePoolNoDeallocate()
+    {
+        field_X_count = 0;
+
+        PoolType* pPreviousItem = NULL;
+        PoolType* pCurrItem = field_4_pPrev;
+
+        while (pCurrItem)
+        {
+            ++field_X_count;
+
+            PoolType* pNext = pCurrItem->mpNext;
+
+            if (pCurrItem->PoolUpdate())
+            {
+                if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
+                {
+                    pPreviousItem = NULL;
+                }
+
+                if (pPreviousItem)
+                {
+                    pPreviousItem->mpNext = pCurrItem->mpNext;
+                }
+                else
+                {
+                    if (field_4_pPrev == pCurrItem)
+                    {
+                        field_4_pPrev = pCurrItem->mpNext;
+                    }
+                    else
+                    {
+                        pPreviousItem = field_4_pPrev;
+                        while (pPreviousItem->mpNext != pCurrItem)
+                        {
+                            pPreviousItem = pPreviousItem->mpNext;
+                        }
+                        pPreviousItem->mpNext = pCurrItem->mpNext;
+                    }
+                }
+
+                pCurrItem->mpNext = field_0_pStart;
+                field_0_pStart = pCurrItem;
+            }
+            else
+            {
+                pPreviousItem = pCurrItem;
+            }
+
+            pCurrItem = pNext;
+        }
+    }
+
     PoolType* unknown_func(PoolType* pObj)
     {
         PoolType* v18 = 0;
