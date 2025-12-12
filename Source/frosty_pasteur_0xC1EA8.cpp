@@ -1,5 +1,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "Function.hpp"
+#include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
@@ -16,6 +17,7 @@ DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 frosty_nobel_748 gMapName_6F78C8;
 DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
+DEFINE_GLOBAL(u8, byte_6212EC, 0x6212EC);
 
 //Car_BC* gStoredCar_6F7560;
 //s32 gStoredCarId_6F78B4;
@@ -268,6 +270,19 @@ STUB_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {
     NOT_IMPLEMENTED;
+    if (!bSkip_mission_67D4E5)
+    {
+        if (byte_6212EC)
+        {
+            if (gDo_miss_logging_67D6BC)
+            {
+                miss2_0x11C_Pool_6F8064->sub_47F4D0();
+                //gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE"); //  TODO: ofstream stuff
+            }
+        }
+        miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
+    }
+    gCar_6C_677930->field_5C = 0;
 }
 
 STUB_FUNC(0x5128a0)
