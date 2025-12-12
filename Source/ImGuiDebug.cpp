@@ -130,8 +130,6 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
 
-DEFINE_GLOBAL(s32, dword_6FF570, 0x6FF570);
-
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
@@ -490,6 +488,20 @@ void CC ImGuiDebugDraw()
                                               pPlayerSprite->field_1C_zpos,
                                               0);
             }
+
+            static int tmp = 0;
+            ImGui::InputInt("object number", &tmp, 1, 1);
+            if (ImGui::Button("Obj spawn 2"))
+            {
+                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+                spawned_obj = gObject_5C_6F8F84->sub_5299B0(tmp,
+                                              pPlayerSprite->field_14_xpos.x,
+                                              pPlayerSprite->field_14_xpos.y,
+                                              pPlayerSprite->field_1C_zpos,
+                                              0);
+            }
+
             /*
             if (ImGui::TreeNode("Object_5C debug"))
             {
