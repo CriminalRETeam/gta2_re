@@ -69,7 +69,7 @@ inline s32 __stdcall sub_5D7700_inlined(u16 a1)
 }
 
 MATCH_FUNC(0x5D8940)
-s32 __stdcall sub_5D8940(wchar_t* a1, wchar_t a2)
+s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2)
 {
     s32 v3 = sub_5D7700_inlined(a2);
 
