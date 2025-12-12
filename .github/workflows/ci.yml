@@ -1,24 +1,15 @@
 name: CI
 
-on:
-  push:
-    branches: [master]
-  pull_request:
-    branches: [master]
+on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ${{ matrix.os }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: windows-latest
-            name: Windows_VC_Latest
-          - os: windows-latest
-            name: Windows_VC6
-          - os: ubuntu-latest
-            name: Linux_wine_VC6
+    # ======================================
+    #      Windows vc2019
+    # ======================================
+
+  build-windows-latest:
+    runs-on: windows-latest
+    name: Windows_VC_Latest
 
     steps:
     - name: Checkout repository recursively
@@ -26,12 +17,7 @@ jobs:
       with:
         submodules: recursive
 
-    # ======================================
-    #      Windows vc2019
-    # ======================================
-
     - name: Build on Windows (Windows_VC_Latest)
-      if: matrix.name == 'Windows_VC_Latest'
       run: |
         mkdir build_vc_latest
         cd build_vc_latest
@@ -40,7 +26,6 @@ jobs:
         cd ..
 
     - name: Upload artifacts on Windows (Windows_VC_Latest)
-      if: matrix.name == 'Windows_VC_Latest'
       uses: actions/upload-artifact@v4
       with:
         name: Windows_VC_Latest_main_exe
@@ -50,8 +35,27 @@ jobs:
     #      Windows vc6
     # ======================================
 
+  build-windows-vc6:
+    runs-on: windows-latest
+    name: Windows_VC6
+
+    steps:
+    - name: Checkout repository recursively
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Restore cached binaries
+      id: cache
+      uses: actions/cache@v3
+      with:
+        enableCrossOsArchive: true
+        path: |
+          Scripts/bin_comp/9.6f.exe
+          Scripts/bin_comp/10.5.exe
+        key: originals
+
     - name: Build on Windows (Windows_VC6)
-      if: matrix.name == 'Windows_VC6'
       run: |
         pip install -r requirements.txt
         python vc6_setup.py
@@ -59,14 +63,13 @@ jobs:
         build_vc6/decomp_main.exe --check_vars_only
 
     - name: Upload artifacts on Windows (Windows_VC6)
-      if: matrix.name == 'Windows_VC6'
       uses: actions/upload-artifact@v4
       with:
         name: windows_vc6_main_exe
         path: build_vc6/decomp_main.exe
 
     - name: Restore progress.json from cache (Windows_VC6)
-      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      if: github.event_name == 'push'
       id: cache-progress
       uses: actions/cache/restore@v4
       with:
@@ -77,13 +80,13 @@ jobs:
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      if: github.event_name == 'push' && !github.event.repository.fork
       run: |
         cd .\Scripts
         python report_progress_to_discord.py
 
     - name: Save progress.json to cache (Windows_VC6)
-      if: matrix.name == 'Windows_VC6' && github.event_name == 'push'
+      if: github.event_name == 'push'
       uses: actions/cache/save@v4
       with:
         path: ./Scripts/progress.json
@@ -93,15 +96,33 @@ jobs:
     #      Linux vc6
     # ======================================
 
+  build-linux-vc6:
+    runs-on: ubuntu-latest
+    name: Linux_wine_VC6
+
+    steps:
+    - name: Checkout repository recursively
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
     - name: Install dependencies on Linux
-      if: matrix.name == 'Linux_wine_VC6'
       run: |
         sudo dpkg --add-architecture i386
         sudo apt-get update
         sudo apt-get install -y xvfb wine64 wine32
 
+    - name: Restore cached binaries
+      id: cache
+      uses: actions/cache@v3
+      with:
+        enableCrossOsArchive: true
+        path: |
+          Scripts/bin_comp/9.6f.exe
+          Scripts/bin_comp/10.5.exe
+        key: originals
+
     - name: Build on Linux
-      if: matrix.name == 'Linux_wine_VC6'
       run: |
         python3 -m venv venv
         source venv/bin/activate
@@ -110,7 +131,6 @@ jobs:
         python3 build.py
 
     - name: Upload artifacts on Linux
-      if: matrix.name == 'Linux_wine_VC6'
       uses: actions/upload-artifact@v4
       with:
         name: linux_vc6_main_exe
