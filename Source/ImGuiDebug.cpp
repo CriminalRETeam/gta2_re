@@ -214,7 +214,7 @@ void CC ImGuiDebugDraw()
     if (ImGui::TreeNode("gCar_6C_677930"))
     {
         Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
-        if (gCar_6C_677930 && pPlayer)
+        if (gCar_6C_677930 && pPlayer && pPlayer->field_2C4_player_ped && pPlayer->field_2C4_player_ped->field_168_game_object)
         {
             Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
@@ -250,12 +250,22 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
+                
                 pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
                                                              pPlayerSprite->field_14_xpos.y,
                                                              pPlayerSprite->field_1C_zpos,
                                                              0,
                                                              currentCarModelIndex,
                                                              scale);
+
+
+                // Spawns a cab and connected trailer
+                gCar_6C_677930->sub_446530(pPlayerSprite->field_14_xpos.x + xOff,
+                                                             pPlayerSprite->field_14_xpos.y,
+                                                             0,
+                                                             car_model_enum::TRUKCAB1,
+                                                             car_model_enum::TRUKTRNS);
+
                 pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 if (!pNewCar->field_5C)
                 {
@@ -263,6 +273,30 @@ void CC ImGuiDebugDraw()
                     pNewCar->field_5C = gCar_78_Pool_677CF8->Allocate();
                 }
                 pNewCar->field_5C->SetCar_453BF0(pNewCar);
+                pNewCar->SpawnDriverPed();
+
+                pNewCar->field_7C_uni_num = 5;
+                pNewCar->field_76 = 0;
+                if ( pNewCar->field_98 != 4 )
+                {
+                    pNewCar->field_98 = 2;
+                }
+
+                //pNewCar->field_9C = 3;
+                //pNewCar->sub_43BFE0();
+                //pNewCar->field_5C->field_74 = dword_6FF570;
+
+                // prevents player entering when 4
+                //pNewCar->field_98 = 3;
+                
+               
+                pNewCar->field_78_flags |= 0x10u;
+
+                pNewCar->sub_4435F0();
+
+                pPlayer->sub_5645B0(pNewCar);
+
+               // gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
 
                 //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
@@ -274,7 +308,7 @@ void CC ImGuiDebugDraw()
 */
                 //gPedManager_6787BC->sub_470E30();
 
-                gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
+                //gFirefighterPool_54_67D4C0->sub_4A8820(pNewCar);
 
                 //pNewPed->SpawnDriverRunAway_45C650(pNewCar, 0);
             }
@@ -454,6 +488,20 @@ void CC ImGuiDebugDraw()
                                               pPlayerSprite->field_1C_zpos,
                                               0);
             }
+
+            static int tmp = 0;
+            ImGui::InputInt("object number", &tmp, 1, 1);
+            if (ImGui::Button("Obj spawn 2"))
+            {
+                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
+                spawned_obj = gObject_5C_6F8F84->sub_5299B0(tmp,
+                                              pPlayerSprite->field_14_xpos.x,
+                                              pPlayerSprite->field_14_xpos.y,
+                                              pPlayerSprite->field_1C_zpos,
+                                              0);
+            }
+
             /*
             if (ImGui::TreeNode("Object_5C debug"))
             {
@@ -662,7 +710,10 @@ void CC ImGuiDebugDraw()
                     gHud_2B00_706620->field_620.sub_5D3220(&v);
                 }
 
-                ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0[1].field_4, 1, 100);
+                if (gHud_2B00_706620->field_620.field_0[1].field_4)
+                {
+                    ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0[1].field_4, 1, 100);
+                }
                 ImGui::TreePop();
             }
 
