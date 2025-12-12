@@ -43,13 +43,13 @@ class Object_2C
     EXPORT char_type sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
     EXPORT void sub_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 a2);
-    EXPORT void sub_5257D0();
+    EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
     EXPORT void sub_525AE0();
     EXPORT void sub_525B40();
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
-    EXPORT void sub_525F30();
+    EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);

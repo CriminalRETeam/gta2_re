@@ -295,7 +295,7 @@ void Object_2C::sub_525190(u8 a2)
 }
 
 STUB_FUNC(0x5257d0)
-void Object_2C::sub_5257D0()
+void Object_2C::UpdateAninmation_5257D0()
 {
     NOT_IMPLEMENTED;
 }
@@ -383,7 +383,7 @@ void Object_2C::sub_525D90()
 }
 
 STUB_FUNC(0x525f30)
-void Object_2C::sub_525F30()
+void Object_2C::Update_525F30()
 {
     NOT_IMPLEMENTED;
 }
@@ -395,7 +395,7 @@ bool Object_2C::PoolUpdate()
     byte_6F8F40 = 0;
     if (field_25 != 1)
     {
-        Object_2C::sub_525F30();
+        Object_2C::Update_525F30();
     }
 
     if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, dword_6F8E10)))

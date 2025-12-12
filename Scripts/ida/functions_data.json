@@ -10640,7 +10640,7 @@
         "v105_address": "0x525370"
     },
     {
-        "name": "Object_2C::sub_5257D0",
+        "name": "Object_2C::UpdateAninmation_5257D0",
         "v96f_address": null,
         "v105_address": "0x5257d0"
     },
@@ -10690,7 +10690,7 @@
         "v105_address": "0x525d90"
     },
     {
-        "name": "Object_2C::sub_525F30",
+        "name": "Object_2C::Update_525F30",
         "v96f_address": null,
         "v105_address": "0x525f30"
     },
