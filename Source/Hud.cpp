@@ -1975,16 +1975,15 @@ void Hud_MapZone_98::sub_5D5AD0()
     }
 }
 
-// TODO: Thiscall and part of gmp_map_zone?
 MATCH_FUNC(0x4DEF00)
-EXPORT wchar_t* __fastcall get_zone_str_4DEF00(const gmp_map_zone* pZone)
+EXPORT wchar_t* gmp_map_zone::get_zone_str_4DEF00()
 {
     char buf[4];
-    if (pZone->field_5_name_length == 3)
+    if (field_5_name_length == 3)
     {
-        buf[0] = pZone->field_6_name[0];
-        buf[1] = pZone->field_6_name[1];
-        buf[2] = pZone->field_6_name[2];
+        buf[0] = field_6_name[0];
+        buf[1] = field_6_name[1];
+        buf[2] = field_6_name[2];
         buf[3] = 0;
         return gText_0x14_704DFC->Find_5B5F90(buf);
     }
@@ -2000,7 +1999,7 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
         pArg2Or3 = pZone1;
     }
 
-    wchar_t* pStr = get_zone_str_4DEF00(pArg2Or3);
+    wchar_t* pStr = pArg2Or3->get_zone_str_4DEF00();
     if (pStr)
     {
         const wchar_t* pName = gText_0x14_704DFC->sub_5B5B80(pStr);
