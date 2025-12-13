@@ -33,7 +33,7 @@ class CarPhysics_B0
     EXPORT u32 sub_559E20(s32 a2);
     EXPORT s32* sub_559EC0(s32* a2);
     EXPORT Fix16 CalculateMass_559FF0();
-    EXPORT u32* sub_55A050(u32* a2);
+    EXPORT Fix16 sub_55A050();
     EXPORT u8 IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     EXPORT char_type IsFootBrakeOn_55A150();

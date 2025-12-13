@@ -151,11 +151,18 @@ Fix16 CarPhysics_B0::CalculateMass_559FF0()
     }
 }
 
-STUB_FUNC(0x55a050)
-u32* CarPhysics_B0::sub_55A050(u32* a2)
+MATCH_FUNC(0x55a050)
+Fix16 CarPhysics_B0::sub_55A050()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_5C_pCar->field_64_pTrailer)
+    {
+        return field_5C_pCar->field_64_pTrailer->field_8_truck_cab->sub_43A590() +
+            field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->sub_43A590();
+    }
+    else
+    {
+        return field_5C_pCar->sub_43A590();
+    }
 }
 
 MATCH_FUNC(0x55a0b0)
