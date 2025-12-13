@@ -5,6 +5,7 @@
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
+DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -314,11 +315,18 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5793e0)
-char_type PublicTransport_181C::sub_5793E0()
+MATCH_FUNC(0x5793e0)
+void PublicTransport_181C::sub_5793E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        u16 idx = 0;
+        for (; idx < dword_6FEE68.field_194_count - 1; idx++)
+        {
+            dword_6FEE68.field_0_list[idx]->field_20_next_station = dword_6FEE68.field_0_list[idx + 1];
+        }
+        dword_6FEE68.field_0_list[idx]->field_20_next_station = dword_6FEE68.field_0_list[0];
+    }
 }
 
 STUB_FUNC(0x579440)

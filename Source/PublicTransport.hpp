@@ -75,13 +75,22 @@ class TrainStation_34
     char_type field_33;
 };
 
+struct TrainStationList
+{
+    TrainStation_34* field_0_list[101];
+    u8 field_194_count;
+};
+
+EXTERN_GLOBAL(TrainStationList, dword_6FEE68);
+//extern TrainStationList dword_6FEE68;
+
 class PublicTransport_181C
 {
   public:
     EXPORT Train_58* AllocateTrain_578790();
     EXPORT TrainStation_34* AllocateTrainStation_5787E0();
     EXPORT void SpawnTrainsFromStations_578860();
-    EXPORT char_type sub_5793E0();
+    EXPORT void sub_5793E0();
     EXPORT gmp_map_zone* InitTrainStations_579440();
     EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
     EXPORT char_type* sub_5799B0();
