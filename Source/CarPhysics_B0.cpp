@@ -4,13 +4,18 @@
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
-DEFINE_GLOBAL(Fix16, kFP16Zero_6FE20C, 0x6FE20C);
+DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FE20C, Fix16(0), 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
-DEFINE_GLOBAL(s32, DAT_006FE200, 0x6FE200);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE200, kFP16Zero_6FE20C, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
 DEFINE_GLOBAL(Fix16, dword_6FE348, 0x6FE348);
 DEFINE_GLOBAL(Fix16, dword_6FDFB0, 0x6FDFB0);
+DEFINE_GLOBAL(Fix16, dword_6FE0D8, 0x6FE0D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFD4, Fix16(0x1000, 0), 0x6FDFD4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE2AC, dword_6FDFD4, 0x6FE2AC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE210, Fix16(1), 0x6FE210);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
 
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
@@ -673,10 +678,23 @@ s32 CarPhysics_B0::ApplyThrottleInput_562480()
     return 0;
 }
 
-STUB_FUNC(0x5624f0)
+MATCH_FUNC(0x5624f0)
 void CarPhysics_B0::ApplyBrakePhysics_5624F0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_91_is_foot_brake_on || field_98_surface_type == 7 || field_98_surface_type == 8)
+    {
+        field_64 = dword_6FE200;
+        dword_6FE0D8 = kFP16Zero_6FE20C; // final value used in skid calcs
+    }
+    else
+    {
+        field_64 += dword_6FE2AC;
+        if (field_64 > dword_6FE1C0)
+        {
+            field_64 = dword_6FE1C0; // 0x4000 fp16
+        }
+        dword_6FE0D8 = field_64 * dword_6FE258->field_10_brake_friction;
+    }
 }
 
 STUB_FUNC(0x562560)
@@ -895,7 +913,7 @@ void CarPhysics_B0::Init_5637A0()
     field_8_total_damage_q = 0;
     field_60_gas_pedal = DAT_006FE290;
     field_AC_drive_wheels_locked_q = 0;
-    field_64 = DAT_006FE200;
+    field_64 = dword_6FE200;
     field_68_z_pos = kFP16Zero_6FE20C;
     field_84_front_skid = kFP16Zero_6FE20C;
     field_88_rear_skid = kFP16Zero_6FE20C;

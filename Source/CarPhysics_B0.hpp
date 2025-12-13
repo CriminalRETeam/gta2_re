@@ -156,7 +156,7 @@ class CarPhysics_B0
     s16 field_5A;
     Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
-    s32 field_64;
+    Fix16 field_64;
     Fix16 field_68_z_pos;
     Fix16 field_6C_cp3;
     Fix16 field_70;
