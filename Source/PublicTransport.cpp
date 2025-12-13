@@ -8,6 +8,7 @@
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -365,10 +366,32 @@ TrainStation_34* PublicTransport_181C::GetBusStopOnScreen_5799B0()
     return NULL;
 }
 
-STUB_FUNC(0x579a30)
-void PublicTransport_181C::sub_579A30(Car_BC* a2)
+MATCH_FUNC(0x579a30)
+void PublicTransport_181C::sub_579A30(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_buses_67D558)
+    {
+        Car_BC* pLeadCar = field_17C0_bus.field_C_first_carriage;
+        if (pLeadCar)
+        {
+            if (pToFind == pLeadCar)
+            {
+                s32 bus_state = field_17C0_bus.field_48;
+                if (bus_state)
+                {
+                    if (bus_state == 14)
+                    {
+                        field_17C0_bus.field_4 = 10;
+                    }
+                }
+                else if (field_17C0_bus.field_0 != 1 || pLeadCar->sub_43A240() == dword_6FF078)
+                {
+                    field_17C0_bus.field_48 = 12;
+                    field_17C0_bus.field_4 = 10;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x579aa0)
