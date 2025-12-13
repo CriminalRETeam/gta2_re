@@ -26,6 +26,9 @@ DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL(s32, dword_679188, 0x679188);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
+DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
+DEFINE_GLOBAL_INIT(Fix16, dword_703450, dword_703424, 0x703450);
+Ang16 word_703804 = 0;//DEFINE_GLOBAL_INIT(Ang16, word_703804, Ang16(0), 0x703804);
 
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
@@ -181,11 +184,11 @@ void Sprite::sub_59E7B0()
     field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
     {
-        field_C_sprite_4c_ptr->field_48 = 0;
+        field_C_sprite_4c_ptr->field_48_bUnknown = 0;
     }
     if (field_4_0x4C_len != NULL)
     {
-        field_4_0x4C_len->field_48 = 0;
+        field_4_0x4C_len->field_48_bUnknown = 0;
     }
 }
 
@@ -279,11 +282,20 @@ void Sprite::sub_59E960()
     }
 }
 
-STUB_FUNC(0x59e9c0)
-Sprite* Sprite::sub_59E9C0()
+MATCH_FUNC(0x59e9c0)
+void Sprite::sub_59E9C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!field_C_sprite_4c_ptr->field_48_bUnknown)
+    {
+        if (field_C_sprite_4c_ptr->sub_41E390())
+        {
+            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, word_703804);
+        }
+        else
+        {
+            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+        }
+    }
 }
 
 STUB_FUNC(0x59ea00)
@@ -416,7 +428,7 @@ void Sprite::sub_59FA40()
             Sprite_4C* t = field_4_0x4C_len;
             t->field_0_width = width;
             t->field_4_height = height;
-            t->field_48 = 0;
+            t->field_48_bUnknown = 0;
         }
     }
 }
@@ -536,7 +548,7 @@ char Sprite::sub_5A1A60()
 
     Sprite_4C* p4C = this->field_4_0x4C_len;
 
-    if (!p4C->field_48)
+    if (!p4C->field_48_bUnknown)
     {
         p4C->sub_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
     }
@@ -1022,7 +1034,7 @@ MATCH_FUNC(0x5a57a0)
 s32 Sprite_4C::PoolAllocate()
 {
     mpNext = NULL;
-    field_48 = 0;
+    field_48_bUnknown = 0;
     return 0;
 }
 

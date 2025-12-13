@@ -16,6 +16,8 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
+EXTERN_GLOBAL(Fix16, dword_703450);
+
 class Sprite_4C
 {
   public:
@@ -23,6 +25,11 @@ class Sprite_4C
 
     void PoolDeallocate()
     {
+    }
+
+    bool sub_41E390()
+    {
+        return field_0_width == field_4_height && field_0_width <= dword_703450;
     }
 
     EXPORT void SetCurrentRect_5A4D90();
@@ -37,7 +44,7 @@ class Sprite_4C
     Fix16_Point field_C_b_box[4];
     Sprite_4C* mpNext;
     Fix16_Rect field_30;
-    char_type field_48;
+    char_type field_48_bUnknown;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
@@ -67,7 +74,7 @@ class Sprite
     EXPORT void sub_59E8C0(Sprite* pSprite);
     EXPORT void sub_59E910(Sprite* a2);
     EXPORT void sub_59E960();
-    EXPORT Sprite* sub_59E9C0();
+    EXPORT void sub_59E9C0();
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 sub_59EAA0();
     EXPORT char_type has_shadows_59EAE0();
