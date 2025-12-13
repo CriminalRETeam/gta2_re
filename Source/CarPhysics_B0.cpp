@@ -17,6 +17,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDFD4, Fix16(0x1000, 0), 0x6FDFD4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE2AC, dword_6FDFD4, 0x6FE2AC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE210, Fix16(1), 0x6FE210);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
 // TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
 DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
@@ -807,18 +809,18 @@ char_type CarPhysics_B0::UpdateLastMovementTimer_562FA0()
     {
         if (field_90_timer_since_last_move < 255)
         {
-            this->field_90_timer_since_last_move++;
+            field_90_timer_since_last_move++;
         }
-        if (this->field_90_timer_since_last_move >= 20u)
+        if (field_90_timer_since_last_move >= 20u)
         {
-            return 1;
+            return true;
         }
     }
     else
     {
-        this->field_90_timer_since_last_move = 0;
+        field_90_timer_since_last_move = 0;
     }
-    return 0;
+    return false;
 }
 
 STUB_FUNC(0x562fe0)
@@ -852,11 +854,11 @@ s32* CarPhysics_B0::sub_563460()
 MATCH_FUNC(0x563560)
 void CarPhysics_B0::SetSprite_563560(Sprite* a2)
 {
-    this->field_38_cp1.x = a2->field_14_xpos.x;
-    this->field_38_cp1.y = a2->field_14_xpos.y;
-    this->field_6C_cp3 = a2->field_1C_zpos;
-    this->field_58_theta = a2->field_0;
-    this->field_78_pointing_ang_rad = 0;
+    field_38_cp1.x = a2->field_14_xpos.x;
+    field_38_cp1.y = a2->field_14_xpos.y;
+    field_6C_cp3 = a2->field_1C_zpos;
+    field_58_theta = a2->field_0;
+    field_78_pointing_ang_rad = 0;
     UpdateCenterOfMassPoint_563350();
 }
 
@@ -879,18 +881,21 @@ void CarPhysics_B0::sub_5636C0()
 {
     sub_563670();
 
-    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
         pTrailer->field_C_pCarOnTrailer->field_58_physics->sub_563670();
     }
 }
 
-STUB_FUNC(0x5636e0)
+MATCH_FUNC(0x5636e0)
 bool CarPhysics_B0::IsNearlyStopped_5636E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_40_linvel_1.GetLength_2() < dword_6FE0A8)
+    {
+        return true;
+    }
+    return false;
 }
 
 MATCH_FUNC(0x5637a0)

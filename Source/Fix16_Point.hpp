@@ -5,6 +5,7 @@
 #include "ang16.hpp"
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
+EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 
 // TODO: Some functions like Camera_0xBC::sub_435A70 won't match unless this is a POD
 // but 9.6f leads me to believe both the POD and non-POD type are the same
@@ -68,6 +69,13 @@ struct Fix16_Point_POD
         x = a1;
         y = a2;
     }
+
+    // Inlined, on version 9.6f 0x41E1E0
+    void reset()
+    {
+        x = Fix16(0);
+        y = Fix16(0);
+    }
     
     Fix16 x;
     Fix16 y;
@@ -105,11 +113,21 @@ public:
         return Fix16_Point(x + in.x, y + in.y);
     }
 
-    // Inlined, on version 9.6f 0x41E1E0
-    void reset()
+    // The same function of GetLength but using another cutoff
+    inline Fix16 GetLength_2()
     {
-        x = Fix16(0);
-        y = Fix16(0);
+        if (x == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs(y);
+        }
+        else if (y == kFP16Zero_6FE20C)
+        {
+            return Fix16::Abs(x);
+        }
+        else
+        {
+            return Fix16::SquareRoot(x*x + y*y);
+        }
     }
 };
 
