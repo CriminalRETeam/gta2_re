@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
+DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FE20C, Fix16(0), 0x6FE20C);
 DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
@@ -770,11 +771,12 @@ CarInfo_2C* CarPhysics_B0::sub_562ED0()
     return 0;
 }
 
-STUB_FUNC(0x562ef0)
-s32 CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
+MATCH_FUNC(0x562ef0)
+void CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u8 info_idx_remapped = field_5C_pCar->sub_43A850();
+    dword_6FE0E4 = gCarInfo_808_678098->sub_454840(info_idx_remapped);
+    dword_6FE258 = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(info_idx_remapped);
 }
 
 MATCH_FUNC(0x562f30)
