@@ -2,9 +2,19 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
+#include "error.hpp"
+#include "Game_0x40.hpp"
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
+DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
+DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
+DEFINE_GLOBAL(u8, dword_6FF158, 0x6FF158);
+Fix16 dword_6FEEE0 = Fix16(0x1333, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
+Fix16 dword_6FEED4 = Fix16(0x666, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
+Fix16 dword_6FEEDC = Fix16(0xCCC, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
+Fix16 dword_6FEEE4 = Fix16(0x1999, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -24,6 +34,54 @@ char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
     }
 }
 
+MATCH_FUNC(0x577E90)
+bool __stdcall sub_577E90(char_type* pChar1, char_type* pChar2)
+{
+    for (u8 i = 0; i < dword_6FF158; i++)
+    {
+        if (pChar1[i] != pChar2[i])
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+MATCH_FUNC(0x577EE0)
+gmp_map_zone* __stdcall sub_577EE0(char_type* pChar, u8 case_value)
+{
+    u32 zone_type;
+
+    switch (case_value)
+    {
+        case 0:
+            zone_type = Railway_Station_Entry_Point_11;
+            break;
+        case 1:
+            zone_type = Railway_Station_Exit_Point_12;
+            break;
+        case 2:
+            zone_type = Railway_Station_Stop_Point_13;
+            break;
+        default:
+            FatalError_4A38C0(1006, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98); // invalid case
+            break;
+    }
+
+    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(zone_type);
+    dword_6FF158 = 6;
+    while (!sub_577E90((char_type*)&pZone->field_6_name, pChar))
+    {
+        pZone = gMap_0x370_6F6268->next_zone_4DF770();
+        if (!pZone)
+        {
+            return NULL;
+        }
+        dword_6FF158 = 6;
+    }
+    return pZone;
+}
+
 STUB_FUNC(0x578030)
 void Train_58::sub_578030()
 {
@@ -35,23 +93,23 @@ void Train_58::sub_578180()
 {
     if (!bSkip_trains_67D550)
     {
-        switch (this->field_50)
+        switch (this->field_50_state)
         {
             case 0:
-                this->field_50 = 1;
+                this->field_50_state = 1;
                 break;
             case 1:
                 sub_578030();
-                this->field_50 = 2;
+                this->field_50_state = 2;
                 break;
             case 2:
-                this->field_50 = 3;
+                this->field_50_state = 3;
                 break;
             case 3:
-                this->field_50 = 4;
+                this->field_50_state = 4;
                 break;
             case 4:
-                this->field_50 = 5;
+                this->field_50_state = 5;
                 break;
             default:
                 return;
@@ -64,23 +122,23 @@ void Train_58::sub_5781F0()
 {
     if (!bSkip_trains_67D550)
     {
-        switch (this->field_50)
+        switch (this->field_50_state)
         {
             case 1:
-                this->field_50 = 0;
+                this->field_50_state = 0;
                 break;
             case 2:
                 sub_578030();
-                this->field_50 = 1;
+                this->field_50_state = 1;
                 break;
             case 3:
-                this->field_50 = 2;
+                this->field_50_state = 2;
                 break;
             case 4:
-                this->field_50 = 3;
+                this->field_50_state = 3;
                 break;
             case 5:
-                this->field_50 = 4;
+                this->field_50_state = 4;
                 break;
             default:
                 return;
@@ -103,7 +161,7 @@ Train_58::Train_58()
     field_0 = 0;
     field_2 = 0;
     field_48 = 0;
-    field_50 = 2;
+    field_50_state = 2;
     field_54 = 0;
     field_55 = 0;
     field_56_passenger_count = 0;
@@ -138,11 +196,11 @@ void Train_58::sub_5782D0()
     {
         if (this->field_C_first_carriage->field_54_driver)
         {
-            this->field_50 = 3;
+            this->field_50_state = 3;
         }
         else
         {
-            this->field_50 = 2;
+            this->field_50_state = 2;
         }
     }
 }
@@ -152,12 +210,12 @@ void Train_58::sub_578300()
 {
     if (!bSkip_trains_67D550)
     {
-        if (this->field_50 < 2)
+        if (this->field_50_state < 2)
         {
             this->field_1 = 1;
             sub_578030();
         }
-        this->field_50 = 2;
+        this->field_50_state = 2;
     }
 }
 
@@ -231,7 +289,7 @@ s32 TrainStation_34::GetWagonType_577f80(u8 idx)
 MATCH_FUNC(0x577fd0)
 TrainStation_34::TrainStation_34()
 {
-    field_0_bus_or_train = 0;
+    field_0_station_type = 0;
     field_4_entry_point = NULL;
     field_8_exit_point = NULL;
     field_C_stop_point = NULL;
@@ -281,11 +339,11 @@ Train_58* PublicTransport_181C::AllocateTrain_578790()
 MATCH_FUNC(0x5787e0)
 TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
 {
-    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0_stations); i++)
     {
-        if (!this->field_0[i].field_14)
+        if (!this->field_0_stations[i].field_14)
         {
-            return &this->field_0[i];
+            return &this->field_0_stations[i];
         }
     }
     return 0;
@@ -314,18 +372,42 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5793e0)
-char_type PublicTransport_181C::sub_5793E0()
+MATCH_FUNC(0x5793e0)
+void PublicTransport_181C::sub_5793E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        u16 idx = 0;
+        for (; idx < dword_6FEE68.field_194_count - 1; idx++)
+        {
+            dword_6FEE68.field_0_list[idx]->field_20_next_station = dword_6FEE68.field_0_list[idx + 1];
+        }
+        dword_6FEE68.field_0_list[idx]->field_20_next_station = dword_6FEE68.field_0_list[0];
+    }
 }
 
-STUB_FUNC(0x579440)
-gmp_map_zone* PublicTransport_181C::InitTrainStations_579440()
+MATCH_FUNC(0x579440)
+void PublicTransport_181C::InitTrainStations_579440()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s32 station_idx = 0; station_idx < 100; station_idx++)
+    {
+        TrainStation_34* pStation = &field_0_stations[station_idx];
+        switch (pStation->field_0_station_type)
+        {
+            case 0:
+                break;
+            case 2:
+                pStation->field_4_entry_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 0);
+                pStation->field_8_exit_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 1);
+                pStation->field_C_stop_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 2);
+                break;
+            case 1:
+                break;
+            default:
+                FatalError_4A38C0(0x3EE, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x5794b0)
@@ -335,17 +417,52 @@ gmp_map_zone* PublicTransport_181C::SetupTrainAndBusStops_5794B0()
     return 0;
 }
 
-STUB_FUNC(0x5799b0)
-char_type* PublicTransport_181C::sub_5799B0()
+MATCH_FUNC(0x5799b0)
+TrainStation_34* PublicTransport_181C::GetBusStopOnScreen_5799B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        for (u16 station_idx = 0; station_idx < gStationCount_6FF1CC; station_idx++)
+        {
+            TrainStation_34* pStation = &field_0_stations[station_idx];
+            if (pStation->field_0_station_type == 1)
+            {
+                if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pStation->field_10_pZone->field_1_x, pStation->field_10_pZone->field_2_y))
+                {
+                    return pStation;
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
-STUB_FUNC(0x579a30)
-void PublicTransport_181C::sub_579A30(Car_BC* a2)
+MATCH_FUNC(0x579a30)
+void PublicTransport_181C::sub_579A30(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_buses_67D558)
+    {
+        Car_BC* pLeadCar = field_17C0_bus.field_C_first_carriage;
+        if (pLeadCar)
+        {
+            if (pToFind == pLeadCar)
+            {
+                s32 bus_state = field_17C0_bus.field_48;
+                if (bus_state)
+                {
+                    if (bus_state == 14)
+                    {
+                        field_17C0_bus.field_4 = 10;
+                    }
+                }
+                else if (field_17C0_bus.field_0 != 1 || pLeadCar->sub_43A240() == dword_6FF078)
+                {
+                    field_17C0_bus.field_48 = 12;
+                    field_17C0_bus.field_4 = 10;
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x579aa0)
@@ -431,11 +548,60 @@ Car_BC** PublicTransport_181C::GetCarArrayFromLeadCar_579B40(Car_BC* toFind)
     return NULL;
 }
 
-STUB_FUNC(0x579b90)
-bool PublicTransport_181C::sub_579B90(Car_BC* a2, u32* a3)
+MATCH_FUNC(0x579b90)
+bool PublicTransport_181C::sub_579B90(Car_BC* pToFind, Fix16* pF16Unk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            Car_BC* pCar = pTrain->field_C_first_carriage;
+            if (pCar == pToFind)
+            {
+                if (pCar->field_9C != 3)
+                {
+                    *pF16Unk = dword_6FF078;
+                    if (pTrain->field_50_state != 0 && pTrain->field_50_state != 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                switch (pTrain->field_50_state)
+                {
+                    case 0:
+                        *pF16Unk = dword_6FEEE0;
+                        return false;
+                        break;
+                    case 1:
+                        *pF16Unk = dword_6FEED4;
+                        return false;
+                        break;
+                    case 2:
+                        *pF16Unk = dword_6FF078;
+                        return true;
+                        break;
+                    case 3:
+                        *pF16Unk = dword_6FEED4;
+                        return true;
+                        break;
+                    case 4:
+                        *pF16Unk = dword_6FEEDC;
+                        return true;
+                        break;
+                    case 5:
+                        *pF16Unk = dword_6FEEE4;
+                        return true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x579ca0)
@@ -453,8 +619,8 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
 MATCH_FUNC(0x57b4b0)
 TrainStation_34* PublicTransport_181C::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
 {
-    TrainStation_34* pIter = &field_0[0];
-    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    TrainStation_34* pIter = &field_0_stations[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0_stations); i++)
     {
         if (pIter->field_10_pZone == pZone)
         {
@@ -478,18 +644,51 @@ Car_BC* PublicTransport_181C::GetLeadTrainCar_57B540(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x57b5c0)
-Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
+MATCH_FUNC(0x57b5c0)
+Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            Car_BC* pWagon = pTrain->field_C_first_carriage;
+            if (pWagon == pToFind)
+            {
+                return pTrain;
+            }
+            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
+            {
+                pWagon = pTrain->field_10[wagon_idx];
+                if (pWagon == pToFind)
+                {
+                    return pTrain;
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
-STUB_FUNC(0x57b6a0)
-Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* a2)
+MATCH_FUNC(0x57b6a0)
+Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
+            {
+                Car_BC* pWagon = pTrain->field_10[wagon_idx];
+                if (pWagon == pToFind)
+                {
+                    return pTrain;
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x57b740)

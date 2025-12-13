@@ -4,7 +4,7 @@
 
 class Car_BC;
 class gmp_map_zone;
-
+class Fix16;
 
 class Train_58
 {
@@ -39,7 +39,7 @@ class Train_58
     char_type field_47;
     s32 field_48;
     s32 field_4C;
-    s32 field_50;
+    s32 field_50_state;
     char_type field_54;
     char_type field_55;
     char_type field_56_passenger_count;
@@ -57,7 +57,7 @@ class TrainStation_34
     // NOTE: This function defined out of order for some reason
     EXPORT void CalculateWagonCount_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
 
-    s32 field_0_bus_or_train;
+    s32 field_0_station_type;
     gmp_map_zone* field_4_entry_point;
     gmp_map_zone* field_8_exit_point;
     gmp_map_zone* field_C_stop_point;
@@ -75,16 +75,25 @@ class TrainStation_34
     char_type field_33;
 };
 
+struct TrainStationList
+{
+    TrainStation_34* field_0_list[101];
+    u8 field_194_count;
+};
+
+EXTERN_GLOBAL(TrainStationList, dword_6FEE68);
+//extern TrainStationList dword_6FEE68;
+
 class PublicTransport_181C
 {
   public:
     EXPORT Train_58* AllocateTrain_578790();
     EXPORT TrainStation_34* AllocateTrainStation_5787E0();
     EXPORT void SpawnTrainsFromStations_578860();
-    EXPORT char_type sub_5793E0();
-    EXPORT gmp_map_zone* InitTrainStations_579440();
+    EXPORT void sub_5793E0();
+    EXPORT void InitTrainStations_579440();
     EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
-    EXPORT char_type* sub_5799B0();
+    EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
     EXPORT void sub_579A30(Car_BC* a2);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
     EXPORT Car_BC* sub_579AD0();
@@ -92,7 +101,7 @@ class PublicTransport_181C
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car_BC** GetCarArrayFromLeadCar_579B40(Car_BC* toFind);
-    EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
+    EXPORT bool sub_579B90(Car_BC* pToFind, Fix16* pF16Unk);
     EXPORT void BusesService_579CA0();
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
@@ -103,7 +112,7 @@ class PublicTransport_181C
     EXPORT PublicTransport_181C();
     EXPORT ~PublicTransport_181C();
 
-    TrainStation_34 field_0[100];
+    TrainStation_34 field_0_stations[100];
     Train_58 field_1450_train_array[10];
     Train_58 field_17C0_bus;
     char_type field_1818_stop_getting_off_bus;
@@ -113,3 +122,7 @@ class PublicTransport_181C
 };
 
 EXTERN_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4);
+
+EXPORT bool __stdcall sub_577E90(char_type* pChar1, char_type* pChar2);
+
+EXPORT gmp_map_zone* __stdcall sub_577EE0(char_type* pChar, u8 case_value);

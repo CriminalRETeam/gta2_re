@@ -13475,7 +13475,7 @@
         "v105_address": "0x5794b0"
     },
     {
-        "name": "PublicTransport_181C::sub_5799B0",
+        "name": "PublicTransport_181C::GetBusStopOnScreen_5799B0",
         "v96f_address": null,
         "v105_address": "0x5799b0"
     },
