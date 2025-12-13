@@ -577,11 +577,30 @@ Car_BC* PublicTransport_181C::GetLeadTrainCar_57B540(Car_BC* a2)
     }
 }
 
-STUB_FUNC(0x57b5c0)
-Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* a2)
+MATCH_FUNC(0x57b5c0)
+Train_58* PublicTransport_181C::GetTrainFromCar_57B5C0(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            Car_BC* pWagon = pTrain->field_C_first_carriage;
+            if (pWagon == pToFind)
+            {
+                return pTrain;
+            }
+            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
+            {
+                pWagon = pTrain->field_10[wagon_idx];
+                if (pWagon == pToFind)
+                {
+                    return pTrain;
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x57b6a0)
