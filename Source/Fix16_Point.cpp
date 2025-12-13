@@ -7,3 +7,10 @@ Fix16_Point_POD Fix16_Point_POD::Multiply_438FE0(Fix16& in)
 {
     return Fix16_Point_POD(x * in, y * in);
 }
+
+// https://decomp.me/scratch/nFSYS
+STUB_FUNC(0x442CB0)
+Fix16_Point_POD Fix16_Point_POD::Divide_442CB0(Fix16& in)
+{
+    return Fix16_Point_POD(x / in, y / in);
+}

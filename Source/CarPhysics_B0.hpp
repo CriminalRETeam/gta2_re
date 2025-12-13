@@ -85,7 +85,7 @@ class CarPhysics_B0
     EXPORT Car_78* sub_55FF20(Car_BC* a2);
     EXPORT void sub_5606C0(s32 a2, char_type a3);
     EXPORT void sub_560B40(s32 a2, s32 a3);
-    EXPORT __int64 UpdateLinearAndAngularAccel_560EB0();
+    EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void sub_560F20(s32 a2);
     EXPORT s32 IntegrateAndClampVelocities_5610B0();
     EXPORT u32* sub_561130(u32* a2, u32* a3);
@@ -151,8 +151,7 @@ class CarPhysics_B0
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
     Fix16_Point_POD field_48;
-    s32 field_50;
-    s32 field_54;
+    Fix16_Point_POD field_50;
     Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pCar;
@@ -163,8 +162,8 @@ class CarPhysics_B0
     Fix16 field_70;
     Fix16 field_74_ang_vel_rad;
     s32 field_78_pointing_ang_rad;
-    s32 field_7C;
-    s32 field_80;
+    Fix16 field_7C;
+    Fix16 field_80;
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
     s32 field_8C_state;

@@ -279,8 +279,8 @@ void CarPhysics_B0::ResetForceAccumulators_55A840()
 {
     field_48.x = 0;
     field_48.y = 0;
-    field_50 = 0;
-    field_54 = 0;
+    field_50.x = 0;
+    field_50.y = 0;
     field_7C = 0;
     field_80 = 0;
 }
@@ -576,11 +576,11 @@ void CarPhysics_B0::sub_560B40(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x560eb0)
-__int64 CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
+MATCH_FUNC(0x560eb0)
+void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_50 = field_48.Divide_442CB0(CarPhysics_B0::CalculateMass_559FF0());
+    field_80 = - field_7C / CarPhysics_B0::sub_55A050();
 }
 
 STUB_FUNC(0x560f20)

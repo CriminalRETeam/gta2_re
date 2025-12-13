@@ -57,6 +57,7 @@ struct Fix16_Point_POD
     }
 
     EXPORT Fix16_Point_POD Multiply_438FE0(Fix16& a1);
+    EXPORT Fix16_Point_POD Divide_442CB0(Fix16& a1);
 
     Fix16_Point_POD()
     {
