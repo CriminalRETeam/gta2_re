@@ -46,11 +46,19 @@ void CarPhysics_B0::sub_5597B0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x5599d0)
+MATCH_FUNC(0x5599d0)
 bool CarPhysics_B0::IsNotMoving_5599D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        return pTrailer->field_8_truck_cab->field_58_physics->sub_49EF80() &&
+            pTrailer->field_C_pCarOnTrailer->field_58_physics->sub_49EF80();
+    }
+    else
+    {
+        return sub_49EF80();
+    }
 }
 
 STUB_FUNC(0x559a40)

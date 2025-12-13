@@ -15,6 +15,8 @@ class CarInfo_2C;
 class Car_78;
 struct Fix16_Point_POD;
 
+EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
+
 class CarPhysics_B0
 {
   public:
@@ -141,6 +143,13 @@ class CarPhysics_B0
     inline Fix16 get_car_velocity_4754D0()
     {
         return field_0_vel_read_only.GetLength();
+    }
+
+    inline bool sub_49EF80()
+    {
+        return field_40_linvel_1.x == kFP16Zero_6FE20C 
+            && field_40_linvel_1.y == kFP16Zero_6FE20C 
+            && field_74_ang_vel_rad == kFP16Zero_6FE20C;
     }
 
     Fix16_Point field_0_vel_read_only;
