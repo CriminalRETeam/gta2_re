@@ -56,7 +56,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_67DA70, Ang16(0), 0x67DA70);
 DEFINE_GLOBAL_INIT(Fix16, dword_67D934, Fix16(1), 0x67D934);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
 DEFINE_GLOBAL(BYTE, byte_67DA80, 0x67DA80);
-DEFINE_GLOBAL_ARRAY(char_type, byte_67DC88, 4, 0x67DC88); // todo: prob, bigger, 0xUNKNOWN);
 DEFINE_GLOBAL_ARRAY(wchar_t, word_67C7D8, 640, 0x67C7D8);
 DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
 DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
@@ -1945,7 +1944,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     {
                     }
                 LABEL_21:
-                    gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
+                    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
                     goto LABEL_28;
                 case MENUPAGE_PLAY_NEXT_AREA: // 261
                     if (gLucid_hamilton_67E8E0.sub_4C59A0())
@@ -2785,7 +2784,7 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     char styName[256]; // [esp+310h] [ebp-100h] BYREF
 
     LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
-    gLucid_hamilton_67E8E0.DebugStr_4C58D0(byte_67DC88);
+    gLucid_hamilton_67E8E0.DebugStr_4C58D0("");
     strcpy(fullPath, "data\\");
     strcat(fullPath, debugStr);
     gLucid_hamilton_67E8E0.SetMapName_4C5870(fullPath);
@@ -3957,52 +3956,59 @@ void Frontend::sub_4B4440()
     {
         FatalError_4A38C0(Gta2Error::SeqFileNotFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4876);
     }
-
-    if (!_findnext(hFind, &findInfo))
+    else
     {
-        FatalError_4A38C0(Gta2Error::MultipleSeqFilesFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883);
+        if (!_findnext(hFind, &findInfo))
+        {
+            FatalError_4A38C0(Gta2Error::MultipleSeqFilesFound, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4883);
+        }
+
+        strcpy(seqFileName, "data\\");
+        strcat(seqFileName, findInfo.name);
+        _findclose(hFind);
     }
 
-    strcpy(seqFileName, "data\\");
-    strcat(seqFileName, findInfo.name);
-    _findclose(hFind);
     this->field_1EB50_idx = 0;
     *(u16*)this->field_1EB51_blocks = 0;
-    bool bIncBlock = 0;
     this->field_1EB51_blocks[2] = 0;
 
     u16 block_idx = 0;
+    bool mainBlockFound = false;
 
     FILE* hSeqFile = crt::fopen(seqFileName, "rt");
     if (!hSeqFile)
     {
         FatalError_4A38C0(Gta2Error::SeqFileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4906);
+        return;
     }
 
     GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
 
-    while (strcmp(mainOrBonus, "") != 0) // byte_67DC88
+    while (strcmp(mainOrBonus, "") != 0)
     {
         if (strcmp(mainOrBonus, "MAIN") == 0)
         {
-            if (bIncBlock)
+            if (mainBlockFound)
             {
                 if (++block_idx > 2u)
                 {
                     FatalError_4A38C0(Gta2Error::TooManyMainBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4922);
                 }
             }
-            bIncBlock = 1;
+            mainBlockFound = true;
             pBlock = &this->field_1EB51_blocks[block_idx];
             *pBlock = 0;
+
+            GetSeqItem_4B48D0(1, debugStr, hSeqFile);
+            GetSeqItem_4B48D0(2, styName, hSeqFile);
+            GetSeqItem_4B48D0(3, mapName, hSeqFile);
+            GetSeqItem_4B48D0(4, description, hSeqFile);
+            sub_4B4BC0(block_idx, *pBlock, debugStr, styName, mapName);
+            ++*pBlock;
         }
-        else
+        else if (strcmp(mainOrBonus, "BONUS") == 0)
         {
-            if (strcmp(mainOrBonus, "BONUS"))
-            {
-                FatalError_4A38C0(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
-            }
-            if (!bIncBlock)
+            if (!mainBlockFound)
             {
                 FatalError_4A38C0(Gta2Error::MainBlockMustPrecedeBonus, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4940);
             }
@@ -4011,14 +4017,19 @@ void Frontend::sub_4B4440()
             {
                 FatalError_4A38C0(Gta2Error::TooManyBonusBlocks, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4945);
             }
+
+            GetSeqItem_4B48D0(1, debugStr, hSeqFile);
+            GetSeqItem_4B48D0(2, styName, hSeqFile);
+            GetSeqItem_4B48D0(3, mapName, hSeqFile);
+            GetSeqItem_4B48D0(4, description, hSeqFile);
+            sub_4B4BC0(block_idx, *pBlock, debugStr, styName, mapName);
+            ++*pBlock;
+        }
+        else
+        {
+            FatalError_4A38C0(Gta2Error::InvalidBlockType, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 4959);
         }
 
-        GetSeqItem_4B48D0(1, debugStr, hSeqFile);
-        GetSeqItem_4B48D0(2, styName, hSeqFile);
-        GetSeqItem_4B48D0(3, mapName, hSeqFile);
-        GetSeqItem_4B48D0(4, description, hSeqFile);
-        sub_4B4BC0(block_idx, *pBlock, debugStr, styName, mapName);
-        ++*pBlock;
         GetSeqItem_4B48D0(0, mainOrBonus, hSeqFile);
     }
 
@@ -4038,7 +4049,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
     {
         if (feof(hSeqFile))
         {
-            strcpy(ppRet, byte_67DC88);
+            strcpy(ppRet, "");
             return;
         }
         letter = File::SkipWhitespace_4A7340(hSeqFile);

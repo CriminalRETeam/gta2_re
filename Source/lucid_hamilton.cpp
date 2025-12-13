@@ -6,7 +6,6 @@
 #include "registry.hpp"
 
 DEFINE_GLOBAL(lucid_hamilton, gLucid_hamilton_67E8E0, 0x67E8E0);
-EXTERN_GLOBAL_ARRAY(char_type, byte_67DC88, 4); //, TODO, 0xUNKNOWN);
 EXTERN_GLOBAL_ARRAY(wchar_t, word_67DC8C, 32);
 
 MATCH_FUNC(0x4C53D0)
@@ -15,7 +14,7 @@ void lucid_hamilton::sub_4C53D0()
     char path[256];
     char tmp[256];
 
-    strcpy(tmp, byte_67DC88);
+    strcpy(tmp, "");
     strcpy(path, "data\\");
     gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
@@ -25,7 +24,7 @@ void lucid_hamilton::sub_4C53D0()
     }
     gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
 
-    strcpy(tmp, byte_67DC88);
+    strcpy(tmp, "");
     strcpy(path, "data\\");
     gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
@@ -35,7 +34,7 @@ void lucid_hamilton::sub_4C53D0()
     }
     gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
 
-    strcpy(tmp, byte_67DC88);
+    strcpy(tmp, "");
     strcpy(path, "data\\");
     gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
@@ -45,13 +44,13 @@ void lucid_hamilton::sub_4C53D0()
     }
     gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
 
-    strcpy(tmp, byte_67DC88);
+    strcpy(tmp, "");
     strcpy(path, "player\\");
     gRegistry_6FF968.Get_Debug_Setting_586E90("savename", (LPBYTE)tmp, GTA2_COUNTOF(tmp));
     strcat(path, tmp);
     if (strcmp(path, "player\\") == 0)
     {
-        strcpy(path, byte_67DC88);
+        strcpy(path, "");
     }
 
     gLucid_hamilton_67E8E0.DebugStr_4C58D0(path);
