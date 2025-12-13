@@ -289,7 +289,7 @@ s32 TrainStation_34::GetWagonType_577f80(u8 idx)
 MATCH_FUNC(0x577fd0)
 TrainStation_34::TrainStation_34()
 {
-    field_0_bus_or_train = 0;
+    field_0_station_type = 0;
     field_4_entry_point = NULL;
     field_8_exit_point = NULL;
     field_C_stop_point = NULL;
@@ -386,11 +386,28 @@ void PublicTransport_181C::sub_5793E0()
     }
 }
 
-STUB_FUNC(0x579440)
-gmp_map_zone* PublicTransport_181C::InitTrainStations_579440()
+MATCH_FUNC(0x579440)
+void PublicTransport_181C::InitTrainStations_579440()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (s32 station_idx = 0; station_idx < 100; station_idx++)
+    {
+        TrainStation_34* pStation = &field_0_stations[station_idx];
+        switch (pStation->field_0_station_type)
+        {
+            case 0:
+                break;
+            case 2:
+                pStation->field_4_entry_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 0);
+                pStation->field_8_exit_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 1);
+                pStation->field_C_stop_point = sub_577EE0((char_type*)&pStation->field_10_pZone->field_6_name, 2);
+                break;
+            case 1:
+                break;
+            default:
+                FatalError_4A38C0(0x3EE, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
+                break;
+        }
+    }
 }
 
 STUB_FUNC(0x5794b0)
@@ -408,7 +425,7 @@ TrainStation_34* PublicTransport_181C::GetBusStopOnScreen_5799B0()
         for (u16 station_idx = 0; station_idx < gStationCount_6FF1CC; station_idx++)
         {
             TrainStation_34* pStation = &field_0_stations[station_idx];
-            if (pStation->field_0_bus_or_train == 1)
+            if (pStation->field_0_station_type == 1)
             {
                 if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pStation->field_10_pZone->field_1_x, pStation->field_10_pZone->field_2_y))
                 {

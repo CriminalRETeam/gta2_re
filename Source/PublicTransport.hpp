@@ -57,7 +57,7 @@ class TrainStation_34
     // NOTE: This function defined out of order for some reason
     EXPORT void CalculateWagonCount_578820(u8* a2); //  Maybe 'a2' is the train wagon array of size 10 bytes
 
-    s32 field_0_bus_or_train;
+    s32 field_0_station_type;
     gmp_map_zone* field_4_entry_point;
     gmp_map_zone* field_8_exit_point;
     gmp_map_zone* field_C_stop_point;
@@ -91,7 +91,7 @@ class PublicTransport_181C
     EXPORT TrainStation_34* AllocateTrainStation_5787E0();
     EXPORT void SpawnTrainsFromStations_578860();
     EXPORT void sub_5793E0();
-    EXPORT gmp_map_zone* InitTrainStations_579440();
+    EXPORT void InitTrainStations_579440();
     EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
     EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
     EXPORT void sub_579A30(Car_BC* a2);
