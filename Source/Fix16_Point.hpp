@@ -49,6 +49,15 @@ struct Fix16_Point_POD
         return Fix16_Point_POD(x + in.x, y + in.y);
     }
 
+    Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point_POD& other)
+    {
+        x += other.x;
+        y += other.y;
+        return *this;
+    }
+
+    EXPORT Fix16_Point_POD Multiply_438FE0(Fix16& a1);
+
     Fix16_Point_POD()
     {
     }

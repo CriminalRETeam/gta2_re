@@ -13,6 +13,7 @@ class Ped;
 class ModelPhysics_48;
 class CarInfo_2C;
 class Car_78;
+struct Fix16_Point_POD;
 
 class CarPhysics_B0
 {
@@ -76,7 +77,7 @@ class CarPhysics_B0
     EXPORT s32 sub_55F800(s32* a2, s32* a3, s32 a4);
     EXPORT s32 sub_55F930(s32* a2);
     EXPORT __int64 sub_55F970(s32 a2);
-    EXPORT s32 sub_55F9A0(s32* a2);
+    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT s32 sub_55FA10(s32* a2);
     EXPORT u32* sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
     EXPORT Ped* sub_55FC30(s32* a2, s32 a3);
@@ -149,8 +150,7 @@ class CarPhysics_B0
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
-    s32 field_48;
-    s32 field_4C;
+    Fix16_Point_POD field_48;
     s32 field_50;
     s32 field_54;
     Ang16 field_58_theta;

@@ -270,12 +270,12 @@ u32* CarPhysics_B0::sub_55A6A0(u32* a2)
 MATCH_FUNC(0x55a840)
 void CarPhysics_B0::ResetForceAccumulators_55A840()
 {
-    this->field_48 = 0;
-    this->field_4C = 0;
-    this->field_50 = 0;
-    this->field_54 = 0;
-    this->field_7C = 0;
-    this->field_80 = 0;
+    field_48.x = 0;
+    field_48.y = 0;
+    field_50 = 0;
+    field_54 = 0;
+    field_7C = 0;
+    field_80 = 0;
 }
 
 STUB_FUNC(0x55a860)
@@ -516,11 +516,10 @@ __int64 CarPhysics_B0::sub_55F970(s32 a2)
     return 0;
 }
 
-STUB_FUNC(0x55f9a0)
-s32 CarPhysics_B0::sub_55F9A0(s32* a2)
+MATCH_FUNC(0x55f9a0)
+void CarPhysics_B0::ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_48 += pForce.Multiply_438FE0(CarPhysics_B0::CalculateMass_559FF0());
 }
 
 STUB_FUNC(0x55fa10)
