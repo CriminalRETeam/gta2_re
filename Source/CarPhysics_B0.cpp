@@ -1,5 +1,6 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
+#include "debug.hpp"
 #include "Globals.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
@@ -436,10 +437,23 @@ char_type CarPhysics_B0::sub_55DC00()
     return 0;
 }
 
-STUB_FUNC(0x55e260)
-void CarPhysics_B0::sub_55E260()
+MATCH_FUNC(0x55e260)
+void CarPhysics_B0::DoSkidmarks_55E260()
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_skidmarks_67D585)
+    {
+        CarPhysics_B0::sub_55DC00();
+        Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+        if (pTrailer)
+        {
+            CarPhysics_B0* pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+            pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+            pPhysics->field_84_front_skid = kFP16Zero_6FE20C;
+            pPhysics->field_88_rear_skid = kFP16Zero_6FE20C;
+            pPhysics->sub_55DC00();
+            CarPhysics_B0::SetCurrentCarInfoAndModelPhysics_562EF0();
+        }
+    }
 }
 
 STUB_FUNC(0x55e470)

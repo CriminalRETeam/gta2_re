@@ -64,7 +64,7 @@ class CarPhysics_B0
     EXPORT void sub_55CBB0(s32 a2, s32 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type sub_55DC00();
-    EXPORT void sub_55E260();
+    EXPORT void DoSkidmarks_55E260();
     EXPORT char_type sub_55E470();
     EXPORT char_type sub_55EB80();
     EXPORT s32 sub_55EC30();
