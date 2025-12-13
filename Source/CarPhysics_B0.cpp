@@ -137,12 +137,18 @@ s32* CarPhysics_B0::sub_559EC0(s32* a2)
     return 0;
 }
 
-// https://decomp.me/scratch/KYfsp
-STUB_FUNC(0x559ff0)
-u32* CarPhysics_B0::CalculateMass_559FF0(u32* a2)
+MATCH_FUNC(0x559ff0)
+Fix16 CarPhysics_B0::CalculateMass_559FF0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_5C_pCar->field_64_pTrailer)
+    {
+        return field_5C_pCar->field_64_pTrailer->field_8_truck_cab->get_mass_43A120() +
+            field_5C_pCar->field_64_pTrailer->field_C_pCarOnTrailer->get_mass_43A120();
+    }
+    else
+    {
+        return field_5C_pCar->get_mass_43A120();
+    }
 }
 
 STUB_FUNC(0x55a050)
