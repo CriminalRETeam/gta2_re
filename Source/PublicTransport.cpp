@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
+#include "error.hpp"
 #include "Game_0x40.hpp"
 #include "map_0x370.hpp"
 
@@ -44,6 +45,41 @@ bool __stdcall sub_577E90(char_type* pChar1, char_type* pChar2)
         }
     }
     return true;
+}
+
+MATCH_FUNC(0x577EE0)
+gmp_map_zone* __stdcall sub_577EE0(char_type* pChar, u8 case_value)
+{
+    u32 zone_type;
+
+    switch (case_value)
+    {
+        case 0:
+            zone_type = Railway_Station_Entry_Point_11;
+            break;
+        case 1:
+            zone_type = Railway_Station_Exit_Point_12;
+            break;
+        case 2:
+            zone_type = Railway_Station_Stop_Point_13;
+            break;
+        default:
+            FatalError_4A38C0(1006, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98); // invalid case
+            break;
+    }
+
+    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(zone_type);
+    dword_6FF158 = 6;
+    while (!sub_577E90((char_type*)&pZone->field_6_name, pChar))
+    {
+        pZone = gMap_0x370_6F6268->next_zone_4DF770();
+        if (!pZone)
+        {
+            return NULL;
+        }
+        dword_6FF158 = 6;
+    }
+    return pZone;
 }
 
 STUB_FUNC(0x578030)
