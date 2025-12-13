@@ -2,10 +2,12 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
+#include "Game_0x40.hpp"
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
+DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -282,11 +284,11 @@ Train_58* PublicTransport_181C::AllocateTrain_578790()
 MATCH_FUNC(0x5787e0)
 TrainStation_34* PublicTransport_181C::AllocateTrainStation_5787E0()
 {
-    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0_stations); i++)
     {
-        if (!this->field_0[i].field_14)
+        if (!this->field_0_stations[i].field_14)
         {
-            return &this->field_0[i];
+            return &this->field_0_stations[i];
         }
     }
     return 0;
@@ -343,11 +345,24 @@ gmp_map_zone* PublicTransport_181C::SetupTrainAndBusStops_5794B0()
     return 0;
 }
 
-STUB_FUNC(0x5799b0)
-char_type* PublicTransport_181C::sub_5799B0()
+MATCH_FUNC(0x5799b0)
+TrainStation_34* PublicTransport_181C::GetBusStopOnScreen_5799B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_buses_67D558)
+    {
+        for (u16 station_idx = 0; station_idx < gStationCount_6FF1CC; station_idx++)
+        {
+            TrainStation_34* pStation = &field_0_stations[station_idx];
+            if (pStation->field_0_bus_or_train == 1)
+            {
+                if (gGame_0x40_67E008->is_point_on_screen_4B9A80(pStation->field_10_pZone->field_1_x, pStation->field_10_pZone->field_2_y))
+                {
+                    return pStation;
+                }
+            }
+        }
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x579a30)
@@ -461,8 +476,8 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
 MATCH_FUNC(0x57b4b0)
 TrainStation_34* PublicTransport_181C::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
 {
-    TrainStation_34* pIter = &field_0[0];
-    for (u16 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    TrainStation_34* pIter = &field_0_stations[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_0_stations); i++)
     {
         if (pIter->field_10_pZone == pZone)
         {

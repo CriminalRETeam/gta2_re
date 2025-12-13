@@ -93,7 +93,7 @@ class PublicTransport_181C
     EXPORT void sub_5793E0();
     EXPORT gmp_map_zone* InitTrainStations_579440();
     EXPORT gmp_map_zone* SetupTrainAndBusStops_5794B0();
-    EXPORT char_type* sub_5799B0();
+    EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
     EXPORT void sub_579A30(Car_BC* a2);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
     EXPORT Car_BC* sub_579AD0();
@@ -112,7 +112,7 @@ class PublicTransport_181C
     EXPORT PublicTransport_181C();
     EXPORT ~PublicTransport_181C();
 
-    TrainStation_34 field_0[100];
+    TrainStation_34 field_0_stations[100];
     Train_58 field_1450_train_array[10];
     Train_58 field_17C0_bus;
     char_type field_1818_stop_getting_off_bus;
