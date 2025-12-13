@@ -119,7 +119,7 @@ class CarPhysics_B0
     EXPORT s32* UpdateCenterOfMassPoint_563350();
     EXPORT s32* sub_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
-    EXPORT void sub_563590(Sprite* a2);
+    EXPORT void SnapVelocityToSpriteDirection_563590(Sprite* a2);
     EXPORT void sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool IsNearlyStopped_5636E0();

@@ -862,10 +862,11 @@ void CarPhysics_B0::SetSprite_563560(Sprite* a2)
     UpdateCenterOfMassPoint_563350();
 }
 
-STUB_FUNC(0x563590)
-void CarPhysics_B0::sub_563590(Sprite* a2)
+MATCH_FUNC(0x563590)
+void CarPhysics_B0::SnapVelocityToSpriteDirection_563590(Sprite* pSprt)
 {
-    NOT_IMPLEMENTED;
+    field_40_linvel_1.sub_41E210(field_40_linvel_1.GetLength_2(), pSprt->field_0);
+    CarPhysics_B0::SetSprite_563560(pSprt);
 }
 
 MATCH_FUNC(0x563670)
