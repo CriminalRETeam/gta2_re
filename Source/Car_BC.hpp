@@ -27,6 +27,8 @@ class Ped_Unknown_4;
 class car_info;
 class infallible_turing;
 
+EXTERN_GLOBAL(Fix16, dword_6777D0);
+
 // TODO: Move
 class Car_78
 {
@@ -351,7 +353,7 @@ class Car_BC
     EXPORT wchar_t* GetCarStr_439F80();
     EXPORT u32* sub_439FB0(u32* a2);
     EXPORT Fix16_Point get_rear_wheel_offset_43A0E0();
-    EXPORT u32* get_mass_43A120(u32* a2);
+    EXPORT Fix16 get_mass_43A120();
     EXPORT Fix16 get_anti_strngth_43A1D0();
     EXPORT bool is_bus_43A1F0();
     EXPORT bool sub_43A230();
@@ -773,6 +775,25 @@ class Car_BC
     bool is_FBI_car_411920()
     {
         return field_84_car_info_idx == car_model_enum::EDSELFBI;
+    }
+
+    bool sub_4215C0()
+    {
+        return field_54_driver 
+            && field_54_driver->field_15C_player 
+            && field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty;
+    }
+
+    Fix16 sub_421910(Fix16 value)
+    {
+        if (field_68 != dword_6777D0)
+        {
+            return value * field_68;
+        }
+        else
+        {
+            return value;
+        }
     }
 
     struct_4 field_0_qq;

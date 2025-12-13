@@ -68,6 +68,7 @@ DEFINE_GLOBAL(Fix16, dword_6F77D4, 0x6F77D4);
 DEFINE_GLOBAL(Ang16, dword_6F804C, 0x6F804C);
 DEFINE_GLOBAL(Ang16, word_6F771E, 0x6F771E);
 DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6777A0, Fix16(0x333, 0), 0x6777A0);
 
 DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
 
@@ -761,11 +762,19 @@ Fix16_Point Car_BC::get_rear_wheel_offset_43A0E0()
     return Fix16_Point(Fix16(0), pInfo->field_8_rear_wheel_offset);
 }
 
-STUB_FUNC(0x43a120)
-u32* Car_BC::get_mass_43A120(u32* a2)
+MATCH_FUNC(0x43a120)
+Fix16 Car_BC::get_mass_43A120()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    ModelPhysics_48* pCarInfo = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(field_84_car_info_idx);
+
+    if (sub_4215C0())
+    {
+        return sub_421910(pCarInfo->field_4_mass) * (dword_6777D0 + dword_6777A0);
+    }
+    else
+    {
+        return sub_421910(pCarInfo->field_4_mass);
+    }
 }
 
 MATCH_FUNC(0x43a1d0)
