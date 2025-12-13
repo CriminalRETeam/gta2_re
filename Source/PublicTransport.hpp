@@ -122,3 +122,5 @@ class PublicTransport_181C
 };
 
 EXTERN_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4);
+
+EXPORT bool __stdcall sub_577E90(char_type* pChar1, char_type* pChar2);

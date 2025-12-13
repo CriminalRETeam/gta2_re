@@ -9,6 +9,7 @@ DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
+DEFINE_GLOBAL(u8, dword_6FF158, 0x6FF158);
 Fix16 dword_6FEEE0 = Fix16(0x1333, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
 Fix16 dword_6FEED4 = Fix16(0x666, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
 Fix16 dword_6FEEDC = Fix16(0xCCC, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
@@ -30,6 +31,19 @@ char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
         default:
             return '\x01';
     }
+}
+
+MATCH_FUNC(0x577E90)
+bool __stdcall sub_577E90(char_type* pChar1, char_type* pChar2)
+{
+    for (u8 i = 0; i < dword_6FF158; i++)
+    {
+        if (pChar1[i] != pChar2[i])
+        {
+            return false;
+        }
+    }
+    return true;
 }
 
 STUB_FUNC(0x578030)
