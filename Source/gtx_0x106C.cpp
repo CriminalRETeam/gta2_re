@@ -512,12 +512,22 @@ sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
     return &field_20_sprite_index[idx];
 }
 
-STUB_FUNC(0x5AABF0)
+// https://decomp.me/scratch/vwSG1 TODO: fix this hack
+MATCH_FUNC(0x5AABF0)
 void gtx_0x106C::sub_5AABF0()
 {
-    NOT_IMPLEMENTED;
-    // TODO
-    UNIQUE_FUNC;
+    s32 size;
+    delta_entry* i = (delta_entry*)field_50_delta_buffer;
+
+    for (u32 v1 = 0; v1 < field_60_delta_len; v1 += size)
+    {
+        for (u32 v3 = 0; v3 < i->field_2_delta_count; v3++)
+        {
+            *(u32*)&i->field_4_delta[4 * v3] += *(u32*)&field_48_delta_store; // TODO: fix me
+        }
+        size = 8 * (u8)i->field_2_delta_count + 4;
+        i = (delta_entry*)((char_type*)i + size);
+    }
 }
 
 MATCH_FUNC(0x5AAC40)
