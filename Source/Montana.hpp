@@ -8,7 +8,7 @@ class Sprite;
 class Montana_C
 {
   public:
-    Sprite* field_0;
+    Sprite* field_0_sprt;
     Montana_C* mpNext;
     Montana_C* field_8;
 };
@@ -59,6 +59,21 @@ class Montana_FA4
 class Montana_2EE4
 {
   public:
+
+    inline Montana_C* sub_4C4B40()
+    {
+        if (field_2EE0_free_indx >= 1000)
+        {
+            return NULL;
+        }
+        else
+        {
+            Montana_C* pReturn = &field_0[field_2EE0_free_indx];
+            field_2EE0_free_indx++;
+            return pReturn;
+        }
+    }
+
     EXPORT Montana_2EE4();
     EXPORT ~Montana_2EE4();
     Montana_C field_0[1000];
