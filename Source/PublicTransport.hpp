@@ -4,7 +4,7 @@
 
 class Car_BC;
 class gmp_map_zone;
-
+class Fix16;
 
 class Train_58
 {
@@ -39,7 +39,7 @@ class Train_58
     char_type field_47;
     s32 field_48;
     s32 field_4C;
-    s32 field_50;
+    s32 field_50_state;
     char_type field_54;
     char_type field_55;
     char_type field_56_passenger_count;
@@ -101,7 +101,7 @@ class PublicTransport_181C
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car_BC** GetCarArrayFromLeadCar_579B40(Car_BC* toFind);
-    EXPORT bool sub_579B90(Car_BC* a2, u32* a3);
+    EXPORT bool sub_579B90(Car_BC* pToFind, Fix16* pF16Unk);
     EXPORT void BusesService_579CA0();
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation_34* TrainStationForZone_57B4B0(gmp_map_zone* pZone);

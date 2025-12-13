@@ -9,6 +9,10 @@ DEFINE_GLOBAL(PublicTransport_181C*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, dword_6FEE68, 0x6FEE68);
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FF078, 0, 0x6FF078);
+Fix16 dword_6FEEE0 = Fix16(0x1333, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
+Fix16 dword_6FEED4 = Fix16(0x666, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEED4, Fix16(0x666, 0), 0x6FEED4);
+Fix16 dword_6FEEDC = Fix16(0xCCC, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
+Fix16 dword_6FEEE4 = Fix16(0x1999, 0);//DEFINE_GLOBAL_INIT(Fix16, dword_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
 char __stdcall sub_577E20(int param_1, gmp_block_info* param_2)
@@ -39,23 +43,23 @@ void Train_58::sub_578180()
 {
     if (!bSkip_trains_67D550)
     {
-        switch (this->field_50)
+        switch (this->field_50_state)
         {
             case 0:
-                this->field_50 = 1;
+                this->field_50_state = 1;
                 break;
             case 1:
                 sub_578030();
-                this->field_50 = 2;
+                this->field_50_state = 2;
                 break;
             case 2:
-                this->field_50 = 3;
+                this->field_50_state = 3;
                 break;
             case 3:
-                this->field_50 = 4;
+                this->field_50_state = 4;
                 break;
             case 4:
-                this->field_50 = 5;
+                this->field_50_state = 5;
                 break;
             default:
                 return;
@@ -68,23 +72,23 @@ void Train_58::sub_5781F0()
 {
     if (!bSkip_trains_67D550)
     {
-        switch (this->field_50)
+        switch (this->field_50_state)
         {
             case 1:
-                this->field_50 = 0;
+                this->field_50_state = 0;
                 break;
             case 2:
                 sub_578030();
-                this->field_50 = 1;
+                this->field_50_state = 1;
                 break;
             case 3:
-                this->field_50 = 2;
+                this->field_50_state = 2;
                 break;
             case 4:
-                this->field_50 = 3;
+                this->field_50_state = 3;
                 break;
             case 5:
-                this->field_50 = 4;
+                this->field_50_state = 4;
                 break;
             default:
                 return;
@@ -107,7 +111,7 @@ Train_58::Train_58()
     field_0 = 0;
     field_2 = 0;
     field_48 = 0;
-    field_50 = 2;
+    field_50_state = 2;
     field_54 = 0;
     field_55 = 0;
     field_56_passenger_count = 0;
@@ -142,11 +146,11 @@ void Train_58::sub_5782D0()
     {
         if (this->field_C_first_carriage->field_54_driver)
         {
-            this->field_50 = 3;
+            this->field_50_state = 3;
         }
         else
         {
-            this->field_50 = 2;
+            this->field_50_state = 2;
         }
     }
 }
@@ -156,12 +160,12 @@ void Train_58::sub_578300()
 {
     if (!bSkip_trains_67D550)
     {
-        if (this->field_50 < 2)
+        if (this->field_50_state < 2)
         {
             this->field_1 = 1;
             sub_578030();
         }
-        this->field_50 = 2;
+        this->field_50_state = 2;
     }
 }
 
@@ -477,11 +481,60 @@ Car_BC** PublicTransport_181C::GetCarArrayFromLeadCar_579B40(Car_BC* toFind)
     return NULL;
 }
 
-STUB_FUNC(0x579b90)
-bool PublicTransport_181C::sub_579B90(Car_BC* a2, u32* a3)
+MATCH_FUNC(0x579b90)
+bool PublicTransport_181C::sub_579B90(Car_BC* pToFind, Fix16* pF16Unk)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (!bSkip_trains_67D550)
+    {
+        for (u8 i = 0; i < 10; i++)
+        {
+            Train_58* pTrain = &field_1450_train_array[i];
+            Car_BC* pCar = pTrain->field_C_first_carriage;
+            if (pCar == pToFind)
+            {
+                if (pCar->field_9C != 3)
+                {
+                    *pF16Unk = dword_6FF078;
+                    if (pTrain->field_50_state != 0 && pTrain->field_50_state != 1)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+
+                switch (pTrain->field_50_state)
+                {
+                    case 0:
+                        *pF16Unk = dword_6FEEE0;
+                        return false;
+                        break;
+                    case 1:
+                        *pF16Unk = dword_6FEED4;
+                        return false;
+                        break;
+                    case 2:
+                        *pF16Unk = dword_6FF078;
+                        return true;
+                        break;
+                    case 3:
+                        *pF16Unk = dword_6FEED4;
+                        return true;
+                        break;
+                    case 4:
+                        *pF16Unk = dword_6FEEDC;
+                        return true;
+                        break;
+                    case 5:
+                        *pF16Unk = dword_6FEEE4;
+                        return true;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x579ca0)
