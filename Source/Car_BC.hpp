@@ -796,6 +796,21 @@ class Car_BC
         }
     }
 
+    Fix16 get_x_41E430()
+    {
+        return field_50_car_sprite->field_14_xpos.x;
+    }
+
+    Fix16 get_y_41E440()
+    {
+        return field_50_car_sprite->field_14_xpos.y;
+    }
+    
+    Fix16 get_z_41E450()
+    {
+        return field_50_car_sprite->field_1C_zpos;
+    }
+
     struct_4 field_0_qq;
     Ped_Unknown_4 field_4;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
