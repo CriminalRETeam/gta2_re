@@ -152,7 +152,7 @@ void Weapon_30::sub_5DCF40()
     Player* pPlayer = this->field_24_pPed->field_15C_player;
     if (pPlayer)
     {
-        if (pPlayer->field_6F4[8]) // Fast reload?
+        if (pPlayer->field_6F4_power_up_timers[8]) // Fast reload?
         {
             this->field_2_reload_speed /= 2;
         }

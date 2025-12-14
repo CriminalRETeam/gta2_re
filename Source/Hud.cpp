@@ -375,7 +375,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     s32 v2 = 639;
     for (s32 i = 0; i < 17; i++)
     {
-        u16 unknown = pPlayer->field_6F4[i];
+        u16 unknown = pPlayer->field_6F4_power_up_timers[i];
         if (unknown)
         {
             v2 = sub_5D61A0(i, v2, unknown);

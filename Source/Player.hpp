@@ -276,7 +276,7 @@ class Player
     u16 field_682;
     thirsty_lamarr field_684_lives;
     thirsty_lamarr field_6BC_multpliers;
-    u16 field_6F4[17];
+    u16 field_6F4_power_up_timers[17];
     s16 field_716;
     Weapon_30* field_718_weapons[28];
     s16 field_788_curr_weapon_idx;
