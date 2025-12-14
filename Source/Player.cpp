@@ -1929,10 +1929,30 @@ void Player::sub_569CB0()
     }
 }
 
-STUB_FUNC(0x569E70)
+MATCH_FUNC(0x569E70)
 void Player::sub_569E70()
 {
-    NOT_IMPLEMENTED;
+    if (sub_4A5100())
+    {
+        if (field_68 == 2)
+        {
+            Player::sub_569F40();
+        }
+        Player::sub_5695A0();
+    }
+    else if (!field_2D0)
+    {
+        Fix16 zpos;
+        Fix16 ypos;
+        Fix16 xpos;
+        Player::get_pos_569920(&xpos, &ypos, &zpos);
+        Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
+        if (pCar)
+        {
+            Player::sub_569F40();
+            Player::sub_569600(pCar);
+        }
+    }
 }
 
 MATCH_FUNC(0x569F00)
