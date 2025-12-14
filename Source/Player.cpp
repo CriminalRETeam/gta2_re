@@ -1695,11 +1695,26 @@ void Player::sub_5695A0()
     }
 }
 
-STUB_FUNC(0x569600)
-char_type Player::sub_569600(Car_BC* a2)
+MATCH_FUNC(0x569600)
+void Player::sub_569600(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    field_2C8_unkq = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+    field_2C8_unkq->field_238 = 2;
+    field_2C8_unkq->field_240_occupation = ped_ocupation_enum::empty;
+    field_2C8_unkq->sub_45B560(this, 1);
+    field_2C8_unkq->sub_45C4B0();
+    pCar->sub_4406E0(field_2C8_unkq);
+    if (pCar->field_98 != 4)
+    {
+        pCar->field_98 = 1;
+    }
+    field_68 = 2;
+    field_208_aux_game_camera.sub_436540(field_2C8_unkq);
+    field_208_aux_game_camera.sub_41E410();
+    field_208_aux_game_camera.sub_435DD0();
+    field_2D0 = 1;
+    Player::sub_564C00();
+    Player::sub_564AD0(pCar);
 }
 
 STUB_FUNC(0x5696D0)
