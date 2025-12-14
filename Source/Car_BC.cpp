@@ -71,6 +71,11 @@ DEFINE_GLOBAL(Ang16, word_67791C, 0x67791C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6777A0, Fix16(0x333, 0), 0x6777A0);
 
 DEFINE_GLOBAL(Fix16_Point, stru_6778A8, 0x6778A8);
+DEFINE_GLOBAL(Fix16, dword_677C38, 0x677C38);
+DEFINE_GLOBAL(Fix16, dword_677C30, 0x677C30);
+DEFINE_GLOBAL(Fix16, dword_677C48, 0x677C48);
+DEFINE_GLOBAL(Fix16, dword_677B94, 0x677B94);
+DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -104,11 +109,25 @@ void Car_78::sub_447970()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x447ca0)
-char_type Car_78::GoToBlock_447CA0(u8 a2, u8 a3, u8 a4, s32 a5)
+MATCH_FUNC(0x447ca0)
+bool Car_78::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_28_junc_idx = gRouteFinder_6FFDC8->StartRoute_58A190(dword_677C38.ToInt(),
+                                                               dword_677C30.ToInt(),
+                                                               (dword_677C48 - dword_677B94).ToInt(),
+                                                               x,
+                                                               y,
+                                                               z,
+                                                               maybe_direction);
+    if (field_28_junc_idx > 0)
+    {
+        field_0->field_60->field_14_target_x = Fix16(x);
+        field_0->field_60->field_18_target_y = Fix16(y);
+        field_0->field_60->field_1C_target_z = dword_6779F8;
+        field_56 = 0;
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x447d40)

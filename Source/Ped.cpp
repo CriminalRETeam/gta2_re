@@ -429,8 +429,8 @@ void Ped::SetInvulnerable()
 MATCH_FUNC(0x45c050)
 void Ped::sub_45C050()
 {
-    this->field_208_invulnerability = 0;
-    Char_B4* pB4 = this->field_168_game_object;
+    field_208_invulnerability = 0;
+    Char_B4* pB4 = field_168_game_object;
     if (pB4)
     {
         pB4->field_80_sprite_ptr->field_2C &= ~4u;

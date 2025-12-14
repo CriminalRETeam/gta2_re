@@ -36,7 +36,7 @@ class Car_78
     EXPORT void sub_4476F0();
     EXPORT char_type sub_447710();
     EXPORT void sub_447970();
-    EXPORT char_type GoToBlock_447CA0(u8 a2, u8 a3, u8 a4, s32 a5);
+    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_447D40(s32 a2);
     EXPORT char_type sub_448270();
     EXPORT char_type sub_4482C0();
@@ -794,6 +794,21 @@ class Car_BC
         {
             return value;
         }
+    }
+
+    Fix16 get_x_41E430()
+    {
+        return field_50_car_sprite->field_14_xpos.x;
+    }
+
+    Fix16 get_y_41E440()
+    {
+        return field_50_car_sprite->field_14_xpos.y;
+    }
+    
+    Fix16 get_z_41E450()
+    {
+        return field_50_car_sprite->field_1C_zpos;
     }
 
     struct_4 field_0_qq;

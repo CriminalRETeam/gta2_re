@@ -19,6 +19,7 @@
 #include "infallible_turing.hpp"
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
+#include "PedGroup.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
@@ -262,7 +263,7 @@ void Player::RemovePlayerWeapons_564C50()
 MATCH_FUNC(0x564CC0)
 void Player::sub_564CC0()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4_power_up_timers); i++)
     {
         if (i == 11 && gCheatInvisibility_67D539)
         {
@@ -274,23 +275,23 @@ void Player::sub_564CC0()
             continue;
         }
 
-        field_6F4[i] = 0;
+        field_6F4_power_up_timers[i] = 0;
     }
 }
 
 MATCH_FUNC(0x564CF0)
 void Player::sub_564CF0()
 {
-    u16 v2 = this->field_6F4[4];
-    if (this->field_6F4[6])
+    u16 v2 = field_6F4_power_up_timers[JailCard_4];
+    if (field_6F4_power_up_timers[Invulnerability_6])
     {
         field_2C4_player_ped->sub_45C050();
     }
-    if (this->field_6F4[9])
+    if (field_6F4_power_up_timers[Unk_9])
     {
-        this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+        field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
     }
-    if (this->field_6F4[11])
+    if (field_6F4_power_up_timers[Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
@@ -298,7 +299,7 @@ void Player::sub_564CF0()
         }
     }
     sub_564CC0();
-    this->field_6F4[4] = v2;
+    field_6F4_power_up_timers[JailCard_4] = v2;
 }
 
 STUB_FUNC(0x564D60)
@@ -312,46 +313,45 @@ MATCH_FUNC(0x565070)
 void Player::tick_down_powerups_565070()
 {
     // invulnerability
-    this->field_6F4[6];
-    if (field_6F4[6])
+    if (field_6F4_power_up_timers[Invulnerability_6])
     {
-        this->field_6F4[6]--;
-        if (!field_6F4[6])
+        field_6F4_power_up_timers[Invulnerability_6]--;
+        if (!field_6F4_power_up_timers[Invulnerability_6])
         {
             field_2C4_player_ped->sub_45C050();
         }
     }
 
     // double damage
-    if (this->field_6F4[7])
+    if (field_6F4_power_up_timers[DoubleDamage_7])
     {
         if (!gCheatUnlimitedDoubleDamage_67D57C)
         {
-            this->field_6F4[7]--;
+            field_6F4_power_up_timers[DoubleDamage_7]--;
         }
     }
 
-    if (this->field_6F4[8])
+    if (field_6F4_power_up_timers[FastReload_8])
     {
-        this->field_6F4[8]--;
+        field_6F4_power_up_timers[FastReload_8]--;
     }
 
-    if (field_6F4[9])
+    if (field_6F4_power_up_timers[Unk_9])
     {
-        this->field_6F4[9]--;
-        if (!field_6F4[9])
+        field_6F4_power_up_timers[Unk_9]--;
+        if (!field_6F4_power_up_timers[Unk_9])
         {
-            this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+            field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
         }
     }
 
     // invisiblity
-    if (this->field_6F4[11])
+    if (field_6F4_power_up_timers[Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
-            this->field_6F4[11]--;
-            if (!this->field_6F4[11])
+            field_6F4_power_up_timers[Invisibility_11]--;
+            if (!field_6F4_power_up_timers[Invisibility_11])
             {
                 field_2C4_player_ped->SetVisible();
             }
@@ -1314,10 +1314,120 @@ void Player::sub_567850()
     }
 }
 
-STUB_FUNC(0x5679E0)
+MATCH_FUNC(0x5679E0)
 void Player::Busted_5679E0()
 {
-    NOT_IMPLEMENTED;
+    field_29 = 0;
+    field_2C4_player_ped->field_21C_bf.b11 = 0;
+    if (!field_28)
+    {
+        gRoot_sound_66B038.PlayVoice_40F090(17);
+        field_44_death_type = 3;
+        if (field_0)
+        {
+            gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
+        }
+        field_44_death_type = 0;
+        field_28 = 1;
+        field_2C = 70;
+        if (field_2D0)
+        {
+            Player::sub_5695A0();
+        }
+        if (field_2C4_player_ped->field_164_ped_group)
+        {
+            field_2C4_player_ped->field_164_ped_group->DestroyGroup_4C93A0();
+        }
+        field_2C8_unkq = gPedManager_6787BC->sub_470F90(field_2C4_player_ped);
+        field_2C8_unkq->field_170_selected_weapon = 0;
+        field_2C8_unkq->field_200_id = 0;
+        field_2C8_unkq->field_21C_bf.b11 = 0;
+        field_2C8_unkq->field_267_varrok_idx = 0;
+        gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_unkq);
+        field_68 = 2;
+        memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));
+        field_2D0 = 1;
+        Player::RespawnPlayer_5670B0();
+        field_2C4_player_ped->field_210 = 0;
+        field_2C4_player_ped->field_20A_wanted_points = 0;
+        field_2C4_player_ped->field_21C_bf.b5 = 0;
+    }
+    else
+    {
+        --field_2C;
+        field_2C8_unkq->field_21C_bf.b11 = 0;
+
+        if (!field_2C)
+        {
+            if (field_684_lives.field_0 <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
+            {
+                gGame_0x40_67E008->sub_4B8C00(0, 3);
+            }
+            else
+            {
+                gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
+                Player::ClearKFWeapon_5647D0();
+                u16 power_up_timer = field_6F4_power_up_timers[JailCard_4];
+                if (power_up_timer != 0)
+                {
+                    if (!gCheatUnknown_67D4F6)
+                    {
+                        field_6F4_power_up_timers[JailCard_4] = power_up_timer - 1;
+                    }
+                }
+                else
+                {
+                    if (!bKeep_weapons_after_death_67D54D)
+                    {
+                        Player::sub_564C00();
+                        Player::RemovePlayerWeapons_564C50();
+                        Player::sub_564CF0();
+                    }
+                    s32 multiplers = field_6BC_multpliers.field_0 / 2;
+                    if (multiplers == 0)
+                    {
+                        multiplers = 1;
+                    }
+                    if (multiplers < -field_6BC_multpliers.field_30)
+                    {
+                        field_6BC_multpliers.field_0 = -field_6BC_multpliers.field_30;
+                    }
+                    else
+                    {
+                        if (multiplers > field_6BC_multpliers.field_30)
+                        {
+                            field_6BC_multpliers.field_0 = field_6BC_multpliers.field_30;
+                        }
+                        else
+                        {
+                            field_6BC_multpliers.field_0 = multiplers;
+                        }
+                    }
+                }
+                field_68 = 0;
+                field_90_game_camera.sub_435DD0();
+                field_90_game_camera.inline_set_ped_id_to_1_475B60();
+                field_2C8_unkq->field_210 = 0;
+                field_2C8_unkq->field_210 = 0;
+                field_2C8_unkq->field_20A_wanted_points = 0;
+                field_2C8_unkq->Deallocate_45EB60();
+                field_2C8_unkq = 0;
+                field_2D0 = 0;
+                field_640_busted = false;
+                field_28 = 0;
+            }
+        }
+        else
+        {
+            if (field_2C == 2 && field_684_lives.field_0 > 0 && gLucid_hamilton_67E8E0.sub_4C59A0() != 1)
+            {
+                field_2C4_player_ped->field_210 = 0;
+                field_2C4_player_ped->field_20A_wanted_points = 0;
+                field_2C4_player_ped->SetObjective(objectives_enum::destroy_car_54, 60);
+                field_2C4_player_ped->field_150_target_objective_car = 0;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x568520)
@@ -1695,11 +1805,26 @@ void Player::sub_5695A0()
     }
 }
 
-STUB_FUNC(0x569600)
-char_type Player::sub_569600(Car_BC* a2)
+MATCH_FUNC(0x569600)
+void Player::sub_569600(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    field_2C8_unkq = gPedManager_6787BC->SpawnDriver_470B00(pCar);
+    field_2C8_unkq->field_238 = 2;
+    field_2C8_unkq->field_240_occupation = ped_ocupation_enum::empty;
+    field_2C8_unkq->sub_45B560(this, 1);
+    field_2C8_unkq->sub_45C4B0();
+    pCar->sub_4406E0(field_2C8_unkq);
+    if (pCar->field_98 != 4)
+    {
+        pCar->field_98 = 1;
+    }
+    field_68 = 2;
+    field_208_aux_game_camera.sub_436540(field_2C8_unkq);
+    field_208_aux_game_camera.sub_41E410();
+    field_208_aux_game_camera.sub_435DD0();
+    field_2D0 = 1;
+    Player::sub_564C00();
+    Player::sub_564AD0(pCar);
 }
 
 STUB_FUNC(0x5696D0)
@@ -1914,10 +2039,30 @@ void Player::sub_569CB0()
     }
 }
 
-STUB_FUNC(0x569E70)
+MATCH_FUNC(0x569E70)
 void Player::sub_569E70()
 {
-    NOT_IMPLEMENTED;
+    if (sub_4A5100())
+    {
+        if (field_68 == 2)
+        {
+            Player::sub_569F40();
+        }
+        Player::sub_5695A0();
+    }
+    else if (!field_2D0)
+    {
+        Fix16 zpos;
+        Fix16 ypos;
+        Fix16 xpos;
+        Player::get_pos_569920(&xpos, &ypos, &zpos);
+        Car_BC* pCar = gCar_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
+        if (pCar)
+        {
+            Player::sub_569F40();
+            Player::sub_569600(pCar);
+        }
+    }
 }
 
 MATCH_FUNC(0x569F00)

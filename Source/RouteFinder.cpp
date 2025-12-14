@@ -614,9 +614,9 @@ s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* a4, s32 a5, s32 a6)
 }
 
 MATCH_FUNC(0x58a190)
-void RouteFinder::StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 a8)
+u16 RouteFinder::StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 a8)
 {
-    DoStartRoute_58A0D0(x1, y1, z1, x2, y2, z2, a8);
+    return DoStartRoute_58A0D0(x1, y1, z1, x2, y2, z2, a8);
 }
 
 MATCH_FUNC(0x58a1c0)

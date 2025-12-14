@@ -53,7 +53,7 @@ class Camera_0xBC
     EXPORT void sub_436120(Fix16 a2);
     EXPORT void sub_436140();
     EXPORT void sub_4361B0(u32 a2, u32 a3);
-    EXPORT s32 sub_436200(s32 a2, s32* a3, s32* a4, s32* a5);
+    EXPORT s32 sub_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5);
     EXPORT void sub_4364A0(Car_BC* pCar);
     EXPORT void sub_436540(Ped* a2);
     EXPORT void HandlePanning_436710(char_type a2, char_type a3, char_type a4, char_type a5);
@@ -125,6 +125,14 @@ class Camera_0xBC
         return field_34_ped || field_38_car;
     }
 
+    inline void SetCamera_41E3D0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 zoom)
+    {
+        field_10_cam_pos_tgt2.field_0_x = xpos;
+        field_10_cam_pos_tgt2.field_4_y = ypos;
+        field_10_cam_pos_tgt2.field_8_z = zpos + field_40_tgt_elevation;
+        field_10_cam_pos_tgt2.field_C_zoom = zoom;
+    }
+
     CameraPos field_0_cam_pos_tgt1;
     CameraPos field_10_cam_pos_tgt2;
     WorldRect field_20_boundaries;
@@ -157,3 +165,5 @@ class Camera_0xBC
 GTA2_ASSERT_SIZEOF_ALWAYS(Camera_0xBC, 0xBC)
 
 EXTERN_GLOBAL(Camera_0xBC*, gViewCamera_676978);
+
+extern inline Fix16 sub_41E130(Fix16 a1, Fix16 a2);

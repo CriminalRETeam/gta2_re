@@ -38,6 +38,18 @@ DEFINE_GLOBAL_INIT(Fix16, dword_67668C, Fix16(0x3FFFFF, 0), 0x67668C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6768E0, Fix16(0x3000, 0), 0x6768E0);
 DEFINE_GLOBAL_INIT(Fix16, dword_67691C, dword_6768E0, 0x67691C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6766F4, Fix16(0x3000, 0), 0x6766F4);
+DEFINE_GLOBAL_INIT(Fix16, dword_676820, Fix16(2), 0x676820);
+DEFINE_GLOBAL_INIT(Fix16, dword_6767B4, Fix16(0xE333, 0), 0x6767B4);
+
+// TODO: move
+static inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
+{
+    if (a1 > a2)
+    {
+        return a1;
+    }
+    return a2;
+}
 
 MATCH_FUNC(0x4355D0)
 bool Camera_0xBC::sub_4355D0(Sprite* pSprite)
@@ -414,7 +426,7 @@ void Camera_0xBC::sub_4361B0(u32 x_pos, u32 y_pos)
 }
 
 STUB_FUNC(0x436200)
-s32 Camera_0xBC::sub_436200(s32 a2, s32* a3, s32* a4, s32* a5)
+s32 Camera_0xBC::sub_436200(Car_BC* a2, Fix16* a3, Fix16* a4, Fix16* a5)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -426,10 +438,53 @@ void Camera_0xBC::sub_4364A0(Car_BC* pCar)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x436540)
-void Camera_0xBC::sub_436540(Ped* a2)
+MATCH_FUNC(0x436540)
+void Camera_0xBC::sub_436540(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    Car_BC* pCar_2;
+    Fix16 a5;
+
+    field_38_car = NULL;
+    field_34_ped = pPed;
+    if (pPed != NULL)
+    {
+        Fix16 xpos;
+        Fix16 ypos;
+        Fix16 zpos;
+        Car_BC* pCar = pPed->field_16C_car;
+        if (pCar || (pCar_2 = pPed->sub_45BBF0(), pCar_2 == 0))
+        {
+            xpos = pPed->get_cam_x();
+            ypos = pPed->get_cam_y();
+            zpos = pPed->get_cam_z() - dword_676820;
+            if (zpos <= dword_67681C)
+            {
+                zpos = dword_67681C;
+            }
+            a5 = zpos;
+            if (pCar)
+            {
+                Camera_0xBC::sub_435F90(pCar);
+                Camera_0xBC::sub_436200(pCar, &xpos, &ypos, &a5);
+            }
+        }
+        else
+        {
+            xpos = pCar_2->get_x_41E430();
+            ypos = pCar_2->get_y_41E440();
+            zpos = sub_41E130(pCar_2->get_z_41E450() - dword_676820, dword_67681C);
+            a5 = zpos;
+            Camera_0xBC::sub_435F90(pCar_2);
+            Camera_0xBC::sub_436200(pCar_2, &xpos, &ypos, &a5);
+        }
+        Fix16 v10 = dword_6767B4;
+        if (pPed->get_ped_state1() != 9)
+        {
+            v10 = dword_6766D4;
+        }
+        Camera_0xBC::sub_436860(pPed, xpos, ypos, a5);
+        SetCamera_41E3D0(xpos, ypos, a5, v10);
+    }
 }
 
 MATCH_FUNC(0x436710)

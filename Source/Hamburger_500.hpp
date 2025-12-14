@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "fix16.hpp"
 
 class Ped;
 
@@ -22,9 +23,9 @@ class Hamburger_40
     char_type field_11;
     char_type field_12;
     char_type field_13;
-    s32 field_14_target_x;
-    s32 field_18_target_y;
-    s32 field_1C_target_z;
+    Fix16 field_14_target_x;
+    Fix16 field_18_target_y;
+    Fix16 field_1C_target_z;
     char_type field_20;
     char_type field_21;
     char_type field_22;

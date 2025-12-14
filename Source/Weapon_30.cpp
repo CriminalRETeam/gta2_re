@@ -124,7 +124,7 @@ MATCH_FUNC(0x5dcef0)
 bool Weapon_30::sub_5DCEF0()
 {
     bool result;
-    switch (this->field_1C_idx)
+    switch (field_1C_idx)
     {
         case weapon_type::car_bomb:
         case weapon_type::oil_stain:
@@ -140,7 +140,7 @@ bool Weapon_30::sub_5DCEF0()
             result = 1;
             break;
         default:
-            result = this->field_24_pPed->field_16C_car == 0;
+            result = field_24_pPed->field_16C_car == 0;
             break;
     }
     return result;
@@ -149,12 +149,12 @@ bool Weapon_30::sub_5DCEF0()
 MATCH_FUNC(0x5dcf40)
 void Weapon_30::sub_5DCF40()
 {
-    Player* pPlayer = this->field_24_pPed->field_15C_player;
+    Player* pPlayer = field_24_pPed->field_15C_player;
     if (pPlayer)
     {
-        if (pPlayer->field_6F4[8]) // Fast reload?
+        if (pPlayer->field_6F4_power_up_timers[FastReload_8]) // Fast reload?
         {
-            this->field_2_reload_speed /= 2;
+            field_2_reload_speed /= 2;
         }
     }
 }
