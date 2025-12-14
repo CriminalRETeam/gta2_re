@@ -282,16 +282,16 @@ void Player::sub_564CC0()
 MATCH_FUNC(0x564CF0)
 void Player::sub_564CF0()
 {
-    u16 v2 = this->field_6F4_power_up_timers[4];
-    if (this->field_6F4_power_up_timers[6])
+    u16 v2 = field_6F4_power_up_timers[Unk_4];
+    if (field_6F4_power_up_timers[Invulnerability_6])
     {
         field_2C4_player_ped->sub_45C050();
     }
-    if (this->field_6F4_power_up_timers[9])
+    if (field_6F4_power_up_timers[Unk_9])
     {
-        this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+        field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
     }
-    if (this->field_6F4_power_up_timers[11])
+    if (field_6F4_power_up_timers[Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
@@ -299,7 +299,7 @@ void Player::sub_564CF0()
         }
     }
     sub_564CC0();
-    this->field_6F4_power_up_timers[4] = v2;
+    field_6F4_power_up_timers[Unk_4] = v2;
 }
 
 STUB_FUNC(0x564D60)
@@ -313,46 +313,45 @@ MATCH_FUNC(0x565070)
 void Player::tick_down_powerups_565070()
 {
     // invulnerability
-    this->field_6F4_power_up_timers[6];
-    if (field_6F4_power_up_timers[6])
+    if (field_6F4_power_up_timers[Invulnerability_6])
     {
-        this->field_6F4_power_up_timers[6]--;
-        if (!field_6F4_power_up_timers[6])
+        field_6F4_power_up_timers[Invulnerability_6]--;
+        if (!field_6F4_power_up_timers[Invulnerability_6])
         {
             field_2C4_player_ped->sub_45C050();
         }
     }
 
     // double damage
-    if (this->field_6F4_power_up_timers[7])
+    if (field_6F4_power_up_timers[DoubleDamage_7])
     {
         if (!gCheatUnlimitedDoubleDamage_67D57C)
         {
-            this->field_6F4_power_up_timers[7]--;
+            field_6F4_power_up_timers[DoubleDamage_7]--;
         }
     }
 
-    if (this->field_6F4_power_up_timers[8])
+    if (field_6F4_power_up_timers[FastReload_8])
     {
-        this->field_6F4_power_up_timers[8]--;
+        field_6F4_power_up_timers[FastReload_8]--;
     }
 
-    if (field_6F4_power_up_timers[9])
+    if (field_6F4_power_up_timers[Unk_9])
     {
-        this->field_6F4_power_up_timers[9]--;
-        if (!field_6F4_power_up_timers[9])
+        field_6F4_power_up_timers[Unk_9]--;
+        if (!field_6F4_power_up_timers[Unk_9])
         {
-            this->field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
+            field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
         }
     }
 
     // invisiblity
-    if (this->field_6F4_power_up_timers[11])
+    if (field_6F4_power_up_timers[Invisibility_11])
     {
         if (!gCheatInvisibility_67D539)
         {
-            this->field_6F4_power_up_timers[11]--;
-            if (!this->field_6F4_power_up_timers[11])
+            field_6F4_power_up_timers[Invisibility_11]--;
+            if (!field_6F4_power_up_timers[Invisibility_11])
             {
                 field_2C4_player_ped->SetVisible();
             }
@@ -1368,12 +1367,12 @@ void Player::Busted_5679E0()
             {
                 gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
                 Player::ClearKFWeapon_5647D0();
-                u16 power_up_timer = field_6F4_power_up_timers[4];
+                u16 power_up_timer = field_6F4_power_up_timers[Unk_4];
                 if (power_up_timer != 0)
                 {
                     if (!gCheatUnknown_67D4F6)
                     {
-                        field_6F4_power_up_timers[4] = power_up_timer - 1;
+                        field_6F4_power_up_timers[Unk_4] = power_up_timer - 1;
                     }
                 }
                 else

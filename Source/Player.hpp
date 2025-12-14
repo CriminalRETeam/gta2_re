@@ -20,6 +20,27 @@ struct save_stats_0x90;
 class Car_BC;
 class Gang_144;
 
+enum power_up_indices
+{
+    Unk_0 = 0,
+    Unk_1 = 1,
+    Unk_2 = 2,
+    Unk_3 = 3,
+    Unk_4 = 4,
+    Unk_5 = 5,
+    Invulnerability_6 = 6,
+    DoubleDamage_7 = 7,
+    FastReload_8 = 8,
+    Unk_9 = 9,
+    Unk_10 = 10,
+    Invisibility_11 = 11,
+    Unk_12 = 12,
+    Unk_13 = 13,
+    Unk_14 = 14,
+    Unk_15 = 15,
+    Unk_16 = 16,
+};
+
 class Player
 {
   public:
