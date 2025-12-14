@@ -10,6 +10,8 @@ DEFINE_GLOBAL(Montana_FA4*, gMontana_FA4_705BC0, 0x705BC0);
 DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
 DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL(Fix16, dword_67B434, 0x67B434); // = 0x4000, TODO, 0xUNKNOWN);
+DEFINE_GLOBAL_INIT(Fix16, dword_705B80, Fix16(60), 0x705B80);
+DEFINE_GLOBAL_INIT(Fix16, dword_705AC4, Fix16(0), 0x705AC4);
 
 
 MATCH_FUNC(0x5c5f60)
@@ -17,7 +19,7 @@ Montana_2EE4::Montana_2EE4()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
-        field_0[i].field_0 = 0;
+        field_0[i].field_0_sprt = 0;
     }
     field_2EE0_free_indx = 0;
 }
@@ -27,10 +29,107 @@ Montana_2EE4::~Montana_2EE4()
 {
 }
 
+// https://decomp.me/scratch/qyVgM reg swap
 STUB_FUNC(0x5c5cf0)
 void Montana_4::AddSprite_5C5CF0(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    Montana_C* pFirst = field_0_pFirst;
+    Fix16 a2_1;
+    Fix16 z_pos;
+
+    if (pSprite->field_28_num > 9)
+    {
+        if (pSprite->field_28_num == 34)
+        {
+            z_pos = dword_705B80;
+        }
+        else
+        {
+            z_pos = pSprite->field_1C_zpos;
+        }
+    }
+    else
+    {
+        z_pos = dword_705AC4;
+    }
+
+    Montana_C* pLastNonNull; // TODO: not initialized before 'for' loop
+    for (Montana_C* pIter = pFirst; pIter;)
+    {
+        Sprite* pSprt = pIter->field_0_sprt;
+        pLastNonNull = pIter;
+        s32 num = pIter->field_0_sprt->field_28_num;
+        if (num > 9)
+        {
+            a2_1 = pSprt->field_1C_zpos;
+        }
+        else
+        {
+            a2_1 = dword_705AC4;
+        }
+
+        if (z_pos < a2_1)
+        {
+            pIter = pIter->mpNext;
+        }
+        else
+        {
+            if (z_pos == a2_1)
+            {
+                if (pSprite->field_28_num < num)
+                {
+                    pIter = pIter->mpNext;
+                }
+                else
+                {
+                    if (pSprt == pSprite)
+                    {
+                        return;
+                    }
+                    pIter = pIter->field_8;
+                }
+            }
+            else
+            {
+                pIter = pIter->field_8;
+            }
+        }
+    }
+
+    Montana_C* pAllocated = gMontana_2EE4_705BBC->sub_4C4B40();
+    pAllocated->field_0_sprt = pSprite;
+    pAllocated->mpNext = NULL;
+    pAllocated->field_8 = NULL;
+
+    if (!field_0_pFirst)
+    {
+        field_0_pFirst = pAllocated;
+    }
+    else
+    {
+        if (z_pos >= a2_1)
+        {
+            if (z_pos == a2_1)
+            {
+                if (pSprite->field_28_num >= pLastNonNull->field_0_sprt->field_28_num)
+                {
+                    pLastNonNull->field_8 = pAllocated;
+                }
+                else
+                {
+                    pLastNonNull->mpNext = pAllocated;
+                }
+            }
+            else
+            {
+                pLastNonNull->field_8 = pAllocated;
+            }
+        }
+        else
+        {
+            pLastNonNull->mpNext = pAllocated;
+        }
+    }
 }
 
 MATCH_FUNC(0x5C5DF0)
@@ -50,7 +149,7 @@ void Montana_4::Draw_5C5DF0()
         }
 
         pIter = gMontana_FA4_705BC0->Pop_4C4BA0();
-        pIter->field_0->Draw_59EFF0();
+        pIter->field_0_sprt->Draw_59EFF0();
         pIter = pIter->field_8;
     }
 }

@@ -62,8 +62,8 @@ struct tile_array
 struct delta_entry
 {
     s16 field_0_which_sprite;
-    char_type field_2_delta_count;
-    char_type field_3_pad;
+    u8 field_2_delta_count;
+    u8 field_3_pad;
     s16 field_4_delta[2];
 };
 

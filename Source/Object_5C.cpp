@@ -102,10 +102,37 @@ void Object_2C::sub_522340()
     }
 }
 
-STUB_FUNC(0x522360)
+MATCH_FUNC(0x522360)
 void Object_2C::sub_522360()
 {
-    NOT_IMPLEMENTED;
+    Object_2C* pLast;
+    Object_2C* pIter;
+
+    if (field_20 == 1)
+    {
+        pLast = 0;
+        for (pIter = gObject_2C_Pool_6F8F80->field_4_pPrev; pIter; pIter = pIter->mpNext)
+        {
+            if (pIter == this)
+            {
+                if (pLast)
+                {
+                    pLast->mpNext = pIter->mpNext;
+                }
+                else
+                {
+                    gObject_2C_Pool_6F8F80->field_4_pPrev = pIter->mpNext;
+                }
+                pIter->mpNext = 0;
+                break;
+            }
+            else
+            {
+                pLast = pIter;
+            }
+        }
+        field_20 = 2;
+    }
 }
 
 MATCH_FUNC(0x5223c0)

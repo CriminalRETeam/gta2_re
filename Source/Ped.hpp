@@ -396,6 +396,11 @@ class Ped
         field_240_occupation = occupation;
     }
 
+    s32 get_occupation_403980()
+    {
+        return field_240_occupation;
+    }
+
     void sub_403920(s32 unk)
     {
         field_238 = unk;

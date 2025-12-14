@@ -13,6 +13,9 @@ class Ped;
 class ModelPhysics_48;
 class CarInfo_2C;
 class Car_78;
+struct Fix16_Point_POD;
+
+EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 
 class CarPhysics_B0
 {
@@ -31,8 +34,8 @@ class CarPhysics_B0
     EXPORT void sub_559DD0();
     EXPORT u32 sub_559E20(s32 a2);
     EXPORT s32* sub_559EC0(s32* a2);
-    EXPORT u32* CalculateMass_559FF0(u32* a2);
-    EXPORT u32* sub_55A050(u32* a2);
+    EXPORT Fix16 CalculateMass_559FF0();
+    EXPORT Fix16 sub_55A050();
     EXPORT u8 IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     EXPORT char_type IsFootBrakeOn_55A150();
@@ -61,7 +64,7 @@ class CarPhysics_B0
     EXPORT void sub_55CBB0(s32 a2, s32 a3);
     EXPORT void sub_55D200(s32 a2, Sprite_4C* a3, s32 a4, s32 a5);
     EXPORT char_type sub_55DC00();
-    EXPORT void sub_55E260();
+    EXPORT void DoSkidmarks_55E260();
     EXPORT char_type sub_55E470();
     EXPORT char_type sub_55EB80();
     EXPORT s32 sub_55EC30();
@@ -76,7 +79,7 @@ class CarPhysics_B0
     EXPORT s32 sub_55F800(s32* a2, s32* a3, s32 a4);
     EXPORT s32 sub_55F930(s32* a2);
     EXPORT __int64 sub_55F970(s32 a2);
-    EXPORT s32 sub_55F9A0(s32* a2);
+    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT s32 sub_55FA10(s32* a2);
     EXPORT u32* sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
     EXPORT Ped* sub_55FC30(s32* a2, s32 a3);
@@ -84,7 +87,7 @@ class CarPhysics_B0
     EXPORT Car_78* sub_55FF20(Car_BC* a2);
     EXPORT void sub_5606C0(s32 a2, char_type a3);
     EXPORT void sub_560B40(s32 a2, s32 a3);
-    EXPORT __int64 UpdateLinearAndAngularAccel_560EB0();
+    EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void sub_560F20(s32 a2);
     EXPORT s32 IntegrateAndClampVelocities_5610B0();
     EXPORT u32* sub_561130(u32* a2, u32* a3);
@@ -108,7 +111,7 @@ class CarPhysics_B0
     EXPORT void sub_562D00();
     EXPORT ModelPhysics_48* sub_562EB0();
     EXPORT CarInfo_2C* sub_562ED0();
-    EXPORT s32 SetCurrentCarInfoAndModelPhysics_562EF0();
+    EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();
     EXPORT bool sub_562FE0();
@@ -116,7 +119,7 @@ class CarPhysics_B0
     EXPORT s32* UpdateCenterOfMassPoint_563350();
     EXPORT s32* sub_563460();
     EXPORT void SetSprite_563560(Sprite* a2);
-    EXPORT void sub_563590(Sprite* a2);
+    EXPORT void SnapVelocityToSpriteDirection_563590(Sprite* a2);
     EXPORT void sub_563670();
     EXPORT void sub_5636C0();
     EXPORT bool IsNearlyStopped_5636E0();
@@ -142,6 +145,13 @@ class CarPhysics_B0
         return field_0_vel_read_only.GetLength();
     }
 
+    inline bool sub_49EF80()
+    {
+        return field_40_linvel_1.x == kFP16Zero_6FE20C 
+            && field_40_linvel_1.y == kFP16Zero_6FE20C 
+            && field_74_ang_vel_rad == kFP16Zero_6FE20C;
+    }
+
     Fix16_Point field_0_vel_read_only;
     s32 field_8_total_damage_q;
     CarPhysics_B0* mpNext;
@@ -149,22 +159,20 @@ class CarPhysics_B0
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
     Fix16_Point field_40_linvel_1;
-    s32 field_48;
-    s32 field_4C;
-    s32 field_50;
-    s32 field_54;
+    Fix16_Point_POD field_48;
+    Fix16_Point_POD field_50;
     Ang16 field_58_theta;
     s16 field_5A;
     Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
-    s32 field_64;
+    Fix16 field_64;
     Fix16 field_68_z_pos;
     Fix16 field_6C_cp3;
     Fix16 field_70;
     Fix16 field_74_ang_vel_rad;
     s32 field_78_pointing_ang_rad;
-    s32 field_7C;
-    s32 field_80;
+    Fix16 field_7C;
+    Fix16 field_80;
     Fix16 field_84_front_skid;
     Fix16 field_88_rear_skid;
     s32 field_8C_state;

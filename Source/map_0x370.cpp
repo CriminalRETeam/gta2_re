@@ -932,11 +932,48 @@ char_type Map_0x370::sub_4E4460(s32 a2, s32 a3, s32 a4, Sprite* a5, s16 a6)
     }
 }
 
-STUB_FUNC(0x4E4630)
-char_type Map_0x370::sub_4E4630(Fix16 a2)
+MATCH_FUNC(0x4E4630)
+char_type Map_0x370::sub_4E4630(Fix16 zpos_f16)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 zpos = zpos_f16.ToInt();
+    bool bUnk = zpos_f16.GetFracValue() != dword_6F610C;
+    char_type v12 = 0;
+
+    for (s32 ypos = gPurple_top_6F6108; ypos <= gPurple_bottom_6F5F38; ypos++)
+    {
+        for (s32 xpos = gPurple_left_6F5FD4; xpos <= gPurple_right_6F5B80; xpos++)
+        {
+            gmp_block_info* pBlock = Map_0x370::get_block_4DFE10(xpos, ypos, zpos);
+            gBlockInfo0_6F5EB0 = pBlock;
+            if (pBlock)
+            {
+                u8 slope_byte = pBlock->field_B_slope_type;
+                if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
+                {
+                    if (bUnk)
+                    {
+                        v12 = 1;
+                    }
+                    else
+                    {
+                        dword_6F5EC8 = &byte_6F5BA8[get_slope_idx(gBlockInfo0_6F5EB0->field_B_slope_type)];
+                        if (dword_6F5EC8->field_2_gradient_level == dword_6F5EC8->field_1_gradient_size - 1)
+                        {
+                            v12 = 1;
+                        }
+                    }
+                }
+                else
+                {
+                    if (bUnk && get_slope_bits(slope_byte) == 0xFCu)
+                    {
+                        return 2;
+                    }
+                }
+            }
+        }
+    }
+    return v12;
 }
 
 MATCH_FUNC(0x4E4770)
