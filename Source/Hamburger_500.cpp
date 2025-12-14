@@ -4,7 +4,7 @@
 
 DEFINE_GLOBAL(Hamburger_500*, gHamburger_500_678E30, 0x678E30);
 
-DEFINE_GLOBAL(s32, dword_678D0C, 0x678D0C);
+DEFINE_GLOBAL_INIT(Fix16, dword_678D0C, Fix16(0), 0x678D0C);
 
 MATCH_FUNC(0x4747b0)
 void Hamburger_40::sub_4747B0()

@@ -26,7 +26,7 @@ enum power_up_indices
     Unk_1 = 1,
     Unk_2 = 2,
     Unk_3 = 3,
-    Unk_4 = 4,
+    JailCard_4 = 4,
     Unk_5 = 5,
     Invulnerability_6 = 6,
     DoubleDamage_7 = 7,

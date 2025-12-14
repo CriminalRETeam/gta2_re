@@ -282,7 +282,7 @@ void Player::sub_564CC0()
 MATCH_FUNC(0x564CF0)
 void Player::sub_564CF0()
 {
-    u16 v2 = field_6F4_power_up_timers[Unk_4];
+    u16 v2 = field_6F4_power_up_timers[JailCard_4];
     if (field_6F4_power_up_timers[Invulnerability_6])
     {
         field_2C4_player_ped->sub_45C050();
@@ -299,7 +299,7 @@ void Player::sub_564CF0()
         }
     }
     sub_564CC0();
-    field_6F4_power_up_timers[Unk_4] = v2;
+    field_6F4_power_up_timers[JailCard_4] = v2;
 }
 
 STUB_FUNC(0x564D60)
@@ -1367,12 +1367,12 @@ void Player::Busted_5679E0()
             {
                 gHud_2B00_706620->field_111C.ClearTimeToShow_5D1850();
                 Player::ClearKFWeapon_5647D0();
-                u16 power_up_timer = field_6F4_power_up_timers[Unk_4];
+                u16 power_up_timer = field_6F4_power_up_timers[JailCard_4];
                 if (power_up_timer != 0)
                 {
                     if (!gCheatUnknown_67D4F6)
                     {
-                        field_6F4_power_up_timers[Unk_4] = power_up_timer - 1;
+                        field_6F4_power_up_timers[JailCard_4] = power_up_timer - 1;
                     }
                 }
                 else
