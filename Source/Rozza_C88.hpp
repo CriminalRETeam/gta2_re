@@ -27,6 +27,7 @@ class Rozza_A
   public:
     EXPORT void set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void sub_40B890(Car_BC* pCar);
+    EXPORT void sub_40B980();
 
     s32 field_0;
     Fix16 field_4_x;
