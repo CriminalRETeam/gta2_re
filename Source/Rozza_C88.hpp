@@ -31,6 +31,11 @@ class Rozza_A
     EXPORT void sub_40B980();
     EXPORT bool sub_40BA60(Object_2C* pObj);
 
+    void sub_40FF10(Fix16 a2)
+    {
+        this->field_24_car_physics_value = a2;
+    }
+
     s32 field_0;
     Fix16 field_4_x;
     Fix16 field_8_y;
@@ -40,14 +45,14 @@ class Rozza_A
     s32 field_18_model_copy;
     s32 field_1C; // also model_copy
     s32 field_20_map_block_spec;
-    s32 field_24_car_physics_value;
+    Fix16 field_24_car_physics_value;
 };
 
 class Rozza_C88
 {
   public:
     EXPORT void Reset_40BB90();
-    EXPORT void sub_40BBA0(Sprite* a2, s32 a3);
+    EXPORT void sub_40BBA0(Sprite* a2, Fix16 a3);
     EXPORT void sub_40BC40(Sprite* a2);
     EXPORT void sub_40BD10(Sprite* a2);
     EXPORT void sub_40BDD0(Sprite* a2, Sprite* a3);

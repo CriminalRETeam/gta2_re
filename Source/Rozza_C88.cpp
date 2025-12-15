@@ -189,10 +189,35 @@ void Rozza_C88::Reset_40BB90()
     field_C84_count = 0;
 }
 
+// https://decomp.me/scratch/VomZh
 STUB_FUNC(0x40bba0)
-void Rozza_C88::sub_40BBA0(Sprite* a2, s32 a3)
+void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &field_4_pool[field_C84_count];
+        Car_BC* pCar = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->sub_40B890(pCar);
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->sub_40B980();
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            if (!pRA->sub_40BA60(p2c))
+            {
+                return;
+            }
+        }
+
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(physics_value);
+        field_C84_count++;
+    }
 }
 
 STUB_FUNC(0x40bc40)
