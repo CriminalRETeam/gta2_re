@@ -260,10 +260,12 @@ void Rozza_C88::sub_40BD10(Sprite* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x40bdd0)
-void Rozza_C88::sub_40BDD0(Sprite* a2, Sprite* a3)
+MATCH_FUNC(0x40bdd0)
+void Rozza_C88::sub_40BDD0(Sprite* pSprite1, Sprite* pSprite2)
 {
-    NOT_IMPLEMENTED;
+    gRozza_679188.field_20_pSprite = pSprite2;
+    gRozza_679188.field_0_type = 3;
+    sub_40BBA0(pSprite1, dword_66AE98);
 }
 
 MATCH_FUNC(0x40be00)
