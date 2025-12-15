@@ -6,6 +6,7 @@
 class infallible_turing;
 class Sprite;
 class Car_BC;
+class Object_2C;
 
 class Rozza_28
 {
@@ -28,6 +29,7 @@ class Rozza_A
     EXPORT void set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void sub_40B890(Car_BC* pCar);
     EXPORT void sub_40B980();
+    EXPORT bool sub_40BA60(Object_2C* pObj);
 
     s32 field_0;
     Fix16 field_4_x;
@@ -36,7 +38,7 @@ class Rozza_A
     Car_BC* field_10;
     Car_BC* field_14;
     s32 field_18_model_copy;
-    s32 field_1C;
+    s32 field_1C; // also model_copy
     s32 field_20_map_block_spec;
     s32 field_24_car_physics_value;
 };
