@@ -254,10 +254,36 @@ void Rozza_C88::sub_40BC40(Sprite* pSprite)
     }
 }
 
+// https://decomp.me/scratch/W7Xqy
 STUB_FUNC(0x40bd10)
-void Rozza_C88::sub_40BD10(Sprite* a2)
+void Rozza_C88::sub_40BD10(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &this->field_4_pool[this->field_C84_count];
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(dword_66AE98);
+
+        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->field_0 = 12;
+            pRA->field_10 = pCar;
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->field_0 = 11;
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            pRA->field_0 = 1;
+            pRA->field_18_model_copy = p2c->get_model_40FEF0();
+        }
+        pRA->field_20_map_block_spec =
+            gMap_0x370_6F6268->GetBlockSpec_4E00A0(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        field_C84_count++;
+    }
 }
 
 MATCH_FUNC(0x40bdd0)
