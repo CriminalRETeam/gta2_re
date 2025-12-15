@@ -220,7 +220,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
         {
             a2->field_8_obj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
         }
-        else if (pObj = a2->field_8_obj, pObj->check_is_shop())
+        else if (pObj = a2->field_8_obj, pObj->check_is_shop_421060())
         {
             pObj->field_26_varrok_idx = pCmd->field_1C_value_shop_type;
         }

@@ -617,6 +617,13 @@ void Object_2C::sub_529070(Object_2C* pObj)
     sub_5226A0(pObj->field_26_varrok_idx);
 }
 
+STUB_FUNC(0x529240)
+s32 Object_2C::sub_529240()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 MATCH_FUNC(0x5292D0)
 void Object_2C::sub_5292D0()
 {
@@ -1108,7 +1115,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     ++dword_6F8F88;
 
     pNew2C->field_18_model = object_type;
-    if (pNew2C->sub_421060())
+    if (pNew2C->check_is_shop_421060())
     {
         pNew2C->sub_5292D0();
     }
