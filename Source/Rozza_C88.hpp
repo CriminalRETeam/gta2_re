@@ -11,6 +11,8 @@ class Object_2C;
 class Rozza_28
 {
   public:
+    EXPORT bool sub_477A10();
+
     s32 field_0_type;
     Fix16 field_4_mapx_t1;
     s32 field_8; // prob Fix16

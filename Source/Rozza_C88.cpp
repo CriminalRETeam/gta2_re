@@ -10,6 +10,23 @@ DEFINE_GLOBAL(Rozza_28, gRozza_679188, 0x679188);
 DEFINE_GLOBAL(Fix16, dword_66AE98, 0x66AE98);
 DEFINE_GLOBAL(Fix16, dword_66AE9C, 0x66AE9C);
 
+MATCH_FUNC(0x477A10)
+bool Rozza_28::sub_477A10()
+{
+    if (field_0_type == 3)
+    {
+        Object_2C* p2c = field_20_pSprite->As2C_40FEC0();
+        if (p2c)
+        {
+            if (p2c->field_8->field_4C == 3)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
 MATCH_FUNC(0x40B870)
 void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
 {
