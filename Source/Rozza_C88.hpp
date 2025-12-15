@@ -22,7 +22,7 @@ class Rozza_28
     Fix16 field_18_mapy_t1;
     Fix16 field_1C_mapz;
     Sprite* field_20_pSprite;
-    s32 field_24;
+    Sprite* field_24;
 };
 
 class Rozza_A
@@ -67,3 +67,4 @@ class Rozza_C88
 };
 
 EXTERN_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0);
+EXTERN_GLOBAL(Rozza_28, gRozza_679188);
