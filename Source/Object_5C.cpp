@@ -295,7 +295,7 @@ void Object_2C::sub_525190(u8 a2)
 }
 
 STUB_FUNC(0x5257d0)
-void Object_2C::sub_5257D0()
+void Object_2C::UpdateAninmation_5257D0()
 {
     NOT_IMPLEMENTED;
 }
@@ -383,7 +383,7 @@ void Object_2C::sub_525D90()
 }
 
 STUB_FUNC(0x525f30)
-void Object_2C::sub_525F30()
+void Object_2C::Update_525F30()
 {
     NOT_IMPLEMENTED;
 }
@@ -395,7 +395,7 @@ bool Object_2C::PoolUpdate()
     byte_6F8F40 = 0;
     if (field_25 != 1)
     {
-        Object_2C::sub_525F30();
+        Object_2C::Update_525F30();
     }
 
     if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, dword_6F8E10)))
@@ -615,6 +615,13 @@ MATCH_FUNC(0x529070)
 void Object_2C::sub_529070(Object_2C* pObj)
 {
     sub_5226A0(pObj->field_26_varrok_idx);
+}
+
+STUB_FUNC(0x529240)
+s32 Object_2C::sub_529240()
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 MATCH_FUNC(0x5292D0)
@@ -1108,7 +1115,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     ++dword_6F8F88;
 
     pNew2C->field_18_model = object_type;
-    if (pNew2C->sub_421060())
+    if (pNew2C->check_is_shop_421060())
     {
         pNew2C->sub_5292D0();
     }

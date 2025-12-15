@@ -141,10 +141,20 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
+static void EnableBoot2MapDebugOptions()
+{
+    bSkip_traffic_lights_67D4EC = true;
+}
 
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
+
+    if (ImGui::Button("set boot2map debug opts"))
+    {
+        EnableBoot2MapDebugOptions();
+    }
+
 
     if (ImGui::TreeNode("gTango_54_67D4C0"))
     {

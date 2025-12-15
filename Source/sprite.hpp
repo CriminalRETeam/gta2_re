@@ -117,7 +117,6 @@ class Sprite
 
     EXPORT ~Sprite(); // 0x5a3540
 
-
     EXPORT Sprite();
 
     Car_BC* AsCar_40FEB0()
@@ -137,6 +136,23 @@ class Sprite
         if (field_30_sprite_type_enum == sprite_types_enum::ped)
         {
             return field_8_char_b4_ptr;
+        }
+        else
+        {
+            return NULL;
+        }
+    }
+
+    bool Is2C_40FE80()
+    {
+        return field_30_sprite_type_enum == 4 || field_30_sprite_type_enum == 5 || field_30_sprite_type_enum == 1;
+    }
+
+    Object_2C* As2C_40FEC0()
+    {
+        if (Is2C_40FE80())
+        {
+            return field_8_object_2C_ptr;
         }
         else
         {

@@ -2,6 +2,7 @@
 #include "CarInfo_808.hpp"
 #include "debug.hpp"
 #include "Globals.hpp"
+#include "Rozza_C88.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -20,9 +21,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE210, Fix16(1), 0x6FE210);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
-
-// TODO: Part of a global object? Inline static ctor @ crt_init_477990() ? check 9.6f
-DEFINE_GLOBAL(Sprite*, dword_6791AC, 0x6791AC);
 
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
@@ -380,7 +378,7 @@ char_type CarPhysics_B0::sub_55C150()
             return 0;
         }
     }
-    dword_6791AC = pCarSprite;
+    gRozza_679188.field_24  = pCarSprite;
     return 1;
 }
 
