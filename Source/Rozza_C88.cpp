@@ -7,6 +7,8 @@
 
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
 DEFINE_GLOBAL(Rozza_28, gRozza_679188, 0x679188);
+DEFINE_GLOBAL(Fix16, dword_66AE98, 0x66AE98);
+DEFINE_GLOBAL(Fix16, dword_66AE9C, 0x66AE9C);
 
 MATCH_FUNC(0x40B870)
 void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
@@ -219,10 +221,37 @@ void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
     }
 }
 
+// https://decomp.me/scratch/uG9IP
 STUB_FUNC(0x40bc40)
-void Rozza_C88::sub_40BC40(Sprite* a2)
+void Rozza_C88::sub_40BC40(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &field_4_pool[field_C84_count];
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(dword_66AE98);
+
+        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->field_0 = 12;
+            pRA->field_10 = pCar;
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->field_0 = 11;
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            pRA->field_0 = 1;
+            pRA->field_18_model_copy = p2c->get_model_40FEF0();
+        }
+        pRA->field_20_map_block_spec = gMap_0x370_6F6268->GetBlockSpec_4E00A0(pSprite->field_14_xpos.x,
+                                                                              pSprite->field_14_xpos.y,
+                                                                              pSprite->field_1C_zpos - dword_66AE9C);
+        field_C84_count++;
+    }
 }
 
 STUB_FUNC(0x40bd10)
