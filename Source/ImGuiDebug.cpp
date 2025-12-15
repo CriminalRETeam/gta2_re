@@ -710,6 +710,11 @@ void CC ImGuiDebugDraw()
                         }
                     }
                 }
+
+                if (ImGui::Button("Drown Player ped"))
+                {
+                    pPlayer->field_2C4_player_ped->field_168_game_object->DrownPed_5459E0();
+                }
             }
         }
         ImGui::TreePop();

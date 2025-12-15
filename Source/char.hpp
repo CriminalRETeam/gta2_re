@@ -132,14 +132,14 @@ class Char_B4
     EXPORT void sub_5454B0();
     EXPORT void sub_5454D0();
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT s32 sub_545570();
+    EXPORT s32 IsOnWater_545570();
     EXPORT void sub_5455F0();
     EXPORT s16 sub_545600();
     EXPORT void sub_5456A0();
     EXPORT s32 sub_545700();
     EXPORT void sub_545720(Fix16 a2);
     EXPORT char_type sub_5459C0();
-    EXPORT void sub_5459E0();
+    EXPORT void DrownPed_5459E0();
     EXPORT void sub_546360();
     EXPORT void sub_548590();
     EXPORT void sub_548670(char_type a2);

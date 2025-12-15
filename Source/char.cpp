@@ -226,9 +226,9 @@ void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x545570)
-s32 Char_B4::sub_545570()
+s32 Char_B4::IsOnWater_545570()
 {
-    return field_80_sprite_ptr->sub_59E1D0();
+    return field_80_sprite_ptr->IsOnWater_59E1D0();
 }
 
 STUB_FUNC(0x5455f0)
@@ -386,7 +386,7 @@ char_type Char_B4::sub_5459C0()
 
 // https://decomp.me/scratch/0bMp2 it matches on decompme
 STUB_FUNC(0x5459e0)
-void Char_B4::sub_5459E0()
+void Char_B4::DrownPed_5459E0()
 {
     field_7C_pPed->sub_45C500(8);
     field_7C_pPed->sub_45C540(20);

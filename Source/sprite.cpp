@@ -81,11 +81,11 @@ Ped* Sprite::sub_59E1B0()
 }
 
 MATCH_FUNC(0x59E1D0)
-s32 Sprite::sub_59E1D0() // IsWater?
+s32 Sprite::IsOnWater_59E1D0() // IsWater?
 {
     gmp_block_info* pBlock;
 
-    const Fix16 zpos = this->field_1C_zpos;
+    const Fix16 zpos = field_1C_zpos;
     if (zpos > gFix16_7035C0)
     {
         pBlock = gMap_0x370_6F6268->get_block_4DFE10(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), (zpos - dword_7035C4).ToInt());
@@ -100,10 +100,10 @@ s32 Sprite::sub_59E1D0() // IsWater?
         const u16 lid_idx = pBlock->field_8_lid & 1023;
         if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->sub_5AA850(lid_idx))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 STUB_FUNC(0x59E250)
