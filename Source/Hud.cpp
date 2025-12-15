@@ -1852,7 +1852,7 @@ void Garox_1E34_L::sub_5D39D0()
 }
 
 // https://decomp.me/scratch/exFU8
-MATCH_FUNC(0x5d3b80)
+STUB_FUNC(0x5d3b80)
 void Garox_1E34_L::DrawBrief_5D3B80()
 {
     NOT_IMPLEMENTED;
