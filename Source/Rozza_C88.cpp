@@ -4,6 +4,16 @@
 
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
 
+MATCH_FUNC(0x40B870)
+void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
+{
+    field_4_x = x;
+    field_8_y = y;
+    field_C_z = z;
+}
+
+// ================================================================
+
 MATCH_FUNC(0x40bb90)
 void Rozza_C88::Reset_40BB90()
 {
