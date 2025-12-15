@@ -1,8 +1,206 @@
 #include "Rozza_C88.hpp"
+#include "Object_5C.hpp"
 #include "debug.hpp"
+#include "map_0x370.hpp"
 #include "root_sound.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL(Rozza_C88*, gRozza_C88_66AFE0, 0x66AFE0);
+DEFINE_GLOBAL(Rozza_28, gRozza_679188, 0x679188);
+DEFINE_GLOBAL(Fix16, dword_66AE98, 0x66AE98);
+DEFINE_GLOBAL(Fix16, dword_66AE9C, 0x66AE9C);
+
+MATCH_FUNC(0x477A10)
+bool Rozza_28::sub_477A10()
+{
+    if (field_0_type == 3)
+    {
+        Object_2C* p2c = field_20_pSprite->As2C_40FEC0();
+        if (p2c)
+        {
+            if (p2c->field_8->field_4C == 3)
+            {
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+MATCH_FUNC(0x40B870)
+void Rozza_A::set_xyz_40B870(Fix16 x, Fix16 y, Fix16 z)
+{
+    field_4_x = x;
+    field_8_y = y;
+    field_C_z = z;
+}
+
+MATCH_FUNC(0x40B890)
+void Rozza_A::sub_40B890(Car_BC* pCar)
+{
+    field_10 = pCar;
+
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            field_0 = 5;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+            break;
+
+        case 2:
+            field_0 = 5;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+            break;
+
+        case 3:
+        {
+            Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            if (cBC)
+            {
+                field_14 = cBC;
+                field_0 = 2;
+            }
+            else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+            {
+                field_0 = 4;
+            }
+            else
+            {
+                Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+
+                field_18_model_copy = p2C->get_model_40FEF0();
+                if (field_18_model_copy == 166)
+                {
+                    field_0 = 5;
+                    field_20_map_block_spec = p2C->sub_529240();
+                }
+                else
+                {
+                    field_0 = 3;
+                }
+            }
+            break;
+        }
+    }
+}
+
+MATCH_FUNC(0x40B980)
+void Rozza_A::sub_40B980()
+{
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            field_0 = 8;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+            break;
+
+        case 2:
+            field_0 = 8;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+            break;
+
+        case 3:
+        {
+            Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            if (cBC)
+            {
+                field_10 = cBC;
+                field_0 = 4;
+            }
+            else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+            {
+                field_0 = 6;
+            }
+            else
+            {
+                Object_2C* p2C = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+                field_18_model_copy = p2C->get_model_40FEF0();
+                if (field_18_model_copy == 166)
+                {
+                    field_0 = 8;
+                    field_20_map_block_spec = p2C->sub_529240();
+                }
+                else
+                {
+                    field_0 = 7;
+                }
+            }
+            break;
+        }
+    }
+}
+
+MATCH_FUNC(0x40BA60)
+bool Rozza_A::sub_40BA60(Object_2C* pObj)
+{
+    if (!pObj->field_8->field_63)
+    {
+        return 0;
+    }
+
+    field_18_model_copy = pObj->field_18_model;
+
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            field_0 = 10;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4E0000(gRozza_679188.field_4_mapx_t1, gRozza_679188.field_18_mapy_t1, gRozza_679188.field_1C_mapz);
+
+            break;
+
+        case 2:
+            field_0 = 10;
+            field_20_map_block_spec =
+                gMap_0x370_6F6268->sub_4DFF60(gRozza_679188.field_14_mapx_t2, gRozza_679188.field_C_mapy_t2, gRozza_679188.field_1C_mapz);
+
+            break;
+
+        case 3:
+        {
+            Car_BC* cBC = gRozza_679188.field_20_pSprite->AsCar_40FEB0();
+            if (cBC)
+            {
+                field_10 = cBC;
+                field_0 = 3;
+                return 1;
+            }
+            else if (gRozza_679188.field_20_pSprite->AsCharB4_40FEA0())
+            {
+                field_0 = 7;
+                return 1;
+            }
+            else
+            {
+                Object_2C* o2c = gRozza_679188.field_20_pSprite->As2C_40FEC0();
+                if (!o2c->field_8->field_63)
+                {
+                    return 0;
+                }
+
+                field_1C = o2c->get_model_40FEF0();
+                if (field_1C == 166)
+                {
+                    field_0 = 10;
+                    field_20_map_block_spec = o2c->sub_529240();
+                }
+                else
+                {
+                    field_0 = 9;
+                }
+            }
+            break;
+        }
+    }
+
+    return 1;
+}
+
+// ================================================================
 
 MATCH_FUNC(0x40bb90)
 void Rozza_C88::Reset_40BB90()
@@ -10,28 +208,107 @@ void Rozza_C88::Reset_40BB90()
     field_C84_count = 0;
 }
 
-STUB_FUNC(0x40bba0)
-void Rozza_C88::sub_40BBA0(Sprite* a2, s32 a3)
+MATCH_FUNC(0x40bba0)
+void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &field_4_pool[field_C84_count];
+        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->sub_40B890(pCar);
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->sub_40B980();
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            if (!pRA->sub_40BA60(p2c))
+            {
+                return;
+            }
+        }
+
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(physics_value);
+        field_C84_count++;
+    }
 }
 
+// https://decomp.me/scratch/uG9IP
 STUB_FUNC(0x40bc40)
-void Rozza_C88::sub_40BC40(Sprite* a2)
+void Rozza_C88::sub_40BC40(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &field_4_pool[field_C84_count];
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(dword_66AE98);
+
+        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->field_0 = 12;
+            pRA->field_10 = pCar;
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->field_0 = 11;
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            pRA->field_0 = 1;
+            pRA->field_18_model_copy = p2c->get_model_40FEF0();
+        }
+        pRA->field_20_map_block_spec = gMap_0x370_6F6268->GetBlockSpec_4E00A0(pSprite->field_14_xpos.x,
+                                                                              pSprite->field_14_xpos.y,
+                                                                              pSprite->field_1C_zpos - dword_66AE9C);
+        field_C84_count++;
+    }
 }
 
+// https://decomp.me/scratch/W7Xqy
 STUB_FUNC(0x40bd10)
-void Rozza_C88::sub_40BD10(Sprite* a2)
+void Rozza_C88::sub_40BD10(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (!bSkip_audio_67D6BE)
+    {
+        Rozza_A* pRA = &this->field_4_pool[this->field_C84_count];
+        pRA->set_xyz_40B870(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        pRA->sub_40FF10(dword_66AE98);
+
+        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        if (pCar)
+        {
+            pRA->field_0 = 12;
+            pRA->field_10 = pCar;
+        }
+        else if (pSprite->AsCharB4_40FEA0())
+        {
+            pRA->field_0 = 11;
+        }
+        else
+        {
+            Object_2C* p2c = pSprite->As2C_40FEC0();
+            pRA->field_0 = 1;
+            pRA->field_18_model_copy = p2c->get_model_40FEF0();
+        }
+        pRA->field_20_map_block_spec =
+            gMap_0x370_6F6268->GetBlockSpec_4E00A0(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos);
+        field_C84_count++;
+    }
 }
 
-STUB_FUNC(0x40bdd0)
-void Rozza_C88::sub_40BDD0(Sprite* a2, Sprite* a3)
+MATCH_FUNC(0x40bdd0)
+void Rozza_C88::sub_40BDD0(Sprite* pSprite1, Sprite* pSprite2)
 {
-    NOT_IMPLEMENTED;
+    gRozza_679188.field_20_pSprite = pSprite2;
+    gRozza_679188.field_0_type = 3;
+    sub_40BBA0(pSprite1, dword_66AE98);
 }
 
 MATCH_FUNC(0x40be00)

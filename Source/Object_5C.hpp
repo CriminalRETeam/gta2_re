@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Object_3C.hpp"
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "Object_3C.hpp"
 
 class Object_2C;
 class Sprite;
@@ -43,13 +43,13 @@ class Object_2C
     EXPORT char_type sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
     EXPORT void sub_524630(s32 a2, s16 a3);
     EXPORT void sub_525190(u8 a2);
-    EXPORT void sub_5257D0();
+    EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
     EXPORT void sub_525AE0();
     EXPORT void sub_525B40();
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
-    EXPORT void sub_525F30();
+    EXPORT void Update_525F30();
     EXPORT bool PoolUpdate();
     EXPORT void sub_526790(s32 a2);
     EXPORT s32 sub_526830(s32 a1);
@@ -70,6 +70,7 @@ class Object_2C
     EXPORT void sub_529000(Object_2C* pObj);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(Object_2C* pObj);
+    EXPORT s32 sub_529240();
     EXPORT void sub_5292D0();
     EXPORT void sub_529080(u8 a2);
     EXPORT void sub_5290A0();
@@ -89,12 +90,6 @@ class Object_2C
     EXPORT char sub_525AC0();
     EXPORT void sub_525B20();
 
-    inline bool check_is_shop()
-    {
-        s32 v1 = field_8->field_34;
-        return v1 == 6 || v1 == 7 || v1 == 8 || v1 == 9;
-    }
-
     inline bool check_is_busy_shop()
     {
         s32 v1 = field_8->field_34;
@@ -104,7 +99,7 @@ class Object_2C
     // Inlined on version 9.6f 0x447e90
     inline void set_field_26(u8 v)
     {
-      field_26_varrok_idx = v;
+        field_26_varrok_idx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
@@ -113,12 +108,14 @@ class Object_2C
         return field_26_varrok_idx;
     }
 
-    bool sub_421060()
+    s32 get_model_40FEF0()
     {
-        return field_8->field_34 == 6 
-        || field_8->field_34 == 7 
-        || field_8->field_34 == 8 
-        || field_8->field_34 == 9;
+        return field_18_model;
+    }
+
+    bool check_is_shop_421060()
+    {
+        return field_8->field_34 == 6 || field_8->field_34 == 7 || field_8->field_34 == 8 || field_8->field_34 == 9;
     }
 
     inline void PoolAllocate()
@@ -160,8 +157,6 @@ class Object_2C
 class Object_5C
 {
   public:
-
-
     EXPORT void sub_529300();
     EXPORT void ObjectsService_5293A0();
     EXPORT Object_5C();
@@ -192,7 +187,7 @@ class Object_5C
 
     EXPORT void sub_52A500(int pUnknownObj);
     EXPORT void sub_52A590(int pUnknownObj);
-    EXPORT void sub_52A610(Object_2C *p2C);
+    EXPORT void sub_52A610(Object_2C* p2C);
 
     Object_2C* field_0; // Object_2C* ?
     Object_2C* field_4;
