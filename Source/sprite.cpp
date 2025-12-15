@@ -12,6 +12,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
+#include "Rozza_C88.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -20,11 +21,9 @@ DEFINE_GLOBAL(Sprite_3CC*, gSprite_3CC_67AF1C, 0x67AF1C);
 DEFINE_GLOBAL(Sprite_18_Pool*, gSprite_18_Pool_703B80, 0x703B80);
 DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
-DEFINE_GLOBAL(Sprite*, gSprite_6791A8, 0x6791A8);
 DEFINE_GLOBAL(Fix16, dword_7035C4, 0x7035C4);
 DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
-DEFINE_GLOBAL(s32, dword_679188, 0x679188);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, dword_703450, dword_703424, 0x703450);
@@ -202,13 +201,13 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
     {
-        return gSprite_6791A8;
+        return gRozza_679188.field_20_pSprite;
     }
     result = gPurpleDoom_1_679208->sub_477E60(this, a2);
     if (result)
     {
-        dword_679188 = 3;
-        gSprite_6791A8 = result;
+        gRozza_679188.field_0_type = 3;
+        gRozza_679188.field_20_pSprite = result;
     }
     return result;
 }
