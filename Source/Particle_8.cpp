@@ -16,19 +16,19 @@ void Particle_8::ParticlesService_53E320()
 }
 
 STUB_FUNC(0x53e880)
-void Particle_8::sub_53E880(s32 a2, s32 a3, s32 a4)
+void Particle_8::SpawnBlood_53E880(Fix16 a2, Fix16 a3, Fix16 a4)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x53e970)
-void Particle_8::sub_53E970(Fix16* a2)
+void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x53f060)
-void Particle_8::sub_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type a5)
+void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -77,8 +77,21 @@ Particle_8::~Particle_8()
     field_4 = 0;
 }
 
+STUB_FUNC(0x53FAE0)
+void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
+{
+    NOT_IMPLEMENTED;
+}
+
+
 STUB_FUNC(0x53FE40)
 void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x53F4C0)
+void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
 }
