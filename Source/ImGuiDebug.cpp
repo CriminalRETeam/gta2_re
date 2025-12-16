@@ -136,6 +136,7 @@ static void EnableBoot2MapDebugOptions()
     Init_Phi_6C_array();
 
     bSkip_traffic_lights_67D4EC = true;
+    bSkip_trains_67D550 = true;
 }
 
 void CC ImGuiDebugDraw()
