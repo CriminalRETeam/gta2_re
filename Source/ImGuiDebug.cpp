@@ -131,7 +131,12 @@ EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);
 
 static void EnableBoot2MapDebugOptions()
 {
+    // Init Phi else its over fr
+    Init_Phi_54_array();
+    Init_Phi_6C_array();
+
     bSkip_traffic_lights_67D4EC = true;
+    bSkip_trains_67D550 = true;
 }
 
 void CC ImGuiDebugDraw()

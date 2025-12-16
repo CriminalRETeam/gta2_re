@@ -465,6 +465,7 @@ STUB_FUNC(0x446230)
 Car_BC* Car_6C::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
 {
     NOT_IMPLEMENTED;
+    // TODO: Standalone implement me
     return 0;
 }
 
