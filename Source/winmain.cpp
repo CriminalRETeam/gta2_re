@@ -248,7 +248,7 @@ void force_link()
     burgerking.input_init_replay_4CE740(0);
     burgerking.sub_4CE880(0);
     burgerking.replay_save_4CEA40(0);
-    burgerking.sub_4CEAC0();
+    burgerking.get_input_bits_4CEAC0();
     burgerking.sub_4CED00(0, 0);
     burgerking.sub_4CED90();
     burgerking.RecOrPlayBackState_4CEDF0();
@@ -963,7 +963,7 @@ void __stdcall Draw_4DA7B0()
 }
 
 STUB_FUNC(0x4DAF30)
-EXPORT void __stdcall sub_4DAF30()
+EXPORT void __stdcall do_inputs_4DAF30()
 {
     if (bStartNetworkGame_7081F0)
     {
@@ -1001,7 +1001,7 @@ EXPORT void __stdcall sub_4DAF30()
                     byte_6F56B8 = (unsigned __int8)byte_6F56B8 >> 1;
                 } while (byte_6F56B8);
             }
-            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::sub_4CEAC0(&gBurgerKing_67F8B0);
+            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::get_input_bits_4CEAC0(&gBurgerKing_67F8B0);
             void* v2;
             //sub_4DACB0(v2); // thiscall: unknown class
             Draw_4DA7B0();
@@ -1026,8 +1026,8 @@ EXPORT void __stdcall sub_4DAF30()
     }
     else
     {
-        u32 v3 = gBurgerKing_67F8B0.sub_4CEAC0();
-        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(v3);
+        const u32 inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(inputs);
     }
 }
 
@@ -1046,7 +1046,7 @@ EXPORT u8 sub_4DA850()
         if (Time >= dword_6F5A28)
         {
             bContinue = ExecuteGame_4DA780();
-            sub_4DAF30();
+            do_inputs_4DAF30();
             dword_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
         }
     }
@@ -1076,7 +1076,7 @@ EXPORT u8 sub_4DA850()
             }
             if (byte_6F5760)
             {
-                sub_4DAF30();
+                do_inputs_4DAF30();
                 byte_6F5760 = 0;
             }
             bContinue = ExecuteGame_4DA780();
@@ -1094,7 +1094,7 @@ EXPORT u8 sub_4DA850()
         }
         else if (byte_6F5760)
         {
-            sub_4DAF30();
+            do_inputs_4DAF30();
             byte_6F5760 = 0;
         }
     }

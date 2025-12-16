@@ -435,7 +435,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 }
 
 STUB_FUNC(0x4ceac0)
-u32 BurgerKing_67F8B0::sub_4CEAC0()
+u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
     NOT_IMPLEMENTED;
     return 0;
