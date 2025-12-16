@@ -618,6 +618,25 @@ void Object_2C::sub_529070(Object_2C* pObj)
     sub_5226A0(pObj->field_26_varrok_idx);
 }
 
+// https://decomp.me/scratch/lXvKN
+MATCH_FUNC(0x529210)
+s32 Object_2C::sub_529210()
+{
+    switch (field_26_varrok_idx)
+    {
+        case 46:
+            return 22;
+        case 47:
+            return 22;
+        case 48:
+            return 22;
+        case 45:
+            return 23;
+            //  default: return 23;
+    }
+    return 23;
+}
+
 MATCH_FUNC(0x529240)
 s32 Object_2C::sub_529240()
 {
