@@ -104,15 +104,20 @@ void BurgerKing_1::set_game_pad_device_properties_4989C0()
     NOT_IMPLEMENTED;
 }
 
-MATCH_FUNC(0x498BA0)
+STUB_FUNC(0x498BA0)
 bool BurgerKing_1::game_pads_init_498BA0()
 {
+    NOT_IMPLEMENTED;
+
     if (gpDInput_67B804)
     {
+        // TODO: Fix link issue on new msvc
+        /*
         if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
         {
             return 1;
         }
+        */
     }
 
     gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);
