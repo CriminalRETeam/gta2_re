@@ -1023,7 +1023,7 @@ void CC ImGuiDebugDraw()
 
                         ImGui::Input_char_type("field_60", &phi->field_60, 1, 1);
                         ImGui::Input_char_type("field_61", &phi->field_61, 1, 1);
-                        ImGui::Input_char_type("field_62", &phi->field_62, 1, 1);
+                        ImGui::Input_char_type("field_62_has_shadows", &phi->field_62_has_shadows, 1, 1);
                         ImGui::Input_char_type("field_63", &phi->field_63, 1, 1);
                         ImGui::Input_char_type("field_64", &phi->field_64, 1, 1);
                         ImGui::Input_char_type("field_65", &phi->field_65, 1, 1);

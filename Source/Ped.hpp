@@ -254,6 +254,11 @@ class Ped
         return field_225;
     }
 
+    bool sub_433DA0()
+    {
+      return (field_21C & 0x2000000) != 0 && field_168_game_object;
+    }
+
     void reset_ped_group()
     {
         field_164_ped_group = NULL;
