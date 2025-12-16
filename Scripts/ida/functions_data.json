@@ -11595,7 +11595,7 @@
         "v105_address": "0x545530"
     },
     {
-        "name": "sub_545570",
+        "name": "Char_B4::IsOnWater_545570",
         "v96f_address": null,
         "v105_address": "0x545570"
     },
@@ -11645,7 +11645,7 @@
         "v105_address": "0x5459c0"
     },
     {
-        "name": "sub_5459E0",
+        "name": "Char_B4::DrownPed_5459E0",
         "v96f_address": null,
         "v105_address": "0x5459e0"
     },
@@ -14625,7 +14625,7 @@
         "v105_address": "0x59e1b0"
     },
     {
-        "name": "sub_59E1D0",
+        "name": "Sprite::IsOnWater_59E1D0",
         "v96f_address": null,
         "v105_address": "0x59e1d0"
     },

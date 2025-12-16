@@ -121,11 +121,11 @@ class MapRenderer
         //return diffuseColour;
     }
 
-    inline void sub_46BB90(s32* maybe_x, s32* maybe_y)
+    inline void sub_46BB90(s32& maybe_x, s32& maybe_y)
     {
         Nanobotz_8* pPos = &field_1C[field_2EFC_curr_draw_layer_size];
-        pPos->field_0_x = *maybe_x;
-        pPos->field_4_y = *maybe_y;
+        pPos->field_0_x = maybe_x;
+        pPos->field_4_y = maybe_y;
         
         Nanobotz_8* pIter = &field_1C[field_2EFC_curr_draw_layer_size-1];
         for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)

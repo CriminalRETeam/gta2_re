@@ -5,6 +5,7 @@
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "fix16.hpp"
+#include "Light_1D4CC.hpp"
 #include "map_0x370.hpp"
 #include "Montana.hpp"
 #include "sharp_pare_0x15D8.hpp"
@@ -30,6 +31,9 @@ DEFINE_GLOBAL(s32, dword_6F62B0, 0x6F62B0);
 DEFINE_GLOBAL(u32, dword_6F6560, 0x6F6560);
 DEFINE_GLOBAL(Fix16, dword_6F628C, 0x6F628C);
 DEFINE_GLOBAL(Fix16, dword_6F656C, 0x6F656C);
+DEFINE_GLOBAL(Fix16, dword_6F6318, 0x6F6318);
+DEFINE_GLOBAL(Fix16, dword_6F633C, 0x6F633C);
+DEFINE_GLOBAL(Fix16, dword_6F6518, 0x6F6518);
 DEFINE_GLOBAL_INIT(s8, byte_620F20, -1, 0x620F20);  // OBS: workaround
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FA4, 8, 0x620FA4, 0, 8, 0x20, 0x28, 0x40, 0x48, 0x60, 0x68);
 DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621004, 8, 0x621004, 0x65, 0x75, 5, 0x15, 0x25, 0x35, 0x45, 0x55);
@@ -602,7 +606,7 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
     field_2F00_drawn_tile_count = 0;
 }
 
-// https://decomp.me/scratch/F1VHf
+// https://decomp.me/scratch/VJVUz
 STUB_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
@@ -633,6 +637,12 @@ void MapRenderer::Draw_4F6A20()
             s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
             s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - (layer_row_width / 2)).ToInt();
             
+            s32 x_total_distance = (max_x - min_x + 1) / 2;
+            if (x_total_distance % 2 != 1)
+            {
+                x_total_distance += 1;
+            }
+
             // stretch the y direction because of assymetric monitor resolution
             Fix16 layer_column_width = layer_row_width * dword_6F638C;  
             
@@ -640,6 +650,12 @@ void MapRenderer::Draw_4F6A20()
             s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
             s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - (layer_column_width / 2)).ToInt();
             
+            s32 y_total_distance = (max_y - min_y + 1) / 2;
+            if (y_total_distance % 2 != 1)
+            {
+                y_total_distance += 1;
+            }
+
             // update global Z coordinate
             gZCoord_6F63E0 = zLayer;    // or maybe zLayer + 1 ?
 
@@ -653,8 +669,9 @@ void MapRenderer::Draw_4F6A20()
             }
 
             // Setting some unknown global vars...
-            //dword_6F6318 = unknown_1; // TODO: not used for now
-            //dword_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
+            dword_6F6518 = Fix16(zLayer);
+            dword_6F6318 = unknown_1; // TODO: not used for now
+            dword_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
             dword_6F62B0 = zLayer + 1;
             
             // Not known yet
@@ -672,25 +689,35 @@ void MapRenderer::Draw_4F6A20()
             if (zLayer == 0 && gLighting_626A09)
             {
                 pgbh_ResetLights();
-
-                f32 float_1, float_2, float_3, float_4;
-                // This function seems to do nothing
-                pgbh_SetCamera(float_1, float_2, float_3, float_4);
-
-                // TODO: lighting
-                //Light::sub_4D6E50(v45, v44, v46, v7);
+                pgbh_SetCamera((f32)min_x, (f32)min_y, (f32)max_x, (f32)max_y);
+                Light::sub_4D6E50(min_x, min_y, max_x, max_y);
             }
 
             // Reset the size of draw layer size
             ResetCount_45B040();
 
-            // Now iter over all blocks at zLayer and set up their "Nanobotz" :p
-            // OBS: the OG code doesn't look as this, so it's provisional
-            for (s32 x = min_x; x < max_x; x++)
+            s32 x_to_render;
+            s32 y_to_render;
+            
+            // Populate the Nanobotz
+            for (s32 relative_y = 0; relative_y <= y_total_distance; relative_y++)
             {
-                for (s32 y = min_y; y < max_y; y++)
+                for (s32 relative_x = 0; relative_x <= x_total_distance; relative_x++)
                 {
-                    sub_46BB90(&x, &y);
+                    x_to_render = max_x - relative_x;
+                    y_to_render = max_y - relative_y;
+                    sub_46BB90(x_to_render, y_to_render);
+                    x_to_render = min_x + relative_x;
+                    sub_46BB90(x_to_render, y_to_render);
+                    y_to_render = min_y + relative_y;
+                    sub_46BB90(x_to_render, y_to_render);
+                    x_to_render = max_x - relative_x;
+                    sub_46BB90(x_to_render, y_to_render);
+
+                    //sub_46BB90(max_x - relative_x, max_y - relative_y);
+                    //sub_46BB90(min_x + relative_x, max_y - relative_y);
+                    //sub_46BB90(min_x + relative_x, min_y + relative_y);
+                    //sub_46BB90(max_x - relative_x, min_y + relative_y);
                 }
             }
 

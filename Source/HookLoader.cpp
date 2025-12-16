@@ -13,6 +13,7 @@
 // - jmp hooks 10.5.exe functions to call matched functions (via exports enumeration) (TODO: How to get function table?)
 // - jmp hooks exported functions that are stubbed to jmp to 10.5.exe (via exports enumeration) (TODO: How to get function table?)
 
+//#define HOOK_VERBOSE
 
 typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
 static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
@@ -138,12 +139,17 @@ class HookLoader
             std::map<const void*, u32>::iterator it = hl->mGlobalEntryToOgAddrMap.find(varAddr);
             if (it != hl->mGlobalEntryToOgAddrMap.end())
             {
+                #ifdef HOOK_VERBOSE
                 printf("Found! %s\n", pName);
+                #endif
                 hl->mExportNameToOgAddrMap[std::string(pName)] = it->second;
             }
             else
             {
-                printf("Didn't find %s (its over fr)\n", pName);
+                if (strstr(pName, "Marker") == NULL) // ignore Markers
+                {
+                    printf("Didn't find %s (its over fr)\n", pName);
+                }
             }
         }
         return true;
@@ -200,7 +206,10 @@ class HookLoader
         }
         else
         {
-            printf("WARNING: No meta for %s\n", pName);
+            if (strstr(pName, "Marker") == NULL) // ignore Markers
+            {
+                printf("WARNING: No meta for %s\n", pName);
+            }
         }
         return true;
     }
@@ -316,10 +325,17 @@ class HookLoader
         for (std::map<std::string, FuncMeta>::iterator it = mFunctionsToHookMap.begin(); it != mFunctionsToHookMap.end(); it++)
         {
             {
+                #ifdef HOOK_VERBOSE
                 printf("Look up %s\n", it->first.c_str());
+                #endif
+
                 LPVOID addr = ::GetProcAddress(hImports, it->first.c_str());
                 const FuncMeta& meta = it->second;
+                
+                #ifdef HOOK_VERBOSE
                 printf("Doing %s\n", it->first.c_str());
+                #endif
+
                 if (meta.mStatus == 0)
                 {
                     // stubbed - hook reimpl func to og

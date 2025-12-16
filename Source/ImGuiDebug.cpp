@@ -69,6 +69,18 @@ bool SliderS16(const char* label, s16* v, s16 v_min, s16 v_max)
     return result;
 }
 
+bool SliderU16(const char* label, u16* v, s16 v_min, s16 v_max)
+{
+    // Cast to int for ImGui::SliderInt
+    int value = static_cast<int>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    if (result)
+    {
+        *v = static_cast<u16>(value); // Convert back to u16
+    }
+    return result;
+}
+
 bool SliderS8(const char* label, char_type* v, char_type v_min, char_type v_max)
 {
     // Cast to int for ImGui::SliderInt
@@ -273,6 +285,18 @@ void CC ImGuiDebugDraw()
                                                              currentCarModelIndex,
                                                              scale);
 
+                pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
+            }
+            if (ImGui::Button("Spawn car with trailer"))
+            {
+                pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
+                                                             pPlayerSprite->field_14_xpos.y,
+                                                             pPlayerSprite->field_1C_zpos,
+                                                             0,
+                                                             currentCarModelIndex,
+                                                             scale);
+
+                pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
                 // Spawns a cab and connected trailer
                 gCar_6C_677930->sub_446530(pPlayerSprite->field_14_xpos.x + xOff,
@@ -331,6 +355,23 @@ void CC ImGuiDebugDraw()
             if (pNewCar)
             {
                 // test things on spawned car
+                static s32 x_explosion_offset = 0;
+                static s32 y_explosion_offset = 0;
+                ImGui::InputInt("Maybe x offset", &x_explosion_offset, 1, 1);
+                ImGui::InputInt("Maybe y offset", &y_explosion_offset, 1, 1);
+
+                static s32 unknown_arg = 19;
+                ImGui::InputInt("Explosion argument", &unknown_arg, 1, 1);
+
+                if (ImGui::Button("ExplodeCar_43D690"))
+                {
+                    pNewCar->sub_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
+                }
+                if (ImGui::Button("ExplodeCar_Unknown_43D840"))
+                {
+                    pNewCar->ExplodeCar_Unknown_43D840(unknown_arg);
+                }
+
             }
         }
         ImGui::TreePop();
@@ -587,6 +628,10 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 32767);
 
                 ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
+                
+                static u16 powerup_idx = 0;
+                ImGui::SliderU16("Powerup idx", &powerup_idx, 0, 16);
+                ImGui::InputU16("Powerup timer", &pPlayer->field_6F4_power_up_timers[powerup_idx], 1, 1);
 
                 Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
                 ImGui::Text("Car 0x%X", pPlayerCar);
@@ -679,6 +724,11 @@ void CC ImGuiDebugDraw()
                             ImGui::Text("field_54_unk car %d name: %s", car_idx, car_name);
                         }
                     }
+                }
+
+                if (ImGui::Button("Drown Player ped"))
+                {
+                    pPlayer->field_2C4_player_ped->field_168_game_object->DrownPed_5459E0();
                 }
             }
         }
