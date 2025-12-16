@@ -2,29 +2,30 @@
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
+#include "Firefighters.hpp"
+#include "Frontend.hpp"
 #include "Game_0x40.hpp"
 #include "Gang.hpp"
-#include "Hud.hpp"
 #include "Hamburger_500.hpp"
+#include "Hud.hpp"
+#include "MapRenderer.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Phi_8CA8.hpp"
 #include "Player.hpp"
+#include "Police_7B8.hpp"
 #include "Shooey_CC.hpp"
-#include "Firefighters.hpp"
 #include "Weapon_8.hpp"
 #include "collide.hpp"
 #include "debug.hpp"
 #include "gbh_graphics.hpp"
-#include "Frontend.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
-#include "Phi_8CA8.hpp"
-#include "MapRenderer.hpp"
-#include "map_0x370.hpp"
 #include "gtx_0x106C.hpp"
-#include "Police_7B8.hpp"
-#include "sprite.hpp"
-#include "registry.hpp"
+#include "jolly_poitras_0x2BC0.hpp"
 #include "lucid_hamilton.hpp"
+#include "map_0x370.hpp"
+#include "registry.hpp"
+#include "Particle_8.hpp"
+#include "sprite.hpp"
 #include <stdarg.h>
 
 EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
@@ -151,6 +152,32 @@ static void EnableBoot2MapDebugOptions()
     bSkip_trains_67D550 = true;
 }
 
+static Sprite* GetPlayerSprite()
+{
+    if (!gGame_0x40_67E008)
+    {
+        return NULL;
+    }
+
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+    if (!pPlayer)
+    {
+        return NULL;
+    }
+
+    if (!pPlayer->field_2C4_player_ped)
+    {
+        return NULL;
+    }
+
+    if (!pPlayer->field_2C4_player_ped->field_168_game_object)
+    {
+        return NULL;
+    }
+
+    return pPlayer->field_2C4_player_ped->field_168_game_object->field_80_sprite_ptr;
+}
+
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
@@ -160,6 +187,26 @@ void CC ImGuiDebugDraw()
         EnableBoot2MapDebugOptions();
     }
 
+    Sprite* pPlayerSprite = GetPlayerSprite();
+    if (pPlayerSprite)
+    {
+        if (ImGui::Button("Particle test"))
+        {
+
+            Fix16 xOff;
+            xOff.FromInt(1);
+
+            EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x + xOff,
+                                       pPlayerSprite->field_14_xpos.y,
+                                       pPlayerSprite->field_1C_zpos,
+                                       0,
+                                       0);
+        }
+    }
+    else
+    {
+        ImGui::Text("Particle test (disabled - no player)");
+    }
 
     if (ImGui::TreeNode("gTango_54_67D4C0"))
     {
@@ -277,33 +324,33 @@ void CC ImGuiDebugDraw()
 
             if (ImGui::Button("Spawn car"))
             {
-                
+
                 pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
-                                                             pPlayerSprite->field_14_xpos.y,
-                                                             pPlayerSprite->field_1C_zpos,
-                                                             0,
-                                                             currentCarModelIndex,
-                                                             scale);
+                                                            pPlayerSprite->field_14_xpos.y,
+                                                            pPlayerSprite->field_1C_zpos,
+                                                            0,
+                                                            currentCarModelIndex,
+                                                            scale);
 
                 pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
             }
             if (ImGui::Button("Spawn car with trailer"))
             {
                 pNewCar = gCar_6C_677930->SpawnCarAt_446230(pPlayerSprite->field_14_xpos.x + xOff,
-                                                             pPlayerSprite->field_14_xpos.y,
-                                                             pPlayerSprite->field_1C_zpos,
-                                                             0,
-                                                             currentCarModelIndex,
-                                                             scale);
+                                                            pPlayerSprite->field_14_xpos.y,
+                                                            pPlayerSprite->field_1C_zpos,
+                                                            0,
+                                                            currentCarModelIndex,
+                                                            scale);
 
                 pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
                 // Spawns a cab and connected trailer
                 gCar_6C_677930->sub_446530(pPlayerSprite->field_14_xpos.x + xOff,
-                                                             pPlayerSprite->field_14_xpos.y,
-                                                             0,
-                                                             car_model_enum::TRUKCAB1,
-                                                             car_model_enum::TRUKTRNS);
+                                           pPlayerSprite->field_14_xpos.y,
+                                           0,
+                                           car_model_enum::TRUKCAB1,
+                                           car_model_enum::TRUKTRNS);
 
                 pNewCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                 if (!pNewCar->field_5C)
@@ -316,7 +363,7 @@ void CC ImGuiDebugDraw()
 
                 pNewCar->field_7C_uni_num = 5;
                 pNewCar->field_76 = 0;
-                if ( pNewCar->field_98 != 4 )
+                if (pNewCar->field_98 != 4)
                 {
                     pNewCar->field_98 = 2;
                 }
@@ -327,15 +374,14 @@ void CC ImGuiDebugDraw()
 
                 // prevents player entering when 4
                 //pNewCar->field_98 = 3;
-                
-               
+
                 pNewCar->field_78_flags |= 0x10u;
 
                 pNewCar->sub_4435F0();
 
                 pPlayer->sub_5645B0(pNewCar);
 
-               // gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
+                // gGame_0x40_67E008->sub_4B9D60(pNewCar->field_50_car_sprite, pPlayer);
 
                 //pPlayerPed->GiveWeapon_46F650(weapon_type::flamethrower);
                 /*
@@ -371,7 +417,6 @@ void CC ImGuiDebugDraw()
                 {
                     pNewCar->ExplodeCar_Unknown_43D840(unknown_arg);
                 }
-
             }
         }
         ImGui::TreePop();
@@ -539,10 +584,10 @@ void CC ImGuiDebugDraw()
                 Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                 Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
                 spawned_obj = gObject_5C_6F8F84->sub_5299B0(currentObjectIndex,
-                                              pPlayerSprite->field_14_xpos.x,
-                                              pPlayerSprite->field_14_xpos.y,
-                                              pPlayerSprite->field_1C_zpos,
-                                              0);
+                                                            pPlayerSprite->field_14_xpos.x,
+                                                            pPlayerSprite->field_14_xpos.y,
+                                                            pPlayerSprite->field_1C_zpos,
+                                                            0);
             }
 
             static int tmp = 0;
@@ -552,10 +597,10 @@ void CC ImGuiDebugDraw()
                 Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                 Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
                 spawned_obj = gObject_5C_6F8F84->sub_5299B0(tmp,
-                                              pPlayerSprite->field_14_xpos.x,
-                                              pPlayerSprite->field_14_xpos.y,
-                                              pPlayerSprite->field_1C_zpos,
-                                              0);
+                                                            pPlayerSprite->field_14_xpos.x,
+                                                            pPlayerSprite->field_14_xpos.y,
+                                                            pPlayerSprite->field_1C_zpos,
+                                                            0);
             }
 
             /*
@@ -628,7 +673,7 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 32767);
 
                 ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
-                
+
                 static u16 powerup_idx = 0;
                 ImGui::SliderU16("Powerup idx", &powerup_idx, 0, 16);
                 ImGui::InputU16("Powerup timer", &pPlayer->field_6F4_power_up_timers[powerup_idx], 1, 1);
@@ -642,12 +687,12 @@ void CC ImGuiDebugDraw()
                     {
                         pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
                     }
-                    
+
                     if (gGangPool_CA8_67E274)
                     {
                         static char_type gang_idx = 0;
                         ImGui::SliderS8("Gang idx", &gang_idx, 0, 2);
-                        
+
                         Gang_144* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
                         if (pGang)
                         {
@@ -657,7 +702,7 @@ void CC ImGuiDebugDraw()
                             }
                         }
                     }
-                    
+
                     /* Crash, for some reason
                     if (ImGui::Button("Add TV Aerial"))
                     {
@@ -668,17 +713,17 @@ void CC ImGuiDebugDraw()
 
                 static int currentWeaponIndex = 0;
                 const char* weaponNames[] = {"Pistol",         "SMG",
-                                            "Rocket",         "Shocker",
-                                            "Molotov",        "Grenade",
-                                            "Shotgun",        "Electro Batton",
-                                            "Flamethrower",   "Silence SMG",
-                                            "Dual Pistol",    "Weapon 11",
-                                            "Weapon 12",      "Weapon 13",
-                                            "Weapon 14",      "Car Bomb",
-                                            "Oil Stain",      "Car Mines",
-                                            "Car SMG",        "Tank Main Gun",
-                                            "Fire Truck Gun", "Fire Truck Flamethrower",
-                                            "Army Gun Jeep",  "Weapon 0x17"};
+                                             "Rocket",         "Shocker",
+                                             "Molotov",        "Grenade",
+                                             "Shotgun",        "Electro Batton",
+                                             "Flamethrower",   "Silence SMG",
+                                             "Dual Pistol",    "Weapon 11",
+                                             "Weapon 12",      "Weapon 13",
+                                             "Weapon 14",      "Car Bomb",
+                                             "Oil Stain",      "Car Mines",
+                                             "Car SMG",        "Tank Main Gun",
+                                             "Fire Truck Gun", "Fire Truck Flamethrower",
+                                             "Army Gun Jeep",  "Weapon 0x17"};
                 const s32 weaponCount = sizeof(weaponNames) / sizeof(weaponNames[0]);
                 if (ImGui::Combo("Weapon Type", &currentWeaponIndex, weaponNames, weaponCount))
                 {
@@ -714,7 +759,7 @@ void CC ImGuiDebugDraw()
                 Car_BC** field_54_car_array = pPlayer->field_54_unk;
                 if (field_54_car_array)
                 {
-                    for(u32 car_idx = 0; car_idx < 3; car_idx++)
+                    for (u32 car_idx = 0; car_idx < 3; car_idx++)
                     {
                         Car_BC* pCar = field_54_car_array[car_idx];
                         if (pCar)
@@ -785,7 +830,7 @@ void CC ImGuiDebugDraw()
             if (ImGui::TreeNode("Garox_1E34_L"))
             {
                 Garox_1E34_L* pGarox_1E34_L = &gHud_2B00_706620->field_DC;
-                
+
                 if (pGarox_1E34_L)
                 {
                     ImGui::Value("field_500", pGarox_1E34_L->field_500);
@@ -801,7 +846,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_6F0", pGarox_1E34_L->field_6F0);
                     ImGui::Value("field_6F4", pGarox_1E34_L->field_6F4);
                 }
-                
+
                 ImGui::TreePop();
             }
         }
@@ -851,10 +896,10 @@ void CC ImGuiDebugDraw()
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
                     gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xpos.x,
-                                               pPlayerSprite->field_14_xpos.y,
-                                               pPlayerSprite->field_1C_zpos,
-                                               pPlayerChar->field_5_remap,
-                                               pPlayerPed->field_134);
+                                                   pPlayerSprite->field_14_xpos.y,
+                                                   pPlayerSprite->field_1C_zpos,
+                                                   pPlayerChar->field_5_remap,
+                                                   pPlayerPed->field_134);
                 }
             }
 
@@ -939,7 +984,7 @@ void CC ImGuiDebugDraw()
             {
                 static s32 Phi_54_idx = 0;
                 ImGui::SliderInt("Phi_54 idx", &Phi_54_idx, 0, 23);
-                
+
                 if (Phi_54_array_006FC5F8)
                 {
                     Phi_54* phi_54 = &Phi_54_array_006FC5F8[Phi_54_idx];
@@ -968,7 +1013,7 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_50", phi_54->field_50);
                     }
                 }
-                
+
                 ImGui::TreePop();
             }
 
@@ -989,7 +1034,7 @@ void CC ImGuiDebugDraw()
                 if (spawned_obj)
                 {
                     Phi_74* phi = spawned_obj->field_8;
-                
+
                     ImGui::InputInt("field_0", &phi->field_0.mValue, 1, 1);
                     ImGui::InputInt("field_4", &phi->field_4.mValue, 1, 1);
                     ImGui::InputInt("field_8", &phi->field_8.mValue, 1, 1);
@@ -1031,11 +1076,9 @@ void CC ImGuiDebugDraw()
                         ImGui::Input_char_type("field_67", &phi->field_67, 1, 1);
 
                         ImGui::InputInt("field_68", &phi->field_68, 1, 1);
-                        
 
                         ImGui::TreePop();
                     }
-                    
 
                     ImGui::SliderU8("field_6C", &phi->field_6C, 0, 32);
                     ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
@@ -1086,7 +1129,7 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Show Brief number", &bShow_brief_number_67D504);
             ImGui::Checkbox("Show Horn", &bDo_show_horn_67D4F2);
             ImGui::TreePop();
-        } 
+        }
 
         if (ImGui::TreeNode("Cheats"))
         {
@@ -1183,8 +1226,6 @@ void CC ImGuiDebugDraw()
 
                     ImGui::TreePop();
                 }
-                
-
             }
             ImGui::TreePop();
         }
@@ -1246,16 +1287,14 @@ void CC ImGuiDebugDraw()
                             ImGui::InputU16("Sleepy field_6", &pCreditLine->field_6, 1, 1);
                         }
                     }
-                    
                 }
-                
             }
             ImGui::TreePop();
         }
-        
+
         ImGui::TreePop();
     }
-    
+
     if (ImGui::TreeNode("gJolly_poitras_0x2BC0_6FEAC0"))
     {
         if (gJolly_poitras_0x2BC0_6FEAC0)
@@ -1276,18 +1315,17 @@ void CC ImGuiDebugDraw()
             {
                 static s32 agitated_type = 0;
 
-                const char* agitated_fields[] = {"field_1890", "field_23D0",
-                                                "field_24C0", "field_25B0"};
+                const char* agitated_fields[] = {"field_1890", "field_23D0", "field_24C0", "field_25B0"};
                 ImGui::Combo("agitated_field", &agitated_type, agitated_fields, 4);
 
                 static s32 id_1 = 0;
                 static s32 id_2 = 0;
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
-                
+
                 high_score_table_0xF0* agitated_keldysh;
 
-                switch(agitated_type)
+                switch (agitated_type)
                 {
                     case 0:
                         agitated_keldysh = &gJolly_poitras_0x2BC0_6FEAC0->field_1890_stage_scores[id_1][id_2];

@@ -21,4 +21,11 @@ class Particle_8
     s32 field_4;
 };
 
+EXPORT void __stdcall EmitImpactParticles_53FE40(
+        Fix16 x,
+        Fix16 y,
+        Fix16 z,
+        Fix16 sinv,
+        Fix16 cosv);
+
 EXTERN_GLOBAL(Particle_8*, gParticle_8_6FD5E8);
