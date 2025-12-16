@@ -162,7 +162,7 @@ static Sprite* GetPedSprite(Ped* pPed)
     return pPed->field_168_game_object->field_80_sprite_ptr;
 }
 
-static Sprite* GetPlayerSprite()
+static Ped* GetPlayerPed()
 {
     if (!gGame_0x40_67E008)
     {
@@ -180,7 +180,18 @@ static Sprite* GetPlayerSprite()
         return NULL;
     }
 
-    return GetPedSprite(pPlayer->field_2C4_player_ped);
+    return pPlayer->field_2C4_player_ped;
+}
+
+static Sprite* GetPlayerSprite()
+{
+    Ped* pPed = GetPlayerPed();
+    if (!pPed)
+    {
+        return NULL;
+    }
+
+    return GetPedSprite(pPed);
 }
 
 void CC ImGuiDebugDraw()
@@ -214,7 +225,22 @@ void CC ImGuiDebugDraw()
         }
     }
 
-   
+    if (ImGui::Button("World burn"))
+    {
+        if (gPedPool_6787B8)
+        {
+            Ped* pIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+            while (pIter)
+            {
+                if (pIter != GetPlayerPed())
+                {
+                    pIter->SetOnFire();
+                }
+                pIter = pIter->mpNext;
+            }
+        }
+    }
+
     if (pPlayerSprite)
     {
         if (ImGui::Button("Particle test"))
@@ -247,6 +273,12 @@ void CC ImGuiDebugDraw()
 
             gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPlayerSprite);
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
+
+            // When being shot etc
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xpos.x,
+                                                      pPlayerSprite->field_14_xpos.y,
+                                                      pPlayerSprite->field_1C_zpos,
+                                                      0);
 
             // Like when a car crashes
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x,

@@ -15,6 +15,12 @@ void Particle_8::ParticlesService_53E320()
     NOT_IMPLEMENTED;
 }
 
+STUB_FUNC(0x53E450)
+void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x53e880)
 void Particle_8::SpawnBlood_53E880(Fix16 a2, Fix16 a3, Fix16 a4)
 {
