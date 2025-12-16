@@ -33,7 +33,7 @@ class Rozza_A
     EXPORT void sub_40B980();
     EXPORT bool sub_40BA60(Object_2C* pObj);
 
-    void sub_40FF10(Fix16 a2)
+    void sub_40FF10(const Fix16& a2)
     {
         this->field_24_car_physics_value = a2;
     }

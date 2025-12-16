@@ -13,6 +13,7 @@
 #include "Wolfy_3D4.hpp"
 #include "enums.hpp"
 #include "error.hpp"
+#include "map_0x370.hpp"
 #include "sprite.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
@@ -617,11 +618,57 @@ void Object_2C::sub_529070(Object_2C* pObj)
     sub_5226A0(pObj->field_26_varrok_idx);
 }
 
-STUB_FUNC(0x529240)
+// https://decomp.me/scratch/lXvKN
+MATCH_FUNC(0x529210)
+s32 Object_2C::sub_529210()
+{
+    switch (field_26_varrok_idx)
+    {
+        case 46:
+            return 22;
+        case 47:
+            return 22;
+        case 48:
+            return 22;
+        case 45:
+            return 23;
+            //  default: return 23;
+    }
+    return 23;
+}
+
+MATCH_FUNC(0x529240)
 s32 Object_2C::sub_529240()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 result;
+    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xpos.x.ToInt(),
+                                                                     field_4->field_14_xpos.y.ToInt(),
+                                                                     field_4->field_1C_zpos.ToInt());
+    switch (field_26_varrok_idx)
+    {
+        case 45u:
+        case 47u:
+            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_0_left & 0x3FF];
+            if (result == 3)
+            {
+                return 1;
+            }
+            break;
+
+        case 46u:
+        case 48u:
+            result = gGtx_0x106C_703DD4->field_6C_spec[pBlockInfo->field_2_right & 0x3FF];
+            if (result == 3)
+            {
+                result = 1;
+            }
+            break;
+
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x5292D0)

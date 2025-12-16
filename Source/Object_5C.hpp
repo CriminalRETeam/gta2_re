@@ -70,6 +70,7 @@ class Object_2C
     EXPORT void sub_529000(Object_2C* pObj);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
     EXPORT void sub_529070(Object_2C* pObj);
+    EXPORT s32 sub_529210();
     EXPORT s32 sub_529240();
     EXPORT void sub_5292D0();
     EXPORT void sub_529080(u8 a2);

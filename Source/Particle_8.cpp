@@ -1,8 +1,8 @@
 #include "Particle_8.hpp"
 #include "Globals.hpp"
-#include "error.hpp"
 #include "Pool.hpp"
 #include "enums.hpp"
+#include "error.hpp"
 
 typedef Pool<Particle_4C, 500> T_Particle_4C_Pool;
 
@@ -63,4 +63,10 @@ Particle_8::~Particle_8()
     }
     field_0 = 0;
     field_4 = 0;
+}
+
+STUB_FUNC(0x53FE40)
+void __stdcall EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
+{
+    NOT_IMPLEMENTED;
 }
