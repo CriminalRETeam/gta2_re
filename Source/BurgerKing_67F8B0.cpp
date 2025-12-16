@@ -82,6 +82,29 @@ bool BurgerKing_1::game_pads_init_498BA0()
     return false;
 }
 
+MATCH_FUNC(0x498730)
+EXPORT bool __stdcall acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+{
+    if (!pGamePadDevice)
+    {
+        return 0;
+    }
+
+    if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
+    {
+        return 0;
+    }
+
+    dword_67B624 = -1;
+
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &dword_67B624, DIGDD_PEEK);
+    if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
+    {
+        return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
+    }
+    return true;
+}
+
 MATCH_FUNC(0x498800)
 BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
 {

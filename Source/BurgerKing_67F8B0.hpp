@@ -21,7 +21,7 @@ class BurgerKing_1
     EXPORT void get_registry_controls_498C00();
     EXPORT bool game_pads_init_498BA0();
     EXPORT BOOL __stdcall make_input_devices_498800(HINSTANCE hInstance);
-
+    //EXPORT bool __stdcall acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice);
     EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
 
     u8 field_0;
