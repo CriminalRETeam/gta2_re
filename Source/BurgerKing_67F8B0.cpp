@@ -20,6 +20,7 @@ DEFINE_GLOBAL(bool, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
+EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
 
 DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00);
 
@@ -30,6 +31,16 @@ EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, in
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+STUB_FUNC(0x498910)
+EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(
+    LPCDIDEVICEINSTANCEA lpddi,
+    LPVOID pvRef
+)
+{
+    NOT_IMPLEMENTED;
+    return FALSE;
 }
 
 MATCH_FUNC(0x4987A0)
@@ -75,11 +86,31 @@ void BurgerKing_1::get_registry_controls_498C00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x498BA0)
-bool BurgerKing_1::game_pads_init_498BA0()
+STUB_FUNC(0x4989C0)
+void BurgerKing_1::set_game_pad_device_properties_4989C0()
 {
     NOT_IMPLEMENTED;
-    return false;
+}
+
+MATCH_FUNC(0x498BA0)
+bool BurgerKing_1::game_pads_init_498BA0()
+{
+    if (gpDInput_67B804)
+    {
+        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+        {
+            return 1;
+        }
+    }
+
+    gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);
+
+    if (!gGamePadDevice_67B6C0)
+    {
+        return 0;
+    }
+    set_game_pad_device_properties_4989C0();
+    return 1;
 }
 
 MATCH_FUNC(0x498730)
