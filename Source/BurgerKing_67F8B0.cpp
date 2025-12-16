@@ -10,6 +10,11 @@
 #include "rng.hpp"
 #include <io.h>
 
+#if _MSC_VER > 1200
+#pragma comment(lib, "dinput.lib")
+#endif
+
+
 #define ATTRACT_COUNT 3
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
