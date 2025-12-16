@@ -6,6 +6,7 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "input.hpp"
+#include "registry.hpp"
 #include "rng.hpp"
 #include <io.h>
 
@@ -18,6 +19,10 @@ DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
 DEFINE_GLOBAL(bool, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
+
+DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
+DEFINE_GLOBAL_ARRAY(s32, dword_67B91C, 12, 0x67B91C);
+DEFINE_GLOBAL_ARRAY(s32, dword_67B6E8, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
@@ -34,10 +39,7 @@ EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, in
 }
 
 STUB_FUNC(0x498910)
-EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(
-    LPCDIDEVICEINSTANCEA lpddi,
-    LPVOID pvRef
-)
+EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA lpddi, LPVOID pvRef)
 {
     NOT_IMPLEMENTED;
     return FALSE;
@@ -83,7 +85,12 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
 STUB_FUNC(0x498C00)
 void BurgerKing_1::get_registry_controls_498C00()
 {
-    NOT_IMPLEMENTED;
+    for (s32 i = 0; i < 12; ++i)
+    {
+        const s32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
+        dword_67B91C[i] = v1 >> 15;
+        dword_67B6E8[i] = (u8)v1;
+    }
 }
 
 STUB_FUNC(0x4989C0)
