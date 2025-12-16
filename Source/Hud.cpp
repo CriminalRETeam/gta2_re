@@ -1851,10 +1851,34 @@ void Garox_1E34_L::sub_5D39D0()
     field_6F8_prev_brief->field_10 = 0;
 }
 
+// https://decomp.me/scratch/exFU8
 STUB_FUNC(0x5d3b80)
 void Garox_1E34_L::DrawBrief_5D3B80()
 {
     NOT_IMPLEMENTED;
+
+    if (this->field_6F8_prev_brief)
+    {
+        sub_5D7670(6, // type
+                   field_50C + 3 * field_502_face_idx + 16, // LOBYTE(v1->field_502_face_idx) pal
+                   (32), // x
+                   (443), // y
+                   word_706610, // rot
+                   DrawKind(2), // drawkind
+                   0,
+                   0,
+                   0);
+
+        s32 t = 480 - (u16)gGtx_0x106C_703DD4->sub_5AA800(&word_7065C4) * field_508_num_lines;
+        DrawText_5D7720(field_0_str, // str
+                        (64), // x
+                        t, // y
+                        word_7065C4, // fontType
+                        DrawKind(2),
+                        0, // a6
+                        0, // alpha
+                        0); // alpha_flag
+    }
 }
 
 STUB_FUNC(0x5d3f10)

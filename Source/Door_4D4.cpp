@@ -33,7 +33,9 @@ STUB_FUNC(0x49cfa0)
 Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    // TODO: Standalone implement me
+
+    return sub_49D3A0();
 }
 
 MATCH_FUNC(0x49d170)

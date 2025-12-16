@@ -1327,6 +1327,7 @@ void miss2_0x11C::ExecOpCode_5061C0()
                 case SCRCMD_START_BASIC_KF:
                     miss2_0x11C::SCRCMD_START_BASIC_KF_506140((u16*)&pBasePtr->field_0_cmd_this);
                     break;
+
                 default:
                     continue;
             }
@@ -1497,6 +1498,8 @@ STUB_FUNC(0x506d60)
 void miss2_0x11C::sub_506D60()
 {
     NOT_IMPLEMENTED;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x506ed0)
@@ -3258,6 +3261,8 @@ STUB_FUNC(0x50c8a0)
 void miss2_0x11C::SCRCMD_DOOR_50C8A0()
 {
     NOT_IMPLEMENTED;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50c990)
@@ -3333,6 +3338,8 @@ STUB_FUNC(0x50ccb0)
 void miss2_0x11C::sub_50CCB0()
 {
     NOT_IMPLEMENTED;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50cd30)
@@ -3709,6 +3716,8 @@ STUB_FUNC(0x50e7f0)
 void miss2_0x11C::sub_50E7F0()
 {
     NOT_IMPLEMENTED;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e820)
@@ -4206,6 +4215,8 @@ STUB_FUNC(0x50f5e0)
 void miss2_0x11C::sub_50F5E0()
 {
     NOT_IMPLEMENTED;
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50f770)
