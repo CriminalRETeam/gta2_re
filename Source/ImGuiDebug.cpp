@@ -11,6 +11,7 @@
 #include "MapRenderer.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -24,7 +25,6 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
-#include "Particle_8.hpp"
 #include "sprite.hpp"
 #include <stdarg.h>
 
@@ -196,7 +196,21 @@ void CC ImGuiDebugDraw()
             Fix16 xOff;
             xOff.FromInt(1);
 
-            EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x + xOff,
+            // From player when stood idle
+            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 1);
+            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 0);
+
+            // Not sure what this does, no visible effect?
+            //gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(pPlayerSprite);
+
+            // Not sure where this is used in game ??
+            gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xpos.x,
+                                                               pPlayerSprite->field_14_xpos.y,
+                                                               pPlayerSprite->field_1C_zpos,
+                                                               0);
+
+            // Like when a car crashes
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x,
                                        pPlayerSprite->field_14_xpos.y,
                                        pPlayerSprite->field_1C_zpos,
                                        0,

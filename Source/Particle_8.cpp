@@ -33,8 +33,20 @@ void Particle_8::sub_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
     NOT_IMPLEMENTED;
 }
 
+STUB_FUNC(0x5405D0)
+void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x540320)
+void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang)
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x5406b0)
-void Particle_8::sub_5406B0(s32 a2, char_type a3)
+void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* a2, char_type a3)
 {
     NOT_IMPLEMENTED;
 }
@@ -66,7 +78,7 @@ Particle_8::~Particle_8()
 }
 
 STUB_FUNC(0x53FE40)
-void __stdcall EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
+void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16 sinv, Fix16 cosv)
 {
     NOT_IMPLEMENTED;
 }
