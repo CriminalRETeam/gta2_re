@@ -410,7 +410,7 @@ void Char_B4::DrownPed_5459E0()
     Ang16 rotation = dword_6FD936 + field_80_sprite_ptr->field_0;
     rotation.Normalize();
 
-    gParticle_8_6FD5E8->sub_53F060(field_80_sprite_ptr->field_14_xpos.x,
+    gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xpos.x,
                                    field_80_sprite_ptr->field_14_xpos.y,
                                    field_80_sprite_ptr->field_1C_zpos,
                                    rotation,

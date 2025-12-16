@@ -11,6 +11,7 @@
 #include "MapRenderer.hpp"
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
+#include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "Player.hpp"
 #include "Police_7B8.hpp"
@@ -24,7 +25,6 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
-#include "Particle_8.hpp"
 #include "sprite.hpp"
 #include <stdarg.h>
 
@@ -152,7 +152,17 @@ static void EnableBoot2MapDebugOptions()
     bSkip_trains_67D550 = true;
 }
 
-static Sprite* GetPlayerSprite()
+static Sprite* GetPedSprite(Ped* pPed)
+{
+    if (!pPed->field_168_game_object)
+    {
+        return NULL;
+    }
+
+    return pPed->field_168_game_object->field_80_sprite_ptr;
+}
+
+static Ped* GetPlayerPed()
 {
     if (!gGame_0x40_67E008)
     {
@@ -170,12 +180,18 @@ static Sprite* GetPlayerSprite()
         return NULL;
     }
 
-    if (!pPlayer->field_2C4_player_ped->field_168_game_object)
+    return pPlayer->field_2C4_player_ped;
+}
+
+static Sprite* GetPlayerSprite()
+{
+    Ped* pPed = GetPlayerPed();
+    if (!pPed)
     {
         return NULL;
     }
 
-    return pPlayer->field_2C4_player_ped->field_168_game_object->field_80_sprite_ptr;
+    return GetPedSprite(pPed);
 }
 
 void CC ImGuiDebugDraw()
@@ -188,6 +204,43 @@ void CC ImGuiDebugDraw()
     }
 
     Sprite* pPlayerSprite = GetPlayerSprite();
+    if (ImGui::Button("Water cannon peds"))
+    {
+        if (gPedPool_6787B8)
+        {
+            Ped* pIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+            while (pIter)
+            {
+                Sprite* pPedSprite = GetPedSprite(pIter);
+                if (pPedSprite && pPedSprite != pPlayerSprite)
+                {
+                    //gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPedSprite, 1);
+                    //gParticle_8_6FD5E8->SpawnBlood_53E880(pPedSprite->field_14_xpos.x,
+                    //                                      pPedSprite->field_14_xpos.y,
+                    //                                      pPedSprite->field_1C_zpos);
+                    gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPedSprite);
+                }
+                pIter = pIter->mpNext;
+            }
+        }
+    }
+
+    if (ImGui::Button("World burn"))
+    {
+        if (gPedPool_6787B8)
+        {
+            Ped* pIter = gPedPool_6787B8->field_0_pool.field_4_pPrev;
+            while (pIter)
+            {
+                if (pIter != GetPlayerPed())
+                {
+                    pIter->SetOnFire();
+                }
+                pIter = pIter->mpNext;
+            }
+        }
+    }
+
     if (pPlayerSprite)
     {
         if (ImGui::Button("Particle test"))
@@ -196,11 +249,43 @@ void CC ImGuiDebugDraw()
             Fix16 xOff;
             xOff.FromInt(1);
 
-            EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x + xOff,
-                                       pPlayerSprite->field_14_xpos.y,
-                                       pPlayerSprite->field_1C_zpos,
-                                       0,
-                                       0);
+            // From player when stood idle
+            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 1);
+            gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(pPlayerSprite, 0);
+
+            // Not sure what this does, no visible effect?
+            //gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(pPlayerSprite);
+
+            // Drowing peds/cars in water etc
+            gParticle_8_6FD5E8->EmitWaterSplash_53F060(pPlayerSprite->field_14_xpos.x,
+                                                       pPlayerSprite->field_14_xpos.y,
+                                                       pPlayerSprite->field_1C_zpos,
+                                                       0,
+                                                       0);
+
+            gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
+
+            // Not sure where this is used in game ??
+            gParticle_8_6FD5E8->EmitElectricArcParticle(pPlayerSprite->field_14_xpos.x,
+                                                        pPlayerSprite->field_14_xpos.y,
+                                                        pPlayerSprite->field_1C_zpos,
+                                                        0);
+
+            gParticle_8_6FD5E8->EmitFireTruckSprayParticle_53FAE0(pPlayerSprite);
+            gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(pPlayerSprite);
+
+            // When being shot etc
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(pPlayerSprite->field_14_xpos.x,
+                                                      pPlayerSprite->field_14_xpos.y,
+                                                      pPlayerSprite->field_1C_zpos,
+                                                      0);
+
+            // Like when a car crashes
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pPlayerSprite->field_14_xpos.x,
+                                                           pPlayerSprite->field_14_xpos.y,
+                                                           pPlayerSprite->field_1C_zpos,
+                                                           0,
+                                                           0);
         }
     }
     else

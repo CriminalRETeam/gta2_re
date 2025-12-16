@@ -11340,17 +11340,17 @@
         "v105_address": "0x53e860"
     },
     {
-        "name": "Particle_8::sub_53E880",
+        "name": "Particle_8::SpawnBlood_53E880",
         "v96f_address": null,
         "v105_address": "0x53e880"
     },
     {
-        "name": "Particle_8::sub_53E970",
+        "name": "Particle_8::GunMuzzelFlash_53E970",
         "v96f_address": null,
         "v105_address": "0x53e970"
     },
     {
-        "name": "Particle_8::sub_53F060",
+        "name": "Particle_8::EmitWaterSplash_53F060",
         "v96f_address": null,
         "v105_address": "0x53f060"
     },
@@ -11380,7 +11380,7 @@
         "v105_address": "0x5405d0"
     },
     {
-        "name": "Particle_8::sub_5406B0",
+        "name": "Particle_8::SpawnCigaretteSmokePuff_5406B0",
         "v96f_address": null,
         "v105_address": "0x5406b0"
     },
