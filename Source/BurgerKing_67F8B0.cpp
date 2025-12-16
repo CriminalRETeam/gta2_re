@@ -10,10 +10,6 @@
 #include "rng.hpp"
 #include <io.h>
 
-#if _MSC_VER > 1200
-#pragma comment(lib, "dinput.lib")
-#endif
-
 
 #define ATTRACT_COUNT 3
 
