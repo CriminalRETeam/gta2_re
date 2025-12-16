@@ -238,8 +238,7 @@ void Rozza_C88::sub_40BBA0(Sprite* pSprite, Fix16 physics_value)
     }
 }
 
-// https://decomp.me/scratch/uG9IP
-STUB_FUNC(0x40bc40)
+MATCH_FUNC(0x40bc40)
 void Rozza_C88::sub_40BC40(Sprite* pSprite)
 {
     if (!bSkip_audio_67D6BE)
