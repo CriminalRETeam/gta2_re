@@ -15,8 +15,9 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
-
 DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
+DEFINE_GLOBAL(bool, byte_67B80C, 0x67B80C);
+DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
@@ -57,10 +58,39 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
     }
 }
 
-STUB_FUNC(0x498C40)
-void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+STUB_FUNC(0x498C00)
+void BurgerKing_1::get_registry_controls_498C00()
 {
     NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x498BA0)
+bool BurgerKing_1::game_pads_init_498BA0()
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
+
+STUB_FUNC(0x498800)
+BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
+{
+    NOT_IMPLEMENTED;
+    return FALSE;
+}
+
+
+MATCH_FUNC(0x498C40)
+void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+{
+    get_registry_controls_498C00();
+    
+    byte_67B80C = 0;
+
+    if (!make_input_devices_498800(hInstance))
+    {
+        gNeedKbAcquire_67B66C = 1;
+    }
+    game_pads_init_498BA0();
 }
 
 // ================================================
