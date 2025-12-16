@@ -128,6 +128,7 @@ class Char_B4
 
     // Function chunk
     EXPORT void sub_545430();
+    EXPORT bool sub_5451C0();
 
     EXPORT void sub_5454B0();
     EXPORT void sub_5454D0();

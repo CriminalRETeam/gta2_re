@@ -6,8 +6,10 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "input.hpp"
+#include "registry.hpp"
 #include "rng.hpp"
 #include <io.h>
+
 
 #define ATTRACT_COUNT 3
 
@@ -15,10 +17,34 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
-
 DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
+DEFINE_GLOBAL(bool, byte_67B80C, 0x67B80C);
+DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
+
+DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
+DEFINE_GLOBAL_ARRAY(s32, dword_67B91C, 12, 0x67B91C);
+DEFINE_GLOBAL_ARRAY(s32, dword_67B6E8, 12, 0x67B6E8);
+
+EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
+EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
+
+DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00);
 
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
+
+// TODO: Move
+EXPORT int __stdcall FatalDXError_4A3CF0(HRESULT hr, const char* pSourceFile, int lineNo)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x498910)
+EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA lpddi, LPVOID pvRef)
+{
+    NOT_IMPLEMENTED;
+    return FALSE;
+}
 
 MATCH_FUNC(0x4987A0)
 void BurgerKing_1::free_input_devices_4987A0()
@@ -57,10 +83,124 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
     }
 }
 
-STUB_FUNC(0x498C40)
-void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+STUB_FUNC(0x498C00)
+void BurgerKing_1::get_registry_controls_498C00()
+{
+    for (s32 i = 0; i < 12; ++i)
+    {
+        const s32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
+        dword_67B91C[i] = v1 >> 15;
+        dword_67B6E8[i] = (u8)v1;
+    }
+}
+
+STUB_FUNC(0x4989C0)
+void BurgerKing_1::set_game_pad_device_properties_4989C0()
 {
     NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x498BA0)
+bool BurgerKing_1::game_pads_init_498BA0()
+{
+    NOT_IMPLEMENTED;
+
+    if (gpDInput_67B804)
+    {
+        // TODO: Fix link issue on new msvc
+        /*
+        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+        {
+            return 1;
+        }
+        */
+    }
+
+    gpDInput_67B804->EnumDevices(DIDEVTYPE_JOYSTICK, DirectInputDeviceEnumCallBack_498910, this, DIEDFL_ATTACHEDONLY);
+
+    if (!gGamePadDevice_67B6C0)
+    {
+        return 0;
+    }
+    set_game_pad_device_properties_4989C0();
+    return 1;
+}
+
+MATCH_FUNC(0x498730)
+EXPORT bool __stdcall acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+{
+    if (!pGamePadDevice)
+    {
+        return 0;
+    }
+
+    if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
+    {
+        return 0;
+    }
+
+    dword_67B624 = -1;
+
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &dword_67B624, DIGDD_PEEK);
+    if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
+    {
+        return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
+    }
+    return true;
+}
+
+MATCH_FUNC(0x498800)
+BOOL __stdcall BurgerKing_1::make_input_devices_498800(HINSTANCE hInstance)
+{
+    DIPROPDWORD prop;
+
+    gNeedKbAcquire_67B66C = 0;
+
+    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, 0)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
+    }
+
+    if (FAILED(gKeyboardDevice_67B5C0->SetDataFormat(&gKeyboardDataFormat_601A54)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
+    }
+
+    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, 6)))
+    {
+        FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
+    }
+
+    prop.dwData = 10000; // buffer size
+
+    prop.diph.dwSize = sizeof(DIPROPDWORD);
+    prop.diph.dwHeaderSize = sizeof(DIPROPHEADER);
+    prop.diph.dwHow = DIPH_DEVICE;
+    prop.diph.dwObj = 0;
+
+    HRESULT hr = gKeyboardDevice_67B5C0->SetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    if (FAILED(hr))
+    {
+        FatalDXError_4A3CF0(hr, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 300);
+    }
+
+    prop.dwData = 0;
+    gKeyboardDevice_67B5C0->GetProperty(DIPROP_BUFFERSIZE, &prop.diph);
+    return !FAILED(gKeyboardDevice_67B5C0->Acquire());
+}
+
+MATCH_FUNC(0x498C40)
+void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
+{
+    get_registry_controls_498C00();
+
+    byte_67B80C = 0;
+
+    if (!make_input_devices_498800(hInstance))
+    {
+        gNeedKbAcquire_67B66C = 1;
+    }
+    game_pads_init_498BA0();
 }
 
 // ================================================
@@ -301,7 +441,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 }
 
 STUB_FUNC(0x4ceac0)
-u32 BurgerKing_67F8B0::sub_4CEAC0()
+u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
+#include "Rozza_C88.hpp"
 #include "char.hpp"
 #include "crt_stubs.hpp"
 #include "debug.hpp"
@@ -12,7 +13,6 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
-#include "Rozza_C88.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -27,7 +27,7 @@ DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, dword_703450, dword_703424, 0x703450);
-Ang16 word_703804 = 0;//DEFINE_GLOBAL_INIT(Ang16, word_703804, Ang16(0), 0x703804);
+Ang16 word_703804 = 0; //DEFINE_GLOBAL_INIT(Ang16, word_703804, Ang16(0), 0x703804);
 
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
@@ -345,10 +345,23 @@ s16 Sprite::sub_59EAA0()
     return gGtx_0x106C_703DD4->convert_pal_type_5AA5F0(field_34, field_24_remap);
 }
 
-STUB_FUNC(0x59eae0)
+MATCH_FUNC(0x59eae0)
 char_type Sprite::has_shadows_59EAE0()
 {
-    NOT_IMPLEMENTED;
+    switch (field_30_sprite_type_enum)
+    {
+        case 3:
+            return field_8_char_b4_ptr->sub_5451C0();
+        case 8:
+        case 2:
+            return 1;
+        case 1:
+        case 4:
+        case 5:
+            return field_8_object_2C_ptr->field_8->field_62_has_shadows;
+        default:
+            break;
+    }
     return 0;
 }
 

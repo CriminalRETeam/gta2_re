@@ -197,6 +197,22 @@ void Char_B4::PoolDeallocate()
     NOT_IMPLEMENTED;
 }
 
+MATCH_FUNC(0x5451C0)
+bool Char_B4::sub_5451C0()
+{
+    if (field_8_ped_state_1 == 9)
+    {
+        return false;
+    }
+
+    if (field_C_ped_state_2 != 22 && field_10 != 15 && field_C_ped_state_2 != 27 && !field_7C_pPed->sub_433DA0())
+    {
+        return true;
+    }
+
+    return false;
+}
+
 MATCH_FUNC(0x545430)
 void Char_B4::sub_545430()
 {

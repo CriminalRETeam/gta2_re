@@ -18,6 +18,10 @@ class BurgerKing_1
 
     EXPORT void read_keyboard_and_gamepad_498CC0();
 
+    EXPORT void get_registry_controls_498C00();
+    EXPORT bool game_pads_init_498BA0();
+    EXPORT BOOL __stdcall make_input_devices_498800(HINSTANCE hInstance);
+    EXPORT void set_game_pad_device_properties_4989C0();
     EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
 
     u8 field_0;
@@ -51,7 +55,7 @@ class BurgerKing_67F8B0
     EXPORT void sub_4CE880(HINSTANCE a2);
     EXPORT void Shutdown_4CEA00();
     EXPORT void replay_save_4CEA40(u32* input_bits);
-    EXPORT u32 sub_4CEAC0();
+    EXPORT u32 get_input_bits_4CEAC0();
     EXPORT void sub_4CED00(s32 a2, s32 a3);
     EXPORT void sub_4CED90();
     EXPORT bool RecOrPlayBackState_4CEDF0();

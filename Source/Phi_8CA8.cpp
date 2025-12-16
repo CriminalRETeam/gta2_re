@@ -803,7 +803,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_5C = puVar3->field_4C;
             pPVar2->field_68 = 0;
             pPVar2->field_70 = puVar3->field_44;
-            pPVar2->field_62 = puVar3->field_48;
+            pPVar2->field_62_has_shadows = puVar3->field_48;
             pPVar2->field_63 = puVar3->field_50;
             pPVar2->field_54 = 0;
             puVar3++;
@@ -1152,7 +1152,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_5C = puVar2->field_5C;
             this_00->field_68 = puVar2->field_60;
             this_00->field_70 = puVar2->field_64;
-            this_00->field_62 = puVar2->field_68;
+            this_00->field_62_has_shadows = puVar2->field_68;
             this_00->field_63 = puVar2->field_69;
             puVar2++;
         }

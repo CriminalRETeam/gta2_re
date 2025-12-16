@@ -1,12 +1,12 @@
 #pragma once
 
+#include "Draw.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
-#include "map_0x370.hpp"
-#include "Draw.hpp"
-#include <wchar.h>
 #include "gtx_0x106C.hpp"
+#include "map_0x370.hpp"
+#include <wchar.h>
 
 class Ped;
 class Player;
@@ -511,6 +511,12 @@ class gmp_map_zone;
 class Hud_MapZone_98
 {
   public:
+    void clear_zones()
+    {
+        field_88_nav_zone = NULL;
+        field_8C_local_nav_zone = NULL;
+    }
+
     EXPORT void DrawZoneName_5D5900();
     EXPORT void sub_5D5AD0();
     EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);

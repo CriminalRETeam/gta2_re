@@ -10,6 +10,7 @@
 #include "Hud.hpp"
 #include "NetPlay.hpp"
 #include "Ped.hpp"
+#include "PedGroup.hpp"
 #include "Police_7B8.hpp"
 #include "Weapon_30.hpp"
 #include "Weapon_8.hpp"
@@ -19,7 +20,6 @@
 #include "infallible_turing.hpp"
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
-#include "PedGroup.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
@@ -37,6 +37,27 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
+
+struct UnknownDebugClass
+{
+    EXPORT bool DoTest_5B2640(u16 action);
+    EXPORT bool DoBrianTest_42D870(u16 action);
+};
+DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
+
+STUB_FUNC(0x5B2640)
+bool UnknownDebugClass::DoTest_5B2640(u16 action)
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
+
+STUB_FUNC(0x42D870)
+bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
+{
+    NOT_IMPLEMENTED;
+    return false;
+}
 
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
@@ -382,9 +403,9 @@ MATCH_FUNC(0x5653E0)
 void Player::sub_5653E0()
 {
     Car_BC* pCar = gCar_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cam_pos2.field_0_x,
-                                                                 field_14C_view_camera.field_98_cam_pos2.field_4_y,
-                                                                 field_14C_view_camera.field_98_cam_pos2.field_8_z,
-                                                                 0);
+                                                                          field_14C_view_camera.field_98_cam_pos2.field_4_y,
+                                                                          field_14C_view_camera.field_98_cam_pos2.field_8_z,
+                                                                          0);
     if (pCar)
     {
         sub_5695A0();
@@ -504,15 +525,16 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
     }
 }
 
-// https://decomp.me/scratch/lFslP
+// https://decomp.me/scratch/jvjpT
+// pre processor bugged, should match ??
 STUB_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
     NOT_IMPLEMENTED;
-    u8 vol;
-    u8 cdVol;
 
-    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
+    s32 vol;
+
+    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this)) // OBS: bool
     {
         switch (action)
         {
@@ -568,8 +590,7 @@ void Player::Hud_Controls_565890(u16 action)
                     vol = 0;
                 }
                 gRoot_sound_66B038.SetCDVol_40F0F0(vol);
-                cdVol = gRoot_sound_66B038.GetCDVol_40F120();
-                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", cdVol);
+                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", gRoot_sound_66B038.GetCDVol_40F120());
                 break;
             case DIK_F4:
                 if (gRoot_sound_66B038.GetCDVol_40F120() + 10 < 127)
@@ -580,10 +601,9 @@ void Player::Hud_Controls_565890(u16 action)
                 {
                     vol = 127;
                 }
-            LABEL_18:
+                // LABEL_18:
                 gRoot_sound_66B038.SetCDVol_40F0F0(vol);
-                cdVol = gRoot_sound_66B038.GetCDVol_40F120();
-                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", cdVol);
+                gRegistry_6FF968.Set_Sound_Setting_586B80("CDVol", gRoot_sound_66B038.GetCDVol_40F120());
                 break;
             case DIK_F6:
                 gGame_0x40_67E008->TogglePause_4B9700();
@@ -603,9 +623,9 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_F9:
                 if (this->field_0)
                 {
-                    //gHud_2B00_706620->field_4C.clear_zones();
-                    gHud_2B00_706620->field_4C.field_88_nav_zone = NULL;
-                    gHud_2B00_706620->field_4C.field_8C_local_nav_zone = NULL;
+                    gHud_2B00_706620->field_4C.clear_zones();
+                    //gHud_2B00_706620->field_4C.field_88_nav_zone = NULL;
+                    //gHud_2B00_706620->field_4C.field_8C_local_nav_zone = NULL;
                 }
                 break;
             case DIK_F10:
@@ -778,11 +798,11 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_0:
                 if (bDo_test_67D4F8)
                 {
-                    //dword_7044A0->DoTest_5B2640(action);
+                    dword_7044A0->DoTest_5B2640(action);
                 }
                 if (bDo_brian_test_67D544)
                 {
-                    //dword_7044A0->DoBrianTest_42D870(action);
+                    dword_7044A0->DoBrianTest_42D870(action);
                 }
                 else if (bDo_iain_test_67D4E9)
                 {

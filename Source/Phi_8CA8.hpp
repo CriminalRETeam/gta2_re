@@ -256,7 +256,7 @@ class Phi_74
     s32 field_5C;
     char_type field_60;
     char_type field_61;
-    char_type field_62;
+    char_type field_62_has_shadows;
     char_type field_63;
     char_type field_64;
     char_type field_65;
