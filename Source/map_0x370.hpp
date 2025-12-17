@@ -161,10 +161,10 @@ struct gmp_map_light
     s16 field_6_y;
     s16 field_8_z;
     s16 field_A_radius;
-    char_type field_C_intensity;
-    char_type field_D_shape;
-    char_type field_E_on_time;
-    char_type field_F_off_time;
+    u8 field_C_intensity;
+    u8 field_D_shape;
+    u8 field_E_on_time;
+    u8 field_F_off_time;
 };
 
 struct gmp_tile_animation
