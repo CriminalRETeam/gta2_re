@@ -15,6 +15,7 @@ class Object_3C;
 class Object_2C_Pool;
 class Wolfy_30;
 class Object_8;
+class nostalgic_ellis_0x28;
 
 class Object_2C
 {
@@ -136,6 +137,7 @@ class Object_2C
     {
         Wolfy_30* field_C_explosion;
         Object_8* field_C_obj_8;
+        nostalgic_ellis_0x28* field_C_light;
     };
     Object_3C* field_10_obj_3c;
     s32 field_14_id;

@@ -4,6 +4,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Light_1D4CC.hpp"
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
@@ -30,7 +31,8 @@ DEFINE_GLOBAL(s32, dword_6F5BA0, 0x6F5BA0);
 DEFINE_GLOBAL(s32, dword_6F6248, 0x6F6248);
 DEFINE_GLOBAL(s32, dword_6F5FAC, 0x6F5FAC);
 DEFINE_GLOBAL(Fix16, dword_6F610C, 0x6F610C);
-DEFINE_GLOBAL(Fix16, dword_6F6130, 0x6F6130);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6130, Fix16(0x20000, 0), 0x6F6130);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F601C, Fix16(0x200, 0), 0x6F601C);
 DEFINE_GLOBAL(Fix16, dword_6F60C0, 0x6F60C0);
 DEFINE_GLOBAL(Fix16, dword_6F5ED8, 0x6F5ED8);
 DEFINE_GLOBAL(Fix16, dword_6F5FA8, 0x6F5FA8);
@@ -582,11 +584,38 @@ void Map_0x370::alloc_zones_4DFCA0()
     }
 }
 
-STUB_FUNC(0x4DFCD0)
+MATCH_FUNC(0x4DFCD0)
 void Map_0x370::update_lights_4DFCD0()
 {
-    NOT_IMPLEMENTED;
+    if (field_348_num_lights == 0)
+    {
+        return;
+    }
+    
+    gmp_map_light* pMapLight = &field_33C_pLightData[0];
+
+    for (u32 light_idx = 0; light_idx < field_348_num_lights; light_idx++, ++pMapLight)
+    {
+        Fix16 xpos = Fix16::ctor_462ED0(pMapLight->field_4_x);
+        Fix16 ypos = Fix16::ctor_462ED0(pMapLight->field_6_y);
+        Fix16 zpos = Fix16::ctor_462ED0(pMapLight->field_8_z);
+        Fix16 radius = Fix16::ctor_462ED0(pMapLight->field_A_radius);
+
+        if (radius == dword_6F6130)
+        {
+            radius -= dword_6F601C;
+        }
+
+        nostalgic_ellis_0x28* pLight =
+            gLight_1D4CC_6F5520->Init_469010(xpos, ypos, zpos, pMapLight->field_0_argb, radius, pMapLight->field_C_intensity);
+
+        if (pMapLight->field_E_on_time)
+        {
+            gLight_1D4CC_6F5520->sub_469070(pLight, pMapLight->field_E_on_time, pMapLight->field_F_off_time, pMapLight->field_D_shape);
+        }
+    }
 }
+
 
 MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)

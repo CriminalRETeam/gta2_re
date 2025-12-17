@@ -30,7 +30,7 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_1D4CC.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -916,10 +916,20 @@ void miss2_0x11C::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1)
     }
 }
 
-STUB_FUNC(0x504ee0)
-void miss2_0x11C::CreateLight_504EE0(s32 a1, s32 a2)
+MATCH_FUNC(0x504ee0)
+void miss2_0x11C::CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPointer)
 {
-    NOT_IMPLEMENTED;
+    nostalgic_ellis_0x28* pNewLight = gLight_1D4CC_6F5520->Init_469010(pCmd->field_C_xpos,
+                                                                       pCmd->field_10_ypos,
+                                                                       pCmd->field_14_zpos,
+                                                                       pCmd->field_18_argb,
+                                                                       pCmd->field_1C_radius,
+                                                                       pCmd->field_20_intensity);
+    pPointer->field_8_light = pNewLight;
+    if (pCmd->field_21_on_time > 0)
+    {
+        gLight_1D4CC_6F5520->sub_469070(pNewLight, pCmd->field_21_on_time, pCmd->field_22_off_time, pCmd->field_23_shape);
+    }
 }
 
 MATCH_FUNC(0x505030)
@@ -1257,7 +1267,7 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     break;
                 case SCRCMD_CREATE_LIGHT2:
                 case SCRCMD_LIGHT_DEC:
-                    miss2_0x11C::CreateLight_504EE0((s32)pBasePtr, (s32)pBasePtr); // TODO: correct type after matching this func
+                    miss2_0x11C::CreateLight_504EE0((SCR_CREATE_LIGHT*)pBasePtr, (SCR_POINTER*)pBasePtr);
                     break;
                 case SCRCMD_DECLARE_POLICE:
                     miss2_0x11C::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)pBasePtr);

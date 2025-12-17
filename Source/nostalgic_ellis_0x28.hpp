@@ -4,6 +4,21 @@
 #include "rng.hpp"
 #include "fix16.hpp"
 
+struct LightIntensityRadius
+{
+    inline void sub_463EF0(u8 unknown)
+    {
+        flag = (flag & ~0x0000FF00) | (unknown << 8);
+    }
+    
+    inline void sub_463F10(Fix16 radius)
+    {
+        u8 unknown = (radius * 32).ToInt();
+        sub_463EF0(unknown);
+    }
+    s32 flag;
+};
+
 class nostalgic_ellis_0x28
 {
   public:
@@ -21,9 +36,9 @@ class nostalgic_ellis_0x28
         field_17_off_time--;
         if (!field_17_off_time)
         {
-            if (field_0 & 0xff)
+            if (field_0.flag & 0xff)
             {
-                field_0 &= ~0xff;
+                field_0.flag &= ~0xff;
                 field_17_off_time = field_15_off_time;
                 if (field_16_shape)
                 {
@@ -32,9 +47,9 @@ class nostalgic_ellis_0x28
             }
             else
             {
-                field_0 &= ~0xff;
+                field_0.flag &= ~0xff;
                 u8 t = field_18_intensity;
-                field_0 |= t;
+                field_0.flag |= t;
                 field_17_off_time = field_14_on_time;
                 if (field_16_shape)
                 {
@@ -48,11 +63,29 @@ class nostalgic_ellis_0x28
     // 0x45B320
     void PoolDeallocate()
     {
-        field_0 = 0x2A2A2A2A;
+        field_0.flag = 0x2A2A2A2A;
     }
 
-    // nostalgic_ellis_0x28* field_0;
-    s32 field_0; // todo ??
+    void sub_463F50()
+    {
+        field_0.flag = 0;
+        field_14_on_time = 0;
+    }
+
+    void sub_45B2D0(u8 intensity)
+    {
+        field_0.flag = intensity | (field_0.flag & ~0xFF);
+    }
+
+    inline void sub_482D60(s32 argb, s32 flags, u8 intensity)
+    {
+        field_10_argb = argb;
+        field_0.sub_463F10(flags);
+        sub_45B2D0(intensity);
+        field_18_intensity = intensity;
+    }
+
+    LightIntensityRadius field_0; // todo ??
     Fix16 field_4_light_x;
     Fix16 field_8_light_y;
     Fix16 field_C_light_z;
@@ -76,5 +109,5 @@ class Light
 
     EXPORT static void sub_4D6E30();
 
-    EXPORT static s32 __stdcall sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4);
+    EXPORT static void __stdcall sub_4D6E50(s32 a1, s32 a2, s32 a3, s32 a4);
 };
