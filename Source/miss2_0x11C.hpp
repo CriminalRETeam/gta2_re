@@ -573,6 +573,21 @@ struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
     u16 field_A_trailer_car_idx;
 };
 
+struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
+{
+    u16 field_8_car_idx;
+    u16 field_A_trailer_car_idx;
+    Fix16 field_C_xpos;
+    Fix16 field_10_ypos;
+    Fix16 field_14_zpos;
+    s32 field_18_argb;
+    Fix16 field_1C_radius;
+    u8 field_20_intensity;
+    u8 field_21_on_time;
+    u8 field_22_off_time;
+    u8 field_23_shape;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
@@ -648,7 +663,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1);
     EXPORT void SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3);
     EXPORT void SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* a1);
-    EXPORT void CreateLight_504EE0(s32 a1, s32 a2);
+    EXPORT void CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* a1);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* a1);
     EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* a1);
