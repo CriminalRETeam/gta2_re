@@ -630,60 +630,70 @@ void MapRenderer::Draw_4F6A20()
         // render blocks
         if (!bSkip_tiles_67D655)
         {
+            s32 zpos_inverse = 8 - zLayer;
             // compute tile rendering boundaries
-            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8) - Fix16(zLayer)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(zpos_inverse)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+
+            // narrow the y direction because of assymetric monitor resolution
+            Fix16 layer_column_width = layer_row_width * dword_6F638C;  
             
             // compute x boundary
-            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
+            
             s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - (layer_row_width / 2)).ToInt();
+            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
             
             s32 x_total_distance = (max_x - min_x + 1) / 2;
             if (x_total_distance % 2 != 1)
             {
                 x_total_distance += 1;
             }
-
-            // stretch the y direction because of assymetric monitor resolution
-            Fix16 layer_column_width = layer_row_width * dword_6F638C;  
             
             // compute y boundary
-            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
             s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - (layer_column_width / 2)).ToInt();
-            
+            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
+
             s32 y_total_distance = (max_y - min_y + 1) / 2;
             if (y_total_distance % 2 != 1)
             {
                 y_total_distance += 1;
             }
-
+            
             // update global Z coordinate
-            gZCoord_6F63E0 = zLayer;    // or maybe zLayer + 1 ?
-
+            gZCoord_6F63E0 = zLayer;
+            dword_6F6518 = Fix16(zLayer);
 
             // Not known yet
-            Fix16 unknown_1 = stru_6F6484.x;    // TODO: this is not Fix16
-            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8) - Fix16(zLayer);
-            if (unk_Z_Factor != stru_6F6484.x) //  != 0
+            Fix16 unknown_1;
+            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(zpos_inverse);
+            if (unk_Z_Factor == stru_6F6484.x)
             {
-                unknown_1 = stru_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
+                unknown_1 = stru_6F6484.x;
+            }
+            else
+            {
+                unknown_1 = stru_6F6484.y / unk_Z_Factor;
             }
 
             // Setting some unknown global vars...
-            dword_6F6518 = Fix16(zLayer);
-            dword_6F6318 = unknown_1; // TODO: not used for now
+            
+            dword_6F6318 = unknown_1;
             dword_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
             dword_6F62B0 = zLayer + 1;
             
             // Not known yet
-            Fix16 unknown_2 = stru_6F6484.x;
-            if (unk_Z_Factor != stru_6F6484.x) //  != 0
+            Fix16 unknown_2;
+            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - (zLayer + 1));
+            if (unk_Z_Factor_2 == stru_6F6484.x)
             {
-                unknown_2 = stru_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
+                unknown_2 = stru_6F6484.x;
+            }
+            else
+            {
+                unknown_2 = stru_6F6484.y / unk_Z_Factor_2;
             }
 
             dword_6F656C = unknown_2;
             dword_6F628C = unknown_2 * gViewCamera_676978->field_60.x; // tile scale ?
-            
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)
