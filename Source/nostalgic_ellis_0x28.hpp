@@ -77,7 +77,14 @@ class nostalgic_ellis_0x28
         field_0.flag = intensity | (field_0.flag & ~0xFF);
     }
 
-    // nostalgic_ellis_0x28* field_0;
+    inline void sub_482D60(s32 argb, s32 flags, u8 intensity)
+    {
+        field_10_argb = argb;
+        field_0.sub_463F10(flags);
+        sub_45B2D0(intensity);
+        field_18_intensity = intensity;
+    }
+
     LightIntensityRadius field_0; // todo ??
     Fix16 field_4_light_x;
     Fix16 field_8_light_y;

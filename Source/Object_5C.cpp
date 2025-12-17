@@ -982,11 +982,16 @@ Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
     return 0;
 }
 
+// https://decomp.me/scratch/vf1YG need to inline sub_482D60
 STUB_FUNC(0x529ab0)
-Object_2C* Object_5C::sub_529AB0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, s32 a6, s32 a7, u8 a8)
+Object_2C* Object_5C::sub_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, s32 radius_flags, u8 intensity)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = Object_5C::sub_529C00(light_type, xpos, ypos, zpos, word_6F8F68, 0);
+    if (pNewObj)
+    {
+        pNewObj->field_C_light->sub_482D60(argb, radius_flags, intensity);
+    }
+    return pNewObj;
 }
 
 STUB_FUNC(0x529b20)
