@@ -317,34 +317,34 @@ void Char_B4::sub_545720(Fix16 a2)
         switch (field_8_ped_state_1)
         {
             case 0:
-                Char_B4::state_0_54DDF0();
+                Char_B4::state_0_54DDF0(); // Walking
                 break;
             case 1:
-                Char_B4::state_1_5504F0();
+                Char_B4::state_1_5504F0(); // Scared/Running
                 break;
             case 2:
-                Char_B4::state_1_5519F0();
+                Char_B4::state_1_5519F0(); // Running (for cops?)
                 break;
             case 3:
-                Char_B4::state_3_551A00();
+                Char_B4::state_3_551A00(); // EnteringCar
                 break;
             case 4:
-                Char_B4::state_4_551B30();
+                Char_B4::state_4_551B30(); // ExitingCar
                 break;
             case 5:
-                Char_B4::state_5_551BB0();
+                Char_B4::state_5_551BB0(); // ??????
                 break;
             case 6:
                 nullsub_28();
                 break;
             case 7:
-                Char_B4::state_7_551CB0();
+                Char_B4::state_7_551CB0(); // Repulsion/Repel Ending?
                 break;
             case 8:
-                Char_B4::state_8_5520A0();
+                Char_B4::state_8_5520A0(); // Repulsion/Repel
                 break;
             case 9:
-                Char_B4::state_9_552E90();
+                Char_B4::state_9_552E90(); // Dying?
                 break;
             default:
                 break;
