@@ -98,42 +98,39 @@ void Light::sub_4D6E30()
     }
 }
 
-// https://decomp.me/scratch/eOl7e
-STUB_FUNC(0x4D6E50)
+MATCH_FUNC(0x4D6E50)
 void __stdcall Light::sub_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
 {
-    NOT_IMPLEMENTED;
-    
-    s32 min_x_offset = (min_x >> 2) - 2;
-    if (min_x_offset < 0)
+    min_x = (min_x >> 2) - 2;
+    if (min_x < 0)
     {
-        min_x_offset = 0;
+        min_x = 0;
     }
 
-    s32 min_y_offset = (min_y >> 2) - 2;
-    if (min_y_offset < 0)
+    min_y = (min_y >> 2) - 2;
+    if (min_y < 0)
     {
-        min_y_offset = 0;
+        min_y = 0;
     }
 
-    s32 max_x_offset = (max_x >> 2) + 2;
-    if (max_x_offset > 63)
+    max_x = (max_x >> 2) + 2;
+    if (max_x > 63)
     {
-        max_x_offset = 63;
+        max_x = 63;
     }
 
-    s32 max_y_offset = (max_y >> 2) + 2;
-    if (max_y_offset > 63)
+    max_y = (max_y >> 2) + 2;
+    if (max_y > 63)
     {
-        max_y_offset = 63;
+        max_y = 63;
     }
 
-    for (s32 ypos = min_y_offset; ypos <= max_y_offset; ypos++)
+    for (s32 ypos = min_y; ypos <= max_y; ypos++)
     {
-        for (s32 xpos = min_x_offset; xpos <= max_x_offset; xpos++)
+        for (s32 xpos = min_x; xpos <= max_x; xpos++)
         {
             nostalgic_ellis_0x28* pLight = g4096_alloc_6F5400[(ypos * 64) + xpos];
-            for (; pLight != NULL; pLight = pLight->field_20)
+            while (pLight)
             {
                 SLight pSLight;
                 pSLight.field_0 = pLight->field_0.flag;
@@ -142,6 +139,7 @@ void __stdcall Light::sub_4D6E50(s32 min_x, s32 min_y, s32 max_x, s32 max_y)
                 pSLight.field_C_z = pLight->field_C_light_z.ToFloat();
                 pSLight.field_10_colour = pLight->field_10_argb;
                 pgbh_AddLight(&pSLight);
+                pLight = pLight->field_20;
             }
         }
     }
