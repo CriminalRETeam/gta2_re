@@ -1150,7 +1150,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             break;
 
         case 11:
-            //pNew2C->field_C_obj_8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            pNew2C->field_C_obj_8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
         default:

@@ -18,3 +18,9 @@ nostalgic_ellis_0x28* Light_1D4CC::sub_5C2B70()
     result->field_14_on_time = 0;
     return result;
 }
+
+MATCH_FUNC(0x52B2A0)
+nostalgic_ellis_0x28* Light_1D4CC::sub_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+{
+    return Init_469010(xpos, ypos, zpos, argb, radius, intensity);
+}

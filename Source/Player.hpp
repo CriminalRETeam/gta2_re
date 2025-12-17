@@ -109,9 +109,9 @@ class Player
         s32 occupation;
         if (!field_2D0 || !field_2C8_unkq || (occupation = field_2C8_unkq->get_occupation_403980(), occupation != ped_ocupation_enum::empty))
         {
-            occupation = 0;
+            return false;
         }
-        return occupation;
+        return true;
     }
 
     EXPORT u8 GetIdx_4881E0();
