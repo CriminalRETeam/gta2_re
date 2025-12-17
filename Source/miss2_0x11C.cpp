@@ -1582,15 +1582,15 @@ void miss2_0x11C::sub_507CE0()
 
     switch (pObjData->field_2_type)
     {
+        case 0x31:
+        case 0x34:
+            miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(pObjData, pPointer);
+            break;
         case 0x2F:
         case 0x30:
         case 0x32:
         case 0x33:
             miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(pObjData, pPointer);
-            break;
-        case 0x31:
-        case 0x34:
-            miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(pObjData, pPointer);
             break;
         default:
             break;

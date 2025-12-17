@@ -352,13 +352,16 @@ char_type Sprite::has_shadows_59EAE0()
     {
         case 3:
             return field_8_char_b4_ptr->sub_5451C0();
-        case 8:
         case 2:
             return 1;
         case 1:
         case 4:
         case 5:
             return field_8_object_2C_ptr->field_8->field_62_has_shadows;
+        case 6:
+        case 7:
+        case 8:
+            return 0;
         default:
             break;
     }
