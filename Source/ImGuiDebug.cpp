@@ -297,6 +297,23 @@ void CC ImGuiDebugDraw()
             ImGui::Text("Particle test (disabled - no player)");
         }
 
+        if (gpMapRenderer_6F66E4)
+        {
+            if (ImGui::TreeNode("MapRenderer & Lights"))
+            {
+                ImGui::SliderInt("Ambient Level", &gpMapRenderer_6F66E4->field_0_ambient.mValue, 0, 16383);
+
+                static u8 shading_level = 15;
+                ImGui::SliderU8("Shading Level", &shading_level, 0, 255);
+
+                if (ImGui::Button("Apply Shading Level"))
+                {
+                    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(shading_level);
+                }
+                ImGui::TreePop();
+            }
+        }
+
         if (ImGui::TreeNode("gTango_54_67D4C0"))
         {
             if (gFirefighterPool_54_67D4C0)
