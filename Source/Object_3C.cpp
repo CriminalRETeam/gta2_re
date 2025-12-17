@@ -419,13 +419,13 @@ void struct_4::sub_5A7010()
         Sprite* pSprite = p18Iter->field_0;
         switch (p18Iter->field_0->field_30_sprite_type_enum)
         {
+            case sprite_types_enum::car:
+                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
+                break;
             case sprite_types_enum::unknown_1:
             case sprite_types_enum::code_obj1:
             case sprite_types_enum::map_obj:
                 gObject_5C_6F8F84->sub_52A610(pSprite->field_8_object_2C_ptr);
-                break;
-            case sprite_types_enum::car:
-                gCar_6C_677930->sub_446730(pSprite->field_8_car_bc_ptr);
                 break;
             default:
                 break;

@@ -625,14 +625,11 @@ s32 Object_2C::sub_529210()
     switch (field_26_varrok_idx)
     {
         case 46:
-            return 22;
-        case 47:
-            return 22;
         case 48:
             return 22;
         case 45:
+        case 47:
             return 23;
-            //  default: return 23;
     }
     return 23;
 }

@@ -539,7 +539,7 @@ void PoliceCrew_38::sub_572340()
                                     field_14_pObj->field_1C = 1;
                                 }
                                 break;
-                            case objectives_enum::objective_32:
+                            case objectives_enum::kill_char_on_foot_20:
                                 pPed->sub_463830(0, 9999);
                                 pPed_6FEDDC->SetObjective(objectives_enum::goto_area_on_foot_12, 9999);
                                 pPed_6FEDDC->field_1DC_objective_target_x = field_14_pObj->field_10_x;
@@ -560,6 +560,10 @@ void PoliceCrew_38::sub_572340()
                                     pPed->sub_463830(0, 9999);
                                     pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 }
+                                break;
+                            case objectives_enum::objective_32:
+                                pPed->sub_463830(0, 9999);
+                                pPed_6FEDDC->SetObjective(objectives_enum::no_obj_0, 9999);
                                 break;
                             default:
                                 break;
