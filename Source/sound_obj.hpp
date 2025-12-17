@@ -13,7 +13,7 @@ class infallible_turing;
 class serene_brattain
 {
   public:
-    EXPORT serene_brattain* sub_419DF0();
+    // Compiler-generated constructor at 0x419DF0
     Fix16 field_0;
     Fix16 field_4;
     Fix16 field_8;
