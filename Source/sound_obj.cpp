@@ -31,27 +31,9 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
     return v > center ? Min(v, center + radius) : Max(v, center - radius);
 }
 
-MATCH_FUNC(0x419DF0)
-serene_brattain* serene_brattain::sub_419DF0()
-{
-    return this;
-}
-
 MATCH_FUNC(0x419CD0)
 sound_obj::sound_obj()
 {
-    sound_0x68* pIter = &field_9C_asSamples[0][0];
-    for (s32 t = 0; t < 2 * 16; t++)
-    {
-        pIter->field_8_obj.sub_419DF0();
-        pIter++;
-    }
-
-    for (s32 j = 0; j < 16; j++)
-    {
-        field_DC0_ActiveSamples[j].field_8_obj.sub_419DF0();
-    }
-
     field_1474 = 0;
     field_0_bSoundInitialized = 0;
     field_4 = 81920;
