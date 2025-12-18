@@ -257,7 +257,8 @@ void force_link()
     Hud_2B00 garox;
 
     MapRenderer nano;
-    nano.draw_bottom_4ED290(0);
+    u16 zero = 0;
+    nano.draw_bottom_4ED290(zero);
 
     Montana montana;
     montana.ResetAll_4954F0();
