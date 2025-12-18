@@ -143,11 +143,57 @@ void MapRenderer::sub_4EAF40(u16* a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/a6z18
 STUB_FUNC(0x4eba60)
-void MapRenderer::sub_4EBA60(u16* a2)
+void MapRenderer::sub_4EBA60(u16& top_word)
 {
     NOT_IMPLEMENTED;
+
+    if (!bSkip_top_67D574)
+    {
+        if (dword_6F646C.field_0_gradient_direction == 3)
+        {
+            set_vert_xyz_relative_to_cam_4EAD90(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, gZCoord_6F63E0, &gTileVerts_6F65A8[3]);
+
+            // ...
+        }
+        else if (dword_6F646C.field_0_gradient_direction == 4)
+        {
+            // ...
+        }
+        else
+        {
+            // Flat blocks
+            MapRenderer::sub_4EAEA0(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+            MapRenderer::sub_4EAE00(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[3]);
+            if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
+            {
+                return;
+            }
+            MapRenderer::sub_4EAEA0(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+            MapRenderer::sub_4EAE00(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+            dword_6F6560 = dword_620F84[top_word >> 13];
+        }
+
+        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(top_word & 0x3FF);
+        if (texture_idx != 0)
+        {
+            BlockSideWord block_side_word = *(BlockSideWord*)&top_word;
+            //if ((*((u8*)top_word + 1) & 0x10) != 0)
+            if (block_side_word.flat)
+            {
+                dword_6F6560 = dword_6F6560 | 0x80;
+            }
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTileVerts_6F65A8,
+                          0); // field_E_colour_t2
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
+
+
 
 STUB_FUNC(0x4ec450)
 s16 MapRenderer::sub_4EC450(u16* a2)
@@ -176,6 +222,7 @@ s16 MapRenderer::sub_4ECE40(u16* a2)
     return 0;
 }
 
+// https://decomp.me/scratch/4EDti
 STUB_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
@@ -562,7 +609,7 @@ void MapRenderer::RenderFlatBlock_4F66C0()
     {
         if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
         {
-            MapRenderer::sub_4EBA60(&gBlockTop_6F62F4);
+            MapRenderer::sub_4EBA60(gBlockTop_6F62F4);
         }
     }
     if (gBlockBottom_6F6468)

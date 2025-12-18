@@ -54,7 +54,7 @@ class MapRenderer
     EXPORT void sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
     EXPORT void sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
     EXPORT void sub_4EAF40(u16* a2);
-    EXPORT void sub_4EBA60(u16* a2);
+    EXPORT void sub_4EBA60(u16& top_word);
     EXPORT s16 sub_4EC450(u16* a2);
     EXPORT void sub_4EC7A0(u16* a2);
     EXPORT s16 sub_4ECAF0(u16* a2);
