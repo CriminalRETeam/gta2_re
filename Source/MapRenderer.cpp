@@ -120,11 +120,16 @@ s32 MapRenderer::sub_4EAE00(s32* a2, s32* a3, Vert* a4)
     return 0;
 }
 
+// This function matches, but we need to turn "0x4C0AAC" into "0x6F633C"
+// and "0x4C0BCC" into "0x6F6318"
 STUB_FUNC(0x4eaea0)
-s32 MapRenderer::sub_4EAEA0(s32* a2, s32* a3, Vert* a4)
+void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
+
+    pVert->x = (f32)((u32)gViewCamera_676978->field_70_screen_px_center_x) + ((f64)dword_6F633C.ToFloat()) * (xCoord.ToFloat());
+    pVert->y = (f32)((u32)gViewCamera_676978->field_74_screen_px_center_y) + ((f64)dword_6F633C.ToFloat()) * (yCoord.ToFloat());
+    pVert->z = dword_6F6318.ToFloat();
 }
 
 STUB_FUNC(0x4eaf40)

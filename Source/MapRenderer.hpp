@@ -52,7 +52,7 @@ class MapRenderer
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void sub_4EA390(u16* a2);
     EXPORT s32 sub_4EAE00(s32* a2, s32* a3, Vert* a4);
-    EXPORT s32 sub_4EAEA0(s32* a2, s32* a3, Vert* a4);
+    EXPORT void sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
     EXPORT void sub_4EAF40(u16* a2);
     EXPORT void sub_4EBA60(u16* a2);
     EXPORT s16 sub_4EC450(u16* a2);
