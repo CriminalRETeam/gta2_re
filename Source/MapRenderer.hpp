@@ -50,16 +50,16 @@ class MapRenderer
     EXPORT void sub_4E9D50(s32& a2, u16& a3);
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void ambient_light_tick_4E9EA0();
-    EXPORT void sub_4EA390(u16* a2);
-    EXPORT s32 sub_4EAE00(s32* a2, s32* a3, Vert* a4);
-    EXPORT s32 sub_4EAEA0(s32* a2, s32* a3, Vert* a4);
-    EXPORT void sub_4EAF40(u16* a2);
-    EXPORT void sub_4EBA60(u16* a2);
+    EXPORT void sub_4EA390(u16& left_word);
+    EXPORT void sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
+    EXPORT void sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
+    EXPORT void sub_4EAF40(u16& right_word);
+    EXPORT void sub_4EBA60(u16& top_word);
     EXPORT s16 sub_4EC450(u16* a2);
     EXPORT void sub_4EC7A0(u16* a2);
     EXPORT s16 sub_4ECAF0(u16* a2);
     EXPORT s16 sub_4ECE40(u16* a2);
-    EXPORT void draw_bottom_4ED290(u16* a2);
+    EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
     EXPORT void sub_4EEAF0();
     EXPORT void sub_4EEE60();
@@ -170,3 +170,13 @@ class MapRenderer
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
+
+struct BlockSideWord
+{
+    u32 tile_idx : 10;
+    u32 wall : 1;
+    u32 bullet_wall : 1;
+    u32 flat : 1;
+    u32 flip : 1;
+    u32 rotation_code : 2;
+};

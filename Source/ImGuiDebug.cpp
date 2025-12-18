@@ -314,27 +314,46 @@ void CC ImGuiDebugDraw()
             }
         }
 
-        if (ImGui::TreeNode("gTango_54_67D4C0"))
+        if (ImGui::TreeNode("Player position"))
         {
-            if (gFirefighterPool_54_67D4C0)
+            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+            if (pPlayer)
             {
-                if (ImGui::Button("sub_4A8820"))
+                Ped* pPed = pPlayer->field_2C4_player_ped;
+                if (pPed)
                 {
-                    gFirefighterPool_54_67D4C0->sub_4A8820(0);
+                    static s32 xpos = pPed->field_1AC_cam.x.mValue;
+                    static s32 ypos = pPed->field_1AC_cam.y.mValue;
+                    static s32 zpos = pPed->field_1AC_cam.z.mValue;
+                    ImGui::SliderInt("X pos", &xpos, 0, 4177920);
+                    ImGui::SliderInt("Y pos", &ypos, 0, 4177920);
+                    ImGui::SliderInt("Z pos", &zpos, 0, 229376);
+
+                    pPed->field_1AC_cam.x = xpos;
+                    pPed->field_1AC_cam.y = ypos;
+                    pPed->field_1AC_cam.z = zpos;
+
+                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
+
+                    if (game_camera)
+                    {
+                        game_camera->field_98_cam_pos2.field_0_x = xpos;
+                        game_camera->field_98_cam_pos2.field_4_y = ypos;
+                        game_camera->field_98_cam_pos2.field_8_z = zpos;
+                    }
+
+                    if (pPlayerSprite)
+                    {
+                        pPlayerSprite->field_14_xpos.x = xpos;
+                        pPlayerSprite->field_14_xpos.y = ypos;
+                        pPlayerSprite->field_1C_zpos = zpos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_A4_xpos = xpos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_A8_ypos = ypos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_AC_zpos = zpos;
+                    }
+                    
                 }
             }
-            ImGui::TreePop();
-        }
-
-        if (ImGui::TreeNode("gCollide_C_6791FC"))
-        {
-            if (gCollide_C_6791FC)
-            {
-                ImGui::Text("field_0_count %d", gCollide_C_6791FC->field_0_count);
-                ImGui::Text("field_4_count %d", gCollide_C_6791FC->field_4_count);
-                ImGui::Text("field_8_bUnknown %d", gCollide_C_6791FC->field_8_bUnknown);
-            }
-            ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Camera"))
@@ -387,6 +406,29 @@ void CC ImGuiDebugDraw()
                     }
                 }
                 ImGui::TreePop();
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("gTango_54_67D4C0"))
+        {
+            if (gFirefighterPool_54_67D4C0)
+            {
+                if (ImGui::Button("sub_4A8820"))
+                {
+                    gFirefighterPool_54_67D4C0->sub_4A8820(0);
+                }
+            }
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("gCollide_C_6791FC"))
+        {
+            if (gCollide_C_6791FC)
+            {
+                ImGui::Text("field_0_count %d", gCollide_C_6791FC->field_0_count);
+                ImGui::Text("field_4_count %d", gCollide_C_6791FC->field_4_count);
+                ImGui::Text("field_8_bUnknown %d", gCollide_C_6791FC->field_8_bUnknown);
             }
             ImGui::TreePop();
         }

@@ -134,7 +134,7 @@ class Fix16
 
     float ToFloat() const
     {
-        return mValue / 16384.0f;
+        return (mValue / 16384.0f);
     }
 
     Fix16()
