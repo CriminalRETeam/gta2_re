@@ -113,15 +113,19 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
+// This function matches, but we need to replace "0x4C0A8C" by "0x6F628C"
+// and "0x4C0A80" by "0x6F656C" on compiled assembly
 STUB_FUNC(0x4eae00)
-s32 MapRenderer::sub_4EAE00(s32* a2, s32* a3, Vert* a4)
+void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
+    pVert->x = (xpos.ToFloat()) * ((f64)dword_6F628C.ToFloat()) + (f32)((u32)gViewCamera_676978->field_70_screen_px_center_x);
+    pVert->y = (ypos.ToFloat()) * ((f64)dword_6F628C.ToFloat()) + (f32)((u32)gViewCamera_676978->field_74_screen_px_center_y);
+    pVert->z = dword_6F656C.ToFloat();
 }
 
-// This function matches, but we need to turn "0x4C0AAC" into "0x6F633C"
-// and "0x4C0BCC" into "0x6F6318"
+// This function matches, but we need to replace "0x4C0AAC" by "0x6F633C"
+// and "0x4C0BCC" by "0x6F6318" on compiled assembly
 STUB_FUNC(0x4eaea0)
 void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
