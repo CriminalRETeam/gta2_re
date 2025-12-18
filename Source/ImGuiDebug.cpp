@@ -391,6 +391,38 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
+        if (ImGui::TreeNode("Player position"))
+        {
+            Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
+            if (pPlayer)
+            {
+                Ped* pPed = pPlayer->field_2C4_player_ped;
+                if (pPed)
+                {
+                    static s32 xpos = pPed->field_1AC_cam.x.mValue;
+                    static s32 ypos = pPed->field_1AC_cam.y.mValue;
+                    static s32 zpos = pPed->field_1AC_cam.z.mValue;
+                    ImGui::SliderInt("X pos", &xpos, 0, 4177920);
+                    ImGui::SliderInt("Y pos", &ypos, 0, 4177920);
+                    ImGui::SliderInt("Z pos", &zpos, 0, 114688);
+
+                    pPed->field_1AC_cam.x = xpos;
+                    pPed->field_1AC_cam.y = ypos;
+                    pPed->field_1AC_cam.z = zpos;
+
+                    Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
+
+                    if (game_camera)
+                    {
+                        game_camera->field_98_cam_pos2.field_0_x = xpos;
+                        game_camera->field_98_cam_pos2.field_4_y = ypos;
+                        game_camera->field_98_cam_pos2.field_8_z = zpos;
+                    }
+                    
+                }
+            }
+        }
+
         if (ImGui::TreeNode("gCar_6C_677930"))
         {
             Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
