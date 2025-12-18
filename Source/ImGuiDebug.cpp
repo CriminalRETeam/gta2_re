@@ -341,6 +341,16 @@ void CC ImGuiDebugDraw()
                         game_camera->field_98_cam_pos2.field_4_y = ypos;
                         game_camera->field_98_cam_pos2.field_8_z = zpos;
                     }
+
+                    if (pPlayerSprite)
+                    {
+                        pPlayerSprite->field_14_xpos.x = xpos;
+                        pPlayerSprite->field_14_xpos.y = ypos;
+                        pPlayerSprite->field_1C_zpos = zpos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_A4_xpos = xpos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_A8_ypos = ypos;
+                        pPlayerSprite->field_8_char_b4_ptr->field_AC_zpos = zpos;
+                    }
                     
                 }
             }

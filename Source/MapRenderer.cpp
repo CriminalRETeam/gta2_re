@@ -167,8 +167,9 @@ STUB_FUNC(0x4eae00)
 void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, dword_6F62B0, pVert);
-    pVert->x = (xpos.ToFloat()) * ((f64)dword_6F628C.ToFloat()) + (f32)((u32)gViewCamera_676978->field_70_screen_px_center_x);
-    pVert->y = (ypos.ToFloat()) * ((f64)dword_6F628C.ToFloat()) + (f32)((u32)gViewCamera_676978->field_74_screen_px_center_y);
+    
+    pVert->x = xpos.ToFloat() * dword_6F628C.ToFloat() + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = ypos.ToFloat() * dword_6F628C.ToFloat() + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     pVert->z = dword_6F656C.ToFloat();
 }
 
@@ -179,8 +180,8 @@ void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xCoord, yCoord, gZCoord_6F63E0, pVert);
 
-    pVert->x = (f32)((u32)gViewCamera_676978->field_70_screen_px_center_x) + ((f64)dword_6F633C.ToFloat()) * (xCoord.ToFloat());
-    pVert->y = (f32)((u32)gViewCamera_676978->field_74_screen_px_center_y) + ((f64)dword_6F633C.ToFloat()) * (yCoord.ToFloat());
+    pVert->x = (u32)gViewCamera_676978->field_70_screen_px_center_x + dword_6F633C.ToFloat() * xCoord.ToFloat();
+    pVert->y = (u32)gViewCamera_676978->field_74_screen_px_center_y + dword_6F633C.ToFloat() * yCoord.ToFloat();
     pVert->z = dword_6F6318.ToFloat();
 }
 
