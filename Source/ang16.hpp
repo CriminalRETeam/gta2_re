@@ -62,6 +62,16 @@ class Ang16
         return Ang16( rValue + rhs.rValue, 0);
     }
 
+    Ang16 operator-(const Ang16& other)
+    {
+        return Ang16(rValue - other.rValue, 0);
+    }
+
+    Ang16 operator-()
+    {
+        return Ang16(-rValue, 0);
+    }
+
     //   Ang16  and  const int
 
     bool operator>(const s32 other)
@@ -203,8 +213,9 @@ class Ang16
     {
     }
 
-    Ang16(u8 null1, u8 null2) //  temporary workaround
+    Ang16(s16 value, u8 null2) : rValue(value)
     {
+        Normalize();
     }
 
     Ang16(s32 value) : rValue(value)
