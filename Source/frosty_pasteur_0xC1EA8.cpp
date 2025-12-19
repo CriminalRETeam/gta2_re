@@ -13,8 +13,7 @@
 #include "enums.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
-//DEFINE_GLOBAL(frosty_nobel_748, gMapName_6F78C8, 0x6F78C8);
-frosty_nobel_748 gMapName_6F78C8;
+DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
 DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
 DEFINE_GLOBAL(u8, byte_6212EC, 0x6212EC);
@@ -75,13 +74,12 @@ void frosty_pasteur_0xC1EA8::sub_511C30()
     NOT_IMPLEMENTED;
 }
 
-// This function matches, but since gMapName_6F78C8 can't be defined as global, this func will pick the wrong offset
-STUB_FUNC(0x511C60)
+MATCH_FUNC(0x511C60)
 void frosty_pasteur_0xC1EA8::sub_511C60()
 {
     for (char_type bit = 0; bit < 32; bit++)
     {
-        if (((1 << bit) & gMapName_6F78C8.field_128_flags) != 0)
+        if (((1 << bit) & gGameSave_6F78C8.field_E4_car_and_script_data.field_48_flags) != 0)
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32[bit]);
             pPointer->field_8_obj->sub_5291E0(174);
@@ -409,7 +407,7 @@ frosty_pasteur_0xC1EA8::frosty_pasteur_0xC1EA8()
     memset(field_188_thrds_4, 0, sizeof(field_188_thrds_4));
     field_278 = 0;
     memset(field_27C, 0, sizeof(field_27C));
-    memset(&gMapName_6F78C8, 0, sizeof(gMapName_6F78C8));
+    memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
     gMiss2_25C_6F805C = new Miss2_25C();
     if (!gMiss2_25C_6F805C)

@@ -490,9 +490,10 @@ class thread_C
     u16 field_A;
 };
 
+// Player/world info
 struct save_stats_0x90
 {
-    Fix16 field_0_x;
+    Fix16 field_0_x; // Maybe Fix16, but no ctor call seen in 9.6f - TODO: Check it
     Fix16 field_4_y;
     Fix16 field_8_z;
     Ang16 field_C_rotation;
@@ -500,10 +501,10 @@ struct save_stats_0x90
     s32 field_10_money;
     s32 field_14_multipliers;
     s16 field_18_health;
-    u8 field_1A_pad[34];    // needed
+    s16 field_1A_power_ups[17];
     s32 field_3C_crime_unk[10];
-    u8 field_65_pad[2];    // needed
-    s8 field_66_weapon_ammo[15];
+    u16 field_64_pad;
+    u8 field_66_weapon_ammo[15];
     u8 field_75_gang_unk[10];
     u8 field_7F_player_ped_remap;
     u8 field_80_lives;
@@ -512,32 +513,72 @@ struct save_stats_0x90
     s32 field_84_zealous_f34;
     s32 field_88_zealous_f38;
     u16 field_8C_wanted_level;
+    u16 field_8E_pad;
 };
 
-struct frosty_nobel_748
+struct TurkishDelight_4
 {
-    char_type field_0_map_name[25];
-    char_type field_19_sty_name[25];
-    char_type field_32_scr_name[25];
-    char_type field_4B_main_stage;
-    char_type field_4C;
-    char_type field_4D_bonus_stage;
-    u32 field_4E;
-    u16 field_52;
-    save_stats_0x90 field_54_save;
-    s32 field_124;
-    s32 field_128_flags;
-    s32 field_12C_phone_dead_flags;
-    s32 field_130;
-    s32 field_134[300];
-    s32 field_5E4;
-    s32 field_5E8[74];
-    u8 field_710_obj_5c_f20[50];
-    u16 field_742_pad;
+    // Compiler (?) generated ctor in 9.6f at 0x403770
+    Fix16 field_0;
 };
 
-//EXTERN_GLOBAL(frosty_nobel_748, gMapName_6F78C8);
-extern frosty_nobel_748 gMapName_6F78C8;
+// Object data
+struct TurkishDelight_164
+{
+    TurkishDelight_4 field_0_obj_x[20];
+    TurkishDelight_4 field_50_obj_y[20];
+    TurkishDelight_4 field_A0_obj_z[20];
+    s16 field_F0_model[20];
+    char_type field_118_varrok_idx[20];
+    char_type field_12C_obj_5C_buffer[50]; // TODO: Maybe multiple fields
+    s16 field_15E_pad;
+    s32 field_160_lhv;
+};
+
+// Car data
+struct SavedCarInfo
+{
+    TurkishDelight_4 field_0_x[3];
+    TurkishDelight_4 field_C_y[3];
+    TurkishDelight_4 field_18_z[3];
+    Ang16 field_24_ang[3];
+    s16 field_2A[3];
+    s32 field_30[3];
+    s16 field_3C[3];
+    s16 field_42_maybe_pad;
+};
+
+// Car and script data
+struct TurkishDelight_500
+{
+    SavedCarInfo field_0; // 3x saved cars
+    s16 field_44; // pad ??
+    s16 field_46_script_ptr_count; // count of populated array entries
+    s32 field_48_flags;
+    s32 field_4C; // never used ?
+    s16 field_50_script_counter[600];
+};
+
+// A game save/.svg file format structure
+class SaveData_748
+{
+  public:
+  // 9.6f generated constructor at 0x532650
+    char_type field_0_map_name[25];
+    char_type field_19_style_name[25];
+    char_type field_32_script_name[25];
+    char_type field_4B_main_stage;
+    char_type field_4C_lhv; // maybe sub bonus level or something
+    char_type field_4D_bonus_stage;
+    char_type field_4E_pad;
+    char_type field_4F_pad;
+    s32 field_50; // never used ?
+    save_stats_0x90 field_54_player_and_world_stats;
+    TurkishDelight_500 field_E4_car_and_script_data;
+    TurkishDelight_164 field_5E4_object_data;
+};
+
+EXTERN_GLOBAL(SaveData_748, gGameSave_6F78C8);
 
 class frosty_pasteur_0xC1EA8
 {

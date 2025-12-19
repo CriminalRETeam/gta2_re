@@ -135,7 +135,7 @@ class Player
     EXPORT void sub_564CF0();
     EXPORT char_type sub_564D60(s32 a2);
     EXPORT void tick_down_powerups_565070();
-    EXPORT s32 sub_5651F0(save_stats_0x90* a2);
+    EXPORT s32 RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void sub_5653E0();
     EXPORT void sub_565460();
@@ -182,7 +182,7 @@ class Player
     EXPORT void DisableKFMode_56A020();
     EXPORT void DisableEnterVehicles_56A030();
     EXPORT void EnableEnterVehicles_56A040();
-    EXPORT s32 sub_56A0F0();
+    EXPORT s32 RestoreCarsFromSave_56A0F0();
     EXPORT void CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave);
     EXPORT void UpdateGameFromSave_56A310(save_stats_0x90* a2);
     EXPORT void ApplyCheats_56A490();

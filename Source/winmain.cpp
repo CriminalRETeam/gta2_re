@@ -154,7 +154,7 @@ void force_link()
     lewin.sub_564CF0();
     lewin.sub_564D60(0);
     lewin.tick_down_powerups_565070();
-    lewin.sub_5651F0(0);
+    lewin.RestorePowerUpsFromSave_5651F0(0);
     lewin.TeleportToDebugCam_565310();
     lewin.sub_5653E0();
     lewin.InitPlayerPed_565490(0);
@@ -200,7 +200,7 @@ void force_link()
     lewin.DisableKFMode_56A020();
     lewin.DisableEnterVehicles_56A030();
     lewin.EnableEnterVehicles_56A040();
-    lewin.sub_56A0F0();
+    lewin.RestoreCarsFromSave_56A0F0();
     lewin.CopyPlayerDataToSave_56A1A0(0);
     lewin.UpdateGameFromSave_56A310(0);
     lewin.ApplyCheats_56A490();
