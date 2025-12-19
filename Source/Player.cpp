@@ -39,6 +39,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE74C, Ang16(4), 0x6FE74C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE750, Ang16(12), 0x6FE750);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE488, Ang16(12), 0x6FE488);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE450, Ang16(24), 0x6FE450);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE700, Ang16(48), 0x6FE700);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FE614, Fix16(1), 0x6FE614);
 
 struct UnknownDebugClass
 {
@@ -1117,11 +1121,120 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
                                  bAttackPressed);
 }
 
-STUB_FUNC(0x566C80)
-char_type Player::DoPedControlInputs_566C80(Ped* a2)
+MATCH_FUNC(0x566C80)
+void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 'a';
+    Char_B4* pB4 = NULL;
+    Ang16 f_A = field_A;
+    
+    // clear flag
+    pPed->field_21C_bf.b23 = 0;
+
+    // --- Right pressed ---
+    if (field_7B_bNowRightPressed == 1)
+    {
+        pPed->sub_45C5C0();
+
+        if (field_7C_bNowAttackPressed && !field_78_bNowForwardPressed)
+        {
+            f_A = word_6FE488;
+        }
+
+        if (field_64)
+        {
+            field_8 = field_8 - word_6FE74C;
+            if (field_8 < -word_6FE450)
+            {
+                field_8 = -word_6FE450;
+            }
+        }
+        else
+        {
+            field_8 = field_8 - f_A;
+            if (field_8 < -word_6FE700)
+            {
+                field_8 = -word_6FE700;
+            }
+        }
+    }
+
+    // --- Left pressed ---
+    if (field_7A_bNowLeftPressed == 1)
+    {
+        pPed->sub_45C5C0();
+
+        if (field_7C_bNowAttackPressed && !field_78_bNowForwardPressed)
+        {
+            f_A = word_6FE488;
+        }
+
+        if (field_64)
+        {
+            Ang16 tmp = field_8 + word_6FE74C;
+            field_8 = tmp;
+            if (tmp > word_6FE450)
+            {
+                field_8 = word_6FE450;
+            }
+        }
+        else
+        {
+            Ang16 tmp = field_8 + f_A;
+            field_8 = tmp;
+            if (tmp > word_6FE700)
+            {
+                field_8 = word_6FE700;
+            }
+        }
+    }
+
+    // --- Neutralize angle if no left/right ---
+    if (!field_7A_bNowLeftPressed && !field_7B_bNowRightPressed)
+    {
+        field_8 = word_6FE754;
+    }
+
+    // --- Forward/backward movement ---
+    if (field_78_bNowForwardPressed == 1)
+    {
+        pPed->sub_45C5C0();
+        field_C = dword_6FE614;
+    }
+    else if (field_79_bNowDownPressed == 1)
+    {
+        pPed->sub_45C5C0();
+        field_C = -dword_6FE614;
+    }
+    else
+    {
+        field_C = dword_6FE610;
+    }
+
+    // --- Jump / handbrake ---
+    if (field_7E_bNowHandBrakeOrJumpPressed == 1 
+        && field_8A_bWasHandBrakeOrJumpPressed)
+    {
+        pB4 = pPed->field_168_game_object;
+        if (pB4)
+        {
+            if (pB4->field_10 != 15 && pPed->field_21C_bf.b27 == 0)
+            {
+                pB4->sub_5454D0(); // jump?
+            }
+        }
+    }
+
+    // --- Special action ---
+    if (pPed->field_168_game_object)
+    {
+        if (field_81_bNowSpecial_1_Pressed &&
+            field_84_bWasSpecial_1_Pressed &&
+            !field_7C_bNowAttackPressed &&
+            pPed->field_21C_bf.b24 == 0)
+        {
+            pPed->field_250 = 20;
+        }
+    }
 }
 
 MATCH_FUNC(0x566EE0)

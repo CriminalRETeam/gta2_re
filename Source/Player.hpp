@@ -149,7 +149,7 @@ class Player
     EXPORT void ControlInputs_566820();
     EXPORT void HandleControls_5668D0(Ped* a2);
     EXPORT void DoCarControlInputs_566C30(Car_BC* pCar);
-    EXPORT char_type DoPedControlInputs_566C80(Ped* a2);
+    EXPORT void DoPedControlInputs_566C80(Ped* a2);
     EXPORT void sub_566EE0(char_type a2);
     EXPORT void RespawnPlayer_5670B0();
     EXPORT void Wasted_567130();
