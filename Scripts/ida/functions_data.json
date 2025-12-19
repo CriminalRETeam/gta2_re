@@ -12695,7 +12695,7 @@
         "v105_address": "0x565070"
     },
     {
-        "name": "Player::sub_5651F0",
+        "name": "Player::RestorePowerUpsFromSave_5651F0",
         "v96f_address": "0x4A5A50",
         "v105_address": "0x5651f0"
     },
@@ -12930,7 +12930,7 @@
         "v105_address": "0x56a040"
     },
     {
-        "name": "Player::sub_56A0F0",
+        "name": "Player::RestoreCarsFromSave_56A0F0",
         "v96f_address": "0x4A6A80",
         "v105_address": "0x56a0f0"
     },

@@ -381,7 +381,7 @@ void Player::tick_down_powerups_565070()
 }
 
 STUB_FUNC(0x5651F0)
-s32 Player::sub_5651F0(save_stats_0x90* a2)
+s32 Player::RestorePowerUpsFromSave_5651F0(save_stats_0x90* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2014,7 +2014,7 @@ void Player::sub_569CB0()
     field_18 = -2;
     if (gfrosty_pasteur_6F8060->field_C1E2C)
     {
-        Player::UpdateGameFromSave_56A310(&gMapName_6F78C8.field_54_save);
+        Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }
     else
     {
@@ -2154,7 +2154,7 @@ void Player::EnableEnterVehicles_56A040()
 }
 
 STUB_FUNC(0x56A0F0)
-s32 Player::sub_56A0F0()
+s32 Player::RestoreCarsFromSave_56A0F0()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2272,8 +2272,8 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
     field_644_unk.field_34 = pSave->field_84_zealous_f34;
     field_644_unk.field_38 = pSave->field_88_zealous_f38;
 
-    Player::sub_5651F0(pSave);
-    Player::sub_56A0F0();
+    Player::RestorePowerUpsFromSave_5651F0(pSave);
+    Player::RestoreCarsFromSave_56A0F0();
 }
 
 MATCH_FUNC(0x56A490)
