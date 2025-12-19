@@ -1,16 +1,17 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
-#include "Function.hpp"
 #include "Car_BC.hpp"
+#include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Miss2_25C.hpp"
+#include "Object_5C.hpp"
 #include "debug.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
-#include "Miss2_25C.hpp"
-#include "Object_5C.hpp"
-#include "enums.hpp"
+#include "lucid_hamilton.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
@@ -88,10 +89,18 @@ void frosty_pasteur_0xC1EA8::sub_511C60()
     }
 }
 
-STUB_FUNC(0x511d40)
-void frosty_pasteur_0xC1EA8::sub_511D40()
+MATCH_FUNC(0x511d40)
+void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
 {
-    NOT_IMPLEMENTED;
+    strcpy(gGameSave_6F78C8.field_0_map_name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+    strcpy(gGameSave_6F78C8.field_19_style_name, gLucid_hamilton_67E8E0.GetStyleName_4C5950());
+    strcpy(gGameSave_6F78C8.field_32_script_name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+    gGameSave_6F78C8.field_0_map_name[24] = '\n';
+    gGameSave_6F78C8.field_19_style_name[24] = '\n';
+    gGameSave_6F78C8.field_32_script_name[24] = '\n';
+    gGameSave_6F78C8.field_4B_main_stage = gLucid_hamilton_67E8E0.sub_4C5980();
+    gGameSave_6F78C8.field_4C_lhv = gLucid_hamilton_67E8E0.sub_4C5990();
+    gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.sub_4C59A0();
 }
 
 STUB_FUNC(0x511f80)

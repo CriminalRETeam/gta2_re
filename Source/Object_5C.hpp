@@ -189,7 +189,7 @@ class Object_5C
     EXPORT s32* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
 
     EXPORT void sub_52A500(int pUnknownObj);
-    EXPORT void sub_52A590(int pUnknownObj);
+    EXPORT void RestoreObjects_52A590(int pUnknownObj);
     EXPORT void sub_52A610(Object_2C* p2C);
 
     Object_2C* field_0; // Object_2C* ?

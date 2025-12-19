@@ -1231,7 +1231,7 @@ void Object_5C::sub_52A500(int pUnknownObj)
 }
 
 STUB_FUNC(0x52A590)
-void Object_5C::sub_52A590(int pUnknownObj)
+void Object_5C::RestoreObjects_52A590(int pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
