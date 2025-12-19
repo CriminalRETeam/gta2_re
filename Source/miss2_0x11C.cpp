@@ -132,7 +132,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
     {
-        Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+        Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.Normalize();
 
@@ -144,7 +144,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
     }
     else
     {
-        Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+        Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.Normalize();
 
@@ -185,7 +185,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
     {
-        Ang16 rotation(NULL, NULL); //  TODO: fix default ctor
+        Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.sub_406C20();
 
@@ -197,7 +197,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
     }
     else
     {
-        Ang16 rotation(NULL, NULL); //  TODO: fix default ctor
+        Ang16 rotation;
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.sub_406C20();
 
@@ -516,7 +516,7 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
             *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
-    Ang16 rotation(NULL, NULL); // TODO: fix default ctor
+    Ang16 rotation;
     rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_18_rot);
     rotation.Normalize();
 
