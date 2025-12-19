@@ -1,13 +1,17 @@
 #include "miss2_0x11c.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Car_BC.hpp"
+#include "Cranes.hpp"
+#include "Crushers.hpp"
 #include "Door_4D4.hpp"
 #include "Frismo_25C.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Garage_48.hpp"
-#include "Hud.hpp"
-#include "Globals.hpp"
 #include "Generators.hpp"
+#include "Globals.hpp"
+#include "Hud.hpp"
+#include "Light_1D4CC.hpp"
 #include "MapRenderer.hpp"
 #include "Miss2_25C.hpp"
 #include "Object_5C.hpp"
@@ -16,10 +20,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PublicTransport.hpp"
-#include "Crushers.hpp"
 #include "Weapon_8.hpp"
-#include "Cranes.hpp"
-#include "Gang.hpp"
 #include "ang16.hpp"
 #include "char.hpp"
 #include "debug.hpp"
@@ -30,7 +31,6 @@
 #include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "miss2_8.hpp"
-#include "Light_1D4CC.hpp"
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
@@ -39,17 +39,13 @@ DEFINE_GLOBAL_INIT(s16, word_6212EE, 1, 0x6212EE);
 
 DEFINE_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064, 0x6F8064);
 DEFINE_GLOBAL(SCR_CMD_HEADER*, gBasePtr_6F8070, 0x6F8070);
-DEFINE_GLOBAL(Fix16, dword_6F7920, 0x6F7920);
 DEFINE_GLOBAL(Fix16, dword_6F76DC, 0x6F76DC);
 DEFINE_GLOBAL(Fix16, dword_6F75F0, 0x6F75F0);
-DEFINE_GLOBAL(Fix16, dword_6F791C, 0x6F791C);
 DEFINE_GLOBAL(Fix16, dword_6F77C0, 0x6F77C0);
 DEFINE_GLOBAL(Ang16, word_6F8044, 0x6F8044);
-DEFINE_GLOBAL(Fix16, dword_6F7924, 0x6F7924);
 DEFINE_GLOBAL(Fix16, dword_6F7570, 0x6F7570);
 EXTERN_GLOBAL(Ang16, dword_6F804C);
 DEFINE_GLOBAL(Fix16, dword_6F77C4, 0x6F77C4);
-DEFINE_GLOBAL(u8, byte_6F799B, 0x6F799B);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
@@ -245,10 +241,14 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         Ped* pPed;
         if (gfrosty_pasteur_6F8060->field_C1E2C)
         {
-            Fix16 weird_y = dword_6F76DC + dword_6F7920.GetRoundValue();
-            Fix16 weird_x = dword_6F75F0 + dword_6F791C.GetRoundValue();
+            Fix16 weird_y = dword_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetRoundValue();
+            Fix16 weird_x = dword_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetRoundValue();
 
-            pPed = gPedManager_6787BC->SpawnPedAt(weird_x, weird_y, dword_6F7924, byte_6F799B, dword_6F804C);
+            pPed = gPedManager_6787BC->SpawnPedAt(weird_x,
+                                                  weird_y,
+                                                  gGameSave_6F78C8.field_54_player_and_world_stats.field_8_z,
+                                                  gGameSave_6F78C8.field_54_player_and_world_stats.field_7F_player_ped_remap,
+                                                  dword_6F804C);
         }
         else
         {
@@ -265,10 +265,10 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             rotation.Normalize();
 
             pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
-                                              pCmd->field_C_pos.field_4_y,
-                                              pCmd->field_C_pos.field_8_z,
-                                              pCmd->field_1A_remap,
-                                              rotation);
+                                                  pCmd->field_C_pos.field_4_y,
+                                                  pCmd->field_C_pos.field_8_z,
+                                                  pCmd->field_1A_remap,
+                                                  rotation);
         }
 
         if (pPed != NULL)
@@ -350,10 +350,10 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
             rotation.Normalize();
 
             Trailer* pTrailer = gCar_6C_677930->sub_446530(pCmd->field_C_pos.field_0_x,
-                                                        pCmd->field_C_pos.field_4_y,
-                                                        rotation,
-                                                        pCmd->field_1C_car_id,
-                                                        pCmd->field_1E_trailer_id);
+                                                           pCmd->field_C_pos.field_4_y,
+                                                           rotation,
+                                                           pCmd->field_1C_car_id,
+                                                           pCmd->field_1E_trailer_id);
             if (pTrailer != NULL)
             {
                 pPointer->field_8_car = pTrailer->field_8_truck_cab;
@@ -422,10 +422,10 @@ void miss2_0x11C::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_P
     rotation.Normalize();
 
     pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
-                                      pCmd->field_C_pos.field_4_y,
-                                      pCmd->field_C_pos.field_8_z,
-                                      (u8)pCmd->field_1A_remap,
-                                      rotation);
+                                          pCmd->field_C_pos.field_4_y,
+                                          pCmd->field_C_pos.field_8_z,
+                                          (u8)pCmd->field_1A_remap,
+                                          rotation);
     a2->field_8_char = pPed;
 
     if (pPed)
@@ -521,12 +521,12 @@ void miss2_0x11C::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTE
     rotation.Normalize();
 
     a2->field_8_generator = gGeneratorPool_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
-                                                             pCmd->field_C_pos.field_4_y,
-                                                             pCmd->field_C_pos.field_8_z,
-                                                             rotation,
-                                                             pCmd->field_1A_obj_id,
-                                                             pCmd->field_1C_mindelay,
-                                                             pCmd->field_1E_maxdelay);
+                                                                               pCmd->field_C_pos.field_4_y,
+                                                                               pCmd->field_C_pos.field_8_z,
+                                                                               rotation,
+                                                                               pCmd->field_1A_obj_id,
+                                                                               pCmd->field_1C_mindelay,
+                                                                               pCmd->field_1E_maxdelay);
     if (pCmd->field_20_ammo > 0)
     {
         a2->field_8_generator->field_1C_ammo = pCmd->field_20_ammo;
@@ -1235,13 +1235,15 @@ void miss2_0x11C::ExecOpCode_5061C0()
                     miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530((SCR_DESTRUCTOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
                     break;
                 case SCRCMD_THREAD_DECLARE2:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0((s32)pBasePtr, &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0((s32)pBasePtr,
+                                                               &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
                     break;
                 case SCRCMD_THREAD_DECLARE3:
                     miss2_0x11C::SCRCMD_THREAD_DECLARE3_504660((s32)pBasePtr); // TODO: correct type after matching this func
                     break;
                 case SCRCMD_THREAD_DECLARE4:
-                    miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0((s32)pBasePtr, &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
+                    miss2_0x11C::SCRCMD_THREAD_DECLARE4_5047C0((s32)pBasePtr,
+                                                               &pBasePtr->field_0_cmd_this); // TODO: correct type after matching this func
                     break;
                 case SCRCMD_SET_GANG_INFO1:
                     miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)pBasePtr); // SCRCMD_SET_GANG_INFO1
@@ -2253,20 +2255,36 @@ void miss2_0x11C::sub_509ED0()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case 406:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 32, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      32,
+                                                      0);
             break;
         case 404:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 18, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      18,
+                                                      0);
             break;
         case 142:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 19, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      19,
+                                                      0);
             break;
         case 399:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 20, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      20,
+                                                      0);
             break;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2279,20 +2297,36 @@ void miss2_0x11C::SCRCMD_EXPLODE_BUILDING_509F60()
     switch (pCmd->field_14_face)
     {
         case 1:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 23, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      23,
+                                                      0);
             break;
         case 2:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 22, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      22,
+                                                      0);
             break;
         case 3:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 24, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      24,
+                                                      0);
             break;
         case 4:
-            gObject_5C_6F8F84
-                ->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z, dword_6F804C, 25, 0);
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
+                                                      pCmd->field_8_pos.field_4_y,
+                                                      pCmd->field_8_pos.field_8_z,
+                                                      dword_6F804C,
+                                                      25,
+                                                      0);
             break;
         default:
             break;
@@ -3300,9 +3334,9 @@ void miss2_0x11C::SCRCMD_REMOVE_BLOCK_50C9F0()
     SCR_REMOVE_BLOCK* pCmd = (SCR_REMOVE_BLOCK*)gBasePtr_6F8070;
 
     gMap_0x370_6F6268->RemoveBlock_4E8940(pCmd->field_8_pos.field_0_x,
-                                  pCmd->field_8_pos.field_1_y,
-                                  pCmd->field_8_pos.field_2_z,
-                                  pCmd->field_B_do_drop);
+                                          pCmd->field_8_pos.field_1_y,
+                                          pCmd->field_8_pos.field_2_z,
+                                          pCmd->field_B_do_drop);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3312,9 +3346,9 @@ void miss2_0x11C::SCRCMD_LOWER_LEVEL_50CA30()
     SCR_LOWER_LEVEL* pCmd = (SCR_LOWER_LEVEL*)gBasePtr_6F8070;
 
     gMap_0x370_6F6268->LowerLevel_4E8B70(pCmd->field_8_min_pos.field_0_x,
-                                  pCmd->field_A_max_pos.field_0_x,
-                                  pCmd->field_8_min_pos.field_1_y,
-                                  pCmd->field_A_max_pos.field_1_y);
+                                         pCmd->field_A_max_pos.field_0_x,
+                                         pCmd->field_8_min_pos.field_1_y,
+                                         pCmd->field_A_max_pos.field_1_y);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3322,7 +3356,11 @@ MATCH_FUNC(0x50ca70)
 void miss2_0x11C::sub_50CA70()
 {
     SCR_CHANGE_BLOCK* pCmd = (SCR_CHANGE_BLOCK*)gBasePtr_6F8070;
-    gMap_0x370_6F6268->ChangeBlock_4E8620(pCmd->field_8_x, pCmd->field_9_y, pCmd->field_A_z, pCmd->field_B_change_type, pCmd->field_C_info_word);
+    gMap_0x370_6F6268->ChangeBlock_4E8620(pCmd->field_8_x,
+                                          pCmd->field_9_y,
+                                          pCmd->field_A_z,
+                                          pCmd->field_B_change_type,
+                                          pCmd->field_C_info_word);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4275,8 +4313,7 @@ void miss2_0x11C::SCRCMD_IS_BUS_FULL_50F940()
         Car_BC* pCar = pPed->field_16C_car;
         if (pCar)
         {
-            if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pCar) 
-                && gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
+            if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pCar) && gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
             {
                 field_8 = true;
             }
@@ -4544,10 +4581,8 @@ void miss2_0x11C::sub_510280()
     {
         if (miss2_0x11C::sub_505EA0(pCmd->field_8_bonusname) == -2)
         {
-            SCR_POINTER* pBonusType =
-                (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
-            SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
-                pCmd->field_12_countername);
+            SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
+            SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
                 (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pBonusType->field_8_index].field_26;
 
@@ -4590,8 +4625,7 @@ void miss2_0x11C::sub_510280()
                 {
                     if (pCmd->field_1A_rewardtype == 3)
                     {
-                        pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeLifeCountByAmount_5699F0(
-                            pCmd->field_1C_rewardvalue);
+                        pPlayerPedCmdPointer->field_8_char->field_15C_player->ChangeLifeCountByAmount_5699F0(pCmd->field_1C_rewardvalue);
                     }
                     gRoot_sound_66B038.PlayVoice_40F090(19);
                 }
@@ -5563,5 +5597,4 @@ miss2_0x11C::~miss2_0x11C()
 STUB_FUNC(0x5131C0)
 miss2_0x11C_Pool::~miss2_0x11C_Pool()
 {
-
 }
