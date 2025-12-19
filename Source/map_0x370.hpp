@@ -180,15 +180,7 @@ struct gmp_tile_animation
 
 struct gmp_map_slope
 {
-    // MATCH_FUNC(0x4E5B30)
-    gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
-    {
-        field_0_gradient_direction = gradient_direction;
-        field_1_gradient_size = gradient_size;
-        field_2_gradient_level = gradient_level;
-        field_4_zpos_lower = zpos_lower;
-        field_8_zpos_higher = zpos_higher;
-    }
+    EXPORT gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher);
 
     gmp_map_slope()
     {

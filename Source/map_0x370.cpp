@@ -1514,6 +1514,16 @@ bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* 
     return false;
 }
 
+MATCH_FUNC(0x4E5B30)
+gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
+{
+    field_0_gradient_direction = gradient_direction;
+    field_1_gradient_size = gradient_size;
+    field_2_gradient_level = gradient_level;
+    field_4_zpos_lower = zpos_lower;
+    field_8_zpos_higher = zpos_higher;
+}
+
 STUB_FUNC(0x4E5640)
 char_type Map_0x370::sub_4E5640(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
 {
