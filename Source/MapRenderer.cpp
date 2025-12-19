@@ -285,8 +285,6 @@ void MapRenderer::sub_4EBA60(u16& top_word)
     }
 }
 
-
-
 STUB_FUNC(0x4ec450)
 s16 MapRenderer::sub_4EC450(u16* a2)
 {

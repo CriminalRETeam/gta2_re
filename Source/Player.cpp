@@ -37,6 +37,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE610, Fix16(0), 0x6FE610);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE41C, dword_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, word_6FE754, Ang16(0), 0x6FE754);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE74C, Ang16(4), 0x6FE74C);
+DEFINE_GLOBAL_INIT(Ang16, word_6FE750, Ang16(12), 0x6FE750);
 
 struct UnknownDebugClass
 {
@@ -419,17 +421,16 @@ void Player::sub_565460()
     // Empty
 }
 
-// https://decomp.me/scratch/Jj79b
-STUB_FUNC(0x565490)
+MATCH_FUNC(0x565490)
 void Player::InitPlayerPed_565490(Ped* pPed)
 {
     field_28 = 0;
-    field_640_busted = false;
+    field_640_busted = 0;
     field_29 = 0;
     field_2C = 0;
     field_2C4_player_ped = pPed;
     field_8 = word_6FE754;
-    field_A = 0; //(dword_6FE750 + dword_6FE74C) + dword_6FE74C;
+    field_A = word_6FE74C + (word_6FE750 + word_6FE74C);
     field_C = dword_6FE610;
     field_10 = 0;
     field_680 = 0;
