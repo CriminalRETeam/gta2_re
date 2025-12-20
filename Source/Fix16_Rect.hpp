@@ -55,3 +55,17 @@ class Fix16_Rect
     Fix16 field_10;
     Fix16 field_14;
 };
+
+// 9.6f 0x41E160
+// https://decomp.me/scratch/A4s7c
+inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& ourMax, const Fix16& otherMin, const Fix16& otherMax)
+{
+    if (ourMin < otherMin)
+    {
+        return ((ourMax < otherMin)) ? false : true;
+    }
+    else
+    {
+        return (ourMin <= otherMax) ? true : false;
+    }
+}
