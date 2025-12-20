@@ -9,9 +9,10 @@
 #include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
+#include "lucid_hamilton.hpp"
 #include "map_0x370.hpp"
 #include "memory.hpp"
-#include "lucid_hamilton.hpp"
+#include "Player.hpp"
 
 DEFINE_GLOBAL(frosty_pasteur_0xC1EA8*, gfrosty_pasteur_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
@@ -110,10 +111,63 @@ s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
     return 0;
 }
 
+// https://decomp.me/scratch/J0j6C
 STUB_FUNC(0x511e10)
-void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* FileName)
+void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
 {
-    NOT_IMPLEMENTED;
+    size_t writeLen;
+    unsigned short** pColData;
+    unsigned int colBytes;
+
+    gmp_block_info* pBlockInfo;
+    unsigned int blockInfoBytes;
+
+    Map_sub* pMapSub;
+    int mapSubBytes;
+
+    if (!pFileName || !*pFileName)
+    {
+        sprintf(gTmpBuffer_67C598, "player\\plyslot%d.svg", gLucid_hamilton_67E8E0.GetPlySlotIdx_4C59B0());
+        pFileName = gTmpBuffer_67C598;
+    }
+
+    frosty_pasteur_0xC1EA8::sub_511B90();
+
+    gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
+
+    gObject_5C_6F8F84->SaveObjects_52A500(&gGameSave_6F78C8.field_5E4_object_data);
+
+    memcpy(gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_buffer, &gObject_5C_6F8F84->field_20, 50u);
+
+    gGameSave_6F78C8.field_5E4_object_data.field_160_lhv = gLucid_hamilton_67E8E0.field_574;
+
+    gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colBytes, &pBlockInfo, &blockInfoBytes, &pMapSub, &mapSubBytes);
+
+    frosty_pasteur_0xC1EA8::SaveMapInfo_511D40();
+
+    writeLen = sizeof(SaveData_748);
+    File::WriteBufferToFile_4A6E80(pFileName, &gGameSave_6F78C8, &writeLen); // gTurkishDelight_748_664590
+
+    writeLen = 4;
+    File::AppendBufferToFile_4A6F50(pFileName, &colBytes, &writeLen);
+    if (colBytes)
+    {
+        File::AppendBufferToFile_4A6F50(pFileName, pColData, &colBytes);
+    }
+
+    writeLen = 4;
+    File::AppendBufferToFile_4A6F50(pFileName, &blockInfoBytes, &writeLen);
+    if (blockInfoBytes)
+    {
+        File::AppendBufferToFile_4A6F50(pFileName, pBlockInfo, &blockInfoBytes);
+    }
+
+    writeLen = 4;
+    File::AppendBufferToFile_4A6F50(pFileName, &mapSubBytes, &writeLen);
+    if (mapSubBytes)
+    {
+        File::AppendBufferToFile_4A6F50(pFileName, pMapSub, (unsigned int*)&mapSubBytes);
+    }
 }
 
 MATCH_FUNC(0x512100)

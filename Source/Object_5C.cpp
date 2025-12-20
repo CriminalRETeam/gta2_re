@@ -1225,13 +1225,13 @@ s32* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32
 }
 
 STUB_FUNC(0x52A500)
-void Object_5C::sub_52A500(int pUnknownObj)
+void Object_5C::SaveObjects_52A500(TurkishDelight_164* pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x52A590)
-void Object_5C::RestoreObjects_52A590(int pUnknownObj)
+void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
