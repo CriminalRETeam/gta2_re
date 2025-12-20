@@ -127,6 +127,7 @@ jobs:
     - name: Build on Windows (Windows_VC6)
       run: |
         pip install -r requirements.txt
+        pip install git+https://github.com/isledecomp/reccmp
         python vc6_setup.py
         python build.py --reccmp
         build_vc6/decomp_main.exe --check_vars_only
