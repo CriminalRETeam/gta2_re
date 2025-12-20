@@ -24,7 +24,7 @@ void TileAnim_2::sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 re
 }
 
 MATCH_FUNC(0x5bc2c0)
-void TileAnim_2::sub_5BC2C0(gmp_tile_animation* pTileAnimation)
+void TileAnim_2::sub_5BC2C0(const gmp_tile_animation* pTileAnimation)
 {
     TileAnim_18* tmp = gTileAnimPool_7052C8->Allocate();
     tmp->sub_5BC190(pTileAnimation);
@@ -83,7 +83,7 @@ void TileAnim_18::sub_5BC150()
 }
 
 MATCH_FUNC(0x5bc190)
-void TileAnim_18::sub_5BC190(gmp_tile_animation* pStru)
+void TileAnim_18::sub_5BC190(const gmp_tile_animation* pStru)
 {
     field_C_ptr = pStru;
     field_4_frame_rate = pStru->field_2_frame_rate;

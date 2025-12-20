@@ -16,6 +16,7 @@
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
 #include "sprite.hpp"
+#include "TileAnim_2.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -2155,10 +2156,18 @@ void Map_0x370::sub_4E90E0(u32 chunk_size)
     }
 }
 
-STUB_FUNC(0x4E9160)
+MATCH_FUNC(0x4E9160)
 void Map_0x370::sub_4E9160(s32 size)
 {
-    NOT_IMPLEMENTED;
+    u8* pTileAnimDataIter = (u8*)this->field_340_pTileAnimData;
+    while (pTileAnimDataIter != (u8*)this->field_340_pTileAnimData + size)
+    {
+        const gmp_tile_animation* pAnim = (const gmp_tile_animation*)pTileAnimDataIter;
+        gTileAnim_2_7052C4->sub_5BC2C0(pAnim);
+        pTileAnimDataIter += (sizeof(u16) * pAnim->field_4_anim_length) +
+            (sizeof(gmp_tile_animation) -
+             sizeof(u16)); // field_4 is animation_length, 6 is the length of a record, each array entry is a u16
+    }
 }
 
 MATCH_FUNC(0x4E91A0)
