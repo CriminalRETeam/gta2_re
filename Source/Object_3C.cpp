@@ -404,8 +404,9 @@ s32 struct_4::sub_5A6EA0(s32 a2, s32 a3)
     return 0;
 }
 
+// https://decomp.me/scratch/PB56K
 STUB_FUNC(0x5a6f70)
-void struct_4::sub_5A6F70(Sprite* a2)
+void struct_4::sub_5A6F70(Sprite* pSprite)
 {
     NOT_IMPLEMENTED;
 }
