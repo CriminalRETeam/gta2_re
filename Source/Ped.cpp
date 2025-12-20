@@ -471,7 +471,7 @@ void Ped::sub_45C0C0(gmp_map_zone* a2)
 }
 
 MATCH_FUNC(0x45c310)
-void Ped::sub_45C310()
+void Ped::PoolDeallocate()
 {
     if (field_168_game_object)
     {
@@ -1445,7 +1445,7 @@ void Ped::sub_462B80()
 }
 
 MATCH_FUNC(0x462e70)
-bool Ped::Update_462E70()
+bool Ped::PoolUpdate()
 {
     if (field_240_occupation == ped_ocupation_enum::elvis)
     {

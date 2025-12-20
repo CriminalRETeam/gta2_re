@@ -2,12 +2,15 @@
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Object_3C.hpp"
 #include "Object_5C.hpp"
 #include "Particle_8.hpp"
 #include "Player.hpp"
+#include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
+#include "debug.hpp"
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "sprite.hpp"
@@ -43,7 +46,39 @@ DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, dword_6FD9F4* dword_6FD868, 0x
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8D8, Fix16(0xCCC, 0), 0x6FD8D8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 
+
+DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
+DEFINE_GLOBAL(u16, word_6787F0, 0x6787F0);
+DEFINE_GLOBAL(u8, byte_61A8A1, 0x61A8A1);
+DEFINE_GLOBAL(u8, byte_61A8A2, 0x61A8A2);
+DEFINE_GLOBAL(u8, unk_6787EE, 0x6787EE);
+DEFINE_GLOBAL(u8, unk_6787EF, 0x6787EF);
+DEFINE_GLOBAL(u8, byte_6787DA, 0x6787DA);
+
+EXTERN_GLOBAL(u16, word_6787E0);
+EXTERN_GLOBAL(u8, byte_6787E2);
+EXTERN_GLOBAL(u8, byte_6787E4);
+EXTERN_GLOBAL(u8, byte_6787E3);
+EXTERN_GLOBAL(u8, byte_6787D8);
+EXTERN_GLOBAL(u8, byte_6787D9);
+EXTERN_GLOBAL(u8, byte_6787D2);
+
 EXTERN_GLOBAL(Ang16, word_6FDB34);
+EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
+
+struct HashBrown_678468
+{
+    Char_8* field_0;
+
+    EXPORT void sub_4712F0();
+};
+DEFINE_GLOBAL(HashBrown_678468, gHashBrown_678468, 0x678468);
+
+STUB_FUNC(0x4712F0)
+void HashBrown_678468::sub_4712F0()
+{
+    NOT_IMPLEMENTED;
+}
 
 STUB_FUNC(0x544F70)
 void __stdcall sub_544F70()
@@ -754,10 +789,67 @@ void PedManager::sub_46EB60(u32* a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/dQf8H
 STUB_FUNC(0x4703f0)
 void PedManager::PedsService_4703F0()
 {
     NOT_IMPLEMENTED;
+
+    ++word_6787F0;
+    word_6787E0 = 0;
+    byte_6787E2 = 0;
+    byte_6787E4 = 0;
+    byte_6787E3 = 0;
+    gNumPedsOnScreen_6787EC = 0;
+    byte_61A8A1 = 1;
+    byte_61A8A2 = 1;
+    byte_6787D2 = 0;
+    unk_6787EE = 0;
+
+    gPedPool_6787B8->field_0_pool.UpdatePool();
+
+    if (unk_6787EF) // 11d: je 128
+    {
+        byte_6787DA = 1;
+    }
+    else
+    {
+        byte_6787DA = 0;
+        gHashBrown_678468.sub_4712F0();
+    }
+
+    byte_6787D8 = byte_61A8A1 == 1;
+    byte_6787D9 = byte_61A8A2 == 1;
+
+    if (!bSkip_dummies_67D4EF)
+    {
+        Dummies_470330();
+    }
+    field_3 = word_6787E0;
+    field_2 = byte_6787E2;
+    field_4 = byte_6787E3;
+    field_5 = byte_6787E4;
+    field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
+    if (gPolice_7B8_6FEE40)
+    {
+        gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = unk_6787EE;
+    }
+    unk_6787EF = 0;
+    if (bDo_iain_test_67D4E9)
+    {
+        u16 num_peds = *(u32*)&gNumPedsOnScreen_6787EC; //  TODO: fix me
+        swprintf(tmpBuff_67BD9C, L"num peds on screen : %d",
+                 num_peds); // num peds on screen : %d
+        gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 64, word_706600, 1);
+
+        if (gPolice_7B8_6FEE40)
+        {
+            swprintf(tmpBuff_67BD9C,
+                     L"num police peds in range screen : %d", // num police peds in range screen : %d
+                     (u8)gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen);
+            gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, 0, 80, word_706600, 1);
+        }
+    }
 }
 
 // https://decomp.me/scratch/P1OvR
@@ -1001,6 +1093,12 @@ Ped* PedManager::PedById(s32 pedId)
         }
     }
     return NULL;
+}
+
+STUB_FUNC(0x470330)
+void PedManager::Dummies_470330()
+{
+    NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x471110)

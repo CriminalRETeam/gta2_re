@@ -51,7 +51,7 @@ class Ped
     EXPORT void sub_45C070();
     EXPORT void RestoreCarOrPedHealth();
     EXPORT void sub_45C0C0(gmp_map_zone* a2);
-    EXPORT void sub_45C310();
+    EXPORT void PoolDeallocate();
     EXPORT void RespawnPed_45C350(gmp_map_zone* pZone);
     EXPORT void sub_45C410();
     EXPORT void sub_45C4B0();
@@ -100,7 +100,7 @@ class Ped
     EXPORT s32 sub_462620();
     EXPORT char_type sub_4626B0();
     EXPORT void sub_462B80();
-    EXPORT bool Update_462E70();
+    EXPORT bool PoolUpdate();
     EXPORT void sub_4632E0();
     EXPORT void sub_463300(u8 a1);
     EXPORT s32 sub_4633E0(char_type a2);
