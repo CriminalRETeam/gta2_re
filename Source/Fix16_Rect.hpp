@@ -1,10 +1,12 @@
 #pragma once
 
+#include "Fix16_Point.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
-#include "Fix16_Point.hpp"
 
 class Sprite;
+
+EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
 
 class Fix16_Rect
 {
@@ -32,12 +34,18 @@ class Fix16_Rect
 
     inline bool inline_sub_4B9FD0(Fix16_Point* a2)
     {
-        return Fix16::IsBetween(field_0_left, field_4_right, a2->x) &&
-            Fix16::IsBetween(field_8_top, field_C_bottom, a2->y);
+        return Fix16::IsBetween(field_0_left, field_4_right, a2->x) && Fix16::IsBetween(field_8_top, field_C_bottom, a2->y);
     }
 
     // TODO: Ordering
     EXPORT void sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
+
+    // 9.6f 0x41E390
+    // https://decomp.me/scratch/YTMyx
+    bool IsZeroWidth_41E390() const
+    {
+        return (this->field_0_left == this->field_4_right && this->field_0_left <= kSmallWidthEpslion_703450) ? true : false;
+    }
 
     Fix16 field_0_left;
     Fix16 field_4_right;
