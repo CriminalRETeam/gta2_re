@@ -1,3 +1,4 @@
 requests
 iced-x86
 pyclip
+reccmp @ git+https://github.com/isledecomp/reccmp

@@ -1,0 +1,33 @@
+targets:
+  '105':
+    filename: 10.5.exe
+    source_root: Source
+    hash:
+      sha256: 399910c8d46f37192b7c05bfb10c0d52313077ee7320f7d8f89d324fea823643
+    ghidra:
+      ignore_types: []
+      ignore_functions: []
+    data-sources:
+        - reccmp/ascii.csv
+        - reccmp/floats.csv
+        - reccmp/library.csv
+        - reccmp/functions.csv
+        - reccmp/variables.csv
+        - reccmp/widechar.csv
+    report:
+      ignore_functions: [
+        '__global_unwind2',
+        '__NLG_Notify',
+        '??_L@YGXPAXIHP6EX0@Z1@Z',
+        '??_M@YGXPAXIHP6EX0@Z@Z',
+        '?__ArrayUnwind@@YGXPAXIHP6EX0@Z@Z',
+        '__cinit',
+        '_WinMainCRTStartup',
+        '__flsbuf',
+        '___crtLCMapStringA',
+        '__dosmaperr',
+        '__XcptFilter',
+        '__NMSG_WRITE',
+        '_strstr',
+        '__setmbcp',
+      ]

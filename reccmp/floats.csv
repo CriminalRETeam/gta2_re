@@ -1,0 +1,5 @@
+address,type,size,symbol
+0x5fe598,float,8,__real@8@3ff18000000000000000
+0x5fe3c8,float,4,__real@4@3ff18000000000000000
+0x5fe3e8,float,8,__real@8@400d8000000000000000
+
