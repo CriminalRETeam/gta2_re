@@ -136,7 +136,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.Normalize();
 
-        a2->field_8_obj = gObject_5C_6F8F84->sub_5299B0(pCmd->field_18_obj_id,
+        a2->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
                                                         pCmd->field_C_pos.field_0_x,
                                                         pCmd->field_C_pos.field_4_y,
                                                         pCmd->field_C_pos.field_8_z,
@@ -189,7 +189,7 @@ void miss2_0x11C::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* a2)
         rotation.ConvertAndMultiply(&word_6F8044, &pCmd->field_1A_rot);
         rotation.sub_406C20();
 
-        a2->field_8_obj = gObject_5C_6F8F84->sub_5299B0(pCmd->field_18_obj_id,
+        a2->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
                                                         pCmd->field_C_pos.field_0_x,
                                                         pCmd->field_C_pos.field_4_y,
                                                         pCmd->field_C_pos.field_8_z,

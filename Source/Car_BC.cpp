@@ -1716,14 +1716,14 @@ MATCH_FUNC(0x440ac0)
 void Car_BC::sub_440AC0()
 {
     Object_2C* p2C =
-        gObject_5C_6F8F84->sub_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
     field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, dword_6771F0, word_677326);
 }
 
 MATCH_FUNC(0x440b10)
 void Car_BC::sub_440B10()
 {
-    Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
     field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
 }
 

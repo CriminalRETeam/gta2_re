@@ -732,7 +732,7 @@ void CC ImGuiDebugDraw()
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    spawned_obj = gObject_5C_6F8F84->sub_5299B0(currentObjectIndex,
+                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(currentObjectIndex,
                                                                 pPlayerSprite->field_14_xpos.x,
                                                                 pPlayerSprite->field_14_xpos.y,
                                                                 pPlayerSprite->field_1C_zpos,
@@ -745,7 +745,7 @@ void CC ImGuiDebugDraw()
                 {
                     Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
-                    spawned_obj = gObject_5C_6F8F84->sub_5299B0(tmp,
+                    spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(tmp,
                                                                 pPlayerSprite->field_14_xpos.x,
                                                                 pPlayerSprite->field_14_xpos.y,
                                                                 pPlayerSprite->field_1C_zpos,
@@ -898,7 +898,7 @@ void CC ImGuiDebugDraw()
                         if ( pB4 )
                         {
                         //pB4->field_80_sprite_ptr->field_2C |= 4u;
-                        // Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(198, 0, 0, 0, 0); // dead_rubbish_197 ?? but its actually fire
+                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // dead_rubbish_197 ?? but its actually fire
                         // pB4->field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/

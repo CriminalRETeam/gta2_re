@@ -217,7 +217,7 @@ MATCH_FUNC(0x545430)
 void Char_B4::sub_545430()
 {
     // Spawn fire
-    Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
+    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
     field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
     field_B0 = 10; // Start screaming timer
 }

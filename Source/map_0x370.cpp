@@ -566,7 +566,7 @@ void Map_0x370::sub_4DFB90()
 
         Fix16 temp_z;
 
-        gObject_5C_6F8F84->sub_5299B0(pMapObjects->field_5_object_type,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(pMapObjects->field_5_object_type,
                                       x_pos,
                                       y_pos,
                                       *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),

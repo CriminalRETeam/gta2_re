@@ -874,7 +874,7 @@ void Ped::sub_45E080()
                 {
                     case weapon_type::pistol:
                     case weapon_type::electro_batton:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -882,7 +882,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::smg:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -890,7 +890,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::rocket:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -898,7 +898,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::shocker:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -906,7 +906,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::molotov:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -914,7 +914,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::grenade:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(205, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -922,7 +922,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::shotgun:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -930,7 +930,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::flamethrower:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -938,7 +938,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::silence_smg:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(209, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
@@ -946,7 +946,7 @@ void Ped::sub_45E080()
                         break;
 
                     case weapon_type::dual_pistol:
-                        v2 = gObject_5C_6F8F84->sub_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
+                        v2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(210, get_cam_x(), get_cam_y(), get_cam_z(), word_6787A8);
                         if (v2)
                         {
                             v2->field_C_explosion->field_4_idx = 9;
