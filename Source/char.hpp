@@ -256,6 +256,8 @@ class PedManager
     EXPORT void DoIanTest_471060(s16 a1);
     EXPORT Ped* PedById(s32 pedId);
 
+    EXPORT void Dummies_470330();
+
     s16 field_0;
     char_type field_2;
     char_type field_3;
