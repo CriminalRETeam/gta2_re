@@ -10,7 +10,7 @@ class TileAnim_2
 {
   public:
     EXPORT void sub_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat);
-    EXPORT void sub_5BC2C0(gmp_tile_animation* a1);
+    EXPORT void sub_5BC2C0(const gmp_tile_animation* a1);
     EXPORT void Empty_5BC300();
     EXPORT void UpdateTileAnimations_5BC310();
     EXPORT TileAnim_2();
@@ -27,7 +27,7 @@ class TileAnim_18
       
     }
     EXPORT void sub_5BC150();
-    EXPORT void sub_5BC190(gmp_tile_animation* pStru);
+    EXPORT void sub_5BC190(const gmp_tile_animation* pStru);
     EXPORT void sub_5BC1D0();
     EXPORT char_type PoolUpdate();
     EXPORT TileAnim_18();
@@ -39,7 +39,7 @@ class TileAnim_18
     u16 field_6_repeat;
     u16 field_8;
     s16 field_A;
-    gmp_tile_animation* field_C_ptr;
+    const gmp_tile_animation* field_C_ptr;
     s16 field_10_base;
     s16 field_12_idx;
     TileAnim_18* mpNext;

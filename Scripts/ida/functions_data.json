@@ -9585,7 +9585,7 @@
         "v105_address": "0x511cd0"
     },
     {
-        "name": "frosty_pasteur_0xC1EA8::sub_511D40",
+        "name": "frosty_pasteur_0xC1EA8::SaveMapInfo_511D40",
         "v96f_address": null,
         "v105_address": "0x511d40"
     },
@@ -10920,7 +10920,7 @@
         "v105_address": "0x529950"
     },
     {
-        "name": "Object_5C::sub_5299B0",
+        "name": "Object_5C::NewPhysicsObj_5299B0",
         "v96f_address": null,
         "v105_address": "0x5299b0"
     },
@@ -10980,12 +10980,12 @@
         "v105_address": "0x52a3d0"
     },
     {
-        "name": "sub_52A500",
+        "name": "SaveObjects_52A500",
         "v96f_address": "0x52a500",
         "v105_address": "0x52a500"
     },
     {
-        "name": "sub_52A590",
+        "name": "RestoreObjects_52A590",
         "v96f_address": null,
         "v105_address": "0x52a590"
     },
@@ -11630,7 +11630,7 @@
         "v105_address": "0x5456a0"
     },
     {
-        "name": "sub_545700",
+        "name": "IsOnScreen_545700",
         "v96f_address": null,
         "v105_address": "0x545700"
     },

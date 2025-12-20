@@ -9,7 +9,7 @@
 
 // TODO: Init to correct values
 DEFINE_GLOBAL(Fix16, dword_6F8BF0, 0x6F8BF0);
-DEFINE_GLOBAL(Ang16, word_6F8F68, 0x6F8F68);
+DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
 DEFINE_GLOBAL(struct_4, stru_67727C, 0x67727C);
 
 MATCH_FUNC(0x52ad80)
@@ -21,7 +21,7 @@ Object_3C::Object_3C()
     this->field_18 = dword_6F8BF0;
     this->field_10 = dword_6F8BF0;
     this->field_C = dword_6F8BF0;
-    this->field_4 = word_6F8F68;
+    this->field_4 = kZeroAng_6F8F68;
     this->field_28 = 0;
     this->field_20 = 0;
     this->field_2C = 0;

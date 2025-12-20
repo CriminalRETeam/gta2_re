@@ -157,6 +157,8 @@ class Object_2C
     char_type field_2B;
 };
 
+struct TurkishDelight_164;
+
 class Object_5C
 {
   public:
@@ -167,7 +169,7 @@ class Object_5C
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
     EXPORT Object_2C* sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9);
-    EXPORT Object_2C* sub_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
+    EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);
     EXPORT Object_2C* sub_529AB0(s32 a2, Fix16 a3, Fix16 a4, Fix16 a5, s32 a6, s32 a7, u8 a8);
@@ -188,8 +190,8 @@ class Object_5C
     EXPORT s32* sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10, char_type a11);
     EXPORT s32* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
 
-    EXPORT void sub_52A500(int pUnknownObj);
-    EXPORT void sub_52A590(int pUnknownObj);
+    EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
+    EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
     EXPORT void sub_52A610(Object_2C* p2C);
 
     Object_2C* field_0; // Object_2C* ?

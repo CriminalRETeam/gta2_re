@@ -294,20 +294,20 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
 
     field_80 = v6;
-    field_2C = gObject_5C_6F8F84->sub_5299B0(135, x_pos, y_pos, v6, dword_679FC4);
-    field_30 = gObject_5C_6F8F84->sub_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_34 = gObject_5C_6F8F84->sub_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_38 = gObject_5C_6F8F84->sub_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_3C = gObject_5C_6F8F84->sub_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_40 = gObject_5C_6F8F84->sub_5299B0(252, x_pos, y_pos, field_80, dword_679FC4);
-    field_44 = gObject_5C_6F8F84->sub_5299B0(260, x_pos, y_pos, field_80, dword_679FC4);
-    field_48 = gObject_5C_6F8F84->sub_5299B0(261, x_pos, y_pos, field_80, dword_679FC4);
-    field_4C = gObject_5C_6F8F84->sub_5299B0(262, x_pos, y_pos, field_80, dword_679FC4);
-    field_50 = gObject_5C_6F8F84->sub_5299B0(263, x_pos, y_pos, field_80, dword_679FC4);
-    field_5C = gObject_5C_6F8F84->sub_5299B0(140, x_pos, y_pos, field_80, dword_679FC4);
-    field_54 = gObject_5C_6F8F84->sub_5299B0(136, x_pos, y_pos, field_80, dword_679FC4);
+    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, dword_679FC4);
+    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
+    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
+    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
+    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
+    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, dword_679FC4);
+    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, dword_679FC4);
+    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, dword_679FC4);
+    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, dword_679FC4);
+    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, dword_679FC4);
+    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, dword_679FC4);
+    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, dword_679FC4);
 
-    field_58 = gObject_5C_6F8F84->sub_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, dword_679FC4);
+    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, dword_679FC4);
     field_58->field_26_varrok_idx = a4;
     field_78 = 0;
     field_94 = dword_679E70;

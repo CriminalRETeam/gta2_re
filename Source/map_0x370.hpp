@@ -1,8 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
-#include "fix16.hpp"
 #include "ang16.hpp"
+#include "fix16.hpp"
 #include <windows.h>
 
 class Gang_144;
@@ -100,7 +100,7 @@ struct gmp_dmap_info
         field_5_y = y;
         field_0_column_idx = column_idx;
     }
-    
+
     u32 field_0_column_idx;
     u8 field_4_x;
     u8 field_5_y;
@@ -128,7 +128,6 @@ class gmp_map_zone
 
     EXPORT s8 sub_4DEF40();
     EXPORT wchar_t* get_zone_str_4DEF00();
-
 };
 
 struct gmp_zone_info
@@ -194,7 +193,7 @@ struct gmp_map_slope
     Fix16 field_8_zpos_higher; // relative z coordinate from the highest point of the slope
 };
 
-enum gmp_gradient_slope_direction   // direction: low to high
+enum gmp_gradient_slope_direction // direction: low to high
 {
     NORTH_1 = 1,
     SOUTH_2 = 2,
@@ -218,7 +217,6 @@ EXTERN_GLOBAL(Fix16, dword_6F5FA8);
 EXTERN_GLOBAL(Fix16, dword_6F6214);
 
 EXTERN_GLOBAL(Fix16, dword_6F610C);
-
 
 class Map_0x370
 {
@@ -342,7 +340,7 @@ class Map_0x370
     EXPORT s32 sub_4E7190(s32* a2, s32* a3, s32* a4, s32 a5);
     EXPORT char_type sub_4E7E90(u8* a2, char_type* a3);
     EXPORT char_type sub_4E7FC0(s32 a2, s32 a3, s32 a4);
-    EXPORT s32 sub_4E8140(gmp_block_info *pBlockInfo);
+    EXPORT s32 sub_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 sub_4E8180(u32 read_block_idx);
     EXPORT s32 sub_4E81D0(u32 column_idx);
     EXPORT s32 sub_4E8220(u32 column_idx, s32 z);
@@ -353,7 +351,12 @@ class Map_0x370
     EXPORT void sub_4E8A10(s32 a2, s32 a3);
     EXPORT void LowerLevel_4E8B70(s32 x_min, s32 x_max, s32 y_min, s32 y_max);
     EXPORT void sub_4E8C00(u32 a2, u32 a3, u32 a4);
-    EXPORT s32 sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7);
+    EXPORT void sub_4E8CF0(u16*** outColumnPtr,
+                           u32* outColumnBytes,
+                           gmp_block_info** outBlockPtr,
+                           u32* outBlockBytes,
+                           Map_sub** outSubObj,
+                           s32* outSubObjBytes);
 
     EXPORT void do_process_loaded_zone_data_4E8E30();
 
@@ -389,16 +392,16 @@ class Map_0x370
         switch (gradient_size)
         {
             case SIZE_1:
-                scale = dword_6F5ED8;    //  16384
+                scale = dword_6F5ED8; //  16384
                 break;
             case SIZE_2:
-                scale = dword_6F5FA8;    //  8168
+                scale = dword_6F5FA8; //  8168
                 break;
             case SIZE_8:
-                scale = dword_6F6214;    //  2084
+                scale = dword_6F6214; //  2084
                 break;
             default:
-                scale = dword_6F610C;    //  0
+                scale = dword_6F610C; //  0
                 break;
         }
         return scale;
@@ -446,7 +449,6 @@ class Map_0x370
 };
 
 EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
-
 
 EXTERN_GLOBAL(s32, gPurple_left_6F5FD4);
 

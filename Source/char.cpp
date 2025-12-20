@@ -217,7 +217,7 @@ MATCH_FUNC(0x545430)
 void Char_B4::sub_545430()
 {
     // Spawn fire
-    Object_2C* p2C = gObject_5C_6F8F84->sub_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
+    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, word_6FDB34); // dead_rubbish_197 ?? but its actually fire
     field_80_sprite_ptr->sub_5A3100(p2C->field_4, 0, 0, word_6FDB34);
     field_B0 = 10; // Start screaming timer
 }
@@ -273,11 +273,10 @@ void Char_B4::sub_5456A0()
     field_80_sprite_ptr->CreateSoundObj_5A29D0();
 }
 
-STUB_FUNC(0x545700)
-s32 Char_B4::sub_545700()
+MATCH_FUNC(0x545700)
+s32 Char_B4::IsOnScreen_545700()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, dword_6FD9E4) == 1;
 }
 
 MATCH_FUNC(0x545720)
@@ -411,10 +410,10 @@ void Char_B4::DrownPed_5459E0()
     rotation.Normalize();
 
     gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xpos.x,
-                                   field_80_sprite_ptr->field_14_xpos.y,
-                                   field_80_sprite_ptr->field_1C_zpos,
-                                   rotation,
-                                   1);
+                                               field_80_sprite_ptr->field_14_xpos.y,
+                                               field_80_sprite_ptr->field_1C_zpos,
+                                               rotation,
+                                               1);
 
     if ((field_7C_pPed->field_21C & 0x1000000) == 0)
     {

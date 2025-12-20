@@ -1,21 +1,22 @@
 #include "map_0x370.hpp"
-#include "sprite.hpp"
 #include "Fix16_Rect.hpp"
 #include "Function.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Light_1D4CC.hpp"
 #include "Object_5C.hpp"
 #include "PurpleDoom.hpp"
 #include "RouteFinder.hpp"
-#include "Gang.hpp"
 #include "chunk.hpp"
 #include "crt_stubs.hpp"
+#include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
 #include "gtx_0x106C.hpp"
 #include "memory.hpp"
-#include "enums.hpp"
+#include "sprite.hpp"
+#include "TileAnim_2.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -77,7 +78,7 @@ static inline bool is_air_type(u8& slope_byte)
 static inline bool is_gradient_slope(u8& slope_byte)
 {
     u8 slope = get_slope_bits(slope_byte);
-    return slope > 0 && slope < 0xB4u;  // slope idx in range 1 to 45
+    return slope > 0 && slope < 0xB4u; // slope idx in range 1 to 45
 }
 
 static inline u8 get_block_type(u8& slope_byte)
@@ -565,7 +566,7 @@ void Map_0x370::sub_4DFB90()
 
         Fix16 temp_z;
 
-        gObject_5C_6F8F84->sub_5299B0(pMapObjects->field_5_object_type,
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(pMapObjects->field_5_object_type,
                                       x_pos,
                                       y_pos,
                                       *Map_0x370::FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos),
@@ -591,7 +592,7 @@ void Map_0x370::update_lights_4DFCD0()
     {
         return;
     }
-    
+
     gmp_map_light* pMapLight = &field_33C_pLightData[0];
 
     for (u32 light_idx = 0; light_idx < field_348_num_lights; light_idx++, ++pMapLight)
@@ -615,7 +616,6 @@ void Map_0x370::update_lights_4DFCD0()
         }
     }
 }
-
 
 MATCH_FUNC(0x4DFE10)
 gmp_block_info* Map_0x370::get_block_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
@@ -1020,8 +1020,7 @@ bool Map_0x370::sub_4E4770(Fix16 z_pos)
 
             if (gBlockInfo0_6F5EB0 != NULL)
             {
-                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
-                    && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+                if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
                 {
                     if (flag1)
                     {
@@ -1170,14 +1169,10 @@ Fix16* Map_0x370::sub_4E4D40(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
     u8 slope_byte;
     Fix16 new_z;
 
-    if (z_pos.GetFracValue() == dword_6F610C 
-        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
-        || (slope_byte = block_4DFE10->field_B_slope_type, 
-            !is_gradient_slope(slope_byte))
-        || is_air_type(slope_byte) 
-        || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), 
-            new_z > z_pos))
+    if (z_pos.GetFracValue() == dword_6F610C ||
+        (block_4DFE10 = Map_0x370::get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL ||
+        (slope_byte = block_4DFE10->field_B_slope_type, !is_gradient_slope(slope_byte)) || is_air_type(slope_byte) ||
+        (new_z = z_pos.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
         gmp_block_info* v11 = Map_0x370::sub_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), v14);
@@ -1254,13 +1249,9 @@ Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
     gmp_block_info* block_4DFE10;
     Fix16 new_z;
 
-    if (z.GetFracValue() == dword_6F610C 
-        || (block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt())) == NULL 
-        || !is_gradient_slope(block_4DFE10->field_B_slope_type) 
-        || is_air_type(block_4DFE10->field_B_slope_type) 
-        || (new_z = z.GetRoundValue(), 
-            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), 
-            new_z > z))
+    if (z.GetFracValue() == dword_6F610C || (block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt())) == NULL ||
+        !is_gradient_slope(block_4DFE10->field_B_slope_type) || is_air_type(block_4DFE10->field_B_slope_type) ||
+        (new_z = z.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), new_z > z))
     {
         s32 int_z = z.ToInt() - 1;
         gBlockInfo0_6F5EB0 = Map_0x370::sub_4E4CB0(x.ToInt(), y.ToInt(), int_z);
@@ -1270,8 +1261,7 @@ Fix16* Map_0x370::sub_4E4F40(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z)
             *found_z = dword_6F610C;
             return found_z;
         }
-        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
-            && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
             new_z = Fix16(int_z);
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1296,8 +1286,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
         gmp_block_info* block_4DFE10 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         if (block_4DFE10)
         {
-            if (is_gradient_slope(block_4DFE10->field_B_slope_type) 
-                && !is_air_type(block_4DFE10->field_B_slope_type))
+            if (is_gradient_slope(block_4DFE10->field_B_slope_type) && !is_air_type(block_4DFE10->field_B_slope_type))
             {
                 new_z = z.GetRoundValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1317,8 +1306,7 @@ Fix16* Map_0x370::sub_4E5050(Fix16* found_z, Fix16 x, Fix16 y, Fix16 z, bool& bF
         *found_z = dword_6F6110;
         return found_z;
     }
-    if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
-        && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+    if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
     {
         new_z = Fix16(v14);
         Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1339,8 +1327,7 @@ bool Map_0x370::sub_4E5170(Fix16 x, Fix16 y, Fix16 z)
         gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
         if (gBlockInfo0_6F5EB0)
         {
-            if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) 
-                && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
             {
                 Fix16 new_z = z.GetRoundValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1397,8 +1384,7 @@ bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
         gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
         if (gBlockInfo0_6F5EB0)
         {
-            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
-                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
             {
                 new_z = floor_z;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1414,8 +1400,7 @@ bool Map_0x370::sub_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
         gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), floor_second_z.ToInt());
         if (gBlockInfo0_6F5EB0)
         {
-            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
-                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
             {
                 new_z = floor_second_z;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -1461,8 +1446,7 @@ bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* 
 
         if (gBlockInfo0_6F5EB0)
         {
-            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
-                && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
             {
                 *found_z = z_floor;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
@@ -1477,8 +1461,8 @@ bool Map_0x370::sub_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* 
     {
         gBlockInfo0_6F5EB0 = Map_0x370::get_block_4DFE10(x.ToInt(), y.ToInt(), unk_z_floor.ToInt());
 
-        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) 
-            && is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (gBlockInfo0_6F5EB0 && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type) &&
+            is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
             *found_z = unk_z_floor;
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
@@ -1547,8 +1531,7 @@ Fix16* Map_0x370::FindGroundZForCoord_4E5B60(Fix16* found_z, Fix16 x_pos, Fix16 
     {
         Fix16 z_pos;
         u8 slope_byte = pHighestBlock->field_B_slope_type;
-        if (is_gradient_slope(slope_byte) 
-            && !is_air_type(slope_byte))
+        if (is_gradient_slope(slope_byte) && !is_air_type(slope_byte))
         {
             z_pos = Fix16(z_pos_int);
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, z_pos); //  get the Z position based on the slope angle
@@ -1684,8 +1667,7 @@ gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
     for (s32 curr_z = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z >= 0; curr_z--)
     {
         gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
-        if (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type) == FIELD 
-            && has_any_green_arrows(gBlockInfo0_6F5EB0->field_A_arrows))
+        if (get_block_type(gBlockInfo0_6F5EB0->field_B_slope_type) == FIELD && has_any_green_arrows(gBlockInfo0_6F5EB0->field_A_arrows))
         {
             found_z = curr_z + pColumn->field_1_offset;
             return gBlockInfo0_6F5EB0;
@@ -1708,8 +1690,7 @@ gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
             gmp_block_info* pBlock = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
             gBlockInfo0_6F5EB0 = pBlock;
 
-            if (get_block_type(pBlock->field_B_slope_type) == FIELD 
-                && has_any_green_arrows(pBlock->field_A_arrows))
+            if (get_block_type(pBlock->field_B_slope_type) == FIELD && has_any_green_arrows(pBlock->field_A_arrows))
             {
                 z = curr_z + pColumn->field_1_offset;
                 return gBlockInfo0_6F5EB0;
@@ -1726,13 +1707,9 @@ Fix16* Map_0x370::sub_4E6400(Fix16* found_z, Fix16 x_pos, Fix16 y_pos, Fix16 z_p
     u8 slope_byte;
     Fix16 new_z;
 
-    if (z_pos.GetFracValue() == dword_6F610C 
-        || (block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL 
-        || (slope_byte = block_4DFE10->field_B_slope_type, 
-            !is_gradient_slope(slope_byte)) 
-        || is_air_type(slope_byte) 
-        || (new_z = z_pos.GetRoundValue(), 
-            Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
+    if (z_pos.GetFracValue() == dword_6F610C || (block_4DFE10 = get_block_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt())) == NULL ||
+        (slope_byte = block_4DFE10->field_B_slope_type, !is_gradient_slope(slope_byte)) || is_air_type(slope_byte) ||
+        (new_z = z_pos.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 v14 = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::FindRailwayBelowZAtCoord_4E6360(x_pos.ToInt(), y_pos.ToInt(), v14);
@@ -1762,7 +1739,7 @@ Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
 {
     s32 rail_z_coord;
     gBlockInfo0_6F5EB0 = Map_0x370::FindRailwayAtCoord_4E62D0(x.ToInt(), y.ToInt(), rail_z_coord);
-    
+
     if (!gBlockInfo0_6F5EB0)
     {
         *found_z = 0;
@@ -1771,8 +1748,7 @@ Fix16* Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16* found_z, Fix16 x, Fix16 y)
     else
     {
         Fix16 new_z;
-        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type)
-           && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (is_gradient_slope(gBlockInfo0_6F5EB0->field_B_slope_type) && !is_air_type(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
             new_z = Fix16(rail_z_coord);
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2054,11 +2030,29 @@ void Map_0x370::sub_4E8C00(u32 a2, u32 a3, u32 a4)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x4E8CF0)
-s32 Map_0x370::sub_4E8CF0(u32* a2, u32* a3, u32* a4, u32* a5, Map_sub** a6, s32* a7)
+MATCH_FUNC(0x4E8CF0)
+void Map_0x370::sub_4E8CF0(u16*** outColumnPtr,
+                           u32* outColumnBytes,
+                           gmp_block_info** outBlockPtr,
+                           u32* outBlockBytes,
+                           Map_sub** outSubObj,
+                           s32* outSubObjBytes)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    *outColumnPtr = &this->field_0_pDmap->field_40008_pColumn[this->field_0_pDmap->field_40000_column_words];
+
+    const s32 totalColumnWords = this->field_360_column_words;
+    const s32 consumedColumnWords = this->field_0_pDmap->field_40000_column_words;
+    *outColumnBytes = 4 * (totalColumnWords - consumedColumnWords);
+
+    *outBlockPtr = &this->field_0_pDmap->field_4000C_block[this->field_0_pDmap->field_40004_num_blocks];
+
+    const s32 totalBlocks = this->field_354_num_blocks;
+    const s32 consumedBlocks = this->field_0_pDmap->field_40004_num_blocks;
+    *outBlockBytes = 12 * (totalBlocks - consumedBlocks);
+
+    *outSubObj = &this->field_4_obj;
+
+    *outSubObjBytes = 8 * this->field_4_obj.field_320_max_idx;
 }
 
 // https://decomp.me/scratch/eGx1i
@@ -2162,10 +2156,18 @@ void Map_0x370::sub_4E90E0(u32 chunk_size)
     }
 }
 
-STUB_FUNC(0x4E9160)
+MATCH_FUNC(0x4E9160)
 void Map_0x370::sub_4E9160(s32 size)
 {
-    NOT_IMPLEMENTED;
+    u8* pTileAnimDataIter = (u8*)this->field_340_pTileAnimData;
+    while (pTileAnimDataIter != (u8*)this->field_340_pTileAnimData + size)
+    {
+        const gmp_tile_animation* pAnim = (const gmp_tile_animation*)pTileAnimDataIter;
+        gTileAnim_2_7052C4->sub_5BC2C0(pAnim);
+        pTileAnimDataIter += (sizeof(u16) * pAnim->field_4_anim_length) +
+            (sizeof(gmp_tile_animation) -
+             sizeof(u16)); // field_4 is animation_length, 6 is the length of a record, each array entry is a u16
+    }
 }
 
 MATCH_FUNC(0x4E91A0)

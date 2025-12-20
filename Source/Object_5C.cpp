@@ -15,15 +15,16 @@
 #include "error.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
-EXTERN_GLOBAL(Ang16, word_6F8F68);
+EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
 s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
 DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
-DEFINE_GLOBAL(Fix16, dword_6F8E10, 0x6F8E10);
+DEFINE_GLOBAL(Fix16, kFpZero_6F8E10, 0x6F8E10);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
@@ -399,7 +400,7 @@ bool Object_2C::PoolUpdate()
         Object_2C::Update_525F30();
     }
 
-    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, dword_6F8E10)))
+    if (field_25 <= 0 || (field_25 == 2 && gGame_0x40_67E008->sub_4B97E0(field_4, kFpZero_6F8E10)))
     {
         return false;
     }
@@ -802,12 +803,12 @@ void Object_5C::sub_529300()
         Object_2C* o2c = pSprite->get_o2c_or_null_40FEC0();
         if (o2c->field_18_model == 10)
         {
-            if (gGame_0x40_67E008->sub_4B97E0(pSprite, dword_6F8E10))
+            if (gGame_0x40_67E008->sub_4B97E0(pSprite, kFpZero_6F8E10))
             {
                 Object_5C::CreateExplosion_52A3D0(pSprite->field_14_xpos.x,
                                                   pSprite->field_14_xpos.y,
                                                   pSprite->field_1C_zpos,
-                                                  word_6F8F68,
+                                                  kZeroAng_6F8F68,
                                                   18,
                                                   gVarrok_7F8_703398->field_0[o2c->field_26_varrok_idx].field_0_ped_id);
             }
@@ -870,7 +871,7 @@ Object_5C::Object_5C()
     field_58 = gSprite_Pool_703818->get_new_sprite();
     field_58->sub_451950(0, 0, 0);
 
-    field_58->sub_420690(word_6F8F68);
+    field_58->sub_420690(kZeroAng_6F8F68);
     field_58->AllocInternal_59F950(0, 0, 0);
 
     field_0 = 0;
@@ -912,16 +913,16 @@ Object_5C::~Object_5C()
 MATCH_FUNC(0x5297f0)
 void Object_5C::sub_5297F0()
 {
-    field_0 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
+    field_0 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D8C);
     field_0->field_26_varrok_idx = 45;
 
-    field_4 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
+    field_4 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8D80);
     field_4->field_26_varrok_idx = 48;
 
-    field_8 = Object_5C::sub_5299B0(0xA6, 0, 0, 0, word_6F8D54);
+    field_8 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, word_6F8D54);
     field_8->field_26_varrok_idx = 46;
 
-    field_C = Object_5C::sub_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
+    field_C = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, dword_6F8CD0);
     field_C->field_26_varrok_idx = 47;
 }
 
@@ -950,7 +951,7 @@ Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang
 }
 
 MATCH_FUNC(0x5299b0)
-Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
+Object_2C* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 maybe_rotation)
 {
     Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, maybe_rotation, 0);
     if (pNewObj)
@@ -963,7 +964,7 @@ Object_2C* Object_5C::sub_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 
 MATCH_FUNC(0x5299f0)
 Object_2C* Object_5C::sub_5299F0(s32 object_type, u32 varrok_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, word_6F8F68, 0);
+    Object_2C* pNewObj = sub_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
         pNewObj->field_26_varrok_idx = varrok_idx;
@@ -986,7 +987,7 @@ Object_2C* Object_5C::sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7)
 STUB_FUNC(0x529ab0)
 Object_2C* Object_5C::sub_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, s32 radius_flags, u8 intensity)
 {
-    Object_2C* pNewObj = Object_5C::sub_529C00(light_type, xpos, ypos, zpos, word_6F8F68, 0);
+    Object_2C* pNewObj = Object_5C::sub_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
         pNewObj->field_C_light->sub_482D60(argb, radius_flags, intensity);
@@ -1131,8 +1132,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
             pNew2C->field_10_obj_3c->field_4 = rotation;
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
-            pNew2C->field_10_obj_3c->field_10 = dword_6F8E10;
-            pNew2C->field_10_obj_3c->field_1C = dword_6F8E10;
+            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
             break;
 
         case 4:
@@ -1142,8 +1143,8 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew3C->field_20 = pNew2C->field_14_id;
             pNew2C->field_10_obj_3c->field_C = pNew2C->field_8->field_10;
             pNew2C->field_10_obj_3c->field_18 = pPhi->field_14_friction;
-            pNew2C->field_10_obj_3c->field_10 = dword_6F8E10;
-            pNew2C->field_10_obj_3c->field_1C = dword_6F8E10;
+            pNew2C->field_10_obj_3c->field_10 = kFpZero_6F8E10;
+            pNew2C->field_10_obj_3c->field_1C = kFpZero_6F8E10;
             pNew2C->field_10_obj_3c->field_4 = rotation;
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
 
@@ -1171,11 +1172,11 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
 
     if (pNew2C->field_18_model == 281)
     {
-        Object_2C* v34 = sub_5299B0(284, dword_6F8E10, dword_6F8E10, dword_6F8E10, word_6F8F68);
+        Object_2C* v34 = NewPhysicsObj_5299B0(284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNew2C->field_4->sub_5A3100(v34->field_4,
                                     (dword_6F8CE8 * dword_6F8ECC), // x?
                                     (dword_6F8CEC * dword_6F8ECC), // y?
-                                    word_6F8F68); // ang?
+                                    kZeroAng_6F8F68); // ang?
         return pNew2C;
     }
     else
@@ -1225,15 +1226,40 @@ s32* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32
 }
 
 STUB_FUNC(0x52A500)
-void Object_5C::sub_52A500(int pUnknownObj)
+void Object_5C::SaveObjects_52A500(TurkishDelight_164* pUnknownObj)
 {
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x52A590)
-void Object_5C::sub_52A590(int pUnknownObj)
+// TODO: This is a mess, probably a fake match
+// https://decomp.me/scratch/juEUq
+MATCH_FUNC(0x52A590)
+void Object_5C::RestoreObjects_52A590(TurkishDelight_164* pData)
 {
-    NOT_IMPLEMENTED;
+    u8* pVarrok = &pData->field_118_varrok_idx[0];
+    // TurkishDelight_4* pX = &pData->field_0_obj_x[0][0];
+    u16* pModel = &pData->field_F0_model[0];
+
+    s32 i = 19;
+    while (i >= 0)
+    {
+        if (pData->field_0_obj_x[0][19 - i].field_0 != kFpZero_6F8E10 &&
+            pData->field_0_obj_x[1][19 - i].field_0 != kFpZero_6F8E10) // x and y not zero?
+        {
+            Object_2C* pNewObj = NewPhysicsObj_5299B0(*pModel,
+                                                      pData->field_0_obj_x[0][19 - i].field_0, // x?
+                                                      pData->field_0_obj_x[1][19 - i].field_0,
+                                                      pData->field_0_obj_x[2][19 - i].field_0, // z?
+                                                      kZeroAng_6F8F68);
+            pNewObj->set_field_26(*pVarrok);
+        }
+        // pX++;
+        pModel++; // add $0x2,$esi
+        i--;
+        pVarrok++;
+    }
+
+    memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_buffer
 }
 
 MATCH_FUNC(0x52A610)
@@ -1258,7 +1284,7 @@ void Object_2C::sub_52A650()
         ++dword_6F8E54;
         p3C->field_C = 0;
 
-        Ang16 v2 = word_6F8F68;
+        Ang16 v2 = kZeroAng_6F8F68;
         p3C->field_18 = 0;
         p3C->field_4 = v2;
 
@@ -1270,8 +1296,8 @@ void Object_2C::sub_52A650()
         p3C->field_30 = 0;
         field_10_obj_3c = p3C;
         p3C->field_20 = field_14_id;
-        field_10_obj_3c->field_C = dword_6F8E10;
-        field_10_obj_3c->field_10 = dword_6F8E10;
+        field_10_obj_3c->field_C = kFpZero_6F8E10;
+        field_10_obj_3c->field_10 = kFpZero_6F8E10;
     }
     Object_2C::sub_522340();
 }

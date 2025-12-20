@@ -525,11 +525,9 @@ struct TurkishDelight_4
 // Object data
 struct TurkishDelight_164
 {
-    TurkishDelight_4 field_0_obj_x[20];
-    TurkishDelight_4 field_50_obj_y[20];
-    TurkishDelight_4 field_A0_obj_z[20];
-    s16 field_F0_model[20];
-    char_type field_118_varrok_idx[20];
+    TurkishDelight_4 field_0_obj_x[3][20];
+    u16 field_F0_model[20];
+    u8 field_118_varrok_idx[20];
     char_type field_12C_obj_5C_buffer[50]; // TODO: Maybe multiple fields
     s16 field_15E_pad;
     s32 field_160_lhv;
@@ -589,7 +587,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT void sub_511B90();
     EXPORT void sub_511C30();
     EXPORT void sub_511C60();
-    EXPORT void sub_511D40();
+    EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
     EXPORT s32 sub_511F80(char_type* FileName);
     EXPORT SCR_CMD_HEADER* sub_512100(u16 toFind, u16 startOff);

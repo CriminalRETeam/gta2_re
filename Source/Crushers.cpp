@@ -153,18 +153,18 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
     field_24_xpos = xpos;
     field_28_ypos = ypos;
 
-    field_10 = gObject_5C_6F8F84->sub_5299B0(143, xpos, ypos, temp_z, word_67A820);
+    field_10 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(143, xpos, ypos, temp_z, word_67A820);
     field_10->field_26_varrok_idx = crusher_idx;
 
-    field_0 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, temp_z, word_67A820);
-    field_4 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, temp_z, word_67A660);
-    field_8 = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos, kCrusherTargetW_67A7D0 + field_28_ypos, temp_z, word_67A63A);
-    field_C = gObject_5C_6F8F84->sub_5299B0(142, field_24_xpos - kCrusherTargetW_67A7D0, field_28_ypos, temp_z, dword_67A568);
+    field_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, temp_z, word_67A820);
+    field_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, temp_z, word_67A660);
+    field_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos, kCrusherTargetW_67A7D0 + field_28_ypos, temp_z, word_67A63A);
+    field_C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos - kCrusherTargetW_67A7D0, field_28_ypos, temp_z, dword_67A568);
 
-    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos, field_28_ypos - dword_67A664, temp_z, word_67A820);
-    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos + dword_67A664, field_28_ypos, temp_z, word_67A660);
-    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos, dword_67A664 + field_28_ypos, temp_z, word_67A63A);
-    gObject_5C_6F8F84->sub_5299B0(150, field_24_xpos - dword_67A664, field_28_ypos, temp_z, dword_67A568);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(150, field_24_xpos, field_28_ypos - dword_67A664, temp_z, word_67A820);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(150, field_24_xpos + dword_67A664, field_28_ypos, temp_z, word_67A660);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(150, field_24_xpos, dword_67A664 + field_28_ypos, temp_z, word_67A63A);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(150, field_24_xpos - dword_67A664, field_28_ypos, temp_z, dword_67A568);
 
     field_1C_w = kCrusherTargetW_67A7D0;
     field_20_h = kCrusherTargetW_67A7D0;

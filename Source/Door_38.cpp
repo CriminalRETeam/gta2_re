@@ -259,10 +259,10 @@ void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
 
     field_1E = field_1C = (word_67BB38[a2].field_2_end_frame - word_67BB38[a2].field_0_start_frame) * word_67BB38[a2].field_8_speed;
 
-    field_C = gObject_5C_6F8F84->sub_5299B0(0xa7, iVar5, iVar8, a5, DAT_0067BD18);
+    field_C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa7, iVar5, iVar8, a5, DAT_0067BD18);
     field_C->set_field_26(a1);
 
-    field_8 = gObject_5C_6F8F84->sub_5299B0(0xa9, _param_4, iVar6, a5, DAT_0067BD18);
+    field_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa9, _param_4, iVar6, a5, DAT_0067BD18);
     field_8->set_field_26(a1);
     field_30 = _param_4;
     field_34 = iVar6;
@@ -325,7 +325,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
         field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
         field_C->set_field_26(a3);
     }
-    field_8 = gObject_5C_6F8F84->sub_5299B0(0xa9, x, y, z, DAT_0067BD18);
+    field_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa9, x, y, z, DAT_0067BD18);
     field_8->set_field_26(a3);
     field_30 = x;
     field_34 = y;
