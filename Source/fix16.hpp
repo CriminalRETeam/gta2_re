@@ -7,7 +7,9 @@
 class Fix16
 {
   public:
-    bool operator==(const Fix16& value) const
+    // 9.6f 0x40E570
+    // https://decomp.me/scratch/5BHO3
+    s32 operator==(const Fix16& value) const
     {
         return mValue == value.mValue;
     }
