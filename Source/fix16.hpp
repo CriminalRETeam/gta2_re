@@ -6,12 +6,19 @@
 
 class Fix16
 {
-  public:
+    public:
     // 9.6f 0x40E570
     // https://decomp.me/scratch/5BHO3
     s32 operator==(const Fix16& value) const
     {
         return mValue == value.mValue;
+    }
+    
+    // 9.6f 0x40CE50
+    // https://decomp.me/scratch/MBAm6
+    s32 operator<=(const Fix16& other) const
+    {
+        return mValue <= other.mValue;
     }
 
     Fix16& operator=(s32 value)
@@ -82,10 +89,6 @@ class Fix16
         return mValue >= other.mValue;
     }
 
-    s32 operator<=(const Fix16& other) const
-    {
-        return mValue <= other.mValue;
-    }
 
     // MATCH_FUNC(0x509990)
     bool operator>=(const s32 value) const
