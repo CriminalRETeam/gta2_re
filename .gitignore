@@ -27,3 +27,5 @@ GTA2_data
 venv
 .vscode/c_cpp_properties.json
 .vscode/cmake-kits.json
+reccmp-build.yml
+reccmp-user.yml

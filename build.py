@@ -20,8 +20,18 @@ CMAKE_GENERATE_JOM_CMD = f"cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD
 
 CMAKE_BUILD_CMD = "cmake --build . --target all" #  -- -j 1
 
-BUILD_CMDS = [CMAKE_GENERATE_JOM_CMD,
-              CMAKE_BUILD_CMD]
+RECCMP_GENERATE_JOM_CMD = " ".join([
+    'cmake -DCMAKE_VERBOSE_MAKEFILE:BOOL=OFF -DCMAKE_BUILD_TYPE=RelWithDebInfo .. -G"NMake Makefiles JOM"',
+    '-DCMAKE_CXX_FLAGS_RELWITHDEBINFO="/Z7 /O2 /D \\"NDEBUG\\""',
+    '-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO="/incremental:no /debug"',
+])
+RECCMP_BUILD_CMD = "cmake --build . --target all -- -j 1"
+
+def get_build_cmds(reccmp: bool):
+    if reccmp:
+        return [RECCMP_GENERATE_JOM_CMD, RECCMP_BUILD_CMD]
+
+    return [CMAKE_GENERATE_JOM_CMD, CMAKE_BUILD_CMD]
 
 GTA2_ROOT = os.environ.get("GTA2_ROOT")
 
@@ -87,17 +97,23 @@ def main():
     parser.add_argument("--run_standalone", help="Run the standalone gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--run_patched", help="Run the patched gta2 exe after the build successfully finishes", action="store_true")
     parser.add_argument("--ignore_no_match", help="Ignore any errors related to non matching functions", action="store_true")
+    parser.add_argument("--reccmp", help="Run debug build for reccmp analysis", action="store_true")
 
     args = parser.parse_args()
 
     print("Starting build")
     print(f"Build platform: {platform.system()}")
 
-    returncode = build()
+    returncode = build(args.reccmp)
     if returncode != 0:
         print(f"Build failed with return code {returncode}")
         sys.exit(returncode)
     
+    if args.reccmp:
+        python = sys.executable # should be the python venv
+        subprocess.run(f"{python} reccmp/generate.py", cwd=CURRENT_DIRECTORY, shell=True)
+        sys.exit(0)
+
     ok = verify()
     if not ok and not args.ignore_no_match:
         print(f"Function verification failed!")
@@ -168,7 +184,7 @@ def convert_path(strPath):
 # bin annoying clang-cl spam under some wine versions
 GUID_FILTER = "177f0c4a-1cd3-4de7-a32c-71dbbb9fa36d"
 
-def build():
+def build(reccmp: bool):
     os.makedirs(BUILD_FOLDER_NAME, exist_ok=True)
 
     vc6_env = get_vc6_env()
@@ -203,7 +219,7 @@ def build():
         p1.stdin.write(f"set LIB={lib}\n")
         p1.stdin.write(f"set INCLUDE={include}\n")
         p1.stdin.write(f"set PATH={path};%PATH%\n")
-        for build_cmd in BUILD_CMDS:
+        for build_cmd in get_build_cmds(reccmp):
             p1.stdin.write(f"{build_cmd}\n")
         p1.stdin.write("exit /b %errorlevel%\n")
         p1.stdin.close()
