@@ -797,7 +797,7 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 }
 
 // https://decomp.me/scratch/VJVUz
-STUB_FUNC(0x4f6a20)
+MATCH_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
     NOT_IMPLEMENTED;
@@ -832,54 +832,54 @@ void MapRenderer::Draw_4F6A20()
             s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - (layer_row_width / 2)).ToInt();
             s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + (layer_row_width / 2)).ToInt();
             
-            s32 x_total_distance = (max_x - min_x + 1) / 2;
-            if (x_total_distance % 2 != 1)
+            s32 x_semi_distance = (max_x - min_x + 1) / 2;
+            if (x_semi_distance % 2 != 1)
             {
-                x_total_distance += 1;
+                x_semi_distance += 1;
             }
             
             // compute y boundary
             s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - (layer_column_width / 2)).ToInt();
             s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + (layer_column_width / 2)).ToInt();
 
-            s32 y_total_distance = (max_y - min_y + 1) / 2;
-            if (y_total_distance % 2 != 1)
+            s32 y_semi_distance = (max_y - min_y + 1) / 2;
+            if (y_semi_distance % 2 != 1)
             {
-                y_total_distance += 1;
+                y_semi_distance += 1;
             }
             
             // update global Z coordinate
-            gZCoord_6F63E0 = zLayer;
+            gZCoord_6F63E0 = zLayer;    // or maybe zLayer + 1 ?
             dword_6F6518 = Fix16(zLayer);
 
             // Not known yet
             Fix16 unknown_1;
             Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(zpos_inverse);
-            if (unk_Z_Factor == stru_6F6484.x)
+            if (unk_Z_Factor == stru_6F6484.x) //  != 0
             {
                 unknown_1 = stru_6F6484.x;
             }
             else
             {
-                unknown_1 = stru_6F6484.y / unk_Z_Factor;
+                unknown_1 = stru_6F6484.y / unk_Z_Factor; //  = 1 / unk_Z_Factor
             }
 
             // Setting some unknown global vars...
             
-            dword_6F6318 = unknown_1;
+            dword_6F6318 = unknown_1; // TODO: not used for now
             dword_6F633C = unknown_1 * gViewCamera_676978->field_60.x;  // TODO: Is this really Fix16_Point?
             dword_6F62B0 = zLayer + 1;
             
             // Not known yet
             Fix16 unknown_2;
             Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - (zLayer + 1));
-            if (unk_Z_Factor_2 == stru_6F6484.x)
+            if (unk_Z_Factor_2 == stru_6F6484.x) //  != 0
             {
                 unknown_2 = stru_6F6484.x;
             }
             else
             {
-                unknown_2 = stru_6F6484.y / unk_Z_Factor_2;
+                unknown_2 = stru_6F6484.y / unk_Z_Factor_2; //  = 1 / unk_Z_Factor
             }
 
             dword_6F656C = unknown_2;
@@ -896,32 +896,31 @@ void MapRenderer::Draw_4F6A20()
             // Reset the size of draw layer size
             ResetCount_45B040();
 
+            // Now iter over all blocks at zLayer and set up their rendering order
+            // Begin with the blocks at the center of the camera and go away
+
+            // In the end render in reverse order: far blocks to the nearest ones
+
             s32 x_to_render;
             s32 y_to_render;
-            
-            // Populate the Nanobotz
-            for (s32 relative_y = 0; relative_y <= y_total_distance; relative_y++)
-            {
-                for (s32 relative_x = 0; relative_x <= x_total_distance; relative_x++)
-                {
-                    x_to_render = max_x - relative_x;
-                    y_to_render = max_y - relative_y;
-                    sub_46BB90(x_to_render, y_to_render);
-                    x_to_render = min_x + relative_x;
-                    sub_46BB90(x_to_render, y_to_render);
-                    y_to_render = min_y + relative_y;
-                    sub_46BB90(x_to_render, y_to_render);
-                    x_to_render = max_x - relative_x;
-                    sub_46BB90(x_to_render, y_to_render);
 
-                    //sub_46BB90(max_x - relative_x, max_y - relative_y);
-                    //sub_46BB90(min_x + relative_x, max_y - relative_y);
-                    //sub_46BB90(min_x + relative_x, min_y + relative_y);
-                    //sub_46BB90(max_x - relative_x, min_y + relative_y);
+            for (s32 ypos_rel = y_semi_distance; ypos_rel >= 0; ypos_rel--)
+            {
+                s32 ypos_downwards = max_y - ypos_rel;
+                s32 ypos_upwards = min_y + ypos_rel;
+                for (s32 xpos_rel = x_semi_distance; xpos_rel >= 0; xpos_rel--)
+                {
+                    s32 xpos_right = max_x - xpos_rel;
+                    s32 xpos_left = min_x + xpos_rel;
+                    sub_46BB90(xpos_right, ypos_downwards);
+                    sub_46BB90(xpos_left, ypos_downwards);
+                    sub_46BB90(xpos_left, ypos_upwards);
+                    sub_46BB90(xpos_right, ypos_upwards);
                 }
             }
 
-            // Now draw tiles
+            // Now draw tiles in reverse order
+
             Nanobotz_8* pIter = &field_1C[field_2EFC_curr_draw_layer_size-1];
             for (s32 j = field_2EFC_curr_draw_layer_size - 1; j >= 0; j--, pIter--)
             {
