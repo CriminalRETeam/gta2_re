@@ -872,11 +872,11 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
         {
             sub_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
-                       dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480),
+                       dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480),
                        &gTileVerts_6F65A8[0]);
             sub_4EB940(gXCoord_6F63AC + stru_6F6484.y,
                        gYCoord_6F63B8,
-                       dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480),
+                       dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480),
                        &gTileVerts_6F65A8[1]);
         }
 
