@@ -8,12 +8,36 @@ class Sprite;
 
 EXTERN_GLOBAL(Fix16, kSmallWidthEpslion_703450);
 
+// 9.6f 0x41E160
+// https://decomp.me/scratch/A4s7c
+inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& ourMax, const Fix16& otherMin, const Fix16& otherMax)
+{
+    if (ourMin < otherMin)
+    {
+        return ((ourMax < otherMin)) ? false : true;
+    }
+    else
+    {
+        return (ourMin <= otherMax) ? true : false;
+    }
+}
+
 class Fix16_Rect
 {
   public:
     // Inlined from 0x41d070
     Fix16_Rect()
     {
+    }
+
+    // 9.6f 0x41E350
+    // https://decomp.me/scratch/HVOft
+    void SetRect_41E350(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
+    {
+        this->field_0_left = left;
+        this->field_4_right = right;
+        this->field_8_top = top;
+        this->field_C_bottom = bottom;
     }
 
     // TODO: Get inline addr
@@ -47,6 +71,17 @@ class Fix16_Rect
         return (this->field_0_left == this->field_4_right && this->field_0_left <= kSmallWidthEpslion_703450) ? true : false;
     }
 
+    // 9.6f 0x41E2F0
+    // https://decomp.me/scratch/TT06X
+    bool AABB_Intersects_41E2F0(Fix16_Rect* pOther) const
+    {
+        return IntervalsOverlap_41E160(this->field_0_left, this->field_4_right, pOther->field_0_left, pOther->field_4_right) &&
+                IntervalsOverlap_41E160(this->field_8_top, this->field_C_bottom, pOther->field_8_top, pOther->field_C_bottom) &&
+                IntervalsOverlap_41E160(this->field_10, this->field_14, pOther->field_10, pOther->field_14) ?
+            true :
+            false;
+    }
+
     Fix16 field_0_left;
     Fix16 field_4_right;
     Fix16 field_8_top;
@@ -55,17 +90,3 @@ class Fix16_Rect
     Fix16 field_10;
     Fix16 field_14;
 };
-
-// 9.6f 0x41E160
-// https://decomp.me/scratch/A4s7c
-inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& ourMax, const Fix16& otherMin, const Fix16& otherMax)
-{
-    if (ourMin < otherMin)
-    {
-        return ((ourMax < otherMin)) ? false : true;
-    }
-    else
-    {
-        return (ourMin <= otherMax) ? true : false;
-    }
-}
