@@ -19,9 +19,9 @@ class Nanobotz_8  // Maybe Fix16_Point
     s32 field_4_y;  // y?
 };
 
-EXTERN_GLOBAL(Fix16, gRelativeXCoord_6F63AC);
+EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
 
-EXTERN_GLOBAL(Fix16, gRelativeYCoord_6F63B8);
+EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
 
 EXTERN_GLOBAL(s32, gZCoord_6F63E0);
 
@@ -33,6 +33,17 @@ EXTERN_GLOBAL(u32, dword_6F6480);
 
 EXTERN_GLOBAL(u32, dword_6F647C);
 
+enum MapSlopes
+{
+    DIAGONAL_WALL_UP_LEFT = 0xB4,
+    DIAGONAL_WALL_UP_RIGHT = 0xB8,
+    DIAGONAL_WALL_DOWN_LEFT = 0xBC,
+    DIAGONAL_WALL_DOWN_RIGHT = 0xC0,
+    TRIANGULAR_SIDES_DIAGONAL_UP_LEFT = 0xC4,
+    TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT = 0xC8,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT = 0xCC,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT = 0xD0,
+};
 
 class MapRenderer
 {
@@ -50,46 +61,50 @@ class MapRenderer
     EXPORT void sub_4E9D50(s32& a2, u16& a3);
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
     EXPORT void ambient_light_tick_4E9EA0();
-    EXPORT void sub_4EA390(u16& left_word);
+    EXPORT void DrawLeftSide_4EA390(u16& left_word);
     EXPORT void sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert);
     EXPORT void sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert);
-    EXPORT void sub_4EAF40(u16& right_word);
-    EXPORT void sub_4EBA60(u16& top_word);
+    EXPORT void DrawRightSide_4EAF40(u16& right_word);
+    EXPORT void DrawTopSide_4EBA60(u16& top_word);
     EXPORT s16 sub_4EC450(u16* a2);
     EXPORT void sub_4EC7A0(u16* a2);
-    EXPORT s16 sub_4ECAF0(u16* a2);
-    EXPORT s16 sub_4ECE40(u16* a2);
+    EXPORT void sub_4ECAF0(u16& left_word);
+    EXPORT void sub_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
-    EXPORT void sub_4EEAF0();
-    EXPORT void sub_4EEE60();
-    EXPORT void sub_4EF1C0();
-    EXPORT void sub_4EF520();
-    EXPORT void sub_4EF880();
-    EXPORT void sub_4EFB20();
-    EXPORT void sub_4EFDB0();
-    EXPORT void sub_4F0030();
-    EXPORT void sub_4F02D0();
-    EXPORT void sub_4F0340();
-    EXPORT void sub_4F0420();
+    void DrawDiagonalWallUpLeft_4EE7D0();
+    void DrawDiagonalWallUpRight_4EE8A0();
+    void DrawDiagonalWallDownLeft_4EE970();
+    void DrawDiagonalWallDownRight_4EEA40();
+    EXPORT void Draw3SidedDiagonalUpLeft_4EEAF0();
+    EXPORT void Draw3SidedDiagonalUpRight_4EEE60();
+    EXPORT void Draw3SidedDiagonalDownLeft_4EF1C0();
+    EXPORT void Draw3SidedDiagonalDownRight_4EF520();
+    EXPORT void Draw4SidedDiagonalUpLeft_4EF880();
+    EXPORT void Draw4SidedDiagonalUpRight_4EFB20();
+    EXPORT void Draw4SidedDiagonalDownLeft_4EFDB0();
+    EXPORT void Draw4SidedDiagonalDownRight_4F0030();
+    EXPORT void DrawDiagonalWall_4F02D0();
+    EXPORT void DrawTriangularDiagonal_4F0340();
+    EXPORT void DrawGradientSlopeNorthwards_4F0420();
     EXPORT char_type GetColour_4F0BD0(s32 lid_type);
-    EXPORT void sub_4F1660();
-    EXPORT void sub_4F22F0();
-    EXPORT void sub_4F33B0();
+    EXPORT void DrawGradientSlopeSouthwards_4F1660();
+    EXPORT void DrawGradientSlopeWestwards_4F22F0();
+    EXPORT void DrawGradientSlopeEastwards_4F33B0();
     EXPORT void draw_left_4F3C00(u16* arg0, s32* pVertIdx, s32 a2, Fix16_Point* a5);
     EXPORT void Set_UV_4F4190(Fix16_Point* a1, Fix16_Point* a2, u32* pVertIdx);
     EXPORT void sub_4F4250(u16* arg0, s32* pVertIdx, s32 a2, Fix16_Point* a5);
     EXPORT void sub_4F4600(u16* a2, s32 a3, Fix16_Point* a4, u32* a5);
     EXPORT void sub_4F49B0(u16* a2, s32 a1, Fix16_Point* a4, u32* pVertIdx);
     EXPORT void draw_lid_4F4D60(Fix16_Point* xpos, Fix16_Point* diffuse_colour, s32 arg_8, u32* a5);
-    EXPORT void draw_slope_4F6580();
-    EXPORT void draw_slope_4F6630();
+    EXPORT void DrawPartialBlocks_4F6580();
+    EXPORT void DrawGradientSlope_4F6630();
     EXPORT void RenderFlatBlock_4F66C0();
     EXPORT void RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord);
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
 
-    inline u32 update_and_get_f0(u32 idx)
+    inline u32 update_and_get_gradient_direction(u32 idx)
     {
         dword_6F6480 = byte_6F5BA8[idx].field_1_gradient_size;
         dword_6F647C = byte_6F5BA8[idx].field_2_gradient_level;
@@ -154,7 +169,7 @@ class MapRenderer
     char_type field_11;
     char_type field_12;
     char_type field_13;
-    char_type field_14_xcoords;
+    char_type field_14_dcolour;
     char_type field_15;
     char_type field_16;
     char_type field_17;
@@ -168,6 +183,8 @@ class MapRenderer
 };
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
+
+EXPORT void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
 

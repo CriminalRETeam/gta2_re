@@ -271,8 +271,7 @@ class Fix16
         return mValue;
     }
 
-    // TODO: Why is it thiscall?? did they forget to mark it static?
-    EXPORT class Ang16 atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
+    EXPORT static class Ang16 __stdcall atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16);
 
   public:
     s32 mValue;

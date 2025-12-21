@@ -9,6 +9,11 @@ DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 
 // TODO: hmm, shouldn't this be 360 entries ??
 DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
+DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
+DEFINE_GLOBAL_INIT(Ang16, kAngZero_66A920, Ang16(0), 0x66A920);
+DEFINE_GLOBAL_INIT(Ang16, word_669156, Ang16(720), 0x669156);
+DEFINE_GLOBAL_INIT(Ang16, word_667A7C, Ang16(360), 0x667A7C);
+DEFINE_GLOBAL_INIT(Ang16, word_66916C, Ang16(1080), 0x66916C);
 
 MATCH_FUNC(0x4369F0)
 Fix16& Fix16::FromInt_4369F0(s32 a2)
@@ -81,11 +86,68 @@ inline Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
     return Fix16(sqrt(input.AsDouble()));
 }
 
+// 10.5 https://decomp.me/scratch/7a41K
+// 9.6f https://decomp.me/scratch/ZkUbq
 STUB_FUNC(0x405320)
-Ang16 Fix16::atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16)
+Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& pMaybeX_FP16, Fix16& pMaybeY_FP16)
 {
-    NOT_IMPLEMENTED;
-    return Ang16(0, 0);
+    Ang16 v9;
+    if (pMaybeY_FP16 == kFPZero_6691B0)
+    {
+        if (pMaybeX_FP16 >= kFPZero_6691B0)
+        {
+            return kAngZero_66A920;
+        }
+        else
+        {
+            return word_669156;
+        }
+    }
+    else if (pMaybeX_FP16 == kFPZero_6691B0)
+    {
+        if (pMaybeY_FP16 > kFPZero_6691B0)
+        {
+            return word_667A7C;
+        }
+        else
+        {
+            return word_66916C;
+        }
+    }
+    else
+    {
+        v9 = ArcTanLookup_405500(Fix16::Abs(pMaybeX_FP16 / pMaybeY_FP16));
+
+        if (pMaybeX_FP16 > kFPZero_6691B0)
+        {
+            if (pMaybeY_FP16 > kFPZero_6691B0)
+            {
+                return word_667A7C - v9;
+            }
+            else
+            {
+                if (v9 == word_667A7C)
+                {
+                    return kAngZero_66A920;
+                }
+                else
+                {
+                    return word_66916C + v9;
+                }
+            }
+        }
+        else
+        {
+            if (pMaybeY_FP16 > kFPZero_6691B0)
+            {
+                return word_667A7C + v9;
+            }
+            else
+            {
+                return word_66916C - v9;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x438FB0)

@@ -147,6 +147,7 @@ static void EnableBoot2MapDebugOptions()
     // Init Phi else its over fr
     Init_Phi_54_array();
     Init_Phi_6C_array();
+    Init_gmp_slopes_array();
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
@@ -372,8 +373,8 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("screen_px_center_x", &gViewCamera_676978->field_70_screen_px_center_x, 0, 2000);
                     ImGui::SliderInt("screen_px_center_y", &gViewCamera_676978->field_74_screen_px_center_y, 0, 1200);
 
-                    ImGui::SliderInt("gXCoord_6F63AC", &gRelativeXCoord_6F63AC.mValue, 0, 2000);
-                    ImGui::SliderInt("gYCoord_6F63B8", &gRelativeYCoord_6F63B8.mValue, 0, 2000);
+                    ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
+                    ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
                     ImGui::SliderInt("gZCoord_6F63E0", &gZCoord_6F63E0, 0, 2000);
                 }
 

@@ -453,3 +453,5 @@ EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
 EXTERN_GLOBAL(s32, gPurple_left_6F5FD4);
 
 EXTERN_GLOBAL(s32, gPurple_right_6F5B80);
+
+EXPORT void Init_gmp_slopes_array();
