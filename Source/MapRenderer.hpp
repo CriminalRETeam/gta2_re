@@ -169,7 +169,7 @@ class MapRenderer
     char_type field_11;
     char_type field_12;
     char_type field_13;
-    char_type field_14_xcoords;
+    char_type field_14_dcolour;
     char_type field_15;
     char_type field_16;
     char_type field_17;
