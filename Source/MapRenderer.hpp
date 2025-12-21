@@ -58,7 +58,7 @@ class MapRenderer
     EXPORT s16 sub_4EC450(u16* a2);
     EXPORT void sub_4EC7A0(u16* a2);
     EXPORT s16 sub_4ECAF0(u16* a2);
-    EXPORT s16 sub_4ECE40(u16* a2);
+    EXPORT void sub_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
     void sub_4EE7D0();
