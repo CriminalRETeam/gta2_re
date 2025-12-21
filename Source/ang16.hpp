@@ -50,6 +50,11 @@ class Ang16
         return *this;
     }
 
+    bool operator==(const Ang16& other)
+    {
+        return rValue == other.rValue;
+    }
+
     Ang16 operator*(const Ang16& other)
     {
         return Ang16((Fix16(rValue) * Fix16(other.rValue)).ToInt());

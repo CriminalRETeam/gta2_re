@@ -46,12 +46,14 @@ DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620F64, 8, 0x620F64, 0x41, 0x49, 0x61, 0x69,
 DEFINE_GLOBAL_INIT(Fix16, dword_6F638C, Fix16(0x3000,0), 0x6F638C);
 DEFINE_GLOBAL_INIT(Ang16, word_6F6420, Ang16(1260), 0x6F6420);
 DEFINE_GLOBAL_INIT(Ang16, word_6F6414, Ang16(540), 0x6F6414);
+DEFINE_GLOBAL_INIT(Ang16, word_6F637C, Ang16(180), 0x6F637C);
+DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 
 static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(x, y, dword_6F62B0, pVert);
-    pVert->x = (x.ToFloat()) * (dword_6F628C.ToFloat()) + gViewCamera_676978->field_70_screen_px_center_x;
-    pVert->y = (y.ToFloat()) * (dword_6F628C.ToFloat()) + gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->x = x.ToFloat() * dword_6F628C.ToFloat() + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = y.ToFloat() * dword_6F628C.ToFloat() + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     pVert->z = dword_6F656C.ToFloat();
 }
 
@@ -59,9 +61,9 @@ static inline void sub_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, gZCoord_6F63E0, pVert);
     
-    pVert->x = dword_6F628C.ToFloat() * xpos.ToFloat() + (f64)((u32)gViewCamera_676978->field_70_screen_px_center_x);
-    pVert->y = dword_6F628C.ToFloat() * ypos.ToFloat() + (f64)((u32)gViewCamera_676978->field_74_screen_px_center_y);
-    pVert->z = dword_6F656C.ToFloat();
+    pVert->x = dword_6F633C.ToFloat() * xpos.ToFloat() + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = dword_6F633C.ToFloat() * ypos.ToFloat() + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->z = dword_6F6318.ToFloat();
 }
 
 MATCH_FUNC(0x4e9d50)
@@ -172,8 +174,7 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
-// This function matches, but we need to replace "0x4C0A8C" by "0x6F628C"
-// and "0x4C0A80" by "0x6F656C" on compiled assembly
+// This function matches, but the offsets of dword_6F628C and dword_6F656C are wrong
 STUB_FUNC(0x4eae00)
 void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
 {
@@ -184,8 +185,7 @@ void MapRenderer::sub_4EAE00(Fix16& xpos, Fix16& ypos, Vert* pVert)
     pVert->z = dword_6F656C.ToFloat();
 }
 
-// This function matches, but we need to replace "0x4C0AAC" by "0x6F633C"
-// and "0x4C0BCC" by "0x6F6318" on compiled assembly
+// This function matches, but the offsets of dword_6F633C and dword_6F6318 are wrong
 STUB_FUNC(0x4eaea0)
 void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 {
@@ -309,23 +309,47 @@ void MapRenderer::sub_4EC7A0(u16* a2)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/eGEBV
+// 9.6f: MapRenderer::sub_46D680
 STUB_FUNC(0x4ecaf0)
-s16 MapRenderer::sub_4ECAF0(u16* a2)
+void MapRenderer::sub_4ECAF0(u16& left_word)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ang16 angle;
+    sub_46BDF0(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+    sub_46BD40(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+
+    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
+                                      Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+
+    if (angle > word_6F637C && angle < word_6F63EC)
+    {
+        sub_46BD40(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        sub_46BDF0(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+        dword_6F6560 = dword_620FE4[left_word >> 13];
+        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(left_word & 1023);
+        if (texture_idx)
+        {
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTileVerts_6F65A8,
+                          0); // field_12
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
 
 // https://decomp.me/scratch/3kT2F
+// 9.6f: MapRenderer::sub_46D810
 STUB_FUNC(0x4ece40)
 void MapRenderer::sub_4ECE40(u16& right_word)
 {
+    Ang16 angle;
     sub_46BD40(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[0]);
     sub_46BDF0(gRelativeXCoord_6F63AC + stru_6F6484.y, gRelativeYCoord_6F63B8, &gTileVerts_6F65A8[1]);
-    Fix16 x_diff = Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x);
-    Fix16 y_diff = Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y);
 
-    Ang16 angle = x_diff.atan2_fixed_405320(x_diff, y_diff);
+    angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x), 
+                                     Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+
     if (angle < word_6F6414 || angle > word_6F6420)
     {
         sub_46BDF0(gRelativeXCoord_6F63AC, gRelativeYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
@@ -344,6 +368,7 @@ void MapRenderer::sub_4ECE40(u16& right_word)
 }
 
 // https://decomp.me/scratch/4EDti
+// 9.6f: MapRenderer::sub_46D9A0
 STUB_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
@@ -511,7 +536,7 @@ void MapRenderer::sub_4EE970()
 {
     if (gBlockLeft_6F62F6)
     {
-        MapRenderer::sub_4ECAF0(&gBlockLeft_6F62F6);
+        MapRenderer::sub_4ECAF0(gBlockLeft_6F62F6);
     }
     if (gBlockRight_6F63C6)
     {
@@ -607,16 +632,16 @@ void MapRenderer::sub_4F02D0()
     dword_6F646C.field_0_gradient_direction = 0;
     switch (field_B_slope_type & 0xFC)
     {
-        case 0xB4:
+        case DIAGONAL_WALL_UP_LEFT:
             MapRenderer::sub_4EE7D0();
             break;
-        case 0xB8:
+        case DIAGONAL_WALL_UP_RIGHT:
             MapRenderer::sub_4EE8A0();
             break;
-        case 0xBC:
+        case DIAGONAL_WALL_DOWN_LEFT:
             MapRenderer::sub_4EE970();
             break;
-        case 0xC0:
+        case DIAGONAL_WALL_DOWN_RIGHT:
             MapRenderer::sub_4EEA40();
             break;
         default:
@@ -635,16 +660,16 @@ void MapRenderer::sub_4F0340()
     {
         switch (slope_type)
         {
-            case 196:
+            case TRIANGULAR_SIDES_DIAGONAL_UP_LEFT:
                 MapRenderer::sub_4EEAF0();
                 break;
-            case 200:
+            case TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT:
                 MapRenderer::sub_4EEE60();
                 break;
-            case 204:
+            case TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT:
                 MapRenderer::sub_4EF1C0();
                 break;
-            case 208:
+            case TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT:
                 MapRenderer::sub_4EF520();
                 break;
             default:
@@ -656,16 +681,16 @@ void MapRenderer::sub_4F0340()
         dword_6F646C.field_0_gradient_direction = 0;
         switch (slope_type)
         {
-            case 196:
+            case TRIANGULAR_SIDES_DIAGONAL_UP_LEFT:
                 MapRenderer::sub_4EF880();
                 break;
-            case 200:
+            case TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT:
                 MapRenderer::sub_4EFB20();
                 break;
-            case 204:
+            case TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT:
                 MapRenderer::sub_4EFDB0();
                 break;
-            case 208:
+            case TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT:
                 MapRenderer::sub_4F0030();
                 break;
             default:
@@ -1041,9 +1066,6 @@ void MapRenderer::Draw_4F6A20()
             // Begin with the blocks at the center of the camera and go away
 
             // In the end render in reverse order: far blocks to the nearest ones
-
-            s32 x_to_render;
-            s32 y_to_render;
 
             for (s32 ypos_rel = y_semi_distance; ypos_rel >= 0; ypos_rel--)
             {

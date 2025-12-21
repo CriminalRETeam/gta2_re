@@ -33,6 +33,17 @@ EXTERN_GLOBAL(u32, dword_6F6480);
 
 EXTERN_GLOBAL(u32, dword_6F647C);
 
+enum MapSlopes
+{
+    DIAGONAL_WALL_UP_LEFT = 0xB4,
+    DIAGONAL_WALL_UP_RIGHT = 0xB8,
+    DIAGONAL_WALL_DOWN_LEFT = 0xBC,
+    DIAGONAL_WALL_DOWN_RIGHT = 0xC0,
+    TRIANGULAR_SIDES_DIAGONAL_UP_LEFT = 0xC4,
+    TRIANGULAR_SIDES_DIAGONAL_UP_RIGHT = 0xC8,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_LEFT = 0xCC,
+    TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT = 0xD0,
+};
 
 class MapRenderer
 {
@@ -57,7 +68,7 @@ class MapRenderer
     EXPORT void sub_4EBA60(u16& top_word);
     EXPORT s16 sub_4EC450(u16* a2);
     EXPORT void sub_4EC7A0(u16* a2);
-    EXPORT s16 sub_4ECAF0(u16* a2);
+    EXPORT void sub_4ECAF0(u16& left_word);
     EXPORT void sub_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
     EXPORT void draw_lid_4EE130();
