@@ -7780,7 +7780,7 @@
         "v105_address": "0x4ea190"
     },
     {
-        "name": "MapRenderer::sub_4EA390",
+        "name": "MapRenderer::DrawLeftSide_4EA390",
         "v96f_address": null,
         "v105_address": "0x4ea390"
     },
@@ -7800,7 +7800,7 @@
         "v105_address": "0x4eaea0"
     },
     {
-        "name": "MapRenderer::sub_4EAF40",
+        "name": "MapRenderer::DrawRightSide_4EAF40",
         "v96f_address": "0x470250",
         "v105_address": "0x4eaf40"
     },
@@ -7810,7 +7810,7 @@
         "v105_address": "0x4eb940"
     },
     {
-        "name": "MapRenderer::sub_4EBA60",
+        "name": "MapRenderer::DrawTopSide_4EBA60",
         "v96f_address": null,
         "v105_address": "0x4eba60"
     },
@@ -7845,57 +7845,57 @@
         "v105_address": "0x4f4d60"
     },
     {
-        "name": "MapRenderer::sub_4EEAF0",
+        "name": "MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0",
         "v96f_address": null,
         "v105_address": "0x4eeaf0"
     },
     {
-        "name": "MapRenderer::sub_4EEE60",
+        "name": "MapRenderer::Draw3SidedDiagonalUpRight_4EEE60",
         "v96f_address": null,
         "v105_address": "0x4eee60"
     },
     {
-        "name": "MapRenderer::sub_4EF1C0",
+        "name": "MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0",
         "v96f_address": null,
         "v105_address": "0x4ef1c0"
     },
     {
-        "name": "MapRenderer::sub_4EF520",
+        "name": "MapRenderer::Draw3SidedDiagonalDownRight_4EF520",
         "v96f_address": null,
         "v105_address": "0x4ef520"
     },
     {
-        "name": "MapRenderer::sub_4EF880",
+        "name": "MapRenderer::Draw4SidedDiagonalUpLeft_4EF880",
         "v96f_address": null,
         "v105_address": "0x4ef880"
     },
     {
-        "name": "MapRenderer::sub_4EFB20",
+        "name": "MapRenderer::Draw4SidedDiagonalUpRight_4EFB20",
         "v96f_address": null,
         "v105_address": "0x4efb20"
     },
     {
-        "name": "MapRenderer::sub_4EFDB0",
+        "name": "MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0",
         "v96f_address": null,
         "v105_address": "0x4efdb0"
     },
     {
-        "name": "MapRenderer::sub_4F0030",
+        "name": "MapRenderer::Draw4SidedDiagonalDownRight_4F0030",
         "v96f_address": null,
         "v105_address": "0x4f0030"
     },
     {
-        "name": "MapRenderer::sub_4F02D0",
+        "name": "MapRenderer::DrawDiagonalWall_4F02D0",
         "v96f_address": "0x46EDD0",
         "v105_address": "0x4f02d0"
     },
     {
-        "name": "MapRenderer::sub_4F0340",
+        "name": "MapRenderer::DrawTriangularDiagonal_4F0340",
         "v96f_address": null,
         "v105_address": "0x4f0340"
     },
     {
-        "name": "MapRenderer::sub_4F0420",
+        "name": "MapRenderer::DrawGradientSlopeNorthwards_4F0420",
         "v96f_address": null,
         "v105_address": "0x4f0420"
     },
@@ -7905,17 +7905,17 @@
         "v105_address": "0x4f0bd0"
     },
     {
-        "name": "MapRenderer::sub_4F1660",
+        "name": "MapRenderer::DrawGradientSlopeSouthwards_4F1660",
         "v96f_address": null,
         "v105_address": "0x4f1660"
     },
     {
-        "name": "MapRenderer::sub_4F22F0",
+        "name": "MapRenderer::DrawGradientSlopeWestwards_4F22F0",
         "v96f_address": null,
         "v105_address": "0x4f22f0"
     },
     {
-        "name": "MapRenderer::sub_4F33B0",
+        "name": "MapRenderer::DrawGradientSlopeEastwards_4F33B0",
         "v96f_address": null,
         "v105_address": "0x4f33b0"
     },
@@ -7955,7 +7955,7 @@
         "v105_address": "0x4f4d60"
     },
     {
-        "name": "MapRenderer::draw_slope",
+        "name": "MapRenderer::DrawGradientSlope_4F6630",
         "v96f_address": "0x471CE0",
         "v105_address": "0x4f6630"
     },
