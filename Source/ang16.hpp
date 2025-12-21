@@ -211,6 +211,12 @@ class Ang16
         return (rValue == 0 || rValue == 360 || rValue == 720 || rValue == 1080) ? true : false;
     }
 
+    // 9.6f 0x41E3C0
+    bool jIsAxisAligned_41E3C0()
+    {
+        return IsAxisAligned_41E110();
+    }
+
     // 9.6f 0x401C60
     // https://decomp.me/scratch/0qgcp
     Ang16(const s16& value, s32 not_used) : rValue(value)

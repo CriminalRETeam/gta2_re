@@ -25,7 +25,7 @@ inline bool __stdcall IntervalsOverlap_41E160(const Fix16& ourMin, const Fix16& 
 class Fix16_Rect
 {
   public:
-    // Inlined from 0x41d070
+    // 9.6f 0x41D070
     Fix16_Rect()
     {
     }
@@ -38,6 +38,15 @@ class Fix16_Rect
         this->field_4_right = right;
         this->field_8_top = top;
         this->field_C_bottom = bottom;
+    }
+
+    // TODO: None inline version of SetRect_41E350 ??
+    EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
+
+    void Set_F10_F14_41E370(Fix16 a2, Fix16 a3)
+    {
+        this->field_10 = a2;
+        this->field_14 = a3;
     }
 
     // TODO: Get inline addr
@@ -56,19 +65,10 @@ class Fix16_Rect
     EXPORT bool sub_59DF20(u8 a2);
     EXPORT bool sub_59DFB0(s32 a2);
 
-    inline bool inline_sub_4B9FD0(Fix16_Point* a2)
+    // 9.6f 0x4B9FD0
+    inline bool IsPointInRect_4B9FD0(Fix16_Point* a2)
     {
-        return Fix16::IsBetween(field_0_left, field_4_right, a2->x) && Fix16::IsBetween(field_8_top, field_C_bottom, a2->y);
-    }
-
-    // TODO: Ordering
-    EXPORT void sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
-
-    // 9.6f 0x41E390
-    // https://decomp.me/scratch/YTMyx
-    bool IsZeroWidth_41E390() const
-    {
-        return (this->field_0_left == this->field_4_right && this->field_0_left <= kSmallWidthEpslion_703450) ? true : false;
+        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, a2->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, a2->y);
     }
 
     // 9.6f 0x41E2F0

@@ -16,7 +16,6 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
-EXTERN_GLOBAL(Fix16, dword_703450);
 
 class Sprite_4C
 {
@@ -27,9 +26,11 @@ class Sprite_4C
     {
     }
 
-    bool sub_41E390()
+    // 9.6f 0x41E390
+    // https://decomp.me/scratch/YTMyx
+    bool IsZeroWidth_41E390() const
     {
-        return field_0_width == field_4_height && field_0_width <= dword_703450;
+        return (field_0_width == field_4_height && field_0_width <= kSmallWidthEpslion_703450) ? true : false;
     }
 
     EXPORT void SetCurrentRect_5A4D90();

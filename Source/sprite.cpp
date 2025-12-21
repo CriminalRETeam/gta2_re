@@ -26,7 +26,7 @@ DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
-DEFINE_GLOBAL_INIT(Fix16, dword_703450, dword_703424, 0x703450);
+
 Ang16 word_703804 = 0; //DEFINE_GLOBAL_INIT(Ang16, word_703804, Ang16(0), 0x703804);
 
 MATCH_FUNC(0x443580)
@@ -286,7 +286,7 @@ void Sprite::sub_59E9C0()
 {
     if (!field_C_sprite_4c_ptr->field_48_bUnknown)
     {
-        if (field_C_sprite_4c_ptr->sub_41E390())
+        if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
             field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, word_703804);
         }

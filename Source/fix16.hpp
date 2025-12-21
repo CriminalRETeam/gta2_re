@@ -225,7 +225,7 @@ class Fix16
     }
 
     //  inline sub_4B9E10 in 9.6f
-    inline static bool IsBetween(Fix16& min, Fix16& max, Fix16& input)
+    inline static bool IsBetween_4B9E10(Fix16& min, Fix16& max, Fix16& input)
     {
         return input >= min && input <= max;
     }
