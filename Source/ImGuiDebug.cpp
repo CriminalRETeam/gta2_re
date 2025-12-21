@@ -147,6 +147,7 @@ static void EnableBoot2MapDebugOptions()
     // Init Phi else its over fr
     Init_Phi_54_array();
     Init_Phi_6C_array();
+    Init_gmp_slopes_array();
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;

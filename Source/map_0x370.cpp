@@ -31,16 +31,24 @@ DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
 DEFINE_GLOBAL(s32, dword_6F5BA0, 0x6F5BA0);
 DEFINE_GLOBAL(s32, dword_6F6248, 0x6F6248);
 DEFINE_GLOBAL(s32, dword_6F5FAC, 0x6F5FAC);
-DEFINE_GLOBAL(Fix16, dword_6F610C, 0x6F610C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F610C, Fix16(0), 0x6F610C);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6130, Fix16(0x20000, 0), 0x6F6130);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F601C, Fix16(0x200, 0), 0x6F601C);
-DEFINE_GLOBAL(Fix16, dword_6F60C0, 0x6F60C0);
-DEFINE_GLOBAL(Fix16, dword_6F5ED8, 0x6F5ED8);
-DEFINE_GLOBAL(Fix16, dword_6F5FA8, 0x6F5FA8);
-DEFINE_GLOBAL(Fix16, dword_6F6214, 0x6F6214);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F60C0, Fix16(0x100, 0), 0x6F60C0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F5ED8, Fix16(0x4000, 0), 0x6F5ED8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F5FA8, Fix16(0x1FE8, 0), 0x6F5FA8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6214, Fix16(0x824, 0), 0x6F6214);
 DEFINE_GLOBAL(s32, dword_6F6164, 0x6F6164);
 DEFINE_GLOBAL(s32, dword_6F6148, 0x6F6148);
 DEFINE_GLOBAL(s32, dword_6F613C, 0x6F613C);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6050, Fix16(0x800, 0), 0x6F6050);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6180, Fix16(0x1000, 0), 0x6F6180);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F60A0, Fix16(0x1800, 0), 0x6F60A0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F5F18, Fix16(0x2000, 0), 0x6F5F18);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F60B8, Fix16(0x2800, 0), 0x6F60B8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F61D8, Fix16(0x3000, 0), 0x6F61D8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6F6218, Fix16(0x3800, 0), 0x6F6218);
+Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
 
 static inline bool Overlaps(gmp_map_zone* pZone, u8 x, u8 y)
 {
@@ -134,6 +142,74 @@ static inline bool has_bottom(gmp_block_info* pBlock)
 static inline bool has_top(gmp_block_info* pBlock)
 {
     return pBlock->field_4_top != 0;
+}
+
+void Init_gmp_slopes_array()
+{
+    byte_6F5BA8[0] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[1] = gmp_map_slope(1, 2, 1, dword_6F610C, dword_6F5F18);
+    byte_6F5BA8[2] = gmp_map_slope(1, 2, 0, dword_6F5F18, dword_6F6110);
+    byte_6F5BA8[3] = gmp_map_slope(2, 2, 1, dword_6F610C, dword_6F5F18);
+    byte_6F5BA8[4] = gmp_map_slope(2, 2, 0, dword_6F5F18, dword_6F6110);
+    byte_6F5BA8[5] = gmp_map_slope(3, 2, 1, dword_6F610C, dword_6F5F18);
+    byte_6F5BA8[6] = gmp_map_slope(3, 2, 0, dword_6F5F18, dword_6F6110);
+    byte_6F5BA8[7] = gmp_map_slope(4, 2, 1, dword_6F610C, dword_6F5F18);
+    byte_6F5BA8[8] = gmp_map_slope(4, 2, 0, dword_6F5F18, dword_6F6110);
+    byte_6F5BA8[9] = gmp_map_slope(1, 8, 7, dword_6F610C, dword_6F6050);
+    byte_6F5BA8[10] = gmp_map_slope(1, 8, 6, dword_6F6050, dword_6F6180);
+    byte_6F5BA8[11] = gmp_map_slope(1, 8, 5, dword_6F6180, dword_6F60A0);
+    byte_6F5BA8[12] = gmp_map_slope(1, 8, 4, dword_6F60A0, dword_6F5F18);
+    byte_6F5BA8[13] = gmp_map_slope(1, 8, 3, dword_6F5F18, dword_6F60B8);
+    byte_6F5BA8[14] = gmp_map_slope(1, 8, 2, dword_6F60B8, dword_6F61D8);
+    byte_6F5BA8[15] = gmp_map_slope(1, 8, 1, dword_6F61D8, dword_6F6218);
+    byte_6F5BA8[16] = gmp_map_slope(1, 8, 0, dword_6F6218, dword_6F6110);
+    byte_6F5BA8[17] = gmp_map_slope(2, 8, 7, dword_6F610C, dword_6F6050);
+    byte_6F5BA8[18] = gmp_map_slope(2, 8, 6, dword_6F6050, dword_6F6180);
+    byte_6F5BA8[19] = gmp_map_slope(2, 8, 5, dword_6F6180, dword_6F60A0);
+    byte_6F5BA8[20] = gmp_map_slope(2, 8, 4, dword_6F60A0, dword_6F5F18);
+    byte_6F5BA8[21] = gmp_map_slope(2, 8, 3, dword_6F5F18, dword_6F60B8);
+    byte_6F5BA8[22] = gmp_map_slope(2, 8, 2, dword_6F60B8, dword_6F61D8);
+    byte_6F5BA8[23] = gmp_map_slope(2, 8, 1, dword_6F61D8, dword_6F6218);
+    byte_6F5BA8[24] = gmp_map_slope(2, 8, 0, dword_6F6218, dword_6F6110);
+    byte_6F5BA8[25] = gmp_map_slope(3, 8, 7, dword_6F610C, dword_6F6050);
+    byte_6F5BA8[26] = gmp_map_slope(3, 8, 6, dword_6F6050, dword_6F6180);
+    byte_6F5BA8[27] = gmp_map_slope(3, 8, 5, dword_6F6180, dword_6F60A0);
+    byte_6F5BA8[28] = gmp_map_slope(3, 8, 4, dword_6F60A0, dword_6F5F18);
+    byte_6F5BA8[29] = gmp_map_slope(3, 8, 3, dword_6F5F18, dword_6F60B8);
+    byte_6F5BA8[30] = gmp_map_slope(3, 8, 2, dword_6F60B8, dword_6F61D8);
+    byte_6F5BA8[31] = gmp_map_slope(3, 8, 1, dword_6F61D8, dword_6F6218);
+    byte_6F5BA8[32] = gmp_map_slope(3, 8, 0, dword_6F6218, dword_6F6110);
+    byte_6F5BA8[33] = gmp_map_slope(4, 8, 7, dword_6F610C, dword_6F6050);
+    byte_6F5BA8[34] = gmp_map_slope(4, 8, 6, dword_6F6050, dword_6F6180);
+    byte_6F5BA8[35] = gmp_map_slope(4, 8, 5, dword_6F6180, dword_6F60A0);
+    byte_6F5BA8[36] = gmp_map_slope(4, 8, 4, dword_6F60A0, dword_6F5F18);
+    byte_6F5BA8[37] = gmp_map_slope(4, 8, 3, dword_6F5F18, dword_6F60B8);
+    byte_6F5BA8[38] = gmp_map_slope(4, 8, 2, dword_6F60B8, dword_6F61D8);
+    byte_6F5BA8[39] = gmp_map_slope(4, 8, 1, dword_6F61D8, dword_6F6218);
+    byte_6F5BA8[40] = gmp_map_slope(4, 8, 0, dword_6F6218, dword_6F6110);
+    byte_6F5BA8[41] = gmp_map_slope(1, 1, 0, dword_6F610C, dword_6F6110);
+    byte_6F5BA8[42] = gmp_map_slope(2, 1, 0, dword_6F610C, dword_6F6110);
+    byte_6F5BA8[43] = gmp_map_slope(3, 1, 0, dword_6F610C, dword_6F6110);
+    byte_6F5BA8[44] = gmp_map_slope(4, 1, 0, dword_6F610C, dword_6F6110);
+    byte_6F5BA8[45] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[46] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[47] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[48] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[49] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[50] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[51] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[52] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[53] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[54] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[55] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[56] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[57] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[58] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[59] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[60] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[61] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[62] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
+    byte_6F5BA8[63] = gmp_map_slope(0, 0, 0, dword_6F610C, dword_6F610C);
 }
 
 MATCH_FUNC(0x452980)
@@ -701,8 +777,6 @@ gmp_block_info* Map_0x370::sub_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
     }
     return NULL;
 }
-
-Fix16 dword_6F6110 = Fix16(1); // = 0x4000; // todo
 
 MATCH_FUNC(0x4DFF60)
 DWORD Map_0x370::sub_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_coord)
