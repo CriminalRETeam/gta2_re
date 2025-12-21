@@ -136,6 +136,7 @@ EXTERN_GLOBAL(T_gbh_BlitBuffer, pgbh_BlitBuffer);
 EXTERN_GLOBAL(s32, gGBH_GraphicsLoaded_7085E0);
 
 
+EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0();
 EXPORT s32 __stdcall GBH_GraphicsLoad_5EB680(const char_type* lpLibFileName, SVideo* pVidSys);
 EXPORT void __stdcall GBH_Graphics_Unload_5EA500();
 EXPORT s32 GBH_Graphics_Free_5EA640();
