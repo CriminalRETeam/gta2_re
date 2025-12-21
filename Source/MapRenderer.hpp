@@ -184,6 +184,8 @@ class MapRenderer
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
+EXPORT void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert);
+
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
 
 struct BlockSideWord

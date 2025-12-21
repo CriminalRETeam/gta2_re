@@ -310,6 +310,21 @@ void MapRenderer::sub_4EAF40(u16& right_word)
     }
 }
 
+// https://decomp.me/scratch/GkGnQ
+STUB_FUNC(0x4EB940)
+void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+{
+    Camera_0xBC* pCam = gViewCamera_676978;
+    s32 next_idx = (pVert - gTileVerts_6F65A8) + 4;
+    gTileVerts_6F65A8[next_idx].x = (xpos + pCam->field_98_cam_pos2.field_0_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].y = (ypos + pCam->field_98_cam_pos2.field_4_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].z = zpos.ToFloat();
+
+    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+}
+
 // https://decomp.me/scratch/a6z18
 STUB_FUNC(0x4eba60)
 void MapRenderer::sub_4EBA60(u16& top_word)
@@ -859,7 +874,7 @@ void MapRenderer::sub_4F0420()
                        gYCoord_6F63B8,
                        dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480),
                        &gTileVerts_6F65A8[0]);
-            sub_46BC70(gXCoord_6F63AC + stru_6F6484.y,  // OBS: TODO sub_4EB940
+            sub_4EB940(gXCoord_6F63AC + stru_6F6484.y,
                        gYCoord_6F63B8,
                        dword_6F6518 + (Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480),
                        &gTileVerts_6F65A8[1]);
