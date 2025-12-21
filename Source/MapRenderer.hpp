@@ -19,9 +19,9 @@ class Nanobotz_8  // Maybe Fix16_Point
     s32 field_4_y;  // y?
 };
 
-EXTERN_GLOBAL(Fix16, gRelativeXCoord_6F63AC);
+EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
 
-EXTERN_GLOBAL(Fix16, gRelativeYCoord_6F63B8);
+EXTERN_GLOBAL(Fix16, gYCoord_6F63B8);
 
 EXTERN_GLOBAL(s32, gZCoord_6F63E0);
 
@@ -104,7 +104,7 @@ class MapRenderer
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
 
-    inline u32 update_and_get_f0(u32 idx)
+    inline u32 update_and_get_gradient_direction(u32 idx)
     {
         dword_6F6480 = byte_6F5BA8[idx].field_1_gradient_size;
         dword_6F647C = byte_6F5BA8[idx].field_2_gradient_level;
