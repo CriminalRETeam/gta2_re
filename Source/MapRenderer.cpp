@@ -974,10 +974,33 @@ void MapRenderer::DrawDiagonalWallDownRight_4EEA40()
     }
 }
 
+// https://decomp.me/scratch/husii
 STUB_FUNC(0x4eeaf0)
 void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockRight_6F63C6)
+    {
+        dword_6F646C.field_0_gradient_direction = SOUTH_2;
+        MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
+    }
+    if (gBlockBottom_6F6468)
+    {
+        dword_6F646C.field_0_gradient_direction = EAST_4;
+        MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
+    }
+    if (gBlockLeft_6F62F6)
+    {
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 32.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 63.999901f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 0.0f;
+        gTileVerts_6F65A8[2].v = 63.999901f;
+        draw_4E9EE0(gBlockLeft_6F62F6, false, field_18_color);
+    }
 }
 
 STUB_FUNC(0x4eee60)

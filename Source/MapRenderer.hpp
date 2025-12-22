@@ -175,7 +175,7 @@ class MapRenderer
     char_type field_15;
     char_type field_16;
     char_type field_17;
-    char_type field_18_ycoords;
+    u8 field_18_color;
     char_type field_19;
     char_type field_1A;
     u8 field_1B;
