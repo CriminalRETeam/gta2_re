@@ -77,6 +77,127 @@ static inline void sub_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
+static inline void sub_46B910(u16& rotation_and_flip)
+{
+    s32 vert_idx;
+    
+    switch (rotation_and_flip)
+    {
+        case 0x2000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 63.999901f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                }
+            }
+            break;
+        case 0x4000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                }
+            }
+            break;
+        case 0x6000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 63.999901f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+            }
+            break;
+        case 0x8000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 0.0;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+            }
+            break;
+        case 0xA000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f
+                   || gTileVerts_6F65A8[vert_idx].u != 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+            }
+            break;
+        case 0xC000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+            }
+            break;
+        case 0xE000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+            }
+            break;
+    }
+}
+
 MATCH_FUNC(0x4e9d50)
 void MapRenderer::sub_4E9D50(s32& target_level, u16& cycles)
 {
@@ -98,6 +219,32 @@ char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+// this function matches, but some "fcomps" offsets are wrong
+STUB_FUNC(0x4E9EE0)
+void MapRenderer::draw_4E9EE0(u16& word_side, u8& unk, u8& unk2)
+{
+    u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(word_side & 0x3FF);
+    if (texture_idx)
+    {
+        if (unk)
+        {
+            u16 rotation_and_flip = word_side & 0xE000;
+            sub_46B910(rotation_and_flip);
+        }
+        else
+        {
+            u16 rotation_and_flip = word_side & 0xE000;
+            draw_4EA190(rotation_and_flip);
+        }
+        dword_6F6560 = (word_side >> 5) & 0x80;
+        pgbh_DrawTriangle(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTileVerts_6F65A8,
+                          unk2);
+        ++field_2F00_drawn_tile_count;
+    }
 }
 
 MATCH_FUNC(0x4e9ea0)
@@ -727,7 +874,7 @@ void MapRenderer::draw_lid_4EE130()
             }
             //u8 diffuseColour = sub_46B5E0((gLidType_6F6274 >> 10) & 3);
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->sub_46BB50(texture_idx),
+                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           sub_46B5E0((gLidType_6F6274 >> 10) & 3));
             ++field_2F00_drawn_tile_count;
