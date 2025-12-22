@@ -406,10 +406,34 @@ void MapRenderer::sub_4EC450(u16& left_word)
     }
 }
 
+// https://decomp.me/scratch/8QjCQ
 STUB_FUNC(0x4ec7a0)
-void MapRenderer::sub_4EC7A0(u16* a2)
+void MapRenderer::sub_4EC7A0(u16& right_word)
 {
     NOT_IMPLEMENTED;
+    Ang16 rotation;
+    sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+    sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+
+    rotation = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
+                                         Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
+
+    if (rotation < word_6F637C || rotation > word_6F63EC)
+    {
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+
+        dword_6F6560 = dword_621004[right_word >> 13];
+        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(right_word & 1023);
+        if (texture_idx)
+        {
+            pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
+                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTileVerts_6F65A8,
+                          field_11);
+            ++field_2F00_drawn_tile_count;
+        }
+    }
 }
 
 // https://decomp.me/scratch/eGEBV
@@ -424,7 +448,7 @@ void MapRenderer::sub_4ECAF0(u16& left_word)
     angle = Fix16::atan2_fixed_405320(Fix16(gTileVerts_6F65A8[1].x - gTileVerts_6F65A8[0].x),
                                       Fix16(gTileVerts_6F65A8[1].y - gTileVerts_6F65A8[0].y));
 
-    if (angle > word_6F637C && angle < word_6F63EC)
+    if (angle < word_6F637C || angle > word_6F63EC)
     {
         sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -620,7 +644,7 @@ void MapRenderer::DrawDiagonalWallUpRight_4EE8A0()
     }
     if (gBlockRight_6F63C6)
     {
-        MapRenderer::sub_4EC7A0(&gBlockRight_6F63C6);
+        MapRenderer::sub_4EC7A0(gBlockRight_6F63C6);
     }
     if ((u16)gBlockBottom_6F6468)
     {

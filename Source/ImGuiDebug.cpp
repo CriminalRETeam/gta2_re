@@ -854,6 +854,8 @@ void CC ImGuiDebugDraw()
                                 }
                             }
                         }
+                        
+                        ImGui::SliderS16("Car Angle", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
 
                         /* Crash, for some reason
                         if (ImGui::Button("Add TV Aerial"))

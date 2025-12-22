@@ -67,7 +67,7 @@ class MapRenderer
     EXPORT void DrawRightSide_4EAF40(u16& right_word);
     EXPORT void DrawTopSide_4EBA60(u16& top_word);
     EXPORT void sub_4EC450(u16& left_word);
-    EXPORT void sub_4EC7A0(u16* a2);
+    EXPORT void sub_4EC7A0(u16& right_word);
     EXPORT void sub_4ECAF0(u16& left_word);
     EXPORT void sub_4ECE40(u16& right_word);
     EXPORT void draw_bottom_4ED290(u16& a2);
