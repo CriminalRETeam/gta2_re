@@ -1172,6 +1172,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
     }
 }
 
+// https://decomp.me/scratch/cvW2D
 STUB_FUNC(0x4f33b0)
 void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 {
