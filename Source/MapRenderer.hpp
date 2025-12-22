@@ -60,7 +60,7 @@ class MapRenderer
 
     EXPORT void sub_4E9D50(s32& a2, u16& a3);
     EXPORT char_type set_shading_lev_4E9DB0(u8 shading_lev);
-    EXPORT void draw_4E9EE0(u16& word_side, u8& unk, u8& unk2);
+    EXPORT void draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour);
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void draw_4EA190(u16& rotation_and_flip);
     EXPORT void DrawLeftSide_4EA390(u16& left_word);
@@ -178,7 +178,7 @@ class MapRenderer
     char_type field_18_ycoords;
     char_type field_19;
     char_type field_1A;
-    char_type field_1B;
+    u8 field_1B;
     Nanobotz_8 field_1C[1500];
     s32 field_2EFC_curr_draw_layer_size;
     s32 field_2F00_drawn_tile_count;

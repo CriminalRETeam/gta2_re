@@ -223,12 +223,12 @@ char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 
 // this function matches, but some "fcomps" offsets are wrong
 STUB_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, u8& unk, u8& unk2)
+void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour)
 {
     u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(word_side & 0x3FF);
     if (texture_idx)
     {
-        if (unk)
+        if (bUnk)
         {
             u16 rotation_and_flip = word_side & 0xE000;
             sub_46B910(rotation_and_flip);
@@ -242,7 +242,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, u8& unk, u8& unk2)
         pgbh_DrawTriangle(dword_6F6560 | gLightingDrawFlag_7068F4,
                           gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
-                          unk2);
+                          colour);
         ++field_2F00_drawn_tile_count;
     }
 }
@@ -992,10 +992,34 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/6WLOw
 STUB_FUNC(0x4ef520)
 void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 {
     NOT_IMPLEMENTED;
+    if (gBlockLeft_6F62F6)
+    {
+        dword_6F646C.field_0_gradient_direction = NORTH_1;
+        MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
+    }
+    if (gBlockTop_6F62F4)
+    {
+        dword_6F646C.field_0_gradient_direction = WEST_3;
+        MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+    }
+    if (gBlockRight_6F63C6)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 32.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 63.999901f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 0.0f;
+        gTileVerts_6F65A8[2].v = 63.999901f;
+        draw_4E9EE0(gBlockRight_6F63C6, false, field_1B);
+    }
 }
 
 STUB_FUNC(0x4ef880)
