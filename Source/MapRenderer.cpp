@@ -123,6 +123,129 @@ void MapRenderer::ambient_light_tick_4E9EA0()
     }
 }
 
+// this function matches, but some "fcomps" offsets are wrong
+STUB_FUNC(0x4EA190)
+void MapRenderer::draw_4EA190(u16& rotation_and_flip) 
+{
+    s32 vert_idx;
+    
+    switch (rotation_and_flip)
+    {
+        case 0x2000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 63.999901f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                }
+            }
+            break;
+        case 0x4000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+            }
+            break;
+        case 0x6000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+            }
+            break;
+        case 0x8000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+            }
+            break;
+        case 0xA000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f
+                   || gTileVerts_6F65A8[vert_idx].u != 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 63.999901f;
+                }
+            }
+            break;
+        case 0xC000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 0.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                }
+            }
+            break;
+        case 0xE000:
+            for (vert_idx = 0; vert_idx <= 2; vert_idx++)
+            {
+                if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 63.999901f;
+                    gTileVerts_6F65A8[vert_idx].v = 32.0f;
+                }
+                else if (gTileVerts_6F65A8[vert_idx].u == 63.999901f)
+                {
+                    gTileVerts_6F65A8[vert_idx].u = 0.0f;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
+                }
+            }
+            break;
+    }
+}
+
 // https://decomp.me/scratch/FGVOK
 STUB_FUNC(0x4ea390)
 void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
