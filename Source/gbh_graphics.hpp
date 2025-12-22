@@ -30,7 +30,7 @@ typedef void (CC* T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s
 typedef void (CC* T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 typedef int(CC* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
 typedef s32 (CC* T_gbh_DrawTilePart)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
-typedef void (CC* T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, s32 diffuseColour);
+typedef void (CC* T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, u8& diffuseColour);
 typedef void (CC* T_gbh_EndLevel)();
 typedef void (CC* T_gbh_EndScene)();
 typedef s32 (CC* T_gbh_FreeImageTable)();

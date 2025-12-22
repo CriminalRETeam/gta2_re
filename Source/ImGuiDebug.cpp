@@ -148,6 +148,7 @@ static void EnableBoot2MapDebugOptions()
     Init_Phi_54_array();
     Init_Phi_6C_array();
     Init_gmp_slopes_array();
+    Init_trigonometry_tables();
 
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
@@ -853,6 +854,8 @@ void CC ImGuiDebugDraw()
                                 }
                             }
                         }
+                        
+                        ImGui::SliderS16("Car Angle", &pPlayerCar->field_50_car_sprite->field_0.rValue, 0, 1439);
 
                         /* Crash, for some reason
                         if (ImGui::Button("Add TV Aerial"))

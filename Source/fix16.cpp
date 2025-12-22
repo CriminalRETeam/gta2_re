@@ -173,7 +173,7 @@ EXPORT void __stdcall arc_tan_table_init_4052D0()
     for (s32 i = 0; i < 1440; i++)
     {
         // TODO: Probably construct Ang16(i, 0) and then had ToRadians() or something
-        gTanTable_6663C8[i].mValue = (tan((double)i * 3.141592654 * 0.001388888888888889) * 16384.0);
+        gTanTable_6663C8[i] = Fix16(tan( ((f64)i / 1440.0) * 2 * 3.141592654));
     }
 }
 
@@ -263,4 +263,20 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
     {
         maxOut = v4;
     }
+}
+
+void Init_trigonometry_tables()
+{
+    s16 arg = 0; 
+    for (u32 idx = 0; idx < GTA2_COUNTOF(gSin_table_667A80); idx++, arg++)
+    {
+        gSin_table_667A80[idx] = Fix16( sin(((f64)arg / 1440.0) * 2 * 3.141592654) );
+    }
+    arg = 0;
+    for (u32 entry = 0; entry < GTA2_COUNTOF(gCos_table_669260); entry++, arg++)
+    {
+        gCos_table_669260[entry] = Fix16( cos(((f64)arg / 1440.0) * 2 * 3.141592654) );
+    }
+    arc_tan_table_init_4052D0();
+    printf("Sine, cosine and tangent tables initialized!");
 }
