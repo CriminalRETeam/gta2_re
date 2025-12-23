@@ -66,7 +66,7 @@ class Sprite
     EXPORT void sub_59E320(char_type a2);
     EXPORT bool sub_59E390(s32 a2, s32 a3, s32 a4);
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
-    EXPORT char_type sub_59E590(Sprite* a2);
+    EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
     EXPORT void sub_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
@@ -89,7 +89,7 @@ class Sprite
     EXPORT bool sub_59FB10(s32* a2);
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
-    EXPORT bool sub_5A0380(Sprite* a2);
+    EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* a2);
     EXPORT char_type sub_5A0970(s32 a2, s32 a3, s32 a4);
     EXPORT char_type sub_5A0A70(Sprite_4C* a2, Sprite** a3, u8* a4);
     EXPORT char_type sub_5A0EF0(s32 a2, s32 a3, s32 a4);

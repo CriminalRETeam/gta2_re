@@ -14660,7 +14660,7 @@
         "v105_address": "0x59e4c0"
     },
     {
-        "name": "sub_59E590",
+        "name": "CollisionCheck_59E590",
         "v96f_address": null,
         "v105_address": "0x59e590"
     },
@@ -14780,7 +14780,7 @@
         "v105_address": "0x5a0320"
     },
     {
-        "name": "Sprite::sub_5A0380",
+        "name": "Sprite::RotatedRectCollisionSAT_5A0380",
         "v96f_address": "0x4bb560",
         "v105_address": "0x5a0380"
     },

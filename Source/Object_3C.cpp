@@ -578,7 +578,7 @@ void struct_4::sub_5A7240(Sprite* pSprite)
 
     while (pNext)
     {
-        if (pSprite->sub_59E590(pNext->field_0))
+        if (pSprite->CollisionCheck_59E590(pNext->field_0))
         {
             pLast = pNext;
             pNext = pNext->mpNext;

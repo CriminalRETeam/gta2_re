@@ -649,7 +649,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
             if (pC8Iter->field_0_sprt->field_C_o5c->field_2C != gCollide_C_6791FC->field_4_count)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
-                if (pSprite->sub_59E590(pC8Iter->field_0_sprt))
+                if (pSprite->CollisionCheck_59E590(pC8Iter->field_0_sprt))
                 {
                     bRet = 1;
                     pC8Iter->field_0_sprt->sub_59E8C0(pSprite);
@@ -689,7 +689,7 @@ bool PurpleDoom::sub_4787E0(u32 y_pos, Sprite* pSprite)
             {
                 gCollide_C_6791FC->field_0_count.mValue++;
 
-                if (pSprite->sub_59E590(p8Iter->field_0_sprt))
+                if (pSprite->CollisionCheck_59E590(p8Iter->field_0_sprt))
                 {
                     bRet = true;
                     p8Iter->field_0_sprt->sub_59E910(pSprite);

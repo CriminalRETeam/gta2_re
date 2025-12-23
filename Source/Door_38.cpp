@@ -57,7 +57,7 @@ bool Door_38::sub_49C6A0(Sprite* a1)
 {
     if (a1)
     {
-        return field_8->field_4->sub_5A0380(a1) == false;
+        return field_8->field_4->RotatedRectCollisionSAT_5A0380(a1) == false;
     }
     return true;
 }
