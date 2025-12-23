@@ -29,5 +29,6 @@ EXTERN_GLOBAL(T_Vid_WindowProc, pVid_WindowProc);
 EXTERN_GLOBAL(T_Vid_InitDLL, pVid_InitDLL);
 EXTERN_GLOBAL(T_Vid_SetGamma, pVid_SetGamma);
 
+EXPORT void __stdcall DMA_Video_Stub_5EB810();
 EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys);
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName);
