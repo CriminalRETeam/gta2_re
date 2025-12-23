@@ -1164,10 +1164,37 @@ void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
     }
 }
 
+// https://decomp.me/scratch/IdZ0n
 STUB_FUNC(0x4efdb0)
 void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockLeft_6F62F6)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 0.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 32.0f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 63.999901f;
+        gTileVerts_6F65A8[2].v = 0.0f;
+        draw_4E9EE0(gBlockLeft_6F62F6, true, field_1A);
+    }
+    if (gBlockRight_6F63C6)
+    {
+        MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
+    }
+    if (gBlockTop_6F62F4)
+    {
+        MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+    }
+    if (gLidType_6F6274)
+    {
+        byte_620F20 = 3;
+        MapRenderer::draw_lid_4EE130();
+        byte_620F20 = -1;
+    }
 }
 
 // https://decomp.me/scratch/AKo7h
