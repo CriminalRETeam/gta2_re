@@ -24,6 +24,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "Crushers.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -1543,11 +1544,10 @@ bool Car_BC::sub_43DC80(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x43dd50)
-char_type Car_BC::sub_43DD50()
+MATCH_FUNC(0x43dd50)
+bool Car_BC::IsBeingCrushed_43DD50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gCrusherPool_94_67A830->IsCarBeingCrushed_4887A0(this);
 }
 
 STUB_FUNC(0x43dd60)
@@ -1723,7 +1723,8 @@ void Car_BC::sub_440AC0()
 MATCH_FUNC(0x440b10)
 void Car_BC::sub_440B10()
 {
-    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    Object_2C* p2C =
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
     field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
 }
 
