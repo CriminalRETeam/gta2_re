@@ -26,7 +26,7 @@ DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
-DEFINE_GLOBAL_INIT(Fix16, dword_703450, dword_703424, 0x703450);
+
 Ang16 word_703804 = 0; //DEFINE_GLOBAL_INIT(Ang16, word_703804, Ang16(0), 0x703804);
 
 MATCH_FUNC(0x443580)
@@ -163,11 +163,16 @@ s32 Sprite::sub_59E4C0(s32 a2, s32 a3)
     return 0;
 }
 
+// https://decomp.me/scratch/GIpfM
 STUB_FUNC(0x59E590)
-char_type Sprite::sub_59E590(Sprite* a2)
+char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_4C* pOurSprite = pOther->field_C_sprite_4c_ptr;
+    Sprite_4C* pOtherSprite = field_C_sprite_4c_ptr;
+    return pOtherSprite->field_30.AABB_Intersects_41E2F0(&pOurSprite->field_30) &&
+        (pOtherSprite->IsZeroWidth_41E390() || field_0.jIsAxisAligned_41E3C0()) &&
+        (pOurSprite->IsZeroWidth_41E390() || pOther->field_0.jIsAxisAligned_41E3C0()) ||
+        (pOther->RotatedRectCollisionSAT_5A0380(this) || RotatedRectCollisionSAT_5A0380(pOther));
 }
 
 STUB_FUNC(0x59E680)
@@ -286,7 +291,7 @@ void Sprite::sub_59E9C0()
 {
     if (!field_C_sprite_4c_ptr->field_48_bUnknown)
     {
-        if (field_C_sprite_4c_ptr->sub_41E390())
+        if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
             field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, word_703804);
         }
@@ -508,7 +513,7 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
 }
 
 STUB_FUNC(0x5a0380)
-bool Sprite::sub_5A0380(Sprite* a1)
+bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* a1)
 {
     NOT_IMPLEMENTED;
     return 0;

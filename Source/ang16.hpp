@@ -64,7 +64,7 @@ class Ang16
     // https://decomp.me/scratch/Rc5ql
     Ang16 operator+(const Ang16& rhs)
     {
-        return Ang16( rValue + rhs.rValue, 0);
+        return Ang16(rValue + rhs.rValue, 0);
     }
 
     Ang16 operator-(const Ang16& other)
@@ -140,7 +140,7 @@ class Ang16
         rValue -= other;
         return *this;
     }
-    
+
     inline s32 ToFloat()
     {
         return rValue << 14;
@@ -198,20 +198,31 @@ class Ang16
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
-    EXPORT static Fix16 Ang16_to_Fix16(const Ang16 &v)
+    EXPORT static Fix16 Ang16_to_Fix16(const Ang16& v)
     {
         s32 value = v.rValue * 71;
         return Fix16(value, 0);
     }
 
+    // 9.6f 0x41E110
+    // https://decomp.me/scratch/RKAuT
+    bool IsAxisAligned_41E110() const
+    {
+        return (rValue == 0 || rValue == 360 || rValue == 720 || rValue == 1080) ? true : false;
+    }
+
+    // 9.6f 0x41E3C0
+    bool jIsAxisAligned_41E3C0()
+    {
+        return IsAxisAligned_41E110();
+    }
+
     // 9.6f 0x401C60
     // https://decomp.me/scratch/0qgcp
-    Ang16(const s16& value, s32 not_used)
-     : rValue(value)
+    Ang16(const s16& value, s32 not_used) : rValue(value)
     {
         this->Normalize();
     }
-
 
     // 9.6f 0x40E590
     Ang16() : rValue(0)

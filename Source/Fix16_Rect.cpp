@@ -3,6 +3,8 @@
 #include "PurpleDoom.hpp"
 #include "sprite.hpp"
 
+DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
+
 MATCH_FUNC(0x59dd60)
 void Fix16_Rect::DoSetCurrentRect_59DD60()
 {
@@ -12,13 +14,14 @@ void Fix16_Rect::DoSetCurrentRect_59DD60()
     gPurple_bottom_6F5F38 = field_C_bottom.ToInt();
 }
 
+// 0x4BA6C0 9.6f
 MATCH_FUNC(0x59ddf0)
 u32 Fix16_Rect::sub_59DDF0(Sprite* a2)
 {
     Fix16_Point* v3 = a2->field_C_sprite_4c_ptr->field_C_b_box;
 
-    if (inline_sub_4B9FD0(&v3[0]) || inline_sub_4B9FD0(&v3[1]) 
-        || inline_sub_4B9FD0(&v3[2]) || inline_sub_4B9FD0(&v3[3]))
+    if (IsPointInRect_4B9FD0(&v3[0]) || IsPointInRect_4B9FD0(&v3[1]) 
+        || IsPointInRect_4B9FD0(&v3[2]) || IsPointInRect_4B9FD0(&v3[3]))
     {
         return true;
     }
@@ -143,7 +146,7 @@ bool Fix16_Rect::sub_59DFB0(s32 a2)
 }
 
 MATCH_FUNC(0x5A5E30)
-void Fix16_Rect::sub_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
+void Fix16_Rect::SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)
 {
     this->field_0_left = left;
     this->field_4_right = right;
