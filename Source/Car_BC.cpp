@@ -1,6 +1,7 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
+#include "Crushers.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -24,7 +25,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
-#include "Crushers.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -1563,11 +1563,14 @@ char_type Car_BC::sub_43E560()
     return 0;
 }
 
-STUB_FUNC(0x43e8d0)
-Car_BC* Car_BC::sub_43E8D0()
+MATCH_FUNC(0x43e8d0)
+Car_BC* Car_BC::GetCabOrSelf_43E8D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_64_pTrailer)
+    {
+        return field_64_pTrailer->field_8_truck_cab;
+    }
+    return this;
 }
 
 STUB_FUNC(0x43e990)

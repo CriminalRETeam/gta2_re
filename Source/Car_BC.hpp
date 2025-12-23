@@ -435,7 +435,7 @@ class Car_BC
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void sub_43DD60();
     EXPORT char_type sub_43E560();
-    EXPORT Car_BC* sub_43E8D0();
+    EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* sub_43E990();
     EXPORT bool sub_43EA60(Object_2C* a2);
     EXPORT char_type sub_43F130(s32 a2);
