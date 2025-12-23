@@ -10,7 +10,6 @@
 #include "Montana.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp"
-#include "error.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_6F6484, Fix16_Point(Fix16(0), Fix16(1)), 0x6F6484);
@@ -72,9 +71,20 @@ static inline void sub_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
 static inline void sub_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
     pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+}
+
+static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
+{
+    Camera_0xBC* pCam = gViewCamera_676978;
+
+    s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
+
+    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_cam_pos2.field_0_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_98_cam_pos2.field_4_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
 static inline void sub_46B910(u16& rotation_and_flip)
@@ -139,7 +149,7 @@ static inline void sub_46B910(u16& rotation_and_flip)
                 }
                 else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
                 {
-                    gTileVerts_6F65A8[vert_idx].v = 0.0;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
                 }
                 else
                 {
@@ -405,24 +415,21 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
         {
             case NORTH_1:
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
-                if (dword_6F647C)
-                {
-                    Fix16 unknown_z = Fix16((dword_6F6480 - dword_6F647C)) / dword_6F6480;
-                    sub_46BC70(gXCoord_6F63AC, 
-                               gYCoord_6F63B8, 
-                               dword_6F6518 + unknown_z, 
-                               &gTileVerts_6F65A8[1]);
-                    gTileVerts_6F65A8[1].v = 63.999901f - (unknown_z * dword_6F6548).ToFloat();
-                }
-                else
+                if (!dword_6F647C)
                 {
                     sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
                     gTileVerts_6F65A8[1].v = 0.0f;
                 }
+                else
+                {
+                    Fix16 unknown_z = Fix16((dword_6F6480 - dword_6F647C)) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, dword_6F6518 + unknown_z, &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901f - (unknown_z * dword_6F6548).ToFloat();
+                }
 
                 if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
                 {
-                    return;    // optimizing
+                    return; // optimizing
                 }
 
                 sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -435,10 +442,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 else
                 {
                     Fix16 unknown_z_2 = Fix16((dword_6F6480 - dword_6F647C)) / dword_6F6480;
-                    sub_46BC70(gXCoord_6F63AC, 
-                               gYCoord_6F63B8 + stru_6F6484.y, 
-                               dword_6F6518 + unknown_z_2,
-                               &gTileVerts_6F65A8[2]);
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, dword_6F6518 + unknown_z_2, &gTileVerts_6F65A8[2]);
                     gTileVerts_6F65A8[2].v = 63.999901f - (unknown_z_2 * dword_6F6548).ToFloat();
                 }
 
@@ -446,7 +450,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 dword_6F6560 = 16389;
                 // if (*((_BYTE *)a2 + 1) & 0x20) != 0
                 BlockSideWord block_side_word = *(BlockSideWord*)&left_word;
-                if ( block_side_word.flip )
+                if (block_side_word.flip)
                 {
                     gTileVerts_6F65A8[0].u = 63.999901f;
                     gTileVerts_6F65A8[1].u = 63.999901f;
@@ -463,7 +467,58 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 gTileVerts_6F65A8[0].v = 63.999901f;
                 gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
+
             case SOUTH_2:
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 unknown_z_3 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, dword_6F6518 + unknown_z_3, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (unknown_z_3 * dword_6F6548).ToFloat();
+                }
+
+                if (gTileVerts_6F65A8[3].x > gTileVerts_6F65A8[2].x)
+                {
+                    return;
+                }
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
+                {
+                    memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[0], sizeof(Vert));
+                    gTileVerts_6F65A8[1].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 unknown_z_4 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, dword_6F6518 + unknown_z_4, &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901 - (unknown_z_4 * dword_6F6548).ToFloat();
+                }
+                // now set u
+                dword_6F6560 = 16389;
+                // if (*((_BYTE *)a2 + 1) & 0x20) != 0
+                BlockSideWord block_side_word_2 = *(BlockSideWord*)&left_word;
+                if (block_side_word_2.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                gTileVerts_6F65A8[0].v = 63.999901f;
+                gTileVerts_6F65A8[3].v = 63.999901f;
                 break;
             default:
                 // Flat blocks
@@ -535,32 +590,135 @@ void MapRenderer::sub_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* pVert)
 STUB_FUNC(0x4eaf40)
 void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 {
-    NOT_IMPLEMENTED;
-
     if (!bSkip_right_67D4E4)
     {
-        if (dword_6F646C.field_0_gradient_direction == 1)
+        switch (dword_6F646C.field_0_gradient_direction)
         {
-            set_vert_xyz_relative_to_cam_4EAD90(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, gZCoord_6F63E0, &gTileVerts_6F65A8[1]);
+            case NORTH_1:
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
 
-            // ...
-        }
-        else if (dword_6F646C.field_0_gradient_direction == 2)
-        {
-            // ...
-        }
-        else
-        {
-            // Flat blocks
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
-            if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
-            {
-                return;
-            }
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
-            dword_6F6560 = dword_620F44[right_word >> 13];
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 unknown_z = Fix16((dword_6F6480 - dword_6F647C)) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, dword_6F6518 + unknown_z, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z * dword_6F6548).ToFloat();
+                }
+
+                if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
+                {
+                    return; // optimizing
+                }
+
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
+                {
+                    memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[2], sizeof(Vert));
+                    gTileVerts_6F65A8[3].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 unknown_z_2 = Fix16((dword_6F6480 - dword_6F647C - 1)) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y,
+                               gYCoord_6F63B8 + stru_6F6484.y,
+                               dword_6F6518 + unknown_z_2,
+                               &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (unknown_z_2 * dword_6F6548).ToFloat();
+                }
+
+                // now set u
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word = *(BlockSideWord*)&right_word;
+                if (block_side_word.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                gTileVerts_6F65A8[1].v = 63.999901f;
+                gTileVerts_6F65A8[2].v = 63.999901f;
+                break;
+
+            case SOUTH_2:
+                // 270 on IDA
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 unknown_z_3 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y,
+                               gYCoord_6F63B8 + stru_6F6484.y,
+                               dword_6F6518 + unknown_z_3,
+                               &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (unknown_z_3 * dword_6F6548).ToFloat();
+                }
+
+                if (gTileVerts_6F65A8[3].x > gTileVerts_6F65A8[2].x)
+                {
+                    return;
+                }
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
+                {
+                    memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[1], sizeof(Vert));
+                    gTileVerts_6F65A8[0].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 unknown_z_4 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_4EB940(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, dword_6F6518 + unknown_z_4, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901 - (unknown_z_4 * dword_6F6548).ToFloat();
+                }
+                // now set u
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word_2 = *(BlockSideWord*)&right_word;
+                if (block_side_word_2.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                gTileVerts_6F65A8[1].v = 63.999901f;
+                gTileVerts_6F65A8[2].v = 63.999901f;
+                break;
+            default:
+                // Flat blocks
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+                if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
+                {
+                    return;
+                }
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+                dword_6F6560 = dword_620F44[right_word >> 13];
+                break;
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(right_word & 0x3FF);
@@ -585,13 +743,9 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 STUB_FUNC(0x4EB940)
 void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
-    Camera_0xBC* pCam = gViewCamera_676978;
-    s32 next_idx = (pVert - gTileVerts_6F65A8) + 4;
-    gTileVerts_6F65A8[next_idx].x = (xpos + pCam->field_98_cam_pos2.field_0_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].y = (ypos + pCam->field_98_cam_pos2.field_4_y).ToFloat();
-    gTileVerts_6F65A8[next_idx].z = zpos.ToFloat();
+    set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
     pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
@@ -600,32 +754,129 @@ void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 STUB_FUNC(0x4eba60)
 void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
 {
-    NOT_IMPLEMENTED;
-
     if (!bSkip_top_67D574)
     {
-        if (dword_6F646C.field_0_gradient_direction == 3)
+        switch (dword_6F646C.field_0_gradient_direction)
         {
-            set_vert_xyz_relative_to_cam_4EAD90(gXCoord_6F63AC, gYCoord_6F63B8, gZCoord_6F63E0, &gTileVerts_6F65A8[3]);
+            case WEST_3:
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 unk_z_1 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, dword_6F6518 + unk_z_1, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (unk_z_1 * dword_6F6548).ToFloat();
+                }
 
-            // ...
-        }
-        else if (dword_6F646C.field_0_gradient_direction == 4)
-        {
-            // ...
-        }
-        else
-        {
-            // Flat blocks
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[3]);
-            if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
-            {
-                return;
-            }
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
-            dword_6F6560 = dword_620F64[top_word >> 13];
+                if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
+                {
+                    return; // optmize
+                }
+
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
+                {
+                    memcpy(&gTileVerts_6F65A8[2], &gTileVerts_6F65A8[1], sizeof(Vert));
+                    gTileVerts_6F65A8[2].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 unk_z_2 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, dword_6F6518 + unk_z_2, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (unk_z_2 * dword_6F6548).ToFloat();
+                }
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word = *(BlockSideWord*)&top_word;
+                if (block_side_word.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                gTileVerts_6F65A8[0].v = 63.999901f;
+                gTileVerts_6F65A8[1].v = 63.999901f;
+
+                break;
+            case EAST_4:
+
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 unk_z_3 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, dword_6F6518 + unk_z_3, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (unk_z_3 * dword_6F6548).ToFloat();
+                }
+
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+
+                if (gTileVerts_6F65A8[1].y > gTileVerts_6F65A8[2].y)
+                {
+                    return; // optmize
+                }
+
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+
+                if (dword_6F647C == dword_6F6480 - 1)
+                {
+                    memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[0], sizeof(Vert));
+                    gTileVerts_6F65A8[3].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 unk_z_4 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, dword_6F6518 + unk_z_4, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (unk_z_4 * dword_6F6548).ToFloat();
+                }
+
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word_2 = *(BlockSideWord*)&top_word;
+                if (block_side_word_2.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                gTileVerts_6F65A8[0].v = 63.999901f;
+                gTileVerts_6F65A8[1].v = 63.999901f;
+
+                break;
+            default:
+                // Flat blocks
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[3]);
+                if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
+                {
+                    return;
+                }
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+                dword_6F6560 = dword_620F64[top_word >> 13];
+                break;
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(top_word & 0x3FF);
@@ -769,47 +1020,164 @@ void MapRenderer::sub_4ECE40(u16& right_word)
 STUB_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
-    NOT_IMPLEMENTED;
-
     if (!bSkip_bottom_67D4E7)
     {
-        if (dword_6F646C.field_0_gradient_direction == 3)
+        switch (dword_6F646C.field_0_gradient_direction)
         {
-            set_vert_xyz_relative_to_cam_4EAD90(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, gZCoord_6F63E0, &gTileVerts_6F65A8[3]);
+            case WEST_3:
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+                
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 z_unk_1 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC,
+                              gYCoord_6F63B8 + stru_6F6484.y,
+                              dword_6F6518 + z_unk_1,
+                              &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_1 * dword_6F6548).ToFloat();
+                }
 
-            // ...
-        }
-        else if (dword_6F646C.field_0_gradient_direction == 4)
-        {
-            // ...
-        }
-        else
-        {
-            // Flat blocks
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
-            if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
-            {
-                return;
-            }
-            MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
-            MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
-            dword_6F6560 = dword_620F84[bottom_word >> 13];
+                if ( gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y )
+                {
+                    return;
+                }
+
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, 
+                           gYCoord_6F63B8 + stru_6F6484.y,
+                          &gTileVerts_6F65A8[2]);
+                
+                if ( dword_6F647C == dword_6F6480 - 1 )
+                {
+                    memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[2], sizeof(Vert));
+                    gTileVerts_6F65A8[1].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 z_unk_2 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, 
+                               gYCoord_6F63B8 + stru_6F6484.y,
+                               dword_6F6518 + z_unk_2,
+                               &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901f - (z_unk_2 * dword_6F6548).ToFloat();
+                }
+
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word = *(BlockSideWord*)&bottom_word;
+                //if ((*((_BYTE*)bottom_word + 1) & 0x20) != 0)
+                if (block_side_word.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                gTileVerts_6F65A8[2].v = 63.999901f;
+                gTileVerts_6F65A8[3].v = 63.999901f;
+                break;
+            
+            case EAST_4:
+                
+                sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, 
+                           gYCoord_6F63B8 + stru_6F6484.y,
+                           &gTileVerts_6F65A8[2]);
+                
+                if (dword_6F647C == 0)
+                {
+                    sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, 
+                              gYCoord_6F63B8 + stru_6F6484.y,
+                              &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 0.0f;
+                }
+                else
+                {
+                    Fix16 z_unk_3 = Fix16(dword_6F6480 - dword_6F647C) / dword_6F6480;
+                    sub_46BC70(gXCoord_6F63AC + stru_6F6484.y, 
+                              gYCoord_6F63B8 + stru_6F6484.y,
+                              dword_6F6518 + z_unk_3,
+                              &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901f - (z_unk_3 * dword_6F6548).ToFloat();
+                }
+
+                if (gTileVerts_6F65A8[1].y > gTileVerts_6F65A8[2].y)
+                {
+                    return;
+                }
+
+                sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+
+                if ( dword_6F647C == dword_6F6480 - 1 )
+                {
+                    memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[3], sizeof(Vert));
+                    gTileVerts_6F65A8[0].v = 63.999901f;
+                }
+                else
+                {
+                    Fix16 z_unk_4 = Fix16(dword_6F6480 - dword_6F647C - 1) / dword_6F6480;
+                    sub_4EB940(gXCoord_6F63AC, 
+                               gYCoord_6F63B8 + stru_6F6484.y,
+                               dword_6F6518 + z_unk_4,
+                               &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_4 * dword_6F6548).ToFloat();
+                }
+                dword_6F6560 = 16389;
+                BlockSideWord block_side_word_2 = *(BlockSideWord*)&bottom_word;
+                //if ((*((_BYTE*)bottom_word + 1) & 0x20) != 0)
+                if (block_side_word_2.flip)
+                {
+                    gTileVerts_6F65A8[0].u = 63.999901f;
+                    gTileVerts_6F65A8[1].u = 0.0f;
+                    gTileVerts_6F65A8[2].u = 0.0f;
+                    gTileVerts_6F65A8[3].u = 63.999901f;
+                }
+                else
+                {
+                    gTileVerts_6F65A8[0].u = 0.0f;
+                    gTileVerts_6F65A8[1].u = 63.999901f;
+                    gTileVerts_6F65A8[2].u = 63.999901f;
+                    gTileVerts_6F65A8[3].u = 0.0f;
+                }
+                gTileVerts_6F65A8[2].v = 63.999901f;
+                gTileVerts_6F65A8[3].v = 63.999901f;
+                break;
+            default:
+                // Flat blocks
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+                if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
+                {
+                    return;
+                }
+                MapRenderer::sub_4EAEA0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+                MapRenderer::sub_4EAE00(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
+                dword_6F6560 = dword_620F84[bottom_word >> 13];
+                break;
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(bottom_word & 0x3FF);
         if (texture_idx != 0)
         {
             BlockSideWord block_word = *(BlockSideWord*)&bottom_word;
+            //if ((*((u8*)bottom_word + 1) & 0x10) != 0)
             if (block_word.flat)
             {
                 dword_6F6560 = dword_6F6560 | 0x80;
             }
-            
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
-                          gTileVerts_6F65A8,
-                          field_E_colour_t2);
+                                 gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                                 gTileVerts_6F65A8,
+                                 field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
         }
     }
@@ -983,11 +1351,13 @@ void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
         dword_6F646C.field_0_gradient_direction = SOUTH_2;
         MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
     }
+
     if (gBlockBottom_6F6468)
     {
         dword_6F646C.field_0_gradient_direction = EAST_4;
         MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
     }
+    
     if (gBlockLeft_6F62F6)
     {
         sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
@@ -1003,16 +1373,68 @@ void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
     }
 }
 
+// https://decomp.me/scratch/XGan6
 STUB_FUNC(0x4eee60)
 void MapRenderer::Draw3SidedDiagonalUpRight_4EEE60()
 {
-    NOT_IMPLEMENTED;
+    
+    if (gBlockLeft_6F62F6)
+    {
+        dword_6F646C.field_0_gradient_direction = SOUTH_2;
+        MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
+    }
+
+    if (gBlockBottom_6F6468)
+    {
+        dword_6F646C.field_0_gradient_direction = WEST_3;
+        MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
+    }
+
+    if (gBlockRight_6F63C6)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 32.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 63.999901f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 0.0f;
+        gTileVerts_6F65A8[2].v = 63.999901f;
+        draw_4E9EE0(gBlockRight_6F63C6, false, field_19);
+    }
 }
 
+// https://decomp.me/scratch/O0oa4
 STUB_FUNC(0x4ef1c0)
 void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
 {
-    NOT_IMPLEMENTED;
+    
+    if (gBlockRight_6F63C6)
+    {
+        dword_6F646C.field_0_gradient_direction = NORTH_1;
+        MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
+    }
+    
+    if (gBlockTop_6F62F4)
+    {
+        dword_6F646C.field_0_gradient_direction = EAST_4;
+        MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+    }
+    
+    if (gBlockLeft_6F62F6)
+    {
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 32.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 63.999901f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 0.0f;
+        gTileVerts_6F65A8[2].v = 63.999901f;
+        draw_4E9EE0(gBlockLeft_6F62F6, false, field_1A);
+    }
 }
 
 // https://decomp.me/scratch/6WLOw
@@ -1020,16 +1442,19 @@ STUB_FUNC(0x4ef520)
 void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 {
     NOT_IMPLEMENTED;
+    
     if (gBlockLeft_6F62F6)
     {
         dword_6F646C.field_0_gradient_direction = NORTH_1;
         MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
     }
+    
     if (gBlockTop_6F62F4)
     {
         dword_6F646C.field_0_gradient_direction = WEST_3;
         MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
     }
+    
     if (gBlockRight_6F63C6)
     {
         sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -1045,22 +1470,103 @@ void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
     }
 }
 
+// https://decomp.me/scratch/YoWOt
 STUB_FUNC(0x4ef880)
 void MapRenderer::Draw4SidedDiagonalUpLeft_4EF880()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockRight_6F63C6)
+    {
+        MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
+    }
+    if (gBlockLeft_6F62F6)
+    {
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 0.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 32.0f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 63.999901f;
+        gTileVerts_6F65A8[2].v = 0.0f;
+        draw_4E9EE0(gBlockLeft_6F62F6, true, field_18_color);
+    }
+    if (gBlockBottom_6F6468)
+    {
+        MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
+    }
+    if (gLidType_6F6274)
+    {
+        byte_620F20 = 0;
+        MapRenderer::draw_lid_4EE130();
+        byte_620F20 = -1;
+    }
 }
 
+// https://decomp.me/scratch/ZTyHA
 STUB_FUNC(0x4efb20)
 void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockLeft_6F62F6)
+    {
+        MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
+    }
+    if (gBlockRight_6F63C6)
+    {
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 0.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 32.0f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 63.999901f;
+        gTileVerts_6F65A8[2].v = 0.0f;
+        draw_4E9EE0(gBlockRight_6F63C6, true, field_19);
+    }
+    if (gBlockBottom_6F6468)
+    {
+        MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
+    }
+    if (gLidType_6F6274)
+    {
+        byte_620F20 = 1;
+        MapRenderer::draw_lid_4EE130();
+        byte_620F20 = -1;
+    }
 }
 
+// https://decomp.me/scratch/IdZ0n
 STUB_FUNC(0x4efdb0)
 void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockLeft_6F62F6)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 0.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 32.0f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 63.999901f;
+        gTileVerts_6F65A8[2].v = 0.0f;
+        draw_4E9EE0(gBlockLeft_6F62F6, true, field_1A);
+    }
+    if (gBlockRight_6F63C6)
+    {
+        MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
+    }
+    if (gBlockTop_6F62F4)
+    {
+        MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
+    }
+    if (gLidType_6F6274)
+    {
+        byte_620F20 = 3;
+        MapRenderer::draw_lid_4EE130();
+        byte_620F20 = -1;
+    }
 }
 
 // https://decomp.me/scratch/AKo7h
@@ -1177,7 +1683,7 @@ STUB_FUNC(0x4f0420)
 void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
 {
     NOT_IMPLEMENTED;
-    /*
+    
     u16 side_word;
     if (gBlockLeft_6F62F6)
     {
@@ -1190,6 +1696,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
                 MapRenderer::DrawLeftSide_4EA390(side_word);
                 gXCoord_6F63AC -= stru_6F6484.y;
             }
+            
             if ((gBlockLeft_6F62F6 & 0x1000) != 0)
             {
                 side_word = gBlockRight_6F63C6 | 0x10u;
@@ -1197,9 +1704,10 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
                 MapRenderer::DrawRightSide_4EAF40(side_word);
                 gXCoord_6F63AC += stru_6F6484.y;
             }
+            
         }
     }
-
+    
     if (gBlockTop_6F62F4)
     {
         if (gBlockBottom_6F6468)
@@ -1221,7 +1729,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
             MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
         }
     }
-
+    
     if (gBlockRight_6F63C6)
     {
         if (!gBlockLeft_6F62F6 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
@@ -1229,7 +1737,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
             MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
         }
     }
-
+    
     if (gBlockTop_6F62F4)
     {
         if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
@@ -1237,7 +1745,6 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
             MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
         }
     }
-    */
 
     if (gLidType_6F6274 && !bSkip_lid_67D546)
     {
@@ -1323,7 +1830,7 @@ STUB_FUNC(0x4f1660)
 void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
 {
     NOT_IMPLEMENTED;
-    /*
+    
     u16 side_word;
     if (gBlockLeft_6F62F6)
     {
@@ -1336,6 +1843,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
                 MapRenderer::DrawLeftSide_4EA390(side_word);
                 gXCoord_6F63AC -= stru_6F6484.y;
             }
+            
             if ((gBlockLeft_6F62F6 & 0x1000) != 0)
             {
                 side_word = gBlockRight_6F63C6 | 0x1000;
@@ -1343,8 +1851,10 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
                 MapRenderer::DrawRightSide_4EAF40(side_word);
                 gXCoord_6F63AC += stru_6F6484.y;
             }
+            
         }
     }
+    
     if (gBlockTop_6F62F4)
     {
         if (gBlockBottom_6F6468)
@@ -1358,7 +1868,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             }
         }
     }
-
+    
     if (gBlockLeft_6F62F6)
     {
         if (!gBlockRight_6F63C6 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
@@ -1366,6 +1876,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
         }
     }
+    
     if (gBlockRight_6F63C6)
     {
         if (!gBlockLeft_6F62F6 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
@@ -1373,6 +1884,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
         }
     }
+    
     if (gBlockBottom_6F6468)
     {
         if (!gBlockTop_6F62F4 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
@@ -1380,7 +1892,6 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
         }
     }
-    */
 
     if (gLidType_6F6274 && !bSkip_lid_67D546)
     {
@@ -1446,7 +1957,6 @@ STUB_FUNC(0x4f22f0)
 void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
 {
     NOT_IMPLEMENTED;
-    /*
     u16 side_word;
     if (gBlockLeft_6F62F6)
     {
@@ -1473,6 +1983,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
                 MapRenderer::DrawTopSide_4EBA60(side_word);
                 gYCoord_6F63B8 -= stru_6F6484.y;
             }
+            
             if ((gBlockTop_6F62F4 & 0x1000) != 0)
             {
                 side_word = gBlockBottom_6F6468 | 0x1000;
@@ -1482,7 +1993,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             }
         }
     }
-
+    
     if (gBlockLeft_6F62F6)
     {
         if (!gBlockRight_6F63C6 || (gBlockRight_6F63C6 & 0x1000) == 0 || (gBlockLeft_6F62F6 & 0x1000) != 0)
@@ -1490,6 +2001,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
         }
     }
+    
     if (gBlockTop_6F62F4)
     {
         if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
@@ -1497,6 +2009,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
         }
     }
+    
     if (gBlockBottom_6F6468)
     {
         if (!gBlockTop_6F62F4 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
@@ -1504,7 +2017,6 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
         }
     }
-    */
 
     if (gLidType_6F6274 && !bSkip_lid_67D546)
     {
@@ -1570,7 +2082,7 @@ STUB_FUNC(0x4f33b0)
 void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 {
     NOT_IMPLEMENTED;
-    /*
+    
     u16 side_word;
     if (gBlockLeft_6F62F6)
     {
@@ -1585,6 +2097,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             }
         }
     }
+    
     if (gBlockTop_6F62F4)
     {
         if (gBlockBottom_6F6468)
@@ -1596,6 +2109,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
                 MapRenderer::DrawTopSide_4EBA60(side_word);
                 gYCoord_6F63B8 -= stru_6F6484.y;
             }
+            
             if ((gBlockTop_6F62F4 & 0x1000) != 0)
             {
                 side_word = gBlockBottom_6F6468 | 0x1000;
@@ -1605,6 +2119,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             }
         }
     }
+    
     if (gBlockRight_6F63C6)
     {
         if (!gBlockLeft_6F62F6 || (gBlockLeft_6F62F6 & 0x1000) == 0 || (gBlockRight_6F63C6 & 0x1000) != 0)
@@ -1612,6 +2127,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             MapRenderer::DrawRightSide_4EAF40(gBlockRight_6F63C6);
         }
     }
+    
     if (gBlockTop_6F62F4)
     {
         if (!gBlockBottom_6F6468 || (gBlockBottom_6F6468 & 0x1000) == 0 || (gBlockTop_6F62F4 & 0x1000) != 0)
@@ -1619,6 +2135,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             MapRenderer::DrawTopSide_4EBA60(gBlockTop_6F62F4);
         }
     }
+    
     if (gBlockBottom_6F6468)
     {
         if (!gBlockTop_6F62F4 || (gBlockTop_6F62F4 & 0x1000) == 0 || (gBlockBottom_6F6468 & 0x1000) != 0)
@@ -1626,7 +2143,6 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
         }
     }
-    */
 
     if (gLidType_6F6274 && !bSkip_lid_67D546)
     {
