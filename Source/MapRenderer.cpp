@@ -10,7 +10,6 @@
 #include "Montana.hpp"
 #include "sharp_pare_0x15D8.hpp"
 #include "winmain.hpp"
-#include "error.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
 DEFINE_GLOBAL_INIT(Fix16_Point, stru_6F6484, Fix16_Point(Fix16(0), Fix16(1)), 0x6F6484);
@@ -1003,10 +1002,33 @@ void MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0()
     }
 }
 
+// https://decomp.me/scratch/XGan6
 STUB_FUNC(0x4eee60)
 void MapRenderer::Draw3SidedDiagonalUpRight_4EEE60()
 {
-    NOT_IMPLEMENTED;
+    if (gBlockLeft_6F62F6)
+    {
+        dword_6F646C.field_0_gradient_direction = SOUTH_2;
+        MapRenderer::DrawLeftSide_4EA390(gBlockLeft_6F62F6);
+    }
+    if (gBlockBottom_6F6468)
+    {
+        dword_6F646C.field_0_gradient_direction = WEST_3;
+        MapRenderer::draw_bottom_4ED290(gBlockBottom_6F6468);
+    }
+    if (gBlockRight_6F63C6)
+    {
+        sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[0]);
+        gTileVerts_6F65A8[0].u = 32.0f;
+        gTileVerts_6F65A8[0].v = 0.0f;
+        sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
+        gTileVerts_6F65A8[1].u = 63.999901f;
+        gTileVerts_6F65A8[1].v = 63.999901f;
+        sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
+        gTileVerts_6F65A8[2].u = 0.0f;
+        gTileVerts_6F65A8[2].v = 63.999901f;
+        draw_4E9EE0(gBlockRight_6F63C6, false, field_19);
+    }
 }
 
 STUB_FUNC(0x4ef1c0)
