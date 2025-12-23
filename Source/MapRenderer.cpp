@@ -71,7 +71,7 @@ static inline void sub_46BDF0(Fix16& xpos, Fix16& ypos, Vert* pVert)
 static inline void sub_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
     pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
@@ -149,7 +149,7 @@ static inline void sub_46B910(u16& rotation_and_flip)
                 }
                 else if (gTileVerts_6F65A8[vert_idx].u == 32.0f)
                 {
-                    gTileVerts_6F65A8[vert_idx].v = 0.0;
+                    gTileVerts_6F65A8[vert_idx].v = 0.0f;
                 }
                 else
                 {
@@ -745,7 +745,7 @@ void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
     pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
