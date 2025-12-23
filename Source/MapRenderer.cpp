@@ -76,6 +76,17 @@ static inline void sub_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert
     pVert->y = ypos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
+static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
+{
+    Camera_0xBC* pCam = gViewCamera_676978;
+
+    s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
+
+    gTileVerts_6F65A8[next_idx].x = (xCoord + pCam->field_98_cam_pos2.field_0_x).ToFloat();
+    gTileVerts_6F65A8[next_idx].y = (yCoord + pCam->field_98_cam_pos2.field_4_y).ToFloat();
+    gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
+}
+
 static inline void sub_46B910(u16& rotation_and_flip)
 {
     s32 vert_idx;
@@ -732,11 +743,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 STUB_FUNC(0x4EB940)
 void __stdcall sub_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
 {
-    Camera_0xBC* pCam = gViewCamera_676978;
-    s32 next_idx = (pVert - gTileVerts_6F65A8) + 4;
-    gTileVerts_6F65A8[next_idx].x = (xpos + pCam->field_98_cam_pos2.field_0_x).ToFloat();
-    gTileVerts_6F65A8[next_idx].y = (ypos + pCam->field_98_cam_pos2.field_4_y).ToFloat();
-    gTileVerts_6F65A8[next_idx].z = zpos.ToFloat();
+    set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
     pVert->x = xpos.ToFloat() * gViewCamera_676978->field_60.x.ToFloat() * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
