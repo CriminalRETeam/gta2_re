@@ -307,11 +307,21 @@ bool Ped::sub_45BD20(Car_BC* pCar)
     return false;
 }
 
-STUB_FUNC(0x45be30)
+MATCH_FUNC(0x45be30)
 s32 Ped::sub_45BE30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pLeader;
+    Player* pPlayer;
+    if ((field_15C_player && field_15C_player->IsUser_41DC70()) ||
+        (field_164_ped_group && (pLeader = field_164_ped_group->field_2C_ped_leader) != NULL &&
+         (pPlayer = pLeader->field_15C_player) != NULL && pPlayer->IsUser_41DC70()))
+    {
+        return 0;
+    }
+    else
+    {
+        return 2;
+    }
 }
 
 MATCH_FUNC(0x45be70)

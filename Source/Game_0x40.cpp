@@ -902,7 +902,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
     }
     Player* pPlayer = field_4_players[field_24_cur_idx];
     field_38_orf1 = pPlayer;
-    pPlayer->field_0 = 1;
+    pPlayer->field_0_bIsUser = 1;
     field_1C_unk = field_38_orf1;
 
     rng_dword_67AB34 = new rng(); // inline

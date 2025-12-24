@@ -1672,7 +1672,7 @@ void Car_BC::ShowCarName_4406B0(Ped* pPed)
     Player* pPlayer = pPed->field_15C_player;
     if (pPlayer)
     {
-        if (pPlayer->field_0)
+        if (pPlayer->field_0_bIsUser)
         {
             gHud_2B00_706620->sub_5D5240(GetCarStr_439F80());
         }
@@ -1693,7 +1693,7 @@ void Car_BC::ClearDriver_4407F0()
     {
         if (field_54_driver->field_240_occupation != 1)
         {
-            if (pPlayer->field_0)
+            if (pPlayer->field_0_bIsUser)
             {
                 gHud_2B00_706620->field_0.field_0_display_time = 0;
             }
@@ -2605,7 +2605,7 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
 MATCH_FUNC(0x443AB0)
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
-    if (pPlayer->field_0)
+    if (pPlayer->field_0_bIsUser)
     {
         gHud_2B00_706620->field_DC.sub_5D3F10(1, "nspraya", weapon_cost);
     }
@@ -2619,7 +2619,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
     s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_unk.GetScore_592370())
     {
-        if (pPlayer->field_0)
+        if (pPlayer->field_0_bIsUser)
         {
             if (remap == 0xFD) // clean plates only
             {
@@ -2662,7 +2662,7 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
             ResprayOrChangePlates(0xFD); // change plates
         }
     }
-    else if (field_54_driver->field_15C_player->field_0)
+    else if (field_54_driver->field_15C_player->field_0_bIsUser)
     {
         // I ain't touching that get outta here!
         gHud_2B00_706620->field_DC.sub_5D4400(1, "nespray");
