@@ -38,7 +38,7 @@ class PoliceCrew_38
     EXPORT void Service_575590();
     EXPORT s32 sub_575650();
 
-    s16 field_0_id;
+    u16 field_0_id;
     u8 field_2_targ_x;
     u8 field_3_targ_y;
     u8 field_4_targ_z;

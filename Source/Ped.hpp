@@ -370,7 +370,7 @@ class Ped
 
     inline Fix16 get_field_1F0()
     {
-        return field_1F0;
+        return field_1F0_maybe_max_speed;
     }
     
     inline u8 get_remap_433BA0()
@@ -406,7 +406,7 @@ class Ped
         return field_240_occupation;
     }
 
-    void sub_403920(s32 unk)
+    void SetField238_403920(s32 unk)
     {
         field_238 = unk;
     }
@@ -465,7 +465,7 @@ class Ped
     Fix16 field_1E4_objective_target_z;
     s32 field_1E8;
     s32 field_1EC;
-    Fix16 field_1F0;
+    Fix16 field_1F0_maybe_max_speed;
     s32 field_1F4;
     Fix16 field_1F8;
     s32 field_1FC;

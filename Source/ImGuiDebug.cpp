@@ -1028,7 +1028,7 @@ void CC ImGuiDebugDraw()
                 ImGui::Input_char_type("field_2", &gPedManager_6787BC->field_2, 1, 1); // total spawned ?
                 ImGui::Input_char_type("field_3", &gPedManager_6787BC->field_3, 1, 1); // something to do with total ped count also
                 ImGui::Input_char_type("field_4", &gPedManager_6787BC->field_4, 1, 1); // ??
-                ImGui::InputU8("field_5", &gPedManager_6787BC->field_5, 1, 1); // ??
+                ImGui::InputU8("field_5", &gPedManager_6787BC->field_5_fbi_army_count, 1, 1); // ??
                 ImGui::Text("Num peds on screen %d", gPedManager_6787BC->field_6_num_peds_on_screen);
                 ImGui::Input_char_type("field_7_make_all_muggers", &gPedManager_6787BC->field_7_make_all_muggers, 1, 1);
             }

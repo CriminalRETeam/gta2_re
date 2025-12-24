@@ -17,6 +17,11 @@ DEFINE_GLOBAL(u16, id_counter_6FEE46, 0x6FEE46);
 DEFINE_GLOBAL(s32, dword_6FEDCC, 0x6FEDCC);
 DEFINE_GLOBAL(u32, dword_6FEE18, 0x6FEE18);
 DEFINE_GLOBAL(s16, word_6FEAC8, 0x6FEAC8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB68, Fix16(13107, 0), 0x6FEB68);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECA0, Fix16(256, 0), 0x6FECA0);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB88, dword_6FECA0, 0x6FEB88);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FECF8, Fix16(4), 0x6FECF8);
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8* dword_6FEB88, 0x6FEB0C);
 
 EXTERN_GLOBAL(Fix16, dword_6FECE8);
 
@@ -59,7 +64,7 @@ void Police_7B8::sub_56F400()
         memset(field_464[i].field_20, 0, 0x18);
     }
     field_654_wanted_level = 0;
-    field_658 = 0;
+    field_658_count = 0;
     field_659 = 1;
     field_65C = 3;
     byte_6FEE44 = 0;
@@ -136,7 +141,7 @@ Ped* Police_7B8::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 {
     Ped* pCop = NULL;
 
-    if (gPedManager_6787BC->field_5 >= 30)
+    if (gPedManager_6787BC->field_5_fbi_army_count >= 30)
     {
         return NULL;
     }
@@ -401,7 +406,7 @@ char_type Police_7B8::sub_56FAA0(Police_7C* p7C)
         pNewPoliceCrew->field_24_state = dword_6FEDCC;
         pNewPoliceCrew->field_20 = gRoadblockGuardType_6FEDB8;
         pKfc->field_1E_is_used = 1;
-        pKfc->field_20 = dword_6FEE18; // field_20_maybe_type
+        pKfc->field_20_maybe_type = dword_6FEE18; // field_20_maybe_type
         pKfc->field_24 = 1;
         pKfc->field_28 = 3;
         pKfc->field_18 = word_6FEAC8;
@@ -475,13 +480,13 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
     if (field_65C == 6)
     {
         pPed->set_occupation_403970(ped_ocupation_enum::unknown_16);
-        pPed->sub_403920(3);
+        pPed->SetField238_403920(3);
         pPed->set_remap_433B90(4);
     }
     else
     {
         pPed->set_occupation_403970(ped_ocupation_enum::unknown_14);
-        pPed->sub_403920(3);
+        pPed->SetField238_403920(3);
         pPed->set_remap_433B90(0);
     }
     pPed->field_26C_graphic_type = 2;
@@ -500,11 +505,144 @@ void Police_7B8::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix
     pPed->sub_467280();
 }
 
-STUB_FUNC(0x5703e0)
-char_type Police_7B8::sub_5703E0(Car_BC* a2)
+MATCH_FUNC(0x5703e0)
+bool Police_7B8::FBI_Army_5703E0(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (gPedManager_6787BC->field_5_fbi_army_count >= 30)
+    {
+        return false;
+    }
+    if (field_658_count > 2)
+    {
+        return false;
+    }
+    PoliceCrew_38* pNewCrew = Police_7B8::New_56F560();
+    pNewCrew->field_1C_used = 1;
+    Kfc_30* pNewKfc = gKfc_1E0_706280->New_5CBB80();
+    pNewCrew->field_10_subObj = pNewKfc;
+    if (!pNewKfc)
+    {
+        pNewCrew->Init_5709C0();
+        return false;
+    }
+    pNewCrew->field_0_id = id_counter_6FEE46++; // u16 type
+    Kfc_30* pKfc = pNewCrew->field_10_subObj;
+    pNewCrew->field_24_state = 1;
+    pNewCrew->field_29 = 1;
+    pKfc->field_1E_is_used = 1;
+    pKfc->field_20_maybe_type = gPolice_7B8_6FEE40->field_65C;
+    pKfc->field_24 = 1;
+    pKfc->field_0_car = pCar;
+    PedGroup* pNewPedGroup = PedGroup::New_4CB0D0();
+    Ped* pNewPed1 = gPedManager_6787BC->sub_470F30();
+    pNewPed1->SetField238_403920(4);
+    pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
+    pNewPed1->SpawnPedInCar_45C730(pKfc->field_0_car);
+    pNewPed1->SetObjective(objectives_enum::objective_43, 9999);
+    pNewPed1->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pNewPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+    Ped* pNewPed2 = gPedManager_6787BC->sub_470F30();
+    pNewPed2->SetObjective(objectives_enum::no_obj_0, 9999);
+    pNewPed2->sub_45C7F0(pKfc->field_0_car);
+    pNewPed2->SetField238_403920(4);
+    pNewPed2->set_occupation_403970(ped_ocupation_enum::police);
+    pNewPed2->field_288_threat_search = threat_search_enum::line_of_sight_1;
+    pNewPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
+
+    switch (gPolice_7B8_6FEE40->field_65C)
+    {
+        case 4:
+            // ok
+            pNewPed1->set_health_4039A0(250);
+            pNewPed1->ForceWeapon_46F600(weapon_type::shotgun);
+            pNewPed1->GiveWeapon_46F650(weapon_type::silence_smg);
+            pNewPed1->set_occupation_403970(ped_ocupation_enum::fbi);
+            pNewPed1->field_244_remap = 8;
+            pNewPed1->field_26C_graphic_type = 1;
+            pNewPed2->set_health_4039A0(250);
+            pNewPed2->field_244_remap = 8;
+            pNewPed2->ForceWeapon_46F600(weapon_type::silence_smg);
+            pNewPed2->field_26C_graphic_type = 1;
+            pNewPed2->set_occupation_403970(ped_ocupation_enum::fbi);
+            pNewCrew->field_20 = 3;
+            break;
+
+        case 3:
+
+            switch (field_654_wanted_level)
+            {
+                case 0:
+                case 1:
+                    pNewPed1->field_170_selected_weapon = 0;
+                    pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed1->set_health_4039A0(50);
+                    pNewPed1->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed2->field_170_selected_weapon = 0;
+                    pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed2->set_health_4039A0(50);
+                    pNewPed2->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+
+                    break;
+
+                case 2:
+                    // line 231
+                    pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed1->set_health_4039A0(100);
+                    pNewPed1->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+                    pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed2->set_health_4039A0(100);
+
+                    pNewPed2->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
+
+                    break;
+
+                default:
+                    // ok
+                    pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed1->set_health_4039A0(100);
+                    pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
+                    pNewPed2->set_health_4039A0(100);
+
+                    break;
+            }
+
+            pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
+            pNewPed1->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
+            pNewPed1->field_26C_graphic_type = 2;
+            pNewPed2->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
+            pNewPed2->field_26C_graphic_type = 2;
+            pNewCrew->field_20 = 1;
+
+            break;
+
+        default:
+            pNewPed1->set_health_4039A0(250);
+            pNewPed1->ForceWeapon_46F600(weapon_type::smg);
+            pNewPed1->field_244_remap = 4;
+            pNewPed1->set_occupation_403970(ped_ocupation_enum::army_army);
+            pNewPed1->field_26C_graphic_type = 2;
+            pNewPed2->set_health_4039A0(250);
+            pNewPed2->ForceWeapon_46F600(weapon_type::smg);
+            pNewPed2->field_244_remap = 4;
+            pNewPed2->set_occupation_403970(ped_ocupation_enum::army_army);
+            pNewPed2->field_26C_graphic_type = 2;
+            pNewCrew->field_20 = 4;
+            break;
+    }
+
+    pNewPedGroup->add_ped_leader_4C9B10(pNewPed1);
+    pNewPedGroup->field_36_count = 1;
+    pNewPedGroup->field_34_count = 1;
+    pNewPedGroup->add_ped_to_list_4C9B30(pNewPed2, 0);
+    pNewPedGroup->field_0 = 0;
+    pKfc->field_4_ped = pNewPed1;
+    pKfc->field_18 = 0;
+    pKfc->field_28 = 6;
+    pKfc->field_0_car->sub_421560(5);
+    pKfc->field_0_car->InitCarAIControl_440590();
+    pKfc->field_0_car->sub_43AF40();
+    ++field_658_count;
+    return true;
 }
 
 MATCH_FUNC(0x570790)

@@ -16,13 +16,6 @@
 DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL(Fix16, dword_6FED54, 0x6FED54);
 DEFINE_GLOBAL(Ped*, pPed_6FEDDC, 0x6FEDDC);
-
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB68, Fix16(13107, 0), 0x6FEB68);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECA0, Fix16(256, 0), 0x6FECA0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB88, dword_6FECA0, 0x6FEB88);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECF8, Fix16(4), 0x6FECF8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB0C, dword_6FECF8* dword_6FEB88, 0x6FEB0C);
-
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
 
 MATCH_FUNC(0x4beb30)
@@ -73,7 +66,7 @@ void PoliceCrew_38::sub_570A10()
         }
         field_14_pObj->field_20[field_14_pObj->field_75_count] = this;
         ++field_14_pObj->field_75_count;
-        switch (field_10_subObj->field_20)
+        switch (field_10_subObj->field_20_maybe_type)
         {
             case 3:
                 ++field_14_pObj->field_70;
@@ -165,12 +158,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopLeader->field_170_selected_weapon = 0;
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
-            pCopLeader->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            pCopLeader->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
             break;
         case 2:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(100);
-            pCopLeader->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            pCopLeader->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
             break;
         default:
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
@@ -194,12 +187,12 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
             pCopSupporter->field_170_selected_weapon = 0;
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 50;
-            pCopSupporter->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            pCopSupporter->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
             break;
         case 2:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 100;
-            pCopSupporter->field_1F0 = dword_6FEB0C * dword_6FEB68;
+            pCopSupporter->field_1F0_maybe_max_speed = dword_6FEB0C * dword_6FEB68;
             break;
         default:
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
@@ -363,9 +356,9 @@ void PoliceCrew_38::sub_5720C0()
     {
         if (field_29)
         {
-            if (gPolice_7B8_6FEE40->field_658 > 0)
+            if (gPolice_7B8_6FEE40->field_658_count > 0)
             {
-                gPolice_7B8_6FEE40->field_658--;
+                gPolice_7B8_6FEE40->field_658_count--;
             }
             field_29 = 0;
         }
@@ -419,9 +412,9 @@ void PoliceCrew_38::sub_572340()
     }
     else if (field_10_subObj->field_2C)
     {
-        if (gPedManager_6787BC->field_5 < 0x1Au)
+        if (gPedManager_6787BC->field_5_fbi_army_count < 0x1Au)
         {
-            switch (field_10_subObj->field_20)
+            switch (field_10_subObj->field_20_maybe_type)
             {
                 case 3:
                     PoliceCrew_38::SpawnPoliceInCar_570BF0();
@@ -636,9 +629,9 @@ void PoliceCrew_38::sub_574F10()
             PoliceCrew_38::sub_575650();
             if (field_29)
             {
-                if (gPolice_7B8_6FEE40->field_658 > 0)
+                if (gPolice_7B8_6FEE40->field_658_count > 0)
                 {
-                    gPolice_7B8_6FEE40->field_658--;
+                    gPolice_7B8_6FEE40->field_658_count--;
                 }
             }
             field_10_subObj->field_28 = 0;
@@ -648,7 +641,7 @@ void PoliceCrew_38::sub_574F10()
         else
         {
             if (field_14_pObj && field_14_pObj->field_0_criminal_ped && PoliceCrew_38::sub_572210() &&
-                (field_10_subObj->field_20 == 6 || field_14_pObj->field_4 != 6))
+                (field_10_subObj->field_20_maybe_type == 6 || field_14_pObj->field_4 != 6))
             {
                 field_14_pObj->field_10_x = field_14_pObj->field_0_criminal_ped->get_cam_x();
                 field_14_pObj->field_14_y = field_14_pObj->field_0_criminal_ped->get_cam_y();

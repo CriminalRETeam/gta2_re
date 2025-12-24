@@ -262,7 +262,7 @@ class PedManager
     char_type field_2;
     char_type field_3;
     char_type field_4;
-    u8 field_5;
+    u8 field_5_fbi_army_count;
     char_type field_6_num_peds_on_screen;
     char_type field_7_make_all_muggers;
     Sprite* field_8;

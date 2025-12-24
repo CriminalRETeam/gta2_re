@@ -828,7 +828,7 @@ void PedManager::PedsService_4703F0()
     field_3 = word_6787E0;
     field_2 = byte_6787E2;
     field_4 = byte_6787E3;
-    field_5 = byte_6787E4;
+    field_5_fbi_army_count = byte_6787E4;
     field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
     if (gPolice_7B8_6FEE40)
     {
