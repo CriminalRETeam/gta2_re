@@ -452,7 +452,7 @@ class Car_BC
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
-    EXPORT s32 sub_440BB0();
+    EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
@@ -496,7 +496,7 @@ class Car_BC
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
-    EXPORT s16* sub_442520(s16* a2);
+    EXPORT Ang16 sub_442520();
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();

@@ -38,6 +38,7 @@ DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
+DEFINE_GLOBAL(Fix16, dword_6778A0, 0x6778A0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_66AB78, 0x66AB78);
 DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
@@ -1738,11 +1739,11 @@ s32 Car_BC::sub_440B60()
     return 0;
 }
 
-STUB_FUNC(0x440bb0)
-s32 Car_BC::sub_440BB0()
+MATCH_FUNC(0x440bb0)
+void Car_BC::PutTV_Antenna_440BB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->sub_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, sub_442520());
 }
 
 STUB_FUNC(0x440c10)
@@ -2336,10 +2337,10 @@ char_type Car_BC::sub_4424C0()
 }
 
 STUB_FUNC(0x442520)
-s16* Car_BC::sub_442520(s16* a2)
+Ang16 Car_BC::sub_442520()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    return Ang16(0);
 }
 
 STUB_FUNC(0x4425d0)
