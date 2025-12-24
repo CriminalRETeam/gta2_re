@@ -148,10 +148,10 @@ LRESULT Network_20324::cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x519fd0)
+MATCH_FUNC(0x519fd0)
 void Network_20324::OnPaint_519FD0(HWND a1)
 {
-    NOT_IMPLEMENTED;
+    // Empty
 }
 
 STUB_FUNC(0x519fe0)
