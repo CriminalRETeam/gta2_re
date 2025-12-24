@@ -1743,7 +1743,7 @@ MATCH_FUNC(0x440bb0)
 void Car_BC::PutTV_Antenna_440BB0()
 {
     Object_2C* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
-    field_50_car_sprite->sub_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, sub_442520());
+    field_50_car_sprite->sub_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, GetRadioTowerAngle_442520());
 }
 
 STUB_FUNC(0x440c10)
@@ -2337,10 +2337,10 @@ char_type Car_BC::sub_4424C0()
 }
 
 STUB_FUNC(0x442520)
-Ang16 Car_BC::sub_442520()
+Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
-    NOT_IMPLEMENTED;
-    return Ang16(0);
+    Fix16_Point xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
+    return Fix16::atan2_fixed_405320(xy.x, xy.y) - field_50_car_sprite->field_0;
 }
 
 STUB_FUNC(0x4425d0)

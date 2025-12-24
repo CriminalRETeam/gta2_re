@@ -113,6 +113,9 @@ public:
         return Fix16_Point(x + in.x, y + in.y);
     }
 
+    // 0x40AC80
+    Fix16_Point operator-(const Fix16_Point& rhs);
+
     // The same function of GetLength but using another cutoff
     inline Fix16 GetLength_2()
     {

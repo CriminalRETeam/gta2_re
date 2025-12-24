@@ -14,3 +14,8 @@ Fix16_Point_POD Fix16_Point_POD::Divide_442CB0(Fix16& in)
 {
     return Fix16_Point_POD(x / in, y / in);
 }
+
+Fix16_Point Fix16_Point::operator-(const Fix16_Point& rhs)
+{
+    return Fix16_Point(x - rhs.x, y - rhs.y);
+}

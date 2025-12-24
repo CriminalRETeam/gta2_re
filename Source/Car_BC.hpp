@@ -496,7 +496,7 @@ class Car_BC
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
-    EXPORT Ang16 sub_442520();
+    EXPORT Ang16 GetRadioTowerAngle_442520();
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
