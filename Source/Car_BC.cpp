@@ -912,7 +912,7 @@ void Car_BC::RemoveAllDamage()
 MATCH_FUNC(0x43a680)
 bool Car_BC::AllowResprayOrPlates()
 {
-    return (!IsTrainModel(field_84_car_info_idx) && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
+    return (!is_train_model() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 2) != 2 &&
             !is_FBI_car_411920() && !field_0_qq.sub_5A71A0() && !IsArmyModel(field_84_car_info_idx));
 }
 
@@ -2257,7 +2257,7 @@ void Car_BC::sub_442310()
         return;
     }
 
-    if (IsTrainModel(field_84_car_info_idx))
+    if (is_train_model())
     {
         if (sub_43B730())
         {
@@ -2427,7 +2427,6 @@ char_type Car_BC::PoolUpdate()
         return sub_443130();
     }
 
-    // IsTrain inline ?
     if (is_train_model())
     {
         return sub_442D70();

@@ -1,8 +1,8 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
-#include "debug.hpp"
 #include "Globals.hpp"
 #include "Rozza_C88.hpp"
+#include "debug.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -22,12 +22,16 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
+DEFINE_GLOBAL(Fix16, dword_6FDF3C, 0x6FDF3C);
+DEFINE_GLOBAL(Fix16, dword_6FDF7C, 0x6FDF7C);
+DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
+
+
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
     return field_38_cp1;
 }
-
 
 MATCH_FUNC(0x446ee0)
 CarPhysics_B0::~CarPhysics_B0()
@@ -314,7 +318,49 @@ char_type CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
 STUB_FUNC(0x55aa00)
 void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point_POD force;
+
+    // On a slope and no brake inputs
+    if (field_A5_current_slope_length != 1 || field_92_is_hand_brake_on || field_91_is_foot_brake_on)
+    {
+        return;
+    }
+
+    // Trains ignore slope gravity
+    if (field_5C_pCar->is_train_model())
+    {
+        return;
+    }
+
+    switch (field_98_surface_type)
+    {
+        case 1:
+            force.x = kFP16Zero_6FE20C;
+            force.y = (dword_6FDF3C * dword_6FDF7C);
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 2:
+            force.x = kFP16Zero_6FE20C;
+            force.y = (dword_6FDF7C * -dword_6FDF3C);
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 3:
+            force.x = (dword_6FDF3C * dword_6FDF7C);
+            force.y = kFP16Zero_6FE20C;
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 4:
+            force.x = (dword_6FDF7C * -dword_6FDF3C);
+            force.y = kFP16Zero_6FE20C;
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x55ab50)
@@ -378,7 +424,7 @@ char_type CarPhysics_B0::sub_55C150()
             return 0;
         }
     }
-    gRozza_679188.field_24  = pCarSprite;
+    gRozza_679188.field_24 = pCarSprite;
     return 1;
 }
 
@@ -469,30 +515,42 @@ char_type CarPhysics_B0::sub_55EB80()
 }
 
 STUB_FUNC(0x55ec30)
-s32 CarPhysics_B0::sub_55EC30()
+s32 CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x55ef20)
-s32 CarPhysics_B0::sub_55EF20()
+s32 CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x55f020)
-s32 CarPhysics_B0::sub_55F020()
+s32 CarPhysics_B0::ApplyTurningForce_55F020()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f240)
-char_type CarPhysics_B0::sub_55F240()
+MATCH_FUNC(0x55f240)
+char_type CarPhysics_B0::ApplyMovementCommand_55F240()
 {
-    NOT_IMPLEMENTED;
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            ApplyReverseEngineForce_55EF20();
+            return 1;
+        case 2:
+            ApplyForwardEngineForce_55EC30();
+            return 1;
+        case 3:
+            ApplyTurningForce_55F020();
+            field_AA_sbw = 0;
+            break;
+    }
     return 0;
 }
 
@@ -608,7 +666,7 @@ MATCH_FUNC(0x560eb0)
 void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 {
     field_50 = field_48.Divide_442CB0(CarPhysics_B0::CalculateMass_559FF0());
-    field_80 = - field_7C / CarPhysics_B0::sub_55A050();
+    field_80 = -field_7C / CarPhysics_B0::sub_55A050();
 }
 
 STUB_FUNC(0x560f20)
@@ -618,10 +676,33 @@ void CarPhysics_B0::sub_560F20(s32 a2)
 }
 
 STUB_FUNC(0x5610b0)
-s32 CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
+void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Integrate linear and angular velocity
+    this->field_40_linvel_1.x += this->field_50.x;
+    this->field_40_linvel_1.y += this->field_50.y;
+    this->field_74_ang_vel_rad += this->field_80;
+
+    ResetForceAccumulators_55A840();
+
+    Fix16 y_abs = (field_40_linvel_1.y <= 0) ? -field_40_linvel_1.y : field_40_linvel_1.y;
+    Fix16 x_abs = (field_40_linvel_1.x <= 0) ? -field_40_linvel_1.x : field_40_linvel_1.x;
+
+    if (x_abs + y_abs < dword_6FE07C)
+    {
+        this->field_40_linvel_1.x = kFP16Zero_6FE20C;
+        this->field_40_linvel_1.y = kFP16Zero_6FE20C;
+    }
+
+    Fix16 ang_vel_rad_abs = (field_74_ang_vel_rad <= 0) ? -field_74_ang_vel_rad : field_74_ang_vel_rad;
+
+    // Clamp angular velocity if below threshold
+    if (ang_vel_rad_abs < dword_6FE07C)
+    {
+        ang_vel_rad_abs = kFP16Zero_6FE20C;
+    }
+
+    field_74_ang_vel_rad = ang_vel_rad_abs;
 }
 
 STUB_FUNC(0x561130)
