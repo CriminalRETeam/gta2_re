@@ -194,7 +194,12 @@ class Player
     // 0x56A940
     EXPORT ~Player();
 
-    char_type field_0;
+    inline u8 IsUser_41DC70()
+    {
+        return field_0_bIsUser;
+    }
+
+    u8 field_0_bIsUser;
     char_type field_1;
     char_type field_2;
     char_type field_3;

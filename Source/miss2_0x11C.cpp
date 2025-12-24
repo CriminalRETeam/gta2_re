@@ -3751,7 +3751,7 @@ void miss2_0x11C::sub_50E780()
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_RUN_SPEED)
     {
-        pPointer->field_8_char->field_1F0 = pCmd->field_A_value;
+        pPointer->field_8_char->field_1F0_maybe_max_speed = pCmd->field_A_value;
     }
     else
     {

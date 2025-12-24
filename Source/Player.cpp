@@ -546,7 +546,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_ESCAPE:
                 if (bSkip_quit_confirm_67D4E8)
                 {
-                    if (this->field_0)
+                    if (this->field_0_bIsUser)
                     {
                         gGame_0x40_67E008->sub_4B8C00(1, 2);
                     }
@@ -614,19 +614,19 @@ void Player::Hud_Controls_565890(u16 action)
                 gGame_0x40_67E008->TogglePause_4B9700();
                 break;
             case DIK_F7:
-                if (this->field_0)
+                if (this->field_0_bIsUser)
                 {
                     gHud_2B00_706620->field_DC.ShowBrief_5D4850();
                 }
                 break;
             case DIK_F8:
-                if (this->field_0)
+                if (this->field_0_bIsUser)
                 {
                     Start_GTA2Manager_5E4DE0();
                 }
                 break;
             case DIK_F9:
-                if (this->field_0)
+                if (this->field_0_bIsUser)
                 {
                     gHud_2B00_706620->field_4C.clear_zones();
                     //gHud_2B00_706620->field_4C.field_88_nav_zone = NULL;
@@ -755,7 +755,7 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_C:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    if (this->field_0)
+                    if (this->field_0_bIsUser)
                     {
                         gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords =
                             gHud_2B00_706620->field_27B5_show_coords.field_27B5_show_coords == 0;
@@ -1353,7 +1353,7 @@ void Player::Wasted_567130()
     field_2C4_player_ped->field_21C &= ~0x800u; //  TODO: BitSet32
     if (field_28 == 0)
     {
-        if (field_0)
+        if (field_0_bIsUser)
         {
             if (field_684_lives.field_0 > 1 || bStartNetworkGame_7081F0)
             {
@@ -1457,7 +1457,7 @@ void Player::Busted_5679E0()
     {
         gRoot_sound_66B038.PlayVoice_40F090(17);
         field_44_death_type = 3;
-        if (field_0)
+        if (field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(Player::GetDeathText_569F00()), 1);
         }
@@ -2155,7 +2155,7 @@ void Player::sub_569CB0()
 
     field_2D0 = 0;
 
-    if (field_0)
+    if (field_0_bIsUser)
     {
         if (!bSkip_audio_67D6BE)
         {
@@ -2572,7 +2572,7 @@ Player::Player(u8 player_idx)
         field_54_unk[i] = NULL;
     }
 
-    field_0 = 0;
+    field_0_bIsUser = 0;
     field_2D0 = 0;
     field_2C = 0;
     field_4C_pUnk = 0;

@@ -183,7 +183,7 @@ class Char_B4
     EXPORT bool sub_553640(Object_2C* p2c);
     EXPORT char_type sub_5537F0(Object_2C* p2c);
     EXPORT void sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5);
-    EXPORT void sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5);
+    EXPORT void sub_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5);
 
     EXPORT void nullsub_28();
 };
@@ -262,7 +262,7 @@ class PedManager
     char_type field_2;
     char_type field_3;
     char_type field_4;
-    u8 field_5;
+    u8 field_5_fbi_army_count;
     char_type field_6_num_peds_on_screen;
     char_type field_7_make_all_muggers;
     Sprite* field_8;

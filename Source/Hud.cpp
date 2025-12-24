@@ -203,7 +203,7 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
         if (action == DIK_RETURN)
         {
             pPlayer->field_78A_show_quit_message = false;
-            if (pPlayer->field_0)
+            if (pPlayer->field_0_bIsUser)
             {
                 gGame_0x40_67E008->sub_4B8C00(1, 2);
             }
@@ -425,7 +425,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         for (Player* pMultiPlayer = gGame_0x40_67E008->sub_4B9CD0(); pMultiPlayer != NULL;
              pMultiPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
-            if (pMultiPlayer->field_0 == 0)
+            if (pMultiPlayer->field_0_bIsUser == 0)
             {
                 thirsty_lamarr* v19 = pMultiPlayer->field_2D4_unk.sub_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
@@ -1474,7 +1474,7 @@ void Hud_Arrow_7C_Array::sub_5D1350()
             for (Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
                  pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                if (!pPlayerIter->field_0)
+                if (!pPlayerIter->field_0_bIsUser)
                 {
                     Hud_Arrow_7C* p7C = AllocArrow_5D1050();
                     p7C->field_18.field_18.field_C = pPlayerIter;

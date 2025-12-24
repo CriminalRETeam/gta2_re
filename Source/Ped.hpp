@@ -29,7 +29,7 @@ class Ped
     EXPORT char_type sub_45AFC0();
     EXPORT void PoolAllocate();
     EXPORT char_type sub_45B4E0();
-    EXPORT u32* sub_45B520(u32* a2);
+    EXPORT Fix16_Point sub_45B520();
     EXPORT void sub_45B550();
     EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();
@@ -37,7 +37,7 @@ class Ped
     EXPORT Car_BC* sub_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void sub_45BC70();
-    EXPORT char_type sub_45BD20(Car_BC* a2);
+    EXPORT bool sub_45BD20(Car_BC* pCar);
     EXPORT s32 sub_45BE30();
     EXPORT void SetOnFire();
     EXPORT void PutOutFire();
@@ -370,7 +370,7 @@ class Ped
 
     inline Fix16 get_field_1F0()
     {
-        return field_1F0;
+        return field_1F0_maybe_max_speed;
     }
     
     inline u8 get_remap_433BA0()
@@ -406,7 +406,7 @@ class Ped
         return field_240_occupation;
     }
 
-    void sub_403920(s32 unk)
+    void SetField238_403920(s32 unk)
     {
         field_238 = unk;
     }
@@ -465,7 +465,7 @@ class Ped
     Fix16 field_1E4_objective_target_z;
     s32 field_1E8;
     s32 field_1EC;
-    Fix16 field_1F0;
+    Fix16 field_1F0_maybe_max_speed;
     s32 field_1F4;
     Fix16 field_1F8;
     s32 field_1FC;

@@ -759,7 +759,7 @@ void Char_B4::sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
 }
 
 STUB_FUNC(0x553E00)
-void Char_B4::sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5)
+void Char_B4::sub_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
 {
     NOT_IMPLEMENTED;
 }
@@ -828,7 +828,7 @@ void PedManager::PedsService_4703F0()
     field_3 = word_6787E0;
     field_2 = byte_6787E2;
     field_4 = byte_6787E3;
-    field_5 = byte_6787E4;
+    field_5_fbi_army_count = byte_6787E4;
     field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
     if (gPolice_7B8_6FEE40)
     {

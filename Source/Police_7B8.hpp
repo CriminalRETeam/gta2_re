@@ -11,6 +11,12 @@ class Object_2C;
 class Police_7C;
 class Ang16;
 
+EXTERN_GLOBAL(Fix16, dword_6FECA0);
+EXTERN_GLOBAL(Fix16, dword_6FEB88);
+EXTERN_GLOBAL(Fix16, dword_6FECF8);
+EXTERN_GLOBAL(Fix16, dword_6FEB0C);
+EXTERN_GLOBAL(Fix16, dword_6FEB68);
+
 class Police_7B8
 {
   public:
@@ -28,13 +34,13 @@ class Police_7B8
     EXPORT bool HasCriminalBeenFound_56F800(Ped* a2);
     EXPORT bool sub_56F880(Ped* a2);
     EXPORT void SetArrestedPed_56F8E0(Ped* a2, Ped* a3);
-    EXPORT s32 sub_56F940(Ped* a2);
+    EXPORT void sub_56F940(Ped* pCriminal);
     EXPORT void sub_56FA40();
     EXPORT char_type sub_56FAA0(Police_7C* a2);
     EXPORT void sub_56FBD0();
     EXPORT void Service_570270();
     EXPORT void SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT char_type sub_5703E0(Car_BC* a2);
+    EXPORT bool FBI_Army_5703E0(Car_BC* pCar);
     EXPORT bool sub_570790(PoliceCrew_38* a1, Police_7C* a2);
     EXPORT char_type sub_5707B0(s32 a2, s32 a3);
     EXPORT void sub_5708C0(Ped* pPed);
@@ -49,7 +55,7 @@ class Police_7B8
     PoliceCrew_38 field_4_cop_crew[20];
     Police_7C field_464[4];
     s32 field_654_wanted_level;
-    u8 field_658;
+    u8 field_658_count;
     char_type field_659;
     char_type field_65A;
     char_type field_65B;

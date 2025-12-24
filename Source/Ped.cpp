@@ -65,6 +65,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
+DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
+DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
+DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
+DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(s32, dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
@@ -168,11 +172,10 @@ char_type Ped::sub_45B4E0()
     return 0;
 }
 
-STUB_FUNC(0x45b520)
-u32* Ped::sub_45B520(u32* a2)
+MATCH_FUNC(0x45b520)
+Fix16_Point Ped::sub_45B520()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return Fix16_Point(field_168_game_object->field_98.x, field_168_game_object->field_98.y);
 }
 
 MATCH_FUNC(0x45b550)
@@ -288,18 +291,37 @@ void Ped::sub_45BC70()
     }
 }
 
-STUB_FUNC(0x45bd20)
-char_type Ped::sub_45BD20(Car_BC* a2)
+MATCH_FUNC(0x45bd20)
+bool Ped::sub_45BD20(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (pCar == field_154_target_to_enter || pCar->GetVelocity_43A4C0() < dword_678624)
+    {
+        return true;
+    }
+    Car_Door_10* Door = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
+    Door->sub_439EA0();
+
+    field_168_game_object->sub_553E00(word_6784FC + pCar->field_50_car_sprite->field_0, dword_678634 + dword_678480, dword_678660, 1);
+    Ped::sub_45C500(0);
+    Ped::sub_45C540(0);
+    return false;
 }
 
-STUB_FUNC(0x45be30)
+MATCH_FUNC(0x45be30)
 s32 Ped::sub_45BE30()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pLeader;
+    Player* pPlayer;
+    if ((field_15C_player && field_15C_player->IsUser_41DC70()) ||
+        (field_164_ped_group && (pLeader = field_164_ped_group->field_2C_ped_leader) != NULL &&
+         (pPlayer = pLeader->field_15C_player) != NULL && pPlayer->IsUser_41DC70()))
+    {
+        return 0;
+    }
+    else
+    {
+        return 2;
+    }
 }
 
 MATCH_FUNC(0x45be70)
@@ -739,7 +761,7 @@ Fix16 Ped::sub_45C920()
     {
         if (field_16C_car)
         {
-            return field_16C_car->sub_43A4C0();
+            return field_16C_car->GetVelocity_43A4C0();
         }
         return dword_678660;
     }

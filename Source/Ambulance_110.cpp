@@ -55,7 +55,7 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    if (gPedManager_6787BC->field_5 >= 30u)
+    if (gPedManager_6787BC->field_5_fbi_army_count >= 30u)
     {
         return false;
     }

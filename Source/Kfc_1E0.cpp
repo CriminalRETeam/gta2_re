@@ -20,7 +20,7 @@ void Kfc_30::sub_5CBC00()
 {
     field_1A = 150;
     field_1E_is_used = 0;
-    field_20 = 0;
+    field_20_maybe_type = 0;
     field_24 = 0;
     field_0_car = 0;
     field_4_ped = 0;
