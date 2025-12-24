@@ -29,7 +29,7 @@ class Ped
     EXPORT char_type sub_45AFC0();
     EXPORT void PoolAllocate();
     EXPORT char_type sub_45B4E0();
-    EXPORT u32* sub_45B520(u32* a2);
+    EXPORT Fix16_Point sub_45B520();
     EXPORT void sub_45B550();
     EXPORT void sub_45B560(Player* a2, char_type a3);
     EXPORT bool sub_45B590();

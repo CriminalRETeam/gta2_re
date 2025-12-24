@@ -168,11 +168,10 @@ char_type Ped::sub_45B4E0()
     return 0;
 }
 
-STUB_FUNC(0x45b520)
-u32* Ped::sub_45B520(u32* a2)
+MATCH_FUNC(0x45b520)
+Fix16_Point Ped::sub_45B520()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return Fix16_Point(field_168_game_object->field_98.x, field_168_game_object->field_98.y);
 }
 
 MATCH_FUNC(0x45b550)
