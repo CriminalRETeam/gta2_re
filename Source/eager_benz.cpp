@@ -194,7 +194,7 @@ void eager_benz::sub_591C70()
     Car_BC* v24 = field_2C4_player_ped->get_car_416B60();
     if (v24 && field_2C4_player_ped->not_enter_car_as_passenger_4A5040() && (v24->field_58_physics) != 0 &&
         v24->field_58_physics->IsInAir_55A0B0() // TODO: Wrong stack
-        && v24->sub_43A4C0() > dword_7028BC)
+        && v24->GetVelocity_43A4C0() > dword_7028BC)
     {
         this->field_190_fly_car_count += gGame_0x40_67E008->sub_4B8BB0();
     }

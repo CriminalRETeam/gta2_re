@@ -759,7 +759,7 @@ void Char_B4::sub_5538A0(Car_BC* pCar, s32 a3, s32 a4, s32 a5)
 }
 
 STUB_FUNC(0x553E00)
-void Char_B4::sub_553E00(s32 ang, s32 a3, s32 a4, char_type a5)
+void Char_B4::sub_553E00(Ang16 ang, Fix16 a3, Fix16 a4, char_type a5)
 {
     NOT_IMPLEMENTED;
 }

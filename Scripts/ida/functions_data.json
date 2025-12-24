@@ -1485,7 +1485,7 @@
         "v105_address": "0x43a450"
     },
     {
-        "name": "Car_BC::sub_43A4C0",
+        "name": "Car_BC::GetVelocity_43A4C0",
         "v96f_address": null,
         "v105_address": "0x43a4c0"
     },

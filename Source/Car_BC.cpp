@@ -874,7 +874,7 @@ Fix16_Point Car_BC::get_linvel_43A450()
 }
 
 MATCH_FUNC(0x43a4c0)
-Fix16 Car_BC::sub_43A4C0()
+Fix16 Car_BC::GetVelocity_43A4C0()
 {
     if (!field_58_physics)
     {

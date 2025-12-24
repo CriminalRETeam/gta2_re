@@ -37,7 +37,7 @@ class Ped
     EXPORT Car_BC* sub_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void sub_45BC70();
-    EXPORT char_type sub_45BD20(Car_BC* a2);
+    EXPORT bool sub_45BD20(Car_BC* pCar);
     EXPORT s32 sub_45BE30();
     EXPORT void SetOnFire();
     EXPORT void PutOutFire();
