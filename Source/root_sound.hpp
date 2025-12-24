@@ -10,30 +10,12 @@ class root_sound
   public:
     infallible_turing* field_0;
     infallible_turing field_4[999 + 1];
-    /*
-    s32 field_3E74;
-    s32 field_3E78;
-    s32 field_3E7C;
-    s32 field_3E80_count;
-    */
-    // todo: ordering
 
-    /*
-    sound obj types
-
-    type 1 Sprite
-    type 5 Camera_0xBC
-    type 6 Rozza_C88
-    type 7 Weapon_30
-    type 8 Crane_15C
-    type 9 Crusher_30
-    type 11 some garox obj
-    */
     infallible_turing* DestroySoundObj_40FE60(infallible_turing* a2) // inline
     {
         a2->release_40EF20();
         infallible_turing* result = field_0;
-        a2->field_C_pAny = field_0;
+        a2->field_C_pAny.pInfallible_turing = field_0;
         field_0 = a2;
         return result;
     }

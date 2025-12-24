@@ -685,7 +685,7 @@ void Sprite::CreateSoundObj_5A29D0()
     {
         if (!bSkip_audio_67D6BE)
         {
-            field_10_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 1);
+            field_10_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Sprite_1);
         }
     }
 }

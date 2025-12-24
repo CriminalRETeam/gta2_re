@@ -218,7 +218,7 @@ bool Shooey_CC::sub_485090(Car_BC* pCar, Player* pPlayer)
         }
     }
 
-    if (pCar->sub_43DD50())
+    if (pCar->IsBeingCrushed_43DD50())
     {
         bInRange = false;
     }

@@ -210,12 +210,18 @@ void Game_0x40::sub_4B8E50()
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-// TODO: move
-STUB_FUNC(0x46E370)
-EXPORT s32 IanTest_46E370()
+
+STUB_FUNC(0x46DD70)
+EXPORT void __stdcall sub_46DD70(char_type remap, s32 count)
 {
     NOT_IMPLEMENTED;
-    return 0;
+}
+
+// TODO: move
+MATCH_FUNC(0x46E370)
+EXPORT void IanTest_46E370()
+{
+    sub_46DD70(4, 4);
 }
 
 // TODO: move

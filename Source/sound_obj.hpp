@@ -340,7 +340,7 @@ class sound_obj
 
     EXPORT void ProcessType3_57DD50();
 
-    EXPORT void ProcessType1_412740(s32 a2);
+    EXPORT void ProcessType1_2_3_4_5_412740(s32 a2);
 
     EXPORT void ProcessType6_413760(s32 a2);
 

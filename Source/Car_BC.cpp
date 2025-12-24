@@ -1,6 +1,7 @@
 #include "Car_BC.hpp"
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
+#include "Crushers.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -37,6 +38,7 @@ DEFINE_GLOBAL(s32, dword_6772AC, 0x6772AC);
 // In fact, it's only allocated and deallocated, it's never used.
 DEFINE_GLOBAL(Sprite*, gSprite_Unused_677938, 0x677938);
 DEFINE_GLOBAL(Fix16, gFix16_6777CC, 0x6777CC);
+DEFINE_GLOBAL(Fix16, dword_6778A0, 0x6778A0);
 DEFINE_GLOBAL(CarInfo_2C*, gCarInfo_2C_66AB78, 0x66AB78);
 DEFINE_GLOBAL(ModelPhysics_48*, gCarInfo_48_66AB70, 0x66AB70);
 DEFINE_GLOBAL(s16, DAT_677CFC, 0x677CFC);
@@ -1543,11 +1545,10 @@ bool Car_BC::sub_43DC80(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x43dd50)
-char_type Car_BC::sub_43DD50()
+MATCH_FUNC(0x43dd50)
+bool Car_BC::IsBeingCrushed_43DD50()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gCrusherPool_94_67A830->IsCarBeingCrushed_4887A0(this);
 }
 
 STUB_FUNC(0x43dd60)
@@ -1563,11 +1564,14 @@ char_type Car_BC::sub_43E560()
     return 0;
 }
 
-STUB_FUNC(0x43e8d0)
-Car_BC* Car_BC::sub_43E8D0()
+MATCH_FUNC(0x43e8d0)
+Car_BC* Car_BC::GetCabOrSelf_43E8D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_64_pTrailer)
+    {
+        return field_64_pTrailer->field_8_truck_cab;
+    }
+    return this;
 }
 
 STUB_FUNC(0x43e990)
@@ -1723,7 +1727,8 @@ void Car_BC::sub_440AC0()
 MATCH_FUNC(0x440b10)
 void Car_BC::sub_440B10()
 {
-    Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    Object_2C* p2C =
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
     field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
 }
 
@@ -1734,11 +1739,11 @@ s32 Car_BC::sub_440B60()
     return 0;
 }
 
-STUB_FUNC(0x440bb0)
-s32 Car_BC::sub_440BB0()
+MATCH_FUNC(0x440bb0)
+void Car_BC::PutTV_Antenna_440BB0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->sub_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, GetRadioTowerAngle_442520());
 }
 
 STUB_FUNC(0x440c10)
@@ -2331,11 +2336,12 @@ char_type Car_BC::sub_4424C0()
     }
 }
 
+// https://decomp.me/scratch/vhWKK
 STUB_FUNC(0x442520)
-s16* Car_BC::sub_442520(s16* a2)
+Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point xy = gCar_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y_443580();
+    return Fix16::atan2_fixed_405320(xy.x, xy.y) - field_50_car_sprite->field_0;
 }
 
 STUB_FUNC(0x4425d0)

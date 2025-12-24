@@ -349,8 +349,8 @@ void __stdcall Frontend::create_4ACFA0()
     {
         snd1_67D818.field_0_object_type = 0;
         snd1_67D818.field_4_bStatus = 0;
-        snd2_67D6F8.field_0_object_type = 2;
-        snd2_67D6F8.field_C_pAny = &snd1_67D818;
+        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
+        snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
@@ -882,8 +882,8 @@ void Frontend::sub_4B8680()
     {
         snd1_67D818.field_0_object_type = 0;
         snd1_67D818.field_4_bStatus = 0;
-        snd2_67D6F8.field_0_object_type = 2;
-        snd2_67D6F8.field_C_pAny = &snd1_67D818;
+        snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::infallible_turing_2;
+        snd2_67D6F8.field_C_pAny.pInfallible_turing = &snd1_67D818;
         snd2_67D6F8.field_4_bStatus = 0;
         snd2_67D6F8.field_8 = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
     }
