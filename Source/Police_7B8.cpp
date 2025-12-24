@@ -307,11 +307,47 @@ void Police_7B8::SetArrestedPed_56F8E0(Ped* a2, Ped* a3)
     }
 }
 
-STUB_FUNC(0x56f940)
-s32 Police_7B8::sub_56F940(Ped* a2)
+MATCH_FUNC(0x56f940)
+void Police_7B8::sub_56F940(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6FEE44 = 0;
+    if (pPed->field_15C_player)
+    {
+        bool bFound = false;
+        for (u8 idx = 0; idx < GTA2_COUNTOF(field_464); idx++)
+        {
+            if (field_464[idx].field_0_criminal_ped == pPed)
+            {
+                bFound = true;
+                break;
+            }
+        }
+
+        if (!bFound)
+        {
+            for (u8 i = 0; i < GTA2_COUNTOF(field_464); i++)
+            {
+                if (field_464[i].field_0_criminal_ped == NULL)
+                {
+                    field_464[i].field_0_criminal_ped = pPed;
+                    field_464[i].field_8 = 0;
+                    field_464[i].field_10_x = pPed->get_cam_x();
+                    field_464[i].field_14_y = pPed->get_cam_y();
+                    field_464[i].field_18_z = pPed->get_cam_z();
+                    break;
+                }
+            }
+        }
+
+        for (u8 j = 0; j < GTA2_COUNTOF(field_464); j++)
+        {
+            if (field_464[j].field_0_criminal_ped != NULL)
+            {
+                byte_6FEE44 = 1;
+                return;
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x56fa40)
