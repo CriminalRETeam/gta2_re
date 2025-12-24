@@ -318,7 +318,7 @@ Rozza_C88::Rozza_C88()
     }
     else
     {
-        field_0_pSoundObj = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 6);
+        field_0_pSoundObj = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Rozza_C88_6);
     }
     Reset_40BB90();
 }

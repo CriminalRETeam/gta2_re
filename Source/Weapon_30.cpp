@@ -62,7 +62,7 @@ void Weapon_30::init_5DCD90()
     field_2C = 0;
     if (!field_28_pSound && !bSkip_audio_67D6BE)
     {
-        field_28_pSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 7);
+        field_28_pSound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Weapon_30_7);
     }
 }
 

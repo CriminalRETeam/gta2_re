@@ -8,6 +8,7 @@
 #include "Ped.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
+#include "Hud.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -467,11 +468,11 @@ STUB_FUNC(0x41A730)
 void sound_obj::InterrogateAudioEntities_41A730()
 {
     NOT_IMPLEMENTED;
-    Camera_0xBC* field_C_pAny;
+    Camera_0xBC* pTmp;
 
-    if (field_1478_type5Idx != 0 && (field_C_pAny = (Camera_0xBC*)field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny) != NULL)
+    if (field_1478_type5Idx != 0 && (pTmp = field_147C[field_1478_type5Idx].field_4_pObj->field_C_pAny.pCamera_0xBC) != NULL)
     {
-        Ped* v4 = field_C_pAny->field_34_ped;
+        Ped* v4 = pTmp->field_34_ped;
 
         if (v4 != NULL)
         {
@@ -493,9 +494,9 @@ void sound_obj::InterrogateAudioEntities_41A730()
         }
         else
         {
-            field_1468_v1 = field_C_pAny->field_98_cam_pos2.field_0_x;
-            field_146C_v2 = field_C_pAny->field_98_cam_pos2.field_4_y;
-            field_1470_v3 = field_C_pAny->field_98_cam_pos2.field_8_z;
+            field_1468_v1 = pTmp->field_98_cam_pos2.field_0_x;
+            field_146C_v2 = pTmp->field_98_cam_pos2.field_4_y;
+            field_1470_v3 = pTmp->field_98_cam_pos2.field_8_z;
         }
     }
     else
@@ -1123,7 +1124,7 @@ void sound_obj::sub_418C20()
     if (!field_544C[0].field_4_fp)
     {
         infallible_turing* pSoundObj = &field_544C[0].field_8;
-        field_544C[0].field_8.field_C_pAny = 0;
+        field_544C[0].field_8.field_C_pAny.pAny = 0;
         field_544C[0].field_8.field_4_bStatus = 0;
         pSoundObj->field_0_object_type = 10;
         field_544C[0].field_4_fp = AddSoundObject_419FA0(pSoundObj);
@@ -1214,33 +1215,6 @@ struct naughty_elion_0x4C;
 struct inspiring_cori_0xBC;
 struct naughty_elion_0x4C;
 
-struct brave_archimedes_0x3C
-{
-    s16 field_0;
-    s16 field_2;
-    naughty_elion_0x4C* field_4_pUnk;
-    inspiring_cori_0xBC* field_8_cori_or_leaky;
-    naughty_elion_0x4C* field_C;
-    s32 field_10;
-    s32 field_14;
-    s32 field_18;
-    s32 field_1C;
-    s16 field_20;
-    s16 field_22;
-    s16 field_24;
-    s16 field_26;
-    s32 field_28;
-    char_type field_2C;
-    char_type field_2D;
-    char_type field_2E;
-    char_type field_2F;
-    s32 field_30;
-    s32 field_34;
-    char_type field_38;
-    char_type field_39;
-    char_type field_3A;
-    char_type field_3B;
-};
 
 MATCH_FUNC(0x419FA0)
 s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
@@ -1256,7 +1230,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
     {
         if (!pMaxwellIter->field_0_bUsed)
         {
-            if (pTuring->field_0_object_type == 5) // DrawUnk_0xBC ?
+            if (pTuring->field_0_object_type == SoundObjectTypeEnum::Camera_0xBC_5)
             {
                 if (!field_1478_type5Idx)
                 {
@@ -1277,14 +1251,14 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
 
             switch (pTuring->field_0_object_type)
             {
-                case 1: // brave_archimedes_0x3C ?
+                case SoundObjectTypeEnum::Sprite_1:
                 {
-                    brave_archimedes_0x3C* v7 = (brave_archimedes_0x3C*)field_147C[idx].field_4_pObj->field_C_pAny;
+                    Sprite* v7 = field_147C[idx].field_4_pObj->field_C_pAny.pSprite;
                     if (v7)
                     {
-                        switch (v7->field_30)
+                        switch (v7->field_30_sprite_type_enum)
                         {
-                            case 2: // note: sub eax, 2 added via switch case instead of if
+                            case sprite_types_enum::car: // note: sub eax, 2 added via switch case instead of if
                                 sound_unknown_0xC* pNewObj = new sound_unknown_0xC();
                                 field_147C[idx].field_8_pAlloc = pNewObj;
                                 pNewObj->field_0 = dword_674CD8;
@@ -1296,7 +1270,7 @@ s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
                     break;
                 }
 
-                case 2:
+                case SoundObjectTypeEnum::infallible_turing_2:
                 {
                     sub_57EA10();
                     break;
@@ -1329,13 +1303,13 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     infallible_turing* pTuring = field_147C[idx].field_4_pObj;
     switch (pTuring->field_0_object_type)
     {
-        case 1:
-            if (pTuring->field_C_pAny)
+        case SoundObjectTypeEnum::Sprite_1:
+            if (pTuring->field_C_pAny.pSprite)
             {
-                brave_archimedes_0x3C* pAny = (brave_archimedes_0x3C*)pTuring->field_C_pAny;
-                switch (pAny->field_30)
+                Sprite* pAny = pTuring->field_C_pAny.pSprite;
+                switch (pAny->field_30_sprite_type_enum)
                 {
-                    case 2:
+                    case sprite_types_enum::car:
                         if (field_147C[idx].field_8_pAlloc)
                         {
                             delete field_147C[idx].field_8_pAlloc;
@@ -1346,17 +1320,17 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             }
             // fall through
 
-        case 2:
+        case SoundObjectTypeEnum::infallible_turing_2:
             field_3 = 0;
             gSampManager_6FFF00.FadeOut_58E490();
             break;
     }
 
     field_147C[idx].field_0_bUsed = 0;
-    field_147C[idx].field_4_pObj->field_C_pAny = 0;
+    field_147C[idx].field_4_pObj->field_C_pAny.pAny = 0;
     field_147C[idx].field_1 = 0;
 
-    if (field_147C[idx].field_4_pObj->field_0_object_type == 5)
+    if (field_147C[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Camera_0xBC_5)
     {
         field_1478_type5Idx = 0;
     }
@@ -1796,33 +1770,33 @@ void sound_obj::ProcessType10_418CA0()
 MATCH_FUNC(0x418B60)
 void sound_obj::ProcessType11_418B60(s32 a2)
 {
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[a2].field_4_pObj->field_C_pAny;
-    if (field_C_pObject)
+    Hud_Pager_C* pPager = field_147C[a2].field_4_pObj->field_C_pAny.pHud_Pager_C;
+    if (pPager)
     {
-        if (field_C_pObject->field_0_object_type > 0)
+        if (pPager->field_0_timer > 0)
         {
-            u8 v4;
-            if (field_C_pObject->field_0_object_type > 300)
+            u8 vol;
+            if (pPager->field_0_timer > 300)
             {
                 field_30_sQueueSample.field_20_rate = 22050;
-                v4 = 40;
+                vol = 40;
             }
-            else if (field_C_pObject->field_0_object_type > 150)
+            else if (pPager->field_0_timer > 150)
             {
                 field_30_sQueueSample.field_20_rate = 26221;
-                v4 = 55;
+                vol = 55;
             }
             else
             {
                 field_30_sQueueSample.field_20_rate = 33178;
-                v4 = 70;
+                vol = 70;
             }
 
             field_30_sQueueSample.field_14_samp_idx = 57;
             field_30_sQueueSample.field_0_EntityIndex = a2;
             field_30_sQueueSample.field_5C = 0;
-            field_30_sQueueSample.field_24_nVolume = v4;
-            field_30_sQueueSample.field_60_nEmittingVolume = v4;
+            field_30_sQueueSample.field_24_nVolume = vol;
+            field_30_sQueueSample.field_60_nEmittingVolume = vol;
             field_30_sQueueSample.field_64_max_distance = 100;
             field_30_sQueueSample.field_58_type = 20;
             field_30_sQueueSample.field_54 = Fix16(100);
@@ -1848,7 +1822,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
     static BYTE byte_66F2D4;
     static BYTE byte_66F540;
 
-    infallible_turing* field_C_pObject = (infallible_turing*)field_147C[idx].field_4_pObj->field_C_pAny;
+    infallible_turing* field_C_pObject = field_147C[idx].field_4_pObj->field_C_pAny.pInfallible_turing;
     if (!field_C_pObject)
     {
         return;

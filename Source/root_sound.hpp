@@ -33,7 +33,7 @@ class root_sound
     {
         a2->release_40EF20();
         infallible_turing* result = field_0;
-        a2->field_C_pAny = field_0;
+        a2->field_C_pAny.pInfallible_turing = field_0;
         field_0 = a2;
         return result;
     }

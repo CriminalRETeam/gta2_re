@@ -1101,7 +1101,7 @@ s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
     pTargetPager->field_4 = a2;
     if (!pSound && !bSkip_audio_67D6BE)
     {
-        pTargetPager->field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(pTargetPager, 11);
+        pTargetPager->field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(pTargetPager, SoundObjectTypeEnum::Hud_Pager_C_11);
     }
 
     return targetIdx;
@@ -1118,7 +1118,7 @@ void Hud_Pager_C_Array::sub_5D3280(s32 idx)
     if (pSound)
     {
         pSound->release_40EF20();
-        pSound->field_C_pAny = gRoot_sound_66B038.field_0;
+        pSound->field_C_pAny.pInfallible_turing = gRoot_sound_66B038.field_0;
         gRoot_sound_66B038.field_0 = pSound;
         pPager->field_8_sound = 0;
     }
