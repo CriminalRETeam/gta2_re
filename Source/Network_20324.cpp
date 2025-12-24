@@ -54,7 +54,7 @@ Network_20324::Network_20324()
 {
     NOT_IMPLEMENTED;
     
-    this->field_20320 = 0;
+    this->field_202E4 = 0;
     this->field_202E0_hwnd = 0;
     this->field_20318 = 0;
     this->field_20310 = 0;
@@ -194,11 +194,10 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
     return 1;
 }
 
-STUB_FUNC(0x51acc0)
+MATCH_FUNC(0x51acc0)
 s32 Network_20324::sub_51ACC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_202D4;
 }
 
 STUB_FUNC(0x51acd0)
