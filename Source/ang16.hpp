@@ -245,6 +245,11 @@ class Ang16
     s16 rValue;
 };
 
+inline Ang16 operator-(const Ang16& a, const Ang16& b)
+{
+    return a.rValue - b.rValue;
+}
+
 class Ang8
 {
   public:

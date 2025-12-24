@@ -174,7 +174,7 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
 
     if (!field_18_sound && !bSkip_audio_67D6BE)
     {
-        field_18_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 9);
+        field_18_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crusher_30_9);
     }
 }
 

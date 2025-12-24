@@ -331,11 +331,6 @@ class Trailer
     Car_BC* field_C_pCarOnTrailer;
 };
 
-static inline bool IsTrainModel(s32 idx1)
-{
-    return idx1 == car_model_enum::TRAIN || idx1 == car_model_enum::TRAINCAB || idx1 == car_model_enum::TRAINFB ||
-        idx1 == car_model_enum::boxcar;
-}
 
 static inline bool IsArmyModel(s32 idx1)
 {
@@ -432,10 +427,10 @@ class Car_BC
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
     EXPORT bool sub_43DC80(s32 a2, s32 a3);
-    EXPORT char_type sub_43DD50();
+    EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void sub_43DD60();
     EXPORT char_type sub_43E560();
-    EXPORT Car_BC* sub_43E8D0();
+    EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* sub_43E990();
     EXPORT bool sub_43EA60(Object_2C* a2);
     EXPORT char_type sub_43F130(s32 a2);
@@ -452,7 +447,7 @@ class Car_BC
     EXPORT void sub_440AC0();
     EXPORT void sub_440B10();
     EXPORT s32 sub_440B60();
-    EXPORT s32 sub_440BB0();
+    EXPORT void PutTV_Antenna_440BB0();
     EXPORT char_type RotateRoofObjectTowardTarget_440C10(char_type a2);
     EXPORT char_type HandleRoofTurretRotation_440D90(char_type a2);
     EXPORT void sub_440F90(char_type a2);
@@ -496,7 +491,7 @@ class Car_BC
     EXPORT bool sub_442200();
     EXPORT void sub_442310();
     EXPORT char_type sub_4424C0();
-    EXPORT s16* sub_442520(s16* a2);
+    EXPORT Ang16 GetRadioTowerAngle_442520();
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();

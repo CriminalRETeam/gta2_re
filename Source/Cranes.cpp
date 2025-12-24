@@ -384,7 +384,7 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_140 = 0;
     if (!result && !bSkip_audio_67D6BE)
     {
-        result = gRoot_sound_66B038.CreateSoundObject_40EF40(this, 8);
+        result = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crane_15C_8);
         field_7C = result;
     }
     field_28 = 0;

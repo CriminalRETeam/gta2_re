@@ -1580,10 +1580,10 @@ void Player::UpdateCurrentZones_568520()
 MATCH_FUNC(0x568630)
 void Player::sub_568630()
 {
-    infallible_turing* pCam = field_4C_pUnk;
-    if (pCam)
+    infallible_turing* pSoundObj = field_4C_pUnk;
+    if (pSoundObj)
     {
-        pCam->field_C_pAny = &field_14C_view_camera;
+        pSoundObj->field_C_pAny.pCamera_0xBC = &field_14C_view_camera;
     }
 }
 
@@ -2159,7 +2159,7 @@ void Player::sub_569CB0()
     {
         if (!bSkip_audio_67D6BE)
         {
-            field_4C_pUnk = gRoot_sound_66B038.CreateSoundObject_40EF40(&field_90_game_camera, 5);
+            field_4C_pUnk = gRoot_sound_66B038.CreateSoundObject_40EF40(&field_90_game_camera, SoundObjectTypeEnum::Camera_0xBC_5);
         }
     }
     field_78C = 2;

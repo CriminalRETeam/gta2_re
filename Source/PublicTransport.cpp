@@ -694,7 +694,7 @@ Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* p
 MATCH_FUNC(0x57b740)
 bool PublicTransport_181C::AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
-    if (IsTrainModel(pCar1->field_84_car_info_idx) && IsTrainModel(pCar2->field_84_car_info_idx))
+    if (pCar1->is_train_model() && pCar2->is_train_model())
     {
         Train_58* pTrain1 = GetTrainFromCar_57B5C0(pCar1);
         Train_58* pTrain2 = GetTrainFromCar_57B5C0(pCar2);
