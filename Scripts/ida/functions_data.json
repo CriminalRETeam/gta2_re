@@ -12240,7 +12240,7 @@
         "v105_address": "0x55eb80"
     },
     {
-        "name": "CarPhysics_B0::sub_55EC30",
+        "name": "CarPhysics_B0::ApplyForwardEngineForce_55EC30",
         "v96f_address": null,
         "v105_address": "0x55ec30"
     },
@@ -12250,17 +12250,17 @@
         "v105_address": "0x55eee0"
     },
     {
-        "name": "CarPhysics_B0::sub_55EF20",
+        "name": "CarPhysics_B0::ApplyReverseEngineForce_55EF20",
         "v96f_address": null,
         "v105_address": "0x55ef20"
     },
     {
-        "name": "CarPhysics_B0::sub_55F020",
+        "name": "CarPhysics_B0::ApplyTurningForce_55F020",
         "v96f_address": null,
         "v105_address": "0x55f020"
     },
     {
-        "name": "CarPhysics_B0::sub_55F240",
+        "name": "CarPhysics_B0::ApplyMovementCommand_55F240",
         "v96f_address": null,
         "v105_address": "0x55f240"
     },

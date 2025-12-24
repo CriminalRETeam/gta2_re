@@ -1,8 +1,8 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
-#include "debug.hpp"
 #include "Globals.hpp"
 #include "Rozza_C88.hpp"
+#include "debug.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -27,7 +27,6 @@ Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
     return field_38_cp1;
 }
-
 
 MATCH_FUNC(0x446ee0)
 CarPhysics_B0::~CarPhysics_B0()
@@ -378,7 +377,7 @@ char_type CarPhysics_B0::sub_55C150()
             return 0;
         }
     }
-    gRozza_679188.field_24  = pCarSprite;
+    gRozza_679188.field_24 = pCarSprite;
     return 1;
 }
 
@@ -469,30 +468,42 @@ char_type CarPhysics_B0::sub_55EB80()
 }
 
 STUB_FUNC(0x55ec30)
-s32 CarPhysics_B0::sub_55EC30()
+s32 CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x55ef20)
-s32 CarPhysics_B0::sub_55EF20()
+s32 CarPhysics_B0::ApplyReverseEngineForce_55EF20()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x55f020)
-s32 CarPhysics_B0::sub_55F020()
+s32 CarPhysics_B0::ApplyTurningForce_55F020()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55f240)
-char_type CarPhysics_B0::sub_55F240()
+MATCH_FUNC(0x55f240)
+char_type CarPhysics_B0::ApplyMovementCommand_55F240()
 {
-    NOT_IMPLEMENTED;
+    switch (gRozza_679188.field_0_type)
+    {
+        case 1:
+            ApplyReverseEngineForce_55EF20();
+            return 1;
+        case 2:
+            ApplyForwardEngineForce_55EC30();
+            return 1;
+        case 3:
+            ApplyTurningForce_55F020();
+            field_AA_sbw = 0;
+            break;
+    }
     return 0;
 }
 
@@ -608,7 +619,7 @@ MATCH_FUNC(0x560eb0)
 void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 {
     field_50 = field_48.Divide_442CB0(CarPhysics_B0::CalculateMass_559FF0());
-    field_80 = - field_7C / CarPhysics_B0::sub_55A050();
+    field_80 = -field_7C / CarPhysics_B0::sub_55A050();
 }
 
 STUB_FUNC(0x560f20)
