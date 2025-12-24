@@ -89,7 +89,7 @@ class CarPhysics_B0
     EXPORT void sub_560B40(s32 a2, s32 a3);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void sub_560F20(s32 a2);
-    EXPORT s32 IntegrateAndClampVelocities_5610B0();
+    EXPORT void IntegrateAndClampVelocities_5610B0();
     EXPORT u32* sub_561130(u32* a2, u32* a3);
     EXPORT u32* sub_561350(u32* a2, u32* a3);
     EXPORT u32* sub_561380(u32* a2, u32* a3);

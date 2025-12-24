@@ -24,6 +24,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
 DEFINE_GLOBAL(Fix16, dword_6FDF3C, 0x6FDF3C);
 DEFINE_GLOBAL(Fix16, dword_6FDF7C, 0x6FDF7C);
+DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
+
 
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
@@ -674,10 +676,33 @@ void CarPhysics_B0::sub_560F20(s32 a2)
 }
 
 STUB_FUNC(0x5610b0)
-s32 CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
+void CarPhysics_B0::IntegrateAndClampVelocities_5610B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // Integrate linear and angular velocity
+    this->field_40_linvel_1.x += this->field_50.x;
+    this->field_40_linvel_1.y += this->field_50.y;
+    this->field_74_ang_vel_rad += this->field_80;
+
+    ResetForceAccumulators_55A840();
+
+    Fix16 y_abs = (field_40_linvel_1.y <= 0) ? -field_40_linvel_1.y : field_40_linvel_1.y;
+    Fix16 x_abs = (field_40_linvel_1.x <= 0) ? -field_40_linvel_1.x : field_40_linvel_1.x;
+
+    if (x_abs + y_abs < dword_6FE07C)
+    {
+        this->field_40_linvel_1.x = kFP16Zero_6FE20C;
+        this->field_40_linvel_1.y = kFP16Zero_6FE20C;
+    }
+
+    Fix16 ang_vel_rad_abs = (field_74_ang_vel_rad <= 0) ? -field_74_ang_vel_rad : field_74_ang_vel_rad;
+
+    // Clamp angular velocity if below threshold
+    if (ang_vel_rad_abs < dword_6FE07C)
+    {
+        ang_vel_rad_abs = kFP16Zero_6FE20C;
+    }
+
+    field_74_ang_vel_rad = ang_vel_rad_abs;
 }
 
 STUB_FUNC(0x561130)
