@@ -2336,6 +2336,7 @@ char_type Car_BC::sub_4424C0()
     }
 }
 
+// https://decomp.me/scratch/vhWKK
 STUB_FUNC(0x442520)
 Ang16 Car_BC::GetRadioTowerAngle_442520()
 {
