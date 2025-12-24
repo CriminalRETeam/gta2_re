@@ -22,6 +22,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
+DEFINE_GLOBAL(Fix16, dword_6FDF3C, 0x6FDF3C);
+DEFINE_GLOBAL(Fix16, dword_6FDF7C, 0x6FDF7C);
+
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
@@ -313,7 +316,49 @@ char_type CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
 STUB_FUNC(0x55aa00)
 void CarPhysics_B0::HandleGravityOnSlope_55AA00()
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point_POD force;
+
+    // On a slope and no brake inputs
+    if (field_A5_current_slope_length != 1 || field_92_is_hand_brake_on || field_91_is_foot_brake_on)
+    {
+        return;
+    }
+
+    // Trains ignore slope gravity
+    if (field_5C_pCar->is_train_model())
+    {
+        return;
+    }
+
+    switch (field_98_surface_type)
+    {
+        case 1:
+            force.x = kFP16Zero_6FE20C;
+            force.y = (dword_6FDF3C * dword_6FDF7C);
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 2:
+            force.x = kFP16Zero_6FE20C;
+            force.y = (dword_6FDF7C * -dword_6FDF3C);
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 3:
+            force.x = (dword_6FDF3C * dword_6FDF7C);
+            force.y = kFP16Zero_6FE20C;
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        case 4:
+            force.x = (dword_6FDF7C * -dword_6FDF3C);
+            force.y = kFP16Zero_6FE20C;
+            ApplyForceScaledByMass_55F9A0(force);
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x55ab50)
