@@ -687,10 +687,34 @@ void Char_B4::state_3_551A00()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x551B30)
+MATCH_FUNC(0x551B30)
 void Char_B4::state_4_551B30()
 {
-    NOT_IMPLEMENTED;
+    if (field_6C != 7)
+    {
+        field_6C = 7;
+        field_68 = 0;
+        s8 target_door = field_7C_pPed->field_24C_target_car_door;
+        if (field_84->sub_43B540(target_door))
+        {
+            field_58_flags_bf.b4 = true;
+        }
+        else
+        {
+            field_58_flags_bf.b4 = false;
+        }
+        field_70 = 0;
+    }
+    if (field_10 == 15)
+    {
+        field_7C_pPed->sub_45C500(0);
+        field_7C_pPed->sub_45C540(0);
+    }
+    if ((u8)Char_B4::IsOnWater_545570())
+    {
+        field_7C_pPed->PutOutFire();
+        Char_B4::DrownPed_5459E0();
+    }
 }
 
 STUB_FUNC(0x551BB0)
