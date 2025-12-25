@@ -2,6 +2,7 @@
 
 #include "Function.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 
 namespace DataType
 {
@@ -74,8 +75,7 @@ class CarInfo_2C
     Fix16 field_0;
     s32 field_4_front_wheel_offset;
     Fix16 field_8_rear_wheel_offset;
-    Fix16 field_C;
-    Fix16 field_10;
+    Fix16_Point field_C;
     Fix16 field_14;
     Fix16 field_18;
     s32 field_1C;

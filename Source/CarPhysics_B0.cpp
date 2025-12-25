@@ -989,9 +989,7 @@ void CarPhysics_B0::UpdateReferencePoint_563460()
 {
     NOT_IMPLEMENTED;
 
-    Fix16_Point point;
-    point.x = dword_6FE0E4->field_C;
-    point.y = dword_6FE0E4->field_10;
+    Fix16_Point point = dword_6FE0E4->field_C;
 
     point.RotateByAngle_40F6B0(field_58_theta);
 
