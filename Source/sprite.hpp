@@ -423,7 +423,7 @@ class Sprite_Pool
         return field_0_pool.Allocate();
     }
 
-    // TODO: get 9.6f addr
+    // Inlined, from 9.6f at 0x421030
     void remove(Sprite* pSprite)
     {
         field_0_pool.DeAllocate(pSprite);

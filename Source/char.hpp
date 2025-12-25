@@ -6,7 +6,6 @@
 #include "Ped.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
-#include "angle.hpp"
 #include "sprite.hpp"
 
 class Sprite_3C;
@@ -25,16 +24,16 @@ class Char_B4
     s32 field_8_ped_state_1;
     s32 field_C_ped_state_2;
     s32 field_10;
-    angle field_14;
+    Ang16 field_14;
     s8 field_16;
     s8 field_17;
     s32 field_18;
     s32 field_1C;
     s32 field_20;
     s32 field_24;
-    angle field_28;
-    angle field_2A;
-    angle field_2C_ang;
+    Ang16 field_28;
+    Ang16 field_2A;
+    Ang16 field_2C_ang;
     s8 field_2E;
     s8 field_2F;
     s32 field_30;
@@ -44,7 +43,7 @@ class Char_B4
     Fix16 field_38_velocity;
     Fix16 field_3C_run_or_jump_speed;
     Ang16 field_40_rotation;
-    angle field_42;
+    Ang16 field_42;
     s8 field_44;
     u8 field_45;
     s16 field_46;
@@ -73,7 +72,7 @@ class Char_B4
     s8 field_71;
     s8 field_72;
     s8 field_73;
-    angle field_74;
+    Ang16 field_74;
     s8 field_76;
     s8 field_77;
     Char_B4* mpNext;
@@ -135,7 +134,7 @@ class Char_B4
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
     EXPORT void sub_5455F0();
-    EXPORT s16 sub_545600();
+    EXPORT void sub_545600();
     EXPORT void sub_5456A0();
     EXPORT s32 IsOnScreen_545700();
     EXPORT void sub_545720(Fix16 a2);

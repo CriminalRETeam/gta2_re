@@ -10,6 +10,7 @@
 #include "enums.hpp"
 
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
+UnknownList dword_6F6850; //DEFINE_GLOBAL(UnknownList, dword_6F6850, 0x6F6850);
 DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
 DEFINE_GLOBAL(u32, processedGciData_676260, 0x676260);
 DEFINE_GLOBAL(u32, gciDataLen_675F94, 0x675F94);
