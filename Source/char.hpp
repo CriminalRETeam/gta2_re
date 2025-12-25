@@ -134,7 +134,7 @@ class Char_B4
     EXPORT void sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 IsOnWater_545570();
     EXPORT void sub_5455F0();
-    EXPORT s16 sub_545600();
+    EXPORT void sub_545600();
     EXPORT void sub_5456A0();
     EXPORT s32 IsOnScreen_545700();
     EXPORT void sub_545720(Fix16 a2);

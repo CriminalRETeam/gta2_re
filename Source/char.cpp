@@ -317,11 +317,18 @@ void Char_B4::sub_5455F0()
     field_7C_pPed->Kill_46F9D0();
 }
 
-STUB_FUNC(0x545600)
-s16 Char_B4::sub_545600()
+MATCH_FUNC(0x545600)
+void Char_B4::sub_545600()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_18 = 0;
+    field_1C = 0;
+    field_20 = 0;
+    field_2C_ang = word_6FDB34;
+    field_69 = 0;
+    field_24 = 0;
+    field_28 = word_6FDB34;
+    field_2A = word_6FDB34;
+    field_2C_ang = word_6FDB34;
 }
 
 MATCH_FUNC(0x5456a0)
