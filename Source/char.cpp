@@ -31,7 +31,7 @@ DEFINE_GLOBAL(Fix16, dword_6FD800, 0x6FD800);
 DEFINE_GLOBAL(Fix16, dword_6FD7FC, 0x6FD7FC);
 DEFINE_GLOBAL(Fix16, dword_6FD7B0, 0x6FD7B0);
 
-DEFINE_GLOBAL_INIT(Ang16, dword_6FD936, Ang16(720), 0x6FD936);
+DEFINE_GLOBAL_INIT(Ang16, word_6FD936, Ang16(720), 0x6FD936);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
 
@@ -470,30 +470,26 @@ char_type Char_B4::sub_5459C0()
     return 0;
 }
 
-// https://decomp.me/scratch/0bMp2 it matches on decompme
-STUB_FUNC(0x5459e0)
+MATCH_FUNC(0x5459e0)
 void Char_B4::DrownPed_5459E0()
 {
     field_7C_pPed->sub_45C500(8);
     field_7C_pPed->sub_45C540(20);
     field_16 = 1;
-    Ang16 rotation = dword_6FD936 + field_80_sprite_ptr->field_0;
-    rotation.Normalize();
 
     gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xpos.x,
                                                field_80_sprite_ptr->field_14_xpos.y,
                                                field_80_sprite_ptr->field_1C_zpos,
-                                               rotation,
+                                               word_6FD936 + field_80_sprite_ptr->field_0,
                                                1);
-
-    if ((field_7C_pPed->field_21C & 0x1000000) == 0)
+    if (!field_7C_pPed->field_21C_bf.b24)
     {
         field_7C_pPed->field_250 = 28;
     }
-
-    if (field_7C_pPed->field_204)
+    s32 leader_ped_id = field_7C_pPed->field_204;
+    if (leader_ped_id)
     {
-        if (gPedManager_6787BC->PedById(field_7C_pPed->field_204))
+        if (gPedManager_6787BC->PedById(leader_ped_id))
         {
             field_7C_pPed->field_290 = 5;
             field_7C_pPed->field_264 = 50;
