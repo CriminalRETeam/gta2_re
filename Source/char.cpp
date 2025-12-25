@@ -311,10 +311,10 @@ s32 Char_B4::IsOnWater_545570()
     return field_80_sprite_ptr->IsOnWater_59E1D0();
 }
 
-STUB_FUNC(0x5455f0)
+MATCH_FUNC(0x5455f0)
 void Char_B4::sub_5455F0()
 {
-    NOT_IMPLEMENTED;
+    field_7C_pPed->Kill_46F9D0();
 }
 
 STUB_FUNC(0x545600)
