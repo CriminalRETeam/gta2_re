@@ -983,10 +983,9 @@ s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 }
 
 STUB_FUNC(0x563460)
-s32* CarPhysics_B0::sub_563460()
+void CarPhysics_B0::UpdateReferencePoint_563460()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x563560)
