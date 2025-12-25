@@ -78,6 +78,7 @@ DEFINE_GLOBAL(Fix16, dword_677C30, 0x677C30);
 DEFINE_GLOBAL(Fix16, dword_677C48, 0x677C48);
 DEFINE_GLOBAL(Fix16, dword_677B94, 0x677B94);
 DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
+DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1132,6 +1133,17 @@ s32 Car_BC::sub_43B420(s32 a2, u32* a3, u32* a4)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+MATCH_FUNC(0x43B540)
+bool Car_BC::sub_43B540(u8 targetDoor)
+{
+    s8* array = (s8*)gGtx_0x106C_703DD4->get_car_remap_5AA3D0(field_84_car_info_idx);
+    if (Fix16::Abs(dword_6F6850.sub_41FE70(array[2 * targetDoor + 1])) >= dword_677908)
+    {
+        return true;
+    }
+    return false;
 }
 
 STUB_FUNC(0x43b5a0)

@@ -14,6 +14,22 @@ enum
 };
 };
 
+struct UnknownList
+{
+    Fix16 sub_41FE70(s8& var) 
+    {
+        if (var < 0)
+        {
+            return -list[-var];
+        }
+        return list[var];
+    }
+    
+    Fix16 list[256];
+};
+
+extern UnknownList dword_6F6850; //EXTERN_GLOBAL(UnknownList, dword_6F6850);
+
 class ModelPhysics_48
 {
   public:
