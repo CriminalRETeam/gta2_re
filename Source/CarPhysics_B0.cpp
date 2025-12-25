@@ -982,10 +982,19 @@ s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
     return 0;
 }
 
+// 0x49EDC0 9.6f
 STUB_FUNC(0x563460)
 void CarPhysics_B0::UpdateReferencePoint_563460()
 {
     NOT_IMPLEMENTED;
+
+    Fix16_Point point;
+    point.x = dword_6FE0E4->field_C;
+    point.y = dword_6FE0E4->field_10;
+
+    point.RotateByAngle_40F6B0(field_58_theta);
+
+    field_30_cm1 = field_38_cp1 + point;
 }
 
 MATCH_FUNC(0x563560)
