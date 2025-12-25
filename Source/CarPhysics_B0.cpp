@@ -22,10 +22,24 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FE1C0, dword_6FE210, 0x6FE1C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FDFE4, Fix16(0x1333, 0), 0x6FDFE4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE0A8, dword_6FDFE4, 0x6FE0A8);
 
+DEFINE_GLOBAL(Fix16_Point, g_cm1_6FDF10, 0x6FDF10);
+DEFINE_GLOBAL(Fix16, g_cp3_6FDF08, 0x6FDF08);
+DEFINE_GLOBAL(Ang16, g_theta_6FE344, 0x6FE344);
+DEFINE_GLOBAL(Fix16_Point, g_cp1_6FDF00, 0x6FDF00);
+DEFINE_GLOBAL(Fix16, g_f70_6FDFE0, 0x6FDFE0);
+DEFINE_GLOBAL(Fix16, g_ZPos_6FE0AC, 0x6FE0AC);
+
+DEFINE_GLOBAL(Fix16_Point, g_trailer_cm1_6FE068, 0x6FE068);
+DEFINE_GLOBAL(Fix16, gTrailer_cp3_6FE1B4, 0x6FE1B4);
+DEFINE_GLOBAL(Ang16, gTrailer_theta_6FE018, 0x6FE018);
+DEFINE_GLOBAL(Fix16_Point, gTrailer_cp1_6FE3A8, 0x6FE3A8);
+DEFINE_GLOBAL(Fix16, gTrailer_f70_6FE194, 0x6FE194);
+DEFINE_GLOBAL(Fix16, gTrailer_ZPos_6FE354, 0x6FE354);
+
+
 DEFINE_GLOBAL(Fix16, dword_6FDF3C, 0x6FDF3C);
 DEFINE_GLOBAL(Fix16, dword_6FDF7C, 0x6FDF7C);
 DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
-
 
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
@@ -268,10 +282,26 @@ void CarPhysics_B0::restore_saved_physics_state_55A400()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55a4b0)
+MATCH_FUNC(0x55a4b0)
 void CarPhysics_B0::save_physics_state_55A4B0()
 {
-    NOT_IMPLEMENTED;
+    g_cm1_6FDF10 = this->field_30_cm1;
+    g_cp3_6FDF08 = this->field_6C_cp3;
+    g_theta_6FE344 = this->field_58_theta;
+    g_cp1_6FDF00 = this->field_38_cp1;
+    g_f70_6FDFE0 = this->field_70;
+    g_ZPos_6FE0AC = this->field_68_z_pos;
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        CarPhysics_B0* pPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+        g_trailer_cm1_6FE068 = pPhysics->field_30_cm1;
+        gTrailer_cp3_6FE1B4 = pPhysics->field_6C_cp3;
+        gTrailer_theta_6FE018 = pPhysics->field_58_theta;
+        gTrailer_cp1_6FE3A8 = pPhysics->field_38_cp1;
+        gTrailer_f70_6FE194 = pPhysics->field_70;
+        gTrailer_ZPos_6FE354 = pPhysics->field_68_z_pos;
+    }
 }
 
 STUB_FUNC(0x55a550)
