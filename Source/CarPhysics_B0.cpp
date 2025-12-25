@@ -983,6 +983,7 @@ s32* CarPhysics_B0::UpdateCenterOfMassPoint_563350()
 }
 
 // 0x49EDC0 9.6f
+// https://decomp.me/scratch/xDPiP
 STUB_FUNC(0x563460)
 void CarPhysics_B0::UpdateReferencePoint_563460()
 {
