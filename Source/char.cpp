@@ -291,15 +291,18 @@ void Char_B4::sub_5454D0()
             field_6C = 5;
             field_68 = 0;
             field_38_velocity = gRunOrJumpSpeed_6FD7D0;
-            field_8C = Fix16((u8)field_80_sprite_ptr->field_1C_zpos.ToInt());
+            field_8C = Fix16(field_80_sprite_ptr->field_1C_zpos.ToUInt8());
         }
     }
 }
 
-STUB_FUNC(0x545530)
+MATCH_FUNC(0x545530)
 void Char_B4::sub_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    NOT_IMPLEMENTED;
+    field_58_flags_bf.b5 = true;
+    field_A4_xpos = xpos;
+    field_A8_ypos = ypos;
+    field_AC_zpos = zpos;
 }
 
 MATCH_FUNC(0x545570)
