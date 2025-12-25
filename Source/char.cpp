@@ -90,28 +90,28 @@ void __stdcall sub_544F70()
 STUB_FUNC(0x544ff0)
 Char_B4::Char_B4()
 {
-    field_0_id = 0; // field_0_id
+    field_0_id = 0;
     field_4 = 0;
     field_5_remap = -1;
     field_6 = 0;
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10 = 36;
-    field_14 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_14 = word_6FDB34;
     field_16 = 0;
     field_18 = 0;
     field_1C = 0;
     field_20 = 0;
     field_24 = 3;
-    field_28 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
-    field_2A = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
-    field_2C_ang = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_28 = word_6FDB34;
+    field_2A = word_6FDB34;
+    field_2C_ang = word_6FDB34;
     field_30 = 4;
     field_34 = 0;
-    field_38_velocity = dword_6FD7C0; // field_38_velocity
+    field_38_velocity = dword_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
-    field_42 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_42 = word_6FDB34;
     field_44 = 0;
     field_45 = 0;
     field_5C = 0;
@@ -123,7 +123,7 @@ Char_B4::Char_B4()
     field_68 = 0;
     field_69 = 0;
     field_58_flags_bf.b0 = 0;
-    field_74 = *(angle*)&word_6FDB34; // TODO: replace "angle" by "Ang16"
+    field_74 = word_6FDB34;
     field_6A = 0;
     field_84 = 0;
     field_88_obj_2c.sub_5A7010();
@@ -148,12 +148,12 @@ Char_B4::Char_B4()
 MATCH_FUNC(0x5451A0)
 Char_B4::~Char_B4()
 {
-    this->field_18 = 0;
-    this->field_1C = 0;
-    this->mpNext = 0;
-    this->field_7C_pPed = 0;
-    this->field_80_sprite_ptr = 0;
-    this->field_84 = 0;
+    field_18 = 0;
+    field_1C = 0;
+    mpNext = 0;
+    field_7C_pPed = 0;
+    field_80_sprite_ptr = 0;
+    field_84 = 0;
 }
 
 MATCH_FUNC(0x545200)
@@ -167,21 +167,21 @@ void Char_B4::PoolAllocate()
     field_8_ped_state_1 = 11;
     field_C_ped_state_2 = 28;
     field_10 = 36;
-    field_14 = *(angle*)&word_6FDB34;
+    field_14 = word_6FDB34;
     field_16 = 0;
     field_18 = 0;
     field_1C = 0;
     field_20 = 0;
     field_24 = 3;
-    field_28 = *(angle*)&word_6FDB34;
-    field_2A = *(angle*)&word_6FDB34;
-    field_2C_ang = *(angle*)&word_6FDB34;
+    field_28 = word_6FDB34;
+    field_2A = word_6FDB34;
+    field_2C_ang = word_6FDB34;
     field_30 = 4;
     field_34 = 0;
     field_38_velocity = dword_6FD7C0;
     field_3C_run_or_jump_speed = gRunOrJumpSpeed_6FD7D0;
     field_40_rotation = word_6FDB34;
-    field_42 = *(angle*)&word_6FDB34;
+    field_42 = word_6FDB34;
     field_44 = 0;
     field_45 = 0;
     field_5C = 0;
@@ -192,7 +192,7 @@ void Char_B4::PoolAllocate()
     field_7C_pPed = 0;
     field_68 = 0;
     field_69 = 0;
-    field_74 = *(angle*)&word_6FDB34;
+    field_74 = word_6FDB34;
     field_6A = 0;
     field_84 = 0;
     field_58_flags_bf.b0 = 0;
