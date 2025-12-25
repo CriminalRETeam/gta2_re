@@ -226,10 +226,17 @@ void Char_B4::PoolAllocate()
     field_B0 = -1;
 }
 
-STUB_FUNC(0x5453d0)
+MATCH_FUNC(0x5453d0)
 void Char_B4::PoolDeallocate()
 {
-    NOT_IMPLEMENTED;
+    if (field_80_sprite_ptr)
+    {
+        gPurpleDoom_1_679208->sub_477B60(field_80_sprite_ptr);
+        gSprite_Pool_703818->remove(field_80_sprite_ptr);
+        field_80_sprite_ptr = NULL;
+    }
+    field_88_obj_2c.sub_5A7010();
+    field_B0 = -1;
 }
 
 MATCH_FUNC(0x5451C0)

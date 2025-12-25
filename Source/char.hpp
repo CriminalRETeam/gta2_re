@@ -6,7 +6,6 @@
 #include "Ped.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
-#include "Ang16.hpp"
 #include "sprite.hpp"
 
 class Sprite_3C;
