@@ -271,10 +271,29 @@ void Char_B4::sub_5454B0()
     field_88_obj_2c.sub_5A7080();
 }
 
-STUB_FUNC(0x5454d0)
+MATCH_FUNC(0x5454d0)
 void Char_B4::sub_5454D0()
 {
-    NOT_IMPLEMENTED;
+    if (field_8_ped_state_1 != 8)
+    {
+        if (field_10 == 15 && field_6C == 5)
+        {
+            if (field_68 >= 5u)
+            {
+                field_68 = 5;
+                field_71 = 2;
+                field_70 = 0;
+            }
+        }
+        else
+        {
+            field_10 = 15;
+            field_6C = 5;
+            field_68 = 0;
+            field_38_velocity = gRunOrJumpSpeed_6FD7D0;
+            field_8C = Fix16((u8)field_80_sprite_ptr->field_1C_zpos.ToInt());
+        }
+    }
 }
 
 STUB_FUNC(0x545530)
