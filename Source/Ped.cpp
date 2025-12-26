@@ -2131,11 +2131,23 @@ void Ped::sub_467960()
     }
 }
 
-STUB_FUNC(0x467a20)
-char_type Ped::sub_467A20()
+MATCH_FUNC(0x467a20)
+void Ped::sub_467A20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_148_objective_target_ped->field_278 == 9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        this->field_148_objective_target_ped = 0;
+        this->field_225 = 1;
+        return;
+    }
+    
+    if (byte_61A8A3)
+    {
+        this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+        field_21C_bf.b11 = 0;
+    }
 }
 
 STUB_FUNC(0x467ad0)
