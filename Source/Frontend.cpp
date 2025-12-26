@@ -107,8 +107,8 @@ EXPORT char_type __stdcall FreeLoader::sub_4AE1F0(u8 a1)
 {
     if (a1 > FreeLoader::sub_4AE0F0())
     {
-        ShowWindow(gHwnd_707F04, 7);
-        PostMessageA(gHwnd_707F04, 6u, 0, 0);
+        ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
+        PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);
         tagMSG Msg;
 
         while (PeekMessageA(&Msg, 0, 0, 0, 1u))

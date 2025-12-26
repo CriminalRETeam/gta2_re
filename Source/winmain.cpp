@@ -486,7 +486,7 @@ EXPORT void __stdcall sub_5D93A0()
     SetWindowLongA(gHwnd_707F04, -16, 0x10000000);
     SetWindowPos(gHwnd_707F04, 0, 0, 0, 0, 0, 0x63Bu);
     UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, 1);
+    ShowWindow(gHwnd_707F04, SW_SHOWNORMAL);
 
     Input_InitMouse_5D7BF0();
 
@@ -549,7 +549,7 @@ EXPORT char_type sub_5D9510()
     }
 
     UpdateWindow(gHwnd_707F04);
-    ShowWindow(gHwnd_707F04, 5);
+    ShowWindow(gHwnd_707F04, SW_SHOW);
     if (gVidSys_7071D0)
     {
         gVidSys_7071D0->field_4_flags |= 0x100;
@@ -1509,7 +1509,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
         HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
         if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, (LPARAM)hwndGta2Manager);
+            PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, (LPARAM)hwndGta2Manager);
             if (!SetForegroundWindow(hwndGta2Manager))
             {
                 FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
@@ -1519,7 +1519,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     else
     {
         LPARAM lParam; // [esp+4h] [ebp-4h]
-        PostMessageA(gHwnd_707F04, WM_ERASEBKGND, 0, lParam);
+        PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, lParam);
         if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
         {
             FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
@@ -1639,7 +1639,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     {
                         pVid_CloseScreen(gVidSys_7071D0);
                         byte_706C5D = 1;
-                        ShowWindow(gHwnd_707F04, 7);
+                        ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
                     }
                 }
                 break;
