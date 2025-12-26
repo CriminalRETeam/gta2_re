@@ -1,8 +1,8 @@
 #include "Montana.hpp"
-#include "sprite.hpp"
 #include "Globals.hpp"
-#include "error.hpp"
 #include "enums.hpp"
+#include "error.hpp"
+#include "sprite.hpp"
 
 DEFINE_GLOBAL(Montana*, gMontana_67B580, 0x67B580);
 DEFINE_GLOBAL(Montana_2EE4*, gMontana_2EE4_705BBC, 0x705BBC);
@@ -12,7 +12,6 @@ DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL(Fix16, dword_67B434, 0x67B434); // = 0x4000, TODO, 0xUNKNOWN);
 DEFINE_GLOBAL_INIT(Fix16, dword_705B80, Fix16(60), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, dword_705AC4, Fix16(0), 0x705AC4);
-
 
 MATCH_FUNC(0x5c5f60)
 Montana_2EE4::Montana_2EE4()
@@ -196,11 +195,21 @@ void Montana::ResetAll_4954F0()
 }
 
 // TODO: move
+// https://decomp.me/scratch/qe97a
 STUB_FUNC(0x5BEE90)
 EXPORT unsigned __int64 get_rdtsc_5BEE90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // NOTE: Actually is inline assembly, surprisingly
+    unsigned __int64 t;
+    __asm 
+    { 
+        pushad 
+        rdtsc 
+        mov DWORD PTR t, eax 
+        mov DWORD PTR t+4, edx 
+        popad
+    }
+    return static_cast<int>(t);
 }
 
 MATCH_FUNC(0x495510)
