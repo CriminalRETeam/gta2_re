@@ -132,7 +132,7 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
 }
 
 STUB_FUNC(0x477c90)
-s32 PurpleDoom::sub_477C90(s32 a1, s32 a2, s32* a3, u8 a4, s32 a5, char_type a6)
+Sprite* PurpleDoom::sub_477C90(s32 a1, s32 a2, Sprite* a3, u8 a4, s32 a5, char_type a6)
 {
     NOT_IMPLEMENTED;
     return 0;

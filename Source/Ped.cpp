@@ -51,7 +51,7 @@ DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
-DEFINE_GLOBAL(u32, dword_6787DC, 0x6787DC);
+DEFINE_GLOBAL(Ped*, dword_6787DC, 0x6787DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678660, Fix16(0), 0x678660);
 DEFINE_GLOBAL_INIT(Fix16, dword_678438, dword_678660, 0x678438);
 DEFINE_GLOBAL_INIT(Fix16, dword_678750, dword_678660, 0x678750);
@@ -2010,16 +2010,22 @@ Ped* Ped::sub_466BF0(s32 a2)
 }
 
 MATCH_FUNC(0x466f40)
-s32 Ped::sub_466F40(u8 a2)
+Ped* Ped::sub_466F40(u8 a2)
 {
     byte_6787D7 = 4;
     return Ped::sub_466F60(a2);
 }
 
-STUB_FUNC(0x466f60)
-s32 Ped::sub_466F60(u8 a2)
+MATCH_FUNC(0x466f60)
+Ped* Ped::sub_466F60(u8 a2)
 {
-    NOT_IMPLEMENTED;
+    dword_6787DC = this;
+    Sprite* pSprite = gPurpleDoom_1_679208->sub_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    if (pSprite)
+    {
+        // @OG_BUG: Null de-ref
+        return pSprite->AsCharB4_40FEA0()->field_7C_pPed;
+    }
     return 0;
 }
 
