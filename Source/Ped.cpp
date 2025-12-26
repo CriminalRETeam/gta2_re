@@ -51,7 +51,7 @@ DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, word_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, word_6787E0, 0x6787E0);
-DEFINE_GLOBAL(u32, dword_6787DC, 0x6787DC);
+DEFINE_GLOBAL(Ped*, dword_6787DC, 0x6787DC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678660, Fix16(0), 0x678660);
 DEFINE_GLOBAL_INIT(Fix16, dword_678438, dword_678660, 0x678438);
 DEFINE_GLOBAL_INIT(Fix16, dword_678750, dword_678660, 0x678750);
@@ -2010,16 +2010,22 @@ Ped* Ped::sub_466BF0(s32 a2)
 }
 
 MATCH_FUNC(0x466f40)
-s32 Ped::sub_466F40(u8 a2)
+Ped* Ped::sub_466F40(u8 a2)
 {
     byte_6787D7 = 4;
     return Ped::sub_466F60(a2);
 }
 
-STUB_FUNC(0x466f60)
-s32 Ped::sub_466F60(u8 a2)
+MATCH_FUNC(0x466f60)
+Ped* Ped::sub_466F60(u8 a2)
 {
-    NOT_IMPLEMENTED;
+    dword_6787DC = this;
+    Sprite* pSprite = gPurpleDoom_1_679208->sub_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    if (pSprite)
+    {
+        // @OG_BUG: Null de-ref
+        return pSprite->AsCharB4_40FEA0()->field_7C_pPed;
+    }
     return 0;
 }
 
@@ -2059,25 +2065,89 @@ char_type Ped::sub_4672E0(Fix16 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x4678e0)
-char_type Ped::sub_4678E0()
+MATCH_FUNC(0x4678e0)
+void Ped::sub_4678E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (dword_678750 > dword_678520)
+        {
+            if (field_168_game_object)
+            {
+                if (field_168_game_object->field_44 == 2)
+                {
+                    Ped::sub_45C500(0);
+                    Ped::sub_45C540(0);
+                    this->field_225 = 1;
+                }
+                else
+                {
+                    field_168_game_object->field_38_velocity = this->get_field_1F0();
+                }
+            }
+            else
+            {
+                field_21C_bf.b11 = 0;
+            }
+        }
+        else
+        {
+            this->field_168_game_object->field_38_velocity = this->get_field_1F0();
+        }
+    }
 }
 
-STUB_FUNC(0x467960)
-char_type Ped::sub_467960()
+MATCH_FUNC(0x467960)
+void Ped::sub_467960()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_148_objective_target_ped->field_278 == 9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        this->field_148_objective_target_ped = 0;
+        this->field_225 = 1;
+        return;
+    }
+
+    if (byte_61A8A3)
+    {
+        if (dword_678750 > dword_678520)
+        {
+            if (this->field_168_game_object->field_44 == 2)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                this->field_148_objective_target_ped = 0;
+                this->field_225 = 1;
+            }
+        }
+        else
+        {
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(3);
+            this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+            field_21C_bf.b11 = 0;
+        }
+    }
 }
 
-STUB_FUNC(0x467a20)
-char_type Ped::sub_467A20()
+MATCH_FUNC(0x467a20)
+void Ped::sub_467A20()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_148_objective_target_ped->field_278 == 9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        this->field_148_objective_target_ped = 0;
+        this->field_225 = 1;
+        return;
+    }
+
+    if (byte_61A8A3)
+    {
+        this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+        field_21C_bf.b11 = 0;
+    }
 }
 
 STUB_FUNC(0x467ad0)
@@ -2116,11 +2186,39 @@ void Ped::sub_467FB0()
     }
 }
 
-STUB_FUNC(0x467fd0)
-char_type Ped::sub_467FD0()
+MATCH_FUNC(0x467fd0)
+void Ped::sub_467FD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_148_objective_target_ped->field_21C & 1) == 0 || field_148_objective_target_ped->field_278 == 9)
+    {
+        this->field_225 = 2;
+        return;
+    }
+
+    if (byte_61A8A3)
+    {
+        if (field_25C_car_state != 0)
+        {
+            if (field_25C_car_state == 23)
+            {
+                if (field_226 == 1)
+                {
+                    this->field_225 = 1;
+                    return;
+                }
+                else if (field_226 == 2)
+                {
+                    this->field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            Ped::sub_463830(23, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x468040)

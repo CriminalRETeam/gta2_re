@@ -45,7 +45,8 @@ struct Fix16_Point_POD
         y = ((-x_old) * sin) + (y * cos);
     }
 
-    Fix16_Point_POD Fix16_Point_POD::operator+(Fix16_Point_POD& in)
+    // 9.6f 0x40F5C0
+    Fix16_Point_POD Fix16_Point_POD::operator+(const Fix16_Point_POD& in)
     {
         return Fix16_Point_POD(x + in.x, y + in.y);
     }

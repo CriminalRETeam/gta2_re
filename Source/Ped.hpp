@@ -117,21 +117,21 @@ class Ped
     EXPORT Ped* sub_466BB0(s32 a2);
     EXPORT Ped* sub_466BD0(Ped* a2);
     EXPORT Ped* sub_466BF0(s32 a2);
-    EXPORT s32 sub_466F40(u8 a2);
-    EXPORT s32 sub_466F60(u8 a2);
+    EXPORT Ped* sub_466F40(u8 a2);
+    EXPORT Ped* sub_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
-    EXPORT char_type sub_4678E0();
-    EXPORT char_type sub_467960();
-    EXPORT char_type sub_467A20();
+    EXPORT void sub_4678E0();
+    EXPORT void sub_467960();
+    EXPORT void sub_467A20();
     EXPORT void sub_467AD0();
     EXPORT void sub_467BD0();
     EXPORT void sub_467CA0();
     EXPORT void sub_467E20();
     EXPORT void sub_467FB0();
-    EXPORT char_type sub_467FD0();
+    EXPORT void sub_467FD0();
     EXPORT s16 sub_468040();
     EXPORT void sub_4682A0();
     EXPORT void sub_468310();
@@ -363,7 +363,7 @@ class Ped
         return field_16C_car;
     }
 
-    s32 get_id() const
+    u32 get_id() const
     {
         return field_200_id;
     }
@@ -469,7 +469,7 @@ class Ped
     s32 field_1F4;
     Fix16 field_1F8;
     s32 field_1FC;
-    s32 field_200_id;
+    u32 field_200_id;
     s32 field_204;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
