@@ -134,17 +134,14 @@ char_type Shooey_CC::CanReportCrime(s32 crime_type)
     return 0;
 }
 
-STUB_FUNC(0x484fc0)
-Shooey_CC* Shooey_CC::ctor_484FC0()
+MATCH_FUNC(0x484fc0)
+Shooey_CC_Sub::Shooey_CC_Sub()
 {
-    NOT_IMPLEMENTED;
-    return 0;
 }
 
-STUB_FUNC(0x484fd0)
-void Shooey_CC::dtor_484FD0()
+MATCH_FUNC(0x484fd0)
+Shooey_CC_Sub::~Shooey_CC_Sub()
 {
-    NOT_IMPLEMENTED;
 }
 
 // https://decomp.me/scratch/0XcCw
