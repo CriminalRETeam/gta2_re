@@ -522,7 +522,7 @@ class Car_BC
     EXPORT void sub_443EE0(s32 a2);
     EXPORT void sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5);
     EXPORT void sub_444020();
-    EXPORT u32 sub_444090(Car_BC* a1);
+    EXPORT u32 GetEffectiveDriverPedId_444090();
     EXPORT void sub_4441B0();
     EXPORT void sub_444490();
     EXPORT void sub_4446E0();

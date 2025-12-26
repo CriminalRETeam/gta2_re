@@ -2817,11 +2817,33 @@ void Car_BC::sub_444020()
     }
 }
 
-STUB_FUNC(0x444090)
-u32 Car_BC::sub_444090(Car_BC* a1)
+MATCH_FUNC(0x444090)
+u32 Car_BC::GetEffectiveDriverPedId_444090()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* a1 = this;
+    while (!a1->field_54_driver)
+    {
+        if (!a1->field_64_pTrailer || a1->field_64_pTrailer->field_C_pCarOnTrailer != a1)
+        {
+            return a1->field_70;
+        }
+        a1 = a1->field_64_pTrailer->field_8_truck_cab;
+    }
+
+    Ped* pDriver = a1->field_54_driver;
+    if (pDriver->field_240_occupation == 4)
+    {
+        return a1->field_70;
+    }
+
+    if (pDriver->field_200_id > 12u)
+    {
+        if (a1->field_70)
+        {
+            return a1->field_70;
+        }
+    }
+    return pDriver->field_200_id;
 }
 
 /*

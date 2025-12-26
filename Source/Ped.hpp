@@ -363,7 +363,7 @@ class Ped
         return field_16C_car;
     }
 
-    s32 get_id() const
+    u32 get_id() const
     {
         return field_200_id;
     }
@@ -469,7 +469,7 @@ class Ped
     s32 field_1F4;
     Fix16 field_1F8;
     s32 field_1FC;
-    s32 field_200_id;
+    u32 field_200_id;
     s32 field_204;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
