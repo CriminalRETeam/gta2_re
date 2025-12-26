@@ -42,4 +42,10 @@ class Shooey_CC
     Shooey_14 field_4_crimes[10];
 };
 
+class Shooey_CC_Sub : public Shooey_CC {
+  public:
+    EXPORT Shooey_CC_Sub();
+    EXPORT ~Shooey_CC_Sub();
+};
+
 EXTERN_GLOBAL(Shooey_CC*, gShooey_CC_67A4B8);

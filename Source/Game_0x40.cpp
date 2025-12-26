@@ -1172,7 +1172,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         }
     }
 
-    gShooey_CC_67A4B8 = new Shooey_CC(); // ctor call
+    gShooey_CC_67A4B8 = new Shooey_CC_Sub(); // ctor call
     if (!gShooey_CC_67A4B8)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
