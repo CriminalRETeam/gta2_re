@@ -2097,11 +2097,38 @@ void Ped::sub_4678E0()
     }
 }
 
-STUB_FUNC(0x467960)
-char_type Ped::sub_467960()
+MATCH_FUNC(0x467960)
+void Ped::sub_467960()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_148_objective_target_ped->field_278 == 9 || (field_148_objective_target_ped->field_21C & 1) == 0)
+    {
+        Ped::sub_45C500(0);
+        Ped::sub_45C540(0);
+        this->field_148_objective_target_ped = 0;
+        this->field_225 = 1;
+        return;
+    }
+
+    if (byte_61A8A3)
+    {
+        if (dword_678750 > dword_678520)
+        {
+            if (this->field_168_game_object->field_44 == 2)
+            {
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+                this->field_148_objective_target_ped = 0;
+                this->field_225 = 1;
+            }
+        }
+        else
+        {
+            Ped::sub_45C500(1);
+            Ped::sub_45C540(3);
+            this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+            field_21C_bf.b11 = 0;
+        }
+    }
 }
 
 STUB_FUNC(0x467a20)
