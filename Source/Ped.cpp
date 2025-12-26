@@ -2142,7 +2142,7 @@ void Ped::sub_467A20()
         this->field_225 = 1;
         return;
     }
-    
+
     if (byte_61A8A3)
     {
         this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
@@ -2186,11 +2186,39 @@ void Ped::sub_467FB0()
     }
 }
 
-STUB_FUNC(0x467fd0)
-char_type Ped::sub_467FD0()
+MATCH_FUNC(0x467fd0)
+void Ped::sub_467FD0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_148_objective_target_ped->field_21C & 1) == 0 || field_148_objective_target_ped->field_278 == 9)
+    {
+        this->field_225 = 2;
+        return;
+    }
+
+    if (byte_61A8A3)
+    {
+        if (field_25C_car_state != 0)
+        {
+            if (field_25C_car_state == 23)
+            {
+                if (field_226 == 1)
+                {
+                    this->field_225 = 1;
+                    return;
+                }
+                else if (field_226 == 2)
+                {
+                    this->field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            Ped::sub_463830(23, 9999);
+            this->field_14C = this->field_148_objective_target_ped;
+            return;
+        }
+    }
 }
 
 STUB_FUNC(0x468040)
