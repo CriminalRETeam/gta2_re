@@ -2065,11 +2065,36 @@ char_type Ped::sub_4672E0(Fix16 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x4678e0)
-char_type Ped::sub_4678E0()
+MATCH_FUNC(0x4678e0)
+void Ped::sub_4678E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (byte_61A8A3)
+    {
+        if (dword_678750 > dword_678520)
+        {
+            if (field_168_game_object)
+            {
+                if (field_168_game_object->field_44 == 2)
+                {
+                    Ped::sub_45C500(0);
+                    Ped::sub_45C540(0);
+                    this->field_225 = 1;
+                }
+                else
+                {
+                    field_168_game_object->field_38_velocity = this->get_field_1F0();
+                }
+            }
+            else
+            {
+                field_21C_bf.b11 = 0;
+            }
+        }
+        else
+        {
+            this->field_168_game_object->field_38_velocity = this->get_field_1F0();
+        }
+    }
 }
 
 STUB_FUNC(0x467960)
