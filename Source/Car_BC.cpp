@@ -1332,12 +1332,35 @@ char_type Car_BC::sub_43BFE0()
     return 0;
 }
 
-STUB_FUNC(0x43c0c0)
-char_type Car_BC::sub_43C0C0()
+MATCH_FUNC(0x43c0c0)
+void Car_BC::sub_43C0C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_A4 & 8) == 0)   // bit 3
+    {
+        if (sub_421700())   // bit 1
+        {
+            field_8_damaged_areas.clear_bit(11);
+            field_8_damaged_areas.clear_bit(12);
+            field_8_damaged_areas.clear_bit(13);
+            field_8_damaged_areas.clear_bit(14);
+            field_8_damaged_areas.clear_bit(28);
+            field_8_damaged_areas.clear_bit(29);
+            field_8_damaged_areas.clear_bit(30);
+            field_8_damaged_areas.clear_bit(31);
+        }
+
+        field_8_damaged_areas.clear_bit(6);
+        field_8_damaged_areas.clear_bit(23);
+
+        if (sub_421660())   // bit 2
+        {
+            field_8_damaged_areas.clear_bit(15);
+        }
+    }
+
+    field_A4 &= ~2u;   // bit 1
 }
+
 
 STUB_FUNC(0x43c1c0)
 u32 Car_BC::sub_43C1C0()
