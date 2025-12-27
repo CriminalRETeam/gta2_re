@@ -1909,7 +1909,7 @@ void Car_BC::sub_441520()
 }
 
 MATCH_FUNC(0x4415c0)
-void Car_BC::sub_4415C0()
+void Car_BC::UpdateBrakeLights_4415C0()
 {
     CarPhysics_B0* pCarPhysics = this->field_58_physics;
     if (pCarPhysics && pCarPhysics->IsFootBrakeOn_55A150())
@@ -2395,7 +2395,7 @@ void Car_BC::sub_4426D0()
     sub_441520();
     if (field_74_damage != 32001)
     {
-        sub_4415C0();
+        UpdateBrakeLights_4415C0();
         sub_441E70();
     }
     sub_4417D0();

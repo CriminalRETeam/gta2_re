@@ -460,7 +460,7 @@ class Car_BC
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_441520();
-    EXPORT void sub_4415C0();
+    EXPORT void UpdateBrakeLights_4415C0();
     EXPORT u32* sub_441600(u32* a2);
     EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
