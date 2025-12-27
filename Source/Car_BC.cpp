@@ -2725,6 +2725,12 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
     }
 }
 
+STUB_FUNC(0x4438C0)
+EXPORT void Car_BC::BuyCarWeapon_4438C0(u8 weapon_kind)
+{
+    NOT_IMPLEMENTED;
+}
+
 MATCH_FUNC(0x443AB0)
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
@@ -2735,7 +2741,7 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 }
 
 STUB_FUNC(0x443ae0)
-void Car_BC::ResprayOrChangePlates(s32 remap)
+void Car_BC::ResprayOrChangePlates(u8 remap)
 {
     NOT_IMPLEMENTED;
     Player* pPlayer = this->field_54_driver->field_15C_player;
@@ -2772,7 +2778,7 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
 }
 
 MATCH_FUNC(0x443bd0)
-void Car_BC::ResprayOrCleanPlates(s32 remap)
+void Car_BC::ResprayOrCleanPlates(u8 remap)
 {
     if (AllowResprayOrPlates())
     {
@@ -2792,10 +2798,29 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
     }
 }
 
-STUB_FUNC(0x443c40)
-void Car_BC::sub_443C40(s32 a2)
+MATCH_FUNC(0x443c40)
+void Car_BC::HandleShops_443C40(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
+    Ped* pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        Player* pPlayer = pDriver->field_15C_player;
+        if (pPlayer)
+        {
+            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == 130)
+            {
+                const u8 idx = pObj->field_26_varrok_idx;
+                if (idx >= 250u && (idx <= 252u || idx == 254))
+                {
+                    Car_BC::BuyCarWeapon_4438C0(pPlayer->sub_443CB0(idx));
+                }
+                else
+                {
+                    Car_BC::ResprayOrCleanPlates(idx);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x443d00)

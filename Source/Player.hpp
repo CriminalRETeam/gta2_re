@@ -114,6 +114,9 @@ class Player
         return true;
     }
 
+    // TODO: Ordering
+    EXPORT u8 sub_443CB0(u8 varrok);
+
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
     EXPORT char_type sub_564610(Car_BC* a2, char_type a3);

@@ -509,10 +509,11 @@ class Car_BC
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
+    EXPORT void BuyCarWeapon_4438C0(u8 weapon_kind);
     EXPORT static void __stdcall sub_443AB0(Player* pPlayer, s32 weapon_cost);
-    EXPORT void ResprayOrChangePlates(s32 remap);
-    EXPORT void ResprayOrCleanPlates(s32 remap);
-    EXPORT void sub_443C40(s32 a2);
+    EXPORT void ResprayOrChangePlates(u8 remap);
+    EXPORT void ResprayOrCleanPlates(u8 remap);
+    EXPORT void HandleShops_443C40(Object_2C *pObj);
     EXPORT void sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void IncrementCarStats_443D70(s32 car_type);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
