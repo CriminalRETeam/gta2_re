@@ -322,7 +322,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     field_1E = field_1C = sVar1 * word_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
-        field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
+        field_C = gObject_5C_6F8F84->NewTouchPoint_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
         field_C->set_field_26(a3);
     }
     field_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(0xa9, x, y, z, DAT_0067BD18);
@@ -380,10 +380,10 @@ void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
     field_1E = field_1C = sVar1 * word_67BB38[a1->field_7_gr_id].field_8_speed + 0x28;
     if (a2)
     {
-        field_C = gObject_5C_6F8F84->sub_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
+        field_C = gObject_5C_6F8F84->NewTouchPoint_529950(0xa7, a4, a5, a6, DAT_0067BD18, a7, a8, DAT_0067BBE4);
         field_C->set_field_26(a3);
     }
-    field_8 = gObject_5C_6F8F84->sub_529950(0xa9, x, y, z, local_c, DAT_0067BBE4, DAT_0067BBE8, DAT_0067BBE4);
+    field_8 = gObject_5C_6F8F84->NewTouchPoint_529950(0xa9, x, y, z, local_c, DAT_0067BBE4, DAT_0067BBE8, DAT_0067BBE4);
     field_8->set_field_26(a3);
     field_30 = x;
     field_34 = y;

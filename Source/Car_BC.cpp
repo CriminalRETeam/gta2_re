@@ -80,6 +80,10 @@ DEFINE_GLOBAL(Fix16, dword_677B94, 0x677B94);
 DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
+DEFINE_GLOBAL(Fix16, dword_705DDC, 0x705DDC);
+DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
+
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -345,7 +349,7 @@ void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 MATCH_FUNC(0x5c8680)
 void Car_214::sub_5C8680(u8 idx)
 {
-    field_0[idx].field_8 = 0;
+    field_0[idx].field_8_type = 0;
     field_0[idx].field_C = 0;
     field_0[idx].field_0 = 0;
     field_0[idx].field_14 = 2;
@@ -353,11 +357,33 @@ void Car_214::sub_5C8680(u8 idx)
     field_0[idx].field_4_O2C = 0;
 }
 
-STUB_FUNC(0x5c86c0)
-char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+MATCH_FUNC(0x5c86c0)
+char_type Car_214::sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_18* pIter = field_0;
+    for (u8 idx = 0; idx < GTA2_COUNTOF(field_0); idx++)
+    {
+        if (pIter->field_8_type == 0)
+        {
+            pIter->field_8_type = *pType;
+            pIter->field_C = *f_C;
+            pIter->field_0 = f_0;
+            pIter->field_14 = 1;
+            pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(161, // save point?
+                                                                         xpos,
+                                                                         ypos,
+                                                                         zpos,
+                                                                         word_705F10,
+                                                                         a8,
+                                                                         a9,
+                                                                         dword_705DDC);
+            pIter->field_4_O2C->field_27 = idx;
+            field_210_count++;
+            return idx;
+        }
+        pIter++;
+    }
+    return -1;
 }
 
 MATCH_FUNC(0x5c8750)
@@ -368,7 +394,7 @@ void Car_214::sub_5C8750()
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         pOff->field_10_remap_rng = i;
-        pOff->field_8 = 0;
+        pOff->field_8_type = 0;
         pOff->field_C = 0;
         pOff->field_0 = 0;
         pOff->field_14 = 1;

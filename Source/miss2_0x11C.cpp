@@ -494,7 +494,7 @@ void miss2_0x11C::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* a1, SCR_POINTER
                                                                                                 a1->field_C_rect.field_0_pos.field_0_x,
                                                                                                 a1->field_C_rect.field_0_pos.field_4_y);
     }
-    a2->field_8_obj = gObject_5C_6F8F84->sub_529950(139,
+    a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(139,
                                                     a1->field_C_rect.field_0_pos.field_0_x,
                                                     a1->field_C_rect.field_0_pos.field_4_y,
                                                     a1->field_C_rect.field_0_pos.field_8_z,
@@ -544,7 +544,7 @@ void miss2_0x11C::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* a1, SCR_POINTE
                                                                                                 a1->field_C_rect.field_0_pos.field_4_y);
     }
 
-    a2->field_8_obj = gObject_5C_6F8F84->sub_529950(141,
+    a2->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(141,
                                                     a1->field_C_rect.field_0_pos.field_0_x,
                                                     a1->field_C_rect.field_0_pos.field_4_y,
                                                     a1->field_C_rect.field_0_pos.field_8_z,
