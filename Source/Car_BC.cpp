@@ -1184,11 +1184,10 @@ char_type Car_BC::sub_43B730()
     return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
-STUB_FUNC(0x43b750)
+MATCH_FUNC(0x43b750)
 char_type Car_BC::sub_43B750()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gGame_0x40_67E008->sub_4B9830(field_50_car_sprite, dword_6778D0);
 }
 
 MATCH_FUNC(0x43b770)
