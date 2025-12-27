@@ -1294,7 +1294,7 @@ char_type Car_BC::sub_43BD40()
 }
 
 STUB_FUNC(0x43bf10)
-void Car_BC::sub_43BF10()
+void Car_BC::BrakeLightsOn_43BF10()
 {
     NOT_IMPLEMENTED;
     if ((this->field_A4 & 8) != 0)
@@ -1316,7 +1316,7 @@ void Car_BC::sub_43BF10()
 }
 
 MATCH_FUNC(0x43bf70)
-void Car_BC::sub_43BF70()
+void Car_BC::BrakeLightsOff_43BF70()
 {
     if ((this->field_A4 & 8) == 0)
     {
@@ -1914,11 +1914,11 @@ void Car_BC::sub_4415C0()
     CarPhysics_B0* pCarPhysics = this->field_58_physics;
     if (pCarPhysics && pCarPhysics->IsFootBrakeOn_55A150())
     {
-        sub_43BF10();
+        BrakeLightsOn_43BF10();
     }
     else
     {
-        sub_43BF70();
+        BrakeLightsOff_43BF70();
     }
 }
 

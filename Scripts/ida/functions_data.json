@@ -1695,12 +1695,12 @@
         "v105_address": "0x43bd40"
     },
     {
-        "name": "Car_BC::sub_43BF10",
+        "name": "Car_BC::BrakeLightsOn_43BF10",
         "v96f_address": null,
         "v105_address": "0x43bf10"
     },
     {
-        "name": "Car_BC::sub_43BF70",
+        "name": "Car_BC::BrakeLightsOff_43BF70",
         "v96f_address": null,
         "v105_address": "0x43bf70"
     },
