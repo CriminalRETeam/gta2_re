@@ -1226,11 +1226,23 @@ void Car_BC::sub_43B870(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x43bb90)
-s32 Car_BC::sub_43BB90(char_type a1)
+MATCH_FUNC(0x43bb90)
+s32 Car_BC::sub_43BB90(u8 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch(a1)
+    {
+        case 1:
+        return 12;
+
+        case 2:
+        return 13;
+
+        case 3:
+        return 14;
+
+        default:
+        return 12;
+    }
 }
 
 STUB_FUNC(0x43bbc0)
