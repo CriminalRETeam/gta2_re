@@ -2806,12 +2806,60 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     }
 }
 
-STUB_FUNC(0x4ADF50)
+MATCH_FUNC(0x4AD0D0)
+void Frontend::sub_4AD0D0()
+{
+    const u16 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
+
+    DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), x, 260, field_11C, 1);
+}
+
+MATCH_FUNC(0x4ADDE0)
+void Frontend::sub_4ADDE0()
+{
+    if (field_EE0C == 1)
+    {
+        u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
+    }
+
+    if (field_EE0A == 190)
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, field_120, 1);
+    }
+    else
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, field_11C, 1);
+    }
+
+    if (field_EE0A == 210)
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, field_120, 1);
+    }
+    else
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, field_11C, 1);
+    }
+
+    if (field_EE0A == 230)
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, field_120, 1);
+    }
+    else
+    {
+        DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, field_11C, 1);
+    }
+}
+
+MATCH_FUNC(0x4ADF50)
 void Frontend::sub_4ADF50()
 {
-    NOT_IMPLEMENTED;
     switch (field_110_state)
     {
+        case 4:
+            sub_4ADDE0();
+            break;
+
         case 1:
         case 3:
         case 5:
@@ -2826,73 +2874,8 @@ void Frontend::sub_4ADF50()
             break;
 
         case 2:
-        {
-            const u16 x = sub_4B0190(gText_0x14_704DFC->Find_5B5F90("loading"), -1, 320);
-
-            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("loading"), x, 260, field_11C, 1);
+            sub_4AD0D0();
             break;
-        }
-
-        case 4:
-        {
-            if (field_EE0C == 1)
-            {
-                const s32 v12 = gText_0x14_704DFC->field_10_lang_code - 'j';
-
-                // TODO: Fix this part
-                u8 v13 = -(v12 != 0);
-                v13 = v13 & 0xFC;
-
-                Fix16 ypos;
-                ypos.FromU16_4AE970(v13 + 16);
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
-            }
-
-            {
-
-                u16 fontType;
-                if (field_EE0A == 190)
-                {
-                    fontType = field_120;
-                }
-                else
-                {
-                    fontType = field_11C;
-                }
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("sure"), 300, 190, fontType, 1);
-            }
-
-            {
-                u16 fontType;
-                if (field_EE0A == 210)
-                {
-                    fontType = field_120;
-                }
-                else
-                {
-                    fontType = field_11C;
-                }
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("yes"), 300, 210, fontType, 1);
-            }
-
-            {
-                u16 fontType;
-                if (field_EE0A == 230)
-                {
-                    fontType = field_120;
-                }
-                else
-                {
-                    fontType = field_11C;
-                }
-
-                DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("no"), 300, 230, fontType, 1);
-            }
-            break;
-        }
 
         default:
             FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1217, field_110_state);

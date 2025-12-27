@@ -393,6 +393,10 @@ struct Frontend
 
     EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
+    EXPORT void sub_4AD0D0();
+
+    EXPORT void sub_4ADDE0();
+
     EXPORT void sub_4ADF50();
 
     EXPORT void sub_4ADFB0();
