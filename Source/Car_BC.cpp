@@ -2726,7 +2726,7 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
 }
 
 STUB_FUNC(0x4438C0)
-EXPORT void Car_BC::BuyCarWeapon_4438C0(u8 weapon_kind)
+EXPORT void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
 {
     NOT_IMPLEMENTED;
 }
