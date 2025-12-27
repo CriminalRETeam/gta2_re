@@ -1753,11 +1753,12 @@ void Car_BC::AddGangDriver_440630(Gang_144* pGang)
     field_7C_uni_num = 3;
 }
 
-STUB_FUNC(0x440660)
-s32 Car_BC::AttachGangIcon_440660(u8 a2)
+MATCH_FUNC(0x440660)
+void Car_BC::AttachGangIcon_440660(u8 arrow_colour)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pIcon =
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(arrow_colour + 286, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->sub_5A3100(pIcon->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
 }
 
 MATCH_FUNC(0x4406b0)

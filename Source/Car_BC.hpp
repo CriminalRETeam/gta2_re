@@ -440,7 +440,7 @@ class Car_BC
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
-    EXPORT s32 AttachGangIcon_440660(u8 a2);
+    EXPORT void AttachGangIcon_440660(u8 arrow_colour);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void ClearDriver_4407F0();
