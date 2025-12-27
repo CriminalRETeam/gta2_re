@@ -1330,9 +1330,9 @@ char_type Car_BC::sub_43BFE0()
 MATCH_FUNC(0x43c0c0)
 void Car_BC::sub_43C0C0()
 {
-    if ((field_A4 & 8) == 0)   // bit 3
+    if ((field_A4 & 8) == 0) // bit 3
     {
-        if (sub_421700())   // bit 1
+        if (sub_421700()) // bit 1
         {
             field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
             field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
@@ -1348,21 +1348,32 @@ void Car_BC::sub_43C0C0()
         field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
         field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
 
-        if (sub_421660())   // bit 2
+        if (sub_421660()) // bit 2
         {
             field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
         }
     }
 
-    field_A4 &= ~2u;   // bit 1
+    field_A4 &= ~2u; // bit 1
 }
 
-
-STUB_FUNC(0x43c1c0)
-u32 Car_BC::sub_43C1C0()
+MATCH_FUNC(0x43c1c0)
+void Car_BC::sub_43C1C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((this->field_A4 & 8) != 0)
+    {
+        Car_BC::sub_43CBE0();
+    }
+
+    this->field_A4 = 0;
+
+    if (inline_info_flags_bit2() || is_FBI_car_411920())
+    {
+        Car_BC::DeactivateEmergencyLights_43C9D0();
+    }
+
+    Car_BC::sub_43C0C0();
+    Car_BC::BrakeLightsOff_43BF70();
 }
 
 MATCH_FUNC(0x43c260)
