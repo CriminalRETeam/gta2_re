@@ -1,5 +1,53 @@
 #pragma once
 
+// TODO: Replace CarDamageAreasFlags etc with this
+namespace CarDeltaBitsEnum
+{
+enum
+{
+    TopLeftDamage_0 = 0, // (1 << 0)  = 0x00000001
+    TopRightDamage_1 = 1, // (1 << 1)  = 0x00000002
+    BottomRightDamage_2 = 2, // (1 << 2)  = 0x00000004
+    BottomLeftDamage_3 = 3, // (1 << 3)  = 0x00000008
+    WindshieldDamage_4 = 4, // (1 << 4)  = 0x00000010
+
+    BackRightBrakeLight_5 = 5, // (1 << 5)  = 0x00000020
+    FrontRightHeadlight_6 = 6, // (1 << 6)  = 0x00000040
+
+    BottomRightDoor1_7 = 7, // (1 << 7)  = 0x00000080
+    BottomRightDoor2_8 = 8, // (1 << 8)  = 0x00000100
+    BottomRightDoor3_9 = 9, // (1 << 9)  = 0x00000200
+    BottomRightDoor4_10 = 10, // (1 << 10) = 0x00000400
+
+    TopRightDoor1_11 = 11, // (1 << 11) = 0x00000800
+    TopRightDoor2_12 = 12, // (1 << 12) = 0x00001000
+    TopRightDoor3_13 = 13, // (1 << 13) = 0x00002000
+    TopRightDoor4_14 = 14, // (1 << 14) = 0x00004000
+
+    BottomLeftRoofLight_15 = 15, // (1 << 15) = 0x00008000
+    BottomRightRoofLight_16 = 16, // (1 << 16) = 0x00010000
+    TopLeftRoofLight_17 = 17, // (1 << 17) = 0x00020000
+    TopRightRoofLight_18 = 18, // (1 << 18) = 0x00040000
+
+    Bit19_19 = 19, // (1 << 19) = 0x00080000
+    Bit20_20 = 20, // (1 << 20) = 0x00100000
+    Bit21_21 = 21, // (1 << 21) = 0x00200000
+
+    BackLeftBrakeLight_22 = 22, // (1 << 22) = 0x00400000
+    FrontLeftHeadlight_23 = 23, // (1 << 23) = 0x00800000
+
+    BottomLeftDoor1_24 = 24, // (1 << 24) = 0x01000000
+    BottomLeftDoor2_25 = 25, // (1 << 25) = 0x02000000
+    BottomLeftDoor3_26 = 26, // (1 << 26) = 0x04000000
+    BottomLeftDoor4_27 = 27, // (1 << 27) = 0x08000000
+
+    TopLeftDoor1_28 = 28, // (1 << 28) = 0x10000000
+    TopLeftDoor2_29 = 29, // (1 << 29) = 0x20000000
+    TopLeftDoor3_30 = 30, // (1 << 30) = 0x40000000
+    TopLeftDoor4_31 = 31 // (1 << 31) = 0x80000000
+};
+} // namespace CarDeltaBitsEnum
+
 namespace car_manager_car_type_enum
 {
 enum
@@ -709,7 +757,8 @@ enum
 
 namespace Gta2Error
 {
-enum Gta2Error {
+enum Gta2Error
+{
     DMAVideoInitFail = 2u,
     SetWindowModeFail = 5u,
     GetValidHDCFail = 6u,
