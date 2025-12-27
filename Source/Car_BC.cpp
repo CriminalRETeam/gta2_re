@@ -2313,10 +2313,21 @@ char_type Car_BC::sub_4421B0()
     return 1;
 }
 
-STUB_FUNC(0x442200)
+MATCH_FUNC(0x442200)
 bool Car_BC::sub_442200()
 {
-    NOT_IMPLEMENTED;
+    if (field_A0_car_kind == 9)
+    {
+        return field_74_damage == 32001 ? true : false;
+    }
+
+    if (!is_train_model() && !gGame_0x40_67E008->sub_4B9C10(this) && !Car_BC::sub_4421B0())
+    {
+        if (field_7C_uni_num != 4 && (field_7C_uni_num != 6 || !field_54_driver))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
