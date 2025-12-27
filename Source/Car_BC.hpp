@@ -404,7 +404,7 @@ class Car_BC
     EXPORT void sub_43C0C0();
     EXPORT void sub_43C1C0();
     EXPORT void sub_43C260();
-    EXPORT car_info* sub_43C310();
+    EXPORT void sub_43C310();
     EXPORT void sub_43C3C0();
     EXPORT void sub_43C470();
     EXPORT s32 sub_43C500();

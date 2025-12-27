@@ -57,7 +57,7 @@ class Object_2C
     EXPORT s16 sub_526B40(s32 a2);
     EXPORT char_type sub_527070(s16* a2, s32 a3, s16* a4, s32 a5);
     EXPORT void sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT void sub_527990();
+    EXPORT void Light_527990();
     EXPORT void sub_527AE0();
     EXPORT void sub_527D00();
     EXPORT void sub_527F10();

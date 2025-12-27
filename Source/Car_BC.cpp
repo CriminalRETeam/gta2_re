@@ -1398,11 +1398,18 @@ void Car_BC::sub_43C260()
     }
 }
 
-STUB_FUNC(0x43c310)
-car_info* Car_BC::sub_43C310()
+MATCH_FUNC(0x43c310)
+void Car_BC::sub_43C310()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+    {
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
+        Object_2C* pLight = field_0_qq.sub_5A6A90(173);
+        if (pLight)
+        {
+            pLight->Light_527990();
+        }
+    }
 }
 
 MATCH_FUNC(0x43c3c0)
@@ -2884,7 +2891,7 @@ MATCH_FUNC(0x443f30)
 void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
     Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
-    pObj->sub_527990();
+    pObj->Light_527990();
     field_50_car_sprite->sub_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
 }
 

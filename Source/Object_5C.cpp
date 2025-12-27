@@ -474,7 +474,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 }
 
 MATCH_FUNC(0x527990)
-void Object_2C::sub_527990()
+void Object_2C::Light_527990()
 {
     field_C_explosion->field_0 &= ~0xFF;
 }
