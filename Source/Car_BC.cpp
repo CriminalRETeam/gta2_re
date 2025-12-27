@@ -1379,7 +1379,7 @@ void Car_BC::sub_43C1C0()
 MATCH_FUNC(0x43c260)
 void Car_BC::sub_43C260()
 {
-    if (inline_check_0x80_damage() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
         this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
         Object_2C* p2C = field_0_qq.sub_5A6A90(172);
@@ -1394,11 +1394,15 @@ car_info* Car_BC::sub_43C310()
     return 0;
 }
 
-STUB_FUNC(0x43c3c0)
-car_info* Car_BC::sub_43C3C0()
+MATCH_FUNC(0x43c3c0)
+void Car_BC::sub_43C3C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+    {
+        this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftRoofLight_17);
+        Object_2C* pLight = field_0_qq.sub_5A6A90(173);
+        pLight->UpdateLight_527A30();
+    }
 }
 
 STUB_FUNC(0x43c470)
