@@ -918,6 +918,7 @@ Fix16 Car_BC::sub_43A590()
     return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
 }
 
+// https://decomp.me/scratch/3mKny - matched
 STUB_FUNC(0x43a5b0)
 u32* Car_BC::sub_43A5B0(u32* a2)
 {
