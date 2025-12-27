@@ -502,7 +502,7 @@ class Car_BC
     EXPORT char_type sub_442D70();
     EXPORT char_type sub_443130();
     EXPORT char_type PoolUpdate();
-    EXPORT char_type sub_443330(s32 a2);
+    EXPORT void sub_443330();
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
     EXPORT void sub_4435A0();
     EXPORT s32 sub_4435B0();

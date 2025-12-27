@@ -455,7 +455,7 @@ void Char_B4::sub_545720(Fix16 a2)
     gPurpleDoom_1_679208->sub_477B20(field_80_sprite_ptr);
     if (field_88_obj_2c.field_0_p18)
     {
-        field_88_obj_2c.sub_5A6F70(field_80_sprite_ptr);
+        field_88_obj_2c.PoolUpdate_5A6F70(field_80_sprite_ptr);
     }
     if (field_6A > 0)
     {
