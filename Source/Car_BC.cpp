@@ -83,7 +83,6 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 DEFINE_GLOBAL(Fix16, dword_705DDC, 0x705DDC);
 DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
 
-
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -1347,11 +1346,15 @@ u32 Car_BC::sub_43C1C0()
     return 0;
 }
 
-STUB_FUNC(0x43c260)
-car_info* Car_BC::sub_43C260()
+MATCH_FUNC(0x43c260)
+void Car_BC::sub_43C260()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_damage() && !field_8_damaged_areas.mask_bit(1))
+    {
+        this->field_8_damaged_areas.set_bit(18);
+        Object_2C* p2C = field_0_qq.sub_5A6A90(172);
+        p2C->UpdateLight_527A30();
+    }
 }
 
 STUB_FUNC(0x43c310)

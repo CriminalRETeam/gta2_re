@@ -794,6 +794,23 @@ void Object_2C::sub_525B20()
     }
 }
 
+STUB_FUNC(0x527A30)
+void Object_2C::UpdateLight_527A30()
+{
+    NOT_IMPLEMENTED;
+
+    // TODO: Clears light radius? also probably an inline of nostalgic_ellis_0x28
+/*
+ nostalgic_ellis_0x28 *pLight;
+  int v2;
+
+  pLight = this->field_C_pAny.pLight;
+  v2 = pLight->field_0;
+  LOBYTE(v2) = 0;
+  pLight->field_0 = v2 | pLight->field_18_intensity;
+*/
+}
+
 MATCH_FUNC(0x529300)
 void Object_5C::sub_529300()
 {

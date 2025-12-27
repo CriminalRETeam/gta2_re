@@ -91,6 +91,7 @@ class Object_2C
     EXPORT void sub_5290C0(u8 id_base);
     EXPORT char sub_525AC0();
     EXPORT void sub_525B20();
+    EXPORT void UpdateLight_527A30();
 
     inline bool check_is_busy_shop()
     {
