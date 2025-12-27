@@ -2496,11 +2496,23 @@ s32 Car_BC::sub_442810()
     return 0;
 }
 
-STUB_FUNC(0x442d10)
-s32* Car_BC::sub_442D10()
+MATCH_FUNC(0x442d10)
+void Car_BC::LightUpdate_442D10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* p18 = field_0_qq.sub_5A6A50(165);
+    if (p18)
+    {
+        Sprite* pSprite = p18->field_0;
+        Object_2C* o2c = pSprite->As2C_40FEC0();
+        if (gMap_0x370_6F6268->sub_4E7FC0(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos))
+        {
+            o2c->Light_527990();
+        }
+        else
+        {
+            o2c->UpdateLight_527A30();
+        }
+    }
 }
 
 STUB_FUNC(0x442d70)

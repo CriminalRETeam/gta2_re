@@ -498,7 +498,7 @@ class Car_BC
     EXPORT void DetachTrailer_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
-    EXPORT s32* sub_442D10();
+    EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();
     EXPORT char_type sub_443130();
     EXPORT char_type PoolUpdate();
