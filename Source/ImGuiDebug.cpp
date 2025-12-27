@@ -308,18 +308,76 @@ void CC ImGuiDebugDraw()
                 sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), pCarIter);
                 if (ImGui::TreeNode(buffer))
                 {
+
+                    ImGui::Begin(buffer);
+
                     ImGui::SliderInt("field_A0_car_kind", &pCarIter->field_A0_car_kind, 0, 120);
+
+                    ImGui::Text("ang %d", pCarIter->field_50_car_sprite->field_0.rValue);
+                    ImGui::Text("field_7C_uni_num %d", pCarIter->field_7C_uni_num);
+                    ImGui::Text("field_74_damage %d", pCarIter->field_74_damage);
 
                     if (ImGui::Button("AssignRandomRemap_43A7D0"))
                     {
                         pCarIter->AssignRandomRemap_43A7D0();
                     }
 
-                    if (ImGui::Button("BrakeLightsOn_43BF10"))
+                    static bool bits[32];
+                    ImGui::Checkbox("top left damage", &bits[0]);
+                    ImGui::Checkbox("top right damage", &bits[1]);
+                    ImGui::Checkbox("bottom right damage", &bits[2]);
+                    ImGui::Checkbox("bottom left damage", &bits[3]);
+                    ImGui::Checkbox("windsheild damage", &bits[4]);
+
+                    ImGui::Checkbox("back right brakelight", &bits[5]);
+                    ImGui::Checkbox("front right headlight", &bits[6]);
+
+                    ImGui::Checkbox("bottom right door frame 1", &bits[7]);
+                    ImGui::Checkbox("bottom right door frame 2", &bits[8]);
+                    ImGui::Checkbox("bottom right door frame 3", &bits[9]);
+                    ImGui::Checkbox("bottom right door frame 4", &bits[10]);
+
+                    ImGui::Checkbox("top right door frame 1", &bits[11]);
+                    ImGui::Checkbox("top right door frame 2", &bits[12]);
+                    ImGui::Checkbox("top right door frame 3", &bits[13]);
+                    ImGui::Checkbox("top right door frame 4", &bits[14]);
+
+                    // Star on tv vans, prob other roof stuff
+                    ImGui::Checkbox("bottom left roof light", &bits[15]);
+                    ImGui::Checkbox("bottom right roof light", &bits[16]);
+                    ImGui::Checkbox("top left roof light", &bits[17]);
+                    ImGui::Checkbox("top right roof light", &bits[18]);
+
+                    ImGui::Checkbox("b19", &bits[19]);
+                    ImGui::Checkbox("b20", &bits[20]);
+                    ImGui::Checkbox("b21", &bits[21]);
+
+                    ImGui::Checkbox("back left brakelight", &bits[22]);
+                    ImGui::Checkbox("front left headlight", &bits[23]);
+
+                    ImGui::Checkbox("bottom left door frame 1", &bits[24]);
+                    ImGui::Checkbox("bottom left door frame 2", &bits[25]);
+                    ImGui::Checkbox("bottom left door frame 3", &bits[26]);
+                    ImGui::Checkbox("bottom left door frame 4", &bits[27]);
+
+                    ImGui::Checkbox("top left door frame 1", &bits[28]);
+                    ImGui::Checkbox("top left door frame 2", &bits[29]);
+                    ImGui::Checkbox("top left door frame 3", &bits[30]);
+                    ImGui::Checkbox("top left door frame 4", &bits[31]);
+
+                    for (u8 i = 0; i < 32; i++)
                     {
-                        pCarIter->BrakeLightsOn_43BF10();
+                        if (bits[i])
+                        {
+                            pCarIter->field_8_damaged_areas.set_bit(i);
+                        }
+                        else
+                        {
+                            pCarIter->field_8_damaged_areas.clear_bit(i);
+                        }
                     }
 
+                    ImGui::End();
                     ImGui::TreePop();
                 }
                 pCarIter = pCarIter->mpNext;
