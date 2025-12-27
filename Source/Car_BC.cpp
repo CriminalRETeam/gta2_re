@@ -80,6 +80,9 @@ DEFINE_GLOBAL(Fix16, dword_677B94, 0x677B94);
 DEFINE_GLOBAL(Fix16, dword_6779F8, 0x6779F8);
 DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 
+DEFINE_GLOBAL(Fix16, dword_705DDC, 0x705DDC);
+DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -345,7 +348,7 @@ void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 MATCH_FUNC(0x5c8680)
 void Car_214::sub_5C8680(u8 idx)
 {
-    field_0[idx].field_8 = 0;
+    field_0[idx].field_8_type = 0;
     field_0[idx].field_C = 0;
     field_0[idx].field_0 = 0;
     field_0[idx].field_14 = 2;
@@ -353,11 +356,33 @@ void Car_214::sub_5C8680(u8 idx)
     field_0[idx].field_4_O2C = 0;
 }
 
-STUB_FUNC(0x5c86c0)
-char_type Car_214::sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9)
+MATCH_FUNC(0x5c86c0)
+char_type Car_214::sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_18* pIter = field_0;
+    for (u8 idx = 0; idx < GTA2_COUNTOF(field_0); idx++)
+    {
+        if (pIter->field_8_type == 0)
+        {
+            pIter->field_8_type = *pType;
+            pIter->field_C = *f_C;
+            pIter->field_0 = f_0;
+            pIter->field_14 = 1;
+            pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(161, // save point?
+                                                                         xpos,
+                                                                         ypos,
+                                                                         zpos,
+                                                                         word_705F10,
+                                                                         a8,
+                                                                         a9,
+                                                                         dword_705DDC);
+            pIter->field_4_O2C->field_27 = idx;
+            field_210_count++;
+            return idx;
+        }
+        pIter++;
+    }
+    return -1;
 }
 
 MATCH_FUNC(0x5c8750)
@@ -368,7 +393,7 @@ void Car_214::sub_5C8750()
     for (u8 i = 0; i < GTA2_COUNTOF(field_0); i++)
     {
         pOff->field_10_remap_rng = i;
-        pOff->field_8 = 0;
+        pOff->field_8_type = 0;
         pOff->field_C = 0;
         pOff->field_0 = 0;
         pOff->field_14 = 1;
@@ -893,6 +918,7 @@ Fix16 Car_BC::sub_43A590()
     return gCarInfo_808_678098->sub_454840(sub_43A850())->field_0;
 }
 
+// https://decomp.me/scratch/3mKny - matched
 STUB_FUNC(0x43a5b0)
 u32* Car_BC::sub_43A5B0(u32* a2)
 {
@@ -1159,11 +1185,10 @@ char_type Car_BC::sub_43B730()
     return gGame_0x40_67E008->sub_4B97E0(field_50_car_sprite, dword_6778D0);
 }
 
-STUB_FUNC(0x43b750)
+MATCH_FUNC(0x43b750)
 char_type Car_BC::sub_43B750()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return gGame_0x40_67E008->sub_4B9830(field_50_car_sprite, dword_6778D0);
 }
 
 MATCH_FUNC(0x43b770)
@@ -1202,11 +1227,23 @@ void Car_BC::sub_43B870(s32 a2, s32 a3)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x43bb90)
-s32 Car_BC::sub_43BB90(char_type a1)
+MATCH_FUNC(0x43bb90)
+s32 Car_BC::sub_43BB90(u8 a1)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch(a1)
+    {
+        case 1:
+        return 12;
+
+        case 2:
+        return 13;
+
+        case 3:
+        return 14;
+
+        default:
+        return 12;
+    }
 }
 
 STUB_FUNC(0x43bbc0)
@@ -1267,35 +1304,30 @@ char_type Car_BC::sub_43BD40()
     return 0;
 }
 
-STUB_FUNC(0x43bf10)
-void Car_BC::sub_43BF10()
-{
-    NOT_IMPLEMENTED;
-    if ((this->field_A4 & 8) != 0)
-    {
-        this->field_A4 |= 1u;
-    }
-    else
-    {
-        if (!this->field_8_damaged_areas.mask_bit(2))
-        {
-            this->field_8_damaged_areas.set_bit(5);
-        }
-        if (!this->field_8_damaged_areas.mask_bit(1))
-        {
-            this->field_8_damaged_areas.set_bit(22);
-        }
-        this->field_A4 |= 1u;
-    }
-}
-
-MATCH_FUNC(0x43bf70)
-void Car_BC::sub_43BF70()
+MATCH_FUNC(0x43bf10)
+void Car_BC::BrakeLightsOn_43BF10()
 {
     if ((this->field_A4 & 8) == 0)
     {
-        this->field_8_damaged_areas.clear_bit(5);
-        this->field_8_damaged_areas.clear_bit(22);
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        }
+        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+        {
+            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+        }
+    }
+    this->field_A4 |= 1u;
+}
+
+MATCH_FUNC(0x43bf70)
+void Car_BC::BrakeLightsOff_43BF70()
+{
+    if ((this->field_A4 & 8) == 0)
+    {
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
     }
     this->field_A4 &= ~1u;
 }
@@ -1307,39 +1339,89 @@ char_type Car_BC::sub_43BFE0()
     return 0;
 }
 
-STUB_FUNC(0x43c0c0)
-char_type Car_BC::sub_43C0C0()
+MATCH_FUNC(0x43c0c0)
+void Car_BC::sub_43C0C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((field_A4 & 8) == 0) // bit 3
+    {
+        if (sub_421700()) // bit 1
+        {
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
+
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
+        }
+
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+
+        if (sub_421660()) // bit 2
+        {
+            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+        }
+    }
+
+    field_A4 &= ~2u; // bit 1
 }
 
-STUB_FUNC(0x43c1c0)
-u32 Car_BC::sub_43C1C0()
+MATCH_FUNC(0x43c1c0)
+void Car_BC::sub_43C1C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if ((this->field_A4 & 8) != 0)
+    {
+        Car_BC::sub_43CBE0();
+    }
+
+    this->field_A4 = 0;
+
+    if (inline_info_flags_bit2() || is_FBI_car_411920())
+    {
+        Car_BC::DeactivateEmergencyLights_43C9D0();
+    }
+
+    Car_BC::sub_43C0C0();
+    Car_BC::BrakeLightsOff_43BF70();
 }
 
-STUB_FUNC(0x43c260)
-car_info* Car_BC::sub_43C260()
+MATCH_FUNC(0x43c260)
+void Car_BC::sub_43C260()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+    {
+        this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
+        Object_2C* p2C = field_0_qq.sub_5A6A90(172);
+        p2C->UpdateLight_527A30();
+    }
 }
 
-STUB_FUNC(0x43c310)
-car_info* Car_BC::sub_43C310()
+MATCH_FUNC(0x43c310)
+void Car_BC::sub_43C310()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
+    {
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
+        Object_2C* pLight = field_0_qq.sub_5A6A90(173);
+        if (pLight)
+        {
+            pLight->Light_527990();
+        }
+    }
 }
 
-STUB_FUNC(0x43c3c0)
-car_info* Car_BC::sub_43C3C0()
+MATCH_FUNC(0x43c3c0)
+void Car_BC::sub_43C3C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+    {
+        this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftRoofLight_17);
+        Object_2C* pLight = field_0_qq.sub_5A6A90(173);
+        pLight->UpdateLight_527A30();
+    }
 }
 
 STUB_FUNC(0x43c470)
@@ -1382,7 +1464,7 @@ void Car_BC::ActivateEmergencyLights_43C920()
     {
         if (is_FBI_car_411920())
         {
-            field_8_damaged_areas.set_bit(11);
+            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
         }
         field_A4 |= 4u;
         if (is_FBI_car_411920())
@@ -1406,7 +1488,7 @@ void Car_BC::DeactivateEmergencyLights_43C9D0()
     field_A4 &= ~4u;
     if (is_FBI_car_411920() && field_74_damage != 32001)
     {
-        field_8_damaged_areas.set_bit(14);
+        field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor4_14);
     }
 }
 
@@ -1883,16 +1965,16 @@ void Car_BC::sub_441520()
 }
 
 MATCH_FUNC(0x4415c0)
-void Car_BC::sub_4415C0()
+void Car_BC::UpdateBrakeLights_4415C0()
 {
     CarPhysics_B0* pCarPhysics = this->field_58_physics;
     if (pCarPhysics && pCarPhysics->IsFootBrakeOn_55A150())
     {
-        sub_43BF10();
+        BrakeLightsOn_43BF10();
     }
     else
     {
-        sub_43BF70();
+        BrakeLightsOff_43BF70();
     }
 }
 
@@ -2124,11 +2206,11 @@ void Car_BC::sub_441B20()
 {
     if (this->field_9C != 3 || this->field_4.field_0_pOwner)
     {
-        this->field_8_damaged_areas.clear_bit(15);
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
     else
     {
-        this->field_8_damaged_areas.set_bit(15);
+        this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
 }
 
@@ -2250,10 +2332,21 @@ char_type Car_BC::sub_4421B0()
     return 1;
 }
 
-STUB_FUNC(0x442200)
+MATCH_FUNC(0x442200)
 bool Car_BC::sub_442200()
 {
-    NOT_IMPLEMENTED;
+    if (field_A0_car_kind == 9)
+    {
+        return field_74_damage == 32001 ? true : false;
+    }
+
+    if (!is_train_model() && !gGame_0x40_67E008->sub_4B9C10(this) && !Car_BC::sub_4421B0())
+    {
+        if (field_7C_uni_num != 4 && (field_7C_uni_num != 6 || !field_54_driver))
+        {
+            return 1;
+        }
+    }
     return 0;
 }
 
@@ -2369,7 +2462,7 @@ void Car_BC::sub_4426D0()
     sub_441520();
     if (field_74_damage != 32001)
     {
-        sub_4415C0();
+        UpdateBrakeLights_4415C0();
         sub_441E70();
     }
     sub_4417D0();
@@ -2799,7 +2892,7 @@ MATCH_FUNC(0x443f30)
 void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
     Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
-    pObj->sub_527990();
+    pObj->Light_527990();
     field_50_car_sprite->sub_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
 }
 
@@ -3021,20 +3114,21 @@ void Car_BC::sub_447360()
 {
     if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & 2) == 2)
     {
-        field_8_damaged_areas.clear_bit(0x0b);
-        field_8_damaged_areas.clear_bit(0x0c);
-        field_8_damaged_areas.clear_bit(0x0d);
-        field_8_damaged_areas.clear_bit(0x0e);
-        field_8_damaged_areas.clear_bit(0x1c);
-        field_8_damaged_areas.clear_bit(0x1d);
-        field_8_damaged_areas.clear_bit(0x1e);
-        field_8_damaged_areas.clear_bit(0x1f);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
+
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
     }
-    field_8_damaged_areas.clear_bit(0x06);
-    field_8_damaged_areas.clear_bit(0x17);
+    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
     if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 4) == 4)
     {
-        field_8_damaged_areas.clear_bit(0x0f);
+        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
 }
 

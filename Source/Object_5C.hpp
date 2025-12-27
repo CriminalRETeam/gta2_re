@@ -57,7 +57,7 @@ class Object_2C
     EXPORT s16 sub_526B40(s32 a2);
     EXPORT char_type sub_527070(s16* a2, s32 a3, s16* a4, s32 a5);
     EXPORT void sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT void sub_527990();
+    EXPORT void Light_527990();
     EXPORT void sub_527AE0();
     EXPORT void sub_527D00();
     EXPORT void sub_527F10();
@@ -91,6 +91,7 @@ class Object_2C
     EXPORT void sub_5290C0(u8 id_base);
     EXPORT char sub_525AC0();
     EXPORT void sub_525B20();
+    EXPORT void UpdateLight_527A30();
 
     inline bool check_is_busy_shop()
     {
@@ -168,7 +169,7 @@ class Object_5C
     EXPORT ~Object_5C();
     EXPORT void sub_5297F0();
     EXPORT s32 sub_5298E0(s32 a2);
-    EXPORT Object_2C* sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9);
+    EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9);
     EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 a3, Fix16 a4, Fix16 a5, Ang16 a6);
     EXPORT Object_2C* sub_5299F0(s32 a2, u32 a3, Fix16 a4, Fix16 a5, Fix16 a6);
     EXPORT Object_2C* sub_529A40(s32 a2, s32 a3, s32 a4, s32 a5, s32 a6, u8 a7);

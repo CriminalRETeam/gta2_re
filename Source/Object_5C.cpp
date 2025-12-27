@@ -474,7 +474,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 }
 
 MATCH_FUNC(0x527990)
-void Object_2C::sub_527990()
+void Object_2C::Light_527990()
 {
     field_C_explosion->field_0 &= ~0xFF;
 }
@@ -794,6 +794,23 @@ void Object_2C::sub_525B20()
     }
 }
 
+STUB_FUNC(0x527A30)
+void Object_2C::UpdateLight_527A30()
+{
+    NOT_IMPLEMENTED;
+
+    // TODO: Clears light radius? also probably an inline of nostalgic_ellis_0x28
+/*
+ nostalgic_ellis_0x28 *pLight;
+  int v2;
+
+  pLight = this->field_C_pAny.pLight;
+  v2 = pLight->field_0;
+  LOBYTE(v2) = 0;
+  pLight->field_0 = v2 | pLight->field_18_intensity;
+*/
+}
+
 MATCH_FUNC(0x529300)
 void Object_5C::sub_529300()
 {
@@ -934,7 +951,7 @@ s32 Object_5C::sub_5298E0(s32 a2)
 }
 
 MATCH_FUNC(0x529950)
-Object_2C* Object_5C::sub_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
+Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 a9)
 {
     Object_2C* pNewObj = sub_529C00(object_type, x, y, z, rot, 0);
     if (pNewObj)

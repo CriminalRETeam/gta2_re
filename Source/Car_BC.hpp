@@ -150,7 +150,7 @@ class Car_18
   public:
     s32 field_0;
     Object_2C* field_4_O2C;
-    s32 field_8;
+    s32 field_8_type;
     s32 field_C;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
@@ -161,7 +161,7 @@ class Car_214
 {
   public:
     EXPORT void sub_5C8680(u8 idx);
-    EXPORT char_type sub_5C86C0(s32* a2, u32* a3, s32 a4, s32 a5, s32 a6, s32 a7, s32 a8, s32 a9);
+    EXPORT char_type sub_5C86C0(s32* pType, s32* f_C, s32 f_0, Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16 a8, Fix16 a9);
     EXPORT void sub_5C8750();
     EXPORT u16* sub_5C8780(u8 a2, Sprite* pCarSprite);
     Car_18 field_0[22];
@@ -392,20 +392,20 @@ class Car_BC
     EXPORT char_type sub_43B7B0(Car_BC* a2);
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, s32 a3);
-    EXPORT s32 sub_43BB90(char_type a1);
+    EXPORT s32 sub_43BB90(u8 a1);
     EXPORT char_type sub_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
     EXPORT char_type sub_43BD40();
-    EXPORT void sub_43BF10();
-    EXPORT void sub_43BF70();
+    EXPORT void BrakeLightsOn_43BF10();
+    EXPORT void BrakeLightsOff_43BF70();
     EXPORT char_type sub_43BFE0();
-    EXPORT char_type sub_43C0C0();
-    EXPORT u32 sub_43C1C0();
-    EXPORT car_info* sub_43C260();
-    EXPORT car_info* sub_43C310();
-    EXPORT car_info* sub_43C3C0();
+    EXPORT void sub_43C0C0();
+    EXPORT void sub_43C1C0();
+    EXPORT void sub_43C260();
+    EXPORT void sub_43C310();
+    EXPORT void sub_43C3C0();
     EXPORT void sub_43C470();
     EXPORT s32 sub_43C500();
     EXPORT s32 sub_43C650();
@@ -460,7 +460,7 @@ class Car_BC
     EXPORT void sub_441380();
     EXPORT char_type sub_4413B0(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_441520();
-    EXPORT void sub_4415C0();
+    EXPORT void UpdateBrakeLights_4415C0();
     EXPORT u32* sub_441600(u32* a2);
     EXPORT void sub_4416D0(s32 a2);
     EXPORT void sub_4417D0();
@@ -642,6 +642,12 @@ class Car_BC
     inline bool sub_4216C0()
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x20) == 0x20;
+    }
+
+    // TODO: Get 9.6f addr
+    inline bool inline_check_0x80_info()
+    {
+        return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & 0x80) == 0x80;
     }
 
     // 9.6f inline 0x425650

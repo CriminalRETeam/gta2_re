@@ -1695,12 +1695,12 @@
         "v105_address": "0x43bd40"
     },
     {
-        "name": "Car_BC::sub_43BF10",
+        "name": "Car_BC::BrakeLightsOn_43BF10",
         "v96f_address": null,
         "v105_address": "0x43bf10"
     },
     {
-        "name": "Car_BC::sub_43BF70",
+        "name": "Car_BC::BrakeLightsOff_43BF70",
         "v96f_address": null,
         "v105_address": "0x43bf70"
     },
@@ -2020,7 +2020,7 @@
         "v105_address": "0x441520"
     },
     {
-        "name": "Car_BC::sub_4415C0",
+        "name": "Car_BC::UpdateBrakeLights_4415C0",
         "v96f_address": null,
         "v105_address": "0x4415c0"
     },
@@ -10725,7 +10725,7 @@
         "v105_address": "0x527630"
     },
     {
-        "name": "sub_527990",
+        "name": "Light_527990",
         "v96f_address": "0x527990",
         "v105_address": "0x527990"
     },
@@ -10915,7 +10915,7 @@
         "v105_address": "0x5298e0"
     },
     {
-        "name": "Object_5C::sub_529950",
+        "name": "Object_5C::NewTouchPoint_529950",
         "v96f_address": null,
         "v105_address": "0x529950"
     },
