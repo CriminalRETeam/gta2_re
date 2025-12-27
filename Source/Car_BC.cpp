@@ -1230,19 +1230,19 @@ void Car_BC::sub_43B870(s32 a2, s32 a3)
 MATCH_FUNC(0x43bb90)
 s32 Car_BC::sub_43BB90(u8 a1)
 {
-    switch(a1)
+    switch (a1)
     {
         case 1:
-        return 12;
+            return 12;
 
         case 2:
-        return 13;
+            return 13;
 
         case 3:
-        return 14;
+            return 14;
 
         default:
-        return 12;
+            return 12;
     }
 }
 
@@ -1753,11 +1753,12 @@ void Car_BC::AddGangDriver_440630(Gang_144* pGang)
     field_7C_uni_num = 3;
 }
 
-STUB_FUNC(0x440660)
-s32 Car_BC::AttachGangIcon_440660(u8 a2)
+MATCH_FUNC(0x440660)
+void Car_BC::AttachGangIcon_440660(u8 arrow_colour)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Object_2C* pIcon =
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(arrow_colour + 286, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->sub_5A3100(pIcon->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
 }
 
 MATCH_FUNC(0x4406b0)
@@ -2496,11 +2497,23 @@ s32 Car_BC::sub_442810()
     return 0;
 }
 
-STUB_FUNC(0x442d10)
-s32* Car_BC::sub_442D10()
+MATCH_FUNC(0x442d10)
+void Car_BC::LightUpdate_442D10()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Sprite_18* p18 = field_0_qq.sub_5A6A50(165);
+    if (p18)
+    {
+        Sprite* pSprite = p18->field_0;
+        Object_2C* o2c = pSprite->As2C_40FEC0();
+        if (gMap_0x370_6F6268->sub_4E7FC0(pSprite->field_14_xpos.x, pSprite->field_14_xpos.y, pSprite->field_1C_zpos))
+        {
+            o2c->Light_527990();
+        }
+        else
+        {
+            o2c->UpdateLight_527A30();
+        }
+    }
 }
 
 STUB_FUNC(0x442d70)
@@ -2574,7 +2587,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_0_qq.field_0_p18)
     {
-        this->field_0_qq.sub_5A6F70(this->field_50_car_sprite);
+        this->field_0_qq.PoolUpdate_5A6F70(this->field_50_car_sprite);
         this->field_0_qq.sub_5A72B0(this->field_50_car_sprite, 0);
     }
 
@@ -2609,11 +2622,16 @@ char_type Car_BC::PoolUpdate()
     return 0;
 }
 
-STUB_FUNC(0x443330)
-char_type Car_BC::sub_443330(s32 a2)
+MATCH_FUNC(0x443330)
+void Car_BC::sub_443330()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC::sub_4426D0();
+    if (field_0_qq.field_0_p18)
+    {
+        field_0_qq.PoolUpdate_5A6F70(field_50_car_sprite);
+        field_0_qq.sub_5A72B0(field_50_car_sprite, 0);
+    }
+    Car_BC::sub_441360();
 }
 
 STUB_FUNC(0x443360)

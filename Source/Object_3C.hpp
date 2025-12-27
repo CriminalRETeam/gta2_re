@@ -45,7 +45,7 @@ class struct_4
     EXPORT Sprite_18* sub_5A6E10();
     EXPORT Sprite* sub_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT s32 sub_5A6EA0(s32 a2, s32 a3);
-    EXPORT void sub_5A6F70(Sprite* a2);
+    EXPORT void PoolUpdate_5A6F70(Sprite* a2);
     EXPORT void sub_5A7010();
     EXPORT void sub_5A7080();
     EXPORT void sub_5A7110();

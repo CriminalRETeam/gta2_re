@@ -440,7 +440,7 @@ class Car_BC
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
-    EXPORT s32 AttachGangIcon_440660(u8 a2);
+    EXPORT void AttachGangIcon_440660(u8 arrow_colour);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void sub_4406E0(Ped* a2);
     EXPORT void ClearDriver_4407F0();
@@ -498,11 +498,11 @@ class Car_BC
     EXPORT void DetachTrailer_442760();
     EXPORT Car_BC* sub_4427A0(Car_BC* a2);
     EXPORT s32 sub_442810();
-    EXPORT s32* sub_442D10();
+    EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();
     EXPORT char_type sub_443130();
     EXPORT char_type PoolUpdate();
-    EXPORT char_type sub_443330(s32 a2);
+    EXPORT void sub_443330();
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
     EXPORT void sub_4435A0();
     EXPORT s32 sub_4435B0();

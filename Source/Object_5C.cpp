@@ -789,7 +789,7 @@ void Object_2C::sub_525B20()
     {
         if (field_10_obj_3c->field_0.field_0_p18)
         {
-            field_10_obj_3c->field_0.sub_5A6F70(field_4);
+            field_10_obj_3c->field_0.PoolUpdate_5A6F70(field_4);
         }
     }
 }
