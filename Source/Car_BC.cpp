@@ -2740,12 +2740,11 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
     }
 }
 
-STUB_FUNC(0x443ae0)
+MATCH_FUNC(0x443ae0)
 void Car_BC::ResprayOrChangePlates(u8 remap)
 {
-    NOT_IMPLEMENTED;
     Player* pPlayer = this->field_54_driver->field_15C_player;
-    s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
+    const s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_unk.GetScore_592370())
     {
         if (pPlayer->field_0_bIsUser)
@@ -2753,7 +2752,6 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
             if (remap == 0xFD) // clean plates only
             {
                 gHud_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
-                this->field_B4 = 2;
             }
             else
             {
@@ -2767,14 +2765,20 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
             field_0_qq.sub_5A7110();
             this->field_B4 = 1;
         }
+        else
+        {
+            this->field_B4 = 2;
+        }
 
         pPlayer->field_2D4_unk.AddCash_592620(-cost);
         this->field_54_driver->field_20A_wanted_points = 0;
         RemoveAllDamage();
-        return;
     }
-    sub_443AB0(pPlayer, cost);
-    this->field_B4 = 8;
+    else
+    {
+        sub_443AB0(pPlayer, cost);
+        this->field_B4 = 8;
+    }
 }
 
 MATCH_FUNC(0x443bd0)
