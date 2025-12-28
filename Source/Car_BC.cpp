@@ -25,6 +25,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "winmain.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -1001,8 +1002,51 @@ void Car_BC::AssignRandomRemap_43A7D0()
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_54_driver && !field_54_driver->sub_45EDE0(2))
+    {
+        if (!is_train_model())
+        {
+            if (field_60 && field_60->field_22 != 0)
+            {
+                if (field_84_car_info_idx == car_model_enum::TANK)
+                {
+                    return car_model_enum::HOTDOG_D4;
+                }
+                return car_model_enum::HOTDOG_D1;
+            }
+
+            switch (field_84_car_info_idx)
+            {
+                case car_model_enum::SWATVAN:
+                case car_model_enum::GUNJEEP:
+                case car_model_enum::COPCAR:
+                case car_model_enum::EDSELFBI:
+                case car_model_enum::JEEP:
+                    return car_model_enum::HOTDOG_D1;
+
+                case car_model_enum::TANK:
+                    return car_model_enum::HOTDOG_D4;
+            }
+        }
+        return this->field_84_car_info_idx;
+    }
+
+    if (this->field_68 < dword_6777D0)
+    {
+        return car_model_enum::HOTDOG_D3;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::TRUKCAB2 && !this->field_64_pTrailer)
+    {
+        return car_model_enum::TRUKCAB1;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::TRUKCAB1 && this->field_64_pTrailer)
+    {
+        return car_model_enum::TRUKCAB2;
+    }
+
+    return this->field_84_car_info_idx;
 }
 
 MATCH_FUNC(0x43a950)
@@ -1053,7 +1097,55 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 STUB_FUNC(0x43a9f0)
 void Car_BC::sub_43A9F0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_54_driver && (field_78_flags & 0x80) && field_7C_uni_num != 2 && (field_A4 & 8) == 0 && field_74_damage != 32001)
+    {
+        if ((field_A4 & 0x1C) == 0)
+        {
+            field_A5 = 12;
+            field_A4 |= 8;
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+            {
+                if (sub_421700())
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+                }
+                else
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+                }
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+            {
+                if (sub_421700())
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+                }
+                else
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+                }
+            }
+
+            if (sub_421660())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+            }
+
+            field_8E = 50;
+        }
+    }
 }
 
 STUB_FUNC(0x43aa60)
@@ -1890,6 +1982,16 @@ char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
     return 0;
 }
 
+MATCH_FUNC(0x441330)
+Fix16 Car_BC::GetZPos_441330()
+{
+    if (field_58_physics)
+    {
+        return field_58_physics->ComputeZPosition_559E90();
+    }
+    return field_50_car_sprite->field_1C_zpos;
+}
+
 MATCH_FUNC(0x441360)
 void Car_BC::sub_441360()
 {
@@ -2523,10 +2625,21 @@ char_type Car_BC::sub_442D70()
     return 0;
 }
 
-STUB_FUNC(0x443130)
-char_type Car_BC::sub_443130()
+MATCH_FUNC(0x443130)
+char_type Car_BC::TrailerUpdate_443130()
 {
-    NOT_IMPLEMENTED;
+    const s32 state = field_64_pTrailer->sub_408220();
+    switch (state)
+    {
+        case 0:
+            return 0;
+        case 1:
+            gTrailerPool_66AC80->field_0_pool.DeAllocate(field_64_pTrailer);
+            return 1;
+        case 2:
+            Car_BC::DetachTrailer_442760();
+            break;
+    }
     return 0;
 }
 
@@ -2542,7 +2655,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_64_pTrailer)
     {
-        return sub_443130();
+        return TrailerUpdate_443130();
     }
 
     if (is_train_model())
@@ -2725,6 +2838,74 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
     }
 }
 
+MATCH_FUNC(0x4438C0)
+void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
+{
+    u8 ammo_capacity;
+    Ped* pDriver = this->field_54_driver;
+    Player* pPlayer = pDriver->field_15C_player;
+    Weapon_30* pWeapon = pPlayer->field_718_weapons[weapon_kind];
+    if (pWeapon && pWeapon->is_max_capacity_5DCEA0())
+    {
+        // Ammo full
+        if (pPlayer->field_0_bIsUser)
+        {
+            gHud_2B00_706620->field_DC.sub_5D4400(1, "arig");
+        }
+    }
+    else
+    {
+        s32 car_weapon_cost = Car_BC::get_car_weapon_cost_443A50(weapon_kind);
+        if (bStartNetworkGame_7081F0)
+        {
+            // Cheaper in multiplayer
+            car_weapon_cost /= 10;
+        }
+
+        if (car_weapon_cost <= pPlayer->field_2D4_unk.GetScore_592370())
+        {
+            if (pPlayer->field_0_bIsUser)
+            {
+                gHud_2B00_706620->field_DC.sub_5D3F10(1, "bdone", car_weapon_cost);
+            }
+
+            pPlayer->field_2D4_unk.AddCash_592620(-car_weapon_cost);
+            if (gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind) < 10u)
+            {
+                ammo_capacity = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind);
+            }
+            else
+            {
+                ammo_capacity = 10;
+            }
+            gWeapon_8_707018->allocate_5E3D50(weapon_kind, ammo_capacity, this);
+            switch (weapon_kind)
+            {
+                case weapon_type::car_bomb:
+                    this->field_B4_weapon_kind = 4;
+                    break;
+                case weapon_type::car_mines:
+                    this->field_B4_weapon_kind = 5;
+                    break;
+                case weapon_type::oil_stain:
+                    this->field_B4_weapon_kind = 6;
+                    break;
+                case weapon_type::car_smg:
+                    this->field_B4_weapon_kind = 7;
+                    break;
+                default:
+                    FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
+            }
+        }
+        else
+        {
+            // Can't afford weapon
+            Car_BC::sub_443AB0(pPlayer, car_weapon_cost);
+            this->field_B4_weapon_kind = 8;
+        }
+    }
+}
+
 MATCH_FUNC(0x443AB0)
 void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
 {
@@ -2734,12 +2915,11 @@ void __stdcall Car_BC::sub_443AB0(Player* pPlayer, s32 weapon_cost)
     }
 }
 
-STUB_FUNC(0x443ae0)
-void Car_BC::ResprayOrChangePlates(s32 remap)
+MATCH_FUNC(0x443ae0)
+void Car_BC::ResprayOrChangePlates(u8 remap)
 {
-    NOT_IMPLEMENTED;
     Player* pPlayer = this->field_54_driver->field_15C_player;
-    s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
+    const s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_unk.GetScore_592370())
     {
         if (pPlayer->field_0_bIsUser)
@@ -2747,7 +2927,6 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
             if (remap == 0xFD) // clean plates only
             {
                 gHud_2B00_706620->field_DC.sub_5D3F10(1, "cdone", cost);
-                this->field_B4 = 2;
             }
             else
             {
@@ -2759,20 +2938,26 @@ void Car_BC::ResprayOrChangePlates(s32 remap)
         {
             SetCarRemap(remap);
             field_0_qq.sub_5A7110();
-            this->field_B4 = 1;
+            this->field_B4_weapon_kind = 1;
+        }
+        else
+        {
+            this->field_B4_weapon_kind = 2;
         }
 
         pPlayer->field_2D4_unk.AddCash_592620(-cost);
         this->field_54_driver->field_20A_wanted_points = 0;
         RemoveAllDamage();
-        return;
     }
-    sub_443AB0(pPlayer, cost);
-    this->field_B4 = 8;
+    else
+    {
+        sub_443AB0(pPlayer, cost);
+        this->field_B4_weapon_kind = 8;
+    }
 }
 
 MATCH_FUNC(0x443bd0)
-void Car_BC::ResprayOrCleanPlates(s32 remap)
+void Car_BC::ResprayOrCleanPlates(u8 remap)
 {
     if (AllowResprayOrPlates())
     {
@@ -2792,10 +2977,29 @@ void Car_BC::ResprayOrCleanPlates(s32 remap)
     }
 }
 
-STUB_FUNC(0x443c40)
-void Car_BC::sub_443C40(s32 a2)
+MATCH_FUNC(0x443c40)
+void Car_BC::HandleShops_443C40(Object_2C* pObj)
 {
-    NOT_IMPLEMENTED;
+    Ped* pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        Player* pPlayer = pDriver->field_15C_player;
+        if (pPlayer)
+        {
+            if (pDriver->field_240_occupation != 1 && pObj->field_18_model == 130)
+            {
+                const u8 idx = pObj->field_26_varrok_idx;
+                if (idx >= 250u && (idx <= 252u || idx == 254))
+                {
+                    Car_BC::BuyCarWeapon_4438C0(pPlayer->sub_443CB0(idx));
+                }
+                else
+                {
+                    Car_BC::ResprayOrCleanPlates(idx);
+                }
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x443d00)
@@ -3035,7 +3239,7 @@ void Car_BC::sub_444490()
     this->field_8E = 0;
     this->field_A8 = 0;
     this->field_A9 = 0;
-    this->field_B4 = 0;
+    this->field_B4_weapon_kind = 0;
     this->field_B8 = 0;
     this->field_B0 = 0;
 }

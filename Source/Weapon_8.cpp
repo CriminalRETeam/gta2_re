@@ -132,13 +132,13 @@ void Weapon_8::alloc_car_weapon_5E3DF0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5e3e70)
-char_type Weapon_8::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
+u8 Weapon_8::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
 {
     return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
-char_type Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
+u8 Weapon_8::get_ammo_5E3E80(s32 weapon_kind)
 {
     return byte_5FF778[weapon_kind];
 }

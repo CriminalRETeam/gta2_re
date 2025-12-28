@@ -455,6 +455,7 @@ class Car_BC
     EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
+    EXPORT Fix16 GetZPos_441330();
     EXPORT void sub_441360();
     EXPORT void sub_4436A0();
     EXPORT void sub_441380();
@@ -500,7 +501,7 @@ class Car_BC
     EXPORT s32 sub_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();
-    EXPORT char_type sub_443130();
+    EXPORT char_type TrailerUpdate_443130();
     EXPORT char_type PoolUpdate();
     EXPORT void sub_443330();
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
@@ -509,10 +510,11 @@ class Car_BC
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);
+    EXPORT void BuyCarWeapon_4438C0(s32 weapon_kind);
     EXPORT static void __stdcall sub_443AB0(Player* pPlayer, s32 weapon_cost);
-    EXPORT void ResprayOrChangePlates(s32 remap);
-    EXPORT void ResprayOrCleanPlates(s32 remap);
-    EXPORT void sub_443C40(s32 a2);
+    EXPORT void ResprayOrChangePlates(u8 remap);
+    EXPORT void ResprayOrCleanPlates(u8 remap);
+    EXPORT void HandleShops_443C40(Object_2C *pObj);
     EXPORT void sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void IncrementCarStats_443D70(s32 car_type);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
@@ -860,7 +862,7 @@ class Car_BC
     char_type field_AB;
     s32 field_AC;
     s32 field_B0;
-    s32 field_B4;
+    s32 field_B4_weapon_kind;
     char_type field_B8;
     char_type field_B9;
     char_type field_BA;

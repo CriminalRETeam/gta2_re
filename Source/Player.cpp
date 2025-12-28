@@ -65,6 +65,13 @@ bool UnknownDebugClass::DoBrianTest_42D870(u16 action)
     return false;
 }
 
+STUB_FUNC(0x443CB0)
+EXPORT s32 Player::sub_443CB0(u8 varrok)
+{
+   NOT_IMPLEMENTED;
+   return 0;
+}
+
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
 {

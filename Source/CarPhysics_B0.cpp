@@ -40,6 +40,13 @@ DEFINE_GLOBAL(Fix16, dword_6FDF3C, 0x6FDF3C);
 DEFINE_GLOBAL(Fix16, dword_6FDF7C, 0x6FDF7C);
 DEFINE_GLOBAL(Fix16, dword_6FE07C, 0x6FE07C);
 
+STUB_FUNC(0x559E90)
+Fix16 CarPhysics_B0::ComputeZPosition_559E90()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 MATCH_FUNC(0x40B560)
 Fix16_Point CarPhysics_B0::get_cp1_40B560()
 {
