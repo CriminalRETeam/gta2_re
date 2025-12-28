@@ -1002,8 +1002,51 @@ void Car_BC::AssignRandomRemap_43A7D0()
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_54_driver && !field_54_driver->sub_45EDE0(2))
+    {
+        if (!is_train_model())
+        {
+            if (field_60 && field_60->field_22 != 0)
+            {
+                if (field_84_car_info_idx == car_model_enum::TANK)
+                {
+                    return car_model_enum::HOTDOG_D4;
+                }
+                return car_model_enum::HOTDOG_D1;
+            }
+
+            switch (field_84_car_info_idx)
+            {
+                case car_model_enum::SWATVAN:
+                case car_model_enum::GUNJEEP:
+                case car_model_enum::COPCAR:
+                case car_model_enum::EDSELFBI:
+                case car_model_enum::JEEP:
+                    return car_model_enum::HOTDOG_D1;
+
+                case car_model_enum::TANK:
+                    return car_model_enum::HOTDOG_D4;
+            }
+        }
+        return this->field_84_car_info_idx;
+    }
+
+    if (this->field_68 < dword_6777D0)
+    {
+        return car_model_enum::HOTDOG_D3;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::TRUKCAB2 && !this->field_64_pTrailer)
+    {
+        return car_model_enum::TRUKCAB1;
+    }
+
+    if (field_84_car_info_idx == car_model_enum::TRUKCAB1 && this->field_64_pTrailer)
+    {
+        return car_model_enum::TRUKCAB2;
+    }
+
+    return this->field_84_car_info_idx;
 }
 
 MATCH_FUNC(0x43a950)
