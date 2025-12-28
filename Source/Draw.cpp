@@ -38,11 +38,11 @@ void __stdcall sub_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, DrawKind(2), 0, 0, 0);
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, 2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5D7670)
-void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, DrawKind& drawkind, s16 a8, s32 a9, u8 a10)
+void __stdcall sub_5D7670(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& drawkind, s16 a8, s32 a9, u8 a10)
 {
     DrawFigure_5D7EC0(type,
                pal,
@@ -85,7 +85,7 @@ s32 __stdcall sub_5D8940(wchar_t* a1, u16 a2)
 }
 
 MATCH_FUNC(0x5D7720)
-void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, DrawKind& a5, u16 a6, s32 alpha, u8 alpha_flag)
+void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& a5, u16 a6, s32 alpha, u8 alpha_flag)
 {
     DrawText_5D8A10(pStr,
                     xoff * gViewCamera_676978->field_A8_ui_scale,
@@ -106,7 +106,7 @@ void __stdcall sub_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
                     ypos * gViewCamera_676978->field_A8_ui_scale,
                     font_type,
                     gViewCamera_676978->field_A8_ui_scale,
-                    DrawKind(2),
+                    2,
                     0,
                     0,
                     0);
@@ -167,7 +167,7 @@ void __stdcall DrawFigure_5D7EC0(s32 type,
                           Fix16 y_pos,
                           Ang16 rotation,
                           Fix16 scale,
-                          DrawKind& drawkind,
+                          const s32& drawkind,
                           s16 a8,
                           s32 a9,
                           u8 a10,
@@ -242,7 +242,7 @@ void __stdcall DrawFigure_5D7EC0(s32 type,
     gQuadVerts_706B88.field_0_verts[2].v = field_5_height - 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[3].v = field_5_height - 0.000099999997f;
 
-    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, drawkind.value, a8);
+    STexture* pTexture = gSharp_pare_0x15D8_705064->sub_5B94F0(type, pal, drawkind, a8);
     s32 v44 = CalcQuadFlags_5D83E0(a9, a10);
     pgbh_DrawQuad(flags | v44, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 }
@@ -359,7 +359,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                Fix16 ypos_fp,
                                u16 font_type,
                                Fix16 scale_fp,
-                               DrawKind& drawkind,
+                               const s32& drawkind,
                                u16 unknown1, // seems to be related with palette
                                s32 unknown2, // alpha_value
                                u8 flags) // bool use_alpha
@@ -375,7 +375,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     unknown2 = unknown1;
 
-    u32 kind = drawkind.value;
+    u32 kind = drawkind;
     if (scale_fp == dword_706A6C)
     {
         new_Flags = new_Flags | 0x10000;
@@ -417,7 +417,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         }
         else if (text_char == L'#')
         {
-            if (kind == drawkind.value && (WORD)unknown2 == (WORD)unknown1)
+            if (kind == drawkind && (WORD)unknown2 == (WORD)unknown1)
             {
                 kind = 8;
                 /*
@@ -430,7 +430,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             }
             else
             {
-                kind = drawkind.value;
+                kind = drawkind;
                 unknown2 = unknown1;
             }
 

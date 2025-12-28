@@ -213,7 +213,7 @@ class Garox_C4
     s16 field_AA_y;
     s16 field_AC_fontType;
     s16 field_AE; // could be pad
-    DrawKind field_B0_drawKind;
+    s32 field_B0_drawKind;
     s16 field_B4; // ??
     s16 field_B6; // could be pad
     s32 field_B8_alpha;

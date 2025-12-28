@@ -235,17 +235,17 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
         s32 v4 = sub_5D8940(pQuitText, word_7064D8);
         s32 v6 = ((3 * (160 - v4)) / 2);
 
-        DrawText_5D7720(pQuitText, (u32)((640 - v2) / 2), v6 - v4, word_7064D8, DrawKind(2), 0, 0, 0);
+        DrawText_5D7720(pQuitText, (u32)((640 - v2) / 2), v6 - v4, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
         s32 v9 = Frontend::sub_5D8990(pQuitText2, word_7064D8);
 
-        DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, DrawKind(2), 0, 0, 0);
+        DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, 2, 0, 0, 0);
 
         wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
         s32 v14 = Frontend::sub_5D8990(pQuitText3, word_7064D8);
 
-        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + v4, word_7064D8, DrawKind(2), 0, 0, 0);
+        DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + v4, word_7064D8, 2, 0, 0, 0);
     }
 }
 
@@ -393,11 +393,11 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     {
         if (pPlayer->field_60 == 0)
         {
-            sub_5D7670(6, 16, v8 - 8, 14, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, 16, v8 - 8, 14, word_706610, 2, 0, 0, 0);
         }
         else
         {
-            sub_5D7670(6, 16, v8 - 8, 14, word_706610, DrawKind(7), 6, 0, 0);
+            sub_5D7670(6, 16, v8 - 8, 14, word_706610, 7, 6, 0, 0);
         }
     }
 
@@ -412,8 +412,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] / 60,
                      gYouthful_einstein_6F8450.field_4_time[pPlayer->field_2E_idx] % 60);
 
-            s32 unknownn = (pPlayer->field_78C.value != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, DrawKind(unknownn), pPlayer->field_790 - 1, 0, 0);
+            const s32 unknownn = (pPlayer->field_78C != 7) ? 2 : 8;
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790 - 1, 0, 0);
         }
         else
         {
@@ -439,8 +439,8 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] / 60,
                              gYouthful_einstein_6F8450.field_4_time[pMultiPlayer->field_2E_idx] % 60);
 
-                    s32 very_unknown = (pMultiPlayer->field_78C.value != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, DrawKind(very_unknown), pMultiPlayer->field_790 - 1, 0, 0);
+                    const s32 very_unknown = (pMultiPlayer->field_78C != 7) ? 2 : 8;
+                    DrawText_5D7720(Buffer, v21 + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790 - 1, 0, 0);
                 }
                 else
                 {
@@ -454,10 +454,10 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
     else
     {
         s32 lives_xpos = pPlayer->field_684_lives.sub_492260(523, 28);
-        sub_5D7670(6, 17, lives_xpos - 7, 32, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, 17, lives_xpos - 7, 32, word_706610, 2, 0, 0, 0);
 
         s32 multiplier_xpos = pPlayer->field_6BC_multpliers.sub_492260(523, 11);
-        sub_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, 18, multiplier_xpos - 7, 18, word_706610, 2, 0, 0, 0);
     }
 }
 
@@ -471,7 +471,7 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
         u16 v5 = gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, ammo_idx + 85);
         s32 height = gGtx_0x106C_703DD4->get_sprite_index_5AA440(v5)->field_5_height;
 
-        sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, word_706610, 2, 0, 0, 0);
 
         if (ammo_idx != 21 && ammo_idx != 20)
         {
@@ -487,7 +487,7 @@ void __stdcall sub_5D6060(s16 ammo_idx, u8 ammo_count)
                             (u32)(638 - Frontend::sub_5D8990(tmpBuff_67BD9C, word_70646C)),
                             82,
                             word_70646C,
-                            DrawKind(8),
+                            8,
                             6,
                             0,
                             0);
@@ -532,7 +532,7 @@ void Garox_110C_sub::Draw_5CF910()
 {
     if (field_284E)
     {
-        DrawKind drawtype(2);
+        const s32 drawtype = 2;
         Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
         Camera_0xBC* pCam;
         if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
@@ -569,7 +569,7 @@ void Garox_1108_sub::DrawHealth_5D0260()
     // Draw complete hearts
     for (s32 complete_hearts = half_hearts / 2; complete_hearts > 0; complete_hearts--, xpos += 20)
     {
-        sub_5D7670(6, 113, xpos, (u32)34, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, 113, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw half heart
@@ -579,14 +579,14 @@ void Garox_1108_sub::DrawHealth_5D0260()
         {
             xpos -= 2;
         }
-        sub_5D7670(6, 114, xpos, (u32)34, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, 114, xpos, (u32)34, word_706610, 2, 0, 0, 0);
     }
 
     // Draw debug stuff
     if (bDo_show_instruments_67D64C)
     {
         swprintf(tmpBuff_67BD9C, L"%d%%", health);
-        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, word_706600, DrawKind(2), 0, 0, 0);
+        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, word_706600, 2, 0, 0, 0);
     }
 }
 
@@ -606,7 +606,7 @@ void Garox_1::sub_5D5420()
 {
     if (field_0_timer)
     {
-        DrawText_5D7720(field_2_str, (640 - field_84) / 2, 32, word_7064B8, DrawKind(8), 5, 0, 0);
+        DrawText_5D7720(field_2_str, (640 - field_84) / 2, 32, word_7064B8, 8, 5, 0, 0);
     }
 }
 
@@ -684,7 +684,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
                  pZoneName);
 
         Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
-        pC4->field_B0_drawKind.value = 8;
+        pC4->field_B0_drawKind = 8;
         pC4->field_B4 = 0;
     }
 }
@@ -706,17 +706,17 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, arrow_colour + 64, 16, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, arrow_colour + 78, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
-        sub_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+        sub_5D7670(6, arrow_colour + 71, 64, ypos + 1, word_706610, 2, 0, 0, 0);
 
         // Draw positive respect
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect >= curr_bar_respect; i += 5)
         {
-            sub_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, arrow_colour + 71, i, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect += 20;
         }
 
@@ -724,7 +724,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect <= curr_bar_respect; j -= 5)
         {
-            sub_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, arrow_colour + 71, j, ypos + 1, word_706610, 2, 0, 0, 0);
             curr_bar_respect -= 20;
         }
 
@@ -732,33 +732,33 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             if (respect <= -100 && !bPlusSignDark)
             {
-                sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+                sub_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
         else
         {
             if (respect >= 100 && !bPlusSignDark)
             {
-                sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, DrawKind(2), 0, 0, 0);
+                sub_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, word_706610, 2, 0, 0, 0);
             }
         }
 
         // green mission respect
         if (respect >= -19)
         {
-            sub_5D7670(6, 46, 64, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, 46, 64, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            sub_5D7670(6, 47, 74, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, 47, 74, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            sub_5D7670(6, 48, 84, ypos + 8, word_706610, DrawKind(2), 0, 0, 0);
+            sub_5D7670(6, 48, 84, ypos + 8, word_706610, 2, 0, 0, 0);
         }
 
         // debug stuff
@@ -766,7 +766,7 @@ void Garox_107C_sub::DrawGangRespectBars_5CFA70()
         {
             s32 v32 = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, word_706600, DrawKind(8), v32, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64, ypos - 7, word_706600, 8, v32, 0, 0);
         }
     }
 }
@@ -1347,7 +1347,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
     // TODO: Kinda messy, refactor this
     Player* pPlayer;
     Camera_0xBC* pCam;
-    DrawKind drawKind_;
+    s32 drawKind_;
 
     if (this->field_18.field_18.field_10_type || this->field_18.field_3C.field_10_type)
     {
@@ -1355,11 +1355,11 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
         {
             if (this->field_18.field_28_arrow_colour != 5 || ((u32)rng_dword_67AB34->field_0_rng % 6 >= 3))
             {
-                drawKind_ = DrawKind(2);
+                drawKind_ = 2;
             }
             else
             {
-                drawKind_ = DrawKind(7);
+                drawKind_ = 7;
             }
             pPlayer = gGame_0x40_67E008->field_38_orf1;
             if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
@@ -1404,7 +1404,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
                     break;
             }
 
-            DrawKind drawKind(2);
+            const s32 drawKind = 2;
             pPlayer = gGame_0x40_67E008->field_38_orf1;
             if (pPlayer->field_68 == 2 || pPlayer->field_68 == 3)
             {
@@ -1864,7 +1864,7 @@ void Garox_1E34_L::DrawBrief_5D3B80()
                    (32), // x
                    (443), // y
                    word_706610, // rot
-                   DrawKind(2), // drawkind
+                   2, // drawkind
                    0,
                    0,
                    0);
@@ -1874,7 +1874,7 @@ void Garox_1E34_L::DrawBrief_5D3B80()
                         (64), // x
                         t, // y
                         word_7065C4, // fontType
-                        DrawKind(2),
+                        2,
                         0, // a6
                         0, // alpha
                         0); // alpha_flag
@@ -1990,19 +1990,19 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
             gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->convert_sprite_pal_5AA460(6, 159));
         s32 width = sprite_index_5AA440->field_4_width;
 
-        sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+        sub_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, word_706610, 2, 0, field_90, field_94_transparency);
 
-        sub_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+        sub_5D7670(6, 160, 320 - (width / 2), (u32)27, word_706610, 2, 0, field_90, field_94_transparency);
 
-        sub_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+        sub_5D7670(6, 161, (width / 2) + 320, (u32)27, word_706610, 2, 0, field_90, field_94_transparency);
 
-        sub_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, DrawKind(2), 0, field_90, field_94_transparency);
+        sub_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, word_706610, 2, 0, field_90, field_94_transparency);
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84) / 2,
                         27 - (sub_5D7700(word_706618) / 2),
                         word_706618,
-                        DrawKind(2),
+                        2,
                         0,
                         field_90,
                         field_94_transparency);

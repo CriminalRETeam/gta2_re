@@ -311,7 +311,7 @@ class Player
     s16 field_788_curr_weapon_idx;
     char_type field_78A_show_quit_message;
     char_type field_78B;
-    DrawKind field_78C;
+    s32 field_78C;
     u16 field_790;
     s16 field_792;
     char_type field_794_is_chatting;
