@@ -248,6 +248,14 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
     }
 }
 
+MATCH_FUNC(0x5120C0)
+miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
+{
+    miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->sub_4767A0();
+    pThread->sub_511930(a2, a1);
+    return pThread;
+}
+
 MATCH_FUNC(0x512100)
 SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
 {
@@ -456,14 +464,14 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 MATCH_FUNC(0x5128a0)
 thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 {
-    thread_C* result = &field_4_thrds_2[0];
+    thread_C* pThread = &field_4_thrds_2[0];
     for (u16 thread_idx = 0; thread_idx < 32; thread_idx++)
     {
-        if (result->field_0_unk == a2 && result->field_4_obj_f14 == a3)
+        if (pThread->field_0_unk == a2 && pThread->field_4_obj_f14 == a3)
         {
-            return result;
+            return pThread;
         }
-        result++;
+        pThread++;
     }
     return NULL;
 }
