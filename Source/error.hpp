@@ -27,3 +27,4 @@ EXTERN_GLOBAL(char_type, byte_67C3A8[256]);
 
 EXTERN_GLOBAL(ErrorLog, gErrorLog_67C530);
 EXTERN_GLOBAL(ErrorLog, gMiss2Log_6F7698);
+extern ErrorLog gFile_67C530; //EXTERN_GLOBAL(ErrorLog, gFile_67C530);
