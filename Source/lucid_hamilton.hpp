@@ -125,7 +125,7 @@ struct lucid_hamilton
 
     EXPORT void sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6);
 
-    EXPORT char_type sub_4C5BC0();
+    EXPORT u8 sub_4C5BC0();
 
     EXPORT s32 sub_4C5BD0();
 

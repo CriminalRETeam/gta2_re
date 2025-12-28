@@ -1683,7 +1683,7 @@ void Car_BC::ExplodeCar_Unknown_43D840(s32 a2)
 }
 
 STUB_FUNC(0x43da90)
-s16 Car_BC::sub_43DA90(s16 a2, s32 a3)
+s16 Car_BC::sub_43DA90(s16 a2, Fix16_Point* a3)
 {
     NOT_IMPLEMENTED;
     return 0;

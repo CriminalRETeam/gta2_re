@@ -285,7 +285,7 @@ void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5
 }
 
 MATCH_FUNC(0x4C5BC0)
-char_type lucid_hamilton::sub_4C5BC0()
+u8 lucid_hamilton::sub_4C5BC0()
 {
     return field_43B;
 }

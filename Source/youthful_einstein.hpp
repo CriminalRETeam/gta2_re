@@ -10,7 +10,7 @@ class youthful_einstein
   public:
     EXPORT void youthful_einstein::ctor_516560();
     EXPORT void sub_516590(Player* a2);
-    EXPORT s16 sub_516660();
+    EXPORT void UpdateFugitive_516660();
     EXPORT void sub_516740(Player* a2, Player* a3);
 
     Player* field_0_fugitive;  //  the player who is "IT"

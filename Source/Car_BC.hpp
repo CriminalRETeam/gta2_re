@@ -423,7 +423,7 @@ class Car_BC
     EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
-    EXPORT s16 sub_43DA90(s16 a2, s32 a3);
+    EXPORT s16 sub_43DA90(s16 a2, Fix16_Point* a3);
     EXPORT void sub_43DB80();
     EXPORT void sub_43DBD0();
     EXPORT bool sub_43DC00();
