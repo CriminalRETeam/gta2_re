@@ -1617,34 +1617,30 @@ void Car_BC::DamageArea_43CF30(s32 damage_area)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x43d1c0)
+MATCH_FUNC(0x43d1c0)
 bool Car_BC::IsAreaDamaged_43D1C0(s32 damage_area)
 {
-    NOT_IMPLEMENTED;
-    bool bDamaged;
     switch (damage_area)
     {
-        case CarDamageAreas::FrontLeft_0:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontLeft_4) == CarDamageAreasFlags::FlagsFrontLeft_4;
-            break;
-        case CarDamageAreas::FrontRight_1:
-            bDamaged =
-                (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsFrontRight_8) == CarDamageAreasFlags::FlagsFrontRight_8;
-            break;
-        case CarDamageAreas::BackLeft_2:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackLeft_2) == CarDamageAreasFlags::FlagsBackLeft_2;
-            break;
-        case CarDamageAreas::BackRight_3:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsBackRight_1) == CarDamageAreasFlags::FlagsBackRight_1;
-            break;
-        case CarDamageAreas::Window_4:
-            bDamaged = (this->field_8_damaged_areas.m_var & CarDamageAreasFlags::FlagsWindow_10) == CarDamageAreasFlags::FlagsWindow_10;
-            break;
+        case CarDeltaBitsEnum::BottomRightDamage_2:
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2); // 4
+
+        case CarDeltaBitsEnum::BottomLeftDamage_3:
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3); // 8
+
+        case CarDeltaBitsEnum::TopRightDamage_1:
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1);
+
+        case CarDeltaBitsEnum::TopLeftDamage_0:
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0);
+
+        case CarDeltaBitsEnum::WindshieldDamage_4:
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::WindshieldDamage_4); // 10
+
         default:
-            bDamaged = 0;
-            break;
+            return false;
     }
-    return bDamaged;
+    return false;
 }
 
 STUB_FUNC(0x43d2c0)
@@ -1764,7 +1760,16 @@ STUB_FUNC(0x43e990)
 Ped* Car_BC::sub_43E990()
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    Trailer* pTrailer = this->field_64_pTrailer;
+    if (pTrailer && pTrailer->field_C_pCarOnTrailer == this)
+    {
+        return pTrailer->field_8_truck_cab->field_54_driver;
+    }
+    else
+    {
+        return this->field_54_driver;
+    }
 }
 
 STUB_FUNC(0x43ea60)
