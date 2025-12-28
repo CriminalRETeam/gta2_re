@@ -455,6 +455,7 @@ class Car_BC
     EXPORT void GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT void GotoBlock_441080(u8 x, u8 y, u8 z, s32 maybe_direction);
     EXPORT char_type sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5);
+    EXPORT Fix16 GetZPos_441330();
     EXPORT void sub_441360();
     EXPORT void sub_4436A0();
     EXPORT void sub_441380();

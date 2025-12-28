@@ -1982,6 +1982,16 @@ char_type Car_BC::sub_4410D0(s16 a2, u8* a3, s32 a4, s32 a5)
     return 0;
 }
 
+MATCH_FUNC(0x441330)
+Fix16 Car_BC::GetZPos_441330()
+{
+    if (field_58_physics)
+    {
+        return field_58_physics->ComputeZPosition_559E90();
+    }
+    return field_50_car_sprite->field_1C_zpos;
+}
+
 MATCH_FUNC(0x441360)
 void Car_BC::sub_441360()
 {

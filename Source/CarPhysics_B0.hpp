@@ -20,6 +20,9 @@ EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 class CarPhysics_B0
 {
   public:
+    // TODO: Ordering
+    EXPORT Fix16 ComputeZPosition_559E90();
+
     EXPORT Fix16_Point get_cp1_40B560();
     EXPORT ~CarPhysics_B0();
     EXPORT void ShowPhysicsDebug_559430();
