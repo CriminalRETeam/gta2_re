@@ -483,11 +483,26 @@ s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
     return 0;
 }
 
-STUB_FUNC(0x512910)
-char_type frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
+MATCH_FUNC(0x512910)
+bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pThread = frosty_pasteur_0xC1EA8::sub_5128A0(a2, a3);
+    if (pThread)
+    {
+        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
+        pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+
+        if (pPtr->field_8_script_thread)
+        {
+            pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+            pThread->field_0_unk = 0;
+            pThread->field_4_obj_f14 = 0;
+            pThread->field_8_cmd_line = 0;
+            --field_0;
+            return true;
+        }
+    }
+    return false;
 }
 
 STUB_FUNC(0x512980)
