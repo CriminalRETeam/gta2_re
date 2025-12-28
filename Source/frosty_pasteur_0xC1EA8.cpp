@@ -315,10 +315,38 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
     }
 }
 
-STUB_FUNC(0x512400)
-void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
+MATCH_FUNC(0x512400)
+u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
 {
-    NOT_IMPLEMENTED;
+    u16 Buffer = 0;
+    if (gfrosty_pasteur_6F8060->field_2F4 == 0)
+    {
+        u32 v8;
+        strcpy(gTmpBuffer_67C598, "data\\");
+        strcat(gTmpBuffer_67C598, (const char*)String1);
+        Error_SetName_4A0770(gTmpBuffer_67C598);
+        File::Global_Open_4A7060(gTmpBuffer_67C598);
+        File::Global_Read_4A71C0(&Buffer, 2);
+        File::Global_Read_4A71C0(a3, 2);
+        File::Global_Read_4A71C0(&v8, 4);
+        File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
+        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &v8);
+        File::Global_Close_4A70C0();
+    }
+    else
+    {
+        str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
+        u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
+        Buffer = gfrosty_pasteur_6F8060->field_C1D72[field_2_zone_idx];
+        *a3 = gfrosty_pasteur_6F8060->field_C1D34[field_2_zone_idx];
+        memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
+               &gfrosty_pasteur_6F8060->field_AA934[3072 * field_2_zone_idx],
+               0xC00u);
+        memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
+               &gfrosty_pasteur_6F8060->field_13354[20000 * pStrEntry->field_2_zone_idx],
+               gfrosty_pasteur_6F8060->field_C1DB0[pStrEntry->field_2_zone_idx]);
+    }
+    return Buffer;
 }
 
 STUB_FUNC(0x5121E0)

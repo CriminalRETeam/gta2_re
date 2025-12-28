@@ -601,7 +601,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT void sub_512400(s32 String1, u16* a3);
+    EXPORT u16 sub_512400(const char_type* String1, u16* a3);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
