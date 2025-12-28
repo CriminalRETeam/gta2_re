@@ -506,14 +506,14 @@ bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 MATCH_FUNC(0x512980)
 thread_C* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 {
-    thread_C* result = &field_188_thrds_4[0];
+    thread_C* pHeader = &field_188_thrds_4[0];
     for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
     {
-        if (result->field_0_unk == a2 && result->field_4_obj_f14 == a3)
+        if (pHeader->field_0_unk == a2 && pHeader->field_4_obj_f14 == a3)
         {
-            return result;
+            return pHeader;
         }
-        result++;
+        pHeader++;
     }
     return NULL;
 }
@@ -586,11 +586,19 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
     return pThrHeader;
 }
 
-STUB_FUNC(0x512ad0)
+MATCH_FUNC(0x512ad0)
 thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = &field_188_thrds_4[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
+    {
+        if (pHeader->field_4_obj_f14 == a2)
+        {
+            return pHeader;
+        }
+        pHeader++;
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x512af0)
