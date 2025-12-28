@@ -474,11 +474,23 @@ thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
     return NULL;
 }
 
-STUB_FUNC(0x5128d0)
-s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
+MATCH_FUNC(0x5128d0)
+void frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, u16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = &field_4_thrds_2[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_4_thrds_2); i++)
+    {
+        if (pHeader->field_8_cmd_line == 0)
+        {
+            break;
+        }
+        pHeader++;
+    }
+
+    pHeader->field_0_unk = a2;
+    pHeader->field_4_obj_f14 = a3;
+    pHeader->field_8_cmd_line = a4;
+    ++field_0;
 }
 
 MATCH_FUNC(0x512910)
