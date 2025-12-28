@@ -64,10 +64,34 @@ char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
     return 0;
 }
 
-STUB_FUNC(0x511b90)
-void frosty_pasteur_0xC1EA8::sub_511B90()
+MATCH_FUNC(0x511b90)
+void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
 {
-    NOT_IMPLEMENTED;
+    u16 saved_counter_count = 0;
+    for (u16 ptr = 0; ptr < 6000; ptr++)
+    {
+        if (field_46C_base_pointers[ptr])
+        {
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(ptr);
+            if (pPointer->field_2_type == SCRCMD_COUNTER_SAVE || pPointer->field_2_type == SCRCMD_COUNTER_SET_SAVE)
+            {
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count].field_0_pointer =
+                    pPointer->field_0_cmd_this;
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count].field_2_saved_value =
+                    pPointer->field_8_counter;
+                saved_counter_count++;
+            }
+        }
+    }
+
+    gGameSave_6F78C8.field_E4_car_and_script_data.field_46_script_ptr_count = saved_counter_count;
+
+    if (saved_counter_count < 300)
+    {
+        memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count],
+               0,
+               (300 - saved_counter_count) * sizeof(saved_counter_save));
+    }
 }
 
 STUB_FUNC(0x511c30)
@@ -129,7 +153,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
         pFileName = gTmpBuffer_67C598;
     }
 
-    frosty_pasteur_0xC1EA8::sub_511B90();
+    frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90();
 
     gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
 
