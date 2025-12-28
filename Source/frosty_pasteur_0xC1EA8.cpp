@@ -575,15 +575,19 @@ thread_C* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
     return pHeader;
 }
 
-STUB_FUNC(0x512aa0)
-char_type* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
+MATCH_FUNC(0x512aa0)
+thread_C* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pThrHeader = frosty_pasteur_0xC1EA8::sub_512AD0(a2);
+    if (pThrHeader)
+    {
+        pThrHeader = frosty_pasteur_0xC1EA8::sub_512A70(pThrHeader->field_0_unk, a2);
+    }
+    return pThrHeader;
 }
 
 STUB_FUNC(0x512ad0)
-char_type* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
+thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
