@@ -589,6 +589,16 @@ struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
     u8 field_23_shape;
 };
 
+struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
+{
+    u16 field_8;
+    u16 field_A;
+    u16 field_C;
+    u16 field_E;
+    u16 field_10;
+    u8 field_12;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

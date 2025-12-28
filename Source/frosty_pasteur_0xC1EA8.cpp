@@ -534,10 +534,32 @@ void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
     field_184_count++;
 }
 
-STUB_FUNC(0x5129f0)
-char_type frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
+MATCH_FUNC(0x5129f0)
+u8 frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
+    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    if (pThrdHeader)
+    {
+        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);
+        SCR_ANSWER_PHONE* pTriggerCmd;
+
+        switch (pPtr->field_2_type)
+        {
+            case SCRCMD_ANSWER_PHONE:
+                pTriggerCmd = (SCR_ANSWER_PHONE*)pPtr;
+                pTriggerCmd->field_12 = 1;
+                return 1;
+            case SCRCMD_THREAD_DECLARE4:
+                pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+                if (pPtr->field_8_script_thread)
+                {
+                    pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+                }
+                return 1;
+            default:
+                return 0;
+        }
+    }
     return 0;
 }
 
