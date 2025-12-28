@@ -4,9 +4,12 @@
 #include "Ped.hpp"
 #include "Player.hpp"
 #include "lucid_hamilton.hpp"
+#include "error.hpp"
 #include <string>
 
 DEFINE_GLOBAL(youthful_einstein, gYouthful_einstein_6F8450, 0x6F8450);
+DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
+DEFINE_GLOBAL(s32, dword_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
 void youthful_einstein::ctor_516560() // For some reason, it's a function instead of a proper ctor
@@ -23,11 +26,49 @@ void youthful_einstein::sub_516590(Player* a2)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x516660)
-s16 youthful_einstein::sub_516660()
-{
-    NOT_IMPLEMENTED;
-    return 0;
+// https://decomp.me/scratch/6JbyE 
+MATCH_FUNC(0x516660)
+void youthful_einstein::UpdateFugitive_516660()
+{  
+  switch ( gLucid_hamilton_67E8E0.sub_4C5BC0() )
+  {
+    case 0:
+      FatalError_4A38C0(
+        Gta2Error::InvalidLineInfo,
+        "C:\\Splitting\\Gta2\\Source\\multip.cpp",
+        108,
+        0);
+    case 1:
+    case 2:
+      return;
+    case 3:
+      this->field_1C++;
+      if ( this->field_1C >= 30 )
+      {
+        this->field_1C = 0;
+        if ( this->field_0_fugitive && dword_6F58A4 != 0 )
+        {
+          this->field_4_time[this->field_0_fugitive->field_2E_idx]++;
+        }
+      }
+      if ( !this->field_0_fugitive )
+      {
+        this->sub_516590(0);
+      }
+
+      if ( this->field_0_fugitive && this->field_0_fugitive->field_2C4_player_ped && this->field_0_fugitive->field_2C4_player_ped->field_16C_car)
+      {
+        this->field_0_fugitive->field_2C4_player_ped->field_16C_car->sub_43DA90(17, &stru_6F8720);
+      }
+      
+      break;
+    default:
+      FatalError_4A38C0(
+        Gta2Error::InvalidLineInfo,
+        "C:\\Splitting\\Gta2\\Source\\multip.cpp",
+        144,
+        0);
+  }
 }
 
 MATCH_FUNC(0x516740)
