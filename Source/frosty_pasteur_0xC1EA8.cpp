@@ -136,11 +136,51 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
     gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.sub_4C59A0();
 }
 
-STUB_FUNC(0x511f80)
-s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
+MATCH_FUNC(0x511f80)
+void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    size_t mapSubLen;
+    size_t blockInfoLen;
+    size_t colDataLen;
+    u16** pColData;
+    gmp_block_info* pBlockInfo;
+    Map_sub* pMapSub;
+
+    gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
+    File::Global_Open_4A7060(pFileName);
+
+    File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
+
+    File::Global_Read_4A71C0(&colDataLen, 4);
+    if (colDataLen > 0)
+    {
+        File::Global_Read_4A71C0(pColData, colDataLen);
+    }
+
+    File::Global_Read_4A71C0(&blockInfoLen, 4);
+    if (blockInfoLen > 0)
+    {
+        File::Global_Read_4A71C0(pBlockInfo, blockInfoLen);
+    }
+
+    File::Global_Read_4A71C0(&mapSubLen, 4);
+    if (mapSubLen > 0)
+    {
+        File::Global_Read_4A71C0(pMapSub, mapSubLen);
+    }
+    gMap_0x370_6F6268->sub_4E8C00(colDataLen, blockInfoLen, mapSubLen);
+    File::Global_Close_4A70C0();
+
+    frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
+
+    gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
+
+    memcpy(&gObject_5C_6F8F84->field_20,
+           gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_buffer,
+           sizeof(gObject_5C_6F8F84->field_20));
+
+    gLucid_hamilton_67E8E0.field_574 = gGameSave_6F78C8.field_5E4_object_data.field_160_lhv;
+    field_C1E2C = true;
 }
 
 MATCH_FUNC(0x511e10)

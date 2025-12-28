@@ -151,7 +151,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
     if (strlen(gLucid_hamilton_67E8E0.GetDebugStr_4C5970()) != 0)
     {
         char_type* debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
-        gfrosty_pasteur_6F8060->sub_511F80(debug_str);
+        gfrosty_pasteur_6F8060->LoadSave_511F80(debug_str);
     }
 
     strcpy(tmp_array, "data\\");
