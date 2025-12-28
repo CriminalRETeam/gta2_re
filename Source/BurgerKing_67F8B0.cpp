@@ -5,6 +5,7 @@
 #include "enums.hpp"
 #include "error.hpp"
 #include "file.hpp"
+#include "Game_0x40.hpp"
 #include "input.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
@@ -201,6 +202,12 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
         gNeedKbAcquire_67B66C = 1;
     }
     game_pads_init_498BA0();
+}
+
+STUB_FUNC(0x498DA0)
+void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnk)
+{
+    NOT_IMPLEMENTED;
 }
 
 // ================================================
@@ -440,15 +447,140 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
     }
 }
 
+// https://decomp.me/scratch/t5tNu
 STUB_FUNC(0x4ceac0)
 u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 inputs;
+    s32 saved_input = field_4_input_bits;
+    u32* control_status = (u32*)&field_4_input_bits;
+    BurgerKing_67F8B0::clear_inputs_4CDCE0();
+
+    s32 replay_state = field_38_replay_state;
+
+    *control_status &= ~0x200000;
+    u32 remove_bit = *control_status;
+
+    switch (replay_state)
+    {
+        case 1:
+            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            {
+                inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
+                field_75340_rec_buf_idx++;
+                if (field_75340_rec_buf_idx >= field_7533C_used_recs_count)
+                {
+                    if (bDo_exit_after_replay_67D6E4)
+                    {
+                        gGame_0x40_67E008->sub_4B8C00(0, 1);
+                    }
+                    else
+                    {
+                        if (bDo_release_replay_67D4EB)
+                        {
+                            File::CreateFile_4A7000("test\\replay.rep");
+                            BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+                        }
+                        field_38_replay_state = 0;
+                    }
+                }
+
+                if (field_75340_rec_buf_idx < 2)
+                {
+                    saved_input = 0;
+                }
+                else
+                {
+                    saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
+                }
+                BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
+            }
+            if (field_75344_bSomething)
+            {
+                saved_input = *control_status;
+                // Problem here:
+                if ((*control_status & 0x1FF000) == 0)
+                {
+                    *control_status = 0;
+                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    *control_status |= saved_input;
+                    BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+                }
+            }
+            break;
+
+        case 3:
+            if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            {
+                inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
+                field_75340_rec_buf_idx++;
+                if (field_75340_rec_buf_idx >= field_7533C_used_recs_count)
+                {
+                    gGame_0x40_67E008->sub_4B8C00(0, 6);
+                }
+
+                if (field_75340_rec_buf_idx < 2)
+                {
+                    saved_input = 0;
+                }
+                else
+                {
+                    saved_input = field_8_input_masks[3 * field_75340_rec_buf_idx + 8];
+                }
+                BurgerKing_67F8B0::modify_inputs_4CDF30(inputs);
+            }
+            if (field_75344_bSomething)
+            {
+                saved_input = *control_status;
+                // Problem also is here:
+                if ((*control_status & 0x1FF000) == 0)
+                {
+                    *control_status = 0;
+                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    if ((*control_status & 0xFFFFF000) != 0)
+                    {
+                        gGame_0x40_67E008->sub_4B8C00(0, 6);
+                    }
+                    *control_status |= saved_input;
+                    BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+                }
+            }
+            break;
+
+        case 0:
+            if (field_75344_bSomething)
+            {
+                if (gGame_0x40_67E008->field_0_game_state != 2)
+                {
+                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 1);
+                    BurgerKing_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
+                }
+                else
+                {
+                    gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    if (BurgerKing_67F8B0::should_ignore_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
+                    {
+                        *control_status = remove_bit;
+                    }
+                }
+                BurgerKing_67F8B0::replay_save_4CEA40(control_status);
+            }
+            break;
+    }
+
+    if (bLog_input_67D4CC)
+    {
+        if (*control_status != saved_input)
+        {
+            sprintf(gTmpBuffer_67C598, "%d: control_status = %d", rng_dword_67AB34->field_0_rng, *control_status);
+            gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+        }
+    }
+    return *control_status;
 }
 
 STUB_FUNC(0x4ced00)
-void BurgerKing_67F8B0::sub_4CED00(s32 a2, s32 a3)
+void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }

@@ -249,7 +249,7 @@ void force_link()
     burgerking.sub_4CE880(0);
     burgerking.replay_save_4CEA40(0);
     burgerking.get_input_bits_4CEAC0();
-    burgerking.sub_4CED00(0, 0);
+    burgerking.save_replay_inputs_4CED00(0, 0);
     burgerking.sub_4CED90();
     burgerking.RecOrPlayBackState_4CEDF0();
     burgerking.ShowInput_4CEE10();

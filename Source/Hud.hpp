@@ -213,7 +213,7 @@ class Garox_C4
     s16 field_AA_y;
     s16 field_AC_fontType;
     s16 field_AE; // could be pad
-    DrawKind field_B0_drawKind;
+    s32 field_B0_drawKind;
     s16 field_B4; // ??
     s16 field_B6; // could be pad
     s32 field_B8_alpha;
@@ -282,7 +282,7 @@ class Hud_Pager_C_Array
         return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(v1);
     }
 
-    Hud_Pager_C field_0[4];
+    Hud_Pager_C field_0_pagers_array[4];
 };
 
 class Garox_18

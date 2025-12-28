@@ -148,6 +148,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
 {
     miss2_0x11C* field_8_script_thread;
     s16 field_C_unknown;
+    u16 field_E;
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
@@ -586,6 +587,16 @@ struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
     u8 field_21_on_time;
     u8 field_22_off_time;
     u8 field_23_shape;
+};
+
+struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
+{
+    u16 field_8;
+    u16 field_A;
+    u16 field_C;
+    u16 field_E;
+    u16 field_10;
+    u8 field_12;
 };
 
 namespace SCR_DOOR_OPENTYPES

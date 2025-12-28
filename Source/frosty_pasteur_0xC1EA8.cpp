@@ -64,16 +64,48 @@ char_type frosty_pasteur_0xC1EA8::sub_511B10(s32 idx)
     return 0;
 }
 
-STUB_FUNC(0x511b90)
-void frosty_pasteur_0xC1EA8::sub_511B90()
+MATCH_FUNC(0x511b90)
+void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
 {
-    NOT_IMPLEMENTED;
+    u16 saved_counter_count = 0;
+    for (u16 ptr = 0; ptr < GTA2_COUNTOF(field_46C_base_pointers); ptr++)
+    {
+        if (field_46C_base_pointers[ptr])
+        {
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(ptr);
+            if (pPointer->field_2_type == SCRCMD_COUNTER_SAVE || pPointer->field_2_type == SCRCMD_COUNTER_SET_SAVE)
+            {
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count].field_0_pointer =
+                    pPointer->field_0_cmd_this;
+                gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count].field_2_saved_value =
+                    pPointer->field_8_counter;
+                saved_counter_count++;
+            }
+        }
+    }
+
+    gGameSave_6F78C8.field_E4_car_and_script_data.field_46_script_ptr_count = saved_counter_count;
+
+    if (saved_counter_count < 300)
+    {
+        memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count],
+               0,
+               (300 - saved_counter_count) * sizeof(saved_counter_save));
+    }
 }
 
-STUB_FUNC(0x511c30)
-void frosty_pasteur_0xC1EA8::sub_511C30()
+MATCH_FUNC(0x511c30)
+void frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30()
 {
-    NOT_IMPLEMENTED;
+    for (u16 saved_counter_idx = 0; saved_counter_idx < 300; saved_counter_idx++)
+    {
+        saved_counter_save* pStruct = &gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_idx];
+        if (pStruct->field_0_pointer > 0)
+        {
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(pStruct->field_0_pointer);
+            pPointer->field_8_counter = pStruct->field_2_saved_value;
+        }
+    }
 }
 
 MATCH_FUNC(0x511C60)
@@ -104,11 +136,51 @@ void frosty_pasteur_0xC1EA8::SaveMapInfo_511D40()
     gGameSave_6F78C8.field_4D_bonus_stage = gLucid_hamilton_67E8E0.sub_4C59A0();
 }
 
-STUB_FUNC(0x511f80)
-s32 frosty_pasteur_0xC1EA8::sub_511F80(char_type* FileName)
+MATCH_FUNC(0x511f80)
+void frosty_pasteur_0xC1EA8::LoadSave_511F80(char_type* pFileName)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    size_t mapSubLen;
+    size_t blockInfoLen;
+    size_t colDataLen;
+    u16** pColData;
+    gmp_block_info* pBlockInfo;
+    Map_sub* pMapSub;
+
+    gMap_0x370_6F6268->sub_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
+    File::Global_Open_4A7060(pFileName);
+
+    File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
+
+    File::Global_Read_4A71C0(&colDataLen, 4);
+    if (colDataLen > 0)
+    {
+        File::Global_Read_4A71C0(pColData, colDataLen);
+    }
+
+    File::Global_Read_4A71C0(&blockInfoLen, 4);
+    if (blockInfoLen > 0)
+    {
+        File::Global_Read_4A71C0(pBlockInfo, blockInfoLen);
+    }
+
+    File::Global_Read_4A71C0(&mapSubLen, 4);
+    if (mapSubLen > 0)
+    {
+        File::Global_Read_4A71C0(pMapSub, mapSubLen);
+    }
+    gMap_0x370_6F6268->sub_4E8C00(colDataLen, blockInfoLen, mapSubLen);
+    File::Global_Close_4A70C0();
+
+    frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30();
+
+    gObject_5C_6F8F84->RestoreObjects_52A590(&gGameSave_6F78C8.field_5E4_object_data);
+
+    memcpy(&gObject_5C_6F8F84->field_20,
+           gGameSave_6F78C8.field_5E4_object_data.field_12C_obj_5C_buffer,
+           sizeof(gObject_5C_6F8F84->field_20));
+
+    gLucid_hamilton_67E8E0.field_574 = gGameSave_6F78C8.field_5E4_object_data.field_160_lhv;
+    field_C1E2C = true;
 }
 
 MATCH_FUNC(0x511e10)
@@ -129,7 +201,7 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
         pFileName = gTmpBuffer_67C598;
     }
 
-    frosty_pasteur_0xC1EA8::sub_511B90();
+    frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90();
 
     gGame_0x40_67E008->field_38_orf1->CopyPlayerDataToSave_56A1A0(&gGameSave_6F78C8.field_54_player_and_world_stats);
 
@@ -176,6 +248,14 @@ void frosty_pasteur_0xC1EA8::SaveGame_511E10(char_type* pFileName)
     }
 }
 
+MATCH_FUNC(0x5120C0)
+miss2_0x11C* frosty_pasteur_0xC1EA8::sub_5120C0(s16 a1, char_type a2)
+{
+    miss2_0x11C* pThread = miss2_0x11C_Pool_6F8064->sub_4767A0();
+    pThread->sub_511930(a2, a1);
+    return pThread;
+}
+
 MATCH_FUNC(0x512100)
 SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
 {
@@ -186,7 +266,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
     {
         return 0;
     }
-    for (idx = 0; idx < 6000 - startOff; ++idx)
+    for (idx = 0; idx < GTA2_COUNTOF_S(field_46C_base_pointers) - startOff; ++idx)
     {
         if (header = frosty_pasteur_0xC1EA8::GetBasePointer_512770(idx + startOff))
         {
@@ -243,10 +323,38 @@ void frosty_pasteur_0xC1EA8::Load_512330(const char_type* pScrName)
     }
 }
 
-STUB_FUNC(0x512400)
-void frosty_pasteur_0xC1EA8::sub_512400(s32 String1, u16* a3)
+MATCH_FUNC(0x512400)
+u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
 {
-    NOT_IMPLEMENTED;
+    u16 Buffer = 0;
+    if (gfrosty_pasteur_6F8060->field_2F4 == 0)
+    {
+        u32 v8;
+        strcpy(gTmpBuffer_67C598, "data\\");
+        strcat(gTmpBuffer_67C598, (const char*)String1);
+        Error_SetName_4A0770(gTmpBuffer_67C598);
+        File::Global_Open_4A7060(gTmpBuffer_67C598);
+        File::Global_Read_4A71C0(&Buffer, 2);
+        File::Global_Read_4A71C0(a3, 2);
+        File::Global_Read_4A71C0(&v8, 4);
+        File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
+        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &v8);
+        File::Global_Close_4A70C0();
+    }
+    else
+    {
+        str_table_entry* pStrEntry = gfrosty_pasteur_6F8060->StrEntryByString_5030B0((char_type*)String1);
+        u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
+        Buffer = gfrosty_pasteur_6F8060->field_C1D72[field_2_zone_idx];
+        *a3 = gfrosty_pasteur_6F8060->field_C1D34[field_2_zone_idx];
+        memcpy(&gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer],
+               &gfrosty_pasteur_6F8060->field_AA934[3072 * field_2_zone_idx],
+               0xC00u);
+        memcpy(&gfrosty_pasteur_6F8060->field_334C_script_data[gfrosty_pasteur_6F8060->field_46C_base_pointers[Buffer]],
+               &gfrosty_pasteur_6F8060->field_13354[20000 * pStrEntry->field_2_zone_idx],
+               gfrosty_pasteur_6F8060->field_C1DB0[pStrEntry->field_2_zone_idx]);
+    }
+    return Buffer;
 }
 
 STUB_FUNC(0x5121E0)
@@ -333,11 +441,9 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
     return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
 }
 
-// Only waiting gMiss2Log_6F7698 & Write_Log_4D9650 to be defined
-STUB_FUNC(0x5127a0)
+MATCH_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {
-    NOT_IMPLEMENTED;
     if (!bSkip_mission_67D4E5)
     {
         if (byte_6212EC)
@@ -345,7 +451,7 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
             if (gDo_miss_logging_67D6BC)
             {
                 miss2_0x11C_Pool_6F8064->sub_47F4D0();
-                //gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE"); //  TODO: ofstream stuff
+                gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE");
             }
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
@@ -353,39 +459,82 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
     gCar_6C_677930->field_5C = 0;
 }
 
-STUB_FUNC(0x5128a0)
-s32* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
+MATCH_FUNC(0x5128a0)
+thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pThread = &field_4_thrds_2[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_4_thrds_2); thread_idx++)
+    {
+        if (pThread->field_0_unk == a2 && pThread->field_4_obj_f14 == a3)
+        {
+            return pThread;
+        }
+        pThread++;
+    }
+    return NULL;
 }
 
-STUB_FUNC(0x5128d0)
-s32* frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, s16 a4)
+MATCH_FUNC(0x5128d0)
+void frosty_pasteur_0xC1EA8::sub_5128D0(s32 a2, s32 a3, u16 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = &field_4_thrds_2[0];
+    for (u16 i = 0; i < GTA2_COUNTOF(field_4_thrds_2); i++)
+    {
+        if (pHeader->field_8_cmd_line == 0)
+        {
+            break;
+        }
+        pHeader++;
+    }
+
+    pHeader->field_0_unk = a2;
+    pHeader->field_4_obj_f14 = a3;
+    pHeader->field_8_cmd_line = a4;
+    ++field_0;
 }
 
-STUB_FUNC(0x512910)
-char_type frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
+MATCH_FUNC(0x512910)
+bool frosty_pasteur_0xC1EA8::sub_512910(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pThread = frosty_pasteur_0xC1EA8::sub_5128A0(a2, a3);
+    if (pThread)
+    {
+        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
+        pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+
+        if (pPtr->field_8_script_thread)
+        {
+            pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+            pThread->field_0_unk = 0;
+            pThread->field_4_obj_f14 = 0;
+            pThread->field_8_cmd_line = 0;
+            --field_0;
+            return true;
+        }
+    }
+    return false;
 }
 
-STUB_FUNC(0x512980)
-s32* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
+MATCH_FUNC(0x512980)
+thread_C* frosty_pasteur_0xC1EA8::sub_512980(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = &field_188_thrds_4[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
+    {
+        if (pHeader->field_0_unk == a2 && pHeader->field_4_obj_f14 == a3)
+        {
+            return pHeader;
+        }
+        pHeader++;
+    }
+    return NULL;
 }
 
 MATCH_FUNC(0x5129b0)
 void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 {
     thread_C* thread = &field_188_thrds_4[0];
-    for (u16 i = 0; i < 20 && thread->field_8_cmd_line != 0; i++)
+    for (u16 i = 0; i < GTA2_COUNTOF(field_188_thrds_4) && thread->field_8_cmd_line != 0; i++)
     {
         thread++;
     }
@@ -395,32 +544,73 @@ void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
     field_184_count++;
 }
 
-STUB_FUNC(0x5129f0)
-char_type frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
+MATCH_FUNC(0x5129f0)
+u8 frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
+    thread_C* pThrdHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    if (pThrdHeader)
+    {
+        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);
+        SCR_ANSWER_PHONE* pTriggerCmd;
+
+        switch (pPtr->field_2_type)
+        {
+            case SCRCMD_ANSWER_PHONE:
+                pTriggerCmd = (SCR_ANSWER_PHONE*)pPtr;
+                pTriggerCmd->field_12 = 1;
+                return 1;
+            case SCRCMD_THREAD_DECLARE4:
+                pPtr->field_8_script_thread = sub_5120C0(pPtr->field_E, 0);
+                if (pPtr->field_8_script_thread)
+                {
+                    pPtr->field_C_unknown = pPtr->field_8_script_thread->field_11A;
+                }
+                return 1;
+            default:
+                return 0;
+        }
+    }
     return 0;
 }
 
-STUB_FUNC(0x512a70)
-s32* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
+MATCH_FUNC(0x512a70)
+thread_C* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    if (pHeader)
+    {
+        pHeader->field_0_unk = 0;
+        pHeader->field_4_obj_f14 = 0;
+        pHeader->field_8_cmd_line = 0;
+        --field_184_count;
+    }
+    return pHeader;
 }
 
-STUB_FUNC(0x512aa0)
-char_type* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
+MATCH_FUNC(0x512aa0)
+thread_C* frosty_pasteur_0xC1EA8::sub_512AA0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pThrHeader = frosty_pasteur_0xC1EA8::sub_512AD0(a2);
+    if (pThrHeader)
+    {
+        pThrHeader = frosty_pasteur_0xC1EA8::sub_512A70(pThrHeader->field_0_unk, a2);
+    }
+    return pThrHeader;
 }
 
-STUB_FUNC(0x512ad0)
-char_type* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
+MATCH_FUNC(0x512ad0)
+thread_C* frosty_pasteur_0xC1EA8::sub_512AD0(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = &field_188_thrds_4[0];
+    for (u16 thread_idx = 0; thread_idx < GTA2_COUNTOF(field_188_thrds_4); thread_idx++)
+    {
+        if (pHeader->field_4_obj_f14 == a2)
+        {
+            return pHeader;
+        }
+        pHeader++;
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x512af0)

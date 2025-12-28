@@ -1058,9 +1058,9 @@ void CC ImGuiDebugDraw()
                         gHud_2B00_706620->field_620.sub_5D3220(&v);
                     }
 
-                    if (gHud_2B00_706620->field_620.field_0[1].field_4)
+                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4)
                     {
-                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0[1].field_4, 1, 100);
+                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4, 1, 100);
                     }
                     ImGui::TreePop();
                 }

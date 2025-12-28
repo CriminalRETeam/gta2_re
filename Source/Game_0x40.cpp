@@ -151,7 +151,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
     if (strlen(gLucid_hamilton_67E8E0.GetDebugStr_4C5970()) != 0)
     {
         char_type* debug_str = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
-        gfrosty_pasteur_6F8060->sub_511F80(debug_str);
+        gfrosty_pasteur_6F8060->LoadSave_511F80(debug_str);
     }
 
     strcpy(tmp_array, "data\\");
@@ -332,7 +332,7 @@ void Game_0x40::sub_4B9270()
     if (field_30_bLimitFramerate)
     {
         Garox_C4* pC4 = gHud_2B00_706620->field_650.sub_5D1F50(L"FF", 0, 440, word_706600, 1);
-        pC4->field_B0_drawKind.value = 8;
+        pC4->field_B0_drawKind = 8;
         pC4->field_B4 = 6;
     }
 }

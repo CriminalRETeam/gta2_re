@@ -323,7 +323,7 @@ class sound_obj
     EXPORT void sub_57EA90();
     EXPORT char_type sub_57EB90(s32 a2, s32 a3);
 
-    EXPORT void sub_57EE30(s32 a2, s32 a3);
+    EXPORT void RemoveSound_57EE30(s32 a2, s32 a3);
     EXPORT void sub_57EEE0(char_type a2);
     EXPORT void sub_57EF60();
     EXPORT u8 sub_57F050(s32 a2);

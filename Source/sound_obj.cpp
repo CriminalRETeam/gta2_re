@@ -1387,7 +1387,7 @@ char_type sound_obj::sub_57EB90(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x57EE30)
-void sound_obj::sub_57EE30(s32 a2, s32 a3)
+void sound_obj::RemoveSound_57EE30(s32 a2, s32 a3)
 {
     NOT_IMPLEMENTED;
 }

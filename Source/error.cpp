@@ -15,8 +15,17 @@ ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
     NOT_IMPLEMENTED;
     return *this;
 }
+
+STUB_FUNC(0x4D9650)
+void ErrorLog::Write_Log_4D9650(const char_type* buffer)
+{
+    NOT_IMPLEMENTED;
+}
+
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
+DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
+ErrorLog gFile_67C530;//DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
 
 DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);

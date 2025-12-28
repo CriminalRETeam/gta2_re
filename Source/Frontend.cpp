@@ -1035,7 +1035,7 @@ void Frontend::sub_4B5430(score_table_line* pStrings,
             }
             else
             {
-                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, DrawKind(8), draw_kind, false, 0);
+                DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, draw_kind, false, 0);
             }
             if (spacing_type == 0)
             {
@@ -1318,7 +1318,7 @@ void Frontend::sub_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, DrawKind(8), pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, (s32)1, 8, pMenuOption->field_6C, false, 0);
                     }
                 }
                 else
@@ -1329,7 +1329,7 @@ void Frontend::sub_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, DrawKind(8), pMenuOption->field_6C, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, (s32)1, 8, pMenuOption->field_6C, false, 0);
                     }
                 }
             }
@@ -1362,11 +1362,11 @@ void Frontend::sub_4AD140()
                 
                 if (pMenuOption->field_6A != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, DrawKind(8), 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A, 1, 8, 8, false, 0);
                 }
                 else
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, DrawKind(8), 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C, 1, 8, 8, false, 0);
                 }
             }
             
@@ -1434,7 +1434,7 @@ void Frontend::sub_4AD140()
                             break;
                     }
                     
-                    DrawFigure_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, DrawKind(2), 0, 0, false, 0);
+                    DrawFigure_5D7EC0(6, shape_type, x_pos, y_pos, word_67DA70, dword_67D934, 2, 0, 0, false, 0);
                     break;
                 
                 case STRING_TEXT_1:
@@ -1467,7 +1467,7 @@ void Frontend::sub_4AD140()
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, DrawKind(8), pMenuElement->field_6C_font_variant, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_variant, false, 0);
                         }
                     }
                     break;
@@ -1557,17 +1557,17 @@ void Frontend::sub_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                DrawFigure_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
+                DrawFigure_5D7EC0(6, 1, (u16)320, y, word_67DA70, dword_67D934, 2, 0, 0, 0, 0);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                DrawFigure_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, DrawKind(2), 0, 0, 0, 0);
+                DrawFigure_5D7EC0(6, 25, (u16)320, y, word_67DA70, dword_67D934, 2, 0, 0, 0, 0);
             }
             else
             {
                 s32 v7 = Frontend::sub_5D8990(pStrBuf, font_type);
                 u32 draw_x = (640 - v7) / 2;
-                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, DrawKind(draw_kind), palette, 0, 0);
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
             }
         }
     }
@@ -4311,7 +4311,7 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, DrawKind(8), a2, false, false);
+            DrawText_5D8A10(chr, text_xbase + v16, text_ypos, arg_C, a6, 8, a2, false, false);
         }
         text_xbase += a7;
     }

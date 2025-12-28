@@ -546,6 +546,12 @@ struct SavedCarInfo
     s16 field_42_maybe_pad;
 };
 
+struct saved_counter_save
+{
+    u16 field_0_pointer;
+    s16 field_2_saved_value;
+};
+
 // Car and script data
 struct TurkishDelight_500
 {
@@ -554,7 +560,7 @@ struct TurkishDelight_500
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C; // never used ?
-    s16 field_50_script_counter[600];
+    saved_counter_save field_50_script_counter[300];
 };
 
 // A game save/.svg file format structure
@@ -584,30 +590,31 @@ class frosty_pasteur_0xC1EA8
     EXPORT str_table_entry* FindStringById_503080(s16 stringId);
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
     EXPORT char_type sub_511B10(s32 idx);
-    EXPORT void sub_511B90();
-    EXPORT void sub_511C30();
+    EXPORT void SaveScriptCounters_511B90();
+    EXPORT void LoadScriptCounters_511C30();
     EXPORT void sub_511C60();
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);
-    EXPORT s32 sub_511F80(char_type* FileName);
+    EXPORT void LoadSave_511F80(char_type* FileName);
+    EXPORT miss2_0x11C* sub_5120C0(s16 a1, char_type a2);
     EXPORT SCR_CMD_HEADER* sub_512100(u16 toFind, u16 startOff);
     EXPORT void Update_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT void sub_512400(s32 String1, u16* a3);
+    EXPORT u16 sub_512400(const char_type* String1, u16* a3);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
-    EXPORT s32* sub_5128A0(s32 a2, s32 a3);
-    EXPORT s32* sub_5128D0(s32 a2, s32 a3, s16 a4);
-    EXPORT char_type sub_512910(s32 a2, s32 a3);
-    EXPORT s32* sub_512980(s32 a2, s32 a3);
+    EXPORT thread_C* sub_5128A0(s32 a2, s32 a3);
+    EXPORT void sub_5128D0(s32 a2, s32 a3, u16 a4);
+    EXPORT bool sub_512910(s32 a2, s32 a3);
+    EXPORT thread_C* sub_512980(s32 a2, s32 a3);
     EXPORT void sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
-    EXPORT char_type sub_5129F0(s32 a2, s32 a3);
-    EXPORT s32* sub_512A70(s32 a2, s32 a3);
-    EXPORT char_type* sub_512AA0(s32 a2);
-    EXPORT char_type* sub_512AD0(s32 a2);
+    EXPORT u8 sub_5129F0(s32 a2, s32 a3);
+    EXPORT thread_C* sub_512A70(s32 a2, s32 a3);
+    EXPORT thread_C* sub_512AA0(s32 a2);
+    EXPORT thread_C* sub_512AD0(s32 a2);
     EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
     EXPORT char_type* sub_512BA0(s32 a2, char_type a3);
     EXPORT s32 sub_512C00(s32 a2, s32 a3, char_type a4);
