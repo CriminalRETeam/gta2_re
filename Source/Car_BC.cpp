@@ -1516,10 +1516,18 @@ void Car_BC::sub_43C3C0()
     }
 }
 
-STUB_FUNC(0x43c470)
+MATCH_FUNC(0x43c470)
 void Car_BC::sub_43C470()
 {
-    NOT_IMPLEMENTED;
+    if (inline_check_0x80_info() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+    {
+        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftRoofLight_17);
+        Object_2C* pLight = field_0_qq.sub_5A6A90(173);
+        if (pLight)
+        {
+            pLight->Light_527990();
+        }
+    }
 }
 
 STUB_FUNC(0x43c500)
