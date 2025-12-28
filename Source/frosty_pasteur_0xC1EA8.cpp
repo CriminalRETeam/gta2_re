@@ -453,11 +453,19 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
     gCar_6C_677930->field_5C = 0;
 }
 
-STUB_FUNC(0x5128a0)
-s32* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
+MATCH_FUNC(0x5128a0)
+thread_C* frosty_pasteur_0xC1EA8::sub_5128A0(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* result = &field_4_thrds_2[0];
+    for (u16 thread_idx = 0; thread_idx < 32; thread_idx++)
+    {
+        if (result->field_0_unk == a2 && result->field_4_obj_f14 == a3)
+        {
+            return result;
+        }
+        result++;
+    }
+    return NULL;
 }
 
 STUB_FUNC(0x5128d0)
