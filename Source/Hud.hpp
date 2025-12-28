@@ -282,7 +282,7 @@ class Hud_Pager_C_Array
         return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(v1);
     }
 
-    Hud_Pager_C field_0[4];
+    Hud_Pager_C field_0_pagers_array[4];
 };
 
 class Garox_18

@@ -1051,9 +1051,9 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
     s32 width = (get_sprite_width_4C7220(117) / 2) + 3;
 
     s32 v9 = gLucid_hamilton_67E8E0.sub_4C59A0() ? 36 : 104;
-    for (s32 i = 0; i < 4; i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_pagers_array); i++)
     {
-        field_0[i].DrawPager_5D2AB0(width, v9);
+        field_0_pagers_array[i].DrawPager_5D2AB0(width, v9);
         v9 += totalSpriteHeight;
     }
 }
@@ -1061,18 +1061,18 @@ void Hud_Pager_C_Array::DrawPagers_5D3040()
 MATCH_FUNC(0x5d31b0)
 void Hud_Pager_C_Array::UpdatePagers_5D31B0()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_0); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_pagers_array); i++)
     {
-        field_0[i].Service_5D2320();
+        field_0_pagers_array[i].Service_5D2320();
     }
 }
 
 MATCH_FUNC(0x5d31f0)
 s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager id
 {
-    for (s32 id = 0; id < 4; id++)
+    for (s32 id = 0; id < GTA2_COUNTOF_S(field_0_pagers_array); id++)
     {
-        Hud_Pager_C* pPager = &field_0[id];
+        Hud_Pager_C* pPager = &field_0_pagers_array[id];
         if (pPager->field_0_timer >= 0 || pPager->field_4)
         {
             continue;
@@ -1087,16 +1087,16 @@ MATCH_FUNC(0x5d3220)
 s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
 {
     s32 targetIdx = -1;
-    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_pagers_array); i++)
     {
-        Hud_Pager_C* pPager = &field_0[i];
+        Hud_Pager_C* pPager = &field_0_pagers_array[i];
         if (!pPager->field_4 && (pPager->field_0_timer >= 0 || targetIdx == -1))
         {
             targetIdx = i;
         }
     }
 
-    Hud_Pager_C* pTargetPager = &field_0[targetIdx];
+    Hud_Pager_C* pTargetPager = &field_0_pagers_array[targetIdx];
     infallible_turing* pSound = pTargetPager->field_8_sound;
     pTargetPager->field_4 = a2;
     if (!pSound && !bSkip_audio_67D6BE)
@@ -1110,8 +1110,8 @@ s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
 MATCH_FUNC(0x5d3280)
 void Hud_Pager_C_Array::sub_5D3280(s32 idx)
 {
-    infallible_turing* pSound = field_0[idx].field_8_sound;
-    Hud_Pager_C* pPager = &field_0[idx];
+    infallible_turing* pSound = field_0_pagers_array[idx].field_8_sound;
+    Hud_Pager_C* pPager = &field_0_pagers_array[idx];
     pPager->field_0_timer = -1;
     pPager->field_4 = 0;
 
@@ -1127,20 +1127,20 @@ void Hud_Pager_C_Array::sub_5D3280(s32 idx)
 MATCH_FUNC(0x5d32d0)
 void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
 {
-    field_0[a2].field_0_timer = -1;
+    field_0_pagers_array[a2].field_0_timer = -1;
 }
 
 MATCH_FUNC(0x5d32f0)
 void Hud_Pager_C_Array::AddTime_5D32F0(s32 pager_idx, s32 time_to_add)
 {
-    Hud_Pager_C* pPager = &field_0[pager_idx];
+    Hud_Pager_C* pPager = &field_0_pagers_array[pager_idx];
     pPager->field_0_timer += time_to_add;
 }
 
 MATCH_FUNC(0x5d3310)
 void Hud_Pager_C_Array::sub_5D3310(s32 a2)
 {
-    field_0[a2].field_4 = 0;
+    field_0_pagers_array[a2].field_4 = 0;
 }
 
 MATCH_FUNC(0x5d7650)
@@ -1512,7 +1512,7 @@ bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* a2)
 {
     Gang_144* pGang = a2->field_18.field_10.field_30;
 
-    for (s32 i = 0; i < 17; i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
         Hud_Arrow_7C* pArrow = &field_0_array[i];
         if (pArrow != a2 && !pArrow->sub_4C6F80() && pArrow->sub_4C7050() && pArrow->field_18.field_10.field_30 == pGang)
@@ -1529,7 +1529,7 @@ void Hud_Arrow_7C_Array::DrawArrows_5D0E90()
     if ((u8)bStartNetworkGame_7081F0)
     {
         // Limit drawn arrows in multiplayer
-        for (s32 i = 0; i < 17; i++)
+        for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
         {
             if (field_0_array[i].field_18.field_18.field_C == NULL ||
                 field_0_array[i].field_18.field_18.field_C->field_2C4_player_ped == NULL ||
@@ -1559,7 +1559,7 @@ MATCH_FUNC(0x5d0f40)
 char_type Hud_Arrow_7C_Array::sub_5D0F40(Gang_144* a2)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
-    for (s32 i = 0; i < 17; i++, pIter++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
         if ((pIter->field_18.field_18.field_10_type || pIter->field_18.field_3C.field_10_type) &&
             (pIter->field_18.field_10.field_30 == a2 && pIter->field_18.field_60->field_10_type != 5))
@@ -1573,7 +1573,7 @@ char_type Hud_Arrow_7C_Array::sub_5D0F40(Gang_144* a2)
 MATCH_FUNC(0x5d0f80)
 void Hud_Arrow_7C_Array::sub_5D0F80()
 {
-    for (s32 i = 0; i < 17; i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
         if (field_0_array[i].field_18.field_18.field_10_type || field_0_array[i].field_18.field_3C.field_10_type)
         {
@@ -1644,7 +1644,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::AllocArrow_5D1050()
 MATCH_FUNC(0x5d10b0)
 void Hud_Arrow_7C_Array::sub_5D10B0()
 {
-    for (s32 i = 0; i < 17; i++)
+    for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++)
     {
         if (field_0_array[i].field_18.field_10.field_6)
         {
@@ -1971,7 +1971,7 @@ Garox_1E34_L::Garox_1E34_L()
     field_700 = 0;
     field_504_tick_timer = 0;
 
-    for (s32 i = 0; i < 19; i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_524_ary_19); i++)
     {
         field_524_ary_19[i].field_0 = &field_524_ary_19[i].field_C;
     }

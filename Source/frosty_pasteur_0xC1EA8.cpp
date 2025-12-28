@@ -68,7 +68,7 @@ MATCH_FUNC(0x511b90)
 void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
 {
     u16 saved_counter_count = 0;
-    for (u16 ptr = 0; ptr < 6000; ptr++)
+    for (u16 ptr = 0; ptr < GTA2_COUNTOF(field_46C_base_pointers); ptr++)
     {
         if (field_46C_base_pointers[ptr])
         {
@@ -266,7 +266,7 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::sub_512100(u16 toFind, u16 startOff)
     {
         return 0;
     }
-    for (idx = 0; idx < 6000 - startOff; ++idx)
+    for (idx = 0; idx < GTA2_COUNTOF_S(field_46C_base_pointers) - startOff; ++idx)
     {
         if (header = frosty_pasteur_0xC1EA8::GetBasePointer_512770(idx + startOff))
         {
@@ -534,7 +534,7 @@ MATCH_FUNC(0x5129b0)
 void frosty_pasteur_0xC1EA8::sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line)
 {
     thread_C* thread = &field_188_thrds_4[0];
-    for (u16 i = 0; i < 20 && thread->field_8_cmd_line != 0; i++)
+    for (u16 i = 0; i < GTA2_COUNTOF(field_188_thrds_4) && thread->field_8_cmd_line != 0; i++)
     {
         thread++;
     }
