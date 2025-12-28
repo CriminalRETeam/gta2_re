@@ -1054,7 +1054,55 @@ void Car_BC::SetDriver(Ped* pNewDriver)
 STUB_FUNC(0x43a9f0)
 void Car_BC::sub_43A9F0()
 {
-    NOT_IMPLEMENTED;
+    if (!field_54_driver && (field_78_flags & 0x80) && field_7C_uni_num != 2 && (field_A4 & 8) == 0 && field_74_damage != 32001)
+    {
+        if ((field_A4 & 0x1C) == 0)
+        {
+            field_A5 = 12;
+            field_A4 |= 8;
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+            {
+                if (sub_421700())
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
+                }
+                else
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
+                }
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
+            {
+                if (sub_421700())
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
+                }
+                else
+                {
+                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
+                }
+            }
+
+            if (sub_421660())
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
+            }
+
+            if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
+            {
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+            }
+
+            field_8E = 50;
+        }
+    }
 }
 
 STUB_FUNC(0x43aa60)
@@ -2524,11 +2572,22 @@ char_type Car_BC::sub_442D70()
     return 0;
 }
 
+// https://decomp.me/scratch/cyG7i
 STUB_FUNC(0x443130)
-char_type Car_BC::sub_443130()
+char_type Car_BC::TrailerUpdate_443130()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 state = field_64_pTrailer->sub_408220();
+    switch (state)
+    {
+        case 2:
+            Car_BC::DetachTrailer_442760();
+            return 0;
+        case 1:
+            gTrailerPool_66AC80->field_0_pool.DeAllocate(field_64_pTrailer);
+            return 1;
+        case 0:
+            return 0;
+    }
 }
 
 MATCH_FUNC(0x443170)
@@ -2543,7 +2602,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_64_pTrailer)
     {
-        return sub_443130();
+        return TrailerUpdate_443130();
     }
 
     if (is_train_model())

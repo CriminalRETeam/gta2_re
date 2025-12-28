@@ -500,7 +500,7 @@ class Car_BC
     EXPORT s32 sub_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();
-    EXPORT char_type sub_443130();
+    EXPORT char_type TrailerUpdate_443130();
     EXPORT char_type PoolUpdate();
     EXPORT void sub_443330();
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
