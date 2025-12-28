@@ -25,6 +25,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
+#include "winmain.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -2725,10 +2726,72 @@ s32 __stdcall Car_BC::get_car_weapon_cost_443A50(s32 weapon_kind)
     }
 }
 
-STUB_FUNC(0x4438C0)
-EXPORT void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
+MATCH_FUNC(0x4438C0)
+void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
 {
-    NOT_IMPLEMENTED;
+    u8 ammo_capacity;
+    Ped* pDriver = this->field_54_driver;
+    Player* pPlayer = pDriver->field_15C_player;
+    Weapon_30* pWeapon = pPlayer->field_718_weapons[weapon_kind];
+    if (pWeapon && pWeapon->is_max_capacity_5DCEA0())
+    {
+        // Ammo full
+        if (pPlayer->field_0_bIsUser)
+        {
+            gHud_2B00_706620->field_DC.sub_5D4400(1, "arig");
+        }
+    }
+    else
+    {
+        s32 car_weapon_cost = Car_BC::get_car_weapon_cost_443A50(weapon_kind);
+        if (bStartNetworkGame_7081F0)
+        {
+            // Cheaper in multiplayer
+            car_weapon_cost /= 10;
+        }
+
+        if (car_weapon_cost <= pPlayer->field_2D4_unk.GetScore_592370())
+        {
+            if (pPlayer->field_0_bIsUser)
+            {
+                gHud_2B00_706620->field_DC.sub_5D3F10(1, "bdone", car_weapon_cost);
+            }
+
+            pPlayer->field_2D4_unk.AddCash_592620(-car_weapon_cost);
+            if (gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind) < 10u)
+            {
+                ammo_capacity = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind);
+            }
+            else
+            {
+                ammo_capacity = 10;
+            }
+            gWeapon_8_707018->allocate_5E3D50(weapon_kind, ammo_capacity, this);
+            switch (weapon_kind)
+            {
+                case weapon_type::car_bomb:
+                    this->field_B4_weapon_kind = 4;
+                    break;
+                case weapon_type::car_mines:
+                    this->field_B4_weapon_kind = 5;
+                    break;
+                case weapon_type::oil_stain:
+                    this->field_B4_weapon_kind = 6;
+                    break;
+                case weapon_type::car_smg:
+                    this->field_B4_weapon_kind = 7;
+                    break;
+                default:
+                    FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
+            }
+        }
+        else
+        {
+            // Can't afford weapon
+            Car_BC::sub_443AB0(pPlayer, car_weapon_cost);
+            this->field_B4_weapon_kind = 8;
+        }
+    }
 }
 
 MATCH_FUNC(0x443AB0)
@@ -2763,11 +2826,11 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
         {
             SetCarRemap(remap);
             field_0_qq.sub_5A7110();
-            this->field_B4 = 1;
+            this->field_B4_weapon_kind = 1;
         }
         else
         {
-            this->field_B4 = 2;
+            this->field_B4_weapon_kind = 2;
         }
 
         pPlayer->field_2D4_unk.AddCash_592620(-cost);
@@ -2777,7 +2840,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
     else
     {
         sub_443AB0(pPlayer, cost);
-        this->field_B4 = 8;
+        this->field_B4_weapon_kind = 8;
     }
 }
 
@@ -3064,7 +3127,7 @@ void Car_BC::sub_444490()
     this->field_8E = 0;
     this->field_A8 = 0;
     this->field_A9 = 0;
-    this->field_B4 = 0;
+    this->field_B4_weapon_kind = 0;
     this->field_B8 = 0;
     this->field_B0 = 0;
 }

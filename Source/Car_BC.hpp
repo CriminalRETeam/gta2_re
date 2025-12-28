@@ -861,7 +861,7 @@ class Car_BC
     char_type field_AB;
     s32 field_AC;
     s32 field_B0;
-    s32 field_B4;
+    s32 field_B4_weapon_kind;
     char_type field_B8;
     char_type field_B9;
     char_type field_BA;
