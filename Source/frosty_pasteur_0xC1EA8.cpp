@@ -441,11 +441,9 @@ SCR_CMD_HEADER* frosty_pasteur_0xC1EA8::GetBasePointer_512770(u16 idx)
     return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
 }
 
-// Only waiting gMiss2Log_6F7698 & Write_Log_4D9650 to be defined
-STUB_FUNC(0x5127a0)
+MATCH_FUNC(0x5127a0)
 void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
 {
-    NOT_IMPLEMENTED;
     if (!bSkip_mission_67D4E5)
     {
         if (byte_6212EC)
@@ -453,7 +451,7 @@ void frosty_pasteur_0xC1EA8::ExecuteScriptThreads_5127A0()
             if (gDo_miss_logging_67D6BC)
             {
                 miss2_0x11C_Pool_6F8064->sub_47F4D0();
-                //gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE"); //  TODO: ofstream stuff
+                gMiss2Log_6F7698.Write_Log_4D9650("UTF-16LE");
             }
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
