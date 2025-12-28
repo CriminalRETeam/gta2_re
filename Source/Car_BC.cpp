@@ -2615,22 +2615,22 @@ char_type Car_BC::sub_442D70()
     return 0;
 }
 
-// https://decomp.me/scratch/cyG7i
-STUB_FUNC(0x443130)
+MATCH_FUNC(0x443130)
 char_type Car_BC::TrailerUpdate_443130()
 {
-    s32 state = field_64_pTrailer->sub_408220();
+    const s32 state = field_64_pTrailer->sub_408220();
     switch (state)
     {
-        case 2:
-            Car_BC::DetachTrailer_442760();
+        case 0:
             return 0;
         case 1:
             gTrailerPool_66AC80->field_0_pool.DeAllocate(field_64_pTrailer);
             return 1;
-        case 0:
-            return 0;
+        case 2:
+            Car_BC::DetachTrailer_442760();
+            break;
     }
+    return 0;
 }
 
 MATCH_FUNC(0x443170)
