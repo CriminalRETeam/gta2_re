@@ -57,13 +57,10 @@ void root_sound::DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 y
     gSound_obj_66F680.DeclareRadioStation_57ECB0(station_idx, xpos, ypos);
 }
 
-STUB_FUNC(0x40F050)
-char_type root_sound::RemoveSound_40F050(s32 a1, s32 a2)
+MATCH_FUNC(0x40F050)
+void root_sound::RemoveSound_40F050(s32 a1, s32 a2)
 {
-    NOT_IMPLEMENTED;
-    //return gSound_obj_66F680.sub_57EE30(a1, a2);
-    // todo
-    return 0;
+    gSound_obj_66F680.RemoveSound_57EE30(a1, a2);
 }
 
 STUB_FUNC(0x40F070)
