@@ -63,12 +63,10 @@ void root_sound::RemoveSound_40F050(s32 a1, s32 a2)
     gSound_obj_66F680.RemoveSound_57EE30(a1, a2);
 }
 
-STUB_FUNC(0x40F070)
+MATCH_FUNC(0x40F070)
 void root_sound::sub_40F070(char_type a1)
 {
-    NOT_IMPLEMENTED;
-    //gSound_obj_66F680.sub_57EEE0(a1);
-    // todo
+    gSound_obj_66F680.sub_57EEE0(a1);
 }
 
 MATCH_FUNC(0x40F090)
