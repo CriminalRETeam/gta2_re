@@ -591,7 +591,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
     EXPORT char_type sub_511B10(s32 idx);
     EXPORT void SaveScriptCounters_511B90();
-    EXPORT void sub_511C30();
+    EXPORT void LoadScriptCounters_511C30();
     EXPORT void sub_511C60();
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(char_type* FileName);

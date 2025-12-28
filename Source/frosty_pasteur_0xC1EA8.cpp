@@ -94,10 +94,18 @@ void frosty_pasteur_0xC1EA8::SaveScriptCounters_511B90()
     }
 }
 
-STUB_FUNC(0x511c30)
-void frosty_pasteur_0xC1EA8::sub_511C30()
+MATCH_FUNC(0x511c30)
+void frosty_pasteur_0xC1EA8::LoadScriptCounters_511C30()
 {
-    NOT_IMPLEMENTED;
+    for (u16 saved_counter_idx = 0; saved_counter_idx < 300; saved_counter_idx++)
+    {
+        saved_counter_save* pStruct = &gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_idx];
+        if (pStruct->field_0_pointer > 0)
+        {
+            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(pStruct->field_0_pointer);
+            pPointer->field_8_counter = pStruct->field_2_saved_value;
+        }
+    }
 }
 
 MATCH_FUNC(0x511C60)
