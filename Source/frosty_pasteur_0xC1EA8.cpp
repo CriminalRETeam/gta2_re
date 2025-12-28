@@ -563,11 +563,18 @@ u8 frosty_pasteur_0xC1EA8::sub_5129F0(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x512a70)
-s32* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
+MATCH_FUNC(0x512a70)
+thread_C* frosty_pasteur_0xC1EA8::sub_512A70(s32 a2, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    thread_C* pHeader = frosty_pasteur_0xC1EA8::sub_512980(a2, a3);
+    if (pHeader)
+    {
+        pHeader->field_0_unk = 0;
+        pHeader->field_4_obj_f14 = 0;
+        pHeader->field_8_cmd_line = 0;
+        --field_184_count;
+    }
+    return pHeader;
 }
 
 STUB_FUNC(0x512aa0)

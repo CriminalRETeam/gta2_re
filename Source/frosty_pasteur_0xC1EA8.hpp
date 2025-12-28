@@ -612,7 +612,7 @@ class frosty_pasteur_0xC1EA8
     EXPORT thread_C* sub_512980(s32 a2, s32 a3);
     EXPORT void sub_5129B0(s32 a2, s32 obj_f14, u16 cmd_line);
     EXPORT u8 sub_5129F0(s32 a2, s32 a3);
-    EXPORT s32* sub_512A70(s32 a2, s32 a3);
+    EXPORT thread_C* sub_512A70(s32 a2, s32 a3);
     EXPORT char_type* sub_512AA0(s32 a2);
     EXPORT char_type* sub_512AD0(s32 a2);
     EXPORT char_type sub_512AF0(s32 a2, char_type a3, char_type a4);
