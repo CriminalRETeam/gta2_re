@@ -210,11 +210,13 @@ class Char_B4_Pool
 class Char_8
 {
   public:
+    void PoolAllocate()
+    {
+    }
 
-  void PoolAllocate() 
-  {
-    
-  }
+    void PoolDeallocate()
+    {
+    }
 
     Ped* field_0_char_ped;
     Char_8* mpNext;

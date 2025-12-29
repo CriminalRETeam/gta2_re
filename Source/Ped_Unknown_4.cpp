@@ -136,18 +136,25 @@ Ped* Ped_Unknown_4::FindClosestPassengerInViewCone_4713C0(Fix16 x, Fix16 y, Ang1
     return 0;
 }
 
-STUB_FUNC(0x4715a0)
-Char_8** Ped_Unknown_4::KillAllPassengers_4715A0()
+MATCH_FUNC(0x4715a0)
+void Ped_Unknown_4::KillAllPassengers_4715A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter->field_0_char_ped->Kill_46F9D0();
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
 STUB_FUNC(0x4715e0)
-Char_8** Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
+void Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 MATCH_FUNC(0x471630)
