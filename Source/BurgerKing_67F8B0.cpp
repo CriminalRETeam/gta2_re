@@ -434,10 +434,71 @@ void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     }
 }
 
-STUB_FUNC(0x4ce880)
-void BurgerKing_67F8B0::sub_4CE880(HINSTANCE a2)
+MATCH_FUNC(0x4ce880)
+void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
-    NOT_IMPLEMENTED;
+    field_0_bShutDown = 0;
+    field_8_input_masks[0] = 1;
+    field_8_input_masks[1] = 2;
+    field_8_input_masks[2] = 4;
+    field_8_input_masks[3] = 8;
+    field_8_input_masks[4] = 0x10;
+    field_8_input_masks[5] = 0x20;
+    field_8_input_masks[6] = 0x40;
+    field_8_input_masks[7] = 128;
+    field_8_input_masks[8] = 0x100;
+    field_8_input_masks[9] = 0x200;
+    field_8_input_masks[10] = 1024;
+    field_8_input_masks[11] = 0x800;
+    field_4_input_bits = 0;
+    field_38_replay_state = 0;
+
+    gBurgerKing_1_67B990 = new BurgerKing_1();
+    if (!gBurgerKing_1_67B990)
+    {
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
+    }
+
+    gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
+    memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
+
+    field_75340_rec_buf_idx = 0;
+
+    if (bPlay_replay_67D4F4 == 1)
+    {
+        bConstant_replay_save_67D5C4 = 0;
+        File::Global_Open_4A7060("test\\replay.rep");
+        BurgerKing_67F8B0::LoadReplayHeader_4CE380(1);
+        u32 size = 480000;
+        size_t remainderSize = File::GetRemainderSize_4A7250(field_3C_rec_buff, &size);
+        File::Global_Close_4A70C0();
+        field_7533C_used_recs_count = remainderSize / 0xC;
+        if (12 * (remainderSize / 0xC) != remainderSize)
+        {
+            FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
+        }
+        field_38_replay_state = field_7533C_used_recs_count != 0;
+    }
+    else
+    {
+        if (bDo_release_replay_67D4EB)
+        {
+            File::CreateFile_4A7000("test\\replay.rep");
+            BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+        }
+        field_38_replay_state = 0;
+    }
+    if (bConstant_replay_save_67D5C4)
+    {
+        if (bPlay_replay_67D4F4 == 1)
+        {
+            if (bDo_release_replay_67D4EB)
+            {
+                File::CreateFile_4A7000("test\\replay.rep");
+                BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
+            }
+        }
+    }
 }
 
 MATCH_FUNC(0x4cea00)

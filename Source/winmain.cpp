@@ -246,7 +246,7 @@ void force_link()
     burgerking.sub_4CE650();
     burgerking.GetNextAttrReplay_4CE6E0(0);
     burgerking.input_init_replay_4CE740(0);
-    burgerking.sub_4CE880(0);
+    burgerking.input_init_live_4CE880(0);
     burgerking.replay_save_4CEA40(0);
     burgerking.get_input_bits_4CEAC0();
     burgerking.save_replay_inputs_4CED00(0, 0);
@@ -886,7 +886,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     }
     else
     {
-        gBurgerKing_67F8B0.sub_4CE880(gHInstance_708220);
+        gBurgerKing_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
