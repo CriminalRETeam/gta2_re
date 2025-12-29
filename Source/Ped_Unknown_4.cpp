@@ -7,68 +7,188 @@ Char_8* Ped_Unknown_4::AddPassenger_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
 
-    // Maybe PoolAlloc() ?
     pNew->field_0_char_ped = pPed;
-    pNew->mpNext = this->field_0_pFirstPassenger;
 
+    pNew->mpNext = this->field_0_pFirstPassenger;
     this->field_0_pFirstPassenger = pNew;
+
     return pNew;
 }
 
-STUB_FUNC(0x471160)
-Char_8* Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
+MATCH_FUNC(0x471160)
+void Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            if (pIter->field_0_char_ped == pPed)
+            {
+                // Already exists
+                return;
+            }
+
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
+    }
+
+    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    pNew->field_0_char_ped = pPed;
+
+    if (pLast)
+    {
+        pLast->mpNext = pNew;
+        pNew->mpNext = 0;
+    }
+    else
+    {
+        // List was empty
+        this->field_0_pFirstPassenger = pNew;
+        pNew->mpNext = 0;
+    }
 }
 
-STUB_FUNC(0x4711B0)
+MATCH_FUNC(0x4711B0)
 void Ped_Unknown_4::AddPassengerToFrontIfMissing_4711B0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            if (pIter->field_0_char_ped == pPed)
+            {
+                // Already exists
+                return;
+            }
+
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
+    }
+
+    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    pNew->field_0_char_ped = pPed;
+
+    pNew->mpNext = this->field_0_pFirstPassenger;
+    this->field_0_pFirstPassenger = pNew;
 }
 
-STUB_FUNC(0x4711f0)
-Char_8* Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
+MATCH_FUNC(0x4711f0)
+void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    while (pIter)
+    {
+        if (pIter->field_0_char_ped == pPed)
+        {
+            if (pLast)
+            {
+                pLast->mpNext = pIter->mpNext;
+            }
+            else
+            {
+                this->field_0_pFirstPassenger = pIter->mpNext;
+            }
+            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            break;
+        }
+        pLast = pIter;
+        pIter = pIter->mpNext;
+    }
 }
 
-STUB_FUNC(0x471240)
+MATCH_FUNC(0x471240)
 void Ped_Unknown_4::RemovePassenger_471240(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    while (pIter)
+    {
+        if (pIter->field_0_char_ped == pPed)
+        {
+            if (pLast)
+            {
+                pLast->mpNext = pIter->mpNext;
+            }
+            else
+            {
+                this->field_0_pFirstPassenger = pIter->mpNext;
+            }
+            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            break;
+        }
+        pLast = pIter;
+        pIter = pIter->mpNext;
+    }
 }
 
-STUB_FUNC(0x471290)
+MATCH_FUNC(0x471290)
 char_type Ped_Unknown_4::RemovePassengersInSpecificState_471290()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pLast = 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    char_type removedCount = 0;
+    while (pIter)
+    {
+        if ((pIter->field_0_char_ped->field_21C & 1) != 0 && pIter->field_0_char_ped->field_278 == 9)
+        {
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
+        else
+        {
+            if (pLast)
+            {
+                pLast->mpNext = pIter->mpNext;
+            }
+            else
+            {
+                this->field_0_pFirstPassenger = pIter->mpNext;
+            }
+
+            Char_8* pIterOldNext = pIter->mpNext;
+
+            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            pIter = pIterOldNext;
+
+            ++removedCount;
+        }
+    }
+    return removedCount;
 }
 
-STUB_FUNC(0x4712F0)
+MATCH_FUNC(0x4712F0)
 void Ped_Unknown_4::ClearPassengers_4712F0()
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
-STUB_FUNC(0x471320)
+MATCH_FUNC(0x471320)
 Ped* Ped_Unknown_4::RemoveFirstPassenger_471320()
 {
-    NOT_IMPLEMENTED;
-
-    Char_8* pIter = this->field_0_pFirstPassenger;
-    if (!this->field_0_pFirstPassenger)
+    Char_8* pIter = field_0_pFirstPassenger;
+    if (!pIter)
     {
         return 0;
     }
 
     Ped* pPed = pIter->field_0_char_ped;
-    field_0_pFirstPassenger = pIter->mpNext;
-    pIter->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
-    gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pIter;
+    this->field_0_pFirstPassenger = pIter->mpNext;
+    gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
     return pPed;
 }
 
@@ -86,18 +206,35 @@ Ped* Ped_Unknown_4::FindClosestPassengerInViewCone_4713C0(Fix16 x, Fix16 y, Ang1
     return 0;
 }
 
-STUB_FUNC(0x4715a0)
-Char_8** Ped_Unknown_4::KillAllPassengers_4715A0()
+MATCH_FUNC(0x4715a0)
+void Ped_Unknown_4::KillAllPassengers_4715A0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter->field_0_char_ped->Kill_46F9D0();
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
-STUB_FUNC(0x4715e0)
-Char_8** Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
+MATCH_FUNC(0x4715e0)
+void Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter->field_0_char_ped->Kill_46F9D0();
+        pIter->field_0_char_ped->field_16C_car = 0;
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
 MATCH_FUNC(0x471630)

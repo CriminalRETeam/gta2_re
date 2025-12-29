@@ -17,9 +17,9 @@ class Ped_Unknown_4
     }
 
     EXPORT Char_8* AddPassenger_471140(Ped* pPed);
-    EXPORT Char_8* AddPassengerToBackIfMissing_471160(Ped* pPed);
+    EXPORT void AddPassengerToBackIfMissing_471160(Ped* pPed);
     EXPORT void AddPassengerToFrontIfMissing_4711B0(Ped* pPed);
-    EXPORT Char_8* RemovePassenger_4711F0(Ped* pPed);
+    EXPORT void RemovePassenger_4711F0(Ped* pPed);
     // Functionally the same as above? Hmmm
     EXPORT void RemovePassenger_471240(Ped* pPed);
     // TODO: Rename when we know what that state is/means
@@ -28,8 +28,8 @@ class Ped_Unknown_4
     EXPORT Ped* RemoveFirstPassenger_471320();
     EXPORT Ped* GetClosestPassengerToPoint_471340(Fix16 x, Fix16 y);
     EXPORT Ped* FindClosestPassengerInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2);
-    EXPORT Char_8** KillAllPassengers_4715A0();
-    EXPORT Char_8** KillAllPassengersAndClearCarRef_4715E0();
+    EXPORT void KillAllPassengers_4715A0();
+    EXPORT void KillAllPassengersAndClearCarRef_4715E0();
     EXPORT void ApplyPassengerBusStopBehavior_471630();
     EXPORT void ForceTaxiPassengersToExit_471680();
 
