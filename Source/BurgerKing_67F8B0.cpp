@@ -84,12 +84,12 @@ void BurgerKing_1::read_keyboard_and_gamepad_498CC0()
     }
 }
 
-STUB_FUNC(0x498C00)
+MATCH_FUNC(0x498C00)
 void BurgerKing_1::get_registry_controls_498C00()
 {
-    for (s32 i = 0; i < 12; ++i)
+    for (u32 i = 0; i < 12; ++i)
     {
-        const s32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
+        const u32 v1 = gRegistry_6FF968.Set_Control_Setting_587010(i, dword_61A9E4[i]);
         dword_67B91C[i] = v1 >> 15;
         dword_67B6E8[i] = (u8)v1;
     }
@@ -218,6 +218,8 @@ bool BurgerKing_1::game_pad_read_498D20()
     }
     else
     {
+        num_items = 0;
+    }
     return num_items > 0;
 }
 
