@@ -202,17 +202,33 @@ char_type Object_2C::sub_522460(Sprite* a2)
 }
 
 STUB_FUNC(0x5224e0)
-s16* Object_2C::sub_5224E0(s32* a2)
+s16* Object_2C::sub_5224E0(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x522640)
-s16 Object_2C::sub_522640(s32 a2)
+MATCH_FUNC(0x522640)
+void Object_2C::sub_522640(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    sub_5224E0(a2);
+
+    if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
+    {
+        s16 maxVal = 9;
+        const s16 rng = stru_6F6784.get_int_4F7AE0(&maxVal);
+        if (rng < 6)
+        {
+            if (rng < 3)
+            {
+                field_10_obj_3c->field_34 = 1;
+            }
+            else
+            {
+                field_10_obj_3c->field_34 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5226a0)
@@ -298,7 +314,7 @@ STUB_FUNC(0x525190)
 void Object_2C::sub_525190(u8 varrok_idx)
 {
     NOT_IMPLEMENTED;
-    
+
     if (field_8->field_3C < 39 || field_8->field_3C > 42)
     {
         if (field_8->field_48 == 13)

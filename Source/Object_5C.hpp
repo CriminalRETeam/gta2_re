@@ -31,8 +31,8 @@ class Object_2C
     EXPORT char_type sub_5223C0(Sprite* a2);
     EXPORT bool sub_522430(Sprite* a2);
     EXPORT char_type sub_522460(Sprite* a2);
-    EXPORT s16* sub_5224E0(s32* a2);
-    EXPORT s16 sub_522640(s32 a2);
+    EXPORT s16* sub_5224E0(Fix16_Point* a2);
+    EXPORT void sub_522640(Fix16_Point* a2);
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void sub_522710(Object_2C* a2, u32* a3);
     EXPORT void sub_5229B0(s32 a2, u32* a3, s32 a4);
