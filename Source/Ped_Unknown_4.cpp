@@ -51,10 +51,31 @@ void Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x4711B0)
+MATCH_FUNC(0x4711B0)
 void Ped_Unknown_4::AddPassengerToFrontIfMissing_4711B0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            if (pIter->field_0_char_ped == pPed)
+            {
+                // Already exists
+                return;
+            }
+
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
+    }
+
+    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    pNew->field_0_char_ped = pPed;
+
+    pNew->mpNext = this->field_0_pFirstPassenger;
+    this->field_0_pFirstPassenger = pNew;
 }
 
 STUB_FUNC(0x4711f0)
