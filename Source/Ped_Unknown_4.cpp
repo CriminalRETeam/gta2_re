@@ -103,10 +103,29 @@ void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
     }
 }
 
-STUB_FUNC(0x471240)
+MATCH_FUNC(0x471240)
 void Ped_Unknown_4::RemovePassenger_471240(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    while (pIter)
+    {
+        if (pIter->field_0_char_ped == pPed)
+        {
+            if (pLast)
+            {
+                pLast->mpNext = pIter->mpNext;
+            }
+            else
+            {
+                this->field_0_pFirstPassenger = pIter->mpNext;
+            }
+            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            break;
+        }
+        pLast = pIter;
+        pIter = pIter->mpNext;
+    }
 }
 
 STUB_FUNC(0x471290)
