@@ -6,11 +6,11 @@ MATCH_FUNC(0x471140)
 Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
-    
+
     // Maybe PoolAlloc() ?
     pNew->field_0_char_ped = pPed;
     pNew->mpNext = this->field_0_pOwner;
-    
+
     this->field_0_pOwner = pNew;
     return pNew;
 }
@@ -20,6 +20,12 @@ Char_8* Ped_Unknown_4::sub_471160(Ped* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+STUB_FUNC(0x4711B0)
+void Ped_Unknown_4::sub_4711B0(Ped* pPed)
+{
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x4711f0)
@@ -42,6 +48,12 @@ char_type Ped_Unknown_4::sub_471290()
     return 0;
 }
 
+STUB_FUNC(0x4712F0)
+void Ped_Unknown_4::sub_4712F0()
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x471320)
 Ped* Ped_Unknown_4::sub_471320()
 {
@@ -58,6 +70,20 @@ Ped* Ped_Unknown_4::sub_471320()
     pOwner->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
     gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pOwner;
     return pPed;
+}
+
+STUB_FUNC(0x471340)
+Ped* Ped_Unknown_4::sub_471340(Fix16 x, Fix16 y)
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x4713C0)
+Ped* Ped_Unknown_4::sub_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
+{
+    NOT_IMPLEMENTED;
+    return 0;
 }
 
 STUB_FUNC(0x4715a0)

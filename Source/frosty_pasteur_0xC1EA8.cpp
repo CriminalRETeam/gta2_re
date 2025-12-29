@@ -357,6 +357,7 @@ u16 frosty_pasteur_0xC1EA8::sub_512400(const char_type* String1, u16* a3)
     return Buffer;
 }
 
+// https://decomp.me/scratch/W4gXh
 STUB_FUNC(0x5121E0)
 void frosty_pasteur_0xC1EA8::LoadStringTbl_5121E0(u16 tableSize)
 {
