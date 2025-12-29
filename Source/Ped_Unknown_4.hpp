@@ -19,7 +19,7 @@ class Ped_Unknown_4
     EXPORT Char_8* AddPassenger_471140(Ped* pPed);
     EXPORT void AddPassengerToBackIfMissing_471160(Ped* pPed);
     EXPORT void AddPassengerToFrontIfMissing_4711B0(Ped* pPed);
-    EXPORT Char_8* RemovePassenger_4711F0(Ped* pPed);
+    EXPORT void RemovePassenger_4711F0(Ped* pPed);
     // Functionally the same as above? Hmmm
     EXPORT void RemovePassenger_471240(Ped* pPed);
     // TODO: Rename when we know what that state is/means

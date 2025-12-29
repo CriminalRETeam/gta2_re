@@ -78,11 +78,29 @@ void Ped_Unknown_4::AddPassengerToFrontIfMissing_4711B0(Ped* pPed)
     this->field_0_pFirstPassenger = pNew;
 }
 
-STUB_FUNC(0x4711f0)
-Char_8* Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
+MATCH_FUNC(0x4711f0)
+void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    while (pIter)
+    {
+        if (pIter->field_0_char_ped == pPed)
+        {
+            if (pLast)
+            {
+                pLast->mpNext = pIter->mpNext;
+            }
+            else
+            {
+                this->field_0_pFirstPassenger = pIter->mpNext;
+            }
+            gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
+            break;
+        }
+        pLast = pIter;
+        pIter = pIter->mpNext;
+    }
 }
 
 STUB_FUNC(0x471240)
