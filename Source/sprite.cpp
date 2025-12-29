@@ -597,14 +597,14 @@ char Sprite::sub_5A1A60()
 }
 
 STUB_FUNC(0x5a1b30)
-char_type Sprite::sub_5A1B30(Sprite* a2)
+char_type Sprite::ResolveZOrder_5A1B30(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x5a1bd0)
-char_type Sprite::sub_5A1BD0()
+char_type Sprite::ComputeZLayer_5A1BD0()
 {
     if (this->field_39_z_col == 0xFF)
     {

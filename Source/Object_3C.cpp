@@ -602,7 +602,7 @@ void struct_4::sub_5A7240(Sprite* pSprite)
 MATCH_FUNC(0x5a72b0)
 void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
-    char start_val = pSprite->sub_5A1BD0();
+    char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;
 
     Sprite_18* p18Iter;
@@ -610,7 +610,7 @@ void struct_4::sub_5A72B0(Sprite* pSprite, char_type bUnknown)
     {
         if (p18Iter->field_0->field_30_sprite_type_enum > 1) // object_5c type
         {
-            const char_type cur_val = p18Iter->field_0->sub_5A1BD0();
+            const char_type cur_val = p18Iter->field_0->ComputeZLayer_5A1BD0();
             if (cur_val > max_val)
             {
                 max_val = cur_val;

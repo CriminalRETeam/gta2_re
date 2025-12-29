@@ -14820,12 +14820,12 @@
         "v105_address": "0x5a1a60"
     },
     {
-        "name": "Sprite::sub_5A1B30",
+        "name": "Sprite::ResolveZOrder_5A1B30",
         "v96f_address": null,
         "v105_address": "0x5a1b30"
     },
     {
-        "name": "Sprite::sub_5A1BD0",
+        "name": "Sprite::ComputeZLayer_5A1BD0",
         "v96f_address": null,
         "v105_address": "0x5a1bd0"
     },

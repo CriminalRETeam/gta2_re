@@ -218,7 +218,7 @@ void Montana::DisplayAdd_495510(Sprite* pSprite)
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (pSprite->field_1C_zpos >= dword_67B434)
     {
-        field_0_cols[pSprite->sub_5A1BD0()]->AddSprite_5C5CF0(pSprite);
+        field_0_cols[pSprite->ComputeZLayer_5A1BD0()]->AddSprite_5C5CF0(pSprite);
     }
     gDisplayAdd_67B578 += get_rdtsc_5BEE90() - rdtsc;
 }

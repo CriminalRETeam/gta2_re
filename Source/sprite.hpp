@@ -97,8 +97,8 @@ class Sprite
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
-    EXPORT char_type sub_5A1B30(Sprite* a2);
-    EXPORT char_type sub_5A1BD0();
+    EXPORT char_type ResolveZOrder_5A1B30(Sprite* a2);
+    EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type sub_5A1CA0(u32* a2);
     EXPORT char_type sub_5A1EB0();
     EXPORT char_type sub_5A21F0();
