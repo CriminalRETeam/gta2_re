@@ -19,7 +19,7 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 DEFINE_GLOBAL(BurgerKing_67F8B0, gBurgerKing_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
-DEFINE_GLOBAL(bool, byte_67B80C, 0x67B80C);
+DEFINE_GLOBAL(u8, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 
 DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
@@ -202,6 +202,13 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
         gNeedKbAcquire_67B66C = 1;
     }
     game_pads_init_498BA0();
+}
+
+// https://decomp.me/scratch/LbfoG ridiculous function to match
+STUB_FUNC(0x498CB0)
+void BurgerKing_1::sub_498CB0(u32 a1)
+{
+    byte_67B80C = a1 >> 7;
 }
 
 MATCH_FUNC(0x498D20)
