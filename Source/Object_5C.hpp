@@ -92,7 +92,8 @@ class Object_2C
     EXPORT char sub_525AC0();
     EXPORT void sub_525B20();
     EXPORT void UpdateLight_527A30();
-
+    EXPORT void sub_525100();
+    
     inline bool check_is_busy_shop()
     {
         s32 v1 = field_8->field_34;

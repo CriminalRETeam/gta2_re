@@ -1093,33 +1093,17 @@ void Sprite_18::sub_5A6A20()
     }
 }
 
-STUB_FUNC(0x5A69E0)
+MATCH_FUNC(0x5A69E0)
 void Sprite_18::sub_5A69E0()
 {
-    NOT_IMPLEMENTED;
-    
-    Sprite* pSprite = this->field_0;
-    if ((pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1 ||
-         pSprite->field_30_sprite_type_enum == sprite_types_enum::map_obj ||
-         pSprite->field_30_sprite_type_enum == sprite_types_enum::unknown_1) &&
-        (pSprite->field_8_object_2C_ptr) != 0)
+    Object_2C* pO2c = field_0->As2C_40FEC0();
+    if (pO2c)
     {
-        Object_2C* pO2c = pSprite->field_8_object_2C_ptr;
-        if (pO2c->field_8->field_34 <= 1u)
-        {
-            if (pO2c->field_18_model == 148)
-            {
-                pO2c->sub_5290C0(1u);
-            }
-            else
-            {
-                pO2c->sub_5290A0();
-            }
-        }
+        pO2c->sub_525100();
     }
-    else if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
+    else
     {
-        Car_BC* pBC = pSprite->field_8_car_bc_ptr;
+        Car_BC* pBC = field_0->AsCar_40FEB0();
         if (pBC)
         {
             pBC->sub_43D7B0(19);
