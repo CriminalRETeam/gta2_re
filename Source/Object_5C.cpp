@@ -614,11 +614,29 @@ void Object_2C::sub_528900()
     }
 }
 
+MATCH_FUNC(0x528960)
+char_type Object_2C::sub_528960(Object_2C* pOther)
+{
+    if (field_8->field_48 < 12 || field_8->field_48 > 13)
+    {
+        return 0;
+    }
+
+    pOther->sub_528A20(this);
+    return 1;
+}
+
 STUB_FUNC(0x528990)
 char_type Object_2C::sub_528990(Sprite* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
+}
+
+STUB_FUNC(0x528A20)
+void Object_2C::sub_528A20(Object_2C *pObj)
+{
+    NOT_IMPLEMENTED;
 }
 
 STUB_FUNC(0x528ba0)

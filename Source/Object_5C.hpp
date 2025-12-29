@@ -67,7 +67,9 @@ class Object_2C
     EXPORT void sub_5283C0(s32 a2);
     EXPORT bool sub_5288B0(Sprite* a2);
     EXPORT void sub_528900();
+    EXPORT char_type sub_528960(Object_2C* pOther);
     EXPORT char_type sub_528990(Sprite* a2);
+    EXPORT void sub_528A20(Object_2C *pObj);
     EXPORT void sub_528BA0();
     EXPORT void sub_528E50(Sprite* a3);
     EXPORT void sub_529000(Object_2C* pObj);
