@@ -6,6 +6,7 @@
 #include "Object_2C_Pool.hpp"
 #include "Object_3C_Pool.hpp"
 #include "Object_8_Pool.hpp"
+#include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
 #include "Varrok_7F8.hpp"
@@ -16,7 +17,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Particle_8.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -40,6 +40,8 @@ DEFINE_GLOBAL(Ang16, word_6F8D8C, 0x6F8D8C);
 DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
 DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
 DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
+
+DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -376,6 +378,17 @@ void Object_2C::sub_525B40()
     }
 }
 
+STUB_FUNC(0x525B60)
+char_type Object_2C::sub_525B60()
+{
+    if (!field_4->IsOnWater_59E1D0())
+    {
+        return 0;
+    }
+    sub_528900();
+    return 1;
+}
+
 STUB_FUNC(0x525b80)
 void Object_2C::sub_525B80()
 {
@@ -572,6 +585,31 @@ bool Object_2C::sub_5288B0(Sprite* a2)
     }
 
     return false;
+}
+
+MATCH_FUNC(0x528900)
+void Object_2C::sub_528900()
+{
+    if (field_10_obj_3c)
+    {
+        field_10_obj_3c->field_30_bSkipAnim = 1;
+    }
+
+    if ((rng_dword_67AB34->field_0_rng & 3) == 0)
+    {
+        field_4->sub_59E320(1);
+        if (field_4->sub_59E390(dword_6F8F5C, dword_6F8F5C, 0))
+        {
+            // inline - because has to be a local here?
+            Sprite* pSprite = this->field_4;
+            if (pSprite->field_1C_zpos != kFpZero_6F8E10)
+            {
+                pSprite->field_1C_zpos = kFpZero_6F8E10;
+                pSprite->sub_59E7B0();
+            }
+            sub_5290A0();
+        }
+    }
 }
 
 STUB_FUNC(0x528990)
@@ -1332,7 +1370,7 @@ void Object_2C::sub_52A650()
         p3C->field_34 = 2;
         p3C->field_24 = 0;
         p3C->field_2F = 0;
-        p3C->field_30 = 0;
+        p3C->field_30_bSkipAnim = 0;
         field_10_obj_3c = p3C;
         p3C->field_20 = field_14_id;
         field_10_obj_3c->field_C = kFpZero_6F8E10;
