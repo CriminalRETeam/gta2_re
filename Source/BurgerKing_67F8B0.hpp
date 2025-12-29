@@ -25,6 +25,7 @@ class BurgerKing_1
     EXPORT BOOL __stdcall make_input_devices_498800(HINSTANCE hInstance);
     EXPORT void set_game_pad_device_properties_4989C0();
     EXPORT void __stdcall input_devices_init_498C40(HINSTANCE hInstance);
+    EXPORT bool game_pad_read_498D20();
     EXPORT void sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys);
     EXPORT void read_input_device_498DA0(s32* input_bits, u8 bUnk);
 

@@ -204,6 +204,23 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
     game_pads_init_498BA0();
 }
 
+MATCH_FUNC(0x498D20)
+bool BurgerKing_1::game_pad_read_498D20()
+{
+    DWORD num_items = -1;
+    if (acquire_input_device_498730(gGamePadDevice_67B6C0))
+    {
+        HRESULT jres = gGamePadDevice_67B6C0->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &num_items, DIGDD_PEEK);
+        if (jres >= DI_OK)
+        {
+            sprintf(gTmpBuffer_67C598, "%d: num_items = %d jres = %d", rng_dword_67AB34->get_cur_rng_41CFE0(), num_items, jres);
+        }
+    }
+    else
+    {
+    return num_items > 0;
+}
+
 MATCH_FUNC(0x498C80)
 void BurgerKing_1::sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
 {
