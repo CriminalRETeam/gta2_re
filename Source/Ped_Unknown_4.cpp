@@ -135,10 +135,18 @@ char_type Ped_Unknown_4::RemovePassengersInSpecificState_471290()
     return 0;
 }
 
-STUB_FUNC(0x4712F0)
+MATCH_FUNC(0x4712F0)
 void Ped_Unknown_4::ClearPassengers_4712F0()
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
 MATCH_FUNC(0x471320)
