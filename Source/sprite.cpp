@@ -596,17 +596,25 @@ char Sprite::sub_5A1A60()
     return gMap_0x370_6F6268->sub_4E4630(field_1C_zpos);
 }
 
-STUB_FUNC(0x5a1b30)
-char_type Sprite::ResolveZOrder_5A1B30(Sprite* a2)
+MATCH_FUNC(0x5a1b30)
+void Sprite::ResolveZOrder_5A1B30(Sprite* pOther)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const char_type their_z = pOther->ComputeZLayer_5A1BD0();
+    ComputeZLayer_5A1BD0();
+    if (their_z < field_39_z_col)
+    {
+        pOther->field_39_z_col = field_39_z_col;
+    }
+    else
+    {
+        this->field_39_z_col = their_z;
+    }
 }
 
 MATCH_FUNC(0x5a1bd0)
 char_type Sprite::ComputeZLayer_5A1BD0()
 {
-    if (this->field_39_z_col == 0xFF)
+    if (this->field_39_z_col == -1)
     {
         if (this->field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr->is_train_model())
         {
