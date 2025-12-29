@@ -104,21 +104,18 @@ void Ped_Unknown_4::ClearPassengers_4712F0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x471320)
+MATCH_FUNC(0x471320)
 Ped* Ped_Unknown_4::RemoveFirstPassenger_471320()
 {
-    NOT_IMPLEMENTED;
-
-    Char_8* pIter = this->field_0_pFirstPassenger;
-    if (!this->field_0_pFirstPassenger)
+    Char_8* pIter = field_0_pFirstPassenger;
+    if (!pIter)
     {
         return 0;
     }
 
     Ped* pPed = pIter->field_0_char_ped;
-    field_0_pFirstPassenger = pIter->mpNext;
-    pIter->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
-    gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pIter;
+    this->field_0_pFirstPassenger = pIter->mpNext;
+    gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
     return pPed;
 }
 
