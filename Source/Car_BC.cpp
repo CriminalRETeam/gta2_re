@@ -1712,7 +1712,7 @@ void Car_BC::sub_43DB80()
         }
         this->field_54_driver = 0;
     }
-    field_4.sub_4715E0();
+    field_4.KillAllPassengersAndClearCarRef_4715E0();
 }
 
 STUB_FUNC(0x43dbd0)

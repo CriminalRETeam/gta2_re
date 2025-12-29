@@ -87,14 +87,14 @@ Ped* Ped_Unknown_4::sub_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
 }
 
 STUB_FUNC(0x4715a0)
-Char_8** Ped_Unknown_4::sub_4715A0()
+Char_8** Ped_Unknown_4::KillAllPassengers_4715A0()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4715e0)
-Char_8** Ped_Unknown_4::sub_4715E0()
+Char_8** Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
 {
     NOT_IMPLEMENTED;
     return 0;

@@ -4050,12 +4050,12 @@
         "v105_address": "0x4713c0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4715A0",
+        "name": "Ped_Unknown_4::KillAllPassengers_4715A0",
         "v96f_address": null,
         "v105_address": "0x4715a0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4715E0",
+        "name": "Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0",
         "v96f_address": null,
         "v105_address": "0x4715e0"
     },

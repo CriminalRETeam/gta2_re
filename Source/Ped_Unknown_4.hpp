@@ -26,10 +26,12 @@ class Ped_Unknown_4
     EXPORT Ped* sub_471320();
     EXPORT Ped* sub_471340(Fix16 x, Fix16 y);
     EXPORT Ped* sub_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2);
-    EXPORT Char_8** sub_4715A0();
-    EXPORT Char_8** sub_4715E0();
+    EXPORT Char_8** KillAllPassengers_4715A0();
+    EXPORT Char_8** KillAllPassengersAndClearCarRef_4715E0();
     EXPORT void sub_471630();
     EXPORT void sub_471680();
+
+    // 9.6f 0x445BB0
     EXPORT u16 GetPassengerCount_4716B0();
     EXPORT void sub_4716D0(Car_BC* pCar);
     EXPORT char_type sub_471710();
