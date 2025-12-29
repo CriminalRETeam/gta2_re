@@ -196,6 +196,12 @@ static Sprite* GetPlayerSprite()
     return GetPedSprite(pPed);
 }
 
+STUB_FUNC(0x5B1170)
+EXPORT void __stdcall NoRefs_sub_5B1170()
+{
+    NOT_IMPLEMENTED;
+}
+
 void CC ImGuiDebugDraw()
 {
     ImGui::Begin("Debugger");
@@ -203,6 +209,11 @@ void CC ImGuiDebugDraw()
     if (ImGui::Button("set boot2map debug opts"))
     {
         EnableBoot2MapDebugOptions();
+    }
+
+    if (ImGui::Button("NoRefs_sub_5B1170"))
+    {
+        NoRefs_sub_5B1170();
     }
 
     if (gGame_0x40_67E008)
@@ -581,7 +592,7 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->IncrementCarStats_443D70(1); // avoid crashes when entering the car
 
-                    // Spawns a cab and connected trailer
+                    // Spawns a cab and connected trailer, can spawn trains too apparently
                     gCar_6C_677930->sub_446530(pPlayerSprite->field_14_xpos.x + xOff,
                                                pPlayerSprite->field_14_xpos.y,
                                                0,

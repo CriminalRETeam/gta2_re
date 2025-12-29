@@ -1077,22 +1077,6 @@ Sprite_Pool::~Sprite_Pool()
 {
 }
 
-MATCH_FUNC(0x5A6ca0)
-Sprite* Sprite_18::sub_5A6CA0(s32 a2)
-{
-    if (field_0 != NULL)
-    {
-        for (Sprite_18* pNext = (Sprite_18*)field_0; pNext != NULL; pNext = pNext->mpNext)
-        {
-            if (pNext->field_0->field_30_sprite_type_enum == a2)
-            {
-                return pNext->field_0;
-            }
-        }
-    }
-    return NULL;
-}
-
 MATCH_FUNC(0x5A6A20)
 void Sprite_18::sub_5A6A20()
 {
@@ -1112,6 +1096,8 @@ void Sprite_18::sub_5A6A20()
 STUB_FUNC(0x5A69E0)
 void Sprite_18::sub_5A69E0()
 {
+    NOT_IMPLEMENTED;
+    
     Sprite* pSprite = this->field_0;
     if ((pSprite->field_30_sprite_type_enum == sprite_types_enum::code_obj1 ||
          pSprite->field_30_sprite_type_enum == sprite_types_enum::map_obj ||
