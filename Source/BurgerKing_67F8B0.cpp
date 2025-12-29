@@ -204,6 +204,16 @@ void __stdcall BurgerKing_1::input_devices_init_498C40(HINSTANCE hInstance)
     game_pads_init_498BA0();
 }
 
+MATCH_FUNC(0x498C80)
+void BurgerKing_1::sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
+{
+    *a1 = (device_data_keys->dwOfs << 12) | *a1;
+    if ((device_data_keys->dwData & 0x80) != 0)
+    {
+        *a1 |= 0x200000;
+    }
+}
+
 STUB_FUNC(0x498DA0)
 void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnk)
 {
