@@ -2879,7 +2879,7 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 
     Car_BC* pCar = pPointer->field_8_car;
 
-    if (pCar != NULL && (u16)pCar->field_4.GetPassengerNum_4716B0() >= v1->field_A_signed_2)
+    if (pCar != NULL && pCar->field_4.GetPassengerCount_4716B0() >= v1->field_A_signed_2)
     {
         field_8 = true;
     }

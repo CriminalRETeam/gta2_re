@@ -129,15 +129,15 @@ void Ped_Unknown_4::sub_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-s32 Ped_Unknown_4::GetPassengerNum_4716B0()
+u16 Ped_Unknown_4::GetPassengerCount_4716B0()
 {
-    s32 pIter;
+    u16 passengerCount;
     Char_8* pOwner = this->field_0_pOwner;
-    for (pIter = 0; pOwner; ++pIter)
+    for (passengerCount = 0; pOwner; ++passengerCount)
     {
         pOwner = pOwner->mpNext;
     }
-    return pIter;
+    return passengerCount;
 }
 
 MATCH_FUNC(0x4716d0)

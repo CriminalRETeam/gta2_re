@@ -15,7 +15,7 @@ class Ped_Unknown_4
     {
         sub_420E90();
     }
-    
+
     EXPORT Char_8* sub_471140(Ped* pPed);
     EXPORT Char_8* sub_471160(Ped* pPed);
     EXPORT void sub_4711B0(Ped* pPed);
@@ -30,8 +30,8 @@ class Ped_Unknown_4
     EXPORT Char_8** sub_4715E0();
     EXPORT void sub_471630();
     EXPORT void sub_471680();
-    EXPORT s32 GetPassengerNum_4716B0();
-    EXPORT void sub_4716D0(Car_BC* a2);
+    EXPORT u16 GetPassengerCount_4716B0();
+    EXPORT void sub_4716D0(Car_BC* pCar);
     EXPORT char_type sub_471710();
 
     // inline
