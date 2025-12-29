@@ -16,6 +16,7 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Particle_8.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -366,10 +367,13 @@ EXPORT void Object_2C::sub_525AE0()
     }
 }
 
-STUB_FUNC(0x525b40)
+MATCH_FUNC(0x525b40)
 void Object_2C::sub_525B40()
 {
-    NOT_IMPLEMENTED;
+    if (field_18_model == 128)
+    {
+        gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(field_4);
+    }
 }
 
 STUB_FUNC(0x525b80)
