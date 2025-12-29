@@ -45,6 +45,8 @@ DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
 DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
+DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
+
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -90,11 +92,29 @@ s32 Object_2C::sub_5222B0()
     return 0;
 }
 
-STUB_FUNC(0x5222d0)
-s32 Object_2C::sub_5222D0()
+MATCH_FUNC(0x5222d0)
+void Object_2C::sub_5222D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_obj_3c->field_2A == 1)
+    {
+        field_10_obj_3c->field_1C += dword_6F8DA8;
+        field_10_obj_3c->field_10 += field_10_obj_3c->field_1C;
+    }
+    else
+    {
+        field_10_obj_3c->field_C += field_10_obj_3c->field_18;
+
+        if (field_10_obj_3c->field_C < kFpZero_6F8E10)
+        {
+            field_10_obj_3c->field_C = kFpZero_6F8E10;
+            field_10_obj_3c->field_18 = kFpZero_6F8E10;
+        }
+
+        if (field_10_obj_3c->field_10 < kFpZero_6F8E10)
+        {
+            field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        }
+    }
 }
 
 MATCH_FUNC(0x522340)
