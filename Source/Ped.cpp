@@ -1632,7 +1632,7 @@ bool Ped::PoolUpdate()
 
             if (!byte_678554 && field_21C_bf.b14)
             {
-                gOrca_2FD4_6FDEF0->field_3C.sub_471240(this);
+                gOrca_2FD4_6FDEF0->field_3C.RemovePassenger_471240(this);
                 field_21C_bf.b14 = 0;
             }
 

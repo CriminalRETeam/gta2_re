@@ -1296,7 +1296,7 @@ void Car_BC::sub_43B770()
             this->field_54_driver->field_264 = 50;
         }
     }
-    field_4.sub_4716D0(this);
+    field_4.SyncPassengersWithCarState_4716D0(this);
 }
 
 STUB_FUNC(0x43b7b0)
@@ -2440,7 +2440,7 @@ void Car_BC::sub_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4.sub_471710())
+    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4.HasPassengerWith_F238_Is_5_471710())
     {
         return 0;
     }
