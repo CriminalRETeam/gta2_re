@@ -17,6 +17,7 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "Rozza_C88.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -41,6 +42,8 @@ DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
 DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
 DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
 
+DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
+DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
@@ -194,11 +197,25 @@ bool Object_2C::sub_522430(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x522460)
+MATCH_FUNC(0x522460)
 char_type Object_2C::sub_522460(Sprite* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6F8F94 = 0;
+
+    Sprite* pSprite = a2->sub_59E7D0(2);
+    if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
+        || !sub_522430(pSprite) || pSprite == dword_6F8F8C)
+    {
+        return 0;
+    }
+
+    if (pSprite->field_8_object_2C_ptr->field_18_model == 166 || pSprite->field_8_object_2C_ptr->field_18_model == 169)
+    {
+        byte_6F8F94 = 1;
+    }
+    gRozza_679188.field_20_pSprite = pSprite;
+    gRozza_679188.field_0_type = 3;
+    return 1;
 }
 
 STUB_FUNC(0x5224e0)
