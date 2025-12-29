@@ -13,7 +13,7 @@ DEFINE_GLOBAL(s32, dword_6F6DD4, 0x6F6DD4);
 MATCH_FUNC(0x4beab0)
 Ambulance_20::Ambulance_20()
 {
-    field_10.field_0_pOwner = NULL;
+    field_10.ClearList_420E90();
     sub_4FA7D0();
 }
 
@@ -25,7 +25,7 @@ Ambulance_20::~Ambulance_20()
 MATCH_FUNC(0x4fa7d0)
 void Ambulance_20::sub_4FA7D0()
 {
-    field_10.field_0_pOwner = NULL;
+    field_10.ClearList_420E90();
     field_0 = 0;
     field_1 = 0;
     field_2 = 0;
@@ -40,9 +40,9 @@ void Ambulance_20::sub_4FA7D0()
 }
 
 MATCH_FUNC(0x4fa800)
-void Ambulance_20::sub_4FA800(Ped* pPed)
+void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
 {
-    field_10.sub_471140(pPed);
+    field_10.AddPassenger_471140(pPed);
     field_14_count++;
 }
 
@@ -144,7 +144,7 @@ void Ambulance_110::init_4FA310()
 {
     field_0 = 1;
     field_1_f8_idx = 0;
-    field_4.sub_420E90();
+    field_4.ClearList_420E90();
 
     for (s32 i = 0; i < 25; i++)
     {
@@ -154,21 +154,21 @@ void Ambulance_110::init_4FA310()
 }
 
 STUB_FUNC(0x4fa330)
-char_type Ambulance_110::sub_4FA330(Ped* a2)
+char_type Ambulance_110::sub_4FA330(Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4fa470)
-char_type Ambulance_110::sub_4FA470(Ped* a2)
+char_type Ambulance_110::TryAddPassenger_4FA470(Ped* pPed)
 {
-    if (a2->sub_45EDE0(2) || field_1_f8_idx >= 25u)
+    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25u)
     {
         return 0;
     }
 
-    field_4.sub_471140(a2);
+    field_4.AddPassenger_471140(pPed);
     field_1_f8_idx++;
 
     return 1;

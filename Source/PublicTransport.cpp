@@ -530,7 +530,7 @@ void PublicTransport_181C::KillAllPassengers_579B20()
     if (!bSkip_buses_67D558)
     {
         this->field_17C0_bus.field_56_passenger_count = 0;
-        field_17C0_bus.field_C_first_carriage->field_4.sub_4715A0();
+        field_17C0_bus.field_C_first_carriage->field_4.KillAllPassengers_4715A0();
     }
 }
 

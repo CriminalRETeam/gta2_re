@@ -4000,87 +4000,87 @@
         "v105_address": "0x471110"
     },
     {
-        "name": "Ped_Unknown_4::sub_471140",
+        "name": "Ped_Unknown_4::AddPassenger_471140",
         "v96f_address": null,
         "v105_address": "0x471140"
     },
     {
-        "name": "Ped_Unknown_4::sub_471160",
+        "name": "Ped_Unknown_4::AddPassengerToBackIfMissing_471160",
         "v96f_address": null,
         "v105_address": "0x471160"
     },
     {
-        "name": "HashBrown_678468::sub_4711B0",
+        "name": "HashBrown_678468::AddPassengerToFrontIfMissing_4711B0",
         "v96f_address": null,
         "v105_address": "0x4711b0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4711F0",
+        "name": "Ped_Unknown_4::RemovePassenger_4711F0",
         "v96f_address": null,
         "v105_address": "0x4711f0"
     },
     {
-        "name": "HashBrown_678468::sub_471240",
+        "name": "HashBrown_678468::RemovePassenger_471240",
         "v96f_address": null,
         "v105_address": "0x471240"
     },
     {
-        "name": "Ped_Unknown_4::sub_471290",
+        "name": "Ped_Unknown_4::RemovePassengersInSpecificState_471290",
         "v96f_address": null,
         "v105_address": "0x471290"
     },
     {
-        "name": "HashBrown_678468::sub_4712F0",
+        "name": "HashBrown_678468::ClearPassengers_4712F0",
         "v96f_address": null,
         "v105_address": "0x4712f0"
     },
     {
-        "name": "Ped_Unknown_4::sub_471320",
+        "name": "Ped_Unknown_4::RemoveFirstPassenger_471320",
         "v96f_address": null,
         "v105_address": "0x471320"
     },
     {
-        "name": "HashBrown_678468::sub_471340",
+        "name": "HashBrown_678468::GetClosestPassengerToPoint_471340",
         "v96f_address": null,
         "v105_address": "0x471340"
     },
     {
-        "name": "HashBrown_678468::sub_4713C0",
+        "name": "HashBrown_678468::FindClosestPassengerInViewCone_4713C0",
         "v96f_address": null,
         "v105_address": "0x4713c0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4715A0",
+        "name": "Ped_Unknown_4::KillAllPassengers_4715A0",
         "v96f_address": null,
         "v105_address": "0x4715a0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4715E0",
+        "name": "Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0",
         "v96f_address": null,
         "v105_address": "0x4715e0"
     },
     {
-        "name": "Ped_Unknown_4::sub_471630",
+        "name": "Ped_Unknown_4::ApplyPassengerBusStopBehavior_471630",
         "v96f_address": null,
         "v105_address": "0x471630"
     },
     {
-        "name": "Ped_Unknown_4::sub_471680",
+        "name": "Ped_Unknown_4::ForceTaxiPassengersToExit_471680",
         "v96f_address": null,
         "v105_address": "0x471680"
     },
     {
-        "name": "Ped_Unknown_4::GetPassengerNum_4716B0",
+        "name": "Ped_Unknown_4::GetPassengerCount_4716B0",
         "v96f_address": null,
         "v105_address": "0x4716b0"
     },
     {
-        "name": "Ped_Unknown_4::sub_4716D0",
+        "name": "Ped_Unknown_4::SyncPassengersWithCarState_4716D0",
         "v96f_address": null,
         "v105_address": "0x4716d0"
     },
     {
-        "name": "Ped_Unknown_4::sub_471710",
+        "name": "Ped_Unknown_4::HasPassengerWith_F238_Is_5_471710",
         "v96f_address": null,
         "v105_address": "0x471710"
     },
@@ -8050,7 +8050,7 @@
         "v105_address": "0x4fa330"
     },
     {
-        "name": "Ambulance_110::sub_4FA470",
+        "name": "Ambulance_110::TryAddPassenger_4FA470",
         "v96f_address": null,
         "v105_address": "0x4fa470"
     },
@@ -8075,7 +8075,7 @@
         "v105_address": "0x4fa7d0"
     },
     {
-        "name": "Ambulance_20::sub_4FA800",
+        "name": "Ambulance_20::AddPassenger_4FA800",
         "v96f_address": null,
         "v105_address": "0x4fa800"
     },

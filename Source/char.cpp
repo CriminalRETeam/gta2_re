@@ -66,19 +66,7 @@ EXTERN_GLOBAL(u8, byte_6787D2);
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-struct HashBrown_678468
-{
-    Char_8* field_0;
-
-    EXPORT void sub_4712F0();
-};
-DEFINE_GLOBAL(HashBrown_678468, gHashBrown_678468, 0x678468);
-
-STUB_FUNC(0x4712F0)
-void HashBrown_678468::sub_4712F0()
-{
-    NOT_IMPLEMENTED;
-}
+DEFINE_GLOBAL(Ped_Unknown_4, gGlobalPassengerList_678468, 0x678468);
 
 STUB_FUNC(0x544F70)
 void __stdcall sub_544F70()
@@ -871,7 +859,7 @@ void PedManager::PedsService_4703F0()
     else
     {
         byte_6787DA = 0;
-        gHashBrown_678468.sub_4712F0();
+        gGlobalPassengerList_678468.ClearPassengers_4712F0();
     }
 
     byte_6787D8 = byte_61A8A1 == 1;
@@ -988,7 +976,7 @@ PedManager::PedManager()
     unk_6787EF = 0;
     */
     sub_553F90();
-    //gHashBrown_678468.field_0 = 0;
+    gGlobalPassengerList_678468.ClearList_420E90();
 }
 
 STUB_FUNC(0x4709b0)
