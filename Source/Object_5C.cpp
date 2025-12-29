@@ -13,9 +13,9 @@
 #include "Wolfy_3D4.hpp"
 #include "enums.hpp"
 #include "error.hpp"
+#include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "frosty_pasteur_0xC1EA8.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -800,7 +800,7 @@ void Object_2C::UpdateLight_527A30()
     NOT_IMPLEMENTED;
 
     // TODO: Clears light radius? also probably an inline of nostalgic_ellis_0x28
-/*
+    /*
  nostalgic_ellis_0x28 *pLight;
   int v2;
 
@@ -809,6 +809,24 @@ void Object_2C::UpdateLight_527A30()
   LOBYTE(v2) = 0;
   pLight->field_0 = v2 | pLight->field_18_intensity;
 */
+}
+
+STUB_FUNC(0x525100)
+void Object_2C::sub_525100()
+{
+    NOT_IMPLEMENTED;
+    if (field_8->field_34 <= 1u)
+    {
+
+        if (get_model_40FEF0() == 148)
+        {
+            sub_5290C0(1u);
+        }
+        else
+        {
+            sub_5290A0();
+        }
+    }
 }
 
 MATCH_FUNC(0x529300)

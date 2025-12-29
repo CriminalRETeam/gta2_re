@@ -3067,8 +3067,8 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     SCR_POINTER* pCarPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_unsigned_2);
 
-    Sprite* v5 = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
-    //Sprite* v5 = pTrailerPointer->field_8_car->field_0_qq->sub_5A6CA0(2);
+    //Sprite* v5 = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
+    Sprite* v5 = pTrailerPointer->field_8_car->field_0_qq.FirstSpriteOfType_5A6CA0(2);
     Car_BC* v6;
 
     if (v5 != NULL && (v5->field_30_sprite_type_enum == 2 ? (v6 = v5->field_8_car_bc_ptr) : (v6 = NULL), v6 == pCarPointer->field_8_car))

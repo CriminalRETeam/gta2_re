@@ -45,7 +45,7 @@ class Sprite_4C
     Fix16_Point field_C_b_box[4];
     Sprite_4C* mpNext;
     Fix16_Rect field_30;
-    char_type field_48_bUnknown;
+    char_type field_48_bDrawCollisionBox;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
@@ -83,7 +83,7 @@ class Sprite
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void Draw_59EFF0();
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
-    EXPORT void sub_59F990();
+    EXPORT void Update_4C_59F990();
     EXPORT void sub_59FA40();
     EXPORT void sub_59FAD0();
     EXPORT bool sub_59FB10(s32* a2);
@@ -97,8 +97,8 @@ class Sprite
     EXPORT bool sub_5A1490(s32 a2, s32 a3);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
-    EXPORT char_type sub_5A1B30(Sprite* a2);
-    EXPORT char_type sub_5A1BD0();
+    EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
+    EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type sub_5A1CA0(u32* a2);
     EXPORT char_type sub_5A1EB0();
     EXPORT char_type sub_5A21F0();
@@ -266,7 +266,7 @@ class Sprite
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34;
     char_type field_38;
-    u8 field_39_z_col;
+    char_type field_39_z_col;
     char_type field_3A;
     char_type field_3B;
 };
@@ -345,7 +345,6 @@ class Sprite_18
     }
 
     // TODO: ordering ?
-    EXPORT Sprite* sub_5A6CA0(s32 a2);
 
     EXPORT void sub_5A6A20();
 

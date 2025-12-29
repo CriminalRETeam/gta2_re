@@ -57,11 +57,11 @@ class Car_78
     EXPORT s32* sub_453590(s32* a2);
     EXPORT char_type sub_4537D0();
     EXPORT Car_BC* sub_4538B0();
-    EXPORT s32 sub_453990(s32 a2);
+    EXPORT void sub_453990(s32 a2);
     EXPORT Car_BC* sub_4539B0();
     EXPORT u8* sub_4539D0();
     EXPORT s32 sub_453A40();
-    EXPORT s16 sub_453BB0();
+    EXPORT void sub_453BB0();
     EXPORT void SetCar_453BF0(Car_BC* a2);
     EXPORT u8* sub_453C00();
     EXPORT s32 PoolAllocate();
@@ -79,7 +79,7 @@ class Car_78
     char_type field_A;
     char_type field_B;
     Car_78* mpNext;
-    s16 field_10;
+    Ang16 field_10;
     s16 field_12;
     s32 field_14;
     s32 field_18;

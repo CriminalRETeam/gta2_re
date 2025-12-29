@@ -273,11 +273,13 @@ Car_BC* Car_78::sub_4538B0()
     return 0;
 }
 
-STUB_FUNC(0x453990)
-s32 Car_78::sub_453990(s32 a2)
+MATCH_FUNC(0x453990)
+void Car_78::sub_453990(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_14 < a2)
+    {
+        this->field_14 = a2;
+    }
 }
 
 STUB_FUNC(0x4539b0)
@@ -301,11 +303,24 @@ s32 Car_78::sub_453A40()
     return 0;
 }
 
-STUB_FUNC(0x453bb0)
-s16 Car_78::sub_453BB0()
+// TODO: Move
+STUB_FUNC(0x447650)
+void __stdcall sub_447650()
 {
     NOT_IMPLEMENTED;
-    return 0;
+}
+
+STUB_FUNC(0x453bb0)
+void Car_78::sub_453BB0()
+{
+    sub_447650();
+    this->field_10 = this->field_0->field_50_car_sprite->field_0;
+    this->field_4C = Ang16::GetAngleFace_4F78F0(field_10);
+    if (field_2B != -1)
+    {
+        field_2B++;
+    }
+    sub_453470();
 }
 
 MATCH_FUNC(0x453bf0)
@@ -2688,15 +2703,15 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        Car_78* v4 = this->field_5C;
-        if (v4)
+        Car_78* pAi = this->field_5C;
+        if (pAi)
         {
             Ped* pDriver = this->field_54_driver;
             if (pDriver)
             {
                 if (pDriver->sub_420B70() == 2 && this->field_84_car_info_idx == car_model_enum::TRAINCAB || pDriver->sub_420B70() != 2)
                 {
-                    v4->sub_453BB0();
+                    pAi->sub_453BB0();
                 }
             }
             field_5C->field_68 = 0;
