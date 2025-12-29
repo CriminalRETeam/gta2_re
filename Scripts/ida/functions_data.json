@@ -11040,7 +11040,7 @@
         "v105_address": "0x52ade0"
     },
     {
-        "name": "Object_3C::sub_52ADF0",
+        "name": "Object_3C::GetRot_52ADF0",
         "v96f_address": null,
         "v105_address": "0x52adf0"
     },
@@ -11055,7 +11055,7 @@
         "v105_address": "0x52ae70"
     },
     {
-        "name": "Object_2C::sub_52AE90",
+        "name": "Object_2C::GetRot_52AE90",
         "v96f_address": null,
         "v105_address": "0x52ae90"
     },

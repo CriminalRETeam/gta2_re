@@ -5,6 +5,7 @@
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 
 class Object_2C;
 class Sprite;
@@ -62,7 +63,7 @@ class Object_2C
     EXPORT void sub_527AE0();
     EXPORT void sub_527D00();
     EXPORT void sub_527F10();
-    EXPORT s16* sub_528130(Fix16* a2);
+    EXPORT s16* sub_528130(Fix16_Point* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
     EXPORT bool sub_5288B0(Sprite* a2);
@@ -89,7 +90,7 @@ class Object_2C
     EXPORT void sub_52A650();
     EXPORT void sub_52A6D0(Sprite* a2);
     EXPORT u32* sub_52AE70(u32* a2);
-    EXPORT u32* sub_52AE90(u32* a2);
+    EXPORT Fix16_Point GetRot_52AE90();
 
     // TODO: ordering
     EXPORT void sub_5290C0(u8 id_base);

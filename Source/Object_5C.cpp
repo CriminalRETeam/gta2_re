@@ -24,7 +24,7 @@ EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
 s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
-DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
+DEFINE_GLOBAL(Fix16_Point, stru_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL(Fix16, kFpZero_6F8E10, 0x6F8E10);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
@@ -547,7 +547,7 @@ void Object_2C::sub_527F10()
 }
 
 STUB_FUNC(0x528130)
-s16* Object_2C::sub_528130(Fix16* a2)
+s16* Object_2C::sub_528130(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -634,7 +634,7 @@ char_type Object_2C::sub_528990(Sprite* a2)
 }
 
 STUB_FUNC(0x528A20)
-void Object_2C::sub_528A20(Object_2C *pObj)
+void Object_2C::sub_528A20(Object_2C* pObj)
 {
     NOT_IMPLEMENTED;
 }
@@ -812,11 +812,14 @@ u32* Object_2C::sub_52AE70(u32* a2)
     return 0;
 }
 
-STUB_FUNC(0x52ae90)
-u32* Object_2C::sub_52AE90(u32* a2)
+MATCH_FUNC(0x52ae90)
+Fix16_Point Object_2C::GetRot_52AE90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_obj_3c)
+    {
+        return field_10_obj_3c->GetRot_52ADF0();
+    }
+    return stru_6F8EF0;
 }
 
 MATCH_FUNC(0x5290C0)
