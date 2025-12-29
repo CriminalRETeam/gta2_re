@@ -85,11 +85,10 @@ bool Object_2C::sub_522250(Sprite* a2)
     return 0;
 }
 
-STUB_FUNC(0x5222b0)
+MATCH_FUNC(0x5222b0)
 s32 Object_2C::sub_5222B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return this->field_8->field_68 != 0 ? 2048 : 1024;
 }
 
 MATCH_FUNC(0x5222d0)
