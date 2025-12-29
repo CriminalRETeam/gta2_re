@@ -71,10 +71,42 @@ Object_2C::Object_2C()
     field_1C = 0;
 }
 
-STUB_FUNC(0x522180)
+MATCH_FUNC(0x522180)
 void Object_2C::PoolDeallocate()
 {
-    NOT_IMPLEMENTED;
+    this->field_18_model = 0;
+
+    // TODO: Local required, inline?
+    const s32 f5C = field_8->field_5C;
+    if (f5C == 2)
+    {
+        --gObject_5C_6F8F84->field_10;
+    }
+    else if (f5C == 3)
+    {
+        --gObject_5C_6F8F84->field_14;
+        gObject_5C_6F8F84->field_1C.sub_5A6B60(this->field_4);
+    }
+
+    --dword_6F8F88;
+
+    const s32 phi_type = this->field_8->field_34;
+    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    {
+        if (field_26_varrok_idx > 0)
+        {
+            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+            this->field_26_varrok_idx = 0;
+        }
+    }
+
+    Object_2C::sub_527F10();
+    if (field_4)
+    {
+        gSprite_Pool_703818->remove(field_4);
+        this->field_4 = 0;
+    }
+    this->field_14_id = 0;
 }
 
 MATCH_FUNC(0x522250)
