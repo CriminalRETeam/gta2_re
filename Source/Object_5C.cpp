@@ -47,7 +47,6 @@ DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
 
-
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CEC, Fix16(1), 0x6F8CEC);
@@ -78,11 +77,29 @@ void Object_2C::PoolDeallocate()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x522250)
-bool Object_2C::sub_522250(Sprite* a2)
+MATCH_FUNC(0x522250)
+bool Object_2C::sub_522250(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const u32 phi_type = this->field_8->field_34;
+    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    {
+        u8 varrok_idx = this->field_26_varrok_idx;
+        if (varrok_idx > 0)
+        {
+            if (pSprite)
+            {
+                Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
+                if (cB4)
+                {
+                    if (cB4->field_7C_pPed->field_267_varrok_idx == varrok_idx)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x5222b0)
