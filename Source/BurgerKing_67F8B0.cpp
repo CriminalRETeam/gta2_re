@@ -608,10 +608,71 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
     return *control_status;
 }
 
-STUB_FUNC(0x4ced00)
-void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 a2, s32 a3)
+MATCH_FUNC(0x4ced00)
+void BurgerKing_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_new)
 {
-    NOT_IMPLEMENTED;
+    u32 calc_inputs = 0;
+    if (input_old != input_new)
+    {
+        u32 xor_inputs = input_new ^ input_old;
+
+        if ((xor_inputs & 1) != 0)
+        {
+            calc_inputs |= 1u;
+        }
+        if ((xor_inputs & 2) != 0)
+        {
+            calc_inputs |= 2u;
+        }
+        if ((xor_inputs & 4) != 0)
+        {
+            calc_inputs |= 4u;
+        }
+        if ((xor_inputs & 8) != 0)
+        {
+            calc_inputs |= 8u;
+        }
+        if ((xor_inputs & 0x10) != 0)
+        {
+            calc_inputs |= 0x10u;
+        }
+        if ((xor_inputs & 0x20) != 0)
+        {
+            calc_inputs |= 0x20u;
+        }
+        if ((xor_inputs & 0x40) != 0)
+        {
+            calc_inputs |= 0x40u;
+        }
+        if ((xor_inputs & 0x80u) != 0)
+        {
+            calc_inputs |= 0x80;
+        }
+        if ((xor_inputs & 0x100) != 0)
+        {
+            calc_inputs |= 0x100;
+        }
+        if ((xor_inputs & 0x200) != 0)
+        {
+            calc_inputs |= 0x200;
+        }
+        if ((xor_inputs & 0x400) != 0)
+        {
+            calc_inputs |= 0x400;
+        }
+        if ((xor_inputs & 0x800) != 0)
+        {
+            calc_inputs |= 0x800;
+        }
+        if ((input_old & 0x1FF000) != 0)
+        {
+            calc_inputs |= field_4_input_bits & 0xFFFFF000;
+        }
+        if (calc_inputs)
+        {
+            BurgerKing_67F8B0::save_replay_record_4CDE20(calc_inputs);
+        }
+    }
 }
 
 MATCH_FUNC(0x4ced90)
