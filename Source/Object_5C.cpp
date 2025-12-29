@@ -378,15 +378,17 @@ void Object_2C::sub_525B40()
     }
 }
 
-STUB_FUNC(0x525B60)
+MATCH_FUNC(0x525B60)
 char_type Object_2C::sub_525B60()
 {
-    if (!field_4->IsOnWater_59E1D0())
+    // TODO: Forced eax -> al
+    const u8 isWater = field_4->IsOnWater_59E1D0();
+    if (isWater)
     {
-        return 0;
+        sub_528900();
+        return 1;
     }
-    sub_528900();
-    return 1;
+    return 0;
 }
 
 STUB_FUNC(0x525b80)
