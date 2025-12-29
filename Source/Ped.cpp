@@ -3123,7 +3123,7 @@ void Ped::sub_46FC90(s32 a2, s32 a3)
 }
 
 STUB_FUNC(0x46fe20)
-char_type Ped::sub_46FE20(s32 a2)
+char_type Ped::sub_46FE20(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

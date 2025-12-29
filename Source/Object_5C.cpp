@@ -6,8 +6,10 @@
 #include "Object_2C_Pool.hpp"
 #include "Object_3C_Pool.hpp"
 #include "Object_8_Pool.hpp"
+#include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
+#include "Rozza_C88.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
@@ -23,7 +25,7 @@ EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, DAT_006f8f88, 0x6f8f88);
 s32 dword_6F8F88; //DEFINE_GLOBAL(s32, dword_6F8F88, 0x6F8F88);
-DEFINE_GLOBAL(Fix16, stru_6F8EF0, 0x6F8EF0);
+DEFINE_GLOBAL(Fix16_Point, stru_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL(Fix16, kFpZero_6F8E10, 0x6F8E10);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
@@ -39,6 +41,11 @@ DEFINE_GLOBAL(Ang16, word_6F8D8C, 0x6F8D8C);
 DEFINE_GLOBAL(Ang16, dword_6F8D80, 0x6F8D80);
 DEFINE_GLOBAL(Ang16, word_6F8D54, 0x6F8D54);
 DEFINE_GLOBAL(Ang16, dword_6F8CD0, 0x6F8CD0);
+
+DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
+DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
+DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
+DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -64,31 +71,98 @@ Object_2C::Object_2C()
     field_1C = 0;
 }
 
-STUB_FUNC(0x522180)
+MATCH_FUNC(0x522180)
 void Object_2C::PoolDeallocate()
 {
-    NOT_IMPLEMENTED;
+    this->field_18_model = 0;
+
+    // TODO: Local required, inline?
+    const s32 f5C = field_8->field_5C;
+    if (f5C == 2)
+    {
+        --gObject_5C_6F8F84->field_10;
+    }
+    else if (f5C == 3)
+    {
+        --gObject_5C_6F8F84->field_14;
+        gObject_5C_6F8F84->field_1C.sub_5A6B60(this->field_4);
+    }
+
+    --dword_6F8F88;
+
+    const s32 phi_type = this->field_8->field_34;
+    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    {
+        if (field_26_varrok_idx > 0)
+        {
+            gVarrok_7F8_703398->sub_59B0D0(field_26_varrok_idx);
+            this->field_26_varrok_idx = 0;
+        }
+    }
+
+    Object_2C::sub_527F10();
+    if (field_4)
+    {
+        gSprite_Pool_703818->remove(field_4);
+        this->field_4 = 0;
+    }
+    this->field_14_id = 0;
 }
 
-STUB_FUNC(0x522250)
-bool Object_2C::sub_522250(Sprite* a2)
+MATCH_FUNC(0x522250)
+bool Object_2C::sub_522250(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    const u32 phi_type = this->field_8->field_34;
+    if (phi_type != 6 && phi_type != 7 && phi_type != 8 && phi_type != 9 && phi_type != 10 && phi_type != 1 && phi_type != 12)
+    {
+        u8 varrok_idx = this->field_26_varrok_idx;
+        if (varrok_idx > 0)
+        {
+            if (pSprite)
+            {
+                Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
+                if (cB4)
+                {
+                    if (cB4->field_7C_pPed->field_267_varrok_idx == varrok_idx)
+                    {
+                        return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
-STUB_FUNC(0x5222b0)
+MATCH_FUNC(0x5222b0)
 s32 Object_2C::sub_5222B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return this->field_8->field_68 != 0 ? 2048 : 1024;
 }
 
-STUB_FUNC(0x5222d0)
-s32 Object_2C::sub_5222D0()
+MATCH_FUNC(0x5222d0)
+void Object_2C::sub_5222D0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_obj_3c->field_2A == 1)
+    {
+        field_10_obj_3c->field_1C += dword_6F8DA8;
+        field_10_obj_3c->field_10 += field_10_obj_3c->field_1C;
+    }
+    else
+    {
+        field_10_obj_3c->field_C += field_10_obj_3c->field_18;
+
+        if (field_10_obj_3c->field_C < kFpZero_6F8E10)
+        {
+            field_10_obj_3c->field_C = kFpZero_6F8E10;
+            field_10_obj_3c->field_18 = kFpZero_6F8E10;
+        }
+
+        if (field_10_obj_3c->field_10 < kFpZero_6F8E10)
+        {
+            field_10_obj_3c->field_10 = kFpZero_6F8E10;
+        }
+    }
 }
 
 MATCH_FUNC(0x522340)
@@ -184,32 +258,61 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
     return true;
 }
 
-STUB_FUNC(0x522430)
-bool Object_2C::sub_522430(Sprite* a2)
+MATCH_FUNC(0x522430)
+bool Object_2C::sub_522430(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return (pSprite && sub_5223C0(pSprite) && !sub_522250(pSprite)) ? true : false;
 }
 
-STUB_FUNC(0x522460)
+MATCH_FUNC(0x522460)
 char_type Object_2C::sub_522460(Sprite* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6F8F94 = 0;
+
+    Sprite* pSprite = a2->sub_59E7D0(2);
+    if (pSprite && dword_6F8F8C && pSprite->field_30_sprite_type_enum == 2 // IsCar
+        || !sub_522430(pSprite) || pSprite == dword_6F8F8C)
+    {
+        return 0;
+    }
+
+    if (pSprite->field_8_object_2C_ptr->field_18_model == 166 || pSprite->field_8_object_2C_ptr->field_18_model == 169)
+    {
+        byte_6F8F94 = 1;
+    }
+    gRozza_679188.field_20_pSprite = pSprite;
+    gRozza_679188.field_0_type = 3;
+    return 1;
 }
 
 STUB_FUNC(0x5224e0)
-s16* Object_2C::sub_5224E0(s32* a2)
+s16* Object_2C::sub_5224E0(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x522640)
-s16 Object_2C::sub_522640(s32 a2)
+MATCH_FUNC(0x522640)
+void Object_2C::sub_522640(Fix16_Point* a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    sub_5224E0(a2);
+
+    if (field_8->field_4C == 3 && field_10_obj_3c->field_34 == 2)
+    {
+        s16 maxVal = 9;
+        const s16 rng = stru_6F6784.get_int_4F7AE0(&maxVal);
+        if (rng < 6)
+        {
+            if (rng < 3)
+            {
+                field_10_obj_3c->field_34 = 1;
+            }
+            else
+            {
+                field_10_obj_3c->field_34 = 0;
+            }
+        }
+    }
 }
 
 STUB_FUNC(0x5226a0)
@@ -290,10 +393,33 @@ void Object_2C::sub_524630(s32 a2, s16 a3)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/jLuSq
 STUB_FUNC(0x525190)
-void Object_2C::sub_525190(u8 a2)
+void Object_2C::sub_525190(u8 varrok_idx)
 {
     NOT_IMPLEMENTED;
+
+    if (field_8->field_3C < 39 || field_8->field_3C > 42)
+    {
+        if (field_8->field_48 == 13)
+        {
+            sub_5291D0();
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xpos.x,
+                                                                              this->field_4->field_14_xpos.y,
+                                                                              this->field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              19,
+                                                                              gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
+            if (pExplosion)
+            {
+                pExplosion->sub_529080(varrok_idx);
+            }
+        }
+    }
+    else
+    {
+        sub_5291E0(field_8->field_3C);
+    }
 }
 
 STUB_FUNC(0x5257d0)
@@ -366,10 +492,26 @@ EXPORT void Object_2C::sub_525AE0()
     }
 }
 
-STUB_FUNC(0x525b40)
+MATCH_FUNC(0x525b40)
 void Object_2C::sub_525B40()
 {
-    NOT_IMPLEMENTED;
+    if (field_18_model == 128)
+    {
+        gParticle_8_6FD5E8->SpawnParticleSprite_5405D0(field_4);
+    }
+}
+
+MATCH_FUNC(0x525B60)
+char_type Object_2C::sub_525B60()
+{
+    // TODO: Forced eax -> al
+    const u8 isWater = field_4->IsOnWater_59E1D0();
+    if (isWater)
+    {
+        sub_528900();
+        return 1;
+    }
+    return 0;
 }
 
 STUB_FUNC(0x525b80)
@@ -528,7 +670,7 @@ void Object_2C::sub_527F10()
 }
 
 STUB_FUNC(0x528130)
-s16* Object_2C::sub_528130(Fix16* a2)
+s16* Object_2C::sub_528130(Fix16_Point* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -570,11 +712,75 @@ bool Object_2C::sub_5288B0(Sprite* a2)
     return false;
 }
 
-STUB_FUNC(0x528990)
-char_type Object_2C::sub_528990(Sprite* a2)
+MATCH_FUNC(0x528900)
+void Object_2C::sub_528900()
+{
+    if (field_10_obj_3c)
+    {
+        field_10_obj_3c->field_30_bSkipAnim = 1;
+    }
+
+    if ((rng_dword_67AB34->field_0_rng & 3) == 0)
+    {
+        field_4->sub_59E320(1);
+        if (field_4->sub_59E390(dword_6F8F5C, dword_6F8F5C, 0))
+        {
+            // inline - because has to be a local here?
+            Sprite* pSprite = this->field_4;
+            if (pSprite->field_1C_zpos != kFpZero_6F8E10)
+            {
+                pSprite->field_1C_zpos = kFpZero_6F8E10;
+                pSprite->sub_59E7B0();
+            }
+            sub_5290A0();
+        }
+    }
+}
+
+MATCH_FUNC(0x528960)
+char_type Object_2C::sub_528960(Object_2C* pOther)
+{
+    if (field_8->field_48 < 12 || field_8->field_48 > 13)
+    {
+        return 0;
+    }
+
+    pOther->sub_528A20(this);
+    return 1;
+}
+
+MATCH_FUNC(0x528990)
+char_type Object_2C::sub_528990(Sprite* pSprite)
+{
+    Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
+    if (cB4)
+    {
+        return cB4->sub_5537F0(this);
+    }
+
+    Car_BC* cBC = pSprite->AsCar_40FEB0();
+    if (cBC)
+    {
+        return cBC->sub_43F130(this);
+    }
+
+    Object_2C* o2c = pSprite->As2C_40FEC0();
+
+    if (gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id)
+    {
+        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+        if (pPed)
+        {
+            pPed->sub_46FE20(o2c);
+        }
+    }
+    return o2c->sub_528960(this);
+}
+
+STUB_FUNC(0x528A20)
+void Object_2C::sub_528A20(Object_2C* pObj)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x528ba0)
@@ -743,18 +949,20 @@ Object_2C::~Object_2C()
     field_10_obj_3c = 0;
 }
 
-STUB_FUNC(0x52ae70)
-u32* Object_2C::sub_52AE70(u32* a2)
+MATCH_FUNC(0x52ae70)
+Fix16_Point Object_2C::GetXY_52AE70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_4->get_x_y_443580();
 }
 
-STUB_FUNC(0x52ae90)
-u32* Object_2C::sub_52AE90(u32* a2)
+MATCH_FUNC(0x52ae90)
+Fix16_Point Object_2C::GetRot_52AE90()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_10_obj_3c)
+    {
+        return field_10_obj_3c->GetRot_52ADF0();
+    }
+    return stru_6F8EF0;
 }
 
 MATCH_FUNC(0x5290C0)
@@ -1254,7 +1462,7 @@ s32* Object_5C::sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a
 }
 
 STUB_FUNC(0x52a3d0)
-s32* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
+Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1328,7 +1536,7 @@ void Object_2C::sub_52A650()
         p3C->field_34 = 2;
         p3C->field_24 = 0;
         p3C->field_2F = 0;
-        p3C->field_30 = 0;
+        p3C->field_30_bSkipAnim = 0;
         field_10_obj_3c = p3C;
         p3C->field_20 = field_14_id;
         field_10_obj_3c->field_C = kFpZero_6F8E10;

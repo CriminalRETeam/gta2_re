@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 
 class Sprite;
 class Sprite_18;
@@ -72,7 +73,7 @@ class Object_3C
     }
 
     // ?? not sure if this is O3C either :skull:
-    EXPORT u32* sub_52ADF0(u32* a2);
+    EXPORT Fix16_Point GetRot_52ADF0();
 
     struct_4 field_0;
     Ang16 field_4;
@@ -90,7 +91,7 @@ class Object_3C
     s16 field_2C;
     char_type field_2E;
     char_type field_2F;
-    u8 field_30;
+    u8 field_30_bSkipAnim;
     u8 field_31;
     u16 field_32;
     s32 field_34;

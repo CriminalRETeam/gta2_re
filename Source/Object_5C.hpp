@@ -5,6 +5,7 @@
 #include "Phi_8CA8.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 
 class Object_2C;
 class Sprite;
@@ -24,14 +25,14 @@ class Object_2C
     EXPORT void PoolDeallocate();
     EXPORT bool sub_522250(Sprite* a2);
     EXPORT s32 sub_5222B0();
-    EXPORT s32 sub_5222D0();
+    EXPORT void sub_5222D0();
     EXPORT void sub_522340();
     EXPORT void sub_522360();
     EXPORT char_type sub_5223C0(Sprite* a2);
     EXPORT bool sub_522430(Sprite* a2);
     EXPORT char_type sub_522460(Sprite* a2);
-    EXPORT s16* sub_5224E0(s32* a2);
-    EXPORT s16 sub_522640(s32 a2);
+    EXPORT s16* sub_5224E0(Fix16_Point* a2);
+    EXPORT void sub_522640(Fix16_Point* a2);
     EXPORT void sub_5226A0(char_type a2);
     EXPORT void sub_522710(Object_2C* a2, u32* a3);
     EXPORT void sub_5229B0(s32 a2, u32* a3, s32 a4);
@@ -43,11 +44,12 @@ class Object_2C
     EXPORT void sub_523440(s32 a2, s32 a3, char_type a4, char_type a5);
     EXPORT char_type sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
     EXPORT void sub_524630(s32 a2, s16 a3);
-    EXPORT void sub_525190(u8 a2);
+    EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
     EXPORT void sub_525AE0();
     EXPORT void sub_525B40();
+    EXPORT char_type sub_525B60();
     EXPORT void sub_525B80();
     EXPORT void sub_525D90();
     EXPORT void Update_525F30();
@@ -61,11 +63,14 @@ class Object_2C
     EXPORT void sub_527AE0();
     EXPORT void sub_527D00();
     EXPORT void sub_527F10();
-    EXPORT s16* sub_528130(Fix16* a2);
+    EXPORT s16* sub_528130(Fix16_Point* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
     EXPORT bool sub_5288B0(Sprite* a2);
+    EXPORT void sub_528900();
+    EXPORT char_type sub_528960(Object_2C* pOther);
     EXPORT char_type sub_528990(Sprite* a2);
+    EXPORT void sub_528A20(Object_2C *pObj);
     EXPORT void sub_528BA0();
     EXPORT void sub_528E50(Sprite* a3);
     EXPORT void sub_529000(Object_2C* pObj);
@@ -84,8 +89,8 @@ class Object_2C
     EXPORT ~Object_2C();
     EXPORT void sub_52A650();
     EXPORT void sub_52A6D0(Sprite* a2);
-    EXPORT u32* sub_52AE70(u32* a2);
-    EXPORT u32* sub_52AE90(u32* a2);
+    EXPORT Fix16_Point GetXY_52AE70();
+    EXPORT Fix16_Point GetRot_52AE90();
 
     // TODO: ordering
     EXPORT void sub_5290C0(u8 id_base);
@@ -190,7 +195,7 @@ class Object_5C
     EXPORT s32* sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10);
     EXPORT s32* sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10);
     EXPORT s32* sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10, char_type a11);
-    EXPORT s32* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
+    EXPORT Object_2C* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
 
     EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);

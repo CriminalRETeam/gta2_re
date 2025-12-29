@@ -39,10 +39,11 @@ Object_3C::~Object_3C()
 }
 
 STUB_FUNC(0x52adf0)
-u32* Object_3C::sub_52ADF0(u32* a2)
+Fix16_Point Object_3C::GetRot_52ADF0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+    Fix16_Point t;
+    return t;
 }
 
 MATCH_FUNC(0x5a6a50)
