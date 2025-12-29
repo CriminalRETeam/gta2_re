@@ -45,7 +45,7 @@ class Sprite_4C
     Fix16_Point field_C_b_box[4];
     Sprite_4C* mpNext;
     Fix16_Rect field_30;
-    char_type field_48_bUnknown;
+    char_type field_48_bDrawCollisionBox;
     char_type field_49;
     char_type field_4A;
     char_type field_4B;
@@ -83,7 +83,7 @@ class Sprite
     EXPORT void ShowHorn_59EE40(s32 a2, s32 a3);
     EXPORT void Draw_59EFF0();
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
-    EXPORT void sub_59F990();
+    EXPORT void Update_4C_59F990();
     EXPORT void sub_59FA40();
     EXPORT void sub_59FAD0();
     EXPORT bool sub_59FB10(s32* a2);

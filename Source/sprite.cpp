@@ -113,7 +113,7 @@ char Sprite::sub_59E250()
 MATCH_FUNC(0x59e2e0)
 void Sprite::sub_59E2E0(void)
 {
-    sub_59F990();
+    Update_4C_59F990();
     memcpy(field_4_0x4C_len, field_C_sprite_4c_ptr, sizeof(Sprite_4C));
 }
 
@@ -186,11 +186,11 @@ void Sprite::sub_59E7B0()
     field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
     {
-        field_C_sprite_4c_ptr->field_48_bUnknown = 0;
+        field_C_sprite_4c_ptr->field_48_bDrawCollisionBox = 0;
     }
     if (field_4_0x4C_len != NULL)
     {
-        field_4_0x4C_len->field_48_bUnknown = 0;
+        field_4_0x4C_len->field_48_bDrawCollisionBox = 0;
     }
 }
 
@@ -287,7 +287,7 @@ void Sprite::sub_59E960()
 MATCH_FUNC(0x59e9c0)
 void Sprite::sub_59E9C0()
 {
-    if (!field_C_sprite_4c_ptr->field_48_bUnknown)
+    if (!field_C_sprite_4c_ptr->field_48_bDrawCollisionBox)
     {
         if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
@@ -405,7 +405,7 @@ void Sprite::AllocInternal_59F950(Fix16 a2, Fix16 a3, Fix16 a4)
 
 // https://decomp.me/scratch/ZqbRh
 STUB_FUNC(0x59f990)
-void Sprite::sub_59F990()
+void Sprite::Update_4C_59F990()
 {
     NOT_IMPLEMENTED;
     if (this->field_4_0x4C_len == NULL)
@@ -446,7 +446,7 @@ void Sprite::sub_59FA40()
             Sprite_4C* t = field_4_0x4C_len;
             t->field_0_width = width;
             t->field_4_height = height;
-            t->field_48_bUnknown = 0;
+            t->field_48_bDrawCollisionBox = 0;
         }
     }
 }
@@ -552,21 +552,27 @@ bool Sprite::sub_5A1490(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x5a19c0)
+MATCH_FUNC(0x5a19c0)
 char_type Sprite::sub_5A19C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Update_4C_59F990();
+
+    if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
+    {
+        field_4_0x4C_len->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+    }
+    field_4_0x4C_len->SetCurrentRect_5A4D90();
+    return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
 }
 
 MATCH_FUNC(0x5a1a60)
 char Sprite::sub_5A1A60()
 {
-    sub_59F990();
+    Update_4C_59F990();
 
     Sprite_4C* p4C = this->field_4_0x4C_len;
 
-    if (!p4C->field_48_bUnknown)
+    if (!p4C->field_48_bDrawCollisionBox)
     {
         p4C->sub_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
     }
@@ -1060,7 +1066,7 @@ MATCH_FUNC(0x5a57a0)
 s32 Sprite_4C::PoolAllocate()
 {
     mpNext = NULL;
-    field_48_bUnknown = 0;
+    field_48_bDrawCollisionBox = 0;
     return 0;
 }
 
