@@ -9,9 +9,9 @@ Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 
     // Maybe PoolAlloc() ?
     pNew->field_0_char_ped = pPed;
-    pNew->mpNext = this->field_0_pOwner;
+    pNew->mpNext = this->field_0_pFirstPassenger;
 
-    this->field_0_pOwner = pNew;
+    this->field_0_pFirstPassenger = pNew;
     return pNew;
 }
 
@@ -59,14 +59,14 @@ Ped* Ped_Unknown_4::sub_471320()
 {
     NOT_IMPLEMENTED;
 
-    Char_8* pOwner = this->field_0_pOwner;
-    if (!this->field_0_pOwner)
+    Char_8* pOwner = this->field_0_pFirstPassenger;
+    if (!this->field_0_pFirstPassenger)
     {
         return 0;
     }
 
     Ped* pPed = pOwner->field_0_char_ped;
-    field_0_pOwner = pOwner->mpNext;
+    field_0_pFirstPassenger = pOwner->mpNext;
     pOwner->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
     gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pOwner;
     return pPed;
@@ -103,7 +103,7 @@ Char_8** Ped_Unknown_4::sub_4715E0()
 MATCH_FUNC(0x471630)
 void Ped_Unknown_4::sub_471630()
 {
-    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 8)
         {
@@ -119,7 +119,7 @@ void Ped_Unknown_4::sub_471680()
 {
     Char_8* pIter; // eax
 
-    for (pIter = field_0_pOwner; pIter; pIter = pIter->mpNext)
+    for (pIter = field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {
@@ -132,7 +132,7 @@ MATCH_FUNC(0x4716b0)
 u16 Ped_Unknown_4::GetPassengerCount_4716B0()
 {
     u16 passengerCount;
-    Char_8* pOwner = this->field_0_pOwner;
+    Char_8* pOwner = this->field_0_pFirstPassenger;
     for (passengerCount = 0; pOwner; ++passengerCount)
     {
         pOwner = pOwner->mpNext;
@@ -143,7 +143,7 @@ u16 Ped_Unknown_4::GetPassengerCount_4716B0()
 MATCH_FUNC(0x4716d0)
 void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 {
-    for (Char_8* pIter = this->field_0_pOwner; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
         pIter->field_0_char_ped->field_204 = a2->field_70;
         pIter->field_0_char_ped->field_290 = a2->field_90;
@@ -154,7 +154,7 @@ void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 MATCH_FUNC(0x471710)
 char_type Ped_Unknown_4::sub_471710()
 {
-    Char_8* pOwner = this->field_0_pOwner;
+    Char_8* pOwner = this->field_0_pFirstPassenger;
     while (pOwner)
     {
         if (pOwner->field_0_char_ped->field_238 == 5)

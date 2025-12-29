@@ -13,7 +13,7 @@ class Ped_Unknown_4
   public:
     Ped_Unknown_4()
     {
-        sub_420E90();
+        ClearList_420E90();
     }
 
     EXPORT Char_8* sub_471140(Ped* pPed);
@@ -35,11 +35,11 @@ class Ped_Unknown_4
     EXPORT char_type sub_471710();
 
     // inline
-    void sub_420E90()
+    void ClearList_420E90()
     {
-        field_0_pOwner = 0;
+        field_0_pFirstPassenger = 0;
     }
 
-    Char_8* field_0_pOwner;
+    Char_8* field_0_pFirstPassenger;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_Unknown_4, 0x4)

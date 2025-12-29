@@ -2320,7 +2320,7 @@ void Car_BC::sub_441B00()
 MATCH_FUNC(0x441b20)
 void Car_BC::sub_441B20()
 {
-    if (this->field_9C != 3 || this->field_4.field_0_pOwner)
+    if (this->field_9C != 3 || this->field_4.field_0_pFirstPassenger)
     {
         this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
@@ -2737,7 +2737,7 @@ char_type Car_BC::PoolUpdate()
         {
             if (this->field_54_driver)
             {
-                if (this->field_9C == 3 && !this->field_4.field_0_pOwner && this->field_8C < 3u)
+                if (this->field_9C == 3 && !this->field_4.field_0_pFirstPassenger && this->field_8C < 3u)
                 {
                     gTaxi_4_704130->PushTaxi_457BA0(this);
                 }
@@ -3221,7 +3221,7 @@ void Car_BC::sub_444490()
     this->field_74_damage = 0;
     this->field_8C = 0;
     this->field_8_damaged_areas = 0;
-    this->field_4.field_0_pOwner = 0;
+    this->field_4.ClearList_420E90();
     this->field_54_driver = 0;
     this->field_98 = 3;
     this->field_58_physics = 0;

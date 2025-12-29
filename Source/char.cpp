@@ -976,7 +976,7 @@ PedManager::PedManager()
     unk_6787EF = 0;
     */
     sub_553F90();
-    gHashBrown_678468.sub_420E90();
+    gHashBrown_678468.ClearList_420E90();
 }
 
 STUB_FUNC(0x4709b0)
