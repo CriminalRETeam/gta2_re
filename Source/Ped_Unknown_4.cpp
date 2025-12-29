@@ -151,10 +151,20 @@ void Ped_Unknown_4::KillAllPassengers_4715A0()
     this->field_0_pFirstPassenger = 0;
 }
 
-STUB_FUNC(0x4715e0)
+MATCH_FUNC(0x4715e0)
 void Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
 {
-    NOT_IMPLEMENTED;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
+    {
+        Char_8* pLast = pIter;
+        pIter->field_0_char_ped->Kill_46F9D0();
+        pIter->field_0_char_ped->field_16C_car = 0;
+        pIter = pIter->mpNext;
+        gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
+    }
+
+    this->field_0_pFirstPassenger = 0;
 }
 
 MATCH_FUNC(0x471630)
