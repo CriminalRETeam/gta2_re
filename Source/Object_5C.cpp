@@ -626,11 +626,32 @@ char_type Object_2C::sub_528960(Object_2C* pOther)
     return 1;
 }
 
-STUB_FUNC(0x528990)
-char_type Object_2C::sub_528990(Sprite* a2)
+MATCH_FUNC(0x528990)
+char_type Object_2C::sub_528990(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
+    if (cB4)
+    {
+        return cB4->sub_5537F0(this);
+    }
+
+    Car_BC* cBC = pSprite->AsCar_40FEB0();
+    if (cBC)
+    {
+        return cBC->sub_43F130(this);
+    }
+
+    Object_2C* o2c = pSprite->As2C_40FEC0();
+
+    if (gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id)
+    {
+        Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
+        if (pPed)
+        {
+            pPed->sub_46FE20(o2c);
+        }
+    }
+    return o2c->sub_528960(this);
 }
 
 STUB_FUNC(0x528A20)

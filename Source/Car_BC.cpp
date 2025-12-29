@@ -1803,7 +1803,7 @@ bool Car_BC::sub_43EA60(Object_2C* a2)
 }
 
 STUB_FUNC(0x43f130)
-char_type Car_BC::sub_43F130(s32 a2)
+char_type Car_BC::sub_43F130(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
