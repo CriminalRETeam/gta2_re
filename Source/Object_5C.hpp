@@ -89,7 +89,7 @@ class Object_2C
     EXPORT ~Object_2C();
     EXPORT void sub_52A650();
     EXPORT void sub_52A6D0(Sprite* a2);
-    EXPORT u32* sub_52AE70(u32* a2);
+    EXPORT Fix16_Point GetXY_52AE70();
     EXPORT Fix16_Point GetRot_52AE90();
 
     // TODO: ordering

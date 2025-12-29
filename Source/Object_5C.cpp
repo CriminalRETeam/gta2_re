@@ -805,11 +805,10 @@ Object_2C::~Object_2C()
     field_10_obj_3c = 0;
 }
 
-STUB_FUNC(0x52ae70)
-u32* Object_2C::sub_52AE70(u32* a2)
+MATCH_FUNC(0x52ae70)
+Fix16_Point Object_2C::GetXY_52AE70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return field_4->get_x_y_443580();
 }
 
 MATCH_FUNC(0x52ae90)
