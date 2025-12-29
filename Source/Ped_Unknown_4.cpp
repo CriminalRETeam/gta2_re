@@ -7,19 +7,48 @@ Char_8* Ped_Unknown_4::AddPassenger_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
 
-    // Maybe PoolAlloc() ?
     pNew->field_0_char_ped = pPed;
-    pNew->mpNext = this->field_0_pFirstPassenger;
 
+    pNew->mpNext = this->field_0_pFirstPassenger;
     this->field_0_pFirstPassenger = pNew;
+
     return pNew;
 }
 
-STUB_FUNC(0x471160)
-Char_8* Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
+MATCH_FUNC(0x471160)
+void Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pLast = NULL;
+    if (pIter)
+    {
+        while (pIter)
+        {
+            if (pIter->field_0_char_ped == pPed)
+            {
+                // Already exists
+                return;
+            }
+
+            pLast = pIter;
+            pIter = pIter->mpNext;
+        }
+    }
+
+    Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
+    pNew->field_0_char_ped = pPed;
+
+    if (pLast)
+    {
+        pLast->mpNext = pNew;
+        pNew->mpNext = 0;
+    }
+    else
+    {
+        // List was empty
+        this->field_0_pFirstPassenger = pNew;
+        pNew->mpNext = 0;
+    }
 }
 
 STUB_FUNC(0x4711B0)
