@@ -4000,7 +4000,7 @@
         "v105_address": "0x471110"
     },
     {
-        "name": "Ped_Unknown_4::sub_471140",
+        "name": "Ped_Unknown_4::AddPassenger_471140",
         "v96f_address": null,
         "v105_address": "0x471140"
     },
@@ -8050,7 +8050,7 @@
         "v105_address": "0x4fa330"
     },
     {
-        "name": "Ambulance_110::sub_4FA470",
+        "name": "Ambulance_110::TryAddPassenger_4FA470",
         "v96f_address": null,
         "v105_address": "0x4fa470"
     },
@@ -8075,7 +8075,7 @@
         "v105_address": "0x4fa7d0"
     },
     {
-        "name": "Ambulance_20::sub_4FA800",
+        "name": "Ambulance_20::AddPassenger_4FA800",
         "v96f_address": null,
         "v105_address": "0x4fa800"
     },

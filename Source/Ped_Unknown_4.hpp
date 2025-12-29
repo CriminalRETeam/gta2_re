@@ -16,7 +16,7 @@ class Ped_Unknown_4
         ClearList_420E90();
     }
 
-    EXPORT Char_8* sub_471140(Ped* pPed);
+    EXPORT Char_8* AddPassenger_471140(Ped* pPed);
     EXPORT Char_8* sub_471160(Ped* pPed);
     EXPORT void sub_4711B0(Ped* pPed);
     EXPORT Char_8* sub_4711F0(Ped* pPed);

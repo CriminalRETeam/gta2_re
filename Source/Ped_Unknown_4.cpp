@@ -3,7 +3,7 @@
 #include "Ped.hpp"
 
 MATCH_FUNC(0x471140)
-Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
+Char_8* Ped_Unknown_4::AddPassenger_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
 
@@ -16,7 +16,7 @@ Char_8* Ped_Unknown_4::sub_471140(Ped* pPed)
 }
 
 STUB_FUNC(0x471160)
-Char_8* Ped_Unknown_4::sub_471160(Ped* a2)
+Char_8* Ped_Unknown_4::sub_471160(Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -29,14 +29,14 @@ void Ped_Unknown_4::sub_4711B0(Ped* pPed)
 }
 
 STUB_FUNC(0x4711f0)
-Char_8* Ped_Unknown_4::sub_4711F0(Ped* a2)
+Char_8* Ped_Unknown_4::sub_4711F0(Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x471240)
-void Ped_Unknown_4::sub_471240(Ped* a1)
+void Ped_Unknown_4::sub_471240(Ped* pPed)
 {
     NOT_IMPLEMENTED;
 }
@@ -59,16 +59,16 @@ Ped* Ped_Unknown_4::sub_471320()
 {
     NOT_IMPLEMENTED;
 
-    Char_8* pOwner = this->field_0_pFirstPassenger;
+    Char_8* pIter = this->field_0_pFirstPassenger;
     if (!this->field_0_pFirstPassenger)
     {
         return 0;
     }
 
-    Ped* pPed = pOwner->field_0_char_ped;
-    field_0_pFirstPassenger = pOwner->mpNext;
-    pOwner->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
-    gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pOwner;
+    Ped* pPed = pIter->field_0_char_ped;
+    field_0_pFirstPassenger = pIter->mpNext;
+    pIter->mpNext = gChar_8_Pool_678b50->field_0_pool.field_0_pHead;
+    gChar_8_Pool_678b50->field_0_pool.field_0_pHead = pIter;
     return pPed;
 }
 
@@ -117,9 +117,7 @@ void Ped_Unknown_4::sub_471630()
 MATCH_FUNC(0x471680)
 void Ped_Unknown_4::sub_471680()
 {
-    Char_8* pIter; // eax
-
-    for (pIter = field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {
@@ -132,21 +130,21 @@ MATCH_FUNC(0x4716b0)
 u16 Ped_Unknown_4::GetPassengerCount_4716B0()
 {
     u16 passengerCount;
-    Char_8* pOwner = this->field_0_pFirstPassenger;
-    for (passengerCount = 0; pOwner; ++passengerCount)
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    for (passengerCount = 0; pIter; ++passengerCount)
     {
-        pOwner = pOwner->mpNext;
+        pIter = pIter->mpNext;
     }
     return passengerCount;
 }
 
 MATCH_FUNC(0x4716d0)
-void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
+void Ped_Unknown_4::sub_4716D0(Car_BC* pCar)
 {
     for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
-        pIter->field_0_char_ped->field_204 = a2->field_70;
-        pIter->field_0_char_ped->field_290 = a2->field_90;
+        pIter->field_0_char_ped->field_204 = pCar->field_70;
+        pIter->field_0_char_ped->field_290 = pCar->field_90;
         pIter->field_0_char_ped->field_264 = 50;
     }
 }
@@ -154,14 +152,14 @@ void Ped_Unknown_4::sub_4716D0(Car_BC* a2)
 MATCH_FUNC(0x471710)
 char_type Ped_Unknown_4::sub_471710()
 {
-    Char_8* pOwner = this->field_0_pFirstPassenger;
-    while (pOwner)
+    Char_8* pIter = this->field_0_pFirstPassenger;
+    while (pIter)
     {
-        if (pOwner->field_0_char_ped->field_238 == 5)
+        if (pIter->field_0_char_ped->field_238 == 5)
         {
             return 1;
         }
-        pOwner = pOwner->mpNext;
+        pIter = pIter->mpNext;
     }
     return 0;
 }

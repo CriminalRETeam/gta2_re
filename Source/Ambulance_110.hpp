@@ -19,7 +19,7 @@ class Ambulance_20
     EXPORT Ambulance_20();
     EXPORT ~Ambulance_20();
     EXPORT void sub_4FA7D0();
-    EXPORT void sub_4FA800(Ped* pPed);
+    EXPORT void AddPassenger_4FA800(Ped* pPed);
     EXPORT bool sub_4FA820();
     EXPORT char_type sub_4FA9D0();
     EXPORT u32* sub_4FAAC0();
@@ -54,7 +54,7 @@ class Ambulance_110
     EXPORT ~Ambulance_110();
     EXPORT void init_4FA310();
     EXPORT char_type sub_4FA330(Ped* a2);
-    EXPORT char_type sub_4FA470(Ped* a2);
+    EXPORT char_type TryAddPassenger_4FA470(Ped* a2);
     EXPORT Ambulance_20* sub_4FA4B0();
     EXPORT void sub_4FA500();
     EXPORT void AmbulancesService_4FA790();

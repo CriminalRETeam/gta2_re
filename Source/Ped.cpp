@@ -710,7 +710,7 @@ void Ped::sub_45C7F0(Car_BC* pCar)
     this->field_24C_target_car_door = 1;
     this->field_278 = 10;
     this->field_27C = 10;
-    pCar->field_4.sub_471140(this);
+    pCar->field_4.AddPassenger_471140(this);
 }
 
 MATCH_FUNC(0x45c830)
@@ -1437,7 +1437,7 @@ void Ped::sub_462B80()
             else
             {
                 field_16C_car->ShowCarName_4406B0(this);
-                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4.sub_471140(this), field_238 == 3))
+                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4.AddPassenger_471140(this), field_238 == 3))
                 {
                     if (field_25C_car_state == 37)
                     {
