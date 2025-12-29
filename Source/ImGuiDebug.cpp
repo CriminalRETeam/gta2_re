@@ -1031,13 +1031,12 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("gGame_0x40_67E008"))
         {
-            if (gGame_0x40_67E008)
+            if (ImGui::Button("sub_569E70"))
             {
-                if (ImGui::Button("sub_569E70"))
-                {
-                    gGame_0x40_67E008->field_38_orf1->sub_569E70();
-                }
+                gGame_0x40_67E008->field_38_orf1->sub_569E70();
             }
+            ImGui::InputInt("Game State", &gGame_0x40_67E008->field_0_game_state, 1, 1);
+            ImGui::InputInt("Main State", &gGame_0x40_67E008->field_2C_main_state, 1, 1);
             ImGui::TreePop();
         }
 

@@ -10,6 +10,14 @@ struct AttractFile
     char field_0_path[256];
 };
 
+enum ReplayState
+{
+    Live_0 = 0,
+    Unkn_1 = 1,
+    Unkn_2 = 2,
+    Replay_3 = 3,
+};
+
 #pragma pack(push)
 #pragma pack(1)
 class BurgerKing_1

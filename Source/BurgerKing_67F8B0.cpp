@@ -21,6 +21,11 @@ DEFINE_GLOBAL(BurgerKing_1*, gBurgerKing_1_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, dword_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, byte_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
+DEFINE_GLOBAL(DIDEVICEOBJECTDATA, stru_67B610, 0x67B610);
+DEFINE_GLOBAL(s32, dword_67B5B0, 0x67B5B0);
+DEFINE_GLOBAL(s32, dword_67B5B4, 0x67B5B4);
+DEFINE_GLOBAL(s32, dword_67B5B8, 0x67B5B8);
+DEFINE_GLOBAL(s32, dword_67B5BC, 0x67B5BC);
 
 DEFINE_GLOBAL_ARRAY(s32, dword_61A9E4, 12, 0x61A9E4);
 DEFINE_GLOBAL_ARRAY(s32, dword_67B91C, 12, 0x67B91C);
@@ -240,10 +245,305 @@ void BurgerKing_1::sub_498C80(s32* a1, DIDEVICEOBJECTDATA* device_data_keys)
     }
 }
 
+// https://decomp.me/scratch/HJ1Zp
 STUB_FUNC(0x498DA0)
-void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnk)
+void BurgerKing_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
     NOT_IMPLEMENTED;
+
+    bool bUnk_1; // bl
+    s32 v5; // edi
+    s32 v6; // edx
+    s32 v7; // esi
+    s32* field_8_input_masks; // ebp
+    char v9; // bl
+    s32 v11; // eax
+    s32 v12; // ecx
+    s32 field_4_input_bits; // eax
+    s32 field_0_rng; // [esp+10h] [ebp-30h]
+    s32 v15; // [esp+28h] [ebp-18h]
+    s32 v16; // [esp+2Ch] [ebp-14h] BYREF
+    s32 v17; // [esp+30h] [ebp-10h]
+    s32 v18; // [esp+34h] [ebp-Ch]
+    s32 v19; // [esp+38h] [ebp-8h]
+
+    bUnk_1 = true;
+    v15 = 0;
+    v16 = 1;
+    if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
+    {
+        stru_67B610.dwOfs = 0;
+        dword_67B5B0 = 0;
+        stru_67B610.dwData = 0;
+        dword_67B5B4 = 0;
+        stru_67B610.dwTimeStamp = 0;
+        dword_67B5B8 = 0;
+        stru_67B610.dwSequence = 0;
+        dword_67B5BC = 0;
+        if (acquire_input_device_498730(gGamePadDevice_67B6C0))
+        {
+            gGamePadDevice_67B6C0->Acquire();
+        }
+        while (BurgerKing_1::game_pad_read_498D20() || bUnk_1)
+        {
+            dword_67B624 = 0;
+            if (gKeyboardDevice_67B5C0)
+            {
+                dword_67B624 = 1;
+                v17 = gKeyboardDevice_67B5C0->GetDeviceData(16, &stru_67B610, (unsigned long*)&dword_67B624, 0);
+            }
+            else
+            {
+                v17 = -1;
+            }
+            if (!gGamePadDevice_67B6C0 || dword_67B624)
+            {
+                v18 = -1;
+                v16 = 0;
+            }
+            else
+            {
+                dword_67B624 = 1;
+                gGamePadDevice_67B6C0->GetDeviceData(16, 0, (LPDWORD)&v16, 1);
+
+                v18 = gGamePadDevice_67B6C0->GetDeviceData(16, (LPDIDEVICEOBJECTDATA)&dword_67B5B0, (unsigned long*)&dword_67B624, 0);
+                if (bLog_directinput_67D6C0)
+                {
+                    if (dword_67B624 > 0)
+                    {
+                        sprintf(gTmpBuffer_67C598,
+                                "%d: input num_items = %d dwOfs = %d; data = %d",
+                                rng_dword_67AB34->field_0_rng,
+                                v16,
+                                dword_67B5B0,
+                                dword_67B5B4);
+                        gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+                    }
+                }
+            }
+            if (v17 < 0 && v18 < 0 || dword_67B624 <= 0)
+            {
+                break;
+            }
+
+            if (stru_67B610.dwOfs == 56)
+            {
+                BurgerKing_1::sub_498CB0(stru_67B610.dwData);
+            }
+            else if ((stru_67B610.dwOfs == DIK_SPACE || stru_67B610.dwOfs == DIK_TAB || stru_67B610.dwOfs == DIK_RETURN) &&
+                     byte_67B80C == 1)
+            {
+                return;
+            }
+            if (!gHud_2B00_706620->sub_5D6C70(stru_67B610.dwOfs))
+            {
+                v5 = dword_67B5B0;
+                v6 = dword_67B5B4;
+                v7 = 0;
+                field_8_input_masks = gBurgerKing_67F8B0.field_8_input_masks;
+                v19 = 12;
+
+                do
+                {
+                    v9 = 0;
+                    if (v17 == 0 && dword_67B91C[v7] == 0 && dword_67B6E8[v7] == stru_67B610.dwOfs)
+                    {
+                        v9 = 1;
+                        if ((stru_67B610.dwData & 0x80) != 0)
+                        {
+                            if (bUnknown)
+                            {
+                                gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                            }
+                        }
+                        else
+                        {
+                            if (bUnknown)
+                            {
+                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
+                            }
+                        }
+                        v5 = dword_67B5B0;
+                        v6 = dword_67B5B4;
+                    }
+                    else
+                    {
+                        if (v18 == 0 && dword_67B91C[v7] == 1)
+                        {
+                            v11 = dword_67B6E8[v7];
+                            v15 = 0;
+                            switch (v11)
+                            {
+                                case 224:
+                                    if (!v5)
+                                    {
+                                        if (v6 > -750)
+                                        {
+                                            v15 = 1;
+                                            if (bUnknown)
+                                            {
+                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                {
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                                                    v5 = dword_67B5B0;
+                                                    v6 = dword_67B5B4;
+                                                }
+                                            }
+                                            v9 = 1;
+                                        }
+                                        else
+                                        {
+                                            v9 = 1;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
+                                                v5 = dword_67B5B0;
+                                                v6 = dword_67B5B4;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 225:
+                                    if (v5 == 0)
+                                    {
+                                        if (v6 < 750)
+                                        {
+                                            v15 = 1;
+                                            if (bUnknown)
+                                            {
+                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                {
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                                                    v5 = dword_67B5B0;
+                                                    v6 = dword_67B5B4;
+                                                }
+                                            }
+                                            v9 = 1;
+                                        }
+                                        else
+                                        {
+                                            v9 = 1;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
+                                                v5 = dword_67B5B0;
+                                                v6 = dword_67B5B4;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                case 226:
+                                    if (v5 == 4)
+                                    {
+                                        if (v6 <= -750)
+                                        {
+                                            goto LABEL_63;
+                                        }
+                                        v12 = *field_8_input_masks;
+                                        field_4_input_bits = gBurgerKing_67F8B0.field_4_input_bits;
+                                        goto LABEL_50;
+                                    }
+                                    break;
+                                case 227:
+                                    if (v5 == 4)
+                                    {
+                                        if (v6 >= 750)
+                                        {
+                                            goto LABEL_63;
+                                        }
+                                        else
+                                        {
+                                            field_4_input_bits = gBurgerKing_67F8B0.field_4_input_bits;
+                                            v12 = *field_8_input_masks;
+                                        LABEL_50:
+                                            if ((field_4_input_bits & v12) != 0)
+                                            {
+                                                //goto LABEL_51;
+                                                v15 = 1;
+                                                if (bUnknown)
+                                                {
+                                                    if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                    {
+                                                        gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                                                        v5 = dword_67B5B0;
+                                                        v6 = dword_67B5B4;
+                                                    }
+                                                }
+                                                v9 = 1;
+                                            }
+                                        }
+                                    }
+                                    break;
+                                default:
+                                    if (v5 == v11 + 48)
+                                    {
+                                        if ((v6 & 0x80u) != 0)
+                                        {
+                                        LABEL_63:
+                                            v9 = 1;
+                                            if (bUnknown)
+                                            {
+                                                gBurgerKing_67F8B0.set_input_4CDCF0(v7);
+                                                v5 = dword_67B5B0;
+                                                v6 = dword_67B5B4;
+                                            }
+                                        }
+                                        else
+                                        {
+                                        LABEL_51:
+                                            v15 = 1;
+                                            if (bUnknown)
+                                            {
+                                                if ((gBurgerKing_67F8B0.field_4_input_bits & *field_8_input_masks) != 0)
+                                                {
+                                                    gBurgerKing_67F8B0.clear_input_4CDD10(v7);
+                                                    v5 = dword_67B5B0;
+                                                    v6 = dword_67B5B4;
+                                                }
+                                            }
+                                            v9 = 1;
+                                        }
+                                    }
+                                    break;
+                            }
+                        }
+                    }
+
+                    ++v7;
+                    ++field_8_input_masks;
+                    --v19;
+
+                } while (v19);
+
+                if (v9)
+                {
+                    goto LABEL_65;
+                }
+            }
+            if (v15)
+            {
+            LABEL_65:
+                bUnk_1 = false;
+            }
+            else
+            {
+                BurgerKing_1::sub_498C80(input_bits, &stru_67B610);
+                bUnk_1 = false;
+                if (bLog_directinput_67D6C0)
+                {
+                    field_0_rng = rng_dword_67AB34->field_0_rng;
+                    if ((stru_67B610.dwData & 0x80) != 0)
+                    {
+                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", field_0_rng, stru_67B610.dwOfs);
+                    }
+                    else
+                    {
+                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", field_0_rng, stru_67B610.dwOfs);
+                    }
+                }
+            }
+        }
+    }
 }
 
 // ================================================
@@ -300,7 +600,7 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
 
     if (inputs)
     {
-        if (field_75340_rec_buf_idx < 40000 && !this->field_38_replay_state)
+        if (field_75340_rec_buf_idx < 40000 && field_38_replay_state == Live_0)
         {
             field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs = inputs;
             field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx = rng_dword_67AB34->field_0_rng;
@@ -321,7 +621,7 @@ void BurgerKing_67F8B0::save_replay_record_4CDE20(u32 inputs)
 MATCH_FUNC(0x4cded0)
 void BurgerKing_67F8B0::SaveReplay_4CDED0()
 {
-    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != 2 && field_75340_rec_buf_idx > 0 &&
+    if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Unkn_2 && field_75340_rec_buf_idx > 0 &&
         !RecOrPlayBackState_4CEDF0())
     {
         size_t len = sizeof(BurgerKingBurger_0xC) * field_75340_rec_buf_idx;
@@ -418,7 +718,7 @@ void BurgerKing_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     this->field_8_input_masks[10] = 0x400;
     this->field_8_input_masks[11] = 0x800;
     this->field_4_input_bits = 0;
-    this->field_38_replay_state = 3;
+    this->field_38_replay_state = Replay_3;
     gBurgerKing_1_67B990->input_devices_init_498C40(hInstance);
     memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
     this->field_75340_rec_buf_idx = 0;
@@ -458,7 +758,7 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     field_8_input_masks[10] = 1024;
     field_8_input_masks[11] = 0x800;
     field_4_input_bits = 0;
-    field_38_replay_state = 0;
+    field_38_replay_state = Live_0;
 
     gBurgerKing_1_67B990 = new BurgerKing_1();
     if (!gBurgerKing_1_67B990)
@@ -493,7 +793,7 @@ void BurgerKing_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
             File::CreateFile_4A7000("test\\replay.rep");
             BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
         }
-        field_38_replay_state = 0;
+        field_38_replay_state = Live_0;
     }
     if (bConstant_replay_save_67D5C4)
     {
@@ -525,7 +825,7 @@ void BurgerKing_67F8B0::replay_save_4CEA40(u32* input_bits)
 {
     if ((*input_bits & 0xFFFFF000) == 0x37000)
     {
-        field_38_replay_state = 0;
+        field_38_replay_state = Live_0;
 
         if (bDo_release_replay_67D4EB)
         {
@@ -560,7 +860,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
 
     switch (replay_state)
     {
-        case 1:
+        case Unkn_1:
             if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
@@ -578,7 +878,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                             File::CreateFile_4A7000("test\\replay.rep");
                             BurgerKing_67F8B0::AppendReplayHeader_4CDF70();
                         }
-                        field_38_replay_state = 0;
+                        field_38_replay_state = Live_0;
                     }
                 }
 
@@ -606,7 +906,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             }
             break;
 
-        case 3:
+        case Replay_3:
             if (rng_dword_67AB34->field_0_rng >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
@@ -644,7 +944,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
             }
             break;
 
-        case 0:
+        case Live_0:
             if (field_75344_bSomething)
             {
                 if (gGame_0x40_67E008->field_0_game_state != 2)
@@ -763,7 +1063,7 @@ void BurgerKing_67F8B0::sub_4CED90()
 MATCH_FUNC(0x4cedf0)
 bool BurgerKing_67F8B0::RecOrPlayBackState_4CEDF0()
 {
-    if (field_38_replay_state == 1 || field_38_replay_state == 3)
+    if (field_38_replay_state == Unkn_1 || field_38_replay_state == Replay_3)
     {
         return true;
     }
