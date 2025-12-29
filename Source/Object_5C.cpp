@@ -293,10 +293,33 @@ void Object_2C::sub_524630(s32 a2, s16 a3)
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/jLuSq
 STUB_FUNC(0x525190)
-void Object_2C::sub_525190(u8 a2)
+void Object_2C::sub_525190(u8 varrok_idx)
 {
     NOT_IMPLEMENTED;
+    
+    if (field_8->field_3C < 39 || field_8->field_3C > 42)
+    {
+        if (field_8->field_48 == 13)
+        {
+            sub_5291D0();
+            Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4->field_14_xpos.x,
+                                                                              this->field_4->field_14_xpos.y,
+                                                                              this->field_4->field_1C_zpos,
+                                                                              kZeroAng_6F8F68,
+                                                                              19,
+                                                                              gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
+            if (pExplosion)
+            {
+                pExplosion->sub_529080(varrok_idx);
+            }
+        }
+    }
+    else
+    {
+        sub_5291E0(field_8->field_3C);
+    }
 }
 
 STUB_FUNC(0x5257d0)
@@ -1339,7 +1362,7 @@ s32* Object_5C::sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a
 }
 
 STUB_FUNC(0x52a3d0)
-s32* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
+Object_2C* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 a6, s32 a7)
 {
     NOT_IMPLEMENTED;
     return 0;

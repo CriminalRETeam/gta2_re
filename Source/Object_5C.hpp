@@ -44,7 +44,7 @@ class Object_2C
     EXPORT void sub_523440(s32 a2, s32 a3, char_type a4, char_type a5);
     EXPORT char_type sub_5235B0(Sprite* a2, u32* a3, u8* a4, s32 a5);
     EXPORT void sub_524630(s32 a2, s16 a3);
-    EXPORT void sub_525190(u8 a2);
+    EXPORT void sub_525190(u8 varrok_idx);
     EXPORT void UpdateAninmation_5257D0();
     EXPORT bool sub_525910();
     EXPORT void sub_525AE0();
@@ -195,7 +195,7 @@ class Object_5C
     EXPORT s32* sub_52A240(s32 a2, s32 maybe_x, s32 maybe_y, s32 maybe_z, s16 pCarBC, s16 maybe_ang, s32 a8, s32 a9, s32 a10);
     EXPORT s32* sub_52A280(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10);
     EXPORT s32* sub_52A2C0(s32 a2, s32 a3, s32 a4, s32 a5, s16 a6, s16 a7, s32 a8, s32 a9, s32 a10, char_type a11);
-    EXPORT s32* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
+    EXPORT Object_2C* CreateExplosion_52A3D0(Fix16 a2, Fix16 a3, Fix16 a4, Ang16 a5, s32 a6, s32 a7);
 
     EXPORT void SaveObjects_52A500(TurkishDelight_164* pUnknownObj);
     EXPORT void RestoreObjects_52A590(TurkishDelight_164* pUnknownObj);
