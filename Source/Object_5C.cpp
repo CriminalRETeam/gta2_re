@@ -9,6 +9,7 @@
 #include "Particle_8.hpp"
 #include "Phi_8CA8.hpp"
 #include "PurpleDoom.hpp"
+#include "Rozza_C88.hpp"
 #include "Varrok_7F8.hpp"
 #include "Weapon_8.hpp"
 #include "Wolfy_3D4.hpp"
@@ -17,7 +18,6 @@
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
-#include "Rozza_C88.hpp"
 
 EXTERN_GLOBAL(Varrok_7F8*, gVarrok_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -190,11 +190,10 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
     return true;
 }
 
-STUB_FUNC(0x522430)
-bool Object_2C::sub_522430(Sprite* a2)
+MATCH_FUNC(0x522430)
+bool Object_2C::sub_522430(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    return (pSprite && sub_5223C0(pSprite) && !sub_522250(pSprite)) ? true : false;
 }
 
 MATCH_FUNC(0x522460)
