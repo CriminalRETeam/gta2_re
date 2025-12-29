@@ -273,11 +273,13 @@ Car_BC* Car_78::sub_4538B0()
     return 0;
 }
 
-STUB_FUNC(0x453990)
-s32 Car_78::sub_453990(s32 a2)
+MATCH_FUNC(0x453990)
+void Car_78::sub_453990(s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (this->field_14 < a2)
+    {
+        this->field_14 = a2;
+    }
 }
 
 STUB_FUNC(0x4539b0)
