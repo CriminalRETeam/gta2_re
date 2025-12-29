@@ -30,7 +30,7 @@ class Garox_1_v2
     EXPORT void sub_5D56D0();
     EXPORT void sub_5D5730(const wchar_t* pStr);
     EXPORT void sub_5D5760();
-    EXPORT void sub_5D5770(u8* a2, u8* a3);
+    EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
     EXPORT Garox_1_v2();
     char_type field_0_timer;
     char_type field_1;
