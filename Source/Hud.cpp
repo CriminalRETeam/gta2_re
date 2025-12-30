@@ -97,11 +97,41 @@ void Garox_1_v2::sub_5D5760()
     }
 }
 
-STUB_FUNC(0x5d5770)
-void Garox_1_v2::sub_5D5770(u8* a2, u8* a3)
+//https://decomp.me/scratch/3hVt8
+MATCH_FUNC(0x5d5770)
+void Garox_1_v2::AnnounceKill_5D5770(Player* killer, Player* victim)
 {
-    NOT_IMPLEMENTED;
+    if (killer->field_0_bIsUser)
+    {
+        if (victim->field_0_bIsUser)
+        {
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("mpkill1"));
+            this->sub_5D5730(tmpBuff_67BD9C);
+            return;
+        }
+
+        swprintf(tmpBuff_67BD9C, L"%s %s", gText_0x14_704DFC->Find_5B5F90("mpkill2"), &victim->field_83C_player_name);
+
+        gRoot_sound_66B038.PlayVoice_40F090(32);
+    }
+    else if (victim->field_0_bIsUser)
+    {
+        swprintf(tmpBuff_67BD9C, L"%s %s", &killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill3"));
+    }
+    else if (victim == killer)
+    {
+        swprintf(tmpBuff_67BD9C, L"%s %s", &victim->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill5"));
+    }
+    else
+    {
+        swprintf(tmpBuff_67BD9C, L"%s %s %s", &killer->field_83C_player_name, gText_0x14_704DFC->Find_5B5F90("mpkill4"), &victim->field_83C_player_name);
+
+        gRoot_sound_66B038.PlayVoice_40F090(31);
+    }
+
+    this->sub_5D5730(tmpBuff_67BD9C);
 }
+
 
 MATCH_FUNC(0x5d58f0)
 Garox_1_v2::Garox_1_v2()
