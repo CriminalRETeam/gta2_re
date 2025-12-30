@@ -9,9 +9,10 @@
 #include "rng.hpp"
 
 DEFINE_GLOBAL(s32, dword_679E58, 0x679E58);
-DEFINE_GLOBAL(Fix16, dword_679E70, 0x679E70);
-DEFINE_GLOBAL(Fix16, dword_679C78, 0x679C78);
-DEFINE_GLOBAL(Ang16, dword_679FC4, 0x679FC4);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E78, Fix16(2), 0x679E78);
+DEFINE_GLOBAL_INIT(Fix16, dword_679C78, dword_679E78, 0x679C78);
+DEFINE_GLOBAL_INIT(Ang16, word_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
 
 // TODO: Should match but doesn't
@@ -110,11 +111,29 @@ void Crane_15C::sub_47ECC0()
     Crane_15C::sub_47F170();
 }
 
-STUB_FUNC(0x47ed60)
-s32 Crane_15C::sub_47ED60()
+MATCH_FUNC(0x47ed60)
+void Crane_15C::sub_47ED60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar;
+
+    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = field_74->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = 0;
+    }
+
+    gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
+    pCar->field_88 = 1;
+    gPurpleDoom_1_679208->sub_477B20(field_74);
+    field_64->sub_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
+    field_28_strct4.sub_5A6CD0(field_64);
+    field_74 = 0;
+    field_150 = 0;
+    field_64 = 0;
+    Crane_15C::sub_47F170();
 }
 
 STUB_FUNC(0x47edf0)
@@ -361,20 +380,20 @@ void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
 
     field_80 = v6;
-    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, dword_679FC4);
-    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, dword_679FC4);
-    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, dword_679FC4);
-    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, dword_679FC4);
-    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, dword_679FC4);
-    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, dword_679FC4);
-    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, dword_679FC4);
-    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, dword_679FC4);
+    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, word_679FC4);
+    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, word_679FC4);
+    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, word_679FC4);
+    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, word_679FC4);
+    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, word_679FC4);
+    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, word_679FC4);
+    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, word_679FC4);
+    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, word_679FC4);
 
-    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, dword_679FC4);
+    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, word_679FC4);
     field_58->field_26_varrok_idx = a4;
     field_78_maybe_homecrane = 0;
     field_94 = dword_679E70;

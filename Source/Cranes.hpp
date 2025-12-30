@@ -20,7 +20,7 @@ class Crane_15C
     EXPORT bool sub_47E920();
     EXPORT bool sub_47EB00();
     EXPORT void sub_47ECC0();
-    EXPORT s32 sub_47ED60();
+    EXPORT void sub_47ED60();
     EXPORT s32 sub_47EDF0();
     EXPORT s32 sub_47EF80();
     EXPORT s32 sub_47F170();
