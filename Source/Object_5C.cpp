@@ -59,7 +59,7 @@ Object_2C::Object_2C()
     field_4 = 0;
     field_18_model = 0;
     field_8 = 0;
-    field_C_obj_8 = 0;
+    field_C_pAny.o8 = 0;
     field_10_obj_3c = 0;
     field_14_id = 99;
     field_24 = 0;
@@ -422,10 +422,37 @@ void Object_2C::sub_525190(u8 varrok_idx)
     }
 }
 
-STUB_FUNC(0x5257d0)
+MATCH_FUNC(0x5257d0)
 void Object_2C::UpdateAninmation_5257D0()
 {
-    NOT_IMPLEMENTED;
+    ++this->field_C_pAny.o8->field_6_frame_counter;
+    if (field_C_pAny.o8->field_6_frame_counter >= this->field_8->field_64_next_frame_max)
+    {
+        field_C_pAny.o8->field_6_frame_counter = 0;
+        ++this->field_C_pAny.o8->field_7_anim_speed_counter;
+        if (field_C_pAny.o8->field_7_anim_speed_counter >= this->field_8->field_6C_sprite_anim_speed)
+        {
+            field_C_pAny.o8->field_7_anim_speed_counter = 0;
+            if (field_C_pAny.o8->field_4_timer > 0)
+            {
+                field_C_pAny.o8->field_4_timer--;
+            }
+        }
+        const s16 target_id = this->field_8->field_1E + this->field_C_pAny.o8->field_7_anim_speed_counter;
+
+        // TODO: Inline?
+        Sprite* pSprite = this->field_4;
+        if (pSprite->field_22_sprite_id != target_id)
+        {
+            pSprite->field_22_sprite_id = target_id;
+            pSprite->sub_59FA40();
+        }
+
+        if (!field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_anim_speed_counter)
+        {
+            Object_2C::sub_5283C0(this->field_8->field_3C);
+        }
+    }
 }
 
 MATCH_FUNC(0x525910)
@@ -618,7 +645,7 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
 MATCH_FUNC(0x527990)
 void Object_2C::Light_527990()
 {
-    field_C_explosion->field_0 &= ~0xFF;
+    field_C_pAny.pExplosion->field_0 &= ~0xFF;
 }
 
 MATCH_FUNC(0x527ae0)
@@ -982,7 +1009,7 @@ char Object_2C::sub_525AC0()
 {
     if (field_18_model == 113)
     {
-        return field_C_explosion->sub_5435D0();
+        return field_C_pAny.pExplosion->sub_5435D0();
     }
     else
     {
@@ -1233,7 +1260,7 @@ Object_2C* Object_5C::sub_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 z
     Object_2C* pNewObj = Object_5C::sub_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
-        pNewObj->field_C_light->sub_482D60(argb, radius_flags, intensity);
+        pNewObj->field_C_pAny.pLight->sub_482D60(argb, radius_flags, intensity);
     }
     return pNewObj;
 }
@@ -1339,13 +1366,13 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         case 6:
         case 10:
         case 12:
-            pNew2C->field_C_obj_8 = 0;
+            pNew2C->field_C_pAny.o8 = 0;
             pNew2C->field_10_obj_3c = 0;
             break;
 
         case 5:
             pNew30 = gWolfy_7A8_6FD5F0->sub_543800();
-            pNew2C->field_C_explosion = pNew30;
+            pNew2C->field_C_pAny.pExplosion = pNew30;
             if (pNew30) // 225
             {
                 pNew2C->field_1C = 1;
@@ -1360,10 +1387,10 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         case 2:
         case 8:
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
-            pNew2C->field_C_obj_8 = pNew8;
-            pNew8->field_7 = 0;
-            pNew2C->field_C_obj_8->field_4 = pPhi->field_65;
-            pNew2C->field_C_obj_8->field_6 = 0;
+            pNew2C->field_C_pAny.o8 = pNew8;
+            pNew8->field_7_anim_speed_counter = 0;
+            pNew2C->field_C_pAny.o8->field_4_timer = pPhi->field_65;
+            pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
 
         case 3:
@@ -1392,14 +1419,14 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
             pNew2C->field_10_obj_3c->field_28 = pNew2C->field_8->field_65;
 
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
-            pNew2C->field_C_obj_8 = pNew8;
-            pNew8->field_7 = 0; // ??
-            pNew2C->field_C_obj_8->field_4 = pPhi->field_65;
-            pNew2C->field_C_obj_8->field_6 = 0;
+            pNew2C->field_C_pAny.o8 = pNew8;
+            pNew8->field_7_anim_speed_counter = 0; // ??
+            pNew2C->field_C_pAny.o8->field_4_timer = pPhi->field_65;
+            pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
 
         case 11:
-            pNew2C->field_C_obj_8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
+            pNew2C->field_C_pAny.o8 = (Object_8*)gLight_1D4CC_6F5520->sub_52B2A0(xpos, ypos, zpos, 0, 0, 0);
             break;
 
         default:

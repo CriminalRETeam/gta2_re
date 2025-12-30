@@ -653,7 +653,7 @@ MATCH_FUNC(0x533150)
 void Phi_74::sub_533150(s16 a2, s16 a3)
 {
     field_1E += a2;
-    field_6C = a3;
+    field_6C_sprite_anim_speed = a3;
 }
 
 MATCH_FUNC(0x533170)
@@ -728,10 +728,10 @@ Phi_74::Phi_74()
     field_14_friction = dword_6F8FA4;
     field_1C_remap = 9999;
     field_61 = 0;
-    field_64 = 99;
+    field_64_next_frame_max = 99;
     field_65 = 99;
     field_1E = 99;
-    field_6C = 99;
+    field_6C_sprite_anim_speed = 99;
     Fix16 v1 = dword_6FCE08;
     field_68 = 0;
     field_18 = v1;
@@ -752,7 +752,7 @@ Phi_74* Phi_8CA8::sub_5332D0(s32 idx, s32 a3, s16 a4, u8 a5)
     Phi_74* result = sub_5343C0(idx);
     result->field_28 = a3;
     result->field_1E = a4;
-    result->field_6C = a5;
+    result->field_6C_sprite_anim_speed = a5;
     result->field_30 = 2;
     return result;
 }
@@ -794,7 +794,7 @@ void Phi_8CA8::sub_533360()
             pPVar2->field_65 = puVar3->field_24;
             pPVar2->field_14_friction = puVar3->field_20;
             pPVar2->field_4C = puVar3->field_28;
-            pPVar2->field_64 = puVar3->field_30;
+            pPVar2->field_64_next_frame_max = puVar3->field_30;
             pPVar2->field_58 = puVar3->field_34;
             pPVar2->field_18 = puVar3->field_38;
             pPVar2->field_20 = puVar3->field_40;
@@ -818,9 +818,9 @@ void Phi_8CA8::sub_533420()
 
     sub_534370(0x97, 6);
     pAVar1 = sub_534360(0x97);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 2;
-    pAVar1->field_64 = '\x05';
+    pAVar1->field_64_next_frame_max = '\x05';
     pAVar1->field_38 = 0x98;
     pAVar1->field_3C = 0x98;
     pAVar1->field_40 = 0;
@@ -829,7 +829,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
 
     pAVar1 = sub_534370(0x98, 6);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
@@ -838,7 +838,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\0';
 
     pAVar1 = sub_534370(0x34, 4);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
@@ -848,9 +848,9 @@ void Phi_8CA8::sub_533420()
 
     sub_534370(0x32, 0xc);
     pAVar1 = sub_534360(0x32);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 2;
-    pAVar1->field_64 = '\x03';
+    pAVar1->field_64_next_frame_max = '\x03';
     pAVar1->field_38 = 0x33;
     pAVar1->field_3C = 0x33;
     pAVar1->field_40 = 0;
@@ -859,7 +859,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\x01';
 
     pAVar1 = sub_534370(0x33, 0xc);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
     pAVar1->field_34 = 0;
     pAVar1->field_38 = 0;
     pAVar1->field_3C = 0;
@@ -868,9 +868,9 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_61 = '\0';
 
     pAVar1 = sub_534370(0x9b, 3);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = 1;
+    pAVar1->field_64_next_frame_max = 1;
     pAVar1->field_38 = 0x35;
     pAVar1->field_3C = 0x35;
     pAVar1->field_40 = 4;
@@ -884,12 +884,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x35, 3);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x7b, 0xb);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x37;
     pAVar1->field_3C = 0x37;
     pAVar1->field_40 = 4;
@@ -903,12 +903,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x37, 0xb);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x9c, 5);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x36;
     pAVar1->field_3C = 0x36;
     pAVar1->field_40 = 4;
@@ -922,12 +922,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x36, 5);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x38, 0xd);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0xd;
     pAVar1->field_3C = 0xd;
     pAVar1->field_40 = 4;
@@ -941,9 +941,9 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x39, 0xe);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3a;
     pAVar1->field_3C = 0x3a;
     pAVar1->field_40 = 4;
@@ -957,12 +957,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x3a, 0xe);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x3b, 0xf);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3c;
     pAVar1->field_3C = 0x3c;
     pAVar1->field_40 = 4;
@@ -976,12 +976,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x3c, 0xf);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x3d, 0x10);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x3e;
     pAVar1->field_3C = 0x3e;
     pAVar1->field_40 = 4;
@@ -995,12 +995,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x3e, 0x10);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x31, 0x12);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x12;
     pAVar1->field_3C = 0x12;
     pAVar1->field_40 = 4;
@@ -1014,9 +1014,9 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x2d, 0x16);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2e;
     pAVar1->field_3C = 0x2e;
     pAVar1->field_40 = 4;
@@ -1030,12 +1030,12 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x2e, 0x16);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x2f, 0x15);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x30;
     pAVar1->field_3C = 0x30;
     pAVar1->field_40 = 4;
@@ -1049,7 +1049,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x30, 0x15);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x3f, 0x11);
     pAVar1->field_38 = 0x11;
@@ -1065,9 +1065,9 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x2b, 0x17);
-    pAVar1->sub_533150(1, pAVar1->field_6C + -1);
+    pAVar1->sub_533150(1, pAVar1->field_6C_sprite_anim_speed + -1);
     pAVar1->field_34 = 4;
-    pAVar1->field_64 = '\x01';
+    pAVar1->field_64_next_frame_max = '\x01';
     pAVar1->field_38 = 0x2c;
     pAVar1->field_3C = 0x2c;
     pAVar1->field_40 = 4;
@@ -1081,7 +1081,7 @@ void Phi_8CA8::sub_533420()
     pAVar1->field_58 = 1;
 
     pAVar1 = sub_534370(0x2c, 0x17);
-    pAVar1->sub_533150(pAVar1->field_6C - 1, 1);
+    pAVar1->sub_533150(pAVar1->field_6C_sprite_anim_speed - 1, 1);
 
     pAVar1 = sub_534370(0x9d, 7);
     pAVar1->field_4C = 2;
@@ -1142,7 +1142,7 @@ void Phi_8CA8::sub_533B30()
             this_00->field_14_friction = puVar2->field_28;
             this_00->field_4C = puVar2->field_30;
             this_00->field_50 = puVar2->field_34;
-            this_00->field_64 = puVar2->field_3C;
+            this_00->field_64_next_frame_max = puVar2->field_3C;
             this_00->field_54 = 0;
             this_00->field_58 = puVar2->field_40;
             this_00->field_18 = puVar2->field_44;
@@ -1181,17 +1181,17 @@ void Phi_8CA8::sub_533C90()
     tmp->sub_533110(3);
     tmp = sub_534370(0x91, 0x90);
     tmp->sub_533110(5);
-    tmp->field_64 = 3;
+    tmp->field_64_next_frame_max = 3;
 
     tmp = sub_534370(0x7c, 0xfd);
     tmp->sub_533110(5);
-    tmp->field_64 = 3;
+    tmp->field_64_next_frame_max = 3;
     tmp = sub_534370(0x7d, 0x79);
     tmp->sub_533110(5);
-    tmp->field_64 = 3;
+    tmp->field_64_next_frame_max = 3;
     tmp = sub_534370(0x7e, 0x76);
     tmp->sub_533110(5);
-    tmp->field_64 = 3;
+    tmp->field_64_next_frame_max = 3;
 
     tmp = sub_534370(0x9a, 0xfe);
     if (bDo_show_imaginary_67D588 == false)
@@ -1263,8 +1263,8 @@ void Phi_8CA8::sub_533C90()
     tmp->field_65 = 'd';
     tmp->field_61 = '\x01';
     tmp->field_34 = 2;
-    tmp->field_6C = '\x01';
-    tmp->field_64 = '\x01';
+    tmp->field_6C_sprite_anim_speed = '\x01';
+    tmp->field_64_next_frame_max = '\x01';
     tmp->field_40 = 3;
     tmp->field_44 = 5;
 
@@ -1353,8 +1353,8 @@ void Phi_8CA8::sub_533C90()
     tmp->field_10 = DAT_006fce08;
     tmp->field_4C = 0;
     tmp->field_50 = 0;
-    tmp->field_64 = '\b';
-    tmp->sub_533150(tmp->field_6C - 1, 1);
+    tmp->field_64_next_frame_max = '\b';
+    tmp->sub_533150(tmp->field_6C_sprite_anim_speed - 1, 1);
 
     for(s32 iVar3 = 200; iVar3 - 200 <= 44; iVar3++)
     {

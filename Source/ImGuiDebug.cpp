@@ -1281,7 +1281,7 @@ void CC ImGuiDebugDraw()
                             ImGui::Input_char_type("field_61", &phi->field_61, 1, 1);
                             ImGui::Input_char_type("field_62_has_shadows", &phi->field_62_has_shadows, 1, 1);
                             ImGui::Input_char_type("field_63", &phi->field_63, 1, 1);
-                            ImGui::Input_char_type("field_64", &phi->field_64, 1, 1);
+                            ImGui::Input_char_type("field_64_next_frame_max", &phi->field_64_next_frame_max, 1, 1);
                             ImGui::Input_char_type("field_65", &phi->field_65, 1, 1);
                             ImGui::Input_char_type("field_66", &phi->field_66, 1, 1);
                             ImGui::Input_char_type("field_67", &phi->field_67, 1, 1);
@@ -1291,7 +1291,7 @@ void CC ImGuiDebugDraw()
                             ImGui::TreePop();
                         }
 
-                        ImGui::SliderU8("field_6C", &phi->field_6C, 0, 32);
+                        ImGui::SliderU8("field_6C_sprite_anim_speed", &phi->field_6C_sprite_anim_speed, 0, 32);
                         ImGui::Input_char_type("field_6D", &phi->field_6D, 1, 1);
                         ImGui::Input_char_type("field_6E", &phi->field_6E, 1, 1);
                         ImGui::Input_char_type("field_6F", &phi->field_6F, 1, 1);
