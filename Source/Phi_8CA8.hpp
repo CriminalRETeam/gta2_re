@@ -258,12 +258,12 @@ class Phi_74
     char_type field_61;
     char_type field_62_has_shadows;
     char_type field_63;
-    char_type field_64;
+    char_type field_64_next_frame_max;
     char_type field_65;
     char_type field_66;
     char_type field_67;
     s32 field_68;
-    u8 field_6C;
+    u8 field_6C_sprite_anim_speed;
     char_type field_6D;
     char_type field_6E;
     char_type field_6F;

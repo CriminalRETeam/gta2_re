@@ -131,7 +131,7 @@ class Object_2C
     {
         field_26_varrok_idx = 99;
         field_10_obj_3c = 0;
-        field_C_obj_8 = 0;
+        field_C_pAny.o8 = 0;
         field_1C = 0;
         field_4 = 0;
         field_18_model = 0;
@@ -140,12 +140,13 @@ class Object_2C
     Object_2C* mpNext;
     Sprite* field_4;
     Phi_74* field_8;
-    union
+    union TAny
     {
-        Wolfy_30* field_C_explosion;
-        Object_8* field_C_obj_8;
-        nostalgic_ellis_0x28* field_C_light;
+        Wolfy_30* pExplosion;
+        Object_8* o8;
+        nostalgic_ellis_0x28* pLight;
     };
+    TAny field_C_pAny;
     Object_3C* field_10_obj_3c;
     s32 field_14_id;
     s32 field_18_model;
