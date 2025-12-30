@@ -46,6 +46,7 @@ DEFINE_GLOBAL(Sprite*, dword_6F8F8C, 0x6F8F8C);
 DEFINE_GLOBAL(u8, byte_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL(s32, dword_6F8F5C, 0x6F8F5C);
 DEFINE_GLOBAL(Fix16, dword_6F8DA8, 0x6F8DA8);
+DEFINE_GLOBAL(Fix16, dword_6F8E14, 0x6F8E14);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(12), 0x6F8CE8);
@@ -1002,6 +1003,39 @@ void Object_2C::sub_5290C0(u8 id_base)
         pSprite->field_22_sprite_id = new_id;
         pSprite->sub_59FA40();
     }
+}
+
+MATCH_FUNC(0x5290F0)
+Fix16 Object_2C::sub_5290F0()
+{
+    if (field_10_obj_3c)
+    {
+        if (!field_10_obj_3c->field_2A)
+        {
+            if (field_10_obj_3c->field_C == kFpZero_6F8E10)
+            {
+                return field_10_obj_3c->field_10;
+            }
+            return field_10_obj_3c->field_C;
+        }
+        else
+        {
+            if (field_10_obj_3c->field_C == kFpZero_6F8E10)
+            {
+                if (field_10_obj_3c->field_10 == kFpZero_6F8E10)
+                {
+                    if (this->field_18_model == 113)
+                    {
+                        return kFpZero_6F8E10;
+                    }
+                    return dword_6F8E14;
+                }
+                return field_10_obj_3c->field_10;
+            }
+            return field_10_obj_3c->field_C;
+        }
+    }
+    return kFpZero_6F8E10;
 }
 
 MATCH_FUNC(0x525AC0)
