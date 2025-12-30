@@ -1031,13 +1031,22 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("gGame_0x40_67E008"))
         {
-            if (gGame_0x40_67E008)
+            if (ImGui::Button("sub_569E70"))
             {
-                if (ImGui::Button("sub_569E70"))
-                {
-                    gGame_0x40_67E008->field_38_orf1->sub_569E70();
-                }
+                gGame_0x40_67E008->field_38_orf1->sub_569E70();
             }
+            ImGui::InputInt("Game State", &gGame_0x40_67E008->field_0_game_state, 1, 1);
+
+            static s32 exit_state = 0;
+
+            ImGui::InputInt("Exit State", &exit_state, 1, 1);
+
+            if (ImGui::Button("Apply exit state"))
+            {
+                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, exit_state);
+            }
+
+            
             ImGui::TreePop();
         }
 

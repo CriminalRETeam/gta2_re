@@ -5870,12 +5870,12 @@
         "v105_address": "0x4b8bb0"
     },
     {
-        "name": "Game_0x40::sub_4B8BD0",
+        "name": "Game_0x40::ExitGame_4B8BD0",
         "v96f_address": null,
         "v105_address": "0x4b8bd0"
     },
     {
-        "name": "Game_0x40::sub_4B8C00",
+        "name": "Game_0x40::ExitGameNoBonus_4B8C00",
         "v96f_address": null,
         "v105_address": "0x4b8c00"
     },
@@ -6825,7 +6825,7 @@
         "v105_address": "0x4ce740"
     },
     {
-        "name": "BurgerKing_67F8B0::sub_4CE880",
+        "name": "BurgerKing_67F8B0::input_init_live_4CE880",
         "v96f_address": null,
         "v105_address": "0x4ce880"
     },

@@ -3898,11 +3898,11 @@ void miss2_0x11C::sub_50EA40() //  SCRCMD_FINISH_LEVEL
     }
     if (bonus_type)
     {
-        gGame_0x40_67E008->sub_4B8BD0(0, 4, bonus_type);
+        gGame_0x40_67E008->ExitGame_4B8BD0(0, GameExitType::AreaCompleted_4, bonus_type);
     }
     else
     {
-        gGame_0x40_67E008->sub_4B8C00(0, 4);
+        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::AreaCompleted_4);
     }
 
     miss2_0x11C::Next_503620(gBasePtr_6F8070);

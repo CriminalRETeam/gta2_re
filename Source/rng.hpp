@@ -11,6 +11,11 @@ class rng
         field_4_rnd = 0;
     }
 
+    inline s32 get_cur_rng_41CFE0()
+    {
+        return field_0_rng;
+    }
+
     EXPORT void sub_48B900();
     EXPORT void ShowCycle_48B920();
 

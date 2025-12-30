@@ -9,12 +9,36 @@ class Car_BC;
 class Camera_0xBC;
 class Fix16_Rect;
 
+namespace GameState
+{
+enum GameState
+{
+    ExecuteFrameAndPause_0 = 0,
+    Running_1 = 1,
+    Paused_2 = 2,
+};
+} // namespace GameState
+
+namespace GameExitType
+{
+enum GameExitType
+{
+    None = 0,
+    CloseGameImmediately_1 = 1,
+    PlayerQuit_2 = 2,
+    GameOverRIP_3 = 3,
+    AreaCompleted_4 = 4,
+    MultiplayerExit_5 = 5,
+    ReplayExit_6 = 6,
+};
+} // namespace GameExitType
+
 class Game_0x40
 {
   public:
     EXPORT s32 sub_4B8BB0();
-    EXPORT void sub_4B8BD0(s32 arg0, s32 main_state, s8 a2);
-    EXPORT void sub_4B8C00(s32 a1, s32 a2);
+    EXPORT void ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type);
+    EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);
     EXPORT s8 sub_4B8C20();
     EXPORT void LoadGameFiles_4B8C40();
     EXPORT void sub_4B8E00(u32 a1, u32 a2);
@@ -66,7 +90,7 @@ class Game_0x40
     char_type field_26;
     char_type field_27;
     s32 field_28_timer;
-    s32 field_2C_main_state;
+    s32 field_2C_game_exit_type;
     char_type field_30_bLimitFramerate;
     char_type field_31;
     char_type field_32;

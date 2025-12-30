@@ -88,21 +88,21 @@ s32 Game_0x40::sub_4B8BB0()
 }
 
 MATCH_FUNC(0x4B8BD0)
-void Game_0x40::sub_4B8BD0(s32 new_timer, s32 main_state, s8 a2)
+void Game_0x40::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
 {
     int timer = field_28_timer;
     if (timer == -1 || timer > new_timer)
     {
         field_28_timer = new_timer;
-        field_2C_main_state = main_state;
-        gLucid_hamilton_67E8E0.sub_4C5930(a2);
+        field_2C_game_exit_type = exit_type;
+        gLucid_hamilton_67E8E0.sub_4C5930(bonus_type);
     }
 }
 
 MATCH_FUNC(0x4B8C00)
-void Game_0x40::sub_4B8C00(s32 a1, s32 a2)
+void Game_0x40::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
 {
-    sub_4B8BD0(a1, a2, 0);
+    ExitGame_4B8BD0(new_timer, exit_type, 0);
 }
 
 MATCH_FUNC(0x4B8C20)
@@ -528,17 +528,17 @@ s8 Game_0x40::ExecuteGame_4B9640()
 
     switch (field_0_game_state)
     {
-        case 0:
+        case GameState::ExecuteFrameAndPause_0:
             UpdateGame_4B9410();
 
             if (!bSkip_audio_67D6BE)
             {
                 gRoot_sound_66B038.Service_40EFA0();
             }
-            field_0_game_state = 2;
+            field_0_game_state = GameState::Paused_2;
             break;
 
-        case 1:
+        case GameState::Running_1:
             UpdateGame_4B9410();
             if (!bSkip_audio_67D6BE)
             {
@@ -546,7 +546,7 @@ s8 Game_0x40::ExecuteGame_4B9640()
             }
             break;
 
-        case 2:
+        case GameState::Paused_2:
             sub_4B93C0();
             if (!bSkip_audio_67D6BE)
             {
@@ -564,21 +564,21 @@ s8 Game_0x40::ExecuteGame_4B9640()
 STUB_FUNC(0x4B9700)
 void Game_0x40::TogglePause_4B9700()
 {
-    // Paused?
-    if (field_0_game_state == 1)
+    // Running?
+    if (field_0_game_state == GameState::Running_1)
     {
-        // Single player?
+        // Singleplayer or playing alone on multiplayer?
         if (field_23_num_players == 1)
         {
-            // Then unpause
-            field_0_game_state = 2;
+            // Then pause
+            field_0_game_state = GameState::Paused_2;
         }
     }
-    // Not paused and single player? (don't pause multi player games lol)
+    // Not running and single player?
     else if (field_23_num_players == 1)
     {
         // Go pause
-        field_0_game_state = 1;
+        field_0_game_state = GameState::Running_1;
 
         if (gBurgerKing_1_67B990)
         {
@@ -600,7 +600,7 @@ void Game_0x40::sub_4B9710()
 {
     if (field_23_num_players == 1)
     {
-        field_0_game_state = 0;
+        field_0_game_state = GameState::ExecuteFrameAndPause_0;
     }
 }
 
@@ -1201,12 +1201,12 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     field_21_player_camera_idx = 0;
     field_22 = 0;
-    field_0_game_state = 1;
+    field_0_game_state = GameState::Running_1;
     gbRngRemapTableDone_679C0A = 0;
     field_20_idx = 0;
     field_28_timer = -1;
     field_30_bLimitFramerate = 0;
-    field_2C_main_state = 0;
+    field_2C_game_exit_type = GameExitType::None;
     field_34 = 0;
     if (!bSkip_audio_67D6BE)
     {

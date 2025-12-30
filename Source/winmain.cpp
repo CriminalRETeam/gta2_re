@@ -246,7 +246,7 @@ void force_link()
     burgerking.sub_4CE650();
     burgerking.GetNextAttrReplay_4CE6E0(0);
     burgerking.input_init_replay_4CE740(0);
-    burgerking.sub_4CE880(0);
+    burgerking.input_init_live_4CE880(0);
     burgerking.replay_save_4CEA40(0);
     burgerking.get_input_bits_4CEAC0();
     burgerking.save_replay_inputs_4CED00(0, 0);
@@ -871,7 +871,7 @@ STUB_FUNC(0x4DB0D0)
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
     NOT_IMPLEMENTED;
-    pGame->sub_4B8C00(0, 1);
+    pGame->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
 }
 
 // todo move to another file for ordering
@@ -886,7 +886,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     }
     else
     {
-        gBurgerKing_67F8B0.sub_4CE880(gHInstance_708220);
+        gBurgerKing_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
@@ -2001,7 +2001,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             if (bStartNetworkGame_7081F0)
                             {
-                                switch (gGame_0x40_67E008->field_2C_main_state)
+                                switch (gGame_0x40_67E008->field_2C_game_exit_type)
                                 {
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
@@ -2017,13 +2017,13 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             }
                             else
                             {
-                                switch (gGame_0x40_67E008->field_2C_main_state)
+                                switch (gGame_0x40_67E008->field_2C_game_exit_type)
                                 {
-                                    case 1:
+                                    case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
 
-                                    case 2:
+                                    case GameExitType::PlayerQuit_2:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
@@ -2033,7 +2033,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
-                                    case 3:
+                                    case GameExitType::GameOverRIP_3:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
@@ -2042,7 +2042,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
-                                    case 4:
+                                    case GameExitType::AreaCompleted_4:
                                         gLucid_hamilton_67E8E0.sub_4C5A10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56BB10(gGame_0x40_67E008->field_38_orf1);
                                         gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
@@ -2051,13 +2051,13 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
-                                    case 5:
+                                    case GameExitType::MultiplayerExit_5:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
-                                    case 6:
+                                    case GameExitType::ReplayExit_6:
                                         state = 0;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
