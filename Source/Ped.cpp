@@ -111,7 +111,7 @@ Ped::~Ped()
     this->field_21C &= ~0x4000u;
     this->field_184 = 0;
     this->field_208_invulnerability = 0;
-    this->field_204 = 0;
+    this->field_204_killer_id = 0;
     this->field_290 = 0;
     this->field_264 = 0;
     this->field_268 = 0;
@@ -2318,7 +2318,7 @@ void Ped::sub_469030()
             field_264--;
             if (field_264 == 0)
             {
-                field_204 = 0;
+                field_204_killer_id = 0;
                 field_290 = 0;
             }
         }

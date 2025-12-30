@@ -828,7 +828,7 @@ class Car_BC
     Trailer* field_64_pTrailer;
     Fix16 field_68;
     s32 field_6C_maybe_id;
-    s32 field_70;
+    s32 field_70_exploder_ped_id;
     s16 field_74_damage;
     s16 field_76;
     u16 field_78_flags;
@@ -885,6 +885,11 @@ struct Car_BC_Pool
     void Remove(Car_BC* pCar)
     {
         field_0_pool.DeAllocate(pCar);
+    }
+
+    void UpdateNextPrev(Car_BC* pItem)
+    {
+        field_0_pool.UpdateNextPrev(pItem);
     }
 
     Pool<Car_BC, 306> field_0_pool;

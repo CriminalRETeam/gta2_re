@@ -473,10 +473,10 @@ void Char_B4::DrownPed_5459E0()
     {
         field_7C_pPed->field_250 = 28;
     }
-    s32 leader_ped_id = field_7C_pPed->field_204;
-    if (leader_ped_id)
+    s32 ped_killer_id = field_7C_pPed->field_204_killer_id;
+    if (ped_killer_id)
     {
-        if (gPedManager_6787BC->PedById(leader_ped_id))
+        if (gPedManager_6787BC->PedById(ped_killer_id))
         {
             field_7C_pPed->field_290 = 5;
             field_7C_pPed->field_264 = 50;

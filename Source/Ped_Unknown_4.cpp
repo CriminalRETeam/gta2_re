@@ -280,7 +280,7 @@ void Ped_Unknown_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
 {
     for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
     {
-        pIter->field_0_char_ped->field_204 = pCar->field_70;
+        pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
         pIter->field_0_char_ped->field_290 = pCar->field_90;
         pIter->field_0_char_ped->field_264 = 50;
     }

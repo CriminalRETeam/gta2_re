@@ -50,6 +50,9 @@ DEFINE_GLOBAL_INIT(Ang16, word_6F6414, Ang16(540), 0x6F6414);
 DEFINE_GLOBAL_INIT(Ang16, word_6F637C, Ang16(180), 0x6F637C);
 DEFINE_GLOBAL_INIT(Ang16, word_6F63EC, Ang16(900), 0x6F63EC);
 DEFINE_GLOBAL_INIT(Fix16, dword_6F6548, Fix16(40), 0x6F6548);
+DEFINE_GLOBAL(Fix16_Point, stru_6F62A0, 0x6F62A0);
+DEFINE_GLOBAL(Fix16_Point, stru_6F62A8, 0x6F62A8);
+DEFINE_GLOBAL(Fix16_Point, stru_6F6580, 0x6F6580);
 
 static inline void sub_46BD40(Fix16& x, Fix16& y, Vert* pVert)
 {
@@ -2209,10 +2212,13 @@ void MapRenderer::draw_left_4F3C00(u16* arg0, s32* pVertIdx, s32 a2, Fix16_Point
     NOT_IMPLEMENTED;
 }
 
+// https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
 STUB_FUNC(0x4f4190)
-void MapRenderer::Set_UV_4F4190(Fix16_Point* a1, Fix16_Point* a2, u32* pVertIdx)
+void MapRenderer::Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 {
-    NOT_IMPLEMENTED;
+    Fix16_Point uv_coords = ((stru_6F62A0 * a2) + (stru_6F62A8 * a1)) + stru_6F6580;
+    gTileVerts_6F65A8[pVertIdx].u = uv_coords.x.ToFloat();
+    gTileVerts_6F65A8[pVertIdx].v = uv_coords.y.ToFloat();
 }
 
 STUB_FUNC(0x4f4250)

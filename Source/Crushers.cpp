@@ -72,7 +72,7 @@ void Crusher_30::Service_488350()
                     field_2C_state = CrusherStates::UnCrushW_2;
                     if (!bStartNetworkGame_7081F0)
                     {
-                        field_14_pCarBeingCrushed->field_70 = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
+                        field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
                         field_14_pCarBeingCrushed->field_90 = 4;
                         field_14_pCarBeingCrushed->field_94 = 50;
                     }

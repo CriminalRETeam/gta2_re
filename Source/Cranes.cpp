@@ -5,11 +5,14 @@
 #include "Object_5C.hpp"
 #include "sprite.hpp"
 #include "debug.hpp"
+#include "PurpleDoom.hpp"
+#include "rng.hpp"
 
 DEFINE_GLOBAL(s32, dword_679E58, 0x679E58);
-DEFINE_GLOBAL(Fix16, dword_679E70, 0x679E70);
-DEFINE_GLOBAL(Fix16, dword_679C78, 0x679C78);
-DEFINE_GLOBAL(Ang16, dword_679FC4, 0x679FC4);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E70, Fix16(0), 0x679E70);
+DEFINE_GLOBAL_INIT(Fix16, dword_679E78, Fix16(2), 0x679E78);
+DEFINE_GLOBAL_INIT(Fix16, dword_679C78, dword_679E78, 0x679C78);
+DEFINE_GLOBAL_INIT(Ang16, word_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4, 0x679FD4);
 
 // TODO: Should match but doesn't
@@ -27,7 +30,6 @@ Crane_15C::~Crane_15C()
 MATCH_FUNC(0x47e610)
 Crane_15C::Crane_15C()
 {
-    field_28 = 0;
     field_7C = 0;
 }
 
@@ -66,18 +68,72 @@ bool Crane_15C::sub_47EB00()
     return 0;
 }
 
-STUB_FUNC(0x47ecc0)
-s32 Crane_15C::sub_47ECC0()
+MATCH_FUNC(0x47ecc0)
+void Crane_15C::sub_47ECC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar;
+
+    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = field_74->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = 0;
+    }
+    gPurpleDoom_1_679208->sub_477B20(field_74);
+    pCar->sub_4435F0();
+    pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
+    pCar->field_88 = 1;
+
+    if (field_150 != 3)
+    {
+        if (field_144 == 2)
+        {
+            if (field_155 == 1)
+            {
+                field_155 = 2;
+            }
+            else
+            {
+                field_155 = 1;
+                field_28_strct4.sub_5A6CD0(field_74);
+            }
+        }
+        else
+        {
+            field_28_strct4.sub_5A6CD0(field_74);
+        }
+    }
+    field_74 = 0;
+    field_150 = 0;
+    Crane_15C::sub_47F170();
 }
 
-STUB_FUNC(0x47ed60)
-s32 Crane_15C::sub_47ED60()
+MATCH_FUNC(0x47ed60)
+void Crane_15C::sub_47ED60()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar;
+
+    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = field_74->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = 0;
+    }
+
+    gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
+    pCar->field_88 = 1;
+    gPurpleDoom_1_679208->sub_477B20(field_74);
+    field_64->sub_5A3100(field_74, dword_679E70, dword_679E70, word_679FC4);
+    field_28_strct4.sub_5A6CD0(field_64);
+    field_74 = 0;
+    field_150 = 0;
+    field_64 = 0;
+    Crane_15C::sub_47F170();
 }
 
 STUB_FUNC(0x47edf0)
@@ -192,7 +248,7 @@ bool Crane_15C::sub_47F450()
 }
 
 STUB_FUNC(0x47f4c0)
-void Crane_15C::sub_47F4C0()
+void Crane_15C::UpdateCraneTargets_47F4C0()
 {
     NOT_IMPLEMENTED;
 }
@@ -239,7 +295,7 @@ s32 Crane_15C::sub_47FD10()
 }
 
 MATCH_FUNC(0x47fd50)
-void Crane_15C::sub_47FD50()
+void Crane_15C::UpdateCraneTick_47FD50()
 {
     Fix16 old_crane_angle = field_8C_crane_angle;
     Fix16 old_hook_radius = field_90_hook_radius;
@@ -276,17 +332,47 @@ void Crane_15C::sub_47FE10()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x480310)
+MATCH_FUNC(0x480310)
 void Crane_15C::Service_480310()
 {
-    NOT_IMPLEMENTED;
+    field_159 = 0;
+    field_28_strct4.sub_5A6C40(rng_dword_67AB34->field_0_rng - 1);
+    if (field_74)
+    {
+        gPurpleDoom_3_679210->Remove_477B00(field_74);
+    }
+    Crane_15C::UpdateCraneTargets_47F4C0();
+    if (!field_148)
+    {
+        if (!field_78_maybe_homecrane || field_8C_crane_angle != field_A8 || (field_78_maybe_homecrane->field_8C_crane_angle == field_78_maybe_homecrane->field_A8))
+        {
+            Crane_15C::UpdateCraneTick_47FD50();
+        }
+    }
+
+    if (field_74)
+    {
+        Car_BC* pCar;
+        if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
+        {
+            pCar = field_74->field_8_car_bc_ptr;
+        }
+        else
+        {
+            pCar = NULL;
+        }
+        pCar->sub_443330();
+    }
+
+    if (field_74)
+    {
+        gPurpleDoom_3_679210->Add_477AE0(field_74);
+    }
 }
 
 MATCH_FUNC(0x4803b0)
-infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
+void Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
-    infallible_turing* result;
-
     field_144 = 0;
     field_148 = 0;
 
@@ -294,22 +380,22 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     Fix16 v6 = *gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(&temp_z, x_pos, y_pos);
 
     field_80 = v6;
-    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, dword_679FC4);
-    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, dword_679FC4);
-    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, dword_679FC4);
-    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, dword_679FC4);
-    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, dword_679FC4);
-    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, dword_679FC4);
-    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, dword_679FC4);
-    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, dword_679FC4);
-    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, dword_679FC4);
+    field_2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(135, x_pos, y_pos, v6, word_679FC4);
+    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(134, x_pos, y_pos, field_80, word_679FC4);
+    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80, word_679FC4);
+    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80, word_679FC4);
+    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80, word_679FC4);
+    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80, word_679FC4);
+    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80, word_679FC4);
+    field_5C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(140, x_pos, y_pos, field_80, word_679FC4);
+    field_54 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(136, x_pos, y_pos, field_80, word_679FC4);
 
-    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, dword_679FC4);
+    field_58 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(137, x_pos, y_pos, field_80 - dword_679C78, word_679FC4);
     field_58->field_26_varrok_idx = a4;
-    field_78 = 0;
+    field_78_maybe_homecrane = 0;
     field_94 = dword_679E70;
     field_98 = dword_679E70;
     field_9C = dword_679E70;
@@ -376,19 +462,16 @@ infallible_turing* Crane_15C::sub_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_13C = dword_679E70;
     field_155 = 1;
     Crane_15C::sub_47FE10();
-    result = field_7C;
     field_156 = 0;
     field_157 = 0;
     field_158 = 0;
     field_159 = 0;
     field_140 = 0;
-    if (!result && !bSkip_audio_67D6BE)
+    if (!field_7C && !bSkip_audio_67D6BE)
     {
-        result = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crane_15C_8);
-        field_7C = result;
+        field_7C = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Crane_15C_8);
     }
-    field_28 = 0;
-    return result;
+    field_28_strct4.field_0_p18 = 0;
 }
 
 STUB_FUNC(0x480900)

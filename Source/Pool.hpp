@@ -104,6 +104,12 @@ class Pool
         field_0_pStart = pItem;
     }
 
+    void UpdateNextPrev(PoolType* pItem)
+    {
+        pItem->mpNext = field_4_pPrev;
+        field_4_pPrev = pItem;
+    }
+
     void UpdatePool()
     {
         field_X_count = 0;
