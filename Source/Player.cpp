@@ -1333,11 +1333,11 @@ void Player::Wasted_567130()
     if (bStartNetworkGame_7081F0)
     {
         // Ped: field_204 = the ID of the ped who killed this player/Player
-        if (field_2C4_player_ped->field_204 == 0)
+        if (field_2C4_player_ped->field_204_killer_id == 0)
         {
             player_killer = NULL;
         }
-        else if ((pPed_killer = gPedManager_6787BC->PedById(field_2C4_player_ped->field_204)) == 0)
+        else if ((pPed_killer = gPedManager_6787BC->PedById(field_2C4_player_ped->field_204_killer_id)) == 0)
         {
             player_killer = NULL;
         }

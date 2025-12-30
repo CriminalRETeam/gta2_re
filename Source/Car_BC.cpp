@@ -1306,7 +1306,7 @@ void Car_BC::sub_43B770()
     {
         if (pDriver->field_240_occupation != 4)
         {
-            pDriver->field_204 = this->field_70;
+            pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290 = this->field_90;
             this->field_54_driver->field_264 = 50;
         }
@@ -3154,7 +3154,7 @@ void Car_BC::sub_444020()
         field_94--;
         if (field_94 == 0)
         {
-            field_70 = 0;
+            field_70_exploder_ped_id = 0;
             field_90 = 0;
         }
     }
@@ -3168,7 +3168,7 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
     {
         if (!a1->field_64_pTrailer || a1->field_64_pTrailer->field_C_pCarOnTrailer != a1)
         {
-            return a1->field_70;
+            return a1->field_70_exploder_ped_id;
         }
         a1 = a1->field_64_pTrailer->field_8_truck_cab;
     }
@@ -3176,14 +3176,14 @@ u32 Car_BC::GetEffectiveDriverPedId_444090()
     Ped* pDriver = a1->field_54_driver;
     if (pDriver->field_240_occupation == 4)
     {
-        return a1->field_70;
+        return a1->field_70_exploder_ped_id;
     }
 
     if (pDriver->field_200_id > 12u)
     {
-        if (a1->field_70)
+        if (a1->field_70_exploder_ped_id)
         {
-            return a1->field_70;
+            return a1->field_70_exploder_ped_id;
         }
     }
     return pDriver->field_200_id;
@@ -3257,7 +3257,7 @@ void Car_BC::sub_444490()
     IncrementCarStats_443D70(0);
     this->field_8D = 0;
     this->field_60 = 0;
-    this->field_70 = 0;
+    this->field_70_exploder_ped_id = 0;
     this->field_90 = 0;
     this->field_94 = 0;
     this->field_95 = 0;
@@ -3343,7 +3343,7 @@ Car_BC::Car_BC()
     field_80 = 0;
     field_A0_car_kind = 0;
     field_8D = 0;
-    field_70 = 0;
+    field_70_exploder_ped_id = 0;
     field_90 = 0;
     field_94 = 0;
     field_95 = 0;

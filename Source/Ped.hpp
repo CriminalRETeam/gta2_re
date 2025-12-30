@@ -470,7 +470,7 @@ class Ped
     Fix16 field_1F8;
     s32 field_1FC;
     u32 field_200_id;
-    s32 field_204;
+    s32 field_204_killer_id;
     u16 field_208_invulnerability;
     s16 field_20A_wanted_points;
     s16 field_20C;
