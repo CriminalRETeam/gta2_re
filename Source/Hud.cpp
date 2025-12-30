@@ -205,7 +205,7 @@ char_type Garox_12EC_sub::IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer)
             pPlayer->field_78A_show_quit_message = false;
             if (pPlayer->field_0_bIsUser)
             {
-                gGame_0x40_67E008->sub_4B8C00(1, 2);
+                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(1, GameExitType::PlayerQuit_2);
             }
 
             if ((u8)bStartNetworkGame_7081F0)

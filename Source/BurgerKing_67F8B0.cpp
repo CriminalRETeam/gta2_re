@@ -869,7 +869,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 {
                     if (bDo_exit_after_replay_67D6E4)
                     {
-                        gGame_0x40_67E008->sub_4B8C00(0, 1);
+                        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
                     }
                     else
                     {
@@ -913,7 +913,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                 field_75340_rec_buf_idx++;
                 if (field_75340_rec_buf_idx >= field_7533C_used_recs_count)
                 {
-                    gGame_0x40_67E008->sub_4B8C00(0, 6);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
                 }
 
                 if (field_75340_rec_buf_idx < 2)
@@ -936,7 +936,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
                     gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 0);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
-                        gGame_0x40_67E008->sub_4B8C00(0, 6);
+                        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
                     }
                     *control_status |= saved_input;
                     BurgerKing_67F8B0::replay_save_4CEA40(control_status);
@@ -947,7 +947,7 @@ u32 BurgerKing_67F8B0::get_input_bits_4CEAC0()
         case Live_0:
             if (field_75344_bSomething)
             {
-                if (gGame_0x40_67E008->field_0_game_state != 2)
+                if (gGame_0x40_67E008->field_0_game_state != GameState::Paused_2)
                 {
                     gBurgerKing_1_67B990->read_input_device_498DA0((s32*)control_status, 1);
                     BurgerKing_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);

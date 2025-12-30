@@ -243,7 +243,7 @@ void eager_benz::sub_591C70()
                 {
                     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
                 }
-                gGame_0x40_67E008->sub_4B8C00(2, 5);
+                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, GameExitType::MultiplayerExit_5);
             }
         }
     }

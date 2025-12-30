@@ -555,7 +555,7 @@ void Player::Hud_Controls_565890(u16 action)
                 {
                     if (this->field_0_bIsUser)
                     {
-                        gGame_0x40_67E008->sub_4B8C00(1, 2);
+                        gGame_0x40_67E008->ExitGameNoBonus_4B8C00(1, GameExitType::PlayerQuit_2);
                     }
                 }
                 else
@@ -1428,7 +1428,7 @@ void Player::Wasted_567130()
             }
             else
             {
-                gGame_0x40_67E008->sub_4B8C00(0, 3);
+                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
         }
         else
@@ -1502,7 +1502,7 @@ void Player::Busted_5679E0()
         {
             if (field_684_lives.field_0 <= 0 || gLucid_hamilton_67E8E0.sub_4C59A0() == 1)
             {
-                gGame_0x40_67E008->sub_4B8C00(0, 3);
+                gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             }
             else
             {
