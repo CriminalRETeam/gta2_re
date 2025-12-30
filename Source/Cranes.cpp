@@ -67,11 +67,47 @@ bool Crane_15C::sub_47EB00()
     return 0;
 }
 
-STUB_FUNC(0x47ecc0)
-s32 Crane_15C::sub_47ECC0()
+MATCH_FUNC(0x47ecc0)
+void Crane_15C::sub_47ECC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Car_BC* pCar;
+
+    if (field_74->field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        pCar = field_74->field_8_car_bc_ptr;
+    }
+    else
+    {
+        pCar = 0;
+    }
+    gPurpleDoom_1_679208->sub_477B20(field_74);
+    pCar->sub_4435F0();
+    pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
+    pCar->field_88 = 1;
+
+    if (field_150 != 3)
+    {
+        if (field_144 == 2)
+        {
+            if (field_155 == 1)
+            {
+                field_155 = 2;
+            }
+            else
+            {
+                field_155 = 1;
+                field_28_strct4.sub_5A6CD0(field_74);
+            }
+        }
+        else
+        {
+            field_28_strct4.sub_5A6CD0(field_74);
+        }
+    }
+    field_74 = 0;
+    field_150 = 0;
+    Crane_15C::sub_47F170();
 }
 
 STUB_FUNC(0x47ed60)

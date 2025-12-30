@@ -887,6 +887,11 @@ struct Car_BC_Pool
         field_0_pool.DeAllocate(pCar);
     }
 
+    void UpdateNextPrev(Car_BC* pItem)
+    {
+        field_0_pool.UpdateNextPrev(pItem);
+    }
+
     Pool<Car_BC, 306> field_0_pool;
 };
 
