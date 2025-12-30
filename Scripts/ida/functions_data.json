@@ -4445,7 +4445,7 @@
         "v105_address": "0x47f450"
     },
     {
-        "name": "Crane_15C::sub_47F4C0",
+        "name": "Crane_15C::UpdateCraneTargets_47F4C0",
         "v96f_address": "0x449880",
         "v105_address": "0x47f4c0"
     },
@@ -4480,7 +4480,7 @@
         "v105_address": "0x47fd10"
     },
     {
-        "name": "Crane_15C::sub_47FD50",
+        "name": "Crane_15C::UpdateCraneTick_47FD50",
         "v96f_address": "0x449AA0",
         "v105_address": "0x47fd50"
     },
