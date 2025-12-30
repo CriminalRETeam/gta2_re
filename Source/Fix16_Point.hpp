@@ -133,6 +133,16 @@ public:
             return Fix16::SquareRoot(x*x + y*y);
         }
     }
+
+    Fix16_Point operator+(Fix16_Point& in)
+    {
+        return Fix16_Point(x + in.x, y + in.y);
+    }
+
+    Fix16_Point operator*(Fix16& in)
+    {
+        return Fix16_Point(x * in, y * in);
+    }
 };
 
 struct Fix16_Vec
