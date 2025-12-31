@@ -6,12 +6,12 @@
 #include "Pool.hpp"
 
 class Object_2C;
-class Door_10;
+class DoorData_10;
 class Sprite_4C;
 class Ped;
 class Car_BC;
 
-class Door_10
+class DoorData_10 // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
@@ -26,16 +26,16 @@ class Door_10
     u8 field_6_z;
     u8 field_7_gr_id;
     s32 field_8_face;
-    Door_10* mpNext;
+    DoorData_10* mpNext;
 };
 
-class Door_10_Pool
+class DoorData_10_Pool
 {
   public:
     // inlined 0x44c830
-    Door_10* Allocate()
+    DoorData_10* Allocate()
     {
-        Door_10* tmp = field_0_pool.field_0_pHead;
+        DoorData_10* tmp = field_0_pool.field_0_pHead;
         field_0_pool.field_0_pHead = tmp->mpNext;
         tmp->PoolAllocate();
         return tmp;
@@ -49,24 +49,24 @@ class Door_10_Pool
     }*/
 
     // inlined 0x44C800
-    Door_10_Pool()
+    DoorData_10_Pool()
     {
 
     }
 
     // 0x44C7F0
-    ~Door_10_Pool()
+    ~DoorData_10_Pool()
     {
 
     }
 
-    PoolBasic<Door_10, 44> field_0_pool;
+    PoolBasic<DoorData_10, 44> field_0_pool;
 };
 
 class Door_4D4
 {
   public:
-    EXPORT Door_10* sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6);
+    EXPORT DoorData_10* sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5, char_type a6);
     EXPORT Door_38* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
     EXPORT Door_38* RegisterSingleDoor_49D170(u8 gr_id,

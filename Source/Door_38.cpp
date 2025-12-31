@@ -10,7 +10,7 @@
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(s32, dword_67BBE0, 0x67BBE0);
-DEFINE_GLOBAL_ARRAY(Door_A, word_67BB38, 5, 0x67BB38);
+DEFINE_GLOBAL_ARRAY(DoorAnimInfo_A, word_67BB38, 5, 0x67BB38);
 DEFINE_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C, 0x67BD2C);
 DEFINE_GLOBAL(Fix16, DAT_0067BA20, 0x67BA20);
 DEFINE_GLOBAL(Fix16, DAT_0067BBE4, 0x67BBE4);
@@ -22,8 +22,8 @@ DEFINE_GLOBAL(Ang16, DAT_0067BD18, 0x67BD18);
 MATCH_FUNC(0x49c640)
 Door_38::Door_38()
 {
-    field_0 = 0;
-    field_4 = 0;
+    field_0_primary_door_data = 0;
+    field_4_secondary_door_data = 0;
     field_8 = 0;
     field_C = 0;
     field_20_state = 0;
@@ -46,8 +46,8 @@ Door_38::Door_38()
 MATCH_FUNC(0x49c690)
 Door_38::~Door_38()
 {
-    field_0 = 0;
-    field_4 = 0;
+    field_0_primary_door_data = 0;
+    field_4_secondary_door_data = 0;
     field_8 = 0;
     field_C = 0;
 }
@@ -161,7 +161,7 @@ bool Door_38::sub_49C7F0(Ped* a2)
 MATCH_FUNC(0x49c840)
 void Door_38::sub_49C840()
 {
-    Door_10* this_00 = this->field_0;
+    DoorData_10* this_00 = this->field_0_primary_door_data;
     if (this_00 != NULL)
     {
         if (this_00->field_0 != 2)
@@ -170,9 +170,9 @@ void Door_38::sub_49C840()
         }
         this_00->sub_49C4E0(0);
     }
-    if (this->field_4 != NULL)
+    if (this->field_4_secondary_door_data != NULL)
     {
-        this->field_4->sub_49C4E0(this->field_2A);
+        this->field_4_secondary_door_data->sub_49C4E0(this->field_2A);
     }
     this->field_28 = 0;
 }
@@ -271,20 +271,20 @@ void Door_38::sub_49C8D0(u8 a1, u8 a2, u8 a3, u8 a4, u8 a5, s32 a6)
 MATCH_FUNC(0x49ca50)
 void Door_38::sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5)
 {
-    if (!field_0)
+    if (!field_0_primary_door_data)
     {
-        field_0 = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, 0);
+        field_0_primary_door_data = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, 0);
         return;
     }
 
-    if (!field_4)
+    if (!field_4_secondary_door_data)
     {
-        field_4 = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, field_2A);
+        field_4_secondary_door_data = gDoor_4D4_67BD2C->sub_49CF10(a1, a2, a3, a4, a5, field_2A);
     }
 }
 
 MATCH_FUNC(0x49cac0)
-void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
+void Door_38::sub_49CAC0(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
     Fix16 z(a1->field_6_z);
     Fix16 x = Fix16(a1->field_4_x) + DAT_0067BA20;
@@ -332,7 +332,7 @@ void Door_38::sub_49CAC0(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, F
 }
 
 MATCH_FUNC(0x49cc00)
-void Door_38::sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
+void Door_38::sub_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8)
 {
     Ang16 local_c;
     Fix16 z(a1->field_6_z);
@@ -394,7 +394,7 @@ void Door_38::sub_49CD90()
 {
     if (field_29 != 0)
     {
-        if ((field_0 != NULL && field_0->field_0 == 2) || (field_4 != NULL && field_4->field_0 == 2))
+        if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0 == 2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0 == 2))
         {
             if (field_24 != door_close_type::close_never && field_24 != door_close_type::unknown1)
             {
@@ -417,14 +417,14 @@ void Door_38::sub_49CD90()
                 if (field_28 != '\0' && field_1E == 0)
                 {
                     field_1E = field_1C;
-                    if (field_0 != NULL)
+                    if (field_0_primary_door_data != NULL)
                     {
-                        gObject_5C_6F8F84->sub_5299F0(0x117, 0x33, field_30, field_34, field_0->field_6_z);
-                        field_0->sub_49C590(0);
+                        gObject_5C_6F8F84->sub_5299F0(0x117, 0x33, field_30, field_34, field_0_primary_door_data->field_6_z);
+                        field_0_primary_door_data->sub_49C590(0);
                     }
-                    if (field_4 != NULL)
+                    if (field_4_secondary_door_data != NULL)
                     {
-                        field_4->sub_49C590(field_2A);
+                        field_4_secondary_door_data->sub_49C590(field_2A);
                     }
                 }
             }
@@ -437,7 +437,7 @@ char_type Door_38::Service_49CE90()
 {
     if (field_2D)
     {
-        gObject_5C_6F8F84->sub_5299F0(0x117, 0x32, field_30, field_34, field_0->field_6_z);
+        gObject_5C_6F8F84->sub_5299F0(0x117, 0x32, field_30, field_34, field_0_primary_door_data->field_6_z);
         field_2D = 0;
     }
 
@@ -452,8 +452,8 @@ char_type Door_38::Service_49CE90()
 MATCH_FUNC(0x49CEE0)
 void Door_38::get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace)
 {
-    *pX = field_0->field_4_x;
-    *pY = field_0->field_5_y;
-    *pZ = field_0->field_6_z;
-    *pFace = field_0->field_8_face;
+    *pX = field_0_primary_door_data->field_4_x;
+    *pY = field_0_primary_door_data->field_5_y;
+    *pZ = field_0_primary_door_data->field_6_z;
+    *pFace = field_0_primary_door_data->field_8_face;
 }
