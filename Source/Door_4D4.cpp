@@ -19,7 +19,7 @@ Door_10* Door_4D4::sub_49CF10(u8 a1, char_type a2, char_type a3, char_type a4, s
 }
 
 MATCH_FUNC(0x49cf50)
-Door_38* Door_4D4::sub_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
+Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
     Door_38* pDVar1 = sub_49D3A0();
     field_4D0_count++;
@@ -30,7 +30,7 @@ Door_38* Door_4D4::sub_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 
 }
 
 STUB_FUNC(0x49cfa0)
-Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
+Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
     NOT_IMPLEMENTED;
     // TODO: Standalone implement me
@@ -39,7 +39,7 @@ Door_38* Door_4D4::sub_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 
 }
 
 MATCH_FUNC(0x49d170)
-Door_38* Door_4D4::sub_49D170(u8 gr_id,
+Door_38* Door_4D4::RegisterSingleDoor_49D170(u8 gr_id,
                               u8 x,
                               u8 y,
                               u8 z,
@@ -63,7 +63,7 @@ Door_38* Door_4D4::sub_49D170(u8 gr_id,
 }
 
 MATCH_FUNC(0x49d1f0)
-Door_38* Door_4D4::sub_49D1F0(u8 gr_id,
+Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
                               u8 x,
                               u8 y,
                               u8 z,
@@ -104,7 +104,7 @@ Door_38* Door_4D4::sub_49D1F0(u8 gr_id,
 }
 
 MATCH_FUNC(0x49d2d0)
-void Door_4D4::sub_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
+void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
     Door_A* psVar3 = &word_67BB38[0];
     u8 bVar1 = 0;

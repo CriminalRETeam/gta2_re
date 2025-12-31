@@ -632,7 +632,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 MATCH_FUNC(0x504950)
 void miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1)
 {
-    gDoor_4D4_67BD2C->sub_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
+    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
 }
 
 MATCH_FUNC(0x504970)
@@ -642,7 +642,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     {
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -652,7 +652,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         }
         else
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49D170(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -670,7 +670,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     {
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -680,7 +680,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         }
         else
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -771,7 +771,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
     {
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -781,7 +781,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         }
         else
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49D170(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -799,7 +799,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
     {
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -809,7 +809,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         }
         else
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,

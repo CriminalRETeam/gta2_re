@@ -5075,27 +5075,27 @@
         "v105_address": "0x49cf10"
     },
     {
-        "name": "Door_4D4::sub_49CF50",
+        "name": "Door_4D4::RegisterSingleDoorNoCheck_49CF50",
         "v96f_address": null,
         "v105_address": "0x49cf50"
     },
     {
-        "name": "Door_4D4::sub_49CFA0",
+        "name": "Door_4D4::RegisterDoubleDoorNoCheck_49CFA0",
         "v96f_address": null,
         "v105_address": "0x49cfa0"
     },
     {
-        "name": "Door_4D4::sub_49D170",
+        "name": "Door_4D4::RegisterSingleDoor_49D170",
         "v96f_address": null,
         "v105_address": "0x49d170"
     },
     {
-        "name": "Door_4D4::sub_49D1F0",
+        "name": "Door_4D4::RegisterDoubleDoor_49D1F0",
         "v96f_address": null,
         "v105_address": "0x49d1f0"
     },
     {
-        "name": "Door_4D4::sub_49D2D0",
+        "name": "Door_4D4::RegisterDoorInfo_49D2D0",
         "v96f_address": null,
         "v105_address": "0x49d2d0"
     },
