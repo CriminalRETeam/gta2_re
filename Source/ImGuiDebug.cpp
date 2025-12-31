@@ -1065,22 +1065,22 @@ void CC ImGuiDebugDraw()
                     ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                     if (ImGui::Button("Stop timer") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D32D0(v);
+                        gHud_2B00_706620->field_620.ClearClockOnly_5D32D0(v);
                     }
 
                     if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D3280(v);
+                        gHud_2B00_706620->field_620.ClearPager_5D3280(v);
                     }
 
                     if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D3220(&v);
+                        gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&v);
                     }
 
-                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4)
+                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter)
                     {
-                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4, 1, 100);
+                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter, 1, 100);
                     }
                     ImGui::TreePop();
                 }

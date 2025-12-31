@@ -247,7 +247,7 @@ class Hud_Pager_C
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
-    s32* field_4; //  counter?
+    s32* field_4_ptr_counter; //  counter?
     infallible_turing* field_8_sound;
 };
 
@@ -260,15 +260,15 @@ class Hud_Pager_C_Array
     }
 
     // TODO: Correct order ?
-    EXPORT s32 sub_5D3220(s32* a2);
-    EXPORT void sub_5D3280(s32 idx);
+    EXPORT s32 AddOnScreenCounter_5D3220(s32* a2);
+    EXPORT void ClearPager_5D3280(s32 idx);
 
     EXPORT void DrawPagers_5D3040();
     EXPORT void UpdatePagers_5D31B0();
     EXPORT s32 CreateTimer_5D31F0(s32 a2);
-    EXPORT void sub_5D32D0(s32 a2);
+    EXPORT void ClearClockOnly_5D32D0(s32 a2);
     EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
-    EXPORT void sub_5D3310(s32 a2);
+    EXPORT void ClearCounterOnly_5D3310(s32 a2);
 
     inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
     {

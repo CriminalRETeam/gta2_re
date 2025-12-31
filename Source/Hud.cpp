@@ -1030,7 +1030,7 @@ MATCH_FUNC(0x4be650)
 Hud_Pager_C::~Hud_Pager_C()
 {
     field_0_timer = -1;
-    field_4 = 0;
+    field_4_ptr_counter = NULL;
 
     if (field_8_sound != NULL)
     {
@@ -1050,7 +1050,7 @@ void Hud_Pager_C::Service_5D2320()
     field_0_timer--;
     if (field_0_timer == -1)
     {
-        field_4 = 0;
+        field_4_ptr_counter = NULL;
     }
 }
 
@@ -1103,7 +1103,7 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
     for (s32 id = 0; id < GTA2_COUNTOF_S(field_0_pagers_array); id++)
     {
         Hud_Pager_C* pPager = &field_0_pagers_array[id];
-        if (pPager->field_0_timer >= 0 || pPager->field_4)
+        if (pPager->field_0_timer >= 0 || pPager->field_4_ptr_counter)
         {
             continue;
         }
@@ -1114,13 +1114,13 @@ s32 Hud_Pager_C_Array::CreateTimer_5D31F0(s32 seconds) // returns the new Pager 
 }
 
 MATCH_FUNC(0x5d3220)
-s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
+s32 Hud_Pager_C_Array::AddOnScreenCounter_5D3220(s32* pCounter)
 {
     s32 targetIdx = -1;
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_pagers_array); i++)
     {
         Hud_Pager_C* pPager = &field_0_pagers_array[i];
-        if (!pPager->field_4 && (pPager->field_0_timer >= 0 || targetIdx == -1))
+        if (!pPager->field_4_ptr_counter && (pPager->field_0_timer >= 0 || targetIdx == -1))
         {
             targetIdx = i;
         }
@@ -1128,7 +1128,7 @@ s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
 
     Hud_Pager_C* pTargetPager = &field_0_pagers_array[targetIdx];
     infallible_turing* pSound = pTargetPager->field_8_sound;
-    pTargetPager->field_4 = a2;
+    pTargetPager->field_4_ptr_counter = pCounter;
     if (!pSound && !bSkip_audio_67D6BE)
     {
         pTargetPager->field_8_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(pTargetPager, SoundObjectTypeEnum::Hud_Pager_C_11);
@@ -1138,12 +1138,12 @@ s32 Hud_Pager_C_Array::sub_5D3220(s32* a2)
 }
 
 MATCH_FUNC(0x5d3280)
-void Hud_Pager_C_Array::sub_5D3280(s32 idx)
+void Hud_Pager_C_Array::ClearPager_5D3280(s32 idx)
 {
     infallible_turing* pSound = field_0_pagers_array[idx].field_8_sound;
     Hud_Pager_C* pPager = &field_0_pagers_array[idx];
     pPager->field_0_timer = -1;
-    pPager->field_4 = 0;
+    pPager->field_4_ptr_counter = NULL;
 
     if (pSound)
     {
@@ -1155,7 +1155,7 @@ void Hud_Pager_C_Array::sub_5D3280(s32 idx)
 }
 
 MATCH_FUNC(0x5d32d0)
-void Hud_Pager_C_Array::sub_5D32D0(s32 a2)
+void Hud_Pager_C_Array::ClearClockOnly_5D32D0(s32 a2)
 {
     field_0_pagers_array[a2].field_0_timer = -1;
 }
@@ -1168,16 +1168,16 @@ void Hud_Pager_C_Array::AddTime_5D32F0(s32 pager_idx, s32 time_to_add)
 }
 
 MATCH_FUNC(0x5d3310)
-void Hud_Pager_C_Array::sub_5D3310(s32 a2)
+void Hud_Pager_C_Array::ClearCounterOnly_5D3310(s32 a2)
 {
-    field_0_pagers_array[a2].field_4 = 0;
+    field_0_pagers_array[a2].field_4_ptr_counter = NULL;
 }
 
 MATCH_FUNC(0x5d7650)
 Hud_Pager_C::Hud_Pager_C()
 {
     field_0_timer = -1;
-    field_4 = 0;
+    field_4_ptr_counter = NULL;
     field_8_sound = NULL;
 }
 

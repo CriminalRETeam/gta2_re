@@ -2806,7 +2806,7 @@ void miss2_0x11C::sub_50B690() // SCRCMD_CLEAR_TIMERS
 
     if (pPointer->field_8_index != 0xFFFF)
     {
-        gHud_2B00_706620->field_620.sub_5D3280(pPointer->field_8_index);
+        gHud_2B00_706620->field_620.ClearPager_5D3280(pPointer->field_8_index);
     }
     pPointer->field_8_index = 0;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4492,7 +4492,7 @@ void miss2_0x11C::sub_50FF50() // SCRCMD_ADD_ONSCREEN_COUNTER
     SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
 
-    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
+    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4506,11 +4506,11 @@ void miss2_0x11C::sub_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ON
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_COUNTER)
         {
-            gHud_2B00_706620->field_620.sub_5D3310(idx);
+            gHud_2B00_706620->field_620.ClearCounterOnly_5D3310(idx);
         }
         else // == SCRCMD_CLEAR_CLOCK_ONLY
         {
-            gHud_2B00_706620->field_620.sub_5D32D0(idx);
+            gHud_2B00_706620->field_620.ClearClockOnly_5D32D0(idx);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4576,7 +4576,7 @@ void miss2_0x11C::sub_510280()
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620.CreateTimer_5D31F0(pCmd->field_C_time_limit);
         SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname);
         SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
-        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
+        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
         ++field_C;
     }
     else
@@ -4601,7 +4601,7 @@ void miss2_0x11C::sub_510280()
             pTimerIDPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
             if (pTimerIDPointer->field_8_index != 0xFFFF)
             {
-                gHud_2B00_706620->field_620.sub_5D3280(pTimerIDPointer->field_8_index);
+                gHud_2B00_706620->field_620.ClearPager_5D3280(pTimerIDPointer->field_8_index);
             }
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();

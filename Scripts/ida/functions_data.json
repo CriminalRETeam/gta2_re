@@ -16300,17 +16300,17 @@
         "v105_address": "0x5d31f0"
     },
     {
-        "name": "Hud_Pager_C::sub_5D3220",
+        "name": "Hud_Pager_C::AddOnScreenCounter_5D3220",
         "v96f_address": null,
         "v105_address": "0x5d3220"
     },
     {
-        "name": "Hud_Pager_C::sub_5D3280",
+        "name": "Hud_Pager_C::ClearPager_5D3280",
         "v96f_address": null,
         "v105_address": "0x5d3280"
     },
     {
-        "name": "Hud_Pager_C::sub_5D32D0",
+        "name": "Hud_Pager_C::ClearClockOnly_5D32D0",
         "v96f_address": null,
         "v105_address": "0x5d32d0"
     },
@@ -16320,7 +16320,7 @@
         "v105_address": "0x5d32f0"
     },
     {
-        "name": "Hud_Pager_C::sub_5D3310",
+        "name": "Hud_Pager_C::ClearCounterOnly_5D3310",
         "v96f_address": null,
         "v105_address": "0x5d3310"
     },
