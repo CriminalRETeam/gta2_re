@@ -74,10 +74,15 @@ void Garox_1_v2::sub_5D56B0()
     }
 }
 
-STUB_FUNC(0x5d56d0)
+//https://decomp.me/scratch/QUvWb
+MATCH_FUNC(0x5d56d0)
 void Garox_1_v2::sub_5D56D0()
 {
-    NOT_IMPLEMENTED;
+  if ( this->field_0_timer )
+  {
+    DrawText_5D7720(this->field_2_str, (u32)((640 - this->field_CC)/2), (u32) 16, word_7064D8, 8, 5, 0, 0);
+  }
+    
 }
 
 MATCH_FUNC(0x5d5730)
