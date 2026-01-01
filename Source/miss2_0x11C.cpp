@@ -2872,10 +2872,28 @@ void miss2_0x11C::SCRCMD_GET_CAR_FROM_CRANE_50B470()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b4f0)
+MATCH_FUNC(0x50b4f0)
 void miss2_0x11C::sub_50B4F0()
 {
-    NOT_IMPLEMENTED;
+    SCR_CHAR_ENTER_CAR* pCmd = (SCR_CHAR_ENTER_CAR*)gBasePtr_6F8070;
+    SCR_POINTER* pPtrPed = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pPtrCar = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+
+    if (pPtrPed->field_8_char)
+    {
+        if (gBasePtr_6F8070->field_2_type != SCRCMD_CHAR_TO_BACKDOOR)
+        {
+            pPtrPed->field_8_char->sub_463830(0, 9999);
+            pPtrPed->field_8_char->SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+            pPtrPed->field_8_char->field_150_target_objective_car = pPtrCar->field_8_car;
+            pPtrPed->field_8_char->field_248_enter_car_as_passenger = false;
+        }
+        else
+        {
+            pPtrPed->field_8_char->EnterCarAsDriver(pPtrCar->field_8_car);
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b5a0)

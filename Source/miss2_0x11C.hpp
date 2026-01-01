@@ -606,6 +606,13 @@ struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos;
 };
 
+struct SCR_CHAR_ENTER_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_car_idx;
+    SCR_XYZ_f field_C_pos;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
