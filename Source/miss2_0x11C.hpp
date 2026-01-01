@@ -619,6 +619,12 @@ struct SCR_GET_SCORE : SCR_CMD_HEADER
     u16 field_A_counter_idx;
 };
 
+struct SCR_IS_CHAR_IN_GANG_ZONE : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_gang_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

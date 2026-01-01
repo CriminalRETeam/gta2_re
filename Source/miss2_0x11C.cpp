@@ -2987,10 +2987,40 @@ void miss2_0x11C::SCRCMD_GET_SCORE_50B760()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b7d0)
+MATCH_FUNC(0x50b7d0)
 void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
 {
-    NOT_IMPLEMENTED;
+    SCR_IS_CHAR_IN_GANG_ZONE* pCmd = (SCR_IS_CHAR_IN_GANG_ZONE*)gBasePtr_6F8070;
+    SCR_POINTER* BasePointer_512770 = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    str_table_entry* StringById_503080 = gfrosty_pasteur_6F8060->FindStringById_503080(pCmd->field_A_gang_idx);
+    const char_type* GangName = (char*)&StringById_503080[1];
+    Gang_144* pGang = gGangPool_CA8_67E274->gang_by_name_4BF100(GangName);
+    Ped* pPed = BasePointer_512770->field_8_char;
+    Player* pPlayer = pPed->field_15C_player;
+    if (pPlayer)
+    {
+        if (pPlayer->field_34_gang_curr_location == pGang)
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    else
+    {
+        gmp_map_zone* pZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt(), 0xEu);
+        if (pZone && !_strnicmp(pZone->field_6_name, pGang->field_2_name, (u8)pZone->field_5_name_length))
+        {
+            field_8 = true;
+        }
+        else
+        {
+            field_8 = false;
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b8b0)
