@@ -1189,7 +1189,7 @@ void ArrowTrace_24::PointToInfoPhone_5D03C0(Gang_144* pZone)
 }
 
 MATCH_FUNC(0x5D03F0)
-void ArrowTrace_24::sub_5D03F0()
+void ArrowTrace_24::UpdateAimCoordinates_5D03F0()
 {
     Ped* pPed;
     Player* pPlayer;
@@ -1271,7 +1271,7 @@ void ArrowTrace_24::sub_5D03F0()
         pCam = &field_38_orf1->field_90_game_camera;
     }
 
-    field_20_bIsTargetVisible = pCam->sub_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
+    field_20_bIsTargetVisible = pCam->IsCoordsPosVisible_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
 }
 
 MATCH_FUNC(0x5d0510)
@@ -1281,7 +1281,7 @@ void Hud_Arrow_7C::SetArrowColour_5D0510(s32 a2)
 }
 
 MATCH_FUNC(0x5d0530)
-bool Hud_Arrow_7C::sub_5D0530()
+bool Hud_Arrow_7C::CheckVisibility_5D0530()
 {
     Gang_144* pThisGang = field_18.field_10.field_30_gang;
 
@@ -1311,12 +1311,12 @@ bool Hud_Arrow_7C::sub_5D0530()
             {
                 if (pCurrLocationGang == pThisGang)
                 {
-                    if (gHud_2B00_706620->field_1F18.sub_5D0E40(this))
+                    if (gHud_2B00_706620->field_1F18.IsThereAnyOtherArrowsInSameGang_5D0E40(this))
                     {
                         return false;
                     }
                 }
-                else if (pCurrLocationGang && gHud_2B00_706620->field_1F18.sub_5D0F40(pCurrLocationGang))
+                else if (pCurrLocationGang && gHud_2B00_706620->field_1F18.IsThereAnyMissionPhoneArrowForGang_5D0F40(pCurrLocationGang))
                 {
                     return false;
                 }
@@ -1362,7 +1362,7 @@ void Hud_Arrow_7C::Service_5D0C60()
 {
     if (!sub_5D0620())
     {
-        char_type v2 = sub_5D0530();
+        char_type v2 = CheckVisibility_5D0530();
         field_18.field_10.field_5_is_visible = v2;
         if (v2)
         {
@@ -1461,7 +1461,7 @@ void Hud_Arrow_7C::DrawArrow_5D0C90()
 }
 
 MATCH_FUNC(0x5d0dc0)
-void Hud_Arrow_7C::sub_5D0DC0(Ped* a2)
+void Hud_Arrow_7C::SetPlayerArrowColour_5D0DC0(Ped* a2)
 {
     switch (a2->field_244_remap)
     {
@@ -1512,7 +1512,7 @@ void Hud_Arrow_7C_Array::sub_5D1350()
                     Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
                     if (pPlayerPed)
                     {
-                        p7C->sub_5D0DC0(pPlayerPed);
+                        p7C->SetPlayerArrowColour_5D0DC0(pPlayerPed);
                     }
                 }
             }
@@ -1538,7 +1538,7 @@ Hud_Arrow_7C::Hud_Arrow_7C()
 // ----------------------------------------------------
 
 MATCH_FUNC(0x5d0e40)
-bool Hud_Arrow_7C_Array::sub_5D0E40(Hud_Arrow_7C* pArgArrow)
+bool Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* pArgArrow)
 {
     Gang_144* pGang = pArgArrow->field_18.field_10.field_30_gang;
 
@@ -1586,7 +1586,7 @@ Hud_Arrow_7C* Hud_Arrow_7C_Array::sub_5D0EF0()
 }
 
 MATCH_FUNC(0x5d0f40)
-char_type Hud_Arrow_7C_Array::sub_5D0F40(Gang_144* pArgGang)
+char_type Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang)
 {
     Hud_Arrow_7C* pIter = &field_0_array[0];
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
@@ -1609,7 +1609,7 @@ void Hud_Arrow_7C_Array::sub_5D0F80()
         {
             if (field_0_array[i].field_18.field_10.field_30_gang)
             {
-                if (field_0_array[i].field_18.field_60->field_10_target_type == ArrowTargetType::InfoPhone_5 && !sub_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
+                if (field_0_array[i].field_18.field_60->field_10_target_type == ArrowTargetType::InfoPhone_5 && !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
                 {
                     field_0_array[i].field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
                     field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
@@ -2040,7 +2040,7 @@ void Hud_MapZone_98::DrawZoneName_5D5900()
 }
 
 MATCH_FUNC(0x5d5ad0)
-void Hud_MapZone_98::sub_5D5AD0()
+void Hud_MapZone_98::GetXPosOffset_5D5AD0()
 {
     if (field_0_timer)
     {
@@ -2080,7 +2080,7 @@ void Hud_MapZone_98::sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2)
         this->field_88_nav_zone = pZone1;
         this->field_8C_local_nav_zone = pZone2;
         this->field_0_timer = 90;
-        sub_5D5AD0();
+        GetXPosOffset_5D5AD0();
         this->field_90_alpha_flag = 1;
         this->field_94_transparency = 0;
     }
@@ -2274,7 +2274,7 @@ void Hud_2B00::sub_5D6A70()
 }
 
 MATCH_FUNC(0x5d6a90)
-void Hud_2B00::sub_5D6A90()
+void Hud_2B00::GetTextSpeed_5D6A90()
 {
     field_13C4_text_speed = gRegistry_6FF968.Set_Option_586F70("text_speed", 3);
 }
@@ -2285,7 +2285,7 @@ void Hud_2B00::sub_5D6AB0()
     sub_5D6B00();
     field_DC.sub_5D3470();
     sub_5D5190();
-    field_4C.sub_5D5AD0();
+    field_4C.GetXPosOffset_5D5AD0();
     field_111C.sub_5D1860();
     field_12F0.sub_5D56B0();
     field_1080.sub_5D53E0();
@@ -2327,7 +2327,7 @@ void Hud_2B00::sub_5D6B00()
 MATCH_FUNC(0x5d6be0)
 void Hud_2B00::sub_5D6BE0()
 {
-    sub_5D6A90();
+    GetTextSpeed_5D6A90();
     sub_5D6B00();
     field_4C.sub_5D5C50();
     field_107C_sub.Empty_5CFE30();

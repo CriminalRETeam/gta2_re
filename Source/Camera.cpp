@@ -176,7 +176,7 @@ Fix16 Camera_0xBC::sub_435A20()
 }
 
 MATCH_FUNC(0x435A70)
-s32 Camera_0xBC::sub_435A70(Fix16 x, Fix16 y, Fix16 z)
+s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
 {
     Fix16_Point_POD pos = sub_40CFC0(x, y, z);
     if (pos.x >= dword_676818 && pos.x < Fix16(640) && pos.y >= dword_676818 && pos.y < Fix16(480))

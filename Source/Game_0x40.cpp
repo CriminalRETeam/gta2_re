@@ -616,7 +616,7 @@ void Game_0x40::sub_4B9720()
 
     if (gHud_2B00_706620)
     {
-        gHud_2B00_706620->sub_5D6A90();
+        gHud_2B00_706620->GetTextSpeed_5D6A90();
     }
 }
 

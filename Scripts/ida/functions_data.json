@@ -1205,142 +1205,142 @@
         "v105_address": "0x432300"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4355D0",
+        "name": "Camera_0xBC::sub_4355D0",
         "v96f_address": null,
         "v105_address": "0x4355d0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435630",
+        "name": "Camera_0xBC::sub_435630",
         "v96f_address": null,
         "v105_address": "0x435630"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4357B0",
+        "name": "Camera_0xBC::sub_4357B0",
         "v96f_address": null,
         "v105_address": "0x4357b0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4357F0",
+        "name": "Camera_0xBC::sub_4357F0",
         "v96f_address": null,
         "v105_address": "0x4357f0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435810",
+        "name": "Camera_0xBC::sub_435810",
         "v96f_address": null,
         "v105_address": "0x435810"
     },
     {
-        "name": "DrawUnk_0xBC::ReturnToDefaultZoom_435830",
+        "name": "Camera_0xBC::ReturnToDefaultZoom_435830",
         "v96f_address": null,
         "v105_address": "0x435830"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435840",
+        "name": "Camera_0xBC::sub_435840",
         "v96f_address": null,
         "v105_address": "0x435840"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435860",
+        "name": "Camera_0xBC::sub_435860",
         "v96f_address": null,
         "v105_address": "0x435860"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4358D0",
+        "name": "Camera_0xBC::sub_4358D0",
         "v96f_address": "0x41E620",
         "v105_address": "0x4358d0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435A20",
+        "name": "Camera_0xBC::sub_435A20",
         "v96f_address": null,
         "v105_address": "0x435a20"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435A70",
+        "name": "Camera_0xBC::IsCoordsPosVisible_435A70",
         "v96f_address": "0x40CFC0",
         "v105_address": "0x435a70"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435B90",
+        "name": "Camera_0xBC::sub_435B90",
         "v96f_address": null,
         "v105_address": "0x435b90"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435D20",
+        "name": "Camera_0xBC::sub_435D20",
         "v96f_address": "0x41EA10",
         "v105_address": "0x435d20"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435DD0",
+        "name": "Camera_0xBC::sub_435DD0",
         "v96f_address": null,
         "v105_address": "0x435dd0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435F90",
+        "name": "Camera_0xBC::sub_435F90",
         "v96f_address": null,
         "v105_address": "0x435f90"
     },
     {
-        "name": "DrawUnk_0xBC::sub_435FF0",
+        "name": "Camera_0xBC::sub_435FF0",
         "v96f_address": null,
         "v105_address": "0x435ff0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436110",
+        "name": "Camera_0xBC::sub_436110",
         "v96f_address": null,
         "v105_address": "0x436110"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436120",
+        "name": "Camera_0xBC::sub_436120",
         "v96f_address": null,
         "v105_address": "0x436120"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436140",
+        "name": "Camera_0xBC::sub_436140",
         "v96f_address": null,
         "v105_address": "0x436140"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4361B0",
+        "name": "Camera_0xBC::sub_4361B0",
         "v96f_address": null,
         "v105_address": "0x4361b0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436200",
+        "name": "Camera_0xBC::sub_436200",
         "v96f_address": null,
         "v105_address": "0x436200"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4364A0",
+        "name": "Camera_0xBC::sub_4364A0",
         "v96f_address": null,
         "v105_address": "0x4364a0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436540",
+        "name": "Camera_0xBC::sub_436540",
         "v96f_address": "0x41F410",
         "v105_address": "0x436540"
     },
     {
-        "name": "DrawUnk_0xBC::HandlePanning_436710",
+        "name": "Camera_0xBC::HandlePanning_436710",
         "v96f_address": "0x41EEF0",
         "v105_address": "0x436710"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436830",
+        "name": "Camera_0xBC::sub_436830",
         "v96f_address": null,
         "v105_address": "0x436830"
     },
     {
-        "name": "DrawUnk_0xBC::sub_436860",
+        "name": "Camera_0xBC::sub_436860",
         "v96f_address": "0x41F0D0",
         "v105_address": "0x436860"
     },
     {
-        "name": "DrawUnk_0xBC::ctor",
+        "name": "Camera_0xBC::ctor",
         "v96f_address": "0x41F580",
         "v105_address": "0x4368e0"
     },
     {
-        "name": "DrawUnk_0xBC::dtor",
+        "name": "Camera_0xBC::dtor",
         "v96f_address": null,
         "v105_address": "0x4369e0"
     },
@@ -1380,7 +1380,7 @@
         "v105_address": "0x438fe0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_4397D0",
+        "name": "Camera_0xBC::sub_4397D0",
         "v96f_address": null,
         "v105_address": "0x4397d0"
     },
@@ -14055,7 +14055,7 @@
         "v105_address": "0x58a1c0"
     },
     {
-        "name": "DrawUnk_0xBC::sub_58CF10",
+        "name": "Camera_0xBC::sub_58CF10",
         "v96f_address": null,
         "v105_address": "0x58cf10"
     },
@@ -16030,7 +16030,7 @@
         "v105_address": "0x5d03c0"
     },
     {
-        "name": "sub_5D03F0",
+        "name": "ArrowTrace_24::UpdateAimCoordinates_5D03F0",
         "v96f_address": "0x4C7CF0",
         "v105_address": "0x5d03f0"
     },
@@ -16040,7 +16040,7 @@
         "v105_address": "0x5d0510"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0530",
+        "name": "Hud_Arrow_7C::CheckVisibility_5D0530",
         "v96f_address": "0x4CA770",
         "v105_address": "0x5d0530"
     },
@@ -16065,12 +16065,12 @@
         "v105_address": "0x5d0c90"
     },
     {
-        "name": "Hud_Arrow_7C::sub_5D0DC0",
+        "name": "Hud_Arrow_7C::SetPlayerArrowColour_5D0DC0",
         "v96f_address": null,
         "v105_address": "0x5d0dc0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0E40",
+        "name": "Hud_Arrow_7C_Array::IsThereAnyOtherArrowsInSameGang_5D0E40",
         "v96f_address": "0x4C8470",
         "v105_address": "0x5d0e40"
     },
@@ -16085,7 +16085,7 @@
         "v105_address": "0x5d0ef0"
     },
     {
-        "name": "Hud_Arrow_7C_Array::sub_5D0F40",
+        "name": "Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40",
         "v96f_address": null,
         "v105_address": "0x5d0f40"
     },
@@ -16485,7 +16485,7 @@
         "v105_address": "0x5d5900"
     },
     {
-        "name": "Hud_MapZone_98::sub_5D5AD0",
+        "name": "Hud_MapZone_98::GetXPosOffset_5D5AD0",
         "v96f_address": null,
         "v105_address": "0x5d5ad0"
     },
@@ -16555,7 +16555,7 @@
         "v105_address": "0x5d6a70"
     },
     {
-        "name": "Hud_2B00::sub_5D6A90",
+        "name": "Hud_2B00::GetTextSpeed_5D6A90",
         "v96f_address": null,
         "v105_address": "0x5d6a90"
     },

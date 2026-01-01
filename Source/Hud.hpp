@@ -326,7 +326,7 @@ class ArrowTrace_24
 {
   public:
     EXPORT void PointToInfoPhone_5D03C0(Gang_144* pZone);
-    EXPORT void sub_5D03F0();
+    EXPORT void UpdateAimCoordinates_5D03F0();
 
     // inline 0x4C6F00
     void init()
@@ -387,12 +387,12 @@ class Hud_Arrow_7C
 {
   public:
     EXPORT void SetArrowColour_5D0510(s32 a2);
-    EXPORT bool sub_5D0530();
+    EXPORT bool CheckVisibility_5D0530();
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
     EXPORT void Service_5D0C60();
     EXPORT void DrawArrow_5D0C90();
-    EXPORT void sub_5D0DC0(Ped* a2);
+    EXPORT void SetPlayerArrowColour_5D0DC0(Ped* a2);
 
     // 9.6f inline 0x4C6F80
     inline bool IsType0_4C6F80()
@@ -437,10 +437,10 @@ class Hud_Arrow_7C_Array
     }
 
     EXPORT void sub_5D1350();
-    EXPORT bool sub_5D0E40(Hud_Arrow_7C* a2);
+    EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* a2);
     EXPORT void DrawArrows_5D0E90();
     EXPORT Hud_Arrow_7C* sub_5D0EF0();
-    EXPORT char_type sub_5D0F40(Gang_144* a2);
+    EXPORT char_type IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
@@ -531,7 +531,7 @@ class Hud_MapZone_98
     }
 
     EXPORT void DrawZoneName_5D5900();
-    EXPORT void sub_5D5AD0();
+    EXPORT void GetXPosOffset_5D5AD0();
     EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
@@ -572,7 +572,7 @@ class Hud_2B00
     EXPORT void sub_5D69C0();
     EXPORT void UpdateHUD_5D69D0();
     EXPORT void sub_5D6A70();
-    EXPORT void sub_5D6A90();
+    EXPORT void GetTextSpeed_5D6A90();
     EXPORT void sub_5D6AB0();
     EXPORT void sub_5D6B00();
     EXPORT void sub_5D6BE0();
