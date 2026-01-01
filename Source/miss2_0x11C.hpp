@@ -613,6 +613,12 @@ struct SCR_CHAR_ENTER_CAR : SCR_CMD_HEADER
     SCR_XYZ_f field_C_pos;
 };
 
+struct SCR_GET_SCORE : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_counter_idx;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum

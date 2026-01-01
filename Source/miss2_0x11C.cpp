@@ -2969,10 +2969,22 @@ void miss2_0x11C::SCRCMD_CHECK_SCORE_50B6F0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b760)
+MATCH_FUNC(0x50b760)
 void miss2_0x11C::SCRCMD_GET_SCORE_50B760()
 {
-    NOT_IMPLEMENTED;
+    SCR_GET_SCORE* pCmd = (SCR_GET_SCORE*)gBasePtr_6F8070;
+    SCR_POINTER* pPtrPed = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    SCR_POINTER* pPtrCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+
+    if (pPtrPed->field_8_char)
+    {
+        Player* pPlayer = pPtrPed->field_8_char->field_15C_player;
+        if (pPlayer)
+        {
+            pPtrCounter->field_8_counter = (u16)pPlayer->field_2D4_unk.GetScore_592370();
+        }
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b7d0)
