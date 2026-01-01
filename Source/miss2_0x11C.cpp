@@ -2771,10 +2771,35 @@ void miss2_0x11C::SCRCMD_CHECK_PHONE_50B230()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
+// https://decomp.me/scratch/Fu170 matches on decompme, wrong instr size?
 STUB_FUNC(0x50b2c0)
 void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    thread_C* pHeader =
+        gfrosty_pasteur_6F8060->sub_512AD0(pPtr->field_8_obj->field_14_id);
+    if (pHeader)
+    {
+        SCR_ANSWER_PHONE* pAnswer = (SCR_ANSWER_PHONE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
+        if (field_E != -1)
+        {
+            if (field_E == 0 && pAnswer->field_12 == 0)
+            {
+                field_8 = true;
+                pPtr->field_8_obj->sub_5291D0();
+            }
+            else
+            {
+                --field_E;
+                field_8 = false;
+            }
+        }
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b360)
