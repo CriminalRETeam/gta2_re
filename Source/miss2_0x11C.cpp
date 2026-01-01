@@ -72,10 +72,14 @@ void miss2_0x11C::sub_5035B0()
     field_11A = word_6212EE++;
 }
 
-STUB_FUNC(0x5035d0)
+MATCH_FUNC(0x5035d0)
 void miss2_0x11C::sub_5035D0()
 {
-    NOT_IMPLEMENTED;
+    if (gDo_miss_logging_67D6BC)
+    {
+        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", rng_dword_67AB34->field_0_rng, (s16)field_4_next_cmd);
+        gMiss2Log_6F7698.Write_Log_4D9650(gTmpBuffer_67C598);
+    }
 }
 
 DEFINE_GLOBAL(s32, dword_6F806C, 0x6F806C);
