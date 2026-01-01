@@ -9,8 +9,13 @@ class Object_2C;
 class Miss2_C
 {
   public:
-    s32 field_0_uni1;
-    s8 field_4_type; // determines what the union types are
+    union
+    {
+        Car_BC* field_0_car;
+        Object_2C* field_0_obj;
+        Ped* field_0_ped;
+    };
+    u8 field_4_type; // determines what the union types are
     s8 field_5;
     s8 field_6;
     s8 field_7;
@@ -21,7 +26,7 @@ class Miss2_25C
 {
   public:
     Miss2_25C();
-    EXPORT void sub_502DC0();
+    EXPORT void MissionCleanUp_502DC0();
     EXPORT Miss2_C* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car_BC* pCar);
     EXPORT void push_type_3_ped_502FB0(Ped* pPed);

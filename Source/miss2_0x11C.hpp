@@ -591,12 +591,38 @@ struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 
 struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
 {
-    u16 field_8;
+    u16 field_8_obj_idx;
     u16 field_A;
-    u16 field_C;
+    u16 field_C_ped_idx;
     u16 field_E;
-    u16 field_10;
+    s16 field_10;
     u8 field_12;
+};
+
+struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    u16 field_A_unk3;
+    SCR_XYZ_f field_C_pos;
+};
+
+struct SCR_CHAR_ENTER_CAR : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_car_idx;
+    SCR_XYZ_f field_C_pos;
+};
+
+struct SCR_GET_SCORE : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_counter_idx;
+};
+
+struct SCR_IS_CHAR_IN_GANG_ZONE : SCR_CMD_HEADER
+{
+    u16 field_8_ped_idx;
+    u16 field_A_gang_idx;
 };
 
 namespace SCR_DOOR_OPENTYPES

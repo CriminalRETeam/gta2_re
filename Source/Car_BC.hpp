@@ -751,6 +751,11 @@ class Car_BC
         }
     }
 
+    bool sub_4214D0()
+    {
+        return field_88 == 7;
+    }
+
     bool IsGunJeep_411910()
     {
         return field_84_car_info_idx == car_model_enum::GUNJEEP;
