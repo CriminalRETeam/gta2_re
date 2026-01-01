@@ -2819,10 +2819,21 @@ void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b3d0)
+MATCH_FUNC(0x50b3d0)
 void miss2_0x11C::sub_50B3D0()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Ped* v2 = pPtr->field_8_char;
+    BitSet32 flag = v2->field_21C;
+    if (flag.check_bit(11) && v2->field_20e == 0 && v2->field_170_selected_weapon)
+    {
+        field_8 = true;
+    }
+    else
+    {
+        field_8 = false;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b440)
