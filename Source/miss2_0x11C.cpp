@@ -2802,10 +2802,21 @@ void miss2_0x11C::SCRCMD_CHECK_PHONETIMER_50B2C0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b360)
+MATCH_FUNC(0x50b360)
 void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    Object_2C* pObj = pPtr->field_8_obj;
+    if (pObj)
+    {
+        thread_C* pHeader = gfrosty_pasteur_6F8060->sub_512AD0(pObj->field_14_id);
+        if (pHeader)
+        {
+            gfrosty_pasteur_6F8060->sub_512A70(pHeader->field_0_unk, pHeader->field_4_obj_f14);
+        }
+        pPtr->field_8_obj->sub_5291E0(163);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b3d0)
