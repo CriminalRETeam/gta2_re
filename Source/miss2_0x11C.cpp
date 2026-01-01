@@ -2909,10 +2909,21 @@ void miss2_0x11C::sub_50B5A0() // SCRCMD_DRIVER_OUT_CAR
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b600)
-void miss2_0x11C::sub_50B600()
+MATCH_FUNC(0x50b600)
+void miss2_0x11C::sub_50B600() // SCRCMD_GIVE_DRIVER_BRAKE
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pPtr->field_8_car)
+    {
+        if (pPtr->field_8_car->field_54_driver == NULL)
+        {
+            pPtr->field_8_car->SpawnDriverPed();
+        }
+        pPtr->field_8_car->InitCarAIControl_440590();
+        pPtr->field_8_car->field_A6 |= 0x20;
+        pPtr->field_8_car->sub_421560(5);
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b670)
