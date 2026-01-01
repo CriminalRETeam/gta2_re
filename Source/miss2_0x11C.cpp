@@ -5757,10 +5757,20 @@ miss2_0x11C::miss2_0x11C()
     field_118 = 0;
 }
 
-STUB_FUNC(0x511cd0)
+// https://decomp.me/scratch/gmYBd 
+MATCH_FUNC(0x511cd0)
 void miss2_0x11C::sub_511CD0()
 {
-    NOT_IMPLEMENTED;
+    for (u16 i = 0; i < 25; i++)
+    {
+        if ((1 << i) & gGameSave_6F78C8.field_E4_car_and_script_data.field_4C)
+        {
+            SCR_START_BASIC_KF_TEMPLATE* pPtr = (SCR_START_BASIC_KF_TEMPLATE*)gfrosty_pasteur_6F8060->GetBasePointer_512770(
+                                    gfrosty_pasteur_6F8060->field_C1E74_basic_kf[i]);
+            miss2_0x11C::DisableThread_505790(pPtr->field_8_triggername);
+            miss2_0x11C::DeallocOrDeleteItem_505B10(pPtr->field_C_objname);
+        }
+    }
 }
 
 MATCH_FUNC(0x512fd0)

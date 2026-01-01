@@ -506,7 +506,7 @@ struct SCR_MAP_SET_ZONE_INFO : SCR_CMD_HEADER
     u16 field_C_value;
 };
 
-struct SCR_START_BASIC_KF_TEMPLATE
+struct SCR_START_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
 {
     u16 field_8_triggername;
     u16 field_A_brief_id;
