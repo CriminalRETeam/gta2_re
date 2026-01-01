@@ -9,8 +9,13 @@ class Object_2C;
 class Miss2_C
 {
   public:
-    s32 field_0_uni1;
-    s8 field_4_type; // determines what the union types are
+    union
+    {
+        Car_BC* field_0_car;
+        Object_2C* field_0_obj;
+        Ped* field_0_ped;
+    };
+    u8 field_4_type; // determines what the union types are
     s8 field_5;
     s8 field_6;
     s8 field_7;

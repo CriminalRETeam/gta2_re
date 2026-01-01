@@ -92,7 +92,7 @@ char_type Player::sub_564610(Car_BC* a2, char_type a3)
 }
 
 STUB_FUNC(0x564680)
-u32* Player::sub_564680(s32 a2)
+u32* Player::sub_564680(Car_BC* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
