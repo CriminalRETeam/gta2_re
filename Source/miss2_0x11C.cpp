@@ -2836,10 +2836,12 @@ void miss2_0x11C::sub_50B3D0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b440)
+MATCH_FUNC(0x50b440)
 void miss2_0x11C::SCRCMD_CAR_DRIVE_AWAY_50B440()
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    pPtr->field_8_car->InitCarAIControl_440590();
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b470)
