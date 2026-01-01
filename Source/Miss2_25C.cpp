@@ -24,7 +24,7 @@ Miss2_25C::Miss2_25C()
 }
 
 MATCH_FUNC(0x502dc0)
-void Miss2_25C::sub_502DC0()
+void Miss2_25C::MissionCleanUp_502DC0()
 {
     Miss2_C* pIter = &field_0[0];
     PedGroup* pGroup = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_164_ped_group;

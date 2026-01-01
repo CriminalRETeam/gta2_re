@@ -26,7 +26,7 @@ class Miss2_25C
 {
   public:
     Miss2_25C();
-    EXPORT void sub_502DC0();
+    EXPORT void MissionCleanUp_502DC0();
     EXPORT Miss2_C* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car_BC* pCar);
     EXPORT void push_type_3_ped_502FB0(Ped* pPed);

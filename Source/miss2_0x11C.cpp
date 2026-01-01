@@ -2896,10 +2896,17 @@ void miss2_0x11C::sub_50B4F0()
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
-STUB_FUNC(0x50b5a0)
-void miss2_0x11C::sub_50B5A0()
+MATCH_FUNC(0x50b5a0)
+void miss2_0x11C::sub_50B5A0() // SCRCMD_DRIVER_OUT_CAR
 {
-    NOT_IMPLEMENTED;
+    SCR_POINTER* pPtr = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
+    if (pPtr->field_8_char)
+    {
+        pPtr->field_8_char->sub_463830(0, 9999);
+        pPtr->field_8_char->SetObjective(objectives_enum::leave_car_36, 9999);
+        pPtr->field_8_char->field_150_target_objective_car = pPtr->field_8_char->field_16C_car;
+    }
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50b600)
@@ -4500,7 +4507,7 @@ void miss2_0x11C::SCRCMD_SET_CAR_JAMMED_50FA70()
 MATCH_FUNC(0x50fad0)
 void miss2_0x11C::SCRCMD_FINISH_MISSION_50FAD0()
 {
-    gMiss2_25C_6F805C->sub_502DC0();
+    gMiss2_25C_6F805C->MissionCleanUp_502DC0();
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
