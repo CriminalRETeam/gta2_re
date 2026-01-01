@@ -599,6 +599,13 @@ struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
     u8 field_12;
 };
 
+struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
+{
+    u16 field_8_varname;
+    u16 field_A_unk3;
+    SCR_XYZ_f field_C_pos;
+};
+
 namespace SCR_DOOR_OPENTYPES
 {
 enum
