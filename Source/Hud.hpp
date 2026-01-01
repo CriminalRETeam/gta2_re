@@ -247,7 +247,7 @@ class Hud_Pager_C
 
     EXPORT Hud_Pager_C();
     s32 field_0_timer;
-    s32* field_4; //  counter?
+    s32* field_4_ptr_counter; //  counter?
     infallible_turing* field_8_sound;
 };
 
@@ -260,15 +260,15 @@ class Hud_Pager_C_Array
     }
 
     // TODO: Correct order ?
-    EXPORT s32 sub_5D3220(s32* a2);
-    EXPORT void sub_5D3280(s32 idx);
+    EXPORT s32 AddOnScreenCounter_5D3220(s32* a2);
+    EXPORT void ClearPager_5D3280(s32 idx);
 
     EXPORT void DrawPagers_5D3040();
     EXPORT void UpdatePagers_5D31B0();
     EXPORT s32 CreateTimer_5D31F0(s32 a2);
-    EXPORT void sub_5D32D0(s32 a2);
+    EXPORT void ClearClockOnly_5D32D0(s32 a2);
     EXPORT void AddTime_5D32F0(s32 a2, s32 a3);
-    EXPORT void sub_5D3310(s32 a2);
+    EXPORT void ClearCounterOnly_5D3310(s32 a2);
 
     inline u8 __stdcall get_sprite_width_4C7220(s16 a3)
     {
@@ -299,12 +299,25 @@ class Garox_18
     s32 field_14;
 };
 
+namespace ArrowTargetType
+{
+enum
+{
+    Nothing_0 = 0,
+    Ped_2 = 2,
+    Car_3 = 3,
+    Object_4 = 4,
+    InfoPhone_5 = 5,
+    Player_6 = 6 // Multiplayer arrows
+};
+} // namespace ArrowTargetType
+
 class Garox_30_Sub
 {
   public:
-    Gang_144* field_30;
-    char_type field_34;
-    char_type field_5;
+    Gang_144* field_30_gang;
+    char_type field_34_min_respect;
+    char_type field_5_is_visible; // not sure
     char_type field_6;
     char_type field_7;
 };
@@ -313,17 +326,17 @@ class ArrowTrace_24
 {
   public:
     EXPORT void PointToInfoPhone_5D03C0(Gang_144* pZone);
-    EXPORT void sub_5D03F0();
+    EXPORT void UpdateAimCoordinates_5D03F0();
 
     // inline 0x4C6F00
     void init()
     {
-        field_0 = 0;
-        field_4 = 0;
-        field_8 = 0;
-        field_C = 0;
-        field_10_type = 0;
-        field_20 = 0;
+        field_0_ped = 0;
+        field_4_car = 0;
+        field_8_obj = 0;
+        field_C_player = 0;
+        field_10_target_type = 0;
+        field_20_bIsTargetVisible = 0;
     }
 
     inline void set_arrow_aim_from_pos_4767C0(Fix16 x, Fix16 y, Fix16 z)
@@ -336,18 +349,18 @@ class ArrowTrace_24
     // 9.6f inline 0x4C6F20
     inline bool sub_4C6F20()
     {
-        return field_10_type == 0;
+        return field_10_target_type == 0;
     }
 
-    Ped* field_0;
-    Car_BC* field_4;
-    Object_2C* field_8;
-    Player* field_C;
-    s32 field_10_type;
+    Ped* field_0_ped;
+    Car_BC* field_4_car;
+    Object_2C* field_8_obj;
+    Player* field_C_player;
+    s32 field_10_target_type;
     Fix16 field_14_aim_x;
     Fix16 field_18_aim_y;
     Fix16 field_1C_aim_z;
-    char_type field_20;
+    char_type field_20_bIsTargetVisible;
     char_type field_21_pad;
     char_type field_22_pad;
     char_type field_23_pad;
@@ -361,12 +374,12 @@ class Garox_20_Sub
     char_type field_26;
     char_type field_27;
     s32 field_28_arrow_colour;
-    s16 field_2C;
+    s16 field_2C_arrow_sprt_idx;
     char_type field_2E;
     char_type field_2F;
     Garox_30_Sub field_10;
-    ArrowTrace_24 field_18;
-    ArrowTrace_24 field_3C;
+    ArrowTrace_24 field_18_primary_target;
+    ArrowTrace_24 field_3C_secondary_target;
     ArrowTrace_24* field_60;
 };
 
@@ -374,17 +387,17 @@ class Hud_Arrow_7C
 {
   public:
     EXPORT void SetArrowColour_5D0510(s32 a2);
-    EXPORT bool sub_5D0530();
+    EXPORT bool CheckVisibility_5D0530();
     EXPORT char_type sub_5D0620();
     EXPORT s32 sub_5D0850();
     EXPORT void Service_5D0C60();
     EXPORT void DrawArrow_5D0C90();
-    EXPORT void sub_5D0DC0(Ped* a2);
+    EXPORT void SetPlayerArrowColour_5D0DC0(Ped* a2);
 
     // 9.6f inline 0x4C6F80
-    inline bool sub_4C6F80()
+    inline bool IsType0_4C6F80()
     {
-        if (field_18.field_18.sub_4C6F20() && field_18.field_3C.sub_4C6F20())
+        if (field_18.field_18_primary_target.sub_4C6F20() && field_18.field_3C_secondary_target.sub_4C6F20())
         {
             return true;
         }
@@ -392,9 +405,9 @@ class Hud_Arrow_7C
     }
 
     // 9.6f inline 0x4C7050
-    inline bool sub_4C7050()
+    inline bool IsVisible_4C7050()
     {
-        if (field_18.field_10.field_5)
+        if (field_18.field_10.field_5_is_visible)
         {
             return true;
         }
@@ -424,10 +437,10 @@ class Hud_Arrow_7C_Array
     }
 
     EXPORT void sub_5D1350();
-    EXPORT bool sub_5D0E40(Hud_Arrow_7C* a2);
+    EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* a2);
     EXPORT void DrawArrows_5D0E90();
     EXPORT Hud_Arrow_7C* sub_5D0EF0();
-    EXPORT char_type sub_5D0F40(Gang_144* a2);
+    EXPORT char_type IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* a2);
     EXPORT void sub_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();
     EXPORT Hud_Arrow_7C* sub_5D1020(s32* a2);
@@ -518,7 +531,7 @@ class Hud_MapZone_98
     }
 
     EXPORT void DrawZoneName_5D5900();
-    EXPORT void sub_5D5AD0();
+    EXPORT void GetXPosOffset_5D5AD0();
     EXPORT void sub_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void sub_5D5B60();
     EXPORT void sub_5D5C50();
@@ -526,10 +539,10 @@ class Hud_MapZone_98
     u8 field_0_timer;
     char_type field_1;
     wchar_t field_2_wstr[65];
-    s32 field_84;
+    s32 field_84_xpos_offset;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
-    s32 field_90;
+    s32 field_90_alpha_flag;
     u8 field_94_transparency; // range from 0 to 31
     char_type field_95;
     char_type field_96;
@@ -543,8 +556,8 @@ class Hud_CarName_4C
     char_type field_0_display_time;
     char_type field_1;
     wchar_t field_2_car_name[33];
-    s32 field_44;
-    s32 field_48;
+    s32 field_44_xpos_offset;
+    s32 field_48_ypos;
 };
 
 class Hud_2B00
@@ -559,7 +572,7 @@ class Hud_2B00
     EXPORT void sub_5D69C0();
     EXPORT void UpdateHUD_5D69D0();
     EXPORT void sub_5D6A70();
-    EXPORT void sub_5D6A90();
+    EXPORT void GetTextSpeed_5D6A90();
     EXPORT void sub_5D6AB0();
     EXPORT void sub_5D6B00();
     EXPORT void sub_5D6BE0();

@@ -4,7 +4,7 @@
 #include "fix16.hpp"
 
 class Object_2C;
-class Door_10;
+class DoorData_10;
 class Sprite_4C;
 class Ped;
 class Car_BC;
@@ -38,7 +38,7 @@ enum
 //static_assert(sizeof(door_close_type) == 4);
 } // namespace door_close_type
 
-struct Door_A
+struct DoorAnimInfo_A
 {
     u16 field_0_start_frame;
     u16 field_2_end_frame;
@@ -61,8 +61,8 @@ class Door_38
     EXPORT void sub_49C8A0(Ped* a2);
     EXPORT void sub_49C8D0(u8 arg0, u8 a1, u8 a2, u8 a3, u8 a4, s32 a5);
     EXPORT void sub_49CA50(u8 a1, char_type a2, char_type a3, char_type a4, s32 a5);
-    EXPORT void sub_49CAC0(Door_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
-    EXPORT void sub_49CC00(Door_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
+    EXPORT void sub_49CAC0(DoorData_10* a2, char_type a3, u8 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8, Fix16 a9);
+    EXPORT void sub_49CC00(DoorData_10* a1, char_type a2, u8 a3, Fix16 a4, Fix16 a5, Fix16 a6, Fix16 a7, Fix16 a8);
     EXPORT void sub_49CD90();
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
@@ -117,8 +117,8 @@ class Door_38
         field_2C = 1;
     }
 
-    Door_10* field_0;
-    Door_10* field_4;
+    DoorData_10* field_0_primary_door_data;
+    DoorData_10* field_4_secondary_door_data; // Only active when this door is a double door
     Object_2C* field_8;
     Object_2C* field_C;
     union
@@ -145,4 +145,4 @@ class Door_38
     Fix16 field_34;
 };
 
-EXTERN_GLOBAL_ARRAY(Door_A, word_67BB38, 5);
+EXTERN_GLOBAL_ARRAY(DoorAnimInfo_A, word_67BB38, 5);

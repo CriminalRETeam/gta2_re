@@ -233,7 +233,7 @@ void Player::sub_564AD0(Car_BC* a2)
 MATCH_FUNC(0x564B60)
 void Player::sub_564B60()
 {
-    for (u32 i = 15; i < 28; i++)
+    for (u32 i = 15; i < GTA2_COUNTOF(field_718_weapons); i++)
     {
         field_718_weapons[i] = 0;
     }
@@ -251,7 +251,7 @@ void Player::sub_564C00()
 {
     sub_564B80();
 
-    if (field_788_curr_weapon_idx >= 15)
+    if (field_788_curr_weapon_idx >= weapon_type::car_bomb)
     {
         field_16 = field_788_curr_weapon_idx;
         field_788_curr_weapon_idx = field_14;
@@ -299,12 +299,12 @@ void Player::sub_564CC0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_6F4_power_up_timers); i++)
     {
-        if (i == 11 && gCheatInvisibility_67D539)
+        if (i == Invisibility_11 && gCheatInvisibility_67D539)
         {
             continue;
         }
 
-        if (i == 7 && gCheatUnlimitedDoubleDamage_67D57C)
+        if (i == DoubleDamage_7 && gCheatUnlimitedDoubleDamage_67D57C)
         {
             continue;
         }
@@ -321,7 +321,7 @@ void Player::sub_564CF0()
     {
         field_2C4_player_ped->sub_45C050();
     }
-    if (field_6F4_power_up_timers[Unk_9])
+    if (field_6F4_power_up_timers[Electrofingers_9])
     {
         field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
     }
@@ -370,10 +370,10 @@ void Player::tick_down_powerups_565070()
         field_6F4_power_up_timers[FastReload_8]--;
     }
 
-    if (field_6F4_power_up_timers[Unk_9])
+    if (field_6F4_power_up_timers[Electrofingers_9])
     {
-        field_6F4_power_up_timers[Unk_9]--;
-        if (!field_6F4_power_up_timers[Unk_9])
+        field_6F4_power_up_timers[Electrofingers_9]--;
+        if (!field_6F4_power_up_timers[Electrofingers_9])
         {
             field_2C4_player_ped->field_21C &= ~ped_bit_status_enum::k_ped_0x04000000;
         }

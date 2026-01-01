@@ -1054,6 +1054,34 @@ void CC ImGuiDebugDraw()
         {
             if (gHud_2B00_706620)
             {
+                if (ImGui::TreeNode("Arrows"))
+                {
+                    static s32 arrow_idx = 0;
+                    ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18.field_0_array)-1);
+                    Hud_Arrow_7C* pArrow = &gHud_2B00_706620->field_1F18.field_0_array[arrow_idx];
+                    
+                    if (pArrow)
+                    {
+                        ImGui::SliderS16("Rotation", &pArrow->field_8_rotation.rValue, 0, 1439);
+
+                        Garox_20_Sub* g20 = &pArrow->field_18;
+                        Garox_30_Sub* g30 = &g20->field_10;
+                        ImGui::Input_char_type("Garox_30_Sub f5", &g30->field_5_is_visible, 1, 1);
+                        ImGui::Input_char_type("Garox_30_Sub f6", &g30->field_6, 1, 1);
+                        ImGui::Input_char_type("Garox_30_Sub f7", &g30->field_7, 1, 1);
+
+                        ArrowTrace_24* pPrimaryTrace = &g20->field_18_primary_target;
+                        if (pPrimaryTrace)
+                        {
+
+                            ImGui::InputInt("Primary Arrow type", &pPrimaryTrace->field_10_target_type, 1, 1);
+                            ImGui::Input_char_type("field_20", &pPrimaryTrace->field_20_bIsTargetVisible, 1, 1);
+                        }
+                    }
+
+                    ImGui::TreePop();
+                }
+
                 if (ImGui::TreeNode("Timer"))
                 {
                     if (ImGui::Button("CreateTimer_5D31F0"))
@@ -1065,22 +1093,22 @@ void CC ImGuiDebugDraw()
                     ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
                     if (ImGui::Button("Stop timer") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D32D0(v);
+                        gHud_2B00_706620->field_620.ClearClockOnly_5D32D0(v);
                     }
 
                     if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D3280(v);
+                        gHud_2B00_706620->field_620.ClearPager_5D3280(v);
                     }
 
                     if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
                     {
-                        gHud_2B00_706620->field_620.sub_5D3220(&v);
+                        gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&v);
                     }
 
-                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4)
+                    if (gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter)
                     {
-                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4, 1, 100);
+                        ImGui::InputInt("timer f4", gHud_2B00_706620->field_620.field_0_pagers_array[1].field_4_ptr_counter, 1, 100);
                     }
                     ImGui::TreePop();
                 }

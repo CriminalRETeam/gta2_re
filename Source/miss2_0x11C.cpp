@@ -632,7 +632,7 @@ void miss2_0x11C::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 MATCH_FUNC(0x504950)
 void miss2_0x11C::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* a1)
 {
-    gDoor_4D4_67BD2C->sub_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
+    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(a1->field_8_unsigned_1, a1->field_A_unsigned_2, a1->field_C_unsigned_3);
 }
 
 MATCH_FUNC(0x504970)
@@ -642,7 +642,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     {
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -652,7 +652,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         }
         else
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49D170(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -670,7 +670,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
     {
         if (a1->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a1->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -680,7 +680,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* a1)
         }
         else
         {
-            a1->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a1->field_10_gr_id,
+            a1->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a1->field_10_gr_id,
                                                        a1->field_C_block.field_0_x,
                                                        a1->field_C_block.field_1_y,
                                                        a1->field_C_block.field_2_z,
@@ -771,7 +771,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
     {
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49CF50(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoorNoCheck_49CF50(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -781,7 +781,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         }
         else
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49D170(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterSingleDoor_49D170(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -799,7 +799,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
     {
         if (a3->field_14_check.field_C_size.field_0_x == dword_6F77C0 && a3->field_14_check.field_C_size.field_4_y == dword_6F77C0)
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49CFA0(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoorNoCheck_49CFA0(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -809,7 +809,7 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* a3)
         }
         else
         {
-            a3->field_8 = gDoor_4D4_67BD2C->sub_49D1F0(a3->field_10_gr_id,
+            a3->field_8 = gDoor_4D4_67BD2C->RegisterDoubleDoor_49D1F0(a3->field_10_gr_id,
                                                        a3->field_C_block.field_0_x,
                                                        a3->field_C_block.field_1_y,
                                                        a3->field_C_block.field_2_z,
@@ -1714,11 +1714,11 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
-    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
+    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18_primary_target;
 
     pArrow_trace->set_arrow_aim_from_pos_4767C0(v1->field_8_pos.field_0_x, v1->field_8_pos.field_4_y, v1->field_8_pos.field_8_z);
 
-    pArrow_trace->field_10_type = 1;
+    pArrow_trace->field_10_target_type = 1;
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
     {
@@ -1754,8 +1754,8 @@ void miss2_0x11C::SCRCMD_REMOVE_ARROW_508E80()
 
     if (pArrow != NULL)
     {
-        pArrow->field_18.field_18.field_10_type = 0;
-        pArrow->field_18.field_3C.field_10_type = 0;
+        pArrow->field_18.field_18_primary_target.field_10_target_type = 0;
+        pArrow->field_18.field_3C_secondary_target.field_10_target_type = 0;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -2806,7 +2806,7 @@ void miss2_0x11C::sub_50B690() // SCRCMD_CLEAR_TIMERS
 
     if (pPointer->field_8_index != 0xFFFF)
     {
-        gHud_2B00_706620->field_620.sub_5D3280(pPointer->field_8_index);
+        gHud_2B00_706620->field_620.ClearPager_5D3280(pPointer->field_8_index);
     }
     pPointer->field_8_index = 0;
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4492,7 +4492,7 @@ void miss2_0x11C::sub_50FF50() // SCRCMD_ADD_ONSCREEN_COUNTER
     SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
     SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(v1->field_A_counter_idx);
 
-    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
+    pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4506,11 +4506,11 @@ void miss2_0x11C::sub_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ON
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_COUNTER)
         {
-            gHud_2B00_706620->field_620.sub_5D3310(idx);
+            gHud_2B00_706620->field_620.ClearCounterOnly_5D3310(idx);
         }
         else // == SCRCMD_CLEAR_CLOCK_ONLY
         {
-            gHud_2B00_706620->field_620.sub_5D32D0(idx);
+            gHud_2B00_706620->field_620.ClearClockOnly_5D32D0(idx);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4576,7 +4576,7 @@ void miss2_0x11C::sub_510280()
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620.CreateTimer_5D31F0(pCmd->field_C_time_limit);
         SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname);
         SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
-        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.sub_5D3220(&pCounter->field_8_counter);
+        pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
         ++field_C;
     }
     else
@@ -4601,7 +4601,7 @@ void miss2_0x11C::sub_510280()
             pTimerIDPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
             if (pTimerIDPointer->field_8_index != 0xFFFF)
             {
-                gHud_2B00_706620->field_620.sub_5D3280(pTimerIDPointer->field_8_index);
+                gHud_2B00_706620->field_620.ClearPager_5D3280(pTimerIDPointer->field_8_index);
             }
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
