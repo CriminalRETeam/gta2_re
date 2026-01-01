@@ -1714,11 +1714,11 @@ void miss2_0x11C::sub_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_AR
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18.AllocArrow_5D1050();
     }
 
-    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18;
+    ArrowTrace_24* pArrow_trace = &pPointer->field_8_arrow->field_18.field_18_primary_target;
 
     pArrow_trace->set_arrow_aim_from_pos_4767C0(v1->field_8_pos.field_0_x, v1->field_8_pos.field_4_y, v1->field_8_pos.field_8_z);
 
-    pArrow_trace->field_10_type = 1;
+    pArrow_trace->field_10_target_type = 1;
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
     {
@@ -1754,8 +1754,8 @@ void miss2_0x11C::SCRCMD_REMOVE_ARROW_508E80()
 
     if (pArrow != NULL)
     {
-        pArrow->field_18.field_18.field_10_type = 0;
-        pArrow->field_18.field_3C.field_10_type = 0;
+        pArrow->field_18.field_18_primary_target.field_10_target_type = 0;
+        pArrow->field_18.field_3C_secondary_target.field_10_target_type = 0;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
