@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include <fstream.h>
+#include <fstream>
 #include <windows.h>
 
 class ErrorLog
