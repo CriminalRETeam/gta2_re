@@ -3058,7 +3058,7 @@ void miss2_0x11C::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 
     Car_BC* pCar = pPointer->field_8_car;
 
-    if (pCar != NULL && pCar->field_4.GetPassengerCount_4716B0() >= v1->field_A_signed_2)
+    if (pCar != NULL && pCar->field_4_ped_list.GetPassengerCount_4716B0() >= v1->field_A_signed_2)
     {
         field_8 = true;
     }
@@ -3344,7 +3344,7 @@ MATCH_FUNC(0x50c410)
 void miss2_0x11C::SCRCMD_KILL_ALL_PASSENG_50C410()
 {
     SCR_POINTER* pPointer = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(gBasePtr_6F8070[1].field_0_cmd_this);
-    pPointer->field_8_car->field_4.KillAllPassengers_4715A0();
+    pPointer->field_8_car->field_4_ped_list.KillAllPassengers_4715A0();
 
     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
     {

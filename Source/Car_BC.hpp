@@ -821,7 +821,7 @@ class Car_BC
     }
 
     struct_4 field_0_qq;
-    Ped_Unknown_4 field_4;
+    Ped_Unknown_4 field_4_ped_list;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;

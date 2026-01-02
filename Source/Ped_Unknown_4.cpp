@@ -2,6 +2,8 @@
 #include "Car_BC.hpp"
 #include "Ped.hpp"
 
+DEFINE_GLOBAL(Ped_Unknown_4, gThreateningPedsList_678468, 0x678468);
+
 MATCH_FUNC(0x471140)
 Char_8* Ped_Unknown_4::AddPassenger_471140(Ped* pPed)
 {

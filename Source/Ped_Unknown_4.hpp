@@ -47,3 +47,5 @@ class Ped_Unknown_4
     Char_8* field_0_pFirstPassenger;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped_Unknown_4, 0x4)
+
+EXTERN_GLOBAL(Ped_Unknown_4, gThreateningPedsList_678468);

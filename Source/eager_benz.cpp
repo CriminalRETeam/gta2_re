@@ -72,7 +72,7 @@ void eager_benz::sub_591C70()
             if (player_ped->field_248_enter_car_as_passenger != 1 &&
                 (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_16C_car->field_84_car_info_idx)->info_flags & 0x20) == 0x20)
             {
-                if (field_16C_car->field_4.field_0_pFirstPassenger)
+                if (field_16C_car->field_4_ped_list.field_0_pFirstPassenger)
                 {
                     field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0);
                 }

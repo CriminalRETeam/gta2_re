@@ -935,6 +935,11 @@ void CC ImGuiDebugDraw()
                             pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
                         }
 
+                        if (ImGui::Button("Drown Car"))
+                        {
+                            pPlayerCar->sub_43E560();
+                        }
+
                         if (gGangPool_CA8_67E274)
                         {
                             static char_type gang_idx = 0;
