@@ -1763,7 +1763,7 @@ void Car_BC::sub_43DD60()
 }
 
 STUB_FUNC(0x43e560)
-char_type Car_BC::sub_43E560()
+char_type Car_BC::ManageDrowning_43E560()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2734,7 +2734,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        sub_43E560();
+        ManageDrowning_43E560();
     }
 
     if (!this->field_64_pTrailer && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8)
@@ -3440,7 +3440,7 @@ char_type Trailer::sub_408140()
 
     if (!field_8_truck_cab->field_58_physics->sub_562FE0() || field_8_truck_cab->field_54_driver)
     {
-        return field_8_truck_cab->sub_43E560();
+        return field_8_truck_cab->ManageDrowning_43E560();
     }
     DeAllocateCarPhysics_4081B0();
     return 0;

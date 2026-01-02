@@ -937,7 +937,7 @@ void CC ImGuiDebugDraw()
 
                         if (ImGui::Button("Drown Car"))
                         {
-                            pPlayerCar->sub_43E560();
+                            pPlayerCar->ManageDrowning_43E560();
                         }
 
                         if (gGangPool_CA8_67E274)

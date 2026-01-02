@@ -1860,7 +1860,7 @@
         "v105_address": "0x43dd60"
     },
     {
-        "name": "Car_BC::sub_43E560",
+        "name": "Car_BC::ManageDrowning_43E560",
         "v96f_address": null,
         "v105_address": "0x43e560"
     },
