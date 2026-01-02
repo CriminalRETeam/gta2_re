@@ -9,6 +9,19 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
+STUB_FUNC(0x4D9470)
+void ErrorLog::sub_4D9470(const char_type* path, s32 a3)
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4D94E0)
+ErrorLog::ErrorLog(const char* FileName, int a3)
+{
+    NOT_IMPLEMENTED;
+    //sub_4D9470(FileName, a3);
+}
+
 STUB_FUNC(0x4D9620)
 ErrorLog& ErrorLog::Write_4D9620(const char_type* pMsg)
 {
@@ -20,6 +33,7 @@ STUB_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
     NOT_IMPLEMENTED;
+    //field_0_ofstr.operator<<(buffer).flush();
 }
 
 DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
