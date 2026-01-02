@@ -912,18 +912,23 @@ void CC ImGuiDebugDraw()
                 {
                     ImGui::SliderInt("Lives", &pPlayer->field_684_lives.field_0, 0, 99);
                     ImGui::SliderInt("Multiplier", &pPlayer->field_6BC_multpliers.field_0, 0, 99);
-                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_unk.field_0_money.field_0, 0, 999999999 - 50);
-                    ImGui::SliderInt("??", &pPlayer->field_2D4_unk.field_38_unk.field_0, 0, 99);
+                    ImGui::SliderInt("Cash", &pPlayer->field_2D4_scores.field_0_money.field_0, 0, 999999999 - 50);
+                    ImGui::SliderInt("??", &pPlayer->field_2D4_scores.field_38_multiplayer_frags.field_0, 0, 99);
 
                     Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
                     ImGui::SliderS16("wanted points", &pPlayerPed->field_20A_wanted_points, 0, 12000);
                     ImGui::SliderS16("health", &pPlayerPed->field_216_health, 0, 32767);
 
-                    ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_unk.field_198_accuracy_count, 0, 255);
+                    ImGui::SliderU8("accuracy_count", &pPlayer->field_2D4_scores.field_198_accuracy_count, 0, 255);
 
                     static u16 powerup_idx = 0;
                     ImGui::SliderU16("Powerup idx", &powerup_idx, 0, 16);
                     ImGui::InputU16("Powerup timer", &pPlayer->field_6F4_power_up_timers[powerup_idx], 1, 1);
+
+                    if (ImGui::Button("Scare people"))
+                    {
+                        pPlayer->field_2C4_player_ped->AddThreateningPedToList_46FC70();
+                    }
 
                     Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
                     ImGui::Text("Car 0x%X", pPlayerCar);

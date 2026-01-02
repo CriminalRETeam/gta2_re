@@ -211,9 +211,9 @@ class Ped
     EXPORT void ForceWeapon_46F600(s32 a2);
     EXPORT void GiveWeapon_46F650(s32 a2);
     EXPORT void sub_46F680(Ped* a2);
-    EXPORT void sub_46F720();
+    EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
-    EXPORT u32* sub_46FC70();
+    EXPORT void AddThreateningPedToList_46FC70();
     EXPORT void sub_46FC90(s32 a2, s32 a3);
     EXPORT char_type sub_46FE20(Object_2C* a2);
     EXPORT void sub_46FF00(s32 a2, s32 a3, s32 a4);
@@ -560,3 +560,5 @@ EXTERN_GLOBAL(u8, byte_6787CB);
 EXTERN_GLOBAL(u8, byte_6787CC);
 
 EXTERN_GLOBAL(u8, byte_6787CD);
+
+EXTERN_GLOBAL(u8, byte_6787EF);

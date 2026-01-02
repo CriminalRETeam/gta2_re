@@ -1311,7 +1311,7 @@ void Car_BC::sub_43B770()
             this->field_54_driver->field_264 = 50;
         }
     }
-    field_4.SyncPassengersWithCarState_4716D0(this);
+    field_4_passengers_list.SyncPassengersWithCarState_4716D0(this);
 }
 
 STUB_FUNC(0x43b7b0)
@@ -1727,7 +1727,7 @@ void Car_BC::sub_43DB80()
         }
         this->field_54_driver = 0;
     }
-    field_4.KillAllPassengersAndClearCarRef_4715E0();
+    field_4_passengers_list.KillAllPedsAndClearCarRef_4715E0();
 }
 
 STUB_FUNC(0x43dbd0)
@@ -1763,7 +1763,7 @@ void Car_BC::sub_43DD60()
 }
 
 STUB_FUNC(0x43e560)
-char_type Car_BC::sub_43E560()
+char_type Car_BC::ManageDrowning_43E560()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -2335,7 +2335,7 @@ void Car_BC::sub_441B00()
 MATCH_FUNC(0x441b20)
 void Car_BC::sub_441B20()
 {
-    if (this->field_9C != 3 || this->field_4.field_0_pFirstPassenger)
+    if (this->field_9C != 3 || this->field_4_passengers_list.field_0_pFirstPed)
     {
         this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
@@ -2455,7 +2455,7 @@ void Car_BC::sub_442190()
 MATCH_FUNC(0x4421b0)
 char_type Car_BC::sub_4421B0()
 {
-    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4.HasPassengerWith_F238_Is_5_471710())
+    if (field_A0_car_kind != 8 && field_7C_uni_num != 5 && !field_4_passengers_list.HasPassengerWith_F238_Is_5_471710())
     {
         return 0;
     }
@@ -2734,7 +2734,7 @@ char_type Car_BC::PoolUpdate()
 
     if (this->field_58_physics)
     {
-        sub_43E560();
+        ManageDrowning_43E560();
     }
 
     if (!this->field_64_pTrailer && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & 8) == 8)
@@ -2752,7 +2752,7 @@ char_type Car_BC::PoolUpdate()
         {
             if (this->field_54_driver)
             {
-                if (this->field_9C == 3 && !this->field_4.field_0_pFirstPassenger && this->field_8C < 3u)
+                if (this->field_9C == 3 && !this->field_4_passengers_list.field_0_pFirstPed && this->field_8C < 3u)
                 {
                     gTaxi_4_704130->PushTaxi_457BA0(this);
                 }
@@ -2890,14 +2890,14 @@ void Car_BC::BuyCarWeapon_4438C0(s32 weapon_kind)
             car_weapon_cost /= 10;
         }
 
-        if (car_weapon_cost <= pPlayer->field_2D4_unk.GetScore_592370())
+        if (car_weapon_cost <= pPlayer->field_2D4_scores.GetScore_592370())
         {
             if (pPlayer->field_0_bIsUser)
             {
                 gHud_2B00_706620->field_DC.sub_5D3F10(1, "bdone", car_weapon_cost);
             }
 
-            pPlayer->field_2D4_unk.AddCash_592620(-car_weapon_cost);
+            pPlayer->field_2D4_scores.AddCash_592620(-car_weapon_cost);
             if (gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind) < 10u)
             {
                 ammo_capacity = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind);
@@ -2948,7 +2948,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
 {
     Player* pPlayer = this->field_54_driver->field_15C_player;
     const s32 cost = gCar_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
-    if (cost <= pPlayer->field_2D4_unk.GetScore_592370())
+    if (cost <= pPlayer->field_2D4_scores.GetScore_592370())
     {
         if (pPlayer->field_0_bIsUser)
         {
@@ -2973,7 +2973,7 @@ void Car_BC::ResprayOrChangePlates(u8 remap)
             this->field_B4_weapon_kind = 2;
         }
 
-        pPlayer->field_2D4_unk.AddCash_592620(-cost);
+        pPlayer->field_2D4_scores.AddCash_592620(-cost);
         this->field_54_driver->field_20A_wanted_points = 0;
         RemoveAllDamage();
     }
@@ -3236,7 +3236,7 @@ void Car_BC::sub_444490()
     this->field_74_damage = 0;
     this->field_8C = 0;
     this->field_8_damaged_areas = 0;
-    this->field_4.ClearList_420E90();
+    this->field_4_passengers_list.ClearList_420E90();
     this->field_54_driver = 0;
     this->field_98 = 3;
     this->field_58_physics = 0;
@@ -3440,7 +3440,7 @@ char_type Trailer::sub_408140()
 
     if (!field_8_truck_cab->field_58_physics->sub_562FE0() || field_8_truck_cab->field_54_driver)
     {
-        return field_8_truck_cab->sub_43E560();
+        return field_8_truck_cab->ManageDrowning_43E560();
     }
     DeAllocateCarPhysics_4081B0();
     return 0;

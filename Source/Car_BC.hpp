@@ -5,7 +5,7 @@
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
 #include "gtx_0x106C.hpp"
@@ -23,7 +23,7 @@ class Trailer;
 class Ped;
 class Char_8;
 class Hamburger_40;
-class Ped_Unknown_4;
+class Ped_List_4;
 class car_info;
 class infallible_turing;
 
@@ -430,7 +430,7 @@ class Car_BC
     EXPORT bool sub_43DC80(s32 a2, s32 a3);
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void sub_43DD60();
-    EXPORT char_type sub_43E560();
+    EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
     EXPORT Ped* sub_43E990();
     EXPORT bool sub_43EA60(Object_2C* a2);
@@ -821,7 +821,7 @@ class Car_BC
     }
 
     struct_4 field_0_qq;
-    Ped_Unknown_4 field_4;
+    Ped_List_4 field_4_passengers_list;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;

@@ -37,21 +37,21 @@ struct lucid_hamilton
     field_408[8] = lawmen killed
     field_408[9] = gang members killed
     */
-    s32 field_408[10];
+    s32 field_408_statistics[10];
     s32 field_430;
     s32 field_434;
     s16 field_438;
     char_type field_43A;
-    char_type field_43B;
-    s32 field_43C;
-    char_type field_440;
-    char_type field_441;
+    char_type field_43B_game_type;
+    s32 field_43C_points_limit;
+    char_type field_440_user_player_idx;
+    char_type field_441_max_players;
     char_type field_442;
     char_type field_443;
-    s32 field_444;
+    s32 field_444_game_time_limit;
     wonderful_knuth_0xC field_448[6];
-    s16 field_490[6];
-    s32 field_49C[6];
+    s16 field_490_frags_list[6];
+    s32 field_49C_points_list[6];
     blissful_ganguly_0x20 field_4B4[6];
     s32 field_574;
 
@@ -123,15 +123,15 @@ struct lucid_hamilton
 
     EXPORT void init_4C5AF0();
 
-    EXPORT void sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6);
+    EXPORT void SetMultiplayerParams_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6);
 
-    EXPORT u8 sub_4C5BC0();
+    EXPORT u8 GetMultiplayerGamemode_4C5BC0();
 
-    EXPORT s32 sub_4C5BD0();
+    EXPORT s32 GetMultiplayerPointsLimit_4C5BD0();
 
-    EXPORT char_type sub_4C5BE0();
+    EXPORT char_type GetUserPlayerIdx_4C5BE0();
 
-    EXPORT char_type sub_4C5BF0();
+    EXPORT char_type GetMaxPlayers_4C5BF0();
 
     EXPORT void sub_4C5C00(char_type a2);
 
@@ -141,13 +141,13 @@ struct lucid_hamilton
 
     EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
 
-    EXPORT void sub_4C5C80(u8 a2, s32 a3);
+    EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 a2, s32 a3);
 
-    EXPORT s32 sub_4C5CB0(u8 a2);
+    EXPORT s32 GetPointsForPlayerIdx_4C5CB0(u8 a2);
 
-    EXPORT void sub_4C5CD0(u8 a2, u8 a3);
+    EXPORT void UpdateFrags_4C5CD0(u8 a2, u8 a3);
 
-    EXPORT u16 sub_4C5D60(u8 a2);
+    EXPORT u16 GetFragsForPlayerIdx_4C5D60(u8 a2);
 
     EXPORT s16 sub_4C5D80(u8 a2, u8 a3);
 };

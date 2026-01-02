@@ -28,7 +28,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_7028BC, 1638, 0x7028BC);
 MATCH_FUNC(0x591bd0)
 eager_benz::eager_benz()
 {
-    field_368_pObj = 0;
+    field_368_player = 0;
 
     field_74 = 1;
     field_75_score_mult = 1;
@@ -59,156 +59,154 @@ MATCH_FUNC(0x591c70)
 void eager_benz::sub_591C70()
 {
     field_1A8_unk.sub_431E30();
-    Ped* field_2C4_player_ped = this->field_368_pObj->field_2C4_player_ped;
+    Ped* player_ped = field_368_player->field_2C4_player_ped;
     field_18C += gGame_0x40_67E008->sub_4B8BB0();
 
     if (field_18C >= 1000)
     {
-        this->field_18C -= 1000;
-        Car_BC* field_16C_car = field_2C4_player_ped->field_16C_car;
+        field_18C -= 1000;
+        Car_BC* field_16C_car = player_ped->field_16C_car;
 
         if (field_16C_car)
         {
-            if (field_2C4_player_ped->field_248_enter_car_as_passenger != 1 &&
+            if (player_ped->field_248_enter_car_as_passenger != 1 &&
                 (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_16C_car->field_84_car_info_idx)->info_flags & 0x20) == 0x20)
             {
-                if (field_16C_car->field_4.field_0_pFirstPassenger)
+                if (field_16C_car->field_4_passengers_list.field_0_pFirstPed)
                 {
-                    field_368_pObj->field_2D4_unk.AddCash_592620(this->field_368_pObj->field_6BC_multpliers.field_0);
+                    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0);
                 }
             }
         }
-        if (field_2C4_player_ped->field_20A_wanted_points >= 5000)
+        if (player_ped->field_20A_wanted_points >= 5000)
         {
-            this->field_368_pObj->field_2D4_unk.AddCash_592620(this->field_368_pObj->field_6BC_multpliers.field_0);
+            field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0);
         }
 
-        field_368_pObj->field_644_unk.sub_484FB0(field_2C4_player_ped->get_wanted_star_count_46EF00());
+        field_368_player->field_644_unk.sub_484FB0(player_ped->get_wanted_star_count_46EF00());
     }
 
-    if (this->field_7C_e_execution_count >= 20u)
+    if (field_7C_e_execution_count >= 20u)
     {
-        this->field_7C_e_execution_count = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(100000 * field_368_pObj->field_6BC_multpliers.field_0);
+        field_7C_e_execution_count = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(100000 * field_368_player->field_6BC_multpliers.field_0);
 
-        if (this->field_368_pObj->field_0_bIsUser)
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("excutin"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(4);
         }
     }
 
-    if (this->field_84_num_elvis_killed >= 6u)
+    if (field_84_num_elvis_killed >= 6u)
     {
-        this->field_84_num_elvis_killed = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_84_num_elvis_killed = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("elvis_d"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(8);
         }
     }
 
-    if (this->field_1A4_killed_cars_flags == 7)
+    if (field_1A4_killed_cars_flags == 7)
     {
-        this->field_1A4_killed_cars_flags = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_1A4_killed_cars_flags = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("em_dest"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(11);
         }
     }
 
-    if (this->field_86_total_kills >= 1000)
+    if (field_86_total_kills >= 1000)
     {
-        this->field_86_total_kills = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_86_total_kills = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("gencide"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(5);
         }
     }
 
-    if (this->field_88_killed_cops >= 20u)
+    if (field_88_killed_cops >= 20u)
     {
-        this->field_88_killed_cops = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_88_killed_cops = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("copkill"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(6);
         }
     }
 
-    if (this->field_8A_cars_stolen_count >= 100)
+    if (field_8A_cars_stolen_count >= 100)
     {
-        this->field_8A_cars_stolen_count = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(10000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_8A_cars_stolen_count = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(10000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("carjaka"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(7);
         }
     }
 
-    if (this->field_198_accuracy_count >= 25)
+    if (field_198_accuracy_count >= 25)
     {
-        this->field_198_accuracy_count = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(5000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_198_accuracy_count = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(5000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("accurcy"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(9);
         }
     }
 
-    //CarPhysics_B0* tmp4;
     Car_BC* tmp3;
-    if (field_2C4_player_ped->get_wanted_points_433DC0() > 3000 && (field_2C4_player_ped->has_car_403B80()) &&
-        field_2C4_player_ped->not_enter_car_as_passenger_4A5040() &&
-        (tmp3 = field_2C4_player_ped->get_car_416B60()) != 0 && // null check optimized away ??
+    if (player_ped->get_wanted_points_433DC0() > 3000 && (player_ped->has_car_403B80()) &&
+        player_ped->not_enter_car_as_passenger_4A5040() &&
+        (tmp3 = player_ped->get_car_416B60()) != 0 && // null check optimized away ??
         (tmp3->field_58_physics) != 0 &&
 
         tmp3->field_58_physics->is_backward_gas_on_411810())
     {
-        this->field_19C_reverse_count += gGame_0x40_67E008->sub_4B8BB0();
+        field_19C_reverse_count += gGame_0x40_67E008->sub_4B8BB0();
     }
     else
     {
-        this->field_19C_reverse_count = 0;
+        field_19C_reverse_count = 0;
     }
 
-    if (this->field_19C_reverse_count >= 60000u)
+    if (field_19C_reverse_count >= 60000u)
     {
-        this->field_19C_reverse_count = 0;
-        field_368_pObj->field_2D4_unk.AddCash_592620(1000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (this->field_368_pObj->field_0_bIsUser)
+        field_19C_reverse_count = 0;
+        field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("wrngway"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(10);
         }
     }
 
-    Car_BC* v24 = field_2C4_player_ped->get_car_416B60();
-    if (v24 && field_2C4_player_ped->not_enter_car_as_passenger_4A5040() && (v24->field_58_physics) != 0 &&
+    Car_BC* v24 = player_ped->get_car_416B60();
+    if (v24 && player_ped->not_enter_car_as_passenger_4A5040() && (v24->field_58_physics) != 0 &&
         v24->field_58_physics->IsInAir_55A0B0() // TODO: Wrong stack
         && v24->GetVelocity_43A4C0() > dword_7028BC)
     {
-        this->field_190_fly_car_count += gGame_0x40_67E008->sub_4B8BB0();
+        field_190_fly_car_count += gGame_0x40_67E008->sub_4B8BB0();
     }
     else
     {
-        this->field_190_fly_car_count = 0;
+        field_190_fly_car_count = 0;
     }
 
-    // v26 = this->field_190_fly_car_count;
     if (field_190_fly_car_count >= 1250 && field_190_fly_car_count < 2250)
     {
-        this->field_368_pObj->field_2D4_unk.AddCash_592620(1000 * this->field_368_pObj->field_6BC_multpliers.field_0);
-        this->field_190_fly_car_count = 2250;
-        if (field_368_pObj->field_0_bIsUser)
+        field_368_player->field_2D4_scores.AddCash_592620(1000 * field_368_player->field_6BC_multpliers.field_0);
+        field_190_fly_car_count = 2250;
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("fly_car"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(1);
@@ -218,19 +216,19 @@ void eager_benz::sub_591C70()
     if (bStartNetworkGame_7081F0)
     {
         s32 v30; // edi
-        u8 a2 = this->field_368_pObj->field_2E_idx;
-        u8 v29 = gLucid_hamilton_67E8E0.sub_4C5BC0();
-        s32 v34 = gLucid_hamilton_67E8E0.sub_4C5BD0();
+        u8 player_idx = field_368_player->field_2E_idx;
+        u8 v29 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
+        s32 v34 = gLucid_hamilton_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
 
         if (v29 == 1) // di vs bl
         {
-            s16 t = gLucid_hamilton_67E8E0.sub_4C5D60(a2);
+            s16 t = gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(player_idx);
             v30 = t;
             sub_5935C0();
         }
         else if (v29 == 2)
         {
-            v30 = gLucid_hamilton_67E8E0.sub_4C5CB0(a2);
+            v30 = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(player_idx);
             GetScore_592370();
         }
 
@@ -238,7 +236,7 @@ void eager_benz::sub_591C70()
         {
             if (v30 >= v34) // TODO: di vs edi
             {
-                gLucid_hamilton_67E8E0.sub_4C5C00(a2);
+                gLucid_hamilton_67E8E0.sub_4C5C00(player_idx);
                 if (gGame_0x40_67E008->field_28_timer == -1)
                 {
                     gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
@@ -251,9 +249,9 @@ void eager_benz::sub_591C70()
     // Handle the previous LABEL_63 section
     const s32 field_0_rng = rng_dword_67AB34->field_0_rng; // TODO: inline
 
-    if ((u32)(rng_dword_67AB34->field_0_rng - this->field_70) > 15)
+    if ((u32)(rng_dword_67AB34->field_0_rng - field_70) > 15)
     {
-        this->field_74 = 1;
+        field_74 = 1;
     }
 
     if ((u32)(field_0_rng - field_78) > 15)
@@ -265,16 +263,16 @@ void eager_benz::sub_591C70()
 MATCH_FUNC(0x5922f0)
 void eager_benz::sub_5922F0(Player* a2, s16 a3, s32 a4, s16 a5, u16 a6)
 {
-    field_368_pObj = a2;
+    field_368_player = a2;
     field_0_money.sub_492110(a3, a4, a5);
-    field_38_unk.sub_492110(a3, a6, a5);
+    field_38_multiplayer_frags.sub_492110(a3, a6, a5);
 }
 
 MATCH_FUNC(0x592330)
 void eager_benz::sub_592330()
 {
     field_0_money.sub_492150();
-    field_38_unk.sub_492150();
+    field_38_multiplayer_frags.sub_492150();
     field_1A8_unk.sub_431E10(this);
     sub_592380(3);
 }
@@ -349,8 +347,8 @@ void eager_benz::sub_592430(char_type bits)
             }
         }
 
-        field_368_pObj->field_2D4_unk.AddCash_592620(30000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (field_368_pObj->field_0_bIsUser)
+        field_368_player->field_2D4_scores.AddCash_592620(30000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("stl_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(2);
@@ -367,8 +365,8 @@ void eager_benz::sub_592430(char_type bits)
             }
         }
 
-        field_368_pObj->field_2D4_unk.AddCash_592620(50000 * field_368_pObj->field_6BC_multpliers.field_0);
-        if (field_368_pObj->field_0_bIsUser)
+        field_368_player->field_2D4_scores.AddCash_592620(50000 * field_368_player->field_6BC_multpliers.field_0);
+        if (field_368_player->field_0_bIsUser)
         {
             gHud_2B00_706620->field_111C.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("dst_all"), 1);
             gRoot_sound_66B038.PlayVoice_40F090(3);
@@ -409,7 +407,7 @@ void eager_benz::AddCash_592620(s32 cash)
 
     if (bStartNetworkGame_7081F0)
     {
-        gLucid_hamilton_67E8E0.sub_4C5C80(field_368_pObj->field_2E_idx, cash);
+        gLucid_hamilton_67E8E0.ChangePointsForPlayerIdxByAmount_4C5C80(field_368_player->field_2E_idx, cash);
     }
 }
 
@@ -422,7 +420,7 @@ void eager_benz::sub_592660(Ped* pPed1, Ped* pPed2)
 MATCH_FUNC(0x592dd0)
 void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 {
-    const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
+    const s32 multipler = field_368_player->field_6BC_multpliers.field_0;
     gmp_map_zone* pZone = gMap_0x370_6F6268->sub_4DF6A0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt());
 
     u32 car_info_idx = pPed->get_car_model();
@@ -488,7 +486,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
     {
         if (bCopSwatOrFbiCar)
         {
-            if (field_368_pObj->field_0_bIsUser)
+            if (field_368_player->field_0_bIsUser)
             {
                 gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                        pCar->field_50_car_sprite->GetYPos(),
@@ -500,7 +498,7 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
 
     if (bCopSwatOrFbiCar)
     {
-        field_368_pObj->field_2D4_unk.AddCash_592620(kill_car_score * this->field_368_pObj->field_6BC_multpliers.field_0);
+        field_368_player->field_2D4_scores.AddCash_592620(kill_car_score * this->field_368_player->field_6BC_multpliers.field_0);
     }
 
     field_70 = cur_rng_2;
@@ -509,11 +507,11 @@ void eager_benz::sub_592DD0(Car_BC* pCar, Ped* pPed)
         field_74++;
     }
 
-    if (gShooey_CC_67A4B8->sub_485090(pCar, this->field_368_pObj))
+    if (gShooey_CC_67A4B8->sub_485090(pCar, this->field_368_player))
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_pObj->Get_Field_68_Ped());
+        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->Get_Field_68_Ped());
     }
-    field_368_pObj->field_644_unk.sub_484FA0(multipler * kill_car_score);
+    field_368_player->field_644_unk.sub_484FA0(multipler * kill_car_score);
     sub_592570(2, pCar->field_84_car_info_idx);
 }
 
@@ -521,7 +519,7 @@ MATCH_FUNC(0x593030)
 void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 {
     bool bAddScore = true;
-    s32 mutipler = this->field_368_pObj->field_6BC_multpliers.field_0;
+    s32 mutipler = this->field_368_player->field_6BC_multpliers.field_0;
 
     if (bIsFrench_67D53C)
     {
@@ -548,7 +546,7 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
         {
             if (bAddScore)
             {
-                if (this->field_368_pObj->field_0_bIsUser)
+                if (this->field_368_player->field_0_bIsUser)
                 {
                     gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                            pCar->field_50_car_sprite->GetYPos(),
@@ -560,13 +558,13 @@ void eager_benz::sub_593030(Car_BC* pCar, s16 score_default)
 
         if (bAddScore)
         {
-            field_368_pObj->field_2D4_unk.AddCash_592620(base_score * field_368_pObj->field_6BC_multpliers.field_0);
+            field_368_player->field_2D4_scores.AddCash_592620(base_score * field_368_player->field_6BC_multpliers.field_0);
         }
 
-        field_368_pObj->field_644_unk.sub_484FA0(mutipler * base_score);
-        if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_pObj))
+        field_368_player->field_644_unk.sub_484FA0(mutipler * base_score);
+        if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_player))
         {
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_pObj->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->Get_Field_68_Ped());
         }
     }
 }
@@ -576,7 +574,7 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 {
     if (pCar->field_74_damage != 32001)
     {
-        const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
+        const s32 multipler = field_368_player->field_6BC_multpliers.field_0;
         u32 t = a3;
         if (t > 0)
         {
@@ -591,11 +589,11 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
             }
             if (!bIsFrench_67D53C || !pCar->IsPoliceCar_439EC0())
             {
-                field_368_pObj->field_2D4_unk.AddCash_592620(base_score * field_368_pObj->field_6BC_multpliers.field_0);
+                field_368_player->field_2D4_scores.AddCash_592620(base_score * field_368_player->field_6BC_multpliers.field_0);
             }
-            field_368_pObj->field_644_unk.sub_484FA0(multipler * base_score);
+            field_368_player->field_644_unk.sub_484FA0(multipler * base_score);
 
-            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_pObj->Get_Field_68_Ped());
+            gShooey_CC_67A4B8->ReportCrimeForPed(1u, field_368_player->Get_Field_68_Ped());
         }
     }
 }
@@ -603,15 +601,15 @@ void eager_benz::sub_593150(Car_BC* pCar, s16 a3)
 MATCH_FUNC(0x593220)
 void eager_benz::sub_593220()
 {
-    field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_multpliers.field_0 * 20);
+    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0 * 20);
 }
 
 MATCH_FUNC(0x593240)
 void eager_benz::sub_593240(Car_BC* pCar)
 {
-    const s32 multipler = field_368_pObj->field_6BC_multpliers.field_0;
-    gmp_map_zone* pMapZone = gMap_0x370_6F6268->sub_4DF6A0(field_368_pObj->field_2C4_player_ped->get_cam_x().ToInt(),
-                                                           field_368_pObj->field_2C4_player_ped->get_cam_y().ToInt());
+    const s32 multipler = field_368_player->field_6BC_multpliers.field_0;
+    gmp_map_zone* pMapZone = gMap_0x370_6F6268->sub_4DF6A0(field_368_player->field_2C4_player_ped->get_cam_x().ToInt(),
+                                                           field_368_player->field_2C4_player_ped->get_cam_y().ToInt());
 
     const u16 zone_ret = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pCar->field_84_car_info_idx);
     field_1A8_unk.sub_4320D0(2, pCar->field_84_car_info_idx, 51, zone_ret, pCar->field_50_car_sprite->field_24_remap, 23, 87, pMapZone);
@@ -619,41 +617,41 @@ void eager_benz::sub_593240(Car_BC* pCar)
     field_8A_cars_stolen_count++;
 
     const s32 base_score = sub_5925B0(pCar->field_84_car_info_idx, 0);
-    if (!bExplodingScoresOff_67D4FB && field_368_pObj->field_0_bIsUser)
+    if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
     {
         gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
                                                multipler * base_score);
     }
-    field_368_pObj->Add_2D4(base_score);
+    field_368_player->Add_2D4(base_score);
 
-    gShooey_CC_67A4B8->ReportCrimeForPed(5u, field_368_pObj->Get_Field_68_Ped());
+    gShooey_CC_67A4B8->ReportCrimeForPed(5u, field_368_player->Get_Field_68_Ped());
     sub_592570(1, pCar->field_84_car_info_idx);
 }
 
 MATCH_FUNC(0x593370)
 void eager_benz::sub_593370(Car_BC* pCar)
 {
-    if (!bExplodingScoresOff_67D4FB && field_368_pObj->field_0_bIsUser)
+    if (!bExplodingScoresOff_67D4FB && field_368_player->field_0_bIsUser)
     {
         gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                pCar->field_50_car_sprite->GetYPos(),
                                                pCar->field_50_car_sprite->GetZPos(),
-                                               field_368_pObj->field_6BC_multpliers.field_0 * 10);
+                                               field_368_player->field_6BC_multpliers.field_0 * 10);
     }
 
-    field_368_pObj->field_2D4_unk.AddCash_592620(field_368_pObj->field_6BC_multpliers.field_0 * 10);
-    gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_pObj->Get_Field_68_Ped());
+    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multpliers.field_0 * 10);
+    gShooey_CC_67A4B8->ReportCrimeForPed(4u, field_368_player->Get_Field_68_Ped());
 }
 
 MATCH_FUNC(0x593410)
 void eager_benz::sub_593410(Car_BC* pCar)
 {
-    const s32 multpliers = field_368_pObj->field_6BC_multpliers.field_0;
+    const s32 multpliers = field_368_player->field_6BC_multpliers.field_0;
     if (!bExplodingScoresOff_67D4FB)
     {
-        if (field_368_pObj->field_0_bIsUser)
+        if (field_368_player->field_0_bIsUser)
         {
             gExplodingScorePool->sub_596890(pCar->field_50_car_sprite->GetXPos(),
                                                    pCar->field_50_car_sprite->GetYPos(),
@@ -662,12 +660,12 @@ void eager_benz::sub_593410(Car_BC* pCar)
         }
     }
 
-    field_368_pObj->Add_2D4(100);
-    field_368_pObj->field_644_unk.sub_484FA0(100 * multpliers);
+    field_368_player->Add_2D4(100);
+    field_368_player->field_644_unk.sub_484FA0(100 * multpliers);
 
-    if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_pObj))
+    if (gShooey_CC_67A4B8->sub_485090(pCar, field_368_player))
     {
-        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_pObj->Get_Field_68_Ped());
+        gShooey_CC_67A4B8->ReportCrimeForPed(3u, field_368_player->Get_Field_68_Ped());
     }
 }
 
@@ -710,17 +708,17 @@ void eager_benz::UpdateAccuracyCount_5934F0(u32 a2, s32 model, Ped* pPed)
 MATCH_FUNC(0x5935b0)
 thirsty_lamarr* eager_benz::sub_5935B0()
 {
-    return &field_38_unk;
+    return &field_38_multiplayer_frags;
 }
 
 MATCH_FUNC(0x5935c0)
 s32 eager_benz::sub_5935C0()
 {
-    return field_38_unk.field_0;
+    return field_38_multiplayer_frags.field_0;
 }
 
 MATCH_FUNC(0x5935d0)
-void eager_benz::sub_5935D0(s32 a2)
+void eager_benz::ChangeFragsByAmount_5935D0(s32 amount)
 {
-    field_38_unk.ChangeStatByAmount_4921B0(a2);
+    field_38_multiplayer_frags.ChangeStatByAmount_4921B0(amount);
 }

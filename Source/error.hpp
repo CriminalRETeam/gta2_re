@@ -4,12 +4,20 @@
 #include <fstream>
 #include <windows.h>
 
-// TODO: Base type is too big
-class ErrorLog /*: public std::ofstream*/
+class ErrorLog
 {
-public:
-    ErrorLog& Write_4D9620(const char_type* pMsg);
-    void Write_Log_4D9650(const char_type* buffer);
+  public:
+    EXPORT void sub_4D9470(const char_type* path, s32 a3);
+    EXPORT ErrorLog(const char *FileName, int a3);
+    EXPORT ErrorLog& Write_4D9620(const char_type* pMsg);
+    EXPORT void Write_Log_4D9650(const char_type* buffer);
+
+    ErrorLog()
+    {
+    }
+
+    //ofstream field_0_ofstr; // Crashes standalone
+    u8* field_3C;
 };
 
 EXPORT void __stdcall Error_SetName_4A0770(const char_type* pFileName);

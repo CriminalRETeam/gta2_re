@@ -25,7 +25,7 @@
 #include "Object_5C.hpp"
 #include "Orca_2FD4.hpp"
 #include "Particle_8.hpp"
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 #include "Phi_8CA8.hpp"
 #include "Police_7B8.hpp"
 #include "Rozza_C88.hpp"

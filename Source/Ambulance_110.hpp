@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 
 class Ped;
 class Kfc_30;
@@ -32,7 +32,7 @@ class Ambulance_20
     Kfc_30* field_4;
     Ped* field_8;
     Ped* field_C;
-    Ped_Unknown_4 field_10;
+    Ped_List_4 field_10;
     char_type field_14_count;
     char_type field_15;
     s16 field_16;
@@ -63,7 +63,7 @@ class Ambulance_110
     u8 field_1_f8_idx;
     char_type field_2;
     char_type field_3;
-    Ped_Unknown_4 field_4;
+    Ped_List_4 field_4;
     jawwie_8 field_8[25];
     Ambulance_20 field_D0[2];
 };

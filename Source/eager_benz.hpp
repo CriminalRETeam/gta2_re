@@ -33,10 +33,10 @@ class eager_benz
     EXPORT void UpdateAccuracyCount_5934F0(u32 a2, s32 a3, Ped* a4);
     EXPORT thirsty_lamarr* sub_5935B0();
     EXPORT s32 sub_5935C0();
-    EXPORT void sub_5935D0(s32 a2);
+    EXPORT void ChangeFragsByAmount_5935D0(s32 a2);
 
     thirsty_lamarr field_0_money;
-    thirsty_lamarr field_38_unk;
+    thirsty_lamarr field_38_multiplayer_frags;
     s32 field_70;
     char_type field_74;
     char_type field_75_score_mult;
@@ -65,5 +65,5 @@ class eager_benz
     char_type field_1A6;
     char_type field_1A7;
     sad_mirzakhani field_1A8_unk;
-    Player* field_368_pObj;
+    Player* field_368_player;
 };

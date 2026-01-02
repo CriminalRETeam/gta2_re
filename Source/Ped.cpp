@@ -710,7 +710,7 @@ void Ped::sub_45C7F0(Car_BC* pCar)
     this->field_24C_target_car_door = 1;
     this->field_278 = 10;
     this->field_27C = 10;
-    pCar->field_4.AddPassenger_471140(this);
+    pCar->field_4_passengers_list.AddPed_471140(this);
 }
 
 MATCH_FUNC(0x45c830)
@@ -1437,7 +1437,7 @@ void Ped::sub_462B80()
             else
             {
                 field_16C_car->ShowCarName_4406B0(this);
-                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4.AddPassenger_471140(this), field_238 == 3))
+                if (field_25C_car_state == 37 && field_238 == 3 || (field_16C_car->field_4_passengers_list.AddPed_471140(this), field_238 == 3))
                 {
                     if (field_25C_car_state == 37)
                     {
@@ -1632,7 +1632,7 @@ bool Ped::PoolUpdate()
 
             if (!byte_678554 && field_21C_bf.b14)
             {
-                gOrca_2FD4_6FDEF0->field_3C.RemovePassenger_471240(this);
+                gOrca_2FD4_6FDEF0->field_3C.RemovePed_471240(this);
                 field_21C_bf.b14 = 0;
             }
 
@@ -3098,7 +3098,7 @@ void Ped::sub_46F680(Ped* a2)
 }
 
 STUB_FUNC(0x46f720)
-void Ped::sub_46F720()
+void Ped::UpdateStatsForKiller_46F720()
 {
     NOT_IMPLEMENTED;
 }
@@ -3109,11 +3109,11 @@ void Ped::Kill_46F9D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46fc70)
-u32* Ped::sub_46FC70()
+MATCH_FUNC(0x46fc70)
+void Ped::AddThreateningPedToList_46FC70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    unk_6787EF = 1;
+    gThreateningPedsList_678468.AddPedToFrontIfMissing_4711B0(this);
 }
 
 STUB_FUNC(0x46fc90)
@@ -3140,7 +3140,7 @@ void Ped::sub_46FFF0(s32 model)
 {
     if (sub_45EDE0(2))
     {
-        field_15C_player->field_2D4_unk.UpdateAccuracyCount_5934F0(0, model, 0);
+        field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(0, model, 0);
     }
 
     if ((this->field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)

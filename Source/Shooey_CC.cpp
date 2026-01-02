@@ -167,9 +167,9 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             switch (crime_type)
             {
 
-                case 0:
-                case 1:
-                case 2:
+                case crime_stats_type::Unknown_0:
+                case crime_stats_type::Unknown_1:
+                case crime_stats_type::Unknown_2:
                     doit = true;
                     break;
 
@@ -178,7 +178,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     ReportCrime(crime_type, pPed->field_200_id);
                     if (pPed->field_15C_player)
                     {
-                        gPolice_7B8_6FEE40->sub_570940(pPed);
+                        gPolice_7B8_6FEE40->UpdateCriminalLatestPosition_570940(pPed);
                     }
                     break;
             }
@@ -194,7 +194,7 @@ void Shooey_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
             Player* pPlayer = pPed->field_15C_player;
             if (pPlayer)
             {
-                pPlayer->field_644_unk.report_crime(crime_type);
+                pPlayer->field_644_unk.IncrementCrimeCount_484F50(crime_type);
             }
 
             break;

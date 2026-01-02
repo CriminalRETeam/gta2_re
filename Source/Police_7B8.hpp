@@ -44,7 +44,7 @@ class Police_7B8
     EXPORT bool sub_570790(PoliceCrew_38* a1, Police_7C* a2);
     EXPORT char_type sub_5707B0(s32 a2, s32 a3);
     EXPORT void sub_5708C0(Ped* pPed);
-    EXPORT void sub_570940(Ped* a3);
+    EXPORT void UpdateCriminalLatestPosition_570940(Ped* a3);
     EXPORT char_type sub_577320();
     EXPORT void sub_577370(u8 a2, s32 a3, s32 a4);
 

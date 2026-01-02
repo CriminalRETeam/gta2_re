@@ -1,24 +1,26 @@
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 #include "Car_BC.hpp"
 #include "Ped.hpp"
 
+DEFINE_GLOBAL(Ped_List_4, gThreateningPedsList_678468, 0x678468);
+
 MATCH_FUNC(0x471140)
-Char_8* Ped_Unknown_4::AddPassenger_471140(Ped* pPed)
+Char_8* Ped_List_4::AddPed_471140(Ped* pPed)
 {
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
 
     pNew->field_0_char_ped = pPed;
 
-    pNew->mpNext = this->field_0_pFirstPassenger;
-    this->field_0_pFirstPassenger = pNew;
+    pNew->mpNext = field_0_pFirstPed;
+    field_0_pFirstPed = pNew;
 
     return pNew;
 }
 
 MATCH_FUNC(0x471160)
-void Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
+void Ped_List_4::AddPedToBackIfMissing_471160(Ped* pPed)
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     Char_8* pLast = NULL;
     if (pIter)
     {
@@ -46,15 +48,15 @@ void Ped_Unknown_4::AddPassengerToBackIfMissing_471160(Ped* pPed)
     else
     {
         // List was empty
-        this->field_0_pFirstPassenger = pNew;
+        field_0_pFirstPed = pNew;
         pNew->mpNext = 0;
     }
 }
 
 MATCH_FUNC(0x4711B0)
-void Ped_Unknown_4::AddPassengerToFrontIfMissing_4711B0(Ped* pPed)
+void Ped_List_4::AddPedToFrontIfMissing_4711B0(Ped* pPed)
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     Char_8* pLast = NULL;
     if (pIter)
     {
@@ -74,14 +76,14 @@ void Ped_Unknown_4::AddPassengerToFrontIfMissing_4711B0(Ped* pPed)
     Char_8* pNew = gChar_8_Pool_678b50->field_0_pool.Allocate();
     pNew->field_0_char_ped = pPed;
 
-    pNew->mpNext = this->field_0_pFirstPassenger;
-    this->field_0_pFirstPassenger = pNew;
+    pNew->mpNext = field_0_pFirstPed;
+    field_0_pFirstPed = pNew;
 }
 
 MATCH_FUNC(0x4711f0)
-void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
+void Ped_List_4::RemovePed_4711F0(Ped* pPed)
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     Char_8* pLast = NULL;
     while (pIter)
     {
@@ -93,7 +95,7 @@ void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
             }
             else
             {
-                this->field_0_pFirstPassenger = pIter->mpNext;
+                field_0_pFirstPed = pIter->mpNext;
             }
             gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
             break;
@@ -104,9 +106,9 @@ void Ped_Unknown_4::RemovePassenger_4711F0(Ped* pPed)
 }
 
 MATCH_FUNC(0x471240)
-void Ped_Unknown_4::RemovePassenger_471240(Ped* pPed)
+void Ped_List_4::RemovePed_471240(Ped* pPed)
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     Char_8* pLast = NULL;
     while (pIter)
     {
@@ -118,7 +120,7 @@ void Ped_Unknown_4::RemovePassenger_471240(Ped* pPed)
             }
             else
             {
-                this->field_0_pFirstPassenger = pIter->mpNext;
+                field_0_pFirstPed = pIter->mpNext;
             }
             gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
             break;
@@ -129,10 +131,10 @@ void Ped_Unknown_4::RemovePassenger_471240(Ped* pPed)
 }
 
 MATCH_FUNC(0x471290)
-char_type Ped_Unknown_4::RemovePassengersInSpecificState_471290()
+char_type Ped_List_4::RemovePedsInSpecificState_471290()
 {
     Char_8* pLast = 0;
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     char_type removedCount = 0;
     while (pIter)
     {
@@ -149,7 +151,7 @@ char_type Ped_Unknown_4::RemovePassengersInSpecificState_471290()
             }
             else
             {
-                this->field_0_pFirstPassenger = pIter->mpNext;
+                field_0_pFirstPed = pIter->mpNext;
             }
 
             Char_8* pIterOldNext = pIter->mpNext;
@@ -164,9 +166,9 @@ char_type Ped_Unknown_4::RemovePassengersInSpecificState_471290()
 }
 
 MATCH_FUNC(0x4712F0)
-void Ped_Unknown_4::ClearPassengers_4712F0()
+void Ped_List_4::ClearPeds_4712F0()
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
         Char_8* pLast = pIter;
@@ -174,42 +176,42 @@ void Ped_Unknown_4::ClearPassengers_4712F0()
         gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
     }
 
-    this->field_0_pFirstPassenger = 0;
+    field_0_pFirstPed = 0;
 }
 
 MATCH_FUNC(0x471320)
-Ped* Ped_Unknown_4::RemoveFirstPassenger_471320()
+Ped* Ped_List_4::RemoveFirstPed_471320()
 {
-    Char_8* pIter = field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     if (!pIter)
     {
         return 0;
     }
 
     Ped* pPed = pIter->field_0_char_ped;
-    this->field_0_pFirstPassenger = pIter->mpNext;
+    field_0_pFirstPed = pIter->mpNext;
     gChar_8_Pool_678b50->field_0_pool.DeAllocate(pIter);
     return pPed;
 }
 
 STUB_FUNC(0x471340)
-Ped* Ped_Unknown_4::GetClosestPassengerToPoint_471340(Fix16 x, Fix16 y)
+Ped* Ped_List_4::GetFromListClosestPedToPoint_471340(Fix16 x, Fix16 y)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x4713C0)
-Ped* Ped_Unknown_4::FindClosestPassengerInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
+Ped* Ped_List_4::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 ang1, Ang16 ang2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x4715a0)
-void Ped_Unknown_4::KillAllPassengers_4715A0()
+void Ped_List_4::KillAllPedsFromList_4715A0()
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
         Char_8* pLast = pIter;
@@ -218,13 +220,13 @@ void Ped_Unknown_4::KillAllPassengers_4715A0()
         gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
     }
 
-    this->field_0_pFirstPassenger = 0;
+    field_0_pFirstPed = 0;
 }
 
 MATCH_FUNC(0x4715e0)
-void Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
+void Ped_List_4::KillAllPedsAndClearCarRef_4715E0()
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
         Char_8* pLast = pIter;
@@ -234,13 +236,13 @@ void Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0()
         gChar_8_Pool_678b50->field_0_pool.DeAllocate(pLast);
     }
 
-    this->field_0_pFirstPassenger = 0;
+    field_0_pFirstPed = 0;
 }
 
 MATCH_FUNC(0x471630)
-void Ped_Unknown_4::ApplyPassengerBusStopBehavior_471630()
+void Ped_List_4::ApplyPassengerBusStopBehavior_471630()
 {
-    for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 8)
         {
@@ -252,9 +254,9 @@ void Ped_Unknown_4::ApplyPassengerBusStopBehavior_471630()
 }
 
 MATCH_FUNC(0x471680)
-void Ped_Unknown_4::ForceTaxiPassengersToExit_471680()
+void Ped_List_4::ForceTaxiPassengersToExit_471680()
 {
-    for (Char_8* pIter = field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_char_ped->field_240_occupation == 7)
         {
@@ -264,10 +266,10 @@ void Ped_Unknown_4::ForceTaxiPassengersToExit_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-u16 Ped_Unknown_4::GetPassengerCount_4716B0()
+u16 Ped_List_4::GetPedsCount_4716B0()
 {
     u16 passengerCount;
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     for (passengerCount = 0; pIter; ++passengerCount)
     {
         pIter = pIter->mpNext;
@@ -276,9 +278,9 @@ u16 Ped_Unknown_4::GetPassengerCount_4716B0()
 }
 
 MATCH_FUNC(0x4716d0)
-void Ped_Unknown_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
+void Ped_List_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
 {
-    for (Char_8* pIter = this->field_0_pFirstPassenger; pIter; pIter = pIter->mpNext)
+    for (Char_8* pIter = field_0_pFirstPed; pIter; pIter = pIter->mpNext)
     {
         pIter->field_0_char_ped->field_204_killer_id = pCar->field_70_exploder_ped_id;
         pIter->field_0_char_ped->field_290 = pCar->field_90;
@@ -287,9 +289,9 @@ void Ped_Unknown_4::SyncPassengersWithCarState_4716D0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x471710)
-char_type Ped_Unknown_4::HasPassengerWith_F238_Is_5_471710()
+char_type Ped_List_4::HasPassengerWith_F238_Is_5_471710()
 {
-    Char_8* pIter = this->field_0_pFirstPassenger;
+    Char_8* pIter = field_0_pFirstPed;
     while (pIter)
     {
         if (pIter->field_0_char_ped->field_238 == 5)

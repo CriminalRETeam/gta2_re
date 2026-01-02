@@ -417,7 +417,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_unk.sub_592360();
+    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
     s32 v8 = v5->sub_492260(639, 4);
 
     if (bStartNetworkGame_7081F0)
@@ -440,7 +440,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
 
     if (bStartNetworkGame_7081F0)
     {
-        if (gLucid_hamilton_67E8E0.sub_4C5BC0() == TAG_GAME_3)
+        if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
         {
             swprintf(Buffer,
                      L"%2d:%02d",
@@ -452,7 +452,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_unk.sub_5935B0();
+            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.sub_5935B0();
             v16->sub_492260(490, 4);
         }
 
@@ -462,12 +462,12 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_unk.sub_592360();
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.sub_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
                 sub_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
 
-                if (gLucid_hamilton_67E8E0.sub_4C5BC0() == TAG_GAME_3)
+                if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3)
                 {
                     swprintf(Buffer,
                              L"%2d:%02d",
@@ -479,7 +479,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_unk.sub_5935B0();
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.sub_5935B0();
                     v29->sub_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
@@ -543,9 +543,9 @@ void Garox_1118_sub::sub_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_unk.sub_592360();
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
         pLamarr1->sub_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_unk.sub_5935B0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.sub_5935B0();
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
@@ -1312,7 +1312,7 @@ bool Hud_Arrow_7C::CheckVisibility_5D0530()
                     pCurrLocationGang = NULL;
                 }
             }
-            if (field_18.field_60->field_10_target_type == ArrowTargetType::InfoPhone_5)
+            if (field_18.field_60_curr_target->field_10_target_type == ArrowTargetType::InfoPhone_5)
             {
                 if (pCurrLocationGang == pThisGang)
                 {
@@ -1503,7 +1503,7 @@ void Hud_Arrow_7C_Array::sub_5D1350()
 {
     if ((u8)bStartNetworkGame_7081F0)
     {
-        if (gLucid_hamilton_67E8E0.sub_4C5BC0() != TAG_GAME_3)
+        if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() != TAG_GAME_3)
         {
             sub_5D10B0();
             for (Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0(); pPlayerIter;
@@ -1535,7 +1535,7 @@ Hud_Arrow_7C::Hud_Arrow_7C()
     field_18.field_18_primary_target.init();
     field_18.field_3C_secondary_target.init();
 
-    field_18.field_60 = &field_18.field_18_primary_target;
+    field_18.field_60_curr_target = &field_18.field_18_primary_target;
     field_18.field_2E = 0;
     field_18.field_10.field_6 = 0;
 }
@@ -1597,7 +1597,7 @@ char_type Hud_Arrow_7C_Array::IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144
     for (s32 i = 0; i < GTA2_COUNTOF_S(field_0_array); i++, pIter++)
     {
         if ((pIter->field_18.field_18_primary_target.field_10_target_type || pIter->field_18.field_3C_secondary_target.field_10_target_type) &&
-            (pIter->field_18.field_10.field_30_gang == pArgGang && pIter->field_18.field_60->field_10_target_type != ArrowTargetType::InfoPhone_5))
+            (pIter->field_18.field_10.field_30_gang == pArgGang && pIter->field_18.field_60_curr_target->field_10_target_type != ArrowTargetType::InfoPhone_5))
         {
             return true;
         }
@@ -1614,7 +1614,7 @@ void Hud_Arrow_7C_Array::sub_5D0F80()
         {
             if (field_0_array[i].field_18.field_10.field_30_gang)
             {
-                if (field_0_array[i].field_18.field_60->field_10_target_type == ArrowTargetType::InfoPhone_5 && !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
+                if (field_0_array[i].field_18.field_60_curr_target->field_10_target_type == ArrowTargetType::InfoPhone_5 && !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18.field_10.field_30_gang))
                 {
                     field_0_array[i].field_18.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
                     field_0_array[i].field_18.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;

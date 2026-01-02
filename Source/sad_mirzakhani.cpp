@@ -198,7 +198,7 @@ void sad_mirzakhani::sub_4320D0(s16 f_4, s32 f_8, s32 f_c, s16 f_10, s16 f_12, s
         pFound->field_26++;
         if (pFound->field_26 == pFound->field_25)
         {
-            field_1B8->field_368_pObj->field_2D4_unk.AddCash_592620(field_1B8->field_368_pObj->field_6BC_multpliers.field_0 *
+            field_1B8->field_368_player->field_2D4_scores.AddCash_592620(field_1B8->field_368_player->field_6BC_multpliers.field_0 *
                                                                     pFound->field_28);
             pFound->sub_431DB0();
         }

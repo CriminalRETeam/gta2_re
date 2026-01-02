@@ -82,7 +82,7 @@ void jolly_poitras_0x2BC0::sub_56BB10(Player* pPlayer)
     }
 
     stage_stats* pStageStats = &this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num];
-    const u32 latest_score = pPlayer->field_2D4_unk.GetScore_592370();
+    const u32 latest_score = pPlayer->field_2D4_scores.GetScore_592370();
     if (latest_score > pStageStats->field_4_stage_best_score)
     {
         pStageStats->field_4_stage_best_score = latest_score;
@@ -343,7 +343,7 @@ void jolly_poitras_0x2BC0::DoMuchCashCheat_56C250()
         if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_orf1;
-            pPlayer->field_2D4_unk.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
+            pPlayer->field_2D4_scores.AddCash_592620(pPlayer->field_6BC_multpliers.field_0 * 500000);
         }
     }
 }

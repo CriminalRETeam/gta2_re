@@ -1860,7 +1860,7 @@
         "v105_address": "0x43dd60"
     },
     {
-        "name": "Car_BC::sub_43E560",
+        "name": "Car_BC::ManageDrowning_43E560",
         "v96f_address": null,
         "v105_address": "0x43e560"
     },
@@ -3845,7 +3845,7 @@
         "v105_address": "0x46f680"
     },
     {
-        "name": "Ped::sub_46F720",
+        "name": "Ped::UpdateStatsForKiller_46F720",
         "v96f_address": "0x43D880",
         "v105_address": "0x46f720"
     },
@@ -3855,7 +3855,7 @@
         "v105_address": "0x46f9d0"
     },
     {
-        "name": "Ped::sub_46FC70",
+        "name": "Ped::AddThreateningPedToList_46FC70",
         "v96f_address": null,
         "v105_address": "0x46fc70"
     },
@@ -4000,87 +4000,87 @@
         "v105_address": "0x471110"
     },
     {
-        "name": "Ped_Unknown_4::AddPassenger_471140",
+        "name": "Ped_List_4::AddPed_471140",
         "v96f_address": null,
         "v105_address": "0x471140"
     },
     {
-        "name": "Ped_Unknown_4::AddPassengerToBackIfMissing_471160",
+        "name": "Ped_List_4::AddPedToBackIfMissing_471160",
         "v96f_address": null,
         "v105_address": "0x471160"
     },
     {
-        "name": "HashBrown_678468::AddPassengerToFrontIfMissing_4711B0",
+        "name": "Ped_List_4::AddPedToFrontIfMissing_4711B0",
         "v96f_address": null,
         "v105_address": "0x4711b0"
     },
     {
-        "name": "Ped_Unknown_4::RemovePassenger_4711F0",
+        "name": "Ped_List_4::RemovePed_4711F0",
         "v96f_address": null,
         "v105_address": "0x4711f0"
     },
     {
-        "name": "HashBrown_678468::RemovePassenger_471240",
+        "name": "Ped_List_4::RemovePed_471240",
         "v96f_address": null,
         "v105_address": "0x471240"
     },
     {
-        "name": "Ped_Unknown_4::RemovePassengersInSpecificState_471290",
+        "name": "Ped_List_4::RemovePedsInSpecificState_471290",
         "v96f_address": null,
         "v105_address": "0x471290"
     },
     {
-        "name": "HashBrown_678468::ClearPassengers_4712F0",
+        "name": "Ped_List_4::ClearPeds_4712F0",
         "v96f_address": null,
         "v105_address": "0x4712f0"
     },
     {
-        "name": "Ped_Unknown_4::RemoveFirstPassenger_471320",
+        "name": "Ped_List_4::RemoveFirstPed_471320",
         "v96f_address": null,
         "v105_address": "0x471320"
     },
     {
-        "name": "HashBrown_678468::GetClosestPassengerToPoint_471340",
+        "name": "Ped_List_4::GetFromListClosestPedToPoint_471340",
         "v96f_address": null,
         "v105_address": "0x471340"
     },
     {
-        "name": "HashBrown_678468::FindClosestPassengerInViewCone_4713C0",
+        "name": "Ped_List_4::FindClosestPedInViewCone_4713C0",
         "v96f_address": null,
         "v105_address": "0x4713c0"
     },
     {
-        "name": "Ped_Unknown_4::KillAllPassengers_4715A0",
+        "name": "Ped_List_4::KillAllPedsFromList_4715A0",
         "v96f_address": null,
         "v105_address": "0x4715a0"
     },
     {
-        "name": "Ped_Unknown_4::KillAllPassengersAndClearCarRef_4715E0",
+        "name": "Ped_List_4::KillAllPedsAndClearCarRef_4715E0",
         "v96f_address": null,
         "v105_address": "0x4715e0"
     },
     {
-        "name": "Ped_Unknown_4::ApplyPassengerBusStopBehavior_471630",
+        "name": "Ped_List_4::ApplyPassengerBusStopBehavior_471630",
         "v96f_address": null,
         "v105_address": "0x471630"
     },
     {
-        "name": "Ped_Unknown_4::ForceTaxiPassengersToExit_471680",
+        "name": "Ped_List_4::ForceTaxiPassengersToExit_471680",
         "v96f_address": null,
         "v105_address": "0x471680"
     },
     {
-        "name": "Ped_Unknown_4::GetPassengerCount_4716B0",
+        "name": "Ped_List_4::GetPedsCount_4716B0",
         "v96f_address": null,
         "v105_address": "0x4716b0"
     },
     {
-        "name": "Ped_Unknown_4::SyncPassengersWithCarState_4716D0",
+        "name": "Ped_List_4::SyncPassengersWithCarState_4716D0",
         "v96f_address": null,
         "v105_address": "0x4716d0"
     },
     {
-        "name": "Ped_Unknown_4::HasPassengerWith_F238_Is_5_471710",
+        "name": "Ped_List_4::HasPassengerWith_F238_Is_5_471710",
         "v96f_address": null,
         "v105_address": "0x471710"
     },
@@ -4645,7 +4645,7 @@
         "v105_address": "0x484f30"
     },
     {
-        "name": "zealous_borg::report_crime",
+        "name": "zealous_borg::IncrementCrimeCount_484F50",
         "v96f_address": null,
         "v105_address": "0x484f50"
     },
@@ -4975,22 +4975,22 @@
         "v105_address": "0x498da0"
     },
     {
-        "name": "Door_10::PoolAllocate",
+        "name": "DoorData_10::PoolAllocate",
         "v96f_address": "0x44c540",
         "v105_address": "0x49c320"
     },
     {
-        "name": "Door_10::sub_49C340",
+        "name": "DoorData_10::sub_49C340",
         "v96f_address": null,
         "v105_address": "0x49c340"
     },
     {
-        "name": "Door_10::sub_49C4E0",
+        "name": "DoorData_10::sub_49C4E0",
         "v96f_address": "0x44c560",
         "v105_address": "0x49c4e0"
     },
     {
-        "name": "Door_10::sub_49C590",
+        "name": "DoorData_10::sub_49C590",
         "v96f_address": null,
         "v105_address": "0x49c590"
     },
@@ -6495,7 +6495,7 @@
         "v105_address": "0x4c5af0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5B80",
+        "name": "lucid_hamilton::SetMultiplayerParams_4C5B80",
         "v96f_address": null,
         "v105_address": "0x4c5b80"
     },
@@ -6505,17 +6505,17 @@
         "v105_address": "0x4c5bc0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BD0",
+        "name": "lucid_hamilton::GetMultiplayerPointsLimit_4C5BD0",
         "v96f_address": null,
         "v105_address": "0x4c5bd0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BE0",
+        "name": "lucid_hamilton::GetUserPlayerIdx_4C5BE0",
         "v96f_address": null,
         "v105_address": "0x4c5be0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BF0",
+        "name": "lucid_hamilton::GetMaxPlayers_4C5BF0",
         "v96f_address": null,
         "v105_address": "0x4c5bf0"
     },
@@ -6540,12 +6540,12 @@
         "v105_address": "0x4c5c60"
     },
     {
-        "name": "lucid_hamilton::sub_4C5C80",
+        "name": "lucid_hamilton::ChangePointsForPlayerIdxByAmount_4C5C80",
         "v96f_address": null,
         "v105_address": "0x4c5c80"
     },
     {
-        "name": "lucid_hamilton::sub_4C5CB0",
+        "name": "lucid_hamilton::GetPointsForPlayerIdx_4C5CB0",
         "v96f_address": null,
         "v105_address": "0x4c5cb0"
     },
@@ -6555,7 +6555,7 @@
         "v105_address": "0x4c5cd0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5D60",
+        "name": "lucid_hamilton::GetFragsForPlayerIdx_4C5D60",
         "v96f_address": null,
         "v105_address": "0x4c5d60"
     },
@@ -13200,7 +13200,7 @@
         "v105_address": "0x5708c0"
     },
     {
-        "name": "Police_7B8::sub_570940",
+        "name": "Police_7B8::UpdateCriminalLatestPosition_570940",
         "v96f_address": null,
         "v105_address": "0x570940"
     },
@@ -14475,7 +14475,7 @@
         "v105_address": "0x5935c0"
     },
     {
-        "name": "eager_benz::sub_5935D0",
+        "name": "eager_benz::ChangeFragsByAmount_5935D0",
         "v96f_address": null,
         "v105_address": "0x5935d0"
     },
