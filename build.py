@@ -101,6 +101,13 @@ def main():
 
     args = parser.parse_args()
 
+    ok = check_duplicated_globals()
+    if not ok:
+        print(f"\nGlobals verification failed!")
+        sys.exit(1)
+    
+    print("No duplicated globals found!\n")
+
     print("Starting build")
     print(f"Build platform: {platform.system()}")
 
@@ -334,6 +341,13 @@ def run_exe(exe: ExeType):
 
     print(f"Executing run command: {arg_list}")
     subprocess.run(args=arg_list, cwd=GTA2_ROOT)
+
+def check_duplicated_globals():
+    print("Checking for duplicated globals...")
+    python = sys.executable # should be the python venv
+
+    global_check_result = subprocess.run(f"{python} check_duplicate_globals.py", cwd=BIN_COMP_DIRECTORY, shell=True)
+    return global_check_result.returncode == 0
 
 if __name__ == "__main__":
     main()
