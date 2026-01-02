@@ -80,7 +80,7 @@ DEFINE_GLOBAL(u8, byte_6FDB57, 0x6FDB57);
 
 EXTERN_GLOBAL(Ang16, word_6FDB34);
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
-EXTERN_GLOBAL(Ped_Unknown_4, gThreateningPedsList_678468);
+EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 //https://decomp.me/scratch/iQH9l 
 MATCH_FUNC(0x544F70)
@@ -893,7 +893,7 @@ void PedManager::PedsService_4703F0()
     else
     {
         byte_6787DA = 0;
-        gThreateningPedsList_678468.ClearPassengers_4712F0();
+        gThreateningPedsList_678468.ClearPeds_4712F0();
     }
 
     byte_6787D8 = byte_61A8A1 == 1;

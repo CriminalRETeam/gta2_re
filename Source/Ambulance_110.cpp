@@ -42,7 +42,7 @@ void Ambulance_20::sub_4FA7D0()
 MATCH_FUNC(0x4fa800)
 void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
 {
-    field_10.AddPassenger_471140(pPed);
+    field_10.AddPed_471140(pPed);
     field_14_count++;
 }
 
@@ -168,7 +168,7 @@ char_type Ambulance_110::TryAddPassenger_4FA470(Ped* pPed)
         return 0;
     }
 
-    field_4.AddPassenger_471140(pPed);
+    field_4.AddPed_471140(pPed);
     field_1_f8_idx++;
 
     return 1;

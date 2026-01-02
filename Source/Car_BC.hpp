@@ -5,7 +5,7 @@
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 #include "Pool.hpp"
 #include "ang16.hpp"
 #include "gtx_0x106C.hpp"
@@ -23,7 +23,7 @@ class Trailer;
 class Ped;
 class Char_8;
 class Hamburger_40;
-class Ped_Unknown_4;
+class Ped_List_4;
 class car_info;
 class infallible_turing;
 
@@ -821,7 +821,7 @@ class Car_BC
     }
 
     struct_4 field_0_qq;
-    Ped_Unknown_4 field_4_ped_list;
+    Ped_List_4 field_4_passengers_list;
     BitSet32 field_8_damaged_areas; // TODO: check if it's a bitset
     Car_Door_10 field_C_doors[4];
     Car_BC* mpNext;

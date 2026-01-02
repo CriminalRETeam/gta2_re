@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "Ped_Unknown_4.hpp"
+#include "Ped_List_4.hpp"
 
 class Ped;
 
@@ -74,7 +74,7 @@ class Orca_2FD4
     char_type field_38;
     char_type field_39;
     s16 field_3A;
-    Ped_Unknown_4 field_3C;
+    Ped_List_4 field_3C;
     s16 field_40[4488];
     s32 field_2350;
     s32 field_2354;
