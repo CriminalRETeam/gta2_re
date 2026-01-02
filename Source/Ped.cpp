@@ -3109,11 +3109,11 @@ void Ped::Kill_46F9D0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46fc70)
-u32* Ped::sub_46FC70()
+MATCH_FUNC(0x46fc70)
+void Ped::AddThreateningPedToList_46FC70()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    unk_6787EF = 1;
+    gThreateningPedsList_678468.AddPassengerToFrontIfMissing_4711B0(this);
 }
 
 STUB_FUNC(0x46fc90)

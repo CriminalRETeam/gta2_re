@@ -291,3 +291,5 @@ EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
 EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
 
 EXPORT void __stdcall sub_544F70();
+
+EXTERN_GLOBAL(u8, unk_6787EF);
