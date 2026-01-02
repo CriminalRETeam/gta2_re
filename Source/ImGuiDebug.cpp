@@ -925,6 +925,11 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderU16("Powerup idx", &powerup_idx, 0, 16);
                     ImGui::InputU16("Powerup timer", &pPlayer->field_6F4_power_up_timers[powerup_idx], 1, 1);
 
+                    if (ImGui::Button("Scare people"))
+                    {
+                        pPlayer->field_2C4_player_ped->AddThreateningPedToList_46FC70();
+                    }
+
                     Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
                     ImGui::Text("Car 0x%X", pPlayerCar);
                     if (pPlayerCar)
@@ -933,11 +938,6 @@ void CC ImGuiDebugDraw()
                         if (ImGui::Button("ResprayOrCleanPlates"))
                         {
                             pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
-                        }
-
-                        if (ImGui::Button("Drown Car"))
-                        {
-                            pPlayerCar->ManageDrowning_43E560();
                         }
 
                         if (gGangPool_CA8_67E274)
