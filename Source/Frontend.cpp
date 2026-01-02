@@ -590,9 +590,9 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
             break;
 
         case MENUPAGE_MULTIPLAYER_RESULTS:
-            a2b = gLucid_hamilton_67E8E0.sub_4C5BF0();
+            a2b = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
             v15 = -1;
-            if (gLucid_hamilton_67E8E0.sub_4C5BC0() == 3)
+            if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3)
             {
                 for (u8 v16 = 0; v16 < 6; v16++)
                 {
@@ -607,8 +607,8 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                 gLucid_hamilton_67E8E0.sub_4C5C20();
             }
 
-            v65 = (unsigned __int8)gLucid_hamilton_67E8E0.sub_4C5BE0();
-            v68 = gLucid_hamilton_67E8E0.sub_4C5BC0();
+            v65 = (unsigned __int8)gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
+            v68 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
             switch (v68)
             {
                 case FRAG_GAME_1:
@@ -653,7 +653,7 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                 else
                 {
                     *(v23 - 660) = 1;
-                    *v23 = gLucid_hamilton_67E8E0.sub_4C5BC0() != 3;
+                    *v23 = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() != 3;
                 }
                 ++v22;
                 v23 += 110;
@@ -715,15 +715,15 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         {
                             if (v31 != v65 //  not this player (i.e. an opponent)
                                 && gYouthful_einstein_6F8450.field_20[v31] == 0 //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a) > v30) // v30 = highest frag from opponents
+                                && (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a) > v30) // v30 = highest frag from opponents
                             {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5D60(a3a); // update highest frag
+                                v30 = (s16)(&gLucid_hamilton_67E8E0)->GetFragsForPlayerIdx_4C5D60(a3a); // update highest frag
                             }
                             ++v31;
                             ++a3a;
                         } while (a3a < a2b);
                     }
-                    v33 = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(v65);
+                    v33 = (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(v65);
                     break;
                 case POINTS_GAME_2:
                     a3b = 0;
@@ -734,15 +734,15 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
                         {
                             if (v34 != v65 //  not you
                                 && gYouthful_einstein_6F8450.field_20[v34] == 0 //  not quit?
-                                && (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b) > v30) // v30 = highest score from opponents
+                                && (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b) > v30) // v30 = highest score from opponents
                             {
-                                v30 = (s16)(&gLucid_hamilton_67E8E0)->sub_4C5CB0(a3b); // update highest opponent score
+                                v30 = (s16)(&gLucid_hamilton_67E8E0)->GetPointsForPlayerIdx_4C5CB0(a3b); // update highest opponent score
                             }
                             ++v34;
                             ++a3b;
                         } while (a3b < a2b);
                     }
-                    v33 = gLucid_hamilton_67E8E0.sub_4C5CB0(v65);
+                    v33 = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(v65);
                     break;
                 case TAG_GAME_3:
                     if (v24)
@@ -4320,51 +4320,51 @@ void Frontend::sub_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 ar
 MATCH_FUNC(0x4B55F0)
 void Frontend::sub_4B55F0()
 {
-    s8 game_mode = gLucid_hamilton_67E8E0.sub_4C5BC0();
-    u8 v20 = gLucid_hamilton_67E8E0.sub_4C5BF0();
-    u8 v22 = gLucid_hamilton_67E8E0.sub_4C5BE0();
+    s8 game_mode = gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0();
+    u8 max_players = gLucid_hamilton_67E8E0.GetMaxPlayers_4C5BF0();
+    u8 user_idx = gLucid_hamilton_67E8E0.GetUserPlayerIdx_4C5BE0();
 
-    u8 v18 = 0;
+    u8 idx_2 = 0;
 
-    for (u8 player_idx = 0; player_idx < v20; ++player_idx)
+    for (u8 curr_plyr_idx = 0; curr_plyr_idx < max_players; ++curr_plyr_idx)
     {
         u16 x_pos;
         u16 y_pos;
         wchar_t Buffer[26];
 
-        if (game_mode == 1) //  frags
+        if (game_mode == FRAG_GAME_1) //  frags
         {
-            s32 frags = (s16)gLucid_hamilton_67E8E0.sub_4C5D60(player_idx);
+            s32 frags = (s16)gLucid_hamilton_67E8E0.GetFragsForPlayerIdx_4C5D60(curr_plyr_idx);
             _itow(frags, Buffer, 10);
             x_pos = 550;
-            y_pos = 20 * player_idx + 170;
+            y_pos = 20 * curr_plyr_idx + 170;
         }
-        else if (game_mode == 2) //  points game
+        else if (game_mode == POINTS_GAME_2) //  points game
         {
-            s32 points = gLucid_hamilton_67E8E0.sub_4C5CB0(player_idx);
+            s32 points = gLucid_hamilton_67E8E0.GetPointsForPlayerIdx_4C5CB0(curr_plyr_idx);
             _itow(points, Buffer, 10);
             x_pos = 550;
-            y_pos = 20 * player_idx + 170;
+            y_pos = 20 * curr_plyr_idx + 170;
         }
         else // tag game
         {
-            s32 player_time = gYouthful_einstein_6F8450.field_4_time[player_idx];
+            s32 player_time = gYouthful_einstein_6F8450.field_4_time[curr_plyr_idx];
             swprintf(Buffer, L"%2d:%02d", player_time / 60, player_time % 60);
             x_pos = 500;
-            y_pos = 20 * player_idx + 170;
+            y_pos = 20 * curr_plyr_idx + 170;
         }
 
         DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
 
-        s32 v11 = gLucid_hamilton_67E8E0.sub_4C5D80(v22, player_idx);
+        s32 v11 = gLucid_hamilton_67E8E0.sub_4C5D80(user_idx, curr_plyr_idx);
         _itow(v11, Buffer, 10);
 
-        if (game_mode != 3 && player_idx != v22)
+        if (game_mode != TAG_GAME_3 && curr_plyr_idx != user_idx)
         {
             x_pos = 550;
-            y_pos = 20 * v18 + 320;
+            y_pos = 20 * idx_2 + 320;
             DrawText_4B87A0(Buffer, x_pos, y_pos, field_11C, 1);
-            ++v18;
+            ++idx_2;
         }
     }
 }

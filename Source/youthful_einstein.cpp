@@ -30,7 +30,7 @@ void youthful_einstein::sub_516590(Player* a2)
 MATCH_FUNC(0x516660)
 void youthful_einstein::UpdateFugitive_516660()
 {  
-  switch ( gLucid_hamilton_67E8E0.sub_4C5BC0() )
+  switch ( gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() )
   {
     case 0:
       FatalError_4A38C0(
@@ -82,7 +82,7 @@ void youthful_einstein::sub_516740(Player* pFormerPlayerFugitive, Player* pPlaye
     Fix16 threshold_distance;
 
     threshold_distance = 0x3FFFC000;
-    if (gLucid_hamilton_67E8E0.sub_4C5BC0() == 3 //  3 = tag mode
+    if (gLucid_hamilton_67E8E0.GetMultiplayerGamemode_4C5BC0() == 3 //  3 = tag mode
         && this->field_0_fugitive == pFormerPlayerFugitive)
     {
         if (pPlayer_killer != NULL)

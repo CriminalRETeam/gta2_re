@@ -60,9 +60,9 @@ void lucid_hamilton::sub_4C53D0()
     gLucid_hamilton_67E8E0.sub_4C5920(0);
     gLucid_hamilton_67E8E0.sub_4C5930(0);
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_408); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_408_statistics); i++)
     {
-        field_408[i] = 0;
+        field_408_statistics[i] = 0;
     }
 
     field_430 = 0;
@@ -184,13 +184,13 @@ char_type lucid_hamilton::sub_4C59C0()
 MATCH_FUNC(0x4C59D0)
 void lucid_hamilton::sub_4C59D0(u8 a2, s32 a3)
 {
-    field_408[a2] = a3;
+    field_408_statistics[a2] = a3;
 }
 
 MATCH_FUNC(0x4C59F0)
 s32 lucid_hamilton::sub_4C59F0(u8 idx)
 {
-    return field_408[idx];
+    return field_408_statistics[idx];
 }
 
 MATCH_FUNC(0x4C5A10)
@@ -256,20 +256,20 @@ char_type lucid_hamilton::sub_4C5AE0()
 MATCH_FUNC(0x4C5AF0)
 void lucid_hamilton::init_4C5AF0()
 {
-    field_43B = 0;
-    field_43C = 0;
-    field_440 = 0;
-    field_441 = 0;
+    field_43B_game_type = 0;
+    field_43C_points_limit = 0;
+    field_440_user_player_idx = 0;
+    field_441_max_players = 0;
     field_442 = 6;
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_490); i++)
+    for (s32 i = 0; i < GTA2_COUNTOF(field_490_frags_list); i++)
     {
         for (s32 j = 0; j < 6; j++)
         {
             field_448[i].field_0[j] = 0;
         }
-        field_490[i] = 0;
-        field_49C[i] = 0;
+        field_490_frags_list[i] = 0;
+        field_49C_points_list[i] = 0;
         wcscpy(field_4B4[i].field_0_str, word_67DC8C);
     }
 }
@@ -277,43 +277,43 @@ void lucid_hamilton::init_4C5AF0()
 MATCH_FUNC(0x4C5B80)
 void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6)
 {
-    field_43B = a2;
-    field_43C = a3;
-    field_440 = a4;
-    field_441 = a5;
-    field_444 = a6;
+    field_43B_game_type = a2;
+    field_43C_points_limit = a3;
+    field_440_user_player_idx = a4;
+    field_441_max_players = a5;
+    field_444_game_time_limit = a6;
 }
 
 MATCH_FUNC(0x4C5BC0)
-u8 lucid_hamilton::sub_4C5BC0()
+u8 lucid_hamilton::GetMultiplayerGamemode_4C5BC0()
 {
-    return field_43B;
+    return field_43B_game_type;
 }
 
 MATCH_FUNC(0x4C5BD0)
-s32 lucid_hamilton::sub_4C5BD0()
+s32 lucid_hamilton::GetMultiplayerPointsLimit_4C5BD0()
 {
-    return field_43C;
+    return field_43C_points_limit;
 }
 
 MATCH_FUNC(0x4C5BE0)
-char_type lucid_hamilton::sub_4C5BE0()
+char_type lucid_hamilton::GetUserPlayerIdx_4C5BE0()
 {
-    return field_440;
+    return field_440_user_player_idx;
 }
 
 MATCH_FUNC(0x4C5BF0)
-char_type lucid_hamilton::sub_4C5BF0()
+char_type lucid_hamilton::GetMaxPlayers_4C5BF0()
 {
-    return field_441;
+    return field_441_max_players;
 }
 
 MATCH_FUNC(0x4C5C00)
-void lucid_hamilton::sub_4C5C00(char_type a2)
+void lucid_hamilton::sub_4C5C00(char_type player_idx)
 {
     if (field_442 == 6)
     {
-        field_442 = a2;
+        field_442 = player_idx;
     }
 }
 
@@ -338,39 +338,40 @@ blissful_ganguly_0x20* lucid_hamilton::sub_4C5C60(u16 a2)
 MATCH_FUNC(0x4C5C80)
 void lucid_hamilton::sub_4C5C80(u8 a2, s32 a3)
 {
-    field_49C[a2] += a3;
+    field_49C_points_list[a2] += a3;
 }
 
 MATCH_FUNC(0x4C5CB0)
-s32 lucid_hamilton::sub_4C5CB0(u8 a2)
+s32 lucid_hamilton::GetPointsForPlayerIdx_4C5CB0(u8 player_idx)
 {
-    return field_49C[a2];
+    return field_49C_points_list[player_idx];
 }
 
 MATCH_FUNC(0x4C5CD0)
-void lucid_hamilton::sub_4C5CD0(u8 player_idx, u8 f0_idx)
+void lucid_hamilton::UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_idx)
 {
-    field_448[player_idx].field_0[f0_idx]++;
-    Player* pPlayer = gGame_0x40_67E008->field_4_players[player_idx];
-    if (player_idx == f0_idx)
+    field_448[player_killer_idx].field_0[player_victim_idx]++;
+    Player* pPlayer = gGame_0x40_67E008->field_4_players[player_killer_idx];
+    if (player_killer_idx == player_victim_idx)
     {
-        if (field_490[player_idx] > 0)
+        // player killed himself
+        if (field_490_frags_list[player_killer_idx] > 0)
         {
-            field_490[player_idx]--;
+            field_490_frags_list[player_killer_idx]--;
             pPlayer->field_2D4_unk.sub_5935D0(-1);
         }
     }
     else
     {
-        field_490[player_idx]++;
+        field_490_frags_list[player_killer_idx]++;
         pPlayer->field_2D4_unk.sub_5935D0(1);
     }
 }
 
 MATCH_FUNC(0x4C5D60)
-u16 lucid_hamilton::sub_4C5D60(u8 a2)
+u16 lucid_hamilton::GetFragsForPlayerIdx_4C5D60(u8 player_idx)
 {
-    return field_490[a2];
+    return field_490_frags_list[player_idx];
 }
 
 MATCH_FUNC(0x4C5D80)

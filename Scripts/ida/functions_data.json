@@ -4975,22 +4975,22 @@
         "v105_address": "0x498da0"
     },
     {
-        "name": "Door_10::PoolAllocate",
+        "name": "DoorData_10::PoolAllocate",
         "v96f_address": "0x44c540",
         "v105_address": "0x49c320"
     },
     {
-        "name": "Door_10::sub_49C340",
+        "name": "DoorData_10::sub_49C340",
         "v96f_address": null,
         "v105_address": "0x49c340"
     },
     {
-        "name": "Door_10::sub_49C4E0",
+        "name": "DoorData_10::sub_49C4E0",
         "v96f_address": "0x44c560",
         "v105_address": "0x49c4e0"
     },
     {
-        "name": "Door_10::sub_49C590",
+        "name": "DoorData_10::sub_49C590",
         "v96f_address": null,
         "v105_address": "0x49c590"
     },
@@ -6505,17 +6505,17 @@
         "v105_address": "0x4c5bc0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BD0",
+        "name": "lucid_hamilton::GetMultiplayerPointsLimit_4C5BD0",
         "v96f_address": null,
         "v105_address": "0x4c5bd0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BE0",
+        "name": "lucid_hamilton::GetUserPlayerIdx_4C5BE0",
         "v96f_address": null,
         "v105_address": "0x4c5be0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5BF0",
+        "name": "lucid_hamilton::GetMaxPlayers_4C5BF0",
         "v96f_address": null,
         "v105_address": "0x4c5bf0"
     },
@@ -6545,7 +6545,7 @@
         "v105_address": "0x4c5c80"
     },
     {
-        "name": "lucid_hamilton::sub_4C5CB0",
+        "name": "lucid_hamilton::GetPointsForPlayerIdx_4C5CB0",
         "v96f_address": null,
         "v105_address": "0x4c5cb0"
     },
@@ -6555,7 +6555,7 @@
         "v105_address": "0x4c5cd0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5D60",
+        "name": "lucid_hamilton::GetFragsForPlayerIdx_4C5D60",
         "v96f_address": null,
         "v105_address": "0x4c5d60"
     },

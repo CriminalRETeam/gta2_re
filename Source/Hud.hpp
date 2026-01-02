@@ -380,7 +380,7 @@ class Garox_20_Sub
     Garox_30_Sub field_10;
     ArrowTrace_24 field_18_primary_target;
     ArrowTrace_24 field_3C_secondary_target;
-    ArrowTrace_24* field_60;
+    ArrowTrace_24* field_60_curr_target;
 };
 
 class Hud_Arrow_7C

@@ -3010,8 +3010,8 @@ void miss2_0x11C::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     }
     else
     {
-        gmp_map_zone* pZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt(), 0xEu);
-        if (pZone && !_strnicmp(pZone->field_6_name, pGang->field_2_name, (u8)pZone->field_5_name_length))
+        gmp_map_zone* pZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(pPed->get_cam_x().ToInt(), pPed->get_cam_y().ToInt(), Gang_14);
+        if (pZone && !_strnicmp(pZone->field_6_name, pGang->field_2_name, pZone->field_5_name_length))
         {
             field_8 = true;
         }
