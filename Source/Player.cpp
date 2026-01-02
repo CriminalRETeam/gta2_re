@@ -1671,7 +1671,7 @@ void Player::Service_5687F0()
         this->field_89_bWasEnterExitPressed = 0;
     }
 
-    field_2D4_unk.sub_591C70();
+    field_2D4_scores.sub_591C70();
     field_644_unk.sub_484F20();
 
     Player::SelectNextOrPrevWeapon_5649D0(this->field_87_bWasNextWeaponPressed && this->field_80_bNowNextWeaponPressed,
@@ -2095,20 +2095,20 @@ void Player::sub_569C20()
     {
         if (field_60 == 0)
         {
-            u32 score = field_2D4_unk.GetScore_592370();
+            u32 score = field_2D4_scores.GetScore_592370();
             if (score >= gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60 = 1;
-                field_2D4_unk.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
+                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::user_remaps, 6);
             }
         }
         else
         {
-            u32 score = field_2D4_unk.GetScore_592370();
+            u32 score = field_2D4_scores.GetScore_592370();
             if (score < gfrosty_pasteur_6F8060->field_310_finish_score)
             {
                 field_60 = 0;
-                field_2D4_unk.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
+                field_2D4_scores.sub_592360()->sub_4921F0(palette_types_enum::sprites, 0);
             }
         }
     }
@@ -2128,7 +2128,7 @@ void Player::sub_569CB0()
     field_640_busted = 0;
     field_680 = 0;
     field_682 = 1000;
-    field_2D4_unk.sub_592330();
+    field_2D4_scores.sub_592330();
     field_684_lives.sub_492150();
     field_6BC_multpliers.sub_492150();
     field_64 = 0;
@@ -2288,7 +2288,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
     pSave->field_4_y = field_2C4_player_ped->get_cam_y();
     pSave->field_8_z = field_2C4_player_ped->get_cam_z();
     pSave->field_C_rotation = field_2C4_player_ped->GetRotation();
-    pSave->field_10_money = field_2D4_unk.GetScore_592370();
+    pSave->field_10_money = field_2D4_scores.GetScore_592370();
     pSave->field_14_multipliers = field_6BC_multpliers.field_0;
     pSave->field_18_health = field_2C4_player_ped->field_216_health;
     pSave->field_7F_player_ped_remap = field_2C4_player_ped->field_244_remap;
@@ -2309,7 +2309,7 @@ void Player::CopyPlayerDataToSave_56A1A0(save_stats_0x90* pSave)
 
     for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
     {
-        pSave->field_3C_crime_unk[crime_idx] = field_644_unk.field_0[crime_idx];
+        pSave->field_3C_crime_unk[crime_idx] = field_644_unk.field_0_crime_count_list[crime_idx];
     }
     pSave->field_84_zealous_f34 = field_644_unk.field_34;
     pSave->field_88_zealous_f38 = field_644_unk.field_38;
@@ -2353,19 +2353,19 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
     }
 
     s32 money = pSave->field_10_money;
-    if (money < -field_2D4_unk.field_0_money.field_30)
+    if (money < -field_2D4_scores.field_0_money.field_30)
     {
-        this->field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+        this->field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
     }
     else
     {
-        if (money > field_2D4_unk.field_0_money.field_30)
+        if (money > field_2D4_scores.field_0_money.field_30)
         {
-            this->field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+            this->field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
         }
         else
         {
-            this->field_2D4_unk.field_0_money.field_0 = money;
+            this->field_2D4_scores.field_0_money.field_0 = money;
         }
     }
 
@@ -2388,7 +2388,7 @@ void Player::UpdateGameFromSave_56A310(save_stats_0x90* pSave)
 
     for (u16 crime_idx = 0; crime_idx < 10; crime_idx++)
     {
-        field_644_unk.field_0[crime_idx] = pSave->field_3C_crime_unk[crime_idx];
+        field_644_unk.field_0_crime_count_list[crime_idx] = pSave->field_3C_crime_unk[crime_idx];
     }
     field_644_unk.field_34 = pSave->field_84_zealous_f34;
     field_644_unk.field_38 = pSave->field_88_zealous_f38;
@@ -2402,37 +2402,37 @@ void Player::ApplyCheats_56A490()
 {
     if (gCheatGetPlayerPoints_67D4C8)
     {
-        if (-field_2D4_unk.field_0_money.field_30 > 200000)
+        if (-field_2D4_scores.field_0_money.field_30 > 200000)
         {
-            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+            field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
         }
         else
         {
-            if (field_2D4_unk.field_0_money.field_30 < 200000)
+            if (field_2D4_scores.field_0_money.field_30 < 200000)
             {
-                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+                field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
             }
             else
             {
-                field_2D4_unk.field_0_money.field_0 = 200000;
+                field_2D4_scores.field_0_money.field_0 = 200000;
             }
         }
     }
     if (gCheatGet10MillionMoney_67D6CE)
     {
-        if (-field_2D4_unk.field_0_money.field_30 > 9999999)
+        if (-field_2D4_scores.field_0_money.field_30 > 9999999)
         {
-            field_2D4_unk.field_0_money.field_0 = -field_2D4_unk.field_0_money.field_30;
+            field_2D4_scores.field_0_money.field_0 = -field_2D4_scores.field_0_money.field_30;
         }
         else
         {
-            if (field_2D4_unk.field_0_money.field_30 < 9999999)
+            if (field_2D4_scores.field_0_money.field_30 < 9999999)
             {
-                field_2D4_unk.field_0_money.field_0 = field_2D4_unk.field_0_money.field_30;
+                field_2D4_scores.field_0_money.field_0 = field_2D4_scores.field_0_money.field_30;
             }
             else
             {
-                field_2D4_unk.field_0_money.field_0 = 9999999;
+                field_2D4_scores.field_0_money.field_0 = 9999999;
             }
         }
     }
@@ -2584,7 +2584,7 @@ Player::Player(u8 player_idx)
     field_2C = 0;
     field_4C_pUnk = 0;
     field_2E_idx = player_idx;
-    field_2D4_unk.sub_5922F0(this, 2, 999999999, 158, 999u);
+    field_2D4_scores.sub_5922F0(this, 2, 999999999, 158, 999u);
     field_684_lives.sub_492110(1, 99, 115);
     field_6BC_multpliers.sub_492110(1, 99, 116);
     Player::sub_564CC0();

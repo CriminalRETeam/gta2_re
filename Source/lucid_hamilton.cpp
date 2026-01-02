@@ -182,9 +182,9 @@ char_type lucid_hamilton::sub_4C59C0()
 }
 
 MATCH_FUNC(0x4C59D0)
-void lucid_hamilton::sub_4C59D0(u8 a2, s32 a3)
+void lucid_hamilton::sub_4C59D0(u8 i, s32 value)
 {
-    field_408_statistics[a2] = a3;
+    field_408_statistics[i] = value;
 }
 
 MATCH_FUNC(0x4C59F0)
@@ -198,7 +198,7 @@ void lucid_hamilton::sub_4C5A10(Player* pPlayer)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        sub_4C59D0(i, pPlayer->field_644_unk.field_0[i]);
+        sub_4C59D0(i, pPlayer->field_644_unk.field_0_crime_count_list[i]);
     }
 
     sub_4C5A70(pPlayer->field_644_unk.field_34);
@@ -275,13 +275,13 @@ void lucid_hamilton::init_4C5AF0()
 }
 
 MATCH_FUNC(0x4C5B80)
-void lucid_hamilton::sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6)
+void lucid_hamilton::SetMultiplayerParams_4C5B80(char_type game_type, s32 points_limit, char_type user_idx, char_type max_players, s32 time_limit)
 {
-    field_43B_game_type = a2;
-    field_43C_points_limit = a3;
-    field_440_user_player_idx = a4;
-    field_441_max_players = a5;
-    field_444_game_time_limit = a6;
+    field_43B_game_type = game_type;
+    field_43C_points_limit = points_limit;
+    field_440_user_player_idx = user_idx;
+    field_441_max_players = max_players;
+    field_444_game_time_limit = time_limit;
 }
 
 MATCH_FUNC(0x4C5BC0)
@@ -336,9 +336,9 @@ blissful_ganguly_0x20* lucid_hamilton::sub_4C5C60(u16 a2)
 }
 
 MATCH_FUNC(0x4C5C80)
-void lucid_hamilton::sub_4C5C80(u8 a2, s32 a3)
+void lucid_hamilton::ChangePointsForPlayerIdxByAmount_4C5C80(u8 player_idx, s32 amount)
 {
-    field_49C_points_list[a2] += a3;
+    field_49C_points_list[player_idx] += amount;
 }
 
 MATCH_FUNC(0x4C5CB0)
@@ -358,13 +358,13 @@ void lucid_hamilton::UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_i
         if (field_490_frags_list[player_killer_idx] > 0)
         {
             field_490_frags_list[player_killer_idx]--;
-            pPlayer->field_2D4_unk.sub_5935D0(-1);
+            pPlayer->field_2D4_scores.ChangeFragsByAmount_5935D0(-1);
         }
     }
     else
     {
         field_490_frags_list[player_killer_idx]++;
-        pPlayer->field_2D4_unk.sub_5935D0(1);
+        pPlayer->field_2D4_scores.ChangeFragsByAmount_5935D0(1);
     }
 }
 

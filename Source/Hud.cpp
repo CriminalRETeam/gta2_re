@@ -417,7 +417,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
     }
 
-    thirsty_lamarr* v5 = pPlayer->field_2D4_unk.sub_592360();
+    thirsty_lamarr* v5 = pPlayer->field_2D4_scores.sub_592360();
     s32 v8 = v5->sub_492260(639, 4);
 
     if (bStartNetworkGame_7081F0)
@@ -452,7 +452,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         }
         else
         {
-            thirsty_lamarr* v16 = pPlayer->field_2D4_unk.sub_5935B0();
+            thirsty_lamarr* v16 = pPlayer->field_2D4_scores.sub_5935B0();
             v16->sub_492260(490, 4);
         }
 
@@ -462,7 +462,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
         {
             if (pMultiPlayer->field_0_bIsUser == 0)
             {
-                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_unk.sub_592360();
+                thirsty_lamarr* v19 = pMultiPlayer->field_2D4_scores.sub_592360();
                 s32 v21 = v19->sub_492430(16, ypos);
 
                 sub_5D7670(6, 16, 8, ypos + 10, word_706610, pMultiPlayer->field_78C, pMultiPlayer->field_790, 0, 0);
@@ -479,7 +479,7 @@ void Garox_1118_sub::DrawPlayerStats_5D5C80()
                 }
                 else
                 {
-                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_unk.sub_5935B0();
+                    thirsty_lamarr* v29 = pMultiPlayer->field_2D4_scores.sub_5935B0();
                     v29->sub_492430(v21 + 20, ypos);
                 }
                 ypos += 27;
@@ -543,9 +543,9 @@ void Garox_1118_sub::sub_5D6290()
     Player* pPlayerIter = gGame_0x40_67E008->sub_4B9CD0();
     while (pPlayerIter)
     {
-        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_unk.sub_592360();
+        thirsty_lamarr* pLamarr1 = pPlayerIter->field_2D4_scores.sub_592360();
         pLamarr1->sub_4925E0();
-        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_unk.sub_5935B0();
+        thirsty_lamarr* pLamarr2 = pPlayerIter->field_2D4_scores.sub_5935B0();
         pLamarr2->sub_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }

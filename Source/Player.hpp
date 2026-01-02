@@ -46,7 +46,7 @@ class Player
   public:
     inline void Add_2D4(s32 score)
     {
-        field_2D4_unk.AddCash_592620(score * field_6BC_multpliers.field_0);
+        field_2D4_scores.AddCash_592620(score * field_6BC_multpliers.field_0);
     }
 
     inline Ped* Get_Field_68_Ped()
@@ -295,7 +295,7 @@ class Player
     char_type field_2D1;
     char_type field_2D2;
     char_type field_2D3;
-    eager_benz field_2D4_unk;
+    eager_benz field_2D4_scores;
     char_type field_640_busted;
     char_type field_641;
     char_type field_642;

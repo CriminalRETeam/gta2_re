@@ -1116,7 +1116,7 @@ s16 miss2_0x11C::sub_505EA0(u16 idx)
     s16 result = pPointer->field_8_counter;
     if (result != -3 && result != -4)
     {
-        result = gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.sub_432080(result);
+        result = gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.sub_432080(result);
         if (result == -3 || result == -4)
         {
             pPointer->field_8_counter = result;
@@ -2202,11 +2202,11 @@ void miss2_0x11C::sub_509D90()
         {
             if (gBasePtr_6F8070->field_2_type == SCRCMD_ADD_SCORE1)
             {
-                pPlayer->field_2D4_unk.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0);
+                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32 * pPlayer->field_6BC_multpliers.field_0);
             }
             else
             {
-                pPlayer->field_2D4_unk.AddCash_592620(pCmd->field_C_s32); //  no multiplier
+                pPlayer->field_2D4_scores.AddCash_592620(pCmd->field_C_s32); //  no multiplier
             }
         }
     }
@@ -2227,7 +2227,7 @@ void miss2_0x11C::SCRCMD_ADD_SCORE2_509E00()
         Player* pPlayer = pPed->field_15C_player;
         if (pPlayer != NULL)
         {
-            pPlayer->field_2D4_unk.AddCash_592620(pCounter->field_8_counter * pPlayer->field_6BC_multpliers.field_0);
+            pPlayer->field_2D4_scores.AddCash_592620(pCounter->field_8_counter * pPlayer->field_6BC_multpliers.field_0);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -2957,7 +2957,7 @@ void miss2_0x11C::SCRCMD_CHECK_SCORE_50B6F0()
     if (pPed != NULL)
     {
         Player* pPlayer = pPed->field_15C_player;
-        if (pPlayer != NULL && pPlayer->field_2D4_unk.GetScore_592370() > pCmd->field_C_target_score)
+        if (pPlayer != NULL && pPlayer->field_2D4_scores.GetScore_592370() > pCmd->field_C_target_score)
         {
             field_8 = true;
         }
@@ -2981,7 +2981,7 @@ void miss2_0x11C::SCRCMD_GET_SCORE_50B760()
         Player* pPlayer = pPtrPed->field_8_char->field_15C_player;
         if (pPlayer)
         {
-            pPtrCounter->field_8_counter = (u16)pPlayer->field_2D4_unk.GetScore_592370();
+            pPtrCounter->field_8_counter = (u16)pPlayer->field_2D4_scores.GetScore_592370();
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -4576,7 +4576,7 @@ void miss2_0x11C::sub_50FAF0() // SCRCMD_STORE_BONUS
     if (bonus_unk != -3 && bonus_unk != -4)
     {
         pPointerCounter->field_8_counter =
-            gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
+            gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pPointerBonus->field_8_index].field_26;
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -4763,13 +4763,13 @@ void miss2_0x11C::sub_510280()
             SCR_POINTER* pBonusType = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
             SCR_POINTER* pCounter = (SCR_POINTER*)gfrosty_pasteur_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
             pCounter->field_8_counter = pCmd->field_14_target_total -
-                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pBonusType->field_8_index].field_26;
+                (u8)gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].field_26;
 
             Ped* pPed = pPlayerPedCmdPointer->field_8_char;
 
             if (pPed->field_278 == 9 || pPed->field_21C_bf.b5 != 0)
             {
-                gGame_0x40_67E008->field_38_orf1->field_2D4_unk.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
+                gGame_0x40_67E008->field_38_orf1->field_2D4_scores.field_1A8_unk.field_0[pBonusType->field_8_index].sub_431DB0();
                 pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             }
         }

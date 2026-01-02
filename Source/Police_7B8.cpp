@@ -678,7 +678,7 @@ void Police_7B8::sub_5708C0(Ped* pPed)
 }
 
 MATCH_FUNC(0x570940)
-void Police_7B8::sub_570940(Ped* pPed)
+void Police_7B8::UpdateCriminalLatestPosition_570940(Ped* pPed)
 {
     for (u8 i = 0; i < 4; i++)
     {

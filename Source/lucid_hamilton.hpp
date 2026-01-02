@@ -123,7 +123,7 @@ struct lucid_hamilton
 
     EXPORT void init_4C5AF0();
 
-    EXPORT void sub_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6);
+    EXPORT void SetMultiplayerParams_4C5B80(char_type a2, s32 a3, char_type a4, char_type a5, s32 a6);
 
     EXPORT u8 GetMultiplayerGamemode_4C5BC0();
 
@@ -141,7 +141,7 @@ struct lucid_hamilton
 
     EXPORT blissful_ganguly_0x20* sub_4C5C60(u16 a2);
 
-    EXPORT void sub_4C5C80(u8 a2, s32 a3);
+    EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 a2, s32 a3);
 
     EXPORT s32 GetPointsForPlayerIdx_4C5CB0(u8 a2);
 

@@ -4645,7 +4645,7 @@
         "v105_address": "0x484f30"
     },
     {
-        "name": "zealous_borg::report_crime",
+        "name": "zealous_borg::IncrementCrimeCount_484F50",
         "v96f_address": null,
         "v105_address": "0x484f50"
     },
@@ -6495,7 +6495,7 @@
         "v105_address": "0x4c5af0"
     },
     {
-        "name": "lucid_hamilton::sub_4C5B80",
+        "name": "lucid_hamilton::SetMultiplayerParams_4C5B80",
         "v96f_address": null,
         "v105_address": "0x4c5b80"
     },
@@ -6540,7 +6540,7 @@
         "v105_address": "0x4c5c60"
     },
     {
-        "name": "lucid_hamilton::sub_4C5C80",
+        "name": "lucid_hamilton::ChangePointsForPlayerIdxByAmount_4C5C80",
         "v96f_address": null,
         "v105_address": "0x4c5c80"
     },
@@ -13200,7 +13200,7 @@
         "v105_address": "0x5708c0"
     },
     {
-        "name": "Police_7B8::sub_570940",
+        "name": "Police_7B8::UpdateCriminalLatestPosition_570940",
         "v96f_address": null,
         "v105_address": "0x570940"
     },
@@ -14475,7 +14475,7 @@
         "v105_address": "0x5935c0"
     },
     {
-        "name": "eager_benz::sub_5935D0",
+        "name": "eager_benz::ChangeFragsByAmount_5935D0",
         "v96f_address": null,
         "v105_address": "0x5935d0"
     },

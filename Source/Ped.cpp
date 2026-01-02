@@ -3140,7 +3140,7 @@ void Ped::sub_46FFF0(s32 model)
 {
     if (sub_45EDE0(2))
     {
-        field_15C_player->field_2D4_unk.UpdateAccuracyCount_5934F0(0, model, 0);
+        field_15C_player->field_2D4_scores.UpdateAccuracyCount_5934F0(0, model, 0);
     }
 
     if ((this->field_21C & ped_bit_status_enum::k_ped_0x00002000) != 0)
