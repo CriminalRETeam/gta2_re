@@ -3845,7 +3845,7 @@
         "v105_address": "0x46f680"
     },
     {
-        "name": "Ped::sub_46F720",
+        "name": "Ped::UpdateStatsForKiller_46F720",
         "v96f_address": "0x43D880",
         "v105_address": "0x46f720"
     },

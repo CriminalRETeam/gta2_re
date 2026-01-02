@@ -3098,7 +3098,7 @@ void Ped::sub_46F680(Ped* a2)
 }
 
 STUB_FUNC(0x46f720)
-void Ped::sub_46F720()
+void Ped::UpdateStatsForKiller_46F720()
 {
     NOT_IMPLEMENTED;
 }
