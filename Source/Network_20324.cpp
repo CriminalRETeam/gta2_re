@@ -1,6 +1,7 @@
 #include "Network_20324.hpp"
 #include "Frontend.hpp"
 #include "Globals.hpp"
+#include "registry.hpp"
 #include "text_0x14.hpp"
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
@@ -62,7 +63,7 @@ Network_20324::Network_20324()
     this->field_20314 = 3;
     this->field_20084 = 0;
     this->field_1FD6C = 0;
-    this->field_1FD64_f4_idx_count = 0;
+    this->field_1FD64_total_map_count = 0;
     this->field_1FD68 = 0;
     this->field_20088_game_settings.field_2019C_tick_count = GetTickCount();
     this->field_20088_game_settings.field_20198_game_type = 1;
@@ -414,11 +415,31 @@ void Network_20324::sub_51C7F0(s32* a2)
     NOT_IMPLEMENTED;
 }
 
+// This function matches. TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51c830)
-u32 Network_20324::sub_51C830()
+void Network_20324::sub_51C830()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Set_Network_Setting_587690("map_index", 0);
+    if (field_20088_game_settings.field_2018C_map_idx >= field_1FD64_total_map_count)
+    {
+        field_20088_game_settings.field_2018C_map_idx = 0;
+    }
+    field_20088_game_settings.field_201A4_game_time_limit = gRegistry_6FF968.Set_Network_Setting_587690("game_time_limit", 1);
+    field_20088_game_settings.field_20190_game_speed = gRegistry_6FF968.Set_Network_Setting_587690("game_speed", 1);
+    field_20088_game_settings.field_20198_game_type = gRegistry_6FF968.Set_Network_Setting_587690("game_type", 1);
+    field_20088_game_settings.field_201A0_police_on = gRegistry_6FF968.Set_Network_Setting_587690("police", 0);
+
+    if (field_20088_game_settings.field_20198_game_type == 1)
+    {
+        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("f_limit", 3);
+    }
+    else
+    {
+        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("s_limit", 10000);
+    }
+
+    strcpy(field_20088_game_settings.field_20088_default_map,
+           field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_410_maybe_display_name);
 }
 
 MATCH_FUNC(0x51ca10)

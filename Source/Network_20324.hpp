@@ -96,7 +96,7 @@ class Network_20324
     EXPORT void sub_51BFA0();
     EXPORT s32 OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void sub_51C7F0(s32* a2);
-    EXPORT u32 sub_51C830();
+    EXPORT void sub_51C830();
     EXPORT char_type* GetMapName_51CA10();
     EXPORT char_type* GetMapStyName_51CA50();
     EXPORT char_type* GetMapScrName_51CA90();
@@ -113,7 +113,7 @@ class Network_20324
 
     //s32 field_0_vTable; // added by the compiler
     Network_Enumerated_Map field_4_maps[100];
-    s32 field_1FD64_f4_idx_count;
+    s32 field_1FD64_total_map_count;
     s32 field_1FD68;
     s32 field_1FD6C;
     WNDPROC field_1FD70_old_proc;
