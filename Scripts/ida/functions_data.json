@@ -8050,7 +8050,7 @@
         "v105_address": "0x4fa330"
     },
     {
-        "name": "Ambulance_110::TryAddPassenger_4FA470",
+        "name": "Ambulance_110::TryAddPatient_4FA470",
         "v96f_address": null,
         "v105_address": "0x4fa470"
     },
@@ -9875,7 +9875,7 @@
         "v105_address": "0x519e10"
     },
     {
-        "name": "Network_20324::sub_519E20",
+        "name": "Network_20324::Get_202E0_HWND_519E20",
         "v96f_address": null,
         "v105_address": "0x519e20"
     },
@@ -9915,7 +9915,7 @@
         "v105_address": "0x51ac60"
     },
     {
-        "name": "Network_20324::sub_51ACC0",
+        "name": "Network_20324::Get_202D4_active_control_idx_51ACC0",
         "v96f_address": null,
         "v105_address": "0x51acc0"
     },
@@ -9940,7 +9940,7 @@
         "v105_address": "0x51ae50"
     },
     {
-        "name": "Network_20324::sub_51AFA0",
+        "name": "Network_20324::PopulateMainUI_51AFA0",
         "v96f_address": null,
         "v105_address": "0x51afa0"
     },
@@ -9950,7 +9950,7 @@
         "v105_address": "0x51b2f0"
     },
     {
-        "name": "Network_20324::sub_51B4F0",
+        "name": "Network_20324::AppendChatMessage_51B4F0",
         "v96f_address": null,
         "v105_address": "0x51b4f0"
     },
@@ -9980,7 +9980,7 @@
         "v105_address": "0x51bbc0"
     },
     {
-        "name": "Network_20324::sub_51BBD0",
+        "name": "Network_20324::GetCount_51BBD0",
         "v96f_address": null,
         "v105_address": "0x51bbd0"
     },
@@ -10025,7 +10025,7 @@
         "v105_address": "0x51bdd0"
     },
     {
-        "name": "Network_20324::sub_51BEB0",
+        "name": "Network_20324::OnEnterPressed_51BEB0",
         "v96f_address": null,
         "v105_address": "0x51beb0"
     },
@@ -10040,7 +10040,7 @@
         "v105_address": "0x51c630"
     },
     {
-        "name": "Network_20324::sub_51C7F0",
+        "name": "Network_20324::CopyGameSettings_51C7F0",
         "v96f_address": null,
         "v105_address": "0x51c7f0"
     },
@@ -10050,17 +10050,17 @@
         "v105_address": "0x51c830"
     },
     {
-        "name": "Network_20324::sub_51CA10",
+        "name": "Network_20324::GetMapName_51CA10",
         "v96f_address": null,
         "v105_address": "0x51ca10"
     },
     {
-        "name": "Network_20324::sub_51CA50",
+        "name": "Network_20324::GetMapStyName_51CA50",
         "v96f_address": null,
         "v105_address": "0x51ca50"
     },
     {
-        "name": "Network_20324::sub_51CA90",
+        "name": "Network_20324::GetMapScrName_51CA90",
         "v96f_address": null,
         "v105_address": "0x51ca90"
     },
@@ -10080,37 +10080,37 @@
         "v105_address": "0x51cbc0"
     },
     {
-        "name": "Network_20324::sub_51CCB0",
+        "name": "Network_20324::SetPoliceEnabledCheckBox_51CCB0",
         "v96f_address": null,
         "v105_address": "0x51ccb0"
     },
     {
-        "name": "Network_20324::sub_51CD30",
+        "name": "Network_20324::SetJoinedGamePoliceEnabledText_51CD30",
         "v96f_address": null,
         "v105_address": "0x51cd30"
     },
     {
-        "name": "Network_20324::sub_51CDC0",
+        "name": "Network_20324::SetFragsNumberAndLabel_51CDC0",
         "v96f_address": null,
         "v105_address": "0x51cdc0"
     },
     {
-        "name": "Network_20324::sub_51CFC0",
+        "name": "Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0",
         "v96f_address": null,
         "v105_address": "0x51cfc0"
     },
     {
-        "name": "Network_20324::sub_51D0C0",
+        "name": "Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0",
         "v96f_address": null,
         "v105_address": "0x51d0c0"
     },
     {
-        "name": "Network_20324::sub_51D2F0",
+        "name": "Network_20324::SetJoinedGameTimeLimitText_51D2F0",
         "v96f_address": null,
         "v105_address": "0x51d2f0"
     },
     {
-        "name": "Network_20324::sub_51D3B0",
+        "name": "Network_20324::SetGameTimeLimitTextBox_51D3B0",
         "v96f_address": null,
         "v105_address": "0x51d3b0"
     },

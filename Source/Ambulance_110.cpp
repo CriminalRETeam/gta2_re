@@ -33,7 +33,7 @@ void Ambulance_20::sub_4FA7D0()
     field_16 = 0;
     field_18 = 0;
     field_1C = 0;
-    field_4 = NULL;
+    field_4_paramedics_crew = NULL;
     field_8 = NULL;
     field_C = NULL;
     field_1D = 0;
@@ -68,7 +68,7 @@ bool Ambulance_20::sub_4FA820()
     pPed1->field_238 = 4;
     pPed1->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed1->field_230 = 2;
-    pPed1->SpawnPedInCar_45C730(field_4->field_0_car);
+    pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
     pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;
@@ -85,7 +85,7 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    pPed2->sub_45C7F0(field_4->field_0_car);
+    pPed2->sub_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->field_238 = 4;
     pPed2->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed2->field_230 = 2;
@@ -99,18 +99,14 @@ bool Ambulance_20::sub_4FA820()
     pGroup->field_34_count = 1;
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
     pGroup->field_0 = 0;
-    field_4->field_4_ped = pPed1;
-    field_4->field_28 = 6;
-
-    Car_BC* pCar = field_4->field_0_car;
-
-    pCar->field_7C_uni_num = 4;
-    pCar->field_76 = 0;
-
-    field_4->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
-    field_4->field_0_car->InitCarAIControl_440590();
-    field_4->field_0_car->sub_43AF40();
-    field_4->field_8_group = pGroup;
+    
+    field_4_paramedics_crew->field_4_ped = pPed1;
+    field_4_paramedics_crew->field_28 = 6;
+    field_4_paramedics_crew->field_0_car->sub_421560(4);
+    field_4_paramedics_crew->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    field_4_paramedics_crew->field_0_car->InitCarAIControl_440590();
+    field_4_paramedics_crew->field_0_car->sub_43AF40();
+    field_4_paramedics_crew->field_8_group = pGroup;
     return true;
 }
 
@@ -153,17 +149,75 @@ void Ambulance_110::init_4FA310()
     }
 }
 
-STUB_FUNC(0x4fa330)
-char_type Ambulance_110::sub_4FA330(Ped* pPed)
+MATCH_FUNC(0x4fa330)
+bool Ambulance_110::sub_4FA330(Ped* pDeadPed)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    for (u8 i = 0; i < 2; i++)
+    {
+        Ambulance_20* pIter = &field_D0[i];
+        if (pIter->field_18)
+        {
+            if (pIter->field_4_paramedics_crew->field_4_ped == pDeadPed) // the dead person is one of the paramedics?
+            {
+                char_type v9 = pIter->field_4_paramedics_crew->sub_5CBC90();
+                if (pIter->field_4_paramedics_crew->field_8_group)
+                {
+                    pIter->field_4_paramedics_crew->field_4_ped = pIter->field_4_paramedics_crew->field_8_group->field_2C_ped_leader;
+                }
+
+                if (pIter->field_8 && pIter->field_8->field_278 == 9)
+                {
+                    TryAddPatient_4FA470(pIter->field_8);
+                    pIter->field_8 = 0;
+                }
+
+                if (pIter->field_C && pIter->field_C->field_278 == 9)
+                {
+                    TryAddPatient_4FA470(pIter->field_C);
+                    pIter->field_C = 0;
+                }
+
+                if (v9 != 0)
+                {
+                    return true;
+                }
+
+                if (pDeadPed->field_168_game_object)
+                {
+                    pDeadPed->SetObjective(objectives_enum::objective_28, 9999);
+                    return false;
+                }
+                return false;
+            }
+
+            if (pIter->field_4_paramedics_crew->field_8_group && pIter->field_4_paramedics_crew->field_8_group->field_4_ped_list[0] == pDeadPed)
+            {
+                if (pDeadPed->field_16C_car)
+                {
+                    pIter->field_4_paramedics_crew->sub_5CBC40(pDeadPed);
+                }
+
+                if (pIter->field_C && pIter->field_C->field_278 == 9)
+                {
+                    TryAddPatient_4FA470(pIter->field_C);
+                }
+
+                if (pDeadPed->field_168_game_object)
+                {
+                    pDeadPed->SetObjective(objectives_enum::objective_28, 9999);
+                }
+
+                return false;
+            }
+        }
+    }
+    return false;
 }
 
 MATCH_FUNC(0x4fa470)
-char_type Ambulance_110::TryAddPassenger_4FA470(Ped* pPed)
+char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25u)
+    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25)
     {
         return 0;
     }
