@@ -462,11 +462,17 @@ s32 Network_20324::sub_51CBC0()
     return 0;
 }
 
-STUB_FUNC(0x51ccb0)
-LRESULT Network_20324::sub_51CCB0(s32 a1, HWND hDlg)
+MATCH_FUNC(0x51ccb0)
+void Network_20324::SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (bPoliceOn)
+    {
+        SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_SETCHECK, 1, 0);
+    }
+    else
+    {
+        SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_SETCHECK, 0, 0);
+    }
 }
 
 STUB_FUNC(0x51cd30)

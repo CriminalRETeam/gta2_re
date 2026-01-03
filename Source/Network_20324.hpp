@@ -6,6 +6,26 @@
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
 EXPORT u16 __stdcall sub_519960(char_type* a1, u16* a2);
 
+enum Network_UI_Control_Ids
+{
+    COMBO_GAME_TYPE_1036 = 1036u,
+    TEXTBOX_FRAG_LIMIT_NUMBER_1059 = 1059u,
+    LABEL_FRAG_LIMIT_TEXT_1035 = 1035u,
+    LABEL_GAME_SPEED_TEXT_1032 = 1032u,
+    TEXTBOX_GAME_TIME_LIMIT_1038 = 1038u,
+    CHECKBOX_POLICE_ENABLED_1027 = 1027u,
+    TREEVIEW_UNKNOWN_1050 = 1050u,
+    TREEVIEW_UNKNOWN_1024 = 1024u,
+    LABEL_JOINED_GAME_TIME_LIMIT_1060 = 1060u,
+    LABEL_JOINED_GAME_FRAG_LIMIT_1058 = 1058u,
+    LABEL_JOINED_GAME_TYPE_1057 = 1057u,
+    LABEL_JOINED_GAME_POLICE_ENABLED_1056 = 1056u,
+    LISTBOX_UNKNOWN_1000 = 1000u,
+    TEXTBOX_PLAYER_NAME_1004 = 1004u,
+    LABLE_GAME_SPEED_1055 = 1055u,
+    UNKNOWN_PLAYER_COUNT_1054 = 1054u,
+};
+
 class Network_20324
 {
   public:
@@ -60,7 +80,7 @@ class Network_20324
     EXPORT void sub_51CAD0(const char_type* a1, const char_type* a2);
     EXPORT s32 sub_51CB30(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CBC0();
-    EXPORT LRESULT sub_51CCB0(s32 a1, HWND hDlg);
+    EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CD30(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CDC0(s32 a2, s32 a3, HWND hDlg);
     EXPORT s32 sub_51CFC0(const char_type* lParam, HWND hDlg);
