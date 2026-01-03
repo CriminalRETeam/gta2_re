@@ -64,13 +64,13 @@ Network_20324::Network_20324()
     this->field_1FD6C = 0;
     this->field_1FD64_f4_idx_count = 0;
     this->field_1FD68 = 0;
-    this->field_2019C = GetTickCount();
-    this->field_20198_game_type = 1;
-    this->field_20194_f_limit = 1;
-    this->field_2018C_f4_idx = 0;
-    this->field_201A0_police = 0;
-    this->field_201A4_game_time_limiot = 0;
-    memset(field_4, 0, sizeof(field_4));
+    this->field_20088_game_settings.field_2019C_tick_count = GetTickCount();
+    this->field_20088_game_settings.field_20198_game_type = 1;
+    this->field_20088_game_settings.field_20194_frag_limit = 1;
+    this->field_20088_game_settings.field_2018C_map_idx = 0;
+    this->field_20088_game_settings.field_201A0_police_on = 0;
+    this->field_20088_game_settings.field_201A4_game_time_limit = 0;
+    memset(field_4_maps, 0, sizeof(field_4_maps));
     gtext_0x14_6F87F0 = new text_0x14();
     gtext_0x14_6F87F0->Load_5B5E90();
     sub_51BC90();
@@ -137,7 +137,7 @@ void Network_20324::SetDlgHwnd_519E10(HWND a2)
 }
 
 MATCH_FUNC(0x519e20)
-HWND Network_20324::sub_519E20()
+HWND Network_20324::Get_202E0_HWND_519E20()
 {
     return field_202E0_hwnd;
 }
@@ -287,7 +287,7 @@ void Network_20324::sub_51BBC0()
 }
 
 MATCH_FUNC(0x51bbd0)
-s32 Network_20324::sub_51BBD0()
+u32 Network_20324::GetCount_51BBD0()
 {
     return field_1FD6C;
 }
@@ -310,7 +310,7 @@ void Network_20324::cb_sub_51BC00(Network_20324* pThis)
     char String[260];
     wchar_t Dest[260];
 
-    GetDlgItemTextA(pThis->sub_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
+    GetDlgItemTextA(pThis->Get_202E0_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
     GetString_519A50(Dest, String, GTA2_COUNTOF(String));
     pThis->sub_51BD40(Dest, String);
     pThis->sub_51BC70(1);
@@ -422,21 +422,21 @@ u32 Network_20324::sub_51C830()
 }
 
 MATCH_FUNC(0x51ca10)
-char_type* Network_20324::sub_51CA10()
+char_type* Network_20324::GetMapName_51CA10()
 {
-    return &this->field_4[this->field_2018C_f4_idx][0];
+    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_0_map_name;
 }
 
 MATCH_FUNC(0x51ca50)
-char_type* Network_20324::sub_51CA50()
+char_type* Network_20324::GetMapStyName_51CA50()
 {
-    return &this->field_4[this->field_2018C_f4_idx][260];
+    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_104_style_name;
 }
 
 MATCH_FUNC(0x51ca90)
-char_type* Network_20324::sub_51CA90()
+char_type* Network_20324::GetMapScrName_51CA90()
 {
-    return &this->field_4[this->field_2018C_f4_idx][520];
+    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_208_script_name;
 }
 
 MATCH_FUNC(0x51cad0)
@@ -456,11 +456,26 @@ s32 Network_20324::sub_51CB30(s32 a1, HWND hDlg)
     return SetDlgItemTextA(hDlg, 1033, String);
 }
 
-STUB_FUNC(0x51cbc0)
-s32 Network_20324::sub_51CBC0()
+MATCH_FUNC(0x51cbc0)
+void Network_20324::sub_51CBC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514)
+    {
+        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), true);
+    }
+    else
+    {
+        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), false);
+    }
+
+    if (Network_20324::GetCount_51BBD0() > 1)
+    {
+        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1020), true);
+    }
+    else
+    {
+        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1020), false);
+    }
 }
 
 MATCH_FUNC(0x51ccb0)
