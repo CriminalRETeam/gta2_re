@@ -489,7 +489,7 @@ void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hD
     }
 }
 
-// matches on decompme, very strange behavior here
+// TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51cdc0)
 void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg)
 {
@@ -537,10 +537,40 @@ void Network_20324::sub_51CFC0(const char_type* lParam, HWND hDlg)
     NOT_IMPLEMENTED;
 }
 
+// TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51d0c0)
-void Network_20324::sub_51D0C0(s32 a1, s32 a2, HWND hDlg)
+void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
+    char_type String[260];
+    char_type Buffer[260];
+
+    bool bIsFragOrPoints = false;
+
+    if (game_type == FRAG_GAME_1)
+    {
+        strcpy(String, GetString_519A00("netui19"));
+        strcpy(Buffer, GetString_519A00("netui17"));
+        bIsFragOrPoints = true;
+    }
+    else if (game_type == POINTS_GAME_2)
+    {
+        strcpy(String, GetString_519A00("netui20"));
+        strcpy(Buffer, GetString_519A00("netui18"));
+        bIsFragOrPoints = true;
+    }
+
+    if (bIsFragOrPoints)
+    {
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TYPE_1057, String);
+        sprintf(Buffer, "%d %s", frag_limit, String);
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_FRAG_LIMIT_1058, Buffer);
+    }
+    else
+    {
+        strcpy(String, GetString_519A00("netui22"));
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TYPE_1057, String);
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_FRAG_LIMIT_1058, "");
+    }
 }
 
 STUB_FUNC(0x51d2f0)
