@@ -29,7 +29,7 @@ class Ambulance_20
     char_type field_1;
     char_type field_2;
     char_type field_3;
-    Kfc_30* field_4;
+    Kfc_30* field_4_paramedics_crew;
     Ped* field_8;
     Ped* field_C;
     Ped_List_4 field_10;

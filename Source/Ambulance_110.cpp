@@ -33,7 +33,7 @@ void Ambulance_20::sub_4FA7D0()
     field_16 = 0;
     field_18 = 0;
     field_1C = 0;
-    field_4 = NULL;
+    field_4_paramedics_crew = NULL;
     field_8 = NULL;
     field_C = NULL;
     field_1D = 0;
@@ -68,7 +68,7 @@ bool Ambulance_20::sub_4FA820()
     pPed1->field_238 = 4;
     pPed1->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed1->field_230 = 2;
-    pPed1->SpawnPedInCar_45C730(field_4->field_0_car);
+    pPed1->SpawnPedInCar_45C730(field_4_paramedics_crew->field_0_car);
     pPed1->SetObjective(objectives_enum::goto_area_in_car_14, 0);
     pPed1->field_1DC_objective_target_x = (unsigned __int8)this->field_0 << 14;
     pPed1->field_1E0_objective_target_y = (unsigned __int8)this->field_1 << 14;
@@ -85,7 +85,7 @@ bool Ambulance_20::sub_4FA820()
         return false;
     }
 
-    pPed2->sub_45C7F0(field_4->field_0_car);
+    pPed2->sub_45C7F0(field_4_paramedics_crew->field_0_car);
     pPed2->field_238 = 4;
     pPed2->field_240_occupation = ped_ocupation_enum::unknown_13;
     pPed2->field_230 = 2;
@@ -99,18 +99,14 @@ bool Ambulance_20::sub_4FA820()
     pGroup->field_34_count = 1;
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
     pGroup->field_0 = 0;
-    field_4->field_4_ped = pPed1;
-    field_4->field_28 = 6;
-
-    Car_BC* pCar = field_4->field_0_car;
-
-    pCar->field_7C_uni_num = 4;
-    pCar->field_76 = 0;
-
-    field_4->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
-    field_4->field_0_car->InitCarAIControl_440590();
-    field_4->field_0_car->sub_43AF40();
-    field_4->field_8_group = pGroup;
+    
+    field_4_paramedics_crew->field_4_ped = pPed1;
+    field_4_paramedics_crew->field_28 = 6;
+    field_4_paramedics_crew->field_0_car->sub_421560(4);
+    field_4_paramedics_crew->field_0_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+    field_4_paramedics_crew->field_0_car->InitCarAIControl_440590();
+    field_4_paramedics_crew->field_0_car->sub_43AF40();
+    field_4_paramedics_crew->field_8_group = pGroup;
     return true;
 }
 
@@ -219,9 +215,9 @@ bool Ambulance_110::sub_4FA330(Ped* pDeadPed)
 }
 
 MATCH_FUNC(0x4fa470)
-char_type Ambulance_110::TryAddPassenger_4FA470(Ped* pPed)
+char_type Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
 {
-    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25u)
+    if (pPed->sub_45EDE0(2) || field_1_f8_idx >= 25)
     {
         return 0;
     }
