@@ -83,7 +83,7 @@ class Network_20324
     EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg);
     EXPORT void SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hDlg);
     EXPORT void SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg);
-    EXPORT void sub_51CFC0(const char_type* lParam, HWND hDlg);
+    EXPORT void SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg);
     EXPORT void SetJoinedGameTypeAndFragLimitText_51D0C0(s32 a1, s32 a2, HWND hDlg);
     EXPORT void sub_51D2F0(s32 a1, HWND hDlg);
     EXPORT void sub_51D3B0(s32 a1, HWND hDlg);

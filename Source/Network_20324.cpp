@@ -489,7 +489,7 @@ void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hD
     }
 }
 
-// TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51cdc0)
 void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg)
 {
@@ -531,13 +531,30 @@ void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, H
     }
 }
 
+// https://decomp.me/scratch/gzeUC
 STUB_FUNC(0x51cfc0)
-void Network_20324::sub_51CFC0(const char_type* lParam, HWND hDlg)
+void Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
+    SendDlgItemMessageA(hDlg, 1031, 0x405, 1u, game_speed); // 0x405 = TBM_SETPOS
+
+    switch (game_speed)
+    {
+        case 2:
+            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui12"));
+            break;
+        case 1:
+            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui11"));
+            break;
+        case 0:
+            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, GetString_519A00("netui10"));
+            break;
+        default:
+            SetDlgItemTextA(hDlg, LABEL_GAME_SPEED_TEXT_1032, (LPCSTR)game_speed);
+            break;
+    }
 }
 
-// TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51d0c0)
 void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg)
 {

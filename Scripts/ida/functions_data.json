@@ -10095,7 +10095,7 @@
         "v105_address": "0x51cdc0"
     },
     {
-        "name": "Network_20324::sub_51CFC0",
+        "name": "Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0",
         "v96f_address": null,
         "v105_address": "0x51cfc0"
     },
