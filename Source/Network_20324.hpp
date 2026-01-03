@@ -75,7 +75,7 @@ class Network_20324
     EXPORT s32 cb_sub_51ADE0(Network_20324* a1);
     EXPORT void sub_51AE20(s32 nIDDlgItem);
     EXPORT s32 cb_sub_51AE50(s32 a1, wchar_t* Source);
-    EXPORT s32 sub_51AFA0();
+    EXPORT void PopulateMainUI_51AFA0();
     EXPORT LRESULT cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 sub_51B4F0(s32 a2, const char_type* a3);
     EXPORT void SetPlayerNameText_51B7C0();
@@ -167,4 +167,22 @@ class Network_20324
     s16 field_2031A;
     HWND field_2031C_dlg_hwnd;
     HINSTANCE field_20320_hInstance;
+};
+
+struct Network_WindowCreateParams
+{
+    int field_0_x;
+    int field_4_y;
+    unsigned int field_8_w;
+    int field_C_h;
+    HMENU field_10_hMenu;
+    int field_14_style;
+    int field_18_exStyle;
+};
+
+struct Network_UI_Control_Data
+{
+    Network_WindowCreateParams field_0_windowParams;
+    char field_1C_window_class_name[80];
+    char field_6C_gtx_string_name[8];
 };

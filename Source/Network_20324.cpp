@@ -7,6 +7,8 @@
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
 
+Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
+
 STUB_FUNC(0x519960)
 u16 __stdcall sub_519960(char_type* a1, wchar_t* a2)
 {
@@ -190,7 +192,7 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
     gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
     thisPtr->SetDlgHwnd_519E10(hWnd);
     thisPtr->sub_51AA90(hWnd);
-    thisPtr->sub_51AFA0();
+    thisPtr->PopulateMainUI_51AFA0();
     thisPtr->SetPlayerNameText_51B7C0();
     thisPtr->sub_51ABF0(0);
     return 1;
@@ -229,11 +231,64 @@ s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t* Source)
     return 0;
 }
 
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51afa0)
-s32 Network_20324::sub_51AFA0()
+void Network_20324::PopulateMainUI_51AFA0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LPARAM columnInfo[8];
+    memset(columnInfo, 0, sizeof(columnInfo));
+
+    u16 colWidth = 3 * (gUiControlDefinitions_621430[1][0].field_0_windowParams.field_8_w >> 2);
+
+    columnInfo[0] = 36;
+    columnInfo[3] = (LPARAM) "Player Name";
+    columnInfo[7] = 0;
+    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
+    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
+    memset(columnInfo, 0, sizeof(columnInfo));
+    columnInfo[0] = 37;
+    columnInfo[1] = 0;
+    columnInfo[3] = (LPARAM) "Ping";
+    columnInfo[7] = 1;
+    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101E, 1u, 65534);
+    memset(columnInfo, 0, sizeof(columnInfo));
+    columnInfo[0] = 36;
+    columnInfo[3] = (LPARAM) "Player Name";
+    u16 v4 = 3 * (gUiControlDefinitions_621430[2][0].field_0_windowParams.field_8_w >> 2);
+    columnInfo[7] = 0;
+    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101Eu, 0, v4);
+    memset(columnInfo, 0, sizeof(columnInfo));
+    columnInfo[0] = 37;
+    columnInfo[1] = 0;
+    columnInfo[3] = (LPARAM) "Ping";
+    columnInfo[7] = 1;
+    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101E, 1u, 65534);
+
+    for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
+    {
+        LRESULT v6 = SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)&field_4_maps[v5].field_30C_player_count);
+        SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_SETITEMDATA, v6, v5);
+    }
+
+    LRESULT v8 = SendDlgItemMessageA(field_202E0_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v8, 0);
+    LRESULT v10 = SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v10, 1);
+    LRESULT v12 = SendDlgItemMessageA(field_202E0_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v12, 2);
+    Network_20324::sub_51C830();
+    SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
+    SendDlgItemMessageA(field_202E0_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
+    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_hwnd);
+    Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_hwnd);
+    Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
+                                                 field_20088_game_settings.field_20194_frag_limit,
+                                                 field_202E0_hwnd);
+    Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_202E0_hwnd);
+    Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_hwnd);
 }
 
 STUB_FUNC(0x51b2f0)
@@ -409,7 +464,7 @@ s32 Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
     return 0;
 }
 
-// This function matches. TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51c7f0)
 void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 {
@@ -419,7 +474,7 @@ void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
     }
 }
 
-// This function matches. TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51c830)
 void Network_20324::sub_51C830()
 {
@@ -529,7 +584,7 @@ void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hD
     }
 }
 
-// This function matches. TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51cdc0)
 void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg)
 {
@@ -594,7 +649,7 @@ void Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWN
     }
 }
 
-// This function matches. TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51d0c0)
 void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg)
 {
@@ -630,7 +685,7 @@ void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 
     }
 }
 
-// This function matches. TODO: disable "/Oi- /Gz"
+// This function matches. TODO: disable "/Oi-" compiler flag
 STUB_FUNC(0x51d2f0)
 void Network_20324::SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hDlg)
 {
