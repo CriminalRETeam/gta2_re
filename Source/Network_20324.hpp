@@ -77,7 +77,7 @@ class Network_20324
     EXPORT s32 cb_sub_51AE50(s32 a1, wchar_t* Source);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT LRESULT cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
-    EXPORT s32 sub_51B4F0(s32 a2, const char_type* a3);
+    EXPORT s32 AppendChatMessage_51B4F0(s32 a2, const char_type* a3);
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT void cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
     EXPORT void sub_51B810(const char_type* a2);
@@ -92,7 +92,7 @@ class Network_20324
     EXPORT void sub_51BC90();
     EXPORT void sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT LRESULT sub_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-    EXPORT s32 sub_51BEB0(s32 nIDDlgItem, s32 a3);
+    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
     EXPORT s32 OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);

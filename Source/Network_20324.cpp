@@ -1,4 +1,5 @@
 #include "Network_20324.hpp"
+#include "NetPlay.hpp"
 #include "Frontend.hpp"
 #include "Globals.hpp"
 #include "registry.hpp"
@@ -299,7 +300,7 @@ LRESULT Network_20324::cb_sub_51B2F0(Network_20324* a1, wchar_t* Source)
 }
 
 STUB_FUNC(0x51b4f0)
-s32 Network_20324::sub_51B4F0(s32 a2, const char_type* a3)
+s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* a3)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -444,11 +445,16 @@ LRESULT Network_20324::sub_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lPa
     return 0;
 }
 
-STUB_FUNC(0x51beb0)
-s32 Network_20324::sub_51BEB0(s32 nIDDlgItem, s32 a3)
+MATCH_FUNC(0x51beb0)
+void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type String[128];
+    wchar_t Dest[260];
+    GetDlgItemTextA(field_202E0_hwnd, nIDDlgItem, String, 127);
+    Network_20324::GetString_519A50(Dest, String, 260);
+    gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
+    SetDlgItemTextA(field_202E0_hwnd, nIDDlgItem, "");
+    Network_20324::AppendChatMessage_51B4F0(a3, String);
 }
 
 STUB_FUNC(0x51bfa0)
