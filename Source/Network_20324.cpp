@@ -601,8 +601,10 @@ void Network_20324::SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hD
     SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TIME_LIMIT_1060, String);
 }
 
-STUB_FUNC(0x51d3b0)
-void Network_20324::sub_51D3B0(s32 a1, HWND hDlg)
+MATCH_FUNC(0x51d3b0)
+void Network_20324::SetGameTimeLimitTextBox_51D3B0(s32 timeLimitMins, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
+    char_type String[260];
+    sprintf(String, "%d", timeLimitMins);
+    SetDlgItemTextA(hDlg, TEXTBOX_GAME_TIME_LIMIT_1038, String);
 }
