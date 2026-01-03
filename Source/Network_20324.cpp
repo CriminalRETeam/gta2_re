@@ -1,4 +1,5 @@
 #include "Network_20324.hpp"
+#include "Frontend.hpp"
 #include "Globals.hpp"
 #include "text_0x14.hpp"
 
@@ -195,7 +196,7 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
 }
 
 MATCH_FUNC(0x51acc0)
-s32 Network_20324::sub_51ACC0()
+s32 Network_20324::Get_202D4_active_control_idx_51ACC0()
 {
     return field_202D4;
 }
@@ -260,7 +261,7 @@ MATCH_FUNC(0x51b7e0)
 void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
 {
     const char_type* v2 = *a2;
-    if (a1->sub_51ACC0() == 2)
+    if (a1->Get_202D4_active_control_idx_51ACC0() == 2)
     {
         a1->sub_51B810(v2);
     }
@@ -488,37 +489,68 @@ void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hD
     }
 }
 
+// matches on decompme, very strange behavior here
 STUB_FUNC(0x51cdc0)
-s32 Network_20324::sub_51CDC0(s32 a2, s32 a3, HWND hDlg)
+void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    char_type* fragLimitString;
+    char_type tmpBuffer[260];
+
+    bool bHasFragLimit = false;
+
+    if (gameType == FRAG_GAME_1)
+    {
+        fragLimitString = GetString_519A00("netui17");
+        bHasFragLimit = true;
+    }
+    else if (gameType == POINTS_GAME_2)
+    {
+        fragLimitString = GetString_519A00("netui18");
+        bHasFragLimit = true;
+    }
+
+    if (bHasFragLimit)
+    {
+        strcpy(tmpBuffer, fragLimitString);
+        SetDlgItemTextA(hDlg, LABEL_FRAG_LIMIT_TEXT_1035, tmpBuffer);
+        sprintf(tmpBuffer, "%d", fragLimit);
+        SetDlgItemTextA(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059, tmpBuffer);
+        if (Network_20324::Get_202D4_active_control_idx_51ACC0() == 1)
+        {
+            ShowWindow(GetDlgItem(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059), SW_SHOW);
+            ShowWindow(GetDlgItem(hDlg, LABEL_FRAG_LIMIT_TEXT_1035), SW_SHOW);
+        }
+    }
+    else
+    {
+        if (Network_20324::Get_202D4_active_control_idx_51ACC0() == 1) // hide if its not a frag game?
+        {
+            ShowWindow(GetDlgItem(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059), SW_HIDE);
+            ShowWindow(GetDlgItem(hDlg, LABEL_FRAG_LIMIT_TEXT_1035), SW_HIDE);
+        }
+    }
 }
 
 STUB_FUNC(0x51cfc0)
-s32 Network_20324::sub_51CFC0(const char_type* lParam, HWND hDlg)
+void Network_20324::sub_51CFC0(const char_type* lParam, HWND hDlg)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x51d0c0)
-s32 Network_20324::sub_51D0C0(s32 a1, s32 a2, HWND hDlg)
+void Network_20324::sub_51D0C0(s32 a1, s32 a2, HWND hDlg)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x51d2f0)
-s32 Network_20324::sub_51D2F0(s32 a1, HWND hDlg)
+void Network_20324::sub_51D2F0(s32 a1, HWND hDlg)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x51d3b0)
-s32 Network_20324::sub_51D3B0(s32 a1, HWND hDlg)
+void Network_20324::sub_51D3B0(s32 a1, HWND hDlg)
 {
     NOT_IMPLEMENTED;
-    return 0;
 }
