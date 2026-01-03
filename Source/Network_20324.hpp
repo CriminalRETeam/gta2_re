@@ -81,7 +81,7 @@ class Network_20324
     EXPORT s32 sub_51CB30(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CBC0();
     EXPORT void SetPoliceEnabledCheckBox_51CCB0(s32 a1, HWND hDlg);
-    EXPORT s32 sub_51CD30(s32 a1, HWND hDlg);
+    EXPORT void SetJoinedGamePoliceEnabledText_51CD30(s32 a1, HWND hDlg);
     EXPORT s32 sub_51CDC0(s32 a2, s32 a3, HWND hDlg);
     EXPORT s32 sub_51CFC0(const char_type* lParam, HWND hDlg);
     EXPORT s32 sub_51D0C0(s32 a1, s32 a2, HWND hDlg);

@@ -475,11 +475,17 @@ void Network_20324::SetPoliceEnabledCheckBox_51CCB0(s32 bPoliceOn, HWND hDlg)
     }
 }
 
-STUB_FUNC(0x51cd30)
-s32 Network_20324::sub_51CD30(s32 a1, HWND hDlg)
+MATCH_FUNC(0x51cd30)
+void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (bPoliceOn == 1)
+    {
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetString_519A00("netui15"));
+    }
+    else
+    {
+        SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_POLICE_ENABLED_1056, GetString_519A00("netui16"));
+    }
 }
 
 STUB_FUNC(0x51cdc0)

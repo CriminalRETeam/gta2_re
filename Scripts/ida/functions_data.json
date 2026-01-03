@@ -10085,7 +10085,7 @@
         "v105_address": "0x51ccb0"
     },
     {
-        "name": "Network_20324::sub_51CD30",
+        "name": "Network_20324::SetJoinedGamePoliceEnabledText_51CD30",
         "v96f_address": null,
         "v105_address": "0x51cd30"
     },
