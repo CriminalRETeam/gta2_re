@@ -2209,7 +2209,7 @@ Network_20324::SetJoinedGamePoliceEnabledText_51CD30,0x51cd30,0x11cd30,0x43
 Network_20324::SetFragsNumberAndLabel_51CDC0,0x51cdc0,0x11cdc0,0x100
 Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0,0x51cfc0,0x11cfc0,0x95
 Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0,0x51d0c0,0x11d0c0,0x161
-Network_20324::sub_51D2F0,0x51d2f0,0x11d2f0,0x7d
+Network_20324::SetJoinedGameTimeLimitText_51D2F0,0x51d2f0,0x11d2f0,0x7d
 Network_20324::sub_51D3B0,0x51d3b0,0x11d3b0,0x3e
 NetPlay::ctor_51D6B0,0x51d6b0,0x11d6b0,0xf7
 NetPlay::vdtor_51D7B0,0x51d7b0,0x11d7b0,0x1e

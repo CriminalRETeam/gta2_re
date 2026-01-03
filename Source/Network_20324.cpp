@@ -590,10 +590,15 @@ void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 
     }
 }
 
+// This function matches. TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51d2f0)
-void Network_20324::sub_51D2F0(s32 a1, HWND hDlg)
+void Network_20324::SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hDlg)
 {
-    NOT_IMPLEMENTED;
+    char_type Buffer[260];
+    char_type String[260];
+    strcpy(Buffer, GetString_519A00("netui21"));
+    sprintf(String, "%s: %d", Buffer, gameTimeLimit);
+    SetDlgItemTextA(hDlg, LABEL_JOINED_GAME_TIME_LIMIT_1060, String);
 }
 
 STUB_FUNC(0x51d3b0)
