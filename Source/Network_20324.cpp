@@ -409,10 +409,14 @@ s32 Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
     return 0;
 }
 
+// This function matches. TODO: disable "/Oi- /Gz"
 STUB_FUNC(0x51c7f0)
-void Network_20324::sub_51C7F0(s32* a2)
+void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 {
-    NOT_IMPLEMENTED;
+    if (pSettings)
+    {
+        memcpy(pSettings, &field_20088_game_settings, sizeof(NetworkGameSettings));
+    }
 }
 
 // This function matches. TODO: disable "/Oi- /Gz"

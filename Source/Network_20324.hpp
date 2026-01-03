@@ -95,7 +95,7 @@ class Network_20324
     EXPORT s32 sub_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
     EXPORT s32 OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
-    EXPORT void sub_51C7F0(s32* a2);
+    EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void sub_51C830();
     EXPORT char_type* GetMapName_51CA10();
     EXPORT char_type* GetMapStyName_51CA50();
