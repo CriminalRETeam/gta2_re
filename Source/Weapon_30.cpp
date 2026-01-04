@@ -201,7 +201,7 @@ u8 Weapon_30::smg_5DDD20()
 }
 
 STUB_FUNC(0x5ddfc0)
-void Weapon_30::throwable_5DDFC0(s32 a2, s32 a3, s32 a4)
+void Weapon_30::throwable_5DDFC0(s16 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -331,11 +331,26 @@ char_type Weapon_30::sub_5E33C0()
     return result;
 }
 
-STUB_FUNC(0x5e34b0)
-char_type Weapon_30::sub_5E34B0()
+MATCH_FUNC(0x5e34b0)
+void Weapon_30::sub_5E34B0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s16 unknown; // eax
+    if ( field_2_reload_speed > 0 )
+    {
+        field_2_reload_speed--;
+    }
+    else if ( field_24_pPed && field_24_pPed->field_15C_player)
+    {
+        if ( field_1C_idx == weapon_type::molotov || field_1C_idx == weapon_type::grenade )
+        {
+          unknown = (field_1C_idx != weapon_type::molotov ? 183 : 138);
+          if ( field_24_pPed->field_15C_player->IsField50Unknown_4CCB00() )
+          {
+            throwable_5DDFC0(unknown, field_24_pPed->field_15C_player->sub_4CCAD0(), field_24_pPed->field_15C_player->Get_Field_50());
+          }
+          field_24_pPed->field_15C_player->field_50 = 0;
+        }
+    }
 }
 
 MATCH_FUNC(0x5e3670)
@@ -406,7 +421,7 @@ void Weapon_30::pull_trigger_5E3670()
 
                 if (pp->Get_Field_50() == 0x60)
                 {
-                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->sub_4CCAD0(), pp->Get_Field_50());
+                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetField50Clamped_4CCAD0(), pp->Get_Field_50());
                     this->field_24_pPed->field_15C_player->field_50 = -1;
                 }
             }

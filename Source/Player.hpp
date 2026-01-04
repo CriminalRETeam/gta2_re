@@ -59,6 +59,21 @@ class Player
     {
         return field_50;
     }
+  
+    inline s32 GetField50Clamped_4CCAD0()
+    {
+      if ( field_50 <= 60 )
+      {
+          return field_50;
+      }
+        
+        return 60;
+    }
+    
+		inline bool IsField50Unknown_4CCB00()
+		{
+			return field_50 >= 0;
+		}
 
     // 0x4CCAB0
     void sub_4CCAB0()
