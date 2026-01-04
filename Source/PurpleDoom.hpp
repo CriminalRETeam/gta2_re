@@ -69,3 +69,5 @@ EXTERN_GLOBAL(PurpleDoom*, gPurpleDoom_3_679210);
 EXTERN_GLOBAL(s32, gPurple_top_6F6108);
 
 EXTERN_GLOBAL(s32, gPurple_bottom_6F5F38);
+
+EXTERN_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84);
