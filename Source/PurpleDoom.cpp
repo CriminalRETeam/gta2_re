@@ -24,7 +24,7 @@ DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
-Sprite* gPurpleDoom_sprite_678F84; //DEFINE_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84, 0x678F84);
+DEFINE_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84, 0x678F84);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
 DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
@@ -138,9 +138,7 @@ Sprite* PurpleDoom::sub_477C90(s32 a1, s32 a2, Sprite* a3, u8 a4, s32 a5, char_t
     return 0;
 }
 
-// TODO: Is gPurpleDoom_sprite_678F84 a global var or not?
-// Stubbing this function to fix player dying on patched version
-STUB_FUNC(0x477E50)
+MATCH_FUNC(0x477E50)
 void PurpleDoom::sub_477E50(Sprite* pSprite)
 {
     gPurpleDoom_sprite_678F84 = pSprite;
