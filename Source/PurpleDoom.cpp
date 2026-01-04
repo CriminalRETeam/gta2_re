@@ -26,8 +26,8 @@ EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 Sprite* gPurpleDoom_sprite_678F84; //DEFINE_GLOBAL(Sprite*, gPurpleDoom_sprite_678F84, 0x678F84);
 
-Fix16 dword_678F80(0x6000); // 1.5
-Fix16 dword_679084(0x4000);
+DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
+DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
 
 // TODO: might be used elsewhere too or have been a macro
 static inline s32 Clamp(s32 value, s32 min, s32 max)
