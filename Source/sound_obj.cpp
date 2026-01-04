@@ -1482,10 +1482,6 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                 switch (field_147C[id].field_4_pObj->field_0_object_type)
                 {
                     case 1:
-                    case 2:
-                    case 3:
-                    case 4:
-                    case 5:
                         ProcessType1_2_3_4_5_412740(id);
                         break;
                     case 6:
