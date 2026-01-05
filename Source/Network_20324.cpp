@@ -226,12 +226,9 @@ void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
     }
 }
 
-// https://decomp.me/scratch/9kLQi TODO: Should match but end je target is diff? or its asm cmp bug
-STUB_FUNC(0x51aa90)
+MATCH_FUNC(0x51aa90)
 void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 {
-    NOT_IMPLEMENTED;
-
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 30; j++)
@@ -269,7 +266,8 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
     SetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
 
-    SendDlgItemMessageA(hWndParent, 1031, LVM_SETEXTENDEDLISTVIEWSTYLE, LVS_EX_GRIDLINES, LVS_EX_FULLROWSELECT);
+    SendDlgItemMessageA(hWndParent, 1031, 0x406, 0x1, 0x20000);
+
     SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14"));
     SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21"));
     Network_20324::sub_51CB30(0, hWndParent);
