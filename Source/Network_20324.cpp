@@ -92,15 +92,30 @@ Network_20324::~Network_20324()
     }
 }
 
+// TODO: Make a scratch
 STUB_FUNC(0x519bd0)
-s32 Network_20324::sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
+s32 Network_20324::ShowNetworkUiBlocking_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    dwInitParam->field_202E4_hInstance = hInstance;
+    gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_sub_519D30, dwInitParam);
+    gNetPlay_7071E8.Set6_520530((int)Network_20324::cb_sub_519E30, (int)dwInitParam);
+    gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)dwInitParam);
+    gNetPlay_7071E8.Set3_Disconnect_520E80((int)Network_20324::cb_Disconnect_51ADE0, (int)dwInitParam);
+    gNetPlay_7071E8.Set18_520F50((int)Network_20324::cb_sub_51AE50, (int)dwInitParam);
+    gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_sub_51B2F0, (int)dwInitParam);
+    gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)dwInitParam);
+    gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)dwInitParam);
+    return DialogBoxParamA(dwInitParam->field_202E4_hInstance,
+                           (LPCSTR)103, // probably IDD_NETWORK_DIALOG
+                           0,
+                           Network_20324::DialogFunc,
+                           (LPARAM)dwInitParam) == 1;
 }
 
 MATCH_FUNC(0x519c80)
-INT_PTR __stdcall Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+int __stdcall Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
     switch (message)
     {
@@ -470,7 +485,7 @@ void Network_20324::sub_51BBF0()
 }
 
 MATCH_FUNC(0x51bc00)
-void Network_20324::cb_sub_51BC00(Network_20324* pThis)
+void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
 {
     char String[260];
     wchar_t Dest[260];

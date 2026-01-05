@@ -9855,7 +9855,7 @@
         "v105_address": "0x519ba0"
     },
     {
-        "name": "Network_20324::sub_519BD0",
+        "name": "Network_20324::ShowNetworkUiBlocking_519BD0",
         "v96f_address": null,
         "v105_address": "0x519bd0"
     },
@@ -9995,7 +9995,7 @@
         "v105_address": "0x51bbf0"
     },
     {
-        "name": "Network_20324::cb_sub_51BC00",
+        "name": "Network_20324::cb_SavePlayerName_51BC00",
         "v96f_address": null,
         "v105_address": "0x51bc00"
     },
@@ -10215,7 +10215,7 @@
         "v105_address": "0x51eb00"
     },
     {
-        "name": "goofy_thompson::sub_51ECD0",
+        "name": "goofy_thompson::Set15_51ECD0",
         "v96f_address": null,
         "v105_address": "0x51ecd0"
     },
@@ -10275,7 +10275,7 @@
         "v105_address": "0x520230"
     },
     {
-        "name": "goofy_thompson::sub_520530",
+        "name": "goofy_thompson::Set6_520530",
         "v96f_address": null,
         "v105_address": "0x520530"
     },
@@ -10315,12 +10315,12 @@
         "v105_address": "0x520e30"
     },
     {
-        "name": "goofy_thompson::sub_520E60",
+        "name": "goofy_thompson::Set9_520E60",
         "v96f_address": null,
         "v105_address": "0x520e60"
     },
     {
-        "name": "goofy_thompson::sub_520E80",
+        "name": "goofy_thompson::Set3_Disconnect_520E80",
         "v96f_address": null,
         "v105_address": "0x520e80"
     },
@@ -10335,7 +10335,7 @@
         "v105_address": "0x520eb0"
     },
     {
-        "name": "goofy_thompson::sub_520F50",
+        "name": "goofy_thompson::Set18_520F50",
         "v96f_address": null,
         "v105_address": "0x520f50"
     },
@@ -10355,7 +10355,7 @@
         "v105_address": "0x521060"
     },
     {
-        "name": "goofy_thompson::sub_5210D0",
+        "name": "goofy_thompson::Set21_5210D0",
         "v96f_address": null,
         "v105_address": "0x5210d0"
     },
@@ -10365,7 +10365,7 @@
         "v105_address": "0x521100"
     },
     {
-        "name": "goofy_thompson::sub_521140",
+        "name": "goofy_thompson::Set24_521140",
         "v96f_address": null,
         "v105_address": "0x521140"
     },
@@ -10375,7 +10375,7 @@
         "v105_address": "0x521170"
     },
     {
-        "name": "goofy_thompson::sub_5211F0",
+        "name": "goofy_thompson::Set27SavePlayerName_5211F0",
         "v96f_address": null,
         "v105_address": "0x5211f0"
     },
