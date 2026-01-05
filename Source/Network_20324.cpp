@@ -1,7 +1,7 @@
 #include "Network_20324.hpp"
-#include "NetPlay.hpp"
 #include "Frontend.hpp"
 #include "Globals.hpp"
+#include "NetPlay.hpp"
 #include "registry.hpp"
 #include "text_0x14.hpp"
 
@@ -58,7 +58,7 @@ STUB_FUNC(0x519a90)
 Network_20324::Network_20324()
 {
     NOT_IMPLEMENTED;
-    
+
     this->field_202E4_hInstance = 0;
     this->field_202E0_dlg_hwnd = 0;
     this->field_202DC = 0;
@@ -438,10 +438,35 @@ void Network_20324::sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerN
     }
 }
 
-STUB_FUNC(0x51bdd0)
-LRESULT Network_20324::sub_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+MATCH_FUNC(0x51bdd0)
+LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
-    NOT_IMPLEMENTED;
+    HWND parentHwnd = GetParent(hWnd);
+    if (parentHwnd)
+    {
+        Network_20324* pThis = (Network_20324*)GetWindowLongA(parentHwnd, 8);
+        if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_ALTDOWN << 16)) == 0)
+        {
+            switch (pThis->Get_202D4_active_control_idx_51ACC0())
+            {
+                case 2:
+                    pThis->OnEnterPressed_51BEB0(1053, 1051);
+                    break;
+
+                case 1:
+                    pThis->OnEnterPressed_51BEB0(1025, 1022);
+                    break;
+            }
+        }
+
+        switch (pThis->Get_202D4_active_control_idx_51ACC0())
+        {
+            case 2:
+                return CallWindowProcA(pThis->field_1FD70_old_proc, hWnd, Msg, wParam, lParam);
+            case 1:
+                return CallWindowProcA(pThis->field_1FD74_old_proc, hWnd, Msg, wParam, lParam);
+        }
+    }
     return 0;
 }
 
