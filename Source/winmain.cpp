@@ -54,6 +54,15 @@
 #include "sound_obj.hpp"
 #include "sprite.hpp"
 
+DEFINE_GLOBAL(u8, gNetInUsePlayerBits_6F56B8, 0x6F56B8); // TODO: move
+DEFINE_GLOBAL(u32, gNetworkPlayerIdx_6F56C8, 0x6F56C8); // TODO: move
+DEFINE_GLOBAL(u32, gPlayerQuit_6F5AEC, 0x6F5AEC); // TODO: move
+DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
+DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
+DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
+DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
+DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
+
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
 class DllRaii
@@ -323,7 +332,6 @@ DEFINE_GLOBAL(u8, min_frame_rate_706C50, 0x706C50);
 DEFINE_GLOBAL(u8, byte_6F58D8, 0x6F58D8);
 DEFINE_GLOBAL(u8, byte_6F5760, 0x6F5760);
 DEFINE_GLOBAL(u8, byte_6F5880, 0x6F5880);
-DEFINE_GLOBAL(s32, dword_6F5A28, 0x6F5A28);
 
 // TODO: move
 MATCH_FUNC(0x4DA820)
@@ -336,7 +344,7 @@ EXPORT void sub_4DA820()
 MATCH_FUNC(0x4DA830)
 EXPORT void __stdcall sub_4DA830()
 {
-    dword_6F5A28 = timeGetTime();
+    gMatchStartTime_6F5A28 = timeGetTime();
     byte_6F58D8 = 0;
 }
 
@@ -867,6 +875,12 @@ void __stdcall sub_4DB170()
     gCheatUnlimitedFlameThrower_67D6CC = 0;
 }
 
+STUB_FUNC(0x4DB070)
+EXPORT void __stdcall sub_4DB070(u8 a1)
+{
+    NOT_IMPLEMENTED;
+}
+
 STUB_FUNC(0x4DB0D0)
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
@@ -914,7 +928,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     byte_6F58D8 = 0;
     byte_6F5880 = 0;
-    dword_6F5A28 = timeGetTime();
+    gMatchStartTime_6F5A28 = timeGetTime();
     byte_6F5760 = 1;
 }
 
@@ -963,67 +977,88 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-STUB_FUNC(0x4DAF30)
-EXPORT void __stdcall do_inputs_4DAF30()
+STUB_FUNC(0x4DA9F0)
+EXPORT void Net_4DA9F0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DACB0)
+EXPORT void Net_Send_Our_Inputs_4DACB0()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DAD50)
+EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
+{
+    NOT_IMPLEMENTED;
+}
+
+STUB_FUNC(0x4DADA0)
+EXPORT void TagGameHudUpdate_4DADA0()
+{
+    NOT_IMPLEMENTED;
+}
+
+MATCH_FUNC(0x4DAF30)
+EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 {
     if (bStartNetworkGame_7081F0)
     {
-        /*
-        sub_4DADA0();
-        gYouthful_einstein_6F8450->sub_516660();
-        if (gGame_0x40_67E008->sub_4B8C20())
+        TagGameHudUpdate_4DADA0();
+        gYouthful_einstein_6F8450.UpdateFugitive_516660();
+
+        if (!gGame_0x40_67E008->sub_4B8C20())
         {
-            gGoofy_thompson_7071E8->Send_521D20();
-        }
-        else
-        {
-            if (byte_6F56B8)
+            if (gNetInUsePlayerBits_6F56B8)
             {
-                u32 v0 = 0;
+                u32 player_idx = 0;
                 do
                 {
-                    if ((byte_6F56B8 & 1) != 0)
+                    if ((gNetInUsePlayerBits_6F56B8 & 1) != 0)
                     {
-                        Player* v1 = gGame_0x40_67E008->field_4_players[(u8)v0];
-                        if (v1)
+                        Player* pPlayer = gGame_0x40_67E008->field_4_players[(u8)player_idx];
+                        if (pPlayer && pPlayer->field_8E_bInUse)
                         {
-                            if (v1->field_8E_bInUse)
+                            gNetPlay_7071E8.DeletePlayerFromGroup_521000(player_idx);
+                            sub_4DB070(player_idx);
+                            if (!player_idx || player_idx == gNetworkPlayerIdx_6F56C8)
                             {
-                                gGoofy_thompson_7071E8->DeletePlayerFromGroup_521000(v0);
-                                sub_4DB070(v0);
-                                if (!v0 || v0 == dword_6F56C8)
-                                {
-                                    dword_6F5AEC = 1;
-                                }
+                                gPlayerQuit_6F5AEC = 1;
                             }
                         }
                     }
-                    ++v0;
-                    byte_6F56B8 = (unsigned __int8)byte_6F56B8 >> 1;
-                } while (byte_6F56B8);
+                    player_idx++;
+                    gNetInUsePlayerBits_6F56B8 >>= 1;
+                } while (gNetInUsePlayerBits_6F56B8);
             }
-            dword_6F57D8[2 * dword_6F56C8] = BurgerKing_67F8B0::get_input_bits_4CEAC0(&gBurgerKing_67F8B0);
-            void* v2;
-            //sub_4DACB0(v2); // thiscall: unknown class
+
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+            Net_Send_Our_Inputs_4DACB0();
             Draw_4DA7B0();
-            sub_4DA9F0();
-            qmemcpy(dword_6F5B28, dword_6F57D8, sizeof(dword_6F5B28));
-        }
-        if (byte_6F593C)
-        {
-            dword_6F5A28 = timeGetTime();
-            byte_6F593C = 0;
-        }
-        if (dword_6F5AEC)
-        {
-            gGame_0x40_67E008->sub_4B8C00(0, 2);
+            Net_4DA9F0();
+            memcpy(&gPrevNetInputs_6F5B28, &gCurrentNetInputs_6F57D8, sizeof(gPrevNetInputs_6F5B28));
         }
         else
         {
-            sub_4DAD50();
+            gNetPlay_7071E8.SendKeepAlive_521D20();
         }
-        ++dword_6F5868;
-        */
+
+        if (bRecordStartTime_6F593C)
+        {
+            gMatchStartTime_6F5A28 = timeGetTime();
+            bRecordStartTime_6F593C = false;
+        }
+        if (gPlayerQuit_6F5AEC)
+        {
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 2);
+        }
+        else
+        {
+            Net_Set_Local_Player_Inputs_4DAD50();
+        }
+        ++gNetworkFrameCounter_6F5868;
     }
     else
     {
@@ -1044,16 +1079,16 @@ EXPORT u8 sub_4DA850()
 
     if (bStartNetworkGame_7081F0)
     {
-        if (Time >= dword_6F5A28)
+        if (Time >= gMatchStartTime_6F5A28)
         {
             bContinue = ExecuteGame_4DA780();
-            do_inputs_4DAF30();
-            dword_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
+            do_network_and_local_inputs_4DAF30();
+            gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->sub_4B8BB0();
         }
     }
     else
     {
-        if (!max_frame_rate_626A08 && !byte_6F58D8 || Time >= dword_6F5A28)
+        if (!max_frame_rate_626A08 && !byte_6F58D8 || Time >= gMatchStartTime_6F5A28)
         {
             unk_bl = 1;
             unk_0xc = 1;
@@ -1073,17 +1108,17 @@ EXPORT u8 sub_4DA850()
         {
             if (!min_frame_rate_706C50)
             {
-                dword_6F5A28 = Time;
+                gMatchStartTime_6F5A28 = Time;
             }
             if (byte_6F5760)
             {
-                do_inputs_4DAF30();
+                do_network_and_local_inputs_4DAF30();
                 byte_6F5760 = 0;
             }
             bContinue = ExecuteGame_4DA780();
             s32 v2 = gGame_0x40_67E008->sub_4B8BB0();
             byte_6F5880 = 0;
-            dword_6F5A28 += v2;
+            gMatchStartTime_6F5A28 += v2;
             ++byte_6F58D8;
             byte_6F5760 = 1;
         }
@@ -1095,7 +1130,7 @@ EXPORT u8 sub_4DA850()
         }
         else if (byte_6F5760)
         {
-            do_inputs_4DAF30();
+            do_network_and_local_inputs_4DAF30();
             byte_6F5760 = 0;
         }
     }
