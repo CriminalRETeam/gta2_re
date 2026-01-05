@@ -54,12 +54,9 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
     }
 }
 
-// https://decomp.me/scratch/NJ1e0 compiler flag annoyance
-STUB_FUNC(0x519a90)
+MATCH_FUNC(0x519a90)
 Network_20324::Network_20324()
 {
-    NOT_IMPLEMENTED;
-
     this->field_202E4_hInstance = 0;
     this->field_202E0_dlg_hwnd = 0;
     this->field_202DC = 0;
@@ -229,12 +226,9 @@ void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
     }
 }
 
-// https://decomp.me/scratch/9kLQi TODO: Should match but end je target is diff? or its asm cmp bug
-STUB_FUNC(0x51aa90)
+MATCH_FUNC(0x51aa90)
 void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 {
-    NOT_IMPLEMENTED;
-
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 30; j++)
@@ -272,7 +266,8 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
     SetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
 
-    SendDlgItemMessageA(hWndParent, 1031, LVM_SETEXTENDEDLISTVIEWSTYLE, LVS_EX_GRIDLINES, LVS_EX_FULLROWSELECT);
+    SendDlgItemMessageA(hWndParent, 1031, 0x406, 0x1, 0x20000);
+
     SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14"));
     SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21"));
     Network_20324::sub_51CB30(0, hWndParent);
@@ -322,11 +317,47 @@ s32 Network_20324::Get_202D4_active_control_idx_51ACC0()
     return field_202D4_showing_specific_window_idx;
 }
 
-STUB_FUNC(0x51acd0)
-LRESULT Network_20324::cb_sub_51ACD0(Network_20324* a1, wchar_t* Source)
+MATCH_FUNC(0x51acd0)
+void Network_20324::cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVFINDINFOA findInfo;
+    char Dest[260];
+
+    wcstombs(Dest, Source, 260u);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = Dest;
+
+            LRESULT sendRet = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            SendMessageA(hItem, LVM_DELETEITEM, sendRet, 0);
+
+            pNetUi->DecCount_51BBE0();
+            pNetUi->sub_51CBC0();
+        }
+        break;
+
+        case 2:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = Dest;
+
+            LRESULT sendRet = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            SendMessageA(hItem, LVM_DELETEITEM, sendRet, 0);
+        }
+        break;
+    }
 }
 
 MATCH_FUNC(0x51ade0)
@@ -355,8 +386,7 @@ s32 Network_20324::cb_sub_51AE50(s32 a1, wchar_t* Source)
     return 0;
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51afa0)
+MATCH_FUNC(0x51afa0)
 void Network_20324::PopulateMainUI_51AFA0()
 {
     LPARAM columnInfo[8];
@@ -454,7 +484,7 @@ void Network_20324::sub_51B810(const char_type* a2)
 }
 
 STUB_FUNC(0x51b9c0)
-s32 Network_20324::sub_51B9C0(s32 a2, char_type* Data)
+s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -473,7 +503,7 @@ u32 Network_20324::GetCount_51BBD0()
 }
 
 MATCH_FUNC(0x51bbe0)
-void Network_20324::sub_51BBE0()
+void Network_20324::DecCount_51BBE0()
 {
     field_1FD6C_count--;
 }
@@ -492,7 +522,7 @@ void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
 
     GetDlgItemTextA(pThis->Get_202E0_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
     GetString_519A50(Dest, String, GTA2_COUNTOF(String));
-    pThis->sub_51BD40(Dest, String);
+    pThis->SetPlayNameAndSaveToRegistry_51BD40(Dest, String);
     pThis->sub_51BC70(1);
 }
 
@@ -507,6 +537,8 @@ s32 Network_20324::sub_51BC80()
 {
     return field_1FD68;
 }
+
+#pragma function(strcpy)
 
 MATCH_FUNC(0x51bc90)
 void Network_20324::sub_51BC90()
@@ -539,10 +571,9 @@ void Network_20324::sub_51BC90()
     }
 }
 
-STUB_FUNC(0x51bd40)
-void Network_20324::sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA)
+MATCH_FUNC(0x51bd40)
+void Network_20324::SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA)
 {
-    NOT_IMPLEMENTED;
     strcpy(field_1FF80_player_name, pPlayerNameA);
     wcscpy(field_1FD78_player_name_2, pPlayerNameW);
 
@@ -560,6 +591,8 @@ void Network_20324::sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerN
         RegCloseKey(hKey);
     }
 }
+
+#pragma intrinsic(strcpy)
 
 MATCH_FUNC(0x51bdd0)
 LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
@@ -611,15 +644,34 @@ void Network_20324::sub_51BFA0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51c630)
-s32 __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
+MATCH_FUNC(0x51c630)
+void __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
+    if (GetDlgCtrlID(hTrackBar) == 1031)
+    {
+        switch (code)
+        {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 6:
+            case 7:
+            {
+                const int pos2 = SendDlgItemMessageA(hWnd, 1031, TBM_GETPOS, 0, 0);
+                pThis->SetSetting_51B9C0(5, (char*)pos2); // set game speed
+            }
+            break;
+
+            case 5:
+                return;
+        }
+    }
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51c7f0)
+MATCH_FUNC(0x51c7f0)
 void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 {
     if (pSettings)
@@ -628,8 +680,7 @@ void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
     }
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51c830)
+MATCH_FUNC(0x51c830)
 void Network_20324::sub_51C830()
 {
     field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Set_Network_Setting_587690("map_index", 0);
@@ -658,19 +709,19 @@ void Network_20324::sub_51C830()
 MATCH_FUNC(0x51ca10)
 char_type* Network_20324::GetMapName_51CA10()
 {
-    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_0_map_name;
+    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_0_map_name;
 }
 
 MATCH_FUNC(0x51ca50)
 char_type* Network_20324::GetMapStyName_51CA50()
 {
-    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_104_style_name;
+    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_104_style_name;
 }
 
 MATCH_FUNC(0x51ca90)
 char_type* Network_20324::GetMapScrName_51CA90()
 {
-    return (char_type*)&field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_208_script_name;
+    return field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_208_script_name;
 }
 
 MATCH_FUNC(0x51cad0)
@@ -738,8 +789,7 @@ void Network_20324::SetJoinedGamePoliceEnabledText_51CD30(s32 bPoliceOn, HWND hD
     }
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51cdc0)
+MATCH_FUNC(0x51cdc0)
 void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg)
 {
     char_type* fragLimitString;
@@ -803,8 +853,7 @@ void Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWN
     }
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51d0c0)
+MATCH_FUNC(0x51d0c0)
 void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 frag_limit, HWND hDlg)
 {
     char_type String[260];
@@ -839,8 +888,7 @@ void Network_20324::SetJoinedGameTypeAndFragLimitText_51D0C0(s32 game_type, s32 
     }
 }
 
-// This function matches. TODO: disable "/Oi-" compiler flag
-STUB_FUNC(0x51d2f0)
+MATCH_FUNC(0x51d2f0)
 void Network_20324::SetJoinedGameTimeLimitText_51D2F0(s32 gameTimeLimit, HWND hDlg)
 {
     char_type Buffer[260];
