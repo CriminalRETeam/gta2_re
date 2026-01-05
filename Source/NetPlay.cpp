@@ -797,7 +797,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 a2)
 }
 
 STUB_FUNC(0x521d20)
-s32 NetPlay::Send_521D20()
+s32 NetPlay::SendKeepAlive_521D20()
 {
     NOT_IMPLEMENTED;
     return 0;

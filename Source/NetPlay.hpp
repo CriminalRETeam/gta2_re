@@ -110,6 +110,17 @@ struct Connection_Unknown
     s32 field_4_len;
 };
 
+struct Network_InputData_0x8
+{
+    u32 field_0_Inputs;
+    u32 field_4_rng;
+};
+
+struct Network_Unknown_0x30
+{
+    Network_InputData_0x8 field_0_inputs[6];
+};
+
 struct NetPlay
 {
     EXPORT NetPlay* ctor_51D6B0();
@@ -185,7 +196,7 @@ struct NetPlay
     EXPORT void Send_521B20(s32* a2);
     EXPORT s32 NoRefs_Send_521BE0(s32* a2, s32 a3);
     EXPORT s32 NoRefs_Send_521C80(s32 a2);
-    EXPORT s32 Send_521D20();
+    EXPORT s32 SendKeepAlive_521D20();
     EXPORT s32 Send_521DB0(s32 dataLen);
     EXPORT s32 Send_521E40(s32 a2);
     EXPORT void static_dtor_5E4DD0();
