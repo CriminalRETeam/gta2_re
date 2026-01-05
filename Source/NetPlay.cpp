@@ -251,10 +251,20 @@ BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpD
     return 0;
 }
 
-STUB_FUNC(0x51e0e0)
-s32 NetPlay::sub_51E0E0(wchar_t* Source)
+MATCH_FUNC(0x51e0e0)
+s32 NetPlay::PushConnection_51E0E0(wchar_t* Source)
 {
-    NOT_IMPLEMENTED;
+    if (field_30_enumed_connections.field_C_f4_d_array_count < 8)
+    {
+        size_t string_len_bytes = wcslen(Source);
+        field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count].field_0_allocated_str =
+            new wchar_t[string_len_bytes + 1];
+        wcscpy(field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count]
+                   .field_0_allocated_str,
+               Source);
+        ++field_30_enumed_connections.field_C_f4_d_array_count;
+        return 1;
+    }
     return 0;
 }
 

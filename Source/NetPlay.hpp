@@ -93,7 +93,7 @@ struct Network_18
     EnumeratedConnection* field_0_enumed_connections;
     Network_4* field_4_d_array_8_entries;
     s32 field_8_connections_count;
-    s32 field_C_f4_d_array_count;
+    u32 field_C_f4_d_array_count;
     s32 field_10;
     s32 field_14;
 };
@@ -127,7 +127,7 @@ struct NetPlay
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
     EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
-    EXPORT s32 sub_51E0E0(wchar_t* Source);
+    EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
     EXPORT s32 NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4);
     EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);
     EXPORT s32 NoRefs_51E450(s32 a2, u32* a3, size_t* a4);
