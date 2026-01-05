@@ -84,6 +84,8 @@ DEFINE_GLOBAL_INIT(Fix16, dword_677908, Fix16(1), 0x677908);
 DEFINE_GLOBAL(Fix16, dword_705DDC, 0x705DDC);
 DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
 
+DEFINE_GLOBAL(Fix16, dword_677218, 0x677218);
+
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
 {
@@ -477,15 +479,66 @@ Car_BC* Car_6C::sub_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpo
     return 0;
 }
 
-STUB_FUNC(0x444f80)
-Car_BC* Car_6C::GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+MATCH_FUNC(0x444E40)
+char Car_BC::sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+{
+    const u8 x_int = xpos.ToInt();
+    const u8 y_int = ypos.ToInt();
+    const u8 z_int = zpos.ToInt();
+    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(x_int, y_int, z_int - 1);
+
+    if (pBlockInfo)
+    {
+
+        if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(4, pBlockInfo))
+        {
+            return Car_BC::sub_445EC0(Fix16(x_int), (dword_677218 + (y_int)), 4);
+        }
+
+        if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(2, pBlockInfo))
+        {
+            return Car_BC::sub_445EC0((dword_677218 + (x_int)), (dword_6777D0 + (y_int)), 2);
+        }
+
+        if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(3, pBlockInfo))
+        {
+            return Car_BC::sub_445EC0(Fix16(x_int), (dword_677218 + (y_int)), 3);
+        }
+
+        if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(1, pBlockInfo))
+        {
+            return Car_BC::sub_445EC0((dword_677218 + (x_int)), Fix16(y_int), 1);
+        }
+    }
+    return 0;
+}
+
+STUB_FUNC(0x445EC0)
+char Car_BC::sub_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x444fa0)
+MATCH_FUNC(0x444f80)
+Car_BC* Car_6C::GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+{
+    return DoGetNearestCarFromCoord_444FC0(x, y, z, 1, pPed, 1);
+}
+
+MATCH_FUNC(0x444fa0)
 Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+{
+    return DoGetNearestCarFromCoord_444FC0(x, y, z, 0, pPed, 0);
+}
+
+STUB_FUNC(0x444FC0)
+Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
+                                                Fix16 ypos,
+                                                Fix16 zpos,
+                                                s32 bMatchDriverless,
+                                                Ped* pPed,
+                                                char_type bIgnorePedRestrictions)
 {
     NOT_IMPLEMENTED;
     return 0;
