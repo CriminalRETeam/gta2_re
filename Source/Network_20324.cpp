@@ -180,11 +180,25 @@ char_type Network_20324::sub_51AA90(HWND hWndParent)
     return 0;
 }
 
-STUB_FUNC(0x51abf0)
-s32 Network_20324::ShowSpecificWindow_51ABF0(s32 a2)
+MATCH_FUNC(0x51abf0)
+void Network_20324::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    u32 i;
+
+    // Hide old
+    for (i = 0; i < 30; ++i)
+    {
+        ShowWindow(this->field_201A8_ui_control_hwnds[this->field_202D4_showing_specific_window_idx][i], SW_HIDE);
+    }
+
+    // Show new (using param, not the mem var)
+    for (i = 0; i < 30; ++i)
+    {
+        ShowWindow(this->field_201A8_ui_control_hwnds[showing_specific_window_idx][i], SW_SHOW);
+    }
+
+    this->field_202D8_last_showing_specific_window_idx = this->field_202D4_showing_specific_window_idx;
+    this->field_202D4_showing_specific_window_idx = showing_specific_window_idx;
 }
 
 MATCH_FUNC(0x51ac60)
@@ -216,10 +230,10 @@ LRESULT Network_20324::cb_sub_51ACD0(Network_20324* a1, wchar_t* Source)
 MATCH_FUNC(0x51ade0)
 void Network_20324::cb_Disconnect_51ADE0(Network_20324* pNetUi)
 {
-  gNetPlay_7071E8.Disconnect_520D10();
-  pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1050);
-  pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1024);
-  pNetUi->ShowSpecificWindow_51ABF0(0);
+    gNetPlay_7071E8.Disconnect_520D10();
+    pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1050);
+    pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1024);
+    pNetUi->ShowSpecificWindow_51ABF0(0);
 }
 
 MATCH_FUNC(0x51ae20)
