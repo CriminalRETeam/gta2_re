@@ -331,7 +331,6 @@ class Trailer
     Car_BC* field_C_pCarOnTrailer;
 };
 
-
 static inline bool IsArmyModel(s32 idx1)
 {
     return idx1 == car_model_enum::TANK || idx1 == 22 || idx1 == 30 || idx1 == 3;
@@ -514,7 +513,7 @@ class Car_BC
     EXPORT static void __stdcall sub_443AB0(Player* pPlayer, s32 weapon_cost);
     EXPORT void ResprayOrChangePlates(u8 remap);
     EXPORT void ResprayOrCleanPlates(u8 remap);
-    EXPORT void HandleShops_443C40(Object_2C *pObj);
+    EXPORT void HandleShops_443C40(Object_2C* pObj);
     EXPORT void sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void IncrementCarStats_443D70(s32 car_type);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 a2);
@@ -788,9 +787,8 @@ class Car_BC
 
     bool sub_4215C0()
     {
-        return field_54_driver 
-            && field_54_driver->field_15C_player 
-            && field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty;
+        return field_54_driver && field_54_driver->field_15C_player &&
+            field_54_driver->get_occupation_403980() != ped_ocupation_enum::empty;
     }
 
     Fix16 sub_421910(Fix16 value)
@@ -814,11 +812,14 @@ class Car_BC
     {
         return field_50_car_sprite->field_14_xpos.y;
     }
-    
+
     Fix16 get_z_41E450()
     {
         return field_50_car_sprite->field_1C_zpos;
     }
+
+    EXPORT char sub_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT char sub_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction);
 
     struct_4 field_0_qq;
     Ped_List_4 field_4_passengers_list;
