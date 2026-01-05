@@ -104,19 +104,25 @@ struct Network_504
     u32 field_5C4_session_count;
 };
 
+struct Connection_Unknown
+{
+    void* field_0;
+    s32 field_4_len;
+};
+
 struct NetPlay
 {
     EXPORT NetPlay* ctor_51D6B0();
     EXPORT void* vdtor_51D7B0(char_type flags);
     EXPORT virtual ~NetPlay();
     EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
-    EXPORT s32 EnumConnections_cb_51DA30(GUID* lpguidSP,
-                                         const void* lpConnection,
-                                         u32 dwConnectionSize,
-                                         DPNAME* lpName,
-                                         s32 dwFlags,
-                                         NetPlay* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseThisConnection);
+    EXPORT static s32 __stdcall EnumConnections_cb_51DA30(const GUID* lpguidSP,
+                                         void* lpConnection,
+                                         unsigned long dwConnectionSize,
+                                         const DPNAME* lpName,
+                                         unsigned long dwFlags,
+                                         void* lpContext);
+    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Connection_Unknown* pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
