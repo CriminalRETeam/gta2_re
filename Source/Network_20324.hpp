@@ -67,7 +67,7 @@ class Network_20324
     EXPORT void OnPaint_519FD0(HWND a1);
     EXPORT void OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4);
     EXPORT LRESULT OnTimer_51A9D0(HWND hWnd, s32 a2);
-    EXPORT char_type sub_51AA90(HWND hWndParent);
+    EXPORT void CreateMainUi_51AA90(HWND hWndParent);
     EXPORT void ShowSpecificWindow_51ABF0(s32 a2);
     EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();

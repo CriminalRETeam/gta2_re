@@ -173,11 +173,57 @@ LRESULT Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
     return 0;
 }
 
+// https://decomp.me/scratch/9kLQi TODO: Should match but end je target is diff? or its asm cmp bug
 STUB_FUNC(0x51aa90)
-char_type Network_20324::sub_51AA90(HWND hWndParent)
+void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 {
     NOT_IMPLEMENTED;
-    return 0;
+    
+    for (u32 i = 0; i < 3; i++)
+    {
+        for (u32 j = 0; j < 30; j++)
+        {
+            char* pNewWindowStr;
+            if (gUiControlDefinitions_621430[i][j].field_6C_gtx_string_name[0])
+            {
+                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430[i][j].field_6C_gtx_string_name);
+            }
+            else
+            {
+                pNewWindowStr = ""; // byte_67DC88
+            }
+
+            field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430[i][j].field_0_windowParams.field_18_exStyle,
+                                                                 gUiControlDefinitions_621430[i][j].field_1C_window_class_name,
+                                                                 pNewWindowStr,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_14_style,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_0_x,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_4_y,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_8_w,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_C_h,
+                                                                 hWndParent,
+                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_10_hMenu,
+                                                                 this->field_202E4_hInstance,
+                                                                 0);
+        }
+    }
+
+    SetWindowTextA(hWndParent, GetString_519A00("netui08"));
+
+    // Subclass to handle enter key pressing
+    this->field_1FD70_old_proc = (WNDPROC)GetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC);
+    this->field_1FD74_old_proc = (WNDPROC)GetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC);
+    SetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
+    SetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC, (LONG)Network_20324::subclass_proc_51BDD0);
+
+    SendDlgItemMessageA(hWndParent, 1031, LVM_SETEXTENDEDLISTVIEWSTYLE, LVS_EX_GRIDLINES, LVS_EX_FULLROWSELECT);
+    SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14"));
+    SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21"));
+    Network_20324::sub_51CB30(0, hWndParent);
+    if (gNetPlay_7071E8.field_4)
+    {
+        EnableWindow(GetDlgItem(hWndParent, 1001), 1);
+    }
 }
 
 MATCH_FUNC(0x51abf0)
@@ -207,7 +253,7 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
     SetWindowLongA(hWnd, 8, (LONG)thisPtr);
     gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
     thisPtr->SetDlgHwnd_519E10(hWnd);
-    thisPtr->sub_51AA90(hWnd);
+    thisPtr->CreateMainUi_51AA90(hWnd);
     thisPtr->PopulateMainUI_51AFA0();
     thisPtr->SetPlayerNameText_51B7C0();
     thisPtr->ShowSpecificWindow_51ABF0(0);

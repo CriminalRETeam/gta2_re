@@ -2168,7 +2168,7 @@ Network_20324::cb_sub_519E30,0x519e30,0x119e30,0x1a0
 Network_20324::OnPaint_519FD0,0x519fd0,0x119fd0,0x3
 Network_20324::OnWmCommand_519FE0,0x519fe0,0x119fe0,0x9ab
 Network_20324::OnTimer_51A9D0,0x51a9d0,0x11a9d0,0xb8
-Network_20324::sub_51AA90,0x51aa90,0x11aa90,0x158
+Network_20324::CreateMainUi_51AA90,0x51aa90,0x11aa90,0x158
 Network_20324::ShowSpecificWindow_51ABF0,0x51abf0,0x11abf0,0x6f
 Network_20324::OnInitDialog_51AC60,0x51ac60,0x11ac60,0x57
 Network_20324::Get_202D4_active_control_idx_51ACC0,0x51acc0,0x11acc0,0x7
