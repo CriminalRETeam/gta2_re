@@ -132,7 +132,7 @@ struct NetPlay
     EXPORT s32 EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
     EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
     EXPORT void sub_51ECD0(s32 pFunc, Network_20324* pParam);
-    EXPORT void sub_51ED00();
+    EXPORT void NetworkTick_51ED00();
     EXPORT s32 Send_51EF60();
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, s32* recvId, u32* senderId);
     EXPORT void sub_51F0D0(char_type* a2, s32 a3, s32 a4, s32 a5);

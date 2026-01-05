@@ -10220,7 +10220,7 @@
         "v105_address": "0x51ecd0"
     },
     {
-        "name": "goofy_thompson::sub_51ED00",
+        "name": "goofy_thompson::NetworkTick_51ED00",
         "v96f_address": null,
         "v105_address": "0x51ed00"
     },

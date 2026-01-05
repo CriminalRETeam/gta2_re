@@ -166,11 +166,39 @@ void Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51a9d0)
-LRESULT Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
+MATCH_FUNC(0x51a9d0)
+void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
+    int hadSelection = 0;
+    if (!pThis->sub_51BC80())
+    {
+        char textBuf[260];
+
+        const LRESULT selIndex = SendDlgItemMessageA(hWnd, LISTBOX_UNKNOWN_1000, LB_GETCURSEL, 0, 0);
+
+        if (selIndex != LB_ERR)
+        {
+            SendDlgItemMessageA(hWnd, 1000, LB_GETTEXT, selIndex, (LPARAM)textBuf);
+
+            hadSelection = 1;
+        }
+
+        gNetPlay_7071E8.NetworkTick_51ED00();
+
+        if (hadSelection)
+        {
+            SendDlgItemMessageA(hWnd, 1000, LB_SELECTSTRING, (WPARAM)-1, (LPARAM)textBuf);
+        }
+        else
+        {
+            SendDlgItemMessageA(hWnd, 1000, LB_SETCURSEL, 0, 0);
+        }
+    }
+    else
+    {
+        EndDialog(hWnd, 1);
+    }
 }
 
 // https://decomp.me/scratch/9kLQi TODO: Should match but end je target is diff? or its asm cmp bug
@@ -178,7 +206,7 @@ STUB_FUNC(0x51aa90)
 void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 {
     NOT_IMPLEMENTED;
-    
+
     for (u32 i = 0; i < 3; i++)
     {
         for (u32 j = 0; j < 30; j++)

@@ -294,7 +294,7 @@ void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
 }
 
 STUB_FUNC(0x51ed00)
-void NetPlay::sub_51ED00()
+void NetPlay::NetworkTick_51ED00()
 {
     NOT_IMPLEMENTED;
 }
