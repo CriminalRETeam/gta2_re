@@ -90,7 +90,7 @@ class Network_20324
     EXPORT void sub_51BC70(s32 a2);
     EXPORT s32 sub_51BC80();
     EXPORT void sub_51BC90();
-    EXPORT void sub_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
+    EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
