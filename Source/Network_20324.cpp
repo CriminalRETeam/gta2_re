@@ -59,13 +59,13 @@ Network_20324::Network_20324()
 {
     NOT_IMPLEMENTED;
     
-    this->field_202E4 = 0;
-    this->field_202E0_hwnd = 0;
-    this->field_20318 = 0;
-    this->field_20310 = 0;
-    this->field_20314 = 3;
+    this->field_202E4_hInstance = 0;
+    this->field_202E0_dlg_hwnd = 0;
+    this->field_202DC = 0;
+    this->field_202D4_showing_specific_window_idx = 0;
+    this->field_202D8_last_showing_specific_window_idx = 3;
     this->field_20084 = 0;
-    this->field_1FD6C = 0;
+    this->field_1FD6C_count = 0;
     this->field_1FD64_total_map_count = 0;
     this->field_1FD68 = 0;
     this->field_20088_game_settings.field_2019C_tick_count = GetTickCount();
@@ -137,13 +137,13 @@ s32 Network_20324::cb_sub_519D30(Network_20324* a1, s32 a2)
 MATCH_FUNC(0x519e10)
 void Network_20324::SetDlgHwnd_519E10(HWND a2)
 {
-    field_202E0_hwnd = a2;
+    field_202E0_dlg_hwnd = a2;
 }
 
 MATCH_FUNC(0x519e20)
 HWND Network_20324::Get_202E0_HWND_519E20()
 {
-    return field_202E0_hwnd;
+    return field_202E0_dlg_hwnd;
 }
 
 STUB_FUNC(0x519e30)
@@ -202,7 +202,7 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
 MATCH_FUNC(0x51acc0)
 s32 Network_20324::Get_202D4_active_control_idx_51ACC0()
 {
-    return field_202D4;
+    return field_202D4_showing_specific_window_idx;
 }
 
 STUB_FUNC(0x51acd0)
@@ -244,52 +244,52 @@ void Network_20324::PopulateMainUI_51AFA0()
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
-    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_hwnd, 1024, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101E, 1u, 65534);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     u16 v4 = 3 * (gUiControlDefinitions_621430[2][0].field_0_windowParams.field_8_w >> 2);
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101Eu, 0, v4);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, v4);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_hwnd, 1050, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101E, 1u, 65534);
 
     for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
     {
-        LRESULT v6 = SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)&field_4_maps[v5].field_30C_player_count);
-        SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_SETITEMDATA, v6, v5);
+        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)&field_4_maps[v5].field_30C_player_count);
+        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, v6, v5);
     }
 
-    LRESULT v8 = SendDlgItemMessageA(field_202E0_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
-    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v8, 0);
-    LRESULT v10 = SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
-    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v10, 1);
-    LRESULT v12 = SendDlgItemMessageA(field_202E0_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
-    SendDlgItemMessageA(field_202E0_hwnd, 1036, CB_SETITEMDATA, v12, 2);
+    LRESULT v8 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v8, 0);
+    LRESULT v10 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v10, 1);
+    LRESULT v12 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v12, 2);
     Network_20324::sub_51C830();
-    SendDlgItemMessageA(field_202E0_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
-    SendDlgItemMessageA(field_202E0_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_hwnd);
-    Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_hwnd);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
+    Network_20324::sub_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514, field_202E0_dlg_hwnd);
+    Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
     Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
-                                                 field_202E0_hwnd);
-    Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_202E0_hwnd);
-    Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_hwnd);
+                                                 field_202E0_dlg_hwnd);
+    Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_202E0_dlg_hwnd);
+    Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
 }
 
 STUB_FUNC(0x51b2f0)
@@ -309,7 +309,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* a3)
 MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
 {
-    SetDlgItemTextA(field_202E0_hwnd,
+    SetDlgItemTextA(field_202E0_dlg_hwnd,
                     1004, // TODO: control constant
                     field_1FF80_player_name);
 }
@@ -340,25 +340,25 @@ s32 Network_20324::sub_51B9C0(s32 a2, char_type* Data)
 MATCH_FUNC(0x51bbc0)
 void Network_20324::sub_51BBC0()
 {
-    field_1FD6C++;
+    field_1FD6C_count++;
 }
 
 MATCH_FUNC(0x51bbd0)
 u32 Network_20324::GetCount_51BBD0()
 {
-    return field_1FD6C;
+    return field_1FD6C_count;
 }
 
 MATCH_FUNC(0x51bbe0)
 void Network_20324::sub_51BBE0()
 {
-    field_1FD6C--;
+    field_1FD6C_count--;
 }
 
 MATCH_FUNC(0x51bbf0)
 void Network_20324::sub_51BBF0()
 {
-    field_1FD6C = 0;
+    field_1FD6C_count = 0;
 }
 
 MATCH_FUNC(0x51bc00)
@@ -450,10 +450,10 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
 {
     char_type String[128];
     wchar_t Dest[260];
-    GetDlgItemTextA(field_202E0_hwnd, nIDDlgItem, String, 127);
+    GetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, String, 127);
     Network_20324::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
-    SetDlgItemTextA(field_202E0_hwnd, nIDDlgItem, "");
+    SetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, "");
     Network_20324::AppendChatMessage_51B4F0(a3, String);
 }
 
@@ -534,12 +534,12 @@ void Network_20324::sub_51CAD0(const char_type* a1, const char_type* a2)
 }
 
 MATCH_FUNC(0x51cb30)
-s32 Network_20324::sub_51CB30(s32 a1, HWND hDlg)
+void Network_20324::sub_51CB30(s32 a1, HWND hDlg)
 {
     char String[260];
-    char* pStr = GetString_519A00("netui13");
+    const char* pStr = GetString_519A00("netui13");
     sprintf(String, "%s %d", pStr, a1);
-    return SetDlgItemTextA(hDlg, 1033, String);
+    SetDlgItemTextA(hDlg, 1033, String);
 }
 
 MATCH_FUNC(0x51cbc0)
