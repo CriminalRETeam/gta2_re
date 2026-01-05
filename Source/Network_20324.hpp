@@ -59,13 +59,13 @@ class Network_20324
     EXPORT Network_20324();
     EXPORT virtual ~Network_20324();
     EXPORT s32 sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance);
-    EXPORT INT_PTR DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
+    EXPORT static INT_PTR __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
     EXPORT s32 cb_sub_519D30(Network_20324* a1, s32 a2);
     EXPORT void SetDlgHwnd_519E10(HWND a2);
     EXPORT HWND Get_202E0_HWND_519E20();
     EXPORT LRESULT cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3);
-    EXPORT void OnPaint_519FD0(HWND a1);
-    EXPORT void OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4);
+    EXPORT static void __stdcall OnPaint_519FD0(HWND a1);
+    EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 a2, HWND a3, s32 a4);
     EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT void CreateMainUi_51AA90(HWND hWndParent);
     EXPORT void ShowSpecificWindow_51ABF0(s32 a2);
@@ -94,7 +94,7 @@ class Network_20324
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
-    EXPORT s32 OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
+    EXPORT static s32 __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void sub_51C830();
     EXPORT char_type* GetMapName_51CA10();

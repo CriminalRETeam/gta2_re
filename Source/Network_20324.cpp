@@ -99,30 +99,43 @@ s32 Network_20324::sub_519BD0(Network_20324* dwInitParam, HINSTANCE hInstance)
     return 0;
 }
 
-STUB_FUNC(0x519c80)
-INT_PTR Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
+MATCH_FUNC(0x519c80)
+INT_PTR __stdcall Network_20324::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
 {
-    NOT_IMPLEMENTED;
     switch (message)
     {
         case WM_TIMER:
-            OnTimer_51A9D0(hDlg, wParam);
-            return 0;
+            Network_20324::OnTimer_51A9D0(hDlg, wParam);
+            break;
 
         case WM_HSCROLL:
-            OnWmHScroll_51C630(hDlg, (HWND)lParam, wParam, HIWORD(wParam));
+        {
+            HWND hwndCtl = (HWND)lParam;
+            int scrollCode = LOWORD(wParam);
+            int thumbPos = (short)HIWORD(wParam);
+
+            Network_20324::OnWmHScroll_51C630(hDlg, hwndCtl, scrollCode, thumbPos);
             return 0;
+        }
+        break;
 
         case WM_COMMAND:
-            OnWmCommand_519FE0(hDlg, wParam, lParam, HIWORD(wParam));
-            return 0;
+        {
+            WORD notify = HIWORD(wParam);
+            WORD id = LOWORD(wParam);
+
+            Network_20324::OnWmCommand_519FE0(hDlg, id, (HWND)lParam, notify);
+        }
+        break;
 
         case WM_PAINT:
-            OnPaint_519FD0(hDlg);
-            return 0;
-
+            Network_20324::OnPaint_519FD0(hDlg);
+            break;
         case WM_INITDIALOG:
-            return OnInitDialog_51AC60(hDlg, wParam, reinterpret_cast<Network_20324*>(lParam));
+            return OnInitDialog_51AC60(hDlg, wParam, (Network_20324*)lParam);
+
+        default:
+            break;
     }
 
     return 0;
@@ -155,13 +168,13 @@ LRESULT Network_20324::cb_sub_519E30(Network_20324* a1, wchar_t* Source, s32 a3)
 }
 
 MATCH_FUNC(0x519fd0)
-void Network_20324::OnPaint_519FD0(HWND a1)
+void __stdcall Network_20324::OnPaint_519FD0(HWND a1)
 {
     // Empty
 }
 
 STUB_FUNC(0x519fe0)
-void Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4)
+void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 a2, HWND a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }
@@ -584,7 +597,7 @@ void Network_20324::sub_51BFA0()
 }
 
 STUB_FUNC(0x51c630)
-s32 Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
+s32 __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
     return 0;
