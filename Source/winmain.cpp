@@ -1692,7 +1692,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
         case WM_DESTROY: // order ok
             if (bStartNetworkGame_7081F0)
             {
-                gNetPlay_7071E8.sub_520D10();
+                gNetPlay_7071E8.Disconnect_520D10();
             }
 
             ReleaseMutex(gMutex_707078);

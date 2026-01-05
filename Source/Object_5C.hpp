@@ -94,6 +94,7 @@ class Object_2C
 
     // TODO: ordering
     EXPORT void sub_5290C0(u8 id_base);
+    EXPORT Fix16 sub_5290F0();
     EXPORT char sub_525AC0();
     EXPORT void sub_525B20();
     EXPORT void UpdateLight_527A30();

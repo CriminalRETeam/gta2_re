@@ -286,7 +286,7 @@ s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 }
 
 MATCH_FUNC(0x51ecd0)
-void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
+void NetPlay::Set15_51ECD0(s32 pFunc, Network_20324* pParam)
 {
     this->field_4C_func_ptrs_and_params[15] = pFunc;
     this->field_4C_func_ptrs_and_params[16] = (u32)pParam;
@@ -294,7 +294,7 @@ void NetPlay::sub_51ECD0(s32 pFunc, Network_20324* pParam)
 }
 
 STUB_FUNC(0x51ed00)
-void NetPlay::sub_51ED00()
+void NetPlay::NetworkTick_51ED00()
 {
     NOT_IMPLEMENTED;
 }
@@ -365,7 +365,7 @@ s32 NetPlay::sub_520230(s32 a2, u32* a3)
 }
 
 STUB_FUNC(0x520530)
-void NetPlay::sub_520530(s32 pFunc, s32 pParam)
+void NetPlay::Set6_520530(s32 pFunc, s32 pParam)
 {
     NOT_IMPLEMENTED;
 }
@@ -413,7 +413,7 @@ void NetPlay::sub_520D00(s32 a2)
 }
 
 STUB_FUNC(0x520d10)
-void NetPlay::sub_520D10()
+void NetPlay::Disconnect_520D10()
 {
     NOT_IMPLEMENTED;
 }
@@ -455,7 +455,7 @@ u32 NetPlay::IndexOf_520E30(s32 toFind, Network_Unknown* pObj)
 }
 
 MATCH_FUNC(0x520e60)
-void NetPlay::sub_520E60(s32 pFunc, s32 pParam)
+void NetPlay::Set9_520E60(s32 pFunc, s32 pParam)
 {
     field_4C_func_ptrs_and_params[9] = pFunc;
     field_4C_func_ptrs_and_params[10] = pParam;
@@ -463,7 +463,7 @@ void NetPlay::sub_520E60(s32 pFunc, s32 pParam)
 }
 
 MATCH_FUNC(0x520e80)
-void NetPlay::sub_520E80(s32 a2, s32 a3)
+void NetPlay::Set3_Disconnect_520E80(s32 a2, s32 a3)
 {
     field_4C_func_ptrs_and_params[3] = a2;
     field_4C_func_ptrs_and_params[4] = a3;
@@ -484,7 +484,7 @@ s32 NetPlay::sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4)
 }
 
 MATCH_FUNC(0x520f50)
-void NetPlay::sub_520F50(s32 a2, s32 a3)
+void NetPlay::Set18_520F50(s32 a2, s32 a3)
 {
     field_4C_func_ptrs_and_params[18] = a2;
     field_4C_func_ptrs_and_params[19] = a3;
@@ -550,7 +550,7 @@ s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 }
 
 MATCH_FUNC(0x5210d0)
-void NetPlay::sub_5210D0(s32 a2, s32 a3)
+void NetPlay::Set21_5210D0(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[21] = a2;
     this->field_4C_func_ptrs_and_params[22] = a3;
@@ -573,7 +573,7 @@ void NetPlay::GetPlayerName_521100(wchar_t* Destination, u32 idx)
 }
 
 MATCH_FUNC(0x521140)
-void NetPlay::sub_521140(s32 a2, s32 a3)
+void NetPlay::Set24_521140(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[24] = a2;
     this->field_4C_func_ptrs_and_params[25] = a3;
@@ -599,7 +599,7 @@ s32 NetPlay::sub_521170(Network_8* pObj)
 }
 
 MATCH_FUNC(0x5211f0)
-void NetPlay::sub_5211F0(s32 a2, s32 a3)
+void NetPlay::Set27SavePlayerName_5211F0(s32 a2, s32 a3)
 {
     this->field_4C_func_ptrs_and_params[27] = a2;
     this->field_4C_func_ptrs_and_params[28] = a3;
