@@ -520,15 +520,26 @@ char Car_BC::sub_445EC0(Fix16 xpos, Fix16 ypos, s32 maybe_direction)
     return 0;
 }
 
-STUB_FUNC(0x444f80)
+MATCH_FUNC(0x444f80)
 Car_BC* Car_6C::GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+{
+    return DoGetNearestCarFromCoord_444FC0(x, y, z, 1, pPed, 1);
+}
+
+STUB_FUNC(0x444fa0)
+Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x444fa0)
-Car_BC* Car_6C::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
+STUB_FUNC(0x444FC0)
+Car_BC* Car_6C::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
+                                                          Fix16 ypos,
+                                                          Fix16 zpos,
+                                                          s32 bMatchDriverless,
+                                                          Ped* pPed,
+                                                          char_type bIgnorePedRestrictions)
 {
     NOT_IMPLEMENTED;
     return 0;
