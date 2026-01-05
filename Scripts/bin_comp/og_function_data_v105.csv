@@ -2174,7 +2174,7 @@ Network_20324::OnInitDialog_51AC60,0x51ac60,0x11ac60,0x57
 Network_20324::Get_202D4_active_control_idx_51ACC0,0x51acc0,0x11acc0,0x7
 Network_20324::cb_sub_51ACD0,0x51acd0,0x11acd0,0x101
 Network_20324::cb_sub_51ADE0,0x51ade0,0x11ade0,0x34
-Network_20324::sub_51AE20,0x51ae20,0x11ae20,0x22
+Network_20324::ClearTreeView_51AE20,0x51ae20,0x11ae20,0x22
 Network_20324::cb_sub_51AE50,0x51ae50,0x11ae50,0x149
 Network_20324::PopulateMainUI_51AFA0,0x51afa0,0x11afa0,0x349
 Network_20324::cb_sub_51B2F0,0x51b2f0,0x11b2f0,0x1fe

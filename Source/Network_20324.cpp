@@ -4,6 +4,7 @@
 #include "NetPlay.hpp"
 #include "registry.hpp"
 #include "text_0x14.hpp"
+#include <COMMCTRL.H>
 
 DEFINE_GLOBAL(UINT_PTR, gTimerId_6F8A18, 0x6F8A18);
 DEFINE_GLOBAL_ARRAY(char_type, Dest_6F88A4, 256, 0x6F88A4);
@@ -219,10 +220,14 @@ s32 Network_20324::cb_sub_51ADE0(Network_20324* a1)
     return 0;
 }
 
-STUB_FUNC(0x51ae20)
-void Network_20324::sub_51AE20(s32 nIDDlgItem)
+MATCH_FUNC(0x51ae20)
+void Network_20324::ClearTreeView_51AE20(s32 nIDDlgItem)
 {
-    NOT_IMPLEMENTED;
+    HWND hwndDlg = this->field_202E0_dlg_hwnd;
+    if (hwndDlg)
+    {
+        SendDlgItemMessageA(hwndDlg, nIDDlgItem, LVM_DELETEALLITEMS, 0, 0);
+    }
 }
 
 STUB_FUNC(0x51ae50)

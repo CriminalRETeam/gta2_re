@@ -73,7 +73,7 @@ class Network_20324
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
     EXPORT LRESULT cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT s32 cb_sub_51ADE0(Network_20324* a1);
-    EXPORT void sub_51AE20(s32 nIDDlgItem);
+    EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
     EXPORT s32 cb_sub_51AE50(s32 a1, wchar_t* Source);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT LRESULT cb_sub_51B2F0(Network_20324* a1, wchar_t* Source);
