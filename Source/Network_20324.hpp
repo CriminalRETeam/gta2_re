@@ -68,11 +68,11 @@ class Network_20324
     EXPORT void OnWmCommand_519FE0(HWND hDlg, s32 a2, s32 a3, s32 a4);
     EXPORT LRESULT OnTimer_51A9D0(HWND hWnd, s32 a2);
     EXPORT char_type sub_51AA90(HWND hWndParent);
-    EXPORT s32 sub_51ABF0(s32 a2);
+    EXPORT s32 ShowSpecificWindow_51ABF0(s32 a2);
     EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
     EXPORT LRESULT cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
-    EXPORT s32 cb_sub_51ADE0(Network_20324* a1);
+    EXPORT void cb_Disconnect_51ADE0(Network_20324* a1);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
     EXPORT s32 cb_sub_51AE50(s32 a1, wchar_t* Source);
     EXPORT void PopulateMainUI_51AFA0();

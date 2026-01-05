@@ -181,7 +181,7 @@ char_type Network_20324::sub_51AA90(HWND hWndParent)
 }
 
 STUB_FUNC(0x51abf0)
-s32 Network_20324::sub_51ABF0(s32 a2)
+s32 Network_20324::ShowSpecificWindow_51ABF0(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -196,7 +196,7 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr
     thisPtr->sub_51AA90(hWnd);
     thisPtr->PopulateMainUI_51AFA0();
     thisPtr->SetPlayerNameText_51B7C0();
-    thisPtr->sub_51ABF0(0);
+    thisPtr->ShowSpecificWindow_51ABF0(0);
     return 1;
 }
 
@@ -213,11 +213,13 @@ LRESULT Network_20324::cb_sub_51ACD0(Network_20324* a1, wchar_t* Source)
     return 0;
 }
 
-STUB_FUNC(0x51ade0)
-s32 Network_20324::cb_sub_51ADE0(Network_20324* a1)
+MATCH_FUNC(0x51ade0)
+void Network_20324::cb_Disconnect_51ADE0(Network_20324* pNetUi)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+  gNetPlay_7071E8.Disconnect_520D10();
+  pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1050);
+  pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1024);
+  pNetUi->ShowSpecificWindow_51ABF0(0);
 }
 
 MATCH_FUNC(0x51ae20)

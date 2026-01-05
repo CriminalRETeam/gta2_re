@@ -413,7 +413,7 @@ void NetPlay::sub_520D00(s32 a2)
 }
 
 STUB_FUNC(0x520d10)
-void NetPlay::sub_520D10()
+void NetPlay::Disconnect_520D10()
 {
     NOT_IMPLEMENTED;
 }

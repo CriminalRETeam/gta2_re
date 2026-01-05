@@ -148,7 +148,7 @@ struct NetPlay
     EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
     EXPORT s32 sub_520CA0(s32 a2, s32 a3);
     EXPORT void sub_520D00(s32 a2);
-    EXPORT void sub_520D10();
+    EXPORT void Disconnect_520D10();
     EXPORT void sub_520DE0(Network_Unknown* pStru);
     EXPORT u32 IndexOf_520E30(s32 toFind, Network_Unknown* pObj);
     EXPORT void sub_520E60(s32 pFunc, s32 pParam);
