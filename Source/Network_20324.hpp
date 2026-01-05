@@ -71,7 +71,7 @@ class Network_20324
     EXPORT void ShowSpecificWindow_51ABF0(s32 a2);
     EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
-    EXPORT static LRESULT __stdcall cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
+    EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* a1, wchar_t* Source);
     EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* a1);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
     EXPORT static s32 __stdcall cb_sub_51AE50(s32 a1, wchar_t* Source);
@@ -84,7 +84,7 @@ class Network_20324
     EXPORT s32 SetSetting_51B9C0(s32 a2, char_type* Data);
     EXPORT void sub_51BBC0();
     EXPORT u32 GetCount_51BBD0();
-    EXPORT void sub_51BBE0();
+    EXPORT void DecCount_51BBE0();
     EXPORT void sub_51BBF0();
     EXPORT static void __stdcall cb_SavePlayerName_51BC00(Network_20324* pThis);
     EXPORT void sub_51BC70(s32 a2);

@@ -317,11 +317,47 @@ s32 Network_20324::Get_202D4_active_control_idx_51ACC0()
     return field_202D4_showing_specific_window_idx;
 }
 
-STUB_FUNC(0x51acd0)
-LRESULT Network_20324::cb_sub_51ACD0(Network_20324* a1, wchar_t* Source)
+MATCH_FUNC(0x51acd0)
+void Network_20324::cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    LVFINDINFOA findInfo;
+    char Dest[260];
+
+    wcstombs(Dest, Source, 260u);
+
+    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    {
+        case 1:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = Dest;
+
+            LRESULT sendRet = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            SendMessageA(hItem, LVM_DELETEITEM, sendRet, 0);
+
+            pNetUi->DecCount_51BBE0();
+            pNetUi->sub_51CBC0();
+        }
+        break;
+
+        case 2:
+        {
+            memset(&findInfo, 0, sizeof(findInfo));
+
+            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+
+            findInfo.flags = LVFI_STRING;
+            findInfo.psz = Dest;
+
+            LRESULT sendRet = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
+            SendMessageA(hItem, LVM_DELETEITEM, sendRet, 0);
+        }
+        break;
+    }
 }
 
 MATCH_FUNC(0x51ade0)
@@ -467,7 +503,7 @@ u32 Network_20324::GetCount_51BBD0()
 }
 
 MATCH_FUNC(0x51bbe0)
-void Network_20324::sub_51BBE0()
+void Network_20324::DecCount_51BBE0()
 {
     field_1FD6C_count--;
 }
