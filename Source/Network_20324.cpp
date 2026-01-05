@@ -448,7 +448,7 @@ void Network_20324::sub_51B810(const char_type* a2)
 }
 
 STUB_FUNC(0x51b9c0)
-s32 Network_20324::sub_51B9C0(s32 a2, char_type* Data)
+s32 Network_20324::SetSetting_51B9C0(s32 a2, char_type* Data)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -608,11 +608,31 @@ void Network_20324::sub_51BFA0()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x51c630)
-s32 __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4)
+MATCH_FUNC(0x51c630)
+void __stdcall Network_20324::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
+    if (GetDlgCtrlID(hTrackBar) == 1031)
+    {
+        switch (code)
+        {
+            case 0:
+            case 1:
+            case 2:
+            case 3:
+            case 4:
+            case 6:
+            case 7:
+            {
+                const int pos2 = SendDlgItemMessageA(hWnd, 1031, TBM_GETPOS, 0, 0);
+                pThis->SetSetting_51B9C0(5, (char*)pos2); // set game speed
+            }
+            break;
+
+            case 5:
+                return;
+        }
+    }
 }
 
 MATCH_FUNC(0x51c7f0)

@@ -81,7 +81,7 @@ class Network_20324
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* a1, const char_type** a2);
     EXPORT void sub_51B810(const char_type* a2);
-    EXPORT s32 sub_51B9C0(s32 a2, char_type* Data);
+    EXPORT s32 SetSetting_51B9C0(s32 a2, char_type* Data);
     EXPORT void sub_51BBC0();
     EXPORT u32 GetCount_51BBD0();
     EXPORT void sub_51BBE0();
@@ -94,7 +94,7 @@ class Network_20324
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
     EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3);
     EXPORT void sub_51BFA0();
-    EXPORT static s32 __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
+    EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND a2, s32 a3, s32 a4);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);
     EXPORT void sub_51C830();
     EXPORT char_type* GetMapName_51CA10();
