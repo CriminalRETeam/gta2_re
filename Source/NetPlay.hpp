@@ -121,6 +121,13 @@ struct Network_Unknown_0x30
     Network_InputData_0x8 field_0_inputs[6];
 };
 
+struct PacketHandlerSlot
+{
+    void* field_0_param_fn_callback; // fn ptr
+    void* field_4_param_context; // this ptr
+    s32 field_8_fn_type;
+};
+
 struct NetPlay
 {
     EXPORT NetPlay* ctor_51D6B0();
@@ -159,7 +166,7 @@ struct NetPlay
     EXPORT void sub_51F870(char_type* pPacket, s32 packetLen, s32 recvId, s32 a5);
     EXPORT s32 sub_520040(s32 toFind, Network_Unknown* pStru, s32 a3, u32* pOutIdx);
     EXPORT void sub_5201A0(s32 idx, Network_Unknown* pStru);
-    EXPORT s32 sub_520230(s32 a2, u32* a3);
+    EXPORT void ProcessIncomingPacket_520230(s32 idx, u32 pUnknown);
     EXPORT void Set6_520530(s32 pFunc, s32 pParam);
     EXPORT s32 sub_520570(int session_idx, wchar_t* a3, s32* a4, s32* a5);
     EXPORT s32 EnumGroups_cb_520C20(s32 a1, s32 a2, s32 a3, char_type a4, NetPlay* pContext);
@@ -173,7 +180,7 @@ struct NetPlay
     EXPORT void NoRefs_null_520EA0();
     EXPORT s32 sub_520EB0(s32 a2, s32 a3, Network_Unknown* a4);
     EXPORT void Set18_520F50(s32 a2, s32 a3);
-    EXPORT s32 sub_520F80(wchar_t* String2);
+    EXPORT s32 RemovePlayerByName_520F80(wchar_t* String2);
     EXPORT s32 DeletePlayerFromGroup_521000(u32 idx);
     EXPORT s32 SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1);
     EXPORT void Set21_5210D0(s32 a2, s32 a3);
@@ -215,7 +222,7 @@ struct NetPlay
     s32 field_2C_ptrs;
     Network_18 field_30_enumed_connections;
     s32 field_48;
-    s32 field_4C_func_ptrs_and_params[30];
+    PacketHandlerSlot field_4C_func_ptrs_and_params[10];
     Network_504 field_C4_sessions;
     s32 field_5C8;
     s32 field_5CC;

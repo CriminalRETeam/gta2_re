@@ -13,6 +13,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
+#include "Player.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -57,11 +58,30 @@ void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
     }
 }
 
-STUB_FUNC(0x59E170)
+MATCH_FUNC(0x59E170)
 bool Sprite::IsControlledByActivePlayer_59E170()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    Ped* pPed = GetPed_59E1B0();
+    if (!pPed)
+    {
+        if (field_30_sprite_type_enum == sprite_types_enum::car && field_8_car_bc_ptr)
+        {
+            pPed = field_8_car_bc_ptr->GetEffectiveDriver_43E990();
+        }
+    }
+
+    if (pPed)
+    {
+        if (pPed->field_15C_player)
+        {
+            if (!pPed->field_15C_player->field_0_bIsUser)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
 }
 
 MATCH_FUNC(0x59E1B0)
@@ -78,7 +98,7 @@ Ped* Sprite::GetPed_59E1B0()
 }
 
 MATCH_FUNC(0x59E1D0)
-s32 Sprite::IsOnWater_59E1D0() // IsWater?
+s32 Sprite::IsOnWater_59E1D0()
 {
     gmp_block_info* pBlock;
 
@@ -95,7 +115,7 @@ s32 Sprite::IsOnWater_59E1D0() // IsWater?
     if (pBlock)
     {
         const u16 lid_idx = pBlock->field_8_lid & 1023;
-        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->sub_5AA850(lid_idx))
+        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
         {
             return true;
         }

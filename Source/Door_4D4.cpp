@@ -123,7 +123,7 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
     psVar3->field_8_speed = speed;
     s16 sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
     psVar3->field_4 = sVar2;
-    gGtx_0x106C_703DD4->sub_5AA930(sVar2, psVar3->field_0_start_frame);
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(sVar2, psVar3->field_0_start_frame);
     sVar2 = gGtx_0x106C_703DD4->sub_5AA890();
     psVar3->field_6 = sVar2;
 }

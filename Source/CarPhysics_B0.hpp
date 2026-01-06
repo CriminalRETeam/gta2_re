@@ -69,7 +69,7 @@ class CarPhysics_B0
     EXPORT char_type sub_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type sub_55E470();
-    EXPORT char_type sub_55EB80();
+    EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
     EXPORT s32 ApplyForwardEngineForce_55EC30();
     EXPORT s32 ApplyReverseEngineForce_55EF20();
     EXPORT s32 ApplyTurningForce_55F020();

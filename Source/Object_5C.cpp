@@ -517,8 +517,8 @@ EXPORT void Object_2C::sub_525AE0()
     {
         case 139:
         case 141:
-            gPurpleDoom_1_679208->sub_477BD0(field_4);
-            gPurpleDoom_2_67920C->sub_477BD0(field_4);
+            gPurpleDoom_1_679208->CheckAndHandleCollisionInStrips_477BD0(field_4);
+            gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_4);
             break;
         default:
             break;
