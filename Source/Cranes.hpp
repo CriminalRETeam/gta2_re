@@ -147,7 +147,7 @@ class Crane_15C
 class CranePool_D9C
 {
   public:
-    EXPORT void sub_480E00(Car_BC* a2, u8 a3);
+    EXPORT void PickUpCar_480E00(Car_BC* a2, u8 a3);
     EXPORT void CranesService_480E50();
     EXPORT Crane_15C* sub_480EC0(Fix16 a2, Fix16 a3);
     EXPORT CranePool_D9C();

@@ -358,7 +358,7 @@ void Sprite_4C::SetCurrentRect_5A4D90()
 }
 
 STUB_FUNC(0x5A3550)
-void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
+void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
     NOT_IMPLEMENTED;
 }
@@ -1217,7 +1217,7 @@ void Car_BC::sub_43A9F0()
 }
 
 STUB_FUNC(0x43aa60)
-Car_BC* Car_BC::sub_43AA60()
+Car_BC* Car_BC::Deactivate_43AA60()
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1833,7 +1833,7 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
 }
 
 STUB_FUNC(0x43e990)
-Ped* Car_BC::sub_43E990()
+Ped* Car_BC::GetEffectiveDriver_43E990()
 {
     NOT_IMPLEMENTED;
 
@@ -1849,14 +1849,14 @@ Ped* Car_BC::sub_43E990()
 }
 
 STUB_FUNC(0x43ea60)
-bool Car_BC::sub_43EA60(Object_2C* a2)
+bool Car_BC::OnObjectTouched_43EA60(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43f130)
-char_type Car_BC::sub_43F130(Object_2C* a2)
+char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -1931,7 +1931,7 @@ void Car_BC::AttachGangIcon_440660(u8 arrow_colour)
 {
     Object_2C* pIcon =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(arrow_colour + 286, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
-    field_50_car_sprite->sub_5A3100(pIcon->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pIcon->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
 }
 
 MATCH_FUNC(0x4406b0)
@@ -1989,7 +1989,7 @@ void Car_BC::sub_440AC0()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_18_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
-    field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, dword_6771F0, word_677326);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, dword_6771F0, word_677326);
 }
 
 MATCH_FUNC(0x440b10)
@@ -1997,7 +1997,7 @@ void Car_BC::sub_440B10()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
-    field_50_car_sprite->sub_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, unk_6772A4, word_67791C);
 }
 
 STUB_FUNC(0x440b60)
@@ -2011,7 +2011,7 @@ MATCH_FUNC(0x440bb0)
 void Car_BC::PutTV_Antenna_440BB0()
 {
     Object_2C* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, word_67791C);
-    field_50_car_sprite->sub_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, GetRadioTowerAngle_442520());
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pNewObj->field_4, gFix16_6777CC, dword_6778A0, GetRadioTowerAngle_442520());
 }
 
 STUB_FUNC(0x440c10)
@@ -2842,7 +2842,7 @@ void Car_BC::sub_4435A0()
 }
 
 MATCH_FUNC(0x4435b0)
-s32 Car_BC::sub_4435B0()
+s32 Car_BC::GetCrashSoundCategory_4435B0()
 {
     if ((field_78_flags & 0x10) != 0)
     {
@@ -3196,7 +3196,7 @@ void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
     Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->Light_527990();
-    field_50_car_sprite->sub_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
 }
 
 MATCH_FUNC(0x444020)

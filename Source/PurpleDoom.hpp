@@ -34,7 +34,7 @@ class PurpleDoom
     EXPORT void DebugLogAll_477BA0();
     EXPORT char_type sub_477BD0(Sprite* a2);
     EXPORT bool sub_477C30(Sprite* pSprt, s32 a3);
-    EXPORT Sprite* sub_477C90(s32 a1, s32 a2, Sprite* a3, u8 a4, s32 a5, char_type a6);
+    EXPORT Sprite* FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1, s32 sprite_type2, Sprite* pExclude, u8 max_x_check, s32 searchMode, char_type bUseSpriteZ);
     EXPORT void sub_477E50(Sprite* pSprite);
     EXPORT Sprite* sub_477E60(Sprite* a2, s32 a3);
     EXPORT bool sub_477F30(Fix16_Rect* a2, char_type a3, s32 a4, Sprite* a5, Object_3C* a6);
@@ -42,7 +42,7 @@ class PurpleDoom
     EXPORT PurpleDoom();
     EXPORT ~PurpleDoom();
     EXPORT u32 sub_478160(u8 a2);
-    EXPORT void sub_478060(Collide_8* a1);
+    EXPORT void CheckTileSpritesForClosestMatch_478060(Collide_8* a1);
     EXPORT void sub_4781E0(u8 width);
     EXPORT void AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom);
     EXPORT void DoRemove_4782C0(s32 a2, s32 idx, Sprite* a4);
@@ -51,7 +51,7 @@ class PurpleDoom
     EXPORT void sub_4784D0(s32 idx, Sprite* a3);
     EXPORT PurpleDoom_C* sub_478590(s32 start_idx);
     EXPORT char_type sub_4785D0(u32 y_pos, Fix16_Rect* pRect);
-    EXPORT char_type sub_478750(u32 a2, Sprite* a3);
+    EXPORT char_type CheckCollisionsInStrip_478750(u32 a2, Sprite* a3);
     EXPORT bool sub_4787E0(u32 a2, Sprite* a3);
     EXPORT Sprite* sub_478880(u32 a2, Sprite* a3);
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);

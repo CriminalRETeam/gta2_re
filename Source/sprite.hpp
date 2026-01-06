@@ -34,7 +34,7 @@ class Sprite_4C
     }
 
     EXPORT void SetCurrentRect_5A4D90();
-    EXPORT void sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
+    EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
 
     EXPORT Sprite_4C();
     EXPORT ~Sprite_4C();
@@ -57,8 +57,8 @@ class Sprite
     EXPORT Fix16_Point get_x_y_443580();
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
-    EXPORT bool sub_59E170();
-    EXPORT Ped* sub_59E1B0();
+    EXPORT bool IsControlledByActivePlayer_59E170();
+    EXPORT Ped* GetPed_59E1B0();
     EXPORT s32 IsOnWater_59E1D0();
     EXPORT char_type sub_59E250();
     EXPORT void sub_59E2E0();
@@ -70,12 +70,12 @@ class Sprite
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
     EXPORT void sub_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
-    EXPORT char_type sub_59E830(Sprite* a1, Ped* a2);
+    EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
-    EXPORT void sub_59E8C0(Sprite* pSprite);
+    EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
     EXPORT void sub_59E910(Sprite* a2);
     EXPORT void sub_59E960();
-    EXPORT void sub_59E9C0();
+    EXPORT void UpdateCollisionBoundsIfNeeded_59E9C0();
     EXPORT void SetRemap(s16 remap);
     EXPORT s16 sub_59EAA0();
     EXPORT char_type has_shadows_59EAE0();
@@ -112,7 +112,7 @@ class Sprite
     EXPORT void sub_5A2A30();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
+    EXPORT void DispatchCollisionEvent_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
 
     EXPORT void set_angle_4833B0(Ang16 ang);
 

@@ -376,7 +376,7 @@ class Car_BC
     EXPORT void sub_43A970();
     EXPORT void SetDriver(Ped* a2);
     EXPORT void sub_43A9F0();
-    EXPORT Car_BC* sub_43AA60();
+    EXPORT Car_BC* Deactivate_43AA60();
     EXPORT char_type sub_43AAF0(s32 a2);
     EXPORT void sub_43ADC0(s32 a2);
     EXPORT bool CanExitCar_43AF10();
@@ -438,9 +438,9 @@ class Car_BC
     EXPORT void sub_43DD60();
     EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
-    EXPORT Ped* sub_43E990();
-    EXPORT bool sub_43EA60(Object_2C* a2);
-    EXPORT char_type sub_43F130(Object_2C* a2);
+    EXPORT Ped* GetEffectiveDriver_43E990();
+    EXPORT bool OnObjectTouched_43EA60(Object_2C* a2);
+    EXPORT char_type HandleCarHitByObject_43F130(Object_2C* a2);
     EXPORT u32* sub_440510(u32* a2);
     EXPORT char_type GetPassengersCount_440570();
     EXPORT void InitCarAIControl_440590();
@@ -512,7 +512,7 @@ class Car_BC
     EXPORT void sub_443330();
     EXPORT char_type sub_443360(s32 a2, s32 a3, s32 a4, s16 a5);
     EXPORT void sub_4435A0();
-    EXPORT s32 sub_4435B0();
+    EXPORT s32 GetCrashSoundCategory_4435B0();
     EXPORT void sub_4435F0();
     EXPORT Car_6C* sub_443710(s32 a2);
     EXPORT static s32 __stdcall get_car_weapon_cost_443A50(s32 weapon_kind);

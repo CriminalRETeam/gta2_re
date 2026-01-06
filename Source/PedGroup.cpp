@@ -306,7 +306,7 @@ void PedGroup::DestroyGroup_4C93A0()
 }
 
 STUB_FUNC(0x4c94e0)
-void PedGroup::sub_4C94E0(Ped* a2)
+void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* a2)
 {
     NOT_IMPLEMENTED;
 }

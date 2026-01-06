@@ -456,7 +456,7 @@ void Weapon_30::rocket_5E3850()
 }
 
 MATCH_FUNC(0x5e3bd0)
-char_type Weapon_30::sub_5E3BD0()
+char_type Weapon_30::IsExplosiveWeapon_5E3BD0()
 {
     char result;
     switch (this->field_1C_idx)
