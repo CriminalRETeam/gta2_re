@@ -356,11 +356,67 @@ void NetPlay::sub_5201A0(s32 idx, Network_Unknown* pStru)
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x520230)
-s32 NetPlay::sub_520230(s32 a2, u32* a3)
+// TODO: Temp - should be integrated into the type array or something
+typedef void(__stdcall* T1)(void*);
+typedef void(__stdcall* T2)(void*, s32);
+typedef void(__stdcall* T3)(void*, s32, s32);
+
+MATCH_FUNC(0x520230)
+void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    // TODO: Figure out what pUnknown is
+    if (idx >= 1 && idx <= 10)
+    {
+        switch (idx)
+        {
+            case 1:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context);
+                }
+                break;
+            case 2:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        *(s32*)(pUnknown + 0x1C),
+                        pUnknown + 0x24);
+                }
+                break;
+            case 3:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        pUnknown);
+                }
+                break;
+            case 4:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context,
+                        *(u32*)pUnknown);
+                }
+                break;
+
+            case 9:
+                if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
+                {
+                    ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                        field_4C_func_ptrs_and_params[idx].field_4_param_context);
+                }
+                break;
+            default:
+                return;
+        }
+    }
 }
 
 STUB_FUNC(0x520530)
