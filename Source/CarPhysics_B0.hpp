@@ -102,7 +102,7 @@ class CarPhysics_B0
     EXPORT u32* sub_561DD0(u32* a2);
     EXPORT Fix16 CalculateFrontSkid_561E50();
     EXPORT Fix16 CalculateRearSkid_5620D0();
-    EXPORT u32* sub_562450(u32* a2, s32 a3);
+    // 0x62450 moved to Sprite
     EXPORT s32 ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT s32 sub_562560();

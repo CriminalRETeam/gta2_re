@@ -28,6 +28,14 @@ DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 
+// https://decomp.me/scratch/vNJH5
+STUB_FUNC(0x562450)
+Fix16_Point Sprite::sub_562450(s32 idx)
+{
+    Sprite_4C* p4C = field_C_sprite_4c_ptr;
+    return p4C->field_C_b_box[idx];
+}
+
 MATCH_FUNC(0x443580)
 Fix16_Point Sprite::get_x_y_443580()
 {

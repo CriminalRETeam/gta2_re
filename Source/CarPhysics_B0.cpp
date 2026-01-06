@@ -1,9 +1,9 @@
 #include "CarPhysics_B0.hpp"
 #include "CarInfo_808.hpp"
 #include "Globals.hpp"
+#include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "debug.hpp"
-#include "PurpleDoom.hpp"
 
 DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
@@ -566,14 +566,15 @@ STUB_FUNC(0x55eb80)
 char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
     NOT_IMPLEMENTED;
-    
+
     gCar_6C_677930->field_68 = 0;
 
     const char_type bCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        char_type bTrailerCollision = gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
+        char_type bTrailerCollision =
+            gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(pTrailer->field_C_pCarOnTrailer->field_50_car_sprite);
         return bTrailerCollision | bCollision;
     }
 
@@ -832,13 +833,6 @@ Fix16 CarPhysics_B0::CalculateRearSkid_5620D0()
 {
     NOT_IMPLEMENTED;
     return Fix16(0);
-}
-
-STUB_FUNC(0x562450)
-u32* CarPhysics_B0::sub_562450(u32* a2, s32 a3)
-{
-    NOT_IMPLEMENTED;
-    return 0;
 }
 
 STUB_FUNC(0x562480)

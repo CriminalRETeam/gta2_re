@@ -16,7 +16,6 @@ class Object_2C;
 class infallible_turing;
 class Ped;
 
-
 class Sprite_4C
 {
   public:
@@ -54,6 +53,9 @@ class Sprite_4C
 class Sprite
 {
   public:
+    // TODO: Ordering
+    EXPORT Fix16_Point sub_562450(s32 idx);
+
     EXPORT Fix16_Point get_x_y_443580();
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void sub_54EC80(Fix16 xpos, Fix16 ypos);
