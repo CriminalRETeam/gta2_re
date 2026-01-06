@@ -58,14 +58,14 @@ void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
 }
 
 STUB_FUNC(0x59E170)
-bool Sprite::sub_59E170()
+bool Sprite::IsControlledByActivePlayer_59E170()
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 MATCH_FUNC(0x59E1B0)
-Ped* Sprite::sub_59E1B0()
+Ped* Sprite::GetPed_59E1B0()
 {
     if (this->field_30_sprite_type_enum == sprite_types_enum::ped && (this->field_8_char_b4_ptr) != 0)
     {

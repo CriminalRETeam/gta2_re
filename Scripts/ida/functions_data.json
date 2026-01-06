@@ -14615,12 +14615,12 @@
         "v105_address": "0x59dfb0"
     },
     {
-        "name": "sub_59E170",
+        "name": "IsControlledByActivePlayer_59E170",
         "v96f_address": null,
         "v105_address": "0x59e170"
     },
     {
-        "name": "sub_59E1B0",
+        "name": "GetPed_59E1B0",
         "v96f_address": null,
         "v105_address": "0x59e1b0"
     },
