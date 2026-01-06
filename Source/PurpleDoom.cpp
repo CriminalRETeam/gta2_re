@@ -100,7 +100,7 @@ void PurpleDoom::DebugLogAll_477BA0()
 }
 
 MATCH_FUNC(0x477bd0)
-char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
+char_type PurpleDoom::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 {
     char_type bUnknown = 0;
 
@@ -111,7 +111,7 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
-        bUnknown |= CheckCollisionsInStrip_478750(i, pSprite);
+        bUnknown |= CheckAndHandleCollisionsInStrip_478750(i, pSprite);
     }
     return bUnknown;
 }
@@ -629,7 +629,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
 STUB_FUNC(0x478750)
-char_type PurpleDoom::CheckCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
+char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
     PurpleDoom_C* pIter = sub_478590(y_pos);

@@ -32,7 +32,7 @@ class PurpleDoom
     EXPORT void sub_477B20(Sprite* a1a);
     EXPORT void sub_477B60(Sprite* a1);
     EXPORT void DebugLogAll_477BA0();
-    EXPORT char_type sub_477BD0(Sprite* a2);
+    EXPORT char_type CheckAndHandleCollisionInStrips_477BD0(Sprite* a2);
     EXPORT bool sub_477C30(Sprite* pSprt, s32 a3);
     EXPORT Sprite* FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1, s32 sprite_type2, Sprite* pExclude, u8 max_x_check, s32 searchMode, char_type bUseSpriteZ);
     EXPORT void sub_477E50(Sprite* pSprite);
@@ -51,7 +51,7 @@ class PurpleDoom
     EXPORT void sub_4784D0(s32 idx, Sprite* a3);
     EXPORT PurpleDoom_C* sub_478590(s32 start_idx);
     EXPORT char_type sub_4785D0(u32 y_pos, Fix16_Rect* pRect);
-    EXPORT char_type CheckCollisionsInStrip_478750(u32 a2, Sprite* a3);
+    EXPORT char_type CheckAndHandleCollisionsInStrip_478750(u32 a2, Sprite* a3);
     EXPORT bool sub_4787E0(u32 a2, Sprite* a3);
     EXPORT Sprite* sub_478880(u32 a2, Sprite* a3);
     EXPORT void DebugLog_478950(s32 xpos, s32 ypos);
