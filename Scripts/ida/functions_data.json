@@ -4255,7 +4255,7 @@
         "v105_address": "0x478050"
     },
     {
-        "name": "sub_478060",
+        "name": "CheckTileSpritesForClosestMatch_478060",
         "v96f_address": null,
         "v105_address": "0x478060"
     },
@@ -14680,7 +14680,7 @@
         "v105_address": "0x59e7d0"
     },
     {
-        "name": "sub_59E830",
+        "name": "IsThreatToSearchingPed_59E830",
         "v96f_address": null,
         "v105_address": "0x59e830"
     },

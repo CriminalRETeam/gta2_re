@@ -42,7 +42,7 @@ class PurpleDoom
     EXPORT PurpleDoom();
     EXPORT ~PurpleDoom();
     EXPORT u32 sub_478160(u8 a2);
-    EXPORT void sub_478060(Collide_8* a1);
+    EXPORT void CheckTileSpritesForClosestMatch_478060(Collide_8* a1);
     EXPORT void sub_4781E0(u8 width);
     EXPORT void AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom);
     EXPORT void DoRemove_4782C0(s32 a2, s32 idx, Sprite* a4);

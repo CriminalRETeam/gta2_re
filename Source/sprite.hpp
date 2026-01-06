@@ -70,7 +70,7 @@ class Sprite
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
     EXPORT void sub_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
-    EXPORT char_type sub_59E830(Sprite* a1, Ped* a2);
+    EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
     EXPORT void sub_59E8C0(Sprite* pSprite);
     EXPORT void sub_59E910(Sprite* a2);

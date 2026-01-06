@@ -15,10 +15,10 @@ DEFINE_GLOBAL(s32, gPurple_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gPurple_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, dword_678FA8, 0x678FA8);
 DEFINE_GLOBAL(s32, dword_678F60, 0x678F60);
-DEFINE_GLOBAL(Sprite*, dword_678E40, 0x678E40);
+DEFINE_GLOBAL(Sprite*, gPurpleDoom_smallestDistSprite_678E40, 0x678E40);
 DEFINE_GLOBAL(u8, byte_679006, 0x679006);
 DEFINE_GLOBAL(s32, dword_678F88, 0x678F88);
-DEFINE_GLOBAL(s32, gPurpleDoom_679090, 0x679090);
+DEFINE_GLOBAL(s32, gPurpleDoom_start_x_679090, 0x679090);
 DEFINE_GLOBAL(s32, gPurpleDoom_start_y_679098, 0x679098);
 DEFINE_GLOBAL(Object_3C*, dword_679214, 0x679214);
 EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
@@ -148,7 +148,7 @@ MATCH_FUNC(0x477e60)
 Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
     dword_678F60 = sprite_type_enum;
-    dword_678E40 = 0;
+    gPurpleDoom_smallestDistSprite_678E40 = 0;
 
     gCollide_C_6791FC->field_4_count++;
 
@@ -164,7 +164,7 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
         }
     }
 
-    return dword_678E40;
+    return gPurpleDoom_smallestDistSprite_678E40;
 }
 
 MATCH_FUNC(0x477f30)
@@ -225,7 +225,7 @@ u32 PurpleDoom::sub_478160(u8 a2)
 }
 
 STUB_FUNC(0x478060)
-void PurpleDoom::sub_478060(Collide_8* a1)
+void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* a1)
 {
     NOT_IMPLEMENTED;
 }
@@ -233,8 +233,8 @@ void PurpleDoom::sub_478060(Collide_8* a1)
 MATCH_FUNC(0x4781E0)
 void PurpleDoom::sub_4781E0(u8 width)
 {
-    gPurple_left_6F5FD4 = gPurpleDoom_679090;
-    gPurple_right_6F5B80 = gPurpleDoom_679090 + width - 1;
+    gPurple_left_6F5FD4 = gPurpleDoom_start_x_679090;
+    gPurple_right_6F5B80 = gPurpleDoom_start_x_679090 + width - 1;
 
     for (PurpleDoom_C* pXItemIter = sub_478590(gPurpleDoom_start_y_679098); pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
@@ -242,7 +242,7 @@ void PurpleDoom::sub_4781E0(u8 width)
         {
             break;
         }
-        sub_478060(pXItemIter->field_4_p8);
+        CheckTileSpritesForClosestMatch_478060(pXItemIter->field_4_p8);
     }
 }
 

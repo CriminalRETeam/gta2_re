@@ -216,7 +216,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 }
 
 STUB_FUNC(0x59E830)
-char_type Sprite::sub_59E830(Sprite* a1, Ped* a2)
+char_type Sprite::IsThreatToSearchingPed_59E830()
 {
     NOT_IMPLEMENTED;
     return 0;
