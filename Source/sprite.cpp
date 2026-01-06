@@ -480,7 +480,7 @@ void Sprite::sub_59FA40()
 }
 
 MATCH_FUNC(0x59fad0)
-void Sprite::sub_59FAD0()
+void Sprite::FreeSprite4CChildren_59FAD0()
 {
     if (field_C_sprite_4c_ptr)
     {
@@ -776,7 +776,7 @@ void Sprite::PoolAllocate()
 MATCH_FUNC(0x5a3030)
 void Sprite::PoolDeallocate()
 {
-    sub_59FAD0();
+    FreeSprite4CChildren_59FAD0();
     this->field_20_id = 0;
     FreeSound_5A2A00();
 }

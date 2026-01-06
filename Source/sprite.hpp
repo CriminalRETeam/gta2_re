@@ -87,7 +87,7 @@ class Sprite
     EXPORT void AllocInternal_59F950(Fix16 width, Fix16 height, Fix16 a4);
     EXPORT void Update_4C_59F990();
     EXPORT void sub_59FA40();
-    EXPORT void sub_59FAD0();
+    EXPORT void FreeSprite4CChildren_59FAD0();
     EXPORT bool sub_59FB10(s32* a2);
     EXPORT char_type sub_5A0150(s32 a2, u8* a3, u8* a4);
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);

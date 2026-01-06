@@ -14760,7 +14760,7 @@
         "v105_address": "0x59fa40"
     },
     {
-        "name": "Sprite::sub_59FAD0",
+        "name": "Sprite::FreeSprite4CChildren_59FAD0",
         "v96f_address": null,
         "v105_address": "0x59fad0"
     },
