@@ -369,14 +369,14 @@ void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
     {
         switch (idx)
         {
-            case 1:
+            case 1: // disconnect ?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
                     ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;
-            case 2:
+            case 2: // adding to listbox, player? session??
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
                     ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
@@ -394,19 +394,21 @@ void NetPlay::ProcessIncomingPacket_520230(s32 idx, u32 pUnknown)
                 {
                     ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        pUnknown);
+                        pUnknown); // a wchar_t* string?
                 }
                 break;
             case 4:
+                // Exit game call back?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
                     ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        *(u32*)pUnknown);
+                        *(u32*)pUnknown); // s32* usually set to 2 ?
                 }
                 break;
 
             case 9:
+                // set player name?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
                     ((T1)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
