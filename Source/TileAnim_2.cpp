@@ -76,10 +76,10 @@ void TileAnim_18::sub_5BC150()
 {
     if (field_C_ptr != NULL)
     {
-        gGtx_0x106C_703DD4->sub_5AA930(field_10_base, field_C_ptr->field_6_tiles[field_8]);
+        gGtx_0x106C_703DD4->SetTileRemap_5AA930(field_10_base, field_C_ptr->field_6_tiles[field_8]);
         return;
     }
-    gGtx_0x106C_703DD4->sub_5AA930(field_10_base, field_8);
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(field_10_base, field_8);
 }
 
 MATCH_FUNC(0x5bc190)

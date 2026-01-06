@@ -115,7 +115,7 @@ s32 Sprite::IsOnWater_59E1D0()
     if (pBlock)
     {
         const u16 lid_idx = pBlock->field_8_lid & 1023;
-        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->sub_5AA850(lid_idx))
+        if (gGtx_0x106C_703DD4->field_6C_spec[lid_idx] == tile_spec::water && gGtx_0x106C_703DD4->IsTileRemapped_5AA850(lid_idx))
         {
             return true;
         }

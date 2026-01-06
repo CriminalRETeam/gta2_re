@@ -238,7 +238,7 @@ char_type MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 STUB_FUNC(0x4E9EE0)
 void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8& colour)
 {
-    u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(word_side & 0x3FF);
+    u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(word_side & 0x3FF);
     if (texture_idx)
     {
         if (bUnk)
@@ -537,7 +537,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 break;
         }
 
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(left_word & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & 0x3FF);
         if (texture_idx)
         {
             BlockSideWord block_side_word = *(BlockSideWord*)&left_word;
@@ -724,7 +724,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 break;
         }
 
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(right_word & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 0x3FF);
         if (texture_idx)
         {
             BlockSideWord block_side_word = *(BlockSideWord*)&right_word;
@@ -882,7 +882,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 break;
         }
 
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(top_word & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(top_word & 0x3FF);
         if (texture_idx != 0)
         {
             BlockSideWord block_side_word = *(BlockSideWord*)&top_word;
@@ -918,7 +918,7 @@ void MapRenderer::sub_4EC450(u16& left_word)
         sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
 
         dword_6F6560 = dword_620FE4[left_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(left_word & 1023);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & 1023);
         if (texture_idx)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
@@ -948,7 +948,7 @@ void MapRenderer::sub_4EC7A0(u16& right_word)
         sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
 
         dword_6F6560 = dword_621004[right_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(right_word & 1023);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
         if (texture_idx)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
@@ -977,7 +977,7 @@ void MapRenderer::sub_4ECAF0(u16& left_word)
         sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BDF0(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
         dword_6F6560 = dword_620FE4[left_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(left_word & 1023);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & 1023);
         if (texture_idx)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
@@ -1006,7 +1006,7 @@ void MapRenderer::sub_4ECE40(u16& right_word)
         sub_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
         dword_6F6560 = dword_621004[right_word >> 13];
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(right_word & 1023);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & 1023);
         if (texture_idx)
         {
             pgbh_DrawTile(dword_6F6560 | gLightingDrawFlag_7068F4,
@@ -1168,7 +1168,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 break;
         }
 
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(bottom_word & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(bottom_word & 0x3FF);
         if (texture_idx != 0)
         {
             BlockSideWord block_word = *(BlockSideWord*)&bottom_word;
@@ -1197,7 +1197,7 @@ void MapRenderer::draw_lid_4EE130()
         sub_46BD40(gXCoord_6F63AC + stru_6F6484.y, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[2]);
         sub_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + stru_6F6484.y, &gTileVerts_6F65A8[3]);
 
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF); // tile idx
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF); // tile idx
 
         if (texture_idx)
         {
@@ -1792,7 +1792,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
         {
             dword_6F6560 = dword_6F6560 | 0x80;
         }
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF);
         u8 colour;
         if (((gLidType_6F6274 >> 10) & 3) != 0)
         {
@@ -1937,7 +1937,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         {
             dword_6F6560 = dword_6F6560 | 0x80;
         }
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF);
         u8 colour;
         if (((gLidType_6F6274 >> 10) & 3) != 0)
         {
@@ -2062,7 +2062,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
         {
             dword_6F6560 = dword_6F6560 | 0x80;
         }
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF);
         u8 colour;
         if (((gLidType_6F6274 >> 10) & 3) != 0)
         {
@@ -2188,7 +2188,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         {
             dword_6F6560 = dword_6F6560 | 0x80;
         }
-        u16 texture_idx = gGtx_0x106C_703DD4->sub_5AA870(gLidType_6F6274 & 0x3FF);
+        u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & 0x3FF);
         u8 colour;
         if (((gLidType_6F6274 >> 10) & 3) != 0)
         {

@@ -272,13 +272,13 @@ s16 gtx_0x106C::sub_5AA800(u16* a2)
 }
 
 MATCH_FUNC(0x5AA850)
-bool gtx_0x106C::sub_5AA850(u16 tile_idx)
+bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx)
 {
     return field_40_tile->field_0[tile_idx] != tile_idx;
 }
 
 MATCH_FUNC(0x5AA870)
-s16 gtx_0x106C::sub_5AA870(u16 tile_idx)
+s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx)
 {
     return field_40_tile->field_0[tile_idx];
 }
@@ -321,13 +321,13 @@ object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
 }
 
 MATCH_FUNC(0x5AA930)
-void gtx_0x106C::sub_5AA930(u16 tile_idx, s16 tile_val)
+void gtx_0x106C::SetTileRemap_5AA930(u16 tile_idx, s16 tile_val)
 {
     field_40_tile->field_0[tile_idx] = tile_val;
 }
 
 MATCH_FUNC(0x5AA950)
-void gtx_0x106C::create_tile_num_array_5AA950()
+void gtx_0x106C::InitTileMapping_5AA950()
 {
     field_40_tile = new tile_array();
 
@@ -586,7 +586,7 @@ void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
 {
     field_3C_tiles = (u8*)Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_aligned_tiles_size);
     File::Global_Read_4A71C0(field_3C_tiles, tile_chunk_len);
-    create_tile_num_array_5AA950();
+    InitTileMapping_5AA950();
 }
 
 MATCH_FUNC(0x5AAE20)
