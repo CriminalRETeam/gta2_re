@@ -1849,14 +1849,14 @@ Ped* Car_BC::GetEffectiveDriver_43E990()
 }
 
 STUB_FUNC(0x43ea60)
-bool Car_BC::sub_43EA60(Object_2C* a2)
+bool Car_BC::OnObjectTouched_43EA60(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
 STUB_FUNC(0x43f130)
-char_type Car_BC::sub_43F130(Object_2C* a2)
+char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* a2)
 {
     NOT_IMPLEMENTED;
     return 0;

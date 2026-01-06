@@ -504,7 +504,7 @@ Car_BC* Crane_15C::GetCarFromCrane_480DA0()
 }
 
 MATCH_FUNC(0x480e00)
-void CranePool_D9C::sub_480E00(Car_BC* a2, u8 a3)
+void CranePool_D9C::PickUpCar_480E00(Car_BC* a2, u8 a3)
 {
     field_0[a3].sub_47F930(a2);
 }

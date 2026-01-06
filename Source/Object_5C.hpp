@@ -28,7 +28,7 @@ class Object_2C
     EXPORT void sub_5222D0();
     EXPORT void PoolGive_522340();
     EXPORT void PoolTake_522360();
-    EXPORT char_type sub_5223C0(Sprite* a2);
+    EXPORT char_type ShouldCollideWith_5223C0(Sprite* a2);
     EXPORT bool sub_522430(Sprite* a2);
     EXPORT char_type sub_522460(Sprite* a2);
     EXPORT s16* sub_5224E0(Fix16_Point* a2);
@@ -66,11 +66,11 @@ class Object_2C
     EXPORT s16* sub_528130(Fix16_Point* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
     EXPORT void sub_5283C0(s32 a2);
-    EXPORT bool sub_5288B0(Sprite* a2);
+    EXPORT bool OnObjectTouched_5288B0(Sprite* a2);
     EXPORT void sub_528900();
-    EXPORT char_type sub_528960(Object_2C* pOther);
-    EXPORT char_type sub_528990(Sprite* a2);
-    EXPORT void sub_528A20(Object_2C *pObj);
+    EXPORT char_type HandleObjectHitIfExplosive_528960(Object_2C* pOther);
+    EXPORT char_type HandleObjectHit_528990(Sprite* a2);
+    EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C *pObj);
     EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* a3);
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);

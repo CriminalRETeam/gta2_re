@@ -792,7 +792,7 @@ char_type Char_B4::sub_5535B0(Object_2C* p2c)
 }
 
 STUB_FUNC(0x553640)
-bool Char_B4::sub_553640(Object_2C* p2c)
+bool Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -800,7 +800,7 @@ bool Char_B4::sub_553640(Object_2C* p2c)
 
 // https://decomp.me/scratch/UYcej
 STUB_FUNC(0x5537F0)
-char_type Char_B4::sub_5537F0(Object_2C* p2c)
+char_type Char_B4::HandlePedObjectHit_5537F0(Object_2C* p2c)
 {
     NOT_IMPLEMENTED;
 
@@ -826,7 +826,7 @@ char_type Char_B4::sub_5537F0(Object_2C* p2c)
     }
     else
     {
-        return pPed->sub_45D000(p2c);
+        return pPed->HandlePedHitByObject_45D000(p2c);
     }
 }
 

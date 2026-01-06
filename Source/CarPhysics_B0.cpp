@@ -132,7 +132,7 @@ void CarPhysics_B0::sub_559B90(const Fix16& a2)
 }
 
 STUB_FUNC(0x559ba0)
-u32 CarPhysics_B0::sub_559BA0()
+u32 CarPhysics_B0::SpinOutOnOil_559BA0()
 {
     NOT_IMPLEMENTED;
     return 0;

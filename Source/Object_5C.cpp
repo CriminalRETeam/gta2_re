@@ -213,7 +213,7 @@ void Object_2C::PoolTake_522360()
 }
 
 MATCH_FUNC(0x5223c0)
-char Object_2C::sub_5223C0(Sprite* pSprite)
+char Object_2C::ShouldCollideWith_5223C0(Sprite* pSprite)
 {
     s32 sprite_type;
 
@@ -224,20 +224,24 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
     switch (field_8->field_54)
     {
         case 0:
+            // Always
             return true;
         case 1:
+            // Only cars
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
             {
                 return false;
             }
             break;
         case 2:
+            // Only peds
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::ped)
             {
                 return false;
             }
             break;
         case 3:
+            // Only objects?
             sprite_type = pSprite->field_30_sprite_type_enum;
             if (sprite_type != sprite_types_enum::code_obj1 && sprite_type != sprite_types_enum::map_obj &&
                 sprite_type != sprite_types_enum::unknown_1)
@@ -250,6 +254,7 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
             }
             break;
         case 4:
+            // Never
             return 0;
             break;
         default:
@@ -262,7 +267,7 @@ char Object_2C::sub_5223C0(Sprite* pSprite)
 MATCH_FUNC(0x522430)
 bool Object_2C::sub_522430(Sprite* pSprite)
 {
-    return (pSprite && sub_5223C0(pSprite) && !sub_522250(pSprite)) ? true : false;
+    return (pSprite && ShouldCollideWith_5223C0(pSprite) && !sub_522250(pSprite)) ? true : false;
 }
 
 MATCH_FUNC(0x522460)
@@ -718,7 +723,7 @@ void Object_2C::sub_5283C0(s32 a2)
 }
 
 MATCH_FUNC(0x5288B0)
-bool Object_2C::sub_5288B0(Sprite* a2)
+bool Object_2C::OnObjectTouched_5288B0(Sprite* a2)
 {
     if (!a2)
     {
@@ -728,13 +733,13 @@ bool Object_2C::sub_5288B0(Sprite* a2)
     Char_B4* pCharB4 = a2->AsCharB4_40FEA0();
     if (pCharB4)
     {
-        return pCharB4->sub_553640(this);
+        return pCharB4->OnObjectTouched_553640(this);
     }
 
     Car_BC* pCarBc = a2->AsCar_40FEB0();
     if (pCarBc)
     {
-        return pCarBc->sub_43EA60(this);
+        return pCarBc->OnObjectTouched_43EA60(this);
     }
 
     return false;
@@ -766,30 +771,31 @@ void Object_2C::sub_528900()
 }
 
 MATCH_FUNC(0x528960)
-char_type Object_2C::sub_528960(Object_2C* pOther)
+char_type Object_2C::HandleObjectHitIfExplosive_528960(Object_2C* pOther)
 {
+    // Check is explosive range
     if (field_8->field_48 < 12 || field_8->field_48 > 13)
     {
         return 0;
     }
 
-    pOther->sub_528A20(this);
+    pOther->ProcessObjectExplosionImpact_528A20(this);
     return 1;
 }
 
 MATCH_FUNC(0x528990)
-char_type Object_2C::sub_528990(Sprite* pSprite)
+char_type Object_2C::HandleObjectHit_528990(Sprite* pSprite)
 {
     Char_B4* cB4 = pSprite->AsCharB4_40FEA0();
     if (cB4)
     {
-        return cB4->sub_5537F0(this);
+        return cB4->HandlePedObjectHit_5537F0(this);
     }
 
     Car_BC* cBC = pSprite->AsCar_40FEB0();
     if (cBC)
     {
-        return cBC->sub_43F130(this);
+        return cBC->HandleCarHitByObject_43F130(this);
     }
 
     Object_2C* o2c = pSprite->As2C_40FEC0();
@@ -799,14 +805,14 @@ char_type Object_2C::sub_528990(Sprite* pSprite)
         Ped* pPed = gPedManager_6787BC->PedById(gVarrok_7F8_703398->field_0[field_26_varrok_idx].field_0_ped_id);
         if (pPed)
         {
-            pPed->sub_46FE20(o2c);
+            pPed->ProcessWeaponHitResponse_46FE20(o2c);
         }
     }
-    return o2c->sub_528960(this);
+    return o2c->HandleObjectHitIfExplosive_528960(this);
 }
 
 STUB_FUNC(0x528A20)
-void Object_2C::sub_528A20(Object_2C* pObj)
+void Object_2C::ProcessObjectExplosionImpact_528A20(Object_2C* pObj)
 {
     NOT_IMPLEMENTED;
 }
