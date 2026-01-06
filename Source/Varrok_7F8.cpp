@@ -18,7 +18,7 @@ u8 Varrok_7F8::sub_59B060(s32 ped_id)
 }
 
 MATCH_FUNC(0x59b0b0)
-void Varrok_7F8::sub_59B0B0(u8 a2)
+void Varrok_7F8::IncrementRefCount_59B0B0(u8 a2)
 {
     field_0[a2].field_4++;
 }

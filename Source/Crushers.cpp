@@ -123,22 +123,22 @@ void Crusher_30::Service_488350()
         }
 
         Object_2C* Obj_0 = field_0;
-        Obj_0->sub_527D00();
+        Obj_0->RemoveFromCollisionBuckets_527D00();
         Obj_0->field_4->sub_447E20(field_24_xpos, field_28_ypos - field_20_h);
         Obj_0->sub_527AE0();
 
         Object_2C* Obj_4 = field_4;
-        Obj_4->sub_527D00();
+        Obj_4->RemoveFromCollisionBuckets_527D00();
         Obj_4->field_4->sub_447E20(field_24_xpos + field_1C_w, field_28_ypos);
         Obj_4->sub_527AE0();
 
         Object_2C* Obj_8 = field_8;
-        Obj_8->sub_527D00();
+        Obj_8->RemoveFromCollisionBuckets_527D00();
         Obj_8->field_4->sub_447E20(field_24_xpos, field_20_h + field_28_ypos);
         Obj_8->sub_527AE0();
 
         Object_2C* Obj_C = field_C;
-        Obj_C->sub_527D00();
+        Obj_C->RemoveFromCollisionBuckets_527D00();
         Obj_C->field_4->sub_447E20(field_24_xpos - field_1C_w, field_28_ypos);
         Obj_C->sub_527AE0();
     }

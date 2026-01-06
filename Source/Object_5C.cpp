@@ -167,7 +167,7 @@ void Object_2C::sub_5222D0()
 }
 
 MATCH_FUNC(0x522340)
-void Object_2C::sub_522340()
+void Object_2C::PoolGive_522340()
 {
     if (field_20 == 2)
     {
@@ -180,7 +180,7 @@ void Object_2C::sub_522340()
 }
 
 MATCH_FUNC(0x522360)
-void Object_2C::sub_522360()
+void Object_2C::PoolTake_522360()
 {
     Object_2C* pLast;
     Object_2C* pIter;
@@ -413,7 +413,7 @@ void Object_2C::sub_525190(u8 varrok_idx)
                                                                               gVarrok_7F8_703398->field_0[varrok_idx].field_0_ped_id);
             if (pExplosion)
             {
-                pExplosion->sub_529080(varrok_idx);
+                pExplosion->SetDamageOwner_529080(varrok_idx);
             }
         }
     }
@@ -576,7 +576,7 @@ bool Object_2C::PoolUpdate()
     }
     else
     {
-        Object_2C::sub_527D00();
+        Object_2C::RemoveFromCollisionBuckets_527D00();
         return true;
     }
 }
@@ -671,7 +671,7 @@ void Object_2C::sub_527AE0()
 }
 
 MATCH_FUNC(0x527d00)
-void Object_2C::sub_527D00()
+void Object_2C::RemoveFromCollisionBuckets_527D00()
 {
     switch (field_8->field_40)
     {
@@ -812,7 +812,7 @@ void Object_2C::sub_528A20(Object_2C* pObj)
 }
 
 STUB_FUNC(0x528ba0)
-void Object_2C::sub_528BA0()
+void Object_2C::HandleImpactNoSprite_528BA0()
 {
     NOT_IMPLEMENTED;
 }
@@ -923,10 +923,10 @@ void Object_2C::sub_5292D0()
 }
 
 MATCH_FUNC(0x529080)
-void Object_2C::sub_529080(u8 idx)
+void Object_2C::SetDamageOwner_529080(u8 idx)
 {
     field_26_varrok_idx = idx;
-    gVarrok_7F8_703398->sub_59B0B0(idx);
+    gVarrok_7F8_703398->IncrementRefCount_59B0B0(idx);
 }
 
 MATCH_FUNC(0x5290a0)
@@ -944,21 +944,21 @@ void Object_2C::sub_5290B0()
 MATCH_FUNC(0x5291b0)
 void Object_2C::Dealloc_5291B0()
 {
-    sub_522340();
+    PoolGive_522340();
     sub_5290A0();
 }
 
 MATCH_FUNC(0x5291d0)
 void Object_2C::sub_5291D0()
 {
-    sub_522340();
+    PoolGive_522340();
     field_24 = 1;
 }
 
 MATCH_FUNC(0x5291E0)
 void Object_2C::sub_5291E0(u8 a2)
 {
-    sub_522340();
+    PoolGive_522340();
     field_24 = a2;
 }
 
@@ -1368,7 +1368,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     pNew2C->sub_527630(object_type, xpos, ypos, zpos, rotation);
     if (field_18)
     {
-        pNew2C->sub_529080(field_18);
+        pNew2C->SetDamageOwner_529080(field_18);
         field_18 = 0;
     }
 
@@ -1603,20 +1603,20 @@ void Object_2C::sub_52A650()
         field_10_obj_3c->field_C = kFpZero_6F8E10;
         field_10_obj_3c->field_10 = kFpZero_6F8E10;
     }
-    Object_2C::sub_522340();
+    Object_2C::PoolGive_522340();
 }
 
 MATCH_FUNC(0x52a6d0)
 void Object_2C::sub_52A6D0(Sprite* pSprite)
 {
-    sub_527D00();
+    RemoveFromCollisionBuckets_527D00();
 
     if (field_8->field_34 != 11)
     {
         gPurpleDoom_3_679210->Add_477AE0(field_4);
     }
 
-    sub_522360();
+    PoolTake_522360();
 
     if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car)
     {

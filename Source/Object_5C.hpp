@@ -26,8 +26,8 @@ class Object_2C
     EXPORT bool sub_522250(Sprite* a2);
     EXPORT s32 sub_5222B0();
     EXPORT void sub_5222D0();
-    EXPORT void sub_522340();
-    EXPORT void sub_522360();
+    EXPORT void PoolGive_522340();
+    EXPORT void PoolTake_522360();
     EXPORT char_type sub_5223C0(Sprite* a2);
     EXPORT bool sub_522430(Sprite* a2);
     EXPORT char_type sub_522460(Sprite* a2);
@@ -61,7 +61,7 @@ class Object_2C
     EXPORT void sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void Light_527990();
     EXPORT void sub_527AE0();
-    EXPORT void sub_527D00();
+    EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void sub_527F10();
     EXPORT s16* sub_528130(Fix16_Point* a2);
     EXPORT char_type sub_528240(s32 a2, s32 a3);
@@ -71,7 +71,7 @@ class Object_2C
     EXPORT char_type sub_528960(Object_2C* pOther);
     EXPORT char_type sub_528990(Sprite* a2);
     EXPORT void sub_528A20(Object_2C *pObj);
-    EXPORT void sub_528BA0();
+    EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* a3);
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
     EXPORT void sub_529030(s8 speed_x, s8 speed_y);
@@ -79,7 +79,7 @@ class Object_2C
     EXPORT s32 sub_529210();
     EXPORT s32 sub_529240();
     EXPORT void sub_5292D0();
-    EXPORT void sub_529080(u8 a2);
+    EXPORT void SetDamageOwner_529080(u8 a2);
     EXPORT void sub_5290A0();
     EXPORT void sub_5290B0();
     EXPORT void Dealloc_5291B0();

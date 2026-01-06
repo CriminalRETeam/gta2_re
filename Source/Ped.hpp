@@ -216,7 +216,7 @@ class Ped
     EXPORT void AddThreateningPedToList_46FC70();
     EXPORT void sub_46FC90(s32 a2, s32 a3);
     EXPORT char_type sub_46FE20(Object_2C* a2);
-    EXPORT void sub_46FF00(s32 a2, s32 a3, s32 a4);
+    EXPORT void NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4);
     EXPORT void sub_46FFF0(s32 a2);
     EXPORT s16 sub_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);

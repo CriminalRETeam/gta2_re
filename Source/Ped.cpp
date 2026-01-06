@@ -3130,7 +3130,7 @@ char_type Ped::sub_46FE20(Object_2C* a2)
 }
 
 STUB_FUNC(0x46ff00)
-void Ped::sub_46FF00(s32 a2, s32 a3, s32 a4)
+void Ped::NotifyWeaponHit_46FF00(s32 a2, s32 a3, s32 a4)
 {
     NOT_IMPLEMENTED;
 }

@@ -16,7 +16,7 @@ class Varrok_7F8
 {
   public:
     EXPORT u8 sub_59B060(s32 a2);
-    EXPORT void sub_59B0B0(u8 a2);
+    EXPORT void IncrementRefCount_59B0B0(u8 a2);
     EXPORT void sub_59B0D0(u8 idx);
     EXPORT Varrok_7F8();
     EXPORT ~Varrok_7F8();

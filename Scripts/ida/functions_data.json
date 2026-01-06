@@ -3870,7 +3870,7 @@
         "v105_address": "0x46fe20"
     },
     {
-        "name": "Ped::sub_46FF00",
+        "name": "Ped::NotifyWeaponHit_46FF00",
         "v96f_address": null,
         "v105_address": "0x46ff00"
     },
@@ -10505,12 +10505,12 @@
         "v105_address": "0x5222d0"
     },
     {
-        "name": "Object_2C::sub_522340",
+        "name": "Object_2C::PoolGive_522340",
         "v96f_address": null,
         "v105_address": "0x522340"
     },
     {
-        "name": "Object_2C::sub_522360",
+        "name": "Object_2C::PoolTake_522360",
         "v96f_address": null,
         "v105_address": "0x522360"
     },
@@ -10740,7 +10740,7 @@
         "v105_address": "0x527ae0"
     },
     {
-        "name": "Object_2C::sub_527D00",
+        "name": "Object_2C::RemoveFromCollisionBuckets_527D00",
         "v96f_address": null,
         "v105_address": "0x527d00"
     },
@@ -10790,7 +10790,7 @@
         "v105_address": "0x528a20"
     },
     {
-        "name": "Object_2C::sub_528BA0",
+        "name": "Object_2C::HandleImpactNoSprite_528BA0",
         "v96f_address": null,
         "v105_address": "0x528ba0"
     },
@@ -10825,7 +10825,7 @@
         "v105_address": "0x529070"
     },
     {
-        "name": "sub_529080",
+        "name": "SetDamageOwner_529080",
         "v96f_address": null,
         "v105_address": "0x529080"
     },
@@ -14565,7 +14565,7 @@
         "v105_address": "0x59b060"
     },
     {
-        "name": "Varrok_7F8::sub_59B0B0",
+        "name": "Varrok_7F8::IncrementRefCount_59B0B0",
         "v96f_address": null,
         "v105_address": "0x59b0b0"
     },
