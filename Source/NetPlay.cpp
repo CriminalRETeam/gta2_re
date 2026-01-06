@@ -3,6 +3,7 @@
 #include "crt_stubs.hpp"
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
+DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
 
 STUB_FUNC(0x51d6b0)
 NetPlay* NetPlay::ctor_51D6B0()
@@ -57,12 +58,12 @@ void NetPlay::AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionIn
 }
 
 MATCH_FUNC(0x51da30)
-s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
-                                       const void* lpConnection,
-                                       u32 dwConnectionSize,
-                                       DPNAME* lpName,
-                                       s32 dwFlags,
-                                       NetPlay* lpContext)
+s32 __stdcall NetPlay::EnumConnections_cb_51DA30(const GUID* lpguidSP,
+                                       void* lpConnection,
+                                       unsigned long dwConnectionSize,
+                                       const DPNAME* lpName,
+                                       unsigned long dwFlags,
+                                       void* lpContext)
 {
     EnumeratedConnection info;
     info.field_0_sp_guid = *lpguidSP; // store guid
@@ -79,11 +80,78 @@ s32 NetPlay::EnumConnections_cb_51DA30(GUID* lpguidSP,
     return 1;
 }
 
-STUB_FUNC(0x51dae0)
-s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseThisConnection)
+MATCH_FUNC(0x51dae0)
+s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Connection_Unknown* pUseThisConnection)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    s32 isIpx;
+
+    if (pProtocolGuid)
+    {
+        if (memcmp(pProtocolGuid, &DPSPGUID_MODEM, sizeof(GUID)) == 0)
+        {
+            field_4 = 1;
+        }
+        isIpx = 0;
+        field_8_ip_or_ipx_guid = *pProtocolGuid;
+    }
+    else
+    {
+        isIpx = 1;
+        field_8_ip_or_ipx_guid = DPSPGUID_IPX;
+    }
+
+    if (field_30_enumed_connections.field_0_enumed_connections)
+    {
+        delete[] field_30_enumed_connections.field_0_enumed_connections;
+        field_30_enumed_connections.field_8_connections_count = 0;
+        field_30_enumed_connections.field_10 = 0;
+    }
+
+    field_30_enumed_connections.field_0_enumed_connections = new EnumeratedConnection[8];
+    if (NetPlay::DirectPlayCreate_51DCD0())
+    {
+        if (isIpx)
+        {
+            if (SUCCEEDED(field_5E4_pDPlay3->EnumConnections(&kGta2_DP_Guid_5FE928, NetPlay::EnumConnections_cb_51DA30, this, 1)))
+            {
+                field_30_enumed_connections.field_10 = 1;
+                if (NetPlay::DirectPlayCreate_51DED0())
+                {
+                    field_30_enumed_connections.field_14 = 1;
+                }
+                return 1;
+            }
+            else
+            {
+                field_30_enumed_connections.field_10 = 0;
+                NetPlay::DirectPlayDestroy_51DC90();
+                return 0;
+            }
+        }
+        else
+        {
+            EnumeratedConnection info;
+            info.field_0_sp_guid = *pProtocolGuid;
+
+            info.field_14_pConnection = new u8[pUseThisConnection->field_4_len];
+            memcpy(info.field_14_pConnection, pUseThisConnection->field_0, pUseThisConnection->field_4_len);
+            info.field_18_connection_len = pUseThisConnection->field_4_len;
+            info.field_10_pConnectionName = new wchar_t[wcslen(L"dummy prot") + 1];
+            wcscpy(info.field_10_pConnectionName, L"dummy prot");
+            NetPlay::AddEnumeratedConnection_51D930(&info);
+
+            delete[] info.field_10_pConnectionName;
+            GTA2_DELETE_AND_NULL(info.field_14_pConnection);
+
+            field_30_enumed_connections.field_10 = 1;
+            return 1;
+        }
+    }
+    else
+    {
+        NetPlay::DirectPlayDestroy_51DC90();
+        return 0;
+    }
 }
 
 MATCH_FUNC(0x51dc90)
@@ -182,10 +250,20 @@ BOOL NetPlay::sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpD
     return 0;
 }
 
-STUB_FUNC(0x51e0e0)
-s32 NetPlay::sub_51E0E0(wchar_t* Source)
+MATCH_FUNC(0x51e0e0)
+s32 NetPlay::PushConnection_51E0E0(wchar_t* Source)
 {
-    NOT_IMPLEMENTED;
+    if (field_30_enumed_connections.field_C_f4_d_array_count < 8)
+    {
+        size_t string_len_bytes = wcslen(Source);
+        field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count].field_0_allocated_str =
+            new wchar_t[string_len_bytes + 1];
+        wcscpy(field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count]
+                   .field_0_allocated_str,
+               Source);
+        ++field_30_enumed_connections.field_C_f4_d_array_count;
+        return 1;
+    }
     return 0;
 }
 
@@ -776,7 +854,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 a2)
 }
 
 STUB_FUNC(0x521d20)
-s32 NetPlay::Send_521D20()
+s32 NetPlay::SendKeepAlive_521D20()
 {
     NOT_IMPLEMENTED;
     return 0;

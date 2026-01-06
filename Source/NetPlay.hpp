@@ -93,7 +93,7 @@ struct Network_18
     EnumeratedConnection* field_0_enumed_connections;
     Network_4* field_4_d_array_8_entries;
     s32 field_8_connections_count;
-    s32 field_C_f4_d_array_count;
+    u32 field_C_f4_d_array_count;
     s32 field_10;
     s32 field_14;
 };
@@ -102,6 +102,23 @@ struct Network_504
 {
     DPSESSIONDESC2 field_C4_sessions[16];
     u32 field_5C4_session_count;
+};
+
+struct Connection_Unknown
+{
+    void* field_0;
+    s32 field_4_len;
+};
+
+struct Network_InputData_0x8
+{
+    u32 field_0_Inputs;
+    u32 field_4_rng;
+};
+
+struct Network_Unknown_0x30
+{
+    Network_InputData_0x8 field_0_inputs[6];
 };
 
 struct PacketHandlerSlot
@@ -117,18 +134,18 @@ struct NetPlay
     EXPORT void* vdtor_51D7B0(char_type flags);
     EXPORT virtual ~NetPlay();
     EXPORT void AddEnumeratedConnection_51D930(EnumeratedConnection* pConnectionInfo);
-    EXPORT s32 EnumConnections_cb_51DA30(GUID* lpguidSP,
-                                         const void* lpConnection,
-                                         u32 dwConnectionSize,
-                                         DPNAME* lpName,
-                                         s32 dwFlags,
-                                         NetPlay* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, s32 pUseThisConnection);
+    EXPORT static s32 __stdcall EnumConnections_cb_51DA30(const GUID* lpguidSP,
+                                         void* lpConnection,
+                                         unsigned long dwConnectionSize,
+                                         const DPNAME* lpName,
+                                         unsigned long dwFlags,
+                                         void* lpContext);
+    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Connection_Unknown* pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
     EXPORT static BOOL PASCAL sub_51E030(const GUID& guidDataType, DWORD dwDataSize, LPCVOID lpData, LPVOID lpContext);
-    EXPORT s32 sub_51E0E0(wchar_t* Source);
+    EXPORT s32 PushConnection_51E0E0(wchar_t* Source);
     EXPORT s32 NoRefs_51E140(wchar_t* String, s32* a3, size_t* a4);
     EXPORT s32 NoRefs_51E2B0(wchar_t* Source, wchar_t* a3, s32* a4, size_t* a5);
     EXPORT s32 NoRefs_51E450(s32 a2, u32* a3, size_t* a4);
@@ -186,7 +203,7 @@ struct NetPlay
     EXPORT void Send_521B20(s32* a2);
     EXPORT s32 NoRefs_Send_521BE0(s32* a2, s32 a3);
     EXPORT s32 NoRefs_Send_521C80(s32 a2);
-    EXPORT s32 Send_521D20();
+    EXPORT s32 SendKeepAlive_521D20();
     EXPORT s32 Send_521DB0(s32 dataLen);
     EXPORT s32 Send_521E40(s32 a2);
     EXPORT void static_dtor_5E4DD0();

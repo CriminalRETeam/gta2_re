@@ -7145,7 +7145,7 @@
         "v105_address": "0x4dada0"
     },
     {
-        "name": "do_inputs_4DAF30",
+        "name": "do_network_and_local_inputs_4DAF30",
         "v96f_address": null,
         "v105_address": "0x4daf30"
     },
@@ -10115,157 +10115,157 @@
         "v105_address": "0x51d3b0"
     },
     {
-        "name": "goofy_thompson::ctor",
+        "name": "NetPlay::ctor",
         "v96f_address": null,
         "v105_address": "0x51d6b0"
     },
     {
-        "name": "goofy_thompson::vdtor",
+        "name": "NetPlay::vdtor",
         "v96f_address": null,
         "v105_address": "0x51d7b0"
     },
     {
-        "name": "goofy_thompson::dtor",
+        "name": "NetPlay::dtor",
         "v96f_address": null,
         "v105_address": "0x51d7d0"
     },
     {
-        "name": "goofy_thompson::AddEnumeratedConnection",
+        "name": "NetPlay::AddEnumeratedConnection",
         "v96f_address": null,
         "v105_address": "0x51d930"
     },
     {
-        "name": "goofy_thompson::EnumConnections_cb",
+        "name": "NetPlay::EnumConnections_cb",
         "v96f_address": null,
         "v105_address": "0x51da30"
     },
     {
-        "name": "goofy_thompson::SetProtoAndConnection",
+        "name": "NetPlay::SetProtoAndConnection",
         "v96f_address": null,
         "v105_address": "0x51dae0"
     },
     {
-        "name": "goofy_thompson::DirectPlayDestroy",
+        "name": "NetPlay::DirectPlayDestroy",
         "v96f_address": null,
         "v105_address": "0x51dc90"
     },
     {
-        "name": "goofy_thompson::DirectPlayCreate",
+        "name": "NetPlay::DirectPlayCreate",
         "v96f_address": null,
         "v105_address": "0x51ded0"
     },
     {
-        "name": "goofy_thompson::DirectPlayCreate",
+        "name": "NetPlay::DirectPlayCreate",
         "v96f_address": null,
         "v105_address": "0x51ded0"
     },
     {
-        "name": "goofy_thompson::sub_51E030",
+        "name": "NetPlay::sub_51E030",
         "v96f_address": null,
         "v105_address": "0x51e030"
     },
     {
-        "name": "goofy_thompson::sub_51E0E0",
+        "name": "NetPlay::PushConnection_51E0E0",
         "v96f_address": null,
         "v105_address": "0x51e0e0"
     },
     {
-        "name": "goofy_thompson::NoRefs",
+        "name": "NetPlay::NoRefs",
         "v96f_address": null,
         "v105_address": "0x5215b0"
     },
     {
-        "name": "goofy_thompson::NoRefs",
+        "name": "NetPlay::NoRefs",
         "v96f_address": null,
         "v105_address": "0x5215b0"
     },
     {
-        "name": "goofy_thompson::NoRefs",
+        "name": "NetPlay::NoRefs",
         "v96f_address": null,
         "v105_address": "0x5215b0"
     },
     {
-        "name": "goofy_thompson::sub_51E5C0",
+        "name": "NetPlay::sub_51E5C0",
         "v96f_address": null,
         "v105_address": "0x51e5c0"
     },
     {
-        "name": "goofy_thompson::sub_51E650",
+        "name": "NetPlay::sub_51E650",
         "v96f_address": null,
         "v105_address": "0x51e650"
     },
     {
-        "name": "goofy_thompson::sub_51E7A0",
+        "name": "NetPlay::sub_51E7A0",
         "v96f_address": null,
         "v105_address": "0x51e7a0"
     },
     {
-        "name": "goofy_thompson::sub_51E9C0",
+        "name": "NetPlay::sub_51E9C0",
         "v96f_address": null,
         "v105_address": "0x51e9c0"
     },
     {
-        "name": "goofy_thompson::EnumSessions_cb",
+        "name": "NetPlay::EnumSessions_cb",
         "v96f_address": null,
         "v105_address": "0x51eae0"
     },
     {
-        "name": "goofy_thompson::AddEnumeratedSession",
+        "name": "NetPlay::AddEnumeratedSession",
         "v96f_address": null,
         "v105_address": "0x51eb00"
     },
     {
-        "name": "goofy_thompson::Set15_51ECD0",
+        "name": "NetPlay::Set15_51ECD0",
         "v96f_address": null,
         "v105_address": "0x51ecd0"
     },
     {
-        "name": "goofy_thompson::NetworkTick_51ED00",
+        "name": "NetPlay::NetworkTick_51ED00",
         "v96f_address": null,
         "v105_address": "0x51ed00"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::Receive",
+        "name": "NetPlay::Receive",
         "v96f_address": null,
         "v105_address": "0x51f010"
     },
     {
-        "name": "goofy_thompson::sub_51F0D0",
+        "name": "NetPlay::sub_51F0D0",
         "v96f_address": null,
         "v105_address": "0x51f0d0"
     },
     {
-        "name": "goofy_thompson::sub_51F110",
+        "name": "NetPlay::sub_51F110",
         "v96f_address": null,
         "v105_address": "0x51f110"
     },
     {
-        "name": "goofy_thompson::CalcPacketLen",
+        "name": "NetPlay::CalcPacketLen",
         "v96f_address": null,
         "v105_address": "0x51f210"
     },
     {
-        "name": "goofy_thompson::MakeSendData",
+        "name": "NetPlay::MakeSendData",
         "v96f_address": null,
         "v105_address": "0x51f420"
     },
     {
-        "name": "goofy_thompson::sub_51F870",
+        "name": "NetPlay::sub_51F870",
         "v96f_address": null,
         "v105_address": "0x51f870"
     },
     {
-        "name": "goofy_thompson::sub_520040",
+        "name": "NetPlay::sub_520040",
         "v96f_address": null,
         "v105_address": "0x520040"
     },
     {
-        "name": "goofy_thompson::sub_5201A0",
+        "name": "NetPlay::sub_5201A0",
         "v96f_address": null,
         "v105_address": "0x5201a0"
     },
@@ -10275,67 +10275,67 @@
         "v105_address": "0x520230"
     },
     {
-        "name": "goofy_thompson::Set6_520530",
+        "name": "NetPlay::Set6_520530",
         "v96f_address": null,
         "v105_address": "0x520530"
     },
     {
-        "name": "goofy_thompson::sub_520570",
+        "name": "NetPlay::sub_520570",
         "v96f_address": null,
         "v105_address": "0x520570"
     },
     {
-        "name": "goofy_thompson::EnumGroups_cb",
+        "name": "NetPlay::EnumGroups_cb",
         "v96f_address": null,
         "v105_address": "0x520c20"
     },
     {
-        "name": "goofy_thompson::sub_520CA0",
+        "name": "NetPlay::sub_520CA0",
         "v96f_address": null,
         "v105_address": "0x520ca0"
     },
     {
-        "name": "goofy_thompson::sub_520D00",
+        "name": "NetPlay::sub_520D00",
         "v96f_address": null,
         "v105_address": "0x520d00"
     },
     {
-        "name": "goofy_thompson::Disconnect_520D10",
+        "name": "NetPlay::Disconnect_520D10",
         "v96f_address": null,
         "v105_address": "0x520d10"
     },
     {
-        "name": "goofy_thompson::sub_520DE0",
+        "name": "NetPlay::sub_520DE0",
         "v96f_address": null,
         "v105_address": "0x520de0"
     },
     {
-        "name": "goofy_thompson::IndexOf",
+        "name": "NetPlay::IndexOf",
         "v96f_address": null,
         "v105_address": "0x520e30"
     },
     {
-        "name": "goofy_thompson::Set9_520E60",
+        "name": "NetPlay::Set9_520E60",
         "v96f_address": null,
         "v105_address": "0x520e60"
     },
     {
-        "name": "goofy_thompson::Set3_Disconnect_520E80",
+        "name": "NetPlay::Set3_Disconnect_520E80",
         "v96f_address": null,
         "v105_address": "0x520e80"
     },
     {
-        "name": "goofy_thompson::NoRefs_null",
+        "name": "NetPlay::NoRefs_null",
         "v96f_address": null,
         "v105_address": "0x520ea0"
     },
     {
-        "name": "goofy_thompson::sub_520EB0",
+        "name": "NetPlay::sub_520EB0",
         "v96f_address": null,
         "v105_address": "0x520eb0"
     },
     {
-        "name": "goofy_thompson::Set18_520F50",
+        "name": "NetPlay::Set18_520F50",
         "v96f_address": null,
         "v105_address": "0x520f50"
     },
@@ -10345,132 +10345,132 @@
         "v105_address": "0x520f80"
     },
     {
-        "name": "goofy_thompson::DeletePlayerFromGroup",
+        "name": "NetPlay::DeletePlayerFromGroup",
         "v96f_address": null,
         "v105_address": "0x521000"
     },
     {
-        "name": "goofy_thompson::SendChatMessage",
+        "name": "NetPlay::SendChatMessage",
         "v96f_address": null,
         "v105_address": "0x521060"
     },
     {
-        "name": "goofy_thompson::Set21_5210D0",
+        "name": "NetPlay::Set21_5210D0",
         "v96f_address": null,
         "v105_address": "0x5210d0"
     },
     {
-        "name": "goofy_thompson::GetPlayerName",
+        "name": "NetPlay::GetPlayerName",
         "v96f_address": null,
         "v105_address": "0x521100"
     },
     {
-        "name": "goofy_thompson::Set24_521140",
+        "name": "NetPlay::Set24_521140",
         "v96f_address": null,
         "v105_address": "0x521140"
     },
     {
-        "name": "goofy_thompson::sub_521170",
+        "name": "NetPlay::sub_521170",
         "v96f_address": null,
         "v105_address": "0x521170"
     },
     {
-        "name": "goofy_thompson::Set27SavePlayerName_5211F0",
+        "name": "NetPlay::Set27SavePlayerName_5211F0",
         "v96f_address": null,
         "v105_address": "0x5211f0"
     },
     {
-        "name": "goofy_thompson::sub_521220",
+        "name": "NetPlay::sub_521220",
         "v96f_address": null,
         "v105_address": "0x521220"
     },
     {
-        "name": "goofy_thompson:NoRefs",
+        "name": "NetPlay:NoRefs",
         "v96f_address": null,
         "v105_address": "0x5212e0"
     },
     {
-        "name": "goofy_thompson::SetExitGameCallBack",
+        "name": "NetPlay::SetExitGameCallBack",
         "v96f_address": null,
         "v105_address": "0x521330"
     },
     {
-        "name": "goofy_thompson::GetMaxPlayers",
+        "name": "NetPlay::GetMaxPlayers",
         "v96f_address": null,
         "v105_address": "0x521350"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::sub_5213E0",
+        "name": "NetPlay::sub_5213E0",
         "v96f_address": null,
         "v105_address": "0x5213e0"
     },
     {
-        "name": "goofy_thompson::NoRefs",
+        "name": "NetPlay::NoRefs",
         "v96f_address": null,
         "v105_address": "0x5215b0"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::Add",
+        "name": "NetPlay::Add",
         "v96f_address": null,
         "v105_address": "0x5216e0"
     },
     {
-        "name": "goofy_thompson::sub_521770",
+        "name": "NetPlay::sub_521770",
         "v96f_address": null,
         "v105_address": "0x521770"
     },
     {
-        "name": "goofy_thompson::sub_521820",
+        "name": "NetPlay::sub_521820",
         "v96f_address": null,
         "v105_address": "0x521820"
     },
     {
-        "name": "goofy_thompson::Remove",
+        "name": "NetPlay::Remove",
         "v96f_address": null,
         "v105_address": "0x521870"
     },
     {
-        "name": "goofy_thompson::sub_521890",
+        "name": "NetPlay::sub_521890",
         "v96f_address": null,
         "v105_address": "0x521890"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::NoRefs_Send",
+        "name": "NetPlay::NoRefs_Send",
         "v96f_address": null,
         "v105_address": "0x521c80"
     },
     {
-        "name": "goofy_thompson::NoRefs_Send",
+        "name": "NetPlay::NoRefs_Send",
         "v96f_address": null,
         "v105_address": "0x521c80"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
     {
-        "name": "goofy_thompson::Send",
+        "name": "NetPlay::Send",
         "v96f_address": null,
         "v105_address": "0x521e40"
     },
@@ -17085,7 +17085,7 @@
         "v105_address": "0x5e4140"
     },
     {
-        "name": "goofy_thompson::static_dtor",
+        "name": "NetPlay::static_dtor",
         "v96f_address": null,
         "v105_address": "0x5e4dd0"
     },
