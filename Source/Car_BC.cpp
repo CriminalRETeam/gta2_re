@@ -1833,7 +1833,7 @@ Car_BC* Car_BC::GetCabOrSelf_43E8D0()
 }
 
 STUB_FUNC(0x43e990)
-Ped* Car_BC::sub_43E990()
+Ped* Car_BC::GetEffectiveDriver_43E990()
 {
     NOT_IMPLEMENTED;
 

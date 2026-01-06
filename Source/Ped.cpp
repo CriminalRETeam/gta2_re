@@ -874,7 +874,7 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 STUB_FUNC(0x45de80)
-char_type Ped::sub_45DE80(s32 a2)
+char_type Ped::HandlePickupCollision_45DE80(s32 a2)
 {
     NOT_IMPLEMENTED;
     return 0;

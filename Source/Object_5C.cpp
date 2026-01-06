@@ -818,13 +818,13 @@ void Object_2C::sub_528BA0()
 }
 
 STUB_FUNC(0x528e50)
-void Object_2C::sub_528E50(Sprite* a3)
+void Object_2C::HandleImpact_528E50(Sprite* a3)
 {
     NOT_IMPLEMENTED;
 }
 
 MATCH_FUNC(0x529000)
-void Object_2C::sub_529000(Object_2C* pObj)
+void Object_2C::HandleCollisionWithObject_529000(Object_2C* pObj)
 {
     switch (pObj->field_18_model)
     {

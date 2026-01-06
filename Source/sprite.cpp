@@ -235,13 +235,13 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
     s32 sprite_type = this->field_30_sprite_type_enum;
     if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
     {
-        field_8_object_2C_ptr->sub_528E50(pSprite);
+        field_8_object_2C_ptr->HandleImpact_528E50(pSprite);
         s32 type = pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1 || type == sprite_types_enum::map_obj || type == sprite_types_enum::unknown_1)
         {
             if (pSprite->field_8_object_2C_ptr)
             {
-                field_8_object_2C_ptr->sub_529000(pSprite->field_8_object_2C_ptr);
+                field_8_object_2C_ptr->HandleCollisionWithObject_529000(pSprite->field_8_object_2C_ptr);
             }
         }
     }

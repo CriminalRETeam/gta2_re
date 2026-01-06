@@ -438,7 +438,7 @@ class Car_BC
     EXPORT void sub_43DD60();
     EXPORT char_type ManageDrowning_43E560();
     EXPORT Car_BC* GetCabOrSelf_43E8D0();
-    EXPORT Ped* sub_43E990();
+    EXPORT Ped* GetEffectiveDriver_43E990();
     EXPORT bool sub_43EA60(Object_2C* a2);
     EXPORT char_type sub_43F130(Object_2C* a2);
     EXPORT u32* sub_440510(u32* a2);
