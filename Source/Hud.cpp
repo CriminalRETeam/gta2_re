@@ -266,7 +266,7 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
 {
     if (gGame_0x40_67E008->field_38_orf1->field_78A_show_quit_message)
     {
-        wchar_t* pQuitText = gText_0x14_704DFC->Find_5B5F90("quit1");
+        const wchar_t* pQuitText = gText_0x14_704DFC->Find_5B5F90("quit1");
 
         s32 v2 = Frontend::sub_5D8990(pQuitText, word_7064D8);
         s32 v4 = sub_5D8940(pQuitText, word_7064D8);
@@ -274,12 +274,12 @@ void Garox_12EC_sub::DrawQuitMessage_5D1430()
 
         DrawText_5D7720(pQuitText, (u32)((640 - v2) / 2), v6 - v4, word_7064D8, 2, 0, 0, 0);
 
-        wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
+        const wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
         s32 v9 = Frontend::sub_5D8990(pQuitText2, word_7064D8);
 
         DrawText_5D7720(pQuitText2, (u32)((640 - v9) / 2), (u32)v6, word_7064D8, 2, 0, 0, 0);
 
-        wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
+        const wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
         s32 v14 = Frontend::sub_5D8990(pQuitText3, word_7064D8);
 
         DrawText_5D7720(pQuitText3, (u32)((640 - v14) / 2), v6 + v4, word_7064D8, 2, 0, 0, 0);
@@ -363,7 +363,7 @@ void Hud_Message_1C8::DrawMessage_5D1940()
 }
 
 MATCH_FUNC(0x5d1a00)
-void Hud_Message_1C8::ShowMessage_5D1A00(wchar_t* pStr, s32 type)
+void Hud_Message_1C8::ShowMessage_5D1A00(const wchar_t* pStr, s32 type)
 {
     if (field_0_time_to_show <= 0 || type >= field_1C4_type)
     {
@@ -645,7 +645,7 @@ void Garox_1::sub_5D5600(u8 a2)
 {
     sprintf(byte_67CE50, "c%02d", a2);
     field_0_timer = 90;
-    wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
+    const wchar_t* pStr = gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
     wcscpy(field_2_str, pStr);
     sub_5D53E0();
 }
@@ -696,7 +696,7 @@ void Garox_27B5_sub::ShowPlayerCoords_5CF970()
         }
 
         Car_BC* pCar = pPed->field_16C_car;
-        wchar_t* pCarOrPedStr;
+        const wchar_t* pCarOrPedStr;
         if (pCar)
         {
             pCarOrPedStr = pCar->GetCarStr_439F80();
@@ -1778,7 +1778,7 @@ s32 __stdcall sub_5D1260(s32 a1)
 }
 
 MATCH_FUNC(0x5D12B0)
-char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type)
+const char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type)
 {
     switch (phone_type)
     {
@@ -2230,7 +2230,7 @@ void Hud_2B00::sub_5D5190()
 }
 
 MATCH_FUNC(0x5d5240)
-void Hud_2B00::sub_5D5240(wchar_t* Source)
+void Hud_2B00::sub_5D5240(const wchar_t* Source)
 {
     field_0.field_0_display_time = 120;
     wcscpy(field_0.field_2_car_name, Source);

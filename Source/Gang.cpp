@@ -212,7 +212,7 @@ void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
 }
 
 MATCH_FUNC(0x4BF340)
-wchar_t* Gang_144::sub_4BF340()
+const wchar_t* Gang_144::sub_4BF340()
 {
     sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);

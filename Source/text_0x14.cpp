@@ -129,6 +129,7 @@ s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
 MATCH_FUNC(0x5B5A50)
 wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
 {
+    static wchar_t space[2] = L" ";
     text_0xC* pFound = (text_0xC*)bsearch(pIdStr, // key
                                           field_0_tKey.field_0_tKey, // array
                                           field_0_tKey.field_4_tKey_count, // array count
@@ -136,7 +137,7 @@ wchar_t* text_0x14::TKeyFind_5B5A50(const char_type* pIdStr)
                                           TKeySearch_5B5A10);
     if (!pFound)
     {
-        return L" ";
+        return space;
     }
     else
     {

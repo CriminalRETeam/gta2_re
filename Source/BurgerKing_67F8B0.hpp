@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include <WINDOWS.H>
+#include <windows.h>
 
 struct DIDEVICEOBJECTDATA;
 

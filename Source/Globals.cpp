@@ -1,5 +1,8 @@
 #include "Globals.hpp"
 
+#include <stdio.h>
+#include <stdlib.h>
+
 void GlobalsRegistry::Add(GlobalRef* pRef)
 {
     mGlobals.push_back(pRef);

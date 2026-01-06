@@ -16,7 +16,7 @@
 #include "error.hpp"
 #include "frosty_pasteur_0xC1EA8.hpp"
 #include "sprite.hpp"
-#include <DINPUT.H>
+#include <dinput.h>
 
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);

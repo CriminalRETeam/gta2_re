@@ -38,7 +38,7 @@ EXTERN_GLOBAL(Orca_2FD4*, gOrca_2FD4_6FDEF0);
 Object_2C* spawned_obj = NULL;
 Car_BC* pNewCar = NULL;
 
-void wchar_to_char(wchar_t* wchar, char* out, u8 size)
+void wchar_to_char(const wchar_t* wchar, char* out, u8 size)
 {
     u16 i = 0;
     for (; wchar[i]; i++)
@@ -54,7 +54,7 @@ void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 
 void get_car_name(Car_BC* pCar, char* out)
 {
-    wchar_t* car_wname = pCar->GetCarStr_439F80();
+    const wchar_t* car_wname = pCar->GetCarStr_439F80();
     wchar_to_char(car_wname, out, 33);
 }
 

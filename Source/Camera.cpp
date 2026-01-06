@@ -42,7 +42,10 @@ DEFINE_GLOBAL_INIT(Fix16, dword_676820, Fix16(2), 0x676820);
 DEFINE_GLOBAL_INIT(Fix16, dword_6767B4, Fix16(0xE333, 0), 0x6767B4);
 
 // TODO: move
-static inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
+#ifdef _MSC_VER
+static
+#endif
+inline Fix16 sub_41E130(Fix16 a1, Fix16 a2)
 {
     if (a1 > a2)
     {

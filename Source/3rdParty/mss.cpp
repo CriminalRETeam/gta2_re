@@ -176,11 +176,11 @@ DXDEC void AILCALL AIL_close_3D_provider(HPROVIDER lib)
 {
 }
 
-DXDEC void AILCALL AIL_3D_provider_attribute(HPROVIDER lib, C8 FAR* name, void FAR* val)
+DXDEC void AILCALL AIL_3D_provider_attribute(HPROVIDER lib, const C8 FAR* name, void FAR* val)
 {
 }
 
-DXDEC void AILCALL AIL_set_3D_provider_preference(HPROVIDER lib, C8 FAR* name, void FAR* val)
+DXDEC void AILCALL AIL_set_3D_provider_preference(HPROVIDER lib, const C8 FAR* name, void FAR* val)
 {
 }
 

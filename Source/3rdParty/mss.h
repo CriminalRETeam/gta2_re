@@ -770,18 +770,30 @@ typedef struct _AILSOUNDINFO {
 
   static void __MSSLockedIncrementAddr(void * addr)
   {
+#if defined(_MSC_VER) && defined(_M_IX86)
     _asm {
       mov eax,[addr]
       lock inc dword ptr [eax]
     }
+#elif defined(__GNUC__)
+    __sync_add_and_fetch((int *) addr, 1);
+#else
+#error "Not implemented"
+#endif
   }
 
   static void __MSSLockedDecrementAddr(void * addr)
   {
+#if defined(_MSC_VER) && defined(_M_IX86)
     _asm {
       mov eax,[addr]
       lock dec dword ptr [eax]
     }
+#elif defined(__GNUC__)
+    __sync_add_and_fetch((int *) addr, -1);
+#else
+#error "Not implemented"
+#endif
   }
 
   #define MSSLockedIncrementPtr(var) __MSSLockedIncrementAddr(&(var))
@@ -3786,11 +3798,11 @@ DXDEC S32        AILCALL AIL_enumerate_3D_provider_attributes
                                                       RIB_INTERFACE_ENTRY FAR *  dest);
 
 DXDEC void       AILCALL AIL_3D_provider_attribute   (HPROVIDER   lib,
-                                                      C8 FAR *    name, 
+                                                      const C8 FAR *    name,
                                                       void FAR *  val);
 
 DXDEC void       AILCALL AIL_set_3D_provider_preference(HPROVIDER   lib,
-                                                        C8 FAR *    name,
+                                                        const C8 FAR *    name,
                                                         void FAR *  val);
 
 struct H3D

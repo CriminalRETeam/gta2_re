@@ -25,7 +25,7 @@ class Gang_144
     EXPORT void ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect);
     EXPORT s32 GetGangCurrWeapon_4BF0C0();
     EXPORT void set_name_4BF090(const char_type* pName, u8 nameLen);
-    EXPORT wchar_t* sub_4BF340();
+    EXPORT const wchar_t* sub_4BF340();
 
     u8 field_0_used;
     u8 field_1_gang_idx;

@@ -890,7 +890,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1034:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            const char_type va_1 = va_arg(va, const char_type);
             sprintf(gTmpBuffer_67C598, "Invalid switch in parameter list: %c", (char)va_1);
             break;
         }

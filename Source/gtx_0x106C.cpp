@@ -233,7 +233,7 @@ u16 gtx_0x106C::sub_5AA710(u16 a2, s16 a3)
 }
 
 MATCH_FUNC(0x5AA760)
-u16 gtx_0x106C::sub_5AA760(u16* a2, wchar_t* a3)
+u16 gtx_0x106C::sub_5AA760(u16* a2, const wchar_t* a3)
 {
     if (*a2 >= 0x65u)
     {

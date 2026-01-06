@@ -8,7 +8,7 @@ class Player;
 class youthful_einstein
 {
   public:
-    EXPORT void youthful_einstein::ctor_516560();
+    EXPORT void ctor_516560();
     EXPORT void sub_516590(Player* a2);
     EXPORT void UpdateFugitive_516660();
     EXPORT void sub_516740(Player* a2, Player* a3);

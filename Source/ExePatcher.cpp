@@ -31,7 +31,16 @@ void __declspec(naked) WinMain_Hooked_Start()
 {
 }
 
+#ifdef _MSC_VER
 #define SPACE_FOR_JMP_ASM() __asm test eax, ebx __asm nop __asm nop __asm nop __asm nop
+#else
+    #define SPACE_FOR_JMP_ASM() __asm__( \
+        "test %ebx, %eax\n\t" \
+        "nop\n\t" \
+        "nop\n\t" \
+        "nop\n\t" \
+        "nop\n\t")
+#endif
 
 HMODULE WINAPI LoadLibraryA_Proxy(LPCSTR lpLibFileName);
 FARPROC WINAPI GetProcAddress_Proxy(HMODULE hModule, LPCSTR lpProcName);
@@ -104,7 +113,7 @@ static std::vector<u8> CopyHookEntryPointCode()
     printf("Hook code size is %d\n", len);
     std::vector<u8> buf;
     buf.resize(len);
-    memcpy(&buf[0], WinMain_Hooked, buf.size());
+    memcpy(&buf[0], (void *)WinMain_Hooked, buf.size());
     return buf;
 }
 

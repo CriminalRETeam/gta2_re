@@ -55,4 +55,4 @@ endif()
 #   endif()
 #endif()
 
-message(STATUS "${MSVC_VERSION}=${${MSVC_VERSION}}")
+message(STATUS "MSVC_VERSION=${MSVC_VERSION}")

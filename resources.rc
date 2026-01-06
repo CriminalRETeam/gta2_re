@@ -1,3 +1,5 @@
+#pragma code_page(1252)
+
 #include <windows.h>
 
 103 DIALOGEX 0, 0, 335, 266
@@ -35,7 +37,7 @@ BLOCK "StringFileInfo"
 		VALUE "FileDescription", "GTA2 main executable"
 		VALUE "FileVersion", "10, 5, 0, 0"
 		VALUE "InternalName", "GTA2"
-		VALUE "LegalCopyright", "Copyright © 1999 DMA Design Ltd"
+		VALUE "LegalCopyright", "Copyright \xa9 1999 DMA Design Ltd"
 		VALUE "LegalTrademarks", "DMA, DMA Design"
 		VALUE "OriginalFilename", "gta2.exe"
 		VALUE "ProductName", "GTA2"
@@ -45,7 +47,7 @@ BLOCK "StringFileInfo"
 
 BLOCK "VarFileInfo"
 {
-	VALUE "Translation", 0x0000 0x04B0
+	VALUE "Translation", 0x0000, 0x04B0
 }
 }
 

@@ -397,10 +397,10 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     s32 v15; // edi
     //s32 v16; // edx
     s32 i; // eax
-    wchar_t* v18; // eax
+    const wchar_t* v18; // eax
     s16 v19; // ax
-    wchar_t* v20; // eax
-    wchar_t* _5B5F90; // eax
+    const wchar_t* v20; // eax
+    const wchar_t* _5B5F90; // eax
     u8 v22; // bl
     char_type* v23; // edi
     u8 v24; // al
@@ -420,14 +420,14 @@ void Frontend::sub_4B3170(u16 menu_page_idx)
     s32 v38; // eax
     s32 v39; // ecx
     s32 v40; // eax
-    wchar_t* v41; // eax
-    wchar_t* v42; // eax
-    wchar_t* v43; // eax
-    char_type* v44; // eax
+    const wchar_t* v41; // eax
+    const wchar_t* v42; // eax
+    const wchar_t* v43; // eax
+    const char_type* v44; // eax
     const char_type* v45; // eax
     u16 local_field_132_f136_idx; // cx
     MenuPage_0xBCA* v47; // edi
-    wchar_t* v48; // [esp-4h] [ebp-11Ch]
+    const wchar_t* v48; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER field_0_hDriver; // [esp-4h] [ebp-11Ch]
     HDIGDRIVER v50; // [esp-4h] [ebp-11Ch]
     u8 v51; // [esp+13h] [ebp-105h]
@@ -1609,7 +1609,7 @@ bool Frontend::pre_intro_bik_exists_4B6030()
 }
 
 STUB_FUNC(0x4B5F20)
-char_type* Frontend::pre_intro_bik_4B5F20()
+const char_type* Frontend::pre_intro_bik_4B5F20()
 {
     NOT_IMPLEMENTED;
     // todo
@@ -4241,9 +4241,9 @@ void __stdcall Frontend::sub_5E53C0(BYTE* a1)
 }
 
 MATCH_FUNC(0x5D8990)
-s32 __stdcall Frontend::sub_5D8990(wchar_t* pStr, u16 a2)
+s32 __stdcall Frontend::sub_5D8990(const wchar_t* pStr, u16 a2)
 {
-    wchar_t* pStrIter = pStr;
+    const wchar_t* pStrIter = pStr;
     s32 current = 0;
     s32 spaceSize = gGtx_0x106C_703DD4->space_width_5AA7B0(&a2);
     s32 biggestLine = 0;
@@ -4380,7 +4380,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
     {
         a5 += 5;
     }
-    wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("last");
+    const wchar_t* _5B5F90 = gText_0x14_704DFC->Find_5B5F90("last");
     swprintf(tmpBuff_67BD9C, _5B5F90);
 
     s32 x = Frontend::sub_5D8990(tmpBuff_67BD9C, font_type);
@@ -4492,7 +4492,7 @@ void Frontend::sub_4B57B0(u16 a3, u16 a5)
 }
 
 MATCH_FUNC(0x4B0190)
-u16 Frontend::sub_4B0190(wchar_t* pText, s16 fontType, s32 width)
+u16 Frontend::sub_4B0190(const wchar_t* pText, s16 fontType, s32 width)
 {
     u16 v4;
     if (fontType != -1)

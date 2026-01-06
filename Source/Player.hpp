@@ -177,7 +177,7 @@ class Player
     EXPORT void sub_569C20();
     EXPORT void sub_569CB0();
     EXPORT void sub_569E70();
-    EXPORT char* GetDeathText_569F00();
+    EXPORT const char* GetDeathText_569F00();
     EXPORT s32 sub_569F40();
     EXPORT s32 DisableAllControls_569FF0();
     EXPORT void EnableAllControls_56A000();

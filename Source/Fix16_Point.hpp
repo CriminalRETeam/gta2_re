@@ -28,7 +28,7 @@ struct Fix16_Point_POD
         }
     }
 
-    inline void sub_41E210(Fix16& unk, Ang16& angle)
+    inline void sub_41E210(COMPAT_CONST Fix16& unk, COMPAT_CONST Ang16& angle)
     {
         x = Ang16::sine_40F500(angle) * unk;
         y = Ang16::cosine_40F520(angle) * unk;
@@ -46,26 +46,26 @@ struct Fix16_Point_POD
     }
 
     // 9.6f 0x40F5C0
-    Fix16_Point_POD Fix16_Point_POD::operator+(const Fix16_Point_POD& in)
+    Fix16_Point_POD operator+(const Fix16_Point_POD& in) const
     {
         return Fix16_Point_POD(x + in.x, y + in.y);
     }
 
-    Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point_POD& other)
+    Fix16_Point_POD& operator+=(const Fix16_Point_POD& other)
     {
         x += other.x;
         y += other.y;
         return *this;
     }
 
-    EXPORT Fix16_Point_POD Multiply_438FE0(Fix16& a1);
-    EXPORT Fix16_Point_POD Divide_442CB0(Fix16& a1);
+    EXPORT Fix16_Point_POD Multiply_438FE0(const Fix16& a1);
+    EXPORT Fix16_Point_POD Divide_442CB0(const Fix16& a1);
 
     Fix16_Point_POD()
     {
     }
 
-    Fix16_Point_POD(Fix16& a1, Fix16& a2)
+    Fix16_Point_POD(const Fix16& a1, const Fix16& a2)
     {
         x = a1;
         y = a2;
@@ -102,7 +102,7 @@ public:
         y = (rhs.y);
     }
 
-    Fix16_Point(Fix16& a1, Fix16& a2)
+    Fix16_Point(const Fix16& a1, const Fix16& a2)
     {
         x = a1;
         y = a2;

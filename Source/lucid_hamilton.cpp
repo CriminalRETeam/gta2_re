@@ -92,7 +92,7 @@ char* lucid_hamilton::SetScriptName_4C58B0(char_type* Source)
 }
 
 MATCH_FUNC(0x4C58D0)
-char_type* lucid_hamilton::DebugStr_4C58D0(char_type* Source)
+char_type* lucid_hamilton::DebugStr_4C58D0(const char_type* Source)
 {
     return strncpy(field_300_debug_str, Source, 0xFFu);
 }

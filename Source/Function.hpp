@@ -11,6 +11,7 @@
 #define FUNC_MARKER_ASM(addr, status) __asm nop __asm nop __asm mov eax, addr __asm mov eax, status __asm nop __asm nop
 
 #if defined(_MSC_VER)
+
     #define WIP_FUNC(addr)                                           \
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
         {                                                            \
@@ -92,6 +93,8 @@
     #endif
 
     #if defined(__clang__) || (_MSC_VER <= 1200)
+
+        #define COMPAT_CONST
 void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
 
         #define GET_IP(var)   \
@@ -124,6 +127,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
                 }                                                                                                                  \
             } while (0)
     #else
+        #define COMPAT_CONST const
         #define NOT_IMPLEMENTED                               \
             static bool done___ = false;                      \
             if (!done___)                                     \
@@ -142,19 +146,22 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
     #endif
 
 #else
+    #define COMPAT_CONST const
     #define WIP_FUNC(addr)
     #define MATCH_FUNC(addr)
     #define STUB_FUNC(addr)
     #define EXPORT
     #define NOT_IMPLEMENTED
     #define WIP_IMPLEMENTED
+    #ifndef _WIN32
     #define __stdcall
+    #endif
 
     #define DEFINE_GLOBAL(type, name, addr) type name
     #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
 
     #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
-//#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...)  type name[size] = { __VA_ARGS__ }
+    #define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...)  type name[size] = { __VA_ARGS__ }
 
     #define EXTERN_GLOBAL(type, name) extern type name
     #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]

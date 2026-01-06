@@ -946,7 +946,7 @@ Fix16 Car_BC::GetMaxSpeed_439F30()
 }
 
 MATCH_FUNC(0x439f80)
-wchar_t* Car_BC::GetCarStr_439F80()
+const wchar_t* Car_BC::GetCarStr_439F80()
 {
     sprintf(byte_67CE50, "car%d%c%c", field_84_car_info_idx, 0, 0);
     return gText_0x14_704DFC->Find_5B5F90(byte_67CE50);
