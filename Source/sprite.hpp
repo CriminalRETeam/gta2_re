@@ -112,7 +112,7 @@ class Sprite
     EXPORT void sub_5A2A30();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
+    EXPORT void DispatchCollisionEvent_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5);
 
     EXPORT void set_angle_4833B0(Ang16 ang);
 

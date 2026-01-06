@@ -1555,7 +1555,7 @@
         "v105_address": "0x43a9f0"
     },
     {
-        "name": "Car_BC::sub_43AA60",
+        "name": "Car_BC::Deactivate_43AA60",
         "v96f_address": null,
         "v105_address": "0x43aa60"
     },
@@ -2230,7 +2230,7 @@
         "v105_address": "0x4435a0"
     },
     {
-        "name": "Car_BC::sub_4435B0",
+        "name": "Car_BC::GetCrashSoundCategory_4435B0",
         "v96f_address": null,
         "v105_address": "0x4435b0"
     },
@@ -10995,12 +10995,12 @@
         "v105_address": "0x52a610"
     },
     {
-        "name": "sub_52A650",
+        "name": "EnsureObject3C_52A650",
         "v96f_address": null,
         "v105_address": "0x52a650"
     },
     {
-        "name": "Car_BC::sub_52A6D0",
+        "name": "Car_BC::ReactivateObjectAfterImpact_52A6D0",
         "v96f_address": null,
         "v105_address": "0x52a6d0"
     },
@@ -14895,7 +14895,7 @@
         "v105_address": "0x5a3030"
     },
     {
-        "name": "Sprite::sub_5A3100",
+        "name": "Sprite::DispatchCollisionEvent_5A3100",
         "v96f_address": null,
         "v105_address": "0x5a3100"
     },
@@ -15080,7 +15080,7 @@
         "v105_address": "0x5a6cd0"
     },
     {
-        "name": "sub_5A6D00",
+        "name": "PushImpactEvent_5A6D00",
         "v96f_address": null,
         "v105_address": "0x5a6d00"
     },

@@ -1477,7 +1477,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
     if (pNew2C->field_18_model == 281)
     {
         Object_2C* v34 = NewPhysicsObj_5299B0(284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
-        pNew2C->field_4->sub_5A3100(v34->field_4,
+        pNew2C->field_4->DispatchCollisionEvent_5A3100(v34->field_4,
                                     (dword_6F8CE8 * dword_6F8ECC), // x?
                                     (dword_6F8CEC * dword_6F8ECC), // y?
                                     kZeroAng_6F8F68); // ang?
@@ -1577,7 +1577,7 @@ void Object_5C::sub_52A610(Object_2C* p2C)
 }
 
 MATCH_FUNC(0x52A650)
-void Object_2C::sub_52A650()
+void Object_2C::EnsureObject3C_52A650()
 {
     if (!field_10_obj_3c)
     {
@@ -1607,7 +1607,7 @@ void Object_2C::sub_52A650()
 }
 
 MATCH_FUNC(0x52a6d0)
-void Object_2C::sub_52A6D0(Sprite* pSprite)
+void Object_2C::ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite)
 {
     RemoveFromCollisionBuckets_527D00();
 
@@ -1623,7 +1623,7 @@ void Object_2C::sub_52A6D0(Sprite* pSprite)
         Car_BC* pObj = pSprite->field_8_car_bc_ptr;
         if (pObj)
         {
-            field_4->field_28_num = pObj->sub_4435B0();
+            field_4->field_28_num = pObj->GetCrashSoundCategory_4435B0();
         }
     }
 }

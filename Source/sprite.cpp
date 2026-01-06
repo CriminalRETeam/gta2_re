@@ -754,17 +754,17 @@ void Sprite::PoolDeallocate()
 }
 
 MATCH_FUNC(0x5a3100)
-void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
+void Sprite::DispatchCollisionEvent_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
 {
     Object_2C* o2c;
 
     switch (field_30_sprite_type_enum)
     {
         case sprite_types_enum::ped:
-            field_8_char_b4_ptr->field_88_obj_2c.sub_5A6D00(a2, a3, a4, a5);
+            field_8_char_b4_ptr->field_88_obj_2c.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         case sprite_types_enum::car:
-            field_8_car_bc_ptr->field_0_qq.sub_5A6D00(a2, a3, a4, a5);
+            field_8_car_bc_ptr->field_0_qq.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         case 1: // sprite_type_1_Object_5C
         case 4: // sprite_type_4_Object_5C
@@ -772,9 +772,9 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
             o2c = field_8_object_2C_ptr;
             if (!o2c->field_10_obj_3c)
             {
-                o2c->sub_52A650();
+                o2c->EnsureObject3C_52A650();
             }
-            field_8_object_2C_ptr->field_10_obj_3c->field_0.sub_5A6D00(a2, a3, a4, a5);
+            field_8_object_2C_ptr->field_10_obj_3c->field_0.PushImpactEvent_5A6D00(a2, a3, a4, a5);
             break;
         default:
             break;
@@ -783,12 +783,12 @@ void Sprite::sub_5A3100(Sprite* a2, Fix16 a3, Fix16 a4, Ang16 a5)
     switch (a2->field_30_sprite_type_enum)
     {
         case sprite_types_enum::car:
-            a2->field_8_car_bc_ptr->sub_43AA60();
+            a2->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
         case 1: // sprite_type_1_Object_5C
         case 4: // sprite_type_4_Object_5C
         case 5: // sprite_type_5_Object_5C
-            a2->field_8_object_2C_ptr->sub_52A6D0(this);
+            a2->field_8_object_2C_ptr->ReactivateObjectAfterImpact_52A6D0(this);
             break;
         default:
             return;

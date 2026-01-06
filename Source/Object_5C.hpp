@@ -87,8 +87,8 @@ class Object_2C
     EXPORT void sub_5291E0(u8 a2);
     EXPORT bool sub_529200();
     EXPORT ~Object_2C();
-    EXPORT void sub_52A650();
-    EXPORT void sub_52A6D0(Sprite* a2);
+    EXPORT void EnsureObject3C_52A650();
+    EXPORT void ReactivateObjectAfterImpact_52A6D0(Sprite* a2);
     EXPORT Fix16_Point GetXY_52AE70();
     EXPORT Fix16_Point GetRot_52AE90();
 

@@ -38,7 +38,7 @@ class struct_4
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
 
     EXPORT void sub_5A6CD0(Sprite* pSprite);
-    EXPORT void sub_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle);
+    EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* sub_5A6DA0();
