@@ -199,7 +199,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
 {
     Sprite* result;
 
-    sub_59E9C0();
+    UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     gSprite_6F61E8 = this;
     if (gMap_0x370_6F6268->sub_4E1520(field_1C_zpos.ToInt()))
@@ -230,7 +230,7 @@ char_type Sprite::sub_59E850(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59E8C0)
-void Sprite::sub_59E8C0(Sprite* pSprite)
+void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
     s32 sprite_type = this->field_30_sprite_type_enum;
     if (sprite_type == sprite_types_enum::unknown_1 || sprite_type > sprite_types_enum::ped && sprite_type <= sprite_types_enum::map_obj)
@@ -285,17 +285,17 @@ void Sprite::sub_59E960()
 }
 
 MATCH_FUNC(0x59e9c0)
-void Sprite::sub_59E9C0()
+void Sprite::UpdateCollisionBoundsIfNeeded_59E9C0()
 {
     if (!field_C_sprite_4c_ptr->field_48_bDrawCollisionBox)
     {
         if (field_C_sprite_4c_ptr->IsZeroWidth_41E390())
         {
-            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, gAng16_703804);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, gAng16_703804);
         }
         else
         {
-            field_C_sprite_4c_ptr->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+            field_C_sprite_4c_ptr->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
         }
     }
 }
@@ -559,7 +559,7 @@ char_type Sprite::sub_5A19C0()
 
     if (!field_4_0x4C_len->field_48_bDrawCollisionBox)
     {
-        field_4_0x4C_len->sub_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
+        field_4_0x4C_len->UpdateRotatedBoundingBox_5A3550(field_14_xpos.x, field_14_xpos.y, field_1C_zpos, field_0);
     }
     field_4_0x4C_len->SetCurrentRect_5A4D90();
     return gMap_0x370_6F6268->sub_4E4770(field_1C_zpos);
@@ -574,7 +574,7 @@ char Sprite::sub_5A1A60()
 
     if (!p4C->field_48_bDrawCollisionBox)
     {
-        p4C->sub_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
+        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xpos.x, this->field_14_xpos.y, this->field_1C_zpos, this->field_0);
     }
 
     field_4_0x4C_len->SetCurrentRect_5A4D90();

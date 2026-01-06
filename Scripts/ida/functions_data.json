@@ -4220,7 +4220,7 @@
         "v105_address": "0x477c30"
     },
     {
-        "name": "PurpleDoom::sub_477C90",
+        "name": "PurpleDoom::FindNearestSprite_SpiralSearch_477C90",
         "v96f_address": null,
         "v105_address": "0x477c90"
     },
@@ -4305,7 +4305,7 @@
         "v105_address": "0x4785d0"
     },
     {
-        "name": "PurpleDoom::sub_478750",
+        "name": "PurpleDoom::CheckCollisionsInStrip_478750",
         "v96f_address": null,
         "v105_address": "0x478750"
     },
@@ -14690,7 +14690,7 @@
         "v105_address": "0x59e850"
     },
     {
-        "name": "sub_59E8C0",
+        "name": "HandleObjectCollision_59E8C0",
         "v96f_address": null,
         "v105_address": "0x59e8c0"
     },
@@ -14710,7 +14710,7 @@
         "v105_address": "0x59e960"
     },
     {
-        "name": "Sprite::sub_59E9C0",
+        "name": "Sprite::UpdateCollisionBoundsIfNeeded_59E9C0",
         "v96f_address": null,
         "v105_address": "0x59e9c0"
     },
@@ -14905,7 +14905,7 @@
         "v105_address": "0x5a3540"
     },
     {
-        "name": "sub_5A3550",
+        "name": "UpdateRotatedBoundingBox_5A3550",
         "v96f_address": null,
         "v105_address": "0x5a3550"
     },

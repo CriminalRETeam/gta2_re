@@ -575,7 +575,7 @@ void struct_4::sub_5A7240(Sprite* pSprite)
     Sprite_18* pNext = this->field_0_p18;
     Sprite_18* pLast = 0;
 
-    pSprite->sub_59E9C0();
+    pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
 
     while (pNext)
     {

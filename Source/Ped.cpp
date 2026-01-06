@@ -2020,7 +2020,7 @@ MATCH_FUNC(0x466f60)
 Ped* Ped::sub_466F60(u8 a2)
 {
     dword_6787DC = this;
-    Sprite* pSprite = gPurpleDoom_1_679208->sub_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
+    Sprite* pSprite = gPurpleDoom_1_679208->FindNearestSprite_SpiralSearch_477C90(3, 2, field_168_game_object->field_80_sprite_ptr, a2, 0, 0);
     if (pSprite)
     {
         // @OG_BUG: Null de-ref

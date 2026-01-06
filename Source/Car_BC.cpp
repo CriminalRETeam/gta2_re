@@ -358,7 +358,7 @@ void Sprite_4C::SetCurrentRect_5A4D90()
 }
 
 STUB_FUNC(0x5A3550)
-void Sprite_4C::sub_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
+void Sprite_4C::UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
     NOT_IMPLEMENTED;
 }

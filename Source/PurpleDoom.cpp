@@ -69,7 +69,7 @@ void PurpleDoom::Remove_477B00(Sprite* a1)
 MATCH_FUNC(0x477b20)
 void PurpleDoom::sub_477B20(Sprite* pSprite)
 {
-    pSprite->sub_59E9C0();
+    pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; ++y_pos)
     {
@@ -106,12 +106,12 @@ char_type PurpleDoom::sub_477BD0(Sprite* pSprite)
 
     gCollide_C_6791FC->field_4_count++; // TODO: Prob an inline
 
-    pSprite->sub_59E9C0();
+    pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
 
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
-        bUnknown |= sub_478750(i, pSprite);
+        bUnknown |= CheckCollisionsInStrip_478750(i, pSprite);
     }
     return bUnknown;
 }
@@ -122,7 +122,7 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
     dword_678FA8 = a3;
     bool v3 = 0;
     ++gCollide_C_6791FC->field_4_count;
-    pSprt->sub_59E9C0();
+    pSprt->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
@@ -132,7 +132,7 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
 }
 
 STUB_FUNC(0x477c90)
-Sprite* PurpleDoom::sub_477C90(s32 a1, s32 a2, Sprite* a3, u8 a4, s32 a5, char_type a6)
+Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1, s32 sprite_type2, Sprite* pExclude, u8 max_x_check, s32 searchMode, char_type bUseSpriteZ)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -152,7 +152,7 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 
     gCollide_C_6791FC->field_4_count++;
 
-    pSprite->sub_59E9C0();
+    pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
 
     for (s32 top = gPurple_top_6F6108; top <= gPurple_bottom_6F5F38; top++)
@@ -629,7 +629,7 @@ char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
 STUB_FUNC(0x478750)
-char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
+char_type PurpleDoom::CheckCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
     char_type bRet = 0;
     PurpleDoom_C* pIter = sub_478590(y_pos);
@@ -650,7 +650,7 @@ char_type PurpleDoom::sub_478750(u32 y_pos, Sprite* pSprite)
                 if (pSprite->CollisionCheck_59E590(pC8Iter->field_0_sprt))
                 {
                     bRet = 1;
-                    pC8Iter->field_0_sprt->sub_59E8C0(pSprite);
+                    pC8Iter->field_0_sprt->HandleObjectCollision_59E8C0(pSprite);
                 }
                 pC8Iter->field_0_sprt->field_C_o5c->field_2C = gCollide_C_6791FC->field_4_count;
             }
