@@ -3093,7 +3093,7 @@ void Car_BC::sub_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pCarSprite->field_14_xpos.x = xpos;
         pCarSprite->field_14_xpos.y = ypos;
         pCarSprite->field_1C_zpos = zpos;
-        pCarSprite->sub_59E7B0();
+        pCarSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }
     CarPhysics_B0* field_58_uni = field_58_physics;
     if (field_58_uni)

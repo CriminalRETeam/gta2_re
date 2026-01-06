@@ -51,7 +51,7 @@ void Sprite::sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         field_14_xpos.x = xpos;
         field_14_xpos.y = ypos;
         field_1C_zpos = zpos;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 
@@ -62,7 +62,7 @@ void Sprite::sub_54EC80(Fix16 xpos, Fix16 ypos)
     {
         this->field_14_xpos.x = xpos;
         this->field_14_xpos.y = ypos;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 
@@ -209,7 +209,7 @@ char_type Sprite::sub_59E680(s32 a2, s16* a3)
 }
 
 MATCH_FUNC(0x59e7b0)
-void Sprite::sub_59E7B0()
+void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
 {
     field_39_z_col = -1;
     if (field_C_sprite_4c_ptr != NULL)
@@ -829,7 +829,7 @@ void Sprite::set_angle_4833B0(Ang16 ang)
     if (ang != field_0)
     {
         field_0 = ang;
-        sub_59E7B0();
+        ResetZCollisionAndDebugBoxes_59E7B0();
     }
 }
 

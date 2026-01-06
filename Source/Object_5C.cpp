@@ -636,14 +636,14 @@ void Object_2C::sub_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, 
         pSprite->field_14_xpos.x = xpos;
         pSprite->field_14_xpos.y = ypos;
         pSprite->field_1C_zpos = zpos;
-        pSprite->sub_59E7B0();
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
     }
 
     Sprite* pSprite_ = field_4;
     if (rotation.rValue != pSprite_->field_0.rValue)
     {
         pSprite_->field_0.rValue = rotation.rValue;
-        pSprite_->sub_59E7B0();
+        pSprite_->ResetZCollisionAndDebugBoxes_59E7B0();
     }
     field_4->field_8_object_2C_ptr = this;
 }
@@ -763,7 +763,7 @@ void Object_2C::sub_528900()
             if (pSprite->field_1C_zpos != kFpZero_6F8E10)
             {
                 pSprite->field_1C_zpos = kFpZero_6F8E10;
-                pSprite->sub_59E7B0();
+                pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
             }
             sub_5290A0();
         }
@@ -1254,7 +1254,7 @@ Object_2C* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fi
         sprite_4c_ptr->field_0_width = w;
         sprite_4c_ptr->field_4_height = h;
         sprite_4c_ptr->field_8 = a9;
-        pSprite->sub_59E7B0();
+        pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
         pNewObj->sub_527AE0();
     }
     return pNewObj;

@@ -70,7 +70,7 @@ class Sprite
     EXPORT s32 sub_59E4C0(s32 a2, s32 a3);
     EXPORT char_type CollisionCheck_59E590(Sprite* a2);
     EXPORT char_type sub_59E680(s32 a2, s16* a3);
-    EXPORT void sub_59E7B0();
+    EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
     EXPORT Sprite* sub_59E7D0(s32 a2);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type sub_59E850(Sprite* pSprite);
@@ -196,7 +196,7 @@ class Sprite
         if (a1 != field_0)
         {
             field_0 = a1;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 
@@ -208,7 +208,7 @@ class Sprite
             field_14_xpos.x = xpos;
             field_14_xpos.y = ypos;
             field_1C_zpos = zpos;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 
@@ -219,7 +219,7 @@ class Sprite
         {
             field_14_xpos.x = x_target;
             field_14_xpos.y = y_target;
-            sub_59E7B0();
+            ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
 
