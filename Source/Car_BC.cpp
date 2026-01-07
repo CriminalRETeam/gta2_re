@@ -89,6 +89,7 @@ DEFINE_GLOBAL(Ang16, word_705F10, 0x705F10);
 DEFINE_GLOBAL(Fix16, dword_677218, 0x677218);
 DEFINE_GLOBAL(Fix16, k_dword_676984, 0x676984);
 DEFINE_GLOBAL(Fix16, k_dword_6778B4, 0x6778B4);
+DEFINE_GLOBAL(Fix16, k_dword_6778E0, 0x6778E0);
 
 MATCH_FUNC(0x5639c0)
 void sub_5639C0()
@@ -1354,11 +1355,14 @@ bool Car_BC::CanExitCar_43AF10()
     return true;
 }
 
-STUB_FUNC(0x43af40)
-char_type Car_BC::sub_43AF40()
+MATCH_FUNC(0x43af40)
+void Car_BC::sub_43AF40()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_5C)
+    {
+        field_5C->field_18 = k_dword_6778E0;
+        field_A6 &= ~0x20u;
+    }
 }
 
 MATCH_FUNC(0x43af60)

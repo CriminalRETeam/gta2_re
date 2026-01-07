@@ -82,7 +82,7 @@ class Car_78
     Ang16 field_10;
     s16 field_12;
     s32 field_14;
-    s32 field_18;
+    Fix16 field_18;
     s32 field_1C;
     s32 field_20;
     s32 field_24_flags;
@@ -385,7 +385,7 @@ class Car_BC
     EXPORT char_type sub_43AAF0(Sprite* a2);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* a2);
     EXPORT bool CanExitCar_43AF10();
-    EXPORT char_type sub_43AF40();
+    EXPORT void sub_43AF40();
     EXPORT void sub_43AF60();
     EXPORT char_type sub_43AFE0(s32 a2);
     EXPORT bool sub_43B140(s32 a2);
