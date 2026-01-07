@@ -145,7 +145,7 @@ void force_link()
     u8 zero_u8 = 0;
     lewin.GetIdx_4881E0();
     lewin.sub_5645B0(0);
-    lewin.sub_564610(0, 0);
+    lewin.PromoteCarInHistory_564610(0, 0);
     lewin.sub_564680(0);
     lewin.sub_564710(0, 0);
     lewin.sub_564790(0);

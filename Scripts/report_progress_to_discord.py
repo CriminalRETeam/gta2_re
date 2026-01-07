@@ -100,14 +100,17 @@ def main():
 
         boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}% | {coverage_diff_str}"
         total_matches_str = f"Total matches: {total_matched_funcs} | {total_diff_str}"
-        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} (wip funcs: {wip_funcs} | {unmatched_funcs_diff_str}"
+        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} | {unmatched_funcs_diff_str}"
+
+    wip_funcs_percentage = (wip_funcs / unmatched_funcs) * 100
+    wip_funcs_str = f"wip funcs: {wip_funcs} | ({wip_funcs_percentage:.2f}%)"
 
     webhook_message = {
         "content": None,
         "embeds": [
             {
             "title": "Status",
-            "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unmatched_funcs_str}"
+            "description": f"{COMMIT_MESSAGE}\n{boot_to_map_str}\n{total_matches_str}\n{unmatched_funcs_str}\n{wip_funcs_str}"
             }
         ],
         "attachments": []
@@ -135,6 +138,7 @@ def main():
     print(boot_to_map_str)
     print(total_matches_str)
     print(unmatched_funcs_str)
+    print(wip_funcs_str)
 
     with open("progress.json", "w") as file:
         json.dump(new_progress_json, file, indent=4)

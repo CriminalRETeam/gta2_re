@@ -680,7 +680,7 @@ void CC ImGuiDebugDraw()
 
                     if (ImGui::Button("ExplodeCar_43D690"))
                     {
-                        pNewCar->sub_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
+                        pNewCar->ExplodeCar_43D690(unknown_arg, x_explosion_offset, y_explosion_offset);
                     }
                     if (ImGui::Button("ExplodeCar_Unknown_43D840"))
                     {

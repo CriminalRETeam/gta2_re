@@ -1810,7 +1810,7 @@
         "v105_address": "0x43d5d0"
     },
     {
-        "name": "Car_BC::sub_43D690",
+        "name": "Car_BC::ExplodeCar_43D690",
         "v96f_address": null,
         "v105_address": "0x43d690"
     },
@@ -2165,7 +2165,7 @@
         "v105_address": "0x442760"
     },
     {
-        "name": "Car_BC::sub_4427A0",
+        "name": "Car_BC::AttachTrailer_4427A0",
         "v96f_address": null,
         "v105_address": "0x4427a0"
     },
@@ -2460,12 +2460,12 @@
         "v105_address": "0x446790"
     },
     {
-        "name": "Car_6C::sub_446870",
+        "name": "Car_6C::CanAlloc_446870",
         "v96f_address": null,
         "v105_address": "0x446870"
     },
     {
-        "name": "Car_6C::sub_446930",
+        "name": "Car_6C::CanAllocateOfType_446930",
         "v96f_address": null,
         "v105_address": "0x446930"
     },
@@ -12600,7 +12600,7 @@
         "v105_address": "0x5645b0"
     },
     {
-        "name": "Player::sub_564610",
+        "name": "Player::PromoteCarInHistory_564610",
         "v96f_address": null,
         "v105_address": "0x564610"
     },
@@ -16875,12 +16875,12 @@
         "v105_address": "0x5dcef0"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCF40",
+        "name": "keen_bhaskara_0x30::TickReloadSpeed_5DCF40",
         "v96f_address": null,
         "v105_address": "0x5dcf40"
     },
     {
-        "name": "keen_bhaskara_0x30::sub_5DCF60",
+        "name": "keen_bhaskara_0x30::spawn_bullet_5DCF60",
         "v96f_address": null,
         "v105_address": "0x5dcf60"
     },

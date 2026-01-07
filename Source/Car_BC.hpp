@@ -217,11 +217,11 @@ class Car_6C
     EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
-                                                                    Fix16 ypos,
-                                                                    Fix16 zpos,
-                                                                    s32 bMatchDriverless,
-                                                                    Ped* pPed,
-                                                                    char_type bIgnorePedRestrictions);
+                                                   Fix16 ypos,
+                                                   Fix16 zpos,
+                                                   s32 bMatchDriverless,
+                                                   Ped* pPed,
+                                                   char_type bIgnorePedRestrictions);
 
     EXPORT Car_BC* sub_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
@@ -232,8 +232,8 @@ class Car_6C
     EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
     EXPORT void CarsService_446790();
-    EXPORT bool sub_446870(s32 a2);
-    EXPORT u32 sub_446930(s32 a2);
+    EXPORT bool CanAlloc_446870(s32 a2);
+    EXPORT u32 CanAllocateOfType_446930(s32 a2);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
 
@@ -314,6 +314,10 @@ class Trailer
     EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
+
+    void PoolAllocate()
+    {
+    }
 
     void PoolDeallocate()
     {
@@ -400,7 +404,7 @@ class Car_BC
     EXPORT bool sub_43B850(s32 a2);
     EXPORT void sub_43B870(s32 a2, s32 a3);
     EXPORT s32 sub_43BB90(u8 a1);
-    EXPORT char_type sub_43BBC0();
+    EXPORT void sub_43BBC0();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BC30();
     EXPORT void SetupCarPhysicsAndSpriteBinding_43BCA0();
     EXPORT void DeAllocateCarPhysics_43BD00();
@@ -427,7 +431,7 @@ class Car_BC
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
-    EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
+    EXPORT void ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, Fix16_Point* a3);
@@ -504,7 +508,7 @@ class Car_BC
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
-    EXPORT Car_BC* sub_4427A0(Car_BC* a2);
+    EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
     EXPORT s32 sub_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();

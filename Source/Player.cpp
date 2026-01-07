@@ -85,7 +85,7 @@ void Player::sub_5645B0(Car_BC* a2)
 }
 
 STUB_FUNC(0x564610)
-char_type Player::sub_564610(Car_BC* a2, char_type a3)
+char_type Player::PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify)
 {
     NOT_IMPLEMENTED;
     return 'a';

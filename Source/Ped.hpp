@@ -174,10 +174,10 @@ class Ped
     EXPORT s32 sub_46B2F0();
     EXPORT void sub_46B670();
     EXPORT void sub_46BD30();
-    EXPORT char_type sub_46BD50(u8* a2);
+    EXPORT char_type sub_46BD50(Car_BC *pCar);
     EXPORT void sub_46BDC0();
     EXPORT void sub_46C250();
-    EXPORT char_type sub_46C770();
+    EXPORT void sub_46C770();
     EXPORT s32 sub_46C7E0();
     EXPORT void sub_46C8A0();
     EXPORT void sub_46C910();
