@@ -3253,11 +3253,39 @@ void Ped::sub_46BD30()
     }
 }
 
-STUB_FUNC(0x46bd50)
-char_type Ped::sub_46BD50(u8* a2)
+WIP_FUNC(0x46bd50)
+char_type Ped::sub_46BD50(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    u8 new_door_idx = 0;
+    u8 door_idx = 0;
+    if (!pCar->GetRemap())
+    {
+        return 0;
+    }
+
+    while (1)
+    {
+        Car_Door_10* pDoor = pCar->GetDoor(door_idx);
+        if (pDoor)
+        {
+            Ped* f_8 = pDoor->field_8_pObj;
+            if (f_8)
+            {
+                if (!f_8->field_248_enter_car_as_passenger && f_8 != this)
+                {
+                    break;
+                }
+            }
+        }
+        door_idx = ++new_door_idx;
+        if (new_door_idx >= pCar->GetRemap())
+        {
+            return 0;
+        }
+    }
+    return 1;
 }
 
 STUB_FUNC(0x46bdc0)
@@ -3905,7 +3933,7 @@ WIP_FUNC(0x470300)
 void Ped::sub_470300()
 {
     WIP_IMPLEMENTED;
-    
+
     this->field_15C_player = 0;
     this->field_240_occupation = 3;
     this->field_238 = 3;
