@@ -679,10 +679,18 @@ void CarPhysics_B0::sub_55F330()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x55f360)
+MATCH_FUNC(0x55f360)
 char_type CarPhysics_B0::sub_55F360()
 {
-    NOT_IMPLEMENTED;
+    if ((this->field_5C_pCar->field_78_flags & 0x2000) != 0)
+    {
+        gCar_6C_677930->field_60 = 1;
+        if (gPurpleDoom_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
+        {
+            return 1;
+        }
+        this->field_5C_pCar->field_78_flags &= ~0x2000u;
+    }
     return 0;
 }
 
