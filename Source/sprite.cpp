@@ -741,7 +741,7 @@ void Sprite::CreateSoundObj_5A29D0()
 }
 
 MATCH_FUNC(0x59E930)
-bool Sprite::sub_59E930(s32 model)
+bool Sprite::IsObjectModelEqual_59E930(s32 model)
 {
     return (Is2C_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
 }
