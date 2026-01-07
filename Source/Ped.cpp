@@ -3538,10 +3538,10 @@ s32 Ped::sub_46DF70(s32 a2, s32 a3)
     return 0;
 }
 
-STUB_FUNC(0x46e020)
+WIP_FUNC(0x46e020)
 bool Ped::sub_46E020(PedGroup* pGroup)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
         (IsField238_45EDE0(3) || (IsField238_45EDE0(4) || IsField238_45EDE0(6)) && this->field_240_occupation == 35);
 }
