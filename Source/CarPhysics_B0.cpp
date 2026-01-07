@@ -607,10 +607,10 @@ char_type CarPhysics_B0::sub_55E470()
     return 0;
 }
 
-STUB_FUNC(0x55eb80)
+WIP_FUNC(0x55eb80)
 char_type CarPhysics_B0::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
 
     gCar_6C_677930->field_68 = 0;
 
