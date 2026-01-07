@@ -2647,10 +2647,28 @@ void Ped::sub_468A00()
     }
 }
 
-STUB_FUNC(0x468bd0)
+MATCH_FUNC(0x468bd0)
 void Ped::sub_468BD0()
 {
-    NOT_IMPLEMENTED;
+    if (field_25C_car_state)
+    {
+        if (field_25C_car_state == 36 && !field_16C_car)
+        {
+            field_168_game_object->field_16 = 1;
+            field_278 = 8;
+            field_27C = 17;
+            field_168_game_object->field_8_ped_state_1 = 8;
+            field_168_game_object->field_C_ped_state_2 = 17;
+            field_16C_car = 0;
+            Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+            Ped::sub_463830(0, 9999);
+        }
+    }
+    else
+    {
+        Ped::sub_463830(36, 9999);
+        field_154_target_to_enter = field_150_target_objective_car;
+    }
 }
 
 STUB_FUNC(0x468c70)
