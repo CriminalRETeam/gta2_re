@@ -12600,7 +12600,7 @@
         "v105_address": "0x5645b0"
     },
     {
-        "name": "Player::sub_564610",
+        "name": "Player::PromoteCarInHistory_564610",
         "v96f_address": null,
         "v105_address": "0x564610"
     },
