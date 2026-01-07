@@ -1981,11 +1981,11 @@ char_type Ped::sub_465D00(Ped* a2)
     return 0;
 }
 
-STUB_FUNC(0x466b90)
-Ped* Ped::sub_466B90(Ped* a2)
+MATCH_FUNC(0x466b90)
+Ped* Ped::sub_466B90(s32 max_x_check)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6787D7 = 1;
+    return Ped::sub_466BF0(max_x_check);
 }
 
 STUB_FUNC(0x466bb0)
