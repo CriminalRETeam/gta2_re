@@ -3634,10 +3634,12 @@ s32 miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
     return 0;
 }
 
-STUB_FUNC(0x50d340)
+MATCH_FUNC(0x50d340)
 void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
 {
-    NOT_IMPLEMENTED;
+    char* pSaveFileName = gLucid_hamilton_67E8E0.GetDebugStr_4C5970();
+    gfrosty_pasteur_6F8060->SaveGame_511E10(pSaveFileName);
+    Next_503620(gBasePtr_6F8070);
 }
 
 STUB_FUNC(0x50d3c0)

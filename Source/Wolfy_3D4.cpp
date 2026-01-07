@@ -28,7 +28,7 @@ Wolfy_7A8::Wolfy_7A8()
     for (u8 i = 0; i < 40; i++)
     {
         field_0[i].field_4_idx = i;
-        field_780[i] = 0;
+        field_780_bUsed[i] = 0;
     }
 
     gParticleInstCount_6FD5F4 = 0;
@@ -57,7 +57,7 @@ Wolfy_30::Wolfy_30()
     this->field_28 = dword_6FD49C;
     this->field_C = word_6FD5D4;
     this->field_1C = 0;
-    this->field_6 = 0;
+    this->field_6_id = 0;
     this->field_2C_ped_id = 0;
 }
 
@@ -173,16 +173,31 @@ char_type Wolfy_30::sub_5435D0()
     return 0;
 }
 
-STUB_FUNC(0x543610)
-void Wolfy_30::sub_543610()
+MATCH_FUNC(0x543610)
+void Wolfy_30::DeInit_543610()
 {
-    NOT_IMPLEMENTED;
+    this->field_6_id = 0;
+    if (field_0_bIn20Pool == 0)
+    {
+        gWolfy_7A8_6FD5F0->field_780_bUsed[this->field_4_idx] = 0;
+    }
+    else
+    {
+        gWolfy_3D4_6FD5EC->field_3C0_bUsed[this->field_4_idx] = 0;
+    }
 }
 
-STUB_FUNC(0x543650)
-void Wolfy_30::sub_543650()
+MATCH_FUNC(0x543650)
+void Wolfy_30::Init_543650()
 {
-    NOT_IMPLEMENTED;
+    this->field_10 = 0;
+    this->field_18 = 0;
+    this->field_24 = 0;
+    this->field_22 = word_6FD5D4;
+    this->field_1A = 200;
+    this->field_14 = 0;
+    this->field_2C_ped_id = 0;
+    this->field_0_bIn20Pool = 0;
 }
 
 MATCH_FUNC(0x543680)
@@ -194,10 +209,10 @@ void Wolfy_30::sub_543680(Object_2C* a2)
 MATCH_FUNC(0x543980)
 Wolfy_3D4::Wolfy_3D4()
 {
-    for (u8 i = 0; i < GTA2_COUNTOF(field_3C0); i++)
+    for (u8 i = 0; i < GTA2_COUNTOF(field_3C0_bUsed); i++)
     {
         field_0[i].field_4_idx = i;
-        field_3C0[i] = 0;
+        field_3C0_bUsed[i] = 0;
     }
     gParticleInstCount_6FD5F4 = 0;
 }

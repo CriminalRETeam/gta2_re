@@ -209,10 +209,29 @@ bool PedGroup::sub_4C9220()
     return true;
 }
 
-STUB_FUNC(0x4c9240)
+WIP_FUNC(0x4c9240)
 void PedGroup::sub_4C9240()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Ped* p2CPed = this->field_2C_ped_leader;
+    p2CPed->field_164_ped_group = 0;
+    p2CPed->field_23C = 0;
+    p2CPed->Kill_46F9D0();
+    char_type i = 0;
+    if (this->field_34_count)
+    {
+        s32 last_i = 0;
+        do
+        {
+            Ped* pPed = this->field_4_ped_list[last_i];
+            pPed->field_164_ped_group = 0;
+            pPed->field_23C = 0;
+            pPed->Kill_46F9D0();
+            last_i = ++i;
+        } while (i < (s32)this->field_34_count);
+    }
+    this->field_40_in_use = 0;
 }
 
 MATCH_FUNC(0x4c92a0)

@@ -43,10 +43,7 @@ void Orca_2FD4::sub_5545C0()
 MATCH_FUNC(0x5545e0)
 void Orca_2FD4::init_5545E0()
 {
-    for (s32 i = 0; i < GTA2_COUNTOF(field_40); i++)
-    {
-        field_40[i] = 0;
-    }
+    memset(this->field_40, 0, sizeof(this->field_40));
     field_38 = 0;
     field_34 = 1;
     field_36 = 0;
@@ -79,11 +76,39 @@ char_type Orca_2FD4::sub_554710()
     return 0;
 }
 
-STUB_FUNC(0x5548c0)
+WIP_FUNC(0x5548c0)
 char_type Orca_2FD4::sub_5548C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type v2 = Orca_2FD4::sub_554640();
+    if (v2 == 1)
+    {
+        if (Orca_2FD4::sub_554110(this->field_20, this->field_21))
+        {
+            Orca_2FD4::sub_554710();
+            return 0;
+        }
+
+        u16 idx = this->field_1C_f40_idx;
+        if (this->field_40[idx].field_0 != 1 || this->field_40[idx].field_3)
+        {
+            return 0;
+        }
+        this->field_40[idx].field_0 = 0;
+        return 0;
+    }
+    else
+    {
+        if (v2 != 2)
+        {
+            return 0;
+        }
+        this->field_18 = 0;
+        this->field_19 = 1;
+        this->field_1A = 1;
+        return 1;
+    }
 }
 
 STUB_FUNC(0x554920)

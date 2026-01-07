@@ -561,9 +561,11 @@ s8 Game_0x40::ExecuteGame_4B9640()
 }
 
 // TODO: Werid function chunk stuff
-STUB_FUNC(0x4B9700)
+WIP_FUNC(0x4B9700)
 void Game_0x40::TogglePause_4B9700()
 {
+    WIP_IMPLEMENTED;
+    
     // Running?
     if (field_0_game_state == GameState::Running_1)
     {
