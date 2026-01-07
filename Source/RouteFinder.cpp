@@ -249,11 +249,30 @@ bool RouteFinder::sub_588CA0(gmp_block_info* block, s32 a2, u8 a3)
     return false;
 }
 
-STUB_FUNC(0x588de0)
-char_type RouteFinder::sub_588DE0(gmp_block_info* a1, s32 a2, s32 a4)
+WIP_FUNC(0x588de0)
+char_type RouteFinder::sub_588DE0(gmp_block_info* pBlock, s32 a2, s32 a4)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    char_type result = 0;
+    switch (a4)
+    {
+        case 1:
+            result = sub_588CA0(pBlock, a2, 1);
+            break;
+        case 2:
+            result = sub_588CA0(pBlock, a2, 2);
+            break;
+        case 3:
+            result = sub_588CA0(pBlock, a2, 4);
+            break;
+        case 4:
+            result = sub_588CA0(pBlock, a2, 3);
+            break;
+        default:
+            return result;
+    }
+    return result;
 }
 
 MATCH_FUNC(0x588e60)
