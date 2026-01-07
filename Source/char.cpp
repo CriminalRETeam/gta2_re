@@ -367,7 +367,7 @@ void Char_B4::sub_5456A0()
 }
 
 MATCH_FUNC(0x545700)
-s32 Char_B4::IsOnScreen_545700()
+bool Char_B4::IsOnScreen_545700()
 {
     return gGame_0x40_67E008->sub_4B97E0(this->field_80_sprite_ptr, dword_6FD9E4) == 1;
 }
@@ -485,11 +485,11 @@ void Char_B4::sub_545720(Fix16 a2)
     }
 }
 
-STUB_FUNC(0x5459c0)
-char_type Char_B4::sub_5459C0()
+MATCH_FUNC(0x5459c0)
+void Char_B4::sub_5459C0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    byte_6FDB59 = 0;
+    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
 }
 
 MATCH_FUNC(0x5459e0)

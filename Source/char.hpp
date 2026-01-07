@@ -13,6 +13,8 @@ class Ped;
 class Car_BC;
 class Sprite;
 
+EXTERN_GLOBAL(Fix16, dword_678620);
+
 class Char_B4
 {
   public:
@@ -119,6 +121,26 @@ class Char_B4
         return field_80_sprite_ptr->field_1C_zpos;
     }
 
+    inline void sub_433970(Fix16 a1)
+    {
+        if (field_38_velocity < a1)
+        {
+            field_38_velocity += dword_678620;
+        }
+        else
+        {
+            if (field_38_velocity > a1)
+            {
+                field_38_velocity -= dword_678620;
+            }
+        }
+    }
+
+    inline void SetMaxSpeed_433920(Fix16 max_speed)
+    {
+        field_38_velocity = max_speed;
+    }
+
     Char_B4();
     ~Char_B4();
 
@@ -136,9 +158,9 @@ class Char_B4
     EXPORT void sub_5455F0();
     EXPORT void sub_545600();
     EXPORT void sub_5456A0();
-    EXPORT s32 IsOnScreen_545700();
+    EXPORT bool IsOnScreen_545700();
     EXPORT void sub_545720(Fix16 a2);
-    EXPORT char_type sub_5459C0();
+    EXPORT void sub_5459C0();
     EXPORT void DrownPed_5459E0();
     EXPORT void sub_546360();
     EXPORT void sub_548590();
@@ -293,3 +315,5 @@ EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
 EXPORT void __stdcall sub_544F70();
 
 EXTERN_GLOBAL(u8, unk_6787EF);
+
+EXTERN_GLOBAL(u16, gNumPedsOnScreen_6787EC);
