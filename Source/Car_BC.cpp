@@ -661,11 +661,43 @@ void Car_6C::CarsService_446790()
     }
 }
 
-STUB_FUNC(0x446870)
-bool Car_6C::sub_446870(s32 a2)
+WIP_FUNC(0x446870)
+bool Car_6C::CanAlloc_446870(s32 type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool result;
+    switch (type)
+    {
+        case 1:
+            result = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
+            break;
+        case 4:
+            result = this->field_2C < 1;
+            break;
+        case 5:
+            result = this->field_30 < 1;
+            break;
+        case 6:
+            result = this->field_34_unit_cars < 5;
+            break;
+        case 7:
+            result = this->field_38 < 11;
+            break;
+        case 8:
+            result = this->field_3C_mission_cars < 23;
+            break;
+        case 9:
+            result = this->field_44 < 200;
+            break;
+        case 10:
+            result = this->field_48 < 11;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
 STUB_FUNC(0x446930)

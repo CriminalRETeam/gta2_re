@@ -2460,7 +2460,7 @@
         "v105_address": "0x446790"
     },
     {
-        "name": "Car_6C::sub_446870",
+        "name": "Car_6C::CanAlloc_446870",
         "v96f_address": null,
         "v105_address": "0x446870"
     },
