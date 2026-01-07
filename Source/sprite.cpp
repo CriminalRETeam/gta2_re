@@ -27,6 +27,7 @@ DEFINE_GLOBAL(Fix16, gFix16_7035C0, 0x7035C0);
 DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
+DEFINE_GLOBAL(Fix16, dword_7033C0, 0x7033C0);
 
 MATCH_FUNC(0x562450)
 Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
@@ -701,7 +702,14 @@ STUB_FUNC(0x5A21F0)
 char_type Sprite::sub_5A21F0()
 {
     NOT_IMPLEMENTED;
-    return 0;
+
+    Fix16 z_4c = this->field_C_sprite_4c_ptr->field_8; // which union type ??
+    Fix16 zToUse = this->field_1C_zpos + z_4c / 2;
+    if (zToUse > dword_7033C0)
+    {
+        zToUse = dword_7033C0;
+    }
+    return gMap_0x370_6F6268->sub_4E5300(field_14_xpos.x, field_14_xpos.y, field_1C_zpos - z_4c / 2, zToUse);
 }
 
 STUB_FUNC(0x5A22B0)
