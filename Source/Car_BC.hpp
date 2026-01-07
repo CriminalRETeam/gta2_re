@@ -217,11 +217,11 @@ class Car_6C
     EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car_BC* DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
-                                                                    Fix16 ypos,
-                                                                    Fix16 zpos,
-                                                                    s32 bMatchDriverless,
-                                                                    Ped* pPed,
-                                                                    char_type bIgnorePedRestrictions);
+                                                   Fix16 ypos,
+                                                   Fix16 zpos,
+                                                   s32 bMatchDriverless,
+                                                   Ped* pPed,
+                                                   char_type bIgnorePedRestrictions);
 
     EXPORT Car_BC* sub_445210(Sprite* a1, u8 a2);
     EXPORT Car_BC* sub_4458B0(s32 arg0, s32 a3, s32 a4, s32 a2);
@@ -314,6 +314,10 @@ class Trailer
     EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT char_type sub_4081D0();
     EXPORT s32 sub_408220();
+
+    void PoolAllocate()
+    {
+    }
 
     void PoolDeallocate()
     {
@@ -504,7 +508,7 @@ class Car_BC
     EXPORT void sub_4425D0();
     EXPORT void sub_4426D0();
     EXPORT void DetachTrailer_442760();
-    EXPORT Car_BC* sub_4427A0(Car_BC* a2);
+    EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
     EXPORT s32 sub_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type sub_442D70();

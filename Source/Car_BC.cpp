@@ -2,6 +2,7 @@
 #include "CarInfo_808.hpp"
 #include "CarPhysics_B0.hpp"
 #include "Crushers.hpp"
+#include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
@@ -26,7 +27,6 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
-#include "Firefighters.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -1498,20 +1498,11 @@ void Car_BC::sub_43BBC0()
         Sprite* pCarSprite = this->field_50_car_sprite;
         s32 pedId = this->field_70_exploder_ped_id;
 
-        Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(
-                                                       pCarSprite->field_14_xpos.x,
-                                                       pCarSprite->field_14_xpos.y,
-                                                       4,
-                                                       word_67791C,
-                                                       4,
-                                                       pedId);
+        Object_2C* pExplosion =
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCarSprite->field_14_xpos.x, pCarSprite->field_14_xpos.y, 4, word_67791C, 4, pedId);
         if (pExplosion)
         {
-            field_50_car_sprite->DispatchCollisionEvent_5A3100(
-                                                  pExplosion->field_4,
-                                                  gFix16_6777CC,
-                                                  gFix16_6777CC,
-                                                  word_67791C);
+            field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, word_67791C);
         }
     }
 }
@@ -2775,11 +2766,37 @@ void Car_BC::DetachTrailer_442760()
     gTrailerPool_66AC80->field_0_pool.DeAllocate(p);
 }
 
-STUB_FUNC(0x4427a0)
-Car_BC* Car_BC::sub_4427A0(Car_BC* a2)
+WIP_FUNC(0x4427a0)
+void Car_BC::AttachTrailer_4427A0(Car_BC* pToFind)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    field_64_pTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
+    field_64_pTrailer->SetTruckCabAndTrailerCar_407BB0(this, pToFind);
+    
+    Car_BC* pLast = 0;
+    Car_BC* pIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+    if (pIter)
+    {
+        while (pIter != pToFind)
+        {
+            pLast = pIter;
+            pIter = pIter->mpNext;
+            if (!pIter)
+            {
+                return;
+            }
+        }
+        if (pLast)
+        {
+            pLast->mpNext = pIter->mpNext;
+        }
+        else
+        {
+            gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev = pIter->mpNext;
+        }
+        pIter->mpNext = 0;
+    }
 }
 
 STUB_FUNC(0x442810)
