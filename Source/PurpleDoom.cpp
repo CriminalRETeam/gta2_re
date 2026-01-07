@@ -172,7 +172,7 @@ Sprite* PurpleDoom::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 sprite_t
 
     for (s32 top = gPurple_top_6F6108; top <= gPurple_bottom_6F5F38; top++)
     {
-        Sprite* pObj = sub_478880(top, pSprite);
+        Sprite* pObj = FindNearestSpriteInRow_478880(top, pSprite);
         if (pObj)
         {
             return pObj;
@@ -203,7 +203,7 @@ bool PurpleDoom::CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type a3, 
 
     for (s32 y_pos = gPurple_top_6F6108; y_pos <= gPurple_bottom_6F5F38; y_pos++)
     {
-        if (PurpleDoom::sub_4785D0(y_pos, pRect))
+        if (PurpleDoom::CheckRowForRectCollisions_4785D0(y_pos, pRect))
         {
             if (gPurpleDoom_list_679214)
             {
@@ -233,7 +233,7 @@ PurpleDoom::~PurpleDoom()
 }
 
 STUB_FUNC(0x478160)
-u32 PurpleDoom::sub_478160(u8 a2)
+u32 PurpleDoom::SearchTileColumnForClosestSprite_478160(u8 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
@@ -529,7 +529,7 @@ PurpleDoom_C* PurpleDoom::GetFirstXCellInRow_478590(s32 start_idx)
 
 // https://decomp.me/scratch/me1ge
 STUB_FUNC(0x4785d0)
-char_type PurpleDoom::sub_4785D0(u32 y_pos, Fix16_Rect* pRect)
+char_type PurpleDoom::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     NOT_IMPLEMENTED;
 
@@ -719,7 +719,7 @@ bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* 
 }
 
 STUB_FUNC(0x478880)
-Sprite* PurpleDoom::sub_478880(u32 a2, Sprite* a3)
+Sprite* PurpleDoom::FindNearestSpriteInRow_478880(u32 a2, Sprite* a3)
 {
     NOT_IMPLEMENTED;
     return 0;

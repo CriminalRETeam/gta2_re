@@ -937,7 +937,7 @@ PurpleDoom::CheckRectForCollisions_477F60,0x477f60,0x77f60,0x93
 PurpleDoom::ctor_478040,0x478040,0x78040,0xc
 PurpleDoom::dtor_478050,0x478050,0x78050,0x5
 PurpleDoom::CheckTileSpritesForClosestMatch_478060,0x478060,0x78060,0xfb
-PurpleDoom::sub_478160,0x478160,0x78160,0x72
+PurpleDoom::SearchTileColumnForClosestSprite_478160,0x478160,0x78160,0x72
 PurpleDoom::SearchTileStripForClosestSprite_4781E0,0x4781e0,0x781e0,0x59
 PurpleDoom::AddToDrawList_478240,0x478240,0x78240,0x75
 PurpleDoom::DoRemove_4782C0,0x4782c0,0x782c0,0xa9
@@ -945,10 +945,10 @@ PurpleDoom::AddToColumnBuckets_478370,0x478370,0x78370,0xc6
 PurpleDoom::AddToSingleBucket_478440,0x478440,0x78440,0x84
 PurpleDoom::AddToRowBuckets_4784D0,0x4784d0,0x784d0,0xbd
 PurpleDoom::GetFirstXCellInRow_478590,0x478590,0x78590,0x40
-PurpleDoom::sub_4785D0,0x4785d0,0x785d0,0x178
+PurpleDoom::CheckRowForRectCollisions_4785D0,0x4785d0,0x785d0,0x178
 PurpleDoom::CheckAndHandleCollisionsInStrip_478750,0x478750,0x78750,0x8d
 PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0,0x4787e0,0x787e0,0x99
-PurpleDoom::sub_478880,0x478880,0x78880,0xcf
+PurpleDoom::FindNearestSpriteInRow_478880,0x478880,0x78880,0xcf
 PurpleDoom::DebugLog_478950,0x478950,0x78950,0x9d
 PurpleDoom::Clear_4789F0,0x4789f0,0x789f0,0x12
 nullsub_42,0x478a10,0x78a10,0x1
