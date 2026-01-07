@@ -2571,10 +2571,80 @@ void Ped::sub_468930()
     }
 }
 
-STUB_FUNC(0x468a00)
+MATCH_FUNC(0x468a00)
 void Ped::sub_468A00()
 {
-    NOT_IMPLEMENTED;
+    if (field_25C_car_state)
+    {
+        if (field_25C_car_state != 12)
+        {
+            if (field_25C_car_state == 38)
+            {
+                if (field_226 == 1)
+                {
+                    if (field_150_target_objective_car->is_train_model())
+                    {
+                        if (field_238 != 2)
+                        {
+                            Ped::sub_463830(12, 9999);
+                            switch (Ang16::GetAngleFace_4F78F0(field_12C))
+                            {
+                                case 1:
+                                    field_1D0 = field_1AC_cam.x;
+                                    field_1D4 = field_1AC_cam.y - dword_678664;
+                                    break;
+                                case 3:
+                                    field_1D0 = dword_678664 + field_1AC_cam.x;
+                                    field_1D4 = field_1AC_cam.y;
+                                    break;
+                                case 2:
+                                    field_1D0 = field_1AC_cam.x;
+                                    field_1D4 = dword_678664 + field_1AC_cam.y;
+                                    break;
+                                case 4:
+                                    field_1D0 = field_1AC_cam.x - dword_678664;
+                                    field_1D4 = field_1AC_cam.y;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            field_1D8 = field_1AC_cam.z;
+                        }
+                        else
+                        {
+                            Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                            Ped::sub_463830(0, 9999);
+                        }
+                    }
+                    else
+                    {
+                        field_225 = 1;
+                    }
+                }
+                if (field_226 == 2)
+                {
+                    field_225 = 2;
+                }
+            }
+        }
+        else
+        {
+            if (field_278 != 8 && field_226 == 1)
+            {
+                field_225 = 1;
+                Ped::sub_463830(0, 9999);
+            }
+        }
+    }
+    else if (field_16C_car)
+    {
+        Ped::sub_463830(38, 9999);
+        field_154_target_to_enter = field_150_target_objective_car;
+    }
+    else
+    {
+        field_225 = 1;
+    }
 }
 
 STUB_FUNC(0x468bd0)
