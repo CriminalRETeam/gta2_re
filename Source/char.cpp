@@ -1,6 +1,7 @@
 #include "char.hpp"
 #include "Car_BC.hpp"
 #include "Game_0x40.hpp"
+#include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_3C.hpp"
@@ -9,6 +10,7 @@
 #include "Player.hpp"
 #include "Police_7B8.hpp"
 #include "PurpleDoom.hpp"
+#include "rng.hpp"
 #include "Varrok_7F8.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -1072,11 +1074,49 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
     return pNewPed;
 }
 
-STUB_FUNC(0x470ba0)
+// https://decomp.me/scratch/6AW5o 
+MATCH_FUNC(0x470ba0)
 Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+ Ped *pNewPed = gPedPool_6787B8->field_0_pool.Allocate();
+    
+  pNewPed->field_238 = 6;
+  pNewPed->field_240_occupation = ped_ocupation_enum::unknown_19;
+  pNewPed->field_16C_car = pCar;
+  pNewPed->field_168_game_object = 0;
+  pNewPed->sub_45C500(10);
+  pNewPed->sub_45C540(10);
+  pNewPed->field_248_enter_car_as_passenger = 0;
+  pNewPed->field_24C_target_car_door = 0;
+  pNewPed->field_288_threat_search = threat_search_enum::area_2;
+  pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
+  pNewPed->field_216_health = 100;
+  pNewPed->field_26C_graphic_type = 1;
+    
+  pCar->SetDriver(pNewPed);
+    
+  pNewPed->field_17C_pZone = pGang;
+  pNewPed->field_244_remap = pGang->field_101;
+    
+  if ( pNewPed->field_244_remap == 5 )
+  {
+    s16 constant = 2;
+    if ( !stru_6F6784.get_int_4F7AE0(&constant) )
+    {
+      pNewPed->field_244_remap = 6;
+    }
+  }
+  pNewPed->field_26C_graphic_type = 1;
+  pNewPed->field_22C = 1;
+    
+  pNewPed->ForceWeapon_46F600(pNewPed->field_17C_pZone->GetGangCurrWeapon_4BF0C0());
+  pNewPed->GiveWeapon_46F650(weapon_type::pistol);
+    
+  pNewPed->field_270 = 0;
+  pNewPed->field_288_threat_search = threat_search_enum::line_of_sight_1;
+  pNewPed->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
+    
+  return pNewPed;
 }
 
 MATCH_FUNC(0x470cc0)
