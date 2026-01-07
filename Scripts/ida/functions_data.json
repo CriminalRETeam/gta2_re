@@ -2165,7 +2165,7 @@
         "v105_address": "0x442760"
     },
     {
-        "name": "Car_BC::sub_4427A0",
+        "name": "Car_BC::AttachTrailer_4427A0",
         "v96f_address": null,
         "v105_address": "0x4427a0"
     },

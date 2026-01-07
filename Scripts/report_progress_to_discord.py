@@ -103,7 +103,7 @@ def main():
         unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} | {unmatched_funcs_diff_str}"
 
     wip_funcs_percentage = (wip_funcs / unmatched_funcs) * 100
-    wip_funcs_str = "wip funcs: {wip_funcs} | ({wip_funcs_percentage:.2f}%)"
+    wip_funcs_str = f"wip funcs: {wip_funcs} | ({wip_funcs_percentage:.2f}%)"
 
     webhook_message = {
         "content": None,
