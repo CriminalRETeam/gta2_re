@@ -700,11 +700,44 @@ bool Car_6C::CanAlloc_446870(s32 type)
     return result;
 }
 
-STUB_FUNC(0x446930)
-u32 Car_6C::sub_446930(s32 a2)
+WIP_FUNC(0x446930)
+u32 Car_6C::CanAllocateOfType_446930(s32 type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    BOOL bCanAlloc; // eax
+
+    switch (type)
+    {
+        case 1:
+            bCanAlloc = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
+            break;
+        case 4: // kfc ?
+            bCanAlloc = this->field_2C < 2;
+            break;
+        case 5: // fire engines?
+            bCanAlloc = this->field_30 < 2;
+            break;
+        case 6: // police cars
+            bCanAlloc = this->field_34_unit_cars < 6;
+            break;
+        case 7:
+            bCanAlloc = this->field_38 < 12;
+            break;
+        case 8:
+            bCanAlloc = this->field_3C_mission_cars < 24;
+            break;
+        case 9:
+            bCanAlloc = this->field_44 < 200;
+            break;
+        case 10:
+            bCanAlloc = this->field_48 < 12;
+            break;
+        default:
+            bCanAlloc = 0; // LOBYTE =
+            break;
+    }
+    return bCanAlloc;
 }
 
 STUB_FUNC(0x4469f0)

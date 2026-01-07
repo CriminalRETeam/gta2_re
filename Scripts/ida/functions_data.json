@@ -2465,7 +2465,7 @@
         "v105_address": "0x446870"
     },
     {
-        "name": "Car_6C::sub_446930",
+        "name": "Car_6C::CanAllocateOfType_446930",
         "v96f_address": null,
         "v105_address": "0x446930"
     },

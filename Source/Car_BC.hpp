@@ -233,7 +233,7 @@ class Car_6C
     EXPORT void sub_446760();
     EXPORT void CarsService_446790();
     EXPORT bool CanAlloc_446870(s32 a2);
-    EXPORT u32 sub_446930(s32 a2);
+    EXPORT u32 CanAllocateOfType_446930(s32 a2);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
 
