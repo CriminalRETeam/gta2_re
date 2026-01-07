@@ -832,10 +832,13 @@ void Ped::TakeDamage(s16 damage)
     }
 }
 
-STUB_FUNC(0x45cf20)
-void Ped::sub_45CF20(s32 a2)
+MATCH_FUNC(0x45cf20)
+void Ped::sub_45CF20(Object_2C* a2)
 {
-    NOT_IMPLEMENTED;
+    if (field_278 != 9 && field_278 != 8 && a2->field_18_model == 258 && word_6787D0 < 10)
+    {
+        sub_45E4A0();
+    }
 }
 
 STUB_FUNC(0x45d000)
@@ -3865,7 +3868,7 @@ WIP_FUNC(0x470160)
 void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
     WIP_IMPLEMENTED;
-    
+
     field_20A_wanted_points += wanted_amount;
 
     if (field_20A_wanted_points <= 12000)
