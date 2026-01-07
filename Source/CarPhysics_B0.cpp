@@ -519,11 +519,27 @@ char_type CarPhysics_B0::sub_55C3B0(Sprite_4C** a2, Sprite_4C** a3)
     return 0;
 }
 
-STUB_FUNC(0x55c560)
-s32 CarPhysics_B0::sub_55C560(s32* a2, s32* a3)
+WIP_FUNC(0x55c560)
+void CarPhysics_B0::sub_55C560(Fix16 a2, Fix16 a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    s32 i = 3;
+    do
+    {
+        restore_saved_physics_state_55A400();
+        Fix16 total = (a3 + a2) / 2;
+        sub_560F20(total);
+        if (sub_55C150())
+        {
+            a2 = total;
+        }
+        else
+        {
+            a3 = total;
+        }
+        --i;
+    } while (i);
 }
 
 STUB_FUNC(0x55c5c0)
@@ -779,7 +795,7 @@ void CarPhysics_B0::UpdateLinearAndAngularAccel_560EB0()
 }
 
 STUB_FUNC(0x560f20)
-void CarPhysics_B0::sub_560F20(s32 a2)
+void CarPhysics_B0::sub_560F20(Fix16 a2)
 {
     NOT_IMPLEMENTED;
 }
