@@ -885,10 +885,12 @@ EXPORT void __stdcall sub_4DB070(u8 idx)
     gHud_2B00_706620->field_12F0.sub_5D5730(tmpBuff_67BD9C);
 }
 
-STUB_FUNC(0x4DB0D0)
+MATCH_FUNC(0x4DB0D0)
 void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
 {
-    NOT_IMPLEMENTED;
+    char Buffer[260];
+    sprintf(Buffer, "(ExitGameCallback)Called with reason - %d", reason);
+    gFile_67C530.Write_4D9620(Buffer);
     pGame->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
 }
 
