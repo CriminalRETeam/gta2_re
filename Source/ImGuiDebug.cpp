@@ -2,6 +2,7 @@
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
 #include "Ambulance_110.hpp"
 #include "Car_BC.hpp"
+#include "CarPhysics_B0.hpp"
 #include "Firefighters.hpp"
 #include "Frontend.hpp"
 #include "Game_0x40.hpp"
@@ -960,6 +961,15 @@ void CC ImGuiDebugDraw()
                         if (ImGui::Button("ResprayOrCleanPlates"))
                         {
                             pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
+                        }
+
+                        CarPhysics_B0* pPhysics = pPlayerCar->field_58_physics;
+
+                        if (pPhysics)
+                        {
+                            ImGui::Value("Physics fA0", pPhysics->field_A0);
+                            ImGui::SliderInt("Physics fA0", &pPhysics->field_A0, -3, 3);
+                            ImGui::SliderInt("Physics front skid", &pPhysics->field_84_front_skid.mValue, -3*16384, 3*16384);
                         }
 
                         if (gGangPool_CA8_67E274)

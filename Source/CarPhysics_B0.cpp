@@ -132,7 +132,7 @@ void CarPhysics_B0::sub_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics_B0::sub_559B90(const Fix16& a2)
+void CarPhysics_B0::sub_559B90(const s32& a2)
 {
     field_A0 = a2;
 }
@@ -192,13 +192,13 @@ void CarPhysics_B0::sub_559DD0()
 {
     if (this->field_5C_pCar->field_54_driver)
     {
-        if (field_A0.mValue == 1)
+        if (field_A0 == 1)
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
             this->field_AD_turn_direction = -1;
         }
-        else if (field_A0.mValue == 2)
+        else if (field_A0 == 2)
         {
             this->field_95 = 0;
             this->field_93_is_forward_gas_on = 1;
@@ -1156,7 +1156,7 @@ void CarPhysics_B0::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    sub_559B90(Fix16(0));
+    sub_559B90(0);
     field_A4 = 0;
     field_98_surface_type = 0;
     field_9C = 0;
