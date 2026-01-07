@@ -1,9 +1,9 @@
 #include "Object_3C.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
-#include "enums.hpp"
+#include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Wolfy_3D4.hpp"
+#include "enums.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 
@@ -38,12 +38,14 @@ Object_3C::~Object_3C()
     mpNext = 0;
 }
 
-STUB_FUNC(0x52adf0)
+WIP_FUNC(0x52adf0)
 Fix16_Point Object_3C::GetRot_52ADF0()
 {
-    NOT_IMPLEMENTED;
-    Fix16_Point t;
-    return t;
+    WIP_IMPLEMENTED;
+
+    Fix16 sin_v = (gSin_table_667A80[field_4.rValue] * field_C);
+    Fix16 cos_v = (gCos_table_669260[field_4.rValue] * field_C);
+    return Fix16_Point(sin_v, cos_v);
 }
 
 MATCH_FUNC(0x5a6a50)
