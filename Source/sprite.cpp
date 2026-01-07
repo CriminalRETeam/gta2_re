@@ -711,11 +711,19 @@ u32* Sprite::sub_5A22B0(u32* a2, Sprite* a3)
     return 0;
 }
 
-STUB_FUNC(0x5A2440)
+WIP_FUNC(0x5A2440)
 char_type Sprite::sub_5A2440()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    UpdateCollisionBoundsIfNeeded_59E9C0();
+    field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
+    char_type result = gMap_0x370_6F6268->sub_4E4460(field_14_xpos.x.ToInt(), field_14_xpos.y.ToInt(), field_1C_zpos.ToInt(), this, 2048);
+    if (result)
+    {
+        gRozza_679188.field_1C_mapz = field_1C_zpos;
+    }
+    return result;
 }
 
 STUB_FUNC(0x5a2500)
