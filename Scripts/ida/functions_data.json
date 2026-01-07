@@ -4215,7 +4215,7 @@
         "v105_address": "0x477bd0"
     },
     {
-        "name": "PurpleDoom::sub_477C30",
+        "name": "PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30",
         "v96f_address": null,
         "v105_address": "0x477c30"
     },
@@ -4230,17 +4230,17 @@
         "v105_address": "0x477e50"
     },
     {
-        "name": "PurpleDoom::sub_477E60",
+        "name": "PurpleDoom::FindNearestSpriteOfType_477E60",
         "v96f_address": null,
         "v105_address": "0x477e60"
     },
     {
-        "name": "PurpleDoom::sub_477F30",
+        "name": "PurpleDoom::CollectRectCollisions_477F30",
         "v96f_address": null,
         "v105_address": "0x477f30"
     },
     {
-        "name": "PurpleDoom::sub_477F60",
+        "name": "PurpleDoom::CheckRectForCollisions_477F60",
         "v96f_address": null,
         "v105_address": "0x477f60"
     },
@@ -4265,7 +4265,7 @@
         "v105_address": "0x478160"
     },
     {
-        "name": "sub_4781E0",
+        "name": "SearchTileStripForClosestSprite_4781E0",
         "v96f_address": null,
         "v105_address": "0x4781e0"
     },
@@ -4310,7 +4310,7 @@
         "v105_address": "0x478750"
     },
     {
-        "name": "PurpleDoom::CheckRowCollisionsForSprite_4787E0",
+        "name": "PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0",
         "v96f_address": null,
         "v105_address": "0x4787e0"
     },

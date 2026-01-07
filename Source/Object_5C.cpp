@@ -1378,7 +1378,7 @@ Object_2C* Object_5C::sub_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 
         field_18 = 0;
     }
 
-    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->sub_477E60(pNew2C->field_4, 0))))
+    if (bUnknown && (pNew2C->field_4->sub_59E7D0(0) || (pPhi->field_40 == 3 && gPurpleDoom_2_67920C->FindNearestSpriteOfType_477E60(pNew2C->field_4, 0))))
     {
         if (pNew2C->field_20 == 1) // 154: ~> cmpl    $0x1,0x0(%ebp)
         {

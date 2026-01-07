@@ -70,6 +70,9 @@ void PurpleDoom::AddToSingleBucket_477AE0(Sprite* a1)
 MATCH_FUNC(0x477b00)
 void PurpleDoom::Remove_477B00(Sprite* a1)
 {
+    // Note: Single bucket remove only - multi bucket remove doesn't exist
+    // reason being the whole structure is cleared and rebuilt every frame.
+    // I guess they just needed the single remove for bullets etc.
     DoRemove_4782C0(a1->field_14_xpos.x.ToInt(), a1->field_14_xpos.y.ToInt(), a1);
 }
 
@@ -124,7 +127,7 @@ char_type PurpleDoom::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x477c30)
-bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
+bool PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprt, s32 a3)
 {
     dword_678FA8 = a3;
     bool v3 = 0;
@@ -133,7 +136,7 @@ bool PurpleDoom::sub_477C30(Sprite* pSprt, s32 a3)
     pSprt->field_C_sprite_4c_ptr->SetCurrentRect_5A4D90();
     for (s32 i = gPurple_top_6F6108; i <= gPurple_bottom_6F5F38; ++i)
     {
-        v3 |= PurpleDoom::CheckRowCollisionsForSprite_4787E0(i, pSprt);
+        v3 |= PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(i, pSprt);
     }
     return v3;
 }
@@ -157,7 +160,7 @@ void PurpleDoom::SetSpriteToExclude_477E50(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x477e60)
-Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
+Sprite* PurpleDoom::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 sprite_type_enum)
 {
     gPurpleDoom_exclude_type_678F60 = sprite_type_enum;
     gPurpleDoom_smallestDistSprite_678E40 = 0;
@@ -180,16 +183,16 @@ Sprite* PurpleDoom::sub_477E60(Sprite* pSprite, s32 sprite_type_enum)
 }
 
 MATCH_FUNC(0x477f30)
-bool PurpleDoom::sub_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, struct_4* a6)
+bool PurpleDoom::CollectRectCollisions_477F30(Fix16_Rect* union_type, char_type a3, s32 a4, Sprite* a5, struct_4* a6)
 {
     gPurpleDoom_list_679214 = a6;
-    bool bRet = PurpleDoom::sub_477F60(union_type, a3, a4, a5);
+    bool bRet = PurpleDoom::CheckRectForCollisions_477F60(union_type, a3, a4, a5);
     gPurpleDoom_list_679214 = 0;
     return bRet;
 }
 
 MATCH_FUNC(0x477f60)
-bool PurpleDoom::sub_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSprite)
+bool PurpleDoom::CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type a3, s32 a4, Sprite* pSprite)
 {
     bool bRet = false;
     ++gCollide_C_6791FC->field_4_count;
@@ -243,7 +246,7 @@ void PurpleDoom::CheckTileSpritesForClosestMatch_478060(Collide_8* a1)
 }
 
 MATCH_FUNC(0x4781E0)
-void PurpleDoom::sub_4781E0(u8 width)
+void PurpleDoom::SearchTileStripForClosestSprite_4781E0(u8 width)
 {
     gPurple_left_6F5FD4 = gPurpleDoom_start_x_679090;
     gPurple_right_6F5B80 = gPurpleDoom_start_x_679090 + width - 1;
@@ -676,7 +679,7 @@ char_type PurpleDoom::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* 
 
 // TODO: It may not be Object_5C. I don't know which struct has field_2C as "s32" type which makes sense here
 STUB_FUNC(0x4787e0)
-bool PurpleDoom::CheckRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite)
+bool PurpleDoom::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite)
 {
     bool bRet;
     PurpleDoom_C* pXItemIter;

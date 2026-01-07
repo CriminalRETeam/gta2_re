@@ -234,7 +234,7 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     {
         return gRozza_679188.field_20_pSprite;
     }
-    result = gPurpleDoom_1_679208->sub_477E60(this, a2);
+    result = gPurpleDoom_1_679208->FindNearestSpriteOfType_477E60(this, a2);
     if (result)
     {
         gRozza_679188.field_0_type = 3;
