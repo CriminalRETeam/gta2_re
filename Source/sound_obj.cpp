@@ -5,10 +5,10 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
+#include "Hud.hpp"
 #include "Ped.hpp"
 #include "cSampleManager.hpp"
 #include "sprite.hpp"
-#include "Hud.hpp"
 #include <math.h>
 
 DEFINE_GLOBAL(sound_obj, gSound_obj_66F680, 0x66F680);
@@ -1215,7 +1215,6 @@ struct naughty_elion_0x4C;
 struct inspiring_cori_0xBC;
 struct naughty_elion_0x4C;
 
-
 MATCH_FUNC(0x419FA0)
 s32 sound_obj::AddSoundObject_419FA0(infallible_turing* pTuring)
 {
@@ -2034,11 +2033,17 @@ char_type sound_obj::sub_414EE0(sound_0x68* a2)
     return 0;
 }
 
-STUB_FUNC(0x414C90)
-char_type sound_obj::sub_414C90(sound_0x68* a2)
+MATCH_FUNC(0x414C90)
+char_type sound_obj::sub_414C90(sound_0x68* p68)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    p68->field_14_samp_idx = 35;
+    p68->field_3C = 400;
+    p68->field_4C = 5;
+    p68->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(35);
+    p68->field_30 = 0;
+    p68->field_34 = gSampManager_6FFF00.sub_58DC30(35);
+    p68->field_38 = gSampManager_6FFF00.sub_58DC50(35);
+    return 1;
 }
 
 MATCH_FUNC(0x415100)
