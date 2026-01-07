@@ -2026,11 +2026,17 @@ char_type sound_obj::sub_418940(sound_0x68* a2)
     return 0;
 }
 
-STUB_FUNC(0x414EE0)
-char_type sound_obj::sub_414EE0(sound_0x68* a2)
+MATCH_FUNC(0x414EE0)
+char_type sound_obj::sub_414EE0(sound_0x68* p68)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    p68->field_14_samp_idx = 60;
+    p68->field_3C = 400;
+    p68->field_4C = 3;
+    p68->field_20_rate = 9000;
+    p68->field_30 = 0;
+    p68->field_34 = gSampManager_6FFF00.sub_58DC30(60);
+    p68->field_38 = gSampManager_6FFF00.sub_58DC50(60);
+    return 1;
 }
 
 MATCH_FUNC(0x414C90)
