@@ -77,6 +77,7 @@ DEFINE_GLOBAL(Fix16, dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
 DEFINE_GLOBAL(Fix16, dword_67841C, 0x67841C);
 DEFINE_GLOBAL(Object_2C*, dword_678558, 0x678558);
+DEFINE_GLOBAL(u8, byte_6787D3, 0x6787D3);
 
 // TODO: move
 STUB_FUNC(0x545AF0)
@@ -1133,10 +1134,121 @@ void Ped::sub_460820()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x461290)
+WIP_FUNC(0x461290)
 void Ped::sub_461290()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Car_BC* pCar;
+    Ped* field_54_driver;
+    Car_BC* pTargetCar;
+    Car_Door_10* pDoor;
+    Car_BC* pCar_;
+    Fix16 y;
+    Car_BC* pBus;
+    Char_B4* game_object;
+    Car_BC* target_to_enter;
+
+    if (this->field_25C_car_state == 2 && this->field_226 == 1)
+    {
+        sub_463830(0, 9999);
+    }
+
+    switch (this->field_258_objective)
+    {
+        case objectives_enum::objective_31:
+            pCar_ = this->field_16C_car;
+            goto LABEL_23;
+
+        case objectives_enum::objective_34:
+            if (this->field_25C_car_state == 36 && this->field_226 == 1)
+            {
+                goto LABEL_21;
+            }
+
+            pCar_ = this->field_16C_car;
+            if (pCar_)
+            {
+            LABEL_23:
+                if (pCar_->field_88 == 5)
+                {
+                    pCar_->field_4_passengers_list.RemovePed_471240(this);
+                    Kill_46F9D0();
+                }
+            }
+            break;
+
+        case objectives_enum::enter_car_as_driver_35:
+            if (this->field_225 == 1)
+            {
+                if (--byte_6787D3 < 0)
+                {
+                    byte_6787D3 = 0;
+                }
+                pCar = this->field_16C_car;
+                field_54_driver = pCar->field_54_driver;
+                if (field_54_driver && field_54_driver->field_15C_player)
+                {
+                    gPublicTransport_181C_6FF1D4->IncrementBusPassengerCount_579B10();
+                    SetObjective(objectives_enum::objective_31, 0);
+                }
+                else
+                {
+                    pCar->field_4_passengers_list.RemovePed_471240(this);
+                    Kill_46F9D0();
+                }
+            }
+            else
+            {
+                pTargetCar = this->field_150_target_objective_car;
+                if (pTargetCar->field_88 == 5)
+                {
+                    pTargetCar->sub_43AF40();
+                    SetObjective(objectives_enum::no_obj_0, 9999);
+                    sub_463830(0, 9999);
+                    this->field_240_occupation = ped_ocupation_enum::dummy;
+                    this->field_238 = 3;
+                }
+                else
+                {
+                    pDoor = pTargetCar->GetDoor(this->field_24C_target_car_door);
+                    pDoor->sub_439E60();
+                }
+            }
+            return;
+
+        case objectives_enum::objective_38:
+            if (this->field_225)
+            {
+            LABEL_21:
+                this->field_238 = 3;
+                sub_45EE00(3);
+                sub_463830(0, 9999);
+                SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+                y = this->field_1AC_cam.y;
+                this->field_1B8_target_x = this->field_1AC_cam.x;
+                this->field_1BC_target_y = y;
+            }
+            else if (this->field_150_target_objective_car->field_88 == 5)
+            {
+                Kill_46F9D0();
+            }
+            break;
+        default:
+            pBus = gPublicTransport_181C_6FF1D4->sub_579AD0();
+            if (pBus)
+            {
+                sub_463830(0, 9999);
+                SetObjective(objectives_enum::enter_car_as_driver_35, 9999);
+                game_object = this->field_168_game_object;
+                target_to_enter = this->field_154_target_to_enter;
+                this->field_150_target_objective_car = pBus;
+                game_object->field_84 = target_to_enter;
+                this->field_168_game_object->field_38_velocity = dword_678660;
+                this->field_24C_target_car_door = 1;
+            }
+            break;
+    }
 }
 
 STUB_FUNC(0x461530)
