@@ -26,6 +26,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 #include "winmain.hpp"
+#include "Firefighters.hpp"
 
 DEFINE_GLOBAL(Car_214*, gCar_214_705F20, 0x705F20);
 DEFINE_GLOBAL(Car_6C*, gCar_6C_677930, 0x677930);
@@ -1487,11 +1488,32 @@ s32 Car_BC::sub_43BB90(u8 a1)
     }
 }
 
-STUB_FUNC(0x43bbc0)
-char_type Car_BC::sub_43BBC0()
+WIP_FUNC(0x43bbc0)
+void Car_BC::sub_43BBC0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (gFirefighterPool_54_67D4C0->sub_4A8820(this))
+    {
+        Sprite* pCarSprite = this->field_50_car_sprite;
+        s32 pedId = this->field_70_exploder_ped_id;
+
+        Object_2C* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(
+                                                       pCarSprite->field_14_xpos.x,
+                                                       pCarSprite->field_14_xpos.y,
+                                                       4,
+                                                       word_67791C,
+                                                       4,
+                                                       pedId);
+        if (pExplosion)
+        {
+            field_50_car_sprite->DispatchCollisionEvent_5A3100(
+                                                  pExplosion->field_4,
+                                                  gFix16_6777CC,
+                                                  gFix16_6777CC,
+                                                  word_67791C);
+        }
+    }
 }
 
 MATCH_FUNC(0x43bc30)
