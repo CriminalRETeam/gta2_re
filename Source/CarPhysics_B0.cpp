@@ -9,7 +9,11 @@ DEFINE_GLOBAL(CarPhyisicsPool*, gCarPhysicsPool_6FE3E0, 0x6FE3E0);
 DEFINE_GLOBAL(CarInfo_2C*, dword_6FE0E4, 0x6FE0E4);
 DEFINE_GLOBAL(Ang16, DAT_0066AC08, 0x66AC08);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_6FE20C, Fix16(0), 0x6FE20C);
-DEFINE_GLOBAL(Fix16, DAT_006FE290, 0x6FE290);
+DEFINE_GLOBAL(Fix16, k_dword_6FE290, 0x6FE290);
+DEFINE_GLOBAL(Fix16, k_dword_6FE3A0, 0x6FE3A0);
+DEFINE_GLOBAL(Fix16, k_dword_6FDEFC, 0x6FDEFC);
+DEFINE_GLOBAL(Fix16, k_dword_6FDF88, 0x6FDF88);
+DEFINE_GLOBAL(Fix16, k_dword_6FE364, 0x6FE364);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FE200, kFP16Zero_6FE20C, 0x6FE200);
 DEFINE_GLOBAL(ModelPhysics_48*, dword_6FE258, 0x6FE258);
 DEFINE_GLOBAL(Fix16, dword_6FE1B0, 0x6FE1B0);
@@ -836,11 +840,37 @@ Fix16 CarPhysics_B0::CalculateRearSkid_5620D0()
     return Fix16(0);
 }
 
-STUB_FUNC(0x562480)
-s32 CarPhysics_B0::ApplyThrottleInput_562480()
+WIP_FUNC(0x562480)
+void CarPhysics_B0::ApplyThrottleInput_562480()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (this->field_93_is_forward_gas_on)
+    {
+        Fix16 gasT1 = k_dword_6FE3A0 + this->field_60_gas_pedal;
+        this->field_60_gas_pedal = gasT1;
+        if (gasT1 > k_dword_6FDEFC)
+        {
+            this->field_60_gas_pedal = k_dword_6FDEFC;
+        }
+    }
+    else if (this->field_94_is_backward_gas_on)
+    {
+        this->field_60_gas_pedal += k_dword_6FE3A0;
+        if (this->field_60_gas_pedal > k_dword_6FDF88)
+        {
+            this->field_60_gas_pedal = k_dword_6FDF88;
+        }
+    }
+    else
+    {
+        Fix16 gasT2 = this->field_60_gas_pedal - k_dword_6FE364;
+        this->field_60_gas_pedal = gasT2;
+        if (gasT2 < k_dword_6FE290)
+        {
+            this->field_60_gas_pedal = k_dword_6FE290;
+        }
+    }
 }
 
 MATCH_FUNC(0x5624f0)
@@ -1088,7 +1118,7 @@ void CarPhysics_B0::Init_5637A0()
     field_10[3].reset();
     field_8C_state = 1;
     field_8_total_damage_q = 0;
-    field_60_gas_pedal = DAT_006FE290;
+    field_60_gas_pedal = k_dword_6FE290;
     field_AC_drive_wheels_locked_q = 0;
     field_64 = dword_6FE200;
     field_68_z_pos = kFP16Zero_6FE20C;

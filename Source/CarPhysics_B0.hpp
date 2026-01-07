@@ -103,7 +103,7 @@ class CarPhysics_B0
     EXPORT Fix16 CalculateFrontSkid_561E50();
     EXPORT Fix16 CalculateRearSkid_5620D0();
     // 0x62450 moved to Sprite
-    EXPORT s32 ApplyThrottleInput_562480();
+    EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT s32 sub_562560();
     EXPORT s32 IsGasPedalPressedEnough_5626A0();
