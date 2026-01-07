@@ -2,6 +2,7 @@
 #include "Car_BC.hpp"
 #include "Globals.hpp"
 #include "Object_5C.hpp"
+#include "Player.hpp"
 #include "PurpleDoom.hpp"
 #include "Rozza_C88.hpp"
 #include "char.hpp"
@@ -13,7 +14,6 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
-#include "Player.hpp"
 
 DEFINE_GLOBAL(Sprite_8*, gSprite_8_703820, 0x703820);
 DEFINE_GLOBAL(Sprite_4C_Pool*, gSprite_4C_Pool_70381C, 0x70381C);
@@ -28,12 +28,10 @@ DEFINE_GLOBAL(Ang16, gAng16_703804, 0x703804);
 DEFINE_GLOBAL_ARRAY(Fix16, dword_6F6850, 256, 0x6F6850);
 DEFINE_GLOBAL_INIT(Fix16, dword_703424, Fix16(0xCCC, 0), 0x703424);
 
-// https://decomp.me/scratch/vNJH5
-STUB_FUNC(0x562450)
-Fix16_Point Sprite::sub_562450(s32 idx)
+MATCH_FUNC(0x562450)
+Fix16_Point Sprite::GetBoundingBoxCorner_562450(s32 idx)
 {
-    Sprite_4C* p4C = field_C_sprite_4c_ptr;
-    return p4C->field_C_b_box[idx];
+    return Fix16_Point(field_C_sprite_4c_ptr->field_C_b_box[idx].x, field_C_sprite_4c_ptr->field_C_b_box[idx].y);
 }
 
 MATCH_FUNC(0x443580)
@@ -243,11 +241,20 @@ Sprite* Sprite::sub_59E7D0(s32 a2)
     return result;
 }
 
-STUB_FUNC(0x59E830)
+MATCH_FUNC(0x59E830)
 char_type Sprite::IsThreatToSearchingPed_59E830()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    switch (this->field_30_sprite_type_enum)
+    {
+        case 2: // car
+            return this->field_8_car_bc_ptr->IsThreatToSearchingPed_43AAE0();
+
+        case 3: // char_b4
+            return this->field_8_char_b4_ptr->IsThreatToSearchingPed_553330();
+
+        default:
+            return 1;
+    }
 }
 
 STUB_FUNC(0x59E850)
@@ -275,10 +282,13 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x59E910)
-void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* a2)
+MATCH_FUNC(0x59E910)
+void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        field_8_car_bc_ptr->ProcessCarToCarImpact_43ADC0(pSprite);
+    }
 }
 
 MATCH_FUNC(0x59e960)
@@ -728,6 +738,12 @@ void Sprite::CreateSoundObj_5A29D0()
             field_10_sound = gRoot_sound_66B038.CreateSoundObject_40EF40(this, SoundObjectTypeEnum::Sprite_1);
         }
     }
+}
+
+MATCH_FUNC(0x59E930)
+bool Sprite::IsObjectModelEqual_59E930(s32 model)
+{
+    return (Is2C_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
 }
 
 MATCH_FUNC(0x5a2a00)

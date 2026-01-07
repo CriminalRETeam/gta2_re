@@ -32,6 +32,15 @@ EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
 EXTERN_GLOBAL(T_PurpleDoom_C_Pool*, gPurpleDoom_C_Pool_679204);
 EXTERN_GLOBAL(T_Collide_8_Pool*, gCollide_8_Pool_679200);
 DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclusion_sprite_678F84, 0x678F84);
+DEFINE_GLOBAL(Fix16, k_dword_678F74, 0x678F74);
+DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type1_678FE8, 0x678FE8);
+DEFINE_GLOBAL(s32, gPurpleDoom_sprite_type2_678FEC, 0x678FEC);
+DEFINE_GLOBAL(Sprite*, gPurpleDoom_exclude_sprite_678F40, 0x678F40);
+DEFINE_GLOBAL(Ped*, gPurpleDoom_ped_678F64, 0x678F64);
+DEFINE_GLOBAL(Fix16, gPurpleDoom_smallestDistance_678E5C, 0x678E5C);
+DEFINE_GLOBAL(Fix16, gPurpleDoom_zpos_max_678F38, 0x678F38);
+DEFINE_GLOBAL(Fix16, gPurpleDoom_zpos_min_678F3C, 0x678F3C);
+DEFINE_GLOBAL(s32, gPurpleDoom_search_mode_678FD0, 0x678FD0);
 
 DEFINE_GLOBAL_INIT(Fix16, dword_678F80, Fix16(0x6000, 0), 0x678F80);
 DEFINE_GLOBAL_INIT(Fix16, dword_679084, Fix16(1), 0x679084);
@@ -141,7 +150,9 @@ bool PurpleDoom::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprt, s32 
     return v3;
 }
 
-STUB_FUNC(0x477c90)
+
+
+MATCH_FUNC(0x477c90)
 Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
                                                           s32 sprite_type2,
                                                           Sprite* pExclude,
@@ -149,8 +160,93 @@ Sprite* PurpleDoom::FindNearestSprite_SpiralSearch_477C90(s32 sprite_type1,
                                                           s32 searchMode,
                                                           char_type bUseSpriteZ)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    gPurpleDoom_start_x_679090 = pExclude->field_14_xpos.x.ToInt();
+    gPurpleDoom_start_y_679098 = pExclude->field_14_xpos.y.ToInt();
+    gPurpleDoom_sprite_type1_678FE8 = sprite_type1;
+    gPurpleDoom_sprite_type2_678FEC = sprite_type2;
+    gPurpleDoom_exclude_sprite_678F40 = pExclude;
+    gPurpleDoom_ped_678F64 = pExclude->GetPed_59E1B0();
+    gPurpleDoom_smallestDistance_678E5C = Fix16(256);
+    gPurpleDoom_smallestDistSprite_678E40 = 0;
+    gPurpleDoom_search_mode_678FD0 = searchMode;
+
+    if (bUseSpriteZ == 1)
+    {
+        gPurpleDoom_zpos_max_678F38 = pExclude->field_1C_zpos - k_dword_678F74;
+        gPurpleDoom_zpos_min_678F3C = pExclude->field_1C_zpos + k_dword_678F74;
+    }
+    else
+    {
+        gPurpleDoom_zpos_max_678F38 = 0;
+        gPurpleDoom_zpos_min_678F3C = Fix16(7);
+    }
+
+    SearchTileStripForClosestSprite_4781E0(1u);
+    
+    Sprite* pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40; // from previous call
+    if (searchMode > 1 || !gPurpleDoom_smallestDistSprite_678E40)
+    {
+        for (u32 x_inc = 2; x_inc <= 2 * max_x_check; x_inc += 2)
+        {
+            // LEFT COLUMN
+            --gPurpleDoom_start_x_679090;
+            gPurpleDoom_start_y_679098 += 2 - x_inc;
+            SearchTileColumnForClosestSprite_478160(x_inc - 1);
+
+            if (!searchMode)
+            {
+                pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40;
+                if (gPurpleDoom_smallestDistSprite_678E40)
+                {
+                    break;
+                }
+            }
+
+            // TOP ROW
+            --gPurpleDoom_start_y_679098;
+            SearchTileStripForClosestSprite_4781E0(x_inc + 1);
+
+            if (!searchMode)
+            {
+                pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40;
+                if (gPurpleDoom_smallestDistSprite_678E40)
+                {
+                    break;
+                }
+            }
+
+            // RIGHT COLUMN
+            gPurpleDoom_start_x_679090 += x_inc;
+            ++gPurpleDoom_start_y_679098;
+            SearchTileColumnForClosestSprite_478160(x_inc - 1);
+
+            if (!searchMode)
+            {
+                pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40;
+                if (gPurpleDoom_smallestDistSprite_678E40)
+                {
+                    break;
+                }
+            }
+
+            // BOTTOM ROW
+            gPurpleDoom_start_x_679090 -= x_inc;
+            gPurpleDoom_start_y_679098 = gPurpleDoom_start_y_679098 + x_inc - 1;
+            SearchTileStripForClosestSprite_4781E0(x_inc + 1);
+
+            pCollisionSprite = gPurpleDoom_smallestDistSprite_678E40;
+
+            if (searchMode <= 1)
+            {
+                if (gPurpleDoom_smallestDistSprite_678E40)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    return pCollisionSprite;
 }
 
 MATCH_FUNC(0x477E50)

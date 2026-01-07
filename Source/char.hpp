@@ -199,6 +199,7 @@ class Char_B4
     EXPORT void state_9_552E90();
 
     EXPORT bool sub_5532C0();
+    EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool sub_553340(Sprite* pSprite);
     EXPORT char_type sub_5535B0(Object_2C* p2c);
     EXPORT bool OnObjectTouched_553640(Object_2C* p2c);

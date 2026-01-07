@@ -54,7 +54,7 @@ class Sprite
 {
   public:
     // TODO: Ordering
-    EXPORT Fix16_Point sub_562450(s32 idx);
+    EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
     EXPORT void sub_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -110,6 +110,7 @@ class Sprite
     EXPORT s16* sub_5A26E0(s16* a2);
     EXPORT s32* sub_5A2710(s32* a2, Sprite* a3, s32* a4, s32 a5, u8* a6, u8* a7, char_type* a8);
     EXPORT void CreateSoundObj_5A29D0();
+    EXPORT bool IsObjectModelEqual_59E930(s32 model);
     EXPORT void FreeSound_5A2A00();
     EXPORT void sub_5A2A30();
     EXPORT void PoolAllocate();

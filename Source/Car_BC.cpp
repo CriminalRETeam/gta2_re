@@ -1223,6 +1223,22 @@ Car_BC* Car_BC::Deactivate_43AA60()
     return 0;
 }
 
+STUB_FUNC(0x43AAE0)
+char_type Car_BC::IsThreatToSearchingPed_43AAE0()
+{
+    NOT_IMPLEMENTED;
+
+    Ped* pDriver = this->field_54_driver;
+    if (pDriver)
+    {
+        return pDriver->IsThreatToSearchingPed_4661F0();
+    }
+    else
+    {
+        return 0;
+    }
+}
+
 STUB_FUNC(0x43aaf0)
 char_type Car_BC::sub_43AAF0(s32 a2)
 {
@@ -1231,7 +1247,7 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 }
 
 STUB_FUNC(0x43adc0)
-void Car_BC::ProcessCarToCarImpact_43ADC0(s32 a2)
+void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }
@@ -3196,7 +3212,10 @@ void Car_BC::sub_443F30(s32 object_type, s32 argb, s32 a4, s32 a5)
 {
     Object_2C* pObj = gObject_5C_6F8F84->sub_529AB0(object_type, 0, 0, 0, argb, dword_6772AC, 200);
     pObj->Light_527990();
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, Fix16(a4 * dword_677888, 0), Fix16(a5 * dword_677888, 0), word_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4,
+                                                       Fix16(a4 * dword_677888, 0),
+                                                       Fix16(a5 * dword_677888, 0),
+                                                       word_67791C);
 }
 
 MATCH_FUNC(0x444020)
