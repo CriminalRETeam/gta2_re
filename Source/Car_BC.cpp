@@ -1870,10 +1870,19 @@ void Car_BC::ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y)
     }
 }
 
-STUB_FUNC(0x43d7b0)
-void Car_BC::sub_43D7B0(s32 a2)
+WIP_FUNC(0x43d7b0)
+void Car_BC::sub_43D7B0(s32 k20Or19)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    if (get_anti_strngth_43A1D0() == gFix16_6777CC || this->field_74_damage == 32001)
+    {
+        ExplodeCar_43D690(k20Or19, stru_6778A8.x.mValue, stru_6778A8.y.mValue);
+    }
+    else
+    {
+        ExplodeCar_Unknown_43D840(k20Or19);
+    }
 }
 
 STUB_FUNC(0x43d840)
