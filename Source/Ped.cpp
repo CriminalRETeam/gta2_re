@@ -3272,11 +3272,25 @@ void Ped::sub_46C250()
     NOT_IMPLEMENTED;
 }
 
-STUB_FUNC(0x46c770)
-char_type Ped::sub_46C770()
+WIP_FUNC(0x46c770)
+void Ped::sub_46C770()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    if (this->field_278 != 8)
+    {
+        if (this->field_168_game_object->field_44 == 2 || this->field_258_objective == objectives_enum::enter_car_as_driver_35 ||
+            dword_678750 < dword_678790)
+        {
+            Ped::sub_463830(0, 9999);
+            this->field_21C &= ~4;
+        }
+        else
+        {
+            Ped::sub_4672E0(dword_678750, 1);
+            this->field_168_game_object->field_38_velocity = dword_678448;
+        }
+    }
 }
 
 STUB_FUNC(0x46c7e0)
