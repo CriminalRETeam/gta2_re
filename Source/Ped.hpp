@@ -120,6 +120,7 @@ class Ped
     EXPORT Ped* sub_466F40(u8 a2);
     EXPORT Ped* sub_466F60(u8 a2);
     EXPORT s32 sub_466FB0();
+    EXPORT Ped* sub_467070();
     EXPORT char_type sub_467090();
     EXPORT Sprite* sub_467280();
     EXPORT char_type sub_4672E0(Fix16 a2, s32 a3);
@@ -553,7 +554,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 
-EXTERN_GLOBAL(u8, byte_6787CA);
+EXTERN_GLOBAL(u8, gNumberMuggersSpawned_6787CA);
 
 EXTERN_GLOBAL(u8, byte_6787CB);
 

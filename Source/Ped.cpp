@@ -32,7 +32,7 @@ DEFINE_GLOBAL_INIT(Ang16, word_6FDB34, Ang16(0), 0x6FDB34);
 DEFINE_GLOBAL_INIT(Ang16, word_6787A8, Ang16(0), 0x6787A8);
 DEFINE_GLOBAL_INIT(s32, dword_67866C, 0xC000, 0x67866C); // TODO: Fix16? Static init to, 0xC000, 0xUNKNOWN);
 DEFINE_GLOBAL(s32, gPedId_61A89C, 0x61A89C);
-DEFINE_GLOBAL(u8, byte_6787CA, 0x6787CA);
+DEFINE_GLOBAL(u8, gNumberMuggersSpawned_6787CA, 0x6787CA);
 DEFINE_GLOBAL(u8, byte_6787CB, 0x6787CB);
 DEFINE_GLOBAL(u8, byte_6787CC, 0x6787CC);
 DEFINE_GLOBAL(u8, byte_6787CD, 0x6787CD);
@@ -69,6 +69,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
 DEFINE_GLOBAL_INIT(Fix16, dword_678480, Fix16(0x666, 0), 0x678480);
 DEFINE_GLOBAL_INIT(Ang16, word_6784FC, Ang16(180), 0x6784FC);
+DEFINE_GLOBAL_INIT(Ang16, word_678590, Ang16(0), 0x678590); // TODO: get correct init value
 DEFINE_GLOBAL(Ped*, dword_6787C0, 0x6787C0);
 DEFINE_GLOBAL(s32, dword_67853C, 0x67853C);
 DEFINE_GLOBAL(Fix16, dword_678530, 0x678530);
@@ -138,7 +139,7 @@ void Ped::PoolAllocate()
     switch (field_240_occupation)
     {
         case 15:
-            byte_6787CA = 0;
+            gNumberMuggersSpawned_6787CA = 0;
             break;
         case 16:
             byte_6787CB = 0;
@@ -1027,10 +1028,94 @@ gmp_map_zone* Ped::sub_45EE70()
     return 0;
 }
 
-STUB_FUNC(0x45f360)
+MATCH_FUNC(0x45f360)
 void Ped::Mugger_AI_45F360()
 {
-    NOT_IMPLEMENTED;
+    if (field_25C_car_state == 2 && field_226 == 1)
+    {
+        Ped::sub_463830(0, 9999);
+    }
+    switch (field_258_objective)
+    {
+        case objectives_enum::no_obj_0:
+            if (!field_20e)
+            {
+                if (field_218_objective_timer == 0)
+                {
+                    Ped* pTarget = sub_467070();
+                    if (!pTarget || pTarget->field_20e)
+                    {
+                        Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                    }
+                    else
+                    {
+                        Ped::SetObjective(objectives_enum::objective_23, 9999);
+                        field_148_objective_target_ped = pTarget;
+                        field_229 = 0;
+                        field_21C_bf.b11 = false;
+                    }
+                }
+            }
+            else
+            {
+                field_218_objective_timer = 40;
+                Ped::sub_45C500(0);
+                Ped::sub_45C540(0);
+            }
+
+            break;
+        case objectives_enum::objective_23:
+            if (field_148_objective_target_ped && field_148_objective_target_ped->field_16C_car)
+            {
+                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                Ped::sub_463830(0, 9999);
+            }
+            else
+            {
+                if (field_225 == 1)
+                {
+                    Ped::SetObjective(objectives_enum::wait_on_foot_26, 30);
+                }
+                else if (field_225 == 2)
+                {
+                    Ped::SetObjective(objectives_enum::no_obj_0, 0);
+                    Ped::sub_463830(0, 0);
+                    field_21C_bf.b2 = false;
+                }
+            }
+            break;
+
+        case objectives_enum::wait_on_foot_26:
+            field_12C + word_678590; // non used
+            field_21C_bf.b11 = true;
+            Ped::SetObjective(objectives_enum::flee_on_foot_till_safe_1, 9999);
+            field_1DC_objective_target_x = field_1AC_cam.x;
+            field_1E0_objective_target_y = field_1AC_cam.y;
+            field_1E4_objective_target_z = field_1AC_cam.z;
+            break;
+
+        case objectives_enum::flee_on_foot_till_safe_1:
+            if (field_225 == 1)
+            {
+                field_21C_bf.b11 = false;
+                field_278 = 0;
+                field_27C = 0;
+                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                Ped::sub_45EE00(3);
+                --gNumberMuggersSpawned_6787CA;
+            }
+            break;
+
+        case objectives_enum::flee_char_on_foot_till_safe_2:
+            if (field_225)
+            {
+                Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+            }
+            break;
+
+        default:
+            return;
+    }
 }
 
 STUB_FUNC(0x45ff60)
@@ -2031,6 +2116,13 @@ Ped* Ped::sub_466F60(u8 a2)
 
 STUB_FUNC(0x466fb0)
 s32 Ped::sub_466FB0()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
+STUB_FUNC(0x467070)
+Ped* Ped::sub_467070()
 {
     NOT_IMPLEMENTED;
     return 0;
