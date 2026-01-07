@@ -2091,12 +2091,15 @@ char_type sound_obj::sub_414690(sound_0x68* pObj)
     return 1;
 }
 
-STUB_FUNC(0x4149D0)
-char_type sound_obj::sub_4149D0(sound_0x68* a2)
+MATCH_FUNC(0x4149D0)
+char_type sound_obj::sub_4149D0(sound_0x68* pObj)
 {
-    NOT_IMPLEMENTED;
-    // todo
-    return 0;
+    pObj->field_3C = 400;
+    pObj->field_30 = 1;
+    pObj->field_34 = 0;
+    pObj->field_38 = -1;
+    pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(pObj->field_14_samp_idx);
+    return 1;
 }
 
 MATCH_FUNC(0x41B4E0)
