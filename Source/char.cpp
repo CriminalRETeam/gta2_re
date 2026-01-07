@@ -489,7 +489,7 @@ MATCH_FUNC(0x5459c0)
 void Char_B4::sub_5459C0()
 {
     byte_6FDB59 = 0;
-    gPurpleDoom_2_67920C->sub_477BD0(field_80_sprite_ptr);
+    gPurpleDoom_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_80_sprite_ptr);
 }
 
 MATCH_FUNC(0x5459e0)
