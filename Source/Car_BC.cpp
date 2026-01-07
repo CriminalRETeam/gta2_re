@@ -1247,7 +1247,7 @@ char_type Car_BC::sub_43AAF0(s32 a2)
 }
 
 STUB_FUNC(0x43adc0)
-void Car_BC::ProcessCarToCarImpact_43ADC0(s32 a2)
+void Car_BC::ProcessCarToCarImpact_43ADC0(Sprite* a2)
 {
     NOT_IMPLEMENTED;
 }

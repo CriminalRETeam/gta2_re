@@ -284,10 +284,13 @@ void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
     }
 }
 
-STUB_FUNC(0x59E910)
-void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* a2)
+MATCH_FUNC(0x59E910)
+void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
 {
-    NOT_IMPLEMENTED;
+    if (field_30_sprite_type_enum == sprite_types_enum::car)
+    {
+        field_8_car_bc_ptr->ProcessCarToCarImpact_43ADC0(pSprite);
+    }
 }
 
 MATCH_FUNC(0x59e960)
