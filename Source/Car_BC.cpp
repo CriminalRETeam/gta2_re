@@ -661,18 +661,83 @@ void Car_6C::CarsService_446790()
     }
 }
 
-STUB_FUNC(0x446870)
-bool Car_6C::sub_446870(s32 a2)
+WIP_FUNC(0x446870)
+bool Car_6C::CanAlloc_446870(s32 type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    bool result;
+    switch (type)
+    {
+        case 1:
+            result = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 15;
+            break;
+        case 4:
+            result = this->field_2C < 1;
+            break;
+        case 5:
+            result = this->field_30 < 1;
+            break;
+        case 6:
+            result = this->field_34_unit_cars < 5;
+            break;
+        case 7:
+            result = this->field_38 < 11;
+            break;
+        case 8:
+            result = this->field_3C_mission_cars < 23;
+            break;
+        case 9:
+            result = this->field_44 < 200;
+            break;
+        case 10:
+            result = this->field_48 < 11;
+            break;
+        default:
+            result = 0;
+            break;
+    }
+    return result;
 }
 
-STUB_FUNC(0x446930)
-u32 Car_6C::sub_446930(s32 a2)
+WIP_FUNC(0x446930)
+u32 Car_6C::CanAllocateOfType_446930(s32 type)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    BOOL bCanAlloc; // eax
+
+    switch (type)
+    {
+        case 1:
+            bCanAlloc = gCar_6C_677930->field_28_recycled_cars + gCar_6C_677930->field_40_proto_recycled_cars < 16;
+            break;
+        case 4: // kfc ?
+            bCanAlloc = this->field_2C < 2;
+            break;
+        case 5: // fire engines?
+            bCanAlloc = this->field_30 < 2;
+            break;
+        case 6: // police cars
+            bCanAlloc = this->field_34_unit_cars < 6;
+            break;
+        case 7:
+            bCanAlloc = this->field_38 < 12;
+            break;
+        case 8:
+            bCanAlloc = this->field_3C_mission_cars < 24;
+            break;
+        case 9:
+            bCanAlloc = this->field_44 < 200;
+            break;
+        case 10:
+            bCanAlloc = this->field_48 < 12;
+            break;
+        default:
+            bCanAlloc = 0; // LOBYTE =
+            break;
+    }
+    return bCanAlloc;
 }
 
 STUB_FUNC(0x4469f0)
@@ -1748,10 +1813,16 @@ s32 Car_BC::sub_43D400()
     return 0;
 }
 
-STUB_FUNC(0x43d690)
-void Car_BC::sub_43D690(s32 a2, s32 a4, s32 a5)
+WIP_FUNC(0x43d690)
+void Car_BC::ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y)
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, word_67791C, a3, field_70_exploder_ped_id);
+    if (p2C)
+    {
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, x, y, word_67791C);
+    }
 }
 
 STUB_FUNC(0x43d7b0)

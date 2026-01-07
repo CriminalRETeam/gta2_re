@@ -119,7 +119,7 @@ class Player
 
     EXPORT u8 GetIdx_4881E0();
     EXPORT void sub_5645B0(Car_BC* a2);
-    EXPORT char_type sub_564610(Car_BC* a2, char_type a3);
+    EXPORT char_type PromoteCarInHistory_564610(Car_BC* pCar, char_type bDontModify);
     EXPORT u32* sub_564680(Car_BC* a2);
     EXPORT void sub_564710(Car_BC* pCar, s32 weapon_kind);
     EXPORT void sub_564790(s32 idx);

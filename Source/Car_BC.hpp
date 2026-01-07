@@ -232,8 +232,8 @@ class Car_6C
     EXPORT void sub_4466C0(s32 a2);
     EXPORT void sub_446760();
     EXPORT void CarsService_446790();
-    EXPORT bool sub_446870(s32 a2);
-    EXPORT u32 sub_446930(s32 a2);
+    EXPORT bool CanAlloc_446870(s32 a2);
+    EXPORT u32 CanAllocateOfType_446930(s32 a2);
     EXPORT Car_6C();
     EXPORT ~Car_6C();
 
@@ -427,7 +427,7 @@ class Car_BC
     EXPORT bool IsAreaDamaged_43D1C0(s32 damage_area);
     EXPORT void sub_43D2C0(char_type a2, s32 a3);
     EXPORT s32 sub_43D400();
-    EXPORT void sub_43D690(s32 a3, s32 a4, s32 a5);
+    EXPORT void ExplodeCar_43D690(s32 a3, Fix16 x, Fix16 y);
     EXPORT void sub_43D7B0(s32 a2);
     EXPORT void ExplodeCar_Unknown_43D840(s32 a2);
     EXPORT s16 sub_43DA90(s16 a2, Fix16_Point* a3);

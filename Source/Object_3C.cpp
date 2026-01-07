@@ -1,9 +1,9 @@
 #include "Object_3C.hpp"
-#include "Globals.hpp"
 #include "Car_BC.hpp"
-#include "enums.hpp"
+#include "Globals.hpp"
 #include "Object_5C.hpp"
 #include "Wolfy_3D4.hpp"
+#include "enums.hpp"
 #include "rng.hpp"
 #include "sprite.hpp"
 
@@ -38,12 +38,12 @@ Object_3C::~Object_3C()
     mpNext = 0;
 }
 
-STUB_FUNC(0x52adf0)
+WIP_FUNC(0x52adf0)
 Fix16_Point Object_3C::GetRot_52ADF0()
 {
-    NOT_IMPLEMENTED;
-    Fix16_Point t;
-    return t;
+    WIP_IMPLEMENTED;
+
+    return Fix16_Point(Ang16::sine_40F500(field_4) * field_C, Ang16::cosine_40F520(field_4) * field_C);
 }
 
 MATCH_FUNC(0x5a6a50)
@@ -272,13 +272,13 @@ void struct_4::sub_5A6CD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6d00)
-void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 a3, Fix16 pSprite2, Ang16 angle)
+void struct_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
     Sprite_18* p18 = gSprite_18_Pool_703B80->Allocate();
     p18->field_0 = pSprite1;
     p18->mpNext = field_0_p18;
-    p18->field_8.x = a3;
-    p18->field_8.y = pSprite2;
+    p18->field_8.x = x;
+    p18->field_8.y = y;
     p18->field_10 = angle;
     field_0_p18 = p18;
 }
