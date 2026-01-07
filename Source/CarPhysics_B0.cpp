@@ -648,11 +648,9 @@ s32 CarPhysics_B0::sub_55F740(s32* a2, s32* a3)
     return 0;
 }
 
-WIP_FUNC(0x55f7a0)
+MATCH_FUNC(0x55f7a0)
 void CarPhysics_B0::sub_55F7A0(Fix16_Point* a2, Fix16_Point a3)
 {
-    WIP_IMPLEMENTED;
-
     sub_55F800(a2, &a3, 0);
     UpdateLinearAndAngularAccel_560EB0();
     IntegrateAndClampVelocities_5610B0();
