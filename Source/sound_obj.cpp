@@ -1417,11 +1417,18 @@ bool sound_obj::sub_57F090(Car_BC* pCar)
     return false;
 }
 
-STUB_FUNC(0x57F120)
+WIP_FUNC(0x57F120)
 bool sound_obj::sub_57F120(Car_BC* pCar)
 {
-    NOT_IMPLEMENTED;
-    return false;
+    WIP_IMPLEMENTED;
+    
+    if (!pCar)
+    {
+        return 0;
+    }
+
+    return pCar->field_84_car_info_idx == car_model_enum::boxcar ||
+        pCar->field_84_car_info_idx > car_model_enum::TOWTRUCK && pCar->field_84_car_info_idx <= car_model_enum::TRAINFB;
 }
 
 MATCH_FUNC(0x419EF0)
