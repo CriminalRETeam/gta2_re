@@ -2094,6 +2094,13 @@ char_type Ped::sub_465D00(Ped* a2)
     return 0;
 }
 
+STUB_FUNC(0x4661F0)
+char_type Ped::IsThreatToSearchingPed_4661F0()
+{
+    NOT_IMPLEMENTED;
+    return 0;
+}
+
 MATCH_FUNC(0x466b90)
 Ped* Ped::sub_466B90(s32 max_x_check)
 {
