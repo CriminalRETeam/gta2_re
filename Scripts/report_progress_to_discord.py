@@ -54,13 +54,17 @@ def main():
     matched_coverage_funcs = 0
     total_matched_funcs = 0
     unmatched_funcs = 0
+    wip_funcs = 0
 
     for func in new_data["functions"]:
         status = func["func_status"]
         if status == "0x1":
             total_matched_funcs = total_matched_funcs + 1
-        elif status == "0x0":
-            unmatched_funcs = unmatched_funcs + 1
+        elif status == "0x0" or status == "0x2":
+            unmatched_funcs = unmatched_funcs + 1 # wip counts as stub total too, wip is a sub count of it
+        if status == "0x2":
+            wip_funcs = wip_funcs + 1
+
 
     for func in new_data["functions"]:
         og_address = func["og_addr"]
@@ -88,7 +92,7 @@ def main():
     if not prev_json_available:
         boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}%"
         total_matches_str = f"Total matches: {total_matched_funcs}"
-        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs}"
+        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} (wip funcs: {wip_funcs})"
     else:
         coverage_diff_str = calc_difference(previous_progress_json["matched_boot_to_map_funcs"], matched_coverage_funcs, as_string=True)
         total_diff_str = calc_difference(previous_progress_json["total_matches"], total_matched_funcs, as_string=True)
@@ -96,7 +100,7 @@ def main():
 
         boot_to_map_str = f"Boot to map progress: [{matched_coverage_funcs}/{total_coverage_funcs}] {coverage_funcs_percentage:.2f}% | {coverage_diff_str}"
         total_matches_str = f"Total matches: {total_matched_funcs} | {total_diff_str}"
-        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} | {unmatched_funcs_diff_str}"
+        unmatched_funcs_str = f"Unmatched funcs in repo: {unmatched_funcs} (wip funcs: {wip_funcs} | {unmatched_funcs_diff_str}"
 
     webhook_message = {
         "content": None,

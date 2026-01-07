@@ -80,7 +80,7 @@ class Ped
     EXPORT void sub_45EA00();
     EXPORT void Deallocate_45EB60();
     EXPORT char_type sub_45EDC0();
-    EXPORT bool sub_45EDE0(s32 a2);
+    EXPORT bool IsField238_45EDE0(s32 a2);
     EXPORT char_type sub_45EE00(s32 a2);
     EXPORT gmp_map_zone* sub_45EE70();
     EXPORT void Mugger_AI_45F360();

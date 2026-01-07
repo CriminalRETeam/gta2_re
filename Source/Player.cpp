@@ -1341,7 +1341,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->sub_45EDE0(2) == 0)
+        else if (pPed_killer->IsField238_45EDE0(2) == 0)
         {
             player_killer = NULL;
         }

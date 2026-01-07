@@ -11,15 +11,20 @@
 #define FUNC_MARKER_ASM(addr, status) __asm nop __asm nop __asm mov eax, addr __asm mov eax, status __asm nop __asm nop
 
 #if defined(_MSC_VER)
-    #define MATCH_FUNC(addr)                   \
+    #define WIP_FUNC(addr)                                           \
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
-        {                                      \
-            FUNC_MARKER_ASM(addr, 1)           \
+        {                                                            \
+            FUNC_MARKER_ASM(addr, 2)                                 \
         }
-    #define STUB_FUNC(addr)                    \
+    #define MATCH_FUNC(addr)                                         \
         __declspec(naked) __declspec(dllexport) void Marker_##addr() \
-        {                                      \
-            FUNC_MARKER_ASM(addr, 0)           \
+        {                                                            \
+            FUNC_MARKER_ASM(addr, 1)                                 \
+        }
+    #define STUB_FUNC(addr)                                          \
+        __declspec(naked) __declspec(dllexport) void Marker_##addr() \
+        {                                                            \
+            FUNC_MARKER_ASM(addr, 0)                                 \
         }
 
     #if defined(EXPORT_FUNCS)
@@ -87,23 +92,36 @@
     #endif
 
     #if defined(__clang__) || (_MSC_VER <= 1200)
-void __stdcall LogNotImplemented(u32 codeAddr);
+void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
 
         #define GET_IP(var)   \
             __asm call $ + 5; \
             __asm pop var;
 
-        #define NOT_IMPLEMENTED                                                                                                       \
-            do                                                                                                                        \
-            {                                                                                                                         \
-                static bool logged = false;                                                                                           \
-                if (!logged)                                                                                                          \
-                {                                                                                                                     \
-                    unsigned int ip;                                                                                                  \
-                    __asm { _emit 0xE8 }                                                                                                \
-                    __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {pop ip} LogNotImplemented(ip); \
-                    logged = true;                                                                                                    \
-                }                                                                                                                     \
+        #define NOT_IMPLEMENTED                                                                                                    \
+            do                                                                                                                     \
+            {                                                                                                                      \
+                static bool logged = false;                                                                                        \
+                if (!logged)                                                                                                       \
+                {                                                                                                                  \
+                    unsigned int ip;                                                                                               \
+                    __asm { _emit 0xE8 }                                                                                             \
+                    __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {pop ip} LogFuncAddr(ip, 0); \
+                    logged = true;                                                                                                 \
+                }                                                                                                                  \
+            } while (0)
+
+        #define WIP_IMPLEMENTED                                                                                                    \
+            do                                                                                                                     \
+            {                                                                                                                      \
+                static bool logged = false;                                                                                        \
+                if (!logged)                                                                                                       \
+                {                                                                                                                  \
+                    unsigned int ip;                                                                                               \
+                    __asm { _emit 0xE8 }                                                                                             \
+                    __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {pop ip} LogFuncAddr(ip, 1); \
+                    logged = true;                                                                                                 \
+                }                                                                                                                  \
             } while (0)
     #else
         #define NOT_IMPLEMENTED                               \
@@ -113,13 +131,23 @@ void __stdcall LogNotImplemented(u32 codeAddr);
                 done___ = true;                               \
                 printf("NOT IMPLEMENTED %s\n", __FUNCTION__); \
             }
+
+        #define WIP_IMPLEMENTED                               \
+            static bool done___ = false;                      \
+            if (!done___)                                     \
+            {                                                 \
+                done___ = true;                               \
+                printf("WIP IMPLEMENTED %s\n", __FUNCTION__); \
+            }
     #endif
 
 #else
+    #define WIP_FUNC(addr)
     #define MATCH_FUNC(addr)
     #define STUB_FUNC(addr)
     #define EXPORT
     #define NOT_IMPLEMENTED
+    #define WIP_IMPLEMENTED
     #define __stdcall
 
     #define DEFINE_GLOBAL(type, name, addr) type name

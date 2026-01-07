@@ -1070,7 +1070,7 @@ void Car_BC::AssignRandomRemap_43A7D0()
 STUB_FUNC(0x43a850)
 char_type Car_BC::sub_43A850()
 {
-    if (field_54_driver && !field_54_driver->sub_45EDE0(2))
+    if (field_54_driver && !field_54_driver->IsField238_45EDE0(2))
     {
         if (!is_train_model())
         {
@@ -3459,7 +3459,7 @@ bool Car_BC::sub_564300()
 {
     if (field_54_driver)
     {
-        bool result = field_54_driver->sub_45EDE0(2) == 0;
+        bool result = field_54_driver->IsField238_45EDE0(2) == 0;
         return result;
     }
     return false;

@@ -169,7 +169,7 @@ static u32 find_func_meta_data(u32 codeAddr)
     return 0; // Not found.
 }
 
-void __stdcall LogNotImplemented(u32 codeAddr)
+void __stdcall LogFuncAddr(u32 codeAddr, s32 mode)
 {
     const u32 ogAddr = find_func_meta_data(codeAddr);
     if (ogAddr == 0)
@@ -183,10 +183,24 @@ void __stdcall LogNotImplemented(u32 codeAddr)
         {
             if (functions[i].og_addr == ogAddr)
             {
-                printf("NOT IMPLEMENTED: %s (0x%X)\n", functions[i].mangled_name.c_str(), ogAddr);
+                if (mode == 0)
+                {
+                    printf("NOT IMPLEMENTED: %s (0x%X)\n", functions[i].mangled_name.c_str(), ogAddr);
+                }
+                else
+                {
+                    printf("WIP IMPLEMENTED: %s (0x%X)\n", functions[i].mangled_name.c_str(), ogAddr);
+                }
                 return;
             }
         }
-        printf("NOT IMPLEMENTED: (???) 0x%X\n", ogAddr);
+        if (mode == 0)
+        {
+            printf("NOT IMPLEMENTED: (can't get func name) 0x%X\n", ogAddr);
+        }
+        else
+        {
+            printf("WIP IMPLEMENTED: (can't get func name) 0x%X\n", ogAddr);
+        }
     }
 }

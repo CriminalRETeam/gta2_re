@@ -12,6 +12,7 @@ import json
 # in BGR format
 class FuncColor(IntEnum):
     Matched = 0x0
+    Wip = 0x11161F
     Stubbed = 0x3e4a4a
     CoverageTrace = 0x14106b
     CoverageTrace2 = 0x065e03
@@ -36,6 +37,8 @@ def ida_set_function_colour(function_address, status):
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Matched)
     elif status == "0x0": # stubbed
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Stubbed)
+    elif status == "0x2": # wip
+        idc.set_color(function_address, idc.CIC_FUNC, FuncColor.Wip)
     elif status == "0x3": # coverage 1
         idc.set_color(function_address, idc.CIC_FUNC, FuncColor.CoverageTrace)
     elif status == "0x4": # coverage 2
