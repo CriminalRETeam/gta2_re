@@ -1715,10 +1715,30 @@ s32 Car_BC::sub_43C700()
     return 0;
 }
 
-STUB_FUNC(0x43c840)
+WIP_FUNC(0x43c840)
 void Car_BC::sub_43C840()
 {
-    NOT_IMPLEMENTED;
+    WIP_IMPLEMENTED;
+
+    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
+
+    if (field_84_car_info_idx != car_model_enum::EDSELFBI)
+    {
+        Object_2C* p2C = field_0_qq.sub_5A6A90(171);
+        if (p2C)
+        {
+            p2C->Light_527990();
+        }
+    }
+
+    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    {
+        Object_2C* p2C = field_0_qq.sub_5A6A90(173);
+        if (p2C)
+        {
+            p2C->Light_527990();
+        }
+    }
 }
 
 MATCH_FUNC(0x43c920)
