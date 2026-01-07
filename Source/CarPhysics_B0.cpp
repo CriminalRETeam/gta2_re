@@ -735,11 +735,10 @@ s32 CarPhysics_B0::sub_55F930(Fix16_Point* a2)
     return 0;
 }
 
-STUB_FUNC(0x55f970)
-__int64 CarPhysics_B0::sub_55F970(s32 a2)
+MATCH_FUNC(0x55f970)
+void CarPhysics_B0::sub_55F970(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    this->field_7C -= (dword_6FE0E4->field_0 * a2);
 }
 
 MATCH_FUNC(0x55f9a0)

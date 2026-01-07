@@ -81,7 +81,7 @@ class CarPhysics_B0
     EXPORT void sub_55F7A0(Fix16_Point* a2, Fix16_Point a3);
     EXPORT s32 sub_55F800(Fix16_Point* a2, Fix16_Point* a3, s32 a4);
     EXPORT s32 sub_55F930(Fix16_Point* a2);
-    EXPORT __int64 sub_55F970(s32 a2);
+    EXPORT void sub_55F970(Fix16 a2);
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point_POD& pForce);
     EXPORT void sub_55FA10(Fix16_Point* a2);
     EXPORT u32* sub_55FA60(u32* a2, s32* a3, s32* a4, s32 a5);
