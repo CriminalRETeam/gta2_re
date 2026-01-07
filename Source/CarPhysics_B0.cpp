@@ -645,11 +645,23 @@ char_type CarPhysics_B0::sub_55F360()
     return 0;
 }
 
-STUB_FUNC(0x55f740)
-s32 CarPhysics_B0::sub_55F740(s32* a2, s32* a3)
+WIP_FUNC(0x55f740)
+void CarPhysics_B0::sub_55F740(Fix16_Point* a2, Fix16_Point* a3)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
+    if (pTrailer && pTrailer->field_C_pCarOnTrailer == field_5C_pCar)
+    {
+        CarPhysics_B0* pB0 = pTrailer->field_8_truck_cab->field_58_physics;
+        pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
+        pB0->sub_55F7A0(a2, *a3);
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+    }
+    else
+    {
+        sub_55F7A0(a2, *a3);
+    }
 }
 
 MATCH_FUNC(0x55f7a0)
