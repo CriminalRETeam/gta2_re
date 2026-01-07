@@ -53,8 +53,8 @@ class CarPhysics_B0
     EXPORT char_type HandleUserInputs_55A860(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5, char_type bHandBrakeOn);
     EXPORT void HandleGravityOnSlope_55AA00();
     EXPORT s32* sub_55AB50(s32* a2, Sprite_4C** a3);
-    EXPORT s32 sub_55AD90(Sprite_4C* a2);
-    EXPORT s32 sub_55B3F0(s32 a2);
+    EXPORT s32 sub_55AD90(Fix16 a2);
+    EXPORT void sub_55B3F0(Fix16 a2);
     EXPORT s32 sub_55B4F0(Sprite_4C* a2);
     EXPORT char_type sub_55B970(char_type* a2);
     EXPORT void sub_55BFE0();

@@ -430,17 +430,42 @@ s32* CarPhysics_B0::sub_55AB50(s32* a2, Sprite_4C** a3)
 }
 
 STUB_FUNC(0x55ad90)
-s32 CarPhysics_B0::sub_55AD90(Sprite_4C* a2)
+s32 CarPhysics_B0::sub_55AD90(Fix16 a2)
 {
     NOT_IMPLEMENTED;
     return 0;
 }
 
-STUB_FUNC(0x55b3f0)
-s32 CarPhysics_B0::sub_55B3F0(s32 a2)
+WIP_FUNC(0x55b3f0)
+void CarPhysics_B0::sub_55B3F0(Fix16 a2)
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    WIP_IMPLEMENTED;
+
+    sub_55AD90(a2);
+
+    Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
+    if (pTrailer)
+    {
+        CarPhysics_B0* pCarOnTrailerPhysics = pTrailer->field_C_pCarOnTrailer->field_58_physics;
+        pCarOnTrailerPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        pCarOnTrailerPhysics->sub_55AD90(a2);
+        SetCurrentCarInfoAndModelPhysics_562EF0();
+        Fix16 ourCp3 = this->field_6C_cp3;
+        Fix16 carOnTrailer_cp3 = pCarOnTrailerPhysics->field_6C_cp3;
+        if (ourCp3 <= carOnTrailer_cp3)
+        {
+            if (ourCp3 < carOnTrailer_cp3)
+            {
+                this->field_6C_cp3 = carOnTrailer_cp3;
+                this->field_70 = pCarOnTrailerPhysics->field_70;
+            }
+        }
+        else
+        {
+            pCarOnTrailerPhysics->field_6C_cp3 = ourCp3;
+            pCarOnTrailerPhysics->field_70 = this->field_70;
+        }
+    }
 }
 
 STUB_FUNC(0x55b4f0)
