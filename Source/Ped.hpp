@@ -142,7 +142,7 @@ class Ped
     EXPORT void sub_468A00();
     EXPORT void sub_468BD0();
     EXPORT void sub_468C70();
-    EXPORT char_type sub_468DE0();
+    EXPORT void sub_468DE0();
     EXPORT char_type sub_468E80();
     EXPORT s32 sub_469010();
     EXPORT void sub_469030();

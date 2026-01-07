@@ -65,6 +65,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6784E8, dword_6784C4 * 8, 0x6784E8);
 DEFINE_GLOBAL_INIT(Fix16, dword_6784CC, dword_6784C4 * 2, 0x6784CC);
 DEFINE_GLOBAL_INIT(Fix16, dword_678434, dword_6784CC, 0x678434);
 DEFINE_GLOBAL_INIT(Fix16, dword_678620, dword_6784C4 / dword_678670, 0x678620);
+DEFINE_GLOBAL_INIT(Fix16, dword_678788, dword_6784C4 * 16, 0x678788);
 DEFINE_GLOBAL_INIT(Fix16, dword_678664, Fix16(1), 0x678664);
 DEFINE_GLOBAL_INIT(Fix16, dword_678624, Fix16(0xA3, 0), 0x678624);
 DEFINE_GLOBAL_INIT(Fix16, dword_678634, Fix16(0x333, 0), 0x678634);
@@ -2708,11 +2709,34 @@ void Ped::sub_468C70()
     }
 }
 
-STUB_FUNC(0x468de0)
-char_type Ped::sub_468DE0()
+MATCH_FUNC(0x468de0)
+void Ped::sub_468DE0()
 {
-    NOT_IMPLEMENTED;
-    return 0;
+    if (field_240_occupation == ped_ocupation_enum::drone)
+    {
+        field_1F0_maybe_max_speed = dword_678434;
+    }
+    if (byte_61A8A3)
+    {
+        if (dword_678750 < dword_678788)
+        {
+            if (field_168_game_object->field_10 != 15)
+            {
+                Ped::sub_45C500(7);
+                Ped::sub_45C540(14);
+                field_225 = 1;
+            }
+        }
+        else
+        {
+            if (!field_218_objective_timer)
+            {
+                field_225 = 1;
+            }
+            field_168_game_object->SetMaxSpeed_433920(field_1F0_maybe_max_speed);
+        }
+        Ped::sub_4672E0(dword_678750, 4);
+    }
 }
 
 STUB_FUNC(0x468e80)

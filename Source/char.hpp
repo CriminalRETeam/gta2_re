@@ -136,6 +136,11 @@ class Char_B4
         }
     }
 
+    inline void SetMaxSpeed_433920(Fix16 max_speed)
+    {
+        field_38_velocity = max_speed;
+    }
+
     Char_B4();
     ~Char_B4();
 
