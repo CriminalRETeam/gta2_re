@@ -2446,10 +2446,84 @@ void Ped::sub_4686C0()
     }
 }
 
-STUB_FUNC(0x468820)
+MATCH_FUNC(0x468820)
 void Ped::sub_468820()
 {
-    NOT_IMPLEMENTED;
+    if (field_168_game_object)
+    {
+        if (!field_150_target_objective_car && field_27C == 17)
+        {
+            field_225 = 1;
+        }
+    }
+    if ((field_21C & 4) != 0)
+    {
+        if (field_168_game_object)
+        {
+            if (field_164_ped_group)
+            {
+                if (field_164_ped_group->sub_4CAB80())
+                {
+                    field_225 = true;
+                }
+                else
+                {
+                    field_225 = false;
+                }
+            }
+            else
+            {
+                field_225 = true;
+            }
+        }
+    }
+
+    if (field_25C_car_state)
+    {
+        if (field_25C_car_state == 36)
+        {
+            if (field_226 == 1)
+            {
+                if (field_238 != 2)
+                {
+                    field_225 = 1;
+                }
+                else
+                {
+                    Ped::SetObjective(objectives_enum::no_obj_0, 9999);
+                }
+
+                Ped::sub_463830(0, 9999);
+            }
+            else if (field_226 == 2)
+            {
+                field_225 = 2;
+            }
+        }
+    }
+    else if (field_16C_car)
+    {
+        Ped::sub_463830(36, 9999);
+        field_154_target_to_enter = field_150_target_objective_car;
+    }
+    else
+    {
+        if (field_164_ped_group)
+        {
+            if (field_164_ped_group->sub_4CAB80())
+            {
+                field_225 = true;
+            }
+            else
+            {
+                field_225 = false;
+            }
+        }
+        else
+        {
+            field_225 = true;
+        }
+    }
 }
 
 STUB_FUNC(0x468930)
